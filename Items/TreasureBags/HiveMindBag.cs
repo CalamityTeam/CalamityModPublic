@@ -47,13 +47,16 @@ namespace CalamityMod.Items.TreasureBags
             DropHelper.DropItemCondition(player, ItemID.CursedFlame, Main.hardMode, 15, 30);
 
             // Weapons
-            DropHelper.DropItemChance(player, ModContent.ItemType<PerfectDark>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<LeechingDagger>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<Shadethrower>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<ShadowdropStaff>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<ShaderainStaff>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<DankStaff>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<RotBall>(), 3, 50, 75);
+            float w = DropHelper.BagWeaponDropRateFloat;
+            DropHelper.DropEntireWeightedSet(player,
+                DropHelper.WeightStack<PerfectDark>(w),
+                DropHelper.WeightStack<LeechingDagger>(w),
+                DropHelper.WeightStack<Shadethrower>(w),
+                DropHelper.WeightStack<ShadowdropStaff>(w),
+                DropHelper.WeightStack<ShaderainStaff>(w),
+                DropHelper.WeightStack<DankStaff>(w),
+                DropHelper.WeightStack<RotBall>(w, 50, 75)
+            );
 
             // Equipment
             DropHelper.DropItem(player, ModContent.ItemType<RottenBrain>());

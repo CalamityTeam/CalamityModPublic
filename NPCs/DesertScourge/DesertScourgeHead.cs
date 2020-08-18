@@ -12,6 +12,7 @@ using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.NPCs.TownNPCs;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
+using System;
 using System.IO;
 using System.Reflection;
 using Terraria;
@@ -482,17 +483,23 @@ namespace CalamityMod.NPCs.DesertScourge
                 DropHelper.DropItem(npc, ItemID.Starfish, 5, 9);
 
                 // Weapons
-                DropHelper.DropItemChance(npc, ModContent.ItemType<AquaticDischarge>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Barinade>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<StormSpray>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<SeaboundStaff>(), 4);
-                float f = Main.rand.NextFloat();
-                bool replaceWithRare = f <= DropHelper.RareVariantDropRateFloat; // 1/40 chance overall of getting Dune Hopper
-                if (f < 0.25f) // 1/4 chance of getting Scourge of the Desert OR Dune Hopper replacing it
+                // Set up the base drop set, which includes Scourge of the Desert at its normal drop chance.
+                float w = DropHelper.DirectWeaponDropRateFloat;
+                DropHelper.WeightedItemStack[] weapons =
                 {
-                    DropHelper.DropItemCondition(npc, ModContent.ItemType<ScourgeoftheDesert>(), !replaceWithRare);
-                    DropHelper.DropItemCondition(npc, ModContent.ItemType<DuneHopper>(), replaceWithRare);
-                }
+                    DropHelper.WeightStack<AquaticDischarge>(w),
+                    DropHelper.WeightStack<Barinade>(w),
+                    DropHelper.WeightStack<StormSpray>(w),
+                    DropHelper.WeightStack<SeaboundStaff>(w),
+                    DropHelper.WeightStack<ScourgeoftheDesert>(w),
+                };
+
+                // If the RIV roll for Dune Hopper succeeds, REPLACE Scourge of the Desert with a guaranteed Dune Hopper.
+                float duneHopperChance = DropHelper.RareVariantDropRateFloat;
+                if (Main.rand.NextFloat() < duneHopperChance)
+                    weapons[4] = DropHelper.WeightStack<DuneHopper>();
+
+                DropHelper.DropEntireWeightedSet(npc, weapons);
 
                 // Equipment
                 DropHelper.DropItemChance(npc, ModContent.ItemType<AeroStone>(), 10);

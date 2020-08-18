@@ -386,18 +386,21 @@ namespace CalamityMod.NPCs.Perforator
                 if (Main.hardMode)
                     DropHelper.DropItemSpray(npc, ItemID.Ichor, 10, 20);
 
-                // Weapons
-                DropHelper.DropItemChance(npc, ModContent.ItemType<VeinBurster>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<BloodyRupture>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<SausageMaker>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Aorta>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Eviscerator>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<BloodBath>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<BloodClotStaff>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<ToothBall>(), 4, 25, 50);
+				// Weapons
+				float w = DropHelper.DirectWeaponDropRateFloat;
+				DropHelper.DropEntireWeightedSet(npc,
+					DropHelper.WeightStack<VeinBurster>(w),
+					DropHelper.WeightStack<BloodyRupture>(w),
+					DropHelper.WeightStack<SausageMaker>(w),
+					DropHelper.WeightStack<Aorta>(w),
+					DropHelper.WeightStack<Eviscerator>(w),
+					DropHelper.WeightStack<BloodBath>(w),
+					DropHelper.WeightStack<BloodClotStaff>(w),
+					DropHelper.WeightStack<ToothBall>(w, 30, 50)
+				);
 
 				//Equipment
-                DropHelper.DropItemChance(npc, ModContent.ItemType<BloodstainedGlove>(), 4);
+				DropHelper.DropItemChance(npc, ModContent.ItemType<BloodstainedGlove>(), 4);
 
                 // Vanity
                 DropHelper.DropItemChance(npc, ModContent.ItemType<PerforatorMask>(), 7);

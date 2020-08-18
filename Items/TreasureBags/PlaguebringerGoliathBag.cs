@@ -47,17 +47,21 @@ namespace CalamityMod.Items.TreasureBags
             DropHelper.DropItem(player, ItemID.Stinger, 4, 8);
 
             // Weapons
-            DropHelper.DropItemChance(player, ModContent.ItemType<VirulentKatana>(), 3); // Virulence
-            DropHelper.DropItemChance(player, ModContent.ItemType<DiseasedPike>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<ThePlaguebringer>(), 3); // Pandemic
-            DropHelper.DropItemChance(player, ModContent.ItemType<Malevolence>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<PestilentDefiler>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<TheHive>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<MepheticSprayer>(), 3); // Blight Spewer
-            DropHelper.DropItemChance(player, ModContent.ItemType<PlagueStaff>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<TheSyringe>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<FuelCellBundle>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<InfectedRemote>(), 3);
+            float w = DropHelper.BagWeaponDropRateFloat;
+            DropHelper.DropEntireWeightedSet(player,
+                DropHelper.WeightStack<VirulentKatana>(w), // Virulence
+                DropHelper.WeightStack<DiseasedPike>(w),
+                DropHelper.WeightStack<ThePlaguebringer>(w), // Pandemic
+                DropHelper.WeightStack<Malevolence>(w),
+                DropHelper.WeightStack<PestilentDefiler>(w),
+                DropHelper.WeightStack<TheHive>(w),
+                DropHelper.WeightStack<MepheticSprayer>(w), // Blight Spewer
+                DropHelper.WeightStack<PlagueStaff>(w),
+                DropHelper.WeightStack<FuelCellBundle>(w),
+                DropHelper.WeightStack<InfectedRemote>(w),
+                DropHelper.WeightStack<TheSyringe>(w)
+            );
+
             float malachiteChance = DropHelper.LegendaryDropRateFloat;
             DropHelper.DropItemCondition(player, ModContent.ItemType<Malachite>(), CalamityWorld.revenge, malachiteChance);
 

@@ -9,6 +9,7 @@ using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
+using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -662,12 +663,16 @@ namespace CalamityMod.NPCs.Leviathan
             if (!Main.expertMode)
             {
                 // Weapons
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Greentide>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Leviatitan>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<SirensSong>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Atlantis>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<BrackishFlask>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<LeviathanTeeth>(), 4);
+                float w = DropHelper.DirectWeaponDropRateFloat;
+                DropHelper.DropEntireWeightedSet(npc,
+                    DropHelper.WeightStack<Greentide>(w),
+                    DropHelper.WeightStack<Leviatitan>(w),
+                    DropHelper.WeightStack<SirensSong>(w),
+                    DropHelper.WeightStack<Atlantis>(w),
+                    DropHelper.WeightStack<GastricBelcherStaff>(w),
+                    DropHelper.WeightStack<BrackishFlask>(w),
+                    DropHelper.WeightStack<LeviathanTeeth>(w)
+                );
 
                 // Equipment
                 DropHelper.DropItemChance(npc, ModContent.ItemType<LureofEnthrallment>(), 4);

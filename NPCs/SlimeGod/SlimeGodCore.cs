@@ -684,15 +684,18 @@ namespace CalamityMod.NPCs.SlimeGod
                 // Materials
                 DropHelper.DropItemSpray(npc, ModContent.ItemType<PurifiedGel>(), 30, 45);
 
-                // Weapons
-                DropHelper.DropItemChance(npc, ModContent.ItemType<OverloadedBlaster>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<AbyssalTome>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<EldritchTome>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<CorroslimeStaff>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<CrimslimeStaff>(), 4);
+				// Weapons
+				float w = DropHelper.DirectWeaponDropRateFloat;
+				DropHelper.DropEntireWeightedSet(npc,
+					DropHelper.WeightStack<OverloadedBlaster>(w),
+					DropHelper.WeightStack<AbyssalTome>(w),
+					DropHelper.WeightStack<EldritchTome>(w),
+					DropHelper.WeightStack<CorroslimeStaff>(w),
+					DropHelper.WeightStack<CrimslimeStaff>(w)
+				);
 
-                // Vanity
-                DropHelper.DropItemFromSetChance(npc, 0.142857f, ModContent.ItemType<SlimeGodMask>(), ModContent.ItemType<SlimeGodMask2>());
+				// Vanity
+				DropHelper.DropItemFromSetChance(npc, 0.142857f, ModContent.ItemType<SlimeGodMask>(), ModContent.ItemType<SlimeGodMask2>());
 
                 // Other
             }

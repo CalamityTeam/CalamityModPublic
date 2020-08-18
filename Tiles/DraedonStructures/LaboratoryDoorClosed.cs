@@ -21,6 +21,7 @@ namespace CalamityMod.Tiles.DraedonStructures
             Main.tileWaterDeath[Type] = false;
             TileID.Sets.NotReallySolid[Type] = true;
             TileID.Sets.DrawsWalls[Type] = true;
+            TileID.Sets.HasOutlines[Type] = true;
             TileObjectData.newTile.Width = 1;
             TileObjectData.newTile.Height = 4;
             TileObjectData.newTile.CoordinateHeights = new int[] { 16, 16, 16, 16 };

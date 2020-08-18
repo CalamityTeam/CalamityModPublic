@@ -1180,7 +1180,7 @@ namespace CalamityMod.Projectiles
 			CalamityPlayer modPlayer = player.Calamity();
 
 			// Set crit here to avoid issues with projectiles that change class types in PreAI and AI
-			if (defCrit == 0 && !projectile.npcProj && !projectile.trap)
+			if (defCrit == 0 && !projectile.npcProj && !projectile.trap && Main.myPlayer == projectile.owner)
 			{
 				if (projectile.melee)
 					defCrit = modPlayer.critStats[0];
@@ -1889,7 +1889,7 @@ namespace CalamityMod.Projectiles
 
 					//Priorities: Nucleogenesis => Starbuster Core => Nuclear Rod => Jelly-Charged Battery
 					List<int> summonExceptionList = new List<int>()
-					{ 
+					{
 						ProjectileType<EnergyOrb>(),
 						ProjectileType<IrradiatedAura>(),
 						ProjectileType<SummonAstralExplosion>(),
