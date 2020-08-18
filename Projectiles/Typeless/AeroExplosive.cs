@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Typeless
 {
 	public class AeroExplosive : ModProjectile
 	{
-		public override string Texture => "Terraria/Projectile_" + ProjectileID.Dynamite;
+        public override string Texture => "CalamityMod/Items/Weapons/Typeless/AeroDynamite";
 
 		public override void SetStaticDefaults()
 		{
@@ -62,7 +62,7 @@ namespace CalamityMod.Projectiles.Typeless
 				int fire = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Fire, 0f, 0f, 100, default, 1f);
 				Main.dust[fire].scale = 1f + Main.rand.NextFloat(0f, 0.5f);
 				Main.dust[fire].noGravity = true;
-				Main.dust[fire].position = projectile.Center + new Vector2(0f, -projectile.height / 2f - 6f).RotatedBy(projectile.rotation, default) * 1.1f;
+				Main.dust[fire].position = projectile.Center + new Vector2(0f, -projectile.height / 2f).RotatedBy(projectile.rotation, default) * 1.1f;
 			}
 		}
 

@@ -9,7 +9,6 @@ namespace CalamityMod.Items.Weapons.Typeless
 {
     public class AeroDynamite : ModItem
     {
-        public override string Texture => "CalamityMod/Items/Weapons/Rogue/Turbulance";
         public static int Damage = 100;
         public static float Knockback = 10f;
 
@@ -24,7 +23,7 @@ namespace CalamityMod.Items.Weapons.Typeless
             item.useTime = item.useAnimation = 40;
 			item.maxStack = 999;
 			item.consumable = true;
-			item.shootSpeed = 6f;
+			item.shootSpeed = 5f;
 			item.shoot = ModContent.ProjectileType<AeroExplosive>();
 
 			item.width = 8;
