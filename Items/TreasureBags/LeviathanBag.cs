@@ -44,14 +44,16 @@ namespace CalamityMod.Items.TreasureBags
                 player.TryGettingDevArmor();
 
             // Weapons
-			DropHelper.DropWeaponSet(player, 3,
-				ModContent.ItemType<Greentide>(),
-				ModContent.ItemType<Leviatitan>(),
-				ModContent.ItemType<SirensSong>(),
-				ModContent.ItemType<Atlantis>(),
-				ModContent.ItemType<BrackishFlask>(),
-				ModContent.ItemType<LeviathanTeeth>(),
-				ModContent.ItemType<GastricBelcherStaff>());
+            float w = DropHelper.BagWeaponDropRateFloat;
+            DropHelper.DropEntireWeightedSet(player,
+                DropHelper.WeightStack<Greentide>(w),
+                DropHelper.WeightStack<Leviatitan>(w),
+                DropHelper.WeightStack<SirensSong>(w),
+                DropHelper.WeightStack<Atlantis>(w),
+                DropHelper.WeightStack<GastricBelcherStaff>(w),
+                DropHelper.WeightStack<BrackishFlask>(w),
+                DropHelper.WeightStack<LeviathanTeeth>(w)
+            );
 
             // Equipment
             DropHelper.DropItem(player, ModContent.ItemType<LeviathanAmbergris>());

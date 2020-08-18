@@ -47,17 +47,19 @@ namespace CalamityMod.Items.TreasureBags
             DropHelper.DropItem(player, ItemID.FallenStar, 100, 180);
 
             // Weapons
-			DropHelper.DropWeaponSet(player, 3,
-				ModContent.ItemType<TheMicrowave>(),
-				ModContent.ItemType<StarSputter>(),
-				ModContent.ItemType<Starfall>(),
-				ModContent.ItemType<GodspawnHelixStaff>(),
-				ModContent.ItemType<RegulusRiot>());
+            float w = DropHelper.BagWeaponDropRateFloat;
+            DropHelper.DropEntireWeightedSet(player,
+                DropHelper.WeightStack<TheMicrowave>(w),
+                DropHelper.WeightStack<StarSputter>(w),
+                DropHelper.WeightStack<Starfall>(w),
+                DropHelper.WeightStack<GodspawnHelixStaff>(w),
+                DropHelper.WeightStack<RegulusRiot>(w)
+            );
 
             DropHelper.DropItemChance(player, ModContent.ItemType<Quasar>(), DropHelper.RareVariantDropRateInt);
 
             // Equipment
-			DropHelper.DropItemRIV(player, ModContent.ItemType<AstralBulwark>(), ModContent.ItemType<HideofAstrumDeus>(), 1f, DropHelper.RareVariantDropRateFloat);
+            DropHelper.DropItemRIV(player, ModContent.ItemType<AstralBulwark>(), ModContent.ItemType<HideofAstrumDeus>(), 1f, DropHelper.RareVariantDropRateFloat);
             DropHelper.DropItemChance(player, ModContent.ItemType<ChromaticOrb>(), 5);
 
             // Vanity

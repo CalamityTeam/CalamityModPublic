@@ -1,4 +1,3 @@
-
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.Materials;
@@ -14,7 +13,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.TreasureBags
 {
-	public class BrimstoneWaifuBag : ModItem
+    public class BrimstoneWaifuBag : ModItem
     {
         public override int BossBagNPC => ModContent.NPCType<BrimstoneElemental>();
 
@@ -48,10 +47,12 @@ namespace CalamityMod.Items.TreasureBags
             DropHelper.DropItemCondition(player, ModContent.ItemType<Bloodstone>(), CalamityWorld.downedProvidence, 25, 35);
 
             // Weapons
-			DropHelper.DropWeaponSet(player, 3,
-				ModContent.ItemType<Brimlance>(),
-				ModContent.ItemType<SeethingDischarge>(),
-				ModContent.ItemType<DormantBrimseeker>());
+            float w = DropHelper.BagWeaponDropRateFloat;
+            DropHelper.DropEntireWeightedSet(player,
+                DropHelper.WeightStack<Brimlance>(w),
+                DropHelper.WeightStack<SeethingDischarge>(w),
+                DropHelper.WeightStack<DormantBrimseeker>(w)
+            );
 
             // Equipment
             DropHelper.DropItem(player, ModContent.ItemType<Abaddon>());

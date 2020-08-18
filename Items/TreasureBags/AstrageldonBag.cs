@@ -49,12 +49,14 @@ namespace CalamityMod.Items.TreasureBags
             DropHelper.DropItem(player, ItemID.FallenStar, 30, 50);
 
             // Weapons
-			DropHelper.DropWeaponSet(player, 3,
-				ModContent.ItemType<Nebulash>(),
-				ModContent.ItemType<AuroraBlazer>(),
-				ModContent.ItemType<AlulaAustralis>(),
-				ModContent.ItemType<BorealisBomber>(),
-				ModContent.ItemType<AuroradicalThrow>());
+            float w = DropHelper.BagWeaponDropRateFloat;
+            DropHelper.DropEntireWeightedSet(player,
+                DropHelper.WeightStack<Nebulash>(w),
+                DropHelper.WeightStack<AuroraBlazer>(w),
+                DropHelper.WeightStack<AlulaAustralis>(w),
+                DropHelper.WeightStack<BorealisBomber>(w),
+                DropHelper.WeightStack<AuroradicalThrow>(w)
+            );
 
             float leonidChance = DropHelper.LegendaryDropRateFloat;
             DropHelper.DropItemCondition(player, ModContent.ItemType<LeonidProgenitor>(), CalamityWorld.revenge, leonidChance);

@@ -36,13 +36,13 @@ namespace CalamityMod.Items.TreasureBags
             item.expert = true;
         }
 
-		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
-		{
-			Vector2 origin = new Vector2(16f, 20f); //16, 17
-			spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Items/TreasureBags/PolterghastBagGlow"), item.Center - Main.screenPosition, null, Color.White, rotation, origin, 1f, SpriteEffects.None, 0f);
-		}
+        public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
+        {
+            Vector2 origin = new Vector2(16f, 20f); //16, 17
+            spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Items/TreasureBags/PolterghastBagGlow"), item.Center - Main.screenPosition, null, Color.White, rotation, origin, 1f, SpriteEffects.None, 0f);
+        }
 
-		public override bool CanRightClick()
+        public override bool CanRightClick()
         {
             return true;
         }
@@ -56,14 +56,16 @@ namespace CalamityMod.Items.TreasureBags
             DropHelper.DropItem(player, ModContent.ItemType<Phantoplasm>(), 20, 30);
 
             // Weapons
-			DropHelper.DropWeaponSet(player, 3,
-				ModContent.ItemType<TerrorBlade>(),
-				ModContent.ItemType<BansheeHook>(),
-				ModContent.ItemType<DaemonsFlame>(),
-				ModContent.ItemType<FatesReveal>(),
-				ModContent.ItemType<GhastlyVisage>(),
-				ModContent.ItemType<EtherealSubjugator>(),
-				ModContent.ItemType<GhoulishGouger>());
+            float w = DropHelper.BagWeaponDropRateFloat;
+            DropHelper.DropEntireWeightedSet(player,
+                DropHelper.WeightStack<TerrorBlade>(w),
+                DropHelper.WeightStack<BansheeHook>(w),
+                DropHelper.WeightStack<DaemonsFlame>(w),
+                DropHelper.WeightStack<FatesReveal>(w),
+                DropHelper.WeightStack<GhastlyVisage>(w),
+                DropHelper.WeightStack<EtherealSubjugator>(w),
+                DropHelper.WeightStack<GhoulishGouger>(w)
+            );
 
             // Equipment
             DropHelper.DropItem(player, ModContent.ItemType<Affliction>());

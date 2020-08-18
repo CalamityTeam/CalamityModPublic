@@ -192,10 +192,12 @@ namespace CalamityMod.NPCs.BrimstoneElemental
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<Bloodstone>(), CalamityWorld.downedProvidence, 1f, 20, 30);
 
                 // Weapons
-				DropHelper.DropWeaponSet(npc, 4,
-					ModContent.ItemType<Brimlance>(),
-					ModContent.ItemType<SeethingDischarge>(),
-					ModContent.ItemType<DormantBrimseeker>());
+                float w = DropHelper.DirectWeaponDropRateFloat;
+                DropHelper.DropEntireWeightedSet(npc,
+                    DropHelper.WeightStack<Brimlance>(w),
+                    DropHelper.WeightStack<SeethingDischarge>(w),
+                    DropHelper.WeightStack<DormantBrimseeker>(w)
+                );
 
                 // Equipment
                 DropHelper.DropItemChance(npc, ModContent.ItemType<RoseStone>(), 10);

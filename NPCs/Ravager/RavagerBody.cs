@@ -811,12 +811,14 @@ namespace CalamityMod.NPCs.Ravager
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<FleshyGeodeT2>(), CalamityWorld.downedProvidence);
 
                 // Weapons
-				DropHelper.DropWeaponSet(npc, 4,
-					ModContent.ItemType<UltimusCleaver>(),
-					ModContent.ItemType<RealmRavager>(),
-					ModContent.ItemType<Hematemesis>(),
-					ModContent.ItemType<SpikecragStaff>(),
-					ModContent.ItemType<CraniumSmasher>());
+                float w = DropHelper.DirectWeaponDropRateFloat;
+                DropHelper.DropEntireWeightedSet(npc,
+                    DropHelper.WeightStack<UltimusCleaver>(w),
+                    DropHelper.WeightStack<RealmRavager>(w),
+                    DropHelper.WeightStack<Hematemesis>(w),
+                    DropHelper.WeightStack<SpikecragStaff>(w),
+                    DropHelper.WeightStack<CraniumSmasher>(w)
+                );
 
                 // Equipment
                 DropHelper.DropItemChance(npc, ModContent.ItemType<BloodPact>(), 3);

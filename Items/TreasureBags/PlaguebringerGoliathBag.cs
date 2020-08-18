@@ -47,18 +47,20 @@ namespace CalamityMod.Items.TreasureBags
             DropHelper.DropItem(player, ItemID.Stinger, 4, 8);
 
             // Weapons
-			DropHelper.DropWeaponSet(player, 3,
-				ModContent.ItemType<VirulentKatana>(), // Virulence
-				ModContent.ItemType<DiseasedPike>(),
-				ModContent.ItemType<ThePlaguebringer>(), // Pandemic
-				ModContent.ItemType<Malevolence>(),
-				ModContent.ItemType<PestilentDefiler>(),
-				ModContent.ItemType<TheHive>(),
-				ModContent.ItemType<MepheticSprayer>(), // Blight Spewer
-				ModContent.ItemType<PlagueStaff>(),
-				ModContent.ItemType<TheSyringe>(),
-				ModContent.ItemType<FuelCellBundle>(),
-				ModContent.ItemType<InfectedRemote>());
+            float w = DropHelper.BagWeaponDropRateFloat;
+            DropHelper.DropEntireWeightedSet(player,
+                DropHelper.WeightStack<VirulentKatana>(w), // Virulence
+                DropHelper.WeightStack<DiseasedPike>(w),
+                DropHelper.WeightStack<ThePlaguebringer>(w), // Pandemic
+                DropHelper.WeightStack<Malevolence>(w),
+                DropHelper.WeightStack<PestilentDefiler>(w),
+                DropHelper.WeightStack<TheHive>(w),
+                DropHelper.WeightStack<MepheticSprayer>(w), // Blight Spewer
+                DropHelper.WeightStack<PlagueStaff>(w),
+                DropHelper.WeightStack<FuelCellBundle>(w),
+                DropHelper.WeightStack<InfectedRemote>(w),
+                DropHelper.WeightStack<TheSyringe>(w)
+            );
 
             float malachiteChance = DropHelper.LegendaryDropRateFloat;
             DropHelper.DropItemCondition(player, ModContent.ItemType<Malachite>(), CalamityWorld.revenge, malachiteChance);

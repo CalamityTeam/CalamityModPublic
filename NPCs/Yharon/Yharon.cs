@@ -2808,15 +2808,17 @@ namespace CalamityMod.NPCs.Yharon
             if (!Main.expertMode)
             {
                 // Weapons
-				DropHelper.DropWeaponSet(npc, 4,
-					ModContent.ItemType<DragonRage>(),
-					ModContent.ItemType<TheBurningSky>(),
-					ModContent.ItemType<DragonsBreath>(),
-					ModContent.ItemType<ChickenCannon>(),
-					ModContent.ItemType<PhoenixFlameBarrage>(),
-					ModContent.ItemType<AngryChickenStaff>(),
-					ModContent.ItemType<ProfanedTrident>(),
-					ModContent.ItemType<FinalDawn>());
+                float w = DropHelper.DirectWeaponDropRateFloat;
+                DropHelper.DropEntireWeightedSet(npc,
+                    DropHelper.WeightStack<DragonRage>(w),
+                    DropHelper.WeightStack<TheBurningSky>(w),
+                    DropHelper.WeightStack<DragonsBreath>(w),
+                    DropHelper.WeightStack<ChickenCannon>(w),
+                    DropHelper.WeightStack<PhoenixFlameBarrage>(w),
+                    DropHelper.WeightStack<AngryChickenStaff>(w), // Yharon Kindle Staff
+                    DropHelper.WeightStack<ProfanedTrident>(w), // Infernal Spear
+                    DropHelper.WeightStack<FinalDawn>(w)
+                );
 
                 // Vanity
                 DropHelper.DropItemChance(npc, ModContent.ItemType<YharonMask>(), 7);

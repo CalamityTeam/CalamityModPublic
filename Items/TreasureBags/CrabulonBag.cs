@@ -46,12 +46,14 @@ namespace CalamityMod.Items.TreasureBags
             DropHelper.DropItem(player, ItemID.MushroomGrassSeeds, 5, 10);
 
             // Weapons
-			DropHelper.DropWeaponSet(player, 3,
-				ModContent.ItemType<MycelialClaws>(),
-				ModContent.ItemType<Fungicide>(),
-				ModContent.ItemType<HyphaeRod>(),
-				ModContent.ItemType<Mycoroot>(),
-				ModContent.ItemType<Shroomerang>());
+            float w = DropHelper.BagWeaponDropRateFloat;
+            DropHelper.DropEntireWeightedSet(player,
+                DropHelper.WeightStack<MycelialClaws>(w),
+                DropHelper.WeightStack<Fungicide>(w),
+                DropHelper.WeightStack<HyphaeRod>(w),
+                DropHelper.WeightStack<Mycoroot>(w),
+                DropHelper.WeightStack<Shroomerang>(w)
+            );
 
             // Equipment
             DropHelper.DropItem(player, ModContent.ItemType<FungalClump>());

@@ -54,12 +54,14 @@ namespace CalamityMod.Items.TreasureBags
             DropHelper.DropItem(player, ItemID.Starfish, 7, 11);
 
             // Weapons
-			DropHelper.DropWeaponSet(player, 3,
-				ModContent.ItemType<SubmarineShocker>(),
-				ModContent.ItemType<Barinautical>(),
-				ModContent.ItemType<Downpour>(),
-				ModContent.ItemType<DeepseaStaff>(),
-				ModContent.ItemType<ScourgeoftheSeas>());
+            float w = DropHelper.BagWeaponDropRateFloat;
+            DropHelper.DropEntireWeightedSet(player,
+                DropHelper.WeightStack<SubmarineShocker>(w),
+                DropHelper.WeightStack<Barinautical>(w),
+                DropHelper.WeightStack<Downpour>(w),
+                DropHelper.WeightStack<DeepseaStaff>(w),
+                DropHelper.WeightStack<ScourgeoftheSeas>(w)
+            );
 
             float searingChance = DropHelper.LegendaryDropRateFloat;
             DropHelper.DropItemCondition(player, ModContent.ItemType<SeasSearing>(), CalamityWorld.revenge, searingChance);
@@ -73,7 +75,7 @@ namespace CalamityMod.Items.TreasureBags
             DropHelper.DropItemChance(player, ModContent.ItemType<AquaticScourgeMask>(), 7);
 
             // Fishing
-			DropHelper.DropItem(player, ModContent.ItemType<BleachedAnglingKit>());
+            DropHelper.DropItem(player, ModContent.ItemType<BleachedAnglingKit>());
         }
     }
 }

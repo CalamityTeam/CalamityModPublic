@@ -13,7 +13,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.TreasureBags
 {
-	public class ProvidenceBag : ModItem
+    public class ProvidenceBag : ModItem
     {
         public override int BossBagNPC => ModContent.NPCType<Providence>();
 
@@ -47,14 +47,16 @@ namespace CalamityMod.Items.TreasureBags
             DropHelper.DropItem(player, ModContent.ItemType<DivineGeode>(), 20, 30);
 
             // Weapons
-			DropHelper.DropWeaponSet(player, 3,
-				ModContent.ItemType<HolyCollider>(),
-				ModContent.ItemType<SolarFlare>(),
-				ModContent.ItemType<TelluricGlare>(),
-				ModContent.ItemType<BlissfulBombardier>(),
-				ModContent.ItemType<PurgeGuzzler>(),
-				ModContent.ItemType<MoltenAmputator>(),
-				ModContent.ItemType<DazzlingStabberStaff>());
+            float w = DropHelper.BagWeaponDropRateFloat;
+            DropHelper.DropEntireWeightedSet(player,
+                DropHelper.WeightStack<HolyCollider>(w),
+                DropHelper.WeightStack<SolarFlare>(w),
+                DropHelper.WeightStack<TelluricGlare>(w),
+                DropHelper.WeightStack<BlissfulBombardier>(w),
+                DropHelper.WeightStack<PurgeGuzzler>(w),
+                DropHelper.WeightStack<DazzlingStabberStaff>(w),
+                DropHelper.WeightStack<MoltenAmputator>(w)
+            );
 
             float pristineFuryChance = DropHelper.LegendaryDropRateFloat;
             DropHelper.DropItemCondition(player, ModContent.ItemType<PristineFury>(), CalamityWorld.revenge, pristineFuryChance);

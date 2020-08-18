@@ -386,52 +386,21 @@ namespace CalamityMod.NPCs.Perforator
                 if (Main.hardMode)
                     DropHelper.DropItemSpray(npc, ItemID.Ichor, 10, 20);
 
-                // Weapons
-				int[] weapons = new int[] {
-					ModContent.ItemType<VeinBurster>(),
-					ModContent.ItemType<BloodyRupture>(),
-					ModContent.ItemType<SausageMaker>(),
-					ModContent.ItemType<Aorta>(),
-					ModContent.ItemType<Eviscerator>(),
-					ModContent.ItemType<BloodBath>(),
-					ModContent.ItemType<BloodClotStaff>(),
-					ModContent.ItemType<ToothBall>()
-				};
-
-				bool droppedWeapon = false;
-				int least = 1;
-				int most = 1;
-				for (int i = 0; i < weapons.Length; i++)
-				{
-					if (weapons[i] == ModContent.ItemType<ToothBall>())
-					{
-						least = 25;
-						most = 50;
-					}
-					if (DropHelper.DropItemChance(npc, weapons[i], 4, least, most) > 0)
-						droppedWeapon = true;
-				}
-
-				if (!droppedWeapon)
-				{
-					// Can't choose anything from an empty array.
-					if (weapons is null || weapons.Length == 0)
-						goto SKIPDROPS;
-
-					// Choose which item to drop.
-					int itemID = Main.rand.Next(weapons);
-					if (itemID == ModContent.ItemType<ToothBall>())
-					{
-						least = 25;
-						most = 50;
-					}
-
-					DropHelper.DropItem(npc, itemID, least, most);
-				}
-				SKIPDROPS:
+				// Weapons
+				float w = DropHelper.DirectWeaponDropRateFloat;
+				DropHelper.DropEntireWeightedSet(npc,
+					DropHelper.WeightStack<VeinBurster>(w),
+					DropHelper.WeightStack<BloodyRupture>(w),
+					DropHelper.WeightStack<SausageMaker>(w),
+					DropHelper.WeightStack<Aorta>(w),
+					DropHelper.WeightStack<Eviscerator>(w),
+					DropHelper.WeightStack<BloodBath>(w),
+					DropHelper.WeightStack<BloodClotStaff>(w),
+					DropHelper.WeightStack<ToothBall>(w, 30, 50)
+				);
 
 				//Equipment
-                DropHelper.DropItemChance(npc, ModContent.ItemType<BloodstainedGlove>(), 4);
+				DropHelper.DropItemChance(npc, ModContent.ItemType<BloodstainedGlove>(), 4);
 
                 // Vanity
                 DropHelper.DropItemChance(npc, ModContent.ItemType<PerforatorMask>(), 7);

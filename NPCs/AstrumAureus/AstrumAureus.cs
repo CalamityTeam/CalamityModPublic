@@ -360,12 +360,14 @@ namespace CalamityMod.NPCs.AstrumAureus
                 DropHelper.DropItemSpray(npc, ItemID.FallenStar, 25, 40);
 
                 // Weapons
-				DropHelper.DropWeaponSet(npc, 4,
-					ModContent.ItemType<Nebulash>(),
-					ModContent.ItemType<AuroraBlazer>(),
-					ModContent.ItemType<AlulaAustralis>(),
-					ModContent.ItemType<BorealisBomber>(),
-					ModContent.ItemType<AuroradicalThrow>());
+                float w = DropHelper.DirectWeaponDropRateFloat;
+                DropHelper.DropEntireWeightedSet(npc,
+                    DropHelper.WeightStack<Nebulash>(w),
+                    DropHelper.WeightStack<AuroraBlazer>(w),
+                    DropHelper.WeightStack<AlulaAustralis>(w),
+                    DropHelper.WeightStack<BorealisBomber>(w),
+                    DropHelper.WeightStack<AuroradicalThrow>(w)
+                );
 
                 // Vanity
                 DropHelper.DropItemChance(npc, ModContent.ItemType<AureusMask>(), 7);

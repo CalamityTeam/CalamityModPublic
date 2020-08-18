@@ -1280,18 +1280,20 @@ namespace CalamityMod.NPCs.Providence
                 DropHelper.DropItemSpray(npc, ModContent.ItemType<UnholyEssence>(), 20, 30);
                 DropHelper.DropItemSpray(npc, ModContent.ItemType<DivineGeode>(), 15, 20);
 
-                // Weapons
-				DropHelper.DropWeaponSet(npc, 4,
-					ModContent.ItemType<HolyCollider>(),
-					ModContent.ItemType<SolarFlare>(),
-					ModContent.ItemType<TelluricGlare>(),
-					ModContent.ItemType<BlissfulBombardier>(),
-					ModContent.ItemType<PurgeGuzzler>(),
-					ModContent.ItemType<MoltenAmputator>(),
-					ModContent.ItemType<DazzlingStabberStaff>());
+				// Weapons
+				float w = DropHelper.DirectWeaponDropRateFloat;
+				DropHelper.DropEntireWeightedSet(npc,
+					DropHelper.WeightStack<HolyCollider>(w),
+					DropHelper.WeightStack<SolarFlare>(w),
+					DropHelper.WeightStack<TelluricGlare>(w),
+					DropHelper.WeightStack<BlissfulBombardier>(w),
+					DropHelper.WeightStack<PurgeGuzzler>(w),
+					DropHelper.WeightStack<DazzlingStabberStaff>(w),
+					DropHelper.WeightStack<MoltenAmputator>(w)
+				);
 
-                // Equipment
-                DropHelper.DropItemChance(npc, ModContent.ItemType<SamuraiBadge>(), 40);
+				// Equipment
+				DropHelper.DropItemChance(npc, ModContent.ItemType<SamuraiBadge>(), 40);
 
                 // Vanity
                 DropHelper.DropItemChance(npc, ModContent.ItemType<ProvidenceMask>(), 7);

@@ -47,47 +47,16 @@ namespace CalamityMod.Items.TreasureBags
             DropHelper.DropItemCondition(player, ItemID.CursedFlame, Main.hardMode, 15, 30);
 
             // Weapons
-			int[] weapons = new int[] {
-				ModContent.ItemType<PerfectDark>(),
-				ModContent.ItemType<LeechingDagger>(),
-				ModContent.ItemType<Shadethrower>(),
-				ModContent.ItemType<ShadowdropStaff>(),
-				ModContent.ItemType<ShaderainStaff>(),
-				ModContent.ItemType<DankStaff>(),
-				ModContent.ItemType<RotBall>()
-			};
-
-			bool droppedWeapon = false;
-			int least = 1;
-			int most = 1;
-			for (int i = 0; i < weapons.Length; i++)
-			{
-				if (weapons[i] == ModContent.ItemType<RotBall>())
-				{
-					least = 50;
-					most = 75;
-				}
-				if (DropHelper.DropItemChance(player, weapons[i], 3, least, most) > 0)
-					droppedWeapon = true;
-			}
-
-			if (!droppedWeapon)
-			{
-				// Can't choose anything from an empty array.
-				if (weapons is null || weapons.Length == 0)
-					goto SKIPDROPS;
-
-				// Choose which item to drop.
-				int itemID = Main.rand.Next(weapons);
-				if (itemID == ModContent.ItemType<RotBall>())
-				{
-					least = 50;
-					most = 75;
-				}
-
-				DropHelper.DropItem(player, itemID, least, most);
-			}
-			SKIPDROPS:
+            float w = DropHelper.BagWeaponDropRateFloat;
+            DropHelper.DropEntireWeightedSet(player,
+                DropHelper.WeightStack<PerfectDark>(w),
+                DropHelper.WeightStack<LeechingDagger>(w),
+                DropHelper.WeightStack<Shadethrower>(w),
+                DropHelper.WeightStack<ShadowdropStaff>(w),
+                DropHelper.WeightStack<ShaderainStaff>(w),
+                DropHelper.WeightStack<DankStaff>(w),
+                DropHelper.WeightStack<RotBall>(w, 50, 75)
+            );
 
             // Equipment
             DropHelper.DropItem(player, ModContent.ItemType<RottenBrain>());

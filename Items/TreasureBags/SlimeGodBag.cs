@@ -13,7 +13,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.TreasureBags
 {
-	public class SlimeGodBag : ModItem
+    public class SlimeGodBag : ModItem
     {
         public override int BossBagNPC => ModContent.NPCType<SlimeGodRun>();
 
@@ -45,12 +45,14 @@ namespace CalamityMod.Items.TreasureBags
             DropHelper.DropItem(player, ModContent.ItemType<PurifiedGel>(), 35, 55);
 
             // Weapons
-			DropHelper.DropWeaponSet(player, 3,
-				ModContent.ItemType<OverloadedBlaster>(),
-				ModContent.ItemType<AbyssalTome>(),
-				ModContent.ItemType<EldritchTome>(),
-				ModContent.ItemType<CorroslimeStaff>(),
-				ModContent.ItemType<CrimslimeStaff>());
+            float w = DropHelper.BagWeaponDropRateFloat;
+            DropHelper.DropEntireWeightedSet(player,
+                DropHelper.WeightStack<OverloadedBlaster>(w),
+                DropHelper.WeightStack<AbyssalTome>(w),
+                DropHelper.WeightStack<EldritchTome>(w),
+                DropHelper.WeightStack<CorroslimeStaff>(w),
+                DropHelper.WeightStack<CrimslimeStaff>(w)
+            );
 
             // Equipment
             DropHelper.DropItem(player, ModContent.ItemType<ManaOverloader>());

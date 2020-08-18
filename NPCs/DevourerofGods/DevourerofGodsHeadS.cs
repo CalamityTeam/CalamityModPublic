@@ -1026,42 +1026,15 @@ namespace CalamityMod.NPCs.DevourerofGods
                 DropHelper.DropItem(npc, ModContent.ItemType<CosmiliteBrick>(), 150, 250);
 
                 // Weapons
-				int[] weapons = new int[] {
-					ModContent.ItemType<Excelsus>(),
-					ModContent.ItemType<TheObliterator>(),
-					ModContent.ItemType<Deathwind>(),
-					ModContent.ItemType<DeathhailStaff>(),
-					ModContent.ItemType<StaffoftheMechworm>()
-				};
-
-				bool droppedWeapon = false;
-				for (int i = 0; i < weapons.Length; i++)
-				{
-					if (DropHelper.DropItemChance(npc, weapons[i], 4) > 0)
-						droppedWeapon = true;
-				}
-
-				if (DropHelper.DropItemFromSetChance(npc, 0.25f, ModContent.ItemType<EradicatorMelee>(), ModContent.ItemType<Eradicator>()))
-					droppedWeapon = true;
-
-				if (!droppedWeapon)
-				{
-					// Can't choose anything from an empty array.
-					if (weapons is null || weapons.Length == 0)
-						goto SKIPDROPS;
-
-					// Resize the array and add the last weapon
-					Array.Resize(ref weapons, weapons.Length + 1);
-					weapons[weapons.Length - 1] = ModContent.ItemType<Eradicator>();
-
-					// Choose which item to drop.
-					int itemID = Main.rand.Next(weapons);
-					if (itemID == ModContent.ItemType<Eradicator>() && Main.rand.NextBool(2))
-						itemID = ModContent.ItemType<EradicatorMelee>();
-
-					DropHelper.DropItem(npc, itemID);
-				}
-				SKIPDROPS:
+                float w = DropHelper.DirectWeaponDropRateFloat;
+                DropHelper.DropEntireWeightedSet(npc,
+                    DropHelper.WeightStack<Excelsus>(w),
+                    DropHelper.WeightStack<TheObliterator>(w),
+                    DropHelper.WeightStack<Deathwind>(w),
+                    DropHelper.WeightStack<DeathhailStaff>(w),
+                    DropHelper.WeightStack<StaffoftheMechworm>(w),
+                    Main.rand.NextBool() ? DropHelper.WeightStack<EradicatorMelee>(w) : DropHelper.WeightStack<Eradicator>(w)
+                );
 
                 // Vanity
                 DropHelper.DropItemChance(npc, ModContent.ItemType<DevourerofGodsMask>(), 7);

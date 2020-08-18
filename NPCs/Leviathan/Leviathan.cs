@@ -663,14 +663,16 @@ namespace CalamityMod.NPCs.Leviathan
             if (!Main.expertMode)
             {
                 // Weapons
-				DropHelper.DropWeaponSet(npc, 4,
-					ModContent.ItemType<Greentide>(),
-					ModContent.ItemType<Leviatitan>(),
-					ModContent.ItemType<SirensSong>(),
-					ModContent.ItemType<Atlantis>(),
-					ModContent.ItemType<BrackishFlask>(),
-					ModContent.ItemType<LeviathanTeeth>(),
-					ModContent.ItemType<GastricBelcherStaff>());
+                float w = DropHelper.DirectWeaponDropRateFloat;
+                DropHelper.DropEntireWeightedSet(npc,
+                    DropHelper.WeightStack<Greentide>(w),
+                    DropHelper.WeightStack<Leviatitan>(w),
+                    DropHelper.WeightStack<SirensSong>(w),
+                    DropHelper.WeightStack<Atlantis>(w),
+                    DropHelper.WeightStack<GastricBelcherStaff>(w),
+                    DropHelper.WeightStack<BrackishFlask>(w),
+                    DropHelper.WeightStack<LeviathanTeeth>(w)
+                );
 
                 // Equipment
                 DropHelper.DropItemChance(npc, ModContent.ItemType<LureofEnthrallment>(), 4);

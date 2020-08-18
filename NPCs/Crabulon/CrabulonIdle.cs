@@ -652,12 +652,14 @@ namespace CalamityMod.NPCs.Crabulon
                 DropHelper.DropItem(npc, ItemID.MushroomGrassSeeds, 3, 6);
 
                 // Weapons
-				DropHelper.DropWeaponSet(npc, 4,
-					ModContent.ItemType<MycelialClaws>(),
-					ModContent.ItemType<Fungicide>(),
-					ModContent.ItemType<HyphaeRod>(),
-					ModContent.ItemType<Mycoroot>(),
-					ModContent.ItemType<Shroomerang>());
+                float w = DropHelper.DirectWeaponDropRateFloat;
+                DropHelper.DropEntireWeightedSet(npc,
+                    DropHelper.WeightStack<MycelialClaws>(w),
+                    DropHelper.WeightStack<Fungicide>(w),
+                    DropHelper.WeightStack<HyphaeRod>(w),
+                    DropHelper.WeightStack<Mycoroot>(w),
+                    DropHelper.WeightStack<Shroomerang>(w)
+                );
 
                 // Vanity
                 DropHelper.DropItemChance(npc, ModContent.ItemType<CrabulonMask>(), 7);

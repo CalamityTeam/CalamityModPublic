@@ -13,7 +13,6 @@ using CalamityMod.NPCs.DevourerofGods;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -61,42 +60,15 @@ namespace CalamityMod.Items.TreasureBags
             DropHelper.DropItem(player, ModContent.ItemType<CosmiliteBrick>(), 200, 320);
 
             // Weapons
-			int[] weapons = new int[] {
-				ModContent.ItemType<Excelsus>(),
-				ModContent.ItemType<TheObliterator>(),
-				ModContent.ItemType<Deathwind>(),
-				ModContent.ItemType<DeathhailStaff>(),
-				ModContent.ItemType<StaffoftheMechworm>()
-			};
-
-			bool droppedWeapon = false;
-			for (int i = 0; i < weapons.Length; i++)
-			{
-				if (DropHelper.DropItemChance(player, weapons[i], 3) > 0)
-					droppedWeapon = true;
-			}
-
-			if (DropHelper.DropItemFromSetChance(player, 0.3333f, ModContent.ItemType<EradicatorMelee>(), ModContent.ItemType<Eradicator>()))
-				droppedWeapon = true;
-
-			if (!droppedWeapon)
-			{
-				// Can't choose anything from an empty array.
-				if (weapons is null || weapons.Length == 0)
-					goto SKIPDROPS;
-
-				// Resize the array and add the last weapon
-				Array.Resize(ref weapons, weapons.Length + 1);
-				weapons[weapons.Length - 1] = ModContent.ItemType<Eradicator>();
-
-				// Choose which item to drop.
-				int itemID = Main.rand.Next(weapons);
-				if (itemID == ModContent.ItemType<Eradicator>() && Main.rand.NextBool(2))
-					itemID = ModContent.ItemType<EradicatorMelee>();
-
-				DropHelper.DropItem(player, itemID);
-			}
-			SKIPDROPS:
+            float w = DropHelper.BagWeaponDropRateFloat;
+            DropHelper.DropEntireWeightedSet(player,
+                DropHelper.WeightStack<Excelsus>(w),
+                DropHelper.WeightStack<TheObliterator>(w),
+                DropHelper.WeightStack<Deathwind>(w),
+                DropHelper.WeightStack<DeathhailStaff>(w),
+                DropHelper.WeightStack<StaffoftheMechworm>(w),
+                Main.rand.NextBool() ? DropHelper.WeightStack<EradicatorMelee>(w) : DropHelper.WeightStack<Eradicator>(w)
+            );
 
             DropHelper.DropItemChance(player, ModContent.ItemType<Skullmasher>(), DropHelper.RareVariantDropRateInt);
             DropHelper.DropItemChance(player, ModContent.ItemType<Norfleet>(), DropHelper.RareVariantDropRateInt);
