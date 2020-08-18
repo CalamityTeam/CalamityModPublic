@@ -40,6 +40,16 @@ namespace CalamityMod
         /// Rare Item Variants have this chance to drop (decimal number out of 1.0).
         /// </summary>
         public const float RareVariantDropRateFloat = 0.025f;
+
+        /// <summary>
+        /// Direct weapon drops (straight from the boss in Normal Mode) have this chance to drop (decimal number out of 1.0).
+        /// </summary>
+        public const float DirectWeaponDropRateFloat = 0.25f;
+
+        /// <summary>
+        /// Bag weapon drops (Expert Mode and higher) have this chance to drop (decimal number out of 1.0).
+        /// </summary>
+        public const float BagWeaponDropRateFloat = 0.3333333f;
         #endregion
 
         #region Weighted Item Sets
@@ -79,12 +89,21 @@ namespace CalamityMod
             }
         }
 
+        // int itemID --> WeightedItemStack
         public static WeightedItemStack WeightStack(this int itemID) => WeightStack(itemID, DefaultWeight);
         public static WeightedItemStack WeightStack(this int itemID, float weight) => new WeightedItemStack(itemID, weight);
         public static WeightedItemStack WeightStack(this int itemID, int quantity) => WeightStack(itemID, DefaultWeight, quantity);
         public static WeightedItemStack WeightStack(this int itemID, float weight, int quantity) => new WeightedItemStack(itemID, weight, quantity);
         public static WeightedItemStack WeightStack(this int itemID, int min, int max) => WeightStack(itemID, DefaultWeight, min, max);
         public static WeightedItemStack WeightStack(this int itemID, float weight, int min, int max) => new WeightedItemStack(itemID, weight, min, max);
+
+        // ModItem generic parameter --> WeightedItemStack
+        public static WeightedItemStack WeightStack<T>() where T : ModItem => WeightStack<T>(DefaultWeight);
+        public static WeightedItemStack WeightStack<T>(float weight) where T : ModItem => WeightStack(ModContent.ItemType<T>(), weight);
+        public static WeightedItemStack WeightStack<T>(int quantity) where T : ModItem => WeightStack<T>(DefaultWeight, quantity);
+        public static WeightedItemStack WeightStack<T>(float weight, int quantity) where T : ModItem => WeightStack(ModContent.ItemType<T>(), weight, quantity);
+        public static WeightedItemStack WeightStack<T>(int min, int max) where T : ModItem => WeightStack<T>(DefaultWeight, min, max);
+        public static WeightedItemStack WeightStack<T>(float weight, int min, int max) where T : ModItem => WeightStack(ModContent.ItemType<T>(), weight, min, max);
 
         // Separated implementation used so weighted random code isn't duplicated in two places.
         private static WeightedItemStack RollWeightedRandom(WeightedItemStack[] stacks)
