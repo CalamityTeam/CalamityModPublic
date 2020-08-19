@@ -1,7 +1,9 @@
+using CalamityMod.TileEntities;
 using CalamityMod.Tiles;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using static CalamityMod.Schematics.SchematicLoader;
@@ -46,8 +48,8 @@ namespace CalamityMod.Schematics
                 return;
             PilePlacementMaps.TryGetValue(mapKey, out PilePlacementFunction pilePlacementFunction);
             ColorTileCombination[,] schematic = TileMaps[mapKey];
-			Tile[,] oldTiles = new Tile[schematic.GetLength(0), schematic.GetLength(1)];
-			int xOffset = placementPosition.X;
+            Tile[,] oldTiles = new Tile[schematic.GetLength(0), schematic.GetLength(1)];
+            int xOffset = placementPosition.X;
             int yOffset = placementPosition.Y;
             // Top-left is the default for terraria. There is no need to include it in this switch.
             switch (placementAnchor)
@@ -102,6 +104,8 @@ namespace CalamityMod.Schematics
                             tile.type == ModContent.TileType<DraedonHologram>())
                         {
                             WorldGen.PlaceTile(x, y, tile.type);
+                            int type = tile.type == ModContent.TileType<DraedonItemCharger>() ? ModContent.TileEntityType<TEDraedonItemCharger>() : ModContent.TileEntityType<TEDraedonFuelFactory>();
+                            TileEntity.PlaceEntityNet(x, y, type);
                         }
 
                         if (tile.type == TileID.Trees || tile.type == TileID.PineTree || tile.type == TileID.Cactus)
@@ -112,7 +116,27 @@ namespace CalamityMod.Schematics
                                 wall = oldWall
                             };
                         }
-                        else Main.tile[x + xOffset, y + yOffset] = SchematicTileConversion(oldTiles[x, y], (Tile)tile.Clone(), schematic[x, y].InternalColor);
+                        else
+                        {
+                            Tile tileToCopy = SchematicTileConversion(oldTiles[x, y], (Tile)tile.Clone(), schematic[x, y].InternalColor);
+                            Main.tile[x + xOffset, y + yOffset].ClearEverything();
+                            Main.tile[x + xOffset, y + yOffset].type = tileToCopy.type;
+                            Main.tile[x + xOffset, y + yOffset].frameX = tileToCopy.frameX;
+                            Main.tile[x + xOffset, y + yOffset].frameY = tileToCopy.frameY;
+                            Main.tile[x + xOffset, y + yOffset].slope(tileToCopy.slope());
+                            Main.tile[x + xOffset, y + yOffset].halfBrick(tileToCopy.halfBrick());
+                            Main.tile[x + xOffset, y + yOffset].actuator(tileToCopy.actuator());
+                            tile.inActive(tileToCopy.inActive());
+                            tile.liquid = tileToCopy.liquid;
+                            tile.liquidType(tileToCopy.liquidType());
+                            tile.color(tileToCopy.color());
+                            tile.wallColor(tileToCopy.wallColor());
+                            tile.wire(tileToCopy.wire());
+                            tile.wire2(tileToCopy.wire());
+                            tile.wire3(tileToCopy.wire());
+                            tile.wire4(tileToCopy.wire());
+                            tile.active(tileToCopy.active());
+                        }
 
                         Rectangle placeInArea = new Rectangle(x, y, schematic.GetLength(0), schematic.GetLength(1));
 
