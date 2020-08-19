@@ -2053,7 +2053,7 @@ namespace CalamityMod.World
                                 }
 
                             if (!downedPlaguebringer && bossType == 0)
-                                if (player.ZoneJungle && NPC.downedGolemBoss && player.ZoneOverworldHeight)
+                                if (player.ZoneJungle && NPC.downedGolemBoss && !player.ZoneOverworldHeight && !player.ZoneSkyHeight)
                                 {
                                     BossText();
                                     bossType = ModContent.NPCType<PlaguebringerGoliath>();
