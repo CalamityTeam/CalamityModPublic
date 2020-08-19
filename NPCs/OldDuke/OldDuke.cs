@@ -380,16 +380,19 @@ namespace CalamityMod.NPCs.OldDuke
 			// All other drops are contained in the bag, so they only drop directly on Normal
 			if (!Main.expertMode)
             {
-                // Weapons
-                DropHelper.DropItemChance(npc, ModContent.ItemType<InsidiousImpaler>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<SepticSkewer>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<FetidEmesis>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<VitriolicViper>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<ToxicantTwister>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<CadaverousCarrion>(), 4);
+				// Weapons
+				float w = DropHelper.DirectWeaponDropRateFloat;
+				DropHelper.DropEntireWeightedSet(npc,
+					DropHelper.WeightStack<InsidiousImpaler>(w),
+					DropHelper.WeightStack<FetidEmesis>(w),
+					DropHelper.WeightStack<SepticSkewer>(w),
+					DropHelper.WeightStack<VitriolicViper>(w),
+					DropHelper.WeightStack<CadaverousCarrion>(w),
+					DropHelper.WeightStack<ToxicantTwister>(w)
+				);
 
 				//Equipment
-                DropHelper.DropItemChance(npc, ModContent.ItemType<DukeScales>(), 10);
+				DropHelper.DropItemChance(npc, ModContent.ItemType<DukeScales>(), 10);
 
                 // Vanity
                 DropHelper.DropItemChance(npc, ModContent.ItemType<OldDukeMask>(), 7);

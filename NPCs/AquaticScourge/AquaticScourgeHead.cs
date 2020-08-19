@@ -172,11 +172,14 @@ namespace CalamityMod.NPCs.AquaticScourge
                 DropHelper.DropItem(npc, ItemID.Starfish, 5, 9);
 
                 // Weapons
-                DropHelper.DropItemChance(npc, ModContent.ItemType<SubmarineShocker>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Barinautical>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Downpour>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<DeepseaStaff>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<ScourgeoftheSeas>(), 4);
+                float w = DropHelper.DirectWeaponDropRateFloat;
+                DropHelper.DropEntireWeightedSet(npc,
+                    DropHelper.WeightStack<SubmarineShocker>(w),
+                    DropHelper.WeightStack<Barinautical>(w),
+                    DropHelper.WeightStack<Downpour>(w),
+                    DropHelper.WeightStack<DeepseaStaff>(w),
+                    DropHelper.WeightStack<ScourgeoftheSeas>(w)
+                );
 
                 // Equipment
                 DropHelper.DropItemChance(npc, ModContent.ItemType<AeroStone>(), 9);

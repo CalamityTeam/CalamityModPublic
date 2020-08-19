@@ -48,14 +48,17 @@ namespace CalamityMod.Items.TreasureBags
             DropHelper.DropItemCondition(player, ItemID.Ichor, Main.hardMode, 15, 30);
 
             // Weapons
-            DropHelper.DropItemChance(player, ModContent.ItemType<VeinBurster>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<BloodyRupture>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<SausageMaker>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<Aorta>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<Eviscerator>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<BloodBath>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<BloodClotStaff>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<ToothBall>(), 3, 50, 75);
+            float w = DropHelper.BagWeaponDropRateFloat;
+            DropHelper.DropEntireWeightedSet(player,
+                DropHelper.WeightStack<VeinBurster>(w),
+                DropHelper.WeightStack<BloodyRupture>(w),
+                DropHelper.WeightStack<SausageMaker>(w),
+                DropHelper.WeightStack<Aorta>(w),
+                DropHelper.WeightStack<Eviscerator>(w),
+                DropHelper.WeightStack<BloodBath>(w),
+                DropHelper.WeightStack<BloodClotStaff>(w),
+                DropHelper.WeightStack<ToothBall>(w, 50, 75)
+            );
 
             // Equipment
             DropHelper.DropItem(player, ModContent.ItemType<BloodyWormTooth>());

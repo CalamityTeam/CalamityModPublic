@@ -755,15 +755,18 @@ namespace CalamityMod.NPCs.HiveMind
                     DropHelper.DropItemSpray(npc, ItemID.CursedFlame, 10, 20);
 
                 // Weapons
-                DropHelper.DropItemChance(npc, ModContent.ItemType<PerfectDark>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<LeechingDagger>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Shadethrower>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<ShadowdropStaff>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<ShaderainStaff>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<DankStaff>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<RotBall>(), 4, 25, 50);
+                float w = DropHelper.DirectWeaponDropRateFloat;
+                DropHelper.DropEntireWeightedSet(npc,
+                    DropHelper.WeightStack<PerfectDark>(w),
+                    DropHelper.WeightStack<LeechingDagger>(w),
+                    DropHelper.WeightStack<Shadethrower>(w),
+                    DropHelper.WeightStack<ShadowdropStaff>(w),
+                    DropHelper.WeightStack<ShaderainStaff>(w),
+                    DropHelper.WeightStack<DankStaff>(w),
+                    DropHelper.WeightStack<RotBall>(w, 30, 50)
+                );
 
-				//Equipment
+                //Equipment
                 DropHelper.DropItemChance(npc, ModContent.ItemType<FilthyGlove>(), 4);
 
                 // Vanity

@@ -904,17 +904,11 @@ namespace CalamityMod.Items
                 return false; // Don't use weapons if you're charging with a spear
             }
 
-            if (player.ownedProjectileCounts[ModContent.ProjectileType<GiantIbanRobotOfDoom>()] > 0 &&
-                item.fishingPole > 0)
-            {
-                return false;
-            }
-
             if (player.ownedProjectileCounts[ModContent.ProjectileType<GiantIbanRobotOfDoom>()] > 0)
             {
 				if (item.type == ItemID.WireKite)
 					return false;
-                if (item.pick > 0 && item.axe > 0 && item.hammer > 0)
+                if (item.pick > 0 || item.axe > 0 || item.hammer > 0 || item.fishingPole > 0)
                     return false;
                 if (item.Calamity().rogue || item.magic || item.ranged || item.melee)
                 {
@@ -941,14 +935,7 @@ namespace CalamityMod.Items
             }
             if (item.type == ItemID.MonkStaffT1)
             {
-                for (int i = 0; i < Main.maxProjectiles; ++i)
-                {
-                    if (Main.projectile[i].active && Main.projectile[i].owner == Main.myPlayer && Main.projectile[i].type == item.shoot)
-                    {
-                        return false;
-                    }
-                }
-                return true;
+                return player.ownedProjectileCounts[item.shoot] <= 0;
             }
             if (item.type == ItemID.InvisibilityPotion && player.FindBuffIndex(ModContent.BuffType<ShadowBuff>()) > -1)
             {

@@ -22,7 +22,7 @@ namespace CalamityMod.Projectiles.Boss
             projectile.alpha = 100;
             projectile.penetrate = -1;
             projectile.tileCollide = false;
-            projectile.timeLeft = 1020;
+            projectile.timeLeft = 900;
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -48,7 +48,7 @@ namespace CalamityMod.Projectiles.Boss
 			if (projectile.timeLeft < 85)
 				projectile.damage = 0;
 
-			if (projectile.timeLeft < 930)
+			if (projectile.timeLeft < 815)
 				return;
 
 			float velocity = 0.1f;
@@ -79,7 +79,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override bool CanHitPlayer(Player target)
 		{
-            if (projectile.timeLeft > 935 || projectile.timeLeft < 85)
+            if (projectile.timeLeft > 815 || projectile.timeLeft < 85)
             {
                 return false;
             }
@@ -88,7 +88,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override Color? GetAlpha(Color lightColor)
         {
-            if (projectile.timeLeft > 935)
+            if (projectile.timeLeft > 815)
             {
                 projectile.localAI[1] += 1f;
                 byte b2 = (byte)(((int)projectile.localAI[1]) * 3);

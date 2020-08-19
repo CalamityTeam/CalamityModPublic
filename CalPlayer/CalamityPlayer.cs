@@ -276,10 +276,7 @@ namespace CalamityMod.CalPlayer
         public float throwingDamage = 1f;
         public float throwingVelocity = 1f;
         public int throwingCrit = 0;
-        public bool throwingAmmoCost75 = false;
-        public bool throwingAmmoCost66 = false;
-        public bool throwingAmmoCost55 = false;
-        public bool throwingAmmoCost50 = false;
+		public float throwingAmmoCost = 1f;
         #endregion
 
         #region Mount
@@ -992,6 +989,10 @@ namespace CalamityMod.CalPlayer
         public bool meldTransformation;
         public bool meldTransformationForce;
         public bool meldTransformationPower;
+        public bool omegaBlueTransformationPrevious;
+        public bool omegaBlueTransformation;
+        public bool omegaBlueTransformationForce;
+        public bool omegaBlueTransformationPower;
 		#endregion
 
 		#region SavingAndLoading
@@ -1360,10 +1361,7 @@ namespace CalamityMod.CalPlayer
             throwingDamage = 1f;
             throwingVelocity = 1f;
             throwingCrit = 0;
-            throwingAmmoCost75 = false;
-            throwingAmmoCost66 = false;
-            throwingAmmoCost55 = false;
-            throwingAmmoCost50 = false;
+			throwingAmmoCost = 1f;
 			accStealthGenBoost = 0f;
 
 			trueMeleeDamage = 0D;
@@ -1982,6 +1980,9 @@ namespace CalamityMod.CalPlayer
             meldTransformationPrevious = meldTransformation;
             meldTransformation = meldTransformationForce = meldTransformationPower = false;
 
+            omegaBlueTransformationPrevious = omegaBlueTransformation;
+            omegaBlueTransformation = omegaBlueTransformationForce = omegaBlueTransformationPower = false;
+
             rageModeActive = false;
             adrenalineModeActive = false;
 
@@ -2127,10 +2128,7 @@ namespace CalamityMod.CalPlayer
             throwingDamage = 1f;
             throwingVelocity = 1f;
             throwingCrit = 0;
-            throwingAmmoCost75 = false;
-            throwingAmmoCost66 = false;
-            throwingAmmoCost55 = false;
-            throwingAmmoCost50 = false;
+			throwingAmmoCost = 1f;
             #endregion
 
             #region UI
@@ -3113,13 +3111,17 @@ namespace CalamityMod.CalPlayer
                 }
             }
 
+
+			bool mountCheck = true;
+			if (player.mount != null && player.mount.Active)
+				mountCheck = player.mount.BlockExtraJumps;
 			bool canJump = (!player.doubleJumpCloud || !player.jumpAgainCloud) &&
 			(!player.doubleJumpSandstorm || !player.jumpAgainSandstorm) &&
 			(!player.doubleJumpBlizzard || !player.jumpAgainBlizzard) &&
 			(!player.doubleJumpFart || !player.jumpAgainFart) &&
 			(!player.doubleJumpSail || !player.jumpAgainSail) &&
 			(!player.doubleJumpUnicorn || !player.jumpAgainUnicorn) &&
-			CalamityUtils.CountHookProj() <= 0 && (player.rocketTime == 0 || player.wings > 0);
+			CalamityUtils.CountHookProj() <= 0 && (player.rocketTime == 0 || player.wings > 0) && mountCheck;
 			if (PlayerInput.Triggers.JustPressed.Jump && player.position.Y != player.oldPosition.Y && canJump)
 			{
 				if (statigelJump && jumpAgainStatigel)
@@ -7412,6 +7414,10 @@ namespace CalamityMod.CalPlayer
                 player.legs = mod.GetEquipSlot("MeldTransformationLegs", EquipType.Legs);
                 player.body = mod.GetEquipSlot("MeldTransformationBody", EquipType.Body);
                 player.head = mod.GetEquipSlot("MeldTransformationHead", EquipType.Head);
+            }
+            else if ((omegaBlueTransformationPower || omegaBlueTransformationForce) && omegaBlueCooldown > 1500)
+            {
+                player.head = mod.GetEquipSlot("OmegaBlueTransformationHead", EquipType.Head);
             }
 			else
 			{

@@ -47,6 +47,8 @@ namespace CalamityMod.Items.Armor
         public override void ArmorSetShadows(Player player)
         {
             player.armorEffectDrawOutlines = true;
+			player.Calamity().omegaBlueTransformation = true;
+            player.Calamity().omegaBlueTransformationForce = true;
         }
 
         public override void UpdateArmorSet(Player player)
@@ -102,6 +104,14 @@ namespace CalamityMod.Items.Armor
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();
+        }
+    }
+
+    public class OmegaBlueTransformationHead : EquipTexture
+    {
+        public override bool DrawHead()
+        {
+            return false;
         }
     }
 }

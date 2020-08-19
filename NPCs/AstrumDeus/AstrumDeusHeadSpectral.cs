@@ -125,8 +125,9 @@ namespace CalamityMod.NPCs.AstrumDeus
 			spriteBatch.Draw(texture2D15, vector43, npc.frame, npc.GetAlpha(lightColor), npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 
 			texture2D15 = ModContent.GetTexture("CalamityMod/NPCs/AstrumDeus/AstrumDeusHeadGlow");
-			Color color37 = Color.Lerp(Color.White, Color.Cyan, 0.5f) * npc.Opacity;
-			Color color42 = Color.Lerp(Color.White, Color.Orange, 0.5f) * npc.Opacity;
+			Color phaseColor = npc.Calamity().newAI[3] >= 600f ? Color.Cyan : Color.Orange;
+			Color color37 = Color.Lerp(Color.White, npc.Calamity().newAI[0] != 0f ? phaseColor : Color.Cyan, 0.5f) * npc.Opacity;
+			Color color42 = Color.Lerp(Color.White, npc.Calamity().newAI[0] != 0f ? phaseColor : Color.Orange, 0.5f) * npc.Opacity;
 
 			if (CalamityConfig.Instance.Afterimages)
 			{
@@ -234,11 +235,15 @@ namespace CalamityMod.NPCs.AstrumDeus
                 DropHelper.DropItemSpray(npc, ItemID.FallenStar, 80, 150);
 
                 // Weapons
-                DropHelper.DropItemChance(npc, ModContent.ItemType<TheMicrowave>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<StarSputter>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Starfall>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<GodspawnHelixStaff>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<RegulusRiot>(), 4);
+                float w = DropHelper.DirectWeaponDropRateFloat;
+                DropHelper.DropEntireWeightedSet(npc,
+                    DropHelper.WeightStack<TheMicrowave>(w),
+                    DropHelper.WeightStack<StarSputter>(w),
+                    DropHelper.WeightStack<Starfall>(w),
+                    DropHelper.WeightStack<GodspawnHelixStaff>(w),
+                    DropHelper.WeightStack<RegulusRiot>(w)
+                );
+
                 DropHelper.DropItemChance(npc, ModContent.ItemType<Quasar>(), DropHelper.RareVariantDropRateInt);
 
                 // Equipment

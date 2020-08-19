@@ -6,6 +6,7 @@ using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.NPCs.Calamitas;
+using CalamityMod.NPCs.NormalNPCs;
 using CalamityMod.World;
 using Terraria;
 using Terraria.ModLoader;
@@ -48,10 +49,13 @@ namespace CalamityMod.Items.TreasureBags
             DropHelper.DropItemCondition(player, ModContent.ItemType<Bloodstone>(), CalamityWorld.downedProvidence, 35, 45);
 
             // Weapons
-            DropHelper.DropItemChance(player, ModContent.ItemType<TheEyeofCalamitas>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<Animosity>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<CalamitasInferno>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<BlightedEyeStaff>(), 3);
+            float w = DropHelper.BagWeaponDropRateFloat;
+            DropHelper.DropEntireWeightedSet(player,
+                DropHelper.WeightStack<TheEyeofCalamitas>(w),
+                DropHelper.WeightStack<Animosity>(w),
+                DropHelper.WeightStack<CalamitasInferno>(w),
+                DropHelper.WeightStack<BlightedEyeStaff>(w)
+            );
 
             // Equipment
             DropHelper.DropItem(player, ModContent.ItemType<CalamityRing>());

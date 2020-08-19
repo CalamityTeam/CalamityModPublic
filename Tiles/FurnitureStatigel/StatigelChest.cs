@@ -9,7 +9,7 @@ namespace CalamityMod.Tiles.FurnitureStatigel
     {
         public override void SetDefaults()
         {
-            this.SetUpChest();
+            this.SetUpChest(true);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Statigel Chest");
             AddMapEntry(new Color(191, 142, 111), name, MapChestName);

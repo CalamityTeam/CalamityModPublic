@@ -963,11 +963,11 @@ namespace CalamityMod.Projectiles
 								projectile.type == ProjectileType<MourningstarFlail>() || projectile.type == ProjectileID.SolarWhipSword)
 							{
 								Vector2 vector24 = Main.OffsetsPlayerOnhand[Main.player[projectile.owner].bodyFrame.Y / 56] * 2f;
-								if (Main.player[projectile.owner].direction != 1)
+								if (player.direction != 1)
 								{
 									vector24.X = player.bodyFrame.Width - vector24.X;
 								}
-								if (Main.player[projectile.owner].gravDir != 1f)
+								if (player.gravDir != 1f)
 								{
 									vector24.Y = player.bodyFrame.Height - vector24.Y;
 								}
@@ -978,57 +978,148 @@ namespace CalamityMod.Projectiles
 							}
 							else
 							{
-								Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ProjectileID.Mushroom,
+								Projectile.NewProjectile(projectile.Center, Vector2.Zero, ProjectileID.Mushroom,
 									(int)(projectile.damage * 0.25), 0f, projectile.owner, 0f, 0f);
 							}
 						}
 					}
 				}
 
-				if (modPlayer.nanotech && rogue && projectile.type != ProjectileType<MoonSigil>() && projectile.type != ProjectileType<DragonShit>())
+				if (rogue)
 				{
-					if (counter % 30 == 0)
+					if (modPlayer.nanotech && rogue && projectile.type != ProjectileType<MoonSigil>() && projectile.type != ProjectileType<DragonShit>())
 					{
-						if (projectile.owner == Main.myPlayer && Main.player[projectile.owner].ownedProjectileCounts[ProjectileType<Nanotech>()] < 25)
+						if (counter % 30 == 0)
 						{
-							Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ProjectileType<Nanotech>(),
-								(int)(projectile.damage * 0.1), 0f, projectile.owner, 0f, 0f);
-						}
-					}
-				}
-				if (modPlayer.dragonScales && rogue && projectile.type != ProjectileType<MoonSigil>() && projectile.type != ProjectileType<DragonShit>())
-				{
-					if (counter % 50 == 0)
-					{
-						if (projectile.owner == Main.myPlayer && Main.player[projectile.owner].ownedProjectileCounts[ProjectileType<DragonShit>()] < 15)
-						{
-							//spawn a dust that does 1/5th of the original damage
-							int projectileID = Projectile.NewProjectile(projectile.Center, Vector2.One.RotatedByRandom(MathHelper.TwoPi), ProjectileType<DragonShit>(),
-								(int)(projectile.damage * 0.2), 0f, projectile.owner, 0f, 0f);
-						}
-					}
-				}
-
-				if (modPlayer.daedalusSplit && rogue)
-				{
-					if (counter % 30 == 0)
-					{
-						if (projectile.owner == Main.myPlayer && Main.player[projectile.owner].ownedProjectileCounts[90] < 30)
-						{
-							for (int i = 0; i < 2; i++)
+							if (projectile.owner == Main.myPlayer && player.ownedProjectileCounts[ProjectileType<Nanotech>()] < 25)
 							{
-								Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
-								int shard = Projectile.NewProjectile(projectile.Center, velocity, ProjectileID.CrystalShard, (int)(projectile.damage * 0.25), 0f, projectile.owner, 0f, 0f);
-								Main.projectile[shard].ranged = false;
+								Projectile.NewProjectile(projectile.Center, Vector2.Zero, ProjectileType<Nanotech>(),
+									(int)(projectile.damage * 0.1), 0f, projectile.owner, 0f, 0f);
 							}
 						}
 					}
-				}
-				//will always be friendly and rogue if it has this boost
-				if (modPlayer.momentumCapacitor && momentumCapacitatorBoost)
-				{
-					if (projectile.velocity.Length() < 26f)
-						projectile.velocity *= 1.05f;
+					// Moon Crown gets overridden by Nanotech
+					else if (modPlayer.moonCrown)
+					{
+						//Summon moon sigils infrequently
+						if (Main.rand.NextBool(300) && projectile.type != ProjectileType<MoonSigil>() && projectile.type != ProjectileType<DragonShit>())
+						{
+							Projectile.NewProjectile(projectile.Center, Vector2.Zero, ProjectileType<MoonSigil>(), (int)(projectile.damage * 0.2), 0, projectile.owner);
+						}
+					}
+					if (modPlayer.dragonScales && projectile.type != ProjectileType<MoonSigil>() && projectile.type != ProjectileType<DragonShit>())
+					{
+						if (counter % 50 == 0)
+						{
+							if (projectile.owner == Main.myPlayer && player.ownedProjectileCounts[ProjectileType<DragonShit>()] < 15)
+							{
+								//spawn a dust that does 1/5th of the original damage
+								int projectileID = Projectile.NewProjectile(projectile.Center, Vector2.One.RotatedByRandom(MathHelper.TwoPi), ProjectileType<DragonShit>(),
+									(int)(projectile.damage * 0.2), 0f, projectile.owner, 0f, 0f);
+							}
+						}
+					}
+
+					if (modPlayer.daedalusSplit)
+					{
+						if (counter % 30 == 0)
+						{
+							if (projectile.owner == Main.myPlayer && player.ownedProjectileCounts[ProjectileID.CrystalShard] < 30)
+							{
+								for (int i = 0; i < 2; i++)
+								{
+									Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
+									int shard = Projectile.NewProjectile(projectile.Center, velocity, ProjectileID.CrystalShard, (int)(projectile.damage * 0.25), 0f, projectile.owner, 0f, 0f);
+									Main.projectile[shard].Calamity().forceTypeless = true;
+								}
+							}
+						}
+					}
+					//will always be friendly and rogue if it has this boost
+					if (modPlayer.momentumCapacitor && momentumCapacitatorBoost)
+					{
+						if (projectile.velocity.Length() < 26f)
+							projectile.velocity *= 1.05f;
+					}
+
+					if (player.meleeEnchant > 0 && !projectile.noEnchantments)
+					{
+						switch (player.meleeEnchant)
+						{
+							case 1:
+								if (Main.rand.NextBool(3))
+								{
+									int index = Dust.NewDust(projectile.position, projectile.width, projectile.height, 171, 0.0f, 0.0f, 100, new Color(), 1f);
+									Main.dust[index].noGravity = true;
+									Main.dust[index].fadeIn = 1.5f;
+									Main.dust[index].velocity *= 0.25f;
+								}
+								if (Main.rand.NextBool(3))
+								{
+									int index = Dust.NewDust(projectile.position, projectile.width, projectile.height, 171, 0.0f, 0.0f, 100, new Color(), 1f);
+									Main.dust[index].noGravity = true;
+									Main.dust[index].fadeIn = 1.5f;
+									Main.dust[index].velocity *= 0.25f;
+								}
+								break;
+							case 2:
+								if (Main.rand.NextBool(2))
+								{
+									int index = Dust.NewDust(projectile.position, projectile.width, projectile.height, 75, projectile.velocity.X * 0.2f + (projectile.direction * 3), projectile.velocity.Y * 0.2f, 100, new Color(), 2.5f);
+									Main.dust[index].noGravity = true;
+									Main.dust[index].velocity *= 0.7f;
+									Main.dust[index].velocity.Y -= 0.5f;
+								}
+								break;
+							case 3:
+								if (Main.rand.NextBool(2))
+								{
+									int index = Dust.NewDust(projectile.position, projectile.width, projectile.height, 6, projectile.velocity.X * 0.2f + (projectile.direction * 3), projectile.velocity.Y * 0.2f, 100, new Color(), 2.5f);
+									Main.dust[index].noGravity = true;
+									Main.dust[index].velocity *= 0.7f;
+									Main.dust[index].velocity.Y -= 0.5f;
+								}
+								break;
+							case 4:
+								if (Main.rand.NextBool(2))
+								{
+									int index = Dust.NewDust(projectile.position, projectile.width, projectile.height, 57, projectile.velocity.X * 0.2f + (projectile.direction * 3), projectile.velocity.Y * 0.2f, 100, new Color(), 1.1f);
+									Main.dust[index].noGravity = true;
+									Main.dust[index].velocity.X /= 2f;
+									Main.dust[index].velocity.Y /= 2f;
+								}
+								break;
+							case 5:
+								if (Main.rand.NextBool(2))
+								{
+									int index = Dust.NewDust(projectile.position, projectile.width, projectile.height, 169, 0.0f, 0.0f, 100, new Color(), 1f);
+									Main.dust[index].velocity.X += projectile.direction;
+									Main.dust[index].velocity.Y += 0.2f;
+									Main.dust[index].noGravity = true;
+								}
+								break;
+							case 6:
+								if (Main.rand.NextBool(2))
+								{
+									int index = Dust.NewDust(projectile.position, projectile.width, projectile.height, 135, 0.0f, 0.0f, 100, new Color(), 1f);
+									Main.dust[index].velocity.X += projectile.direction;
+									Main.dust[index].velocity.Y += 0.2f;
+									Main.dust[index].noGravity = true;
+								}
+								break;
+							case 8:
+								if (Main.rand.NextBool(4))
+								{
+									int index = Dust.NewDust(projectile.position, projectile.width, projectile.height, 46, 0.0f, 0.0f, 100, new Color(), 1f);
+									Main.dust[index].noGravity = true;
+									Main.dust[index].fadeIn = 1.5f;
+									Main.dust[index].velocity *= 0.25f;
+								}
+								break;
+							default:
+								break;
+						}
+					}
 				}
 
 				if (modPlayer.theBee && projectile.owner == Main.myPlayer && projectile.damage > 0 && player.statLife >= player.statLifeMax2)
@@ -1079,97 +1170,6 @@ namespace CalamityMod.Projectiles
 						}
 					}
 				}
-
-				if (rogue && player.meleeEnchant > 0 && !projectile.noEnchantments)
-				{
-					if (player.meleeEnchant == 1 && Main.rand.NextBool(3))
-					{
-						int index = Dust.NewDust(projectile.position, projectile.width, projectile.height, 171, 0.0f, 0.0f, 100, new Color(), 1f);
-						Main.dust[index].noGravity = true;
-						Main.dust[index].fadeIn = 1.5f;
-						Main.dust[index].velocity *= 0.25f;
-					}
-					if (player.meleeEnchant == 1)
-					{
-						if (Main.rand.NextBool(3))
-						{
-							int index = Dust.NewDust(projectile.position, projectile.width, projectile.height, 171, 0.0f, 0.0f, 100, new Color(), 1f);
-							Main.dust[index].noGravity = true;
-							Main.dust[index].fadeIn = 1.5f;
-							Main.dust[index].velocity *= 0.25f;
-						}
-					}
-					else if (player.meleeEnchant == 2)
-					{
-						if (Main.rand.NextBool(2))
-						{
-							int index = Dust.NewDust(projectile.position, projectile.width, projectile.height, 75, projectile.velocity.X * 0.2f + (projectile.direction * 3), projectile.velocity.Y * 0.2f, 100, new Color(), 2.5f);
-							Main.dust[index].noGravity = true;
-							Main.dust[index].velocity *= 0.7f;
-							Main.dust[index].velocity.Y -= 0.5f;
-						}
-					}
-					else if (player.meleeEnchant == 3)
-					{
-						if (Main.rand.NextBool(2))
-						{
-							int index = Dust.NewDust(projectile.position, projectile.width, projectile.height, 6, projectile.velocity.X * 0.2f + (projectile.direction * 3), projectile.velocity.Y * 0.2f, 100, new Color(), 2.5f);
-							Main.dust[index].noGravity = true;
-							Main.dust[index].velocity *= 0.7f;
-							Main.dust[index].velocity.Y -= 0.5f;
-						}
-					}
-					else if (player.meleeEnchant == 4)
-					{
-						if (Main.rand.NextBool(2))
-						{
-							int index = Dust.NewDust(projectile.position, projectile.width, projectile.height, 57, projectile.velocity.X * 0.2f + (projectile.direction * 3), projectile.velocity.Y * 0.2f, 100, new Color(), 1.1f);
-							Main.dust[index].noGravity = true;
-							Main.dust[index].velocity.X /= 2f;
-							Main.dust[index].velocity.Y /= 2f;
-						}
-					}
-					else if (player.meleeEnchant == 5)
-					{
-						if (Main.rand.NextBool(2))
-						{
-							int index = Dust.NewDust(projectile.position, projectile.width, projectile.height, 169, 0.0f, 0.0f, 100, new Color(), 1f);
-							Main.dust[index].velocity.X += projectile.direction;
-							Main.dust[index].velocity.Y += 0.2f;
-							Main.dust[index].noGravity = true;
-						}
-					}
-					else if (player.meleeEnchant == 6)
-					{
-						if (Main.rand.NextBool(2))
-						{
-							int index = Dust.NewDust(projectile.position, projectile.width, projectile.height, 135, 0.0f, 0.0f, 100, new Color(), 1f);
-							Main.dust[index].velocity.X += projectile.direction;
-							Main.dust[index].velocity.Y += 0.2f;
-							Main.dust[index].noGravity = true;
-						}
-					}
-					else if (player.meleeEnchant == 8 && Main.rand.NextBool(4))
-					{
-						int index = Dust.NewDust(projectile.position, projectile.width, projectile.height, 46, 0.0f, 0.0f, 100, new Color(), 1f);
-						Main.dust[index].noGravity = true;
-						Main.dust[index].fadeIn = 1.5f;
-						Main.dust[index].velocity *= 0.25f;
-					}
-				}
-
-				if (rogue)
-				{
-					// Moon Crown gets overridden by Nanotech
-					if (modPlayer.moonCrown && !modPlayer.nanotech)
-					{
-						//Summon moon sigils infrequently
-						if (Main.rand.NextBool(300) && projectile.type != ProjectileType<MoonSigil>() && projectile.type != ProjectileType<DragonShit>())
-						{
-							Projectile.NewProjectile(projectile.position, Vector2.Zero, ProjectileType<MoonSigil>(), (int)(projectile.damage * 0.2), 0, projectile.owner);
-						}
-					}
-				}
 			}
 		}
         #endregion
@@ -1181,7 +1181,7 @@ namespace CalamityMod.Projectiles
 			CalamityPlayer modPlayer = player.Calamity();
 
 			// Set crit here to avoid issues with projectiles that change class types in PreAI and AI
-			if (defCrit == 0 && !projectile.npcProj && !projectile.trap)
+			if (defCrit == 0 && !projectile.npcProj && !projectile.trap && Main.myPlayer == projectile.owner)
 			{
 				if (projectile.melee)
 					defCrit = modPlayer.critStats[0];
@@ -1890,7 +1890,7 @@ namespace CalamityMod.Projectiles
 
 					//Priorities: Nucleogenesis => Starbuster Core => Nuclear Rod => Jelly-Charged Battery
 					List<int> summonExceptionList = new List<int>()
-					{ 
+					{
 						ProjectileType<EnergyOrb>(),
 						ProjectileType<IrradiatedAura>(),
 						ProjectileType<SummonAstralExplosion>(),

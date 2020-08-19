@@ -74,7 +74,7 @@ namespace CalamityMod.NPCs
 			bool doSpiral = false;
 			if (head && calamityGlobalNPC.newAI[0] == 1f && calamityGlobalNPC.newAI[2] == 1f && revenge)
 			{
-				float ai3 = 600f;
+				float ai3 = 690f;
 				calamityGlobalNPC.newAI[3] += 1f;
 				doSpiral = calamityGlobalNPC.newAI[1] == 0f && calamityGlobalNPC.newAI[3] >= ai3;
 				if (doSpiral)
@@ -84,7 +84,7 @@ namespace CalamityMod.NPCs
 
 					// Barf out enemies
 					int variable = 10;
-					if (calamityGlobalNPC.newAI[3] % 60f == 0f && npcPosX > variable && npcPosY > variable && npcPosX < Main.maxTilesX - variable && npcPosY < Main.maxTilesY - variable)
+					if (calamityGlobalNPC.newAI[3] % 30f == 0f && npcPosX > variable && npcPosY > variable && npcPosX < Main.maxTilesX - variable && npcPosY < Main.maxTilesY - variable)
 					{
 						Main.PlaySound(4, (int)npc.position.X, (int)npc.position.Y, 13);
 
@@ -117,7 +117,7 @@ namespace CalamityMod.NPCs
 					npc.rotation = (float)Math.Atan2(npc.velocity.Y, npc.velocity.X) + MathHelper.PiOver2;
 
 					// Reset and charge at target
-					if (calamityGlobalNPC.newAI[3] >= ai3 + 180f)
+					if (calamityGlobalNPC.newAI[3] >= ai3 + 90f)
 					{
 						npc.TargetClosest(true);
 						calamityGlobalNPC.newAI[3] = 0f;
@@ -317,11 +317,8 @@ namespace CalamityMod.NPCs
 			}
 
 			// Despawn
-			bool notOcean = player.position.Y < 400f ||
-				player.position.Y > Main.worldSurface * 16.0 ||
-				(player.position.X > 7680f && player.position.X < (Main.maxTilesX * 16 - 7680));
-
-			if (player.dead || (notOcean && !BossRushEvent.BossRushActive && !player.Calamity().ZoneSulphur))
+			bool notOcean = player.position.X > 7680f && player.position.X < (Main.maxTilesX * 16 - 7680);
+			if (player.dead || player.Calamity().ZoneAbyss || (notOcean && !BossRushEvent.BossRushActive && !player.Calamity().ZoneSulphur))\
 			{
 				calamityGlobalNPC.newAI[1] = 1f;
 				npc.TargetClosest(false);
@@ -3391,7 +3388,7 @@ namespace CalamityMod.NPCs
 						{
 							int num945 = expertMode ? CalamityUtils.GetMasterModeProjectileDamage(45, 1.5) : 60;
 							int num946 = ModContent.ProjectileType<DeusMine>();
-							Projectile.NewProjectile(npc.Center, Vector2.Zero, num946, num945, 0f, Main.myPlayer, 0f, 0f);
+							int proj = Projectile.NewProjectile(npc.Center, Vector2.Zero, num946, num945, 0f, Main.myPlayer, 0f, 0f);
 						}
 					}
 				}

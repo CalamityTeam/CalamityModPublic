@@ -31,6 +31,7 @@ using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.GameContent.Events;
 using Terraria.GameInput;
@@ -2817,7 +2818,7 @@ namespace CalamityMod.CalPlayer
 					player.maxMinions += 1;
 					player.manaCost *= 0.9f;
 					player.ammoCost75 = true; // 25% chance to not use ranged ammo
-					modPlayer.throwingAmmoCost75 = true; // 25% chance to not consume rogue consumables
+					modPlayer.throwingAmmoCost *= 0.75f; // 25% chance to not consume rogue consumables
 				}
 
 				if (player.ZoneBeach)
@@ -3181,13 +3182,12 @@ namespace CalamityMod.CalPlayer
 					player.hasPaladinShield = true;
 					if (player.whoAmI != Main.myPlayer && player.miscCounter % 10 == 0)
 					{
-						int myPlayer = Main.myPlayer;
-						if (Main.player[myPlayer].team == player.team && player.team != 0)
+						if (Main.LocalPlayer.team == player.team && player.team != 0)
 						{
-							Vector2 otherPlayerPos = player.position - Main.player[myPlayer].position;
+							Vector2 otherPlayerPos = player.position - Main.LocalPlayer.position;
 
 							if (otherPlayerPos.Length() < 800f)
-								Main.player[myPlayer].AddBuff(BuffID.PaladinsShield, 20, true);
+								Main.LocalPlayer.AddBuff(BuffID.PaladinsShield, 20, true);
 						}
 					}
 				}
@@ -3251,7 +3251,7 @@ namespace CalamityMod.CalPlayer
 					{
 						float ai1 = I * 120;
 						Projectile.NewProjectile(player.Center.X + (float)(Math.Sin(I * 120) * 550), player.Center.Y + (float)(Math.Cos(I * 120) * 550), 0f, 0f,
-							ModContent.ProjectileType<GhostlyMine>(), (int)((modPlayer.auricSet ? 15000f : 5000f) * player.MinionDamage()), 1f, player.whoAmI, ai1, 0f);
+							ModContent.ProjectileType<GhostlyMine>(), (int)((modPlayer.auricSet ? 15000 : 5000) * player.MinionDamage()), 1f, player.whoAmI, ai1, 0f);
 					}
 				}
 			}
@@ -3424,7 +3424,7 @@ namespace CalamityMod.CalPlayer
 				player.npcTypeNoAggro[ModContent.NPCType<PlaguedJungleSlime>()] = true;
 				player.npcTypeNoAggro[ModContent.NPCType<AstralSlime>()] = true;
 				player.npcTypeNoAggro[ModContent.NPCType<GammaSlime>()] = true;
-				// LATER -- When Wulfrum Slimes start being definitely robots, remove this immunity.
+				// NOTE: These don't even spawn anymore.
 				player.npcTypeNoAggro[ModContent.NPCType<WulfrumSlime>()] = true;
 			}
 
@@ -3595,32 +3595,31 @@ namespace CalamityMod.CalPlayer
 				}
 			}
 
-			int brimmy = ModContent.ProjectileType<BrimstoneElementalMinion>();
-			int siren = ModContent.ProjectileType<WaterElementalMinion>();
-			int healer = ModContent.ProjectileType<SandElementalHealer>();
-			int sandy = ModContent.ProjectileType<SandElementalMinion>();
-			int cloudy = ModContent.ProjectileType<CloudElementalMinion>();
-			int fungal = ModContent.ProjectileType<FungalClumpMinion>();
-			int howl = ModContent.ProjectileType<HowlsHeartHowl>();
-			int calcifer = ModContent.ProjectileType<HowlsHeartCalcifer>();
-			int turnip = ModContent.ProjectileType<HowlsHeartTurnipHead>();
-			if (player.ownedProjectileCounts[brimmy] > 1 || player.ownedProjectileCounts[siren] > 1 ||
-				player.ownedProjectileCounts[healer] > 1 || player.ownedProjectileCounts[sandy] > 1 ||
-				player.ownedProjectileCounts[cloudy] > 1 || player.ownedProjectileCounts[fungal] > 1 ||
-				player.ownedProjectileCounts[howl] > 1 || player.ownedProjectileCounts[calcifer] > 1 ||
-				player.ownedProjectileCounts[turnip] > 1)
+			List<int> summonDeleteList = new List<int>()
 			{
-				for (int projIndex = 0; projIndex < Main.maxProjectiles; projIndex++)
+				ModContent.ProjectileType<BrimstoneElementalMinion>(),
+				ModContent.ProjectileType<WaterElementalMinion>(),
+				ModContent.ProjectileType<SandElementalHealer>(),
+				ModContent.ProjectileType<SandElementalMinion>(),
+				ModContent.ProjectileType<CloudElementalMinion>(),
+				ModContent.ProjectileType<FungalClumpMinion>(),
+				ModContent.ProjectileType<HowlsHeartHowl>(),
+				ModContent.ProjectileType<HowlsHeartCalcifer>(),
+				ModContent.ProjectileType<HowlsHeartTurnipHead>()
+			};
+			for (int i = 0; i < summonDeleteList.Count; i++)
+			{
+				if (player.ownedProjectileCounts[summonDeleteList[i]] > 1)
 				{
-					if (Main.projectile[projIndex].active && Main.projectile[projIndex].owner == player.whoAmI)
+					for (int projIndex = 0; projIndex < Main.maxProjectiles; projIndex++)
 					{
-						if (Main.projectile[projIndex].type == brimmy || Main.projectile[projIndex].type == siren ||
-							Main.projectile[projIndex].type == healer || Main.projectile[projIndex].type == sandy ||
-							Main.projectile[projIndex].type == cloudy || Main.projectile[projIndex].type == fungal ||
-							Main.projectile[projIndex].type == howl || Main.projectile[projIndex].type == calcifer ||
-							Main.projectile[projIndex].type == turnip)
+						Projectile proj = Main.projectile[projIndex];
+						if (proj.active && proj.owner == player.whoAmI)
 						{
-							Main.projectile[projIndex].Kill();
+							if (summonDeleteList.Contains(proj.type))
+							{
+								proj.Kill();
+							}
 						}
 					}
 				}
@@ -3893,10 +3892,7 @@ namespace CalamityMod.CalPlayer
 				(player.ammoPotion ? 0.8f : 1f) *
 				(player.ammoCost80 ? 0.8f : 1f) *
 				(player.ammoCost75 ? 0.75f : 1f));
-			modPlayer.ammoReductionRogue = (int)(100f *
-				(modPlayer.throwingAmmoCost75 ? 0.75f : 1f) *
-				(modPlayer.throwingAmmoCost66 ? 0.66f : 1f) *
-				(modPlayer.throwingAmmoCost50 ? 0.5f : 1f));
+			modPlayer.ammoReductionRogue = (int)(modPlayer.throwingAmmoCost * 100);
 			modPlayer.defenseStat = player.statDefense;
 			modPlayer.DRStat = (int)(player.endurance * 100f);
 			modPlayer.meleeSpeedStat = (int)((1f - player.meleeSpeed) * (100f / player.meleeSpeed));
@@ -3982,13 +3978,17 @@ namespace CalamityMod.CalPlayer
 			{
 				modPlayer.jumpAgainSulfur = true;
 				modPlayer.jumpAgainStatigel = true;
+				return;
 			}
 
 			bool mountCheck = true;
 			if (player.mount != null && player.mount.Active)
 				mountCheck = player.mount.BlockExtraJumps;
+			bool carpetCheck = true;
+			if (player.carpet)
+				carpetCheck = player.carpetTime <= 0 && player.canCarpet;
 
-			if (player.position.Y == player.oldPosition.Y && player.wingTime == player.wingTimeMax && mountCheck)
+			if (player.position.Y == player.oldPosition.Y && player.wingTime == player.wingTimeMax && mountCheck && carpetCheck)
 			{
 				modPlayer.jumpAgainSulfur = true;
 				modPlayer.jumpAgainStatigel = true;
@@ -4012,9 +4012,6 @@ namespace CalamityMod.CalPlayer
 				player.ClearBuff(BuffID.PotionSickness);
 				player.AddBuff(BuffID.PotionSickness, duration);
 			}
-			//To speed up testing, but shouldn't affect public anyways
-			if (player.buffTime[BuffID.PotionSickness] == 0)
-				player.potionDelay = 0;
 
 			if (PlayerInput.Triggers.JustPressed.QuickBuff)
 			{
