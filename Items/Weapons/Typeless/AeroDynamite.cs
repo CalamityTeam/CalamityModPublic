@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Weapons.Typeless
             item.noMelee = true;
 			item.noUseGraphic = true;
             item.UseSound = SoundID.Item1;
-            item.value = Item.buyPrice(0, 0, 50, 0); // Crafted 10 at a time
+            item.value = Item.buyPrice(0, 0, 40, 0); // Crafted 10 at a time
             item.rare = 3;
         }
 

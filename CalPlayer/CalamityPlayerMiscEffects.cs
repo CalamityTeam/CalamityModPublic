@@ -3977,13 +3977,17 @@ namespace CalamityMod.CalPlayer
 			{
 				modPlayer.jumpAgainSulfur = true;
 				modPlayer.jumpAgainStatigel = true;
+				return;
 			}
 
 			bool mountCheck = true;
 			if (player.mount != null && player.mount.Active)
 				mountCheck = player.mount.BlockExtraJumps;
+			bool carpetCheck = true;
+			if (player.carpet)
+				carpetCheck = player.carpetTime <= 0 && player.canCarpet;
 
-			if (player.position.Y == player.oldPosition.Y && player.wingTime == player.wingTimeMax && mountCheck)
+			if (player.position.Y == player.oldPosition.Y && player.wingTime == player.wingTimeMax && mountCheck && carpetCheck)
 			{
 				modPlayer.jumpAgainSulfur = true;
 				modPlayer.jumpAgainStatigel = true;

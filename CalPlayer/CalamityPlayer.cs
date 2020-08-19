@@ -3110,13 +3110,17 @@ namespace CalamityMod.CalPlayer
                 }
             }
 
+
+			bool mountCheck = true;
+			if (player.mount != null && player.mount.Active)
+				mountCheck = player.mount.BlockExtraJumps;
 			bool canJump = (!player.doubleJumpCloud || !player.jumpAgainCloud) &&
 			(!player.doubleJumpSandstorm || !player.jumpAgainSandstorm) &&
 			(!player.doubleJumpBlizzard || !player.jumpAgainBlizzard) &&
 			(!player.doubleJumpFart || !player.jumpAgainFart) &&
 			(!player.doubleJumpSail || !player.jumpAgainSail) &&
 			(!player.doubleJumpUnicorn || !player.jumpAgainUnicorn) &&
-			CalamityUtils.CountHookProj() <= 0 && (player.rocketTime == 0 || player.wings > 0);
+			CalamityUtils.CountHookProj() <= 0 && (player.rocketTime == 0 || player.wings > 0) && mountCheck;
 			if (PlayerInput.Triggers.JustPressed.Jump && player.position.Y != player.oldPosition.Y && canJump)
 			{
 				if (statigelJump && jumpAgainStatigel)
