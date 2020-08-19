@@ -65,7 +65,7 @@ namespace CalamityMod.NPCs
 						if (CalamityWorld.guideName)
 							break;
 						CalamityWorld.guideName = true;
-						switch (Main.rand.Next(40)) // 34 guide names
+						switch (Main.rand.Next(41)) // 34 guide names
 						{
 							case 0:
 								npc.GivenName = "Lapp";
@@ -90,6 +90,9 @@ namespace CalamityMod.NPCs
 							case 5:
 								npc.GivenName = "Woffle"; // patron name for <@!185980979427540992> (Chipbeam#2268)
 								break;
+							
+							case 6:
+								npc.GivenName = "Cameron"; // patron name for <@!340401981711712258> (CammyWammy#8634)
 
 							default:
 								break;
