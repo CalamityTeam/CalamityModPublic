@@ -7119,7 +7119,7 @@ namespace CalamityMod.NPCs
                         if (npc.localAI[2] >= 300f)
                         {
                             npc.localAI[2] = 0f;
-                            float num502 = CalamityWorld.bossRushActive ? 12f : 8f;
+                            float num502 = CalamityWorld.bossRushActive ? 10f : 6.5f;
                             int num503 = 33;
 							if (death)
 								num503 += 3;
@@ -7941,7 +7941,7 @@ namespace CalamityMod.NPCs
                     if (npc.localAI[0] >= 120f)
                     {
                         npc.localAI[0] = 0f;
-                        float num495 = CalamityWorld.bossRushActive ? 12f : 8f;
+                        float num495 = CalamityWorld.bossRushActive ? 10f : 6.5f;
                         int num496 = 33;
 						if (death)
 							num496 += 3;
@@ -8013,7 +8013,7 @@ namespace CalamityMod.NPCs
                     if (npc.localAI[0] >= 180f)
                     {
                         npc.localAI[0] = 0f;
-                        float num502 = CalamityWorld.bossRushActive ? 12f : 8f;
+                        float num502 = CalamityWorld.bossRushActive ? 10f : 6.5f;
                         int num503 = 33;
 						if (death)
 							num503 += 3;
