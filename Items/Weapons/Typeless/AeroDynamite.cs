@@ -9,7 +9,7 @@ namespace CalamityMod.Items.Weapons.Typeless
 {
     public class AeroDynamite : ModItem
     {
-        public static int Damage = 100;
+        public static int Damage = 250;
         public static float Knockback = 10f;
 
         public override void SetStaticDefaults()
@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Weapons.Typeless
             item.noMelee = true;
 			item.noUseGraphic = true;
             item.UseSound = SoundID.Item1;
-            item.value = Item.buyPrice(0, 0, 50, 0); //Craft 8 at a time
+            item.value = Item.buyPrice(0, 0, 50, 0); // Crafted 10 at a time
             item.rare = 3;
         }
 
@@ -46,11 +46,10 @@ namespace CalamityMod.Items.Weapons.Typeless
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<AerialiteBar>(), 4);
-            recipe.AddIngredient(ItemID.Cloud, 20);
-            recipe.AddIngredient(ItemID.Dynamite, 8);
+            recipe.AddIngredient(ModContent.ItemType<AerialiteBar>(), 1);
+            recipe.AddIngredient(ItemID.Dynamite, 10);
             recipe.AddTile(TileID.SkyMill);
-            recipe.SetResult(this, 8);
+            recipe.SetResult(this, 10);
             recipe.AddRecipe();
         }
     }
