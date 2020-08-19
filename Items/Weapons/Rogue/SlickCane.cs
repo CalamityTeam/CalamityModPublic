@@ -35,6 +35,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.rare = 4;
             item.shoot = ModContent.ProjectileType<SlickCaneProjectile>();
             item.shootSpeed = 22f;
+			item.Calamity().rogue = true;
         }
 
         public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;

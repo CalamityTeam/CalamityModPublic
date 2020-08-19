@@ -139,29 +139,6 @@ namespace CalamityMod.Items.Weapons.Rogue
 			}
 		}
 
-		public override bool ConsumeItem(Player player)
-		{
-			if (player.Calamity().throwingAmmoCost50)
-			{
-				if (Main.rand.Next(1, 101) > 50)
-					return false;
-			}
-			if (player.Calamity().throwingAmmoCost55)
-			{
-				if (Main.rand.Next(1, 101) > 55)
-					return false;
-			}
-			if (player.Calamity().throwingAmmoCost66)
-			{
-				if (Main.rand.Next(1, 101) > 66)
-					return false;
-			}
-			if (player.Calamity().throwingAmmoCost75)
-			{
-				if (Main.rand.Next(1, 101) > 75)
-					return false;
-			}
-			return true;
-		}
+		public override bool ConsumeItem(Player player) => Main.rand.NextFloat() <= player.Calamity().throwingAmmoCost;
 	}
 }

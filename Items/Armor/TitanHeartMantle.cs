@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Armor
 		public override void UpdateEquip(Player player)
 		{
 			player.Calamity().titanHeartMantle = true;
-			player.Calamity().throwingAmmoCost55 = true;
+			player.Calamity().throwingAmmoCost *= 0.55f;
 		}
 
 		public override void AddRecipes()

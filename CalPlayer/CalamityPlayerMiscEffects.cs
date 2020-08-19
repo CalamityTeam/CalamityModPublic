@@ -2817,7 +2817,7 @@ namespace CalamityMod.CalPlayer
 					player.maxMinions += 1;
 					player.manaCost *= 0.9f;
 					player.ammoCost75 = true; // 25% chance to not use ranged ammo
-					modPlayer.throwingAmmoCost75 = true; // 25% chance to not consume rogue consumables
+					modPlayer.throwingAmmoCost *= 0.75f; // 25% chance to not consume rogue consumables
 				}
 
 				if (player.ZoneBeach)
@@ -3891,10 +3891,7 @@ namespace CalamityMod.CalPlayer
 				(player.ammoPotion ? 0.8f : 1f) *
 				(player.ammoCost80 ? 0.8f : 1f) *
 				(player.ammoCost75 ? 0.75f : 1f));
-			modPlayer.ammoReductionRogue = (int)(100f *
-				(modPlayer.throwingAmmoCost75 ? 0.75f : 1f) *
-				(modPlayer.throwingAmmoCost66 ? 0.66f : 1f) *
-				(modPlayer.throwingAmmoCost50 ? 0.5f : 1f));
+			modPlayer.ammoReductionRogue = (int)(modPlayer.throwingAmmoCost * 100);
 			modPlayer.defenseStat = player.statDefense;
 			modPlayer.DRStat = (int)(player.endurance * 100f);
 			modPlayer.meleeSpeedStat = (int)((1f - player.meleeSpeed) * (100f / player.meleeSpeed));
