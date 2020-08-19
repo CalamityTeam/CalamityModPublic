@@ -93,6 +93,7 @@ namespace CalamityMod.NPCs
 							
 							case 6:
 								npc.GivenName = "Cameron"; // patron name for <@!340401981711712258> (CammyWammy#8634)
+								break;
 
 							default:
 								break;
