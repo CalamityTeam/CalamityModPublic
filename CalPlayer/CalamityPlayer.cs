@@ -652,6 +652,7 @@ namespace CalamityMod.CalPlayer
         public bool brimflameSet = false;
         public bool brimflameFrenzy = false;
         public bool brimflameFrenzyCooldown = false;
+        public int brimflameFrenzyTimer = 0;
         public bool reaverSpore = false;
         public bool reaverDoubleTap = false;
         public bool flamethrowerBoost = false;
@@ -2280,6 +2281,7 @@ namespace CalamityMod.CalPlayer
             brimflameSet = false;
             brimflameFrenzy = false;
             brimflameFrenzyCooldown = false;
+			brimflameFrenzyTimer = 0;
             reaverSpore = false;
             reaverDoubleTap = false;
             shadeRegen = false;

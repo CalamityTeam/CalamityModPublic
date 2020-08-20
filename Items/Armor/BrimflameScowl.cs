@@ -12,6 +12,7 @@ namespace CalamityMod.Items.Armor
     public class BrimflameScowl : ModItem
     {
         private bool frenzy = false;
+        public static int CooldownLength = 1800;
 
         public override void SetStaticDefaults()
         {
@@ -43,7 +44,8 @@ namespace CalamityMod.Items.Armor
                 if (!modPlayer.brimflameFrenzy)
                 {
                     frenzy = false;
-                    player.AddBuff(ModContent.BuffType<BrimflameFrenzyCooldown>(), 30 * 60, true);
+                    player.AddBuff(ModContent.BuffType<BrimflameFrenzyCooldown>(), CooldownLength, true);
+					modPlayer.brimflameFrenzyTimer = CooldownLength;
                 }
             }
         }
