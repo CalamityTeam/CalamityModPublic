@@ -68,7 +68,7 @@ namespace CalamityMod.Projectiles.Pets
 				reelBackCooldown--;
 			if (charging > 0)
 				charging--;
-			if (reelBackCooldown <= 0 && Main.rand.NextBool(60) && playerDist < 100f && charging <= 0)
+			if (reelBackCooldown <= 0 && Main.rand.NextBool(500) && playerDist < 100f && charging <= 0)
 			{
 				if (Main.myPlayer == projectile.owner)
 				{
