@@ -126,16 +126,16 @@ namespace CalamityMod.Schematics
                             Main.tile[x + xOffset, y + yOffset].slope(tileToCopy.slope());
                             Main.tile[x + xOffset, y + yOffset].halfBrick(tileToCopy.halfBrick());
                             Main.tile[x + xOffset, y + yOffset].actuator(tileToCopy.actuator());
-                            tile.inActive(tileToCopy.inActive());
-                            tile.liquid = tileToCopy.liquid;
-                            tile.liquidType(tileToCopy.liquidType());
-                            tile.color(tileToCopy.color());
-                            tile.wallColor(tileToCopy.wallColor());
-                            tile.wire(tileToCopy.wire());
-                            tile.wire2(tileToCopy.wire());
-                            tile.wire3(tileToCopy.wire());
-                            tile.wire4(tileToCopy.wire());
-                            tile.active(tileToCopy.active());
+                            Main.tile[x + xOffset, y + yOffset].inActive(tileToCopy.inActive());
+                            Main.tile[x + xOffset, y + yOffset].liquid = tileToCopy.liquid;
+                            Main.tile[x + xOffset, y + yOffset].liquidType(tileToCopy.liquidType());
+                            Main.tile[x + xOffset, y + yOffset].color(tileToCopy.color());
+                            Main.tile[x + xOffset, y + yOffset].wallColor(tileToCopy.wallColor());
+                            Main.tile[x + xOffset, y + yOffset].wire(tileToCopy.wire());
+                            Main.tile[x + xOffset, y + yOffset].wire2(tileToCopy.wire());
+                            Main.tile[x + xOffset, y + yOffset].wire3(tileToCopy.wire());
+                            Main.tile[x + xOffset, y + yOffset].wire4(tileToCopy.wire());
+                            Main.tile[x + xOffset, y + yOffset].active(tileToCopy.active());
                         }
 
                         Rectangle placeInArea = new Rectangle(x, y, schematic.GetLength(0), schematic.GetLength(1));
