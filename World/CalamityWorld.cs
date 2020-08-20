@@ -1945,13 +1945,13 @@ namespace CalamityMod.World
                                 bossSpawnCountdown = 3600;
                             }
 
-                        if (!NPC.downedQueenBee && bossType == 0)
-                            if (player.ZoneJungle && (player.ZoneOverworldHeight || player.ZoneSkyHeight))
+                        /*if (!NPC.downedQueenBee && bossType == 0)
+							if (player.ZoneJungle && !player.ZoneOverworldHeight && !player.ZoneSkyHeight)
                             {
                                 BossText();
                                 bossType = NPCID.QueenBee;
                                 bossSpawnCountdown = 3600;
-                            }
+                            }*/
 
                         if (!downedDesertScourge && bossType == 0)
                             if (player.ZoneDesert)
@@ -2052,13 +2052,13 @@ namespace CalamityMod.World
                                     bossSpawnCountdown = 3600;
                                 }
 
-                            if (!downedPlaguebringer && bossType == 0)
+                            /*if (!downedPlaguebringer && bossType == 0)
                                 if (player.ZoneJungle && NPC.downedGolemBoss && !player.ZoneOverworldHeight && !player.ZoneSkyHeight)
                                 {
                                     BossText();
                                     bossType = ModContent.NPCType<PlaguebringerGoliath>();
                                     bossSpawnCountdown = 3600;
-                                }
+                                }*/
 
                             if (NPC.downedMoonlord)
                             {
@@ -2124,10 +2124,10 @@ namespace CalamityMod.World
                                 if (!player.ZoneCrimson)
                                     canSpawn = false;
                                 break;
-                            case NPCID.QueenBee:
-                                if (!player.ZoneJungle || (!player.ZoneOverworldHeight && !player.ZoneSkyHeight))
+                            /*case NPCID.QueenBee:
+                                if (!player.ZoneJungle || player.ZoneOverworldHeight || player.ZoneSkyHeight)
                                     canSpawn = false;
-                                break;
+                                break;*/
                             case NPCID.TheDestroyer:
                                 if (Main.dayTime || (!player.ZoneOverworldHeight && !player.ZoneSkyHeight) || Main.time > 16200)
                                     canSpawn = false;
@@ -2186,11 +2186,11 @@ namespace CalamityMod.World
                                     Main.dayTime || !player.ZoneOverworldHeight)
                                 canSpawn = false;
                         }
-                        else if (bossType == ModContent.NPCType<PlaguebringerGoliath>())
+                        /*else if (bossType == ModContent.NPCType<PlaguebringerGoliath>())
                         {
-                            if (!player.ZoneJungle || !player.ZoneOverworldHeight)
+							if (!player.ZoneJungle || player.ZoneOverworldHeight || player.ZoneSkyHeight)
                                 canSpawn = false;
-                        }
+                        }*/
                         else if (bossType == ModContent.NPCType<ProfanedGuardianBoss>())
                         {
                             if (!Main.dayTime || (!player.ZoneUnderworldHeight &&
