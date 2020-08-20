@@ -318,7 +318,7 @@ namespace CalamityMod.NPCs
 
 			// Despawn
 			bool notOcean = player.position.X > 7680f && player.position.X < (Main.maxTilesX * 16 - 7680);
-			if (player.dead || player.Calamity().ZoneAbyss || (notOcean && !BossRushEvent.BossRushActive && !player.Calamity().ZoneSulphur))\
+			if (player.dead || player.Calamity().ZoneAbyss || (notOcean && !BossRushEvent.BossRushActive && !player.Calamity().ZoneSulphur))
 			{
 				calamityGlobalNPC.newAI[1] = 1f;
 				npc.TargetClosest(false);

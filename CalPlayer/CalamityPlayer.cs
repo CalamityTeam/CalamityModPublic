@@ -233,6 +233,10 @@ namespace CalamityMod.CalPlayer
         public int danceOfLightCharge = 0;
         public int shadowPotCooldown = 0;
         public int dogTextCooldown = 0;
+		public float auralisStealthCounter = 0f;
+		public int auralisAuroraCounter = 0;
+		public int auralisAuroraCooldown = 0;
+		public int auralisAurora = 0;
         #endregion
 
         #region Sound
@@ -2032,6 +2036,10 @@ namespace CalamityMod.CalPlayer
             soundCooldown = 0;
             shadowPotCooldown = 0;
 			dogTextCooldown = 0;
+			auralisStealthCounter = 0f;
+			auralisAuroraCounter = 0;
+			auralisAuroraCooldown = 0;
+			auralisAurora = 0;
             rage = 0;
             adrenaline = 0;
             raiderStack = 0;
@@ -6307,6 +6315,15 @@ namespace CalamityMod.CalPlayer
 					damage = 0;
 					return;
 				}
+			}
+
+			if (auralisAuroraCounter >= 300)
+			{
+				damage -= 100;
+				if (damage < 1)
+					damage = 1;
+				auralisAuroraCounter = 0;
+				auralisAuroraCooldown = CalamityUtils.SecondsToFrames(30f);
 			}
 
 			if (proj.type == ModContent.ProjectileType<BirbAura>())
