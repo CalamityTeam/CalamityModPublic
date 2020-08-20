@@ -1,5 +1,4 @@
 using CalamityMod.Buffs.StatDebuffs;
-using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.NPCs.AquaticScourge;
@@ -14,7 +13,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.SulphurousSea
 {
-    public class Mauler : ModNPC
+	public class Mauler : ModNPC
     {
         private bool hasBeenHit = false;
 
@@ -31,7 +30,7 @@ namespace CalamityMod.NPCs.SulphurousSea
             npc.width = 180;
             npc.height = 90;
             npc.defense = 50;
-            npc.Calamity().RevPlusDR(0.05f);
+			npc.DR_NERD(0.05f);
             npc.lifeMax = 165000;
             npc.aiStyle = -1;
             aiType = -1;
@@ -148,25 +147,25 @@ namespace CalamityMod.NPCs.SulphurousSea
                 }
                 else
                 {
-                    npc.velocity.X = npc.velocity.X + (float)npc.direction * 0.2f;
+                    npc.velocity.X += (float)npc.direction * 0.2f;
                     if (npc.velocity.X < -4f || npc.velocity.X > 4f)
                     {
-                        npc.velocity.X = npc.velocity.X * 0.95f;
+                        npc.velocity.X *= 0.95f;
                     }
                     if (npc.ai[0] == -1f)
                     {
-                        npc.velocity.Y = npc.velocity.Y - 0.01f;
-                        if ((double)npc.velocity.Y < -0.3)
-                        {
-                            npc.ai[0] = 1f;
-                        }
-                    }
-                    else
-                    {
-                        npc.velocity.Y = npc.velocity.Y + 0.01f;
-                        if ((double)npc.velocity.Y > 0.3)
-                        {
-                            npc.ai[0] = -1f;
+						npc.velocity.Y -= 0.01f;
+						if (npc.velocity.Y < -0.3f)
+						{
+							npc.ai[0] = 1f;
+						}
+					}
+					else
+					{
+						npc.velocity.Y += 0.01f;
+						if (npc.velocity.Y > 0.3f)
+						{
+							npc.ai[0] = -1f;
                         }
                     }
                 }
@@ -195,9 +194,9 @@ namespace CalamityMod.NPCs.SulphurousSea
                         npc.ai[0] = -1f;
                     }
                 }
-                if ((double)npc.velocity.Y > 0.4 || (double)npc.velocity.Y < -0.4)
+                if (npc.velocity.Y > 0.4f || npc.velocity.Y < -0.4f)
                 {
-                    npc.velocity.Y = npc.velocity.Y * 0.95f;
+                    npc.velocity.Y *= 0.95f;
                 }
             }
             else
@@ -262,11 +261,11 @@ namespace CalamityMod.NPCs.SulphurousSea
                 }
             }
             npc.rotation = npc.velocity.Y * (float)npc.direction * 0.1f;
-            if ((double)npc.rotation < -0.2)
+            if (npc.rotation < -0.2f)
             {
                 npc.rotation = -0.2f;
             }
-            if ((double)npc.rotation > 0.2)
+            if (npc.rotation > 0.2f)
             {
                 npc.rotation = 0.2f;
                 return;
@@ -304,7 +303,7 @@ namespace CalamityMod.NPCs.SulphurousSea
             }
             for (int num621 = 0; num621 < 25; num621++)
             {
-                int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 31, 0f, 0f, 100, default, 2f);
+                int num622 = Dust.NewDust(npc.position, npc.width, npc.height, 31, 0f, 0f, 100, default, 2f);
                 Main.dust[num622].velocity *= 3f;
                 if (Main.rand.NextBool(2))
                 {
@@ -315,10 +314,10 @@ namespace CalamityMod.NPCs.SulphurousSea
             }
             for (int num623 = 0; num623 < 50; num623++)
             {
-                int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 5, 0f, 0f, 100, default, 3f);
+                int num624 = Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, 0f, 0f, 100, default, 3f);
                 Main.dust[num624].noGravity = true;
                 Main.dust[num624].velocity *= 5f;
-                num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 5, 0f, 0f, 100, default, 2f);
+                num624 = Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, 0f, 0f, 100, default, 2f);
                 Main.dust[num624].velocity *= 2f;
                 Main.dust[num624].noGravity = true;
             }
@@ -352,9 +351,9 @@ namespace CalamityMod.NPCs.SulphurousSea
         public override void NPCLoot()
         {
             DropHelper.DropItemCondition(npc, ModContent.ItemType<SulphuricAcidCannon>(), CalamityWorld.downedPolterghast, 3, 1, 1);
-            int item = Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.SharkFin, Main.rand.Next(2, 5), false, 0, false, false);
+            int item = Item.NewItem(npc.Center, npc.Size, ItemID.SharkFin, Main.rand.Next(2, 5), false, 0, false, false);
             Main.item[item].color = new Color(151, 115, 57, 255);
-            NetMessage.SendData(88, -1, -1, null, item, 1f, 0f, 0f, 0, 0, 0);
+            NetMessage.SendData(MessageID.ItemTweaker, -1, -1, null, item, 1f, 0f, 0f, 0, 0, 0);
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
@@ -383,13 +382,13 @@ namespace CalamityMod.NPCs.SulphurousSea
         {
             for (int k = 0; k < 5; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
             }
             if (npc.life <= 0)
             {
                 for (int k = 0; k < 30; k++)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
                 }
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Mauler"), 1f);
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Mauler2"), 1f);

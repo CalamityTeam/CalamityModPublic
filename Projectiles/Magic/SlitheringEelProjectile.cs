@@ -1,7 +1,6 @@
 using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -9,7 +8,7 @@ using CalamityMod.Buffs.StatDebuffs;
 
 namespace CalamityMod.Projectiles.Magic
 {
-    public class SlitheringEelProjectile : ModProjectile
+	public class SlitheringEelProjectile : ModProjectile
     {
         public override void SetStaticDefaults()
         {

@@ -1,16 +1,18 @@
+using CalamityMod.Dusts;
+using CalamityMod.Items.Placeables.FurnitureCosmilite;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
-using CalamityMod.Items.Placeables.FurnitureCosmilite;
 
 namespace CalamityMod.Tiles.FurnitureCosmilite
 {
 	public class CosmiliteBasinTile : ModTile
 	{
+        int animationFrame = 0;
+
 		public override void SetDefaults()
 		{
 			Main.tileLighted[Type] = true;
@@ -44,6 +46,7 @@ namespace CalamityMod.Tiles.FurnitureCosmilite
             if (frameCounter >= 6)
             {
                 frame = (frame + 1) % 6;
+                animationFrame = frame;
                 frameCounter = 0;
             }
         }
@@ -68,6 +71,20 @@ namespace CalamityMod.Tiles.FurnitureCosmilite
         public override void HitWire(int i, int j)
         {
             CalamityUtils.LightHitWire(Type, i, j, 3, 3);
+        }
+
+        public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
+        {
+            CalamityUtils.DrawStaticFlameEffect(ModContent.GetTexture("CalamityMod/Tiles/FurnitureCosmilite/CosmiliteBasinFlame"), i, j, offsetY: animationFrame * animationFrameHeight);
+        }
+
+        public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
+        {
+            Tile tile = Main.tile[i, j];
+            if (tile.frameY == 18)
+            {
+                CalamityUtils.DrawFlameSparks((int)CalamityDusts.PurpleCosmolite, 5, i, j);
+            }
         }
     }
 }

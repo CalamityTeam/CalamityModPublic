@@ -31,24 +31,25 @@ namespace CalamityMod.NPCs.AcidRain
             npc.aiStyle = aiType = -1;
 
             npc.damage = 12;
-            npc.lifeMax = 150;
+            npc.lifeMax = 70;
             npc.defense = 6;
+            npc.knockBackResist = 1f;
 
             if (CalamityWorld.downedPolterghast)
             {
+				npc.knockBackResist = 0.8f;
                 npc.damage = 150;
                 npc.lifeMax = 5001;
                 npc.defense = 58;
-				npc.Calamity().RevPlusDR(0.05f);
+				npc.DR_NERD(0.05f);
             }
             else if (CalamityWorld.downedAquaticScourge)
             {
                 npc.damage = 85;
-                npc.lifeMax = 700;
-				npc.Calamity().RevPlusDR(0.05f);
+                npc.lifeMax = 400;
+				npc.DR_NERD(0.05f);
             }
 
-            npc.knockBackResist = 0f;
             npc.value = Item.buyPrice(0, 0, 3, 65);
             for (int k = 0; k < npc.buffImmune.Length; k++)
             {

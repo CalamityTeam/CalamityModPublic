@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Wulfrum Hood");
+            DisplayName.SetDefault("Wulfrum Visage");
             Tooltip.SetDefault("3% increased magic damage");
         }
 
@@ -48,6 +48,7 @@ namespace CalamityMod.Items.Armor
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<WulfrumShard>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<EnergyCore>());
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();

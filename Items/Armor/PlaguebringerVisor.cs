@@ -1,6 +1,5 @@
 using CalamityMod.Buffs.Summon;
 using CalamityMod.Projectiles.Summon;
-using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
@@ -8,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Armor
 {
-    [AutoloadEquip(EquipType.Head)]
+	[AutoloadEquip(EquipType.Head)]
     public class PlaguebringerVisor : ModItem
     {
         public override void SetStaticDefaults()

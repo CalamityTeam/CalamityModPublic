@@ -12,12 +12,12 @@ namespace CalamityMod.Items.Weapons.Magic
 {
     public class Eternity : ModItem
     {
-        public const int BaseDamage = 6969;
+        public const int BaseDamage = 4200;
         public const int ExplosionDamage = 42000;
         public const int MaxHomers = 40;
-        public const int dustID = 16;
-        public static readonly Color blueColor = new Color(34, 34, 160);
-        public static readonly Color pinkColor = new Color(169, 30, 184);
+        public const int DustID = 16;
+        public static readonly Color BlueColor = new Color(34, 34, 160);
+        public static readonly Color PinkColor = new Color(169, 30, 184);
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Eternity");

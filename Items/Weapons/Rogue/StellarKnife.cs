@@ -47,7 +47,7 @@ namespace CalamityMod.Items.Weapons.Rogue
                 {
                     speedX *= 0.9f;
                     Vector2 perturbedspeed = new Vector2(speedX, speedY + Main.rand.Next(-3, 4)).RotatedBy(MathHelper.ToRadians(spread));
-                    Projectile.NewProjectile(position, perturbedspeed, type, damage, knockBack, player.whoAmI, 1f, i %5 == 0 ? 1f : 0f);
+                    Projectile.NewProjectile(position, perturbedspeed, type, damage, knockBack, player.whoAmI, 1f, i % 5 == 0 ? 1f : 0f);
                     spread -= Main.rand.Next(1, 3);
                 }
                 return false;

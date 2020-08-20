@@ -2,6 +2,7 @@ using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Boss
 {
@@ -21,7 +22,7 @@ namespace CalamityMod.Projectiles.Boss
             projectile.timeLeft = 300;
             projectile.penetrate = 1;
             projectile.aiStyle = 1;
-            aiType = 1;
+            aiType = ProjectileID.WoodenArrowFriendly;
         }
 
         public override void AI()
@@ -31,7 +32,7 @@ namespace CalamityMod.Projectiles.Boss
 
             projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + 1.57f;
 
-            int num469 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 5, 0f, 0f, 100, default, 0.5f);
+            int num469 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, DustID.Blood, 0f, 0f, 100, default, 0.5f);
             Main.dust[num469].noGravity = true;
             Main.dust[num469].velocity *= 0f;
         }

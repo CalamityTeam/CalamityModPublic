@@ -8,69 +8,57 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class Celestus : RogueWeapon
-    {
-		private int counter = 0;
+	public class Celestus : RogueWeapon
+	{
+		public override void SetStaticDefaults()
+		{
+			DisplayName.SetDefault("Celestus");
+			Tooltip.SetDefault("Throws a scythe that splits into multiple scythes on enemy hits\n" +
+			"Stealth strikes reverse direction and home in on enemies after returning to the player");
+		}
 
-        public override void SetStaticDefaults()
-        {
-            DisplayName.SetDefault("Celestus");
-            Tooltip.SetDefault("Throws a scythe that splits into multiple scythes on enemy hits\n" +
-			"Stealth strikes throw a chain of three scythes");
-        }
+		public override void SafeSetDefaults()
+		{
+			item.damage = 1130;
+			item.knockBack = 6f;
+			item.useAnimation = item.useTime = 20;
+			item.Calamity().rogue = true;
+			item.autoReuse = true;
+			item.shootSpeed = 25f;
+			item.shoot = ModContent.ProjectileType<CelestusBoomerang>();
 
-        public override void SafeSetDefaults()
-        {
-            item.width = 20;
-            item.damage = 1130;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.autoReuse = true;
-            item.useAnimation = 21;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 7;
-            item.knockBack = 6f;
-            item.UseSound = SoundID.Item1;
-            item.height = 20;
-            item.value = Item.buyPrice(platinum: 2, gold: 50);
-            item.rare = 10;
-            item.shoot = ModContent.ProjectileType<CelestusBoomerang>();
-            item.shootSpeed = 25f;
-            item.Calamity().rogue = true;
-            item.Calamity().customRarity = CalamityRarity.Violet;
-        }
+			item.width = item.height = 20;
+			item.useStyle = ItemUseStyleID.SwingThrow;
+			item.UseSound = SoundID.Item1;
+			item.noMelee = true;
+			item.noUseGraphic = true;
+			item.value = Item.buyPrice(platinum: 2, gold: 50);
+			item.rare = 10;
+			item.Calamity().customRarity = CalamityRarity.Violet;
+		}
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
-        {
-			counter++;
-			if (counter >= 3)
-				counter = 0;
-
-            if (player.Calamity().StealthStrikeAvailable()) //setting the stealth strike
-            {
-                int stealth = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage / 2, knockBack, player.whoAmI, 0f, 1f);
-                Main.projectile[stealth].Calamity().stealthStrike = true;
-                return false;
-            }
-			else if (counter == 1 || counter == 2)
+		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		{
+			if (player.Calamity().StealthStrikeAvailable()) //setting the stealth strike
 			{
-				return false;
+				int stealth = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
+				Main.projectile[stealth].Calamity().stealthStrike = true;
 			}
-            return true;
-        }
+			return true;
+		}
 
-        public override void AddRecipes()
-        {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<AccretionDisk>());
-            recipe.AddIngredient(ModContent.ItemType<AlphaVirus>());
-            recipe.AddIngredient(ModContent.ItemType<MoltenAmputator>());
-            recipe.AddIngredient(ModContent.ItemType<FrostcrushValari>());
-            recipe.AddIngredient(ModContent.ItemType<EnchantedAxe>());
+		public override void AddRecipes()
+		{
+			ModRecipe recipe = new ModRecipe(mod);
+			recipe.AddIngredient(ModContent.ItemType<AccretionDisk>());
+			recipe.AddIngredient(ModContent.ItemType<AlphaVirus>());
+			recipe.AddIngredient(ModContent.ItemType<MoltenAmputator>());
+			recipe.AddIngredient(ModContent.ItemType<FrostcrushValari>());
+			recipe.AddIngredient(ModContent.ItemType<EnchantedAxe>());
 			recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 4);
 			recipe.AddTile(ModContent.TileType<DraedonsForge>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-        }
-    }
+			recipe.SetResult(this);
+			recipe.AddRecipe();
+		}
+	}
 }

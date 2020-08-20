@@ -2,13 +2,12 @@ using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.NPCs.Yharon
 {
-    public class DetonatingFlare2 : ModNPC
+	public class DetonatingFlare2 : ModNPC
     {
         float randomSpeed = 0f;
 
@@ -32,7 +31,7 @@ namespace CalamityMod.NPCs.Yharon
             npc.noGravity = true;
             npc.noTileCollide = true;
             npc.canGhostHeal = false;
-            npc.HitSound = SoundID.NPCHit52;
+			npc.HitSound = SoundID.NPCHit52;
             npc.DeathSound = SoundID.NPCDeath55;
             npc.alpha = 255;
         }
@@ -83,7 +82,7 @@ namespace CalamityMod.NPCs.Yharon
 			float amount9 = 0.5f;
 			int num153 = 10;
 
-			if (CalamityMod.CalamityConfig.Afterimages)
+			if (CalamityConfig.Instance.Afterimages)
 			{
 				for (int num155 = 1; num155 < num153; num155 += 2)
 				{

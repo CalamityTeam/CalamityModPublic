@@ -7,7 +7,7 @@ namespace CalamityMod.Buffs.StatBuffs
     {
         public override void SetDefaults()
         {
-            DisplayName.SetDefault("Xeroc Rage");
+            DisplayName.SetDefault("Empyrean Rage");
             Description.SetDefault("Rage of the cosmos");
             Main.debuff[Type] = false;
             Main.pvpBuff[Type] = true;

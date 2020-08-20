@@ -1,13 +1,12 @@
 using CalamityMod.Projectiles.Ranged;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Fishing.BrimstoneCragCatches
 {
-    public class DragoonDrizzlefish : ModItem
+	public class DragoonDrizzlefish : ModItem
     {
         public override void SetStaticDefaults()
         {

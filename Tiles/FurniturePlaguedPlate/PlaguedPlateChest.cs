@@ -9,13 +9,13 @@ namespace CalamityMod.Tiles.FurniturePlaguedPlate
     {
         public override void SetDefaults()
         {
-            this.SetUpChest();
+            this.SetUpChest(true);
             ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Plagued Plate Chest");
+            name.SetDefault("Plagued Chest");
             AddMapEntry(new Color(191, 142, 111), name, MapChestName);
             disableSmartCursor = true;
             adjTiles = new int[] { TileID.Containers };
-            chest = "Plagued Plate Chest";
+            chest = "Plagued Chest";
             chestDrop = ModContent.ItemType<Items.Placeables.FurniturePlaguedPlate.PlaguedPlateChest>();
         }
 
@@ -72,12 +72,12 @@ namespace CalamityMod.Tiles.FurniturePlaguedPlate
 
         public override void MouseOver(int i, int j)
         {
-            CalamityUtils.ChestMouseOver<Items.Placeables.FurniturePlaguedPlate.PlaguedPlateChest>("PlaguedPlate Chest", i, j);
+            CalamityUtils.ChestMouseOver<Items.Placeables.FurniturePlaguedPlate.PlaguedPlateChest>("Plagued Chest", i, j);
         }
 
         public override void MouseOverFar(int i, int j)
         {
-            CalamityUtils.ChestMouseFar<Items.Placeables.FurniturePlaguedPlate.PlaguedPlateChest>("PlaguedPlate Chest", i, j);
+            CalamityUtils.ChestMouseFar<Items.Placeables.FurniturePlaguedPlate.PlaguedPlateChest>("Plagued Chest", i, j);
         }
     }
 }

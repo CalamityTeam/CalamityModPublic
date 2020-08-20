@@ -1,3 +1,4 @@
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -23,13 +24,14 @@ namespace CalamityMod.Projectiles.Boss
             projectile.ignoreWater = true;
             projectile.penetrate = 1;
             projectile.alpha = 50;
-            projectile.timeLeft = 600;
+            projectile.timeLeft = 180;
             cooldownSlot = 1;
         }
 
         public override void AI()
         {
             bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
+
             projectile.frameCounter++;
             if (projectile.frameCounter > 4)
             {
@@ -40,10 +42,9 @@ namespace CalamityMod.Projectiles.Boss
             {
                 projectile.frame = 0;
             }
+
             Lighting.AddLight(projectile.Center, 0.5f, 0.25f, 0f);
-            float num953 = revenge ? 110f : 100f; //100
-            float scaleFactor12 = revenge ? 35f : 30f; //5
-            float num954 = 40f;
+
             if (projectile.timeLeft > 30 && projectile.alpha > 0)
             {
                 projectile.alpha -= 25;
@@ -56,17 +57,21 @@ namespace CalamityMod.Projectiles.Boss
             {
                 projectile.alpha = 0;
             }
-            projectile.frameCounter++;
-            if (projectile.frameCounter > 4)
-            {
-                projectile.frame++;
-                projectile.frameCounter = 0;
-            }
-            if (projectile.frame > 3)
-            {
-                projectile.frame = 0;
-            }
-            int num959 = (int)projectile.ai[0];
+
+			if (projectile.timeLeft > 135 && projectile.ai[1] == 1f)
+				return;
+
+			float num953 = revenge ? 110f : 100f;
+			float num954 = 40f;
+			float scaleFactor12 = revenge ? 50f : 40f;
+
+			if (projectile.ai[1] == 1f)
+			{
+				num953 *= 0.7f;
+				scaleFactor12 *= 0.7f;
+			}
+
+			int num959 = (int)projectile.ai[0];
             if (num959 >= 0 && Main.player[num959].active && !Main.player[num959].dead)
             {
                 if (projectile.Distance(Main.player[num959].Center) > num954)
@@ -88,7 +93,10 @@ namespace CalamityMod.Projectiles.Boss
                 }
             }
 
-			float num1247 = 0.1f;
+			if (projectile.timeLeft < 60 || projectile.ai[1] == 1f)
+				return;
+
+			float num1247 = 0.5f;
 			for (int num1248 = 0; num1248 < Main.maxProjectiles; num1248++)
 			{
 				if (Main.projectile[num1248].active)
@@ -134,9 +142,9 @@ namespace CalamityMod.Projectiles.Boss
             projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
             projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
             projectile.Damage();
-            for (int num621 = 0; num621 < 5; num621++)
+            for (int num621 = 0; num621 < 3; num621++)
             {
-                int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 244, 0f, 0f, 100, default, 2f);
+                int num622 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 244, 0f, 0f, 100, default, 2f);
                 Main.dust[num622].velocity *= 3f;
                 if (Main.rand.NextBool(2))
                 {
@@ -144,18 +152,23 @@ namespace CalamityMod.Projectiles.Boss
                     Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
                 }
             }
-            for (int num623 = 0; num623 < 8; num623++)
+            for (int num623 = 0; num623 < 5; num623++)
             {
-                int num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 244, 0f, 0f, 100, default, 3f);
+                int num624 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 244, 0f, 0f, 100, default, 3f);
                 Main.dust[num624].noGravity = true;
                 Main.dust[num624].velocity *= 5f;
-                num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 244, 0f, 0f, 100, default, 2f);
+                num624 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 244, 0f, 0f, 100, default, 2f);
                 Main.dust[num624].velocity *= 2f;
             }
-			CalamityUtils.ExplosionGores(projectile, 3);
+			CalamityUtils.ExplosionGores(projectile.Center, 3);
         }
 
-        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)	
+		public override void OnHitPlayer(Player target, int damage, bool crit)
+		{
+			target.AddBuff(ModContent.BuffType<LethalLavaBurn>(), 180);
+		}
+
+		public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)	
         {
 			target.Calamity().lastProjectileHit = projectile;
 		}

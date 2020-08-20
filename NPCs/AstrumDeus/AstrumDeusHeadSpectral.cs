@@ -1,9 +1,10 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Materials;
+using CalamityMod.Items.Pets;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
 using CalamityMod.Items.TreasureBags;
 using CalamityMod.Items.Weapons.Melee;
@@ -11,11 +12,6 @@ using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
-using CalamityMod.Projectiles.Magic;
-using CalamityMod.Projectiles.Melee;
-using CalamityMod.Projectiles.Ranged;
-using CalamityMod.Projectiles.Rogue;
-using CalamityMod.Projectiles.Summon;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -24,8 +20,6 @@ using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
-using Terraria.ModLoader.Config;
-using CalamityMod;
 
 namespace CalamityMod.NPCs.AstrumDeus
 {
@@ -45,9 +39,9 @@ namespace CalamityMod.NPCs.AstrumDeus
             npc.width = 56;
             npc.height = 56;
             npc.defense = 25;
-			npc.LifeMaxNERB(37500, 53800, 1300000);
-			double HPBoost = (double)CalamityMod.CalamityConfig.BossHealthPercentageBoost * 0.01;
-            npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
+			npc.LifeMaxNERB(187500, 225000, 6500000);
+			double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
+            npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.aiStyle = -1;
             aiType = -1;
             npc.knockBackResist = 0f;
@@ -80,18 +74,16 @@ namespace CalamityMod.NPCs.AstrumDeus
         public override void SendExtraAI(BinaryWriter writer)
         {
             writer.Write(npc.dontTakeDamage);
-            writer.Write(npc.chaseable);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
             npc.dontTakeDamage = reader.ReadBoolean();
-            npc.chaseable = reader.ReadBoolean();
         }
 
         public override void AI()
         {
-			CalamityAI.AstrumDeusAI(npc, mod, true, true);
+			CalamityAI.AstrumDeusAI(npc, mod, true);
 		}
 
         public override bool CheckActive()
@@ -107,50 +99,51 @@ namespace CalamityMod.NPCs.AstrumDeus
 
 			Texture2D texture2D15 = Main.npcTexture[npc.type];
 			Texture2D texture2D16 = ModContent.GetTexture("CalamityMod/NPCs/AstrumDeus/AstrumDeusHeadGlow2");
-			Vector2 vector11 = new Vector2((float)(Main.npcTexture[npc.type].Width / 2), (float)(Main.npcTexture[npc.type].Height / 2));
-			Color color36 = npc.Calamity().newAI[0] == 1f ? new Color(250, 150, Main.DiscoB, npc.alpha) : Color.White;
+			Vector2 vector11 = new Vector2(Main.npcTexture[npc.type].Width / 2, Main.npcTexture[npc.type].Height / 2);
+			Color color36 = Color.White;
 			float amount9 = 0.5f;
 			int num153 = 5;
 
-			if (CalamityMod.CalamityConfig.Afterimages)
+			if (CalamityConfig.Instance.Afterimages)
 			{
 				for (int num155 = 1; num155 < num153; num155 += 2)
 				{
 					Color color38 = lightColor;
 					color38 = Color.Lerp(color38, color36, amount9);
 					color38 = npc.GetAlpha(color38);
-					color38 *= (float)(num153 - num155) / 15f;
-					Vector2 vector41 = npc.oldPos[num155] + new Vector2((float)npc.width, (float)npc.height) / 2f - Main.screenPosition;
-					vector41 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height)) * npc.scale / 2f;
+					color38 *= (num153 - num155) / 15f;
+					Vector2 vector41 = npc.oldPos[num155] + new Vector2(npc.width, npc.height) / 2f - Main.screenPosition;
+					vector41 -= new Vector2(texture2D15.Width, texture2D15.Height) * npc.scale / 2f;
 					vector41 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
 					spriteBatch.Draw(texture2D15, vector41, npc.frame, color38, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 				}
 			}
 
 			Vector2 vector43 = npc.Center - Main.screenPosition;
-			vector43 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height)) * npc.scale / 2f;
+			vector43 -= new Vector2(texture2D15.Width, texture2D15.Height) * npc.scale / 2f;
 			vector43 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
-			spriteBatch.Draw(texture2D15, vector43, npc.frame, npc.Calamity().newAI[0] == 1f ? new Color(250, 150, Main.DiscoB, npc.alpha) : npc.GetAlpha(lightColor), npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+			spriteBatch.Draw(texture2D15, vector43, npc.frame, npc.GetAlpha(lightColor), npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 
 			texture2D15 = ModContent.GetTexture("CalamityMod/NPCs/AstrumDeus/AstrumDeusHeadGlow");
-			Color color37 = Color.Lerp(Color.White, Color.Cyan, 0.5f);
-			Color color42 = Color.Lerp(Color.White, Color.Orange, 0.5f);
+			Color phaseColor = npc.Calamity().newAI[3] >= 600f ? Color.Cyan : Color.Orange;
+			Color color37 = Color.Lerp(Color.White, npc.Calamity().newAI[0] != 0f ? phaseColor : Color.Cyan, 0.5f) * npc.Opacity;
+			Color color42 = Color.Lerp(Color.White, npc.Calamity().newAI[0] != 0f ? phaseColor : Color.Orange, 0.5f) * npc.Opacity;
 
-			if (CalamityMod.CalamityConfig.Afterimages)
+			if (CalamityConfig.Instance.Afterimages)
 			{
 				for (int num163 = 1; num163 < num153; num163++)
 				{
 					Color color41 = color37;
 					color41 = Color.Lerp(color41, color36, amount9);
-					color41 *= (float)(num153 - num163) / 15f;
-					Vector2 vector44 = npc.oldPos[num163] + new Vector2((float)npc.width, (float)npc.height) / 2f - Main.screenPosition;
-					vector44 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height)) * npc.scale / 2f;
+					color41 *= (num153 - num163) / 15f;
+					Vector2 vector44 = npc.oldPos[num163] + new Vector2(npc.width, npc.height) / 2f - Main.screenPosition;
+					vector44 -= new Vector2(texture2D15.Width, texture2D15.Height) * npc.scale / 2f;
 					vector44 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
 					spriteBatch.Draw(texture2D15, vector44, npc.frame, color41, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 
 					Color color43 = color42;
 					color43 = Color.Lerp(color43, color36, amount9);
-					color43 *= (float)(num153 - num163) / 15f;
+					color43 *= (num153 - num163) / 15f;
 					spriteBatch.Draw(texture2D16, vector44, npc.frame, color43, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 				}
 			}
@@ -162,33 +155,24 @@ namespace CalamityMod.NPCs.AstrumDeus
 			return false;
         }
 
-        public override bool CanHitPlayer(Player target, ref int cooldownSlot)
-        {
-            if (npc.Calamity().newAI[0] == 1f && Main.player[npc.target].gravDir != -1f)
-            {
-                return false;
-            }
-            return true;
-        }
-
 		public override void HitEffect(int hitDirection, double damage)
         {
             if (npc.life <= 0)
             {
-                npc.position.X = npc.position.X + (float)(npc.width / 2);
-                npc.position.Y = npc.position.Y + (float)(npc.height / 2);
+                npc.position.X = npc.position.X + (npc.width / 2);
+                npc.position.Y = npc.position.Y + (npc.height / 2);
                 npc.width = 50;
                 npc.height = 50;
-                npc.position.X = npc.position.X - (float)(npc.width / 2);
-                npc.position.Y = npc.position.Y - (float)(npc.height / 2);
+                npc.position.X = npc.position.X - (npc.width / 2);
+                npc.position.Y = npc.position.Y - (npc.height / 2);
                 for (int num621 = 0; num621 < 5; num621++)
                 {
-                    int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 173, 0f, 0f, 100, default, 2f);
+                    int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, (int)CalamityDusts.PurpleCosmolite, 0f, 0f, 100, default, 2f);
                     Main.dust[num622].velocity *= 3f;
                     if (Main.rand.NextBool(2))
                     {
                         Main.dust[num622].scale = 0.5f;
-                        Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
+                        Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
                     }
                 }
                 for (int num623 = 0; num623 < 10; num623++)
@@ -204,12 +188,18 @@ namespace CalamityMod.NPCs.AstrumDeus
 
         public override void BossLoot(ref string name, ref int potionType)
         {
+			if (npc.Calamity().newAI[0] == 0f)
+				return;
+
             potionType = ModContent.ItemType<Stardust>();
         }
 
         public override bool SpecialNPCLoot()
         {
-            int closestSegmentID = DropHelper.FindClosestWormSegment(npc,
+			if (npc.Calamity().newAI[0] == 0f)
+				return false;
+
+			int closestSegmentID = DropHelper.FindClosestWormSegment(npc,
                 ModContent.NPCType<AstrumDeusHeadSpectral>(),
                 ModContent.NPCType<AstrumDeusBodySpectral>(),
                 ModContent.NPCType<AstrumDeusTailSpectral>());
@@ -219,7 +209,10 @@ namespace CalamityMod.NPCs.AstrumDeus
 
         public override void NPCLoot()
         {
-            DropHelper.DropBags(npc);
+			if (npc.Calamity().newAI[0] == 0f)
+				return;
+
+			DropHelper.DropBags(npc);
 
             DropHelper.DropItem(npc, ItemID.GreaterHealingPotion, 8, 14);
             DropHelper.DropItemChance(npc, ModContent.ItemType<AstrumDeusTrophy>(), 10);
@@ -242,15 +235,20 @@ namespace CalamityMod.NPCs.AstrumDeus
                 DropHelper.DropItemSpray(npc, ItemID.FallenStar, 80, 150);
 
                 // Weapons
-                DropHelper.DropItemChance(npc, ModContent.ItemType<TheMicrowave>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<StarSputter>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Starfall>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<GodspawnHelixStaff>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<RegulusRiot>(), 4);
+                float w = DropHelper.DirectWeaponDropRateFloat;
+                DropHelper.DropEntireWeightedSet(npc,
+                    DropHelper.WeightStack<TheMicrowave>(w),
+                    DropHelper.WeightStack<StarSputter>(w),
+                    DropHelper.WeightStack<Starfall>(w),
+                    DropHelper.WeightStack<GodspawnHelixStaff>(w),
+                    DropHelper.WeightStack<RegulusRiot>(w)
+                );
+
                 DropHelper.DropItemChance(npc, ModContent.ItemType<Quasar>(), DropHelper.RareVariantDropRateInt);
 
                 // Equipment
                 DropHelper.DropItemChance(npc, ModContent.ItemType<HideofAstrumDeus>(), DropHelper.RareVariantDropRateInt);
+				DropHelper.DropItemChance(npc, ModContent.ItemType<ChromaticOrb>(), 5);
 
                 // Vanity
                 DropHelper.DropItemChance(npc, ModContent.ItemType<AstrumDeusMask>(), 7);

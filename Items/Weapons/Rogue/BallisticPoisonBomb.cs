@@ -2,14 +2,13 @@ using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
 using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class BallisticPoisonBomb : RogueWeapon
+	public class BallisticPoisonBomb : RogueWeapon
     {
         public override void SetStaticDefaults()
         {
@@ -21,12 +20,12 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SafeSetDefaults()
         {
             item.width = 30;
-            item.damage = 55;
+            item.damage = 50;
             item.noMelee = true;
             item.noUseGraphic = true;
-            item.useAnimation = 22;
+            item.useAnimation = 26;
             item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 22;
+            item.useTime = 26;
             item.knockBack = 6.5f;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;

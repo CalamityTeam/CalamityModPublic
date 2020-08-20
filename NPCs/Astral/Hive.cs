@@ -31,7 +31,7 @@ namespace CalamityMod.NPCs.Astral
             npc.aiStyle = -1;
             npc.damage = 55;
             npc.defense = 15;
-            npc.Calamity().RevPlusDR(0.15f);
+			npc.DR_NERD(0.15f);
             npc.lifeMax = 470;
             npc.DeathSound = mod.GetLegacySoundSlot(SoundType.NPCKilled, "Sounds/NPCKilled/AstralEnemyDeath");
             npc.knockBackResist = 0f;
@@ -121,13 +121,7 @@ namespace CalamityMod.NPCs.Astral
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            //only 1 hive possible.
-            bool anyHives = NPC.CountNPCS(npc.type) > 0;
-            if (anyHives)
-                return 0f;
-
-            Tile tile = Main.tile[spawnInfo.spawnTileX, spawnInfo.spawnTileY];
-            if (spawnInfo.player.PillarZone())
+            if (CalamityGlobalNPC.AnyEvents(spawnInfo.player) || NPC.AnyNPCs(npc.type))
             {
                 return 0f;
             }
@@ -145,15 +139,9 @@ namespace CalamityMod.NPCs.Astral
 
         public override void NPCLoot()
         {
-            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Stardust>(), Main.rand.Next(2, 4));
-            if (Main.expertMode)
-            {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Stardust>());
-            }
-            if (CalamityWorld.downedAstrageldon && Main.rand.NextBool(7))
-            {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<HivePod>());
-            }
+            DropHelper.DropItem(npc, ModContent.ItemType<Stardust>(), 2, 3);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<Stardust>(), Main.expertMode);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<HivePod>(), CalamityWorld.downedAstrageldon, 7, 1, 1);
         }
     }
 }

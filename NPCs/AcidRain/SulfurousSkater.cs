@@ -39,7 +39,7 @@ namespace CalamityMod.NPCs.AcidRain
             npc.height = 48;
 
             npc.damage = 70;
-            npc.lifeMax = 660;
+            npc.lifeMax = 520;
             npc.defense = 3;
 
             if (CalamityWorld.downedPolterghast)
@@ -47,10 +47,9 @@ namespace CalamityMod.NPCs.AcidRain
                 npc.damage = 100;
                 npc.lifeMax = 5000;
                 npc.defense = 33;
-				npc.Calamity().RevPlusDR(0.15f);
             }
 
-            npc.knockBackResist = 0f;
+            npc.knockBackResist = 0.8f;
             npc.value = Item.buyPrice(0, 0, 5, 25);
             for (int k = 0; k < npc.buffImmune.Length; k++)
             {
@@ -72,7 +71,8 @@ namespace CalamityMod.NPCs.AcidRain
             Player player = Main.player[npc.target];
             if (!Flying)
             {
-                npc.Calamity().DR = 0.35f;
+				npc.knockBackResist = 0.8f;
+                npc.DR_NERD(0.35f);
                 npc.noGravity = false;
                 float minimumDistance = float.PositiveInfinity;
                 Projectile closestBubble = null;
@@ -149,7 +149,8 @@ namespace CalamityMod.NPCs.AcidRain
             }
             else
             {
-                npc.Calamity().DR = 0f;
+				npc.knockBackResist = 0.5f;
+                npc.DR_NERD(0f);
                 float speed = CalamityWorld.downedPolterghast ? 17f : 14f;
                 float inertia = CalamityWorld.downedPolterghast ? 20f : 24.5f;
                 if (npc.Distance(player.Center) < 200f)

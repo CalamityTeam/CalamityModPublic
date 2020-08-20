@@ -1,5 +1,4 @@
 using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -8,7 +7,7 @@ using CalamityMod.Projectiles.BaseProjectiles;
 
 namespace CalamityMod.Projectiles.Melee.Spears
 {
-    public class TenebreusTidesProjectile : BaseSpearProjectile
+	public class TenebreusTidesProjectile : BaseSpearProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -28,10 +27,11 @@ namespace CalamityMod.Projectiles.Melee.Spears
             projectile.ignoreWater = true;
             projectile.penetrate = -1;
             projectile.ownerHitCheck = true;
-            projectile.Calamity().trueMelee = true;
+            //projectile.Calamity().trueMelee = true;
             projectile.usesIDStaticNPCImmunity = true;
             projectile.idStaticNPCHitCooldown = 15;
         }
+
         public override float InitialSpeed => 3f;
         public override float ReelbackSpeed => 2.4f;
         public override float ForwardSpeed => 0.95f;
@@ -48,65 +48,25 @@ namespace CalamityMod.Projectiles.Melee.Spears
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(ModContent.BuffType<CrushDepth>(), 300);
-            SwordSpam(target, damage, knockback, crit);
+            SwordSpam(target.Center);
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
             target.AddBuff(ModContent.BuffType<CrushDepth>(), 300);
-            SwordSpamPvp(target, damage, crit);
+            SwordSpam(target.Center);
 		}
 
         // Spawns a storm of water projectiles on-hit.
-        public void SwordSpam(NPC target, int damage, float knockback, bool crit)
+        public void SwordSpam(Vector2 targetPos)
         {
             int projAmt = 3;
             for (int i = 0; i < projAmt; ++i)
             {
 				int type = Main.rand.NextBool() ? ModContent.ProjectileType<TenebreusTidesWaterSword>() : ModContent.ProjectileType<TenebreusTidesWaterSpear>();
-                float startOffsetX = Main.rand.NextFloat(1000f, 1400f) * (Main.rand.NextBool() ? -1f : 1f);
-                float startOffsetY = Main.rand.NextFloat(80f, 900f) * (Main.rand.NextBool() ? -1f : 1f);
-                Vector2 startPos = new Vector2(target.Center.X + startOffsetX, target.Center.Y + startOffsetY);
-                Vector2 projVel = target.Center - startPos;
-
-                // Add some randomness / inaccuracy to the projectile target location
-                projVel.X += Main.rand.NextFloat(-5f, 5f);
-                projVel.Y += Main.rand.NextFloat(-5f, 5f);
-                float speed = Main.rand.NextFloat(25f, 35f);
-                float dist = projVel.Length();
-                dist = speed / dist;
-                projVel.X *= dist;
-                projVel.Y *= dist;
                 if (projectile.owner == Main.myPlayer)
                 {
-                    Projectile.NewProjectile(startPos, projVel, type, projectile.damage / 2, projectile.knockBack * 0.5f, projectile.owner, 0f, 0f);
-                }
-            }
-        }
-
-        // Spawns a storm of water projectiles on-hit.
-        public void SwordSpamPvp(Player target, int damage, bool crit)
-        {
-            int projAmt = 3;
-            for (int i = 0; i < projAmt; ++i)
-            {
-				int type = Main.rand.NextBool() ? ModContent.ProjectileType<TenebreusTidesWaterSword>() : ModContent.ProjectileType<TenebreusTidesWaterSpear>();
-                float startOffsetX = Main.rand.NextFloat(1000f, 1400f) * (Main.rand.NextBool() ? -1f : 1f);
-                float startOffsetY = Main.rand.NextFloat(80f, 900f) * (Main.rand.NextBool() ? -1f : 1f);
-                Vector2 startPos = new Vector2(target.Center.X + startOffsetX, target.Center.Y + startOffsetY);
-                Vector2 projVel = target.Center - startPos;
-
-                // Add some randomness / inaccuracy to the projectile target location
-                projVel.X += Main.rand.NextFloat(-5f, 5f);
-                projVel.Y += Main.rand.NextFloat(-5f, 5f);
-                float speed = Main.rand.NextFloat(25f, 35f);
-                float dist = projVel.Length();
-                dist = speed / dist;
-                projVel.X *= dist;
-                projVel.Y *= dist;
-                if (projectile.owner == Main.myPlayer)
-                {
-                    Projectile.NewProjectile(startPos, projVel, type, projectile.damage / 2, projectile.knockBack * 0.5f, projectile.owner, 0f, 0f);
+					CalamityUtils.ProjectileBarrage(projectile.Center, targetPos, Main.rand.NextBool(), 1000f, 1400f, 80f, 900f, Main.rand.NextFloat(25f, 35f), type, projectile.damage / 2, projectile.knockBack * 0.5f, projectile.owner);
                 }
             }
         }

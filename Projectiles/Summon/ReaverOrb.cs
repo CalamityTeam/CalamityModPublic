@@ -75,12 +75,12 @@ namespace CalamityMod.Projectiles.Summon
                 projectile.damage = damage2;
             }
             Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0f / 255f, (255 - projectile.alpha) * 1f / 255f, (255 - projectile.alpha) * 0f / 255f);
-            projectile.position.X = Main.player[projectile.owner].Center.X - (float)(projectile.width / 2);
-            projectile.position.Y = Main.player[projectile.owner].Center.Y - (float)(projectile.height / 2) + Main.player[projectile.owner].gfxOffY - 60f;
-            if (Main.player[projectile.owner].gravDir == -1f)
+            projectile.position.X = player.Center.X - (float)(projectile.width / 2);
+            projectile.position.Y = player.Center.Y - (float)(projectile.height / 2) + player.gfxOffY - 60f;
+            if (player.gravDir == -1f)
             {
                 projectile.position.Y = projectile.position.Y + 120f;
-                projectile.rotation = 3.14f;
+                projectile.rotation = MathHelper.Pi;
             }
             else
             {
@@ -95,35 +95,28 @@ namespace CalamityMod.Projectiles.Summon
                     projectile.ai[0] -= 1f;
                     return;
                 }
-                bool flag18 = false;
-                float num508 = 600f;
-                for (int num512 = 0; num512 < Main.maxNPCs; num512++)
+                bool foundTarget = false;
+                float maxDist = 600f;
+                for (int i = 0; i < Main.maxNPCs; i++)
                 {
-                    if (Main.npc[num512].CanBeChasedBy(projectile, false))
+					NPC npc = Main.npc[i];
+                    if (npc.CanBeChasedBy(projectile, false))
                     {
-                        float num513 = Main.npc[num512].position.X + (float)(Main.npc[num512].width / 2);
-                        float num514 = Main.npc[num512].position.Y + (float)(Main.npc[num512].height / 2);
-                        float num515 = Math.Abs(projectile.position.X + (float)(projectile.width / 2) - num513) + Math.Abs(projectile.position.Y + (float)(projectile.height / 2) - num514);
-                        if (num515 < num508 && Collision.CanHit(projectile.position, projectile.width, projectile.height, Main.npc[num512].position, Main.npc[num512].width, Main.npc[num512].height))
+                        if (Vector2.Distance(projectile.Center, npc.Center) < maxDist && Collision.CanHit(projectile.position, projectile.width, projectile.height, npc.position, npc.width, npc.height))
                         {
-                            num508 = num515;
-                            flag18 = true;
+                            foundTarget = true;
+							break;
                         }
                     }
                 }
-                if (flag18)
+                if (foundTarget)
                 {
-                    int num251 = Main.rand.Next(4, 9);
-                    for (int num252 = 0; num252 < num251; num252++)
+                    int projAmt = Main.rand.Next(4, 9);
+                    for (int u = 0; u < projAmt; u++)
                     {
-                        Vector2 value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-                        while (value15.X == 0f && value15.Y == 0f)
-                        {
-                            value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-                        }
-                        value15.Normalize();
-                        value15 *= (float)Main.rand.Next(90, 121) * 0.1f;
-                        int spore = Projectile.NewProjectile(projectile.Center.X - 4f, projectile.Center.Y, value15.X, value15.Y, ProjectileID.SporeGas + Main.rand.Next(3), projectile.damage, 1.5f, projectile.owner, 0f, 0f);
+						Vector2 source = new Vector2(projectile.Center.X - 4f, projectile.Center.Y);
+						Vector2 velocity = CalamityUtils.RandomVelocity(100f, 90f, 120f);
+                        int spore = Projectile.NewProjectile(source, velocity, ProjectileID.SporeGas + Main.rand.Next(3), projectile.damage, 1.5f, projectile.owner, 0f, 0f);
                         Main.projectile[spore].minionSlots = 0f;
 						Main.projectile[spore].Calamity().forceMinion = true;
 						Main.projectile[spore].usesLocalNPCImmunity = true;

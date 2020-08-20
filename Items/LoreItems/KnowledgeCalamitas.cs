@@ -15,7 +15,7 @@ namespace CalamityMod.Items.LoreItems
             Tooltip.SetDefault("The witch unrivaled. Perhaps the only one amongst my cohorts to have ever given me cause for doubt.\n" +
                 "Now that you have defeated her your destiny is clear.\n" +
                 "Come now, face me.\n" +
-                "Place in your inventory to die instantly from every hit.");
+                "Favorite this item to die instantly from every hit.");
         }
 
         public override void SetDefaults()
@@ -35,7 +35,8 @@ namespace CalamityMod.Items.LoreItems
         public override void UpdateInventory(Player player)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            modPlayer.SCalLore = true;
+			if (item.favorited)
+				modPlayer.SCalLore = true;
         }
 
         public override void AddRecipes()

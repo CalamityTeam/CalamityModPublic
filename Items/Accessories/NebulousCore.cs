@@ -21,10 +21,10 @@ namespace CalamityMod.Items.Accessories
         {
             item.width = 16;
             item.height = 14;
-            item.value = Item.buyPrice(0, 60, 0, 0);
+            item.value = CalamityGlobalItem.Rarity13BuyPrice;
             item.accessory = true;
             item.expert = true;
-            item.rare = 9;
+            item.rare = 10;
         }
 
         public override void Update(ref float gravity, ref float maxFallSpeed)

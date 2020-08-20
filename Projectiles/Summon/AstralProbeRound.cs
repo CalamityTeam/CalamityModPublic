@@ -35,22 +35,18 @@ namespace CalamityMod.Projectiles.Summon
         public override void AI()
         {
             Lighting.AddLight(projectile.Center, 0.3f, 0.5f, 0.1f);
-            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
+            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
             if (Main.rand.NextBool(3))
             {
-                int randomDust = Main.rand.Next(2);
-                if (randomDust == 0)
-                {
-                    randomDust = ModContent.DustType<AstralOrange>();
-                }
-                else
-                {
-                    randomDust = ModContent.DustType<AstralBlue>();
-                }
-                int num137 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), 1, 1, randomDust, 0f, 0f, 0, default, 0.5f);
-                Main.dust[num137].alpha = projectile.alpha;
-                Main.dust[num137].velocity *= 0f;
-                Main.dust[num137].noGravity = true;
+                int randomDust = Utils.SelectRandom(Main.rand, new int[]
+				{
+					ModContent.DustType<AstralOrange>(),
+					ModContent.DustType<AstralBlue>()
+                });
+                int astral = Dust.NewDust(projectile.position, 1, 1, randomDust, 0f, 0f, 0, default, 0.5f);
+                Main.dust[astral].alpha = projectile.alpha;
+                Main.dust[astral].velocity *= 0f;
+                Main.dust[astral].noGravity = true;
             }
             float num472 = projectile.Center.X;
             float num473 = projectile.Center.Y;
@@ -61,9 +57,9 @@ namespace CalamityMod.Projectiles.Summon
                 NPC npc = Main.npc[Main.player[projectile.owner].MinionAttackTargetNPC];
                 if (npc.CanBeChasedBy(projectile, false) && Collision.CanHit(projectile.Center, 1, 1, npc.Center, 1, 1))
                 {
-					float num476 = npc.position.X + (float)(npc.width / 2);
-					float num477 = npc.position.Y + (float)(npc.height / 2);
-					float num478 = Math.Abs(projectile.position.X + (float)(projectile.width / 2) - num476) + Math.Abs(projectile.position.Y + (float)(projectile.height / 2) - num477);
+					float num476 = npc.Center.X;
+					float num477 = npc.Center.Y;
+					float num478 = Math.Abs(projectile.Center.X - num476) + Math.Abs(projectile.Center.Y - num477);
 					if (num478 < num474)
 					{
 						num474 = num478;
@@ -73,7 +69,24 @@ namespace CalamityMod.Projectiles.Summon
 					}
 				}
 			}
-			else
+			else if (projectile.ai[0] != -1f && Main.npc[(int)projectile.ai[0]].active)
+			{
+				NPC npc = Main.npc[(int)projectile.ai[0]];
+                if (npc.CanBeChasedBy(projectile, false) && Collision.CanHit(projectile.Center, 1, 1, npc.Center, 1, 1))
+                {
+					float num476 = npc.Center.X;
+					float num477 = npc.Center.Y;
+					float num478 = Math.Abs(projectile.Center.X - num476) + Math.Abs(projectile.Center.Y - num477);
+					if (num478 < num474)
+					{
+						num474 = num478;
+						num472 = num476;
+						num473 = num477;
+						flag17 = true;
+					}
+				}
+			}
+			if (!flag17)
 			{
 				for (int target = 0; target < Main.npc.Length; target++)
 				{

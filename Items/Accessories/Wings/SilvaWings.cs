@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Accessories.Wings
         {
             item.width = 22;
             item.height = 20;
-            item.value = Item.buyPrice(0, 95, 0, 0);
+            item.value = CalamityGlobalItem.Rarity15BuyPrice;
             item.Calamity().postMoonLordRarity = 15;
             item.accessory = true;
         }
@@ -84,8 +84,7 @@ namespace CalamityMod.Items.Accessories.Wings
             recipe.AddIngredient(ModContent.ItemType<EffulgentFeather>(), 15);
             recipe.AddRecipeGroup("AnyGoldBar", 3);
             recipe.AddIngredient(ModContent.ItemType<Tenebris>(), 3);
-            recipe.AddIngredient(ModContent.ItemType<NightmareFuel>(), 7);
-            recipe.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 7);
+            recipe.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 2);
             recipe.AddTile(ModContent.TileType<DraedonsForge>());
             recipe.SetResult(this);
             recipe.AddRecipe();

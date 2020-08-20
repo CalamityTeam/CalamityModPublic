@@ -86,12 +86,13 @@ namespace CalamityMod.Projectiles.Summon
             {
                 projectile.frame = 0;
             }
+			bool reversedGravity = player.gravDir == -1f;
             projectile.position.X = player.Center.X - (float)(projectile.width / 2);
             projectile.position.Y = player.Center.Y - (float)(projectile.height / 2) + player.gfxOffY - 60f;
-            if (player.gravDir == -1f)
+            if (reversedGravity)
             {
-                projectile.position.Y = projectile.position.Y + 120f;
-                projectile.rotation = 3.14f;
+                projectile.position.Y += 120f;
+                projectile.rotation = MathHelper.Pi;
             }
             else
             {
@@ -99,6 +100,7 @@ namespace CalamityMod.Projectiles.Summon
             }
             projectile.position.X = (float)(int)projectile.position.X;
             projectile.position.Y = (float)(int)projectile.position.Y;
+
             if (projectile.owner == Main.myPlayer)
             {
                 if (projectile.ai[0] != 0f)
@@ -106,63 +108,80 @@ namespace CalamityMod.Projectiles.Summon
                     projectile.ai[0] -= 1f;
                     return;
                 }
-                bool flag18 = false;
-                float num506 = projectile.Center.X;
-                float num507 = projectile.Center.Y;
-                float num508 = 1000f;
-                if (player.HasMinionAttackTargetNPC)
-                {
-                    NPC npc = Main.npc[player.MinionAttackTargetNPC];
-                    if (npc.CanBeChasedBy(projectile, false))
-                    {
-                        float num539 = npc.position.X + (float)(npc.width / 2);
-                        float num540 = npc.position.Y + (float)(npc.height / 2);
-                        float num541 = Math.Abs(projectile.position.X + (float)(projectile.width / 2) - num539) + Math.Abs(projectile.position.Y + (float)(projectile.height / 2) - num540);
-                        if (num541 < num508 && Collision.CanHit(projectile.position, projectile.width, projectile.height, npc.position, npc.width, npc.height))
-                        {
-                            num506 = num539;
-                            num507 = num540;
-                            flag18 = true;
-                        }
-                    }
-                }
-                else
-                {
-                    for (int num512 = 0; num512 < Main.maxNPCs; num512++)
-                    {
-                        if (Main.npc[num512].CanBeChasedBy(projectile, false))
-                        {
-                            float num513 = Main.npc[num512].position.X + (float)(Main.npc[num512].width / 2);
-                            float num514 = Main.npc[num512].position.Y + (float)(Main.npc[num512].height / 2);
-                            float num515 = Math.Abs(projectile.position.X + (float)(projectile.width / 2) - num513) + Math.Abs(projectile.position.Y + (float)(projectile.height / 2) - num514);
-                            if (num515 < num508 && Collision.CanHit(projectile.position, projectile.width, projectile.height, Main.npc[num512].position, Main.npc[num512].width, Main.npc[num512].height))
-                            {
-                                num508 = num515;
-                                num506 = num513;
-                                num507 = num514;
-                                flag18 = true;
-                            }
-                        }
-                    }
-                }
+                bool foundTarget = false;
+				Vector2 targetVec = projectile.Center;
+				Vector2 half = new Vector2(0.5f);
+                float range = 1000f;
+				int targetIndex = -1;
+				if (player.HasMinionAttackTargetNPC)
+				{
+					NPC npc = Main.npc[player.MinionAttackTargetNPC];
+					if (npc.CanBeChasedBy(projectile, false))
+					{
+						Vector2 sizeCheck = npc.position + npc.Size * half;
+						float npcDist = Vector2.Distance(sizeCheck, targetVec);
+						if (npcDist < range && Collision.CanHitLine(projectile.position, projectile.width, projectile.height, npc.position, npc.width, npc.height))
+						{
+							range = npcDist;
+							targetVec = sizeCheck;
+							foundTarget = true;
+							targetIndex = npc.whoAmI;
+						}
+					}
+				}
+				if (!foundTarget)
+				{
+					for (int k = 0; k < Main.maxNPCs; k++)
+					{
+						NPC npc = Main.npc[k];
+						if (npc.CanBeChasedBy(projectile, false))
+						{
+							Vector2 sizeCheck = npc.position + npc.Size * half;
+							float npcDist = Vector2.Distance(sizeCheck, targetVec);
+							if (npcDist < range && Collision.CanHitLine(projectile.position, projectile.width, projectile.height, npc.position, npc.width, npc.height))
+							{
+								range = npcDist;
+								targetVec = sizeCheck;
+								foundTarget = true;
+								targetIndex = k;
+							}
+						}
+					}
+				}
 				float yAdjust = player.gravDir == -1f ? 0f : 10f;
-                if (flag18)
+                if (foundTarget && targetIndex != -1)
                 {
-                    float num516 = num506;
-                    float num517 = num507;
-                    num506 -= projectile.Center.X;
-                    num507 -= projectile.Center.Y;
-                    int projectileType = ModContent.ProjectileType<ChaosFlame>();
-                    float num403 = Main.rand.Next(14, 19); //modify the speed the projectile are shot.  Lower number = slower projectile.
-                    Vector2 vector29 = new Vector2(projectile.position.X + (float)projectile.width * 0.5f, projectile.position.Y + (float)projectile.height * 0.5f);
-                    float num404 = num516 - vector29.X;
-                    float num405 = num517 - vector29.Y;
-                    float num406 = (float)Math.Sqrt((double)(num404 * num404 + num405 * num405));
-                    num406 = num403 / num406;
-                    num404 *= num406;
-                    num405 *= num406;
-                    Projectile.NewProjectile(projectile.Center.X - 4f, projectile.Center.Y - yAdjust, num404, num405, projectileType, projectile.damage, 5f, projectile.owner, 0f, 0f);
-                    projectile.ai[0] = 38f;
+					int projectileType = ModContent.ProjectileType<ChaosFlame>();
+					//If the target is above the minion, fire directly at it at double speed
+					if (reversedGravity ? (Main.npc[targetIndex].Bottom.Y > projectile.Top.Y) : (Main.npc[targetIndex].Bottom.Y < projectile.Top.Y))
+					{
+						Vector2 source = new Vector2(projectile.Center.X - 4f, projectile.Center.Y - yAdjust);
+						float speed = Main.rand.Next(14, 19); //modify the speed the projectile are shot.  Lower number = slower projectile.
+						Vector2 velocity = targetVec - projectile.Center;
+						float targetDist = velocity.Length();
+						targetDist = speed / targetDist;
+						velocity.X *= targetDist;
+						velocity.Y *= targetDist;
+						Projectile.NewProjectile(source, velocity, projectileType, projectile.damage, 5f, projectile.owner, 0f, 0f);
+						Main.PlaySound(SoundID.Item20, projectile.position);
+						projectile.ai[0] = 10f;
+					}
+					//Otherwise, fire away like a volcano
+					else
+					{
+						int amount = Main.rand.Next(2, 4); //2 to 3
+						for (int i = 0; i < amount; i++)
+						{
+							float velocityX = Main.rand.NextFloat(-10f, 10f);
+							float velocityY = Main.rand.NextFloat(-10f, -7f);
+							if (reversedGravity)
+								velocityY *= -1f;
+							int flame = Projectile.NewProjectile(projectile.oldPosition.X + (projectile.width / 2), projectile.oldPosition.Y + (projectile.height / 2), velocityX, velocityY, projectileType, projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+							Main.projectile[flame].aiStyle = 1;
+						}
+						Main.PlaySound(SoundID.Item20, projectile.position);
+						projectile.ai[0] = 20f;
+					}
                 }
 
 				//doesn't look good
@@ -176,14 +195,8 @@ namespace CalamityMod.Projectiles.Summon
             }
         }
 
-        public override Color? GetAlpha(Color lightColor)
-        {
-            return new Color(200, 200, 200, 200);
-        }
+        public override Color? GetAlpha(Color lightColor) => new Color(200, 200, 200, 200);
 
-        public override bool CanDamage()
-        {
-            return false;
-        }
+        public override bool CanDamage() => false;
     }
 }

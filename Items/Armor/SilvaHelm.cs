@@ -40,8 +40,7 @@ namespace CalamityMod.Items.Armor
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.silvaSet = true;
             modPlayer.silvaMelee = true;
-            player.setBonus = "You are immune to almost all debuffs\n" +
-                "All projectiles spawn healing leaf orbs on enemy hits\n" +
+            player.setBonus = "All projectiles spawn healing leaf orbs on enemy hits\n" +
                 "Max run speed and acceleration boosted by 5%\n" +
                 "If you are reduced to 1 HP you will not die from any further damage for 10 seconds\n" +
                 "If you get reduced to 1 HP again while this effect is active you will lose 100 max life\n" +
@@ -49,8 +48,7 @@ namespace CalamityMod.Items.Armor
                 "Your max life will return to normal if you die\n" +
                 "True melee strikes have a 25% chance to do five times damage\n" +
                 "After the silva invincibility is over you will take 20% less contact damage\n" +
-                "Melee projectiles have a 25% chance to stun enemies for a very brief moment\n" +
-				"Provides cold protection in Death Mode";
+                "Melee projectiles have a 25% chance to stun enemies for a very brief moment";
         }
 
         public override void UpdateEquip(Player player)
@@ -66,8 +64,7 @@ namespace CalamityMod.Items.Armor
             recipe.AddIngredient(ModContent.ItemType<EffulgentFeather>(), 5);
             recipe.AddRecipeGroup("AnyGoldBar", 5);
             recipe.AddIngredient(ModContent.ItemType<Tenebris>(), 6);
-            recipe.AddIngredient(ModContent.ItemType<NightmareFuel>(), 14);
-            recipe.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 14);
+            recipe.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 2);
             recipe.AddTile(ModContent.TileType<DraedonsForge>());
             recipe.SetResult(this);
             recipe.AddRecipe();

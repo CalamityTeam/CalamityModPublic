@@ -1,13 +1,12 @@
 using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class SandDollar : RogueWeapon
+	public class SandDollar : RogueWeapon
     {
         public override void SetStaticDefaults()
         {

@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Melee
 {
@@ -22,7 +23,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.penetrate = 5;
             projectile.timeLeft = 180;
             projectile.ignoreWater = true;
-            aiType = 274;
+            aiType = ProjectileID.DeathSickle;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 3;
         }

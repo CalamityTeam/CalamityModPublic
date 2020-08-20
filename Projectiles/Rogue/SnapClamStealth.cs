@@ -50,7 +50,7 @@ namespace CalamityMod.Projectiles.Rogue
                 projectile.spriteDirection = projectile.direction;
             }
             //Sticky Behaviour
-            CalamityUtils.StickyProjAI(projectile, 15);
+            projectile.StickyProjAI(15);
             if (openClam && !onEnemy)
             {
                 projectile.frame = 1;
@@ -66,7 +66,7 @@ namespace CalamityMod.Projectiles.Rogue
             if (openClam)
             {
                 onEnemy = true;
-				CalamityUtils.ModifyHitNPCSticky(projectile, 5, false);
+				projectile.ModifyHitNPCSticky(5, false);
             }
         }
 

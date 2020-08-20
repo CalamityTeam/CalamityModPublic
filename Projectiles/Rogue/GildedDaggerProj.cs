@@ -1,14 +1,13 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using System.Collections.Generic;
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class GildedDaggerProj : ModProjectile
+	public class GildedDaggerProj : ModProjectile
     {
         private bool hasHitEnemy = false;
         private int targetNPC = -1;
@@ -31,9 +30,9 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void AI()
         {
-            if (Main.rand.Next(7) == 0)
+            if (Main.rand.NextBool(7))
             {
-                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 246, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.GoldCoin, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
             }
             if (hasHitEnemy)
             {
@@ -95,7 +94,7 @@ namespace CalamityMod.Projectiles.Rogue
                 {
                     previousNPCs.Add(i);
                 }
-                if (!npc.friendly && !npc.townNPC && npc.active && !npc.dontTakeDamage && npc.chaseable && npc != target && !hasHitNPC)
+                if (npc.CanBeChasedBy(projectile, false) && npc != target && !hasHitNPC)
                 {
                     float dist = (projectile.Center - npc.Center).Length();
                     if (dist < minDist)
@@ -141,7 +140,7 @@ namespace CalamityMod.Projectiles.Rogue
         {
             for (int num621 = 0; num621 < 8; num621++)
             {
-                int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 246, 0f, 0f, 100, default, 1f);
+                int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, DustID.GoldCoin, 0f, 0f, 100, default, 1f);
                 Main.dust[num622].velocity *= 1f;
             }
 		}

@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Armor
 			DisplayName.SetDefault("Prismatic Greaves");
 			Tooltip.SetDefault("10% increased magic damage and 12% increased magic crit\n" +
 				"20% decreased non-magic damage\n" +
-				"Increases flight time and jump speed by 10%");
+				"10% increased flight time and 2% increased jump speed");
 		}
 
 		public override void SetDefaults()

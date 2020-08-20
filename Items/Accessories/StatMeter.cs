@@ -1,6 +1,5 @@
 using CalamityMod.CalPlayer;
 using CalamityMod.World;
-using System;
 using System.Collections.Generic;
 using System.Text;
 using Terraria;
@@ -63,7 +62,8 @@ namespace CalamityMod.Items.Accessories
 			int lifeRegen = modPlayer.lifeRegenStat;
 			int manaRegen = modPlayer.manaRegenStat;
 			int armorPenetration = modPlayer.armorPenetrationStat;
-			int wingFlightTime = modPlayer.wingFlightTimeStat;
+			string wingFlightTime = modPlayer.wingFlightTimeStat.ToString("n2");
+			string jumpSpeed = modPlayer.jumpSpeedStat.ToString("n2");
 			int moveSpeed = modPlayer.moveSpeedStat;
 			int lightLevel = modPlayer.abyssLightLevelStat;
 			int breathLoss = modPlayer.abyssBreathLossStat;
@@ -75,7 +75,7 @@ namespace CalamityMod.Items.Accessories
 			StringBuilder sb = new StringBuilder("Displays almost all player stats\nOffensive stats displayed vary with held item\n\n", 1024);
 
 			// Only append rippers stats in Rev+, if rippers are enabled.
-			if (CalamityWorld.revenge && CalamityMod.CalamityConfig.AdrenalineAndRage)
+			if (CalamityWorld.revenge && CalamityConfig.Instance.Rippers)
 			{
 				sb.Append("Adrenaline Charge Time: ").Append(modPlayer.adrenalineChargeStat)
 					.Append(" seconds | Rage Damage Boost: ").Append(modPlayer.rageDamageStat)
@@ -88,6 +88,7 @@ namespace CalamityMod.Items.Accessories
 				if (heldItem.melee)
 				{
 					sb.Append("Melee Damage: ").Append(modPlayer.damageStats[0])
+						.Append("% | True Melee Damage: ").Append(modPlayer.damageStats[5])
 						.Append("% | Melee Crit Chance: ").Append(modPlayer.critStats[0])
 						.Append("%\nMelee Speed Boost: ").Append(meleeSpeed).Append("%\n\n");
 				}
@@ -124,10 +125,11 @@ namespace CalamityMod.Items.Accessories
 
 			// Generic stats always render.
 			sb.Append("Defense: ").Append(defense);
-			sb.Append(" | DR: ").Append(DR).Append("%\n");
-			sb.Append("Life Regen: ").Append(lifeRegen);
-			sb.Append(" | Armor Penetration: ").Append(armorPenetration).Append("\n");
-			sb.Append("Wing Flight Time: ").Append(wingFlightTime);
+			sb.Append(" | DR: ").Append(DR).Append("%");
+			sb.Append(" | Life Regen: ").Append(lifeRegen).Append("\n");
+			sb.Append("Armor Penetration: ").Append(armorPenetration);
+			sb.Append(" | Wing Flight Time: ").Append(wingFlightTime).Append(" seconds\n");
+			sb.Append("Jump Speed Boost: ").Append(jumpSpeed).Append("%");
 			sb.Append(" | Movement Speed Boost: ").Append(moveSpeed).Append("%\n\n");
 			sb.Append(CalamityWorld.death ? "Abyss/Cave Light Strength: " : "Abyss Light Strength: ").Append(lightLevel).Append("\n\n");
 

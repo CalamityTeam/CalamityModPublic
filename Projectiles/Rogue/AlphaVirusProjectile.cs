@@ -1,4 +1,3 @@
-using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -9,7 +8,7 @@ using Terraria.ID;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class AlphaVirusProjectile : ModProjectile
+	public class AlphaVirusProjectile : ModProjectile
     {
         public static int lifetime = 600;
         public static float finalVelocity = 2f;

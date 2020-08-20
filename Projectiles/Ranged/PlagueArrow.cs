@@ -25,7 +25,7 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.penetrate = 1;
             projectile.aiStyle = 1;
             projectile.timeLeft = 600;
-            aiType = 1;
+            aiType = ProjectileID.WoodenArrowFriendly;
         }
 
         public override void Kill(int timeLeft)

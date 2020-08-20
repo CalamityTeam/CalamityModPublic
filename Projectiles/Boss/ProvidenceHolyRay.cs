@@ -53,10 +53,8 @@ namespace CalamityMod.Projectiles.Boss
 
             if (Main.npc[(int)projectile.ai[1]].active && Main.npc[(int)projectile.ai[1]].type == ModContent.NPCType<Providence>())
             {
-                Vector2 value21 = new Vector2(27f, 59f);
                 Vector2 fireFrom = new Vector2(Main.npc[(int)projectile.ai[1]].Center.X, Main.npc[(int)projectile.ai[1]].Center.Y + 32f);
-                Vector2 value22 = Utils.Vector2FromElipse(Main.npc[(int)projectile.ai[1]].localAI[0].ToRotationVector2(), value21 * Main.npc[(int)projectile.ai[1]].localAI[1]);
-                projectile.position = fireFrom + value22 - new Vector2(projectile.width, projectile.height) / 2f;
+                projectile.position = fireFrom - new Vector2(projectile.width, projectile.height) / 2f;
             }
 
             if (projectile.velocity.HasNaNs() || projectile.velocity == Vector2.Zero)
@@ -144,7 +142,7 @@ namespace CalamityMod.Projectiles.Boss
             Texture2D texture2D20 = Main.dayTime ? ModContent.GetTexture("CalamityMod/ExtraTextures/Lasers/ProvidenceHolyRayMid") : ModContent.GetTexture("CalamityMod/ExtraTextures/Lasers/ProvidenceHolyRayMidNight");
             Texture2D texture2D21 = Main.dayTime ? ModContent.GetTexture("CalamityMod/ExtraTextures/Lasers/ProvidenceHolyRayEnd") : ModContent.GetTexture("CalamityMod/ExtraTextures/Lasers/ProvidenceHolyRayEndNight");
             float num223 = projectile.localAI[1]; //length of laser
-            Color color44 = Main.dayTime ? new Color(250, 250, 250, 0) : new Color(150, 150, 250, 0) * 0.9f;
+            Color color44 = Main.dayTime ? new Color(250, 250, 250, 0) : new Color(175, 175, 250, 0) * 0.9f;
             Vector2 vector = projectile.Center - Main.screenPosition;
             Rectangle? sourceRectangle2 = null;
             Main.spriteBatch.Draw(texture2D19, vector, sourceRectangle2, color44, projectile.rotation, texture2D19.Size() / 2f, projectile.scale, SpriteEffects.None, 0f);

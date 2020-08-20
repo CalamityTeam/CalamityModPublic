@@ -48,6 +48,7 @@ namespace CalamityMod.Items.Armor
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<WulfrumShard>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<EnergyCore>());
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();

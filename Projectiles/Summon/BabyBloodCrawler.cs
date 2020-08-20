@@ -51,7 +51,10 @@ namespace CalamityMod.Projectiles.Summon
 			for (int j = 0; j < Main.maxProjectiles; j++)
 			{
                 Projectile proj = Main.projectile[j];
-				if (proj.active && proj.owner == projectile.owner && proj.type == ModContent.ProjectileType<BabyBloodCrawler>() && proj.Calamity().lineColor == 0)
+				// Short circuits to make the loop as fast as possible
+				if (!proj.active || proj.owner != projectile.owner || !proj.minion || proj.Calamity().lineColor != 0)
+					continue;
+				if (proj.type == projectile.type)
 				{
 					spiderCount += (int)proj.minionSlots;
 					proj.Calamity().lineColor = 1;

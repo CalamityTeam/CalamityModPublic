@@ -1,12 +1,11 @@
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class ShroomerangSpore : ModProjectile
+	public class ShroomerangSpore : ModProjectile
     {
 		private int scaleFactor = 0;
 		private bool initialized = false;

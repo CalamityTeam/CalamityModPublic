@@ -11,7 +11,7 @@ namespace CalamityMod.Tiles.FurniturePlaguedPlate
         {
             this.SetUpLantern();
             ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Plagued Plate Lantern");
+            name.SetDefault("Plagued Lantern");
             AddMapEntry(new Color(191, 142, 111), name);
 
             disableSmartCursor = true;

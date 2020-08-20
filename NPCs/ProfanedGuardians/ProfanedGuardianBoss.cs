@@ -40,9 +40,9 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             npc.width = 100;
             npc.height = 80;
             npc.defense = 50;
-            npc.Calamity().RevPlusDR(0.4f);
+			npc.DR_NERD(0.4f);
             npc.LifeMaxNERB(102500, 112500, 1650000);
-            double HPBoost = CalamityMod.CalamityConfig.BossHealthPercentageBoost * 0.01;
+            double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.knockBackResist = 0f;
             npc.noGravity = true;
@@ -70,6 +70,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             npc.buffImmune[ModContent.BuffType<GodSlayerInferno>()] = false;
             npc.buffImmune[ModContent.BuffType<Nightwither>()] = false;
             npc.buffImmune[ModContent.BuffType<Shred>()] = false;
+            npc.buffImmune[ModContent.BuffType<WarCleave>()] = false;
             npc.buffImmune[ModContent.BuffType<WhisperingDeath>()] = false;
             npc.buffImmune[ModContent.BuffType<SilvaStun>()] = false;
             npc.value = Item.buyPrice(0, 25, 0, 0);
@@ -112,8 +113,8 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 			if (Main.netMode != NetmodeID.MultiplayerClient && npc.localAI[1] == 0f)
             {
                 npc.localAI[1] = 1f;
-                NPC.NewNPC((int)vectorCenter.X, (int)vectorCenter.Y, ModContent.NPCType<ProfanedGuardianBoss2>(), 0, 0f, 0f, 0f, 0f, 255);
-                NPC.NewNPC((int)vectorCenter.X, (int)vectorCenter.Y, ModContent.NPCType<ProfanedGuardianBoss3>(), 0, 0f, 0f, 0f, 0f, 255);
+                NPC.NewNPC((int)vectorCenter.X, (int)vectorCenter.Y, ModContent.NPCType<ProfanedGuardianBoss2>());
+                NPC.NewNPC((int)vectorCenter.X, (int)vectorCenter.Y, ModContent.NPCType<ProfanedGuardianBoss3>());
             }
             
             npc.TargetClosest(false);
@@ -313,7 +314,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                         Main.PlaySound(SoundID.Item20, npc.position);
                         int damage = expertMode ? 55 : 70;
                         Vector2 vector173 = Vector2.Normalize(player.Center - vectorCenter) * (npc.width + 20) / 2f + vectorCenter;
-						int projectile = Projectile.NewProjectile((int)vector173.X, (int)vector173.Y, npc.direction * 2, 4f, ModContent.ProjectileType<FlareDust>(), damage, 0f, Main.myPlayer, 0f, 0f);
+						int projectile = Projectile.NewProjectile((int)vector173.X, (int)vector173.Y, npc.direction * 2, 4f, ModContent.ProjectileType<FlareDust>(), damage, 0f, Main.myPlayer, 2f, 0f);
                         Main.projectile[projectile].timeLeft = 120;
                         Main.projectile[projectile].velocity.X = 0f;
                         Main.projectile[projectile].velocity.Y = 0f;
@@ -370,7 +371,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 			if (npc.ai[0] == 2f)
 				num153 = 10;
 
-			if (CalamityMod.CalamityConfig.Afterimages)
+			if (CalamityConfig.Instance.Afterimages)
 			{
 				for (int num155 = 1; num155 < num153; num155 += 2)
 				{
@@ -393,7 +394,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 			texture2D15 = ModContent.GetTexture("CalamityMod/NPCs/ProfanedGuardians/ProfanedGuardianBossGlow");
 			Color color37 = Color.Lerp(Color.White, Color.Yellow, 0.5f);
 
-			if (CalamityMod.CalamityConfig.Afterimages)
+			if (CalamityConfig.Instance.Afterimages)
 			{
 				for (int num163 = 1; num163 < num153; num163++)
 				{
@@ -435,7 +436,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeProfanedGuardians>(), true, !CalamityWorld.downedGuardians);
             DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedGuardians, 5, 2, 1);
 
-			npc.Calamity().SetNewShopVariable(new int[] { NPCID.Wizard }, CalamityWorld.downedGuardians);
+			CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.Wizard }, CalamityWorld.downedGuardians);
 
 			// Mark the Profaned Guardians as dead
 			CalamityWorld.downedGuardians = true;
@@ -444,7 +445,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(BuffID.OnFire, 600, true);
+            player.AddBuff(ModContent.BuffType<HolyFlames>(), 300, true);
         }
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)

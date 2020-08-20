@@ -1,13 +1,11 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
-using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee.Yoyos
 {
-    public class AirSpinnerYoyo : ModProjectile
+	public class AirSpinnerYoyo : ModProjectile
     {
         public override void SetStaticDefaults()
         {

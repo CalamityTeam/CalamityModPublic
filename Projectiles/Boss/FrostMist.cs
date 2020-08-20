@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Boss
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Frost Mist");
-            Main.projFrames[projectile.type] = 6;
+            Main.projFrames[projectile.type] = 8;
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 4;
             ProjectileID.Sets.TrailingMode[projectile.type] = 0;
         }
@@ -24,9 +24,10 @@ namespace CalamityMod.Projectiles.Boss
             projectile.height = 20;
             projectile.hostile = true;
             projectile.ignoreWater = true;
+			projectile.tileCollide = false;
             projectile.penetrate = -1;
             projectile.timeLeft = 300;
-            projectile.alpha = 255;
+            projectile.Opacity = 0f;
 			projectile.coldDamage = true;
         }
 
@@ -42,107 +43,91 @@ namespace CalamityMod.Projectiles.Boss
             projectile.localAI[1] = reader.ReadSingle();
         }
 
-        public override void AI()
-        {
-            projectile.frameCounter++;
-            if (projectile.frameCounter > 4)
-            {
-                projectile.frame++;
-                projectile.frameCounter = 0;
-            }
-            if (projectile.frame > 3)
-            {
-                projectile.frame = 0;
-            }
-            if (projectile.ai[1] == 0f)
-            {
-                for (int num621 = 0; num621 < 5; num621++)
-                {
-                    int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 187, 0f, 0f, 100, default, 2f);
-                    Main.dust[num622].velocity *= 3f;
-                    if (Main.rand.NextBool(2))
-                    {
-                        Main.dust[num622].scale = 0.5f;
-                        Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
-                    }
-                }
-                projectile.ai[1] = 1f;
-                Main.PlaySound(SoundID.Item30, projectile.position);
-            }
-            projectile.localAI[1] += 1f;
-            if (projectile.localAI[1] == 16f)
-            {
-                projectile.localAI[1] = 0f;
-                for (int l = 0; l < 12; l++)
-                {
-                    Vector2 vector3 = Vector2.UnitX * (float)-(float)projectile.width / 2f;
-                    vector3 += -Vector2.UnitY.RotatedBy((double)((float)l * 3.14159274f / 6f), default) * new Vector2(8f, 16f);
-                    vector3 = vector3.RotatedBy((double)(projectile.rotation - 1.57079637f), default);
-                    int num9 = Dust.NewDust(projectile.Center, 0, 0, 187, 0f, 0f, 160, default, 1f);
-                    Main.dust[num9].scale = 1.1f;
-                    Main.dust[num9].noGravity = true;
-                    Main.dust[num9].position = projectile.Center + vector3;
-                    Main.dust[num9].velocity = projectile.velocity * 0.1f;
-                    Main.dust[num9].velocity = Vector2.Normalize(projectile.Center - projectile.velocity * 3f - Main.dust[num9].position) * 1.25f;
-                }
-            }
-            if (projectile.localAI[0] == 0f)
-            {
-                projectile.scale -= 0.01f;
-                projectile.alpha += 10;
-                if (projectile.alpha >= 100)
-                {
-                    projectile.alpha = 100;
-                    projectile.localAI[0] = 1f;
-                }
-            }
-            else if (projectile.localAI[0] == 1f)
-            {
-                projectile.scale += 0.01f;
-                projectile.alpha -= 10;
-                if (projectile.alpha <= 0)
-                {
-                    projectile.alpha = 0;
-                    projectile.localAI[0] = 0f;
-                }
-            }
-            if (projectile.ai[0] == 1f)
-            {
-                int num103 = (int)Player.FindClosest(projectile.Center, 1, 1);
-                projectile.ai[1] += 1f;
-                if (projectile.ai[1] < 110f && projectile.ai[1] > 30f)
-                {
-                    float scaleFactor2 = projectile.velocity.Length();
-                    Vector2 vector11 = Main.player[num103].Center - projectile.Center;
-                    vector11.Normalize();
-                    vector11 *= scaleFactor2;
-                    projectile.velocity = (projectile.velocity * 24f + vector11) / 25f;
-                    projectile.velocity.Normalize();
-                    projectile.velocity *= scaleFactor2;
-                }
-                if (projectile.velocity.Length() < 12f)
-                {
-                    projectile.velocity *= 1.02f;
-                }
-            }
-            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
-            Lighting.AddLight(projectile.Center, 0f, (255 - projectile.alpha) * 0.35f / 255f, (255 - projectile.alpha) * 0.35f / 255f);
-        }
+		public override void AI()
+		{
+			projectile.frameCounter++;
+			if (projectile.frameCounter > 4)
+			{
+				projectile.frame++;
+				projectile.frameCounter = 0;
+			}
+			if (projectile.frame >= Main.projFrames[projectile.type])
+				projectile.frame = 0;
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
-        {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
-            return false;
-        }
+			if (projectile.ai[1] == 0f)
+			{
+				for (int num621 = 0; num621 < 5; num621++)
+				{
+					int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 187, 0f, 0f, 100, default, 2f);
+					Main.dust[num622].velocity *= 3f;
+					if (Main.rand.NextBool(2))
+					{
+						Main.dust[num622].scale = 0.5f;
+						Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
+					}
+				}
+				projectile.ai[1] = 1f;
+			}
 
-        public override Color? GetAlpha(Color lightColor)
-        {
-            return new Color(200, 200, 200, projectile.alpha);
-        }
+			projectile.localAI[1] += 1f;
+			if (projectile.localAI[1] == 16f)
+			{
+				projectile.localAI[1] = 0f;
+				for (int l = 0; l < 12; l++)
+				{
+					Vector2 vector3 = Vector2.UnitX * -projectile.width / 2f;
+					vector3 += -Vector2.UnitY.RotatedBy(l * MathHelper.Pi / 6f) * new Vector2(8f, 16f);
+					vector3 = vector3.RotatedBy(projectile.rotation - MathHelper.PiOver2);
+					int num9 = Dust.NewDust(projectile.Center, 0, 0, 187, 0f, 0f, 160, default, 1f);
+					Main.dust[num9].scale = 1.1f;
+					Main.dust[num9].noGravity = true;
+					Main.dust[num9].position = projectile.Center + vector3;
+					Main.dust[num9].velocity = projectile.velocity * 0.1f;
+					Main.dust[num9].velocity = Vector2.Normalize(projectile.Center - projectile.velocity * 3f - Main.dust[num9].position) * 1.25f;
+				}
+			}
 
-        public override void OnHitPlayer(Player target, int damage, bool crit)
+			if (projectile.timeLeft < 30)
+				projectile.Opacity = MathHelper.Clamp(projectile.timeLeft / 30f, 0f, 1f);
+			else
+				projectile.Opacity = MathHelper.Clamp(1f - ((projectile.timeLeft - 270) / 30f), 0f, 1f);
+
+			int num103 = Player.FindClosest(projectile.Center, 1, 1);
+			projectile.ai[1] += 1f;
+			if (projectile.ai[1] < 140f && projectile.ai[1] > 60f)
+			{
+				float scaleFactor2 = projectile.velocity.Length();
+				Vector2 vector11 = Main.player[num103].Center - projectile.Center;
+				vector11.Normalize();
+				vector11 *= scaleFactor2;
+				projectile.velocity = (projectile.velocity * 24f + vector11) / 25f;
+				projectile.velocity.Normalize();
+				projectile.velocity *= scaleFactor2;
+			}
+			if (projectile.velocity.Length() < 12f)
+				projectile.velocity *= 1.02f;
+
+			projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + MathHelper.PiOver2;
+			Lighting.AddLight(projectile.Center, 0f, 0.35f * projectile.Opacity, 0.35f * projectile.Opacity);
+		}
+
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			lightColor.R = (byte)(255 * projectile.Opacity);
+			lightColor.G = (byte)(255 * projectile.Opacity);
+			lightColor.B = (byte)(255 * projectile.Opacity);
+			CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+			return false;
+		}
+
+		public override bool CanHitPlayer(Player target) => projectile.Opacity == 1f;
+
+		public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-            target.AddBuff(BuffID.Frostburn, 240, true);
+			if (projectile.Opacity != 1f)
+				return;
+
+			target.AddBuff(BuffID.Frostburn, 240, true);
             target.AddBuff(BuffID.Chilled, 120, true);
             target.AddBuff(BuffID.Frozen, 30, true);
         }

@@ -1,14 +1,12 @@
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
-using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.ModLoader.Config;
-using CalamityMod;
 
 namespace CalamityMod.NPCs.AquaticScourge
 {
-    public class AquaticScourgeTail : ModNPC
+	public class AquaticScourgeTail : ModNPC
     {
         public override void SetStaticDefaults()
         {
@@ -18,16 +16,16 @@ namespace CalamityMod.NPCs.AquaticScourge
         public override void SetDefaults()
         {
             npc.damage = 45;
-            npc.width = 30;
-            npc.height = 50;
+            npc.width = 32;
+            npc.height = 32;
             npc.defense = 25;
-            npc.Calamity().RevPlusDR(0.15f);
+			npc.DR_NERD(0.15f);
             npc.aiStyle = -1;
             aiType = -1;
             npc.knockBackResist = 0f;
             npc.alpha = 255;
             npc.LifeMaxNERB(73000, 85000, 10000000);
-            double HPBoost = CalamityMod.CalamityConfig.BossHealthPercentageBoost * 0.01;
+            double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             for (int k = 0; k < npc.buffImmune.Length; k++)
             {
@@ -42,11 +40,14 @@ namespace CalamityMod.NPCs.AquaticScourge
             npc.dontCountMe = true;
             npc.chaseable = false;
             npc.canGhostHeal = false;
-            if (Main.expertMode)
-            {
-                npc.scale = 1.15f;
-            }
-        }
+
+			if (CalamityWorld.death || CalamityWorld.bossRushActive)
+				npc.scale = 1.2f;
+			else if (CalamityWorld.revenge)
+				npc.scale = 1.15f;
+			else if (Main.expertMode)
+				npc.scale = 1.1f;
+		}
 
         public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)
         {
@@ -87,13 +88,13 @@ namespace CalamityMod.NPCs.AquaticScourge
         {
             for (int k = 0; k < 3; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
             }
             if (npc.life <= 0)
             {
                 for (int k = 0; k < 10; k++)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
                 }
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/AquaticScourgeGores/ASTail"), 1f);
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/AquaticScourgeGores/ASTail2"), 1f);

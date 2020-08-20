@@ -192,7 +192,8 @@ namespace CalamityMod.Items.Weapons.Melee
                     }
                 }
                 // Makes the player forcefully dive down
-                player.velocity.Y = player.maxFallSpeed;
+				if (CalamityUtils.CountHookProj() <= 0)
+					player.velocity.Y = player.maxFallSpeed;
                 //Rotates the sprite of the item on alt fire to have it point downwards
                 player.itemRotation = player.direction * MathHelper.ToRadians(135f);
                 //Dust trail
@@ -212,7 +213,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 //Spawns a projectile on the tip of the sword in the alt fire
                 float positionx;
                 float positiony = position.Y + (item.height / 2) + 23;
-                ;
+
                 int cooldown = 0;
                 //Check if the entire cooldown has passed
                 if (Roxcooldown >= 600)
@@ -228,7 +229,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 {
                     positionx = position.X - 8;
                 }
-                Projectile.NewProjectile(positionx, positiony, player.velocity.X, player.velocity.Y, ModContent.ProjectileType<RoxSlam>(), 0, 0, player.whoAmI, cooldown);
+                Projectile.NewProjectile(positionx, positiony - (player.height / 10f), player.velocity.X, player.velocity.Y, ModContent.ProjectileType<RoxSlam>(), 0, 0, player.whoAmI, cooldown);
                 //Resets the cooldown after shooting
                 if (Roxcooldown >= 600)
                 {

@@ -46,7 +46,7 @@ namespace CalamityMod.Projectiles.Summon
             float num473 = projectile.Center.Y;
             float num474 = 400f;
             bool flag17 = false;
-            for (int num475 = 0; num475 < 200; num475++)
+            for (int num475 = 0; num475 < Main.maxNPCs; num475++)
             {
                 if (Main.npc[num475].CanBeChasedBy(projectile, false) && Collision.CanHit(projectile.Center, 1, 1, Main.npc[num475].Center, 1, 1))
                 {
@@ -93,10 +93,9 @@ namespace CalamityMod.Projectiles.Summon
             double startAngle = Math.Atan2(projectile.velocity.X, projectile.velocity.Y) - spread / 2;
             double deltaAngle = spread / 8f;
             double offsetAngle;
-            int i;
             if (projectile.owner == Main.myPlayer)
             {
-                for (i = 0; i < 2; i++)
+                for (int i = 0; i < 2; i++)
                 {
                     offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
                     Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<PhoenixFireFriendly>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
@@ -112,7 +111,7 @@ namespace CalamityMod.Projectiles.Summon
             projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
             for (int num621 = 0; num621 < 20; num621++)
             {
-                int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 244, 0f, 0f, 100, default, 2f);
+                int num622 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 244, 0f, 0f, 100, default, 2f);
                 Main.dust[num622].velocity *= 3f;
                 if (Main.rand.NextBool(2))
                 {
@@ -122,13 +121,13 @@ namespace CalamityMod.Projectiles.Summon
             }
             for (int num623 = 0; num623 < 35; num623++)
             {
-                int num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 244, 0f, 0f, 100, default, 3f);
+                int num624 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 244, 0f, 0f, 100, default, 3f);
                 Main.dust[num624].noGravity = true;
                 Main.dust[num624].velocity *= 5f;
-                num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 244, 0f, 0f, 100, default, 2f);
+                num624 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 244, 0f, 0f, 100, default, 2f);
                 Main.dust[num624].velocity *= 2f;
             }
-			CalamityUtils.ExplosionGores(projectile, 3);
+			CalamityUtils.ExplosionGores(projectile.Center, 3);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

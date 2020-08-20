@@ -3,11 +3,10 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using System;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
-    public class Vehemenc : ModItem
+	public class Vehemenc : ModItem
     {
         public override void SetStaticDefaults()
         {

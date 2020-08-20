@@ -9,7 +9,8 @@ namespace CalamityMod.Items.Ammo
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Verium Bullet");
-            Tooltip.SetDefault("There is no escape!");
+            Tooltip.SetDefault("There is no escape!\n" +
+			"Homes in after striking an enemy");
         }
 
         public override void SetDefaults()
@@ -25,7 +26,7 @@ namespace CalamityMod.Items.Ammo
             item.rare = 3;
             item.shoot = ModContent.ProjectileType<VeriumBulletProj>();
             item.shootSpeed = 16f;
-            item.ammo = 97;
+            item.ammo = AmmoID.Bullet;
         }
 
         public override void AddRecipes()

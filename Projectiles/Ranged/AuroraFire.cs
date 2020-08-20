@@ -3,12 +3,11 @@ using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class AuroraFire : ModProjectile
+	public class AuroraFire : ModProjectile
     {
 		private const int framesBeforeTurning = 70;
 		private bool initialized = false;

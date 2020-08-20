@@ -1,6 +1,5 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
@@ -8,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class CobaltEnergy : ModProjectile
+	public class CobaltEnergy : ModProjectile
     {
         private bool hasHitEnemy = false;
         private int targetNPC = -1;
@@ -77,7 +76,7 @@ namespace CalamityMod.Projectiles.Rogue
                 {
                     previousNPCs.Add(i);
                 }
-                if (!npc.friendly && !npc.townNPC && npc.active && !npc.dontTakeDamage && npc.chaseable && npc != target && !hasHitNPC && npc.type != NPCID.TargetDummy)
+                if (npc.CanBeChasedBy(projectile, false) && npc != target && !hasHitNPC)
                 {
                     float dist = (projectile.Center - npc.Center).Length();
                     if (dist < minDist)

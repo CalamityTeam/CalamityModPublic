@@ -1,10 +1,7 @@
-using Microsoft.Xna.Framework;
-using System;
-using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Magic
 {
-    public class NightOrb : ModProjectile
+	public class NightOrb : ModProjectile
     {
         public override void SetStaticDefaults()
         {

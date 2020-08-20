@@ -1,12 +1,11 @@
 using CalamityMod.Projectiles.Rogue;
-using CalamityMod.World;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.SupremeCalamitas
 {
-    public class SCalWormHeart : ModNPC
+	public class SCalWormHeart : ModNPC
     {
         public override void SetStaticDefaults()
         {
@@ -54,7 +53,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
         {
             if (projectile.type == ModContent.ProjectileType<Celestus2>())
             {
-                damage = (int)((double)damage * 0.66);
+                damage = (int)(damage * 0.66);
             }
         }
 

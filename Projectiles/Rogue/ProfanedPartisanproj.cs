@@ -1,17 +1,15 @@
+using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Dusts;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
-using CalamityMod.Buffs.DamageOverTime;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class ProfanedPartisanproj : ModProjectile
+	public class ProfanedPartisanproj : ModProjectile
     {
-    	public int stealthStrikeTimer = 0;
-
     	public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Profaned Partisan");
@@ -65,9 +63,9 @@ namespace CalamityMod.Projectiles.Rogue
                 drawOriginOffsetY = 2;
             }
 
-            if (Main.rand.Next(3) == 0)
+            if (Main.rand.NextBool(3))
             {
-                int d = Dust.NewDust(projectile.position, projectile.width, projectile.height, 244, projectile.velocity.X, projectile.velocity.Y, 100, default(Color), 1.1f);
+                int d = Dust.NewDust(projectile.position, projectile.width, projectile.height, (int)CalamityDusts.ProfanedFire, projectile.velocity.X, projectile.velocity.Y, 100, default(Color), 1.1f);
                 Main.dust[d].position = projectile.Center;
                 Main.dust[d].velocity *= 0.3f;
                 Main.dust[d].velocity += projectile.velocity * 0.85f;
@@ -76,13 +74,11 @@ namespace CalamityMod.Projectiles.Rogue
 
             if (projectile.Calamity().stealthStrike) //Stealth strike
 			{
-				Vector2 spearposition = new Vector2(projectile.Center.X + Main.rand.NextFloat(-15f, 15f), projectile.Center.Y + Main.rand.NextFloat(-15f, 15f));
-				Vector2 spearspeed = new Vector2(projectile.velocity.X, projectile.velocity.Y);
-				stealthStrikeTimer++;
-				if (stealthStrikeTimer >= 18)
+				Vector2 spearPosition = new Vector2(projectile.Center.X + Main.rand.NextFloat(-15f, 15f), projectile.Center.Y + Main.rand.NextFloat(-15f, 15f));
+				Vector2 spearSpeed = projectile.velocity;
+				if (projectile.timeLeft % 18 == 0)
 				{
-					Projectile.NewProjectile(spearposition, spearspeed, ModContent.ProjectileType<ProfanedPartisanspear>(), projectile.damage/10, projectile.knockBack, projectile.owner, 0f, 0f);
-					stealthStrikeTimer = 0;
+					Projectile.NewProjectile(spearPosition, spearSpeed, ModContent.ProjectileType<ProfanedPartisanspear>(), projectile.damage / 10, projectile.knockBack * 0.1f, projectile.owner);
 				}
 			}
         }
@@ -91,11 +87,10 @@ namespace CalamityMod.Projectiles.Rogue
         {
             for (int i = 0; i < 20; i++)
             {
-                Dust.NewDust(projectile.position, projectile.width, projectile.height, 244, 0f, 0f, 50, default(Color), 2.6f);
+                Dust.NewDust(projectile.position, projectile.width, projectile.height, (int)CalamityDusts.ProfanedFire, 0f, 0f, 50, default(Color), 2.6f);
             }
             Main.PlaySound(SoundID.Item45, projectile.position);
-            Vector2 explode = new Vector2(0f, 0f);
-            Projectile.NewProjectile(projectile.Center, explode, ModContent.ProjectileType<PartisanExplosion>(), projectile.damage/2, projectile.knockBack * 1.3f, projectile.owner);
+            Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<PartisanExplosion>(), projectile.damage / 2, projectile.knockBack * 0.5f, projectile.owner);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Accessories
         {
             item.width = 38;
             item.height = 38;
-            item.value = Item.buyPrice(0, 90, 0, 0);
+            item.value = CalamityGlobalItem.Rarity15BuyPrice;
             item.Calamity().customRarity = CalamityRarity.Violet;
             item.accessory = true;
         }
@@ -52,8 +52,7 @@ namespace CalamityMod.Items.Accessories
             recipe.AddIngredient(ModContent.ItemType<AbyssalMirror>());
             recipe.AddIngredient(ModContent.ItemType<DarkGodsSheath>());
             recipe.AddIngredient(ModContent.ItemType<DarksunFragment>(), 10);
-            recipe.AddIngredient(ModContent.ItemType<NightmareFuel>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>());
             recipe.AddTile(ModContent.TileType<DraedonsForge>());
             recipe.SetResult(this);
             recipe.AddRecipe();

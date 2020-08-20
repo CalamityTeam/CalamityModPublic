@@ -14,7 +14,6 @@ namespace CalamityMod.Projectiles.Melee
         {
             projectile.width = 20;
             projectile.height = 20;
-            aiType = 348;
             projectile.friendly = true;
             projectile.melee = true;
             projectile.tileCollide = false;

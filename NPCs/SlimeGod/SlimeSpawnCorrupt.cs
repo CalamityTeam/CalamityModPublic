@@ -35,7 +35,7 @@ namespace CalamityMod.NPCs.SlimeGod
             npc.canGhostHeal = false;
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath1;
-            npc.buffImmune[24] = true;
+            npc.buffImmune[BuffID.OnFire] = true;
         }
 
         public override bool PreNPCLoot()

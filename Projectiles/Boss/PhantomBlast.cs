@@ -1,3 +1,4 @@
+using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using System;
 using System.IO;
@@ -51,12 +52,12 @@ namespace CalamityMod.Projectiles.Boss
                 projectile.velocity.Y = projectile.velocity.Y + 0.035f;
             }
             float scaleFactor3 = 22f;
-            int num189 = (int)Player.FindClosest(projectile.Center, 1, 1);
+            int num189 = Player.FindClosest(projectile.Center, 1, 1);
             Vector2 vector20 = Main.player[num189].Center - projectile.Center;
             vector20.Normalize();
             vector20 *= scaleFactor3;
             int num190 = 80;
-            projectile.velocity = (projectile.velocity * (float)(num190 - 1) + vector20) / (float)num190;
+            projectile.velocity = (projectile.velocity * (num190 - 1) + vector20) / num190;
             if (projectile.velocity.Length() < 14f)
             {
                 projectile.velocity.Normalize();
@@ -129,7 +130,12 @@ namespace CalamityMod.Projectiles.Boss
             }
         }
 
-        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)	
+		public override void OnHitPlayer(Player target, int damage, bool crit)
+		{
+			target.AddBuff(ModContent.BuffType<Nightwither>(), 180);
+		}
+
+		public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)	
         {
 			target.Calamity().lastProjectileHit = projectile;
 		}

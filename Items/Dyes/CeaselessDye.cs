@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Dyes
             recipe.AddIngredient(ItemID.ShadowDye);
             recipe.AddIngredient(ModContent.ItemType<DarkPlasma>());
             recipe.AddTile(TileID.DyeVat);
-            recipe.SetResult(this);
+            recipe.SetResult(this, 2);
             recipe.AddRecipe();
         }
     }

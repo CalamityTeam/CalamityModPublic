@@ -1,15 +1,15 @@
 using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Dusts;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.NPCs.NormalNPCs
 {
-    public class PhantomSpiritM : ModNPC
+	public class PhantomSpiritM : ModNPC
     {
         public override void SetStaticDefaults()
         {
@@ -49,7 +49,7 @@ namespace CalamityMod.NPCs.NormalNPCs
         {
             float speed = CalamityWorld.death ? 18f : 13.5f;
             CalamityAI.DungeonSpiritAI(npc, mod, speed, -MathHelper.PiOver2);
-            int num822 = Dust.NewDust(npc.position, npc.width, npc.height, 60, 0f, 0f, 0, default, 1f);
+            int num822 = Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.Phantoplasm, 0f, 0f, 0, default, 1f);
             Dust dust = Main.dust[num822];
             dust.velocity *= 0.1f;
             dust.scale = 1.3f;
@@ -69,13 +69,13 @@ namespace CalamityMod.NPCs.NormalNPCs
         {
             for (int k = 0; k < 5; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, 60, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.Phantoplasm, hitDirection, -1f, 0, default, 1f);
             }
             if (npc.life <= 0)
             {
                 for (int num288 = 0; num288 < 50; num288++)
                 {
-                    int num289 = Dust.NewDust(npc.position, npc.width, npc.height, 60, npc.velocity.X, npc.velocity.Y, 0, default, 1f);
+                    int num289 = Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.Phantoplasm, npc.velocity.X, npc.velocity.Y, 0, default, 1f);
                     Dust dust = Main.dust[num289];
                     dust.velocity *= 2f;
                     dust.noGravity = true;
@@ -91,7 +91,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void NPCLoot()
         {
-            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Phantoplasm>(), Main.rand.Next(1, 4));
+			DropHelper.DropItem(npc, ModContent.ItemType<Phantoplasm>(), 1, 3);
         }
     }
 }

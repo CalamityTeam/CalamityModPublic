@@ -1,19 +1,25 @@
+using CalamityMod.Buffs.Potions;
+using CalamityMod.World;
+using System.Collections.Generic;
 using Terraria;
+using Terraria.GameInput;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Buffs.Potions;
-using System.Collections.Generic;
 
 namespace CalamityMod.Items.Fishing.BrimstoneCragCatches
 {
     public class Bloodfin : ModItem
     {
+		public static int BuffType = ModContent.BuffType<BloodfinBoost>();
+		public static int BuffDuration = 600;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Bloodfin");
             Tooltip.SetDefault(@"The wonders of angiogenesis
 Grants a buff that boosts life regen for 10 seconds
-The life regen boost is stronger if below 75% health");
+The life regen boost is stronger if below 75% health
+10 second duration");
         }
 
         public override void SetDefaults()
@@ -34,36 +40,9 @@ The life regen boost is stronger if below 75% health");
             item.potion = true;
         }
 
-        public override bool CanUseItem(Player player) => player.FindBuffIndex(BuffID.PotionSickness) == -1;
-
         public override void OnConsumeItem(Player player)
         {
-            player.statLife += 240;
-            if (player.statLife > player.statLifeMax2)
-            {
-                player.statLife = player.statLifeMax2;
-            }
-            if (Main.myPlayer == player.whoAmI)
-            {
-                player.HealEffect(240, true);
-            }
-            player.AddBuff(ModContent.BuffType<BloodfinBoost>(), 600);
-
-			//So you can't just spam with quick buff
-            player.ClearBuff(BuffID.PotionSickness);
-            player.AddBuff(BuffID.PotionSickness, player.pStone ? 2700 : 3600);
-        }
-
-        // Zeroes out the hardcoded healing function from having a healLife value. The item still heals in the UseItem hook.
-        public override void GetHealLife(Player player, bool quickHeal, ref int healValue)
-        {
-            healValue = 0;
-        }
-
-        // Forces the "Restores X life" tooltip to display the actual life restored instead of zero (due to the previous function).
-        public override void ModifyTooltips(List<TooltipLine> tooltips)
-        {
-            tooltips.Find(line => line.Name == "HealLife").text = "Restores " + item.healLife + " life";
+            player.AddBuff(BuffType, BuffDuration);
         }
     }
 }

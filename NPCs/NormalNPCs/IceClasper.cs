@@ -138,7 +138,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                     {
                         num8 = 25;
                     }
-                    int num9 = 128;
+                    int num9 = ProjectileID.FrostBlastHostile;
                     int beam = Projectile.NewProjectile(vector.X, vector.Y, num4, num5, num9, num8, 0f, Main.myPlayer, 0f, 0f);
                     Main.projectile[beam].timeLeft = 300;
                 }
@@ -275,15 +275,9 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void NPCLoot()
         {
-            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<EssenceofEleum>());
-            if (Main.rand.NextBool(10))
-            {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<FrostBarrier>());
-            }
-            if (Main.rand.NextBool(3))
-            {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<AncientIceChunk>());
-            }
+			DropHelper.DropItem(npc, ModContent.ItemType<EssenceofEleum>());
+			DropHelper.DropItemChance(npc, ModContent.ItemType<FrostBarrier>(), 10);
+			DropHelper.DropItemChance(npc, ModContent.ItemType<AncientIceChunk>(), 3);
         }
     }
 }

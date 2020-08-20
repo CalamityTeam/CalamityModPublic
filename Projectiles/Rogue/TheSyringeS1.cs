@@ -2,12 +2,11 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
-using Terraria.ID;
 using CalamityMod.Buffs.DamageOverTime;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class TheSyringeS1 : ModProjectile
+	public class TheSyringeS1 : ModProjectile
     {
         public override void SetStaticDefaults()
         {

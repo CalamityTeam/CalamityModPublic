@@ -1,4 +1,5 @@
 using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Dusts;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
 using Terraria;
@@ -18,8 +19,8 @@ namespace CalamityMod.NPCs.NormalNPCs
         {
             npc.npcSlots = 0.5f;
             npc.aiStyle = 14;
-            aiType = 152;
-            animationType = 152;
+            aiType = NPCID.GiantFlyingFox;
+            animationType = NPCID.GiantFlyingFox;
             npc.damage = 55;
             npc.width = 38;
             npc.height = 34;
@@ -57,20 +58,20 @@ namespace CalamityMod.NPCs.NormalNPCs
         {
             for (int k = 0; k < 5; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, 46, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.Plague, hitDirection, -1f, 0, default, 1f);
             }
             if (npc.life <= 0)
             {
                 for (int k = 0; k < 20; k++)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, 46, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.Plague, hitDirection, -1f, 0, default, 1f);
                 }
             }
         }
 
         public override void NPCLoot()
         {
-            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<PlagueCellCluster>(), Main.rand.Next(1, 3));
+			DropHelper.DropItem(npc, ModContent.ItemType<PlagueCellCluster>(), 1, 2);
         }
     }
 }

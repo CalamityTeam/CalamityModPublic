@@ -10,7 +10,6 @@ using CalamityMod.NPCs.GreatSandShark;
 using CalamityMod.NPCs.NormalNPCs;
 using CalamityMod.NPCs.Perforator;
 using CalamityMod.NPCs.PlaguebringerGoliath;
-using CalamityMod.NPCs.Polterghast;
 using CalamityMod.NPCs.Providence;
 using CalamityMod.NPCs.Ravager;
 using CalamityMod.NPCs.SlimeGod;
@@ -31,7 +30,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.UI
 {
-    /*
+	/*
     Heyo! Here's some things you might need to know about this class and where to change things:
 
     In the "Load" method is where the "OneToMany" dictionary is updated.
@@ -54,7 +53,7 @@ namespace CalamityMod.UI
     That should be it -- ask if you have any questions!
     */
 
-    internal static class BossHealthBarManager
+	internal static class BossHealthBarManager
     {
         private static readonly int MAX_BARS = 4;
 
@@ -133,10 +132,6 @@ namespace CalamityMod.UI
             OneToMany[NPCID.MoonLordHead] = MoonLord;
             OneToMany[NPCID.MoonLordHand] = MoonLord;
             OneToMany[NPCID.MoonLordCore] = MoonLord;
-
-            int[] StarWorm = new int[] { ModContent.NPCType<AstrumDeusHeadSpectral>(), ModContent.NPCType<AstrumDeusHead>() };
-            OneToMany[ModContent.NPCType<AstrumDeusHeadSpectral>()] = StarWorm;
-            OneToMany[ModContent.NPCType<AstrumDeusHead>()] = StarWorm;
 
             int[] Void = new int[] { ModContent.NPCType<CeaselessVoid>(), ModContent.NPCType<DarkEnergy>(), ModContent.NPCType<DarkEnergy2>(), ModContent.NPCType<DarkEnergy3>() };
             OneToMany[ModContent.NPCType<CeaselessVoid>()] = Void;
@@ -312,10 +307,6 @@ namespace CalamityMod.UI
                 {
                     AttemptAddBar(i, NPCID.PirateShip);
                 }
-                else if (Main.npc[i].type == ModContent.NPCType<AstrumDeusHeadSpectral>())
-                {
-                    AttemptAddBar(i, ModContent.NPCType<AstrumDeusHeadSpectral>());
-                }
                 else if (Main.npc[i].type == ModContent.NPCType<CalamitasRun3>())
                 {
                     AttemptAddBar(i, ModContent.NPCType<CalamitasRun3>());
@@ -441,8 +432,7 @@ namespace CalamityMod.UI
                 Skelet,
                 SkeletPrime,
                 MartSaucer,
-                PirShip,
-                Astrum
+                PirShip
             }
 
             enum SpecialType2 : byte
@@ -490,10 +480,6 @@ namespace CalamityMod.UI
                 else if (type == ModContent.NPCType<CeaselessVoid>())
                 {
                     _special2 = SpecialType2.Ceaseless;
-                }
-                else if (type == ModContent.NPCType<AstrumDeusHeadSpectral>())
-                {
-                    _special = SpecialType.Astrum;
                 }
                 else
                 {
@@ -675,10 +661,6 @@ namespace CalamityMod.UI
                         int count6 = NPC.CountNPCS(NPCID.PirateShipCannon);
                         _specialData[5] = count6;
                         break;
-                    case SpecialType.Astrum:
-                        int count7 = NPC.CountNPCS(ModContent.NPCType<AstrumDeusHead>());
-                        _specialData[6] = count7;
-                        break;
                 }
 
                 switch (_special2)
@@ -804,12 +786,6 @@ namespace CalamityMod.UI
                             float countX6 = Math.Max(x, x + mainBarWidth - countSize6.X);
                             DrawBorderStringEightWay(sb, Main.fontItemStack, count6, new Vector2(countX6, y + MainBarYOffset + 17), Color.White, Color.Black * 0.24f, textScale);
                             return;
-                        case SpecialType.Astrum:
-                            string count7 = "(Small Worms left: " + _specialData[6] + ")";
-                            Vector2 countSize7 = Main.fontItemStack.MeasureString(count7) * textScale;
-                            float countX7 = Math.Max(x, x + mainBarWidth - countSize7.X);
-                            DrawBorderStringEightWay(sb, Main.fontItemStack, count7, new Vector2(countX7, y + MainBarYOffset + 17), Color.White, Color.Black * 0.24f, textScale);
-                            return;
                     }
 
                     switch (_special2)
@@ -921,13 +897,6 @@ namespace CalamityMod.UI
                             Vector2 countSize6 = Main.fontItemStack.MeasureString(count6) * textScale;
                             float countX6 = Math.Max(x, x + mainBarWidth - countSize6.X);
                             DrawBorderStringEightWay(sb, Main.fontItemStack, count6, new Vector2(countX6, y + MainBarYOffset + 17), Color.White * flickerValue, Color.Black * 0.24f * flickerValue, textScale);
-                            _openAnimCounter--;
-                            return;
-                        case SpecialType.Astrum:
-                            string count7 = "(Small Worms left: " + _specialData[6] + ")";
-                            Vector2 countSize7 = Main.fontItemStack.MeasureString(count7) * textScale;
-                            float countX7 = Math.Max(x, x + mainBarWidth - countSize7.X);
-                            DrawBorderStringEightWay(sb, Main.fontItemStack, count7, new Vector2(countX7, y + MainBarYOffset + 17), Color.White * flickerValue, Color.Black * 0.24f * flickerValue, textScale);
                             _openAnimCounter--;
                             return;
                     }

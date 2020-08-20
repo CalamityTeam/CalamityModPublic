@@ -2,7 +2,6 @@ using CalamityMod.Dusts;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Critters;
 using CalamityMod.Items.Pets;
-using CalamityMod.Projectiles.Enemy;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
@@ -11,7 +10,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.NPCs.AcidRain
 {
-    public class FlakBaby : ModNPC
+	public class FlakBaby : ModNPC
     {
         public override void SetStaticDefaults()
         {
@@ -29,7 +28,6 @@ namespace CalamityMod.NPCs.AcidRain
             npc.lifeMax = 5;
             npc.defense = 5;
 
-            npc.knockBackResist = 0f;
             for (int k = 0; k < npc.buffImmune.Length; k++)
             {
                 npc.buffImmune[k] = true;

@@ -1,9 +1,8 @@
-using CalamityMod.Projectiles.Ranged;
 using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Melee
 {
-    public class LaserFountain : ModProjectile
+	public class LaserFountain : ModProjectile
     {
         public override void SetStaticDefaults()
         {

@@ -39,10 +39,10 @@ namespace CalamityMod.NPCs.AcidRain
             else if (CalamityWorld.downedAquaticScourge)
             {
                 npc.damage = 80;
-                npc.lifeMax = 420;
+                npc.lifeMax = 380;
             }
 
-            npc.knockBackResist = 0f;
+            npc.knockBackResist = 0.7f;
             npc.value = Item.buyPrice(0, 0, 5, 0);
             for (int k = 0; k < npc.buffImmune.Length; k++)
             {
@@ -60,6 +60,10 @@ namespace CalamityMod.NPCs.AcidRain
         {
             npc.TargetClosest(false);
             Player player = Main.player[npc.target];
+
+            // Slow down over time on the X axis (to prevent endless sliding as a result of KB)
+            npc.velocity.X *= 0.96f;
+
             // Hover on the top of the water
             if (npc.wet)
             {

@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             DisplayName.SetDefault("Deathhail Staff");
             Tooltip.SetDefault("Rain death upon your foes!\n" +
-                "Casts a storm of nebula shots from the sky");
+                "Casts a storm of nebula lasers from the sky");
             Item.staff[item.type] = true;
         }
 
@@ -101,7 +101,7 @@ namespace CalamityMod.Items.Weapons.Magic
                 num79 *= num80;
                 float speedX4 = num78 + (float)Main.rand.Next(-50, 51) * 0.02f;
                 float speedY5 = num79 + (float)Main.rand.Next(-50, 51) * 0.02f;
-                Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, type, num73, num74, i, 0f, (float)Main.rand.Next(10));
+                Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, type, num73, num74, i, 0f, 0f);
             }
             return false;
         }

@@ -3,17 +3,17 @@ using CalamityMod.Items.Materials;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
 using Terraria.DataStructures;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
 {
-    public class StatisBeltOfCurses : ModItem
+	public class StatisBeltOfCurses : ModItem
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Statis' Void Sash");
-            Tooltip.SetDefault("Increases jump speed and allows constant jumping\n" +
+            Tooltip.SetDefault("24% increased jump speed and allows constant jumping\n" +
+				"Increases fall damage resistance by 50 blocks\n" +
                 "Can climb walls, dash, and dodge attacks\n" +
                 "Dashes leave homing scythes in your wake\n" +
                 "Toggle visibility of this accessory to enable/disable the dash");
@@ -24,7 +24,7 @@ namespace CalamityMod.Items.Accessories
         {
             item.width = 28;
             item.height = 32;
-            item.value = Item.buyPrice(0, 90, 0, 0);
+            item.value = CalamityGlobalItem.Rarity14BuyPrice;
             item.accessory = true;
             item.Calamity().postMoonLordRarity = 14;
         }

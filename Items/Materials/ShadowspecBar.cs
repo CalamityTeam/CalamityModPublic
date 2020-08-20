@@ -1,6 +1,7 @@
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Materials
@@ -18,8 +19,8 @@ namespace CalamityMod.Items.Materials
             item.width = 15;
             item.height = 12;
             item.maxStack = 999;
-            item.rare = 10;
-            item.value = Item.sellPrice(gold: 70);
+            item.rare = ItemRarityID.Red;
+            item.value = Item.sellPrice(gold: 85);
             item.Calamity().customRarity = CalamityRarity.Violet;
         }
 

@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Accessories
         {
             item.width = 48;
             item.height = 62;
-            item.value = Item.buyPrice(0, 26, 0, 0);
+            item.value = CalamityGlobalItem.Rarity9BuyPrice;
             item.rare = 9;
             item.accessory = true;
         }
@@ -44,7 +44,6 @@ namespace CalamityMod.Items.Accessories
             recipe.AddIngredient(ModContent.ItemType<SilencingSheath>());
             recipe.AddIngredient(ModContent.ItemType<RuinMedallion>());
             recipe.AddIngredient(ModContent.ItemType<MeldiateBar>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<Stardust>(), 25);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();

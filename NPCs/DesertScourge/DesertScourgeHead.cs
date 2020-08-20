@@ -1,4 +1,4 @@
-using CalamityMod.Items.Accessories;
+﻿using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Materials;
@@ -12,24 +12,19 @@ using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.NPCs.TownNPCs;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
+using System;
 using System.IO;
 using System.Reflection;
 using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
-using Terraria.ModLoader.Config;
-using CalamityMod;
 namespace CalamityMod.NPCs.DesertScourge
 {
     [AutoloadBossHead]
     public class DesertScourgeHead : ModNPC
     {
         private bool flies = false;
-        private float speed = 15f;
-        private float turnSpeed = 0.15f;
-        private const int minLength = 30;
-        private const int maxLength = 31;
         private bool TailSpawned = false;
 
         public override void SetStaticDefaults()
@@ -44,7 +39,7 @@ namespace CalamityMod.NPCs.DesertScourge
             npc.width = 32;
             npc.height = 80;
             npc.LifeMaxNERB(2300, 2650, 16500000);
-            double HPBoost = CalamityMod.CalamityConfig.BossHealthPercentageBoost * 0.01;
+            double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.aiStyle = 6;
             aiType = -1;
@@ -89,17 +84,31 @@ namespace CalamityMod.NPCs.DesertScourge
             bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
 			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
 
-			float speedMult = expertMode ? 1.5f : 1.45f;
-            if (npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive))
-                speedMult = 2f;
-            if (CalamityWorld.bossRushActive)
-                speedMult *= 2f;
+			// Percent life remaining
+			float lifeRatio = npc.life / (float)npc.lifeMax;
 
-			float speedBoost = death ? speedMult : speedMult - ((float)npc.life / (float)npc.lifeMax);
-			speed = 13f * speedBoost;
-            turnSpeed = 0.13f * speedBoost;
+			float speed = 8f;
+			float turnSpeed = 0.08f;
 
-            if (npc.ai[3] > 0f)
+			if (expertMode)
+			{
+				speed += death ? 6f : 6f * (1f - lifeRatio);
+				turnSpeed += death ? 0.06f : 0.06f * (1f - lifeRatio);
+			}
+
+			if (npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive))
+			{
+				speed *= 1.25f;
+				turnSpeed *= 1.25f;
+			}
+
+			if (CalamityWorld.bossRushActive)
+			{
+				speed *= 1.25f;
+				turnSpeed *= 1.25f;
+			}
+
+			if (npc.ai[3] > 0f)
             {
                 npc.realLife = (int)npc.ai[3];
             }
@@ -123,7 +132,8 @@ namespace CalamityMod.NPCs.DesertScourge
                 if (!TailSpawned && npc.ai[0] == 0f)
                 {
                     int Previous = npc.whoAmI;
-                    for (int num36 = 0; num36 < maxLength; num36++)
+					int minLength = expertMode ? 30 : 25;
+                    for (int num36 = 0; num36 < minLength + 1; num36++)
                     {
                         int lol;
                         if (num36 >= 0 && num36 < minLength)
@@ -135,9 +145,9 @@ namespace CalamityMod.NPCs.DesertScourge
                             lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), ModContent.NPCType<DesertScourgeTail>(), npc.whoAmI);
                         }
                         Main.npc[lol].realLife = npc.whoAmI;
-                        Main.npc[lol].ai[2] = (float)npc.whoAmI;
-                        Main.npc[lol].ai[1] = (float)Previous;
-                        Main.npc[Previous].ai[0] = (float)lol;
+                        Main.npc[lol].ai[2] = npc.whoAmI;
+                        Main.npc[lol].ai[1] = Previous;
+                        Main.npc[Previous].ai[0] = lol;
                         NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, lol, 0f, 0f, 0f, 0);
                         Previous = lol;
                     }
@@ -145,9 +155,9 @@ namespace CalamityMod.NPCs.DesertScourge
                 }
             }
             int num180 = (int)(npc.position.X / 16f) - 1;
-            int num181 = (int)((npc.position.X + (float)npc.width) / 16f) + 2;
+            int num181 = (int)((npc.position.X + npc.width) / 16f) + 2;
             int num182 = (int)(npc.position.Y / 16f) - 1;
-            int num183 = (int)((npc.position.Y + (float)npc.height) / 16f) + 2;
+            int num183 = (int)((npc.position.Y + npc.height) / 16f) + 2;
             if (num180 < 0)
             {
                 num180 = 0;
@@ -189,7 +199,7 @@ namespace CalamityMod.NPCs.DesertScourge
             {
                 npc.localAI[1] = 1f;
                 Rectangle rectangle12 = new Rectangle((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height);
-                int num954 = (npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 500 : 1000;
+                int num954 = (npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 500 : 1000;
                 if (CalamityWorld.bossRushActive)
                     num954 /= 2;
 
@@ -306,7 +316,7 @@ namespace CalamityMod.NPCs.DesertScourge
                         num195 = 20f;
                     }
                     npc.soundDelay = (int)num195;
-                    Main.PlaySound(SoundID.Roar, (int)npc.position.X, (int)npc.position.Y, 1);
+                    Main.PlaySound(15, (int)npc.position.X, (int)npc.position.Y, 1);
                 }
                 num193 = (float)System.Math.Sqrt((double)(num191 * num191 + num192 * num192));
                 float num196 = System.Math.Abs(num191);
@@ -461,7 +471,7 @@ namespace CalamityMod.NPCs.DesertScourge
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeDesertScourge>(), true, !CalamityWorld.downedDesertScourge);
             DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedDesertScourge, 2, 0, 0);
 
-			npc.Calamity().SetNewShopVariable(new int[] { ModContent.NPCType<SEAHOE>() }, CalamityWorld.downedDesertScourge);
+			CalamityGlobalTownNPC.SetNewShopVariable(new int[] { ModContent.NPCType<SEAHOE>() }, CalamityWorld.downedDesertScourge);
 
 			// All other drops are contained in the bag, so they only drop directly on Normal
 			if (!Main.expertMode)
@@ -473,17 +483,23 @@ namespace CalamityMod.NPCs.DesertScourge
                 DropHelper.DropItem(npc, ItemID.Starfish, 5, 9);
 
                 // Weapons
-                DropHelper.DropItemChance(npc, ModContent.ItemType<AquaticDischarge>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Barinade>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<StormSpray>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<SeaboundStaff>(), 4);
-                float f = Main.rand.NextFloat();
-                bool replaceWithRare = f <= DropHelper.RareVariantDropRateFloat; // 1/40 chance overall of getting Dune Hopper
-                if (f < 0.25f) // 1/4 chance of getting Scourge of the Desert OR Dune Hopper replacing it
+                // Set up the base drop set, which includes Scourge of the Desert at its normal drop chance.
+                float w = DropHelper.DirectWeaponDropRateFloat;
+                DropHelper.WeightedItemStack[] weapons =
                 {
-                    DropHelper.DropItemCondition(npc, ModContent.ItemType<ScourgeoftheDesert>(), !replaceWithRare);
-                    DropHelper.DropItemCondition(npc, ModContent.ItemType<DuneHopper>(), replaceWithRare);
-                }
+                    DropHelper.WeightStack<AquaticDischarge>(w),
+                    DropHelper.WeightStack<Barinade>(w),
+                    DropHelper.WeightStack<StormSpray>(w),
+                    DropHelper.WeightStack<SeaboundStaff>(w),
+                    DropHelper.WeightStack<ScourgeoftheDesert>(w),
+                };
+
+                // If the RIV roll for Dune Hopper succeeds, REPLACE Scourge of the Desert with a guaranteed Dune Hopper.
+                float duneHopperChance = DropHelper.RareVariantDropRateFloat;
+                if (Main.rand.NextFloat() < duneHopperChance)
+                    weapons[4] = DropHelper.WeightStack<DuneHopper>();
+
+                DropHelper.DropEntireWeightedSet(npc, weapons);
 
                 // Equipment
                 DropHelper.DropItemChance(npc, ModContent.ItemType<AeroStone>(), 10);
@@ -494,19 +510,7 @@ namespace CalamityMod.NPCs.DesertScourge
                 DropHelper.DropItemChance(npc, ModContent.ItemType<DesertScourgeMask>(), 7);
 
                 // Fishing
-                DropHelper.DropItemChance(npc, ItemID.HighTestFishingLine, 15);
-                DropHelper.DropItemChance(npc, ItemID.TackleBox, 15);
-                DropHelper.DropItemChance(npc, ItemID.AnglerEarring, 15);
-                DropHelper.DropItemChance(npc, ItemID.FishermansGuide, 10);
-                DropHelper.DropItemChance(npc, ItemID.WeatherRadio, 10);
-                DropHelper.DropItemChance(npc, ItemID.Sextant, 10);
-                DropHelper.DropItemChance(npc, ItemID.AnglerHat, 5);
-                DropHelper.DropItemChance(npc, ItemID.AnglerVest, 5);
-                DropHelper.DropItemChance(npc, ItemID.AnglerPants, 5);
-                DropHelper.DropItemChance(npc, ItemID.FishingPotion, 5, 2, 3);
-                DropHelper.DropItemChance(npc, ItemID.SonarPotion, 5, 2, 3);
-                DropHelper.DropItemChance(npc, ItemID.CratePotion, 5, 2, 3);
-                DropHelper.DropItemCondition(npc, ItemID.GoldenBugNet, NPC.downedBoss3, 20, 1, 1);
+                DropHelper.DropItem(npc, ModContent.ItemType<SandyAnglingKit>());
             }
 
             // If Desert Scourge has not been killed yet, notify players that the Sunken Sea is open and Sandstorms can happen
@@ -541,7 +545,7 @@ namespace CalamityMod.NPCs.DesertScourge
         {
             for (int k = 0; k < 3; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
             }
             if (npc.life <= 0)
             {
@@ -549,7 +553,7 @@ namespace CalamityMod.NPCs.DesertScourge
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/ScourgeHead2"), 1f);
                 for (int k = 0; k < 10; k++)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
                 }
             }
         }

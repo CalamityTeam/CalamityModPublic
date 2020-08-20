@@ -1,15 +1,12 @@
-using System;
 using Terraria;
-using Terraria.ID;
 using Microsoft.Xna.Framework;
 using Terraria.ModLoader;
-using CalamityMod.Projectiles.Typeless;
 using CalamityMod.CalPlayer;
 using CalamityMod.Buffs.DamageOverTime;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class HellsSunProj : ModProjectile
+	public class HellsSunProj : ModProjectile
     {
 
         public override void SetStaticDefaults()

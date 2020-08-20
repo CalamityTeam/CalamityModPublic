@@ -1,6 +1,7 @@
 using System;
 using Microsoft.Xna.Framework;
 using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Dusts;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.World;
@@ -26,7 +27,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.width = 18;
             npc.height = 40;
             npc.defense = 18;
-            npc.Calamity().RevPlusDR(0.15f);
+			npc.DR_NERD(0.15f);
             npc.lifeMax = NPC.downedMoonlord ? 1800 : 135;
             npc.knockBackResist = 0f;
             npc.value = Item.buyPrice(0, 0, 2, 0);
@@ -34,6 +35,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.DeathSound = SoundID.NPCDeath2;
             banner = npc.type;
             bannerItem = ModContent.ItemType<OverloadedSoldierBanner>();
+            npc.buffImmune[BuffID.Confused] = false;
         }
 
 		public override void FindFrame(int frameHeight)
@@ -420,24 +422,21 @@ namespace CalamityMod.NPCs.NormalNPCs
         {
             for (int k = 0; k < 3; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, 60, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.Phantoplasm, hitDirection, -1f, 0, default, 1f);
             }
             if (npc.life <= 0)
             {
                 for (int k = 0; k < 15; k++)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, 60, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.Phantoplasm, hitDirection, -1f, 0, default, 1f);
                 }
             }
         }
 
         public override void NPCLoot()
         {
-            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<AncientBoneDust>());
-            if (NPC.downedMoonlord)
-            {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Phantoplasm>());
-            }
+			DropHelper.DropItem(npc, ModContent.ItemType<AncientBoneDust>());
+			DropHelper.DropItemCondition(npc, ModContent.ItemType<Phantoplasm>(), NPC.downedMoonlord);
         }
     }
 }

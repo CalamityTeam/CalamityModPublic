@@ -33,7 +33,7 @@ namespace CalamityMod.NPCs.GreatSandShark
             npc.width = 300;
             npc.height = 120;
             npc.defense = 60;
-            npc.Calamity().RevPlusDR(0.25f);
+			npc.DR_NERD(0.25f);
 			npc.LifeMaxNERB(8000, 11000);
             npc.aiStyle = -1;
             aiType = -1;
@@ -53,6 +53,7 @@ namespace CalamityMod.NPCs.GreatSandShark
 			npc.buffImmune[BuffID.StardustMinionBleed] = false;
 			npc.buffImmune[BuffID.DryadsWardDebuff] = false;
 			npc.buffImmune[BuffID.Oiled] = false;
+			npc.buffImmune[BuffID.BetsysCurse] = false;
 			npc.buffImmune[ModContent.BuffType<AstralInfectionDebuff>()] = false;
 			npc.buffImmune[ModContent.BuffType<GodSlayerInferno>()] = false;
             npc.buffImmune[ModContent.BuffType<AbyssalFlames>()] = false;
@@ -62,6 +63,7 @@ namespace CalamityMod.NPCs.GreatSandShark
             npc.buffImmune[ModContent.BuffType<Nightwither>()] = false;
             npc.buffImmune[ModContent.BuffType<Plague>()] = false;
             npc.buffImmune[ModContent.BuffType<Shred>()] = false;
+            npc.buffImmune[ModContent.BuffType<WarCleave>()] = false;
             npc.buffImmune[ModContent.BuffType<WhisperingDeath>()] = false;
             npc.buffImmune[ModContent.BuffType<SilvaStun>()] = false;
             npc.behindTiles = true;
@@ -597,7 +599,7 @@ namespace CalamityMod.NPCs.GreatSandShark
             int num159 = 1;
             float num160 = 0f;
             int num161 = num159;
-            while (((num158 > 0 && num161 < num157) || (num158 < 0 && num161 > num157)) && CalamityMod.CalamityConfig.Afterimages)
+            while (((num158 > 0 && num161 < num157) || (num158 < 0 && num161 > num157)) && CalamityConfig.Instance.Afterimages)
             {
                 Color color26 = npc.GetAlpha(color25);
                 {
@@ -627,7 +629,7 @@ namespace CalamityMod.NPCs.GreatSandShark
         {
             for (int k = 0; k < 5; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
             }
             if (npc.life <= 0)
             {

@@ -1,10 +1,9 @@
-using CalamityMod.Items.Mounts;
 using Terraria;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Buffs.Mounts
 {
-    public class AndromedaBuff : ModBuff
+	public class AndromedaBuff : ModBuff
     {
         public override void SetDefaults()
         {

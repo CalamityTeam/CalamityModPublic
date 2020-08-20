@@ -7,7 +7,7 @@ namespace CalamityMod.Buffs.StatBuffs
     {
         public override void SetDefaults()
         {
-            DisplayName.SetDefault("Xeroc Wrath");
+            DisplayName.SetDefault("Empyrean Wrath");
             Description.SetDefault("Wrath of the cosmos");
             Main.debuff[Type] = false;
             Main.pvpBuff[Type] = true;

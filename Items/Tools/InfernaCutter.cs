@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Tools
             item.damage = 110;
 			item.crit += 10;
             item.melee = true;
-            item.width = 60;
+            item.width = 62;
             item.height = 46;
             item.useTime = 8;
             item.useAnimation = 12;
@@ -34,6 +34,11 @@ namespace CalamityMod.Items.Tools
             item.rare = 5;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
+        }
+
+        public override void UseItemHitbox(Player player, ref Rectangle hitbox, ref bool noHitbox)
+        {
+            hitbox = CalamityUtils.FixSwingHitbox(54, 54);
         }
 
         public override void AddRecipes()

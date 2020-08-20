@@ -3,17 +3,14 @@ using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.NPCs.SunkenSea
 {
-    public class PrismTurtle : ModNPC
+	public class PrismTurtle : ModNPC
     {
-        public bool hasBeenHit = false;
-
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Prism-Back");
@@ -27,7 +24,7 @@ namespace CalamityMod.NPCs.SunkenSea
             npc.width = 72;
             npc.height = 58;
             npc.defense = Main.hardMode ? 25 : 10;
-            npc.Calamity().RevPlusDR(0.25f);
+			npc.DR_NERD(0.25f);
             npc.lifeMax = Main.hardMode ? 1000 : 350;
             npc.aiStyle = -1;
             aiType = -1;
@@ -37,18 +34,17 @@ namespace CalamityMod.NPCs.SunkenSea
             npc.knockBackResist = 0.15f;
             banner = npc.type;
             bannerItem = ModContent.ItemType<PrismTurtleBanner>();
+			npc.chaseable = false;
         }
 
         public override void SendExtraAI(BinaryWriter writer)
         {
             writer.Write(npc.chaseable);
-            writer.Write(hasBeenHit);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
             npc.chaseable = reader.ReadBoolean();
-            hasBeenHit = reader.ReadBoolean();
         }
 
         public override void AI()
@@ -124,7 +120,7 @@ namespace CalamityMod.NPCs.SunkenSea
         {
             if (projectile.minion && !projectile.Calamity().overridesMinionDamagePrevention)
             {
-                return hasBeenHit;
+                return npc.chaseable;
             }
             return null;
         }
@@ -140,10 +136,7 @@ namespace CalamityMod.NPCs.SunkenSea
 
         public override void NPCLoot()
         {
-            if (CalamityWorld.downedDesertScourge)
-            {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<PrismShard>(), Main.rand.Next(1, 4));
-            }
+			DropHelper.DropItemCondition(npc, ModContent.ItemType<PrismShard>(), CalamityWorld.downedDesertScourge, 1, 1, 3);
         }
 
         public override void HitEffect(int hitDirection, double damage)

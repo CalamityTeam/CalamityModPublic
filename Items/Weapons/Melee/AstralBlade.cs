@@ -2,6 +2,7 @@ using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using CalamityMod.Items.Placeables;
 using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -12,11 +13,12 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Astral Blade");
-        }
+			Tooltip.SetDefault("Deals more damage the more life an enemy has left");
+		}
 
         public override void SetDefaults()
         {
-            item.damage = 135;
+            item.damage = 95;
             item.crit += 25;
             item.melee = true;
             item.width = 60;
@@ -25,7 +27,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.useAnimation = 9;
             item.useTurn = true;
             item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 5f;
+            item.knockBack = 4f;
             item.value = Item.buyPrice(0, 95, 0, 0);
             item.rare = 9;
             item.UseSound = SoundID.Item1;
@@ -62,5 +64,34 @@ namespace CalamityMod.Items.Weapons.Melee
                 }
             }
         }
-    }
+
+		public override void ModifyHitNPC(Player player, NPC target, ref int damage, ref float knockBack, ref bool crit)
+		{
+			float lifeRatio = target.life / (float)target.lifeMax;
+			float multiplier = MathHelper.Lerp(1f, 2f, lifeRatio);
+
+			damage = (int)(damage * multiplier);
+			knockBack *= multiplier;
+
+			if (!crit)
+				crit = Main.rand.NextBool((int)MathHelper.Clamp((item.crit + player.meleeCrit) * multiplier, 0f, 99f), 100);
+
+			if (multiplier > 1.5f)
+			{
+				Main.PlaySound(SoundID.Item105, Main.player[Main.myPlayer].position);
+				bool blue = Main.rand.NextBool();
+				float angleStart = Main.rand.NextFloat(0f, MathHelper.TwoPi);
+				float var = 0.05f + (2f - multiplier);
+				for (float angle = 0f; angle < MathHelper.TwoPi; angle += var)
+				{
+					blue = !blue;
+					Vector2 velocity = angle.ToRotationVector2() * (2f + (float)(Math.Sin(angleStart + angle * 3f) + 1) * 2.5f) * Main.rand.NextFloat(0.95f, 1.05f);
+					Dust d = Dust.NewDustPerfect(target.Center, blue ? ModContent.DustType<AstralBlue>() : ModContent.DustType<AstralOrange>(), velocity);
+					d.customData = 0.025f;
+					d.scale = multiplier - 0.75f;
+					d.noLight = false;
+				}
+			}
+		}
+	}
 }

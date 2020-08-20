@@ -13,7 +13,7 @@ namespace CalamityMod.Items.LoreItems
             DisplayName.SetDefault("Golem");
             Tooltip.SetDefault("A primitive construct.\n" +
                 "I admire the lihzahrd race for their ingenuity, though finding faith in such a flawed idol would invariably lead to their downfall.\n" +
-                "Place in your inventory to gain increased defense while standing still.");
+                "Favorite this item to gain increased defense while standing still.");
         }
 
         public override void SetDefaults()
@@ -32,7 +32,8 @@ namespace CalamityMod.Items.LoreItems
         public override void UpdateInventory(Player player)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            modPlayer.golemLore = true;
+			if (item.favorited)
+				modPlayer.golemLore = true;
         }
 
         public override void AddRecipes()

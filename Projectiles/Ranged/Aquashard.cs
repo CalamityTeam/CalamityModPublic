@@ -26,24 +26,18 @@ namespace CalamityMod.Projectiles.Ranged
         public override void AI()
         {
             projectile.velocity.X *= 0.9995f;
-            projectile.velocity.Y = projectile.velocity.Y + 0.01f;
+            projectile.velocity.Y += 0.01f;
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            int num251 = Main.rand.Next(2, 4);
+            int projAmt = Main.rand.Next(2, 4);
             if (projectile.owner == Main.myPlayer)
             {
-                for (int num252 = 0; num252 < num251; num252++)
+                for (int i = 0; i < projAmt; i++)
                 {
-                    Vector2 value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-                    while (value15.X == 0f && value15.Y == 0f)
-                    {
-                        value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-                    }
-                    value15.Normalize();
-                    value15 *= (float)Main.rand.Next(70, 101) * 0.1f;
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value15.X, value15.Y, ModContent.ProjectileType<AquashardSplit>(), (int)((double)projectile.damage * 0.5), 0f, projectile.owner, 0f, 0f);
+					Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
+                    Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<AquashardSplit>(), (int)(projectile.damage * 0.5), 0f, projectile.owner, 0f, 0f);
                 }
             }
         }

@@ -1,4 +1,3 @@
-
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.Materials;
@@ -10,7 +9,6 @@ using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.NPCs.BrimstoneElemental;
 using CalamityMod.World;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.TreasureBags
@@ -49,9 +47,12 @@ namespace CalamityMod.Items.TreasureBags
             DropHelper.DropItemCondition(player, ModContent.ItemType<Bloodstone>(), CalamityWorld.downedProvidence, 25, 35);
 
             // Weapons
-            DropHelper.DropItemChance(player, ModContent.ItemType<Brimlance>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<SeethingDischarge>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<DormantBrimseeker>(), 3);
+            float w = DropHelper.BagWeaponDropRateFloat;
+            DropHelper.DropEntireWeightedSet(player,
+                DropHelper.WeightStack<Brimlance>(w),
+                DropHelper.WeightStack<SeethingDischarge>(w),
+                DropHelper.WeightStack<DormantBrimseeker>(w)
+            );
 
             // Equipment
             DropHelper.DropItem(player, ModContent.ItemType<Abaddon>());

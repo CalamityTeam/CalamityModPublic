@@ -7,11 +7,9 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.ModLoader.Config;
-using CalamityMod;
 namespace CalamityMod.NPCs.Ravager
 {
-    public class RavagerClawRight : ModNPC
+	public class RavagerClawRight : ModNPC
     {
         public override void SetStaticDefaults()
         {
@@ -26,7 +24,7 @@ namespace CalamityMod.NPCs.Ravager
             npc.width = 80;
             npc.height = 40;
             npc.defense = 40;
-            npc.Calamity().RevPlusDR(0.1f);
+			npc.DR_NERD(0.1f);
             npc.lifeMax = 11120;
             npc.knockBackResist = 0f;
             aiType = -1;
@@ -50,6 +48,7 @@ namespace CalamityMod.NPCs.Ravager
             npc.buffImmune[ModContent.BuffType<HolyFlames>()] = false;
             npc.buffImmune[ModContent.BuffType<Nightwither>()] = false;
             npc.buffImmune[ModContent.BuffType<Shred>()] = false;
+            npc.buffImmune[ModContent.BuffType<WarCleave>()] = false;
             npc.buffImmune[ModContent.BuffType<WhisperingDeath>()] = false;
             npc.buffImmune[ModContent.BuffType<SilvaStun>()] = false;
             npc.noGravity = true;
@@ -68,7 +67,7 @@ namespace CalamityMod.NPCs.Ravager
             {
                 npc.lifeMax = 260000;
             }
-            double HPBoost = (double)CalamityMod.CalamityConfig.BossHealthPercentageBoost * 0.01;
+            double HPBoost = (double)CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
         }
 
@@ -97,7 +96,7 @@ namespace CalamityMod.NPCs.Ravager
             if (npc.ai[0] == 0f)
             {
                 npc.noTileCollide = true;
-                float num659 = 14f;
+                float num659 = 21f;
                 if (npc.life < npc.lifeMax / 2 || death)
                 {
                     num659 += 1f;
@@ -321,7 +320,8 @@ namespace CalamityMod.NPCs.Ravager
             {
                 player.AddBuff(ModContent.BuffType<Horror>(), 300, true);
             }
-        }
+			player.AddBuff(ModContent.BuffType<ArmorCrunch>(), 180, true);
+		}
 
         public override void HitEffect(int hitDirection, double damage)
         {
@@ -330,7 +330,7 @@ namespace CalamityMod.NPCs.Ravager
                 int num285 = 0;
                 while ((double)num285 < damage / (double)npc.lifeMax * 100.0)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, 5, (float)hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, (float)hitDirection, -1f, 0, default, 1f);
                     num285++;
                 }
             }

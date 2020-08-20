@@ -106,7 +106,7 @@ namespace CalamityMod.Projectiles.Ranged
         void SpawnExplosionDust()
         {
             // Sparks and such
-            Vector2 corner = new Vector2(projectile.position.X, projectile.position.Y);
+            Vector2 corner = projectile.position;
             for (int i = 0; i < 40; i++)
             {
                 int idx = Dust.NewDust(corner, projectile.width, projectile.height, 31, 0f, 0f, 100, default, 2f);
@@ -127,7 +127,7 @@ namespace CalamityMod.Projectiles.Ranged
             }
 
             // Smoke, which counts as a Gore
-			CalamityUtils.ExplosionGores(projectile, 3);
+			CalamityUtils.ExplosionGores(projectile.Center, 3);
         }
     }
 }

@@ -1,12 +1,11 @@
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class TotalityFlask : ModProjectile
+	public class TotalityFlask : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -26,13 +25,13 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void AI()
         {
-            if (projectile.Calamity().stealthStrike == true)
+            if (projectile.Calamity().stealthStrike)
             {
 				if (projectile.timeLeft % 10 == 0)
 				{
 					if (projectile.owner == Main.myPlayer)
 					{
-						Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X * 0f, projectile.velocity.Y * 0f, ModContent.ProjectileType<TotalityTar>(), (int)(projectile.damage * 0.6), projectile.knockBack, projectile.owner, 0f, 0f);
+						Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<TotalityTar>(), (int)(projectile.damage * 0.6), projectile.knockBack, projectile.owner, 0f, 0f);
 					}
 				}
             }
@@ -63,35 +62,29 @@ namespace CalamityMod.Projectiles.Rogue
 			Main.projectile[meltdown].Center = projectile.Center; //makes it centered because it's not without this
 
 			Vector2 vector2 = new Vector2(20f, 20f);
-			for (int index = 0; index < 5; ++index)
+			for (int d = 0; d < 5; ++d)
 				Dust.NewDust(projectile.Center - vector2 / 2f, (int) vector2.X, (int) vector2.Y, 191, 0.0f, 0.0f, 0, Color.Red, 1f);
-			for (int index1 = 0; index1 < 10; ++index1)
+			for (int d = 0; d < 10; ++d)
 			{
 				int index2 = Dust.NewDust(projectile.Center - vector2 / 2f, (int) vector2.X, (int) vector2.Y, 31, 0.0f, 0.0f, 100, new Color(), 1.5f);
 				Dust dust = Main.dust[index2];
 				dust.velocity *= 1.4f;
 			}
-			for (int index1 = 0; index1 < 20; ++index1)
+			for (int d = 0; d < 20; ++d)
 			{
-				int index2 = Dust.NewDust(projectile.Center - vector2 / 2f, (int) vector2.X, (int) vector2.Y, 6, 0.0f, 0.0f, 100, new Color(), 2.5f);
+				int index2 = Dust.NewDust(projectile.Center - vector2 / 2f, (int) vector2.X, (int) vector2.Y, DustID.Fire, 0.0f, 0.0f, 100, new Color(), 2.5f);
 				Dust dust1 = Main.dust[index2];
 				dust1.noGravity = true;
 				dust1.velocity *= 5f;
-				int index3 = Dust.NewDust(projectile.Center - vector2 / 2f, (int) vector2.X, (int) vector2.Y, 6, 0.0f, 0.0f, 100, new Color(), 1.5f);
+				int index3 = Dust.NewDust(projectile.Center - vector2 / 2f, (int) vector2.X, (int) vector2.Y, DustID.Fire, 0.0f, 0.0f, 100, new Color(), 1.5f);
 				Dust dust2 = Main.dust[index3];
 				dust2.velocity *= 3f;
 			}
-            int num251 = Main.rand.Next(2, 4);
-			for (int num252 = 0; num252 < num251; num252++)
+            int tarAmt = Main.rand.Next(2, 4);
+			for (int t = 0; t < tarAmt; t++)
 			{
-				Vector2 value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-				while (value15.X == 0f && value15.Y == 0f)
-				{
-					value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-				}
-				value15.Normalize();
-				value15 *= (float)Main.rand.Next(70, 101) * 0.1f;
-				Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value15.X, value15.Y, ModContent.ProjectileType<TotalityTar>(), (int)(projectile.damage * 0.3), 0f, Main.myPlayer, 0f, 0f);
+				Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
+				Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<TotalityTar>(), (int)(projectile.damage * 0.3), 0f, Main.myPlayer, 0f, 0f);
 			}
         }
     }

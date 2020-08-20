@@ -1,12 +1,10 @@
-using CalamityMod.Projectiles.Typeless;
-using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class WebBallBol : ModProjectile
+	public class WebBallBol : ModProjectile
     {
         public override void SetStaticDefaults()
         {

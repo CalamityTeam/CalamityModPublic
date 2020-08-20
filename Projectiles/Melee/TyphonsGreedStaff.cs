@@ -140,38 +140,12 @@ namespace CalamityMod.Projectiles.Melee
             player.itemAnimation = 2;
             player.itemRotation = MathHelper.WrapAngle(projectile.rotation);
             projectile.localAI[0] += 1f;
-            if (projectile.localAI[0] >= 12f)
+            if (projectile.localAI[0] % 12f == 0f)
             {
-                projectile.localAI[0] = 0f;
-                float xPos = Main.rand.NextBool(2) ? projectile.position.X + 800f : projectile.position.X - 800f;
-                Vector2 vector20 = new Vector2(xPos, projectile.position.Y + (float)Main.rand.Next(-800, 801));
-                float num80 = xPos;
-                float speedX = (float)player.position.X - vector20.X;
-                float speedY = (float)player.position.Y - vector20.Y;
-                float dir = (float)Math.Sqrt((double)(speedX * speedX + speedY * speedY));
-                dir = 10 / num80;
-                speedX *= dir * 150;
-                speedY *= dir * 150;
-                if (speedX > 15f)
-                {
-                    speedX = 15f;
-                }
-                if (speedX < -15f)
-                {
-                    speedX = -15f;
-                }
-                if (speedY > 15f)
-                {
-                    speedY = 15f;
-                }
-                if (speedY < -15f)
-                {
-                    speedY = -15f;
-                }
                 if (projectile.owner == Main.myPlayer)
                 {
-                    float ai1 = Main.rand.NextFloat() + 0.5f;
-                    Projectile.NewProjectile(vector20.X, vector20.Y, speedX, speedY, ModContent.ProjectileType<TyphonsGreedBubble>(), projectile.damage, 2f, projectile.owner, 0.0f, ai1);
+					Projectile bubble = CalamityUtils.ProjectileBarrage(projectile.Center, player.Center, Main.rand.NextBool(), 800f, 800f, 0f, 800f, 10f, ModContent.ProjectileType<TyphonsGreedBubble>(), (int)(projectile.damage * 0.5), projectile.knockBack * 0.5f, projectile.owner, true);
+					bubble.ai[1] = Main.rand.NextFloat() + 0.5f;
                 }
             }
         }
@@ -181,10 +155,10 @@ namespace CalamityMod.Projectiles.Melee
             Rectangle myRect = new Rectangle((int)projectile.position.X, (int)projectile.position.Y, projectile.width, projectile.height);
             if (projectile.owner == Main.myPlayer)
             {
-                for (int i = 0; i < 200; i++)
+                for (int i = 0; i < Main.maxNPCs; i++)
                 {
                     if (Main.npc[i].active && !Main.npc[i].dontTakeDamage &&
-                        ((projectile.friendly && (!Main.npc[i].friendly || projectile.type == 318 || (Main.npc[i].type == NPCID.Guide && projectile.owner < 255 && Main.player[projectile.owner].killGuide) || (Main.npc[i].type == NPCID.Clothier && projectile.owner < 255 && Main.player[projectile.owner].killClothier))) ||
+                        ((projectile.friendly && (!Main.npc[i].friendly || (Main.npc[i].type == NPCID.Guide && projectile.owner < 255 && Main.player[projectile.owner].killGuide) || (Main.npc[i].type == NPCID.Clothier && projectile.owner < 255 && Main.player[projectile.owner].killClothier))) ||
                         (projectile.hostile && Main.npc[i].friendly && !Main.npc[i].dontTakeDamageFromHostiles)) && (projectile.owner < 0 || Main.npc[i].immune[projectile.owner] == 0 || projectile.maxPenetrate == 1))
                     {
                         if (Main.npc[i].noTileCollide || !projectile.ownerHitCheck || projectile.CanHit(Main.npc[i]))

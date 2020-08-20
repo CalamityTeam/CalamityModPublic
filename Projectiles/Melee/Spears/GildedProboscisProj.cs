@@ -26,9 +26,10 @@ namespace CalamityMod.Projectiles.Melee.Spears
             projectile.ownerHitCheck = true;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 1;
-            projectile.Calamity().trueMelee = true;
+            //projectile.Calamity().trueMelee = true;
         }
-        // These numbers sure are common, huh?
+
+        // These numbers sure are common, huh? yeah, they are
         public override float InitialSpeed => 3f;
         public override float ReelbackSpeed => 2.4f;
         public override float ForwardSpeed => 0.95f;

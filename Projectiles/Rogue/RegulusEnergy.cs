@@ -1,15 +1,12 @@
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Dusts;
 using CalamityMod.Buffs.DamageOverTime;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class RegulusEnergy : ModProjectile
+	public class RegulusEnergy : ModProjectile
     {
         public override void SetStaticDefaults()
         {

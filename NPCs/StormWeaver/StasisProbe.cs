@@ -1,3 +1,4 @@
+using CalamityMod.Dusts;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
@@ -22,7 +23,7 @@ namespace CalamityMod.NPCs.StormWeaver
             npc.width = 30;
             npc.height = 30;
             npc.defense = 60;
-            npc.Calamity().RevPlusDR(0.25f);
+			npc.DR_NERD(0.25f);
             npc.lifeMax = 1200;
             if (CalamityWorld.bossRushActive)
             {
@@ -34,12 +35,15 @@ namespace CalamityMod.NPCs.StormWeaver
             npc.canGhostHeal = false;
             npc.HitSound = SoundID.NPCHit4;
             npc.DeathSound = SoundID.NPCDeath14;
-            npc.buffImmune[24] = true;
+            npc.buffImmune[BuffID.OnFire] = true;
         }
 
         public override void AI()
         {
-            bool revenge = CalamityWorld.revenge;
+			// Setting this in SetDefaults will disable expert mode scaling, so put it here instead
+			npc.damage = 0;
+
+			bool revenge = CalamityWorld.revenge;
             if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead)
             {
                 npc.TargetClosest(true);
@@ -129,7 +133,7 @@ namespace CalamityMod.NPCs.StormWeaver
                 if (Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
                 {
                     int num8 = Main.expertMode ? 50 : 60;
-                    int num9 = 84;
+                    int num9 = ProjectileID.PinkLaser;
                     int beam = Projectile.NewProjectile(vector.X, vector.Y, num4, num5, num9, num8, 0f, Main.myPlayer, 0f, 0f);
                     Main.projectile[beam].timeLeft = 200;
                 }
@@ -217,7 +221,7 @@ namespace CalamityMod.NPCs.StormWeaver
                 npc.position.Y = npc.position.Y - (float)(npc.height / 2);
                 for (int num621 = 0; num621 < 5; num621++)
                 {
-                    int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 173, 0f, 0f, 100, default, 2f);
+                    int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, (int)CalamityDusts.PurpleCosmolite, 0f, 0f, 100, default, 2f);
                     Main.dust[num622].velocity *= 3f;
                     if (Main.rand.NextBool(2))
                     {
@@ -227,49 +231,14 @@ namespace CalamityMod.NPCs.StormWeaver
                 }
                 for (int num623 = 0; num623 < 10; num623++)
                 {
-                    int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 173, 0f, 0f, 100, default, 3f);
+                    int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, (int)CalamityDusts.PurpleCosmolite, 0f, 0f, 100, default, 3f);
                     Main.dust[num624].noGravity = true;
                     Main.dust[num624].velocity *= 5f;
-                    num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 173, 0f, 0f, 100, default, 2f);
+                    num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, (int)CalamityDusts.PurpleCosmolite, 0f, 0f, 100, default, 2f);
                     Main.dust[num624].velocity *= 2f;
                 }
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/StasisProbe1"),1f);
-                for (int num625 = 0; num625 < 1; num625++)
-                {
-                    float scaleFactor10 = 0.33f;
-                    if (num625 == 1)
-                    {
-                        scaleFactor10 = 0.66f;
-                    }
-                    if (num625 == 2)
-                    {
-                        scaleFactor10 = 1f;
-                    }
-                    int num626 = Gore.NewGore(new Vector2(npc.position.X + (float)(npc.width / 2) - 24f, npc.position.Y + (float)(npc.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
-                    Main.gore[num626].velocity *= scaleFactor10;
-                    Gore expr_13AB6_cp_0 = Main.gore[num626];
-                    expr_13AB6_cp_0.velocity.X += 1f;
-                    Gore expr_13AD6_cp_0 = Main.gore[num626];
-                    expr_13AD6_cp_0.velocity.Y += 1f;
-                    num626 = Gore.NewGore(new Vector2(npc.position.X + (float)(npc.width / 2) - 24f, npc.position.Y + (float)(npc.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
-                    Main.gore[num626].velocity *= scaleFactor10;
-                    Gore expr_13B79_cp_0 = Main.gore[num626];
-                    expr_13B79_cp_0.velocity.X -= 1f;
-                    Gore expr_13B99_cp_0 = Main.gore[num626];
-                    expr_13B99_cp_0.velocity.Y += 1f;
-                    num626 = Gore.NewGore(new Vector2(npc.position.X + (float)(npc.width / 2) - 24f, npc.position.Y + (float)(npc.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
-                    Main.gore[num626].velocity *= scaleFactor10;
-                    Gore expr_13C3C_cp_0 = Main.gore[num626];
-                    expr_13C3C_cp_0.velocity.X += 1f;
-                    Gore expr_13C5C_cp_0 = Main.gore[num626];
-                    expr_13C5C_cp_0.velocity.Y -= 1f;
-                    num626 = Gore.NewGore(new Vector2(npc.position.X + (float)(npc.width / 2) - 24f, npc.position.Y + (float)(npc.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
-                    Main.gore[num626].velocity *= scaleFactor10;
-                    Gore expr_13CFF_cp_0 = Main.gore[num626];
-                    expr_13CFF_cp_0.velocity.X -= 1f;
-                    Gore expr_13D1F_cp_0 = Main.gore[num626];
-                    expr_13D1F_cp_0.velocity.Y -= 1f;
-                }
+				CalamityUtils.ExplosionGores(npc.Center, 1);
             }
         }
 

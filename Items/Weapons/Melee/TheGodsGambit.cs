@@ -1,4 +1,5 @@
 using CalamityMod.Items.Materials;
+using CalamityMod.Tiles.Furniture.CraftingStations;
 using CalamityMod.Projectiles.Melee.Yoyos;
 using Terraria;
 using Terraria.ID;
@@ -22,7 +23,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.width = 40;
             item.height = 26;
             item.melee = true;
-            item.damage = 28;
+            item.damage = 33;
             item.knockBack = 3.5f;
             item.useTime = 21;
             item.useAnimation = 21;
@@ -45,7 +46,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<PurifiedGel>(), 30);
-            recipe.AddTile(TileID.Anvils);
+            recipe.AddTile(ModContent.TileType<StaticRefiner>());
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

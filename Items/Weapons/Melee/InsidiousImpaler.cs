@@ -1,4 +1,3 @@
-using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee.Spears;
 using Terraria;
 using Terraria.ID;
@@ -6,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
-    public class InsidiousImpaler : ModItem
+	public class InsidiousImpaler : ModItem
     {
         public override void SetStaticDefaults()
         {

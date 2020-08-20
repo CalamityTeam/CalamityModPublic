@@ -1,11 +1,10 @@
 using Terraria;
 using Terraria.ModLoader;
 using CalamityMod.Items.Materials;
-using CalamityMod.Items.Accessories;
 
 namespace CalamityMod.Items.Fishing
 {
-    public class Xerocodile : ModItem
+	public class Xerocodile : ModItem
     {
         public override void SetStaticDefaults()
         {

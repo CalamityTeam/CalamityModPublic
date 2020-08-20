@@ -1,4 +1,5 @@
 using CalamityMod.Projectiles.Hybrid;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -10,19 +11,21 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Pwnagehammer");
-            Tooltip.SetDefault("Throws an extremely fast hammer");
+            Tooltip.SetDefault("Throws a heavy, gravity-affected hammer that creates a loud blast of hallowed energy when it hits something\n" +
+			"There is a 20 percent chance for the hammer to home in on a target\n" +
+			"Homing hammers summon an additional spectral hammer on hit and are guaranteed to land a critical hit");
         }
 
         public override void SetDefaults()
         {
             item.width = 68;
-            item.damage = 90;
+            item.damage = 210;
+			item.crit = 10;
             item.noMelee = true;
             item.noUseGraphic = true;
             item.autoReuse = true;
-            item.useAnimation = 15;
+            item.useAnimation = item.useTime = 48;
             item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 15;
             item.knockBack = 10f;
             item.UseSound = SoundID.Item1;
             item.melee = true;
@@ -30,7 +33,19 @@ namespace CalamityMod.Items.Weapons.Melee
             item.value = Item.buyPrice(0, 48, 0, 0);
             item.rare = 6;
             item.shoot = ModContent.ProjectileType<PwnagehammerProj>();
-            item.shootSpeed = 12f;
+            item.shootSpeed = 24.4f;
+        }
+
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        {
+			Vector2 speed = new Vector2(speedX, speedY);
+			Vector2 yeetOffset = Vector2.Normalize(speed) * 40f;
+			if (Collision.CanHit(position, 0, 0, position + yeetOffset, 0, 0))
+			{
+				position += yeetOffset;
+			}
+            Projectile.NewProjectile(position, speed, type, damage, knockBack, player.whoAmI, Main.rand.NextBool(5) ? 1f : -1f);
+            return false;
         }
 
         public override void AddRecipes()

@@ -13,7 +13,7 @@ namespace CalamityMod.Items.LoreItems
             DisplayName.SetDefault("Skeletron Prime");
             Tooltip.SetDefault("What a silly and pointless contraption for something created with the essence of pure terror.\n" +
                 "Draedon obviously took several liberties with its design...I am not impressed.\n" +
-                "Place in your inventory to gain a boost to your armor penetration.\n" +
+                "Favorite this item to gain a boost to your armor penetration.\n" +
 				"However, your max acceleration is decreased due to you feeling heavier.");
         }
 
@@ -33,7 +33,8 @@ namespace CalamityMod.Items.LoreItems
         public override void UpdateInventory(Player player)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            modPlayer.skeletronPrimeLore = true;
+			if (item.favorited)
+				modPlayer.skeletronPrimeLore = true;
         }
 
         public override void AddRecipes()

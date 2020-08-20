@@ -71,7 +71,7 @@ namespace CalamityMod.Projectiles.Typeless
                 num466 = num465 / num466;
                 num463 *= num466;
                 num464 *= num466;
-                int num467 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 58, 0f, 0f, 100, default, 1f);
+                int num467 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 62, 0f, 0f, 100, default, 1f);
                 Dust dust = Main.dust[num467];
                 dust.noGravity = true;
                 dust.position.X = projectile.Center.X;
@@ -83,17 +83,5 @@ namespace CalamityMod.Projectiles.Typeless
                 num462++;
             }
         }
-
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-        {
-            target.AddBuff(BuffID.CursedInferno, 120);
-            target.AddBuff(BuffID.OnFire, 120);
-        }
-
-        public override void OnHitPvp(Player target, int damage, bool crit)
-        {
-            target.AddBuff(BuffID.CursedInferno, 120);
-            target.AddBuff(BuffID.OnFire, 120);
-		}
     }
 }

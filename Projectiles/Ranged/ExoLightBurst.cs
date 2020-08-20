@@ -1,6 +1,4 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Buffs.StatDebuffs;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -50,7 +48,7 @@ namespace CalamityMod.Projectiles.Ranged
             }
             if (projectile.ai[0] == 0f)
             {
-                NPC potentialTarget = projectile.Center.ClosestNPCAt(MaxDistanceFromTarget, true);
+                NPC potentialTarget = projectile.Center.ClosestNPCAt(MaxDistanceFromTarget, true, true);
                 if (potentialTarget != null)
                 {
                     if (projectile.Distance(potentialTarget.Center) > MinDistanceFromTarget)
@@ -61,31 +59,29 @@ namespace CalamityMod.Projectiles.Ranged
                     }
                 }
             }
-            CalamityUtils.StickyProjAI(projectile, 5);
+            projectile.StickyProjAI(5);
         }
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            CalamityUtils.ModifyHitNPCSticky(projectile, 4, false);
+            projectile.ModifyHitNPCSticky(4, false);
         }
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
-            int width = (int)MathHelper.Max(targetHitbox.Width, 150);
-            int height = (int)MathHelper.Max(targetHitbox.Height, 150);
+            int width = (int)MathHelper.Min(targetHitbox.Width, 150);
+            int height = (int)MathHelper.Min(targetHitbox.Height, 150);
             CalamityGlobalProjectile.ExpandHitboxBy(projectile, width, height);
             return null;
         }
+
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<ExoFreeze>(), 60);
-            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 180);
-            target.AddBuff(ModContent.BuffType<GlacialState>(), 180);
-            target.AddBuff(ModContent.BuffType<Plague>(), 180);
-            target.AddBuff(ModContent.BuffType<HolyFlames>(), 180);
-            target.AddBuff(BuffID.CursedInferno, 180);
-            target.AddBuff(BuffID.Frostburn, 180);
-            target.AddBuff(BuffID.OnFire, 180);
-            target.AddBuff(BuffID.Ichor, 180);
+			target.ExoDebuffs(2f);
+        }
+
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+			target.ExoDebuffs(2f);
         }
     }
 }

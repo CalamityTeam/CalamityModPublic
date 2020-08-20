@@ -1,5 +1,6 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Dusts;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.LoreItems;
@@ -16,8 +17,6 @@ using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.ModLoader.Config;
-using CalamityMod;
 namespace CalamityMod.NPCs.Signus
 {
     [AutoloadBossHead]
@@ -49,7 +48,7 @@ namespace CalamityMod.NPCs.Signus
                 music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/ScourgeofTheUniverse");
             else
                 music = MusicID.Boss4;
-			bool notDoGFight = CalamityWorld.DoGSecondStageCountdown <= 0;
+			bool notDoGFight = CalamityWorld.DoGSecondStageCountdown <= 0 || !CalamityWorld.downedSentinel3;
 			npc.LifeMaxNERB(notDoGFight ? 280000 : 70000, notDoGFight ? 445500 : 109500, 2400000);
             if (notDoGFight)
             {
@@ -59,8 +58,8 @@ namespace CalamityMod.NPCs.Signus
                 else
                     music = MusicID.Boss4;
             }
-            double HPBoost = (double)CalamityMod.CalamityConfig.BossHealthPercentageBoost * 0.01;
-            npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
+            double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
+            npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.knockBackResist = 0f;
             npc.aiStyle = -1;
             aiType = -1;
@@ -82,6 +81,7 @@ namespace CalamityMod.NPCs.Signus
             npc.buffImmune[ModContent.BuffType<GodSlayerInferno>()] = false;
             npc.buffImmune[ModContent.BuffType<Nightwither>()] = false;
             npc.buffImmune[ModContent.BuffType<Shred>()] = false;
+            npc.buffImmune[ModContent.BuffType<WarCleave>()] = false;
             npc.buffImmune[ModContent.BuffType<WhisperingDeath>()] = false;
             npc.buffImmune[ModContent.BuffType<SilvaStun>()] = false;
             npc.noGravity = true;
@@ -118,18 +118,14 @@ namespace CalamityMod.NPCs.Signus
 			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
 			bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
             bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
+
 			Vector2 vectorCenter = npc.Center;
 
-			double lifeRatio = (double)npc.life / (double)npc.lifeMax;
+			double lifeRatio = npc.life / (double)npc.lifeMax;
             lifeToAlpha = (int)(100.0 * (1.0 - lifeRatio));
 
-            double mult = 1.0 -
-                (revenge ? 0.25 : 0.0);
-
-            bool cosmicDust = lifeToAlpha > (int)(15D * mult) || death;
-            bool speedBoost = lifeToAlpha > (int)(25D * mult) || death;
-            bool cosmicRain = lifeToAlpha > (int)(35D * mult) || death;
-            bool cosmicSpeed = lifeToAlpha > (int)(50D * mult) || death;
+            bool phase2 = (lifeRatio < 0.75f && expertMode) || death;
+            bool phase3 = lifeRatio < 0.5f || death;
 
 			// Get a target
 			if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)
@@ -183,7 +179,7 @@ namespace CalamityMod.NPCs.Signus
 			else if (npc.timeLeft < 1800)
 				npc.timeLeft = 1800;
 
-			float num1000 = cosmicSpeed ? 11f : 13f;
+			float num1000 = expertMode ? 11f : 13f;
 			float num1006 = 0.111111117f * num1000;
 
             if (lifeToAlpha < 50 && npc.ai[0] != 1f)
@@ -192,7 +188,7 @@ namespace CalamityMod.NPCs.Signus
                 {
                     if (Main.rand.Next(3) < 1)
                     {
-                        int num1012 = Dust.NewDust(vectorCenter - new Vector2(70f), 70 * 2, 70 * 2, 173, npc.velocity.X * 0.5f, npc.velocity.Y * 0.5f, 90, default, 1.5f);
+                        int num1012 = Dust.NewDust(vectorCenter - new Vector2(70f), 70 * 2, 70 * 2, (int)CalamityDusts.PurpleCosmolite, npc.velocity.X * 0.5f, npc.velocity.Y * 0.5f, 90, default, 1.5f);
                         Main.dust[num1012].noGravity = true;
                         Main.dust[num1012].velocity *= 0.2f;
                         Main.dust[num1012].fadeIn = 1f;
@@ -206,27 +202,23 @@ namespace CalamityMod.NPCs.Signus
 				float playerLocation = vectorCenter.X - player.Center.X;
 				npc.direction = playerLocation < 0f ? 1 : -1;
 				npc.spriteDirection = npc.direction;
+
 				npc.knockBackResist = 0.05f;
                 if (expertMode)
-                {
                     npc.knockBackResist *= Main.expertKnockBack;
-                }
-                if (speedBoost)
-                {
+                if (phase3 || revenge)
                     npc.knockBackResist = 0f;
-                }
+
                 float speed = expertMode ? 14f : 12f;
-                if (speedBoost)
-                {
-                    speed = expertMode ? 16f : 14f;
-                }
-                if (npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive))
-                {
+                if (expertMode)
+                    speed += death ? 4f : 4f * (float)(1D - lifeRatio);
+
+                if (npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive))
                     speed += 3f;
-                }
+
                 float num795 = player.Center.X - vectorCenter.X;
                 float num796 = player.Center.Y - vectorCenter.Y;
-                float num797 = (float)Math.Sqrt((double)(num795 * num795 + num796 * num796));
+                float num797 = (float)Math.Sqrt(num795 * num795 + num796 * num796);
                 num797 = speed / num797;
                 num795 *= num797;
                 num796 *= num797;
@@ -242,6 +234,10 @@ namespace CalamityMod.NPCs.Signus
 				if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
                     npc.localAI[1] += 1f;
+
+					if (expertMode)
+						npc.localAI[1] += death ? 2f : 2f * (float)(1D - lifeRatio);
+
                     if (npc.localAI[1] >= 120f)
                     {
                         npc.localAI[1] = 0f;
@@ -275,8 +271,8 @@ namespace CalamityMod.NPCs.Signus
                                 return;
                         }
                         npc.ai[0] = 1f;
-                        npc.ai[1] = (float)num1250;
-                        npc.ai[2] = (float)num1251;
+                        npc.ai[1] = num1250;
+                        npc.ai[2] = num1251;
                         npc.netUpdate = true;
                         return;
                     }
@@ -284,14 +280,18 @@ namespace CalamityMod.NPCs.Signus
             }
             else if (npc.ai[0] == 1f)
             {
-                Vector2 position = new Vector2(npc.ai[1] * 16f - (float)(npc.width / 2), npc.ai[2] * 16f - (float)(npc.height / 2));
+                Vector2 position = new Vector2(npc.ai[1] * 16f - (npc.width / 2), npc.ai[2] * 16f - (npc.height / 2));
                 for (int m = 0; m < 5; m++)
                 {
-                    int dust = Dust.NewDust(position, npc.width, npc.height, 173, 0f, 0f, 90, default, 2f);
+                    int dust = Dust.NewDust(position, npc.width, npc.height, (int)CalamityDusts.PurpleCosmolite, 0f, 0f, 90, default, 2f);
                     Main.dust[dust].noGravity = true;
                     Main.dust[dust].fadeIn = 1f;
                 }
+
                 npc.alpha += 2;
+				if (expertMode)
+					npc.alpha += death ? 2 : (int)(3D * (1D - lifeRatio));
+
                 if (npc.alpha >= 255)
                 {
                     Main.PlaySound(SoundID.Item8, vectorCenter);
@@ -299,7 +299,7 @@ namespace CalamityMod.NPCs.Signus
                     npc.position = position;
                     for (int n = 0; n < 15; n++)
                     {
-                        int num39 = Dust.NewDust(npc.position, npc.width, npc.height, 173, 0f, 0f, 90, default, 3f);
+                        int num39 = Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.PurpleCosmolite, 0f, 0f, 90, default, 3f);
                         Main.dust[num39].noGravity = true;
                     }
                     npc.ai[0] = 2f;
@@ -311,10 +311,10 @@ namespace CalamityMod.NPCs.Signus
                 npc.alpha -= 50;
                 if (npc.alpha <= lifeToAlpha)
                 {
-                    Main.PlaySound(SoundID.Item122, npc.position);
                     if (Main.netMode != NetmodeID.MultiplayerClient && revenge)
                     {
-                        int num660 = NPC.NewNPC((int)(player.position.X + 750f), (int)player.position.Y, ModContent.NPCType<SignusBomb>(), 0, 0f, 0f, 0f, 0f, 255);
+						Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 122);
+						int num660 = NPC.NewNPC((int)(player.position.X + 750f), (int)player.position.Y, ModContent.NPCType<SignusBomb>(), 0, 0f, 0f, 0f, 0f, 255);
                         if (Main.netMode == NetmodeID.Server)
                         {
                             NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, num660, 0f, 0f, 0f, 0, 0, 0);
@@ -326,34 +326,34 @@ namespace CalamityMod.NPCs.Signus
                         }
                         for (int num621 = 0; num621 < 5; num621++)
                         {
-                            int num622 = Dust.NewDust(new Vector2(player.position.X + 750f, player.position.Y), npc.width, npc.height, 173, 0f, 0f, 100, default, 2f);
+                            int num622 = Dust.NewDust(new Vector2(player.position.X + 750f, player.position.Y), npc.width, npc.height, (int)CalamityDusts.PurpleCosmolite, 0f, 0f, 100, default, 2f);
                             Main.dust[num622].velocity *= 3f;
                             Main.dust[num622].noGravity = true;
                             if (Main.rand.NextBool(2))
                             {
                                 Main.dust[num622].scale = 0.5f;
-                                Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
+                                Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
                             }
-                            int num623 = Dust.NewDust(new Vector2(player.position.X - 750f, player.position.Y), npc.width, npc.height, 173, 0f, 0f, 100, default, 2f);
+                            int num623 = Dust.NewDust(new Vector2(player.position.X - 750f, player.position.Y), npc.width, npc.height, (int)CalamityDusts.PurpleCosmolite, 0f, 0f, 100, default, 2f);
                             Main.dust[num623].velocity *= 3f;
                             Main.dust[num623].noGravity = true;
                             if (Main.rand.NextBool(2))
                             {
                                 Main.dust[num623].scale = 0.5f;
-                                Main.dust[num623].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
+                                Main.dust[num623].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
                             }
                         }
                         for (int num623 = 0; num623 < 20; num623++)
                         {
-                            int num624 = Dust.NewDust(new Vector2(player.position.X + 750f, player.position.Y), npc.width, npc.height, 173, 0f, 0f, 100, default, 3f);
+                            int num624 = Dust.NewDust(new Vector2(player.position.X + 750f, player.position.Y), npc.width, npc.height, (int)CalamityDusts.PurpleCosmolite, 0f, 0f, 100, default, 3f);
                             Main.dust[num624].noGravity = true;
                             Main.dust[num624].velocity *= 5f;
-                            num624 = Dust.NewDust(new Vector2(player.position.X + 750f, player.position.Y), npc.width, npc.height, 173, 0f, 0f, 100, default, 2f);
+                            num624 = Dust.NewDust(new Vector2(player.position.X + 750f, player.position.Y), npc.width, npc.height, (int)CalamityDusts.PurpleCosmolite, 0f, 0f, 100, default, 2f);
                             Main.dust[num624].velocity *= 2f;
-                            int num625 = Dust.NewDust(new Vector2(player.position.X - 750f, player.position.Y), npc.width, npc.height, 173, 0f, 0f, 100, default, 3f);
+                            int num625 = Dust.NewDust(new Vector2(player.position.X - 750f, player.position.Y), npc.width, npc.height, (int)CalamityDusts.PurpleCosmolite, 0f, 0f, 100, default, 3f);
                             Main.dust[num625].noGravity = true;
                             Main.dust[num625].velocity *= 5f;
-                            num625 = Dust.NewDust(new Vector2(player.position.X - 750f, player.position.Y), npc.width, npc.height, 173, 0f, 0f, 100, default, 2f);
+                            num625 = Dust.NewDust(new Vector2(player.position.X - 750f, player.position.Y), npc.width, npc.height, (int)CalamityDusts.PurpleCosmolite, 0f, 0f, 100, default, 2f);
                             Main.dust[num625].velocity *= 2f;
                         }
                     }
@@ -378,50 +378,29 @@ namespace CalamityMod.NPCs.Signus
 				float playerLocation = vectorCenter.X - player.Center.X;
 				npc.direction = playerLocation < 0f ? 1 : -1;
 				npc.spriteDirection = npc.direction;
-				Vector2 vector121 = new Vector2(npc.position.X + (float)(npc.width / 2), npc.position.Y + (float)(npc.height / 2));
+				Vector2 vector121 = new Vector2(npc.position.X + (npc.width / 2), npc.position.Y + (npc.height / 2));
+
                 npc.ai[1] += 1f;
-                bool flag104 = false;
-                if (npc.life < npc.lifeMax / 2 || death)
-                {
-                    if (npc.ai[1] % 45f == 44f)
-                    {
-                        flag104 = true;
-                    }
-                }
-                else if (npc.ai[1] % 65f == 64f)
-                {
-                    flag104 = true;
-                }
-                if (flag104)
+				float divisor = expertMode ? (death ? 55f : revenge ? 60f : 65f) - (float)Math.Ceiling(30D * (1D - lifeRatio)) : 70f;
+                
+                if (npc.ai[1] % divisor == divisor - 1f)
                 {
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         float num1070 = 15f;
-                        if (npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive))
+                        if (npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive))
                         {
                             num1070 += 3f;
                         }
-                        if (cosmicRain)
-                        {
-                            num1070 += 1f;
-                        }
-                        if (cosmicSpeed)
-                        {
-                            num1070 += 1f;
-                        }
-                        if (revenge)
-                        {
-                            num1070 += 1f;
-                        }
-                        float num1071 = player.position.X + (float)player.width * 0.5f - vector121.X;
-                        float num1072 = player.position.Y + (float)player.height * 0.5f - vector121.Y;
-                        float num1073 = (float)Math.Sqrt((double)(num1071 * num1071 + num1072 * num1072));
+                        float num1071 = player.position.X + player.width * 0.5f - vector121.X;
+                        float num1072 = player.position.Y + player.height * 0.5f - vector121.Y;
+                        float num1073 = (float)Math.Sqrt(num1071 * num1071 + num1072 * num1072);
                         num1073 = num1070 / num1073;
                         num1071 *= num1073;
                         num1072 *= num1073;
                         int num1074 = expertMode ? 48 : 60;
                         int num1075 = ModContent.ProjectileType<SignusScythe>();
-                        Projectile.NewProjectile(vector121.X, vector121.Y, num1071, num1072, num1075, num1074, 0f, Main.myPlayer, 0f, (float)(npc.target + 1));
+                        Projectile.NewProjectile(vector121.X, vector121.Y, num1071, num1072, num1075, num1074, 0f, Main.myPlayer, 0f, npc.target + 1);
                     }
                 }
                 if (npc.position.Y > player.position.Y - 200f) //200
@@ -430,7 +409,7 @@ namespace CalamityMod.NPCs.Signus
                     {
                         npc.velocity.Y *= 0.975f;
                     }
-                    npc.velocity.Y -= (CalamityWorld.bossRushActive ? 0.15f : 0.1f);
+                    npc.velocity.Y -= CalamityWorld.bossRushActive ? 0.15f : 0.1f;
                     if (npc.velocity.Y > 3f)
                     {
                         npc.velocity.Y = 3f;
@@ -442,37 +421,37 @@ namespace CalamityMod.NPCs.Signus
                     {
                         npc.velocity.Y *= 0.975f;
                     }
-                    npc.velocity.Y += (CalamityWorld.bossRushActive ? 0.15f : 0.1f);
+                    npc.velocity.Y += CalamityWorld.bossRushActive ? 0.15f : 0.1f;
                     if (npc.velocity.Y < -3f)
                     {
                         npc.velocity.Y = -3f;
                     }
                 }
-                if (npc.position.X + (float)(npc.width / 2) > player.position.X + (float)(player.width / 2) + 500f) //100
+                if (npc.position.X + (npc.width / 2) > player.position.X + (player.width / 2) + 500f) //100
                 {
                     if (npc.velocity.X > 0f)
                     {
                         npc.velocity.X *= 0.98f;
                     }
-                    npc.velocity.X -= (CalamityWorld.bossRushActive ? 0.15f : 0.1f);
+                    npc.velocity.X -= CalamityWorld.bossRushActive ? 0.15f : 0.1f;
                     if (npc.velocity.X > 8f)
                     {
                         npc.velocity.X = 8f;
                     }
                 }
-                if (npc.position.X + (float)(npc.width / 2) < player.position.X + (float)(player.width / 2) - 500f) //100
+                if (npc.position.X + (npc.width / 2) < player.position.X + (player.width / 2) - 500f) //100
                 {
                     if (npc.velocity.X < 0f)
                     {
                         npc.velocity.X *= 0.98f;
                     }
-                    npc.velocity.X += (CalamityWorld.bossRushActive ? 0.15f : 0.1f);
+                    npc.velocity.X += CalamityWorld.bossRushActive ? 0.15f : 0.1f;
                     if (npc.velocity.X < -8f)
                     {
                         npc.velocity.X = -8f;
                     }
                 }
-                if (npc.ai[1] > 300f)
+                if (npc.ai[1] >= divisor * 5f)
                 {
                     npc.ai[0] = 4f;
                     npc.ai[1] = 0f;
@@ -489,12 +468,12 @@ namespace CalamityMod.NPCs.Signus
                     {
                         for (int x = 0; x < 5; x++)
                         {
-                            int num660 = NPC.NewNPC((int)(player.position.X + (float)spawnX), (int)(player.position.Y + (float)spawnY), ModContent.NPCType<CosmicLantern>(), 0, 0f, 0f, 0f, 0f, 255);
+                            int num660 = NPC.NewNPC((int)(player.position.X + spawnX), (int)(player.position.Y + spawnY), ModContent.NPCType<CosmicLantern>(), 0, 0f, 0f, 0f, 0f, 255);
                             if (Main.netMode == NetmodeID.Server)
                             {
                                 NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, num660, 0f, 0f, 0f, 0, 0, 0);
                             }
-                            int num661 = NPC.NewNPC((int)(player.position.X - (float)spawnX), (int)(player.position.Y + (float)spawnY), ModContent.NPCType<CosmicLantern>(), 0, 0f, 0f, 0f, 0f, 255);
+                            int num661 = NPC.NewNPC((int)(player.position.X - spawnX), (int)(player.position.Y + spawnY), ModContent.NPCType<CosmicLantern>(), 0, 0f, 0f, 0f, 0f, 255);
                             if (Main.netMode == NetmodeID.Server)
                             {
                                 NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, num661, 0f, 0f, 0f, 0, 0, 0);
@@ -521,7 +500,10 @@ namespace CalamityMod.NPCs.Signus
                 npc.spriteDirection = Math.Sign(npc.velocity.X);
                 if (chargeSwitch == 0) //line up the charge
                 {
-                    float scaleFactor6 = death ? 16f : 14f;
+                    float scaleFactor6 = 14f;
+					if (expertMode)
+						scaleFactor6 += death ? 6f : 6f * (float)(1D - lifeRatio);
+
                     Vector2 center5 = player.Center;
                     Vector2 vector126 = center5 - vectorCenter;
                     Vector2 vector127 = vector126 - Vector2.UnitY * 300f;
@@ -580,7 +562,7 @@ namespace CalamityMod.NPCs.Signus
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         dustTimer--;
-                        if (cosmicDust && dustTimer <= 0)
+                        if (phase2 && dustTimer <= 0)
                         {
                             Main.PlaySound(SoundID.Item73, npc.position);
                             int damage = expertMode ? 60 : 70;
@@ -606,7 +588,7 @@ namespace CalamityMod.NPCs.Signus
                         vec2.Normalize();
                         if (vec2.HasNaNs())
                         {
-                            vec2 = new Vector2((float)npc.direction, 0f);
+                            vec2 = new Vector2(npc.direction, 0f);
                         }
                         npc.velocity = (npc.velocity * (num1000 - 1f) + vec2 * (npc.velocity.Length() + num1006)) / num1000;
                     }
@@ -705,45 +687,45 @@ namespace CalamityMod.NPCs.Signus
 				glowMaskTexture = ModContent.GetTexture("CalamityMod/NPCs/Signus/SignusGlow");
 			}
 
-			Vector2 vector11 = new Vector2((float)(NPCTexture.Width / 2), (float)(NPCTexture.Height / frameCount / 2));
+			Vector2 vector11 = new Vector2(NPCTexture.Width / 2, NPCTexture.Height / frameCount / 2);
 			Color color36 = Color.White;
 			float amount9 = 0.5f;
 			float scale = npc.scale;
 			float rotation = npc.rotation;
 			float offsetY = npc.gfxOffY;
 
-			if (CalamityMod.CalamityConfig.Afterimages)
+			if (CalamityConfig.Instance.Afterimages)
 			{
 				for (int num155 = 1; num155 < num153; num155 += 2)
 				{
 					Color color38 = drawColor;
 					color38 = Color.Lerp(color38, color36, amount9);
 					color38 = npc.GetAlpha(color38);
-					color38 *= (float)(num153 - num155) / 15f;
-					Vector2 vector41 = npc.oldPos[num155] + new Vector2((float)npc.width, (float)npc.height) / 2f - Main.screenPosition;
-					vector41 -= new Vector2((float)NPCTexture.Width, (float)(NPCTexture.Height / frameCount)) * scale / 2f;
+					color38 *= (num153 - num155) / 15f;
+					Vector2 vector41 = npc.oldPos[num155] + new Vector2(npc.width, npc.height) / 2f - Main.screenPosition;
+					vector41 -= new Vector2(NPCTexture.Width, NPCTexture.Height / frameCount) * scale / 2f;
 					vector41 += vector11 * scale + new Vector2(0f, 4f + offsetY);
 					spriteBatch.Draw(NPCTexture, vector41, new Rectangle?(frame), color38, rotation, vector11, scale, spriteEffects, 0f);
 				}
 			}
 
 			Vector2 vector43 = npc.Center - Main.screenPosition;
-			vector43 -= new Vector2((float)NPCTexture.Width, (float)(NPCTexture.Height / frameCount)) * scale / 2f;
+			vector43 -= new Vector2(NPCTexture.Width, NPCTexture.Height / frameCount) * scale / 2f;
 			vector43 += vector11 * scale + new Vector2(0f, 4f + offsetY);
 			spriteBatch.Draw(NPCTexture, vector43, new Rectangle?(frame), npc.GetAlpha(drawColor), rotation, vector11, scale, spriteEffects, 0f);
 
 			Color color40 = Color.Lerp(Color.White, Color.Fuchsia, 0.5f);
 
-			if (CalamityMod.CalamityConfig.Afterimages)
+			if (CalamityConfig.Instance.Afterimages)
 			{
 				for (int num163 = 1; num163 < num153; num163++)
 				{
 					Color color41 = color40;
 					color41 = Color.Lerp(color41, color36, amount9);
 					color41 = npc.GetAlpha(color41);
-					color41 *= (float)(num153 - num163) / 15f;
-					Vector2 vector44 = npc.oldPos[num163] + new Vector2((float)npc.width, (float)npc.height) / 2f - Main.screenPosition;
-					vector44 -= new Vector2((float)glowMaskTexture.Width, (float)(glowMaskTexture.Height / frameCount)) * scale / 2f;
+					color41 *= (num153 - num163) / 15f;
+					Vector2 vector44 = npc.oldPos[num163] + new Vector2(npc.width, npc.height) / 2f - Main.screenPosition;
+					vector44 -= new Vector2(glowMaskTexture.Width, glowMaskTexture.Height / frameCount) * scale / 2f;
 					vector44 += vector11 * scale + new Vector2(0f, 4f + offsetY);
 					spriteBatch.Draw(glowMaskTexture, vector44, new Rectangle?(frame), color41, rotation, vector11, scale, spriteEffects, 0f);
 				}
@@ -801,11 +783,18 @@ namespace CalamityMod.NPCs.Signus
                     netMessage.Write(CalamityWorld.DoGSecondStageCountdown);
                     netMessage.Send();
                 }
-            }
 
-            // Mark Signus as dead
-            CalamityWorld.downedSentinel3 = true;
-            CalamityMod.UpdateServerBoolean();
+				// Mark DoG fight sentinels as dead
+				CalamityWorld.downedSecondSentinels = true;
+				CalamityMod.UpdateServerBoolean();
+			}
+
+			// Mark Signus as dead
+			if (CalamityWorld.DoGSecondStageCountdown <= 0)
+			{
+				CalamityWorld.downedSentinel3 = true;
+				CalamityMod.UpdateServerBoolean();
+			}
         }
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
@@ -818,35 +807,35 @@ namespace CalamityMod.NPCs.Signus
         {
             for (int k = 0; k < 3; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, 173, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.PurpleCosmolite, hitDirection, -1f, 0, default, 1f);
             }
             if (npc.life <= 0)
             {
-                npc.position.X = npc.position.X + (float)(npc.width / 2);
-                npc.position.Y = npc.position.Y + (float)(npc.height / 2);
+                npc.position.X = npc.position.X + (npc.width / 2);
+                npc.position.Y = npc.position.Y + (npc.height / 2);
                 npc.width = 200;
                 npc.height = 150;
-                npc.position.X = npc.position.X - (float)(npc.width / 2);
-                npc.position.Y = npc.position.Y - (float)(npc.height / 2);
+                npc.position.X = npc.position.X - (npc.width / 2);
+                npc.position.Y = npc.position.Y - (npc.height / 2);
                 for (int num621 = 0; num621 < 40; num621++)
                 {
-                    int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 173, 0f, 0f, 100, default, 2f);
+                    int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, (int)CalamityDusts.PurpleCosmolite, 0f, 0f, 100, default, 2f);
                     Main.dust[num622].velocity *= 3f;
                     if (Main.rand.NextBool(2))
                     {
                         Main.dust[num622].scale = 0.5f;
-                        Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
+                        Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
                     }
                 }
                 for (int num623 = 0; num623 < 60; num623++)
                 {
-                    int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 173, 0f, 0f, 100, default, 3f);
+                    int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, (int)CalamityDusts.PurpleCosmolite, 0f, 0f, 100, default, 3f);
                     Main.dust[num624].noGravity = true;
                     Main.dust[num624].velocity *= 5f;
-                    num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 173, 0f, 0f, 100, default, 2f);
+                    num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, (int)CalamityDusts.PurpleCosmolite, 0f, 0f, 100, default, 2f);
                     Main.dust[num624].velocity *= 2f;
                 }
-                float randomSpread = (float)(Main.rand.Next(-200, 200) / 100);
+                float randomSpread = Main.rand.Next(-200, 200) / 100;
                 Gore.NewGore(npc.position, npc.velocity * randomSpread, mod.GetGoreSlot("Gores/Signus"), 1f);
                 Gore.NewGore(npc.position, npc.velocity * randomSpread, mod.GetGoreSlot("Gores/Signus2"), 1f);
                 Gore.NewGore(npc.position, npc.velocity * randomSpread, mod.GetGoreSlot("Gores/Signus3"), 1f);

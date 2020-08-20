@@ -31,10 +31,9 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void AI()
         {
-            int num982 = 25;
             if (projectile.alpha > 0)
             {
-                projectile.alpha -= num982;
+                projectile.alpha -= 25;
             }
             if (projectile.alpha < 0)
             {
@@ -42,24 +41,21 @@ namespace CalamityMod.Projectiles.Melee
             }
             if (projectile.ai[0] == 0f)
             {
-                projectile.ai[1] += 1f;
-                if (projectile.ai[1] >= 45f)
+                projectile.localAI[1] += 1f;
+                if (projectile.localAI[1] >= 45f)
                 {
-                    float num986 = 0.98f;
-                    float num987 = 0.35f;
-                    projectile.ai[1] = 45f;
-                    projectile.velocity.X = projectile.velocity.X * num986;
-                    projectile.velocity.Y = projectile.velocity.Y + num987;
+                    projectile.velocity.X *= 0.98f;
+                    projectile.velocity.Y += 0.35f;
                 }
-				projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + MathHelper.PiOver2;
+				projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
             }
             //Sticky Behaviour
-            CalamityUtils.StickyProjAI(projectile, 15);
+            projectile.StickyProjAI(15);
         }
 
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            CalamityUtils.ModifyHitNPCSticky(projectile, 6, false);
+            projectile.ModifyHitNPCSticky(6, true);
         }
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
@@ -86,16 +82,16 @@ namespace CalamityMod.Projectiles.Melee
             }
             if (projectile.owner == Main.myPlayer)
             {
-				for (int num252 = 0; num252 < Main.rand.Next(2,5); num252++)
+				for (int s = 0; s < Main.rand.Next(2,5); s++)
 				{
-					Vector2 value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-					while (value15.X == 0f && value15.Y == 0f)
+					Vector2 velocity = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
+					while (velocity.X == 0f && velocity.Y == 0f)
 					{
-						value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
+						velocity = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
 					}
-					value15.Normalize();
-					value15 *= (float)Main.rand.Next(70, 101) * 0.1f;
-					int shard = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value15.X, value15.Y, ModContent.ProjectileType<BonebreakerFragment1>(), (int)((float)Bonebreaker.BaseDamage * 0.5f), projectile.knockBack * 0.5f, projectile.owner, Main.rand.Next(0,4), 0f);
+					velocity.Normalize();
+					velocity *= (float)Main.rand.Next(70, 101) * 0.1f;
+					int shard = Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<BonebreakerFragment1>(), (int)(projectile.damage * 0.5f), projectile.knockBack * 0.5f, projectile.owner, Main.rand.Next(0,4), 0f);
 				}
 			}
         }
@@ -113,5 +109,16 @@ namespace CalamityMod.Projectiles.Melee
             target.AddBuff(BuffID.Venom, 240);
             target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 240);
         }
+
+		public override bool? CanHitNPC(NPC target)
+		{
+			if (projectile.ai[0] == 1f)
+			{
+				return false;
+			}
+			return null;
+		}
+
+		public override bool CanHitPvp(Player target) => projectile.ai[0] != 1f;
     }
 }

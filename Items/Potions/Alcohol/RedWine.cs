@@ -34,33 +34,13 @@ Reduces life regen by 1");
 
         public override bool CanUseItem(Player player)
         {
-            return player.FindBuffIndex(BuffID.PotionSickness) == -1;
+			item.healLife = player.Calamity().baguette ? 250 : 200;
+            return base.CanUseItem(player);
         }
 
         public override void OnConsumeItem(Player player)
         {
-            player.statLife += (player.Calamity().baguette ? 250 : 200);
-            if (player.statLife > player.statLifeMax2)
-            {
-                player.statLife = player.statLifeMax2;
-            }
-            if (Main.myPlayer == player.whoAmI)
-            {
-                player.HealEffect((player.Calamity().baguette ? 250 : 200), true);
-            }
             player.AddBuff(ModContent.BuffType<RedWineBuff>(), 900);
-        }
-
-        // Zeroes out the hardcoded healing function from having a healLife value. The item still heals in the UseItem hook.
-        public override void GetHealLife(Player player, bool quickHeal, ref int healValue)
-        {
-            healValue = 0;
-        }
-
-        // Forces the "Restores X life" tooltip to display the actual life restored instead of zero (due to the previous function).
-        public override void ModifyTooltips(List<TooltipLine> tooltips)
-        {
-            tooltips.Find(line => line.Name == "HealLife").text = "Restores " + item.healLife + " life";
         }
     }
 }

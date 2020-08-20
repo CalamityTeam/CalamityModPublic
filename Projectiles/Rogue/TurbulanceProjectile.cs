@@ -9,8 +9,6 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class TurbulanceProjectile : ModProjectile
     {
-    	public int stealthStrikeTimer = 0;
-
     	public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Turbulance");
@@ -20,10 +18,8 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetDefaults()
         {
-            projectile.width = 20;
-            projectile.height = 20;
+            projectile.width = projectile.height = 20;
             projectile.friendly = true;
-            projectile.penetrate = 1;
             projectile.timeLeft = 600;
             projectile.extraUpdates = 2;
             projectile.ignoreWater = true;
@@ -33,37 +29,29 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void AI()
         {
-            if (projectile.ai[0] < 0.2f)
-            {
-                projectile.ai[0] += 0.1f;
-            }
-            else
-            {
-                projectile.tileCollide = true;
-            }
+			projectile.ai[0]++;
+			projectile.tileCollide = projectile.ai[0] >= 2f;
 
-            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 2.355f;
+            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.ToRadians(135f);
             if (projectile.spriteDirection == -1)
             {
-                projectile.rotation -= 1.57f;
+                projectile.rotation -= MathHelper.PiOver2;
             }
 
-            if (Main.rand.Next(5) == 0)
+            if (Main.rand.NextBool(5))
             {
                 Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 187, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f, 100, new Color(53, Main.DiscoG, 255));
             }
-            if (Main.rand.Next(5) == 0)
+            if (Main.rand.NextBool(5))
             {
                 Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 16, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
             }
 
             if (projectile.Calamity().stealthStrike) //Stealth strike
 			{
-				stealthStrikeTimer++;
-				if (stealthStrikeTimer >= 14)
+				if (projectile.timeLeft % 14 == 0)
 				{
-					Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<TurbulanceWindSlash>(), projectile.damage, projectile.knockBack / 2, projectile.owner, 1f, 1f);
-					stealthStrikeTimer = 0;
+					Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<TurbulanceWindSlash>(), projectile.damage, projectile.knockBack / 2, projectile.owner, 1f, 1f);
 				}
 			}
         }
@@ -78,57 +66,30 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            if (projectile.owner == Main.myPlayer)
-            {
-				for (int num252 = 0; num252 < 4; num252++)
-				{
-					Vector2 value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-					while (value15.X == 0f && value15.Y == 0f)
-					{
-						value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-					}
-					value15.Normalize();
-					value15 *= (float)Main.rand.Next(70, 101) * 0.1f;
-					Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value15.X, value15.Y, ModContent.ProjectileType<TurbulanceWindSlash>(), projectile.damage / 3, projectile.knockBack / 3, Main.myPlayer, 0f, (crit ? 1f /*homing*/: 0f/*not homing*/));
-				}
-			}
+			OnHitEffects(crit);
 		}
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-            if (projectile.owner == Main.myPlayer)
-            {
-				for (int num252 = 0; num252 < 4; num252++)
-				{
-					Vector2 value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-					while (value15.X == 0f && value15.Y == 0f)
-					{
-						value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-					}
-					value15.Normalize();
-					value15 *= (float)Main.rand.Next(70, 101) * 0.1f;
-					Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value15.X, value15.Y, ModContent.ProjectileType<TurbulanceWindSlash>(), projectile.damage / 3, projectile.knockBack / 3, Main.myPlayer, 0f, (crit ? 1f /*homing*/: 0f/*not homing*/));
-				}
-			}
+			OnHitEffects(crit);
 		}
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
+			OnHitEffects(false);
+			return true;
+		}
+
+		private void OnHitEffects(bool homeIn)
+		{
             if (projectile.owner == Main.myPlayer)
             {
-                for (int num252 = 0; num252 < 4; num252++)
-                {
-                    Vector2 value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-                    while (value15.X == 0f && value15.Y == 0f)
-                    {
-                        value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-                    }
-                    value15.Normalize();
-                    value15 *= (float)Main.rand.Next(70, 101) * 0.1f;
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value15.X, value15.Y, ModContent.ProjectileType<TurbulanceWindSlash>(), projectile.damage / 3, projectile.knockBack / 3, Main.myPlayer, 0f, 0f);
-                }
+				for (int w = 0; w < 4; w++)
+				{
+					Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
+					Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<TurbulanceWindSlash>(), projectile.damage / 3, projectile.knockBack / 3, Main.myPlayer, 0f, (homeIn ? 1f : 0f));
+				}
 			}
-			return true;
 		}
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

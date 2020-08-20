@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Armor
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Plague Reaper Vest");
-            Tooltip.SetDefault("Immunity to the Plague\n" +
+            Tooltip.SetDefault("Reduces the damage caused to you by the plague\n" +
                 "15% increased ranged damage and 5% increased ranged critical strike chance");
         }
 
@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Armor
         {
             player.rangedDamage += 0.15f;
             player.rangedCrit += 5;
-            player.buffImmune[ModContent.BuffType<Plague>()] = true;
+            player.Calamity().reducedPlagueDmg = true;
         }
 
         public override void AddRecipes()

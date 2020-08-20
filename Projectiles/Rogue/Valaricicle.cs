@@ -1,13 +1,10 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using System;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class Valaricicle : ModProjectile
+	public class Valaricicle : ModProjectile
     {
         public override void SetStaticDefaults()
         {

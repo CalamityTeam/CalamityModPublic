@@ -19,7 +19,7 @@ Stealth strike throws a volley of knives");
         public override void SafeSetDefaults()
         {
             item.width = 18;
-            item.damage = 32;
+            item.damage = 25;
             item.noMelee = true;
             item.consumable = true;
             item.noUseGraphic = true;

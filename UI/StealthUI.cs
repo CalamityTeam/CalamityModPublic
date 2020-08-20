@@ -1,16 +1,16 @@
 using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
+using System;
 using Terraria;
 using Terraria.ModLoader;
-using System;
 
 namespace CalamityMod.UI
 {
 	public class StealthUI
 	{
-		public static Vector2 DrawPosition = new Vector2(CalamityMod.CalamityConfig.StealthMeterPosX, CalamityMod.CalamityConfig.StealthMeterPosY);
+		public static Vector2 DrawPosition = new Vector2(CalamityConfig.Instance.StealthMeterPosX, CalamityConfig.Instance.StealthMeterPosY);
 		public static Vector2 Offset = DrawPosition;
 		public static void Draw(SpriteBatch spriteBatch, Player player)
 		{
@@ -20,17 +20,17 @@ namespace CalamityMod.UI
 				DrawPosition.Y = Main.screenHeight / 2 + Main.LocalPlayer.height / 2f + 24f;
 			}
 			CalamityPlayer modPlayer = player.Calamity();
-			if (modPlayer.stealthUIAlpha <= 0f || !CalamityMod.CalamityConfig.StealthBar || modPlayer.rogueStealthMax <= 0)
+			if (modPlayer.stealthUIAlpha <= 0f || !CalamityConfig.Instance.StealthBar || modPlayer.rogueStealthMax <= 0f || !modPlayer.wearingRogueArmor)
 			{
-				if (CalamityMod.CalamityConfig.StealthMeterPosX != DrawPosition.X)
+				if (CalamityConfig.Instance.StealthMeterPosX != DrawPosition.X)
 				{
-					CalamityMod.CalamityConfig.StealthMeterPosX = DrawPosition.X;
-					CalamityMod.SaveConfig(CalamityMod.CalamityConfig);
+					CalamityConfig.Instance.StealthMeterPosX = DrawPosition.X;
+					CalamityMod.SaveConfig(CalamityConfig.Instance);
 				}
-				if (CalamityMod.CalamityConfig.StealthMeterPosY != DrawPosition.Y)
+				if (CalamityConfig.Instance.StealthMeterPosY != DrawPosition.Y)
 				{
-					CalamityMod.CalamityConfig.StealthMeterPosY = DrawPosition.Y;
-					CalamityMod.SaveConfig(CalamityMod.CalamityConfig);
+					CalamityConfig.Instance.StealthMeterPosY = DrawPosition.Y;
+					CalamityMod.SaveConfig(CalamityConfig.Instance);
 				}
 				return;
 			}
@@ -39,7 +39,7 @@ namespace CalamityMod.UI
 			Texture2D barTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/StealthMeterBar");
 			Texture2D fullBarTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/StealthMeterBarFull");
 			spriteBatch.Draw(edgeTexture, DrawPosition, null, Color.White * modPlayer.stealthUIAlpha, 0f, edgeTexture.Size() * 0.5f, 1f, SpriteEffects.None, 0);
-			if (modPlayer.rogueStealth >= modPlayer.rogueStealthMax * (modPlayer.stealthStrikeHalfCost ? 0.5f : 1f))
+			if (modPlayer.StealthStrikeAvailable())
 			{
 				spriteBatch.Draw(indicatorTexture, DrawPosition, null, Color.White * modPlayer.stealthUIAlpha, 0f, indicatorTexture.Size() * 0.5f, 1f, SpriteEffects.None, 0);
 			}
@@ -57,11 +57,11 @@ namespace CalamityMod.UI
 					int stealthInt = (int)Math.Round(modPlayer.rogueStealth * 100f);
 					int maxStealthInt = (int)Math.Round(modPlayer.rogueStealthMax * 100f);
 					//only way I got this to show up consistently, otherwise it fucked up and showed up anywhere onscreen lol.
-					Main.instance.MouseText("Stealth: " + stealthInt + "/" + maxStealthInt + "", 0, 0, -1, -1, -1, -1); 
+					Main.instance.MouseText("Stealth: " + stealthInt + "/" + maxStealthInt + "", 0, 0, -1, -1, -1, -1);
 					modPlayer.stealthUIAlpha = MathHelper.Lerp(modPlayer.stealthUIAlpha, 0.25f, 0.035f);
 				}
 			}
-			if (!CalamityMod.CalamityConfig.MeterPosLock)
+			if (!CalamityConfig.Instance.MeterPosLock)
 			{
 				if (new Rectangle((int)(DrawPosition.X + Main.screenPosition.X - 26), (int)(DrawPosition.Y + Main.screenPosition.Y - 9), 52, 18).Intersects(
 				   new Rectangle((int)Main.MouseWorld.X, (int)Main.MouseWorld.Y, 8, 8)))
@@ -79,15 +79,15 @@ namespace CalamityMod.UI
 					}
 				}
 
-				if (CalamityMod.CalamityConfig.StealthMeterPosX != DrawPosition.X)
+				if (CalamityConfig.Instance.StealthMeterPosX != DrawPosition.X)
 				{
-					CalamityMod.CalamityConfig.StealthMeterPosX = DrawPosition.X;
-					CalamityMod.SaveConfig(CalamityMod.CalamityConfig);
+					CalamityConfig.Instance.StealthMeterPosX = DrawPosition.X;
+					CalamityMod.SaveConfig(CalamityConfig.Instance);
 				}
-				if (CalamityMod.CalamityConfig.StealthMeterPosY != DrawPosition.Y)
+				if (CalamityConfig.Instance.StealthMeterPosY != DrawPosition.Y)
 				{
-					CalamityMod.CalamityConfig.StealthMeterPosY = DrawPosition.Y;
-					CalamityMod.SaveConfig(CalamityMod.CalamityConfig);
+					CalamityConfig.Instance.StealthMeterPosY = DrawPosition.Y;
+					CalamityMod.SaveConfig(CalamityConfig.Instance);
 				}
 			}
 		}

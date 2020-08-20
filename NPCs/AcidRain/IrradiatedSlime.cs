@@ -25,11 +25,11 @@ namespace CalamityMod.NPCs.AcidRain
             npc.height = 30;
 
             npc.damage = 75;
-            npc.lifeMax = 640;
+            npc.lifeMax = 425;
             npc.defense = 5;
 
             npc.knockBackResist = 0f;
-            animationType = 81;
+            animationType = NPCID.CorruptSlime;
             for (int k = 0; k < npc.buffImmune.Length; k++)
             {
                 npc.buffImmune[k] = true;
@@ -81,7 +81,7 @@ namespace CalamityMod.NPCs.AcidRain
 			else
 			{
 				npc.aiStyle = 1;
-				aiType = 141;
+				aiType = NPCID.ToxicSludge;
 			}
         }
 

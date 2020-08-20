@@ -1,3 +1,4 @@
+using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
@@ -9,8 +10,6 @@ namespace CalamityMod.NPCs.Ravager
 {
     public class RockPillar : ModNPC
     {
-        int tileCollideCounter = 0;
-
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Rock Pillar");
@@ -21,7 +20,8 @@ namespace CalamityMod.NPCs.Ravager
             npc.damage = 0;
             npc.width = 60;
             npc.height = 300;
-            npc.lifeMax = 100;
+			npc.DR_NERD(0.5f);
+			npc.lifeMax = CalamityWorld.downedProvidence ? 35000 : 5000;
             npc.alpha = 255;
             npc.aiStyle = -1;
             aiType = -1;
@@ -30,25 +30,25 @@ namespace CalamityMod.NPCs.Ravager
             {
                 npc.buffImmune[k] = true;
             }
-            npc.dontTakeDamage = true;
-            npc.HitSound = SoundID.NPCHit4;
-            npc.DeathSound = SoundID.NPCDeath14;
-        }
+			npc.HitSound = SoundID.NPCHit41;
+			npc.DeathSound = SoundID.NPCDeath14;
+		}
 
         public override void AI()
         {
             if (CalamityGlobalNPC.scavenger < 0 || !Main.npc[CalamityGlobalNPC.scavenger].active)
             {
-                npc.dontTakeDamage = false;
                 npc.life = 0;
                 HitEffect(npc.direction, 9999);
                 npc.netUpdate = true;
                 return;
             }
+
             if (npc.timeLeft < 1800)
             {
                 npc.timeLeft = 1800;
             }
+
             if (npc.alpha > 0)
             {
                 npc.alpha -= 10;
@@ -57,17 +57,9 @@ namespace CalamityMod.NPCs.Ravager
                     npc.alpha = 0;
                 }
             }
+
             if (Math.Abs(npc.velocity.X) > 0.5f)
             {
-                if (tileCollideCounter < 210)
-                {
-                    tileCollideCounter++;
-                    npc.noTileCollide = true;
-                }
-                else
-                {
-                    npc.noTileCollide = false;
-                }
                 if (CalamityWorld.downedProvidence && !CalamityWorld.bossRushActive)
                 {
                     npc.damage = 400;
@@ -79,41 +71,50 @@ namespace CalamityMod.NPCs.Ravager
             }
             else
             {
-                npc.noTileCollide = false;
                 npc.damage = 0;
             }
+
             if (npc.ai[0] == 0f)
             {
-                npc.noTileCollide = false;
                 if (npc.velocity.Y == 0f)
                 {
-                    npc.velocity.X *= 0.8f;
-                    npc.ai[1] += 1f;
-                    if (npc.ai[1] > 0f)
+                    if (npc.ai[1] == -1f)
                     {
-                        npc.ai[1] += 1f;
-                    }
-                    if (npc.ai[1] >= 300f)
-                    {
-                        npc.ai[1] = -20f;
-                    }
-                    else if (npc.ai[1] == -1f)
-                    {
-                        npc.TargetClosest(true);
-                        npc.velocity.X = (float)(4 * npc.direction);
-                        npc.velocity.Y = -24.5f;
+						Main.PlaySound(SoundID.Item62, npc.position);
+
+						for (int num621 = 0; num621 < 10; num621++)
+						{
+							int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, DustID.Iron, 0f, 0f, 100, default, 2f);
+							Main.dust[num622].velocity *= 3f;
+							if (Main.rand.NextBool(2))
+							{
+								Main.dust[num622].scale = 0.5f;
+								Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
+							}
+						}
+						for (int num623 = 0; num623 < 10; num623++)
+						{
+							int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, DustID.Stone, 0f, 0f, 100, default, 3f);
+							Main.dust[num624].noGravity = true;
+							Main.dust[num624].velocity *= 5f;
+							num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, DustID.Iron, 0f, 0f, 100, default, 2f);
+							Main.dust[num624].velocity *= 2f;
+						}
+
+						npc.noTileCollide = true;
+						npc.velocity.X = 12 * npc.direction;
+                        npc.velocity.Y = -28.5f;
                         npc.ai[0] = 1f;
                         npc.ai[1] = 0f;
                     }
                 }
             }
-            else if (npc.ai[0] == 1f)
+            else
             {
-                if (npc.velocity.Y == 0f)
+                if (npc.velocity.Y == 0f || Vector2.Distance(npc.Center, Main.npc[CalamityGlobalNPC.scavenger].Center) > 2800f)
                 {
                     Main.PlaySound(SoundID.Item14, npc.position);
                     npc.ai[0] = 0f;
-                    npc.dontTakeDamage = false;
                     npc.life = 0;
                     HitEffect(npc.direction, 9999);
                     npc.netUpdate = true;
@@ -121,34 +122,11 @@ namespace CalamityMod.NPCs.Ravager
                 }
                 else
                 {
-                    npc.TargetClosest(true);
-                    if (npc.position.X < Main.player[npc.target].position.X && npc.position.X + (float)npc.width > Main.player[npc.target].position.X + (float)Main.player[npc.target].width)
-                    {
-                        npc.velocity.X *= 0.9f;
-                        npc.velocity.Y += 0.2f;
-                    }
-                    else
-                    {
-                        if (npc.direction < 0)
-                        {
-                            npc.velocity.X -= 0.2f;
-                        }
-                        else if (npc.direction > 0)
-                        {
-                            npc.velocity.X += 0.2f;
-                        }
-                        float random = (float)Main.rand.Next(7);
-                        float velocityX = 6f + random;
-                        if (npc.velocity.X < -velocityX)
-                        {
-                            npc.velocity.X = -velocityX;
-                        }
-                        if (npc.velocity.X > velocityX)
-                        {
-                            npc.velocity.X = velocityX;
-                        }
-                    }
-                }
+                    npc.velocity.Y += 0.2f;
+
+					if (npc.velocity.Y >= 0f && !Collision.SolidCollision(npc.position, npc.width, npc.height))
+						npc.noTileCollide = false;
+				}
             }
         }
 
@@ -157,35 +135,61 @@ namespace CalamityMod.NPCs.Ravager
 			return false;
 		}
 
+		public override void OnHitPlayer(Player player, int damage, bool crit)
+		{
+			player.AddBuff(ModContent.BuffType<ArmorCrunch>(), 180, true);
+		}
+
 		public override void HitEffect(int hitDirection, double damage)
         {
             if (npc.life <= 0)
             {
-                npc.position.X = npc.position.X + (float)(npc.width / 2);
-                npc.position.Y = npc.position.Y + (float)(npc.height / 2);
+                npc.position.X = npc.position.X + (npc.width / 2);
+                npc.position.Y = npc.position.Y + (npc.height / 2);
                 npc.width = 80;
                 npc.height = 360;
-                npc.position.X = npc.position.X - (float)(npc.width / 2);
-                npc.position.Y = npc.position.Y - (float)(npc.height / 2);
+                npc.position.X = npc.position.X - (npc.width / 2);
+                npc.position.Y = npc.position.Y - (npc.height / 2);
                 for (int num621 = 0; num621 < 30; num621++)
                 {
-                    int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 8, 0f, 0f, 100, default, 2f);
+                    int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, DustID.Iron, 0f, 0f, 100, default, 2f);
                     Main.dust[num622].velocity *= 3f;
                     if (Main.rand.NextBool(2))
                     {
                         Main.dust[num622].scale = 0.5f;
-                        Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
+                        Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
                     }
                 }
                 for (int num623 = 0; num623 < 30; num623++)
                 {
-                    int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 1, 0f, 0f, 100, default, 3f);
+                    int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, DustID.Stone, 0f, 0f, 100, default, 3f);
                     Main.dust[num624].noGravity = true;
                     Main.dust[num624].velocity *= 5f;
-                    num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 8, 0f, 0f, 100, default, 2f);
+                    num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, DustID.Iron, 0f, 0f, 100, default, 2f);
                     Main.dust[num624].velocity *= 2f;
                 }
             }
+			else
+			{
+				for (int num621 = 0; num621 < 2; num621++)
+				{
+					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, DustID.Iron, 0f, 0f, 100, default, 2f);
+					Main.dust[num622].velocity *= 3f;
+					if (Main.rand.NextBool(2))
+					{
+						Main.dust[num622].scale = 0.5f;
+						Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
+					}
+				}
+				for (int num623 = 0; num623 < 2; num623++)
+				{
+					int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, DustID.Stone, 0f, 0f, 100, default, 3f);
+					Main.dust[num624].noGravity = true;
+					Main.dust[num624].velocity *= 5f;
+					num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, DustID.Iron, 0f, 0f, 100, default, 2f);
+					Main.dust[num624].velocity *= 2f;
+				}
+			}
         }
     }
 }

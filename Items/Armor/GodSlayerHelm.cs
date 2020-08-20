@@ -41,7 +41,7 @@ namespace CalamityMod.Items.Armor
             modPlayer.godSlayerDamage = true;
             player.setBonus = "You will survive fatal damage and will be healed 150 HP if an attack would have killed you\n" +
                 "This effect can only occur once every 45 seconds\n" +
-                "While the cooldown for this effect is active you gain a 10% increase to all damage\n" +
+				"While the cooldown for this effect is active all life regen is disabled\n" +
                 "Taking over 80 damage in one hit will cause you to release a swarm of high-damage god killer darts\n" +
                 "Enemies take a lot of damage when they hit you\n" +
                 "An attack that would deal 80 damage or less will have its damage reduced to 1";
@@ -58,8 +58,7 @@ namespace CalamityMod.Items.Armor
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 14);
-            recipe.AddIngredient(ModContent.ItemType<NightmareFuel>(), 8);
-            recipe.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 8);
+            recipe.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>());
             recipe.AddTile(ModContent.TileType<DraedonsForge>());
             recipe.SetResult(this);
             recipe.AddRecipe();

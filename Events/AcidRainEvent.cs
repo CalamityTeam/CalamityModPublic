@@ -1,4 +1,3 @@
-using CalamityMod.ILEditing;
 using CalamityMod.NPCs.AcidRain;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -12,7 +11,7 @@ using Terraria.Localization;
 
 namespace CalamityMod.Events
 {
-    public enum AcidRainSpawnRequirement
+	public enum AcidRainSpawnRequirement
     {
         Water,
         Land,
@@ -34,6 +33,10 @@ namespace CalamityMod.Events
     {
         // A partially bright pale-ish cyan with a hint of yellow.
         public static readonly Color TextColor = new Color(115, 194, 147);
+
+        public static int MaxNuclearToadCount = 5; // To prevent the things from spamming. This happens frequently in pre-HM.
+
+        public const int InvasionNoKillPersistTime = 14400; // How long the invasion persists, in frames, if nothing is killed.
 
         public const float BloodwormSpawnRate = 0.1f;
 
@@ -140,11 +143,11 @@ namespace CalamityMod.Events
             }
         }
         /// <summary>
-        /// Attempts to start the Acid Rain event. Will fail if there is another invasion going on or the EoC has not been killed yet (unless you're in hardmode).
+        /// Attempts to start the Acid Rain event. Will fail if there is another invasion or boss rush going on. It will also fail if the EoC, WoF, or AS has not been killed yet.
         /// </summary>
         public static void TryStartEvent(bool forceRain = false)
         {
-            if (CalamityWorld.rainingAcid || (!NPC.downedBoss1 && !Main.hardMode) || CalamityWorld.bossRushActive)
+            if (CalamityWorld.rainingAcid || (!NPC.downedBoss1 && !Main.hardMode && !CalamityWorld.downedAquaticScourge) || CalamityWorld.bossRushActive)
                 return;
             int playerCount = 0;
             for (int i = 0; i < Main.player.Length; i++)
@@ -168,17 +171,16 @@ namespace CalamityMod.Events
                     Main.numClouds = Main.numCloudsTemp;
                     Main.windSpeedTemp = 0.72f;
                     Main.windSpeedSet = Main.windSpeedTemp;
-                    Main.weatherCounter = 600;
+                    Main.weatherCounter = 60 * 60 * 10; // 10 minutes of rain. Remember, once the rain goes away, so does the invasion.
+                    Main.rainTime = Main.weatherCounter;
                     Main.maxRaining = 0.89f;
                     CalamityWorld.forcedDownpourWithTear = true;
                     CalamityMod.UpdateServerBoolean();
                 }
-				if (CalamityWorld.startAcidicDownpour)
-				{
-					Main.raining = true;
-				}
                 CalamityWorld.triedToSummonOldDuke = false;
+                CalamityWorld.timeSinceAcidRainKill = 0; // Reset the kill cooldown, just in case.
             }
+
             UpdateInvasion();
             BroadcastEventText("Mods.CalamityMod.AcidRainStart"); // A toxic downpour falls over the wasteland seas!
         }
@@ -219,22 +221,23 @@ namespace CalamityMod.Events
                 // In short, leave this alone.
                 if (Main.netMode == NetmodeID.Server)
                 {
-                    var netMessage = CalamityMod.instance.GetPacket();
+                    var netMessage = CalamityMod.Instance.GetPacket();
                     netMessage.Write((byte)CalamityModMessageType.AcidRainSync);
                     netMessage.Write(CalamityWorld.rainingAcid);
                     netMessage.Write(CalamityWorld.acidRainPoints);
+                    netMessage.Write(CalamityWorld.timeSinceAcidRainKill);
                     netMessage.Send();
                 }
                 if (Main.netMode == NetmodeID.Server)
                 {
-                    var netMessage = CalamityMod.instance.GetPacket();
+                    var netMessage = CalamityMod.Instance.GetPacket();
                     netMessage.Write((byte)CalamityModMessageType.AcidRainUIDrawFadeSync);
                     netMessage.Write(CalamityWorld.acidRainExtraDrawTime);
                     netMessage.Send();
                 }
                 if (Main.netMode == NetmodeID.Server)
                 {
-                    var netMessage = CalamityMod.instance.GetPacket();
+                    var netMessage = CalamityMod.Instance.GetPacket();
                     netMessage.Write((byte)CalamityModMessageType.AcidRainOldDukeSummonSync);
                     netMessage.Write(CalamityWorld.triedToSummonOldDuke);
                     netMessage.Send();

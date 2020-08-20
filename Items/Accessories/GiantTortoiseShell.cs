@@ -1,10 +1,9 @@
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
 {
-    public class GiantTortoiseShell : ModItem
+	public class GiantTortoiseShell : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -18,7 +17,7 @@ namespace CalamityMod.Items.Accessories
             item.defense = 8;
             item.width = 20;
             item.height = 24;
-            item.value = Item.buyPrice(0, 9, 0, 0);
+            item.value = CalamityGlobalItem.Rarity5BuyPrice;
             item.rare = 5;
             item.accessory = true;
         }

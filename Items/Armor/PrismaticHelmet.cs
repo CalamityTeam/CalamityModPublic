@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Armor
 			DisplayName.SetDefault("Prismatic Helmet");
 			Tooltip.SetDefault("8% increased magic damage and 12% increased magic crit\n" +
 				"20% decreased non-magic damage\n" +
-				"Enemies with less than 500 health deal no damage\n" +
+				"Enemies with less than 500 max health deal no contact damage\n" +
 				"This does not occur while a boss is alive");
 		}
 

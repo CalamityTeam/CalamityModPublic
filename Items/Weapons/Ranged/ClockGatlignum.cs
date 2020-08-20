@@ -58,6 +58,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.Gatligator);
             recipe.AddIngredient(ItemID.VenusMagnum);
+            recipe.AddIngredient(ItemID.ClockworkAssaultRifle);
             recipe.AddIngredient(ModContent.ItemType<BarofLife>(), 3);
             recipe.AddIngredient(ItemID.Ectoplasm, 5);
             recipe.AddTile(TileID.MythrilAnvil);

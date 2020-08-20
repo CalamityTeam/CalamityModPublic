@@ -1,5 +1,4 @@
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using System;
@@ -8,7 +7,7 @@ using CalamityMod.Buffs.DamageOverTime;
 
 namespace CalamityMod.Projectiles.Typeless
 {
-    public class BlazingSun : ModProjectile
+	public class BlazingSun : ModProjectile
     {
         public override void SetStaticDefaults()
         {

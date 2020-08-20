@@ -1,10 +1,9 @@
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Melee
 {
-    public class NightStabber : ModProjectile
+	public class NightStabber : ModProjectile
     {
         public override void SetStaticDefaults()
         {

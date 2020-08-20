@@ -1,11 +1,10 @@
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 namespace CalamityMod.Projectiles.Summon
 {
-    public class PlateProjectile : ModProjectile
+	public class PlateProjectile : ModProjectile
     {
         public override void SetStaticDefaults()
         {

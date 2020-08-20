@@ -39,7 +39,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
 				for (int i = 0; i < 2; i++)
 				{
-					int num41 = Dust.NewDust(projectile.Center, 0, 0, dust, 0f, 0f, 160, default(Color), 2f);
+					int num41 = Dust.NewDust(projectile.Center, 0, 0, dust, 0f, 0f, 160, projectile.ai[0] == 0f ? default : new Color(255, 255, 0), 2f);
 					Main.dust[num41].noGravity = true;
 					Main.dust[num41].position = projectile.Center;
 					Main.dust[num41].velocity = projectile.velocity;
@@ -52,7 +52,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
 		public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
 		{
-			damage -= target.defense / 2;
+			damage -= target.defense / 5;
 		}
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
@@ -62,9 +62,9 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
 		public override void Kill(int timeLeft)
 		{
-			int height = 40;
+			int height = 60;
 			projectile.position = projectile.Center;
-			projectile.width = (projectile.height = height);
+			projectile.width = projectile.height = height;
 			projectile.Center = projectile.position;
 			projectile.maxPenetrate = -1;
 			projectile.penetrate = -1;
@@ -74,19 +74,18 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
 			LaserBurst(2.4f, 4.2f); // 60 dusts
 
-			int num3;
-			for (int num640 = 0; num640 < 100; num640 = num3 + 1)
+			for (int num640 = 0; num640 < 100; num640++)
 			{
 				float num641 = 4f;
 
-				int num643 = Dust.NewDust(projectile.Center, 6, 6, dust, 0f, 0f, 100, default(Color), 2f);
+				int num643 = Dust.NewDust(projectile.Center, 6, 6, dust, 0f, 0f, 100, default, 2f);
 				float num644 = Main.dust[num643].velocity.X;
 				float num645 = Main.dust[num643].velocity.Y;
 
 				if (num644 == 0f && num645 == 0f)
 					num644 = 1f;
 
-				float num646 = (float)Math.Sqrt((double)(num644 * num644 + num645 * num645));
+				float num646 = (float)Math.Sqrt(num644 * num644 + num645 * num645);
 				num646 = num641 / num646;
 				num644 *= num646;
 				num645 *= num646;
@@ -96,8 +95,6 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 				dust2.velocity.X = dust2.velocity.X + num644;
 				dust2.velocity.Y = dust2.velocity.Y + num645;
 				dust2.noGravity = true;
-
-				num3 = num640;
 			}
 		}
 
@@ -105,24 +102,23 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 		{
 			float angleRandom = 0.05f;
 
-			int num3;
-			for (int num53 = 0; num53 < 20; num53 = num3 + 1)
+			for (int num53 = 0; num53 < 20; num53++)
 			{
 				float dustSpeed = Main.rand.NextFloat(speed1, speed2);
 				Vector2 dustVel = new Vector2(dustSpeed, 0.0f).RotatedBy(projectile.velocity.ToRotation());
 				dustVel = dustVel.RotatedBy(-angleRandom);
 				dustVel = dustVel.RotatedByRandom(2.0f * angleRandom);
 
-				int num54 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, dust, dustVel.X, dustVel.Y, 200, default(Color), 2.5f);
-				Main.dust[num54].position = projectile.Center + Vector2.UnitY.RotatedByRandom(3.1415927410125732) * (float)Main.rand.NextDouble() * (float)projectile.width / 2f;
+				int num54 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, dust, dustVel.X, dustVel.Y, 200, default, 2.5f);
+				Main.dust[num54].position = projectile.Center + Vector2.UnitY.RotatedByRandom(MathHelper.Pi) * (float)Main.rand.NextDouble() * projectile.width / 2f;
 				Main.dust[num54].noGravity = true;
 
 				Dust dust2 = Main.dust[num54];
 				dust2.velocity *= 3f;
 				dust2 = Main.dust[num54];
 
-				num54 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, dust, dustVel.X, dustVel.Y, 100, default(Color), 1.9f);
-				Main.dust[num54].position = projectile.Center + Vector2.UnitY.RotatedByRandom(3.1415927410125732) * (float)Main.rand.NextDouble() * (float)projectile.width / 2f;
+				num54 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, dust, dustVel.X, dustVel.Y, 100, default, 1.9f);
+				Main.dust[num54].position = projectile.Center + Vector2.UnitY.RotatedByRandom(MathHelper.Pi) * (float)Main.rand.NextDouble() * projectile.width / 2f;
 
 				dust2 = Main.dust[num54];
 				dust2.velocity *= 2f;
@@ -132,25 +128,21 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 				Main.dust[num54].color = Color.Orange * 0.5f;
 
 				dust2 = Main.dust[num54];
-
-				num3 = num53;
 			}
-			for (int num55 = 0; num55 < 10; num55 = num3 + 1)
+			for (int num55 = 0; num55 < 10; num55++)
 			{
 				float dustSpeed = Main.rand.NextFloat(speed1, speed2);
 				Vector2 dustVel = new Vector2(dustSpeed, 0.0f).RotatedBy(projectile.velocity.ToRotation());
 				dustVel = dustVel.RotatedBy(-angleRandom);
 				dustVel = dustVel.RotatedByRandom(2.0f * angleRandom);
 
-				int num56 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, dust, dustVel.X, dustVel.Y, 0, default(Color), 3.2f);
-				Main.dust[num56].position = projectile.Center + Vector2.UnitX.RotatedByRandom(3.1415927410125732).RotatedBy((double)projectile.velocity.ToRotation(), default(Vector2)) * (float)projectile.width / 3f;
+				int num56 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, dust, dustVel.X, dustVel.Y, 0, default, 3.2f);
+				Main.dust[num56].position = projectile.Center + Vector2.UnitX.RotatedByRandom(MathHelper.Pi).RotatedBy(projectile.velocity.ToRotation()) * projectile.width / 3f;
 				Main.dust[num56].noGravity = true;
 
 				Dust dust2 = Main.dust[num56];
 				dust2.velocity *= 0.5f;
 				dust2 = Main.dust[num56];
-
-				num3 = num55;
 			}
 		}
 	}

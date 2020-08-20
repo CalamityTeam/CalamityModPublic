@@ -7,11 +7,9 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.ModLoader.Config;
-using CalamityMod;
 namespace CalamityMod.NPCs.Ravager
 {
-    public class RavagerHead : ModNPC
+	public class RavagerHead : ModNPC
     {
         public override void SetStaticDefaults()
         {
@@ -25,7 +23,7 @@ namespace CalamityMod.NPCs.Ravager
             npc.width = 80;
             npc.height = 80;
             npc.defense = 50;
-            npc.Calamity().RevPlusDR(0.1f);
+			npc.DR_NERD(0.1f);
             npc.lifeMax = 32705;
             npc.knockBackResist = 0f;
             aiType = -1;
@@ -49,6 +47,7 @@ namespace CalamityMod.NPCs.Ravager
             npc.buffImmune[ModContent.BuffType<HolyFlames>()] = false;
             npc.buffImmune[ModContent.BuffType<Nightwither>()] = false;
             npc.buffImmune[ModContent.BuffType<Shred>()] = false;
+            npc.buffImmune[ModContent.BuffType<WarCleave>()] = false;
             npc.buffImmune[ModContent.BuffType<WhisperingDeath>()] = false;
             npc.buffImmune[ModContent.BuffType<SilvaStun>()] = false;
             npc.noGravity = true;
@@ -67,7 +66,7 @@ namespace CalamityMod.NPCs.Ravager
             {
                 npc.lifeMax = 450000;
             }
-            double HPBoost = (double)CalamityMod.CalamityConfig.BossHealthPercentageBoost * 0.01;
+            double HPBoost = (double)CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
         }
 
@@ -86,7 +85,7 @@ namespace CalamityMod.NPCs.Ravager
             {
                 npc.timeLeft = 1800;
             }
-            float speed = 12f;
+            float speed = 21f;
             Vector2 center = new Vector2(npc.Center.X, npc.Center.Y);
             float centerX = Main.npc[CalamityGlobalNPC.scavenger].Center.X - center.X;
             float centerY = Main.npc[CalamityGlobalNPC.scavenger].Center.Y - center.Y;
@@ -157,13 +156,13 @@ namespace CalamityMod.NPCs.Ravager
                 int num285 = 0;
                 while ((double)num285 < damage / (double)npc.lifeMax * 100.0)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, 5, (float)hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, (float)hitDirection, -1f, 0, default, 1f);
                     num285++;
                 }
             }
             else if (Main.netMode != NetmodeID.MultiplayerClient)
             {
-                NPC.NewNPC((int)npc.Center.X, (int)npc.position.Y + npc.height, ModContent.NPCType<RavagerHead2>(), npc.whoAmI, 0f, 0f, 0f, 0f, 255);
+                NPC.NewNPC((int)npc.Center.X, (int)npc.position.Y + npc.height, ModContent.NPCType<RavagerHead2>(), npc.whoAmI);
             }
         }
     }

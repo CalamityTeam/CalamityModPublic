@@ -44,7 +44,24 @@ namespace CalamityMod.NPCs.Abyss
                 npc.buffImmune[k] = true;
             }
             npc.buffImmune[BuffID.Ichor] = false;
-            npc.buffImmune[BuffID.CursedInferno] = false;
+			npc.buffImmune[BuffID.Frostburn] = false;
+			npc.buffImmune[BuffID.CursedInferno] = false;
+            npc.buffImmune[BuffID.Daybreak] = false;
+			npc.buffImmune[BuffID.StardustMinionBleed] = false;
+			npc.buffImmune[BuffID.DryadsWardDebuff] = false;
+			npc.buffImmune[BuffID.Oiled] = false;
+			npc.buffImmune[BuffID.BetsysCurse] = false;
+			npc.buffImmune[ModContent.BuffType<AstralInfectionDebuff>()] = false;
+			npc.buffImmune[ModContent.BuffType<GodSlayerInferno>()] = false;
+            npc.buffImmune[ModContent.BuffType<AbyssalFlames>()] = false;
+            npc.buffImmune[ModContent.BuffType<ArmorCrunch>()] = false;
+            npc.buffImmune[ModContent.BuffType<DemonFlames>()] = false;
+            npc.buffImmune[ModContent.BuffType<HolyFlames>()] = false;
+            npc.buffImmune[ModContent.BuffType<Nightwither>()] = false;
+            npc.buffImmune[ModContent.BuffType<Plague>()] = false;
+            npc.buffImmune[ModContent.BuffType<Shred>()] = false;
+            npc.buffImmune[ModContent.BuffType<WarCleave>()] = false;
+            npc.buffImmune[ModContent.BuffType<WhisperingDeath>()] = false;
             npc.timeLeft = NPC.activeTime * 30;
             npc.value = Item.buyPrice(0, 25, 0, 0);
             npc.HitSound = SoundID.NPCHit56;
@@ -77,9 +94,9 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void AI()
         {
-            bool phase1 = (double)npc.life > (double)npc.lifeMax * 0.5;
-            bool phase2 = (double)npc.life <= (double)npc.lifeMax * 0.5;
-            bool phase3 = (double)npc.life <= (double)npc.lifeMax * 0.1;
+            bool phase1 = npc.life > npc.lifeMax * 0.5;
+            bool phase2 = npc.life <= npc.lifeMax * 0.5;
+            bool phase3 = npc.life <= npc.lifeMax * 0.1;
             npc.chaseable = hasBeenHit;
             if (npc.soundDelay <= 0)
             {
@@ -108,41 +125,33 @@ namespace CalamityMod.NPCs.Abyss
                     reset2 = true;
                     npc.netUpdate = true;
                 }
+
                 npc.spriteDirection = (npc.direction > 0) ? -1 : 1;
-                int num = 200;
                 if (npc.ai[2] == 0f)
                 {
-                    npc.localAI[0] += 1f;
-                    npc.alpha = num;
                     npc.TargetClosest(true);
-                    if (!Main.player[npc.target].dead && (Main.player[npc.target].Center - npc.Center).Length() < 170f)
+                    if (!Main.player[npc.target].dead && (Main.player[npc.target].Center - npc.Center).Length() < 170f && Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
                     {
                         npc.ai[2] = -16f;
                     }
-                    if (npc.velocity.X != 0f || npc.velocity.Y < 0f || npc.velocity.Y > 2f || npc.justHit || npc.localAI[0] >= 420f)
+                    if (npc.justHit || npc.localAI[0] >= 420f)
                     {
                         npc.ai[2] = -16f;
                     }
                     return;
                 }
+
                 if (npc.ai[2] < 0f)
                 {
-                    if (npc.alpha > 0)
-                    {
-                        npc.alpha -= num / 16;
-                        if (npc.alpha < 0)
-                        {
-                            npc.alpha = 0;
-                        }
-                    }
                     npc.ai[2] += 1f;
                     if (npc.ai[2] == 0f)
                     {
                         npc.ai[2] = 1f;
-                        npc.velocity.X = (float)(npc.direction * 2);
+						npc.velocity.X = npc.direction * 2;
                     }
                     return;
                 }
+
                 if (npc.ai[2] == 1f)
                 {
                     if (npc.direction == 0)
@@ -666,7 +675,7 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void NPCLoot()
         {
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<HalibutCannon>(), CalamityWorld.revenge, 10000, 1, 1);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<HalibutCannon>(), CalamityWorld.revenge, CalamityGlobalNPCLoot.halibutCannonBaseDropChance / 100, 1, 1);
             DropHelper.DropItem(npc, ModContent.ItemType<Voidstone>(), 40, 50);
             DropHelper.DropItem(npc, ModContent.ItemType<CloakingGland>(), 2, 3);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<DepthCells>(), CalamityWorld.downedCalamitas, 2, 10, 17);
@@ -683,13 +692,13 @@ namespace CalamityMod.NPCs.Abyss
         {
             for (int k = 0; k < 5; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
             }
             if (npc.life <= 0)
             {
                 for (int k = 0; k < 40; k++)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
                 }
             }
         }

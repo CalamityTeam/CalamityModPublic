@@ -1,11 +1,10 @@
 using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class AlphaSeeker : ModProjectile
+	public class AlphaSeeker : ModProjectile
     {
         public static float moveSpeed = 2f;
         public static float rotateSpeed = 0.04f;
@@ -44,7 +43,7 @@ namespace CalamityMod.Projectiles.Rogue
                 for (int i = 0; i < Main.npc.Length; i++)
                 {
                     NPC npc = Main.npc[i];
-                    if (!npc.friendly && !npc.townNPC && npc.active && !npc.dontTakeDamage && npc.chaseable)
+                    if (npc.CanBeChasedBy(projectile, false))
                     {
                         float dist = (projectile.Center - npc.Center).Length();
                         if (dist < minDist)

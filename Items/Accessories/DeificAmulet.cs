@@ -11,19 +11,18 @@ namespace CalamityMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Deific Amulet");
-            Tooltip.SetDefault("Taking damage makes you move very fast for a short time\n" +
-                               "Increases armor penetration by 10 and immune time after being struck\n" +
-                               "Provides light underwater and provides a small amount of light in the abyss\n" +
-                               "Causes stars to fall when damaged\n" +
-                               "Reduces the cooldown of healing potions");
+			Tooltip.SetDefault("Taking damage makes you move very fast for a short time\n" +
+				"Causes stars to fall and gives increased immune time when damaged\n" +
+				"Increases armor penetration by 10 and reduces the cooldown of healing potions\n" +
+				"Provides light underwater and provides a small amount of light in the abyss");
         }
 
         public override void SetDefaults()
         {
             item.width = 26;
             item.height = 26;
-            item.rare = 8;
-            item.value = Item.buyPrice(0, 45, 0, 0);
+            item.rare = 5;
+            item.value = CalamityGlobalItem.Rarity5BuyPrice;
             item.accessory = true;
         }
 

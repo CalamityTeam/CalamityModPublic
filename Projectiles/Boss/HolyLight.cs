@@ -18,7 +18,7 @@ namespace CalamityMod.Projectiles.Boss
         {
             projectile.width = 20;
             projectile.height = 20;
-            projectile.friendly = true;
+            projectile.hostile = true;
             projectile.ignoreWater = true;
             projectile.tileCollide = false;
 			projectile.alpha = 255;
@@ -28,7 +28,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void AI()
         {
-			if (projectile.ai[0] < 80f)
+			if (projectile.ai[0] < 240f)
 			{
 				projectile.ai[0] += 1f;
 
@@ -37,13 +37,15 @@ namespace CalamityMod.Projectiles.Boss
 			}
 
 			bool expertMode = Main.expertMode;
-            projectile.velocity *= 1.01f;
-            int num487 = Player.FindClosest(projectile.position, projectile.width, projectile.height);
-            Vector2 vector36 = new Vector2(projectile.position.X + projectile.width * 0.5f, projectile.position.Y + projectile.height * 0.5f);
-            float num489 = Main.player[num487].Center.X - vector36.X;
-            float num490 = Main.player[num487].Center.Y - vector36.Y;
-            float num491 = (float)Math.Sqrt(num489 * num489 + num490 * num490);
-            if (num491 < 50f && projectile.position.X < Main.player[num487].position.X + Main.player[num487].width && projectile.position.X + projectile.width > Main.player[num487].position.X && projectile.position.Y < Main.player[num487].position.Y + Main.player[num487].height && projectile.position.Y + projectile.height > Main.player[num487].position.Y)
+
+			if (projectile.velocity.Length() < 16f)
+				projectile.velocity *= 1.01f;
+
+            projectile.ai[1] = Player.FindClosest(projectile.position, projectile.width, projectile.height);
+			int num487 = (int)projectile.ai[1];
+			float num491 = Vector2.Distance(Main.player[num487].Center, projectile.Center);
+
+			if (num491 < 50f && !Main.player[num487].dead && projectile.position.X < Main.player[num487].position.X + Main.player[num487].width && projectile.position.X + projectile.width > Main.player[num487].position.X && projectile.position.Y < Main.player[num487].position.Y + Main.player[num487].height && projectile.position.Y + projectile.height > Main.player[num487].position.Y)
             {
                 int num492 = expertMode ? 50 : 35;
                 Main.player[num487].HealEffect(num492, false);
@@ -52,7 +54,7 @@ namespace CalamityMod.Projectiles.Boss
                 {
                     Main.player[num487].statLife = Main.player[num487].statLifeMax2;
                 }
-                NetMessage.SendData(MessageID.SpiritHeal, -1, -1, null, num487, num492, 0f, 0f, 0, 0, 0);
+                NetMessage.SendData(MessageID.SpiritHeal, -1, -1, null, num487, num492);
                 projectile.Kill();
             }
         }
@@ -60,7 +62,7 @@ namespace CalamityMod.Projectiles.Boss
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
 			Texture2D value = Main.projectileTexture[projectile.type];
-			Color baseColor = new Color(100, 255, 0, 255);
+			Color baseColor = new Color(100, 255, 100, 255);
 			Color color33 = baseColor * 0.5f;
 			color33.A = 0;
 			Vector2 vector28 = projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY);

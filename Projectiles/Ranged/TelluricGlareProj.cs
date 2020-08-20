@@ -23,7 +23,7 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.aiStyle = 1;
             projectile.timeLeft = 300;
             projectile.arrow = true;
-            aiType = 1;
+            aiType = ProjectileID.WoodenArrowFriendly;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 1;
         }

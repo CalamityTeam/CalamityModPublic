@@ -42,7 +42,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.value = Item.buyPrice(5, 0, 0, 0);
             item.rare = 10;
             item.shoot = ModContent.ProjectileType<ElementalExcaliburBeam>();
-            item.shootSpeed = 12f;
+            item.shootSpeed = 6f;
             item.Calamity().customRarity = CalamityRarity.Rainbow;
         }
 

@@ -22,8 +22,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.width = 58;
             item.damage = 68;
             item.melee = true;
-            item.useAnimation = 20;
-            item.useTime = 20;
+            item.useAnimation = item.useTime = 15;
             item.useTurn = true;
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.knockBack = 4.25f;
@@ -46,21 +45,24 @@ namespace CalamityMod.Items.Weapons.Melee
             if (player.altFunctionUse == 2)
             {
                 item.noMelee = true;
-                item.useTime = 20;
-                item.useAnimation = 20;
                 item.UseSound = SoundID.Item73;
                 item.shoot = ModContent.ProjectileType<AegisBeam>();
             }
             else
             {
                 item.noMelee = false;
-                item.useTime = 15;
-                item.useAnimation = 15;
                 item.UseSound = SoundID.Item1;
                 item.shoot = ProjectileID.None;
             }
             return base.CanUseItem(player);
         }
+
+		public override float UseTimeMultiplier	(Player player)
+		{
+			if (player.altFunctionUse != 2)
+				return 1f;
+			return 0.75f;
+		}
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {

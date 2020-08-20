@@ -2,14 +2,13 @@ using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
-using CalamityMod.Tiles.Furniture.CraftingStations;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Accessories
 {
-    [AutoloadEquip(EquipType.Shield)]
+	[AutoloadEquip(EquipType.Shield)]
     public class AsgardianAegis : ModItem
     {
         public override void SetStaticDefaults()
@@ -30,7 +29,7 @@ namespace CalamityMod.Items.Accessories
         {
             item.width = 60;
             item.height = 54;
-            item.value = Item.buyPrice(0, 90, 0, 0); //30 gold reforge
+            item.value = CalamityGlobalItem.Rarity14BuyPrice;
             item.defense = 10;
             item.accessory = true;
             item.Calamity().customRarity = CalamityRarity.DarkBlue;
@@ -82,7 +81,6 @@ namespace CalamityMod.Items.Accessories
             recipe.AddIngredient(ModContent.ItemType<AsgardsValor>());
             recipe.AddIngredient(ModContent.ItemType<ElysianAegis>());
             recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<Phantoplasm>(), 5);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();

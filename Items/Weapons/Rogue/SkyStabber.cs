@@ -1,4 +1,3 @@
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -9,7 +8,7 @@ using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class SkyStabber : RogueWeapon
+	public class SkyStabber : RogueWeapon
     {
         private static int damage = 50;
         private static int knockBack = 2;

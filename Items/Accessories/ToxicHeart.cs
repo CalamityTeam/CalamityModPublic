@@ -2,12 +2,11 @@ using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
 {
-    public class ToxicHeart : ModItem
+	public class ToxicHeart : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -19,9 +18,9 @@ namespace CalamityMod.Items.Accessories
         {
             item.width = 28;
             item.height = 32;
-            item.value = Item.buyPrice(0, 30, 0, 0);
+            item.value = CalamityGlobalItem.Rarity8BuyPrice;
             item.expert = true;
-            item.rare = 9;
+            item.rare = 8;
             item.accessory = true;
         }
 

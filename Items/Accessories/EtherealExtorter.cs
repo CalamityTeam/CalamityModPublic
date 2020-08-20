@@ -19,7 +19,7 @@ Rogue projectiles rarely explode into homing souls
             item.width = 28;
             item.height = 32;
             item.accessory = true;
-            item.value = Item.buyPrice(0, 24, 0, 0);
+            item.value = CalamityGlobalItem.Rarity8BuyPrice;
             item.rare = 8;
         }
 

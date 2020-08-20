@@ -33,6 +33,9 @@ namespace CalamityMod.Items.Weapons.Magic
             item.shootSpeed = 14f;
             item.shoot = ModContent.ProjectileType<AcidGunStream>();
         }
+
+        public override Vector2? HoldoutOffset() => new Vector2(-5, 0);
+
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             for (int i = 0; i < 3; i++)
@@ -42,6 +45,7 @@ namespace CalamityMod.Items.Weapons.Magic
             }
             return false;
         }
+
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);

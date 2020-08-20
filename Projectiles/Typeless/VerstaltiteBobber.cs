@@ -1,13 +1,11 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items.Fishing.FishingRods;
 namespace CalamityMod.Projectiles.Typeless
 {
-    public class VerstaltiteBobber : ModProjectile
+	public class VerstaltiteBobber : ModProjectile
     {
 		public override void SetStaticDefaults()
 		{

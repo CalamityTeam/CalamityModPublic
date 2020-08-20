@@ -33,10 +33,7 @@ namespace CalamityMod.Items.TreasureBags
             item.expert = true;
         }
 
-        public override bool CanRightClick()
-        {
-            return true;
-        }
+        public override bool CanRightClick() => true;
 
         public override void PostUpdate() => CalamityUtils.ForceItemIntoWorld(item);
 
@@ -47,13 +44,16 @@ namespace CalamityMod.Items.TreasureBags
                 player.TryGettingDevArmor();
 
             // Weapons
-            DropHelper.DropItemChance(player, ModContent.ItemType<Greentide>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<Leviatitan>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<SirensSong>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<Atlantis>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<BrackishFlask>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<LeviathanTeeth>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<GastricBelcherStaff>(), 3);
+            float w = DropHelper.BagWeaponDropRateFloat;
+            DropHelper.DropEntireWeightedSet(player,
+                DropHelper.WeightStack<Greentide>(w),
+                DropHelper.WeightStack<Leviatitan>(w),
+                DropHelper.WeightStack<SirensSong>(w),
+                DropHelper.WeightStack<Atlantis>(w),
+                DropHelper.WeightStack<GastricBelcherStaff>(w),
+                DropHelper.WeightStack<BrackishFlask>(w),
+                DropHelper.WeightStack<LeviathanTeeth>(w)
+            );
 
             // Equipment
             DropHelper.DropItem(player, ModContent.ItemType<LeviathanAmbergris>());
@@ -63,6 +63,7 @@ namespace CalamityMod.Items.TreasureBags
 
             // Vanity
             DropHelper.DropItemChance(player, ModContent.ItemType<LeviathanMask>(), 7);
+            DropHelper.DropItemChance(player, ModContent.ItemType<AnahitaMask>(), 7);
 
             // Fishing
             DropHelper.DropItemChance(player, ItemID.HotlineFishingHook, 10);

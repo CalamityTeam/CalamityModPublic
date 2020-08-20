@@ -1,11 +1,10 @@
 using CalamityMod.Buffs.DamageOverTime;
 using Terraria;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class PlaguedFuelPackCloud : ModProjectile
+	public class PlaguedFuelPackCloud : ModProjectile
     {
         public override void SetStaticDefaults()
         {

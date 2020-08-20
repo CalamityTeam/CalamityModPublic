@@ -1,12 +1,9 @@
-using CalamityMod.Dusts;
-using Microsoft.Xna.Framework;
-using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class TotalMeltdown : ModProjectile
+	public class TotalMeltdown : ModProjectile
     {
         public override void SetStaticDefaults()
         {

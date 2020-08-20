@@ -32,7 +32,7 @@ namespace CalamityMod.Projectiles.Rogue
         {
             if (projectile.Calamity().stealthStrike)
             {
-                CalamityUtils.StickyProjAI(projectile, 15);
+                projectile.StickyProjAI(15);
                 projectile.localAI[1]++;
                 if (projectile.localAI[1] <= 20f && projectile.ai[0] != 1f)
                 {
@@ -63,7 +63,7 @@ namespace CalamityMod.Projectiles.Rogue
             if (projectile.Calamity().stealthStrike)
             {
                 projdmg = projectile.damage;
-                CalamityUtils.ModifyHitNPCSticky(projectile,4, false);
+                projectile.ModifyHitNPCSticky(4, false);
             }
         }
 

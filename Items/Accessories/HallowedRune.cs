@@ -1,11 +1,10 @@
-using CalamityMod.CalPlayer;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
 {
-    public class HallowedRune : ModItem
+	public class HallowedRune : ModItem
     {
         public override void SetStaticDefaults()
         {

@@ -1,5 +1,7 @@
 using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
+using CalamityMod.World;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -13,8 +15,7 @@ namespace CalamityMod.Items.Armor
         {
             DisplayName.SetDefault("Hydrothermic Headgear");
             Tooltip.SetDefault("12% increased ranged damage and 10% increased ranged critical strike chance\n" +
-                "Reduces ammo usage by 25%, temporary immunity to lava, and immunity to fire damage\n" +
-				"Provides heat protection in Death Mode");
+                "Reduces ammo usage by 25%, temporary immunity to lava, and immunity to fire damage");
         }
 
         public override void SetDefaults()
@@ -24,6 +25,21 @@ namespace CalamityMod.Items.Armor
             item.value = Item.buyPrice(0, 30, 0, 0);
             item.rare = 8;
             item.defense = 15; //53
+        }
+
+        public override void ModifyTooltips(List<TooltipLine> list)
+        {
+			if (CalamityWorld.death)
+			{
+				foreach (TooltipLine line2 in list)
+				{
+					if (line2.mod == "Terraria" && line2.Name == "Tooltip1")
+					{
+						line2.text = "Reduces ammo usage by 25%, temporary immunity to lava, and immunity to fire damage\n" +
+						"Provides heat protection in Death Mode";
+					}
+				}
+			}
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)

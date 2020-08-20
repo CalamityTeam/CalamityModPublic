@@ -27,7 +27,6 @@ namespace CalamityMod.Prefixes
 		{
 			if (base.Autoload(ref name))
 			{
-				//Damage, Use Time, Crit, Velocity, SS Dmg
 				AccessoryModifiers = new List<byte>();
 				AddAccessoryPrefix(mod, AccPrefixType.Quiet, 1.02f);
 				AddAccessoryPrefix(mod, AccPrefixType.Cloaked, 1.04f);

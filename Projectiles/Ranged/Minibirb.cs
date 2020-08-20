@@ -1,9 +1,8 @@
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.Projectiles.Ranged
 {
     public class Minibirb : ModProjectile
@@ -29,13 +28,13 @@ namespace CalamityMod.Projectiles.Ranged
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
             Collision.HitTiles(projectile.position, projectile.velocity, projectile.width, projectile.height);
-            Main.PlaySound(SoundID.NPCHit51, projectile.position);
+            Main.PlaySound(SoundID.NPCHit51, projectile.Center);
             return true;
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            Main.PlaySound(SoundID.NPCHit51, projectile.position);
+            Main.PlaySound(SoundID.NPCHit51, projectile.Center);
         }
 
 		public override void AI()

@@ -30,7 +30,7 @@ namespace CalamityMod.NPCs.Astral
             npc.height = 56;
             npc.damage = 50;
             npc.defense = 20;
-            npc.Calamity().RevPlusDR(0.15f);
+			npc.DR_NERD(0.15f);
             npc.lifeMax = 430;
             npc.DeathSound = mod.GetLegacySoundSlot(SoundType.NPCKilled, "Sounds/NPCKilled/AstralEnemyDeath");
             npc.noGravity = true;
@@ -147,8 +147,7 @@ namespace CalamityMod.NPCs.Astral
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            Tile tile = Main.tile[spawnInfo.spawnTileX, spawnInfo.spawnTileY];
-            if (spawnInfo.player.PillarZone())
+            if (CalamityGlobalNPC.AnyEvents(spawnInfo.player))
             {
                 return 0f;
             }
@@ -166,11 +165,8 @@ namespace CalamityMod.NPCs.Astral
 
         public override void NPCLoot()
         {
-            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Stardust>(), Main.rand.Next(2, 4));
-            if (Main.expertMode)
-            {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Stardust>());
-            }
+            DropHelper.DropItem(npc, ModContent.ItemType<Stardust>(), 2, 3);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<Stardust>(), Main.expertMode);
         }
     }
 

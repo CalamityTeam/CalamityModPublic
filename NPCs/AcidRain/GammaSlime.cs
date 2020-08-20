@@ -35,13 +35,13 @@ namespace CalamityMod.NPCs.AcidRain
 
 			npc.damage = 130;
 			npc.lifeMax = 5915;
-            npc.Calamity().RevPlusDR(0.15f);
+			npc.DR_NERD(0.15f);
 			npc.defense = 50;
 
             npc.aiStyle = aiType = -1;
 
 			npc.knockBackResist = 0f;
-            animationType = 81;
+            animationType = NPCID.CorruptSlime;
             for (int k = 0; k < npc.buffImmune.Length; k++)
             {
                 npc.buffImmune[k] = true;
@@ -76,7 +76,7 @@ namespace CalamityMod.NPCs.AcidRain
             Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0.6f, 0.8f, 0.6f);
             npc.TargetClosest(false);
             Player player = Main.player[npc.target];
-            if (npc.velocity.Y == 0f && npc.ai[3] <= 0f)
+            if (npc.velocity.Y == 0f && npc.ai[3] <= 0f && !player.npcTypeNoAggro[npc.type])
             {
                 npc.velocity.X *= 0.8f;
                 if (npc.ai[0]++ >= 30f)
@@ -164,7 +164,7 @@ namespace CalamityMod.NPCs.AcidRain
             if (Math.Abs(player.Center.X - npc.Center.X) < 250f &&
                 player.Center.X - npc.Center.X < 0f &&
                 npc.ai[3] == 0f && 
-                Main.rand.NextBool(110))
+                Main.rand.NextBool(110) && !player.npcTypeNoAggro[npc.type])
             {
                 npc.ai[3] = 600f;
                 npc.netUpdate = true;

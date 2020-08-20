@@ -6,11 +6,9 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.ModLoader.Config;
-using CalamityMod;
 namespace CalamityMod.NPCs.Ravager
 {
-    public class RavagerLegRight : ModNPC
+	public class RavagerLegRight : ModNPC
     {
         public override void SetStaticDefaults()
         {
@@ -24,7 +22,7 @@ namespace CalamityMod.NPCs.Ravager
             npc.width = 60;
             npc.height = 60;
             npc.defense = 40;
-            npc.Calamity().RevPlusDR(0.15f);
+			npc.DR_NERD(0.15f);
             npc.lifeMax = 22010;
             npc.knockBackResist = 0f;
             aiType = -1;
@@ -48,6 +46,7 @@ namespace CalamityMod.NPCs.Ravager
             npc.buffImmune[ModContent.BuffType<HolyFlames>()] = false;
             npc.buffImmune[ModContent.BuffType<Nightwither>()] = false;
             npc.buffImmune[ModContent.BuffType<Shred>()] = false;
+            npc.buffImmune[ModContent.BuffType<WarCleave>()] = false;
             npc.buffImmune[ModContent.BuffType<WhisperingDeath>()] = false;
             npc.noGravity = true;
             npc.canGhostHeal = false;
@@ -64,7 +63,7 @@ namespace CalamityMod.NPCs.Ravager
             {
                 npc.lifeMax = 400000;
             }
-            double HPBoost = (double)CalamityMod.CalamityConfig.BossHealthPercentageBoost * 0.01;
+            double HPBoost = (double)CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
         }
 
@@ -93,19 +92,7 @@ namespace CalamityMod.NPCs.Ravager
             }
             if (npc.ai[0] == 0f)
             {
-                float num659 = 14f;
-                if (npc.life < npc.lifeMax / 2)
-                {
-                    num659 += 3f;
-                }
-                if (npc.life < npc.lifeMax / 3)
-                {
-                    num659 += 3f;
-                }
-                if (npc.life < npc.lifeMax / 5)
-                {
-                    num659 += 8f;
-                }
+                float num659 = 21f;
                 Vector2 vector79 = new Vector2(center.X, center.Y);
                 float num660 = Main.npc[CalamityGlobalNPC.scavenger].Center.X - vector79.X;
                 float num661 = Main.npc[CalamityGlobalNPC.scavenger].Center.Y - vector79.Y;
@@ -141,8 +128,8 @@ namespace CalamityMod.NPCs.Ravager
         {
             for (int k = 0; k < 3; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
-                Dust.NewDust(npc.position, npc.width, npc.height, 6, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(npc.position, npc.width, npc.height, DustID.Fire, hitDirection, -1f, 0, default, 1f);
             }
             if (npc.life <= 0)
             {
@@ -150,8 +137,8 @@ namespace CalamityMod.NPCs.Ravager
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/ScavengerGores/ScavengerLegRight2"), 1f);
                 for (int k = 0; k < 20; k++)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
-                    Dust.NewDust(npc.position, npc.width, npc.height, 6, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(npc.position, npc.width, npc.height, DustID.Fire, hitDirection, -1f, 0, default, 1f);
                 }
             }
         }

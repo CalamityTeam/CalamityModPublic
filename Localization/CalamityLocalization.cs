@@ -95,8 +95,7 @@ namespace CalamityMod.Localization
                 new [] { "AureusBossText2", "A faint ethereal click can be heard from the dungeon." },
                 new [] { "AstralBossText", "The seal of the stars has been broken! You can now mine Astral Ore." },
                 new [] { "DeusText", "A star-spawned horror tunnels through the astral infection." },
-                new [] { "DeusText2", "The astral infection trembles..." },
-                new [] { "DeusText3", "The god of the stars draws near..." },
+                new [] { "DeusAltarRejectNightText", "The god of the stars rejects your offering. The ritual can only be performed at night." },
 
                 new [] { "CalamitasBossText", "You underestimate my power..." },
                 new [] { "CalamitasBossText2", "The brothers have been reborn!" },
@@ -125,8 +124,8 @@ namespace CalamityMod.Localization
                 new [] { "DefiledText", "Your soul is mine..." },
                 new [] { "DefiledText2", "Your soul is yours once more..." },
 
-                new [] { "IronHeartText", "Iron Heart is active, don't die." },
-                new [] { "IronHeartText2", "Iron Heart is not active, you can die again." },
+                new [] { "IronHeartText", "Iron Heart is active, healing is disabled." },
+                new [] { "IronHeartText2", "Iron Heart is not active, healing is restored." },
 
                 new [] { "FlameText", "The air is getting warmer around you." },
 

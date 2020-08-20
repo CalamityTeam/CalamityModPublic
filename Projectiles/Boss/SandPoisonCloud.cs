@@ -40,7 +40,7 @@ namespace CalamityMod.Projectiles.Boss
                 projectile.frame = 0;
             }
 
-            projectile.velocity *= 0.99f;
+            projectile.velocity *= 0.995f;
 
             if (projectile.timeLeft < 180)
             {

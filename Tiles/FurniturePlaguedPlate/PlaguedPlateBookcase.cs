@@ -11,7 +11,7 @@ namespace CalamityMod.Tiles.FurniturePlaguedPlate
         {
             this.SetUpBookcase();
             ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Plagued Plate Bookcase");
+            name.SetDefault("Plagued Bookcase");
             AddMapEntry(new Color(191, 142, 111), name);
             animationFrameHeight = 54;
             adjTiles = new int[] { TileID.Bookcases };

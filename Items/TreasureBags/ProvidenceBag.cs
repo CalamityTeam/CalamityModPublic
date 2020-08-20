@@ -1,7 +1,6 @@
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.Materials;
-using CalamityMod.Items.SummonItems;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
@@ -48,13 +47,17 @@ namespace CalamityMod.Items.TreasureBags
             DropHelper.DropItem(player, ModContent.ItemType<DivineGeode>(), 20, 30);
 
             // Weapons
-            DropHelper.DropItemChance(player, ModContent.ItemType<HolyCollider>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<SolarFlare>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<TelluricGlare>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<BlissfulBombardier>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<PurgeGuzzler>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<MoltenAmputator>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<DazzlingStabberStaff>(), 3);
+            float w = DropHelper.BagWeaponDropRateFloat;
+            DropHelper.DropEntireWeightedSet(player,
+                DropHelper.WeightStack<HolyCollider>(w),
+                DropHelper.WeightStack<SolarFlare>(w),
+                DropHelper.WeightStack<TelluricGlare>(w),
+                DropHelper.WeightStack<BlissfulBombardier>(w),
+                DropHelper.WeightStack<PurgeGuzzler>(w),
+                DropHelper.WeightStack<DazzlingStabberStaff>(w),
+                DropHelper.WeightStack<MoltenAmputator>(w)
+            );
+
             float pristineFuryChance = DropHelper.LegendaryDropRateFloat;
             DropHelper.DropItemCondition(player, ModContent.ItemType<PristineFury>(), CalamityWorld.revenge, pristineFuryChance);
 

@@ -30,7 +30,7 @@ Stealth strikes are trailed by homing wind slashes");
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             item.height = 14;
-            item.value = Item.buyPrice(0, 2, 0, 0);
+            item.value = Item.buyPrice(0, 4, 0, 0);
             item.rare = 3;
             item.shoot = ModContent.ProjectileType<TurbulanceProjectile>();
             item.shootSpeed = 12f;

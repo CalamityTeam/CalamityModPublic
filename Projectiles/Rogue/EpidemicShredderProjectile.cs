@@ -1,16 +1,13 @@
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Projectiles.Melee;
 using CalamityMod.Buffs.DamageOverTime;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class EpidemicShredderProjectile : ModProjectile
+	public class EpidemicShredderProjectile : ModProjectile
     {
         public override void SetStaticDefaults()
         {

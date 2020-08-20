@@ -3,7 +3,6 @@ using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
 using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -11,7 +10,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    public class PlaguebringerSummon : ModProjectile
+	public class PlaguebringerSummon : ModProjectile
     {
 		public const float auraRange = 960f;
 		private int auraCounter = 0;
@@ -30,7 +29,7 @@ namespace CalamityMod.Projectiles.Summon
             projectile.netImportant = true;
             projectile.friendly = true;
             projectile.ignoreWater = true;
-            projectile.minionSlots = 1;
+            projectile.minionSlots = 0;
             projectile.timeLeft = 18000;
             projectile.penetrate = -1;
             projectile.timeLeft *= 5;
@@ -83,35 +82,11 @@ namespace CalamityMod.Projectiles.Summon
 			if (!modPlayer.plaguebringerPatronSet)
 				projectile.Kill();
 
-            float SAIMovement = 0.05f;
-            for (int i = 0; i < Main.maxProjectiles; i++)
-            {
-				Projectile proj = Main.projectile[i];
-                bool minionTypeCheck = proj.type == ModContent.ProjectileType<PlaguebringerSummon>() || Main.projPet[proj.type];
-                if (i != projectile.whoAmI && proj.active && proj.owner == projectile.owner && minionTypeCheck && Math.Abs(projectile.position.X - proj.position.X) + Math.Abs(projectile.position.Y - proj.position.Y) < projectile.width)
-                {
-                    if (projectile.position.X < proj.position.X)
-                    {
-                        projectile.velocity.X -= SAIMovement;
-                    }
-                    else
-                    {
-                        projectile.velocity.X += SAIMovement;
-                    }
-                    if (projectile.position.Y < proj.position.Y)
-                    {
-                        projectile.velocity.Y -= SAIMovement;
-                    }
-                    else
-                    {
-                        projectile.velocity.Y += SAIMovement;
-                    }
-                }
-            }
+			projectile.MinionAntiClump();
 
             int buffType = ModContent.BuffType<Plague>();
             float range = auraRange;
-            bool dealDamage = auraCounter++ % 60 == 0;
+            bool dealDamage = auraCounter++ % 60 == 59;
             int dmg = projectile.damage;
             if (projectile.owner == Main.myPlayer)
             {

@@ -43,7 +43,7 @@ namespace CalamityMod.NPCs.SunkenSea
             npc.width = 160;
             npc.height = 120;
             npc.defense = 9999;
-            npc.Calamity().RevPlusDR(0.3f);
+			npc.DR_NERD(0.3f);
             npc.lifeMax = Main.hardMode ? 7500 : 1250;
             npc.buffImmune[ModContent.BuffType<TimeSlow>()] = false;
             npc.aiStyle = -1;
@@ -354,7 +354,7 @@ namespace CalamityMod.NPCs.SunkenSea
         {
             if (spawnInfo.player.Calamity().ZoneSunkenSea && spawnInfo.water && CalamityWorld.downedDesertScourge && !NPC.AnyNPCs(ModContent.NPCType<GiantClam>()))
             {
-                return SpawnCondition.CaveJellyfish.Chance * 0.12f;
+                return SpawnCondition.CaveJellyfish.Chance * 0.24f;
             }
             return 0f;
         }
@@ -427,6 +427,7 @@ namespace CalamityMod.NPCs.SunkenSea
 
             // Mark Giant Clam as dead
             CalamityWorld.downedCLAM = true;
+            CalamityWorld.downedCLAMHardMode = Main.hardMode || CalamityWorld.downedCLAMHardMode;
             CalamityMod.UpdateServerBoolean();
         }
     }

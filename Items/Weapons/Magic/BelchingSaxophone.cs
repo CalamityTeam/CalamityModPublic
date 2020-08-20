@@ -42,8 +42,6 @@ namespace CalamityMod.Items.Weapons.Magic
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
 			counter++;
-			if (counter > 1)
-				counter = 0;
 
             if (Main.rand.NextBool(2))
             {
@@ -56,22 +54,16 @@ namespace CalamityMod.Items.Weapons.Magic
 
             speedX += Main.rand.Next(-40, 41) * 0.05f;
             speedY += Main.rand.Next(-40, 41) * 0.05f;
-            Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI, counter == 1 ? 1f : 0f);
+            Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI, counter % 2 == 0 ? 1f : 0f);
 
             if (Main.rand.NextBool(2))
             {
-				int noteProj = ProjectileID.QuarterNote;
-				switch (Main.rand.Next(3))
+				int noteProj = Utils.SelectRandom(Main.rand, new int[]
 				{
-					case 0:
-						noteProj = ProjectileID.EighthNote;
-						break;
-					case 1:
-						noteProj = ProjectileID.TiedEighthNote;
-						break;
-					default:
-						break;
-				}
+					ProjectileID.QuarterNote,
+					ProjectileID.EighthNote,
+					ProjectileID.TiedEighthNote
+				});
                 int note = Projectile.NewProjectile(position.X, position.Y, speedX * 0.75f, speedY * 0.75f, noteProj, (int)(damage * 0.75), knockBack, player.whoAmI);
 				Main.projectile[note].Calamity().forceMagic = true; //why are these notes also internally ranged
 				Main.projectile[note].usesLocalNPCImmunity = true;
@@ -80,9 +72,6 @@ namespace CalamityMod.Items.Weapons.Magic
             return false;
         }
 
-        public override Vector2? HoldoutOffset()
-        {
-            return new Vector2(0, 18);
-        }
+        public override Vector2? HoldoutOffset() => new Vector2(0, 18);
     }
 }

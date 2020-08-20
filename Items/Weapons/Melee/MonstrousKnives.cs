@@ -1,14 +1,13 @@
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
-    public class MonstrousKnives : ModItem
+	public class MonstrousKnives : ModItem
     {
         public override void SetStaticDefaults()
         {

@@ -1,14 +1,14 @@
-using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
+using System;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Items;
 
 namespace CalamityMod.Projectiles.DraedonsArsenal
 {
-    public class GatlingLaserProj : ModProjectile
-    {
+	public class GatlingLaserProj : ModProjectile
+	{
 		private SoundEffectInstance gatlingLaserLoop;
 		private bool fireLasers = false;
 
@@ -17,20 +17,20 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 			DisplayName.SetDefault("Gatling Laser");
 		}
 
-        public override void SetDefaults()
-        {
-            projectile.width = 24;
-            projectile.height = 58;
-            projectile.friendly = true;
-            projectile.penetrate = -1;
-            projectile.tileCollide = false;
-            projectile.ignoreWater = true;
-            projectile.magic = true;
-        }
+		public override void SetDefaults()
+		{
+			projectile.width = 24;
+			projectile.height = 58;
+			projectile.friendly = true;
+			projectile.penetrate = -1;
+			projectile.tileCollide = false;
+			projectile.ignoreWater = true;
+			projectile.magic = true;
+		}
 
-        public override void AI()
-        {
-        	Player player = Main.player[projectile.owner];
+		public override void AI()
+		{
+			Player player = Main.player[projectile.owner];
 			float num = 1.57079637f;
 			Vector2 vector = player.RotatedRelativePoint(player.MountedCenter, true);
 			if (projectile.type == ModContent.ProjectileType<GatlingLaserProj>())
@@ -61,12 +61,24 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 				}
 				if (flag && Main.myPlayer == projectile.owner && fireLasers)
 				{
-                    int weaponDamage2 = player.GetWeaponDamage(player.ActiveItem());
-                    bool flag2 = player.channel && !player.noItems && !player.CCed;
-					if (flag2)
+					Item gatling = player.ActiveItem();
+					int weaponDamage2 = player.GetWeaponDamage(gatling);
+					bool flag2 = player.channel && !player.noItems && !player.CCed;
+
+					// This both checks if the player has sufficient mana and consumes it if they do.
+					// If this is false, the Gatling Laser stops functioning.
+					bool hasMana = player.CheckMana(gatling.mana, true, false);
+
+					if (flag2 && hasMana)
 					{
-						// Consume 2 ammo per shot
-						CalamityGlobalItem.ConsumeAdditionalAmmo(player, player.ActiveItem(), 2);
+						// Attempt to use power from the held item.
+						if (player.ActiveItem().type >= ItemID.Count &&
+							player.ActiveItem().Calamity().Chargeable &&
+							player.ActiveItem().Calamity().CurrentCharge > 0 &&
+							Main.rand.NextBool((int)(120 / (float)fireRate)))
+						{
+							player.ActiveItem().Calamity().CurrentCharge--;
+						}
 
 						float scaleFactor = player.ActiveItem().shootSpeed * projectile.scale;
 						Vector2 value2 = vector;
@@ -101,8 +113,8 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 							velocity2.Normalize();
 							velocity2 *= 5f;
 						}
-						float SpeedX = velocity2.X + Main.rand.Next(-1, 2) * 0.01f;
-						float SpeedY = velocity2.Y + Main.rand.Next(-1, 2) * 0.01f;
+						float SpeedX = velocity2.X + Main.rand.Next(-1, 2) * 0.005f;
+						float SpeedY = velocity2.Y + Main.rand.Next(-1, 2) * 0.005f;
 						float ai0 = projectile.ai[0] - 2f; // 0, 1, or 2
 						Projectile.NewProjectile(value2.X, value2.Y, SpeedX, SpeedY, type, weaponDamage2, projectile.knockBack, projectile.owner, ai0, 0f);
 					}
@@ -126,6 +138,6 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 			player.itemTime = 2;
 			player.itemAnimation = 2;
 			player.itemRotation = (float)Math.Atan2(projectile.velocity.Y * projectile.direction, projectile.velocity.X * projectile.direction);
-        }
-    }
+		}
+	}
 }

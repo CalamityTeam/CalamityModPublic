@@ -36,7 +36,7 @@ namespace CalamityMod.Projectiles.Ranged
         }
         public override void AI()
         {
-            CalamityUtils.StickyProjAI(projectile, 15);
+            projectile.StickyProjAI(15);
 
             // Override the default DOT used in the method above.
             if (projectile.ai[0] == 1f)
@@ -66,7 +66,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            CalamityUtils.ModifyHitNPCSticky(projectile, 8, true);
+            projectile.ModifyHitNPCSticky(8, true);
         }
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)

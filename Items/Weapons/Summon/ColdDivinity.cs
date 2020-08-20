@@ -1,6 +1,8 @@
 using CalamityMod.Buffs.Summon;
 using CalamityMod.Projectiles.Summon;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -13,13 +15,13 @@ namespace CalamityMod.Items.Weapons.Summon
         {
             DisplayName.SetDefault("Cold Divinity");
             Tooltip.SetDefault("Legendary Drop\n" +
-                "Summons the power of the ancient ice castle\n" +
+							   "Summons the power of the ancient ice castle\n" +
                                "For each minion slot used, you will gain an additional orbiting shield spike\n" +
                                "These spikes accelerate rapidly towards a nearby enemy to inflict heavy damage\n" +
                                "They take some time to regenerate after launching themselves at the target, however\n" +
                                "On right click, summons a duplicate ring around the targeted enemy, which slowly converges before exploding\n" +
+                               "Minion damage bonuses apply to this weapon twice for more damage\n" +
                                "Revengeance Drop");
-            Item.staff[item.type] = true;
         }
 
         public override void SetDefaults()
@@ -32,7 +34,7 @@ namespace CalamityMod.Items.Weapons.Summon
             item.useStyle = ItemUseStyleID.HoldingUp;
             item.noMelee = true;
             item.knockBack = 4.5f;
-            item.value = Item.buyPrice(0, 48, 0, 0);
+            item.value = Item.buyPrice(0, 36, 0, 0);
             item.rare = 5;
             item.Calamity().customRarity = CalamityRarity.ItemSpecific;
             item.UseSound = SoundID.Item30;
@@ -41,9 +43,30 @@ namespace CalamityMod.Items.Weapons.Summon
             item.shootSpeed = 10f;
             item.summon = true;
         }
+
+        public override void ModifyTooltips(List<TooltipLine> list)
+        {
+			if (CalamityWorld.death)
+			{
+				foreach (TooltipLine line2 in list)
+				{
+					if (line2.mod == "Terraria" && line2.Name == "Tooltip7")
+					{
+						line2.text = "Provides heat and cold protection in Death Mode when in use\n" +
+						"Revengeance Drop";
+					}
+				}
+			}
+        }
+
+        public override void ModifyWeaponDamage(Player player, ref float add, ref float mult, ref float flat)
+		{
+			mult += player.MinionDamage() - 1f;
+		}
+
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            damage = (int)(damage * player.MinionDamage());
+            //damage = (int)(damage * player.MinionDamage());
             float totalMinionSlots = 0f;
             for (int i = 0; i < Main.projectile.Length; i++)
             {

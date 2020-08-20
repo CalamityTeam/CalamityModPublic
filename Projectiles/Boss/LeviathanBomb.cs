@@ -1,3 +1,4 @@
+using CalamityMod.Buffs.StatDebuffs;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.IO;
@@ -48,7 +49,7 @@ namespace CalamityMod.Projectiles.Boss
             if (projectile.ai[1] == 0f)
             {
                 projectile.ai[1] = 1f;
-                Main.PlaySound(SoundID.Item73, projectile.position);
+				Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/LeviathanRoarMeteor"), projectile.Center);
             }
             projectile.localAI[0] += 1f;
             if (projectile.localAI[0] == 12f)
@@ -64,7 +65,12 @@ namespace CalamityMod.Projectiles.Boss
             return false;
         }
 
-        public override void Kill(int timeLeft)
+		public override void OnHitPlayer(Player target, int damage, bool crit)
+		{
+			target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 300);
+		}
+
+		public override void Kill(int timeLeft)
         {
             Main.PlaySound(SoundID.Item14, projectile.position);
             projectile.Damage();

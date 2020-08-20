@@ -1,5 +1,3 @@
-
-using CalamityMod.Tiles.Astral;
 using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -8,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.Astral
 {
-    public class AstralGrass : ModTile
+	public class AstralGrass : ModTile
     {
         public override void SetDefaults()
         {

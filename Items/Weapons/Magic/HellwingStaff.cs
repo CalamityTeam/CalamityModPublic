@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Hellwing Staff");
-            Tooltip.SetDefault("Casts pillars of flame");
+            Tooltip.SetDefault("Casts flaming bats");
             Item.staff[item.type] = true;
         }
 

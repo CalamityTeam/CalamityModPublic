@@ -25,13 +25,13 @@ namespace CalamityMod.Projectiles.Summon
         public override void AI()
         {
             projectile.frameCounter++;
-            if (projectile.frameCounter % 9f == 8f)
+            if (projectile.frameCounter % 9 == 8)
             {
                 projectile.frame++;
-            }
-            if (projectile.frame >= Main.projFrames[projectile.type])
-            {
-                projectile.Kill();
+                if (projectile.frame >= Main.projFrames[projectile.type])
+                {
+                    projectile.Kill();
+                }
             }
         }
     }

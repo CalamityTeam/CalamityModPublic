@@ -9,7 +9,7 @@ namespace CalamityMod.Tiles.FurniturePlaguedPlate
         {
             this.SetUpPiano();
             ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Plagued Plate Piano");
+            name.SetDefault("Plagued Piano");
             AddMapEntry(new Color(191, 142, 111), name);
         }
 

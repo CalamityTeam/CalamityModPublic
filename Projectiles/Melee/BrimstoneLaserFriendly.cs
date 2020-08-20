@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Melee
 {
@@ -19,7 +20,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.width = 2;
             projectile.height = 2;
             projectile.aiStyle = 1;
-            aiType = 100;
+            aiType = ProjectileID.DeathLaser;
             projectile.friendly = true;
             projectile.melee = true;
             projectile.scale = 2f;

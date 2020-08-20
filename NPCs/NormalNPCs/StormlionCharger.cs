@@ -24,25 +24,26 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.defense = 8;
             npc.lifeMax = 80;
             npc.knockBackResist = 0.2f;
-            animationType = 508;
+            animationType = NPCID.WalkingAntlion;
             npc.value = Item.buyPrice(0, 0, 2, 0);
             npc.HitSound = SoundID.NPCHit31;
             npc.DeathSound = SoundID.NPCDeath34;
             banner = npc.type;
             bannerItem = ModContent.ItemType<StormlionBanner>();
+            npc.buffImmune[BuffID.Confused] = false;
         }
 
         public override void HitEffect(int hitDirection, double damage)
         {
             for (int k = 0; k < 5; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
             }
             if (npc.life <= 0)
             {
                 for (int k = 0; k < 20; k++)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
                 }
             }
         }

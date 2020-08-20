@@ -12,22 +12,18 @@ using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.NPCs.TownNPCs;
-using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
-using System;
 using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using CalamityMod.Items.Armor.Vanity;
-using Terraria.ModLoader.Config;
-using CalamityMod;
 
 namespace CalamityMod.NPCs.AquaticScourge
 {
-    [AutoloadBossHead]
+	[AutoloadBossHead]
     public class AquaticScourgeHead : ModNPC
     {
         public override void SetStaticDefaults()
@@ -39,14 +35,14 @@ namespace CalamityMod.NPCs.AquaticScourge
         {
             npc.npcSlots = 16f;
             npc.damage = 80;
-            npc.width = 100;
+            npc.width = 90;
             npc.height = 90;
             npc.defense = 10;
-            npc.Calamity().RevPlusDR(0.1f);
+			npc.DR_NERD(0.1f);
             npc.aiStyle = -1;
             aiType = -1;
             npc.LifeMaxNERB(73000, 85000, 10000000);
-            double HPBoost = CalamityMod.CalamityConfig.BossHealthPercentageBoost * 0.01;
+            double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             for (int k = 0; k < npc.buffImmune.Length; k++)
             {
@@ -61,10 +57,13 @@ namespace CalamityMod.NPCs.AquaticScourge
             npc.DeathSound = SoundID.NPCDeath1;
             npc.netAlways = true;
             bossBag = ModContent.ItemType<AquaticScourgeBag>();
-            if (Main.expertMode)
-            {
-                npc.scale = 1.15f;
-            }
+
+			if (CalamityWorld.death || CalamityWorld.bossRushActive)
+				npc.scale = 1.2f;
+			else if (CalamityWorld.revenge)
+				npc.scale = 1.15f;
+			else if (Main.expertMode)
+				npc.scale = 1.1f;
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -161,7 +160,7 @@ namespace CalamityMod.NPCs.AquaticScourge
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeSulphurSea>(), true, !CalamityWorld.downedAquaticScourge);
             DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedAquaticScourge, 4, 2, 1);
 
-			npc.Calamity().SetNewShopVariable(new int[] { ModContent.NPCType<SEAHOE>() }, CalamityWorld.downedAquaticScourge);
+			CalamityGlobalTownNPC.SetNewShopVariable(new int[] { ModContent.NPCType<SEAHOE>() }, CalamityWorld.downedAquaticScourge);
 
 			// All other drops are contained in the bag, so they only drop directly on Normal
 			if (!Main.expertMode)
@@ -173,11 +172,14 @@ namespace CalamityMod.NPCs.AquaticScourge
                 DropHelper.DropItem(npc, ItemID.Starfish, 5, 9);
 
                 // Weapons
-                DropHelper.DropItemChance(npc, ModContent.ItemType<SubmarineShocker>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Barinautical>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Downpour>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<DeepseaStaff>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<ScourgeoftheSeas>(), 4);
+                float w = DropHelper.DirectWeaponDropRateFloat;
+                DropHelper.DropEntireWeightedSet(npc,
+                    DropHelper.WeightStack<SubmarineShocker>(w),
+                    DropHelper.WeightStack<Barinautical>(w),
+                    DropHelper.WeightStack<Downpour>(w),
+                    DropHelper.WeightStack<DeepseaStaff>(w),
+                    DropHelper.WeightStack<ScourgeoftheSeas>(w)
+                );
 
                 // Equipment
                 DropHelper.DropItemChance(npc, ModContent.ItemType<AeroStone>(), 9);
@@ -186,20 +188,7 @@ namespace CalamityMod.NPCs.AquaticScourge
                 DropHelper.DropItemChance(npc, ModContent.ItemType<AquaticScourgeMask>(), 7);
 
                 // Fishing
-                DropHelper.DropItemChance(npc, ItemID.AnglerTackleBag, 18);
-                DropHelper.DropItemChance(npc, ItemID.HighTestFishingLine, 12);
-                DropHelper.DropItemChance(npc, ItemID.TackleBox, 12);
-                DropHelper.DropItemChance(npc, ItemID.AnglerEarring, 12);
-                DropHelper.DropItemChance(npc, ItemID.FishermansGuide, 9);
-                DropHelper.DropItemChance(npc, ItemID.WeatherRadio, 9);
-                DropHelper.DropItemChance(npc, ItemID.Sextant, 9);
-                DropHelper.DropItemChance(npc, ItemID.AnglerHat, 4);
-                DropHelper.DropItemChance(npc, ItemID.AnglerVest, 4);
-                DropHelper.DropItemChance(npc, ItemID.AnglerPants, 4);
-                DropHelper.DropItemChance(npc, ItemID.FishingPotion, 4, 2, 3);
-                DropHelper.DropItemChance(npc, ItemID.SonarPotion, 4, 2, 3);
-                DropHelper.DropItemChance(npc, ItemID.CratePotion, 4, 2, 3);
-                DropHelper.DropItemChance(npc, ItemID.GoldenBugNet, 15, 1, 1);
+                DropHelper.DropItem(npc, ModContent.ItemType<BleachedAnglingKit>());
             }
 
             // If Aquatic Scourge has not yet been killed, notify players of buffed Acid Rain
@@ -237,13 +226,13 @@ namespace CalamityMod.NPCs.AquaticScourge
         {
             for (int k = 0; k < 5; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
             }
             if (npc.life <= 0)
             {
                 for (int k = 0; k < 15; k++)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
                 }
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/AquaticScourgeGores/ASHead"), 1f);
             }
@@ -254,22 +243,6 @@ namespace CalamityMod.NPCs.AquaticScourge
             if (npc.Calamity().newAI[0] == 1f && !Main.player[npc.target].dead && npc.Calamity().newAI[1] != 1f)
             {
                 return false;
-            }
-            if (npc.timeLeft <= 0 && Main.netMode != NetmodeID.MultiplayerClient)
-            {
-                for (int k = (int)npc.ai[0]; k > 0; k = (int)Main.npc[k].ai[0])
-                {
-                    if (Main.npc[k].active)
-                    {
-                        Main.npc[k].active = false;
-                        if (Main.netMode == NetmodeID.Server)
-                        {
-                            Main.npc[k].life = 0;
-                            Main.npc[k].netSkip = -1;
-                            NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, k, 0f, 0f, 0f, 0, 0, 0);
-                        }
-                    }
-                }
             }
             return true;
         }

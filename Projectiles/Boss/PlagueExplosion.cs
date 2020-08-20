@@ -16,7 +16,8 @@ namespace CalamityMod.Projectiles.Boss
         {
             projectile.width = 20;
             projectile.height = 20;
-            projectile.hostile = true;
+			projectile.scale = 1.5f;
+			projectile.hostile = true;
             projectile.ignoreWater = true;
             projectile.tileCollide = false;
             projectile.penetrate = -1;
@@ -25,7 +26,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void AI()
         {
-            Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0.01f / 255f, (255 - projectile.alpha) * 0.15f / 255f, (255 - projectile.alpha) * 0.05f / 255f);
+            Lighting.AddLight(projectile.Center, 0f, 0.15f, 0f);
             bool flag15 = false;
             bool flag16 = false;
             if (projectile.velocity.X < 0f && projectile.position.X < projectile.ai[0])
@@ -61,12 +62,12 @@ namespace CalamityMod.Projectiles.Boss
             num461 *= 0.7f;
             projectile.ai[0] += 4f;
             int num462 = 0;
-            while ((float)num462 < num461)
+            while (num462 < num461)
             {
-                float num463 = (float)Main.rand.Next(-10, 11);
-                float num464 = (float)Main.rand.Next(-10, 11);
-                float num465 = (float)Main.rand.Next(3, 9);
-                float num466 = (float)Math.Sqrt((double)(num463 * num463 + num464 * num464));
+                float num463 = Main.rand.Next(-10, 11);
+                float num464 = Main.rand.Next(-10, 11);
+                float num465 = Main.rand.Next(3, 9);
+                float num466 = (float)Math.Sqrt(num463 * num463 + num464 * num464);
                 num466 = num465 / num466;
                 num463 *= num466;
                 num464 *= num466;
@@ -75,9 +76,9 @@ namespace CalamityMod.Projectiles.Boss
                 Main.dust[num467].position.X = projectile.Center.X;
                 Main.dust[num467].position.Y = projectile.Center.Y;
                 Dust expr_149DF_cp_0 = Main.dust[num467];
-                expr_149DF_cp_0.position.X += (float)Main.rand.Next(-10, 11);
+                expr_149DF_cp_0.position.X += Main.rand.Next(-10, 11);
                 Dust expr_14A09_cp_0 = Main.dust[num467];
-                expr_14A09_cp_0.position.Y += (float)Main.rand.Next(-10, 11);
+                expr_14A09_cp_0.position.Y += Main.rand.Next(-10, 11);
                 Main.dust[num467].velocity.X = num463;
                 Main.dust[num467].velocity.Y = num464;
                 num462++;

@@ -1,14 +1,13 @@
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
-using Microsoft.Xna.Framework;
-using System;
+using CalamityMod.World;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.NPCs.NormalNPCs
 {
-    public class Cryon : ModNPC
+	public class Cryon : ModNPC
     {
         public override void SetStaticDefaults()
         {
@@ -24,7 +23,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.width = 50;
             npc.height = 64;
             npc.defense = 10;
-            npc.Calamity().RevPlusDR(0.1f);
+			npc.DR_NERD(0.1f);
             npc.lifeMax = 300;
             npc.knockBackResist = 0f;
             npc.value = Item.buyPrice(0, 0, 5, 0);
@@ -33,11 +32,12 @@ namespace CalamityMod.NPCs.NormalNPCs
             banner = npc.type;
             bannerItem = ModContent.ItemType<CryonBanner>();
 			npc.coldDamage = true;
+            npc.buffImmune[BuffID.Confused] = false;
         }
 
         public override void AI()
         {
-            CalamityAI.UnicornAI(npc, mod, false, 4f, 5f, 0.1f);
+            CalamityAI.UnicornAI(npc, mod, false, CalamityWorld.death ? 6f : 4f, 5f, CalamityWorld.death ? 0.15f : 0.1f);
         }
 
         public override void FindFrame(int frameHeight)
@@ -99,10 +99,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void NPCLoot()
         {
-            if (Main.rand.NextBool(2))
-            {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<EssenceofEleum>());
-            }
+			DropHelper.DropItemChance(npc, ModContent.ItemType<EssenceofEleum>(), 0.5f);
         }
     }
 }

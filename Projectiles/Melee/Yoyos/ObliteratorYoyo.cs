@@ -1,4 +1,3 @@
-using CalamityMod.Projectiles.Ranged;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
@@ -8,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee.Yoyos
 {
-    public class ObliteratorYoyo : ModProjectile
+	public class ObliteratorYoyo : ModProjectile
     {
         private const int FramesPerShot = 5;
 

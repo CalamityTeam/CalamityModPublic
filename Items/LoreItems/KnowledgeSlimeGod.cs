@@ -1,3 +1,4 @@
+using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
 using Terraria;
@@ -13,7 +14,7 @@ namespace CalamityMod.Items.LoreItems
             DisplayName.SetDefault("The Slime God");
             Tooltip.SetDefault("It is a travesty, one of the most threatening biological terrors ever created.\n" +
                 "If this creature were allowed to combine every slime on the planet it would become nearly unstoppable.\n" +
-                "Place in your inventory to become slimed and able to slide around on tiles quickly, at the cost of reduced defense.\n" +
+                "Favorite this item to become slimed and able to slide around on tiles quickly, at the cost of reduced defense.\n" +
                 "This effect makes dashing more difficult and does not work with mounts.");
         }
 
@@ -32,10 +33,13 @@ namespace CalamityMod.Items.LoreItems
 
         public override void UpdateInventory(Player player)
         {
-            if (player.mount.Active)
+            CalamityPlayer modPlayer = player.Calamity();
+            if (player.mount.Active || !item.favorited || modPlayer.slimeGodLoreProcessed)
                 return;
 
-            if (player.dashDelay < 0)
+            modPlayer.slimeGodLoreProcessed = true;
+
+            if (player.dashDelay < 0 || (player.velocity.Length() >= 11f && CalamityPlayer.areThereAnyDamnBosses)) //If you go over 52.8 mph
                 player.velocity.X *= 0.9f;
 
             player.slippy2 = true;

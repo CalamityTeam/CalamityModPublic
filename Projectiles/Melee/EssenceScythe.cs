@@ -2,13 +2,12 @@ using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Projectiles.Healing;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Melee
 {
-    public class EssenceScythe : ModProjectile
+	public class EssenceScythe : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -29,7 +28,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.penetrate = 10;
             projectile.timeLeft = 300;
             projectile.ignoreWater = true;
-            aiType = 274;
+            aiType = ProjectileID.DeathSickle;
         }
 
         public override void AI()

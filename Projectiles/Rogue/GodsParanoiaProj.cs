@@ -1,5 +1,4 @@
 using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Dusts;
 using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -9,7 +8,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class GodsParanoiaProj : ModProjectile
+	public class GodsParanoiaProj : ModProjectile
     {
 		public int kunaiStabbing = 12;
 
@@ -45,7 +44,7 @@ namespace CalamityMod.Projectiles.Rogue
                 Main.dust[num137].noGravity = true;
             }
 
-            CalamityUtils.StickyProjAI(projectile, 15);
+            projectile.StickyProjAI(15);
 
             if (projectile.ai[0] == 1f)
             {
@@ -103,7 +102,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-			CalamityUtils.ModifyHitNPCSticky(projectile, 10, true);
+			projectile.ModifyHitNPCSticky(10, true);
         }
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)

@@ -1,14 +1,13 @@
 using CalamityMod.Projectiles.Ranged;
 using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
-    public class LionHeart : ModItem
+	public class LionHeart : ModItem
     {
         public override void SetStaticDefaults()
         {

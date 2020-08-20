@@ -1,7 +1,6 @@
 using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -49,17 +48,22 @@ namespace CalamityMod.Items.Weapons.Rogue
 		{
 			if (player.Calamity().StealthStrikeAvailable() || player.altFunctionUse != 2)
 			{
-				item.useTime = item.useAnimation = 15;
 				item.UseSound = SoundID.Item61;
 				item.shoot = ModContent.ProjectileType<LeonidProgenitorBombshell>();
 			}
 			else
 			{
-				item.useTime = item.useAnimation = 20;
 				item.UseSound = SoundID.Item88;
 				item.shoot = ModContent.ProjectileType<LeonidCometSmall>();
 			}
 			return base.CanUseItem(player);
+		}
+
+		public override float UseTimeMultiplier	(Player player)
+		{
+			if (player.Calamity().StealthStrikeAvailable() || player.altFunctionUse != 2)
+				return 1f;
+			return 0.75f;
 		}
 
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

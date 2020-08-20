@@ -27,19 +27,19 @@ namespace CalamityMod.NPCs.AcidRain
             npc.aiStyle = aiType = -1;
 
             npc.damage = 75;
-            npc.lifeMax = 605;
+            npc.lifeMax = 520;
             npc.defense = 15;
-            npc.Calamity().RevPlusDR(0.075f);
+			npc.DR_NERD(0.075f);
 
             if (CalamityWorld.downedPolterghast)
             {
                 npc.damage = 150;
                 npc.lifeMax = 4500;
                 npc.defense = 65;
-				npc.Calamity().RevPlusDR(0.35f);
+				npc.DR_NERD(0.35f);
             }
 
-            npc.knockBackResist = 0f;
+            npc.knockBackResist = 0.6f;
             for (int k = 0; k < npc.buffImmune.Length; k++)
             {
                 npc.buffImmune[k] = true;
@@ -192,7 +192,7 @@ namespace CalamityMod.NPCs.AcidRain
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/AcidRain/OrthoceraGore2"), npc.scale);
                 for (int k = 0; k < 10; k++)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
                 }
             }
         }

@@ -9,7 +9,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
-    public class SubsumingVortex : ModItem
+	public class SubsumingVortex : ModItem
     {
         public const int MaxVortexCount = 4;
         public override void SetStaticDefaults()

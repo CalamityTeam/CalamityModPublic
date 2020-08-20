@@ -42,8 +42,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<GreatswordofJudgement>());
-            recipe.AddIngredient(ModContent.ItemType<NightmareFuel>(), 10);
-            recipe.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 10);
+            recipe.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 2);
             recipe.AddIngredient(ModContent.ItemType<DarksunFragment>(), 10);
             recipe.AddTile(ModContent.TileType<DraedonsForge>());
             recipe.SetResult(this);

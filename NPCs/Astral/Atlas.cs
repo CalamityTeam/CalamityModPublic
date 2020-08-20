@@ -106,7 +106,7 @@ namespace CalamityMod.NPCs.Astral
             npc.height = 88;
             npc.damage = 70;
             npc.defense = 40;
-            npc.Calamity().RevPlusDR(0.15f);
+			npc.DR_NERD(0.15f);
             npc.lifeMax = 1200;
             npc.knockBackResist = 0.08f;
             npc.value = Item.buyPrice(0, 1, 0, 0);
@@ -610,7 +610,7 @@ namespace CalamityMod.NPCs.Astral
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.player.PillarZone())
+            if (CalamityGlobalNPC.AnyEvents(spawnInfo.player))
             {
                 return 0f;
             }
@@ -635,8 +635,9 @@ namespace CalamityMod.NPCs.Astral
             int minStardust = Main.expertMode ? 7 : 6;
             int maxStardust = Main.expertMode ? 9 : 8;
             DropHelper.DropItem(npc, ModContent.ItemType<Stardust>(), minStardust, maxStardust);
+
             DropHelper.DropItemCondition(npc, ModContent.ItemType<TitanArm>(), CalamityWorld.downedAstrageldon, 7, 1, 1);
-			//not guarantee to prevent inventory spam
+            DropHelper.DropItem(npc, ModContent.ItemType<TitanHeart>());
         }
     }
 }

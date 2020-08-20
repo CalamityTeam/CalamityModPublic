@@ -1,13 +1,9 @@
-using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Projectiles.Typeless;
-using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
 {
-    public class NuclearRod : ModItem
+	public class NuclearRod : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -20,7 +16,7 @@ namespace CalamityMod.Items.Accessories
         {
             item.width = 28;
             item.height = 32;
-            item.value = Item.buyPrice(0, 25, 0, 0);
+            item.value = CalamityGlobalItem.Rarity5BuyPrice;
             item.rare = 5;
             item.accessory = true;
         }

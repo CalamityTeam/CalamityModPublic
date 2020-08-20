@@ -24,7 +24,7 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.tileCollide = true;
             projectile.ignoreWater = false;
             projectile.timeLeft = 420;
-            projectile.Calamity().rogue = true;
+            projectile.ranged = true;
         }
         public override void AI()
         {

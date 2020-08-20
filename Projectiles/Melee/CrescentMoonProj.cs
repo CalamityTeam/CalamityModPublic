@@ -1,14 +1,13 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using CalamityMod.Buffs.DamageOverTime;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    public class CrescentMoonProj : ModProjectile
+	public class CrescentMoonProj : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -32,7 +31,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.localNPCHitCooldown = 10;
 			projectile.extraUpdates = 1;
 			projectile.aiStyle = 18;
-			aiType = 274;
+			aiType = ProjectileID.DeathSickle;
         }
 
         public override void AI()

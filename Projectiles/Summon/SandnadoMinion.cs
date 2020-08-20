@@ -77,33 +77,9 @@ namespace CalamityMod.Projectiles.Summon
                     projectile.timeLeft = 2;
                 }
             }
-            float num8 = 0.1f;
-            float num9 = (float)projectile.width * 2f;
-            for (int j = 0; j < Main.maxProjectiles; j++)
-            {
-                if (j != projectile.whoAmI && Main.projectile[j].active && Main.projectile[j].owner == projectile.owner && Main.projectile[j].type == projectile.type &&
-                    Math.Abs(projectile.position.X - Main.projectile[j].position.X) + Math.Abs(projectile.position.Y - Main.projectile[j].position.Y) < num9)
-                {
-                    if (projectile.position.X < Main.projectile[j].position.X)
-                    {
-                        projectile.velocity.X = projectile.velocity.X - num8;
-                    }
-                    else
-                    {
-                        projectile.velocity.X = projectile.velocity.X + num8;
-                    }
-                    if (projectile.position.Y < Main.projectile[j].position.Y)
-                    {
-                        projectile.velocity.Y = projectile.velocity.Y - num8;
-                    }
-                    else
-                    {
-                        projectile.velocity.Y = projectile.velocity.Y + num8;
-                    }
-                }
-            }
+			projectile.MinionAntiClump(0.1f);
             Vector2 vector = projectile.position;
-            float num10 = 900f;
+            float num10 = 1800f;
             bool flag = false;
             if (Collision.SolidCollision(projectile.position, projectile.width, projectile.height))
             {
@@ -139,7 +115,7 @@ namespace CalamityMod.Projectiles.Summon
                     }
                 }
             }
-            else
+            if (!flag)
             {
                 for (int k = 0; k < Main.maxNPCs; k++)
                 {
@@ -157,12 +133,12 @@ namespace CalamityMod.Projectiles.Summon
                     }
                 }
             }
-            int num16 = 750;
+            float num16 = 1200f;
             if (flag)
             {
-                num16 = 2000;
+                num16 = 3000f;
             }
-            if (Vector2.Distance(player.Center, projectile.Center) > (float)num16)
+            if (Vector2.Distance(player.Center, projectile.Center) > num16)
             {
                 projectile.ai[0] = 1f;
                 projectile.netUpdate = true;
@@ -215,8 +191,9 @@ namespace CalamityMod.Projectiles.Summon
                 }
                 if (num23 > 2000f)
                 {
-                    projectile.position.X = Main.player[projectile.owner].Center.X - (float)(projectile.width / 2);
-                    projectile.position.Y = Main.player[projectile.owner].Center.Y - (float)(projectile.width / 2);
+                    projectile.position.X = player.Center.X - (float)(projectile.width / 2);
+                    projectile.position.Y = player.Center.Y - (float)(projectile.width / 2);
+					projectile.netUpdate = true;
                 }
                 if (Math.Abs(vector6.X) > 40f || Math.Abs(vector6.Y) > 10f)
                 {
@@ -266,7 +243,7 @@ namespace CalamityMod.Projectiles.Summon
                     projectile.ai[1] += 1f;
                 }
             }
-            if (projectile.ai[1] > 60f)
+            if (projectile.ai[1] > 75f)
             {
                 projectile.ai[1] = 0f;
                 projectile.netUpdate = true;

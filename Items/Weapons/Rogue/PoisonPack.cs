@@ -1,15 +1,13 @@
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
-using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Rogue;
 using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class PoisonPack : RogueWeapon
+	public class PoisonPack : RogueWeapon
     {
         private static int damage = 20;
         private static float knockBack = 1.8f;

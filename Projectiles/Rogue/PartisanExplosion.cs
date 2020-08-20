@@ -1,12 +1,11 @@
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using CalamityMod.Buffs.DamageOverTime;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class PartisanExplosion : ModProjectile
+	public class PartisanExplosion : ModProjectile
     {
     	public override void SetStaticDefaults()
 		{

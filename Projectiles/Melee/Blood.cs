@@ -1,10 +1,9 @@
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Melee
 {
-    public class Blood : ModProjectile
+	public class Blood : ModProjectile
     {
         public override void SetStaticDefaults()
         {

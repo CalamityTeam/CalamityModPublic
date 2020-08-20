@@ -1,4 +1,3 @@
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -10,7 +9,7 @@ using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class GodsParanoia : RogueWeapon
+	public class GodsParanoia : RogueWeapon
     {
         private static int damage = 125;
         private static int knockBack = 5;
@@ -91,8 +90,7 @@ Right click to delete all existing spiky balls");
 
             recipe.AddIngredient(ItemID.SpikyBall, 200);
             recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 2);
-            recipe.AddIngredient(ModContent.ItemType<NightmareFuel>(), 2);
-            recipe.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 2);
+            recipe.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>());
             recipe.AddTile(ModContent.TileType<DraedonsForge>());
             recipe.SetResult(this);
             recipe.AddRecipe();

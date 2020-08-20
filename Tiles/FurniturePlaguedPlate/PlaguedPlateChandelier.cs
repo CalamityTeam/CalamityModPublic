@@ -11,7 +11,7 @@ namespace CalamityMod.Tiles.FurniturePlaguedPlate
         {
             this.SetUpChandelier();
             ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Plagued Plate Chandelier");
+            name.SetDefault("Plagued Chandelier");
             AddMapEntry(new Color(191, 142, 111), name);
             adjTiles = new int[] { TileID.Torches };
         }

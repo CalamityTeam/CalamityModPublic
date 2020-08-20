@@ -13,7 +13,7 @@ namespace CalamityMod.Items.LoreItems
             DisplayName.SetDefault("The Corruption");
             Tooltip.SetDefault("The rotten and forever-deteriorating landscape of infected life, brought upon by a deadly microbe long ago.\n" +
                 "It is rumored that the microbe was created through experimentation by a long-dead race, predating the Terrarians.\n" +
-                "Place in your inventory to prevent hive cysts from spawning.");
+                "Favorite this item to prevent hive cysts from spawning.");
         }
 
         public override void SetDefaults()
@@ -32,7 +32,8 @@ namespace CalamityMod.Items.LoreItems
         public override void UpdateInventory(Player player)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            modPlayer.corruptionLore = true;
+			if (item.favorited)
+				modPlayer.corruptionLore = true;
         }
 
         public override void AddRecipes()

@@ -1,13 +1,11 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items.Fishing.FishingRods;
 namespace CalamityMod.Projectiles.Typeless
 {
-    public class WulfrumBobber : ModProjectile
+	public class WulfrumBobber : ModProjectile
     {
 		public override void SetStaticDefaults()
 		{
@@ -26,8 +24,7 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override bool PreDrawExtras(SpriteBatch spriteBatch)
         {
-            Player player = Main.player[projectile.owner];
-            CalamityUtils.DrawFishingLine(projectile, ModContent.ItemType<WulfrumRod>(), new Color(200, 200, 200, 100));
+            CalamityUtils.DrawFishingLine(projectile, ModContent.ItemType<WulfrumRod>(), new Color(200, 200, 200, 100), 38, 28f);
             return false;
 		}
     }

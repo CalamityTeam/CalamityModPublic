@@ -1,12 +1,10 @@
-using CalamityMod.CalPlayer;
 using System.Collections.Generic;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
 {
-    public class PlaguedFuelPack : ModItem
+	public class PlaguedFuelPack : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -21,7 +19,7 @@ namespace CalamityMod.Items.Accessories
         {
             item.width = 20;
             item.height = 36;
-            item.value = Item.buyPrice(0, 24, 0, 0);
+            item.value = CalamityGlobalItem.Rarity8BuyPrice;
             item.rare = 8;
             item.accessory = true;
         }

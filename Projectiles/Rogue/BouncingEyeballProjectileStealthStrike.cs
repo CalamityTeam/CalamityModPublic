@@ -52,12 +52,12 @@ namespace CalamityMod.Projectiles.Rogue
         }
         public override void Kill(int timeLeft)
         {
-            //explode into a larger display of blood. Yay
+            // Explode into a large display of blood.
             Main.PlaySound(SoundID.NPCHit, (int)projectile.Center.X, (int)projectile.Center.Y, 19, 0.7f);
             int dustCount = Main.rand.Next(15, 26);
             for (int index = 0; index < dustCount; index++)
             {
-                Vector2 velocity = Vector2.Normalize(Utils.RandomVector2(Main.rand, -1000f, 1000f)) * Main.rand.NextFloat(4f, 9f) + projectile.velocity / 2f;
+                Vector2 velocity = Main.rand.NextVector2Unit() * Main.rand.NextFloat(4f, 9f) + projectile.velocity / 2f;
                 Dust.NewDust(projectile.Center, 4, 4, DustID.Blood, velocity.X, velocity.Y);
             }
         }

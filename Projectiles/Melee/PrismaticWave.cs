@@ -1,6 +1,5 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
-using CalamityMod.Items.Weapons.Melee;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -12,7 +11,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    public class PrismaticWave : ModProjectile
+	public class PrismaticWave : ModProjectile
     {
         private int alpha = 50;
 		public Color[] colors = new Color[]
@@ -51,7 +50,6 @@ namespace CalamityMod.Projectiles.Melee
         {
             projectile.width = 36;
             projectile.height = 36;
-            aiType = ProjectileID.FrostWave;
             projectile.friendly = true;
             projectile.ignoreWater = true;
             projectile.ranged = true;

@@ -4,7 +4,6 @@ using CalamityMod.Items;
 using CalamityMod.Projectiles;
 using CalamityMod.World;
 using System;
-using System.Runtime.InteropServices.WindowsRuntime;
 using Terraria;
 
 namespace CalamityMod
@@ -28,11 +27,11 @@ namespace CalamityMod
 				case "acid rain":
 				case "acidrain":
 
-				case "acid rain initial":
+				case "acid rain 1":
+				case "acidrain 1":
+				case "acidrain1":
 				case "acid rain eoc":
 				case "acidrain eoc":
-				case "acidrain initial":
-				case "acidraininitial":
 				case "acidraineoc":
 					return CalamityWorld.downedEoCAcidRain;
 
@@ -70,18 +69,25 @@ namespace CalamityMod
 				case "the slime god":
 					return CalamityWorld.downedSlimeGod;
 
-				case "acid rain aquatic":
-				case "acidrain aquatic":
-				case "acidrainaquatic":
-				case "acid rain scourge":
-				case "acidrain scourge":
-				case "acidrainscourge":
-				case "acid rain as":
-				case "acidrain as":
-					return CalamityWorld.downedAquaticScourgeAcidRain;
-
 				case "cryogen":
 					return CalamityWorld.downedCryogen;
+					
+				case "acid rain 2":
+				case "acidrain 2":
+				case "acidrain2":
+				case "acid rain scourge":
+				case "acid rain aquatic scourge":
+				case "acid rain aquaticscourge":
+				case "acidrain scourge":
+				case "acidrain aquatic scourge":
+				case "acidrain aquaticscourge":
+				case "acidrainscourge":
+				case "acidrainaquaticscourge":
+					return CalamityWorld.downedAquaticScourgeAcidRain;
+					
+				case "aquaticscourge":
+				case "aquatic scourge":
+					return CalamityWorld.downedAquaticScourge;
 
 				case "brimstoneelemental":
 				case "brimstone elemental":
@@ -101,17 +107,24 @@ namespace CalamityMod
 				case "great sand shark":
 					return CalamityWorld.downedGSS;
 
-				case "siren":
-				case "thesiren":
-				case "the siren":
-				case "leviathan":
-				case "theleviathan":
-				case "the leviathan":
+				// Don't remove the old references to "Siren" here to avoid breaking other mods
 				case "sirenleviathan":
 				case "siren leviathan":
 				case "sirenandleviathan":
 				case "siren and leviathan":
 				case "the siren and the leviathan":
+				case "siren":
+				case "thesiren":
+				case "the siren":
+				case "anahita":
+				case "leviathan":
+				case "theleviathan":
+				case "the leviathan":
+				case "anahitaleviathan":
+				case "anahita leviathan":
+				case "anahitaandleviathan":
+				case "anahita and leviathan":
+				case "anahita and the leviathan":
 					return CalamityWorld.downedLeviathan;
 
 				case "aureus":
@@ -162,16 +175,23 @@ namespace CalamityMod
 				case "necroplasm":
 					return CalamityWorld.downedPolterghast;
 
+				// Old Duke is also Acid Rain tier 3, so he gets those names too
 				case "oldduke":
 				case "old duke":
+				case "theoldduke":
+				case "the old duke":
 				case "boomerduke":
 				case "boomer duke":
-				case "acidrainduke":
-				case "acid rain duke":
 				case "sulphurduke":
 				case "sulphur duke":
 				case "sulfurduke":
 				case "sulfur duke":
+				case "acid rain 3":
+				case "acidrain 3":
+				case "acidrain3":
+				case "acid rain duke":
+				case "acidrain duke":
+				case "acidrainduke":
 					return CalamityWorld.downedBoomerDuke;
 
 				case "sentinel1": // backwards compatibility
@@ -854,9 +874,9 @@ namespace CalamityMod
 			setBonus = setBonus.ToLower();
 
 			// Desert Prowler
-			if (setBonus == "desert prowler" || setBonus == "desert prowler")
+			if (setBonus == "desertprowler" || setBonus == "desert prowler")
 			{
-				mp.snowRuffianSet = enabled;
+				mp.desertProwler = enabled;
 				return true;
 			}
 

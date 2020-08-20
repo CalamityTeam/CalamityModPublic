@@ -83,7 +83,7 @@ namespace CalamityMod.Projectiles.Summon
             }
             NPC potentialTarget = projectile.Center.MinionHoming(1560f, player);
 
-            if (potentialTarget == null || !player.HasAmmo(FalseGun, false))
+            if (potentialTarget is null || !player.HasAmmo(FalseGun, false))
             {
                 float acceleration = 0.1f;
                 Vector2 distanceVector = player.Center - projectile.Center;
@@ -168,32 +168,7 @@ namespace CalamityMod.Projectiles.Summon
                         }
                     }
                 }
-                float SAImovement = 0.25f;
-                for (int index = 0; index < Main.projectile.Length; index++)
-                {
-                    Projectile proj = Main.projectile[index];
-                    if (index != projectile.whoAmI &&
-                        proj.active && proj.owner == projectile.owner &&
-                        proj.type == projectile.type && Math.Abs(projectile.position.X - proj.position.X) + Math.Abs(projectile.position.Y - proj.position.Y) < projectile.width)
-                    {
-                        if (projectile.position.X < proj.position.X)
-                        {
-                            projectile.velocity.X -= SAImovement;
-                        }
-                        else
-                        {
-                            projectile.velocity.X += SAImovement;
-                        }
-                        if (projectile.position.Y < proj.position.Y)
-                        {
-                            projectile.velocity.Y -= SAImovement;
-                        }
-                        else
-                        {
-                            projectile.velocity.Y += SAImovement;
-                        }
-                    }
-                }
+				projectile.MinionAntiClump(0.25f);
             }
         }
 

@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Dyes
             recipe.AddIngredient(ModContent.ItemType<AstralOrangeDye>());
             recipe.AddIngredient(ModContent.ItemType<AstralOre>(), 5);
             recipe.AddTile(TileID.DyeVat);
-            recipe.SetResult(this);
+            recipe.SetResult(this, 2);
             recipe.AddRecipe();
         }
     }

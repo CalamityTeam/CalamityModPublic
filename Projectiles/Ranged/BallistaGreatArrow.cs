@@ -25,7 +25,7 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.arrow = true;
             projectile.penetrate = 2;
             projectile.aiStyle = 1;
-            aiType = 1;
+            aiType = ProjectileID.WoodenArrowFriendly;
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)

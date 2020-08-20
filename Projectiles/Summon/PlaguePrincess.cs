@@ -120,47 +120,24 @@ namespace CalamityMod.Projectiles.Summon
 			}
 
 			//anti sticking movement
-            float antiStickFloat = 0.05f;
-            for (int projIndex = 0; projIndex < Main.maxProjectiles; projIndex++)
-            {
-				Projectile proj = Main.projectile[projIndex];
-                bool projCheck = proj.type == ModContent.ProjectileType<PlaguePrincess>();
-                if (projIndex != projectile.whoAmI && proj.active && proj.owner == projectile.owner && projCheck && Math.Abs(projectile.position.X - proj.position.X) + Math.Abs(projectile.position.Y - proj.position.Y) < (float)projectile.width)
-                {
-                    if (projectile.position.X < proj.position.X)
-                    {
-                        projectile.velocity.X = projectile.velocity.X - antiStickFloat;
-                    }
-                    else
-                    {
-                        projectile.velocity.X = projectile.velocity.X + antiStickFloat;
-                    }
-                    if (projectile.position.Y < proj.position.Y)
-                    {
-                        projectile.velocity.Y = projectile.velocity.Y - antiStickFloat;
-                    }
-                    else
-                    {
-                        projectile.velocity.Y = projectile.velocity.Y + antiStickFloat;
-                    }
-                }
-            }
+			projectile.MinionAntiClump();
 			//anti-sticking also applies to the player
+            float antiStickFloat = 0.05f;
 			if (projectile.position.X < player.position.X)
 			{
-				projectile.velocity.X = projectile.velocity.X - antiStickFloat;
+				projectile.velocity.X -= antiStickFloat;
 			}
 			else
 			{
-				projectile.velocity.X = projectile.velocity.X + antiStickFloat;
+				projectile.velocity.X += antiStickFloat;
 			}
 			if (projectile.position.Y < player.position.Y)
 			{
-				projectile.velocity.Y = projectile.velocity.Y - antiStickFloat;
+				projectile.velocity.Y -= antiStickFloat;
 			}
 			else
 			{
-				projectile.velocity.Y = projectile.velocity.Y + antiStickFloat;
+				projectile.velocity.Y += antiStickFloat;
 			}
 
             bool cancelAttack = false;
@@ -217,7 +194,7 @@ namespace CalamityMod.Projectiles.Summon
                     }
                 }
             }
-            else
+            if (!targetFound)
             {
                 for (int num645 = 0; num645 < Main.maxNPCs; num645++)
                 {

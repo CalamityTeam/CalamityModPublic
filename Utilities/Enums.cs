@@ -19,6 +19,7 @@ namespace CalamityMod
         Developer = 16,
         Rainbow = 30,
         RareVariant = 31,
-        Dedicated = 32
+        Dedicated = 32,
+        DraedonRust = 33,
     }
 }

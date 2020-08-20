@@ -1,13 +1,12 @@
-using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
- 
+
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class FinalDawnThrow2 : ModProjectile
+	public class FinalDawnThrow2 : ModProjectile
     {
         bool HasHitEnemy = false;
         public override void SetStaticDefaults()
@@ -46,7 +45,7 @@ namespace CalamityMod.Projectiles.Rogue
                     Vector2 velocity = Utils.NextVector2Circular(Main.rand, 7.2f, 7.2f);
                     Projectile.NewProjectile(projectile.Center, velocity,
                                              ModContent.ProjectileType<FinalDawnFireball>(),
-                                             (int)(projectile.damage * 0.8), projectile.knockBack, projectile.owner, 0f,
+                                             (int)(projectile.damage * 0.3), projectile.knockBack, projectile.owner, 0f,
                                              target.whoAmI);
                 }
                 HasHitEnemy = true;
@@ -54,12 +53,28 @@ namespace CalamityMod.Projectiles.Rogue
         }
 		public override void AI()
 		{
+			Player player = Main.player[projectile.owner];
+
+			if (player.dead || player is null)
+				projectile.Kill();
+
             if (projectile.localAI[0] == 0)
             {
                 Main.PlaySound(SoundID.Item71, projectile.position);
                 projectile.localAI[0] = 1;
             }
-			Player player = Main.player[projectile.owner];
+
+            // Kill any hooks from the projectile owner.
+            for (int i = 0; i < Main.projectile.Length; i++)
+            {
+                Projectile proj = Main.projectile[i];
+
+                if (!proj.active || proj.owner != player.whoAmI || proj.aiStyle != 7)
+                    continue;
+
+                if (proj.aiStyle == 7)
+                    proj.Kill();
+            }
 
             projectile.spriteDirection = projectile.velocity.X > 0 ? 1 : -1;
             projectile.rotation += 0.25f * projectile.direction;
@@ -68,7 +83,7 @@ namespace CalamityMod.Projectiles.Rogue
             player.fullRotation = projectile.rotation;
             player.direction = projectile.direction;
             player.heldProj = projectile.whoAmI;
-            player.bodyFrame.Y = 1 * player.bodyFrame.Height;
+            player.bodyFrame.Y = player.bodyFrame.Height;
             player.immuneNoBlink = true;
             player.immuneTime = 10;
 

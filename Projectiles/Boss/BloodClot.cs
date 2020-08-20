@@ -2,6 +2,7 @@ using CalamityMod.Dusts;
 using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Boss
 {
@@ -19,7 +20,7 @@ namespace CalamityMod.Projectiles.Boss
             projectile.hostile = true;
             projectile.penetrate = 1;
             projectile.aiStyle = 1;
-            aiType = 1;
+            aiType = ProjectileID.WoodenArrowFriendly;
         }
 
         public override void AI()

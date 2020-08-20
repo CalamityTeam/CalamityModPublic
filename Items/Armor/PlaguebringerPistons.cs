@@ -1,4 +1,3 @@
-using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Rogue;
 using System;
@@ -8,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Armor
 {
-    [AutoloadEquip(EquipType.Legs)]
+	[AutoloadEquip(EquipType.Legs)]
     public class PlaguebringerPistons : ModItem
     {
         public int counter = 0;
@@ -33,32 +32,7 @@ namespace CalamityMod.Items.Armor
         {
             player.minionDamage += 0.13f;
             player.moveSpeed += 0.15f;
-
-			//Spawn bees while sprinting or dashing
-			counter++;
-			if (counter % 12 == 0)
-			{
-				if ((Math.Abs(player.velocity.X) >= 5 || Math.Abs(player.velocity.Y) >= 5) && player.whoAmI == Main.myPlayer)
-				{
-                    int beeCount = 1;
-                    if (Main.rand.NextBool(3))
-                        ++beeCount;
-                    if (Main.rand.NextBool(3))
-                        ++beeCount;
-                    if (player.strongBees && Main.rand.NextBool(3))
-                        ++beeCount;
-					int damage = 30;
-					damage = (int)(damage * player.MinionDamage());
-                    for (int index = 0; index < beeCount; ++index)
-                    {
-                        int bee = Projectile.NewProjectile(player.Center.X, player.Center.Y, Main.rand.NextFloat(-35f, 35f) * 0.02f, Main.rand.NextFloat(-35f, 35f) * 0.02f, (Main.rand.NextBool(4) ? ModContent.ProjectileType<PlaguenadeBee>() : player.beeType()), damage, player.beeKB(0f), player.whoAmI, 0f, 0f);
-                        Main.projectile[bee].Calamity().forceMinion = true;
-                        Main.projectile[bee].usesLocalNPCImmunity = true;
-                        Main.projectile[bee].localNPCHitCooldown = 10;
-                        Main.projectile[bee].penetrate = 2;
-                    }
-				}
-			}
+			player.Calamity().plaguebringerPistons = true;
 
 			//Flower Boots code
             if (player.whoAmI == Main.myPlayer && player.velocity.Y == 0f && player.grappling[0] == -1)

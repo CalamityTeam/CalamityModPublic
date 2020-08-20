@@ -24,8 +24,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.mana = 20;
             item.width = 96;
             item.height = 34;
-            item.useTime = 50;
-            item.useAnimation = 50;
+            item.useTime = item.useAnimation = 7;
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 3.25f;
@@ -52,20 +51,27 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             if (player.altFunctionUse == 2)
             {
-                item.useTime = 7;
-                item.useAnimation = 7;
-                item.mana = 6;
                 item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LaserCannon");
             }
             else
             {
-                item.useTime = 50;
-                item.useAnimation = 50;
-                item.mana = 20;
                 item.UseSound = SoundID.Item92;
             }
             return base.CanUseItem(player);
         }
+
+		public override void ModifyManaCost(Player player, ref float reduce, ref float mult)
+		{
+			if (player.altFunctionUse == 2)
+				mult *= 0.3f;
+		}
+
+		public override float UseTimeMultiplier	(Player player)
+		{
+			if (player.altFunctionUse == 2)
+				return 1f;
+			return 0.14f;
+		}
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
@@ -75,7 +81,7 @@ namespace CalamityMod.Items.Weapons.Magic
                 {
                     float SpeedX = speedX + (float)Main.rand.Next(-20, 21) * 0.05f;
                     float SpeedY = speedY + (float)Main.rand.Next(-20, 21) * 0.05f;
-                    Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<SHPL>(), damage, knockBack * 0.5f, player.whoAmI, 0.0f, 0.0f);
+                    Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<SHPL>(), damage, knockBack * 0.5f, player.whoAmI, 0f, 0f);
                 }
                 return false;
             }
@@ -85,7 +91,7 @@ namespace CalamityMod.Items.Weapons.Magic
                 {
                     float SpeedX = speedX + (float)Main.rand.Next(-40, 41) * 0.05f;
                     float SpeedY = speedY + (float)Main.rand.Next(-40, 41) * 0.05f;
-                    Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<SHPB>(), (int)((double)damage * 1.1), knockBack, player.whoAmI, 0.0f, 0.0f);
+                    Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<SHPB>(), (int)(damage * 1.1), knockBack, player.whoAmI, 0f, 0f);
                 }
                 return false;
             }

@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Placeables.Furniture
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Effigy of Decay");
-            Tooltip.SetDefault("When placed down, nearby players can breath underwater\n" +
+            Tooltip.SetDefault("When placed down, nearby players can breathe underwater\n" +
                                "This effect does not work in the abyss\n" +
                                "Nearby players are also immune to the sulphuric poisoning");
         }
@@ -34,7 +34,6 @@ namespace CalamityMod.Items.Placeables.Furniture
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<RustyLockpick>(), 1);
             recipe.AddIngredient(ModContent.ItemType<SulfuricScale>(), 20);
             recipe.AddRecipeGroup("IronBar", 10);
             recipe.AddTile(TileID.Anvils);

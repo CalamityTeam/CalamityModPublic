@@ -1,6 +1,5 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
-using CalamityMod.Buffs.Potions;
 using CalamityMod.Items.Materials;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -8,17 +7,13 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.ModLoader.Config;
-using CalamityMod;
 namespace CalamityMod.NPCs.Perforator
 {
-    [AutoloadBossHead]
+	[AutoloadBossHead]
     public class PerforatorHeadSmall : ModNPC
     {
         private const int MsgType = 23;
         private bool flies = false;
-        private float speed = 21f;
-        private float turnSpeed = 0.19f;
         private int minLength = (CalamityWorld.death || CalamityWorld.bossRushActive) ? 3 : 6;
         private int maxLength = (CalamityWorld.death || CalamityWorld.bossRushActive) ? 4 : 7;
         private bool TailSpawned = false;
@@ -35,7 +30,7 @@ namespace CalamityMod.NPCs.Perforator
             npc.width = 42;
             npc.height = 62;
 			npc.LifeMaxNERB(1250, 1500, 500000);
-			double HPBoost = (double)CalamityMod.CalamityConfig.BossHealthPercentageBoost * 0.01;
+			double HPBoost = (double)CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
             npc.aiStyle = 6;
             aiType = -1;
@@ -54,13 +49,31 @@ namespace CalamityMod.NPCs.Perforator
         {
             bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
 			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
-			float speedMult = expertMode ? 1.5f : 1.425f;
-            if (CalamityWorld.bossRushActive)
-                speedMult = 3f;
 
-			float speedBoost = death ? speedMult : speedMult - ((float)npc.life / (float)npc.lifeMax);
-			speed = 13f * speedBoost;
-			turnSpeed = 0.11f * speedBoost;
+			// Percent life remaining
+			float lifeRatio = npc.life / (float)npc.lifeMax;
+
+			float speed = 16f;
+			float turnSpeed = 0.14f;
+
+			if (expertMode)
+			{
+				speed += death ? 9f : 9f * (1f - lifeRatio);
+				turnSpeed += death ? 0.08f : 0.08f * (1f - lifeRatio);
+			}
+
+			if (npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive))
+			{
+				speed *= 1.25f;
+				turnSpeed *= 1.25f;
+			}
+
+			if (CalamityWorld.bossRushActive)
+			{
+				speed *= 1.25f;
+				turnSpeed *= 1.25f;
+			}
+
 			if (npc.ai[3] > 0f)
             {
                 npc.realLife = (int)npc.ai[3];
@@ -70,14 +83,15 @@ namespace CalamityMod.NPCs.Perforator
 			{
 				npc.TargetClosest(true);
 			}
+
 			Player player = Main.player[npc.target];
 
-			npc.velocity.Length();
             npc.alpha -= 42;
             if (npc.alpha < 0)
             {
                 npc.alpha = 0;
             }
+
             if (!TailSpawned)
             {
                 int Previous = npc.whoAmI;
@@ -421,13 +435,13 @@ namespace CalamityMod.NPCs.Perforator
         {
             for (int k = 0; k < 5; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
             }
             if (npc.life <= 0)
             {
                 for (int k = 0; k < 5; k++)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
                 }
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/SmallPerf"), 1f);
             }

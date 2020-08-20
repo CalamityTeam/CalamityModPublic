@@ -3,14 +3,13 @@ using CalamityMod.NPCs.CeaselessVoid;
 using CalamityMod.NPCs.Signus;
 using CalamityMod.NPCs.StormWeaver;
 using CalamityMod.World;
-using CalamityMod.Projectiles.Typeless;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.SummonItems
 {
-    public class RuneofCos : ModItem
+	public class RuneofCos : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -43,11 +42,12 @@ namespace CalamityMod.Items.SummonItems
 
         public override bool UseItem(Player player)
         {
-            if (player.ZoneDungeon)
+			Main.PlaySound(SoundID.Roar, player.position, 0);
+			if (player.ZoneDungeon)
             {
-                NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<CeaselessVoid>());
 				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
+					NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<CeaselessVoid>());
 					for (int num662 = 0; num662 < 2; num662++)
 					{
 						NPC.NewNPC((int)player.Center.X - 200, (int)player.Center.Y - 200, ModContent.NPCType<DarkEnergy>());
@@ -55,16 +55,24 @@ namespace CalamityMod.Items.SummonItems
 						NPC.NewNPC((int)player.Center.X, (int)player.Center.Y + 200, ModContent.NPCType<DarkEnergy3>());
 					}
 				}
+				else
+					NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, player.whoAmI, ModContent.NPCType<CeaselessVoid>());
 			}
             else if (player.ZoneUnderworldHeight)
             {
-                NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<Signus>());
-            }
+				if (Main.netMode != NetmodeID.MultiplayerClient)
+					NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<Signus>());
+				else
+					NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, player.whoAmI, ModContent.NPCType<Signus>());
+			}
             else if (player.ZoneSkyHeight)
             {
-                NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<StormWeaverHead>());
-            }
-            Main.PlaySound(SoundID.Roar, player.position, 0);
+				if (Main.netMode != NetmodeID.MultiplayerClient)
+					NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<StormWeaverHead>());
+				else
+					NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, player.whoAmI, ModContent.NPCType<StormWeaverHead>());
+			}
+
             return true;
         }
 
@@ -72,8 +80,8 @@ namespace CalamityMod.Items.SummonItems
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<UnholyEssence>(), 40);
-            recipe.AddIngredient(ItemID.LunarBar, 10);
-            recipe.AddIngredient(ItemID.FragmentSolar, 5);
+			recipe.AddIngredient(ItemID.FragmentSolar, 5);
+			recipe.AddIngredient(ItemID.LunarBar, 3);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();

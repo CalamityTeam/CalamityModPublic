@@ -25,7 +25,7 @@ namespace CalamityMod.NPCs.SunkenSea
             npc.width = 56;
             npc.height = 38;
             npc.defense = 9999;
-            npc.Calamity().RevPlusDR(0.25f);
+			npc.DR_NERD(0.25f);
             npc.lifeMax = Main.hardMode ? 300 : 150;
             if (Main.expertMode)
             {
@@ -74,6 +74,7 @@ namespace CalamityMod.NPCs.SunkenSea
             {
                 if (!statChange)
                 {
+					npc.buffImmune[BuffID.Confused] = false;
                     npc.defense = 6;
                     npc.damage = Main.expertMode ? 60 : 30;
                     if (Main.hardMode)
@@ -108,7 +109,7 @@ namespace CalamityMod.NPCs.SunkenSea
                     }
                     if (npc.ai[2] < (float)num321)
                     {
-                        npc.velocity.X = npc.velocity.X * 0.9f;
+                        npc.velocity.X *= 0.9f;
                         return;
                     }
                     npc.ai[2] = 0f;
@@ -218,11 +219,8 @@ namespace CalamityMod.NPCs.SunkenSea
         }
         public override void NPCLoot()
         {
-            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Navystone>(), Main.rand.Next(8, 13));
-            if (Main.rand.NextBool(2) && Main.hardMode)
-            {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<MolluskHusk>());
-            }
+			DropHelper.DropItem(npc, ModContent.ItemType<Navystone>(), 8, 12);
+			DropHelper.DropItemCondition(npc, ModContent.ItemType<MolluskHusk>(), Main.hardMode, 0.5f);
         }
     }
 }

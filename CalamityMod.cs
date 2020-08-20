@@ -18,8 +18,9 @@ using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
-using CalamityMod.Items.TreasureBags;
 using CalamityMod.Items.Tools;
+using CalamityMod.Items.TreasureBags;
+using CalamityMod.Items.Weapons.DraedonsArsenal;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
@@ -59,15 +60,21 @@ using CalamityMod.NPCs.SunkenSea;
 using CalamityMod.NPCs.SupremeCalamitas;
 using CalamityMod.NPCs.Yharon;
 using CalamityMod.Projectiles.Boss;
+using CalamityMod.Projectiles.DraedonsArsenal;
 using CalamityMod.Projectiles.Enemy;
 using CalamityMod.Projectiles.Hybrid;
 using CalamityMod.Projectiles.Magic;
 using CalamityMod.Projectiles.Melee;
+using CalamityMod.Projectiles.Melee.Spears;
 using CalamityMod.Projectiles.Ranged;
 using CalamityMod.Projectiles.Rogue;
 using CalamityMod.Projectiles.Summon;
-using CalamityMod.Projectiles.Typeless;
+using CalamityMod.Schematics;
 using CalamityMod.Skies;
+using CalamityMod.TileEntities;
+using CalamityMod.Tiles;
+using CalamityMod.Tiles.DraedonStructures;
+using CalamityMod.Tiles.LivingFire;
 using CalamityMod.UI;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -79,6 +86,7 @@ using System.Reflection;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.GameContent.Dyes;
+using Terraria.GameInput;
 using Terraria.Graphics.Effects;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
@@ -108,10 +116,9 @@ namespace CalamityMod
         // Boss Spawners
         public static int ghostKillCount = 0;
         public static int sharkKillCount = 0;
-        public static int astralKillCount = 0;
 
 		// Textures & Shaders
-		public static Texture2D heartOriginal2;
+        public static Texture2D heartOriginal2;
 		public static Texture2D heartOriginal;
 		public static Texture2D rainOriginal;
 		public static Texture2D manaOriginal;
@@ -122,6 +129,7 @@ namespace CalamityMod
         public static Effect CustomShader;
         public static Effect LightShader;
         public static Effect TentacleShader;
+        public static Effect LightDistortionShader;
 
         // DR data structure
         public static SortedDictionary<int, float> DRValues;
@@ -136,6 +144,7 @@ namespace CalamityMod
 
 		// Lists
 		public static IList<string> donatorList;
+		public static List<int> trueMeleeProjectileList; // DO NOT, EVER, DELETE THIS LIST, OR I WILL COME FOR YOU :D
         public static List<int> rangedProjectileExceptionList;
         public static List<int> projectileDestroyExceptionList;
         public static List<int> projectileMinionList;
@@ -146,6 +155,7 @@ namespace CalamityMod
         public static List<int> bossHPScaleList;
         public static List<int> beeEnemyList;
         public static List<int> beeProjectileList;
+        public static List<int> friendlyBeeList;
         public static List<int> hardModeNerfList;
         public static List<int> debuffList;
         public static List<int> fireWeaponList;
@@ -178,6 +188,7 @@ namespace CalamityMod
 		public static List<int> revengeanceProjectileBuffList5Percent;
 		public static List<int> revengeanceLifeStealExceptionList;
         public static List<int> movementImpairImmuneList;
+        public static List<int> needsDebuffIconDisplayList;
         public static List<int> trapProjectileList;
         public static List<int> scopedWeaponList;
         public static List<int> boomerangList;
@@ -195,6 +206,7 @@ namespace CalamityMod
         public static List<int> highTestFishList;
         public static List<int> flamethrowerList;
         public static List<int> forceItemList;
+        public static List<int> livingFireBlockList;
 
         public static List<int> zombieList;
         public static List<int> demonEyeList;
@@ -202,6 +214,7 @@ namespace CalamityMod
         public static List<int> angryBonesList;
         public static List<int> hornetList;
         public static List<int> mossHornetList;
+        public static List<int> bossMinionList;
 
         public static List<int> legOverrideList;
 
@@ -209,13 +222,12 @@ namespace CalamityMod
         internal Mod thorium = null;
         public bool fargosMutant = false;
 
-		internal static Configs CalamityConfig;
-		internal static CalamityMod instance;
+		internal static CalamityMod Instance;
 
         #region Load
         public override void Load()
         {
-			instance = this;
+			Instance = this;
 			heartOriginal2 = Main.heartTexture;
 			heartOriginal = Main.heart2Texture;
 			rainOriginal = Main.rainTexture;
@@ -240,7 +252,6 @@ namespace CalamityMod
             }
 
             ILChanges.Initialize();
-
             thorium = ModLoader.GetMod("ThoriumMod");
 
             BossHealthBarManager.Load(this);
@@ -252,7 +263,62 @@ namespace CalamityMod
             SetupThoriumBossDR(thorium);
 
             CalamityLocalization.AddLocalizations();
+
+			On.Terraria.Player.TileInteractionsUse += Player_TileInteractionsUse;
         }
+
+		private static void Player_TileInteractionsUse(On.Terraria.Player.orig_TileInteractionsUse orig, Player player, int i, int j)
+		{
+			Tile tile = Main.tile[i, j];
+			if (tile.type == ModContent.TileType<AgedLaboratoryDoorOpen>())
+			{
+				DoorSwap(ModContent.TileType<AgedLaboratoryDoorClosed>(), ModContent.TileType<AgedLaboratoryDoorOpen>(), i, j);
+			}
+			else if (tile.type == ModContent.TileType<AgedLaboratoryDoorClosed>())
+			{
+				DoorSwap(ModContent.TileType<AgedLaboratoryDoorOpen>(), ModContent.TileType<AgedLaboratoryDoorClosed>(), i, j);
+			}
+			else if (tile.type == ModContent.TileType<LaboratoryDoorOpen>())
+			{
+				DoorSwap(ModContent.TileType<LaboratoryDoorClosed>(), ModContent.TileType<LaboratoryDoorOpen>(), i, j);
+			}
+			else if (tile.type == ModContent.TileType<LaboratoryDoorClosed>())
+			{
+				DoorSwap(ModContent.TileType<LaboratoryDoorOpen>(), ModContent.TileType<LaboratoryDoorClosed>(), i, j);
+			}
+			else
+			{
+				orig(player, i, j);
+			}
+		}
+
+		private static void DoorSwap(int type1, int type2, int i, int j)
+		{
+			if (PlayerInput.Triggers.JustPressed.MouseRight)
+			{
+				ushort type = (ushort)type1;
+				short frameY = 0;
+				for (int dy = -4; dy < 4; dy++)
+				{
+					if (Main.tile[i, j + dy].frameY > 0 && frameY == 0)
+						continue;
+					if (Main.tile[i, j + dy].type == type2)
+					{
+						if (Main.tile[i, j + dy] is null)
+						{
+							Main.tile[i, j + dy] = new Tile();
+						}
+						Main.tile[i, j + dy].type = type;
+						Main.tile[i, j + dy].frameY = frameY;
+						frameY += 16;
+						if ((int)frameY / 16 >= 4)
+							break;
+					}
+				}
+
+				Main.PlaySound(SoundID.DoorClosed, i * 16, j * 16, 1, 1f, 0f);
+			}
+		}
 
         private void LoadClient()
         {
@@ -263,10 +329,6 @@ namespace CalamityMod
             AddEquipTexture(new SirenHead(), null, EquipType.Head, "SirenHead", "CalamityMod/Items/Accessories/SirenTrans_Head");
             AddEquipTexture(new SirenBody(), null, EquipType.Body, "SirenBody", "CalamityMod/Items/Accessories/SirenTrans_Body", "CalamityMod/Items/Accessories/SirenTrans_Arms");
             AddEquipTexture(new SirenLegs(), null, EquipType.Legs, "SirenLeg", "CalamityMod/Items/Accessories/SirenTrans_Legs");
-
-            AddEquipTexture(new SirenHeadAlt(), null, EquipType.Head, "SirenHeadAlt", "CalamityMod/Items/Accessories/SirenTransAlt_Head");
-            AddEquipTexture(new SirenBodyAlt(), null, EquipType.Body, "SirenBodyAlt", "CalamityMod/Items/Accessories/SirenTransAlt_Body", "CalamityMod/Items/Accessories/SirenTransAlt_Arms");
-            AddEquipTexture(new SirenLegsAlt(), null, EquipType.Legs, "SirenLegAlt", "CalamityMod/Items/Accessories/SirenTransAlt_Legs");
 
             AddEquipTexture(new AndromedaHead(), null, EquipType.Head, "NoHead", "CalamityMod/ExtraTextures/AndromedaWithout_Head");
 
@@ -282,12 +344,21 @@ namespace CalamityMod
 
             AddEquipTexture(new SnowRuffianWings(), null, EquipType.Wings, "SnowRuffWings", "CalamityMod/Items/Armor/SnowRuffianWings");
 
+            AddEquipTexture(new MeldTransformationHead(), null, EquipType.Head, "MeldTransformationHead", "CalamityMod/Items/Armor/MeldTransformation_Head");
+            AddEquipTexture(new MeldTransformationBody(), null, EquipType.Body, "MeldTransformationBody", "CalamityMod/Items/Armor/MeldTransformation_Body", "CalamityMod/Items/Armor/MeldTransformation_Arms");
+            AddEquipTexture(new MeldTransformationLegs(), null, EquipType.Legs, "MeldTransformationLegs", "CalamityMod/Items/Armor/MeldTransformation_Legs");
+
+            AddEquipTexture(new OmegaBlueTransformationHead(), null, EquipType.Head, "OmegaBlueTransformationHead", "CalamityMod/Items/Armor/OmegaBlueHelmet_HeadMadness");
+
+            AddEquipTexture(new AbyssDivingGearHair(), null, EquipType.Head, "AbyssDivingGearHead", "CalamityMod/Items/Accessories/AbyssalDivingGear_Face");
+
             AstralCactusTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/Tiles/AstralCactus");
             AstralCactusGlowTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/Tiles/AstralCactusGlow");
             AstralSky = ModContent.GetTexture("CalamityMod/ExtraTextures/AstralSky");
             CustomShader = GetEffect("Effects/CustomShader");
             LightShader = GetEffect("Effects/LightBurstShader");
             TentacleShader = GetEffect("Effects/TentacleShader");
+            LightDistortionShader = GetEffect("Effects/DistortionShader");
 
             Filters.Scene["CalamityMod:DevourerofGodsHead"] = new Filter(new DoGScreenShaderData("FilterMiniTower").UseColor(0.4f, 0.1f, 1.0f).UseOpacity(0.5f), EffectPriority.VeryHigh);
             SkyManager.Instance["CalamityMod:DevourerofGodsHead"] = new DoGSky();
@@ -323,6 +394,9 @@ namespace CalamityMod
             Filters.Scene["CalamityMod:LightBurst"].Load();
 
             GameShaders.Misc["CalamityMod:SubsumingTentacle"] = new MiscShaderData(new Ref<Effect>(TentacleShader), "BurstPass");
+            GameShaders.Misc["CalamityMod:LightDistortion"] = new MiscShaderData(new Ref<Effect>(LightDistortionShader), "DistortionPass");
+
+            SkyManager.Instance["CalamityMod:Cryogen"] = new CryogenSky();
 
             RipperUI.Reset();
             AstralArcanumUI.Load(this);
@@ -331,6 +405,10 @@ namespace CalamityMod
 			GameShaders.Hair.BindShader(ModContent.ItemType<RageHairDye>(), new LegacyHairShaderData().UseLegacyMethod((Player player, Color newColor, ref bool lighting) => Color.Lerp(player.hairColor, new Color(255, 83, 48), ((float)player.Calamity().rage / (float)player.Calamity().rageMax))));
 			GameShaders.Hair.BindShader(ModContent.ItemType<WingTimeHairDye>(), new LegacyHairShaderData().UseLegacyMethod((Player player, Color newColor, ref bool lighting) => Color.Lerp(player.hairColor, new Color(139, 205, 255), ((float)player.wingTime / (float)player.wingTimeMax))));
 			GameShaders.Hair.BindShader(ModContent.ItemType<StealthHairDye>(), new LegacyHairShaderData().UseLegacyMethod((Player player, Color newColor, ref bool lighting) => Color.Lerp(player.hairColor, new Color(186, 85, 211), (player.Calamity().rogueStealth / player.Calamity().rogueStealthMax))));
+
+            SchematicLoader.LoadEverything();
+
+            PopupGUIManager.LoadGUIs();
         }
         #endregion
 
@@ -361,6 +439,7 @@ namespace CalamityMod
 			bossVelocityDamageScaleValues = null;
 
             donatorList = null;
+			trueMeleeProjectileList = null;
             rangedProjectileExceptionList = null;
             projectileDestroyExceptionList = null;
             projectileMinionList = null;
@@ -370,6 +449,7 @@ namespace CalamityMod
             bossScaleList = null;
             bossHPScaleList = null;
             beeEnemyList = null;
+            friendlyBeeList = null;
             beeProjectileList = null;
             hardModeNerfList = null;
             debuffList = null;
@@ -402,6 +482,7 @@ namespace CalamityMod
 			revengeanceProjectileBuffList5Percent = null;
 			revengeanceLifeStealExceptionList = null;
             movementImpairImmuneList = null;
+            needsDebuffIconDisplayList = null;
             trapProjectileList = null;
             scopedWeaponList = null;
             boomerangList = null;
@@ -419,6 +500,7 @@ namespace CalamityMod
             highTestFishList = null;
             flamethrowerList = null;
             forceItemList = null;
+            livingFireBlockList = null;
 
             zombieList = null;
             demonEyeList = null;
@@ -426,15 +508,17 @@ namespace CalamityMod
             angryBonesList = null;
             hornetList = null;
             mossHornetList = null;
+            bossMinionList = null;
 
             legOverrideList = null;
 
             thorium = null;
             fargosMutant = false;
 
-			CalamityConfig = null;
-			instance = null;
+			Instance = null;
 
+            PopupGUIManager.UnloadGUIs();
+            SchematicLoader.UnloadEverything();
             BossHealthBarManager.Unload();
             base.Unload();
 
@@ -458,7 +542,7 @@ namespace CalamityMod
 			rainOriginal = null;
 			manaOriginal = null;
 			carpetOriginal = null;
-		}
+        }
         #endregion
 
         #region Late Loading
@@ -470,15 +554,15 @@ namespace CalamityMod
         #endregion
 
         #region ConfigCrap
-        internal static void SaveConfig(Configs CalamityConfig)
+        internal static void SaveConfig(CalamityConfig cfg)
 		{
 			// in-game ModConfig saving from mod code is not supported yet in tmodloader, and subject to change, so we need to be extra careful.
 			// This code only supports client configs, and doesn't call onchanged. It also doesn't support ReloadRequired or anything else.
 			MethodInfo saveMethodInfo = typeof(ConfigManager).GetMethod("Save", BindingFlags.Static | BindingFlags.NonPublic);
 			if (saveMethodInfo != null)
-				saveMethodInfo.Invoke(null, new object[] { CalamityConfig });
+				saveMethodInfo.Invoke(null, new object[] { cfg });
 			else
-				instance.Logger.Warn("In-game SaveConfig failed, code update required");
+				Instance.Logger.Warn("In-game SaveConfig failed, code update required");
 		}
 		#endregion
 
@@ -615,7 +699,88 @@ namespace CalamityMod
 				"RKMoon"
 			};
 
-            rangedProjectileExceptionList = new List<int>()
+			trueMeleeProjectileList = new List<int>()
+			{
+				// Vanilla shit
+				ProjectileID.Spear,
+                ProjectileID.Trident,
+                ProjectileID.TheRottedFork,
+                ProjectileID.Swordfish,
+                ProjectileID.Arkhalis,
+                ProjectileID.DarkLance,
+                ProjectileID.CobaltNaginata,
+                ProjectileID.PalladiumPike,
+                ProjectileID.MythrilHalberd,
+                ProjectileID.OrichalcumHalberd,
+                ProjectileID.AdamantiteGlaive,
+                ProjectileID.TitaniumTrident,
+                ProjectileID.MushroomSpear,
+                ProjectileID.Gungnir,
+                ProjectileID.ObsidianSwordfish,
+                ProjectileID.ChlorophytePartisan,
+                ProjectileID.MonkStaffT1,
+                ProjectileID.MonkStaffT2,
+                ProjectileID.MonkStaffT3,
+                ProjectileID.NorthPoleWeapon,
+
+				// Tools
+                ProjectileID.CobaltDrill,
+                ProjectileID.MythrilDrill,
+                ProjectileID.AdamantiteDrill,
+                ProjectileID.PalladiumDrill,
+                ProjectileID.OrichalcumDrill,
+                ProjectileID.TitaniumDrill,
+                ProjectileID.ChlorophyteDrill,
+                ProjectileID.CobaltChainsaw,
+                ProjectileID.MythrilChainsaw,
+                ProjectileID.AdamantiteChainsaw,
+                ProjectileID.PalladiumChainsaw,
+                ProjectileID.OrichalcumChainsaw,
+                ProjectileID.TitaniumChainsaw,
+                ProjectileID.ChlorophyteChainsaw,
+                ProjectileID.VortexDrill,
+                ProjectileID.VortexChainsaw,
+                ProjectileID.NebulaDrill,
+                ProjectileID.NebulaChainsaw,
+                ProjectileID.SolarFlareDrill,
+                ProjectileID.SolarFlareChainsaw,
+                ProjectileID.StardustDrill,
+                ProjectileID.StardustChainsaw,
+                ProjectileID.Hamdrax,
+                ProjectileID.ChlorophyteJackhammer,
+                ProjectileID.SawtoothShark,
+                ProjectileID.ButchersChainsaw,
+
+				// Calamity shit
+				ModContent.ProjectileType<DevilsSunriseProj>(),
+				ModContent.ProjectileType<MarniteObliteratorProj>(),
+				ModContent.ProjectileType<MurasamaSlash>(),
+				ModContent.ProjectileType<AmidiasTridentProj>(),
+				ModContent.ProjectileType<AstralPikeProj>(),
+				ModContent.ProjectileType<BansheeHookProj>(),
+				ModContent.ProjectileType<BrimlanceProj>(),
+				ModContent.ProjectileType<DiseasedPikeSpear>(),
+				ModContent.ProjectileType<EarthenPikeSpear>(),
+				ModContent.ProjectileType<ExsanguinationLanceProjectile>(),
+				ModContent.ProjectileType<FulgurationHalberdProj>(),
+				ModContent.ProjectileType<GildedProboscisProj>(),
+				ModContent.ProjectileType<GoldplumeSpearProjectile>(),
+				ModContent.ProjectileType<HellionFlowerSpearProjectile>(),
+				ModContent.ProjectileType<InsidiousImpalerProj>(),
+				ModContent.ProjectileType<MarniteSpearProjectile>(),
+				ModContent.ProjectileType<NadirSpear>(),
+				ModContent.ProjectileType<SausageMakerSpear>(),
+				ModContent.ProjectileType<SpatialLanceProjectile>(),
+				ModContent.ProjectileType<StarnightLanceProjectile>(),
+				ModContent.ProjectileType<StreamGougeProj>(),
+				ModContent.ProjectileType<TenebreusTidesProjectile>(),
+				ModContent.ProjectileType<TerraLanceProjectile>(),
+				ModContent.ProjectileType<TyphonsGreedStaff>(),
+				ModContent.ProjectileType<UrchinSpearProjectile>(),
+				ModContent.ProjectileType<YateveoBloomSpear>()
+			};
+
+			rangedProjectileExceptionList = new List<int>()
             {
                 ProjectileID.Phantasm,
                 ProjectileID.VortexBeater,
@@ -644,7 +809,10 @@ namespace CalamityMod
                 ModContent.ProjectileType<RainbowTrail>(),
                 ModContent.ProjectileType<PrismaticBeam>(),
                 ModContent.ProjectileType<ExoLight>(),
-                ModContent.ProjectileType<ExoLightBomb>()
+                ModContent.ProjectileType<ExoLightBomb>(),
+                ModContent.ProjectileType<UltimaBowProjectile>(),
+                ModContent.ProjectileType<UltimaSpark>(), // Because of potential dust lag.
+                ModContent.ProjectileType<UltimaRay>()
             };
 
             projectileDestroyExceptionList = new List<int>()
@@ -675,6 +843,8 @@ namespace CalamityMod
                 ModContent.ProjectileType<FlakKrakenProj>(),
                 ModContent.ProjectileType<SylvanSlashAttack>(),
                 ModContent.ProjectileType<InfernadoFriendly>(),
+				ModContent.ProjectileType<MurasamaSlash>(),
+                ModContent.ProjectileType<PhaseslayerProjectile>(),
 
 				//Some hostile boss projectiles
                 ModContent.ProjectileType<BrimstoneMonster>(),
@@ -902,6 +1072,17 @@ namespace CalamityMod
                 ModContent.ProjectileType<PlagueExplosion>()
             };
 
+			friendlyBeeList = new List<int>()
+			{
+				ProjectileID.GiantBee,
+				ProjectileID.Bee,
+				ProjectileID.Wasp,
+				ModContent.ProjectileType<PlaguenadeBee>(),
+				ModContent.ProjectileType<PlaguePrincess>(),
+				ModContent.ProjectileType<BabyPlaguebringer>(),
+				ModContent.ProjectileType<PlagueBeeSmall>()
+			};
+
             hardModeNerfList = new List<int>()
             {
                 ProjectileID.WebSpit,
@@ -963,8 +1144,10 @@ namespace CalamityMod
                 ModContent.BuffType<WarCleave>(),
                 ModContent.BuffType<ArmorCrunch>(),
                 ModContent.BuffType<Vaporfied>(),
-                ModContent.BuffType<Eutrophication>()
-            };
+                ModContent.BuffType<Eutrophication>(),
+				ModContent.BuffType<LethalLavaBurn>(),
+				ModContent.BuffType<Nightwither>()
+			};
 
             fireWeaponList = new List<int>()
             {
@@ -1062,7 +1245,8 @@ namespace CalamityMod
                 ModContent.ItemType<DazzlingStabberStaff>(),
                 ModContent.ItemType<PristineFury>(),
                 ModContent.ItemType<SarosPossession>(),
-                ModContent.ItemType<CinderBlossomStaff>()
+                ModContent.ItemType<CinderBlossomStaff>(),
+                ModContent.ItemType<FinalDawn>()
             };
 
             iceWeaponList = new List<int>()
@@ -1238,7 +1422,13 @@ namespace CalamityMod
                 ModContent.ItemType<YateveoBloom>(),
                 ModContent.ItemType<TerraDisk>(),
                 ModContent.ItemType<TerraDiskMelee>(),
-                ModContent.ItemType<BelladonnaSpiritStaff>()
+                ModContent.ItemType<BelladonnaSpiritStaff>(),
+                ModContent.ItemType<TenebreusTides>(),
+                ModContent.ItemType<Greentide>(),
+                ModContent.ItemType<Leviatitan>(),
+                ModContent.ItemType<BrackishFlask>(),
+                ModContent.ItemType<LeviathanTeeth>(),
+                ModContent.ItemType<GastricBelcherStaff>()
             };
 
             alcoholList = new List<int>()
@@ -1654,7 +1844,6 @@ namespace CalamityMod
 			{
 				NPCID.TheDestroyer,
 				NPCID.SolarCrawltipedeHead,
-				ModContent.NPCType<AstrumDeusHead>(),
 				ModContent.NPCType<AstrumDeusHeadSpectral>(),
 				ModContent.NPCType<ProfanedGuardianBoss>(),
 				ModContent.NPCType<Bumblefuck>(),
@@ -1799,7 +1988,6 @@ namespace CalamityMod
 				ModContent.ProjectileType<HolySpear>(),
 				ModContent.ProjectileType<ProvidenceCrystalShard>(),
 				ModContent.ProjectileType<ProvidenceHolyRay>(),
-				ModContent.ProjectileType<CosmicFlameBurst>(),
 				ModContent.ProjectileType<SignusScythe>(),
 				ModContent.ProjectileType<EssenceDust>(),
 				ModContent.ProjectileType<PhantomBlast>(),
@@ -1869,6 +2057,11 @@ namespace CalamityMod
                 NPCID.QueenBee,
             };
 
+            needsDebuffIconDisplayList = new List<int>()
+            {
+                NPCID.WallofFleshEye
+            };
+
             trapProjectileList = new List<int>()
             {
                 ProjectileID.PoisonDartTrap,
@@ -1912,7 +2105,6 @@ namespace CalamityMod
                 ModContent.ItemType<MangroveChakram>(),
                 ModContent.ItemType<MoltenAmputator>(),
                 ModContent.ItemType<NanoblackReaperRogue>(),
-                ModContent.ItemType<Pwnagehammer>(),
                 ModContent.ItemType<SandDollar>(),
                 ModContent.ItemType<SeashellBoomerang>(),
                 ModContent.ItemType<Shroomerang>(),
@@ -1922,7 +2114,7 @@ namespace CalamityMod
                 ModContent.ItemType<FrostcrushValari>(),
                 ModContent.ItemType<DefectiveSphere>(),
                 ModContent.ItemType<TerraDisk>(),
-                ModContent.ItemType<ToxicantTwister>()
+                ModContent.ItemType<TrackingDisk>()
             };
 
             boomerangProjList = new List<int>()
@@ -1955,7 +2147,6 @@ namespace CalamityMod
                 ModContent.ProjectileType<NanoblackMain>(),
                 ModContent.ProjectileType<StellarContemptHammer>(),
                 ModContent.ProjectileType<IcebreakerHammer>(),
-                ModContent.ProjectileType<PwnagehammerProj>(),
                 ModContent.ProjectileType<ValariBoomerang>(),
                 ModContent.ProjectileType<SphereSpiked>(),
                 ModContent.ProjectileType<SphereBladed>(),
@@ -1963,8 +2154,8 @@ namespace CalamityMod
                 ModContent.ProjectileType<ButcherKnife>(),
                 ModContent.ProjectileType<TerraDiskProjectile>(),
                 ModContent.ProjectileType<TerraDiskProjectile2>(),
-                ModContent.ProjectileType<ToxicantTwisterProjectile>(),
-                ModContent.ProjectileType<ToxicantTwisterTwoPointZero>()
+                ModContent.ProjectileType<ToxicantTwisterTwoPointZero>(),
+                ModContent.ProjectileType<TrackingDiskProjectile>()
             };
 
             javelinList = new List<int>()
@@ -1987,7 +2178,8 @@ namespace CalamityMod
                 ModContent.ItemType<PhantomLance>(),
                 ModContent.ItemType<ProfanedPartisan>(),
                 ModContent.ItemType<Turbulance>(),
-                ModContent.ItemType<NightsGaze>()
+                ModContent.ItemType<NightsGaze>(),
+                ModContent.ItemType<FrequencyManipulator>()
             };
 
             javelinProjList = new List<int>()
@@ -2009,9 +2201,10 @@ namespace CalamityMod
                 ModContent.ProjectileType<ScourgeoftheCosmosProj>(),
                 ModContent.ProjectileType<SpearofDestinyProjectile>(),
                 ModContent.ProjectileType<SpearofPaleolithProj>(),
-                ModContent.ProjectileType<XerocPitchforkProjectile>(),
+                ModContent.ProjectileType<AntumbraShardProjectile>(),
                 ModContent.ProjectileType<TurbulanceProjectile>(),
-                ModContent.ProjectileType<NightsGazeProjectile>()
+                ModContent.ProjectileType<NightsGazeProjectile>(),
+                ModContent.ProjectileType<FrequencyManipulatorProjectile>()
             };
 
             daggerList = new List<int>()
@@ -2123,7 +2316,9 @@ namespace CalamityMod
                 ModContent.ItemType<AcidicRainBarrel>(),
                 ModContent.ItemType<SkyfinBombers>(),
                 ModContent.ItemType<SpentFuelContainer>(),
-                ModContent.ItemType<SealedSingularity>()
+                ModContent.ItemType<SealedSingularity>(),
+                ModContent.ItemType<PlasmaGrenade>(),
+                ModContent.ItemType<WavePounder>()
             };
 
             flaskBombProjList = new List<int>()
@@ -2153,7 +2348,9 @@ namespace CalamityMod
                 ModContent.ProjectileType<GreenDonkeyKongReference>(),
                 ModContent.ProjectileType<SkyfinNuke>(),
                 ModContent.ProjectileType<SpentFuelContainerProjectile>(),
-                ModContent.ProjectileType<SealedSingularityProj>()
+                ModContent.ProjectileType<SealedSingularityProj>(),
+                ModContent.ProjectileType<PlasmaGrenadeProjectile>(),
+                ModContent.ProjectileType<WavePounderProjectile>()
             };
 
             spikyBallList = new List<int>()
@@ -2168,7 +2365,8 @@ namespace CalamityMod
                 ModContent.ItemType<PoisonPack>(),
                 ModContent.ItemType<Nychthemeron>(),
                 ModContent.ItemType<MetalMonstrosity>(),
-                ModContent.ItemType<BurningStrife>()
+                ModContent.ItemType<BurningStrife>(),
+                ModContent.ItemType<SystemBane>()
             };
 
             spikyBallProjList = new List<int>()
@@ -2183,7 +2381,8 @@ namespace CalamityMod
                 ModContent.ProjectileType<PoisonBol>(),
                 ModContent.ProjectileType<NychthemeronProjectile>(),
                 ModContent.ProjectileType<MetalChunk>(),
-                ModContent.ProjectileType<BurningStrifeProj>()
+                ModContent.ProjectileType<BurningStrifeProj>(),
+                ModContent.ProjectileType<SystemBaneProjectile>()
             };
 
             noGravityList = new List<int>()
@@ -2205,6 +2404,7 @@ namespace CalamityMod
                 ModContent.ItemType<GalacticaSingularity>(),
                 ModContent.ItemType<NightmareFuel>(),
                 ModContent.ItemType<EndothermicEnergy>(),
+                ModContent.ItemType<AscendantSpiritEssence>(),
                 ModContent.ItemType<SoulofCryogen>(),
 
                 ModContent.ItemType<KnowledgeAquaticScourge>(),
@@ -2296,6 +2496,7 @@ namespace CalamityMod
                 ModContent.ItemType<SirensSong>(),
                 ModContent.ItemType<BrackishFlask>(),
                 ModContent.ItemType<LeviathanTeeth>(),
+                ModContent.ItemType<GastricBelcherStaff>(),
                 ModContent.ItemType<LureofEnthrallment>(),
                 ModContent.ItemType<AquaticScourgeBag>(),
                 ModContent.ItemType<OldDukeBag>(),
@@ -2350,86 +2551,262 @@ namespace CalamityMod
 				ItemID.SuperHealingPotion
             };
 
-            zombieList = new List<int>()
-            {
-                NPCID.Zombie,
-                NPCID.ArmedZombie,
-                NPCID.BaldZombie,
-                NPCID.PincushionZombie,
-                NPCID.ArmedZombiePincussion, // what is this spelling
-                NPCID.SlimedZombie,
-                NPCID.ArmedZombieSlimed,
-                NPCID.SwampZombie,
-                NPCID.ArmedZombieSwamp,
-                NPCID.TwiggyZombie,
-                NPCID.ArmedZombieTwiggy,
-                NPCID.FemaleZombie,
-                NPCID.ArmedZombieCenx,
-                NPCID.ZombieRaincoat,
-                NPCID.ZombieEskimo,
-                NPCID.ArmedZombieEskimo
-                // halloween zombies not included because they don't drop shackles or zombie arms
-            };
+			livingFireBlockList = new List<int>()
+			{
+				ModContent.TileType<LivingGodSlayerFireBlockTile>(),
+				ModContent.TileType<LivingHolyFireBlockTile>(),
+				ModContent.TileType<LivingBrimstoneFireBlockTile>(),
+				TileID.LivingFire,
+				TileID.LivingCursedFire,
+				TileID.LivingDemonFire,
+				TileID.LivingFrostFire,
+				TileID.LivingIchor,
+				TileID.LivingUltrabrightFire
+			};
 
-            demonEyeList = new List<int>()
-            {
-                NPCID.DemonEye,
-                NPCID.CataractEye,
-                NPCID.SleepyEye,
-                NPCID.DialatedEye, // it is spelled "dilated"
-                NPCID.GreenEye,
-                NPCID.PurpleEye,
-                NPCID.DemonEyeOwl,
-                NPCID.DemonEyeSpaceship
-            };
+			zombieList = new List<int>()
+			{
+				NPCID.Zombie,
+				NPCID.ArmedZombie,
+				NPCID.BaldZombie,
+				NPCID.PincushionZombie,
+				NPCID.ArmedZombiePincussion, // what is this spelling
+				NPCID.SlimedZombie,
+				NPCID.ArmedZombieSlimed,
+				NPCID.SwampZombie,
+				NPCID.ArmedZombieSwamp,
+				NPCID.TwiggyZombie,
+				NPCID.ArmedZombieTwiggy,
+				NPCID.FemaleZombie,
+				NPCID.ArmedZombieCenx,
+				NPCID.ZombieRaincoat,
+				NPCID.ZombieEskimo,
+				NPCID.ArmedZombieEskimo,
+				NPCID.BigRainZombie,
+				NPCID.SmallRainZombie,
+				NPCID.BigFemaleZombie,
+				NPCID.SmallFemaleZombie,
+				NPCID.BigTwiggyZombie,
+				NPCID.SmallTwiggyZombie,
+				NPCID.BigSwampZombie,
+				NPCID.SmallSwampZombie,
+				NPCID.BigSlimedZombie,
+				NPCID.SmallSlimedZombie,
+				NPCID.BigPincushionZombie,
+				NPCID.SmallPincushionZombie,
+				NPCID.BigBaldZombie,
+				NPCID.SmallBaldZombie,
+				NPCID.BigZombie,
+				NPCID.SmallZombie
+				// halloween zombies not included because they don't drop shackles or zombie arms
+			};
 
-            skeletonList = new List<int>()
-            {
-                NPCID.Skeleton,
-                NPCID.ArmoredSkeleton,
-                NPCID.SkeletonArcher,
-                NPCID.HeadacheSkeleton,
-                NPCID.MisassembledSkeleton,
-                NPCID.PantlessSkeleton,
-                NPCID.SkeletonTopHat,
-                NPCID.SkeletonAstonaut,
-                NPCID.SkeletonAlien,
-                NPCID.BoneThrowingSkeleton,
-                NPCID.BoneThrowingSkeleton2,
-                NPCID.BoneThrowingSkeleton3,
-                NPCID.BoneThrowingSkeleton4,
-                NPCID.GreekSkeleton
-            };
+			demonEyeList = new List<int>()
+			{
+				NPCID.DemonEye,
+				NPCID.CataractEye,
+				NPCID.SleepyEye,
+				NPCID.DialatedEye, // it is spelled "dilated"
+				NPCID.GreenEye,
+				NPCID.PurpleEye,
+				NPCID.DemonEyeOwl,
+				NPCID.DemonEyeSpaceship,
+				NPCID.DemonEye2,
+				NPCID.PurpleEye2,
+				NPCID.GreenEye2,
+				NPCID.DialatedEye2,
+				NPCID.SleepyEye2,
+				NPCID.CataractEye2
+			};
 
-            angryBonesList = new List<int>()
-            {
-                NPCID.AngryBones,
-                NPCID.AngryBonesBig,
-                NPCID.AngryBonesBigMuscle,
-                NPCID.AngryBonesBigHelmet
-            };
+			skeletonList = new List<int>()
+			{
+				NPCID.Skeleton,
+				NPCID.HeadacheSkeleton,
+				NPCID.MisassembledSkeleton,
+				NPCID.PantlessSkeleton,
+				NPCID.BoneThrowingSkeleton,
+				NPCID.BoneThrowingSkeleton2,
+				NPCID.BoneThrowingSkeleton3,
+				NPCID.BoneThrowingSkeleton4,
+				NPCID.BigPantlessSkeleton,
+				NPCID.SmallPantlessSkeleton,
+				NPCID.BigMisassembledSkeleton,
+				NPCID.SmallMisassembledSkeleton,
+				NPCID.BigHeadacheSkeleton,
+				NPCID.SmallHeadacheSkeleton,
+				NPCID.BigSkeleton,
+				NPCID.SmallSkeleton,
 
-            hornetList = new List<int>()
-            {
-                NPCID.Hornet,
-                NPCID.HornetFatty,
-                NPCID.HornetHoney,
-                NPCID.HornetLeafy,
-                NPCID.HornetSpikey,
-                NPCID.HornetStingy
-            };
+				//Note: These skeletons don't count for Skeleton Banner for some god forsaken reason
+				NPCID.SkeletonTopHat,
+				NPCID.SkeletonAstonaut,
+				NPCID.SkeletonAlien,
 
-            mossHornetList = new List<int>()
+				//Other skeleton types
+				NPCID.ArmoredSkeleton,
+				NPCID.HeavySkeleton,
+				NPCID.SkeletonArcher,
+				NPCID.GreekSkeleton
+			};
+
+			angryBonesList = new List<int>()
+			{
+				NPCID.AngryBones,
+				NPCID.AngryBonesBig,
+				NPCID.AngryBonesBigMuscle,
+				NPCID.AngryBonesBigHelmet,
+				NPCID.BigBoned,
+				NPCID.ShortBones
+			};
+
+			hornetList = new List<int>()
+			{
+				NPCID.BigHornetStingy,
+				NPCID.LittleHornetStingy,
+				NPCID.BigHornetSpikey,
+				NPCID.LittleHornetSpikey,
+				NPCID.BigHornetLeafy,
+				NPCID.LittleHornetLeafy,
+				NPCID.BigHornetHoney,
+				NPCID.LittleHornetHoney,
+				NPCID.BigHornetFatty,
+				NPCID.LittleHornetFatty,
+				NPCID.BigStinger,
+				NPCID.LittleStinger,
+				NPCID.Hornet,
+				NPCID.HornetFatty,
+				NPCID.HornetHoney,
+				NPCID.HornetLeafy,
+				NPCID.HornetSpikey,
+				NPCID.HornetStingy
+			};
+
+			mossHornetList = new List<int>()
+			{
+				NPCID.MossHornet,
+				NPCID.TinyMossHornet,
+				NPCID.LittleMossHornet,
+				NPCID.BigMossHornet,
+				NPCID.GiantMossHornet
+			};
+
+            bossMinionList = new List<int>()
             {
-                NPCID.MossHornet,
-                NPCID.TinyMossHornet,
-                NPCID.LittleMossHornet,
-                NPCID.BigMossHornet,
-                NPCID.GiantMossHornet
+                NPCID.SlimeSpiked,
+                ModContent.NPCType<DesertScourgeHeadSmall>(),
+                ModContent.NPCType<DesertScourgeBodySmall>(),
+                ModContent.NPCType<DesertScourgeTailSmall>(),
+                NPCID.ServantofCthulhu,
+                ModContent.NPCType<CrabShroom>(),
+                NPCID.EaterofWorldsHead,
+                NPCID.EaterofWorldsBody,
+                NPCID.EaterofWorldsTail,
+                NPCID.Creeper,
+                ModContent.NPCType<PerforatorHeadSmall>(),
+                ModContent.NPCType<PerforatorBodySmall>(),
+                ModContent.NPCType<PerforatorTailSmall>(),
+                ModContent.NPCType<PerforatorHeadMedium>(),
+                ModContent.NPCType<PerforatorBodyMedium>(),
+                ModContent.NPCType<PerforatorTailMedium>(),
+                ModContent.NPCType<PerforatorHeadLarge>(),
+                ModContent.NPCType<PerforatorBodyLarge>(),
+                ModContent.NPCType<PerforatorTailLarge>(),
+                ModContent.NPCType<HiveBlob>(),
+                ModContent.NPCType<HiveBlob2>(),
+                ModContent.NPCType<DankCreeper>(),
+                ModContent.NPCType<DarkHeart>(),
+                NPCID.SkeletronHand,
+                ModContent.NPCType<SlimeGod>(),
+                ModContent.NPCType<SlimeGodSplit>(),
+                ModContent.NPCType<SlimeGodRun>(),
+                ModContent.NPCType<SlimeGodRunSplit>(),
+                ModContent.NPCType<SlimeSpawnCorrupt>(),
+                ModContent.NPCType<SlimeSpawnCorrupt2>(),
+                ModContent.NPCType<SlimeSpawnCrimson>(),
+                ModContent.NPCType<SlimeSpawnCrimson2>(),
+                NPCID.LeechHead,
+                NPCID.LeechBody,
+                NPCID.LeechTail,
+                NPCID.WallofFleshEye,
+                NPCID.TheHungry,
+                NPCID.TheHungryII,
+                ModContent.NPCType<Cryocore>(),
+                ModContent.NPCType<Cryocore2>(),
+                ModContent.NPCType<IceMass>(),
+                NPCID.PrimeCannon,
+                NPCID.PrimeLaser,
+                NPCID.PrimeSaw,
+                NPCID.PrimeVice,
+                ModContent.NPCType<Brimling>(),
+                NPCID.TheDestroyer,
+                NPCID.TheDestroyerBody,
+                NPCID.TheDestroyerTail,
+                NPCID.Probe,
+                ModContent.NPCType<AquaticScourgeHead>(),
+                ModContent.NPCType<AquaticScourgeBody>(),
+                ModContent.NPCType<AquaticScourgeBodyAlt>(),
+                ModContent.NPCType<AquaticScourgeTail>(),
+                ModContent.NPCType<CalamitasRun>(),
+                ModContent.NPCType<CalamitasRun2>(),
+                ModContent.NPCType<LifeSeeker>(),
+                ModContent.NPCType<SoulSeeker>(),
+                NPCID.PlanterasTentacle,
+                NPCID.Spore,
+                ModContent.NPCType<AureusSpawn>(),
+                NPCID.GolemHead,
+                NPCID.GolemHeadFree,
+                NPCID.GolemFistLeft,
+                NPCID.GolemFistRight,
+                ModContent.NPCType<PlagueMine>(),
+                ModContent.NPCType<PlagueHomingMissile>(),
+                ModContent.NPCType<PlagueBeeG>(),
+                ModContent.NPCType<PlagueBeeLargeG>(),
+                ModContent.NPCType<PlaguebringerShade>(),
+                NPCID.DetonatingBubble,
+                NPCID.Sharkron,
+                NPCID.Sharkron2,
+                ModContent.NPCType<RavagerClawLeft>(),
+                ModContent.NPCType<RavagerClawRight>(),
+                ModContent.NPCType<RavagerLegLeft>(),
+                ModContent.NPCType<RavagerLegRight>(),
+                ModContent.NPCType<RavagerHead>(),
+                NPCID.CultistDragonHead,
+                NPCID.CultistDragonBody1,
+                NPCID.CultistDragonBody2,
+                NPCID.CultistDragonBody3,
+                NPCID.CultistDragonBody4,
+                NPCID.CultistDragonTail,
+                NPCID.CultistBossClone,
+                NPCID.AncientCultistSquidhead,
+                NPCID.AncientLight,
+                NPCID.AncientDoom,
+                NPCID.MoonLordFreeEye,
+                NPCID.MoonLordLeechBlob,
+                ModContent.NPCType<Bumblefuck2>(),
+                ModContent.NPCType<ProvSpawnOffense>(),
+                ModContent.NPCType<ProvSpawnDefense>(),
+                ModContent.NPCType<ProvSpawnHealer>(),
+                ModContent.NPCType<DarkEnergy>(),
+                ModContent.NPCType<DarkEnergy2>(),
+                ModContent.NPCType<DarkEnergy3>(),
+                ModContent.NPCType<CosmicLantern>(),
+                ModContent.NPCType<SignusBomb>(),
+                ModContent.NPCType<StasisProbe>(),
+                ModContent.NPCType<StasisProbeNaked>(),
+                ModContent.NPCType<DevourerofGodsHead2>(),
+                ModContent.NPCType<DevourerofGodsBody2>(),
+                ModContent.NPCType<DevourerofGodsTail2>(),
+                ModContent.NPCType<DetonatingFlare>(),
+                ModContent.NPCType<DetonatingFlare2>(),
+                ModContent.NPCType<SCalWormHeart>(),
+                ModContent.NPCType<SupremeCataclysm>(),
+                ModContent.NPCType<SupremeCatastrophe>(),
+                ModContent.NPCType<SoulSeekerSupreme>()
             };
 
             Mod thorium = ModLoader.GetMod("ThoriumMod");
-            if (CalamityMod.CalamityConfig.RevengeanceAndDeathThoriumBossBuff && thorium != null)
+            if (CalamityConfig.Instance.BuffThoriumBosses && thorium != null)
             {
                 enemyImmunityList.Add(thorium.NPCType("TheGrandThunderBirdv2"));
                 enemyImmunityList.Add(thorium.NPCType("QueenJelly"));
@@ -2549,10 +2926,10 @@ namespace CalamityMod
 
             legOverrideList = new List<int>()
             {
-                instance.GetEquipSlot("ProviLegs", EquipType.Legs),
-                instance.GetEquipSlot("SirenLegAlt", EquipType.Legs),
-                instance.GetEquipSlot("SirenLeg", EquipType.Legs),
-                instance.GetEquipSlot("PopoLeg", EquipType.Legs)
+                Instance.GetEquipSlot("ProviLegs", EquipType.Legs),
+                Instance.GetEquipSlot("SirenLegAlt", EquipType.Legs),
+                Instance.GetEquipSlot("SirenLeg", EquipType.Legs),
+                Instance.GetEquipSlot("PopoLeg", EquipType.Legs)
             };
         }
         #endregion
@@ -2676,7 +3053,7 @@ namespace CalamityMod
         #region Thorium Boss DR
         private void SetupThoriumBossDR(Mod thorium)
         {
-            if (thorium is null || !CalamityConfig.RevengeanceAndDeathThoriumBossBuff)
+            if (thorium is null || !CalamityConfig.Instance.BuffThoriumBosses)
                 return;
 
             void ThoriumDR(string npcName, float dr) {
@@ -2726,8 +3103,8 @@ namespace CalamityMod
 				{ NPCID.Creeper, 1800 },
 				{ NPCID.QueenBee, 7200 },
 				{ NPCID.SkeletronHead, 9000 },
-				{ NPCID.WallofFlesh, 10800 },
-				{ NPCID.WallofFleshEye, 10800 },
+				{ NPCID.WallofFlesh, 7200 },
+				{ NPCID.WallofFleshEye, 7200 },
 				{ NPCID.Spazmatism, 10800 },
 				{ NPCID.Retinazer, 10800 },
 				{ NPCID.TheDestroyer, 10800 },
@@ -2765,12 +3142,9 @@ namespace CalamityMod
 				{ ModContent.NPCType<Leviathan>(), 10800 },
 				{ ModContent.NPCType<Siren>(), 10800 },
 				{ ModContent.NPCType<AstrumAureus>(), 10800 },
-				{ ModContent.NPCType<AstrumDeusHeadSpectral>(), 10800 },
-				{ ModContent.NPCType<AstrumDeusBodySpectral>(), 10800 },
-				{ ModContent.NPCType<AstrumDeusTailSpectral>(), 10800 },
-				{ ModContent.NPCType<AstrumDeusHead>(), 7200 },
-				{ ModContent.NPCType<AstrumDeusBody>(), 7200 },
-				{ ModContent.NPCType<AstrumDeusTail>(), 7200 },
+				{ ModContent.NPCType<AstrumDeusHeadSpectral>(), 7200 },
+				{ ModContent.NPCType<AstrumDeusBodySpectral>(), 7200 },
+				{ ModContent.NPCType<AstrumDeusTailSpectral>(), 7200 },
 				{ ModContent.NPCType<PlaguebringerGoliath>(), 10800 },
 				{ ModContent.NPCType<RavagerBody>(), 10800 },
 				{ ModContent.NPCType<ProfanedGuardianBoss>(), 5400 },
@@ -2785,12 +3159,12 @@ namespace CalamityMod
 				{ ModContent.NPCType<Signus>(), 7200 },
 				{ ModContent.NPCType<Polterghast>(), 10800 },
 				{ ModContent.NPCType<OldDuke>(), 10800 },
-				{ ModContent.NPCType<DevourerofGodsHead>(), 7200 },
-				{ ModContent.NPCType<DevourerofGodsBody>(), 7200 },
-				{ ModContent.NPCType<DevourerofGodsTail>(), 7200 },
-				{ ModContent.NPCType<DevourerofGodsHeadS>(), 10800 },
-				{ ModContent.NPCType<DevourerofGodsBodyS>(), 10800 },
-				{ ModContent.NPCType<DevourerofGodsTailS>(), 10800 },
+				{ ModContent.NPCType<DevourerofGodsHead>(), 5400 },
+				{ ModContent.NPCType<DevourerofGodsBody>(), 5400 },
+				{ ModContent.NPCType<DevourerofGodsTail>(), 5400 },
+				{ ModContent.NPCType<DevourerofGodsHeadS>(), 9000 },
+				{ ModContent.NPCType<DevourerofGodsBodyS>(), 9000 },
+				{ ModContent.NPCType<DevourerofGodsTailS>(), 9000 },
 				{ ModContent.NPCType<Yharon>(), 10800 },
 				{ ModContent.NPCType<SupremeCalamitas>(), 18000 }
 			};
@@ -2875,10 +3249,6 @@ namespace CalamityMod
 				{ ModContent.NPCType<AstrumDeusHeadSpectral>(), bitingEnemeyVelocityScale },
 				{ ModContent.NPCType<AstrumDeusBodySpectral>(), velocityScaleMin },
 				{ ModContent.NPCType<AstrumDeusTailSpectral>(), velocityScaleMin },
-				{ ModContent.NPCType<AstrumDeusHead>(), bitingEnemeyVelocityScale },
-				{ ModContent.NPCType<AstrumDeusBody>(), velocityScaleMin },
-				{ ModContent.NPCType<AstrumDeusTail>(), velocityScaleMin },
-				{ ModContent.NPCType<AstrumDeusProbe3>(), velocityScaleMin },
 				{ ModContent.NPCType<PlaguebringerGoliath>(), velocityScaleMin },
 				{ ModContent.NPCType<PlaguebringerShade>(), velocityScaleMin },
 				{ ModContent.NPCType<PlagueBeeG>(), velocityScaleMin },
@@ -3073,6 +3443,29 @@ namespace CalamityMod
                     return true;
                 }, InterfaceScaleType.None));
 
+                layers.Insert(mouseIndex, new LegacyGameInterfaceLayer("Draedon Hologram", () =>
+                {
+                    DraedonHologramChatUI.Draw(Main.spriteBatch);
+                    return true;
+                }, InterfaceScaleType.None));
+
+                layers.Insert(mouseIndex, new LegacyGameInterfaceLayer("Draedon Factory Tiles", () =>
+                {
+                    DraedonsFactoryUI.Draw(Main.spriteBatch);
+                    DraedonsItemChargerUI.Draw(Main.spriteBatch);
+                    return true;
+                }, InterfaceScaleType.Game)); // InterfaceScaleType.Game tells the game that this UI should take zoom into account.
+
+                layers.Insert(mouseIndex, new LegacyGameInterfaceLayer("Boss HP Bars", delegate ()
+                {
+                    if (Main.LocalPlayer.Calamity().drawBossHPBar)
+                    {
+                        BossHealthBarManager.Update();
+                        BossHealthBarManager.Draw(Main.spriteBatch);
+                    }
+                    return true;
+                }, InterfaceScaleType.None));
+
                 // Astral Arcanum overlay (if open)
                 layers.Insert(mouseIndex, new LegacyGameInterfaceLayer("Astral Arcanum UI", delegate ()
                 {
@@ -3091,6 +3484,13 @@ namespace CalamityMod
                 layers.Insert(mouseIndex, new LegacyGameInterfaceLayer("Stealth UI", () =>
                 {
                     StealthUI.Draw(Main.spriteBatch, Main.LocalPlayer);
+                    return true;
+                }, InterfaceScaleType.None));
+
+                // Popup GUIs.
+                layers.Insert(mouseIndex, new LegacyGameInterfaceLayer("Popup GUIs", () =>
+                {
+                    PopupGUIManager.UpdateAndDraw(Main.spriteBatch);
                     return true;
                 }, InterfaceScaleType.None));
             }
@@ -3695,9 +4095,17 @@ namespace CalamityMod
                         int countdown2 = reader.ReadInt32();
                         CalamityWorld.bossSpawnCountdown = countdown2;
                         break;
-                    case CalamityModMessageType.DeathBossSpawnCountdownSync:
+                    case CalamityModMessageType.BRHostileProjKillSync:
                         int countdown3 = reader.ReadInt32();
-                        CalamityWorld.deathBossSpawnCooldown = countdown3;
+                        CalamityWorld.bossRushHostileProjKillCounter = countdown3;
+                        break;
+                    case CalamityModMessageType.DeathBossSpawnCountdownSync:
+                        int countdown4 = reader.ReadInt32();
+                        CalamityWorld.deathBossSpawnCooldown = countdown4;
+                        break;
+                    case CalamityModMessageType.ArmoredDiggerCountdownSync:
+                        int countdown5 = reader.ReadInt32();
+                        CalamityWorld.ArmoredDiggerSpawnCooldown = countdown5;
                         break;
                     case CalamityModMessageType.BossTypeSync:
                         int type = reader.ReadInt32();
@@ -3743,6 +4151,7 @@ namespace CalamityMod
                     case CalamityModMessageType.AcidRainSync:
                         CalamityWorld.rainingAcid = reader.ReadBoolean();
                         CalamityWorld.acidRainPoints = reader.ReadInt32();
+                        CalamityWorld.timeSinceAcidRainKill = reader.ReadInt32();
                         break;
                     case CalamityModMessageType.AcidRainUIDrawFadeSync:
                         CalamityWorld.acidRainExtraDrawTime = reader.ReadInt32();
@@ -3761,6 +4170,46 @@ namespace CalamityMod
                         if (Main.netMode != NetmodeID.MultiplayerClient)
                             NPC.NewNPC(x, y, ModContent.NPCType<SuperDummyNPC>());
                         break;
+                    case CalamityModMessageType.DraedonGeneratorStackSync:
+                        int entityID = reader.ReadInt32();
+                        (TileEntity.ByID[entityID] as TEDraedonFuelFactory).HeldItem.type = reader.ReadInt32();
+                        (TileEntity.ByID[entityID] as TEDraedonFuelFactory).HeldItem.stack = reader.ReadInt32();
+                        break;
+                    case CalamityModMessageType.DraedonChargerSync:
+                        int entityID2 = reader.ReadInt32();
+                        (TileEntity.ByID[entityID2] as TEDraedonItemCharger).FuelItem.type = reader.ReadInt32();
+                        (TileEntity.ByID[entityID2] as TEDraedonItemCharger).FuelItem.stack = reader.ReadInt32();
+                        (TileEntity.ByID[entityID2] as TEDraedonItemCharger).FuelItem.position = reader.ReadVector2();
+                        (TileEntity.ByID[entityID2] as TEDraedonItemCharger).ItemBeingCharged.type = reader.ReadInt32();
+                        (TileEntity.ByID[entityID2] as TEDraedonItemCharger).ItemBeingCharged.stack = reader.ReadInt32();
+                        (TileEntity.ByID[entityID2] as TEDraedonItemCharger).ItemBeingCharged.prefix = reader.ReadByte();
+                        (TileEntity.ByID[entityID2] as TEDraedonItemCharger).ItemBeingCharged.position = reader.ReadVector2();
+                        (TileEntity.ByID[entityID2] as TEDraedonItemCharger).Charge = reader.ReadInt32();
+                        (TileEntity.ByID[entityID2] as TEDraedonItemCharger).ChargeMax = reader.ReadInt32();
+                        (TileEntity.ByID[entityID2] as TEDraedonItemCharger).ActiveTimer = reader.ReadInt32();
+                        (TileEntity.ByID[entityID2] as TEDraedonItemCharger).DepositWithdrawCooldown = reader.ReadInt32();
+                        break;
+                    case CalamityModMessageType.DraedonFieldGeneratorSync:
+                        int entityID3 = reader.ReadInt32();
+                        (TileEntity.ByID[entityID3] as TEDraedonFieldGenerator).Time = reader.ReadInt32();
+                        (TileEntity.ByID[entityID3] as TEDraedonFieldGenerator).ActiveTimer = reader.ReadInt32();
+                        break;
+					case CalamityModMessageType.SyncCalamityNPCAIArray:
+						byte npcIndex2 = reader.ReadByte();
+						Main.npc[npcIndex2].Calamity().newAI[0] = reader.ReadSingle();
+						Main.npc[npcIndex2].Calamity().newAI[1] = reader.ReadSingle();
+						Main.npc[npcIndex2].Calamity().newAI[2] = reader.ReadSingle();
+						Main.npc[npcIndex2].Calamity().newAI[3] = reader.ReadSingle();
+						break;
+                    case CalamityModMessageType.ProvidenceDyeConditionSync:
+                        byte npcIndex3 = reader.ReadByte();
+                        (Main.npc[npcIndex3].modNPC as Providence).hasTakenDaytimeDamage = reader.ReadBoolean();
+                        break;
+                    case CalamityModMessageType.PSCChallengeSync:
+                        byte npcIndex4 = reader.ReadByte();
+                        (Main.npc[npcIndex4].modNPC as Providence).challenge = reader.ReadBoolean();
+                        break;
+
                     default:
                         Logger.Error($"Failed to parse Calamity packet: No Calamity packet exists with ID {msgType}.");
                         break;
@@ -3798,8 +4247,8 @@ namespace CalamityMod
                 NetMessage.SendData(MessageID.WorldData, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
             }
         }
-        #endregion
-    }
+		#endregion
+	}
 
     public enum Season : byte
     {
@@ -3827,6 +4276,8 @@ namespace CalamityMod
         BossRushStage,
         DoGCountdownSync,
         BossSpawnCountdownSync,
+		BRHostileProjKillSync,
+		ArmoredDiggerCountdownSync,
         BossTypeSync,
         DeathCountSync,
         RevengeanceBoolSync,
@@ -3843,6 +4294,12 @@ namespace CalamityMod
         AcidRainUIDrawFadeSync,
         AcidRainOldDukeSummonSync,
         GaelsGreatswordSwingSync,
-        SpawnSuperDummy
+        SpawnSuperDummy,
+		SyncCalamityNPCAIArray,
+        ProvidenceDyeConditionSync, // We shouldn't fucking need this. Die in a hole, Multiplayer.
+        PSCChallengeSync, // See above
+        DraedonGeneratorStackSync,
+        DraedonChargerSync,
+        DraedonFieldGeneratorSync
     }
 }

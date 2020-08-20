@@ -14,8 +14,8 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void SetDefaults()
         {
-            projectile.width = 6;
-            projectile.height = 6;
+            projectile.width = 10;
+            projectile.height = 10;
             projectile.friendly = true;
             projectile.ignoreWater = true;
             projectile.ranged = true;
@@ -37,47 +37,44 @@ namespace CalamityMod.Projectiles.Ranged
             }
             if (projectile.ai[0] > 7f)
             {
-                float num296 = 1f;
+                float scalar = 1f;
                 if (projectile.ai[0] == 8f)
                 {
-                    num296 = 0.25f;
+                    scalar = 0.25f;
                 }
                 else if (projectile.ai[0] == 9f)
                 {
-                    num296 = 0.5f;
+                    scalar = 0.5f;
                 }
                 else if (projectile.ai[0] == 10f)
                 {
-                    num296 = 0.75f;
+                    scalar = 0.75f;
                 }
                 projectile.ai[0] += 1f;
-                int num297 = 58;
+                int dustType = Main.rand.NextBool(4) ? 61 : 62;
                 if (Main.rand.NextBool(2))
                 {
-                    for (int num298 = 0; num298 < 1; num298++)
-                    {
-                        int num299 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, num297, projectile.velocity.X * 0.2f, projectile.velocity.Y * 0.2f, 100, default, 1f);
-                        Dust dust = Main.dust[num299];
-                        if (Main.rand.NextBool(3))
-                        {
-                            dust.noGravity = true;
-                            dust.scale *= 3f;
-                            dust.velocity.X *= 2f;
-                            dust.velocity.Y *= 2f;
-                        }
-                        else
-                        {
-                            dust.scale *= 1.5f;
-                        }
-                        dust.velocity.X *= 1.2f;
-                        dust.velocity.Y *= 1.2f;
-                        dust.scale *= num296;
-                        dust.velocity += projectile.velocity;
-                        if (!dust.noGravity)
-                        {
-                            dust.velocity *= 0.5f;
-                        }
-                    }
+					int fire = Dust.NewDust(projectile.position, projectile.width, projectile.height, dustType, projectile.velocity.X * 0.2f, projectile.velocity.Y * 0.2f, 100, default, 1f);
+					Dust dust = Main.dust[fire];
+					if (Main.rand.NextBool(3))
+					{
+						dust.noGravity = true;
+						dust.scale *= 3f;
+						dust.velocity.X *= 2f;
+						dust.velocity.Y *= 2f;
+					}
+					else
+					{
+						dust.scale *= 1.5f;
+					}
+					dust.velocity.X *= 1.2f;
+					dust.velocity.Y *= 1.2f;
+					dust.scale *= scalar;
+					dust.velocity += projectile.velocity;
+					if (!dust.noGravity)
+					{
+						dust.velocity *= 0.5f;
+					}
                 }
             }
             else
@@ -90,7 +87,6 @@ namespace CalamityMod.Projectiles.Ranged
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.immune[projectile.owner] = 3;
-            target.AddBuff(BuffID.CursedInferno, 300);
         }
     }
 }

@@ -47,6 +47,8 @@ namespace CalamityMod.Items.Armor
         public override void ArmorSetShadows(Player player)
         {
             player.armorEffectDrawOutlines = true;
+			player.Calamity().omegaBlueTransformation = true;
+            player.Calamity().omegaBlueTransformationForce = true;
         }
 
         public override void UpdateArmorSet(Player player)
@@ -65,21 +67,18 @@ namespace CalamityMod.Items.Armor
             //raise rev caps
             player.Calamity().omegaBlueSet = true;
 
-            if (player.Calamity().omegaBlueCooldown > 0)
-            {
-                if (player.Calamity().omegaBlueCooldown == 1) //dust when ready to use again
-                {
-                    for (int i = 0; i < 66; i++)
-                    {
-                        int d = Dust.NewDust(player.position, player.width, player.height, 20, 0, 0, 100, Color.Transparent, 2.6f);
-                        Main.dust[d].noGravity = true;
-                        Main.dust[d].noLight = true;
-                        Main.dust[d].fadeIn = 1f;
-                        Main.dust[d].velocity *= 6.6f;
-                    }
-                }
-                player.Calamity().omegaBlueCooldown--;
-            }
+			if (player.Calamity().omegaBlueCooldown == 1) //dust when ready to use again
+			{
+				for (int i = 0; i < 66; i++)
+				{
+					int d = Dust.NewDust(player.position, player.width, player.height, 20, 0, 0, 100, Color.Transparent, 2.6f);
+					Main.dust[d].noGravity = true;
+					Main.dust[d].noLight = true;
+					Main.dust[d].fadeIn = 1f;
+					Main.dust[d].velocity *= 6.6f;
+				}
+				Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/OmegaBlueRecharge"), player.Center);
+			}
             if (player.Calamity().omegaBlueCooldown == 1500)
             {
 				player.AddBuff(ModContent.BuffType<AbyssalMadnessCooldown>(), 1500, false);
@@ -105,6 +104,14 @@ namespace CalamityMod.Items.Armor
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();
+        }
+    }
+
+    public class OmegaBlueTransformationHead : EquipTexture
+    {
+        public override bool DrawHead()
+        {
+            return false;
         }
     }
 }

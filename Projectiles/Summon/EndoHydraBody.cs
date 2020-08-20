@@ -9,11 +9,17 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class EndoHydraBody : ModProjectile
     {
-        public const float DistanceToCheck = 1350f;
+        public int TargetNPCIndex
+        {
+            get => (int)projectile.ai[0];
+            set => projectile.ai[0] = value;
+        }
+        public const float DistanceToCheck = 1600f;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Hydra Body");
             Main.projFrames[projectile.type] = 5;
+            ProjectileID.Sets.NeedsUUID[projectile.type] = true;
             ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
         }
 
@@ -39,9 +45,9 @@ namespace CalamityMod.Projectiles.Summon
             CalamityPlayer modPlayer = player.Calamity();
             if (projectile.localAI[0] == 0f)
             {
+                TargetNPCIndex = -1;
                 projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
                 projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = projectile.damage;
-                projectile.ai[0] = -1f;
                 projectile.localAI[0] = 1f;
 			}
             if (player.MinionDamage() != projectile.Calamity().spawnedPlayerMinionDamageValue)
@@ -72,23 +78,18 @@ namespace CalamityMod.Projectiles.Summon
             NPC potentialTarget = projectile.Center.MinionHoming(DistanceToCheck, player);
             if (potentialTarget != null)
             {
-                if (projectile.ai[0] != potentialTarget.whoAmI)
+                if (TargetNPCIndex != potentialTarget.whoAmI)
                 {
-                    projectile.ai[0] = potentialTarget.whoAmI;
+                    TargetNPCIndex = potentialTarget.whoAmI;
                     Main.PlaySound(SoundID.Zombie, projectile.Center, 53); // Ethereal whisper indicating a new target has been spotted.
                     projectile.netUpdate = true;
                 }
             }
 
-            projectile.frameCounter++;
-            if (projectile.frameCounter > (projectile.ai[0] == -1 ? 8 : 6))
+            if (projectile.frameCounter++ > (potentialTarget is null ? 8 : 6))
             {
-                projectile.frame++;
+                projectile.frame = (projectile.frame + 1) % Main.projFrames[projectile.type];
                 projectile.frameCounter = 0;
-            }
-            if (projectile.frame >= Main.projFrames[projectile.type])
-            {
-                projectile.frame = 0;
             }
 
             projectile.Center = Vector2.Lerp(projectile.Center, returnLocation, 0.25f);

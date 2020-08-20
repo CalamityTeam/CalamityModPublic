@@ -1,10 +1,9 @@
-using CalamityMod.World;
 using Terraria;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Buffs.StatBuffs
 {
-    public class AdrenalineMode : ModBuff
+	public class AdrenalineMode : ModBuff
     {
         public override void SetDefaults()
         {

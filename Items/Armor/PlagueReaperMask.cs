@@ -50,27 +50,24 @@ namespace CalamityMod.Items.Armor
             modPlayer.plagueReaper = true;
             player.ammoCost75 = true;
 
-            if (modPlayer.plagueReaperCooldown > 0)
-            {
-				if (modPlayer.plagueReaperCooldown > 1500)
+			if (modPlayer.plagueReaperCooldown > 1500)
+			{
+				player.blind = true;
+				player.headcovered = true;
+				player.blackout = true;
+				player.rangedDamage += 1f; //100% ranged dmg and 30% crit
+				player.rangedCrit += 30;
+			}
+			if (modPlayer.plagueReaperCooldown == 1) //dust when ready to use again
+			{
+				for (int i = 0; i < 66; i++)
 				{
-                    player.blind = true;
-                    player.headcovered = true;
-                    player.blackout = true;
-					player.rangedDamage += 1f; //100% ranged dmg and 30% crit
-					player.rangedCrit += 30;
+					int d = Dust.NewDust(player.position, player.width, player.height, 89, 0, 0, 100, default, 1.5f);
+					Main.dust[d].noGravity = true;
+					Main.dust[d].velocity *= 6.6f;
 				}
-                if (modPlayer.plagueReaperCooldown == 1) //dust when ready to use again
-                {
-                    for (int i = 0; i < 66; i++)
-                    {
-                        int d = Dust.NewDust(player.position, player.width, player.height, 89, 0, 0, 100, default, 1.5f);
-                        Main.dust[d].noGravity = true;
-                        Main.dust[d].velocity *= 6.6f;
-                    }
-                }
-                modPlayer.plagueReaperCooldown--;
-            }
+				Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/PlagueReaperRecharge"), player.Center);
+			}
             if (modPlayer.plagueReaperCooldown == 1500)
             {
 				player.AddBuff(ModContent.BuffType<PlagueBlackoutCooldown>(), 1500, false);
@@ -82,23 +79,7 @@ namespace CalamityMod.Items.Armor
                 {
                     if (Main.rand.NextBool(10))
                     {
-                        for (int l = 0; l < 1; l++)
-                        {
-                            float x = player.position.X + (float)Main.rand.Next(-400, 400);
-                            float y = player.position.Y - (float)Main.rand.Next(500, 800);
-                            Vector2 vector = new Vector2(x, y);
-                            float num15 = player.position.X + (float)(player.width / 2) - vector.X;
-                            float num16 = player.position.Y + (float)(player.height / 2) - vector.Y;
-                            num15 += (float)Main.rand.Next(-100, 101);
-                            int num17 = 22;
-                            float num18 = (float)Math.Sqrt((double)(num15 * num15 + num16 * num16));
-                            num18 = (float)num17 / num18;
-                            num15 *= num18;
-                            num16 *= num18;
-                            int num19 = Projectile.NewProjectile(x, y, num15, num16, ModContent.ProjectileType<TheSyringeCinder>(), (int)(40 * player.RangedDamage()),4f, player.whoAmI, 0f, 0f);
-							Main.projectile[num19].Calamity().rogue = false;
-                            Main.projectile[num19].ai[1] = player.position.Y;
-                        }
+						CalamityUtils.ProjectileRain(player.Center, 400f, 100f, 500f, 800f, 22f, ModContent.ProjectileType<TheSyringeCinder>(), (int)(40 * player.RangedDamage()), 4f, player.whoAmI, 6);
                     }
                 }
             }

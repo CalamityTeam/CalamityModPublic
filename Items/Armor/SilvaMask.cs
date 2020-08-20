@@ -42,8 +42,7 @@ namespace CalamityMod.Items.Armor
             modPlayer.silvaThrowing = true;
             modPlayer.rogueStealthMax += 1.25f;
             modPlayer.wearingRogueArmor = true;
-            player.setBonus = "You are immune to almost all debuffs\n" +
-                "All projectiles spawn healing leaf orbs on enemy hits\n" +
+            player.setBonus = "All projectiles spawn healing leaf orbs on enemy hits\n" +
                 "Max run speed and acceleration boosted by 5%\n" +
                 "If you are reduced to 1 HP you will not die from any further damage for 10 seconds\n" +
                 "If you get reduced to 1 HP again while this effect is active you will lose 100 max life\n" +
@@ -54,8 +53,7 @@ namespace CalamityMod.Items.Armor
                 "Rogue stealth builds while not attacking and slower while moving, up to a max of 125\n" +
                 "Once you have built max stealth, you will be able to perform a Stealth Strike\n" +
                 "Rogue stealth only reduces when you attack, it does not reduce while moving\n" +
-                "The higher your rogue stealth the higher your rogue damage, crit, and movement speed\n" +
-				"Provides cold protection in Death Mode";
+                "The higher your rogue stealth the higher your rogue damage, crit, and movement speed";
         }
 
         public override void UpdateEquip(Player player)
@@ -72,8 +70,7 @@ namespace CalamityMod.Items.Armor
             recipe.AddIngredient(ModContent.ItemType<EffulgentFeather>(), 5);
             recipe.AddRecipeGroup("AnyGoldBar", 5);
             recipe.AddIngredient(ModContent.ItemType<Tenebris>(), 6);
-            recipe.AddIngredient(ModContent.ItemType<NightmareFuel>(), 14);
-            recipe.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 14);
+            recipe.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 2);
             recipe.AddTile(ModContent.TileType<DraedonsForge>());
             recipe.SetResult(this);
             recipe.AddRecipe();

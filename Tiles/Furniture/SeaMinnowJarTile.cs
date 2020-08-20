@@ -1,13 +1,12 @@
 using CalamityMod.Items.Placeables.Furniture;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 
 namespace CalamityMod.Tiles.Furniture
 {
-    public class SeaMinnowJarTile : ModTile
+	public class SeaMinnowJarTile : ModTile
     {
         public override void SetDefaults()
         {

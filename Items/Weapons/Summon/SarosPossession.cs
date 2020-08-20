@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Summon
 
             item.summon = true;
             item.mana = 100;
-            item.damage = 681;
+            item.damage = 426;
             item.knockBack = 4f;
             item.useTime = item.useAnimation = 10;
             item.shoot = ModContent.ProjectileType<RadiantResolutionAura>();
@@ -47,10 +47,10 @@ namespace CalamityMod.Items.Weapons.Summon
 			double minionCount = 0;
 			for (int j = 0; j < Main.projectile.Length; j++)
 			{
-                Projectile projectile = Main.projectile[j];
-				if (projectile.active && projectile.owner == player.whoAmI && projectile.minion && projectile.type != ModContent.ProjectileType<SiriusMinion>() && projectile.type != ModContent.ProjectileType<RadiantResolutionAura>())
+                Projectile proj = Main.projectile[j];
+				if (proj.active && proj.owner == player.whoAmI && proj.minion && proj.type != item.shoot)
 				{
-					minionCount += projectile.minionSlots;
+					minionCount += proj.minionSlots;
 				}
 			}
             radianceSlots = (int)(player.maxMinions - minionCount);
@@ -63,18 +63,8 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            for (int x = 0; x < Main.projectile.Length; x++)
-            {
-                Projectile projectile = Main.projectile[x];
-                if (projectile.active && projectile.owner == player.whoAmI && projectile.type == ModContent.ProjectileType<SiriusMinion>() && projectile.type != ModContent.ProjectileType<RadiantResolutionAura>())
-                {
-                    projectile.Kill();
-                }
-            }
-            position = Main.MouseWorld;
-            speedX = 0;
-            speedY = 0;
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, radianceSlots);
+			CalamityUtils.KillShootProjectiles(true, type, player);
+            Projectile.NewProjectile(position, Vector2.Zero, type, damage, knockBack, player.whoAmI, radianceSlots);
             return false;
         }
 

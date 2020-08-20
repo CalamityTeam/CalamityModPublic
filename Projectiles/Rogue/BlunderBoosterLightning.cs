@@ -1,14 +1,13 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class BlunderBoosterLightning : ModProjectile
+	public class BlunderBoosterLightning : ModProjectile
     {
         public static int frameWidth = 12;
         public static int frameHeight = 26;
@@ -60,7 +59,7 @@ namespace CalamityMod.Projectiles.Rogue
 				for (int i = 0; i < Main.npc.Length; i++)
 				{
 					NPC npc = Main.npc[i];
-					if (!npc.friendly && !npc.townNPC && npc.active && !npc.dontTakeDamage && npc.chaseable && npc.type != NPCID.TargetDummy)
+					if (npc.CanBeChasedBy(projectile, false))
 					{
 						float dist = (projectile.Center - npc.Center).Length();
 						if (dist < minDist)

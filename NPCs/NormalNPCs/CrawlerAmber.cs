@@ -1,14 +1,12 @@
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Placeables.Banners;
-using Microsoft.Xna.Framework;
-using System;
 using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.NPCs.NormalNPCs
 {
-    public class CrawlerAmber : ModNPC
+	public class CrawlerAmber : ModNPC
     {
         private bool detected = false;
 

@@ -15,7 +15,7 @@ namespace CalamityMod.Items.Weapons.Melee
             DisplayName.SetDefault("Terratomere");
             Tooltip.SetDefault("Linked to the essence of Terraria\n" +
                                "Heals the player on true melee hits\n" +
-                               "Fires a barrage of homing beams that inflict several debuffs");
+                               "Fires a barrage of homing beams that freeze enemies");
         }
 
         public override void SetDefaults()
@@ -44,7 +44,7 @@ namespace CalamityMod.Items.Weapons.Melee
             {
                 float SpeedX = speedX + (float)Main.rand.Next(-40, 41) * 0.05f;
                 float SpeedY = speedY + (float)Main.rand.Next(-40, 41) * 0.05f;
-                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, (int)((double)damage * 0.5), knockBack, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, (int)(damage * 0.5), knockBack, player.whoAmI, 0f, 0f);
             }
             return false;
         }
@@ -52,7 +52,6 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<XerocsGreatsword>());
             recipe.AddIngredient(ModContent.ItemType<Floodtide>());
             recipe.AddIngredient(ModContent.ItemType<Hellkite>());
             recipe.AddIngredient(ModContent.ItemType<TemporalFloeSword>());
@@ -62,7 +61,6 @@ namespace CalamityMod.Items.Weapons.Melee
             recipe.SetResult(this);
             recipe.AddRecipe();
             recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<XerocsGreatsword>());
             recipe.AddIngredient(ModContent.ItemType<Floodtide>());
             recipe.AddIngredient(ModContent.ItemType<Hellkite>());
             recipe.AddIngredient(ModContent.ItemType<TemporalFloeSword>());
@@ -83,14 +81,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            if (Main.rand.NextBool(3))
-            {
-                target.AddBuff(ModContent.BuffType<GlacialState>(), 300);
-            }
-            target.AddBuff(BuffID.CursedInferno, 600);
-            target.AddBuff(BuffID.Frostburn, 600);
-            target.AddBuff(BuffID.OnFire, 600);
-            target.AddBuff(BuffID.Ichor, 300);
+            target.AddBuff(ModContent.BuffType<GlacialState>(), 120);
             if (target.type == NPCID.TargetDummy || !target.canGhostHeal || player.moonLeech)
             {
                 return;
@@ -102,14 +93,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
-            if (Main.rand.NextBool(3))
-            {
-                target.AddBuff(ModContent.BuffType<GlacialState>(), 300);
-            }
-            target.AddBuff(BuffID.CursedInferno, 600);
-            target.AddBuff(BuffID.Frostburn, 600);
-            target.AddBuff(BuffID.OnFire, 600);
-            target.AddBuff(BuffID.Ichor, 300);
+            target.AddBuff(ModContent.BuffType<GlacialState>(), 120);
 			if (player.moonLeech)
 				return;
             int healAmount = Main.rand.Next(3) + 2;

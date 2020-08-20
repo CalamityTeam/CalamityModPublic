@@ -1,5 +1,6 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Dusts;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -31,7 +32,7 @@ namespace CalamityMod.NPCs.BrimstoneElemental
             npc.width = 60;
             npc.height = 60;
             npc.defense = 0;
-            npc.Calamity().RevPlusDR(normalDR);
+			npc.DR_NERD(normalDR);
             npc.lifeMax = 4000;
             npc.knockBackResist = 0f;
             for (int k = 0; k < npc.buffImmune.Length; k++)
@@ -47,6 +48,8 @@ namespace CalamityMod.NPCs.BrimstoneElemental
 			npc.buffImmune[BuffID.StardustMinionBleed] = false;
 			npc.buffImmune[BuffID.DryadsWardDebuff] = false;
 			npc.buffImmune[BuffID.Oiled] = false;
+			npc.buffImmune[BuffID.BoneJavelin] = false;
+			npc.buffImmune[BuffID.SoulDrain] = false;
             npc.buffImmune[ModContent.BuffType<AbyssalFlames>()] = false;
 			npc.buffImmune[ModContent.BuffType<AstralInfectionDebuff>()] = false;
             npc.buffImmune[ModContent.BuffType<ArmorCrunch>()] = false;
@@ -56,8 +59,10 @@ namespace CalamityMod.NPCs.BrimstoneElemental
             npc.buffImmune[ModContent.BuffType<Nightwither>()] = false;
             npc.buffImmune[ModContent.BuffType<Plague>()] = false;
             npc.buffImmune[ModContent.BuffType<Shred>()] = false;
+            npc.buffImmune[ModContent.BuffType<WarCleave>()] = false;
             npc.buffImmune[ModContent.BuffType<WhisperingDeath>()] = false;
             npc.buffImmune[ModContent.BuffType<SilvaStun>()] = false;
+            npc.buffImmune[ModContent.BuffType<SulphuricPoisoning>()] = false;
             npc.noGravity = true;
             npc.noTileCollide = true;
             npc.canGhostHeal = false;
@@ -271,13 +276,13 @@ namespace CalamityMod.NPCs.BrimstoneElemental
         {
             for (int k = 0; k < 5; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, 235, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.Brimstone, hitDirection, -1f, 0, default, 1f);
             }
             if (npc.life <= 0)
             {
                 for (int k = 0; k < 20; k++)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, 235, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.Brimstone, hitDirection, -1f, 0, default, 1f);
                 }
             }
         }

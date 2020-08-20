@@ -21,14 +21,13 @@ namespace CalamityMod.NPCs.HiveMind
             npc.width = 70;
             npc.height = 70;
             npc.defense = 6;
-            npc.lifeMax = 45;
+            npc.lifeMax = 90;
             if (CalamityWorld.bossRushActive)
             {
-                npc.lifeMax = 10000;
+                npc.lifeMax = 20000;
             }
             npc.aiStyle = -1;
             aiType = -1;
-            animationType = 10;
             npc.knockBackResist = CalamityWorld.bossRushActive ? 0f : 0.3f;
             npc.noGravity = true;
             npc.noTileCollide = true;
@@ -44,10 +43,15 @@ namespace CalamityMod.NPCs.HiveMind
             float speed = revenge ? 12f : 11f;
             if (CalamityWorld.bossRushActive)
                 speed = 18f;
-            Vector2 vector167 = new Vector2(npc.Center.X + (float)(npc.direction * 20), npc.Center.Y + 6f);
-            float num1373 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - vector167.X;
+
+			if (npc.ai[1] < 90f)
+				npc.ai[1] += 1f;
+			speed = MathHelper.Lerp(3f, speed, npc.ai[1] / 90f);
+
+            Vector2 vector167 = new Vector2(npc.Center.X + (npc.direction * 20), npc.Center.Y + 6f);
+            float num1373 = Main.player[npc.target].position.X + Main.player[npc.target].width * 0.5f - vector167.X;
             float num1374 = Main.player[npc.target].Center.Y - vector167.Y;
-            float num1375 = (float)Math.Sqrt((double)(num1373 * num1373 + num1374 * num1374));
+            float num1375 = (float)Math.Sqrt(num1373 * num1373 + num1374 * num1374);
             float num1376 = speed / num1375;
             num1373 *= num1376;
             num1374 *= num1376;

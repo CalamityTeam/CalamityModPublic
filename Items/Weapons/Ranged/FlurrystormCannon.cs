@@ -1,14 +1,13 @@
 using CalamityMod.Projectiles.Ranged;
 using CalamityMod.Items.Materials;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
-    public class FlurrystormCannon : ModItem
+	public class FlurrystormCannon : ModItem
     {
         public override void SetStaticDefaults()
         {

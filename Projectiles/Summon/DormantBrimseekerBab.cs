@@ -110,32 +110,7 @@ namespace CalamityMod.Projectiles.Summon
                     projectile.frame = (projectile.localAI[1] == 1f).ToInt() * 4;
                 }
 
-                float acceleration = 0.1f;
-                for (int index = 0; index < Main.projectile.Length; index++)
-                {
-                    Projectile proj = Main.projectile[index];
-                    if (index != projectile.whoAmI &&
-                        proj.active && proj.owner == projectile.owner &&
-                        proj.type == projectile.type && Math.Abs(projectile.position.X - proj.position.X) + Math.Abs(projectile.position.Y - proj.position.Y) < projectile.width)
-                    {
-                        if (projectile.position.X < proj.position.X)
-                        {
-                            projectile.velocity.X -= acceleration;
-                        }
-                        else
-                        {
-                            projectile.velocity.X += acceleration;
-                        }
-                        if (projectile.position.Y < proj.position.Y)
-                        {
-                            projectile.velocity.Y -= acceleration;
-                        }
-                        else
-                        {
-                            projectile.velocity.Y += acceleration;
-                        }
-                    }
-                }
+			projectile.MinionAntiClump(0.1f);
                 if (projectile.Distance(player.Center) > 2700f)
                 {
                     projectile.Center = player.Center;
@@ -193,7 +168,7 @@ namespace CalamityMod.Projectiles.Summon
             if ((projectile.ai[0] > 0f && projectile.ai[0] <= MaxChargeTime && projectile.velocity.Length() >= 8f) || SeekingTarget)
             {
                 Texture2D projectileTexture = ModContent.GetTexture(Texture);
-                Texture2D flameTexture = Main.extraTexture[55];
+                Texture2D flameTexture = Main.extraTexture[ExtrasID.MeteorHeadFlame];
                 SpriteEffects spriteEffects = SpriteEffects.None;
                 if (projectile.spriteDirection == -1)
                     spriteEffects = SpriteEffects.FlipHorizontally;

@@ -14,7 +14,7 @@ namespace CalamityMod.Items.LoreItems
             DisplayName.SetDefault("The Plaguebringer Goliath");
             Tooltip.SetDefault("A horrific amalgam of steel, flesh, and infection, capable of destroying an entire civilization in just one onslaught.\n" +
                 "Its plague nuke barrage can leave an entire area uninhabitable for months. A shame that it came to this but the plague must be contained.\n" +
-                "Place in your inventory to gain increased wing flight time, but at the cost of reduced life regen.");
+                "Favorite this item to gain increased wing flight time, but at the cost of reduced life regen.");
         }
 
         public override void SetDefaults()
@@ -33,7 +33,8 @@ namespace CalamityMod.Items.LoreItems
         public override void UpdateInventory(Player player)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            modPlayer.plaguebringerGoliathLore = true;
+			if (item.favorited)
+				modPlayer.plaguebringerGoliathLore = true;
         }
 
         public override void AddRecipes()

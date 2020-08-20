@@ -33,6 +33,9 @@ namespace CalamityMod.Projectiles.Rogue
         {
             Player player = Main.player[projectile.owner];
 
+			if (player.dead || player is null)
+				projectile.Kill();
+
             player.direction = projectile.direction;
             player.heldProj = projectile.whoAmI;
 

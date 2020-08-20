@@ -44,7 +44,7 @@ namespace CalamityMod.NPCs.Perforator
             npc.height = 100;
             npc.defense = 4;
             npc.LifeMaxNERB(3750, 5400, 2700000);
-            double HPBoost = CalamityMod.CalamityConfig.BossHealthPercentageBoost * 0.01;
+            double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.aiStyle = -1;
             aiType = -1;
@@ -119,7 +119,7 @@ namespace CalamityMod.NPCs.Perforator
 			if (NPC.AnyNPCs(ModContent.NPCType<PerforatorHeadSmall>()))
 				wormsAlive++;
 
-			if (largeWormAlive)
+			if (largeWormAlive && expertMode)
 			{
 				npc.dontTakeDamage = true;
 			}
@@ -374,7 +374,7 @@ namespace CalamityMod.NPCs.Perforator
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgePerforators>(), true, !CalamityWorld.downedPerforator);
             DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedPerforator, 2, 0, 0);
 
-			npc.Calamity().SetNewShopVariable(new int[] { NPCID.Dryad }, CalamityWorld.downedPerforator);
+			CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.Dryad }, CalamityWorld.downedPerforator);
 
 			// All other drops are contained in the bag, so they only drop directly on Normal
 			if (!Main.expertMode)
@@ -386,18 +386,21 @@ namespace CalamityMod.NPCs.Perforator
                 if (Main.hardMode)
                     DropHelper.DropItemSpray(npc, ItemID.Ichor, 10, 20);
 
-                // Weapons
-                DropHelper.DropItemChance(npc, ModContent.ItemType<VeinBurster>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<BloodyRupture>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<SausageMaker>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Aorta>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Eviscerator>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<BloodBath>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<BloodClotStaff>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<ToothBall>(), 4, 25, 50);
+				// Weapons
+				float w = DropHelper.DirectWeaponDropRateFloat;
+				DropHelper.DropEntireWeightedSet(npc,
+					DropHelper.WeightStack<VeinBurster>(w),
+					DropHelper.WeightStack<BloodyRupture>(w),
+					DropHelper.WeightStack<SausageMaker>(w),
+					DropHelper.WeightStack<Aorta>(w),
+					DropHelper.WeightStack<Eviscerator>(w),
+					DropHelper.WeightStack<BloodBath>(w),
+					DropHelper.WeightStack<BloodClotStaff>(w),
+					DropHelper.WeightStack<ToothBall>(w, 30, 50)
+				);
 
 				//Equipment
-                DropHelper.DropItemChance(npc, ModContent.ItemType<BloodstainedGlove>(), 4);
+				DropHelper.DropItemChance(npc, ModContent.ItemType<BloodstainedGlove>(), 4);
 
                 // Vanity
                 DropHelper.DropItemChance(npc, ModContent.ItemType<PerforatorMask>(), 7);
@@ -426,7 +429,7 @@ namespace CalamityMod.NPCs.Perforator
         {
             for (int k = 0; k < damage / npc.lifeMax * 100.0; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
             }
             if (npc.life <= 0)
             {

@@ -13,10 +13,9 @@ using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
-using Terraria.ModLoader.Config;
 namespace CalamityMod.NPCs.TownNPCs
 {
-    [AutoloadHead]
+	[AutoloadHead]
     public class SEAHOE : ModNPC
     {
         public override void SetStaticDefaults()
@@ -124,8 +123,7 @@ namespace CalamityMod.NPCs.TownNPCs
                 dialogue.Add("Ah, nice duds, my child!");
             }
 
-            if ((Main.player[Main.myPlayer].Calamity().sirenBoobs && !Main.player[Main.myPlayer].Calamity().sirenBoobsHide) ||
-                (Main.player[Main.myPlayer].Calamity().sirenBoobsAlt && !Main.player[Main.myPlayer].Calamity().sirenBoobsAltHide))
+            if (Main.player[Main.myPlayer].Calamity().sirenBoobs && !Main.player[Main.myPlayer].Calamity().sirenBoobsHide)
             {
                 dialogue.Add("Shouldn't you be wearing a clam bra?");
             }
@@ -160,73 +158,178 @@ namespace CalamityMod.NPCs.TownNPCs
         {
             IList<string> dialogue = new List<string>();
             string worldEvil = WorldGen.crimson ? "Crimson" : "Corruption";
+			string displayThisText = "If this shows up, something went wrong.";
 
             if (CalamityWorld.downedYharon)
             {
-                dialogue.Add("Pockets of ore have appeared once more in the land. This will allow you to create the most powerful weaponry and armor imagined!");
-                dialogue.Add("Lord Yharim possesses god-like strength. He may not even fight you at full power which is fortunate for you. His attacks may just kill you in one hit, so be careful.");
-                dialogue.Add("Draedon's style of confrontation is very...alien and hands-off. You may be more likely to fight any one of his mechs before taking him down.");
+				switch (npc.Calamity().newAI[0] % 3f)
+				{
+					case 0f:
+						displayThisText = "Pockets of ore have appeared once more in the land. This will allow you to create the most powerful weaponry and armor imagined!";
+						break;
+					case 1f:
+						displayThisText = "Lord Yharim possesses god-like strength. He may not even fight you at full power which is fortunate for you. His attacks may just kill you in one hit, so be careful.";
+						break;
+					case 2f:
+						displayThisText = "Draedon's style of confrontation is very...alien and hands-off. You may be more likely to fight any one of his mechs before taking him down.";
+						break;
+				}
             }
             else if (CalamityWorld.downedDoG)
             {
-                dialogue.Add("The Devourer of God's cosmic armor is unique in that it is capable of not only protecting his body from tearing itself apart when ripping through the fabric of space and time, but also allows him to control his powers.");
-                dialogue.Add("With the cosmic steel you can fashion many of your weapons into much more powerful forms.");
-                dialogue.Add("The Devourer of Gods is extremely powerful. However, he is young, foolhardy, and very lazy. Perhaps if he had been given time to develop he would have turned into quite the threat.");
-                dialogue.Add("Ah, the dragon Yharon is fickle. You may find that he will refuse to use his full power unless you are strong enough to unleash the power of the Dark Sun.");
+				switch (npc.Calamity().newAI[0] % 4f)
+				{
+					case 0f:
+						displayThisText = "The Devourer of God's cosmic armor is unique in that it is capable of not only protecting his body from tearing itself apart when ripping through the fabric of space and time, but also allows him to control his powers.";
+						break;
+					case 1f:
+						displayThisText = "With the cosmic steel you can fashion many of your weapons into much more powerful forms.";
+						break;
+					case 2f:
+						displayThisText = "The Devourer of Gods is extremely powerful. However, he is young, foolhardy, and very lazy. Perhaps if he had been given time to develop he would have turned into quite the threat.";
+						break;
+					case 3f:
+						displayThisText = "Ah, the dragon Yharon is fickle. You may find that he will refuse to use his full power unless you are strong enough to unleash the power of the Dark Sun.";
+						break;
+				}
+            }
+            else if (CalamityWorld.downedPolterghast)
+            {
+				switch (npc.Calamity().newAI[0] % 2f)
+				{
+					case 0f:
+						displayThisText = "The Abyss holds many secrets revealed with time. Checking it out again may not be a bad idea.";
+						break;
+					case 1f:
+						displayThisText = "Ah...I can sense a powerful change in the weather. You may want to venture to the Sulphurous Seas once more during the rain to experience it.";
+						break;
+				}
             }
             else if (CalamityWorld.downedProvidence)
             {
-                dialogue.Add("The Rune of Kos holds a significant portion of Providence's brand of magic, easily distinguishable from all others. Activating it in certain places would have some...risky consequences.");
-                dialogue.Add("Ironic, is it not, that Statis was defeated by the very Sentinel his people fashioned their art of stealth from. Fate so often weaves cruel tales.");
-                dialogue.Add("The Dungeon seems to be more active now. You may hear the faint whisperings of angry spirits who have not left to the Void...I would recommend searching there before taking on the Sentinels.");
+				switch (npc.Calamity().newAI[0] % 3f)
+				{
+					case 0f:
+						displayThisText = "The Rune of Kos holds a significant portion of Providence's brand of magic, easily distinguishable from all others. Activating it in certain places would have some...risky consequences.";
+						break;
+					case 1f:
+						displayThisText = "Ironic, is it not, that Statis was defeated by the very Sentinel his people fashioned their art of stealth from. Fate so often weaves cruel tales.";
+						break;
+					case 2f:
+						displayThisText = "The Dungeon seems to be more active now. You may hear the faint whisperings of angry spirits who have not left to the Void...I would recommend searching there before taking on the Sentinels.";
+						break;
+				}
             }
             else if (NPC.downedMoonlord)
             {
-                dialogue.Add("Your adventure focuses to the jungle it seems. The Dragonfolly and its swarming offspring should be eliminated before their numbers spiral out of control.");
-                dialogue.Add("Ah...I can sense a powerful change in the weather. You may want to venture to the Sulphurous Seas once more during the rain to experience it.");
-                dialogue.Add("Profaned creatures now lurk in the Hallow and in Hell. If you destroy enough and gather their essence together you shall be able to capture the attention of the Profaned Guardians.");
-                dialogue.Add("The Profaned Guardians will do anything to protect their goddess. Makes sense they would die for her since they can be revived just as quickly.");
-                dialogue.Add("Touching Providence's offerings is usually a death wish. Shame that Yharim didn't think to just mess with her things to get her out of hiding.");
-                dialogue.Add("Providence is as much the sun goddess as much as the Moon Lord is the moon god. They are two sides of the same coin, choosing to remain neutral amongst our petty squabbles.");
-                dialogue.Add("The stories have it that when Providence faced and defeated Yharim and his forces she lost a lot of energy and reverted to a more skeletal form. She's merely a fraction of the power she was before.");
+				switch (npc.Calamity().newAI[0] % 6f)
+				{
+					case 0f:
+						displayThisText = "Your adventure focuses to the jungle it seems. The Dragonfolly and its swarming offspring should be eliminated before their numbers spiral out of control.";
+						break;
+					case 1f:
+						displayThisText = "Profaned creatures now lurk in the Hallow and in Hell. If you destroy enough and gather their essence together you shall be able to capture the attention of the Profaned Guardians.";
+						break;
+					case 2f:
+						displayThisText = "The Profaned Guardians will do anything to protect their goddess. Makes sense they would die for her since they can be revived just as quickly.";
+						break;
+					case 3f:
+						displayThisText = "Touching Providence's offerings is usually a death wish. Shame that Yharim didn't think to just mess with her things to get her out of hiding.";
+						break;
+					case 4f:
+						displayThisText = "Providence is as much the sun goddess as much as the Moon Lord is the moon god. They are two sides of the same coin, choosing to remain neutral amongst our petty squabbles.";
+						break;
+					case 5f:
+						displayThisText = "The stories have it that when Providence faced and defeated Yharim and his forces she lost a lot of energy and reverted to a more skeletal form. She's merely a fraction of the power she was before.";
+						break;
+				}
             }
             else if (NPC.downedGolemBoss)
             {
-                dialogue.Add("The men at the front of the dungeon are performing a ritual to keep the Moon Lord contained in his prison. In order to gain Yharim's attention, however, you may need to defeat them.");
-                dialogue.Add("The Abyss has become far more active than before. You might be able to mine some of the volcanic rubble contained within.");
-                dialogue.Add("The plague was just one of the many experiments authorized by Yharim to raze towns to the ground. This is probably one of the few he shelved for being too terrible.");
-            }
-            else if (CalamityWorld.downedCryogen)
-            {
-                dialogue.Add("You will find more ores have been unlocked due to the magic sealing them away being dispelled. Some of them may require more than just the ore itself to create.");
-                dialogue.Add("I would recommend saving some of your old items. You never know if you can engineer them into stronger weapons in the future.");
-                dialogue.Add("Once those mechanical creations have been defeated you would do well to seek out the crippled clone of the witch, Calamitas. It might provide some useful weaponry.");
-                dialogue.Add("If you take an idol down to the Brimstone Crags you might be able to see just what is lurking in the shadows.");
-                dialogue.Add("The Brimstone Crags...Yharim despised that place, and did everything he could to raze it to the ground. It might explain a few things about him.");
-                dialogue.Add("The witch just might offer you an opportunity for a challenge if you are willing to fight during the night.");
-                dialogue.Add("If you've gathered the souls used to power those automatons head once more to the jungle. You will find a powerful enemy to fight, which will unleash the full fervor of the jungle once defeated. Do not underestimate it!");
-                dialogue.Add("Be careful when defeating Plantera and the Golem. You might accidentally unleash a new threat in the jungle that needs to be quelled.");
-                dialogue.Add("When exploring the jungle temple be careful. You may not wish to disturb the Lihzard's idol, the Golem. It's quite the destructive force.");
+				switch (npc.Calamity().newAI[0] % 3f)
+				{
+					case 0f:
+						displayThisText = "The men at the front of the dungeon are performing a ritual to keep the Moon Lord contained in his prison. In order to gain Yharim's attention, however, you may need to defeat them.";
+						break;
+					case 1f:
+						displayThisText = "The Abyss has become far more active than before. You might be able to mine some of the volcanic rubble contained within.";
+						break;
+					case 2f:
+						displayThisText = "The plague was just one of the many experiments authorized by Yharim to raze towns to the ground. This is probably one of the few he shelved for being too terrible.";
+						break;
+				}
             }
             else if (Main.hardMode)
             {
-                dialogue.Add("Have you heard of the story of Archmage Permafrost? Rumor has it he's been locked away in an icy prison by Lord Yharim. Perhaps you would be able to free him if Cryogen was destroyed.");
+				switch (npc.Calamity().newAI[0] % 8f)
+				{
+					case 0f:
+						displayThisText = !CalamityWorld.downedCryogen ? "Have you heard of the story of Archmage Permafrost? Rumor has it he's been locked away in an icy prison by Lord Yharim. Perhaps you would be able to free him if Cryogen was destroyed." : "You will find more ores have been unlocked due to the magic sealing them away being dispelled. Some of them may require more than just the ore itself to create.";
+						break;
+					case 1f:
+						displayThisText = "I would recommend saving some of your old items. You never know if you can engineer them into stronger weapons in the future.";
+						break;
+					case 2f:
+						displayThisText = "Once those mechanical creations have been defeated you would do well to seek out the crippled clone of the witch, Calamitas. It might provide some useful weaponry.";
+						break;
+					case 3f:
+						displayThisText = "If you take an idol down to the Brimstone Crags you might be able to see just what is lurking in the shadows.";
+						break;
+					case 4f:
+						displayThisText = "The Brimstone Crags...Yharim despised that place, and did everything he could to raze it to the ground. It might explain a few things about him.";
+						break;
+					case 5f:
+						displayThisText = "If you've gathered the souls used to power those automatons head once more to the jungle. You will find a powerful enemy to fight, which will unleash the full fervor of the jungle once defeated. Do not underestimate it!";
+						break;
+					case 6f:
+						displayThisText = "Be careful when defeating Plantera and the Golem. You might accidentally unleash a new threat in the jungle that needs to be quelled.";
+						break;
+					case 7f:
+						displayThisText = "When exploring the jungle temple be careful. You may not wish to disturb the Lihzard's idol, the Golem. It's quite the destructive force.";
+						break;
+				}
             }
             else
             {
-                dialogue.Add("There are rumors of ores that lay in latency. When you defeat certain bosses you will undo the ancient magic which conceals those materials.");
-                dialogue.Add("Have you heard of the Brimstone Crags? It was once a grand kingdom, not too different from my own. However, it also met a similar fate. I would not advise going down there, unless you seek a painful death.");
-                dialogue.Add("Ah yes, the Abyss. That trench is full of powerful creatures that could devour you in a heartbeat. I would explore the dungeon first.");
-                dialogue.Add("The Sulphurous Seas are dangerous. The toxic waters will burn your skin, but if you can brave them you will be able to reach the Abyss, where there are powerful weapons and dangers aplenty.");
-                dialogue.Add("The Sulphurous Seas were created long ago, when Yharim's dungeon could no longer hold as many corpses as it needed to. Many of the bodies were dumped into the ocean. This, along with severe pollution from the heydays of Draedon's experiments have turned a paradise into a wasteland.");
-                dialogue.Add("Be careful what you attack in the " + worldEvil + ". You might just unveil a greater threat than what was there before.");
-                dialogue.Add("Scattered across the lands are shrines dedicated to the gods. You can take whatever is in them, but a few items you may not be able to use until much later.");
-                dialogue.Add("I'm assuming you've heard the legends that speak of the ninja, Statis? There are some who say that if you were able to defeat the gods which his clan once worshipped you would be able to harness some of his powers.");
-                dialogue.Add("The dungeon is a dark place. None of us know of its true purpose, however, the ancient Eidolist cultists used it for worship before Lord Yharim took it over.");
-                dialogue.Add("The " + worldEvil + " used to be easily manageable and controlled by nature. However, the recent wars and pollution have tipped the balance out of favor.");
+				switch (npc.Calamity().newAI[0] % 11f)
+				{
+					case 0f:
+						displayThisText = "There are rumors of ores that lay in latency. When you defeat certain bosses you will undo the ancient magic which conceals those materials.";
+						break;
+					case 1f:
+						displayThisText = "Have you heard of the Brimstone Crags? It was once a grand kingdom, not too different from my own. However, it also met a similar fate. I would not advise going down there, unless you seek a painful death.";
+						break;
+					case 2f:
+						displayThisText = "Ah yes, the Abyss. That trench is full of powerful creatures that could devour you in a heartbeat. I would explore the dungeon first.";
+						break;
+					case 3f:
+						displayThisText = "The Sulphurous Seas are dangerous. The toxic waters will burn your skin, but if you can brave them you will be able to reach the Abyss, where there are powerful weapons and dangers aplenty.";
+						break;
+					case 4f:
+						displayThisText = "The Sulphurous Seas were created long ago, when Yharim's dungeon could no longer hold as many corpses as it needed to. Many of the bodies were dumped into the ocean. This, along with severe pollution from the heydays of Draedon's experiments have turned a paradise into a wasteland.";
+						break;
+					case 5f:
+						displayThisText = "Be careful what you attack in the " + worldEvil + ". You might just unveil a greater threat than what was there before.";
+						break;
+					case 6f:
+						displayThisText = "Scattered across the lands are shrines dedicated to the gods. You can take whatever is in them, but a few items you may not be able to use until much later.";
+						break;
+					case 7f:
+						displayThisText = "I'm assuming you've heard the legends that speak of the ninja, Statis? There are some who say that if you were able to defeat the gods which his clan once worshipped you would be able to harness some of his powers.";
+						break;
+					case 8f:
+						displayThisText = "The dungeon is a dark place. None of us know of its true purpose, however, the ancient Eidolist cultists used it for worship before Lord Yharim took it over.";
+						break;
+					case 9f:
+						displayThisText = "The " + worldEvil + " used to be easily manageable and controlled by nature. However, the recent wars and pollution have tipped the balance out of favor.";
+						break;
+					case 10f:
+						displayThisText = "Throughout the world lie various structures left behind by Draedon. Archaic defenses may remain, but the goods inside may be worth your while.";
+						break;
+				}
             }
 
-            return dialogue[Main.rand.Next(dialogue.Count)];
+            return displayThisText;
 
         }
 
@@ -247,6 +350,7 @@ namespace CalamityMod.NPCs.TownNPCs
             {
                 shop = false;
                 Main.npcChatText = Lore();
+				npc.Calamity().newAI[0]++;
                 Player player = Main.player[Main.myPlayer];
                 player.AddBuff(ModContent.BuffType<AmidiasBlessing>(), 36000);
             }
@@ -288,7 +392,7 @@ namespace CalamityMod.NPCs.TownNPCs
                 shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 20, 0, 0);
                 nextSlot++;
             }
-            if (NPC.downedFishron && CalamityMod.CalamityConfig.SellBossSummons)
+            if (NPC.downedFishron && CalamityConfig.Instance.SellVanillaSummons)
             {
                 shop.item[nextSlot].SetDefaults(ItemID.TruffleWorm);
                 shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 40, 0, 0);

@@ -60,7 +60,7 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.DemonScythe);
-            recipe.AddIngredient(ModContent.ItemType<Phantoplasm>(), 17);
+            recipe.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 3);
             recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 8);
             recipe.AddTile(TileID.Bookcases);
             recipe.SetResult(this);

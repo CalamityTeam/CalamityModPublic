@@ -33,16 +33,16 @@ namespace CalamityMod.NPCs.Astral
             npc.npcSlots = 0.5f; //needed?
             npc.damage = 55;
             npc.defense = 18;
-            npc.Calamity().RevPlusDR(0.15f);
+			npc.DR_NERD(0.15f);
             npc.knockBackResist = 0.65f;
             npc.lifeMax = 210;
             npc.value = Item.buyPrice(0, 0, 10, 0);
             npc.DeathSound = mod.GetLegacySoundSlot(SoundType.NPCKilled, "Sounds/NPCKilled/AstralEnemyDeath");
-            npc.buffImmune[31] = false;
             animationType = NPCID.GiantFlyingFox;
             banner = npc.type;
             bannerItem = ModContent.ItemType<StellarCulexBanner>();
             npc.buffImmune[ModContent.BuffType<AstralInfectionDebuff>()] = true;
+            npc.buffImmune[BuffID.Confused] = false;
             if (CalamityWorld.downedAstrageldon)
             {
                 npc.damage = 90;
@@ -102,7 +102,7 @@ namespace CalamityMod.NPCs.Astral
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.player.PillarZone())
+            if (CalamityGlobalNPC.AnyEvents(spawnInfo.player))
             {
                 return 0f;
             }
@@ -120,18 +120,9 @@ namespace CalamityMod.NPCs.Astral
 
         public override void NPCLoot()
         {
-            if (Main.rand.NextBool(2))
-            {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Stardust>(), Main.rand.Next(1, 3));
-            }
-            if (Main.expertMode)
-            {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Stardust>());
-            }
-            if (CalamityWorld.downedAstrageldon && Main.rand.NextBool(7))
-            {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<StarbusterCore>());
-            }
+            DropHelper.DropItemChance(npc, ModContent.ItemType<Stardust>(), 0.5f, 1, 2);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<Stardust>(), Main.expertMode);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<StarbusterCore>(), CalamityWorld.downedAstrageldon, 7, 1, 1);
         }
     }
 }

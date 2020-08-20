@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Weapons.Ranged
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("The Empyrean");
+            DisplayName.SetDefault("God's Bellows");
             Tooltip.SetDefault("70% chance to not consume gel");
         }
 

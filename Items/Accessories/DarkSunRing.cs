@@ -2,13 +2,12 @@ using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.DataStructures;
-using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 
 namespace CalamityMod.Items.Accessories
 {
-    public class DarkSunRing : ModItem
+	public class DarkSunRing : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -27,7 +26,7 @@ namespace CalamityMod.Items.Accessories
         {
             item.width = 26;
             item.height = 26;
-            item.value = Item.buyPrice(0, 90, 0, 0);
+            item.value = CalamityGlobalItem.Rarity15BuyPrice;
             item.defense = 10;
             item.lifeRegen = 1;
             item.accessory = true;

@@ -1,4 +1,5 @@
 using CalamityMod.Buffs.Potions;
+using CalamityMod.Items.Fishing.BrimstoneCragCatches;
 using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
@@ -35,14 +36,16 @@ namespace CalamityMod.Items.Potions
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.BottledWater);
-            recipe.AddIngredient(ModContent.ItemType<CalamityDust>());
+            recipe.AddIngredient(ItemID.BottledWater, 3);
+            recipe.AddIngredient(ModContent.ItemType<BrimstoneFish>());
+            recipe.AddIngredient(ModContent.ItemType<CalamityDust>(), 3);
             recipe.AddTile(TileID.ImbuingStation);
-            recipe.SetResult(this);
+            recipe.SetResult(this, 3);
             recipe.AddRecipe();
             recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.BottledWater);
             recipe.AddIngredient(ModContent.ItemType<BloodOrb>(), 20);
+            recipe.AddIngredient(ModContent.ItemType<CalamityDust>());
             recipe.AddTile(TileID.ImbuingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();

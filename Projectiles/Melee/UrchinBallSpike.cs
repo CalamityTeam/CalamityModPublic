@@ -33,12 +33,12 @@ namespace CalamityMod.Projectiles.Melee
                 projectile.spriteDirection = projectile.direction;
             }
             //Sticky Behaviour
-            CalamityUtils.StickyProjAI(projectile, 6);
+            projectile.StickyProjAI(6);
         }
 
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            CalamityUtils.ModifyHitNPCSticky(projectile, 6, false);
+            projectile.ModifyHitNPCSticky(6, false);
         }
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)

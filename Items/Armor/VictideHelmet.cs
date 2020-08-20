@@ -38,7 +38,7 @@ namespace CalamityMod.Items.Armor
                 "Summons a sea urchin to protect you\n" +
                 "When using any weapon you have a 10% chance to throw a returning seashell projectile\n" +
                 "This seashell does true damage and does not benefit from any damage class\n" +
-                "Slightly reduces breath loss in the abyss";
+                "Provides increased underwater mobility and slightly reduces breath loss in the abyss";
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.victideSet = true;
             modPlayer.urchin = true;

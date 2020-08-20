@@ -7,11 +7,13 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Dusts;
+using CalamityMod.World;
 
 namespace CalamityMod.NPCs.OldDuke
 {
 	public class OldDukeToothBall : ModNPC
 	{
+		bool spawnedProjectiles = false;
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Tooth Ball");
@@ -26,7 +28,11 @@ namespace CalamityMod.NPCs.OldDuke
 			npc.height = 40;
 			npc.defense = 0;
 			npc.lifeMax = 5000;
-            npc.alpha = 255;
+			if (CalamityWorld.bossRushActive)
+			{
+				npc.lifeMax = 75000;
+			}
+			npc.alpha = 255;
             npc.knockBackResist = 0f;
 			for (int k = 0; k < npc.buffImmune.Length; k++)
 			{
@@ -36,17 +42,18 @@ namespace CalamityMod.NPCs.OldDuke
 			npc.DeathSound = SoundID.NPCDeath11;
             npc.noGravity = true;
             npc.noTileCollide = true;
-            npc.behindTiles = true;
 		}
 
 		public override void SendExtraAI(BinaryWriter writer)
 		{
 			writer.Write(npc.dontTakeDamage);
+			writer.Write(spawnedProjectiles);
 		}
 
 		public override void ReceiveExtraAI(BinaryReader reader)
 		{
 			npc.dontTakeDamage = reader.ReadBoolean();
+			spawnedProjectiles = reader.ReadBoolean();
 		}
 
 		public override void AI()
@@ -85,16 +92,20 @@ namespace CalamityMod.NPCs.OldDuke
 				npc.active = false;
 				return;
             }
+
             npc.ai[3] += 1f;
-            npc.dontTakeDamage = (npc.ai[3] >= 600f ? false : true);
+            npc.dontTakeDamage = npc.ai[3] >= 600f ? false : true;
             if (npc.ai[3] >= 480f)
             {
-                npc.velocity.Y *= 0.985f;
-                npc.velocity.X *= 0.985f;
+                npc.velocity *= 0.985f;
                 return;
             }
+
             float num1372 = 12f;
-            Vector2 vector167 = new Vector2(npc.Center.X + npc.direction * 20, npc.Center.Y + 6f);
+			if (Main.expertMode || CalamityWorld.bossRushActive)
+				num1372 += Vector2.Distance(player.Center, npc.Center) * 0.01f;
+
+			Vector2 vector167 = new Vector2(npc.Center.X + npc.direction * 20, npc.Center.Y + 6f);
             float num1373 = player.position.X + player.width * 0.5f - vector167.X;
             float num1374 = player.Center.Y - vector167.Y;
             float num1375 = (float)Math.Sqrt(num1373 * num1373 + num1374 * num1374);
@@ -175,13 +186,13 @@ namespace CalamityMod.NPCs.OldDuke
 
             npc.position.X = npc.position.X + (npc.width / 2);
             npc.position.Y = npc.position.Y + (npc.height / 2);
-            npc.width = (npc.height = 96);
+            npc.width = npc.height = 96;
             npc.position.X = npc.position.X - (npc.width / 2);
             npc.position.Y = npc.position.Y - (npc.height / 2);
 
             for (int num621 = 0; num621 < 15; num621++)
             {
-                int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 5, 0f, 0f, 100, default, 2f);
+                int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, DustID.Blood, 0f, 0f, 100, default, 2f);
                 Main.dust[num622].velocity *= 3f;
                 if (Main.rand.Next(2) == 0)
                 {
@@ -201,8 +212,9 @@ namespace CalamityMod.NPCs.OldDuke
                 Main.dust[num624].noGravity = true;
             }
 
-            if (Main.netMode != NetmodeID.MultiplayerClient)
+            if (Main.netMode != NetmodeID.MultiplayerClient && !spawnedProjectiles)
             {
+				spawnedProjectiles = true;
 				int totalProjectiles = 4;
 				float radians = MathHelper.TwoPi / totalProjectiles;
 				int damage = Main.expertMode ? 55 : 70;

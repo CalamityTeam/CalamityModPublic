@@ -1,14 +1,12 @@
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Items.Weapons.Ranged;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class SeasSearingSecondary : ModProjectile
+	public class SeasSearingSecondary : ModProjectile
     {
         public override void SetStaticDefaults()
         {

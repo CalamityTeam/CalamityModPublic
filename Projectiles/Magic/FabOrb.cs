@@ -1,10 +1,7 @@
-using Microsoft.Xna.Framework;
-using System;
-using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Magic
 {
-    public class FabOrb : ModProjectile
+	public class FabOrb : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -18,7 +15,7 @@ namespace CalamityMod.Projectiles.Magic
             projectile.friendly = true;
             projectile.alpha = 255;
             projectile.penetrate = -1;
-            projectile.timeLeft = 300;
+            projectile.timeLeft = 30;
             projectile.magic = true;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 10;
@@ -26,7 +23,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void AI()
         {
-			CalamityGlobalProjectile.MagnetSphereHitscan(projectile, 300f, 6f, 24f, 5, ModContent.ProjectileType<FabBolt>());
+			CalamityGlobalProjectile.MagnetSphereHitscan(projectile, 150f, 6f, 6f, 2, ModContent.ProjectileType<FabBolt>(), 1D, true);
         }
     }
 }

@@ -1,11 +1,10 @@
-using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Fishing
 {
-    public class Spadefish : ModItem
+	public class Spadefish : ModItem
     {
         public override void SetStaticDefaults()
         {

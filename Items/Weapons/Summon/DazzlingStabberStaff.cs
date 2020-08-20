@@ -1,6 +1,4 @@
-using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Summon;
-using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -8,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
-    public class DazzlingStabberStaff : ModItem
+	public class DazzlingStabberStaff : ModItem
     {
         public override void SetStaticDefaults()
         {

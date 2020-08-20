@@ -1,14 +1,18 @@
 using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Summon
 {
-    public class CinderBlossom : ModProjectile
+	public class CinderBlossom : ModProjectile
     {
+        public float Time
+        {
+            get => projectile.ai[0];
+            set => projectile.ai[0] = value;
+        }
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Cinder Blossom");
@@ -48,25 +52,18 @@ namespace CalamityMod.Projectiles.Summon
                     projectile.timeLeft = 2;
                 }
             }
-            projectile.Center = Main.player[projectile.owner].Center + Vector2.UnitY * (Main.player[projectile.owner].gfxOffY - 60f);
-            if (Main.player[projectile.owner].gravDir == -1f)
-            {
-                projectile.position.Y += 140f;
-            }
+            projectile.Center = player.Center + Vector2.UnitY * (player.gfxOffY - 60f);
+            if (player.gravDir == -1f)
+                projectile.position.Y += 120f;
             projectile.position.X = (int)projectile.position.X;
             projectile.position.Y = (int)projectile.position.Y;
+            projectile.position = projectile.position.Floor();
             projectile.rotation += MathHelper.ToRadians(1.5f) * player.direction;
+
             if (projectile.localAI[0] == 0f)
             {
-                projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
-                projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = projectile.damage;
-                for (int i = 0; i < 36; i++)
-                {
-                    Dust dust = Dust.NewDustPerfect(projectile.Center, DustID.Fire);
-                    dust.noGravity = true;
-                    dust.velocity = Vector2.One.RotatedByRandom(MathHelper.TwoPi) * Main.rand.NextFloat(2f, 6f);
-                }
-                projectile.localAI[0] += 1f;
+                Initialize(player);
+                projectile.localAI[0] = 1f;
             }
             if (player.MinionDamage() != projectile.Calamity().spawnedPlayerMinionDamageValue)
             {
@@ -80,15 +77,25 @@ namespace CalamityMod.Projectiles.Summon
                 NPC potentialTarget = projectile.Center.MinionHoming(700f, player);
                 if (potentialTarget != null)
                 {
-                    if (projectile.ai[1]++ % 35f == 34f &&
-                        Collision.CanHit(projectile.position, projectile.width, projectile.height, potentialTarget.position, potentialTarget.width, potentialTarget.height))
+                    if (Time++ % 35f == 34f && Collision.CanHit(projectile.position, projectile.width, projectile.height, potentialTarget.position, potentialTarget.width, potentialTarget.height))
                     {
-                        Projectile.NewProjectile(projectile.Center, projectile.DirectionTo(potentialTarget.Center) * Main.rand.NextFloat(10f, 18f), ModContent.ProjectileType<Cinder>(),
-                            projectile.damage, projectile.knockBack, projectile.owner);
+                        Vector2 velocity = projectile.DirectionTo(potentialTarget.Center) * Main.rand.NextFloat(10f, 18f);
+                        Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<Cinder>(), projectile.damage, projectile.knockBack, projectile.owner);
                     }
                 }
             }
             Lighting.AddLight(projectile.Center, Color.Orange.ToVector3());
+        }
+        public void Initialize(Player player)
+        {
+            projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
+            projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = projectile.damage;
+            for (int i = 0; i < 36; i++)
+            {
+                Dust dust = Dust.NewDustPerfect(projectile.Center, DustID.Fire);
+                dust.noGravity = true;
+                dust.velocity = Vector2.UnitY.RotatedByRandom(MathHelper.TwoPi) * Main.rand.NextFloat(2f, 6f);
+            }
         }
 
         public override bool CanDamage() => false;

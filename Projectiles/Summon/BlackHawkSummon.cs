@@ -1,259 +1,297 @@
 using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
+using CalamityMod.Projectiles;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Summon
 {
-    public class BlackHawkSummon : ModProjectile
-    {
-        public override void SetStaticDefaults()
-        {
-            DisplayName.SetDefault("Black Hawk");
-            ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
-            ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
-            Main.projFrames[projectile.type] = 3;
-        }
+	public class BlackHawkSummon : ModProjectile
+	{
+		public override void SetStaticDefaults()
+		{
+			DisplayName.SetDefault("Black Hawk");
+			ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
+			ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
+			Main.projFrames[projectile.type] = 3;
+		}
 
-        public override void SetDefaults()
-        {
-            projectile.width = 36;
-            projectile.height = 36;
-            projectile.netImportant = true;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.aiStyle = 66;
-            projectile.minionSlots = 1f;
-            projectile.timeLeft = 18000;
-            projectile.penetrate = -1;
-            projectile.tileCollide = true;
-            projectile.timeLeft *= 5;
-            projectile.minion = true;
-        }
+		public override void SetDefaults()
+		{
+			projectile.width = 36;
+			projectile.height = 36;
+			projectile.netImportant = true;
+			projectile.friendly = true;
+			projectile.ignoreWater = true;
+			projectile.aiStyle = 66;
+			projectile.minionSlots = 1f;
+			projectile.timeLeft = 18000;
+			projectile.penetrate = -1;
+			projectile.tileCollide = true;
+			projectile.timeLeft *= 5;
+			projectile.minion = true;
+		}
 
-        public override void AI()
-        {
-            Player player = Main.player[projectile.owner];
-            CalamityPlayer modPlayer = player.Calamity();
-            if (projectile.localAI[0] == 0f)
-            {
-                projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
-                projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = projectile.damage;
-                int num226 = 36;
-                for (int num227 = 0; num227 < num226; num227++)
-                {
-                    Vector2 vector6 = Vector2.Normalize(projectile.velocity) * new Vector2((float)projectile.width / 2f, (float)projectile.height) * 0.75f;
-                    vector6 = vector6.RotatedBy((double)((float)(num227 - (num226 / 2 - 1)) * 6.28318548f / (float)num226), default) + projectile.Center;
-                    Vector2 vector7 = vector6 - projectile.Center;
-                    int num228 = Dust.NewDust(vector6 + vector7, 0, 0, 258, vector7.X * 1.75f, vector7.Y * 1.75f, 100, default, 1.1f);
-                    Main.dust[num228].noGravity = true;
-                    Main.dust[num228].velocity = vector7;
-                }
-                projectile.localAI[0] += 1f;
-            }
-            if (player.MinionDamage() != projectile.Calamity().spawnedPlayerMinionDamageValue)
-            {
-                int damage2 = (int)((float)projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
-                    projectile.Calamity().spawnedPlayerMinionDamageValue *
-                    player.MinionDamage());
-                projectile.damage = damage2;
-            }
-            projectile.frameCounter++;
-            if (projectile.frameCounter >= 4)
-            {
-                projectile.frame++;
-                projectile.frameCounter = 0;
-            }
-            if (projectile.frame >= 3)
-            {
-                projectile.frame = 0;
-            }
-            float num633 = 700f;
-            float num634 = 1300f;
-            float num635 = 2600f;
-            float num636 = 600f;
-            bool flag64 = projectile.type == ModContent.ProjectileType<BlackHawkSummon>();
-            player.AddBuff(ModContent.BuffType<BlackHawkBuff>(), 3600);
-            if (flag64)
-            {
-                if (player.dead)
-                {
-                    modPlayer.blackhawk = false;
-                }
-                if (modPlayer.blackhawk)
-                {
-                    projectile.timeLeft = 2;
-                }
-            }
-            float num637 = 0.05f;
-            for (int num638 = 0; num638 < Main.maxProjectiles; num638++)
-            {
-                bool flag23 = Main.projectile[num638].type == ModContent.ProjectileType<BlackHawkSummon>();
-                if (num638 != projectile.whoAmI && Main.projectile[num638].active && Main.projectile[num638].owner == projectile.owner && flag23 && Math.Abs(projectile.position.X - Main.projectile[num638].position.X) + Math.Abs(projectile.position.Y - Main.projectile[num638].position.Y) < (float)projectile.width)
-                {
-                    if (projectile.position.X < Main.projectile[num638].position.X)
-                    {
-                        projectile.velocity.X = projectile.velocity.X - num637;
-                    }
-                    else
-                    {
-                        projectile.velocity.X = projectile.velocity.X + num637;
-                    }
-                    if (projectile.position.Y < Main.projectile[num638].position.Y)
-                    {
-                        projectile.velocity.Y = projectile.velocity.Y - num637;
-                    }
-                    else
-                    {
-                        projectile.velocity.Y = projectile.velocity.Y + num637;
-                    }
-                }
-            }
-            Vector2 vector46 = projectile.position;
-            bool flag25 = false;
-            if (player.HasMinionAttackTargetNPC)
-            {
-                NPC npc = Main.npc[player.MinionAttackTargetNPC];
-                if (npc.CanBeChasedBy(projectile, false))
-                {
-                    float num646 = Vector2.Distance(npc.Center, projectile.Center);
-                    if (!flag25 && num646 < num633)
-                    {
-                        num633 = num646;
-                        vector46 = npc.Center;
-                        flag25 = true;
-                    }
-                }
-            }
-            else
-            {
-                for (int num645 = 0; num645 < Main.maxNPCs; num645++)
-                {
-                    NPC nPC2 = Main.npc[num645];
-                    if (nPC2.CanBeChasedBy(projectile, false))
-                    {
-                        float num646 = Vector2.Distance(nPC2.Center, projectile.Center);
-                        if (!flag25 && num646 < num633)
-                        {
-                            num633 = num646;
-                            vector46 = nPC2.Center;
-                            flag25 = true;
-                        }
-                    }
-                }
-            }
-            float num647 = num634;
-            if (flag25)
-            {
-                num647 = num635;
-            }
-            if (Vector2.Distance(player.Center, projectile.Center) > num647)
-            {
-                projectile.ai[0] = 1f;
-                projectile.netUpdate = true;
-            }
-            if (flag25 && projectile.ai[0] == 0f)
-            {
-                Vector2 vector47 = vector46 - projectile.Center;
-                float num648 = vector47.Length();
-                vector47.Normalize();
-                if (num648 > 200f)
-                {
-                    float scaleFactor2 = 18f; //12
-                    vector47 *= scaleFactor2;
-                    projectile.velocity = (projectile.velocity * 40f + vector47) / 41f;
-                }
-                else
-                {
-                    float num649 = 9f;
-                    vector47 *= -num649;
-                    projectile.velocity = (projectile.velocity * 40f + vector47) / 41f;
-                }
-            }
-            else
-            {
-                bool flag26 = false;
-                if (!flag26)
-                {
-                    flag26 = projectile.ai[0] == 1f;
-                }
-                float num650 = 12f;
-                if (flag26)
-                {
-                    num650 = 30f;
-                }
-                Vector2 center2 = projectile.Center;
-                Vector2 vector48 = player.Center - center2 + new Vector2(0f, -120f);
-                float num651 = vector48.Length();
-                if (num651 > 200f && num650 < 16f)
-                {
-                    num650 = 16f;
-                }
-                if (num651 < num636 && flag26)
-                {
-                    projectile.ai[0] = 0f;
-                    projectile.netUpdate = true;
-                }
-                if (num651 > 2000f)
-                {
-                    projectile.position.X = player.Center.X - (float)(projectile.width / 2);
-                    projectile.position.Y = player.Center.Y - (float)(projectile.height / 2);
-                    projectile.netUpdate = true;
-                }
-                if (num651 > 70f)
-                {
-                    vector48.Normalize();
-                    vector48 *= num650;
-                    projectile.velocity = (projectile.velocity * 40f + vector48) / 41f;
-                }
-                else if (projectile.velocity.X == 0f && projectile.velocity.Y == 0f)
-                {
-                    projectile.velocity.X = -0.15f;
-                    projectile.velocity.Y = -0.05f;
-                }
-            }
-            if (flag25)
-            {
-				projectile.rotation = projectile.rotation.AngleTowards(projectile.AngleTo(vector46) + MathHelper.Pi, 0.1f);
-            }
-            else
-            {
-                projectile.rotation = projectile.velocity.ToRotation() + MathHelper.Pi;
-            }
-            if (projectile.ai[1] > 0f)
-            {
-                projectile.ai[1] += (float)Main.rand.Next(1, 4);
-            }
-            if (projectile.ai[1] > 90f)
-            {
-                projectile.ai[1] = 0f;
-                projectile.netUpdate = true;
-            }
-            if (projectile.ai[0] == 0f)
-            {
-                float scaleFactor3 = 6f;
-                int num658 = ModContent.ProjectileType<BlackHawkBullet>();
-                if (flag25 && projectile.ai[1] == 0f)
-                {
-                    Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 20);
-                    projectile.ai[1] += 2f;
-                    if (Main.myPlayer == projectile.owner)
-                    {
-                        Vector2 value19 = vector46 - projectile.Center;
-                        value19.Normalize();
-                        value19 *= scaleFactor3;
-                        int bullet = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value19.X, value19.Y, num658, projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
-                        projectile.netUpdate = true;
-                    }
-                }
-            }
-        }
+		public override void AI()
+		{
+			//Set namespaces
+			Player player = Main.player[projectile.owner];
+			CalamityPlayer modPlayer = player.Calamity();
+			CalamityGlobalProjectile modProj = projectile.Calamity();
 
-        public override bool CanDamage()
-        {
-            return false;
-        }
-    }
+			//On spawn effects
+			if (projectile.localAI[0] == 0f)
+			{
+				//Set constants
+				modProj.spawnedPlayerMinionDamageValue = player.MinionDamage();
+				modProj.spawnedPlayerMinionProjectileDamageValue = projectile.damage;
+				//Spawn dust
+				int dustAmt = 36;
+				for (int dustIndex = 0; dustIndex < dustAmt; dustIndex++)
+				{
+					Vector2 direction = Vector2.Normalize(projectile.velocity) * new Vector2(projectile.width / 2f, projectile.height) * 0.75f;
+					direction = direction.RotatedBy((double)((dustIndex - (dustAmt / 2f - 1f)) * MathHelper.TwoPi / dustAmt), default) + projectile.Center;
+					Vector2 dustVel = direction - projectile.Center;
+					int fire = Dust.NewDust(direction + dustVel, 0, 0, 258, dustVel.X * 1.75f, dustVel.Y * 1.75f, 100, default, 1.1f);
+					Main.dust[fire].noGravity = true;
+					Main.dust[fire].velocity = dustVel;
+				}
+				projectile.localAI[0] += 1f;
+			}
+
+			//Flexible minion damage update
+			if (player.MinionDamage() != modProj.spawnedPlayerMinionDamageValue)
+			{
+				int damage2 = (int)((float)modProj.spawnedPlayerMinionProjectileDamageValue /
+					modProj.spawnedPlayerMinionDamageValue * player.MinionDamage());
+				projectile.damage = damage2;
+			}
+
+			//Update frames
+			projectile.frameCounter++;
+			if (projectile.frameCounter >= 4)
+			{
+				projectile.frame++;
+				projectile.frameCounter = 0;
+			}
+			if (projectile.frame >= Main.projFrames[projectile.type])
+			{
+				projectile.frame = 0;
+			}
+
+			//Set up buff and timeLeft
+			bool correctMinion = projectile.type == ModContent.ProjectileType<BlackHawkSummon>();
+			player.AddBuff(ModContent.BuffType<BlackHawkBuff>(), 3600);
+			if (correctMinion)
+			{
+				if (player.dead)
+				{
+					modPlayer.blackhawk = false;
+				}
+				if (modPlayer.blackhawk)
+				{
+					projectile.timeLeft = 2;
+				}
+			}
+
+			//Anti sticky movement to prevent overlapping minions
+			projectile.MinionAntiClump();
+
+			float maxDistance = 700f;
+			Vector2 targetVec = projectile.position;
+			bool foundTarget = false;
+			//If targeting something, prioritize that enemy
+			if (player.HasMinionAttackTargetNPC)
+			{
+				NPC npc = Main.npc[player.MinionAttackTargetNPC];
+				if (npc.CanBeChasedBy(projectile, false))
+				{
+					float extraDist = (npc.width / 2) + (npc.height / 2);
+					//Calculate distance between target and the projectile to know if it's too far or not
+					float targetDist = Vector2.Distance(npc.Center, projectile.Center);
+					if (!foundTarget && targetDist < (maxDistance + extraDist))
+					{
+						maxDistance = targetDist;
+						targetVec = npc.Center;
+						foundTarget = true;
+					}
+				}
+			}
+			if (!foundTarget)
+			{
+				for (int npcIndex = 0; npcIndex < Main.maxNPCs; npcIndex++)
+				{
+					NPC npc = Main.npc[npcIndex];
+					if (npc.CanBeChasedBy(projectile, false))
+					{
+						float extraDist = (npc.width / 2) + (npc.height / 2);
+						//Calculate distance between target and the projectile to know if it's too far or not
+						float targetDist = Vector2.Distance(npc.Center, projectile.Center);
+						if (!foundTarget && targetDist < (maxDistance + extraDist))
+						{
+							maxDistance = targetDist;
+							targetVec = npc.Center;
+							foundTarget = true;
+						}
+					}
+				}
+			}
+
+			//If too far, make the minion start returning to the player.
+			float separationAnxietyDist = 1300f;
+			if (foundTarget)
+			{
+				//Max travel distance increases if targeting something
+				separationAnxietyDist = 2600f;
+			}
+			if (Vector2.Distance(player.Center, projectile.Center) > separationAnxietyDist)
+			{
+				projectile.ai[0] = 1f;
+				projectile.netUpdate = true;
+			}
+
+			//If a target is found, move toward it
+			if (foundTarget && projectile.ai[0] == 0f)
+			{
+				Vector2 vecToTarget = targetVec - projectile.Center;
+				float targetDist = vecToTarget.Length();
+				vecToTarget.Normalize();
+				//If farther than 200 pixels, move toward it
+				if (targetDist > 200f)
+				{
+					float speedMult = 18f;
+					vecToTarget *= speedMult;
+					projectile.velocity = (projectile.velocity * 40f + vecToTarget) / 41f;
+				}
+				//Otherwise, back it up slowly
+				else
+				{
+					float speedMult = -9f;
+					vecToTarget *= speedMult;
+					projectile.velocity = (projectile.velocity * 40f + vecToTarget) / 41f;
+				}
+			}
+
+			//If not targeting something, act passively
+			else
+			{
+				bool returningToPlayer = false;
+				if (!returningToPlayer)
+				{
+					returningToPlayer = projectile.ai[0] == 1f;
+				}
+				//Move faster if actively returning to the player
+				float speedMult = 12f;
+				if (returningToPlayer)
+				{
+					speedMult = 30f;
+				}
+				Vector2 vecToPlayer = player.Center - projectile.Center + new Vector2(0f, -120f);
+				float playerDist = vecToPlayer.Length();
+				//Speed up if near the player
+				if (playerDist < 200f && speedMult < 16f)
+				{
+					speedMult = 16f;
+				}
+				//If close enough to the player, return to normal
+				if (playerDist < 600f && returningToPlayer)
+				{
+					projectile.ai[0] = 0f;
+					projectile.netUpdate = true;
+				}
+				//If abnormally far, teleport to the player
+				if (playerDist > 2000f)
+				{
+					projectile.position.X = player.Center.X - (float)(projectile.width / 2);
+					projectile.position.Y = player.Center.Y - (float)(projectile.height / 2);
+					projectile.netUpdate = true;
+				}
+				//Move toward player if more than 70 pixels away
+				if (playerDist > 70f)
+				{
+					vecToPlayer.Normalize();
+					vecToPlayer *= speedMult;
+					projectile.velocity = (projectile.velocity * 40f + vecToPlayer) / 41f;
+				}
+				//Move if still
+				else if (projectile.velocity.X == 0f && projectile.velocity.Y == 0f)
+				{
+					projectile.velocity.X = -0.15f;
+					projectile.velocity.Y = -0.05f;
+				}
+			}
+
+			//Update rotation
+			if (foundTarget)
+			{
+				projectile.rotation = projectile.rotation.AngleTowards(projectile.AngleTo(targetVec) + MathHelper.Pi, 0.1f);
+			}
+			else
+			{
+				projectile.rotation = projectile.velocity.ToRotation() + MathHelper.Pi;
+			}
+
+			//Increment attack cooldown
+			if (projectile.ai[1] > 0f)
+			{
+				projectile.ai[1] += Main.rand.Next(1, 4);
+			}
+			//Set the minion to be ready for attack
+			if (projectile.ai[1] > 130f)
+			{
+				projectile.ai[1] = 0f;
+				projectile.netUpdate = true;
+			}
+
+			//Return if on attack cooldown, has no target, or returning to the player
+			if (projectile.ai[0] != 0f || !foundTarget || projectile.ai[1] != 0f)
+				return;
+
+			//Shoot a bullet
+			if (Main.myPlayer == projectile.owner)
+			{
+				float projSpeed = 6f;
+				int projType = ModContent.ProjectileType<BlackHawkBullet>();
+				Main.PlaySound(SoundID.Item20, projectile.Center);
+				projectile.ai[1] += 2f;
+				Vector2 velocity = targetVec - projectile.Center;
+				velocity.Normalize();
+				velocity *= projSpeed;
+				Projectile.NewProjectile(projectile.Center, velocity, projType, projectile.damage, projectile.knockBack, projectile.owner);
+				projectile.netUpdate = true;
+			}
+		}
+
+		//Does no contact damage
+		public override bool CanDamage() => false;
+
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			Texture2D texture = Main.projectileTexture[projectile.type];
+			int frameHeight = texture.Height / Main.projFrames[projectile.type];
+			int y6 = frameHeight * projectile.frame;
+			SpriteEffects spriteEffects = SpriteEffects.None;
+			if (projectile.spriteDirection == -1)
+				spriteEffects = SpriteEffects.FlipHorizontally;
+
+			spriteBatch.Draw(texture, projectile.Center - Main.screenPosition, new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, y6, texture.Width, frameHeight)), projectile.GetAlpha(lightColor), projectile.rotation, new Vector2(texture.Width / 2f, frameHeight / 2f), projectile.scale, spriteEffects, 0f);
+			return false;
+		}
+
+		//Pretty glowmask
+		public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			Texture2D texture = ModContent.GetTexture("CalamityMod/Projectiles/Summon/BlackHawkGlow");
+			int frameHeight = texture.Height / Main.projFrames[projectile.type];
+			int y6 = frameHeight * projectile.frame;
+			SpriteEffects spriteEffects = SpriteEffects.None;
+			if (projectile.spriteDirection == -1)
+				spriteEffects = SpriteEffects.FlipHorizontally;
+
+			spriteBatch.Draw(texture, projectile.Center - Main.screenPosition, new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, y6, texture.Width, frameHeight)), Color.White, projectile.rotation, new Vector2(texture.Width / 2f, frameHeight / 2f), projectile.scale, spriteEffects, 0f);
+		}
+	}
 }

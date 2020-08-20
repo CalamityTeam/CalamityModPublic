@@ -1,11 +1,10 @@
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Summon
 {
-    public class ForbiddenCircletEater : ModProjectile
+	public class ForbiddenCircletEater : ModProjectile
     {
         private int bounce = 3;
 
@@ -89,7 +88,7 @@ namespace CalamityMod.Projectiles.Summon
                         }
 					}
 				}
-				else
+				if (!flag10)
 				{
 					for (int num376 = 0; num376 < Main.maxNPCs; num376++)
 					{

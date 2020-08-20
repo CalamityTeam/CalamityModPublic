@@ -23,7 +23,7 @@ namespace CalamityMod.Items.Accessories
          * bab spears being fired happens at the bottom of calplayer
          * Animation of legs is postupdate, animation of wings is frameeffects.
          * Projectiles transformed are ONLY affected by alldamage and summon damage bonuses, likewise the weapon's base damage/usetime is NOT taken into account.
-         * You enrage below below or at 50% hp.
+         * You enrage below or at 50% hp.
          */
         public override void SetStaticDefaults()
         {
@@ -40,8 +40,8 @@ namespace CalamityMod.Items.Accessories
                 "You are no longer affected by burn out when hit\n" +
                 "Provides buffs depending on the time of day\n" +
                 "Provides heat and cold protection in Death Mode\n" +
-                "Thinking back, it was a boring life\n" +
-                "[c/FFBF49:And so we burn it all in the name of purity]");
+				"Thinking back, it was a boring life\n" +
+				"[c/FFBF49:And so we burn it all in the name of purity]");
             Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(8, 4));
         }
 
@@ -85,7 +85,7 @@ namespace CalamityMod.Items.Accessories
                         
                 }
                 
-                tooltips.Insert(index+1, new TooltipLine(CalamityMod.instance, "Tooltip1", "[c/f05a5a:The soul within this crystal has been defiled by the powerful magic of a supreme witch]\nMerchants will reject a defiled soul such as this."));
+                tooltips.Insert(index+1, new TooltipLine(CalamityMod.Instance, "Tooltip1", "[c/f05a5a:The soul within this crystal has been defiled by the powerful magic of a supreme witch]\nMerchants will reject a defiled soul such as this."));
             }
             else if (Main.player[Main.myPlayer].Calamity().profanedCrystalBuffs)
             {
@@ -97,6 +97,19 @@ namespace CalamityMod.Items.Accessories
                         line.text = "[c/3a83e4:Transforms Magic attacks into a powerful splitting fireball for " + manaCost + " mana per cast]";
                     }
                 }
+			}
+			if (CalamityWorld.downedSCal)
+			{
+				if (!CalamityWorld.death)
+				{
+					foreach (TooltipLine line in tooltips)
+					{
+						if (line.mod == "Terraria" && line.Name == "Tooltip11")
+						{
+							line.text = "";
+						}
+					}
+				}
             }
         }
 

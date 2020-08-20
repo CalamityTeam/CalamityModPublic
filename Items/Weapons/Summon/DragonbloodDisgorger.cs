@@ -1,15 +1,13 @@
-using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Summon;
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
-    public class DragonbloodDisgorger : ModItem
+	public class DragonbloodDisgorger : ModItem
     {
         public override void SetStaticDefaults()
         {

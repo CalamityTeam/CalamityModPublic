@@ -15,7 +15,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             DisplayName.SetDefault("Elemental Shiv");
             Tooltip.SetDefault("Don't underestimate the power of shivs\n" +
-                "Shoots a rainbow orb that spawns shivs at multiple locations");
+                "Shoots a rainbow shiv that spawns additional shivs on hit");
         }
 
         public override void SetDefaults()
@@ -26,7 +26,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.useTime = 10;
             item.width = 44;
             item.height = 44;
-            item.damage = 180;
+            item.damage = 160;
             item.melee = true;
             item.knockBack = 8.5f;
             item.UseSound = SoundID.Item1;
@@ -41,7 +41,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Projectile.NewProjectile(position.X, position.Y, item.shootSpeed * player.direction, 0f, type, damage, knockBack, player.whoAmI, 0f, 0f);
+            Projectile.NewProjectile(position.X, position.Y, item.shootSpeed * player.direction, 0f, type, (int)(damage * 0.5), knockBack, player.whoAmI, 0f, 0f);
             return false;
         }
 

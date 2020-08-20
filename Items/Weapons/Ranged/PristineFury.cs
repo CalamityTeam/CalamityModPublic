@@ -1,5 +1,6 @@
 using CalamityMod.Projectiles.Ranged;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -8,7 +9,9 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class PristineFury : ModItem
     {
-        public static int BaseDamage = 100;
+		private int frameCounter = 0;
+		private int frame = 0;
+        public static int BaseDamage = 140;
 
         public override void SetStaticDefaults()
         {
@@ -23,8 +26,8 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             item.damage = BaseDamage;
             item.ranged = true;
-            item.width = 88;
-            item.height = 44;
+            item.width = 100;
+            item.height = 46;
             item.useTime = 3;
             item.useAnimation = 15;
             item.useStyle = ItemUseStyleID.HoldingOut;
@@ -40,15 +43,9 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.useAmmo = 23;
         }
 
-        public override Vector2? HoldoutOffset()
-        {
-            return new Vector2(-25, -10);
-        }
+        public override Vector2? HoldoutOffset() => new Vector2(-25, -10);
 
-        public override bool AltFunctionUse(Player player)
-        {
-            return true;
-        }
+        public override bool AltFunctionUse(Player player) => true;
 
         public override bool CanUseItem(Player player)
         {
@@ -83,5 +80,38 @@ namespace CalamityMod.Items.Weapons.Ranged
             }
 			return false;
         }
+
+		internal Rectangle GetCurrentFrame(bool frameCounterUp = true)
+		{
+			int frameAmt = 4;
+			if (frameCounter >= 5)
+			{
+				frameCounter = -1;
+				frame = frame == frameAmt - 1 ? 0 : frame + 1;
+			}
+			if (frameCounterUp)
+				frameCounter++;
+			return new Rectangle(0, item.height * frame, item.width, item.height);
+		}
+
+		public override bool PreDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
+		{
+			Texture2D texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Ranged/PristineFury_Animated");
+			spriteBatch.Draw(texture, position, GetCurrentFrame(), Color.White, 0f, origin, scale, SpriteEffects.None, 0);
+			return false;
+		}
+
+		public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)
+		{
+			Texture2D texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Ranged/PristineFury_Animated");
+			spriteBatch.Draw(texture, item.position - Main.screenPosition, GetCurrentFrame(), lightColor, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0);
+			return false;
+		}
+
+		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
+		{
+			Texture2D texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Ranged/PristineFuryGlow");
+			spriteBatch.Draw(texture, item.position - Main.screenPosition, GetCurrentFrame(false), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0);
+		}
     }
 }

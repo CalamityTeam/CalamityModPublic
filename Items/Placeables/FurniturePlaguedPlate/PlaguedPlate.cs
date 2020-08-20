@@ -9,6 +9,7 @@ namespace CalamityMod.Items.Placeables.FurniturePlaguedPlate
     {
         public override void SetStaticDefaults()
         {
+            DisplayName.SetDefault("Plagued Containment Brick");
         }
 
         public override void SetDefaults()
@@ -28,10 +29,10 @@ namespace CalamityMod.Items.Placeables.FurniturePlaguedPlate
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.IronBar, 1);
+            recipe.AddIngredient(ItemID.StoneBlock, 10);
             recipe.anyIronBar = true;
-            recipe.AddIngredient(ModContent.ItemType<PlagueCellCluster>(), 5);
-            recipe.SetResult(this, 20);
+            recipe.AddIngredient(ModContent.ItemType<PlagueCellCluster>(), 1);
+            recipe.SetResult(this, 10);
             recipe.AddTile(ModContent.TileType<PlagueInfuser>());
             recipe.AddRecipe();
             recipe = new ModRecipe(mod);

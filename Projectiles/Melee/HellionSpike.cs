@@ -1,6 +1,5 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -57,25 +56,27 @@ namespace CalamityMod.Projectiles.Melee
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
 			target.immune[projectile.owner] = 8;
+			OnHitEffects(target.Center, crit);
 			target.AddBuff(BuffID.Venom, 300);
-			if (crit)
-			{
-				float xPos = projectile.position.X + 800 * Main.rand.NextBool(2).ToDirectionInt();
-				float yPos = projectile.position.Y + Main.rand.Next(-800, 801);
-				Vector2 spawnPosition = new Vector2(xPos, yPos);
-				Vector2 velocity = target.position - spawnPosition;
-				float dir = 10 / spawnPosition.X;
-				velocity.X *= dir * 150;
-				velocity.Y *= dir * 150;
-				velocity.X = MathHelper.Clamp(velocity.X, -15f, 15f);
-				velocity.Y = MathHelper.Clamp(velocity.Y, -15f, 15f);
+		}
+
+		public override void OnHitPvp(Player target, int damage, bool crit)
+		{
+			OnHitEffects(target.Center, crit);
+			target.AddBuff(BuffID.Venom, 300);
+		}
+
+		private void OnHitEffects(Vector2 targetPos, bool crit)
+		{
+            if (crit)
+            {
 				if (projectile.owner == Main.myPlayer)
 				{
-					int petal = Projectile.NewProjectile(spawnPosition, velocity, ProjectileID.FlowerPetal, (int)(projectile.damage * 0.5), 2f, projectile.owner);
-					Main.projectile[petal].Calamity().forceMelee = true;
-					Main.projectile[petal].localNPCHitCooldown = -1;
+					Projectile petal = CalamityUtils.ProjectileBarrage(projectile.Center, targetPos, Main.rand.NextBool(), 800f, 800f, 0f, 800f, 10f, ProjectileID.FlowerPetal, (int)(projectile.damage * 0.5), projectile.knockBack * 0.5f, projectile.owner, true);
+					petal.Calamity().forceMelee = true;
+					petal.localNPCHitCooldown = -1;
 				}
-			}
-		}
+            }
+        }
 	}
 }

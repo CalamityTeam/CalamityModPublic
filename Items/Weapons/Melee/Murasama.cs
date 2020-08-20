@@ -6,7 +6,6 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.ID;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
@@ -45,7 +44,7 @@ namespace CalamityMod.Items.Weapons.Melee
 			Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(5, 14));
 		}
 
-		internal Rectangle GetCurrentFrame()
+		internal Rectangle GetCurrentFrame(bool frameCounterUp = true)
 		{
 			//0 = 6 frames, 8 = 3 frames]
 			int applicableCounter = frame == 0 ? 36 : frame == 8 ? 24 : 6;
@@ -55,7 +54,8 @@ namespace CalamityMod.Items.Weapons.Melee
 				frameCounter = -1;
 				frame = frame == 13 ? 0 : frame + 1;
 			}
-			frameCounter++;
+			if (frameCounterUp)
+				frameCounter++;
 			return new Rectangle(0, item.height * frame, item.width, item.height);
 		}
 
@@ -69,8 +69,14 @@ namespace CalamityMod.Items.Weapons.Melee
 		public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)
 		{
 			Texture2D texture = ModContent.GetTexture(Texture);
-			spriteBatch.Draw(texture, item.position - Main.screenPosition, GetCurrentFrame(), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0);
+			spriteBatch.Draw(texture, item.position - Main.screenPosition, GetCurrentFrame(), lightColor, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0);
 			return false;
+		}
+
+		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
+		{
+			Texture2D texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Melee/MurasamaGlow");
+			spriteBatch.Draw(texture, item.position - Main.screenPosition, GetCurrentFrame(false), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0);
 		}
 
 		public override bool CanUseItem(Player player)

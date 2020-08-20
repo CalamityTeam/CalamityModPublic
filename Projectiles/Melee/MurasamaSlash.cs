@@ -42,7 +42,7 @@ namespace CalamityMod.Projectiles.Melee
 			projectile.ownerHitCheck = true;
 			projectile.usesLocalNPCImmunity = true;
 			projectile.localNPCHitCooldown = 0;
-			projectile.Calamity().trueMelee = true;
+			//projectile.Calamity().trueMelee = true;
 		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
@@ -67,6 +67,9 @@ namespace CalamityMod.Projectiles.Melee
 				if (frameX >= 2)
 					CurrentFrame = 0;
 			}
+
+			// Increment a timer for it to not deal damage the first few frames
+			projectile.ai[0]++;
 
 			// Play a "droning" noise every so often.
 			if (Slashing)
@@ -135,6 +138,6 @@ namespace CalamityMod.Projectiles.Melee
 		public override Color? GetAlpha(Color lightColor) => new Color(200, 0, 0, 0);
 
 		// You could possibly mess with the local immunity, but I personally prefer this method since it's actually specific.
-		public override bool CanDamage() => Slashing;
+		public override bool CanDamage() => Slashing && projectile.ai[0] > 10f;
 	}
 }

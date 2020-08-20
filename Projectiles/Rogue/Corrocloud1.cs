@@ -1,12 +1,11 @@
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Dusts;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class Corrocloud1 : ModProjectile
+	public class Corrocloud1 : ModProjectile
     {
         public override void SetStaticDefaults()
         {

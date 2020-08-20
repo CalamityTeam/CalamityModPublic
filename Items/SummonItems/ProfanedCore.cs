@@ -3,6 +3,7 @@ using CalamityMod.World;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.Items.SummonItems
 {
     public class ProfanedCore : ModItem
@@ -35,11 +36,16 @@ namespace CalamityMod.Items.SummonItems
 
         public override bool UseItem(Player player)
         {
+			Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/ProvidenceSpawn"), (int)player.position.X, (int)player.position.Y);
 			if (Main.netMode != NetmodeID.MultiplayerClient)
 			{
-				NPC.NewNPC((int)(player.position.X + Main.rand.Next(-500, 501)), (int)(player.position.Y - 250f), ModContent.NPCType<Providence>(), 0, 0f, 0f, 0f, 0f, 255);
-				Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/ProvidenceSpawn"), (int)player.position.X, (int)player.position.Y);
+				int npc = NPC.NewNPC((int)(player.position.X + Main.rand.Next(-500, 501)), (int)(player.position.Y - 250f), ModContent.NPCType<Providence>(), 1);
+				Main.npc[npc].timeLeft *= 20;
+				CalamityUtils.BossAwakenMessage(npc);
 			}
+			else
+				NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, player.whoAmI, ModContent.NPCType<Providence>());
+
 			return true;
         }
     }

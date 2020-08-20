@@ -1,11 +1,10 @@
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Melee
 {
-    public class Whiterain : ModProjectile
+	public class Whiterain : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -30,7 +29,7 @@ namespace CalamityMod.Projectiles.Melee
             if (projectile.ai[1] == 0f)
             {
                 projectile.ai[1] = 1f;
-                Main.PlaySound(SoundID.Item125, projectile.position);
+                Main.PlaySound(SoundID.Item125, projectile.Center);
             }
 
             Lighting.AddLight(projectile.Center, 0.2f, 0.2f, 0.2f);

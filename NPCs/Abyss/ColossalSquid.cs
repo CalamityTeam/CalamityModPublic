@@ -4,6 +4,7 @@ using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Summon;
+using CalamityMod.Projectiles.Enemy;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -33,7 +34,7 @@ namespace CalamityMod.NPCs.Abyss
             npc.width = 180;
             npc.height = 180;
             npc.defense = 50;
-            npc.Calamity().RevPlusDR(0.05f);
+			npc.DR_NERD(0.05f);
             npc.lifeMax = 220000;
             npc.aiStyle = -1;
             aiType = -1;
@@ -43,7 +44,24 @@ namespace CalamityMod.NPCs.Abyss
                 npc.buffImmune[k] = true;
             }
             npc.buffImmune[BuffID.Ichor] = false;
-            npc.buffImmune[BuffID.CursedInferno] = false;
+			npc.buffImmune[BuffID.Frostburn] = false;
+			npc.buffImmune[BuffID.CursedInferno] = false;
+            npc.buffImmune[BuffID.Daybreak] = false;
+			npc.buffImmune[BuffID.StardustMinionBleed] = false;
+			npc.buffImmune[BuffID.DryadsWardDebuff] = false;
+			npc.buffImmune[BuffID.Oiled] = false;
+			npc.buffImmune[BuffID.BetsysCurse] = false;
+			npc.buffImmune[ModContent.BuffType<AstralInfectionDebuff>()] = false;
+			npc.buffImmune[ModContent.BuffType<GodSlayerInferno>()] = false;
+            npc.buffImmune[ModContent.BuffType<AbyssalFlames>()] = false;
+            npc.buffImmune[ModContent.BuffType<ArmorCrunch>()] = false;
+            npc.buffImmune[ModContent.BuffType<DemonFlames>()] = false;
+            npc.buffImmune[ModContent.BuffType<HolyFlames>()] = false;
+            npc.buffImmune[ModContent.BuffType<Nightwither>()] = false;
+            npc.buffImmune[ModContent.BuffType<Plague>()] = false;
+            npc.buffImmune[ModContent.BuffType<Shred>()] = false;
+            npc.buffImmune[ModContent.BuffType<WarCleave>()] = false;
+            npc.buffImmune[ModContent.BuffType<WhisperingDeath>()] = false;
             npc.timeLeft = NPC.activeTime * 30;
             npc.value = Item.buyPrice(0, 25, 0, 0);
             npc.HitSound = SoundID.NPCHit20;
@@ -395,7 +413,7 @@ namespace CalamityMod.NPCs.Abyss
                             damage = 55;
                         }
                         Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 111);
-                        Projectile.NewProjectile(npc.Center.X, npc.Center.Y + 60, 0f, 2f, ModContent.ProjectileType<Projectiles.Enemy.InkBomb>(), damage, 0f, Main.myPlayer, 0f, 0f);
+                        Projectile.NewProjectile(npc.Center.X, npc.Center.Y + 60, 0f, 2f, ModContent.ProjectileType<InkBombHostile>(), damage, 0f, Main.myPlayer, 0f, 0f);
                     }
                     npc.rotation = npc.velocity.X * 0.05f;
                     npc.velocity *= 0.975f;
@@ -559,7 +577,7 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void NPCLoot()
         {
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<HalibutCannon>(), CalamityWorld.revenge, 10000, 1, 1);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<HalibutCannon>(), CalamityWorld.revenge, CalamityGlobalNPCLoot.halibutCannonBaseDropChance / 100, 1, 1);
             DropHelper.DropItem(npc, ItemID.BlackInk, 3, 5);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<DepthCells>(), CalamityWorld.downedCalamitas, 2, 26, 38);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<DepthCells>(), CalamityWorld.downedCalamitas && Main.expertMode, 2, 5, 7);
@@ -570,13 +588,13 @@ namespace CalamityMod.NPCs.Abyss
         {
             for (int k = 0; k < 5; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
             }
             if (npc.life <= 0)
             {
                 for (int k = 0; k < 30; k++)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
                 }
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/ColossalSquid"), 1f);
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/ColossalSquid2"), 1f);

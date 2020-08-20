@@ -1,5 +1,4 @@
 using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.CalPlayer;
 using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -10,7 +9,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    public class AureusBomber : ModProjectile
+	public class AureusBomber : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -71,32 +70,7 @@ namespace CalamityMod.Projectiles.Summon
             }
 
 			//anti sticking movement
-            float SAImovement = 0.05f;
-			float width = (float) projectile.width;
-            for (int indexNPC = 0; indexNPC < Main.projectile.Length; indexNPC++)
-            {
-				Projectile proj = Main.projectile[indexNPC];
-                bool myType = proj.type == ModContent.ProjectileType<AureusBomber>();
-                if (indexNPC != projectile.whoAmI && proj.active && proj.owner == projectile.owner && myType && Math.Abs(projectile.position.X - proj.position.X) + Math.Abs(projectile.position.Y - proj.position.Y) < width)
-                {
-                    if (projectile.position.X < proj.position.X)
-                    {
-                        projectile.velocity.X -= SAImovement;
-                    }
-                    else
-                    {
-                        projectile.velocity.X += SAImovement;
-                    }
-                    if (projectile.position.Y < proj.position.Y)
-                    {
-                        projectile.velocity.Y -= SAImovement;
-                    }
-                    else
-                    {
-                        projectile.velocity.Y += SAImovement;
-                    }
-                }
-            }
+			projectile.MinionAntiClump();
 
 			//get in a line
 			Vector2 idlePosition = player.Center;
@@ -108,7 +82,7 @@ namespace CalamityMod.Projectiles.Summon
 			float idleDistance = vectorToIdlePosition.Length();
 
 			//dust effects
-			if (Main.rand.Next(10) == 0)
+			if (Main.rand.NextBool(10))
 			{
 				int index = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, dustType, 0.0f, 0.0f, 100, Color.Transparent, 2f);
 				Main.dust[index].velocity *= 0.3f;

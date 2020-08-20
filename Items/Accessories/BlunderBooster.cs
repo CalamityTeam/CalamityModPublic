@@ -1,4 +1,3 @@
-using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using System.Collections.Generic;
 using Terraria;
@@ -7,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
 {
-    public class BlunderBooster : ModItem
+	public class BlunderBooster : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -55,7 +54,6 @@ namespace CalamityMod.Items.Accessories
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<PlaguedFuelPack>());
             recipe.AddIngredient(ModContent.ItemType<EffulgentFeather>(), 8);
-            recipe.AddIngredient(ModContent.ItemType<UeliaceBar>(), 5);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();

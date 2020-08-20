@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 250;
+            item.damage = 240;
             item.ranged = true;
             item.width = 44;
             item.height = 26;
@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.autoReuse = true;
             item.shootSpeed = 9f;
             item.shoot = ModContent.ProjectileType<SpykerProj>();
-            item.useAmmo = 97;
+            item.useAmmo = AmmoID.Bullet;
             item.Calamity().customRarity = CalamityRarity.Turquoise;
         }
 

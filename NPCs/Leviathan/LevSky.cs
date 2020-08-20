@@ -26,21 +26,27 @@ namespace CalamityMod.NPCs.Leviathan
 
         private float GetIntensity()
         {
-            if (this.UpdateLIndex())
+            if (UpdateLIndex())
             {
                 float x = 0f;
-                if (this.LevIndex != -1)
+                if (LevIndex != -1)
                 {
-                    x = Vector2.Distance(Main.player[Main.myPlayer].Center, Main.npc[this.LevIndex].Center);
+                    x = Vector2.Distance(Main.player[Main.myPlayer].Center, Main.npc[LevIndex].Center);
                 }
-                return 1f - Utils.SmoothStep(3000f, 6000f, x);
+
+				float spawnAnimationTimer = 180f;
+				float intensityScalar = 1f;
+				if (Main.npc[CalamityGlobalNPC.leviathan].Calamity().newAI[3] < spawnAnimationTimer)
+					intensityScalar = MathHelper.Lerp(0f, intensityScalar, Main.npc[CalamityGlobalNPC.leviathan].Calamity().newAI[3] / spawnAnimationTimer);
+
+				return (1f - Utils.SmoothStep(3000f, 6000f, x)) * intensityScalar;
             }
             return 0f;
         }
 
         public override Color OnTileColor(Color inColor)
         {
-            float intensity = this.GetIntensity();
+            float intensity = GetIntensity();
             return new Color(Vector4.Lerp(new Vector4(0.5f, 0.8f, 1f, 1f), inColor.ToVector4(), 1f - intensity));
         }
 
@@ -60,7 +66,6 @@ namespace CalamityMod.NPCs.Leviathan
                     break;
                 }
             }
-            //this.DoGIndex = DoGIndex;
             return LevIndex != -1;
         }
 
@@ -68,7 +73,7 @@ namespace CalamityMod.NPCs.Leviathan
         {
             if (maxDepth >= 0 && minDepth < 0)
             {
-                float intensity = this.GetIntensity();
+                float intensity = GetIntensity();
                 spriteBatch.Draw(Main.blackTileTexture, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), new Color(0, 0, 15) * intensity);
             }
         }

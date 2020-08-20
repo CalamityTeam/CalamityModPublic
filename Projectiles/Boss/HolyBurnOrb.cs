@@ -20,9 +20,8 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetDefaults()
         {
-            projectile.width = 30;
-            projectile.height = 30;
-            projectile.friendly = true;
+            projectile.width = projectile.height = 30;
+            projectile.hostile = true;
             projectile.ignoreWater = true;
             projectile.tileCollide = false;
 			projectile.alpha = 255;
@@ -32,7 +31,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void AI()
         {
-			if (projectile.ai[0] < 80f)
+			if (projectile.ai[0] < 240f)
 			{
 				projectile.ai[0] += 1f;
 
@@ -40,69 +39,68 @@ namespace CalamityMod.Projectiles.Boss
 					projectile.timeLeft = 160;
 			}
 
-			bool expertMode = Main.expertMode;
-            projectile.velocity *= 1.01f;
-            int num487 = Player.FindClosest(projectile.position, projectile.width, projectile.height);
-            Vector2 vector36 = new Vector2(projectile.position.X + projectile.width * 0.5f, projectile.position.Y + projectile.height * 0.5f);
-            float num489 = Main.player[num487].Center.X - vector36.X;
-            float num490 = Main.player[num487].Center.Y - vector36.Y;
-            float num491 = (float)Math.Sqrt(num489 * num489 + num490 * num490);
+			if (projectile.velocity.Length() < 16f)
+				projectile.velocity *= 1.01f;
 
-            if (num491 < 50f && projectile.position.X < Main.player[num487].position.X + Main.player[num487].width && projectile.position.X + projectile.width > Main.player[num487].position.X && projectile.position.Y < Main.player[num487].position.Y + Main.player[num487].height && projectile.position.Y + projectile.height > Main.player[num487].position.Y)
+			projectile.ai[1] = Player.FindClosest(projectile.Center, projectile.width, projectile.height);
+			int index = (int)projectile.ai[1];
+			Player player = Main.player[index];
+			if (player is null)
+				return;
+
+			float playerDist = Vector2.Distance(player.Center, projectile.Center);
+            if (playerDist < 50f && !player.dead && projectile.position.X < player.position.X + player.width && projectile.position.X + projectile.width > player.position.X && projectile.position.Y < player.Bottom.Y && projectile.Bottom.Y > player.position.Y)
             {
-                int num492 = expertMode ? -150 : -100;
+                int dmgAmt = Main.expertMode ? -150 : -100;
                 if (CalamityWorld.death || CalamityWorld.bossRushActive)
-                    num492 = -200;
+                    dmgAmt = -200;
 				if (!Main.dayTime)
-					num492 = -300;
+					dmgAmt = -300;
 
-                Main.player[num487].HealEffect(num492, false);
-                Main.player[num487].statLife += num492;
-                if (Main.player[num487].statLife > Main.player[num487].statLifeMax2)
+                player.HealEffect(dmgAmt, false);
+                player.statLife += dmgAmt;
+                if (player.statLife > player.statLifeMax2)
                 {
-                    Main.player[num487].statLife = Main.player[num487].statLifeMax2;
+                    player.statLife = player.statLifeMax2;
                 }
-                if (Main.player[num487].statLife < 0 || CalamityWorld.armageddon)
+                if (player.statLife < 0 || CalamityWorld.armageddon)
                 {
-                    Main.player[num487].KillMe(PlayerDeathReason.ByCustomReason(Main.player[Main.myPlayer].name + " burst into sinless ash."), 1000.0, 0, false);
+                    player.KillMe(PlayerDeathReason.ByCustomReason(player.name + " burst into sinless ash."), 1000.0, 0, false);
                 }
-                NetMessage.SendData(MessageID.SpiritHeal, -1, -1, null, num487, num492, 0f, 0f, 0, 0, 0);
+                NetMessage.SendData(MessageID.SpiritHeal, -1, -1, null, index, dmgAmt);
                 projectile.Kill();
             }
         }
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
-			Texture2D value = Main.projectileTexture[projectile.type];
-			Color baseColor = Main.dayTime ? new Color(255, 150, 0, 255) : new Color(0, 150, 255, 255);
-			Color color33 = baseColor * 0.5f;
-			color33.A = 0;
-			Vector2 vector28 = projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY);
-			Color color34 = color33;
-			Vector2 origin5 = value.Size() / 2f;
-			Color color35 = color33 * 0.5f;
-			float num162 = CalamityUtils.GetLerpValue(15f, 30f, projectile.timeLeft, clamped: true) * CalamityUtils.GetLerpValue(240f, 200f, projectile.timeLeft, clamped: true) * (1f + 0.2f * (float)Math.Cos(Main.GlobalTime % 30f / 0.5f * ((float)Math.PI * 2f) * 3f)) * 0.8f;
-			Vector2 vector29 = new Vector2(0.5f, 1.5f) * num162;
-			Vector2 vector30 = new Vector2(0.5f, 1.5f) * num162;
-			color34 *= num162;
-			color35 *= num162;
+			float lerpMult = CalamityUtils.GetLerpValue(15f, 30f, projectile.timeLeft, clamped: true) * CalamityUtils.GetLerpValue(240f, 200f, projectile.timeLeft, clamped: true) * (1f + 0.2f * (float)Math.Cos(Main.GlobalTime % 30f / 0.5f * (MathHelper.Pi * 2f) * 3f)) * 0.8f;
 
-			int num163 = 0;
-			Vector2 position3 = vector28 + projectile.velocity.SafeNormalize(Vector2.Zero) * CalamityUtils.GetLerpValue(0.5f, 1f, projectile.localAI[0] / 60f, clamped: true) * num163;
+			Texture2D texture = Main.projectileTexture[projectile.type];
+			Vector2 drawPos = projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY);
+			Color baseColor = Main.dayTime ? new Color(255, 200, 100, 255) : new Color(100, 200, 255, 255);
+			baseColor *= 0.5f;
+			baseColor.A = 0;
+			Color colorA = baseColor;
+			Color colorB = baseColor * 0.5f;
+			colorA *= lerpMult;
+			colorB *= lerpMult;
+			Vector2 origin = texture.Size() / 2f;
+			Vector2 scale = new Vector2(0.5f, 1.5f) * lerpMult;
 
 			SpriteEffects spriteEffects = SpriteEffects.None;
 			if (projectile.spriteDirection == -1)
 				spriteEffects = SpriteEffects.FlipHorizontally;
 
-			spriteBatch.Draw(value, position3, null, color34, MathHelper.PiOver2, origin5, vector29, spriteEffects, 0);
-			spriteBatch.Draw(value, position3, null, color34, 0f, origin5, vector30, spriteEffects, 0);
-			spriteBatch.Draw(value, position3, null, color35, MathHelper.PiOver2, origin5, vector29 * 0.6f, spriteEffects, 0);
-			spriteBatch.Draw(value, position3, null, color35, 0f, origin5, vector30 * 0.6f, spriteEffects, 0);
+			spriteBatch.Draw(texture, drawPos, null, colorA, MathHelper.PiOver2, origin, scale, spriteEffects, 0);
+			spriteBatch.Draw(texture, drawPos, null, colorA, 0f, origin, scale, spriteEffects, 0);
+			spriteBatch.Draw(texture, drawPos, null, colorB, MathHelper.PiOver2, origin, scale * 0.6f, spriteEffects, 0);
+			spriteBatch.Draw(texture, drawPos, null, colorB, 0f, origin, scale * 0.6f, spriteEffects, 0);
 
-			spriteBatch.Draw(value, position3, null, color34, MathHelper.PiOver4, origin5, vector29 * 0.6f, spriteEffects, 0);
-			spriteBatch.Draw(value, position3, null, color34, MathHelper.PiOver4 * 3f, origin5, vector30 * 0.6f, spriteEffects, 0);
-			spriteBatch.Draw(value, position3, null, color35, MathHelper.PiOver4, origin5, vector29 * 0.36f, spriteEffects, 0);
-			spriteBatch.Draw(value, position3, null, color35, MathHelper.PiOver4 * 3f, origin5, vector30 * 0.36f, spriteEffects, 0);
+			spriteBatch.Draw(texture, drawPos, null, colorA, MathHelper.PiOver4, origin, scale * 0.6f, spriteEffects, 0);
+			spriteBatch.Draw(texture, drawPos, null, colorA, MathHelper.PiOver4 * 3f, origin, scale * 0.6f, spriteEffects, 0);
+			spriteBatch.Draw(texture, drawPos, null, colorB, MathHelper.PiOver4, origin, scale * 0.36f, spriteEffects, 0);
+			spriteBatch.Draw(texture, drawPos, null, colorB, MathHelper.PiOver4 * 3f, origin, scale * 0.36f, spriteEffects, 0);
 
 			return false;
 		}
@@ -110,30 +108,25 @@ namespace CalamityMod.Projectiles.Boss
 		public override void Kill(int timeLeft)
         {
             Main.PlaySound(SoundID.Item14, projectile.Center);
-            projectile.position.X = projectile.position.X + (projectile.width / 2);
-            projectile.position.Y = projectile.position.Y + (projectile.height / 2);
-            projectile.width = 50;
-            projectile.height = 50;
-            projectile.position.X = projectile.position.X - (projectile.width / 2);
-            projectile.position.Y = projectile.position.Y - (projectile.height / 2);
+			CalamityGlobalProjectile.ExpandHitboxBy(projectile, 50);
 			int dustType = Main.dayTime ? (int)CalamityDusts.ProfanedFire : (int)CalamityDusts.Nightwither;
-			for (int num621 = 0; num621 < 10; num621++)
+			for (int d = 0; d < 10; d++)
             {
-                int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, dustType, 0f, 0f, 100, default, 2f);
-                Main.dust[num622].velocity *= 3f;
+                int holy = Dust.NewDust(projectile.position, projectile.width, projectile.height, dustType, 0f, 0f, 100, default, 2f);
+                Main.dust[holy].velocity *= 3f;
                 if (Main.rand.NextBool(2))
                 {
-                    Main.dust[num622].scale = 0.5f;
-                    Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
+                    Main.dust[holy].scale = 0.5f;
+                    Main.dust[holy].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
                 }
             }
-            for (int num623 = 0; num623 < 15; num623++)
+            for (int d = 0; d < 15; d++)
             {
-                int num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, dustType, 0f, 0f, 100, default, 3f);
-                Main.dust[num624].noGravity = true;
-                Main.dust[num624].velocity *= 5f;
-                num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, dustType, 0f, 0f, 100, default, 2f);
-                Main.dust[num624].velocity *= 2f;
+                int fire = Dust.NewDust(projectile.position, projectile.width, projectile.height, dustType, 0f, 0f, 100, default, 3f);
+                Main.dust[fire].noGravity = true;
+                Main.dust[fire].velocity *= 5f;
+                fire = Dust.NewDust(projectile.position, projectile.width, projectile.height, dustType, 0f, 0f, 100, default, 2f);
+                Main.dust[fire].velocity *= 2f;
             }
         }
 

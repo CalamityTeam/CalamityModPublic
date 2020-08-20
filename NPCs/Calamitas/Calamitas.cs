@@ -1,21 +1,16 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Dusts;
-using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
-using Terraria.ModLoader.Config;
-using CalamityMod;
 
 namespace CalamityMod.NPCs.Calamitas
 {
-    [AutoloadBossHead]
+	[AutoloadBossHead]
     public class Calamitas : ModNPC
     {
         public override void SetStaticDefaults()
@@ -32,7 +27,7 @@ namespace CalamityMod.NPCs.Calamitas
             npc.width = 120;
             npc.height = 120;
             npc.defense = 15;
-            npc.Calamity().RevPlusDR(0.15f);
+			npc.DR_NERD(0.15f);
             npc.value = 0f;
             npc.LifeMaxNERB(37500, 51750, 5200000);
             if (CalamityWorld.downedProvidence && !CalamityWorld.bossRushActive)
@@ -41,7 +36,7 @@ namespace CalamityMod.NPCs.Calamitas
                 npc.defense *= 3;
                 npc.lifeMax *= 3;
             }
-            double HPBoost = CalamityMod.CalamityConfig.BossHealthPercentageBoost * 0.01;
+            double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.aiStyle = -1;
             aiType = -1;
@@ -60,6 +55,7 @@ namespace CalamityMod.NPCs.Calamitas
 			npc.buffImmune[BuffID.DryadsWardDebuff] = false;
 			npc.buffImmune[BuffID.Oiled] = false;
 			npc.buffImmune[BuffID.BoneJavelin] = false;
+			npc.buffImmune[BuffID.SoulDrain] = false;
             npc.buffImmune[ModContent.BuffType<AbyssalFlames>()] = false;
 			npc.buffImmune[ModContent.BuffType<AstralInfectionDebuff>()] = false;
             npc.buffImmune[ModContent.BuffType<ArmorCrunch>()] = false;
@@ -69,6 +65,7 @@ namespace CalamityMod.NPCs.Calamitas
             npc.buffImmune[ModContent.BuffType<Nightwither>()] = false;
             npc.buffImmune[ModContent.BuffType<Plague>()] = false;
             npc.buffImmune[ModContent.BuffType<Shred>()] = false;
+            npc.buffImmune[ModContent.BuffType<WarCleave>()] = false;
             npc.buffImmune[ModContent.BuffType<WhisperingDeath>()] = false;
             npc.buffImmune[ModContent.BuffType<SilvaStun>()] = false;
             npc.buffImmune[ModContent.BuffType<SulphuricPoisoning>()] = false;
@@ -104,7 +101,7 @@ namespace CalamityMod.NPCs.Calamitas
 			float amount9 = 0.5f;
 			int num153 = 7;
 
-			if (CalamityMod.CalamityConfig.Afterimages)
+			if (CalamityConfig.Instance.Afterimages)
 			{
 				for (int num155 = 1; num155 < num153; num155 += 2)
 				{
@@ -127,7 +124,7 @@ namespace CalamityMod.NPCs.Calamitas
 			texture2D15 = ModContent.GetTexture("CalamityMod/NPCs/Calamitas/CalamitasGlow");
 			Color color37 = Color.Lerp(Color.White, Color.Red, 0.5f);
 
-			if (CalamityMod.CalamityConfig.Afterimages)
+			if (CalamityConfig.Instance.Afterimages)
 			{
 				for (int num163 = 1; num163 < num153; num163++)
 				{

@@ -4,11 +4,10 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Graphics.Shaders;
-using Microsoft.Xna.Framework;
 
 namespace CalamityMod.Items.Dyes
 {
-    public class DragonSoulDye : BaseDye
+	public class DragonSoulDye : BaseDye
     {
         public override ArmorShaderData ShaderDataToBind => new ArmorShaderData(new Ref<Effect>(mod.GetEffect("Effects/Dyes/DragonSoulDyeShader")), "DyePass");
         public override void SafeSetStaticDefaults()
@@ -26,10 +25,10 @@ namespace CalamityMod.Items.Dyes
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.BottledWater);
+            recipe.AddIngredient(ItemID.BottledWater, 2);
             recipe.AddIngredient(ModContent.ItemType<HellcasterFragment>());
             recipe.AddTile(TileID.DyeVat);
-            recipe.SetResult(this);
+            recipe.SetResult(this, 2);
             recipe.AddRecipe();
         }
     }

@@ -1,17 +1,27 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Summon
 {
-    public class BrimseekerAuraBall : ModProjectile
+	public class BrimseekerAuraBall : ModProjectile
     {
-        public static float MovementSpeed = 4f;
-        public static float RotationalSpeed = 0.08f;
-        public bool initialized = false;
+        public bool Initialized = false;
+        public Projectile ParentProjectile => Main.projectile[(int)projectile.ai[0]];
+        public float Outwardness
+        {
+            get => projectile.localAI[0];
+            set => projectile.localAI[0] = value;
+        }
+        public float RotationalSpeed
+        {
+            get => projectile.localAI[1];
+            set => projectile.localAI[1] = value;
+        }
+        public const float OutwardnessMovementStep = 4f;
+        public const float MaxRotationalSpeed = 0.08f;
 
         public override void SetStaticDefaults()
         {
@@ -32,41 +42,34 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void AI()
         {
-            if (!initialized)
+            if (!Initialized)
             {
                 projectile.rotation = Main.rand.NextFloat(0f, MathHelper.TwoPi);
-                projectile.localAI[1] = Main.rand.NextFloat(-RotationalSpeed, RotationalSpeed);
-                initialized = true;
+                RotationalSpeed = Main.rand.NextFloat(-MaxRotationalSpeed, MaxRotationalSpeed);
+                Initialized = true;
             }
-            projectile.tileCollide = false;
 
-            Projectile parent = Main.projectile[(int)projectile.ai[0]];
+            Projectile ParentProjectile = Main.projectile[(int)projectile.ai[0]];
 
-            if (parent.active)
-            {
-                Vector2 positionDelta = new Vector2(0, projectile.localAI[0]);
-                positionDelta = positionDelta.RotatedBy(projectile.rotation);
-
-                projectile.Center = parent.Center + positionDelta;
-                projectile.rotation += projectile.localAI[1];
-
-                if (projectile.timeLeft % 200 / MovementSpeed < 100 / MovementSpeed)
-                {
-                    projectile.localAI[0] += MovementSpeed;
-                }
-                else
-                {
-                    projectile.localAI[0] -= MovementSpeed;
-                }
-            }
-            else
+            if (!ParentProjectile.active)
             {
                 projectile.Kill();
+                return;
             }
 
-            int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 2f);
-            Main.dust[dust].noGravity = true;
-            Main.dust[dust].velocity.Y = -0.15f;
+            Vector2 offsetRelativeToTarget = Vector2.UnitY.RotatedBy(projectile.rotation) * Outwardness;
+
+            projectile.Center = ParentProjectile.Center + offsetRelativeToTarget;
+            projectile.rotation += RotationalSpeed;
+
+            if (projectile.timeLeft % 200 / OutwardnessMovementStep < 100 / OutwardnessMovementStep)
+                Outwardness += OutwardnessMovementStep;
+            else
+                Outwardness -= OutwardnessMovementStep;
+
+            Dust dust = Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 1.5f);
+            dust.noGravity = true;
+            dust.velocity.Y = -0.15f;
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

@@ -3,11 +3,10 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using CalamityMod.Projectiles.Melee;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class PenumbraBomb : ModProjectile
+	public class PenumbraBomb : ModProjectile
     {
         public override void SetStaticDefaults()
         {

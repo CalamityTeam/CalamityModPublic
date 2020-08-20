@@ -50,29 +50,28 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
-            float num72 = item.shootSpeed;
-            float num78 = (float)Main.mouseX + Main.screenPosition.X - vector2.X;
-            float num79 = (float)Main.mouseY + Main.screenPosition.Y - vector2.Y;
-            float f = Main.rand.NextFloat() * 6.28318548f;
-            float value12 = 20f;
-            float value13 = 60f;
-            Vector2 vector13 = vector2 + f.ToRotationVector2() * MathHelper.Lerp(value12, value13, Main.rand.NextFloat());
+            Vector2 playerPos = player.RotatedRelativePoint(player.MountedCenter, true);
+            float speed = item.shootSpeed;
+            float xPos = (float)Main.mouseX + Main.screenPosition.X - playerPos.X;
+            float yPos = (float)Main.mouseY + Main.screenPosition.Y - playerPos.Y;
+            float f = Main.rand.NextFloat() * MathHelper.TwoPi;
+            float sourceVariationLow = 20f;
+            float sourceVariationHigh = 60f;
+            Vector2 source = playerPos + f.ToRotationVector2() * MathHelper.Lerp(sourceVariationLow, sourceVariationHigh, Main.rand.NextFloat());
             for (int num202 = 0; num202 < 50; num202++)
             {
-                vector13 = vector2 + f.ToRotationVector2() * MathHelper.Lerp(value12, value13, Main.rand.NextFloat());
-                if (Collision.CanHit(vector2, 0, 0, vector13 + (vector13 - vector2).SafeNormalize(Vector2.UnitX) * 8f, 0, 0))
+                source = playerPos + f.ToRotationVector2() * MathHelper.Lerp(sourceVariationLow, sourceVariationHigh, Main.rand.NextFloat());
+                if (Collision.CanHit(playerPos, 0, 0, source + (source - playerPos).SafeNormalize(Vector2.UnitX) * 8f, 0, 0))
                 {
                     break;
                 }
-                f = Main.rand.NextFloat() * 6.28318548f;
+                f = Main.rand.NextFloat() * MathHelper.TwoPi;
             }
-            Vector2 mouseWorld = Main.MouseWorld;
-            Vector2 vector14 = mouseWorld - vector13;
-            Vector2 vector15 = new Vector2(num78, num79).SafeNormalize(Vector2.UnitY) * num72;
-            vector14 = vector14.SafeNormalize(vector15) * num72;
-            vector14 = Vector2.Lerp(vector14, vector15, 0.25f);
-            Projectile.NewProjectile(vector13, vector14, type, damage, knockBack, player.whoAmI, 0f, Main.rand.Next(3));
+            Vector2 velocity = Main.MouseWorld - source;
+            Vector2 velocityVariation = new Vector2(xPos, yPos).SafeNormalize(Vector2.UnitY) * speed;
+            velocity = velocity.SafeNormalize(velocityVariation) * speed;
+            velocity = Vector2.Lerp(velocity, velocityVariation, 0.25f);
+            Projectile.NewProjectile(source, velocity, type, damage, knockBack, player.whoAmI, 0f, Main.rand.Next(3));
             return false;
         }
 

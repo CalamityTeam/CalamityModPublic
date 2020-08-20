@@ -16,20 +16,17 @@ namespace CalamityMod.Items.Weapons.Summon
         public const int CrippleTime = 360; // 6 seconds
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Prototype Andromecha Ring");
-            Tooltip.SetDefault("Summons a colossal controllable mech\n" +
-                               "Right click to display the mech's control panel\n" +
-                               "The panel has 3 possible configurations, that you can choose using the brackets on the UI\n" +
-                               "Each bracket powers 2 out of 3 functions, represented by icons on the UI.\n" +
-                               "The bottom left icon shrinks the mech to the size of a player when powered, but weakens its attacks. \n" +
-                               "The bottom right icon charges when powered. At full charge, you can click it to release bursts of branching lightning.\n" +
-                               "The top icon alternates between the 2 the primary attacks when clicked. \n" +
-                               "The primary attack replaces your normal attacks. You can only use the primary attack if the top icon is powered\n" +
-                               "The melee mode slashes enemies with Regicide, an enormous energy blade\n" +
-                               "The ranged mode releases quickly 3 laser beams. Only one laser is shot if the mech is shrunk\n" +
-                               "Exiting the mount while a boss is alive will temporarily hinder your movement\n" +
-                               "The remains of what could have been, forged into a deadly exosuit\n" +
-                                "[c/87ceeb:Now, make them pay.]");
+            DisplayName.SetDefault("Flamsteed Ring");
+            Tooltip.SetDefault(@"Summons a colossal controllable mech
+Right click to display the mech's control panel
+The panel has 3 configurations, selected using the brackets on the edges of the UI
+Each bracket powers 2 out of 3 possible functions, represented by the circular icons.
+The bottom left icon miniaturizes the mech to the size of a player, but weakens its weapons.
+The bottom right icon is a powerful jet booster which greatly enhances movement.
+The top icon is the mech's weaponry. It must be powered in order to attack.
+Click the top icon to switch between Regicide, an enormous energy blade, and a powerful Gauss rifle.
+Exiting the mount while a boss is alive will temporarily hinder your movement
+[c/87ceeb:Now, make them pay.]");
         }
 
         public override void SetDefaults()
@@ -53,7 +50,7 @@ namespace CalamityMod.Items.Weapons.Summon
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<ShadowspecBar>(), 100);
+            recipe.AddIngredient(ModContent.ItemType<ShadowspecBar>(), 5);
             recipe.AddIngredient(ModContent.ItemType<Excelsus>(), 4);
             recipe.AddIngredient(ModContent.ItemType<CosmicViperEngine>());
             recipe.AddIngredient(ItemID.WingsVortex);

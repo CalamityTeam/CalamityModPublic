@@ -8,7 +8,7 @@ namespace CalamityMod.Buffs.StatBuffs
         public override void SetDefaults()
         {
             DisplayName.SetDefault("Ice Shield");
-            Description.SetDefault("Absorbs 15% damage from the next hit you take, then shatters");
+            Description.SetDefault("Absorbs 20% damage from the next hit you take, then shatters");
             Main.buffNoTimeDisplay[Type] = true;
             Main.debuff[Type] = false;
             Main.pvpBuff[Type] = true;

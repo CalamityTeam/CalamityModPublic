@@ -1,5 +1,3 @@
-using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
 using System;
@@ -98,43 +96,43 @@ namespace CalamityMod.Projectiles.Magic
             {
 				SummonLasers();
 			}
-            target.AddBuff(ModContent.BuffType<ExoFreeze>(), 30);
-            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
-            target.AddBuff(ModContent.BuffType<GlacialState>(), 120);
-            target.AddBuff(ModContent.BuffType<Plague>(), 120);
-            target.AddBuff(ModContent.BuffType<HolyFlames>(), 120);
-            target.AddBuff(BuffID.CursedInferno, 120);
-            target.AddBuff(BuffID.Frostburn, 120);
-            target.AddBuff(BuffID.OnFire, 120);
-            target.AddBuff(BuffID.Ichor, 120);
+			target.ExoDebuffs();
+        }
+
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+            if (projectile.owner == Main.myPlayer)
+            {
+				SummonLasers();
+			}
+			target.ExoDebuffs();
         }
 
 		private void SummonLasers()
 		{
 			if (projectile.ai[1] == 0f)
 			{
-				float x = projectile.position.X + (float)Main.rand.Next(-400, 400);
-				float y = projectile.position.Y - (float)Main.rand.Next(500, 800);
-				Vector2 vector = new Vector2(x, y);
-				float num15 = projectile.position.X + (float)(projectile.width / 2) - vector.X;
-				float num16 = projectile.position.Y + (float)(projectile.height / 2) - vector.Y;
-				num15 += (float)Main.rand.Next(-100, 101);
-				float num17 = 6f;
-				float num18 = (float)Math.Sqrt((double)(num15 * num15 + num16 * num16));
-				num18 = num17 / num18;
-				num15 *= num18;
-				num16 *= num18;
-				int num19 = Projectile.NewProjectile(x, y, num15, num16, ModContent.ProjectileType<VividClarityBeam>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+				float xStart = projectile.position.X + (float)Main.rand.Next(-400, 400);
+				float yStart = projectile.position.Y - (float)Main.rand.Next(500, 800);
+				Vector2 startPos = new Vector2(xStart, yStart);
+				Vector2 velocity = projectile.Center - startPos;
+				velocity.X += (float)Main.rand.Next(-100, 101);
+				float speed = 6f;
+				float targetDist = velocity.Length();
+				targetDist = speed / targetDist;
+				velocity.X *= targetDist;
+				velocity.Y *= targetDist;
+				int num19 = Projectile.NewProjectile(startPos, velocity, ModContent.ProjectileType<VividClarityBeam>(), (int)(projectile.damage * 0.7f), projectile.knockBack, projectile.owner, 0f, 0f);
 				Main.projectile[num19].ai[1] = projectile.position.Y;
 			}
 			if (projectile.ai[1] == 1f)
 			{
-                int boom = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<SupernovaBoom>(), (int)((double)projectile.damage * 2f), projectile.knockBack, projectile.owner, 0f, 0f);
+                int boom = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<SupernovaBoom>(), (int)(projectile.damage * 2f), projectile.knockBack, projectile.owner, 0f, 0f);
 				Main.projectile[boom].Calamity().forceMagic = true;
 			}
 			if (projectile.ai[1] == 2f)
 			{
-				float spread = 30f * 0.0174f;
+				float spread = 30f * 0.01f * MathHelper.PiOver2;
 				double startAngle = Math.Atan2(projectile.velocity.X, projectile.velocity.Y) - spread / 2;
 				double deltaAngle = spread / 8f;
 				double offsetAngle;
@@ -143,8 +141,8 @@ namespace CalamityMod.Projectiles.Magic
 					for (int i = 0; i < 4; i++)
 					{
 						offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-						Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<VividLaser2>(), (int)((double)projectile.damage * 0.2f), projectile.knockBack, projectile.owner, 0f, 0f);
-						Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<VividLaser2>(), (int)((double)projectile.damage * 0.2f), projectile.knockBack, projectile.owner, 0f, 0f);
+						Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<VividLaser2>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+						Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<VividLaser2>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
 					}
 				}
 			}

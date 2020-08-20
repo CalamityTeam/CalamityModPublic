@@ -39,10 +39,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.shootSpeed = 20f;
         }
 
-        public override Vector2? HoldoutOffset()
-        {
-            return new Vector2(-15, 0);
-        }
+        public override Vector2? HoldoutOffset() => new Vector2(-15, 0);
 
         public override void AddRecipes()
         {
@@ -51,38 +48,39 @@ namespace CalamityMod.Items.Weapons.Magic
             recipe.AddIngredient(ItemID.MagicalHarp);
             recipe.AddIngredient(ModContent.ItemType<SirensSong>());
             recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 10);
-            recipe.AddIngredient(ModContent.ItemType<NightmareFuel>(), 10);
-            recipe.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 10);
+            recipe.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 2);
             recipe.AddTile(ModContent.TileType<DraedonsForge>());
             recipe.SetResult(this);
             recipe.AddRecipe();
         }
 
-        public override bool AltFunctionUse(Player player)
+        public override bool AltFunctionUse(Player player) => true;
+
+        public override bool CanUseItem(Player player)
         {
-            return true;
+            if (player.altFunctionUse == 2)
+            {
+                item.useTime = 20;
+                item.useAnimation = 20;
+            }
+            else
+            {
+                item.useTime = 5;
+                item.useAnimation = 10;
+            }
+            return base.CanUseItem(player);
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             if (player.altFunctionUse == 2)
             {
-                position = Main.MouseWorld;
-                speedX = 0;
-                speedY = 0;
-                item.useTime = 20;
-                item.useAnimation = 20;
-                item.reuseDelay = 0;
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<MelterAmp>(), damage, knockBack, player.whoAmI);
+                Projectile.NewProjectile(Main.MouseWorld, Vector2.Zero, ModContent.ProjectileType<MelterAmp>(), damage, knockBack, player.whoAmI);
                 return false;
             }
             else
             {
-                item.useTime = 5;
-                item.useAnimation = 10;
-                float SpeedX = speedX;
-                float SpeedY = speedY;
-                int note = Main.rand.Next(0, 2);
+                int note = Main.rand.Next(2);
                 if (note == 0)
                 {
                     damage = (int)(damage * 1.5f);
@@ -90,11 +88,11 @@ namespace CalamityMod.Items.Weapons.Magic
                 }
                 else
                 {
-                    SpeedX *= 1.5f;
-                    SpeedY *= 1.5f;
+                    speedX *= 1.5f;
+                    speedY *= 1.5f;
                     type = ModContent.ProjectileType<MelterNote2>();
                 }
-                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI, 0f, 0f);
                 return false;
             }
         }

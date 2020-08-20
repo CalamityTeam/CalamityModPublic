@@ -1,11 +1,10 @@
 using CalamityMod.Buffs.DamageOverTime;
-using System;
 using Terraria;
 using Terraria.ModLoader;
 using CalamityMod.Projectiles.BaseProjectiles;
 namespace CalamityMod.Projectiles.Melee.Spears
 {
-    public class DiseasedPikeSpear : BaseSpearProjectile
+	public class DiseasedPikeSpear : BaseSpearProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -25,8 +24,9 @@ namespace CalamityMod.Projectiles.Melee.Spears
             projectile.ignoreWater = true;
             projectile.penetrate = -1;
             projectile.ownerHitCheck = true;
-            projectile.Calamity().trueMelee = true;
+            //projectile.Calamity().trueMelee = true;
         }
+
         public override float InitialSpeed => 3f;
         public override float ReelbackSpeed => 2.4f;
         public override float ForwardSpeed => 0.95f;

@@ -11,13 +11,14 @@ namespace CalamityMod.Items.Weapons.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Xeroc Greatsword");
+            DisplayName.SetDefault("Entropic Claymore");
             Tooltip.SetDefault("Fires a spread of homing plasma balls");
         }
 
         public override void SetDefaults()
         {
-            item.width = 66;
+            item.width = 130;
+            item.height = 106;
             item.damage = 90;
             item.melee = true;
             item.useAnimation = 26;
@@ -27,11 +28,15 @@ namespace CalamityMod.Items.Weapons.Melee
             item.knockBack = 5.25f;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
-            item.height = 66;
             item.value = Item.buyPrice(0, 95, 0, 0);
             item.rare = 9;
-            item.shoot = ModContent.ProjectileType<PlasmaBall>();
+            item.shoot = ModContent.ProjectileType<MeldGreatswordSmallProjectile>();
             item.shootSpeed = 12f;
+        }
+
+        public override void UseItemHitbox(Player player, ref Rectangle hitbox, ref bool noHitbox)
+        {
+            hitbox = CalamityUtils.FixSwingHitbox(118, 118);
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -41,7 +46,24 @@ namespace CalamityMod.Items.Weapons.Melee
             {
                 float SpeedX = speedX + (float)Main.rand.Next(-20, 21) * 0.05f;
                 float SpeedY = speedY + (float)Main.rand.Next(-20, 21) * 0.05f;
-                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, (int)((double)damage * 0.75), knockBack, player.whoAmI, 0.0f, 0.0f);
+				float damageMult = 0.5f;
+                switch (index)
+                {
+                    case 0:
+                        type = ModContent.ProjectileType<MeldGreatswordSmallProjectile>();
+                        break;
+                    case 1:
+                        type = ModContent.ProjectileType<MeldGreatswordMediumProjectile>();
+						damageMult = 0.65f;
+                        break;
+                    case 2:
+                        type = ModContent.ProjectileType<MeldGreatswordBigProjectile>();
+						damageMult = 0.8f;
+                        break;
+                    default:
+                        break;
+                }
+                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, (int)(damage * damageMult), knockBack, player.whoAmI, 0f, 0f);
             }
             return false;
         }
@@ -61,16 +83,6 @@ namespace CalamityMod.Items.Weapons.Melee
             {
                 int dust = Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 27);
             }
-        }
-
-        public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
-        {
-            target.AddBuff(BuffID.CursedInferno, 300);
-        }
-
-        public override void OnHitPvp(Player player, Player target, int damage, bool crit)
-        {
-            target.AddBuff(BuffID.CursedInferno, 300);
         }
     }
 }

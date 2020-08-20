@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Weapons.Summon
             DisplayName.SetDefault("Rusty Beacon Prototype");
             Tooltip.SetDefault("Summons a long-abandoned drone to support you\n" +
                                "Clicking on an enemy gives them a tiny prick, causing them to become aggravated\n" +
-                               "The drone hovers above nearby enemies and gives them various debuffs");
+                               "The drone hovers above nearby enemies and inflicts irradiated");
         }
 
         public override void SetDefaults()
@@ -44,8 +44,7 @@ namespace CalamityMod.Items.Weapons.Summon
         }
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<RustyLockpick>(), 1);
+            ModRecipe recipe = new ModRecipe(mod);;
             recipe.AddIngredient(ModContent.ItemType<SulfuricScale>(), 20);
             recipe.AddRecipeGroup("IronBar", 10);
             recipe.AddTile(TileID.Anvils);

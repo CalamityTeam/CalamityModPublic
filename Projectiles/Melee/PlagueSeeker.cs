@@ -1,11 +1,10 @@
 using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Melee
 {
-    public class PlagueSeeker : ModProjectile
+	public class PlagueSeeker : ModProjectile
     {
         public override void SetStaticDefaults()
         {

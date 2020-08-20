@@ -25,6 +25,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void AI()
         {
+			projectile.localAI[1]++;
             if (projectile.velocity.X != projectile.velocity.X)
             {
                 if (Math.Abs(projectile.velocity.X) < 1f)
@@ -53,7 +54,7 @@ namespace CalamityMod.Projectiles.Magic
             projectile.height = projectile.width;
             projectile.position.X = center10.X - (float)(projectile.width / 2);
             projectile.position.Y = center10.Y - (float)(projectile.height / 2);
-            if ((double)projectile.localAI[0] < 0.1)
+            if (projectile.localAI[0] < 0.1f)
             {
                 projectile.localAI[0] += 0.01f;
             }
@@ -74,12 +75,12 @@ namespace CalamityMod.Projectiles.Magic
             }
             projectile.ai[0] *= 1.05f;
             projectile.ai[1] *= 1.05f;
-            if (projectile.scale < 1f)
+            if (projectile.scale < 1f && projectile.localAI[1] > 5f)
             {
                 int num897 = 0;
                 while ((float)num897 < projectile.scale * 10f)
                 {
-                    int num898 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 58, projectile.velocity.X, projectile.velocity.Y, 100, default, 1.1f);
+                    int num898 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 62, projectile.velocity.X, projectile.velocity.Y, 100, default, 1.1f);
                     Main.dust[num898].position = (Main.dust[num898].position + projectile.Center) / 2f;
                     Main.dust[num898].noGravity = true;
                     Main.dust[num898].velocity *= 0.1f;
@@ -94,7 +95,6 @@ namespace CalamityMod.Projectiles.Magic
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.immune[projectile.owner] = 5;
-            target.AddBuff(BuffID.CursedInferno, 240);
         }
     }
 }

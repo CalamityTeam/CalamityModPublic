@@ -1,4 +1,3 @@
-using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Rogue;
 using Terraria;
 using Terraria.ID;
@@ -7,7 +6,7 @@ using Microsoft.Xna.Framework;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class RegulusRiot : RogueWeapon
+	public class RegulusRiot : RogueWeapon
     {
         public override void SetStaticDefaults()
         {

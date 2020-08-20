@@ -84,6 +84,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
 
         public override void Kill(int timeLeft)
         {
+			Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/MicrowaveBeep"), (int)projectile.Center.X, (int)projectile.Center.Y);
             mmmmmm?.Stop();
             mmmmmm?.Dispose();
         }

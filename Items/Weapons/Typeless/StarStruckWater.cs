@@ -1,13 +1,11 @@
 using CalamityMod.Projectiles.Typeless;
 using CalamityMod.Items.Placeables;
-using Microsoft.Xna.Framework;
-using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Typeless
 {
-    public class StarStruckWater : ModItem
+	public class StarStruckWater : ModItem
     {
         public override void SetStaticDefaults()
         {

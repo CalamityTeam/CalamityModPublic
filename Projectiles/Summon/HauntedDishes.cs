@@ -1,7 +1,6 @@
 using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -9,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    public class HauntedDishes : ModProjectile
+	public class HauntedDishes : ModProjectile
     {
         public float dust = 0f;
 
@@ -356,7 +355,7 @@ namespace CalamityMod.Projectiles.Summon
 						{
 							projectile.ai[1] = attackCooldown;
 							double num11 = 12.0;
-							Vector2 vector2 = new Vector2(projectile.position.X + (float) projectile.width * 0.5f, (float) ((double) projectile.position.Y + (double) (projectile.height / 2) - 8.0));
+							Vector2 vector2 = new Vector2(projectile.Center.X, projectile.Center.Y - 8f);
 							float num12 = num5 - vector2.X + (float) Main.rand.Next(-10, 11);
 							float num14 = (float) ((double) (Math.Abs(num12) * 0.1f) * (double) Main.rand.Next(0, 100) * (1.0 / 1000.0));
 							float num15 = num6 - vector2.Y + (float) Main.rand.Next(-10, 11) - num14;

@@ -22,7 +22,7 @@ namespace CalamityMod.Items.PermanentBoosters
             item.width = 20;
             item.height = 20;
             item.useAnimation = 30;
-            item.rare = 7;
+            item.rare = ItemRarityID.Yellow;
             item.useTime = 30;
             item.useStyle = ItemUseStyleID.HoldingUp;
             item.UseSound = SoundID.Item4;
@@ -58,9 +58,10 @@ namespace CalamityMod.Items.PermanentBoosters
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.LifeFruit, 5);
-            recipe.AddIngredient(ModContent.ItemType<AstralJelly>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<LivingShard>(), 10);
-            recipe.AddIngredient(ModContent.ItemType<Stardust>(), 20);
+			recipe.AddIngredient(ItemID.TealMushroom);
+			recipe.AddIngredient(ModContent.ItemType<TrapperBulb>(), 5);
+			recipe.AddIngredient(ModContent.ItemType<BarofLife>(), 5);
+			recipe.AddIngredient(ModContent.ItemType<LivingShard>(), 10);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();

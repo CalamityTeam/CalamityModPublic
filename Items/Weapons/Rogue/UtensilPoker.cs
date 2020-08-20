@@ -8,13 +8,14 @@ namespace CalamityMod.Items.Weapons.Rogue
 {
     public class UtensilPoker : RogueWeapon
     {
+		private int counter = 0;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Utensil Poker");
-            Tooltip.SetDefault("Fires random utensils in bursts of three\n" +
+            Tooltip.SetDefault("Space chickens, that is all.\n" +
+				"Fires random utensils in bursts of three\n" +
                 "Grants Well Fed on enemy hits\n" +
-                "Stealth strikes launch an additional butcher knife\n" +
-                "'Space chickens, that is all.'");
+                "Stealth strikes launch an additional butcher knife");
         }
 
         public override void SafeSetDefaults()
@@ -41,9 +42,9 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            if (player.Calamity().StealthStrikeAvailable())
+            if (player.Calamity().StealthStrikeAvailable() && counter == 0)
             {
-                int stealth = Projectile.NewProjectile(position.X, position.Y, speedX * 1.2f, speedY * 1.2f, ModContent.ProjectileType<ButcherKnife>(), (int)(damage * 1.4), knockBack, Main.myPlayer);
+                int stealth = Projectile.NewProjectile(position.X, position.Y, speedX * 1.2f, speedY * 1.2f, ModContent.ProjectileType<ButcherKnife>(), (int)(damage * 1.4), knockBack, player.whoAmI);
                 Main.projectile[stealth].Calamity().stealthStrike = true;
             }
 			int utensil = item.shoot;
@@ -69,7 +70,11 @@ namespace CalamityMod.Items.Weapons.Rogue
                 default:
                     break;
 			}
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, utensil, (int)(damage * dmgMult), knockBack * kbMult, Main.myPlayer);
+            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, utensil, (int)(damage * dmgMult), knockBack * kbMult, player.whoAmI);
+
+			counter++;
+			if (counter >= 3)
+				counter = 0;
             return false;
         }
     }

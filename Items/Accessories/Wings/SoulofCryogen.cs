@@ -1,13 +1,14 @@
 using CalamityMod.CalPlayer;
 using CalamityMod.Projectiles.Rogue;
-using Microsoft.Xna.Framework;
+using CalamityMod.World;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories.Wings
 {
-    [AutoloadEquip(EquipType.Wings)]
+	[AutoloadEquip(EquipType.Wings)]
     public class SoulofCryogen : ModItem
     {
         public override void SetStaticDefaults()
@@ -21,8 +22,7 @@ namespace CalamityMod.Items.Accessories.Wings
                 "Flight time: 120\n" +
                 "7% increase to all damage\n" +
                 "All melee attacks and projectiles inflict frostburn\n" +
-                "Icicles rain down as you fly\n" +
-				"Provides heat and cold protection in Death Mode");
+                "Icicles rain down as you fly");
             Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(6, 3));
         }
 
@@ -30,10 +30,25 @@ namespace CalamityMod.Items.Accessories.Wings
         {
             item.width = 26;
             item.height = 26;
-            item.value = Item.buyPrice(0, 39, 99, 99);
+            item.value = CalamityGlobalItem.Rarity5BuyPrice;
             item.expert = true;
-            item.rare = 9;
+            item.rare = 5;
             item.accessory = true;
+        }
+
+        public override void ModifyTooltips(List<TooltipLine> list)
+        {
+			if (CalamityWorld.death)
+			{
+				foreach (TooltipLine line2 in list)
+				{
+					if (line2.mod == "Terraria" && line2.Name == "Tooltip8")
+					{
+						line2.text = "Icicles rain down as you fly\n" +
+						"Provides heat and cold protection in Death Mode";
+					}
+				}
+			}
         }
 
         public override void Update(ref float gravity, ref float maxFallSpeed)
@@ -68,7 +83,7 @@ namespace CalamityMod.Items.Accessories.Wings
 			{
 				if (player.controlJump && !player.jumpAgainCloud && player.jump == 0 && player.velocity.Y != 0f && !player.mount.Active && !player.mount.Cart)
 				{
-					int p = Projectile.NewProjectile(player.Center.X, player.Center.Y, player.velocity.X * 0f, 2f, ModContent.ProjectileType<FrostShardFriendly>(), (int)(25 * player.AverageDamage()), 3f, player.whoAmI);
+					int p = Projectile.NewProjectile(player.Center.X, player.Center.Y, player.velocity.X * 0f, 2f, ModContent.ProjectileType<FrostShardFriendly>(), (int)(25 * player.AverageDamage()), 3f, player.whoAmI, 1f);
 					Main.projectile[p].Calamity().forceTypeless = true;
 					Main.projectile[p].frame = Main.rand.Next(5);
 					modPlayer.icicleCooldown = 10;

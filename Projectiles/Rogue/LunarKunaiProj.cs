@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -9,7 +8,7 @@ using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class LunarKunaiProj : ModProjectile
+	public class LunarKunaiProj : ModProjectile
     {
 		bool lunarEnhance = false;
 
@@ -55,7 +54,7 @@ namespace CalamityMod.Projectiles.Rogue
         {
 			if (lunarEnhance)
 			{
-				Main.PlaySound(SoundID.Item14, projectile.position);
+				Main.PlaySound(SoundID.Item14, projectile.Center);
 				projectile.position = projectile.Center;
 				projectile.width = projectile.height = 28;
 				projectile.position.X = projectile.position.X - (float)(projectile.width / 2);

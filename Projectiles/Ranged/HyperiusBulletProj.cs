@@ -1,13 +1,12 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class HyperiusBulletProj : ModProjectile
+	public class HyperiusBulletProj : ModProjectile
     {
         private Color currentColor = Color.Black;
         
@@ -76,36 +75,20 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            float xPos = Main.rand.NextBool(2) ? projectile.position.X + 800 : projectile.position.X - 800;
-            Vector2 vector2 = new Vector2(xPos, projectile.position.Y + Main.rand.Next(-800, 801));
-            float num80 = xPos;
-            float speedX = (float)target.position.X - vector2.X;
-            float speedY = (float)target.position.Y - vector2.Y;
-            float dir = 10 / num80;
-            speedX *= dir * 150;
-            speedY *= dir * 150;
-            if (speedX > 15f)
-            {
-                speedX = 15f;
-            }
-            if (speedX < -15f)
-            {
-                speedX = -15f;
-            }
-            if (speedY > 15f)
-            {
-                speedY = 15f;
-            }
-            if (speedY < -15f)
-            {
-                speedY = -15f;
-            }
-            if (projectile.owner == Main.myPlayer)
-            {
-                int splitDamage = (int)(projectile.damage * 0.6f);
-                float splitKB = 1f;
-                Projectile.NewProjectile(vector2, new Vector2(speedX, speedY), ModContent.ProjectileType<HyperiusSplit>(), splitDamage, splitKB, projectile.owner);
-            }
+			OnHitEffects(target.Center);
+        }
+
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+			OnHitEffects(target.Center);
+        }
+
+		private void OnHitEffects(Vector2 targetPos)
+		{
+			if (projectile.owner == Main.myPlayer)
+			{
+				CalamityUtils.ProjectileBarrage(projectile.Center, targetPos, Main.rand.NextBool(), 800f, 800f, 0f, 800f, 10f, ModContent.ProjectileType<HyperiusSplit>(), (int)(projectile.damage * 0.6), 1f, projectile.owner, true);
+			}
         }
 
         public override void Kill(int timeLeft)

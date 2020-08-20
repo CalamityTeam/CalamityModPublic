@@ -134,38 +134,14 @@ namespace CalamityMod.Projectiles.Summon
             {
                 projectile.localAI[0] -= 1f;
             }
-            int num3;
-            for (int num534 = 0; num534 < Main.maxProjectiles; num534 = num3 + 1)
-            {
-                if (num534 != projectile.whoAmI && Main.projectile[num534].active && Main.projectile[num534].owner == projectile.owner &&
-                    Main.projectile[num534].type == ModContent.ProjectileType<CalamariMinion>() &&
-                    Math.Abs(projectile.position.X - Main.projectile[num534].position.X) + Math.Abs(projectile.position.Y - Main.projectile[num534].position.Y) < (float)projectile.width)
-                {
-                    if (projectile.position.X < Main.projectile[num534].position.X)
-                    {
-                        projectile.velocity.X = projectile.velocity.X - 0.05f;
-                    }
-                    else
-                    {
-                        projectile.velocity.X = projectile.velocity.X + 0.05f;
-                    }
-                    if (projectile.position.Y < Main.projectile[num534].position.Y)
-                    {
-                        projectile.velocity.Y = projectile.velocity.Y - 0.05f;
-                    }
-                    else
-                    {
-                        projectile.velocity.Y = projectile.velocity.Y + 0.05f;
-                    }
-                }
-                num3 = num534;
-            }
+			projectile.MinionAntiClump();
             Vector2 vector = projectile.position;
             float num10 = 3000f; //300
             bool flag = false;
-            Vector2 center = Main.player[projectile.owner].Center;
+            Vector2 center = player.Center;
             Vector2 value = new Vector2(0.5f);
             value.Y = 0f;
+			int targetIndex = -1;
             if (player.HasMinionAttackTargetNPC)
             {
                 NPC npc = Main.npc[player.MinionAttackTargetNPC];
@@ -177,11 +153,11 @@ namespace CalamityMod.Projectiles.Summon
                     {
                         vector = vector2;
                         flag = true;
-                        int num11 = npc.whoAmI;
+						targetIndex = npc.whoAmI;
                     }
                 }
             }
-            else
+            if (!flag)
             {
                 for (int k = 0; k < Main.maxNPCs; k++)
                 {
@@ -195,6 +171,7 @@ namespace CalamityMod.Projectiles.Summon
                             num10 = num13;
                             vector = vector3;
                             flag = true;
+							targetIndex = k;
                         }
                     }
                 }
@@ -346,7 +323,7 @@ namespace CalamityMod.Projectiles.Summon
                             Vector2 vector7 = vector - projectile.Center;
                             vector7.Normalize();
                             vector7 *= scaleFactor4;
-                            Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y + 20, vector7.X, vector7.Y, num28, projectile.damage, 0f, Main.myPlayer, 0f, 0f);
+                            Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y + 20, vector7.X, vector7.Y, num28, projectile.damage, 0f, Main.myPlayer, targetIndex, 0f);
                             projectile.netUpdate = true;
                         }
                     }

@@ -68,10 +68,10 @@ namespace CalamityMod.Projectiles.Rogue
 			projectile.localNPCHitCooldown = 10;
 			projectile.Damage();
 			Main.PlaySound(2, (int)projectile.Center.X, (int)projectile.Center.Y, 14);
-			CalamityUtils.ExplosionGores(projectile, 3);
+			CalamityUtils.ExplosionGores(projectile.Center, 3);
 			for (int num194 = 0; num194 < 25; num194++)
 			{
-				int num195 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 135, 0f, 0f, 100, default, 2f);
+				int num195 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 135, 0f, 0f, 100, default, 2f);
 				Main.dust[num195].noGravity = true;
 				Main.dust[num195].velocity *= 0f;
 			}

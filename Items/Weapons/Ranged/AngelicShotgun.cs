@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class AngelicShotgun : ModItem
     {
-        private static int BaseDamage = 90;
+        private static int BaseDamage = 100;
         private static float BulletSpeed = 12f;
 
         public override void SetStaticDefaults()
@@ -31,8 +31,8 @@ Fighting 'til the war's won");
             item.width = 44;
             item.height = 7;
 
-            item.useTime = 26;
-            item.useAnimation = 26;
+            item.useTime = 24;
+            item.useAnimation = 24;
             item.UseSound = SoundID.Item38;
             item.useStyle = ItemUseStyleID.HoldingOut;
 

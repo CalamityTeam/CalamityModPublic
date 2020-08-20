@@ -33,10 +33,15 @@ namespace CalamityMod.Items.SummonItems
         {
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
-                int num1302 = NPC.NewNPC((int)player.Center.X + 30, (int)player.Center.Y - 90, NPCID.CultistBoss, 0, 0f, 0f, 0f, 0f, 255);
-                Main.npc[num1302].direction = Main.npc[num1302].spriteDirection = Math.Sign(player.Center.X - (float)player.Center.X - 30f);
-            }
-            return true;
+                int npc = NPC.NewNPC((int)player.Center.X + 30, (int)player.Center.Y - 90, NPCID.CultistBoss, 1);
+                Main.npc[npc].direction = Main.npc[npc].spriteDirection = Math.Sign(player.Center.X - player.Center.X - 30f);
+				Main.npc[npc].timeLeft *= 20;
+				CalamityUtils.BossAwakenMessage(npc);
+			}
+			else
+				NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, player.whoAmI, NPCID.CultistBoss);
+
+			return true;
         }
     }
 }

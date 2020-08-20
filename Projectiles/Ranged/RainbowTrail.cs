@@ -1,11 +1,8 @@
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class RainbowTrail : ModProjectile
+	public class RainbowTrail : ModProjectile
     {
         public override void SetStaticDefaults()
         {

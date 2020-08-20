@@ -14,7 +14,7 @@ namespace CalamityMod.Items.LoreItems
             DisplayName.SetDefault("The Devourer of Gods");
             Tooltip.SetDefault("This serpent’s power to assimilate the abilities and energy of those it consumed is unique in almost all the known cosmos, save for its lesser brethren.\n" +
                 "I would have soon had to eliminate it as a threat had it been given more time and creatures to feast upon.\n" +
-                "Place in your inventory to boost the power of your true melee strikes by 50%.\n" +
+                "Favorite this item to boost the power of your true melee strikes by 25%.\n" +
 				"However, due to your reckless nature you will take increased damage.");
         }
 
@@ -35,7 +35,8 @@ namespace CalamityMod.Items.LoreItems
         public override void UpdateInventory(Player player)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            modPlayer.DoGLore = true;
+			if (item.favorited)
+				modPlayer.DoGLore = true;
         }
 
         public override void AddRecipes()

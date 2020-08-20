@@ -1,3 +1,4 @@
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Tools.ClimateChange;
@@ -31,7 +32,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.width = 230;
             npc.height = 230;
             npc.defense = 20;
-            npc.Calamity().RevPlusDR(0.1f);
+			npc.DR_NERD(0.1f);
             npc.lifeMax = 3800;
             npc.aiStyle = -1;
             aiType = -1;
@@ -40,7 +41,26 @@ namespace CalamityMod.NPCs.NormalNPCs
                 npc.buffImmune[k] = true;
             }
             npc.buffImmune[BuffID.Ichor] = false;
-            npc.buffImmune[BuffID.CursedInferno] = false;
+            npc.buffImmune[ModContent.BuffType<MarkedforDeath>()] = false;
+			npc.buffImmune[BuffID.Frostburn] = false;
+			npc.buffImmune[BuffID.CursedInferno] = false;
+            npc.buffImmune[BuffID.Daybreak] = false;
+			npc.buffImmune[BuffID.StardustMinionBleed] = false;
+			npc.buffImmune[BuffID.DryadsWardDebuff] = false;
+			npc.buffImmune[BuffID.Oiled] = false;
+			npc.buffImmune[BuffID.BetsysCurse] = false;
+			npc.buffImmune[ModContent.BuffType<AstralInfectionDebuff>()] = false;
+			npc.buffImmune[ModContent.BuffType<GodSlayerInferno>()] = false;
+            npc.buffImmune[ModContent.BuffType<AbyssalFlames>()] = false;
+            npc.buffImmune[ModContent.BuffType<ArmorCrunch>()] = false;
+            npc.buffImmune[ModContent.BuffType<DemonFlames>()] = false;
+            npc.buffImmune[ModContent.BuffType<HolyFlames>()] = false;
+            npc.buffImmune[ModContent.BuffType<Nightwither>()] = false;
+            npc.buffImmune[ModContent.BuffType<Plague>()] = false;
+            npc.buffImmune[ModContent.BuffType<Shred>()] = false;
+            npc.buffImmune[ModContent.BuffType<WarCleave>()] = false;
+            npc.buffImmune[ModContent.BuffType<WhisperingDeath>()] = false;
+            npc.buffImmune[ModContent.BuffType<SilvaStun>()] = false;
             npc.knockBackResist = 0f;
             npc.value = Item.buyPrice(0, 1, 50, 0);
             npc.noGravity = true;
@@ -85,22 +105,10 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void NPCLoot()
         {
-            if (Main.rand.NextBool(3))
-            {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<AridArtifact>());
-            }
-            if (Main.rand.NextBool(4))
-            {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<SlagMagnum>());
-            }
-            if (Main.rand.NextBool(4))
-            {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Aftershock>());
-            }
-            if (Main.rand.NextBool(4))
-            {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<EarthenPike>());
-            }
+			DropHelper.DropItemChance(npc, ModContent.ItemType<AridArtifact>(), 3);
+			DropHelper.DropItemChance(npc, ModContent.ItemType<SlagMagnum>(), 4);
+			DropHelper.DropItemChance(npc, ModContent.ItemType<Aftershock>(), 4);
+			DropHelper.DropItemChance(npc, ModContent.ItemType<EarthenPike>(), 4);
         }
 
         public override void HitEffect(int hitDirection, double damage)
@@ -130,41 +138,13 @@ namespace CalamityMod.NPCs.NormalNPCs
                 }
                 for (int num623 = 0; num623 < 70; num623++)
                 {
-                    int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 6, 0f, 0f, 100, default, 3f);
+                    int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, DustID.Fire, 0f, 0f, 100, default, 3f);
                     Main.dust[num624].noGravity = true;
                     Main.dust[num624].velocity *= 5f;
-                    num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 6, 0f, 0f, 100, default, 2f);
+                    num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, DustID.Fire, 0f, 0f, 100, default, 2f);
                     Main.dust[num624].velocity *= 2f;
                 }
-                for (int num625 = 0; num625 < 3; num625++)
-                {
-                    float scaleFactor10 = 0.33f;
-                    if (num625 == 1)
-                    {
-                        scaleFactor10 = 0.66f;
-                    }
-                    if (num625 == 2)
-                    {
-                        scaleFactor10 = 1f;
-                    }
-                    int num626 = Gore.NewGore(new Vector2(npc.position.X + (float)(npc.width / 2) - 24f, npc.position.Y + (float)(npc.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
-                    Gore gore = Main.gore[num626];
-                    gore.velocity *= scaleFactor10;
-                    gore.velocity.X += 1f;
-                    gore.velocity.Y += 1f;
-                    num626 = Gore.NewGore(new Vector2(npc.position.X + (float)(npc.width / 2) - 24f, npc.position.Y + (float)(npc.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
-                    gore.velocity *= scaleFactor10;
-                    gore.velocity.X -= 1f;
-                    gore.velocity.Y += 1f;
-                    num626 = Gore.NewGore(new Vector2(npc.position.X + (float)(npc.width / 2) - 24f, npc.position.Y + (float)(npc.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
-                    gore.velocity *= scaleFactor10;
-                    gore.velocity.X += 1f;
-                    gore.velocity.Y -= 1f;
-                    num626 = Gore.NewGore(new Vector2(npc.position.X + (float)(npc.width / 2) - 24f, npc.position.Y + (float)(npc.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
-                    gore.velocity *= scaleFactor10;
-                    gore.velocity.X -= 1f;
-                    gore.velocity.Y -= 1f;
-                }
+				CalamityUtils.ExplosionGores(npc.Center, 3);
             }
         }
 

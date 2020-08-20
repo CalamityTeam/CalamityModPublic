@@ -45,12 +45,12 @@ namespace CalamityMod.Projectiles.Boss
             else
             {
                 projectile.ai[0] += 1f;
-                if (projectile.ai[0] >= 30f)
+                if (projectile.ai[0] >= 45f)
                 {
                     projectile.ai[0] = 0f;
                     int num414 = (int)(projectile.position.X + 14f + (float)Main.rand.Next(projectile.width - 28));
                     int num415 = (int)(projectile.position.Y + (float)projectile.height + 4f);
-                    Projectile.NewProjectile((float)num414, (float)num415, 0f, 5f, ModContent.ProjectileType<ShaderainHostile>(), projectile.damage, 0f, Main.myPlayer, 0f, 0f);
+                    Projectile.NewProjectile((float)num414, (float)num415, 0f, 4f, ModContent.ProjectileType<ShaderainHostile>(), projectile.damage, 0f, Main.myPlayer, 0f, 0f);
                 }
             }
         }

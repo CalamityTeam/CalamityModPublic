@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Accessories
             DisplayName.SetDefault("Heart of the Elements");
             Tooltip.SetDefault("The heart of the world\n" +
                 "Increases max life by 20, life regen by 1, and all damage by 8%\n" +
-                "Increases movement speed by 10% and jump speed by 100%\n" +
+                "Increases movement speed by 10% and jump speed by 20%\n" +
                 "Increases damage reduction by 5%\n" +
                 "Increases max mana by 50 and reduces mana usage by 5%\n" +
                 "You grow flowers on the grass beneath you, chance to grow very random dye plants on grassless dirt\n" +
@@ -32,7 +32,8 @@ namespace CalamityMod.Items.Accessories
         {
             item.width = 20;
             item.height = 20;
-            item.value = Item.buyPrice(0, 60, 0, 0);
+            item.value = CalamityGlobalItem.Rarity10BuyPrice;
+            item.rare = 10;
             item.defense = 9;
             item.accessory = true;
             item.Calamity().customRarity = CalamityRarity.Rainbow;
@@ -50,11 +51,10 @@ namespace CalamityMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-			//Don't do anything if the player fucked up somehow, somewhere
-			if (player.whoAmI != Main.myPlayer || player is null || player.dead)
-				return;
-
-            Lighting.AddLight((int)player.Center.X / 16, (int)player.Center.Y / 16, (float)Main.DiscoR / 255f, (float)Main.DiscoG / 255f, (float)Main.DiscoB / 255f);
+			if (player != null && !player.dead)
+			{
+				Lighting.AddLight((int)player.Center.X / 16, (int)player.Center.Y / 16, (float)Main.DiscoR / 255f, (float)Main.DiscoG / 255f, (float)Main.DiscoB / 255f);
+			}
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.allWaifus = !hideVisual;
             modPlayer.elementalHeart = true;
@@ -88,29 +88,32 @@ namespace CalamityMod.Items.Accessories
 				{
 					player.ClearBuff(BuffType<HotE>());
 				}
-				if (player.FindBuffIndex(BuffType<HotE>()) == -1)
+				if (player != null && player.whoAmI == Main.myPlayer && !player.dead)
 				{
-					player.AddBuff(BuffType<HotE>(), 3600, true);
-				}
-				if (player.ownedProjectileCounts[brimmy] < 1)
-				{
-					Projectile.NewProjectile(player.Center, velocity, brimmy, elementalDmg, kBack, player.whoAmI, 0f, 0f);
-				}
-				if (player.ownedProjectileCounts[siren] < 1)
-				{
-					Projectile.NewProjectile(player.Center, velocity, siren, elementalDmg, kBack, player.whoAmI, 0f, 0f);
-				}
-				if (player.ownedProjectileCounts[healer] < 1)
-				{
-					Projectile.NewProjectile(player.Center, velocity, healer, elementalDmg, kBack, player.whoAmI, 0f, 0f);
-				}
-				if (player.ownedProjectileCounts[sandy] < 1)
-				{
-					Projectile.NewProjectile(player.Center, velocity, sandy, elementalDmg, kBack, player.whoAmI, 0f, 0f);
-				}
-				if (player.ownedProjectileCounts[cloudy] < 1)
-				{
-					Projectile.NewProjectile(player.Center, velocity, cloudy, elementalDmg, kBack, player.whoAmI, 0f, 0f);
+					if (player.FindBuffIndex(BuffType<HotE>()) == -1)
+					{
+						player.AddBuff(BuffType<HotE>(), 3600, true);
+					}
+					if (player.ownedProjectileCounts[brimmy] < 1)
+					{
+						Projectile.NewProjectile(player.Center, velocity, brimmy, elementalDmg, kBack, player.whoAmI);
+					}
+					if (player.ownedProjectileCounts[siren] < 1)
+					{
+						Projectile.NewProjectile(player.Center, velocity, siren, elementalDmg, kBack, player.whoAmI);
+					}
+					if (player.ownedProjectileCounts[healer] < 1)
+					{
+						Projectile.NewProjectile(player.Center, velocity, healer, elementalDmg, kBack, player.whoAmI);
+					}
+					if (player.ownedProjectileCounts[sandy] < 1)
+					{
+						Projectile.NewProjectile(player.Center, velocity, sandy, elementalDmg, kBack, player.whoAmI);
+					}
+					if (player.ownedProjectileCounts[cloudy] < 1)
+					{
+						Projectile.NewProjectile(player.Center, velocity, cloudy, elementalDmg, kBack, player.whoAmI);
+					}
 				}
             }
             else
@@ -124,12 +127,12 @@ namespace CalamityMod.Items.Accessories
             }
 
 			//Flower Boots code
-            if (player.velocity.Y == 0f && player.grappling[0] == -1)
+            if (player != null && !player.dead && player.velocity.Y == 0f && player.grappling[0] == -1)
             {
                 int x = (int)player.Center.X / 16;
                 int y = (int)(player.position.Y + (float)player.height - 1f) / 16;
 				Tile tile = Main.tile[x, y];
-                if (tile == null)
+                if (tile is null)
                 {
                     tile = new Tile();
                 }

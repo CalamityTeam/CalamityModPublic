@@ -24,8 +24,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 			item.damage = 62;
 			item.noMelee = true;
 			item.noUseGraphic = true;
-			item.useTime = 10;
-			item.useAnimation = 10;
+			item.useTime = item.useAnimation = 10;
 			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.knockBack = 1.25f;
 			item.UseSound = SoundID.Item1;
@@ -45,23 +44,27 @@ namespace CalamityMod.Items.Weapons.Rogue
 		{
 			if (player.Calamity().StealthStrikeAvailable())
 			{
-				item.useTime = item.useAnimation = 10;
 				item.UseSound = SoundID.Item109;
 				item.shoot = ModContent.ProjectileType<MalachiteStealth>();
 			}
 			else if (player.altFunctionUse == 2)
 			{
-				item.useTime = item.useAnimation = 10;
 				item.UseSound = SoundID.Item109;
 				item.shoot = ModContent.ProjectileType<MalachiteBolt>();
 			}
 			else
 			{
-				item.useTime = item.useAnimation = 5;
 				item.UseSound = SoundID.Item1;
 				item.shoot = ModContent.ProjectileType<MalachiteProj>();
 			}
 			return base.CanUseItem(player);
+		}
+
+		public override float UseTimeMultiplier	(Player player)
+		{
+			if (player.Calamity().StealthStrikeAvailable() || player.altFunctionUse == 2)
+				return 1f;
+			return 2f;
 		}
 
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

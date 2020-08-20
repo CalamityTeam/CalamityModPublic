@@ -1,10 +1,8 @@
-using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Melee
 {
-    public class UltimusCleaverDust : ModProjectile
+	public class UltimusCleaverDust : ModProjectile
     {
         public override void SetStaticDefaults()
         {

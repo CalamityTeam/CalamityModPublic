@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Accessories
         {
             item.width = 42;
             item.height = 32;
-            item.value = Item.buyPrice(0, 3, 0, 0);
+            item.value = CalamityGlobalItem.Rarity2BuyPrice;
             item.rare = 2;
             item.accessory = true;
         }
@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Accessories
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.giantPearl = true;
-            Lighting.AddLight((int)(player.position.X + (float)(player.width / 2)) / 16, (int)(player.position.Y + (float)(player.height / 2)) / 16, 0.45f, 0.8f, 0.8f);
+            Lighting.AddLight((int)player.Center.X / 16, (int)player.Center.Y / 16, 0.45f, 0.8f, 0.8f);
         }
     }
 }

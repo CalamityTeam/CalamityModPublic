@@ -2,13 +2,12 @@ using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Boss
 {
-    public class BrimstoneBarrage : ModProjectile
+	public class BrimstoneBarrage : ModProjectile
     {
 		public override void SetStaticDefaults()
         {
@@ -26,8 +25,8 @@ namespace CalamityMod.Projectiles.Boss
             projectile.ignoreWater = true;
             projectile.tileCollide = false;
             projectile.penetrate = -1;
-            projectile.timeLeft = 600;
-            cooldownSlot = 1;
+            projectile.timeLeft = 690;
+			cooldownSlot = 1;
         }
 
 		public override void AI()
@@ -35,7 +34,7 @@ namespace CalamityMod.Projectiles.Boss
 			if (projectile.velocity.Length() < (projectile.ai[1] == 0f ? 14f : 10f))
 				projectile.velocity *= 1.01f;
 
-			projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
+			projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
 
 			projectile.frameCounter++;
             if (projectile.frameCounter > 4)
@@ -46,17 +45,20 @@ namespace CalamityMod.Projectiles.Boss
             if (projectile.frame > 3)
                 projectile.frame = 0;
 
-            Lighting.AddLight(projectile.Center, 0.75f, 0f, 0f);
+			if (projectile.timeLeft < 60)
+				projectile.Opacity = MathHelper.Clamp(projectile.timeLeft / 60f, 0f, 1f);
+
+			Lighting.AddLight(projectile.Center, 0.75f, 0f, 0f);
         }
 
-        public override Color? GetAlpha(Color lightColor)
-        {
-            return new Color(250, 50, 50, projectile.alpha);
-        }
+		public override bool CanHitPlayer(Player target) => projectile.Opacity == 1f;
 
-        public override void OnHitPlayer(Player target, int damage, bool crit)
+		public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<AbyssalFlames>(), 180);
+			if (projectile.Opacity != 1f)
+				return;
+
+			target.AddBuff(ModContent.BuffType<AbyssalFlames>(), 180);
 
             if (projectile.ai[0] == 0f)
                 target.AddBuff(ModContent.BuffType<VulnerabilityHex>(), 120, true);
@@ -64,7 +66,8 @@ namespace CalamityMod.Projectiles.Boss
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+			lightColor.R = (byte)(255 * projectile.Opacity);
+			CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
             return false;
         }
 

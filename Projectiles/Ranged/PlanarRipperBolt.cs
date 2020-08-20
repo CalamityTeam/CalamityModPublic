@@ -1,18 +1,13 @@
 using CalamityMod.CalPlayer;
-using CalamityMod.Items.Weapons.Rogue;
-using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Buffs.StatDebuffs;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class PlanarRipperBolt : ModProjectile
+	public class PlanarRipperBolt : ModProjectile
     {
         public static int frameWidth = 12;
         public static int frameHeight = 26;
@@ -34,7 +29,7 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.timeLeft = 600;
             projectile.ranged = true;
             projectile.aiStyle = 1;
-            aiType = 242;
+            aiType = ProjectileID.BulletHighVelocity;
         }
 
         public override void AI()

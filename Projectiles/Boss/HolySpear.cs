@@ -6,9 +6,10 @@ using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.Projectiles.Boss
 {
-    public class HolySpear : ModProjectile
+	public class HolySpear : ModProjectile
     {
 		Vector2 velocity = Vector2.Zero;
 
@@ -50,7 +51,6 @@ namespace CalamityMod.Projectiles.Boss
 			if (projectile.localAI[0] == 0f)
 			{
 				projectile.localAI[0] = 1f;
-				Main.PlayTrackedSound(SoundID.DD2_BetsyFireballShot, projectile.Center);
 
 				if (projectile.ai[0] == 1f)
 					velocity = projectile.velocity;
@@ -117,14 +117,14 @@ namespace CalamityMod.Projectiles.Boss
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
 			Texture2D value = Main.projectileTexture[projectile.type];
-			int green = projectile.ai[0] != 0f ? 255 : 100;
-			int blue = projectile.ai[0] != 0f ? 0 : 100;
+			int green = projectile.ai[0] != 0f ? 255 : 125;
+			int blue = projectile.ai[0] != 0f ? 0 : 125;
 			Color baseColor = new Color(255, green, blue, 255);
 
 			if (!Main.dayTime)
 			{
-				int red = projectile.ai[0] != 0f ? 0 : 100;
-				green = projectile.ai[0] != 0f ? 255 : 100;
+				int red = projectile.ai[0] != 0f ? 100 : 175;
+				green = projectile.ai[0] != 0f ? 255 : 175;
 				baseColor = new Color(red, green, 255, 255);
 			}
 
@@ -144,7 +144,7 @@ namespace CalamityMod.Projectiles.Boss
 			if (projectile.spriteDirection == -1)
 				spriteEffects = SpriteEffects.FlipHorizontally;
 
-			if (CalamityMod.CalamityConfig.Afterimages)
+			if (CalamityConfig.Instance.Afterimages)
 			{
 				for (int i = 0; i < projectile.oldPos.Length; i++)
 				{

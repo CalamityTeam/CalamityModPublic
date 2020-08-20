@@ -6,6 +6,7 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class BloodSpit : ModProjectile
     {
+        public const int OnDeathHealValue = 1;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Spit");
@@ -28,17 +29,12 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void AI()
         {
-            Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0.77f / 255f, (255 - projectile.alpha) * 0.15f / 255f, (255 - projectile.alpha) * 0.08f / 255f);
+            Lighting.AddLight(projectile.Center, projectile.Opacity * 0.77f, projectile.Opacity * 0.15f, projectile.Opacity * 0.08f);
             projectile.rotation = projectile.velocity.ToRotation() - MathHelper.PiOver2;
-            projectile.frameCounter++;
-            if (projectile.frameCounter > 4)
+            if (projectile.frameCounter++ > 4)
             {
-                projectile.frame++;
+                projectile.frame = (projectile.frame + 1) % Main.projFrames[projectile.type];
                 projectile.frameCounter = 0;
-            }
-            if (projectile.frame >= Main.projFrames[projectile.type])
-            {
-                projectile.frame = 0;
             }
         }
         public override void Kill(int timeLeft)
@@ -49,8 +45,8 @@ namespace CalamityMod.Projectiles.Summon
                 dust.velocity = Utils.NextVector2Unit(Main.rand) * Main.rand.NextFloat(1f, 2f);
                 dust.noGravity = true;
             }
-            Main.player[projectile.owner].HealEffect(1, false);
-            Main.player[projectile.owner].statLife += 1;
+            Main.player[projectile.owner].HealEffect(OnDeathHealValue, false);
+            Main.player[projectile.owner].statLife += OnDeathHealValue;
             if (Main.player[projectile.owner].statLife > Main.player[projectile.owner].statLifeMax2)
             {
                 Main.player[projectile.owner].statLife = Main.player[projectile.owner].statLifeMax2;

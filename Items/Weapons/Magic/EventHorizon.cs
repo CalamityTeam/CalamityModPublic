@@ -1,14 +1,13 @@
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Magic;
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
-    public class EventHorizon : ModItem
+	public class EventHorizon : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -23,7 +22,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.width = 28;
             item.height = 30;
 
-            item.damage = 231;
+            item.damage = 369;
             item.knockBack = 3.5f;
             item.noMelee = true;
             item.magic = true;

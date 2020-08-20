@@ -3,10 +3,9 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using System;
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class SphereBlue : ModProjectile
+	public class SphereBlue : ModProjectile
     {
         public override void SetStaticDefaults()
         {

@@ -82,25 +82,25 @@ namespace CalamityMod.Projectiles.Melee
                 // Home back in on the player.
                 if (projectile.velocity.X < xDist)
                 {
-                    projectile.velocity.X = projectile.velocity.X + acceleration;
+                    projectile.velocity.X += acceleration;
                     if (projectile.velocity.X < 0f && xDist > 0f)
                         projectile.velocity.X += acceleration;
                 }
                 else if (projectile.velocity.X > xDist)
                 {
-                    projectile.velocity.X = projectile.velocity.X - acceleration;
+                    projectile.velocity.X -= acceleration;
                     if (projectile.velocity.X > 0f && xDist < 0f)
                         projectile.velocity.X -= acceleration;
                 }
                 if (projectile.velocity.Y < yDist)
                 {
-                    projectile.velocity.Y = projectile.velocity.Y + acceleration;
+                    projectile.velocity.Y += acceleration;
                     if (projectile.velocity.Y < 0f && yDist > 0f)
                         projectile.velocity.Y += acceleration;
                 }
                 else if (projectile.velocity.Y > yDist)
                 {
-                    projectile.velocity.Y = projectile.velocity.Y - acceleration;
+                    projectile.velocity.Y -= acceleration;
                     if (projectile.velocity.Y > 0f && yDist < 0f)
                         projectile.velocity.Y -= acceleration;
                 }
@@ -120,10 +120,7 @@ namespace CalamityMod.Projectiles.Melee
 						{
 							if (Main.npc[a].CanBeChasedBy(projectile, false))
 							{
-								float var2 = Main.npc[a].position.X + (Main.npc[a].width / 2);
-								float var3 = Main.npc[a].position.Y + (Main.npc[a].height / 2);
-								float distance2npc = Math.Abs(projectile.position.X + (projectile.width / 2) - var2) + Math.Abs(projectile.position.Y + (projectile.height / 2) - var3);
-								if (distance2npc < range)
+								if (Vector2.Distance(Main.npc[a].Center, projectile.Center) < range)
 								{
 									Vector2 newVelocity = Main.npc[a].Center - projectile.Center;
 									newVelocity.Normalize();
@@ -182,7 +179,7 @@ namespace CalamityMod.Projectiles.Melee
 					{
 						previousNPCs.Add(i);
 					}
-					if (!npc.friendly && !npc.townNPC && npc.active && !npc.dontTakeDamage && npc.chaseable && npc != target && !hasHitNPC && npc.type != NPCID.TargetDummy)
+					if (npc.CanBeChasedBy(projectile, false) && npc != target && !hasHitNPC)
 					{
 						float dist = (projectile.Center - npc.Center).Length();
 						if (dist < minDist)

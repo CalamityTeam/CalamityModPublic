@@ -1,11 +1,10 @@
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class TarraThornRight : ModProjectile
+	public class TarraThornRight : ModProjectile
     {
         public override void SetStaticDefaults()
         {

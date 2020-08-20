@@ -8,6 +8,7 @@ namespace CalamityMod.Items.Placeables.FurniturePlaguedPlate
     {
         public override void SetStaticDefaults()
         {
+            DisplayName.SetDefault("Plagued Sink");
             Tooltip.SetDefault("Counts as a water source");
         }
 

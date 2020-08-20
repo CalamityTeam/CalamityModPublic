@@ -1,11 +1,10 @@
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class MagnomalyAura : ModProjectile
+	public class MagnomalyAura : ModProjectile
     {
 		private int radius = 100;
 

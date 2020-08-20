@@ -42,16 +42,6 @@ namespace CalamityMod.Items.Weapons.Melee
             recipe.AddIngredient(ModContent.ItemType<TrueCausticEdge>());
             recipe.AddIngredient(ItemID.BrokenHeroSword);
             recipe.AddIngredient(ItemID.FlaskofVenom, 5);
-            recipe.AddIngredient(ItemID.FlaskofCursedFlames, 5);
-            recipe.AddIngredient(ItemID.ChlorophyteBar, 15);
-            recipe.AddTile(TileID.DemonAltar);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-            recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<TrueCausticEdge>());
-            recipe.AddIngredient(ItemID.BrokenHeroSword);
-            recipe.AddIngredient(ItemID.FlaskofVenom, 5);
-            recipe.AddIngredient(ItemID.FlaskofIchor, 5);
             recipe.AddIngredient(ItemID.ChlorophyteBar, 15);
             recipe.AddTile(TileID.DemonAltar);
             recipe.SetResult(this);
@@ -69,17 +59,15 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
             player.AddBuff(ModContent.BuffType<TyrantsFury>(), 180);
-            target.AddBuff(BuffID.OnFire, 300);
-            target.AddBuff(BuffID.Venom, 300);
-            target.AddBuff(BuffID.CursedInferno, 300);
+            target.AddBuff(BuffID.OnFire, 180);
+            target.AddBuff(BuffID.Venom, 180);
         }
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
             player.AddBuff(ModContent.BuffType<TyrantsFury>(), 180);
-            target.AddBuff(BuffID.OnFire, 300);
-            target.AddBuff(BuffID.Venom, 300);
-            target.AddBuff(BuffID.CursedInferno, 300);
+            target.AddBuff(BuffID.OnFire, 180);
+            target.AddBuff(BuffID.Venom, 180);
         }
     }
 }

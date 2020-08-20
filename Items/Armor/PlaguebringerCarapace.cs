@@ -1,5 +1,4 @@
 using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.CalPlayer;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Materials;
 using Terraria;
@@ -8,13 +7,13 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Armor
 {
-    [AutoloadEquip(EquipType.Body)]
+	[AutoloadEquip(EquipType.Body)]
     public class PlaguebringerCarapace : ModItem
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Plaguebringer Carapace");
-            Tooltip.SetDefault("Immunity to the Plague\n" +
+            Tooltip.SetDefault("Reduces the damage caused to you by the plague\n" +
 			"12% increased minion damage and +1 max minions\n" +
 			"Friendly bees inflict the plague");
         }
@@ -31,9 +30,9 @@ namespace CalamityMod.Items.Armor
         public override void UpdateEquip(Player player)
         {
             player.Calamity().plaguebringerCarapace = true;
-            player.maxMinions += 2;
+            player.maxMinions += 1;
             player.minionDamage += 0.12f;
-            player.buffImmune[ModContent.BuffType<Plague>()] = true;
+            player.Calamity().reducedPlagueDmg = true;
         }
 
 		public override void AddRecipes()

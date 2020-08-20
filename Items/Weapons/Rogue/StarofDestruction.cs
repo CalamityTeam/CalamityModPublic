@@ -19,8 +19,8 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void SafeSetDefaults()
         {
-            item.width = 86;
-            item.damage = 175;
+            item.width = item.height = 94;
+            item.damage = 150;
             item.noMelee = true;
             item.noUseGraphic = true;
             item.useAnimation = 38;
@@ -29,7 +29,6 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.knockBack = 10f;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
-            item.height = 86;
             item.value = Item.buyPrice(0, 95, 0, 0);
             item.rare = 9;
             item.shoot = ModContent.ProjectileType<DestructionStar>();
@@ -52,7 +51,6 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<MeldiateBar>(), 10);
-            recipe.AddIngredient(ModContent.ItemType<Stardust>(), 30);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();

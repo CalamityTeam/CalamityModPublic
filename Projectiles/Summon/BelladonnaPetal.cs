@@ -36,8 +36,8 @@ namespace CalamityMod.Projectiles.Summon
             for (int i = 0; i < 5; i++)
             {
                 Dust dust = Dust.NewDustPerfect(projectile.Center, DustID.Grass);
+                dust.velocity = Main.rand.NextVector2Circular(2f, 2f) ;
                 dust.noGravity = true;
-                dust.velocity = Vector2.One.RotatedByRandom(MathHelper.TwoPi) * Main.rand.NextFloat(2);
             }
         }
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

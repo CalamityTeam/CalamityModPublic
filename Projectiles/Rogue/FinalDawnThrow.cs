@@ -33,12 +33,16 @@ namespace CalamityMod.Projectiles.Rogue
         }
 		public override void AI()
 		{
+			Player player = Main.player[projectile.owner];
+
+			if (player.dead || player is null)
+				projectile.Kill();
+
             if (projectile.localAI[0] == 0)
             {
                 Main.PlaySound(SoundID.Item71, (int)projectile.position.X, (int)projectile.position.Y);
                 projectile.localAI[0] = 1;
             }
-			Player player = Main.player[projectile.owner];
 
             projectile.spriteDirection = (projectile.velocity.X > 0).ToDirectionInt();
             projectile.rotation += 0.25f * projectile.direction;

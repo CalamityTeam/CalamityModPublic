@@ -5,8 +5,9 @@ using CalamityMod.Projectiles.Magic;
 using CalamityMod.Projectiles.Summon;
 using CalamityMod.Projectiles.Typeless;
 using CalamityMod.Tiles.Furniture.CraftingStations;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
-using System;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -15,7 +16,7 @@ using static Terraria.ModLoader.ModContent;
 
 namespace CalamityMod.Items.Accessories
 {
-    public class TheAmalgam : ModItem
+	public class TheAmalgam : ModItem
     {
         public const int FireProjectiles = 2;
         public const float FireAngleSpread = 120;
@@ -36,8 +37,7 @@ namespace CalamityMod.Items.Accessories
                                "75% increased movement speed, 10% increase to all damage, and plus 40 defense while submerged in any liquid\n" +
 							   "The above bonuses also apply when passing through the clump's poisonous seawater\n" +
                                "Temporary immunity to lava, greatly reduces lava burn damage, and 15% increased damage while in lava\n" +
-                               "You have a damaging aura that envenoms nearby enemies and increased movement in liquids\n" +
-							   "Provides heat protection in Death Mode");
+                               "You have a damaging aura that envenoms nearby enemies and increased movement in liquids");
             Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(9, 6));
         }
 
@@ -45,10 +45,25 @@ namespace CalamityMod.Items.Accessories
         {
             item.width = 34;
             item.height = 34;
-            item.value = Item.buyPrice(0, 90, 0, 0);
+            item.value = CalamityGlobalItem.Rarity14BuyPrice;
             item.expert = true;
             item.rare = 9;
             item.accessory = true;
+        }
+
+        public override void ModifyTooltips(List<TooltipLine> list)
+        {
+			if (CalamityWorld.death)
+			{
+				foreach (TooltipLine line2 in list)
+				{
+					if (line2.mod == "Terraria" && line2.Name == "Tooltip8")
+					{
+						line2.text = "You have a damaging aura that envenoms nearby enemies and increased movement in liquids\n" +
+						"Provides heat protection in Death Mode";
+					}
+				}
+			}
         }
 
         public override bool CanEquipAccessory(Player player, int slot) => !player.Calamity().fungalClump;
@@ -116,26 +131,10 @@ namespace CalamityMod.Items.Accessories
                 {
                     if (player.whoAmI == Main.myPlayer)
                     {
-						float x = player.position.X + Main.rand.NextFloat(-400, 400);
-						float y = player.position.Y - Main.rand.NextFloat(500, 800);
-						Vector2 projOrigin = new Vector2(x, y);
-						float xDist = player.Center.X - projOrigin.X;
-						float yDist = player.Center.Y - projOrigin.Y;
-						xDist += Main.rand.NextFloat(-100, 100);
-						float speed = 22f;
-						Vector2 playerVector = new Vector2(xDist, yDist);
-						float playerDist = playerVector.Length();
-						playerDist = speed / playerDist;
-						playerVector.X *= playerDist;
-						playerVector.Y *= playerDist;
 						int type = Main.rand.NextBool(2) ? ProjectileType<AuraRain>() : ProjectileType<StandingFire>();
-						int rain = Projectile.NewProjectile(projOrigin, playerVector, type, (int)(ProjectileDamage * player.AverageDamage()), 1f, player.whoAmI, 0f, 0f);
-						Projectile proj = Main.projectile[rain];
-						proj.tileCollide = false;
-						proj.usesLocalNPCImmunity = true;
-						proj.localNPCHitCooldown = 10;
-						proj.usesIDStaticNPCImmunity = false;
-						proj.Calamity().forceTypeless = true;
+						Projectile rain = CalamityUtils.ProjectileRain(player.Center, 400f, 100f, 500f, 800f, 22f, type, (int)(ProjectileDamage * player.AverageDamage()), 5f, player.whoAmI, 6, 1);
+						if (type == ProjectileType<AuraRain>())
+							rain.tileCollide = false;
                     }
                 }
             }
@@ -194,7 +193,7 @@ namespace CalamityMod.Items.Accessories
             recipe.AddIngredient(ModContent.ItemType<FungalClump>());
             recipe.AddIngredient(ModContent.ItemType<LeviathanAmbergris>());
             recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<Phantoplasm>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>());
             recipe.AddTile(ModContent.TileType<DraedonsForge>());
             recipe.SetResult(this);
             recipe.AddRecipe();

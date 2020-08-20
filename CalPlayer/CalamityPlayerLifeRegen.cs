@@ -6,8 +6,6 @@ using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ModLoader;
-using Terraria.ModLoader.Config;
-using CalamityMod;
 
 namespace CalamityMod.CalPlayer
 {
@@ -93,7 +91,7 @@ namespace CalamityMod.CalPlayer
                     player.lifeRegen = 0;
 
                 player.lifeRegenTime = 0;
-				lifeRegenLost += 16;
+				lifeRegenLost += modPlayer.abaddon ? 8 : 16;
             }
 
             if (modPlayer.nightwither)
@@ -102,8 +100,8 @@ namespace CalamityMod.CalPlayer
                     player.lifeRegen = 0;
 
                 player.lifeRegenTime = 0;
-                player.lifeRegen -= 16;
-            }
+				lifeRegenLost += 16;
+			}
 
             if (modPlayer.vaporfied)
             {
@@ -111,8 +109,8 @@ namespace CalamityMod.CalPlayer
                     player.lifeRegen = 0;
 
                 player.lifeRegenTime = 0;
-                player.lifeRegen -= 8;
-            }
+				lifeRegenLost += 8;
+			}
 
 			if (modPlayer.cragsLava)
 			{
@@ -198,7 +196,7 @@ namespace CalamityMod.CalPlayer
                     player.lifeRegen = 0;
 
                 player.lifeRegenTime = 0;
-				lifeRegenLost += 20;
+				lifeRegenLost += 16;
             }
 
             if (modPlayer.pFlames)
@@ -207,7 +205,7 @@ namespace CalamityMod.CalPlayer
                     player.lifeRegen = 0;
 
                 player.lifeRegenTime = 0;
-				lifeRegenLost += 20;
+				lifeRegenLost += modPlayer.reducedPlagueDmg ? 10 : 20;
             }
 
             if (modPlayer.bBlood)
@@ -393,7 +391,7 @@ namespace CalamityMod.CalPlayer
                 if (player.whoAmI == Main.myPlayer && modPlayer.bloodfinTimer <= 0)
                 {
                     modPlayer.bloodfinTimer = 30;
-					if (player.statLife <= (int)(player.statLifeMax2 * 0.75))
+					if (player.statLife <= (int)(player.statLifeMax2 * 0.75) && !CalamityWorld.ironHeart)
 						player.statLife += 1;
                 }
             }
@@ -454,16 +452,7 @@ namespace CalamityMod.CalPlayer
 
 			// Last Debuffs
 
-			if (player.lifeRegen > 0)
-			{
-				if (modPlayer.plaguebringerGoliathLore)
-					player.lifeRegen /= 2;
-
-				if (modPlayer.eaterOfWorldsLore)
-					player.lifeRegen /= 2;
-			}
-
-			if (modPlayer.omegaBlueChestplate || player.ownedProjectileCounts[ModContent.ProjectileType<BloodBoilerFire>()] > 0)
+			if (CalamityWorld.ironHeart || modPlayer.omegaBlueChestplate || modPlayer.godSlayerCooldown || player.ownedProjectileCounts[ModContent.ProjectileType<BloodBoilerFire>()] > 0)
             {
                 if (player.lifeRegen > 0)
                     player.lifeRegen = 0;
@@ -474,7 +463,7 @@ namespace CalamityMod.CalPlayer
                     player.lifeRegenCount = 0;
             }
 
-            if (CalamityMod.CalamityConfig.LethalLava || CalamityWorld.death) //always occurs in Death regardless of config
+            if (CalamityConfig.Instance.LethalLava || CalamityWorld.death) // Always occurs in Death regardless of config
             {
                 if (Main.myPlayer == player.whoAmI)
                 {
@@ -490,23 +479,23 @@ namespace CalamityMod.CalPlayer
                             player.AddBuff(ModContent.BuffType<LethalLavaBurn>(), 2, true);
                     }
                 }
-
-                if (modPlayer.lethalLavaBurn)
-                {
-                    if (player.lifeRegen > 0)
-                        player.lifeRegen = 0;
-
-                    player.lifeRegenTime = 0;
-                    int lifeRegenDown = player.lavaImmune ? 9 : 18;
-
-                    if (player.lavaRose)
-                        lifeRegenDown = 3;
-
-                    player.lifeRegen -= lifeRegenDown * lifeRegenMult;
-                }
             }
 
-            if (modPlayer.hInferno)
+			if (modPlayer.lethalLavaBurn)
+			{
+				if (player.lifeRegen > 0)
+					player.lifeRegen = 0;
+
+				player.lifeRegenTime = 0;
+				int lifeRegenDown = player.lavaImmune ? 9 : 18;
+
+				if (player.lavaRose)
+					lifeRegenDown = 3;
+
+				player.lifeRegen -= lifeRegenDown * lifeRegenMult;
+			}
+
+			if (modPlayer.hInferno)
             {
                 modPlayer.hInfernoBoost++;
 
@@ -598,7 +587,7 @@ namespace CalamityMod.CalPlayer
 
 			if (modPlayer.absorber)
 			{
-				if (Math.Abs(player.velocity.X) < 0.05f && Math.Abs(player.velocity.Y) < 0.05f && player.itemAnimation == 0)
+				if (player.StandingStill() && player.itemAnimation == 0)
 					player.lifeRegen += 2;
 			}
 
@@ -696,6 +685,10 @@ namespace CalamityMod.CalPlayer
             {
                 player.lifeRegen += 2;
             }
+			if (modPlayer.bloodPactBoost)
+            {
+                player.lifeRegen += 2;
+            }
 
 			if (modPlayer.bloodflareSummon)
 			{
@@ -711,199 +704,150 @@ namespace CalamityMod.CalPlayer
                     player.lifeRegenTime = 1800;
             }
 
-			if (modPlayer.etherealExtorter || player.ZoneGlowshroom)
+			if (modPlayer.etherealExtorter && player.ZoneGlowshroom)
 				player.lifeRegen += 1;
 
 			// Standing still healing bonuses (all exclusive with vanilla Shiny Stone)
-            if (!player.shinyStone)
-            {
-                int lifeRegenTimeMaxBoost = CalamityPlayer.areThereAnyDamnBosses ? 450 : 1800;
-                int lifeRegenMaxBoost = CalamityPlayer.areThereAnyDamnBosses ? 1 : 4;
-                float lifeRegenLifeRegenTimeMaxBoost = CalamityPlayer.areThereAnyDamnBosses ? 8f : 30f;
+			if (!player.shinyStone)
+			{
+				int lifeRegenTimeMaxBoost = CalamityPlayer.areThereAnyDamnBosses ? 450 : 1800;
+				int lifeRegenMaxBoost = CalamityPlayer.areThereAnyDamnBosses ? 1 : 4;
+				float lifeRegenLifeRegenTimeMaxBoost = CalamityPlayer.areThereAnyDamnBosses ? 8f : 30f;
 
-                if (Math.Abs(player.velocity.X) < 0.05f && Math.Abs(player.velocity.Y) < 0.05f && player.itemAnimation == 0)
-                {
-                    if (modPlayer.shadeRegen)
-                    {
-                        if (player.lifeRegenTime > 90 && player.lifeRegenTime < lifeRegenTimeMaxBoost)
-                            player.lifeRegenTime = lifeRegenTimeMaxBoost;
+				if (player.StandingStill() && player.itemAnimation == 0)
+				{
+					bool boostedRegen = false;
+					bool noSunlight = false;
+					if (modPlayer.shadeRegen)
+					{
+						boostedRegen = true;
+						if (player.lifeRegen > 0 && player.statLife < modPlayer.actualMaxLife)
+						{
+							if (Main.rand.Next(30000) < player.lifeRegenTime || Main.rand.NextBool(30))
+							{
+								int regen = Dust.NewDust(player.position, player.width, player.height, 173, 0f, 0f, 200, default, 1f);
+								Main.dust[regen].noGravity = true;
+								Main.dust[regen].fadeIn = 1.3f;
+								Vector2 velocity = CalamityUtils.RandomVelocity(100f, 50f, 100f, 0.04f);
+								Main.dust[regen].velocity = velocity;
+								velocity.Normalize();
+								velocity *= 34f;
+								Main.dust[regen].position = player.Center - velocity;
+							}
+						}
+					}
+					else if (modPlayer.cFreeze)
+					{
+						boostedRegen = true;
+						if (player.lifeRegen > 0 && player.statLife < modPlayer.actualMaxLife)
+						{
+							if (Main.rand.Next(30000) < player.lifeRegenTime || Main.rand.NextBool(30))
+							{
+								int regen = Dust.NewDust(player.position, player.width, player.height, 67, 0f, 0f, 200, new Color(150, Main.DiscoG, 255), 0.75f);
+								Main.dust[regen].noGravity = true;
+								Main.dust[regen].fadeIn = 1.3f;
+								Vector2 velocity = CalamityUtils.RandomVelocity(100f, 50f, 100f, 0.04f);
+								Main.dust[regen].velocity = velocity;
+								velocity.Normalize();
+								velocity *= 34f;
+								Main.dust[regen].position = player.Center - velocity;
+							}
+						}
+					}
+					else if (modPlayer.draedonsHeart)
+					{
+						boostedRegen = true;
+						if (player.lifeRegen > 0 && player.statLife < modPlayer.actualMaxLife)
+						{
+							if (Main.rand.Next(30000) < player.lifeRegenTime || Main.rand.NextBool(2))
+							{
+								int regen = Dust.NewDust(player.position, player.width, player.height, 107, 0f, 0f, 200, default, 1f);
+								Main.dust[regen].noGravity = true;
+								Main.dust[regen].fadeIn = 1.3f;
+								Vector2 velocity = CalamityUtils.RandomVelocity(100f, 50f, 100f, 0.04f);
+								Main.dust[regen].velocity = velocity;
+								velocity.Normalize();
+								velocity *= 34f;
+								Main.dust[regen].position = player.Center - velocity;
+							}
+						}
+					}
+					else if (modPlayer.photosynthesis)
+					{
+						boostedRegen = true;
+						if (!Main.dayTime)
+							noSunlight = true;
+						if (player.lifeRegen > 0 && player.statLife < modPlayer.actualMaxLife)
+						{
+							if (Main.rand.Next(30000) < player.lifeRegenTime || Main.rand.NextBool(2))
+							{
+								int regen = Dust.NewDust(player.position, player.width, player.height, 244, 0f, 0f, 200, default, 1f);
+								Main.dust[regen].noGravity = true;
+								Main.dust[regen].fadeIn = 1.3f;
+								Vector2 velocity = CalamityUtils.RandomVelocity(100f, 50f, 100f, 0.04f);
+								Main.dust[regen].velocity = velocity;
+								velocity.Normalize();
+								velocity *= 34f;
+								Main.dust[regen].position = player.Center - velocity;
+							}
+						}
+					}
+					if (boostedRegen)
+					{
+						int lifeRegenTimeMaxBoost2 = !noSunlight ? lifeRegenTimeMaxBoost : (lifeRegenTimeMaxBoost / 5);
+						int lifeRegenMaxBoost2 = !noSunlight ? lifeRegenMaxBoost : (lifeRegenMaxBoost / 5);
+						float lifeRegenLifeRegenTimeMaxBoost2 = !noSunlight ? lifeRegenLifeRegenTimeMaxBoost : (lifeRegenLifeRegenTimeMaxBoost / 5);
 
-                        player.lifeRegenTime += lifeRegenMaxBoost;
-                        player.lifeRegen += lifeRegenMaxBoost;
+						if (player.lifeRegenTime > 90 && player.lifeRegenTime < lifeRegenTimeMaxBoost2)
+							player.lifeRegenTime = lifeRegenTimeMaxBoost2;
 
-                        float num3 = player.lifeRegenTime * 2.5f; // lifeRegenTime max is 3600
-                        num3 /= 300f;
-                        if (num3 > 0f)
-                        {
-                            if (num3 > lifeRegenLifeRegenTimeMaxBoost)
-                                num3 = lifeRegenLifeRegenTimeMaxBoost;
+						player.lifeRegenTime += lifeRegenMaxBoost2;
+						player.lifeRegen += lifeRegenMaxBoost2;
 
-                            player.lifeRegen += (int)num3;
-                        }
+						float num3 = player.lifeRegenTime * 2.5f; // lifeRegenTime max is 3600
+						num3 /= 300f;
+						if (num3 > 0f)
+						{
+							if (num3 > lifeRegenLifeRegenTimeMaxBoost2)
+								num3 = lifeRegenLifeRegenTimeMaxBoost2;
 
-                        if (player.lifeRegen > 0 && player.statLife < modPlayer.actualMaxLife)
-                        {
-                            player.lifeRegenCount++;
-                            if (Main.rand.Next(30000) < player.lifeRegenTime || Main.rand.NextBool(30))
-                            {
-                                int num5 = Dust.NewDust(player.position, player.width, player.height, 173, 0f, 0f, 200, default, 1f);
-                                Main.dust[num5].noGravity = true;
-                                Main.dust[num5].velocity *= 0.75f;
-                                Main.dust[num5].fadeIn = 1.3f;
-                                Vector2 vector = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-                                vector.Normalize();
-                                vector *= (float)Main.rand.Next(50, 100) * 0.04f;
-                                Main.dust[num5].velocity = vector;
-                                vector.Normalize();
-                                vector *= 34f;
-                                Main.dust[num5].position = player.Center - vector;
-                            }
-                        }
-                    }
-                    else if (modPlayer.cFreeze)
-                    {
-                        if (player.lifeRegenTime > 90 && player.lifeRegenTime < lifeRegenTimeMaxBoost)
-                            player.lifeRegenTime = lifeRegenTimeMaxBoost;
+							player.lifeRegen += (int)num3;
+						}
+						if (player.lifeRegen > 0 && player.statLife < modPlayer.actualMaxLife)
+						{
+							player.lifeRegenCount++;
+						}
+					}
+				}
+			}
 
-                        player.lifeRegenTime += lifeRegenMaxBoost;
-                        player.lifeRegen += lifeRegenMaxBoost;
-
-                        float num3 = (player.lifeRegenTime * 2.5f); // lifeRegenTime max is 3600
-                        num3 /= 300f;
-                        if (num3 > 0f)
-                        {
-                            if (num3 > lifeRegenLifeRegenTimeMaxBoost)
-                                num3 = lifeRegenLifeRegenTimeMaxBoost;
-
-                            player.lifeRegen += (int)num3;
-                        }
-
-                        if (player.lifeRegen > 0 && player.statLife < modPlayer.actualMaxLife)
-                        {
-                            player.lifeRegenCount++;
-                            if (Main.rand.Next(30000) < player.lifeRegenTime || Main.rand.NextBool(30))
-                            {
-                                int num5 = Dust.NewDust(player.position, player.width, player.height, 67, 0f, 0f, 200, new Color(150, Main.DiscoG, 255), 0.75f);
-                                Main.dust[num5].noGravity = true;
-                                Main.dust[num5].velocity *= 0.75f;
-                                Main.dust[num5].fadeIn = 1.3f;
-                                Vector2 vector = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-                                vector.Normalize();
-                                vector *= (float)Main.rand.Next(50, 100) * 0.04f;
-                                Main.dust[num5].velocity = vector;
-                                vector.Normalize();
-                                vector *= 34f;
-                                Main.dust[num5].position = player.Center - vector;
-                            }
-                        }
-                    }
-                    else if (modPlayer.draedonsHeart)
-                    {
-                        if (player.lifeRegenTime > 90 && player.lifeRegenTime < lifeRegenTimeMaxBoost)
-                            player.lifeRegenTime = lifeRegenTimeMaxBoost;
-
-                        player.lifeRegenTime += lifeRegenMaxBoost;
-                        player.lifeRegen += lifeRegenMaxBoost;
-
-                        float num3 = player.lifeRegenTime * 2.5f; // lifeRegenTime max is 3600
-                        num3 /= 300f;
-                        if (num3 > 0f)
-                        {
-                            if (num3 > lifeRegenLifeRegenTimeMaxBoost)
-                                num3 = lifeRegenLifeRegenTimeMaxBoost;
-
-                            player.lifeRegen += (int)num3;
-                        }
-
-                        if (player.lifeRegen > 0 && player.statLife < modPlayer.actualMaxLife)
-                        {
-                            player.lifeRegenCount++;
-                            if (Main.rand.Next(30000) < player.lifeRegenTime || Main.rand.NextBool(2))
-                            {
-                                int num5 = Dust.NewDust(player.position, player.width, player.height, 107, 0f, 0f, 200, default, 1f);
-                                Main.dust[num5].noGravity = true;
-                                Main.dust[num5].velocity *= 0.75f;
-                                Main.dust[num5].fadeIn = 1.3f;
-                                Vector2 vector = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-                                vector.Normalize();
-                                vector *= (float)Main.rand.Next(50, 100) * 0.04f;
-                                Main.dust[num5].velocity = vector;
-                                vector.Normalize();
-                                vector *= 34f;
-                                Main.dust[num5].position = player.Center - vector;
-                            }
-                        }
-                    }
-                    else if (modPlayer.photosynthesis)
-                    {
-                        int lifeRegenTimeMaxBoost2 = Main.dayTime ? lifeRegenTimeMaxBoost : (lifeRegenTimeMaxBoost / 5);
-                        int lifeRegenMaxBoost2 = Main.dayTime ? lifeRegenMaxBoost : (lifeRegenMaxBoost / 5);
-                        float lifeRegenLifeRegenTimeMaxBoost2 = Main.dayTime ? lifeRegenLifeRegenTimeMaxBoost : (lifeRegenLifeRegenTimeMaxBoost / 5);
-
-                        if (player.lifeRegenTime > 90 && player.lifeRegenTime < lifeRegenTimeMaxBoost2)
-                            player.lifeRegenTime = lifeRegenTimeMaxBoost2;
-
-                        player.lifeRegenTime += lifeRegenMaxBoost2;
-                        player.lifeRegen += lifeRegenMaxBoost2;
-
-                        float num3 = player.lifeRegenTime * 2.5f; // lifeRegenTime max is 3600
-                        num3 /= 300f;
-                        if (num3 > 0f)
-                        {
-                            if (num3 > lifeRegenLifeRegenTimeMaxBoost2)
-                                num3 = lifeRegenLifeRegenTimeMaxBoost2;
-
-                            player.lifeRegen += (int)num3;
-                        }
-
-                        if (player.lifeRegen > 0 && player.statLife < modPlayer.actualMaxLife)
-                        {
-                            player.lifeRegenCount++;
-                            if (Main.rand.Next(30000) < player.lifeRegenTime || Main.rand.NextBool(2))
-                            {
-                                int num5 = Dust.NewDust(player.position, player.width, player.height, 244, 0f, 0f, 200, default, 1f);
-                                Main.dust[num5].noGravity = true;
-                                Main.dust[num5].velocity *= 0.75f;
-                                Main.dust[num5].fadeIn = 1.3f;
-                                Vector2 vector = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-                                vector.Normalize();
-                                vector *= (float)Main.rand.Next(50, 100) * 0.04f;
-                                Main.dust[num5].velocity = vector;
-                                vector.Normalize();
-                                vector *= 34f;
-                                Main.dust[num5].position = player.Center - vector;
-                            }
-                        }
-                    }
-                }
-                else if (modPlayer.camper && player.statLife < modPlayer.actualMaxLife)
-                {
-                    player.lifeRegen = (int)((player.lifeRegen * 2) * 1.75f);
-                    player.lifeRegenCount = player.lifeRegenCount > 30 ? player.lifeRegenCount : 30;
-                    player.lifeRegenCount++;
-                    if (Main.rand.Next(30000) < player.lifeRegenTime || Main.rand.NextBool(2))
-                    {
-                        int num5 = Dust.NewDust(player.position, player.width, player.height, 12, 0f, 0f, 200, Color.OrangeRed, 1f);
-                        Main.dust[num5].noGravity = true;
-                        Main.dust[num5].velocity *= 0.75f;
-                        Main.dust[num5].fadeIn = 1.3f;
-                        Vector2 vector = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-                        vector.Normalize();
-                        vector *= (float)Main.rand.Next(50, 100) * 0.04f;
-                        Main.dust[num5].velocity = vector;
-                        vector.Normalize();
-                        vector *= 34f;
-                        Main.dust[num5].position = player.Center - vector;
-                    }
-                }
-            }
+			// The Camper regen boost activates while moving so it can stack with Shiny Stone like effects
+			if (modPlayer.camper && player.statLife < modPlayer.actualMaxLife && !player.StandingStill())
+			{
+				float camperRegenMult = CalamityPlayer.areThereAnyDamnBosses ? 1.3f : 1.75f;
+				int camperCap = CalamityPlayer.areThereAnyDamnBosses ? 20 : 30;
+				player.lifeRegen = (int)((player.lifeRegen * 2) * camperRegenMult);
+				player.lifeRegenCount = player.lifeRegenCount > camperCap ? player.lifeRegenCount : camperCap;
+				player.lifeRegenCount++;
+				if (Main.rand.Next(30000) < player.lifeRegenTime || Main.rand.NextBool(2))
+				{
+					int regen = Dust.NewDust(player.position, player.width, player.height, 12, 0f, 0f, 200, Color.OrangeRed, 1f);
+					Main.dust[regen].noGravity = true;
+					Main.dust[regen].fadeIn = 1.3f;
+					Vector2 velocity = CalamityUtils.RandomVelocity(100f, 50f, 100f, 0.04f);
+					Main.dust[regen].velocity = velocity;
+					velocity.Normalize();
+					velocity *= 34f;
+					Main.dust[regen].position = player.Center - velocity;
+				}
+			}
 
 			if (CalamityWorld.revenge)
 			{
 				if (player.statLife < modPlayer.actualMaxLife)
 				{
 					bool noLifeRegenCap = (player.shinyStone || modPlayer.draedonsHeart || modPlayer.cFreeze || modPlayer.shadeRegen || modPlayer.photosynthesis || modPlayer.camper) &&
-						Math.Abs(player.velocity.X) < 0.05f && Math.Abs(player.velocity.Y) < 0.05f && player.itemAnimation == 0;
+						player.StandingStill() && player.itemAnimation == 0;
 
 					if (!noLifeRegenCap)
 					{
@@ -922,9 +866,18 @@ namespace CalamityMod.CalPlayer
 				}
 			}
 
+			if (player.lifeRegen > 0)
+			{
+				if (modPlayer.plaguebringerGoliathLore)
+					player.lifeRegen /= 2;
+
+				if (modPlayer.eaterOfWorldsLore)
+					player.lifeRegen /= 2;
+			}
+
 			if (CalamityWorld.bossRushActive)
 			{
-				if (CalamityMod.CalamityConfig.BossRushHealthCurse)
+				if (CalamityConfig.Instance.BossRushHealthCurse)
 				{
 					if (player.lifeRegen > 0)
 						player.lifeRegen = 0;

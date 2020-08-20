@@ -16,7 +16,7 @@ namespace CalamityMod.ILEditing
                 var cursor = new ILCursor(il);
                 if (!cursor.TryGotoNext(i => i.MatchStsfld("Terraria.WorldGen", "dMaxY")))
                 {
-                    CalamityMod.instance.Logger.Warn("Dungeon movement editing code failed.");
+                    CalamityMod.Instance.Logger.Warn("Dungeon movement editing code failed.");
                     return;
                 }
                 cursor.Index++;

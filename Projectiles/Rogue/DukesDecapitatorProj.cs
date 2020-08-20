@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -9,7 +7,7 @@ using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class DukesDecapitatorProj : ModProjectile
+	public class DukesDecapitatorProj : ModProjectile
     {
 		bool stealthBubbles = false;
 		float rotationAmount = 1.5f;

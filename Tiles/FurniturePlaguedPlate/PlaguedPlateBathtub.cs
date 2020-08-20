@@ -9,7 +9,7 @@ namespace CalamityMod.Tiles.FurniturePlaguedPlate
         {
             this.SetUpBathtub();
             ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Plagued Plate Bathtub");
+            name.SetDefault("Plagued Bathtub");
             AddMapEntry(new Color(191, 142, 111), name);
             animationFrameHeight = 54;
         }

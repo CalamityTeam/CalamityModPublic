@@ -13,15 +13,15 @@ namespace CalamityMod.NPCs.Leviathan
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Aquatic Aberration");
-            Main.npcFrameCount[npc.type] = 9;
+            Main.npcFrameCount[npc.type] = 7;
         }
 
         public override void SetDefaults()
         {
             npc.aiStyle = -1;
             npc.damage = 55;
-            npc.width = 70;
-            npc.height = 40;
+            npc.width = 50;
+            npc.height = 50;
             npc.defense = 14;
             npc.lifeMax = 1600;
             if (CalamityWorld.bossRushActive)
@@ -55,13 +55,13 @@ namespace CalamityMod.NPCs.Leviathan
             {
                 npc.spriteDirection = -Math.Sign(npc.velocity.X);
             }
-            if (npc.rotation < -1.57079637f)
+            if (npc.rotation < -MathHelper.PiOver2)
             {
-                npc.rotation += 3.14159274f;
+                npc.rotation += MathHelper.Pi;
             }
-            if (npc.rotation > 1.57079637f)
+            if (npc.rotation > MathHelper.PiOver2)
             {
-                npc.rotation -= 3.14159274f;
+                npc.rotation -= MathHelper.Pi;
             }
             npc.spriteDirection = Math.Sign(npc.velocity.X);
             float num1000 = 30f;
@@ -82,7 +82,7 @@ namespace CalamityMod.NPCs.Leviathan
                     flag64 = true;
                 }
                 float num1014 = 8f;
-                flag64 = flag64 && vector126.ToRotation() > 3.14159274f / num1014 && vector126.ToRotation() < 3.14159274f - 3.14159274f / num1014;
+                flag64 = flag64 && vector126.ToRotation() > MathHelper.Pi / num1014 && vector126.ToRotation() < MathHelper.Pi - MathHelper.Pi / num1014;
                 if (num1013 > 800f || !flag64)
                 {
                     npc.velocity.X = (npc.velocity.X * (num1000 - 1f) + vector127.X) / num1000;
@@ -184,13 +184,13 @@ namespace CalamityMod.NPCs.Leviathan
         {
             for (int k = 0; k < 5; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
             }
             if (npc.life <= 0)
             {
                 for (int k = 0; k < 20; k++)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
                 }
             }
         }

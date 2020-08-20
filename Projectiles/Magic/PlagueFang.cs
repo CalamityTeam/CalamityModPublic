@@ -23,6 +23,8 @@ namespace CalamityMod.Projectiles.Magic
             projectile.alpha = 255;
             projectile.penetrate = 9;
             projectile.timeLeft = 300;
+            projectile.usesIDStaticNPCImmunity = true;
+            projectile.idStaticNPCHitCooldown = 5;
         }
 
         public override void AI()
@@ -80,7 +82,6 @@ namespace CalamityMod.Projectiles.Magic
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(ModContent.BuffType<Plague>(), 300);
-            target.immune[projectile.owner] = 2;
         }
     }
 }

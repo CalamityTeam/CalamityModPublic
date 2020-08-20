@@ -96,32 +96,26 @@ namespace CalamityMod.Projectiles.Ranged
             return false;
         }
 
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+			target.ExoDebuffs();
+			OnHitEffects(target.Center);
+        }
+
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<ExoFreeze>(), 30);
-            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
-            target.AddBuff(ModContent.BuffType<GlacialState>(), 120);
-            target.AddBuff(ModContent.BuffType<Plague>(), 120);
-            target.AddBuff(ModContent.BuffType<HolyFlames>(), 120);
-            target.AddBuff(BuffID.CursedInferno, 120);
-            target.AddBuff(BuffID.Frostburn, 120);
-            target.AddBuff(BuffID.OnFire, 120);
-            target.AddBuff(BuffID.Ichor, 120);
+			target.ExoDebuffs();
+			OnHitEffects(target.Center);
+        }
+
+		private void OnHitEffects(Vector2 targetPos)
+		{
             for (int x = 0; x < 3; x++)
             {
-                float xPos = projectile.ai[0] > 0 ? projectile.position.X + 500 : projectile.position.X - 500;
-                Vector2 vector2 = new Vector2(xPos, projectile.position.Y + Main.rand.Next(-500, 501));
-                float num80 = xPos;
-                float speedX = (float)target.position.X - vector2.X;
-                float speedY = (float)target.position.Y - vector2.Y;
-                float dir = (float)Math.Sqrt((double)(speedX * speedX + speedY * speedY));
-                dir = 10 / num80;
-                speedX *= dir * 150;
-                speedY *= dir * 150;
-                if (projectile.owner == Main.myPlayer)
-                {
-                    Projectile.NewProjectile(vector2.X, vector2.Y, speedX, speedY, ModContent.ProjectileType<BlueExoArrow2>(), (int)((double)projectile.damage * 0.7), 1f, projectile.owner);
-                }
+				if (projectile.owner == Main.myPlayer)
+				{
+					CalamityUtils.ProjectileBarrage(projectile.Center, targetPos, Main.rand.NextBool(2), 500f, 500f, 0f, 500f, 10f, ModContent.ProjectileType<BlueExoArrow2>(), (int)(projectile.damage * 0.7), projectile.knockBack * 0.7f, projectile.owner);
+				}
             }
         }
     }

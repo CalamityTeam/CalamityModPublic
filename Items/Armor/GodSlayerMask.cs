@@ -43,8 +43,8 @@ namespace CalamityMod.Items.Armor
             modPlayer.wearingRogueArmor = true;
             player.setBonus = "You will survive fatal damage and will be healed 150 HP if an attack would have killed you\n" +
                 "This effect can only occur once every 45 seconds\n" +
-                "While the cooldown for this effect is active you gain a 10% increase to all damage\n" +
-                "While at full HP all of your rogue stats are boosted by 10%\n" +
+				"While the cooldown for this effect is active all life regen is disabled\n" +
+				"While at full HP all of your rogue stats are boosted by 10%\n" +
                 "If you take over 80 damage in one hit you will be given extra immunity frames\n" +
                 "Rogue stealth builds while not attacking and slower while moving, up to a max of 120\n" +
                 "Once you have built max stealth, you will be able to perform a Stealth Strike\n" +
@@ -63,8 +63,7 @@ namespace CalamityMod.Items.Armor
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 14);
-            recipe.AddIngredient(ModContent.ItemType<NightmareFuel>(), 8);
-            recipe.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 8);
+            recipe.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>());
             recipe.AddTile(ModContent.TileType<DraedonsForge>());
             recipe.SetResult(this);
             recipe.AddRecipe();

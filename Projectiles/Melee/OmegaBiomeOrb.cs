@@ -4,14 +4,13 @@ using CalamityMod.CalPlayer;
 using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    public class OmegaBiomeOrb : ModProjectile
+	public class OmegaBiomeOrb : ModProjectile
     {
 		private int dustType = 3;
 		Color color = default;

@@ -1,13 +1,10 @@
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class ShadowBlackhole : ModProjectile
+	public class ShadowBlackhole : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -44,8 +41,7 @@ namespace CalamityMod.Projectiles.Rogue
 			{
 				projectile.scale *= 0.95f;
 				projectile.Opacity *= 0.95f;
-				projectile.height = (int)(projectile.height * projectile.scale);
-				projectile.width = (int)(projectile.width * projectile.scale);
+				CalamityGlobalProjectile.ExpandHitboxBy(projectile, projectile.scale);
 			}
 			if (projectile.scale <= 0.05f)
 			{

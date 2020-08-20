@@ -1,4 +1,3 @@
-using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Dusts;
 using CalamityMod.Projectiles.Enemy;
 using CalamityMod.Items.Materials;
@@ -13,7 +12,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.SulphurousSea
 {
-    public class AnthozoanCrab : ModNPC
+	public class AnthozoanCrab : ModNPC
     {
         public int boulderIndex;
         public override void SetStaticDefaults()

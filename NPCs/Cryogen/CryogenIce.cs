@@ -1,14 +1,13 @@
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.Cryogen
 {
-    public class CryogenIce : ModNPC
+	public class CryogenIce : ModNPC
     {
         public override void SetStaticDefaults()
         {
@@ -24,7 +23,7 @@ namespace CalamityMod.NPCs.Cryogen
             npc.damage = 50;
             npc.width = 190;
             npc.height = 190;
-            npc.Calamity().RevPlusDR(0.4f);
+			npc.DR_NERD(0.4f);
             npc.lifeMax = 1400;
             if (CalamityWorld.bossRushActive)
             {

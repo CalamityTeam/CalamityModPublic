@@ -1,11 +1,10 @@
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureAshen
 {
-    public class AshenSink : ModTile
+	public class AshenSink : ModTile
     {
         public override void SetDefaults()
         {

@@ -55,11 +55,9 @@ namespace CalamityMod.Items.Weapons.Magic
             recipe.AddIngredient(ModContent.ItemType<CosmicDischarge>());
             recipe.AddIngredient(ModContent.ItemType<StaffoftheMechworm>(), 2);
             recipe.AddIngredient(ModContent.ItemType<Excelsus>(), 2);
+            recipe.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 7);
             recipe.AddIngredient(ModContent.ItemType<DarksunFragment>(), 33);
-            recipe.AddIngredient(ModContent.ItemType<NightmareFuel>(), 33);
-            recipe.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 33);
             recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 33);
-            recipe.AddIngredient(ModContent.ItemType<Phantoplasm>(), 33);
             recipe.AddIngredient(ModContent.ItemType<ShadowspecBar>(), 5);
             recipe.AddTile(ModContent.TileType<DraedonsForge>());
             recipe.SetResult(this);

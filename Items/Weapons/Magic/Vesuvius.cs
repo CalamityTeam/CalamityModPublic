@@ -26,8 +26,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.damage = 75;
             item.mana = 6;
             item.magic = true;
-            item.useAnimation = 20;
-            item.useTime = 20;
+            item.useAnimation = item.useTime = 15;
             item.noMelee = true;
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.knockBack = 3f;
@@ -53,20 +52,21 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override bool CanUseItem(Player player)
         {
-            if (player.altFunctionUse == 2)
-            {
-                item.mana = 9;
-                item.useTime = 20;
-                item.useAnimation = 20;
-            }
-            else
-            {
-                item.mana = 6;
-                item.useTime = 15;
-                item.useAnimation = 15;
-            }
             return base.CanUseItem(player);
         }
+
+		public override void ModifyManaCost(Player player, ref float reduce, ref float mult)
+		{
+			if (player.altFunctionUse == 2)
+				mult *= 1.5f;
+		}
+
+		public override float UseTimeMultiplier	(Player player)
+		{
+			if (player.altFunctionUse != 2)
+				return 1f;
+			return 0.75f;
+		}
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {

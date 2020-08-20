@@ -31,9 +31,9 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.rare = 8;
             item.UseSound = SoundID.Item5;
             item.autoReuse = true;
-            item.shoot = ProjectileID.PurificationPowder;
+            item.shoot = ProjectileID.WoodenArrowFriendly;
             item.shootSpeed = 17f;
-            item.useAmmo = 40;
+            item.useAmmo = AmmoID.Arrow;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -47,8 +47,8 @@ namespace CalamityMod.Items.Weapons.Ranged
             bool canHit = Collision.CanHit(source, 0, 0, source + velocity, 0, 0);
             for (int projIndex = 0; projIndex < arrowAmt; projIndex++)
             {
-                float num120 = (float)projIndex - ((float)arrowAmt - 1f) / 2f;
-                Vector2 offset = velocity.RotatedBy((double)(piOverTen * num120), default);
+                float offsetAmt = projIndex - (arrowAmt - 1f) / 2f;
+                Vector2 offset = velocity.RotatedBy((double)(piOverTen * offsetAmt), default);
                 if (!canHit)
                 {
                     offset -= velocity;
@@ -64,20 +64,12 @@ namespace CalamityMod.Items.Weapons.Ranged
             {
                 float SpeedX = speedX + (float)Main.rand.Next(-10, 11) * 0.05f;
                 float SpeedY = speedY + (float)Main.rand.Next(-10, 11) * 0.05f;
-                switch (Main.rand.Next(3))
-                {
-                    case 0:
-                        type = ProjectileID.CursedArrow;
-                        break;
-                    case 1:
-                        type = ProjectileID.HellfireArrow;
-                        break;
-                    case 2:
-                        type = ProjectileID.IchorArrow;
-                        break;
-                    default:
-                        break;
-                }
+				type = Utils.SelectRandom(Main.rand, new int[]
+				{
+					ProjectileID.CursedArrow,
+					ProjectileID.HellfireArrow,
+					ProjectileID.IchorArrow
+				});
                 int index = Projectile.NewProjectile(position, new Vector2(SpeedX, SpeedY), type, (int)(damage * 0.5f), knockBack, player.whoAmI, 0f, 0f);
                 Main.projectile[index].noDropItem = true;
                 Main.projectile[index].usesLocalNPCImmunity = true;

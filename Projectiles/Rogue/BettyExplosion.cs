@@ -1,12 +1,10 @@
-using System;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class BettyExplosion : ModProjectile
+	public class BettyExplosion : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -36,7 +34,7 @@ namespace CalamityMod.Projectiles.Rogue
         void SpawnExplosionDust()
         {
             // Sparks and such
-            Vector2 corner = new Vector2(projectile.position.X, projectile.position.Y);
+            Vector2 corner = projectile.position;
             for (int i = 0; i < 15; i++)
             {
                 int idx = Dust.NewDust(corner, projectile.width, projectile.height, 31, 0f, 0f, 100, default, 2f);
@@ -57,7 +55,7 @@ namespace CalamityMod.Projectiles.Rogue
             }
 
             // Smoke, which counts as a Gore
-			CalamityUtils.ExplosionGores(projectile, 3);
+			CalamityUtils.ExplosionGores(projectile.Center, 3);
         }
     
     }

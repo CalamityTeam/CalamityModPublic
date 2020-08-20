@@ -30,7 +30,7 @@ namespace CalamityMod.NPCs.Crags
             npc.width = 60; //324
             npc.height = 40; //216
             npc.defense = 40;
-            npc.Calamity().RevPlusDR(0.15f);
+			npc.DR_NERD(0.15f);
             npc.lifeMax = 60;
             npc.knockBackResist = 0.65f;
             npc.value = Item.buyPrice(0, 0, 5, 0);
@@ -231,7 +231,7 @@ namespace CalamityMod.NPCs.Crags
 			float amount9 = 0.5f;
 			int num153 = 5;
 
-			if (CalamityMod.CalamityConfig.Afterimages)
+			if (CalamityConfig.Instance.Afterimages)
 			{
 				for (int num155 = 1; num155 < num153; num155 += 2)
 				{
@@ -254,7 +254,7 @@ namespace CalamityMod.NPCs.Crags
 			texture2D15 = ModContent.GetTexture("CalamityMod/NPCs/Calamitas/SoulSeekerGlow");
 			Color color37 = Color.Lerp(Color.White, Color.Red, 0.5f);
 
-			if (CalamityMod.CalamityConfig.Afterimages)
+			if (CalamityConfig.Instance.Afterimages)
 			{
 				for (int num163 = 1; num163 < num153; num163++)
 				{

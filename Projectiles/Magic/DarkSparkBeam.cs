@@ -28,7 +28,7 @@ namespace CalamityMod.Projectiles.Magic
             projectile.alpha = 255;
             projectile.tileCollide = false;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
+            projectile.localNPCHitCooldown = 15;
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -127,15 +127,15 @@ namespace CalamityMod.Projectiles.Magic
             projectile.position += value37;
             projectile.velocity = Vector2.Normalize(projectile2.velocity).RotatedBy((double)num811, default);
             projectile.scale = 1.5f * (1.5f - num812);
-            projectile.damage = projectile2.damage;
-            double damageMult = 1.0 + (double)(projectile2.ai[0] * 0.0015f); //1 to 2.0 (1400 * x)
-            if (damageMult > 2.0)
+
+			// Takes 360 frames to reach normal damage
+			float amount = projectile2.ai[0] / 1200f;
+			if (amount > 1f)
+				amount = 1f;
+			projectile.damage = (int)(projectile2.damage * MathHelper.Lerp(0.25f, 2.2f, amount));
+
+			if (projectile2.ai[0] >= 720f)
             {
-                damageMult = 2.0;
-            }
-            if (projectile2.ai[0] >= 720f)
-            {
-                projectile.damage = (int)((double)projectile.damage * damageMult);
                 vector71 = new Vector2?(projectile2.Center);
             }
             if (!Collision.CanHitLine(Main.player[projectile.owner].Center, 0, 0, projectile2.Center, 0, 0))
@@ -164,8 +164,8 @@ namespace CalamityMod.Projectiles.Magic
                 num821 += array3[num822];
             }
             num821 /= num819;
-            float amount = 0.75f;
-            projectile.localAI[1] = MathHelper.Lerp(projectile.localAI[1], num821, amount);
+            float amount2 = 0.75f;
+            projectile.localAI[1] = MathHelper.Lerp(projectile.localAI[1], num821, amount2);
             if (Math.Abs(projectile.localAI[1] - num821) < 100f && projectile.scale > 0.15f)
             {
                 //color.A = 0;

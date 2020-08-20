@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Rogue
     public class DestructionStar : ModProjectile
     {
 		public int hitCount = 0;
-        private static float Radius = 43f;
+        private static float Radius = 47f;
 
         public override void SetStaticDefaults()
         {
@@ -19,8 +19,8 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetDefaults()
         {
-            projectile.width = 86;
-            projectile.height = 86;
+            projectile.width = 94;
+            projectile.height = 94;
             projectile.friendly = true;
             projectile.penetrate = 16;
             projectile.usesLocalNPCImmunity = true;
@@ -33,12 +33,12 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void AI()
         {
-            if (Main.rand.Next(8) == 0)
+            if (Main.rand.NextBool(8))
             {
                 Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 191, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
             }
             projectile.rotation += Math.Sign(projectile.velocity.X) * MathHelper.ToRadians(8f);
-			if (projectile.Calamity().stealthStrike == true || hitCount > 16)
+			if (projectile.Calamity().stealthStrike || hitCount > 16)
 				hitCount = 16;
         }
 
@@ -79,7 +79,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(SoundID.Item14, (int)projectile.position.X, (int)projectile.position.Y);
+            Main.PlaySound(SoundID.Item14, projectile.Center);
             Vector2 vector2 = new Vector2(20f, 20f);
 			for (int index1 = 0; index1 < 10; ++index1)
 			{
@@ -89,17 +89,10 @@ namespace CalamityMod.Projectiles.Rogue
 			}
             if (projectile.owner == Main.myPlayer)
             {
-				int i;
-				for (i = 0; i < hitCount; i++)
+				for (int i = 0; i < hitCount; i++)
 				{
-                    Vector2 value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-                    while (value15.X == 0f && value15.Y == 0f)
-                    {
-                        value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-                    }
-                    value15.Normalize();
-                    value15 *= (float)Main.rand.Next(70, 101) * 0.1f;
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value15.X, value15.Y, ModContent.ProjectileType<DestructionBolt>(), (int)((double)projectile.damage * 0.5), 0f, Main.myPlayer, 0f, 0f);
+					Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
+                    Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<DestructionBolt>(), (int)(projectile.damage * 0.5), 0f, Main.myPlayer, 0f, 0f);
                 }
 			}
 		}

@@ -2,6 +2,8 @@ using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Summon;
+using CalamityMod.World;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -16,8 +18,7 @@ namespace CalamityMod.Items.Armor
             DisplayName.SetDefault("Hydrothermic Helmet");
             Tooltip.SetDefault("5% increased minion damage and increased minion knockback\n" +
                 "+2 max minions\n" +
-                "Temporary immunity to lava and immunity to fire damage\n" +
-				"Provides heat protection in Death Mode");
+                "Temporary immunity to lava and immunity to fire damage");
         }
 
         public override void SetDefaults()
@@ -27,6 +28,21 @@ namespace CalamityMod.Items.Armor
             item.value = Item.buyPrice(0, 30, 0, 0);
             item.rare = 8;
             item.defense = 6; //40
+        }
+
+        public override void ModifyTooltips(List<TooltipLine> list)
+        {
+			if (CalamityWorld.death)
+			{
+				foreach (TooltipLine line2 in list)
+				{
+					if (line2.mod == "Terraria" && line2.Name == "Tooltip2")
+					{
+						line2.text = "Temporary immunity to lava and immunity to fire damage\n" +
+						"Provides heat protection in Death Mode";
+					}
+				}
+			}
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)

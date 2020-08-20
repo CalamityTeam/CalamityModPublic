@@ -1,12 +1,10 @@
-using CalamityMod.CalPlayer;
 using System.Collections.Generic;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
 {
-    public class SpectralVeil : ModItem
+	public class SpectralVeil : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -22,7 +20,7 @@ namespace CalamityMod.Items.Accessories
         {
             item.width = 30;
             item.height = 38;
-            item.value = Item.buyPrice(1, 40, 0, 0);
+            item.value = CalamityGlobalItem.Rarity13BuyPrice;
             item.Calamity().customRarity = CalamityRarity.PureGreen;
             item.accessory = true;
         }

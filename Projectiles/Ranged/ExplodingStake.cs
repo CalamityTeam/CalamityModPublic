@@ -25,7 +25,7 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.scale = 0.8f;
             projectile.extraUpdates = 3;
             projectile.aiStyle = 1;
-            aiType = 323;
+            aiType = ProjectileID.Stake;
         }
 
         public override void AI()

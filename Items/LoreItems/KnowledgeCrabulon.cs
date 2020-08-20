@@ -13,7 +13,7 @@ namespace CalamityMod.Items.LoreItems
             DisplayName.SetDefault("Crabulon");
             Tooltip.SetDefault("A crab and its mushrooms, a love story.\n" +
                 "It's interesting how creatures can adapt given certain circumstances.\n" +
-                "Place in your inventory to gain the Mushy buff while underground or in the mushroom biome.\n" +
+                "Favorite this item to gain the Mushy buff while underground or in the mushroom biome.\n" +
 				"However, your movement speed will be decreased while in these areas due to you being covered in fungi.");
         }
 
@@ -33,7 +33,8 @@ namespace CalamityMod.Items.LoreItems
         public override void UpdateInventory(Player player)
         {
 			CalamityPlayer modPlayer = player.Calamity();
-			modPlayer.crabulonLore = true;
+			if (item.favorited)
+				modPlayer.crabulonLore = true;
         }
 
         public override void AddRecipes()

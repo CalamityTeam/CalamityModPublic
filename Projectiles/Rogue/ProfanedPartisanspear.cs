@@ -1,14 +1,12 @@
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using CalamityMod.Buffs.DamageOverTime;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class ProfanedPartisanspear : ModProjectile
+	public class ProfanedPartisanspear : ModProjectile
     {
 		public int timer = 0;
 
@@ -55,32 +53,28 @@ namespace CalamityMod.Projectiles.Rogue
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(ModContent.BuffType<HolyFlames>(), 120);
-			if (projectile.ai[1] != 1f)
-			{
-				projectile.velocity.X = -projectile.velocity.X;
-				projectile.velocity.Y = -projectile.velocity.Y;
-				projectile.ai[1] = 1f;
-				projectile.ai[0] = 1f;
-				projectile.extraUpdates = 2;
-				if (projectile.timeLeft > 280)
-					projectile.timeLeft = 280;
-			}
+			OnHitEffects();
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
             target.AddBuff(ModContent.BuffType<HolyFlames>(), 120);
+			OnHitEffects();
+        }
+
+		private void OnHitEffects()
+		{
 			if (projectile.ai[1] != 1f)
 			{
-				projectile.velocity.X = -projectile.velocity.X;
-				projectile.velocity.Y = -projectile.velocity.Y;
+				projectile.velocity.X *= -1f;
+				projectile.velocity.Y *= -1f;
 				projectile.ai[1] = 1f;
 				projectile.ai[0] = 1f;
 				projectile.extraUpdates = 2;
 				if (projectile.timeLeft > 280)
 					projectile.timeLeft = 280;
 			}
-        }
+		}
 
         public override void AI()
         {
@@ -90,8 +84,6 @@ namespace CalamityMod.Projectiles.Rogue
 				timer++;
 			if (timer >= 5)
 				projectile.penetrate = 1;
-			float pcx = projectile.Center.X;
-			float pcy = projectile.Center.Y;
 			if (timer >= 10)
 			{
 				CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 800f, 7f, 20f);

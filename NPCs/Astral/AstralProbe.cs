@@ -1,4 +1,5 @@
 using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Dusts;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.World;
@@ -24,7 +25,7 @@ namespace CalamityMod.NPCs.Astral
             npc.width = 30; //324
             npc.height = 30; //216
             npc.defense = 10;
-            npc.Calamity().RevPlusDR(0.15f);
+			npc.DR_NERD(0.15f);
             npc.lifeMax = 50;
             npc.aiStyle = -1;
             aiType = -1;
@@ -47,7 +48,10 @@ namespace CalamityMod.NPCs.Astral
 
         public override void AI()
         {
-            if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead)
+			// Setting this in SetDefaults will disable expert mode scaling, so put it here instead
+			npc.damage = 0;
+
+			if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead)
             {
                 npc.TargetClosest(true);
             }
@@ -139,7 +143,7 @@ namespace CalamityMod.NPCs.Astral
                     if (CalamityWorld.downedAstrageldon)
                         num8 += 6;
 
-                    int num9 = 84;
+                    int num9 = ProjectileID.PinkLaser;
                     Projectile.NewProjectile(vector.X, vector.Y, num4, num5, num9, num8, 0f, Main.myPlayer, 0f, 0f);
                 }
             }
@@ -250,77 +254,40 @@ namespace CalamityMod.NPCs.Astral
 
             if (npc.life <= 0)
             {
-                npc.position.X = npc.position.X + (float)(npc.width / 2);
-                npc.position.Y = npc.position.Y + (float)(npc.height / 2);
-                npc.width = 30;
-                npc.height = 30;
-                npc.position.X = npc.position.X - (float)(npc.width / 2);
-                npc.position.Y = npc.position.Y - (float)(npc.height / 2);
-                for (int num621 = 0; num621 < 5; num621++)
+				npc.position = npc.Center;
+                npc.width = npc.height = 30;
+				npc.Center = npc.position;
+                for (int d = 0; d < 5; d++)
                 {
-                    int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 173, 0f, 0f, 100, default, 2f);
-                    Main.dust[num622].velocity *= 3f;
+                    int purple = Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.PurpleCosmolite, 0f, 0f, 100, default, 2f);
+                    Main.dust[purple].velocity *= 3f;
                     if (Main.rand.NextBool(2))
                     {
-                        Main.dust[num622].scale = 0.5f;
-                        Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
+                        Main.dust[purple].scale = 0.5f;
+                        Main.dust[purple].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
                     }
                 }
-                for (int num623 = 0; num623 < 10; num623++)
+                for (int d = 0; d < 10; d++)
                 {
-                    int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 173, 0f, 0f, 100, default, 3f);
-                    Main.dust[num624].noGravity = true;
-                    Main.dust[num624].velocity *= 5f;
-                    num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 173, 0f, 0f, 100, default, 2f);
-                    Main.dust[num624].velocity *= 2f;
+                    int cosmos = Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.PurpleCosmolite, 0f, 0f, 100, default, 3f);
+                    Main.dust[cosmos].noGravity = true;
+                    Main.dust[cosmos].velocity *= 5f;
+                    cosmos = Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.PurpleCosmolite, 0f, 0f, 100, default, 2f);
+                    Main.dust[cosmos].velocity *= 2f;
                 }
-                for (int num625 = 0; num625 < 3; num625++)
-                {
-                    float scaleFactor10 = 0.33f;
-                    if (num625 == 1)
-                    {
-                        scaleFactor10 = 0.66f;
-                    }
-                    if (num625 == 2)
-                    {
-                        scaleFactor10 = 1f;
-                    }
-                    int num626 = Gore.NewGore(new Vector2(npc.position.X + (float)(npc.width / 2) - 24f, npc.position.Y + (float)(npc.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
-                    Gore gore = Main.gore[num626];
-                    gore.velocity *= scaleFactor10;
-                    gore.velocity.X += 1f;
-                    gore.velocity.Y += 1f;
-                    num626 = Gore.NewGore(new Vector2(npc.position.X + (float)(npc.width / 2) - 24f, npc.position.Y + (float)(npc.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
-                    gore.velocity *= scaleFactor10;
-                    gore.velocity.X -= 1f;
-                    gore.velocity.Y += 1f;
-                    num626 = Gore.NewGore(new Vector2(npc.position.X + (float)(npc.width / 2) - 24f, npc.position.Y + (float)(npc.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
-                    gore.velocity *= scaleFactor10;
-                    gore.velocity.X += 1f;
-                    gore.velocity.Y -= 1f;
-                    num626 = Gore.NewGore(new Vector2(npc.position.X + (float)(npc.width / 2) - 24f, npc.position.Y + (float)(npc.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
-                    gore.velocity *= scaleFactor10;
-                    gore.velocity.X -= 1f;
-                    gore.velocity.Y -= 1f;
-                }
+				CalamityUtils.ExplosionGores(npc.Center, 3);
             }
         }
 
         public override void NPCLoot()
         {
-            if (Main.rand.NextBool(2))
-            {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Stardust>(), Main.rand.Next(1, 3));
-            }
-            if (Main.expertMode)
-            {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Stardust>());
-            }
+            DropHelper.DropItemChance(npc, ModContent.ItemType<Stardust>(), 0.5f, 1, 2);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<Stardust>(), Main.expertMode);
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.player.PillarZone())
+            if (CalamityGlobalNPC.AnyEvents(spawnInfo.player))
             {
                 return 0f;
             }

@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Tools.ClimateChange
 
         public override bool CanUseItem(Player player)
         {
-            return !Main.slimeRain && (Main.rainTime > 3600 || !CalamityWorld.death || !Main.raining);
+            return !Main.slimeRain && (Main.rainTime > 3600 || !CalamityWorld.death || !Main.raining || CalamityWorld.rainingAcid);
         }
 
         public override bool UseItem(Player player)
@@ -48,22 +48,10 @@ namespace CalamityMod.Items.Tools.ClimateChange
                     Main.rainTime = 3600;
                     AdjustRainSeverity(true);
                 }
-                if (CalamityWorld.rainingAcid)
-                {
-                    CalamityWorld.acidRainPoints = 0;
-                    CalamityWorld.triedToSummonOldDuke = false;
-                    AcidRainEvent.UpdateInvasion(false);
-                }
             }
             else
             {
                 Main.raining = false;
-                if (CalamityWorld.rainingAcid)
-                {
-                    CalamityWorld.acidRainPoints = 0;
-                    CalamityWorld.triedToSummonOldDuke = false;
-                    AcidRainEvent.UpdateInvasion(false);
-                }
             }
 
             CalamityMod.UpdateServerBoolean();

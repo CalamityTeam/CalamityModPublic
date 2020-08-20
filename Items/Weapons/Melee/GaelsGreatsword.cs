@@ -1,5 +1,4 @@
 using CalamityMod.Projectiles.Melee;
-using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -9,7 +8,7 @@ using Terraria.World.Generation;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
-    public class GaelsGreatsword : ModItem
+	public class GaelsGreatsword : ModItem
     {
         //Help, they're forcing me to slave away at Calamity until I die! - Dominic
 
@@ -52,8 +51,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.height = 84;
             item.damage = BaseDamage;
             item.melee = true;
-            item.useAnimation = 17;
-            item.useTime = 17;
+            item.useAnimation = item.useTime = 12;
             item.useTurn = true;
             item.knockBack = 9;
             item.UseSound = SoundID.Item1;
@@ -71,20 +69,14 @@ namespace CalamityMod.Items.Weapons.Melee
         }
         public override bool AltFunctionUse(Player player) => true;
         public override Vector2? HoldoutOffset() => new Vector2(12, 12);
-        public override bool CanUseItem(Player player)
-        {
-            if (player.altFunctionUse == 2)
-            {
-                item.useAnimation = 46;
-                item.useTime = 46;
-            }
-            else
-            {
-                item.useAnimation = 12;
-                item.useTime = 12;
-            }
-            return true;
-        }
+
+		public override float UseTimeMultiplier	(Player player)
+		{
+			if (player.altFunctionUse == 2)
+				return (12f/46f);
+			return 1f;
+		}
+
         public override void MeleeEffects(Player player, Rectangle hitbox)
         {
             if (CalamityUtils.CountProjectiles(ModContent.ProjectileType<LightningThing>()) < 3 &&
@@ -133,7 +125,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 }
                 if (Main.netMode == NetmodeID.Server)
                 {
-                    var netMessage = CalamityMod.instance.GetPacket();
+                    var netMessage = CalamityMod.Instance.GetPacket();
                     netMessage.Write((byte)CalamityModMessageType.GaelsGreatswordSwingSync);
                     netMessage.Write((byte)player.whoAmI);
                     netMessage.Write(player.Calamity().gaelSwipes);

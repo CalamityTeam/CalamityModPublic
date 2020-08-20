@@ -54,48 +54,29 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            if (crit)
-            {
-				int bulletCount = 10;
-                for (int x = 0; x < bulletCount; x++)
-                {
-					float speed = 12f;
-                    float xPos = projectile.Center.X + (x < bulletCount / 2 ? 500f : -500f);
-					float yPos = projectile.Center.Y + Main.rand.Next(-500, 501);
-                    Vector2 origin = new Vector2(xPos, yPos);
-					Vector2 velocity = new Vector2(target.Center.X - origin.X, target.Center.Y - origin.Y);
-					velocity.Normalize();
-					velocity *= speed;
-                    if (projectile.owner == Main.myPlayer)
-                    {
-                        Projectile.NewProjectile(origin, velocity, ModContent.ProjectileType<AMR2>(), (int)(projectile.damage * 0.2), projectile.knockBack, projectile.owner);
-                    }
-                }
-            }
+			OnHitEffects(target.Center, crit);
             target.AddBuff(ModContent.BuffType<MarkedforDeath>(), 900);
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
+			OnHitEffects(target.Center, crit);
+            target.AddBuff(ModContent.BuffType<MarkedforDeath>(), 900);
+        }
+
+		private void OnHitEffects(Vector2 targetPos, bool crit)
+		{
             if (crit)
             {
 				int bulletCount = 10;
                 for (int x = 0; x < bulletCount; x++)
                 {
-					float speed = 12f;
-                    float xPos = projectile.Center.X + (x < bulletCount / 2 ? 500f : -500f);
-					float yPos = projectile.Center.Y + Main.rand.Next(-500, 501);
-                    Vector2 origin = new Vector2(xPos, yPos);
-					Vector2 velocity = new Vector2(target.Center.X - origin.X, target.Center.Y - origin.Y);
-					velocity.Normalize();
-					velocity *= speed;
                     if (projectile.owner == Main.myPlayer)
                     {
-                        Projectile.NewProjectile(origin, velocity, ModContent.ProjectileType<AMR2>(), (int)(projectile.damage * 0.2), projectile.knockBack, projectile.owner);
-                    }
+						CalamityUtils.ProjectileBarrage(projectile.Center, targetPos, x < bulletCount / 2, 500f, 500f, 0f, 500f, 12f, ModContent.ProjectileType<AMR2>(), (int)(projectile.damage * 0.2), projectile.knockBack, projectile.owner);
+					}
                 }
             }
-            target.AddBuff(ModContent.BuffType<MarkedforDeath>(), 900);
         }
     }
 }

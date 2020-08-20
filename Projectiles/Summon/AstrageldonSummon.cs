@@ -2,18 +2,16 @@ using CalamityMod.Buffs.Summon;
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using CalamityMod.CalPlayer;
-using CalamityMod.Projectiles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Projectiles.Boss;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    public class AstrageldonSummon : ModProjectile
+	public class AstrageldonSummon : ModProjectile
     {
         public bool dust = false;
 		private int attackCounter = 1;
@@ -43,7 +41,7 @@ namespace CalamityMod.Projectiles.Summon
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 10;
             projectile.aiStyle = 26;
-            aiType = 266;
+            aiType = ProjectileID.BabySlime;
         }
 
         public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)

@@ -6,14 +6,11 @@ using CalamityMod.World;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using System;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Buffs.DamageOverTime;
 namespace CalamityMod.NPCs.AcidRain
 {
-    public class Radiator : ModNPC
+	public class Radiator : ModNPC
     {
         public override void SetStaticDefaults()
         {
@@ -28,7 +25,7 @@ namespace CalamityMod.NPCs.AcidRain
             npc.width = 24;
             npc.height = 24;
             npc.defense = 5;
-            npc.lifeMax = 100;
+            npc.lifeMax = 50;
 
             if (CalamityWorld.downedPolterghast)
             {
@@ -39,7 +36,7 @@ namespace CalamityMod.NPCs.AcidRain
             else if (CalamityWorld.downedAquaticScourge)
             {
                 npc.damage = 75;
-                npc.lifeMax = 640;
+                npc.lifeMax = 130;
                 npc.defense = 10;
             }
 

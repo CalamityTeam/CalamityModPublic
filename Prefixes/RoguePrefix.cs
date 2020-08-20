@@ -62,7 +62,7 @@ namespace CalamityMod.Prefixes
 		public override void Apply(Item item)
 		{
 			ModItem moddedItem = item.modItem;
-			if(moddedItem != null && moddedItem is RogueWeapon rogueWep)
+			if (moddedItem != null && moddedItem is RogueWeapon rogueWep)
 			{
 				rogueWep.StealthStrikeDamage = stealthDmgMult;
 			}
@@ -74,7 +74,7 @@ namespace CalamityMod.Prefixes
 			valueMult *= extraValue;
 		}
 
-		public override bool CanRoll(Item item) => item.Calamity().rogue && !item.consumable;
+		public override bool CanRoll(Item item) => item.Calamity().rogue && item.maxStack == 1;
 
 		public override void SetStats(ref float damageMult, ref float knockbackMult, ref float useTimeMult, ref float scaleMult, ref float shootSpeedMult, ref float manaMult, ref int critBonus)
 		{
@@ -93,10 +93,17 @@ namespace CalamityMod.Prefixes
 
 		public override void ValidateItem(Item item, ref bool invalid)
 		{
-			if (item.damage == Math.Round(item.damage * damageMult))
+			if (item.damage == Math.Round(item.damage * damageMult) && damageMult != 1f)
 				invalid = true;
-			if (item.useAnimation == Math.Round(item.useAnimation * useTimeMult))
+			if (item.useAnimation == Math.Round(item.useAnimation * useTimeMult) && useTimeMult != 1f)
 				invalid = true;
+			// This code is commented out because CanRoll already guarantees that rogue prefixes will never appear on consumable items.
+			// Setting invalid to true doesn't do anything good.
+			// It just makes prefixed consumable rogue weapons put TML in an infinite loop looking for an appropriate prefix.
+			/*
+			if (item.consumable)
+				invalid = true;
+			*/
 		}
 	}
 

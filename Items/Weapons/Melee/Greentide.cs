@@ -1,4 +1,3 @@
-using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
 using System;
@@ -8,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
-    public class Greentide : ModItem
+	public class Greentide : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -20,8 +19,8 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             item.damage = 95;
             item.melee = true;
-            item.width = 60;
-            item.height = 60;
+            item.width = 62;
+            item.height = 62;
             item.useTime = 24;
             item.useAnimation = 24;
             item.useTurn = true;

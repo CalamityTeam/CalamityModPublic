@@ -24,7 +24,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.Calamity().rogue = true;
             projectile.ignoreWater = true;
             projectile.aiStyle = 1;
-            aiType = 242;
+            aiType = ProjectileID.BulletHighVelocity;
             projectile.penetrate = 1;
             projectile.timeLeft = 600;
         }
@@ -70,21 +70,15 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 89, projectile.oldVelocity.X, projectile.oldVelocity.Y);
             }
-            int num251 = Main.rand.Next(1, 3);
+            int fireAmt = Main.rand.Next(1, 3);
             if (projectile.owner == Main.myPlayer)
             {
-                for (int num252 = 0; num252 < num251; num252++)
+                for (int f = 0; f < fireAmt; f++)
                 {
-                    Vector2 value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-                    while (value15.X == 0f && value15.Y == 0f)
-                    {
-                        value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-                    }
-                    value15.Normalize();
-                    value15 *= (float)Main.rand.Next(70, 101) * 0.1f;
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value15.X, value15.Y, ModContent.ProjectileType<TheSyringeCinder>(), (int)(projectile.damage * 0.5), 0f, Main.myPlayer, 0f, 0f);
+					Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
+                    Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<TheSyringeCinder>(), (int)(projectile.damage * 0.5), 0f, Main.myPlayer, 0f, 0f);
                 }
-                for (int index = 0; index < 2; ++index)
+                for (int s = 0; s < 2; ++s)
                 {
                     float SpeedX = -projectile.velocity.X * Main.rand.Next(40, 70) * 0.01f + Main.rand.Next(-20, 21) * 0.4f;
                     float SpeedY = -projectile.velocity.Y * Main.rand.Next(40, 70) * 0.01f + Main.rand.Next(-20, 21) * 0.4f;
@@ -93,12 +87,12 @@ namespace CalamityMod.Projectiles.Rogue
             }
             if (projectile.owner == Main.myPlayer && projectile.ai[1] == 1)
             {
-                for (int num639 = 0; num639 < 5; num639++)
+                for (int b = 0; b < 5; b++)
                 {
                     float speedX = (float)Main.rand.Next(-35, 36) * 0.02f;
                     float speedY = (float)Main.rand.Next(-35, 36) * 0.02f;
-                    int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, speedX, speedY, ModContent.ProjectileType<PlaguenadeBee>(), (int)(projectile.damage * 0.5), 0f, Main.myPlayer, 0f, 0f);
-					Main.projectile[proj].penetrate = 1;
+                    int bee = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, speedX, speedY, ModContent.ProjectileType<PlaguenadeBee>(), (int)(projectile.damage * 0.5), 0f, Main.myPlayer, 0f, 0f);
+					Main.projectile[bee].penetrate = 1;
                 }
             }
 		}

@@ -1,6 +1,8 @@
 using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using CalamityMod.Tiles.Furniture.CraftingStations;
+using CalamityMod.World;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -14,20 +16,35 @@ namespace CalamityMod.Items.Accessories
             DisplayName.SetDefault("Elemental Gauntlet");
             Tooltip.SetDefault("Melee attacks and projectiles inflict most debuffs\n" +
                 "15% increased melee speed, damage, and 5% increased melee critical strike chance\n" +
+				"20% increased true melee damage\n" +
                 "Increased invincibility after taking damage\n" +
                 "Temporary immunity to lava\n" +
                 "Increased melee knockback\n" +
-                "Melee attacks have a chance to instantly kill normal enemies\n" +
-				"Provides heat and cold protection in Death Mode");
+                "Melee attacks have a chance to instantly kill normal enemies");
         }
 
         public override void SetDefaults()
         {
             item.width = 22;
             item.height = 38;
-            item.value = Item.buyPrice(0, 90, 0, 0);
+            item.value = CalamityGlobalItem.Rarity14BuyPrice;
             item.accessory = true;
             item.Calamity().customRarity = CalamityRarity.DarkBlue;
+        }
+
+        public override void ModifyTooltips(List<TooltipLine> list)
+        {
+			if (CalamityWorld.death)
+			{
+				foreach (TooltipLine line2 in list)
+				{
+					if (line2.mod == "Terraria" && line2.Name == "Tooltip6")
+					{
+						line2.text = "Melee attacks have a chance to instantly kill normal enemies\n" +
+						"Provides heat and cold protection in Death Mode";
+					}
+				}
+			}
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
@@ -41,9 +58,7 @@ namespace CalamityMod.Items.Accessories
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.FireGauntlet);
             recipe.AddIngredient(ModContent.ItemType<YharimsInsignia>());
-            recipe.AddIngredient(ModContent.ItemType<Phantoplasm>(), 20);
-            recipe.AddIngredient(ModContent.ItemType<NightmareFuel>(), 20);
-            recipe.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 20);
+            recipe.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 4);
             recipe.AddTile(ModContent.TileType<DraedonsForge>());
             recipe.SetResult(this);
             recipe.AddRecipe();

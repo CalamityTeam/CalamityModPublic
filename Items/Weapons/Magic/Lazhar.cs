@@ -34,6 +34,8 @@ namespace CalamityMod.Items.Weapons.Magic
             item.shoot = ModContent.ProjectileType<SolarBeam2>();
         }
 
+        public override Vector2? HoldoutOffset() => new Vector2(-5, 0);
+
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             float SpeedX = speedX + (float)Main.rand.Next(-15, 16) * 0.05f;

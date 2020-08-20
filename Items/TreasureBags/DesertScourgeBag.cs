@@ -47,11 +47,23 @@ namespace CalamityMod.Items.TreasureBags
             DropHelper.DropItem(player, ItemID.Starfish, 7, 11);
 
             // Weapons
-            DropHelper.DropItemChance(player, ModContent.ItemType<AquaticDischarge>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<Barinade>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<StormSpray>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<SeaboundStaff>(), 3);
-			DropHelper.DropItemRIV(player, ModContent.ItemType<ScourgeoftheDesert>(), ModContent.ItemType<DuneHopper>(), 0.3333f, DropHelper.RareVariantDropRateFloat);
+            // Set up the base drop set, which includes Scourge of the Desert at its normal drop chance.
+            float w = DropHelper.BagWeaponDropRateFloat;
+            DropHelper.WeightedItemStack[] weapons =
+            {
+                DropHelper.WeightStack<AquaticDischarge>(w),
+                DropHelper.WeightStack<Barinade>(w),
+                DropHelper.WeightStack<StormSpray>(w),
+                DropHelper.WeightStack<SeaboundStaff>(w),
+                DropHelper.WeightStack<ScourgeoftheDesert>(w),
+            };
+
+            // If the RIV roll for Dune Hopper succeeds, REPLACE Scourge of the Desert with a guaranteed Dune Hopper.
+            float duneHopperChance = DropHelper.RareVariantDropRateFloat;
+            if (Main.rand.NextFloat() < duneHopperChance)
+                weapons[4] = DropHelper.WeightStack<DuneHopper>();
+
+            DropHelper.DropEntireWeightedSet(player, weapons);
 
             // Equipment
             DropHelper.DropItem(player, ModContent.ItemType<OceanCrest>());
@@ -63,19 +75,7 @@ namespace CalamityMod.Items.TreasureBags
             DropHelper.DropItemChance(player, ModContent.ItemType<DesertScourgeMask>(), 7);
 
             // Fishing
-            DropHelper.DropItemChance(player, ItemID.HighTestFishingLine, 12);
-            DropHelper.DropItemChance(player, ItemID.TackleBox, 12);
-            DropHelper.DropItemChance(player, ItemID.AnglerEarring, 12);
-            DropHelper.DropItemChance(player, ItemID.FishermansGuide, 9);
-            DropHelper.DropItemChance(player, ItemID.WeatherRadio, 9);
-            DropHelper.DropItemChance(player, ItemID.Sextant, 9);
-            DropHelper.DropItemChance(player, ItemID.AnglerHat, 4);
-            DropHelper.DropItemChance(player, ItemID.AnglerVest, 4);
-            DropHelper.DropItemChance(player, ItemID.AnglerPants, 4);
-            DropHelper.DropItemChance(player, ItemID.FishingPotion, 4, 2, 3);
-            DropHelper.DropItemChance(player, ItemID.SonarPotion, 4, 2, 3);
-            DropHelper.DropItemChance(player, ItemID.CratePotion, 4, 2, 3);
-            DropHelper.DropItemCondition(player, ItemID.GoldenBugNet, NPC.downedBoss3, 18, 1, 1);
+            DropHelper.DropItem(player, ModContent.ItemType<SandyAnglingKit>());
         }
     }
 }

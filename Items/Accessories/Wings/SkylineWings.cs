@@ -16,14 +16,14 @@ namespace CalamityMod.Items.Accessories.Wings
                 "Acceleration multiplier: 1\n" +
                 "Average vertical speed\n" +
                 "Flight time: 60\n" +
-				"25% increased jump speed while wearing the Aerospec armor");
+				"5% increased jump speed while wearing the Aerospec armor");
         }
 
         public override void SetDefaults()
         {
             item.width = 22;
             item.height = 20;
-            item.value = Item.buyPrice(0, 9, 0, 0);
+            item.value = CalamityGlobalItem.Rarity3BuyPrice;
             item.rare = 3;
             item.accessory = true;
         }

@@ -1,7 +1,6 @@
 using CalamityMod.Projectiles.Rogue;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
 
 namespace CalamityMod.Items.Weapons.Rogue
@@ -14,7 +13,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 			Tooltip.SetDefault("We shall ride into the sunrise once more\n" +
 							   "Attack enemies with a giant scythe swing to replenish stealth\n" +
 							   "Press up and attack to throw the scythe \n" +
-							   "Stealth strikes perform a vertical swing that leaves a lingering fire aura\n" +
+							   "Stealth strikes perform a horizontal swing that leaves a lingering fire aura\n" +
 							   "Stealth strikes performed while pressing up fling yourself at the enemy and slice through them, causing homing fireballs to emerge");
 		}
 		public override void SafeSetDefaults()

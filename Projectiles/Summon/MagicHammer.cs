@@ -1,5 +1,3 @@
-using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Buffs.StatDebuffs;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -8,7 +6,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Summon
 {
-    public class MagicHammer : ModProjectile
+	public class MagicHammer : ModProjectile
     {
 		private int counter = 0;
         public override void SetStaticDefaults()
@@ -46,15 +44,22 @@ namespace CalamityMod.Projectiles.Summon
                     projectile.alpha = 50;
                 }
             }
+
             projectile.rotation += 0.075f;
-			if (counter <= 30)
+
+			counter++;
+			if (counter == 30)
 			{
-				counter++;
+				projectile.netUpdate = true;
+			}
+			else if (counter < 30)
+			{
 				return;
 			}
-            int num716 = -1;
-            Vector2 vector59 = projectile.Center;
-            float num717 = MagicHat.Range;
+
+            int targetIndex = -1;
+            Vector2 targetVec = projectile.Center;
+            float maxDistance = MagicHat.Range;
             if (projectile.localAI[0] > 0f)
             {
                 projectile.localAI[0] -= 1f;
@@ -65,39 +70,35 @@ namespace CalamityMod.Projectiles.Summon
 				if (player.HasMinionAttackTargetNPC)
 				{
 					NPC npc = Main.npc[player.MinionAttackTargetNPC];
-					if (npc.CanBeChasedBy(projectile, false) && (projectile.ai[0] == 0f || projectile.ai[0] == (float)(player.MinionAttackTargetNPC + 1)))
+					if (npc.CanBeChasedBy(projectile, false) && (projectile.ai[0] == 0f || projectile.ai[0] == player.MinionAttackTargetNPC + 1f))
 					{
-						Vector2 center4 = npc.Center;
-						float num719 = Vector2.Distance(center4, vector59);
-						if (num719 < num717)
+						float targetDist = Vector2.Distance(npc.Center, targetVec);
+						if (targetDist < maxDistance)
 						{
-							num717 = num719;
-							vector59 = center4;
-							num716 = player.MinionAttackTargetNPC;
+							targetVec = npc.Center;
+							targetIndex = player.MinionAttackTargetNPC;
 						}
 					}
 				}
 				else
 				{
-					for (int num718 = 0; num718 < Main.npc.Length; num718++)
+					for (int i = 0; i < Main.npc.Length; i++)
 					{
-						NPC nPC6 = Main.npc[num718];
-						if (nPC6.CanBeChasedBy(projectile, false) && (projectile.ai[0] == 0f || projectile.ai[0] == (float)(num718 + 1)))
+						NPC npc = Main.npc[i];
+						if (npc.CanBeChasedBy(projectile, false) && (projectile.ai[0] == 0f || projectile.ai[0] == i + 1f))
 						{
-							Vector2 center4 = nPC6.Center;
-							float num719 = Vector2.Distance(center4, vector59);
-							if (num719 < num717)
+							float targetDist = Vector2.Distance(npc.Center, targetVec);
+							if (targetDist < maxDistance)
 							{
-								num717 = num719;
-								vector59 = center4;
-								num716 = num718;
+								targetVec = npc.Center;
+								targetIndex = i;
 							}
 						}
 					}
 				}
-                if (num716 >= 0)
+                if (targetIndex >= 0)
                 {
-                    projectile.ai[0] = (float)(num716 + 1);
+                    projectile.ai[0] = targetIndex + 1f;
                     projectile.netUpdate = true;
                 }
             }
@@ -105,40 +106,39 @@ namespace CalamityMod.Projectiles.Summon
             {
                 projectile.localAI[0] = 30f;
             }
-            bool flag32 = false;
+            bool canHome = false;
             if (projectile.ai[0] != 0f)
             {
-                int num720 = (int)(projectile.ai[0] - 1f);
-                if (Main.npc[num720].active && !Main.npc[num720].dontTakeDamage && Main.npc[num720].immune[projectile.owner] == 0)
+                int target = (int)(projectile.ai[0] - 1f);
+				NPC npc = Main.npc[target];
+                if (npc.CanBeChasedBy(projectile, false) && npc.immune[projectile.owner] == 0)
                 {
-                    float num721 = Main.npc[num720].position.X + (float)(Main.npc[num720].width / 2);
-                    float num722 = Main.npc[num720].position.Y + (float)(Main.npc[num720].height / 2);
-                    float num723 = Math.Abs(projectile.position.X + (float)(projectile.width / 2) - num721) + Math.Abs(projectile.position.Y + (float)(projectile.height / 2) - num722);
-                    if (num723 < MagicHat.Range * 1.25f)
+					float targetDist = Vector2.Distance(npc.Center, targetVec);
+                    if (targetDist < maxDistance * 1.25f)
                     {
-                        flag32 = true;
-                        vector59 = Main.npc[num720].Center;
+                        canHome = true;
+                        targetVec = npc.Center;
                     }
                 }
                 else
                 {
                     projectile.ai[0] = 0f;
-                    flag32 = false;
+                    canHome = false;
                     projectile.netUpdate = true;
                 }
             }
-            if (flag32)
+            if (canHome)
             {
-                Vector2 v = vector59 - projectile.Center;
-                float num724 = projectile.velocity.ToRotation();
-                float num725 = v.ToRotation();
-                float num726 = num725 - num724;
-                num726 = MathHelper.WrapAngle(num726);
-                projectile.velocity = projectile.velocity.RotatedBy(num726 * 0.25, default);
+                Vector2 velocity = targetVec - projectile.Center;
+                float trajectory = projectile.velocity.ToRotation();
+                float target = velocity.ToRotation();
+                float rotateAmt = target - trajectory;
+                rotateAmt = MathHelper.WrapAngle(rotateAmt);
+                projectile.velocity = projectile.velocity.RotatedBy(rotateAmt * 0.25, default);
             }
-            float num727 = projectile.velocity.Length();
+            float speed = projectile.velocity.Length();
             projectile.velocity.Normalize();
-            projectile.velocity *= num727 + 0.0025f;
+            projectile.velocity *= speed + 0.0025f;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
@@ -147,10 +147,7 @@ namespace CalamityMod.Projectiles.Summon
             return false;
         }
 
-        public override Color? GetAlpha(Color lightColor)
-        {
-            return new Color(255, 56, 0, projectile.alpha);
-        }
+        public override Color? GetAlpha(Color lightColor) => new Color(255, 56, 0, projectile.alpha);
 
         public override void Kill(int timeLeft)
         {

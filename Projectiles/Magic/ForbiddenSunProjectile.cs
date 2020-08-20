@@ -1,4 +1,3 @@
-using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -6,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Magic
 {
-    public class ForbiddenSunProjectile : ModProjectile
+	public class ForbiddenSunProjectile : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -26,12 +25,10 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void AI()
         {
-            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X);
-            projectile.frameCounter++;
-            if (projectile.frameCounter > 4)
+            projectile.rotation = projectile.velocity.ToRotation();
+            if (projectile.frameCounter++ % 4 == 0)
             {
                 projectile.frame++;
-                projectile.frameCounter = 0;
             }
             if (projectile.frame >= Main.projFrames[projectile.type])
             {

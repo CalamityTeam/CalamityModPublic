@@ -1,10 +1,9 @@
-using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.CalPlayer;
 using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Accessories
 {
-    public class Laudanum : ModItem
+	public class Laudanum : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -18,7 +17,7 @@ namespace CalamityMod.Items.Accessories
         {
             item.width = 26;
             item.height = 26;
-            item.value = Item.buyPrice(0, 9, 0, 0);
+            item.value = CalamityGlobalItem.Rarity3BuyPrice;
             item.rare = 3;
             item.accessory = true;
         }

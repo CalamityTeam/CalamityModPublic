@@ -1,0 +1,156 @@
+﻿using Microsoft.Xna.Framework;
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
+
+namespace CalamityMod.Projectiles.DraedonsArsenal
+{
+    public class HydraulicVoltCrasherProjectile : ModProjectile
+    {
+		private int chargeCooldown = 0;
+
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Hydraulic Volt Crasher");
+            Main.projFrames[projectile.type] = 3;
+        }
+
+        public override void SetDefaults()
+        {
+            projectile.width = 56;
+            projectile.height = 26;
+            projectile.friendly = true;
+            projectile.penetrate = -1;
+            projectile.tileCollide = false;
+            projectile.hide = true;
+            projectile.ownerHitCheck = true;
+            projectile.melee = true;
+            projectile.scale = 1.1f;
+        }
+        public override void AI()
+        {
+            projectile.timeLeft = 60;
+            projectile.frameCounter++;
+            if (projectile.frameCounter % 4f == 3f)
+            {
+                projectile.frame++;
+                if (projectile.frame >= Main.projFrames[projectile.type])
+                {
+                    projectile.frame = 0;
+                }
+            }
+			// Decrement charge cooldown
+			if (chargeCooldown > 0)
+				chargeCooldown = 0;
+            // Play idle sounds every so often.
+            if (projectile.soundDelay <= 0)
+            {
+                Main.PlaySound(SoundID.Item22, projectile.position);
+                projectile.soundDelay = 30;
+            }
+            Player player = Main.player[projectile.owner];
+            Vector2 center = player.RotatedRelativePoint(player.MountedCenter);
+            if (Main.myPlayer == player.whoAmI)
+            {
+                if (player.channel)
+                {
+                    // Attempt to use power from the held item.
+                    if (player.ActiveItem().type >= ItemID.Count &&
+                        player.ActiveItem().Calamity().Chargeable &&
+                        player.ActiveItem().Calamity().CurrentCharge > 0 &&
+                        Main.rand.NextBool(50))
+                    {
+                        player.ActiveItem().Calamity().CurrentCharge--;
+                    }
+
+                    float speed = player.inventory[player.selectedItem].shootSpeed * projectile.scale;
+                    Vector2 toPointTo = Main.MouseWorld;
+                    if (player.gravDir == -1f)
+                    {
+                        toPointTo.Y = Main.screenHeight - toPointTo.Y;
+                    }
+                    toPointTo = Vector2.Normalize(toPointTo - center) * speed;
+                    if (toPointTo != projectile.velocity)
+                    {
+                        projectile.netUpdate = true;
+                    }
+                    projectile.velocity = toPointTo;
+                }
+                else
+                {
+                    projectile.Kill();
+                }
+            }
+            player.ChangeDir((projectile.velocity.X > 0).ToDirectionInt());
+            player.heldProj = projectile.whoAmI;
+
+            player.itemAnimation = 2;
+            player.itemTime = 2; // Note: player.SetDummyItemTime(frame) exists in 1.4 which accomplishes this task
+
+            player.itemRotation = (projectile.velocity * player.direction).ToRotation();
+            projectile.direction = projectile.spriteDirection = player.direction;
+            projectile.rotation = projectile.velocity.ToRotation() + (projectile.direction == -1).ToInt() * MathHelper.Pi;
+
+            if (Main.rand.NextBool(5))
+            {
+                Vector2 spawnPosition = projectile.Center;
+                spawnPosition += projectile.Size.RotatedBy(projectile.velocity.ToRotation() - MathHelper.ToRadians(25f)) * 0.65f * projectile.scale;
+                Dust dust = Dust.NewDustPerfect(spawnPosition, 226);
+                dust.velocity = projectile.velocity.SafeNormalize(Vector2.Zero) * Main.rand.NextFloat(2f, 3.6f);
+                dust.velocity += player.velocity * 0.4f;
+            }
+            projectile.position = center - projectile.Size * 0.5f;
+            projectile.position -= projectile.velocity.ToRotation().ToRotationVector2() * 8f;
+            projectile.velocity.X *= Main.rand.NextFloat(0.97f, 1.03f);
+        }
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
+            Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/PlasmaBolt"), target.Center);
+			if (chargeCooldown > 0)
+				return;
+			chargeCooldown = 60;
+            TryToSuperchargeNPC(target);
+            for (int i = 0; i < Main.npc.Length; i++)
+            {
+                if (i != target.whoAmI &&
+                    target.CanBeChasedBy(projectile, false) &&
+                    Main.npc[i].Distance(target.Center) < 240f)
+                {
+                    if (TryToSuperchargeNPC(Main.npc[i]))
+                    {
+                        for (float increment = 0f; increment <= 1f; increment += 0.05f)
+                        {
+                            Vector2 spawnPosition = Vector2.Lerp(target.Center, Main.npc[i].Center, increment);
+                            Dust dust = Dust.NewDustPerfect(spawnPosition, 226);
+                            dust.velocity = Vector2.Zero;
+                            dust.scale = 1.6f;
+                            dust.noGravity = true;
+                        }
+                    }
+                }
+            }
+        }
+        public bool TryToSuperchargeNPC(NPC npc)
+        {
+            // Prevent supercharging an enemy twice.
+            for (int i = 0; i < Main.projectile.Length; i++)
+            {
+                if (Main.projectile[i].active &&
+                    Main.projectile[i].type == ModContent.ProjectileType<VoltageStream>() &&
+                    Main.projectile[i].ai[1] == i)
+                {
+                    return false;
+                }
+            }
+            Projectile.NewProjectileDirect(npc.Center,
+                                           Vector2.Zero,
+                                           ModContent.ProjectileType<VoltageStream>(),
+                                           (int)(projectile.damage * 0.35),
+                                           0f,
+                                           projectile.owner,
+                                           0f,
+                                           npc.whoAmI);
+            return true;
+        }
+    }
+}

@@ -1,10 +1,9 @@
-using CalamityMod.CalPlayer;
 using Terraria;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Buffs.StatDebuffs
 {
-    public class TeslaFreeze : ModBuff
+	public class TeslaFreeze : ModBuff
     {
         public override void SetDefaults()
         {

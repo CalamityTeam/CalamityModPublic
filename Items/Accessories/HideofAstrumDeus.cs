@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Hide of Astrum Deus");
-            Tooltip.SetDefault("Taking damage drops an immense amount of astral stars from the sky and boosts true melee damage by 200% for a time\n" +
+            Tooltip.SetDefault("Taking damage drops an immense amount of astral stars from the sky and boosts true melee damage by 50% for a time\n" +
                                 "Boost duration is based on the amount of damage you took, the higher the damage the longer the boost\n" +
                                 "Provides immunity to the astral infection, cursed inferno, on fire, and frostburn debuffs\n" +
                                 "Enemies take damage when they hit you and are inflicted with the astral infection debuff");
@@ -21,7 +21,8 @@ namespace CalamityMod.Items.Accessories
         {
             item.width = 26;
             item.height = 26;
-            item.value = Item.buyPrice(0, 30, 0, 0);
+            item.value = CalamityGlobalItem.Rarity9BuyPrice;
+            item.rare = 9;
             item.accessory = true;
             item.Calamity().customRarity = CalamityRarity.RareVariant;
         }

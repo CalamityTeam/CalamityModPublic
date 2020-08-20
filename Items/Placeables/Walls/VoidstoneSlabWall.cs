@@ -3,6 +3,7 @@ using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria.ID;
 using Terraria.ModLoader;
 using WallTiles = CalamityMod.Walls;
+
 namespace CalamityMod.Items.Placeables.Walls
 {
     public class VoidstoneSlabWall : ModItem

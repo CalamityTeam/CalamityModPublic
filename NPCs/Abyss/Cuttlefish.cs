@@ -48,7 +48,6 @@ namespace CalamityMod.NPCs.Abyss
             int num = 200;
             if (npc.ai[2] == 0f)
             {
-                npc.localAI[0] += 1f;
                 npc.alpha = num;
                 npc.TargetClosest(true);
                 if (!Main.player[npc.target].dead && (Main.player[npc.target].Center - npc.Center).Length() < 170f &&
@@ -60,7 +59,82 @@ namespace CalamityMod.NPCs.Abyss
                 {
                     npc.ai[2] = -16f;
                 }
-                return;
+				if (npc.collideX)
+				{
+					npc.velocity.X = npc.velocity.X * -1f;
+					npc.direction *= -1;
+				}
+				if (npc.collideY)
+				{
+					if (npc.velocity.Y > 0f)
+					{
+						npc.velocity.Y = Math.Abs(npc.velocity.Y) * -1f;
+						npc.directionY = -1;
+						npc.ai[0] = -1f;
+					}
+					else if (npc.velocity.Y < 0f)
+					{
+						npc.velocity.Y = Math.Abs(npc.velocity.Y);
+						npc.directionY = 1;
+						npc.ai[0] = 1f;
+					}
+				}
+				npc.velocity.X = npc.velocity.X + npc.direction * 0.02f;
+				npc.rotation = npc.velocity.X * 0.4f;
+				if (npc.velocity.X < -1f || npc.velocity.X > 1f)
+				{
+					npc.velocity.X = npc.velocity.X * 0.95f;
+				}
+				if (npc.ai[0] == -1f)
+				{
+					npc.velocity.Y = npc.velocity.Y - 0.01f;
+					if (npc.velocity.Y < -1f)
+					{
+						npc.ai[0] = 1f;
+					}
+				}
+				else
+				{
+					npc.velocity.Y = npc.velocity.Y + 0.01f;
+					if (npc.velocity.Y > 1f)
+					{
+						npc.ai[0] = -1f;
+					}
+				}
+				int num268 = (int)(npc.position.X + (npc.width / 2)) / 16;
+				int num269 = (int)(npc.position.Y + (npc.height / 2)) / 16;
+				if (Main.tile[num268, num269 - 1] == null)
+				{
+					Main.tile[num268, num269 - 1] = new Tile();
+				}
+				if (Main.tile[num268, num269 + 1] == null)
+				{
+					Main.tile[num268, num269 + 1] = new Tile();
+				}
+				if (Main.tile[num268, num269 + 2] == null)
+				{
+					Main.tile[num268, num269 + 2] = new Tile();
+				}
+				if (Main.tile[num268, num269 - 1].liquid > 128)
+				{
+					if (Main.tile[num268, num269 + 1].active())
+					{
+						npc.ai[0] = -1f;
+					}
+					else if (Main.tile[num268, num269 + 2].active())
+					{
+						npc.ai[0] = -1f;
+					}
+				}
+				else
+				{
+					npc.ai[0] = 1f;
+				}
+				if (npc.velocity.Y > 1.2 || npc.velocity.Y < -1.2)
+				{
+					npc.velocity.Y = npc.velocity.Y * 0.99f;
+				}
+				return;
             }
             if (npc.ai[2] < 0f)
             {
@@ -75,8 +149,9 @@ namespace CalamityMod.NPCs.Abyss
                 npc.ai[2] += 1f;
                 if (npc.ai[2] == 0f)
                 {
-                    npc.ai[2] = 1f;
-                    npc.velocity.X = (float)(npc.direction * 2);
+					npc.ai[0] = 0f;
+					npc.ai[2] = 1f;
+                    npc.velocity.X = npc.direction * 2;
                 }
                 return;
             }
@@ -317,7 +392,7 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void NPCLoot()
         {
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<HalibutCannon>(), CalamityWorld.revenge, 1000000, 1, 1);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<HalibutCannon>(), CalamityWorld.revenge, CalamityGlobalNPCLoot.halibutCannonBaseDropChance, 1, 1);
             DropHelper.DropItemChance(npc, ModContent.ItemType<CloakingGland>(), 2);
             int inkBombDropRate = CalamityWorld.defiled ? DropHelper.DefiledDropRateInt : Main.expertMode ? 50 : 100;
             DropHelper.DropItemChance(npc, ModContent.ItemType<InkBomb>(), inkBombDropRate, 1, 1);
@@ -327,13 +402,13 @@ namespace CalamityMod.NPCs.Abyss
         {
             for (int k = 0; k < 3; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
             }
             if (npc.life <= 0)
             {
                 for (int k = 0; k < 15; k++)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
                 }
             }
         }

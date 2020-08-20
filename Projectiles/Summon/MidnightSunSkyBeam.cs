@@ -30,6 +30,8 @@ namespace CalamityMod.Projectiles.Summon
             projectile.alpha = 255;
             projectile.penetrate = -1;
             projectile.tileCollide = false;
+            projectile.minion = true;
+            projectile.minionSlots = 0f;
             projectile.timeLeft = TrueTimeLeft;
             projectile.usesIDStaticNPCImmunity = true;
             projectile.idStaticNPCHitCooldown = 30;

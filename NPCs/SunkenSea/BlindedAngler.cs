@@ -3,14 +3,13 @@ using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Weapons.Melee;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.NPCs.SunkenSea
 {
-    public class BlindedAngler : ModNPC
+	public class BlindedAngler : ModNPC
     {
         public override void SetStaticDefaults()
         {
@@ -25,7 +24,7 @@ namespace CalamityMod.NPCs.SunkenSea
             npc.width = 56;
             npc.height = 44;
             npc.defense = 30;
-            npc.Calamity().RevPlusDR(0.2f);
+			npc.DR_NERD(0.2f);
             npc.lifeMax = 750;
             npc.aiStyle = -1;
             aiType = -1;
@@ -99,11 +98,8 @@ namespace CalamityMod.NPCs.SunkenSea
 
         public override void NPCLoot()
         {
-            if (Main.rand.NextBool(4))
-            {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<EutrophicScimitar>());
-            }
-            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<PrismShard>(), Main.rand.Next(5, 10));
+			DropHelper.DropItemChance(npc, ModContent.ItemType<EutrophicScimitar>(), 0.25f);
+			DropHelper.DropItem(npc, ModContent.ItemType<PrismShard>(), 5, 9);
         }
 
         public override void HitEffect(int hitDirection, double damage)

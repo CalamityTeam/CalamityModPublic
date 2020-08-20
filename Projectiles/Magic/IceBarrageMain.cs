@@ -32,58 +32,37 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void AI()
         {
-			float maxDistance = 500f;
-			bool bossFound = false;
-
-			for (int i = 0; i < Main.maxNPCs; i++)
-			{
-				NPC npc = Main.npc[i];
-                if (!npc.active || npc.type == NPCID.TargetDummy)
-                    continue;
-
-                // If we've found a valid boss target, ignore ALL targets which aren't bosses.
-                if (bossFound && !npc.boss)
-                    continue;
-
-				if (npc.CanBeChasedBy(projectile, false))
-				{
-					float extraDistance = (float)(npc.width / 2) + (float)(npc.height / 2);
-
-					if (Vector2.Distance(npc.Center, projectile.Center) < (maxDistance + extraDistance))
-					{
-                        if (npc.boss)
-                            bossFound = true;
-						projectile.Center = npc.Center;
-						break;
-					}
-				}
-			}
+            NPC closestTarget = projectile.Center.ClosestNPCAt(500f, true, true);
+            if (closestTarget != null)
+            {
+                projectile.Center = closestTarget.Center;
+            }
 
             projectile.ai[0]++;
             projectile.ai[1]++;
             for (int j = 0; j < 3; j++)
             {
-                int num297 = Main.rand.NextBool(2) ? 68 : 67;
+                int dustType = Main.rand.NextBool(2) ? 68 : 67;
                 if (Main.rand.NextBool(4))
                 {
-                    num297 = 80;
+                    dustType = 80;
                 }
                 if (projectile.ai[0] < 140f)
                 {
                     Vector2 direction = new Vector2(Main.rand.NextFloat(-4f, 4f), Main.rand.NextFloat(-4f, 4f));
-                    int dust = Dust.NewDust(projectile.Center, 1, 1, num297, direction.X, direction.Y, 50, default, 1.3f);
+                    int dust = Dust.NewDust(projectile.Center, 1, 1, dustType, direction.X, direction.Y, 50, default, 1.3f);
                     Main.dust[dust].noGravity = true;
                 }
                 else
                 {
                     int direct = Main.rand.NextBool(2) ? 1 : -1;
                     Vector2 dir1 = new Vector2(0f, 10f) * direct;
-                    int dust1 = Dust.NewDust(projectile.position, projectile.width, projectile.height, num297, dir1.X, dir1.Y, 50, default, 1.3f);
+                    int dust1 = Dust.NewDust(projectile.position, projectile.width, projectile.height, dustType, dir1.X, dir1.Y, 50, default, 1.3f);
                     Main.dust[dust1].noGravity = true;
                     Main.dust[dust1].velocity = dir1;
                     int direct2 = Main.rand.NextBool(2) ? 1 : -1;
                     Vector2 dir2 = new Vector2(10f, 0f) * direct2;
-                    int dust2 = Dust.NewDust(projectile.position, projectile.width, projectile.height, num297, dir2.X, dir2.Y, 50, default, 1.3f);
+                    int dust2 = Dust.NewDust(projectile.position, projectile.width, projectile.height, dustType, dir2.X, dir2.Y, 50, default, 1.3f);
                     Main.dust[dust2].noGravity = true;
                     Main.dust[dust2].velocity = dir2;
                 }

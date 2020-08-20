@@ -1013,6 +1013,28 @@ namespace CalamityMod
             });
             RecipeGroup.RegisterGroup("SiltGroup", group);
 
+            group = new RecipeGroup(() => "Any Phaseblade", new int[]
+            {
+                ItemID.WhitePhaseblade,
+                ItemID.RedPhaseblade,
+                ItemID.GreenPhaseblade,
+                ItemID.BluePhaseblade,
+                ItemID.PurplePhaseblade,
+                ItemID.YellowPhaseblade
+            });
+            RecipeGroup.RegisterGroup("AnyPhaseblade", group);
+
+            group = new RecipeGroup(() => "Any Phasesaber", new int[]
+			{
+				ItemID.WhitePhasesaber,
+				ItemID.RedPhasesaber,
+				ItemID.GreenPhasesaber,
+				ItemID.BluePhasesaber,
+				ItemID.PurplePhasesaber,
+				ItemID.YellowPhasesaber
+			});
+			RecipeGroup.RegisterGroup("AnyPhasesaber", group);
+
             group = new RecipeGroup(() => "Any Hardmode Anvil", new int[]
             {
                 ItemID.MythrilAnvil,
@@ -1032,8 +1054,7 @@ namespace CalamityMod
                 ItemID.SolarFlarePickaxe,
                 ItemID.VortexPickaxe,
                 ItemID.NebulaPickaxe,
-                ItemID.StardustPickaxe,
-				ModContent.ItemType<GallantPickaxe>()
+                ItemID.StardustPickaxe
             });
             RecipeGroup.RegisterGroup("LunarPickaxe", group);
 
@@ -1112,7 +1133,8 @@ namespace CalamityMod
                 ModContent.ItemType<DiscordianWings>(),
                 ModContent.ItemType<TarragonWings>(),
                 ModContent.ItemType<XerocWings>(),
-                ModContent.ItemType<HadarianWings>()
+                ModContent.ItemType<HadarianWings>(),
+                ModContent.ItemType<SilvaWings>()
             });
             RecipeGroup.RegisterGroup("WingsGroup", group);
         }

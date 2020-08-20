@@ -37,48 +37,28 @@ namespace CalamityMod.Projectiles.Rogue
         {
             if (Main.rand.NextBool(2))
             {
-                Item.NewItem((int)projectile.position.X, (int)projectile.position.Y, projectile.width, projectile.height, ModContent.ItemType<AdamantiteThrowingAxe>());
+                Item.NewItem((int)projectile.Center.X, (int)projectile.Center.Y, projectile.width, projectile.height, ModContent.ItemType<AdamantiteThrowingAxe>());
             }
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-			if (projectile.Calamity().stealthStrike && Main.myPlayer == projectile.owner)
-			{
-				for (int n = 0; n < 3; n++)
-				{
-					float xStart = projectile.position.X + Main.rand.Next(-400, 400);
-					float yStart = projectile.position.Y + Main.rand.Next(500, 800);
-					Vector2 startPos = new Vector2(xStart, yStart);
-					Vector2 velocity = projectile.Center - startPos;
-					velocity.X += (float)Main.rand.Next(-100, 101);
-					float travelDist = velocity.Length();
-					float lightningSpeed = 8f;
-					travelDist = lightningSpeed / travelDist;
-					velocity.X *= travelDist;
-					velocity.Y *= travelDist;
-					Projectile.NewProjectile(startPos, velocity, ModContent.ProjectileType<BlunderBoosterLightning>(), projectile.damage, projectile.knockBack, projectile.owner, Main.rand.Next(2), 0f);
-				}
-			}
+			OnHitEffects();
 		}
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
+			OnHitEffects();
+		}
+
+		private void OnHitEffects()
+		{
 			if (projectile.Calamity().stealthStrike && Main.myPlayer == projectile.owner)
 			{
-				for (int n = 0; n < Main.rand.Next(3,6); n++)
+				for (int n = 0; n < 3; n++)
 				{
-					float xStart = projectile.position.X + Main.rand.Next(-400, 400);
-					float yStart = projectile.position.Y + Main.rand.Next(500, 800);
-					Vector2 startPos = new Vector2(xStart, yStart);
-					Vector2 velocity = projectile.Center - startPos;
-					velocity.X += (float)Main.rand.Next(-100, 101);
-					float travelDist = velocity.Length();
-					float lightningSpeed = 16f;
-					travelDist = lightningSpeed / travelDist;
-					velocity.X *= travelDist;
-					velocity.Y *= travelDist;
-					Projectile.NewProjectile(startPos, velocity, ModContent.ProjectileType<BlunderBoosterLightning>(), projectile.damage, projectile.knockBack, projectile.owner, Main.rand.Next(2), 1f);
+					Projectile lightning = CalamityUtils.ProjectileRain(projectile.Center, 400f, 100f, -800f, -500f, 8f, ModContent.ProjectileType<BlunderBoosterLightning>(), projectile.damage, projectile.knockBack, projectile.owner);
+					lightning.ai[0] = Main.rand.Next(2);
 				}
 			}
 		}

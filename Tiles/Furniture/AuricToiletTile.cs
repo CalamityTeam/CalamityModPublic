@@ -25,7 +25,7 @@ namespace CalamityMod.Tiles.Furniture
             TileObjectData.newTile.StyleHorizontal = true;
             TileObjectData.newTile.Origin = new Point16(1, 1);
             TileObjectData.newTile.UsesCustomCanPlace = true;
-            TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile | AnchorType.SolidWithTop, 4, 0);
+            TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile | AnchorType.SolidWithTop, 2, 0);
             TileObjectData.newTile.LavaDeath = false;
             TileObjectData.newAlternate.CopyFrom(TileObjectData.newTile);
             TileObjectData.newAlternate.Direction = TileObjectDirection.PlaceRight;

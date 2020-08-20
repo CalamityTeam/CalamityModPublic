@@ -1,14 +1,12 @@
 using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 using CalamityMod.Items.Materials;
 namespace CalamityMod.Items.Fishing.FishingRods
 {
-    public class FeralDoubleRod : ModItem
+	public class FeralDoubleRod : ModItem
     {
         public override void SetStaticDefaults()
         {

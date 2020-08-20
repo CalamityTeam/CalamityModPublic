@@ -62,7 +62,7 @@ namespace CalamityMod.Items.Fishing.AstralCatches
             }
 
             // Weapons
-            DropHelper.DropItemFromSetCondition(player, CalamityWorld.downedAstrageldon,
+            DropHelper.DropItemFromSetCondition(player, CalamityWorld.downedAstrageldon, 0.2f,
                 ModContent.ItemType<StellarKnife>(),
                 ModContent.ItemType<AstralachneaStaff>(),
                 ModContent.ItemType<TitanArm>(),

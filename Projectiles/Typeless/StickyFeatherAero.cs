@@ -22,7 +22,7 @@ namespace CalamityMod.Projectiles.Typeless
             projectile.penetrate = 3;
             projectile.alpha = 255;
             projectile.aiStyle = 93;
-            aiType = 514;
+            aiType = ProjectileID.NailFriendly;
         }
 
         public override void AI()

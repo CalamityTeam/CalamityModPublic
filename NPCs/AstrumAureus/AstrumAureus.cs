@@ -22,12 +22,10 @@ using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
-using Terraria.ModLoader.Config;
-using CalamityMod;
 
 namespace CalamityMod.NPCs.AstrumAureus
 {
-    [AutoloadBossHead]
+	[AutoloadBossHead]
     public class AstrumAureus : ModNPC
     {
         private bool stomping = false;
@@ -42,12 +40,13 @@ namespace CalamityMod.NPCs.AstrumAureus
         public override void SetDefaults()
         {
             npc.lavaImmune = true;
+			npc.noGravity = true;
             npc.npcSlots = 15f;
             npc.damage = 80;
             npc.width = 400;
             npc.height = 280;
             npc.defense = 50;
-            npc.Calamity().RevPlusDR(0.15f);
+			npc.DR_NERD(0.15f);
             npc.LifeMaxNERB(96000, NPC.downedMoonlord ? 440000 : 122000, 8400000); // 30 seconds in boss rush
             npc.aiStyle = -1;
             aiType = -1;
@@ -68,6 +67,7 @@ namespace CalamityMod.NPCs.AstrumAureus
 			npc.buffImmune[BuffID.Oiled] = false;
 			npc.buffImmune[BuffID.BoneJavelin] = false;
 			npc.buffImmune[BuffID.Venom] = false;
+			npc.buffImmune[BuffID.SoulDrain] = false;
             npc.buffImmune[ModContent.BuffType<AbyssalFlames>()] = false;
             npc.buffImmune[ModContent.BuffType<ArmorCrunch>()] = false;
             npc.buffImmune[ModContent.BuffType<DemonFlames>()] = false;
@@ -75,6 +75,7 @@ namespace CalamityMod.NPCs.AstrumAureus
             npc.buffImmune[ModContent.BuffType<Nightwither>()] = false;
             npc.buffImmune[ModContent.BuffType<Plague>()] = false;
             npc.buffImmune[ModContent.BuffType<Shred>()] = false;
+            npc.buffImmune[ModContent.BuffType<WarCleave>()] = false;
             npc.buffImmune[ModContent.BuffType<WhisperingDeath>()] = false;
             npc.buffImmune[ModContent.BuffType<SilvaStun>()] = false;
             npc.buffImmune[ModContent.BuffType<SulphuricPoisoning>()] = false;
@@ -90,7 +91,7 @@ namespace CalamityMod.NPCs.AstrumAureus
             {
                 npc.value = Item.buyPrice(0, 35, 0, 0);
             }
-            double HPBoost = CalamityMod.CalamityConfig.BossHealthPercentageBoost * 0.01;
+            double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
         }
 
@@ -290,7 +291,7 @@ namespace CalamityMod.NPCs.AstrumAureus
 			if (npc.ai[0] == 3f || npc.ai[0] == 4f)
 				num153 = 10;
 
-			if (CalamityMod.CalamityConfig.Afterimages)
+			if (CalamityConfig.Instance.Afterimages)
 			{
 				for (int num155 = 1; num155 < num153; num155 += 2)
 				{
@@ -315,7 +316,7 @@ namespace CalamityMod.NPCs.AstrumAureus
                 Color color = new Color(127 - npc.alpha, 127 - npc.alpha, 127 - npc.alpha, 0).MultiplyRGBA(Color.Gold);
 				Color color40 = Color.Lerp(Color.White, color, 0.5f);
 
-				if (CalamityMod.CalamityConfig.Afterimages)
+				if (CalamityConfig.Instance.Afterimages)
 				{
 					for (int num163 = 1; num163 < num153; num163++)
 					{
@@ -349,7 +350,7 @@ namespace CalamityMod.NPCs.AstrumAureus
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeAstrumAureus>(), true, !CalamityWorld.downedAstrageldon);
             DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedAstrageldon, 4, 2, 1);
 
-			npc.Calamity().SetNewShopVariable(new int[] { NPCID.Wizard, ModContent.NPCType<FAP>() }, CalamityWorld.downedAstrageldon);
+			CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.Wizard, ModContent.NPCType<FAP>() }, CalamityWorld.downedAstrageldon);
 
 			// All other drops are contained in the bag, so they only drop directly on Normal
 			if (!Main.expertMode)
@@ -359,11 +360,14 @@ namespace CalamityMod.NPCs.AstrumAureus
                 DropHelper.DropItemSpray(npc, ItemID.FallenStar, 25, 40);
 
                 // Weapons
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Nebulash>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<AuroraBlazer>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<AlulaAustralis>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<BorealisBomber>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<AuroradicalThrow>(), 4);
+                float w = DropHelper.DirectWeaponDropRateFloat;
+                DropHelper.DropEntireWeightedSet(npc,
+                    DropHelper.WeightStack<Nebulash>(w),
+                    DropHelper.WeightStack<AuroraBlazer>(w),
+                    DropHelper.WeightStack<AlulaAustralis>(w),
+                    DropHelper.WeightStack<BorealisBomber>(w),
+                    DropHelper.WeightStack<AuroradicalThrow>(w)
+                );
 
                 // Vanity
                 DropHelper.DropItemChance(npc, ModContent.ItemType<AureusMask>(), 7);
@@ -410,7 +414,7 @@ namespace CalamityMod.NPCs.AstrumAureus
 
             for (int k = 0; k < 5; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, 173, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.PurpleCosmolite, hitDirection, -1f, 0, default, 1f);
             }
             if (npc.life <= 0)
             {
@@ -422,7 +426,7 @@ namespace CalamityMod.NPCs.AstrumAureus
                 npc.position.Y = npc.position.Y - (float)(npc.height / 2);
                 for (int num621 = 0; num621 < 50; num621++)
                 {
-                    int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 173, 0f, 0f, 100, default, 2f);
+                    int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, (int)CalamityDusts.PurpleCosmolite, 0f, 0f, 100, default, 2f);
                     Main.dust[num622].velocity *= 3f;
                     if (Main.rand.NextBool(2))
                     {

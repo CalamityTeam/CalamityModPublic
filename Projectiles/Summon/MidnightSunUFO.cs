@@ -1,6 +1,5 @@
 using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
-using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -9,7 +8,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Summon
 {
-    public class MidnightSunUFO : ModProjectile
+	public class MidnightSunUFO : ModProjectile
     {
         public const float DistanceToCheck = 2600f;
         public override void SetStaticDefaults()
@@ -103,30 +102,7 @@ namespace CalamityMod.Projectiles.Summon
                             ModContent.ProjectileType<MidnightSunLaser>(),
                             projectile.damage, projectile.knockBack, projectile.owner);
                     }
-                    float acceleration = 0.35f;
-                    for (int index = 0; index < Main.projectile.Length; index++)
-                    {
-                        Projectile proj = Main.projectile[index];
-                        if (index != projectile.whoAmI && proj.active && proj.owner == projectile.owner && Math.Abs(projectile.position.X - proj.position.X) + Math.Abs(projectile.position.Y - proj.position.Y) < projectile.width)
-                        {
-                            if (projectile.position.X < proj.position.X)
-                            {
-                                projectile.velocity.X -= acceleration;
-                            }
-                            else
-                            {
-                                projectile.velocity.X += acceleration;
-                            }
-                            if (projectile.position.Y < proj.position.Y)
-                            {
-                                projectile.velocity.Y -= acceleration;
-                            }
-                            else
-                            {
-                                projectile.velocity.Y += acceleration;
-                            }
-                        }
-                    }
+					projectile.MinionAntiClump(0.35f);
                 }
                 else
                 {
@@ -163,30 +139,14 @@ namespace CalamityMod.Projectiles.Summon
             {
                 projectile.velocity = (projectile.velocity * 15f + projectile.DirectionTo(player.Center - new Vector2(player.direction * -80f, 160f)) * 19f) / 16f;
 
-                float acceleration = 0.35f;
-                for (int index = 0; index < Main.projectile.Length; index++)
+                Vector2 distanceVector = player.Center - projectile.Center;
+                if (distanceVector.Length() > DistanceToCheck * 1.5f)
                 {
-                    Projectile proj = Main.projectile[index];
-                    if (index != projectile.whoAmI && proj.active && proj.owner == projectile.owner && Math.Abs(projectile.position.X - proj.position.X) + Math.Abs(projectile.position.Y - proj.position.Y) < projectile.width)
-                    {
-                        if (projectile.position.X < proj.position.X)
-                        {
-                            projectile.velocity.X -= acceleration;
-                        }
-                        else
-                        {
-                            projectile.velocity.X += acceleration;
-                        }
-                        if (projectile.position.Y < proj.position.Y)
-                        {
-                            projectile.velocity.Y -= acceleration;
-                        }
-                        else
-                        {
-                            projectile.velocity.Y += acceleration;
-                        }
-                    }
+                    projectile.Center = player.Center;
+                    projectile.netUpdate = true;
                 }
+
+				projectile.MinionAntiClump(0.35f);
                 projectile.rotation = projectile.velocity.X * 0.03f;
             }
         }
