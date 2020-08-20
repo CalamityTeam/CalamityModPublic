@@ -12,6 +12,7 @@ namespace CalamityMod.Items.Armor
     public class BrimflameScowl : ModItem
     {
         private bool frenzy = false;
+        public static int CooldownLength = 1800;
 
         public override void SetStaticDefaults()
         {
@@ -43,7 +44,8 @@ namespace CalamityMod.Items.Armor
                 if (!modPlayer.brimflameFrenzy)
                 {
                     frenzy = false;
-                    player.AddBuff(ModContent.BuffType<BrimflameFrenzyCooldown>(), 30 * 60, true);
+                    player.AddBuff(ModContent.BuffType<BrimflameFrenzyCooldown>(), CooldownLength, true);
+					modPlayer.brimflameFrenzyTimer = CooldownLength;
                 }
             }
         }
@@ -82,12 +84,6 @@ namespace CalamityMod.Items.Armor
                 "While under this effect, your damage is significantly boosted\n" +
                 "However, this comes at the cost of rapid life loss and no mana regeneration\n" +
                 "This can be toggled off, however, a brimstone frenzy has a 30 second cooldown";
-
-			if (player.HasBuff(ModContent.BuffType<BrimflameFrenzyCooldown>())) //sound when ready to use again
-			{
-				if (player.buffTime[player.FindBuffIndex(ModContent.BuffType<BrimflameFrenzyCooldown>())] == 1);
-					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/BrimflameRecharge"), player.Center);
-			}
         }
 
         public override void AddRecipes()
