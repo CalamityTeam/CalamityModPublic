@@ -60,7 +60,7 @@ namespace CalamityMod.Projectiles.Pets
 			}
 
 			if (charging <= 0)
-				CalamityGlobalProjectile.FloatingPetAI(projectile, true, 0.05f);
+				projectile.FloatingPetAI(true, 0.05f);
 
 			Vector2 playerVec = player.Center - projectile.Center;
 			float playerDist = playerVec.Length();
@@ -68,7 +68,7 @@ namespace CalamityMod.Projectiles.Pets
 				reelBackCooldown--;
 			if (charging > 0)
 				charging--;
-			if (reelBackCooldown <= 0 && Main.rand.NextBool(500) && playerDist < 100f && charging <= 0)
+			if (reelBackCooldown <= 0 && Main.rand.NextBool(60) && playerDist < 100f && charging <= 0)
 			{
 				if (Main.myPlayer == projectile.owner)
 				{
@@ -81,20 +81,19 @@ namespace CalamityMod.Projectiles.Pets
 					projectile.netUpdate = true;
 				}
 			}
-			if (charging < 11 && charging > 0)
-				projectile.alpha += 25;
+			if (charging < 22 && charging > 0)
+				projectile.alpha += 12;
 			if (charging == 1)
 			{
-				float startOffsetX = Main.rand.NextFloat(400f, 600f) * (Main.rand.NextBool() ? -1f : 1f);
-				float startOffsetY = Main.rand.NextFloat(400f, 600f) * (Main.rand.NextBool() ? -1f : 1f);
-				Vector2 teleportPos = new Vector2(player.Center.X + startOffsetX, player.Center.Y + startOffsetY);
-                projectile.position.X = teleportPos.X;
-                projectile.position.Y = teleportPos.Y;
+				float xOffset = Main.rand.NextFloat(400f, 600f) * (Main.rand.NextBool() ? -1f : 1f);
+				float yOffset = Main.rand.NextFloat(400f, 600f) * (Main.rand.NextBool() ? -1f : 1f);
+				Vector2 teleportPos = new Vector2(player.Center.X + xOffset, player.Center.Y + yOffset);
+                projectile.Center = teleportPos;
 				projectile.alpha = 255;
                 projectile.netUpdate = true;
 			}
-			if (projectile.alpha > 0)
-				projectile.alpha -= 25;
+			if (projectile.alpha > 0 && charging <= 0)
+				projectile.alpha -= 12;
 			if (projectile.alpha < 0)
 				projectile.alpha = 0;
 			if (projectile.alpha > 255)
