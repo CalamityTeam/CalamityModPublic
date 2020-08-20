@@ -12761,19 +12761,19 @@ namespace CalamityMod.NPCs
                     Vector2 value4 = Main.player[npc.target].Center - npc.Center + new Vector2(0f, 130f);
                     if (value4.Length() > 20f)
                     {
-                        float velocity = CalamityWorld.bossRushActive ? 14f : 10f;
+                        float velocity = CalamityWorld.bossRushActive ? 12.5f : 9.25f;
 						switch (aggressionLevel)
 						{
 							case 4:
 								break;
 							case 3:
-								velocity -= 0.5f;
+								velocity -= 0.25f;
 								break;
 							case 2:
-								velocity -= 1f;
+								velocity -= 0.5f;
 								break;
 							case 1:
-								velocity -= 1.5f;
+								velocity -= 0.75f;
 								break;
 							default:
 								break;
@@ -12834,19 +12834,19 @@ namespace CalamityMod.NPCs
                     Vector2 value5 = Main.player[npc.target].Center - npc.Center + new Vector2(0f, 130f);
                     if (value5.Length() > 20f)
                     {
-                        float velocity = CalamityWorld.bossRushActive ? 14f : 10f;
+                        float velocity = CalamityWorld.bossRushActive ? 12.5f : 9.25f;
 						switch (aggressionLevel)
 						{
 							case 4:
 								break;
 							case 3:
-								velocity -= 0.5f;
+								velocity -= 0.25f;
 								break;
 							case 2:
-								velocity -= 1f;
+								velocity -= 0.5f;
 								break;
 							case 1:
-								velocity -= 1.5f;
+								velocity -= 0.75f;
 								break;
 							default:
 								break;
@@ -13119,25 +13119,7 @@ namespace CalamityMod.NPCs
                 }
 
 				// Teleport
-				float teleportDistance = 1800f;
-				switch (aggressionLevel)
-				{
-					case 4:
-						break;
-					case 3:
-						teleportDistance = 2000f;
-						break;
-					case 2:
-						teleportDistance = 2200f;
-						break;
-					case 1:
-						teleportDistance = 2400f;
-						break;
-					default:
-						break;
-				}
-
-                if (npc.ai[0] >= 0f && npc.ai[0] < 2f && Main.netMode != NetmodeID.MultiplayerClient && npc.Distance(Main.player[npc.target].Center) > teleportDistance)
+                if (npc.ai[0] >= 0f && npc.ai[0] < 2f && Main.netMode != NetmodeID.MultiplayerClient && npc.Distance(Main.player[npc.target].Center) > 1800f)
                 {
                     npc.ai[0] = -2f;
                     npc.netUpdate = true;
@@ -13906,19 +13888,19 @@ namespace CalamityMod.NPCs
                             if (float.IsNaN(vector176.X) || float.IsNaN(vector176.Y))
                                 vector176 = Vector2.UnitY;
 
-                            float velocity = CalamityWorld.bossRushActive ? 18f : 14f;
+                            float velocity = CalamityWorld.bossRushActive ? 6f : 4f;
 							switch (aggressionLevel)
 							{
 								case 4:
 									break;
 								case 3:
-									velocity -= 0.5f;
+									velocity -= 0.25f;
 									break;
 								case 2:
-									velocity -= 1f;
+									velocity -= 0.5f;
 									break;
 								case 1:
-									velocity -= 1.5f;
+									velocity -= 0.75f;
 									break;
 								default:
 									break;
@@ -14390,7 +14372,7 @@ namespace CalamityMod.NPCs
 								vector217 = Vector2.UnitY * -1f;
 
 							vector217 *= 4f;
-							Projectile.NewProjectile(npc.Center.X + vector216.X, npc.Center.Y + vector216.Y, vector217.X, vector217.Y, ProjectileID.PhantasmalSphere, 0, 0f, Main.myPlayer, 30f, (float)npc.whoAmI);
+							Projectile.NewProjectile(npc.Center.X + vector216.X, npc.Center.Y + vector216.Y, vector217.X, vector217.Y, ProjectileID.PhantasmalSphere, 0, 0f, Main.myPlayer, 30f, npc.whoAmI);
 						}
 					}
 					else

@@ -517,6 +517,15 @@ namespace CalamityMod.Projectiles
 					return false;
 				}
 
+				// Moon Lord big eye spheres
+				else if (projectile.type == ProjectileID.PhantasmalSphere && Main.npc[(int)projectile.ai[1]].type == NPCID.MoonLordHand)
+				{
+					if (projectile.velocity.Length() < 12f)
+						projectile.velocity *= 1.005f;
+
+					return true;
+				}
+
                 // Moon Lord Deathray
                 else if (projectile.type == ProjectileID.PhantasmalDeathray)
                 {

@@ -109,7 +109,8 @@ namespace CalamityMod.NPCs
 							for (int i = 0; i < numProj; i++)
 							{
 								offsetAngle = startAngle + deltaAngle * i;
-								Projectile.NewProjectile(vectorCenter.X, vectorCenter.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), ModContent.ProjectileType<SandBlast>(), damage, 0f, Main.myPlayer, 0f, 0f);
+								int proj = Projectile.NewProjectile(vectorCenter.X, vectorCenter.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), ModContent.ProjectileType<SandBlast>(), damage, 0f, Main.myPlayer, 0f, 0f);
+								Main.projectile[proj].tileCollide = false;
 							}
 						}
 					}
