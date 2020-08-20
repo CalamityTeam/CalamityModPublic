@@ -1868,6 +1868,11 @@ namespace CalamityMod.CalPlayer
 				player.ClearBuff(ModContent.BuffType<BrimflameFrenzyBuff>());
 				player.AddBuff(ModContent.BuffType<BrimflameFrenzyCooldown>(), 30 * 60, true);
 			}
+			if (player.HasBuff(ModContent.BuffType<BrimflameFrenzyCooldown>())) //sound when ready to use again
+			{
+				if (player.buffTime[player.FindBuffIndex(ModContent.BuffType<BrimflameFrenzyCooldown>())] == 2);
+					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/BrimflameRecharge"), player.Center);
+			}
 			if (!modPlayer.bloodflareMelee && modPlayer.bloodflareFrenzy)
 			{
 				modPlayer.bloodflareFrenzy = false;
