@@ -101,14 +101,12 @@ namespace CalamityMod.Schematics
                             }
                         }
                         if (tile.type == ModContent.TileType<DraedonItemCharger>() ||
-                            tile.type == ModContent.TileType<DraedonHologram>())
+                            tile.type == ModContent.TileType<DraedonTurretTile>() ||
+                            tile.type == ModContent.TileType<DraedonFactoryFieldGenerator>())
                         {
-                            WorldGen.PlaceTile(x, y, tile.type);
-                            int type = tile.type == ModContent.TileType<DraedonItemCharger>() ? ModContent.TileEntityType<TEDraedonItemCharger>() : ModContent.TileEntityType<TEDraedonFuelFactory>();
-                            TileEntity.PlaceEntityNet(x, y, type);
+                            WorldGen.PlaceTile(x + xOffset, y + yOffset, tile.type);
                         }
-
-                        if (tile.type == TileID.Trees || tile.type == TileID.PineTree || tile.type == TileID.Cactus)
+                        else if (tile.type == TileID.Trees || tile.type == TileID.PineTree || tile.type == TileID.Cactus)
                         {
                             ushort oldWall = oldTiles[x, y].wall;
                             oldTiles[x, y] = new Tile
@@ -118,24 +116,7 @@ namespace CalamityMod.Schematics
                         }
                         else
                         {
-                            Tile tileToCopy = SchematicTileConversion(oldTiles[x, y], (Tile)tile.Clone(), schematic[x, y].InternalColor);
-                            Main.tile[x + xOffset, y + yOffset].ClearEverything();
-                            Main.tile[x + xOffset, y + yOffset].type = tileToCopy.type;
-                            Main.tile[x + xOffset, y + yOffset].frameX = tileToCopy.frameX;
-                            Main.tile[x + xOffset, y + yOffset].frameY = tileToCopy.frameY;
-                            Main.tile[x + xOffset, y + yOffset].slope(tileToCopy.slope());
-                            Main.tile[x + xOffset, y + yOffset].halfBrick(tileToCopy.halfBrick());
-                            Main.tile[x + xOffset, y + yOffset].actuator(tileToCopy.actuator());
-                            Main.tile[x + xOffset, y + yOffset].inActive(tileToCopy.inActive());
-                            Main.tile[x + xOffset, y + yOffset].liquid = tileToCopy.liquid;
-                            Main.tile[x + xOffset, y + yOffset].liquidType(tileToCopy.liquidType());
-                            Main.tile[x + xOffset, y + yOffset].color(tileToCopy.color());
-                            Main.tile[x + xOffset, y + yOffset].wallColor(tileToCopy.wallColor());
-                            Main.tile[x + xOffset, y + yOffset].wire(tileToCopy.wire());
-                            Main.tile[x + xOffset, y + yOffset].wire2(tileToCopy.wire());
-                            Main.tile[x + xOffset, y + yOffset].wire3(tileToCopy.wire());
-                            Main.tile[x + xOffset, y + yOffset].wire4(tileToCopy.wire());
-                            Main.tile[x + xOffset, y + yOffset].active(tileToCopy.active());
+                            Main.tile[x + xOffset, y + yOffset] = (Tile)SchematicTileConversion(oldTiles[x, y], tile, schematic[x, y].InternalColor).Clone();
                         }
 
                         Rectangle placeInArea = new Rectangle(x, y, schematic.GetLength(0), schematic.GetLength(1));
@@ -194,12 +175,6 @@ namespace CalamityMod.Schematics
                         Tile tile = schematic[x, y].InternalTile;
                         ModTile modTile = TileLoader.GetTile(tile.type);
                         bool isChest = tile.type == TileID.Containers || (modTile != null && modTile.chest != "");
-
-                        if (tile.type == ModContent.TileType<DraedonItemCharger>() ||
-                            tile.type == ModContent.TileType<DraedonHologram>())
-                        {
-                            WorldGen.PlaceTile(x, y, tile.type);
-                        }
                         // If the determined tile type is a chest, define it appropriately.
                         if (isChest)
                         {
@@ -210,8 +185,24 @@ namespace CalamityMod.Schematics
                                 specialCondition = true;
                             }
                         }
-
-                        Main.tile[x + xOffset, y + yOffset] = SchematicTileConversion(oldTiles[x, y], (Tile)tile.Clone(), schematic[x, y].InternalColor);
+                        if (tile.type == ModContent.TileType<DraedonItemCharger>() ||
+                            tile.type == ModContent.TileType<DraedonTurretTile>() ||
+                            tile.type == ModContent.TileType<DraedonFactoryFieldGenerator>())
+                        {
+                            WorldGen.PlaceTile(x + xOffset, y + yOffset, tile.type);
+                        }
+                        else if (tile.type == TileID.Trees || tile.type == TileID.PineTree || tile.type == TileID.Cactus)
+                        {
+                            ushort oldWall = oldTiles[x, y].wall;
+                            oldTiles[x, y] = new Tile
+                            {
+                                wall = oldWall
+                            };
+                        }
+                        else
+                        {
+                            Main.tile[x + xOffset, y + yOffset] = (Tile)SchematicTileConversion(oldTiles[x, y], tile, schematic[x, y].InternalColor).Clone();
+                        }
 
                         Rectangle placeInArea = new Rectangle(x, y, schematic.GetLength(0), schematic.GetLength(1));
 
