@@ -13888,7 +13888,7 @@ namespace CalamityMod.NPCs
                             if (float.IsNaN(vector176.X) || float.IsNaN(vector176.Y))
                                 vector176 = Vector2.UnitY;
 
-                            float velocity = CalamityWorld.bossRushActive ? 6f : 4f;
+                            float velocity = CalamityWorld.bossRushActive ? 3f : 2f;
 							switch (aggressionLevel)
 							{
 								case 4:
