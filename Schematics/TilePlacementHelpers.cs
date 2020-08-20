@@ -1,7 +1,9 @@
+using CalamityMod.TileEntities;
 using CalamityMod.Tiles;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using static CalamityMod.Schematics.SchematicLoader;
@@ -46,8 +48,8 @@ namespace CalamityMod.Schematics
                 return;
             PilePlacementMaps.TryGetValue(mapKey, out PilePlacementFunction pilePlacementFunction);
             ColorTileCombination[,] schematic = TileMaps[mapKey];
-			Tile[,] oldTiles = new Tile[schematic.GetLength(0), schematic.GetLength(1)];
-			int xOffset = placementPosition.X;
+            Tile[,] oldTiles = new Tile[schematic.GetLength(0), schematic.GetLength(1)];
+            int xOffset = placementPosition.X;
             int yOffset = placementPosition.Y;
             // Top-left is the default for terraria. There is no need to include it in this switch.
             switch (placementAnchor)
@@ -99,12 +101,12 @@ namespace CalamityMod.Schematics
                             }
                         }
                         if (tile.type == ModContent.TileType<DraedonItemCharger>() ||
-                            tile.type == ModContent.TileType<DraedonHologram>())
+                            tile.type == ModContent.TileType<DraedonTurretTile>() ||
+                            tile.type == ModContent.TileType<DraedonFactoryFieldGenerator>())
                         {
-                            WorldGen.PlaceTile(x, y, tile.type);
+                            WorldGen.PlaceTile(x + xOffset, y + yOffset, tile.type);
                         }
-
-                        if (tile.type == TileID.Trees || tile.type == TileID.PineTree || tile.type == TileID.Cactus)
+                        else if (tile.type == TileID.Trees || tile.type == TileID.PineTree || tile.type == TileID.Cactus)
                         {
                             ushort oldWall = oldTiles[x, y].wall;
                             oldTiles[x, y] = new Tile
@@ -112,7 +114,10 @@ namespace CalamityMod.Schematics
                                 wall = oldWall
                             };
                         }
-                        else Main.tile[x + xOffset, y + yOffset] = SchematicTileConversion(oldTiles[x, y], (Tile)tile.Clone(), schematic[x, y].InternalColor);
+                        else
+                        {
+                            Main.tile[x + xOffset, y + yOffset] = (Tile)SchematicTileConversion(oldTiles[x, y], tile, schematic[x, y].InternalColor).Clone();
+                        }
 
                         Rectangle placeInArea = new Rectangle(x, y, schematic.GetLength(0), schematic.GetLength(1));
 
@@ -170,12 +175,6 @@ namespace CalamityMod.Schematics
                         Tile tile = schematic[x, y].InternalTile;
                         ModTile modTile = TileLoader.GetTile(tile.type);
                         bool isChest = tile.type == TileID.Containers || (modTile != null && modTile.chest != "");
-
-                        if (tile.type == ModContent.TileType<DraedonItemCharger>() ||
-                            tile.type == ModContent.TileType<DraedonHologram>())
-                        {
-                            WorldGen.PlaceTile(x, y, tile.type);
-                        }
                         // If the determined tile type is a chest, define it appropriately.
                         if (isChest)
                         {
@@ -186,8 +185,24 @@ namespace CalamityMod.Schematics
                                 specialCondition = true;
                             }
                         }
-
-                        Main.tile[x + xOffset, y + yOffset] = SchematicTileConversion(oldTiles[x, y], (Tile)tile.Clone(), schematic[x, y].InternalColor);
+                        if (tile.type == ModContent.TileType<DraedonItemCharger>() ||
+                            tile.type == ModContent.TileType<DraedonTurretTile>() ||
+                            tile.type == ModContent.TileType<DraedonFactoryFieldGenerator>())
+                        {
+                            WorldGen.PlaceTile(x + xOffset, y + yOffset, tile.type);
+                        }
+                        else if (tile.type == TileID.Trees || tile.type == TileID.PineTree || tile.type == TileID.Cactus)
+                        {
+                            ushort oldWall = oldTiles[x, y].wall;
+                            oldTiles[x, y] = new Tile
+                            {
+                                wall = oldWall
+                            };
+                        }
+                        else
+                        {
+                            Main.tile[x + xOffset, y + yOffset] = (Tile)SchematicTileConversion(oldTiles[x, y], tile, schematic[x, y].InternalColor).Clone();
+                        }
 
                         Rectangle placeInArea = new Rectangle(x, y, schematic.GetLength(0), schematic.GetLength(1));
 
