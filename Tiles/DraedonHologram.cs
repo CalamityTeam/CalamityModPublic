@@ -32,6 +32,7 @@ namespace CalamityMod.Tiles
                 TileObjectData.newTile.CoordinateHeights[i] = 16;
             }
             TileObjectData.newTile.HookPostPlaceMyPlayer = new PlacementHook(ModContent.GetInstance<TEDraedonHologram>().Hook_AfterPlacement, -1, 0, true);
+            TileObjectData.newTile.LavaDeath = false;
             TileObjectData.addTile(Type);
             animationFrameHeight = 112;
 

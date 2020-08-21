@@ -1004,6 +1004,8 @@ namespace CalamityMod.CalPlayer
 				modPlayer.omegaBlueCooldown--;
 			if (modPlayer.plagueReaperCooldown > 0)
 				modPlayer.plagueReaperCooldown--;
+			if (modPlayer.brimflameFrenzyTimer > 0)
+				modPlayer.brimflameFrenzyTimer--;
 			if (modPlayer.roverDrive)
 			{
 				if (modPlayer.roverDriveTimer < CalamityUtils.SecondsToFrames(30f))

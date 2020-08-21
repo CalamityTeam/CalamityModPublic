@@ -18,6 +18,7 @@ namespace CalamityMod.Tiles.DraedonStructures
             Main.tileWaterDeath[Type] = false;
             Main.tileSolidTop[Type] = true;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style2x2);
+            TileObjectData.newTile.LavaDeath = false;
             TileObjectData.addTile(Type);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Reinforced Crate");
