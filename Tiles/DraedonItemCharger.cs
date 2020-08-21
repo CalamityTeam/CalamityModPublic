@@ -43,6 +43,7 @@ namespace CalamityMod.Tiles
                 var factory = ModTileEntity.ConstructFromType(ModContent.TileEntityType<TEDraedonItemCharger>());
                 factory.Position = new Point16(left, top);
                 TileEntity.ByID[TileEntity.ByID.Count] = factory;
+                TileEntity.ByPosition[factory.Position] = factory;
             }
             return (TEDraedonItemCharger)TileEntity.ByID.Where(tileEntity => tileEntity.Value.Position == new Point16(left, top)).First().Value;
         }
