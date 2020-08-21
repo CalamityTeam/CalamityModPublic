@@ -19,7 +19,7 @@ namespace CalamityMod.Projectiles.Magic
             get => projectile.localAI[0];
             set => projectile.localAI[0] = value;
         }
-        public const int TentacleSpawnRate = 30;
+        public const int TentacleSpawnRate = 20;
         public const int PulseInterval = 18;
         public const float PulseHitboxExpandRatio = 2.5f;
         public const float RadialOffsetVarianceFactor = 0.1f;
@@ -41,7 +41,7 @@ namespace CalamityMod.Projectiles.Magic
             projectile.tileCollide = false;
             projectile.magic = true;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 17;
+            projectile.localNPCHitCooldown = 15;
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -68,7 +68,7 @@ namespace CalamityMod.Projectiles.Magic
             }
 
             // Target enemy if possible and idly spawn tentacles.
-            if (Time < 300)
+            if (Time < 150)
             {
                 TargetingMovement();
                 if (Time % TentacleSpawnRate == TentacleSpawnRate - 1 && Main.myPlayer == projectile.owner)
@@ -77,7 +77,7 @@ namespace CalamityMod.Projectiles.Magic
                 }
             }
             // Slow down and pulse frequently.
-            else if (Time < 480)
+            else if (Time < 220)
             {
                 projectile.velocity *= 0.96f;
                 if (Time % PulseInterval == 0f)
@@ -85,7 +85,7 @@ namespace CalamityMod.Projectiles.Magic
                     PulseEffect();
                 }
             }
-            else if (Time == 520f)
+            else if (Time >= 240)
             {
                 ExplodeEffect();
                 projectile.Kill();
@@ -100,8 +100,8 @@ namespace CalamityMod.Projectiles.Magic
             Projectile subsumingHentai = Projectile.NewProjectileDirect(projectile.Center,
                                                                         Vector2.UnitY.RotatedByRandom(MathHelper.TwoPi) * Main.rand.NextFloat(9f, 13f),
                                                                         ModContent.ProjectileType<SubsumingTentacle>(),
-                                                                        (int)(projectile.damage * 0.6),
-                                                                        projectile.knockBack * 0.6f,
+                                                                        (int)(projectile.damage * 0.5),
+                                                                        projectile.knockBack * 0.5f,
                                                                         projectile.owner,
                                                                         xStartingAcceleration,
                                                                         yStartingAcceleration);
