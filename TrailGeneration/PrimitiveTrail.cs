@@ -93,7 +93,7 @@ namespace CalamityMod
 				originalControlPoints.Add(originalPositions.ElementAt(i) + generalOffset);
 			}
 			BezierCurve bezierCurve = new BezierCurve(originalControlPoints.ToArray());
-			return bezierCurve.GetPoints(totalTrailPoints);
+			return originalControlPoints.Count <= 1 ? originalControlPoints : bezierCurve.GetPoints(totalTrailPoints);
 		}
 
 		public List<VertexPosition2DColor> GetVerticesFromTrailPoints(List<Vector2> trailPoints)
@@ -139,6 +139,11 @@ namespace CalamityMod
 			Main.instance.GraphicsDevice.RasterizerState = RasterizerState.CullNone;
 
 			List<Vector2> trailPoints = GetTrailPoints(originalPositions, generalOffset, totalTrailPoints);
+
+			// A trail with only one point or less has nothing to connect to, and therefore, can't make a trail.
+			if (trailPoints.Count <= 1)
+				return;
+
 			List<VertexPosition2DColor> vertices = GetVerticesFromTrailPoints(trailPoints);
 
 			foreach (var pass in EffectToUse.CurrentTechnique.Passes)
