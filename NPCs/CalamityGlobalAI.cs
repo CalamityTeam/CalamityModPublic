@@ -4416,7 +4416,7 @@ namespace CalamityMod.NPCs
                         npc.localAI[1] = 0f;
                     }
                 }
-                else if (npc.localAI[1] > 45f && (canHit || fireAcceleratingLasers))
+                else if (npc.localAI[1] > 45f && (canHit || fireAcceleratingLasers) && !charging)
                 {
                     npc.localAI[1] = 0f;
                     npc.localAI[2] += 1f;
