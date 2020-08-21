@@ -181,19 +181,7 @@ namespace CalamityMod.NPCs
 
 						if (npc.localAI[0] >= (CalamityWorld.bossRushActive ? 300f : (revenge ? 360f : 420f)))
 						{
-							int npcPosX = (int)(npc.position.X + (npc.width / 2)) / 16;
-							int npcPosY = (int)(npc.position.Y + (npc.height / 2)) / 16;
-
-							if (npcPosX < 0)
-								npcPosX = 0;
-							if (npcPosX > Main.maxTilesX)
-								npcPosX = Main.maxTilesX;
-							if (npcPosY < 0)
-								npcPosY = 0;
-							if (npcPosY > Main.maxTilesY)
-								npcPosY = Main.maxTilesY;
-
-							if (!Main.tile[npcPosX, npcPosY].active() && Vector2.Distance(player.Center, npc.Center) > 300f)
+							if (Vector2.Distance(player.Center, npc.Center) > 300f)
 							{
 								npc.localAI[0] = 0f;
 								npc.netUpdate = true;

@@ -520,8 +520,8 @@ namespace CalamityMod.Projectiles
 				// Moon Lord big eye spheres
 				else if (projectile.type == ProjectileID.PhantasmalSphere && Main.npc[(int)projectile.ai[1]].type == NPCID.MoonLordHand)
 				{
-					if (projectile.velocity.Length() < 8f)
-						projectile.velocity *= 1.005f;
+					if (projectile.velocity.Length() < 9f)
+						projectile.velocity *= 1.006f;
 
 					return true;
 				}
