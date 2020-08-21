@@ -134,7 +134,7 @@ namespace CalamityMod
 			return vertices;
 		}
 
-		public void Draw(IEnumerable<Vector2> originalPositions, Vector2 generalOffset, int totalTrailPoints, Effect specialShader = null)
+		public void Draw(IEnumerable<Vector2> originalPositions, Vector2 generalOffset, int totalTrailPoints)
 		{
 			Main.instance.GraphicsDevice.RasterizerState = RasterizerState.CullNone;
 
