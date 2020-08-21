@@ -74,6 +74,9 @@ namespace CalamityMod.Projectiles.Ranged
                     int flames = Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<TotalityFire>(), (int)(projectile.damage * 0.3), 0f, projectile.owner, 0f, 0f);
 					Main.projectile[flames].Calamity().forceRanged = true;
 					Main.projectile[flames].penetrate = 3;
+					Main.projectile[flames].usesLocalNPCImmunity = false;
+					Main.projectile[flames].usesIDStaticNPCImmunity = true;
+					Main.projectile[flames].idStaticNPCHitCooldown = 10;
                 }
             }
         }
