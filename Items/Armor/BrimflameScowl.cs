@@ -48,6 +48,10 @@ namespace CalamityMod.Items.Armor
 					modPlayer.brimflameFrenzyTimer = CooldownLength;
                 }
             }
+			if (modPlayer.brimflameFrenzyTimer == 1) //sound when ready to use again
+			{
+				Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/BrimflameRecharge"), player.Center);
+			}
         }
 
         public override void UpdateEquip(Player player)
