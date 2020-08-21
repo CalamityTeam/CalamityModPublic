@@ -3895,7 +3895,7 @@ namespace CalamityMod.NPCs
 			}
 
 			// Max spawn amount
-			int maxBirbs = phase2 ? 1 : 2;
+			int maxBirbs = revenge ? 3 : 2;
 
 			// Variable for charging
 			float chargeDistance = 600f;
@@ -4039,7 +4039,7 @@ namespace CalamityMod.NPCs
 									{
 										Vector2 spawnVector = player.Center + Vector2.Normalize(new Vector2(0f, -featherVelocity).RotatedBy(radians * i)) * distance;
 										Vector2 velocity = Vector2.Normalize(player.Center - spawnVector) * featherVelocity;
-										Projectile.NewProjectile(spawnVector, velocity, ModContent.ProjectileType<RedLightningFeather>(), damage, 0f, Main.myPlayer);
+										Projectile.NewProjectile(spawnVector, velocity, ModContent.ProjectileType<RedLightningFeather>(), damage, 0f, Main.myPlayer, 0f, phase3 ? 1f : 0f);
 									}
 								}
 							}
@@ -4330,7 +4330,7 @@ namespace CalamityMod.NPCs
 
 					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
-						bool spawnFlag = NPC.CountNPCS(ModContent.NPCType<Bumblefuck2>()) < maxBirbs && (npc.ai[1] == 140f || npc.ai[1] == 170f);
+						bool spawnFlag = NPC.CountNPCS(ModContent.NPCType<Bumblefuck2>()) < maxBirbs && (npc.ai[1] == 140f || (revenge && npc.ai[1] == 155f) || npc.ai[1] == 170f);
 						if (spawnFlag)
 						{
 							Vector2 vector7 = npc.Center + (MathHelper.TwoPi * Main.rand.NextFloat()).ToRotationVector2() * new Vector2(2f, 1f) * 50f * (0.6f + Main.rand.NextFloat() * 0.4f);

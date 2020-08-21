@@ -4392,20 +4392,31 @@ namespace CalamityMod.NPCs
 
 				bool charging = Main.npc[Main.wof].ai[3] == 1f;
 
-				float shootBoost = charging ? (death ? 1.5f : 1.5f * (1f - lifeRatio)) : (death ? 3f : 4f * (1f - lifeRatio));
+				// Set up enraged laser firing timer
+				float enragedLaserTimer = 600f;
+				if (charging)
+					npc.localAI[3] = enragedLaserTimer;
+
+				bool fireAcceleratingLasers = npc.localAI[3] > 0f && npc.localAI[3] < enragedLaserTimer;
+
+				// Decrement the enraged laser timer
+				if (npc.localAI[3] > 0f)
+					npc.localAI[3] -= 1f;
+
+				float shootBoost = fireAcceleratingLasers ? (death ? 1.5f : 1.5f * (1f - lifeRatio)) : (death ? 3f : 4f * (1f - lifeRatio));
 				npc.localAI[1] += 1f + shootBoost;
 
 				bool canHit = Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height);
 
 				if (npc.localAI[2] == 0f)
                 {
-                    if (npc.localAI[1] > 400f)
+                    if (npc.localAI[1] > 400f || fireAcceleratingLasers)
                     {
                         npc.localAI[2] = 1f;
                         npc.localAI[1] = 0f;
                     }
                 }
-                else if (npc.localAI[1] > 45f && (canHit || charging))
+                else if (npc.localAI[1] > 45f && (canHit || fireAcceleratingLasers))
                 {
                     npc.localAI[1] = 0f;
                     npc.localAI[2] += 1f;
@@ -4415,7 +4426,7 @@ namespace CalamityMod.NPCs
                     if (flag30)
                     {
                         bool phase2 = lifeRatio < 0.5 || death;
-                        float velocity = (charging ? 3f : 9f) + shootBoost;
+                        float velocity = (fireAcceleratingLasers ? 3f : 9f) + shootBoost;
                         if (CalamityWorld.bossRushActive)
                             velocity *= 1.5f;
 
@@ -4424,11 +4435,11 @@ namespace CalamityMod.NPCs
 							damage += 2;
 						int projectileType = phase2 ? ProjectileID.DeathLaser : ProjectileID.EyeLaser;
 
-						float laserSpawnDistance = charging ? 30f : 10f;
+						float laserSpawnDistance = fireAcceleratingLasers ? 30f : 10f;
 						Vector2 projectileVelocity = Vector2.Normalize(Main.player[npc.target].Center - npc.Center) * velocity;
 						Vector2 projectileSpawn = npc.Center + projectileVelocity * laserSpawnDistance;
 
-						int proj = Projectile.NewProjectile(projectileSpawn, projectileVelocity, projectileType, damage, 0f, Main.myPlayer, charging ? 1f : 0f, 0f);
+						int proj = Projectile.NewProjectile(projectileSpawn, projectileVelocity, projectileType, damage, 0f, Main.myPlayer, fireAcceleratingLasers ? 1f : 0f, 0f);
 						Main.projectile[proj].timeLeft = 900;
 
 						if (!canHit)
@@ -13729,7 +13740,8 @@ namespace CalamityMod.NPCs
 
 							Vector2 vector170 = Vector2.Normalize(vector168) * velocity;
                             float ai = (MathHelper.TwoPi * (float)Main.rand.NextDouble() - MathHelper.Pi) / 30f + 0.0174532924f * num1177;
-                            Projectile.NewProjectile(vector169.X, vector169.Y, vector170.X, vector170.Y, ProjectileID.PhantasmalEye, damage, 0f, Main.myPlayer, 0f, ai);
+                            int proj = Projectile.NewProjectile(vector169.X, vector169.Y, vector170.X, vector170.Y, ProjectileID.PhantasmalEye, damage, 0f, Main.myPlayer, 0f, ai);
+							Main.projectile[proj].timeLeft = 1200;
                         }
                     }
                     else
@@ -14377,7 +14389,8 @@ namespace CalamityMod.NPCs
 								vector217 = Vector2.UnitY * -1f;
 
 							vector217 *= 4f;
-							Projectile.NewProjectile(npc.Center.X + vector216.X, npc.Center.Y + vector216.Y, vector217.X, vector217.Y, ProjectileID.PhantasmalSphere, 0, 0f, Main.myPlayer, 30f, npc.whoAmI);
+							int proj = Projectile.NewProjectile(npc.Center.X + vector216.X, npc.Center.Y + vector216.Y, vector217.X, vector217.Y, ProjectileID.PhantasmalSphere, 0, 0f, Main.myPlayer, 30f, npc.whoAmI);
+							Main.projectile[proj].timeLeft = 1200;
 						}
 					}
 					else
@@ -14512,7 +14525,8 @@ namespace CalamityMod.NPCs
 							float velocity = CalamityWorld.bossRushActive ? 14f : 10f;
 							Vector2 vector220 = Vector2.Normalize(vector218) * velocity;
 							float ai3 = (MathHelper.TwoPi * (float)Main.rand.NextDouble() - MathHelper.Pi) / 30f + 0.0174532924f * npc.ai[2];
-							Projectile.NewProjectile(vector219.X, vector219.Y, vector220.X, vector220.Y, ProjectileID.PhantasmalEye, 35, 0f, Main.myPlayer, 0f, ai3);
+							int proj = Projectile.NewProjectile(vector219.X, vector219.Y, vector220.X, vector220.Y, ProjectileID.PhantasmalEye, 35, 0f, Main.myPlayer, 0f, ai3);
+							Main.projectile[proj].timeLeft = 1200;
 						}
 					}
 				}
