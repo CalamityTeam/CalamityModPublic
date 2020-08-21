@@ -46,11 +46,6 @@ namespace CalamityMod.Projectiles.Boss
             projectile.rotation += 0.1f;
             if (visible && projectile.alpha > 0)
                 projectile.alpha -= 15;
-            if (projectile.ai[1] == 0f)
-            {
-                projectile.ai[1] = 1f;
-				Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/LeviathanRoarMeteor"), projectile.Center);
-            }
             projectile.localAI[0] += 1f;
             if (projectile.localAI[0] == 12f)
             {

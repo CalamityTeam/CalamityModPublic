@@ -26,6 +26,7 @@ namespace CalamityMod.NPCs.Leviathan
     {
         int counter = 0;
         bool initialised = false;
+		int soundDelay = 0;
 
         public override void SetStaticDefaults()
         {
@@ -95,6 +96,7 @@ namespace CalamityMod.NPCs.Leviathan
             writer.Write(npc.dontTakeDamage);
             writer.Write(counter);
             writer.Write(initialised);
+            writer.Write(soundDelay);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
@@ -102,6 +104,7 @@ namespace CalamityMod.NPCs.Leviathan
             npc.dontTakeDamage = reader.ReadBoolean();
             counter = reader.ReadInt32();
             initialised = reader.ReadBoolean();
+            soundDelay = reader.ReadInt32();
         }
 
         public override void AI()
@@ -156,6 +159,9 @@ namespace CalamityMod.NPCs.Leviathan
 				39,
 				40
 			});
+
+			if (soundDelay > 0)
+				soundDelay--;
 
             if (Main.rand.NextBool(600) && !spawnAnimation)
                 Main.PlaySound(SoundID.Zombie, (int)npc.Center.X, (int)npc.Center.Y, (sirenAlive && !death) ? soundChoice : soundChoiceRage);
@@ -346,6 +352,11 @@ namespace CalamityMod.NPCs.Leviathan
                                 vector40.X += num415 * 4f;
                                 vector40.Y += num416 * 4f;
                                 Projectile.NewProjectile(vector40.X, vector40.Y, num415, num416, projType, dmg, 0f, Main.myPlayer, 0f, 0f);
+								if (soundDelay <= 0)
+								{
+									soundDelay = 120;
+									Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/LeviathanRoarMeteor"), npc.Center);
+								}
                             }
                         }
                     }

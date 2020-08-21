@@ -27,6 +27,7 @@ namespace CalamityMod.Tiles.DraedonStructures
             TileObjectData.newTile.StyleWrapLimit = 2;
             TileObjectData.newTile.StyleMultiplier = 2;
             TileObjectData.newTile.StyleHorizontal = true;
+            TileObjectData.newTile.LavaDeath = false;
 
             TileObjectData.newTile.Direction = TileObjectDirection.PlaceRight;
 
