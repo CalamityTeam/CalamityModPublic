@@ -4120,7 +4120,7 @@ namespace CalamityMod.NPCs
                     {
                         calamityGlobalNPC.newAI[1] = 1f;
 
-                        // Tell eyes to stop firing lasers
+                        // Tell eyes to fire different lasers
                         npc.ai[3] = 1f;
 
                         // Play roar sound on players nearby
@@ -4385,15 +4385,19 @@ namespace CalamityMod.NPCs
             }
 
             // Fire lasers
-            if (Main.netMode != NetmodeID.MultiplayerClient && Main.npc[Main.wof].ai[3] == 0f)
+            if (Main.netMode != NetmodeID.MultiplayerClient)
             {
                 // Percent life remaining
                 float lifeRatio = Main.npc[Main.wof].life / (float)Main.npc[Main.wof].lifeMax;
 
-				float shootBoost = death ? 1.5f : 1.5f * (1f - lifeRatio);
+				bool charging = Main.npc[Main.wof].ai[3] == 1f;
+
+				float shootBoost = charging ? (death ? 1.5f : 1.5f * (1f - lifeRatio)) : (death ? 3f : 4f * (1f - lifeRatio));
 				npc.localAI[1] += 1f + shootBoost;
 
-                if (npc.localAI[2] == 0f)
+				bool canHit = Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height);
+
+				if (npc.localAI[2] == 0f)
                 {
                     if (npc.localAI[1] > 400f)
                     {
@@ -4401,7 +4405,7 @@ namespace CalamityMod.NPCs
                         npc.localAI[1] = 0f;
                     }
                 }
-                else if (npc.localAI[1] > 45f)
+                else if (npc.localAI[1] > 45f && (canHit || charging))
                 {
                     npc.localAI[1] = 0f;
                     npc.localAI[2] += 1f;
@@ -4411,7 +4415,7 @@ namespace CalamityMod.NPCs
                     if (flag30)
                     {
                         bool phase2 = lifeRatio < 0.5 || death;
-                        float velocity = 3f + shootBoost;
+                        float velocity = (charging ? 3f : 9f) + shootBoost;
                         if (CalamityWorld.bossRushActive)
                             velocity *= 1.5f;
 
@@ -4420,14 +4424,14 @@ namespace CalamityMod.NPCs
 							damage += 2;
 						int projectileType = phase2 ? ProjectileID.DeathLaser : ProjectileID.EyeLaser;
 
-						float laserSpawnDistance = 30f;
-						Vector2 projectileVelocity = Vector2.Normalize(Main.player[npc.target].Center + Main.player[npc.target].velocity * 20f - npc.Center) * velocity;
+						float laserSpawnDistance = charging ? 30f : 10f;
+						Vector2 projectileVelocity = Vector2.Normalize(Main.player[npc.target].Center - npc.Center) * velocity;
 						Vector2 projectileSpawn = npc.Center + projectileVelocity * laserSpawnDistance;
 
-						int proj = Projectile.NewProjectile(projectileSpawn, projectileVelocity, projectileType, damage, 0f, Main.myPlayer, 1f, 0f);
+						int proj = Projectile.NewProjectile(projectileSpawn, projectileVelocity, projectileType, damage, 0f, Main.myPlayer, charging ? 1f : 0f, 0f);
 						Main.projectile[proj].timeLeft = 900;
 
-						if (!Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
+						if (!canHit)
 							Main.projectile[proj].tileCollide = false;
 
                     }
@@ -4528,7 +4532,7 @@ namespace CalamityMod.NPCs
                 // Gain more defense as health lowers with a max of 30, lose defense if probe has been launched
                 if (npc.ai[2] == 0f)
                 {
-					int defenseBoost = death ? 30 : (int)(30f * (1f - lifeRatio));
+					int defenseBoost = death ? 10 : (int)(10f * (1f - lifeRatio));
                     npc.defense = npc.defDefense + defenseBoost;
                 }
                 else
@@ -13832,7 +13836,8 @@ namespace CalamityMod.NPCs
                             vector173.X += (num1191 - 3.5f) * num1177 * 3f;
                             vector173.Y += (num1191 - 4.5f) * 1f;
                             vector173 *= 1.2f;
-                            Projectile.NewProjectile(npc.Center.X, npc.Center.Y, vector173.X, vector173.Y, ProjectileID.PhantasmalSphere, damage, 1f, Main.myPlayer, 0f, npc.whoAmI);
+                            int proj = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, vector173.X, vector173.Y, ProjectileID.PhantasmalSphere, damage, 1f, Main.myPlayer, 0f, npc.whoAmI);
+							Main.projectile[proj].timeLeft = 1200;
                         }
 
                         Vector2 vector174 = Vector2.SmoothStep(value12, value12 + value13, (num1178 - 30f) / 180f) - npc.Center;
