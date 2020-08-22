@@ -24,6 +24,7 @@ namespace CalamityMod.Tiles
             Main.tileWaterDeath[Type] = false;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style3x2);
             TileObjectData.newTile.HookPostPlaceMyPlayer = new PlacementHook(ModContent.GetInstance<TEDraedonItemCharger>().Hook_AfterPlacement, -1, 0, true);
+            TileObjectData.newTile.LavaDeath = false;
             TileObjectData.addTile(Type);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Item Charger");
@@ -42,6 +43,7 @@ namespace CalamityMod.Tiles
                 var factory = ModTileEntity.ConstructFromType(ModContent.TileEntityType<TEDraedonItemCharger>());
                 factory.Position = new Point16(left, top);
                 TileEntity.ByID[TileEntity.ByID.Count] = factory;
+                TileEntity.ByPosition[factory.Position] = factory;
             }
             return (TEDraedonItemCharger)TileEntity.ByID.Where(tileEntity => tileEntity.Value.Position == new Point16(left, top)).First().Value;
         }

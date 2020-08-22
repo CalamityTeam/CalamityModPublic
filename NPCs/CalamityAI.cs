@@ -70,36 +70,47 @@ namespace CalamityMod.NPCs
 
 			Player player = Main.player[npc.target];
 
+			Vector2 vectorCenter = npc.Center;
+
 			// Circular movement
 			bool doSpiral = false;
 			if (head && calamityGlobalNPC.newAI[0] == 1f && calamityGlobalNPC.newAI[2] == 1f && revenge)
 			{
-				float ai3 = 690f;
+				float ai3 = 660f;
 				calamityGlobalNPC.newAI[3] += 1f;
 				doSpiral = calamityGlobalNPC.newAI[1] == 0f && calamityGlobalNPC.newAI[3] >= ai3;
 				if (doSpiral)
 				{
-					int npcPosX = (int)(npc.position.X + (npc.width / 2)) / 16;
-					int npcPosY = (int)(npc.position.Y + (npc.height / 2)) / 16;
-
-					// Barf out enemies
-					int variable = 10;
-					if (calamityGlobalNPC.newAI[3] % 30f == 0f && npcPosX > variable && npcPosY > variable && npcPosX < Main.maxTilesX - variable && npcPosY < Main.maxTilesY - variable)
+					// Barf
+					if (calamityGlobalNPC.newAI[3] % 40f == 0f)
 					{
 						Main.PlaySound(4, (int)npc.position.X, (int)npc.position.Y, 13);
 
-						Vector2 spawnPosition = new Vector2(npcPosX * 16, npcPosY * 16);
-
-						if (Main.tile[npcPosX, npcPosY] != null)
+						if (Main.netMode != NetmodeID.MultiplayerClient)
 						{
-							if (!Main.tile[npcPosX, npcPosY].active() && Main.netMode != NetmodeID.MultiplayerClient)
+							float num742 = CalamityWorld.bossRushActive ? 12f : 8f;
+							float num743 = player.Center.X - vectorCenter.X;
+							float num744 = player.Center.Y - vectorCenter.Y;
+							float num745 = (float)Math.Sqrt(num743 * num743 + num744 * num744);
+
+							num745 = num742 / num745;
+							num743 *= num745;
+							num744 *= num745;
+
+							int damage = expertMode ? CalamityUtils.GetMasterModeProjectileDamage(23, 1.5) : 28;
+							int numProj = 3;
+							int spread = 36;
+							float rotation = MathHelper.ToRadians(spread);
+							float baseSpeed = (float)Math.Sqrt(num743 * num743 + num744 * num744);
+							double startAngle = Math.Atan2(num743, num744) - rotation / 2;
+							double deltaAngle = rotation / numProj;
+							double offsetAngle;
+
+							for (int i = 0; i < numProj; i++)
 							{
-								if (!NPC.AnyNPCs(ModContent.NPCType<AquaticSeekerHead>()))
-									NPC.NewNPC((int)spawnPosition.X, (int)spawnPosition.Y, ModContent.NPCType<AquaticSeekerHead>());
-								else if (!NPC.AnyNPCs(ModContent.NPCType<AquaticUrchin>()))
-									NPC.NewNPC((int)spawnPosition.X, (int)spawnPosition.Y, ModContent.NPCType<AquaticUrchin>());
-								else if (NPC.CountNPCS(ModContent.NPCType<AquaticParasite>()) < 2)
-									NPC.NewNPC((int)spawnPosition.X, (int)spawnPosition.Y, ModContent.NPCType<AquaticParasite>());
+								offsetAngle = startAngle + deltaAngle * i;
+								int proj = Projectile.NewProjectile(vectorCenter.X, vectorCenter.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), ModContent.ProjectileType<SandBlast>(), damage, 0f, Main.myPlayer, 0f, 0f);
+								Main.projectile[proj].tileCollide = false;
 							}
 						}
 					}
@@ -117,7 +128,7 @@ namespace CalamityMod.NPCs
 					npc.rotation = (float)Math.Atan2(npc.velocity.Y, npc.velocity.X) + MathHelper.PiOver2;
 
 					// Reset and charge at target
-					if (calamityGlobalNPC.newAI[3] >= ai3 + 90f)
+					if (calamityGlobalNPC.newAI[3] >= ai3 + 120f)
 					{
 						npc.TargetClosest(true);
 						calamityGlobalNPC.newAI[3] = 0f;
@@ -170,19 +181,7 @@ namespace CalamityMod.NPCs
 
 						if (npc.localAI[0] >= (BossRushEvent.BossRushActive ? 300f : (revenge ? 360f : 420f)))
 						{
-							int npcPosX = (int)(npc.position.X + (npc.width / 2)) / 16;
-							int npcPosY = (int)(npc.position.Y + (npc.height / 2)) / 16;
-
-							if (npcPosX < 0)
-								npcPosX = 0;
-							if (npcPosX > Main.maxTilesX)
-								npcPosX = Main.maxTilesX;
-							if (npcPosY < 0)
-								npcPosY = 0;
-							if (npcPosY > Main.maxTilesY)
-								npcPosY = Main.maxTilesY;
-
-							if (!Main.tile[npcPosX, npcPosY].active() && Vector2.Distance(player.Center, npc.Center) > 300f)
+							if (Vector2.Distance(player.Center, npc.Center) > 300f)
 							{
 								npc.localAI[0] = 0f;
 								npc.netUpdate = true;
@@ -317,8 +316,11 @@ namespace CalamityMod.NPCs
 			}
 
 			// Despawn
-			bool notOcean = player.position.X > 7680f && player.position.X < (Main.maxTilesX * 16 - 7680);
-			if (player.dead || player.Calamity().ZoneAbyss || (notOcean && !BossRushEvent.BossRushActive && !player.Calamity().ZoneSulphur))
+			bool notOcean = player.position.Y < 400f ||
+				player.position.Y > Main.worldSurface * 16.0 ||
+				(player.position.X > 7680f && player.position.X < (Main.maxTilesX * 16 - 7680));
+
+			if (player.dead || (notOcean && !BossRushEvent.BossRushActive && !player.Calamity().ZoneSulphur))
 			{
 				calamityGlobalNPC.newAI[1] = 1f;
 				npc.TargetClosest(false);
@@ -3893,7 +3895,7 @@ namespace CalamityMod.NPCs
 			}
 
 			// Max spawn amount
-			int maxBirbs = phase2 ? 1 : 2;
+			int maxBirbs = revenge ? 3 : 2;
 
 			// Variable for charging
 			float chargeDistance = 600f;
@@ -4037,7 +4039,7 @@ namespace CalamityMod.NPCs
 									{
 										Vector2 spawnVector = player.Center + Vector2.Normalize(new Vector2(0f, -featherVelocity).RotatedBy(radians * i)) * distance;
 										Vector2 velocity = Vector2.Normalize(player.Center - spawnVector) * featherVelocity;
-										Projectile.NewProjectile(spawnVector, velocity, ModContent.ProjectileType<RedLightningFeather>(), damage, 0f, Main.myPlayer);
+										Projectile.NewProjectile(spawnVector, velocity, ModContent.ProjectileType<RedLightningFeather>(), damage, 0f, Main.myPlayer, 0f, phase3 ? 1f : 0f);
 									}
 								}
 							}
@@ -4328,7 +4330,7 @@ namespace CalamityMod.NPCs
 
 					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
-						bool spawnFlag = NPC.CountNPCS(ModContent.NPCType<Bumblefuck2>()) < maxBirbs && (npc.ai[1] == 140f || npc.ai[1] == 170f);
+						bool spawnFlag = NPC.CountNPCS(ModContent.NPCType<Bumblefuck2>()) < maxBirbs && (npc.ai[1] == 140f || (revenge && npc.ai[1] == 155f) || npc.ai[1] == 170f);
 						if (spawnFlag)
 						{
 							Vector2 vector7 = npc.Center + (MathHelper.TwoPi * Main.rand.NextFloat()).ToRotationVector2() * new Vector2(2f, 1f) * 50f * (0.6f + Main.rand.NextFloat() * 0.4f);

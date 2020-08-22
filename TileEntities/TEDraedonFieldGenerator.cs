@@ -66,7 +66,7 @@ namespace CalamityMod.TileEntities
             {
                 var netMessage = CalamityMod.Instance.GetPacket();
                 netMessage.Write((byte)CalamityModMessageType.DraedonFieldGeneratorSync);
-                netMessage.Write(Main.LocalPlayer.Calamity().CurrentlyViewedCharger.ID);
+                netMessage.Write(ID);
                 netMessage.Write(Time);
                 netMessage.Write(ActiveTimer);
                 netMessage.Send();
