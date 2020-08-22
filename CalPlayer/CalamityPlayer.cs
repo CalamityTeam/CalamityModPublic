@@ -123,6 +123,7 @@ namespace CalamityMod.CalPlayer
 		public bool brimlashBusterBoost = false;
 		public float animusBoost = 1f;
 		public int potionTimer = 0;
+		public bool cementShoes = false;
 		#endregion
 
         public int CurrentlyViewedFactoryX = -1;
@@ -1469,6 +1470,8 @@ namespace CalamityMod.CalPlayer
             shadowSpeed = false;
             dsSetBonus = false;
             wearingRogueArmor = false;
+
+			cementShoes = false;
 
             kingSlimeLore = false;
             desertScourgeLore = false;
@@ -3679,7 +3682,7 @@ namespace CalamityMod.CalPlayer
             if (weakPetrification)
                 WeakPetrification();
 
-            if (player.mount.Active || player.mount.Cart || (CalamityConfig.Instance.BossRushDashCurse && CalamityWorld.bossRushActive))
+            if (player.mount.Active || player.mount.Cart || cementShoes || (CalamityConfig.Instance.BossRushDashCurse && CalamityWorld.bossRushActive))
 				DashExploitFix(true);
 
             if (silvaCountdown > 0 && hasSilvaEffect && silvaSet)
@@ -3705,7 +3708,7 @@ namespace CalamityMod.CalPlayer
             if (weakPetrification)
                 WeakPetrification();
 
-			if (player.mount.Active || player.mount.Cart || (CalamityConfig.Instance.BossRushDashCurse && CalamityWorld.bossRushActive))
+			if (player.mount.Active || player.mount.Cart || cementShoes || (CalamityConfig.Instance.BossRushDashCurse && CalamityWorld.bossRushActive))
 				DashExploitFix(true);
 
 			if (silvaCountdown > 0 && hasSilvaEffect && silvaSet)
