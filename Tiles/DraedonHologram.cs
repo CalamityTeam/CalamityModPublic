@@ -3,10 +3,11 @@ using CalamityMod.TileEntities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.ModLoader;
-using Terraria.ID;
-using Terraria.ObjectData;
 using Terraria.DataStructures;
+using Terraria.Enums;
+using Terraria.ID;
+using Terraria.ModLoader;
+using Terraria.ObjectData;
 
 namespace CalamityMod.Tiles
 {
@@ -31,7 +32,8 @@ namespace CalamityMod.Tiles
             {
                 TileObjectData.newTile.CoordinateHeights[i] = 16;
             }
-            TileObjectData.newTile.HookPostPlaceMyPlayer = new PlacementHook(ModContent.GetInstance<TEDraedonHologram>().Hook_AfterPlacement, -1, 0, true);
+            TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile | AnchorType.SolidWithTop, 6, 0);
+            //TileObjectData.newTile.HookPostPlaceMyPlayer = new PlacementHook(ModContent.GetInstance<TEDraedonHologram>().Hook_AfterPlacement, -1, 0, true);
             TileObjectData.newTile.LavaDeath = false;
             TileObjectData.addTile(Type);
             animationFrameHeight = 112;
