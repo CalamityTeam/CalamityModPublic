@@ -7957,7 +7957,6 @@ namespace CalamityMod.NPCs
                     if (npc.localAI[0] >= 120f)
                     {
                         npc.localAI[0] = 0f;
-                        float num495 = BossRushEvent.BossRushActive ? 12f : 8f;
                         float num495 = BossRushEvent.BossRushActive ? 10f : 6.5f;
                         int num496 = 33;
 						if (death)
