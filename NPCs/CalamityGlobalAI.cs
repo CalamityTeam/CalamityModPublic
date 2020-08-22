@@ -4393,7 +4393,7 @@ namespace CalamityMod.NPCs
 				bool charging = Main.npc[Main.wof].ai[3] == 1f;
 
 				// Set up enraged laser firing timer
-				float enragedLaserTimer = 600f;
+				float enragedLaserTimer = 300f;
 				if (charging)
 					npc.localAI[3] = enragedLaserTimer;
 
