@@ -265,7 +265,37 @@ namespace CalamityMod
             CalamityLocalization.AddLocalizations();
 
 			On.Terraria.Player.TileInteractionsUse += Player_TileInteractionsUse;
+			On.Terraria.WorldGen.OpenDoor += LabDoorsOpen;
+			On.Terraria.WorldGen.CloseDoor += LabDoorsClose;
         }
+
+		private static bool LabDoorsOpen(On.Terraria.WorldGen.orig_OpenDoor orig, int i, int j, int direction)
+		{
+			Tile tile = Main.tile[i, j];
+			if (tile.type == ModContent.TileType<AgedLaboratoryDoorOpen>() || tile.type == ModContent.TileType<AgedLaboratoryDoorClosed>() ||
+			tile.type == ModContent.TileType<LaboratoryDoorOpen>() || tile.type == ModContent.TileType<LaboratoryDoorClosed>())
+			{
+				return false;
+			}
+			else
+			{
+				return orig(i, j, direction);
+			}
+		}
+
+		private static bool LabDoorsClose(On.Terraria.WorldGen.orig_CloseDoor orig, int i, int j, bool forced)
+		{
+			Tile tile = Main.tile[i, j];
+			if (tile.type == ModContent.TileType<AgedLaboratoryDoorOpen>() || tile.type == ModContent.TileType<AgedLaboratoryDoorClosed>() ||
+			tile.type == ModContent.TileType<LaboratoryDoorOpen>() || tile.type == ModContent.TileType<LaboratoryDoorClosed>())
+			{
+				return false;
+			}
+			else
+			{
+				return orig(i, j, forced);
+			}
+		}
 
 		private static void Player_TileInteractionsUse(On.Terraria.Player.orig_TileInteractionsUse orig, Player player, int i, int j)
 		{
@@ -292,9 +322,9 @@ namespace CalamityMod
 			}
 		}
 
-		private static void DoorSwap(int type1, int type2, int i, int j)
+		public static void DoorSwap(int type1, int type2, int i, int j, bool forced = false)
 		{
-			if (PlayerInput.Triggers.JustPressed.MouseRight)
+			if (PlayerInput.Triggers.JustPressed.MouseRight || forced)
 			{
 				ushort type = (ushort)type1;
 				short frameY = 0;
