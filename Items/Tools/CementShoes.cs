@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Tools
         {
             DisplayName.SetDefault("Cement Shoes");
             Tooltip.SetDefault("So heavy...\n" +
-                "Favorite this item to disable all dashing.");
+                "Favorite this item to disable any dashes granted by equipment.");
         }
 
         public override void SetDefaults()
