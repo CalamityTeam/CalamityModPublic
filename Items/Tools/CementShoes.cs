@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Tools
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddRecipeGroup("SiltGroup", 20);
-            recipe.AddIngredient(ItemID.Stone, 20);
+            recipe.AddIngredient(ItemID.StoneBlock, 20);
             recipe.AddTile(TileID.Furnaces);
             recipe.SetResult(this);
             recipe.AddRecipe();
