@@ -1005,6 +1005,8 @@ namespace CalamityMod.CalPlayer
 				modPlayer.omegaBlueCooldown--;
 			if (modPlayer.plagueReaperCooldown > 0)
 				modPlayer.plagueReaperCooldown--;
+			if (modPlayer.brimflameFrenzyTimer > 0)
+				modPlayer.brimflameFrenzyTimer--;
 			if (modPlayer.roverDrive)
 			{
 				if (modPlayer.roverDriveTimer < CalamityUtils.SecondsToFrames(30f))
@@ -1867,7 +1869,8 @@ namespace CalamityMod.CalPlayer
 			{
 				modPlayer.brimflameFrenzy = false;
 				player.ClearBuff(ModContent.BuffType<BrimflameFrenzyBuff>());
-				player.AddBuff(ModContent.BuffType<BrimflameFrenzyCooldown>(), 30 * 60, true);
+				player.AddBuff(ModContent.BuffType<BrimflameFrenzyCooldown>(), BrimflameScowl.CooldownLength, true);
+				modPlayer.brimflameFrenzyTimer = BrimflameScowl.CooldownLength;
 			}
 			if (!modPlayer.bloodflareMelee && modPlayer.bloodflareFrenzy)
 			{

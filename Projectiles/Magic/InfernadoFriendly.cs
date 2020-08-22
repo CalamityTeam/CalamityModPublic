@@ -103,7 +103,14 @@ namespace CalamityMod.Projectiles.Magic
                 float num618 = ((float)(num613 + num614) - projectile.ai[1] + 1f) * num615 / (float)(num614 + num613);
                 center.Y -= (float)num617 * num618 / 2f;
                 center.Y += 2f;
-                Projectile.NewProjectile(center.X, center.Y, projectile.velocity.X, projectile.velocity.Y, projectile.type, projectile.damage, projectile.knockBack, projectile.owner, 10f, projectile.ai[1] - 1f);
+				Projectile segment = Projectile.NewProjectileDirect(center, projectile.velocity, projectile.type, projectile.damage, projectile.knockBack, projectile.owner, 10f, projectile.ai[1] - 1f);
+				//Defaults to magic
+				segment.Calamity().forceMelee = projectile.Calamity().forceMelee;
+				segment.Calamity().forceRanged = projectile.Calamity().forceRanged;
+				segment.Calamity().forceMinion = projectile.Calamity().forceMinion;
+				segment.Calamity().forceRogue = projectile.Calamity().forceRogue;
+				segment.Calamity().forceTypeless = projectile.Calamity().forceTypeless;
+				segment.Calamity().forceHostile = projectile.Calamity().forceHostile;
             }
             if (projectile.ai[0] <= 0f)
             {

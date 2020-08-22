@@ -66,9 +66,6 @@ namespace CalamityMod.Projectiles.Rogue
         public override void Kill(int timeLeft)
         {
             Main.PlaySound(SoundID.Item54, projectile.position);
-            projectile.position = projectile.Center;
-            projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
-            projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
 			int num190 = Main.rand.Next(5, 9);
 			for (int num191 = 0; num191 < num190; num191++)
 			{
