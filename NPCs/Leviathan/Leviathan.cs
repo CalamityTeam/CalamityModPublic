@@ -718,19 +718,11 @@ namespace CalamityMod.NPCs.Leviathan
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
-            Texture2D texture = Main.npcTexture[npc.type];
-            if (npc.ai[0] == 1f || npc.Calamity().newAI[3] < 180f)
+            Texture2D texture = ModContent.GetTexture("CalamityMod/NPCs/Leviathan/LeviathanAttack");
+			if (npc.ai[0] == 1f || npc.Calamity().newAI[3] < 180f)
             {
 				texture = Main.npcTexture[npc.type];
             }
-            else
-            {
-				texture = ModContent.GetTexture("CalamityMod/NPCs/Leviathan/LeviathanAttack");
-            }
-			int verticalFrameCount = 3;
-			int horizontalFrameCount = 2;
-            int height = texture.Height / verticalFrameCount;
-            int width = texture.Width / horizontalFrameCount;
 			SpriteEffects spriteEffects = SpriteEffects.FlipHorizontally;
 			float xOffset = -50f;
 			if (npc.spriteDirection == -1)
@@ -738,48 +730,37 @@ namespace CalamityMod.NPCs.Leviathan
 				spriteEffects = SpriteEffects.None;
 				xOffset *= -1f;
 			}
-            Main.spriteBatch.Draw(texture, npc.Center - Main.screenPosition + new Vector2(xOffset, npc.gfxOffY), npc.frame, npc.GetAlpha(drawColor), npc.rotation, new Vector2(width / 2f, height / 2f), npc.scale, spriteEffects, 0f);
+			Rectangle rectangle = new Rectangle(npc.frame.X, npc.frame.Y, texture.Width / 2, texture.Height / 3);
+			Vector2 origin = rectangle.Size() / 2f;
+			spriteBatch.Draw(texture, npc.Center - Main.screenPosition + new Vector2(xOffset, npc.gfxOffY), rectangle, npc.GetAlpha(drawColor), npc.rotation, origin, npc.scale, spriteEffects, 0f);
             return false;
         }
 
         public override void FindFrame(int frameHeight)
         {
-			Texture2D texture = Main.npcTexture[npc.type];
-			if (npc.ai[0] == 1f || npc.Calamity().newAI[3] < 180f)
-			{
-				texture = Main.npcTexture[npc.type];
-			}
-			else
-			{
-				texture = ModContent.GetTexture("CalamityMod/NPCs/Leviathan/LeviathanAttack");
-			}
-			int horizontalFrameCount = 2;
-			int verticalFrameCount = 3;
-			int width = texture.Width / horizontalFrameCount;
-			int height = texture.Height / verticalFrameCount;
-			int timeBetweenFrames = 8;
+			int width = 1011;
+			int height = 486;
 
             if (!initialised)
             {
-                counter = verticalFrameCount;
-                npc.frameCounter = timeBetweenFrames;
+                counter = 3;
+                npc.frameCounter = 8D;
                 initialised = true;
             }
 
-            // Ensure width and height are set.
-            npc.frame.Width = width;
-            npc.frame.Height = height;
-            npc.frameCounter++;
-            if (npc.frameCounter >= timeBetweenFrames)
-            {
-                npc.frame.X = counter >= verticalFrameCount ? width + 3 : 0;
-                if (counter == verticalFrameCount)
-                    npc.frame.Y = 0;
-                else
-                    npc.frame.Y += height;
-                npc.frameCounter = 0;
-                counter++;
-            }
+			npc.frameCounter += 1D;
+			if (npc.frameCounter >= 8D)
+			{
+				npc.frameCounter = 0D;
+				counter++;
+				npc.frame.X = counter >= 3 ? width + 3 : 0;
+
+				if (counter == 3)
+					npc.frame.Y = 0;
+				else
+					npc.frame.Y += height;
+			}
+
             if (counter == Main.npcFrameCount[npc.type])
             {
                 counter = 1;
