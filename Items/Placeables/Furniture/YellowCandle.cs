@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Placeables.Furniture
         {
             DisplayName.SetDefault("Spiteful Candle");
             Tooltip.SetDefault("When placed, nearby enemies take 5% more damage.\n" +
-                "This extra damage bypasses enemy damage reduction\n" +
+                "This extra damage bypasses enemy damage reduction and defense\n" +
                 "'Its hateful glow flickers with ire'");
         }
 
