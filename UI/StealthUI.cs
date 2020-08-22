@@ -38,16 +38,17 @@ namespace CalamityMod.UI
 			Texture2D indicatorTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/StealthMeterStrikeIndicator");
 			Texture2D barTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/StealthMeterBar");
 			Texture2D fullBarTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/StealthMeterBarFull");
-			spriteBatch.Draw(edgeTexture, DrawPosition, null, Color.White * modPlayer.stealthUIAlpha, 0f, edgeTexture.Size() * 0.5f, 1f, SpriteEffects.None, 0);
+			float uiScale = Main.UIScale;
+			spriteBatch.Draw(edgeTexture, DrawPosition, null, Color.White * modPlayer.stealthUIAlpha, 0f, edgeTexture.Size() * 0.5f, uiScale, SpriteEffects.None, 0);
 			if (modPlayer.StealthStrikeAvailable())
 			{
-				spriteBatch.Draw(indicatorTexture, DrawPosition, null, Color.White * modPlayer.stealthUIAlpha, 0f, indicatorTexture.Size() * 0.5f, 1f, SpriteEffects.None, 0);
+				spriteBatch.Draw(indicatorTexture, DrawPosition, null, Color.White * modPlayer.stealthUIAlpha, 0f, indicatorTexture.Size() * 0.5f, uiScale, SpriteEffects.None, 0);
 			}
 
 			float completionRatio = modPlayer.rogueStealth / modPlayer.rogueStealthMax;
 			Rectangle barRectangle = new Rectangle(0, 0, (int)(barTexture.Width * completionRatio), barTexture.Width);
 			bool full = modPlayer.rogueStealth >= modPlayer.rogueStealthMax;
-			spriteBatch.Draw(full ? fullBarTexture : barTexture, DrawPosition, barRectangle, Color.White * modPlayer.stealthUIAlpha, 0f, indicatorTexture.Size() * 0.5f, 1f, SpriteEffects.None, 0);
+			spriteBatch.Draw(full ? fullBarTexture : barTexture, DrawPosition, barRectangle, Color.White * modPlayer.stealthUIAlpha, 0f, indicatorTexture.Size() * 0.5f, uiScale, SpriteEffects.None, 0);
 			if (new Rectangle((int)(DrawPosition.X + Main.screenPosition.X - player.width / 2), (int)(DrawPosition.Y + Main.screenPosition.Y), barTexture.Width, barTexture.Height).Intersects(
 				new Rectangle((int)Main.MouseWorld.X, (int)Main.MouseWorld.Y, 8, 8)))
 			{

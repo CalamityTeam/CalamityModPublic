@@ -98,15 +98,17 @@ namespace CalamityMod.UI
                 }
             }
 
+			float uiScale = Main.UIScale;
+
             // Draw the border of the Rage Bar first
-            spriteBatch.Draw(borderTex, rageDrawPos + shakeOffset, Color.White);
+            spriteBatch.Draw(borderTex, rageDrawPos + shakeOffset, null, Color.White, 0f, borderTex.Size() * 0.5f, uiScale, SpriteEffects.None, 0);
 
             // The amount of the bar to draw depends on the player's current Rage level
             // 7 pixels of dead space, 90 pixels of bar, 7 pixels of dead space. Bar is 24 pixels tall
             int deadSpace = 7;
             int barWidth = barTex.Width - 2 * deadSpace;
             Rectangle cropRect = new Rectangle(0, 0, deadSpace + (int)(barWidth * rageRatio), barTex.Height);
-            spriteBatch.Draw(barTex, rageDrawPos + shakeOffset, cropRect, Color.White);
+            spriteBatch.Draw(barTex, rageDrawPos + shakeOffset, cropRect, Color.White, 0f, borderTex.Size() * 0.5f, uiScale, SpriteEffects.None, 0);
 
             // If the animation is active, draw the animation on top of both the border and the bar.
             if (animationActive)
@@ -116,7 +118,7 @@ namespace CalamityMod.UI
                 float yOffset = (borderTex.Height - frameHeight) / 2f;
                 Vector2 sizeDiffOffset = new Vector2(xOffset, yOffset);
                 Rectangle animCropRect = new Rectangle(0, (frameHeight + 1) * rageAnimFrame, animTex.Width, frameHeight);
-                spriteBatch.Draw(animTex, rageDrawPos + shakeOffset + sizeDiffOffset, animCropRect, Color.White);
+                spriteBatch.Draw(animTex, rageDrawPos + shakeOffset + sizeDiffOffset, animCropRect, Color.White, 0f, borderTex.Size() * 0.5f, uiScale, SpriteEffects.None, 0);
             }
         }
 
@@ -145,15 +147,17 @@ namespace CalamityMod.UI
                 }
             }
 
+			float uiScale = Main.UIScale;
+
             // Draw the border of the Adrenaline Bar first
-            spriteBatch.Draw(borderTex, adrenDrawPos + shakeOffset, Color.White);
+            spriteBatch.Draw(borderTex, adrenDrawPos + shakeOffset, null, Color.White, 0f, borderTex.Size() * 0.5f, uiScale, SpriteEffects.None, 0);
 
             // The amount of the bar to draw depends on the player's current Adrenaline level
             // 7 pixels of dead space, 90 pixels of bar, 7 pixels of dead space.
             int deadSpace = 7;
             int barWidth = barTex.Width - 2 * deadSpace;
             Rectangle cropRect = new Rectangle(0, 0, deadSpace + (int)(barWidth * adrenRatio), barTex.Height);
-            spriteBatch.Draw(barTex, adrenDrawPos + shakeOffset, cropRect, Color.White);
+            spriteBatch.Draw(barTex, adrenDrawPos + shakeOffset, cropRect, Color.White, 0f, borderTex.Size() * 0.5f, uiScale, SpriteEffects.None, 0);
 
             // If the animation is active, draw the animation on top of both the border and the bar.
             if (animationActive)
@@ -163,12 +167,13 @@ namespace CalamityMod.UI
                 float yOffset = (borderTex.Height - frameHeight) / 2f;
                 Vector2 sizeDiffOffset = new Vector2(xOffset, yOffset);
                 Rectangle animCropRect = new Rectangle(0, (frameHeight + 1) * adrenAnimFrame, animTex.Width, frameHeight);
-                spriteBatch.Draw(animTex, adrenDrawPos + shakeOffset + sizeDiffOffset, animCropRect, Color.White);
+                spriteBatch.Draw(animTex, adrenDrawPos + shakeOffset + sizeDiffOffset, animCropRect, Color.White, 0f, borderTex.Size() * 0.5f, uiScale, SpriteEffects.None, 0);
             }
         }
 
         private static void HandleMouseInteraction(CalamityPlayer modPlayer, Vector2 rageBarSize, Vector2 adrenBarSize)
         {
+			float uiScale = Main.UIScale;
             Rectangle mouse = new Rectangle((int)Main.MouseScreen.X, (int)Main.MouseScreen.Y, 8, 8);
             Rectangle rageBar = new Rectangle((int)rageDrawPos.X, (int)rageDrawPos.Y, (int)rageBarSize.X, (int)rageBarSize.Y);
             Rectangle adrenBar = new Rectangle((int)adrenDrawPos.X, (int)adrenDrawPos.Y, (int)adrenBarSize.X, (int)adrenBarSize.Y);
