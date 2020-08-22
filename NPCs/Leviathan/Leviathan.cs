@@ -744,6 +744,10 @@ namespace CalamityMod.NPCs.Leviathan
 
         public override void FindFrame(int frameHeight)
         {
+            // Don't run texture related code on the server since textures do not exist there.
+            if (Main.netMode == NetmodeID.Server)
+                return;
+
 			Texture2D texture = Main.npcTexture[npc.type];
 			if (npc.ai[0] == 1f || npc.Calamity().newAI[3] < 180f)
 			{
