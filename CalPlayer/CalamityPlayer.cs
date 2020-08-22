@@ -944,6 +944,7 @@ namespace CalamityMod.CalPlayer
         public bool plaguebringerPatronSummon = false;
         public bool howlTrio = false;
         public bool mountedScanner = false;
+        public bool viridVanguard = false;
         #endregion
 
         #region Biome
@@ -1964,6 +1965,7 @@ namespace CalamityMod.CalPlayer
 			plaguebringerPatronSummon = false;
 			howlTrio = false;
             mountedScanner = false;
+            viridVanguard = false;
 
             abyssalDivingSuitPrevious = abyssalDivingSuit;
             abyssalDivingSuit = abyssalDivingSuitHide = abyssalDivingSuitForce = abyssalDivingSuitPower = false;
