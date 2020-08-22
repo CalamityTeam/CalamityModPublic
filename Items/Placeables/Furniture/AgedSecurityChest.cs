@@ -21,6 +21,7 @@ namespace CalamityMod.Items.Placeables.Furniture
             item.useAnimation = 15;
             item.useTime = 14;
             item.rare = 2;
+            item.Calamity().customRarity = CalamityRarity.DraedonRust;
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
             item.value = 500;
