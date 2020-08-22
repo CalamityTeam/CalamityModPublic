@@ -16,23 +16,14 @@ namespace CalamityMod.Items.Tools
 
         public override void SetDefaults()
         {
-            item.width = 20;
-            item.height = 20;
+            item.width = 32;
+            item.height = 30;
             item.rare = 1;
-            item.consumable = false;
         }
 
-        public override bool CanUseItem(Player player)
-        {
-            return false;
-        }
+        public override bool CanUseItem(Player player) => false;
 
-        public override void UpdateInventory(Player player)
-        {
-            CalamityPlayer modPlayer = player.Calamity();
-			if (item.favorited)
-				modPlayer.cementShoes = true;
-        }
+        public override void UpdateInventory(Player player) => player.Calamity().cementShoes = true;
 
         public override void AddRecipes()
         {
