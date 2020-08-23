@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Placeables
 
             item.rare = ItemRarityID.Red;
             item.Calamity().customRarity = CalamityRarity.DraedonRust;
-			item.value = Item.buyPrice(gold: 50);
+			//item.value = Item.buyPrice(gold: 5);
         }
     }
 }
