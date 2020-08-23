@@ -172,7 +172,7 @@ namespace CalamityMod.NPCs
 								break;
 
 							case 1:
-								npc.GivenName = "Toxin";
+								npc.GivenName = "Toxin"; // patron name for <@!348174404984766465> (Toxin#9598)
 								break;
 
 							default:
