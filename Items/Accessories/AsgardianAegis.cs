@@ -50,8 +50,7 @@ namespace CalamityMod.Items.Accessories
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            if (!hideVisual)
-            { modPlayer.dashMod = 4; }
+			modPlayer.dashMod = 4;
             modPlayer.elysianAegis = true;
             player.noKnockback = true;
             player.fireWalk = true;
