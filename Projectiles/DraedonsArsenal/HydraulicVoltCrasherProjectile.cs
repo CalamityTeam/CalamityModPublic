@@ -113,7 +113,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             for (int i = 0; i < Main.npc.Length; i++)
             {
                 if (i != target.whoAmI &&
-                    target.CanBeChasedBy(projectile, false) &&
+                    Main.npc[i].CanBeChasedBy(projectile, false) &&
                     Main.npc[i].Distance(target.Center) < 240f)
                 {
                     if (TryToSuperchargeNPC(Main.npc[i]))

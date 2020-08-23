@@ -165,10 +165,14 @@ namespace CalamityMod.NPCs
 						if (CalamityWorld.witchDoctorName)
 							break;
 						CalamityWorld.witchDoctorName = true;
-						switch (Main.rand.Next(11)) // 10 witch doctor names
+						switch (Main.rand.Next(12)) // 10 witch doctor names
 						{
 							case 0:
 								npc.GivenName = "Sok'ar";
+								break;
+
+							case 1:
+								npc.GivenName = "Toxin"; // patron name for <@!348174404984766465> (Toxin#9598)
 								break;
 
 							default:

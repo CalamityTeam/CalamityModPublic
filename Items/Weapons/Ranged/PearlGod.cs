@@ -18,8 +18,8 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             item.damage = 40;
             item.ranged = true;
-            item.width = 50;
-            item.height = 32;
+            item.width = 54;
+            item.height = 38;
             item.useTime = 12;
             item.useAnimation = 12;
             item.useStyle = ItemUseStyleID.HoldingOut;
