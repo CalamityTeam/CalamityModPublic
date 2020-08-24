@@ -3715,9 +3715,6 @@ namespace CalamityMod.CalPlayer
             if (weakPetrification)
                 WeakPetrification();
 
-            if (player.mount.Active || player.mount.Cart || cementShoes || (CalamityConfig.Instance.BossRushDashCurse && BossRushEvent.BossRushActive))
-				DashExploitFix(true);
-
             if (silvaCountdown > 0 && hasSilvaEffect && silvaSet)
             {
                 if (player.lifeRegen < 0)
@@ -3741,9 +3738,6 @@ namespace CalamityMod.CalPlayer
             if (weakPetrification)
                 WeakPetrification();
 
-			if (player.mount.Active || player.mount.Cart || cementShoes || (CalamityConfig.Instance.BossRushDashCurse && BossRushEvent.BossRushActive))
-				DashExploitFix(true);
-
 			if (silvaCountdown > 0 && hasSilvaEffect && silvaSet)
             {
                 if (player.lifeRegen < 0)
@@ -3756,23 +3750,6 @@ namespace CalamityMod.CalPlayer
             if (player.ownedProjectileCounts[ModContent.ProjectileType<GiantIbanRobotOfDoom>()] > 0)
                 player.yoraiz0rEye = 0;
         }
-		#endregion
-
-		#region Dash Exploit Fix
-		private void DashExploitFix(bool mount)
-		{
-			if (player.dashDelay != 0)
-			{
-				player.velocity *= 0.3f;
-				player.dashDelay = 0;
-			}
-
-			if (!mount)
-				return;
-
-			player.dash = 0;
-			dashMod = 0;
-		}
 		#endregion
 
 		#region PostUpdate
