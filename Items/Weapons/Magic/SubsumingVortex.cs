@@ -14,16 +14,16 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Subsuming Vortex");
-            Tooltip.SetDefault("Fires a giant slow-moving vortex\n" +
-                               "When an enemy is nearby, the vortex releases tentacles that redirect towards the enemy.\n" +
-                               "After some time, the vortex slows down, charges, and eventually explodes.");
+            Tooltip.SetDefault("Releases a gigantic, slow-moving vortex\n" +
+                               "The vortex releases exo tentacles that thrash at nearby enemies\n" +
+                               "After a few seconds the vortex slows down, becomes unstable, and explodes");
         }
 
         public override void SetDefaults()
         {
             item.damage = 1000;
             item.magic = true;
-            item.mana = 30;
+            item.mana = 78;
             item.width = 38;
             item.height = 48;
             item.UseSound = SoundID.Item84;
@@ -31,12 +31,12 @@ namespace CalamityMod.Items.Weapons.Magic
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 5f;
-            item.value = Item.buyPrice(2, 50, 0, 0);
-            item.rare = 10;
+            item.rare = ItemRarityID.Red;
+            item.Calamity().customRarity = CalamityRarity.Violet;
+            item.value = Item.buyPrice(platinum: 2, gold: 50);
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<EnormousConsumingVortex>();
             item.shootSpeed = 7f;
-            item.Calamity().customRarity = CalamityRarity.Violet;
         }
 
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)

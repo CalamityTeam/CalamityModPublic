@@ -42,8 +42,8 @@ namespace CalamityMod.Projectiles.Magic
             projectile.MaxUpdates = 2;
             projectile.magic = true;
             projectile.penetrate = -1;
-            projectile.usesIDStaticNPCImmunity = true;
-            projectile.idStaticNPCHitCooldown = 10;
+            projectile.usesLocalNPCImmunity = true;
+            projectile.localNPCHitCooldown = 16;
         }
 
         public override void AI()
