@@ -1,8 +1,8 @@
+using CalamityMod.Items.DraedonMisc;
 using CalamityMod.Items.Placeables;
 using CalamityMod.TileEntities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System.Linq;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.Enums;
@@ -12,12 +12,24 @@ using Terraria.ObjectData;
 
 namespace CalamityMod.Tiles
 {
-    public class DraedonFuelFactory : ModTile
+    public class PowerCellFactory : ModTile
     {
         public const int Width = 4;
         public const int Height = 4;
-        public const int CellCreationDelay = 600;
+
+        // The number of animation frames is 45. Cells are created on animation frame 42.
         public const int TotalFrames = 45;
+        private const int FramesPerColumn = 15;
+        public const int AnimationFramerate = 5;
+
+        // 45 * 5 + 675 = 900 = 15 seconds per complete cell cycle.
+        // There are this many frames of downtime between cell creations.
+        public const int BetweenCellDowntime = 675;
+        // The cell is created on this animation frame.
+        public const int CellCreateFrame = 42;
+        // With a delay of this many extra frames after that animation frame starts.
+        public const int MagicFrameDelay = AnimationFramerate - 1;
+
         public override void SetDefaults()
         {
             Main.tileLighted[Type] = true;
@@ -31,29 +43,24 @@ namespace CalamityMod.Tiles
             TileObjectData.newTile.Origin = new Point16(0, 3);
             TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile | AnchorType.SolidWithTop | AnchorType.SolidSide, TileObjectData.newTile.Width, 0);
             TileObjectData.newTile.CoordinateHeights = new int[] { 16, 16, 16, 16 };
-            TileObjectData.newTile.HookPostPlaceMyPlayer = new PlacementHook(ModContent.GetInstance<TEDraedonFuelFactory>().Hook_AfterPlacement, -1, 0, true);
+            TileObjectData.newTile.HookPostPlaceMyPlayer = new PlacementHook(ModContent.GetInstance<TEPowerCellFactory>().Hook_AfterPlacement, -1, 0, true);
             TileObjectData.newTile.LavaDeath = false;
             TileObjectData.addTile(Type);
             ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Fuel Factory");
+            name.SetDefault("Power Cell Factory");
             AddMapEntry(new Color(67, 72, 81), name);
             animationFrameHeight = 68;
         }
 
         public override bool CanExplode(int i, int j) => false;
 
-        public TEDraedonFuelFactory RetrieveTileEntity(int i, int j)
+        public TEPowerCellFactory RetrieveTileEntity(int i, int j)
         {
-            // This is very fucking important. ByID and ByPostion can apparently be different and as a result using both together is fucking unreliable.
+            // Find the top left corner of the FrameImportant tile that the player clicked on in the world.
             int left = i - Main.tile[i, j].frameX % (Width * 18) / 18;
             int top = j - Main.tile[i, j].frameY % (Height * 18) / 18;
-            if (!TileEntity.ByID.Any(tileEntity => tileEntity.Value.Position == new Point16(left, top)))
-            {
-                var factory = ModTileEntity.ConstructFromType(ModContent.TileEntityType<TEDraedonFuelFactory>());
-                factory.Position = new Point16(left, top);
-                TileEntity.ByID[TileEntity.ByID.Count] = factory;
-            }
-            return (TEDraedonFuelFactory)TileEntity.ByID.Where(tileEntity => tileEntity.Value.Position == new Point16(left, top)).First().Value;
+            TileEntity te = TileEntity.ByPosition[new Point16(left, top)];
+            return te is TEPowerCellFactory factory ? factory : null;
         }
 
         public override bool CreateDust(int i, int j, ref int type)
@@ -71,48 +78,28 @@ namespace CalamityMod.Tiles
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(i * 16, j * 16, 32, 32, ModContent.ItemType<DraedonsFuelFactoryItem>());
+            // Drop the factory itself.
+            Item.NewItem(i * 16, j * 16, 32, 32, ModContent.ItemType<PowerCellFactoryItem>());
+
             int left = i - Main.tile[i, j].frameX % (Width * 18) / 18;
             int top = j - Main.tile[i, j].frameY % (Height * 18) / 18;
 
-            TEDraedonFuelFactory factory = RetrieveTileEntity(i, j);
-            if (factory.HeldItem.stack > 0)
-            {
-                Item.NewItem(new Vector2(i, j) * 16f, factory.HeldItem.type, factory.HeldItem.stack);
-            }
+            // Drop any cells contained in the factory.
+            TEPowerCellFactory factory = RetrieveTileEntity(i, j);
+            int numCells = factory.CellStack;
+            if (numCells > 0)
+                Item.NewItem(new Vector2(i, j) * 16f, ModContent.ItemType<PowerCell>(), numCells);
+
             factory.Kill(left, top);
-        }
-
-        public override void AnimateTile(ref int frame, ref int frameCounter)
-        {
-            frameCounter++;
-
-            // After CellCreationDelay frames, start the fuel cell generation animation, and make one at the end.
-            // Otherwise, just continue waiting.
-            if (frameCounter % (CellCreationDelay + TotalFrames * 5 + 5) >= CellCreationDelay)
-            {
-                if (frameCounter % 5 == 4)
-                {
-                    frame++;
-                    if (frame >= TotalFrames)
-                    {
-                        frame = 0;
-                    }
-                }
-            }
-            else
-            {
-                frame = TotalFrames - 1;
-            }
         }
 
         public override bool NewRightClick(int i, int j)
         {
             int left = i - Main.tile[i, j].frameX % (Width * 18) / 18;
             int top = j - Main.tile[i, j].frameY % (Height * 18) / 18;
+            TEPowerCellFactory factory = RetrieveTileEntity(i, j);
 
             Player player = Main.LocalPlayer;
-            TEDraedonFuelFactory factory = RetrieveTileEntity(i, j);
             Main.mouseRightRelease = false;
 
             if (player.sign >= 0)
@@ -150,22 +137,31 @@ namespace CalamityMod.Tiles
             Recipe.FindRecipes();
             return true;
         }
+
+        // All tile drawcode is done manually because the tile's animation is controlled by a tile entity.
         public override bool PreDraw(int i, int j, SpriteBatch spriteBatch)
         {
-            Tile trackTile = Main.tile[i, j];
-            int xPos = Main.tile[i, j].frameX;
-            int yPos = Main.tile[i, j].frameY;
-            xPos += Main.tileFrame[trackTile.type] / 15 * 72;
-            yPos += Main.tileFrame[trackTile.type] % 15 * 72;
-            Texture2D glowmask = ModContent.GetTexture("CalamityMod/Tiles/DraedonFuelFactory");
+            Tile theTile = Main.tile[i, j];
+
+            // These offsets start as the tile offsets, i.e. which sub-tile of the FrameImportant structure this specific location is.
+            int frameXPos = Main.tile[i, j].frameX;
+            int frameYPos = Main.tile[i, j].frameY;
+
+            // Grab the tile entity because its internal timer controls the animation.
+            TEPowerCellFactory factory = RetrieveTileEntity(i, j);
+            int frameIndex = factory.AnimationFrame;
+            frameXPos += frameIndex / FramesPerColumn * 72;
+            frameYPos += frameIndex % FramesPerColumn * 72;
+
+            Texture2D tex = ModContent.GetTexture("CalamityMod/Tiles/PowerCellFactory");
             Vector2 offset = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
             Vector2 drawOffset = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y) + offset;
             Color drawColor = Lighting.GetColor(i, j);
 
-            if (!trackTile.halfBrick() && trackTile.slope() == 0)
-                spriteBatch.Draw(glowmask, drawOffset, new Rectangle(xPos, yPos, 16, 16), drawColor, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
-            else if (trackTile.halfBrick())
-                spriteBatch.Draw(glowmask, drawOffset + Vector2.UnitY * 8f, new Rectangle(xPos, yPos, 16, 16), drawColor, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
+            if (!theTile.halfBrick() && theTile.slope() == 0)
+                spriteBatch.Draw(tex, drawOffset, new Rectangle(frameXPos, frameYPos, 16, 16), drawColor, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
+            else if (theTile.halfBrick())
+                spriteBatch.Draw(tex, drawOffset + Vector2.UnitY * 8f, new Rectangle(frameXPos, frameYPos, 16, 16), drawColor, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
             return false;
         }
     }

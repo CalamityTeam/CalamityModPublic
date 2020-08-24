@@ -957,7 +957,7 @@ namespace CalamityMod
 
                 layers.Insert(mouseIndex, new LegacyGameInterfaceLayer("Draedon Factory Tiles", () =>
                 {
-                    DraedonsFactoryUI.Draw(Main.spriteBatch);
+                    CellFactoryUI.Draw(Main.spriteBatch);
                     DraedonsItemChargerUI.Draw(Main.spriteBatch);
                     return true;
                 }, InterfaceScaleType.Game)); // InterfaceScaleType.Game tells the game that this UI should take zoom into account.

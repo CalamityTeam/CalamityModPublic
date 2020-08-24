@@ -130,7 +130,7 @@ namespace CalamityMod.CalPlayer
 
         public int CurrentlyViewedFactoryX = -1;
         public int CurrentlyViewedFactoryY = -1;
-        public TEDraedonFuelFactory CurrentlyViewedFactory;
+        public TEPowerCellFactory CurrentlyViewedFactory;
 
         public int CurrentlyViewedChargerX = -1;
         public int CurrentlyViewedChargerY = -1;
