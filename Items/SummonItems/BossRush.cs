@@ -1,3 +1,4 @@
+using CalamityMod.Events;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -40,10 +41,10 @@ namespace CalamityMod.Items.SummonItems
                     Main.npc[doom].netUpdate = true;
                 }
             }
-            if (!CalamityWorld.bossRushActive)
+            if (!BossRushEvent.BossRushActive)
             {
-                CalamityWorld.bossRushStage = 0;
-                CalamityWorld.bossRushActive = true;
+                BossRushEvent.BossRushStage = 0;
+                BossRushEvent.BossRushActive = true;
                 string key = "Mods.CalamityMod.BossRushStartText";
                 Color messageColor = Color.LightCoral;
                 if (Main.netMode == NetmodeID.SinglePlayer)
@@ -57,16 +58,16 @@ namespace CalamityMod.Items.SummonItems
             }
             else
             {
-                CalamityWorld.bossRushStage = 0;
-                CalamityWorld.bossRushActive = false;
+                BossRushEvent.BossRushStage = 0;
+                BossRushEvent.BossRushActive = false;
             }
 
-            CalamityMod.UpdateServerBoolean();
+            CalamityNetcode.SyncWorld();
             if (Main.netMode == NetmodeID.Server)
             {
                 var netMessage = mod.GetPacket();
                 netMessage.Write((byte)CalamityModMessageType.BossRushStage);
-                netMessage.Write(CalamityWorld.bossRushStage);
+                netMessage.Write(BossRushEvent.BossRushStage);
                 netMessage.Send();
             }
             return true;

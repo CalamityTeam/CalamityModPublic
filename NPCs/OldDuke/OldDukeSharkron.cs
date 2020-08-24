@@ -9,6 +9,7 @@ using Terraria.ModLoader;
 using CalamityMod.Dusts;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
+using CalamityMod.Events;
 
 namespace CalamityMod.NPCs.OldDuke
 {
@@ -30,7 +31,7 @@ namespace CalamityMod.NPCs.OldDuke
 			npc.damage = 180;
 			npc.defense = 100;
 			npc.lifeMax = 8000;
-			if (CalamityWorld.bossRushActive)
+			if (BossRushEvent.BossRushActive)
 			{
 				npc.lifeMax = 100000;
 			}

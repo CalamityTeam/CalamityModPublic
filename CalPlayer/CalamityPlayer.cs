@@ -66,6 +66,7 @@ using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 using CalamityMod.Projectiles.DraedonsArsenal;
+using CalamityMod.Events;
 
 namespace CalamityMod.CalPlayer
 {
@@ -675,8 +676,8 @@ namespace CalamityMod.CalPlayer
         public bool fathomSwarmerVisage = false;
         public bool fathomSwarmerBreastplate = false;
         public bool fathomSwarmerTail = false;
-		int tailFrameUp = 0;
-		int tailFrame = 0;
+        public int tailFrameUp = 0;
+		public int tailFrame = 0;
         public bool astralStarRain = false;
         public int astralStarRainCooldown = 0;
         public bool plagueReaper = false;
@@ -1345,7 +1346,7 @@ namespace CalamityMod.CalPlayer
                 player.extraAccessorySlots = 1;
             if (extraAccessoryML && player.extraAccessory && (Main.expertMode || Main.gameMenu))
                 player.extraAccessorySlots = 2;
-            if (CalamityWorld.bossRushActive)
+            if (BossRushEvent.BossRushActive)
             {
                 if (CalamityConfig.Instance.BossRushAccessoryCurse)
                 {
@@ -2378,18 +2379,18 @@ namespace CalamityMod.CalPlayer
 			animusBoost = 1f;
 			potionTimer = 0;
 
-            if (CalamityWorld.bossRushActive)
+            if (BossRushEvent.BossRushActive)
             {
                 if (!CalamityGlobalNPC.AnyLivingPlayers())
                 {
-                    CalamityWorld.bossRushActive = false;
-                    CalamityWorld.bossRushStage = 0;
-                    CalamityMod.UpdateServerBoolean();
+                    BossRushEvent.BossRushActive = false;
+                    BossRushEvent.BossRushStage = 0;
+                    CalamityNetcode.SyncWorld();
                     if (Main.netMode == NetmodeID.Server)
                     {
                         var netMessage = mod.GetPacket();
                         netMessage.Write((byte)CalamityModMessageType.BossRushStage);
-                        netMessage.Write(CalamityWorld.bossRushStage);
+                        netMessage.Write(BossRushEvent.BossRushStage);
                         netMessage.Send();
                     }
                     for (int doom = 0; doom < Main.maxNPCs; doom++)
@@ -3659,6 +3660,38 @@ namespace CalamityMod.CalPlayer
         }
         #endregion
 
+        #region PreUpdate
+        public override void PreUpdate()
+        {
+            tailFrameUp++;
+            if (tailFrameUp == 8)
+            {
+                tailFrame++;
+                if (tailFrame >= 4)
+                {
+                    tailFrame = 0;
+                }
+                tailFrameUp = 0;
+            }
+
+            int frameAmt = 11;
+            if (roverFrameCounter >= 7)
+            {
+                roverFrameCounter = -1;
+                roverFrame = roverFrame == frameAmt - 1 ? 0 : roverFrame + 1;
+            }
+            roverFrameCounter++;
+
+            for (int i = 0; i < player.dye.Length; i++)
+            {
+                if (player.dye[i].type == ModContent.ItemType<ProfanedMoonlightDye>())
+                {
+                    GameShaders.Armor.GetSecondaryShader(player.dye[i].dye, player)?.UseColor(CalamityPlayerDrawEffects.GetCurrentMoonlightDyeColor());
+                }
+            }
+        }
+        #endregion
+
         #region PreUpdateBuffs
         public override void PreUpdateBuffs()
         {
@@ -3679,7 +3712,7 @@ namespace CalamityMod.CalPlayer
             if (weakPetrification)
                 WeakPetrification();
 
-            if (player.mount.Active || player.mount.Cart || (CalamityConfig.Instance.BossRushDashCurse && CalamityWorld.bossRushActive))
+            if (player.mount.Active || player.mount.Cart || (CalamityConfig.Instance.BossRushDashCurse && BossRushEvent.BossRushActive))
 				DashExploitFix(true);
 
             if (silvaCountdown > 0 && hasSilvaEffect && silvaSet)
@@ -3705,7 +3738,7 @@ namespace CalamityMod.CalPlayer
             if (weakPetrification)
                 WeakPetrification();
 
-			if (player.mount.Active || player.mount.Cart || (CalamityConfig.Instance.BossRushDashCurse && CalamityWorld.bossRushActive))
+			if (player.mount.Active || player.mount.Cart || (CalamityConfig.Instance.BossRushDashCurse && BossRushEvent.BossRushActive))
 				DashExploitFix(true);
 
 			if (silvaCountdown > 0 && hasSilvaEffect && silvaSet)
@@ -4339,23 +4372,23 @@ namespace CalamityMod.CalPlayer
             {
                 add += GaelsGreatsword.BaseDamage / (float)GaelsGreatsword.BaseDamage - 1f;
             }
-            if (flamethrowerBoost && item.ranged && (item.useAmmo == 23 || CalamityMod.flamethrowerList.Contains(item.type)))
+            if (flamethrowerBoost && item.ranged && (item.useAmmo == 23 || CalamityLists.flamethrowerList.Contains(item.type)))
             {
                 add += hoverboardBoost ? 0.35f : 0.25f;
             }
-            if (cinnamonRoll && CalamityMod.fireWeaponList.Contains(item.type))
+            if (cinnamonRoll && CalamityLists.fireWeaponList.Contains(item.type))
             {
                 add += 0.15f;
             }
-            if (evergreenGin && CalamityMod.natureWeaponList.Contains(item.type))
+            if (evergreenGin && CalamityLists.natureWeaponList.Contains(item.type))
             {
                 add += 0.15f;
             }
-            if (fireball && CalamityMod.fireWeaponList.Contains(item.type))
+            if (fireball && CalamityLists.fireWeaponList.Contains(item.type))
             {
                 add += 0.1f;
             }
-            if (eskimoSet && CalamityMod.iceWeaponList.Contains(item.type))
+            if (eskimoSet && CalamityLists.iceWeaponList.Contains(item.type))
             {
                 add += 0.1f;
             }
@@ -4809,7 +4842,7 @@ namespace CalamityMod.CalPlayer
                 {
 					CalamityUtils.Inflict246DebuffsNPC(target, ModContent.BuffType<DemonFlames>());
                 }
-                if ((plaguebringerCarapace || uberBees) && CalamityMod.friendlyBeeList.Contains(proj.type))
+                if ((plaguebringerCarapace || uberBees) && CalamityLists.friendlyBeeList.Contains(proj.type))
                 {
                     target.AddBuff(ModContent.BuffType<Plague>(), 360);
                 }
@@ -4917,7 +4950,7 @@ namespace CalamityMod.CalPlayer
                         {
                             target.AddBuff(BuffID.Midas, 120, false);
                         }
-                        if (ZoneCalamity && CalamityMod.fireWeaponList.Contains(player.ActiveItem().type))
+                        if (ZoneCalamity && CalamityLists.fireWeaponList.Contains(player.ActiveItem().type))
                         {
                             target.AddBuff(ModContent.BuffType<AbyssalFlames>(), 240, false);
                         }
@@ -5151,7 +5184,7 @@ namespace CalamityMod.CalPlayer
                 {
 					CalamityUtils.Inflict246DebuffsPvp(target, ModContent.BuffType<CrushDepth>());
                 }
-                if ((plaguebringerCarapace || uberBees) && CalamityMod.friendlyBeeList.Contains(proj.type))
+                if ((plaguebringerCarapace || uberBees) && CalamityLists.friendlyBeeList.Contains(proj.type))
                 {
                     target.AddBuff(ModContent.BuffType<Plague>(), 360);
                 }
@@ -5259,7 +5292,7 @@ namespace CalamityMod.CalPlayer
                         {
                             target.AddBuff(BuffID.Midas, 120, false);
                         }*/
-                        if (ZoneCalamity && CalamityMod.fireWeaponList.Contains(player.ActiveItem().type))
+                        if (ZoneCalamity && CalamityLists.fireWeaponList.Contains(player.ActiveItem().type))
                         {
                             target.AddBuff(ModContent.BuffType<AbyssalFlames>(), 240, false);
                         }
@@ -5680,7 +5713,7 @@ namespace CalamityMod.CalPlayer
                 int defenseAdd = (int)(target.defense * 0.05 * (proj.damage / 50D) * acidRoundMultiplier); //100 defense * 0.05 = 5
                 damage += defenseAdd;
             }
-            if (uberBees && CalamityMod.friendlyBeeList.Contains(proj.type))
+            if (uberBees && CalamityLists.friendlyBeeList.Contains(proj.type))
             {
                 damage += Main.rand.Next(20, 31);
             }
@@ -5714,7 +5747,7 @@ namespace CalamityMod.CalPlayer
             }
             if (proj.Calamity().rogue && etherealExtorter)
             {
-                if (CalamityMod.boomerangProjList.Contains(proj.type) && player.ZoneCorrupt)
+                if (CalamityLists.boomerangProjList.Contains(proj.type) && player.ZoneCorrupt)
                 {
 					penetrateAmt += 6;
                 }
@@ -6042,8 +6075,8 @@ namespace CalamityMod.CalPlayer
 		#region Modify Hit By NPC
 		public override void ModifyHitByNPC(NPC npc, ref int damage, ref bool crit)
 		{
-			int bossRushDamage = (Main.expertMode ? 500 : 300) + (CalamityWorld.bossRushStage * 2);
-			if (CalamityWorld.bossRushActive)
+			int bossRushDamage = (Main.expertMode ? 500 : 300) + (BossRushEvent.BossRushStage * 2);
+			if (BossRushEvent.BossRushActive)
 			{
 				if (damage < bossRushDamage)
 					damage = bossRushDamage;
@@ -6111,7 +6144,7 @@ namespace CalamityMod.CalPlayer
 
 			if (beeResist)
 			{
-				if (CalamityMod.beeEnemyList.Contains(npc.type))
+				if (CalamityLists.beeEnemyList.Contains(npc.type))
 					contactDamageReduction += 0.25;
 			}
 
@@ -6254,7 +6287,7 @@ namespace CalamityMod.CalPlayer
         #region Modify Hit By Proj
         public override void ModifyHitByProjectile(Projectile proj, ref int damage, ref bool crit)
         {
-			if (CalamityMod.projectileDestroyExceptionList.TrueForAll(x => proj.type != x))
+			if (CalamityLists.projectileDestroyExceptionList.TrueForAll(x => proj.type != x))
 			{
 				if (player.ActiveItem().type == ModContent.ItemType<GaelsGreatsword>()
 					&& proj.active && proj.hostile && player.altFunctionUse == 2 && Main.rand.NextBool(2))
@@ -6302,23 +6335,23 @@ namespace CalamityMod.CalPlayer
 			if (CalamityWorld.revenge)
 			{
 				double damageMultiplier = 1D;
-				if (CalamityMod.revengeanceProjectileBuffList25Percent.Contains(proj.type))
+				if (CalamityLists.revengeanceProjectileBuffList25Percent.Contains(proj.type))
 				{
 					damageMultiplier += 0.25;
 				}
-				else if (CalamityMod.revengeanceProjectileBuffList20Percent.Contains(proj.type))
+				else if (CalamityLists.revengeanceProjectileBuffList20Percent.Contains(proj.type))
 				{
 					damageMultiplier += 0.2;
 				}
-				else if (CalamityMod.revengeanceProjectileBuffList15Percent.Contains(proj.type))
+				else if (CalamityLists.revengeanceProjectileBuffList15Percent.Contains(proj.type))
 				{
 					damageMultiplier += 0.15;
 				}
-				else if (CalamityMod.revengeanceProjectileBuffList10Percent.Contains(proj.type))
+				else if (CalamityLists.revengeanceProjectileBuffList10Percent.Contains(proj.type))
 				{
 					damageMultiplier += 0.1;
 				}
-				else if (CalamityMod.revengeanceProjectileBuffList5Percent.Contains(proj.type))
+				else if (CalamityLists.revengeanceProjectileBuffList5Percent.Contains(proj.type))
 				{
 					damageMultiplier += 0.05;
 				}
@@ -6329,8 +6362,8 @@ namespace CalamityMod.CalPlayer
 				damage = (int)(damage * damageMultiplier);
 			}
 
-			int bossRushDamage = (Main.expertMode ? 125 : 150) + (CalamityWorld.bossRushStage / 2);
-			if (CalamityWorld.bossRushActive)
+			int bossRushDamage = (Main.expertMode ? 125 : 150) + (BossRushEvent.BossRushStage / 2);
+			if (BossRushEvent.BossRushActive)
 			{
 				if (damage < bossRushDamage)
 					damage = bossRushDamage;
@@ -6396,13 +6429,13 @@ namespace CalamityMod.CalPlayer
 
             if (beeResist)
             {
-                if (CalamityMod.beeProjectileList.Contains(proj.type))
+                if (CalamityLists.beeProjectileList.Contains(proj.type))
                     projectileDamageReduction += 0.25;
             }
 
             if (Main.hardMode && Main.expertMode && !CalamityWorld.spawnedHardBoss && proj.active && !proj.friendly && proj.hostile && damage > 0)
             {
-                if (CalamityMod.hardModeNerfList.Contains(proj.type))
+                if (CalamityLists.hardModeNerfList.Contains(proj.type))
                     projectileDamageReduction += 0.25;
             }
 
@@ -6498,7 +6531,7 @@ namespace CalamityMod.CalPlayer
 
 			if (player.whoAmI == Main.myPlayer && gainRageCooldown <= 0)
             {
-                if (CalamityWorld.revenge && CalamityConfig.Instance.Rippers && !CalamityMod.trapProjectileList.Contains(proj.type))
+                if (CalamityWorld.revenge && CalamityConfig.Instance.Rippers && !CalamityLists.trapProjectileList.Contains(proj.type))
                 {
                     gainRageCooldown = 60;
                     int stressGain = damage * (profanedRage ? 3 : 2);
@@ -6667,7 +6700,7 @@ namespace CalamityMod.CalPlayer
 						switch (proj.type)
 						{
 							case ProjectileID.Stinger:
-								if (CalamityMod.hornetList.Contains(bannerNPCType) || CalamityMod.mossHornetList.Contains(bannerNPCType))
+								if (CalamityLists.hornetList.Contains(bannerNPCType) || CalamityLists.mossHornetList.Contains(bannerNPCType))
 								{
 									reduceDamage = !NPC.AnyNPCs(NPCID.QueenBee);
 								}
@@ -7151,7 +7184,7 @@ namespace CalamityMod.CalPlayer
 					player.AddBuff(ModContent.BuffType<Shadowflame>(), 120);
 				}
 			}
-			if (CalamityMod.projectileDestroyExceptionList.TrueForAll(x => proj.type != x))
+			if (CalamityLists.projectileDestroyExceptionList.TrueForAll(x => proj.type != x))
 			{
 				if (projRef && proj.active && !proj.friendly && proj.hostile && damage > 0 && Main.rand.NextBool(20))
 				{
@@ -7451,9 +7484,9 @@ namespace CalamityMod.CalPlayer
         #region Pre Hurt
         public override bool PreHurt(bool pvp, bool quiet, ref int damage, ref int hitDirection, ref bool crit, ref bool customDamage, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
         {
-            if (CalamityWorld.armageddon || SCalLore || (CalamityWorld.bossRushActive && bossRushImmunityFrameCurseTimer > 0))
+            if (CalamityWorld.armageddon || SCalLore || (BossRushEvent.BossRushActive && bossRushImmunityFrameCurseTimer > 0))
             {
-                if (areThereAnyDamnBosses || SCalLore || (CalamityWorld.bossRushActive && bossRushImmunityFrameCurseTimer > 0))
+                if (areThereAnyDamnBosses || SCalLore || (BossRushEvent.BossRushActive && bossRushImmunityFrameCurseTimer > 0))
                 {
                     if (SCalLore)
                     {
@@ -7834,7 +7867,7 @@ namespace CalamityMod.CalPlayer
                         iFramesToAdd += 10;
                     }
                 }
-                if (CalamityWorld.bossRushActive && CalamityConfig.Instance.BossRushImmunityFrameCurse)
+                if (BossRushEvent.BossRushActive && CalamityConfig.Instance.BossRushImmunityFrameCurse)
                 {
                     bossRushImmunityFrameCurseTimer = 300 + player.immuneTime;
                 }
@@ -8237,7 +8270,7 @@ namespace CalamityMod.CalPlayer
             {
                 damageSource = PlayerDeathReason.ByCustomReason(player.name + " failed the challenge at hand.");
             }
-            else if (CalamityWorld.bossRushActive && bossRushImmunityFrameCurseTimer > 0)
+            else if (BossRushEvent.BossRushActive && bossRushImmunityFrameCurseTimer > 0)
             {
                 damageSource = PlayerDeathReason.ByCustomReason(player.name + " was destroyed by a mysterious force.");
             }
@@ -9519,1280 +9552,6 @@ namespace CalamityMod.CalPlayer
         }
         #endregion
 
-        #region Drawing
-        public static readonly PlayerLayer MiscEffectsBack = new PlayerLayer("CalamityMod", "MiscEffectsBack", PlayerLayer.MiscEffectsBack, delegate (PlayerDrawInfo drawInfo)
-        {
-            if (drawInfo.shadow != 0f)
-            {
-                return;
-            }
-            Player drawPlayer = drawInfo.drawPlayer;
-            CalamityPlayer modPlayer = drawPlayer.Calamity();
-            if (modPlayer.sirenIce)
-            {
-                Texture2D texture = ModContent.GetTexture("CalamityMod/ExtraTextures/IceShield");
-                int drawX = (int)(drawInfo.position.X + drawPlayer.width / 2f - Main.screenPosition.X);
-                int drawY = (int)(drawInfo.position.Y + drawPlayer.height / 2f - Main.screenPosition.Y); //4
-                DrawData data = new DrawData(texture, new Vector2(drawX, drawY), null, Color.Cyan, 0f, new Vector2(texture.Width / 2f, texture.Height / 2f), 1f, SpriteEffects.None, 0);
-                Main.playerDrawData.Add(data);
-            }
-            if (modPlayer.amidiasBlessing)
-            {
-                Texture2D texture = ModContent.GetTexture("CalamityMod/ExtraTextures/AmidiasBubble");
-                int drawX = (int)(drawInfo.position.X + drawPlayer.width / 2f - Main.screenPosition.X);
-                int drawY = (int)(drawInfo.position.Y + drawPlayer.height / 2f - Main.screenPosition.Y); //4
-                DrawData data = new DrawData(texture, new Vector2(drawX, drawY), null, Color.White, 0f, new Vector2(texture.Width / 2f, texture.Height / 2f), 1f, SpriteEffects.None, 0);
-                Main.playerDrawData.Add(data);
-            }
-        });
-
-        public static readonly PlayerLayer MiscEffects = new PlayerLayer("CalamityMod", "MiscEffects", PlayerLayer.MiscEffectsFront, delegate (PlayerDrawInfo drawInfo)
-        {
-            if (drawInfo.shadow != 0f)
-                return;
-            Player drawPlayer = drawInfo.drawPlayer;
-            Item item = drawPlayer.ActiveItem();
-
-            // Kamei trail/afterimage effect.
-            if (drawPlayer.Calamity().kamiBoost)
-            {
-                for (int i = drawPlayer.Calamity().KameiOldPositions.Length - 1; i > 0; i--)
-                {
-                    if (drawPlayer.Calamity().KameiOldPositions[i - 1] == Vector2.Zero)
-                        drawPlayer.Calamity().KameiOldPositions[i - 1] = drawPlayer.position;
-                    drawPlayer.Calamity().KameiOldPositions[i] = drawPlayer.Calamity().KameiOldPositions[i - 1];
-                }
-                drawPlayer.Calamity().KameiOldPositions[0] = drawPlayer.position;
-
-                List<DrawData> existingDrawData = Main.playerDrawData;
-                for (int i = 0; i < drawPlayer.Calamity().KameiOldPositions.Length; i++)
-                {
-                    float scale = MathHelper.Lerp(1f, 0.5f, i / (float)drawPlayer.Calamity().KameiOldPositions.Length);
-                    float opacity = MathHelper.Lerp(0.25f, 0.08f, i / (float)drawPlayer.Calamity().KameiOldPositions.Length);
-                    List<DrawData> afterimage = new List<DrawData>();
-                    for (int j = 0; j < existingDrawData.Count; j++)
-                    {
-                        var drawData = existingDrawData[j];
-                        drawData.position = existingDrawData[j].position - drawPlayer.position + drawPlayer.oldPosition;
-                        drawData.color = Color.Cyan * opacity;
-                        drawData.color.G = (byte)(drawData.color.G * 1.6);
-                        drawData.color.B = (byte)(drawData.color.B * 1.2);
-                        drawData.scale = new Vector2(scale);
-                        afterimage.Add(drawData);
-                    }
-                    Main.playerDrawData.InsertRange(0, afterimage);
-                }
-            }
-
-            if (!drawPlayer.frozen &&
-                item.type > ItemID.None &&
-                !drawPlayer.dead &&
-                !item.noUseGraphic &&
-                (!drawPlayer.wet || !item.noWet))
-            {
-                Vector2 vector = drawPlayer.position + (drawPlayer.itemLocation - drawPlayer.position);
-                SpriteEffects effect = SpriteEffects.FlipHorizontally;
-
-                if (drawPlayer.gravDir == 1f)
-                {
-                    if (drawPlayer.direction == 1)
-                        effect = SpriteEffects.None;
-                    else
-                        effect = SpriteEffects.FlipHorizontally;
-                }
-                else
-                {
-                    if (drawPlayer.direction == 1)
-                        effect = SpriteEffects.FlipVertically;
-                    else
-                        effect = SpriteEffects.FlipHorizontally | SpriteEffects.FlipVertically;
-                }
-                if ((drawPlayer.itemAnimation > 0 && item.useStyle != 0) || (item.holdStyle > 0 && !drawPlayer.pulley))
-                {
-                    // Staff
-                    if (item.type == ModContent.ItemType<DeathhailStaff>() || item.type == ModContent.ItemType<Vesuvius>() || item.type == ModContent.ItemType<SoulPiercer>() || item.type == ModContent.ItemType<FatesReveal>() || (item.type == ModContent.ItemType<PrismaticBreaker>() && item.useStyle == 5))
-                    {
-                        Texture2D texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Magic/DeathhailStaffGlow");
-                        if (item.type == ModContent.ItemType<Vesuvius>())
-                            texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Magic/VesuviusGlow");
-                        else if (item.type == ModContent.ItemType<SoulPiercer>())
-                            texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Magic/SoulPiercerGlow");
-                        else if (item.type == ModContent.ItemType<FatesReveal>())
-                            texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Magic/FatesRevealGlow");
-                        else if (item.type == ModContent.ItemType<PrismaticBreaker>())
-                            texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Melee/PrismaticBreakerGlow");
-
-                        float num104 = drawPlayer.itemRotation + 0.785f * (float)drawPlayer.direction;
-                        int num105 = 0;
-                        Vector2 zero3 = new Vector2(0f, (float)Main.itemTexture[item.type].Height);
-
-                        if (drawPlayer.gravDir == -1f)
-                        {
-                            if (drawPlayer.direction == -1)
-                            {
-                                num104 += 1.57f;
-                                zero3 = new Vector2((float)Main.itemTexture[item.type].Width, 0f);
-                                num105 -= Main.itemTexture[item.type].Width;
-                            }
-                            else
-                            {
-                                num104 -= 1.57f;
-                                zero3 = Vector2.Zero;
-                            }
-                        }
-                        else if (drawPlayer.direction == -1)
-                        {
-                            zero3 = new Vector2((float)Main.itemTexture[item.type].Width, (float)Main.itemTexture[item.type].Height);
-                            num105 -= Main.itemTexture[item.type].Width;
-                        }
-
-                        DrawData data = new DrawData(texture,
-                            new Vector2((float)(int)(vector.X - Main.screenPosition.X + zero3.X + (float)num105), (float)(int)(vector.Y - Main.screenPosition.Y + 0f)),
-                            new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, 0, Main.itemTexture[item.type].Width, Main.itemTexture[item.type].Height)),
-                            Color.White,
-                            num104,
-                            zero3,
-                            item.scale,
-                            effect,
-                            0);
-
-                        Main.playerDrawData.Add(data);
-                    }
-
-                    // Bow and Book
-                    else if (item.type == ModContent.ItemType<Deathwind>() || item.type == ModContent.ItemType<Apotheosis>() || item.type == ModContent.ItemType<CleansingBlaze>() ||
-                    item.type == ModContent.ItemType<SubsumingVortex>() || item.type == ModContent.ItemType<AuroraBlazer>())
-                    {
-                        Texture2D texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Ranged/DeathwindGlow");
-                        int offsetX = 10;
-                        if (item.type == ModContent.ItemType<Apotheosis>())
-                        {
-                            texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Magic/ApotheosisGlow");
-                            offsetX = 6;
-                        }
-                        else if (item.type == ModContent.ItemType<CleansingBlaze>())
-                        {
-                            texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Ranged/CleansingBlazeGlow");
-                            offsetX = 37;
-                        }
-                        else if (item.type == ModContent.ItemType<SubsumingVortex>())
-                        {
-                            texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Magic/SubsumingVortexGlow");
-                            offsetX = 9;
-                        }
-                        else if (item.type == ModContent.ItemType<AuroraBlazer>())
-                        {
-                            texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Ranged/AuroraBlazerGlow");
-                            offsetX = 44;
-                        }
-
-                        Vector2 vector13 = new Vector2((float)(Main.itemTexture[item.type].Width / 2), (float)(Main.itemTexture[item.type].Height / 2));
-                        Vector2 vector14 = vector13;
-                        int num107 = (int)vector14.X - offsetX;
-                        vector13.Y = vector14.Y;
-
-                        Vector2 origin4 = new Vector2(-(float)num107, (float)(Main.itemTexture[item.type].Height / 2));
-                        if (drawPlayer.direction == -1)
-                            origin4 = new Vector2((float)(Main.itemTexture[item.type].Width + num107), (float)(Main.itemTexture[item.type].Height / 2));
-
-                        DrawData data = new DrawData(texture,
-                            new Vector2((float)(int)(vector.X - Main.screenPosition.X + vector13.X), (float)(int)(vector.Y - Main.screenPosition.Y + vector13.Y)),
-                            new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, 0, Main.itemTexture[item.type].Width, Main.itemTexture[item.type].Height)),
-                            Color.White,
-                            drawPlayer.itemRotation,
-                            origin4,
-                            item.scale,
-                            effect,
-                            0);
-
-                        Main.playerDrawData.Add(data);
-                    }
-
-                    // Sword
-                    else if (item.type == ModContent.ItemType<Excelsus>() || item.type == ModContent.ItemType<EssenceFlayer>() || item.type == ModContent.ItemType<TheEnforcer>() ||
-                    item.type == ModContent.ItemType<ElementalExcalibur>() || item.type == ModContent.ItemType<TerrorBlade>() || item.type == ModContent.ItemType<EtherealSubjugator>() || (item.type == ModContent.ItemType<PrismaticBreaker>() && item.useStyle == 1))
-                    {
-                        Texture2D texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Melee/ExcelsusGlow");
-                        if (item.type == ModContent.ItemType<EssenceFlayer>())
-                            texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Melee/EssenceFlayerGlow");
-                        else if (item.type == ModContent.ItemType<TheEnforcer>())
-                            texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Melee/TheEnforcerGlow");
-                        else if (item.type == ModContent.ItemType<ElementalExcalibur>())
-                            texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Melee/ElementalExcaliburGlow");
-                        else if (item.type == ModContent.ItemType<TerrorBlade>())
-                            texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Melee/TerrorBladeGlow");
-                        else if (item.type == ModContent.ItemType<EtherealSubjugator>())
-                            texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Summon/EtherealSubjugatorGlow");
-                        else if (item.type == ModContent.ItemType<PrismaticBreaker>())
-                            texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Melee/PrismaticBreakerGlow");
-
-                        float yOffset = drawPlayer.gravDir == -1f ? 0f : (float)Main.itemTexture[item.type].Height;
-
-                        DrawData data = new DrawData(texture,
-                            new Vector2((float)(int)(vector.X - Main.screenPosition.X), (float)(int)(vector.Y - Main.screenPosition.Y)),
-                            new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, 0, Main.itemTexture[item.type].Width, Main.itemTexture[item.type].Height)),
-                            Color.White,
-                            drawPlayer.itemRotation,
-                            new Vector2((float)Main.itemTexture[item.type].Width * 0.5f - (float)Main.itemTexture[item.type].Width * 0.5f * (float)drawPlayer.direction, yOffset) + Vector2.Zero,
-                            item.scale,
-                            effect,
-                            0);
-
-                        Main.playerDrawData.Add(data);
-                    }
-                }
-            }
-        });
-
-        public static readonly PlayerLayer DyeInvisibilityFix = new PlayerLayer("CalamityMod", "DyeInvisibilityFix", PlayerLayer.Arms, (PlayerDrawInfo drawInfo) =>
-        {
-            Player drawPlayer = drawInfo.drawPlayer;
-            CalamityPlayer modPlayer = drawPlayer.Calamity();
-            if (!drawPlayer.invis ||
-                drawPlayer.itemAnimation > 0)
-            {
-                return;
-            }
-            for (int i = 0; i < Main.playerDrawData.Count; i++)
-            {
-                var copy = Main.playerDrawData[i];
-                copy.shader = 0; // There's no other easy solution here to my knowledge since DrawData is a value type.
-                Main.playerDrawData[i] = copy;
-            }
-        });
-
-        public override void ModifyDrawInfo(ref PlayerDrawInfo drawInfo)
-        {
-            if (drawInfo.shadow != 0f)
-                return;
-
-            Player drawPlayer = drawInfo.drawPlayer;
-            Item item = drawPlayer.ActiveItem();
-
-            if (!drawPlayer.frozen &&
-                (item.IsAir || item.type > ItemID.None) &&
-                !drawPlayer.dead &&
-                (!drawPlayer.wet || !item.noWet))
-            {
-                if (item.type == ModContent.ItemType<FlurrystormCannon>() || item.type == ModContent.ItemType<MepheticSprayer>() || item.type == ModContent.ItemType<BrimstoneFlameblaster>() || item.type == ModContent.ItemType<BrimstoneFlamesprayer>() || item.type == ModContent.ItemType<SparkSpreader>() || item.type == ModContent.ItemType<HalleysInferno>() || item.type == ModContent.ItemType<CleansingBlaze>() || item.type == ModContent.ItemType<ElementalEruption>() || item.type == ModContent.ItemType<TheEmpyrean>() || item.type == ModContent.ItemType<Meowthrower>() || item.type == ModContent.ItemType<OverloadedBlaster>() || item.type == ModContent.ItemType<TerraFlameburster>() || item.type == ModContent.ItemType<Photoviscerator>() || item.type == ModContent.ItemType<Shadethrower>() || item.type == ModContent.ItemType<BloodBoiler>() || item.type == ModContent.ItemType<PristineFury>() || item.type == ModContent.ItemType<AuroraBlazer>())
-                {
-                    Color color89 = drawInfo.middleArmorColor = drawPlayer.GetImmuneAlphaPure(Lighting.GetColor((int)(drawPlayer.position.X + drawPlayer.width * 0.5) / 16, (int)(drawPlayer.position.Y + drawPlayer.height * 0.5) / 16, Color.White), drawInfo.shadow);
-                    SpriteEffects spriteEffects = player.direction == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
-
-                    Texture2D thingToDraw = ModContent.GetTexture("CalamityMod/ExtraTextures/Tanks/Backpack_FlurrystormCannon");
-                    if (item.type == ModContent.ItemType<MepheticSprayer>())
-                        thingToDraw = ModContent.GetTexture("CalamityMod/ExtraTextures/Tanks/Backpack_BlightSpewer");
-                    else if (item.type == ModContent.ItemType<BrimstoneFlameblaster>())
-                        thingToDraw = ModContent.GetTexture("CalamityMod/ExtraTextures/Tanks/Backpack_BrimstoneFlameblaster");
-                    else if (item.type == ModContent.ItemType<BrimstoneFlamesprayer>())
-                        thingToDraw = ModContent.GetTexture("CalamityMod/ExtraTextures/Tanks/Backpack_HavocsBreath");
-                    else if (item.type == ModContent.ItemType<BloodBoiler>())
-                        thingToDraw = ModContent.GetTexture("CalamityMod/ExtraTextures/Tanks/Backpack_BloodBoiler");
-                    else if (item.type == ModContent.ItemType<SparkSpreader>())
-                        thingToDraw = ModContent.GetTexture("CalamityMod/ExtraTextures/Tanks/Backpack_SparkSpreader");
-                    else if (item.type == ModContent.ItemType<HalleysInferno>())
-                        thingToDraw = ModContent.GetTexture("CalamityMod/ExtraTextures/Tanks/Backpack_HalleysInferno");
-                    else if (item.type == ModContent.ItemType<CleansingBlaze>())
-                        thingToDraw = ModContent.GetTexture("CalamityMod/ExtraTextures/Tanks/Backpack_CleansingBlaze");
-                    else if (item.type == ModContent.ItemType<ElementalEruption>())
-                        thingToDraw = ModContent.GetTexture("CalamityMod/ExtraTextures/Tanks/Backpack_ElementalEruption");
-                    else if (item.type == ModContent.ItemType<TheEmpyrean>())
-                        thingToDraw = ModContent.GetTexture("CalamityMod/ExtraTextures/Tanks/Backpack_TheEmpyrean");
-                    else if (item.type == ModContent.ItemType<Meowthrower>())
-                        thingToDraw = ModContent.GetTexture("CalamityMod/ExtraTextures/Tanks/Backpack_Meowthrower");
-                    else if (item.type == ModContent.ItemType<OverloadedBlaster>())
-                        thingToDraw = ModContent.GetTexture("CalamityMod/ExtraTextures/Tanks/Backpack_OverloadedBlaster");
-                    else if (item.type == ModContent.ItemType<TerraFlameburster>())
-                        thingToDraw = ModContent.GetTexture("CalamityMod/ExtraTextures/Tanks/Backpack_TerraFlameburster");
-                    else if (item.type == ModContent.ItemType<Photoviscerator>())
-                        thingToDraw = ModContent.GetTexture("CalamityMod/ExtraTextures/Tanks/Backpack_Photoviscerator");
-                    else if (item.type == ModContent.ItemType<Shadethrower>())
-                        thingToDraw = ModContent.GetTexture("CalamityMod/ExtraTextures/Tanks/Backpack_Shadethrower");
-                    else if (item.type == ModContent.ItemType<PristineFury>())
-                        thingToDraw = ModContent.GetTexture("CalamityMod/ExtraTextures/Tanks/Backpack_PristineFury");
-                    else if (item.type == ModContent.ItemType<AuroraBlazer>())
-                        thingToDraw = ModContent.GetTexture("CalamityMod/ExtraTextures/Tanks/Backpack_AuroraBlazer");
-
-                    float num25 = -4f;
-                    float num24 = -8f;
-                    DrawData howDoIDrawThings = new DrawData(thingToDraw,
-                        new Vector2((int)(drawPlayer.position.X - Main.screenPosition.X + (drawPlayer.width / 2) - (9 * drawPlayer.direction)) + num25 * drawPlayer.direction, (int)(drawPlayer.position.Y - Main.screenPosition.Y + (drawPlayer.height / 2) + 2f * drawPlayer.gravDir + num24 * drawPlayer.gravDir)),
-                        new Rectangle(0, 0, thingToDraw.Width, thingToDraw.Height),
-                        color89,
-                        drawPlayer.bodyRotation,
-                        new Vector2(thingToDraw.Width / 2, thingToDraw.Height / 2),
-                        1f,
-                        spriteEffects,
-                        0);
-                    howDoIDrawThings.shader = 0;
-                    Main.playerDrawData.Add(howDoIDrawThings);
-                }
-				else if (drawPlayer.Calamity().plaguebringerCarapace)
-				{
-                    Color color89 = drawInfo.middleArmorColor = drawPlayer.GetImmuneAlphaPure(Lighting.GetColor((int)(drawPlayer.position.X + drawPlayer.width * 0.5) / 16, (int)(drawPlayer.position.Y + drawPlayer.height * 0.5) / 16, Color.White), drawInfo.shadow);
-                    SpriteEffects spriteEffects = player.direction == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
-
-                    Texture2D thingToDraw = ModContent.GetTexture("CalamityMod/Items/Armor/PlaguebringerCarapace_Back");
-                    float num25 = -4f;
-                    float num24 = -8f;
-                    DrawData howDoIDrawThings = new DrawData(thingToDraw,
-                        new Vector2((int)(drawPlayer.position.X - Main.screenPosition.X + (drawPlayer.width / 2) - (9 * drawPlayer.direction)) + num25 * drawPlayer.direction, (int)(drawPlayer.position.Y - Main.screenPosition.Y + (drawPlayer.height / 2) + 2f * drawPlayer.gravDir + num24 * drawPlayer.gravDir)),
-                        new Rectangle(0, 0, thingToDraw.Width, thingToDraw.Height),
-                        color89,
-                        drawPlayer.bodyRotation,
-                        new Vector2(thingToDraw.Width / 2, thingToDraw.Height / 2),
-                        1f,
-                        spriteEffects,
-                        0);
-                    howDoIDrawThings.shader = 0;
-                    Main.playerDrawData.Add(howDoIDrawThings);
-                }
-            }
-        }
-        public static readonly List<Color> MoonlightDyeDayColors = new List<Color>()
-        {
-            new Color(255, 163, 56),
-            new Color(235, 30, 19),
-            new Color(242, 48, 187),
-        };
-        public static readonly List<Color> MoonlightDyeNightColors = new List<Color>()
-        {
-            new Color(24, 134, 198),
-            new Color(130, 40, 150),
-            new Color(40, 64, 150),
-        };
-
-        public static void DetermineMoonlightDyeColors(out Color drawColor, Color dayColor, Color nightColor)
-        {
-            int totalTime = Main.dayTime ? 54000 : 32400;
-            float transitionTime = 5400;
-            //Color dayColor = new Color(255, 163, 56);
-            //Color nightColor = new Color(24, 134, 198);
-            float interval = Utils.InverseLerp(0f, transitionTime, (float)Main.time, true) + Utils.InverseLerp(totalTime - transitionTime, totalTime, (float)Main.time, true);
-            if (Main.dayTime)
-            {
-                // Dusk.
-                if (Main.time >= totalTime - transitionTime)
-                    drawColor = Color.Lerp(dayColor, nightColor, Utils.InverseLerp(totalTime - transitionTime, totalTime, (float)Main.time, true));
-                // Dawn.
-                else if (Main.time <= transitionTime)
-                    drawColor = Color.Lerp(nightColor, dayColor, interval);
-                else
-                    drawColor = dayColor;
-            }
-            else
-            {
-                drawColor = nightColor;
-            }
-        }
-        public static Color GetCurrentMoonlightDyeColor(float angleOffset = 0f)
-        {
-            float interval = (float)Math.Cos(Main.GlobalTime * 0.6f + angleOffset) * 0.5f + 0.5f;
-            interval = MathHelper.Clamp(interval, 0f, 0.995f);
-            Color dayColorToUse = CalamityUtils.MulticolorLerp(interval, MoonlightDyeDayColors.ToArray());
-            Color nightColorToUse = CalamityUtils.MulticolorLerp(interval, MoonlightDyeNightColors.ToArray());
-            DetermineMoonlightDyeColors(out Color drawColor, dayColorToUse, nightColorToUse);
-            return drawColor;
-        }
-
-        public override void PreUpdate()
-        {
-            tailFrameUp++;
-			if (tailFrameUp == 8)
-			{
-				tailFrame++;
-				if (tailFrame >= 4)
-				{
-					tailFrame = 0;
-				}
-				tailFrameUp = 0;
-            }
-
-			int frameAmt = 11;
-			if (roverFrameCounter >= 7)
-			{
-				roverFrameCounter = -1;
-				roverFrame = roverFrame == frameAmt - 1 ? 0 : roverFrame + 1;
-			}
-			roverFrameCounter++;
-
-            for (int i = 0; i < player.dye.Length; i++)
-            {
-                if (player.dye[i].type == ModContent.ItemType<ProfanedMoonlightDye>())
-                {
-                    GameShaders.Armor.GetSecondaryShader(player.dye[i].dye, player)?.UseColor(GetCurrentMoonlightDyeColor());
-                }
-            }
-        }
-
-		public static readonly PlayerLayer Tail = new PlayerLayer("CalamityMod", "Tail", PlayerLayer.BackAcc, delegate (PlayerDrawInfo drawInfo)
-		{
-			Player drawPlayer = drawInfo.drawPlayer;
-			CalamityPlayer modPlayer = drawPlayer.Calamity();
-			if (drawInfo.shadow != 0f || drawPlayer.dead)
-			{
-				return;
-			}
-			Rectangle? frame = new Rectangle(0, (int)(modPlayer.tailFrame * 56), 46, 56);
-			if (modPlayer.fathomSwarmerTail)
-			{
-				Texture2D texture = ModContent.GetTexture("CalamityMod/Items/Armor/FathomSwarmerArmor_Tail");
-
-				int frameSize = texture.Height / 4;
-				int drawX = (int)(drawInfo.position.X + drawPlayer.width / 2f - Main.screenPosition.X - (3 * drawPlayer.direction));
-				int drawY = (int)(drawInfo.position.Y + drawPlayer.height / 2f - Main.screenPosition.Y);
-				DrawData data = new DrawData(texture, new Vector2(drawX, drawY), frame,
-					Lighting.GetColor((int)((drawInfo.position.X + drawPlayer.width / 2f) / 16f),
-						(int)((drawInfo.position.Y + drawPlayer.height / 2f) / 16f)),
-					0f, new Vector2(texture.Width / 2f, frameSize / 2f), 1f,
-					drawInfo.spriteEffects, 0);
-				Main.playerDrawData.Add(data);
-			}
-		});
-
-		public static readonly PlayerLayer ForbiddenCircletSign = new PlayerLayer("CalamityMod", "ForbiddenSigil", PlayerLayer.BackAcc, delegate (PlayerDrawInfo drawInfo)
-		{
-			DrawData drawData = new DrawData();
-			Player drawPlayer = drawInfo.drawPlayer;
-			CalamityPlayer modPlayer = drawPlayer.Calamity();
-			if (drawInfo.shadow != 0f || drawPlayer.dead || !modPlayer.forbiddenCirclet)
-			{
-				return;
-			}
-			SpriteEffects spriteEffects = SpriteEffects.FlipHorizontally;
-			if (drawPlayer.gravDir == 1f)
-			{
-				if (drawPlayer.direction == 1)
-				{
-					spriteEffects = SpriteEffects.None;
-				}
-				else
-				{
-					spriteEffects = SpriteEffects.FlipHorizontally;
-				}
-			}
-			else
-			{
-				if (drawPlayer.direction == 1)
-				{
-					spriteEffects = SpriteEffects.FlipVertically;
-				}
-				else
-				{
-					spriteEffects = SpriteEffects.FlipHorizontally | SpriteEffects.FlipVertically;
-				}
-			}
-			int dyeShader = 0;
-			if (drawPlayer.dye[1] != null)
-				dyeShader = (int)drawPlayer.dye[1].dye;
-			Microsoft.Xna.Framework.Color color12 = drawPlayer.GetImmuneAlphaPure(Lighting.GetColor((int)((double)drawInfo.position.X + (double)drawPlayer.width * 0.5) / 16, (int)((double)drawInfo.position.Y + (double)drawPlayer.height * 0.5) / 16, Microsoft.Xna.Framework.Color.White), drawInfo.shadow);
-			Microsoft.Xna.Framework.Color color19 = Microsoft.Xna.Framework.Color.Lerp(color12, Microsoft.Xna.Framework.Color.White, 0.7f);
-			Texture2D texture = Main.extraTexture[ExtrasID.ForbiddenSign];
-			Texture2D glowmask = Main.glowMaskTexture[GlowMaskID.ForbiddenSign];
-			int num24 = (int)(((float)((double)drawPlayer.miscCounter / 300 * MathHelper.TwoPi)).ToRotationVector2().Y * 6f);
-			float num25 = ((float)((double) drawPlayer.miscCounter / 75.0 * MathHelper.TwoPi)).ToRotationVector2().X * 4f;
-			Microsoft.Xna.Framework.Color color20 = new Microsoft.Xna.Framework.Color(80, 70, 40, 0) * (float) ((double) num25 / 8.0 + 0.5) * 0.8f;
-			Vector2 position = new Vector2((float)((double)drawInfo.position.X - (double)Main.screenPosition.X - (double)(drawPlayer.bodyFrame.Width / 2) + (double)(drawPlayer.width / 2)), (float)((double)drawInfo.position.Y - (double)Main.screenPosition.Y + (double)drawPlayer.height - (double)drawPlayer.bodyFrame.Height + 4.0)) + drawPlayer.bodyPosition + new Vector2((float)(drawPlayer.bodyFrame.Width / 2), (float)(drawPlayer.bodyFrame.Height / 2)) + new Vector2((float)(-drawPlayer.direction * 10), (float)(num24 - 20));
-			drawData = new DrawData(texture, position, new Microsoft.Xna.Framework.Rectangle?(), color19, drawPlayer.bodyRotation, texture.Size() / 2f, 1f, spriteEffects, 0);
-			drawData.shader = dyeShader;
-			Main.playerDrawData.Add(drawData);
-			for (float num26 = 0.0f; num26 < 4f; ++num26)
-			{
-				drawData = new DrawData(glowmask, position + (num26 * MathHelper.PiOver2).ToRotationVector2() * num25, new Microsoft.Xna.Framework.Rectangle?(), color20, drawPlayer.bodyRotation, texture.Size() / 2f, 1f, spriteEffects, 0);
-				Main.playerDrawData.Add(drawData);
-			}
-		});
-
-        public static readonly PlayerLayer Skin = new PlayerLayer("CalamityMod", "Skin", PlayerLayer.Skin, delegate (PlayerDrawInfo drawInfo)
-        {
-            Player drawPlayer = drawInfo.drawPlayer;
-            CalamityPlayer modPlayer = drawPlayer.Calamity();
-            if (drawInfo.shadow != 0f || drawPlayer.dead)
-            {
-                return;
-            }
-        });
-
-        public static readonly PlayerLayer ColdDivinityOverlay = new PlayerLayer("CalamityMod", "ColdDivinity", PlayerLayer.Skin, (drawInfo) =>
-        {
-            Player drawPlayer = drawInfo.drawPlayer;
-            CalamityPlayer modPlayer = drawPlayer.Calamity();
-            if (modPlayer.coldDivinity)
-            {
-                Texture2D texture = ModContent.GetTexture("CalamityMod/ExtraTextures/ColdDivinityBody");
-                int drawX = (int)(drawInfo.position.X + drawPlayer.width / 2f - Main.screenPosition.X);
-                int drawY = (int)(drawInfo.position.Y + drawPlayer.height / 2f - Main.screenPosition.Y); //4
-                DrawData data = new DrawData(texture, new Vector2(drawX, drawY), null, new Color(53, Main.DiscoG, 255) * 0.5f, 0f, new Vector2(texture.Width / 2f, texture.Height / 2f), 1.15f, drawPlayer.direction != -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
-                Main.playerDrawData.Add(data);
-            }
-        });
-
-        public static readonly PlayerLayer RoverDriveShield = new PlayerLayer("CalamityMod", "RoverDrive", PlayerLayer.Skin, (drawInfo) =>
-        {
-            Player drawPlayer = drawInfo.drawPlayer;
-            CalamityPlayer modPlayer = drawPlayer.Calamity();
-            if (modPlayer.roverDriveTimer < 616 && modPlayer.roverDrive && !drawPlayer.dead)
-            {
-                Texture2D texture = ModContent.GetTexture("CalamityMod/ExtraTextures/RoverAccShield");
-				int frameAmt = 11;
-				int height = texture.Height / frameAmt;
-				int frameHeight = height * modPlayer.roverFrame;
-				Vector2 drawPos = drawPlayer.Center - Main.screenPosition + new Vector2(0f, drawPlayer.gfxOffY);
-				Rectangle frame = new Rectangle(0, frameHeight, texture.Width, height);
-				Color color = Color.White * 0.625f;
-				Vector2 origin = new Vector2(texture.Width / 2f, height / 2f);
-				float scale = 1f + (float)Math.Cos(Main.GlobalTime) * 0.1f;
-				SpriteEffects spriteEffects = drawPlayer.direction != -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-
-                DrawData data = new DrawData(texture, drawPos, frame, color, 0f, origin, scale, spriteEffects, 0);
-                Main.playerDrawData.Add(data);
-            }
-        });
-
-        public static readonly PlayerLayer StratusSphereDrawing = new PlayerLayer("CalamityMod", "StratusSphereDrawing", PlayerLayer.HeldProjFront, (drawInfo) =>
-        {
-            Player drawPlayer = drawInfo.drawPlayer;
-            if (drawPlayer.inventory[drawPlayer.selectedItem].type == ModContent.ItemType<StratusSphere>())
-            {
-                SpriteEffects effect = SpriteEffects.FlipHorizontally;
-                if (drawPlayer.gravDir == 1f)
-                {
-                    if (drawPlayer.direction == 1)
-                    {
-                        effect = SpriteEffects.None;
-                    }
-                    else
-                    {
-                        effect = SpriteEffects.FlipHorizontally;
-                    }
-                }
-                else
-                {
-                    if (drawPlayer.direction == 1)
-                    {
-                        effect = SpriteEffects.FlipVertically;
-                    }
-                    else
-                    {
-                        effect = SpriteEffects.FlipHorizontally | SpriteEffects.FlipVertically;
-                    }
-                }
-                Vector2 itemDrawPosition = drawPlayer.Center;
-                Texture2D drawTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/StratusSphereHold");
-                Rectangle rectangle = drawTexture.Frame(1, 4, 0, (int)(2 * Math.Sin(drawPlayer.miscCounter / 20f * MathHelper.TwoPi) + 2));
-                Vector2 drawOffset = new Vector2(rectangle.Width / 2 * drawPlayer.direction, 0f);
-                Vector2 origin = rectangle.Size() / 2f;
-                Main.playerDrawData.Add(new DrawData(drawTexture,
-                                                     (itemDrawPosition - Main.screenPosition + drawOffset).Floor(),
-                                                     new Rectangle?(rectangle),
-                                                     Color.White,
-                                                     drawPlayer.itemRotation,
-                                                     origin,
-                                                     drawPlayer.inventory[drawPlayer.selectedItem].scale,
-                                                     effect,
-                                                     0));
-                drawTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/StratusSphereHoldGlow");
-                Main.playerDrawData.Add(new DrawData(drawTexture,
-                                                     (itemDrawPosition - Main.screenPosition + drawOffset).Floor(),
-                                                     new Rectangle?(rectangle),
-                                                     Color.White,
-                                                     drawPlayer.itemRotation, 
-                                                     origin,
-                                                     drawPlayer.inventory[drawPlayer.selectedItem].scale,
-                                                     effect, 
-                                                     0));
-            }
-        });
-
-        public static readonly PlayerLayer IbanDevRobot = new PlayerLayer("CalamityMod", "IbanDevRobot", PlayerLayer.Body, (drawInfo) =>
-        {
-            Player drawPlayer = drawInfo.drawPlayer;
-            if (drawPlayer.Calamity().andromedaState == AndromedaPlayerState.Inactive)
-                return;
-            Main.playerDrawData.Clear();
-            int robot = -1;
-            for (int i = 0; i < Main.projectile.Length; i++)
-            {
-                if (Main.projectile[i].active &&
-                    Main.projectile[i].type == ModContent.ProjectileType<GiantIbanRobotOfDoom>() &&
-                    Main.projectile[i].owner == drawPlayer.whoAmI)
-                {
-                    robot = i;
-                    break;
-                }
-            }
-            if (robot == -1)
-            {
-                drawPlayer.Calamity().andromedaState = AndromedaPlayerState.Inactive;
-                return;
-            }
-
-            GiantIbanRobotOfDoom robotEntityInstance = (GiantIbanRobotOfDoom)Main.projectile[robot].modProjectile;
-            if (drawPlayer.Calamity().andromedaState == AndromedaPlayerState.SpecialAttack)
-            {
-                Texture2D dashTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/AndromedaBolt");
-                Rectangle frame = dashTexture.Frame(1, 4, 0, robotEntityInstance.RightIconCooldown / 4 % 4);
-
-                DrawData drawData = new DrawData(dashTexture,
-                                 drawPlayer.Center + new Vector2(0f, -8f) - Main.screenPosition,
-                                 frame,
-                                 Color.White,
-                                 Main.projectile[robot].rotation,
-                                 drawPlayer.Size / 2,
-                                 1f,
-                                 Main.projectile[robot].spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None,
-                                 1);
-                drawData.shader = drawPlayer.cBody;
-
-                Main.playerDrawData.Add(drawData);
-            }
-            else if (drawPlayer.Calamity().andromedaState == AndromedaPlayerState.LargeRobot)
-            {
-                Texture2D robotTexture = ModContent.GetTexture(robotEntityInstance.Texture);
-                Rectangle frame = new Rectangle(robotEntityInstance.FrameX * robotTexture.Width / 3, robotEntityInstance.FrameY * robotTexture.Height / 7,
-                                                robotTexture.Width / 3, robotTexture.Height / 7);
-
-                DrawData drawData = new DrawData(ModContent.GetTexture(Main.projectile[robot].modProjectile.Texture),
-                                 Main.projectile[robot].Center + Vector2.UnitY * 6f - Main.screenPosition,
-                                 frame,
-                                 Color.White,
-                                 Main.projectile[robot].rotation,
-                                 Main.projectile[robot].Size / 2,
-                                 1f,
-                                 Main.projectile[robot].spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None,
-                                 1);
-                drawData.shader = drawPlayer.cBody;
-
-                Main.playerDrawData.Add(drawData);
-            }
-            else
-            {
-                Texture2D robotTexture = ModContent.GetTexture("CalamityMod/Projectiles/Summon/AndromedaSmall");
-                Rectangle frame = new Rectangle(0, robotEntityInstance.CurrentFrame * 54, robotTexture.Width, robotTexture.Height / 21);
-                DrawData drawData = new DrawData(robotTexture,
-                                 drawPlayer.Center + new Vector2(drawPlayer.direction == 1 ? -24 : -10, -8f) - Main.screenPosition,
-                                 frame,
-                                 Color.White,
-                                 0f,
-                                 drawPlayer.Size / 2,
-                                 1f,
-                                 Main.projectile[robot].spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None,
-                                 1);
-                drawData.shader = drawPlayer.cBody;
-
-                Main.playerDrawData.Add(drawData);
-            }
-        });
-
-        public static readonly PlayerLayer ProfanedMoonlightDyeEffects = new PlayerLayer("CalamityMod", "ProfanedMoonlight", PlayerLayer.Body, (drawInfo) =>
-        {
-            Player drawPlayer = drawInfo.drawPlayer;
-            int totalMoonlightDyes = drawPlayer.dye.Count(dyeItem => dyeItem.type == ModContent.ItemType<ProfanedMoonlightDye>());
-            if (totalMoonlightDyes <= 0)
-                return;
-            float auroraCount = 12 + (int)MathHelper.Clamp(totalMoonlightDyes, 0f, 4f) * 2;
-            float opacity = MathHelper.Clamp(totalMoonlightDyes / 3f, 0f, 1f);
-
-            if (Main.dayTime)
-                opacity *= 0.4f;
-            else
-                opacity *= 0.25f;
-
-            float time01 = Main.GlobalTime % 3f / 3f;
-            Texture2D auroraTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/AuroraTexture");
-            for (int i = 0; i < auroraCount; i++)
-            {
-                float incrementOffsetAngle = MathHelper.TwoPi * i / auroraCount;
-                float timeOffset = (float)Math.Sin(time01 * MathHelper.TwoPi + incrementOffsetAngle * 2f);
-                float rotation = (float)Math.Sin(incrementOffsetAngle) * MathHelper.Pi / 12f;
-                float yOffset = (float)Math.Sin(time01 * MathHelper.TwoPi + incrementOffsetAngle * 2f + MathHelper.ToRadians(60f)) * 6f;
-                Color color = GetCurrentMoonlightDyeColor(incrementOffsetAngle);
-                Vector2 offset = new Vector2(20f * timeOffset, yOffset - 14f);
-                DrawData drawData = new DrawData(auroraTexture,
-                                 drawPlayer.Top + offset - Main.screenPosition,
-                                 null,
-                                 color * opacity,
-                                 rotation + MathHelper.PiOver2,
-                                 auroraTexture.Size() * 0.5f,
-                                 0.135f,
-                                 SpriteEffects.None,
-                                 1);
-
-                Main.playerDrawData.Add(drawData);
-            }
-        });
-
-        public override void ModifyDrawLayers(List<PlayerLayer> list)
-        {
-            MiscEffectsBack.visible = true;
-            list.Insert(0, MiscEffectsBack);
-            Skin.visible = true;
-            list.Insert(list.IndexOf(PlayerLayer.Skin) + 1, Skin);
-            MiscEffects.visible = true;
-            list.Add(MiscEffects);
-
-            if (CalamityMod.legOverrideList.Contains(player.legs))
-                list[list.IndexOf(PlayerLayer.ShoeAcc)].visible = false;
-            if (fab || crysthamyr || onyxExcavator)
-            {
-                AddPlayerLayer(list, clAfterAll, list[list.Count - 1], false); 
-            }
-
-			if (fathomSwarmerTail)
-			{
-				int legsIndex = list.IndexOf(PlayerLayer.Skin);
-				list.Insert(legsIndex - 1, Tail);
-			}
-			if (forbiddenCirclet)
-			{
-				int drawTheStupidSign = list.IndexOf(PlayerLayer.Skin);
-				list.Insert(drawTheStupidSign, ForbiddenCircletSign);
-			}
-            list.Add(ColdDivinityOverlay);
-            list.Add(RoverDriveShield);
-            list.Add(StratusSphereDrawing);
-            list.Add(ProfanedMoonlightDyeEffects);
-            list.Add(IbanDevRobot);
-            list.Add(DyeInvisibilityFix);
-        }
-
-        public PlayerLayer clAfterAll = new PlayerLayer("Calamity", "clAfterAll", PlayerLayer.MiscEffectsFront, delegate (PlayerDrawInfo drawInfo)
-        {
-            Player drawPlayer = drawInfo.drawPlayer;
-            CalamityPlayer modPlayer = drawPlayer.Calamity();
-            if (drawPlayer.mount != null && (modPlayer.fab || modPlayer.crysthamyr ||
-                modPlayer.onyxExcavator))
-            {
-                drawPlayer.mount.Draw(Main.playerDrawData, 3, drawPlayer, drawInfo.position, drawInfo.mountColor, drawInfo.spriteEffects, drawInfo.shadow);
-            }
-        });
-
-        public static void AddPlayerLayer(List<PlayerLayer> list, PlayerLayer layer, PlayerLayer parent, bool first)
-        {
-            int insertAt = -1;
-            for (int m = 0; m < list.Count; m++)
-            {
-                PlayerLayer dl = list[m];
-                if (dl.Name.Equals(parent.Name))
-                { insertAt = m; break; }
-            }
-            if (insertAt == -1)
-                list.Add(layer);
-            else
-                list.Insert(first ? insertAt : insertAt + 1, layer);
-        }
-
-        public override void DrawEffects(PlayerDrawInfo drawInfo, ref float r, ref float g, ref float b, ref float a, ref bool fullBright)
-        {
-            // Dust modifications while high
-            if (trippy)
-			{
-				if (Main.myPlayer == player.whoAmI)
-				{
-					Rectangle rectangle = new Rectangle((int)Main.screenPosition.X - 500, (int)Main.screenPosition.Y - 50, Main.screenWidth + 1000, Main.screenHeight + 100);
-					int dustDrawn = 0;
-					float maxShroomDust = Main.maxDustToDraw / 2;
-					for (int i = 0; i < Main.maxDustToDraw; i++)
-					{
-						Dust dust = Main.dust[i];
-						if (dust.active)
-						{
-							if (new Rectangle((int)dust.position.X, (int)dust.position.Y, 4, 4).Intersects(rectangle))
-							{
-								dust.color = new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB, 0);
-								for (int num213 = 0; num213 < 4; num213++)
-								{
-									Vector2 position9 = dust.position;
-									Vector2 dustCenter = new Vector2(position9.X + 4f, position9.Y + 4f);
-									float num214 = Math.Abs(dustCenter.X - player.Center.X);
-									float num215 = Math.Abs(dustCenter.Y - player.Center.Y);
-									if (num213 == 0 || num213 == 2)
-									{
-										position9.X = player.Center.X + num214;
-									}
-									else
-									{
-										position9.X = player.Center.X - num214;
-									}
-									position9.X -= 4f;
-									if (num213 == 0 || num213 == 1)
-									{
-										position9.Y = player.Center.Y + num215;
-									}
-									else
-									{
-										position9.Y = player.Center.Y - num215;
-									}
-									position9.Y -= 4f;
-									Main.spriteBatch.Draw(Main.dustTexture, position9 - Main.screenPosition, new Rectangle?(dust.frame), dust.color, dust.rotation, new Vector2(4f, 4f), dust.scale, SpriteEffects.None, 0f);
-									dustDrawn++;
-								}
-
-								// Break if too many dust clones have been drawn
-								if (dustDrawn > maxShroomDust)
-									break;
-							}
-						}
-					}
-				}
-			}
-
-			bool noRogueStealth = rogueStealth == 0f || player.townNPCs > 2f || !CalamityConfig.Instance.StealthInvisbility;
-            if (rogueStealth > 0f && rogueStealthMax > 0f && player.townNPCs < 3f && CalamityConfig.Instance.StealthInvisbility)
-            {
-                //A translucent orchid color, the rogue class color
-                float colorValue = rogueStealth / rogueStealthMax * 0.9f; //0 to 0.9
-                r *= 1f - (colorValue * 0.89f); //255 to 50
-                g *= 1f - colorValue; //255 to 25
-                b *= 1f - (colorValue * 0.89f); //255 to 50
-                a *= 1f - colorValue; //255 to 25
-                player.armorEffectDrawOutlines = false;
-                player.armorEffectDrawShadow = false;
-                player.armorEffectDrawShadowSubtle = false;
-            }
-
-            if (CalamityWorld.ironHeart && !Main.gameMenu)
-            {
-                Texture2D ironHeart = ModContent.GetTexture("CalamityMod/ExtraTextures/IronHeart");
-                Main.heartTexture = Main.heart2Texture = ironHeart;
-            }
-            else
-            {
-                Texture2D heart3 = ModContent.GetTexture("CalamityMod/ExtraTextures/Heart3");
-                Texture2D heart4 = ModContent.GetTexture("CalamityMod/ExtraTextures/Heart4");
-                Texture2D heart5 = ModContent.GetTexture("CalamityMod/ExtraTextures/Heart5");
-                Texture2D heart6 = ModContent.GetTexture("CalamityMod/ExtraTextures/Heart6");
-                Texture2D heartOriginal = ModContent.GetTexture("CalamityMod/ExtraTextures/HeartOriginal"); //Life fruit
-                Texture2D heartOriginal2 = ModContent.GetTexture("CalamityMod/ExtraTextures/HeartOriginal2"); //Life crystal
-
-                int totalFruit =
-                    (mFruit ? 1 : 0) +
-                    (bOrange ? 1 : 0) +
-                    (eBerry ? 1 : 0) +
-                    (dFruit ? 1 : 0);
-
-                switch (totalFruit)
-                {
-                    default:
-                        Main.heart2Texture = heartOriginal;
-                        break;
-                    case 4:
-                        Main.heart2Texture = heart6;
-                        break;
-                    case 3:
-                        Main.heart2Texture = heart5;
-                        break;
-                    case 2:
-                        Main.heart2Texture = heart4;
-                        break;
-                    case 1:
-                        Main.heart2Texture = heart3;
-                        break;
-                }
-
-                Main.heartTexture = heartOriginal2;
-            }
-            if (revivify)
-            {
-                if (Main.rand.NextBool(2) && drawInfo.shadow == 0f)
-                {
-                    int dust = Dust.NewDust(drawInfo.position - new Vector2(2f, 2f), player.width + 4, player.height + 4, 91, player.velocity.X * 0.2f, player.velocity.Y * 0.2f, 100, default, 1f);
-                    Main.dust[dust].noGravity = true;
-                    Main.dust[dust].velocity.Y -= 0.5f;
-                    Main.playerDrawDust.Add(dust);
-                }
-            }
-            if (tRegen)
-            {
-                if (Main.rand.NextBool(10) && drawInfo.shadow == 0f)
-                {
-                    int dust = Dust.NewDust(drawInfo.position - new Vector2(2f, 2f), player.width + 4, player.height + 4, 107, player.velocity.X * 0.4f, player.velocity.Y * 0.4f, 100, default, 1f);
-                    Main.dust[dust].noGravity = true;
-                    Main.dust[dust].velocity *= 0.75f;
-                    Main.dust[dust].velocity.Y -= 0.35f;
-                    Main.playerDrawDust.Add(dust);
-                }
-                if (noRogueStealth)
-                {
-                    r *= 0.025f;
-                    g *= 0.15f;
-                    b *= 0.035f;
-                    fullBright = true;
-                }
-            }
-            if (IBoots)
-            {
-                if (!player.StandingStill() && !player.mount.Active)
-                {
-                    if (Main.rand.NextBool(2) && drawInfo.shadow == 0f)
-                    {
-                        int dust = Dust.NewDust(drawInfo.position - new Vector2(2f, 2f), player.width + 4, player.height + 4, 229, player.velocity.X * 0.4f, player.velocity.Y * 0.4f, 100, default, 1f);
-                        Main.dust[dust].noGravity = true;
-                        Main.dust[dust].velocity *= 0.5f;
-                        Main.playerDrawDust.Add(dust);
-                    }
-                    if (noRogueStealth)
-                    {
-                        r *= 0.05f;
-                        g *= 0.05f;
-                        b *= 0.05f;
-                        fullBright = true;
-                    }
-                }
-            }
-            if (elysianFire)
-            {
-                if (!player.StandingStill() && !player.mount.Active)
-                {
-                    if (Main.rand.NextBool(2) && drawInfo.shadow == 0f)
-                    {
-                        int dust = Dust.NewDust(drawInfo.position - new Vector2(2f, 2f), player.width + 4, player.height + 4, 246, player.velocity.X * 0.4f, player.velocity.Y * 0.4f, 100, default, 1f);
-                        Main.dust[dust].noGravity = true;
-                        Main.dust[dust].velocity *= 0.5f;
-                        Main.playerDrawDust.Add(dust);
-                    }
-                    if (noRogueStealth)
-                    {
-                        r *= 0.75f;
-                        g *= 0.55f;
-                        b *= 0f;
-                        fullBright = true;
-                    }
-                }
-            }
-            if (dsSetBonus)
-            {
-                if (!player.StandingStill() && !player.mount.Active)
-                {
-                    if (Main.rand.NextBool(2) && drawInfo.shadow == 0f)
-                    {
-                        int dust = Dust.NewDust(drawInfo.position - new Vector2(2f, 2f), player.width + 4, player.height + 4, 27, player.velocity.X * 0.4f, player.velocity.Y * 0.4f, 100, default, 1.5f);
-                        Main.dust[dust].noGravity = true;
-                        Main.dust[dust].velocity *= 0.5f;
-                        Main.playerDrawDust.Add(dust);
-                    }
-                    if (noRogueStealth)
-                    {
-                        r *= 0.15f;
-                        g *= 0.025f;
-                        b *= 0.1f;
-                        fullBright = true;
-                    }
-                }
-            }
-            if (auricSet)
-            {
-                if (!player.StandingStill() && !player.mount.Active)
-                {
-                    if (drawInfo.shadow == 0f)
-                    {
-                        int dust = Dust.NewDust(drawInfo.position - new Vector2(2f, 2f), player.width + 4, player.height + 4, Main.rand.NextBool(2) ? 57 : 244, player.velocity.X * 0.4f, player.velocity.Y * 0.4f, 100, default, 1.5f);
-                        Main.dust[dust].noGravity = true;
-                        Main.dust[dust].velocity *= 0.5f;
-                        Main.playerDrawDust.Add(dust);
-                    }
-                    if (noRogueStealth)
-                    {
-                        r *= 0.15f;
-                        g *= 0.025f;
-                        b *= 0.1f;
-                        fullBright = true;
-                    }
-                }
-            }
-            if (bFlames || aFlames || rageModeActive)
-            {
-                if (Main.rand.NextBool(4) && drawInfo.shadow == 0f)
-                {
-                    int dust = Dust.NewDust(drawInfo.position - new Vector2(2f, 2f), player.width + 4, player.height + 4, ModContent.DustType<BrimstoneFlame>(), player.velocity.X * 0.4f, player.velocity.Y * 0.4f, 100, default, 3f);
-                    Main.dust[dust].noGravity = true;
-                    Main.dust[dust].velocity *= 1.8f;
-                    Main.dust[dust].velocity.Y -= 0.5f;
-                    Main.playerDrawDust.Add(dust);
-                }
-                if (noRogueStealth)
-                {
-                    r *= 0.25f;
-                    g *= 0.01f;
-                    b *= 0.01f;
-                    fullBright = true;
-                }
-            }
-            if (shadowflame)
-            {
-                if (Main.rand.Next(5) < 4 && drawInfo.shadow == 0f)
-                {
-                    int dust = Dust.NewDust(drawInfo.position - new Vector2(2f, 2f), player.width + 4, player.height + 4, 27, player.velocity.X * 0.4f, player.velocity.Y * 0.4f, 100, default, 1.95f);
-                    Main.dust[dust].noGravity = true;
-                    Main.dust[dust].velocity *= 0.75f;
-                    Main.dust[dust].velocity.X = Main.dust[dust].velocity.X * 0.75f;
-                    Main.dust[dust].velocity.Y = Main.dust[dust].velocity.Y - 1f;
-                    if (Main.rand.NextBool(4))
-                    {
-                        Main.dust[dust].noGravity = false;
-                        Main.dust[dust].scale *= 0.5f;
-                    }
-                }
-            }
-            if (sulphurPoison)
-            {
-                if (Main.rand.Next(5) < 4 && drawInfo.shadow == 0f)
-                {
-                    int dust = Dust.NewDust(drawInfo.position - new Vector2(2f, 2f), player.width + 4, player.height + 4, 46, player.velocity.X * 0.4f, player.velocity.Y * 0.4f, 100, default, 1.95f);
-                    Main.dust[dust].noGravity = true;
-                    Main.dust[dust].velocity *= 0.75f;
-                    Main.dust[dust].velocity.X = Main.dust[dust].velocity.X * 0.75f;
-                    Main.dust[dust].velocity.Y = Main.dust[dust].velocity.Y - 1f;
-                    if (Main.rand.NextBool(4))
-                    {
-                        Main.dust[dust].noGravity = false;
-                        Main.dust[dust].scale *= 0.5f;
-                    }
-                }
-                if (noRogueStealth)
-                {
-                    r *= 0.65f;
-                    b *= 0.75f;
-                    fullBright = true;
-                }
-            }
-            if (adrenalineModeActive)
-            {
-                if (Main.rand.NextBool(4) && drawInfo.shadow == 0f)
-                {
-                    int dust = Dust.NewDust(drawInfo.position - new Vector2(2f, 2f), player.width + 4, player.height + 4, 206, player.velocity.X * 0.4f, player.velocity.Y * 0.4f, 100, default, 3f);
-                    Main.dust[dust].velocity *= 1.8f;
-                    Main.dust[dust].velocity.Y -= 0.5f;
-                    Main.playerDrawDust.Add(dust);
-                }
-                if (noRogueStealth)
-                {
-                    r *= 0.01f;
-                    g *= 0.15f;
-                    b *= 0.1f;
-                    fullBright = true;
-                }
-            }
-            if (gsInferno)
-            {
-                if (Main.rand.NextBool(4) && drawInfo.shadow == 0f)
-                {
-                    int dust = Dust.NewDust(drawInfo.position - new Vector2(2f, 2f), player.width + 4, player.height + 4, 173, player.velocity.X * 0.4f, player.velocity.Y * 0.4f, 100, default, 3f);
-                    Main.dust[dust].noGravity = true;
-                    Main.dust[dust].velocity *= 1.8f;
-                    Main.dust[dust].velocity.Y -= 0.5f;
-                    Main.playerDrawDust.Add(dust);
-                }
-                if (noRogueStealth)
-                {
-                    r *= 0.25f;
-                    g *= 0.01f;
-                    b *= 0.01f;
-                    fullBright = true;
-                }
-            }
-            if (astralInfection)
-            {
-                if (Main.rand.NextBool(4) && drawInfo.shadow == 0f)
-                {
-                    int dustType = Main.rand.NextBool(2) ? ModContent.DustType<AstralOrange>() : ModContent.DustType<AstralBlue>();
-                    int dust = Dust.NewDust(drawInfo.position - new Vector2(2f, 2f), player.width + 4, player.height + 4, dustType, player.velocity.X * 0.2f, player.velocity.Y * 0.2f, 100, default, 0.7f);
-                    Main.dust[dust].noGravity = true;
-                    Main.dust[dust].velocity *= 1.2f;
-                    Main.dust[dust].velocity.Y -= 0.5f;
-                    Main.dust[dust].color = new Color(255, 255, 255, 0);
-                    Main.playerDrawDust.Add(dust);
-                }
-            }
-            if (hFlames || hInferno)
-            {
-                if (Main.rand.NextBool(4) && drawInfo.shadow == 0f)
-                {
-                    int dust = Dust.NewDust(drawInfo.position - new Vector2(2f, 2f), player.width + 4, player.height + 4, ModContent.DustType<HolyFireDust>(), player.velocity.X * 0.4f, player.velocity.Y * 0.4f, 100, default, 3f);
-                    Main.dust[dust].noGravity = true;
-                    Main.dust[dust].velocity *= 1.8f;
-                    Main.dust[dust].velocity.Y -= 0.5f;
-                    Main.playerDrawDust.Add(dust);
-                }
-                if (noRogueStealth)
-                {
-                    r *= 0.25f;
-                    g *= 0.25f;
-                    b *= 0.1f;
-                    fullBright = true;
-                }
-            }
-            else if (eGravity)
-            {
-                if (Main.rand.NextBool(12) && drawInfo.shadow == 0f)
-                {
-                    int dust = Dust.NewDust(drawInfo.position - new Vector2(2f, 2f), player.width + 4, player.height + 4, 244, player.velocity.X * 0.4f, player.velocity.Y * 0.4f, 100, default, 3f);
-                    Main.dust[dust].noGravity = true;
-                    Main.dust[dust].velocity *= 1.8f;
-                    Main.dust[dust].velocity.Y -= 0.5f;
-                    Main.playerDrawDust.Add(dust);
-                }
-            }
-            if (pFlames)
-            {
-                if (Main.rand.NextBool(4) && drawInfo.shadow == 0f)
-                {
-                    int dust = Dust.NewDust(drawInfo.position - new Vector2(2f, 2f), player.width + 4, player.height + 4, 89, player.velocity.X * 0.4f, player.velocity.Y * 0.4f, 100, default, 3f);
-                    Main.dust[dust].noGravity = true;
-                    Main.dust[dust].velocity *= 1.2f;
-                    Main.dust[dust].velocity.Y -= 0.15f;
-                    Main.playerDrawDust.Add(dust);
-                }
-                if (noRogueStealth)
-                {
-                    r *= 0.07f;
-                    g *= 0.15f;
-                    b *= 0.01f;
-                    fullBright = true;
-                }
-            }
-            if (nightwither)
-            {
-                if (Main.rand.NextBool(4) && drawInfo.shadow == 0f)
-                {
-                    int dust = Dust.NewDust(drawInfo.position - new Vector2(2f, 2f), player.width + 4, player.height + 4, 176, player.velocity.X * 0.4f, player.velocity.Y * 0.4f, 100, default, 3f);
-                    Main.dust[dust].noGravity = true;
-                    Main.dust[dust].velocity *= 1.8f;
-                    Main.dust[dust].velocity.Y -= 0.5f;
-                    Main.playerDrawDust.Add(dust);
-                }
-                if (noRogueStealth)
-                {
-                    r *= 0.25f;
-                    g *= 0.25f;
-                    b *= 0.1f;
-                    fullBright = true;
-                }
-            }
-            if (vaporfied)
-            {
-                int dustType = Utils.SelectRandom(Main.rand, new int[]
-                {
-                    246,
-                    242,
-                    229,
-                    226,
-                    247,
-                    187,
-                    234
-                });
-                if (Main.rand.NextBool(4) && drawInfo.shadow == 0f)
-                {
-                    int dust = Dust.NewDust(drawInfo.position - new Vector2(2f, 2f), player.width + 4, player.height + 4, dustType, player.velocity.X * 0.4f, player.velocity.Y * 0.4f, 100, default, 3f);
-                    Main.dust[dust].noGravity = true;
-                    Main.dust[dust].velocity *= 1.8f;
-                    Main.dust[dust].velocity.Y -= 0.5f;
-                    if (Main.rand.NextBool(4))
-                    {
-                        Main.dust[dust].noGravity = false;
-                        Main.dust[dust].scale *= 0.5f;
-                    }
-                    Main.playerDrawDust.Add(dust);
-                }
-                if (noRogueStealth)
-                {
-                    r *= 0.25f;
-                    g *= 0.25f;
-                    b *= 0.1f;
-                    fullBright = true;
-                }
-            }
-            if (eFreeze || silvaStun || gState || cDepth || eutrophication)
-            {
-                if (noRogueStealth)
-                {
-                    r *= 0f;
-                    g *= 0.05f;
-                    b *= 0.3f;
-                    fullBright = true;
-                }
-            }
-            if (draedonsHeart && !shadeRegen && !cFreeze && player.StandingStill() && player.itemAnimation == 0)
-            {
-                if (noRogueStealth)
-                {
-                    r *= 0f;
-                    g *= 0.5f;
-                    b *= 0f;
-                    fullBright = true;
-                }
-            }
-            if (bBlood)
-            {
-                if (Main.rand.NextBool(6) && drawInfo.shadow == 0f)
-                {
-                    int dust = Dust.NewDust(drawInfo.position - new Vector2(2f, 2f), player.width + 4, player.height + 4, 5, player.velocity.X * 0.4f, player.velocity.Y * 0.4f, 100, default, 3f);
-                    Main.dust[dust].noGravity = true;
-                    Main.dust[dust].velocity *= 1.8f;
-                    Main.dust[dust].velocity.Y -= 0.5f;
-                    Main.playerDrawDust.Add(dust);
-                }
-                if (noRogueStealth)
-                {
-                    r *= 0.15f;
-                    g *= 0.01f;
-                    b *= 0.01f;
-                    fullBright = true;
-                }
-            }
-            if (mushy || (etherealExtorter && player.ZoneGlowshroom))
-            {
-                if (Main.rand.NextBool(6) && drawInfo.shadow == 0f)
-                {
-                    int dust = Dust.NewDust(drawInfo.position - new Vector2(2f, 2f), player.width + 4, player.height + 4, 56, player.velocity.X * 0.4f, player.velocity.Y * 0.4f, 100, default, 2f);
-                    Main.dust[dust].noGravity = true;
-                    Main.dust[dust].velocity *= 0.5f;
-                    Main.dust[dust].velocity.Y -= 0.1f;
-                    Main.playerDrawDust.Add(dust);
-                }
-                if (noRogueStealth)
-                {
-                    r *= 0.15f;
-                    g *= 0.01f;
-                    b *= 0.01f;
-                    fullBright = true;
-                }
-            }
-            if (bloodfinBoost)
-            {
-                if (Main.rand.NextBool(6) && drawInfo.shadow == 0f)
-                {
-                    int dust = Dust.NewDust(drawInfo.position - new Vector2(2f, 2f), player.width + 4, player.height + 4, 5, player.velocity.X * 0.4f, player.velocity.Y * 0.4f, 100, default, 3f);
-                    Main.dust[dust].noGravity = true;
-                    Main.dust[dust].velocity *= 1.8f;
-                    Main.dust[dust].velocity.Y -= 0.5f;
-                    Main.playerDrawDust.Add(dust);
-                }
-                if (noRogueStealth)
-                {
-                    r *= 0.5f;
-                    g *= 0f;
-                    b *= 0f;
-                    fullBright = true;
-                }
-            }
-			if ((cadence || ladHearts > 0) && !player.loveStruck)
-			{
-				if (Main.rand.NextBool(5) && drawInfo.shadow == 0f)
-				{
-					Vector2 vector2_2 = new Vector2((float)Main.rand.Next(-10, 11), (float)Main.rand.Next(-10, 11));
-					vector2_2.Normalize();
-					vector2_2.X *= 0.66f;
-					int heart = Gore.NewGore(drawInfo.position + new Vector2((float)Main.rand.Next(player.width + 1), (float)Main.rand.Next(player.height + 1)), vector2_2 * (float)Main.rand.Next(3, 6) * 0.33f, 331, (float)Main.rand.Next(40, 121) * 0.01f);
-					Main.gore[heart].sticky = false;
-					Main.gore[heart].velocity *= 0.4f;
-					Main.gore[heart].velocity.Y -= 0.6f;
-					Main.playerDrawGore.Add(heart);
-				}
-			}
-        }
-        #endregion
-
         #region Nurse Modifications
         public override bool ModifyNurseHeal(NPC nurse, ref int health, ref bool removeDebuffs, ref string chatText)
         {
@@ -10991,7 +9750,7 @@ namespace CalamityMod.CalPlayer
                     stealthGenMoving += 0.15f;
             }
 
-            if (CalamityMod.daggerList.Contains(player.ActiveItem().type) && player.invis)
+            if (CalamityLists.daggerList.Contains(player.ActiveItem().type) && player.invis)
             {
                 stealthGenStandstill += 0.08f;
                 stealthGenMoving += 0.08f;

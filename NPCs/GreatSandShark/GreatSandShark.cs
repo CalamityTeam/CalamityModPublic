@@ -104,7 +104,7 @@ namespace CalamityMod.NPCs.GreatSandShark
 			if (!Terraria.GameContent.Events.Sandstorm.Happening)
 			{
 				CalamityUtils.StartSandstorm();
-				CalamityMod.UpdateServerBoolean();
+				CalamityNetcode.SyncWorld();
 			}
             if (npc.soundDelay <= 0)
             {
@@ -662,7 +662,7 @@ namespace CalamityMod.NPCs.GreatSandShark
 
             // Mark Great Sand Shark as dead
             CalamityWorld.downedGSS = true;
-            CalamityMod.UpdateServerBoolean();
+            CalamityNetcode.SyncWorld();
         }
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)

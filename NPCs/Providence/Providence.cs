@@ -1,6 +1,7 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Dusts;
+using CalamityMod.Events;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Accessories.Wings;
 using CalamityMod.Items.Armor.Vanity;
@@ -189,10 +190,10 @@ namespace CalamityMod.NPCs.Providence
 			}
 
 			// Difficulty bools
-			bool death = CalamityWorld.death || CalamityWorld.bossRushActive || nightTime;
-			bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive || nightTime;
-			bool expertMode = Main.expertMode || CalamityWorld.bossRushActive || nightTime;
-			bool enraged = npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive);
+			bool death = CalamityWorld.death || BossRushEvent.BossRushActive || nightTime;
+			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive || nightTime;
+			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive || nightTime;
+			bool enraged = npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive);
 
 			// Projectile damage values
 			bool scaleExpertProjectileDamage = Main.expertMode && !nightTime;
@@ -235,7 +236,7 @@ namespace CalamityMod.NPCs.Providence
 			if (enraged)
 				spearRate += enragedSpearRateIncrease;
 
-			if (CalamityWorld.bossRushActive)
+			if (BossRushEvent.BossRushActive)
 				spearRate += bossRushSpearRateIncrease;
 
 			// Projectile fire rate multiplier
@@ -313,7 +314,7 @@ namespace CalamityMod.NPCs.Providence
             }
 
             // Become immune over time if target isn't in hell or hallow
-            if (!isHoly && !isHell && !CalamityWorld.bossRushActive)
+            if (!isHoly && !isHell && !BossRushEvent.BossRushActive)
             {
                 if (immuneTimer > 0)
                     immuneTimer--;
@@ -467,7 +468,7 @@ namespace CalamityMod.NPCs.Providence
 				float velocityBoost = death ? 4f : 4f * (1f - lifeRatio);
                 float acceleration = (expertMode ? 1.1f : 1.05f) + accelerationBoost;
                 float velocity = (expertMode ? 16f : 15f) + velocityBoost;
-                if (CalamityWorld.bossRushActive || nightTime)
+                if (BossRushEvent.BossRushActive || nightTime)
                 {
                     acceleration = 1.3f;
                     velocity = 20f;
@@ -533,8 +534,8 @@ namespace CalamityMod.NPCs.Providence
 				 * 7 = laser */
 
 				// Holy ray in hallow, Crystal in hell
-				bool useLaser = (phase2 && biomeType == 1) || CalamityWorld.bossRushActive;
-				bool useCrystal = (phase2 && biomeType == 2) || CalamityWorld.bossRushActive;
+				bool useLaser = (phase2 && biomeType == 1) || BossRushEvent.BossRushActive;
+				bool useCrystal = (phase2 && biomeType == 2) || BossRushEvent.BossRushActive;
 
 				// Unique pattern for Death Mode and Boss Rush
 				if (death)
@@ -810,7 +811,7 @@ namespace CalamityMod.NPCs.Providence
 
 					int shootBoost = death ? 4 : (int)(5f * (1f - lifeRatio));
 					int num864 = (expertMode ? 36 : 39) - shootBoost;
-					if (CalamityWorld.bossRushActive)
+					if (BossRushEvent.BossRushActive)
 						num864 = 31;
 
 					num864 = (int)(num864 * attackRateMult);
@@ -993,7 +994,7 @@ namespace CalamityMod.NPCs.Providence
 
 					int shootBoost = death ? 3 : (int)(4f * (1f - lifeRatio));
 					int num856 = (expertMode ? 24 : 26) - shootBoost;
-					if (CalamityWorld.bossRushActive)
+					if (BossRushEvent.BossRushActive)
 						num856 = 20;
 
 					num856 = (int)(num856 * attackRateMult);
@@ -1010,7 +1011,7 @@ namespace CalamityMod.NPCs.Providence
 
 						float shootBoost2 = death ? 2.5f : 2.5f * (1f - lifeRatio);
 						float num860 = (expertMode ? 10.25f : 9f) + shootBoost2;
-						if (CalamityWorld.bossRushActive)
+						if (BossRushEvent.BossRushActive)
 							num860 = 12.75f;
 
 						if (revenge)
@@ -1336,7 +1337,7 @@ namespace CalamityMod.NPCs.Providence
 
             // Mark Providence as dead
             CalamityWorld.downedProvidence = true;
-            CalamityMod.UpdateServerBoolean();
+            CalamityNetcode.SyncWorld();
         }
 
         private void SpawnLootBox()

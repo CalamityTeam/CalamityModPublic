@@ -1,3 +1,4 @@
+using CalamityMod.Events;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System.IO;
@@ -26,7 +27,7 @@ namespace CalamityMod.NPCs.Leviathan
             npc.defense = 10;
 			npc.DR_NERD(0.5f);
             npc.lifeMax = 650;
-            if (CalamityWorld.bossRushActive)
+            if (BossRushEvent.BossRushActive)
             {
                 npc.lifeMax = 10000;
             }
@@ -81,7 +82,7 @@ namespace CalamityMod.NPCs.Leviathan
 
         public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            if (CalamityMod.projectileDestroyExceptionList.TrueForAll(x => projectile.type != x))
+            if (CalamityLists.projectileDestroyExceptionList.TrueForAll(x => projectile.type != x))
             {
                 if (projectile.penetrate == -1 && !projectile.minion)
                 {

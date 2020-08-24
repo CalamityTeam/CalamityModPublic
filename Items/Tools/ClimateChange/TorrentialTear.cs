@@ -54,7 +54,7 @@ namespace CalamityMod.Items.Tools.ClimateChange
                 Main.raining = false;
             }
 
-            CalamityMod.UpdateServerBoolean();
+            CalamityNetcode.SyncWorld();
             return true;
         }
 

@@ -36,7 +36,7 @@ namespace CalamityMod.Items.Tools.ClimateChange
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
 				Main.dayTime = false;
-				CalamityMod.UpdateServerBoolean();
+				CalamityNetcode.SyncWorld();
 			}
             return true;
         }

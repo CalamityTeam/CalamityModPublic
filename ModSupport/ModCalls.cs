@@ -401,7 +401,7 @@ namespace CalamityMod
 				case "boss rush":
 				case "bossrushactive":
 				case "boss rush active":
-					return CalamityWorld.bossRushActive;
+					return BossRushEvent.BossRushActive;
 
 				case "defiled":
 				case "defiledrune":
@@ -457,7 +457,7 @@ namespace CalamityMod
 				case "boss rush":
 				case "bossrushactive":
 				case "boss rush active":
-					return CalamityWorld.bossRushActive = enabled;
+					return BossRushEvent.BossRushActive = enabled;
 
 				case "defiled":
 				case "defiledrune":

@@ -1,4 +1,5 @@
 using CalamityMod.Dusts;
+using CalamityMod.Events;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
@@ -25,7 +26,7 @@ namespace CalamityMod.NPCs.StormWeaver
             npc.defense = 60;
 			npc.DR_NERD(0.25f);
             npc.lifeMax = 1200;
-            if (CalamityWorld.bossRushActive)
+            if (BossRushEvent.BossRushActive)
             {
                 npc.lifeMax = 25000;
             }

@@ -1,5 +1,6 @@
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Dusts;
+using CalamityMod.Events;
 using CalamityMod.Projectiles.Rogue;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -35,7 +36,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
             {
                 npc.lifeMax = 24000;
             }
-            if (CalamityWorld.bossRushActive)
+            if (BossRushEvent.BossRushActive)
             {
                 npc.lifeMax = 44000;
             }
@@ -140,7 +141,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
 
 		public override void AI()
         {
-            bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
+            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
             if (invinceTime > 0)
             {
                 invinceTime--;
@@ -156,7 +157,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
             double mult = 0.5 +
                 (CalamityWorld.revenge ? 0.2 : 0.0) +
                 (CalamityWorld.death ? 0.2 : 0.0);
-            if ((double)npc.life < (double)npc.lifeMax * mult || CalamityWorld.bossRushActive)
+            if ((double)npc.life < (double)npc.lifeMax * mult || BossRushEvent.BossRushActive)
             {
                 npc.knockBackResist = 0f;
             }
@@ -203,9 +204,9 @@ namespace CalamityMod.NPCs.CeaselessVoid
             }
 
             float num1372 = expertMode ? 10f : 8f;
-            if (CalamityWorld.revenge || CalamityWorld.bossRushActive)
+            if (CalamityWorld.revenge || BossRushEvent.BossRushActive)
                 num1372 += 2f;
-            if (CalamityWorld.death || CalamityWorld.bossRushActive)
+            if (CalamityWorld.death || BossRushEvent.BossRushActive)
                 num1372 += 2f;
 
             Vector2 vector167 = new Vector2(npc.Center.X + (float)(npc.direction * 20), npc.Center.Y + 6f);

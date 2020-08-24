@@ -1,3 +1,4 @@
+using CalamityMod.Events;
 using CalamityMod.World;
 using Terraria;
 using Terraria.ID;
@@ -22,7 +23,7 @@ namespace CalamityMod.Projectiles.Boss
             projectile.penetrate = -1;
             projectile.tileCollide = false;
             projectile.ignoreWater = true;
-            projectile.timeLeft = (CalamityWorld.death || CalamityWorld.bossRushActive) ? 2100 : 1800;
+            projectile.timeLeft = (CalamityWorld.death || BossRushEvent.BossRushActive) ? 2100 : 1800;
         }
 
         public override void AI()

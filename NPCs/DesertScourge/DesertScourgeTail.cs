@@ -1,3 +1,4 @@
+using CalamityMod.Events;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System.IO;
@@ -76,7 +77,7 @@ namespace CalamityMod.NPCs.DesertScourge
 			}
 
 			Player player = Main.player[npc.target];
-            npc.dontTakeDamage = !player.ZoneDesert && !CalamityWorld.bossRushActive;
+            npc.dontTakeDamage = !player.ZoneDesert && !BossRushEvent.BossRushActive;
             if (!Main.npc[(int)npc.ai[1]].active)
             {
                 npc.life = 0;

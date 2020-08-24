@@ -1,6 +1,7 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Dusts;
+using CalamityMod.Events;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -72,7 +73,7 @@ namespace CalamityMod.NPCs.BrimstoneElemental
             {
                 npc.lifeMax = 40000;
             }
-            if (CalamityWorld.bossRushActive)
+            if (BossRushEvent.BossRushActive)
             {
                 npc.lifeMax = 100000;
             }
@@ -100,7 +101,7 @@ namespace CalamityMod.NPCs.BrimstoneElemental
                 return;
             }
             bool goIntoShell = (double)npc.life <= (double)npc.lifeMax * 0.1;
-            bool provy = CalamityWorld.downedProvidence && !CalamityWorld.bossRushActive;
+            bool provy = CalamityWorld.downedProvidence && !BossRushEvent.BossRushActive;
             if (goIntoShell || Main.npc[CalamityGlobalNPC.brimstoneElemental].ai[0] == 4f)
             {
                 boostDR = true;
@@ -115,7 +116,7 @@ namespace CalamityMod.NPCs.BrimstoneElemental
             // Set DR based on boost status
             npc.Calamity().DR = boostDR ? boostedDR : CalamityWorld.revenge ? normalDR : 0f;
 
-            float num1446 = goIntoShell ? 1f : (CalamityWorld.bossRushActive ? 12f : 6f);
+            float num1446 = goIntoShell ? 1f : (BossRushEvent.BossRushActive ? 12f : 6f);
             int num1447 = 480;
             if (npc.localAI[1] == 1f)
             {
@@ -137,7 +138,7 @@ namespace CalamityMod.NPCs.BrimstoneElemental
                 npc.localAI[0] = 0f;
                 if (Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
                 {
-                    float speed = CalamityWorld.bossRushActive ? 7.5f : 5f;
+                    float speed = BossRushEvent.BossRushActive ? 7.5f : 5f;
                     Vector2 vector = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)(npc.height / 2));
                     float num6 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - vector.X + (float)Main.rand.Next(-10, 11);
                     float num7 = Main.player[npc.target].position.Y + (float)Main.player[npc.target].height * 0.5f - vector.Y + (float)Main.rand.Next(-10, 11);

@@ -34,7 +34,7 @@ namespace CalamityMod.Items.SummonItems.Invasion
 
         public override bool UseItem(Player player)
         {
-            CalamityMod.UpdateServerBoolean();
+            CalamityNetcode.SyncWorld();
             AcidRainEvent.TryStartEvent(true);
             return true;
         }

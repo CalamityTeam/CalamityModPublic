@@ -1,8 +1,8 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Dusts;
+using CalamityMod.Events;
 using CalamityMod.Projectiles.Boss;
-using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -36,7 +36,7 @@ namespace CalamityMod.NPCs.Calamitas
             npc.defense = 10;
 			npc.DR_NERD(0.1f);
             npc.lifeMax = 2500;
-            if (CalamityWorld.bossRushActive)
+            if (BossRushEvent.BossRushActive)
             {
                 npc.lifeMax = 150000;
             }
@@ -96,7 +96,7 @@ namespace CalamityMod.NPCs.Calamitas
             npc.TargetClosest(true);
             Vector2 direction = Main.player[npc.target].Center - npc.Center;
             direction.Normalize();
-            direction *= CalamityWorld.bossRushActive ? 14f : 9f;
+            direction *= BossRushEvent.BossRushActive ? 14f : 9f;
             npc.rotation = direction.ToRotation();
             timer++;
             if (timer > 60)
