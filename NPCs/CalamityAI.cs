@@ -88,7 +88,7 @@ namespace CalamityMod.NPCs
 
 						if (Main.netMode != NetmodeID.MultiplayerClient)
 						{
-							float num742 = CalamityWorld.bossRushActive ? 12f : 8f;
+							float num742 = BossRushEvent.BossRushActive ? 12f : 8f;
 							float num743 = player.Center.X - vectorCenter.X;
 							float num744 = player.Center.Y - vectorCenter.Y;
 							float num745 = (float)Math.Sqrt(num743 * num743 + num744 * num744);
