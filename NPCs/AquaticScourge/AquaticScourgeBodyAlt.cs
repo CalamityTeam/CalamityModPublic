@@ -1,3 +1,4 @@
+using CalamityMod.Events;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -41,7 +42,7 @@ namespace CalamityMod.NPCs.AquaticScourge
             npc.chaseable = false;
             npc.canGhostHeal = false;
 
-			if (CalamityWorld.death || CalamityWorld.bossRushActive)
+			if (CalamityWorld.death || BossRushEvent.BossRushActive)
 				npc.scale = 1.2f;
 			else if (CalamityWorld.revenge)
 				npc.scale = 1.15f;

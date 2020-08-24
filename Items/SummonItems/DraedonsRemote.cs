@@ -33,7 +33,7 @@ namespace CalamityMod.Items.SummonItems
         public override bool UseItem(Player player)
         {
             CalamityGlobalNPC.DraedonMayhem = true;
-            CalamityMod.UpdateServerBoolean();
+            CalamityNetcode.SyncWorld();
             Main.PlaySound(SoundID.Roar, player.position, 0);
 			if (Main.netMode != NetmodeID.MultiplayerClient)
 			{

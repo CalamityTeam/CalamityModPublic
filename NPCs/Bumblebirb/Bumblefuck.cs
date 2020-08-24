@@ -1,5 +1,6 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Events;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Materials;
@@ -118,8 +119,8 @@ namespace CalamityMod.NPCs.Bumblebirb
         {
 			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
-			bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
-			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
+			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
+			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
 
 			// Percent life remaining
 			float lifeRatio = npc.life / (float)npc.lifeMax;
@@ -203,8 +204,8 @@ namespace CalamityMod.NPCs.Bumblebirb
 		{
 			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
-			bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
-			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
+			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
+			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
 
 			// Percent life remaining
 			float lifeRatio = (float)npc.life / (float)npc.lifeMax;
@@ -444,7 +445,7 @@ namespace CalamityMod.NPCs.Bumblebirb
 
             // Mark The Dragonfolly as dead
             CalamityWorld.downedBumble = true;
-            CalamityMod.UpdateServerBoolean();
+            CalamityNetcode.SyncWorld();
         }
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)

@@ -15,7 +15,8 @@ namespace CalamityMod.Items.Weapons.Typeless
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Aero Dynamite");
-            Tooltip.SetDefault("Throws a floaty explosive that defies gravity");
+            Tooltip.SetDefault("You don't need an aerodynamics major to use this\n" +
+			"Throws a floaty explosive that defies gravity");
         }
 
         public override void SetDefaults()

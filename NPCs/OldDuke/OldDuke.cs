@@ -400,7 +400,7 @@ namespace CalamityMod.NPCs.OldDuke
 
             // Mark Old Duke as dead
             CalamityWorld.downedBoomerDuke = true;
-            CalamityMod.UpdateServerBoolean();
+            CalamityNetcode.SyncWorld();
         }
 
 		public override bool CanHitPlayer(Player target, ref int cooldownSlot)

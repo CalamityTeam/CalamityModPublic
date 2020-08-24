@@ -185,7 +185,7 @@ namespace CalamityMod.NPCs.StormWeaver
 
         public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-			if (CalamityMod.projectileDestroyExceptionList.TrueForAll(x => projectile.type != x))
+			if (CalamityLists.projectileDestroyExceptionList.TrueForAll(x => projectile.type != x))
 			{
 				if (projectile.penetrate == -1 && !projectile.minion)
 				{

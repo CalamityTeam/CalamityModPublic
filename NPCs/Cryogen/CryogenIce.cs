@@ -1,3 +1,4 @@
+using CalamityMod.Events;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -25,7 +26,7 @@ namespace CalamityMod.NPCs.Cryogen
             npc.height = 190;
 			npc.DR_NERD(0.4f);
             npc.lifeMax = 1400;
-            if (CalamityWorld.bossRushActive)
+            if (BossRushEvent.BossRushActive)
             {
                 npc.lifeMax = 100000;
             }
@@ -109,7 +110,7 @@ namespace CalamityMod.NPCs.Cryogen
 					int totalProjectiles = 4;
 					float radians = MathHelper.TwoPi / totalProjectiles;
 					int damage2 = Main.expertMode ? 20 : 23;
-					float velocity = CalamityWorld.bossRushActive ? 12f : 8f;
+					float velocity = BossRushEvent.BossRushActive ? 12f : 8f;
 					Vector2 spinningPoint = Main.rand.NextBool(2) ? new Vector2(0f, -velocity) : Vector2.Normalize(new Vector2(-velocity, -velocity)) * velocity;
 					for (int k = 0; k < totalProjectiles; k++)
 					{

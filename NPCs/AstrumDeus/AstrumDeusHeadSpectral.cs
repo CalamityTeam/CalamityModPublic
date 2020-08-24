@@ -275,7 +275,7 @@ namespace CalamityMod.NPCs.AstrumDeus
 
             // Mark Astrum Deus as dead
             CalamityWorld.downedStarGod = true;
-            CalamityMod.UpdateServerBoolean();
+            CalamityNetcode.SyncWorld();
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)

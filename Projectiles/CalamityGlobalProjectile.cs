@@ -2,6 +2,7 @@ using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.CalPlayer;
 using CalamityMod.Dusts;
+using CalamityMod.Events;
 using CalamityMod.NPCs.NormalNPCs;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.Projectiles.Healing;
@@ -83,7 +84,7 @@ namespace CalamityMod.Projectiles
         #region SetDefaults
 		public override void SetDefaults(Projectile projectile)
 		{
-			if (CalamityMod.trueMeleeProjectileList.Contains(projectile.type))
+			if (CalamityLists.trueMeleeProjectileList.Contains(projectile.type))
 				trueMelee = true;
 
 			switch (projectile.type)
@@ -174,7 +175,7 @@ namespace CalamityMod.Projectiles
 				return false;
 			}
 
-            if (CalamityWorld.revenge || CalamityWorld.bossRushActive)
+            if (CalamityWorld.revenge || BossRushEvent.BossRushActive)
             {
 				if (projectile.type == ProjectileID.EyeLaser && projectile.ai[0] == 1f)
 				{
@@ -745,7 +746,7 @@ namespace CalamityMod.Projectiles
 
             if (NPC.downedMoonlord)
             {
-                if (CalamityMod.dungeonProjectileBuffList.Contains(projectile.type))
+                if (CalamityLists.dungeonProjectileBuffList.Contains(projectile.type))
                 {
 					//Prevents them being buffed in Skeletron, Skeletron Prime, or Golem fights
                     if (((projectile.type == ProjectileID.RocketSkeleton || projectile.type == ProjectileID.Shadowflames) && projectile.ai[1] == 1f) ||
@@ -760,12 +761,12 @@ namespace CalamityMod.Projectiles
 
             if (CalamityWorld.downedDoG && (Main.pumpkinMoon || Main.snowMoon))
             {
-                if (CalamityMod.eventProjectileBuffList.Contains(projectile.type))
+                if (CalamityLists.eventProjectileBuffList.Contains(projectile.type))
                     projectile.damage = defDamage + 70;
             }
             else if (CalamityWorld.buffedEclipse && Main.eclipse)
             {
-                if (CalamityMod.eventProjectileBuffList.Contains(projectile.type))
+                if (CalamityLists.eventProjectileBuffList.Contains(projectile.type))
                     projectile.damage = defDamage + 100;
             }
 
@@ -892,12 +893,12 @@ namespace CalamityMod.Projectiles
 
 			if (modPlayer.etherealExtorter)
 			{
-				if (CalamityMod.spikyBallProjList.Contains(projectile.type) && !extorterBoost && Main.moonPhase == 2) //third quarter
+				if (CalamityLists.spikyBallProjList.Contains(projectile.type) && !extorterBoost && Main.moonPhase == 2) //third quarter
 				{
 					projectile.timeLeft += 300;
 					extorterBoost = true;
 				}
-				if (CalamityMod.javelinProjList.Contains(projectile.type) && !extorterBoost && player.ZoneCrimson)
+				if (CalamityLists.javelinProjList.Contains(projectile.type) && !extorterBoost && player.ZoneCrimson)
 				{
 					projectile.knockBack *= 2;
 					extorterBoost = true;
@@ -939,7 +940,7 @@ namespace CalamityMod.Projectiles
 
             if (!projectile.npcProj && !projectile.trap && projectile.friendly && projectile.damage > 0)
 			{
-				if (modPlayer.eQuiver && projectile.ranged && CalamityMod.rangedProjectileExceptionList.TrueForAll(x => projectile.type != x))
+				if (modPlayer.eQuiver && projectile.ranged && CalamityLists.rangedProjectileExceptionList.TrueForAll(x => projectile.type != x))
 				{
 					if (Main.rand.Next(200) > 198)
 					{
@@ -1804,14 +1805,14 @@ namespace CalamityMod.Projectiles
 
 					if (modPlayer.shadow && modPlayer.shadowPotCooldown <= 0 && stealthStrikeHitCount < 5)
 					{
-						if (CalamityMod.javelinProjList.Contains(projectile.type))
+						if (CalamityLists.javelinProjList.Contains(projectile.type))
 						{
 							int randrot = Main.rand.Next(-30, 391);
 							Vector2 SoulSpeed = new Vector2(13f, 13f).RotatedBy(MathHelper.ToRadians(randrot));
 							Projectile.NewProjectile(projectile.Center, SoulSpeed, ModContent.ProjectileType<PenumbraSoul>(), CalamityUtils.DamageSoftCap(projectile.damage * 0.1, 60), 3f, projectile.owner, 0f, 0f);
 							modPlayer.shadowPotCooldown = 30;
 						}
-						if (CalamityMod.spikyBallProjList.Contains(projectile.type))
+						if (CalamityLists.spikyBallProjList.Contains(projectile.type))
 						{
 							int scythe = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<CosmicScythe>(), CalamityUtils.DamageSoftCap(projectile.damage * 0.05, 60), 3f, projectile.owner, 1f, 0f);
             				Main.projectile[scythe].usesLocalNPCImmunity = true;
@@ -1819,7 +1820,7 @@ namespace CalamityMod.Projectiles
 							Main.projectile[scythe].penetrate = 2;
 							modPlayer.shadowPotCooldown = 30;
 						}
-						if (CalamityMod.daggerProjList.Contains(projectile.type))
+						if (CalamityLists.daggerProjList.Contains(projectile.type))
 						{
 							Vector2 shardVelocity = new Vector2(Main.rand.NextFloat(-1f, 1f), Main.rand.NextFloat(-1f, 1f));
 							shardVelocity.Normalize();
@@ -1828,7 +1829,7 @@ namespace CalamityMod.Projectiles
 							Main.projectile[shard].timeLeft = 150;
 							modPlayer.shadowPotCooldown = 30;
 						}
-						if (CalamityMod.boomerangProjList.Contains(projectile.type))
+						if (CalamityLists.boomerangProjList.Contains(projectile.type))
 						{
 							int spiritDamage = CalamityUtils.DamageSoftCap(projectile.damage * 0.2, 60);
 							Projectile ghost = SpawnOrb(projectile, spiritDamage, ProjectileID.SpectreWrath, 800f, 4f);
@@ -1836,7 +1837,7 @@ namespace CalamityMod.Projectiles
 							ghost.penetrate = 1;
 							modPlayer.shadowPotCooldown = 30;
 						}
-						if (CalamityMod.flaskBombProjList.Contains(projectile.type))
+						if (CalamityLists.flaskBombProjList.Contains(projectile.type))
 						{
 							int blackhole = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<ShadowBlackhole>(), CalamityUtils.DamageSoftCap(projectile.damage * 0.05, 60), 3f, projectile.owner, 0f, 0f);
 							Main.projectile[blackhole].Center = projectile.Center;
@@ -2147,7 +2148,7 @@ namespace CalamityMod.Projectiles
 							Main.projectile[soul].tileCollide = false;
                         }
                     }
-					if (modPlayer.scuttlersJewel && CalamityMod.javelinProjList.Contains(projectile.type) && Main.rand.NextBool(3))
+					if (modPlayer.scuttlersJewel && CalamityLists.javelinProjList.Contains(projectile.type) && Main.rand.NextBool(3))
 					{
 						float dmgMult = 1f;
 						if (projectile.type == ProjectileType<SpearofDestinyProjectile>())

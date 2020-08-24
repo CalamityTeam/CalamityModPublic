@@ -1,3 +1,4 @@
+using CalamityMod.Events;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -43,7 +44,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void AI()
         {
-            bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
+            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
             projectile.frameCounter++;
             if (projectile.frameCounter > 5)
             {

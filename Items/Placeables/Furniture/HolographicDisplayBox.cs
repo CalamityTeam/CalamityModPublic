@@ -23,8 +23,9 @@ namespace CalamityMod.Items.Placeables.Furniture
             item.useTime = 10;
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
-            item.value = Item.buyPrice(0, 5, 0, 0);
+            //item.value = Item.buyPrice(0, 5, 0, 0);
             item.rare = 3;
+            item.Calamity().customRarity = CalamityRarity.DraedonRust;
             item.createTile = ModContent.TileType<DraedonHologram>();
         }
     }

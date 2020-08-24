@@ -1,3 +1,4 @@
+using CalamityMod.Events;
 using CalamityMod.World;
 using System;
 using Terraria;
@@ -23,7 +24,7 @@ namespace CalamityMod.NPCs.Cryogen
             npc.defense = 8;
             npc.alpha = 100;
             npc.lifeMax = 220;
-            if (CalamityWorld.bossRushActive)
+            if (BossRushEvent.BossRushActive)
             {
                 npc.lifeMax = 30000;
             }
