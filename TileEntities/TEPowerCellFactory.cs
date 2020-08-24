@@ -1,6 +1,5 @@
 using CalamityMod.CalPlayer;
 using CalamityMod.Tiles;
-using System;
 using System.IO;
 using System.Reflection;
 using Terraria;
@@ -74,6 +73,8 @@ namespace CalamityMod.TileEntities
 			for (int i = 0; i < Main.maxPlayers; i++)
 			{
 				Player p = Main.player[i];
+				if (!p.active)
+					continue;
 
 				// Use reflection to stop TML from spitting an error here.
 				// Try-catching will not stop this error, TML will print it to console anyway. The error is harmless.
