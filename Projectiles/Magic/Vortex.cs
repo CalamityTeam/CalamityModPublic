@@ -45,8 +45,6 @@ namespace CalamityMod.Projectiles.Magic
             projectile.extraUpdates = 4;
             projectile.timeLeft = 115 * projectile.extraUpdates;
             projectile.ignoreWater = true;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 5;
         }
 
         public override void AI()
