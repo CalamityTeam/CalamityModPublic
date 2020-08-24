@@ -36,8 +36,7 @@ namespace CalamityMod.Items.Accessories
             player.jumpSpeedBoost += 1.2f;
             player.extraFall += 50;
             player.blackBelt = true;
-            if (!hideVisual)
-				modPlayer.dashMod = 7;
+			modPlayer.dashMod = 7;
             player.spikedBoots = 2;
         }
 
