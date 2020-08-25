@@ -154,8 +154,8 @@ namespace CalamityMod.NPCs.StormWeaver
 						npc.localAI[0] = 0f;
 						npc.TargetClosest(true);
 						npc.netUpdate = true;
-						float xPos = Main.rand.NextBool(2) ? npc.position.X + 300f : npc.position.X - 300f;
-						Vector2 spawnPos = new Vector2(xPos, npc.position.Y + Main.rand.Next(-300, 301));
+						float xPos = Main.rand.NextBool(2) ? Main.player[npc.target].position.X + 300f : Main.player[npc.target].position.X - 300f;
+						Vector2 spawnPos = new Vector2(xPos, Main.player[npc.target].position.Y + Main.rand.Next(-300, 301));
 						Projectile.NewProjectile(spawnPos, Vector2.Zero, ProjectileID.CultistBossLightningOrb, damage, 0f, Main.myPlayer, 0f, 0f);
 					}
 				}

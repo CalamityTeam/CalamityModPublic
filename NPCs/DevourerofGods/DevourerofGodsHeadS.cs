@@ -31,7 +31,14 @@ namespace CalamityMod.NPCs.DevourerofGods
     [AutoloadBossHead]
     public class DevourerofGodsHeadS : ModNPC
     {
-        private bool tail = false;
+		private enum LaserWallPhase
+		{
+			SetUp = 0,
+			FireLaserWalls = 1,
+			End = 2
+		}
+
+		private bool tail = false;
         private const int minLength = 100;
         private const int maxLength = 101;
         private bool halfLife = false;
@@ -132,8 +139,8 @@ namespace CalamityMod.NPCs.DevourerofGods
             bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
 			bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
 			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
-            bool speedBoost = lifeRatio < 0.75f || (death && lifeRatio < 0.9f);
-            bool speedBoost2 = lifeRatio < 0.3f;
+            bool phase2 = lifeRatio < 0.75f || (death && lifeRatio < 0.9f);
+            bool phase3 = lifeRatio < 0.3f;
             bool breathFireMore = lifeRatio < 0.15f || death;
 
 			// Light
@@ -156,54 +163,60 @@ namespace CalamityMod.NPCs.DevourerofGods
 			npc.dontTakeDamage = postTeleportTimer > 0;
 
 			// Laser walls
-			if (speedBoost && !speedBoost2 && postTeleportTimer <= 0)
+			if (phase2 && !phase3 && postTeleportTimer <= 0)
             {
-                if (laserWallPhase == 0) // Start laser wall phase
+                if (laserWallPhase == (int)LaserWallPhase.SetUp)
                 {
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
+						// Increment next laser wall phase timer
 						calamityGlobalNPC.newAI[3] += 1f;
-                        if (calamityGlobalNPC.newAI[3] >= 720f)
-                        {
-							calamityGlobalNPC.newAI[3] = 0f;
-                            laserWallPhase = 1;
-                        }
-                    }
-                }
-                else if (laserWallPhase == 1) // Turn invisible and fire laser walls
-                {
-                    npc.alpha += 5;
-                    if (npc.alpha == 255)
-                        calamityGlobalNPC.newAI[1] = 0f;
 
-                    if (npc.alpha >= 255)
-                    {
-                        npc.alpha = 255;
-                        idleCounter--;
-                        if (idleCounter <= 0)
+						// Set alpha value prior to firing laser walls
+						float alphaGateValue = 669f;
+						if (calamityGlobalNPC.newAI[3] > alphaGateValue)
+							npc.alpha = (int)MathHelper.Clamp((calamityGlobalNPC.newAI[3] - alphaGateValue) * 5f, 0f, 255f);
+
+						// Fire laser walls every 12 seconds after a laser wall phase ends
+						if (calamityGlobalNPC.newAI[3] >= 720f)
                         {
-                            laserWallPhase = 2;
-                            idleCounter = idleCounterMax;
+							npc.alpha = 255;
+							calamityGlobalNPC.newAI[3] = 0f;
+                            laserWallPhase = (int)LaserWallPhase.FireLaserWalls;
                         }
                     }
                 }
-                else if (laserWallPhase == 2) // Turn visible
+                else if (laserWallPhase == (int)LaserWallPhase.FireLaserWalls)
                 {
-					if (distanceFromTarget > 500f && revenge)
-						Teleport(player);
-					else
+					// Reset laser wall timer to 0
+                    calamityGlobalNPC.newAI[1] = 0f;
+
+					// Remain in laser wall firing phase for 6 seconds
+                    idleCounter--;
+					if (idleCounter <= 0)
 					{
-						npc.alpha -= 1;
-						if (npc.alpha <= 0)
-						{
-							npc.alpha = 0;
-							laserWallPhase = 0;
-						}
+						laserWallPhase = (int)LaserWallPhase.End;
+						idleCounter = idleCounterMax;
+
+						// Teleport to target
+						if (revenge)
+							Teleport(player, false);
+					}
+                }
+                else if (laserWallPhase == (int)LaserWallPhase.End)
+                {
+					// End laser wall phase after 4.25 seconds
+					npc.alpha -= 1;
+					if (npc.alpha <= 0)
+					{
+						npc.alpha = 0;
+						laserWallPhase = (int)LaserWallPhase.SetUp;
 					}
                 }
             }
             else
             {
+				// Set alpha after teleport
 				if (postTeleportTimer > 0)
 				{
 					postTeleportTimer -= 4;
@@ -219,17 +232,17 @@ namespace CalamityMod.NPCs.DevourerofGods
 						npc.alpha = 0;
 				}
 
-                if (laserWallPhase > 0)
-                    laserWallPhase = 0;
-            }
+				// Reset laser wall phase
+                if (laserWallPhase > (int)LaserWallPhase.SetUp)
+                    laserWallPhase = (int)LaserWallPhase.SetUp;
 
-			// Anger message
-			if (speedBoost2)
-            {
+				// Enter final phase
 				if (!halfLife)
 				{
-					Teleport(player);
+					// Teleport close to the target
+					Teleport(player, true);
 
+					// Anger message
 					string key = "Mods.CalamityMod.EdgyBossText11";
 					Color messageColor = Color.Cyan;
 					if (Main.netMode == NetmodeID.SinglePlayer)
@@ -237,6 +250,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 					else if (Main.netMode == NetmodeID.Server)
 						NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
 
+					// Summon Thots
 					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
 						Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/DevourerAttack"), (int)player.position.X, (int)player.position.Y);
@@ -245,9 +259,9 @@ namespace CalamityMod.NPCs.DevourerofGods
 							NPC.SpawnOnPlayer(npc.FindClosestPlayer(), ModContent.NPCType<DevourerofGodsHead2>());
 					}
 
-                    halfLife = true;
-                }
-            }
+					halfLife = true;
+				}
+			}
 
             // Spawn segments and fire projectiles
             if (Main.netMode != NetmodeID.MultiplayerClient)
@@ -307,7 +321,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                     calamityGlobalNPC.newAI[0] = 0f;
 
                 // Laser walls
-                if (!speedBoost2 && (laserWallPhase == 1 || calamityGlobalNPC.enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive)))
+                if (!phase3 && (laserWallPhase == (int)LaserWallPhase.FireLaserWalls || calamityGlobalNPC.enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive)))
                 {
 					calamityGlobalNPC.newAI[1] += 1f;
 
@@ -381,7 +395,6 @@ namespace CalamityMod.NPCs.DevourerofGods
 							shotSpacing[2] -= spacingVar;
 						}
 						shotSpacing[2] = 1050;
-
 					}
                 }
             }
@@ -470,8 +483,8 @@ namespace CalamityMod.NPCs.DevourerofGods
 				// Go to ground phase sooner
 				if (tooFarAway)
 				{
-					if (revenge && laserWallPhase == 0 && !player.dead && player.active)
-						Teleport(player);
+					if (revenge && laserWallPhase == (int)LaserWallPhase.SetUp && !player.dead && player.active)
+						Teleport(player, true);
 					else
 						calamityGlobalNPC.newAI[2] += 10f;
 				}
@@ -486,7 +499,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                 int num44 = (int)(player.Center.Y / 16f);
 
                 // Charge at target for 1.5 seconds
-                bool flyAtTarget = (!speedBoost || speedBoost2) && calamityGlobalNPC.newAI[2] > phaseLimit - 90 && revenge;
+                bool flyAtTarget = (!phase2 || phase3) && calamityGlobalNPC.newAI[2] > phaseLimit - 90 && revenge;
 
                 for (int num45 = num43 - 2; num45 <= num43 + 2; num45++)
                 {
@@ -665,8 +678,8 @@ namespace CalamityMod.NPCs.DevourerofGods
 				// Enrage
 				if (tooFarAway)
 				{
-					if (revenge && laserWallPhase == 0 && !player.dead && player.active)
-						Teleport(player);
+					if (revenge && laserWallPhase == (int)LaserWallPhase.SetUp && !player.dead && player.active)
+						Teleport(player, true);
 					else
 						turnSpeed *= 6f;
 				}
@@ -900,10 +913,13 @@ namespace CalamityMod.NPCs.DevourerofGods
             }
         }
 
-		private void Teleport(Player player)
+		private void Teleport(Player player, bool setImmunityTimer)
 		{
-			postTeleportTimer = 255;
-			npc.alpha = postTeleportTimer;
+			if (setImmunityTimer)
+			{
+				postTeleportTimer = 255;
+				npc.alpha = postTeleportTimer;
+			}
 
 			int randomRange = 48;
 			float distance = 640f;
