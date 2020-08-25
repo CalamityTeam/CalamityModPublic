@@ -877,8 +877,7 @@ namespace CalamityMod.NPCs.Yharon
 
 						if (Main.netMode != NetmodeID.MultiplayerClient && npc.ai[2] == phaseSwitchTimer + 15f)
 						{
-							teleportLocation = Main.rand.NextBool(2) ? (revenge ? 500 : 600) : (revenge ? -500 : -600);
-							Vector2 center = player.Center + new Vector2(-npc.ai[1], teleportLocation);
+							Vector2 center = player.Center + new Vector2(0f, -540f);
 							npcCenter = npc.Center = center;
 						}
 
@@ -1199,8 +1198,7 @@ namespace CalamityMod.NPCs.Yharon
 
 						if (Main.netMode != NetmodeID.MultiplayerClient && npc.ai[2] == phaseSwitchTimer + 15f)
 						{
-							teleportLocation = Main.rand.NextBool(2) ? (revenge ? 500 : 600) : (revenge ? -500 : -600);
-							Vector2 center = player.Center + new Vector2(-npc.ai[1], teleportLocation);
+							Vector2 center = player.Center + new Vector2(0f, -540f);
 							npcCenter = npc.Center = center;
 						}
 
@@ -1871,8 +1869,7 @@ namespace CalamityMod.NPCs.Yharon
 
 						if (Main.netMode != NetmodeID.MultiplayerClient && npc.ai[1] == phaseSwitchTimer + timeBeforeTeleport)
 						{
-							teleportLocation = Main.rand.NextBool(2) ? (revenge ? 500 : 600) : (revenge ? -500 : -600);
-							Vector2 center = targetData.Center + new Vector2(-npc.ai[2] * 500f, teleportLocation);
+							Vector2 center = targetData.Center + new Vector2(0f, -540f);
 							npcCenter = npc.Center = center;
 						}
 
