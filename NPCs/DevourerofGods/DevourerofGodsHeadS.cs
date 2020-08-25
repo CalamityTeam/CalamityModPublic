@@ -1,6 +1,7 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Dusts;
+using CalamityMod.Events;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Materials;
@@ -136,9 +137,9 @@ namespace CalamityMod.NPCs.DevourerofGods
             // Variables
             Vector2 vector = npc.Center;
             bool flies = npc.ai[2] == 0f;
-            bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
-			bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
-			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
+            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
+			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
+			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
             bool phase2 = lifeRatio < 0.75f || (death && lifeRatio < 0.9f);
             bool phase3 = lifeRatio < 0.3f;
             bool breathFireMore = lifeRatio < 0.15f || death;
@@ -321,7 +322,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                     calamityGlobalNPC.newAI[0] = 0f;
 
                 // Laser walls
-                if (!phase3 && (laserWallPhase == (int)LaserWallPhase.FireLaserWalls || calamityGlobalNPC.enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive)))
+                if (!phase3 && (laserWallPhase == (int)LaserWallPhase.FireLaserWalls || calamityGlobalNPC.enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive)))
                 {
 					calamityGlobalNPC.newAI[1] += 1f;
 
@@ -1078,11 +1079,11 @@ namespace CalamityMod.NPCs.DevourerofGods
 
             // Mark DoG as dead
             CalamityWorld.downedDoG = true;
-            CalamityMod.UpdateServerBoolean();
-        }
+			CalamityNetcode.SyncWorld();
+		}
 
-        // Can only hit the target if within certain distance
-        public override bool CanHitPlayer(Player target, ref int cooldownSlot)
+		// Can only hit the target if within certain distance
+		public override bool CanHitPlayer(Player target, ref int cooldownSlot)
         {
             cooldownSlot = 1;
 
@@ -1215,7 +1216,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             player.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 300, true);
             player.AddBuff(ModContent.BuffType<WhisperingDeath>(), 420, true);
             player.AddBuff(BuffID.Frostburn, 300, true);
-            if ((CalamityWorld.death || CalamityWorld.bossRushActive) && npc.alpha <= 0)
+            if ((CalamityWorld.death || BossRushEvent.BossRushActive) && npc.alpha <= 0)
             {
                 player.KillMe(PlayerDeathReason.ByCustomReason(player.name + "'s essence was consumed by the devourer."), 1000.0, 0, false);
             }

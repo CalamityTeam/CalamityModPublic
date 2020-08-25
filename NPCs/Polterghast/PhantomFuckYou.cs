@@ -1,5 +1,5 @@
+using CalamityMod.Events;
 using CalamityMod.Projectiles.Boss;
-using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -54,7 +54,7 @@ namespace CalamityMod.NPCs.Polterghast
 
 		public override bool PreAI()
 		{
-			bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
+			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
 
 			if (start)
 			{

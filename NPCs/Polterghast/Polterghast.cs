@@ -119,9 +119,9 @@ namespace CalamityMod.NPCs.Polterghast
 			Vector2 vector = npc.Center;
             bool speedBoost = false;
             bool despawnBoost = false;
-			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
-			bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
-            bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
+			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
+            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
             bool phase2 = lifeRatio < (death ? 0.9f : 0.75f);
             bool phase3 = lifeRatio < (revenge ? (death ? 0.8f : 0.5f) : 0.33f);
             bool phase4 = lifeRatio < (revenge ? (death ? 0.5f : 0.33f) : 0.2f);
@@ -185,7 +185,7 @@ namespace CalamityMod.NPCs.Polterghast
 			bool speedUp = Vector2.Distance(player.Center, npc.Center) > speedUpDistance; // 30 or 40 tile distance
 			float velocity = 10f; // max should be 21
             float acceleration = 0.05f; // max should be 0.13
-            if (!player.ZoneDungeon && !CalamityWorld.bossRushActive && player.position.Y < Main.worldSurface * 16.0)
+            if (!player.ZoneDungeon && !BossRushEvent.BossRushActive && player.position.Y < Main.worldSurface * 16.0)
             {
                 despawnTimer--;
                 if (despawnTimer <= 0)
@@ -325,8 +325,8 @@ namespace CalamityMod.NPCs.Polterghast
 			int baseProjectileTimeLeft = (int)(1200f * tileEnrageMult);
 			int baseProjectileAmt = (int)(4f * tileEnrageMult);
 			int baseProjectileSpread = (int)(45f * tileEnrageMult);
-			float baseProjectileVelocity = (CalamityWorld.bossRushActive ? 7f : 5f) * tileEnrageMult;
-			if (speedBoost || npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive))
+			float baseProjectileVelocity = (BossRushEvent.BossRushActive ? 7f : 5f) * tileEnrageMult;
+			if (speedBoost || npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))
 				baseProjectileVelocity *= 2f;
 
 			// Increase damage of projectiles and contact damage based on number of nearby active tiles
@@ -437,7 +437,7 @@ namespace CalamityMod.NPCs.Polterghast
                 if (Main.netMode != NetmodeID.MultiplayerClient && !charging)
                 {
                     npc.localAI[1] += expertMode ? 1.5f : 1f;
-                    if (speedBoost || CalamityWorld.bossRushActive)
+                    if (speedBoost || BossRushEvent.BossRushActive)
                         npc.localAI[1] += 3f;
 
                     if (npc.localAI[1] >= 90f * projectileFireRateMultiplier)
@@ -465,7 +465,7 @@ namespace CalamityMod.NPCs.Polterghast
 
 							damage += damageIncrease;
 
-                            if (speedBoost || npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive))
+                            if (speedBoost || npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))
                                 damage *= 2;
 
 							Vector2 vector93 = vector;
@@ -498,7 +498,7 @@ namespace CalamityMod.NPCs.Polterghast
 
 							damage += damageIncrease;
 
-							if (speedBoost || npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive))
+							if (speedBoost || npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))
 								damage *= 2;
 
 							Vector2 vector93 = vector;
@@ -567,7 +567,7 @@ namespace CalamityMod.NPCs.Polterghast
                 npc.damage = (int)(npc.defDamage * 1.2f) + damageIncrease * 4;
                 npc.defense = (int)(npc.defDefense * 0.8f);
 
-                if (speedBoost || npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive))
+                if (speedBoost || npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))
                 {
                     npc.defense *= 2;
                     npc.damage *= 2;
@@ -576,7 +576,7 @@ namespace CalamityMod.NPCs.Polterghast
                 if (Main.netMode != NetmodeID.MultiplayerClient && !charging)
                 {
                     npc.localAI[1] += expertMode ? 1.5f : 1f;
-                    if (speedBoost || CalamityWorld.bossRushActive)
+                    if (speedBoost || BossRushEvent.BossRushActive)
                         npc.localAI[1] += 3f;
 
                     if (npc.localAI[1] >= 150f * projectileFireRateMultiplier)
@@ -604,7 +604,7 @@ namespace CalamityMod.NPCs.Polterghast
 
 							damage += damageIncrease;
 
-							if (speedBoost || npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive))
+							if (speedBoost || npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))
 								damage *= 2;
 
 							Vector2 vector93 = vector;
@@ -638,7 +638,7 @@ namespace CalamityMod.NPCs.Polterghast
 
 							damage += damageIncrease;
 
-							if (speedBoost || npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive))
+							if (speedBoost || npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))
 								damage *= 2;
 
 							Vector2 vector93 = vector;
@@ -722,7 +722,7 @@ namespace CalamityMod.NPCs.Polterghast
                 npc.damage = (int)(npc.defDamage * 1.4f) + damageIncrease * 4;
                 npc.defense = (int)(npc.defDefense * 0.5f);
 
-                if (speedBoost || npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive))
+                if (speedBoost || npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))
                 {
                     npc.defense *= 2;
                     npc.damage *= 2;
@@ -864,8 +864,8 @@ namespace CalamityMod.NPCs.Polterghast
 
             // Mark Polterghast as dead
             CalamityWorld.downedPolterghast = true;
-            CalamityMod.UpdateServerBoolean();
-        }
+			CalamityNetcode.SyncWorld();
+		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
@@ -934,8 +934,8 @@ namespace CalamityMod.NPCs.Polterghast
 
 		public override void FindFrame(int frameHeight)
         {
-			bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
-			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
+			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
+			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
 			bool phase2 = npc.life >= npc.lifeMax * (revenge ? (death ? 0.8 : 0.5) : 0.33);
             npc.frameCounter += 1D;
             if (npc.frameCounter > 6D)
