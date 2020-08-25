@@ -1,4 +1,5 @@
 using CalamityMod.CalPlayer;
+using CalamityMod.Events;
 using CalamityMod.Items.Potions;
 using CalamityMod.Items.TreasureBags;
 using CalamityMod.Projectiles.Environment;
@@ -48,7 +49,7 @@ namespace CalamityMod.Tiles
 
 		public override bool PreHitWire(int i, int j, int type)
 		{
-			return !CalamityWorld.bossRushActive;
+			return !BossRushEvent.BossRushActive;
 		}
 
 		public override bool TileFrame(int i, int j, int type, ref bool resetFrame, ref bool noBreak)

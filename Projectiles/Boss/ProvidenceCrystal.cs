@@ -1,3 +1,4 @@
+using CalamityMod.Events;
 using CalamityMod.NPCs.Providence;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -21,7 +22,7 @@ namespace CalamityMod.Projectiles.Boss
             projectile.width = 160;
             projectile.height = 160;
             projectile.ignoreWater = true;
-            projectile.timeLeft = CalamityWorld.bossRushActive ? 1500 : (CalamityWorld.death ? 2100 : 3600);
+            projectile.timeLeft = BossRushEvent.BossRushActive ? 1500 : (CalamityWorld.death ? 2100 : 3600);
             projectile.alpha = 255;
             projectile.tileCollide = false;
             projectile.penetrate = -1;

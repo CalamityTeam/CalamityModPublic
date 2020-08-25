@@ -1,3 +1,4 @@
+using CalamityMod.Events;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -74,7 +75,7 @@ namespace CalamityMod.NPCs.Ravager
                 npc.ai[1] += 1f;
 				if (npc.ai[1] >= 85f)
 				{
-					if (CalamityWorld.downedProvidence && !CalamityWorld.bossRushActive)
+					if (CalamityWorld.downedProvidence && !BossRushEvent.BossRushActive)
 						npc.damage = 400;
 					else
 						npc.damage = Main.expertMode ? 180 : 100;
@@ -90,7 +91,7 @@ namespace CalamityMod.NPCs.Ravager
                     npc.ai[1] -= 1f;
                     npc.localAI[0] += 1f;
                     float SpeedY = -10f;
-                    if (CalamityWorld.bossRushActive)
+                    if (BossRushEvent.BossRushActive)
                     {
                         SpeedY *= 1.5f;
                     }

@@ -1,5 +1,6 @@
 using CalamityMod.Buffs.Alcohol;
 using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Events;
 using CalamityMod.Projectiles.Ranged;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -17,7 +18,7 @@ namespace CalamityMod.CalPlayer
             Point point = player.Center.ToTileCoordinates();
             CalamityPlayer modPlayer = player.Calamity();
 
-			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
+			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
 			int lifeRegenMult = death ? 2 : 1;
 			int lifeRegenLost = 0;
 
@@ -402,7 +403,7 @@ namespace CalamityMod.CalPlayer
                 for (int l = 0; l < Player.MaxBuffs; l++)
                 {
                     int hasBuff = player.buffType[l];
-                    lesserEffect = CalamityMod.alcoholList.Contains(hasBuff);
+                    lesserEffect = CalamityLists.alcoholList.Contains(hasBuff);
                 }
 
                 if (lesserEffect)
@@ -430,7 +431,7 @@ namespace CalamityMod.CalPlayer
                 for (int l = 0; l < Player.MaxBuffs; l++)
                 {
                     int hasBuff = player.buffType[l];
-                    lesserEffect = CalamityMod.alcoholList.Contains(hasBuff);
+                    lesserEffect = CalamityLists.alcoholList.Contains(hasBuff);
                 }
 
                 if (lesserEffect)
@@ -664,7 +665,7 @@ namespace CalamityMod.CalPlayer
 				for (int l = 0; l < Player.MaxBuffs; l++)
 				{
 					int hasBuff = player.buffType[l];
-					bool shouldAffect = CalamityMod.alcoholList.Contains(hasBuff);
+					bool shouldAffect = CalamityLists.alcoholList.Contains(hasBuff);
 					if (shouldAffect)
 						lesserEffect = true;
 				}
@@ -875,7 +876,7 @@ namespace CalamityMod.CalPlayer
 					player.lifeRegen /= 2;
 			}
 
-			if (CalamityWorld.bossRushActive)
+			if (BossRushEvent.BossRushActive)
 			{
 				if (CalamityConfig.Instance.BossRushHealthCurse)
 				{

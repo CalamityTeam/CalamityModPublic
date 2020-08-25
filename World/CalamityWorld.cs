@@ -1,12 +1,8 @@
-using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.CalPlayer;
 using CalamityMod.Events;
 using CalamityMod.NPCs;
 using CalamityMod.NPCs.Abyss;
-using CalamityMod.NPCs.AquaticScourge;
 using CalamityMod.NPCs.AstrumAureus;
-using CalamityMod.NPCs.AstrumDeus;
-using CalamityMod.NPCs.BrimstoneElemental;
 using CalamityMod.NPCs.Bumblebirb;
 using CalamityMod.NPCs.Calamitas;
 using CalamityMod.NPCs.CeaselessVoid;
@@ -15,23 +11,15 @@ using CalamityMod.NPCs.Cryogen;
 using CalamityMod.NPCs.DesertScourge;
 using CalamityMod.NPCs.DevourerofGods;
 using CalamityMod.NPCs.HiveMind;
-using CalamityMod.NPCs.Leviathan;
 using CalamityMod.NPCs.NormalNPCs;
 using CalamityMod.NPCs.OldDuke;
 using CalamityMod.NPCs.Perforator;
 using CalamityMod.NPCs.PlaguebringerGoliath;
-using CalamityMod.NPCs.Polterghast;
 using CalamityMod.NPCs.ProfanedGuardians;
-using CalamityMod.NPCs.Providence;
-using CalamityMod.NPCs.Ravager;
 using CalamityMod.NPCs.Signus;
-using CalamityMod.NPCs.SlimeGod;
 using CalamityMod.NPCs.StormWeaver;
-using CalamityMod.NPCs.SupremeCalamitas;
-using CalamityMod.NPCs.Yharon;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.Projectiles.DraedonsArsenal;
-using CalamityMod.Schematics;
 using CalamityMod.Tiles;
 using CalamityMod.Tiles.Abyss;
 using CalamityMod.Tiles.Astral;
@@ -67,10 +55,6 @@ namespace CalamityMod.World
         public static Dictionary<int, ScreenShakeSpot> ScreenShakeSpots = new Dictionary<int, ScreenShakeSpot>();
 
         //Boss Rush
-        public static bool bossRushActive = false; //Whether Boss Rush is active or not
-        public static bool deactivateStupidFuckingBullshit = false; //Force Boss Rush to inactive
-        public static int bossRushStage = 0; //Boss Rush Stage
-        public static int bossRushSpawnCountdown = 180; //Delay before another Boss Rush boss can spawn
 		public static int bossRushHostileProjKillCounter = 0;
 
         //Death Mode natural boss spawns
@@ -223,11 +207,11 @@ namespace CalamityMod.World
             CalamityGlobalNPC.fireEye = -1;
             CalamityGlobalNPC.brimstoneElemental = -1;
 			CalamityGlobalNPC.signus = -1;
-            bossRushStage = 0;
+            BossRushEvent.BossRushStage = 0;
             DoGSecondStageCountdown = 0;
             ArmoredDiggerSpawnCooldown = 0;
-            bossRushActive = false;
-            bossRushSpawnCountdown = 180;
+            BossRushEvent.BossRushActive = false;
+            BossRushEvent.BossRushSpawnCountdown = 180;
             bossSpawnCountdown = 0;
 			bossRushHostileProjKillCounter = 0;
 			deathBossSpawnCooldown = 0;
@@ -385,7 +369,7 @@ namespace CalamityMod.World
                 downed.Add("ironHeart");
             if (abyssSide)
                 downed.Add("abyssSide");
-            if (bossRushActive)
+            if (BossRushEvent.BossRushActive)
                 downed.Add("bossRushActive");
             if (downedCLAM)
                 downed.Add("clam");
@@ -505,7 +489,7 @@ namespace CalamityMod.World
             armageddon = downed.Contains("armageddon");
             ironHeart = downed.Contains("ironHeart");
             abyssSide = downed.Contains("abyssSide");
-            bossRushActive = downed.Contains("bossRushActive");
+            BossRushEvent.BossRushActive = downed.Contains("bossRushActive");
             downedCLAM = downed.Contains("clam");
             downedCLAMHardMode = downed.Contains("clamHardmode");
             dragonScalesBought = downed.Contains("scales");
@@ -613,7 +597,7 @@ namespace CalamityMod.World
                 ironHeart = flags6[7];
 
                 BitsByte flags7 = reader.ReadByte();
-                bossRushActive = flags7[0];
+                BossRushEvent.BossRushActive = flags7[0];
                 downedBoomerDuke = flags7[1];
                 downedCLAM = flags7[2];
                 dragonScalesBought = flags7[3];
@@ -724,7 +708,7 @@ namespace CalamityMod.World
             flags6[7] = ironHeart;
 
             BitsByte flags7 = new BitsByte();
-            flags7[0] = bossRushActive;
+            flags7[0] = BossRushEvent.BossRushActive;
             flags7[1] = downedBoomerDuke;
             flags7[2] = downedCLAM;
             flags7[3] = dragonScalesBought;
@@ -845,7 +829,7 @@ namespace CalamityMod.World
             ironHeart = flags6[7];
 
             BitsByte flags7 = reader.ReadByte();
-            bossRushActive = flags7[0];
+            BossRushEvent.BossRushActive = flags7[0];
             downedBoomerDuke = flags7[1];
             downedCLAM = flags7[2];
             dragonScalesBought = flags7[3];
@@ -961,7 +945,7 @@ namespace CalamityMod.World
 			tasks[JungleTempleIndex] = new PassLegacy("Jungle Temple", delegate (GenerationProgress progress)
 			{
 				progress.Message = "Building the jungle temple (Calamity)";
-				WorldGenerationMethods.NewJungleTemple();
+				CustomTemple.NewJungleTemple();
 			});
 
             int JungleTempleIndex2 = tasks.FindIndex(genpass => genpass.Name.Equals("Temple"));
@@ -970,7 +954,7 @@ namespace CalamityMod.World
 				progress.Message = "Building the jungle temple (Calamity)";
 				Main.tileSolid[162] = false;
 				Main.tileSolid[226] = true;
-				WorldGenerationMethods.NewJungleTemplePart2();
+				CustomTemple.NewJungleTemplePart2();
 				Main.tileSolid[232] = false;
 			});
 
@@ -978,7 +962,7 @@ namespace CalamityMod.World
 			tasks[LihzahrdAltarIndex] = new PassLegacy("Lihzahrd Altars", delegate (GenerationProgress progress)
 			{
 				progress.Message = "Placing a Lihzahrd altar (Calamity)";
-				WorldGenerationMethods.NewJungleTempleLihzahrdAltar();
+                CustomTemple.NewJungleTempleLihzahrdAltar();
 			});
 
             int FinalIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Final Cleanup"));
@@ -1028,7 +1012,7 @@ namespace CalamityMod.World
                     tasks.Insert(SulphurIndex + 1, new PassLegacy("Sulphur", delegate (GenerationProgress progress)
                     {
                         progress.Message = "Sulphur Sea";
-                        Abyss.PlaceSulphurSea();
+                        SulphurousSea.PlaceSulphurSea();
                     }));
                 }
 
@@ -1078,7 +1062,7 @@ namespace CalamityMod.World
                 tasks.Insert(FinalIndex + 5, new PassLegacy("Sulphur2", delegate (GenerationProgress progress)
                 {
                     progress.Message = "Finishing Sulphur Sea";
-                    Abyss.FinishGeneratingSulphurSea();
+                    SulphurousSea.FinishGeneratingSulphurSea();
                 }));
 
                 tasks.Insert(FinalIndex + 6, new PassLegacy("IWannaRock", delegate (GenerationProgress progress)
@@ -1118,11 +1102,11 @@ namespace CalamityMod.World
 			CalamityPlayer modPlayer = player.Calamity();
 
             // Force boss rush to off
-            if (!deactivateStupidFuckingBullshit)
+            if (!BossRushEvent.DeactivateStupidFuckingBullshit)
             {
-                deactivateStupidFuckingBullshit = true;
-                bossRushActive = false;
-                CalamityMod.UpdateServerBoolean();
+                BossRushEvent.DeactivateStupidFuckingBullshit = true;
+                BossRushEvent.BossRushActive = false;
+                CalamityNetcode.SyncWorld();
             }
 
             // Attempt to start the acid rain at the 4:29AM
@@ -1130,7 +1114,7 @@ namespace CalamityMod.World
             if (Main.time == 32399 && !Main.dayTime && Main.rand.NextBool(moreRain ? 3 : 300) && !Main.LocalPlayer.Calamity().noStupidNaturalARSpawns)
             {
                 AcidRainEvent.TryStartEvent();
-                CalamityMod.UpdateServerBoolean();
+                CalamityNetcode.SyncWorld();
             }
 			if (NPC.downedBoss1 && !downedEoCAcidRain && !forcedRainAlready)
 			{
@@ -1142,7 +1126,7 @@ namespace CalamityMod.World
 						{
 							forcedRainAlready = true;
 							AcidRainEvent.TryStartEvent();
-							CalamityMod.UpdateServerBoolean();
+							CalamityNetcode.SyncWorld();
 						}
 					}
 				}
@@ -1150,7 +1134,7 @@ namespace CalamityMod.World
 			if (forceRainTimer == 1)
 			{
 				AcidRainEvent.TryStartEvent();
-				CalamityMod.UpdateServerBoolean();
+				CalamityNetcode.SyncWorld();
 			}
 			if (forceRainTimer > 0)
 				forceRainTimer--;
@@ -1170,7 +1154,7 @@ namespace CalamityMod.World
                 }
                 if (!startAcidicDownpour)
                 {
-                    int sulphSeaWidth = Abyss.BiomeWidth;
+                    int sulphSeaWidth = SulphurousSea.BiomeWidth;
                     for (int playerIndex = 0; playerIndex < Main.maxPlayers; playerIndex++)
                     {
                         // A variable named "player" already exists above, which retrieves the player who is closest to the map center.
@@ -1188,7 +1172,7 @@ namespace CalamityMod.World
                                 // Makes rain pour at its maximum intensity (but only after an idiot meanders into the Sulphurous Sea)
                                 // You'll never catch me, Fabs, Not when I shift into MAXIMUM OVERDRIVE!!
                                 startAcidicDownpour = true;
-                                CalamityMod.UpdateServerBoolean();
+                                CalamityNetcode.SyncWorld();
                                 break;
                             }
                         }
@@ -1199,7 +1183,7 @@ namespace CalamityMod.World
                 if (Main.raining && NPC.AnyNPCs(ModContent.NPCType<OldDuke>()))
                 {
                     Main.raining = false;
-                    CalamityMod.UpdateServerBoolean();
+                    CalamityNetcode.SyncWorld();
                 }
 
                 // If the rain stops for whatever reason, end the invasion.
@@ -1434,319 +1418,8 @@ namespace CalamityMod.World
 				l++;
 			}
 
-			// Boss Rush shit
-			if (bossRushActive)
-            {
-                // Prevent Moon Lord from spawning naturally
-                if (NPC.MoonLordCountdown > 0)
-                {
-                    NPC.MoonLordCountdown = 0;
-                }
+            BossRushEvent.Update();
 
-                // Do boss rush countdown and shit if no boss is alive
-                if (!CalamityPlayer.areThereAnyDamnBosses)
-                {
-                    // Stage text
-                    if (bossRushSpawnCountdown > 0)
-                    {
-                        bossRushSpawnCountdown--;
-                        if (bossRushSpawnCountdown == 180)
-                        {
-                            // After Fishron is dead
-                            if (bossRushStage == 28)
-                            {
-                                string key = "Mods.CalamityMod.BossRushTierThreeEndText2";
-                                Color messageColor = Color.LightCoral;
-                                if (Main.netMode == NetmodeID.SinglePlayer)
-                                {
-                                    Main.NewText(Language.GetTextValue(key), messageColor);
-                                }
-                                else if (Main.netMode == NetmodeID.Server)
-                                {
-                                    NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-                                }
-                            }
-
-                            // After Providence is dead
-                            else if (bossRushStage == 37)
-                            {
-                                string key = "Mods.CalamityMod.BossRushTierFourEndText2";
-                                Color messageColor = Color.LightCoral;
-                                if (Main.netMode == NetmodeID.SinglePlayer)
-                                {
-                                    Main.NewText(Language.GetTextValue(key), messageColor);
-                                }
-                                else if (Main.netMode == NetmodeID.Server)
-                                {
-                                    NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-                                }
-                            }
-                        }
-                    }
-
-                    // Cooldown and boss spawn
-                    if (bossRushSpawnCountdown <= 0)
-                    {
-                        // Cooldown before next boss spawns
-                        bossRushSpawnCountdown = 60;
-
-                        // Increase cooldown post-Fishron
-                        if (bossRushStage >= 27)
-                        {
-                            bossRushSpawnCountdown += 300;
-                        }
-
-                        // Change cooldown based on stage
-                        switch (bossRushStage)
-                        {
-                            // When Destroyer or Cultist dies, increase time to show text
-                            case 9:
-                            case 18:
-                                bossRushSpawnCountdown = 300;
-                                break;
-
-                            // When Signus dies, increase time to give players a moment to get in a good spot for Ravager
-                            case 25:
-                                bossRushSpawnCountdown = 360;
-                                break;
-
-                            // When Calamitas Clone dies, increase time to give players a moment to relax
-                            case 32:
-                                bossRushSpawnCountdown = 420;
-                                break;
-                            default:
-                                break;
-                        }
-
-                        // Post-Wall of Flesh teleport back to spawn
-                        if (bossRushStage == 13)
-                        {
-                            for (int playerIndex = 0; playerIndex < Main.maxPlayers; playerIndex++)
-                            {
-                                if (Main.player[playerIndex].active)
-                                {
-                                    Player player2 = Main.player[playerIndex];
-                                    player2.Spawn();
-                                }
-                            }
-                        }
-
-                        // Remove Providence debuff for next boss fight
-                        else if (bossRushStage == 37)
-                        {
-                            for (int playerIndex = 0; playerIndex < Main.maxPlayers; playerIndex++)
-                            {
-                                if (Main.player[playerIndex].active)
-                                {
-                                    Player player2 = Main.player[playerIndex];
-                                    if (player2.FindBuffIndex(ModContent.BuffType<ExtremeGravity>()) > -1)
-                                    {
-                                        player2.ClearBuff(ModContent.BuffType<ExtremeGravity>());
-                                    }
-                                }
-                            }
-                        }
-
-                        // Spawn bosses
-                        if (Main.netMode != NetmodeID.MultiplayerClient)
-                        {
-							bool playSpecialSound = false;
-                            switch (bossRushStage)
-                            {
-                                case 0:
-                                    NPC.SpawnOnPlayer(closestPlayer, NPCID.QueenBee);
-                                    break;
-                                case 1:
-                                    NPC.SpawnOnPlayer(closestPlayer, NPCID.BrainofCthulhu);
-                                    break;
-                                case 2:
-                                    NPC.SpawnOnPlayer(closestPlayer, NPCID.KingSlime);
-                                    break;
-                                case 3:
-                                    ChangeTime(false);
-                                    NPC.SpawnOnPlayer(closestPlayer, NPCID.EyeofCthulhu);
-                                    break;
-                                case 4:
-                                    ChangeTime(false);
-                                    NPC.SpawnOnPlayer(closestPlayer, NPCID.SkeletronPrime);
-                                    break;
-                                case 5:
-                                    ChangeTime(true);
-                                    int npc = NPC.NewNPC((int)(player.position.X + Main.rand.Next(-100, 101)), (int)(player.position.Y - 400f), NPCID.Golem, 1);
-									Main.npc[npc].timeLeft *= 20;
-									CalamityUtils.BossAwakenMessage(npc);
-                                    break;
-                                case 6:
-                                    ChangeTime(true);
-                                    NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<ProfanedGuardianBoss>());
-                                    break;
-                                case 7:
-                                    NPC.SpawnOnPlayer(closestPlayer, NPCID.EaterofWorldsHead);
-                                    break;
-                                case 8:
-                                    ChangeTime(false);
-                                    NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<AstrumAureus>());
-                                    break;
-                                case 9:
-                                    ChangeTime(false);
-                                    NPC.SpawnOnPlayer(closestPlayer, NPCID.TheDestroyer);
-                                    break;
-                                case 10:
-                                    ChangeTime(false);
-                                    NPC.SpawnOnPlayer(closestPlayer, NPCID.Spazmatism);
-                                    NPC.SpawnOnPlayer(closestPlayer, NPCID.Retinazer);
-                                    break;
-                                case 11:
-                                    ChangeTime(true);
-                                    NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<Bumblefuck>());
-                                    break;
-                                case 12:
-                                    NPC.SpawnWOF(player.position);
-                                    break;
-                                case 13:
-                                    NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<HiveMind>());
-                                    break;
-                                case 14:
-                                    ChangeTime(false);
-									int npc6 = NPC.NewNPC((int)(player.position.X + Main.rand.Next(-100, 101)), (int)(player.position.Y - 400f), NPCID.SkeletronHead, 1);
-									Main.npc[npc6].timeLeft *= 20;
-									CalamityUtils.BossAwakenMessage(npc6);
-									break;
-                                case 15:
-                                    ChangeTime(true);
-                                    NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<StormWeaverHead>());
-                                    break;
-                                case 16:
-                                    NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<AquaticScourgeHead>());
-                                    break;
-                                case 17:
-                                    NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<DesertScourgeHead>());
-                                    NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<DesertScourgeHeadSmall>());
-                                    NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<DesertScourgeHeadSmall>());
-                                    break;
-                                case 18:
-                                    int npc2 = NPC.NewNPC((int)player.Center.X, (int)player.Center.Y - 400, NPCID.CultistBoss, 1);
-                                    Main.npc[npc2].direction = Main.npc[npc2].spriteDirection = Math.Sign(player.Center.X - player.Center.X - 90f);
-									Main.npc[npc2].timeLeft *= 20;
-									CalamityUtils.BossAwakenMessage(npc2);
-									break;
-                                case 19:
-                                    for (int doom = 0; doom < Main.maxNPCs; doom++)
-                                    {
-                                        bool isPillar = Main.npc[doom].type == NPCID.LunarTowerStardust || Main.npc[doom].type == NPCID.LunarTowerVortex ||
-                                                        Main.npc[doom].type == NPCID.LunarTowerNebula || Main.npc[doom].type == NPCID.LunarTowerSolar;
-                                        if (Main.npc[doom].active && isPillar)
-                                        {
-                                            Main.npc[doom].active = false;
-                                            Main.npc[doom].netUpdate = true;
-                                        }
-                                    }
-                                    int npc3 = NPC.NewNPC((int)(player.position.X + Main.rand.Next(-100, 101)), (int)(player.position.Y - 400f), ModContent.NPCType<CrabulonIdle>(), 1);
-									Main.npc[npc3].timeLeft *= 20;
-									CalamityUtils.BossAwakenMessage(npc3);
-									break;
-                                case 20:
-                                    NPC.SpawnOnPlayer(closestPlayer, NPCID.Plantera);
-                                    break;
-                                case 21:
-                                    NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<CeaselessVoid>());
-                                    break;
-                                case 22:
-                                    NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<PerforatorHive>());
-                                    break;
-                                case 23:
-                                    NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<Cryogen>());
-                                    break;
-                                case 24:
-                                    NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<BrimstoneElemental>());
-                                    break;
-                                case 25:
-                                    NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<Signus>());
-                                    break;
-                                case 26:
-									playSpecialSound = true;
-									Main.PlaySound(SoundID.Roar, player.position, 2);
-                                    int npc4 = NPC.NewNPC((int)(player.position.X + Main.rand.Next(-100, 101)), (int)(player.position.Y - 400f), ModContent.NPCType<RavagerBody>(), 1);
-									Main.npc[npc4].timeLeft *= 20;
-									CalamityUtils.BossAwakenMessage(npc4);
-									break;
-                                case 27:
-                                    int npc5 = NPC.NewNPC((int)(player.position.X + Main.rand.Next(-100, 101)), (int)(player.position.Y - 400f), NPCID.DukeFishron, 1);
-									Main.npc[npc5].timeLeft *= 20;
-									CalamityUtils.BossAwakenMessage(npc5);
-									break;
-                                case 28:
-                                    NPC.SpawnOnPlayer(closestPlayer, NPCID.MoonLordCore);
-                                    break;
-                                case 29:
-                                    ChangeTime(false);
-                                    NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<AstrumDeusHeadSpectral>());
-                                    break;
-                                case 30:
-                                    ChangeTime(true);
-                                    NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<Polterghast>());
-                                    break;
-                                case 31:
-                                    NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<PlaguebringerGoliath>());
-                                    break;
-                                case 32:
-                                    ChangeTime(false);
-                                    NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<Calamitas>());
-                                    break;
-                                case 33:
-                                    ChangeTime(true);
-                                    NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<Siren>());
-                                    break;
-								case 34:
-									int npc7 = NPC.NewNPC((int)(player.position.X + Main.rand.Next(-100, 101)), (int)(player.position.Y - 400f), ModContent.NPCType<OldDuke>(), 1);
-									Main.npc[npc7].timeLeft *= 20;
-									CalamityUtils.BossAwakenMessage(npc7);
-									break;
-								case 35:
-                                    NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<SlimeGodCore>());
-                                    break;
-                                case 36:
-                                    ChangeTime(true);
-									playSpecialSound = true;
-									Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/ProvidenceSpawn"), player.Center);
-									int prov = NPC.NewNPC((int)(player.position.X + Main.rand.Next(-500, 501)), (int)(player.position.Y - 250f), ModContent.NPCType<Providence>(), 1);
-									Main.npc[prov].timeLeft *= 20;
-									CalamityUtils.BossAwakenMessage(prov);
-                                    break;
-                                case 37:
-                                    NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<SupremeCalamitas>());
-                                    break;
-                                case 38:
-                                    ChangeTime(true);
-                                    NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<Yharon>());
-                                    break;
-                                case 39:
-									playSpecialSound = true;
-									Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/DevourerSpawn"), player.Center);
-                                    NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<DevourerofGodsHeadS>());
-                                    break;
-                            }
-							if (!playSpecialSound)
-								Main.PlaySound(SoundID.Roar, player.position, 0);
-                        }
-                    }
-                }
-            }
-            else
-            {
-                bossRushSpawnCountdown = 180;
-                if (bossRushStage != 0)
-                {
-                    bossRushStage = 0;
-                    if (Main.netMode == NetmodeID.Server)
-                    {
-                        var netMessage = mod.GetPacket();
-                        netMessage.Write((byte)CalamityModMessageType.BossRushStage);
-                        netMessage.Write(bossRushStage);
-                        netMessage.Send();
-                    }
-                }
-            }
 			if (bossRushHostileProjKillCounter > 0)
 			{
 				bossRushHostileProjKillCounter--;
@@ -2313,7 +1986,7 @@ namespace CalamityMod.World
         {
             Main.time = 0.0;
             Main.dayTime = day;
-            CalamityMod.UpdateServerBoolean();
+            CalamityNetcode.SyncWorld();
         }
         #endregion
 

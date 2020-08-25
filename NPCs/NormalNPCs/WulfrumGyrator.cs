@@ -84,6 +84,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             if (HoleAtPosition(npc.Center.X + npc.velocity.X * 4f) && npc.collideY && npc.velocity.Y == 0f)
             {
                 npc.velocity.Y = JumpSpeed;
+                npc.netUpdate = true;
             }
             if (Collision.CanHitLine(player.position, player.width, player.height, npc.position, npc.width, npc.height) &&
                 Math.Abs(player.Center.X - npc.Center.X) < PlayerSearchDistance &&
@@ -99,6 +100,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             else if (npc.collideX && npc.collideY && npc.velocity.Y == 0f)
             {
                 npc.velocity.Y = JumpSpeed;
+                npc.netUpdate = true;
             }
 
             if (npc.oldPosition == npc.position)

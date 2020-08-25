@@ -1,3 +1,4 @@
+using CalamityMod.Events;
 using CalamityMod.NPCs.SlimeGod;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -42,7 +43,7 @@ namespace CalamityMod.Items.DifficultyItems
 
         public override bool CanUseItem(Player player)
         {
-            if (!CalamityWorld.revenge || CalamityWorld.bossRushActive)
+            if (!CalamityWorld.revenge || BossRushEvent.BossRushActive)
             {
                 return false;
             }
@@ -91,7 +92,7 @@ namespace CalamityMod.Items.DifficultyItems
             }
             CalamityWorld.DoGSecondStageCountdown = 0;
 
-            CalamityMod.UpdateServerBoolean();
+            CalamityNetcode.SyncWorld();
 
             if (Main.netMode == NetmodeID.Server)
             {

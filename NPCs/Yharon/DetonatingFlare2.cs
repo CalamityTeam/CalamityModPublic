@@ -1,4 +1,5 @@
 using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Events;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -39,7 +40,7 @@ namespace CalamityMod.NPCs.Yharon
         public override void AI()
         {
             npc.alpha -= 3;
-            bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
+            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
             if (npc.localAI[3] == 0f)
             {
                 switch (Main.rand.Next(6))

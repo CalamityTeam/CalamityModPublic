@@ -1,3 +1,4 @@
+using CalamityMod.Events;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
@@ -68,7 +69,7 @@ namespace CalamityMod.Projectiles.Boss
             else
             {
                 projectile.velocity.Y *= 1.06f;
-                float fallSpeed = (CalamityWorld.revenge || CalamityWorld.bossRushActive || !Main.dayTime) ? 3.5f : 3f;
+                float fallSpeed = (CalamityWorld.revenge || BossRushEvent.BossRushActive || !Main.dayTime) ? 3.5f : 3f;
                 if (projectile.velocity.Y > fallSpeed)
                 {
                     projectile.velocity.Y = fallSpeed;

@@ -1,3 +1,4 @@
+using CalamityMod.Events;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -22,7 +23,7 @@ namespace CalamityMod.NPCs.SlimeGod
             npc.height = 30;
             npc.defense = 6;
             npc.lifeMax = 180;
-            if (CalamityWorld.bossRushActive)
+            if (BossRushEvent.BossRushActive)
             {
                 npc.lifeMax = 100000;
             }

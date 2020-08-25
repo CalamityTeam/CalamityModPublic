@@ -207,7 +207,7 @@ namespace CalamityMod.NPCs.TownNPCs
                     case 1:
                         return "Hey, if government officials can get tax, why can't I? The heck do you mean that these two things are nothing alike?";
                 }
-                CalamityMod.UpdateServerBoolean();
+                CalamityNetcode.SyncWorld();
             }
             return "Sorry, I got nothing. Perhaps you could reforge something and come back later...";
         }

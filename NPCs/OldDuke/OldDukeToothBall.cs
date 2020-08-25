@@ -8,6 +8,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Dusts;
 using CalamityMod.World;
+using CalamityMod.Events;
 
 namespace CalamityMod.NPCs.OldDuke
 {
@@ -28,7 +29,7 @@ namespace CalamityMod.NPCs.OldDuke
 			npc.height = 40;
 			npc.defense = 0;
 			npc.lifeMax = 5000;
-			if (CalamityWorld.bossRushActive)
+			if (BossRushEvent.BossRushActive)
 			{
 				npc.lifeMax = 75000;
 			}
@@ -102,7 +103,7 @@ namespace CalamityMod.NPCs.OldDuke
             }
 
             float num1372 = 12f;
-			if (Main.expertMode || CalamityWorld.bossRushActive)
+			if (Main.expertMode || BossRushEvent.BossRushActive)
 				num1372 += Vector2.Distance(player.Center, npc.Center) * 0.01f;
 
 			Vector2 vector167 = new Vector2(npc.Center.X + npc.direction * 20, npc.Center.Y + 6f);

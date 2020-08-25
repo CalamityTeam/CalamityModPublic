@@ -1,3 +1,4 @@
+using CalamityMod.Events;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -21,7 +22,7 @@ namespace CalamityMod.NPCs.AquaticScourge
             npc.height = 22;
             npc.defense = 20;
 			npc.lifeMax = Main.hardMode ? 500 : 60;
-			if (CalamityWorld.bossRushActive)
+			if (BossRushEvent.BossRushActive)
             {
                 npc.lifeMax = 60000;
             }

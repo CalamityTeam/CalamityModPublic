@@ -1,3 +1,4 @@
+using CalamityMod.Events;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -9,8 +10,8 @@ namespace CalamityMod.NPCs.DesertScourge
     public class DesertScourgeHeadSmall : ModNPC
     {
         public bool flies = false;
-        public float speed = CalamityWorld.bossRushActive ? 20f : 12.5f;
-        public float turnSpeed = CalamityWorld.bossRushActive ? 0.2f : 0.125f;
+        public float speed = BossRushEvent.BossRushActive ? 20f : 12.5f;
+        public float turnSpeed = BossRushEvent.BossRushActive ? 0.2f : 0.125f;
         public int minLength = 12;
         public int maxLength = 13;
         bool TailSpawned = false;
@@ -28,7 +29,7 @@ namespace CalamityMod.NPCs.DesertScourge
             npc.height = 60;
             npc.defense = 0;
             npc.lifeMax = 800;
-            if (CalamityWorld.bossRushActive)
+            if (BossRushEvent.BossRushActive)
             {
                 npc.lifeMax = 350000;
             }
@@ -130,7 +131,7 @@ namespace CalamityMod.NPCs.DesertScourge
                 npc.localAI[1] = 1f;
                 Rectangle rectangle12 = new Rectangle((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height);
                 int num954 = CalamityWorld.death ? 300 : 1000;
-                if (CalamityWorld.bossRushActive)
+                if (BossRushEvent.BossRushActive)
                     num954 = 150;
 
                 bool flag95 = true;

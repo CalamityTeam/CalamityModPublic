@@ -1,6 +1,7 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Dusts;
+using CalamityMod.Events;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -99,8 +100,8 @@ namespace CalamityMod.NPCs.Polterghast
 
 			bool speedBoost1 = false;
             bool despawnBoost = false;
-            bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
-            bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
+            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
+            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
 
             if (npc.timeLeft < 1500)
                 npc.timeLeft = 1500;
@@ -128,7 +129,7 @@ namespace CalamityMod.NPCs.Polterghast
 
             float num734 = 3f;
             float num735 = 0.03f;
-            if (!Main.player[npc.target].ZoneDungeon && !CalamityWorld.bossRushActive && Main.player[npc.target].position.Y < Main.worldSurface * 16.0)
+            if (!Main.player[npc.target].ZoneDungeon && !BossRushEvent.BossRushActive && Main.player[npc.target].position.Y < Main.worldSurface * 16.0)
             {
                 despawnTimer--;
                 if (despawnTimer <= 0)

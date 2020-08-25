@@ -22,10 +22,12 @@ namespace CalamityMod.Projectiles.Magic
             get => (int)projectile.ai[0];
             set => projectile.ai[0] = value;
         }
+
         public const float AngularMovementSpeed = 0.1f;
         public const float Acceleration = 0.0025f;
         public const float TargetCheckInterval = 30f;
         public const float MaximumTargetDistance = 1200f;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Subsuming Vortex");
@@ -45,8 +47,6 @@ namespace CalamityMod.Projectiles.Magic
             projectile.extraUpdates = 4;
             projectile.timeLeft = 115 * projectile.extraUpdates;
             projectile.ignoreWater = true;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 5;
         }
 
         public override void AI()

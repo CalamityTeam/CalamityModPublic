@@ -1,3 +1,4 @@
+using CalamityMod.Events;
 using CalamityMod.Items.Placeables.Furniture;
 using CalamityMod.Items.Potions.Alcohol;
 using CalamityMod.Projectiles.Typeless;
@@ -73,7 +74,7 @@ namespace CalamityMod.NPCs.TownNPCs
 
         public override string GetChat()
         {
-            if (CalamityWorld.bossRushActive)
+            if (BossRushEvent.BossRushActive)
                 return "Why are you talking to me right now? Either way, I expect you to turn in a perfect performance!";
 
             if (npc.homeless)
@@ -196,7 +197,7 @@ namespace CalamityMod.NPCs.TownNPCs
                 dialogue.Add("If I was a magical horse, I'd be out in space swirling cocktails, as I watch space worms battle for my enjoyment.");
             }
 
-			IList<string> donorList = new List<string>(CalamityMod.donatorList);
+			IList<string> donorList = new List<string>(CalamityLists.donatorList);
 			string[] donors = new string[12];
 			for (int i = 0; i < 12; i++)
 			{

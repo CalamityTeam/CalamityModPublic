@@ -43,7 +43,7 @@ namespace CalamityMod.Items.Tools.ClimateChange
                         Main.moonPhase = 0;
                     }
                 }
-                CalamityMod.UpdateServerBoolean();
+                CalamityNetcode.SyncWorld();
             }
             return true;
         }

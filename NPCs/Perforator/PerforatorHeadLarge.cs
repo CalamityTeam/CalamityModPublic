@@ -1,5 +1,6 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Events;
 using CalamityMod.Items.Materials;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -14,8 +15,8 @@ namespace CalamityMod.NPCs.Perforator
     public class PerforatorHeadLarge : ModNPC
     {
         private bool flies = false;
-        private int minLength = (CalamityWorld.death || CalamityWorld.bossRushActive) ? 7 : 15;
-        private int maxLength = (CalamityWorld.death || CalamityWorld.bossRushActive) ? 8 : 16;
+        private int minLength = (CalamityWorld.death || BossRushEvent.BossRushActive) ? 7 : 15;
+        private int maxLength = (CalamityWorld.death || BossRushEvent.BossRushActive) ? 8 : 16;
         private bool TailSpawned = false;
 
         public override void SetStaticDefaults()
@@ -48,8 +49,8 @@ namespace CalamityMod.NPCs.Perforator
 
         public override void AI()
         {
-            bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
-			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
+            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
+			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
 
 			// Percent life remaining
 			float lifeRatio = npc.life / (float)npc.lifeMax;
@@ -63,13 +64,13 @@ namespace CalamityMod.NPCs.Perforator
 				turnSpeed += death ? 0.08f : 0.08f * (1f - lifeRatio);
 			}
 
-			if (npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive))
+			if (npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))
 			{
 				speed *= 1.25f;
 				turnSpeed *= 1.25f;
 			}
 
-			if (CalamityWorld.bossRushActive)
+			if (BossRushEvent.BossRushActive)
 			{
 				speed *= 1.25f;
 				turnSpeed *= 1.25f;
