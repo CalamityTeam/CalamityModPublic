@@ -64,6 +64,7 @@ namespace CalamityMod.UI
                 }
 
                 // If any cells were actually grabbed, take them from the factory's stockpile.
+                // Using the CellStack property setter automatically sends the correct packet to update the entity server side.
                 if (cellsGrabbed > 0)
                     factory.CellStack -= (short)cellsGrabbed;
 

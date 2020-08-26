@@ -12,7 +12,18 @@ namespace CalamityMod.TileEntities
 	public class TEPowerCellFactory : ModTileEntity
 	{
 		public long Time = 0;
-		public short CellStack = 0;
+		private short _stack = 0;
+		public short CellStack
+		{
+			get => _stack;
+			set
+			{
+				_stack = value;
+				// Sends a vanilla Tile Entity sync packet every time the number of cells in this Cell Factory changes.
+				// This will be hijacked by vanilla NetSend and NetReceive to send the necessary data.
+				NetMessage.SendData(MessageID.TileEntitySharing, -1, -1, null, ID);
+			}
+		}
 
 		private long CycleFrameCounter
 		{
@@ -59,12 +70,8 @@ namespace CalamityMod.TileEntities
 		{
 			++Time;
 			if (IsCellFrame && CellStack < 999)
-			{
+				// The property setter will automatically send the necessary packet.
 				CellStack++;
-
-				// Sends a vanilla Tile Entity sync packet. This will be hijacked by NetSend and NetReceive to send the necessary data.
-				NetMessage.SendData(MessageID.TileEntitySharing, -1, -1, null, ID);
-			}
 		}
 
 		// If this factory breaks, anyone who's viewing it is no longer viewing it.
@@ -110,25 +117,25 @@ namespace CalamityMod.TileEntities
 		public override TagCompound Save() => new TagCompound
 		{
 			{ "time", Time },
-			{ "cells", CellStack }
+			{ "cells", _stack }
 		};
 
 		public override void Load(TagCompound tag)
 		{
 			Time = tag.GetLong("time");
-			CellStack = tag.GetShort("cells");
+			_stack = tag.GetShort("cells");
 		}
 
 		public override void NetSend(BinaryWriter writer, bool lightSend)
 		{
 			writer.Write(Time);
-			writer.Write(CellStack);
+			writer.Write(_stack);
 		}
 
 		public override void NetReceive(BinaryReader reader, bool lightReceive)
 		{
 			Time = reader.ReadInt64();
-			CellStack = reader.ReadInt16();
+			_stack = reader.ReadInt16();
 		}
 	}
 }
