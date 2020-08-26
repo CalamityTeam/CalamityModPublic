@@ -53,7 +53,7 @@ namespace CalamityMod.Items.Weapons.Summon
         {
 			Mod crouchMod = ModLoader.GetMod("CrouchMod");
 			bool crouch = crouchMod != null;
-			string crouchWarn = "Big, oversized robots can't crouch. Please don't try.\n";
+			string crouchWarn = "Big, oversized robots can't crouch. Please don't try.";
 			string flavor = CalamityUtils.ColorMessage("Now, make them pay.", new Color(135, 206, 235));
 			foreach (TooltipLine line2 in list)
 			{
