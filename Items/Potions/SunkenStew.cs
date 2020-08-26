@@ -17,9 +17,9 @@ namespace CalamityMod.Items.Potions
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Hadal Stew");
-			Tooltip.SetDefault(@"Only gives 50 (37 with Philosopher's Stone) seconds of Potion Sickness
-Grants Well Fed
-60 minute duration");
+            Tooltip.SetDefault("Only gives 50 seconds of Potion Sickness\n" +
+               "Grants Well Fed\n" +
+               "60 minute duration");
 		}
 
 		public override void SetDefaults()
@@ -39,6 +39,20 @@ Grants Well Fed
 			item.healMana = 150;
 			item.value = Item.buyPrice(0, 2, 0, 0);
 		}
+
+        public override void ModifyTooltips(List<TooltipLine> list)
+        {
+			if (Main.LocalPlayer.pStone)
+			{
+				foreach (TooltipLine line2 in list)
+				{
+					if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
+					{
+						line2.text = "Only gives 37 seconds of Potion Sickness";
+					}
+				}
+			}
+        }
 
         public override bool CanUseItem(Player player)
         {

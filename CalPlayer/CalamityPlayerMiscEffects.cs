@@ -349,27 +349,30 @@ namespace CalamityMod.CalPlayer
 			}
 
 			if (player.ownedProjectileCounts[ModContent.ProjectileType<GiantIbanRobotOfDoom>()] <= 0 &&
-				player.Calamity().andromedaState != AndromedaPlayerState.Inactive)
+				modPlayer.andromedaState != AndromedaPlayerState.Inactive)
 			{
-				player.Calamity().andromedaState = AndromedaPlayerState.Inactive;
+				modPlayer.andromedaState = AndromedaPlayerState.Inactive;
 			}
-			
-			if(player.Calamity().andromedaState == AndromedaPlayerState.LargeRobot)
+
+			if (modPlayer.andromedaState == AndromedaPlayerState.LargeRobot)
 			{
 				player.width = 80;
 				player.height = 212;
 				player.position.Y -= 170;
+				modPlayer.resetHeightandWidth = true;
 			}
-			else if (player.Calamity().andromedaState == AndromedaPlayerState.SpecialAttack)
+			else if (modPlayer.andromedaState == AndromedaPlayerState.SpecialAttack)
 			{
 				player.width = 24;
 				player.height = 98;
 				player.position.Y -= 56;
+				modPlayer.resetHeightandWidth = true;
 			}
-			else if (!player.mount.Active)
+			else if (!player.mount.Active && modPlayer.resetHeightandWidth)
 			{
 				player.width = 20;
 				player.height = 42;
+				modPlayer.resetHeightandWidth = false;
 			}
 
 			// Proficiency level ups

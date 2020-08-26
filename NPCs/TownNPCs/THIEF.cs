@@ -20,12 +20,16 @@ namespace CalamityMod.NPCs.TownNPCs
 
         public static List<string> PossibleNames = new List<string>()
         {
+			//Patron names
+			"Xplizzy", // <@!98826096237109248> Whitegiraffe #6342
+
+			//Original names
             "Laura", "Mie", "Bonnie",
             "Sarah", "Diane", "Kate",
             "Penelope", "Marisa", "Maribel",
             "Valerie", "Jessica", "Rowan",
             "Jessie", "Jade", "Hearn",
-            "Amber", "Anne", "Indiana", "Xplizzy"
+            "Amber", "Anne", "Indiana"
         };
 
         public override void SetStaticDefaults()
@@ -278,7 +282,7 @@ namespace CalamityMod.NPCs.TownNPCs
                 shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 60, 0, 0);
                 nextSlot++;
             }
-            if (NPC.downedMechBoss1 || NPC.downedMechBoss2 || NPC.downedMechBoss3)
+            if (NPC.downedMechBossAny)
 			{
                 shop.item[nextSlot].SetDefaults(ModContent.ItemType<BouncingBetty>());
 				nextSlot++;
