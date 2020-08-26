@@ -3728,6 +3728,9 @@ namespace CalamityMod.CalPlayer
 
             if (player.ownedProjectileCounts[ModContent.ProjectileType<GiantIbanRobotOfDoom>()] > 0)
                 player.yoraiz0rEye = 0;
+
+			if (cementShoes || CalamityConfig.Instance.BossRushDashCurse && BossRushEvent.BossRushActive)
+				DashExploitFix();
         }
         #endregion
 
@@ -3751,6 +3754,9 @@ namespace CalamityMod.CalPlayer
 
             if (player.ownedProjectileCounts[ModContent.ProjectileType<GiantIbanRobotOfDoom>()] > 0)
                 player.yoraiz0rEye = 0;
+
+			if (cementShoes || CalamityConfig.Instance.BossRushDashCurse && BossRushEvent.BossRushActive)
+				DashExploitFix();
         }
 		#endregion
 
@@ -7462,6 +7468,25 @@ namespace CalamityMod.CalPlayer
             player.wingTimeMax = 0;
         }
         #endregion
+
+		#region Dash Exploit Fix
+		private void DashExploitFix()
+		{
+			if (player.dashDelay != 0)
+			{
+				player.dashDelay = 0;
+			}
+			// Prevents potential Shield of Cthulhu exploits
+			if (player.eocDash != 0)
+			{
+				player.eocDash = 0;
+			}
+
+			player.eocHit = -1;
+			player.dash = 0;
+			dashMod = 0;
+		}
+		#endregion
 
         #region Pre Hurt
         public override bool PreHurt(bool pvp, bool quiet, ref int damage, ref int hitDirection, ref bool crit, ref bool customDamage, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
