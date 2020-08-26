@@ -125,6 +125,7 @@ namespace CalamityMod.CalPlayer
 		public float animusBoost = 1f;
 		public int potionTimer = 0;
 		public bool cementShoes = false;
+		public bool resetHeightandWidth = false;
 		#endregion
 
         public int CurrentlyViewedFactoryX = -1;
@@ -2073,6 +2074,7 @@ namespace CalamityMod.CalPlayer
 			ladHearts = 0;
 			prismaticLasers = 0;
 			roverDriveTimer = 0;
+			resetHeightandWidth = false;
 
             alcoholPoisoning = false;
             shadowflame = false;
