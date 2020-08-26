@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Buffs.StatBuffs;
 using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Events;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
