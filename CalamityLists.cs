@@ -143,6 +143,7 @@ namespace CalamityMod
         public static List<int> hornetList;
         public static List<int> mossHornetList;
         public static List<int> bossMinionList;
+        public static List<int> minibossList;
 
         public static List<int> legOverrideList;
 
@@ -2591,6 +2592,7 @@ namespace CalamityMod
             hornetList = null;
             mossHornetList = null;
             bossMinionList = null;
+			minibossList = null;
 
             legOverrideList = null;
 
