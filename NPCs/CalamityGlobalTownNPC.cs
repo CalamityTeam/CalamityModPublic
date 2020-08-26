@@ -138,23 +138,23 @@ namespace CalamityMod.NPCs
 			ResetName(NPCID.Angler, ref CalamityWorld.anglerName);
 			ResetName(NPCID.ArmsDealer, ref CalamityWorld.armsDealerName);
 			ResetName(NPCID.Clothier, ref CalamityWorld.clothierName);
-			//ResetName(NPCID.Cyborg, ref CalamityWorld.cyborgName);
-			//ResetName(NPCID.Demolitionist, ref CalamityWorld.demolitionistName);
+			ResetName(NPCID.Cyborg, ref CalamityWorld.cyborgName);
+			ResetName(NPCID.Demolitionist, ref CalamityWorld.demolitionistName);
 			ResetName(NPCID.Dryad, ref CalamityWorld.dryadName);
-			//ResetName(NPCID.DyeTrader, ref CalamityWorld.dyeTraderName);
-			//ResetName(NPCID.GoblinTinkerer, ref CalamityWorld.goblinTinkererName);
+			ResetName(NPCID.DyeTrader, ref CalamityWorld.dyeTraderName);
+			ResetName(NPCID.GoblinTinkerer, ref CalamityWorld.goblinTinkererName);
 			ResetName(NPCID.Guide, ref CalamityWorld.guideName);
 			ResetName(NPCID.Mechanic, ref CalamityWorld.mechanicName);
-			//ResetName(NPCID.Merchant, ref CalamityWorld.merchantName);
+			ResetName(NPCID.Merchant, ref CalamityWorld.merchantName);
 			ResetName(NPCID.Nurse, ref CalamityWorld.nurseName);
-			//ResetName(NPCID.Painter, ref CalamityWorld.painterName);
-			//ResetName(NPCID.PartyGirl, ref CalamityWorld.partyGirlName);
+			ResetName(NPCID.Painter, ref CalamityWorld.painterName);
+			ResetName(NPCID.PartyGirl, ref CalamityWorld.partyGirlName);
 			ResetName(NPCID.Pirate, ref CalamityWorld.pirateName);
 			ResetName(NPCID.Steampunker, ref CalamityWorld.steampunkerName);
 			ResetName(NPCID.Stylist, ref CalamityWorld.stylistName);
-			//ResetName(NPCID.DD2Bartender, ref CalamityWorld.tavernkeepName);
+			ResetName(NPCID.DD2Bartender, ref CalamityWorld.tavernkeepName);
 			ResetName(NPCID.TaxCollector, ref CalamityWorld.taxCollectorName);
-			//ResetName(NPCID.Truffle, ref CalamityWorld.truffleName);
+			ResetName(NPCID.Truffle, ref CalamityWorld.truffleName);
 			ResetName(NPCID.WitchDoctor, ref CalamityWorld.witchDoctorName);
 			ResetName(NPCID.Wizard, ref CalamityWorld.wizardName);
 		}
@@ -163,7 +163,10 @@ namespace CalamityMod.NPCs
 		private static string ChooseName(ref bool alreadySet, string currentName, int numVanillaNames, string[] patreonNames)
 		{
 			if (alreadySet || patreonNames is null || patreonNames.Length == 0)
+			{
+				alreadySet = true;
 				return currentName;
+			} 
 
 			alreadySet = true;
 			int index = Main.rand.Next(numVanillaNames + patreonNames.Length);
@@ -192,8 +195,20 @@ namespace CalamityMod.NPCs
 					case NPCID.Clothier:
 						npc.GivenName = ChooseName(ref CalamityWorld.clothierName, npc.GivenName, ClothierVanillaNames, ClothierNames);
 						break;
+					case NPCID.Cyborg:
+						npc.GivenName = ChooseName(ref CalamityWorld.cyborgName, npc.GivenName, CyborgVanillaNames, CyborgNames);
+						break;
+					case NPCID.Demolitionist:
+						npc.GivenName = ChooseName(ref CalamityWorld.demolitionistName, npc.GivenName, DemolitionistVanillaNames, DemolitionistNames);
+						break;
 					case NPCID.Dryad:
 						npc.GivenName = ChooseName(ref CalamityWorld.dryadName, npc.GivenName, DryadVanillaNames, DryadNames);
+						break;
+					case NPCID.DyeTrader:
+						npc.GivenName = ChooseName(ref CalamityWorld.dyeTraderName, npc.GivenName, DyeTraderVanillaNames, DyeTraderNames);
+						break;
+					case NPCID.GoblinTinkerer:
+						npc.GivenName = ChooseName(ref CalamityWorld.goblinTinkererName, npc.GivenName, GoblinTinkererVanillaNames, GoblinTinkererNames);
 						break;
 					case NPCID.Guide:
 						npc.GivenName = ChooseName(ref CalamityWorld.guideName, npc.GivenName, GuideVanillaNames, GuideNames);
@@ -201,8 +216,17 @@ namespace CalamityMod.NPCs
 					case NPCID.Mechanic:
 						npc.GivenName = ChooseName(ref CalamityWorld.mechanicName, npc.GivenName, MechanicVanillaNames, MechanicNames);
 						break;
+					case NPCID.Merchant:
+						npc.GivenName = ChooseName(ref CalamityWorld.merchantName, npc.GivenName, MerchantVanillaNames, MerchantNames);
+						break;
 					case NPCID.Nurse:
 						npc.GivenName = ChooseName(ref CalamityWorld.nurseName, npc.GivenName, NurseVanillaNames, NurseNames);
+						break;
+					case NPCID.Painter:
+						npc.GivenName = ChooseName(ref CalamityWorld.painterName, npc.GivenName, PainterVanillaNames, PainterNames);
+						break;
+					case NPCID.PartyGirl:
+						npc.GivenName = ChooseName(ref CalamityWorld.partyGirlName, npc.GivenName, PartyGirlVanillaNames, PartyGirlNames);
 						break;
 					case NPCID.Pirate:
 						npc.GivenName = ChooseName(ref CalamityWorld.pirateName, npc.GivenName, PirateVanillaNames, PirateNames);
@@ -213,14 +237,20 @@ namespace CalamityMod.NPCs
 					case NPCID.Stylist:
 						npc.GivenName = ChooseName(ref CalamityWorld.stylistName, npc.GivenName, StylistVanillaNames, StylistNames);
 						break;
+					case NPCID.DD2Bartender: // Tavernkeep
+						npc.GivenName = ChooseName(ref CalamityWorld.tavernkeepName, npc.GivenName, TavernkeepVanillaNames, TavernkeepNames);
+						break;
 					case NPCID.TaxCollector:
 						npc.GivenName = ChooseName(ref CalamityWorld.taxCollectorName, npc.GivenName, TaxCollectorVanillaNames, TaxCollectorNames);
 						break;
-					case NPCID.Wizard:
-						npc.GivenName = ChooseName(ref CalamityWorld.wizardName, npc.GivenName, WizardVanillaNames, WizardNames);
+					case NPCID.Truffle:
+						npc.GivenName = ChooseName(ref CalamityWorld.truffleName, npc.GivenName, TruffleVanillaNames, TruffleNames);
 						break;
 					case NPCID.WitchDoctor:
 						npc.GivenName = ChooseName(ref CalamityWorld.witchDoctorName, npc.GivenName, WitchDoctorVanillaNames, WitchDoctorNames);
+						break;
+					case NPCID.Wizard:
+						npc.GivenName = ChooseName(ref CalamityWorld.wizardName, npc.GivenName, WizardVanillaNames, WizardNames);
 						break;
 					default:
 						break;
