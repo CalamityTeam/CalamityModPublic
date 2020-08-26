@@ -2264,6 +2264,29 @@ namespace CalamityMod
                 NPCID.GiantMossHornet
             };
 
+            minibossList = new List<int>()
+            {
+                ModContent.NPCType<EidolonWyrmHead>(),
+                ModContent.NPCType<Mauler>(),
+                ModContent.NPCType<Reaper>(),
+                ModContent.NPCType<ColossalSquid>(),
+                ModContent.NPCType<GreatSandShark>(),
+                ModContent.NPCType<GiantClam>(),
+                ModContent.NPCType<ArmoredDiggerHead>(),
+                ModContent.NPCType<ArmoredDiggerBody>(),
+                ModContent.NPCType<ArmoredDiggerTail>(),
+                ModContent.NPCType<ThiccWaifu>(),
+                ModContent.NPCType<Horse>(),
+                ModContent.NPCType<PlaguebringerShade>(),
+                NPCID.Pumpking,
+                NPCID.MourningWood,
+                NPCID.IceQueen,
+                NPCID.SantaNK1,
+                NPCID.Everscream,
+                NPCID.DD2Betsy,
+				NPCID.Mothron
+			};
+
             bossMinionList = new List<int>()
             {
                 ModContent.NPCType<DesertScourgeHeadSmall>(),
@@ -2331,6 +2354,8 @@ namespace CalamityMod
                 NPCID.GolemFistRight,
                 ModContent.NPCType<PlagueMine>(),
                 ModContent.NPCType<PlagueHomingMissile>(),
+                ModContent.NPCType<PlagueBeeG>(),
+                ModContent.NPCType<PlagueBeeLargeG>(),
                 ModContent.NPCType<RavagerClawLeft>(),
                 ModContent.NPCType<RavagerClawRight>(),
                 ModContent.NPCType<RavagerLegLeft>(),
