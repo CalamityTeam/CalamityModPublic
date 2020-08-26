@@ -36,6 +36,7 @@ namespace CalamityMod.Items.Accessories
             recipe.AddIngredient(ItemID.SoulofFright, 5);
             recipe.AddIngredient(ItemID.SoulofMight, 5);
             recipe.AddIngredient(ItemID.SoulofSight, 5);
+			recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }
