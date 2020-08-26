@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Weapons.Summon
 			"The top icon is the mech's weaponry. It must be powered in order to attack.\n" +
 			"Click the top icon to switch between Regicide, an enormous energy blade, and a powerful Gauss rifle.\n" +
 			"Exiting the mount while a boss is alive will temporarily hinder your movement\n" +
-			"[c/87ceeb:Now, make them pay.]");
+			"THIS LINE IS MODIFIED BELOW");
         }
 
         public override void SetDefaults()
@@ -51,15 +51,17 @@ namespace CalamityMod.Items.Weapons.Summon
         public override void ModifyTooltips(List<TooltipLine> list)
         {
 			Mod crouchMod = ModLoader.GetMod("CrouchMod");
-			if (crouchMod != null)
+			string crouchWarn = "Big, oversized robots can't crouch. Please don't try.\n";
+			if (crouchMod is null)
 			{
-				foreach (TooltipLine line2 in list)
+				crouchWarn = "";
+			}
+			string flavor = CalamityUtils.ColorMessage("Now, make them pay.", new Color(135, 206, 235));
+			foreach (TooltipLine line2 in list)
+			{
+				if (line2.mod == "Terraria" && line2.Name == "Tooltip9")
 				{
-					if (line2.mod == "Terraria" && line2.Name == "Tooltip9")
-					{
-						line2.text = "Big, oversized robots can't crouch. Please don't try.\n" +
-						"[c/87ceeb:Now, make them pay.]";
-					}
+					line2.text = crouchWarn + flavor;
 				}
 			}
         }
