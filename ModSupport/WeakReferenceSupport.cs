@@ -85,8 +85,8 @@ namespace CalamityMod
 			{ "Perforators", 3.51f },
 			{ "SlimeGod", 5.5f },
 			{ "Cryogen", 6.5f },
-			{ "BrimstoneElemental", 7.5f },
-			{ "AquaticScourge", 8.5f },
+			{ "AquaticScourge", 7.5f },
+			{ "BrimstoneElemental", 8.5f },
 			{ "Calamitas", 9.7f },
 			{ "GreatSandShark", 10.09f },
 			{ "Leviathan", 10.5f },
@@ -114,7 +114,7 @@ namespace CalamityMod
 		private static readonly Dictionary<string, float> InvasionDifficulty = new Dictionary<string, float>
 		{
 			{ "Acid Rain Initial", 2.4f },
-			{ "Acid Rain Aquatic Scourge", 8.51f },
+			{ "Acid Rain Aquatic Scourge", 7.51f },
 			{ "Acid Rain Polterghast", 16.49f }
 		};
 
@@ -294,18 +294,6 @@ namespace CalamityMod
 				AddBoss(bossChecklist, calamity, "Cryogen", order, type, DownedCryogen, summon, loot, collection, instructions, despawn, bossLogTex);
 			}
 
-			// Brimstone Elemental
-			{
-				BossDifficulty.TryGetValue("BrimstoneElemental", out float order);
-				int type = NPCType<BrimstoneElemental>();
-				int summon = ItemType<CharredIdol>();
-				List<int> loot = new List<int>() { ItemType<BrimstoneWaifuBag>(), ItemType<EssenceofChaos>(), ItemType<Bloodstone>(), ItemType<Brimlance>(), ItemType<DormantBrimseeker>(), ItemType<SeethingDischarge>(), ItemType<Abaddon>(), ItemType<RoseStone>(), ItemType<Gehenna>(), ItemType<Brimrose>(), ItemID.GreaterHealingPotion };
-				List<int> collection = new List<int>() { ItemType<BrimstoneElementalTrophy>(), ItemType<BrimstoneWaifuMask>(), ItemType<KnowledgeBrimstoneCrag>(), ItemType<KnowledgeBrimstoneElemental>(), ItemType<CharredRelic>() };
-				string instructions = $"Use a [i:{summon}] in the Brimstone Crag";
-				string despawn = CalamityUtils.ColorMessage("Brimstone Elemental withdraws to the ruins of her shrine.", new Color(0xDC, 0x14, 0x3C));
-				AddBoss(bossChecklist, calamity, "Brimstone Elemental", order, type, DownedBrimstoneElemental, summon, loot, collection, instructions, despawn);
-			}
-
 			// Aquatic Scourge
 			{
 				BossDifficulty.TryGetValue("AquaticScourge", out float order);
@@ -317,6 +305,18 @@ namespace CalamityMod
 				string despawn = CalamityUtils.ColorMessage("The Aquatic Scourge swam back into the open ocean.", new Color(0xF0, 0xE6, 0x8C));
 				string bossLogTex = "CalamityMod/NPCs/AquaticScourge/AquaticScourge_BossChecklist";
 				AddBoss(bossChecklist, calamity, "Aquatic Scourge", order, segments, DownedAquaticScourge, summon, loot, collection, instructions, despawn, bossLogTex);
+			}
+
+			// Brimstone Elemental
+			{
+				BossDifficulty.TryGetValue("BrimstoneElemental", out float order);
+				int type = NPCType<BrimstoneElemental>();
+				int summon = ItemType<CharredIdol>();
+				List<int> loot = new List<int>() { ItemType<BrimstoneWaifuBag>(), ItemType<EssenceofChaos>(), ItemType<Bloodstone>(), ItemType<Brimlance>(), ItemType<DormantBrimseeker>(), ItemType<SeethingDischarge>(), ItemType<Abaddon>(), ItemType<RoseStone>(), ItemType<Gehenna>(), ItemType<Brimrose>(), ItemID.GreaterHealingPotion };
+				List<int> collection = new List<int>() { ItemType<BrimstoneElementalTrophy>(), ItemType<BrimstoneWaifuMask>(), ItemType<KnowledgeBrimstoneCrag>(), ItemType<KnowledgeBrimstoneElemental>(), ItemType<CharredRelic>() };
+				string instructions = $"Use a [i:{summon}] in the Brimstone Crag";
+				string despawn = CalamityUtils.ColorMessage("Brimstone Elemental withdraws to the ruins of her shrine.", new Color(0xDC, 0x14, 0x3C));
+				AddBoss(bossChecklist, calamity, "Brimstone Elemental", order, type, DownedBrimstoneElemental, summon, loot, collection, instructions, despawn);
 			}
 
 			// Calamitas
@@ -790,8 +790,8 @@ namespace CalamityMod
 			AddToMutantShop("Perforators", "BloodyWormFood", DownedPerfs, Item.buyPrice(gold: 10));
 			AddToMutantShop("SlimeGod", "OverloadedSludge", DownedSlimeGod, Item.buyPrice(gold: 15));
 			AddToMutantShop("Cryogen", "CryoKey", DownedCryogen, Item.buyPrice(gold: 15));
-			AddToMutantShop("BrimstoneElemental", "CharredIdol", DownedBrimstoneElemental, Item.buyPrice(gold: 20));
 			AddToMutantShop("AquaticScourge", "Seafood", DownedAquaticScourge, Item.buyPrice(gold: 20));
+			AddToMutantShop("BrimstoneElemental", "CharredIdol", DownedBrimstoneElemental, Item.buyPrice(gold: 20));
 			AddToMutantShop("AstrumAureus", "AstralChunk", DownedAureus, Item.buyPrice(gold: 25));
 			AddToMutantShop("PlaguebringerGoliath", "Abomination", DownedPBG, Item.buyPrice(gold: 50));
 			AddToMutantShop("Ravager", "AncientMedallion", DownedRavager, Item.buyPrice(gold: 50));
