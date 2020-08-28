@@ -44,8 +44,8 @@ using Terraria.ModLoader;
 
 namespace CalamityMod
 {
-    public static class NPCStats
-    {
+	public static class NPCStats
+	{
 		// I want to die
 		public static void GetNPCDamage(this NPC npc, bool expert, bool revenge, bool death, bool? master = null)
 		{

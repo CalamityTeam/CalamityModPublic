@@ -730,7 +730,7 @@ namespace CalamityMod.NPCs.Cryogen
             }
 			else if (npc.ai[0] == 5f)
 			{
-                npc.damage = (int)(npc.defDamage * 1.5f);
+                npc.damage = npc.defDamage;
 
 				if (phase7)
 				{

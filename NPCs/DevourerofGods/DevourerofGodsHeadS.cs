@@ -182,6 +182,10 @@ namespace CalamityMod.NPCs.DevourerofGods
 						if (calamityGlobalNPC.newAI[3] >= 720f)
                         {
 							npc.alpha = 255;
+
+							// Reset laser wall timer to 0
+							calamityGlobalNPC.newAI[1] = 0f;
+
 							calamityGlobalNPC.newAI[3] = 0f;
                             laserWallPhase = (int)LaserWallPhase.FireLaserWalls;
                         }
@@ -189,9 +193,6 @@ namespace CalamityMod.NPCs.DevourerofGods
                 }
                 else if (laserWallPhase == (int)LaserWallPhase.FireLaserWalls)
                 {
-					// Reset laser wall timer to 0
-                    calamityGlobalNPC.newAI[1] = 0f;
-
 					// Remain in laser wall firing phase for 6 seconds
                     idleCounter--;
 					if (idleCounter <= 0)
@@ -238,7 +239,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                     laserWallPhase = (int)LaserWallPhase.SetUp;
 
 				// Enter final phase
-				if (!halfLife)
+				if (!halfLife && phase3)
 				{
 					// Teleport close to the target
 					Teleport(player, true);
