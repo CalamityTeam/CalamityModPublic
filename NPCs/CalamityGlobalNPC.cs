@@ -392,7 +392,10 @@ namespace CalamityMod.NPCs
 			NPCID.MartianSaucerCannon,
 			NPCID.MartianSaucerCore,
 			NPCID.MartianSaucerTurret,
-			NPCID.Probe
+			NPCID.Probe,
+			NPCID.CultistBoss,
+			NPCID.GolemHeadFree,
+			NPCID.MoonLordFreeEye
 		};
 		#endregion
 
@@ -1678,7 +1681,7 @@ namespace CalamityMod.NPCs
 
 			// Setting this in SetDefaults will disable expert mode scaling, so put it here instead
 			if (ZeroContactDamageNPCList.Contains(npc.type))
-				npc.damage = 0;
+				npc.damage = npc.defDamage = 0;
 
             if (DestroyerIDs.Contains(npc.type) || EaterofWorldsIDs.Contains(npc.type))
                 npc.buffImmune[BuffType<Enraged>()] = false;

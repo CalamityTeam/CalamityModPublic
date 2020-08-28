@@ -184,17 +184,17 @@ namespace CalamityMod
 			target.AddBuff(BuffID.OnFire, (int)(120 * multiplier));
 			target.AddBuff(BuffID.Ichor, (int)(120 * multiplier));
 		}
-        #endregion
+		#endregion
 
-        #region NPC Utilities
-        /// <summary>
-        /// Allows you to set the lifeMax value of a NPC to different values based on the mode. Called instead of npc.lifeMax = X.
-        /// </summary>
-        /// <param name="npc">The NPC whose lifeMax value you are trying to set.</param>
-        /// <param name="normal">The value lifeMax will be set to in normal mode, this value gets doubled automatically in Expert mode.</param>
-        /// <param name="revengeance">The value lifeMax will be set to in Revegeneance mode.</param>
-        /// <param name="bossRush">The value lifeMax will be set to during the Boss Rush.</param>
-        public static void LifeMaxNERB(this NPC npc, int normal, int? revengeance = null, int? bossRush = null)
+		#region NPC Utilities
+		/// <summary>
+		/// Allows you to set the lifeMax value of a NPC to different values based on the mode. Called instead of npc.lifeMax = X.
+		/// </summary>
+		/// <param name="npc">The NPC whose lifeMax value you are trying to set.</param>
+		/// <param name="normal">The value lifeMax will be set to in normal mode, this value gets doubled automatically in Expert mode.</param>
+		/// <param name="revengeance">The value lifeMax will be set to in Revegeneance mode.</param>
+		/// <param name="bossRush">The value lifeMax will be set to during the Boss Rush.</param>
+		public static void LifeMaxNERB(this NPC npc, int normal, int? revengeance = null, int? bossRush = null)
         {
             npc.lifeMax = normal;
 
@@ -207,6 +207,7 @@ namespace CalamityMod
                 npc.lifeMax = revengeance.Value;
             }
         }
+
 		/// <summary>
 		/// Allows you to set the DR value of a NPC to different values based on the mode.
 		/// </summary>
@@ -372,36 +373,6 @@ namespace CalamityMod
 			}*/
 
 			return 1.5f;
-		}
-
-		/// <summary>
-		/// Get the contact damage for NPCs in Master Mode Calamity rev+
-		/// </summary>
-		/// <param name="damage">The damage the npc does prior to being multiplied</param>
-		/// <param name="damageMultiplier">The damage multiplier applied to the npc' contact damage</param>
-		public static int GetMasterModeContactDamage(int damage, double damageMultiplier)
-		{
-			/*if (!Main.masterMode || !CalamityWorld.revenge)
-				return damage;*/
-
-			return damage;
-
-			//return (int)(damage * damageMultiplier);
-		}
-
-		/// <summary>
-		/// Get the damage for projectiles in Master Mode Calamity rev+
-		/// </summary>
-		/// <param name="damage">The damage the projectile does prior to being multiplied</param>
-		/// <param name="damageMultiplier">The damage multiplier applied to the projectiles' damage</param>
-		public static int GetMasterModeProjectileDamage(int damage, double damageMultiplier)
-		{
-			/*if (!Main.masterMode || !CalamityWorld.revenge)
-				return damage;*/
-
-			return damage;
-
-			//return (int)(damage * damageMultiplier);
 		}
 
 		/// <summary>
