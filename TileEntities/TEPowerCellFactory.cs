@@ -21,7 +21,7 @@ namespace CalamityMod.TileEntities
 				_stack = value;
 				// Sends a vanilla Tile Entity sync packet every time the number of cells in this Cell Factory changes.
 				// This will be hijacked by vanilla NetSend and NetReceive to send the necessary data.
-				NetMessage.SendData(MessageID.TileEntitySharing, -1, -1, null, ID);
+				NetMessage.SendData(MessageID.TileEntitySharing, -1, -1, null, ID, Position.X, Position.Y);
 			}
 		}
 
@@ -74,6 +74,28 @@ namespace CalamityMod.TileEntities
 				CellStack++;
 		}
 
+		// This code is called as a hook when the player places the Power Cell Factory tile so that the tile entity may be placed.
+		public override int Hook_AfterPlacement(int i, int j, int type, int style, int direction)
+		{
+			// If in multiplayer, tell the server to place the tile entity and DO NOT place it yourself. That will mismatch IDs.
+			// Also tell the server that you placed the 4x4 tiles that make up the Power Cell Factory.
+			if (Main.netMode == NetmodeID.MultiplayerClient)
+			{
+				NetMessage.SendTileRange(Main.myPlayer, i, j, PowerCellFactory.Width, PowerCellFactory.Height);
+				NetMessage.SendData(MessageID.TileEntityPlacement, -1, -1, null, i, j, Type);
+				return -1;
+			}
+
+			// If in single player, just place the tile entity, no problems.
+			int id = Place(i, j);
+			return id;
+		}
+
+		// This code is called on dedicated servers only. It is the server-side response to MessageID.TileEntityPlacement.
+		// When the server receives such a message from a client, it sends a MessageID.TileEntitySharing to all clients.
+		// This will cause them to Place the tile entity locally at that position, all with exactly the same ID.
+		public override void OnNetPlace() => NetMessage.SendData(MessageID.TileEntitySharing, -1, -1, null, ID, Position.X, Position.Y);
+
 		// If this factory breaks, anyone who's viewing it is no longer viewing it.
 		public override void OnKill()
 		{
@@ -90,28 +112,16 @@ namespace CalamityMod.TileEntities
 					continue;
 
 				CalamityPlayer mp = p.Calamity();
-				TEPowerCellFactory fact = mp.CurrentlyViewedFactory;
-				if (fact is null)
+				TEPowerCellFactory factory = mp.CurrentlyViewedFactory;
+				if (factory is null)
 					continue;
-				if (fact.ID == ID)
+				if (factory.ID == ID)
 				{
 					mp.CurrentlyViewedFactory = null;
 					mp.CurrentlyViewedFactoryX = -1;
 					mp.CurrentlyViewedFactoryY = -1;
 				}
 			}
-		}
-
-		public override int Hook_AfterPlacement(int i, int j, int type, int style, int direction)
-		{
-			// If a client places this tile it must notify the server that it was placed at these coordinates.
-			if (Main.netMode == NetmodeID.MultiplayerClient)
-			{
-				NetMessage.SendTileSquare(Main.myPlayer, i, j, 5);
-				NetMessage.SendData(MessageID.TileEntityPlacement, -1, -1, null, i, j, Type);
-				return -1;
-			}
-			return Place(i, j);
 		}
 
 		public override TagCompound Save() => new TagCompound

@@ -119,44 +119,44 @@ namespace CalamityMod
         public static int ghostKillCount = 0;
         public static int sharkKillCount = 0;
 
-		// Textures
+        // Textures
         public static Texture2D heartOriginal2;
-		public static Texture2D heartOriginal;
-		public static Texture2D rainOriginal;
-		public static Texture2D manaOriginal;
-		public static Texture2D carpetOriginal;
-		public static Texture2D AstralCactusTexture;
+        public static Texture2D heartOriginal;
+        public static Texture2D rainOriginal;
+        public static Texture2D manaOriginal;
+        public static Texture2D carpetOriginal;
+        public static Texture2D AstralCactusTexture;
         public static Texture2D AstralCactusGlowTexture;
         public static Texture2D AstralSky;
 
         // DR data structure
         public static SortedDictionary<int, float> DRValues;
 
-		// Boss Kill Time data structure
-		public static SortedDictionary<int, int> bossKillTimes;
+        // Boss Kill Time data structure
+        public static SortedDictionary<int, int> bossKillTimes;
 
-		// Boss velocity scaling data structure
-		public static SortedDictionary<int, float> bossVelocityDamageScaleValues;
-		public const float velocityScaleMin = 0.5f;
-		public const float bitingEnemeyVelocityScale = 0.8f;
+        // Boss velocity scaling data structure
+        public static SortedDictionary<int, float> bossVelocityDamageScaleValues;
+        public const float velocityScaleMin = 0.5f;
+        public const float bitingEnemeyVelocityScale = 0.8f;
 
         // TODO -- Calamity should check for other mods existing in exactly one place
         internal Mod thorium = null;
         public bool fargosMutant = false;
 
-		internal static CalamityMod Instance;
+        internal static CalamityMod Instance;
 
         #region Load
         public override void Load()
         {
-			Instance = this;
-			heartOriginal2 = Main.heartTexture;
-			heartOriginal = Main.heart2Texture;
-			rainOriginal = Main.rainTexture;
-			manaOriginal = Main.manaTexture;
-			carpetOriginal = Main.flyingCarpetTexture;
+            Instance = this;
+            heartOriginal2 = Main.heartTexture;
+            heartOriginal = Main.heart2Texture;
+            rainOriginal = Main.rainTexture;
+            manaOriginal = Main.manaTexture;
+            carpetOriginal = Main.flyingCarpetTexture;
 
-			NormalityRelocatorHotKey = RegisterHotKey("Normality Relocator", "Z");
+            NormalityRelocatorHotKey = RegisterHotKey("Normality Relocator", "Z");
             RageHotKey = RegisterHotKey("Rage Mode", "V");
             AdrenalineHotKey = RegisterHotKey("Adrenaline Mode", "B");
             AegisHotKey = RegisterHotKey("Elysian Guard", "N");
@@ -181,97 +181,97 @@ namespace CalamityMod
 
             CalamityLists.LoadLists();
             SetupVanillaDR();
-			SetupBossKillTimes();
-			SetupBossVelocityScalingValues();
+            SetupBossKillTimes();
+            SetupBossVelocityScalingValues();
             SetupThoriumBossDR(thorium);
 
             CalamityLocalization.AddLocalizations();
 
-			On.Terraria.Player.TileInteractionsUse += Player_TileInteractionsUse;
-			On.Terraria.WorldGen.OpenDoor += LabDoorsOpen;
-			On.Terraria.WorldGen.CloseDoor += LabDoorsClose;
+            On.Terraria.Player.TileInteractionsUse += Player_TileInteractionsUse;
+            On.Terraria.WorldGen.OpenDoor += LabDoorsOpen;
+            On.Terraria.WorldGen.CloseDoor += LabDoorsClose;
         }
 
-		private static bool LabDoorsOpen(On.Terraria.WorldGen.orig_OpenDoor orig, int i, int j, int direction)
-		{
-			Tile tile = Main.tile[i, j];
-			if (tile.type == ModContent.TileType<AgedLaboratoryDoorOpen>() || tile.type == ModContent.TileType<AgedLaboratoryDoorClosed>() ||
-			tile.type == ModContent.TileType<LaboratoryDoorOpen>() || tile.type == ModContent.TileType<LaboratoryDoorClosed>())
-			{
-				return false;
-			}
-			else
-			{
-				return orig(i, j, direction);
-			}
-		}
+        private static bool LabDoorsOpen(On.Terraria.WorldGen.orig_OpenDoor orig, int i, int j, int direction)
+        {
+            Tile tile = Main.tile[i, j];
+            if (tile.type == ModContent.TileType<AgedLaboratoryDoorOpen>() || tile.type == ModContent.TileType<AgedLaboratoryDoorClosed>() ||
+            tile.type == ModContent.TileType<LaboratoryDoorOpen>() || tile.type == ModContent.TileType<LaboratoryDoorClosed>())
+            {
+                return false;
+            }
+            else
+            {
+                return orig(i, j, direction);
+            }
+        }
 
-		private static bool LabDoorsClose(On.Terraria.WorldGen.orig_CloseDoor orig, int i, int j, bool forced)
-		{
-			Tile tile = Main.tile[i, j];
-			if (tile.type == ModContent.TileType<AgedLaboratoryDoorOpen>() || tile.type == ModContent.TileType<AgedLaboratoryDoorClosed>() ||
-			tile.type == ModContent.TileType<LaboratoryDoorOpen>() || tile.type == ModContent.TileType<LaboratoryDoorClosed>())
-			{
-				return false;
-			}
-			else
-			{
-				return orig(i, j, forced);
-			}
-		}
+        private static bool LabDoorsClose(On.Terraria.WorldGen.orig_CloseDoor orig, int i, int j, bool forced)
+        {
+            Tile tile = Main.tile[i, j];
+            if (tile.type == ModContent.TileType<AgedLaboratoryDoorOpen>() || tile.type == ModContent.TileType<AgedLaboratoryDoorClosed>() ||
+            tile.type == ModContent.TileType<LaboratoryDoorOpen>() || tile.type == ModContent.TileType<LaboratoryDoorClosed>())
+            {
+                return false;
+            }
+            else
+            {
+                return orig(i, j, forced);
+            }
+        }
 
-		private static void Player_TileInteractionsUse(On.Terraria.Player.orig_TileInteractionsUse orig, Player player, int i, int j)
-		{
-			Tile tile = Main.tile[i, j];
-			if (tile.type == ModContent.TileType<AgedLaboratoryDoorOpen>())
-			{
-				DoorSwap(ModContent.TileType<AgedLaboratoryDoorClosed>(), ModContent.TileType<AgedLaboratoryDoorOpen>(), i, j);
-			}
-			else if (tile.type == ModContent.TileType<AgedLaboratoryDoorClosed>())
-			{
-				DoorSwap(ModContent.TileType<AgedLaboratoryDoorOpen>(), ModContent.TileType<AgedLaboratoryDoorClosed>(), i, j);
-			}
-			else if (tile.type == ModContent.TileType<LaboratoryDoorOpen>())
-			{
-				DoorSwap(ModContent.TileType<LaboratoryDoorClosed>(), ModContent.TileType<LaboratoryDoorOpen>(), i, j);
-			}
-			else if (tile.type == ModContent.TileType<LaboratoryDoorClosed>())
-			{
-				DoorSwap(ModContent.TileType<LaboratoryDoorOpen>(), ModContent.TileType<LaboratoryDoorClosed>(), i, j);
-			}
-			else
-			{
-				orig(player, i, j);
-			}
-		}
+        private static void Player_TileInteractionsUse(On.Terraria.Player.orig_TileInteractionsUse orig, Player player, int i, int j)
+        {
+            Tile tile = Main.tile[i, j];
+            if (tile.type == ModContent.TileType<AgedLaboratoryDoorOpen>())
+            {
+                DoorSwap(ModContent.TileType<AgedLaboratoryDoorClosed>(), ModContent.TileType<AgedLaboratoryDoorOpen>(), i, j);
+            }
+            else if (tile.type == ModContent.TileType<AgedLaboratoryDoorClosed>())
+            {
+                DoorSwap(ModContent.TileType<AgedLaboratoryDoorOpen>(), ModContent.TileType<AgedLaboratoryDoorClosed>(), i, j);
+            }
+            else if (tile.type == ModContent.TileType<LaboratoryDoorOpen>())
+            {
+                DoorSwap(ModContent.TileType<LaboratoryDoorClosed>(), ModContent.TileType<LaboratoryDoorOpen>(), i, j);
+            }
+            else if (tile.type == ModContent.TileType<LaboratoryDoorClosed>())
+            {
+                DoorSwap(ModContent.TileType<LaboratoryDoorOpen>(), ModContent.TileType<LaboratoryDoorClosed>(), i, j);
+            }
+            else
+            {
+                orig(player, i, j);
+            }
+        }
 
-		public static void DoorSwap(int type1, int type2, int i, int j, bool forced = false)
-		{
-			if (PlayerInput.Triggers.JustPressed.MouseRight || forced)
-			{
-				ushort type = (ushort)type1;
-				short frameY = 0;
-				for (int dy = -4; dy < 4; dy++)
-				{
-					if (Main.tile[i, j + dy].frameY > 0 && frameY == 0)
-						continue;
-					if (Main.tile[i, j + dy].type == type2)
-					{
-						if (Main.tile[i, j + dy] is null)
-						{
-							Main.tile[i, j + dy] = new Tile();
-						}
-						Main.tile[i, j + dy].type = type;
-						Main.tile[i, j + dy].frameY = frameY;
-						frameY += 16;
-						if ((int)frameY / 16 >= 4)
-							break;
-					}
-				}
+        public static void DoorSwap(int type1, int type2, int i, int j, bool forced = false)
+        {
+            if (PlayerInput.Triggers.JustPressed.MouseRight || forced)
+            {
+                ushort type = (ushort)type1;
+                short frameY = 0;
+                for (int dy = -4; dy < 4; dy++)
+                {
+                    if (Main.tile[i, j + dy].frameY > 0 && frameY == 0)
+                        continue;
+                    if (Main.tile[i, j + dy].type == type2)
+                    {
+                        if (Main.tile[i, j + dy] is null)
+                        {
+                            Main.tile[i, j + dy] = new Tile();
+                        }
+                        Main.tile[i, j + dy].type = type;
+                        Main.tile[i, j + dy].frameY = frameY;
+                        frameY += 16;
+                        if ((int)frameY / 16 >= 4)
+                            break;
+                    }
+                }
 
-				Main.PlaySound(SoundID.DoorClosed, i * 16, j * 16, 1, 1f, 0f);
-			}
-		}
+                Main.PlaySound(SoundID.DoorClosed, i * 16, j * 16, 1, 1f, 0f);
+            }
+        }
 
         private void LoadClient()
         {
@@ -333,8 +333,8 @@ namespace CalamityMod
             Filters.Scene["CalamityMod:SupremeCalamitas"] = new Filter(new SCalScreenShaderData("FilterMiniTower").UseColor(1.1f, 0.3f, 0.3f).UseOpacity(0.65f), EffectPriority.VeryHigh);
             SkyManager.Instance["CalamityMod:SupremeCalamitas"] = new SCalSky();
 
-			Filters.Scene["CalamityMod:Signus"] = new Filter(new SignusScreenShaderData("FilterMiniTower").UseColor(0.35f, 0.1f, 0.55f).UseOpacity(0.35f), EffectPriority.VeryHigh);
-			SkyManager.Instance["CalamityMod:Signus"] = new SignusSky();
+            Filters.Scene["CalamityMod:Signus"] = new Filter(new SignusScreenShaderData("FilterMiniTower").UseColor(0.35f, 0.1f, 0.55f).UseOpacity(0.35f), EffectPriority.VeryHigh);
+            SkyManager.Instance["CalamityMod:Signus"] = new SignusSky();
 
             SkyManager.Instance["CalamityMod:Astral"] = new AstralSky();
             SkyManager.Instance["CalamityMod:Cryogen"] = new CryogenSky();
@@ -344,10 +344,10 @@ namespace CalamityMod
             RipperUI.Reset();
             AstralArcanumUI.Load(this);
 
-			GameShaders.Hair.BindShader(ModContent.ItemType<AdrenalineHairDye>(), new LegacyHairShaderData().UseLegacyMethod((Player player, Color newColor, ref bool lighting) => Color.Lerp(player.hairColor, new Color(0, 255, 171), ((float)player.Calamity().adrenaline / (float)player.Calamity().adrenalineMax))));
-			GameShaders.Hair.BindShader(ModContent.ItemType<RageHairDye>(), new LegacyHairShaderData().UseLegacyMethod((Player player, Color newColor, ref bool lighting) => Color.Lerp(player.hairColor, new Color(255, 83, 48), ((float)player.Calamity().rage / (float)player.Calamity().rageMax))));
-			GameShaders.Hair.BindShader(ModContent.ItemType<WingTimeHairDye>(), new LegacyHairShaderData().UseLegacyMethod((Player player, Color newColor, ref bool lighting) => Color.Lerp(player.hairColor, new Color(139, 205, 255), ((float)player.wingTime / (float)player.wingTimeMax))));
-			GameShaders.Hair.BindShader(ModContent.ItemType<StealthHairDye>(), new LegacyHairShaderData().UseLegacyMethod((Player player, Color newColor, ref bool lighting) => Color.Lerp(player.hairColor, new Color(186, 85, 211), (player.Calamity().rogueStealth / player.Calamity().rogueStealthMax))));
+            GameShaders.Hair.BindShader(ModContent.ItemType<AdrenalineHairDye>(), new LegacyHairShaderData().UseLegacyMethod((Player player, Color newColor, ref bool lighting) => Color.Lerp(player.hairColor, new Color(0, 255, 171), ((float)player.Calamity().adrenaline / (float)player.Calamity().adrenalineMax))));
+            GameShaders.Hair.BindShader(ModContent.ItemType<RageHairDye>(), new LegacyHairShaderData().UseLegacyMethod((Player player, Color newColor, ref bool lighting) => Color.Lerp(player.hairColor, new Color(255, 83, 48), ((float)player.Calamity().rage / (float)player.Calamity().rageMax))));
+            GameShaders.Hair.BindShader(ModContent.ItemType<WingTimeHairDye>(), new LegacyHairShaderData().UseLegacyMethod((Player player, Color newColor, ref bool lighting) => Color.Lerp(player.hairColor, new Color(139, 205, 255), ((float)player.wingTime / (float)player.wingTimeMax))));
+            GameShaders.Hair.BindShader(ModContent.ItemType<StealthHairDye>(), new LegacyHairShaderData().UseLegacyMethod((Player player, Color newColor, ref bool lighting) => Color.Lerp(player.hairColor, new Color(186, 85, 211), (player.Calamity().rogueStealth / player.Calamity().rogueStealthMax))));
 
             SchematicLoader.LoadEverything();
 
@@ -377,17 +377,17 @@ namespace CalamityMod
 
             DRValues?.Clear();
             DRValues = null;
-			bossKillTimes?.Clear();
-			bossKillTimes = null;
-			bossVelocityDamageScaleValues?.Clear();
-			bossVelocityDamageScaleValues = null;
+            bossKillTimes?.Clear();
+            bossKillTimes = null;
+            bossVelocityDamageScaleValues?.Clear();
+            bossVelocityDamageScaleValues = null;
 
             CalamityLists.UnloadLists();
 
             thorium = null;
             fargosMutant = false;
 
-			Instance = null;
+            Instance = null;
 
             PopupGUIManager.UnloadGUIs();
             InvasionProgressUIManager.UnloadGUIs();
@@ -402,20 +402,20 @@ namespace CalamityMod
             AstralArcanumUI.Unload();
             base.Unload();
 
-			if (!Main.dedServ)
-			{
-				Main.heartTexture = heartOriginal2;
-				Main.heart2Texture = heartOriginal;
-				Main.rainTexture = rainOriginal;
-				Main.manaTexture = manaOriginal;
-				Main.flyingCarpetTexture = carpetOriginal;
-			}
+            if (!Main.dedServ)
+            {
+                Main.heartTexture = heartOriginal2;
+                Main.heart2Texture = heartOriginal;
+                Main.rainTexture = rainOriginal;
+                Main.manaTexture = manaOriginal;
+                Main.flyingCarpetTexture = carpetOriginal;
+            }
 
-			heartOriginal2 = null;
-			heartOriginal = null;
-			rainOriginal = null;
-			manaOriginal = null;
-			carpetOriginal = null;
+            heartOriginal2 = null;
+            heartOriginal = null;
+            rainOriginal = null;
+            manaOriginal = null;
+            carpetOriginal = null;
         }
         #endregion
 
@@ -429,16 +429,16 @@ namespace CalamityMod
 
         #region ConfigCrap
         internal static void SaveConfig(CalamityConfig cfg)
-		{
-			// in-game ModConfig saving from mod code is not supported yet in tmodloader, and subject to change, so we need to be extra careful.
-			// This code only supports client configs, and doesn't call onchanged. It also doesn't support ReloadRequired or anything else.
-			MethodInfo saveMethodInfo = typeof(ConfigManager).GetMethod("Save", BindingFlags.Static | BindingFlags.NonPublic);
-			if (saveMethodInfo != null)
-				saveMethodInfo.Invoke(null, new object[] { cfg });
-			else
-				Instance.Logger.Warn("In-game SaveConfig failed, code update required");
-		}
-		#endregion
+        {
+            // in-game ModConfig saving from mod code is not supported yet in tmodloader, and subject to change, so we need to be extra careful.
+            // This code only supports client configs, and doesn't call onchanged. It also doesn't support ReloadRequired or anything else.
+            MethodInfo saveMethodInfo = typeof(ConfigManager).GetMethod("Save", BindingFlags.Static | BindingFlags.NonPublic);
+            if (saveMethodInfo != null)
+                saveMethodInfo.Invoke(null, new object[] { cfg });
+            else
+                Instance.Logger.Warn("In-game SaveConfig failed, code update required");
+        }
+        #endregion
 
         #region Vanilla Enemy DR
         private void SetupVanillaDR()
@@ -471,7 +471,7 @@ namespace CalamityMod
                 { NPCID.DeadlySphere, 0.4f },
                 { NPCID.DiabolistRed, 0.2f },
                 { NPCID.DiabolistWhite, 0.2f },
-				{ NPCID.DukeFishron, 0.1f },
+                { NPCID.DukeFishron, 0.1f },
                 { NPCID.DungeonGuardian, 0.999999f },
                 { NPCID.DungeonSpirit, 0.2f },
                 { NPCID.ElfCopter, 0.15f },
@@ -516,9 +516,9 @@ namespace CalamityMod
                 { NPCID.Paladin, 0.45f },
                 { NPCID.PirateCaptain, 0.05f },
                 { NPCID.PirateShipCannon, 0.15f },
-				{ NPCID.Plantera, 0.15f },
-				{ NPCID.PlanterasTentacle, 0.1f },
-				{ NPCID.PossessedArmor, 0.25f },
+                { NPCID.Plantera, 0.15f },
+                { NPCID.PlanterasTentacle, 0.1f },
+                { NPCID.PossessedArmor, 0.25f },
                 { NPCID.PresentMimic, 0.3f },
                 { NPCID.PrimeCannon, 0.2f },
                 { NPCID.PrimeLaser, 0.2f },
@@ -592,220 +592,220 @@ namespace CalamityMod
             ThoriumDR("Omnicide", 0.3f);
             ThoriumDR("Abyssion", 0.35f);
         }
-		#endregion
+        #endregion
 
-		#region Boss Kill Times
-		private void SetupBossKillTimes()
-		{
-			// 3600 = 1 minute
+        #region Boss Kill Times
+        private void SetupBossKillTimes()
+        {
+            // 3600 = 1 minute
 
-			bossKillTimes = new SortedDictionary<int, int> {
-				{ NPCID.KingSlime, 3600 },
-				{ NPCID.EyeofCthulhu, 5400 },
-				{ NPCID.EaterofWorldsHead, 7200 },
-				{ NPCID.EaterofWorldsBody, 7200 },
-				{ NPCID.EaterofWorldsTail, 7200 },
-				{ NPCID.BrainofCthulhu, 5400 },
-				{ NPCID.Creeper, 1800 },
-				{ NPCID.QueenBee, 7200 },
-				{ NPCID.SkeletronHead, 9000 },
-				{ NPCID.WallofFlesh, 7200 },
-				{ NPCID.WallofFleshEye, 7200 },
-				{ NPCID.Spazmatism, 10800 },
-				{ NPCID.Retinazer, 10800 },
-				{ NPCID.TheDestroyer, 10800 },
+            bossKillTimes = new SortedDictionary<int, int> {
+                { NPCID.KingSlime, 3600 },
+                { NPCID.EyeofCthulhu, 5400 },
+                { NPCID.EaterofWorldsHead, 7200 },
+                { NPCID.EaterofWorldsBody, 7200 },
+                { NPCID.EaterofWorldsTail, 7200 },
+                { NPCID.BrainofCthulhu, 5400 },
+                { NPCID.Creeper, 1800 },
+                { NPCID.QueenBee, 7200 },
+                { NPCID.SkeletronHead, 9000 },
+                { NPCID.WallofFlesh, 7200 },
+                { NPCID.WallofFleshEye, 7200 },
+                { NPCID.Spazmatism, 10800 },
+                { NPCID.Retinazer, 10800 },
+                { NPCID.TheDestroyer, 10800 },
                 { NPCID.TheDestroyerBody, 10800 },
-				{ NPCID.TheDestroyerTail, 10800 },
-				{ NPCID.SkeletronPrime, 10800 },
-				{ NPCID.Plantera, 10800 },
-				{ NPCID.Golem, 9000 },
-				{ NPCID.GolemHead, 3600 },
-				{ NPCID.DukeFishron, 9000 },
-				{ NPCID.CultistBoss, 9000 },
-				{ NPCID.MoonLordCore, 14400 },
-				{ NPCID.MoonLordHand, 7200 },
-				{ NPCID.MoonLordHead, 7200 },
-				{ ModContent.NPCType<DesertScourgeHead>(), 3600 },
-				{ ModContent.NPCType<DesertScourgeBody>(), 3600 },
-				{ ModContent.NPCType<DesertScourgeTail>(), 3600 },
-				{ ModContent.NPCType<CrabulonIdle>(), 5400 },
-				{ ModContent.NPCType<HiveMind>(), 1800 },
-				{ ModContent.NPCType<HiveMindP2>(), 5400 },
-				{ ModContent.NPCType<PerforatorHive>(), 7200 },
-				{ ModContent.NPCType<SlimeGodCore>(), 10800 },
-				{ ModContent.NPCType<SlimeGod>(), 3600 },
-				{ ModContent.NPCType<SlimeGodRun>(), 3600 },
-				{ ModContent.NPCType<SlimeGodSplit>(), 3600 },
-				{ ModContent.NPCType<SlimeGodRunSplit>(), 3600 },
-				{ ModContent.NPCType<Cryogen>(), 10800 },
-				{ ModContent.NPCType<AquaticScourgeHead>(), 7200 },
-				{ ModContent.NPCType<AquaticScourgeBody>(), 7200 },
-				{ ModContent.NPCType<AquaticScourgeBodyAlt>(), 7200 },
-				{ ModContent.NPCType<AquaticScourgeTail>(), 7200 },
-				{ ModContent.NPCType<BrimstoneElemental>(), 10800 },
-				{ ModContent.NPCType<Calamitas>(), 1200 },
-				{ ModContent.NPCType<CalamitasRun3>(), 11400 },
-				{ ModContent.NPCType<Leviathan>(), 10800 },
-				{ ModContent.NPCType<Siren>(), 10800 },
-				{ ModContent.NPCType<AstrumAureus>(), 10800 },
-				{ ModContent.NPCType<AstrumDeusHeadSpectral>(), 7200 },
-				{ ModContent.NPCType<AstrumDeusBodySpectral>(), 7200 },
-				{ ModContent.NPCType<AstrumDeusTailSpectral>(), 7200 },
-				{ ModContent.NPCType<PlaguebringerGoliath>(), 10800 },
-				{ ModContent.NPCType<RavagerBody>(), 10800 },
-				{ ModContent.NPCType<ProfanedGuardianBoss>(), 5400 },
-				{ ModContent.NPCType<Bumblefuck>(), 7200 },
-				{ ModContent.NPCType<Providence>(), 14400 },
-				{ ModContent.NPCType<DarkEnergy>(), 1200 },
-				{ ModContent.NPCType<DarkEnergy2>(), 1200 },
-				{ ModContent.NPCType<DarkEnergy3>(), 1200 },
-				{ ModContent.NPCType<StormWeaverHeadNaked>(), 5400 },
-				{ ModContent.NPCType<StormWeaverBodyNaked>(), 5400 },
-				{ ModContent.NPCType<StormWeaverTailNaked>(), 5400 },
-				{ ModContent.NPCType<Signus>(), 7200 },
-				{ ModContent.NPCType<Polterghast>(), 10800 },
-				{ ModContent.NPCType<OldDuke>(), 10800 },
-				{ ModContent.NPCType<DevourerofGodsHead>(), 5400 },
-				{ ModContent.NPCType<DevourerofGodsBody>(), 5400 },
-				{ ModContent.NPCType<DevourerofGodsTail>(), 5400 },
-				{ ModContent.NPCType<DevourerofGodsHeadS>(), 9000 },
-				{ ModContent.NPCType<DevourerofGodsBodyS>(), 9000 },
-				{ ModContent.NPCType<DevourerofGodsTailS>(), 9000 },
-				{ ModContent.NPCType<Yharon>(), 10800 },
-				{ ModContent.NPCType<SupremeCalamitas>(), 18000 }
-			};
-		}
-		#endregion
+                { NPCID.TheDestroyerTail, 10800 },
+                { NPCID.SkeletronPrime, 10800 },
+                { NPCID.Plantera, 10800 },
+                { NPCID.Golem, 9000 },
+                { NPCID.GolemHead, 3600 },
+                { NPCID.DukeFishron, 9000 },
+                { NPCID.CultistBoss, 9000 },
+                { NPCID.MoonLordCore, 14400 },
+                { NPCID.MoonLordHand, 7200 },
+                { NPCID.MoonLordHead, 7200 },
+                { ModContent.NPCType<DesertScourgeHead>(), 3600 },
+                { ModContent.NPCType<DesertScourgeBody>(), 3600 },
+                { ModContent.NPCType<DesertScourgeTail>(), 3600 },
+                { ModContent.NPCType<CrabulonIdle>(), 5400 },
+                { ModContent.NPCType<HiveMind>(), 1800 },
+                { ModContent.NPCType<HiveMindP2>(), 5400 },
+                { ModContent.NPCType<PerforatorHive>(), 7200 },
+                { ModContent.NPCType<SlimeGodCore>(), 10800 },
+                { ModContent.NPCType<SlimeGod>(), 3600 },
+                { ModContent.NPCType<SlimeGodRun>(), 3600 },
+                { ModContent.NPCType<SlimeGodSplit>(), 3600 },
+                { ModContent.NPCType<SlimeGodRunSplit>(), 3600 },
+                { ModContent.NPCType<Cryogen>(), 10800 },
+                { ModContent.NPCType<AquaticScourgeHead>(), 7200 },
+                { ModContent.NPCType<AquaticScourgeBody>(), 7200 },
+                { ModContent.NPCType<AquaticScourgeBodyAlt>(), 7200 },
+                { ModContent.NPCType<AquaticScourgeTail>(), 7200 },
+                { ModContent.NPCType<BrimstoneElemental>(), 10800 },
+                { ModContent.NPCType<Calamitas>(), 1200 },
+                { ModContent.NPCType<CalamitasRun3>(), 11400 },
+                { ModContent.NPCType<Leviathan>(), 10800 },
+                { ModContent.NPCType<Siren>(), 10800 },
+                { ModContent.NPCType<AstrumAureus>(), 10800 },
+                { ModContent.NPCType<AstrumDeusHeadSpectral>(), 7200 },
+                { ModContent.NPCType<AstrumDeusBodySpectral>(), 7200 },
+                { ModContent.NPCType<AstrumDeusTailSpectral>(), 7200 },
+                { ModContent.NPCType<PlaguebringerGoliath>(), 10800 },
+                { ModContent.NPCType<RavagerBody>(), 10800 },
+                { ModContent.NPCType<ProfanedGuardianBoss>(), 5400 },
+                { ModContent.NPCType<Bumblefuck>(), 7200 },
+                { ModContent.NPCType<Providence>(), 14400 },
+                { ModContent.NPCType<DarkEnergy>(), 1200 },
+                { ModContent.NPCType<DarkEnergy2>(), 1200 },
+                { ModContent.NPCType<DarkEnergy3>(), 1200 },
+                { ModContent.NPCType<StormWeaverHeadNaked>(), 5400 },
+                { ModContent.NPCType<StormWeaverBodyNaked>(), 5400 },
+                { ModContent.NPCType<StormWeaverTailNaked>(), 5400 },
+                { ModContent.NPCType<Signus>(), 7200 },
+                { ModContent.NPCType<Polterghast>(), 10800 },
+                { ModContent.NPCType<OldDuke>(), 10800 },
+                { ModContent.NPCType<DevourerofGodsHead>(), 5400 },
+                { ModContent.NPCType<DevourerofGodsBody>(), 5400 },
+                { ModContent.NPCType<DevourerofGodsTail>(), 5400 },
+                { ModContent.NPCType<DevourerofGodsHeadS>(), 9000 },
+                { ModContent.NPCType<DevourerofGodsBodyS>(), 9000 },
+                { ModContent.NPCType<DevourerofGodsTailS>(), 9000 },
+                { ModContent.NPCType<Yharon>(), 10800 },
+                { ModContent.NPCType<SupremeCalamitas>(), 18000 }
+            };
+        }
+        #endregion
 
-		#region Boss Velocity Contact Damage Scale Values
-		private void SetupBossVelocityScalingValues()
-		{
-			bossVelocityDamageScaleValues = new SortedDictionary<int, float> {
-				{ NPCID.KingSlime, velocityScaleMin },
-				{ NPCID.EyeofCthulhu, velocityScaleMin }, // Increases in phase 2
-				{ NPCID.EaterofWorldsHead, bitingEnemeyVelocityScale },
-				{ NPCID.EaterofWorldsBody, velocityScaleMin },
-				{ NPCID.EaterofWorldsTail, velocityScaleMin },
-				{ NPCID.Creeper, velocityScaleMin },
-				{ NPCID.BrainofCthulhu, velocityScaleMin },
-				{ NPCID.QueenBee, velocityScaleMin },
-				{ NPCID.SkeletronHead, velocityScaleMin },
-				{ NPCID.SkeletronHand, velocityScaleMin },
-				{ NPCID.TheHungry, bitingEnemeyVelocityScale },
-				{ NPCID.TheHungryII, bitingEnemeyVelocityScale },
-				{ NPCID.LeechHead, bitingEnemeyVelocityScale },
-				{ NPCID.LeechBody, velocityScaleMin },
-				{ NPCID.LeechTail, velocityScaleMin },
-				{ NPCID.Spazmatism, velocityScaleMin }, // Increases in phase 2
-				{ NPCID.Retinazer, velocityScaleMin },
-				{ NPCID.TheDestroyer, bitingEnemeyVelocityScale },
-				{ NPCID.TheDestroyerBody, velocityScaleMin },
-				{ NPCID.TheDestroyerTail, velocityScaleMin },
-				{ NPCID.Probe, velocityScaleMin },
-				{ NPCID.SkeletronPrime, velocityScaleMin },
-				{ NPCID.PrimeCannon, velocityScaleMin },
-				{ NPCID.PrimeLaser, velocityScaleMin },
-				{ NPCID.PrimeSaw, velocityScaleMin },
-				{ NPCID.PrimeVice, velocityScaleMin },
-				{ NPCID.Plantera, velocityScaleMin }, // Increases in phase 2
-				{ NPCID.PlanterasTentacle, bitingEnemeyVelocityScale },
-				{ NPCID.Golem, velocityScaleMin },
-				{ NPCID.GolemFistLeft, velocityScaleMin },
-				{ NPCID.GolemFistRight, velocityScaleMin },
-				{ NPCID.GolemHead, velocityScaleMin },
-				{ NPCID.DukeFishron, velocityScaleMin },
-				{ ModContent.NPCType<DesertScourgeHead>(), bitingEnemeyVelocityScale },
-				{ ModContent.NPCType<DesertScourgeBody>(), velocityScaleMin },
-				{ ModContent.NPCType<DesertScourgeTail>(), velocityScaleMin },
-				{ ModContent.NPCType<DesertScourgeHeadSmall>(), bitingEnemeyVelocityScale },
-				{ ModContent.NPCType<DesertScourgeBodySmall>(), velocityScaleMin },
-				{ ModContent.NPCType<DesertScourgeTailSmall>(), velocityScaleMin },
-				{ ModContent.NPCType<CrabulonIdle>(), bitingEnemeyVelocityScale },
-				{ ModContent.NPCType<HiveMindP2>(), velocityScaleMin },
-				{ ModContent.NPCType<PerforatorHive>(), velocityScaleMin },
-				{ ModContent.NPCType<PerforatorHeadLarge>(), bitingEnemeyVelocityScale },
-				{ ModContent.NPCType<PerforatorBodyLarge>(), velocityScaleMin },
-				{ ModContent.NPCType<PerforatorTailLarge>(), velocityScaleMin },
-				{ ModContent.NPCType<PerforatorHeadMedium>(), bitingEnemeyVelocityScale },
-				{ ModContent.NPCType<PerforatorBodyMedium>(), velocityScaleMin },
-				{ ModContent.NPCType<PerforatorTailMedium>(), velocityScaleMin },
-				{ ModContent.NPCType<PerforatorHeadSmall>(), bitingEnemeyVelocityScale },
-				{ ModContent.NPCType<PerforatorBodySmall>(), velocityScaleMin },
-				{ ModContent.NPCType<PerforatorTailSmall>(), velocityScaleMin },
-				{ ModContent.NPCType<SlimeGodCore>(), velocityScaleMin },
-				{ ModContent.NPCType<SlimeGod>(), velocityScaleMin },
-				{ ModContent.NPCType<SlimeGodRun>(), velocityScaleMin },
-				{ ModContent.NPCType<SlimeGodSplit>(), velocityScaleMin },
-				{ ModContent.NPCType<SlimeGodRunSplit>(), velocityScaleMin },
-				{ ModContent.NPCType<SlimeSpawnCorrupt>(), velocityScaleMin },
-				{ ModContent.NPCType<Cryogen>(), velocityScaleMin },
-				{ ModContent.NPCType<Cryocore>(), velocityScaleMin },
-				{ ModContent.NPCType<Cryocore2>(), velocityScaleMin },
-				{ ModContent.NPCType<IceMass>(), velocityScaleMin },
-				{ ModContent.NPCType<AquaticScourgeHead>(), bitingEnemeyVelocityScale },
-				{ ModContent.NPCType<AquaticScourgeBody>(), velocityScaleMin },
-				{ ModContent.NPCType<AquaticScourgeBodyAlt>(), velocityScaleMin },
-				{ ModContent.NPCType<AquaticScourgeTail>(), velocityScaleMin },
-				{ ModContent.NPCType<BrimstoneElemental>(), velocityScaleMin },
-				{ ModContent.NPCType<Calamitas>(), velocityScaleMin },
-				{ ModContent.NPCType<CalamitasRun3>(), velocityScaleMin },
-				{ ModContent.NPCType<Leviathan>(), bitingEnemeyVelocityScale },
-				{ ModContent.NPCType<Siren>(), velocityScaleMin },
-				{ ModContent.NPCType<AstrumAureus>(), velocityScaleMin },
-				{ ModContent.NPCType<AstrumDeusHeadSpectral>(), bitingEnemeyVelocityScale },
-				{ ModContent.NPCType<AstrumDeusBodySpectral>(), velocityScaleMin },
-				{ ModContent.NPCType<AstrumDeusTailSpectral>(), velocityScaleMin },
-				{ ModContent.NPCType<PlaguebringerGoliath>(), velocityScaleMin },
-				{ ModContent.NPCType<PlaguebringerShade>(), velocityScaleMin },
-				{ ModContent.NPCType<PlagueBeeG>(), velocityScaleMin },
-				{ ModContent.NPCType<PlagueBeeLargeG>(), velocityScaleMin },
-				{ ModContent.NPCType<RavagerBody>(), velocityScaleMin },
-				{ ModContent.NPCType<RavagerClawLeft>(), velocityScaleMin },
-				{ ModContent.NPCType<RavagerClawRight>(), velocityScaleMin },
-				{ ModContent.NPCType<RavagerLegLeft>(), velocityScaleMin },
-				{ ModContent.NPCType<RavagerLegRight>(), velocityScaleMin },
-				{ ModContent.NPCType<RockPillar>(), velocityScaleMin },
-				{ ModContent.NPCType<ProfanedGuardianBoss>(), velocityScaleMin },
-				{ ModContent.NPCType<ProfanedGuardianBoss2>(), velocityScaleMin },
-				{ ModContent.NPCType<ProfanedGuardianBoss3>(), velocityScaleMin },
-				{ ModContent.NPCType<Bumblefuck>(), velocityScaleMin },
-				{ ModContent.NPCType<Bumblefuck2>(), velocityScaleMin },
-				{ ModContent.NPCType<CeaselessVoid>(), velocityScaleMin },
-				{ ModContent.NPCType<DarkEnergy>(), velocityScaleMin },
-				{ ModContent.NPCType<DarkEnergy2>(), velocityScaleMin },
-				{ ModContent.NPCType<DarkEnergy3>(), velocityScaleMin },
-				{ ModContent.NPCType<StormWeaverHead>(), bitingEnemeyVelocityScale },
-				{ ModContent.NPCType<StormWeaverBody>(), velocityScaleMin },
-				{ ModContent.NPCType<StormWeaverTail>(), velocityScaleMin },
-				{ ModContent.NPCType<StormWeaverHeadNaked>(), bitingEnemeyVelocityScale },
-				{ ModContent.NPCType<StormWeaverBodyNaked>(), velocityScaleMin },
-				{ ModContent.NPCType<StormWeaverTailNaked>(), velocityScaleMin },
-				{ ModContent.NPCType<StasisProbe>(), velocityScaleMin },
-				{ ModContent.NPCType<StasisProbeNaked>(), velocityScaleMin },
-				{ ModContent.NPCType<Signus>(), velocityScaleMin },
-				{ ModContent.NPCType<CosmicLantern>(), velocityScaleMin },
-				{ ModContent.NPCType<Polterghast>(), bitingEnemeyVelocityScale },
-				{ ModContent.NPCType<PolterPhantom>(), bitingEnemeyVelocityScale },
-				{ ModContent.NPCType<OldDuke>(), velocityScaleMin },
-				{ ModContent.NPCType<DevourerofGodsHead>(), bitingEnemeyVelocityScale },
-				{ ModContent.NPCType<DevourerofGodsBody>(), velocityScaleMin },
-				{ ModContent.NPCType<DevourerofGodsTail>(), velocityScaleMin },
-				{ ModContent.NPCType<DevourerofGodsHead2>(), bitingEnemeyVelocityScale },
-				{ ModContent.NPCType<DevourerofGodsBody2>(), velocityScaleMin },
-				{ ModContent.NPCType<DevourerofGodsTail2>(), velocityScaleMin },
-				{ ModContent.NPCType<DevourerofGodsHeadS>(), bitingEnemeyVelocityScale },
-				{ ModContent.NPCType<DevourerofGodsBodyS>(), velocityScaleMin },
-				{ ModContent.NPCType<DevourerofGodsTailS>(), velocityScaleMin },
-				{ ModContent.NPCType<Yharon>(), velocityScaleMin },
-				{ ModContent.NPCType<DetonatingFlare>(), velocityScaleMin },
-				{ ModContent.NPCType<DetonatingFlare2>(), velocityScaleMin },
-				{ ModContent.NPCType<SupremeCalamitas>(), velocityScaleMin }
-			};
-		}
-		#endregion
+        #region Boss Velocity Contact Damage Scale Values
+        private void SetupBossVelocityScalingValues()
+        {
+            bossVelocityDamageScaleValues = new SortedDictionary<int, float> {
+                { NPCID.KingSlime, velocityScaleMin },
+                { NPCID.EyeofCthulhu, velocityScaleMin }, // Increases in phase 2
+                { NPCID.EaterofWorldsHead, bitingEnemeyVelocityScale },
+                { NPCID.EaterofWorldsBody, velocityScaleMin },
+                { NPCID.EaterofWorldsTail, velocityScaleMin },
+                { NPCID.Creeper, velocityScaleMin },
+                { NPCID.BrainofCthulhu, velocityScaleMin },
+                { NPCID.QueenBee, velocityScaleMin },
+                { NPCID.SkeletronHead, velocityScaleMin },
+                { NPCID.SkeletronHand, velocityScaleMin },
+                { NPCID.TheHungry, bitingEnemeyVelocityScale },
+                { NPCID.TheHungryII, bitingEnemeyVelocityScale },
+                { NPCID.LeechHead, bitingEnemeyVelocityScale },
+                { NPCID.LeechBody, velocityScaleMin },
+                { NPCID.LeechTail, velocityScaleMin },
+                { NPCID.Spazmatism, velocityScaleMin }, // Increases in phase 2
+                { NPCID.Retinazer, velocityScaleMin },
+                { NPCID.TheDestroyer, bitingEnemeyVelocityScale },
+                { NPCID.TheDestroyerBody, velocityScaleMin },
+                { NPCID.TheDestroyerTail, velocityScaleMin },
+                { NPCID.Probe, velocityScaleMin },
+                { NPCID.SkeletronPrime, velocityScaleMin },
+                { NPCID.PrimeCannon, velocityScaleMin },
+                { NPCID.PrimeLaser, velocityScaleMin },
+                { NPCID.PrimeSaw, velocityScaleMin },
+                { NPCID.PrimeVice, velocityScaleMin },
+                { NPCID.Plantera, velocityScaleMin }, // Increases in phase 2
+                { NPCID.PlanterasTentacle, bitingEnemeyVelocityScale },
+                { NPCID.Golem, velocityScaleMin },
+                { NPCID.GolemFistLeft, velocityScaleMin },
+                { NPCID.GolemFistRight, velocityScaleMin },
+                { NPCID.GolemHead, velocityScaleMin },
+                { NPCID.DukeFishron, velocityScaleMin },
+                { ModContent.NPCType<DesertScourgeHead>(), bitingEnemeyVelocityScale },
+                { ModContent.NPCType<DesertScourgeBody>(), velocityScaleMin },
+                { ModContent.NPCType<DesertScourgeTail>(), velocityScaleMin },
+                { ModContent.NPCType<DesertScourgeHeadSmall>(), bitingEnemeyVelocityScale },
+                { ModContent.NPCType<DesertScourgeBodySmall>(), velocityScaleMin },
+                { ModContent.NPCType<DesertScourgeTailSmall>(), velocityScaleMin },
+                { ModContent.NPCType<CrabulonIdle>(), bitingEnemeyVelocityScale },
+                { ModContent.NPCType<HiveMindP2>(), velocityScaleMin },
+                { ModContent.NPCType<PerforatorHive>(), velocityScaleMin },
+                { ModContent.NPCType<PerforatorHeadLarge>(), bitingEnemeyVelocityScale },
+                { ModContent.NPCType<PerforatorBodyLarge>(), velocityScaleMin },
+                { ModContent.NPCType<PerforatorTailLarge>(), velocityScaleMin },
+                { ModContent.NPCType<PerforatorHeadMedium>(), bitingEnemeyVelocityScale },
+                { ModContent.NPCType<PerforatorBodyMedium>(), velocityScaleMin },
+                { ModContent.NPCType<PerforatorTailMedium>(), velocityScaleMin },
+                { ModContent.NPCType<PerforatorHeadSmall>(), bitingEnemeyVelocityScale },
+                { ModContent.NPCType<PerforatorBodySmall>(), velocityScaleMin },
+                { ModContent.NPCType<PerforatorTailSmall>(), velocityScaleMin },
+                { ModContent.NPCType<SlimeGodCore>(), velocityScaleMin },
+                { ModContent.NPCType<SlimeGod>(), velocityScaleMin },
+                { ModContent.NPCType<SlimeGodRun>(), velocityScaleMin },
+                { ModContent.NPCType<SlimeGodSplit>(), velocityScaleMin },
+                { ModContent.NPCType<SlimeGodRunSplit>(), velocityScaleMin },
+                { ModContent.NPCType<SlimeSpawnCorrupt>(), velocityScaleMin },
+                { ModContent.NPCType<Cryogen>(), velocityScaleMin },
+                { ModContent.NPCType<Cryocore>(), velocityScaleMin },
+                { ModContent.NPCType<Cryocore2>(), velocityScaleMin },
+                { ModContent.NPCType<IceMass>(), velocityScaleMin },
+                { ModContent.NPCType<AquaticScourgeHead>(), bitingEnemeyVelocityScale },
+                { ModContent.NPCType<AquaticScourgeBody>(), velocityScaleMin },
+                { ModContent.NPCType<AquaticScourgeBodyAlt>(), velocityScaleMin },
+                { ModContent.NPCType<AquaticScourgeTail>(), velocityScaleMin },
+                { ModContent.NPCType<BrimstoneElemental>(), velocityScaleMin },
+                { ModContent.NPCType<Calamitas>(), velocityScaleMin },
+                { ModContent.NPCType<CalamitasRun3>(), velocityScaleMin },
+                { ModContent.NPCType<Leviathan>(), bitingEnemeyVelocityScale },
+                { ModContent.NPCType<Siren>(), velocityScaleMin },
+                { ModContent.NPCType<AstrumAureus>(), velocityScaleMin },
+                { ModContent.NPCType<AstrumDeusHeadSpectral>(), bitingEnemeyVelocityScale },
+                { ModContent.NPCType<AstrumDeusBodySpectral>(), velocityScaleMin },
+                { ModContent.NPCType<AstrumDeusTailSpectral>(), velocityScaleMin },
+                { ModContent.NPCType<PlaguebringerGoliath>(), velocityScaleMin },
+                { ModContent.NPCType<PlaguebringerShade>(), velocityScaleMin },
+                { ModContent.NPCType<PlagueBeeG>(), velocityScaleMin },
+                { ModContent.NPCType<PlagueBeeLargeG>(), velocityScaleMin },
+                { ModContent.NPCType<RavagerBody>(), velocityScaleMin },
+                { ModContent.NPCType<RavagerClawLeft>(), velocityScaleMin },
+                { ModContent.NPCType<RavagerClawRight>(), velocityScaleMin },
+                { ModContent.NPCType<RavagerLegLeft>(), velocityScaleMin },
+                { ModContent.NPCType<RavagerLegRight>(), velocityScaleMin },
+                { ModContent.NPCType<RockPillar>(), velocityScaleMin },
+                { ModContent.NPCType<ProfanedGuardianBoss>(), velocityScaleMin },
+                { ModContent.NPCType<ProfanedGuardianBoss2>(), velocityScaleMin },
+                { ModContent.NPCType<ProfanedGuardianBoss3>(), velocityScaleMin },
+                { ModContent.NPCType<Bumblefuck>(), velocityScaleMin },
+                { ModContent.NPCType<Bumblefuck2>(), velocityScaleMin },
+                { ModContent.NPCType<CeaselessVoid>(), velocityScaleMin },
+                { ModContent.NPCType<DarkEnergy>(), velocityScaleMin },
+                { ModContent.NPCType<DarkEnergy2>(), velocityScaleMin },
+                { ModContent.NPCType<DarkEnergy3>(), velocityScaleMin },
+                { ModContent.NPCType<StormWeaverHead>(), bitingEnemeyVelocityScale },
+                { ModContent.NPCType<StormWeaverBody>(), velocityScaleMin },
+                { ModContent.NPCType<StormWeaverTail>(), velocityScaleMin },
+                { ModContent.NPCType<StormWeaverHeadNaked>(), bitingEnemeyVelocityScale },
+                { ModContent.NPCType<StormWeaverBodyNaked>(), velocityScaleMin },
+                { ModContent.NPCType<StormWeaverTailNaked>(), velocityScaleMin },
+                { ModContent.NPCType<StasisProbe>(), velocityScaleMin },
+                { ModContent.NPCType<StasisProbeNaked>(), velocityScaleMin },
+                { ModContent.NPCType<Signus>(), velocityScaleMin },
+                { ModContent.NPCType<CosmicLantern>(), velocityScaleMin },
+                { ModContent.NPCType<Polterghast>(), bitingEnemeyVelocityScale },
+                { ModContent.NPCType<PolterPhantom>(), bitingEnemeyVelocityScale },
+                { ModContent.NPCType<OldDuke>(), velocityScaleMin },
+                { ModContent.NPCType<DevourerofGodsHead>(), bitingEnemeyVelocityScale },
+                { ModContent.NPCType<DevourerofGodsBody>(), velocityScaleMin },
+                { ModContent.NPCType<DevourerofGodsTail>(), velocityScaleMin },
+                { ModContent.NPCType<DevourerofGodsHead2>(), bitingEnemeyVelocityScale },
+                { ModContent.NPCType<DevourerofGodsBody2>(), velocityScaleMin },
+                { ModContent.NPCType<DevourerofGodsTail2>(), velocityScaleMin },
+                { ModContent.NPCType<DevourerofGodsHeadS>(), bitingEnemeyVelocityScale },
+                { ModContent.NPCType<DevourerofGodsBodyS>(), velocityScaleMin },
+                { ModContent.NPCType<DevourerofGodsTailS>(), velocityScaleMin },
+                { ModContent.NPCType<Yharon>(), velocityScaleMin },
+                { ModContent.NPCType<DetonatingFlare>(), velocityScaleMin },
+                { ModContent.NPCType<DetonatingFlare2>(), velocityScaleMin },
+                { ModContent.NPCType<SupremeCalamitas>(), velocityScaleMin }
+            };
+        }
+        #endregion
 
-		#region Music
-		public override void UpdateMusic(ref int music, ref MusicPriority priority)
+        #region Music
+        public override void UpdateMusic(ref int music, ref MusicPriority priority)
         {
             Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
             if (Main.musicVolume != 0)
@@ -901,8 +901,8 @@ namespace CalamityMod
                             bool acidRain = CalamityWorld.rainingAcid;
                             if (calamityModMusic != null)
                             {
-	                            string rainMusic = "Sounds/Music/AcidRain";
-	                            string musicChoice = acidRain ? rainMusic + (CalamityWorld.downedPolterghast ? "2" : "1") : "Sounds/Music/Sulphur"; //replace first acidrain1 once second theme is added.
+                                string rainMusic = "Sounds/Music/AcidRain";
+                                string musicChoice = acidRain ? rainMusic + (CalamityWorld.downedPolterghast ? "2" : "1") : "Sounds/Music/Sulphur"; //replace first acidrain1 once second theme is added.
                                 music = calamityModMusic.GetSoundSlot(SoundType.Music, musicChoice);
                                 
                             }
@@ -1478,64 +1478,64 @@ namespace CalamityMod
 
         #region Lighting
         const float MaxCaveDarkness = -0.3f;
-		const float MaxSignusDarkness = -0.4f;
-		const float MaxAbyssDarkness = -0.7f;
+        const float MaxSignusDarkness = -0.4f;
+        const float MaxAbyssDarkness = -0.7f;
         public override void ModifyLightingBrightness(ref float scale)
         {
-			// Apply the calculated darkness value for the local player.
-			CalamityPlayer modPlayer = Main.LocalPlayer.Calamity();
-			float darkRatio = MathHelper.Clamp(modPlayer.caveDarkness, 0f, 1f);
+            // Apply the calculated darkness value for the local player.
+            CalamityPlayer modPlayer = Main.LocalPlayer.Calamity();
+            float darkRatio = MathHelper.Clamp(modPlayer.caveDarkness, 0f, 1f);
 
-			if (modPlayer.ZoneAbyss)
-				scale += MaxAbyssDarkness * darkRatio;
-			else if (CalamityWorld.death)
-				scale += MaxCaveDarkness * darkRatio;
+            if (modPlayer.ZoneAbyss)
+                scale += MaxAbyssDarkness * darkRatio;
+            else if (CalamityWorld.death)
+                scale += MaxCaveDarkness * darkRatio;
 
-			if (CalamityWorld.revenge)
-			{
-				if (CalamityGlobalNPC.signus != -1)
-				{
-					if (Main.npc[CalamityGlobalNPC.signus].active)
-					{
-						if (Vector2.Distance(Main.LocalPlayer.Center, Main.npc[CalamityGlobalNPC.signus].Center) <= 5200f)
-						{
-							float signusLifeRatio = 1f - (Main.npc[CalamityGlobalNPC.signus].life / Main.npc[CalamityGlobalNPC.signus].lifeMax);
+            if (CalamityWorld.revenge)
+            {
+                if (CalamityGlobalNPC.signus != -1)
+                {
+                    if (Main.npc[CalamityGlobalNPC.signus].active)
+                    {
+                        if (Vector2.Distance(Main.LocalPlayer.Center, Main.npc[CalamityGlobalNPC.signus].Center) <= 5200f)
+                        {
+                            float signusLifeRatio = 1f - (Main.npc[CalamityGlobalNPC.signus].life / Main.npc[CalamityGlobalNPC.signus].lifeMax);
 
-							// Reduce the power of Signus darkness based on your light level.
-							float multiplier = 1f;
-							switch (modPlayer.GetTotalLightStrength())
-							{
-								case 0:
-									break;
-								case 1:
-								case 2:
-									multiplier = 0.75f;
-									break;
-								case 3:
-								case 4:
-									multiplier = 0.5f;
-									break;
-								case 5:
-								case 6:
-									multiplier = 0.25f;
-									break;
-								default:
-									multiplier = 0f;
-									break;
-							}
+                            // Reduce the power of Signus darkness based on your light level.
+                            float multiplier = 1f;
+                            switch (modPlayer.GetTotalLightStrength())
+                            {
+                                case 0:
+                                    break;
+                                case 1:
+                                case 2:
+                                    multiplier = 0.75f;
+                                    break;
+                                case 3:
+                                case 4:
+                                    multiplier = 0.5f;
+                                    break;
+                                case 5:
+                                case 6:
+                                    multiplier = 0.25f;
+                                    break;
+                                default:
+                                    multiplier = 0f;
+                                    break;
+                            }
 
-							// Increased darkness in Death Mode
-							if (CalamityWorld.death)
-								multiplier += (1f - multiplier) * 0.1f;
+                            // Increased darkness in Death Mode
+                            if (CalamityWorld.death)
+                                multiplier += (1f - multiplier) * 0.1f;
 
-							// Total darkness
-							float signusDarkness = signusLifeRatio * multiplier;
-							darkRatio = MathHelper.Clamp(signusDarkness, 0f, 1f);
-							scale += MaxSignusDarkness * darkRatio;
-						}
-					}
-				}
-			}
+                            // Total darkness
+                            float signusDarkness = signusLifeRatio * multiplier;
+                            darkRatio = MathHelper.Clamp(signusDarkness, 0f, 1f);
+                            scale += MaxSignusDarkness * darkRatio;
+                        }
+                    }
+                }
+            }
         }
         #endregion
 
@@ -1548,7 +1548,11 @@ namespace CalamityMod
             CalamityNetcode.SyncWorld();
         }
         #endregion
-	}
+
+        #region Tile Entity Time Handler
+        public override void MidUpdateTimeWorld() =>  TileEntityTimeHandler.Update();
+        #endregion
+    }
 
     public enum Season : byte
     {

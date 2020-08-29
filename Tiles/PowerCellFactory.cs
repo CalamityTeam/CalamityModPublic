@@ -1,3 +1,4 @@
+using CalamityMod.CalPlayer;
 using CalamityMod.Items.DraedonMisc;
 using CalamityMod.Items.Placeables;
 using CalamityMod.TileEntities;
@@ -16,6 +17,8 @@ namespace CalamityMod.Tiles
     {
         public const int Width = 4;
         public const int Height = 4;
+        public const int OriginOffsetX = 1;
+        public const int OriginOffsetY = 3;
 
         // The number of animation frames is 45. Cells are created on animation frame 42.
         public const int TotalFrames = 45;
@@ -40,11 +43,15 @@ namespace CalamityMod.Tiles
             TileObjectData.newTile.CopyFrom(TileObjectData.Style3x2);
             TileObjectData.newTile.Width = 4;
             TileObjectData.newTile.Height = 4;
-            TileObjectData.newTile.Origin = new Point16(0, 3);
+            TileObjectData.newTile.Origin = new Point16(OriginOffsetX, OriginOffsetY);
             TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile | AnchorType.SolidWithTop | AnchorType.SolidSide, TileObjectData.newTile.Width, 0);
             TileObjectData.newTile.CoordinateHeights = new int[] { 16, 16, 16, 16 };
-            TileObjectData.newTile.HookPostPlaceMyPlayer = new PlacementHook(ModContent.GetInstance<TEPowerCellFactory>().Hook_AfterPlacement, -1, 0, true);
             TileObjectData.newTile.LavaDeath = false;
+
+            // When this tile is placed, it places the power cell factory tile entity.
+            ModTileEntity te = ModContent.GetInstance<TEPowerCellFactory>();
+            TileObjectData.newTile.HookPostPlaceMyPlayer = new PlacementHook(te.Hook_AfterPlacement, -1, 0, true);
+
             TileObjectData.addTile(Type);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Power Cell Factory");
@@ -54,13 +61,17 @@ namespace CalamityMod.Tiles
 
         public override bool CanExplode(int i, int j) => false;
 
-        public TEPowerCellFactory RetrieveTileEntity(int i, int j)
+        // Finds the Tile Entity associated with the Power Cell Factory tile that the player clicked on.
+        // This can return null, so code using this function needs to be prepared for that.
+        public TEPowerCellFactory FindTileEntity(int i, int j)
         {
             // Find the top left corner of the FrameImportant tile that the player clicked on in the world.
             int left = i - Main.tile[i, j].frameX % (Width * 18) / 18;
             int top = j - Main.tile[i, j].frameY % (Height * 18) / 18;
-            TileEntity te = TileEntity.ByPosition[new Point16(left, top)];
-            return te is TEPowerCellFactory factory ? factory : null;
+
+            byte factoryType = ModContent.GetInstance<TEPowerCellFactory>().type;
+            bool exists = TileEntity.ByPosition.TryGetValue(new Point16(left, top), out TileEntity te);
+            return exists && te.type == factoryType ? (TEPowerCellFactory)te : null;
         }
 
         public override bool CreateDust(int i, int j, ref int type)
@@ -85,23 +96,24 @@ namespace CalamityMod.Tiles
             int top = j - Main.tile[i, j].frameY % (Height * 18) / 18;
 
             // Drop any cells contained in the factory.
-            TEPowerCellFactory factory = RetrieveTileEntity(i, j);
-            int numCells = factory.CellStack;
+            TEPowerCellFactory factory = FindTileEntity(i, j);
+            int numCells = factory?.CellStack ?? 0;
             if (numCells > 0)
                 Item.NewItem(new Vector2(i, j) * 16f, ModContent.ItemType<PowerCell>(), numCells);
 
-            factory.Kill(left, top);
+            factory?.Kill(left, top);
         }
 
         public override bool NewRightClick(int i, int j)
         {
             int left = i - Main.tile[i, j].frameX % (Width * 18) / 18;
             int top = j - Main.tile[i, j].frameY % (Height * 18) / 18;
-            TEPowerCellFactory factory = RetrieveTileEntity(i, j);
+            TEPowerCellFactory thisFactory = FindTileEntity(i, j);
 
             Player player = Main.LocalPlayer;
             Main.mouseRightRelease = false;
 
+            // If a sign or chest was in use previously, close those GUIs.
             if (player.sign >= 0)
             {
                 Main.PlaySound(SoundID.MenuClose);
@@ -115,23 +127,31 @@ namespace CalamityMod.Tiles
                 Main.editChest = false;
                 Main.npcChatText = "";
             }
-            if (player.Calamity().CurrentlyViewedFactory == factory)
+
+            CalamityPlayer mp = player.Calamity();
+            TEPowerCellFactory viewedFactory = mp.CurrentlyViewedFactory;
+
+            // If this is the factory the player is currently looking at OR this factory is doesn't really exist, close the GUI.
+            if (viewedFactory != null && (thisFactory is null || thisFactory.ID == viewedFactory.ID))
             {
-                player.Calamity().CurrentlyViewedFactory = null;
-                player.Calamity().CurrentlyViewedFactoryX = player.Calamity().CurrentlyViewedFactoryY = -1;
+                mp.CurrentlyViewedFactory = null;
+                mp.CurrentlyViewedFactoryX = mp.CurrentlyViewedFactoryY = -1;
                 Main.PlaySound(SoundID.MenuClose);
             }
-            else
-            {
-                // Ensure that the UI position is always centered and above the tile.
-                player.Calamity().CurrentlyViewedFactoryX = left * 16 + 16;
-                player.Calamity().CurrentlyViewedFactoryY = top * 16;
 
-                player.Calamity().CurrentlyViewedFactory = factory;
+            // Otherwise, "switch to" this factory when it exists. This can be either opening the GUI from nothing, or just opening a different factory.
+            else if(thisFactory != null)
+            {
+                // Play a sound depending on whether the player had another factory open previously.
+                Main.PlaySound(mp.CurrentlyViewedFactory is null ? SoundID.MenuOpen : SoundID.MenuTick);
+
+                // Ensure that the UI position is always centered and above the tile.
+                mp.CurrentlyViewedFactoryX = left * 16 + 16;
+                mp.CurrentlyViewedFactoryY = top * 16;
+                mp.CurrentlyViewedFactory = thisFactory;
 
                 Main.playerInventory = true;
                 Main.recBigList = false;
-                Main.PlaySound(player.Calamity().CurrentlyViewedFactory == null ? SoundID.MenuOpen : SoundID.MenuTick);
             }
 
             Recipe.FindRecipes();
@@ -148,8 +168,8 @@ namespace CalamityMod.Tiles
             int frameYPos = Main.tile[i, j].frameY;
 
             // Grab the tile entity because its internal timer controls the animation.
-            TEPowerCellFactory factory = RetrieveTileEntity(i, j);
-            int frameIndex = factory.AnimationFrame;
+            TEPowerCellFactory factory = FindTileEntity(i, j);
+            int frameIndex = factory?.AnimationFrame ?? TotalFrames - 1;
             frameXPos += frameIndex / FramesPerColumn * 72;
             frameYPos += frameIndex % FramesPerColumn * 72;
 
