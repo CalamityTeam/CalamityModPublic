@@ -45,25 +45,11 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 			Point mouseTileCoords = Main.MouseWorld.ToTileCoordinates();
-			if (!CalamityUtils.ParanoidTileRetrieval(mouseTileCoords.X, mouseTileCoords.Y).active())
-			{
-				int existingTurrets = player.ownedProjectileCounts[type];
-				if (existingTurrets > 0)
-				{
-					for (int i = 0; i < Main.projectile.Length || existingTurrets > 0; i++)
-					{
-						if (Main.projectile[i].type == type &&
-							Main.projectile[i].owner == player.whoAmI &&
-							Main.projectile[i].active)
-						{
-							Main.projectile[i].Kill();
-							existingTurrets--;
-						}
-					}
-				}
-				Projectile.NewProjectile(Main.MouseWorld, Vector2.Zero, type, damage, knockBack, player.whoAmI);
-				//player.UpdateMaxTurrets();
-			}
+			if (CalamityUtils.ParanoidTileRetrieval(mouseTileCoords.X, mouseTileCoords.Y).active())
+				return false;
+			CalamityUtils.OnlyOneSentry(player, type);
+			Projectile.NewProjectile(Main.MouseWorld, Vector2.Zero, type, damage, knockBack, player.whoAmI);
+			player.UpdateMaxTurrets();
 			return false;
 		}
 
