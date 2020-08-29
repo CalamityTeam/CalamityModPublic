@@ -892,6 +892,26 @@ namespace CalamityMod
 			return index;
         }
 
+        public static void OnlyOneSentry(Player player, int Type)
+        {
+			int existingTurrets = player.ownedProjectileCounts[Type];
+			if (existingTurrets > 0)
+			{
+				for (int i = 0; i < Main.maxProjectiles; i++)
+				{
+					if (Main.projectile[i].type == Type &&
+						Main.projectile[i].owner == player.whoAmI &&
+						Main.projectile[i].active)
+					{
+						Main.projectile[i].Kill();
+						existingTurrets--;
+						if (existingTurrets <= 0)
+							break;
+					}
+				}
+			}
+        }
+
         /// <summary>
         /// Call this function in the ai of your projectile so it can stick to enemies, also requires ModifyHitNPCSticky to be called in ModifyHitNPC
         /// </summary>
