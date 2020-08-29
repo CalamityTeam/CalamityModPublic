@@ -3730,7 +3730,7 @@ namespace CalamityMod.CalPlayer
                 player.yoraiz0rEye = 0;
 
 			if (cementShoes || CalamityConfig.Instance.BossRushDashCurse && BossRushEvent.BossRushActive)
-				DashExploitFix();
+				DisableAllDashes();
         }
         #endregion
 
@@ -3756,7 +3756,7 @@ namespace CalamityMod.CalPlayer
                 player.yoraiz0rEye = 0;
 
 			if (cementShoes || CalamityConfig.Instance.BossRushDashCurse && BossRushEvent.BossRushActive)
-				DashExploitFix();
+				DisableAllDashes();
         }
 		#endregion
 
@@ -7469,22 +7469,25 @@ namespace CalamityMod.CalPlayer
         }
         #endregion
 
-		#region Dash Exploit Fix
-		private void DashExploitFix()
+        #region Disable All Dashes
+        private const int DashDisableCooldown = 12;
+		private void DisableAllDashes()
 		{
-			if (player.dashDelay != 0)
-			{
-				player.dashDelay = 0;
-			}
-			// Prevents potential Shield of Cthulhu exploits
+			// Set the player to have no registered dashes.
+			player.dash = 0;
+			dashMod = 0;
+
+			// Put the player in a permanent state of dash cooldown. This is removed 1/5 of a second after disabling the effect.
+			// This is necessary so that arbitrary dashes from other mods are also blocked by Calamity.
+            if (player.dashDelay >= 0 && player.dashDelay < DashDisableCooldown)
+			    player.dashDelay = DashDisableCooldown;
+
+			// Prevent the possibility of Shield of Cthulhu invulnerability exploits.
+			player.eocHit = -1;
 			if (player.eocDash != 0)
 			{
 				player.eocDash = 0;
 			}
-
-			player.eocHit = -1;
-			player.dash = 0;
-			dashMod = 0;
 		}
 		#endregion
 
