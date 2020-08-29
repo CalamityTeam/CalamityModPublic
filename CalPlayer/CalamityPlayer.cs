@@ -3728,6 +3728,9 @@ namespace CalamityMod.CalPlayer
 
             if (player.ownedProjectileCounts[ModContent.ProjectileType<GiantIbanRobotOfDoom>()] > 0)
                 player.yoraiz0rEye = 0;
+
+			if (cementShoes || CalamityConfig.Instance.BossRushDashCurse && BossRushEvent.BossRushActive)
+				DisableAllDashes();
         }
         #endregion
 
@@ -3751,6 +3754,9 @@ namespace CalamityMod.CalPlayer
 
             if (player.ownedProjectileCounts[ModContent.ProjectileType<GiantIbanRobotOfDoom>()] > 0)
                 player.yoraiz0rEye = 0;
+
+			if (cementShoes || CalamityConfig.Instance.BossRushDashCurse && BossRushEvent.BossRushActive)
+				DisableAllDashes();
         }
 		#endregion
 
@@ -7462,6 +7468,28 @@ namespace CalamityMod.CalPlayer
             player.wingTimeMax = 0;
         }
         #endregion
+
+        #region Disable All Dashes
+        private const int DashDisableCooldown = 12;
+		private void DisableAllDashes()
+		{
+			// Set the player to have no registered dashes.
+			player.dash = 0;
+			dashMod = 0;
+
+			// Put the player in a permanent state of dash cooldown. This is removed 1/5 of a second after disabling the effect.
+			// This is necessary so that arbitrary dashes from other mods are also blocked by Calamity.
+            if (player.dashDelay >= 0 && player.dashDelay < DashDisableCooldown)
+			    player.dashDelay = DashDisableCooldown;
+
+			// Prevent the possibility of Shield of Cthulhu invulnerability exploits.
+			player.eocHit = -1;
+			if (player.eocDash != 0)
+			{
+				player.eocDash = 0;
+			}
+		}
+		#endregion
 
         #region Pre Hurt
         public override bool PreHurt(bool pvp, bool quiet, ref int damage, ref int hitDirection, ref bool crit, ref bool customDamage, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)

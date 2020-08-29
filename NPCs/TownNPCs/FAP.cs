@@ -194,7 +194,7 @@ namespace CalamityMod.NPCs.TownNPCs
             {
                 dialogue.Add("So...you're riding me, huh? That's not weird at all.");
                 dialogue.Add("Are you coming on to me?");
-                dialogue.Add("If I was a magical horse, I'd be out in space swirling cocktails, as I watch space worms battle for my enjoyment.");
+                dialogue.Add("If I was a magical horse, I'd be out in space, swirling cocktails, as I watch space worms battle for my enjoyment.");
             }
 
 			IList<string> donorList = new List<string>(CalamityLists.donatorList);

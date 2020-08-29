@@ -1404,10 +1404,6 @@ namespace CalamityMod.NPCs
             bool phase4 = lifeRatio < 0.4f || death;
             bool phase5 = lifeRatio < 0.1f || (death && lifeRatio < 0.33f);
 
-            // Damage
-            if (phase4 && npc.type == NPCID.EaterofWorldsHead)
-                npc.damage = (int)(npc.defDamage * (phase5 ? 1.2f : 1.1f));
-
             // Fire projectiles
             if (Main.netMode != NetmodeID.MultiplayerClient && !phase5)
             {
@@ -2030,7 +2026,7 @@ namespace CalamityMod.NPCs
                 npc.dontTakeDamage = false;
 
                 // Deal no damage while spinning
-                npc.damage = spinning ? 0 : (int)(npc.defDamage * (phase5 ? 1.2f : 1f));
+                npc.damage = spinning ? 0 : npc.defDamage;
 
                 // Move towards target
                 npc.TargetClosest(true);
@@ -2654,15 +2650,9 @@ namespace CalamityMod.NPCs
 			// Boost defense and damage as health decreases
 			int statBoost = (int)(20f * (1f - npc.life / (float)npc.lifeMax));
 			if (death)
-			{
 				npc.defense = npc.defDefense + 20;
-				npc.damage = npc.defDamage + 20;
-			}
 			else
-			{
 				npc.defense = npc.defDefense + statBoost;
-				npc.damage = npc.defDamage + statBoost;
-			}
 
 			// Get a target
 			if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
@@ -9601,10 +9591,6 @@ namespace CalamityMod.NPCs
             bool flag42 = NPC.AnyNPCs(NPCID.GolemFistRight);
             npc.dontTakeDamage = flag40 || flag41 || flag42;
 
-            // Damage
-            if (!flag40)
-                npc.damage = (int)(npc.defDamage * 1.5f);
-
             // Phase 2, check for free head
             bool flag43 = NPC.AnyNPCs(NPCID.GolemHeadFree);
 
@@ -10143,8 +10129,6 @@ namespace CalamityMod.NPCs
         public static bool BuffedGolemHeadFreeAI(NPC npc, bool enraged, Mod mod)
         {
             CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
-
-			npc.damage = 0;
 
             // Die if body is gone
             if (NPC.golemBoss < 0)
@@ -11396,9 +11380,6 @@ namespace CalamityMod.NPCs
         public static bool BuffedCultistAI(NPC npc, bool enraged, Mod mod)
         {
             CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
-
-            // Set contact damage to 0
-            npc.damage = npc.defDamage = 0;
 
             // Chant sound
             if (npc.ai[0] != -1f && Main.rand.NextBool(1000))

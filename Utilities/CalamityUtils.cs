@@ -181,6 +181,7 @@ namespace CalamityMod
 				npc.lifeMax = revengeance.Value;
 			}
 		}
+
 		/// <summary>
 		/// Allows you to set the DR value of a NPC to different values based on the mode.
 		/// </summary>
@@ -346,36 +347,6 @@ namespace CalamityMod
 			}*/
 
 			return 1.5f;
-		}
-
-		/// <summary>
-		/// Get the contact damage for NPCs in Master Mode Calamity rev+
-		/// </summary>
-		/// <param name="damage">The damage the npc does prior to being multiplied</param>
-		/// <param name="damageMultiplier">The damage multiplier applied to the npc' contact damage</param>
-		public static int GetMasterModeContactDamage(int damage, double damageMultiplier)
-		{
-			/*if (!Main.masterMode || !CalamityWorld.revenge)
-				return damage;*/
-
-			return damage;
-
-			//return (int)(damage * damageMultiplier);
-		}
-
-		/// <summary>
-		/// Get the damage for projectiles in Master Mode Calamity rev+
-		/// </summary>
-		/// <param name="damage">The damage the projectile does prior to being multiplied</param>
-		/// <param name="damageMultiplier">The damage multiplier applied to the projectiles' damage</param>
-		public static int GetMasterModeProjectileDamage(int damage, double damageMultiplier)
-		{
-			/*if (!Main.masterMode || !CalamityWorld.revenge)
-				return damage;*/
-
-			return damage;
-
-			//return (int)(damage * damageMultiplier);
 		}
 
 		/// <summary>
@@ -895,18 +866,38 @@ namespace CalamityMod
 			return index;
 		}
 
-		/// <summary>
-		/// Call this function in the ai of your projectile so it can stick to enemies, also requires ModifyHitNPCSticky to be called in ModifyHitNPC
-		/// </summary>
-		/// <param name="projectile">The projectile you're adding sticky behaviour to</param>
-		/// <param name="timeLeft">Number of seconds you want a projectile to cling to an NPC</param>
-		public static void StickyProjAI (this Projectile projectile, int timeLeft)
-		{
-			if (projectile.ai[0] == 1f)
+        public static void OnlyOneSentry(Player player, int Type)
+        {
+			int existingTurrets = player.ownedProjectileCounts[Type];
+			if (existingTurrets > 0)
 			{
-				int seconds = timeLeft;
-				bool killProj = false;
-				bool spawnDust = false;
+				for (int i = 0; i < Main.maxProjectiles; i++)
+				{
+					if (Main.projectile[i].type == Type &&
+						Main.projectile[i].owner == player.whoAmI &&
+						Main.projectile[i].active)
+					{
+						Main.projectile[i].Kill();
+						existingTurrets--;
+						if (existingTurrets <= 0)
+							break;
+					}
+				}
+			}
+        }
+
+        /// <summary>
+        /// Call this function in the ai of your projectile so it can stick to enemies, also requires ModifyHitNPCSticky to be called in ModifyHitNPC
+        /// </summary>
+        /// <param name="projectile">The projectile you're adding sticky behaviour to</param>
+        /// <param name="timeLeft">Number of seconds you want a projectile to cling to an NPC</param>
+        public static void StickyProjAI (this Projectile projectile, int timeLeft)
+        {
+            if (projectile.ai[0] == 1f)
+            {
+                int seconds = timeLeft;
+                bool killProj = false;
+                bool spawnDust = false;
 
 				//the projectile follows the NPC, even if it goes into blocks
 				projectile.tileCollide = false;

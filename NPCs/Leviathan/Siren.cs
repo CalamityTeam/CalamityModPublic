@@ -107,7 +107,7 @@ namespace CalamityMod.NPCs.Leviathan
             npc.dontTakeDamage = reader.ReadBoolean();
         }
 
-        public override void AI()
+		public override void AI()
         {
             // whoAmI variable
             CalamityGlobalNPC.siren = npc.whoAmI;
@@ -257,18 +257,21 @@ namespace CalamityMod.NPCs.Leviathan
 			}
 
 			// Alpha
-			if (isNotOcean)
-            {
-                npc.alpha += 3;
-                if (npc.alpha >= 150)
-                    npc.alpha = 150;
-            }
-            else
-            {
-                npc.alpha -= 5;
-                if (npc.alpha <= 0)
-                    npc.alpha = 0;
-            }
+			if (npc.damage != 0)
+			{
+				if (isNotOcean)
+				{
+					npc.alpha += 3;
+					if (npc.alpha >= 150)
+						npc.alpha = 150;
+				}
+				else
+				{
+					npc.alpha -= 5;
+					if (npc.alpha <= 0)
+						npc.alpha = 0;
+				}
+			}
 
             // Play sound
             if (Main.rand.NextBool(300))
