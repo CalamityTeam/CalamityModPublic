@@ -1549,6 +1549,10 @@ namespace CalamityMod
         }
         #endregion
 
+        #region Netcode
+        public override void HandlePacket(BinaryReader reader, int whoAmI) => CalamityNetcode.HandlePacket(reader, whoAmI);
+        #endregion
+
         #region Tile Entity Time Handler
         public override void MidUpdateTimeWorld() =>  TileEntityTimeHandler.Update();
         #endregion
