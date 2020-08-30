@@ -1656,6 +1656,7 @@ namespace CalamityMod
             scopedWeaponList = new List<int>()
             {
                 ModContent.ItemType<AMR>(),
+                ModContent.ItemType<Auralis>(),
                 ModContent.ItemType<HalleysInferno>(),
                 ModContent.ItemType<Shroomer>(),
                 ModContent.ItemType<SpectreRifle>(),

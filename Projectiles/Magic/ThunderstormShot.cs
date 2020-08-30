@@ -47,26 +47,12 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(SoundID.Item125, projectile.position);
+            Main.PlaySound(SoundID.Item125, projectile.Center);
             for (int n = 0; n < 5; n++)
             {
-                float x = projectile.position.X + (float)Main.rand.Next(-200, 200);
-                float y = projectile.position.Y - 1500f;
-                Vector2 vector = new Vector2(x, y);
-                float num13 = projectile.position.X + (float)(projectile.width / 2) - vector.X;
-                float num14 = projectile.position.Y + (float)(projectile.height / 2) - vector.Y;
-                num13 += (float)Main.rand.Next(-100, 101);
-                int num15 = 29;
-                float num16 = (float)Math.Sqrt((double)(num13 * num13 + num14 * num14));
-                num16 = (float)num15 / num16;
-                num13 *= num16;
-                num14 *= num16;
-                Projectile.NewProjectile(x, y, num13, num14, ModContent.ProjectileType<ThunderstormShotSplit>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+				CalamityUtils.ProjectileRain(projectile.Center, 200f, 100f, 1500f, 1500f, 29f, ModContent.ProjectileType<ThunderstormShotSplit>(), projectile.damage, projectile.knockBack, projectile.owner, projectile.owner);
             }
-            projectile.position = projectile.Center;
-            projectile.width = projectile.height = 36;
-            projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
-            projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
+			CalamityGlobalProjectile.ExpandHitboxBy(projectile, 36);
             int num226 = 36;
             for (int num227 = 0; num227 < num226; num227++)
             {
@@ -88,6 +74,8 @@ namespace CalamityMod.Projectiles.Magic
                 Main.dust[num228].noLight = true;
                 Main.dust[num228].velocity = vector7;
             }
+            projectile.usesLocalNPCImmunity = true;
+            projectile.localNPCHitCooldown = 10;
             projectile.Damage();
         }
     }
