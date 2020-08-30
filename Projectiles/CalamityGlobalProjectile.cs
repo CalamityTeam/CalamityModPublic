@@ -255,8 +255,8 @@ namespace CalamityMod.Projectiles
 
                     projectile.tileCollide = false;
 
-                    if (projectile.timeLeft > 300)
-                        projectile.timeLeft = 300;
+                    if (projectile.timeLeft > 600)
+                        projectile.timeLeft = 600;
 
                     projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + 1.57f;
 

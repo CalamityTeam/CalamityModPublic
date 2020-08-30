@@ -74,7 +74,6 @@ namespace CalamityMod.NPCs.Bumblebirb
         {
             Player player = Main.player[npc.target];
             Vector2 vector = npc.Center;
-            npc.damage = npc.defDamage;
 
 			bool increasedAggression = CalamityPlayer.areThereAnyDamnBosses;
 
@@ -288,7 +287,6 @@ namespace CalamityMod.NPCs.Bumblebirb
                 }
                 else if (npc.ai[0] == 2.1f)
                 {
-                    npc.damage = (int)(npc.defDamage * 1.3);
                     if (npc.velocity.X < 0f)
                     {
                         npc.direction = -1;

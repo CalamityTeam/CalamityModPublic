@@ -8941,15 +8941,13 @@ namespace CalamityMod.NPCs
                     npc.localAI[1] += 1f + shootBoost;
 
                     if (enrage)
-                    {
                         npc.localAI[1] += 3f;
 
-                        // If hit, fire projectiles even if target is behind tiles
-                        if (npc.justHit && Main.rand.NextBool(2))
-                            npc.localAI[3] = 1f;
-                    }
+					// If hit, fire projectiles even if target is behind tiles
+					if (npc.justHit)
+						npc.localAI[3] = 1f;
 
-                    if (npc.localAI[1] >= 75f)
+					if (npc.localAI[1] >= 75f)
                     {
                         npc.localAI[1] = 0f;
                         bool canHit = Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height);
@@ -8960,7 +8958,7 @@ namespace CalamityMod.NPCs
                         }
                         if (canHit)
                         {
-                            Vector2 vector93 = new Vector2(npc.Center.X, npc.Center.Y);
+                            Vector2 vector93 = npc.Center;
                             float num742 = BossRushEvent.BossRushActive ? 27f : 18f;
                             float num743 = Main.player[npc.target].position.X + Main.player[npc.target].width * 0.5f - vector93.X;
                             float num744 = Main.player[npc.target].position.Y + Main.player[npc.target].height * 0.5f - vector93.Y;
@@ -9004,9 +9002,7 @@ namespace CalamityMod.NPCs
 
                             vector93.X += num743 * 3f;
                             vector93.Y += num744 * 3f;
-                            int num748 = Projectile.NewProjectile(vector93.X, vector93.Y, num743, num744, projectileType, damage, 0f, Main.myPlayer, 0f, 0f);
-                            if (projectileType == ProjectileID.SeedPlantera)
-                                Main.projectile[num748].timeLeft = 300;
+                            Projectile.NewProjectile(vector93.X, vector93.Y, num743, num744, projectileType, damage, 0f, Main.myPlayer, 0f, 0f);
                         }
                     }
                 }
@@ -9068,28 +9064,41 @@ namespace CalamityMod.NPCs
 						float spawnBoost = death ? 4f : 8f * (0.5f - lifeRatio);
 						npc.localAI[1] += 1f + spawnBoost;
 
+						// If hit, fire projectiles even if target is behind tiles
+						if (npc.justHit)
+							calamityGlobalNPC.newAI[2] = 1f;
+
 						if (npc.localAI[1] >= 360f)
 						{
-							float num757 = BossRushEvent.BossRushActive ? 12f : 8f;
-							Vector2 vector94 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
-							float num758 = Main.player[npc.target].position.X + Main.player[npc.target].width * 0.5f - vector94.X + Main.rand.Next(-10, 11);
-							float num759 = Math.Abs(num758 * 0.2f);
-
-							float num760 = Main.player[npc.target].position.Y + Main.player[npc.target].height * 0.5f - vector94.Y + Main.rand.Next(-10, 11);
-							if (num760 > 0f)
-								num759 = 0f;
-
-							num760 -= num759;
-							float num761 = (float)Math.Sqrt(num758 * num758 + num760 * num760);
-							num761 = num757 / num761;
-							num758 *= num761;
-							num760 *= num761;
-
-							int num762 = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, NPCID.Spore, 0, 0f, 0f, 0f, 0f, 255);
-							Main.npc[num762].velocity.X = num758;
-							Main.npc[num762].velocity.Y = num760;
-							Main.npc[num762].netUpdate = true;
 							npc.localAI[1] = 0f;
+							bool canHit = Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height);
+							if (calamityGlobalNPC.newAI[2] > 0f)
+							{
+								canHit = true;
+								calamityGlobalNPC.newAI[2] = 0f;
+							}
+							if (canHit)
+							{
+								float num757 = BossRushEvent.BossRushActive ? 12f : 8f;
+								Vector2 vector94 = npc.Center;
+								float num758 = Main.player[npc.target].position.X + Main.player[npc.target].width * 0.5f - vector94.X + Main.rand.Next(-10, 11);
+								float num759 = Math.Abs(num758 * 0.2f);
+
+								float num760 = Main.player[npc.target].position.Y + Main.player[npc.target].height * 0.5f - vector94.Y + Main.rand.Next(-10, 11);
+								if (num760 > 0f)
+									num759 = 0f;
+
+								num760 -= num759;
+								float num761 = (float)Math.Sqrt(num758 * num758 + num760 * num760);
+								num761 = num757 / num761;
+								num758 *= num761;
+								num760 *= num761;
+
+								int num762 = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, NPCID.Spore, 0, 0f, 0f, 0f, 0f, 255);
+								Main.npc[num762].velocity.X = num758;
+								Main.npc[num762].velocity.Y = num760;
+								Main.npc[num762].netUpdate = true;
+							}
 						}
 					}
 
@@ -9101,43 +9110,81 @@ namespace CalamityMod.NPCs
 						if (nearbyActiveTiles > 600)
 							npc.localAI[3] += 0.5f + ((tentacleScale - 1) * 0.5f);
 						else
-							npc.localAI[3] += (nearbyActiveTiles > 300 ? 1f : 5f) + (tentacleScale - 1);
+							npc.localAI[3] += (nearbyActiveTiles > 300 ? 1f : 5f) + ((tentacleScale - 1) * 0.5f);
+
+						// If hit, fire projectiles even if target is behind tiles
+						if (npc.justHit)
+							calamityGlobalNPC.newAI[3] = 1f;
 
 						if (npc.localAI[3] >= 360f)
 						{
-							Vector2 vector93 = new Vector2(npc.Center.X, npc.Center.Y);
-
-							float num742 = 8f - (tentacleScale * 0.25f); // 7.75f to 6f, slower projectiles are harder to avoid
-							if (nearbyActiveTiles < 300)
-								num742 = 8.5f;
-							if (BossRushEvent.BossRushActive)
-								num742 *= 1.5f;
-
-							float num743 = Main.player[npc.target].position.X + Main.player[npc.target].width * 0.5f - vector93.X;
-							float num744 = Main.player[npc.target].position.Y + Main.player[npc.target].height * 0.5f - vector93.Y;
-							float num745 = (float)Math.Sqrt(num743 * num743 + num744 * num744);
-							num745 = num742 / num745;
-							num743 *= num745;
-							num744 *= num745;
-							vector93.X += num743 * 3f;
-							vector93.Y += num744 * 3f;
-
-							int damage = 30;
-							if (death)
-								damage += 3;
-							int numProj = 2;
-
-							int spread = 2 + tentacleScale; // 3 to 10, wider spread is harder to avoid
-							if (nearbyActiveTiles < 300)
-								spread = (Main.rand.NextBool(2) ? 3 : 6) + (tentacleScale / 2);
-
-							float rotation = MathHelper.ToRadians(spread);
-							for (int i = 0; i < numProj + 1; i++)
+							bool canHit = Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height);
+							if (calamityGlobalNPC.newAI[3] > 0f)
 							{
-								Vector2 perturbedSpeed = new Vector2(num743, num744).RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (numProj - 1)));
-								Projectile.NewProjectile(vector93, perturbedSpeed, ProjectileID.PoisonSeedPlantera, damage, 0f, Main.myPlayer, 0f, 0f);
+								canHit = true;
+								calamityGlobalNPC.newAI[3] = 0f;
 							}
-							npc.localAI[3] = 0f;
+							if (canHit)
+							{
+								Vector2 vector93 = npc.Center;
+
+								float num742 = 8f - (tentacleScale * 0.25f); // 7.75f to 6f, slower projectiles are harder to avoid
+								if (nearbyActiveTiles < 300)
+									num742 = 8.5f;
+								if (BossRushEvent.BossRushActive)
+									num742 *= 1.5f;
+
+								float num743 = Main.player[npc.target].position.X + Main.player[npc.target].width * 0.5f - vector93.X;
+								float num744 = Main.player[npc.target].position.Y + Main.player[npc.target].height * 0.5f - vector93.Y;
+								float num745 = (float)Math.Sqrt(num743 * num743 + num744 * num744);
+								num745 = num742 / num745;
+								num743 *= num745;
+								num744 *= num745;
+								vector93.X += num743 * 3f;
+								vector93.Y += num744 * 3f;
+
+								int damage = 30;
+								if (death)
+									damage += 3;
+
+								bool anyThornBalls = false;
+								for (int i = 0; i < Main.maxProjectiles; i++)
+								{
+									if (Main.projectile[i].active && Main.projectile[i].type == ProjectileID.ThornBall)
+										anyThornBalls = true;
+
+									if (anyThornBalls)
+										break;
+								}
+								if (!anyThornBalls && !insideTiles)
+								{
+									damage += 4;
+									if (enrage)
+										damage *= 2;
+
+									Projectile.NewProjectile(vector93.X, vector93.Y, num743, num744, ProjectileID.ThornBall, damage, 0f, Main.myPlayer, 0f, 0f);
+
+									npc.localAI[3] = -240f;
+								}
+								else
+								{
+									int numProj = 2;
+									int spread = 2 + tentacleScale; // 3 to 10, wider spread is harder to avoid
+									if (nearbyActiveTiles < 300)
+										spread = (Main.rand.NextBool(2) ? 3 : 6) + (tentacleScale / 2);
+									if (enrage)
+										damage *= 2;
+
+									float rotation = MathHelper.ToRadians(spread);
+									for (int i = 0; i < numProj + 1; i++)
+									{
+										Vector2 perturbedSpeed = new Vector2(num743, num744).RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (numProj - 1)));
+										Projectile.NewProjectile(vector93, perturbedSpeed, ProjectileID.PoisonSeedPlantera, damage, 0f, Main.myPlayer, 0f, 0f);
+									}
+
+									npc.localAI[3] = 0f;
+								}
+							}
 						}
 					}
 
@@ -9151,7 +9198,7 @@ namespace CalamityMod.NPCs
 						{
 							Main.PlaySound(SoundID.Item20, npc.position);
 
-							Vector2 vector93 = new Vector2(npc.Center.X, npc.Center.Y);
+							Vector2 vector93 = npc.Center;
 							float num742 = BossRushEvent.BossRushActive ? 10f : 7f;
 							float num743 = Main.player[npc.target].position.X + Main.player[npc.target].width * 0.5f - vector93.X;
 							float num744 = Main.player[npc.target].position.Y + Main.player[npc.target].height * 0.5f - vector93.Y;
@@ -9165,8 +9212,10 @@ namespace CalamityMod.NPCs
 							int damage = 35;
 							if (death)
 								damage += 3;
-							int numProj = 4;
+							if (enrage)
+								damage *= 2;
 
+							int numProj = 4;
 							int spread = 30;
 							if (nearbyActiveTiles <= 300)
 								spread = Main.rand.NextBool(2) ? 30 : 45;

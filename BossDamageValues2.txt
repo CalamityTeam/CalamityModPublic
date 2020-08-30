@@ -524,23 +524,6 @@ D - 176 (moon lord), NA
 
 PROFANED GUARDIANS
 
-Contact damage:
-Profaned Guardian Boss
-N - 140
-E - 224
-R - 246
-D - 259
-Defender
-N - 110
-E - 176
-R - 202
-D - 218
-Healer
-N - 90
-E - 144
-R - 165
-D - 178
-
 Projectile damage:
 Profaned Spear
 N - 120
@@ -560,18 +543,6 @@ D - 32
 
 BUMBLEBIRB
 
-Contact damage:
-Bumblebirb
-N - 160 (normal), 240 (charge)
-E - 256 (normal), 384 (charge)
-R - 281 (normal), 422 (charge)
-D - 296 (normal), 445 (charge)
-Bumblebirb Small
-N - 110 (normal), 165 (charge)
-E - 220 (normal), 330 (charge)
-R - 242 (normal), 363 (charge)
-D - 255 (normal), 382 (charge)
-
 Projectile damage:
 Red Feather
 N - 120
@@ -580,23 +551,6 @@ R - 220
 D - 232
 
 PROVIDENCE
-
-Contact damage:
-Providence (she can't hit the player anyways)
-N - 100
-E - 160
-R - 160
-D - 160
-Profaned Guardian Offense
-N - 120
-E - 240
-R - 264
-D - 278
-Defense
-N - 100
-E - 200
-R - 220
-D - 232
 
 Projectile damage:
 Holy Blast/Holy Spear
@@ -637,18 +591,6 @@ D - 464
 
 CEASELESS VOID
 
-Contact damage:
-Ceaseless Void
-N - 150
-E - 300
-R - 330
-D - 348
-Dark Energy
-N - 120
-E - 240
-R - 300
-D - 300
-
 Projectile damage:
 Homing Laser/Dark Energy Ball
 N - 120
@@ -657,28 +599,6 @@ R - 230
 D - 248
 
 STORM WEAVER
-
-Contact damage:
-Storm Weaver Head
-N - 140 (phase 1), 180 (phase 2)
-E - 280 (phase 1), 360 (phase 2)
-R - 308 (phase 1), 396 (phase 2)
-D - 324 (phase 1), 417 (phase 2)
-Body
-N - 100 (phase 1), 120 (phase 2)
-E - 170 (phase 1), 204 (phase 2)
-R - 170 (phase 1), 204 (phase 2)
-D - 170 (phase 1), 204 (phase 2)
-Tail
-N - 80 (phase 1), 100 (phase 2)
-E - 136 (phase 1), 170 (phase 2)
-R - 136 (phase 1), 170 (phase 2)
-D - 136 (phase 1), 170 (phase 2)
-Probe
-N - 70 (phase 1), 80 (phase 2)
-E - 140 (phase 1), 160 (phase 2)
-R - 140 (phase 1), 160 (phase 2)
-D - 140 (phase 1), 160 (phase 2)
 
 Projectile damage:
 Lightning
@@ -693,23 +613,6 @@ R - 200
 D - 200
 
 SIGNUS
-
-Contact damage:
-Signus
-N - 175
-E - 297
-R - 326
-D - 344
-Cosmic Lantern
-N - 110
-E - 220
-R - 242
-D - 255
-Cosmic Mine
-N - NA
-E - NA
-R - 300
-D - 300
 
 Projectile damage:
 Cosmic Flame Burst
@@ -730,18 +633,6 @@ D - 278
 
 POLTERGHAST
 
-Contact damage:
-Polterghast
-N - 150 (phase 1), 180 (phase 2), 210 (phase 3)
-E - 240 (phase 1), 288 (phase 2), 336 (phase 3)
-R - 264 (phase 1), 316 (phase 2), 369 (phase 3)
-D - 278 (phase 1), 334 (phase 2), 389 (phase 3)
-Clone
-N - 210
-E - 336
-R - 369
-D - 389
-
 Projectile damage:
 Phantom Shot
 N - 120 (blue), 130 (red)
@@ -761,38 +652,6 @@ D - 287
 
 DEVOURER OF GODS
 
-Contact damage:
-DoG Head
-N - 250 (phase 1), 300 (phase 2)
-E - 500 (phase 1), 600 (phase 2)
-R - 525 (phase 1), 630 (phase 2)
-D - 540 (phase 1), 648 (phase 2) (instant death, but these are the damage values regardless)
-Body
-N - 180 (phase 1), 220 (phase 2)
-E - 306 (phase 1), 374 (phase 2)
-R - 336 (phase 1), 411 (phase 2)
-D - 354 (phase 1), 433 (phase 2)
-Tail
-N - 150 (phase 1), 180 (phase 2)
-E - 255 (phase 1), 306 (phase 2)
-R - 280 (phase 1), 336 (phase 2)
-D - 295 (phase 1), 354 (phase 2)
-Cosmic Guardian Head
-N - 180
-E - 360
-R - 396
-D - 417
-Body
-N - 130
-E - 260
-R - 260
-D - 260
-Tail
-N - 100
-E - 200
-R - 200
-D - 200
-
 Projectile damage:
 Nebula Shot
 N - 140
@@ -806,18 +665,6 @@ R - 303
 D - 320
 
 YHARON
-
-Contact damage:
-Yharon
-N - 330 (normal), 363 (phase 2, low HP)
-E - 528 (normal), 580 (phase 2, low HP)
-R - 554 (normal), 609 (phase 2, low HP)
-D - 570 (normal), 626 (phase 2, low HP)
-Detonating Flame
-N - 100 (ranged flame), 220 (melee flame)
-E - 200 (ranged flame), 440 (melee flame)
-R - 220 (ranged flame), 462 (melee flame)
-D - 232 (ranged flame), 475 (melee flame)
 
 Projectile damage:
 Flare Bomb
@@ -852,13 +699,6 @@ R - 300
 D - 300
 
 SUPREME CALAMITAS
-
-Contact damage:
-SCal
-N - 350
-E - 560
-R - 588
-D - 604
 
 Projectile damage:
 All projectiles in bullet hell 1

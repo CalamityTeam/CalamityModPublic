@@ -1607,9 +1607,6 @@ namespace CalamityMod.NPCs.Yharon
 			{
 				protectionBoost = false;
 				npc.damage = npc.defDamage;
-
-				if (secondPhasePhase == 4)
-					npc.damage = (int)(npc.defDamage * 1.1f);
 			}
 
 			// Set DR based on protection boost (aka enrage)
@@ -1621,9 +1618,6 @@ namespace CalamityMod.NPCs.Yharon
 				npc.damage = 0;
 
 			int projectileDamage = expertMode ? 110 : 125;
-            if (secondPhasePhase == 4)
-                projectileDamage = (int)(projectileDamage * 1.1);
-
 			float phaseSwitchTimer = expertMode ? 30f : 32f;
 			float acceleration = expertMode ? 0.92f : 0.9f;
             float velocity = expertMode ? 13.5f : 13f;
@@ -2495,7 +2489,7 @@ namespace CalamityMod.NPCs.Yharon
 		{
 			if (Main.netMode != NetmodeID.MultiplayerClient)
 			{
-				float velocity = 5f;
+				float velocity = ai1 == 0f ? 10f : 5f;
 				int totalProjectiles = 50;
 				float radians = MathHelper.TwoPi / totalProjectiles;
 				for (int i = 0; i < totalProjectiles; i++)
@@ -3046,7 +3040,7 @@ namespace CalamityMod.NPCs.Yharon
             }
             if (npc.life <= 0)
             {
-                DoFireRing(150, (Main.expertMode || BossRushEvent.BossRushActive) ? 125 : 150, 0f);
+                DoFireRing(300, (Main.expertMode || BossRushEvent.BossRushActive) ? 125 : 150, 0f);
                 npc.position.X = npc.position.X + (npc.width / 2);
                 npc.position.Y = npc.position.Y + (npc.height / 2);
                 npc.width = 300;

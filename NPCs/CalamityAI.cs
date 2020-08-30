@@ -3909,9 +3909,6 @@ namespace CalamityMod.NPCs
 			npc.noTileCollide = false;
 			npc.noGravity = true;
 
-			// Reset damage
-			npc.damage = npc.defDamage;
-
 			// Phase switch
 			if (npc.ai[0] == 0f)
 			{
@@ -4247,8 +4244,6 @@ namespace CalamityMod.NPCs
 			// Charge
 			else if (npc.ai[0] == 3.2f)
 			{
-				npc.damage = (int)(npc.defDamage * 1.3);
-
 				npc.collideX = false;
 				npc.collideY = false;
 				npc.noTileCollide = true;
@@ -5235,9 +5230,9 @@ namespace CalamityMod.NPCs
 				if (npc.alpha < 0)
 					npc.alpha = 0;
 
-				// Teleport location
+				// Movement location
 				if (npc.ai[1] == 0f)
-					npc.ai[1] = 540 * Math.Sign((vector - player.Center).X);
+					npc.ai[1] = 500 * Math.Sign((vector - player.Center).X);
 
 				Vector2 desiredVelocity = Vector2.Normalize(player.Center + new Vector2(-npc.ai[1], -300f) - vector - npc.velocity) * scaleFactor;
 				npc.SimpleFlyMovement(desiredVelocity, num3);
@@ -5415,7 +5410,7 @@ namespace CalamityMod.NPCs
 				{
 					// Teleport location
 					if (npc.ai[1] == 0f)
-						npc.ai[1] = 480 * Math.Sign((vector - player.Center).X);
+						npc.ai[1] = 600 * Math.Sign((vector - player.Center).X);
 
 					// Rotation and direction
 					Vector2 center = player.Center + new Vector2(npc.ai[1], -300f);

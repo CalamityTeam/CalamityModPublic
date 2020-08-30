@@ -76,8 +76,63 @@ namespace CalamityMod
 			}
 		}
 
+		/// <summary>
+		/// Gets the Expert/Master Mode damage multiplier for the specified boss NPC
+		/// Useful to determine the base damage a boss NPC should have prior to being run through the Expert/Master scaling code
+		/// </summary>
+		/// <param name="npc">The NPC you want to get the damage multiplier for</param>
+		/// <param name="master">Whether Master Mode is enabled or not</param>
+		/// <returns></returns>
+		public static float GetExpertDamageMultiplier(this NPC npc, bool? master = null)
+		{
+			BossStats.ExpertDamageMultiplier.TryGetValue(npc.type, out float damageMult);
+			return damageMult;
+		}
+
 		public struct BossStats
 		{
+			public static SortedDictionary<int, float> ExpertDamageMultiplier = new SortedDictionary<int, float>
+			{
+				{ NPCID.KingSlime, 0.8f },
+
+				{ NPCID.EyeofCthulhu, 1f }, // Servants use this same value
+
+				{ NPCID.EaterofWorldsHead, 1.1f },
+				{ NPCID.EaterofWorldsBody, 0.8f },
+				{ NPCID.EaterofWorldsTail, 0.8f },
+
+				{ NPCID.BrainofCthulhu, 0.9f }, // Creepers use this same value
+
+				{ NPCID.QueenBee, 0.9f },
+				{ NPCID.Bee, 0.6f }, // Small bees use this same value
+
+				{ NPCID.SkeletronHead, 1.1f }, // Hands use this same value
+
+				{ NPCID.WallofFlesh, 1.5f }, // Eyes use this same value
+				{ NPCID.TheHungry, 1f }, // Detached hungries use this same value
+
+				{ NPCID.TheDestroyer, 2f },
+				{ NPCID.TheDestroyerBody, 0.85f },
+				{ NPCID.TheDestroyerTail, 0.85f },
+
+				{ NPCID.SkeletronPrime, 0.85f }, // All arms use this same value
+
+				{ NPCID.Spazmatism, 0.85f },
+				{ NPCID.Retinazer, 0.85f },
+
+				{ NPCID.Plantera, 1.15f }, // Tentacles use this same value
+				{ NPCID.Spore, 1f },
+
+				{ NPCID.Golem, 0.8f }, // All body parts use this same value
+
+				{ NPCID.DukeFishron, 0.7f },
+				{ NPCID.Sharkron, 0.75f },
+				{ NPCID.Sharkron2, 0.75f },
+				{ NPCID.DetonatingBubble, 0.75f },
+
+				{ NPCID.CultistBoss, 0.75f }, // All other summons use this same value
+			};
+
 			public static SortedDictionary<int, int> NormalContactDamage = new SortedDictionary<int, int>
 			{
 				{ NPCID.KingSlime, 40 },
@@ -178,7 +233,7 @@ namespace CalamityMod
 				{ NPCID.Spore, 70 },
 
 				{ ModContent.NPCType<Leviathan>(), 90 },
-				{ ModContent.NPCType<Siren>(), 70 },
+				{ ModContent.NPCType<Siren>(), 70 }, // 105 during charge
 				{ ModContent.NPCType<SirenIce>(), 55 },
 				{ NPCID.DetonatingBubble, 100 },
 				{ ModContent.NPCType<AquaticAberration>(), 55 },
@@ -223,6 +278,48 @@ namespace CalamityMod
 				{ ModContent.NPCType<AstrumDeusTailSpectral>(), 80 },
 
 				{ NPCID.MoonLordHand, 80 },
+
+				{ ModContent.NPCType<ProfanedGuardianBoss>(), 140 },
+				{ ModContent.NPCType<ProfanedGuardianBoss2>(), 110 },
+				{ ModContent.NPCType<ProfanedGuardianBoss3>(), 90 },
+
+				{ ModContent.NPCType<Bumblefuck>(), 160 },
+				{ ModContent.NPCType<Bumblefuck2>(), 110 },
+
+				{ ModContent.NPCType<ProvSpawnOffense>(), 120 },
+				{ ModContent.NPCType<ProvSpawnDefense>(), 100 },
+
+				{ ModContent.NPCType<CeaselessVoid>(), 150 },
+				{ ModContent.NPCType<DarkEnergy>(), 120 }, // All 3 types deal the same damage
+
+				{ ModContent.NPCType<StormWeaverHead>(), 140 },
+				{ ModContent.NPCType<StormWeaverBody>(), 100 },
+				{ ModContent.NPCType<StormWeaverTail>(), 80 },
+				{ ModContent.NPCType<StormWeaverHeadNaked>(), 180 },
+				{ ModContent.NPCType<StormWeaverBodyNaked>(), 120 },
+				{ ModContent.NPCType<StormWeaverTailNaked>(), 100 },
+
+				{ ModContent.NPCType<Signus>(), 175 },
+				{ ModContent.NPCType<CosmicLantern>(), 110 },
+
+				{ ModContent.NPCType<Polterghast>(), 150 }, // 180 in phase 2, 210 in phase 3
+				{ ModContent.NPCType<PolterPhantom>(), 210 },
+
+				{ ModContent.NPCType<DevourerofGodsHead>(), 250 },
+				{ ModContent.NPCType<DevourerofGodsBody>(), 180 },
+				{ ModContent.NPCType<DevourerofGodsTail>(), 150 },
+				{ ModContent.NPCType<DevourerofGodsHeadS>(), 300 },
+				{ ModContent.NPCType<DevourerofGodsBodyS>(), 220 },
+				{ ModContent.NPCType<DevourerofGodsTailS>(), 180 },
+				{ ModContent.NPCType<DevourerofGodsHead2>(), 180 },
+				{ ModContent.NPCType<DevourerofGodsBody2>(), 130 },
+				{ ModContent.NPCType<DevourerofGodsTail2>(), 100 },
+
+				{ ModContent.NPCType<Yharon>(), 330 },
+				{ ModContent.NPCType<DetonatingFlare>(), 100 },
+				{ ModContent.NPCType<DetonatingFlare2>(), 220 },
+
+				{ ModContent.NPCType<SupremeCalamitas>(), 350 }
 			};
 
 			public static SortedDictionary<int, int> ExpertContactDamage = new SortedDictionary<int, int>
@@ -326,7 +423,7 @@ namespace CalamityMod
 				{ NPCID.Spore, 126 },
 
 				{ ModContent.NPCType<Leviathan>(), 153 },
-				{ ModContent.NPCType<Siren>(), 119 },
+				{ ModContent.NPCType<Siren>(), 119 }, // 178 during charge
 				{ ModContent.NPCType<SirenIce>(), 110 },
 				{ NPCID.DetonatingBubble, 140 },
 				{ ModContent.NPCType<AquaticAberration>(), 110 },
@@ -372,6 +469,48 @@ namespace CalamityMod
 				{ ModContent.NPCType<AstrumDeusTailSpectral>(), 136 },
 
 				{ NPCID.MoonLordHand, 80 },
+
+				{ ModContent.NPCType<ProfanedGuardianBoss>(), 224 },
+				{ ModContent.NPCType<ProfanedGuardianBoss2>(), 176 },
+				{ ModContent.NPCType<ProfanedGuardianBoss3>(), 144 },
+
+				{ ModContent.NPCType<Bumblefuck>(), 256 },
+				{ ModContent.NPCType<Bumblefuck2>(), 220 },
+
+				{ ModContent.NPCType<ProvSpawnOffense>(), 240 },
+				{ ModContent.NPCType<ProvSpawnDefense>(), 200 },
+
+				{ ModContent.NPCType<CeaselessVoid>(), 300 },
+				{ ModContent.NPCType<DarkEnergy>(), 240 }, // All 3 types deal the same damage
+
+				{ ModContent.NPCType<StormWeaverHead>(), 280 },
+				{ ModContent.NPCType<StormWeaverBody>(), 170 },
+				{ ModContent.NPCType<StormWeaverTail>(), 136 },
+				{ ModContent.NPCType<StormWeaverHeadNaked>(), 360 },
+				{ ModContent.NPCType<StormWeaverBodyNaked>(), 204 },
+				{ ModContent.NPCType<StormWeaverTailNaked>(), 170 },
+
+				{ ModContent.NPCType<Signus>(), 297 },
+				{ ModContent.NPCType<CosmicLantern>(), 220 },
+
+				{ ModContent.NPCType<Polterghast>(), 240 }, // 288 in phase 2, 336 in phase 3
+				{ ModContent.NPCType<PolterPhantom>(), 336 },
+
+				{ ModContent.NPCType<DevourerofGodsHead>(), 500 },
+				{ ModContent.NPCType<DevourerofGodsBody>(), 306 },
+				{ ModContent.NPCType<DevourerofGodsTail>(), 255 },
+				{ ModContent.NPCType<DevourerofGodsHeadS>(), 600 },
+				{ ModContent.NPCType<DevourerofGodsBodyS>(), 374 },
+				{ ModContent.NPCType<DevourerofGodsTailS>(), 306 },
+				{ ModContent.NPCType<DevourerofGodsHead2>(), 360 },
+				{ ModContent.NPCType<DevourerofGodsBody2>(), 260 },
+				{ ModContent.NPCType<DevourerofGodsTail2>(), 200 },
+
+				{ ModContent.NPCType<Yharon>(), 528 },
+				{ ModContent.NPCType<DetonatingFlare>(), 200 },
+				{ ModContent.NPCType<DetonatingFlare2>(), 440 },
+
+				{ ModContent.NPCType<SupremeCalamitas>(), 560 }
 			};
 
 			public static SortedDictionary<int, int> RevengeanceContactDamage = new SortedDictionary<int, int>
@@ -478,7 +617,7 @@ namespace CalamityMod
 				{ NPCID.Spore, 144 },
 
 				{ ModContent.NPCType<Leviathan>(), 175 },
-				{ ModContent.NPCType<Siren>(), 136 },
+				{ ModContent.NPCType<Siren>(), 136 }, // 204 during charge
 				{ ModContent.NPCType<SirenIce>(), 126 },
 				{ NPCID.DetonatingBubble, 161 },
 				{ ModContent.NPCType<AquaticAberration>(), 126 },
@@ -521,6 +660,49 @@ namespace CalamityMod
 				{ ModContent.NPCType<AstrumDeusHeadSpectral>(), 264 },
 				{ ModContent.NPCType<AstrumDeusBodySpectral>(), 182 },
 				{ ModContent.NPCType<AstrumDeusTailSpectral>(), 146 },
+
+				{ ModContent.NPCType<ProfanedGuardianBoss>(), 246 },
+				{ ModContent.NPCType<ProfanedGuardianBoss2>(), 202 },
+				{ ModContent.NPCType<ProfanedGuardianBoss3>(), 165 },
+
+				{ ModContent.NPCType<Bumblefuck>(), 281 },
+				{ ModContent.NPCType<Bumblefuck2>(), 242 },
+
+				{ ModContent.NPCType<ProvSpawnOffense>(), 264 },
+				{ ModContent.NPCType<ProvSpawnDefense>(), 220 },
+
+				{ ModContent.NPCType<CeaselessVoid>(), 330 },
+				{ ModContent.NPCType<DarkEnergy>(), 300 }, // All 3 types deal the same damage
+
+				{ ModContent.NPCType<StormWeaverHead>(), 308 },
+				{ ModContent.NPCType<StormWeaverBody>(), 200 },
+				{ ModContent.NPCType<StormWeaverTail>(), 160 },
+				{ ModContent.NPCType<StormWeaverHeadNaked>(), 396 },
+				{ ModContent.NPCType<StormWeaverBodyNaked>(), 230 },
+				{ ModContent.NPCType<StormWeaverTailNaked>(), 190 },
+
+				{ ModContent.NPCType<Signus>(), 326 },
+				{ ModContent.NPCType<CosmicLantern>(), 242 },
+				{ ModContent.NPCType<SignusBomb>(), 300 },
+
+				{ ModContent.NPCType<Polterghast>(), 264 }, // 316 in phase 2, 369 in phase 3
+				{ ModContent.NPCType<PolterPhantom>(), 369 },
+
+				{ ModContent.NPCType<DevourerofGodsHead>(), 525 },
+				{ ModContent.NPCType<DevourerofGodsBody>(), 336 },
+				{ ModContent.NPCType<DevourerofGodsTail>(), 280 },
+				{ ModContent.NPCType<DevourerofGodsHeadS>(), 630 },
+				{ ModContent.NPCType<DevourerofGodsBodyS>(), 411 },
+				{ ModContent.NPCType<DevourerofGodsTailS>(), 336 },
+				{ ModContent.NPCType<DevourerofGodsHead2>(), 396 },
+				{ ModContent.NPCType<DevourerofGodsBody2>(), 290 },
+				{ ModContent.NPCType<DevourerofGodsTail2>(), 230 },
+
+				{ ModContent.NPCType<Yharon>(), 554 },
+				{ ModContent.NPCType<DetonatingFlare>(), 220 },
+				{ ModContent.NPCType<DetonatingFlare2>(), 462 },
+
+				{ ModContent.NPCType<SupremeCalamitas>(), 588 }
 			};
 
 			public static SortedDictionary<int, int> DeathContactDamage = new SortedDictionary<int, int>
@@ -627,7 +809,7 @@ namespace CalamityMod
 				{ NPCID.Spore, 156 },
 
 				{ ModContent.NPCType<Leviathan>(), 189 },
-				{ ModContent.NPCType<Siren>(), 147 },
+				{ ModContent.NPCType<Siren>(), 147 }, // 220 during charge
 				{ ModContent.NPCType<SirenIce>(), 136 },
 				{ NPCID.DetonatingBubble, 173 },
 				{ ModContent.NPCType<AquaticAberration>(), 136 },
@@ -670,6 +852,49 @@ namespace CalamityMod
 				{ ModContent.NPCType<AstrumDeusHeadSpectral>(), 278 },
 				{ ModContent.NPCType<AstrumDeusBodySpectral>(), 190 },
 				{ ModContent.NPCType<AstrumDeusTailSpectral>(), 154 },
+
+				{ ModContent.NPCType<ProfanedGuardianBoss>(), 259 },
+				{ ModContent.NPCType<ProfanedGuardianBoss2>(), 218 },
+				{ ModContent.NPCType<ProfanedGuardianBoss3>(), 178 },
+
+				{ ModContent.NPCType<Bumblefuck>(), 296 },
+				{ ModContent.NPCType<Bumblefuck2>(), 255 },
+
+				{ ModContent.NPCType<ProvSpawnOffense>(), 278 },
+				{ ModContent.NPCType<ProvSpawnDefense>(), 232 },
+
+				{ ModContent.NPCType<CeaselessVoid>(), 348 },
+				{ ModContent.NPCType<DarkEnergy>(), 300 }, // All 3 types deal the same damage
+
+				{ ModContent.NPCType<StormWeaverHead>(), 324 },
+				{ ModContent.NPCType<StormWeaverBody>(), 220 },
+				{ ModContent.NPCType<StormWeaverTail>(), 180 },
+				{ ModContent.NPCType<StormWeaverHeadNaked>(), 417 },
+				{ ModContent.NPCType<StormWeaverBodyNaked>(), 250 },
+				{ ModContent.NPCType<StormWeaverTailNaked>(), 210 },
+
+				{ ModContent.NPCType<Signus>(), 344 },
+				{ ModContent.NPCType<CosmicLantern>(), 255 },
+				{ ModContent.NPCType<SignusBomb>(), 320 },
+
+				{ ModContent.NPCType<Polterghast>(), 278 }, // 334 in phase 2, 389 in phase 3
+				{ ModContent.NPCType<PolterPhantom>(), 389 },
+
+				{ ModContent.NPCType<DevourerofGodsHead>(), 540 },
+				{ ModContent.NPCType<DevourerofGodsBody>(), 354 },
+				{ ModContent.NPCType<DevourerofGodsTail>(), 295 },
+				{ ModContent.NPCType<DevourerofGodsHeadS>(), 648 }, // Instant death
+				{ ModContent.NPCType<DevourerofGodsBodyS>(), 433 },
+				{ ModContent.NPCType<DevourerofGodsTailS>(), 354 },
+				{ ModContent.NPCType<DevourerofGodsHead2>(), 417 },
+				{ ModContent.NPCType<DevourerofGodsBody2>(), 320 },
+				{ ModContent.NPCType<DevourerofGodsTail2>(), 260 },
+
+				{ ModContent.NPCType<Yharon>(), 570 },
+				{ ModContent.NPCType<DetonatingFlare>(), 232 },
+				{ ModContent.NPCType<DetonatingFlare2>(), 475 },
+
+				{ ModContent.NPCType<SupremeCalamitas>(), 604 }
 			};
 
 			public static SortedDictionary<int, int> MasterContactDamage = new SortedDictionary<int, int>
@@ -775,7 +1000,7 @@ namespace CalamityMod
 				{ NPCID.Spore, 189 },
 
 				{ ModContent.NPCType<Leviathan>(), 280 },
-				{ ModContent.NPCType<Siren>(), 190 },
+				{ ModContent.NPCType<Siren>(), 190 }, // 285 during charge
 				{ ModContent.NPCType<SirenIce>(), 160 },
 				{ NPCID.DetonatingBubble, 225 },
 				{ ModContent.NPCType<AquaticAberration>(), 160 },
@@ -818,6 +1043,49 @@ namespace CalamityMod
 				{ ModContent.NPCType<AstrumDeusHeadSpectral>(), 400 },
 				{ ModContent.NPCType<AstrumDeusBodySpectral>(), 260 },
 				{ ModContent.NPCType<AstrumDeusTailSpectral>(), 220 },
+
+				{ ModContent.NPCType<ProfanedGuardianBoss>(), 360 },
+				{ ModContent.NPCType<ProfanedGuardianBoss2>(), 300 },
+				{ ModContent.NPCType<ProfanedGuardianBoss3>(), 240 },
+
+				{ ModContent.NPCType<Bumblefuck>(), 400 },
+				{ ModContent.NPCType<Bumblefuck2>(), 350 },
+
+				{ ModContent.NPCType<ProvSpawnOffense>(), 380 },
+				{ ModContent.NPCType<ProvSpawnDefense>(), 320 },
+
+				{ ModContent.NPCType<CeaselessVoid>(), 480 },
+				{ ModContent.NPCType<DarkEnergy>(), 420 }, // All 3 types deal the same damage
+
+				{ ModContent.NPCType<StormWeaverHead>(), 450 },
+				{ ModContent.NPCType<StormWeaverBody>(), 300 },
+				{ ModContent.NPCType<StormWeaverTail>(), 240 },
+				{ ModContent.NPCType<StormWeaverHeadNaked>(), 550 },
+				{ ModContent.NPCType<StormWeaverBodyNaked>(), 340 },
+				{ ModContent.NPCType<StormWeaverTailNaked>(), 280 },
+
+				{ ModContent.NPCType<Signus>(), 470 },
+				{ ModContent.NPCType<CosmicLantern>(), 350 },
+				{ ModContent.NPCType<SignusBomb>(), 440 },
+
+				{ ModContent.NPCType<Polterghast>(), 380 }, // 450 in phase 2, 520 in phase 3
+				{ ModContent.NPCType<PolterPhantom>(), 520 },
+
+				{ ModContent.NPCType<DevourerofGodsHead>(), 650 },
+				{ ModContent.NPCType<DevourerofGodsBody>(), 480 },
+				{ ModContent.NPCType<DevourerofGodsTail>(), 400 },
+				{ ModContent.NPCType<DevourerofGodsHeadS>(), 750 }, // Instant death
+				{ ModContent.NPCType<DevourerofGodsBodyS>(), 570 },
+				{ ModContent.NPCType<DevourerofGodsTailS>(), 490 },
+				{ ModContent.NPCType<DevourerofGodsHead2>(), 540 },
+				{ ModContent.NPCType<DevourerofGodsBody2>(), 440 },
+				{ ModContent.NPCType<DevourerofGodsTail2>(), 340 },
+
+				{ ModContent.NPCType<Yharon>(), 700 },
+				{ ModContent.NPCType<DetonatingFlare>(), 320 },
+				{ ModContent.NPCType<DetonatingFlare2>(), 550 },
+
+				{ ModContent.NPCType<SupremeCalamitas>(), 750 }
 			};
 		};
     }
