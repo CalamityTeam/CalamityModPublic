@@ -147,6 +147,9 @@ namespace CalamityMod
                         if (Main.netMode != NetmodeID.MultiplayerClient)
                             NPC.NewNPC(x, y, ModContent.NPCType<SuperDummyNPC>());
                         break;
+                    case CalamityModMessageType.PowerCellFactory:
+                        TEPowerCellFactory.ReadSyncPacket(reader);
+                        break;
                     case CalamityModMessageType.DraedonChargerSync:
                         int entityID = reader.ReadInt32();
                         (TileEntity.ByID[entityID] as TEDraedonItemCharger).FuelItem.type = reader.ReadInt32();
@@ -249,6 +252,7 @@ namespace CalamityMod
         SyncCalamityNPCAIArray,
         ProvidenceDyeConditionSync, // We shouldn't fucking need this. Die in a hole, Multiplayer.
         PSCChallengeSync, // See above
+        PowerCellFactory,
         DraedonChargerSync,
         DraedonFieldGeneratorSync
     }

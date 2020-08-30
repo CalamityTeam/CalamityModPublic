@@ -3,6 +3,7 @@ using CalamityMod.Tiles;
 using System.IO;
 using System.Reflection;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
@@ -19,9 +20,7 @@ namespace CalamityMod.TileEntities
 			set
 			{
 				_stack = value;
-				// Sends a vanilla Tile Entity sync packet every time the number of cells in this Cell Factory changes.
-				// This will be hijacked by vanilla NetSend and NetReceive to send the necessary data.
-				NetMessage.SendData(MessageID.TileEntitySharing, -1, -1, null, ID, Position.X, Position.Y);
+				SendSyncPacket();
 			}
 		}
 
@@ -146,6 +145,38 @@ namespace CalamityMod.TileEntities
 		{
 			Time = reader.ReadInt64();
 			_stack = reader.ReadInt16();
+		}
+
+		private void SendSyncPacket()
+		{
+			if (Main.netMode == NetmodeID.SinglePlayer)
+				return;
+			var netMessage = mod.GetPacket();
+			netMessage.Write((byte)CalamityModMessageType.PowerCellFactory);
+			netMessage.Write(ID);
+			netMessage.Write(Time);
+			netMessage.Write(_stack);
+			netMessage.Send();
+		}
+
+		internal static bool ReadSyncPacket(BinaryReader reader)
+		{
+			int teID = reader.ReadInt32();
+			bool exists = ByID.TryGetValue(teID, out TileEntity te);
+
+			// The rest of the packet must be read even if it turns out the factory doesn't exist for whatever reason.
+			long time = reader.ReadInt64();
+			short cellStack = reader.ReadInt16();
+
+			if (exists && te is TEPowerCellFactory factory)
+			{
+				// Only clients update their timer from this packet. When a server receives this packet it ignores the time variable.
+				if (Main.netMode == NetmodeID.MultiplayerClient)
+					factory.Time = time;
+				factory._stack = cellStack;
+				return true;
+			}
+			return false;
 		}
 	}
 }

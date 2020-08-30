@@ -127,6 +127,8 @@ namespace CalamityMod.Tiles
                 Main.editChest = false;
                 Main.npcChatText = "";
             }
+            if (player.chest >= 0)
+                player.chest = -1;
 
             CalamityPlayer mp = player.Calamity();
             TEPowerCellFactory viewedFactory = mp.CurrentlyViewedFactory;

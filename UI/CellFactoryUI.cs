@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.UI.Chat;
 
@@ -12,7 +13,10 @@ namespace CalamityMod.UI
 {
     public class CellFactoryUI
     {
+        public const float MaxPlayerDistance = 160f;
         public const float IconScale = 0.7f;
+        private const int GuiWidth = 39;
+        private const int GuiHeight = 39;
 
         public static void Draw(SpriteBatch spriteBatch)
         {
@@ -24,19 +28,29 @@ namespace CalamityMod.UI
             if (factory is null)
                 return;
 
-            // If the player has a chest open, immediately destroy this UI.
-            if (p.chest != -1)
+            // If the player's inventory isn't open, or they have a chest open, immediately destroy this UI.
+            if (!Main.playerInventory || p.chest != -1)
             {
                 mp.CurrentlyViewedFactory = null;
                 return;
             }
 
-            // What item is currently in the GUI slot? It's normally nothing, but it could be power cells.
+            // If the player is too far away from their viewed factory, immediately destroy this UI and play the menu close sound.
+            Vector2 factoryWorldCenter = factory.Position.ToWorldCoordinates(32f, 32f);
+            if (Vector2.DistanceSquared(p.Center, factoryWorldCenter) > MaxPlayerDistance * MaxPlayerDistance)
+            {
+                Main.PlaySound(SoundID.MenuClose);
+                mp.CurrentlyViewedFactory = null;
+                return;
+            }
+
+            // What item is currently in the UI item slot? It's normally nothing, but it could be power cells.
+            int powercellID = ModContent.ItemType<PowerCell>();
             Item powercell = new Item();
             powercell.TurnToAir();
             if (factory.CellStack > 0)
             {
-                powercell.SetDefaults(ModContent.ItemType<PowerCell>());
+                powercell.SetDefaults(powercellID);
                 powercell.stack = factory.CellStack;
             }
 
@@ -45,34 +59,52 @@ namespace CalamityMod.UI
             // Draw the factory's stored item as an inventory slot.
             DrawItemSlot(spriteBatch, ref powercell, position + new Vector2(16f, -34f) - Main.screenPosition);
 
-            int width = 39, height = 39;
+            int width = GuiWidth, height = GuiHeight;
 
             Rectangle mouseRectangle = new Rectangle((int)Main.MouseWorld.X, (int)Main.MouseWorld.Y, 2, 2);
             Rectangle drawnItemRectangle = new Rectangle((int)position.X, (int)position.Y - 60, width, height);
 
+            // If the player's cursor is over the slot and there are power cells, then interaction with the UI is possible.
             if (mouseRectangle.Intersects(drawnItemRectangle) && powercell.stack > 0)
             {
                 Main.HoverItem.SetDefaults(powercell.type);
 
                 // If the slot is clicked, try to grab cells from the factory using both "current items" that a player can have.
                 int cellsGrabbed = 0;
+                bool shiftClicked = false;
                 if (Main.mouseLeft)
                 {
-                    cellsGrabbed = TryGrabCell(ref Main.mouseItem, ref powercell);
-                    if (cellsGrabbed == 0)
-                        cellsGrabbed = TryGrabCell(ref p.inventory[Main.LocalPlayer.selectedItem], ref powercell);
+                    // If the player is holding shift and has space for the power cells, just spawn all of them on his or her face.
+                    if (Main.keyState.PressingShift() && p.ItemSpace(powercell))
+                    {
+                        cellsGrabbed = powercell.stack;
+                        shiftClicked = true;
+                        DropHelper.DropItem(p, powercellID, cellsGrabbed);
+                    }
+                    else
+                    {
+                        cellsGrabbed = TryGrabCell(ref Main.mouseItem, ref powercell);
+                        if (cellsGrabbed == 0)
+                            cellsGrabbed = TryGrabCell(ref p.inventory[Main.LocalPlayer.selectedItem], ref powercell);
+                    }
                 }
 
                 // If any cells were actually grabbed, take them from the factory's stockpile.
                 // Using the CellStack property setter automatically sends the correct packet to update the entity server side.
                 if (cellsGrabbed > 0)
+                {
                     factory.CellStack -= (short)cellsGrabbed;
+
+                    // Play a sound, but ONLY if the player didn't shift click.
+                    // If they did, they're going to hear the item be picked up in a few frames anyway because it spawned on their face.
+                    if (!shiftClicked)
+                        Main.PlaySound(SoundID.Grab);
+                }
 
                 // Since HoverItem is active, we don't need to input anything into this method.
                 Main.instance.MouseTextHackZoom("");
 
-                // Block mouse input if hovering over the item UI and not holding a pickaxe.
-                // TODO -- why is this necessary?
+                // Specifically do not block mouse input if holding a pickaxe, so that you can mine blocks behind the UI.
                 Main.blockMouse = Main.LocalPlayer.ActiveItem().pick <= 0;
             }
         }
