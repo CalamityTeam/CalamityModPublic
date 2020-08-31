@@ -17,7 +17,6 @@ namespace CalamityMod.Items.Fishing.FishingRods
 
         public override void SetDefaults()
         {
-			//item.CloneDefaults(2289); //Wooden Fishing Pole
 			item.width = 24;
 			item.height = 28;
 			item.useAnimation = 8;
