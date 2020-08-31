@@ -56,42 +56,8 @@ namespace CalamityMod.Projectiles.Ranged
             }
         }
 
-        public override Color? GetAlpha(Color lightColor)
-        {
-            return new Color(53, Main.DiscoG, 255, projectile.alpha);
-        }
+        public override Color? GetAlpha(Color lightColor) => new Color(53, Main.DiscoG, 255, projectile.alpha);
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
-        {
-            Color color25 = Lighting.GetColor((int)((double)projectile.position.X + (double)projectile.width * 0.5) / 16, (int)(((double)projectile.position.Y + (double)projectile.height * 0.5) / 16.0));
-            int num147 = 0;
-            int num148 = 0;
-            float num149 = (float)(Main.projectileTexture[projectile.type].Width - projectile.width) * 0.5f + (float)projectile.width * 0.5f;
-            SpriteEffects spriteEffects = SpriteEffects.None;
-            if (projectile.spriteDirection == -1)
-            {
-                spriteEffects = SpriteEffects.FlipHorizontally;
-            }
-            Rectangle value6 = new Rectangle((int)Main.screenPosition.X - 500, (int)Main.screenPosition.Y - 500, Main.screenWidth + 1000, Main.screenHeight + 1000);
-            if (projectile.getRect().Intersects(value6))
-            {
-                Vector2 value7 = new Vector2(projectile.position.X - Main.screenPosition.X + num149 + (float)num148, projectile.position.Y - Main.screenPosition.Y + (float)(projectile.height / 2) + projectile.gfxOffY);
-                float num162 = 40f;
-                float scaleFactor = 1.5f;
-                if (projectile.ai[1] == 1f)
-                {
-                    num162 = (float)(int)projectile.localAI[0];
-                }
-                for (int num163 = 1; num163 <= (int)projectile.localAI[0]; num163++)
-                {
-                    Vector2 value8 = Vector2.Normalize(projectile.velocity) * (float)num163 * scaleFactor;
-                    Color color29 = projectile.GetAlpha(color25);
-                    color29 *= (num162 - (float)num163) / num162;
-                    color29.A = 0;
-                    Main.spriteBatch.Draw(Main.projectileTexture[projectile.type], value7 - value8, null, color29, projectile.rotation, new Vector2(num149, (float)(projectile.height / 2 + num147)), projectile.scale, spriteEffects, 0f);
-                }
-            }
-            return false;
-        }
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor) => projectile.DrawBeam(40f, 1.5f, lightColor);
     }
 }
