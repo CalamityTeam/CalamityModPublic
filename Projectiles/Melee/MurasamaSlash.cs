@@ -42,7 +42,7 @@ namespace CalamityMod.Projectiles.Melee
 			projectile.melee = true;
 			projectile.ownerHitCheck = true;
 			projectile.usesIDStaticNPCImmunity = true;
-			projectile.idStaticNPCHitCooldown = 42;
+			projectile.idStaticNPCHitCooldown = 21;
 			//projectile.Calamity().trueMelee = true;
 		}
 
