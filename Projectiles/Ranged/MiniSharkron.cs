@@ -24,7 +24,7 @@ namespace CalamityMod.Projectiles.Ranged
 			projectile.ranged = true;
 		}
 
-		/*public override void Kill(int timeLeft)
+		public override void Kill(int timeLeft)
 		{
 			for (int d = 0; d < 15; ++d)
 			{
@@ -38,6 +38,6 @@ namespace CalamityMod.Projectiles.Ranged
 			Main.gore[body].timeLeft /= 10;
 			int head = Gore.NewGore(projectile.Center, projectile.velocity * 1f, 586, 1f);
 			Main.gore[head].timeLeft /= 10;
-		}*/
+		}
 	}
 }
