@@ -235,6 +235,13 @@ namespace CalamityMod.CalPlayer
         public int danceOfLightCharge = 0;
         public int shadowPotCooldown = 0;
         public int dogTextCooldown = 0;
+		public int fungalSymbioteTimer = 0;
+		public bool canFireReaverRangedProjectile = false;
+		public bool canFireAtaxiaRangedProjectile = false;
+		public bool canFireAtaxiaRogueProjectile = false;
+		public bool canFireGodSlayerRangedProjectile = false;
+		public bool canFireBloodflareMageProjectile = false;
+		public bool canFireBloodflareRangedProjectile = false;
         #endregion
 
         #region Sound
@@ -2037,6 +2044,7 @@ namespace CalamityMod.CalPlayer
             soundCooldown = 0;
             shadowPotCooldown = 0;
 			dogTextCooldown = 0;
+			fungalSymbioteTimer = 0;
             rage = 0;
             adrenaline = 0;
             raiderStack = 0;
@@ -4494,15 +4502,16 @@ namespace CalamityMod.CalPlayer
             }
             if (item.melee)
             {
-                if (fungalSymbiote && player.whoAmI == Main.myPlayer)
+                if (fungalSymbiote && player.whoAmI == Main.myPlayer && fungalSymbioteTimer == 0)
                 {
-                    if (player.itemAnimation == (int)(player.itemAnimationMax * 0.1) ||
+					if (player.itemAnimation == (int)(player.itemAnimationMax * 0.1) ||
                         player.itemAnimation == (int)(player.itemAnimationMax * 0.3) ||
                         player.itemAnimation == (int)(player.itemAnimationMax * 0.5) ||
                         player.itemAnimation == (int)(player.itemAnimationMax * 0.7) ||
                         player.itemAnimation == (int)(player.itemAnimationMax * 0.9))
                     {
-                        float yVel = 0f;
+						fungalSymbioteTimer = 3;
+						float yVel = 0f;
                         float xVel = 0f;
                         float yOffset = 0f;
                         float xOffset = 0f;
@@ -5408,7 +5417,7 @@ namespace CalamityMod.CalPlayer
                     {
                         if (player.ownedProjectileCounts[ModContent.ProjectileType<ChaosGeyser>()] < 3)
                         {
-                            Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<ChaosGeyser>(), (int)(damage * 0.15), 2f, player.whoAmI, 0f, 0f);
+                            Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<ChaosGeyser>(), CalamityUtils.DamageSoftCap(damage * 0.15, 45), 2f, player.whoAmI, 0f, 0f);
                         }
                     }
 				}
@@ -5417,7 +5426,7 @@ namespace CalamityMod.CalPlayer
 					for (int s = 0; s < 3; s++)
 					{
 						Vector2 velocity = CalamityUtils.RandomVelocity(50f, 30f, 60f);
-						Projectile.NewProjectile(target.Center, velocity, ModContent.ProjectileType<UnstableSpark>(), (int)(damage * 0.15), 0f, player.whoAmI);
+						Projectile.NewProjectile(target.Center, velocity, ModContent.ProjectileType<UnstableSpark>(), CalamityUtils.DamageSoftCap(damage * 0.15, 30), 0f, player.whoAmI);
 					}
 				}
                 if (astralStarRain && crit && astralStarRainCooldown <= 0)
@@ -5835,7 +5844,7 @@ namespace CalamityMod.CalPlayer
                     for (int s = 0; s < 3; s++)
                     {
 						Vector2 velocity = CalamityUtils.RandomVelocity(50f, 30f, 60f);
-                        Projectile.NewProjectile(target.Center, velocity, ModContent.ProjectileType<UnstableSpark>(), (int)(damage * 0.15), 0f, player.whoAmI);
+                        Projectile.NewProjectile(target.Center, velocity, ModContent.ProjectileType<UnstableSpark>(), CalamityUtils.DamageSoftCap(damage * 0.15, 30), 0f, player.whoAmI);
                     }
                 }
                 if (electricianGlove && proj.Calamity().stealthStrike && proj.Calamity().rogue && proj.Calamity().stealthStrikeHitCount < 5)
@@ -5843,7 +5852,7 @@ namespace CalamityMod.CalPlayer
                     for (int s = 0; s < 3; s++)
                     {
 						Vector2 velocity = CalamityUtils.RandomVelocity(50f, 30f, 60f);
-                        int spark = Projectile.NewProjectile(target.Center, velocity, ModContent.ProjectileType<Spark>(), (int)(damage * 0.1), 0f, player.whoAmI);
+                        int spark = Projectile.NewProjectile(target.Center, velocity, ModContent.ProjectileType<Spark>(), CalamityUtils.DamageSoftCap(damage * 0.1, 30), 0f, player.whoAmI);
                         Main.projectile[spark].Calamity().forceRogue = true;
                         Main.projectile[spark].localNPCHitCooldown = -1;
                     }
@@ -5868,7 +5877,7 @@ namespace CalamityMod.CalPlayer
                     for (int l = 0; l < leafAmt; l++)
                     {
 						Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
-                        int FUCKYOU = Projectile.NewProjectile(target.Center, velocity, ProjectileID.Leaf, (int)(damage * 0.25), 0f, player.whoAmI);
+                        int FUCKYOU = Projectile.NewProjectile(target.Center, velocity, ProjectileID.Leaf, CalamityUtils.DamageSoftCap(damage * 0.25, 60), 0f, player.whoAmI);
                         Main.projectile[FUCKYOU].Calamity().forceTypeless = true;
                         Main.projectile[FUCKYOU].netUpdate = true;
                     }
@@ -5902,7 +5911,7 @@ namespace CalamityMod.CalPlayer
                     for (int i = 0; i < 3; i++)
                     {
 						Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
-                        int fire = Projectile.NewProjectile(target.Center, velocity, ProjectileID.BallofFire, (int)(damage * 0.5), 0f, player.whoAmI);
+                        int fire = Projectile.NewProjectile(target.Center, velocity, ProjectileID.BallofFire, CalamityUtils.DamageSoftCap(damage * 0.5, 120), 0f, player.whoAmI);
                         Main.projectile[fire].Calamity().forceTypeless = true;
                         Main.projectile[fire].netUpdate = true;
                     }

@@ -22,6 +22,7 @@ namespace CalamityMod.NPCs.Ravager
             npc.width = 60;
             npc.height = 300;
 			npc.DR_NERD(0.5f);
+			npc.chaseable = false;
 			npc.lifeMax = CalamityWorld.downedProvidence ? 35000 : 5000;
             npc.alpha = 255;
             npc.aiStyle = -1;

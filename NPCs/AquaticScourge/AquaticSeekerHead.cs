@@ -30,10 +30,6 @@ namespace CalamityMod.NPCs.AquaticScourge
             npc.height = 28;
             npc.defense = 5;
             npc.lifeMax = Main.hardMode ? 500 : 60;
-            if (BossRushEvent.BossRushActive)
-            {
-                npc.lifeMax = 60000;
-            }
             npc.aiStyle = -1;
             aiType = -1;
             for (int k = 0; k < npc.buffImmune.Length; k++)

@@ -21,7 +21,7 @@ namespace CalamityMod.NPCs.Ravager
         {
             npc.lavaImmune = true;
             npc.aiStyle = -1;
-            npc.damage = 88;
+            npc.damage = 80;
             npc.width = 80;
             npc.height = 40;
             npc.defense = 40;

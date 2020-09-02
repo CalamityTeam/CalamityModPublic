@@ -65,7 +65,6 @@ namespace CalamityMod.Projectiles
         public int ironHeartDamage = 0;
 
         // Counters and Timers
-        private int counter = 0;
 		public int stealthStrikeHitCount = 0;
 
         public int lineColor = 0; //Note: Although this was intended for fishing line colors, I use this as an AI variable a lot because vanilla only has 4 that sometimes are already in use.  ~Ben
@@ -934,7 +933,7 @@ namespace CalamityMod.Projectiles
 					if (homeInVector.HasNaNs())
 						homeInVector = Vector2.UnitY;
 
-					projectile.velocity = (projectile.velocity * 20f + homeInVector * 15f) / (21f);
+					projectile.velocity = (projectile.velocity * 20f + homeInVector * 15f) / 21f;
 				}
 			}
 
@@ -942,14 +941,14 @@ namespace CalamityMod.Projectiles
 			{
 				if (modPlayer.eQuiver && projectile.ranged && CalamityLists.rangedProjectileExceptionList.TrueForAll(x => projectile.type != x))
 				{
-					if (Main.rand.Next(200) > 198)
+					if (Main.player[projectile.owner].miscCounter % 60 == 0)
 					{
 						float spread = 180f * 0.0174f;
 						double startAngle = Math.Atan2(projectile.velocity.X, projectile.velocity.Y) - spread / 2;
-						if (projectile.owner == Main.myPlayer)
+						if (projectile.owner == Main.myPlayer && player.ownedProjectileCounts[projectile.type] < 50)
 						{
-							int projectile1 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(startAngle) * 8f), (float)(Math.Cos(startAngle) * 8f), projectile.type, (int)(projectile.damage * 0.5), projectile.knockBack, projectile.owner, 0f, 0f);
-							int projectile2 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(startAngle) * 8f), (float)(-Math.Cos(startAngle) * 8f), projectile.type, (int)(projectile.damage * 0.5), projectile.knockBack, projectile.owner, 0f, 0f);
+							int projectile1 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(startAngle) * 8f), (float)(Math.Cos(startAngle) * 8f), projectile.type, CalamityUtils.DamageSoftCap(projectile.damage * 0.15, 150), projectile.knockBack, projectile.owner, 0f, 0f);
+							int projectile2 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(startAngle) * 8f), (float)(-Math.Cos(startAngle) * 8f), projectile.type, CalamityUtils.DamageSoftCap(projectile.damage * 0.15, 150), projectile.knockBack, projectile.owner, 0f, 0f);
 							Main.projectile[projectile1].ranged = false;
 							Main.projectile[projectile2].ranged = false;
 							Main.projectile[projectile1].timeLeft = 60;
@@ -960,10 +959,9 @@ namespace CalamityMod.Projectiles
 					}
 				}
 
-				counter++;
 				if (modPlayer.fungalSymbiote && trueMelee)
 				{
-					if (counter % 6 == 0)
+					if (Main.player[projectile.owner].miscCounter % 6 == 0)
 					{
 						if (projectile.owner == Main.myPlayer && player.ownedProjectileCounts[ProjectileID.Mushroom] < 30)
 						{
@@ -983,12 +981,12 @@ namespace CalamityMod.Projectiles
 								vector24 -= new Vector2(player.bodyFrame.Width - player.width, player.bodyFrame.Height - 42) / 2f;
 								Vector2 newCenter = player.RotatedRelativePoint(player.position + vector24, true) + projectile.velocity;
 								Projectile.NewProjectile(newCenter.X, newCenter.Y, 0f, 0f, ProjectileID.Mushroom,
-									(int)(projectile.damage * 0.25), 0f, projectile.owner, 0f, 0f);
+									CalamityUtils.DamageSoftCap(projectile.damage * 0.25, 100), 0f, projectile.owner, 0f, 0f);
 							}
 							else
 							{
 								Projectile.NewProjectile(projectile.Center, Vector2.Zero, ProjectileID.Mushroom,
-									(int)(projectile.damage * 0.25), 0f, projectile.owner, 0f, 0f);
+									CalamityUtils.DamageSoftCap(projectile.damage * 0.25, 100), 0f, projectile.owner, 0f, 0f);
 							}
 						}
 					}
@@ -998,47 +996,47 @@ namespace CalamityMod.Projectiles
 				{
 					if (modPlayer.nanotech && rogue && projectile.type != ProjectileType<MoonSigil>() && projectile.type != ProjectileType<DragonShit>())
 					{
-						if (counter % 30 == 0)
+						if (Main.player[projectile.owner].miscCounter % 30 == 0)
 						{
 							if (projectile.owner == Main.myPlayer && player.ownedProjectileCounts[ProjectileType<Nanotech>()] < 25)
 							{
 								Projectile.NewProjectile(projectile.Center, Vector2.Zero, ProjectileType<Nanotech>(),
-									(int)(projectile.damage * 0.1), 0f, projectile.owner, 0f, 0f);
+									CalamityUtils.DamageSoftCap(projectile.damage * 0.15, 150), 0f, projectile.owner, 0f, 0f);
 							}
 						}
 					}
 					// Moon Crown gets overridden by Nanotech
 					else if (modPlayer.moonCrown)
 					{
-						//Summon moon sigils infrequently
+						// Summon moon sigils infrequently
 						if (Main.rand.NextBool(300) && projectile.type != ProjectileType<MoonSigil>() && projectile.type != ProjectileType<DragonShit>())
 						{
-							Projectile.NewProjectile(projectile.Center, Vector2.Zero, ProjectileType<MoonSigil>(), (int)(projectile.damage * 0.2), 0, projectile.owner);
+							Projectile.NewProjectile(projectile.Center, Vector2.Zero, ProjectileType<MoonSigil>(), CalamityUtils.DamageSoftCap(projectile.damage * 0.2, 75), 0, projectile.owner);
 						}
 					}
 					if (modPlayer.dragonScales && projectile.type != ProjectileType<MoonSigil>() && projectile.type != ProjectileType<DragonShit>())
 					{
-						if (counter % 50 == 0)
+						if (Main.player[projectile.owner].miscCounter % 50 == 0)
 						{
 							if (projectile.owner == Main.myPlayer && player.ownedProjectileCounts[ProjectileType<DragonShit>()] < 15)
 							{
-								//spawn a dust that does 1/5th of the original damage
-								int projectileID = Projectile.NewProjectile(projectile.Center, Vector2.One.RotatedByRandom(MathHelper.TwoPi), ProjectileType<DragonShit>(),
-									(int)(projectile.damage * 0.2), 0f, projectile.owner, 0f, 0f);
+								// Spawn a dust that does 1/5th of the original damage
+								Projectile.NewProjectile(projectile.Center, Vector2.One.RotatedByRandom(MathHelper.TwoPi), ProjectileType<DragonShit>(),
+									CalamityUtils.DamageSoftCap(projectile.damage * 0.2, 300), 0f, projectile.owner, 0f, 0f);
 							}
 						}
 					}
 
 					if (modPlayer.daedalusSplit)
 					{
-						if (counter % 30 == 0)
+						if (Main.player[projectile.owner].miscCounter % 30 == 0)
 						{
 							if (projectile.owner == Main.myPlayer && player.ownedProjectileCounts[ProjectileID.CrystalShard] < 30)
 							{
 								for (int i = 0; i < 2; i++)
 								{
 									Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
-									int shard = Projectile.NewProjectile(projectile.Center, velocity, ProjectileID.CrystalShard, (int)(projectile.damage * 0.25), 0f, projectile.owner, 0f, 0f);
+									int shard = Projectile.NewProjectile(projectile.Center, velocity, ProjectileID.CrystalShard, CalamityUtils.DamageSoftCap(projectile.damage * 0.25, 30), 0f, projectile.owner, 0f, 0f);
 									Main.projectile[shard].Calamity().forceTypeless = true;
 								}
 							}

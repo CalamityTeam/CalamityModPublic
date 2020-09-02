@@ -1203,7 +1203,7 @@ namespace CalamityMod
 
 		public static int DamageSoftCap(double dmgInput, int cap)
 		{
-			int newDamage = (int)(dmgInput);
+			int newDamage = (int)dmgInput;
 			if (newDamage > cap)
 			{
 				newDamage = (int)((dmgInput - cap) * 0.1) + cap;

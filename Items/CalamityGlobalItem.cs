@@ -242,23 +242,23 @@ namespace CalamityMod.Items
                 // useTime 9 = 0.9 useTime 2 = 0.2
                 double damageMult = 1.0;
                 if (item.useTime < 10)
-                    damageMult -= (double)(10 - item.useTime) / 10.0;
+                    damageMult -= (10 - item.useTime) / 10.0;
 
                 double newDamage = damage * damageMult;
 
                 if (player.whoAmI == Main.myPlayer)
                 {
                     if (item.melee)
-                        Projectile.NewProjectile(position.X, position.Y, speedX * 0.5f, speedY * 0.5f, ModContent.ProjectileType<LuxorsGiftMelee>(), (int)(newDamage * 0.6), 0f, player.whoAmI, 0f, 0f);
+                        Projectile.NewProjectile(position, new Vector2(speedX, speedY) * 0.5f, ModContent.ProjectileType<LuxorsGiftMelee>(), CalamityUtils.DamageSoftCap(newDamage * 0.6, 60), 0f, player.whoAmI, 0f, 0f);
 
                     else if (rogue)
-                        Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<LuxorsGiftRogue>(), (int)(newDamage * 0.5), 0f, player.whoAmI, 0f, 0f);
+                        Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<LuxorsGiftRogue>(), CalamityUtils.DamageSoftCap(newDamage * 0.5, 50), 0f, player.whoAmI, 0f, 0f);
 
                     else if (item.ranged)
-                        Projectile.NewProjectile(position.X, position.Y, speedX * 1.5f, speedY * 1.5f, ModContent.ProjectileType<LuxorsGiftRanged>(), (int)(newDamage * 0.4), 0f, player.whoAmI, 0f, 0f);
+                        Projectile.NewProjectile(position, new Vector2(speedX, speedY) * 1.5f, ModContent.ProjectileType<LuxorsGiftRanged>(), CalamityUtils.DamageSoftCap(newDamage * 0.4, 40), 0f, player.whoAmI, 0f, 0f);
 
                     else if (item.magic)
-                        Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<LuxorsGiftMagic>(), (int)(newDamage * 0.8), 0f, player.whoAmI, 0f, 0f);
+                        Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<LuxorsGiftMagic>(), CalamityUtils.DamageSoftCap(newDamage * 0.8, 80), 0f, player.whoAmI, 0f, 0f);
 
                     else if (item.summon && player.ownedProjectileCounts[ModContent.ProjectileType<LuxorsGiftSummon>()] < 1)
                         Projectile.NewProjectile(position, Vector2.Zero, ModContent.ProjectileType<LuxorsGiftSummon>(), damage, 0f, player.whoAmI, 0f, 0f);
@@ -269,23 +269,25 @@ namespace CalamityMod.Items
                 speedX *= 1.25f;
                 speedY *= 1.25f;
             }
-            if (modPlayer.bloodflareMage) //0 - 99
+            if (modPlayer.bloodflareMage && modPlayer.canFireBloodflareMageProjectile)
             {
-                if (item.magic && Main.rand.Next(0, 100) >= 95)
+                if (item.magic)
                 {
-                    if (player.whoAmI == Main.myPlayer)
+					modPlayer.canFireBloodflareMageProjectile = false;
+					if (player.whoAmI == Main.myPlayer)
                     {
-                        Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<GhostlyBolt>(), (int)(damage * (modPlayer.auricSet ? 4.2 : 2.6)), 1f, player.whoAmI, 0f, 0f);
+                        Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<GhostlyBolt>(), CalamityUtils.DamageSoftCap(damage * 1.3, 250), 1f, player.whoAmI, 0f, 0f);
                     }
                 }
             }
-            if (modPlayer.bloodflareRanged) //0 - 99
+            if (modPlayer.bloodflareRanged && modPlayer.canFireBloodflareRangedProjectile)
             {
-                if (item.ranged && Main.rand.Next(0, 100) >= 98)
+                if (item.ranged)
                 {
-                    if (player.whoAmI == Main.myPlayer)
+					modPlayer.canFireBloodflareRangedProjectile = false;
+					if (player.whoAmI == Main.myPlayer)
                     {
-                        Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<BloodBomb>(), (int)(damage * (modPlayer.auricSet ? 2.2 : 1.6)), 2f, player.whoAmI, 0f, 0f);
+                        Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<BloodBomb>(), CalamityUtils.DamageSoftCap(damage * 0.8, 150), 2f, player.whoAmI, 0f, 0f);
                     }
                 }
             }
@@ -297,42 +299,45 @@ namespace CalamityMod.Items
                     int num106 = 9 + Main.rand.Next(3);
                     for (int num107 = 0; num107 < num106; num107++)
                     {
-                        float num110 = 0.025f * (float)num107;
-                        float hardar = speedX + (float)Main.rand.Next(-25, 26) * num110;
-                        float hordor = speedY + (float)Main.rand.Next(-25, 26) * num110;
-                        float num84 = (float)Math.Sqrt((double)(speedX * speedX + speedY * speedY));
+                        float num110 = 0.025f * num107;
+                        float hardar = speedX + Main.rand.Next(-25, 26) * num110;
+                        float hordor = speedY + Main.rand.Next(-25, 26) * num110;
+                        float num84 = (float)Math.Sqrt(speedX * speedX + speedY * speedY);
                         num84 = item.shootSpeed / num84;
                         hardar *= num84;
                         hordor *= num84;
-                        Projectile.NewProjectile(position.X, position.Y, hardar, hordor, ProjectileID.Leaf, (int)(damage * 0.2), knockBack, player.whoAmI, 0f, 0f);
+                        Projectile.NewProjectile(position, new Vector2(hardar, hordor), ProjectileID.Leaf, CalamityUtils.DamageSoftCap(damage * 0.2, 50), knockBack, player.whoAmI, 0f, 0f);
                     }
                 }
             }
-            if (modPlayer.ataxiaBolt)
+            if (modPlayer.ataxiaBolt && modPlayer.canFireAtaxiaRangedProjectile)
             {
-                if (item.ranged && Main.rand.NextBool(2))
+                if (item.ranged)
                 {
+					modPlayer.canFireAtaxiaRangedProjectile = false;
                     if (player.whoAmI == Main.myPlayer)
                     {
-                        Projectile.NewProjectile(position.X, position.Y, speedX * 1.25f, speedY * 1.25f, ModContent.ProjectileType<ChaosFlare>(), (int)(damage * 0.25), 2f, player.whoAmI, 0f, 0f);
+                        Projectile.NewProjectile(position, new Vector2(speedX, speedY) * 1.25f, ModContent.ProjectileType<ChaosFlare>(), CalamityUtils.DamageSoftCap(damage * 0.25, 50), 2f, player.whoAmI, 0f, 0f);
                     }
                 }
             }
-            if (modPlayer.godSlayerRanged) //0 - 99
+            if (modPlayer.godSlayerRanged && modPlayer.canFireGodSlayerRangedProjectile)
             {
-                if (item.ranged && Main.rand.Next(0, 100) >= 95)
+                if (item.ranged)
                 {
-                    if (player.whoAmI == Main.myPlayer)
+					modPlayer.canFireGodSlayerRangedProjectile = false;
+					if (player.whoAmI == Main.myPlayer)
                     {
-                        Projectile.NewProjectile(position.X, position.Y, speedX * 1.25f, speedY * 1.25f, ModContent.ProjectileType<GodSlayerShrapnelRound>(), (int)(damage * (modPlayer.auricSet ? 3.2 : 2.1)), 2f, player.whoAmI, 0f, 0f);
+                        Projectile.NewProjectile(position, new Vector2(speedX, speedY) * 1.25f, ModContent.ProjectileType<GodSlayerShrapnelRound>(), CalamityUtils.DamageSoftCap(damage, 200), 2f, player.whoAmI, 0f, 0f);
                     }
                 }
             }
-            if (modPlayer.ataxiaVolley)
+            if (modPlayer.ataxiaVolley && modPlayer.canFireAtaxiaRogueProjectile)
             {
-                if (rogue && Main.rand.NextBool(10))
+                if (rogue)
                 {
-                    if (player.whoAmI == Main.myPlayer)
+					modPlayer.canFireAtaxiaRogueProjectile = false;
+					if (player.whoAmI == Main.myPlayer)
                     {
                         Main.PlaySound(SoundID.Item20, (int)player.position.X, (int)player.position.Y);
                         float spread = 45f * 0.0174f;
@@ -344,19 +349,20 @@ namespace CalamityMod.Items
                         {
                             Vector2 vector2 = new Vector2(player.Center.X, player.Center.Y);
                             offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-                            Projectile.NewProjectile(vector2.X, vector2.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<ChaosFlare2>(), (int)(damage * 0.5), 1.25f, player.whoAmI, 0f, 0f);
-                            Projectile.NewProjectile(vector2.X, vector2.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<ChaosFlare2>(), (int)(damage * 0.5), 1.25f, player.whoAmI, 0f, 0f);
+                            Projectile.NewProjectile(vector2.X, vector2.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<ChaosFlare2>(), CalamityUtils.DamageSoftCap(damage * 0.5, 100), 1f, player.whoAmI, 0f, 0f);
+                            Projectile.NewProjectile(vector2.X, vector2.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<ChaosFlare2>(), CalamityUtils.DamageSoftCap(damage * 0.5, 100), 1f, player.whoAmI, 0f, 0f);
                         }
                     }
                 }
             }
-            if (modPlayer.reaverDoubleTap) //0 - 99
+            if (modPlayer.reaverDoubleTap && modPlayer.canFireReaverRangedProjectile)
             {
-                if (item.ranged && Main.rand.Next(0, 100) >= 90)
+                if (item.ranged)
                 {
-                    if (player.whoAmI == Main.myPlayer)
+					modPlayer.canFireReaverRangedProjectile = false;
+					if (player.whoAmI == Main.myPlayer)
                     {
-                        Projectile.NewProjectile(position.X, position.Y, speedX * 1.25f, speedY * 1.25f, ModContent.ProjectileType<MiniRocket>(), (int)(damage * 1.3), 2f, player.whoAmI, 0f, 0f);
+                        Projectile.NewProjectile(position, new Vector2(speedX, speedY) * 1.25f, ModContent.ProjectileType<MiniRocket>(), CalamityUtils.DamageSoftCap(damage * 1.3, 150), 2f, player.whoAmI, 0f, 0f);
                     }
                 }
             }
@@ -366,7 +372,7 @@ namespace CalamityMod.Items
                 {
                     if (player.whoAmI == Main.myPlayer)
                     {
-                        Projectile.NewProjectile(position.X, position.Y, speedX * 1.25f, speedY * 1.25f, ModContent.ProjectileType<Seashell>(), damage * 2, 1f, player.whoAmI, 0f, 0f);
+                        Projectile.NewProjectile(position, new Vector2(speedX, speedY) * 1.25f, ModContent.ProjectileType<Seashell>(), CalamityUtils.DamageSoftCap(damage * 2, 60), 1f, player.whoAmI, 0f, 0f);
                     }
                 }
             }
@@ -382,11 +388,11 @@ namespace CalamityMod.Items
 
                     if (player.whoAmI == Main.myPlayer)
                     {
-                        Projectile.NewProjectile(position.X, position.Y, speedX * 1.25f, speedY * 1.25f, ModContent.ProjectileType<Minibirb>(), newDamage, 2f, player.whoAmI, 0f, 0f);
+                        Projectile.NewProjectile(position, new Vector2(speedX, speedY) * 1.25f, ModContent.ProjectileType<Minibirb>(), newDamage, 2f, player.whoAmI, 0f, 0f);
                     }
                 }
             }
-            if (modPlayer.prismaticRegalia) //0 - 99
+            if (modPlayer.prismaticRegalia)
             {
                 if (item.magic && Main.rand.Next(0, 100) >= 95)
                 {
@@ -397,8 +403,8 @@ namespace CalamityMod.Items
 							if (i != 0)
 							{
 								Vector2 perturbedSpeed = new Vector2(speedX, speedY).RotatedBy(MathHelper.ToRadians(i));
-								int rocket = Projectile.NewProjectile(position.X, position.Y, perturbedSpeed.X, perturbedSpeed.Y, ModContent.ProjectileType<MiniRocket>(), (int)(damage * 0.8), 2f, player.whoAmI, 0f, 0f);
-                Main.projectile[rocket].Calamity().forceTypeless = true;
+								int rocket = Projectile.NewProjectile(position, perturbedSpeed, ModContent.ProjectileType<MiniRocket>(), (int)(damage * 0.8), 2f, player.whoAmI, 0f, 0f);
+								Main.projectile[rocket].Calamity().forceTypeless = true;
 							}
 						}
                     }
@@ -410,9 +416,9 @@ namespace CalamityMod.Items
                 {
                     if (player.whoAmI == Main.myPlayer)
                     {
-						float spreadX = speedX + (float)Main.rand.Next(-15, 16) * 0.05f;
-						float spreadY = speedY + (float)Main.rand.Next(-15, 16) * 0.05f;
-                        int feather = Projectile.NewProjectile(position.X, position.Y, spreadX * 1.25f, spreadY * 1.25f, ModContent.ProjectileType<TradewindsProjectile>(), damage / 2, 2f, player.whoAmI, 0f, 0f);
+						float spreadX = speedX + Main.rand.Next(-15, 16) * 0.05f;
+						float spreadY = speedY + Main.rand.Next(-15, 16) * 0.05f;
+                        int feather = Projectile.NewProjectile(position, new Vector2(spreadX, spreadY) * 1.25f, ModContent.ProjectileType<TradewindsProjectile>(), damage / 2, 2f, player.whoAmI, 0f, 0f);
 						Main.projectile[feather].usesLocalNPCImmunity = true;
 						Main.projectile[feather].localNPCHitCooldown = 10;
 						Main.projectile[feather].Calamity().forceTypeless = true;

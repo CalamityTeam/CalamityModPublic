@@ -4414,59 +4414,59 @@ namespace CalamityMod.NPCs
 			npc.defense = calamityGlobalNPC.newAI[1] == 1f ? 0 : npc.defDefense;
 			if (phase3AI)
 			{
-				npc.damage = (int)(npc.defDamage * 1.32f);
+				npc.damage = (int)(npc.defDamage * 1.3f);
 			}
 			else if (phase2AI)
 			{
-				npc.damage = (int)(npc.defDamage * 1.44f);
+				npc.damage = (int)(npc.defDamage * 1.2f);
 			}
 			else
 			{
 				npc.damage = npc.defDamage;
 			}
 
-			int num2 = 60;
-			float num3 = 0.6f;
-			float scaleFactor = 10f;
+			int num2 = expertMode ? 55 : 60;
+			float num3 = expertMode ? 0.75f : 0.7f;
+			float scaleFactor = expertMode ? 14f : 13f;
 			if (phase3AI)
 			{
-				num3 = 0.75f;
-				scaleFactor = 13f;
+				num3 = expertMode ? 0.85f : 0.8f;
+				scaleFactor = expertMode ? 16f : 15f;
 			}
 			else if (phase2AI & charging)
 			{
-				num3 = 0.65f;
-				scaleFactor = 11f;
+				num3 = expertMode ? 0.8f : 0.75f;
+				scaleFactor = expertMode ? 15f : 14f;
 			}
 
-			int chargeTime = 36;
-			float chargeVelocity = 19f;
+			int chargeTime = expertMode ? 34 : 36;
+			float chargeVelocity = expertMode ? 20f : 19f;
 			if (phase3AI)
 			{
-				chargeTime = 30;
-				chargeVelocity = 25f;
+				chargeTime = expertMode ? 28 : 30;
+				chargeVelocity = expertMode ? 26f : 25f;
 			}
 			else if (charging & phase2AI)
 			{
-				chargeTime = 33;
-				chargeVelocity = 23f;
+				chargeTime = expertMode ? 31 : 33;
+				chargeVelocity = expertMode ? 24f : 23f;
 			}
 
 			if (death)
 			{
-				num2 = 54;
+				num2 = 51;
 				num3 *= 1.05f;
-				scaleFactor *= 1.08f;
+				scaleFactor *= 1.05f;
 				chargeTime -= 2;
-				chargeVelocity *= 1.13f;
+				chargeVelocity *= 1.1f;
 			}
 			else if (revenge)
 			{
-				num2 = 57;
+				num2 = 53;
 				num3 *= 1.025f;
-				scaleFactor *= 1.04f;
+				scaleFactor *= 1.025f;
 				chargeTime -= 1;
-				chargeVelocity *= 1.065f;
+				chargeVelocity *= 1.05f;
 			}
 			
 			if (BossRushEvent.BossRushActive)
@@ -4484,8 +4484,8 @@ namespace CalamityMod.NPCs
 			// Variables
 			int num6 = BossRushEvent.BossRushActive ? 60 : 120;
 			int num7 = BossRushEvent.BossRushActive ? 12 : 24;
-			float num8 = BossRushEvent.BossRushActive ? 0.6f : 0.4f;
-			float scaleFactor2 = BossRushEvent.BossRushActive ? 10f : 7f;
+			float num8 = BossRushEvent.BossRushActive ? 0.7f : 0.55f;
+			float scaleFactor2 = BossRushEvent.BossRushActive ? 12f : 9f;
 			int num9 = 120;
 			int num10 = 180;
 			int num11 = 180;
@@ -4511,7 +4511,7 @@ namespace CalamityMod.NPCs
 			}
 
 			// Despawn
-			if (player.dead || Vector2.Distance(player.Center, vector) > 5600f)
+			if (player.dead || Vector2.Distance(player.Center, vector) > 8000f)
 			{
 				npc.velocity.Y -= 0.4f;
 
@@ -4537,7 +4537,7 @@ namespace CalamityMod.NPCs
 			// Enrage variable
 			bool enrage = !BossRushEvent.BossRushActive &&
 				(player.position.Y < 300f || player.position.Y > Main.worldSurface * 16.0 ||
-				(player.position.X > 7200f && player.position.X < (Main.maxTilesX * 16 - 7200)));
+				(player.position.X > 8000f && player.position.X < (Main.maxTilesX * 16 - 8000)));
 
 			// If the player isn't in the ocean biome or Old Duke is transitioning between phases, become immune
 			if (!phase3AI)

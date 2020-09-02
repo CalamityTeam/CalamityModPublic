@@ -395,7 +395,8 @@ namespace CalamityMod.NPCs
 			NPCID.Probe,
 			NPCID.CultistBoss,
 			NPCID.GolemHeadFree,
-			NPCID.MoonLordFreeEye
+			NPCID.MoonLordFreeEye,
+			NPCID.PlanterasHook
 		};
 		#endregion
 
@@ -983,10 +984,6 @@ namespace CalamityMod.NPCs
                 npc.lifeMax = (int)(npc.lifeMax * 2.3);
                 npc.npcSlots = 32f;
             }
-            else if (npc.type == NPCID.PlanterasHook)
-            {
-                npc.damage = npc.defDamage = 0;
-            }
             else if (npc.type == NPCID.WallofFlesh || npc.type == NPCID.WallofFleshEye)
             {
                 npc.lifeMax = (int)(npc.lifeMax * 1.9);
@@ -1273,34 +1270,34 @@ namespace CalamityMod.NPCs
                 (npc.modNPC != null && npc.modNPC.mod.Name.Equals("CalamityMod")))
             {
                 double scalar;
-                switch (numPlayers) //Decrease HP in multiplayer before vanilla scaling
+                switch (numPlayers) // Decrease HP in multiplayer before vanilla scaling
                 {
                     case 1:
                         scalar = 1.0;
                         break;
 
                     case 2:
-                        scalar = 0.76;
+                        scalar = 0.82;
                         break;
 
                     case 3:
-                        scalar = 0.63;
+                        scalar = 0.72;
                         break;
 
                     case 4:
-                        scalar = 0.525;
+                        scalar = 0.64;
                         break;
 
                     case 5:
-                        scalar = 0.43;
+                        scalar = 0.57;
                         break;
 
                     case 6:
-                        scalar = 0.36;
+                        scalar = 0.52;
                         break;
 
                     default:
-                        scalar = 0.295;
+                        scalar = 0.47;
                         break;
                 }
 

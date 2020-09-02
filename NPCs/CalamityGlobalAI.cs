@@ -4485,7 +4485,7 @@ namespace CalamityMod.NPCs
 			bool targetFloatingUp = player.gravDir == -1f;
 
 			// Phase for flying at the player
-			bool flyAtTarget = calamityGlobalNPC.newAI[3] >= 900f && startFlightPhase;
+			bool flyAtTarget = (calamityGlobalNPC.newAI[3] >= 900f && startFlightPhase) || calamityGlobalNPC.newAI[1] < 600f;
 
             // Dust on spawn and alpha effects
             if (npc.type == NPCID.TheDestroyer || (npc.type != NPCID.TheDestroyer && Main.npc[(int)npc.ai[1]].alpha < 128))

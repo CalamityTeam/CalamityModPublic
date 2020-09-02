@@ -160,6 +160,11 @@ namespace CalamityMod.NPCs.OldDuke
 			}
 		}
 
+		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
+		{
+			npc.damage = (int)(npc.damage * npc.GetExpertDamageMultiplier());
+		}
+
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
 			SpriteEffects spriteEffects = SpriteEffects.FlipHorizontally;

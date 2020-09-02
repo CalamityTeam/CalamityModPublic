@@ -1010,6 +1010,19 @@ namespace CalamityMod.CalPlayer
 				modPlayer.plagueReaperCooldown--;
 			if (modPlayer.brimflameFrenzyTimer > 0)
 				modPlayer.brimflameFrenzyTimer--;
+			if (modPlayer.fungalSymbioteTimer > 0)
+				modPlayer.fungalSymbioteTimer--;
+			if (player.miscCounter % 20 == 0)
+				modPlayer.canFireAtaxiaRangedProjectile = true;
+			if (player.miscCounter % 100 == 0)
+				modPlayer.canFireBloodflareMageProjectile = true;
+			if (player.miscCounter % 150 == 0)
+			{
+				modPlayer.canFireGodSlayerRangedProjectile = true;
+				modPlayer.canFireBloodflareRangedProjectile = true;
+				modPlayer.canFireReaverRangedProjectile = true;
+				modPlayer.canFireAtaxiaRogueProjectile = true;
+			}
 			if (modPlayer.roverDrive)
 			{
 				if (modPlayer.roverDriveTimer < CalamityUtils.SecondsToFrames(30f))

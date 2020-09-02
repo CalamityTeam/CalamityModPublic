@@ -62,7 +62,7 @@ namespace CalamityMod.NPCs.OldDuke
             npc.rotation += npc.velocity.X * 0.05f;
             if (npc.alpha > 0)
             {
-                npc.alpha -= 5;
+                npc.alpha -= 15;
             }
 			npc.TargetClosest(false);
 			Player player = Main.player[npc.target];
@@ -166,6 +166,11 @@ namespace CalamityMod.NPCs.OldDuke
 					}
 				}
 			}
+		}
+
+		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
+		{
+			npc.damage = (int)(npc.damage * npc.GetExpertDamageMultiplier());
 		}
 
 		public override bool CanHitPlayer(Player target, ref int cooldownSlot)

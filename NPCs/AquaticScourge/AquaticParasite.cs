@@ -21,7 +21,7 @@ namespace CalamityMod.NPCs.AquaticScourge
             npc.width = 28;
             npc.height = 28;
             npc.defense = 5;
-            npc.LifeMaxNERB((Main.hardMode ? 200 : 30), bossRush: 30000);
+            npc.LifeMaxNERB(Main.hardMode ? 200 : 30);
             npc.aiStyle = -1;
             aiType = -1;
             for (int k = 0; k < npc.buffImmune.Length; k++)

@@ -22,7 +22,7 @@ namespace CalamityMod.NPCs.Signus
             npc.damage = 0;
             npc.width = 30;
             npc.height = 30;
-            npc.lifeMax = 100;
+            npc.lifeMax = 6000;
             npc.aiStyle = -1;
             aiType = -1;
             npc.knockBackResist = 0f;
