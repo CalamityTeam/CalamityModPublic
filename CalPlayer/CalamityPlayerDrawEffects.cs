@@ -996,7 +996,7 @@ namespace CalamityMod.CalPlayer
             {
                 if (Main.rand.NextBool(12) && drawInfo.shadow == 0f)
                 {
-                    int dust = Dust.NewDust(drawInfo.position - new Vector2(2f), player.width + 4, player.height + 4, 244, player.velocity.X * 0.4f, player.velocity.Y * 0.4f, 100, default, 3f);
+                    int dust = Dust.NewDust(drawInfo.position - new Vector2(2f), player.width + 4, player.height + 4, (int)CalamityDusts.ProfanedFire, player.velocity.X * 0.4f, player.velocity.Y * 0.4f, 100, default, 3f);
                     Main.dust[dust].noGravity = true;
                     Main.dust[dust].velocity *= 1.8f;
                     Main.dust[dust].velocity.Y -= 0.5f;
