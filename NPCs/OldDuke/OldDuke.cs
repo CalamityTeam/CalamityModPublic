@@ -38,8 +38,8 @@ namespace CalamityMod.NPCs.OldDuke
             npc.height = 100;
             npc.aiStyle = -1;
 			aiType = -1;
-            npc.damage = 160;
-            npc.defense = 100;
+			npc.GetNPCDamage();
+			npc.defense = 100;
 			npc.DR_NERD(0.5f, null, null, null, true);
 			npc.LifeMaxNERB(750000, 1000000, 4000000);
 			double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;

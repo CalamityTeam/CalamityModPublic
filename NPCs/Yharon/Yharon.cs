@@ -61,8 +61,8 @@ namespace CalamityMod.NPCs.Yharon
         public override void SetDefaults()
         {
             npc.npcSlots = 50f;
-            npc.damage = 330;
-            npc.width = 200;
+			npc.GetNPCDamage();
+			npc.width = 200;
             npc.height = 200;
             npc.defense = 150;
             npc.LifeMaxNERB(2275000, 2525000, 3700000);

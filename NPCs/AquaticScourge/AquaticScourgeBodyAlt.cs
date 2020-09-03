@@ -16,8 +16,8 @@ namespace CalamityMod.NPCs.AquaticScourge
 
         public override void SetDefaults()
         {
-            npc.damage = 55;
-            npc.width = 32;
+			npc.GetNPCDamage();
+			npc.width = 32;
             npc.height = 32;
             npc.defense = 15;
 			npc.DR_NERD(0.05f);

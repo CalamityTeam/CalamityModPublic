@@ -40,8 +40,8 @@ namespace CalamityMod.NPCs.Ravager
 			npc.noGravity = true;
             npc.npcSlots = 20f;
             npc.aiStyle = -1;
-            npc.damage = 120;
-            npc.width = 332;
+			npc.GetNPCDamage();
+			npc.width = 332;
             npc.height = 214;
             npc.defense = 55;
             npc.value = Item.buyPrice(0, 25, 0, 0);

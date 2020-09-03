@@ -85,8 +85,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
         public override void SetDefaults()
         {
-            npc.damage = 350;
-            npc.npcSlots = 50f;
+			npc.GetNPCDamage();
+			npc.npcSlots = 50f;
             npc.width = 120;
             npc.height = 120;
             npc.defense = 120;

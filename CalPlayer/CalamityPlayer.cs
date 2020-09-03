@@ -4334,7 +4334,7 @@ namespace CalamityMod.CalPlayer
             if (silvaRanged)
             {
                 if (item.ranged && item.useTime > 3)
-                    return auricSet ? 1.2f : 1.1f;
+                    return 1.1f;
             }
             if (silvaThrowing)
             {
@@ -4566,7 +4566,7 @@ namespace CalamityMod.CalPlayer
                         xVel *= 1.5f;
                         xOffset *= (float)player.direction;
                         yOffset *= player.gravDir;
-                        Projectile.NewProjectile((float)(hitbox.X + hitbox.Width / 2) + xOffset, (float)(hitbox.Y + hitbox.Height / 2) + yOffset, (float)player.direction * xVel, yVel * player.gravDir, ProjectileID.Mushroom, (int)(item.damage * 0.25f * player.MeleeDamage()), 0f, player.whoAmI, 0f, 0f);
+                        Projectile.NewProjectile((float)(hitbox.X + hitbox.Width / 2) + xOffset, (float)(hitbox.Y + hitbox.Height / 2) + yOffset, (float)player.direction * xVel, yVel * player.gravDir, ProjectileID.Mushroom, CalamityUtils.DamageSoftCap(item.damage * 0.25 * player.MeleeDamage(), 100), 0f, player.whoAmI, 0f, 0f);
                     }
                 }
                 if (aWeapon)
@@ -4627,7 +4627,7 @@ namespace CalamityMod.CalPlayer
 					{
 						if (player.whoAmI == Main.myPlayer)
 						{
-							Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<DesertMark>(), (int)(item.damage * player.RangedDamage()), knockback, player.whoAmI, 0f, 0f);
+							Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<DesertMark>(), CalamityUtils.DamageSoftCap(item.damage * player.RangedDamage(), 50), knockback, player.whoAmI, 0f, 0f);
 						}
 					}
 				}
@@ -4813,7 +4813,7 @@ namespace CalamityMod.CalPlayer
 						{
 							if (player.whoAmI == Main.myPlayer)
 							{
-								Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<DesertMark>(), proj.damage, proj.knockBack, player.whoAmI, 0f, 0f);
+								Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<DesertMark>(), CalamityUtils.DamageSoftCap(proj.damage, 50), proj.knockBack, player.whoAmI, 0f, 0f);
 							}
 						}
 					}
@@ -4984,7 +4984,7 @@ namespace CalamityMod.CalPlayer
 					{
 						if (player.whoAmI == Main.myPlayer)
 						{
-							Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<DesertMark>(), (int)(item.damage * player.RangedDamage()), item.knockBack, player.whoAmI, 0f, 0f);
+							Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<DesertMark>(), CalamityUtils.DamageSoftCap(item.damage * player.RangedDamage(), 50), item.knockBack, player.whoAmI, 0f, 0f);
 						}
 					}
 				}
@@ -5158,7 +5158,7 @@ namespace CalamityMod.CalPlayer
 						{
 							if (player.whoAmI == Main.myPlayer)
 							{
-								Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<DesertMark>(), proj.damage, proj.knockBack, player.whoAmI, 0f, 0f);
+								Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<DesertMark>(), CalamityUtils.DamageSoftCap(proj.damage, 50), proj.knockBack, player.whoAmI, 0f, 0f);
 							}
 						}
 					}
@@ -7260,7 +7260,6 @@ namespace CalamityMod.CalPlayer
         #endregion
 
         #region Shoot
-
         public override bool Shoot(Item item, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             if (veneratedLocket)
@@ -7306,7 +7305,7 @@ namespace CalamityMod.CalPlayer
                     num79 *= num80;
                     float speedX4 = num78 + (float)Main.rand.Next(-30, 31) * 0.02f;
                     float speedY5 = num79 + (float)Main.rand.Next(-30, 31) * 0.02f;
-                    int p = Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, type, (int)(damage * 0.15f), knockBack * 0.5f, player.whoAmI);
+                    int p = Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, type, CalamityUtils.DamageSoftCap(damage * 0.15, 75), knockBack * 0.5f, player.whoAmI);
                     Main.projectile[p].Calamity().forceRogue = true; //in case melee/rogue variants bug out
 					if (item.type == ModContent.ItemType<FinalDawn>())
 					{
@@ -7341,7 +7340,7 @@ namespace CalamityMod.CalPlayer
                         {
                             Vector2 startingPosition = Main.MouseWorld - Vector2.UnitY.RotatedByRandom(0.4f) * 1250f;
                             Vector2 directionToMouse = (startingPosition - Main.MouseWorld).SafeNormalize(Vector2.UnitY).RotatedByRandom(0.1f);
-                            Projectile.NewProjectileDirect(startingPosition, directionToMouse * 12f, ModContent.ProjectileType<ToxicannonDrop>(), (int)(damage * 0.3f), 0f, player.whoAmI).penetrate = 2;
+                            Projectile.NewProjectileDirect(startingPosition, directionToMouse * 12f, ModContent.ProjectileType<ToxicannonDrop>(), CalamityUtils.DamageSoftCap(damage * 0.3, 30), 0f, player.whoAmI).penetrate = 2;
                         }
                     }
                 }
@@ -7949,7 +7948,7 @@ namespace CalamityMod.CalPlayer
                         ++num;
                     for (int index = 0; index < num; ++index)
                     {
-                        int bee = Projectile.NewProjectile(player.position.X, player.position.Y, (float) Main.rand.Next(-35, 36) * 0.02f, (float) Main.rand.Next(-35, 36) * 0.02f, (Main.rand.NextBool(4) ? ModContent.ProjectileType<PlaguenadeBee>() : player.beeType()), player.beeDamage(7), player.beeKB(0f), Main.myPlayer, 0f, 0f);
+                        int bee = Projectile.NewProjectile(player.position.X, player.position.Y, (float) Main.rand.Next(-35, 36) * 0.02f, (float) Main.rand.Next(-35, 36) * 0.02f, Main.rand.NextBool(4) ? ModContent.ProjectileType<PlaguenadeBee>() : player.beeType(), player.beeDamage(7), player.beeKB(0f), Main.myPlayer, 0f, 0f);
                         Main.projectile[bee].usesLocalNPCImmunity = true;
                         Main.projectile[bee].localNPCHitCooldown = 5;
                     }
@@ -8127,7 +8126,7 @@ namespace CalamityMod.CalPlayer
                     Main.PlaySound(SoundID.Item, (int)player.position.X, (int)player.position.Y, 74);
                     if (player.whoAmI == Main.myPlayer)
                     {
-                        Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<GodSlayerBlaze>(), (int)((auricSet ? 2400 : 1200) * player.MagicDamage()), 1f, player.whoAmI, 0f, 0f);
+                        Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<GodSlayerBlaze>(), (int)(1200 * player.MagicDamage()), 1f, player.whoAmI, 0f, 0f);
                     }
                 }
             }

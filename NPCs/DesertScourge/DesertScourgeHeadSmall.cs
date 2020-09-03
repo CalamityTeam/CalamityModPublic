@@ -23,8 +23,8 @@ namespace CalamityMod.NPCs.DesertScourge
 
         public override void SetDefaults()
         {
-            npc.damage = 18;
-            npc.npcSlots = 2f;
+			npc.GetNPCDamage();
+			npc.npcSlots = 2f;
             npc.width = 60;
             npc.height = 60;
             npc.defense = 0;

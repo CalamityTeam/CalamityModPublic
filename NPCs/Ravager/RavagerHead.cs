@@ -58,17 +58,17 @@ namespace CalamityMod.NPCs.Ravager
             npc.value = Item.buyPrice(0, 0, 0, 0);
             npc.HitSound = SoundID.NPCHit41;
             npc.DeathSound = null;
-            if (CalamityWorld.downedProvidence)
+            if (CalamityWorld.downedProvidence && !BossRushEvent.BossRushActive)
             {
-                npc.defense = 150;
-                npc.lifeMax = 260000;
+                npc.defense *= 2;
+                npc.lifeMax *= 7;
             }
             if (BossRushEvent.BossRushActive)
             {
                 npc.lifeMax = 450000;
             }
-            double HPBoost = (double)CalamityConfig.Instance.BossHealthBoost * 0.01;
-            npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
+            double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
+            npc.lifeMax += (int)(npc.lifeMax * HPBoost);
         }
 
         public override void AI()

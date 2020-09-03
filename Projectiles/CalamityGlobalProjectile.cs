@@ -1603,7 +1603,7 @@ namespace CalamityMod.Projectiles
 							Main.dust[explode].velocity *= 2f;
 							Main.dust[explode].noGravity = true;
 						}
-                        projectile.damage *= modPlayer.auricSet ? 7 : 4;
+                        projectile.damage *= 4;
 						projectile.localNPCHitCooldown = 10;
 						projectile.usesLocalNPCImmunity = true;
                         projectile.Damage();
@@ -1611,25 +1611,27 @@ namespace CalamityMod.Projectiles
 
 					if (modPlayer.reaverBurst)
 					{
-						int projAmt = Main.rand.Next(2, 5);
+						int projAmt = Main.rand.Next(1, 3);
 						for (int i = 0; i < projAmt; i++)
 						{
 							Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
-							int proj = Projectile.NewProjectile(projectile.Center, velocity, ProjectileID.SporeGas + Main.rand.Next(3), CalamityUtils.DamageSoftCap(projectile.damage * 0.15, 15), 0f, projectile.owner, 0f, 0f);
+							int proj = Projectile.NewProjectile(projectile.Center, velocity, ProjectileID.SporeGas + Main.rand.Next(3), CalamityUtils.DamageSoftCap(projectile.damage * 0.15, 25), 0f, projectile.owner, 0f, 0f);
 							Main.projectile[proj].usesLocalNPCImmunity = true;
 							Main.projectile[proj].localNPCHitCooldown = 30;
 						}
 					}
 					else if (modPlayer.ataxiaMage && modPlayer.ataxiaDmg <= 0)
 					{
-						SpawnOrb(projectile, (int)(projectile.damage * 0.625), ProjectileType<AtaxiaOrb>(), 800f, 20f);
-						int cooldown = (int)(projectile.damage * 0.5f);
+						int projDamage = CalamityUtils.DamageSoftCap(projectile.damage * 0.625, 100);
+						SpawnOrb(projectile, projDamage, ProjectileType<AtaxiaOrb>(), 800f, 20f);
+						int cooldown = (int)(projDamage * 0.5);
 						modPlayer.ataxiaDmg += cooldown;
 					}
 					else if (modPlayer.godSlayerMage && modPlayer.godSlayerDmg <= 0)
 					{
-						SpawnOrb(projectile, (int)(projectile.damage * (modPlayer.auricSet ? 1 : 0.75)), ProjectileType<GodSlayerOrb>(), 800f, 20f);
-						int cooldown = (int)(projectile.damage * 0.5f);
+						int projDamage = CalamityUtils.DamageSoftCap(projectile.damage * 0.75, 225);
+						SpawnOrb(projectile, projDamage, ProjectileType<GodSlayerOrb>(), 800f, 20f);
+						int cooldown = (int)(projDamage * 0.5);
 						modPlayer.godSlayerDmg += cooldown;
 					}
                 }
@@ -1644,20 +1646,21 @@ namespace CalamityMod.Projectiles
                 {
                     if (modPlayer.xerocSet && modPlayer.xerocDmg <= 0 && player.ownedProjectileCounts[ProjectileType<XerocFire>()] < 3 && player.ownedProjectileCounts[ProjectileType<XerocBlast>()] < 3)
                     {
-						int cooldown = (int)(projectile.damage * 0.5f);
 						switch (Main.rand.Next(5))
 						{
 							case 0:
 
-								SpawnOrb(projectile, (int)(projectile.damage * 0.8), ProjectileType<XerocStar>(), 800f, Main.rand.Next(15, 30));
-								modPlayer.xerocDmg += cooldown;
+								int projDamage = CalamityUtils.DamageSoftCap(projectile.damage * 0.8, 120);
+								SpawnOrb(projectile, projDamage, ProjectileType<XerocStar>(), 800f, Main.rand.Next(15, 30));
+								modPlayer.xerocDmg += (int)(projDamage * 0.5);
 
 								break;
 
 							case 1:
 
-								SpawnOrb(projectile, (int)(projectile.damage * 0.625), ProjectileType<XerocOrb>(), 800f, 30f);
-								modPlayer.xerocDmg += cooldown;
+								int projDamage2 = CalamityUtils.DamageSoftCap(projectile.damage * 0.625, 100);
+								SpawnOrb(projectile, projDamage2, ProjectileType<XerocOrb>(), 800f, 30f);
+								modPlayer.xerocDmg += (int)(projDamage2 * 0.5);
 
 								if (target.canGhostHeal && Main.player[Main.myPlayer].lifeSteal > 0f)
 								{
@@ -1675,7 +1678,7 @@ namespace CalamityMod.Projectiles
 
 							case 2:
 
-								Projectile.NewProjectile(projectile.Center, Vector2.Zero, ProjectileType<XerocFire>(), CalamityUtils.DamageSoftCap(projectile.damage * 0.15, 40), 0f, projectile.owner, 0f, 0f);
+								Projectile.NewProjectile(projectile.Center, Vector2.Zero, ProjectileType<XerocFire>(), CalamityUtils.DamageSoftCap(projectile.damage * 0.15, 30), 0f, projectile.owner, 0f, 0f);
 
 								break;
 
@@ -1687,8 +1690,9 @@ namespace CalamityMod.Projectiles
 
 							case 4:
 
-								SpawnOrb(projectile, (int)(projectile.damage * 0.6), ProjectileType<XerocBubble>(), 800f, 15f);
-								modPlayer.xerocDmg += cooldown;
+								int projDamage3 = CalamityUtils.DamageSoftCap(projectile.damage * 0.6, 90);
+								SpawnOrb(projectile, projDamage3, ProjectileType<XerocBubble>(), 800f, 15f);
+								modPlayer.xerocDmg += (int)(projDamage3 * 0.5);
 
 								break;
 
@@ -1763,7 +1767,7 @@ namespace CalamityMod.Projectiles
 						for (int dustexplode = 0; dustexplode < 360; dustexplode++)
 						{
 							Vector2 dustd = new Vector2(17f, 17f).RotatedBy(MathHelper.ToRadians(dustexplode));
-							int d = Dust.NewDust(projectile.Center, projectile.width, projectile.height, Main.rand.NextBool(2) ? ModContent.DustType<AstralBlue>() : ModContent.DustType<AstralOrange>(), dustd.X, dustd.Y, 100, default, 3f);
+							int d = Dust.NewDust(projectile.Center, projectile.width, projectile.height, Main.rand.NextBool(2) ? DustType<AstralBlue>() : DustType<AstralOrange>(), dustd.X, dustd.Y, 100, default, 3f);
 							Main.dust[d].noGravity = true;
 							Main.dust[d].position = projectile.Center;
 						}
@@ -1794,7 +1798,7 @@ namespace CalamityMod.Projectiles
 								{
 									float speed = Main.rand.NextFloat(5f, 11f);
 									Projectile.NewProjectile(target.Center, Vector2.One.RotatedByRandom(MathHelper.TwoPi) * speed,
-										type, (int)(projectile.damage * 0.6), projectile.knockBack, player.whoAmI);
+										type, CalamityUtils.DamageSoftCap(projectile.damage * 0.6, 90), projectile.knockBack, player.whoAmI);
 								}
 							}
 						}
@@ -1807,12 +1811,12 @@ namespace CalamityMod.Projectiles
 						{
 							int randrot = Main.rand.Next(-30, 391);
 							Vector2 SoulSpeed = new Vector2(13f, 13f).RotatedBy(MathHelper.ToRadians(randrot));
-							Projectile.NewProjectile(projectile.Center, SoulSpeed, ModContent.ProjectileType<PenumbraSoul>(), CalamityUtils.DamageSoftCap(projectile.damage * 0.1, 60), 3f, projectile.owner, 0f, 0f);
+							Projectile.NewProjectile(projectile.Center, SoulSpeed, ProjectileType<PenumbraSoul>(), CalamityUtils.DamageSoftCap(projectile.damage * 0.1, 60), 3f, projectile.owner, 0f, 0f);
 							modPlayer.shadowPotCooldown = 30;
 						}
 						if (CalamityLists.spikyBallProjList.Contains(projectile.type))
 						{
-							int scythe = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<CosmicScythe>(), CalamityUtils.DamageSoftCap(projectile.damage * 0.05, 60), 3f, projectile.owner, 1f, 0f);
+							int scythe = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ProjectileType<CosmicScythe>(), CalamityUtils.DamageSoftCap(projectile.damage * 0.05, 60), 3f, projectile.owner, 1f, 0f);
             				Main.projectile[scythe].usesLocalNPCImmunity = true;
             				Main.projectile[scythe].localNPCHitCooldown = 10;
 							Main.projectile[scythe].penetrate = 2;
@@ -1823,7 +1827,7 @@ namespace CalamityMod.Projectiles
 							Vector2 shardVelocity = new Vector2(Main.rand.NextFloat(-1f, 1f), Main.rand.NextFloat(-1f, 1f));
 							shardVelocity.Normalize();
 							shardVelocity *= 5f;
-							int shard = Projectile.NewProjectile(projectile.Center, shardVelocity, ModContent.ProjectileType<EquanimityDarkShard>(), CalamityUtils.DamageSoftCap(projectile.damage * 0.15, 60), 0f, projectile.owner);
+							int shard = Projectile.NewProjectile(projectile.Center, shardVelocity, ProjectileType<EquanimityDarkShard>(), CalamityUtils.DamageSoftCap(projectile.damage * 0.15, 60), 0f, projectile.owner);
 							Main.projectile[shard].timeLeft = 150;
 							modPlayer.shadowPotCooldown = 30;
 						}
@@ -1837,7 +1841,7 @@ namespace CalamityMod.Projectiles
 						}
 						if (CalamityLists.flaskBombProjList.Contains(projectile.type))
 						{
-							int blackhole = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<ShadowBlackhole>(), CalamityUtils.DamageSoftCap(projectile.damage * 0.05, 60), 3f, projectile.owner, 0f, 0f);
+							int blackhole = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ProjectileType<ShadowBlackhole>(), CalamityUtils.DamageSoftCap(projectile.damage * 0.05, 60), 3f, projectile.owner, 0f, 0f);
 							Main.projectile[blackhole].Center = projectile.Center;
 							modPlayer.shadowPotCooldown = 30;
 						}
@@ -1890,8 +1894,9 @@ namespace CalamityMod.Projectiles
 
                     if (modPlayer.godSlayerSummon && modPlayer.godSlayerDmg <= 0)
                     {
-						SpawnOrb(projectile, projectile.damage, ProjectileType<GodSlayerPhantom>(), 800f, 15f, true);
-						int cooldown = (int)(projectile.damage * 0.5f);
+						int projDamage = CalamityUtils.DamageSoftCap(projectile.damage, 300);
+						SpawnOrb(projectile, projDamage, ProjectileType<GodSlayerPhantom>(), 800f, 15f, true);
+						int cooldown = (int)(projDamage * 0.5f);
 						modPlayer.godSlayerDmg += cooldown;
                     }
 
@@ -1938,8 +1943,9 @@ namespace CalamityMod.Projectiles
 							}
 							else if (modPlayer.jellyChargedBattery)
 							{
-								SpawnOrb(projectile, (int)(projectile.damage * 0.525), ProjectileType<EnergyOrb>(), 800f, 15f);
-								int cooldown = (int)(projectile.damage * 0.5f);
+								int projDamage = CalamityUtils.DamageSoftCap(projectile.damage * 0.525, 50);
+								SpawnOrb(projectile, projDamage, ProjectileType<EnergyOrb>(), 800f, 15f);
+								int cooldown = (int)(projDamage * 0.5f);
 								modPlayer.jellyDmg += cooldown;
 							}
 						}
@@ -1952,7 +1958,7 @@ namespace CalamityMod.Projectiles
 								Vector2 spawnPosition = target.Center - new Vector2(0f, 920f).RotatedByRandom(0.3f);
 								float speed = Main.rand.NextFloat(17f, 23f);
 								Projectile.NewProjectile(spawnPosition, Vector2.Normalize(target.Center - spawnPosition) * speed,
-									ProjectileType<HallowedStarSummon>(), projectile.damage / 3, 3f, projectile.owner);
+									ProjectileType<HallowedStarSummon>(), CalamityUtils.DamageSoftCap(projectile.damage / 3, 50), 3f, projectile.owner);
 							}
 						}
 					}
@@ -2142,17 +2148,17 @@ namespace CalamityMod.Projectiles
                         for (int i = 0; i < 3; i++)
                         {
 							Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
-                            int soul = Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<LostSoulFriendly>(), (int)(projectile.damage * 0.33), 0f, projectile.owner, 0f, 0f);
+                            int soul = Projectile.NewProjectile(projectile.Center, velocity, ProjectileType<LostSoulFriendly>(), CalamityUtils.DamageSoftCap(projectile.damage * 0.33, 50), 0f, projectile.owner, 0f, 0f);
 							Main.projectile[soul].tileCollide = false;
                         }
                     }
 					if (modPlayer.scuttlersJewel && CalamityLists.javelinProjList.Contains(projectile.type) && Main.rand.NextBool(3))
 					{
-						float dmgMult = 1f;
+						double dmgMult = 1D;
 						if (projectile.type == ProjectileType<SpearofDestinyProjectile>())
-							dmgMult = 0.5f;
+							dmgMult = 0.5;
 
-						int spike = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ProjectileType<JewelSpike>(), (int)(projectile.damage * 0.5f * dmgMult), projectile.knockBack, projectile.owner);
+						int spike = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ProjectileType<JewelSpike>(), CalamityUtils.DamageSoftCap(projectile.damage * 0.5 * dmgMult, 50), projectile.knockBack, projectile.owner);
 						Main.projectile[spike].frame = 4;
 					}
                 }

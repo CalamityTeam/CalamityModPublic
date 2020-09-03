@@ -35,7 +35,6 @@ using CalamityMod.NPCs.SlimeGod;
 using CalamityMod.NPCs.StormWeaver;
 using CalamityMod.NPCs.SulphurousSea;
 using CalamityMod.NPCs.SupremeCalamitas;
-using CalamityMod.NPCs.TownNPCs;
 using CalamityMod.NPCs.Yharon;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.Projectiles.DraedonsArsenal;
@@ -55,7 +54,6 @@ using System.Linq;
 using Terraria;
 using Terraria.GameContent.Events;
 using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
 
@@ -1151,32 +1149,38 @@ namespace CalamityMod.NPCs
             if (CalamityWorld.revenge)
             {
 				double damageMultiplier = 1D;
+				bool containsNPC = false;
                 if (CalamityLists.revengeanceEnemyBuffList25Percent.Contains(npc.type))
                 {
 					damageMultiplier += 0.25;
+					containsNPC = true;
                 }
 				else if (CalamityLists.revengeanceEnemyBuffList20Percent.Contains(npc.type))
 				{
 					damageMultiplier += 0.2;
+					containsNPC = true;
 				}
 				else if (CalamityLists.revengeanceEnemyBuffList15Percent.Contains(npc.type))
 				{
 					damageMultiplier += 0.15;
+					containsNPC = true;
 				}
 				else if (CalamityLists.revengeanceEnemyBuffList10Percent.Contains(npc.type))
 				{
 					damageMultiplier += 0.1;
-				}
-				else if (CalamityLists.revengeanceEnemyBuffList5Percent.Contains(npc.type))
-				{
-					damageMultiplier += 0.05;
+					containsNPC = true;
 				}
 
-				if (CalamityWorld.death)
+				if (CalamityWorld.death && containsNPC)
 					damageMultiplier += (damageMultiplier - 1D) * 0.6;
 
 				npc.damage = (int)(npc.damage * damageMultiplier);
 				npc.defDamage = npc.damage;
+			}
+
+			if (npc.type < NPCID.Count && NPCStats.BossStats.ContactDamageValues.ContainsKey(npc.type))
+			{
+				npc.GetNPCDamage();
 			}
 
             if ((npc.boss && npc.type != NPCID.MartianSaucerCore && npc.type < NPCID.Count) || CalamityLists.bossHPScaleList.Contains(npc.type))

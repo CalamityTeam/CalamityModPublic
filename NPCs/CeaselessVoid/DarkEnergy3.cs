@@ -26,8 +26,8 @@ namespace CalamityMod.NPCs.CeaselessVoid
 
         public override void SetDefaults()
         {
-            npc.damage = 0;
-            npc.dontTakeDamage = true;
+			npc.GetNPCDamage();
+			npc.dontTakeDamage = true;
             npc.width = 80;
             npc.height = 80;
             npc.defense = 50;
@@ -144,13 +144,12 @@ namespace CalamityMod.NPCs.CeaselessVoid
             bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
             if (invinceTime > 0)
             {
+				npc.damage = 0;
                 invinceTime--;
             }
             else
             {
-                npc.damage = expertMode ? 240 : 120;
-                if (CalamityWorld.revenge)
-                    npc.damage = 300;
+                npc.damage = npc.defDamage;
                 npc.dontTakeDamage = false;
             }
 
@@ -246,6 +245,11 @@ namespace CalamityMod.NPCs.CeaselessVoid
                 npc.velocity.Y = (npc.velocity.Y * 7f + num1374) / 8f;
             }
         }
+
+		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
+		{
+			npc.lifeMax = (int)(npc.lifeMax * 0.5f * bossLifeScale);
+		}
 
 		public override bool CheckActive()
 		{

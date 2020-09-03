@@ -37,8 +37,8 @@ namespace CalamityMod.NPCs.ProfanedGuardians
         {
             npc.npcSlots = 20f;
             npc.aiStyle = -1;
-            npc.damage = 140;
-            npc.width = 100;
+			npc.GetNPCDamage();
+			npc.width = 100;
             npc.height = 80;
             npc.defense = 50;
 			npc.DR_NERD(0.4f);

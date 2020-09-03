@@ -22,8 +22,8 @@ namespace CalamityMod.NPCs.HiveMind
         public override void SetDefaults()
         {
             npc.npcSlots = 5f;
-            npc.damage = 20;
-            npc.width = 150;
+			npc.GetNPCDamage();
+			npc.width = 150;
             npc.height = 120;
             npc.defense = 10;
             npc.LifeMaxNERB(1200, 1800, 350000);

@@ -27,8 +27,8 @@ namespace CalamityMod.NPCs.Polterghast
 
         public override void SetDefaults()
         {
-            npc.damage = 210;
-            npc.width = 90;
+			npc.GetNPCDamage();
+			npc.width = 90;
             npc.height = 120;
 			npc.LifeMaxNERB(130000, 150000, 900000);
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;

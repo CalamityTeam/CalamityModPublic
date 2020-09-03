@@ -18,8 +18,8 @@ namespace CalamityMod.NPCs.HiveMind
 
         public override void SetDefaults()
         {
-            npc.damage = 25;
-            npc.width = 70;
+			npc.GetNPCDamage();
+			npc.width = 70;
             npc.height = 70;
             npc.defense = 6;
             npc.lifeMax = 90;

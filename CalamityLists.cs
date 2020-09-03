@@ -108,7 +108,6 @@ namespace CalamityMod
         public static List<int> revengeanceEnemyBuffList20Percent;
         public static List<int> revengeanceEnemyBuffList15Percent;
         public static List<int> revengeanceEnemyBuffList10Percent;
-        public static List<int> revengeanceEnemyBuffList5Percent;
         public static List<int> revengeanceProjectileBuffList25Percent;
         public static List<int> revengeanceProjectileBuffList20Percent;
         public static List<int> revengeanceProjectileBuffList15Percent;
@@ -1244,27 +1243,8 @@ namespace CalamityMod
             // Enemies that inflict an average of 1 to 50 damage in Expert Mode
             revengeanceEnemyBuffList25Percent = new List<int>()
             {
-                NPCID.ServantofCthulhu,
-                NPCID.EyeofCthulhu,
-                NPCID.EaterofWorldsHead,
-                NPCID.EaterofWorldsBody,
-                NPCID.EaterofWorldsTail,
-                NPCID.Creeper,
-                NPCID.Bee,
-                NPCID.BeeSmall,
-                NPCID.SkeletronHand,
                 NPCID.GiantWormHead,
                 NPCID.BlazingWheel,
-                ModContent.NPCType<DesertScourgeBody>(),
-                ModContent.NPCType<DesertScourgeTail>(),
-                ModContent.NPCType<DesertScourgeHeadSmall>(),
-                ModContent.NPCType<DesertScourgeBodySmall>(),
-                ModContent.NPCType<DesertScourgeTailSmall>(),
-                ModContent.NPCType<DriedSeekerHead>(),
-                ModContent.NPCType<CrabShroom>(),
-                ModContent.NPCType<HiveMind>(),
-                ModContent.NPCType<DankCreeper>(),
-                ModContent.NPCType<PerforatorHive>(),
                 ModContent.NPCType<AquaticSeekerHead>(),
                 ModContent.NPCType<Cnidrion>(),
                 ModContent.NPCType<PrismTurtle>(),
@@ -1274,19 +1254,6 @@ namespace CalamityMod
             // Enemies that inflict an average of 51 to 100 damage in Expert Mode
             revengeanceEnemyBuffList20Percent = new List<int>()
             {
-                NPCID.KingSlime,
-                NPCID.BrainofCthulhu,
-                NPCID.QueenBee,
-                NPCID.SkeletronHead,
-                NPCID.TheHungryII,
-                NPCID.LeechHead,
-                NPCID.TheDestroyerBody,
-                NPCID.TheDestroyerTail,
-                NPCID.Probe,
-                NPCID.PrimeSaw,
-                NPCID.PrimeVice,
-                NPCID.PrimeLaser,
-                NPCID.PrimeCannon,
                 NPCID.DevourerHead,
                 NPCID.MeteorHead,
                 NPCID.BoneSerpentHead,
@@ -1301,26 +1268,6 @@ namespace CalamityMod
                 NPCID.Lihzahrd,
                 NPCID.Pumpking,
                 NPCID.SlimeSpiked,
-                ModContent.NPCType<DesertScourgeHead>(),
-                ModContent.NPCType<CrabulonIdle>(),
-                ModContent.NPCType<HiveMindP2>(),
-                ModContent.NPCType<PerforatorHeadLarge>(),
-                ModContent.NPCType<PerforatorHeadMedium>(),
-                ModContent.NPCType<PerforatorHeadSmall>(),
-                ModContent.NPCType<SlimeGod>(),
-                ModContent.NPCType<SlimeGodRun>(),
-                ModContent.NPCType<SlimeGodCore>(),
-                ModContent.NPCType<SlimeGodSplit>(),
-                ModContent.NPCType<SlimeGodRunSplit>(),
-                ModContent.NPCType<SlimeSpawnCorrupt>(),
-                ModContent.NPCType<SlimeSpawnCrimson2>(),
-                ModContent.NPCType<Cryocore>(),
-                ModContent.NPCType<Cryocore2>(),
-                ModContent.NPCType<IceMass>(),
-                ModContent.NPCType<AquaticScourgeTail>(),
-                ModContent.NPCType<BrimstoneElemental>(),
-                ModContent.NPCType<LifeSeeker>(),
-                ModContent.NPCType<SoulSeeker>(),
                 ModContent.NPCType<EutrophicRay>(),
                 ModContent.NPCType<Clam>(),
                 ModContent.NPCType<SeaSerpent1>(),
@@ -1331,25 +1278,6 @@ namespace CalamityMod
             // Enemies that inflict an average of 101 to 200 damage in Expert Mode
             revengeanceEnemyBuffList15Percent = new List<int>()
             {
-                NPCID.WallofFlesh,
-                NPCID.Spazmatism,
-                NPCID.Retinazer,
-                NPCID.SkeletronPrime,
-                NPCID.Plantera,
-                NPCID.PlanterasTentacle,
-                NPCID.Spore,
-                NPCID.DetonatingBubble,
-                NPCID.Golem,
-                NPCID.GolemHead,
-                NPCID.GolemHeadFree,
-                NPCID.GolemFistLeft,
-                NPCID.GolemFistRight,
-                NPCID.DukeFishron,
-                NPCID.Sharkron,
-                NPCID.Sharkron2,
-                NPCID.CultistDragonHead,
-                NPCID.AncientCultistSquidhead,
-                NPCID.AncientLight,
                 NPCID.DD2Betsy,
                 NPCID.Mimic,
                 NPCID.WyvernHead,
@@ -1386,31 +1314,6 @@ namespace CalamityMod
                 NPCID.SandsharkCorrupt,
                 NPCID.SandsharkCrimson,
                 NPCID.SandsharkHallow,
-                ModContent.NPCType<Cryogen>(),
-                ModContent.NPCType<CryogenIce>(),
-                ModContent.NPCType<AquaticScourgeHead>(),
-                ModContent.NPCType<AquaticScourgeBody>(),
-                ModContent.NPCType<AquaticScourgeBodyAlt>(),
-                ModContent.NPCType<Calamitas>(),
-                ModContent.NPCType<CalamitasRun3>(),
-                ModContent.NPCType<CalamitasRun>(),
-                ModContent.NPCType<CalamitasRun2>(),
-                ModContent.NPCType<Parasea>(),
-                ModContent.NPCType<AquaticAberration>(),
-                ModContent.NPCType<Leviathan>(),
-                ModContent.NPCType<SirenIce>(),
-                ModContent.NPCType<Siren>(),
-                ModContent.NPCType<AstrumAureus>(),
-                ModContent.NPCType<PlaguebringerGoliath>(),
-                ModContent.NPCType<PlaguebringerShade>(),
-                ModContent.NPCType<PlagueHomingMissile>(),
-                ModContent.NPCType<PlagueBeeG>(),
-                ModContent.NPCType<PlagueBeeLargeG>(),
-                ModContent.NPCType<RavagerBody>(),
-                ModContent.NPCType<RavagerClawRight>(),
-                ModContent.NPCType<RavagerClawLeft>(),
-                ModContent.NPCType<ProfanedGuardianBoss2>(),
-                ModContent.NPCType<ProfanedGuardianBoss3>(),
                 ModContent.NPCType<Atlas>(),
                 ModContent.NPCType<ArmoredDiggerHead>(),
                 ModContent.NPCType<GreatSandShark>(),
@@ -1422,47 +1325,13 @@ namespace CalamityMod
             // Enemies that inflict an average of 201 to 400 damage in Expert Mode
             revengeanceEnemyBuffList10Percent = new List<int>()
             {
-                NPCID.TheDestroyer,
                 NPCID.SolarCrawltipedeHead,
-                ModContent.NPCType<AstrumDeusHeadSpectral>(),
-                ModContent.NPCType<ProfanedGuardianBoss>(),
-                ModContent.NPCType<Bumblefuck>(),
-                ModContent.NPCType<Bumblefuck2>(),
-
-                ModContent.NPCType<ProvSpawnDefense>(),
-                ModContent.NPCType<ProvSpawnOffense>(),
-                ModContent.NPCType<CeaselessVoid>(),
-                ModContent.NPCType<StormWeaverHead>(),
-                ModContent.NPCType<StormWeaverHeadNaked>(),
-                ModContent.NPCType<Signus>(),
-                ModContent.NPCType<CosmicLantern>(),
-                ModContent.NPCType<Polterghast>(),
-                ModContent.NPCType<PolterPhantom>(),
-                ModContent.NPCType<OldDuke>(),
-                ModContent.NPCType<OldDukeToothBall>(),
-                ModContent.NPCType<OldDukeSharkron>(),
-                ModContent.NPCType<DevourerofGodsBody>(),
-                ModContent.NPCType<DevourerofGodsTail>(),
-                ModContent.NPCType<DevourerofGodsBodyS>(),
-                ModContent.NPCType<DevourerofGodsTailS>(),
-                ModContent.NPCType<DevourerofGodsHead2>(),
-                ModContent.NPCType<DetonatingFlare>(),
                 ModContent.NPCType<BobbitWormHead>(),
                 ModContent.NPCType<ColossalSquid>(),
                 ModContent.NPCType<EidolonWyrmHead>(),
                 ModContent.NPCType<GulperEelHead>(),
                 ModContent.NPCType<Mauler>(),
                 ModContent.NPCType<Reaper>()
-            };
-
-            // Enemies that inflict an average of 401+ damage in Expert Mode
-            revengeanceEnemyBuffList5Percent = new List<int>()
-            {
-                ModContent.NPCType<DevourerofGodsHead>(),
-                ModContent.NPCType<DevourerofGodsHeadS>(),
-                ModContent.NPCType<Yharon>(),
-                ModContent.NPCType<DetonatingFlare2>(),
-                ModContent.NPCType<SupremeCalamitas>()
             };
 
             revengeanceProjectileBuffList25Percent = new List<int>()
@@ -2557,7 +2426,6 @@ namespace CalamityMod
             revengeanceEnemyBuffList20Percent = null;
             revengeanceEnemyBuffList15Percent = null;
             revengeanceEnemyBuffList10Percent = null;
-            revengeanceEnemyBuffList5Percent = null;
             revengeanceProjectileBuffList25Percent = null;
             revengeanceProjectileBuffList20Percent = null;
             revengeanceProjectileBuffList15Percent = null;

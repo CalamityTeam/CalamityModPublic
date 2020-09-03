@@ -41,8 +41,8 @@ namespace CalamityMod.NPCs.Polterghast
         public override void SetDefaults()
         {
             npc.npcSlots = 50f;
-            npc.damage = 150;
-            npc.width = 90;
+			npc.GetNPCDamage();
+			npc.width = 90;
             npc.height = 120;
             npc.defense = 90;
 			npc.DR_NERD(0.3f, null, null, null, true);

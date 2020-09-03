@@ -7,7 +7,6 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Dusts;
-using CalamityMod.World;
 using CalamityMod.Events;
 
 namespace CalamityMod.NPCs.OldDuke
@@ -24,7 +23,7 @@ namespace CalamityMod.NPCs.OldDuke
 		{
 			npc.aiStyle = -1;
 			aiType = -1;
-			npc.damage = 180;
+			npc.GetNPCDamage();
 			npc.width = 40;
 			npc.height = 40;
 			npc.defense = 0;

@@ -34,7 +34,7 @@ namespace CalamityMod.NPCs.AquaticScourge
         public override void SetDefaults()
         {
             npc.npcSlots = 16f;
-            npc.damage = 80;
+			npc.GetNPCDamage();
             npc.width = 90;
             npc.height = 90;
             npc.defense = 10;

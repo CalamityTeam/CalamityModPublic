@@ -21,8 +21,8 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
         public override void SetDefaults()
         {
-            npc.damage = 65;
-            npc.width = 36;
+			npc.GetNPCDamage();
+			npc.width = 36;
             npc.height = 30;
             npc.defense = 20;
             npc.lifeMax = 400;

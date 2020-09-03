@@ -40,8 +40,8 @@ namespace CalamityMod.NPCs.Signus
         public override void SetDefaults()
         {
             npc.npcSlots = 32f;
-            npc.damage = 175;
-            npc.width = 130;
+			npc.GetNPCDamage();
+			npc.width = 130;
             npc.height = 130;
             npc.defense = 70;
             Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");

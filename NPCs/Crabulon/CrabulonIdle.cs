@@ -34,8 +34,8 @@ namespace CalamityMod.NPCs.Crabulon
         public override void SetDefaults()
         {
             npc.npcSlots = 14f;
-            npc.damage = 40;
-            npc.width = 280;
+			npc.GetNPCDamage();
+			npc.width = 280;
             npc.height = 160;
             npc.defense = 8;
             npc.LifeMaxNERB(3000, 4000, 11000000);

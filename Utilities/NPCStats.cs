@@ -37,7 +37,7 @@ namespace CalamityMod
 	public static class NPCStats
 	{
 		// I want to die
-		public static void GetNPCDamage(this NPC npc, bool expert, bool revenge, bool death, bool? master = null)
+		public static void GetNPCDamage(this NPC npc)
 		{
 			float damageAdjustment = GetExpertDamageMultiplier(npc) * 2f;
 			BossStats.ContactDamageValues.TryGetValue(npc.type, out int[] contactDamage);
@@ -46,7 +46,7 @@ namespace CalamityMod
 			int revengeanceDamage = (int)(contactDamage[2] / damageAdjustment);
 			int deathDamage = (int)(contactDamage[3] / damageAdjustment);
 			int masterDamage = (int)(contactDamage[4] / damageAdjustment);
-			npc.damage = death ? deathDamage : revenge ? revengeanceDamage : expert ? expertDamage : normalDamage;
+			npc.damage = CalamityWorld.death ? deathDamage : CalamityWorld.revenge ? revengeanceDamage : Main.expertMode ? expertDamage : normalDamage;
 		}
 
 		/// <summary>

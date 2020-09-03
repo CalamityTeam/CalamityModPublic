@@ -1,7 +1,6 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using CalamityMod.Events;
-using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -25,15 +24,15 @@ namespace CalamityMod.NPCs.AstrumAureus
         {
             npc.aiStyle = -1;
             aiType = -1;
-            npc.damage = 0;
-            npc.width = 90;
+			npc.GetNPCDamage();
+			npc.width = 90;
             npc.height = 60;
             npc.alpha = 255;
             npc.defense = 0;
             CalamityGlobalNPC global = npc.Calamity();
             global.DR = 0.999999f;
             global.unbreakableDR = true;
-            npc.lifeMax = Main.expertMode ? 1007 : 1012;
+            npc.lifeMax = 1008;
             if (BossRushEvent.BossRushActive)
             {
                 npc.lifeMax = 1002;
@@ -62,6 +61,7 @@ namespace CalamityMod.NPCs.AstrumAureus
 
         public override void AI()
         {
+			npc.damage = 0;
             Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0.6f, 0.25f, 0f);
             npc.rotation = Math.Abs(npc.velocity.X) * (float)npc.direction * 0.04f;
             npc.spriteDirection = npc.direction;
@@ -208,6 +208,11 @@ namespace CalamityMod.NPCs.AstrumAureus
             }
         }
 
+		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
+		{
+			npc.lifeMax = (int)(npc.lifeMax * 0.5f * bossLifeScale);
+		}
+
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
 			SpriteEffects spriteEffects = SpriteEffects.None;
@@ -295,7 +300,7 @@ namespace CalamityMod.NPCs.AstrumAureus
             Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 14);
             npc.position.X = npc.position.X + (float)(npc.width / 2);
             npc.position.Y = npc.position.Y + (float)(npc.height / 2);
-            npc.damage = 150;
+            npc.damage = npc.defDamage;
             npc.width = npc.height = 216;
             npc.position.X = npc.position.X - (float)(npc.width / 2);
             npc.position.Y = npc.position.Y - (float)(npc.height / 2);

@@ -40,8 +40,8 @@ namespace CalamityMod.NPCs.Perforator
         public override void SetDefaults()
         {
             npc.npcSlots = 18f;
-            npc.damage = 30;
-            npc.width = 110;
+			npc.GetNPCDamage();
+			npc.width = 110;
             npc.height = 100;
             npc.defense = 4;
             npc.LifeMaxNERB(3750, 5400, 2700000);

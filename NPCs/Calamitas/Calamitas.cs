@@ -23,8 +23,8 @@ namespace CalamityMod.NPCs.Calamitas
 
         public override void SetDefaults()
         {
-            npc.damage = 55;
-            npc.npcSlots = 14f;
+			npc.GetNPCDamage();
+			npc.npcSlots = 14f;
             npc.width = 120;
             npc.height = 120;
             npc.defense = 15;

@@ -388,7 +388,7 @@ namespace CalamityMod.Items
 
                     if (player.whoAmI == Main.myPlayer)
                     {
-                        Projectile.NewProjectile(position, new Vector2(speedX, speedY) * 1.25f, ModContent.ProjectileType<Minibirb>(), newDamage, 2f, player.whoAmI, 0f, 0f);
+                        Projectile.NewProjectile(position, new Vector2(speedX, speedY) * 1.25f, ModContent.ProjectileType<Minibirb>(), CalamityUtils.DamageSoftCap(newDamage, 1000), 2f, player.whoAmI, 0f, 0f);
                     }
                 }
             }
@@ -403,7 +403,7 @@ namespace CalamityMod.Items
 							if (i != 0)
 							{
 								Vector2 perturbedSpeed = new Vector2(speedX, speedY).RotatedBy(MathHelper.ToRadians(i));
-								int rocket = Projectile.NewProjectile(position, perturbedSpeed, ModContent.ProjectileType<MiniRocket>(), (int)(damage * 0.8), 2f, player.whoAmI, 0f, 0f);
+								int rocket = Projectile.NewProjectile(position, perturbedSpeed, ModContent.ProjectileType<MiniRocket>(), CalamityUtils.DamageSoftCap(damage * 0.8, 200), 2f, player.whoAmI, 0f, 0f);
 								Main.projectile[rocket].Calamity().forceTypeless = true;
 							}
 						}
@@ -418,7 +418,7 @@ namespace CalamityMod.Items
                     {
 						float spreadX = speedX + Main.rand.Next(-15, 16) * 0.05f;
 						float spreadY = speedY + Main.rand.Next(-15, 16) * 0.05f;
-                        int feather = Projectile.NewProjectile(position, new Vector2(spreadX, spreadY) * 1.25f, ModContent.ProjectileType<TradewindsProjectile>(), damage / 2, 2f, player.whoAmI, 0f, 0f);
+                        int feather = Projectile.NewProjectile(position, new Vector2(spreadX, spreadY) * 1.25f, ModContent.ProjectileType<TradewindsProjectile>(), CalamityUtils.DamageSoftCap(damage * 0.5, 75), 2f, player.whoAmI, 0f, 0f);
 						Main.projectile[feather].usesLocalNPCImmunity = true;
 						Main.projectile[feather].localNPCHitCooldown = 10;
 						Main.projectile[feather].Calamity().forceTypeless = true;

@@ -31,8 +31,8 @@ namespace CalamityMod.NPCs.Leviathan
 
         public override void SetDefaults()
         {
-            npc.damage = 70;
-            npc.npcSlots = 16f;
+			npc.GetNPCDamage();
+			npc.npcSlots = 16f;
             npc.width = 100;
             npc.height = 100;
             npc.defense = 20;

@@ -22,8 +22,8 @@ namespace CalamityMod.NPCs.Signus
         {
             npc.aiStyle = -1;
             aiType = -1;
-            npc.damage = 110;
-            npc.width = 25;
+			npc.GetNPCDamage();
+			npc.width = 25;
             npc.height = 25;
             npc.defense = 50;
             npc.lifeMax = 25;
