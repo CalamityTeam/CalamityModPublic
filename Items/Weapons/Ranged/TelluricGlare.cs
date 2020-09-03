@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<TelluricGlareProj>();
             item.shootSpeed = 12f;
-            item.useAmmo = 40;
+            item.useAmmo = AmmoID.Arrow;
             item.Calamity().customRarity = CalamityRarity.Turquoise;
         }
 

@@ -4368,7 +4368,7 @@ namespace CalamityMod.CalPlayer
             {
                 add += GaelsGreatsword.BaseDamage / (float)GaelsGreatsword.BaseDamage - 1f;
             }
-            if (flamethrowerBoost && item.ranged && (item.useAmmo == 23 || CalamityLists.flamethrowerList.Contains(item.type)))
+            if (flamethrowerBoost && item.ranged && (item.useAmmo == AmmoID.Gel || CalamityLists.flamethrowerList.Contains(item.type)))
             {
                 add += hoverboardBoost ? 0.35f : 0.25f;
             }

@@ -35,7 +35,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
             item.shootSpeed = 24f;
             item.shoot = ProjectileID.BulletHighVelocity;
-            item.useAmmo = 97;
+            item.useAmmo = AmmoID.Bullet;
         }
 
         public override Vector2? HoldoutOffset()

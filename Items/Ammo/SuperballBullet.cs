@@ -25,7 +25,7 @@ namespace CalamityMod.Items.Ammo
             item.rare = 1;
             item.shoot = ModContent.ProjectileType<SuperballBulletProj>();
             item.shootSpeed = 1f;
-            item.ammo = 97;
+            item.ammo = AmmoID.Bullet;
         }
 
         public override void AddRecipes()

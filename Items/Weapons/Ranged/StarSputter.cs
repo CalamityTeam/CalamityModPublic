@@ -36,7 +36,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<SputterComet>();
             item.shootSpeed = 15f;
-            item.useAmmo = 75;
+            item.useAmmo = AmmoID.FallenStar;
         }
 
         public override Vector2? HoldoutOffset()
