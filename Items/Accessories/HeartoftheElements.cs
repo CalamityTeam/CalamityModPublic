@@ -53,7 +53,7 @@ namespace CalamityMod.Items.Accessories
         {
 			if (player != null && !player.dead)
 			{
-				Lighting.AddLight((int)player.Center.X / 16, (int)player.Center.Y / 16, (float)Main.DiscoR / 255f, (float)Main.DiscoG / 255f, (float)Main.DiscoB / 255f);
+				Lighting.AddLight((int)player.Center.X / 16, (int)player.Center.Y / 16, Main.DiscoR / 255f, Main.DiscoG / 255f, Main.DiscoB / 255f);
 			}
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.allWaifus = !hideVisual;
@@ -62,7 +62,7 @@ namespace CalamityMod.Items.Accessories
 			player.lifeRegen += hideVisual ? 2 : 1;
 			player.statLifeMax2 += hideVisual ? 25 : 20;
 			player.moveSpeed += hideVisual ? 0.12f : 0.1f;
-			player.jumpSpeedBoost += hideVisual ? 1.1f : 1f;
+			player.jumpSpeedBoost += hideVisual ? (player.autoJump ? 0.3f : 1.1f) : (player.autoJump ? 0.25f : 1f);
 			player.endurance += hideVisual ? 0.06f : 0.05f;
 			player.statManaMax2 += hideVisual ? 60 : 50;
 			player.manaCost *= hideVisual ? 0.93f : 0.95f;
@@ -130,7 +130,7 @@ namespace CalamityMod.Items.Accessories
             if (player != null && !player.dead && player.velocity.Y == 0f && player.grappling[0] == -1)
             {
                 int x = (int)player.Center.X / 16;
-                int y = (int)(player.position.Y + (float)player.height - 1f) / 16;
+                int y = (int)(player.position.Y + player.height - 1f) / 16;
 				Tile tile = Main.tile[x, y];
                 if (tile is null)
                 {

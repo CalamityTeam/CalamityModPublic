@@ -22,8 +22,8 @@ namespace CalamityMod.NPCs.HiveMind
         public override void SetDefaults()
         {
             npc.npcSlots = 5f;
-            npc.damage = 20;
-            npc.width = 150;
+			npc.GetNPCDamage();
+			npc.width = 150;
             npc.height = 120;
             npc.defense = 10;
             npc.LifeMaxNERB(1200, 1800, 350000);
@@ -266,7 +266,7 @@ namespace CalamityMod.NPCs.HiveMind
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
             npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);
-            npc.damage = (int)(npc.damage * 0.8f);
+            npc.damage = (int)(npc.damage * npc.GetExpertDamageMultiplier());
         }
 
         public override void HitEffect(int hitDirection, double damage)

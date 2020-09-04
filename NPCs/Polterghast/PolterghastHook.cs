@@ -109,11 +109,11 @@ namespace CalamityMod.NPCs.Polterghast
             else
                 despawnTimer++;
 
-            // Phase 2
-            if (lifeRatio < (death ? 0.9f : 0.75f) && lifeRatio >= (revenge ? (death ? 0.8f : 0.5f) : 0.33f))
+			// Phase 2
+			bool phase3 = lifeRatio < (death ? 0.6f : revenge ? 0.5f : expertMode ? 0.35f : 0.2f);
+			phase2 = lifeRatio < (death ? 0.9f : revenge ? 0.8f : expertMode ? 0.65f : 0.5f) && !phase3;
+			if (phase2)
             {
-                phase2 = true;
-
                 npc.TargetClosest(true);
 
                 Movement(phase2, expertMode, revenge, death, speedBoost, despawnBoost, lifeRatio, tileEnrageMult, player);
@@ -166,7 +166,6 @@ namespace CalamityMod.NPCs.Polterghast
             }
 
             // Phase 1 or 3
-            phase2 = false;
             Movement(phase2, expertMode, revenge, death, speedBoost, despawnBoost, lifeRatio, tileEnrageMult, player);
         }
 

@@ -85,8 +85,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
         public override void SetDefaults()
         {
-            npc.damage = 350;
-            npc.npcSlots = 50f;
+			npc.GetNPCDamage();
+			npc.npcSlots = 50f;
             npc.width = 120;
             npc.height = 120;
             npc.defense = 120;
@@ -2418,7 +2418,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
             npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);
-            npc.damage = (int)(npc.damage * 0.8f);
+            npc.damage = (int)(npc.damage * npc.GetExpertDamageMultiplier());
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)

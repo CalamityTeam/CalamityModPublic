@@ -1010,6 +1010,19 @@ namespace CalamityMod.CalPlayer
 				modPlayer.plagueReaperCooldown--;
 			if (modPlayer.brimflameFrenzyTimer > 0)
 				modPlayer.brimflameFrenzyTimer--;
+			if (modPlayer.fungalSymbioteTimer > 0)
+				modPlayer.fungalSymbioteTimer--;
+			if (player.miscCounter % 20 == 0)
+				modPlayer.canFireAtaxiaRangedProjectile = true;
+			if (player.miscCounter % 100 == 0)
+				modPlayer.canFireBloodflareMageProjectile = true;
+			if (player.miscCounter % 150 == 0)
+			{
+				modPlayer.canFireGodSlayerRangedProjectile = true;
+				modPlayer.canFireBloodflareRangedProjectile = true;
+				modPlayer.canFireReaverRangedProjectile = true;
+				modPlayer.canFireAtaxiaRogueProjectile = true;
+			}
 			if (modPlayer.roverDrive)
 			{
 				if (modPlayer.roverDriveTimer < CalamityUtils.SecondsToFrames(30f))
@@ -3335,7 +3348,7 @@ namespace CalamityMod.CalPlayer
 					{
 						float ai1 = I * 120;
 						Projectile.NewProjectile(player.Center.X + (float)(Math.Sin(I * 120) * 550), player.Center.Y + (float)(Math.Cos(I * 120) * 550), 0f, 0f,
-							ModContent.ProjectileType<GhostlyMine>(), (int)((modPlayer.auricSet ? 15000 : 5000) * player.MinionDamage()), 1f, player.whoAmI, ai1, 0f);
+							ModContent.ProjectileType<GhostlyMine>(), (int)(5000 * player.MinionDamage()), 1f, player.whoAmI, ai1, 0f);
 					}
 				}
 			}

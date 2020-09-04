@@ -107,8 +107,8 @@ namespace CalamityMod.CalPlayer
             Player drawPlayer = drawInfo.drawPlayer;
             Item currentlyHeldItem = drawPlayer.ActiveItem();
 
-            // Kamei trail/afterimage effect.
-            if (drawPlayer.Calamity().kamiBoost)
+			// Kamei trail/afterimage effect.
+			if (drawPlayer.Calamity().kamiBoost)
             {
                 for (int i = drawPlayer.Calamity().KameiOldPositions.Length - 1; i > 0; i--)
                 {

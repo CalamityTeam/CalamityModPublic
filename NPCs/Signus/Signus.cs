@@ -40,8 +40,8 @@ namespace CalamityMod.NPCs.Signus
         public override void SetDefaults()
         {
             npc.npcSlots = 32f;
-            npc.damage = 175;
-            npc.width = 130;
+			npc.GetNPCDamage();
+			npc.width = 130;
             npc.height = 130;
             npc.defense = 70;
             Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
@@ -801,7 +801,7 @@ namespace CalamityMod.NPCs.Signus
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
             npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);
-            npc.damage = (int)(npc.damage * 0.85f);
+            npc.damage = (int)(npc.damage * npc.GetExpertDamageMultiplier());
         }
 
         public override void HitEffect(int hitDirection, double damage)

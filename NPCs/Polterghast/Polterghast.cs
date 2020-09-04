@@ -30,9 +30,6 @@ namespace CalamityMod.NPCs.Polterghast
     {
         private int despawnTimer = 600;
         private bool spawnGhost = false;
-        public static float phase1DR = 0.15f;
-        public static float phase2DR = 0.2f;
-        public static float phase3DR = 0.5f;
 
         public override void SetStaticDefaults()
         {
@@ -44,11 +41,11 @@ namespace CalamityMod.NPCs.Polterghast
         public override void SetDefaults()
         {
             npc.npcSlots = 50f;
-            npc.damage = 150;
-            npc.width = 90;
+			npc.GetNPCDamage();
+			npc.width = 90;
             npc.height = 120;
             npc.defense = 90;
-			npc.DR_NERD(0.15f, null, null, null, true);
+			npc.DR_NERD(0.3f, null, null, null, true);
 			CalamityGlobalNPC global = npc.Calamity();
             global.multDRReductions.Add(BuffID.CursedInferno, 0.9f);
             npc.LifeMaxNERB(412500, 495000, 3250000);
@@ -122,10 +119,10 @@ namespace CalamityMod.NPCs.Polterghast
 			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
 			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
             bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
-            bool phase2 = lifeRatio < (death ? 0.9f : 0.75f);
-            bool phase3 = lifeRatio < (revenge ? (death ? 0.8f : 0.5f) : 0.33f);
-            bool phase4 = lifeRatio < (revenge ? (death ? 0.5f : 0.33f) : 0.2f);
-            bool phase5 = lifeRatio < (revenge ? (death ? 0.25f : 0.1f) : 0.05f);
+            bool phase2 = lifeRatio < (death ? 0.9f : revenge ? 0.8f : expertMode ? 0.65f : 0.5f);
+            bool phase3 = lifeRatio < (death ? 0.6f : revenge ? 0.5f : expertMode ? 0.35f : 0.2f);
+            bool phase4 = lifeRatio < (death ? 0.45f : revenge ? 0.35f : expertMode ? 0.2f : 0.1f);
+            bool phase5 = lifeRatio < (death ? 0.2f : revenge ? 0.15f : expertMode ? 0.1f : 0.05f);
 
             // Target
             npc.TargetClosest(true);
@@ -333,10 +330,6 @@ namespace CalamityMod.NPCs.Polterghast
 			int damageIncrease = 0;
 			if (nearbyActiveTiles < 400)
 				damageIncrease += (400 - nearbyActiveTiles) / 20; // Ranges from 0 to 20
-
-			// Set DR based on phase
-			float dr = phase3 ? phase3DR : phase2 ? phase2DR : phase1DR;
-            npc.Calamity().DR = dr;
 
             Vector2 vector91 = new Vector2(num730, num731);
             float num736 = player.Center.X - vector91.X;
@@ -934,21 +927,28 @@ namespace CalamityMod.NPCs.Polterghast
 
 		public override void FindFrame(int frameHeight)
         {
+			float lifeRatio = npc.life / (float)npc.lifeMax;
+			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
 			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
 			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
-			bool phase2 = npc.life >= npc.lifeMax * (revenge ? (death ? 0.8 : 0.5) : 0.33);
+			bool phase2 = lifeRatio < (death ? 0.9f : revenge ? 0.8f : expertMode ? 0.65f : 0.5f);
+			bool phase3 = lifeRatio < (death ? 0.6f : revenge ? 0.5f : expertMode ? 0.35f : 0.2f);
             npc.frameCounter += 1D;
             if (npc.frameCounter > 6D)
             {
                 npc.frameCounter = 0D;
                 npc.frame.Y += frameHeight;
             }
-            if (npc.life >= npc.lifeMax * (death ? 0.9 : 0.75))
+            if (phase3)
             {
-                if (npc.frame.Y > frameHeight * 3)
-                {
-                    npc.frame.Y = 0;
-                }
+				if (npc.frame.Y < frameHeight * 8)
+				{
+					npc.frame.Y = frameHeight * 8;
+				}
+				if (npc.frame.Y > frameHeight * 11)
+				{
+					npc.frame.Y = frameHeight * 8;
+				}
             }
             else if (phase2)
             {
@@ -963,15 +963,11 @@ namespace CalamityMod.NPCs.Polterghast
             }
             else
             {
-                if (npc.frame.Y < frameHeight * 8)
-                {
-                    npc.frame.Y = frameHeight * 8;
-                }
-                if (npc.frame.Y > frameHeight * 11)
-                {
-                    npc.frame.Y = frameHeight * 8;
-                }
-            }
+				if (npc.frame.Y > frameHeight * 3)
+				{
+					npc.frame.Y = 0;
+				}
+			}
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
@@ -991,7 +987,7 @@ namespace CalamityMod.NPCs.Polterghast
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
             npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);
-            npc.damage = (int)(npc.damage * 0.8f);
+            npc.damage = (int)(npc.damage * npc.GetExpertDamageMultiplier());
         }
 
         public override void HitEffect(int hitDirection, double damage)

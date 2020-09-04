@@ -19,8 +19,8 @@ namespace CalamityMod.NPCs.Crabulon
         public override void SetDefaults()
         {
             npc.aiStyle = -1;
-            npc.damage = 25;
-            npc.width = 14;
+			npc.GetNPCDamage();
+			npc.width = 14;
             npc.height = 14;
             npc.lifeMax = 25;
             if (BossRushEvent.BossRushActive)

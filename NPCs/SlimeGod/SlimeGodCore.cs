@@ -35,8 +35,8 @@ namespace CalamityMod.NPCs.SlimeGod
 
         public override void SetDefaults()
         {
-            npc.damage = 40;
-            npc.npcSlots = 10f;
+			npc.GetNPCDamage();
+			npc.npcSlots = 10f;
             npc.width = 44;
             npc.height = 44;
             npc.defense = 6;

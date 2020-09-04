@@ -59,8 +59,8 @@ namespace CalamityMod.NPCs.DevourerofGods
 
         public override void SetDefaults()
         {
-            npc.damage = 300;
-            npc.npcSlots = 5f;
+			npc.GetNPCDamage();
+			npc.npcSlots = 5f;
             npc.width = 186;
             npc.height = 186;
             npc.defense = 50;
@@ -325,8 +325,6 @@ namespace CalamityMod.NPCs.DevourerofGods
                 // Laser walls
                 if (!phase3 && (laserWallPhase == (int)LaserWallPhase.FireLaserWalls || calamityGlobalNPC.enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive)))
                 {
-					calamityGlobalNPC.newAI[1] += 1f;
-
                     float speed = 12f;
                     float spawnOffset = 1500f;
                     float divisor = 120f;
@@ -398,7 +396,9 @@ namespace CalamityMod.NPCs.DevourerofGods
 						}
 						shotSpacing[2] = 1050;
 					}
-                }
+
+					calamityGlobalNPC.newAI[1] += 1f;
+				}
             }
 
             // Despawn

@@ -19,8 +19,8 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
         public override void SetDefaults()
         {
-            npc.damage = 0;
-            npc.npcSlots = 1f;
+			npc.GetNPCDamage();
+			npc.npcSlots = 1f;
             npc.width = 42;
             npc.height = 42;
             npc.defense = 10;
@@ -77,8 +77,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             npc.dontTakeDamage = npc.ai[3] >= 180f ? false : true;
             if (npc.ai[3] >= 480f)
             {
-                npc.velocity.Y *= 0.985f;
-                npc.velocity.X *= 0.985f;
+                npc.velocity *= 0.985f;
                 return;
             }
             npc.TargetClosest(true);
@@ -148,7 +147,6 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             Main.PlaySound(SoundID.Item14, npc.position);
             npc.position.X = npc.position.X + (float)(npc.width / 2);
             npc.position.Y = npc.position.Y + (float)(npc.height / 2);
-            npc.damage = 200;
             npc.width = npc.height = 216;
             npc.position.X = npc.position.X - (float)(npc.width / 2);
             npc.position.Y = npc.position.Y - (float)(npc.height / 2);

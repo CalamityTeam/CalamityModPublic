@@ -40,8 +40,8 @@ namespace CalamityMod.NPCs.Ravager
 			npc.noGravity = true;
             npc.npcSlots = 20f;
             npc.aiStyle = -1;
-            npc.damage = 120;
-            npc.width = 332;
+			npc.GetNPCDamage();
+			npc.width = 332;
             npc.height = 214;
             npc.defense = 55;
             npc.value = Item.buyPrice(0, 25, 0, 0);
@@ -590,11 +590,11 @@ namespace CalamityMod.NPCs.Ravager
 					else
 						npc.Calamity().newAI[2] = player.direction;
 
-					if ((npc.position.X < targetVector.X + offset && npc.position.X + npc.width > targetVector.X + player.width + offset && (inRange || npc.ai[0] != 2f)) || npc.ai[1] > 0f || npc.Calamity().newAI[3] >= 180f)
+					if ((npc.position.X < targetVector.X + offset && npc.position.X + npc.width > targetVector.X + player.width + offset && (inRange || npc.ai[0] != 2f)) || npc.ai[1] > 0f || npc.Calamity().newAI[3] >= 300f)
                     {
 						if (npc.ai[0] == 2f)
 						{
-							float stopBeforeFallTime = npc.Calamity().newAI[2] == 0f ? 15f : 20f;
+							float stopBeforeFallTime = 25f;
 							if (expertMode)
 								stopBeforeFallTime -= death ? 5f : 5f * (1f - lifeRatio);
 
@@ -754,7 +754,7 @@ namespace CalamityMod.NPCs.Ravager
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
             npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);
-            npc.damage = (int)(npc.damage * 0.8f);
+            npc.damage = (int)(npc.damage * npc.GetExpertDamageMultiplier());
         }
 
         public override void HitEffect(int hitDirection, double damage)
