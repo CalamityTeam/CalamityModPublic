@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
             item.width = 68;
             item.height = 36;
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.UseSound = SoundID.Item34;
             item.value = CalamityGlobalItem.Rarity7BuyPrice;
