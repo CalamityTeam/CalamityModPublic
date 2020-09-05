@@ -134,7 +134,7 @@ namespace CalamityMod.CalPlayer
 
         public int CurrentlyViewedChargerX = -1;
         public int CurrentlyViewedChargerY = -1;
-        public TEDraedonItemCharger CurrentlyViewedCharger;
+        public TEChargingStation CurrentlyViewedCharger;
 
         public int CurrentlyViewedHologramX = -1;
         public int CurrentlyViewedHologramY = -1;

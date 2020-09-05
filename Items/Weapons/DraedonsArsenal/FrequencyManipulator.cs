@@ -21,8 +21,10 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 
 		public override void SafeSetDefaults()
 		{
+			CalamityGlobalItem modItem = item.Calamity();
+
 			item.damage = 67;
-			item.Calamity().rogue = true;
+			modItem.rogue = true;
 			item.noMelee = true;
 			item.noUseGraphic = true;
 			item.width = 26;
@@ -35,15 +37,15 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 
 			item.value = CalamityGlobalItem.Rarity5BuyPrice;
 			item.rare = ItemRarityID.Red;
-
-			item.Calamity().customRarity = CalamityRarity.DraedonRust;
+			modItem.customRarity = CalamityRarity.DraedonRust;
 			item.UseSound = SoundID.Item1;
 
 			item.shootSpeed = 16f;
 			item.shoot = ModContent.ProjectileType<FrequencyManipulatorProjectile>();
 
-			item.Calamity().Chargeable = true;
-			item.Calamity().ChargeMax = 85;
+			modItem.UsesCharge = true;
+			modItem.MaxCharge = 85f;
+			modItem.ChargePerUse = 0.125f;
 		}
 
 		public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;

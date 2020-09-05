@@ -21,6 +21,8 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 
 		public override void SetDefaults()
 		{
+			CalamityGlobalItem modItem = item.Calamity();
+
 			item.width = 62;
 			item.height = 30;
 			item.magic = true;
@@ -37,13 +39,15 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 
 			item.value = CalamityGlobalItem.RarityTurquoiseBuyPrice;
 			item.rare = ItemRarityID.Red;
-			item.Calamity().customRarity = CalamityRarity.DraedonRust;
+			modItem.customRarity = CalamityRarity.DraedonRust;
 
 			item.shoot = ModContent.ProjectileType<PlasmaCasterShot>();
 			item.shootSpeed = 5f;
 
-			item.Calamity().Chargeable = true;
-			item.Calamity().ChargeMax = 190;
+			modItem.UsesCharge = true;
+			modItem.MaxCharge = 190f;
+			modItem.ChargePerUse = 0.32f;
+			modItem.ChargePerAltUse = 0.12f; // turbo mode is more energy inefficient
 		}
 
 		public override bool AltFunctionUse(Player player) => true;

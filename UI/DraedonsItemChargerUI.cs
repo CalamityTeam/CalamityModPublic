@@ -27,7 +27,7 @@ namespace CalamityMod.UI
                     Main.LocalPlayer.Calamity().CurrentlyViewedCharger = null;
                     return;
                 }
-                ref TEDraedonItemCharger charger = ref Main.LocalPlayer.Calamity().CurrentlyViewedCharger;
+                ref TEChargingStation charger = ref Main.LocalPlayer.Calamity().CurrentlyViewedCharger;
                 ref int depositWithdrawCooldown = ref charger.DepositWithdrawCooldown;
                 ref Item itemBeingCharged = ref charger.ItemBeingCharged;
                 ref Item fuel = ref charger.FuelItem;
@@ -54,7 +54,7 @@ namespace CalamityMod.UI
                     // Why not just use CurrentCharge instead of some wacky field in the tile entity, you might be asking?
                     // Well, as it turns out, multiplayer (and NBT tags) don't like taking data from the item. I was attempting to fix the issue for
                     // nearly 4 hours, to no avail. I'd consider this weird little piece of code here the lesser of two evils.
-                    itemBeingCharged.Calamity().CurrentCharge = charger.Charge;
+                    itemBeingCharged.Calamity().Charge = charger.Charge;
                 }
                 if (Main.mouseLeft && Main.LocalPlayer.itemAnimation == 0)
                 {
@@ -182,7 +182,7 @@ namespace CalamityMod.UI
             return false;
         }
 
-        public static bool UseChargeItem(ref Item itemToUse, ref Item chargeItem, ref TEDraedonItemCharger charger)
+        public static bool UseChargeItem(ref Item itemToUse, ref Item chargeItem, ref TEChargingStation charger)
         {
             // Withdraw the placed item.
             if (itemToUse.type == ItemID.None && chargeItem.stack > 0)
@@ -191,7 +191,7 @@ namespace CalamityMod.UI
                 byte prefix = chargeItem.prefix;
                 itemToUse = chargeItem.Clone();
                 itemToUse.SetDefaults(itemToUse.type);
-                itemToUse.Calamity().CurrentCharge = oldCharge;
+                itemToUse.Calamity().Charge = oldCharge;
                 itemToUse.prefix = prefix;
                 chargeItem.stack = 0;
                 return true;
@@ -201,10 +201,11 @@ namespace CalamityMod.UI
             {
                 if (itemToUse is null || itemToUse.type < ItemID.Count)
                     return false;
-                if (!itemToUse.Calamity().Chargeable)
+                if (!itemToUse.Calamity().UsesCharge)
                     return false;
-                charger.Charge = itemToUse.Calamity().CurrentCharge;
-                charger.ChargeMax = itemToUse.Calamity().ChargeMax;
+                // These separated variables really shouldn't be necessary.
+                // charger.Charge = itemToUse.Calamity().Charge;
+                // charger.ChargeMax = itemToUse.Calamity().MaxCharge;
                 chargeItem = itemToUse.Clone();
                 itemToUse = new Item();
                 return true;

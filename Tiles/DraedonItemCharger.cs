@@ -23,7 +23,7 @@ namespace CalamityMod.Tiles
             Main.tileLavaDeath[Type] = false;
             Main.tileWaterDeath[Type] = false;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style3x2);
-            TileObjectData.newTile.HookPostPlaceMyPlayer = new PlacementHook(ModContent.GetInstance<TEDraedonItemCharger>().Hook_AfterPlacement, -1, 0, true);
+            TileObjectData.newTile.HookPostPlaceMyPlayer = new PlacementHook(ModContent.GetInstance<TEChargingStation>().Hook_AfterPlacement, -1, 0, true);
             TileObjectData.newTile.LavaDeath = false;
             TileObjectData.addTile(Type);
             ModTranslation name = CreateMapEntryName();
@@ -33,19 +33,19 @@ namespace CalamityMod.Tiles
 
         public override bool CanExplode(int i, int j) => false;
 
-        public TEDraedonItemCharger RetrieveTileEntity(int i, int j)
+        public TEChargingStation RetrieveTileEntity(int i, int j)
         {
             // This is very fucking important. ByID and ByPostion can apparently be different and as a result using both together is fucking unreliable.
             int left = i - Main.tile[i, j].frameX % (Width * 18) / 18;
             int top = j - Main.tile[i, j].frameY % (Height * 18) / 18;
             if (!TileEntity.ByID.Any(tileEntity => tileEntity.Value.Position == new Point16(left, top)))
             {
-                var factory = ModTileEntity.ConstructFromType(ModContent.TileEntityType<TEDraedonItemCharger>());
+                var factory = ModTileEntity.ConstructFromType(ModContent.TileEntityType<TEChargingStation>());
                 factory.Position = new Point16(left, top);
                 TileEntity.ByID[TileEntity.ByID.Count] = factory;
                 TileEntity.ByPosition[factory.Position] = factory;
             }
-            return (TEDraedonItemCharger)TileEntity.ByID.Where(tileEntity => tileEntity.Value.Position == new Point16(left, top)).First().Value;
+            return (TEChargingStation)TileEntity.ByID.Where(tileEntity => tileEntity.Value.Position == new Point16(left, top)).First().Value;
         }
         public override bool CreateDust(int i, int j, ref int type)
         {
@@ -66,7 +66,7 @@ namespace CalamityMod.Tiles
             int left = i - Main.tile[i, j].frameX % (Width * 18) / 18;
             int top = j - Main.tile[i, j].frameY % (Height * 18) / 18;
 
-            TEDraedonItemCharger charger = RetrieveTileEntity(i, j);
+            TEChargingStation charger = RetrieveTileEntity(i, j);
             if (charger.FuelItem.stack > 0)
             {
                 Item.NewItem(new Vector2(i, j) * 16f, charger.FuelItem.type, charger.FuelItem.stack);
@@ -74,7 +74,7 @@ namespace CalamityMod.Tiles
             if (charger.ItemBeingCharged.stack > 0)
             {
                 int idx = Item.NewItem(new Vector2(i, j) * 16f, charger.ItemBeingCharged.type, charger.ItemBeingCharged.stack);
-                Main.item[idx].Calamity().CurrentCharge = charger.Charge;
+                Main.item[idx].Calamity().Charge = charger.Charge;
                 Main.item[idx].prefix = charger.ItemBeingCharged.prefix;
             }
             charger.Kill(left, top);
@@ -86,7 +86,7 @@ namespace CalamityMod.Tiles
             int top = j - Main.tile[i, j].frameY % (Height * 18) / 18;
             Player player = Main.LocalPlayer;
 
-            TEDraedonItemCharger charger = RetrieveTileEntity(i, j);
+            TEChargingStation charger = RetrieveTileEntity(i, j);
             Main.mouseRightRelease = false;
 
             if (player.sign >= 0)
@@ -125,8 +125,8 @@ namespace CalamityMod.Tiles
         }
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
-            TEDraedonItemCharger charger = RetrieveTileEntity(i, j);
-            Color drawColor = Color.Lerp(Color.Red, Color.MediumSpringGreen, Utils.InverseLerp(0f, TEDraedonItemCharger.ActiveTimerMax, charger.ActiveTimer, true));
+            TEChargingStation charger = RetrieveTileEntity(i, j);
+            Color drawColor = Color.Lerp(Color.Red, Color.MediumSpringGreen, Utils.InverseLerp(0f, TEChargingStation.ActiveTimerMax, charger.ActiveTimer, true));
 
             int xFrame = Main.tile[i, j].frameX;
             int yFrame = Main.tile[i, j].frameY;

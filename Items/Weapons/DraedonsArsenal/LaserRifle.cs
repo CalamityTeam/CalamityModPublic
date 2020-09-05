@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.DraedonsArsenal
 {
-    public class LaserRifle : ModItem
+	public class LaserRifle : ModItem
 	{
 		public override void SetStaticDefaults()
 		{
@@ -18,6 +18,8 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 
 		public override void SetDefaults()
 		{
+			CalamityGlobalItem modItem = item.Calamity();
+
 			item.width = 84;
 			item.height = 28;
 			item.ranged = true;
@@ -33,13 +35,14 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 
 			item.value = CalamityGlobalItem.RarityTurquoiseBuyPrice;
 			item.rare = ItemRarityID.Red;
-			item.Calamity().customRarity = CalamityRarity.DraedonRust;
+			modItem.customRarity = CalamityRarity.DraedonRust;
 
 			item.shoot = ModContent.ProjectileType<LaserRifleShot>();
 			item.shootSpeed = 5f;
 
-			item.Calamity().Chargeable = true;
-			item.Calamity().ChargeMax = 190;
+			modItem.UsesCharge = true;
+			modItem.MaxCharge = 190f;
+			modItem.ChargePerUse = 0.125f;
 		}
 
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

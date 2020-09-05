@@ -1,5 +1,4 @@
 using CalamityMod.Items.Materials;
-using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.Projectiles.DraedonsArsenal;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
@@ -20,6 +19,8 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 
 		public override void SetDefaults()
 		{
+			CalamityGlobalItem modItem = item.Calamity();
+
 			item.shootSpeed = 10f;
 			item.damage = 700;
 			item.mana = 12;
@@ -32,13 +33,18 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 
 			item.value = CalamityGlobalItem.RarityVioletBuyPrice;
 			item.rare = ItemRarityID.Red;
-			item.Calamity().customRarity = CalamityRarity.DraedonRust;
+			modItem.customRarity = CalamityRarity.DraedonRust;
 
 			item.UseSound = SoundID.Item15;
 			item.autoReuse = true;
 			item.shoot = ModContent.ProjectileType<PoleWarperSummon>();
 			item.shootSpeed = 10f;
 			item.summon = true;
+
+			modItem.UsesCharge = true;
+			modItem.MaxCharge = 250f;
+			modItem.ChargePerUse = 1.25f;
+			modItem.ChargePerAltUse = 0f;
 		}
 
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

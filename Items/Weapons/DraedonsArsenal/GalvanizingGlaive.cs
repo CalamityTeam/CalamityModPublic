@@ -7,19 +7,21 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.DraedonsArsenal
 {
-	public class GalvanizingGlaive : ModItem
+    public class GalvanizingGlaive : ModItem
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Galvanizing Glaive");
             Tooltip.SetDefault("Its use as a tool is to quickly separate a single object into two. That is also its use as a weapon.\n" +
-			"Swings a spear which envelops struck foes in an energy field\n" + 
-			"When done swinging, the spear discharges an extra pulse of energy\n" +
-			"Deals more damage against enemies with high defenses");
+            "Swings a spear which envelops struck foes in an energy field\n" + 
+            "When done swinging, the spear discharges an extra pulse of energy\n" +
+            "Deals more damage against enemies with high defenses");
         }
 
         public override void SetDefaults()
         {
+            CalamityGlobalItem modItem = item.Calamity();
+
             item.width = 56;
             item.height = 52;
             item.damage = 84;
@@ -33,16 +35,17 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
             item.knockBack = 9f;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
-			
+            
             item.rare = ItemRarityID.Red;
-			item.Calamity().customRarity = CalamityRarity.DraedonRust;
+            modItem.customRarity = CalamityRarity.DraedonRust;
             item.value = CalamityGlobalItem.Rarity8BuyPrice;
-			
+            
             item.shoot = ModContent.ProjectileType<GalvanizingGlaiveProjectile>();
             item.shootSpeed = 21f;
 
-			item.Calamity().Chargeable = true;
-			item.Calamity().ChargeMax = 135;
+            modItem.UsesCharge = true;
+            modItem.MaxCharge = 135f;
+            modItem.ChargePerUse = 0.075f;
         }
 
         public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;

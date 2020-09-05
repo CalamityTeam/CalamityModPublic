@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.DraedonsArsenal
 {
-    public class StarSwallowerContainmentUnit : ModItem
+	public class StarSwallowerContainmentUnit : ModItem
 	{
 		public override void SetStaticDefaults()
 		{
@@ -19,6 +19,8 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 
 		public override void SetDefaults()
 		{
+			CalamityGlobalItem modItem = item.Calamity();
+
 			item.shootSpeed = 10f;
 			item.damage = 24;
 			item.mana = 10;
@@ -30,12 +32,17 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 			item.knockBack = 2.25f;
 			item.value = CalamityGlobalItem.Rarity3BuyPrice;
 			item.rare = ItemRarityID.Red;
-			item.Calamity().customRarity = CalamityRarity.DraedonRust;
+			modItem.customRarity = CalamityRarity.DraedonRust;
 			item.UseSound = SoundID.Item15;
 			item.autoReuse = true;
 			item.shoot = ModContent.ProjectileType<StarSwallowerSummon>();
 			item.shootSpeed = 10f;
 			item.summon = true;
+
+			modItem.UsesCharge = true;
+			modItem.MaxCharge = 50f;
+			modItem.ChargePerUse = 0.8f;
+			modItem.ChargePerAltUse = 0f;
 		}
 
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

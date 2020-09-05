@@ -10,7 +10,7 @@ namespace CalamityMod.Items.DraedonMisc
         {
             DisplayName.SetDefault("Charger Test Item");
             Tooltip.SetDefault("Testing/Cheat Item\n" +
-                               "Charges all Draedon's Arsenal weapons in your inventory");
+                               "Fully charges all Draedon's Arsenal items in your inventory");
         }
 
         public override void SetDefaults()
@@ -32,8 +32,12 @@ namespace CalamityMod.Items.DraedonMisc
         {
             for (int i = 0; i < player.inventory.Length; i++)
             {
-                if (player.inventory[i].type > ItemID.Count && player.inventory[i].Calamity().Chargeable)
-                    player.inventory[i].Calamity().CurrentCharge = player.inventory[i].Calamity().ChargeMax;
+                Item item = player.inventory[i];
+                if (item.type < ItemID.Count)
+                    continue;
+                CalamityGlobalItem modItem = item.Calamity();
+                if (modItem.UsesCharge)
+                    modItem.Charge = modItem.MaxCharge;
             }
             return true;
         }
