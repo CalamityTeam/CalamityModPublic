@@ -1,6 +1,5 @@
 using CalamityMod.Events;
 using CalamityMod.Projectiles.Boss;
-using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -21,8 +20,8 @@ namespace CalamityMod.NPCs.Cryogen
             aiType = -1;
             npc.canGhostHeal = false;
             npc.noTileCollide = true;
-            npc.damage = 50;
-            npc.width = 190;
+			npc.GetNPCDamage();
+			npc.width = 190;
             npc.height = 190;
 			npc.DR_NERD(0.4f);
             npc.lifeMax = 1400;

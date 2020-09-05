@@ -8,7 +8,6 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Dusts;
 using CalamityMod.Projectiles.Boss;
-using CalamityMod.World;
 using CalamityMod.Events;
 
 namespace CalamityMod.NPCs.OldDuke
@@ -28,7 +27,7 @@ namespace CalamityMod.NPCs.OldDuke
 			aiType = -1;
 			npc.width = 44;
 			npc.height = 44;
-			npc.damage = 180;
+			npc.GetNPCDamage();
 			npc.defense = 100;
 			npc.lifeMax = 8000;
 			if (BossRushEvent.BossRushActive)
@@ -158,6 +157,11 @@ namespace CalamityMod.NPCs.OldDuke
 					npc.velocity.Y += 0.3f;
 				}
 			}
+		}
+
+		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
+		{
+			npc.damage = (int)(npc.damage * npc.GetExpertDamageMultiplier());
 		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

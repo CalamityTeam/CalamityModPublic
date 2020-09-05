@@ -34,7 +34,7 @@ namespace CalamityMod.NPCs.AquaticScourge
         public override void SetDefaults()
         {
             npc.npcSlots = 16f;
-            npc.damage = 80;
+			npc.GetNPCDamage();
             npc.width = 90;
             npc.height = 90;
             npc.defense = 10;
@@ -220,7 +220,8 @@ namespace CalamityMod.NPCs.AquaticScourge
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
             npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);
-        }
+			npc.damage = (int)(npc.damage * npc.GetExpertDamageMultiplier());
+		}
 
         public override void HitEffect(int hitDirection, double damage)
         {

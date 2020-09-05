@@ -1,5 +1,4 @@
 using CalamityMod.Events;
-using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System.IO;
 using Terraria;
@@ -17,8 +16,8 @@ namespace CalamityMod.NPCs.DesertScourge
 
         public override void SetDefaults()
         {
-            npc.damage = 12;
-            npc.npcSlots = 5f;
+			npc.GetNPCDamage();
+			npc.npcSlots = 5f;
             npc.width = 32;
             npc.height = 48;
             npc.defense = 9;
@@ -123,7 +122,6 @@ namespace CalamityMod.NPCs.DesertScourge
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
             npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);
-            npc.damage = (int)(npc.damage * 0.85f);
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)

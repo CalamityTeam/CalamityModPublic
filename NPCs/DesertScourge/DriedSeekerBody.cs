@@ -1,5 +1,4 @@
 using CalamityMod.Events;
-using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -16,8 +15,8 @@ namespace CalamityMod.NPCs.DesertScourge
 
         public override void SetDefaults()
         {
-            npc.damage = 8;
-            npc.npcSlots = 5f;
+			npc.GetNPCDamage();
+			npc.npcSlots = 5f;
             npc.width = 18;
             npc.height = 18;
             npc.defense = 2;

@@ -1,5 +1,4 @@
 using CalamityMod.Events;
-using CalamityMod.World;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -17,8 +16,8 @@ namespace CalamityMod.NPCs.SlimeGod
         public override void SetDefaults()
         {
             npc.aiStyle = 1;
-            npc.damage = 35;
-            npc.width = 40;
+			npc.GetNPCDamage();
+			npc.width = 40;
             npc.height = 30;
             npc.defense = 4;
             npc.lifeMax = 110;

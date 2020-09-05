@@ -1,4 +1,3 @@
-using CalamityMod.NPCs;
 using CalamityMod.NPCs.AquaticScourge;
 using CalamityMod.NPCs.AstrumAureus;
 using CalamityMod.NPCs.AstrumDeus;
@@ -28,18 +27,9 @@ using CalamityMod.NPCs.Yharon;
 using CalamityMod.Projectiles;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
-using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.Text;
 using Terraria;
-using Terraria.DataStructures;
-using Terraria.Enums;
 using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod
@@ -47,44 +37,30 @@ namespace CalamityMod
 	public static class NPCStats
 	{
 		// I want to die
-		public static void GetNPCDamage(this NPC npc, bool expert, bool revenge, bool death, bool? master = null)
+		public static void GetNPCDamage(this NPC npc)
 		{
-			/*if (master)
-			{
-				BossStats.MasterContactDamage.TryGetValue(npc.type, out int contactDamage);
-				npc.damage = contactDamage;
-			}*/
-			if (death)
-			{
-				BossStats.DeathContactDamage.TryGetValue(npc.type, out int contactDamage);
-				npc.damage = contactDamage;
-			}
-			else if (revenge)
-			{
-				BossStats.RevengeanceContactDamage.TryGetValue(npc.type, out int contactDamage);
-				npc.damage = contactDamage;
-			}
-			else if (expert)
-			{
-				BossStats.ExpertContactDamage.TryGetValue(npc.type, out int contactDamage);
-				npc.damage = contactDamage;
-			}
-			else
-			{
-				BossStats.NormalContactDamage.TryGetValue(npc.type, out int contactDamage);
-				npc.damage = contactDamage;
-			}
+			float damageAdjustment = GetExpertDamageMultiplier(npc) * 2f;
+			BossStats.ContactDamageValues.TryGetValue(npc.type, out int[] contactDamage);
+			int normalDamage = contactDamage[0];
+			int expertDamage = (int)(contactDamage[1] / damageAdjustment);
+			int revengeanceDamage = (int)(contactDamage[2] / damageAdjustment);
+			int deathDamage = (int)(contactDamage[3] / damageAdjustment);
+			int masterDamage = (int)(contactDamage[4] / damageAdjustment);
+			npc.damage = CalamityWorld.death ? deathDamage : CalamityWorld.revenge ? revengeanceDamage : Main.expertMode ? expertDamage : normalDamage;
 		}
 
 		/// <summary>
-		/// Gets the Expert/Master Mode damage multiplier for the specified boss NPC
-		/// Useful to determine the base damage a boss NPC should have prior to being run through the Expert/Master scaling code
+		/// Gets the Expert/Master Mode damage multiplier for the specified boss NPC.
+		/// Useful for determining the base damage a boss NPC should have prior to being run through the Expert/Master scaling code.
 		/// </summary>
 		/// <param name="npc">The NPC you want to get the damage multiplier for</param>
 		/// <param name="master">Whether Master Mode is enabled or not</param>
 		/// <returns></returns>
 		public static float GetExpertDamageMultiplier(this NPC npc, bool? master = null)
 		{
+			if (!BossStats.ExpertDamageMultiplier.ContainsKey(npc.type))
+				return 1f;
+
 			BossStats.ExpertDamageMultiplier.TryGetValue(npc.type, out float damageMult);
 			return damageMult;
 		}
@@ -95,997 +71,373 @@ namespace CalamityMod
 			{
 				{ NPCID.KingSlime, 0.8f },
 
-				{ NPCID.EyeofCthulhu, 1f }, // Servants use this same value
+				{ ModContent.NPCType<DesertScourgeHead>(), 1.1f },
+
+				{ ModContent.NPCType<CrabulonIdle>(), 0.8f },
 
 				{ NPCID.EaterofWorldsHead, 1.1f },
 				{ NPCID.EaterofWorldsBody, 0.8f },
 				{ NPCID.EaterofWorldsTail, 0.8f },
 
-				{ NPCID.BrainofCthulhu, 0.9f }, // Creepers use this same value
+				{ NPCID.BrainofCthulhu, 0.9f },
+				{ NPCID.Creeper, 0.9f },
+
+				{ ModContent.NPCType<HiveMind>(), 0.9f },
+				{ ModContent.NPCType<HiveMindP2>(), 0.9f },
+
+				{ ModContent.NPCType<PerforatorHive>(), 0.9f },
 
 				{ NPCID.QueenBee, 0.9f },
-				{ NPCID.Bee, 0.6f }, // Small bees use this same value
+				{ NPCID.Bee, 0.6f },
+				{ NPCID.BeeSmall, 0.6f },
 
-				{ NPCID.SkeletronHead, 1.1f }, // Hands use this same value
+				{ NPCID.SkeletronHead, 1.1f },
+				{ NPCID.SkeletronHand, 1.1f },
 
-				{ NPCID.WallofFlesh, 1.5f }, // Eyes use this same value
-				{ NPCID.TheHungry, 1f }, // Detached hungries use this same value
+				{ NPCID.WallofFlesh, 1.5f },
+				{ NPCID.WallofFleshEye, 1.5f },
+
+				{ ModContent.NPCType<Cryogen>(), 1.15f },
+
+				{ NPCID.Spazmatism, 0.85f },
+				{ NPCID.Retinazer, 0.85f },
+
+				{ ModContent.NPCType<AquaticScourgeHead>(), 1.1f },
+				{ ModContent.NPCType<AquaticScourgeBody>(), 0.8f },
+				{ ModContent.NPCType<AquaticScourgeBodyAlt>(), 0.8f },
+				{ ModContent.NPCType<AquaticScourgeTail>(), 0.8f },
 
 				{ NPCID.TheDestroyer, 2f },
 				{ NPCID.TheDestroyerBody, 0.85f },
 				{ NPCID.TheDestroyerTail, 0.85f },
 
-				{ NPCID.SkeletronPrime, 0.85f }, // All arms use this same value
+				{ ModContent.NPCType<BrimstoneElemental>(), 0.8f },
 
-				{ NPCID.Spazmatism, 0.85f },
-				{ NPCID.Retinazer, 0.85f },
+				{ NPCID.SkeletronPrime, 0.85f },
+				{ NPCID.PrimeCannon, 0.85f },
+				{ NPCID.PrimeLaser, 0.85f },
+				{ NPCID.PrimeSaw, 0.85f },
+				{ NPCID.PrimeVice, 0.85f },
 
-				{ NPCID.Plantera, 1.15f }, // Tentacles use this same value
-				{ NPCID.Spore, 1f },
+				{ ModContent.NPCType<Calamitas>(), 0.8f },
+				{ ModContent.NPCType<CalamitasRun3>(), 0.8f },
 
-				{ NPCID.Golem, 0.8f }, // All body parts use this same value
+				{ NPCID.Plantera, 1.15f },
+				{ NPCID.PlanterasTentacle, 1.15f },
+
+				{ ModContent.NPCType<Leviathan>(), 1.2f },
+				{ ModContent.NPCType<Siren>(), 0.8f },
+				{ NPCID.DetonatingBubble, 0.75f },
+
+				{ ModContent.NPCType<AstrumAureus>(), 1.1f },
+
+				{ NPCID.Golem, 0.8f },
+				{ NPCID.GolemHead, 0.8f },
+				{ NPCID.GolemFistLeft, 0.8f },
+				{ NPCID.GolemFistRight, 0.8f },
+
+				{ ModContent.NPCType<PlaguebringerGoliath>(), 0.9f },
 
 				{ NPCID.DukeFishron, 0.7f },
 				{ NPCID.Sharkron, 0.75f },
 				{ NPCID.Sharkron2, 0.75f },
-				{ NPCID.DetonatingBubble, 0.75f },
 
-				{ NPCID.CultistBoss, 0.75f }, // All other summons use this same value
+				{ ModContent.NPCType<RavagerBody>(), 0.8f },
+
+				{ NPCID.CultistDragonHead, 0.75f },
+				{ NPCID.CultistDragonBody1, 0.75f },
+				{ NPCID.CultistDragonBody2, 0.75f },
+				{ NPCID.CultistDragonBody3, 0.75f },
+				{ NPCID.CultistDragonBody4, 0.75f },
+				{ NPCID.CultistDragonTail, 0.75f },
+				{ NPCID.AncientDoom, 0.75f },
+				{ NPCID.AncientLight, 0.75f },
+
+				{ ModContent.NPCType<AstrumDeusBodySpectral>(), 0.8f },
+				{ ModContent.NPCType<AstrumDeusTailSpectral>(), 0.8f },
+
+				{ ModContent.NPCType<ProfanedGuardianBoss>(), 0.8f },
+				{ ModContent.NPCType<ProfanedGuardianBoss2>(), 0.8f },
+				{ ModContent.NPCType<ProfanedGuardianBoss3>(), 0.8f },
+
+				{ ModContent.NPCType<Bumblefuck>(), 0.8f },
+
+				{ ModContent.NPCType<StormWeaverBody>(), 0.8f },
+				{ ModContent.NPCType<StormWeaverTail>(), 0.8f },
+				{ ModContent.NPCType<StormWeaverBodyNaked>(), 0.8f },
+				{ ModContent.NPCType<StormWeaverTailNaked>(), 0.8f },
+
+				{ ModContent.NPCType<Signus>(), 0.9f },
+
+				{ ModContent.NPCType<Polterghast>(), 0.8f },
+				{ ModContent.NPCType<PolterPhantom>(), 0.8f },
+
+				{ ModContent.NPCType<OldDuke>(), 0.7f },
+				{ ModContent.NPCType<OldDukeToothBall>(), 0.75f },
+				{ ModContent.NPCType<OldDukeSharkron>(), 0.75f },
+
+				{ ModContent.NPCType<DevourerofGodsBody>(), 0.85f },
+				{ ModContent.NPCType<DevourerofGodsTail>(), 0.85f },
+				{ ModContent.NPCType<DevourerofGodsBodyS>(), 0.85f },
+				{ ModContent.NPCType<DevourerofGodsTailS>(), 0.85f },
+
+				{ ModContent.NPCType<Yharon>(), 0.8f },
+
+				{ ModContent.NPCType<SupremeCalamitas>(), 0.8f }
 			};
 
-			public static SortedDictionary<int, int> NormalContactDamage = new SortedDictionary<int, int>
+			public static SortedDictionary<int, int[]> ContactDamageValues = new SortedDictionary<int, int[]>
 			{
-				{ NPCID.KingSlime, 40 },
-
-				{ ModContent.NPCType<DesertScourgeHead>(), 30 },
-				{ ModContent.NPCType<DesertScourgeBody>(), 16 },
-				{ ModContent.NPCType<DesertScourgeTail>(), 12 },
-				{ ModContent.NPCType<DriedSeekerHead>(), 14 },
-				{ ModContent.NPCType<DriedSeekerBody>(), 8 },
-				{ ModContent.NPCType<DriedSeekerTail>(), 6 },
-
-				{ NPCID.EyeofCthulhu, 15 }, // 23 in phase 2
-				{ NPCID.ServantofCthulhu, 12 },
-
-				{ ModContent.NPCType<CrabulonIdle>(), 40 },
-				{ ModContent.NPCType<CrabShroom>(), 25 },
-
-				{ NPCID.EaterofWorldsHead, 22 },
-				{ NPCID.EaterofWorldsBody, 13 },
-				{ NPCID.EaterofWorldsTail, 11 },
-
-				{ NPCID.BrainofCthulhu, 30 },
-				{ NPCID.Creeper, 20 },
-
-				{ ModContent.NPCType<HiveMind>(), 20 },
-				{ ModContent.NPCType<HiveMindP2>(), 35 },
-				{ ModContent.NPCType<DankCreeper>(), 25 },
-
-				{ ModContent.NPCType<PerforatorHive>(), 30 },
-				{ ModContent.NPCType<PerforatorHeadLarge>(), 45 },
-				{ ModContent.NPCType<PerforatorBodyLarge>(), 24 },
-				{ ModContent.NPCType<PerforatorTailLarge>(), 18 },
-				{ ModContent.NPCType<PerforatorHeadMedium>(), 35 },
-				{ ModContent.NPCType<PerforatorBodyMedium>(), 21 },
-				{ ModContent.NPCType<PerforatorTailMedium>(), 14 },
-				{ ModContent.NPCType<PerforatorHeadSmall>(), 30 },
-				{ ModContent.NPCType<PerforatorBodySmall>(), 18 },
-				{ ModContent.NPCType<PerforatorTailSmall>(), 10 },
-
-				{ NPCID.QueenBee, 30 },
-				{ NPCID.Bee, 20 },
-				{ NPCID.BeeSmall, 15 },
-
-				{ NPCID.SkeletronHead, 32 },
-				{ NPCID.SkeletronHand, 20 },
-
-				{ ModContent.NPCType<SlimeGodCore>(), 40 },
-				{ ModContent.NPCType<SlimeGod>(), 45 },
-				{ ModContent.NPCType<SlimeGodSplit>(), 40 },
-				{ ModContent.NPCType<SlimeGodRun>(), 50 },
-				{ ModContent.NPCType<SlimeGodRunSplit>(), 45 },
-				{ ModContent.NPCType<SlimeSpawnCorrupt>(), 40 },
-				{ ModContent.NPCType<SlimeSpawnCorrupt2>(), 30 },
-				{ ModContent.NPCType<SlimeSpawnCrimson>(), 45 },
-				{ ModContent.NPCType<SlimeSpawnCrimson2>(), 35 },
-
-				{ NPCID.WallofFlesh, 50 },
-				{ NPCID.TheHungry, 30 }, // Ranges from 30 to 75 depending on WoF life
-				{ NPCID.TheHungryII, 30 },
-				{ NPCID.LeechHead, 26 },
-				{ NPCID.LeechBody, 22 },
-				{ NPCID.LeechTail, 18 },
-
-				{ ModContent.NPCType<Cryogen>(), 50 },
-				{ ModContent.NPCType<CryogenIce>(), 50 },
-				{ ModContent.NPCType<Cryocore>(), 35 },
-				{ ModContent.NPCType<Cryocore2>(), 40 },
-				{ ModContent.NPCType<IceMass>(), 40 },
-
-				{ NPCID.Spazmatism, 50 }, // 75 in phase 2
-				{ NPCID.Retinazer, 45 }, // 67 in phase 2
-
-				{ ModContent.NPCType<AquaticScourgeHead>(), 80 },
-				{ ModContent.NPCType<AquaticScourgeBody>(), 65 },
-				{ ModContent.NPCType<AquaticScourgeBodyAlt>(), 55 },
-				{ ModContent.NPCType<AquaticScourgeTail>(), 45 },
-
-				{ NPCID.TheDestroyer, 70 },
-				{ NPCID.TheDestroyerBody, 55 },
-				{ NPCID.TheDestroyerTail, 40 },
-
-				{ ModContent.NPCType<BrimstoneElemental>(), 60 },
-
-				{ NPCID.SkeletronPrime, 47 }, // 94 while spinning
-				{ NPCID.PrimeVice, 52 },
-				{ NPCID.PrimeSaw, 56 },
-				{ NPCID.PrimeCannon, 30 },
-				{ NPCID.PrimeLaser, 29 },
-
-				{ ModContent.NPCType<Calamitas>(), 55 },
-				{ ModContent.NPCType<CalamitasRun3>(), 70 },
-				{ ModContent.NPCType<CalamitasRun>(), 60 },
-				{ ModContent.NPCType<CalamitasRun2>(), 65 },
-
-				{ NPCID.Plantera, 50 }, // 70 in phase 2
-				{ NPCID.PlanterasHook, 60 },
-				{ NPCID.PlanterasTentacle, 60 },
-				{ NPCID.Spore, 70 },
-
-				{ ModContent.NPCType<Leviathan>(), 90 },
-				{ ModContent.NPCType<Siren>(), 70 }, // 105 during charge
-				{ ModContent.NPCType<SirenIce>(), 55 },
-				{ NPCID.DetonatingBubble, 100 },
-				{ ModContent.NPCType<AquaticAberration>(), 55 },
-				{ ModContent.NPCType<Parasea>(), 50 },
-
-				{ ModContent.NPCType<AstrumAureus>(), 80 },
-
-				{ NPCID.Golem, 72 },
-				{ NPCID.GolemHead, 64 },
-				{ NPCID.GolemHeadFree, 80 },
-				{ NPCID.GolemFistLeft, 59 },
-				{ NPCID.GolemFistRight, 59 },
-
-				{ ModContent.NPCType<PlaguebringerGoliath>(), 100 },
-				{ ModContent.NPCType<PlaguebringerShade>(), 70 },
-				{ ModContent.NPCType<PlagueHomingMissile>(), 90 },
-				{ ModContent.NPCType<PlagueBeeG>(), 60 },
-				{ ModContent.NPCType<PlagueBeeLargeG>(), 65 },
-
-				{ NPCID.DukeFishron, 100 }, // 120 in phase 2
-				{ NPCID.Sharkron, 100 },
-				{ NPCID.Sharkron2, 120 },
-
-				{ ModContent.NPCType<RavagerBody>(), 120 },
-				{ ModContent.NPCType<RavagerClawLeft>(), 80 },
-				{ ModContent.NPCType<RavagerClawRight>(), 80 },
-				{ ModContent.NPCType<RockPillar>(), 120 },
-				{ ModContent.NPCType<FlamePillar>(), 100 },
-
-				{ NPCID.CultistDragonHead, 80 },
-				{ NPCID.CultistDragonBody1, 40 },
-				{ NPCID.CultistDragonBody2, 40 },
-				{ NPCID.CultistDragonBody3, 40 },
-				{ NPCID.CultistDragonBody4, 40 },
-				{ NPCID.CultistDragonTail, 40 },
-				{ NPCID.AncientCultistSquidhead, 90 },
-				{ NPCID.AncientDoom, 30 },
-				{ NPCID.AncientLight, 120 },
-
-				{ ModContent.NPCType<AstrumDeusHeadSpectral>(), 120 },
-				{ ModContent.NPCType<AstrumDeusBodySpectral>(), 100 },
-				{ ModContent.NPCType<AstrumDeusTailSpectral>(), 80 },
-
-				{ NPCID.MoonLordHand, 80 },
-
-				{ ModContent.NPCType<ProfanedGuardianBoss>(), 140 },
-				{ ModContent.NPCType<ProfanedGuardianBoss2>(), 110 },
-				{ ModContent.NPCType<ProfanedGuardianBoss3>(), 90 },
-
-				{ ModContent.NPCType<Bumblefuck>(), 160 },
-				{ ModContent.NPCType<Bumblefuck2>(), 110 },
-
-				{ ModContent.NPCType<ProvSpawnOffense>(), 120 },
-				{ ModContent.NPCType<ProvSpawnDefense>(), 100 },
-
-				{ ModContent.NPCType<CeaselessVoid>(), 150 },
-				{ ModContent.NPCType<DarkEnergy>(), 120 }, // All 3 types deal the same damage
-
-				{ ModContent.NPCType<StormWeaverHead>(), 140 },
-				{ ModContent.NPCType<StormWeaverBody>(), 100 },
-				{ ModContent.NPCType<StormWeaverTail>(), 80 },
-				{ ModContent.NPCType<StormWeaverHeadNaked>(), 180 },
-				{ ModContent.NPCType<StormWeaverBodyNaked>(), 120 },
-				{ ModContent.NPCType<StormWeaverTailNaked>(), 100 },
-
-				{ ModContent.NPCType<Signus>(), 175 },
-				{ ModContent.NPCType<CosmicLantern>(), 110 },
-
-				{ ModContent.NPCType<Polterghast>(), 150 }, // 180 in phase 2, 210 in phase 3
-				{ ModContent.NPCType<PolterPhantom>(), 210 },
-
-				{ ModContent.NPCType<DevourerofGodsHead>(), 250 },
-				{ ModContent.NPCType<DevourerofGodsBody>(), 180 },
-				{ ModContent.NPCType<DevourerofGodsTail>(), 150 },
-				{ ModContent.NPCType<DevourerofGodsHeadS>(), 300 },
-				{ ModContent.NPCType<DevourerofGodsBodyS>(), 220 },
-				{ ModContent.NPCType<DevourerofGodsTailS>(), 180 },
-				{ ModContent.NPCType<DevourerofGodsHead2>(), 180 },
-				{ ModContent.NPCType<DevourerofGodsBody2>(), 130 },
-				{ ModContent.NPCType<DevourerofGodsTail2>(), 100 },
-
-				{ ModContent.NPCType<Yharon>(), 330 },
-				{ ModContent.NPCType<DetonatingFlare>(), 100 },
-				{ ModContent.NPCType<DetonatingFlare2>(), 220 },
-
-				{ ModContent.NPCType<SupremeCalamitas>(), 350 }
-			};
-
-			public static SortedDictionary<int, int> ExpertContactDamage = new SortedDictionary<int, int>
-			{
-				{ NPCID.KingSlime, 67 },
-
-				{ ModContent.NPCType<DesertScourgeHead>(), 66 },
-				{ ModContent.NPCType<DesertScourgeBody>(), 27 },
-				{ ModContent.NPCType<DesertScourgeTail>(), 20 },
-				{ ModContent.NPCType<DriedSeekerHead>(), 28 },
-				{ ModContent.NPCType<DriedSeekerBody>(), 16 },
-				{ ModContent.NPCType<DriedSeekerTail>(), 12 },
-
-				{ NPCID.EyeofCthulhu, 30 }, // 36 in phase 2, 40 in phase 3
-				{ NPCID.ServantofCthulhu, 24 },
-
-				{ ModContent.NPCType<CrabulonIdle>(), 64 },
-				{ ModContent.NPCType<CrabShroom>(), 50 },
-
-				{ NPCID.EaterofWorldsHead, 48 },
-				{ NPCID.EaterofWorldsBody, 20 },
-				{ NPCID.EaterofWorldsTail, 17 },
-				{ NPCID.VileSpit, 64 },
-
-				{ NPCID.BrainofCthulhu, 54 },
-				{ NPCID.Creeper, 40 },
-
-				{ ModContent.NPCType<HiveMind>(), 32 },
-				{ ModContent.NPCType<HiveMindP2>(), 63 },
-				{ ModContent.NPCType<DankCreeper>(), 50 },
-
-				{ ModContent.NPCType<PerforatorHive>(), 48 },
-				{ ModContent.NPCType<PerforatorHeadLarge>(), 90 },
-				{ ModContent.NPCType<PerforatorBodyLarge>(), 38 },
-				{ ModContent.NPCType<PerforatorTailLarge>(), 28 },
-				{ ModContent.NPCType<PerforatorHeadMedium>(), 70 },
-				{ ModContent.NPCType<PerforatorBodyMedium>(), 33 },
-				{ ModContent.NPCType<PerforatorTailMedium>(), 22 },
-				{ ModContent.NPCType<PerforatorHeadSmall>(), 60 },
-				{ ModContent.NPCType<PerforatorBodySmall>(), 28 },
-				{ ModContent.NPCType<PerforatorTailSmall>(), 16 },
-
-				{ NPCID.QueenBee, 54 },
-				{ NPCID.Bee, 24 },
-				{ NPCID.BeeSmall, 18 },
-
-				{ NPCID.SkeletronHead, 70 }, // 91 while spinning
-				{ NPCID.SkeletronHand, 44 },
-
-				{ ModContent.NPCType<SlimeGodCore>(), 80 },
-				{ ModContent.NPCType<SlimeGod>(), 76 },
-				{ ModContent.NPCType<SlimeGodSplit>(), 68 },
-				{ ModContent.NPCType<SlimeGodRun>(), 85 },
-				{ ModContent.NPCType<SlimeGodRunSplit>(), 76 },
-				{ ModContent.NPCType<SlimeSpawnCorrupt>(), 80 },
-				{ ModContent.NPCType<SlimeSpawnCorrupt2>(), 60 },
-				{ ModContent.NPCType<SlimeSpawnCrimson>(), 90 },
-				{ ModContent.NPCType<SlimeSpawnCrimson2>(), 70 },
-
-				{ NPCID.WallofFlesh, 150 },
-				{ NPCID.TheHungry, 60 }, // Ranges from 60 to 150 depending on WoF life
-				{ NPCID.TheHungryII, 60 },
-				{ NPCID.LeechHead, 52 },
-				{ NPCID.LeechBody, 44 },
-				{ NPCID.LeechTail, 36 },
-
-				{ ModContent.NPCType<Cryogen>(), 90 },
-				{ ModContent.NPCType<CryogenIce>(), 100 },
-				{ ModContent.NPCType<Cryocore>(), 70 },
-				{ ModContent.NPCType<Cryocore2>(), 80 },
-				{ ModContent.NPCType<IceMass>(), 80 },
-
-				{ NPCID.Spazmatism, 85 }, // 127 in phase 2
-				{ NPCID.Retinazer, 76 }, // 114 in phase 2
-
-				{ ModContent.NPCType<AquaticScourgeHead>(), 160 },
-				{ ModContent.NPCType<AquaticScourgeBody>(), 110 },
-				{ ModContent.NPCType<AquaticScourgeBodyAlt>(), 93 },
-				{ ModContent.NPCType<AquaticScourgeTail>(), 76 },
-
-				{ NPCID.TheDestroyer, 280 },
-				{ NPCID.TheDestroyerBody, 93 },
-				{ NPCID.TheDestroyerTail, 68 },
-
-				{ ModContent.NPCType<BrimstoneElemental>(), 96 },
-
-				{ NPCID.SkeletronPrime, 79 }, // 158 while spinning
-				{ NPCID.PrimeVice, 88 },
-				{ NPCID.PrimeSaw, 95 },
-				{ NPCID.PrimeCannon, 51 },
-				{ NPCID.PrimeLaser, 49 },
-
-				{ ModContent.NPCType<Calamitas>(), 88 },
-				{ ModContent.NPCType<CalamitasRun3>(), 112 },
-				{ ModContent.NPCType<CalamitasRun>(), 120 },
-				{ ModContent.NPCType<CalamitasRun2>(), 130 },
-
-				{ NPCID.Plantera, 100 }, // 140 in phase 2
-				{ NPCID.PlanterasHook, 120 },
-				{ NPCID.PlanterasTentacle, 120 },
-				{ NPCID.Spore, 126 },
-
-				{ ModContent.NPCType<Leviathan>(), 153 },
-				{ ModContent.NPCType<Siren>(), 119 }, // 178 during charge
-				{ ModContent.NPCType<SirenIce>(), 110 },
-				{ NPCID.DetonatingBubble, 140 },
-				{ ModContent.NPCType<AquaticAberration>(), 110 },
-				{ ModContent.NPCType<Parasea>(), 100 },
-
-				{ ModContent.NPCType<AstrumAureus>(), 136 },
-
-				{ NPCID.Golem, 115 },
-				{ NPCID.GolemHead, 102 },
-				{ NPCID.GolemHeadFree, 128 },
-				{ NPCID.GolemFistLeft, 94 },
-				{ NPCID.GolemFistRight, 94 },
-
-				{ ModContent.NPCType<PlaguebringerGoliath>(), 180 },
-				{ ModContent.NPCType<PlaguebringerShade>(), 140 },
-				{ ModContent.NPCType<PlagueHomingMissile>(), 180 },
-				{ ModContent.NPCType<PlagueMine>(), 200 },
-				{ ModContent.NPCType<PlagueBeeG>(), 120 },
-				{ ModContent.NPCType<PlagueBeeLargeG>(), 130 },
-
-				{ NPCID.DukeFishron, 140 }, // 201 in phase 2, 184 in phase 3
-				{ NPCID.Sharkron, 150 },
-				{ NPCID.Sharkron2, 180 },
-
-				{ ModContent.NPCType<RavagerBody>(), 192 },
-				{ ModContent.NPCType<RavagerClawLeft>(), 160 },
-				{ ModContent.NPCType<RavagerClawRight>(), 160 },
-				{ ModContent.NPCType<RockPillar>(), 200 },
-				{ ModContent.NPCType<FlamePillar>(), 180 },
-
-				{ NPCID.CultistDragonHead, 120 },
-				{ NPCID.CultistDragonBody1, 60 },
-				{ NPCID.CultistDragonBody2, 60 },
-				{ NPCID.CultistDragonBody3, 60 },
-				{ NPCID.CultistDragonBody4, 60 },
-				{ NPCID.CultistDragonTail, 60 },
-				{ NPCID.AncientCultistSquidhead, 180 },
-				{ NPCID.AncientDoom, 45 },
-				{ NPCID.AncientLight, 180 },
-
-				{ ModContent.NPCType<AstrumDeusHeadSpectral>(), 240 },
-				{ ModContent.NPCType<AstrumDeusBodySpectral>(), 170 },
-				{ ModContent.NPCType<AstrumDeusTailSpectral>(), 136 },
-
-				{ NPCID.MoonLordHand, 80 },
-
-				{ ModContent.NPCType<ProfanedGuardianBoss>(), 224 },
-				{ ModContent.NPCType<ProfanedGuardianBoss2>(), 176 },
-				{ ModContent.NPCType<ProfanedGuardianBoss3>(), 144 },
-
-				{ ModContent.NPCType<Bumblefuck>(), 256 },
-				{ ModContent.NPCType<Bumblefuck2>(), 220 },
-
-				{ ModContent.NPCType<ProvSpawnOffense>(), 240 },
-				{ ModContent.NPCType<ProvSpawnDefense>(), 200 },
-
-				{ ModContent.NPCType<CeaselessVoid>(), 300 },
-				{ ModContent.NPCType<DarkEnergy>(), 240 }, // All 3 types deal the same damage
-
-				{ ModContent.NPCType<StormWeaverHead>(), 280 },
-				{ ModContent.NPCType<StormWeaverBody>(), 170 },
-				{ ModContent.NPCType<StormWeaverTail>(), 136 },
-				{ ModContent.NPCType<StormWeaverHeadNaked>(), 360 },
-				{ ModContent.NPCType<StormWeaverBodyNaked>(), 204 },
-				{ ModContent.NPCType<StormWeaverTailNaked>(), 170 },
-
-				{ ModContent.NPCType<Signus>(), 297 },
-				{ ModContent.NPCType<CosmicLantern>(), 220 },
-
-				{ ModContent.NPCType<Polterghast>(), 240 }, // 288 in phase 2, 336 in phase 3
-				{ ModContent.NPCType<PolterPhantom>(), 336 },
-
-				{ ModContent.NPCType<DevourerofGodsHead>(), 500 },
-				{ ModContent.NPCType<DevourerofGodsBody>(), 306 },
-				{ ModContent.NPCType<DevourerofGodsTail>(), 255 },
-				{ ModContent.NPCType<DevourerofGodsHeadS>(), 600 },
-				{ ModContent.NPCType<DevourerofGodsBodyS>(), 374 },
-				{ ModContent.NPCType<DevourerofGodsTailS>(), 306 },
-				{ ModContent.NPCType<DevourerofGodsHead2>(), 360 },
-				{ ModContent.NPCType<DevourerofGodsBody2>(), 260 },
-				{ ModContent.NPCType<DevourerofGodsTail2>(), 200 },
-
-				{ ModContent.NPCType<Yharon>(), 528 },
-				{ ModContent.NPCType<DetonatingFlare>(), 200 },
-				{ ModContent.NPCType<DetonatingFlare2>(), 440 },
-
-				{ ModContent.NPCType<SupremeCalamitas>(), 560 }
-			};
-
-			public static SortedDictionary<int, int> RevengeanceContactDamage = new SortedDictionary<int, int>
-			{
-				{ NPCID.KingSlime, 80 },
-
-				{ ModContent.NPCType<DesertScourgeHead>(), 79 },
-				{ ModContent.NPCType<DesertScourgeBody>(), 33 },
-				{ ModContent.NPCType<DesertScourgeTail>(), 25 },
-				{ ModContent.NPCType<DesertScourgeHeadSmall>(), 45 },
-				{ ModContent.NPCType<DesertScourgeBodySmall>(), 25 },
-				{ ModContent.NPCType<DesertScourgeTailSmall>(), 20 },
-				{ ModContent.NPCType<DriedSeekerHead>(), 35 },
-				{ ModContent.NPCType<DriedSeekerBody>(), 20 },
-				{ ModContent.NPCType<DriedSeekerTail>(), 15 },
-
-				{ NPCID.EyeofCthulhu, 37 }, // 45 in phase 2, 52 in phase 3
-				{ NPCID.ServantofCthulhu, 30 },
-
-				{ ModContent.NPCType<CrabulonIdle>(), 76 },
-				{ ModContent.NPCType<CrabShroom>(), 62 },
-
-				{ NPCID.EaterofWorldsHead, 70 },
-				{ NPCID.EaterofWorldsBody, 25 },
-				{ NPCID.EaterofWorldsTail, 21 },
-				{ NPCID.VileSpit, 64 },
-
-				{ NPCID.BrainofCthulhu, 76 },
-				{ NPCID.Creeper, 50 },
-
-				{ ModContent.NPCType<HiveMind>(), 40 },
-				{ ModContent.NPCType<HiveMindP2>(), 75 },
-				{ ModContent.NPCType<DankCreeper>(), 62 },
-
-				{ ModContent.NPCType<PerforatorHive>(), 60 },
-				{ ModContent.NPCType<PerforatorHeadLarge>(), 108 },
-				{ ModContent.NPCType<PerforatorBodyLarge>(), 44 },
-				{ ModContent.NPCType<PerforatorTailLarge>(), 32 },
-				{ ModContent.NPCType<PerforatorHeadMedium>(), 84 },
-				{ ModContent.NPCType<PerforatorBodyMedium>(), 38 },
-				{ ModContent.NPCType<PerforatorTailMedium>(), 26 },
-				{ ModContent.NPCType<PerforatorHeadSmall>(), 72 },
-				{ ModContent.NPCType<PerforatorBodySmall>(), 32 },
-				{ ModContent.NPCType<PerforatorTailSmall>(), 20 },
-
-				{ NPCID.QueenBee, 74 },
-				{ NPCID.Bee, 30 },
-				{ NPCID.BeeSmall, 22 },
-
-				{ NPCID.SkeletronHead, 84 }, // 109 while spinning
-				{ NPCID.SkeletronHand, 55 },
-
-				{ ModContent.NPCType<SlimeGodCore>(), 96 },
-				{ ModContent.NPCType<SlimeGod>(), 91 },
-				{ ModContent.NPCType<SlimeGodSplit>(), 81 },
-				{ ModContent.NPCType<SlimeGodRun>(), 102 },
-				{ ModContent.NPCType<SlimeGodRunSplit>(), 91 },
-				{ ModContent.NPCType<SlimeSpawnCorrupt>(), 96 },
-				{ ModContent.NPCType<SlimeSpawnCorrupt2>(), 72 },
-				{ ModContent.NPCType<SlimeSpawnCrimson>(), 108 },
-				{ ModContent.NPCType<SlimeSpawnCrimson2>(), 84 },
-
-				{ NPCID.WallofFlesh, 172 },
-				{ NPCID.TheHungry, 60 }, // Ranges from 60 to 150 depending on WoF life
-				{ NPCID.TheHungryII, 72 },
-				{ NPCID.LeechHead, 62 },
-				{ NPCID.LeechBody, 52 },
-				{ NPCID.LeechTail, 42 },
-
-				{ ModContent.NPCType<Cryogen>(), 103 },
-				{ ModContent.NPCType<CryogenIce>(), 115 },
-				{ ModContent.NPCType<Cryocore>(), 84 },
-				{ ModContent.NPCType<Cryocore2>(), 96 },
-				{ ModContent.NPCType<IceMass>(), 96 },
-
-				{ NPCID.Spazmatism, 97 }, // 146 in phase 2
-				{ NPCID.Retinazer, 87 }, // 131 in phase 2
-
-				{ ModContent.NPCType<AquaticScourgeHead>(), 184 },
-				{ ModContent.NPCType<AquaticScourgeBody>(), 126 },
-				{ ModContent.NPCType<AquaticScourgeBodyAlt>(), 106 },
-				{ ModContent.NPCType<AquaticScourgeTail>(), 91 },
-
-				{ NPCID.TheDestroyer, 308 },
-				{ NPCID.TheDestroyerBody, 111 },
-				{ NPCID.TheDestroyerTail, 81 },
-				{ NPCID.Probe, 0 },
-
-				{ ModContent.NPCType<BrimstoneElemental>(), 115 },
-
-				{ NPCID.SkeletronPrime, 90 }, // 181 while spinning
-				{ NPCID.PrimeVice, 105 },
-				{ NPCID.PrimeSaw, 114 },
-				{ NPCID.PrimeCannon, 61 },
-				{ NPCID.PrimeLaser, 58 },
-
-				{ ModContent.NPCType<Calamitas>(), 101 },
-				{ ModContent.NPCType<CalamitasRun3>(), 128 },
-				{ ModContent.NPCType<CalamitasRun>(), 138 },
-				{ ModContent.NPCType<CalamitasRun2>(), 149 },
-
-				{ NPCID.Plantera, 132 }, // 185 in phase 2
-				{ NPCID.PlanterasTentacle, 138 },
-				{ NPCID.Spore, 144 },
-
-				{ ModContent.NPCType<Leviathan>(), 175 },
-				{ ModContent.NPCType<Siren>(), 136 }, // 204 during charge
-				{ ModContent.NPCType<SirenIce>(), 126 },
-				{ NPCID.DetonatingBubble, 161 },
-				{ ModContent.NPCType<AquaticAberration>(), 126 },
-				{ ModContent.NPCType<Parasea>(), 115 },
-
-				{ ModContent.NPCType<AstrumAureus>(), 156 },
-				{ ModContent.NPCType<AureusSpawn>(), 150 },
-
-				{ NPCID.Golem, 165 },
-				{ NPCID.GolemHead, 117 },
-				{ NPCID.GolemFistLeft, 108 },
-				{ NPCID.GolemFistRight, 108 },
-
-				{ ModContent.NPCType<PlaguebringerGoliath>(), 207 },
-				{ ModContent.NPCType<PlaguebringerShade>(), 161 },
-				{ ModContent.NPCType<PlagueHomingMissile>(), 207 },
-				{ ModContent.NPCType<PlagueMine>(), 225 },
-				{ ModContent.NPCType<PlagueBeeG>(), 138 },
-				{ ModContent.NPCType<PlagueBeeLargeG>(), 149 },
-
-				{ NPCID.DukeFishron, 161 }, // 231 in phase 2, 211 in phase 3
-				{ NPCID.Sharkron, 172 },
-				{ NPCID.Sharkron2, 207 },
-
-				{ ModContent.NPCType<RavagerBody>(), 220 },
-				{ ModContent.NPCType<RavagerClawLeft>(), 184 },
-				{ ModContent.NPCType<RavagerClawRight>(), 184 },
-				{ ModContent.NPCType<RockPillar>(), 200 },
-				{ ModContent.NPCType<FlamePillar>(), 180 },
-
-				{ NPCID.CultistDragonHead, 138 },
-				{ NPCID.CultistDragonBody1, 69 },
-				{ NPCID.CultistDragonBody2, 69 },
-				{ NPCID.CultistDragonBody3, 69 },
-				{ NPCID.CultistDragonBody4, 69 },
-				{ NPCID.CultistDragonTail, 69 },
-				{ NPCID.AncientCultistSquidhead, 207 },
-				{ NPCID.AncientLight, 207 },
-
-				{ ModContent.NPCType<AstrumDeusHeadSpectral>(), 264 },
-				{ ModContent.NPCType<AstrumDeusBodySpectral>(), 182 },
-				{ ModContent.NPCType<AstrumDeusTailSpectral>(), 146 },
-
-				{ ModContent.NPCType<ProfanedGuardianBoss>(), 246 },
-				{ ModContent.NPCType<ProfanedGuardianBoss2>(), 202 },
-				{ ModContent.NPCType<ProfanedGuardianBoss3>(), 165 },
-
-				{ ModContent.NPCType<Bumblefuck>(), 281 },
-				{ ModContent.NPCType<Bumblefuck2>(), 242 },
-
-				{ ModContent.NPCType<ProvSpawnOffense>(), 264 },
-				{ ModContent.NPCType<ProvSpawnDefense>(), 220 },
-
-				{ ModContent.NPCType<CeaselessVoid>(), 330 },
-				{ ModContent.NPCType<DarkEnergy>(), 300 }, // All 3 types deal the same damage
-
-				{ ModContent.NPCType<StormWeaverHead>(), 308 },
-				{ ModContent.NPCType<StormWeaverBody>(), 200 },
-				{ ModContent.NPCType<StormWeaverTail>(), 160 },
-				{ ModContent.NPCType<StormWeaverHeadNaked>(), 396 },
-				{ ModContent.NPCType<StormWeaverBodyNaked>(), 230 },
-				{ ModContent.NPCType<StormWeaverTailNaked>(), 190 },
-
-				{ ModContent.NPCType<Signus>(), 326 },
-				{ ModContent.NPCType<CosmicLantern>(), 242 },
-				{ ModContent.NPCType<SignusBomb>(), 300 },
-
-				{ ModContent.NPCType<Polterghast>(), 264 }, // 316 in phase 2, 369 in phase 3
-				{ ModContent.NPCType<PolterPhantom>(), 369 },
-
-				{ ModContent.NPCType<DevourerofGodsHead>(), 525 },
-				{ ModContent.NPCType<DevourerofGodsBody>(), 336 },
-				{ ModContent.NPCType<DevourerofGodsTail>(), 280 },
-				{ ModContent.NPCType<DevourerofGodsHeadS>(), 630 },
-				{ ModContent.NPCType<DevourerofGodsBodyS>(), 411 },
-				{ ModContent.NPCType<DevourerofGodsTailS>(), 336 },
-				{ ModContent.NPCType<DevourerofGodsHead2>(), 396 },
-				{ ModContent.NPCType<DevourerofGodsBody2>(), 290 },
-				{ ModContent.NPCType<DevourerofGodsTail2>(), 230 },
-
-				{ ModContent.NPCType<Yharon>(), 554 },
-				{ ModContent.NPCType<DetonatingFlare>(), 220 },
-				{ ModContent.NPCType<DetonatingFlare2>(), 462 },
-
-				{ ModContent.NPCType<SupremeCalamitas>(), 588 }
-			};
-
-			public static SortedDictionary<int, int> DeathContactDamage = new SortedDictionary<int, int>
-			{
-				{ NPCID.KingSlime, 88 },
-
-				{ ModContent.NPCType<DesertScourgeHead>(), 87 },
-				{ ModContent.NPCType<DesertScourgeBody>(), 37 },
-				{ ModContent.NPCType<DesertScourgeTail>(), 28 },
-				{ ModContent.NPCType<DesertScourgeHeadSmall>(), 51 },
-				{ ModContent.NPCType<DesertScourgeBodySmall>(), 28 },
-				{ ModContent.NPCType<DesertScourgeTailSmall>(), 23 },
-				{ ModContent.NPCType<DriedSeekerHead>(), 40 },
-				{ ModContent.NPCType<DriedSeekerBody>(), 23 },
-				{ ModContent.NPCType<DriedSeekerTail>(), 17 },
-
-				{ NPCID.EyeofCthulhu, 58 },
-				{ NPCID.ServantofCthulhu, 33 },
-
-				{ ModContent.NPCType<CrabulonIdle>(), 84 },
-				{ ModContent.NPCType<CrabShroom>(), 70 },
-
-				{ NPCID.EaterofWorldsHead, 79 },
-				{ NPCID.EaterofWorldsBody, 25 },
-				{ NPCID.EaterofWorldsTail, 23 },
-				{ NPCID.VileSpit, 64 },
-
-				{ NPCID.BrainofCthulhu, 84 },
-				{ NPCID.Creeper, 56 },
-
-				{ ModContent.NPCType<HiveMind>(), 44 },
-				{ ModContent.NPCType<HiveMindP2>(), 83 },
-				{ ModContent.NPCType<DankCreeper>(), 70 },
-
-				{ ModContent.NPCType<PerforatorHive>(), 67 },
-				{ ModContent.NPCType<PerforatorHeadLarge>(), 118 },
-				{ ModContent.NPCType<PerforatorBodyLarge>(), 48 },
-				{ ModContent.NPCType<PerforatorTailLarge>(), 36 },
-				{ ModContent.NPCType<PerforatorHeadMedium>(), 92 },
-				{ ModContent.NPCType<PerforatorBodyMedium>(), 41 },
-				{ ModContent.NPCType<PerforatorTailMedium>(), 29 },
-				{ ModContent.NPCType<PerforatorHeadSmall>(), 79 },
-				{ ModContent.NPCType<PerforatorBodySmall>(), 35 },
-				{ ModContent.NPCType<PerforatorTailSmall>(), 23 },
-
-				{ NPCID.QueenBee, 97 },
-				{ NPCID.Bee, 33 },
-				{ NPCID.BeeSmall, 25 },
-
-				{ NPCID.SkeletronHead, 92 }, // 120 while spinning
-				{ NPCID.SkeletronHand, 61 },
-
-				{ ModContent.NPCType<SlimeGodCore>(), 105 },
-				{ ModContent.NPCType<SlimeGod>(), 100 },
-				{ ModContent.NPCType<SlimeGodSplit>(), 89 },
-				{ ModContent.NPCType<SlimeGodRun>(), 112 },
-				{ ModContent.NPCType<SlimeGodRunSplit>(), 100 },
-				{ ModContent.NPCType<SlimeSpawnCorrupt>(), 105 },
-				{ ModContent.NPCType<SlimeSpawnCorrupt2>(), 84 },
-				{ ModContent.NPCType<SlimeSpawnCrimson>(), 118 },
-				{ ModContent.NPCType<SlimeSpawnCrimson2>(), 98 },
-
-				{ NPCID.WallofFlesh, 186 },
-				{ NPCID.TheHungry, 60 }, // Ranges from 60 to 150 depending on WoF life
-				{ NPCID.TheHungryII, 79 },
-				{ NPCID.LeechHead, 68 },
-				{ NPCID.LeechBody, 56 },
-				{ NPCID.LeechTail, 44 },
-
-				{ ModContent.NPCType<Cryogen>(), 111 },
-				{ ModContent.NPCType<CryogenIce>(), 124 },
-				{ ModContent.NPCType<Cryocore>(), 92 },
-				{ ModContent.NPCType<Cryocore2>(), 105 },
-				{ ModContent.NPCType<IceMass>(), 105 },
-
-				{ NPCID.Spazmatism, 105 }, // 157 in phase 2
-				{ NPCID.Retinazer, 94 }, // 141 in phase 2
-
-				{ ModContent.NPCType<AquaticScourgeHead>(), 198 },
-				{ ModContent.NPCType<AquaticScourgeBody>(), 136 },
-				{ ModContent.NPCType<AquaticScourgeBodyAlt>(), 115 },
-				{ ModContent.NPCType<AquaticScourgeTail>(), 100 },
-
-				{ NPCID.TheDestroyer, 324 },
-				{ NPCID.TheDestroyerBody, 122 },
-				{ NPCID.TheDestroyerTail, 89 },
-				{ NPCID.Probe, 0 },
-
-				{ ModContent.NPCType<BrimstoneElemental>(), 126 },
-
-				{ NPCID.SkeletronPrime, 97 }, // 195 while spinning
-				{ NPCID.PrimeVice, 116 },
-				{ NPCID.PrimeSaw, 125 },
-				{ NPCID.PrimeCannon, 67 },
-				{ NPCID.PrimeLaser, 64 },
-
-				{ ModContent.NPCType<Calamitas>(), 109 },
-				{ ModContent.NPCType<CalamitasRun3>(), 138 },
-				{ ModContent.NPCType<CalamitasRun>(), 148 },
-				{ ModContent.NPCType<CalamitasRun2>(), 161 },
-
-				{ NPCID.Plantera, 142 }, // 199 in phase 2
-				{ NPCID.PlanterasTentacle, 148 },
-				{ NPCID.Spore, 156 },
-
-				{ ModContent.NPCType<Leviathan>(), 189 },
-				{ ModContent.NPCType<Siren>(), 147 }, // 220 during charge
-				{ ModContent.NPCType<SirenIce>(), 136 },
-				{ NPCID.DetonatingBubble, 173 },
-				{ ModContent.NPCType<AquaticAberration>(), 136 },
-				{ ModContent.NPCType<Parasea>(), 124 },
-
-				{ ModContent.NPCType<AstrumAureus>(), 168 },
-				{ ModContent.NPCType<AureusSpawn>(), 165 },
-
-				{ NPCID.Golem, 178 },
-				{ NPCID.GolemHead, 126 },
-				{ NPCID.GolemFistLeft, 116 },
-				{ NPCID.GolemFistRight, 116 },
-
-				{ ModContent.NPCType<PlaguebringerGoliath>(), 223 },
-				{ ModContent.NPCType<PlaguebringerShade>(), 173 },
-				{ ModContent.NPCType<PlagueHomingMissile>(), 223 },
-				{ ModContent.NPCType<PlagueMine>(), 240 },
-				{ ModContent.NPCType<PlagueBeeG>(), 148 },
-				{ ModContent.NPCType<PlagueBeeLargeG>(), 161 },
-
-				{ NPCID.DukeFishron, 173 }, // 249 in phase 2, 228 in phase 3
-				{ NPCID.Sharkron, 186 },
-				{ NPCID.Sharkron2, 223 },
-
-				{ ModContent.NPCType<RavagerBody>(), 238 },
-				{ ModContent.NPCType<RavagerClawLeft>(), 198 },
-				{ ModContent.NPCType<RavagerClawRight>(), 198 },
-				{ ModContent.NPCType<RockPillar>(), 200 },
-				{ ModContent.NPCType<FlamePillar>(), 180 },
-
-				{ NPCID.CultistDragonHead, 148 },
-				{ NPCID.CultistDragonBody1, 74 },
-				{ NPCID.CultistDragonBody2, 74 },
-				{ NPCID.CultistDragonBody3, 74 },
-				{ NPCID.CultistDragonBody4, 74 },
-				{ NPCID.CultistDragonTail, 74 },
-				{ NPCID.AncientCultistSquidhead, 223 },
-				{ NPCID.AncientLight, 223 },
-
-				{ ModContent.NPCType<AstrumDeusHeadSpectral>(), 278 },
-				{ ModContent.NPCType<AstrumDeusBodySpectral>(), 190 },
-				{ ModContent.NPCType<AstrumDeusTailSpectral>(), 154 },
-
-				{ ModContent.NPCType<ProfanedGuardianBoss>(), 259 },
-				{ ModContent.NPCType<ProfanedGuardianBoss2>(), 218 },
-				{ ModContent.NPCType<ProfanedGuardianBoss3>(), 178 },
-
-				{ ModContent.NPCType<Bumblefuck>(), 296 },
-				{ ModContent.NPCType<Bumblefuck2>(), 255 },
-
-				{ ModContent.NPCType<ProvSpawnOffense>(), 278 },
-				{ ModContent.NPCType<ProvSpawnDefense>(), 232 },
-
-				{ ModContent.NPCType<CeaselessVoid>(), 348 },
-				{ ModContent.NPCType<DarkEnergy>(), 300 }, // All 3 types deal the same damage
-
-				{ ModContent.NPCType<StormWeaverHead>(), 324 },
-				{ ModContent.NPCType<StormWeaverBody>(), 220 },
-				{ ModContent.NPCType<StormWeaverTail>(), 180 },
-				{ ModContent.NPCType<StormWeaverHeadNaked>(), 417 },
-				{ ModContent.NPCType<StormWeaverBodyNaked>(), 250 },
-				{ ModContent.NPCType<StormWeaverTailNaked>(), 210 },
-
-				{ ModContent.NPCType<Signus>(), 344 },
-				{ ModContent.NPCType<CosmicLantern>(), 255 },
-				{ ModContent.NPCType<SignusBomb>(), 320 },
-
-				{ ModContent.NPCType<Polterghast>(), 278 }, // 334 in phase 2, 389 in phase 3
-				{ ModContent.NPCType<PolterPhantom>(), 389 },
-
-				{ ModContent.NPCType<DevourerofGodsHead>(), 540 },
-				{ ModContent.NPCType<DevourerofGodsBody>(), 354 },
-				{ ModContent.NPCType<DevourerofGodsTail>(), 295 },
-				{ ModContent.NPCType<DevourerofGodsHeadS>(), 648 }, // Instant death
-				{ ModContent.NPCType<DevourerofGodsBodyS>(), 433 },
-				{ ModContent.NPCType<DevourerofGodsTailS>(), 354 },
-				{ ModContent.NPCType<DevourerofGodsHead2>(), 417 },
-				{ ModContent.NPCType<DevourerofGodsBody2>(), 320 },
-				{ ModContent.NPCType<DevourerofGodsTail2>(), 260 },
-
-				{ ModContent.NPCType<Yharon>(), 570 },
-				{ ModContent.NPCType<DetonatingFlare>(), 232 },
-				{ ModContent.NPCType<DetonatingFlare2>(), 475 },
-
-				{ ModContent.NPCType<SupremeCalamitas>(), 604 }
-			};
-
-			public static SortedDictionary<int, int> MasterContactDamage = new SortedDictionary<int, int>
-			{
-				{ NPCID.KingSlime, 96 },
-
-				{ ModContent.NPCType<DesertScourgeHead>(), 120 },
-				{ ModContent.NPCType<DesertScourgeBody>(), 56 },
-				{ ModContent.NPCType<DesertScourgeTail>(), 42 },
-				{ ModContent.NPCType<DesertScourgeHeadSmall>(), 85 },
-				{ ModContent.NPCType<DesertScourgeBodySmall>(), 38 },
-				{ ModContent.NPCType<DesertScourgeTailSmall>(), 30 },
-				{ ModContent.NPCType<DriedSeekerHead>(), 50 },
-				{ ModContent.NPCType<DriedSeekerBody>(), 24 },
-				{ ModContent.NPCType<DriedSeekerTail>(), 18 },
-
-				{ NPCID.EyeofCthulhu, 45 }, // 54 in phase 2, 60 in phase 3; NOTE: In Death Mode, it is always in phase 3
-				{ NPCID.ServantofCthulhu, 38 },
-
-				{ ModContent.NPCType<CrabulonIdle>(), 120 },
-				{ ModContent.NPCType<CrabShroom>(), 75 },
-
-				{ NPCID.EaterofWorldsHead, 100 },
-				{ NPCID.EaterofWorldsBody, 42 },
-				{ NPCID.EaterofWorldsTail, 36 },
-				{ NPCID.VileSpit, 96 },
-
-				{ NPCID.BrainofCthulhu, 110 },
-				{ NPCID.Creeper, 70 },
-
-				{ ModContent.NPCType<HiveMind>(), 60 },
-				{ ModContent.NPCType<HiveMindP2>(), 110 },
-				{ ModContent.NPCType<DankCreeper>(), 85 },
-
-				{ ModContent.NPCType<PerforatorHive>(), 90 },
-				{ ModContent.NPCType<PerforatorHeadLarge>(), 150 },
-				{ ModContent.NPCType<PerforatorBodyLarge>(), 60 },
-				{ ModContent.NPCType<PerforatorTailLarge>(), 45 },
-				{ ModContent.NPCType<PerforatorHeadMedium>(), 125 },
-				{ ModContent.NPCType<PerforatorBodyMedium>(), 52 },
-				{ ModContent.NPCType<PerforatorTailMedium>(), 37 },
-				{ ModContent.NPCType<PerforatorHeadSmall>(), 100 },
-				{ ModContent.NPCType<PerforatorBodySmall>(), 46 },
-				{ ModContent.NPCType<PerforatorTailSmall>(), 41 },
-
-				{ NPCID.QueenBee, 130 },
-				{ NPCID.Bee, 50 },
-				{ NPCID.BeeSmall, 40 },
-
-				{ NPCID.SkeletronHead, 125 }, // 162 while spinning
-				{ NPCID.SkeletronHand, 80 },
-
-				{ ModContent.NPCType<SlimeGodCore>(), 140 },
-				{ ModContent.NPCType<SlimeGod>(), 130 },
-				{ ModContent.NPCType<SlimeGodSplit>(), 115 },
-				{ ModContent.NPCType<SlimeGodRun>(), 145 },
-				{ ModContent.NPCType<SlimeGodRunSplit>(), 130 },
-				{ ModContent.NPCType<SlimeSpawnCorrupt>(), 120 },
-				{ ModContent.NPCType<SlimeSpawnCorrupt2>(), 100 },
-				{ ModContent.NPCType<SlimeSpawnCrimson>(), 130 },
-				{ ModContent.NPCType<SlimeSpawnCrimson2>(), 110 },
-
-				{ NPCID.WallofFlesh, 225 },
-				{ NPCID.TheHungry, 90 }, // Ranges from 90 to 225 depending on WoF life
-				{ NPCID.TheHungryII, 90 },
-				{ NPCID.LeechHead, 78 },
-				{ NPCID.LeechBody, 66 },
-				{ NPCID.LeechTail, 54 },
-
-				{ ModContent.NPCType<Cryogen>(), 145 },
-				{ ModContent.NPCType<CryogenIce>(), 165 },
-				{ ModContent.NPCType<Cryocore>(), 105 },
-				{ ModContent.NPCType<Cryocore2>(), 120 },
-				{ ModContent.NPCType<IceMass>(), 120 },
-
-				{ NPCID.Spazmatism, 127 }, // 190 in phase 2
-				{ NPCID.Retinazer, 114 }, // 171 in phase 2
-
-				{ ModContent.NPCType<AquaticScourgeHead>(), 250 },
-				{ ModContent.NPCType<AquaticScourgeBody>(), 180 },
-				{ ModContent.NPCType<AquaticScourgeBodyAlt>(), 150 },
-				{ ModContent.NPCType<AquaticScourgeTail>(), 110 },
-
-				{ NPCID.TheDestroyer, 420 },
-				{ NPCID.TheDestroyerBody, 140 },
-				{ NPCID.TheDestroyerTail, 102 },
-
-				{ ModContent.NPCType<BrimstoneElemental>(), 170 },
-
-				{ NPCID.SkeletronPrime, 119 }, // 238 while spinning
-				{ NPCID.PrimeVice, 132 },
-				{ NPCID.PrimeSaw, 142 },
-				{ NPCID.PrimeCannon, 76 },
-				{ NPCID.PrimeLaser, 73 },
-
-				{ ModContent.NPCType<Calamitas>(), 120 },
-				{ ModContent.NPCType<CalamitasRun3>(), 165 },
-				{ ModContent.NPCType<CalamitasRun>(), 190 },
-				{ ModContent.NPCType<CalamitasRun2>(), 210 },
-
-				{ NPCID.Plantera, 213 }, // 298 in phase 2
-				{ NPCID.PlanterasTentacle, 206 },
-				{ NPCID.Spore, 189 },
-
-				{ ModContent.NPCType<Leviathan>(), 280 },
-				{ ModContent.NPCType<Siren>(), 190 }, // 285 during charge
-				{ ModContent.NPCType<SirenIce>(), 160 },
-				{ NPCID.DetonatingBubble, 225 },
-				{ ModContent.NPCType<AquaticAberration>(), 160 },
-				{ ModContent.NPCType<Parasea>(), 140 },
-
-				{ ModContent.NPCType<AstrumAureus>(), 250 },
-				{ ModContent.NPCType<AureusSpawn>(), 240 },
-
-				{ NPCID.Golem, 265 },
-				{ NPCID.GolemHead, 153 },
-				{ NPCID.GolemFistLeft, 141 },
-				{ NPCID.GolemFistRight, 141 },
-
-				{ ModContent.NPCType<PlaguebringerGoliath>(), 310 },
-				{ ModContent.NPCType<PlaguebringerShade>(), 255 },
-				{ ModContent.NPCType<PlagueHomingMissile>(), 310 },
-				{ ModContent.NPCType<PlagueMine>(), 340 },
-				{ ModContent.NPCType<PlagueBeeG>(), 195 },
-				{ ModContent.NPCType<PlagueBeeLargeG>(), 210 },
-
-				{ NPCID.DukeFishron, 210 }, // 302 in phase 2, 277 in phase 3
-				{ NPCID.Sharkron, 225 },
-				{ NPCID.Sharkron2, 270 },
-
-				{ ModContent.NPCType<RavagerBody>(), 330 },
-				{ ModContent.NPCType<RavagerClawLeft>(), 280 },
-				{ ModContent.NPCType<RavagerClawRight>(), 280 },
-				{ ModContent.NPCType<RockPillar>(), 280 },
-				{ ModContent.NPCType<FlamePillar>(), 250 },
-
-				{ NPCID.CultistDragonHead, 300 },
-				{ NPCID.CultistDragonBody1, 150 },
-				{ NPCID.CultistDragonBody2, 150 },
-				{ NPCID.CultistDragonBody3, 150 },
-				{ NPCID.CultistDragonBody4, 150 },
-				{ NPCID.CultistDragonTail, 150 },
-				{ NPCID.AncientCultistSquidhead, 300 },
-				{ NPCID.AncientLight, 300 },
-
-				{ ModContent.NPCType<AstrumDeusHeadSpectral>(), 400 },
-				{ ModContent.NPCType<AstrumDeusBodySpectral>(), 260 },
-				{ ModContent.NPCType<AstrumDeusTailSpectral>(), 220 },
-
-				{ ModContent.NPCType<ProfanedGuardianBoss>(), 360 },
-				{ ModContent.NPCType<ProfanedGuardianBoss2>(), 300 },
-				{ ModContent.NPCType<ProfanedGuardianBoss3>(), 240 },
-
-				{ ModContent.NPCType<Bumblefuck>(), 400 },
-				{ ModContent.NPCType<Bumblefuck2>(), 350 },
-
-				{ ModContent.NPCType<ProvSpawnOffense>(), 380 },
-				{ ModContent.NPCType<ProvSpawnDefense>(), 320 },
-
-				{ ModContent.NPCType<CeaselessVoid>(), 480 },
-				{ ModContent.NPCType<DarkEnergy>(), 420 }, // All 3 types deal the same damage
-
-				{ ModContent.NPCType<StormWeaverHead>(), 450 },
-				{ ModContent.NPCType<StormWeaverBody>(), 300 },
-				{ ModContent.NPCType<StormWeaverTail>(), 240 },
-				{ ModContent.NPCType<StormWeaverHeadNaked>(), 550 },
-				{ ModContent.NPCType<StormWeaverBodyNaked>(), 340 },
-				{ ModContent.NPCType<StormWeaverTailNaked>(), 280 },
-
-				{ ModContent.NPCType<Signus>(), 470 },
-				{ ModContent.NPCType<CosmicLantern>(), 350 },
-				{ ModContent.NPCType<SignusBomb>(), 440 },
-
-				{ ModContent.NPCType<Polterghast>(), 380 }, // 450 in phase 2, 520 in phase 3
-				{ ModContent.NPCType<PolterPhantom>(), 520 },
-
-				{ ModContent.NPCType<DevourerofGodsHead>(), 650 },
-				{ ModContent.NPCType<DevourerofGodsBody>(), 480 },
-				{ ModContent.NPCType<DevourerofGodsTail>(), 400 },
-				{ ModContent.NPCType<DevourerofGodsHeadS>(), 750 }, // Instant death
-				{ ModContent.NPCType<DevourerofGodsBodyS>(), 570 },
-				{ ModContent.NPCType<DevourerofGodsTailS>(), 490 },
-				{ ModContent.NPCType<DevourerofGodsHead2>(), 540 },
-				{ ModContent.NPCType<DevourerofGodsBody2>(), 440 },
-				{ ModContent.NPCType<DevourerofGodsTail2>(), 340 },
-
-				{ ModContent.NPCType<Yharon>(), 700 },
-				{ ModContent.NPCType<DetonatingFlare>(), 320 },
-				{ ModContent.NPCType<DetonatingFlare2>(), 550 },
-
-				{ ModContent.NPCType<SupremeCalamitas>(), 750 }
+				{ NPCID.KingSlime, new int[] { 40, 64, 80, 88, 96 } },
+
+				{ ModContent.NPCType<DesertScourgeHead>(), new int[] { 30, 66, 88, 99, 132 } },
+				{ ModContent.NPCType<DesertScourgeBody>(), new int[] { 16, 32, 40, 44, 60 } },
+				{ ModContent.NPCType<DesertScourgeTail>(), new int[] { 12, 24, 30, 32, 42 } },
+				{ ModContent.NPCType<DesertScourgeHeadSmall>(), new int[] { 0, 0, 60, 70, 90 } },
+				{ ModContent.NPCType<DesertScourgeBodySmall>(), new int[] { 0, 0, 32, 36, 45 } },
+				{ ModContent.NPCType<DesertScourgeTailSmall>(), new int[] { 0, 0, 20, 24, 30 } },
+				{ ModContent.NPCType<DriedSeekerHead>(), new int[] { 14, 28, 36, 40, 51 } },
+				{ ModContent.NPCType<DriedSeekerBody>(), new int[] { 8, 16, 20, 24, 30 } },
+				{ ModContent.NPCType<DriedSeekerTail>(), new int[] { 6, 12, 16, 18, 24 } },
+
+				{ NPCID.EyeofCthulhu, new int[] {
+					15, // 23 in phase 2
+					30, // 36 in phase 2, 40 in phase 3
+					40, // 48 in phase 2, 56 in phase 3
+					60, // Same for all phases
+					51 } }, // Vanilla: 54 in phase 2, 60 in phase 3; Rev: 61 in phase 2, 71 in phase 3; Death: 71 at all times
+				{ NPCID.ServantofCthulhu, new int[] { 12, 24, 30, 34, 42 } },
+
+				{ ModContent.NPCType<CrabulonIdle>(), new int[] { 40, 64, 80, 88, 120 } },
+				{ ModContent.NPCType<CrabShroom>(), new int[] { 25, 50, 62, 70, 75 } },
+
+				{ NPCID.EaterofWorldsHead, new int[] { 25, 55, 77, 88, 132 } },
+				{ NPCID.EaterofWorldsBody, new int[] { 15, 24, 32, 40, 60 } },
+				{ NPCID.EaterofWorldsTail, new int[] { 10, 16, 24, 32, 42 } },
+				{ NPCID.VileSpit, new int[] { 0, 64, 64, 64, 96 } },
+
+				{ NPCID.BrainofCthulhu, new int[] { 30, 54, 81, 99, 135 } },
+				{ NPCID.Creeper, new int[] { 20, 36, 54, 72, 90 } },
+
+				{ ModContent.NPCType<HiveMind>(), new int[] { 20, 36, 45, 54, 81 } },
+				{ ModContent.NPCType<HiveMindP2>(), new int[] { 35, 63, 81, 90, 135 } },
+				{ ModContent.NPCType<DankCreeper>(), new int[] { 25, 50, 62, 68, 90 } },
+
+				{ ModContent.NPCType<PerforatorHive>(), new int[] { 30, 54, 63, 72, 108 } },
+				{ ModContent.NPCType<PerforatorHeadLarge>(), new int[] { 45, 90, 108, 118, 150 } },
+				{ ModContent.NPCType<PerforatorBodyLarge>(), new int[] { 24, 48, 56, 60, 75 } },
+				{ ModContent.NPCType<PerforatorTailLarge>(), new int[] { 18, 36, 42, 46, 60 } },
+				{ ModContent.NPCType<PerforatorHeadMedium>(), new int[] { 35, 70, 84, 92, 126 } },
+				{ ModContent.NPCType<PerforatorBodyMedium>(), new int[] { 21, 42, 50, 54, 69 } },
+				{ ModContent.NPCType<PerforatorTailMedium>(), new int[] { 14, 28, 34, 38, 54 } },
+				{ ModContent.NPCType<PerforatorHeadSmall>(), new int[] { 30, 60, 72, 80, 102 } },
+				{ ModContent.NPCType<PerforatorBodySmall>(), new int[] { 18, 36, 42, 46, 60 } },
+				{ ModContent.NPCType<PerforatorTailSmall>(), new int[] { 10, 20, 26, 30, 45 } },
+
+				{ NPCID.QueenBee, new int[] { 30, 54, 81, 99, 135 } },
+				{ NPCID.Bee, new int[] { 20, 24, 30, 36, 54 } },
+				{ NPCID.BeeSmall, new int[] { 15, 18, 24, 30, 45 } },
+
+				{ NPCID.SkeletronHead, new int[] {
+					35, // Same for all phases
+					77, // 100 while spinning
+					88, // 114 while spinning
+					99, // 128 while spinning
+					132 } }, // 171 while spinning
+				{ NPCID.SkeletronHand, new int[] { 20, 44, 55, 66, 99 } },
+
+				{ ModContent.NPCType<SlimeGodCore>(), new int[] { 40, 80, 96, 104, 135 } },
+				{ ModContent.NPCType<SlimeGod>(), new int[] { 45, 90, 108, 118, 150 } },
+				{ ModContent.NPCType<SlimeGodSplit>(), new int[] { 40, 80, 96, 104, 135 } },
+				{ ModContent.NPCType<SlimeGodRun>(), new int[] { 50, 100, 120, 130, 171 } },
+				{ ModContent.NPCType<SlimeGodRunSplit>(), new int[] { 45, 90, 108, 118, 150 } },
+				{ ModContent.NPCType<SlimeSpawnCorrupt>(), new int[] { 30, 60, 72, 78, 99 } },
+				{ ModContent.NPCType<SlimeSpawnCorrupt2>(), new int[] { 20, 40, 48, 52, 66 } },
+				{ ModContent.NPCType<SlimeSpawnCrimson>(), new int[] { 35, 70, 84, 92, 120 } },
+				{ ModContent.NPCType<SlimeSpawnCrimson2>(), new int[] { 25, 50, 60, 66, 84 } },
+
+				{ NPCID.WallofFlesh, new int[] { 50, 150, 180, 195, 225 } },
+				{ NPCID.WallofFleshEye, new int[] { 50, 150, 180, 195, 225 } },
+				{ NPCID.TheHungry, new int[] {
+					30, // Ranges from 30 to 75 depending on WoF life
+					60, // Ranges from 60 to 150 depending on WoF life
+					60, // Ranges from 60 to 150 depending on WoF life
+					60, // Ranges from 60 to 150 depending on WoF life
+					90 } }, // Ranges from 90 to 225 depending on WoF life
+				{ NPCID.TheHungryII, new int[] { 30, 60, 74, 80, 90 } },
+				{ NPCID.LeechHead, new int[] { 26, 52, 62, 68, 78 } },
+				{ NPCID.LeechBody, new int[] { 22, 44, 52, 56, 66 } },
+				{ NPCID.LeechTail, new int[] { 18, 36, 42, 44, 54 } },
+
+				{ ModContent.NPCType<Cryogen>(), new int[] { 50, 115, 138, 161, 207 } },
+				{ ModContent.NPCType<CryogenIce>(), new int[] { 50, 100, 120, 134, 150 } },
+				{ ModContent.NPCType<Cryocore>(), new int[] { 35, 70, 84, 92, 105 } },
+				{ ModContent.NPCType<Cryocore2>(), new int[] { 40, 80, 96, 106, 120 } },
+				{ ModContent.NPCType<IceMass>(), new int[] { 40, 80, 96, 106, 120 } },
+
+				{ NPCID.Spazmatism, new int[] {
+					60, // 90 in phase 2
+					102, // 153 in phase 2
+					119, // 178 in phase 2
+					136, // 204 in phase 2
+					204 } }, // 306 in phase 2
+				{ NPCID.Retinazer, new int[] {
+					50, // 75 in phase 2
+					85, // 127 in phase 2
+					102, // 153 in phase 2
+					119, // 178 in phase 2
+					153 } }, // 229 in phase 2
+
+				{ ModContent.NPCType<AquaticScourgeHead>(), new int[] { 80, 176, 187, 198, 264 } },
+				{ ModContent.NPCType<AquaticScourgeBody>(), new int[] { 65, 104, 128, 136, 168 } },
+				{ ModContent.NPCType<AquaticScourgeBodyAlt>(), new int[] { 55, 88, 112, 120, 144 } },
+				{ ModContent.NPCType<AquaticScourgeTail>(), new int[] { 45, 72, 96, 104, 120 } },
+
+				{ NPCID.TheDestroyer, new int[] { 70, 280, 320, 340, 420 } },
+				{ NPCID.TheDestroyerBody, new int[] { 60, 102, 119, 136, 204 } },
+				{ NPCID.TheDestroyerTail, new int[] { 40, 68, 85, 102, 153 } },
+
+				{ ModContent.NPCType<BrimstoneElemental>(), new int[] { 60, 96, 120, 136, 180 } },
+
+				{ NPCID.SkeletronPrime, new int[] {
+					50, // 100 while spinning
+					85, // 170 while spinning
+					102, // 204 while spinning
+					119, // 238 while spinning
+					153 } }, // 306 while spinning
+				{ NPCID.PrimeVice, new int[] { 60, 102, 119, 136, 204 } },
+				{ NPCID.PrimeSaw, new int[] { 60, 102, 119, 136, 204 } },
+				{ NPCID.PrimeCannon, new int[] { 30, 51, 68, 85, 102 } },
+				{ NPCID.PrimeLaser, new int[] { 30, 51, 68, 85, 102 } },
+
+				{ ModContent.NPCType<Calamitas>(), new int[] { 55, 88, 104, 112, 144 } },
+				{ ModContent.NPCType<CalamitasRun3>(), new int[] { 70, 112, 128, 136, 168 } },
+				{ ModContent.NPCType<CalamitasRun>(), new int[] { 60, 120, 138, 148, 198 } },
+				{ ModContent.NPCType<CalamitasRun2>(), new int[] { 65, 130, 150, 162, 216 } },
+
+				{ NPCID.Plantera, new int[] {
+					50, // 70 in phase 2, vanilla is retarded and doesn't use the expert multiplier for plantera's damage
+					100, // 140 in phase 2, vanilla is retarded and doesn't use the expert multiplier for plantera's damage
+					138, // 193 in phase 2
+					161, // 225 in phase 2
+					207 } }, // Vanilla: Is retarded, so plantera does 150 in phase 1 and 210 in phase 2; Rev and Death: 289 in phase 2
+				{ NPCID.PlanterasTentacle, new int[] { 60, 138, 161, 207, 276 } },
+				{ NPCID.Spore, new int[] { 70, 140, 160, 170, 210 } },
+
+				{ ModContent.NPCType<Leviathan>(), new int[] { 90, 216, 240, 252, 324 } },
+				{ ModContent.NPCType<Siren>(), new int[] {
+					70, // 105 during charge
+					112, // 168 during charge
+					136, // 204 during charge
+					144, // 216 during charge
+					192 } }, // 288 during charge
+				{ ModContent.NPCType<SirenIce>(), new int[] { 55, 110, 126, 136, 165 } },
+				{ NPCID.DetonatingBubble, new int[] { 100, 150, 180, 195, 225 } },
+				{ ModContent.NPCType<AquaticAberration>(), new int[] { 55, 110, 126, 136, 165 } },
+				{ ModContent.NPCType<Parasea>(), new int[] { 50, 100, 116, 128, 150 } },
+
+				{ ModContent.NPCType<AstrumAureus>(), new int[] { 80, 176, 198, 209, 264 } },
+				{ ModContent.NPCType<AureusSpawn>(), new int[] { 0, 0, 150, 180, 240 } },
+
+				{ NPCID.Golem, new int[] { 90, 144, 176, 192, 240 } },
+				{ NPCID.GolemHead, new int[] { 80, 128, 144, 160, 192 } },
+				{ NPCID.GolemFistLeft, new int[] { 70, 112, 144, 160, 180 } },
+				{ NPCID.GolemFistRight, new int[] { 70, 112, 144, 160, 180 } },
+
+				{ ModContent.NPCType<PlaguebringerGoliath>(), new int[] { 100, 180, 216, 234, 297 } },
+				{ ModContent.NPCType<PlaguebringerShade>(), new int[] { 70, 140, 160, 170, 240 } },
+				{ ModContent.NPCType<PlagueHomingMissile>(), new int[] { 90, 180, 210, 224, 270 } },
+				{ ModContent.NPCType<PlagueMine>(), new int[] { 0, 200, 240, 260, 330 } },
+				{ ModContent.NPCType<PlagueBeeG>(), new int[] { 60, 120, 140, 150, 195 } },
+				{ ModContent.NPCType<PlagueBeeLargeG>(), new int[] { 65, 130, 150, 160, 210 } },
+
+				{ NPCID.DukeFishron, new int[] {
+					100, // 120 in phase 2
+					140, // 201 in phase 2, 184 in phase 3
+					168, // 241 in phase 2, 221 in phase 3
+					182, // 262 in phase 2, 240 in phase 3
+					210 } }, // 302 in phase 2, 277 in phase 3
+				{ NPCID.Sharkron, new int[] { 100, 150, 180, 195, 225 } },
+				{ NPCID.Sharkron2, new int[] { 120, 180, 210, 225, 270 } },
+
+				{ ModContent.NPCType<RavagerBody>(), new int[] { 120, 192, 224, 232, 288 } },
+				{ ModContent.NPCType<RavagerClawLeft>(), new int[] { 80, 160, 180, 200, 240 } },
+				{ ModContent.NPCType<RavagerClawRight>(), new int[] { 80, 160, 180, 200, 240 } },
+				{ ModContent.NPCType<RockPillar>(), new int[] { 120, 192, 224, 232, 288 } },
+				{ ModContent.NPCType<FlamePillar>(), new int[] { 100, 160, 192, 200, 216 } },
+
+				{ NPCID.CultistDragonHead, new int[] { 120, 180, 210, 225, 270 } },
+				{ NPCID.CultistDragonBody1, new int[] { 60, 90, 105, 120, 135 } },
+				{ NPCID.CultistDragonBody2, new int[] { 60, 90, 105, 120, 135 } },
+				{ NPCID.CultistDragonBody3, new int[] { 60, 90, 105, 120, 135 } },
+				{ NPCID.CultistDragonBody4, new int[] { 60, 90, 105, 120, 135 } },
+				{ NPCID.CultistDragonTail, new int[] { 60, 90, 105, 120, 135 } },
+				{ NPCID.AncientCultistSquidhead, new int[] { 90, 180, 210, 225, 270 } },
+				{ NPCID.AncientDoom, new int[] { 30, 45, 0, 0, 90 } }, // Vanilla: 90 in Master Mode; Rev and Death: 0 in Master Mode
+				{ NPCID.AncientLight, new int[] { 120, 180, 210, 225, 270 } },
+
+				{ ModContent.NPCType<AstrumDeusHeadSpectral>(), new int[] { 120, 240, 268, 280, 360 } },
+				{ ModContent.NPCType<AstrumDeusBodySpectral>(), new int[] { 100, 160, 192, 200, 240 } },
+				{ ModContent.NPCType<AstrumDeusTailSpectral>(), new int[] { 80, 128, 160, 168, 192 } },
+
+				{ ModContent.NPCType<ProfanedGuardianBoss>(), new int[] { 140, 224, 256, 280, 336 } },
+				{ ModContent.NPCType<ProfanedGuardianBoss2>(), new int[] { 110, 176, 200, 216, 264 } },
+				{ ModContent.NPCType<ProfanedGuardianBoss3>(), new int[] { 90, 144, 168, 184, 216 } },
+
+				{ ModContent.NPCType<Bumblefuck>(), new int[] { 160, 256, 288, 304, 384 } },
+				{ ModContent.NPCType<Bumblefuck2>(), new int[] { 110, 220, 242, 256, 330 } },
+
+				{ ModContent.NPCType<ProvSpawnOffense>(), new int[] { 120, 240, 264, 278, 336 } },
+				{ ModContent.NPCType<ProvSpawnDefense>(), new int[] { 100, 200, 220, 232, 270 } },
+
+				{ ModContent.NPCType<CeaselessVoid>(), new int[] { 150, 300, 330, 348, 450 } },
+				{ ModContent.NPCType<DarkEnergy>(), new int[] { 120, 240, 264, 278, 360 } },
+				{ ModContent.NPCType<DarkEnergy2>(), new int[] { 120, 240, 264, 278, 360 } },
+				{ ModContent.NPCType<DarkEnergy3>(), new int[] { 120, 240, 264, 278, 360 } },
+
+				{ ModContent.NPCType<StormWeaverHead>(), new int[] { 140, 280, 308, 324, 420 } },
+				{ ModContent.NPCType<StormWeaverBody>(), new int[] { 100, 160, 192, 208, 300 } },
+				{ ModContent.NPCType<StormWeaverTail>(), new int[] { 80, 128, 160, 176, 240 } },
+				{ ModContent.NPCType<StormWeaverHeadNaked>(), new int[] { 180, 360, 396, 418, 540 } },
+				{ ModContent.NPCType<StormWeaverBodyNaked>(), new int[] { 120, 192, 224, 250, 330 } },
+				{ ModContent.NPCType<StormWeaverTailNaked>(), new int[] { 100, 160, 192, 210, 270 } },
+
+				{ ModContent.NPCType<Signus>(), new int[] { 175, 315, 351, 369, 459 } },
+				{ ModContent.NPCType<CosmicLantern>(), new int[] { 110, 220, 242, 256, 336 } },
+				{ ModContent.NPCType<SignusBomb>(), new int[] { 0, 0, 300, 320, 390 } },
+
+				{ ModContent.NPCType<Polterghast>(), new int[] {
+					150, // 180 in phase 2, 210 in phase 3
+					240, // 288 in phase 2, 336 in phase 3
+					264, // 316 in phase 2, 369 in phase 3
+					280, // 336 in phase 2, 392 in phase 3
+					384 } }, // 460 in phase 2, 537 in phase 3
+				{ ModContent.NPCType<PolterPhantom>(), new int[] { 210, 336, 360, 392, 528 } },
+
+				{ ModContent.NPCType<OldDuke>(), new int[] {
+					160, // 192 in phase 2, 208 in phase 3
+					224, // 268 in phase 2, 291 in phase 3
+					280, // 336 in phase 2, 364 in phase 3
+					294, // 352 in phase 2, 382 in phase 3
+					378 } }, // 453 in phase 2, 491 in phase 3
+				{ ModContent.NPCType<OldDukeToothBall>(), new int[] { 180, 270, 300, 315, 405 } },
+				{ ModContent.NPCType<OldDukeSharkron>(), new int[] { 180, 270, 300, 315, 405 } },
+
+				{ ModContent.NPCType<DevourerofGodsHead>(), new int[] { 250, 500, 550, 580, 660 } },
+				{ ModContent.NPCType<DevourerofGodsBody>(), new int[] { 180, 306, 340, 357, 510 } },
+				{ ModContent.NPCType<DevourerofGodsTail>(), new int[] { 150, 255, 289, 306, 408 } },
+				{ ModContent.NPCType<DevourerofGodsHeadS>(), new int[] { 300, 600, 650, 680, 780 } }, // Death Mode damage is an instant kill
+				{ ModContent.NPCType<DevourerofGodsBodyS>(), new int[] { 220, 374, 425, 442, 561 } },
+				{ ModContent.NPCType<DevourerofGodsTailS>(), new int[] { 180, 306, 340, 357, 459 } },
+				{ ModContent.NPCType<DevourerofGodsHead2>(), new int[] { 180, 360, 396, 420, 510 } },
+				{ ModContent.NPCType<DevourerofGodsBody2>(), new int[] { 130, 260, 290, 320, 420 } },
+				{ ModContent.NPCType<DevourerofGodsTail2>(), new int[] { 100, 200, 230, 260, 330 } },
+
+				{ ModContent.NPCType<Yharon>(), new int[] { 330, 528, 560, 576, 690 } },
+				{ ModContent.NPCType<DetonatingFlare>(), new int[] { 100, 200, 220, 232, 300 } },
+				{ ModContent.NPCType<DetonatingFlare2>(), new int[] { 220, 440, 462, 476, 540 } },
+
+				{ ModContent.NPCType<SupremeCalamitas>(), new int[] { 350, 560, 592, 608, 768 } }
 			};
 		};
     }

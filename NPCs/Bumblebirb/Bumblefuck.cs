@@ -39,8 +39,8 @@ namespace CalamityMod.NPCs.Bumblebirb
             npc.npcSlots = 32f;
             npc.aiStyle = -1;
             aiType = -1;
-            npc.damage = 160;
-            npc.width = 130;
+			npc.GetNPCDamage();
+			npc.width = 130;
             npc.height = 100;
             npc.defense = 40;
 			npc.DR_NERD(0.1f, null, null, null, true);
@@ -451,7 +451,7 @@ namespace CalamityMod.NPCs.Bumblebirb
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
             npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);
-            npc.damage = (int)(npc.damage * 0.8f);
+            npc.damage = (int)(npc.damage * npc.GetExpertDamageMultiplier());
         }
 
         public override void HitEffect(int hitDirection, double damage)

@@ -1010,6 +1010,19 @@ namespace CalamityMod.CalPlayer
 				modPlayer.plagueReaperCooldown--;
 			if (modPlayer.brimflameFrenzyTimer > 0)
 				modPlayer.brimflameFrenzyTimer--;
+			if (modPlayer.fungalSymbioteTimer > 0)
+				modPlayer.fungalSymbioteTimer--;
+			if (player.miscCounter % 20 == 0)
+				modPlayer.canFireAtaxiaRangedProjectile = true;
+			if (player.miscCounter % 100 == 0)
+				modPlayer.canFireBloodflareMageProjectile = true;
+			if (player.miscCounter % 150 == 0)
+			{
+				modPlayer.canFireGodSlayerRangedProjectile = true;
+				modPlayer.canFireBloodflareRangedProjectile = true;
+				modPlayer.canFireReaverRangedProjectile = true;
+				modPlayer.canFireAtaxiaRogueProjectile = true;
+			}
 			if (modPlayer.roverDrive)
 			{
 				if (modPlayer.roverDriveTimer < CalamityUtils.SecondsToFrames(30f))
@@ -1019,6 +1032,10 @@ namespace CalamityMod.CalPlayer
 			}
 			else
 				modPlayer.roverDriveTimer = 616; //Doesn't reset to zero to prevent exploits
+			if (modPlayer.auralisAurora > 0)
+				modPlayer.auralisAurora--;
+			if (modPlayer.auralisAuroraCooldown > 0)
+				modPlayer.auralisAuroraCooldown--;
 
 			// Silva invincibility effects
 			if (modPlayer.silvaCountdown > 0 && modPlayer.hasSilvaEffect && modPlayer.silvaSet)
@@ -2332,6 +2349,80 @@ namespace CalamityMod.CalPlayer
 			}
 			else
 				modPlayer.modStealth = 1f;
+
+			if (player.ActiveItem().type == ModContent.ItemType<Auralis>() && player.StandingStill(0.1f))
+			{
+				if (modPlayer.auralisStealthCounter < 300f)
+					modPlayer.auralisStealthCounter++;
+
+				bool usingScope = false;
+				if (!Main.gameMenu && Main.netMode != NetmodeID.Server)
+				{
+					if (player.noThrow <= 0 && !player.lastMouseInterface || (Main.zoomX != 0f || Main.zoomY != 0f))
+					{
+						if (PlayerInput.UsingGamepad)
+						{
+							if (PlayerInput.GamepadThumbstickRight.Length() != 0f || !Main.SmartCursorEnabled)
+							{
+								usingScope = true;
+							}
+						}
+						else if (Main.mouseRight)
+							usingScope = true;
+					}
+				}
+
+				int chargeDuration = CalamityUtils.SecondsToFrames(5f);
+				int auroraDuration = CalamityUtils.SecondsToFrames(20f);
+
+				if (usingScope && modPlayer.auralisAuroraCounter < chargeDuration + auroraDuration)
+					modPlayer.auralisAuroraCounter++;
+
+				if (modPlayer.auralisAuroraCounter > chargeDuration + auroraDuration)
+				{
+					modPlayer.auralisAuroraCounter = 0;
+					modPlayer.auralisAuroraCooldown = CalamityUtils.SecondsToFrames(30f);
+				}
+
+				if (modPlayer.auralisAuroraCounter > 0 && modPlayer.auralisAuroraCounter < chargeDuration && !usingScope)
+					modPlayer.auralisAuroraCounter--;
+
+				if (modPlayer.auralisAuroraCounter > chargeDuration && modPlayer.auralisAuroraCounter < chargeDuration + auroraDuration && !usingScope)
+					modPlayer.auralisAuroraCounter = 0;
+			}
+			else
+			{
+				modPlayer.auralisStealthCounter = 0f;
+				modPlayer.auralisAuroraCounter = 0;
+			}
+			if (modPlayer.auralisAuroraCooldown > 0)
+			{
+				if (modPlayer.auralisAuroraCooldown == 1)
+				{
+					int dustAmt = 36;
+					for (int d = 0; d < dustAmt; d++)
+					{
+						Vector2 source = Vector2.Normalize(player.velocity) * new Vector2((float)player.width / 2f, (float)player.height) * 1f; //0.75
+						source = source.RotatedBy((double)((float)(d - (dustAmt / 2 - 1)) * MathHelper.TwoPi / (float)dustAmt), default) + player.Center;
+						Vector2 dustVel = source - player.Center;
+						int blue = Dust.NewDust(source + dustVel, 0, 0, 229, dustVel.X, dustVel.Y, 100, default, 1.2f);
+						Main.dust[blue].noGravity = true;
+						Main.dust[blue].noLight = false;
+						Main.dust[blue].velocity = dustVel;
+					}
+					for (int d = 0; d < dustAmt; d++)
+					{
+						Vector2 source = Vector2.Normalize(player.velocity) * new Vector2((float)player.width / 2f, (float)player.height) * 0.75f;
+						source = source.RotatedBy((double)((float)(d - (dustAmt / 2 - 1)) * MathHelper.TwoPi / (float)dustAmt), default) + player.Center;
+						Vector2 dustVel = source - player.Center;
+						int green = Dust.NewDust(source + dustVel, 0, 0, 107, dustVel.X, dustVel.Y, 100, default, 1.2f);
+						Main.dust[green].noGravity = true;
+						Main.dust[green].noLight = false;
+						Main.dust[green].velocity = dustVel;
+					}
+				}
+				modPlayer.auralisAuroraCounter = 0;
+			}
 		}
 		#endregion
 
@@ -3257,7 +3348,7 @@ namespace CalamityMod.CalPlayer
 					{
 						float ai1 = I * 120;
 						Projectile.NewProjectile(player.Center.X + (float)(Math.Sin(I * 120) * 550), player.Center.Y + (float)(Math.Cos(I * 120) * 550), 0f, 0f,
-							ModContent.ProjectileType<GhostlyMine>(), (int)((modPlayer.auricSet ? 15000 : 5000) * player.MinionDamage()), 1f, player.whoAmI, ai1, 0f);
+							ModContent.ProjectileType<GhostlyMine>(), (int)(5000 * player.MinionDamage()), 1f, player.whoAmI, ai1, 0f);
 					}
 				}
 			}

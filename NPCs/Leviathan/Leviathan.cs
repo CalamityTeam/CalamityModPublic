@@ -38,8 +38,8 @@ namespace CalamityMod.NPCs.Leviathan
         public override void SetDefaults()
         {
             npc.npcSlots = 20f;
-            npc.damage = 90;
-            npc.width = 650;
+			npc.GetNPCDamage();
+			npc.width = 650;
             npc.height = 300;
             npc.defense = 40;
 			npc.DR_NERD(0.35f);
@@ -773,7 +773,7 @@ namespace CalamityMod.NPCs.Leviathan
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
             npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);
-            npc.damage = (int)(npc.damage * 0.85f);
+            npc.damage = (int)(npc.damage * npc.GetExpertDamageMultiplier());
         }
     }
 }

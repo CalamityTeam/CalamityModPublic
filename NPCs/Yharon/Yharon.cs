@@ -61,8 +61,8 @@ namespace CalamityMod.NPCs.Yharon
         public override void SetDefaults()
         {
             npc.npcSlots = 50f;
-            npc.damage = 330;
-            npc.width = 200;
+			npc.GetNPCDamage();
+			npc.width = 200;
             npc.height = 200;
             npc.defense = 150;
             npc.LifeMaxNERB(2275000, 2525000, 3700000);
@@ -262,9 +262,9 @@ namespace CalamityMod.NPCs.Yharon
             int maxFlareCount = 3;
 
             // Timer, velocity and acceleration for idle phase before phase switch
-            int phaseSwitchTimer = expertMode ? 36 : 38;
-            float acceleration = expertMode ? 0.7f : 0.69f;
-            float velocity = expertMode ? 11f : 10.8f;
+            int phaseSwitchTimer = expertMode ? 36 : 40;
+            float acceleration = expertMode ? 0.75f : 0.7f;
+            float velocity = expertMode ? 12f : 11f;
 
 			// Damage immunity
 			if (phase3Change)
@@ -277,20 +277,20 @@ namespace CalamityMod.NPCs.Yharon
 			if (npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))
             {
 				acceleration = 0.95f;
-				velocity = 14f;
+				velocity = 15f;
 				phaseSwitchTimer = 25;
             }
             else if (phase3Change)
             {
-				acceleration = 0.85f;
-				velocity = 13f;
-				phaseSwitchTimer = 25;
+				acceleration = expertMode ? 0.85f : 0.8f;
+				velocity = expertMode ? 14f : 13f;
+				phaseSwitchTimer = expertMode ? 25 : 28;
             }
             else if (phase2Change && isCharging)
             {
-				acceleration = expertMode ? 0.8f : 0.78f;
-				velocity = expertMode ? 12.2f : 12f;
-				phaseSwitchTimer = expertMode ? 36 : 38;
+				acceleration = expertMode ? 0.8f : 0.75f;
+				velocity = expertMode ? 13f : 12f;
+				phaseSwitchTimer = expertMode ? 32 : 36;
             }
             else if (isCharging && !phase2Change && !phase3Change)
             {
@@ -335,8 +335,8 @@ namespace CalamityMod.NPCs.Yharon
             // Phase timers and velocities
             int flareBombPhaseTimer = 60;
             int flareBombSpawnDivisor = 3;
-            float flareBombPhaseAcceleration = 0.5f;
-            float flareBombPhaseVelocity = 10f;
+            float flareBombPhaseAcceleration = 0.8f;
+            float flareBombPhaseVelocity = 12f;
             int fireTornadoPhaseTimer = 90;
             int newPhaseTimer = 180;
             int flareDustPhaseTimer = 300;
@@ -1620,7 +1620,7 @@ namespace CalamityMod.NPCs.Yharon
 			int projectileDamage = expertMode ? 110 : 125;
 			float phaseSwitchTimer = expertMode ? 30f : 32f;
 			float acceleration = expertMode ? 0.92f : 0.9f;
-            float velocity = expertMode ? 13.5f : 13f;
+            float velocity = expertMode ? 14.5f : 14f;
 			float chargeTime = expertMode ? 32f : 35f;
             float chargeSpeed = expertMode ? 32f : 30f;
 			float fastChargeVelocityMultiplier = 1.5f;
@@ -2901,7 +2901,7 @@ namespace CalamityMod.NPCs.Yharon
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
             npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);
-            npc.damage = (int)(npc.damage * 0.8f);
+            npc.damage = (int)(npc.damage * npc.GetExpertDamageMultiplier());
         }
         #endregion
 

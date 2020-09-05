@@ -21,8 +21,8 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
         public override void SetDefaults()
         {
-            npc.damage = 90;
-            npc.width = 22;
+			npc.GetNPCDamage();
+			npc.width = 22;
             npc.height = 22;
             npc.defense = 10;
             npc.lifeMax = BossRushEvent.BossRushActive ? 20000 : 200;

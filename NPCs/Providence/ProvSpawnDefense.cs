@@ -2,7 +2,6 @@ using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Dusts;
 using CalamityMod.Events;
-using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -24,8 +23,8 @@ namespace CalamityMod.NPCs.Providence
         {
             npc.npcSlots = 1f;
             npc.aiStyle = -1;
-            npc.damage = 100;
-            npc.width = 100;
+			npc.GetNPCDamage();
+			npc.width = 100;
             npc.height = 80;
             npc.defense = 50;
 			npc.DR_NERD(0.4f);

@@ -18,8 +18,8 @@ namespace CalamityMod.NPCs.Cryogen
 
         public override void SetDefaults()
         {
-            npc.damage = 35;
-            npc.width = 40;
+			npc.GetNPCDamage();
+			npc.width = 40;
             npc.height = 40;
             npc.defense = 6;
             npc.lifeMax = 220;

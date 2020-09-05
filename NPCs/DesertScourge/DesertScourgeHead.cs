@@ -13,7 +13,6 @@ using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.NPCs.TownNPCs;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
-using System;
 using System.IO;
 using System.Reflection;
 using Terraria;
@@ -35,8 +34,8 @@ namespace CalamityMod.NPCs.DesertScourge
 
         public override void SetDefaults()
         {
-            npc.damage = 30;
-            npc.npcSlots = 12f;
+			npc.GetNPCDamage();
+			npc.npcSlots = 12f;
             npc.width = 32;
             npc.height = 80;
             npc.LifeMaxNERB(2300, 2650, 16500000);
@@ -562,7 +561,7 @@ namespace CalamityMod.NPCs.DesertScourge
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
             npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);
-            npc.damage = (int)(npc.damage * 1.1f);
+            npc.damage = (int)(npc.damage * npc.GetExpertDamageMultiplier());
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)

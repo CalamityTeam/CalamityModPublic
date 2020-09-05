@@ -42,8 +42,8 @@ namespace CalamityMod.NPCs.AstrumAureus
             npc.lavaImmune = true;
 			npc.noGravity = true;
             npc.npcSlots = 15f;
-            npc.damage = 80;
-            npc.width = 400;
+			npc.GetNPCDamage();
+			npc.width = 400;
             npc.height = 280;
             npc.defense = 50;
 			npc.DR_NERD(0.15f);
@@ -448,7 +448,7 @@ namespace CalamityMod.NPCs.AstrumAureus
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
             npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);
-            npc.damage = (int)(npc.damage * 0.85f);
+            npc.damage = (int)(npc.damage * npc.GetExpertDamageMultiplier());
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)

@@ -24,8 +24,8 @@ namespace CalamityMod.NPCs.SlimeGod
 
         public override void SetDefaults()
         {
-            npc.damage = 45;
-            npc.width = 150;
+			npc.GetNPCDamage();
+			npc.width = 150;
             npc.height = 92;
             npc.scale = 1.1f;
             npc.defense = 10;
@@ -592,7 +592,6 @@ namespace CalamityMod.NPCs.SlimeGod
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
             npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);
-            npc.damage = (int)(npc.damage * 0.85f);
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)

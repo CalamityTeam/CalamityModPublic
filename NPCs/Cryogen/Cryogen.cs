@@ -43,8 +43,8 @@ namespace CalamityMod.NPCs.Cryogen
         public override void SetDefaults()
         {
             npc.npcSlots = 24f;
-            npc.damage = 50;
-            npc.width = 86;
+			npc.GetNPCDamage();
+			npc.width = 86;
             npc.height = 88;
             npc.defense = 12;
 			npc.DR_NERD(0.1f);
@@ -1001,7 +1001,7 @@ namespace CalamityMod.NPCs.Cryogen
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
             npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);
-            npc.damage = (int)(npc.damage * 0.9f);
+            npc.damage = (int)(npc.damage * npc.GetExpertDamageMultiplier());
         }
 
         public override void HitEffect(int hitDirection, double damage)

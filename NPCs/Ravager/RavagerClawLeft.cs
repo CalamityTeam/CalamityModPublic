@@ -21,8 +21,8 @@ namespace CalamityMod.NPCs.Ravager
         {
             npc.lavaImmune = true;
             npc.aiStyle = -1;
-            npc.damage = 80;
-            npc.width = 80;
+			npc.GetNPCDamage();
+			npc.width = 80;
             npc.height = 40;
             npc.defense = 40;
 			npc.DR_NERD(0.1f);
@@ -57,18 +57,18 @@ namespace CalamityMod.NPCs.Ravager
             npc.alpha = 255;
             npc.HitSound = SoundID.NPCHit41;
             npc.DeathSound = SoundID.NPCDeath14;
-            if (CalamityWorld.downedProvidence)
+            if (CalamityWorld.downedProvidence && !BossRushEvent.BossRushActive)
             {
-                npc.damage = 200;
-                npc.defense = 120;
-                npc.lifeMax = 100000;
+                npc.damage *= 2;
+                npc.defense *= 2;
+                npc.lifeMax *= 7;
             }
             if (BossRushEvent.BossRushActive)
             {
                 npc.lifeMax = 260000;
             }
-            double HPBoost = (double)CalamityConfig.Instance.BossHealthBoost * 0.01;
-            npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
+            double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
+            npc.lifeMax += (int)(npc.lifeMax * HPBoost);
         }
 
         public override void AI()

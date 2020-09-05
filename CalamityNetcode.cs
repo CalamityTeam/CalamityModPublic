@@ -147,8 +147,8 @@ namespace CalamityMod
                         if (Main.netMode != NetmodeID.MultiplayerClient)
                             NPC.NewNPC(x, y, ModContent.NPCType<SuperDummyNPC>());
                         break;
-                    case CalamityModMessageType.DraedonGeneratorStackSync:
-                        (TileEntity.ByID[reader.ReadInt32()] as TEDraedonFuelFactory).HeldItem.stack = reader.ReadInt32();
+                    case CalamityModMessageType.PowerCellFactory:
+                        TEPowerCellFactory.ReadSyncPacket(reader);
                         break;
                     case CalamityModMessageType.DraedonChargerSync:
                         int entityID = reader.ReadInt32();
@@ -230,8 +230,8 @@ namespace CalamityMod
         BossRushStage,
         DoGCountdownSync,
         BossSpawnCountdownSync,
-		BRHostileProjKillSync,
-		ArmoredDiggerCountdownSync,
+        BRHostileProjKillSync,
+        ArmoredDiggerCountdownSync,
         BossTypeSync,
         DeathCountSync,
         RevengeanceBoolSync,
@@ -241,18 +241,18 @@ namespace CalamityMod
         ArmageddonBoolSync,
         DemonTrophyBoolSync,
         NPCRegenerationSync,
-		DeathModeUnderworldTimeSync,
-		DeathModeBlizzardTimeSync,
-		DeathBossSpawnCountdownSync,
+        DeathModeUnderworldTimeSync,
+        DeathModeBlizzardTimeSync,
+        DeathBossSpawnCountdownSync,
         AcidRainSync,
         AcidRainUIDrawFadeSync,
         AcidRainOldDukeSummonSync,
         GaelsGreatswordSwingSync,
         SpawnSuperDummy,
-		SyncCalamityNPCAIArray,
+        SyncCalamityNPCAIArray,
         ProvidenceDyeConditionSync, // We shouldn't fucking need this. Die in a hole, Multiplayer.
         PSCChallengeSync, // See above
-        DraedonGeneratorStackSync,
+        PowerCellFactory,
         DraedonChargerSync,
         DraedonFieldGeneratorSync
     }
