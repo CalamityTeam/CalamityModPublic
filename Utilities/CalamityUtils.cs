@@ -775,12 +775,16 @@ namespace CalamityMod
 		public static void ConsumeItemViaQuickBuff(Player player, Item item, int buffType, int buffTime, bool reducedPotionSickness)
 		{
 			bool showsOver = false;
+			//Fail if you have the buff
 			for (int l = 0; l < Player.MaxBuffs; l++)
 			{
 				int hasBuff = player.buffType[l];
 				if (player.buffTime[l] > 0 && hasBuff == buffType)
 					showsOver = true;
 			}
+			//Fail if you have potion sickness
+			if (player.potionDelay > 0 && player.Calamity().potionTimer > 0)
+				showsOver = true;
 
 			if (!showsOver)
 			{
