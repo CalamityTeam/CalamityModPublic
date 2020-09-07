@@ -124,6 +124,7 @@ namespace CalamityMod.NPCs
 			"Mage One-Trick",
 			"Inorim, son of Ivukey",
 			"Jensen",
+			"Merasmus", // <@!288066987819663360> (Spider pee pee#3328)
 		};
 		#endregion
 
