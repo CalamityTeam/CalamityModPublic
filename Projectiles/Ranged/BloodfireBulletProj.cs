@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -12,10 +13,8 @@ namespace CalamityMod.Projectiles.Ranged
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Bloodfire Bullet");
-			/*
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 0;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
-			*/
+			ProjectileID.Sets.TrailCacheLength[projectile.type] = 8;
+			ProjectileID.Sets.TrailingMode[projectile.type] = 1;
 		}
 
 		public override void SetDefaults()
@@ -24,15 +23,38 @@ namespace CalamityMod.Projectiles.Ranged
 			projectile.height = 4;
 			projectile.friendly = true;
 			projectile.ranged = true;
-			projectile.aiStyle = 1;
-			aiType = ProjectileID.BulletHighVelocity;
-			projectile.alpha = 255;
 			projectile.extraUpdates = 4;
 			projectile.timeLeft = Lifetime;
 		}
 
+		public override void AI()
+		{
+			projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
+			projectile.spriteDirection = projectile.direction;
+
+			// Lighting
+			Lighting.AddLight(projectile.Center, 0.9f, 0f, 0.15f);
+
+			// Dust
+			int dustID = 90;
+			float scale = Main.rand.NextFloat(0.6f, 0.9f);
+			Dust d = Dust.NewDustDirect(projectile.Center, 0, 0, dustID);
+			Vector2 posOffset = projectile.velocity.SafeNormalize(Vector2.Zero) * 12f;
+			d.position += posOffset - 2f * Vector2.UnitY;
+			d.noGravity = true;
+			d.velocity *= 0.6f;
+			d.velocity += projectile.velocity * 0.15f;
+			d.scale = scale;
+		}
+
 		// These bullets glow in the dark.
 		public override Color? GetAlpha(Color lightColor) => new Color(255, 255, 255, 140);
+
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+			return false;
+		}
 
 		public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection) => damage += OnHitEffect(Main.player[projectile.owner]);
 		public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit) => damage += OnHitEffect(Main.player[projectile.owner]);
@@ -40,8 +62,8 @@ namespace CalamityMod.Projectiles.Ranged
 		// Returns the amount of bonus damage that should be dealt. Boosts life regeneration appropriately as a side effect.
 		private int OnHitEffect(Player owner)
 		{
-			// Adds 3 frames to lifeRegenTime on every hit. This increased value is used for the damage calculation.
-			owner.lifeRegenTime += 3;
+			// Adds 2 frames to lifeRegenTime on every hit. This increased value is used for the damage calculation.
+			owner.lifeRegenTime += 2;
 
 			// Deals (1.00 + (0.1 * current lifeRegen))% of current lifeRegenTime as flat bonus damage on hit.
 			// For example, at 0 life regen, you get 1% of lifeRegenTime as bonus damage.
@@ -55,13 +77,19 @@ namespace CalamityMod.Projectiles.Ranged
 			return (int)(regenDamageRatio * regenTimeForCalc);
 		}
 
-		/*
+		public override void Kill(int timeLeft)
+		{
+			int dustID = 90;
+			int dustCount = 3;
+			for(int i = 0; i < dustCount; ++i)
+				_ = Dust.NewDust(projectile.Center, 0, 0, dustID, Scale: 1.2f);
+		}
+
 		public override bool OnTileCollide(Vector2 oldVelocity)
 		{
 			Collision.HitTiles(projectile.position, projectile.velocity, projectile.width, projectile.height);
-			Main.PlaySound(0, (int)projectile.Center.X, (int)projectile.Center.Y, 1, 1f, 0f);
+			Main.PlaySound(SoundID.Item10, projectile.Center);
 			return true;
 		}
-		*/
 	}
 }

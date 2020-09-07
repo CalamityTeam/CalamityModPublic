@@ -2116,6 +2116,8 @@ namespace CalamityMod.Projectiles
             return true;
         }
 
+		// This seems to not work with TrailingMode set to 0.
+		// It works when it's set to 1, but only when there's 8 or more afterimages -- and then it only uses the first 8. Dafuq?
 		public static void DrawCenteredAndAfterimage(Projectile projectile, Color lightColor, int trailingMode, int afterimageCounter, Texture2D texture = null, bool drawCentered = true)
         {
             if (texture is null)
