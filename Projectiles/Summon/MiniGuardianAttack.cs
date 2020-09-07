@@ -23,6 +23,18 @@ namespace CalamityMod.Projectiles.Summon
                         (modPlayer.profanedCrystalBuffs ? 700f : 0f));
             projectile.damage = baseDamage == 0 ? 0 : (int)(baseDamage * player.MinionDamage());
             ai = type;
+            if (baseDamage >= 700f)
+            {
+                projectile.localNPCHitCooldown = 6;
+            }
+            else if (baseDamage == 0)
+            {
+                projectile.localNPCHitCooldown = 69;
+            }
+            else
+            {
+                projectile.localNPCHitCooldown = 9;
+            }
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -70,8 +82,8 @@ namespace CalamityMod.Projectiles.Summon
                         num553 = num550 / num553;
                         num551 *= num553;
                         num552 *= num553;
-                        projectile.velocity.X = (projectile.velocity.X * (type == 1 ? 14f : 20f) + num551) / (type == 1 ? 15f : 21f);
-                        projectile.velocity.Y = (projectile.velocity.Y * (type == 1 ? 14f : 20f) + num552) / (type == 1 ? 15f : 21f);
+                        projectile.velocity.X = (projectile.velocity.X * (type == 1 ? 12f : 20f) + num551) / (type == 1 ? 13f : 21f);
+                        projectile.velocity.Y = (projectile.velocity.Y * (type == 1 ? 12f : 20f) + num552) / (type == 1 ? 13f : 21f);
                     }
                     else
                     {
@@ -191,7 +203,6 @@ namespace CalamityMod.Projectiles.Summon
             projectile.timeLeft = 18000;
             projectile.timeLeft *= 5;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 6;
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 4;
             ProjectileID.Sets.TrailingMode[projectile.type] = 0;
         }
@@ -280,10 +291,12 @@ namespace CalamityMod.Projectiles.Summon
             }
             else
             {
-                if (player.Calamity().profanedCrystalBuffs)
-                    AI(2, num535, num536, player);
-                else
-                    AI(1, num535, num536, player);
+                {
+                    if (player.Calamity().profanedCrystalBuffs)
+                        AI(2, num535, num536, player);
+                    else
+                        AI(1, num535, num536, player);
+                }
             }
             if (projectile.velocity.X > 0.25f)
             {
