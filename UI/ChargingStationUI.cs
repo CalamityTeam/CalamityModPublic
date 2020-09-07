@@ -1,6 +1,6 @@
 using CalamityMod.CalPlayer;
+using CalamityMod.Items;
 using CalamityMod.Items.DraedonMisc;
-using CalamityMod.Items.Weapons.DraedonsArsenal;
 using CalamityMod.TileEntities;
 using CalamityMod.Tiles;
 using Microsoft.Xna.Framework;
@@ -17,11 +17,12 @@ namespace CalamityMod.UI
     {
         public const float MaxPlayerDistance = 160f;
         private const float IconScale = 0.7f;
-        private const int GuiWidth = 39;
-        private const int GuiHeight = 39;
+        private const int GuiWidth = 36;
+        private const int GuiHeight = 36;
+        private const int SlotSpacing = 8;
         private const float SlotDrawOffsetX = 24f;
-        private const float PluggedDrawOffsetY = -90f;
-        private const float CellDrawOffsetY = -44f;
+        private const float CellDrawOffsetY = -20f;
+        private const float PluggedDrawOffsetY = CellDrawOffsetY - GuiHeight - SlotSpacing;
 
         public static void Draw(SpriteBatch spriteBatch)
         {
@@ -49,28 +50,16 @@ namespace CalamityMod.UI
                 return;
             }
 
-            // If there is nothing in the player's hand and nothing in the charger, and they roll over the weapon slot, it displays a Gatling Laser.
-            int placeholderArsenalWeaponID = ModContent.ItemType<GatlingLaser>();
-
             // What items are currently in the UI item slots?
             // Normally they are empty, but the plugged item could be anything and the bottom slot may be a stack of power cells.
             int powercellID = ModContent.ItemType<PowerCell>();
+            ref Item pluggedItem = ref charger.PluggedItem;
             Item powercell = new Item();
             powercell.TurnToAir();
             if (charger.CellStack > 0)
             {
                 powercell.SetDefaults(powercellID);
                 powercell.stack = charger.CellStack;
-            }
-            Item pluggedItem;
-            if (charger.PluggedItem != null)
-            {
-                pluggedItem = charger.PluggedItem;
-            }
-            else
-            {
-                pluggedItem = new Item();
-                pluggedItem.TurnToAir();
             }
 
             Vector2 uiBasePos = new Vector2(mp.CurrentlyViewedChargerX, mp.CurrentlyViewedChargerY);
@@ -82,21 +71,30 @@ namespace CalamityMod.UI
             CalamityUtils.DrawPowercellSlot(spriteBatch, powercell, powercellDrawPos);
 
             Rectangle mouseRect = CalamityUtils.MouseHitbox;
-            int slotRectX = (int)uiBasePos.X;
-            int uiToRectOffset = 16; // Not sure what this magic 16 is.
-            int pluggedSlotRectY = (int)(uiBasePos.Y - PluggedDrawOffsetY - uiToRectOffset);
+            int slotRectX = (int)(uiBasePos.X - 1f);
+            int pluggedSlotRectY = (int)(uiBasePos.Y + PluggedDrawOffsetY - GuiHeight / 2);
             Rectangle pluggedSlotRect = new Rectangle(slotRectX, pluggedSlotRectY, GuiWidth, GuiHeight);
-            int cellSlotRectY = (int)(uiBasePos.Y - CellDrawOffsetY - uiToRectOffset);
+            int cellSlotRectY = (int)(uiBasePos.Y + CellDrawOffsetY - GuiHeight / 2);
             Rectangle powercellSlotRect = new Rectangle(slotRectX, cellSlotRectY, GuiWidth, GuiHeight);
 
             // If the player's cursor is over the plugged slot, then interaction with that UI element is possible.
+            ref Item playerHandItem = ref Main.mouseItem;
             if (mouseRect.Intersects(pluggedSlotRect))
             {
-                Main.HoverItem.SetDefaults(pluggedItem.IsAir ? pluggedItem.type : placeholderArsenalWeaponID);
+                if (!pluggedItem.IsAir)
+                {
+                    // The charge variables are contained in CalamityGlobalItem so they must be set manually. SetDefaults won't cover it.
+                    // Not sure if this line is necessary.
+                    // Main.HoverItem = new Item();
+                    Main.HoverItem.SetDefaults(pluggedItem.type);
+                    CalamityGlobalItem calHoverItem = Main.HoverItem.Calamity(), calPlugged = pluggedItem.Calamity();
+                    calHoverItem.Charge = calPlugged.Charge;
+                    calHoverItem.MaxCharge = calPlugged.MaxCharge;
+                }
 
                 if (Main.mouseLeft && Main.mouseLeftRelease)
                 {
-                    Item heldItem = p.ActiveItem();
+                    bool syncRequired = false;
 
                     // If the player is holding shift and has space for the item, just spawn it on his or her face.
                     if (Main.keyState.PressingShift() && p.ItemSpace(pluggedItem))
@@ -108,21 +106,27 @@ namespace CalamityMod.UI
                         pluggedItem.TurnToAir();
 
                         // Immediately swap the now-empty slot with the player's held item as well, if said held item can be charged.
-                        if (heldItem.Calamity().UsesCharge)
-                            Utils.Swap(ref heldItem, ref pluggedItem);
-
                         // Do not play a sound in this situation. The player is going to pick up the cloned item in a few frames, which will make sound.
+                        if (!playerHandItem.IsAir && playerHandItem.Calamity().UsesCharge)
+                            Utils.Swap(ref playerHandItem, ref pluggedItem);
+
+                        syncRequired = true;
                     }
 
-                    // Otherwise, if the slot is clicked, try to swap it with whichever "current item" the player is using.
-                    else
+                    // Otherwise, if the slot is clicked, try to swap it with the player's held item. There are a few cases this succeeds:
+                    // 1) The player's held item is air and the plugged item is NOT air.
+                    // 2) The player's held item is chargeable.
+                    // If neither case meets, then nothing happens 
+                    else if((playerHandItem.IsAir && !pluggedItem.IsAir) || (!playerHandItem.IsAir && playerHandItem.Calamity().UsesCharge))
                     {
-                        Utils.Swap(ref heldItem, ref pluggedItem);
+                        Utils.Swap(ref playerHandItem, ref pluggedItem);
                         Main.PlaySound(SoundID.Grab);
+                        syncRequired = true;
                     }
 
-                    // Regardless of what happened on click, the charger must now sync its item slot.
-                    charger.SendItemSyncPacket();
+                    // If either type of click action succeeded, the charger must now sync its item slot.
+                    if (syncRequired)
+                        charger.SendItemSyncPacket();
                 }
 
                 // Since HoverItem is active, we don't need to input anything into this method.
@@ -135,7 +139,6 @@ namespace CalamityMod.UI
             else if (mouseRect.Intersects(powercellSlotRect))
             {
                 Main.HoverItem.SetDefaults(powercell.type);
-                Item playerHandItem = p.ActiveItem();
                 if (Main.mouseLeft && Main.mouseLeftRelease)
                 {
                     short chargerStackDiff = 0;
@@ -164,22 +167,23 @@ namespace CalamityMod.UI
                             playerHandItem.stack -= cellsToInsert;
                             if (playerHandItem.stack == 0)
                                 playerHandItem.TurnToAir();
-                            Main.PlaySound(SoundID.Grab);
                         }
-                        // If the player is holding nothing, then pick up all the power cells.
-                        else if (playerHandItem.IsAir)
+                        // If the player is holding nothing, then pick up all the power cells (if any exist).
+                        else if (playerHandItem.IsAir && powercell.stack > 0)
                         {
                             chargerStackDiff = (short)-powercell.stack;
                             playerHandItem.SetDefaults(powercell.type);
                             playerHandItem.stack = powercell.stack;
                             powercell.TurnToAir();
-                            Main.PlaySound(SoundID.Grab);
                         }
                     }
 
                     // This assignment will automatically send the necessary sync packet.
                     if (chargerStackDiff != 0)
+                    {
+                        Main.PlaySound(SoundID.Grab);
                         charger.CellStack += chargerStackDiff;
+                    }
                 }
 
                 // Since HoverItem is active, we don't need to input anything into this method.

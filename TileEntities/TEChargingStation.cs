@@ -26,7 +26,7 @@ namespace CalamityMod.TileEntities
 				SendSyncPacket();
 			}
 		}
-		public Item PluggedItem = null;
+		public Item PluggedItem = new Item();
 		private bool syncItemCharge = false;
 
 		// This returns whether the charging station's inserted ("plugged") item can actually be charged.
@@ -68,8 +68,13 @@ namespace CalamityMod.TileEntities
 				// Apply charge to the plugged item first, as this doesn't send a sync packet.
 				CalamityGlobalItem modItem = PluggedItem.Calamity();
 				modItem.Charge += PowerCell.ChargeValue;
-				if (modItem.Charge > modItem.MaxCharge)
+				if (modItem.Charge >= modItem.MaxCharge)
+				{
 					modItem.Charge = modItem.MaxCharge;
+					SpawnChargingDust(true);
+				}
+				else
+					SpawnChargingDust(false);
 
 				// Set the flag for syncing the plugged item's charge as well.
 				syncItemCharge = true;
@@ -77,7 +82,31 @@ namespace CalamityMod.TileEntities
 				// Then decrement the cell stack. With the sync flag set, this will sync both the cell stack and the plugged item.
 				CellStack--;
 				ChargingTimer = 0;
-			} 
+			}
+		}
+
+		private void SpawnChargingDust(bool chargeComplete)
+		{
+			int dustID = 182; // 60
+			int numDust = 18;
+			if (chargeComplete)
+				numDust *= 3;
+			Vector2 dustPos = Position.ToWorldCoordinates(ChargingStation.Width * 8f - 4f, 1f);
+			for (int i = 0; i < numDust; i += 2)
+			{
+				float pairSpeed = Main.rand.NextFloat(0.5f, 7f);
+				float pairScale = chargeComplete ? 2.4f : 1f;
+
+				Dust d = Dust.NewDustDirect(dustPos, 0, 0, dustID);
+				d.velocity = Vector2.UnitX * pairSpeed;
+				d.scale = pairScale;
+				d.noGravity = true;
+
+				d = Dust.NewDustDirect(dustPos, 0, 0, dustID);
+				d.velocity = Vector2.UnitX * -pairSpeed;
+				d.scale = pairScale;
+				d.noGravity = true;
+			}
 		}
 
 		// This code is called as a hook when the player places the Charging Station tile so that the tile entity may be placed.
@@ -227,11 +256,7 @@ namespace CalamityMod.TileEntities
 			var netMessage = mod.GetPacket(1024);
 			netMessage.Write((byte)CalamityModMessageType.ChargingStationItemChange);
 			netMessage.Write(ID);
-
-			// If the plugged item is null, write a blank Air item instead.
-			Item blankItem = new Item();
-			blankItem.TurnToAir();
-			netMessage.WriteItem(PluggedItem ?? blankItem);
+			netMessage.WriteItem(PluggedItem);
 			netMessage.Send();
 		}
 

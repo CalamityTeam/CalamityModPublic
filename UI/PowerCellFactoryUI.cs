@@ -14,8 +14,8 @@ namespace CalamityMod.UI
     public class PowerCellFactoryUI
     {
         public const float MaxPlayerDistance = 160f;
-        private const int GuiWidth = 39;
-        private const int GuiHeight = 39;
+        private const int GuiWidth = 36;
+        private const int GuiHeight = 36;
         private const float SlotDrawOffsetX = 16f;
         private const float SlotDrawOffsetY = -14f;
 
@@ -62,8 +62,8 @@ namespace CalamityMod.UI
             CalamityUtils.DrawPowercellSlot(spriteBatch, powercell, powercellDrawPos);
 
             Rectangle mouseRect = CalamityUtils.MouseHitbox;
-            int slotRectX = (int)uiBasePos.X;
-            int cellSlotRectY = (int)(uiBasePos.Y - SlotDrawOffsetY - 26); // Not sure what this magic 26 is.
+            int slotRectX = (int)(uiBasePos.X - 1f);
+            int cellSlotRectY = (int)(uiBasePos.Y + SlotDrawOffsetY - GuiHeight / 2);
             Rectangle powercellSlotRect = new Rectangle(slotRectX, cellSlotRectY, GuiWidth, GuiHeight);
 
             // If the player's cursor is over the slot and there are power cells, then interaction with the UI is possible.

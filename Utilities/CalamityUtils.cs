@@ -3486,6 +3486,7 @@ namespace CalamityMod
 			{
 				float inventoryScale = Main.inventoryScale;
 				Vector2 numberOffset = slotBackgroundTex.Size() * 0.2f;
+				numberOffset.X -= 17f;
 				ChatManager.DrawColorCodedStringWithShadow(spriteBatch,
 					Main.fontItemStack,
 					item.stack.ToString(),
