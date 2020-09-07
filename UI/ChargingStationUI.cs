@@ -142,13 +142,16 @@ namespace CalamityMod.UI
                 if (Main.mouseLeft && Main.mouseLeftRelease)
                 {
                     short chargerStackDiff = 0;
+                    bool shiftClicked = false;
                     
                     // If the player is holding shift and has space for the power cells, just spawn all of them on his or her face.
                     if (Main.keyState.PressingShift() && p.ItemSpace(powercell))
                     {
-                        // Do not play a sound in this situation. The player is going to pick up the dropped cells in a few frames, which will make sound.
                         DropHelper.DropItem(p, powercellID, powercell.stack);
                         chargerStackDiff = (short)-powercell.stack;
+
+                        // Do not play a sound in this situation. The player is going to pick up the dropped cells in a few frames, which will make sound.
+                        shiftClicked = true;
                     }
 
                     // If the slot is normally clicked, behavior depends on whether the player is holding power cells.
@@ -181,7 +184,8 @@ namespace CalamityMod.UI
                     // This assignment will automatically send the necessary sync packet.
                     if (chargerStackDiff != 0)
                     {
-                        Main.PlaySound(SoundID.Grab);
+                        if (!shiftClicked)
+                            Main.PlaySound(SoundID.Grab);
                         charger.CellStack += chargerStackDiff;
                     }
                 }

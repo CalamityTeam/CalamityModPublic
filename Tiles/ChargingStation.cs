@@ -73,8 +73,10 @@ namespace CalamityMod.Tiles
             if (numCells > 0)
                 Item.NewItem(dropPos, ModContent.ItemType<PowerCell>(), numCells);
 
+            // Netcode check is required because otherwise this will spawn two items.
+            // Force cloning items into the Main item array is weird.
             Item pluggedItem = charger?.PluggedItem ?? null;
-            if (pluggedItem != null && !pluggedItem.IsAir)
+            if (pluggedItem != null && !pluggedItem.IsAir && Main.netMode != NetmodeID.MultiplayerClient)
                 DropHelper.DropItemClone(pluggedItem, dropPos, pluggedItem.stack);
 
             charger?.Kill(left, top);
@@ -132,7 +134,7 @@ namespace CalamityMod.Tiles
             Texture2D glowmask = ModContent.GetTexture("CalamityMod/Tiles/ChargingStation_Glow");
             Vector2 screenOffset = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
             Vector2 drawOffset = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y) + screenOffset;
-            Color drawColor = charger.LightColor;
+            Color drawColor = charger?.LightColor ?? Color.Red;
 
             if (!t.halfBrick() && t.slope() == 0)
                 Main.spriteBatch.Draw(glowmask, drawOffset, new Rectangle?(new Rectangle(xFrame, yFrame, 18, 18)), drawColor, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);

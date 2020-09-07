@@ -212,7 +212,7 @@ namespace CalamityMod.TileEntities
 			netMessage.Write(_stack);
 
 			// Either write the real charge or garbage data. If garbage data is written it will be ignored on the other end.
-			CalamityGlobalItem modItem = PluggedItem?.Calamity() ?? null;
+			CalamityGlobalItem modItem = PluggedItem.IsAir ? null : PluggedItem.Calamity();
 			netMessage.Write(syncItemCharge && modItem != null ? modItem.Charge : float.NaN);
 			netMessage.Send();
 
@@ -256,7 +256,7 @@ namespace CalamityMod.TileEntities
 			var netMessage = mod.GetPacket(1024);
 			netMessage.Write((byte)CalamityModMessageType.ChargingStationItemChange);
 			netMessage.Write(ID);
-			netMessage.WriteItem(PluggedItem);
+			netMessage.WriteItem(PluggedItem, true);
 			netMessage.Send();
 		}
 
@@ -266,7 +266,7 @@ namespace CalamityMod.TileEntities
 			bool exists = ByID.TryGetValue(teID, out TileEntity te);
 
 			// The rest of the packet must be read even if it turns out the charging station doesn't exist for whatever reason.
-			Item thePlug = reader.ReadItem(true, false);
+			Item thePlug = reader.ReadItem(true);
 
 			if (exists && te is TEChargingStation charger)
 			{
