@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<BeeRPG>();
             item.shootSpeed = 13f;
-            item.useAmmo = 771;
+            item.useAmmo = AmmoID.Rocket;
         }
 
         public override Vector2? HoldoutOffset()

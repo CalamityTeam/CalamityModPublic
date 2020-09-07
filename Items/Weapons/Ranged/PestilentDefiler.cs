@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.autoReuse = true;
             item.shootSpeed = 20f;
             item.shoot = ModContent.ProjectileType<SicknessRound>();
-            item.useAmmo = 97;
+            item.useAmmo = AmmoID.Bullet;
         }
 
         public override Vector2? HoldoutOffset()

@@ -77,7 +77,7 @@ namespace CalamityMod.Projectiles.Ranged
             {
                 if (canFire)
                 {
-                    int type = 12;
+                    int type = ProjectileID.FallingStar; //Gets changed below anyways
                     float scaleFactor = 30f;
                     int damage = player.GetWeaponDamage(player.ActiveItem());
                     float knockBack = player.ActiveItem().knockBack;

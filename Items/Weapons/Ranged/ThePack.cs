@@ -35,7 +35,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.autoReuse = true;
             item.shootSpeed = 24f;
             item.shoot = ModContent.ProjectileType<ThePackMissile>();
-            item.useAmmo = 771;
+            item.useAmmo = AmmoID.Rocket;
         }
 
         public override Vector2? HoldoutOffset()

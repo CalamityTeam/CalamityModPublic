@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<BloodClotFriendly>();
             item.shootSpeed = 22f;
-            item.useAmmo = 97;
+            item.useAmmo = AmmoID.Bullet;
         }
 
         public override Vector2? HoldoutOffset()

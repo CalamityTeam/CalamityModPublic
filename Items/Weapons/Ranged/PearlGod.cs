@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.autoReuse = true;
             item.shootSpeed = 24f;
             item.shoot = ModContent.ProjectileType<ShockblastRound>();
-            item.useAmmo = 97;
+            item.useAmmo = AmmoID.Bullet;
             item.Calamity().customRarity = CalamityRarity.RareVariant;
         }
 

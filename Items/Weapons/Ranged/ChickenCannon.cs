@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.autoReuse = true;
             item.shootSpeed = 24f;
             item.shoot = ModContent.ProjectileType<Chicken>();
-            item.useAmmo = 771;
+            item.useAmmo = AmmoID.Rocket;
             item.Calamity().customRarity = CalamityRarity.DarkBlue;
         }
 

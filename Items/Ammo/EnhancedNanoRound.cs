@@ -25,7 +25,7 @@ namespace CalamityMod.Items.Ammo
             item.rare = 3;
             item.shoot = ModContent.ProjectileType<EnhancedNanoRoundProj>();
             item.shootSpeed = 8f;
-            item.ammo = 97;
+            item.ammo = AmmoID.Bullet;
         }
 
         public override void AddRecipes()

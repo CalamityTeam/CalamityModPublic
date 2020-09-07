@@ -90,7 +90,7 @@ namespace CalamityMod.Projectiles.Ranged
             }
             if (flag15 && Main.myPlayer == projectile.owner)
             {
-                int num42 = 14;
+                int num42 = ProjectileID.WoodenArrowFriendly;
                 float scaleFactor11 = 14f;
                 int weaponDamage2 = player.GetWeaponDamage(player.ActiveItem());
                 float weaponKnockback2 = player.ActiveItem().knockBack;

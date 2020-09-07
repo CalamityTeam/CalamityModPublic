@@ -25,7 +25,7 @@ namespace CalamityMod.Items.Ammo
             item.rare = 3;
             item.shoot = ModContent.ProjectileType<NapalmArrowProj>();
             item.shootSpeed = 13f;
-            item.ammo = 40;
+            item.ammo = AmmoID.Arrow;
         }
 
         public override void AddRecipes()

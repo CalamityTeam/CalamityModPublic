@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.autoReuse = true;
             item.shoot = ProjectileID.PurificationPowder;
             item.shootSpeed = 20f;
-            item.useAmmo = 97;
+            item.useAmmo = AmmoID.Bullet;
         }
 
         public override Vector2? HoldoutOffset() => new Vector2(-5, 0);

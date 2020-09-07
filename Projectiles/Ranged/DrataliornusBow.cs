@@ -89,7 +89,7 @@ namespace CalamityMod.Projectiles.Ranged
             {
                 if (canFire) //fire an angery flame
                 {
-                    int type = 14;
+                    int type = ProjectileID.WoodenArrowFriendly; //Gets changed below anyways
                     float scaleFactor = 18f;
                     int damage = player.GetWeaponDamage(player.ActiveItem());
                     float knockBack = player.ActiveItem().knockBack;
@@ -141,7 +141,7 @@ namespace CalamityMod.Projectiles.Ranged
             Vector2 displayOffset = new Vector2(32, 0).RotatedBy(projectile.rotation);
             projectile.Center = player.RotatedRelativePoint(player.MountedCenter, true) + displayOffset;
             if (projectile.spriteDirection == -1)
-                projectile.rotation += 3.14159274f;
+                projectile.rotation += MathHelper.Pi;
             projectile.spriteDirection = projectile.direction;
             projectile.timeLeft = 2;
             player.ChangeDir(projectile.direction);
