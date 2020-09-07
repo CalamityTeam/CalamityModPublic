@@ -74,7 +74,7 @@ namespace CalamityMod.Projectiles.Summon
             {
                 projectile.frame = 0;
             }
-            Lighting.AddLight((int)projectile.Center.X / 16, (int)projectile.Center.Y / 16f, 0.05f, 0.15f, 0.2f);
+            Lighting.AddLight((int)(projectile.Center.X / 16f), (int)(projectile.Center.Y / 16f), 0.05f, 0.15f, 0.2f);
             bool flag64 = projectile.type == ModContent.ProjectileType<IceClasperMinion>();
             player.AddBuff(ModContent.BuffType<IceClasper>(), 3600);
             if (flag64)
