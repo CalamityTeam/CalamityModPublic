@@ -82,15 +82,7 @@ namespace CalamityMod.UI
             if (mouseRect.Intersects(pluggedSlotRect))
             {
                 if (!pluggedItem.IsAir)
-                {
-                    // The charge variables are contained in CalamityGlobalItem so they must be set manually. SetDefaults won't cover it.
-                    // Not sure if this line is necessary.
-                    // Main.HoverItem = new Item();
-                    Main.HoverItem.SetDefaults(pluggedItem.type);
-                    CalamityGlobalItem calHoverItem = Main.HoverItem.Calamity(), calPlugged = pluggedItem.Calamity();
-                    calHoverItem.Charge = calPlugged.Charge;
-                    calHoverItem.MaxCharge = calPlugged.MaxCharge;
-                }
+                    Main.HoverItem = pluggedItem;
 
                 if (Main.mouseLeft && Main.mouseLeftRelease)
                 {
