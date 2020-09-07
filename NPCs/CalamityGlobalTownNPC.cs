@@ -49,6 +49,7 @@ namespace CalamityMod.NPCs
 		{
 			"Rythmi",
 			"Izuna",
+			"Jasmine", // <@!430532867479699456> (phantasmagoria#6777)
 		};
 		private const int DyeTraderVanillaNames = 16;
 		private static readonly string[] DyeTraderNames = null;
@@ -73,6 +74,7 @@ namespace CalamityMod.NPCs
 		{
 			"Lilly",
 			"Daawn", // <@!206162323541458944> (Daawnily#3859)
+			"Robin", // <@!654737510030639112> (Altzeus#8687)
 		};
 		private const int MerchantVanillaNames = 23;
 		private static readonly string[] MerchantNames = null;

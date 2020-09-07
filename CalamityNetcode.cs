@@ -147,6 +147,9 @@ namespace CalamityMod
                         if (Main.netMode != NetmodeID.MultiplayerClient)
                             NPC.NewNPC(x, y, ModContent.NPCType<SuperDummyNPC>());
                         break;
+
+
+                    // Ozzatron's packets
                     case CalamityModMessageType.PowerCellFactory:
                         TEPowerCellFactory.ReadSyncPacket(reader);
                         break;
@@ -156,6 +159,8 @@ namespace CalamityMod
                     case CalamityModMessageType.ChargingStationItemChange:
                         TEChargingStation.ReadItemSyncPacket(reader);
                         break;
+
+
                     case CalamityModMessageType.DraedonFieldGeneratorSync:
                         int entityID2 = reader.ReadInt32();
                         (TileEntity.ByID[entityID2] as TEDraedonFieldGenerator).Time = reader.ReadInt32();

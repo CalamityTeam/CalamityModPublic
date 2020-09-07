@@ -28,6 +28,7 @@ namespace CalamityMod.TileEntities
 		}
 		public Item PluggedItem = new Item();
 		private bool syncItemCharge = false;
+		public bool ClientChargingDust = false;
 
 		// This returns whether the charging station's inserted ("plugged") item can actually be charged.
 		private bool PluggedItemCanCharge
@@ -40,7 +41,7 @@ namespace CalamityMod.TileEntities
 				return modItem.UsesCharge && modItem.Charge < modItem.MaxCharge;
 			}
 		}
-		private bool CanDoWork => _stack > 0 && PluggedItemCanCharge;
+		public bool CanDoWork => _stack > 0 && PluggedItemCanCharge;
 
 		// Red when not actively charging an item, green when charging
 		public Color LightColor => CanDoWork ? Color.MediumSpringGreen : Color.Red;
@@ -69,12 +70,9 @@ namespace CalamityMod.TileEntities
 				CalamityGlobalItem modItem = PluggedItem.Calamity();
 				modItem.Charge += PowerCell.ChargeValue;
 				if (modItem.Charge >= modItem.MaxCharge)
-				{
 					modItem.Charge = modItem.MaxCharge;
-					SpawnChargingDust(true);
-				}
-				else
-					SpawnChargingDust(false);
+
+				SpawnChargingDust();
 
 				// Set the flag for syncing the plugged item's charge as well.
 				syncItemCharge = true;
@@ -85,9 +83,16 @@ namespace CalamityMod.TileEntities
 			}
 		}
 
-		private void SpawnChargingDust(bool chargeComplete)
+		public void SpawnChargingDust()
 		{
-			int dustID = 182; // 60
+			bool chargeComplete = false;
+			if (!PluggedItem.IsAir)
+			{
+				CalamityGlobalItem modItem = PluggedItem.Calamity();
+				chargeComplete = modItem.Charge == modItem.MaxCharge;
+			}
+
+			int dustID = 182; // Mechanical Cart laser dust. Looks epic.
 			int numDust = 18;
 			if (chargeComplete)
 				numDust *= 3;
@@ -189,14 +194,14 @@ namespace CalamityMod.TileEntities
 		{
 			writer.Write(ChargingTimer);
 			writer.Write(_stack);
-			writer.WriteItem(PluggedItem, true, false);
+			writer.WriteItem(PluggedItem, true);
 		}
 
 		public override void NetReceive(BinaryReader reader, bool lightReceive)
 		{
 			ChargingTimer = reader.ReadInt16();
 			_stack = reader.ReadInt16();
-			PluggedItem = reader.ReadItem();
+			PluggedItem = reader.ReadItem(true);
 		}
 
 		// This packet may or may not contain the plugged item's charge value. If it doesn't, it contains a dummy value (NaN) instead.
@@ -242,7 +247,11 @@ namespace CalamityMod.TileEntities
 				{
 					CalamityGlobalItem modItem = charger.PluggedItem?.Calamity() ?? null;
 					if (modItem != null && modItem.UsesCharge)
+					{
+						if (modItem.Charge != chargeOrNaN && Main.netMode == NetmodeID.MultiplayerClient)
+							charger.ClientChargingDust = true;
 						modItem.Charge = chargeOrNaN;
+					}
 				}
 				return true;
 			}
