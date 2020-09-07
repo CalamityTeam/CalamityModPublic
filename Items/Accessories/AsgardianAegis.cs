@@ -21,8 +21,7 @@ namespace CalamityMod.Items.Accessories
                 "Can be used to ram enemies\n" +
                 "TOOLTIP LINE HERE\n" +
                 "Activating this buff will reduce your movement speed and increase enemy aggro\n" +
-                "10% damage reduction while submerged in liquid\n" +
-                "Toggle visibility of this accessory to enable/disable the dash");
+                "10% damage reduction while submerged in liquid");
         }
 
         public override void SetDefaults()
