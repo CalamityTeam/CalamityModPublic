@@ -1,38 +1,14 @@
-using CalamityMod.Buffs.Alcohol;
-using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.CalPlayer;
 using CalamityMod.Effects;
 using CalamityMod.Events;
 using CalamityMod.ILEditing;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Accessories.Vanity;
-using CalamityMod.Items.Accessories.Wings;
-using CalamityMod.Items.Ammo.FiniteUse;
 using CalamityMod.Items.Armor;
-using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.Dyes.HairDye;
-using CalamityMod.Items.Fishing.AstralCatches;
-using CalamityMod.Items.Fishing.BrimstoneCragCatches;
-using CalamityMod.Items.Fishing.FishingRods;
-using CalamityMod.Items.Fishing.SunkenSeaCatches;
-using CalamityMod.Items.LoreItems;
-using CalamityMod.Items.Materials;
-using CalamityMod.Items.Placeables;
-using CalamityMod.Items.Placeables.Furniture.Trophies;
-using CalamityMod.Items.Tools;
-using CalamityMod.Items.TreasureBags;
-using CalamityMod.Items.Weapons.DraedonsArsenal;
-using CalamityMod.Items.Weapons.Magic;
-using CalamityMod.Items.Weapons.Melee;
-using CalamityMod.Items.Weapons.Ranged;
-using CalamityMod.Items.Weapons.Rogue;
-using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.Localization;
 using CalamityMod.NPCs;
-using CalamityMod.NPCs.Abyss;
 using CalamityMod.NPCs.AquaticScourge;
-using CalamityMod.NPCs.Astral;
 using CalamityMod.NPCs.AstrumAureus;
 using CalamityMod.NPCs.AstrumDeus;
 using CalamityMod.NPCs.BrimstoneElemental;
@@ -43,10 +19,8 @@ using CalamityMod.NPCs.Crabulon;
 using CalamityMod.NPCs.Cryogen;
 using CalamityMod.NPCs.DesertScourge;
 using CalamityMod.NPCs.DevourerofGods;
-using CalamityMod.NPCs.GreatSandShark;
 using CalamityMod.NPCs.HiveMind;
 using CalamityMod.NPCs.Leviathan;
-using CalamityMod.NPCs.NormalNPCs;
 using CalamityMod.NPCs.OldDuke;
 using CalamityMod.NPCs.Perforator;
 using CalamityMod.NPCs.PlaguebringerGoliath;
@@ -57,26 +31,13 @@ using CalamityMod.NPCs.Ravager;
 using CalamityMod.NPCs.Signus;
 using CalamityMod.NPCs.SlimeGod;
 using CalamityMod.NPCs.StormWeaver;
-using CalamityMod.NPCs.SulphurousSea;
-using CalamityMod.NPCs.SunkenSea;
 using CalamityMod.NPCs.SupremeCalamitas;
 using CalamityMod.NPCs.Yharon;
-using CalamityMod.Projectiles.Boss;
-using CalamityMod.Projectiles.DraedonsArsenal;
-using CalamityMod.Projectiles.Enemy;
-using CalamityMod.Projectiles.Hybrid;
-using CalamityMod.Projectiles.Magic;
-using CalamityMod.Projectiles.Melee;
-using CalamityMod.Projectiles.Melee.Spears;
-using CalamityMod.Projectiles.Ranged;
-using CalamityMod.Projectiles.Rogue;
 using CalamityMod.Projectiles.Summon;
 using CalamityMod.Schematics;
 using CalamityMod.Skies;
 using CalamityMod.TileEntities;
-using CalamityMod.Tiles;
 using CalamityMod.Tiles.DraedonStructures;
-using CalamityMod.Tiles.LivingFire;
 using CalamityMod.UI;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -1558,7 +1519,7 @@ namespace CalamityMod
         #endregion
 
         #region Netcode
-        public override void HandlePacket(BinaryReader reader, int whoAmI) => CalamityNetcode.HandlePacket(reader, whoAmI);
+        public override void HandlePacket(BinaryReader reader, int whoAmI) => CalamityNetcode.HandlePacket(this, reader, whoAmI);
         #endregion
 
         #region Tile Entity Time Handler

@@ -14,7 +14,7 @@ namespace CalamityMod
 {
     public class CalamityNetcode
     {
-        public static void HandlePacket(BinaryReader reader, int whoAmI)
+        public static void HandlePacket(Mod mod, BinaryReader reader, int whoAmI)
         {
             try
             {
@@ -151,13 +151,13 @@ namespace CalamityMod
 
                     // Ozzatron's packets
                     case CalamityModMessageType.PowerCellFactory:
-                        TEPowerCellFactory.ReadSyncPacket(reader);
+                        TEPowerCellFactory.ReadSyncPacket(mod, reader);
                         break;
                     case CalamityModMessageType.ChargingStationStandard:
-                        TEChargingStation.ReadSyncPacket(reader);
+                        TEChargingStation.ReadSyncPacket(mod, reader);
                         break;
                     case CalamityModMessageType.ChargingStationItemChange:
-                        TEChargingStation.ReadItemSyncPacket(reader);
+                        TEChargingStation.ReadItemSyncPacket(mod, reader);
                         break;
 
 
