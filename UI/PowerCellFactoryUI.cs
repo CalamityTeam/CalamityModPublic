@@ -1,27 +1,28 @@
 using CalamityMod.CalPlayer;
 using CalamityMod.Items.DraedonMisc;
 using CalamityMod.TileEntities;
+using CalamityMod.Tiles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.UI.Chat;
 
 namespace CalamityMod.UI
 {
-    public class CellFactoryUI
+    public class PowerCellFactoryUI
     {
         public const float MaxPlayerDistance = 160f;
-        public const float IconScale = 0.7f;
-        private const int GuiWidth = 39;
-        private const int GuiHeight = 39;
+        private const int GuiWidth = 36;
+        private const int GuiHeight = 36;
+        private const float SlotDrawOffsetX = 16f;
+        private const float SlotDrawOffsetY = -14f;
 
         public static void Draw(SpriteBatch spriteBatch)
         {
             Player p = Main.LocalPlayer;
-            CalamityPlayer mp = Main.LocalPlayer.Calamity();
+            CalamityPlayer mp = p.Calamity();
             TEPowerCellFactory factory = mp.CurrentlyViewedFactory;
             
             // The UI only draws if the player is viewing a factory.
@@ -36,7 +37,7 @@ namespace CalamityMod.UI
             }
 
             // If the player is too far away from their viewed factory, immediately destroy this UI and play the menu close sound.
-            Vector2 factoryWorldCenter = factory.Position.ToWorldCoordinates(32f, 32f);
+            Vector2 factoryWorldCenter = factory.Position.ToWorldCoordinates(8f * PowerCellFactory.Width, 8f * PowerCellFactory.Height);
             if (Vector2.DistanceSquared(p.Center, factoryWorldCenter) > MaxPlayerDistance * MaxPlayerDistance)
             {
                 Main.PlaySound(SoundID.MenuClose);
@@ -54,25 +55,26 @@ namespace CalamityMod.UI
                 powercell.stack = factory.CellStack;
             }
 
-            Vector2 position = new Vector2(mp.CurrentlyViewedFactoryX, mp.CurrentlyViewedFactoryY);
+            Vector2 uiBasePos = new Vector2(mp.CurrentlyViewedFactoryX, mp.CurrentlyViewedFactoryY);
 
             // Draw the factory's stored item as an inventory slot.
-            DrawItemSlot(spriteBatch, ref powercell, position + new Vector2(16f, -34f) - Main.screenPosition);
+            Vector2 powercellDrawPos = uiBasePos + new Vector2(SlotDrawOffsetX, SlotDrawOffsetY) - Main.screenPosition;
+            CalamityUtils.DrawPowercellSlot(spriteBatch, powercell, powercellDrawPos);
 
-            int width = GuiWidth, height = GuiHeight;
-
-            Rectangle mouseRectangle = new Rectangle((int)Main.MouseWorld.X, (int)Main.MouseWorld.Y, 2, 2);
-            Rectangle drawnItemRectangle = new Rectangle((int)position.X, (int)position.Y - 60, width, height);
+            Rectangle mouseRect = CalamityUtils.MouseHitbox;
+            int slotRectX = (int)(uiBasePos.X - 1f);
+            int cellSlotRectY = (int)(uiBasePos.Y + SlotDrawOffsetY - GuiHeight / 2);
+            Rectangle powercellSlotRect = new Rectangle(slotRectX, cellSlotRectY, GuiWidth, GuiHeight);
 
             // If the player's cursor is over the slot and there are power cells, then interaction with the UI is possible.
-            if (mouseRectangle.Intersects(drawnItemRectangle) && powercell.stack > 0)
+            if (mouseRect.Intersects(powercellSlotRect) && powercell.stack > 0)
             {
                 Main.HoverItem.SetDefaults(powercell.type);
 
                 // If the slot is clicked, try to grab cells from the factory using both "current items" that a player can have.
                 int cellsGrabbed = 0;
                 bool shiftClicked = false;
-                if (Main.mouseLeft)
+                if (Main.mouseLeft && Main.mouseLeftRelease)
                 {
                     // If the player is holding shift and has space for the power cells, just spawn all of them on his or her face.
                     if (Main.keyState.PressingShift() && p.ItemSpace(powercell))
@@ -106,32 +108,6 @@ namespace CalamityMod.UI
 
                 // Specifically do not block mouse input if holding a pickaxe, so that you can mine blocks behind the UI.
                 Main.blockMouse = Main.LocalPlayer.ActiveItem().pick <= 0;
-            }
-        }
-
-        public static void DrawItemSlot(SpriteBatch spriteBatch, ref Item item, Vector2 drawPosition)
-        {
-            Texture2D slotBackgroundTex = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/CellFactoryItemSlot_Empty");
-
-            // This check is done twice because the draw order matters. We want to draw the background icon before any text.
-            if (item.stack > 0)
-                slotBackgroundTex = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/CellFactoryItemSlot_Filled");
-
-            spriteBatch.Draw(slotBackgroundTex, drawPosition, null, Color.White, 0f, slotBackgroundTex.Size() * 0.5f, IconScale, SpriteEffects.None, 0f);
-            if (item.stack > 0)
-            {
-                float inventoryScale = Main.inventoryScale;
-                Vector2 numberOffset = slotBackgroundTex.Size() * 0.2f;
-                ChatManager.DrawColorCodedStringWithShadow(spriteBatch,
-                    Main.fontItemStack,
-                    item.stack.ToString(),
-                    drawPosition + numberOffset * inventoryScale,
-                    Color.White,
-                    0f,
-                    Vector2.Zero,
-                    new Vector2(inventoryScale),
-                    -1f,
-                    inventoryScale);
             }
         }
 

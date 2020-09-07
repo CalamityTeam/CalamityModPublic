@@ -9,6 +9,9 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 {
 	public class GatlingLaser : ModItem
 	{
+		// This is the amount of charge consumed every time the holdout projectile fires a laser.
+		public const float HoldoutChargeUse = 0.0075f;
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Gatling Laser");
@@ -18,6 +21,8 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 
 		public override void SetDefaults()
 		{
+			CalamityGlobalItem modItem = item.Calamity();
+
 			item.width = 43;
 			item.height = 24;
 			item.magic = true;
@@ -36,13 +41,14 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 
 			item.value = CalamityGlobalItem.Rarity8BuyPrice;
 			item.rare = ItemRarityID.Red;
-			item.Calamity().customRarity = CalamityRarity.DraedonRust;
+			modItem.customRarity = CalamityRarity.DraedonRust;
 
 			item.shoot = ModContent.ProjectileType<GatlingLaserProj>();
 			item.shootSpeed = 24f;
 
-			item.Calamity().Chargeable = true;
-			item.Calamity().ChargeMax = 135;
+			modItem.UsesCharge = true;
+			modItem.MaxCharge = 135f;
+			modItem.ChargePerUse = 0f; // This weapon is a holdout. Charge is consumed by the holdout projectile.
 		}
 
 		public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;

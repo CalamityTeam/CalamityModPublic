@@ -1,5 +1,4 @@
 using CalamityMod.Items.Materials;
-using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Projectiles.DraedonsArsenal;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -19,6 +18,8 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 
 		public override void SetDefaults()
 		{
+			CalamityGlobalItem modItem = item.Calamity();
+
 			item.width = 112;
 			item.height = 36;
 			item.ranged = true;
@@ -33,13 +34,14 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 
 			item.value = CalamityGlobalItem.Rarity8BuyPrice;
 			item.rare = ItemRarityID.Red;
-			item.Calamity().customRarity = CalamityRarity.DraedonRust;
+			modItem.customRarity = CalamityRarity.DraedonRust;
 
 			item.shoot = ModContent.ProjectileType<GaussRifleBlast>();
 			item.shootSpeed = 27f;
 
-			item.Calamity().Chargeable = true;
-			item.Calamity().ChargeMax = 135;
+			modItem.UsesCharge = true;
+			modItem.MaxCharge = 135f;
+			modItem.ChargePerUse = 0.1125f;
 		}
 
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

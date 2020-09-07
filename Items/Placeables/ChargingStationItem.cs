@@ -5,12 +5,13 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Placeables
 {
-    public class DraedonsChargingStation : ModItem
+    public class ChargingStationItem : ModItem
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Draedon's Charging Station");
-            Tooltip.SetDefault("Charges Draedon's weaponry using Power Cells");
+            DisplayName.SetDefault("Charging Station");
+            Tooltip.SetDefault("Charges Draedon's Arsenal items using Power Cells\n" +
+                "Place both an item and Power Cells into the Charging Station to charge the item");
         }
 
         public override void SetDefaults()
@@ -23,7 +24,7 @@ namespace CalamityMod.Items.Placeables
             item.useAnimation = item.useTime = 15;
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
-            item.createTile = ModContent.TileType<DraedonItemCharger>();
+            item.createTile = ModContent.TileType<ChargingStation>();
 
             item.rare = ItemRarityID.Red;
             item.Calamity().customRarity = CalamityRarity.DraedonRust;

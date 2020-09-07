@@ -60,12 +60,23 @@ namespace CalamityMod.Items
 
 		public int timesUsed = 0;
 
-        // The damage modifications for the item are handled in player files.
-        public int CurrentCharge;
-        public bool Chargeable = false;
-        public int ChargeMax;
-        public const float ChargeDamageMinMultiplier = 0.75f;
-        public const float ChargeDamageReductionThreshold = 0.75f;
+        #region Chargeable Item Variables
+        public bool UsesCharge = false;
+        public float Charge = 0f;
+        public float MaxCharge = 1f;
+        public float ChargePerUse = 0f;
+        // If left at the default value of -1, ChargePerUse is automatically used for alt fire.
+        // If you want a different amount of charge used for alt fire, then set a different value here.
+        public float ChargePerAltUse = -1f;
+        public float ChargeRatio
+		{
+            get
+			{
+                float ratio = Charge / MaxCharge;
+				return float.IsNaN(ratio) || float.IsInfinity(ratio) ? 0f : MathHelper.Clamp(ratio, 0f, 1f);
+			}
+		}
+        #endregion
 
         // Rarity is provided both as the classic int and the new enum.
         public CalamityRarity customRarity = CalamityRarity.NoEffect;
@@ -99,9 +110,8 @@ namespace CalamityMod.Items
         #region SetDefaults
         public override void SetDefaults(Item item)
         {
-            item.Calamity().ChargeMax = ChargeMax;
-            if (customRarity.IsPostML() && item.rare != 10)
-                item.rare = 10;
+            if (customRarity.IsPostML() && item.rare != ItemRarityID.Red)
+                item.rare = ItemRarityID.Red;
 
             if (item.maxStack == 99 || item.type == ItemID.Dynamite || item.type == ItemID.StickyDynamite ||
                 item.type == ItemID.BouncyDynamite || item.type == ItemID.StickyBomb || item.type == ItemID.BouncyBomb)
@@ -220,10 +230,6 @@ namespace CalamityMod.Items
         #region Shoot
         public override bool Shoot(Item item, Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            if (item.type >= ItemID.Count && item.Calamity().Chargeable && item.Calamity().CurrentCharge > 0 && Main.rand.NextBool(120 / (int)MathHelper.Max(1, item.useAnimation)))
-            {
-                CurrentCharge--;
-            }
 			CalamityPlayer modPlayer = player.Calamity();
             if (rogue)
             {
@@ -468,7 +474,7 @@ namespace CalamityMod.Items
                 ["rogue"] = rogue,
                 ["timesUsed"] = timesUsed,
                 ["rarity"] = (int)customRarity,
-                ["Charge"] = CurrentCharge
+                ["charge"] = Charge
             };
         }
 
@@ -477,7 +483,12 @@ namespace CalamityMod.Items
             rogue = tag.GetBool("rogue");
             timesUsed = tag.GetInt("timesUsed");
             customRarity = (CalamityRarity)tag.GetInt("rarity");
-            CurrentCharge = tag.GetInt("Charge");
+
+            // Changed charge from int to float. If an old charge int is present, load that instead.
+            if (tag.ContainsKey("Charge"))
+                Charge = tag.GetInt("Charge");
+            else
+                Charge = tag.GetFloat("charge");
         }
 
         public override void LoadLegacy(Item item, BinaryReader reader)
@@ -485,7 +496,7 @@ namespace CalamityMod.Items
             int loadVersion = reader.ReadInt32();
             customRarity = (CalamityRarity)reader.ReadInt32();
             timesUsed = reader.ReadInt32();
-            CurrentCharge = reader.ReadInt32();
+            Charge = reader.ReadSingle();
 
             if (loadVersion == 0)
             {
@@ -506,7 +517,7 @@ namespace CalamityMod.Items
             writer.Write(flags);
             writer.Write((int)customRarity);
             writer.Write(timesUsed);
-            writer.Write(CurrentCharge);
+            writer.Write(Charge);
         }
 
         public override void NetReceive(Item item, BinaryReader reader)
@@ -516,7 +527,7 @@ namespace CalamityMod.Items
 
             customRarity = (CalamityRarity)reader.ReadInt32();
             timesUsed = reader.ReadInt32();
-            CurrentCharge = reader.ReadInt32();
+            Charge = reader.ReadSingle();
         }
         #endregion
 
@@ -783,19 +794,11 @@ namespace CalamityMod.Items
         #endregion
 
         #region Use Item Changes
-
         public override bool UseItem(Item item, Player player)
         {
-            // Use charge on swing instead of on shoot if the item doesn't shoot anything.
-            if (item.type >= ItemID.Count && item.Calamity().Chargeable && item.Calamity().CurrentCharge > 0 && Main.rand.NextBool(120 / (int)MathHelper.Max(1, item.useAnimation)) && item.shoot == ProjectileID.None)
-            {
-                if (player.itemAnimation == 1)
-                    CurrentCharge--;
-            }
-			if (item.type == ItemID.BottledHoney)
-			{
+			// Give 2 minutes of Honey buff when drinking Bottled Honey.
+            if (item.type == ItemID.BottledHoney)
 				player.AddBuff(BuffID.Honey, 7200);
-			}
             return base.UseItem(item, player);
         }
 
@@ -899,6 +902,7 @@ namespace CalamityMod.Items
         public override bool CanUseItem(Item item, Player player)
         {
             CalamityPlayer modPlayer = player.Calamity();
+            CalamityGlobalItem modItem = item.Calamity();
 
             // Restrict behavior when reading Dreadon's Log.
             if (PopupGUIManager.AnyGUIsActive)
@@ -910,6 +914,7 @@ namespace CalamityMod.Items
                 return false; // Don't use weapons if you're charging with a spear
             }
 
+            // Conversion for Andromeda
             if (player.ownedProjectileCounts[ModContent.ProjectileType<GiantIbanRobotOfDoom>()] > 0)
             {
 				if (item.type == ItemID.WireKite)
@@ -924,7 +929,8 @@ namespace CalamityMod.Items
                 }
             }
 
-            if (modPlayer.profanedCrystalBuffs && item.pick == 0 && item.axe == 0 && item.hammer == 0 && item.autoReuse && (item.Calamity().rogue || item.magic || item.ranged || item.melee))
+            // Conversion for Profaned Soul Crystal
+            if (modPlayer.profanedCrystalBuffs && item.pick == 0 && item.axe == 0 && item.hammer == 0 && item.autoReuse && (modItem.rogue || item.magic || item.ranged || item.melee))
             {   
                 if (player.altFunctionUse == 0)
                 {
@@ -935,10 +941,26 @@ namespace CalamityMod.Items
                     return AltFunctionUse(item, player);
                 }
             }
-            else if (modPlayer.profanedCrystalBuffs && item.summon)
+
+            // Check for sufficient charge if this item uses charge.
+            if (item.type >= ItemID.Count && modItem.UsesCharge)
             {
-                
+                // If attempting to use alt fire, and alt fire charge is defined, require that charge. Otherwise require normal charge per use.
+                float chargeNeeded = (player.altFunctionUse == 2 && modItem.ChargePerAltUse != -1f) ? modItem.ChargePerAltUse : modItem.ChargePerUse;
+
+                // If the amount of charge needed is zero or less, ignore the charge requirement entirely (e.g. summon staff right click).
+                if (chargeNeeded > 0f)
+				{
+                    if (modItem.Charge < chargeNeeded)
+                        return false;
+
+                    // If you have enough charge, decrement charge on the spot because this hook runs exactly once every time you use an item.
+                    // Mana has to be checked separately or you'll fail to use the weapon on a mana check later and still have consumed charge.
+                    if (player.CheckMana(item))
+                        Charge -= chargeNeeded;
+                }
             }
+
             if (item.type == ItemID.MonkStaffT1)
             {
                 return player.ownedProjectileCounts[item.shoot] <= 0;
@@ -1016,14 +1038,28 @@ namespace CalamityMod.Items
         #region Modify Weapon Damage
         public override void ModifyWeaponDamage(Item item, Player player, ref float add, ref float mult, ref float flat)
         {
-            if (item.Calamity().Chargeable)
+            if (item.type < ItemID.Count)
+                return;
+
+            // Summon weapons specifically do not have their damage affected by charge. They still require charge to function however.
+            CalamityGlobalItem modItem = item.Calamity();
+            if (!item.summon && (modItem?.UsesCharge ?? false))
             {
-                float chargeDamageMultiplier = 1f;
-                float chargeRatio = item.Calamity().CurrentCharge / (float)ChargeMax;
-                if (chargeRatio < ChargeDamageReductionThreshold)
-                    chargeDamageMultiplier = MathHelper.Lerp(ChargeDamageMinMultiplier, 1f, chargeRatio * ChargeDamageReductionThreshold);
-                mult *= chargeDamageMultiplier;
+                // At exactly zero charge, do not perform any multiplication.
+                // This makes charge-using weapons show up at full damage when previewed in crafting, Recipe Browser, etc.
+                if (Charge == 0f)
+                    return;
+                mult *= ChargeDamageFormula();
             }
+        }
+
+        // This formula gives a slightly higher value than 1.0 above 85% charge, and a slightly lower value than 0.0 at 0% charge.
+        // Specifically, it gives 0.0 or less at 0.36% charge or lower. This is fine because the result is immediately clamped.
+        internal float ChargeDamageFormula()
+        {
+            float x = MathHelper.Clamp(ChargeRatio, 0f, 1f);
+            float y = 1.087f - 0.08f / (x + 0.07f);
+            return MathHelper.Clamp(y, 0f, 1f);
         }
         #endregion
 
@@ -2826,11 +2862,15 @@ Grants immunity to fire blocks, and temporary immunity to lava";
 				}
             }
 
-            if (item.type > ItemID.Count && item.Calamity().Chargeable)
+            if (item.type < ItemID.Count)
+                return;
+
+            CalamityGlobalItem modItem = item.Calamity();
+            if (modItem?.UsesCharge ?? false)
             {
-                float chargeRatio = item.Calamity().CurrentCharge / (float)ChargeMax;
-                chargeRatio *= 100f; // Turn the 0-1 ratio to a 0-100 percentage.
-                TooltipLine line = new TooltipLine(mod, "Tooltip0", $"Current Charge: {chargeRatio:N1}%");
+                // Convert current charge ratio into a percentage.
+                float displayedPercent = ChargeRatio * 100f;
+                TooltipLine line = new TooltipLine(mod, "Tooltip0", $"Current Charge: {displayedPercent:N1}%");
                 tooltips.Add(line);
             }
         }

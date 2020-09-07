@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.DraedonsArsenal
 {
-    public class MatterModulator : ModItem
+	public class MatterModulator : ModItem
 	{
 		public override void SetStaticDefaults()
 		{
@@ -19,6 +19,8 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 
 		public override void SetDefaults()
 		{
+			CalamityGlobalItem modItem = item.Calamity();
+
 			item.width = 40;
 			item.height = 22;
 			item.ranged = true;
@@ -33,13 +35,14 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 
 			item.value = CalamityGlobalItem.Rarity5BuyPrice;
 			item.rare = ItemRarityID.Red;
-			item.Calamity().customRarity = CalamityRarity.DraedonRust;
+			modItem.customRarity = CalamityRarity.DraedonRust;
 
 			item.shoot = ModContent.ProjectileType<UnstableMatter>();
 			item.shootSpeed = 7f;
 
-			item.Calamity().ChargeMax = 85;
-			item.Calamity().Chargeable = true;
+			modItem.UsesCharge = true;
+			modItem.MaxCharge = 85f;
+			modItem.ChargePerUse = 0.075f;
 		}
 
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

@@ -150,22 +150,11 @@ namespace CalamityMod
                     case CalamityModMessageType.PowerCellFactory:
                         TEPowerCellFactory.ReadSyncPacket(reader);
                         break;
-                    case CalamityModMessageType.DraedonChargerSync:
-                        int entityID = reader.ReadInt32();
-                        (TileEntity.ByID[entityID] as TEDraedonItemCharger).FuelItem.type = reader.ReadInt32();
-                        (TileEntity.ByID[entityID] as TEDraedonItemCharger).FuelItem.stack = reader.ReadInt32();
-                        (TileEntity.ByID[entityID] as TEDraedonItemCharger).FuelItem.position = reader.ReadVector2();
-                        (TileEntity.ByID[entityID] as TEDraedonItemCharger).ItemBeingCharged.type = reader.ReadInt32();
-                        (TileEntity.ByID[entityID] as TEDraedonItemCharger).ItemBeingCharged.stack = reader.ReadInt32();
-                        (TileEntity.ByID[entityID] as TEDraedonItemCharger).ItemBeingCharged.prefix = reader.ReadByte();
-                        (TileEntity.ByID[entityID] as TEDraedonItemCharger).ItemBeingCharged.position = reader.ReadVector2();
-                        int currentCharge = reader.ReadInt32();
-                        if (currentCharge != -1)
-                        {
-                            (TileEntity.ByID[entityID] as TEDraedonItemCharger).ItemBeingCharged.Calamity().CurrentCharge = currentCharge;
-                        }
-                        (TileEntity.ByID[entityID] as TEDraedonItemCharger).ActiveTimer = reader.ReadInt32();
-                        (TileEntity.ByID[entityID] as TEDraedonItemCharger).DepositWithdrawCooldown = reader.ReadInt32();
+                    case CalamityModMessageType.ChargingStationStandard:
+                        TEChargingStation.ReadSyncPacket(reader);
+                        break;
+                    case CalamityModMessageType.ChargingStationItemChange:
+                        TEChargingStation.ReadItemSyncPacket(reader);
                         break;
                     case CalamityModMessageType.DraedonFieldGeneratorSync:
                         int entityID2 = reader.ReadInt32();
@@ -252,8 +241,11 @@ namespace CalamityMod
         SyncCalamityNPCAIArray,
         ProvidenceDyeConditionSync, // We shouldn't fucking need this. Die in a hole, Multiplayer.
         PSCChallengeSync, // See above
+        DraedonFieldGeneratorSync,
+
+        // These message types were written by Ozz. They are Ozz's working tile entity netcode. Do not touch them.
         PowerCellFactory,
-        DraedonChargerSync,
-        DraedonFieldGeneratorSync
+        ChargingStationStandard,
+        ChargingStationItemChange
     }
 }
