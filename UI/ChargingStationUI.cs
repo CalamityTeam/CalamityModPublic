@@ -130,7 +130,9 @@ namespace CalamityMod.UI
             // Otherwise if the player's cursor is over the power cell slot, they can interact with that UI element instead.
             else if (mouseRect.Intersects(powercellSlotRect))
             {
-                Main.HoverItem.SetDefaults(powercell.type);
+                if (!powercell.IsAir)
+                    Main.HoverItem = powercell;
+
                 if (Main.mouseLeft && Main.mouseLeftRelease)
                 {
                     short chargerStackDiff = 0;
