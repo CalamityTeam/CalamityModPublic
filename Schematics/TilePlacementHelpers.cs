@@ -111,10 +111,6 @@ namespace CalamityMod.Schematics
                         else
                         {
                             Main.tile[x + xOffset, y + yOffset] = (Tile)SchematicTileConversion(oldTiles[x, y], tile, schematic[x, y].InternalColor).Clone();
-
-                            // Temporary until the eldritch Tile Entity world corruption bug is killed.
-                            if (Main.tile[x + xOffset, y + yOffset].type == ModContent.TileType<DraedonItemCharger>())
-                                Main.tile[x + xOffset, y + yOffset].active(false);
                         }
 
                         Rectangle placeInArea = new Rectangle(x, y, schematic.GetLength(0), schematic.GetLength(1));
@@ -196,7 +192,7 @@ namespace CalamityMod.Schematics
                             Main.tile[x + xOffset, y + yOffset] = (Tile)SchematicTileConversion(oldTiles[x, y], tile, schematic[x, y].InternalColor).Clone();
 
                             // Temporary until the eldritch Tile Entity world corruption bug is killed.
-                            if (Main.tile[x + xOffset, y + yOffset].type == ModContent.TileType<DraedonItemCharger>())
+                            if (Main.tile[x + xOffset, y + yOffset].type == ModContent.TileType<ChargingStation>())
                                 Main.tile[x + xOffset, y + yOffset].active(false);
                         }
 

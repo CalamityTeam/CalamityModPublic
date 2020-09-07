@@ -7,6 +7,9 @@ namespace CalamityMod.Items.DraedonMisc
 {
     public class PowerCell : ModItem
     {
+        // This is how much Charge each Power Cell is worth when charging. Leave this at 1.
+        public const float ChargeValue = 1f;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Draedon Power Cell");

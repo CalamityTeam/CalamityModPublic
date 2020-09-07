@@ -76,7 +76,7 @@ namespace CalamityMod.TileEntities
 		// This code is called as a hook when the player places the Power Cell Factory tile so that the tile entity may be placed.
 		public override int Hook_AfterPlacement(int i, int j, int type, int style, int direction)
 		{
-			// If in multiplayer, tell the server to place the tile entity and DO NOT place it yourself. That will mismatch IDs.
+			// If in multiplayer, tell the server to place the tile entity and DO NOT place it yourself. That would mismatch IDs.
 			// Also tell the server that you placed the 4x4 tiles that make up the Power Cell Factory.
 			if (Main.netMode == NetmodeID.MultiplayerClient)
 			{
@@ -98,7 +98,7 @@ namespace CalamityMod.TileEntities
 		// If this factory breaks, anyone who's viewing it is no longer viewing it.
 		public override void OnKill()
 		{
-			for (int i = 0; i < Main.maxPlayers; i++)
+			for (int i = 0; i < Main.maxPlayers; ++i)
 			{
 				Player p = Main.player[i];
 				if (!p.active)

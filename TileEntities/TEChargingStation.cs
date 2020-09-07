@@ -1,10 +1,12 @@
+using CalamityMod.CalPlayer;
+using CalamityMod.Items;
 using CalamityMod.Items.DraedonMisc;
 using CalamityMod.Tiles;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
 using System.IO;
+using System.Reflection;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
@@ -13,274 +15,240 @@ namespace CalamityMod.TileEntities
 {
 	public class TEChargingStation : ModTileEntity
 	{
-		#region Spark Class
-		public class Spark
+		private short ChargingTimer = 0;
+		private short _stack = 0;
+		public short CellStack
 		{
-			public int Steps;
-			public Vector2 Start;
-			public Vector2 End;
-			public Vector2 CurrentPosition;
-			public Vector2 Velocity;
-			public Vector2[] OldPositions = new Vector2[15];
-			public const float SparkSpeed = 3.25f;
-			public void Update()
+			get => _stack;
+			set
 			{
-				if (Steps > 12)
-				{
-					Velocity = Vector2.Lerp(Velocity, Vector2.Normalize(End - CurrentPosition) * SparkSpeed, 0.15f);
-				}
-				else if (Main.rand.NextBool(5))
-				{
-					Velocity = Vector2.Normalize(End - CurrentPosition).RotatedByRandom(0.3f) * SparkSpeed;
-				}
-
-				CurrentPosition += Velocity;
-				for (int i = OldPositions.Length - 1; i > 0; i--)
-				{
-					OldPositions[i] = OldPositions[i - 1];
-				}
-				OldPositions[0] = CurrentPosition;
-				Steps++;
-			}
-			public bool ShouldDestroy()
-			{
-				for (int i = 0; i < OldPositions.Length; i++)
-				{
-					if (Vector2.Distance(End, OldPositions[i]) > 10f)
-						return false;
-				}
-				return true;
+				_stack = value;
+				SendSyncPacket();
 			}
 		}
-		#endregion
+		public Item PluggedItem = null;
+		private bool syncItemCharge = false;
 
-		#region Fields
-		public int Time;
-		public int Charge;
-		public int ChargeMax;
-		public int ActiveTimer;
-		public int DepositWithdrawCooldown;
-		public Item FuelItem = new Item();
-		public Item ItemBeingCharged = new Item();
-		public Spark[] Sparks = new Spark[9];
-		public const int TotalSparkUpdatesPerFrame = 3;
-		public const int ActiveTimerMax = 30;
-
-		#endregion
-
-		public void AttemptToCreateNewSpark()
+		// This returns whether the charging station's inserted ("plugged") item can actually be charged.
+		private bool PluggedItemCanCharge
 		{
-			int i = 0;
-			while (Sparks[i] != null)
+			get
 			{
-				i++;
-				if (i >= Sparks.Length)
-					break;
-			}
-			if (i < Sparks.Length)
-			{
-				Sparks[i] = new Spark()
-				{
-					CurrentPosition = FuelItem.position,
-					Start = FuelItem.position + Main.rand.NextBool(2).ToDirectionInt() * Vector2.UnitX * 32f,
-					End = ItemBeingCharged.position + Utils.RandomVector2(Main.rand, -16f, 16f) * new Vector2(1f, 0.2f),
-					Velocity = Vector2.Normalize(ItemBeingCharged.position - FuelItem.position).RotatedBy(Main.rand.NextFloat(0.9f, 1.4f) * Main.rand.NextBool(2).ToDirectionInt()) * Spark.SparkSpeed
-				};
+				if (PluggedItem is null || PluggedItem.IsAir)
+					return false;
+				CalamityGlobalItem modItem = PluggedItem.Calamity();
+				return modItem.UsesCharge && modItem.Charge < modItem.MaxCharge;
 			}
 		}
-		public void DrawAllSparks(SpriteBatch spriteBatch)
-		{
-			Texture2D tinySparkTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/Lasers/RedLightningTexture");
-			for (int i = 0; i < Sparks.Length; i++)
-			{
-				if (Sparks[i] == null)
-					continue;
-				Spark spark = Sparks[i];
+		private bool CanDoWork => _stack > 0 && PluggedItemCanCharge;
 
-				for (int j = 0; j < TotalSparkUpdatesPerFrame; j++)
-				{
-					spark.Update();
-				}
+		// Red when not actively charging an item, green when charging
+		public Color LightColor => CanDoWork ? Color.MediumSpringGreen : Color.Red;
 
-				DelegateMethods.c_1 = Color.White;
-				DelegateMethods.f_1 = 1f;
-				for (int j = 0; j < spark.OldPositions.Length - 1; j++) 
-				{
-					float scale = (float)Math.Sin(j / (float)spark.OldPositions.Length * MathHelper.Pi) * 2f;
-					scale = MathHelper.Clamp(scale, 0.25f, 2f) * 0.1f;
-					if (spark.OldPositions[j] != Vector2.Zero &&
-						spark.OldPositions[j + 1] != Vector2.Zero)
-					{
-						Utils.DrawLaser(spriteBatch, tinySparkTexture, spark.OldPositions[j] - Main.screenPosition, spark.OldPositions[j + 1] - Main.screenPosition, new Vector2(scale), new Utils.LaserLineFraming(DelegateMethods.LightningLaserDraw));
-					}
-				}
-				if (spark.ShouldDestroy())
-				{
-					Sparks[i] = null;
-				}
-			}
-		}
-
-		public void ClientToServerSync()
-		{
-			if (Main.netMode != NetmodeID.SinglePlayer)
-			{
-				var netMessage = CalamityMod.Instance.GetPacket();
-				netMessage.Write((byte)CalamityModMessageType.DraedonChargerSync);
-				netMessage.Write(ID);
-				netMessage.Write(FuelItem.type);
-				netMessage.Write(FuelItem.stack);
-				netMessage.WriteVector2(FuelItem.position);
-				netMessage.Write(ItemBeingCharged.type);
-				netMessage.Write(ItemBeingCharged.stack);
-				netMessage.Write(ItemBeingCharged.prefix);
-				netMessage.WriteVector2(ItemBeingCharged.position);
-				netMessage.Write(Charge);
-				netMessage.Write(ChargeMax);
-				netMessage.Write(ActiveTimer);
-				netMessage.Write(DepositWithdrawCooldown);
-				netMessage.Send();
-			}
-		}
-
+		// This guarantees that this tile entity will not persist if not placed directly on the top left corner of a Charging Station tile.
 		public override bool ValidTile(int i, int j)
 		{
 			Tile tile = Main.tile[i, j];
-			return tile.active() && tile.type == ModContent.TileType<DraedonItemCharger>() && tile.frameX == 0 && tile.frameY == 0;
+			return tile.active() && tile.type == ModContent.TileType<ChargingStation>() && tile.frameX == 0 && tile.frameY == 0;
 		}
+
 		public override void Update()
 		{
-			if (FuelItem is null || FuelItem.type != ModContent.ItemType<PowerCell>())
+			bool canWork = CanDoWork;
+			if (!canWork)
 			{
-				FuelItem = new Item();
-				FuelItem.SetDefaults(ModContent.ItemType<PowerCell>());
-				FuelItem.stack = 0;
-				ClientToServerSync();
+				ChargingTimer = 0;
+				return;
 			}
-			if (ItemBeingCharged is null)
-			{
-				ItemBeingCharged = new Item();
-				ItemBeingCharged.stack = 0;
-				ClientToServerSync();
-			}
-			FuelItem.favorited = false;
-			ItemBeingCharged.favorited = false;
-			Time++;
-			if (Time % 60 == 0)
-			{
-				ClientToServerSync();
-			}
-			if (FuelItem.stack > 0 &&
-				ItemBeingCharged.stack > 0 &&
-				Charge < ChargeMax)
-			{
-				if (Time % 25 == 0)
-				{
-					for (int i = 0; i < Main.rand.Next(1, 3 + 1); i++)
-					{
-						AttemptToCreateNewSpark();
-					}
-					Main.PlaySound(SoundID.Item15, FuelItem.position);
-					Charge++;
-					FuelItem.stack--;
-					ClientToServerSync();
-				}
-				if (ActiveTimer < ActiveTimerMax)
-					ActiveTimer++;
-			}
-			else if (ActiveTimer > 0) ActiveTimer--;
 
-			if (DepositWithdrawCooldown > 0)
-				DepositWithdrawCooldown--;
+			++ChargingTimer;
+
+			if (ChargingTimer >= ChargingStation.FramesPerChargeAction)
+			{
+				// Apply charge to the plugged item first, as this doesn't send a sync packet.
+				CalamityGlobalItem modItem = PluggedItem.Calamity();
+				modItem.Charge += PowerCell.ChargeValue;
+				if (modItem.Charge > modItem.MaxCharge)
+					modItem.Charge = modItem.MaxCharge;
+
+				// Set the flag for syncing the plugged item's charge as well.
+				syncItemCharge = true;
+
+				// Then decrement the cell stack. With the sync flag set, this will sync both the cell stack and the plugged item.
+				CellStack--;
+				ChargingTimer = 0;
+			} 
 		}
-		public override void OnKill()
-		{
-			if (Main.LocalPlayer.Calamity().CurrentlyViewedCharger == this)
-				Main.LocalPlayer.Calamity().CurrentlyViewedCharger = null;
-			base.OnKill();
-		}
+
+		// This code is called as a hook when the player places the Charging Station tile so that the tile entity may be placed.
 		public override int Hook_AfterPlacement(int i, int j, int type, int style, int direction)
 		{
+			// If in multiplayer, tell the server to place the tile entity and DO NOT place it yourself. That would mismatch IDs.
+			// Also tell the server that you placed the 3x2 tiles that make up the Charging Station.
 			if (Main.netMode == NetmodeID.MultiplayerClient)
 			{
-				NetMessage.SendTileSquare(Main.myPlayer, i, j, 5);
-				NetMessage.SendData(MessageID.TileEntityPlacement, -1, -1, null, i, j, Type, 0f, 0, 0, 0);
+				NetMessage.SendTileRange(Main.myPlayer, i, j, ChargingStation.Width, ChargingStation.Height);
+				NetMessage.SendData(MessageID.TileEntityPlacement, -1, -1, null, i, j, Type);
 				return -1;
 			}
-			return Place(i, j);
+
+			// If in single player, just place the tile entity, no problems.
+			int id = Place(i, j);
+			return id;
 		}
-		public override void NetSend(BinaryWriter writer, bool lightSend)
+
+		// This code is called on dedicated servers only. It is the server-side response to MessageID.TileEntityPlacement.
+		// When the server receives such a message from a client, it sends a MessageID.TileEntitySharing to all clients.
+		// This will cause them to Place the tile entity locally at that position, all with exactly the same ID.
+		public override void OnNetPlace() => NetMessage.SendData(MessageID.TileEntitySharing, -1, -1, null, ID, Position.X, Position.Y);
+
+		// If this charging station breaks, anyone's who's viewing it is no longer viewing it.
+		public override void OnKill()
 		{
-			writer.Write(ID);
-			writer.Write(FuelItem.type);
-			writer.Write(FuelItem.stack);
-			writer.WriteVector2(FuelItem.position);
-			writer.Write(ItemBeingCharged.type);
-			writer.Write(ItemBeingCharged.stack);
-			writer.Write(ItemBeingCharged.prefix);
-			writer.WriteVector2(ItemBeingCharged.position);
-			writer.Write(Charge);
-			writer.Write(ChargeMax);
-			writer.Write(ActiveTimer);
-		}
-		public override void NetReceive(BinaryReader reader, bool lightReceive)
-		{
-			ID = reader.ReadInt32();
-			FuelItem = new Item
+			for (int i = 0; i < Main.maxPlayers; ++i)
 			{
-				type = reader.ReadInt32()
-			};
-			FuelItem.SetDefaults(FuelItem.type);
-			FuelItem.stack = reader.ReadInt32();
-			FuelItem.position = reader.ReadVector2();
-			ItemBeingCharged.SetDefaults(reader.ReadInt32());
-			ItemBeingCharged.stack = reader.ReadInt32();
-			ItemBeingCharged.prefix = reader.ReadByte();
-			ItemBeingCharged.position = reader.ReadVector2();
-			Charge = reader.ReadInt32();
-			ChargeMax = reader.ReadInt32();
-			ActiveTimer = reader.ReadInt32();
+				Player p = Main.player[i];
+				if (!p.active)
+					continue;
+
+				// Use reflection to stop TML from spitting an error here.
+				// Try-catching will not stop this error, TML will print it to console anyway. The error is harmless.
+				ModPlayer[] mpStorageArray = (ModPlayer[])typeof(Player).GetField("modPlayers", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(p);
+				if (mpStorageArray.Length == 0)
+					continue;
+
+				CalamityPlayer mp = p.Calamity();
+				TEChargingStation charger = mp.CurrentlyViewedCharger;
+				if (charger is null)
+					continue;
+				if (charger.ID == ID)
+				{
+					mp.CurrentlyViewedCharger = null;
+					mp.CurrentlyViewedChargerX = -1;
+					mp.CurrentlyViewedChargerY = -1;
+				}
+			}
 		}
+
 		public override TagCompound Save()
 		{
-			TagCompound tag = new TagCompound
+			TagCompound ret = new TagCompound
 			{
-				["ID"] = ID, // Don't ask me why, but the ID doesn't get saved in MP otherwise.
-				["StackFuel"] = FuelItem.stack,
-				["PrefixFuel"] = FuelItem.prefix,
-				["NetIDFuel"] = FuelItem.active && FuelItem.stack > 0 ? FuelItem.netID : 0,
-				["FuelPosition"] = FuelItem.position,
-
-				["StackNotFuel"] = ItemBeingCharged.stack,
-				["PrefixNotFuel"] = ItemBeingCharged.prefix,
-				["PositionNotFuel"] = ItemBeingCharged.position,
-				["Charge"] = Charge,
-				["ChargeMax"] = ChargeMax,
-				["NetIDNotFuel"] = ItemBeingCharged.active && FuelItem.stack > 0 ? FuelItem.netID : 0
+				{ "time", ChargingTimer },
+				{ "cells", _stack }
 			};
-			CalamityUtils.SaveModItem(tag, FuelItem, 0);
-			CalamityUtils.SaveModItem(tag, ItemBeingCharged, 1);
-			return tag;
+			Item forSaving;
+			if (PluggedItem is null)
+			{
+				forSaving = new Item();
+				forSaving.TurnToAir();
+			}
+			else
+				forSaving = PluggedItem;
+			ret.Add("item", forSaving);
+			return ret;
 		}
+
 		public override void Load(TagCompound tag)
 		{
-			ID = tag.GetInt("ID");
-			FuelItem = CalamityUtils.LoadModItem(tag, 0);
-			FuelItem.stack = tag.GetInt("StackFuel");
-			FuelItem.prefix = tag.GetByte("PrefixFuel");
-			FuelItem.netID = tag.GetInt("NetIDFuel");
-			FuelItem.position = tag.Get<Vector2>("FuelPosition");
+			ChargingTimer = tag.GetShort("time");
+			_stack = tag.GetShort("cells");
+			PluggedItem = ItemIO.Load(tag.GetCompound("item"));
+		}
 
-			ItemBeingCharged = CalamityUtils.LoadModItem(tag, 1);
-			ItemBeingCharged.stack = tag.GetInt("StackNotFuel");
-			ItemBeingCharged.prefix = tag.GetByte("PrefixNotFuel");
-			ItemBeingCharged.position = tag.Get<Vector2>("PositionNotFuel");
-			if (ItemBeingCharged.type > ItemID.Count)
+		public override void NetSend(BinaryWriter writer, bool lightSend)
+		{
+			writer.Write(ChargingTimer);
+			writer.Write(_stack);
+			writer.WriteItem(PluggedItem, true, false);
+		}
+
+		public override void NetReceive(BinaryReader reader, bool lightReceive)
+		{
+			ChargingTimer = reader.ReadInt16();
+			_stack = reader.ReadInt16();
+			PluggedItem = reader.ReadItem();
+		}
+
+		// This packet may or may not contain the plugged item's charge value. If it doesn't, it contains a dummy value (NaN) instead.
+		// The plugged item's charge is synced when syncItemCharge is true.
+		private void SendSyncPacket()
+		{
+			if (Main.netMode == NetmodeID.SinglePlayer)
+				return;
+			var netMessage = mod.GetPacket();
+			netMessage.Write((byte)CalamityModMessageType.ChargingStationStandard);
+			netMessage.Write(ID);
+			netMessage.Write(ChargingTimer);
+			netMessage.Write(_stack);
+
+			// Either write the real charge or garbage data. If garbage data is written it will be ignored on the other end.
+			CalamityGlobalItem modItem = PluggedItem?.Calamity() ?? null;
+			netMessage.Write(syncItemCharge && modItem != null ? modItem.Charge : float.NaN);
+			netMessage.Send();
+
+			// If this flag was set to true, set it to false for any further updates (until it gets set to true again).
+			syncItemCharge = false;
+		}
+
+		internal static bool ReadSyncPacket(BinaryReader reader)
+		{
+			int teID = reader.ReadInt32();
+			bool exists = ByID.TryGetValue(teID, out TileEntity te);
+
+			// The rest of the packet must be read even if it turns out the charging station doesn't exist for whatever reason.
+			short timer = reader.ReadInt16();
+			short cellStack = reader.ReadInt16();
+			float chargeOrNaN = reader.ReadSingle();
+
+			if (exists && te is TEChargingStation charger)
 			{
-				Charge = tag.GetInt("Charge");
-				ChargeMax = tag.GetInt("ChargeMax");
+				// Only clients update their timer from this packet. When a server receives this packet it ignores the time variable.
+				if (Main.netMode == NetmodeID.MultiplayerClient)
+					charger.ChargingTimer = timer;
+				charger._stack = cellStack;
+
+				// If the charge value sent is not garbage, then try to apply the new charge to the plugged item.
+				if (!float.IsNaN(chargeOrNaN))
+				{
+					CalamityGlobalItem modItem = charger.PluggedItem?.Calamity() ?? null;
+					if (modItem != null && modItem.UsesCharge)
+						modItem.Charge = chargeOrNaN;
+				}
+				return true;
 			}
-			ItemBeingCharged.netID = tag.GetInt("NetIDNotFuel");
+			return false;
+		}
+
+		internal void SendItemSyncPacket()
+		{
+			if (Main.netMode == NetmodeID.SinglePlayer)
+				return;
+			var netMessage = mod.GetPacket(1024);
+			netMessage.Write((byte)CalamityModMessageType.ChargingStationItemChange);
+			netMessage.Write(ID);
+
+			// If the plugged item is null, write a blank Air item instead.
+			Item blankItem = new Item();
+			blankItem.TurnToAir();
+			netMessage.WriteItem(PluggedItem ?? blankItem);
+			netMessage.Send();
+		}
+
+		internal static bool ReadItemSyncPacket(BinaryReader reader)
+		{
+			int teID = reader.ReadInt32();
+			bool exists = ByID.TryGetValue(teID, out TileEntity te);
+
+			// The rest of the packet must be read even if it turns out the charging station doesn't exist for whatever reason.
+			Item thePlug = reader.ReadItem(true, false);
+
+			if (exists && te is TEChargingStation charger)
+			{
+				charger.PluggedItem = thePlug;
+				return true;
+			}
+			return false;
 		}
 	}
 }
