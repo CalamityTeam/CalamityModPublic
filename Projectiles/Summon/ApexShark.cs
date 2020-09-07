@@ -75,8 +75,8 @@ namespace CalamityMod.Projectiles.Summon
             {
                 projectile.frame = 0;
             }
-            float num633 = 700f;
-            float num634 = 1000f;
+            float num633 = 1200f;
+            float num634 = 1500f;
             float num635 = 2200f;
             float num636 = 150f;
             bool flag64 = projectile.type == ModContent.ProjectileType<ApexShark>();

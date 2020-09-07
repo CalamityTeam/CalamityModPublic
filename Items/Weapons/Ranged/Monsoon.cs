@@ -34,46 +34,46 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.autoReuse = true;
             item.shoot = ProjectileID.WoodenArrowFriendly;
             item.shootSpeed = 15f;
-            item.useAmmo = 40;
+            item.useAmmo = AmmoID.Arrow;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
-            float num117 = 0.314159274f;
-            int num118 = 5;
-            Vector2 vector7 = new Vector2(speedX, speedY);
-            vector7.Normalize();
-            vector7 *= 40f;
-            bool flag11 = Collision.CanHit(vector2, 0, 0, vector2 + vector7, 0, 0);
-            for (int num119 = 0; num119 < num118; num119++)
+            Vector2 source = player.RotatedRelativePoint(player.MountedCenter, true);
+            float piOver10 = MathHelper.Pi * 0.1f;
+            int totalProjectiles = 5;
+            Vector2 velocity = new Vector2(speedX, speedY);
+            velocity.Normalize();
+            velocity *= 40f;
+            bool canHit = Collision.CanHit(source, 0, 0, source + velocity, 0, 0);
+            for (int p = 0; p < totalProjectiles; p++)
             {
-                float num120 = (float)num119 - ((float)num118 - 1f) / 2f;
-                Vector2 value9 = vector7.RotatedBy((double)(num117 * num120), default);
-                if (!flag11)
+                float offsetAmt = (float)p - ((float)totalProjectiles - 1f) / 2f;
+                Vector2 offset = velocity.RotatedBy((double)(piOver10 * offsetAmt), default);
+                if (!canHit)
                 {
-                    value9 -= vector7;
+                    offset -= velocity;
                 }
                 if (type == ProjectileID.WoodenArrowFriendly)
                 {
                     if (Main.rand.NextBool(5))
                     {
-                        type = ProjectileID.MiniSharkron;
+                        type = ModContent.ProjectileType<MiniSharkron>();
                     }
                     if (Main.rand.NextBool(15))
                     {
                         type = ModContent.ProjectileType<TyphoonArrow>();
                     }
-                    int num121 = Projectile.NewProjectile(vector2.X + value9.X, vector2.Y + value9.Y, speedX, speedY, type, (int)(damage * 1.1f), knockBack, player.whoAmI, 0f, 0f);
-                    Main.projectile[num121].Calamity().forceRanged = true;
-                    Main.projectile[num121].noDropItem = true;
-                    Main.projectile[num121].arrow = true;
-                    Main.projectile[num121].extraUpdates += 1;
+                    int arrow = Projectile.NewProjectile(source.X + offset.X, source.Y + offset.Y, speedX, speedY, type, (int)(damage * 1.1f), knockBack, player.whoAmI);
+                    Main.projectile[arrow].Calamity().forceRanged = true;
+                    Main.projectile[arrow].noDropItem = true;
+                    Main.projectile[arrow].arrow = true;
+                    Main.projectile[arrow].extraUpdates += 1;
                 }
                 else
                 {
-                    int num121 = Projectile.NewProjectile(vector2.X + value9.X, vector2.Y + value9.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
-                    Main.projectile[num121].noDropItem = true;
+                    int arrow = Projectile.NewProjectile(source.X + offset.X, source.Y + offset.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
+                    Main.projectile[arrow].noDropItem = true;
                 }
             }
             return false;
