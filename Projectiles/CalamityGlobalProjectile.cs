@@ -222,181 +222,222 @@ namespace CalamityMod.Projectiles
 					return false;
 				}
 
-                else if (projectile.type == ProjectileID.PoisonSeedPlantera)
-                {
-                    projectile.frameCounter++;
-                    if (projectile.frameCounter > 1)
-                    {
-                        projectile.frameCounter = 0;
-                        projectile.frame++;
+				else if (projectile.type == ProjectileID.PoisonSeedPlantera)
+				{
+					projectile.frameCounter++;
+					if (projectile.frameCounter > 1)
+					{
+						projectile.frameCounter = 0;
+						projectile.frame++;
 
-                        if (projectile.frame > 1)
-                            projectile.frame = 0;
-                    }
+						if (projectile.frame > 1)
+							projectile.frame = 0;
+					}
 
-                    if (projectile.ai[1] == 0f)
-                    {
-                        projectile.ai[1] = 1f;
-                        Main.PlaySound(SoundID.Item17, projectile.position);
-                    }
+					if (projectile.ai[1] == 0f)
+					{
+						projectile.ai[1] = 1f;
+						Main.PlaySound(SoundID.Item17, projectile.position);
+					}
 
-                    if (projectile.alpha > 0)
-                        projectile.alpha -= 30;
-                    if (projectile.alpha < 0)
-                        projectile.alpha = 0;
+					if (projectile.alpha > 0)
+						projectile.alpha -= 30;
+					if (projectile.alpha < 0)
+						projectile.alpha = 0;
 
-                    projectile.ai[0] += 1f;
-                    if (projectile.ai[0] >= 35f)
-                    {
-                        projectile.ai[0] = 35f;
-                        projectile.velocity.Y += 0.01f;
-                    }
+					projectile.ai[0] += 1f;
+					if (projectile.ai[0] >= 120f)
+					{
+						projectile.ai[0] = 120f;
 
-                    projectile.tileCollide = false;
+						if (projectile.velocity.Length() < 18f)
+							projectile.velocity *= 1.01f;
+					}
 
-                    if (projectile.timeLeft > 600)
-                        projectile.timeLeft = 600;
+					projectile.tileCollide = false;
 
-                    projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + 1.57f;
+					if (projectile.timeLeft > 600)
+						projectile.timeLeft = 600;
 
-                    if (projectile.velocity.Y > 16f)
-                        projectile.velocity.Y = 16f;
+					projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + 1.57f;
 
-                    return false;
-                }
+					return false;
+				}
 
-                // Phase 1 sharknado
-                else if (projectile.type == ProjectileID.SharknadoBolt)
-                {
-                    if (projectile.ai[1] < 0f)
-                    {
-                        float num623 = 0.209439516f;
-                        float num624 = -2f;
-                        float num625 = (float)(Math.Cos(num623 * projectile.ai[0]) - 0.5) * num624;
+				else if (projectile.type == ProjectileID.ThornBall)
+				{
+					if (projectile.alpha > 0)
+					{
+						projectile.alpha -= 30;
+						if (projectile.alpha < 0)
+							projectile.alpha = 0;
+					}
 
-                        projectile.velocity.Y -= num625;
+					int num147 = Player.FindClosest(projectile.Center, 1, 1);
+					float num146 = 12f + Vector2.Distance(Main.player[num147].Center, projectile.Center) * 0.01f;
+					Vector2 vector12 = Main.player[num147].Center - projectile.Center;
+					vector12.Normalize();
+					vector12 *= num146;
+					int num148 = 200;
+					projectile.velocity.X = (projectile.velocity.X * (num148 - 1) + vector12.X) / num148;
+					if (projectile.velocity.Length() > 16f)
+					{
+						projectile.velocity.Normalize();
+						projectile.velocity *= 16f;
+					}
 
-                        projectile.ai[0] += 1f;
+					projectile.ai[0] += 1f;
+					if (projectile.ai[0] > 15f)
+					{
+						projectile.ai[0] = 15f;
+						if (projectile.velocity.Y == 0f && projectile.velocity.X != 0f)
+						{
+							projectile.velocity.X *= 0.97f;
+							if (projectile.velocity.X > -0.01f && projectile.velocity.X < 0.01f)
+								projectile.Kill();
+						}
+						projectile.velocity.Y += 0.1f;
+					}
+					projectile.rotation += projectile.velocity.X * 0.05f;
 
-                        num625 = (float)(Math.Cos(num623 * projectile.ai[0]) - 0.5) * num624;
+					if (projectile.velocity.Y > 16f)
+						projectile.velocity.Y = 16f;
 
-                        projectile.velocity.Y += num625;
+					return false;
+				}
 
-                        projectile.localAI[0] += 1f;
-                        if (projectile.localAI[0] > 10f)
-                        {
-                            projectile.alpha -= 5;
-                            if (projectile.alpha < 100)
-                                projectile.alpha = 100;
+				// Phase 1 sharknado
+				else if (projectile.type == ProjectileID.SharknadoBolt)
+				{
+					if (projectile.ai[1] < 0f)
+					{
+						float num623 = 0.209439516f;
+						float num624 = -2f;
+						float num625 = (float)(Math.Cos(num623 * projectile.ai[0]) - 0.5) * num624;
 
-                            projectile.rotation += projectile.velocity.X * 0.1f;
-                            projectile.frame = (int)(projectile.localAI[0] / 3f) % 3;
-                        }
-                        return false;
-                    }
-                }
+						projectile.velocity.Y -= num625;
 
-                // Large cthulhunadoes
-                else if (projectile.type == ProjectileID.Cthulunado)
-                {
-                    int num606 = 16;
-                    int num607 = 16;
-                    float num608 = 2f;
-                    int num609 = 150;
-                    int num610 = 42;
+						projectile.ai[0] += 1f;
 
-                    if (projectile.velocity.X != 0f)
-                        projectile.direction = projectile.spriteDirection = -Math.Sign(projectile.velocity.X);
+						num625 = (float)(Math.Cos(num623 * projectile.ai[0]) - 0.5) * num624;
 
-                    int num3 = projectile.frameCounter;
-                    projectile.frameCounter = num3 + 1;
-                    if (projectile.frameCounter > 2)
-                    {
-                        num3 = projectile.frame;
-                        projectile.frame = num3 + 1;
-                        projectile.frameCounter = 0;
-                    }
-                    if (projectile.frame >= 6)
-                        projectile.frame = 0;
+						projectile.velocity.Y += num625;
 
-                    if (projectile.localAI[0] == 0f && Main.myPlayer == projectile.owner)
-                    {
-                        projectile.localAI[0] = 1f;
-                        projectile.position.X += projectile.width / 2;
-                        projectile.position.Y += projectile.height / 2;
-                        projectile.scale = (num606 + num607 - projectile.ai[1]) * num608 / (num607 + num606);
-                        projectile.width = (int)(num609 * projectile.scale);
-                        projectile.height = (int)(num610 * projectile.scale);
-                        projectile.position.X -= projectile.width / 2;
-                        projectile.position.Y -= projectile.height / 2;
-                        projectile.netUpdate = true;
-                    }
+						projectile.localAI[0] += 1f;
+						if (projectile.localAI[0] > 10f)
+						{
+							projectile.alpha -= 5;
+							if (projectile.alpha < 100)
+								projectile.alpha = 100;
 
-                    if (projectile.ai[1] != -1f)
-                    {
-                        projectile.scale = (num606 + num607 - projectile.ai[1]) * num608 / (num607 + num606);
-                        projectile.width = (int)(num609 * projectile.scale);
-                        projectile.height = (int)(num610 * projectile.scale);
-                    }
+							projectile.rotation += projectile.velocity.X * 0.1f;
+							projectile.frame = (int)(projectile.localAI[0] / 3f) % 3;
+						}
+						return false;
+					}
+				}
 
-                    if (!Collision.SolidCollision(projectile.position, projectile.width, projectile.height))
-                    {
-                        projectile.alpha -= 30;
-                        if (projectile.alpha < 60)
-                            projectile.alpha = 60;
+				// Large cthulhunadoes
+				else if (projectile.type == ProjectileID.Cthulunado)
+				{
+					int num606 = 16;
+					int num607 = 16;
+					float num608 = 2f;
+					int num609 = 150;
+					int num610 = 42;
 
-                        if (projectile.alpha < 100)
-                            projectile.alpha = 100;
-                    }
-                    else
-                    {
-                        projectile.alpha += 30;
-                        if (projectile.alpha > 150)
-                            projectile.alpha = 150;
-                    }
+					if (projectile.velocity.X != 0f)
+						projectile.direction = projectile.spriteDirection = -Math.Sign(projectile.velocity.X);
 
-                    if (projectile.ai[0] > 0f)
-                        projectile.ai[0] -= 1f;
+					int num3 = projectile.frameCounter;
+					projectile.frameCounter = num3 + 1;
+					if (projectile.frameCounter > 2)
+					{
+						num3 = projectile.frame;
+						projectile.frame = num3 + 1;
+						projectile.frameCounter = 0;
+					}
+					if (projectile.frame >= 6)
+						projectile.frame = 0;
 
-                    if (projectile.ai[0] == 1f && projectile.ai[1] > 0f && projectile.owner == Main.myPlayer)
-                    {
-                        projectile.netUpdate = true;
+					if (projectile.localAI[0] == 0f && Main.myPlayer == projectile.owner)
+					{
+						projectile.localAI[0] = 1f;
+						projectile.position.X += projectile.width / 2;
+						projectile.position.Y += projectile.height / 2;
+						projectile.scale = (num606 + num607 - projectile.ai[1]) * num608 / (num607 + num606);
+						projectile.width = (int)(num609 * projectile.scale);
+						projectile.height = (int)(num610 * projectile.scale);
+						projectile.position.X -= projectile.width / 2;
+						projectile.position.Y -= projectile.height / 2;
+						projectile.netUpdate = true;
+					}
 
-                        Vector2 center = projectile.Center;
-                        center.Y -= num610 * projectile.scale / 2f;
+					if (projectile.ai[1] != -1f)
+					{
+						projectile.scale = (num606 + num607 - projectile.ai[1]) * num608 / (num607 + num606);
+						projectile.width = (int)(num609 * projectile.scale);
+						projectile.height = (int)(num610 * projectile.scale);
+					}
 
-                        float num611 = (num606 + num607 - projectile.ai[1] + 1f) * num608 / (num607 + num606);
-                        center.Y -= num610 * num611 / 2f;
-                        center.Y += 2f;
+					if (!Collision.SolidCollision(projectile.position, projectile.width, projectile.height))
+					{
+						projectile.alpha -= 30;
+						if (projectile.alpha < 60)
+							projectile.alpha = 60;
 
-                        Projectile.NewProjectile(center.X, center.Y, projectile.velocity.X, projectile.velocity.Y, projectile.type, projectile.damage, projectile.knockBack, projectile.owner, 10f, projectile.ai[1] - 1f);
+						if (projectile.alpha < 100)
+							projectile.alpha = 100;
+					}
+					else
+					{
+						projectile.alpha += 30;
+						if (projectile.alpha > 150)
+							projectile.alpha = 150;
+					}
 
-                        if ((int)projectile.ai[1] % 3 == 0 && projectile.ai[1] != 0f)
-                        {
-                            int num614 = NPC.NewNPC((int)center.X, (int)center.Y, NPCID.Sharkron2, 0, 0f, 0f, 0f, 0f, 255);
-                            Main.npc[num614].velocity = projectile.velocity;
-                            Main.npc[num614].scale = 1.5f;
-                            Main.npc[num614].netUpdate = true;
-                            Main.npc[num614].ai[2] = projectile.width;
-                            Main.npc[num614].ai[3] = -1.5f;
-                        }
-                    }
+					if (projectile.ai[0] > 0f)
+						projectile.ai[0] -= 1f;
 
-                    if (projectile.ai[0] <= 0f)
-                    {
-                        float num615 = 0.104719758f;
-                        float num616 = projectile.width / 5f * 2.5f;
-                        float num617 = (float)(Math.Cos(num615 * -(double)projectile.ai[0]) - 0.5) * num616;
+					if (projectile.ai[0] == 1f && projectile.ai[1] > 0f && projectile.owner == Main.myPlayer)
+					{
+						projectile.netUpdate = true;
 
-                        projectile.position.X -= num617 * -projectile.direction;
+						Vector2 center = projectile.Center;
+						center.Y -= num610 * projectile.scale / 2f;
 
-                        projectile.ai[0] -= 1f;
+						float num611 = (num606 + num607 - projectile.ai[1] + 1f) * num608 / (num607 + num606);
+						center.Y -= num610 * num611 / 2f;
+						center.Y += 2f;
 
-                        num617 = (float)(Math.Cos(num615 * -(double)projectile.ai[0]) - 0.5) * num616;
-                        projectile.position.X += num617 * -projectile.direction;
-                    }
-                    return false;
-                }
+						Projectile.NewProjectile(center.X, center.Y, projectile.velocity.X, projectile.velocity.Y, projectile.type, projectile.damage, projectile.knockBack, projectile.owner, 10f, projectile.ai[1] - 1f);
+
+						if ((int)projectile.ai[1] % 3 == 0 && projectile.ai[1] != 0f)
+						{
+							int num614 = NPC.NewNPC((int)center.X, (int)center.Y, NPCID.Sharkron2, 0, 0f, 0f, 0f, 0f, 255);
+							Main.npc[num614].velocity = projectile.velocity;
+							Main.npc[num614].scale = 1.5f;
+							Main.npc[num614].netUpdate = true;
+							Main.npc[num614].ai[2] = projectile.width;
+							Main.npc[num614].ai[3] = -1.5f;
+						}
+					}
+
+					if (projectile.ai[0] <= 0f)
+					{
+						float num615 = 0.104719758f;
+						float num616 = projectile.width / 5f * 2.5f;
+						float num617 = (float)(Math.Cos(num615 * -(double)projectile.ai[0]) - 0.5) * num616;
+
+						projectile.position.X -= num617 * -projectile.direction;
+
+						projectile.ai[0] -= 1f;
+
+						num617 = (float)(Math.Cos(num615 * -(double)projectile.ai[0]) - 0.5) * num616;
+						projectile.position.X += num617 * -projectile.direction;
+					}
+					return false;
+				}
 
 				// Change the stupid homing eyes
 				else if (projectile.type == ProjectileID.PhantasmalEye)
@@ -526,9 +567,9 @@ namespace CalamityMod.Projectiles
 					return true;
 				}
 
-                // Moon Lord Deathray
-                else if (projectile.type == ProjectileID.PhantasmalDeathray)
-                {
+				// Moon Lord Deathray
+				else if (projectile.type == ProjectileID.PhantasmalDeathray)
+				{
 					if (Main.npc[(int)projectile.ai[1]].type == NPCID.MoonLordHead)
 					{
 						Vector2? vector78 = null;
@@ -627,7 +668,7 @@ namespace CalamityMod.Projectiles
 
 						return false;
 					}
-                }
+				}
             }
 
 			if (CalamityWorld.death && !CalamityPlayer.areThereAnyDamnBosses)
@@ -941,7 +982,7 @@ namespace CalamityMod.Projectiles
 			{
 				if (modPlayer.eQuiver && projectile.ranged && CalamityLists.rangedProjectileExceptionList.TrueForAll(x => projectile.type != x))
 				{
-					if (Main.player[projectile.owner].miscCounter % 60 == 0)
+					if (Main.player[projectile.owner].miscCounter % 60 == 0 && projectile.numUpdates == -1)
 					{
 						float spread = 180f * 0.0174f;
 						double startAngle = Math.Atan2(projectile.velocity.X, projectile.velocity.Y) - spread / 2;
@@ -961,7 +1002,7 @@ namespace CalamityMod.Projectiles
 
 				if (modPlayer.fungalSymbiote && trueMelee)
 				{
-					if (Main.player[projectile.owner].miscCounter % 6 == 0)
+					if (Main.player[projectile.owner].miscCounter % 6 == 0 && projectile.numUpdates == -1)
 					{
 						if (projectile.owner == Main.myPlayer && player.ownedProjectileCounts[ProjectileID.Mushroom] < 30)
 						{
@@ -996,7 +1037,7 @@ namespace CalamityMod.Projectiles
 				{
 					if (modPlayer.nanotech && rogue && projectile.type != ProjectileType<MoonSigil>() && projectile.type != ProjectileType<DragonShit>())
 					{
-						if (Main.player[projectile.owner].miscCounter % 30 == 0)
+						if (Main.player[projectile.owner].miscCounter % 30 == 0 && projectile.numUpdates == -1)
 						{
 							if (projectile.owner == Main.myPlayer && player.ownedProjectileCounts[ProjectileType<Nanotech>()] < 25)
 							{
@@ -1016,7 +1057,7 @@ namespace CalamityMod.Projectiles
 					}
 					if (modPlayer.dragonScales && projectile.type != ProjectileType<MoonSigil>() && projectile.type != ProjectileType<DragonShit>())
 					{
-						if (Main.player[projectile.owner].miscCounter % 50 == 0)
+						if (Main.player[projectile.owner].miscCounter % 50 == 0 && projectile.numUpdates == -1)
 						{
 							if (projectile.owner == Main.myPlayer && player.ownedProjectileCounts[ProjectileType<DragonShit>()] < 15)
 							{
@@ -1029,7 +1070,7 @@ namespace CalamityMod.Projectiles
 
 					if (modPlayer.daedalusSplit)
 					{
-						if (Main.player[projectile.owner].miscCounter % 30 == 0)
+						if (Main.player[projectile.owner].miscCounter % 30 == 0 && projectile.numUpdates == -1)
 						{
 							if (projectile.owner == Main.myPlayer && player.ownedProjectileCounts[ProjectileID.CrystalShard] < 30)
 							{

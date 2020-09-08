@@ -20,8 +20,9 @@ namespace CalamityMod.Projectiles.Boss
             projectile.width = 14;
             projectile.height = 14;
             projectile.hostile = true;
-            projectile.alpha = 255;
-            projectile.penetrate = 5;
+			projectile.ignoreWater = true;
+			projectile.alpha = 255;
+            projectile.penetrate = 3;
             cooldownSlot = 1;
         }
 

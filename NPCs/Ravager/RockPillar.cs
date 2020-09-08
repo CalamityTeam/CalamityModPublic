@@ -47,28 +47,23 @@ namespace CalamityMod.NPCs.Ravager
             }
 
             if (npc.timeLeft < 1800)
-            {
                 npc.timeLeft = 1800;
-            }
 
             if (npc.alpha > 0)
             {
-                npc.alpha -= 10;
-                if (npc.alpha < 0)
-                {
-                    npc.alpha = 0;
-                }
-            }
+				npc.damage = 0;
 
-            if (Math.Abs(npc.velocity.X) > 0.5f)
+				npc.alpha -= 10;
+                if (npc.alpha < 0)
+                    npc.alpha = 0;
+            }
+            else
             {
                 if (CalamityWorld.downedProvidence && !BossRushEvent.BossRushActive)
                     npc.damage = npc.defDamage * 2;
                 else
                     npc.damage = npc.defDamage;
-            }
-            else
-                npc.damage = 0;
+            }                
 
             if (npc.ai[0] == 0f)
             {

@@ -3658,9 +3658,9 @@ namespace CalamityMod.NPCs
 			if (!player.ZoneDungeon || BossRushEvent.BossRushActive)
 				num823 = expertMode ? 25f : 20f;
 
-			Vector2 vector82 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
-			float num825 = player.position.X + (player.width / 2) - vector82.X;
-			float num826 = player.position.Y + (player.height / 2) - vector82.Y;
+			Vector2 vector82 = npc.Center;
+			float num825 = player.Center.X - vector82.X;
+			float num826 = player.Center.Y - vector82.Y;
 			float num827 = (float)Math.Sqrt(num825 * num825 + num826 * num826);
 
 			num827 = num823 / num827;

@@ -81,21 +81,25 @@ namespace CalamityMod.NPCs.DesertScourge
 			Player player = Main.player[npc.target];
 			npc.dontTakeDamage = !player.ZoneDesert && !BossRushEvent.BossRushActive;
 			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-            if (!Main.npc[(int)npc.ai[1]].active)
+			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+			float burrowTimeGateValue = death ? 420f : 540f;
+			bool burrow = Main.npc[(int)npc.ai[2]].Calamity().newAI[0] >= burrowTimeGateValue;
+
+			if (!Main.npc[(int)npc.ai[1]].active)
             {
                 npc.life = 0;
                 npc.HitEffect(0, 10.0);
                 npc.active = false;
             }
+
             if (Main.npc[(int)npc.ai[1]].alpha < 128)
             {
                 npc.alpha -= 42;
                 if (npc.alpha < 0)
-                {
                     npc.alpha = 0;
-                }
             }
-            if (Main.netMode != NetmodeID.MultiplayerClient && revenge)
+
+            if (Main.netMode != NetmodeID.MultiplayerClient && revenge && !burrow)
             {
                 npc.localAI[0] += (float)Main.rand.Next(4);
                 if (npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))

@@ -9194,7 +9194,7 @@ namespace CalamityMod.NPCs
 						float shootBoost = death ? 1f : 2f * (0.5f - lifeRatio);
 						calamityGlobalNPC.newAI[0] += 1f + shootBoost;
 
-						if (calamityGlobalNPC.newAI[0] >= 300f)
+						if (calamityGlobalNPC.newAI[0] >= 450f)
 						{
 							Main.PlaySound(SoundID.Item20, npc.position);
 
@@ -9218,7 +9218,7 @@ namespace CalamityMod.NPCs
 							int numProj = 4;
 							int spread = 30;
 							if (nearbyActiveTiles <= 300)
-								spread = Main.rand.NextBool(2) ? 30 : 45;
+								spread = Main.rand.NextBool(2) ? 30 : 60;
 
 							float rotation = MathHelper.ToRadians(spread);
 							float baseSpeed = (float)Math.Sqrt(num743 * num743 + num744 * num744);
@@ -9340,7 +9340,7 @@ namespace CalamityMod.NPCs
 
 				// Timer dictating whether to pick a new location or not
 				float moveBoost = death ? 2f : 2f * (1f - lifeRatio);
-                npc.localAI[0] -= ((BossRushEvent.BossRushActive ? 4f : 1f) + moveBoost) * tileEnrageMult;
+                npc.localAI[0] -= ((BossRushEvent.BossRushActive ? 4f : 1f) + moveBoost) * MathHelper.Lerp(1f, 3.6f, (tileEnrageMult - 1f) * 1.25f);
                 if (enrage)
                     npc.localAI[0] -= 6f;
 
