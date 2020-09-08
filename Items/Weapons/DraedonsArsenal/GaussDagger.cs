@@ -14,10 +14,12 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
         {
             DisplayName.SetDefault("Gauss Dagger");
             Tooltip.SetDefault("Slicing foes, it causes a flux of energy to form on the area tearing at them with turbulent forces.\n" +
-			"Repeat strikes envelop foes in magnetic flux");
+            "Repeat strikes envelop foes in magnetic flux");
         }
         public override void SetDefaults()
         {
+            CalamityGlobalItem modItem = item.Calamity();
+
             item.damage = 30;
             item.melee = true;
             item.width = 26;
@@ -30,13 +32,14 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 
             item.value = CalamityGlobalItem.Rarity3BuyPrice;
             item.rare = ItemRarityID.Red;
-            item.Calamity().customRarity = CalamityRarity.DraedonRust;
+            modItem.customRarity = CalamityRarity.DraedonRust;
 
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
 
-            item.Calamity().Chargeable = true;
-            item.Calamity().ChargeMax = 50;
+            modItem.UsesCharge = true;
+            modItem.MaxCharge = 50f;
+            modItem.ChargePerUse = 0.05f;
         }
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)

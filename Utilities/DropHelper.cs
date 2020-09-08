@@ -4,6 +4,7 @@ using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod
@@ -345,6 +346,31 @@ namespace CalamityMod
         #endregion
 
         #region Specific Drop Helpers
+        // Code copied from Player.QuickSpawnClonedItem, which was added by TML.
+        /// <summary>
+        /// Clones the given item and spawns it into the world at the given position. You can also customize stack count as necessary.<br></br>
+        /// The default stack count of -1 makes it copy the stack count of the given item.
+        /// </summary>
+        /// <param name="item">The item to clone and spawn.</param>
+        /// <param name="position">Where the item should be spawned.</param>
+        /// <param name="stack">The stack count to use. Leave at -1 to use the stack of the <b>item</b> parameter.</param>
+        /// <returns>The spawned clone of the item. <b>NEVER</b> equal to the input item.</returns>
+        public static Item DropItemClone(Item item, Vector2 position, int stack = -1)
+        {
+            int index = Item.NewItem(position, item.type, stack, false, -1, false, false);
+            Item theClone = Main.item[index] = item.Clone();
+            theClone.whoAmI = index;
+            theClone.position = position;
+            if (stack != -1)
+                theClone.stack = stack;
+
+            // If in multiplayer, broadcast that this item was spawned.
+            if (Main.netMode == NetmodeID.MultiplayerClient)
+                NetMessage.SendData(MessageID.SyncItem, -1, -1, null, index, 1f);
+
+            return theClone;
+        }
+
         /// <summary>
         /// Finds the worm segment nearest to an NPC's target by combing the NPC array for the closest NPC that is one of the specified types.<br></br>
         /// Return the specified NPC's index if no matching worm segment was found.

@@ -33,7 +33,7 @@ Right click to fire a burst of bullets");
             item.autoReuse = true;
             item.shoot = ProjectileID.PurificationPowder;
             item.shootSpeed = 11f;
-            item.useAmmo = 97;
+            item.useAmmo = AmmoID.Bullet;
         }
 
         public override Vector2? HoldoutOffset()

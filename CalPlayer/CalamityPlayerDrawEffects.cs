@@ -215,7 +215,8 @@ namespace CalamityMod.CalPlayer
                              currentlyHeldItem.type == ModContent.ItemType<Apotheosis>() ||
                              currentlyHeldItem.type == ModContent.ItemType<CleansingBlaze>() ||
                              currentlyHeldItem.type == ModContent.ItemType<SubsumingVortex>() ||
-                             currentlyHeldItem.type == ModContent.ItemType<AuroraBlazer>())
+                             currentlyHeldItem.type == ModContent.ItemType<AuroraBlazer>() ||
+                             currentlyHeldItem.type == ModContent.ItemType<Auralis>())
                     {
                         Texture2D texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Ranged/DeathwindGlow");
                         int offsetX = 10;
@@ -238,6 +239,11 @@ namespace CalamityMod.CalPlayer
                         {
                             texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Ranged/AuroraBlazerGlow");
                             offsetX = 44;
+                        }
+                        else if (currentlyHeldItem.type == ModContent.ItemType<Auralis>())
+                        {
+                            texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Ranged/AuralisGlow");
+                            offsetX = 62;
                         }
 
                         Vector2 center = Main.itemTexture[currentlyHeldItem.type].Size() * 0.5f;
@@ -494,6 +500,38 @@ namespace CalamityMod.CalPlayer
             }
         });
 
+        public static readonly PlayerLayer AuralisAuroraEffects = new PlayerLayer("CalamityMod", "AuralisAurora", PlayerLayer.Body, drawInfo =>
+        {
+            Player drawPlayer = drawInfo.drawPlayer;
+			CalamityPlayer modPlayer = drawPlayer.Calamity();
+            if (modPlayer.auralisAuroraCounter < 300 || modPlayer.auralisAuroraCooldown > 0)
+                return;
+            float auroraCount = 7;
+            float opacity = 0.4f;
+
+            float time = Main.GlobalTime % 3f / 3f;
+            Texture2D auroraTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/AuroraTexture");
+            for (int i = 0; i < auroraCount; i++)
+            {
+                float incrementOffsetAngle = MathHelper.TwoPi * i / auroraCount;
+                float xOffset = (float)Math.Sin(time * MathHelper.TwoPi + incrementOffsetAngle * 2f) * 20f;
+                float yOffset = (float)Math.Sin(time * MathHelper.TwoPi + incrementOffsetAngle * 2f + MathHelper.ToRadians(60f)) * 6f;
+                float rotation = (float)Math.Sin(incrementOffsetAngle) * MathHelper.Pi / 12f;
+                Color color = CalamityUtils.ColorSwap(Auralis.blueColor, Auralis.greenColor, 3f);
+                Vector2 offset = new Vector2(xOffset, yOffset - 14f);
+                DrawData drawData = new DrawData(auroraTexture,
+                                 drawPlayer.Top + offset - Main.screenPosition,
+                                 null,
+                                 color * opacity,
+                                 rotation + MathHelper.PiOver2,
+                                 auroraTexture.Size() * 0.5f,
+                                 0.135f,
+                                 SpriteEffects.None,
+                                 1);
+                Main.playerDrawData.Add(drawData);
+            }
+        });
+
         public static readonly PlayerLayer IbanDevRobot = new PlayerLayer("CalamityMod", "IbanDevRobot", PlayerLayer.Body, drawInfo =>
         {
             Player drawPlayer = drawInfo.drawPlayer;
@@ -647,6 +685,7 @@ namespace CalamityMod.CalPlayer
             list.Add(RoverDriveShield);
             list.Add(StratusSphereDrawing);
             list.Add(ProfanedMoonlightDyeEffects);
+            list.Add(AuralisAuroraEffects);
             list.Add(IbanDevRobot);
             list.Add(DyeInvisibilityFix);
         }
@@ -993,7 +1032,7 @@ namespace CalamityMod.CalPlayer
             {
                 if (Main.rand.NextBool(12) && drawInfo.shadow == 0f)
                 {
-                    int dust = Dust.NewDust(drawInfo.position - new Vector2(2f), player.width + 4, player.height + 4, 244, player.velocity.X * 0.4f, player.velocity.Y * 0.4f, 100, default, 3f);
+                    int dust = Dust.NewDust(drawInfo.position - new Vector2(2f), player.width + 4, player.height + 4, (int)CalamityDusts.ProfanedFire, player.velocity.X * 0.4f, player.velocity.Y * 0.4f, 100, default, 3f);
                     Main.dust[dust].noGravity = true;
                     Main.dust[dust].velocity *= 1.8f;
                     Main.dust[dust].velocity.Y -= 0.5f;

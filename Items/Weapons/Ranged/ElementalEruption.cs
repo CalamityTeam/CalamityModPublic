@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<TerraFireGreen2>();
             item.shootSpeed = 10f;
-            item.useAmmo = 23;
+            item.useAmmo = AmmoID.Gel;
             item.Calamity().customRarity = CalamityRarity.Turquoise;
         }
 

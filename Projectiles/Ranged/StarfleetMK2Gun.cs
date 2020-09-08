@@ -98,23 +98,14 @@ namespace CalamityMod.Projectiles.Ranged
                         float variation = (1f + projectile.localAI[0]) * 3f;
                         Vector2 position = playerPosition + Utils.RandomVector2(Main.rand, -variation, variation);
                         Vector2 speed = projectile.velocity * scaleFactor * (0.6f + Main.rand.NextFloat() * 0.6f);
-                        switch (Main.rand.Next(5))
-                        {
-                            case 0:
-                                type = ModContent.ProjectileType<PlasmaBlast>();
-                                break;
-                            case 1:
-                                type = ModContent.ProjectileType<AstralStar>();
-                                break;
-                            case 2:
-                                type = ModContent.ProjectileType<GalacticaComet>();
-                                break;
-                            case 3: //falling star projectile
-                                break;
-                            case 4: //starfury projectile
-                                type = ProjectileID.Starfury;
-                                break;
-                        }
+						type = Utils.SelectRandom(Main.rand, new int[]
+						{
+							ModContent.ProjectileType<PlasmaBlast>(),
+							ModContent.ProjectileType<AstralStar>(),
+							ModContent.ProjectileType<GalacticaComet>(),
+							ModContent.ProjectileType<FallenStarProj>(),
+							ProjectileID.Starfury
+						});
                         int star = Projectile.NewProjectile(position, speed, type, damage, knockBack, projectile.owner, 0f, 0f);
                         Main.projectile[star].penetrate = 1;
                         Main.projectile[star].timeLeft = 300;

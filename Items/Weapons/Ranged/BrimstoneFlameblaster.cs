@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<BrimstoneBallFriendly>();
             item.shootSpeed = 10f;
-            item.useAmmo = 23;
+            item.useAmmo = AmmoID.Gel;
         }
 
         public override Vector2? HoldoutOffset()

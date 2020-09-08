@@ -35,7 +35,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.autoReuse = true;
             item.shoot = ProjectileID.PurificationPowder;
             item.shootSpeed = 12f;
-            item.useAmmo = 97;
+            item.useAmmo = AmmoID.Bullet;
             item.Calamity().customRarity = CalamityRarity.Turquoise;
         }
 

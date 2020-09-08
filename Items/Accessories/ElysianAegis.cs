@@ -18,8 +18,7 @@ namespace CalamityMod.Items.Accessories
                                "Grants a supreme holy flame dash\n" +
                                "Can be used to ram enemies\n" +
                                "TOOLTIP LINE HERE\n" +
-                               "Activating this buff will reduce your movement speed and increase enemy aggro\n" +
-                               "Toggle visibility of this accessory to enable/disable the dash");
+                               "Activating this buff will reduce your movement speed and increase enemy aggro");
         }
 
         public override void SetDefaults()

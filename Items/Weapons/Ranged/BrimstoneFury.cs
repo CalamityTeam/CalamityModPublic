@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<BrimstoneBolt>();
             item.shootSpeed = 13f;
-            item.useAmmo = 40;
+            item.useAmmo = AmmoID.Arrow;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

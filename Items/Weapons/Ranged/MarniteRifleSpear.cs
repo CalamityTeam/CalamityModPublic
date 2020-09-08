@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.UseSound = SoundID.Item41;
             item.autoReuse = true;
             item.shootSpeed = 22f;
-            item.useAmmo = 97;
+            item.useAmmo = AmmoID.Bullet;
             item.shoot = ProjectileID.PurificationPowder;
         }
 

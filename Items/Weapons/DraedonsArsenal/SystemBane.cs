@@ -8,21 +8,23 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.DraedonsArsenal
 {
-	public class SystemBane : RogueWeapon
+    public class SystemBane : RogueWeapon
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("System Bane");
             Tooltip.SetDefault("Can be used to quickly send out an electromagnetic blast, strong enough to target organic nervous systems.\n" +
-							   "Hurls an unstable device which sticks to the ground and shocks nearby enemies with lightning\n" +
+                               "Hurls an unstable device which sticks to the ground and shocks nearby enemies with lightning\n" +
                                "Stealth strikes make the device emit a large, damaging EMP field\n" +
                                "Stacks up to 5");
         }
 
         public override void SafeSetDefaults()
         {
+            CalamityGlobalItem modItem = item.Calamity();
+
             item.damage = 45;
-            item.Calamity().rogue = true;
+            modItem.rogue = true;
             item.noMelee = true;
             item.noUseGraphic = true;
             item.width = 42;
@@ -34,15 +36,16 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
             item.knockBack = 4f;
             item.value = CalamityGlobalItem.Rarity8BuyPrice;
             item.rare = ItemRarityID.Red;
-            item.Calamity().customRarity = CalamityRarity.DraedonRust;
+            modItem.customRarity = CalamityRarity.DraedonRust;
             item.UseSound = SoundID.Item1;
             item.maxStack = 5;
 
             item.shootSpeed = 16f;
             item.shoot = ModContent.ProjectileType<SystemBaneProjectile>();
 
-			item.Calamity().Chargeable = true;
-			item.Calamity().ChargeMax = 135;
+            modItem.UsesCharge = true;
+            modItem.MaxCharge = 135f;
+            modItem.ChargePerUse = 0.085f;
         }
 
         public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] < item.stack;

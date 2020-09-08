@@ -13,12 +13,14 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
         {
             DisplayName.SetDefault("Pulse Dragon");
             Tooltip.SetDefault("Heavy duty flails, each containing a powerful generator which is activated upon launch.\n" +
-			"Throws two dragon heads that emit electrical fields\n" +
-			"Especially effective against inorganic targets");
+            "Throws two dragon heads that emit electrical fields\n" +
+            "Especially effective against inorganic targets");
         }
 
         public override void SetDefaults()
         {
+            CalamityGlobalItem modItem = item.Calamity();
+
             item.damage = 420;
             item.melee = true;
             item.width = 30;
@@ -31,14 +33,16 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
             item.knockBack = 8f;
             item.value = CalamityGlobalItem.RarityTurquoiseBuyPrice;
             item.rare = ItemRarityID.Red;
-            item.Calamity().customRarity = CalamityRarity.DraedonRust;
+            modItem.customRarity = CalamityRarity.DraedonRust;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             item.channel = true;
             item.shoot = ModContent.ProjectileType<PulseDragonProjectile>();
             item.shootSpeed = 20f;
-            item.Calamity().Chargeable = true;
-            item.Calamity().ChargeMax = 190;
+
+            modItem.UsesCharge = true;
+            modItem.MaxCharge = 190f;
+            modItem.ChargePerUse = 0.32f;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

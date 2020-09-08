@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<PlasmaBlast>();
             item.shootSpeed = 12f;
-            item.useAmmo = 75;
+            item.useAmmo = AmmoID.FallenStar;
             item.Calamity().customRarity = CalamityRarity.Turquoise;
         }
 

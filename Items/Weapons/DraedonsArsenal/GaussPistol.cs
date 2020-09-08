@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.DraedonsArsenal
 {
-    public class GaussPistol : ModItem
+	public class GaussPistol : ModItem
 	{
 		public override void SetStaticDefaults()
 		{
@@ -16,6 +16,8 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 
 		public override void SetDefaults()
 		{
+			CalamityGlobalItem modItem = item.Calamity();
+
 			item.width = 40;
 			item.height = 22;
 			item.magic = true;
@@ -31,13 +33,14 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 
 			item.value = CalamityGlobalItem.Rarity5BuyPrice;
 			item.rare = ItemRarityID.Red;
-			item.Calamity().customRarity = CalamityRarity.DraedonRust;
+			modItem.customRarity = CalamityRarity.DraedonRust;
 
 			item.shoot = ModContent.ProjectileType<GaussPistolShot>();
 			item.shootSpeed = 14f;
 
-			item.Calamity().ChargeMax = 85;
-			item.Calamity().Chargeable = true;
+			modItem.MaxCharge = 85f;
+			modItem.UsesCharge = true;
+			modItem.ChargePerUse = 0.05f;
 		}
 
 		public override void AddRecipes()

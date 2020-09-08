@@ -26,7 +26,7 @@ namespace CalamityMod.Items.Ammo
             item.rare = 3;
             item.shoot = ModContent.ProjectileType<FrostsparkBulletProj>();
             item.shootSpeed = 14f;
-            item.ammo = 97;
+            item.ammo = AmmoID.Bullet;
         }
 
         public override void AddRecipes()

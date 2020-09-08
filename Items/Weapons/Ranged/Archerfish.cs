@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<ArcherfishShot>();
             item.shootSpeed = 11f;
-            item.useAmmo = 97;
+            item.useAmmo = AmmoID.Bullet;
         }
 
         public override Vector2? HoldoutOffset()

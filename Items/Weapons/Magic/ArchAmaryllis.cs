@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Arch Amaryllis");
-            Tooltip.SetDefault("Casts a beaming bolt that explodes into smaller homing bolts");
+            Tooltip.SetDefault("Casts a beaming flower that explodes into homing petals");
             Item.staff[item.type] = true;
         }
 

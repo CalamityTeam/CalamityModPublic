@@ -130,11 +130,11 @@ namespace CalamityMod.CalPlayer
 
         public int CurrentlyViewedFactoryX = -1;
         public int CurrentlyViewedFactoryY = -1;
-        public TEDraedonFuelFactory CurrentlyViewedFactory;
+        public TEPowerCellFactory CurrentlyViewedFactory;
 
         public int CurrentlyViewedChargerX = -1;
         public int CurrentlyViewedChargerY = -1;
-        public TEDraedonItemCharger CurrentlyViewedCharger;
+        public TEChargingStation CurrentlyViewedCharger;
 
         public int CurrentlyViewedHologramX = -1;
         public int CurrentlyViewedHologramY = -1;
@@ -235,6 +235,10 @@ namespace CalamityMod.CalPlayer
         public int danceOfLightCharge = 0;
         public int shadowPotCooldown = 0;
         public int dogTextCooldown = 0;
+		public float auralisStealthCounter = 0f;
+		public int auralisAuroraCounter = 0;
+		public int auralisAuroraCooldown = 0;
+		public int auralisAurora = 0;
 		public int fungalSymbioteTimer = 0;
 		public bool canFireReaverRangedProjectile = false;
 		public bool canFireAtaxiaRangedProjectile = false;
@@ -2044,6 +2048,10 @@ namespace CalamityMod.CalPlayer
             soundCooldown = 0;
             shadowPotCooldown = 0;
 			dogTextCooldown = 0;
+			auralisStealthCounter = 0f;
+			auralisAuroraCounter = 0;
+			auralisAuroraCooldown = 0;
+			auralisAurora = 0;
 			fungalSymbioteTimer = 0;
             rage = 0;
             adrenaline = 0;
@@ -4368,7 +4376,7 @@ namespace CalamityMod.CalPlayer
             {
                 add += GaelsGreatsword.BaseDamage / (float)GaelsGreatsword.BaseDamage - 1f;
             }
-            if (flamethrowerBoost && item.ranged && (item.useAmmo == 23 || CalamityLists.flamethrowerList.Contains(item.type)))
+            if (flamethrowerBoost && item.ranged && (item.useAmmo == AmmoID.Gel || CalamityLists.flamethrowerList.Contains(item.type)))
             {
                 add += hoverboardBoost ? 0.35f : 0.25f;
             }
@@ -6306,6 +6314,15 @@ namespace CalamityMod.CalPlayer
 					damage = 0;
 					return;
 				}
+			}
+
+			if (auralisAuroraCounter >= 300)
+			{
+				damage -= 100;
+				if (damage < 1)
+					damage = 1;
+				auralisAuroraCounter = 0;
+				auralisAuroraCooldown = CalamityUtils.SecondsToFrames(30f);
 			}
 
 			if (proj.type == ModContent.ProjectileType<BirbAura>())

@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<SlashRound>();
             item.shootSpeed = 30f;
-            item.useAmmo = 97;
+            item.useAmmo = AmmoID.Bullet;
             item.Calamity().customRarity = CalamityRarity.Developer;
         }
 
