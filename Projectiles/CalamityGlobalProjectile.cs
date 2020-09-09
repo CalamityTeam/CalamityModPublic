@@ -982,7 +982,7 @@ namespace CalamityMod.Projectiles
 			{
 				if (modPlayer.eQuiver && projectile.ranged && CalamityLists.rangedProjectileExceptionList.TrueForAll(x => projectile.type != x))
 				{
-					if (Main.player[projectile.owner].miscCounter % 60 == 0 && projectile.numUpdates == -1)
+					if (Main.player[projectile.owner].miscCounter % 60 == 0 && projectile.FinalExtraUpdate())
 					{
 						float spread = 180f * 0.0174f;
 						double startAngle = Math.Atan2(projectile.velocity.X, projectile.velocity.Y) - spread / 2;
@@ -1002,7 +1002,7 @@ namespace CalamityMod.Projectiles
 
 				if (modPlayer.fungalSymbiote && trueMelee)
 				{
-					if (Main.player[projectile.owner].miscCounter % 6 == 0 && projectile.numUpdates == -1)
+					if (Main.player[projectile.owner].miscCounter % 6 == 0 && projectile.FinalExtraUpdate())
 					{
 						if (projectile.owner == Main.myPlayer && player.ownedProjectileCounts[ProjectileID.Mushroom] < 30)
 						{
@@ -1037,7 +1037,7 @@ namespace CalamityMod.Projectiles
 				{
 					if (modPlayer.nanotech && rogue && projectile.type != ProjectileType<MoonSigil>() && projectile.type != ProjectileType<DragonShit>())
 					{
-						if (Main.player[projectile.owner].miscCounter % 30 == 0 && projectile.numUpdates == -1)
+						if (Main.player[projectile.owner].miscCounter % 30 == 0 && projectile.FinalExtraUpdate())
 						{
 							if (projectile.owner == Main.myPlayer && player.ownedProjectileCounts[ProjectileType<Nanotech>()] < 25)
 							{
@@ -1057,7 +1057,7 @@ namespace CalamityMod.Projectiles
 					}
 					if (modPlayer.dragonScales && projectile.type != ProjectileType<MoonSigil>() && projectile.type != ProjectileType<DragonShit>())
 					{
-						if (Main.player[projectile.owner].miscCounter % 50 == 0 && projectile.numUpdates == -1)
+						if (Main.player[projectile.owner].miscCounter % 50 == 0 && projectile.FinalExtraUpdate())
 						{
 							if (projectile.owner == Main.myPlayer && player.ownedProjectileCounts[ProjectileType<DragonShit>()] < 15)
 							{
@@ -1070,7 +1070,7 @@ namespace CalamityMod.Projectiles
 
 					if (modPlayer.daedalusSplit)
 					{
-						if (Main.player[projectile.owner].miscCounter % 30 == 0 && projectile.numUpdates == -1)
+						if (Main.player[projectile.owner].miscCounter % 30 == 0 && projectile.FinalExtraUpdate())
 						{
 							if (projectile.owner == Main.myPlayer && player.ownedProjectileCounts[ProjectileID.CrystalShard] < 30)
 							{
