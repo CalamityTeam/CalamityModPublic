@@ -13,7 +13,6 @@ namespace CalamityMod.NPCs.Polterghast
 	public class PhantomFuckYou : ModNPC
 	{
 		private bool start = true;
-		private int timer = 0;
 
 		public override void SetStaticDefaults()
 		{
@@ -43,13 +42,11 @@ namespace CalamityMod.NPCs.Polterghast
 		public override void SendExtraAI(BinaryWriter writer)
 		{
 			writer.Write(start);
-			writer.Write(timer);
 		}
 
 		public override void ReceiveExtraAI(BinaryReader reader)
 		{
 			start = reader.ReadBoolean();
-			timer = reader.ReadInt32();
 		}
 
 		public override bool PreAI()
@@ -73,6 +70,8 @@ namespace CalamityMod.NPCs.Polterghast
 				return false;
 			}
 
+			bool chargePhase = Main.npc[CalamityGlobalNPC.ghostBoss].Calamity().newAI[0] >= 420f;
+
 			// Percent life remaining, Polter
 			float lifeRatio = Main.npc[CalamityGlobalNPC.ghostBoss].life / Main.npc[CalamityGlobalNPC.ghostBoss].lifeMax;
 
@@ -86,17 +85,19 @@ namespace CalamityMod.NPCs.Polterghast
 			direction *= 0.05f;
 			npc.rotation = direction.ToRotation();
 
-			timer++;
-			if (timer >= 150)
+			if (!chargePhase)
 			{
-				if (Main.netMode != NetmodeID.MultiplayerClient)
+				npc.ai[2] += 1f;
+				if (npc.ai[2] >= 150f)
 				{
-					int damage = expertMode ? 62 : 75;
-					float maxVelocity = 8f * tileEnrageMult;
-					Projectile.NewProjectile(npc.Center, direction, ModContent.ProjectileType<PhantomMine>(), damage, 1f, npc.target, maxVelocity, 0f);
+					if (Main.netMode != NetmodeID.MultiplayerClient)
+					{
+						int damage = expertMode ? 62 : 75;
+						float maxVelocity = 8f * tileEnrageMult;
+						Projectile.NewProjectile(npc.Center, direction, ModContent.ProjectileType<PhantomMine>(), damage, 1f, npc.target, maxVelocity, 0f);
+					}
+					npc.ai[2] = 0f;
 				}
-
-				timer = 0;
 			}
 
 			NPC parent = Main.npc[NPC.FindFirstNPC(ModContent.NPCType<Polterghast>())];

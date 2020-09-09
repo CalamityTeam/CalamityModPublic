@@ -166,7 +166,7 @@ namespace CalamityMod.NPCs.Perforator
             {
                 npc.localAI[1] = 1f;
                 Rectangle rectangle12 = new Rectangle((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height);
-                int num954 = 400;
+                int num954 = 200;
                 bool flag95 = true;
                 if (npc.position.Y > player.position.Y)
                 {

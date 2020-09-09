@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<ShadeFire>();
             item.shootSpeed = 5.5f;
-            item.useAmmo = 23;
+            item.useAmmo = AmmoID.Gel;
         }
 
         public override Vector2? HoldoutOffset()

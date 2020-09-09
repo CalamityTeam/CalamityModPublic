@@ -74,7 +74,7 @@ namespace CalamityMod.Projectiles.Summon
             {
                 projectile.frame = 0;
             }
-            Lighting.AddLight((int)((projectile.position.X + (float)(projectile.width / 2)) / 16f), (int)((projectile.position.Y + (float)(projectile.height / 2)) / 16f), 0.05f, 0.15f, 0.2f);
+            Lighting.AddLight((int)(projectile.Center.X / 16f), (int)(projectile.Center.Y / 16f), 0.05f, 0.15f, 0.2f);
             bool flag64 = projectile.type == ModContent.ProjectileType<IceClasperMinion>();
             player.AddBuff(ModContent.BuffType<IceClasper>(), 3600);
             if (flag64)
@@ -89,9 +89,9 @@ namespace CalamityMod.Projectiles.Summon
                 }
             }
 
-			projectile.ChargingMinionAI(700f, 1000f, 2200f, 150f, 0, 40f, 9f, 4f, new Vector2(0f, -60f), 40f, 9f, true, true);
+			projectile.ChargingMinionAI(1200f, 1500f, 2200f, 150f, 0, 40f, 9f, 4f, new Vector2(0f, -60f), 40f, 9f, true, true);
 
-            projectile.rotation = projectile.velocity.ToRotation() - 1.57f;
+            projectile.rotation = projectile.velocity.ToRotation() - MathHelper.PiOver2;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

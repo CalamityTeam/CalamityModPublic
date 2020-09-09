@@ -39,7 +39,7 @@ namespace CalamityMod
 		// I want to die
 		public static void GetNPCDamage(this NPC npc)
 		{
-			float damageAdjustment = GetExpertDamageMultiplier(npc) * 2f;
+			double damageAdjustment = GetExpertDamageMultiplier(npc) * 2D;
 			BossStats.ContactDamageValues.TryGetValue(npc.type, out int[] contactDamage);
 			int normalDamage = contactDamage[0];
 			int expertDamage = (int)(contactDamage[1] / damageAdjustment);
@@ -56,134 +56,134 @@ namespace CalamityMod
 		/// <param name="npc">The NPC you want to get the damage multiplier for</param>
 		/// <param name="master">Whether Master Mode is enabled or not</param>
 		/// <returns></returns>
-		public static float GetExpertDamageMultiplier(this NPC npc, bool? master = null)
+		public static double GetExpertDamageMultiplier(this NPC npc, bool? master = null)
 		{
 			if (!BossStats.ExpertDamageMultiplier.ContainsKey(npc.type))
-				return 1f;
+				return 1D;
 
-			BossStats.ExpertDamageMultiplier.TryGetValue(npc.type, out float damageMult);
+			BossStats.ExpertDamageMultiplier.TryGetValue(npc.type, out double damageMult);
 			return damageMult;
 		}
 
 		public struct BossStats
 		{
-			public static SortedDictionary<int, float> ExpertDamageMultiplier = new SortedDictionary<int, float>
+			public static SortedDictionary<int, double> ExpertDamageMultiplier = new SortedDictionary<int, double>
 			{
-				{ NPCID.KingSlime, 0.8f },
+				{ NPCID.KingSlime, 0.8 },
 
-				{ ModContent.NPCType<DesertScourgeHead>(), 1.1f },
+				{ ModContent.NPCType<DesertScourgeHead>(), 1.1 },
 
-				{ ModContent.NPCType<CrabulonIdle>(), 0.8f },
+				{ ModContent.NPCType<CrabulonIdle>(), 0.8 },
 
-				{ NPCID.EaterofWorldsHead, 1.1f },
-				{ NPCID.EaterofWorldsBody, 0.8f },
-				{ NPCID.EaterofWorldsTail, 0.8f },
+				{ NPCID.EaterofWorldsHead, 1.1 },
+				{ NPCID.EaterofWorldsBody, 0.8 },
+				{ NPCID.EaterofWorldsTail, 0.8 },
 
-				{ NPCID.BrainofCthulhu, 0.9f },
-				{ NPCID.Creeper, 0.9f },
+				{ NPCID.BrainofCthulhu, 0.9 },
+				{ NPCID.Creeper, 0.9 }, // Off in all expert+ modes by some amount
 
-				{ ModContent.NPCType<HiveMind>(), 0.9f },
-				{ ModContent.NPCType<HiveMindP2>(), 0.9f },
+				{ ModContent.NPCType<HiveMind>(), 0.9 },
+				{ ModContent.NPCType<HiveMindP2>(), 0.9 },
 
-				{ ModContent.NPCType<PerforatorHive>(), 0.9f },
+				{ ModContent.NPCType<PerforatorHive>(), 0.9 },
 
-				{ NPCID.QueenBee, 0.9f },
-				{ NPCID.Bee, 0.6f },
-				{ NPCID.BeeSmall, 0.6f },
+				{ NPCID.QueenBee, 0.9 },
+				{ NPCID.Bee, 0.6 },
+				{ NPCID.BeeSmall, 0.6 },
 
-				{ NPCID.SkeletronHead, 1.1f },
-				{ NPCID.SkeletronHand, 1.1f },
+				{ NPCID.SkeletronHead, 1.1 }, // Off in death mode by -3
+				{ NPCID.SkeletronHand, 1.1 }, // Off in death mode by -3
 
-				{ NPCID.WallofFlesh, 1.5f },
-				{ NPCID.WallofFleshEye, 1.5f },
+				{ NPCID.WallofFlesh, 1.5 },
+				{ NPCID.WallofFleshEye, 1.5 },
 
-				{ ModContent.NPCType<Cryogen>(), 1.15f },
+				{ ModContent.NPCType<Cryogen>(), 1.15 },
 
-				{ NPCID.Spazmatism, 0.85f },
-				{ NPCID.Retinazer, 0.85f },
+				{ NPCID.Spazmatism, 0.85 },
+				{ NPCID.Retinazer, 0.85 },
 
-				{ ModContent.NPCType<AquaticScourgeHead>(), 1.1f },
-				{ ModContent.NPCType<AquaticScourgeBody>(), 0.8f },
-				{ ModContent.NPCType<AquaticScourgeBodyAlt>(), 0.8f },
-				{ ModContent.NPCType<AquaticScourgeTail>(), 0.8f },
+				{ ModContent.NPCType<AquaticScourgeHead>(), 1.1 },
+				{ ModContent.NPCType<AquaticScourgeBody>(), 0.8 },
+				{ ModContent.NPCType<AquaticScourgeBodyAlt>(), 0.8 },
+				{ ModContent.NPCType<AquaticScourgeTail>(), 0.8 },
 
-				{ NPCID.TheDestroyer, 2f },
-				{ NPCID.TheDestroyerBody, 0.85f },
-				{ NPCID.TheDestroyerTail, 0.85f },
+				{ NPCID.TheDestroyer, 2 },
+				{ NPCID.TheDestroyerBody, 0.85 },
+				{ NPCID.TheDestroyerTail, 0.85 },
 
-				{ ModContent.NPCType<BrimstoneElemental>(), 0.8f },
+				{ ModContent.NPCType<BrimstoneElemental>(), 0.8 },
 
-				{ NPCID.SkeletronPrime, 0.85f },
-				{ NPCID.PrimeCannon, 0.85f },
-				{ NPCID.PrimeLaser, 0.85f },
-				{ NPCID.PrimeSaw, 0.85f },
-				{ NPCID.PrimeVice, 0.85f },
+				{ NPCID.SkeletronPrime, 0.85 },
+				{ NPCID.PrimeCannon, 0.85 },
+				{ NPCID.PrimeLaser, 0.85 },
+				{ NPCID.PrimeSaw, 0.85 },
+				{ NPCID.PrimeVice, 0.85 },
 
-				{ ModContent.NPCType<Calamitas>(), 0.8f },
-				{ ModContent.NPCType<CalamitasRun3>(), 0.8f },
+				{ ModContent.NPCType<Calamitas>(), 0.8 },
+				{ ModContent.NPCType<CalamitasRun3>(), 0.8 },
 
-				{ NPCID.Plantera, 1.15f },
-				{ NPCID.PlanterasTentacle, 1.15f },
+				{ NPCID.Plantera, 1.15 },
+				{ NPCID.PlanterasTentacle, 1.15 },
 
-				{ ModContent.NPCType<Leviathan>(), 1.2f },
-				{ ModContent.NPCType<Siren>(), 0.8f },
-				{ NPCID.DetonatingBubble, 0.75f },
+				{ ModContent.NPCType<Leviathan>(), 1.2 },
+				{ ModContent.NPCType<Siren>(), 0.8 },
+				{ NPCID.DetonatingBubble, 0.75 },
 
-				{ ModContent.NPCType<AstrumAureus>(), 1.1f },
+				{ ModContent.NPCType<AstrumAureus>(), 1.1 },
 
-				{ NPCID.Golem, 0.8f },
-				{ NPCID.GolemHead, 0.8f },
-				{ NPCID.GolemFistLeft, 0.8f },
-				{ NPCID.GolemFistRight, 0.8f },
+				{ NPCID.Golem, 0.8 },
+				{ NPCID.GolemHead, 0.8 },
+				{ NPCID.GolemFistLeft, 0.8 },
+				{ NPCID.GolemFistRight, 0.8 },
 
-				{ ModContent.NPCType<PlaguebringerGoliath>(), 0.9f },
+				{ ModContent.NPCType<PlaguebringerGoliath>(), 0.9 },
 
-				{ NPCID.DukeFishron, 0.7f },
-				{ NPCID.Sharkron, 0.75f },
-				{ NPCID.Sharkron2, 0.75f },
+				{ NPCID.DukeFishron, 0.7 },
+				{ NPCID.Sharkron, 0.75 },
+				{ NPCID.Sharkron2, 0.75 },
 
-				{ ModContent.NPCType<RavagerBody>(), 0.8f },
+				{ ModContent.NPCType<RavagerBody>(), 0.8 },
 
-				{ NPCID.CultistDragonHead, 0.75f },
-				{ NPCID.CultistDragonBody1, 0.75f },
-				{ NPCID.CultistDragonBody2, 0.75f },
-				{ NPCID.CultistDragonBody3, 0.75f },
-				{ NPCID.CultistDragonBody4, 0.75f },
-				{ NPCID.CultistDragonTail, 0.75f },
-				{ NPCID.AncientDoom, 0.75f },
-				{ NPCID.AncientLight, 0.75f },
+				{ NPCID.CultistDragonHead, 0.75 },
+				{ NPCID.CultistDragonBody1, 0.75 },
+				{ NPCID.CultistDragonBody2, 0.75 },
+				{ NPCID.CultistDragonBody3, 0.75 },
+				{ NPCID.CultistDragonBody4, 0.75 },
+				{ NPCID.CultistDragonTail, 0.75 },
+				{ NPCID.AncientDoom, 0.75 },
+				{ NPCID.AncientLight, 0.75 },
 
-				{ ModContent.NPCType<AstrumDeusBodySpectral>(), 0.8f },
-				{ ModContent.NPCType<AstrumDeusTailSpectral>(), 0.8f },
+				{ ModContent.NPCType<AstrumDeusBodySpectral>(), 0.8 },
+				{ ModContent.NPCType<AstrumDeusTailSpectral>(), 0.8 },
 
-				{ ModContent.NPCType<ProfanedGuardianBoss>(), 0.8f },
-				{ ModContent.NPCType<ProfanedGuardianBoss2>(), 0.8f },
-				{ ModContent.NPCType<ProfanedGuardianBoss3>(), 0.8f },
+				{ ModContent.NPCType<ProfanedGuardianBoss>(), 0.8 },
+				{ ModContent.NPCType<ProfanedGuardianBoss2>(), 0.8 },
+				{ ModContent.NPCType<ProfanedGuardianBoss3>(), 0.8 },
 
-				{ ModContent.NPCType<Bumblefuck>(), 0.8f },
+				{ ModContent.NPCType<Bumblefuck>(), 0.8 },
 
-				{ ModContent.NPCType<StormWeaverBody>(), 0.8f },
-				{ ModContent.NPCType<StormWeaverTail>(), 0.8f },
-				{ ModContent.NPCType<StormWeaverBodyNaked>(), 0.8f },
-				{ ModContent.NPCType<StormWeaverTailNaked>(), 0.8f },
+				{ ModContent.NPCType<StormWeaverBody>(), 0.8 },
+				{ ModContent.NPCType<StormWeaverTail>(), 0.8 },
+				{ ModContent.NPCType<StormWeaverBodyNaked>(), 0.8 },
+				{ ModContent.NPCType<StormWeaverTailNaked>(), 0.8 },
 
-				{ ModContent.NPCType<Signus>(), 0.9f },
+				{ ModContent.NPCType<Signus>(), 0.9 },
 
-				{ ModContent.NPCType<Polterghast>(), 0.8f },
-				{ ModContent.NPCType<PolterPhantom>(), 0.8f },
+				{ ModContent.NPCType<Polterghast>(), 0.8 },
+				{ ModContent.NPCType<PolterPhantom>(), 0.8 },
 
-				{ ModContent.NPCType<OldDuke>(), 0.7f },
-				{ ModContent.NPCType<OldDukeToothBall>(), 0.75f },
-				{ ModContent.NPCType<OldDukeSharkron>(), 0.75f },
+				{ ModContent.NPCType<OldDuke>(), 0.7 },
+				{ ModContent.NPCType<OldDukeToothBall>(), 0.75 },
+				{ ModContent.NPCType<OldDukeSharkron>(), 0.75 },
 
-				{ ModContent.NPCType<DevourerofGodsBody>(), 0.85f },
-				{ ModContent.NPCType<DevourerofGodsTail>(), 0.85f },
-				{ ModContent.NPCType<DevourerofGodsBodyS>(), 0.85f },
-				{ ModContent.NPCType<DevourerofGodsTailS>(), 0.85f },
+				{ ModContent.NPCType<DevourerofGodsBody>(), 0.85 },
+				{ ModContent.NPCType<DevourerofGodsTail>(), 0.85 },
+				{ ModContent.NPCType<DevourerofGodsBodyS>(), 0.85 },
+				{ ModContent.NPCType<DevourerofGodsTailS>(), 0.85 },
 
-				{ ModContent.NPCType<Yharon>(), 0.8f },
+				{ ModContent.NPCType<Yharon>(), 0.8 },
 
-				{ ModContent.NPCType<SupremeCalamitas>(), 0.8f }
+				{ ModContent.NPCType<SupremeCalamitas>(), 0.8 }
 			};
 
 			public static SortedDictionary<int, int[]> ContactDamageValues = new SortedDictionary<int, int[]>

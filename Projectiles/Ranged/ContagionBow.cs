@@ -26,7 +26,7 @@ namespace CalamityMod.Projectiles.Ranged
         public override void AI()
         {
             Player player = Main.player[projectile.owner];
-            float num = 1.57079637f;
+            float num = MathHelper.PiOver2;
             Vector2 vector = player.RotatedRelativePoint(player.MountedCenter, true);
             if (projectile.type == ModContent.ProjectileType<ContagionBow>())
             {
@@ -68,7 +68,7 @@ namespace CalamityMod.Projectiles.Ranged
                     projectile.soundDelay = num3 - num4 * num2;
                     if (projectile.ai[0] != 1f)
                     {
-                        Main.PlaySound(SoundID.Item5, (int)projectile.position.X, (int)projectile.position.Y);
+                        Main.PlaySound(SoundID.Item5, projectile.Center);
                     }
                 }
                 if (projectile.ai[1] == 1f && projectile.ai[0] != 1f)

@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.DraedonsArsenal
 {
-    public class MountedScanner : ModItem
+	public class MountedScanner : ModItem
 	{
 		public override void SetStaticDefaults()
 		{
@@ -19,6 +19,8 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 
 		public override void SetDefaults()
 		{
+			CalamityGlobalItem modItem = item.Calamity();
+
 			item.width = 26;
 			item.height = 26;
 			item.summon = true;
@@ -34,10 +36,15 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 
 			item.value = CalamityGlobalItem.Rarity5BuyPrice;
 			item.rare = ItemRarityID.Red;
-			item.Calamity().customRarity = CalamityRarity.DraedonRust;
+			modItem.customRarity = CalamityRarity.DraedonRust;
 
 			item.shoot = ModContent.ProjectileType<MountedScannerSummon>();
 			item.shootSpeed = 1f;
+
+			modItem.UsesCharge = true;
+			modItem.MaxCharge = 85f;
+			modItem.ChargePerUse = 0.85f;
+			modItem.ChargePerAltUse = 0f;
 		}
 
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

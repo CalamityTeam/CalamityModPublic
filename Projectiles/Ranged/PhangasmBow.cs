@@ -75,7 +75,7 @@ namespace CalamityMod.Projectiles.Ranged
             player.phantasmTime = 2;
             if (flag15 && Main.myPlayer == projectile.owner)
             {
-                int num42 = 14;
+                int num42 = ProjectileID.WoodenArrowFriendly;
                 float scaleFactor11 = 14f;
                 int weaponDamage2 = player.GetWeaponDamage(player.ActiveItem());
                 float weaponKnockback2 = player.ActiveItem().knockBack;
@@ -109,7 +109,7 @@ namespace CalamityMod.Projectiles.Ranged
                             vector20 = -Vector2.UnitY;
                         }
                         Vector2 vector21 = vector19 + Utils.RandomVector2(Main.rand, -15f, 15f);
-                        int num44 = Projectile.NewProjectile(vector21.X, vector21.Y, vector20.X, vector20.Y, num42, weaponDamage2, weaponKnockback2, projectile.owner, 0f, 0f);
+                        int num44 = Projectile.NewProjectile(vector21, vector20, num42, weaponDamage2, weaponKnockback2, projectile.owner, 0f, 0f);
                         Main.projectile[num44].noDropItem = true;
                     }
                 }

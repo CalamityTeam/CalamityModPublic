@@ -766,7 +766,8 @@ namespace CalamityMod.NPCs.Yharon
                     npc.ai[1] = 0f;
                     npc.ai[2] = 0f;
                     npc.ai[3] = 0f;
-                    npc.netUpdate = true;
+					npc.localAI[1] = 0f;
+					npc.netUpdate = true;
                 }
             }
 
@@ -1052,7 +1053,8 @@ namespace CalamityMod.NPCs.Yharon
                     npc.ai[1] = 0f;
                     npc.ai[2] = 0f;
                     npc.ai[3] = 0f;
-                    npc.netUpdate = true;
+					npc.localAI[1] = 0f;
+					npc.netUpdate = true;
                 }
             }
 
@@ -1386,6 +1388,7 @@ namespace CalamityMod.NPCs.Yharon
 					npc.ai[1] = 0f;
 					npc.ai[2] = 0f;
 					npc.ai[3] = 0f;
+					npc.localAI[1] = 0f;
 					npc.netUpdate = true;
 				}
             }

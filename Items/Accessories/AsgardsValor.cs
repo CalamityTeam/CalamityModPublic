@@ -18,8 +18,7 @@ namespace CalamityMod.Items.Accessories
 				"Immune to most debuffs and reduces the damage caused by the Brimstone Flames debuff\n" +
                 "10% damage reduction while submerged in liquid\n" +
                 "+20 max life\n" +
-                "Grants a holy dash which can be used to ram enemies\n" +
-                "Toggle visibility of this accessory to enable/disable the dash");
+                "Grants a holy dash which can be used to ram enemies");
         }
 
         public override void SetDefaults()

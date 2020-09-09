@@ -1171,16 +1171,20 @@ namespace CalamityMod.NPCs
 					containsNPC = true;
 				}
 
-				if (CalamityWorld.death && containsNPC)
-					damageMultiplier += (damageMultiplier - 1D) * 0.6;
+				if (containsNPC)
+				{
+					if (CalamityWorld.death)
+						damageMultiplier += (damageMultiplier - 1D) * 0.6;
 
-				npc.damage = (int)(npc.damage * damageMultiplier);
-				npc.defDamage = npc.damage;
+					npc.damage = (int)(npc.damage * damageMultiplier);
+					npc.defDamage = npc.damage;
+				}
 			}
 
 			if (npc.type < NPCID.Count && NPCStats.BossStats.ContactDamageValues.ContainsKey(npc.type))
 			{
 				npc.GetNPCDamage();
+				npc.defDamage = npc.damage;
 			}
 
             if ((npc.boss && npc.type != NPCID.MartianSaucerCore && npc.type < NPCID.Count) || CalamityLists.bossHPScaleList.Contains(npc.type))

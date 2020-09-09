@@ -1,5 +1,6 @@
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
+using CalamityMod.Projectiles.Ranged;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -30,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.rare = 7;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
-            item.shoot = ProjectileID.MiniSharkron;
+            item.shoot = ModContent.ProjectileType<MiniSharkron>();
             item.shootSpeed = 7f;
         }
 

@@ -9,7 +9,7 @@ namespace CalamityMod.Sounds.Item
         public override SoundEffectInstance PlaySound(ref SoundEffectInstance soundInstance, float volume, float pan, SoundType type)
         {
             soundInstance = sound.CreateInstance();
-            soundInstance.Volume = volume * 1f;
+            soundInstance.Volume = volume * 0.8f;
             soundInstance.Pan = pan;
             Main.PlaySoundInstance(soundInstance);
             return soundInstance;

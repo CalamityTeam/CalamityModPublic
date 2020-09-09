@@ -13,8 +13,7 @@ namespace CalamityMod.Items.Accessories
             DisplayName.SetDefault("Statis' Ninja Belt");
             Tooltip.SetDefault("8% increased jump speed and allows constant jumping\n" +
 				"Increased fall damage resistance by 35 blocks\n" +
-                "Can climb walls, dash, and dodge attacks\n" +
-                "Toggle visibility of this accessory to enable/disable the dash");
+                "Can climb walls, dash, and dodge attacks");
         }
 
         public override void SetDefaults()
