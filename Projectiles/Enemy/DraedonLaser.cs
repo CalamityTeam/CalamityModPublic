@@ -8,10 +8,11 @@ namespace CalamityMod.Projectiles.Enemy
 {
     public class DraedonLaser : ModProjectile
     {
+        // The DrawBeam method relies on localAI[0] for its calculations. A different parameter won't work.
         public float TrailLength
         {
-            get => projectile.ai[0];
-            set => projectile.ai[0] = value;
+            get => projectile.localAI[0];
+            set => projectile.localAI[0] = value;
         }
         public const int MaxTrailPoints = 50;
         public override void SetStaticDefaults()
