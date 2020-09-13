@@ -64,7 +64,7 @@ namespace CalamityMod.Tiles
 
             int xPos = Main.tile[i, j].frameX;
             int yPos = Main.tile[i, j].frameY;
-            Texture2D glowmask = ModContent.GetTexture("CalamityMod/Tiles/DraedonFactoryFieldGeneratorGlow");
+            Texture2D glowmask = ModContent.GetTexture("CalamityMod/Tiles/DraedonStructures/DraedonFactoryFieldGeneratorGlow");
             Vector2 screenOffset = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
             Vector2 drawOffset = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y) + screenOffset;
             Tile trackTile = Main.tile[i, j];

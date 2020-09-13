@@ -1,5 +1,3 @@
-using CalamityMod.Projectiles.Enemy;
-using CalamityMod.Tiles;
 using Microsoft.Xna.Framework;
 using System;
 using System.IO;

@@ -8,27 +8,31 @@ using Terraria.ObjectData;
 
 namespace CalamityMod.Tiles
 {
-    public class InactiveDraedonFuelFactory : ModTile
+    public class InactivePowerCellFactory : ModTile
     {
+        public const int Width = 4;
+        public const int Height = 4;
+        public const int OriginOffsetX = 0; // this tile is never placed by the player, so this makes for simpler code
+        public const int OriginOffsetY = 3;
+
         public override void SetDefaults()
         {
             Main.tileLighted[Type] = true;
             Main.tileFrameImportant[Type] = true;
             Main.tileNoAttach[Type] = true;
-            Main.tileTable[Type] = true;
             Main.tileLavaDeath[Type] = false;
             Main.tileWaterDeath[Type] = false;
-            TileObjectData.newTile.CopyFrom(TileObjectData.Style2x2);
-            TileObjectData.newTile.Width = 4;
-            TileObjectData.newTile.Height = 4;
-            TileObjectData.newTile.Origin = new Point16(0, 3);
+            TileObjectData.newTile.CopyFrom(TileObjectData.Style3x2);
+            TileObjectData.newTile.Width = Width;
+            TileObjectData.newTile.Height = Height;
+            TileObjectData.newTile.Origin = new Point16(OriginOffsetX, OriginOffsetY);
             TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile | AnchorType.SolidWithTop | AnchorType.SolidSide, TileObjectData.newTile.Width, 0);
             TileObjectData.newTile.CoordinateHeights = new int[] { 16, 16, 16, 16 };
             TileObjectData.newTile.CoordinatePadding = 0;
             TileObjectData.newTile.LavaDeath = false;
             TileObjectData.addTile(Type);
             ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Inactive Fuel Factory");
+            name.SetDefault("Inactive Power Cell Factory");
             AddMapEntry(new Color(67, 72, 81), name);
         }
 

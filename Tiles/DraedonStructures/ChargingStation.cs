@@ -131,7 +131,7 @@ namespace CalamityMod.Tiles
             // Grab the tile entity because its glowmask depends on whether it's currently charging.
             TEChargingStation charger = CalamityUtils.FindTileEntity<TEChargingStation>(i, j, Width, Height, SheetSquare);
 
-            Texture2D glowmask = ModContent.GetTexture("CalamityMod/Tiles/ChargingStation_Glow");
+            Texture2D glowmask = ModContent.GetTexture("CalamityMod/Tiles/DraedonStructures/ChargingStation_Glow");
             Vector2 screenOffset = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
             Vector2 drawOffset = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y) + screenOffset;
             Color drawColor = charger?.LightColor ?? Color.Red;
