@@ -1,3 +1,4 @@
+using IL.Terraria.GameContent.UI.States;
 using Microsoft.Xna.Framework;
 using System;
 using System.IO;
@@ -14,7 +15,6 @@ namespace CalamityMod.TileEntities
 
 		// Fields specific to this instance of the turret tile entity
 		public int FiringTime = 0;
-		public int Direction = 0;
 		public float Angle = 0f;
 		public Vector2 TargetPos = InvalidTarget;
 
@@ -42,14 +42,19 @@ namespace CalamityMod.TileEntities
 		// Subclasses MUST define their own targeting algorithm.
 		protected abstract Vector2 ChooseTarget(Vector2 targetingCenter);
 		// If the target is more than this angle away from the turret's current firing direction, don't fire.
-		protected virtual float MaxTargetAngleDeviance => MathHelper.ToRadians(30f);
+		protected virtual float MaxTargetAngleDeviance => MathHelper.ToRadians(16f);
+		// How far can the turret swivel every frame while trying to track a fast target?
 		protected virtual float MaxDeltaAnglePerFrame => MathHelper.ToRadians(4f);
+		// At what angle difference does the turret switch from fixed swiveling to lerp aiming?
+		protected virtual float CloseAimThreshold => MathHelper.ToRadians(8f);
+		// How effective is the turret's lerp aiming? 1f makes it an aimbot.
 		protected virtual float CloseAimLerpFactor => 1f;
 
 		// "Calculator" properties which are calculated on the fly for the code.
 		// Some of these are quite recursive, so if you do call them, store them in locals.
 		public Vector2 TurretPosition => Position.ToWorldCoordinates(0f, 0f) + TurretCenterOffset;
 		protected bool TargetIsInvalid => TargetPos.HasNaNs();
+		public int Direction => (Math.Cos(Angle) > 0D).ToDirectionInt();
 		public virtual float RestingAngle => Direction == -1 ? MathHelper.Pi : 0f;
 		protected float TargetAngle => TargetIsInvalid ? RestingAngle : (TargetPos - TurretPosition).ToRotation();
 
@@ -64,22 +69,11 @@ namespace CalamityMod.TileEntities
 		public override void Update()
 		{
 			Vector2 turretPos = TurretPosition;
+
+			// ChooseTarget runs every single frame for flexibility.
+			// If you're storing a target e.g. a player or NPC, do that in your subclass implementation of ChooseTarget.
+			TargetPos = ChooseTarget(turretPos);
 			bool validTarget = !TargetIsInvalid;
-
-			// Edge-trigger targeting logic 1: If the turret has a target but it's too far away, cancel it.
-			if (validTarget && Vector2.DistanceSquared(turretPos, TargetPos) >= MaxRange * MaxRange)
-			{
-				TargetPos = InvalidTarget;
-				validTarget = false;
-			}
-
-			// Edge-trigger targeting logic 2: If the turret has no target, look for one.
-			// This can intentionally occur immediately after logic 1.
-			if (!validTarget)
-				TargetPos = ChooseTarget(turretPos);
-
-			// Re-evaluate the calculator property with the new target (if one exists).
-			validTarget = !TargetIsInvalid;
 
 			// If there is a defined target, then this frame is spent aiming, and maybe even firing!
 			if (validTarget)
@@ -106,13 +100,14 @@ namespace CalamityMod.TileEntities
 			
 			// WrapAngle clamps things from -pi to pi, not from 0 to 2pi.
 			float deltaAngle = MathHelper.WrapAngle(Angle - targetAngle);
-			bool usingMaxTurnRate = Math.Abs(deltaAngle) >= MaxDeltaAnglePerFrame;
+			bool usingCloseAiming = Math.Abs(deltaAngle) <= Math.Max(CloseAimThreshold, MaxDeltaAnglePerFrame);
 
-			// When not turning at max speed, the turret slowly swivels to its exact target angle.
-			// This is an intentional inefficiency that makes it easy to dodge shots (albeit narrowly!) without moving super quickly.
-			Angle = usingMaxTurnRate
-				? MathHelper.WrapAngle(Angle + MaxDeltaAnglePerFrame * Math.Sign(deltaAngle))
-				: Utils.AngleLerp(Angle, targetAngle, CloseAimLerpFactor);
+			// When far away from its target angle, the turret swivels at a fixed speed towards its exact target angle.
+			// When close in, the turret switches to lerping. The lerp strength is configurable. Set to 1 for an aimbot.
+			// Setting the lerp coefficient to be intentionally low makes it easy to dodge shots (albeit narrowly!) without moving super quickly.
+			Angle = usingCloseAiming
+				? Utils.AngleLerp(Angle, targetAngle, CloseAimLerpFactor)
+				: MathHelper.WrapAngle(Angle - MaxDeltaAnglePerFrame * Math.Sign(deltaAngle));
 		}
 
 		// This function does nothing by default, but turrets can use it for flavor behaviors e.g. emitting sparks or beeping.
@@ -183,7 +178,6 @@ namespace CalamityMod.TileEntities
 		public override void NetSend(BinaryWriter writer, bool lightSend)
 		{
 			writer.Write(FiringTime);
-			writer.Write(Direction);
 			writer.Write(Angle);
 			writer.WriteVector2(TargetPos);
 		}
@@ -191,18 +185,18 @@ namespace CalamityMod.TileEntities
 		public override void NetReceive(BinaryReader reader, bool lightReceive)
 		{
 			FiringTime = reader.ReadInt32();
-			Direction = reader.ReadInt32();
 			Angle = reader.ReadSingle();
 			TargetPos = reader.ReadVector2();
 		}
 
 		protected internal void SendSyncPacket()
 		{
+			if (Main.netMode == NetmodeID.SinglePlayer)
+				return;
 			ModPacket packet = mod.GetPacket();
 			packet.Write((byte)CalamityModMessageType.Turret);
 			packet.Write(ID);
 			packet.Write(FiringTime);
-			packet.Write(Direction);
 			packet.Write(Angle);
 			packet.WriteVector2(TargetPos);
 			SendExtraData(packet);
@@ -216,7 +210,6 @@ namespace CalamityMod.TileEntities
 			if (exists && te is TEBaseTurret turret)
 			{
 				turret.FiringTime = reader.ReadInt32();
-				turret.Direction = reader.ReadInt32();
 				turret.Angle = reader.ReadSingle();
 				turret.TargetPos = reader.ReadVector2();
 				turret.ReceiveExtraData(mod, reader);

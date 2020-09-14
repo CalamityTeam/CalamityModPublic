@@ -93,10 +93,10 @@ namespace CalamityMod.Tiles.DraedonStructures
             Vector2 screenOffset = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
             Vector2 drawOffset = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y) + screenOffset;
             drawOffset.Y -= 2f;
-            drawOffset.X += drawDirection == -1 ? -10 : 2;
-            SpriteEffects sfx = drawDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
-            float adjustedAngle = te.Angle;
-            spriteBatch.Draw(tex, drawOffset, null, drawColor, adjustedAngle, Vector2.Zero, tex.Size() * 0.5f, sfx, 0.0f);
+            drawOffset.X += drawDirection == -1 ? -10f : 2f;
+
+            SpriteEffects sfx = drawDirection == -1 ? SpriteEffects.FlipVertically : SpriteEffects.None;
+            spriteBatch.Draw(tex, drawOffset, null, drawColor, te.Angle, tex.Size() * 0.5f, 1f, sfx, 0.0f);
         }
     }
 }

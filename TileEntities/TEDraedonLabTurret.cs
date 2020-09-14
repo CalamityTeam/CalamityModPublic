@@ -28,7 +28,10 @@ namespace CalamityMod.TileEntities
 
 		// Targeting variables
 		public override float MaxRange => 600f;
-		protected override float CloseAimLerpFactor => 0.4f;
+		protected override float MaxTargetAngleDeviance => MathHelper.ToRadians(12f);
+		protected override float MaxDeltaAnglePerFrame => MathHelper.ToRadians(2f);
+		protected override float CloseAimThreshold => MathHelper.ToRadians(12f);
+		protected override float CloseAimLerpFactor => 0.08f;
 
 		// Variables specific to this turret subclass
 		private int _playerTargetIndex = -1;
