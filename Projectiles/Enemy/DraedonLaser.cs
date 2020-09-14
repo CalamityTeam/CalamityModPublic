@@ -2,8 +2,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.Projectiles.Enemy
 {
     public class DraedonLaser : ModProjectile
@@ -17,7 +17,7 @@ namespace CalamityMod.Projectiles.Enemy
         public const int MaxTrailPoints = 50;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Laser");
+            DisplayName.SetDefault("Lab Turret Laser");
         }
 
         public override void SetDefaults()
@@ -25,7 +25,7 @@ namespace CalamityMod.Projectiles.Enemy
             projectile.width = 6;
             projectile.height = 6;
             projectile.hostile = true;
-            projectile.tileCollide = false;
+            projectile.tileCollide = true;
             projectile.ignoreWater = true;
             projectile.alpha = 255;
             projectile.penetrate = 1;
@@ -37,7 +37,8 @@ namespace CalamityMod.Projectiles.Enemy
         {
             if (projectile.localAI[0] == 0f)
             {
-                Main.PlaySound(SoundID.Item12, (int)projectile.Center.X, (int)projectile.Center.Y);
+                // play a sound frame 1. changed this from space gun sound because that sound was way too annoying
+                Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LaserCannon"), projectile.Center);
                 projectile.localAI[0] = 1f;
             }
             projectile.alpha = (int)(Math.Sin(projectile.timeLeft / 240f * MathHelper.Pi) * 1.6f * 255f);
