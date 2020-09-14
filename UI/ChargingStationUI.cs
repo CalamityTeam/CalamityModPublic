@@ -1,8 +1,7 @@
 using CalamityMod.CalPlayer;
-using CalamityMod.Items;
 using CalamityMod.Items.DraedonMisc;
 using CalamityMod.TileEntities;
-using CalamityMod.Tiles;
+using CalamityMod.Tiles.DraedonStructures;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;

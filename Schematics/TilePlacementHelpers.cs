@@ -1,9 +1,7 @@
-using CalamityMod.TileEntities;
-using CalamityMod.Tiles;
+using CalamityMod.Tiles.DraedonStructures;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using static CalamityMod.Schematics.SchematicLoader;

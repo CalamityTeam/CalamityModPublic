@@ -10,7 +10,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 
-namespace CalamityMod.Tiles
+namespace CalamityMod.Tiles.DraedonStructures
 {
     public class ChargingStation : ModTile
     {
@@ -37,7 +37,7 @@ namespace CalamityMod.Tiles
 
             // When this tile is placed, it places the charging station tile entity.
             ModTileEntity te = ModContent.GetInstance<TEChargingStation>();
-            TileObjectData.newTile.HookPostPlaceMyPlayer = new PlacementHook(ModContent.GetInstance<TEChargingStation>().Hook_AfterPlacement, -1, 0, true);
+            TileObjectData.newTile.HookPostPlaceMyPlayer = new PlacementHook(te.Hook_AfterPlacement, -1, 0, true);
 
             TileObjectData.addTile(Type);
             ModTranslation name = CreateMapEntryName();

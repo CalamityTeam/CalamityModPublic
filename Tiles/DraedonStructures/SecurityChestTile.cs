@@ -4,7 +4,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace CalamityMod.Tiles
+namespace CalamityMod.Tiles.DraedonStructures
 {
     public class SecurityChestTile : ModTile
     {

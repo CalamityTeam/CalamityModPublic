@@ -1,4 +1,4 @@
-using CalamityMod.Tiles;
+using CalamityMod.Tiles.DraedonStructures;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;

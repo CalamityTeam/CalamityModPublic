@@ -1,5 +1,5 @@
 using CalamityMod.Projectiles.Enemy;
-using CalamityMod.Tiles;
+using CalamityMod.Tiles.DraedonStructures;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;

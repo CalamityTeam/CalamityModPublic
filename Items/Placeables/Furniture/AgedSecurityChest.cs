@@ -1,7 +1,8 @@
 using CalamityMod.Items.Materials;
-using CalamityMod.Tiles;
+using CalamityMod.Tiles.DraedonStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.Items.Placeables.Furniture
 {
     public class AgedSecurityChest : ModItem

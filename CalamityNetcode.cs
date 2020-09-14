@@ -159,6 +159,9 @@ namespace CalamityMod
                     case CalamityModMessageType.ChargingStationItemChange:
                         TEChargingStation.ReadItemSyncPacket(mod, reader);
                         break;
+                    case CalamityModMessageType.Turret:
+                        TEBaseTurret.ReadSyncPacket(mod, reader);
+                        break;
 
 
                     case CalamityModMessageType.DraedonFieldGeneratorSync:
@@ -251,6 +254,7 @@ namespace CalamityMod
         // These message types were written by Ozz. They are Ozz's working tile entity netcode. Do not touch them.
         PowerCellFactory,
         ChargingStationStandard,
-        ChargingStationItemChange
+        ChargingStationItemChange,
+        Turret
     }
 }

@@ -1,5 +1,5 @@
 using CalamityMod.CalPlayer;
-using CalamityMod.Tiles;
+using CalamityMod.Tiles.DraedonStructures;
 using System.IO;
 using System.Reflection;
 using Terraria;

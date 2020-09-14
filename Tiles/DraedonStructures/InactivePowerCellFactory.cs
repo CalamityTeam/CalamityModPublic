@@ -6,7 +6,7 @@ using Terraria.Enums;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 
-namespace CalamityMod.Tiles
+namespace CalamityMod.Tiles.DraedonStructures
 {
     public class InactivePowerCellFactory : ModTile
     {

@@ -1,4 +1,5 @@
-﻿using Terraria;
+﻿using Steamworks;
+using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -23,7 +24,10 @@ namespace CalamityMod.TileEntities
 			do
 			{
 				TileEntity te = enumerator.Current;
-				if (te != null && te.type == factoryType)
+				if (te == null)
+					continue;
+
+				if (te.type == factoryType)
 				{
 					// Specifically on multiplayer clients, manually update the time variables of Power Cell Factories every frame.
 					// This makes sure they animate. It will NOT produce cells; that code can only run server side.
@@ -31,7 +35,7 @@ namespace CalamityMod.TileEntities
 					TEPowerCellFactory factory = (TEPowerCellFactory)te;
 					++factory.Time;
 				}
-				if (te != null && te.type == chargerType)
+				else if (te.type == chargerType)
 				{
 					// Specifically on multiplayer clients, produce charging dust when the "should dust" flag is set by the most recent sync packet.
 					// This makes sure they produce charging dust for all clients. It will NOT actually charge items; that code can only run server side.
@@ -42,6 +46,12 @@ namespace CalamityMod.TileEntities
 						charger.ClientChargingDust = false;
 						charger.SpawnChargingDust();
 					}
+				}
+				else if (te is TEBaseTurret turret)
+				{
+					// Specifically on multiplayer clients, manually update the turret's rotation every frame. This is exactly the same code run server side.
+					// This makes sure they visually track players in multiplayer. It will NOT fire projectiles; that code can only run server side.
+					turret.UpdateAngle();
 				}
 			} while (enumerator.MoveNext());
 		}

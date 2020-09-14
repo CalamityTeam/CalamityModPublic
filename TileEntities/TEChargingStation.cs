@@ -1,7 +1,7 @@
 using CalamityMod.CalPlayer;
 using CalamityMod.Items;
 using CalamityMod.Items.DraedonMisc;
-using CalamityMod.Tiles;
+using CalamityMod.Tiles.DraedonStructures;
 using Microsoft.Xna.Framework;
 using System.IO;
 using System.Reflection;
@@ -210,16 +210,16 @@ namespace CalamityMod.TileEntities
 		{
 			if (Main.netMode == NetmodeID.SinglePlayer)
 				return;
-			var netMessage = mod.GetPacket();
-			netMessage.Write((byte)CalamityModMessageType.ChargingStationStandard);
-			netMessage.Write(ID);
-			netMessage.Write(ChargingTimer);
-			netMessage.Write(_stack);
+			ModPacket packet = mod.GetPacket();
+			packet.Write((byte)CalamityModMessageType.ChargingStationStandard);
+			packet.Write(ID);
+			packet.Write(ChargingTimer);
+			packet.Write(_stack);
 
 			// Either write the real charge or garbage data. If garbage data is written it will be ignored on the other end.
 			CalamityGlobalItem modItem = PluggedItem.IsAir ? null : PluggedItem.Calamity();
-			netMessage.Write(syncItemCharge && modItem != null ? modItem.Charge : float.NaN);
-			netMessage.Send(-1, -1);
+			packet.Write(syncItemCharge && modItem != null ? modItem.Charge : float.NaN);
+			packet.Send(-1, -1);
 
 			// If this flag was set to true, set it to false for any further updates (until it gets set to true again).
 			syncItemCharge = false;
@@ -274,11 +274,11 @@ namespace CalamityMod.TileEntities
 		{
 			if (Main.netMode == NetmodeID.SinglePlayer)
 				return;
-			var netMessage = mod.GetPacket(1024);
-			netMessage.Write((byte)CalamityModMessageType.ChargingStationItemChange);
-			netMessage.Write(ID);
-			netMessage.WriteItem(PluggedItem, true);
-			netMessage.Send(-1, -1);
+			ModPacket packet = mod.GetPacket(1024);
+			packet.Write((byte)CalamityModMessageType.ChargingStationItemChange);
+			packet.Write(ID);
+			packet.WriteItem(PluggedItem, true);
+			packet.Send(-1, -1);
 		}
 
 		internal static bool ReadItemSyncPacket(Mod mod, BinaryReader reader)
