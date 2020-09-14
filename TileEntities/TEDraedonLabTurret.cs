@@ -24,7 +24,7 @@ namespace CalamityMod.TileEntities
 
 		// Projectile spawn location variables
 		public override Vector2 TurretCenterOffset => new Vector2(22f + 4f * Direction, -2f);
-		protected override float ShootForwardsOffset => 32f;
+		protected override float ShootForwardsOffset => 6f;
 
 		// Targeting variables
 		public override float MaxRange => 600f;
@@ -95,6 +95,20 @@ namespace CalamityMod.TileEntities
 			// Set PlayerTargetIndex now that we're sure what we're targeting. This triggers a netcode sync if the value is different.
 			PlayerTargetIndex = indexToSet;
 			return ret;
+		}
+
+		// Makes turrets track their targeted player correctly client side.
+		// This doesn't improve their actual accuracy, because they only fire server side.
+		// However, it makes them rotate much more smoothly.
+		// Any targeting and rotation data derived from this update will be overridden by the turret's next sync.
+		public override void UpdateClient()
+		{
+			if (PlayerTargetIndex != -1)
+			{
+				Player p = Main.player[PlayerTargetIndex];
+				if (p.active && !p.dead)
+					TargetPos = p.Center;
+			}
 		}
 
 		// This type of turret syncs extra data: its player target index.

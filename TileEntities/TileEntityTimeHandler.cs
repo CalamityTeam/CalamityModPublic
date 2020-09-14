@@ -49,8 +49,11 @@ namespace CalamityMod.TileEntities
 				}
 				else if (te is TEBaseTurret turret)
 				{
+					// Perform any client-specific update tasks for this turret.
+					turret.UpdateClient();
+					
 					// Specifically on multiplayer clients, manually update the turret's rotation every frame. This is exactly the same code run server side.
-					// This makes sure they visually track players in multiplayer. It will NOT fire projectiles; that code can only run server side.
+					// This makes sure they visually track targets in multiplayer. It will NOT fire projectiles; that code can only run server side.
 					turret.UpdateAngle();
 				}
 			} while (enumerator.MoveNext());

@@ -92,6 +92,10 @@ namespace CalamityMod.TileEntities
 			UpdateAngle();
 		}
 
+		// This function does nothing by default, but turrets can use it if they need to update themselves manually on multiplayer clients.
+		// Calamity calls this function exactly once per frame.
+		public virtual void UpdateClient() { }
+
 		// This function runs on both client and server side. Clients run it manually using Tile Entity Time Handler.
 		// This ensures that turrets aim at players visually in multiplayer without causing a packet storm.
 		public virtual void UpdateAngle()
