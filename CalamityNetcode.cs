@@ -163,12 +163,6 @@ namespace CalamityMod
                         TEBaseTurret.ReadSyncPacket(mod, reader);
                         break;
 
-
-                    case CalamityModMessageType.DraedonFieldGeneratorSync:
-                        int entityID2 = reader.ReadInt32();
-                        (TileEntity.ByID[entityID2] as TEDraedonFieldGenerator).Time = reader.ReadInt32();
-                        (TileEntity.ByID[entityID2] as TEDraedonFieldGenerator).ActiveTimer = reader.ReadInt32();
-                        break;
                     case CalamityModMessageType.SyncCalamityNPCAIArray:
                         byte npcIndex2 = reader.ReadByte();
                         Main.npc[npcIndex2].Calamity().newAI[0] = reader.ReadSingle();
@@ -249,7 +243,6 @@ namespace CalamityMod
         SyncCalamityNPCAIArray,
         ProvidenceDyeConditionSync, // We shouldn't fucking need this. Die in a hole, Multiplayer.
         PSCChallengeSync, // See above
-        DraedonFieldGeneratorSync,
 
         // These message types were written by Ozz. They are Ozz's working tile entity netcode. Do not touch them.
         PowerCellFactory,

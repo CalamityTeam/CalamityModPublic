@@ -541,17 +541,16 @@ namespace CalamityMod.Tiles
 		}
 		public override bool CanKillTile(int i, int j, int type, ref bool blockDamaged)
 		{
-			int[] indestructableTiles = new int[]
+			int[] invincibleTiles = new int[]
 			{
 				ModContent.TileType<DraedonLabTurret>(),
-				ModContent.TileType<DraedonFactoryFieldGenerator>(),
 				ModContent.TileType<AstralBeacon>()
 			};
-			// Prevent tiles below an astral beacon from being destroyed.
+			// Prevent tiles below invincible tiles from being destroyed. This is like chests in vanilla.
 			if (CalamityUtils.ParanoidTileRetrieval(i, j - 1).active() &&
 				CalamityUtils.ParanoidTileRetrieval(i, j).type !=
 				CalamityUtils.ParanoidTileRetrieval(i, j - 1).type &&
-				indestructableTiles.Contains(CalamityUtils.ParanoidTileRetrieval(i, j - 1).type))
+				invincibleTiles.Contains(CalamityUtils.ParanoidTileRetrieval(i, j - 1).type))
 			{
 				return false;
 			}
