@@ -199,7 +199,8 @@ namespace CalamityMod.TileEntities
 			packet.Write(FiringTime);
 			packet.Write(Angle);
 			packet.WriteVector2(TargetPos);
-			SendExtraData(packet);
+			WriteExtraData(packet);
+			packet.Send(-1, -1);
 		}
 
 		protected internal static bool ReadSyncPacket(Mod mod, BinaryReader reader)
@@ -212,7 +213,7 @@ namespace CalamityMod.TileEntities
 				turret.FiringTime = reader.ReadInt32();
 				turret.Angle = reader.ReadSingle();
 				turret.TargetPos = reader.ReadVector2();
-				turret.ReceiveExtraData(mod, reader);
+				turret.ReadExtraData(mod, reader);
 				return true;
 			}
 			// If the tile entity doesn't exist or is invalid, just destroy the packet.
@@ -225,7 +226,7 @@ namespace CalamityMod.TileEntities
 		}
 
 		// Subclasses cannot override SendSyncPacket, but they can override these functions to sync their own extra data.
-		protected virtual void SendExtraData(BinaryWriter writer) { }
-		protected virtual void ReceiveExtraData(Mod mod, BinaryReader reader) { }
+		protected virtual void WriteExtraData(BinaryWriter writer) { }
+		protected virtual void ReadExtraData(Mod mod, BinaryReader reader) { }
 	}
 }

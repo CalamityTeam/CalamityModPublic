@@ -86,7 +86,9 @@ namespace CalamityMod.Tiles.DraedonStructures
             spriteBatch.Begin(SpriteSortMode.Texture, BlendState.AlphaBlend, SamplerState.LinearWrap, DepthStencilState.Default, RasterizerState.CullNone);
 
             TEDraedonLabTurret te = CalamityUtils.FindTileEntity<TEDraedonLabTurret>(i, j, Width, Height, SheetSquare);
-            int drawDirection = te?.Direction ?? 1;
+            if (te is null)
+                return;
+            int drawDirection = te.Direction;
             Color drawColor = Lighting.GetColor(i, j);
 
             Texture2D tex = ModContent.GetTexture("CalamityMod/Projectiles/DraedonsArsenal/PulseTurret");
