@@ -48,29 +48,29 @@ namespace CalamityMod.Items.Weapons.Rogue
                 Main.projectile[stealth].Calamity().stealthStrike = true;
             }
 			int utensil = item.shoot;
-			float dmgMult = 1f;
+			double dmgMult = 1D;
 			float kbMult = 1f;
 			switch (Main.rand.Next(3))
 			{
 				case 0:
 					utensil = item.shoot;
-					dmgMult = 1.1f;
+					dmgMult = 1.1;
 					kbMult = 2f;
 					break;
 				case 1:
 					utensil = ModContent.ProjectileType<Knife>();
-					dmgMult = 1.2f;
+					dmgMult = 1.2;
 					kbMult = 1f;
 					break;
 				case 2:
 					utensil = ModContent.ProjectileType<CarvingFork>();
-					dmgMult = 1f;
+					dmgMult = 1D;
 					kbMult = 1f;
 					break;
                 default:
                     break;
 			}
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, utensil, (int)(damage * dmgMult), knockBack * kbMult, player.whoAmI);
+            Projectile.NewProjectile(position, new Vector2(speedX, speedY), utensil, (int)(damage * dmgMult), knockBack * kbMult, player.whoAmI);
 
 			counter++;
 			if (counter >= 3)

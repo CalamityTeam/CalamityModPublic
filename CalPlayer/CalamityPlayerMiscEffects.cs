@@ -3924,10 +3924,6 @@ namespace CalamityMod.CalPlayer
 			if (player.endurance > 0f)
 				player.endurance = 1f - (1f / (1f + player.endurance));
 
-			// Very similar scaling to damage reduction. Ex. Frog Leg goes from 48% jump speed to 38%
-			//if (player.jumpSpeedBoost > 0f)
-			//	player.jumpSpeedBoost = (1f - 1f / (1f + (player.jumpSpeedBoost / 10f))) * 10f
-
 			if (modPlayer.yharonLore && !CalamityWorld.defiled)
 			{
 				if (player.wingTimeMax < 50000)

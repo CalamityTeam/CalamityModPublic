@@ -5,7 +5,6 @@ using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Projectiles.Summon;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
-using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -27,8 +26,7 @@ namespace CalamityMod.Items.Weapons.Summon
 			"The top icon is the mech's weaponry. It must be powered in order to attack.\n" +
 			"Click the top icon to switch between Regicide, an enormous energy blade, and a powerful Gauss rifle.\n" +
 			"Exiting the mount while a boss is alive will temporarily hinder your movement\n" +
-			"THIS LINE IS MODIFIED BELOW\n" +
-			"This one too");
+			CalamityUtils.ColorMessage("Now, make them pay.", new Color(135, 206, 235)));
         }
 
         public override void SetDefaults()
@@ -47,25 +45,6 @@ namespace CalamityMod.Items.Weapons.Summon
             item.shoot = ModContent.ProjectileType<GiantIbanRobotOfDoom>();
             item.shootSpeed = 10f;
             item.summon = true;
-        }
-
-        public override void ModifyTooltips(List<TooltipLine> list)
-        {
-			Mod crouchMod = ModLoader.GetMod("CrouchMod");
-			bool crouch = crouchMod != null;
-			string crouchWarn = "Big, oversized robots can't crouch. Please don't try.";
-			string flavor = CalamityUtils.ColorMessage("Now, make them pay.", new Color(135, 206, 235));
-			foreach (TooltipLine line2 in list)
-			{
-				if (line2.mod == "Terraria" && line2.Name == "Tooltip9")
-				{
-					line2.text = crouch ? crouchWarn : flavor;
-				}
-				if (line2.mod == "Terraria" && line2.Name == "Tooltip10")
-				{
-					line2.text = crouch ? flavor : "";
-				}
-			}
         }
 
         public override void AddRecipes()

@@ -1285,7 +1285,14 @@ namespace CalamityMod.Projectiles
 			// Super dummies have nearly 10 million max HP (which is used in damage calculations).
 			// This can very easily cause damage numbers that are unrealistic for the weapon.
 			// As a result, they are omitted in this code.
-			if (!target.boss && target.type != NPCType<SuperDummyNPC>())
+
+			List<int> ignoreTheseBitches = new List<int>()
+			{
+				NPCType<SuperDummyNPC>(),
+				NPCID.TheDestroyerBody, //why aren't these bosses
+				NPCID.TheDestroyerTail
+			};
+			if (!target.boss && ignoreTheseBitches.TrueForAll(x => target.type != x))
 			{
 				if (target.Inorganic() && hasInorganicEnemyHitBoost)
 				{

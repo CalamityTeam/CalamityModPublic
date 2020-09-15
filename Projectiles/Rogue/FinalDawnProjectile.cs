@@ -144,6 +144,8 @@ namespace CalamityMod.Projectiles.Rogue
 					}
 				}
 			}
+			else
+				player.Calamity().ConsumeStealthByAttacking();
 		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

@@ -34,6 +34,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.damage = 369;
             item.useAnimation = 21;
             item.useTime = 3;
+            item.reuseDelay = 1;
             item.crit = 16;
             item.knockBack = 3f;
             item.shoot = ModContent.ProjectileType<HypothermiaShard>();
@@ -47,7 +48,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             if (player.Calamity().StealthStrikeAvailable() && counter == 0) //setting up the stealth strikes
 			{
-                int stealth = Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<HypothermiaChunk>(), damage, knockBack, player.whoAmI, 0f, 0f);
+                int stealth = Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<HypothermiaChunk>(), damage, knockBack, player.whoAmI);
                 Main.projectile[stealth].Calamity().stealthStrike = true;
             }
 			int projAmt = Main.rand.Next(1, 3);
@@ -60,9 +61,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 
 			counter++;
 			if (counter >= 7)
-			{
 				counter = 0;
-			}
             return false;
         }
 
