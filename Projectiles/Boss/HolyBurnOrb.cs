@@ -43,8 +43,7 @@ namespace CalamityMod.Projectiles.Boss
 			if (projectile.velocity.Length() < 16f)
 				projectile.velocity *= 1.01f;
 
-			projectile.ai[1] = Player.FindClosest(projectile.Center, projectile.width, projectile.height);
-			int index = (int)projectile.ai[1];
+			int index = Player.FindClosest(projectile.Center, projectile.width, projectile.height);
 			Player player = Main.player[index];
 			if (player is null)
 				return;
@@ -52,12 +51,7 @@ namespace CalamityMod.Projectiles.Boss
 			float playerDist = Vector2.Distance(player.Center, projectile.Center);
             if (playerDist < 50f && !player.dead && projectile.position.X < player.position.X + player.width && projectile.position.X + projectile.width > player.position.X && projectile.position.Y < player.Bottom.Y && projectile.Bottom.Y > player.position.Y)
             {
-                int dmgAmt = Main.expertMode ? -150 : -100;
-                if (CalamityWorld.death || BossRushEvent.BossRushActive)
-                    dmgAmt = -200;
-				if (!Main.dayTime)
-					dmgAmt = -300;
-
+                int dmgAmt = (int)projectile.ai[1];
                 player.HealEffect(dmgAmt, false);
                 player.statLife += dmgAmt;
                 if (player.statLife > player.statLifeMax2)

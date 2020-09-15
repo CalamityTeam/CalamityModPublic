@@ -879,10 +879,12 @@ namespace CalamityMod.NPCs.Providence
 									vector2 *= velocity;
 
 								int projectileType = ModContent.ProjectileType<HolyBurnOrb>();
-								if (Main.rand.NextBool(4) && !death)
+								if (Main.rand.NextBool(4) && !death && !nightTime)
 									projectileType = ModContent.ProjectileType<HolyLight>();
 
-								Projectile.NewProjectile(fireFrom, vector2, projectileType, 0, 0f, Main.myPlayer, 0f, 0f);
+								int dmgAmt = nightTime ? -300 : npc.GetProjectileDamageNoScaling(projectileType);
+
+								Projectile.NewProjectile(fireFrom, vector2, projectileType, 0, 0f, Main.myPlayer, 0f, dmgAmt);
 							}
 
 							// Radial offset

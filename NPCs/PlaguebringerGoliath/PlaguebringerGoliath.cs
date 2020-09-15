@@ -499,11 +499,14 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                 float num1055 = player.position.X + (player.width / 2) - vectorCenter.X;
                 float num1056 = player.position.Y + (player.height / 2) - 200f - vectorCenter.Y;
                 float num1057 = (float)Math.Sqrt(num1055 * num1055 + num1056 * num1056);
-                if (num1057 < 600f)
+
+				npc.Calamity().newAI[0] += 1f;
+				if (num1057 < 600f || npc.Calamity().newAI[0] >= 180f)
                 {
                     npc.ai[0] = (lifeRatio < 0.66f || death) ? 5f : 1f;
                     npc.ai[1] = 0f;
-                    npc.netUpdate = true;
+					npc.Calamity().newAI[0] = 0f;
+					npc.netUpdate = true;
                     return;
                 }
 

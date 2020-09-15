@@ -116,8 +116,7 @@ namespace CalamityMod.NPCs.Ravager
                 npc.ai[1] = 30f;
             }
             npc.ai[1] += 1f;
-            int nukeTimer = 450;
-            if (npc.ai[1] >= (float)nukeTimer)
+            if (npc.ai[1] >= 450f)
             {
                 Main.PlaySound(SoundID.Item62, npc.position);
                 npc.TargetClosest(true);

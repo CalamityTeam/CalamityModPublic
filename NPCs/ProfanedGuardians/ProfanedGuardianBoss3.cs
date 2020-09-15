@@ -213,7 +213,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 						for (int i = 0; i < totalProjectiles; i++)
 						{
 							Vector2 vector255 = new Vector2(0f, -velocity).RotatedBy(radians * i);
-							Projectile.NewProjectile(npc.Center, vector255, ModContent.ProjectileType<HealOrbProv>(), 0, 0f, Main.myPlayer, 0f, 0f);
+							Projectile.NewProjectile(npc.Center, vector255, ModContent.ProjectileType<HealOrbProv>(), 0, 0f, Main.myPlayer, npc.target, -32);
 						}
                     }
                 }

@@ -517,6 +517,14 @@ namespace CalamityMod.NPCs.Polterghast
 					else
 						npc.SimpleFlyMovement(chargeLocationVelocity, chargeAcceleration);
 				}
+
+				npc.netUpdate = true;
+
+				if (npc.netSpam > 10)
+					npc.netSpam = 10;
+
+				if (Main.netMode == NetmodeID.Server)
+					NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, npc.whoAmI, 0f, 0f, 0f, 0, 0, 0);
 			}
 
 			if (!phase2 && !phase3)

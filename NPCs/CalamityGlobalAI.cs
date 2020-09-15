@@ -2949,10 +2949,12 @@ namespace CalamityMod.NPCs
 				float num611 = (float)Math.Sqrt(num609 * num609 + num610 * num610);
 
 				// Go to bee spawn phase
-				if (num611 < (death ? 400f : 300f))
+				calamityGlobalNPC.newAI[0] += 1f;
+				if (num611 < (death ? 400f : 300f) || calamityGlobalNPC.newAI[0] >= 180f)
 				{
 					npc.ai[0] = 1f;
 					npc.ai[1] = 0f;
+					calamityGlobalNPC.newAI[0] = 0f;
 					npc.netUpdate = true;
 					return false;
 				}
@@ -9858,7 +9860,7 @@ namespace CalamityMod.NPCs
 							if (death)
 								damage += 3;
 
-							int proj = Projectile.NewProjectile(npc.Center.X + Main.rand.Next(-spawnX, spawnX), npc.Center.Y + (npc.height / 2) * 0.8f,
+							int proj = Projectile.NewProjectile(npc.Center.X + Main.rand.Next(-spawnX, spawnX), npc.Center.Y + npc.height / 2 * 0.8f,
                                 velocityX, velocityY, ProjectileID.Fireball, damage, 0f, Main.myPlayer, 0f, 0f);
                             Main.projectile[proj].timeLeft = 240;
                         }

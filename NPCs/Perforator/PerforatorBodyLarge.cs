@@ -68,7 +68,7 @@ namespace CalamityMod.NPCs.Perforator
                     npc.TargetClosest(true);
                     if (Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height))
                     {
-                        float num941 = revenge ? 9f : 8f;
+                        float num941 = revenge ? 7f : 6f;
                         Vector2 vector104 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + (npc.height / 2));
                         float num942 = player.position.X + player.width * 0.5f - vector104.X;
                         float num943 = player.position.Y + player.height * 0.5f - vector104.Y;

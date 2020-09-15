@@ -41,20 +41,22 @@ namespace CalamityMod.Projectiles.Boss
 			if (projectile.velocity.Length() < 16f)
 				projectile.velocity *= 1.01f;
 
-            projectile.ai[1] = Player.FindClosest(projectile.position, projectile.width, projectile.height);
-			int num487 = (int)projectile.ai[1];
-			float num491 = Vector2.Distance(Main.player[num487].Center, projectile.Center);
+			int index = Player.FindClosest(projectile.position, projectile.width, projectile.height);
+			Player player = Main.player[index];
+			if (player is null)
+				return;
 
-			if (num491 < 50f && !Main.player[num487].dead && projectile.position.X < Main.player[num487].position.X + Main.player[num487].width && projectile.position.X + projectile.width > Main.player[num487].position.X && projectile.position.Y < Main.player[num487].position.Y + Main.player[num487].height && projectile.position.Y + projectile.height > Main.player[num487].position.Y)
+			float playerDist = Vector2.Distance(player.Center, projectile.Center);
+			if (playerDist < 50f && !player.dead && projectile.position.X < player.position.X + player.width && projectile.position.X + projectile.width > player.position.X && projectile.position.Y < player.position.Y + player.height && projectile.position.Y + projectile.height > player.position.Y)
             {
-                int num492 = expertMode ? 50 : 35;
-                Main.player[num487].HealEffect(num492, false);
-                Main.player[num487].statLife += num492;
-                if (Main.player[num487].statLife > Main.player[num487].statLifeMax2)
+                int healAmt = (int)projectile.ai[1];
+				player.HealEffect(healAmt, false);
+                player.statLife += healAmt;
+                if (player.statLife > player.statLifeMax2)
                 {
-                    Main.player[num487].statLife = Main.player[num487].statLifeMax2;
+                    player.statLife = player.statLifeMax2;
                 }
-                NetMessage.SendData(MessageID.SpiritHeal, -1, -1, null, num487, num492);
+                NetMessage.SendData(MessageID.SpiritHeal, -1, -1, null, index, healAmt);
                 projectile.Kill();
             }
         }

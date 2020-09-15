@@ -37,8 +37,8 @@ namespace CalamityMod.Projectiles.Boss
             {
                 if (projectile.owner == Main.myPlayer)
                 {
-                    int num492 = -32;
-                    Main.player[num487].HealEffect(num492, false);
+                    int num492 = (int)projectile.ai[1];
+					Main.player[num487].HealEffect(num492, false);
                     Main.player[num487].statLife += num492;
                     if (Main.player[num487].statLife > Main.player[num487].statLifeMax2)
                     {

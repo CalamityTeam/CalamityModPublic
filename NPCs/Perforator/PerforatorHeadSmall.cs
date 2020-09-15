@@ -54,13 +54,13 @@ namespace CalamityMod.NPCs.Perforator
 			// Percent life remaining
 			float lifeRatio = npc.life / (float)npc.lifeMax;
 
-			float speed = 16f;
-			float turnSpeed = 0.14f;
+			float speed = 18f;
+			float turnSpeed = 0.16f;
 
 			if (expertMode)
 			{
-				speed += death ? 9f : 9f * (1f - lifeRatio);
-				turnSpeed += death ? 0.08f : 0.08f * (1f - lifeRatio);
+				speed += death ? 4f : 4f * (1f - lifeRatio);
+				turnSpeed += death ? 0.04f : 0.04f * (1f - lifeRatio);
 			}
 
 			if (npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))

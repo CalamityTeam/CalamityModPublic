@@ -294,6 +294,7 @@ namespace CalamityMod.NPCs.Polterghast
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
+			Color lightRed = new Color(255, 100, 100, 255);
 			if (Main.npc[CalamityGlobalNPC.ghostBoss].active && !phase2)
 			{
 				Vector2 center = npc.Center;
@@ -318,7 +319,11 @@ namespace CalamityMod.NPCs.Polterghast
 					center.Y += bossCenterY;
 					bossCenterX = Main.npc[CalamityGlobalNPC.ghostBoss].Center.X - center.X;
 					bossCenterY = Main.npc[CalamityGlobalNPC.ghostBoss].Center.Y - center.Y;
-					Color color2 = new Color(100, 100, 100, 0);
+
+					Color color2 = Color.Lerp(Color.White, Color.Cyan, 0.5f);
+					if (Main.npc[CalamityGlobalNPC.ghostBoss].Calamity().newAI[0] > 300f)
+						color2 = Color.Lerp(color2, lightRed, MathHelper.Clamp((Main.npc[CalamityGlobalNPC.ghostBoss].Calamity().newAI[0] - 300f) / 120f, 0f, 1f));
+
 					Main.spriteBatch.Draw(ModContent.GetTexture("CalamityMod/NPCs/Polterghast/PolterghastChain"), new Vector2(center.X - Main.screenPosition.X, center.Y - Main.screenPosition.Y),
 						new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, 0, ModContent.GetTexture("CalamityMod/NPCs/Polterghast/PolterghastChain").Width, chainWidth)), color2, rotation2,
 						new Vector2(ModContent.GetTexture("CalamityMod/NPCs/Polterghast/PolterghastChain").Width * 0.5f, ModContent.GetTexture("CalamityMod/NPCs/Polterghast/PolterghastChain").Height * 0.5f), 1f, SpriteEffects.None, 0f);
@@ -357,7 +362,6 @@ namespace CalamityMod.NPCs.Polterghast
 
 			texture2D15 = ModContent.GetTexture("CalamityMod/NPCs/Polterghast/PolterghastHookGlow");
 			Color color37 = Color.Lerp(Color.White, Color.Cyan, 0.5f);
-			Color lightRed = new Color(255, 100, 100, 255);
 
 			if (Main.npc[CalamityGlobalNPC.ghostBoss].Calamity().newAI[0] > 300f)
 				color37 = Color.Lerp(color37, lightRed, MathHelper.Clamp((Main.npc[CalamityGlobalNPC.ghostBoss].Calamity().newAI[0] - 300f) / 120f, 0f, 1f));

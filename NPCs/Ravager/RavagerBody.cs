@@ -4,7 +4,6 @@ using CalamityMod.Events;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.LoreItems;
-using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
 using CalamityMod.Items.TreasureBags;
 using CalamityMod.Items.Weapons.Magic;
@@ -560,9 +559,9 @@ namespace CalamityMod.NPCs.Ravager
 					}
 
 					Vector2 targetVector = player.position;
-					float aimY = targetVector.Y - 480f;
+					float aimY = targetVector.Y - 640f;
 					float distanceFromTargetPos = Math.Abs(npc.Top.Y - aimY);
-					bool inRange = npc.Top.Y <= aimY + 16f && npc.Top.Y >= aimY - 16f;
+					bool inRange = npc.Top.Y <= aimY + 160f && npc.Top.Y >= aimY - 16f;
 
 					if (npc.ai[0] == 2f && npc.ai[1] == 0f)
 					{
