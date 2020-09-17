@@ -1,7 +1,9 @@
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Ranged;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.Items.Ammo
 {
     public class BloodfireArrow : ModItem
@@ -21,7 +23,7 @@ namespace CalamityMod.Items.Ammo
             item.maxStack = 999;
             item.consumable = true;
             item.knockBack = 3.5f;
-            item.value = 2000;
+            item.value = Item.sellPrice(copper: 80);
             item.shoot = ModContent.ProjectileType<BloodfireArrowProj>();
             item.shootSpeed = 10f;
             item.ammo = AmmoID.Arrow;
@@ -33,7 +35,7 @@ namespace CalamityMod.Items.Ammo
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<BloodstoneCore>());
             recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this, 250);
+            recipe.SetResult(this, 333);
             recipe.AddRecipe();
         }
     }

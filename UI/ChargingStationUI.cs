@@ -1,8 +1,7 @@
 using CalamityMod.CalPlayer;
-using CalamityMod.Items;
 using CalamityMod.Items.DraedonMisc;
 using CalamityMod.TileEntities;
-using CalamityMod.Tiles;
+using CalamityMod.Tiles.DraedonStructures;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -130,7 +129,9 @@ namespace CalamityMod.UI
             // Otherwise if the player's cursor is over the power cell slot, they can interact with that UI element instead.
             else if (mouseRect.Intersects(powercellSlotRect))
             {
-                Main.HoverItem.SetDefaults(powercell.type);
+                if (!powercell.IsAir)
+                    Main.HoverItem = powercell;
+
                 if (Main.mouseLeft && Main.mouseLeftRelease)
                 {
                     short chargerStackDiff = 0;

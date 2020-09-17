@@ -1,5 +1,5 @@
 using CalamityMod.CalPlayer;
-using CalamityMod.Tiles;
+using CalamityMod.Tiles.DraedonStructures;
 using System.IO;
 using System.Reflection;
 using Terraria;
@@ -151,15 +151,15 @@ namespace CalamityMod.TileEntities
 		{
 			if (Main.netMode == NetmodeID.SinglePlayer)
 				return;
-			var netMessage = mod.GetPacket();
-			netMessage.Write((byte)CalamityModMessageType.PowerCellFactory);
-			netMessage.Write(ID);
-			netMessage.Write(Time);
-			netMessage.Write(_stack);
-			netMessage.Send();
+			ModPacket packet = mod.GetPacket();
+			packet.Write((byte)CalamityModMessageType.PowerCellFactory);
+			packet.Write(ID);
+			packet.Write(Time);
+			packet.Write(_stack);
+			packet.Send(-1, -1);
 		}
 
-		internal static bool ReadSyncPacket(BinaryReader reader)
+		internal static bool ReadSyncPacket(Mod mod, BinaryReader reader)
 		{
 			int teID = reader.ReadInt32();
 			bool exists = ByID.TryGetValue(teID, out TileEntity te);
@@ -167,6 +167,17 @@ namespace CalamityMod.TileEntities
 			// The rest of the packet must be read even if it turns out the factory doesn't exist for whatever reason.
 			long time = reader.ReadInt64();
 			short cellStack = reader.ReadInt16();
+
+			// When a server gets this packet, it immediately sends an equivalent packet to all clients.
+			if (Main.netMode == NetmodeID.Server)
+			{
+				ModPacket packet = mod.GetPacket();
+				packet.Write((byte)CalamityModMessageType.PowerCellFactory);
+				packet.Write(teID);
+				packet.Write(time);
+				packet.Write(cellStack);
+				packet.Send(-1, -1);
+			}
 
 			if (exists && te is TEPowerCellFactory factory)
 			{

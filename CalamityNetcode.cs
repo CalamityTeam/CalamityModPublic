@@ -14,7 +14,7 @@ namespace CalamityMod
 {
     public class CalamityNetcode
     {
-        public static void HandlePacket(BinaryReader reader, int whoAmI)
+        public static void HandlePacket(Mod mod, BinaryReader reader, int whoAmI)
         {
             try
             {
@@ -151,21 +151,18 @@ namespace CalamityMod
 
                     // Ozzatron's packets
                     case CalamityModMessageType.PowerCellFactory:
-                        TEPowerCellFactory.ReadSyncPacket(reader);
+                        TEPowerCellFactory.ReadSyncPacket(mod, reader);
                         break;
                     case CalamityModMessageType.ChargingStationStandard:
-                        TEChargingStation.ReadSyncPacket(reader);
+                        TEChargingStation.ReadSyncPacket(mod, reader);
                         break;
                     case CalamityModMessageType.ChargingStationItemChange:
-                        TEChargingStation.ReadItemSyncPacket(reader);
+                        TEChargingStation.ReadItemSyncPacket(mod, reader);
+                        break;
+                    case CalamityModMessageType.Turret:
+                        TEBaseTurret.ReadSyncPacket(mod, reader);
                         break;
 
-
-                    case CalamityModMessageType.DraedonFieldGeneratorSync:
-                        int entityID2 = reader.ReadInt32();
-                        (TileEntity.ByID[entityID2] as TEDraedonFieldGenerator).Time = reader.ReadInt32();
-                        (TileEntity.ByID[entityID2] as TEDraedonFieldGenerator).ActiveTimer = reader.ReadInt32();
-                        break;
                     case CalamityModMessageType.SyncCalamityNPCAIArray:
                         byte npcIndex2 = reader.ReadByte();
                         Main.npc[npcIndex2].Calamity().newAI[0] = reader.ReadSingle();
@@ -246,11 +243,11 @@ namespace CalamityMod
         SyncCalamityNPCAIArray,
         ProvidenceDyeConditionSync, // We shouldn't fucking need this. Die in a hole, Multiplayer.
         PSCChallengeSync, // See above
-        DraedonFieldGeneratorSync,
 
         // These message types were written by Ozz. They are Ozz's working tile entity netcode. Do not touch them.
         PowerCellFactory,
         ChargingStationStandard,
-        ChargingStationItemChange
+        ChargingStationItemChange,
+        Turret
     }
 }

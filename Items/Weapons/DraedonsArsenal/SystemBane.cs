@@ -10,13 +10,14 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 {
     public class SystemBane : RogueWeapon
     {
+        public const int MaxDeployedProjectiles = 5;
+        
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("System Bane");
             Tooltip.SetDefault("Can be used to quickly send out an electromagnetic blast, strong enough to target organic nervous systems.\n" +
                                "Hurls an unstable device which sticks to the ground and shocks nearby enemies with lightning\n" +
-                               "Stealth strikes make the device emit a large, damaging EMP field\n" +
-                               "Stacks up to 5");
+                               "Stealth strikes make the device emit a large, damaging EMP field");
         }
 
         public override void SafeSetDefaults()
@@ -38,7 +39,6 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
             item.rare = ItemRarityID.Red;
             modItem.customRarity = CalamityRarity.DraedonRust;
             item.UseSound = SoundID.Item1;
-            item.maxStack = 5;
 
             item.shootSpeed = 16f;
             item.shoot = ModContent.ProjectileType<SystemBaneProjectile>();
@@ -48,7 +48,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
             modItem.ChargePerUse = 0.085f;
         }
 
-        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] < item.stack;
+        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] < MaxDeployedProjectiles;
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
@@ -59,10 +59,10 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 3);
-            recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 3); // Less materials are used than unusual because this projectile is stackable.
-            recipe.AddIngredient(ModContent.ItemType<BarofLife>(), 1);
-            recipe.AddIngredient(ModContent.ItemType<InfectedArmorPlating>(), 1);
+            recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 20);
+            recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 10);
+            recipe.AddIngredient(ModContent.ItemType<BarofLife>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<InfectedArmorPlating>(), 5);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();

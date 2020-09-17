@@ -1,7 +1,7 @@
 using CalamityMod.CalPlayer;
 using CalamityMod.Items.DraedonMisc;
 using CalamityMod.TileEntities;
-using CalamityMod.Tiles;
+using CalamityMod.Tiles.DraedonStructures;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -69,7 +69,8 @@ namespace CalamityMod.UI
             // If the player's cursor is over the slot and there are power cells, then interaction with the UI is possible.
             if (mouseRect.Intersects(powercellSlotRect) && powercell.stack > 0)
             {
-                Main.HoverItem.SetDefaults(powercell.type);
+                if (!powercell.IsAir)
+                    Main.HoverItem = powercell;
 
                 // If the slot is clicked, try to grab cells from the factory using both "current items" that a player can have.
                 int cellsGrabbed = 0;

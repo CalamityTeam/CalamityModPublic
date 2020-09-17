@@ -1,7 +1,7 @@
 using CalamityMod.CalPlayer;
 using CalamityMod.Items;
 using CalamityMod.Items.DraedonMisc;
-using CalamityMod.Tiles;
+using CalamityMod.Tiles.DraedonStructures;
 using Microsoft.Xna.Framework;
 using System.IO;
 using System.Reflection;
@@ -210,22 +210,22 @@ namespace CalamityMod.TileEntities
 		{
 			if (Main.netMode == NetmodeID.SinglePlayer)
 				return;
-			var netMessage = mod.GetPacket();
-			netMessage.Write((byte)CalamityModMessageType.ChargingStationStandard);
-			netMessage.Write(ID);
-			netMessage.Write(ChargingTimer);
-			netMessage.Write(_stack);
+			ModPacket packet = mod.GetPacket();
+			packet.Write((byte)CalamityModMessageType.ChargingStationStandard);
+			packet.Write(ID);
+			packet.Write(ChargingTimer);
+			packet.Write(_stack);
 
 			// Either write the real charge or garbage data. If garbage data is written it will be ignored on the other end.
 			CalamityGlobalItem modItem = PluggedItem.IsAir ? null : PluggedItem.Calamity();
-			netMessage.Write(syncItemCharge && modItem != null ? modItem.Charge : float.NaN);
-			netMessage.Send();
+			packet.Write(syncItemCharge && modItem != null ? modItem.Charge : float.NaN);
+			packet.Send(-1, -1);
 
 			// If this flag was set to true, set it to false for any further updates (until it gets set to true again).
 			syncItemCharge = false;
 		}
 
-		internal static bool ReadSyncPacket(BinaryReader reader)
+		internal static bool ReadSyncPacket(Mod mod, BinaryReader reader)
 		{
 			int teID = reader.ReadInt32();
 			bool exists = ByID.TryGetValue(teID, out TileEntity te);
@@ -234,6 +234,18 @@ namespace CalamityMod.TileEntities
 			short timer = reader.ReadInt16();
 			short cellStack = reader.ReadInt16();
 			float chargeOrNaN = reader.ReadSingle();
+
+			// When a server gets this packet, it immediately sends an equivalent packet to all clients.
+			if (Main.netMode == NetmodeID.Server)
+			{
+				ModPacket packet = mod.GetPacket();
+				packet.Write((byte)CalamityModMessageType.ChargingStationStandard);
+				packet.Write(teID);
+				packet.Write(timer);
+				packet.Write(cellStack);
+				packet.Write(chargeOrNaN);
+				packet.Send(-1, -1);
+			}
 
 			if (exists && te is TEChargingStation charger)
 			{
@@ -262,20 +274,30 @@ namespace CalamityMod.TileEntities
 		{
 			if (Main.netMode == NetmodeID.SinglePlayer)
 				return;
-			var netMessage = mod.GetPacket(1024);
-			netMessage.Write((byte)CalamityModMessageType.ChargingStationItemChange);
-			netMessage.Write(ID);
-			netMessage.WriteItem(PluggedItem, true);
-			netMessage.Send();
+			ModPacket packet = mod.GetPacket(1024);
+			packet.Write((byte)CalamityModMessageType.ChargingStationItemChange);
+			packet.Write(ID);
+			packet.WriteItem(PluggedItem, true);
+			packet.Send(-1, -1);
 		}
 
-		internal static bool ReadItemSyncPacket(BinaryReader reader)
+		internal static bool ReadItemSyncPacket(Mod mod, BinaryReader reader)
 		{
 			int teID = reader.ReadInt32();
 			bool exists = ByID.TryGetValue(teID, out TileEntity te);
 
 			// The rest of the packet must be read even if it turns out the charging station doesn't exist for whatever reason.
 			Item thePlug = reader.ReadItem(true);
+
+			// When a server gets this packet, it immediately sends an equivalent packet to all clients.
+			if (Main.netMode == NetmodeID.Server)
+			{
+				ModPacket packet = mod.GetPacket();
+				packet.Write((byte)CalamityModMessageType.ChargingStationItemChange);
+				packet.Write(teID);
+				packet.WriteItem(thePlug, true);
+				packet.Send(-1, -1);
+			}
 
 			if (exists && te is TEChargingStation charger)
 			{

@@ -9,7 +9,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 
-namespace CalamityMod.Tiles
+namespace CalamityMod.Tiles.DraedonStructures
 {
     public class DraedonHologram : ModTile
     {
@@ -115,7 +115,7 @@ namespace CalamityMod.Tiles
             int yPos = Main.tile[i, j].frameY;
             xPos += frame / 8 * 96;
             yPos += frame % 8 * 112;
-            Texture2D glowmask = ModContent.GetTexture("CalamityMod/Tiles/DraedonHologram");
+            Texture2D glowmask = ModContent.GetTexture("CalamityMod/Tiles/DraedonStructures/DraedonHologram");
             Vector2 offset = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
             Vector2 drawOffset = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y) + offset;
             Color drawColor = Lighting.GetColor(i, j);
