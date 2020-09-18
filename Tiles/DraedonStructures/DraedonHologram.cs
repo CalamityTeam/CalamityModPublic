@@ -15,6 +15,7 @@ namespace CalamityMod.Tiles.DraedonStructures
     {
         public const int Width = 6;
         public const int Height = 7;
+        public const int SheetSquare = 16;
         public const int IdleFrames = 8;
         public const int TalkingFrames = 8;
         public const int FrameCount = IdleFrames + TalkingFrames;
@@ -24,6 +25,8 @@ namespace CalamityMod.Tiles.DraedonStructures
             Main.tileNoAttach[Type] = true;
             Main.tileLavaDeath[Type] = false;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style6x3);
+
+            // Manually reset the tile's coordinates to suit this tile, using the 6x3 style as a base.
             TileObjectData.newTile.Height = 7;
             TileObjectData.newTile.Origin = new Point16(3, 6);
             TileObjectData.newTile.CoordinateHeights = new int[TileObjectData.newTile.Height];
@@ -33,31 +36,25 @@ namespace CalamityMod.Tiles.DraedonStructures
                 TileObjectData.newTile.CoordinateHeights[i] = 16;
             }
             TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile | AnchorType.SolidWithTop, 6, 0);
-            TileObjectData.newTile.HookPostPlaceMyPlayer = new PlacementHook(ModContent.GetInstance<TEDraedonHologram>().Hook_AfterPlacement, -1, 0, true);
+
+            // Set the respective hologram tile entity as a secondary element to incorporate when placing this tile.
+            ModTileEntity hologramTileEntity = ModContent.GetInstance<TEDraedonHologram>();
+            TileObjectData.newTile.HookPostPlaceMyPlayer = new PlacementHook(hologramTileEntity.Hook_AfterPlacement, -1, 0, true);
+
+            // Don't die if lava is touching this tile.
             TileObjectData.newTile.LavaDeath = false;
             TileObjectData.addTile(Type);
             animationFrameHeight = 112;
 
             soundType = SoundID.Tink;
+
+            // Spawn electric sparks when this tile is hit with a pickaxe.
             dustType = 229;
-            minPick = 100;
+
             AddMapEntry(new Color(99, 131, 199));
         }
 
         public override bool CanExplode(int i, int j) => false;
-
-        public TEDraedonHologram RetrieveTileEntity(int i, int j)
-        {
-            int left = i - Main.tile[i, j].frameX % (Width * 18) / 18;
-            int top = j - Main.tile[i, j].frameY % (Height * 18) / 18;
-            if (!TileEntity.ByPosition.ContainsKey(new Point16(left, top)))
-            {
-                TileEntity.ByPosition[new Point16(left, top)] = ModTileEntity.ConstructFromType(ModContent.TileEntityType<TEDraedonHologram>());
-                TileEntity.ByPosition[new Point16(left, top)].Position = new Point16(left, top);
-            }
-            return (TEDraedonHologram)TileEntity.ByPosition[new Point16(left, top)];
-        }
-
 
         public override bool NewRightClick(int i, int j)
         {
@@ -79,25 +76,14 @@ namespace CalamityMod.Tiles.DraedonStructures
 
         public override bool PreDraw(int i, int j, SpriteBatch spriteBatch)
         {
-            int left = i - Main.tile[i, j].frameX % (Width * 18) / 18;
-            int top = j - Main.tile[i, j].frameY % (Height * 18) / 18;
             Tile trackTile = Main.tile[i, j];
             int time = (int)(Main.GlobalTime * 60);
-            TEDraedonHologram tileEntity = RetrieveTileEntity(i, j);
-            tileEntity.CloseToPlayer = false;
-            foreach (var player in Main.player)
-            {
-                if (!player.active)
-                    continue;
-                if (player.Distance(new Point(left, top).ToWorldCoordinates()) < 560f)
-                {
-                    tileEntity.CloseToPlayer = true;
-                    break;
-                }
-            }
-            bool closeToPlayer = tileEntity.CloseToPlayer;
+
+            TEDraedonHologram hologramTileEntity = CalamityUtils.FindTileEntity<TEDraedonHologram>(i, j, Width, Height, SheetSquare);
+
+            // Frame cycling. Idly moves when the hologram is visible.
             int frame = time / 5 % FrameCount;
-            if (closeToPlayer)
+            if (hologramTileEntity != null && hologramTileEntity.PoppingUp)
             {
                 if (frame <= IdleFrames)
                     frame += IdleFrames;
@@ -113,23 +99,33 @@ namespace CalamityMod.Tiles.DraedonStructures
 
             int xPos = Main.tile[i, j].frameX;
             int yPos = Main.tile[i, j].frameY;
+
+            // Accomodation for X frames textures.
             xPos += frame / 8 * 96;
             yPos += frame % 8 * 112;
-            Texture2D glowmask = ModContent.GetTexture("CalamityMod/Tiles/DraedonStructures/DraedonHologram");
+
+            Texture2D tileTexture = ModContent.GetTexture("CalamityMod/Tiles/DraedonStructures/DraedonHologram");
             Vector2 offset = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
             Vector2 drawOffset = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y) + offset;
             Color drawColor = Lighting.GetColor(i, j);
 
             if (!trackTile.halfBrick() && trackTile.slope() == 0)
-                spriteBatch.Draw(glowmask, drawOffset, new Rectangle(xPos, yPos, 16, 16), drawColor, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
+                spriteBatch.Draw(tileTexture, drawOffset, new Rectangle(xPos, yPos, 16, 16), drawColor, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
             else if (trackTile.halfBrick())
-                spriteBatch.Draw(glowmask, drawOffset + Vector2.UnitY * 8f, new Rectangle(xPos, yPos, 16, 16), drawColor, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
+                spriteBatch.Draw(tileTexture, drawOffset + Vector2.UnitY * 8f, new Rectangle(xPos, yPos, 16, 16), drawColor, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
             return false;
         }
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
+            Tile tile = Main.tile[i, j];
+            int left = i - tile.frameX % (Width * SheetSquare) / SheetSquare;
+            int top = j - tile.frameY % (Height * SheetSquare) / SheetSquare;
+            TEDraedonHologram hologramTileEntity = CalamityUtils.FindTileEntity<TEDraedonHologram>(i, j, Width, Height, SheetSquare);
+
             Item.NewItem(i * 16, j * 16, 16, 32, ModContent.ItemType<HolographicDisplayBox>());
+
+            hologramTileEntity?.Kill(left, top);
         }
     }
 }
