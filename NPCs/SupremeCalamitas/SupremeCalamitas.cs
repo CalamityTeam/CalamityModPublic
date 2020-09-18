@@ -1340,6 +1340,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 								{
 									canFireSplitingFireball = false;
 									randomShot = ModContent.ProjectileType<BrimstoneFireblast>();
+									Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SCalSounds/BrimstoneBigShoot"), npc.Center);
 									num827 = (float)Math.Sqrt(num825 * num825 + num826 * num826);
 									num827 = num828 / num827;
 									num825 *= num827;
@@ -1352,6 +1353,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 								{
 									canFireSplitingFireball = false;
 									randomShot = ModContent.ProjectileType<BrimstoneGigaBlast>();
+									Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SCalSounds/BrimstoneShoot"), npc.Center);
 									num827 = (float)Math.Sqrt(num825 * num825 + num826 * num826);
 									num827 = num828 / num827;
 									num825 *= num827;
@@ -1364,6 +1366,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 								{
 									canFireSplitingFireball = true;
 									randomShot = ModContent.ProjectileType<BrimstoneBarrage>();
+									Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SCalSounds/BrimstoneBigShoot"), npc.Center);
 									for (int num186 = 0; num186 < 8; num186++)
 									{
 										num180 = player.position.X + player.width * 0.5f - value9.X;
@@ -1404,6 +1407,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 						{
 							npc.velocity.X = num384 * num386;
 							npc.velocity.Y = num385 * num386;
+							Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SCalSounds/SCalDash"), npc.Center);
 						}
 
 						npc.ai[1] = 2f;
@@ -1511,6 +1515,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 								vector40 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
 								num415 = player.position.X + (player.width / 2) - vector40.X;
 								num416 = player.position.Y + (player.height / 2) - vector40.Y;
+								Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SCalSounds/BrimstoneHellblastSound"), npc.Center);
 
 								if (Main.netMode != NetmodeID.MultiplayerClient)
 								{
@@ -1538,7 +1543,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 						float num833 = 1.2f;
 
 						// Reduce acceleration if target is holding a true melee weapon
-						Item targetSelectedItem = player.inventory[player.selectedItem];
+						Item targetSelectedItem = player.HeldItem;
 						if (targetSelectedItem.melee && (targetSelectedItem.shoot == 0 || CalamityLists.trueMeleeProjectileList.Contains(targetSelectedItem.shoot)))
 						{
 							num833 *= 0.5f;
@@ -1591,6 +1596,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 							npc.localAI[1] += wormAlive ? 0.5f : 1f;
 							if (npc.localAI[1] > 140f)
 							{
+								Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SCalSounds/BrimstoneBigShoot"), npc.Center);
 								npc.localAI[1] = 0f;
 								float num837 = 5f * uDieLul;
 								int num838 = expertMode ? 150 : 200; //600 500
@@ -1883,6 +1889,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 								int randomShot = Main.rand.Next(6);
 								if (randomShot == 0 && canFireSplitingFireball)
 								{
+									Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SCalSounds/BrimstoneBigShoot"), npc.Center);
 									canFireSplitingFireball = false;
 									randomShot = ModContent.ProjectileType<BrimstoneFireblast>();
 									num827 = (float)Math.Sqrt(num825 * num825 + num826 * num826);
@@ -1895,6 +1902,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 								}
 								else if (randomShot == 1 && canFireSplitingFireball)
 								{
+									Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SCalSounds/BrimstoneShoot"), npc.Center);
 									canFireSplitingFireball = false;
 									randomShot = ModContent.ProjectileType<BrimstoneGigaBlast>();
 									num827 = (float)Math.Sqrt(num825 * num825 + num826 * num826);
@@ -1907,6 +1915,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 								}
 								else
 								{
+									Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SCalSounds/BrimstoneBigShoot"), npc.Center);
 									canFireSplitingFireball = true;
 									randomShot = ModContent.ProjectileType<BrimstoneBarrage>();
 									for (int num186 = 0; num186 < 8; num186++)
@@ -2052,6 +2061,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 								vector40 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
 								num415 = player.position.X + (player.width / 2) - vector40.X;
 								num416 = player.position.Y + (player.height / 2) - vector40.Y;
+								Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SCalSounds/BrimstoneHellblastSound"), npc.Center);
 
 								if (Main.netMode != NetmodeID.MultiplayerClient)
 								{
@@ -2132,6 +2142,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 							npc.localAI[1] += wormAlive ? 0.5f : 1f;
 							if (npc.localAI[1] > 100f)
 							{
+								Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SCalSounds/BrimstoneBigShoot"), npc.Center);
 								npc.localAI[1] = 0f;
 								float num837 = 5f * uDieLul;
 								int num838 = expertMode ? 150 : 200; //600 500
