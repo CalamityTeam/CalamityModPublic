@@ -1,3 +1,4 @@
+using CalamityMod.Events;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.World;
@@ -23,10 +24,6 @@ namespace CalamityMod.NPCs.AquaticScourge
             npc.height = 40;
             npc.defense = 10;
             npc.lifeMax = Main.hardMode ? 300 : 50;
-            if (CalamityWorld.bossRushActive)
-            {
-                npc.lifeMax = 50000;
-            }
             npc.knockBackResist = 0.8f;
             for (int k = 0; k < npc.buffImmune.Length; k++)
             {

@@ -15,6 +15,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
+using CalamityMod.Events;
 
 namespace CalamityMod.NPCs.ProfanedGuardians
 {
@@ -36,8 +37,8 @@ namespace CalamityMod.NPCs.ProfanedGuardians
         {
             npc.npcSlots = 20f;
             npc.aiStyle = -1;
-            npc.damage = 140;
-            npc.width = 100;
+			npc.GetNPCDamage();
+			npc.width = 100;
             npc.height = 80;
             npc.defense = 50;
 			npc.DR_NERD(0.4f);
@@ -150,12 +151,12 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 
 			bool isHoly = player.ZoneHoly;
 			bool isHell = player.ZoneUnderworldHeight;
-			bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
-			bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
-			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
+			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
+			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
+			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
 
             // Become immune over time if target isn't in hell or hallow
-            if (!isHoly && !isHell && !CalamityWorld.bossRushActive)
+            if (!isHoly && !isHell && !BossRushEvent.BossRushActive)
             {
                 if (immuneTimer > 0)
                     immuneTimer--;
@@ -209,7 +210,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             {
 				float shootBoost = 2f * (1f - lifeRatio);
                 npc.localAI[0] += 1f + shootBoost;
-                if (npc.localAI[0] >= (CalamityWorld.bossRushActive ? 210f : 240f))
+                if (npc.localAI[0] >= (BossRushEvent.BossRushActive ? 210f : 240f))
                 {
                     npc.localAI[0] = 0f;
 
@@ -440,7 +441,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 
 			// Mark the Profaned Guardians as dead
 			CalamityWorld.downedGuardians = true;
-            CalamityMod.UpdateServerBoolean();
+            CalamityNetcode.SyncWorld();
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
@@ -451,7 +452,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
             npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);
-            npc.damage = (int)(npc.damage * 0.8f);
+            npc.damage = (int)(npc.damage * npc.GetExpertDamageMultiplier());
         }
 
         public override void HitEffect(int hitDirection, double damage)

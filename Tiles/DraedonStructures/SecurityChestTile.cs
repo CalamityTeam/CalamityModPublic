@@ -4,20 +4,20 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace CalamityMod.Tiles
+namespace CalamityMod.Tiles.DraedonStructures
 {
-    public class AgedSecurityChestTile : ModTile
+    public class SecurityChestTile : ModTile
     {
         public override void SetDefaults()
         {
             this.SetUpChest();
             ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Aged Security Chest");
+            name.SetDefault("Security Chest");
             AddMapEntry(new Color(130, 119, 115), name, MapChestName);
             disableSmartCursor = true;
             adjTiles = new int[] { TileID.Containers };
-            chest = "Aged Security Chest";
-            chestDrop = ModContent.ItemType<AgedSecurityChest>();
+            chest = "Security Chest";
+            chestDrop = ModContent.ItemType<SecurityChest>();
         }
 
         public override bool CanExplode(int i, int j) => false;
@@ -63,12 +63,12 @@ namespace CalamityMod.Tiles
 
         public override void MouseOver(int i, int j)
         {
-            CalamityUtils.ChestMouseOver<AgedSecurityChest>("Security Chest", i, j);
+            CalamityUtils.ChestMouseOver<SecurityChest>("Security Chest", i, j);
         }
 
         public override void MouseOverFar(int i, int j)
         {
-            CalamityUtils.ChestMouseFar<AgedSecurityChest>("Security Chest", i, j);
+            CalamityUtils.ChestMouseFar<SecurityChest>("Security Chest", i, j);
         }
     }
 }

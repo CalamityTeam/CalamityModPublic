@@ -1,5 +1,6 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Events;
 using CalamityMod.Items.Materials;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -14,8 +15,8 @@ namespace CalamityMod.NPCs.Perforator
     {
         private const int MsgType = 23;
         private bool flies = false;
-        private int minLength = (CalamityWorld.death || CalamityWorld.bossRushActive) ? 3 : 6;
-        private int maxLength = (CalamityWorld.death || CalamityWorld.bossRushActive) ? 4 : 7;
+        private int minLength = (CalamityWorld.death || BossRushEvent.BossRushActive) ? 3 : 6;
+        private int maxLength = (CalamityWorld.death || BossRushEvent.BossRushActive) ? 4 : 7;
         private bool TailSpawned = false;
 
         public override void SetStaticDefaults()
@@ -25,13 +26,13 @@ namespace CalamityMod.NPCs.Perforator
 
         public override void SetDefaults()
         {
-            npc.damage = 30;
-            npc.npcSlots = 5f;
+			npc.GetNPCDamage();
+			npc.npcSlots = 5f;
             npc.width = 42;
             npc.height = 62;
 			npc.LifeMaxNERB(1250, 1500, 500000);
-			double HPBoost = (double)CalamityConfig.Instance.BossHealthBoost * 0.01;
-            npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
+			double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
+            npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.aiStyle = 6;
             aiType = -1;
             npc.knockBackResist = 0f;
@@ -47,28 +48,28 @@ namespace CalamityMod.NPCs.Perforator
 
         public override void AI()
         {
-            bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
-			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
+            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
+			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
 
 			// Percent life remaining
 			float lifeRatio = npc.life / (float)npc.lifeMax;
 
-			float speed = 16f;
-			float turnSpeed = 0.14f;
+			float speed = 18f;
+			float turnSpeed = 0.16f;
 
 			if (expertMode)
 			{
-				speed += death ? 9f : 9f * (1f - lifeRatio);
-				turnSpeed += death ? 0.08f : 0.08f * (1f - lifeRatio);
+				speed += death ? 4f : 4f * (1f - lifeRatio);
+				turnSpeed += death ? 0.04f : 0.04f * (1f - lifeRatio);
 			}
 
-			if (npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive))
+			if (npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))
 			{
 				speed *= 1.25f;
 				turnSpeed *= 1.25f;
 			}
 
-			if (CalamityWorld.bossRushActive)
+			if (BossRushEvent.BossRushActive)
 			{
 				speed *= 1.25f;
 				turnSpeed *= 1.25f;

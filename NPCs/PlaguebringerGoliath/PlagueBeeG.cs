@@ -1,5 +1,6 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
+using CalamityMod.Events;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -20,19 +21,19 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
         public override void SetDefaults()
         {
-            npc.damage = 60;
-            npc.width = 36;
+			npc.GetNPCDamage();
+			npc.width = 36;
             npc.height = 30;
             npc.defense = 15;
             npc.scale = 0.75f;
             npc.lifeMax = 300;
-            if (CalamityWorld.bossRushActive)
+            if (BossRushEvent.BossRushActive)
             {
                 npc.lifeMax = 50000;
             }
             npc.aiStyle = -1;
             aiType = -1;
-            npc.knockBackResist = CalamityWorld.bossRushActive ? 0f : 0.9f;
+            npc.knockBackResist = BossRushEvent.BossRushActive ? 0f : 0.9f;
             animationType = NPCID.Bee;
             npc.HitSound = SoundID.NPCHit4;
             npc.DeathSound = SoundID.NPCDeath14;
@@ -57,7 +58,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             }
             float num = revenge ? 8f : 7f;
             float num2 = revenge ? 0.2f : 0.15f;
-            if (CalamityWorld.bossRushActive)
+            if (BossRushEvent.BossRushActive)
             {
                 num *= 1.5f;
                 num2 *= 1.5f;

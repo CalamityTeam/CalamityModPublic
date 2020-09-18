@@ -20,6 +20,8 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 
 		public override void SetDefaults()
 		{
+			CalamityGlobalItem modItem = item.Calamity();
+
 			item.width = 28;
 			item.height = 26;
 			item.summon = true;
@@ -36,34 +38,25 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 
 			item.value = CalamityGlobalItem.Rarity5BuyPrice;
 			item.rare = ItemRarityID.Red;
-			item.Calamity().customRarity = CalamityRarity.DraedonRust;
+			modItem.customRarity = CalamityRarity.DraedonRust;
 
 			item.shoot = ModContent.ProjectileType<PulseTurret>();
 			item.shootSpeed = 1f;
+
+			modItem.UsesCharge = true;
+			modItem.MaxCharge = 135f;
+			modItem.ChargePerUse = 1f;
+			modItem.ChargePerAltUse = 0f;
 		}
 
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 			Point mouseTileCoords = Main.MouseWorld.ToTileCoordinates();
-			if (!CalamityUtils.ParanoidTileRetrieval(mouseTileCoords.X, mouseTileCoords.Y).active())
-			{
-				int existingTurrets = player.ownedProjectileCounts[type];
-				if (existingTurrets > 0)
-				{
-					for (int i = 0; i < Main.projectile.Length || existingTurrets > 0; i++)
-					{
-						if (Main.projectile[i].type == type &&
-							Main.projectile[i].owner == player.whoAmI &&
-							Main.projectile[i].active)
-						{
-							Main.projectile[i].Kill();
-							existingTurrets--;
-						}
-					}
-				}
-				Projectile.NewProjectile(Main.MouseWorld, Vector2.Zero, type, damage, knockBack, player.whoAmI);
-				//player.UpdateMaxTurrets();
-			}
+			if (CalamityUtils.ParanoidTileRetrieval(mouseTileCoords.X, mouseTileCoords.Y).active())
+				return false;
+			CalamityUtils.OnlyOneSentry(player, type);
+			Projectile.NewProjectile(Main.MouseWorld, Vector2.Zero, type, damage, knockBack, player.whoAmI);
+			player.UpdateMaxTurrets();
 			return false;
 		}
 

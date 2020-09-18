@@ -26,7 +26,7 @@ namespace CalamityMod.Items.Ammo
             item.rare = 9;
             item.shoot = ModContent.ProjectileType<HyperiusBulletProj>();
             item.shootSpeed = 16f;
-            item.ammo = 97;
+            item.ammo = AmmoID.Bullet;
         }
 
         public override void AddRecipes()

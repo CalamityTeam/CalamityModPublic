@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<FlamingStake>();
             item.shootSpeed = 10f;
-            item.useAmmo = 1836;
+            item.useAmmo = AmmoID.Stake;
         }
 
         public override Vector2? HoldoutOffset()

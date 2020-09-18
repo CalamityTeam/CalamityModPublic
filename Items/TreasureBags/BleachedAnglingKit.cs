@@ -26,7 +26,7 @@ namespace CalamityMod.Items.TreasureBags
 
         public override void RightClick(Player player)
         {
-			int anglerTackleBagChance = !Main.expertMode ? 15 : 18;
+			int anglerTackleBagChance = !Main.expertMode ? 18 : 15;
 			int fishingAccChance = !Main.expertMode ? 12 : 10;
 			int fishFindAccChance = !Main.expertMode ? 9 : 8;
 			int anglerArmorChance = !Main.expertMode ? 4 : 2;

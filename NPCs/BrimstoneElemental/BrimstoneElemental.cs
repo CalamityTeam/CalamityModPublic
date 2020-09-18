@@ -1,6 +1,7 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Dusts;
+using CalamityMod.Events;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.LoreItems;
@@ -32,14 +33,14 @@ namespace CalamityMod.NPCs.BrimstoneElemental
         public override void SetDefaults()
         {
             npc.npcSlots = 64f;
-            npc.damage = 60;
-            npc.width = 100;
+			npc.GetNPCDamage();
+			npc.width = 100;
             npc.height = 150;
             npc.defense = 15;
             npc.value = Item.buyPrice(0, 12, 0, 0);
             npc.LifeMaxNERB(30000, 41000, 6500000);
 			npc.DR_NERD(0.15f);
-            if (CalamityWorld.downedProvidence && !CalamityWorld.bossRushActive)
+            if (CalamityWorld.downedProvidence && !BossRushEvent.BossRushActive)
             {
                 npc.damage *= 3;
                 npc.defense *= 4;
@@ -220,13 +221,13 @@ namespace CalamityMod.NPCs.BrimstoneElemental
 
             // mark brimmy as dead
             CalamityWorld.downedBrimstoneElemental = true;
-            CalamityMod.UpdateServerBoolean();
+            CalamityNetcode.SyncWorld();
         }
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
             npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);
-            npc.damage = (int)(npc.damage * 0.8f);
+            npc.damage = (int)(npc.damage * npc.GetExpertDamageMultiplier());
         }
 
         public override void HitEffect(int hitDirection, double damage)

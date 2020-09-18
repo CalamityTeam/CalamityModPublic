@@ -1,4 +1,5 @@
 using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Events;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System.IO;
@@ -21,8 +22,8 @@ namespace CalamityMod.NPCs.HiveMind
         public override void SetDefaults()
         {
             npc.npcSlots = 5f;
-            npc.damage = 20;
-            npc.width = 150;
+			npc.GetNPCDamage();
+			npc.width = 150;
             npc.height = 120;
             npc.defense = 10;
             npc.LifeMaxNERB(1200, 1800, 350000);
@@ -106,9 +107,9 @@ namespace CalamityMod.NPCs.HiveMind
 
             npc.noGravity = false;
             npc.noTileCollide = false;
-            bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
-            bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
-			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
+            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
+            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
+			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
 			CalamityGlobalNPC.hiveMind = npc.whoAmI;
 
             if (Main.netMode != NetmodeID.MultiplayerClient)
@@ -162,7 +163,7 @@ namespace CalamityMod.NPCs.HiveMind
                             int x = (int)(npc.position.X + Main.rand.Next(npc.width - 32));
                             int y = (int)(npc.position.Y + Main.rand.Next(npc.height - 32));
                             int type = ModContent.NPCType<HiveBlob>();
-                            if (NPC.CountNPCS(ModContent.NPCType<DankCreeper>()) < maxDankSpawns || npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive))
+                            if (NPC.CountNPCS(ModContent.NPCType<DankCreeper>()) < maxDankSpawns || npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))
                             {
                                 type = ModContent.NPCType<DankCreeper>();
                             }
@@ -265,7 +266,7 @@ namespace CalamityMod.NPCs.HiveMind
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
             npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);
-            npc.damage = (int)(npc.damage * 0.8f);
+            npc.damage = (int)(npc.damage * npc.GetExpertDamageMultiplier());
         }
 
         public override void HitEffect(int hitDirection, double damage)

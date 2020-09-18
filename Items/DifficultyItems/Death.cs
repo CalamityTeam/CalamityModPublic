@@ -1,3 +1,4 @@
+using CalamityMod.Events;
 using CalamityMod.NPCs.SlimeGod;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -20,7 +21,7 @@ namespace CalamityMod.Items.DifficultyItems
                 "Increases enemy damage by 15%.\n" +
                 "Greatly boosts enemy spawn rates during the blood moon.\n" +
                 "Nerfs the effectiveness of life steal.\n" +
-                "Makes the abyss more treachorous to navigate.\n" +
+                "Makes the abyss more treacherous to navigate.\n" +
                 "Nurse no longer heals while a boss is alive.\n" +
                 "Increases damage done by several debuffs.\n" +
                 "Effect can be toggled on and off.\n" +
@@ -42,7 +43,7 @@ namespace CalamityMod.Items.DifficultyItems
 
         public override bool CanUseItem(Player player)
         {
-            if (!CalamityWorld.revenge || CalamityWorld.bossRushActive)
+            if (!CalamityWorld.revenge || BossRushEvent.BossRushActive)
             {
                 return false;
             }
@@ -91,7 +92,7 @@ namespace CalamityMod.Items.DifficultyItems
             }
             CalamityWorld.DoGSecondStageCountdown = 0;
 
-            CalamityMod.UpdateServerBoolean();
+            CalamityNetcode.SyncWorld();
 
             if (Main.netMode == NetmodeID.Server)
             {

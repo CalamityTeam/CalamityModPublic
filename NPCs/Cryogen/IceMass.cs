@@ -1,3 +1,4 @@
+using CalamityMod.Events;
 using CalamityMod.World;
 using System;
 using Terraria;
@@ -17,13 +18,13 @@ namespace CalamityMod.NPCs.Cryogen
         public override void SetDefaults()
         {
             npc.aiStyle = 86;
-            npc.damage = 40;
-            npc.width = 40;
+			npc.GetNPCDamage();
+			npc.width = 40;
             npc.height = 24;
             npc.defense = 8;
             npc.alpha = 100;
             npc.lifeMax = 220;
-            if (CalamityWorld.bossRushActive)
+            if (BossRushEvent.BossRushActive)
             {
                 npc.lifeMax = 30000;
             }

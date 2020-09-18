@@ -7,7 +7,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Dusts;
-using CalamityMod.World;
+using CalamityMod.Events;
 
 namespace CalamityMod.NPCs.OldDuke
 {
@@ -23,12 +23,12 @@ namespace CalamityMod.NPCs.OldDuke
 		{
 			npc.aiStyle = -1;
 			aiType = -1;
-			npc.damage = 180;
+			npc.GetNPCDamage();
 			npc.width = 40;
 			npc.height = 40;
 			npc.defense = 0;
 			npc.lifeMax = 5000;
-			if (CalamityWorld.bossRushActive)
+			if (BossRushEvent.BossRushActive)
 			{
 				npc.lifeMax = 75000;
 			}
@@ -61,7 +61,7 @@ namespace CalamityMod.NPCs.OldDuke
             npc.rotation += npc.velocity.X * 0.05f;
             if (npc.alpha > 0)
             {
-                npc.alpha -= 5;
+                npc.alpha -= 15;
             }
 			npc.TargetClosest(false);
 			Player player = Main.player[npc.target];
@@ -102,7 +102,7 @@ namespace CalamityMod.NPCs.OldDuke
             }
 
             float num1372 = 12f;
-			if (Main.expertMode || CalamityWorld.bossRushActive)
+			if (Main.expertMode || BossRushEvent.BossRushActive)
 				num1372 += Vector2.Distance(player.Center, npc.Center) * 0.01f;
 
 			Vector2 vector167 = new Vector2(npc.Center.X + npc.direction * 20, npc.Center.Y + 6f);
@@ -165,6 +165,11 @@ namespace CalamityMod.NPCs.OldDuke
 					}
 				}
 			}
+		}
+
+		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
+		{
+			npc.damage = (int)(npc.damage * npc.GetExpertDamageMultiplier());
 		}
 
 		public override bool CanHitPlayer(Player target, ref int cooldownSlot)

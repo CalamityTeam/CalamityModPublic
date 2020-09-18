@@ -85,9 +85,9 @@ namespace CalamityMod.NPCs.NormalNPCs
                 }
                 if (Main.netMode != NetmodeID.MultiplayerClient && npc.ai[2] == 20f)
                 {
-                    float num151 = 5f;
+                    float num151 = 10f;
                     int num152 = Main.expertMode ? 53 : 65;
-                    int num153 = ModContent.ProjectileType<PhantomShot2>();
+                    int num153 = ModContent.ProjectileType<PhantomGhostShot>();
                     num149 = num151 / num149;
                     num147 *= num149;
                     num148 *= num149;

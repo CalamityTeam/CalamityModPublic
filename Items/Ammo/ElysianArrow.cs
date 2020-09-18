@@ -24,7 +24,7 @@ namespace CalamityMod.Items.Ammo
             item.value = 2000;
             item.shoot = ModContent.ProjectileType<ElysianArrowProj>();
             item.shootSpeed = 10f;
-            item.ammo = 40;
+            item.ammo = AmmoID.Arrow;
             item.Calamity().customRarity = CalamityRarity.Turquoise;
         }
 

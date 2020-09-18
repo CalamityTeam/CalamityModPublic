@@ -1,4 +1,5 @@
-﻿using CalamityMod.Items.Accessories;
+﻿using CalamityMod.Events;
+using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Materials;
@@ -12,7 +13,6 @@ using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.NPCs.TownNPCs;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
-using System;
 using System.IO;
 using System.Reflection;
 using Terraria;
@@ -34,8 +34,8 @@ namespace CalamityMod.NPCs.DesertScourge
 
         public override void SetDefaults()
         {
-            npc.damage = 30;
-            npc.npcSlots = 12f;
+			npc.GetNPCDamage();
+			npc.npcSlots = 12f;
             npc.width = 32;
             npc.height = 80;
             npc.LifeMaxNERB(2300, 2650, 16500000);
@@ -81,11 +81,21 @@ namespace CalamityMod.NPCs.DesertScourge
 
         public override void AI()
         {
-            bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
-			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
+            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
+			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
+			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
 
 			// Percent life remaining
 			float lifeRatio = npc.life / (float)npc.lifeMax;
+
+			if (revenge || lifeRatio < (expertMode ? 0.75f : 0.5f))
+				npc.Calamity().newAI[0] += 1f;
+
+			float burrowTimeGateValue = death ? 420f : 540f;
+			bool burrow = npc.Calamity().newAI[0] >= burrowTimeGateValue;
+			bool resetTime = npc.Calamity().newAI[0] >= burrowTimeGateValue + 600f;
+			bool lungeUpward = burrow && npc.Calamity().newAI[1] == 1f;
+			bool quickFall = npc.Calamity().newAI[1] == 2f;
 
 			float speed = 8f;
 			float turnSpeed = 0.08f;
@@ -96,37 +106,38 @@ namespace CalamityMod.NPCs.DesertScourge
 				turnSpeed += death ? 0.06f : 0.06f * (1f - lifeRatio);
 			}
 
-			if (npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive))
+			if (lungeUpward)
+			{
+				speed *= 2f;
+				turnSpeed *= 2f;
+			}
+
+			if (npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))
 			{
 				speed *= 1.25f;
 				turnSpeed *= 1.25f;
 			}
 
-			if (CalamityWorld.bossRushActive)
+			if (BossRushEvent.BossRushActive)
 			{
 				speed *= 1.25f;
 				turnSpeed *= 1.25f;
 			}
 
 			if (npc.ai[3] > 0f)
-            {
                 npc.realLife = (int)npc.ai[3];
-            }
 
             if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)
-            {
                 npc.TargetClosest(true);
-            }
+
 			Player player = Main.player[npc.target];
 
-			npc.dontTakeDamage = !player.ZoneDesert && !CalamityWorld.bossRushActive;
+			npc.dontTakeDamage = !player.ZoneDesert && !BossRushEvent.BossRushActive;
 
-			npc.velocity.Length();
             npc.alpha -= 42;
             if (npc.alpha < 0)
-            {
                 npc.alpha = 0;
-            }
+
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
                 if (!TailSpawned && npc.ai[0] == 0f)
@@ -154,92 +165,86 @@ namespace CalamityMod.NPCs.DesertScourge
                     TailSpawned = true;
                 }
             }
+
             int num180 = (int)(npc.position.X / 16f) - 1;
             int num181 = (int)((npc.position.X + npc.width) / 16f) + 2;
             int num182 = (int)(npc.position.Y / 16f) - 1;
             int num183 = (int)((npc.position.Y + npc.height) / 16f) + 2;
             if (num180 < 0)
-            {
                 num180 = 0;
-            }
             if (num181 > Main.maxTilesX)
-            {
                 num181 = Main.maxTilesX;
-            }
             if (num182 < 0)
-            {
                 num182 = 0;
-            }
             if (num183 > Main.maxTilesY)
-            {
                 num183 = Main.maxTilesY;
-            }
-            bool flag94 = flies;
-            if (!flag94)
-            {
-                for (int num952 = num180; num952 < num181; num952++)
-                {
-                    for (int num953 = num182; num953 < num183; num953++)
-                    {
-                        if (Main.tile[num952, num953] != null && ((Main.tile[num952, num953].nactive() && (Main.tileSolid[(int)Main.tile[num952, num953].type] || (Main.tileSolidTop[(int)Main.tile[num952, num953].type] && Main.tile[num952, num953].frameY == 0))) || Main.tile[num952, num953].liquid > 64))
-                        {
-                            Vector2 vector105;
-                            vector105.X = (float)(num952 * 16);
-                            vector105.Y = (float)(num953 * 16);
-                            if (npc.position.X + (float)npc.width > vector105.X && npc.position.X < vector105.X + 16f && npc.position.Y + (float)npc.height > vector105.Y && npc.position.Y < vector105.Y + 16f)
-                            {
-                                flag94 = true;
-                                break;
-                            }
-                        }
-                    }
-                }
-            }
-            if (!flag94)
-            {
-                npc.localAI[1] = 1f;
-                Rectangle rectangle12 = new Rectangle((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height);
-                int num954 = (npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 500 : 1000;
-                if (CalamityWorld.bossRushActive)
-                    num954 /= 2;
 
-                bool flag95 = true;
-                if (npc.position.Y > player.position.Y)
-                {
-                    for (int num955 = 0; num955 < 255; num955++)
-                    {
-                        if (Main.player[num955].active)
-                        {
-                            Rectangle rectangle13 = new Rectangle((int)Main.player[num955].position.X - num954, (int)Main.player[num955].position.Y - num954, num954 * 2, num954 * 2);
-                            if (rectangle12.Intersects(rectangle13))
-                            {
-                                flag95 = false;
-                                break;
-                            }
-                        }
-                    }
-                    if (flag95)
-                    {
-                        flag94 = true;
-                    }
-                }
-            }
-            else
-            {
-                npc.localAI[1] = 0f;
-            }
+            bool flag94 = flies || lungeUpward;
+			if (!flag94)
+			{
+				for (int num952 = num180; num952 < num181; num952++)
+				{
+					for (int num953 = num182; num953 < num183; num953++)
+					{
+						if (Main.tile[num952, num953] != null && ((Main.tile[num952, num953].nactive() && (Main.tileSolid[Main.tile[num952, num953].type] || (Main.tileSolidTop[Main.tile[num952, num953].type] && Main.tile[num952, num953].frameY == 0))) || Main.tile[num952, num953].liquid > 64))
+						{
+							Vector2 vector105;
+							vector105.X = num952 * 16;
+							vector105.Y = num953 * 16;
+							if (npc.position.X + npc.width > vector105.X && npc.position.X < vector105.X + 16f && npc.position.Y + npc.height > vector105.Y && npc.position.Y < vector105.Y + 16f)
+							{
+								flag94 = true;
+								break;
+							}
+						}
+					}
+				}
+			}
+
+			if (!flag94)
+			{
+				Rectangle rectangle12 = new Rectangle((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height);
+				int num954 = (npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive)) ? 500 : 1000;
+				if (BossRushEvent.BossRushActive)
+					num954 /= 2;
+
+				bool flag95 = true;
+				if (npc.position.Y > player.position.Y)
+				{
+					int rectWidth = num954 * 2;
+					int rectHeight = num954 * 2;
+					for (int num955 = 0; num955 < Main.maxPlayers; num955++)
+					{
+						if (Main.player[num955].active)
+						{
+							int rectX = (int)Main.player[num955].position.X - num954;
+							int rectY = (int)Main.player[num955].position.Y - num954;
+							Rectangle rectangle13 = new Rectangle(rectX, rectY, rectWidth, rectHeight);
+							if (rectangle12.Intersects(rectangle13))
+							{
+								flag95 = false;
+								break;
+							}
+						}
+					}
+
+					if (flag95)
+						flag94 = true;
+				}
+			}
+
             if (player.dead)
             {
 				npc.TargetClosest(false);
 				flag94 = false;
                 npc.velocity.Y += 1f;
-                if ((double)npc.position.Y > Main.worldSurface * 16.0)
+                if (npc.position.Y > Main.worldSurface * 16.0)
                 {
                     npc.velocity.Y += 1f;
                 }
-                if ((double)npc.position.Y > Main.rockLayer * 16.0)
+                if (npc.position.Y > Main.rockLayer * 16.0)
                 {
-                    for (int num957 = 0; num957 < 200; num957++)
+                    for (int num957 = 0; num957 < Main.maxNPCs; num957++)
                     {
                         if (Main.npc[num957].aiStyle == npc.aiStyle)
                         {
@@ -248,27 +253,57 @@ namespace CalamityMod.NPCs.DesertScourge
                     }
                 }
             }
+
             float num188 = speed;
             float num189 = turnSpeed;
-            Vector2 vector18 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
-            float num191 = player.position.X + (float)(player.width / 2);
-            float num192 = player.position.Y + (float)(player.height / 2);
-            num191 = (float)((int)(num191 / 16f) * 16);
-            num192 = (float)((int)(num192 / 16f) * 16);
-            vector18.X = (float)((int)(vector18.X / 16f) * 16);
-            vector18.Y = (float)((int)(vector18.Y / 16f) * 16);
+			float burrowTarget = player.Center.Y + 1000f;
+			float lungeTarget = player.Center.Y - 600f;
+			Vector2 vector18 = npc.Center;
+            float num191 = player.Center.X;
+            float num192 = lungeUpward ? lungeTarget : burrow ? burrowTarget : player.Center.Y;
+            num191 = (int)(num191 / 16f) * 16;
+            num192 = (int)(num192 / 16f) * 16;
+            vector18.X = (int)(vector18.X / 16f) * 16;
+            vector18.Y = (int)(vector18.Y / 16f) * 16;
             num191 -= vector18.X;
             num192 -= vector18.Y;
-            float num193 = (float)System.Math.Sqrt((double)(num191 * num191 + num192 * num192));
-            if (!flag94)
+            float num193 = (float)System.Math.Sqrt(num191 * num191 + num192 * num192);
+
+			// Lunge up towards target
+			if (burrow && npc.Center.Y >= burrowTarget - 16f)
+				npc.Calamity().newAI[1] = 1f;
+
+			// Quickly fall back down once above target
+			if (lungeUpward && npc.Center.Y <= player.Center.Y - 420f)
+				npc.Calamity().newAI[1] = 2f;
+
+			// Quickly fall and reset variables once at target's Y position
+			if (quickFall)
+			{
+				npc.velocity.Y += 1f;
+				if (npc.Center.Y >= player.Center.Y)
+				{
+					npc.Calamity().newAI[0] = 0f;
+					npc.Calamity().newAI[1] = 0f;
+				}
+			}
+
+			// Reset variables if the burrow and lunge attack is taking too long
+			if (resetTime)
+			{
+				npc.Calamity().newAI[0] = 0f;
+				npc.Calamity().newAI[1] = 0f;
+			}
+
+			if (!flag94)
             {
                 npc.TargetClosest(true);
+
                 npc.velocity.Y += turnSpeed * 0.75f;
                 if (npc.velocity.Y > num188)
-                {
                     npc.velocity.Y = num188;
-                }
-                if ((double)(System.Math.Abs(npc.velocity.X) + System.Math.Abs(npc.velocity.Y)) < (double)num188 * 0.4)
+
+                if ((System.Math.Abs(npc.velocity.X) + System.Math.Abs(npc.velocity.Y)) < num188 * 0.4)
                 {
                     if (npc.velocity.X < 0f)
                     {
@@ -318,7 +353,7 @@ namespace CalamityMod.NPCs.DesertScourge
                     npc.soundDelay = (int)num195;
                     Main.PlaySound(15, (int)npc.position.X, (int)npc.position.Y, 1);
                 }
-                num193 = (float)System.Math.Sqrt((double)(num191 * num191 + num192 * num192));
+                num193 = (float)System.Math.Sqrt(num191 * num191 + num192 * num192);
                 float num196 = System.Math.Abs(num191);
                 float num197 = System.Math.Abs(num192);
                 float num198 = num188 / num193;
@@ -351,7 +386,7 @@ namespace CalamityMod.NPCs.DesertScourge
                                 npc.velocity.Y -= num189;
                             }
                         }
-                        if ((double)System.Math.Abs(num192) < (double)num188 * 0.2 && ((npc.velocity.X > 0f && num191 < 0f) || (npc.velocity.X < 0f && num191 > 0f)))
+                        if (System.Math.Abs(num192) < num188 * 0.2 && ((npc.velocity.X > 0f && num191 < 0f) || (npc.velocity.X < 0f && num191 > 0f)))
                         {
                             if (npc.velocity.Y > 0f)
                             {
@@ -362,7 +397,7 @@ namespace CalamityMod.NPCs.DesertScourge
                                 npc.velocity.Y -= num189 * 2f;
                             }
                         }
-                        if ((double)System.Math.Abs(num191) < (double)num188 * 0.2 && ((npc.velocity.Y > 0f && num192 < 0f) || (npc.velocity.Y < 0f && num192 > 0f)))
+                        if (System.Math.Abs(num191) < num188 * 0.2 && ((npc.velocity.Y > 0f && num192 < 0f) || (npc.velocity.Y < 0f && num192 > 0f)))
                         {
                             if (npc.velocity.X > 0f)
                             {
@@ -386,7 +421,7 @@ namespace CalamityMod.NPCs.DesertScourge
                             {
                                 npc.velocity.X -= num189 * 1.1f;
                             }
-                            if ((double)(System.Math.Abs(npc.velocity.X) + System.Math.Abs(npc.velocity.Y)) < (double)num188 * 0.5)
+                            if ((System.Math.Abs(npc.velocity.X) + System.Math.Abs(npc.velocity.Y)) < num188 * 0.5)
                             {
                                 if (npc.velocity.Y > 0f)
                                 {
@@ -408,7 +443,7 @@ namespace CalamityMod.NPCs.DesertScourge
                             {
                                 npc.velocity.Y -= num189 * 1.1f;
                             }
-                            if ((double)(System.Math.Abs(npc.velocity.X) + System.Math.Abs(npc.velocity.Y)) < (double)num188 * 0.5)
+                            if ((System.Math.Abs(npc.velocity.X) + System.Math.Abs(npc.velocity.Y)) < num188 * 0.5)
                             {
                                 if (npc.velocity.X > 0f)
                                 {
@@ -422,23 +457,24 @@ namespace CalamityMod.NPCs.DesertScourge
                         }
                     }
                 }
-                npc.rotation = (float)System.Math.Atan2((double)npc.velocity.Y, (double)npc.velocity.X) + 1.57f;
+
+                npc.rotation = (float)System.Math.Atan2(npc.velocity.Y, npc.velocity.X) + MathHelper.PiOver2;
+
                 if (flag94)
                 {
                     if (npc.localAI[0] != 1f)
-                    {
                         npc.netUpdate = true;
-                    }
+
                     npc.localAI[0] = 1f;
                 }
                 else
                 {
                     if (npc.localAI[0] != 0f)
-                    {
                         npc.netUpdate = true;
-                    }
+
                     npc.localAI[0] = 0f;
                 }
+
                 if (((npc.velocity.X > 0f && npc.oldVelocity.X < 0f) || (npc.velocity.X < 0f && npc.oldVelocity.X > 0f) || (npc.velocity.Y > 0f && npc.oldVelocity.Y < 0f) || (npc.velocity.Y < 0f && npc.oldVelocity.Y > 0f)) && !npc.justHit)
                 {
                     npc.netUpdate = true;
@@ -537,7 +573,7 @@ namespace CalamityMod.NPCs.DesertScourge
 
             // Mark Desert Scourge as dead
             CalamityWorld.downedDesertScourge = true;
-            CalamityMod.UpdateServerBoolean();
+            CalamityNetcode.SyncWorld();
         }
         #endregion
 
@@ -561,7 +597,7 @@ namespace CalamityMod.NPCs.DesertScourge
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
             npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);
-            npc.damage = (int)(npc.damage * 1.1f);
+            npc.damage = (int)(npc.damage * npc.GetExpertDamageMultiplier());
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)

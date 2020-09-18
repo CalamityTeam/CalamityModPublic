@@ -1,3 +1,4 @@
+using CalamityMod.Events;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -18,8 +19,8 @@ namespace CalamityMod.NPCs.DesertScourge
 
         public override void SetDefaults()
         {
-            npc.damage = 16;
-            npc.npcSlots = 5f;
+			npc.GetNPCDamage();
+			npc.npcSlots = 5f;
             npc.width = 32;
             npc.height = 36;
             npc.defense = 6;
@@ -78,26 +79,30 @@ namespace CalamityMod.NPCs.DesertScourge
 			}
 
 			Player player = Main.player[npc.target];
-			npc.dontTakeDamage = !player.ZoneDesert && !CalamityWorld.bossRushActive;
-			bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
-            if (!Main.npc[(int)npc.ai[1]].active)
+			npc.dontTakeDamage = !player.ZoneDesert && !BossRushEvent.BossRushActive;
+			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
+			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+			float burrowTimeGateValue = death ? 420f : 540f;
+			bool burrow = Main.npc[(int)npc.ai[2]].Calamity().newAI[0] >= burrowTimeGateValue;
+
+			if (!Main.npc[(int)npc.ai[1]].active)
             {
                 npc.life = 0;
                 npc.HitEffect(0, 10.0);
                 npc.active = false;
             }
+
             if (Main.npc[(int)npc.ai[1]].alpha < 128)
             {
                 npc.alpha -= 42;
                 if (npc.alpha < 0)
-                {
                     npc.alpha = 0;
-                }
             }
-            if (Main.netMode != NetmodeID.MultiplayerClient && revenge)
+
+            if (Main.netMode != NetmodeID.MultiplayerClient && revenge && !burrow)
             {
                 npc.localAI[0] += (float)Main.rand.Next(4);
-                if (npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive))
+                if (npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))
                 {
                     npc.localAI[0] += 4f;
                 }
@@ -112,13 +117,13 @@ namespace CalamityMod.NPCs.DesertScourge
                         float num944 = (float)Math.Sqrt((double)(num942 * num942 + num943 * num943));
                         int projectileType = ModContent.ProjectileType<SandBlast>();
                         int damage = 12;
-                        float num941 = CalamityWorld.bossRushActive ? 12f : 6f;
+                        float num941 = BossRushEvent.BossRushActive ? 12f : 6f;
                         num944 = num941 / num944;
                         num942 *= num944;
                         num943 *= num944;
                         vector104.X += num942 * 5f;
                         vector104.Y += num943 * 5f;
-                        if (Main.rand.NextBool(2) || CalamityWorld.bossRushActive)
+                        if (Main.rand.NextBool(2) || BossRushEvent.BossRushActive)
                         {
                             Projectile.NewProjectile(vector104.X, vector104.Y, num942, num943, projectileType, damage, 0f, Main.myPlayer, 0f, 0f);
                         }
@@ -173,7 +178,6 @@ namespace CalamityMod.NPCs.DesertScourge
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
             npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);
-            npc.damage = (int)(npc.damage * 0.85f);
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)

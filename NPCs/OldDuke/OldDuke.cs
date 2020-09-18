@@ -38,8 +38,8 @@ namespace CalamityMod.NPCs.OldDuke
             npc.height = 100;
             npc.aiStyle = -1;
 			aiType = -1;
-            npc.damage = 200;
-            npc.defense = 100;
+			npc.GetNPCDamage();
+			npc.defense = 100;
 			npc.DR_NERD(0.5f, null, null, null, true);
 			npc.LifeMaxNERB(750000, 1000000, 4000000);
 			double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
@@ -86,7 +86,7 @@ namespace CalamityMod.NPCs.OldDuke
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
             npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);
-            npc.damage = (int)(npc.damage * 0.8f);
+            npc.damage = (int)(npc.damage * npc.GetExpertDamageMultiplier());
         }
 
         public override void FindFrame(int frameHeight)
@@ -100,7 +100,7 @@ namespace CalamityMod.NPCs.OldDuke
                     num114 = tired ? 12 : 6;
                 }
                 npc.frameCounter += 1D;
-                if (npc.frameCounter > (double)num114)
+                if (npc.frameCounter > num114)
                 {
                     npc.frameCounter = 0D;
                     npc.frame.Y += frameHeight;
@@ -121,7 +121,7 @@ namespace CalamityMod.NPCs.OldDuke
 			if (npc.ai[0] == 3f || npc.ai[0] == 8f || npc.ai[0] == 13f || npc.ai[0] == -1f)
             {
                 int num115 = 120;
-                if (npc.ai[2] < (float)(num115 - 50) || npc.ai[2] > (float)(num115 - 10))
+                if (npc.ai[2] < (num115 - 50) || npc.ai[2] > (num115 - 10))
                 {
                     npc.frameCounter += 1D;
                     if (npc.frameCounter > 7D)
@@ -137,7 +137,7 @@ namespace CalamityMod.NPCs.OldDuke
                 else
                 {
                     npc.frame.Y = frameHeight * 5;
-                    if (npc.ai[2] > (float)(num115 - 40) && npc.ai[2] < (float)(num115 - 15))
+                    if (npc.ai[2] > (num115 - 40) && npc.ai[2] < (num115 - 15))
                     {
                         npc.frame.Y = frameHeight * 6;
                     }
@@ -146,7 +146,7 @@ namespace CalamityMod.NPCs.OldDuke
             if (npc.ai[0] == 4f || npc.ai[0] == 9f)
             {
                 int num116 = 180;
-                if (npc.ai[2] < (float)(num116 - 60) || npc.ai[2] > (float)(num116 - 20))
+                if (npc.ai[2] < (num116 - 60) || npc.ai[2] > (num116 - 20))
                 {
                     npc.frameCounter += 1D;
                     if (npc.frameCounter > 7D)
@@ -162,7 +162,7 @@ namespace CalamityMod.NPCs.OldDuke
                 else
                 {
                     npc.frame.Y = frameHeight * 5;
-                    if (npc.ai[2] > (float)(num116 - 50) && npc.ai[2] < (float)(num116 - 25))
+                    if (npc.ai[2] > (num116 - 50) && npc.ai[2] < (num116 - 25))
                     {
                         npc.frame.Y = frameHeight * 6;
                     }
@@ -178,7 +178,7 @@ namespace CalamityMod.NPCs.OldDuke
 				spriteEffects = SpriteEffects.FlipHorizontally;
 			}
 			Texture2D texture2D15 = Main.npcTexture[npc.type];
-			Vector2 vector11 = new Vector2((float)(texture2D15.Width / 2), (float)(texture2D15.Height / Main.npcFrameCount[npc.type] / 2));
+			Vector2 vector11 = new Vector2(texture2D15.Width / 2, texture2D15.Height / Main.npcFrameCount[npc.type] / 2);
 			Color color = lightColor;
 			Color color36 = Color.White;
 			float amount9 = 0f;
@@ -194,10 +194,10 @@ namespace CalamityMod.NPCs.OldDuke
 			{
 				color = CalamityGlobalNPC.buffColor(color, 0.5f, 0.7f, 0.5f, 1f);
 			}
-			else if (npc.ai[0] == 4f && npc.ai[2] > (float)num150)
+			else if (npc.ai[0] == 4f && npc.ai[2] > num150)
 			{
-				float num152 = npc.ai[2] - (float)num150;
-				num152 /= (float)num151;
+				float num152 = npc.ai[2] - num150;
+				num152 /= num151;
 				color = CalamityGlobalNPC.buffColor(color, 1f - 0.5f * num152, 1f - 0.3f * num152, 1f - 0.5f * num152, 1f);
 			}
 
@@ -228,9 +228,9 @@ namespace CalamityMod.NPCs.OldDuke
 					Color color38 = color;
 					color38 = Color.Lerp(color38, color36, amount9);
 					color38 = npc.GetAlpha(color38);
-					color38 *= (float)(num153 - num155) / 15f;
-					Vector2 vector41 = npc.oldPos[num155] + new Vector2((float)npc.width, (float)npc.height) / 2f - Main.screenPosition;
-					vector41 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f;
+					color38 *= (num153 - num155) / 15f;
+					Vector2 vector41 = npc.oldPos[num155] + new Vector2(npc.width, npc.height) / 2f - Main.screenPosition;
+					vector41 -= new Vector2(texture2D15.Width, texture2D15.Height / Main.npcFrameCount[npc.type]) * npc.scale / 2f;
 					vector41 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
 					spriteBatch.Draw(texture2D15, vector41, npc.frame, color38, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 				}
@@ -249,19 +249,19 @@ namespace CalamityMod.NPCs.OldDuke
 			{
 				int num158 = 60;
 				int num159 = 30;
-				if (npc.ai[2] > (float)num158)
+				if (npc.ai[2] > num158)
 				{
 					num156 = 6;
-					num157 = 1f - (float)Math.Cos((double)((npc.ai[2] - (float)num158) / (float)num159 * MathHelper.TwoPi));
+					num157 = 1f - (float)Math.Cos((npc.ai[2] - num158) / num159 * MathHelper.TwoPi);
 					num157 /= 3f;
 					scaleFactor9 = 40f;
 				}
 			}
 
-			if ((npc.ai[0] == 4f || npc.ai[0] == 9f) && npc.ai[2] > (float)num150)
+			if ((npc.ai[0] == 4f || npc.ai[0] == 9f) && npc.ai[2] > num150)
 			{
 				num156 = 6;
-				num157 = 1f - (float)Math.Cos((double)((npc.ai[2] - (float)num150) / (float)num151 * MathHelper.TwoPi));
+				num157 = 1f - (float)Math.Cos((npc.ai[2] - num150) / num151 * MathHelper.TwoPi);
 				num157 /= 3f;
 				scaleFactor9 = 60f;
 			}
@@ -269,7 +269,7 @@ namespace CalamityMod.NPCs.OldDuke
 			if (npc.ai[0] == 12f)
 			{
 				num156 = 6;
-				num157 = 1f - (float)Math.Cos((double)(npc.ai[2] / 30f * MathHelper.TwoPi));
+				num157 = 1f - (float)Math.Cos(npc.ai[2] / 30f * MathHelper.TwoPi);
 				num157 /= 3f;
 				scaleFactor9 = 20f;
 			}
@@ -282,8 +282,8 @@ namespace CalamityMod.NPCs.OldDuke
 					color39 = Color.Lerp(color39, color36, amount9);
 					color39 = npc.GetAlpha(color39);
 					color39 *= 1f - num157;
-					Vector2 vector42 = npc.Center + ((float)num160 / (float)num156 * MathHelper.TwoPi + npc.rotation).ToRotationVector2() * scaleFactor9 * num157 - Main.screenPosition;
-					vector42 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f;
+					Vector2 vector42 = npc.Center + (num160 / (float)num156 * MathHelper.TwoPi + npc.rotation).ToRotationVector2() * scaleFactor9 * num157 - Main.screenPosition;
+					vector42 -= new Vector2(texture2D15.Width, texture2D15.Height / Main.npcFrameCount[npc.type]) * npc.scale / 2f;
 					vector42 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
 					spriteBatch.Draw(texture2D15, vector42, npc.frame, color39, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 				}
@@ -293,7 +293,7 @@ namespace CalamityMod.NPCs.OldDuke
 			color2 = Color.Lerp(color2, color36, amount9);
 			color2 = npc.GetAlpha(color2);
 			Vector2 vector43 = npc.Center - Main.screenPosition;
-			vector43 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f;
+			vector43 -= new Vector2(texture2D15.Width, texture2D15.Height / Main.npcFrameCount[npc.type]) * npc.scale / 2f;
 			vector43 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
 			spriteBatch.Draw(texture2D15, vector43, npc.frame, (npc.ai[0] > 9f ? color2 : npc.GetAlpha(lightColor)), npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 
@@ -310,8 +310,8 @@ namespace CalamityMod.NPCs.OldDuke
 
 				if (npc.ai[0] == 4f || npc.ai[0] == 9f)
 				{
-					float num161 = npc.ai[2] - (float)num150;
-					num161 /= (float)num151;
+					float num161 = npc.ai[2] - num150;
+					num161 /= num151;
 					color36 *= num161;
 					color40 *= num161;
 				}
@@ -336,9 +336,9 @@ namespace CalamityMod.NPCs.OldDuke
 					{
 						Color color41 = color40;
 						color41 = Color.Lerp(color41, color36, amount9);
-						color41 *= (float)(num153 - num163) / 15f;
-						Vector2 vector44 = npc.oldPos[num163] + new Vector2((float)npc.width, (float)npc.height) / 2f - Main.screenPosition;
-						vector44 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f;
+						color41 *= (num153 - num163) / 15f;
+						Vector2 vector44 = npc.oldPos[num163] + new Vector2(npc.width, npc.height) / 2f - Main.screenPosition;
+						vector44 -= new Vector2(texture2D15.Width, texture2D15.Height / Main.npcFrameCount[npc.type]) * npc.scale / 2f;
 						vector44 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
 						spriteBatch.Draw(texture2D15, vector44, npc.frame, color41, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 					}
@@ -349,8 +349,8 @@ namespace CalamityMod.NPCs.OldDuke
 						color42 = Color.Lerp(color42, color36, amount9);
 						color42 = npc.GetAlpha(color42);
 						color42 *= 1f - num157;
-						Vector2 vector45 = npc.Center + ((float)num164 / (float)num156 * MathHelper.TwoPi + npc.rotation).ToRotationVector2() * scaleFactor9 * num157 - Main.screenPosition;
-						vector45 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f;
+						Vector2 vector45 = npc.Center + (num164 / (float)num156 * MathHelper.TwoPi + npc.rotation).ToRotationVector2() * scaleFactor9 * num157 - Main.screenPosition;
+						vector45 -= new Vector2(texture2D15.Width, texture2D15.Height / Main.npcFrameCount[npc.type]) * npc.scale / 2f;
 						vector45 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
 						spriteBatch.Draw(texture2D15, vector45, npc.frame, color42, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 					}
@@ -400,7 +400,7 @@ namespace CalamityMod.NPCs.OldDuke
 
             // Mark Old Duke as dead
             CalamityWorld.downedBoomerDuke = true;
-            CalamityMod.UpdateServerBoolean();
+            CalamityNetcode.SyncWorld();
         }
 
 		public override bool CanHitPlayer(Player target, ref int cooldownSlot)
@@ -422,9 +422,9 @@ namespace CalamityMod.NPCs.OldDuke
 			if (npc.life > 0)
 			{
 				int num211 = 0;
-				while ((double)num211 < damage / (double)npc.lifeMax * 100.0)
+				while (num211 < damage / npc.lifeMax * 100.0)
 				{
-					Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.SulfurousSeaAcid, (float)hitDirection, -1f, 0, default(Color), 1f);
+					Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.SulfurousSeaAcid, hitDirection, -1f, 0, default, 1f);
 					num211++;
 				}
 			}
@@ -432,13 +432,13 @@ namespace CalamityMod.NPCs.OldDuke
 			{
 				for (int num212 = 0; num212 < 150; num212++)
 				{
-					Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.SulfurousSeaAcid, (float)(2 * hitDirection), -2f, 0, default(Color), 1f);
+					Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.SulfurousSeaAcid, 2 * hitDirection, -2f, 0, default, 1f);
 				}
 
-				Gore.NewGore(npc.Center + Vector2.UnitX * 20f * (float)npc.direction, npc.velocity, mod.GetGoreSlot("Gores/OldDuke/OldDukeGore"), npc.scale);
-				Gore.NewGore(npc.Center + Vector2.UnitX * 20f * (float)npc.direction, npc.velocity, mod.GetGoreSlot("Gores/OldDuke/OldDukeGore2"), npc.scale);
-				Gore.NewGore(npc.Center - Vector2.UnitX * 20f * (float)npc.direction, npc.velocity, mod.GetGoreSlot("Gores/OldDuke/OldDukeGore3"), npc.scale);
-				Gore.NewGore(npc.Center - Vector2.UnitX * 20f * (float)npc.direction, npc.velocity, mod.GetGoreSlot("Gores/OldDuke/OldDukeGore4"), npc.scale);
+				Gore.NewGore(npc.Center + Vector2.UnitX * 20f * npc.direction, npc.velocity, mod.GetGoreSlot("Gores/OldDuke/OldDukeGore"), npc.scale);
+				Gore.NewGore(npc.Center + Vector2.UnitX * 20f * npc.direction, npc.velocity, mod.GetGoreSlot("Gores/OldDuke/OldDukeGore2"), npc.scale);
+				Gore.NewGore(npc.Center - Vector2.UnitX * 20f * npc.direction, npc.velocity, mod.GetGoreSlot("Gores/OldDuke/OldDukeGore3"), npc.scale);
+				Gore.NewGore(npc.Center - Vector2.UnitX * 20f * npc.direction, npc.velocity, mod.GetGoreSlot("Gores/OldDuke/OldDukeGore4"), npc.scale);
 			}
 		}
 	}

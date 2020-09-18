@@ -1,3 +1,4 @@
+using CalamityMod.Events;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -18,8 +19,8 @@ namespace CalamityMod.NPCs.Ravager
 
         public override void SetDefaults()
         {
-            npc.damage = 0;
-            npc.width = 40;
+			npc.GetNPCDamage();
+			npc.width = 40;
             npc.height = 150;
             npc.lifeMax = 100;
             npc.alpha = 255;
@@ -62,24 +63,23 @@ namespace CalamityMod.NPCs.Ravager
 
 			if (npc.alpha > 0)
             {
-                npc.alpha -= 3;
+				npc.damage = 0;
+
+				npc.alpha -= 5;
                 if (npc.alpha < 0)
 					npc.alpha = 0;
             }
+			else
+			{
+				if (CalamityWorld.downedProvidence && !BossRushEvent.BossRushActive)
+					npc.damage = npc.defDamage * 2;
+				else
+					npc.damage = npc.defDamage;
+			}
 
             if (npc.ai[0] == 0f)
             {
-                npc.noTileCollide = false;
-
                 npc.ai[1] += 1f;
-				if (npc.ai[1] >= 85f)
-				{
-					if (CalamityWorld.downedProvidence && !CalamityWorld.bossRushActive)
-						npc.damage = 400;
-					else
-						npc.damage = Main.expertMode ? 180 : 100;
-				}
-
                 if (npc.ai[1] >= 180f)
                     npc.ai[0] = 1f;
             }
@@ -90,7 +90,7 @@ namespace CalamityMod.NPCs.Ravager
                     npc.ai[1] -= 1f;
                     npc.localAI[0] += 1f;
                     float SpeedY = -10f;
-                    if (CalamityWorld.bossRushActive)
+                    if (BossRushEvent.BossRushActive)
                     {
                         SpeedY *= 1.5f;
                     }

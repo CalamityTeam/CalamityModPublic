@@ -21,8 +21,7 @@ namespace CalamityMod.Items.Accessories
                 "Can be used to ram enemies\n" +
                 "TOOLTIP LINE HERE\n" +
                 "Activating this buff will reduce your movement speed and increase enemy aggro\n" +
-                "10% damage reduction while submerged in liquid\n" +
-                "Toggle visibility of this accessory to enable/disable the dash");
+                "10% damage reduction while submerged in liquid");
         }
 
         public override void SetDefaults()
@@ -50,8 +49,7 @@ namespace CalamityMod.Items.Accessories
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            if (!hideVisual)
-            { modPlayer.dashMod = 4; }
+			modPlayer.dashMod = 4;
             modPlayer.elysianAegis = true;
             player.noKnockback = true;
             player.fireWalk = true;

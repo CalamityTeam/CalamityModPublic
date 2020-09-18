@@ -26,8 +26,8 @@ namespace CalamityMod.NPCs.CeaselessVoid
 
         public override void SetDefaults()
         {
-            npc.damage = 150;
-            npc.npcSlots = 36f;
+			npc.GetNPCDamage();
+			npc.npcSlots = 36f;
             npc.width = 100;
             npc.height = 100;
             npc.defense = 0;
@@ -175,7 +175,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
 			if (CalamityWorld.DoGSecondStageCountdown <= 0)
 			{
 				CalamityWorld.downedSentinel1 = true;
-				CalamityMod.UpdateServerBoolean();
+				CalamityNetcode.SyncWorld();
 			}
         }
 

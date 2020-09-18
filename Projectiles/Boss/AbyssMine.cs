@@ -1,3 +1,4 @@
+using CalamityMod.Events;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -21,7 +22,7 @@ namespace CalamityMod.Projectiles.Boss
             projectile.alpha = 60;
             projectile.penetrate = -1;
             projectile.tileCollide = false;
-            projectile.timeLeft = (Main.expertMode || CalamityWorld.bossRushActive) ? 3000 : 2400;
+            projectile.timeLeft = (Main.expertMode || BossRushEvent.BossRushActive) ? 3000 : 2400;
         }
 
         public override void AI()

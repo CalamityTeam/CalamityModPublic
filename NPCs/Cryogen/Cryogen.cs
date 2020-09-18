@@ -1,5 +1,6 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Events;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.LoreItems;
@@ -42,8 +43,8 @@ namespace CalamityMod.NPCs.Cryogen
         public override void SetDefaults()
         {
             npc.npcSlots = 24f;
-            npc.damage = 50;
-            npc.width = 86;
+			npc.GetNPCDamage();
+			npc.width = 86;
             npc.height = 88;
             npc.defense = 12;
 			npc.DR_NERD(0.1f);
@@ -124,9 +125,9 @@ namespace CalamityMod.NPCs.Cryogen
 			Player player = Main.player[npc.target];
 
 			bool isChill = player.ZoneSnow;
-			bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
-			bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
-			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
+			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
+			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
+			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
 
 			// Percent life remaining
 			float lifeRatio = npc.life / (float)npc.lifeMax;
@@ -146,7 +147,7 @@ namespace CalamityMod.NPCs.Cryogen
                 HandlePhaseTransition((int)npc.ai[0] + 1);
             }
 
-			if (npc.ai[2] == 0f && npc.localAI[1] == 0f && Main.netMode != NetmodeID.MultiplayerClient && (npc.ai[0] < 4f || CalamityWorld.bossRushActive)) //spawn shield for phase 0 1 2 3, not 4 5 6
+			if (npc.ai[2] == 0f && npc.localAI[1] == 0f && Main.netMode != NetmodeID.MultiplayerClient && (npc.ai[0] < 4f || BossRushEvent.BossRushActive)) //spawn shield for phase 0 1 2 3, not 4 5 6
             {
                 int num6 = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, ModContent.NPCType<CryogenIce>(), npc.whoAmI, 0f, 0f, 0f, 0f, 255);
                 npc.ai[2] = num6 + 1;
@@ -218,7 +219,7 @@ namespace CalamityMod.NPCs.Cryogen
 					int totalProjectiles = 4;
 					float radians = MathHelper.TwoPi / totalProjectiles;
 					int damage = 25;
-					float velocity = CalamityWorld.bossRushActive ? 12f : 4f;
+					float velocity = BossRushEvent.BossRushActive ? 12f : 4f;
 					Vector2 spinningPoint = Main.rand.NextBool(2) ? new Vector2(0f, -velocity) : Vector2.Normalize(new Vector2(-velocity, -velocity)) * velocity;
 					for (int k = 0; k < totalProjectiles; k++)
 					{
@@ -243,7 +244,7 @@ namespace CalamityMod.NPCs.Cryogen
 							int totalProjectiles = 16;
 							float radians = MathHelper.TwoPi / totalProjectiles;
 							int damage = expertMode ? 20 : 23;
-							float velocity = CalamityWorld.bossRushActive ? 12f : 8f;
+							float velocity = BossRushEvent.BossRushActive ? 12f : 8f;
 							for (int k = 0; k < totalProjectiles; k++)
 							{
 								Vector2 vector255 = new Vector2(0f, -velocity).RotatedBy(radians * k);
@@ -262,7 +263,7 @@ namespace CalamityMod.NPCs.Cryogen
                 {
                     num1246 = isChill ? 5f : 10f;
                 }
-                if (CalamityWorld.bossRushActive)
+                if (BossRushEvent.BossRushActive)
                 {
                     num1246 = 14f;
                 }
@@ -293,7 +294,7 @@ namespace CalamityMod.NPCs.Cryogen
 							int totalProjectiles = 12;
 							float radians = MathHelper.TwoPi / totalProjectiles;
 							int damage = expertMode ? 20 : 23;
-							float velocity2 = CalamityWorld.bossRushActive ? 12f : 8f;
+							float velocity2 = BossRushEvent.BossRushActive ? 12f : 8f;
 							for (int k = 0; k < totalProjectiles; k++)
 							{
 								Vector2 vector255 = new Vector2(0f, -velocity2).RotatedBy(radians * k);
@@ -307,7 +308,7 @@ namespace CalamityMod.NPCs.Cryogen
                 float acceleration = isChill ? 0.1f : 0.15f;
                 if (death)
                     velocity = isChill ? 7f : 3.5f;
-				if (CalamityWorld.bossRushActive)
+				if (BossRushEvent.BossRushActive)
 				{
 					velocity = 3f;
 					acceleration *= 1.5f;
@@ -380,7 +381,7 @@ namespace CalamityMod.NPCs.Cryogen
 								int totalProjectiles = 12;
 								float radians = MathHelper.TwoPi / totalProjectiles;
 								int damage = expertMode ? 20 : 23;
-								float velocity = CalamityWorld.bossRushActive ? 14f : 9f;
+								float velocity = BossRushEvent.BossRushActive ? 14f : 9f;
 								for (int k = 0; k < totalProjectiles; k++)
 								{
 									Vector2 vector255 = new Vector2(0f, -velocity).RotatedBy(radians * k);
@@ -390,7 +391,7 @@ namespace CalamityMod.NPCs.Cryogen
                             else
                             {
                                 float num179 = revenge ? 9f : 7f;
-                                if (CalamityWorld.bossRushActive)
+                                if (BossRushEvent.BossRushActive)
                                     num179 = 14f;
 
                                 Vector2 value9 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
@@ -430,7 +431,7 @@ namespace CalamityMod.NPCs.Cryogen
                 {
                     num1246 = isChill ? 7f : 14f;
                 }
-                if (CalamityWorld.bossRushActive)
+                if (BossRushEvent.BossRushActive)
                 {
                     num1246 = 20f;
                 }
@@ -459,7 +460,7 @@ namespace CalamityMod.NPCs.Cryogen
                         if (Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height))
                         {
                             float num179 = revenge ? 9f : 7f;
-                            if (CalamityWorld.bossRushActive)
+                            if (BossRushEvent.BossRushActive)
                                 num179 = 14f;
 
                             Vector2 value9 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
@@ -494,7 +495,7 @@ namespace CalamityMod.NPCs.Cryogen
 				float acceleration = isChill ? 0.1f : 0.15f;
 				if (death)
 					velocity = isChill ? 7f : 3.5f;
-				if (CalamityWorld.bossRushActive)
+				if (BossRushEvent.BossRushActive)
 				{
 					velocity = 3f;
 					acceleration *= 1.5f;
@@ -564,7 +565,7 @@ namespace CalamityMod.NPCs.Cryogen
 							int totalProjectiles = 12;
 							float radians = MathHelper.TwoPi / totalProjectiles;
 							int damage = expertMode ? 20 : 23;
-							float velocity = CalamityWorld.bossRushActive ? 14f : 9f;
+							float velocity = BossRushEvent.BossRushActive ? 14f : 9f;
 							for (int k = 0; k < totalProjectiles; k++)
 							{
 								Vector2 vector255 = new Vector2(0f, -velocity).RotatedBy(radians * k);
@@ -579,7 +580,7 @@ namespace CalamityMod.NPCs.Cryogen
                 float num1244 = player.Center.Y - vector142.Y;
                 float num1245 = (float)Math.Sqrt(num1243 * num1243 + num1244 * num1244);
                 float speed = revenge ? 5.5f : 5f;
-                if (CalamityWorld.bossRushActive)
+                if (BossRushEvent.BossRushActive)
                 {
                     speed = 10f;
                 }
@@ -594,7 +595,7 @@ namespace CalamityMod.NPCs.Cryogen
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         npc.localAI[2] += 1f;
-                        if (npc.localAI[2] >= (CalamityWorld.bossRushActive ? 90f : 180f))
+                        if (npc.localAI[2] >= (BossRushEvent.BossRushActive ? 90f : 180f))
                         {
 							npc.TargetClosest(true);
 							npc.localAI[2] = 0f;
@@ -729,12 +730,12 @@ namespace CalamityMod.NPCs.Cryogen
             }
 			else if (npc.ai[0] == 5f)
 			{
-                npc.damage = (int)(npc.defDamage * 1.5f);
+                npc.damage = npc.defDamage;
 
 				if (phase7)
 				{
 					if (npc.ai[1] == 60f)
-						npc.velocity = Vector2.Normalize(player.Center - npc.Center) * (CalamityWorld.bossRushActive ? 30f : (isChill ? 18f : 24f));
+						npc.velocity = Vector2.Normalize(player.Center - npc.Center) * (BossRushEvent.BossRushActive ? 30f : (isChill ? 18f : 24f));
 
 					npc.ai[1] -= 1f;
 					if (npc.ai[1] <= 0f)
@@ -767,7 +768,7 @@ namespace CalamityMod.NPCs.Cryogen
 				}
 
 				float num1372 = isChill ? 16f : 24f;
-				if (CalamityWorld.bossRushActive)
+				if (BossRushEvent.BossRushActive)
                 {
                     num1372 = 32f;
                 }
@@ -839,7 +840,7 @@ namespace CalamityMod.NPCs.Cryogen
 					int totalProjectiles = 4;
 					float radians = MathHelper.TwoPi / totalProjectiles;
 					int damage = 25;
-					float velocity2 = CalamityWorld.bossRushActive ? 16f : 6f;
+					float velocity2 = BossRushEvent.BossRushActive ? 16f : 6f;
 					Vector2 spinningPoint = Main.rand.NextBool(2) ? new Vector2(0f, -velocity2) : Vector2.Normalize(new Vector2(-velocity2, -velocity2)) * velocity2;
 					for (int k = 0; k < totalProjectiles; k++)
 					{
@@ -864,7 +865,7 @@ namespace CalamityMod.NPCs.Cryogen
 				float acceleration = isChill ? 0.2f : 0.3f;
 				if (death)
 					velocity = isChill ? 5f : 2.5f;
-				if (CalamityWorld.bossRushActive)
+				if (BossRushEvent.BossRushActive)
 				{
 					velocity = 2f;
 					acceleration *= 1.5f;
@@ -1000,7 +1001,7 @@ namespace CalamityMod.NPCs.Cryogen
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
             npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);
-            npc.damage = (int)(npc.damage * 0.9f);
+            npc.damage = (int)(npc.damage * npc.GetExpertDamageMultiplier());
         }
 
         public override void HitEffect(int hitDirection, double damage)
@@ -1102,7 +1103,7 @@ namespace CalamityMod.NPCs.Cryogen
 
             // Mark Cryogen as dead
             CalamityWorld.downedCryogen = true;
-            CalamityMod.UpdateServerBoolean();
+            CalamityNetcode.SyncWorld();
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)

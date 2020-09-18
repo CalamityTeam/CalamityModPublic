@@ -10,11 +10,13 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class HolyFireBulletProj : ModProjectile
     {
+        private const int Lifetime = 600;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Holy Fire Bullet");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 12;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+            ProjectileID.Sets.TrailCacheLength[projectile.type] = 8;
+            ProjectileID.Sets.TrailingMode[projectile.type] = 1;
         }
 
         public override void SetDefaults()
@@ -22,10 +24,9 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.width = 12;
             projectile.height = 12;
             projectile.friendly = true;
-            projectile.extraUpdates = 4;
-            projectile.penetrate = 1;
-            projectile.timeLeft = 600;
             projectile.ranged = true;
+            projectile.extraUpdates = 4;
+            projectile.timeLeft = Lifetime;
         }
 
         public override void AI()

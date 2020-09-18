@@ -1,4 +1,5 @@
 using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Events;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -29,10 +30,6 @@ namespace CalamityMod.NPCs.AquaticScourge
             npc.height = 28;
             npc.defense = 5;
             npc.lifeMax = Main.hardMode ? 500 : 60;
-            if (CalamityWorld.bossRushActive)
-            {
-                npc.lifeMax = 60000;
-            }
             npc.aiStyle = -1;
             aiType = -1;
             for (int k = 0; k < npc.buffImmune.Length; k++)

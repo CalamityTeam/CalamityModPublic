@@ -1,4 +1,5 @@
 using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Events;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -17,18 +18,18 @@ namespace CalamityMod.NPCs.HiveMind
 
         public override void SetDefaults()
         {
-            npc.damage = 25;
-            npc.width = 70;
+			npc.GetNPCDamage();
+			npc.width = 70;
             npc.height = 70;
             npc.defense = 6;
             npc.lifeMax = 90;
-            if (CalamityWorld.bossRushActive)
+            if (BossRushEvent.BossRushActive)
             {
                 npc.lifeMax = 20000;
             }
             npc.aiStyle = -1;
             aiType = -1;
-            npc.knockBackResist = CalamityWorld.bossRushActive ? 0f : 0.3f;
+            npc.knockBackResist = BossRushEvent.BossRushActive ? 0f : 0.3f;
             npc.noGravity = true;
             npc.noTileCollide = true;
             npc.canGhostHeal = false;
@@ -41,7 +42,7 @@ namespace CalamityMod.NPCs.HiveMind
             npc.TargetClosest(true);
             bool revenge = CalamityWorld.revenge;
             float speed = revenge ? 12f : 11f;
-            if (CalamityWorld.bossRushActive)
+            if (BossRushEvent.BossRushActive)
                 speed = 18f;
 
 			if (npc.ai[1] < 90f)

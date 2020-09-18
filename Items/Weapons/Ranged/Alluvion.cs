@@ -44,7 +44,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             Vector2 source = player.RotatedRelativePoint(player.MountedCenter, true);
-            float num117 = (float)Math.PI * 0.1f;
+            float num117 = MathHelper.Pi * 0.1f;
             int totalProjectiles = 10;
             Vector2 velocity = new Vector2(speedX, speedY);
             velocity.Normalize();
@@ -66,7 +66,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                     }
                     if (Main.rand.NextBool(25))
                     {
-                        type = ProjectileID.MiniSharkron;
+                        type = ModContent.ProjectileType<MiniSharkron>();
                     }
                     if (Main.rand.NextBool(100))
                     {

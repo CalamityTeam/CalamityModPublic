@@ -1,3 +1,4 @@
+using CalamityMod.Events;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -18,12 +19,12 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
         public override void SetDefaults()
         {
-            npc.damage = 0;
-            npc.npcSlots = 1f;
+			npc.GetNPCDamage();
+			npc.npcSlots = 1f;
             npc.width = 42;
             npc.height = 42;
             npc.defense = 10;
-            npc.lifeMax = CalamityWorld.bossRushActive ? 10000 : 100;
+            npc.lifeMax = BossRushEvent.BossRushActive ? 10000 : 100;
             npc.aiStyle = -1;
             aiType = -1;
             npc.knockBackResist = 0f;
@@ -76,12 +77,11 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             npc.dontTakeDamage = npc.ai[3] >= 180f ? false : true;
             if (npc.ai[3] >= 480f)
             {
-                npc.velocity.Y *= 0.985f;
-                npc.velocity.X *= 0.985f;
+                npc.velocity *= 0.985f;
                 return;
             }
             npc.TargetClosest(true);
-            float num1372 = CalamityWorld.bossRushActive ? 10f : 7f;
+            float num1372 = BossRushEvent.BossRushActive ? 10f : 7f;
             Vector2 vector167 = new Vector2(npc.Center.X + (float)(npc.direction * 20), npc.Center.Y + 6f);
             float num1373 = player.position.X + (float)player.width * 0.5f - vector167.X;
             float num1374 = player.Center.Y - vector167.Y;
@@ -147,7 +147,6 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             Main.PlaySound(SoundID.Item14, npc.position);
             npc.position.X = npc.position.X + (float)(npc.width / 2);
             npc.position.Y = npc.position.Y + (float)(npc.height / 2);
-            npc.damage = 200;
             npc.width = npc.height = 216;
             npc.position.X = npc.position.X - (float)(npc.width / 2);
             npc.position.Y = npc.position.Y - (float)(npc.height / 2);

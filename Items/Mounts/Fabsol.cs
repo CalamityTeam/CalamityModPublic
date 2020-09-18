@@ -8,8 +8,8 @@ namespace CalamityMod.Items.Mounts
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Fabsol");
-            Tooltip.SetDefault("Summons an alicorn\n" +
+            DisplayName.SetDefault("Princess Spirit in a Bottle");
+            Tooltip.SetDefault("Summons the spirit of Cirrus, the Drunk Princess, in her alicorn form\n" +
                 "Revengeance drop");
         }
 

@@ -11,7 +11,6 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Pulse Turret");
-            ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
             ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
         }
 
@@ -23,7 +22,6 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             projectile.tileCollide = true;
             projectile.sentry = true;
             projectile.timeLeft = Projectile.SentryLifeTime;
-            projectile.timeLeft *= 5;
             projectile.penetrate = -1;
         }
 

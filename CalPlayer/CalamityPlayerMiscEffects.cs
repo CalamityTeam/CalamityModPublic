@@ -38,6 +38,7 @@ using Terraria.GameInput;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.Events;
 
 namespace CalamityMod.CalPlayer
 {
@@ -348,27 +349,30 @@ namespace CalamityMod.CalPlayer
 			}
 
 			if (player.ownedProjectileCounts[ModContent.ProjectileType<GiantIbanRobotOfDoom>()] <= 0 &&
-				player.Calamity().andromedaState != AndromedaPlayerState.Inactive)
+				modPlayer.andromedaState != AndromedaPlayerState.Inactive)
 			{
-				player.Calamity().andromedaState = AndromedaPlayerState.Inactive;
+				modPlayer.andromedaState = AndromedaPlayerState.Inactive;
 			}
-			
-			if(player.Calamity().andromedaState == AndromedaPlayerState.LargeRobot)
+
+			if (modPlayer.andromedaState == AndromedaPlayerState.LargeRobot)
 			{
 				player.width = 80;
 				player.height = 212;
 				player.position.Y -= 170;
+				modPlayer.resetHeightandWidth = true;
 			}
-			else if (player.Calamity().andromedaState == AndromedaPlayerState.SpecialAttack)
+			else if (modPlayer.andromedaState == AndromedaPlayerState.SpecialAttack)
 			{
 				player.width = 24;
 				player.height = 98;
 				player.position.Y -= 56;
+				modPlayer.resetHeightandWidth = true;
 			}
-			else if (!player.mount.Active)
+			else if (!player.mount.Active && modPlayer.resetHeightandWidth)
 			{
 				player.width = 20;
 				player.height = 42;
+				modPlayer.resetHeightandWidth = false;
 			}
 
 			// Proficiency level ups
@@ -421,7 +425,7 @@ namespace CalamityMod.CalPlayer
 					for (int l = 0; l < Player.MaxBuffs; l++)
 					{
 						int hasBuff = player.buffType[l];
-						if (player.buffTime[l] > 2 && CalamityMod.debuffList.Contains(hasBuff))
+						if (player.buffTime[l] > 2 && CalamityLists.debuffList.Contains(hasBuff))
 						{
 							player.buffTime[l]--;
 						}
@@ -432,7 +436,7 @@ namespace CalamityMod.CalPlayer
 			// Immunity to most debuffs
 			if (modPlayer.invincible)
 			{
-				foreach (int debuff in CalamityMod.debuffList)
+				foreach (int debuff in CalamityLists.debuffList)
 					player.buffImmune[debuff] = true;
 			}
 
@@ -622,7 +626,7 @@ namespace CalamityMod.CalPlayer
 
 					// Ice shards, lightning and sharknadoes
 					bool nearPillar =  player.PillarZone();
-					if (player.ZoneOverworldHeight && !CalamityWorld.bossRushActive && !CalamityPlayer.areThereAnyDamnBosses && !CalamityPlayer.areThereAnyDamnEvents && NPC.MoonLordCountdown == 0 && !player.InSpace())
+					if (player.ZoneOverworldHeight && !BossRushEvent.BossRushActive && !CalamityPlayer.areThereAnyDamnBosses && !CalamityPlayer.areThereAnyDamnEvents && NPC.MoonLordCountdown == 0 && !player.InSpace())
 					{
 						Vector2 sharknadoSpawnPoint = new Vector2(player.Center.X - Main.rand.Next(300, 701), player.Center.Y - Main.rand.Next(700, 801));
 						if (point.X > Main.maxTilesX / 2)
@@ -1006,6 +1010,19 @@ namespace CalamityMod.CalPlayer
 				modPlayer.plagueReaperCooldown--;
 			if (modPlayer.brimflameFrenzyTimer > 0)
 				modPlayer.brimflameFrenzyTimer--;
+			if (modPlayer.fungalSymbioteTimer > 0)
+				modPlayer.fungalSymbioteTimer--;
+			if (player.miscCounter % 20 == 0)
+				modPlayer.canFireAtaxiaRangedProjectile = true;
+			if (player.miscCounter % 100 == 0)
+				modPlayer.canFireBloodflareMageProjectile = true;
+			if (player.miscCounter % 150 == 0)
+			{
+				modPlayer.canFireGodSlayerRangedProjectile = true;
+				modPlayer.canFireBloodflareRangedProjectile = true;
+				modPlayer.canFireReaverRangedProjectile = true;
+				modPlayer.canFireAtaxiaRogueProjectile = true;
+			}
 			if (modPlayer.roverDrive)
 			{
 				if (modPlayer.roverDriveTimer < CalamityUtils.SecondsToFrames(30f))
@@ -1015,11 +1032,15 @@ namespace CalamityMod.CalPlayer
 			}
 			else
 				modPlayer.roverDriveTimer = 616; //Doesn't reset to zero to prevent exploits
+			if (modPlayer.auralisAurora > 0)
+				modPlayer.auralisAurora--;
+			if (modPlayer.auralisAuroraCooldown > 0)
+				modPlayer.auralisAuroraCooldown--;
 
 			// Silva invincibility effects
 			if (modPlayer.silvaCountdown > 0 && modPlayer.hasSilvaEffect && modPlayer.silvaSet)
 			{
-				foreach (int debuff in CalamityMod.debuffList)
+				foreach (int debuff in CalamityLists.debuffList)
 					player.buffImmune[debuff] = true;
 
 				player.buffImmune[ModContent.BuffType<VulnerabilityHex>()] = true;
@@ -1092,7 +1113,7 @@ namespace CalamityMod.CalPlayer
 							player.AddBuff(ModContent.BuffType<TarragonImmunityCooldown>(), 1500, false);
 					}
 
-					bool shouldAffect = CalamityMod.debuffList.Contains(hasBuff);
+					bool shouldAffect = CalamityLists.debuffList.Contains(hasBuff);
 					if (shouldAffect)
 						modPlayer.throwingDamage += 0.1f;
 				}
@@ -2328,6 +2349,80 @@ namespace CalamityMod.CalPlayer
 			}
 			else
 				modPlayer.modStealth = 1f;
+
+			if (player.ActiveItem().type == ModContent.ItemType<Auralis>() && player.StandingStill(0.1f))
+			{
+				if (modPlayer.auralisStealthCounter < 300f)
+					modPlayer.auralisStealthCounter++;
+
+				bool usingScope = false;
+				if (!Main.gameMenu && Main.netMode != NetmodeID.Server)
+				{
+					if (player.noThrow <= 0 && !player.lastMouseInterface || (Main.zoomX != 0f || Main.zoomY != 0f))
+					{
+						if (PlayerInput.UsingGamepad)
+						{
+							if (PlayerInput.GamepadThumbstickRight.Length() != 0f || !Main.SmartCursorEnabled)
+							{
+								usingScope = true;
+							}
+						}
+						else if (Main.mouseRight)
+							usingScope = true;
+					}
+				}
+
+				int chargeDuration = CalamityUtils.SecondsToFrames(5f);
+				int auroraDuration = CalamityUtils.SecondsToFrames(20f);
+
+				if (usingScope && modPlayer.auralisAuroraCounter < chargeDuration + auroraDuration)
+					modPlayer.auralisAuroraCounter++;
+
+				if (modPlayer.auralisAuroraCounter > chargeDuration + auroraDuration)
+				{
+					modPlayer.auralisAuroraCounter = 0;
+					modPlayer.auralisAuroraCooldown = CalamityUtils.SecondsToFrames(30f);
+				}
+
+				if (modPlayer.auralisAuroraCounter > 0 && modPlayer.auralisAuroraCounter < chargeDuration && !usingScope)
+					modPlayer.auralisAuroraCounter--;
+
+				if (modPlayer.auralisAuroraCounter > chargeDuration && modPlayer.auralisAuroraCounter < chargeDuration + auroraDuration && !usingScope)
+					modPlayer.auralisAuroraCounter = 0;
+			}
+			else
+			{
+				modPlayer.auralisStealthCounter = 0f;
+				modPlayer.auralisAuroraCounter = 0;
+			}
+			if (modPlayer.auralisAuroraCooldown > 0)
+			{
+				if (modPlayer.auralisAuroraCooldown == 1)
+				{
+					int dustAmt = 36;
+					for (int d = 0; d < dustAmt; d++)
+					{
+						Vector2 source = Vector2.Normalize(player.velocity) * new Vector2((float)player.width / 2f, (float)player.height) * 1f; //0.75
+						source = source.RotatedBy((double)((float)(d - (dustAmt / 2 - 1)) * MathHelper.TwoPi / (float)dustAmt), default) + player.Center;
+						Vector2 dustVel = source - player.Center;
+						int blue = Dust.NewDust(source + dustVel, 0, 0, 229, dustVel.X, dustVel.Y, 100, default, 1.2f);
+						Main.dust[blue].noGravity = true;
+						Main.dust[blue].noLight = false;
+						Main.dust[blue].velocity = dustVel;
+					}
+					for (int d = 0; d < dustAmt; d++)
+					{
+						Vector2 source = Vector2.Normalize(player.velocity) * new Vector2((float)player.width / 2f, (float)player.height) * 0.75f;
+						source = source.RotatedBy((double)((float)(d - (dustAmt / 2 - 1)) * MathHelper.TwoPi / (float)dustAmt), default) + player.Center;
+						Vector2 dustVel = source - player.Center;
+						int green = Dust.NewDust(source + dustVel, 0, 0, 107, dustVel.X, dustVel.Y, 100, default, 1.2f);
+						Main.dust[green].noGravity = true;
+						Main.dust[green].noLight = false;
+						Main.dust[green].velocity = dustVel;
+					}
+				}
+				modPlayer.auralisAuroraCounter = 0;
+			}
 		}
 		#endregion
 
@@ -2730,22 +2825,22 @@ namespace CalamityMod.CalPlayer
 				}
 			}
 
-			if (CalamityMod.scopedWeaponList.Contains(player.ActiveItem().type))
+			if (CalamityLists.scopedWeaponList.Contains(player.ActiveItem().type))
 				player.scope = true;
 
-			if (CalamityMod.highTestFishList.Contains(player.ActiveItem().type))
+			if (CalamityLists.highTestFishList.Contains(player.ActiveItem().type))
 				player.accFishingLine = true;
 
-			if (CalamityMod.boomerangList.Contains(player.ActiveItem().type) && player.invis)
+			if (CalamityLists.boomerangList.Contains(player.ActiveItem().type) && player.invis)
 				modPlayer.throwingDamage += 0.1f;
 
-			if (CalamityMod.javelinList.Contains(player.ActiveItem().type) && player.invis)
+			if (CalamityLists.javelinList.Contains(player.ActiveItem().type) && player.invis)
 				player.armorPenetration += 5;
 
-			if (CalamityMod.flaskBombList.Contains(player.ActiveItem().type) && player.invis)
+			if (CalamityLists.flaskBombList.Contains(player.ActiveItem().type) && player.invis)
 				modPlayer.throwingVelocity += 0.1f;
 
-			if (CalamityMod.spikyBallList.Contains(player.ActiveItem().type) && player.invis)
+			if (CalamityLists.spikyBallList.Contains(player.ActiveItem().type) && player.invis)
 				modPlayer.throwingCrit += 10;
 
 			if (modPlayer.planarSpeedBoost != 0)
@@ -2771,10 +2866,10 @@ namespace CalamityMod.CalPlayer
 					!modPlayer.ZoneSunkenSea && !player.ZoneSnow && !player.ZoneCorrupt && !player.ZoneCrimson && !player.ZoneHoly &&
 					!player.ZoneDesert && !player.ZoneUndergroundDesert && !player.ZoneGlowshroom && !player.ZoneDungeon && !player.ZoneBeach && !player.ZoneMeteor;
 
-				if (player.ZoneUnderworldHeight && !modPlayer.ZoneCalamity && CalamityMod.fireWeaponList.Contains(player.ActiveItem().type))
+				if (player.ZoneUnderworldHeight && !modPlayer.ZoneCalamity && CalamityLists.fireWeaponList.Contains(player.ActiveItem().type))
 					player.endurance += 0.03f;
 
-				if ((player.ZoneDesert || player.ZoneUndergroundDesert) && CalamityMod.daggerList.Contains(player.ActiveItem().type))
+				if ((player.ZoneDesert || player.ZoneUndergroundDesert) && CalamityLists.daggerList.Contains(player.ActiveItem().type))
 					player.scope = true;
 
 				if (modPlayer.ZoneSunkenSea)
@@ -2783,7 +2878,7 @@ namespace CalamityMod.CalPlayer
 					player.ignoreWater = true;
 				}
 
-				if (player.ZoneSnow && CalamityMod.iceWeaponList.Contains(player.ActiveItem().type))
+				if (player.ZoneSnow && CalamityLists.iceWeaponList.Contains(player.ActiveItem().type))
 					player.statDefense += 5;
 
 				if (modPlayer.ZoneAstral)
@@ -2792,7 +2887,7 @@ namespace CalamityMod.CalPlayer
 						player.wingTimeMax = (int)(player.wingTimeMax * 1.05);
 				}
 
-				if (player.ZoneJungle && CalamityMod.natureWeaponList.Contains(player.ActiveItem().type))
+				if (player.ZoneJungle && CalamityLists.natureWeaponList.Contains(player.ActiveItem().type))
 					player.AddBuff(BuffID.DryadsWard, 5, true); // Dryad's Blessing
 
 				if (modPlayer.ZoneAbyss)
@@ -2812,7 +2907,7 @@ namespace CalamityMod.CalPlayer
 					player.endurance += 0.05f;
 				}
 
-				if (player.ZoneRockLayerHeight && ZoneForest && CalamityMod.flaskBombList.Contains(player.ActiveItem().type))
+				if (player.ZoneRockLayerHeight && ZoneForest && CalamityLists.flaskBombList.Contains(player.ActiveItem().type))
 					player.blackBelt = true;
 
 				if (player.ZoneHoly)
@@ -3253,7 +3348,7 @@ namespace CalamityMod.CalPlayer
 					{
 						float ai1 = I * 120;
 						Projectile.NewProjectile(player.Center.X + (float)(Math.Sin(I * 120) * 550), player.Center.Y + (float)(Math.Cos(I * 120) * 550), 0f, 0f,
-							ModContent.ProjectileType<GhostlyMine>(), (int)((modPlayer.auricSet ? 15000 : 5000) * player.MinionDamage()), 1f, player.whoAmI, ai1, 0f);
+							ModContent.ProjectileType<GhostlyMine>(), (int)(5000 * player.MinionDamage()), 1f, player.whoAmI, ai1, 0f);
 					}
 				}
 			}
@@ -3829,10 +3924,6 @@ namespace CalamityMod.CalPlayer
 			if (player.endurance > 0f)
 				player.endurance = 1f - (1f / (1f + player.endurance));
 
-			// Very similar scaling to damage reduction. Ex. Frog Leg goes from 48% jump speed to 38%
-			//if (player.jumpSpeedBoost > 0f)
-			//	player.jumpSpeedBoost = (1f - 1f / (1f + (player.jumpSpeedBoost / 10f))) * 10f
-
 			if (modPlayer.yharonLore && !CalamityWorld.defiled)
 			{
 				if (player.wingTimeMax < 50000)
@@ -4022,7 +4113,7 @@ namespace CalamityMod.CalPlayer
 					Item item = player.inventory[i];
 
 					if (player.potionDelay > 0 && modPlayer.potionTimer > 0)
-						continue;
+						break;
 					if (item is null || item.stack <= 0)
 						continue;
 

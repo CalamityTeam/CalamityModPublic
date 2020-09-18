@@ -54,7 +54,7 @@ namespace CalamityMod.NPCs
         #region PreNPCLoot
         public override bool PreNPCLoot(NPC npc)
         {
-            if (CalamityWorld.bossRushActive)
+            if (BossRushEvent.BossRushActive)
             {
                 return BossRushLootCancel(npc, mod);
             }
@@ -305,7 +305,7 @@ namespace CalamityMod.NPCs
 
                 // Mark Betsy as dead (Vanilla does not keep track of her)
                 CalamityWorld.downedBetsy = true;
-                CalamityMod.UpdateServerBoolean();
+                CalamityNetcode.SyncWorld();
             }
             else if (npc.type == NPCID.DukeFishron)
             {
@@ -410,359 +410,60 @@ namespace CalamityMod.NPCs
         #region Boss Rush Loot Cancel
         private bool BossRushLootCancel(NPC npc, Mod mod)
         {
-            if (npc.type == ModContent.NPCType<ProfanedGuardianBoss>())
-            {
-                CalamityWorld.bossRushStage = 7;
-                CalamityUtils.KillAllHostileProjectiles();
-				CalamityWorld.bossRushHostileProjKillCounter = 3;
-            }
-            else if (npc.type == ModContent.NPCType<AstrumAureus.AstrumAureus>())
-            {
-                CalamityWorld.bossRushStage = 9;
-                CalamityUtils.KillAllHostileProjectiles();
-				CalamityWorld.bossRushHostileProjKillCounter = 3;
-            }
-            else if (npc.type == ModContent.NPCType<Bumblefuck>())
-            {
-                CalamityWorld.bossRushStage = 12;
-                CalamityUtils.KillAllHostileProjectiles();
-				CalamityWorld.bossRushHostileProjKillCounter = 3;
-            }
-            else if (npc.type == ModContent.NPCType<HiveMindP2>())
-            {
-                CalamityWorld.bossRushStage = 14;
-                CalamityUtils.KillAllHostileProjectiles();
-				CalamityWorld.bossRushHostileProjKillCounter = 3;
-            }
-            else if (npc.type == ModContent.NPCType<StormWeaverHeadNaked>())
-            {
-                CalamityWorld.bossRushStage = 16;
-                CalamityUtils.KillAllHostileProjectiles();
-				CalamityWorld.bossRushHostileProjKillCounter = 3;
-            }
-            else if (npc.type == ModContent.NPCType<AquaticScourgeHead>())
-            {
-                CalamityWorld.bossRushStage = 17;
-                CalamityUtils.KillAllHostileProjectiles();
-				CalamityWorld.bossRushHostileProjKillCounter = 3;
-            }
-            else if (npc.type == ModContent.NPCType<DesertScourgeHead>())
-            {
-                CalamityWorld.bossRushStage = 18;
-                CalamityUtils.KillAllHostileProjectiles();
-				CalamityWorld.bossRushHostileProjKillCounter = 3;
-            }
-            else if (npc.type == ModContent.NPCType<CrabulonIdle>())
-            {
-                CalamityWorld.bossRushStage = 20;
-                CalamityUtils.KillAllHostileProjectiles();
-				CalamityWorld.bossRushHostileProjKillCounter = 3;
-            }
-            else if (npc.type == ModContent.NPCType<CeaselessVoid.CeaselessVoid>())
-            {
-                CalamityWorld.bossRushStage = 22;
-                CalamityUtils.KillAllHostileProjectiles();
-				CalamityWorld.bossRushHostileProjKillCounter = 3;
-            }
-            else if (npc.type == ModContent.NPCType<PerforatorHive>())
-            {
-                CalamityWorld.bossRushStage = 23;
-                CalamityUtils.KillAllHostileProjectiles();
-				CalamityWorld.bossRushHostileProjKillCounter = 3;
-            }
-            else if (npc.type == ModContent.NPCType<Cryogen.Cryogen>())
-            {
-                CalamityWorld.bossRushStage = 24;
-                CalamityUtils.KillAllHostileProjectiles();
-				CalamityWorld.bossRushHostileProjKillCounter = 3;
-            }
-            else if (npc.type == ModContent.NPCType<BrimstoneElemental.BrimstoneElemental>())
-            {
-                CalamityWorld.bossRushStage = 25;
-                CalamityUtils.KillAllHostileProjectiles();
-				CalamityWorld.bossRushHostileProjKillCounter = 3;
-            }
-            else if (npc.type == ModContent.NPCType<Signus.Signus>())
-            {
-                CalamityWorld.bossRushStage = 26;
-                CalamityUtils.KillAllHostileProjectiles();
-				CalamityWorld.bossRushHostileProjKillCounter = 3;
-            }
-            else if (npc.type == ModContent.NPCType<RavagerBody>())
-            {
-                CalamityWorld.bossRushStage = 27;
-                CalamityUtils.KillAllHostileProjectiles();
-				CalamityWorld.bossRushHostileProjKillCounter = 3;
-            }
-            else if (npc.type == ModContent.NPCType<AstrumDeusHeadSpectral>() && npc.Calamity().newAI[0] != 0f)
-            {
-                CalamityWorld.bossRushStage = 30;
-                CalamityUtils.KillAllHostileProjectiles();
-				CalamityWorld.bossRushHostileProjKillCounter = 3;
-            }
-            else if (npc.type == ModContent.NPCType<Polterghast.Polterghast>())
-            {
-                CalamityWorld.bossRushStage = 31;
-                CalamityUtils.KillAllHostileProjectiles();
-				CalamityWorld.bossRushHostileProjKillCounter = 3;
-            }
-            else if (npc.type == ModContent.NPCType<PlaguebringerGoliath.PlaguebringerGoliath>())
-            {
-                CalamityWorld.bossRushStage = 32;
-                CalamityUtils.KillAllHostileProjectiles();
-				CalamityWorld.bossRushHostileProjKillCounter = 3;
-            }
-            else if (npc.type == ModContent.NPCType<CalamitasRun3>())
-            {
-                CalamityWorld.bossRushStage = 33;
-                CalamityUtils.KillAllHostileProjectiles();
-				CalamityWorld.bossRushHostileProjKillCounter = 3;
-            }
-            else if (npc.type == ModContent.NPCType<Siren>() || npc.type == ModContent.NPCType<Leviathan.Leviathan>())
+            if (npc.type == ModContent.NPCType<Siren>() || npc.type == ModContent.NPCType<Leviathan.Leviathan>())
             {
                 int bossType = (npc.type == ModContent.NPCType<Siren>()) ? ModContent.NPCType<Leviathan.Leviathan>() : ModContent.NPCType<Siren>();
                 if (!NPC.AnyNPCs(bossType))
                 {
-                    CalamityWorld.bossRushStage = 34;
+                    BossRushEvent.BossRushStage++;
                     CalamityUtils.KillAllHostileProjectiles();
 					CalamityWorld.bossRushHostileProjKillCounter = 3;
                 }
             }
-			else if (npc.type == ModContent.NPCType<OldDuke.OldDuke>())
-			{
-				CalamityWorld.bossRushStage = 35;
-				CalamityUtils.KillAllHostileProjectiles();
-				CalamityWorld.bossRushHostileProjKillCounter = 3;
-			}
-			else if (npc.type == ModContent.NPCType<SlimeGodCore>() || npc.type == ModContent.NPCType<SlimeGodSplit>() || npc.type == ModContent.NPCType<SlimeGodRunSplit>())
+            else if (npc.type == ModContent.NPCType<AstrumDeusHeadSpectral>() && npc.Calamity().newAI[0] != 0f)
+            {
+                BossRushEvent.BossRushStage++;
+                CalamityUtils.KillAllHostileProjectiles();
+                CalamityWorld.bossRushHostileProjKillCounter = 3;
+            }
+            else if (npc.type == ModContent.NPCType<SlimeGodCore>() || npc.type == ModContent.NPCType<SlimeGodSplit>() || npc.type == ModContent.NPCType<SlimeGodRunSplit>())
             {
                 if (npc.type == ModContent.NPCType<SlimeGodCore>() && !NPC.AnyNPCs(ModContent.NPCType<SlimeGodSplit>()) && !NPC.AnyNPCs(ModContent.NPCType<SlimeGodRunSplit>()) &&
                     !NPC.AnyNPCs(ModContent.NPCType<SlimeGod.SlimeGod>()) && !NPC.AnyNPCs(ModContent.NPCType<SlimeGodRun>()))
                 {
-                    CalamityWorld.bossRushStage = 36;
+                    BossRushEvent.BossRushStage++;
                     CalamityUtils.KillAllHostileProjectiles();
 					CalamityWorld.bossRushHostileProjKillCounter = 3;
                 }
                 else if (npc.type == ModContent.NPCType<SlimeGodSplit>() && !NPC.AnyNPCs(ModContent.NPCType<SlimeGodCore>()) && !NPC.AnyNPCs(ModContent.NPCType<SlimeGodRunSplit>()) &&
                     NPC.CountNPCS(ModContent.NPCType<SlimeGodSplit>()) < 2 && !NPC.AnyNPCs(ModContent.NPCType<SlimeGodRun>()))
                 {
-                    CalamityWorld.bossRushStage = 36;
+                    BossRushEvent.BossRushStage++;
                     CalamityUtils.KillAllHostileProjectiles();
 					CalamityWorld.bossRushHostileProjKillCounter = 3;
                 }
                 else if (npc.type == ModContent.NPCType<SlimeGodRunSplit>() && !NPC.AnyNPCs(ModContent.NPCType<SlimeGodCore>()) && !NPC.AnyNPCs(ModContent.NPCType<SlimeGodSplit>()) &&
                     NPC.CountNPCS(ModContent.NPCType<SlimeGodRunSplit>()) < 2 && !NPC.AnyNPCs(ModContent.NPCType<SlimeGod.SlimeGod>()))
                 {
-                    CalamityWorld.bossRushStage = 36;
+                    BossRushEvent.BossRushStage++;
                     CalamityUtils.KillAllHostileProjectiles();
 					CalamityWorld.bossRushHostileProjKillCounter = 3;
                 }
             }
-            else if (npc.type == ModContent.NPCType<Providence.Providence>())
+            else if ((BossRushEvent.Bosses.Any(boss => boss.EntityID == npc.type) && !BossRushEvent.BossIDsAfterDeath.ContainsKey(npc.type)) ||
+                     BossRushEvent.BossIDsAfterDeath.Values.Any(killList => killList.Contains(npc.type)))
             {
-                CalamityWorld.bossRushStage = 37;
+                BossRushEvent.BossRushStage++;
                 CalamityUtils.KillAllHostileProjectiles();
-				CalamityWorld.bossRushHostileProjKillCounter = 3;
-
-                string key = "Mods.CalamityMod.BossRushTierFourEndText";
-                Color messageColor = Color.LightCoral;
-                if (Main.netMode == NetmodeID.SinglePlayer)
-                {
-                    Main.NewText(Language.GetTextValue(key), messageColor);
-                }
-                else if (Main.netMode == NetmodeID.Server)
-                {
-                    NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-                }
+                CalamityWorld.bossRushHostileProjKillCounter = 3;
+                if (BossRushEvent.BossDeathEffects.ContainsKey(npc.type))
+                    BossRushEvent.BossDeathEffects[npc.type].Invoke(npc);
             }
-            else if (npc.type == ModContent.NPCType<SupremeCalamitas.SupremeCalamitas>())
-            {
-                CalamityWorld.bossRushStage = 38;
-                CalamityUtils.KillAllHostileProjectiles();
-				CalamityWorld.bossRushHostileProjKillCounter = 3;
-            }
-            else if (npc.type == ModContent.NPCType<Yharon.Yharon>())
-            {
-                CalamityWorld.bossRushStage = 39;
-                CalamityUtils.KillAllHostileProjectiles();
-				CalamityWorld.bossRushHostileProjKillCounter = 3;
-            }
-            else if (npc.type == ModContent.NPCType<DevourerofGodsHeadS>())
-            {
-                DropHelper.DropItem(npc, ModContent.ItemType<Rock>(), true);
-                CalamityWorld.bossRushStage = 0;
-                CalamityUtils.KillAllHostileProjectiles();
-				CalamityWorld.bossRushHostileProjKillCounter = 3;
-                CalamityWorld.bossRushActive = false;
-
-                CalamityMod.UpdateServerBoolean();
-                if (Main.netMode == NetmodeID.Server)
-                {
-                    var netMessage = mod.GetPacket();
-                    netMessage.Write((byte)CalamityModMessageType.BossRushStage);
-                    netMessage.Write(CalamityWorld.bossRushStage);
-                    netMessage.Send();
-                }
-
-                string key = "Mods.CalamityMod.BossRushTierFiveEndText";
-                Color messageColor = Color.LightCoral;
-                if (Main.netMode == NetmodeID.SinglePlayer)
-                {
-                    Main.NewText(Language.GetTextValue(key), messageColor);
-                }
-                else if (Main.netMode == NetmodeID.Server)
-                {
-                    NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-                }
-
-                return false;
-            }
-
-            switch (npc.type)
-            {
-                case NPCID.QueenBee:
-                    CalamityWorld.bossRushStage = 1;
-                    CalamityUtils.KillAllHostileProjectiles();
-					CalamityWorld.bossRushHostileProjKillCounter = 3;
-                    break;
-
-                case NPCID.BrainofCthulhu:
-                    CalamityWorld.bossRushStage = 2;
-                    CalamityUtils.KillAllHostileProjectiles();
-					CalamityWorld.bossRushHostileProjKillCounter = 3;
-                    break;
-
-                case NPCID.KingSlime:
-                    CalamityWorld.bossRushStage = 3;
-                    CalamityUtils.KillAllHostileProjectiles();
-					CalamityWorld.bossRushHostileProjKillCounter = 3;
-                    break;
-
-                case NPCID.EyeofCthulhu:
-                    CalamityWorld.bossRushStage = 4;
-                    CalamityUtils.KillAllHostileProjectiles();
-					CalamityWorld.bossRushHostileProjKillCounter = 3;
-                    break;
-
-                case NPCID.SkeletronPrime:
-                    CalamityWorld.bossRushStage = 5;
-                    CalamityUtils.KillAllHostileProjectiles();
-					CalamityWorld.bossRushHostileProjKillCounter = 3;
-                    break;
-
-                case NPCID.Golem:
-                    CalamityWorld.bossRushStage = 6;
-                    CalamityUtils.KillAllHostileProjectiles();
-					CalamityWorld.bossRushHostileProjKillCounter = 3;
-                    break;
-
-				case NPCID.EaterofWorldsHead:
-				case NPCID.EaterofWorldsBody:
-				case NPCID.EaterofWorldsTail:
-					CalamityWorld.bossRushStage = 8;
-					CalamityUtils.KillAllHostileProjectiles();
-					CalamityWorld.bossRushHostileProjKillCounter = 3;
-					break;
-
-				case NPCID.TheDestroyer:
-                    CalamityWorld.bossRushStage = 10;
-                    CalamityUtils.KillAllHostileProjectiles();
-					CalamityWorld.bossRushHostileProjKillCounter = 3;
-
-                    string key = "Mods.CalamityMod.BossRushTierOneEndText";
-                    Color messageColor = Color.LightCoral;
-                    if (Main.netMode == NetmodeID.SinglePlayer)
-                    {
-                        Main.NewText(Language.GetTextValue(key), messageColor);
-                    }
-                    else if (Main.netMode == NetmodeID.Server)
-                    {
-                        NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-                    }
-
-                    break;
-
-                case NPCID.Spazmatism:
-                    CalamityWorld.bossRushStage = 11;
-                    CalamityUtils.KillAllHostileProjectiles();
-					CalamityWorld.bossRushHostileProjKillCounter = 3;
-                    break;
-
-                case NPCID.Retinazer:
-                    CalamityWorld.bossRushStage = 11;
-                    CalamityUtils.KillAllHostileProjectiles();
-					CalamityWorld.bossRushHostileProjKillCounter = 3;
-                    break;
-
-                case NPCID.WallofFlesh:
-                    CalamityWorld.bossRushStage = 13;
-                    CalamityUtils.KillAllHostileProjectiles();
-					CalamityWorld.bossRushHostileProjKillCounter = 3;
-                    break;
-
-                case NPCID.SkeletronHead:
-                    CalamityWorld.bossRushStage = 15;
-                    CalamityUtils.KillAllHostileProjectiles();
-					CalamityWorld.bossRushHostileProjKillCounter = 3;
-                    break;
-
-                case NPCID.CultistBoss:
-                    CalamityWorld.bossRushStage = 19;
-                    CalamityUtils.KillAllHostileProjectiles();
-					CalamityWorld.bossRushHostileProjKillCounter = 3;
-
-                    string key2 = "Mods.CalamityMod.BossRushTierTwoEndText";
-                    Color messageColor2 = Color.LightCoral;
-                    if (Main.netMode == NetmodeID.SinglePlayer)
-                    {
-                        Main.NewText(Language.GetTextValue(key2), messageColor2);
-                    }
-                    else if (Main.netMode == NetmodeID.Server)
-                    {
-                        NetMessage.BroadcastChatMessage(NetworkText.FromKey(key2), messageColor2);
-                    }
-
-                    break;
-
-                case NPCID.Plantera:
-                    CalamityWorld.bossRushStage = 21;
-                    CalamityUtils.KillAllHostileProjectiles();
-					CalamityWorld.bossRushHostileProjKillCounter = 3;
-                    break;
-
-                case NPCID.DukeFishron:
-                    CalamityWorld.bossRushStage = 28;
-                    CalamityUtils.KillAllHostileProjectiles();
-					CalamityWorld.bossRushHostileProjKillCounter = 3;
-
-                    string key3 = "Mods.CalamityMod.BossRushTierThreeEndText";
-                    Color messageColor3 = Color.LightCoral;
-                    if (Main.netMode == NetmodeID.SinglePlayer)
-                    {
-                        Main.NewText(Language.GetTextValue(key3), messageColor3);
-                    }
-                    else if (Main.netMode == NetmodeID.Server)
-                    {
-                        NetMessage.BroadcastChatMessage(NetworkText.FromKey(key3), messageColor3);
-                    }
-
-                    break;
-
-                case NPCID.MoonLordCore:
-                    CalamityWorld.bossRushStage = 29;
-                    CalamityUtils.KillAllHostileProjectiles();
-					CalamityWorld.bossRushHostileProjKillCounter = 3;
-                    break;
-
-                default:
-                    break;
-            }
-
             if (Main.netMode == NetmodeID.Server)
             {
                 var netMessage = mod.GetPacket();
                 netMessage.Write((byte)CalamityModMessageType.BossRushStage);
-                netMessage.Write(CalamityWorld.bossRushStage);
+                netMessage.Write(BossRushEvent.BossRushStage);
                 netMessage.Send();
 				var netMessage2 = mod.GetPacket();
 				netMessage2.Write((byte)CalamityModMessageType.BRHostileProjKillSync);
@@ -849,7 +550,7 @@ namespace CalamityMod.NPCs
                 if (!CalamityPlayer.areThereAnyDamnBosses)
                 {
                     CalamityGlobalNPC.DraedonMayhem = false;
-                    CalamityMod.UpdateServerBoolean();
+                    CalamityNetcode.SyncWorld();
                 }
             }
 
@@ -1134,31 +835,31 @@ namespace CalamityMod.NPCs
             }
 
             // Every type of demon eye counts for Black Lenses
-            if (CalamityMod.demonEyeList.Contains(npc.type))
+            if (CalamityLists.demonEyeList.Contains(npc.type))
             {
                 DropHelper.DropItemChance(npc, ItemID.BlackLens, DropHelper.DefiledDropRateInt);
             }
 
             // Every type of Skeleton counts for the Bone Sword
-            if (CalamityMod.skeletonList.Contains(npc.type) && npc.type != NPCID.ArmoredSkeleton && npc.type != NPCID.HeavySkeleton && npc.type != NPCID.SkeletonArcher && npc.type != NPCID.GreekSkeleton)
+            if (CalamityLists.skeletonList.Contains(npc.type) && npc.type != NPCID.ArmoredSkeleton && npc.type != NPCID.HeavySkeleton && npc.type != NPCID.SkeletonArcher && npc.type != NPCID.GreekSkeleton)
             {
                 DropHelper.DropItemChance(npc, ItemID.BoneSword, DropHelper.DefiledDropRateInt);
             }
 
             // Every type of Angry Bones counts for the Clothier Voodoo Doll
-            if (CalamityMod.angryBonesList.Contains(npc.type))
+            if (CalamityLists.angryBonesList.Contains(npc.type))
             {
                 DropHelper.DropItemChance(npc, ItemID.ClothierVoodooDoll, DropHelper.DefiledDropRateInt);
             }
 
             // Every type of hornet AND moss hornet can drop Bezoar
-            if (CalamityMod.hornetList.Contains(npc.type) || CalamityMod.mossHornetList.Contains(npc.type))
+            if (CalamityLists.hornetList.Contains(npc.type) || CalamityLists.mossHornetList.Contains(npc.type))
             {
                 DropHelper.DropItemChance(npc, ItemID.Bezoar, DropHelper.DefiledDropRateInt);
             }
 
             // Every type of moss hornet can drop Tattered Bee Wings
-            if (CalamityMod.mossHornetList.Contains(npc.type))
+            if (CalamityLists.mossHornetList.Contains(npc.type))
             {
                 DropHelper.DropItemChance(npc, ItemID.TatteredBeeWing, DropHelper.DefiledDropRateInt);
             }
@@ -1575,14 +1276,14 @@ namespace CalamityMod.NPCs
             }
 
             // Every type of Moss Hornet counts for the Needler
-            if (CalamityMod.mossHornetList.Contains(npc.type))
+            if (CalamityLists.mossHornetList.Contains(npc.type))
             {
                 int needlerDropRate = Main.expertMode ? 20 : 25;
                 DropHelper.DropItemChance(npc, ModContent.ItemType<Needler>(), needlerDropRate);
             }
 
             // Every type of Skeleton counts for the Waraxe and Ancient Bone Dust
-            if (CalamityMod.skeletonList.Contains(npc.type))
+            if (CalamityLists.skeletonList.Contains(npc.type))
             {
                 DropHelper.DropItemCondition(npc, ModContent.ItemType<Waraxe>(), !Main.hardMode, Main.expertMode ? 15 : 20, 1, 1);
                 DropHelper.DropItemChance(npc, ModContent.ItemType<AncientBoneDust>(), Main.expertMode ? 4 : 5);
@@ -1849,13 +1550,13 @@ namespace CalamityMod.NPCs
             }
 
             // All hardmode dungeon enemies drop Ectoblood
-            if (CalamityMod.dungeonEnemyBuffList.Contains(npc.type))
+            if (CalamityLists.dungeonEnemyBuffList.Contains(npc.type))
             {
                 DropHelper.DropItemChance(npc, ModContent.ItemType<Ectoblood>(), 2, 1, Main.expertMode ? 3 : 1);
             }
 
             // Every type of moss hornet can drop stingers
-            if (CalamityMod.mossHornetList.Contains(npc.type))
+            if (CalamityLists.mossHornetList.Contains(npc.type))
             {
                 DropHelper.DropItemChance(npc, ItemID.Stinger, Main.expertMode ? 1f : 0.6666f);
             }
@@ -1897,7 +1598,7 @@ namespace CalamityMod.NPCs
 			if (npc.boss && !CalamityWorld.downedBossAny)
 			{
 				CalamityWorld.downedBossAny = true;
-				CalamityMod.UpdateServerBoolean();
+				CalamityNetcode.SyncWorld();
 			}
 
 			// Nightmare Fuel, Endothermic Energy and Darksun Fragments
@@ -1966,7 +1667,7 @@ namespace CalamityMod.NPCs
 
 				// Mark a buffed Mothron as killed (allowing access to Yharon P2)
 				CalamityWorld.downedBuffedMothron = true;
-				CalamityMod.UpdateServerBoolean();
+				CalamityNetcode.SyncWorld();
 			}
 		}
         #endregion

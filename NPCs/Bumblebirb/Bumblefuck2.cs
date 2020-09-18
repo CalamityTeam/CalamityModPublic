@@ -26,8 +26,8 @@ namespace CalamityMod.NPCs.Bumblebirb
             npc.npcSlots = 1f;
             npc.aiStyle = -1;
             aiType = -1;
-            npc.damage = 110;
-            npc.width = 120;
+			npc.GetNPCDamage();
+			npc.width = 120;
             npc.height = 80;
             npc.defense = 20;
             npc.LifeMaxNERB(12000, 15000, 50000);
@@ -74,7 +74,6 @@ namespace CalamityMod.NPCs.Bumblebirb
         {
             Player player = Main.player[npc.target];
             Vector2 vector = npc.Center;
-            npc.damage = npc.defDamage;
 
 			bool increasedAggression = CalamityPlayer.areThereAnyDamnBosses;
 
@@ -288,7 +287,6 @@ namespace CalamityMod.NPCs.Bumblebirb
                 }
                 else if (npc.ai[0] == 2.1f)
                 {
-                    npc.damage = (int)(npc.defDamage * 1.3);
                     if (npc.velocity.X < 0f)
                     {
                         npc.direction = -1;

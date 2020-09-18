@@ -19,10 +19,10 @@ namespace CalamityMod.NPCs.Signus
 
         public override void SetDefaults()
         {
-            npc.damage = 0;
-            npc.width = 30;
+			npc.GetNPCDamage();
+			npc.width = 30;
             npc.height = 30;
-            npc.lifeMax = 100;
+            npc.lifeMax = 6000;
             npc.aiStyle = -1;
             aiType = -1;
             npc.knockBackResist = 0f;
@@ -61,6 +61,7 @@ namespace CalamityMod.NPCs.Signus
 			Vector2 vector = player.Center - npc.Center;
 			npc.ai[2] = vector.Length();
 
+			npc.damage = 0;
 			npc.ai[3] += 1f;
 			if (npc.ai[2] < 90f || npc.ai[3] >= 300f || npc.Calamity().newAI[0] > 0f)
             {
@@ -184,7 +185,7 @@ namespace CalamityMod.NPCs.Signus
             Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 14);
             npc.position.X = npc.position.X + (npc.width / 2);
             npc.position.Y = npc.position.Y + (npc.height / 2);
-            npc.damage = 300;
+            npc.damage = npc.defDamage;
             npc.width = npc.height = 256;
             npc.position.X = npc.position.X - (npc.width / 2);
             npc.position.Y = npc.position.Y - (npc.height / 2);

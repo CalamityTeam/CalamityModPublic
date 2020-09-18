@@ -1,4 +1,5 @@
 ﻿using CalamityMod.Dusts;
+using CalamityMod.Events;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Materials;
@@ -33,8 +34,8 @@ namespace CalamityMod.NPCs.StormWeaver
 
         public override void SetDefaults()
         {
-            npc.damage = 180;
-            npc.npcSlots = 5f;
+			npc.GetNPCDamage();
+			npc.npcSlots = 5f;
             npc.width = 74;
             npc.height = 74;
 			bool notDoGFight = CalamityWorld.DoGSecondStageCountdown <= 0 || !CalamityWorld.downedSentinel2;
@@ -91,9 +92,9 @@ namespace CalamityMod.NPCs.StormWeaver
         {
 			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
-			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
-			bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
-            bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
+			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
+            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
 
             if (invinceTime > 0)
             {
@@ -107,7 +108,7 @@ namespace CalamityMod.NPCs.StormWeaver
                 npc.dontTakeDamage = false;
             }
 
-            if (!Main.raining && !CalamityWorld.bossRushActive && CalamityWorld.DoGSecondStageCountdown <= 0)
+            if (!Main.raining && !BossRushEvent.BossRushActive && CalamityWorld.DoGSecondStageCountdown <= 0)
             {
 				CalamityUtils.StartRain();
             }
@@ -188,8 +189,8 @@ namespace CalamityMod.NPCs.StormWeaver
 						npc.localAI[0] = 0f;
 						npc.TargetClosest(true);
 						npc.netUpdate = true;
-						float xPos = Main.rand.NextBool(2) ? npc.position.X + 300f : npc.position.X - 300f;
-						Vector2 spawnPos = new Vector2(xPos, npc.position.Y + Main.rand.Next(-300, 301));
+						float xPos = Main.rand.NextBool(2) ? Main.player[npc.target].position.X + 500f : Main.player[npc.target].position.X - 500f;
+						Vector2 spawnPos = new Vector2(xPos, Main.player[npc.target].position.Y + Main.rand.Next(-500, 501));
 						Projectile.NewProjectile(spawnPos, Vector2.Zero, ProjectileID.CultistBossLightningOrb, projectileDamage, 0f, Main.myPlayer, 0f, 0f);
 					}
 				}
@@ -348,7 +349,7 @@ namespace CalamityMod.NPCs.StormWeaver
 				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					int speed2 = revenge ? 8 : 7;
-					if (npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive))
+					if (npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))
 					{
 						speed2 += 1;
 					}
@@ -508,13 +509,10 @@ namespace CalamityMod.NPCs.StormWeaver
 				for (int num155 = 1; num155 < num153; num155 += 2)
 				{
 					Color color38 = lightColor;
-					if (npc.Calamity().newAI[0] > 280f && (CalamityWorld.revenge || CalamityWorld.bossRushActive))
-					{
-						byte newColor = (byte)MathHelper.Clamp((npc.Calamity().newAI[0] - 280f) / 120f * 255f, 0f, 255f);
-						color38.R = 0;
-						color38.G = newColor;
-						color38.B = newColor;
-					}
+
+					if (npc.Calamity().newAI[0] > 280f && (CalamityWorld.revenge || BossRushEvent.BossRushActive))
+						color38 = Color.Lerp(color38, Color.Cyan, MathHelper.Clamp((npc.Calamity().newAI[0] - 280f) / 120f, 0f, 1f));
+
 					color38 = Color.Lerp(color38, color36, amount9);
 					color38 = npc.GetAlpha(color38);
 					color38 *= (num153 - num155) / 15f;
@@ -529,13 +527,10 @@ namespace CalamityMod.NPCs.StormWeaver
 			vector43 -= new Vector2(texture2D15.Width, texture2D15.Height) * npc.scale / 2f;
 			vector43 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
 			Color color = npc.GetAlpha(lightColor);
-			if (npc.Calamity().newAI[0] > 280f && (CalamityWorld.revenge || CalamityWorld.bossRushActive))
-			{
-				byte newColor = (byte)MathHelper.Clamp((npc.Calamity().newAI[0] - 280f) / 120f * 255f, 0f, 255f);
-				color.R = 0;
-				color.G = newColor;
-				color.B = newColor;
-			}
+
+			if (npc.Calamity().newAI[0] > 280f && (CalamityWorld.revenge || BossRushEvent.BossRushActive))
+				color = Color.Lerp(color, Color.Cyan, MathHelper.Clamp((npc.Calamity().newAI[0] - 280f) / 120f, 0f, 1f));
+
 			spriteBatch.Draw(texture2D15, vector43, npc.frame, color, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 
             return false;
@@ -667,7 +662,7 @@ namespace CalamityMod.NPCs.StormWeaver
 			if (CalamityWorld.DoGSecondStageCountdown <= 0)
 			{
 				CalamityWorld.downedSentinel2 = true;
-				CalamityMod.UpdateServerBoolean();
+				CalamityNetcode.SyncWorld();
 			}
         }
 

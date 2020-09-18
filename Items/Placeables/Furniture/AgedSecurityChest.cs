@@ -1,7 +1,8 @@
 using CalamityMod.Items.Materials;
-using CalamityMod.Tiles;
+using CalamityMod.Tiles.DraedonStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.Items.Placeables.Furniture
 {
     public class AgedSecurityChest : ModItem
@@ -21,6 +22,7 @@ namespace CalamityMod.Items.Placeables.Furniture
             item.useAnimation = 15;
             item.useTime = 14;
             item.rare = 2;
+            item.Calamity().customRarity = CalamityRarity.DraedonRust;
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
             item.value = 500;

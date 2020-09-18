@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<DaemonsFlameBow>();
             item.shootSpeed = 20f;
-            item.useAmmo = 40;
+            item.useAmmo = AmmoID.Arrow;
             item.Calamity().customRarity = CalamityRarity.PureGreen;
         }
 

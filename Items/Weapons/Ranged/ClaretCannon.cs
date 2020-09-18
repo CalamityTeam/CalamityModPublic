@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Claret Cannon");
-            Tooltip.SetDefault("Fires a string of bloodfire bullets that drain enemy health");
+            Tooltip.SetDefault("Fires a string of bloody tears that drain enemy health");
         }
 
         public override void SetDefaults()
@@ -32,15 +32,12 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.UseSound = SoundID.Item40;
             item.autoReuse = true;
             item.shootSpeed = 24f;
-            item.shoot = ModContent.ProjectileType<BloodfireBullet>();
-            item.useAmmo = 97;
+            item.shoot = ModContent.ProjectileType<ClaretCannonProj>();
+            item.useAmmo = AmmoID.Bullet;
             item.Calamity().customRarity = CalamityRarity.PureGreen;
         }
 
-        public override Vector2? HoldoutOffset()
-        {
-            return new Vector2(-5, 0);
-        }
+        public override Vector2? HoldoutOffset() => new Vector2(-5, 0);
 
         public override void AddRecipes()
         {
@@ -53,7 +50,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<BloodfireBullet>(), damage, knockBack, player.whoAmI, 0.0f, 0.0f);
+            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<ClaretCannonProj>(), damage, knockBack, player.whoAmI, 0.0f, 0.0f);
             return false;
         }
     }

@@ -15,13 +15,15 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
         {
             DisplayName.SetDefault("Plasma Grenade");
             Tooltip.SetDefault("Each grenade contains a heavily condensed and heated unit of plasma. Use with care.\n" +
-							   "Throws a grenade that explodes into plasma on collision\n" +
+                               "Throws a grenade that explodes into plasma on collision\n" +
                                "Stealth strikes explode violently on collision into a vaporizing blast\n" +
-							   "Deals more damage against enemies with high defenses");
+                               "Deals more damage against enemies with high defenses");
         }
 
         public override void SafeSetDefaults()
         {
+            CalamityGlobalItem modItem = item.Calamity();
+
             item.width = 22;
             item.height = 28;
             item.damage = 8572;
@@ -37,11 +39,11 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 
             item.value = Item.sellPrice(silver: 80);
             item.rare = ItemRarityID.Red;
-            item.Calamity().customRarity = CalamityRarity.DraedonRust;
+            modItem.customRarity = CalamityRarity.DraedonRust;
 
             item.shoot = ModContent.ProjectileType<PlasmaGrenadeProjectile>();
             item.shootSpeed = 19f;
-            item.Calamity().rogue = true;
+            modItem.rogue = true;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

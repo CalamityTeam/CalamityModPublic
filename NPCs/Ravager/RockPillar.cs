@@ -1,4 +1,5 @@
 using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Events;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
@@ -17,10 +18,11 @@ namespace CalamityMod.NPCs.Ravager
 
         public override void SetDefaults()
         {
-            npc.damage = 0;
-            npc.width = 60;
+			npc.GetNPCDamage();
+			npc.width = 60;
             npc.height = 300;
 			npc.DR_NERD(0.5f);
+			npc.chaseable = false;
 			npc.lifeMax = CalamityWorld.downedProvidence ? 35000 : 5000;
             npc.alpha = 255;
             npc.aiStyle = -1;
@@ -45,34 +47,23 @@ namespace CalamityMod.NPCs.Ravager
             }
 
             if (npc.timeLeft < 1800)
-            {
                 npc.timeLeft = 1800;
-            }
 
             if (npc.alpha > 0)
             {
-                npc.alpha -= 10;
-                if (npc.alpha < 0)
-                {
-                    npc.alpha = 0;
-                }
-            }
+				npc.damage = 0;
 
-            if (Math.Abs(npc.velocity.X) > 0.5f)
-            {
-                if (CalamityWorld.downedProvidence && !CalamityWorld.bossRushActive)
-                {
-                    npc.damage = 400;
-                }
-                else
-                {
-                    npc.damage = Main.expertMode ? 200 : 120;
-                }
+				npc.alpha -= 10;
+                if (npc.alpha < 0)
+                    npc.alpha = 0;
             }
             else
             {
-                npc.damage = 0;
-            }
+                if (CalamityWorld.downedProvidence && !BossRushEvent.BossRushActive)
+                    npc.damage = npc.defDamage * 2;
+                else
+                    npc.damage = npc.defDamage;
+            }                
 
             if (npc.ai[0] == 0f)
             {

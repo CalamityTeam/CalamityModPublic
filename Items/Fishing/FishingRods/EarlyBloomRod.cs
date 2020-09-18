@@ -17,7 +17,6 @@ namespace CalamityMod.Items.Fishing.FishingRods
 
         public override void SetDefaults()
         {
-			//item.CloneDefaults(2289); //Wooden Fishing Pole
 			item.width = 24;
 			item.height = 28;
 			item.useAnimation = 8;
@@ -36,9 +35,9 @@ namespace CalamityMod.Items.Fishing.FishingRods
         {
             for (int index = 0; index < 6; ++index)
             {
-                float SpeedX = speedX + (float)Main.rand.Next(-75, 76) * 0.05f;
-                float SpeedY = speedY + (float)Main.rand.Next(-75, 76) * 0.05f;
-                int linecolor = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, 0, 0f, player.whoAmI, 0.0f, 0.0f);
+                float SpeedX = speedX + Main.rand.NextFloat(-3.75f, 3.75f);
+                float SpeedY = speedY + Main.rand.NextFloat(-3.75f, 3.75f);
+                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, 0, 0f, player.whoAmI);
             }
             return false;
         }

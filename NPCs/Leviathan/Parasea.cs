@@ -1,3 +1,4 @@
+using CalamityMod.Events;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -22,11 +23,11 @@ namespace CalamityMod.NPCs.Leviathan
             npc.noGravity = true;
             npc.noTileCollide = true;
             npc.canGhostHeal = false;
-            npc.damage = 50;
-            npc.width = npc.height = 30;
+			npc.GetNPCDamage();
+			npc.width = npc.height = 30;
             npc.defense = 8;
             npc.lifeMax = 650;
-            if (CalamityWorld.bossRushActive)
+            if (BossRushEvent.BossRushActive)
             {
                 npc.lifeMax = 50000;
             }
@@ -39,9 +40,9 @@ namespace CalamityMod.NPCs.Leviathan
 
         public override void AI()
         {
-            bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
+            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
             float speed = revenge ? 16f : 13f;
-            if (CalamityWorld.bossRushActive)
+            if (BossRushEvent.BossRushActive)
                 speed = 24f;
             CalamityAI.DungeonSpiritAI(npc, mod, speed, MathHelper.Pi);
         }

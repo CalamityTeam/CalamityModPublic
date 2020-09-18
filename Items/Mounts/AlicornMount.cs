@@ -74,12 +74,11 @@ namespace CalamityMod.Items.Mounts
         {
             CalamityPlayer modPlayer = player.Calamity();
             if (modPlayer.fabsolVodka)
+				player.allDamage += 0.1f;
+
+            if (player.velocity.Length() > 9f)
             {
-                player.allDamage += 0.1f;
-            }
-            if (Math.Abs(player.velocity.X) > 12f || Math.Abs(player.velocity.Y) > 12f)
-            {
-                int rand = Main.rand.Next(2);
+				int rand = Main.rand.Next(2);
                 bool momo = false;
                 if (rand == 1)
                 {
@@ -98,6 +97,7 @@ namespace CalamityMod.Items.Mounts
                 int dust = Dust.NewDust(new Vector2(rect.X, rect.Y), rect.Width, rect.Height, 234, 0, 0, 0, meme);
                 Main.dust[dust].noGravity = true;
             }
+
             if (player.velocity.Y != 0f)
             {
                 if (player.mount.PlayerOffset == 28)

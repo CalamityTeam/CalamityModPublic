@@ -15,8 +15,7 @@ namespace CalamityMod.Items.Accessories
             Tooltip.SetDefault("24% increased jump speed and allows constant jumping\n" +
 				"Increases fall damage resistance by 50 blocks\n" +
                 "Can climb walls, dash, and dodge attacks\n" +
-                "Dashes leave homing scythes in your wake\n" +
-                "Toggle visibility of this accessory to enable/disable the dash");
+                "Dashes leave homing scythes in your wake");
             Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(8, 3));
         }
 
@@ -36,8 +35,7 @@ namespace CalamityMod.Items.Accessories
             player.jumpSpeedBoost += 1.2f;
             player.extraFall += 50;
             player.blackBelt = true;
-            if (!hideVisual)
-				modPlayer.dashMod = 7;
+			modPlayer.dashMod = 7;
             player.spikedBoots = 2;
         }
 

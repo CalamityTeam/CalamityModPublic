@@ -1,4 +1,6 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CalamityMod.Items;
+using CalamityMod.Items.Weapons.DraedonsArsenal;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -7,7 +9,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 {
     public class HydraulicVoltCrasherProjectile : ModProjectile
     {
-		private int chargeCooldown = 0;
+        private int chargeCooldown = 0;
 
         public override void SetStaticDefaults()
         {
@@ -39,9 +41,9 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                     projectile.frame = 0;
                 }
             }
-			// Decrement charge cooldown
-			if (chargeCooldown > 0)
-				chargeCooldown = 0;
+            // Decrement charge cooldown
+            if (chargeCooldown > 0)
+                chargeCooldown = 0;
             // Play idle sounds every so often.
             if (projectile.soundDelay <= 0)
             {
@@ -50,19 +52,26 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             }
             Player player = Main.player[projectile.owner];
             Vector2 center = player.RotatedRelativePoint(player.MountedCenter);
+
             if (Main.myPlayer == player.whoAmI)
             {
-                if (player.channel)
+                // Get the projectile owner's held item. If it's not a modded item, stop now to prevent weird errors.
+                Item heldItem = player.ActiveItem();
+                if (heldItem.type < ItemID.Count)
                 {
-                    // Attempt to use power from the held item.
-                    if (player.ActiveItem().type >= ItemID.Count &&
-                        player.ActiveItem().Calamity().Chargeable &&
-                        player.ActiveItem().Calamity().CurrentCharge > 0 &&
-                        Main.rand.NextBool(50))
-                    {
-                        player.ActiveItem().Calamity().CurrentCharge--;
-                    }
+                    projectile.Kill();
+                    return;
+                }
 
+                // Update the damage of the holdout projectile constantly so that it decreases as charge decreases, even while in use.
+                projectile.damage = player.GetWeaponDamage(heldItem);
+
+                // Check if the player's held item still has sufficient charge. If so, and they're still using it, take a tiny bit of charge from it.
+                CalamityGlobalItem modItem = heldItem.Calamity();
+                if (player.channel && modItem.Charge >= HydraulicVoltCrasher.HoldoutChargeUse)
+                {
+                    modItem.Charge -= HydraulicVoltCrasher.HoldoutChargeUse;
+                    
                     float speed = player.inventory[player.selectedItem].shootSpeed * projectile.scale;
                     Vector2 toPointTo = Main.MouseWorld;
                     if (player.gravDir == -1f)
@@ -106,14 +115,14 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/PlasmaBolt"), target.Center);
-			if (chargeCooldown > 0)
-				return;
-			chargeCooldown = 60;
+            if (chargeCooldown > 0)
+                return;
+            chargeCooldown = 60;
             TryToSuperchargeNPC(target);
             for (int i = 0; i < Main.npc.Length; i++)
             {
                 if (i != target.whoAmI &&
-                    target.CanBeChasedBy(projectile, false) &&
+                    Main.npc[i].CanBeChasedBy(projectile, false) &&
                     Main.npc[i].Distance(target.Center) < 240f)
                 {
                     if (TryToSuperchargeNPC(Main.npc[i]))

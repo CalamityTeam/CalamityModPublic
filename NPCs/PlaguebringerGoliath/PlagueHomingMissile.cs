@@ -1,5 +1,6 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
+using CalamityMod.Events;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -20,11 +21,11 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
         public override void SetDefaults()
         {
-            npc.damage = 90;
-            npc.width = 22;
+			npc.GetNPCDamage();
+			npc.width = 22;
             npc.height = 22;
             npc.defense = 10;
-            npc.lifeMax = CalamityWorld.bossRushActive ? 20000 : 200;
+            npc.lifeMax = BossRushEvent.BossRushActive ? 20000 : 200;
             npc.aiStyle = -1;
             aiType = -1;
             npc.knockBackResist = 0f;

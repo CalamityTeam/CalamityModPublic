@@ -1,6 +1,7 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Dusts;
+using CalamityMod.Events;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -22,15 +23,15 @@ namespace CalamityMod.NPCs.Calamitas
 
         public override void SetDefaults()
         {
-            npc.damage = 55;
-            npc.npcSlots = 14f;
+			npc.GetNPCDamage();
+			npc.npcSlots = 14f;
             npc.width = 120;
             npc.height = 120;
             npc.defense = 15;
 			npc.DR_NERD(0.15f);
             npc.value = 0f;
             npc.LifeMaxNERB(37500, 51750, 5200000);
-            if (CalamityWorld.downedProvidence && !CalamityWorld.bossRushActive)
+            if (CalamityWorld.downedProvidence && !BossRushEvent.BossRushActive)
             {
                 npc.damage *= 3;
                 npc.defense *= 3;
@@ -189,7 +190,7 @@ namespace CalamityMod.NPCs.Calamitas
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
             npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);
-            npc.damage = (int)(npc.damage * 0.8f);
+            npc.damage = (int)(npc.damage * npc.GetExpertDamageMultiplier());
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)

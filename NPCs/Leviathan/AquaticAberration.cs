@@ -1,4 +1,5 @@
 using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Events;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -19,12 +20,12 @@ namespace CalamityMod.NPCs.Leviathan
         public override void SetDefaults()
         {
             npc.aiStyle = -1;
-            npc.damage = 55;
-            npc.width = 50;
+			npc.GetNPCDamage();
+			npc.width = 50;
             npc.height = 50;
             npc.defense = 14;
             npc.lifeMax = 1600;
-            if (CalamityWorld.bossRushActive)
+            if (BossRushEvent.BossRushActive)
             {
                 npc.lifeMax = 100000;
             }

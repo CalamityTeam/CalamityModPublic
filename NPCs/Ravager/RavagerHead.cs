@@ -1,5 +1,6 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Events;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -57,23 +58,23 @@ namespace CalamityMod.NPCs.Ravager
             npc.value = Item.buyPrice(0, 0, 0, 0);
             npc.HitSound = SoundID.NPCHit41;
             npc.DeathSound = null;
-            if (CalamityWorld.downedProvidence)
+            if (CalamityWorld.downedProvidence && !BossRushEvent.BossRushActive)
             {
-                npc.defense = 150;
-                npc.lifeMax = 260000;
+                npc.defense *= 2;
+                npc.lifeMax *= 7;
             }
-            if (CalamityWorld.bossRushActive)
+            if (BossRushEvent.BossRushActive)
             {
                 npc.lifeMax = 450000;
             }
-            double HPBoost = (double)CalamityConfig.Instance.BossHealthBoost * 0.01;
-            npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
+            double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
+            npc.lifeMax += (int)(npc.lifeMax * HPBoost);
         }
 
         public override void AI()
         {
-            bool provy = CalamityWorld.downedProvidence && !CalamityWorld.bossRushActive;
-            bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
+            bool provy = CalamityWorld.downedProvidence && !BossRushEvent.BossRushActive;
+            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
 			Player player = Main.player[npc.target];
             if (CalamityGlobalNPC.scavenger < 0 || !Main.npc[CalamityGlobalNPC.scavenger].active)
             {
@@ -115,8 +116,7 @@ namespace CalamityMod.NPCs.Ravager
                 npc.ai[1] = 30f;
             }
             npc.ai[1] += 1f;
-            int nukeTimer = 450;
-            if (npc.ai[1] >= (float)nukeTimer)
+            if (npc.ai[1] >= 450f)
             {
                 Main.PlaySound(SoundID.Item62, npc.position);
                 npc.TargetClosest(true);

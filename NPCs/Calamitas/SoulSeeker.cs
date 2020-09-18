@@ -1,8 +1,8 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Dusts;
+using CalamityMod.Events;
 using CalamityMod.Projectiles.Boss;
-using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -20,7 +20,7 @@ namespace CalamityMod.NPCs.Calamitas
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Soul Seeker");
-			NPCID.Sets.TrailingMode[npc.type] = 1;
+			NPCID.Sets.TrailingMode[npc.type] = 5;
 		}
 
         public override void SetDefaults()
@@ -36,7 +36,7 @@ namespace CalamityMod.NPCs.Calamitas
             npc.defense = 10;
 			npc.DR_NERD(0.1f);
             npc.lifeMax = 2500;
-            if (CalamityWorld.bossRushActive)
+            if (BossRushEvent.BossRushActive)
             {
                 npc.lifeMax = 150000;
             }
@@ -72,6 +72,14 @@ namespace CalamityMod.NPCs.Calamitas
             npc.DeathSound = SoundID.NPCDeath14;
         }
 
+		public override void FindFrame(int frameHeight)
+        {
+            npc.frameCounter += 0.15f;
+            npc.frameCounter %= Main.npcFrameCount[npc.type];
+            int frame = (int)npc.frameCounter;
+            npc.frame.Y = frame * frameHeight;
+        }
+
         public override bool PreAI()
         {
 			// Setting this in SetDefaults will disable expert mode scaling, so put it here instead
@@ -84,11 +92,12 @@ namespace CalamityMod.NPCs.Calamitas
 				npc.netUpdate = true;
 				return false;
 			}
+            NPC parent = Main.npc[CalamityGlobalNPC.calamitas];
 			if (start)
             {
-                for (int num621 = 0; num621 < 15; num621++)
+                for (int d = 0; d < 15; d++)
                 {
-                    int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 235, 0f, 0f, 100, default, 2f);
+                    Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 2f);
                 }
                 npc.ai[1] = npc.ai[0];
                 start = false;
@@ -96,30 +105,29 @@ namespace CalamityMod.NPCs.Calamitas
             npc.TargetClosest(true);
             Vector2 direction = Main.player[npc.target].Center - npc.Center;
             direction.Normalize();
-            direction *= CalamityWorld.bossRushActive ? 14f : 9f;
-            npc.rotation = direction.ToRotation();
+            direction *= BossRushEvent.BossRushActive ? 14f : 9f;
+            npc.rotation = direction.ToRotation() + MathHelper.Pi;
             timer++;
             if (timer > 60)
             {
-                if (Main.netMode != NetmodeID.MultiplayerClient && Main.rand.NextBool(10) && Main.npc[CalamityGlobalNPC.calamitas].ai[1] < 2f)
+                if (Main.netMode != NetmodeID.MultiplayerClient && Main.rand.NextBool(10) && parent.ai[1] < 2f)
                 {
-                    if (NPC.CountNPCS(ModContent.NPCType<LifeSeeker>()) < 3)
+					int npcType = ModContent.NPCType<LifeSeeker>();
+                    if (NPC.CountNPCS(npcType) < 3)
                     {
                         int x = (int)(npc.position.X + Main.rand.Next(npc.width - 25));
                         int y = (int)(npc.position.Y + Main.rand.Next(npc.height - 25));
-                        int num663 = ModContent.NPCType<LifeSeeker>();
-                        int num664 = NPC.NewNPC(x, y, num663, 0, 0f, 0f, 0f, 0f, 255);
+                        NPC.NewNPC(x, y, npcType, 0, 0f, 0f, 0f, 0f, 255);
                     }
-                    for (int num621 = 0; num621 < 3; num621++)
+                    for (int d = 0; d < 3; d++)
                     {
-                        int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 235, 0f, 0f, 100, default, 2f);
+                        Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 2f);
                     }
                     int damage = expertMode ? 25 : 30;
-                    Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X, direction.Y, ModContent.ProjectileType<BrimstoneBarrage>(), damage, 1f, npc.target);
+                    Projectile.NewProjectile(npc.Center, direction, ModContent.ProjectileType<BrimstoneBarrage>(), damage, 1f, npc.target);
                 }
                 timer = 0;
             }
-            NPC parent = Main.npc[NPC.FindFirstNPC(ModContent.NPCType<CalamitasRun3>())];
             double deg = npc.ai[1];
             double rad = deg * (Math.PI / 180);
             double dist = 150;
@@ -137,33 +145,29 @@ namespace CalamityMod.NPCs.Calamitas
             }
             if (npc.life <= 0)
             {
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/CalamitasGores/SoulSlurper"), 1f);
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/CalamitasGores/SoulSlurper2"), 1f);
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/CalamitasGores/SoulSlurper3"), 1f);
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/CalamitasGores/SoulSlurper4"), 1f);
-                npc.position.X = npc.position.X + (float)(npc.width / 2);
-                npc.position.Y = npc.position.Y + (float)(npc.height / 2);
-                npc.width = 50;
-                npc.height = 50;
-                npc.position.X = npc.position.X - (float)(npc.width / 2);
-                npc.position.Y = npc.position.Y - (float)(npc.height / 2);
-                for (int num621 = 0; num621 < 20; num621++)
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/CalamitasGores/SoulSeeker"), 1f);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/CalamitasGores/SoulSeeker2"), 1f);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/CalamitasGores/SoulSeeker3"), 1f);
+                npc.position = npc.Center;
+                npc.width = npc.height = 50;
+                npc.Center = npc.position;
+                for (int d = 0; d < 20; d++)
                 {
-                    int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 2f);
-                    Main.dust[num622].velocity *= 3f;
+                    int red = Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 2f);
+                    Main.dust[red].velocity *= 3f;
                     if (Main.rand.NextBool(2))
                     {
-                        Main.dust[num622].scale = 0.5f;
-                        Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
+                        Main.dust[red].scale = 0.5f;
+                        Main.dust[red].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
                     }
                 }
-                for (int num623 = 0; num623 < 40; num623++)
+                for (int d = 0; d < 40; d++)
                 {
-                    int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 3f);
-                    Main.dust[num624].noGravity = true;
-                    Main.dust[num624].velocity *= 5f;
-                    num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 2f);
-                    Main.dust[num624].velocity *= 2f;
+                    int red = Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 3f);
+                    Main.dust[red].noGravity = true;
+                    Main.dust[red].velocity *= 5f;
+                    red = Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 2f);
+                    Main.dust[red].velocity *= 2f;
                 }
             }
         }
@@ -179,50 +183,50 @@ namespace CalamityMod.NPCs.Calamitas
 			if (npc.spriteDirection == 1)
 				spriteEffects = SpriteEffects.FlipHorizontally;
 
-			Texture2D texture2D15 = Main.npcTexture[npc.type];
-			Vector2 vector11 = new Vector2((float)(Main.npcTexture[npc.type].Width / 2), (float)(Main.npcTexture[npc.type].Height / 2));
-			Color color36 = Color.White;
-			float amount9 = 0.5f;
-			int num153 = 5;
+			Texture2D texture = Main.npcTexture[npc.type];
+			Vector2 origin = new Vector2(texture.Width / 2f, texture.Height / Main.npcFrameCount[npc.type] / 2f);
+			Color white = Color.White;
+			float colorLerpAmt = 0.5f;
+			int afterImageAmt = 5;
 
 			if (CalamityConfig.Instance.Afterimages)
 			{
-				for (int num155 = 1; num155 < num153; num155 += 2)
+				for (int a = 1; a < afterImageAmt; a += 2)
 				{
-					Color color38 = lightColor;
-					color38 = Color.Lerp(color38, color36, amount9);
-					color38 = npc.GetAlpha(color38);
-					color38 *= (float)(num153 - num155) / 15f;
-					Vector2 vector41 = npc.oldPos[num155] + new Vector2((float)npc.width, (float)npc.height) / 2f - Main.screenPosition;
-					vector41 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height)) * npc.scale / 2f;
-					vector41 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
-					spriteBatch.Draw(texture2D15, vector41, npc.frame, color38, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+					Color afterImageColor = lightColor;
+					afterImageColor = Color.Lerp(afterImageColor, white, colorLerpAmt);
+					afterImageColor = npc.GetAlpha(afterImageColor);
+					afterImageColor *= (float)(afterImageAmt - a) / 15f;
+					Vector2 afterimagePos = npc.oldPos[a] + new Vector2(npc.width, npc.height) / 2f - Main.screenPosition;
+					afterimagePos -= new Vector2(texture.Width, texture.Height / Main.npcFrameCount[npc.type]) * npc.scale / 2f;
+					afterimagePos += origin * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+					spriteBatch.Draw(texture, afterimagePos, npc.frame, afterImageColor, npc.rotation, origin, npc.scale, spriteEffects, 0f);
 				}
 			}
 
-			Vector2 vector43 = npc.Center - Main.screenPosition;
-			vector43 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height)) * npc.scale / 2f;
-			vector43 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
-			spriteBatch.Draw(texture2D15, vector43, npc.frame, npc.GetAlpha(lightColor), npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+			Vector2 drawPos = npc.Center - Main.screenPosition;
+			drawPos -= new Vector2((float)texture.Width, (float)(texture.Height)) * npc.scale / 2f;
+			drawPos += origin * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+			spriteBatch.Draw(texture, drawPos, npc.frame, npc.GetAlpha(lightColor), npc.rotation, origin, npc.scale, spriteEffects, 0f);
 
-			texture2D15 = ModContent.GetTexture("CalamityMod/NPCs/Calamitas/SoulSeekerGlow");
-			Color color37 = Color.Lerp(Color.White, Color.Red, 0.5f);
+			texture = ModContent.GetTexture("CalamityMod/NPCs/Calamitas/SoulSeekerGlow");
+			Color glow = Color.Lerp(Color.White, Color.Red, colorLerpAmt);
 
 			if (CalamityConfig.Instance.Afterimages)
 			{
-				for (int num163 = 1; num163 < num153; num163++)
+				for (int a = 1; a < afterImageAmt; a++)
 				{
-					Color color41 = color37;
-					color41 = Color.Lerp(color41, color36, amount9);
-					color41 *= (float)(num153 - num163) / 15f;
-					Vector2 vector44 = npc.oldPos[num163] + new Vector2((float)npc.width, (float)npc.height) / 2f - Main.screenPosition;
-					vector44 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height)) * npc.scale / 2f;
-					vector44 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
-					spriteBatch.Draw(texture2D15, vector44, npc.frame, color41, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+					Color glowColor = glow;
+					glowColor = Color.Lerp(glowColor, white, colorLerpAmt);
+					glowColor *= (float)(afterImageAmt - a) / 15f;
+					Vector2 afterimagePos = npc.oldPos[a] + new Vector2(npc.width, npc.height) / 2f - Main.screenPosition;
+					afterimagePos -= new Vector2(texture.Width, texture.Height / Main.npcFrameCount[npc.type]) * npc.scale / 2f;
+					afterimagePos += origin * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+					spriteBatch.Draw(texture, afterimagePos, npc.frame, glowColor, npc.rotation, origin, npc.scale, spriteEffects, 0f);
 				}
 			}
 
-			spriteBatch.Draw(texture2D15, vector43, npc.frame, color37, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+			spriteBatch.Draw(texture, drawPos, npc.frame, white, npc.rotation, origin, npc.scale, spriteEffects, 0f);
 
 			return false;
 		}

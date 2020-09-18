@@ -1,3 +1,4 @@
+using CalamityMod.Events;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -23,7 +24,7 @@ namespace CalamityMod.NPCs.HiveMind
             npc.width = 25;
             npc.height = 25;
             npc.lifeMax = 150;
-            if (CalamityWorld.bossRushActive)
+            if (BossRushEvent.BossRushActive)
             {
                 npc.lifeMax = 13000;
             }
@@ -39,9 +40,9 @@ namespace CalamityMod.NPCs.HiveMind
 
         public override void AI()
         {
-			bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
-			bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
-			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
+			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
+			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
+			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
 
 			int num750 = CalamityGlobalNPC.hiveMind;
 			if (num750 < 0 || !Main.npc[num750].active)

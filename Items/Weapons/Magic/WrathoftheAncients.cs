@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Wrath of the Ancients");
-            Tooltip.SetDefault("Casts a granite energy pulse");
+            Tooltip.SetDefault("Summons an energy pulse at the cursor to periodically summon homing spirits");
         }
 
         public override void SetDefaults()

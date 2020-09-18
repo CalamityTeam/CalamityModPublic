@@ -1,3 +1,4 @@
+using CalamityMod.Events;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
@@ -17,18 +18,18 @@ namespace CalamityMod.NPCs.Cryogen
 
         public override void SetDefaults()
         {
-            npc.damage = 35;
-            npc.width = 40;
+			npc.GetNPCDamage();
+			npc.width = 40;
             npc.height = 40;
             npc.defense = 6;
             npc.lifeMax = 220;
-            if (CalamityWorld.bossRushActive)
+            if (BossRushEvent.BossRushActive)
             {
                 npc.lifeMax = 30000;
             }
             npc.aiStyle = -1;
             aiType = -1;
-            npc.knockBackResist = CalamityWorld.bossRushActive ? 0f : 0.75f;
+            npc.knockBackResist = BossRushEvent.BossRushActive ? 0f : 0.75f;
             npc.noGravity = true;
             npc.noTileCollide = true;
             npc.canGhostHeal = false;
@@ -51,7 +52,7 @@ namespace CalamityMod.NPCs.Cryogen
             npc.TargetClosest(true);
             bool revenge = CalamityWorld.revenge;
             float speed = revenge ? 12f : 11f;
-            if (CalamityWorld.bossRushActive)
+            if (BossRushEvent.BossRushActive)
                 speed = 24f;
             Vector2 vector167 = new Vector2(npc.Center.X + (float)(npc.direction * 20), npc.Center.Y + 6f);
             float num1373 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - vector167.X;

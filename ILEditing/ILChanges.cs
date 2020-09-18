@@ -23,11 +23,7 @@ namespace CalamityMod.ILEditing
                 cursor.EmitDelegate<Action>(() =>
                 {
                     WorldGen.dungeonX += (WorldGen.dungeonX < Main.maxTilesX / 2).ToDirectionInt() * 450;
-
-                    if (WorldGen.dungeonX < 200)
-                        WorldGen.dungeonX = 200;
-                    if (WorldGen.dungeonX > Main.maxTilesX - 200)
-                        WorldGen.dungeonX = Main.maxTilesX - 200;
+                    WorldGen.dungeonX = Utils.Clamp(WorldGen.dungeonX, 200, Main.maxTilesX - 200);
                 });
             };
         }

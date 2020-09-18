@@ -1,5 +1,6 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Events;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -19,14 +20,14 @@ namespace CalamityMod.NPCs.Perforator
 
         public override void SetDefaults()
         {
-            npc.damage = 21;
-            npc.npcSlots = 5f;
+			npc.GetNPCDamage();
+			npc.npcSlots = 5f;
             npc.width = 54;
             npc.height = 54;
             npc.defense = 6;
 			npc.LifeMaxNERB(2000, 2200, 700000);
-            double HPBoost = (double)CalamityConfig.Instance.BossHealthBoost * 0.01;
-            npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
+            double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
+            npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.aiStyle = 6;
             aiType = -1;
             npc.knockBackResist = 0f;
@@ -55,8 +56,8 @@ namespace CalamityMod.NPCs.Perforator
 
 			Player player = Main.player[npc.target];
 
-			bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
-            bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
+			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
+            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
                 int shoot = revenge ? 5 : 4;
@@ -67,7 +68,7 @@ namespace CalamityMod.NPCs.Perforator
                     npc.TargetClosest(true);
                     if (Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height))
                     {
-                        float num941 = revenge ? 9f : 8f;
+                        float num941 = revenge ? 7f : 6f;
                         Vector2 vector104 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + (npc.height / 2));
                         float num942 = player.position.X + player.width * 0.5f - vector104.X;
                         float num943 = player.position.Y + player.height * 0.5f - vector104.Y;
@@ -160,7 +161,6 @@ namespace CalamityMod.NPCs.Perforator
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
             npc.lifeMax = (int)(npc.lifeMax * 0.7f * bossLifeScale);
-            npc.damage = (int)(npc.damage * 0.8f);
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)

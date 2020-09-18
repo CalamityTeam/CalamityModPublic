@@ -1,6 +1,7 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Dusts;
+using CalamityMod.Events;
 using CalamityMod.Items;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
@@ -28,8 +29,8 @@ namespace CalamityMod.NPCs.ProfanedGuardians
         {
             npc.npcSlots = 3f;
             npc.aiStyle = -1;
-            npc.damage = 90;
-            npc.width = 100;
+			npc.GetNPCDamage();
+			npc.width = 100;
             npc.height = 80;
             npc.defense = 35;
 			npc.DR_NERD(0.05f);
@@ -102,7 +103,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 			bool isHell = player.ZoneUnderworldHeight;
 
             // Become immune over time if target isn't in hell or hallow
-            if (!isHoly && !isHell && !CalamityWorld.bossRushActive)
+            if (!isHoly && !isHell && !BossRushEvent.BossRushActive)
             {
                 if (immuneTimer > 0)
                     immuneTimer--;
@@ -212,7 +213,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 						for (int i = 0; i < totalProjectiles; i++)
 						{
 							Vector2 vector255 = new Vector2(0f, -velocity).RotatedBy(radians * i);
-							Projectile.NewProjectile(npc.Center, vector255, ModContent.ProjectileType<HealOrbProv>(), 0, 0f, Main.myPlayer, 0f, 0f);
+							Projectile.NewProjectile(npc.Center, vector255, ModContent.ProjectileType<HealOrbProv>(), 0, 0f, Main.myPlayer, npc.target, -32);
 						}
                     }
                 }
@@ -309,7 +310,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
             npc.lifeMax = (int)(npc.lifeMax * 0.7f * bossLifeScale);
-            npc.damage = (int)(npc.damage * 0.8f);
+            npc.damage = (int)(npc.damage * npc.GetExpertDamageMultiplier());
         }
 
         public override void HitEffect(int hitDirection, double damage)

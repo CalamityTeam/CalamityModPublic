@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Ammo
             item.value = 2250;
             item.shoot = ModContent.ProjectileType<VanquisherArrowMain>();
             item.shootSpeed = 10f;
-            item.ammo = 40;
+            item.ammo = AmmoID.Arrow;
             item.Calamity().customRarity = CalamityRarity.DarkBlue;
         }
 

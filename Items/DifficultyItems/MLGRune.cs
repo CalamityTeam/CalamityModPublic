@@ -35,7 +35,7 @@ namespace CalamityMod.Items.DifficultyItems
         public override bool UseItem(Player player)
         {
             CalamityWorld.demonMode = true;
-            CalamityMod.UpdateServerBoolean();
+            CalamityNetcode.SyncWorld();
             if (Main.netMode == NetmodeID.Server)
             {
                 var netMessage = mod.GetPacket();

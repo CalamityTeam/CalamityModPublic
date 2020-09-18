@@ -1,3 +1,4 @@
+using CalamityMod.Events;
 using CalamityMod.NPCs.SlimeGod;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -60,7 +61,7 @@ namespace CalamityMod.Items.DifficultyItems
             }
         }
 
-        public override bool CanUseItem(Player player) => Main.expertMode && !CalamityWorld.bossRushActive;
+        public override bool CanUseItem(Player player) => Main.expertMode && !BossRushEvent.BossRushActive;
 
         public override bool UseItem(Player player)
         {
@@ -88,7 +89,7 @@ namespace CalamityMod.Items.DifficultyItems
                     NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
                 }
 
-                CalamityMod.UpdateServerBoolean();
+                CalamityNetcode.SyncWorld();
             }
             else
             {
@@ -134,7 +135,7 @@ namespace CalamityMod.Items.DifficultyItems
                 }
                 CalamityWorld.DoGSecondStageCountdown = 0;
 
-                CalamityMod.UpdateServerBoolean();
+                CalamityNetcode.SyncWorld();
                 if (Main.netMode == NetmodeID.Server)
                 {
                     var netMessage = mod.GetPacket();

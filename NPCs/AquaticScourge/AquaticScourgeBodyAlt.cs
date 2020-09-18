@@ -1,3 +1,4 @@
+using CalamityMod.Events;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -15,8 +16,8 @@ namespace CalamityMod.NPCs.AquaticScourge
 
         public override void SetDefaults()
         {
-            npc.damage = 55;
-            npc.width = 32;
+			npc.GetNPCDamage();
+			npc.width = 32;
             npc.height = 32;
             npc.defense = 15;
 			npc.DR_NERD(0.05f);
@@ -41,7 +42,7 @@ namespace CalamityMod.NPCs.AquaticScourge
             npc.chaseable = false;
             npc.canGhostHeal = false;
 
-			if (CalamityWorld.death || CalamityWorld.bossRushActive)
+			if (CalamityWorld.death || BossRushEvent.BossRushActive)
 				npc.scale = 1.2f;
 			else if (CalamityWorld.revenge)
 				npc.scale = 1.15f;
@@ -81,7 +82,7 @@ namespace CalamityMod.NPCs.AquaticScourge
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
             npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);
-            npc.damage = (int)(npc.damage * 0.85f);
+            npc.damage = (int)(npc.damage * npc.GetExpertDamageMultiplier());
         }
 
         public override void HitEffect(int hitDirection, double damage)

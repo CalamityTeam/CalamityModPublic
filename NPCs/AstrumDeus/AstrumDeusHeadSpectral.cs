@@ -34,8 +34,8 @@ namespace CalamityMod.NPCs.AstrumDeus
 
         public override void SetDefaults()
         {
-            npc.damage = 120;
-            npc.npcSlots = 5f;
+			npc.GetNPCDamage();
+			npc.npcSlots = 5f;
             npc.width = 56;
             npc.height = 56;
             npc.defense = 25;
@@ -275,7 +275,7 @@ namespace CalamityMod.NPCs.AstrumDeus
 
             // Mark Astrum Deus as dead
             CalamityWorld.downedStarGod = true;
-            CalamityMod.UpdateServerBoolean();
+            CalamityNetcode.SyncWorld();
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)

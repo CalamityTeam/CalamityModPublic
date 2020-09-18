@@ -37,18 +37,16 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            float SpeedX = speedX + (float)Main.rand.Next(-30, 31) * 0.05f;
-            float SpeedY = speedY + (float)Main.rand.Next(-30, 31) * 0.05f;
-            int stealth = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
+            float SpeedX = speedX + Main.rand.NextFloat(-1.5f, 1.5f);
+            float SpeedY = speedY + Main.rand.NextFloat(-1.5f, 1.5f);
+            int stealth = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI, 0f, 0f);
             if (player.Calamity().StealthStrikeAvailable() && player.ownedProjectileCounts[ModContent.ProjectileType<ShroomerangSpore>()] < 20)
             {
 				Main.projectile[stealth].Calamity().stealthStrike = true;
                 for (float i = 0; i < Main.rand.Next(7,11); i++)
                 {
-                    Vector2 velocity = new Vector2((float)Main.rand.Next(-50, 51), (float)Main.rand.Next(-50, 51));
-                    velocity.Normalize();
-                    velocity *= (float)Main.rand.Next(10, 51) * 0.01f;
-                    int spore = Projectile.NewProjectile(player.Center, velocity, ModContent.ProjectileType<ShroomerangSpore>(), (int)(damage * 0.5f), knockBack, player.whoAmI, 0f, 0f);
+					Vector2 velocity = CalamityUtils.RandomVelocity(50f, 10f, 50f, 0.01f);
+                    int spore = Projectile.NewProjectile(player.Center, velocity, ModContent.ProjectileType<ShroomerangSpore>(), (int)(damage * 0.5f), knockBack, player.whoAmI);
 					Main.projectile[spore].Calamity().lineColor = 1;
                 }
             }

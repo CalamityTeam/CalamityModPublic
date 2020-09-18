@@ -7,7 +7,6 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class OldDukeHeadCorpse : ModProjectile
     {
-
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Absolutely Disgusting Shark Puker");

@@ -18,8 +18,8 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             item.damage = 35;
             item.ranged = true;
-            item.width = 50;
-            item.height = 32;
+            item.width = 56;
+            item.height = 30;
             item.useTime = 10;
             item.useAnimation = 10;
             item.useStyle = ItemUseStyleID.HoldingOut;
@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.autoReuse = true;
             item.shootSpeed = 24f;
             item.shoot = ModContent.ProjectileType<ShockblastRound>();
-            item.useAmmo = 97;
+            item.useAmmo = AmmoID.Bullet;
         }
 
         public override Vector2? HoldoutOffset()

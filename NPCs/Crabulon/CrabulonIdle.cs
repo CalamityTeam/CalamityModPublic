@@ -1,5 +1,6 @@
 using CalamityMod.Buffs.StatBuffs;
 using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Events;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
@@ -33,8 +34,8 @@ namespace CalamityMod.NPCs.Crabulon
         public override void SetDefaults()
         {
             npc.npcSlots = 14f;
-            npc.damage = 40;
-            npc.width = 280;
+			npc.GetNPCDamage();
+			npc.width = 280;
             npc.height = 160;
             npc.defense = 8;
             npc.LifeMaxNERB(3000, 4000, 11000000);
@@ -77,9 +78,9 @@ namespace CalamityMod.NPCs.Crabulon
 
 			Lighting.AddLight((int)((npc.position.X + (npc.width / 2)) / 16f), (int)((npc.position.Y + (npc.height / 2)) / 16f), 0f, 0.3f, 0.7f);
 			
-			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
-			bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
-            bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
+			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
+            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
 
             npc.spriteDirection = npc.direction;
 
@@ -137,7 +138,7 @@ namespace CalamityMod.NPCs.Crabulon
                 {
                     int num352 = 1;
                     npc.localAI[3] += 2f;
-                    if (CalamityWorld.bossRushActive)
+                    if (BossRushEvent.BossRushActive)
                     {
                         npc.localAI[3] += 2f;
                         num352 += 3;
@@ -172,7 +173,7 @@ namespace CalamityMod.NPCs.Crabulon
                         int num354 = expertMode ? 12 : 16;
                         int num355 = ModContent.ProjectileType<MushBomb>();
                         Main.PlaySound(SoundID.Item42, (int)npc.position.X, (int)npc.position.Y);
-                        if (CalamityWorld.bossRushActive)
+                        if (BossRushEvent.BossRushActive)
                         {
                             num353 += 3f;
                         }
@@ -239,9 +240,9 @@ namespace CalamityMod.NPCs.Crabulon
                     num823 = 1.5f;
                 if (phase3)
                     num823 = 2f;
-                if (CalamityWorld.bossRushActive)
+                if (BossRushEvent.BossRushActive)
                     num823 = 12f;
-                if (npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive))
+                if (npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))
                     num823 = 16f;
 
                 if (Math.Abs(npc.Center.X - player.Center.X) < 50f)
@@ -371,8 +372,8 @@ namespace CalamityMod.NPCs.Crabulon
                     }
                     else if (npc.ai[1] == -1f)
                     {
-						int velocityX = CalamityWorld.bossRushActive ? 12 : 4;
-						float velocityY = CalamityWorld.bossRushActive ? -16f : -12f;
+						int velocityX = BossRushEvent.BossRushActive ? 12 : 4;
+						float velocityY = BossRushEvent.BossRushActive ? -16f : -12f;
 
 						float distanceBelowTarget = npc.position.Y - (player.position.Y + 80f);
 						float speedMult = 1f;
@@ -497,7 +498,7 @@ namespace CalamityMod.NPCs.Crabulon
 					if (npc.position.X < player.position.X && npc.position.X + npc.width > player.position.X + player.width)
                     {
                         npc.velocity.X *= 0.9f;
-                        npc.velocity.Y += CalamityWorld.bossRushActive ? 0.3f : 0.15f;
+                        npc.velocity.Y += BossRushEvent.BossRushActive ? 0.3f : 0.15f;
                     }
                     else
                     {
@@ -510,12 +511,12 @@ namespace CalamityMod.NPCs.Crabulon
                         else if (npc.direction > 0)
                             npc.velocity.X += velocityX;
 
-                        float num626 = CalamityWorld.bossRushActive ? 5f : 2.5f;
+                        float num626 = BossRushEvent.BossRushActive ? 5f : 2.5f;
                         if (revenge)
                         {
                             num626 += 1f;
                         }
-                        if (npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive))
+                        if (npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))
                         {
                             num626 += 3f;
                         }
@@ -667,13 +668,13 @@ namespace CalamityMod.NPCs.Crabulon
 
             // Mark Crabulon as dead
             CalamityWorld.downedCrabulon = true;
-            CalamityMod.UpdateServerBoolean();
+            CalamityNetcode.SyncWorld();
         }
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
             npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);
-            npc.damage = (int)(npc.damage * 0.8f);
+            npc.damage = (int)(npc.damage * npc.GetExpertDamageMultiplier());
         }
 
         public override void HitEffect(int hitDirection, double damage)

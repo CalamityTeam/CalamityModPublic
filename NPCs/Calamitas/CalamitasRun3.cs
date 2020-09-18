@@ -1,6 +1,7 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Dusts;
+using CalamityMod.Events;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.LoreItems;
@@ -35,15 +36,15 @@ namespace CalamityMod.NPCs.Calamitas
 
         public override void SetDefaults()
         {
-            npc.damage = 70;
-            npc.npcSlots = 14f;
+			npc.GetNPCDamage();
+			npc.npcSlots = 14f;
             npc.width = 120;
             npc.height = 120;
             npc.defense = 25;
             npc.value = Item.buyPrice(0, 15, 0, 0);
 			npc.DR_NERD(0.15f);
 			npc.LifeMaxNERB(28125, 38812, 3900000);
-            if (CalamityWorld.downedProvidence && !CalamityWorld.bossRushActive)
+            if (CalamityWorld.downedProvidence && !BossRushEvent.BossRushActive)
             {
                 npc.damage *= 3;
                 npc.defense *= 3;
@@ -225,7 +226,7 @@ namespace CalamityMod.NPCs.Calamitas
 
             // Mark Calamitas as dead
             CalamityWorld.downedCalamitas = true;
-            CalamityMod.UpdateServerBoolean();
+            CalamityNetcode.SyncWorld();
         }
 
         public override void BossLoot(ref string name, ref int potionType)
@@ -277,9 +278,9 @@ namespace CalamityMod.NPCs.Calamitas
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
-            npc.damage = (int)(npc.damage * 0.8f);
             npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);
-        }
+			npc.damage = (int)(npc.damage * npc.GetExpertDamageMultiplier());
+		}
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {

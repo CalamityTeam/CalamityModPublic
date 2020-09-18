@@ -7,10 +7,13 @@ namespace CalamityMod.Items.DraedonMisc
 {
     public class PowerCell : ModItem
     {
+        // This is how much Charge each Power Cell is worth when charging. Leave this at 1.
+        public const float ChargeValue = 1f;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Draedon Power Cell");
-            Tooltip.SetDefault("Used to charge Draedon's weaponry at a charger\n" +
+            Tooltip.SetDefault("Used to charge Draedon's weaponry at a Charging Station\n" +
                                "Also can be processed by the Extractinator for spare parts");
             ItemID.Sets.ExtractinatorMode[item.type] = item.type;
         }
@@ -26,7 +29,7 @@ namespace CalamityMod.Items.DraedonMisc
             item.consumable = true;
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.useAnimation = 10;
-            item.useTime = 5;
+            item.useTime = 2;
             item.autoReuse = true;
             item.useTurn = true;
             item.value = Item.sellPrice(0, 0, 0, 20);

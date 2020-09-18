@@ -1,5 +1,5 @@
+using CalamityMod.Tiles.DraedonStructures;
 using CalamityMod.TileEntities;
-using CalamityMod.Tiles;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -112,10 +112,8 @@ namespace CalamityMod.Schematics
                         {
                             Main.tile[x + xOffset, y + yOffset] = (Tile)SchematicTileConversion(oldTiles[x, y], tile, schematic[x, y].InternalColor).Clone();
 
-                            // Temporary until the eldritch Tile Entity world corruption bug is killed.
-                            if (Main.tile[x + xOffset, y + yOffset].type == ModContent.TileType<DraedonItemCharger>())
-                                Main.tile[x + xOffset, y + yOffset].active(false);
-                        }
+							TryToPlaceTileEntities(x + xOffset, y + yOffset);
+						}
 
                         Rectangle placeInArea = new Rectangle(x, y, schematic.GetLength(0), schematic.GetLength(1));
 
@@ -196,8 +194,10 @@ namespace CalamityMod.Schematics
                             Main.tile[x + xOffset, y + yOffset] = (Tile)SchematicTileConversion(oldTiles[x, y], tile, schematic[x, y].InternalColor).Clone();
 
                             // Temporary until the eldritch Tile Entity world corruption bug is killed.
-                            if (Main.tile[x + xOffset, y + yOffset].type == ModContent.TileType<DraedonItemCharger>())
+                            if (Main.tile[x + xOffset, y + yOffset].type == ModContent.TileType<ChargingStation>())
                                 Main.tile[x + xOffset, y + yOffset].active(false);
+
+							TryToPlaceTileEntities(x + xOffset, y + yOffset);
                         }
 
                         Rectangle placeInArea = new Rectangle(x, y, schematic.GetLength(0), schematic.GetLength(1));
@@ -208,7 +208,31 @@ namespace CalamityMod.Schematics
                 }
             }
         }
-        public static Chest PlaceChest(int x, int y, int chestType)
+
+		public static void TryToPlaceTileEntities(int x, int y)
+		{
+			Tile tileAtPosition = CalamityUtils.ParanoidTileRetrieval(x, y);
+			int tileType = tileAtPosition.type;
+
+			// A tile entity in an empty spot would make no sense.
+			if (!tileAtPosition.active())
+				return;
+
+			// Ignore tiles that aren't at the top left of the tile.
+			// Most tile entities won't even register the position as valid otherwise.
+			// Not to mention the possibility of multiple tile entities appearing.
+			if (tileAtPosition.frameX != 0 || tileAtPosition.frameY != 0)
+				return;
+	
+			// Runtime variables do not work with switches (such as ModContent calls).
+			// Therefore, the only other solutions would be to use an else if or delegate dictionary.
+			if (tileType == ModContent.TileType<DraedonLabTurret>())
+			{
+				TileEntity.PlaceEntityNet(x, y, ModContent.TileEntityType<TEDraedonLabTurret>());
+			}
+		}
+
+		public static Chest PlaceChest(int x, int y, int chestType)
         {
             int chestIndex = Chest.FindEmptyChest(x, y, chestType);
             Main.chest[chestIndex] = new Chest()

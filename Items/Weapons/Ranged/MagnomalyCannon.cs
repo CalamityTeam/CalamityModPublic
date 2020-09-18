@@ -36,7 +36,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<MagnomalyRocket>();
             item.shootSpeed = 15f;
-            item.useAmmo = 771;
+            item.useAmmo = AmmoID.Rocket;
             item.Calamity().customRarity = CalamityRarity.Violet;
         }
 

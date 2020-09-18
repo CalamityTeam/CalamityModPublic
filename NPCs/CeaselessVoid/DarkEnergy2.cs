@@ -1,5 +1,6 @@
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Dusts;
+using CalamityMod.Events;
 using CalamityMod.Projectiles.Rogue;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -25,8 +26,8 @@ namespace CalamityMod.NPCs.CeaselessVoid
         public override void SetDefaults()
         {
             npc.aiStyle = -1;
-            npc.damage = 0;
-            npc.dontTakeDamage = true;
+			npc.GetNPCDamage();
+			npc.dontTakeDamage = true;
             npc.width = 80;
             npc.height = 80;
             npc.defense = 50;
@@ -35,7 +36,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
             {
                 npc.lifeMax = 24000;
             }
-            if (CalamityWorld.bossRushActive)
+            if (BossRushEvent.BossRushActive)
             {
                 npc.lifeMax = 44000;
             }
@@ -139,23 +140,22 @@ namespace CalamityMod.NPCs.CeaselessVoid
 
 		public override void AI()
         {
-            bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
+            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
             if (invinceTime > 0)
             {
+				npc.damage = 0;
                 invinceTime--;
             }
             else
             {
-                npc.damage = expertMode ? 240 : 120;
-                if (CalamityWorld.revenge)
-                    npc.damage = 300;
+                npc.damage = npc.defDamage;
                 npc.dontTakeDamage = false;
             }
 
             double mult = 0.5 +
                 (CalamityWorld.revenge ? 0.2 : 0.0) +
                 (CalamityWorld.death ? 0.2 : 0.0);
-            if ((double)npc.life < (double)npc.lifeMax * mult || CalamityWorld.bossRushActive)
+            if ((double)npc.life < (double)npc.lifeMax * mult || BossRushEvent.BossRushActive)
             {
                 npc.knockBackResist = 0f;
             }
@@ -206,9 +206,9 @@ namespace CalamityMod.NPCs.CeaselessVoid
             float num1260 = (float)Math.Sqrt((double)(num1258 * num1258 + num1259 * num1259));
 
             float num1261 = expertMode ? 15f : 12f;
-            if (CalamityWorld.revenge || CalamityWorld.bossRushActive)
+            if (CalamityWorld.revenge || BossRushEvent.BossRushActive)
                 num1261 += 3f;
-            if (CalamityWorld.death || CalamityWorld.bossRushActive)
+            if (CalamityWorld.death || BossRushEvent.BossRushActive)
                 num1261 += 3f;
 
             num1260 = num1261 / num1260;
@@ -217,6 +217,11 @@ namespace CalamityMod.NPCs.CeaselessVoid
             npc.velocity.X = (npc.velocity.X * 100f + num1258) / 101f;
             npc.velocity.Y = (npc.velocity.Y * 100f + num1259) / 101f;
         }
+
+		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
+		{
+			npc.lifeMax = (int)(npc.lifeMax * 0.5f * bossLifeScale);
+		}
 
 		public override bool CheckActive()
 		{

@@ -60,12 +60,23 @@ namespace CalamityMod.Items
 
 		public int timesUsed = 0;
 
-        // The damage modifications for the item are handled in player files.
-        public int CurrentCharge;
-        public bool Chargeable = false;
-        public int ChargeMax;
-        public const float ChargeDamageMinMultiplier = 0.75f;
-        public const float ChargeDamageReductionThreshold = 0.75f;
+        #region Chargeable Item Variables
+        public bool UsesCharge = false;
+        public float Charge = 0f;
+        public float MaxCharge = 1f;
+        public float ChargePerUse = 0f;
+        // If left at the default value of -1, ChargePerUse is automatically used for alt fire.
+        // If you want a different amount of charge used for alt fire, then set a different value here.
+        public float ChargePerAltUse = -1f;
+        public float ChargeRatio
+		{
+            get
+			{
+                float ratio = Charge / MaxCharge;
+				return float.IsNaN(ratio) || float.IsInfinity(ratio) ? 0f : MathHelper.Clamp(ratio, 0f, 1f);
+			}
+		}
+        #endregion
 
         // Rarity is provided both as the classic int and the new enum.
         public CalamityRarity customRarity = CalamityRarity.NoEffect;
@@ -99,9 +110,8 @@ namespace CalamityMod.Items
         #region SetDefaults
         public override void SetDefaults(Item item)
         {
-            item.Calamity().ChargeMax = ChargeMax;
-            if (customRarity.IsPostML() && item.rare != 10)
-                item.rare = 10;
+            if (customRarity.IsPostML() && item.rare != ItemRarityID.Red)
+                item.rare = ItemRarityID.Red;
 
             if (item.maxStack == 99 || item.type == ItemID.Dynamite || item.type == ItemID.StickyDynamite ||
                 item.type == ItemID.BouncyDynamite || item.type == ItemID.StickyBomb || item.type == ItemID.BouncyBomb)
@@ -113,32 +123,32 @@ namespace CalamityMod.Items
             if (item.type >= ItemID.GreenSolution && item.type <= ItemID.RedSolution)
                 item.value = Item.buyPrice(0, 0, 5, 0);
 
-            if (CalamityMod.weaponAutoreuseList?.Contains(item.type) ?? false)
+            if (CalamityLists.weaponAutoreuseList?.Contains(item.type) ?? false)
                 item.autoReuse = true;
 
             if (item.type == ItemID.PsychoKnife || item.type == ItemID.TaxCollectorsStickOfDoom)
                 item.damage *= 4;
             else if (item.type == ItemID.SpectreStaff)
                 item.damage *= 3;
-            else if (CalamityMod.doubleDamageBuffList?.Contains(item.type) ?? false)
+            else if (CalamityLists.doubleDamageBuffList?.Contains(item.type) ?? false)
                 item.damage *= 2;
             else if (item.type == ItemID.RainbowRod)
                 item.damage = (int)(item.damage * 1.75);
-            else if (CalamityMod.sixtySixDamageBuffList?.Contains(item.type) ?? false)
+            else if (CalamityLists.sixtySixDamageBuffList?.Contains(item.type) ?? false)
                 item.damage = (int)(item.damage * 1.66);
-            else if (CalamityMod.fiftyDamageBuffList?.Contains(item.type) ?? false)
+            else if (CalamityLists.fiftyDamageBuffList?.Contains(item.type) ?? false)
                 item.damage = (int)(item.damage * 1.5);
-            else if (CalamityMod.thirtyThreeDamageBuffList?.Contains(item.type) ?? false)
+            else if (CalamityLists.thirtyThreeDamageBuffList?.Contains(item.type) ?? false)
                 item.damage = (int)(item.damage * 1.33);
-            else if (CalamityMod.twentyFiveDamageBuffList?.Contains(item.type) ?? false)
+            else if (CalamityLists.twentyFiveDamageBuffList?.Contains(item.type) ?? false)
                 item.damage = (int)(item.damage * 1.25);
-            else if (CalamityMod.twentyDamageBuffList?.Contains(item.type) ?? false)
+            else if (CalamityLists.twentyDamageBuffList?.Contains(item.type) ?? false)
                 item.damage = (int)(item.damage * 1.2);
-            else if (CalamityMod.tenDamageBuffList?.Contains(item.type) ?? false)
+            else if (CalamityLists.tenDamageBuffList?.Contains(item.type) ?? false)
                 item.damage = (int)(item.damage * 1.1);
-            else if (CalamityMod.tenDamageNerfList?.Contains(item.type) ?? false)
+            else if (CalamityLists.tenDamageNerfList?.Contains(item.type) ?? false)
                 item.damage = (int)(item.damage * 0.9);
-            else if (CalamityMod.quarterDamageNerfList?.Contains(item.type) ?? false)
+            else if (CalamityLists.quarterDamageNerfList?.Contains(item.type) ?? false)
                 item.damage = (int)(item.damage * 0.75);
             else if (item.type == ItemID.BlizzardStaff)
                 item.damage = (int)(item.damage * 0.7);
@@ -174,9 +184,9 @@ namespace CalamityMod.Items
             else if (item.type == ItemID.HallowedGreaves)
                 item.defense = 13; //2 more defense
 
-			if (CalamityMod.noGravityList.Contains(item.type))
+			if (CalamityLists.noGravityList.Contains(item.type))
 				ItemID.Sets.ItemNoGravity[item.type] = true;
-			if (CalamityMod.lavaFishList.Contains(item.type))
+			if (CalamityLists.lavaFishList.Contains(item.type))
 				ItemID.Sets.CanFishInLava[item.type] = true;
 
 			// not expert because ML drops it in normal so that it can be used with the lore item
@@ -220,10 +230,6 @@ namespace CalamityMod.Items
         #region Shoot
         public override bool Shoot(Item item, Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            if (item.type >= ItemID.Count && item.Calamity().Chargeable && item.Calamity().CurrentCharge > 0 && Main.rand.NextBool(120 / (int)MathHelper.Max(1, item.useAnimation)))
-            {
-                CurrentCharge--;
-            }
 			CalamityPlayer modPlayer = player.Calamity();
             if (rogue)
             {
@@ -237,55 +243,58 @@ namespace CalamityMod.Items
                     speedY = rotated.Y;
                 }
             }
+            if (modPlayer.eArtifact && item.ranged)
+            {
+                speedX *= 1.25f;
+                speedY *= 1.25f;
+            }
+			Vector2 velocity = new Vector2(speedX, speedY);
             if (modPlayer.luxorsGift)
             {
                 // useTime 9 = 0.9 useTime 2 = 0.2
                 double damageMult = 1.0;
                 if (item.useTime < 10)
-                    damageMult -= (double)(10 - item.useTime) / 10.0;
+                    damageMult -= (10 - item.useTime) / 10.0;
 
                 double newDamage = damage * damageMult;
 
                 if (player.whoAmI == Main.myPlayer)
                 {
                     if (item.melee)
-                        Projectile.NewProjectile(position.X, position.Y, speedX * 0.5f, speedY * 0.5f, ModContent.ProjectileType<LuxorsGiftMelee>(), (int)(newDamage * 0.6), 0f, player.whoAmI, 0f, 0f);
+                        Projectile.NewProjectile(position, velocity * 0.5f, ModContent.ProjectileType<LuxorsGiftMelee>(), CalamityUtils.DamageSoftCap(newDamage * 0.6, 60), 0f, player.whoAmI);
 
                     else if (rogue)
-                        Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<LuxorsGiftRogue>(), (int)(newDamage * 0.5), 0f, player.whoAmI, 0f, 0f);
+                        Projectile.NewProjectile(position, velocity, ModContent.ProjectileType<LuxorsGiftRogue>(), CalamityUtils.DamageSoftCap(newDamage * 0.5, 50), 0f, player.whoAmI);
 
                     else if (item.ranged)
-                        Projectile.NewProjectile(position.X, position.Y, speedX * 1.5f, speedY * 1.5f, ModContent.ProjectileType<LuxorsGiftRanged>(), (int)(newDamage * 0.4), 0f, player.whoAmI, 0f, 0f);
+                        Projectile.NewProjectile(position, velocity * 1.5f, ModContent.ProjectileType<LuxorsGiftRanged>(), CalamityUtils.DamageSoftCap(newDamage * 0.4, 40), 0f, player.whoAmI);
 
                     else if (item.magic)
-                        Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<LuxorsGiftMagic>(), (int)(newDamage * 0.8), 0f, player.whoAmI, 0f, 0f);
+                        Projectile.NewProjectile(position, velocity, ModContent.ProjectileType<LuxorsGiftMagic>(), CalamityUtils.DamageSoftCap(newDamage * 0.8, 80), 0f, player.whoAmI);
 
                     else if (item.summon && player.ownedProjectileCounts[ModContent.ProjectileType<LuxorsGiftSummon>()] < 1)
-                        Projectile.NewProjectile(position, Vector2.Zero, ModContent.ProjectileType<LuxorsGiftSummon>(), damage, 0f, player.whoAmI, 0f, 0f);
+                        Projectile.NewProjectile(position, Vector2.Zero, ModContent.ProjectileType<LuxorsGiftSummon>(), damage, 0f, player.whoAmI);
                 }
             }
-            if (modPlayer.eArtifact && item.ranged)
+            if (modPlayer.bloodflareMage && modPlayer.canFireBloodflareMageProjectile)
             {
-                speedX *= 1.25f;
-                speedY *= 1.25f;
-            }
-            if (modPlayer.bloodflareMage) //0 - 99
-            {
-                if (item.magic && Main.rand.Next(0, 100) >= 95)
+                if (item.magic)
                 {
-                    if (player.whoAmI == Main.myPlayer)
+					modPlayer.canFireBloodflareMageProjectile = false;
+					if (player.whoAmI == Main.myPlayer)
                     {
-                        Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<GhostlyBolt>(), (int)(damage * (modPlayer.auricSet ? 4.2 : 2.6)), 1f, player.whoAmI, 0f, 0f);
+                        Projectile.NewProjectile(position, velocity, ModContent.ProjectileType<GhostlyBolt>(), CalamityUtils.DamageSoftCap(damage * 1.3, 250), 1f, player.whoAmI);
                     }
                 }
             }
-            if (modPlayer.bloodflareRanged) //0 - 99
+            if (modPlayer.bloodflareRanged && modPlayer.canFireBloodflareRangedProjectile)
             {
-                if (item.ranged && Main.rand.Next(0, 100) >= 98)
+                if (item.ranged)
                 {
-                    if (player.whoAmI == Main.myPlayer)
+					modPlayer.canFireBloodflareRangedProjectile = false;
+					if (player.whoAmI == Main.myPlayer)
                     {
-                        Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<BloodBomb>(), (int)(damage * (modPlayer.auricSet ? 2.2 : 1.6)), 2f, player.whoAmI, 0f, 0f);
+                        Projectile.NewProjectile(position, velocity, ModContent.ProjectileType<BloodBomb>(), CalamityUtils.DamageSoftCap(damage * 0.8, 150), 2f, player.whoAmI);
                     }
                 }
             }
@@ -294,69 +303,71 @@ namespace CalamityMod.Items
                 if (modPlayer.tarraCrits >= 5 && player.whoAmI == Main.myPlayer)
                 {
                     modPlayer.tarraCrits = 0;
-                    int num106 = 9 + Main.rand.Next(3);
-                    for (int num107 = 0; num107 < num106; num107++)
+                    int leafAmt = 9 + Main.rand.Next(3);
+                    for (int l = 0; l < leafAmt; l++)
                     {
-                        float num110 = 0.025f * (float)num107;
-                        float hardar = speedX + (float)Main.rand.Next(-25, 26) * num110;
-                        float hordor = speedY + (float)Main.rand.Next(-25, 26) * num110;
-                        float num84 = (float)Math.Sqrt((double)(speedX * speedX + speedY * speedY));
+                        float spreadMult = 0.025f * l;
+                        float hardar = speedX + Main.rand.Next(-25, 26) * spreadMult;
+                        float hordor = speedY + Main.rand.Next(-25, 26) * spreadMult;
+                        float num84 = (float)Math.Sqrt(speedX * speedX + speedY * speedY);
                         num84 = item.shootSpeed / num84;
                         hardar *= num84;
                         hordor *= num84;
-                        Projectile.NewProjectile(position.X, position.Y, hardar, hordor, ProjectileID.Leaf, (int)(damage * 0.2), knockBack, player.whoAmI, 0f, 0f);
+                        Projectile.NewProjectile(position, new Vector2(hardar, hordor), ProjectileID.Leaf, CalamityUtils.DamageSoftCap(damage * 0.2, 50), knockBack, player.whoAmI);
                     }
                 }
             }
-            if (modPlayer.ataxiaBolt)
+            if (modPlayer.ataxiaBolt && modPlayer.canFireAtaxiaRangedProjectile)
             {
-                if (item.ranged && Main.rand.NextBool(2))
+                if (item.ranged)
                 {
+					modPlayer.canFireAtaxiaRangedProjectile = false;
                     if (player.whoAmI == Main.myPlayer)
                     {
-                        Projectile.NewProjectile(position.X, position.Y, speedX * 1.25f, speedY * 1.25f, ModContent.ProjectileType<ChaosFlare>(), (int)(damage * 0.25), 2f, player.whoAmI, 0f, 0f);
+                        Projectile.NewProjectile(position, velocity * 1.25f, ModContent.ProjectileType<ChaosFlare>(), CalamityUtils.DamageSoftCap(damage * 0.25, 50), 2f, player.whoAmI);
                     }
                 }
             }
-            if (modPlayer.godSlayerRanged) //0 - 99
+            if (modPlayer.godSlayerRanged && modPlayer.canFireGodSlayerRangedProjectile)
             {
-                if (item.ranged && Main.rand.Next(0, 100) >= 95)
+                if (item.ranged)
                 {
-                    if (player.whoAmI == Main.myPlayer)
+					modPlayer.canFireGodSlayerRangedProjectile = false;
+					if (player.whoAmI == Main.myPlayer)
                     {
-                        Projectile.NewProjectile(position.X, position.Y, speedX * 1.25f, speedY * 1.25f, ModContent.ProjectileType<GodSlayerShrapnelRound>(), (int)(damage * (modPlayer.auricSet ? 3.2 : 2.1)), 2f, player.whoAmI, 0f, 0f);
+                        Projectile.NewProjectile(position, velocity * 1.25f, ModContent.ProjectileType<GodSlayerShrapnelRound>(), CalamityUtils.DamageSoftCap(damage, 200), 2f, player.whoAmI);
                     }
                 }
             }
-            if (modPlayer.ataxiaVolley)
+            if (modPlayer.ataxiaVolley && modPlayer.canFireAtaxiaRogueProjectile)
             {
-                if (rogue && Main.rand.NextBool(10))
+                if (rogue)
                 {
-                    if (player.whoAmI == Main.myPlayer)
+					modPlayer.canFireAtaxiaRogueProjectile = false;
+					if (player.whoAmI == Main.myPlayer)
                     {
-                        Main.PlaySound(SoundID.Item20, (int)player.position.X, (int)player.position.Y);
+                        Main.PlaySound(SoundID.Item20, player.Center);
                         float spread = 45f * 0.0174f;
                         double startAngle = Math.Atan2(player.velocity.X, player.velocity.Y) - spread / 2;
                         double deltaAngle = spread / 8f;
                         double offsetAngle;
-                        int i;
-                        for (i = 0; i < 4; i++)
+                        for (int i = 0; i < 4; i++)
                         {
-                            Vector2 vector2 = new Vector2(player.Center.X, player.Center.Y);
                             offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-                            Projectile.NewProjectile(vector2.X, vector2.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<ChaosFlare2>(), (int)(damage * 0.5), 1.25f, player.whoAmI, 0f, 0f);
-                            Projectile.NewProjectile(vector2.X, vector2.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<ChaosFlare2>(), (int)(damage * 0.5), 1.25f, player.whoAmI, 0f, 0f);
+                            Projectile.NewProjectile(player.Center.X, player.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<ChaosFlare2>(), CalamityUtils.DamageSoftCap(damage * 0.5, 100), 1f, player.whoAmI);
+                            Projectile.NewProjectile(player.Center.X, player.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<ChaosFlare2>(), CalamityUtils.DamageSoftCap(damage * 0.5, 100), 1f, player.whoAmI);
                         }
                     }
                 }
             }
-            if (modPlayer.reaverDoubleTap) //0 - 99
+            if (modPlayer.reaverDoubleTap && modPlayer.canFireReaverRangedProjectile)
             {
-                if (item.ranged && Main.rand.Next(0, 100) >= 90)
+                if (item.ranged)
                 {
-                    if (player.whoAmI == Main.myPlayer)
+					modPlayer.canFireReaverRangedProjectile = false;
+					if (player.whoAmI == Main.myPlayer)
                     {
-                        Projectile.NewProjectile(position.X, position.Y, speedX * 1.25f, speedY * 1.25f, ModContent.ProjectileType<MiniRocket>(), (int)(damage * 1.3), 2f, player.whoAmI, 0f, 0f);
+                        Projectile.NewProjectile(position, velocity * 1.25f, ModContent.ProjectileType<MiniRocket>(), CalamityUtils.DamageSoftCap(damage * 1.3, 150), 2f, player.whoAmI);
                     }
                 }
             }
@@ -366,7 +377,7 @@ namespace CalamityMod.Items
                 {
                     if (player.whoAmI == Main.myPlayer)
                     {
-                        Projectile.NewProjectile(position.X, position.Y, speedX * 1.25f, speedY * 1.25f, ModContent.ProjectileType<Seashell>(), damage * 2, 1f, player.whoAmI, 0f, 0f);
+                        Projectile.NewProjectile(position, velocity * 1.25f, ModContent.ProjectileType<Seashell>(), CalamityUtils.DamageSoftCap(damage * 2, 60), 1f, player.whoAmI);
                     }
                 }
             }
@@ -382,11 +393,11 @@ namespace CalamityMod.Items
 
                     if (player.whoAmI == Main.myPlayer)
                     {
-                        Projectile.NewProjectile(position.X, position.Y, speedX * 1.25f, speedY * 1.25f, ModContent.ProjectileType<Minibirb>(), newDamage, 2f, player.whoAmI, 0f, 0f);
+                        Projectile.NewProjectile(position, velocity * 1.25f, ModContent.ProjectileType<Minibirb>(), CalamityUtils.DamageSoftCap(newDamage, 1000), 2f, player.whoAmI);
                     }
                 }
             }
-            if (modPlayer.prismaticRegalia) //0 - 99
+            if (modPlayer.prismaticRegalia)
             {
                 if (item.magic && Main.rand.Next(0, 100) >= 95)
                 {
@@ -396,9 +407,9 @@ namespace CalamityMod.Items
 						{
 							if (i != 0)
 							{
-								Vector2 perturbedSpeed = new Vector2(speedX, speedY).RotatedBy(MathHelper.ToRadians(i));
-								int rocket = Projectile.NewProjectile(position.X, position.Y, perturbedSpeed.X, perturbedSpeed.Y, ModContent.ProjectileType<MiniRocket>(), (int)(damage * 0.8), 2f, player.whoAmI, 0f, 0f);
-                Main.projectile[rocket].Calamity().forceTypeless = true;
+								Vector2 perturbedSpeed = velocity.RotatedBy(MathHelper.ToRadians(i));
+								int rocket = Projectile.NewProjectile(position, perturbedSpeed, ModContent.ProjectileType<MiniRocket>(), CalamityUtils.DamageSoftCap(damage * 0.8, 200), 2f, player.whoAmI);
+								Main.projectile[rocket].Calamity().forceTypeless = true;
 							}
 						}
                     }
@@ -410,9 +421,9 @@ namespace CalamityMod.Items
                 {
                     if (player.whoAmI == Main.myPlayer)
                     {
-						float spreadX = speedX + (float)Main.rand.Next(-15, 16) * 0.05f;
-						float spreadY = speedY + (float)Main.rand.Next(-15, 16) * 0.05f;
-                        int feather = Projectile.NewProjectile(position.X, position.Y, spreadX * 1.25f, spreadY * 1.25f, ModContent.ProjectileType<TradewindsProjectile>(), damage / 2, 2f, player.whoAmI, 0f, 0f);
+						float spreadX = speedX + Main.rand.NextFloat(-0.75f, 0.75f);
+						float spreadY = speedY + Main.rand.NextFloat(-0.75f, 0.75f);
+                        int feather = Projectile.NewProjectile(position, new Vector2(spreadX, spreadY) * 1.25f, ModContent.ProjectileType<TradewindsProjectile>(), CalamityUtils.DamageSoftCap(damage * 0.5, 75), 2f, player.whoAmI);
 						Main.projectile[feather].usesLocalNPCImmunity = true;
 						Main.projectile[feather].localNPCHitCooldown = 10;
 						Main.projectile[feather].Calamity().forceTypeless = true;
@@ -426,7 +437,7 @@ namespace CalamityMod.Items
 				{
 					position += muzzleOffset;
 				}
-				Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<FallenStarProj>(), damage, knockBack, player.whoAmI);
+				Projectile.NewProjectile(position, velocity, ModContent.ProjectileType<FallenStarProj>(), damage, knockBack, player.whoAmI);
 				Main.PlaySound(SoundID.Item11.WithPitchVariance(0.05f), position);
 				return false;
 			}
@@ -441,8 +452,8 @@ namespace CalamityMod.Items
                 }
 				for (int i = -8; i <= 8; i += 8)
 				{
-					Vector2 perturbedSpeed = new Vector2(speedX, speedY).RotatedBy(MathHelper.ToRadians(i));
-					Projectile.NewProjectile(position, perturbedSpeed, ModContent.ProjectileType<RainbowFront>(), damage, 0f, player.whoAmI, 0f, 0f);
+					Vector2 perturbedSpeed = velocity.RotatedBy(MathHelper.ToRadians(i));
+					Projectile.NewProjectile(position, perturbedSpeed, ModContent.ProjectileType<RainbowFront>(), damage, 0f, player.whoAmI);
 				}
 			}
             return true;
@@ -462,7 +473,7 @@ namespace CalamityMod.Items
                 ["rogue"] = rogue,
                 ["timesUsed"] = timesUsed,
                 ["rarity"] = (int)customRarity,
-                ["Charge"] = CurrentCharge
+                ["charge"] = Charge
             };
         }
 
@@ -471,7 +482,12 @@ namespace CalamityMod.Items
             rogue = tag.GetBool("rogue");
             timesUsed = tag.GetInt("timesUsed");
             customRarity = (CalamityRarity)tag.GetInt("rarity");
-            CurrentCharge = tag.GetInt("Charge");
+
+            // Changed charge from int to float. If an old charge int is present, load that instead.
+            if (tag.ContainsKey("Charge"))
+                Charge = tag.GetInt("Charge");
+            else
+                Charge = tag.GetFloat("charge");
         }
 
         public override void LoadLegacy(Item item, BinaryReader reader)
@@ -479,7 +495,7 @@ namespace CalamityMod.Items
             int loadVersion = reader.ReadInt32();
             customRarity = (CalamityRarity)reader.ReadInt32();
             timesUsed = reader.ReadInt32();
-            CurrentCharge = reader.ReadInt32();
+            Charge = reader.ReadSingle();
 
             if (loadVersion == 0)
             {
@@ -500,7 +516,7 @@ namespace CalamityMod.Items
             writer.Write(flags);
             writer.Write((int)customRarity);
             writer.Write(timesUsed);
-            writer.Write(CurrentCharge);
+            writer.Write(Charge);
         }
 
         public override void NetReceive(Item item, BinaryReader reader)
@@ -510,7 +526,7 @@ namespace CalamityMod.Items
 
             customRarity = (CalamityRarity)reader.ReadInt32();
             timesUsed = reader.ReadInt32();
-            CurrentCharge = reader.ReadInt32();
+            Charge = reader.ReadSingle();
         }
         #endregion
 
@@ -777,19 +793,11 @@ namespace CalamityMod.Items
         #endregion
 
         #region Use Item Changes
-
         public override bool UseItem(Item item, Player player)
         {
-            // Use charge on swing instead of on shoot if the item doesn't shoot anything.
-            if (item.type >= ItemID.Count && item.Calamity().Chargeable && item.Calamity().CurrentCharge > 0 && Main.rand.NextBool(120 / (int)MathHelper.Max(1, item.useAnimation)) && item.shoot == ProjectileID.None)
-            {
-                if (player.itemAnimation == 1)
-                    CurrentCharge--;
-            }
-			if (item.type == ItemID.BottledHoney)
-			{
+			// Give 2 minutes of Honey buff when drinking Bottled Honey.
+            if (item.type == ItemID.BottledHoney)
 				player.AddBuff(BuffID.Honey, 7200);
-			}
             return base.UseItem(item, player);
         }
 
@@ -927,6 +935,7 @@ namespace CalamityMod.Items
         public override bool CanUseItem(Item item, Player player)
         {
             CalamityPlayer modPlayer = player.Calamity();
+            CalamityGlobalItem modItem = item.Calamity();
 
             // Restrict behavior when reading Dreadon's Log.
             if (PopupGUIManager.AnyGUIsActive)
@@ -938,6 +947,7 @@ namespace CalamityMod.Items
                 return false; // Don't use weapons if you're charging with a spear
             }
 
+            // Conversion for Andromeda
             if (player.ownedProjectileCounts[ModContent.ProjectileType<GiantIbanRobotOfDoom>()] > 0)
             {
 				if (item.type == ItemID.WireKite)
@@ -952,7 +962,8 @@ namespace CalamityMod.Items
                 }
             }
 
-            if (modPlayer.profanedCrystalBuffs && item.pick == 0 && item.axe == 0 && item.hammer == 0 && item.autoReuse && (item.Calamity().rogue || item.magic || item.ranged || item.melee))
+            // Conversion for Profaned Soul Crystal
+            if (modPlayer.profanedCrystalBuffs && item.pick == 0 && item.axe == 0 && item.hammer == 0 && item.autoReuse && (modItem.rogue || item.magic || item.ranged || item.melee))
             {   
                 if (player.altFunctionUse == 0)
                 {
@@ -963,10 +974,26 @@ namespace CalamityMod.Items
                     return AltFunctionUse(item, player);
                 }
             }
-            else if (modPlayer.profanedCrystalBuffs && item.summon)
+
+            // Check for sufficient charge if this item uses charge.
+            if (item.type >= ItemID.Count && modItem.UsesCharge)
             {
-                
+                // If attempting to use alt fire, and alt fire charge is defined, require that charge. Otherwise require normal charge per use.
+                float chargeNeeded = (player.altFunctionUse == 2 && modItem.ChargePerAltUse != -1f) ? modItem.ChargePerAltUse : modItem.ChargePerUse;
+
+                // If the amount of charge needed is zero or less, ignore the charge requirement entirely (e.g. summon staff right click).
+                if (chargeNeeded > 0f)
+				{
+                    if (modItem.Charge < chargeNeeded)
+                        return false;
+
+                    // If you have enough charge, decrement charge on the spot because this hook runs exactly once every time you use an item.
+                    // Mana has to be checked separately or you'll fail to use the weapon on a mana check later and still have consumed charge.
+                    if (player.CheckMana(item))
+                        Charge -= chargeNeeded;
+                }
             }
+
             if (item.type == ItemID.MonkStaffT1)
             {
                 return player.ownedProjectileCounts[item.shoot] <= 0;
@@ -1044,14 +1071,28 @@ namespace CalamityMod.Items
         #region Modify Weapon Damage
         public override void ModifyWeaponDamage(Item item, Player player, ref float add, ref float mult, ref float flat)
         {
-            if (item.Calamity().Chargeable)
+            if (item.type < ItemID.Count)
+                return;
+
+            // Summon weapons specifically do not have their damage affected by charge. They still require charge to function however.
+            CalamityGlobalItem modItem = item.Calamity();
+            if (!item.summon && (modItem?.UsesCharge ?? false))
             {
-                float chargeDamageMultiplier = 1f;
-                float chargeRatio = item.Calamity().CurrentCharge / (float)ChargeMax;
-                if (chargeRatio < ChargeDamageReductionThreshold)
-                    chargeDamageMultiplier = MathHelper.Lerp(ChargeDamageMinMultiplier, 1f, chargeRatio * ChargeDamageReductionThreshold);
-                mult *= chargeDamageMultiplier;
+                // At exactly zero charge, do not perform any multiplication.
+                // This makes charge-using weapons show up at full damage when previewed in crafting, Recipe Browser, etc.
+                if (Charge == 0f)
+                    return;
+                mult *= ChargeDamageFormula();
             }
+        }
+
+        // This formula gives a slightly higher value than 1.0 above 85% charge, and a slightly lower value than 0.0 at 0% charge.
+        // Specifically, it gives 0.0 or less at 0.36% charge or lower. This is fine because the result is immediately clamped.
+        internal float ChargeDamageFormula()
+        {
+            float x = MathHelper.Clamp(ChargeRatio, 0f, 1f);
+            float y = 1.087f - 0.08f / (x + 0.07f);
+            return MathHelper.Clamp(y, 0f, 1f);
         }
         #endregion
 
@@ -2854,11 +2895,15 @@ Grants immunity to fire blocks, and temporary immunity to lava";
 				}
             }
 
-            if (item.type > ItemID.Count && item.Calamity().Chargeable)
+            if (item.type < ItemID.Count)
+                return;
+
+            CalamityGlobalItem modItem = item.Calamity();
+            if (modItem?.UsesCharge ?? false)
             {
-                float chargeRatio = item.Calamity().CurrentCharge / (float)ChargeMax;
-                chargeRatio *= 100f; // Turn the 0-1 ratio to a 0-100 percentage.
-                TooltipLine line = new TooltipLine(mod, "Tooltip0", $"Current Charge: {chargeRatio:N1}%");
+                // Convert current charge ratio into a percentage.
+                float displayedPercent = ChargeRatio * 100f;
+                TooltipLine line = new TooltipLine(mod, "Tooltip0", $"Current Charge: {displayedPercent:N1}%");
                 tooltips.Add(line);
             }
         }
@@ -3628,7 +3673,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
 		#region PostUpdate
 		public override void PostUpdate(Item item)
 		{
-			if (CalamityMod.forceItemList?.Contains(item.type) ?? false)
+			if (CalamityLists.forceItemList?.Contains(item.type) ?? false)
 			{
 				CalamityUtils.ForceItemIntoWorld(item);
 			}
