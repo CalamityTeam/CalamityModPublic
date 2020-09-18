@@ -95,15 +95,14 @@ namespace CalamityMod.Projectiles.Boss
                 double startAngle = Math.Atan2(projectile.velocity.X, projectile.velocity.Y) - spread / 2;
                 double deltaAngle = spread / 8f;
                 double offsetAngle;
-                int i;
-                for (i = 0; i < 4; i++)
+                for (int i = 0; i < 4; i++)
                 {
                     offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
                     Projectile.NewProjectile(shootFromVector.X, shootFromVector.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<HolyFire2>(), projectile.damage, 0f, Main.myPlayer, 0f, 0f);
                     Projectile.NewProjectile(shootFromVector.X, shootFromVector.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<HolyFire2>(), projectile.damage, 0f, Main.myPlayer, 0f, 0f);
                 }
             }
-            Main.PlaySound(SoundID.Item20, projectile.Center);
+			Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/ProvidenceHolyBlastImpact"), projectile.Center);
             int dustType = Main.dayTime ? (int)CalamityDusts.ProfanedFire : (int)CalamityDusts.Nightwither;
             for (int num193 = 0; num193 < 6; num193++)
             {
