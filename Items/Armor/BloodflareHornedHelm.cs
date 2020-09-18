@@ -69,7 +69,7 @@ namespace CalamityMod.Items.Armor
 
 			if (modPlayer.bloodflareSoulTimer == 1) //sound when ready to use again
 			{
-				Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/BloodflareRangerActivation"), player.Center);
+				Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/BloodflareRangerRecharge"), player.Center);
 			}
         }
 
