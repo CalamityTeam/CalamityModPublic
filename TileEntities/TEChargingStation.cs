@@ -15,6 +15,7 @@ namespace CalamityMod.TileEntities
 {
 	public class TEChargingStation : ModTileEntity
 	{
+		public Vector2 Center => Position.ToWorldCoordinates(8f * ChargingStation.Width, 8f * ChargingStation.Height);
 		private short ChargingTimer = 0;
 		private short _stack = 0;
 		public short CellStack
@@ -152,15 +153,8 @@ namespace CalamityMod.TileEntities
 					continue;
 
 				CalamityPlayer mp = p.Calamity();
-				TEChargingStation charger = mp.CurrentlyViewedCharger;
-				if (charger is null)
-					continue;
-				if (charger.ID == ID)
-				{
-					mp.CurrentlyViewedCharger = null;
-					mp.CurrentlyViewedChargerX = -1;
-					mp.CurrentlyViewedChargerY = -1;
-				}
+				if (mp.CurrentlyViewedChargerID == ID)
+					mp.CurrentlyViewedChargerID = -1;
 			}
 		}
 

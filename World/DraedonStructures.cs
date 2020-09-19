@@ -189,7 +189,6 @@ namespace CalamityMod.World
             {
                 new ChestItem(ModContent.ItemType<DubiousPlating>(), WorldGen.genRand.Next(8, 14 + 1)),
                 new ChestItem(ModContent.ItemType<MysteriousCircuitry>(), WorldGen.genRand.Next(7, 12 + 1)),
-                new ChestItem(ModContent.ItemType<ChargingStationItem>(), WorldGen.genRand.Next(2, 3 + 1)),
                 new ChestItem(ItemID.Torch, WorldGen.genRand.Next(15, 29 + 1)),
                 new ChestItem(ItemID.GoldCoin, WorldGen.genRand.Next(5, 11 + 1)),
                 new ChestItem(ItemID.HealingPotion, WorldGen.genRand.Next(5, 7 + 1)),
@@ -262,7 +261,6 @@ namespace CalamityMod.World
             {
                 new ChestItem(ModContent.ItemType<DubiousPlating>(), WorldGen.genRand.Next(8, 14 + 1)),
                 new ChestItem(ModContent.ItemType<MysteriousCircuitry>(), WorldGen.genRand.Next(7, 12 + 1)),
-                new ChestItem(ModContent.ItemType<ChargingStationItem>(), WorldGen.genRand.Next(2, 3 + 1)),
                 new ChestItem(ItemID.Torch, WorldGen.genRand.Next(15, 29 + 1)),
                 new ChestItem(ItemID.GoldCoin, WorldGen.genRand.Next(5, 11 + 1)),
                 new ChestItem(ItemID.HealingPotion, WorldGen.genRand.Next(5, 7 + 1)),
@@ -330,7 +328,6 @@ namespace CalamityMod.World
             {
                 new ChestItem(ModContent.ItemType<DubiousPlating>(), WorldGen.genRand.Next(8, 14 + 1)),
                 new ChestItem(ModContent.ItemType<MysteriousCircuitry>(), WorldGen.genRand.Next(7, 12 + 1)),
-                new ChestItem(ModContent.ItemType<ChargingStationItem>(), WorldGen.genRand.Next(2, 3 + 1)),
                 new ChestItem(ItemID.Torch, WorldGen.genRand.Next(15, 29 + 1)),
                 new ChestItem(ItemID.GoldCoin, WorldGen.genRand.Next(5, 11 + 1)),
                 new ChestItem(ItemID.HealingPotion, WorldGen.genRand.Next(5, 7 + 1)),
@@ -413,7 +410,6 @@ namespace CalamityMod.World
             {
                 new ChestItem(ModContent.ItemType<DubiousPlating>(), WorldGen.genRand.Next(8, 14 + 1)),
                 new ChestItem(ModContent.ItemType<MysteriousCircuitry>(), WorldGen.genRand.Next(7, 12 + 1)),
-                new ChestItem(ModContent.ItemType<ChargingStationItem>(), WorldGen.genRand.Next(2, 3 + 1)),
                 new ChestItem(ItemID.Torch, WorldGen.genRand.Next(15, 29 + 1)),
                 new ChestItem(ItemID.GoldCoin, WorldGen.genRand.Next(5, 11 + 1)),
                 new ChestItem(ItemID.HealingPotion, WorldGen.genRand.Next(5, 7 + 1)),
@@ -492,7 +488,6 @@ namespace CalamityMod.World
             {
                 new ChestItem(ModContent.ItemType<DubiousPlating>(), WorldGen.genRand.Next(8, 14 + 1)),
                 new ChestItem(ModContent.ItemType<MysteriousCircuitry>(), WorldGen.genRand.Next(7, 12 + 1)),
-                new ChestItem(ModContent.ItemType<ChargingStationItem>(), WorldGen.genRand.Next(2, 3 + 1)),
                 new ChestItem(ItemID.HerbBag, WorldGen.genRand.Next(12, 17 + 1)),
                 new ChestItem(ItemID.CorruptPlanterBox, WorldGen.genRand.Next(5, 9 + 1)),
                 new ChestItem(ItemID.DayBloomPlanterBox, WorldGen.genRand.Next(5, 9 + 1)),

@@ -193,10 +193,6 @@ namespace CalamityMod.Schematics
                         {
                             Main.tile[x + xOffset, y + yOffset] = (Tile)SchematicTileConversion(oldTiles[x, y], tile, schematic[x, y].InternalColor).Clone();
 
-                            // Temporary until the eldritch Tile Entity world corruption bug is killed.
-                            if (Main.tile[x + xOffset, y + yOffset].type == ModContent.TileType<ChargingStation>())
-                                Main.tile[x + xOffset, y + yOffset].active(false);
-
 							TryToPlaceTileEntities(x + xOffset, y + yOffset);
                         }
 
@@ -223,14 +219,18 @@ namespace CalamityMod.Schematics
 			// Not to mention the possibility of multiple tile entities appearing.
 			if (tileAtPosition.frameX != 0 || tileAtPosition.frameY != 0)
 				return;
-	
-			// Runtime variables do not work with switches (such as ModContent calls).
-			// Therefore, the only other solutions would be to use an else if or delegate dictionary.
-			if (tileType == ModContent.TileType<DraedonLabTurret>())
-			{
-				TileEntity.PlaceEntityNet(x, y, ModContent.TileEntityType<TEDraedonLabTurret>());
-			}
-		}
+
+            // Runtime variables do not work with switches (such as ModContent calls).
+            // Therefore, the only other solutions would be to use an else if or delegate dictionary.
+            if (tileType == ModContent.TileType<DraedonLabTurret>())
+            {
+                TileEntity.PlaceEntityNet(x, y, ModContent.TileEntityType<TEDraedonLabTurret>());
+            }
+            else if (tileType == ModContent.TileType<ChargingStation>())
+            {
+                TileEntity.PlaceEntityNet(x, y, ModContent.TileEntityType<TEChargingStation>());
+            }
+        }
 
 		public static Chest PlaceChest(int x, int y, int chestType)
         {

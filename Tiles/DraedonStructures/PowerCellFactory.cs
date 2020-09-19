@@ -1,6 +1,6 @@
 using CalamityMod.CalPlayer;
 using CalamityMod.Items.DraedonMisc;
-using CalamityMod.Items.Placeables;
+using CalamityMod.Items.Placeables.DraedonStructures;
 using CalamityMod.TileEntities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -82,7 +82,7 @@ namespace CalamityMod.Tiles.DraedonStructures
             int top = j - t.frameY % (Height * SheetSquare) / SheetSquare;
 
             // Drop any cells contained in the factory.
-            TEPowerCellFactory factory = CalamityUtils.FindTileEntity<TEPowerCellFactory>(i, j, Width, Height, 18);
+            TEPowerCellFactory factory = CalamityUtils.FindTileEntity<TEPowerCellFactory>(i, j, Width, Height, SheetSquare);
             int numCells = factory?.CellStack ?? 0;
             if (numCells > 0)
                 Item.NewItem(new Vector2(i, j) * 16f, ModContent.ItemType<PowerCell>(), numCells);
@@ -92,20 +92,15 @@ namespace CalamityMod.Tiles.DraedonStructures
 
         public override bool NewRightClick(int i, int j)
         {
-            Tile t = Main.tile[i, j];
             TEPowerCellFactory thisFactory = CalamityUtils.FindTileEntity<TEPowerCellFactory>(i, j, Width, Height, SheetSquare);
-
             Player player = Main.LocalPlayer;
             player.CancelSignsAndChests();
-
             CalamityPlayer mp = player.Calamity();
-            TEPowerCellFactory viewedFactory = mp.CurrentlyViewedFactory;
 
             // If this is the factory the player is currently looking at OR this factory doesn't really exist, close the GUI.
-            if (viewedFactory != null && (thisFactory is null || thisFactory.ID == viewedFactory.ID))
+            if (thisFactory is null || thisFactory.ID == mp.CurrentlyViewedFactoryID)
             {
-                mp.CurrentlyViewedFactory = null;
-                mp.CurrentlyViewedFactoryX = mp.CurrentlyViewedFactoryY = -1;
+                mp.CurrentlyViewedFactoryID = -1;
                 Main.PlaySound(SoundID.MenuClose);
             }
 
@@ -113,15 +108,8 @@ namespace CalamityMod.Tiles.DraedonStructures
             else if (thisFactory != null)
             {
                 // Play a sound depending on whether the player had another factory open previously.
-                Main.PlaySound(mp.CurrentlyViewedFactory is null ? SoundID.MenuOpen : SoundID.MenuTick);
-
-                // Ensure that the UI position is always centered and above the tile.
-                int left = i - t.frameX % (Width * SheetSquare) / SheetSquare;
-                int top = j - t.frameY % (Height * SheetSquare) / SheetSquare;
-                mp.CurrentlyViewedFactoryX = left * 16 + 16;
-                mp.CurrentlyViewedFactoryY = top * 16;
-                mp.CurrentlyViewedFactory = thisFactory;
-
+                Main.PlaySound(mp.CurrentlyViewedFactoryID == -1 ? SoundID.MenuOpen : SoundID.MenuTick);
+                mp.CurrentlyViewedFactoryID = thisFactory.ID;
                 Main.playerInventory = true;
                 Main.recBigList = false;
             }

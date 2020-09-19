@@ -6,7 +6,6 @@ using CalamityMod.World;
 using System;
 using System.IO;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -162,6 +161,9 @@ namespace CalamityMod
                     case CalamityModMessageType.Turret:
                         TEBaseTurret.ReadSyncPacket(mod, reader);
                         break;
+                    case CalamityModMessageType.LabHologramProjector:
+                        TELabHologramProjector.ReadSyncPacket(mod, reader);
+                        break;
 
                     case CalamityModMessageType.SyncCalamityNPCAIArray:
                         byte npcIndex2 = reader.ReadByte();
@@ -248,6 +250,7 @@ namespace CalamityMod
         PowerCellFactory,
         ChargingStationStandard,
         ChargingStationItemChange,
-        Turret
+        Turret,
+        LabHologramProjector,
     }
 }

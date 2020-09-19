@@ -3,7 +3,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace CalamityMod.Items.Placeables
+namespace CalamityMod.Items.Placeables.DraedonStructures
 {
     public class PowerCellFactoryItem : ModItem
     {

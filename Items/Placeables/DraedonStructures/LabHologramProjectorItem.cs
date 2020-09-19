@@ -3,13 +3,13 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace CalamityMod.Items.Placeables.Furniture
+namespace CalamityMod.Items.Placeables.DraedonStructures
 {
-    public class HolographicDisplayBox : ModItem
+    public class LabHologramProjectorItem : ModItem
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Holographic Display Box");
+            DisplayName.SetDefault("Lab Hologram Projector");
         }
 
         public override void SetDefaults()
@@ -23,10 +23,10 @@ namespace CalamityMod.Items.Placeables.Furniture
             item.useTime = 10;
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
-            //item.value = Item.buyPrice(0, 5, 0, 0);
-            item.rare = 3;
+            item.value = Item.buyPrice(gold: 5);
+            item.rare = ItemRarityID.Orange;
             item.Calamity().customRarity = CalamityRarity.DraedonRust;
-            item.createTile = ModContent.TileType<DraedonHologram>();
+            item.createTile = ModContent.TileType<LabHologramProjector>();
         }
     }
 }
