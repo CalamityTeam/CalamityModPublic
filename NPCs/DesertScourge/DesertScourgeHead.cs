@@ -26,6 +26,7 @@ namespace CalamityMod.NPCs.DesertScourge
     {
         private bool flies = false;
         private bool TailSpawned = false;
+		public bool playRoarSound = false;
 
         public override void SetStaticDefaults()
         {
@@ -72,11 +73,13 @@ namespace CalamityMod.NPCs.DesertScourge
         public override void SendExtraAI(BinaryWriter writer)
         {
             writer.Write(npc.dontTakeDamage);
+            writer.Write(playRoarSound);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
             npc.dontTakeDamage = reader.ReadBoolean();
+            playRoarSound = reader.ReadBoolean();
         }
 
         public override void AI()
@@ -271,11 +274,21 @@ namespace CalamityMod.NPCs.DesertScourge
 
 			// Lunge up towards target
 			if (burrow && npc.Center.Y >= burrowTarget - 16f)
+			{
 				npc.Calamity().newAI[1] = 1f;
+				if (!playRoarSound)
+				{
+					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/DesertScourgeRoar"), npc.Center);
+					playRoarSound = true;
+				}
+			}
 
 			// Quickly fall back down once above target
 			if (lungeUpward && npc.Center.Y <= player.Center.Y - 420f)
+			{
 				npc.Calamity().newAI[1] = 2f;
+				playRoarSound = false;
+			}
 
 			// Quickly fall and reset variables once at target's Y position
 			if (quickFall)
@@ -285,6 +298,7 @@ namespace CalamityMod.NPCs.DesertScourge
 				{
 					npc.Calamity().newAI[0] = 0f;
 					npc.Calamity().newAI[1] = 0f;
+					playRoarSound = false;
 				}
 			}
 
@@ -351,7 +365,8 @@ namespace CalamityMod.NPCs.DesertScourge
                         num195 = 20f;
                     }
                     npc.soundDelay = (int)num195;
-                    Main.PlaySound(15, (int)npc.position.X, (int)npc.position.Y, 1);
+					//Play the worm digging sound.  No, I don't know why it's the same ID (but different style) as the generic boss roar and a scream
+                    Main.PlaySound(SoundID.Roar, (int)npc.position.X, (int)npc.position.Y, 1);
                 }
                 num193 = (float)System.Math.Sqrt(num191 * num191 + num192 * num192);
                 float num196 = System.Math.Abs(num191);

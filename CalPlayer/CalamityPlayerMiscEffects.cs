@@ -1010,6 +1010,8 @@ namespace CalamityMod.CalPlayer
 				modPlayer.plagueReaperCooldown--;
 			if (modPlayer.brimflameFrenzyTimer > 0)
 				modPlayer.brimflameFrenzyTimer--;
+			if (modPlayer.bloodflareSoulTimer > 0)
+				modPlayer.bloodflareSoulTimer--;
 			if (modPlayer.fungalSymbioteTimer > 0)
 				modPlayer.fungalSymbioteTimer--;
 			if (player.miscCounter % 20 == 0)

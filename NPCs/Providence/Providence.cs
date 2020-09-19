@@ -785,6 +785,7 @@ namespace CalamityMod.NPCs.Providence
 						num858 *= num859;
 
 						Projectile.NewProjectile(vector.X, vector.Y, num857, num858, ModContent.ProjectileType<HolyBlast>(), holyBlastDamage, 0f, Main.myPlayer, 0f, 0f);
+						Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/ProvidenceHolyBlastShoot"), vector);
 					}
 				}
 				else if (npc.ai[3] < 0f)

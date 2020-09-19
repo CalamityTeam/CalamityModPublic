@@ -642,6 +642,7 @@ namespace CalamityMod.CalPlayer
         public int bloodflareMeleeHits = 0;
         public bool bloodflareRanged = false;
         public bool bloodflareSoulCooldown = false;
+        public int bloodflareSoulTimer = 0;
         public bool bloodflareThrowing = false;
         public bool bloodflareMage = false;
         public int bloodflareMageCooldown = 0;
@@ -2372,6 +2373,7 @@ namespace CalamityMod.CalPlayer
             bloodflareMeleeHits = 0;
             bloodflareRanged = false;
             bloodflareSoulCooldown = false;
+			bloodflareSoulTimer = 0;
             bloodflareThrowing = false;
             bloodflareMage = false;
             bloodflareSummon = false;
@@ -2880,24 +2882,25 @@ namespace CalamityMod.CalPlayer
                     if (player.whoAmI == Main.myPlayer)
                     {
                         player.AddBuff(ModContent.BuffType<BloodflareSoulCooldown>(), 1800, false);
+						bloodflareSoulTimer = 1800;
                     }
-                    Main.PlaySound(SoundID.Zombie, (int)player.position.X, (int)player.position.Y, 104);
-                    for (int num502 = 0; num502 < 64; num502++)
+					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/BloodflareRangerActivation"), player.Center);
+                    for (int d = 0; d < 64; d++)
                     {
                         int dust = Dust.NewDust(new Vector2(player.position.X, player.position.Y + 16f), player.width, player.height - 16, (int)CalamityDusts.Phantoplasm, 0f, 0f, 0, default, 1f);
                         Main.dust[dust].velocity *= 3f;
                         Main.dust[dust].scale *= 1.15f;
                     }
-                    int num226 = 36;
-                    for (int num227 = 0; num227 < num226; num227++)
+                    int dustAmt = 36;
+                    for (int d = 0; d < dustAmt; d++)
                     {
-                        Vector2 vector6 = Vector2.Normalize(player.velocity) * new Vector2((float)player.width / 2f, (float)player.height) * 0.75f;
-                        vector6 = vector6.RotatedBy((double)((float)(num227 - (num226 / 2 - 1)) * 6.28318548f / (float)num226), default) + player.Center;
-                        Vector2 vector7 = vector6 - player.Center;
-                        int num228 = Dust.NewDust(vector6 + vector7, 0, 0, (int)CalamityDusts.Phantoplasm, vector7.X * 1.5f, vector7.Y * 1.5f, 100, default, 1.4f);
-                        Main.dust[num228].noGravity = true;
-                        Main.dust[num228].noLight = true;
-                        Main.dust[num228].velocity = vector7;
+                        Vector2 source = Vector2.Normalize(player.velocity) * new Vector2((float)player.width / 2f, (float)player.height) * 0.75f;
+                        source = source.RotatedBy((double)((float)(d - (dustAmt / 2 - 1)) * MathHelper.TwoPi / (float)dustAmt), default) + player.Center;
+                        Vector2 dustVel = source - player.Center;
+                        int phanto = Dust.NewDust(source + dustVel, 0, 0, (int)CalamityDusts.Phantoplasm, dustVel.X * 1.5f, dustVel.Y * 1.5f, 100, default, 1.4f);
+                        Main.dust[phanto].noGravity = true;
+                        Main.dust[phanto].noLight = true;
+                        Main.dust[phanto].velocity = dustVel;
                     }
                     float spread = 45f * 0.0174f;
                     double startAngle = Math.Atan2(player.velocity.X, player.velocity.Y) - spread / 2;
