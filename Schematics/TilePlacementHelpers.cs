@@ -228,7 +228,7 @@ namespace CalamityMod.Schematics
             }
             else if (tileType == ModContent.TileType<ChargingStation>())
             {
-                TileEntity.PlaceEntityNet(x, y, ModContent.TileEntityType<TEDraedonLabTurret>());
+                TileEntity.PlaceEntityNet(x, y, ModContent.TileEntityType<TEChargingStation>());
             }
         }
 

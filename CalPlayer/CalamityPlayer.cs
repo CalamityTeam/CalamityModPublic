@@ -126,18 +126,12 @@ namespace CalamityMod.CalPlayer
 		public int potionTimer = 0;
 		public bool cementShoes = false;
 		public bool resetHeightandWidth = false;
-		#endregion
+        #endregion
 
-        public int CurrentlyViewedFactoryX = -1;
-        public int CurrentlyViewedFactoryY = -1;
-        public TEPowerCellFactory CurrentlyViewedFactory;
-
-        public int CurrentlyViewedChargerX = -1;
-        public int CurrentlyViewedChargerY = -1;
-        public TEChargingStation CurrentlyViewedCharger;
-
-        public int CurrentlyViewedHologramX = -1;
-        public int CurrentlyViewedHologramY = -1;
+        #region Tile Entity Trackers
+        public int CurrentlyViewedFactoryID = -1;
+        public int CurrentlyViewedChargerID = -1;
+        public int CurrentlyViewedHologramID = -1;
         public string CurrentlyViewedHologramText;
         #endregion
 
@@ -1007,10 +1001,12 @@ namespace CalamityMod.CalPlayer
         public bool omegaBlueTransformation;
         public bool omegaBlueTransformationForce;
         public bool omegaBlueTransformationPower;
-		#endregion
+        #endregion
 
-		#region SavingAndLoading
-		public override void Initialize()
+        #endregion
+
+        #region SavingAndLoading
+        public override void Initialize()
 		{
 			extraAccessoryML = false;
 			eCore = false;
@@ -2385,13 +2381,9 @@ namespace CalamityMod.CalPlayer
             elysianGuard = false;
             #endregion
 
-            CurrentlyViewedFactoryX = CurrentlyViewedFactoryY = -1;
-            CurrentlyViewedFactory = null;
-
-            CurrentlyViewedChargerX = CurrentlyViewedChargerY = -1;
-            CurrentlyViewedCharger = null;
-
-            CurrentlyViewedHologramX = CurrentlyViewedHologramY = -1;
+            CurrentlyViewedFactoryID = -1;
+            CurrentlyViewedChargerID = -1;
+            CurrentlyViewedHologramID = -1;
             CurrentlyViewedHologramText = string.Empty;
 
             KameiBladeUseDelay = 0;
@@ -3791,36 +3783,6 @@ namespace CalamityMod.CalPlayer
             {
                 rage = 0;
                 gaelSwitchTimer = GaelSwitchPhase.None;
-            }
-
-            // Disable the factory UI if the player is far from the associated factory.
-            if (CurrentlyViewedFactory != null)
-            {
-                Vector2 factoryPosition = new Vector2(CurrentlyViewedFactoryX, CurrentlyViewedFactoryY);
-                if (player.Distance(factoryPosition) > 1200f)
-                {
-                    CurrentlyViewedFactory = null;
-                    CurrentlyViewedFactoryX = CurrentlyViewedFactoryY = -1;
-                }
-            }
-
-            // Disable the charger UI if the player is far from the associated charger.
-            if (CurrentlyViewedCharger != null)
-            {
-                Vector2 chargerPosition = new Vector2(CurrentlyViewedChargerX, CurrentlyViewedChargerY);
-                if (player.Distance(chargerPosition) > 1200f)
-                {
-                    CurrentlyViewedCharger = null;
-                    CurrentlyViewedChargerX = CurrentlyViewedChargerY = -1;
-                }
-            }
-
-            // Disable the hologram UI if the player is far from the associated hologram.
-            Vector2 hologramPosition = new Vector2(CurrentlyViewedHologramX, CurrentlyViewedHologramY) * 16f;
-            if (player.Distance(hologramPosition) > 120f)
-            {
-                CurrentlyViewedHologramX = CurrentlyViewedHologramY = -1;
-                CurrentlyViewedHologramText = string.Empty;
             }
         }
 
