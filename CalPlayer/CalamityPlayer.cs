@@ -5,6 +5,7 @@ using CalamityMod.Buffs.Potions;
 using CalamityMod.Buffs.StatBuffs;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Dusts;
+using CalamityMod.Events;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Accessories.Vanity;
 using CalamityMod.Items.Armor;
@@ -12,19 +13,17 @@ using CalamityMod.Items.DifficultyItems;
 using CalamityMod.Items.Dyes;
 using CalamityMod.Items.Mounts;
 using CalamityMod.Items.TreasureBags;
-using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
-using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.Items.Weapons.Typeless;
 using CalamityMod.NPCs;
 using CalamityMod.NPCs.Abyss;
 using CalamityMod.NPCs.AcidRain;
 using CalamityMod.NPCs.Astral;
 using CalamityMod.NPCs.Calamitas;
-using CalamityMod.NPCs.Cryogen;
 using CalamityMod.NPCs.Crags;
+using CalamityMod.NPCs.Cryogen;
 using CalamityMod.NPCs.DevourerofGods;
 using CalamityMod.NPCs.GreatSandShark;
 using CalamityMod.NPCs.Leviathan;
@@ -39,6 +38,7 @@ using CalamityMod.NPCs.SunkenSea;
 using CalamityMod.NPCs.SupremeCalamitas;
 using CalamityMod.NPCs.Yharon;
 using CalamityMod.Projectiles.Boss;
+using CalamityMod.Projectiles.DraedonsArsenal;
 using CalamityMod.Projectiles.Enemy;
 using CalamityMod.Projectiles.Environment;
 using CalamityMod.Projectiles.Melee;
@@ -46,7 +46,6 @@ using CalamityMod.Projectiles.Ranged;
 using CalamityMod.Projectiles.Rogue;
 using CalamityMod.Projectiles.Summon;
 using CalamityMod.Projectiles.Typeless;
-using CalamityMod.TileEntities;
 using CalamityMod.Tiles;
 using CalamityMod.UI;
 using CalamityMod.World;
@@ -65,12 +64,10 @@ using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
-using CalamityMod.Projectiles.DraedonsArsenal;
-using CalamityMod.Events;
 
 namespace CalamityMod.CalPlayer
 {
-    public enum GaelSwitchPhase
+	public enum GaelSwitchPhase
     {
         LoseRage = 0,
         None = 1
@@ -5561,8 +5558,8 @@ namespace CalamityMod.CalPlayer
             }
             if (godSlayerRanged && crit && proj.ranged)
             {
-                int randomChance = 100 - player.rangedCrit; //100 min to 15 max with cap
-
+                // 100 min to 15 max with cap (prevents crit hyperscaling)
+                int randomChance = 100 - player.rangedCrit;
                 if (randomChance < 15)
                     randomChance = 15;
                 if (Main.rand.NextBool(randomChance))

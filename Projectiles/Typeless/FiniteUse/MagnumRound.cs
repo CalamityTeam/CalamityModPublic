@@ -29,10 +29,17 @@ namespace CalamityMod.Projectiles.Typeless.FiniteUse
 
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            if (target.Organic())
+            // Crits are extra powerful, dealing 2.5x damage instead of 2x.
+            if (crit)
             {
-                damage += target.lifeMax / 25; //400 + 80 = 480 + (100000 / 25 = 4000) = 4480, if crit = 5600 = 5.6% of boss HP
+                damage = (int)(damage * 1.25);
+                knockback *= 1.25f;
             }
+
+            if (target.Organic())
+                damage += target.lifeMax / 25; //400 + 80 = 480 + (100000 / 25 = 4000) = 4480, if crit = 5600 = 5.6% of boss HP
+
+            // Shots are hard capped at 6.6% of the entity's max health, meaning if you shoot a non-boss, you're an idiot.
             if (damage > target.lifeMax / 15 && CalamityPlayer.areThereAnyDamnBosses)
                 damage = target.lifeMax / 15;
         }

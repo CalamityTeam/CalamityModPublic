@@ -212,13 +212,16 @@ namespace CalamityMod
         MagicLevelSync,
         SummonLevelSync,
         RogueLevelSync,
+
         ExactMeleeLevelSync,
         ExactRangedLevelSync,
         ExactMagicLevelSync,
         ExactSummonLevelSync,
         ExactRogueLevelSync,
+
         StressSync,
         AdrenalineSync,
+
         TeleportPlayer,
         BossRushStage,
         DoGCountdownSync,
@@ -227,22 +230,29 @@ namespace CalamityMod
         ArmoredDiggerCountdownSync,
         BossTypeSync,
         DeathCountSync,
+
         RevengeanceBoolSync,
         DeathBoolSync,
         DefiledBoolSync,
         IronHeartBoolSync,
         ArmageddonBoolSync,
         DemonTrophyBoolSync,
+
         NPCRegenerationSync,
+
         DeathModeUnderworldTimeSync,
         DeathModeBlizzardTimeSync,
         DeathBossSpawnCountdownSync,
+
         AcidRainSync,
         AcidRainUIDrawFadeSync,
         AcidRainOldDukeSummonSync,
+
         GaelsGreatswordSwingSync,
+
         SpawnSuperDummy,
         SyncCalamityNPCAIArray,
+
         ProvidenceDyeConditionSync, // We shouldn't fucking need this. Die in a hole, Multiplayer.
         PSCChallengeSync, // See above
 
