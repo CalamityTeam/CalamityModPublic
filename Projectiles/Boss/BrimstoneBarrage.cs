@@ -62,7 +62,9 @@ namespace CalamityMod.Projectiles.Boss
 			if (projectile.localAI[0] == 0f)
 			{
 				projectile.localAI[0] = 1f;
-				projectile.damage = projectile.GetProjectileDamage(ModContent.NPCType<SupremeCalamitas>());
+
+				if (projectile.ai[0] == 0f)
+					projectile.damage = projectile.GetProjectileDamage(ModContent.NPCType<SupremeCalamitas>());
 			}
 
 			Lighting.AddLight(projectile.Center, 0.75f, 0f, 0f);

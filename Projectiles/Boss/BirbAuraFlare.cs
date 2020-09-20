@@ -1,4 +1,5 @@
 using CalamityMod.Events;
+using CalamityMod.NPCs.Bumblebirb;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
@@ -118,7 +119,7 @@ namespace CalamityMod.Projectiles.Boss
 				float y = num231 * 16 + 900;
 				Vector2 laserVelocity = new Vector2(x, 160f) - new Vector2(x, y);
 				int type = ModContent.ProjectileType<BirbAura>();
-				int damage = projectile.GetProjectileDamage(type);
+				int damage = projectile.GetProjectileDamage(ModContent.NPCType<Bumblefuck>());
 				if (projectile.ai[0] >= 2f)
 				{
 					x += 1000f;
