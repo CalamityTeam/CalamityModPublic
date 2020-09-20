@@ -1326,30 +1326,36 @@ namespace CalamityMod
 					}
 				}
 			}
-			bool foundTarget = false;
-			Vector2 targetPos = new Vector2(0f, 0f);
-			float maxDist = 600f;
-			for (int i = 0; i < Main.maxNPCs; i++)
+			if (projectile.Calamity().lineColor != 1 || projectile.timeLeft < (3300 + projectile.localAI[0]))
 			{
-				NPC npc = Main.npc[i];
-				if (npc.CanBeChasedBy(projectile, false))
+				bool foundTarget = false;
+				Vector2 targetPos = new Vector2(0f, 0f);
+				float maxDist = 600f;
+				for (int i = 0; i < Main.maxNPCs; i++)
 				{
-					float targetDist = Vector2.Distance(projectile.Center, npc.Center);
-					if (targetDist < maxDist)
+					NPC npc = Main.npc[i];
+					if (npc.CanBeChasedBy(projectile, false))
 					{
-						targetPos = npc.Center;
-						foundTarget = true;
-						break;
+						float targetDist = Vector2.Distance(projectile.Center, npc.Center);
+						if (targetDist < maxDist)
+						{
+							targetPos = npc.Center;
+							foundTarget = true;
+							break;
+						}
 					}
 				}
-			}
-			if (foundTarget)
-			{
-				Vector2 targetVec = targetPos - projectile.Center;
-				targetVec.Normalize();
-				targetVec *= 0.75f;
-				projectile.velocity = (projectile.velocity * 10f + targetVec) / 11f;
-				return;
+				if (foundTarget)
+				{
+					if (projectile.Calamity().lineColor == 1)
+						projectile.extraUpdates = 5;
+
+					Vector2 targetVec = targetPos - projectile.Center;
+					targetVec.Normalize();
+					targetVec *= 0.75f;
+					projectile.velocity = (projectile.velocity * 10f + targetVec) / 11f;
+					return;
+				}
 			}
 			if (projectile.velocity.Length() > 0.2f)
 			{
