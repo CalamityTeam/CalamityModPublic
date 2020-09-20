@@ -1,5 +1,6 @@
 using CalamityMod.CalPlayer;
-using CalamityMod.Tiles;
+using CalamityMod.Tiles.DraedonStructures;
+using Microsoft.Xna.Framework;
 using System.IO;
 using System.Reflection;
 using Terraria;
@@ -12,8 +13,10 @@ namespace CalamityMod.TileEntities
 {
 	public class TEPowerCellFactory : ModTileEntity
 	{
+		public Vector2 Center => Position.ToWorldCoordinates(8f * PowerCellFactory.Width, 8f * PowerCellFactory.Height);
 		public long Time = 0;
 		private short _stack = 0;
+
 		public short CellStack
 		{
 			get => _stack;
@@ -111,15 +114,8 @@ namespace CalamityMod.TileEntities
 					continue;
 
 				CalamityPlayer mp = p.Calamity();
-				TEPowerCellFactory factory = mp.CurrentlyViewedFactory;
-				if (factory is null)
-					continue;
-				if (factory.ID == ID)
-				{
-					mp.CurrentlyViewedFactory = null;
-					mp.CurrentlyViewedFactoryX = -1;
-					mp.CurrentlyViewedFactoryY = -1;
-				}
+				if (mp.CurrentlyViewedFactoryID == ID)
+					mp.CurrentlyViewedFactoryID = -1;
 			}
 		}
 
@@ -151,15 +147,15 @@ namespace CalamityMod.TileEntities
 		{
 			if (Main.netMode == NetmodeID.SinglePlayer)
 				return;
-			var netMessage = mod.GetPacket();
-			netMessage.Write((byte)CalamityModMessageType.PowerCellFactory);
-			netMessage.Write(ID);
-			netMessage.Write(Time);
-			netMessage.Write(_stack);
-			netMessage.Send();
+			ModPacket packet = mod.GetPacket();
+			packet.Write((byte)CalamityModMessageType.PowerCellFactory);
+			packet.Write(ID);
+			packet.Write(Time);
+			packet.Write(_stack);
+			packet.Send(-1, -1);
 		}
 
-		internal static bool ReadSyncPacket(BinaryReader reader)
+		internal static bool ReadSyncPacket(Mod mod, BinaryReader reader)
 		{
 			int teID = reader.ReadInt32();
 			bool exists = ByID.TryGetValue(teID, out TileEntity te);
@@ -167,6 +163,17 @@ namespace CalamityMod.TileEntities
 			// The rest of the packet must be read even if it turns out the factory doesn't exist for whatever reason.
 			long time = reader.ReadInt64();
 			short cellStack = reader.ReadInt16();
+
+			// When a server gets this packet, it immediately sends an equivalent packet to all clients.
+			if (Main.netMode == NetmodeID.Server)
+			{
+				ModPacket packet = mod.GetPacket();
+				packet.Write((byte)CalamityModMessageType.PowerCellFactory);
+				packet.Write(teID);
+				packet.Write(time);
+				packet.Write(cellStack);
+				packet.Send(-1, -1);
+			}
 
 			if (exists && te is TEPowerCellFactory factory)
 			{

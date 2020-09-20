@@ -1010,6 +1010,8 @@ namespace CalamityMod.CalPlayer
 				modPlayer.plagueReaperCooldown--;
 			if (modPlayer.brimflameFrenzyTimer > 0)
 				modPlayer.brimflameFrenzyTimer--;
+			if (modPlayer.bloodflareSoulTimer > 0)
+				modPlayer.bloodflareSoulTimer--;
 			if (modPlayer.fungalSymbioteTimer > 0)
 				modPlayer.fungalSymbioteTimer--;
 			if (player.miscCounter % 20 == 0)
@@ -3928,10 +3930,6 @@ namespace CalamityMod.CalPlayer
 			// 10% is converted to 9%, 25% is converted to 20%, 50% is converted to 33%, 75% is converted to 43%, 100% is converted to 50%
 			if (player.endurance > 0f)
 				player.endurance = 1f - (1f / (1f + player.endurance));
-
-			// Very similar scaling to damage reduction. Ex. Frog Leg goes from 48% jump speed to 38%
-			//if (player.jumpSpeedBoost > 0f)
-			//	player.jumpSpeedBoost = (1f - 1f / (1f + (player.jumpSpeedBoost / 10f))) * 10f
 
 			if (modPlayer.yharonLore && !CalamityWorld.defiled)
 			{

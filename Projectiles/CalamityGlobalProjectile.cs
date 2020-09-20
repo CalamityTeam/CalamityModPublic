@@ -4,17 +4,14 @@ using CalamityMod.CalPlayer;
 using CalamityMod.Dusts;
 using CalamityMod.Events;
 using CalamityMod.NPCs.NormalNPCs;
-using CalamityMod.Projectiles.Boss;
 using CalamityMod.Projectiles.Healing;
 using CalamityMod.Projectiles.Hybrid;
 using CalamityMod.Projectiles.Magic;
 using CalamityMod.Projectiles.Melee;
 using CalamityMod.Projectiles.Melee.Yoyos;
-using CalamityMod.Projectiles.Ranged;
 using CalamityMod.Projectiles.Rogue;
 using CalamityMod.Projectiles.Summon;
 using CalamityMod.Projectiles.Typeless;
-using CalamityMod.Projectiles.Typeless.FiniteUse;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -27,7 +24,7 @@ using static Terraria.ModLoader.ModContent;
 
 namespace CalamityMod.Projectiles
 {
-    public class CalamityGlobalProjectile : GlobalProjectile
+	public class CalamityGlobalProjectile : GlobalProjectile
     {
         public override bool InstancePerEntity
         {
@@ -55,7 +52,6 @@ namespace CalamityMod.Projectiles
         public float spawnedPlayerMinionDamageValue = 1f;
         public int spawnedPlayerMinionProjectileDamageValue = 0;
         public int defDamage = 0;
-		public int defCrit = 0;
 
 		// Rogue Stuff
 		public bool stealthStrike = false; //Update all existing rogue weapons with this
@@ -1235,22 +1231,14 @@ namespace CalamityMod.Projectiles
 			Player player = Main.player[projectile.owner];
 			CalamityPlayer modPlayer = player.Calamity();
 
-			// Set crit here to avoid issues with projectiles that change class types in PreAI and AI
-			if (defCrit == 0 && !projectile.npcProj && !projectile.trap && Main.myPlayer == projectile.owner)
-			{
-				if (projectile.melee)
-					defCrit = modPlayer.critStats[0];
-				else if (projectile.ranged)
-					defCrit = modPlayer.critStats[1];
-				else if (projectile.magic)
-					defCrit = modPlayer.critStats[2];
-				else if (rogue)
-					defCrit = modPlayer.critStats[3];
-				else if (projectile.IsSummon())
-					defCrit = 4;
-				else if (player.ActiveItem().crit > 0)
-					defCrit = player.ActiveItem().crit;
-			}
+			// optimization to remove conversion X/Y loop for irrelevant projectiles
+			bool isConversionProjectile = projectile.type == ProjectileID.PurificationPowder
+				|| projectile.type == ProjectileID.PureSpray
+				|| projectile.type == ProjectileID.CorruptSpray
+				|| projectile.type == ProjectileID.CrimsonSpray
+				|| projectile.type == ProjectileID.HallowSpray;
+			if (!isConversionProjectile)
+				return;
 
 			if (projectile.owner == Main.myPlayer/* && Main.netMode != NetmodeID.MultiplayerClient*/)
 			{
@@ -1292,7 +1280,14 @@ namespace CalamityMod.Projectiles
 			// Super dummies have nearly 10 million max HP (which is used in damage calculations).
 			// This can very easily cause damage numbers that are unrealistic for the weapon.
 			// As a result, they are omitted in this code.
-			if (!target.boss && target.type != NPCType<SuperDummyNPC>())
+
+			List<int> ignoreTheseBitches = new List<int>()
+			{
+				NPCType<SuperDummyNPC>(),
+				NPCID.TheDestroyerBody, //why aren't these bosses
+				NPCID.TheDestroyerTail
+			};
+			if (!target.boss && ignoreTheseBitches.TrueForAll(x => target.type != x))
 			{
 				if (target.Inorganic() && hasInorganicEnemyHitBoost)
 				{
@@ -1306,57 +1301,8 @@ namespace CalamityMod.Projectiles
 				}
 			}
 
-			if (projectile.owner == Main.myPlayer && !projectile.npcProj && !projectile.trap)
-			{
-				int critMax = 100;
-				int critChance = (int)MathHelper.Clamp(defCrit, 1, critMax);
-				crit = Main.rand.Next(1, critMax + 1) <= critChance;
-
-				if ((uint)(projectile.type - ProjectileID.DD2LightningAuraT1) <= 2u)
-				{
-					if (player.setMonkT3)
-						crit = Main.rand.NextBool(4);
-					else if (player.setMonkT2)
-						crit = Main.rand.NextBool(6);
-				}
-
-				if (rogue && stealthStrike && modPlayer.stealthStrikeAlwaysCrits)
-					crit = true;
-
-				//Following things need to be done in here.  If done in the projectile file, it's overridden by the thing above
-				if (projectile.type == ProjectileType<PwnagehammerProj>() && projectile.ai[0] == 1f)
-					crit = true;
-
-				if (projectile.type == ProjectileType<ImpactRound>())
-				{
-					double damageMult = 1D;
-					if (crit)
-					{
-						damageMult += 0.25;
-					}
-					if (target.Inorganic())
-					{
-						damageMult += 0.1;
-					}
-					damage = (int)(damage * damageMult);
-				}
-
-				if (projectile.type == ProjectileType<SphereSpiked>())
-				{
-					damage = (int)(damage * 1.2);
-					if (!crit)
-						crit = Main.rand.NextBool(10);
-				}
-
-				if (projectile.type == ProjectileType<MagnumRound>())
-				{
-					if (crit)
-					{
-						damage = (int)(damage * 1.25);
-						knockback *= 1.25f;
-					}
-				}
-			}
+			if (!projectile.npcProj && !projectile.trap && rogue && stealthStrike && modPlayer.stealthStrikeAlwaysCrits)
+				crit = true;
 		}
 		#endregion
 
@@ -2116,6 +2062,8 @@ namespace CalamityMod.Projectiles
             return true;
         }
 
+		// This seems to not work with TrailingMode set to 0.
+		// It works when it's set to 1, but only when there's 8 or more afterimages -- and then it only uses the first 8. Dafuq?
 		public static void DrawCenteredAndAfterimage(Projectile projectile, Color lightColor, int trailingMode, int afterimageCounter, Texture2D texture = null, bool drawCentered = true)
         {
             if (texture is null)

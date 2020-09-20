@@ -21,7 +21,7 @@ namespace CalamityMod.Items.DifficultyItems
                 "Increases enemy damage by 15%.\n" +
                 "Greatly boosts enemy spawn rates during the blood moon.\n" +
                 "Nerfs the effectiveness of life steal.\n" +
-                "Makes the abyss more treachorous to navigate.\n" +
+                "Makes the abyss more treacherous to navigate.\n" +
                 "Nurse no longer heals while a boss is alive.\n" +
                 "Increases damage done by several debuffs.\n" +
                 "Effect can be toggled on and off.\n" +

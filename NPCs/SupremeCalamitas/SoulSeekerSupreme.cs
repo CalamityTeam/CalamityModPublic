@@ -63,6 +63,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             timer++;
             if (timer > 180)
             {
+				Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SCalSounds/BrimstoneShoot"), npc.Center);
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
 					int type = ModContent.ProjectileType<BrimstoneBarrage>();
