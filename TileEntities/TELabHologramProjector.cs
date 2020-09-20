@@ -20,7 +20,7 @@ namespace CalamityMod.TileEntities
         public override bool ValidTile(int i, int j)
         {
             Tile tile = Main.tile[i, j];
-            return tile.active() && tile.type == ModContent.TileType<LabHologramProjector>();
+            return tile.active() && tile.type == ModContent.TileType<LabHologramProjector>() && tile.frameX == 0 && tile.frameY == 0;
         }
 
         // Check if the hologram should become visible.

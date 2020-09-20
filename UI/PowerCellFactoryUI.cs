@@ -80,6 +80,8 @@ namespace CalamityMod.UI
             // If the player's cursor is over the slot and there are power cells, then interaction with the UI is possible.
             if (mouseRect.Intersects(powercellSlotRect) && powercell.stack > 0)
             {
+                p.mouseInterface = Main.blockMouse = true;
+
                 if (!powercell.IsAir)
                     Main.HoverItem = powercell;
 
@@ -117,9 +119,6 @@ namespace CalamityMod.UI
 
                 // Since HoverItem is active, we don't need to input anything into this method.
                 Main.instance.MouseTextHackZoom("");
-
-                // Specifically do not block mouse input if holding a pickaxe, so that you can mine blocks behind the UI.
-                Main.blockMouse = Main.LocalPlayer.ActiveItem().pick <= 0;
             }
         }
 
