@@ -62,7 +62,7 @@ namespace CalamityMod.Projectiles.Boss
 			if (projectile.ai[0] == 0f || (projectile.timeLeft > 135 && projectile.ai[1] == 1f))
 				return;
 
-			float num953 = revenge ? 77f : 70f;
+			float inertia = revenge ? 70f : 77f;
 			float num954 = 40f;
 			float scaleFactor12 = revenge ? 35f : 28f;
 			int num959 = (int)projectile.ai[0];
@@ -75,7 +75,7 @@ namespace CalamityMod.Projectiles.Boss
                     {
                         vector102 = Vector2.UnitY;
                     }
-                    projectile.velocity = (projectile.velocity * (num953 - 1f) + vector102 * scaleFactor12) / num953;
+                    projectile.velocity = (projectile.velocity * (inertia - 1f) + vector102 * scaleFactor12) / inertia;
                 }
             }
             else

@@ -8,7 +8,6 @@ using CalamityMod.Items.Fishing.SunkenSeaCatches;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
 using CalamityMod.Items.Potions;
-using CalamityMod.Items.Tools;
 using CalamityMod.Items.Weapons.Melee;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,10 +27,10 @@ namespace CalamityMod
         public static void AddRecipes()
         {
             EditTerraBladeRecipe();
-			EditFireGauntletRecipe();
+            EditFireGauntletRecipe();
             AstralAlternatives();
 
-			AddPotionRecipes();
+            AddPotionRecipes();
             AddCookedFood();
             AddToolRecipes();
             AddProgressionRecipes();
@@ -126,46 +125,46 @@ namespace CalamityMod
             });
         }
 
-		// Change Fire Gauntlet's recipe to require 5 Chaotic Bars (forces the item to be post-Golem)
-		private static void EditFireGauntletRecipe()
-		{
-			List<Recipe> rec = Main.recipe.ToList();
-			rec.Where(x => x.createItem.type == ItemID.FireGauntlet).ToList().ForEach(s =>
-			{
-				for (int i = 0; i < s.requiredItem.Length; i++)
-				{
-					s.requiredItem[i] = new Item();
-				}
-				s.requiredItem[0].SetDefaults(ItemID.MagmaStone, false);
-				s.requiredItem[0].stack = 1;
-				s.requiredItem[1].SetDefaults(ItemID.MechanicalGlove, false);
-				s.requiredItem[1].stack = 1;
-				s.requiredItem[2].SetDefaults(ModContent.ItemType<CruptixBar>(), false);
-				s.requiredItem[2].stack = 5;
+        // Change Fire Gauntlet's recipe to require 5 Chaotic Bars (forces the item to be post-Golem)
+        private static void EditFireGauntletRecipe()
+        {
+            List<Recipe> rec = Main.recipe.ToList();
+            rec.Where(x => x.createItem.type == ItemID.FireGauntlet).ToList().ForEach(s =>
+            {
+                for (int i = 0; i < s.requiredItem.Length; i++)
+                {
+                    s.requiredItem[i] = new Item();
+                }
+                s.requiredItem[0].SetDefaults(ItemID.MagmaStone, false);
+                s.requiredItem[0].stack = 1;
+                s.requiredItem[1].SetDefaults(ItemID.MechanicalGlove, false);
+                s.requiredItem[1].stack = 1;
+                s.requiredItem[2].SetDefaults(ModContent.ItemType<CruptixBar>(), false);
+                s.requiredItem[2].stack = 5;
 
-				s.createItem.SetDefaults(ItemID.FireGauntlet, false);
-				s.createItem.stack = 1;
-			});
-		}
+                s.createItem.SetDefaults(ItemID.FireGauntlet, false);
+                s.createItem.stack = 1;
+            });
+        }
 
         #region Astral Alternatives
         private static void AstralAlternatives()
         {
-			//Bowl
+            //Bowl
             ModRecipe r = GetNewRecipe();
             r.AddIngredient(ModContent.ItemType<AstralClay>(), 2);
             r.AddTile(TileID.Furnaces);
             r.SetResult(ItemID.Bowl);
             r.AddRecipe();
 
-			//Clay Pot
+            //Clay Pot
             r = GetNewRecipe();
             r.AddIngredient(ModContent.ItemType<AstralClay>(), 2);
             r.AddTile(TileID.Furnaces);
             r.SetResult(ItemID.ClayPot);
             r.AddRecipe();
 
-			//Pink Vase
+            //Pink Vase
             r = GetNewRecipe();
             r.AddIngredient(ModContent.ItemType<AstralClay>(), 2);
             r.AddTile(TileID.Furnaces);
@@ -174,9 +173,9 @@ namespace CalamityMod
         }
         #endregion
 
-		#region Potions
-		// Equivalent Blood Orb recipes for almost all vanilla potions
-		private static void AddPotionRecipes()
+        #region Potions
+        // Equivalent Blood Orb recipes for almost all vanilla potions
+        private static void AddPotionRecipes()
         {
             short[] potions = new[]
             {
@@ -478,7 +477,7 @@ namespace CalamityMod
             //Slime Staff
             r = GetNewRecipe();
             r.AddIngredient(ItemID.Wood, 6);
-			r.anyWood = true;
+            r.anyWood = true;
             r.AddIngredient(ItemID.Gel, 40);
             r.AddIngredient(ItemID.PinkGel, 10);
             r.AddTile(TileID.Anvils);
@@ -698,8 +697,8 @@ namespace CalamityMod
             r.AddTile(TileID.Loom);
             r.SetResult(ItemID.EskimoPants);
             r.AddRecipe();
-		}
-		#endregion
+        }
+        #endregion
 
         #region AnkhShield
         // Every base component for the Ankh Shield
@@ -869,7 +868,7 @@ namespace CalamityMod
             r.SetResult(ItemID.TerraBlade);
             r.AddRecipe();
 
-			// Turtle Shell with Giant Tortoise Shell
+            // Turtle Shell with Giant Tortoise Shell
             r = GetNewRecipe();
             r.AddIngredient(ModContent.ItemType<GiantTortoiseShell>());
             r.SetResult(ItemID.TurtleShell);
@@ -879,17 +878,17 @@ namespace CalamityMod
 
         public static void AddRecipeGroups()
         {
-			//Modify Vanilla Recipe Groups
-			RecipeGroup firefly = RecipeGroup.recipeGroups[RecipeGroup.recipeGroupIDs["Fireflies"]];
-			firefly.ValidItems.Add(ModContent.ItemType<TwinklerItem>());
+            //Modify Vanilla Recipe Groups
+            RecipeGroup firefly = RecipeGroup.recipeGroups[RecipeGroup.recipeGroupIDs["Fireflies"]];
+            firefly.ValidItems.Add(ModContent.ItemType<TwinklerItem>());
 
-			RecipeGroup sand = RecipeGroup.recipeGroups[RecipeGroup.recipeGroupIDs["Sand"]];
-			sand.ValidItems.Add(ModContent.ItemType<AstralSand>());
+            RecipeGroup sand = RecipeGroup.recipeGroups[RecipeGroup.recipeGroupIDs["Sand"]];
+            sand.ValidItems.Add(ModContent.ItemType<AstralSand>());
 
-			RecipeGroup wood = RecipeGroup.recipeGroups[RecipeGroup.recipeGroupIDs["Wood"]];
-			wood.ValidItems.Add(ModContent.ItemType<Acidwood>()); //Astral Monolith was decidedly not wood-like enough
+            RecipeGroup wood = RecipeGroup.recipeGroups[RecipeGroup.recipeGroupIDs["Wood"]];
+            wood.ValidItems.Add(ModContent.ItemType<Acidwood>()); //Astral Monolith was decidedly not wood-like enough
 
-			//New Groups
+            //New Groups
             RecipeGroup group = new RecipeGroup(() => "Any Copper Bar", new int[]
             {
                 ItemID.CopperBar,

@@ -33,20 +33,16 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 229, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f, 100);
             }
-			if (projectile.ai[0] == 1f)
-			{
-				projectile.extraUpdates = 1;
-			}
-		}
+            if (projectile.ai[0] == 1f)
+            {
+                projectile.extraUpdates = 1;
+            }
+        }
 
-		public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
-		{
-			damage = (int)(damage * 1.2);
-			if (Main.rand.NextBool(10))
-			{
-				if (!crit)
-					crit = true;
-			}
+        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        {
+            damage = (int)(damage * 1.2);
+            crit |= Main.rand.NextBool(10);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

@@ -24,14 +24,14 @@ namespace CalamityMod.Projectiles.Boss
             projectile.tileCollide = false;
             projectile.penetrate = 1;
             projectile.alpha = 255;
-            projectile.timeLeft = 720;
+            projectile.timeLeft = 600;
         }
 
         public override void AI()
         {
             bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
             projectile.ai[1] += 1f;
-            if (projectile.ai[1] > 480)
+            if (projectile.ai[1] > 420)
             {
                 projectile.tileCollide = true;
             }
@@ -45,9 +45,9 @@ namespace CalamityMod.Projectiles.Boss
             {
                 projectile.frame = 0;
             }
-            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
-            float num953 = revenge ? 75f : 60f;
-            float scaleFactor12 = revenge ? 15f : 12f;
+            projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + MathHelper.PiOver2;
+            float inertia = revenge ? 90f : 110f;
+            float scaleFactor12 = revenge ? 16f : 12f;
             float num954 = 40f;
             if (projectile.alpha > 0)
             {
@@ -78,7 +78,7 @@ namespace CalamityMod.Projectiles.Boss
                     {
                         vector102 = Vector2.UnitY;
                     }
-                    projectile.velocity = (projectile.velocity * (num953 - 1f) + vector102 * scaleFactor12) / num953;
+                    projectile.velocity = (projectile.velocity * (inertia - 1f) + vector102 * scaleFactor12) / inertia;
                 }
             }
             else

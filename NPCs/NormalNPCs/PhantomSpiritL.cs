@@ -86,12 +86,12 @@ namespace CalamityMod.NPCs.NormalNPCs
                 if (Main.netMode != NetmodeID.MultiplayerClient && npc.ai[2] == 20f)
                 {
                     float num151 = 10f;
-                    int num152 = Main.expertMode ? 53 : 65;
-                    int num153 = ModContent.ProjectileType<PhantomGhostShot>();
-                    num149 = num151 / num149;
+					int type = ModContent.ProjectileType<PhantomGhostShot>();
+					int damage = npc.GetProjectileDamage(type);
+					num149 = num151 / num149;
                     num147 *= num149;
                     num148 *= num149;
-                    int num154 = Projectile.NewProjectile(vector17.X, vector17.Y, num147, num148, num153, num152, 0f, Main.myPlayer, 0f, 0f);
+                    int num154 = Projectile.NewProjectile(vector17.X, vector17.Y, num147, num148, type, damage, 0f, Main.myPlayer, 0f, 0f);
                 }
             }
         }

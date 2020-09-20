@@ -1,11 +1,11 @@
 using CalamityMod.CalPlayer;
 using CalamityMod.Items.DraedonMisc;
 using CalamityMod.TileEntities;
-using CalamityMod.Tiles.DraedonStructures;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.UI;
@@ -27,25 +27,36 @@ namespace CalamityMod.UI
         {
             Player p = Main.LocalPlayer;
             CalamityPlayer mp = p.Calamity();
-            TEChargingStation charger = mp.CurrentlyViewedCharger;
+            int chargerID = mp.CurrentlyViewedChargerID;
 
             // The UI only draws if the player is viewing a charger.
-            if (charger is null)
+            if (chargerID == -1)
                 return;
+
+            // Check if this tile entity ID is actually a charger. If it's not, immediately destroy this UI.
+            TEChargingStation charger;
+            bool chargerIsValid = TileEntity.ByID.TryGetValue(chargerID, out TileEntity te);
+            if (chargerIsValid && te is TEChargingStation cast)
+                charger = cast;
+            else
+            {
+                mp.CurrentlyViewedChargerID = -1;
+                return;
+            }
 
             // If the player's inventory isn't open, or they have a chest open, immediately destroy this UI.
             if (!Main.playerInventory || p.chest != -1)
             {
-                mp.CurrentlyViewedCharger = null;
+                mp.CurrentlyViewedChargerID = -1;
                 return;
             }
 
             // If the player is too far away from their viewed charger, immediately destroy this UI and play the menu close sound.
-            Vector2 chargerWorldCenter = charger.Position.ToWorldCoordinates(8f * ChargingStation.Width, 8f * ChargingStation.Height);
-            if (Vector2.DistanceSquared(p.Center, chargerWorldCenter) > MaxPlayerDistance * MaxPlayerDistance)
+            Vector2 chargerWorldCenter = charger.Center;
+            if (p.DistanceSQ(chargerWorldCenter) > MaxPlayerDistance * MaxPlayerDistance)
             {
                 Main.PlaySound(SoundID.MenuClose);
-                mp.CurrentlyViewedCharger = null;
+                mp.CurrentlyViewedChargerID = -1;
                 return;
             }
 
@@ -61,7 +72,7 @@ namespace CalamityMod.UI
                 powercell.stack = charger.CellStack;
             }
 
-            Vector2 uiBasePos = new Vector2(mp.CurrentlyViewedChargerX, mp.CurrentlyViewedChargerY);
+            Vector2 uiBasePos = charger.Position.ToWorldCoordinates(0f, 0f);
 
             // Draw the charger's plugged item and the power cells (if any) as inventory slots.
             Vector2 pluggedDrawPos = uiBasePos + new Vector2(SlotDrawOffsetX, PluggedDrawOffsetY) - Main.screenPosition;
@@ -80,6 +91,8 @@ namespace CalamityMod.UI
             ref Item playerHandItem = ref Main.mouseItem;
             if (mouseRect.Intersects(pluggedSlotRect))
             {
+                p.mouseInterface = Main.blockMouse = true;
+
                 if (!pluggedItem.IsAir)
                     Main.HoverItem = pluggedItem;
 
@@ -122,8 +135,6 @@ namespace CalamityMod.UI
 
                 // Since HoverItem is active, we don't need to input anything into this method.
                 Main.instance.MouseTextHackZoom("");
-                // Specifically do not block mouse input if holding a pickaxe, so that you can mine blocks behind the UI.
-                Main.blockMouse = Main.LocalPlayer.ActiveItem().pick <= 0;
             }
 
             // Otherwise if the player's cursor is over the power cell slot, they can interact with that UI element instead.

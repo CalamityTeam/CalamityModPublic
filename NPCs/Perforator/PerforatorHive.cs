@@ -168,8 +168,8 @@ namespace CalamityMod.NPCs.Perforator
 					num183 = num179 / num183;
 					num180 *= num183;
 					num182 *= num183;
-					int num184 = expertMode ? 14 : 18;
-					int num185 = Main.rand.NextBool(2) ? ModContent.ProjectileType<IchorShot>() : ModContent.ProjectileType<BloodGeyser>();
+					int type = Main.rand.NextBool(2) ? ModContent.ProjectileType<IchorShot>() : ModContent.ProjectileType<BloodGeyser>();
+					int damage = npc.GetProjectileDamage(type);
 					value9.X += num180;
 					value9.Y += num182;
 
@@ -181,7 +181,7 @@ namespace CalamityMod.NPCs.Perforator
 						num183 = num179 / num183;
 						num180 += (float)Main.rand.Next(-180, 181);
 						num180 *= num183;
-						Projectile.NewProjectile(value9.X, value9.Y, num180, -5f, num185, num184, 0f, Main.myPlayer, 0f, 0f);
+						Projectile.NewProjectile(value9.X, value9.Y, num180, -5f, type, damage, 0f, Main.myPlayer, 0f, 0f);
 					}
 				}
 			}

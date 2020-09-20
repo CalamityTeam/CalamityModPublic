@@ -115,7 +115,6 @@ namespace CalamityMod.NPCs.StormWeaver
 
             double lifeRatio = npc.life / (double)npc.lifeMax;
             int lifePercentage = (int)(100.0 * lifeRatio);
-			int projectileDamage = expertMode ? 62 : 75;
 
 			int BoltProjectiles = 2;
             if (lifePercentage < 33 || death)
@@ -191,7 +190,9 @@ namespace CalamityMod.NPCs.StormWeaver
 						npc.netUpdate = true;
 						float xPos = Main.rand.NextBool(2) ? Main.player[npc.target].position.X + 500f : Main.player[npc.target].position.X - 500f;
 						Vector2 spawnPos = new Vector2(xPos, Main.player[npc.target].position.Y + Main.rand.Next(-500, 501));
-						Projectile.NewProjectile(spawnPos, Vector2.Zero, ProjectileID.CultistBossLightningOrb, projectileDamage, 0f, Main.myPlayer, 0f, 0f);
+						int type = ProjectileID.CultistBossLightningOrb;
+						int damage = npc.GetProjectileDamage(type);
+						Projectile.NewProjectile(spawnPos, Vector2.Zero, type, damage, 0f, Main.myPlayer, 0f, 0f);
 					}
 				}
             }
@@ -367,7 +368,9 @@ namespace CalamityMod.NPCs.StormWeaver
 						velocity.X = velocity.X + 3 * Main.rand.NextFloat() - 1.5f;
 						Vector2 vector94 = Main.player[npc.target].Center - source;
 						float ai = Main.rand.Next(100);
-						Projectile.NewProjectile(source, velocity, ProjectileID.CultistBossLightningOrbArc, projectileDamage, 0f, Main.myPlayer, vector94.ToRotation(), ai);
+						int type = ProjectileID.CultistBossLightningOrbArc;
+						int damage = npc.GetProjectileDamage(type);
+						Projectile.NewProjectile(source, velocity, type, damage, 0f, Main.myPlayer, vector94.ToRotation(), ai);
 					}
 				}
 

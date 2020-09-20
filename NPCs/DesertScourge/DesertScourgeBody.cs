@@ -116,7 +116,6 @@ namespace CalamityMod.NPCs.DesertScourge
                         float num943 = player.position.Y + (float)player.height * 0.5f - vector104.Y;
                         float num944 = (float)Math.Sqrt((double)(num942 * num942 + num943 * num943));
                         int projectileType = ModContent.ProjectileType<SandBlast>();
-                        int damage = 12;
                         float num941 = BossRushEvent.BossRushActive ? 12f : 6f;
                         num944 = num941 / num944;
                         num942 *= num944;
@@ -125,7 +124,7 @@ namespace CalamityMod.NPCs.DesertScourge
                         vector104.Y += num943 * 5f;
                         if (Main.rand.NextBool(2) || BossRushEvent.BossRushActive)
                         {
-                            Projectile.NewProjectile(vector104.X, vector104.Y, num942, num943, projectileType, damage, 0f, Main.myPlayer, 0f, 0f);
+                            Projectile.NewProjectile(vector104.X, vector104.Y, num942, num943, projectileType, npc.GetProjectileDamage(projectileType), 0f, Main.myPlayer, 0f, 0f);
                         }
                         npc.netUpdate = true;
                     }

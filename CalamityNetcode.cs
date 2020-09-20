@@ -6,7 +6,6 @@ using CalamityMod.World;
 using System;
 using System.IO;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -162,6 +161,9 @@ namespace CalamityMod
                     case CalamityModMessageType.Turret:
                         TEBaseTurret.ReadSyncPacket(mod, reader);
                         break;
+                    case CalamityModMessageType.LabHologramProjector:
+                        TELabHologramProjector.ReadSyncPacket(mod, reader);
+                        break;
 
                     case CalamityModMessageType.SyncCalamityNPCAIArray:
                         byte npcIndex2 = reader.ReadByte();
@@ -210,13 +212,16 @@ namespace CalamityMod
         MagicLevelSync,
         SummonLevelSync,
         RogueLevelSync,
+
         ExactMeleeLevelSync,
         ExactRangedLevelSync,
         ExactMagicLevelSync,
         ExactSummonLevelSync,
         ExactRogueLevelSync,
+
         StressSync,
         AdrenalineSync,
+
         TeleportPlayer,
         BossRushStage,
         DoGCountdownSync,
@@ -225,22 +230,29 @@ namespace CalamityMod
         ArmoredDiggerCountdownSync,
         BossTypeSync,
         DeathCountSync,
+
         RevengeanceBoolSync,
         DeathBoolSync,
         DefiledBoolSync,
         IronHeartBoolSync,
         ArmageddonBoolSync,
         DemonTrophyBoolSync,
+
         NPCRegenerationSync,
+
         DeathModeUnderworldTimeSync,
         DeathModeBlizzardTimeSync,
         DeathBossSpawnCountdownSync,
+
         AcidRainSync,
         AcidRainUIDrawFadeSync,
         AcidRainOldDukeSummonSync,
+
         GaelsGreatswordSwingSync,
+
         SpawnSuperDummy,
         SyncCalamityNPCAIArray,
+
         ProvidenceDyeConditionSync, // We shouldn't fucking need this. Die in a hole, Multiplayer.
         PSCChallengeSync, // See above
 
@@ -248,6 +260,7 @@ namespace CalamityMod
         PowerCellFactory,
         ChargingStationStandard,
         ChargingStationItemChange,
-        Turret
+        Turret,
+        LabHologramProjector,
     }
 }

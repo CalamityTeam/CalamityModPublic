@@ -46,7 +46,15 @@ namespace CalamityMod.TileEntities
 					SendSyncPacket();
 			}
 		}
-		
+
+		// Lab turrets specifically must be placed on the top left corner of their host tile.
+		// This restriction is not shared by general turrets for flexibility reasons.
+		public override bool ValidTile(int i, int j)
+		{
+			Tile tile = Main.tile[i, j];
+			return tile.active() && tile.type == TileType && tile.frameX == 0 && tile.frameY == 0;
+		}
+
 		protected override Vector2 ChooseTarget(Vector2 targetingCenter)
 		{
 			// Store the value that will be set into PlayerTargetIndex here.

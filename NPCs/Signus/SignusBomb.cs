@@ -68,9 +68,9 @@ namespace CalamityMod.NPCs.Signus
 				npc.Calamity().newAI[0] += 1f;
 				npc.velocity *= 0.98f;
 				npc.dontTakeDamage = false;
-				npc.scale = MathHelper.Lerp(1f, 3f, npc.Calamity().newAI[0] / 85f);
+				npc.scale = MathHelper.Lerp(1f, 3f, npc.Calamity().newAI[0] / 45f);
 
-				if (npc.Calamity().newAI[0] >= 85f)
+				if (npc.Calamity().newAI[0] >= 45f)
 				{
 					CheckDead();
 					npc.life = 0;
@@ -147,6 +147,9 @@ namespace CalamityMod.NPCs.Signus
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
+			if (npc.Calamity().newAI[0] >= 45f)
+				return false;
+
 			SpriteEffects spriteEffects = SpriteEffects.None;
 			if (npc.spriteDirection == 1)
 				spriteEffects = SpriteEffects.FlipHorizontally;

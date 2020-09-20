@@ -21,8 +21,9 @@ namespace CalamityMod.Projectiles.Boss
             projectile.tileCollide = false;
             projectile.alpha = 255;
             projectile.penetrate = 1;
-            projectile.timeLeft = 180;
+            projectile.timeLeft = 300;
             projectile.aiStyle = 1;
+			projectile.extraUpdates = 1;
         }
 
         public override void AI()

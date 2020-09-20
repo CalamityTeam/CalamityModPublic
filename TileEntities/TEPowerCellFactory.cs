@@ -1,5 +1,6 @@
 using CalamityMod.CalPlayer;
 using CalamityMod.Tiles.DraedonStructures;
+using Microsoft.Xna.Framework;
 using System.IO;
 using System.Reflection;
 using Terraria;
@@ -12,8 +13,10 @@ namespace CalamityMod.TileEntities
 {
 	public class TEPowerCellFactory : ModTileEntity
 	{
+		public Vector2 Center => Position.ToWorldCoordinates(8f * PowerCellFactory.Width, 8f * PowerCellFactory.Height);
 		public long Time = 0;
 		private short _stack = 0;
+
 		public short CellStack
 		{
 			get => _stack;
@@ -111,15 +114,8 @@ namespace CalamityMod.TileEntities
 					continue;
 
 				CalamityPlayer mp = p.Calamity();
-				TEPowerCellFactory factory = mp.CurrentlyViewedFactory;
-				if (factory is null)
-					continue;
-				if (factory.ID == ID)
-				{
-					mp.CurrentlyViewedFactory = null;
-					mp.CurrentlyViewedFactoryX = -1;
-					mp.CurrentlyViewedFactoryY = -1;
-				}
+				if (mp.CurrentlyViewedFactoryID == ID)
+					mp.CurrentlyViewedFactoryID = -1;
 			}
 		}
 

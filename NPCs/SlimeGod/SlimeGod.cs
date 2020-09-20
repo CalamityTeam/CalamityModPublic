@@ -156,8 +156,8 @@ namespace CalamityMod.NPCs.SlimeGod
 						num183 = num179 / num183;
 						num180 *= num183;
 						num182 *= num183;
-						int num184 = 24;
-						int num185 = ModContent.ProjectileType<AbyssMine>();
+						int type = ModContent.ProjectileType<AbyssMine>();
+						int damage = npc.GetProjectileDamage(type);
 						value9.X += num180;
 						value9.Y += num182;
 						for (int num186 = 0; num186 < 3; num186++)
@@ -170,7 +170,7 @@ namespace CalamityMod.NPCs.SlimeGod
 							num182 += (float)Main.rand.Next(-60, 61);
 							num180 *= num183;
 							num182 *= num183;
-							Projectile.NewProjectile(value9.X, value9.Y, num180, num182, num185, num184, 0f, Main.myPlayer, 0f, 0f);
+							Projectile.NewProjectile(value9.X, value9.Y, num180, num182, type, damage, 0f, Main.myPlayer, 0f, 0f);
 						}
 					}
 					else
@@ -185,8 +185,8 @@ namespace CalamityMod.NPCs.SlimeGod
 						num183 = num179 / num183;
 						num180 *= num183;
 						num182 *= num183;
-						int num184 = expertMode ? 17 : 21;
-						int num185 = ModContent.ProjectileType<AbyssBallVolley>();
+						int type = ModContent.ProjectileType<AbyssBallVolley>();
+						int damage = npc.GetProjectileDamage(type);
 						value9.X += num180;
 						value9.Y += num182;
 						for (int num186 = 0; num186 < 4; num186++)
@@ -199,7 +199,7 @@ namespace CalamityMod.NPCs.SlimeGod
 							num182 += (float)Main.rand.Next(-60, 61);
 							num180 *= num183;
 							num182 *= num183;
-							Projectile.NewProjectile(value9.X, value9.Y, num180, num182, num185, num184, 0f, Main.myPlayer, 0f, 0f);
+							Projectile.NewProjectile(value9.X, value9.Y, num180, num182, type, damage, 0f, Main.myPlayer, 0f, 0f);
 						}
 					}
 				}

@@ -5,13 +5,14 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.Projectiles.Hybrid
 {
 	public class PwnagehammerProj : ModProjectile
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Hammer");
+			DisplayName.SetDefault("Pwnagehammer");
 			ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
 			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
 		}
@@ -196,6 +197,7 @@ namespace CalamityMod.Projectiles.Hybrid
 		{
 			if (projectile.ai[0] == 1f && Main.myPlayer == projectile.owner)
 			{
+				crit = true;
 				int hammer = Projectile.NewProjectile(projectile.Center, new Vector2(0, -15f), ModContent.ProjectileType<PwnagehammerProjStealthStrike>(), projectile.damage * 2, projectile.knockBack, projectile.owner, 0f, projectile.ai[1]);
 				Main.projectile[hammer].localAI[0] = Math.Sign(projectile.velocity.X);
 				Main.projectile[hammer].melee = projectile.melee;

@@ -997,8 +997,10 @@ namespace CalamityMod.NPCs
             }
             else if (npc.type == NPCID.SkeletronHead)
             {
-                npc.lifeMax = (int)(npc.lifeMax * 1.25);
-                npc.npcSlots = 12f;
+				if (!CalamityWorld.death)
+					npc.lifeMax = (int)(npc.lifeMax * 1.25);
+
+				npc.npcSlots = 12f;
             }
             else if (npc.type == NPCID.SkeletronHand)
             {
@@ -1009,6 +1011,11 @@ namespace CalamityMod.NPCs
                 npc.lifeMax = (int)(npc.lifeMax * 1.15);
                 npc.npcSlots = 14f;
             }
+			else if ((npc.type == NPCID.Bee || npc.type == NPCID.BeeSmall) && CalamityPlayer.areThereAnyDamnBosses)
+			{
+				npc.lifeMax = (int)(npc.lifeMax * 1.4);
+				npc.scale = 1.25f;
+			}
             else if (npc.type == NPCID.BrainofCthulhu)
             {
                 npc.lifeMax = (int)(npc.lifeMax * 1.6);

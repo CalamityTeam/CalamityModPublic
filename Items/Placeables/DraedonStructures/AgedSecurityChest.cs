@@ -1,14 +1,15 @@
+using CalamityMod.Items.Materials;
 using CalamityMod.Tiles.DraedonStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace CalamityMod.Items.Placeables.Furniture
+namespace CalamityMod.Items.Placeables.DraedonStructures
 {
-    public class SecurityChest : ModItem
+    public class AgedSecurityChest : ModItem
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Security Chest");
+            DisplayName.SetDefault("Aged Security Chest");
         }
 
         public override void SetDefaults()
@@ -20,19 +21,20 @@ namespace CalamityMod.Items.Placeables.Furniture
             item.autoReuse = true;
             item.useAnimation = 15;
             item.useTime = 14;
-            item.rare = 3;
+            item.rare = 2;
             item.Calamity().customRarity = CalamityRarity.DraedonRust;
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
             item.value = 500;
-            item.createTile = ModContent.TileType<SecurityChestTile>();
+            item.createTile = ModContent.TileType<AgedSecurityChestTile>();
         }
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.IronBar, 10);
+            recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 4);
+            recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 4);
+            recipe.AddIngredient(ItemID.IronBar, 4);
             recipe.anyIronBar = true;
-            recipe.AddIngredient(ModContent.ItemType<AgedSecurityChest>());
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();

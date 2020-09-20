@@ -1,6 +1,6 @@
 using CalamityMod.CalPlayer;
 using CalamityMod.Items.DraedonMisc;
-using CalamityMod.Items.Placeables;
+using CalamityMod.Items.Placeables.DraedonStructures;
 using CalamityMod.TileEntities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -84,21 +84,15 @@ namespace CalamityMod.Tiles.DraedonStructures
 
         public override bool NewRightClick(int i, int j)
         {
-            Tile t = Main.tile[i, j];
-            int left = i - t.frameX % (Width * SheetSquare) / SheetSquare;
-            int top = j - t.frameY % (Height * SheetSquare) / SheetSquare;
             TEChargingStation thisCharger = CalamityUtils.FindTileEntity<TEChargingStation>(i, j, Width, Height, SheetSquare);
-
             Player player = Main.LocalPlayer;
             player.CancelSignsAndChests();
             CalamityPlayer mp = player.Calamity();
-            TEChargingStation viewedCharger = mp.CurrentlyViewedCharger;
             
             // If this is the charger the player is currently looking at OR this charger doesn't really exist, close the GUI.
-            if (viewedCharger != null && (thisCharger is null || thisCharger.ID == viewedCharger.ID))
+            if (thisCharger is null || thisCharger.ID == mp.CurrentlyViewedChargerID)
             {
-                mp.CurrentlyViewedCharger = null;
-                mp.CurrentlyViewedChargerX = mp.CurrentlyViewedChargerY = -1;
+                mp.CurrentlyViewedChargerID = -1;
                 Main.PlaySound(SoundID.MenuClose);
             }
 
@@ -106,13 +100,8 @@ namespace CalamityMod.Tiles.DraedonStructures
             else if (thisCharger != null)
             {
                 // Play a sound depending on whether the player had another charger open previously.
-                Main.PlaySound(mp.CurrentlyViewedCharger is null ? SoundID.MenuOpen : SoundID.MenuTick);
-
-                // Ensure that the UI position is always centered and above the tile.
-                mp.CurrentlyViewedChargerX = left * 16;
-                mp.CurrentlyViewedChargerY = top * 16;
-                mp.CurrentlyViewedCharger = thisCharger;
-
+                Main.PlaySound(mp.CurrentlyViewedChargerID == -1 ? SoundID.MenuOpen : SoundID.MenuTick);
+                mp.CurrentlyViewedChargerID = thisCharger.ID;
                 Main.playerInventory = true;
                 Main.recBigList = false;
             }

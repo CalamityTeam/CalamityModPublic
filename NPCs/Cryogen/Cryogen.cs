@@ -218,13 +218,14 @@ namespace CalamityMod.NPCs.Cryogen
                 {
 					int totalProjectiles = 4;
 					float radians = MathHelper.TwoPi / totalProjectiles;
-					int damage = 25;
+					int type = ModContent.ProjectileType<IceBomb>();
+					int damage = npc.GetProjectileDamage(type);
 					float velocity = BossRushEvent.BossRushActive ? 12f : 4f;
 					Vector2 spinningPoint = Main.rand.NextBool(2) ? new Vector2(0f, -velocity) : Vector2.Normalize(new Vector2(-velocity, -velocity)) * velocity;
 					for (int k = 0; k < totalProjectiles; k++)
 					{
 						Vector2 vector255 = spinningPoint.RotatedBy(radians * k);
-						Projectile.NewProjectile(npc.Center, vector255, ModContent.ProjectileType<IceBomb>(), damage, 0f, Main.myPlayer, 0f, 0f);
+						Projectile.NewProjectile(npc.Center, vector255, type, damage, 0f, Main.myPlayer, 0f, 0f);
 					}
                     time = 0;
                 }
@@ -243,12 +244,13 @@ namespace CalamityMod.NPCs.Cryogen
                         {
 							int totalProjectiles = 16;
 							float radians = MathHelper.TwoPi / totalProjectiles;
-							int damage = expertMode ? 20 : 23;
+							int type = ModContent.ProjectileType<IceBlast>();
+							int damage = npc.GetProjectileDamage(type);
 							float velocity = BossRushEvent.BossRushActive ? 12f : 8f;
 							for (int k = 0; k < totalProjectiles; k++)
 							{
 								Vector2 vector255 = new Vector2(0f, -velocity).RotatedBy(radians * k);
-								Projectile.NewProjectile(npc.Center, vector255, ModContent.ProjectileType<IceBlast>(), damage, 0f, Main.myPlayer, 0f, 0f);
+								Projectile.NewProjectile(npc.Center, vector255, type, damage, 0f, Main.myPlayer, 0f, 0f);
 							}
                         }
                     }
@@ -293,12 +295,13 @@ namespace CalamityMod.NPCs.Cryogen
                         {
 							int totalProjectiles = 12;
 							float radians = MathHelper.TwoPi / totalProjectiles;
-							int damage = expertMode ? 20 : 23;
+							int type = ModContent.ProjectileType<IceBlast>();
+							int damage = npc.GetProjectileDamage(type);
 							float velocity2 = BossRushEvent.BossRushActive ? 12f : 8f;
 							for (int k = 0; k < totalProjectiles; k++)
 							{
 								Vector2 vector255 = new Vector2(0f, -velocity2).RotatedBy(radians * k);
-								Projectile.NewProjectile(npc.Center, vector255, ModContent.ProjectileType<IceBlast>(), damage, 0f, Main.myPlayer, 0f, 0f);
+								Projectile.NewProjectile(npc.Center, vector255, type, damage, 0f, Main.myPlayer, 0f, 0f);
 							}
                         }
                     }
@@ -380,12 +383,13 @@ namespace CalamityMod.NPCs.Cryogen
                             {
 								int totalProjectiles = 12;
 								float radians = MathHelper.TwoPi / totalProjectiles;
-								int damage = expertMode ? 20 : 23;
+								int type = ModContent.ProjectileType<IceBlast>();
+								int damage = npc.GetProjectileDamage(type);
 								float velocity = BossRushEvent.BossRushActive ? 14f : 9f;
 								for (int k = 0; k < totalProjectiles; k++)
 								{
 									Vector2 vector255 = new Vector2(0f, -velocity).RotatedBy(radians * k);
-									Projectile.NewProjectile(npc.Center, vector255, ModContent.ProjectileType<IceBlast>(), damage, 0f, Main.myPlayer, 0f, 0f);
+									Projectile.NewProjectile(npc.Center, vector255, type, damage, 0f, Main.myPlayer, 0f, 0f);
 								}
                             }
                             else
@@ -402,9 +406,9 @@ namespace CalamityMod.NPCs.Cryogen
                                 num183 = num179 / num183;
                                 num180 *= num183;
                                 num182 *= num183;
-                                int num184 = expertMode ? 23 : 26;
-                                int num185 = ModContent.ProjectileType<IceRain>();
-                                value9.X += num180;
+								int type = ModContent.ProjectileType<IceRain>();
+								int damage = npc.GetProjectileDamage(type);
+								value9.X += num180;
                                 value9.Y += num182;
                                 for (int num186 = 0; num186 < 6; num186++)
                                 {
@@ -415,7 +419,7 @@ namespace CalamityMod.NPCs.Cryogen
                                     num180 += Main.rand.Next(-360, 361);
                                     num182 += Main.rand.Next(-360, 361);
                                     num180 *= num183;
-                                    Projectile.NewProjectile(value9.X, value9.Y, num180, -8f, num185, num184, 0f, Main.myPlayer, 0f, 0f);
+                                    Projectile.NewProjectile(value9.X, value9.Y, num180, -8f, type, damage, 0f, Main.myPlayer, 0f, 0f);
                                 }
                             }
                         }
@@ -472,9 +476,9 @@ namespace CalamityMod.NPCs.Cryogen
                             num183 = num179 / num183;
                             num180 *= num183;
                             num182 *= num183;
-                            int num184 = expertMode ? 23 : 26;
-                            int num185 = ModContent.ProjectileType<IceRain>();
-                            value9.X += num180;
+							int type = ModContent.ProjectileType<IceRain>();
+							int damage = npc.GetProjectileDamage(type);
+							value9.X += num180;
                             value9.Y += num182;
                             for (int num186 = 0; num186 < 12; num186++)
                             {
@@ -485,7 +489,7 @@ namespace CalamityMod.NPCs.Cryogen
                                 num180 += Main.rand.Next(-360, 361);
                                 num182 += Main.rand.Next(-360, 361);
                                 num180 *= num183;
-                                Projectile.NewProjectile(value9.X, value9.Y, num180, -2.5f, num185, num184, 0f, Main.myPlayer, 1f, 0f);
+                                Projectile.NewProjectile(value9.X, value9.Y, num180, -2.5f, type, damage, 0f, Main.myPlayer, 1f, 0f);
                             }
                         }
                     }
@@ -564,12 +568,13 @@ namespace CalamityMod.NPCs.Cryogen
                         {
 							int totalProjectiles = 12;
 							float radians = MathHelper.TwoPi / totalProjectiles;
-							int damage = expertMode ? 20 : 23;
+							int type = ModContent.ProjectileType<IceBlast>();
+							int damage = npc.GetProjectileDamage(type);
 							float velocity = BossRushEvent.BossRushActive ? 14f : 9f;
 							for (int k = 0; k < totalProjectiles; k++)
 							{
 								Vector2 vector255 = new Vector2(0f, -velocity).RotatedBy(radians * k);
-								Projectile.NewProjectile(npc.Center, vector255, ModContent.ProjectileType<IceBlast>(), damage, 0f, Main.myPlayer, 0f, 0f);
+								Projectile.NewProjectile(npc.Center, vector255, type, damage, 0f, Main.myPlayer, 0f, 0f);
 							}
                         }
                     }
@@ -839,13 +844,14 @@ namespace CalamityMod.NPCs.Cryogen
 				{
 					int totalProjectiles = 4;
 					float radians = MathHelper.TwoPi / totalProjectiles;
-					int damage = 25;
+					int type = ModContent.ProjectileType<IceBomb>();
+					int damage = npc.GetProjectileDamage(type);
 					float velocity2 = BossRushEvent.BossRushActive ? 16f : 6f;
 					Vector2 spinningPoint = Main.rand.NextBool(2) ? new Vector2(0f, -velocity2) : Vector2.Normalize(new Vector2(-velocity2, -velocity2)) * velocity2;
 					for (int k = 0; k < totalProjectiles; k++)
 					{
 						Vector2 vector255 = spinningPoint.RotatedBy(radians * k);
-						Projectile.NewProjectile(npc.Center, vector255, ModContent.ProjectileType<IceBomb>(), damage, 0f, Main.myPlayer, 0f, 0f);
+						Projectile.NewProjectile(npc.Center, vector255, type, damage, 0f, Main.myPlayer, 0f, 0f);
 					}
 					time = 0;
 				}

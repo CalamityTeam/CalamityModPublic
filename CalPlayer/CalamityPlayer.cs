@@ -5,6 +5,7 @@ using CalamityMod.Buffs.Potions;
 using CalamityMod.Buffs.StatBuffs;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Dusts;
+using CalamityMod.Events;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Accessories.Vanity;
 using CalamityMod.Items.Armor;
@@ -12,19 +13,17 @@ using CalamityMod.Items.DifficultyItems;
 using CalamityMod.Items.Dyes;
 using CalamityMod.Items.Mounts;
 using CalamityMod.Items.TreasureBags;
-using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
-using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.Items.Weapons.Typeless;
 using CalamityMod.NPCs;
 using CalamityMod.NPCs.Abyss;
 using CalamityMod.NPCs.AcidRain;
 using CalamityMod.NPCs.Astral;
 using CalamityMod.NPCs.Calamitas;
-using CalamityMod.NPCs.Cryogen;
 using CalamityMod.NPCs.Crags;
+using CalamityMod.NPCs.Cryogen;
 using CalamityMod.NPCs.DevourerofGods;
 using CalamityMod.NPCs.GreatSandShark;
 using CalamityMod.NPCs.Leviathan;
@@ -39,6 +38,7 @@ using CalamityMod.NPCs.SunkenSea;
 using CalamityMod.NPCs.SupremeCalamitas;
 using CalamityMod.NPCs.Yharon;
 using CalamityMod.Projectiles.Boss;
+using CalamityMod.Projectiles.DraedonsArsenal;
 using CalamityMod.Projectiles.Enemy;
 using CalamityMod.Projectiles.Environment;
 using CalamityMod.Projectiles.Melee;
@@ -46,7 +46,6 @@ using CalamityMod.Projectiles.Ranged;
 using CalamityMod.Projectiles.Rogue;
 using CalamityMod.Projectiles.Summon;
 using CalamityMod.Projectiles.Typeless;
-using CalamityMod.TileEntities;
 using CalamityMod.Tiles;
 using CalamityMod.UI;
 using CalamityMod.World;
@@ -65,12 +64,10 @@ using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
-using CalamityMod.Projectiles.DraedonsArsenal;
-using CalamityMod.Events;
 
 namespace CalamityMod.CalPlayer
 {
-    public enum GaelSwitchPhase
+	public enum GaelSwitchPhase
     {
         LoseRage = 0,
         None = 1
@@ -124,20 +121,14 @@ namespace CalamityMod.CalPlayer
 		public bool brimlashBusterBoost = false;
 		public float animusBoost = 1f;
 		public int potionTimer = 0;
-		public bool cementShoes = false;
+		public bool blockAllDashes = false;
 		public bool resetHeightandWidth = false;
-		#endregion
+        #endregion
 
-        public int CurrentlyViewedFactoryX = -1;
-        public int CurrentlyViewedFactoryY = -1;
-        public TEPowerCellFactory CurrentlyViewedFactory;
-
-        public int CurrentlyViewedChargerX = -1;
-        public int CurrentlyViewedChargerY = -1;
-        public TEChargingStation CurrentlyViewedCharger;
-
-        public int CurrentlyViewedHologramX = -1;
-        public int CurrentlyViewedHologramY = -1;
+        #region Tile Entity Trackers
+        public int CurrentlyViewedFactoryID = -1;
+        public int CurrentlyViewedChargerID = -1;
+        public int CurrentlyViewedHologramID = -1;
         public string CurrentlyViewedHologramText;
         #endregion
 
@@ -373,7 +364,7 @@ namespace CalamityMod.CalPlayer
         public bool queenBeeLore = false;
         public bool skeletronLore = false;
         // This lore boolean is a bit different from the others. It just stops Slime God lore effects from stacking.
-        public bool slimeGodLoreProcessed = false;
+        public bool slimeGodLore = false;
         public bool wallOfFleshLore = false;
         public bool twinsLore = false;
         public bool destroyerLore = false;
@@ -1008,10 +999,12 @@ namespace CalamityMod.CalPlayer
         public bool omegaBlueTransformation;
         public bool omegaBlueTransformationForce;
         public bool omegaBlueTransformationPower;
-		#endregion
+        #endregion
 
-		#region SavingAndLoading
-		public override void Initialize()
+        #endregion
+
+        #region SavingAndLoading
+        public override void Initialize()
 		{
 			extraAccessoryML = false;
 			eCore = false;
@@ -1320,22 +1313,22 @@ namespace CalamityMod.CalPlayer
                 player.statLifeMax2 += player.statLifeMax / 5 / 20 * 25;
             if (community)
             {
-                float floatTypeBoost = 0.01f +
+                float floatTypeBoost = 0.05f +
                     (NPC.downedSlimeKing ? 0.01f : 0f) +
                     (NPC.downedBoss1 ? 0.01f : 0f) +
                     (NPC.downedBoss2 ? 0.01f : 0f) +
-                    (NPC.downedQueenBee ? 0.01f : 0f) + //0.05
-                    (NPC.downedBoss3 ? 0.01f : 0f) +
-                    (Main.hardMode ? 0.01f : 0f) +
+                    (NPC.downedQueenBee ? 0.01f : 0f) +
+                    (NPC.downedBoss3 ? 0.01f : 0f) + // 0.1
+					(Main.hardMode ? 0.01f : 0f) +
                     (NPC.downedMechBossAny ? 0.01f : 0f) +
                     (NPC.downedPlantBoss ? 0.01f : 0f) +
-                    (NPC.downedGolemBoss ? 0.01f : 0f) + //0.1
-                    (NPC.downedFishron ? 0.01f : 0f) +
-                    (NPC.downedAncientCultist ? 0.01f : 0f) +
+                    (NPC.downedGolemBoss ? 0.01f : 0f) +
+                    (NPC.downedFishron ? 0.01f : 0f) + // 0.15
+					(NPC.downedAncientCultist ? 0.01f : 0f) +
                     (NPC.downedMoonlord ? 0.01f : 0f) +
-                    (CalamityWorld.downedProvidence ? 0.02f : 0f) + //0.15
-                    (CalamityWorld.downedDoG ? 0.02f : 0f) + //0.17
-                    (CalamityWorld.downedYharon ? 0.03f : 0f); //0.2
+                    (CalamityWorld.downedProvidence ? 0.01f : 0f) +
+                    (CalamityWorld.downedDoG ? 0.01f : 0f) +
+                    (CalamityWorld.downedYharon ? 0.01f : 0f); // 0.2
                 int integerTypeBoost = (int)(floatTypeBoost * 50f);
                 player.statLifeMax2 += player.statLifeMax / 5 / 20 * integerTypeBoost;
             }
@@ -1485,7 +1478,7 @@ namespace CalamityMod.CalPlayer
             dsSetBonus = false;
             wearingRogueArmor = false;
 
-			cementShoes = false;
+			blockAllDashes = false;
 
             kingSlimeLore = false;
             desertScourgeLore = false;
@@ -1495,7 +1488,7 @@ namespace CalamityMod.CalPlayer
             perforatorLore = false;
             queenBeeLore = false;
             skeletronLore = false;
-            slimeGodLoreProcessed = false;
+            slimeGodLore = false;
             wallOfFleshLore = false;
             twinsLore = false;
             destroyerLore = false;
@@ -2387,13 +2380,9 @@ namespace CalamityMod.CalPlayer
             elysianGuard = false;
             #endregion
 
-            CurrentlyViewedFactoryX = CurrentlyViewedFactoryY = -1;
-            CurrentlyViewedFactory = null;
-
-            CurrentlyViewedChargerX = CurrentlyViewedChargerY = -1;
-            CurrentlyViewedCharger = null;
-
-            CurrentlyViewedHologramX = CurrentlyViewedHologramY = -1;
+            CurrentlyViewedFactoryID = -1;
+            CurrentlyViewedChargerID = -1;
+            CurrentlyViewedHologramID = -1;
             CurrentlyViewedHologramText = string.Empty;
 
             KameiBladeUseDelay = 0;
@@ -3585,23 +3574,23 @@ namespace CalamityMod.CalPlayer
             }
             if (community)
             {
-                float floatTypeBoost = 0.01f +
-                    (NPC.downedSlimeKing ? 0.01f : 0f) +
-                    (NPC.downedBoss1 ? 0.01f : 0f) +
-                    (NPC.downedBoss2 ? 0.01f : 0f) +
-                    (NPC.downedQueenBee ? 0.01f : 0f) + //0.05
-                    (NPC.downedBoss3 ? 0.01f : 0f) +
-                    (Main.hardMode ? 0.01f : 0f) +
-                    (NPC.downedMechBossAny ? 0.01f : 0f) +
-                    (NPC.downedPlantBoss ? 0.01f : 0f) +
-                    (NPC.downedGolemBoss ? 0.01f : 0f) + //0.1
-                    (NPC.downedFishron ? 0.01f : 0f) +
-                    (NPC.downedAncientCultist ? 0.01f : 0f) +
-                    (NPC.downedMoonlord ? 0.01f : 0f) +
-                    (CalamityWorld.downedProvidence ? 0.02f : 0f) + //0.15
-                    (CalamityWorld.downedDoG ? 0.02f : 0f) + //0.17
-                    (CalamityWorld.downedYharon ? 0.03f : 0f); //0.2
-                meleeSpeedMult += floatTypeBoost * 0.25f;
+				float floatTypeBoost = 0.05f +
+					(NPC.downedSlimeKing ? 0.01f : 0f) +
+					(NPC.downedBoss1 ? 0.01f : 0f) +
+					(NPC.downedBoss2 ? 0.01f : 0f) +
+					(NPC.downedQueenBee ? 0.01f : 0f) +
+					(NPC.downedBoss3 ? 0.01f : 0f) + // 0.1
+					(Main.hardMode ? 0.01f : 0f) +
+					(NPC.downedMechBossAny ? 0.01f : 0f) +
+					(NPC.downedPlantBoss ? 0.01f : 0f) +
+					(NPC.downedGolemBoss ? 0.01f : 0f) +
+					(NPC.downedFishron ? 0.01f : 0f) + // 0.15
+					(NPC.downedAncientCultist ? 0.01f : 0f) +
+					(NPC.downedMoonlord ? 0.01f : 0f) +
+					(CalamityWorld.downedProvidence ? 0.01f : 0f) +
+					(CalamityWorld.downedDoG ? 0.01f : 0f) +
+					(CalamityWorld.downedYharon ? 0.01f : 0f); // 0.2
+				meleeSpeedMult += floatTypeBoost * 0.25f;
             }
             if (eArtifact)
             {
@@ -3748,7 +3737,7 @@ namespace CalamityMod.CalPlayer
             if (player.ownedProjectileCounts[ModContent.ProjectileType<GiantIbanRobotOfDoom>()] > 0)
                 player.yoraiz0rEye = 0;
 
-			if (cementShoes || CalamityConfig.Instance.BossRushDashCurse && BossRushEvent.BossRushActive)
+			if (blockAllDashes || CalamityConfig.Instance.BossRushDashCurse && BossRushEvent.BossRushActive)
 				DisableAllDashes();
         }
         #endregion
@@ -3774,7 +3763,7 @@ namespace CalamityMod.CalPlayer
             if (player.ownedProjectileCounts[ModContent.ProjectileType<GiantIbanRobotOfDoom>()] > 0)
                 player.yoraiz0rEye = 0;
 
-			if (cementShoes || CalamityConfig.Instance.BossRushDashCurse && BossRushEvent.BossRushActive)
+			if (blockAllDashes || CalamityConfig.Instance.BossRushDashCurse && BossRushEvent.BossRushActive)
 				DisableAllDashes();
         }
 		#endregion
@@ -3794,36 +3783,6 @@ namespace CalamityMod.CalPlayer
             {
                 rage = 0;
                 gaelSwitchTimer = GaelSwitchPhase.None;
-            }
-
-            // Disable the factory UI if the player is far from the associated factory.
-            if (CurrentlyViewedFactory != null)
-            {
-                Vector2 factoryPosition = new Vector2(CurrentlyViewedFactoryX, CurrentlyViewedFactoryY);
-                if (player.Distance(factoryPosition) > 1200f)
-                {
-                    CurrentlyViewedFactory = null;
-                    CurrentlyViewedFactoryX = CurrentlyViewedFactoryY = -1;
-                }
-            }
-
-            // Disable the charger UI if the player is far from the associated charger.
-            if (CurrentlyViewedCharger != null)
-            {
-                Vector2 chargerPosition = new Vector2(CurrentlyViewedChargerX, CurrentlyViewedChargerY);
-                if (player.Distance(chargerPosition) > 1200f)
-                {
-                    CurrentlyViewedCharger = null;
-                    CurrentlyViewedChargerX = CurrentlyViewedChargerY = -1;
-                }
-            }
-
-            // Disable the hologram UI if the player is far from the associated hologram.
-            Vector2 hologramPosition = new Vector2(CurrentlyViewedHologramX, CurrentlyViewedHologramY) * 16f;
-            if (player.Distance(hologramPosition) > 120f)
-            {
-                CurrentlyViewedHologramX = CurrentlyViewedHologramY = -1;
-                CurrentlyViewedHologramText = string.Empty;
             }
         }
 
@@ -3870,6 +3829,7 @@ namespace CalamityMod.CalPlayer
                 (auricSet ? 0.1f : 0f) +
                 (dragonScales ? 0.1f : 0f) +
                 (kamiBoost ? KamiBuff.RunAccelerationBoost : 0f) +
+				(slimeGodLore ? 0.1f : 0f) +
                 (cTracers ? 0.1f : 0f) +
                 (silvaSet ? 0.05f : 0f) +
                 (eTracers ? 0.05f : 0f) +
@@ -3890,7 +3850,8 @@ namespace CalamityMod.CalPlayer
                 (silvaSet ? 0.05f : 0f) +
                 (eTracers ? 0.05f : 0f) +
                 (kamiBoost ? KamiBuff.RunSpeedBoost : 0f) +
-                (etherealExtorter && player.ZoneBeach ? 0.05f : 0f) +
+				(slimeGodLore ? 0.1f : 0f) +
+				(etherealExtorter && player.ZoneBeach ? 0.05f : 0f) +
                 (stressPills ? 0.05f : 0f) +
                 (laudanum && horror ? 0.1f : 0f) +
                 (planarSpeedBoost > 0 ? (0.01f * planarSpeedBoost) : 0f) +
@@ -3955,6 +3916,12 @@ namespace CalamityMod.CalPlayer
 
             player.runAcceleration *= runAccMult;
             player.maxRunSpeed *= runSpeedMult;
+
+			if (slimeGodLore)
+			{
+				if (!player.iceSkate)
+					player.runSlowdown *= 0.1f;
+			}
             #endregion
 
             #region DashEffects
@@ -5599,8 +5566,8 @@ namespace CalamityMod.CalPlayer
             }
             if (godSlayerRanged && crit && proj.ranged)
             {
-                int randomChance = 100 - player.rangedCrit; //100 min to 15 max with cap
-
+                // 100 min to 15 max with cap (prevents crit hyperscaling)
+                int randomChance = 100 - player.rangedCrit;
                 if (randomChance < 15)
                     randomChance = 15;
                 if (Main.rand.NextBool(randomChance))
@@ -6353,25 +6320,11 @@ namespace CalamityMod.CalPlayer
 			{
 				double damageMultiplier = 1D;
 				if (CalamityLists.revengeanceProjectileBuffList25Percent.Contains(proj.type))
-				{
 					damageMultiplier += 0.25;
-				}
 				else if (CalamityLists.revengeanceProjectileBuffList20Percent.Contains(proj.type))
-				{
 					damageMultiplier += 0.2;
-				}
 				else if (CalamityLists.revengeanceProjectileBuffList15Percent.Contains(proj.type))
-				{
 					damageMultiplier += 0.15;
-				}
-				else if (CalamityLists.revengeanceProjectileBuffList10Percent.Contains(proj.type))
-				{
-					damageMultiplier += 0.1;
-				}
-				else if (CalamityLists.revengeanceProjectileBuffList5Percent.Contains(proj.type))
-				{
-					damageMultiplier += 0.05;
-				}
 
 				if (CalamityWorld.death)
 					damageMultiplier += (damageMultiplier - 1D) * 0.6;

@@ -912,7 +912,7 @@ namespace CalamityMod
 
                 layers.Insert(mouseIndex, new LegacyGameInterfaceLayer("Draedon Hologram", () =>
                 {
-                    DraedonHologramChatUI.Draw(Main.spriteBatch);
+                    LabHologramProjectorUI.Draw(Main.spriteBatch);
                     return true;
                 }, InterfaceScaleType.None));
 

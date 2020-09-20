@@ -706,29 +706,19 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                         num1071 *= num1073;
                         num1072 *= num1073;
 
-                        int num1074 = 40;
-                        int num1075 = Main.rand.NextBool(2) ? ModContent.ProjectileType<PlagueStingerGoliath>() : ModContent.ProjectileType<PlagueStingerGoliathV2>();
+                        int type = Main.rand.NextBool(2) ? ModContent.ProjectileType<PlagueStingerGoliath>() : ModContent.ProjectileType<PlagueStingerGoliathV2>();
                         if (expertMode)
                         {
-                            num1074 = 32;
-                            int damageBoost = death ? 5 : (int)(6f * (1f - lifeRatio));
-                            num1074 += damageBoost;
-
                             if (Main.rand.NextBool(6))
-                            {
-                                num1074 += 8;
-                                num1075 = ModContent.ProjectileType<HiveBombGoliath>();
-                            }
+                                type = ModContent.ProjectileType<HiveBombGoliath>();
                         }
                         else
                         {
                             if (Main.rand.NextBool(9))
-                            {
-                                num1074 = 50;
-                                num1075 = ModContent.ProjectileType<HiveBombGoliath>();
-                            }
+                                type = ModContent.ProjectileType<HiveBombGoliath>();
                         }
-                        Projectile.NewProjectile(vector121.X, vector121.Y, num1071, num1072, num1075, num1074, 0f, Main.myPlayer, 0f, player.position.Y);
+						int damage = npc.GetProjectileDamage(type);
+						Projectile.NewProjectile(vector121.X, vector121.Y, num1071, num1072, type, damage, 0f, Main.myPlayer, 0f, player.position.Y);
                     }
                 }
 
@@ -790,9 +780,10 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 								if (BossRushEvent.BossRushActive)
                                     speed = 12;
 
-                                int damage = expertMode ? 48 : 60;
+								int type = ModContent.ProjectileType<HiveBombGoliath>();
+								int damage = npc.GetProjectileDamage(type);
 
-                                Vector2 baseVelocity = player.Center - vectorCenter;
+								Vector2 baseVelocity = player.Center - vectorCenter;
                                 baseVelocity.Normalize();
                                 baseVelocity *= speed;
 
@@ -801,7 +792,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                                     Vector2 spawn = vectorCenter;
                                     spawn.X += i * 27 - (MissileProjectiles * 12); // -96 to 93
                                     Vector2 velocity = baseVelocity.RotatedBy(MathHelper.ToRadians(-MissileAngleSpread / 2 + (MissileAngleSpread * i / MissileProjectiles)));
-                                    Projectile.NewProjectile(spawn.X, spawn.Y, velocity.X, velocity.Y, ModContent.ProjectileType<HiveBombGoliath>(), damage, 0f, Main.myPlayer, 0f, player.position.Y);
+                                    Projectile.NewProjectile(spawn.X, spawn.Y, velocity.X, velocity.Y, type, damage, 0f, Main.myPlayer, 0f, player.position.Y);
                                 }
                             }
                         }

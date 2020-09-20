@@ -170,8 +170,7 @@ namespace CalamityMod.NPCs.Crabulon
                             npc.ai[3] = 0f;
                         }
                         float num353 = 10f;
-                        int num354 = expertMode ? 12 : 16;
-                        int num355 = ModContent.ProjectileType<MushBomb>();
+                        int type = ModContent.ProjectileType<MushBomb>();
                         Main.PlaySound(SoundID.Item42, (int)npc.position.X, (int)npc.position.Y);
                         if (BossRushEvent.BossRushActive)
                         {
@@ -194,7 +193,7 @@ namespace CalamityMod.NPCs.Crabulon
                         num350 *= num351;
                         vector34.X += num349;
                         vector34.Y += num350;
-                        Projectile.NewProjectile(vector34.X, vector34.Y, num349, num350 - 5f, num355, num354, 0f, Main.myPlayer, 0f, 0f);
+                        Projectile.NewProjectile(vector34.X, vector34.Y, num349, num350 - 5f, type, npc.GetProjectileDamage(type), 0f, Main.myPlayer, 0f, 0f);
                     }
                 }
             }
@@ -435,7 +434,9 @@ namespace CalamityMod.NPCs.Crabulon
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                         Projectile.NewProjectile((int)npc.Center.X, (int)npc.Center.Y + 20, 0f, 0f, ModContent.ProjectileType<Mushmash>(), 20, 0f, Main.myPlayer, 0f, 0f);
 
-					int num354 = expertMode ? 12 : 16;
+					int type = ModContent.ProjectileType<MushBombFall>();
+					int damage = npc.GetProjectileDamage(type);
+
 					if (npc.ai[2] % 2f == 0f && phase2 && revenge)
 					{
 						if (Main.netMode != NetmodeID.MultiplayerClient)
@@ -443,7 +444,7 @@ namespace CalamityMod.NPCs.Crabulon
 							float velocityX = npc.ai[2] == 0f ? -4f : 4f;
 							for (int x = 0; x < 20; x++)
 							{
-								Projectile.NewProjectile(npc.Center.X + shotSpacing, npc.Center.Y - 1000f, velocityX, 0f, ModContent.ProjectileType<MushBombFall>(), num354, 0f, Main.myPlayer, 0f, 0f);
+								Projectile.NewProjectile(npc.Center.X + shotSpacing, npc.Center.Y - 1000f, velocityX, 0f, type, damage, 0f, Main.myPlayer, 0f, 0f);
 								shotSpacing -= 100;
 							}
 							shotSpacing = 1000;
@@ -458,7 +459,7 @@ namespace CalamityMod.NPCs.Crabulon
                         {
                             for (int x = 0; x < 20; x++)
                             {
-                                Projectile.NewProjectile(npc.Center.X + shotSpacing, npc.Center.Y - 1000f, 0f, 0f, ModContent.ProjectileType<MushBombFall>(), num354, 0f, Main.myPlayer, 0f, 0f);
+                                Projectile.NewProjectile(npc.Center.X + shotSpacing, npc.Center.Y - 1000f, 0f, 0f, type, damage, 0f, Main.myPlayer, 0f, 0f);
                                 shotSpacing -= 100;
                             }
                             shotSpacing = 1000;

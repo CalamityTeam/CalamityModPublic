@@ -133,10 +133,9 @@ namespace CalamityMod.NPCs.StormWeaver
                 npc.localAI[0] = 0f;
                 if (Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
                 {
-                    int num8 = Main.expertMode ? 50 : 60;
-                    int num9 = ProjectileID.PinkLaser;
-                    int beam = Projectile.NewProjectile(vector.X, vector.Y, num4, num5, num9, num8, 0f, Main.myPlayer, 0f, 0f);
-                    Main.projectile[beam].timeLeft = 200;
+					int type = ProjectileID.PinkLaser;
+					int damage = npc.GetProjectileDamage(type);
+					Projectile.NewProjectile(vector.X, vector.Y, num4, num5, type, damage, 0f, Main.myPlayer, 0f, 0f);
                 }
             }
             int num10 = (int)npc.position.X + npc.width / 2;

@@ -172,9 +172,10 @@ namespace CalamityMod.NPCs.Providence
                     if (fireDust && dustTimer <= 0)
                     {
                         Main.PlaySound(SoundID.Item20, npc.position);
-                        int damage = expertMode ? 40 : 59;
+						int type = ModContent.ProjectileType<FlareDust>();
+						int damage = npc.GetProjectileDamage(type);
                         Vector2 vector173 = Vector2.Normalize(player.Center - vectorCenter) * (float)(npc.width + 20) / 2f + vectorCenter;
-                        int projectile = Projectile.NewProjectile((int)vector173.X, (int)vector173.Y, (float)(npc.direction * 2), 4f, ModContent.ProjectileType<FlareDust>(), damage, 0f, Main.myPlayer, 2f, 0f);
+                        int projectile = Projectile.NewProjectile((int)vector173.X, (int)vector173.Y, (float)(npc.direction * 2), 4f, type, damage, 0f, Main.myPlayer, 2f, 0f);
                         Main.projectile[projectile].timeLeft = 120;
                         Main.projectile[projectile].velocity.X = 0f;
                         Main.projectile[projectile].velocity.Y = 0f;
