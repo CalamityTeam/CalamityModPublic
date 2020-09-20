@@ -337,9 +337,16 @@ namespace CalamityMod.Projectiles
 					}
 				}
 
-				// Large cthulhunadoes
+				else if (projectile.type == ProjectileID.Sharknado)
+				{
+					projectile.damage = projectile.GetProjectileDamage(NPCID.DukeFishron);
+				}
+
+				// Larger cthulhunadoes
 				else if (projectile.type == ProjectileID.Cthulunado)
 				{
+					projectile.damage = projectile.GetProjectileDamage(NPCID.DukeFishron);
+
 					int num606 = 16;
 					int num607 = 16;
 					float num608 = 2f;
@@ -688,7 +695,7 @@ namespace CalamityMod.Projectiles
 					}
 					if (projectile.velocity.X != 0f)
 					{
-						projectile.direction = (projectile.spriteDirection = -Math.Sign(projectile.velocity.X));
+						projectile.direction = projectile.spriteDirection = -Math.Sign(projectile.velocity.X);
 					}
 					projectile.frameCounter++;
 					if (projectile.frameCounter > 2)
@@ -705,18 +712,18 @@ namespace CalamityMod.Projectiles
 						projectile.localAI[0] = 1f;
 						projectile.position.X += projectile.width / 2;
 						projectile.position.Y += projectile.height / 2;
-						projectile.scale = ((float)(num520 + num521) - projectile.ai[1]) * num522 / (float)(num521 + num520);
-						projectile.width = (int)((float)num523 * projectile.scale);
-						projectile.height = (int)((float)num524 * projectile.scale);
+						projectile.scale = (num520 + num521 - projectile.ai[1]) * num522 / (num521 + num520);
+						projectile.width = (int)(num523 * projectile.scale);
+						projectile.height = (int)(num524 * projectile.scale);
 						projectile.position.X -= projectile.width / 2;
 						projectile.position.Y -= projectile.height / 2;
 						projectile.netUpdate = true;
 					}
 					if (projectile.ai[1] != -1f)
 					{
-						projectile.scale = ((float)(num520 + num521) - projectile.ai[1]) * num522 / (float)(num521 + num520);
-						projectile.width = (int)((float)num523 * projectile.scale);
-						projectile.height = (int)((float)num524 * projectile.scale);
+						projectile.scale = (num520 + num521 - projectile.ai[1]) * num522 / (num521 + num520);
+						projectile.width = (int)(num523 * projectile.scale);
+						projectile.height = (int)(num524 * projectile.scale);
 					}
 					if (!Collision.SolidCollision(projectile.position, projectile.width, projectile.height))
 					{
@@ -746,25 +753,25 @@ namespace CalamityMod.Projectiles
 					{
 						projectile.netUpdate = true;
 						Vector2 center2 = projectile.Center;
-						center2.Y -= (float)num524 * projectile.scale / 2f;
-						float num525 = ((float)(num520 + num521) - projectile.ai[1] + 1f) * num522 / (float)(num521 + num520);
-						center2.Y -= (float)num524 * num525 / 2f;
+						center2.Y -= num524 * projectile.scale / 2f;
+						float num525 = (num520 + num521 - projectile.ai[1] + 1f) * num522 / (num521 + num520);
+						center2.Y -= num524 * num525 / 2f;
 						center2.Y += 2f;
 						Projectile.NewProjectile(center2, projectile.velocity, projectile.type, projectile.damage, projectile.knockBack, projectile.owner, 10f, projectile.ai[1] - 1f);
 					}
 					if (projectile.ai[0] <= 0f)
 					{
 						float num529 = (float)Math.PI / 30f;
-						float num530 = (float)projectile.width / 5f;
+						float num530 = projectile.width / 5f;
 						if (projectile.type == ProjectileID.Cthulunado)
 						{
 							num530 *= 2f;
 						}
 						float num531 = (float)(Math.Cos(num529 * (-projectile.ai[0])) - 0.5) * num530;
-						projectile.position.X -= num531 * (float)(-projectile.direction);
+						projectile.position.X -= num531 * (-projectile.direction);
 						projectile.ai[0] -= 1f;
 						num531 = (float)(Math.Cos(num529 * (-projectile.ai[0])) - 0.5) * num530;
-						projectile.position.X += num531 * (float)(-projectile.direction);
+						projectile.position.X += num531 * (-projectile.direction);
 					}
 
 					return false;

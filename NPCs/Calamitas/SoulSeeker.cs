@@ -114,8 +114,9 @@ namespace CalamityMod.NPCs.Calamitas
                     {
                         int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 235, 0f, 0f, 100, default, 2f);
                     }
-                    int damage = expertMode ? 25 : 30;
-                    Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X, direction.Y, ModContent.ProjectileType<BrimstoneBarrage>(), damage, 1f, npc.target);
+					int type = ModContent.ProjectileType<BrimstoneBarrage>();
+					int damage = npc.GetProjectileDamage(type);
+					Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X, direction.Y, type, damage, 1f, npc.target);
                 }
                 timer = 0;
             }

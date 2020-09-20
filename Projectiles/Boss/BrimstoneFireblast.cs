@@ -29,45 +29,41 @@ namespace CalamityMod.Projectiles.Boss
 			cooldownSlot = 1;
         }
 
-        public override void AI()
-        {
-            projectile.frameCounter++;
-            if (projectile.frameCounter > 4)
-            {
-                projectile.frame++;
-                projectile.frameCounter = 0;
-            }
-            if (projectile.frame > 5)
-                projectile.frame = 0;
+		public override void AI()
+		{
+			projectile.frameCounter++;
+			if (projectile.frameCounter > 4)
+			{
+				projectile.frame++;
+				projectile.frameCounter = 0;
+			}
+			if (projectile.frame > 5)
+				projectile.frame = 0;
 
 			if (projectile.ai[1] == 1f)
 				projectile.Opacity = MathHelper.Clamp(projectile.timeLeft / 60f, 0f, 1f);
 			else
 				projectile.Opacity = MathHelper.Clamp(1f - ((projectile.timeLeft - 60) / 60f), 0f, 1f);
 
-            Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0.9f / 255f, 0f, 0f);
+			Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0.9f / 255f, 0f, 0f);
 
-            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
+			projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
 
-            if (projectile.localAI[0] == 0f)
-            {
-                projectile.localAI[0] = 1f;
-                Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 20);
-            }
+			if (projectile.localAI[0] == 0f)
+			{
+				projectile.localAI[0] = 1f;
+				Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 20);
+			}
 
-            int target = Player.FindClosest(projectile.Center, 1, 1);
-            projectile.ai[0] += 1f;
-            if (projectile.ai[0] > 20f)
-            {
-                float projSpeed = projectile.velocity.Length();
-                Vector2 playerVec = Main.player[target].Center - projectile.Center;
-                playerVec.Normalize();
-                playerVec *= projSpeed;
-                projectile.velocity = (projectile.velocity * 24f + playerVec) / 25f;
-                projectile.velocity.Normalize();
-                projectile.velocity *= projSpeed;
-            }
-        }
+			int target = Player.FindClosest(projectile.Center, 1, 1);
+			float projSpeed = projectile.velocity.Length();
+			Vector2 playerVec = Main.player[target].Center - projectile.Center;
+			playerVec.Normalize();
+			playerVec *= projSpeed;
+			projectile.velocity = (projectile.velocity * 24f + playerVec) / 25f;
+			projectile.velocity.Normalize();
+			projectile.velocity *= projSpeed;
+		}
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {

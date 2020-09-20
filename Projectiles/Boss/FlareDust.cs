@@ -144,7 +144,6 @@ namespace CalamityMod.Projectiles.Boss
                 Main.dust[num624].velocity *= 2f;
             }
 			CalamityUtils.ExplosionGores(projectile.Center, 3);
-            projectile.damage = Main.expertMode ? 75 : 90;
             projectile.Damage();
         }
 

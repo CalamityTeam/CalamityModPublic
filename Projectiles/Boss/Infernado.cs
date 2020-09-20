@@ -1,4 +1,5 @@
 using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.NPCs.Yharon;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -127,10 +128,9 @@ namespace CalamityMod.Projectiles.Boss
                 projectile.position.X = projectile.position.X + num624 * (float)-(float)projectile.direction;
             }
 
-            int damage = Main.expertMode ? 130 : 150;
 			if (projectile.timeLeft == 600)
-				projectile.damage = damage;
-        }
+				projectile.damage = projectile.GetProjectileDamage(ModContent.NPCType<Yharon>());
+		}
 
         public override bool CanHitPlayer(Player target)
 		{

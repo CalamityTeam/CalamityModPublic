@@ -310,12 +310,14 @@ namespace CalamityMod.NPCs.Polterghast
 					float chargeDistanceGateValue = 32f;
 
 					if (Vector2.Distance(vector, chargeVector) <= chargeDistanceGateValue)
-					{
 						npc.velocity *= 0.8f;
-						return;
+					else
+					{
+						if (Vector2.Distance(vector, chargeVector) > 1200f)
+							npc.velocity = chargeLocationVelocity;
+						else
+							npc.SimpleFlyMovement(chargeLocationVelocity, chargeAcceleration);
 					}
-
-					npc.SimpleFlyMovement(chargeLocationVelocity, chargeAcceleration);
 				}
 
 				npc.netUpdate = true;
@@ -392,7 +394,12 @@ namespace CalamityMod.NPCs.Polterghast
             }
         }
 
-        public override void OnHitPlayer(Player player, int damage, bool crit)
+		public override bool CheckActive()
+		{
+			return false;
+		}
+
+		public override void OnHitPlayer(Player player, int damage, bool crit)
         {
             if (CalamityWorld.revenge)
                 player.AddBuff(ModContent.BuffType<Horror>(), 180, true);

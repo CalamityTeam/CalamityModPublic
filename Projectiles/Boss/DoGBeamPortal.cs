@@ -59,7 +59,6 @@ namespace CalamityMod.Projectiles.Boss
 				if (projectile.owner == Main.myPlayer)
 				{
 					float speed = 3f;
-					int seeProjFileforDmg = 0;
 					if (CalamityWorld.death)
 					{
 						speed = 5f;
@@ -78,7 +77,7 @@ namespace CalamityMod.Projectiles.Boss
 					for (int i = 0; i < totalProjectiles; i++)
 					{
 						Vector2 vector255 = new Vector2(0f, -speed).RotatedBy(radians * i);
-						Projectile.NewProjectile(projectile.Center, vector255, ModContent.ProjectileType<DoGBeam>(), seeProjFileforDmg, 0f, projectile.owner, 0f, 0f);
+						Projectile.NewProjectile(projectile.Center, vector255, ModContent.ProjectileType<DoGBeam>(), 0, 0f, projectile.owner, projectile.damage, 0f);
 					}
 				}
                 beamTimer = 180;

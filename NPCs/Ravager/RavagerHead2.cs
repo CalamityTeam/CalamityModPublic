@@ -96,15 +96,18 @@ namespace CalamityMod.NPCs.Ravager
 
 			npc.ai[1] += 1f;
 			bool fireProjectiles = npc.ai[1] >= 480f;
-			if (fireProjectiles && Vector2.Distance(npc.Center, player.Center) > 160f)
+			if (fireProjectiles && Vector2.Distance(npc.Center, player.Center) > 80f)
             {
 				if (npc.ai[1] >= 600f)
 				{
+					npc.ai[0] += 1f;
 					npc.ai[1] = 0f;
 					Main.PlaySound(SoundID.Item62, npc.position);
 
+					int type = ModContent.ProjectileType<ScavengerNuke>();
+					int damage = npc.GetProjectileDamage(type);
 					if (Main.netMode != NetmodeID.MultiplayerClient)
-						Projectile.NewProjectile(npc.Center, Vector2.Zero, ModContent.ProjectileType<ScavengerNuke>(), (Main.expertMode ? 45 : 60) + (provy ? 30 : 0), 0f, Main.myPlayer, 0f, 0f);
+						Projectile.NewProjectile(npc.Center, Vector2.Zero, type, damage + (provy ? 30 : 0), 0f, Main.myPlayer, 0f, 0f);
 				}
 				else
 				{
@@ -112,24 +115,21 @@ namespace CalamityMod.NPCs.Ravager
 					{
 						if (Main.netMode != NetmodeID.MultiplayerClient)
 						{
-							if (Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
-							{
-								Main.PlaySound(SoundID.Item33, npc.position);
-								int num8 = 40;
-								int num9 = ModContent.ProjectileType<ScavengerLaser>();
-								Projectile.NewProjectile(npc.Center, Vector2.Normalize(player.Center - npc.Center) * 6f, num9, num8 + (provy ? 30 : 0), 0f, Main.myPlayer, 0f, 0f);
-							}
+							Main.PlaySound(SoundID.Item33, npc.position);
+							int type = ModContent.ProjectileType<ScavengerLaser>();
+							int damage = npc.GetProjectileDamage(type);
+							Projectile.NewProjectile(npc.Center, Vector2.Normalize(player.Center - npc.Center) * 6f, type, damage + (provy ? 30 : 0), 0f, Main.myPlayer, 0f, -1f);
 						}
 					}
 				}
             }
 
-			float num823 = 10f;
+			float num823 = 12f;
 			float num824 = 0.15f;
 			if (death)
 			{
 				num823 += 1f;
-				num824 += 0.02f;
+				num824 += 0.03f;
 			}
 			if (provy)
 			{
@@ -143,8 +143,9 @@ namespace CalamityMod.NPCs.Ravager
 			}
 
 			Vector2 vector82 = npc.Center;
-			float num825 = player.Center.X + (fireProjectiles ? 360f * player.direction : 0f) - vector82.X;
-			float num826 = player.Center.Y + (fireProjectiles ? 0f : 360f) - vector82.Y;
+			float distance = npc.ai[0] % 2f == 0f ? 360f : -360f;
+			float num825 = player.Center.X + (fireProjectiles ? distance : 0f) - vector82.X;
+			float num826 = player.Center.Y + (fireProjectiles ? -180f : 360f) - vector82.Y;
 			float num827 = (float)Math.Sqrt(num825 * num825 + num826 * num826);
 			num827 = num823 / num827;
 			num825 *= num827;

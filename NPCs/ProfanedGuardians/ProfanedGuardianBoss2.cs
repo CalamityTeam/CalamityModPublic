@@ -210,11 +210,12 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 						float velocity = 5f;
 						int totalProjectiles = 6;
 						float radians = MathHelper.TwoPi / totalProjectiles;
-						int damage = expertMode ? 50 : 60;
+						int type = ModContent.ProjectileType<ProfanedSpear>();
+						int damage = npc.GetProjectileDamage(type);
 						for (int i = 0; i < totalProjectiles; i++)
 						{
 							Vector2 vector255 = new Vector2(0f, -velocity).RotatedBy(radians * i);
-							Projectile.NewProjectile(npc.Center, vector255, ModContent.ProjectileType<ProfanedSpear>(), damage, 0f, Main.myPlayer, 0f, 0f);
+							Projectile.NewProjectile(npc.Center, vector255, type, damage, 0f, Main.myPlayer, 0f, 0f);
 						}
                     }
                 }

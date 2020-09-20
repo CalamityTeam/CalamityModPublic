@@ -96,7 +96,7 @@ namespace CalamityMod.NPCs.StormWeaver
             {
 				CalamityUtils.StartRain();
             }
-            Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0.2f, 0.05f, 0.2f);
+            Lighting.AddLight((int)((npc.position.X + (npc.width / 2)) / 16f), (int)((npc.position.Y + (npc.height / 2)) / 16f), 0.2f, 0.05f, 0.2f);
             if (npc.ai[3] > 0f)
             {
                 npc.realLife = (int)npc.ai[3];
@@ -137,16 +137,15 @@ namespace CalamityMod.NPCs.StormWeaver
                             lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), ModContent.NPCType<StormWeaverTail>(), npc.whoAmI);
                         }
                         Main.npc[lol].realLife = npc.whoAmI;
-                        Main.npc[lol].ai[2] = (float)npc.whoAmI;
-                        Main.npc[lol].ai[1] = (float)Previous;
-                        Main.npc[Previous].ai[0] = (float)lol;
+                        Main.npc[lol].ai[2] = npc.whoAmI;
+                        Main.npc[lol].ai[1] = Previous;
+                        Main.npc[Previous].ai[0] = lol;
                         npc.netUpdate = true;
                         Previous = lol;
                     }
                     tail = true;
                 }
 
-                int damage = expertMode ? 62 : 75;
 				if (expertMode)
 				{
 					npc.localAI[0] += 1f;
@@ -157,7 +156,9 @@ namespace CalamityMod.NPCs.StormWeaver
 						npc.netUpdate = true;
 						float xPos = Main.rand.NextBool(2) ? Main.player[npc.target].position.X + 500f : Main.player[npc.target].position.X - 500f;
 						Vector2 spawnPos = new Vector2(xPos, Main.player[npc.target].position.Y + Main.rand.Next(-500, 501));
-						Projectile.NewProjectile(spawnPos, Vector2.Zero, ProjectileID.CultistBossLightningOrb, damage, 0f, Main.myPlayer, 0f, 0f);
+						int type = ProjectileID.CultistBossLightningOrb;
+						int damage = npc.GetProjectileDamage(type);
+						Projectile.NewProjectile(spawnPos, Vector2.Zero, type, damage, 0f, Main.myPlayer, 0f, 0f);
 					}
 				}
 
@@ -175,7 +176,7 @@ namespace CalamityMod.NPCs.StormWeaver
                         {
                             speed2 += 1;
                         }
-                        float spawnX2 = (float)Main.rand.Next(2001) - 1000f + Main.player[npc.target].Center.X;
+                        float spawnX2 = Main.rand.Next(2001) - 1000f + Main.player[npc.target].Center.X;
                         float spawnY2 = -1000f + Main.player[npc.target].Center.Y;
                         Vector2 baseSpawn = new Vector2(spawnX2, spawnY2);
                         Vector2 baseVelocity = Main.player[npc.target].Center - baseSpawn;
@@ -186,11 +187,13 @@ namespace CalamityMod.NPCs.StormWeaver
                         {
                             Vector2 source = baseSpawn;
                             source.X += i * 30 - (BoltProjectiles * 15);
-                            Vector2 velocity = baseVelocity.RotatedBy(MathHelper.ToRadians(-BoltAngleSpread / 2 + (BoltAngleSpread * i / (float)BoltProjectiles)));
+                            Vector2 velocity = baseVelocity.RotatedBy(MathHelper.ToRadians(-BoltAngleSpread / 2 + (BoltAngleSpread * i / BoltProjectiles)));
                             velocity.X = velocity.X + 3 * Main.rand.NextFloat() - 1.5f;
                             Vector2 vector94 = Main.player[npc.target].Center - source;
-                            float ai = (float)Main.rand.Next(100);
-                            Projectile.NewProjectile(source, velocity, ProjectileID.CultistBossLightningOrbArc, damage, 0f, Main.myPlayer, vector94.ToRotation(), ai);
+                            float ai = Main.rand.Next(100);
+							int type = ProjectileID.CultistBossLightningOrbArc;
+							int damage = npc.GetProjectileDamage(type);
+							Projectile.NewProjectile(source, velocity, type, damage, 0f, Main.myPlayer, vector94.ToRotation(), ai);
                         }
                     }
                 }

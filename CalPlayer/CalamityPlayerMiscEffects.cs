@@ -1173,7 +1173,7 @@ namespace CalamityMod.CalPlayer
 			if (modPlayer.raiderTalisman)
 			{
 				float damageMult = modPlayer.nanotech ? 0.1f : 0.15f;
-				modPlayer.throwingDamage += (float)modPlayer.raiderStack / 150f * damageMult;
+				modPlayer.throwingDamage += modPlayer.raiderStack / 150f * damageMult;
 			}
 
 			// Silva minion bonus
@@ -1195,10 +1195,7 @@ namespace CalamityMod.CalPlayer
             }
 
 			if (modPlayer.kamiBoost)
-			{
-				player.allDamage += 0.3f;
-				player.statDefense += 20;
-			}
+				player.allDamage += 0.15f;
 
 			if (modPlayer.roverDriveTimer < 616)
 			{
@@ -1529,6 +1526,13 @@ namespace CalamityMod.CalPlayer
 			{
 				player.allDamage += 0.1f;
 				modPlayer.AllCritBoost(5);
+			}
+			if (modPlayer.slimeGodLore)
+			{
+				if (Main.myPlayer == player.whoAmI)
+					player.AddBuff(BuffID.Slimed, 2);
+
+				player.statDefense -= 10;
 			}
 			if (modPlayer.destroyerLore)
 			{
@@ -3037,22 +3041,22 @@ namespace CalamityMod.CalPlayer
 
 			if (modPlayer.community)
 			{
-				float floatTypeBoost = 0.01f +
+				float floatTypeBoost = 0.05f +
 					(NPC.downedSlimeKing ? 0.01f : 0f) +
 					(NPC.downedBoss1 ? 0.01f : 0f) +
 					(NPC.downedBoss2 ? 0.01f : 0f) +
-					(NPC.downedQueenBee ? 0.01f : 0f) + //0.05
-					(NPC.downedBoss3 ? 0.01f : 0f) +
+					(NPC.downedQueenBee ? 0.01f : 0f) +
+					(NPC.downedBoss3 ? 0.01f : 0f) + // 0.1
 					(Main.hardMode ? 0.01f : 0f) +
 					(NPC.downedMechBossAny ? 0.01f : 0f) +
 					(NPC.downedPlantBoss ? 0.01f : 0f) +
-					(NPC.downedGolemBoss ? 0.01f : 0f) + //0.1
-					(NPC.downedFishron ? 0.01f : 0f) +
+					(NPC.downedGolemBoss ? 0.01f : 0f) +
+					(NPC.downedFishron ? 0.01f : 0f) + // 0.15
 					(NPC.downedAncientCultist ? 0.01f : 0f) +
 					(NPC.downedMoonlord ? 0.01f : 0f) +
-					(CalamityWorld.downedProvidence ? 0.02f : 0f) + //0.15
-					(CalamityWorld.downedDoG ? 0.02f : 0f) + //0.17
-					(CalamityWorld.downedYharon ? 0.03f : 0f); //0.2
+					(CalamityWorld.downedProvidence ? 0.01f : 0f) +
+					(CalamityWorld.downedDoG ? 0.01f : 0f) +
+					(CalamityWorld.downedYharon ? 0.01f : 0f); // 0.2
 				int integerTypeBoost = (int)(floatTypeBoost * 50f);
 				int critBoost = integerTypeBoost / 2;
 				float damageBoost = floatTypeBoost * 0.5f;
@@ -3062,8 +3066,9 @@ namespace CalamityMod.CalPlayer
 				modPlayer.AllCritBoost(critBoost);
 				player.minionKB += floatTypeBoost;
 				player.moveSpeed += floatTypeBoost;
+				double wingTimeBoost = 1 + floatTypeBoost;
 				if (player.wingTimeMax > 0)
-					player.wingTimeMax = (int)(player.wingTimeMax * 1.15);
+					player.wingTimeMax = (int)(player.wingTimeMax * wingTimeBoost);
 			}
 
 			if (modPlayer.ravagerLore)

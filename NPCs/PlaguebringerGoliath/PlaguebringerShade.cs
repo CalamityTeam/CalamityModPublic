@@ -490,14 +490,9 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                         num1073 = num1070 / num1073;
                         num1071 *= num1073;
                         num1072 *= num1073;
-                        int num1074 = 26;
-                        int num1075 = ModContent.ProjectileType<PlagueStingerGoliathV2>();
-                        if (Main.rand.NextBool(15))
-                        {
-                            num1074 = 33;
-                            num1075 = ModContent.ProjectileType<HiveBombGoliath>();
-                        }
-                        Projectile.NewProjectile(vector121.X, vector121.Y, num1071, num1072, num1075, num1074, 0f, Main.myPlayer, 0f, 0f);
+                        int type = Main.rand.NextBool(15) ? ModContent.ProjectileType<HiveBombGoliath>() : ModContent.ProjectileType<PlagueStingerGoliathV2>();
+						int damage = npc.GetProjectileDamage(type);
+						Projectile.NewProjectile(vector121.X, vector121.Y, num1071, num1072, type, damage, 0f, Main.myPlayer, 0f, 0f);
                     }
                 }
                 if (!Collision.CanHit(new Vector2(vector121.X, vector121.Y - 30f), 1, 1, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))

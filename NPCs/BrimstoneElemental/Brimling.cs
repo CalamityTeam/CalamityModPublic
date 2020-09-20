@@ -146,8 +146,9 @@ namespace CalamityMod.NPCs.BrimstoneElemental
                     num8 = speed / num8;
                     num6 *= num8;
                     num7 *= num8;
-                    int projectileDamage = Main.expertMode ? 28 : 35;
-                    Projectile.NewProjectile(npc.Center.X, npc.Center.Y, num6, num7, ModContent.ProjectileType<BrimstoneHellfireball>(), projectileDamage + (provy ? 30 : 0), 0f, Main.myPlayer, 0f, 0f);
+					int type = ModContent.ProjectileType<BrimstoneHellfireball>();
+					int damage = npc.GetProjectileDamage(type);
+					Projectile.NewProjectile(npc.Center.X, npc.Center.Y, num6, num7, type, damage + (provy ? 30 : 0), 0f, Main.myPlayer, 0f, 0f);
                 }
             }
             if (vector251.Length() > 400f || !flag104)

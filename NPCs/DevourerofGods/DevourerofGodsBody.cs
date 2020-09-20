@@ -140,9 +140,9 @@ namespace CalamityMod.NPCs.DevourerofGods
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
                 npc.localAI[0] += expertMode ? 1.5f : 1f;
-                int projectileType = ModContent.ProjectileType<DoGNebulaShot>();
-                int damage = expertMode ? 58 : 70;
-                float num941 = 5f;
+				int type = ModContent.ProjectileType<DoGNebulaShot>();
+				int damage = npc.GetProjectileDamage(type);
+				float num941 = 5f;
                 if (npc.localAI[0] >= Main.rand.Next(1050, 12000))
                 {
                     npc.localAI[0] = 0f;
@@ -156,9 +156,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                     num943 *= num944;
                     vector104.X += num942 * 5f;
                     vector104.Y += num943 * 5f;
-                    int proj = Projectile.NewProjectile(vector104.X, vector104.Y, num942, num943, projectileType, damage, 0f, Main.myPlayer, 0f, 0f);
-					Main.projectile[proj].ai[0] = Main.player[npc.target].Center.X;
-					Main.projectile[proj].ai[1] = Main.player[npc.target].Center.Y;
+                    int proj = Projectile.NewProjectile(vector104.X, vector104.Y, num942, num943, type, damage, 0f, Main.myPlayer, Main.player[npc.target].Center.X, Main.player[npc.target].Center.Y);
 					Main.projectile[proj].netUpdate = true;
 					npc.netUpdate = true;
                 }

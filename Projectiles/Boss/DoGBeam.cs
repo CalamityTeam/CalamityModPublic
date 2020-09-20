@@ -1,3 +1,4 @@
+using CalamityMod.NPCs.CeaselessVoid;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -51,9 +52,8 @@ namespace CalamityMod.Projectiles.Boss
                 projectile.velocity.Normalize();
                 projectile.velocity *= scaleFactor2;
             }
-            int projectileDamage = Main.expertMode ? 64 : 75;
 			if (projectile.timeLeft == 950)
-				projectile.damage = projectileDamage;
+				projectile.damage = (int)projectile.ai[0];
 			if (projectile.timeLeft < 85)
 				projectile.damage = 0;
         }

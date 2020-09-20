@@ -2,6 +2,7 @@
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Events;
 using CalamityMod.NPCs.CeaselessVoid;
+using CalamityMod.NPCs.DevourerofGods;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -13,7 +14,7 @@ namespace CalamityMod.Projectiles.Typeless
 	public class YanmeisKnifeSlash : ModProjectile
 	{
 		// This is a rather weird thing, but it's what the patron asked for.
-		public static readonly Func<NPC, bool> CanRecieveCoolEffectsFrom = (npc) => (npc.boss && npc.type != ModContent.NPCType<CeaselessVoid>()) || CalamityLists.bossMinionList.Contains(npc.type) || CalamityLists.minibossList.Contains(npc.type) || AcidRainEvent.AllMinibosses.Contains(npc.type);
+		public static readonly Func<NPC, bool> CanRecieveCoolEffectsFrom = (npc) => (npc.boss && npc.type != ModContent.NPCType<CeaselessVoid>() && npc.type != ModContent.NPCType<DevourerofGodsBody>() && npc.type != ModContent.NPCType<DevourerofGodsBodyS>()) || CalamityLists.bossMinionList.Contains(npc.type) || CalamityLists.minibossList.Contains(npc.type) || AcidRainEvent.AllMinibosses.Contains(npc.type);
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Yanmei's Knife");

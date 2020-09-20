@@ -92,9 +92,10 @@ namespace CalamityMod.NPCs.Polterghast
 				{
 					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
-						int damage = expertMode ? 62 : 75;
+						int type = ModContent.ProjectileType<PhantomMine>();
+						int damage = npc.GetProjectileDamage(type);
 						float maxVelocity = 8f * tileEnrageMult;
-						Projectile.NewProjectile(npc.Center, direction, ModContent.ProjectileType<PhantomMine>(), damage, 1f, npc.target, maxVelocity, 0f);
+						Projectile.NewProjectile(npc.Center, direction, type, damage, 1f, npc.target, maxVelocity, 0f);
 					}
 					npc.ai[2] = 0f;
 				}

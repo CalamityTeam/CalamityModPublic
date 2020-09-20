@@ -108,13 +108,14 @@ namespace CalamityMod.NPCs.Cryogen
 				{
 					int totalProjectiles = 4;
 					float radians = MathHelper.TwoPi / totalProjectiles;
-					int damage2 = Main.expertMode ? 20 : 23;
+					int type = ModContent.ProjectileType<IceBlast>();
+					int damage2 = npc.GetProjectileDamage(type);
 					float velocity = BossRushEvent.BossRushActive ? 12f : 8f;
 					Vector2 spinningPoint = Main.rand.NextBool(2) ? new Vector2(0f, -velocity) : Vector2.Normalize(new Vector2(-velocity, -velocity)) * velocity;
 					for (int k = 0; k < totalProjectiles; k++)
 					{
 						Vector2 vector255 = spinningPoint.RotatedBy(radians * k);
-						int proj = Projectile.NewProjectile(npc.Center, vector255, ModContent.ProjectileType<IceBlast>(), damage2, 0f, Main.myPlayer, 0f, 0f);
+						int proj = Projectile.NewProjectile(npc.Center, vector255, type, damage2, 0f, Main.myPlayer, 0f, 0f);
 						Main.projectile[proj].timeLeft = 300;
 					}
 				}

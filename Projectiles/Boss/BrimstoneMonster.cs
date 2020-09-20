@@ -95,13 +95,13 @@ namespace CalamityMod.Projectiles.Boss
 
 			Lighting.AddLight(projectile.Center, 3f, 0f, 0f);
 
-			float inertia = (revenge ? 5f : 4.5f) + speedAdd; //100
-			float speed = (revenge ? 1.5f : 1.35f) + (speedAdd * 0.25f); //5
+			float inertia = (revenge ? 4.5f : 5f) + speedAdd;
+			float speed = (revenge ? 1.5f : 1.35f) + (speedAdd * 0.25f);
 			float minDist = 160f;
 
 			if (NPC.AnyNPCs(ModContent.NPCType<SoulSeekerSupreme>()))
 			{
-				inertia *= 0.5f;
+				inertia *= 1.5f;
 				speed *= 0.5f;
 			}
 

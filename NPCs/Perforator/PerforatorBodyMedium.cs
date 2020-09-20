@@ -76,13 +76,13 @@ namespace CalamityMod.NPCs.Perforator
                         num944 = num941 / num944;
                         num942 *= num944;
                         num943 *= num944;
-                        int num945 = expertMode ? 12 : 15;
-                        int num946 = ModContent.ProjectileType<BloodClot>();
-                        vector104.X += num942 * 5f;
+						int type = ModContent.ProjectileType<BloodClot>();
+						int damage = npc.GetProjectileDamage(type);
+						vector104.X += num942 * 5f;
                         vector104.Y += num943 * 5f;
                         if (Main.rand.NextBool(2))
                         {
-                            int num947 = Projectile.NewProjectile(vector104.X, vector104.Y, num942, num943, num946, num945, 0f, Main.myPlayer, 0f, 0f);
+                            int num947 = Projectile.NewProjectile(vector104.X, vector104.Y, num942, num943, type, damage, 0f, Main.myPlayer, 0f, 0f);
                             Main.projectile[num947].timeLeft = 160;
                         }
                         npc.netUpdate = true;

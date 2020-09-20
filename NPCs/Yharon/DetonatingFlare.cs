@@ -164,9 +164,9 @@ namespace CalamityMod.NPCs.Yharon
                 npc.localAI[0] = 0f;
                 if (Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
                 {
-                    int num8 = Main.expertMode ? 75 : 90;
-                    int num9 = ProjectileID.CultistBossFireBall;
-                    Projectile.NewProjectile(vector.X, vector.Y, num4, num5, num9, num8, 0f, Main.myPlayer, 0f, 0f);
+					int type = ProjectileID.CultistBossFireBall;
+					int damage = npc.GetProjectileDamage(type);
+					Projectile.NewProjectile(vector.X, vector.Y, num4, num5, type, damage, 0f, Main.myPlayer, 0f, 0f);
                 }
             }
             int num10 = (int)npc.position.X + npc.width / 2;

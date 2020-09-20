@@ -373,7 +373,7 @@ namespace CalamityMod.CalPlayer
         public bool queenBeeLore = false;
         public bool skeletronLore = false;
         // This lore boolean is a bit different from the others. It just stops Slime God lore effects from stacking.
-        public bool slimeGodLoreProcessed = false;
+        public bool slimeGodLore = false;
         public bool wallOfFleshLore = false;
         public bool twinsLore = false;
         public bool destroyerLore = false;
@@ -1319,22 +1319,22 @@ namespace CalamityMod.CalPlayer
                 player.statLifeMax2 += player.statLifeMax / 5 / 20 * 25;
             if (community)
             {
-                float floatTypeBoost = 0.01f +
+                float floatTypeBoost = 0.05f +
                     (NPC.downedSlimeKing ? 0.01f : 0f) +
                     (NPC.downedBoss1 ? 0.01f : 0f) +
                     (NPC.downedBoss2 ? 0.01f : 0f) +
-                    (NPC.downedQueenBee ? 0.01f : 0f) + //0.05
-                    (NPC.downedBoss3 ? 0.01f : 0f) +
-                    (Main.hardMode ? 0.01f : 0f) +
+                    (NPC.downedQueenBee ? 0.01f : 0f) +
+                    (NPC.downedBoss3 ? 0.01f : 0f) + // 0.1
+					(Main.hardMode ? 0.01f : 0f) +
                     (NPC.downedMechBossAny ? 0.01f : 0f) +
                     (NPC.downedPlantBoss ? 0.01f : 0f) +
-                    (NPC.downedGolemBoss ? 0.01f : 0f) + //0.1
-                    (NPC.downedFishron ? 0.01f : 0f) +
-                    (NPC.downedAncientCultist ? 0.01f : 0f) +
+                    (NPC.downedGolemBoss ? 0.01f : 0f) +
+                    (NPC.downedFishron ? 0.01f : 0f) + // 0.15
+					(NPC.downedAncientCultist ? 0.01f : 0f) +
                     (NPC.downedMoonlord ? 0.01f : 0f) +
-                    (CalamityWorld.downedProvidence ? 0.02f : 0f) + //0.15
-                    (CalamityWorld.downedDoG ? 0.02f : 0f) + //0.17
-                    (CalamityWorld.downedYharon ? 0.03f : 0f); //0.2
+                    (CalamityWorld.downedProvidence ? 0.01f : 0f) +
+                    (CalamityWorld.downedDoG ? 0.01f : 0f) +
+                    (CalamityWorld.downedYharon ? 0.01f : 0f); // 0.2
                 int integerTypeBoost = (int)(floatTypeBoost * 50f);
                 player.statLifeMax2 += player.statLifeMax / 5 / 20 * integerTypeBoost;
             }
@@ -1494,7 +1494,7 @@ namespace CalamityMod.CalPlayer
             perforatorLore = false;
             queenBeeLore = false;
             skeletronLore = false;
-            slimeGodLoreProcessed = false;
+            slimeGodLore = false;
             wallOfFleshLore = false;
             twinsLore = false;
             destroyerLore = false;
@@ -3582,23 +3582,23 @@ namespace CalamityMod.CalPlayer
             }
             if (community)
             {
-                float floatTypeBoost = 0.01f +
-                    (NPC.downedSlimeKing ? 0.01f : 0f) +
-                    (NPC.downedBoss1 ? 0.01f : 0f) +
-                    (NPC.downedBoss2 ? 0.01f : 0f) +
-                    (NPC.downedQueenBee ? 0.01f : 0f) + //0.05
-                    (NPC.downedBoss3 ? 0.01f : 0f) +
-                    (Main.hardMode ? 0.01f : 0f) +
-                    (NPC.downedMechBossAny ? 0.01f : 0f) +
-                    (NPC.downedPlantBoss ? 0.01f : 0f) +
-                    (NPC.downedGolemBoss ? 0.01f : 0f) + //0.1
-                    (NPC.downedFishron ? 0.01f : 0f) +
-                    (NPC.downedAncientCultist ? 0.01f : 0f) +
-                    (NPC.downedMoonlord ? 0.01f : 0f) +
-                    (CalamityWorld.downedProvidence ? 0.02f : 0f) + //0.15
-                    (CalamityWorld.downedDoG ? 0.02f : 0f) + //0.17
-                    (CalamityWorld.downedYharon ? 0.03f : 0f); //0.2
-                meleeSpeedMult += floatTypeBoost * 0.25f;
+				float floatTypeBoost = 0.05f +
+					(NPC.downedSlimeKing ? 0.01f : 0f) +
+					(NPC.downedBoss1 ? 0.01f : 0f) +
+					(NPC.downedBoss2 ? 0.01f : 0f) +
+					(NPC.downedQueenBee ? 0.01f : 0f) +
+					(NPC.downedBoss3 ? 0.01f : 0f) + // 0.1
+					(Main.hardMode ? 0.01f : 0f) +
+					(NPC.downedMechBossAny ? 0.01f : 0f) +
+					(NPC.downedPlantBoss ? 0.01f : 0f) +
+					(NPC.downedGolemBoss ? 0.01f : 0f) +
+					(NPC.downedFishron ? 0.01f : 0f) + // 0.15
+					(NPC.downedAncientCultist ? 0.01f : 0f) +
+					(NPC.downedMoonlord ? 0.01f : 0f) +
+					(CalamityWorld.downedProvidence ? 0.01f : 0f) +
+					(CalamityWorld.downedDoG ? 0.01f : 0f) +
+					(CalamityWorld.downedYharon ? 0.01f : 0f); // 0.2
+				meleeSpeedMult += floatTypeBoost * 0.25f;
             }
             if (eArtifact)
             {
@@ -3867,6 +3867,7 @@ namespace CalamityMod.CalPlayer
                 (auricSet ? 0.1f : 0f) +
                 (dragonScales ? 0.1f : 0f) +
                 (kamiBoost ? KamiBuff.RunAccelerationBoost : 0f) +
+				(slimeGodLore ? 0.1f : 0f) +
                 (cTracers ? 0.1f : 0f) +
                 (silvaSet ? 0.05f : 0f) +
                 (eTracers ? 0.05f : 0f) +
@@ -3887,7 +3888,8 @@ namespace CalamityMod.CalPlayer
                 (silvaSet ? 0.05f : 0f) +
                 (eTracers ? 0.05f : 0f) +
                 (kamiBoost ? KamiBuff.RunSpeedBoost : 0f) +
-                (etherealExtorter && player.ZoneBeach ? 0.05f : 0f) +
+				(slimeGodLore ? 0.1f : 0f) +
+				(etherealExtorter && player.ZoneBeach ? 0.05f : 0f) +
                 (stressPills ? 0.05f : 0f) +
                 (laudanum && horror ? 0.1f : 0f) +
                 (planarSpeedBoost > 0 ? (0.01f * planarSpeedBoost) : 0f) +
@@ -3952,6 +3954,12 @@ namespace CalamityMod.CalPlayer
 
             player.runAcceleration *= runAccMult;
             player.maxRunSpeed *= runSpeedMult;
+
+			if (slimeGodLore)
+			{
+				if (!player.iceSkate)
+					player.runSlowdown *= 0.1f;
+			}
             #endregion
 
             #region DashEffects
@@ -6350,25 +6358,11 @@ namespace CalamityMod.CalPlayer
 			{
 				double damageMultiplier = 1D;
 				if (CalamityLists.revengeanceProjectileBuffList25Percent.Contains(proj.type))
-				{
 					damageMultiplier += 0.25;
-				}
 				else if (CalamityLists.revengeanceProjectileBuffList20Percent.Contains(proj.type))
-				{
 					damageMultiplier += 0.2;
-				}
 				else if (CalamityLists.revengeanceProjectileBuffList15Percent.Contains(proj.type))
-				{
 					damageMultiplier += 0.15;
-				}
-				else if (CalamityLists.revengeanceProjectileBuffList10Percent.Contains(proj.type))
-				{
-					damageMultiplier += 0.1;
-				}
-				else if (CalamityLists.revengeanceProjectileBuffList5Percent.Contains(proj.type))
-				{
-					damageMultiplier += 0.05;
-				}
 
 				if (CalamityWorld.death)
 					damageMultiplier += (damageMultiplier - 1D) * 0.6;

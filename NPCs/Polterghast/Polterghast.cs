@@ -511,6 +511,18 @@ namespace CalamityMod.NPCs.Polterghast
 								Main.npc[CalamityGlobalNPC.ghostBossClone].Calamity().newAI[1] = 0f;
 								Main.npc[CalamityGlobalNPC.ghostBossClone].Calamity().newAI[2] = 0f;
 								Main.npc[CalamityGlobalNPC.ghostBossClone].Calamity().newAI[3] = 1f;
+
+								if (Main.netMode == NetmodeID.Server)
+								{
+									var netMessage = mod.GetPacket();
+									netMessage.Write((byte)CalamityModMessageType.SyncCalamityNPCAIArray);
+									netMessage.Write((byte)CalamityGlobalNPC.ghostBossClone);
+									netMessage.Write(Main.npc[CalamityGlobalNPC.ghostBossClone].Calamity().newAI[0]);
+									netMessage.Write(Main.npc[CalamityGlobalNPC.ghostBossClone].Calamity().newAI[1]);
+									netMessage.Write(Main.npc[CalamityGlobalNPC.ghostBossClone].Calamity().newAI[2]);
+									netMessage.Write(Main.npc[CalamityGlobalNPC.ghostBossClone].Calamity().newAI[3]);
+									netMessage.Send();
+								}
 							}
 						}
 					}
@@ -557,18 +569,14 @@ namespace CalamityMod.NPCs.Polterghast
 
                         if (flag47)
                         {
-                            int damage = expertMode ? 48 : 60;
                             int type = ModContent.ProjectileType<PhantomShot>();
-
                             if (Main.rand.NextBool(3))
                             {
-                                damage = expertMode ? 60 : 70;
                                 npc.localAI[1] = -30f;
                                 type = ModContent.ProjectileType<PhantomBlast>();
                             }
 
-							damage += damageIncrease;
-
+							int damage = npc.GetProjectileDamage(type) + damageIncrease;
                             if (speedBoost || npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))
                                 damage *= 2;
 
@@ -597,11 +605,8 @@ namespace CalamityMod.NPCs.Polterghast
 						}
                         else
                         {
-							int damage = expertMode ? 60 : 70;
 							int type = ModContent.ProjectileType<PhantomBlast>();
-
-							damage += damageIncrease;
-
+							int damage = npc.GetProjectileDamage(type) + damageIncrease;
 							if (speedBoost || npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))
 								damage *= 2;
 
@@ -703,18 +708,14 @@ namespace CalamityMod.NPCs.Polterghast
 
                         if (flag47)
                         {
-							int damage = expertMode ? 53 : 65;
 							int type = ModContent.ProjectileType<PhantomShot2>();
-
 							if (Main.rand.NextBool(3))
 							{
-								damage = expertMode ? 65 : 75;
 								npc.localAI[1] = -30f;
 								type = ModContent.ProjectileType<PhantomBlast2>();
 							}
 
-							damage += damageIncrease;
-
+							int damage = npc.GetProjectileDamage(type) + damageIncrease;
 							if (speedBoost || npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))
 								damage *= 2;
 
@@ -744,11 +745,8 @@ namespace CalamityMod.NPCs.Polterghast
 						}
                         else
                         {
-							int damage = expertMode ? 65 : 75;
 							int type = ModContent.ProjectileType<PhantomBlast2>();
-
-							damage += damageIncrease;
-
+							int damage = npc.GetProjectileDamage(type) + damageIncrease;
 							if (speedBoost || npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))
 								damage *= 2;
 
@@ -866,9 +864,6 @@ namespace CalamityMod.NPCs.Polterghast
 						vector93.X += num743 * 3f;
 						vector93.Y += num744 * 3f;
 
-						int damage = expertMode ? 53 : 65;
-						damage += damageIncrease;
-
 						int numProj = baseProjectileAmt + 2;
 						float rotation = MathHelper.ToRadians(baseProjectileSpread + 45);
 						float baseSpeed = (float)Math.Sqrt(num743 * num743 + num744 * num744);
@@ -876,12 +871,14 @@ namespace CalamityMod.NPCs.Polterghast
 						double deltaAngle = rotation / numProj;
 						double offsetAngle;
 
-						int type = ModContent.ProjectileType<PhantomShot>();
+						int type = Main.rand.NextBool(2) ? ModContent.ProjectileType<PhantomShot2>() : ModContent.ProjectileType<PhantomShot>();
+						int damage = npc.GetProjectileDamage(type) + damageIncrease;
+						if (speedBoost || npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))
+							damage *= 2;
+
 						for (int i = 0; i < numProj; i++)
 						{
 							offsetAngle = startAngle + deltaAngle * i;
-							if (i % 2 == 0)
-								type = ModContent.ProjectileType<PhantomShot2>();
 							Projectile.NewProjectile(vector93.X, vector93.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), type, damage, 0f, Main.myPlayer, 0f, 0f);
 						}
 					}

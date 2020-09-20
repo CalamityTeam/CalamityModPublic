@@ -325,23 +325,17 @@ namespace CalamityMod.NPCs.Leviathan
                             if (Main.netMode != NetmodeID.MultiplayerClient)
                             {
                                 float speed = (sirenAlive && !phase4 && !death) ? 13.5f : 16f;
-                                int dmg = 40;
-                                int projType = ModContent.ProjectileType<LeviathanBomb>();
+                                int type = ModContent.ProjectileType<LeviathanBomb>();
+								int damage = npc.GetProjectileDamage(type);
 
-                                if (expertMode)
-                                {
+								if (expertMode)
                                     speed = (sirenAlive && !phase4 && !death) ? 14f : 17f;
-									dmg = 33;
-                                }
 
                                 if (npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))
                                     speed = 22f;
 
 								if (!sirenAlive || phase4)
-								{
 									speed += 3f * (1f - lifeRatio);
-									dmg += expertMode ? 3 : 4;
-								}
 
 								if (BossRushEvent.BossRushActive)
                                     speed *= 1.5f;
@@ -352,7 +346,7 @@ namespace CalamityMod.NPCs.Leviathan
                                 num416 *= num417;
                                 vector40.X += num415 * 4f;
                                 vector40.Y += num416 * 4f;
-                                Projectile.NewProjectile(vector40.X, vector40.Y, num415, num416, projType, dmg, 0f, Main.myPlayer, 0f, 0f);
+                                Projectile.NewProjectile(vector40.X, vector40.Y, num415, num416, type, damage, 0f, Main.myPlayer, 0f, 0f);
 								if (soundDelay <= 0)
 								{
 									soundDelay = 120;

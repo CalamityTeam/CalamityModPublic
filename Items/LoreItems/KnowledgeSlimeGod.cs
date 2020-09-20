@@ -14,8 +14,8 @@ namespace CalamityMod.Items.LoreItems
             DisplayName.SetDefault("The Slime God");
             Tooltip.SetDefault("It is a travesty, one of the most threatening biological terrors ever created.\n" +
                 "If this creature were allowed to combine every slime on the planet it would become nearly unstoppable.\n" +
-                "Favorite this item to become slimed and able to slide around on tiles quickly, at the cost of reduced defense.\n" +
-                "This effect makes dashing more difficult and does not work with mounts.");
+                "Favorite this item to become slimed and able to slide around on tiles, at the cost of reduced defense.\n" +
+                "This effect does not work with mounts.");
         }
 
         public override void SetDefaults()
@@ -34,20 +34,10 @@ namespace CalamityMod.Items.LoreItems
         public override void UpdateInventory(Player player)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            if (player.mount.Active || !item.favorited || modPlayer.slimeGodLoreProcessed)
+            if (player.mount.Active || !item.favorited)
                 return;
 
-            modPlayer.slimeGodLoreProcessed = true;
-
-            if (player.dashDelay < 0 || (player.velocity.Length() >= 11f && CalamityPlayer.areThereAnyDamnBosses)) //If you go over 52.8 mph
-                player.velocity.X *= 0.9f;
-
-            player.slippy2 = true;
-
-            if (Main.myPlayer == player.whoAmI)
-                player.AddBuff(BuffID.Slimed, 2);
-
-            player.statDefense -= 10;
+            modPlayer.slimeGodLore = true;
         }
 
         public override void AddRecipes()

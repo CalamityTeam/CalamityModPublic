@@ -65,8 +65,9 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             {
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
-                    int damage = expertMode ? 150 : 200; //600 500
-                    Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X, direction.Y, ModContent.ProjectileType<BrimstoneBarrage>(), damage, 1f, npc.target);
+					int type = ModContent.ProjectileType<BrimstoneBarrage>();
+					int damage = npc.GetProjectileDamage(type);
+					Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X, direction.Y, type, damage, 1f, npc.target);
                 }
                 timer = 0;
             }

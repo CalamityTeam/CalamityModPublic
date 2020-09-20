@@ -129,11 +129,11 @@ namespace CalamityMod.NPCs.Ravager
                 totalPlayerDistance = nukeSpeed / totalPlayerDistance;
                 playerDistanceX *= totalPlayerDistance;
                 playerDistanceY *= totalPlayerDistance;
-                int nukeDamage = expertMode ? 45 : 60;
-                int projectileType = ModContent.ProjectileType<ScavengerNuke>();
-                if (Main.netMode != NetmodeID.MultiplayerClient)
+				int type = ModContent.ProjectileType<ScavengerNuke>();
+				int damage = npc.GetProjectileDamage(type);
+				if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
-                    int nuke = Projectile.NewProjectile(shootFromVector.X, shootFromVector.Y, playerDistanceX, playerDistanceY, projectileType, nukeDamage + (provy ? 30 : 0), 0f, Main.myPlayer, 0f, 0f);
+                    int nuke = Projectile.NewProjectile(shootFromVector.X, shootFromVector.Y, playerDistanceX, playerDistanceY, type, damage + (provy ? 30 : 0), 0f, Main.myPlayer, 0f, 0f);
                     Main.projectile[nuke].velocity.Y = -15f;
                 }
             }

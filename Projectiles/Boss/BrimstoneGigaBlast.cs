@@ -58,8 +58,8 @@ namespace CalamityMod.Projectiles.Boss
                 Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 20);
             }
 
-            float turnSpeed = revenge ? 100f : 80f; //100
-            float homeSpeed = revenge ? 20f : 15f; //5
+            float inertia = revenge ? 80f : 100f;
+            float homeSpeed = revenge ? 20f : 15f;
             float minDist = 40f;
             int target = (int)projectile.ai[0];
             if (target >= 0 && Main.player[target].active && !Main.player[target].dead)
@@ -70,7 +70,7 @@ namespace CalamityMod.Projectiles.Boss
                     if (targetVec.HasNaNs())
                         targetVec = Vector2.UnitY;
 
-                    projectile.velocity = (projectile.velocity * (turnSpeed - 1f) + targetVec * homeSpeed) / turnSpeed;
+                    projectile.velocity = (projectile.velocity * (inertia - 1f) + targetVec * homeSpeed) / inertia;
                 }
             }
             else

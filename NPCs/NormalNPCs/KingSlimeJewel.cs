@@ -114,9 +114,6 @@ namespace CalamityMod.NPCs.NormalNPCs
 					float projLength = projVector.Length();
 
                     float speed = BossRushEvent.BossRushActive ? 18f : 9f;
-                    int damage = 11;
-					if (CalamityWorld.death)
-						damage += 1;
 					int type = ModContent.ProjectileType<JewelProjectile>();
 
                     projLength = speed / projLength;
@@ -138,9 +135,9 @@ namespace CalamityMod.NPCs.NormalNPCs
                             Main.dust[ruby].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
                         }
                     }
-                    Main.PlaySound(SoundID.Item8, npc.position);
 
-                    int proj = Projectile.NewProjectile(npcPos, projVector, type, damage, 0f, Main.myPlayer, 0f, 0f);
+                    Main.PlaySound(SoundID.Item8, npc.position);
+                    Projectile.NewProjectile(npcPos, projVector, type, npc.GetProjectileDamage(type), 0f, Main.myPlayer, 0f, 0f);
                 }
             }
         }

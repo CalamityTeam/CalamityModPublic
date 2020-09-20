@@ -141,9 +141,9 @@ namespace CalamityMod.NPCs.HiveMind
                         num944 = num941 / num944;
                         num942 *= num944;
                         num943 *= num944;
-                        int num945 = expertMode ? 12 : 15;
-                        int num946 = ModContent.ProjectileType<VileClot>();
-                        int num947 = Projectile.NewProjectile(vector104.X, vector104.Y, num942, num943, num946, num945, 0f, Main.myPlayer, 0f, 0f);
+						int type = ModContent.ProjectileType<VileClot>();
+						int damage = npc.GetProjectileDamage(type);
+						Projectile.NewProjectile(vector104.X, vector104.Y, num942, num943, type, damage, 0f, Main.myPlayer, 0f, 0f);
                         npc.netUpdate = true;
                     }
                 }

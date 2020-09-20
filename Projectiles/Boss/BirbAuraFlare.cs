@@ -117,7 +117,8 @@ namespace CalamityMod.Projectiles.Boss
 				float x = num232 * 16;
 				float y = num231 * 16 + 900;
 				Vector2 laserVelocity = new Vector2(x, 160f) - new Vector2(x, y);
-				int damage = Main.expertMode ? 75 : 100;
+				int type = ModContent.ProjectileType<BirbAura>();
+				int damage = projectile.GetProjectileDamage(type);
 				if (projectile.ai[0] >= 2f)
 				{
 					x += 1000f;
@@ -127,7 +128,7 @@ namespace CalamityMod.Projectiles.Boss
 					}
 					laserVelocity = new Vector2(x, 160f) - new Vector2(x, y);
 					laserVelocity.Normalize();
-					int num237 = Projectile.NewProjectile(x, y, 0f, laserVelocity.Y, ModContent.ProjectileType<BirbAura>(), damage, 0f, Main.myPlayer, x, y);
+					int num237 = Projectile.NewProjectile(x, y, 0f, laserVelocity.Y, type, damage, 0f, Main.myPlayer, x, y);
 					Main.projectile[num237].timeLeft = 900;
 					Main.projectile[num237].netUpdate = true;
 
@@ -138,14 +139,14 @@ namespace CalamityMod.Projectiles.Boss
 					}
 					laserVelocity = new Vector2(x, 160f) - new Vector2(x, y);
 					laserVelocity.Normalize();
-					int num238 = Projectile.NewProjectile(x, y, 0f, laserVelocity.Y, ModContent.ProjectileType<BirbAura>(), damage, 0f, Main.myPlayer, x, y);
+					int num238 = Projectile.NewProjectile(x, y, 0f, laserVelocity.Y, type, damage, 0f, Main.myPlayer, x, y);
 					Main.projectile[num238].timeLeft = 900;
 					Main.projectile[num238].netUpdate = true;
 				}
 				else
 				{
 					laserVelocity.Normalize();
-					int num236 = Projectile.NewProjectile(x, y, 0f, laserVelocity.Y, ModContent.ProjectileType<BirbAura>(), damage, 0f, Main.myPlayer, x, y);
+					int num236 = Projectile.NewProjectile(x, y, 0f, laserVelocity.Y, type, damage, 0f, Main.myPlayer, x, y);
 					Main.projectile[num236].netUpdate = true;
 				}
             }

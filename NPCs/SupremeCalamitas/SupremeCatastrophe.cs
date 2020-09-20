@@ -157,11 +157,11 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     npc.ai[1] = 0f;
                     Vector2 vector85 = new Vector2(npc.Center.X, npc.Center.Y);
                     float num689 = 4f;
-                    int num690 = expertMode ? 150 : 200; //600 500
-                    int num691 = ModContent.ProjectileType<BrimstoneHellblast2>();
-                    if (Main.netMode != NetmodeID.MultiplayerClient)
+					int type = ModContent.ProjectileType<BrimstoneHellblast2>();
+					int damage = npc.GetProjectileDamage(type);
+					if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        int num695 = Projectile.NewProjectile(vector85.X, vector85.Y, num689, 0f, num691, num690, 0f, Main.myPlayer, 0f, 0f);
+                        int num695 = Projectile.NewProjectile(vector85.X, vector85.Y, num689, 0f, type, damage, 0f, Main.myPlayer, 0f, 0f);
                     }
                 }
                 npc.ai[2] += 1f;
@@ -173,20 +173,21 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 {
                     npc.ai[2] = 0f;
                     float num689 = 7f;
-                    int num690 = expertMode ? 150 : 200; //600 500
                     Main.PlaySound(SoundID.Item20, npc.position);
                     float spread = 45f * 0.0174f;
                     double startAngle = Math.Atan2(npc.velocity.X, npc.velocity.Y) - spread / 2;
                     double deltaAngle = spread / 8f;
                     double offsetAngle;
                     int i;
-                    if (Main.netMode != NetmodeID.MultiplayerClient)
+					int type = ModContent.ProjectileType<BrimstoneBarrage>();
+					int damage = npc.GetProjectileDamage(type);
+					if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         for (i = 0; i < 8; i++)
                         {
                             offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-                            Projectile.NewProjectile(npc.Center.X, npc.Center.Y, (float)(Math.Sin(offsetAngle) * num689), (float)(Math.Cos(offsetAngle) * num689), ModContent.ProjectileType<BrimstoneBarrage>(), num690, 0f, Main.myPlayer, 0f, 1f);
-                            Projectile.NewProjectile(npc.Center.X, npc.Center.Y, (float)(-Math.Sin(offsetAngle) * num689), (float)(-Math.Cos(offsetAngle) * num689), ModContent.ProjectileType<BrimstoneBarrage>(), num690, 0f, Main.myPlayer, 0f, 1f);
+                            Projectile.NewProjectile(npc.Center.X, npc.Center.Y, (float)(Math.Sin(offsetAngle) * num689), (float)(Math.Cos(offsetAngle) * num689), type, damage, 0f, Main.myPlayer, 0f, 1f);
+                            Projectile.NewProjectile(npc.Center.X, npc.Center.Y, (float)(-Math.Sin(offsetAngle) * num689), (float)(-Math.Cos(offsetAngle) * num689), type, damage, 0f, Main.myPlayer, 0f, 1f);
                         }
                     }
                     for (int dust = 0; dust <= 5; dust++)

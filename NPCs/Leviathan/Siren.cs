@@ -523,18 +523,13 @@ namespace CalamityMod.NPCs.Leviathan
 				bool shootProjectiles = npc.ai[1] % divisor == 0f;
 				if (Main.netMode != NetmodeID.MultiplayerClient && shootProjectiles)
 				{
-					int projectileDamage = expertMode ? 26 : 32;
 					float projectileVelocity = expertMode ? 3f : 2f;
-
 					if (!leviAlive || phase4)
-					{
-						projectileDamage += expertMode ? 3 : 4;
 						projectileVelocity += 2f * (1f - lifeRatio);
-					}
 
 					int totalProjectiles = 8;
 					int projectileDistance = 600;
-					int projectileType = ModContent.ProjectileType<WaterSpear>();
+					int type = ModContent.ProjectileType<WaterSpear>();
 					switch ((int)npc.localAI[3])
 					{
 						case 0:
@@ -542,12 +537,12 @@ namespace CalamityMod.NPCs.Leviathan
 							break;
 						case 1:
 							totalProjectiles = 3;
-							projectileType = ModContent.ProjectileType<FrostMist>();
+							type = ModContent.ProjectileType<FrostMist>();
 							Main.PlaySound(SoundID.Item30, player.position);
 							break;
 						case 2:
 							totalProjectiles = 6;
-							projectileType = ModContent.ProjectileType<SirenSong>();
+							type = ModContent.ProjectileType<SirenSong>();
 							float soundPitch = (Main.rand.NextFloat() - 0.5f) * 0.5f;
 							Main.harpNote = soundPitch;
 							Main.PlaySound(SoundID.Item26, player.position);
@@ -561,11 +556,12 @@ namespace CalamityMod.NPCs.Leviathan
 						totalProjectiles += totalProjectiles / 2;
 
 					float radians = MathHelper.TwoPi / totalProjectiles;
+					int damage = npc.GetProjectileDamage(type);
 					for (int i = 0; i < totalProjectiles; i++)
 					{
 						Vector2 spawnVector = player.Center + Vector2.Normalize(new Vector2(0f, -projectileVelocity).RotatedBy(radians * i)) * projectileDistance;
 						Vector2 velocity = Vector2.Normalize(player.Center - spawnVector) * projectileVelocity;
-						Projectile.NewProjectile(spawnVector, velocity, projectileType, projectileDamage, 0f, Main.myPlayer);
+						Projectile.NewProjectile(spawnVector, velocity, type, damage, 0f, Main.myPlayer);
 					}
 				}
 
