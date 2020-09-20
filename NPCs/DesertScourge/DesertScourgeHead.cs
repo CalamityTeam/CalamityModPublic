@@ -278,7 +278,7 @@ namespace CalamityMod.NPCs.DesertScourge
 				npc.Calamity().newAI[1] = 1f;
 				if (!playRoarSound)
 				{
-					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/DesertScourgeRoar"), npc.Center);
+					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/DesertScourgeRoar"), player.Center);
 					playRoarSound = true;
 				}
 			}
