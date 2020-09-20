@@ -121,7 +121,7 @@ namespace CalamityMod.CalPlayer
 		public bool brimlashBusterBoost = false;
 		public float animusBoost = 1f;
 		public int potionTimer = 0;
-		public bool cementShoes = false;
+		public bool blockAllDashes = false;
 		public bool resetHeightandWidth = false;
         #endregion
 
@@ -1478,7 +1478,7 @@ namespace CalamityMod.CalPlayer
             dsSetBonus = false;
             wearingRogueArmor = false;
 
-			cementShoes = false;
+			blockAllDashes = false;
 
             kingSlimeLore = false;
             desertScourgeLore = false;
@@ -3737,7 +3737,7 @@ namespace CalamityMod.CalPlayer
             if (player.ownedProjectileCounts[ModContent.ProjectileType<GiantIbanRobotOfDoom>()] > 0)
                 player.yoraiz0rEye = 0;
 
-			if (cementShoes || CalamityConfig.Instance.BossRushDashCurse && BossRushEvent.BossRushActive)
+			if (blockAllDashes || CalamityConfig.Instance.BossRushDashCurse && BossRushEvent.BossRushActive)
 				DisableAllDashes();
         }
         #endregion
@@ -3763,7 +3763,7 @@ namespace CalamityMod.CalPlayer
             if (player.ownedProjectileCounts[ModContent.ProjectileType<GiantIbanRobotOfDoom>()] > 0)
                 player.yoraiz0rEye = 0;
 
-			if (cementShoes || CalamityConfig.Instance.BossRushDashCurse && BossRushEvent.BossRushActive)
+			if (blockAllDashes || CalamityConfig.Instance.BossRushDashCurse && BossRushEvent.BossRushActive)
 				DisableAllDashes();
         }
 		#endregion
