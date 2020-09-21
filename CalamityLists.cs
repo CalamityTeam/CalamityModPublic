@@ -144,6 +144,8 @@ namespace CalamityMod
 
         public static List<int> legOverrideList;
 
+        public static List<int> kamiDebuffColorImmuneList;
+
         public static void LoadLists()
         {
             donatorList = new List<string>()
@@ -278,8 +280,8 @@ namespace CalamityMod
 
             trueMeleeProjectileList = new List<int>()
             {
-				// Vanilla shit
-				ProjectileID.Spear,
+                // Vanilla shit
+                ProjectileID.Spear,
                 ProjectileID.Trident,
                 ProjectileID.TheRottedFork,
                 ProjectileID.Swordfish,
@@ -300,7 +302,7 @@ namespace CalamityMod
                 ProjectileID.MonkStaffT3,
                 ProjectileID.NorthPoleWeapon,
 
-				// Tools
+                // Tools
                 ProjectileID.CobaltDrill,
                 ProjectileID.MythrilDrill,
                 ProjectileID.AdamantiteDrill,
@@ -328,8 +330,8 @@ namespace CalamityMod
                 ProjectileID.SawtoothShark,
                 ProjectileID.ButchersChainsaw,
 
-				// Calamity shit
-				ModContent.ProjectileType<DevilsSunriseProj>(),
+                // Calamity shit
+                ModContent.ProjectileType<DevilsSunriseProj>(),
                 ModContent.ProjectileType<MarniteObliteratorProj>(),
                 ModContent.ProjectileType<MurasamaSlash>(),
                 ModContent.ProjectileType<AmidiasTridentProj>(),
@@ -394,7 +396,7 @@ namespace CalamityMod
 
             projectileDestroyExceptionList = new List<int>()
             {
-				//holdout projectiles
+                //holdout projectiles
                 ProjectileID.Phantasm,
                 ProjectileID.VortexBeater,
                 ProjectileID.DD2PhoenixBow,
@@ -423,7 +425,7 @@ namespace CalamityMod
                 ModContent.ProjectileType<MurasamaSlash>(),
                 ModContent.ProjectileType<PhaseslayerProjectile>(),
 
-				//Some hostile boss projectiles
+                //Some hostile boss projectiles
                 ModContent.ProjectileType<BrimstoneMonster>(),
                 ModContent.ProjectileType<InfernadoRevenge>(),
                 ModContent.ProjectileType<OverlyDramaticDukeSummoner>(),
@@ -875,7 +877,7 @@ namespace CalamityMod
                 ModContent.ItemType<IceBarrage>(),
                 ModContent.ItemType<FrostBlossomStaff>(),
                 ModContent.ItemType<EndoHydraStaff>(),
-				//Cryonic Bar set stuff, could potentially be removed
+                //Cryonic Bar set stuff, could potentially be removed
                 ModContent.ItemType<Trinity>(),
                 ModContent.ItemType<Shimmerspark>(),
                 ModContent.ItemType<StarnightLance>(),
@@ -1921,7 +1923,7 @@ namespace CalamityMod
                 NPCID.BaldZombie,
                 NPCID.PincushionZombie,
                 NPCID.ArmedZombiePincussion, // what is this spelling
-				NPCID.SlimedZombie,
+                NPCID.SlimedZombie,
                 NPCID.ArmedZombieSlimed,
                 NPCID.SwampZombie,
                 NPCID.ArmedZombieSwamp,
@@ -1948,8 +1950,8 @@ namespace CalamityMod
                 NPCID.SmallBaldZombie,
                 NPCID.BigZombie,
                 NPCID.SmallZombie
-				// halloween zombies not included because they don't drop shackles or zombie arms
-			};
+                // halloween zombies not included because they don't drop shackles or zombie arms
+            };
 
             demonEyeList = new List<int>()
             {
@@ -1957,7 +1959,7 @@ namespace CalamityMod
                 NPCID.CataractEye,
                 NPCID.SleepyEye,
                 NPCID.DialatedEye, // it is spelled "dilated"
-				NPCID.GreenEye,
+                NPCID.GreenEye,
                 NPCID.PurpleEye,
                 NPCID.DemonEyeOwl,
                 NPCID.DemonEyeSpaceship,
@@ -1988,13 +1990,13 @@ namespace CalamityMod
                 NPCID.BigSkeleton,
                 NPCID.SmallSkeleton,
 
-				//Note: These skeletons don't count for Skeleton Banner for some god forsaken reason
-				NPCID.SkeletonTopHat,
+                //Note: These skeletons don't count for Skeleton Banner for some god forsaken reason
+                NPCID.SkeletonTopHat,
                 NPCID.SkeletonAstonaut,
                 NPCID.SkeletonAlien,
 
-				//Other skeleton types
-				NPCID.ArmoredSkeleton,
+                //Other skeleton types
+                NPCID.ArmoredSkeleton,
                 NPCID.HeavySkeleton,
                 NPCID.SkeletonArcher,
                 NPCID.GreekSkeleton
@@ -2061,8 +2063,8 @@ namespace CalamityMod
                 NPCID.SantaNK1,
                 NPCID.Everscream,
                 NPCID.DD2Betsy,
-				NPCID.Mothron
-			};
+                NPCID.Mothron
+            };
 
             bossMinionList = new List<int>()
             {
@@ -2293,6 +2295,14 @@ namespace CalamityMod
                 CalamityMod.Instance.GetEquipSlot("SirenLeg", EquipType.Legs),
                 CalamityMod.Instance.GetEquipSlot("PopoLeg", EquipType.Legs)
             };
+
+            // Duke Fishron phase 3 becomes way too easy if you can make him stop being invisible with Yanmei's Knife.
+            // This is a list so that other NPCs can be added as necessary.
+            // IT DOES NOT make them immune to the debuff, just stops them from being recolored.
+            kamiDebuffColorImmuneList = new List<int>()
+            {
+                NPCID.DukeFishron,
+            };
         }
 
         public static void UnloadLists()
@@ -2365,10 +2375,11 @@ namespace CalamityMod
             hornetList = null;
             mossHornetList = null;
             bossMinionList = null;
-			minibossList = null;
+            minibossList = null;
 
             legOverrideList = null;
 
+            kamiDebuffColorImmuneList = null;
         }
     }
 }
