@@ -194,13 +194,7 @@ namespace CalamityMod.NPCs.AstrumDeus
             }
         }
 
-        public override void BossLoot(ref string name, ref int potionType)
-        {
-			if (npc.Calamity().newAI[0] == 0f)
-				return;
-
-            potionType = ModContent.ItemType<Stardust>();
-        }
+        public override void BossLoot(ref string name, ref int potionType) => potionType = ModContent.ItemType<Stardust>();
 
         public override bool SpecialNPCLoot()
         {
@@ -217,8 +211,22 @@ namespace CalamityMod.NPCs.AstrumDeus
 
         public override void NPCLoot()
         {
-			if (npc.Calamity().newAI[0] == 0f)
+			// Unsplit Deus does not drop anything when killed/despawned.
+            if (npc.Calamity().newAI[0] == 0f)
 				return;
+
+            // Killing ANY split Deus makes all other Deus heads die immediately.
+            for (int i = 0; i < Main.maxNPCs; ++i)
+			{
+                NPC otherWormHead = Main.npc[i];
+                if (otherWormHead.active && otherWormHead.type == npc.type)
+                {
+                    // Kill the other worm head after setting it to not drop loot.
+                    otherWormHead.Calamity().newAI[0] = 0f;
+                    otherWormHead.life = 0;
+                    otherWormHead.checkDead();
+                }
+			} 
 
 			DropHelper.DropBags(npc);
 

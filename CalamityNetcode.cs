@@ -1,4 +1,5 @@
 using CalamityMod.Events;
+using CalamityMod.NPCs;
 using CalamityMod.NPCs.NormalNPCs;
 using CalamityMod.NPCs.Providence;
 using CalamityMod.TileEntities;
@@ -165,13 +166,27 @@ namespace CalamityMod
                         TELabHologramProjector.ReadSyncPacket(mod, reader);
                         break;
 
+                    // This code has been edited to fail gracefully when trying to provide data for an invalid NPC.
                     case CalamityModMessageType.SyncCalamityNPCAIArray:
-                        byte npcIndex2 = reader.ReadByte();
-                        Main.npc[npcIndex2].Calamity().newAI[0] = reader.ReadSingle();
-                        Main.npc[npcIndex2].Calamity().newAI[1] = reader.ReadSingle();
-                        Main.npc[npcIndex2].Calamity().newAI[2] = reader.ReadSingle();
-                        Main.npc[npcIndex2].Calamity().newAI[3] = reader.ReadSingle();
+                        // Read the entire packet regardless of anything
+                        byte npcIdx = reader.ReadByte();
+                        float ai0 = reader.ReadSingle();
+                        float ai1 = reader.ReadSingle();
+                        float ai2 = reader.ReadSingle();
+                        float ai3 = reader.ReadSingle();
+
+                        // If the NPC in question isn't valid, don't do anything.
+                        NPC npc = Main.npc[npcIdx];
+                        if (!npc.active)
+                            break;
+
+                        CalamityGlobalNPC cgn = npc.Calamity();
+                        cgn.newAI[0] = ai0;
+                        cgn.newAI[1] = ai1;
+                        cgn.newAI[2] = ai2;
+                        cgn.newAI[3] = ai3;
                         break;
+
                     case CalamityModMessageType.ProvidenceDyeConditionSync:
                         byte npcIndex3 = reader.ReadByte();
                         (Main.npc[npcIndex3].modNPC as Providence).hasTakenDaytimeDamage = reader.ReadBoolean();
