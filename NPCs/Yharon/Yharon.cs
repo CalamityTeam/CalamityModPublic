@@ -195,17 +195,6 @@ namespace CalamityMod.NPCs.Yharon
 
                     if (npc.timeLeft < 5)
                     {
-                        /*string key = "Mods.CalamityMod.DargonBossText2";
-                        Color messageColor = Color.Orange;
-                        if (Main.netMode == NetmodeID.SinglePlayer)
-                        {
-                            Main.NewText(Language.GetTextValue(key), messageColor);
-                        }
-                        else if (Main.netMode == NetmodeID.Server)
-                        {
-                            NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-                        }*/
-
                         startSecondAI = false;
 
                         npc.boss = false;
@@ -332,25 +321,34 @@ namespace CalamityMod.NPCs.Yharon
 				chargeSpeed *= velocityMult;
 			}
 
-            // Phase timers and velocities
             int flareBombPhaseTimer = 60;
             int flareBombSpawnDivisor = 3;
             float flareBombPhaseAcceleration = 0.8f;
             float flareBombPhaseVelocity = 12f;
+
             int fireTornadoPhaseTimer = 90;
+
             int newPhaseTimer = 180;
+
             int flareDustPhaseTimer = 300;
 			int flareDustPhaseTimer2 = 150;
+
 			float spinTime = flareDustPhaseTimer / 2;
+
 			int flareDustSpawnDivisor = 30;
 			int flareDustSpawnDivisor2 = 5;
 			int flareDustSpawnDivisor3 = 12;
+
 			float spinPhaseVelocity = 25f;
             float spinPhaseRotation = MathHelper.TwoPi * 3 / spinTime;
+
 			float increasedIdleTimeAfterBulletHell = -120f;
+
 			float teleportPhaseTimer = 30f;
-			Vector2 vectorCenter = npc.Center;
+
 			int spawnPhaseTimer = 75;
+
+			Vector2 vectorCenter = npc.Center;
 
 			// Target
 			if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)

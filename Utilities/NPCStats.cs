@@ -629,7 +629,7 @@ namespace CalamityMod
 				{ new Tuple<int, int>(NPCID.CultistBoss, ProjectileID.CultistBossFireBall), new int[] { 60, 80, 160, 180, 240 } }, // 80 in non-rev master mode
 				{ new Tuple<int, int>(NPCID.CultistBoss, ProjectileID.CultistBossIceMist), new int[] { 70, 100, 172, 188, 258 } }, // 100 in non-rev master mode
 				{ new Tuple<int, int>(NPCID.CultistBoss, ProjectileID.CultistBossLightningOrb), new int[] { 90, 120, 208, 224, 312 } }, // 120 in non-rev master mode
-				{ new Tuple<int, int>(NPCID.CultistBoss, ProjectileID.CultistBossFireBallClone), new int[] { 36, 72, 144, 164, 216 } }, // 72 in non-rev master mode
+				{ new Tuple<int, int>(NPCID.CultistBossClone, ProjectileID.CultistBossFireBallClone), new int[] { 36, 72, 144, 164, 216 } }, // 72 in non-rev master mode
 				{ new Tuple<int, int>(NPCID.AncientDoom, ProjectileID.AncientDoomProjectile), new int[] { 60, 180, 200, 220, 300 } }, // 402 in non-rev master mode
 
 				{ new Tuple<int, int>(ModContent.NPCType<AstrumDeusBodySpectral>(), ModContent.ProjectileType<AstralShot2>()), new int[] { 90, 152, 176, 188, 264 } },

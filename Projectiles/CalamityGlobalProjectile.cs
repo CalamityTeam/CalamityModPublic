@@ -549,7 +549,9 @@ namespace CalamityMod.Projectiles
 							projectile.Kill();
 							return false;
 						}
-						if (projectile.velocity.Length() < 24f)
+
+						float velocityLimit = (CalamityWorld.death || BossRushEvent.BossRushActive) ? 28f : 24f;
+						if (projectile.velocity.Length() < velocityLimit)
 							projectile.velocity *= 1.01f;
 					}
 					if (projectile.alpha < 40)
@@ -564,7 +566,8 @@ namespace CalamityMod.Projectiles
 				// Moon Lord big eye spheres
 				else if (projectile.type == ProjectileID.PhantasmalSphere && Main.npc[(int)projectile.ai[1]].type == NPCID.MoonLordHand)
 				{
-					if (projectile.velocity.Length() < 12f)
+					float velocityLimit = (CalamityWorld.death || BossRushEvent.BossRushActive) ? 14f : 12f;
+					if (projectile.velocity.Length() < velocityLimit)
 						projectile.velocity *= 1.0075f;
 
 					return true;
