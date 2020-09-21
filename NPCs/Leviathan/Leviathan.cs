@@ -28,11 +28,14 @@ namespace CalamityMod.NPCs.Leviathan
         int counter = 0;
         bool initialised = false;
 		int soundDelay = 0;
+        public static Texture2D AttackTexture = null;
 
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("The Leviathan");
-            Main.npcFrameCount[npc.type] = 6;
+            Main.npcFrameCount[npc.type] = 3;
+            if (!Main.dedServ)
+                AttackTexture = ModContent.GetTexture("CalamityMod/NPCs/Leviathan/LeviathanAttack");
         }
 
         public override void SetDefaults()
@@ -95,17 +98,15 @@ namespace CalamityMod.NPCs.Leviathan
         public override void SendExtraAI(BinaryWriter writer)
         {
             writer.Write(npc.dontTakeDamage);
-            writer.Write(counter);
-            writer.Write(initialised);
             writer.Write(soundDelay);
+            writer.Write(npc.Calamity().newAI[3]);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
             npc.dontTakeDamage = reader.ReadBoolean();
-            counter = reader.ReadInt32();
-            initialised = reader.ReadBoolean();
             soundDelay = reader.ReadInt32();
+            npc.Calamity().newAI[3] = reader.ReadSingle();
         }
 
         public override void AI()
@@ -713,7 +714,7 @@ namespace CalamityMod.NPCs.Leviathan
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
-            Texture2D texture = ModContent.GetTexture("CalamityMod/NPCs/Leviathan/LeviathanAttack");
+            Texture2D texture = AttackTexture;
 			if (npc.ai[0] == 1f || npc.Calamity().newAI[3] < 180f)
             {
 				texture = Main.npcTexture[npc.type];
@@ -756,7 +757,7 @@ namespace CalamityMod.NPCs.Leviathan
 					npc.frame.Y += height;
 			}
 
-            if (counter == Main.npcFrameCount[npc.type])
+            if (counter == 6)
             {
                 counter = 1;
                 npc.frame.Y = 0;

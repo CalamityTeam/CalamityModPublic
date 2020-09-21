@@ -2880,56 +2880,84 @@ namespace CalamityMod.NPCs
 
 					bool despawning = calamityGlobalNPC.newAI[2] == splitAnimationTime;
 
+					//
+					// CODE TWEAKED BY: OZZATRON
+					// September 20th, 2020
+					// reason: fixing Astrum Deus death mode NPC cap bug
+					//
+
+					// Despawn the unsplit Astrum Deus and spawn two half-size Astrum Deus worms.
 					if (despawning)
 					{
-						if (!doubleWormPhase)
-						{
-							if (Main.netMode != NetmodeID.MultiplayerClient)
-							{
-								int startCount = npc.whoAmI + phase1Length + 1;
-								int npc2 = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, npc.type, startCount);
-								Main.npc[npc2].Calamity().newAI[0] = 1f;
-								Main.npc[npc2].velocity = Vector2.Normalize(player.Center - Main.npc[npc2].Center) * 16f;
-								Main.npc[npc2].timeLeft *= 20;
-								Main.npc[npc2].netUpdate = true;
-								if (Main.netMode == NetmodeID.Server)
-								{
-									var netMessage = mod.GetPacket();
-									netMessage.Write((byte)CalamityModMessageType.SyncCalamityNPCAIArray);
-									netMessage.Write((byte)npc2);
-									netMessage.Write(Main.npc[npc2].Calamity().newAI[0]);
-									netMessage.Write(Main.npc[npc2].Calamity().newAI[1]);
-									netMessage.Write(Main.npc[npc2].Calamity().newAI[2]);
-									netMessage.Write(Main.npc[npc2].Calamity().newAI[3]);
-									netMessage.Send();
-								}
+						// If this is already a split worm (newAI[0] != 0f) then don't do anything. At all.
+						if (doubleWormPhase)
+							return;
 
-								int npc3 = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, npc.type, startCount + phase2Length + 1);
-								Main.npc[npc3].Calamity().newAI[0] = 2f;
-								Main.npc[npc3].Calamity().newAI[3] = 600f;
-								Main.npc[npc3].velocity = Vector2.Normalize(player.Center - Main.npc[npc3].Center) * 16f;
-								Main.npc[npc3].timeLeft *= 20;
-								Main.npc[npc3].netUpdate = true;
-								if (Main.netMode == NetmodeID.Server)
-								{
-									var netMessage = mod.GetPacket();
-									netMessage.Write((byte)CalamityModMessageType.SyncCalamityNPCAIArray);
-									netMessage.Write((byte)npc3);
-									netMessage.Write(Main.npc[npc3].Calamity().newAI[0]);
-									netMessage.Write(Main.npc[npc3].Calamity().newAI[1]);
-									netMessage.Write(Main.npc[npc3].Calamity().newAI[2]);
-									netMessage.Write(Main.npc[npc3].Calamity().newAI[3]);
-									netMessage.Send();
-								}
+						// Mark all existing body and tail segments as inactive. This instantly frees up their NPC slots for the freshly spawned worms.
+						int bodyID = ModContent.NPCType<AstrumDeusBodySpectral>();
+						int tailID = ModContent.NPCType<AstrumDeusTailSpectral>();
+						for (int i = 0; i < Main.maxNPCs; i++)
+						{
+							NPC wormseg = Main.npc[i];
+							if (!wormseg.active)
+								continue;
+							if (wormseg.type == bodyID || wormseg.type == tailID)
+							{
+								wormseg.life = 0;
+								wormseg.active = false;
 							}
 						}
 
-						for (int i = 0; i < Main.maxNPCs; i++)
-						{
-							if (i == npc.whoAmI || Main.npc[i].type == ModContent.NPCType<AstrumDeusBodySpectral>() || Main.npc[i].type == ModContent.NPCType<AstrumDeusTailSpectral>())
-								Main.npc[i].life = 0;
-						}
+						// The unsplit Astrum Deus worm head will die next frame.
+						npc.life = 0;
 
+						// Do not spawn worms client side. The server handles this.
+						if (Main.netMode != NetmodeID.MultiplayerClient)
+						{
+							// Now that the original worm doesn't exist, startCount can be zero.
+							// int startCount = npc.whoAmI + phase1Length + 1;
+							int startIndexHeadOne = 1;
+							int headOneID = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, npc.type, startIndexHeadOne);
+							Main.npc[headOneID].Calamity().newAI[0] = 1f;
+							Main.npc[headOneID].velocity = Vector2.Normalize(player.Center - Main.npc[headOneID].Center) * 16f;
+							Main.npc[headOneID].timeLeft *= 20;
+							Main.npc[headOneID].netUpdate = true;
+
+							// On server, immediately send the correct extra AI of this head to clients.
+							if (Main.netMode == NetmodeID.Server)
+							{
+								var netMessage = mod.GetPacket();
+								netMessage.Write((byte)CalamityModMessageType.SyncCalamityNPCAIArray);
+								netMessage.Write((byte)headOneID);
+								netMessage.Write(Main.npc[headOneID].Calamity().newAI[0]);
+								netMessage.Write(Main.npc[headOneID].Calamity().newAI[1]);
+								netMessage.Write(Main.npc[headOneID].Calamity().newAI[2]);
+								netMessage.Write(Main.npc[headOneID].Calamity().newAI[3]);
+								netMessage.Send();
+							}
+
+							// Make sure the second split worm is also contiguous.
+							int startIndexHeadTwo = startIndexHeadOne + phase2Length + 1;
+							int headTwoID = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, npc.type, startIndexHeadTwo);
+							Main.npc[headTwoID].Calamity().newAI[0] = 2f;
+							Main.npc[headTwoID].Calamity().newAI[3] = 600f;
+							Main.npc[headTwoID].velocity = Vector2.Normalize(player.Center - Main.npc[headTwoID].Center) * 16f;
+							Main.npc[headTwoID].timeLeft *= 20;
+							Main.npc[headTwoID].netUpdate = true;
+
+							// On server, immediately send the correct extra AI of this head to clients.
+							if (Main.netMode == NetmodeID.Server)
+							{
+								var netMessage = mod.GetPacket();
+								netMessage.Write((byte)CalamityModMessageType.SyncCalamityNPCAIArray);
+								netMessage.Write((byte)headTwoID);
+								netMessage.Write(Main.npc[headTwoID].Calamity().newAI[0]);
+								netMessage.Write(Main.npc[headTwoID].Calamity().newAI[1]);
+								netMessage.Write(Main.npc[headTwoID].Calamity().newAI[2]);
+								netMessage.Write(Main.npc[headTwoID].Calamity().newAI[3]);
+								netMessage.Send();
+							}
+						}
 						return;
 					}
 				}
@@ -2970,7 +2998,7 @@ namespace CalamityMod.NPCs
 			}
 
 			// Check if other segments are still alive, if not, die
-			if (npc.type > ModContent.NPCType<AstrumDeusHeadSpectral>())
+			if (npc.type != ModContent.NPCType<AstrumDeusHeadSpectral>())
 			{
 				bool shouldDespawn = true;
 				for (int i = 0; i < Main.maxNPCs; i++)

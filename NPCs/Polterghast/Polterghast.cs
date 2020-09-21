@@ -23,6 +23,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
+
 namespace CalamityMod.NPCs.Polterghast
 {
 	[AutoloadBossHead]
@@ -86,11 +87,21 @@ namespace CalamityMod.NPCs.Polterghast
         public override void SendExtraAI(BinaryWriter writer)
         {
             writer.Write(despawnTimer);
+			CalamityGlobalNPC cgn = npc.Calamity();
+			writer.Write(cgn.newAI[0]);
+			writer.Write(cgn.newAI[1]);
+			writer.Write(cgn.newAI[2]);
+			writer.Write(cgn.newAI[3]);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
             despawnTimer = reader.ReadInt32();
+			CalamityGlobalNPC cgn = npc.Calamity();
+			cgn.newAI[0] = reader.ReadSingle();
+			cgn.newAI[1] = reader.ReadSingle();
+			cgn.newAI[2] = reader.ReadSingle();
+			cgn.newAI[3] = reader.ReadSingle();
         }
 
         public override void AI()
@@ -163,10 +174,10 @@ namespace CalamityMod.NPCs.Polterghast
             if (npc.localAI[0] == 0f && Main.netMode != NetmodeID.MultiplayerClient)
             {
                 npc.localAI[0] = 1f;
-                int num729 = NPC.NewNPC((int)vector.X, (int)vector.Y, ModContent.NPCType<PolterghastHook>(), npc.whoAmI, 0f, 0f, 0f, 0f, 255);
-                num729 = NPC.NewNPC((int)vector.X, (int)vector.Y, ModContent.NPCType<PolterghastHook>(), npc.whoAmI, 0f, 0f, 0f, 0f, 255);
-                num729 = NPC.NewNPC((int)vector.X, (int)vector.Y, ModContent.NPCType<PolterghastHook>(), npc.whoAmI, 0f, 0f, 0f, 0f, 255);
-                num729 = NPC.NewNPC((int)vector.X, (int)vector.Y, ModContent.NPCType<PolterghastHook>(), npc.whoAmI, 0f, 0f, 0f, 0f, 255);
+                NPC.NewNPC((int)vector.X, (int)vector.Y, ModContent.NPCType<PolterghastHook>(), npc.whoAmI, 0f, 0f, 0f, 0f, 255);
+                NPC.NewNPC((int)vector.X, (int)vector.Y, ModContent.NPCType<PolterghastHook>(), npc.whoAmI, 0f, 0f, 0f, 0f, 255);
+				NPC.NewNPC((int)vector.X, (int)vector.Y, ModContent.NPCType<PolterghastHook>(), npc.whoAmI, 0f, 0f, 0f, 0f, 255);
+                NPC.NewNPC((int)vector.X, (int)vector.Y, ModContent.NPCType<PolterghastHook>(), npc.whoAmI, 0f, 0f, 0f, 0f, 255);
             }
 
             if (!player.ZoneDungeon && !BossRushEvent.BossRushActive && player.position.Y < Main.worldSurface * 16.0)
@@ -512,17 +523,12 @@ namespace CalamityMod.NPCs.Polterghast
 								Main.npc[CalamityGlobalNPC.ghostBossClone].Calamity().newAI[2] = 0f;
 								Main.npc[CalamityGlobalNPC.ghostBossClone].Calamity().newAI[3] = 1f;
 
-								if (Main.netMode == NetmodeID.Server)
-								{
-									var netMessage = mod.GetPacket();
-									netMessage.Write((byte)CalamityModMessageType.SyncCalamityNPCAIArray);
-									netMessage.Write((byte)CalamityGlobalNPC.ghostBossClone);
-									netMessage.Write(Main.npc[CalamityGlobalNPC.ghostBossClone].Calamity().newAI[0]);
-									netMessage.Write(Main.npc[CalamityGlobalNPC.ghostBossClone].Calamity().newAI[1]);
-									netMessage.Write(Main.npc[CalamityGlobalNPC.ghostBossClone].Calamity().newAI[2]);
-									netMessage.Write(Main.npc[CalamityGlobalNPC.ghostBossClone].Calamity().newAI[3]);
-									netMessage.Send();
-								}
+								//
+								// CODE TWEAKED BY: OZZATRON
+								// September 21st, 2020
+								// reason: fixing Polter charge MP desync bug
+								//
+								// removed Polter syncing the clone's newAI array. The clone now auto syncs its own newAI every frame.
 							}
 						}
 					}
