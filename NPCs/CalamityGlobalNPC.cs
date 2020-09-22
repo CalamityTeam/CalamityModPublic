@@ -4374,7 +4374,7 @@ namespace CalamityMod.NPCs
                 return new Color(200, 50, 50, npc.alpha);
             }
 
-            if (npc.Calamity().kamiFlu > 0)
+            if (npc.Calamity().kamiFlu > 0 && !CalamityLists.kamiDebuffColorImmuneList.Contains(npc.type))
             {
                 return new Color(51, 197, 108, npc.alpha);
             }

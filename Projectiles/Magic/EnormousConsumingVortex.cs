@@ -17,13 +17,14 @@ namespace CalamityMod.Projectiles.Magic
         }
         public float IdealScale
         {
-            get => projectile.localAI[0];
-            set => projectile.localAI[0] = value;
+            get => projectile.ai[1];
+            set => projectile.ai[1] = value;
         }
         public const int TentacleSpawnRate = 20;
         public const int PulseInterval = 18;
         public const float PulseHitboxExpandRatio = 2.5f;
         public const float RadialOffsetVarianceFactor = 0.1f;
+        public const float StartingScale = 0.0004f;
 
         public override void SetStaticDefaults()
         {
@@ -38,7 +39,7 @@ namespace CalamityMod.Projectiles.Magic
             projectile.friendly = true;
             projectile.alpha = 255;
             projectile.penetrate = -1;
-            projectile.scale = 0.0004f;
+            projectile.scale = StartingScale;
             projectile.timeLeft = 540;
             projectile.tileCollide = false;
             projectile.magic = true;
@@ -46,21 +47,15 @@ namespace CalamityMod.Projectiles.Magic
             projectile.localNPCHitCooldown = 4;
         }
 
-        public override void SendExtraAI(BinaryWriter writer)
-        {
-            writer.Write(IdealScale);
-        }
-
-        public override void ReceiveExtraAI(BinaryReader reader)
-        {
-            IdealScale = reader.ReadSingle();
-        }
+        // Vanilla Terraria does not sync projectile scale by default.
+        public override void SendExtraAI(BinaryWriter writer) => writer.Write(projectile.scale);
+        public override void ReceiveExtraAI(BinaryReader reader) => projectile.scale = reader.ReadSingle();
 
         public override void AI()
         {
             projectile.rotation += MathHelper.ToRadians(8f); // Spin 2 win.
             projectile.alpha = (int)MathHelper.Lerp(255, 0, Utils.InverseLerp(0f, 20f, Time, true)); // Fade in completely after 20 frames.
-            projectile.scale = MathHelper.Lerp(0.0004f, IdealScale, Utils.InverseLerp(0f, 30f, Time, true)); // Expand completely after 30 frames.
+            projectile.scale = MathHelper.Lerp(StartingScale, IdealScale, Utils.InverseLerp(0f, 30f, Time, true)); // Expand completely after 30 frames.
 
             // Determine the ideal scale in the first frame.
             if (IdealScale == 0f)

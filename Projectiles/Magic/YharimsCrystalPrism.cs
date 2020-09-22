@@ -34,6 +34,7 @@ namespace CalamityMod.Projectiles.Magic
             projectile.ignoreWater = true;
         }
 
+        // TODO -- Make property wrappers for these variables instead of needing to explain them.
         // ai[0] is a frame counter. ai[1] is the next frame mana will be consumed.
         // localAI[0] is the number of frames between mana consumptions.
         public override void AI()
