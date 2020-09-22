@@ -4,6 +4,7 @@ using CalamityMod.Items.Weapons.DraedonsArsenal;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -71,6 +72,12 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 			projectile.localNPCHitCooldown = 7;
 		}
 
+		// Vanilla Terraria doesn't sync projectile rotation, but it does sync velocity.
+		// Rather than hacking velocity to reflect rotation, I'd rather just send the rotation directly.
+		// - Ozzatron (09/21/2020)
+		public override void SendExtraAI(BinaryWriter writer) => writer.Write(projectile.rotation);
+		public override void ReceiveExtraAI(BinaryReader reader) => projectile.rotation = reader.ReadSingle();
+
 		public override void AI()
 		{
 			Player player = Main.player[projectile.owner];
@@ -130,7 +137,14 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 					float aimResponsiveness = 0.035f + 0.3f * (float)Math.Pow(distRatio, 1D/3);
 
 					// Update the sword's angle with the responsiveness determined by mouse position.
-					projectile.rotation = projectile.rotation.AngleLerp(player.AngleTo(Main.MouseWorld), aimResponsiveness);
+					// Also flag for netcode sync if applicable (this is the only way the sword can rotate in multiplayer).
+					float newRotation = projectile.rotation.AngleLerp(player.AngleTo(Main.MouseWorld), aimResponsiveness);
+					if (projectile.rotation != newRotation)
+					{
+						projectile.netUpdate = true;
+						projectile.netSpam = 0; // You cannot stop Phaseslayer from sending packets.
+					}
+					projectile.rotation = newRotation;
 				}
 
 				// If the player is not wielding the sword, determine whether it should fade out or instantly vanish.
@@ -143,9 +157,10 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 					else
 						projectile.Kill();
 				}
-
-				projectile.Center = player.MountedCenter + projectile.rotation.ToRotationVector2() * ProjCenterOffset;
 			}
+
+			// This line ensures the sword stays glued to the player, even for other players in multiplayer.
+			projectile.Center = player.MountedCenter + projectile.rotation.ToRotationVector2() * ProjCenterOffset;
 
 			// These lines ensure the player and their arm are rotated the correct direction to hold the sword.
 			projectile.direction = (Math.Cos(projectile.rotation) > 0).ToDirectionInt();
