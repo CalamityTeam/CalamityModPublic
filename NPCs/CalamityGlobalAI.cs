@@ -9580,6 +9580,8 @@ namespace CalamityMod.NPCs
         }
         #endregion
 
+		// Master Mode changes
+		// 1 - Allow fists to travel further and faster, 2 - Make head and detached head smaller, 3 - More projectiles
         #region Buffed Golem AI
         public static bool BuffedGolemAI(NPC npc, bool enraged, Mod mod)
         {
@@ -10458,6 +10460,8 @@ namespace CalamityMod.NPCs
         }
         #endregion
 
+		// Master Mode changes
+		// 1 - Cycle between attacks faster, 2 - Move faster, 3 - Smaller size, 4 - Bigger tornadoes
         #region Buffed Duke Fishron AI
         public static bool BuffedDukeFishronAI(NPC npc, bool enraged, Mod mod)
         {
@@ -10468,7 +10472,7 @@ namespace CalamityMod.NPCs
 
 			// Variables
 			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
-			bool phase2 = lifeRatio <= 0.66f || death;
+			bool phase2 = lifeRatio <= 0.66f;
             bool phase3 = lifeRatio <= (death ? 0.33f : 0.2f);
             bool phase2AI = npc.ai[0] > 4f;
             bool phase3AI = npc.ai[0] > 9f;
@@ -11419,7 +11423,9 @@ namespace CalamityMod.NPCs
             return false;
         }
         #endregion
-
+		
+		// Master Mode changes
+		// 1 - Use more dangerous attacks more often, 2 - Cycle between attacks faster
         #region Buffed Cultist AI
         public static bool BuffedCultistAI(NPC npc, bool enraged, Mod mod)
         {
@@ -12638,6 +12644,8 @@ namespace CalamityMod.NPCs
         }
         #endregion
 
+		// Master Mode changes
+		// 1 - lol
         #region Buffed Moon Lord AI
         public static bool BuffedMoonLordAI(NPC npc, bool enraged, Mod mod)
         {

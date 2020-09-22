@@ -1660,23 +1660,20 @@ namespace CalamityMod.NPCs
         #region Boss Head Slot
         public override void BossHeadSlot(NPC npc, ref int index)
         {
-            if (CalamityWorld.revenge)
-            {
-                if (npc.type == NPCID.BrainofCthulhu)
-                {
-                    if (npc.life / (float)npc.lifeMax < (CalamityWorld.death ? 0.33f : 0.2f))
-                        index = -1;
-                }
+			if (CalamityWorld.revenge)
+			{
+				if (npc.type == NPCID.BrainofCthulhu)
+				{
+					if (npc.life / (float)npc.lifeMax < (CalamityWorld.death ? 1f : 0.2f))
+						index = -1;
+				}
 
-                if (CalamityWorld.death)
-                {
-                    if (npc.type == NPCID.DukeFishron)
-                    {
-                        if (npc.life / (float)npc.lifeMax < 0.15f)
-                            index = -1;
-                    }
-                }
-            }
+				if (npc.type == NPCID.DukeFishron)
+				{
+					if (npc.life / (float)npc.lifeMax < (CalamityWorld.death ? 0.33f : 0.2f))
+						index = -1;
+				}
+			}
         }
         #endregion
 
