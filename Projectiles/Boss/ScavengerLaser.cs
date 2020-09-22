@@ -69,7 +69,7 @@ namespace CalamityMod.Projectiles.Boss
 
 			if (projectile.ai[1] == -1f)
 			{
-				if (projectile.velocity.Length() < 16f)
+				if (projectile.velocity.Length() < 18f)
 					projectile.velocity *= 1.05f;
 				else
 					projectile.tileCollide = true;

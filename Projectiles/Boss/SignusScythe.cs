@@ -69,7 +69,7 @@ namespace CalamityMod.Projectiles.Boss
                     if (num625 < Main.maxPlayers)
                     {
                         Vector2 value16 = Main.player[num625].Center - projectile.Center;
-                        projectile.velocity = Vector2.Normalize(value16) * 20f;
+                        projectile.velocity = Vector2.Normalize(value16) * 22f;
                     }
                 }
             }

@@ -30,11 +30,10 @@ namespace CalamityMod.Projectiles.Boss
         public override void AI()
         {
             bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-            projectile.ai[1] += 1f;
-            if (projectile.ai[1] > 420)
-            {
+
+            if (projectile.timeLeft < 180)
                 projectile.tileCollide = true;
-            }
+
             projectile.frameCounter++;
             if (projectile.frameCounter > 18)
             {
@@ -42,51 +41,37 @@ namespace CalamityMod.Projectiles.Boss
                 projectile.frameCounter = 0;
             }
             if (projectile.frame > 4)
-            {
                 projectile.frame = 0;
-            }
+
             projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + MathHelper.PiOver2;
+
             float inertia = revenge ? 90f : 110f;
             float scaleFactor12 = revenge ? 16f : 12f;
-            float num954 = 40f;
+
             if (projectile.alpha > 0)
-            {
                 projectile.alpha -= 10;
-            }
             if (projectile.alpha < 0)
-            {
                 projectile.alpha = 0;
-            }
-            projectile.frameCounter++;
-            if (projectile.frameCounter > 4)
-            {
-                projectile.frame++;
-                projectile.frameCounter = 0;
-            }
-            if (projectile.frame > 3)
-            {
-                projectile.frame = 0;
-            }
+
             Lighting.AddLight(projectile.Center, 1f, 0.7f, 0f);
+
             int num959 = (int)projectile.ai[0];
             if (num959 >= 0 && Main.player[num959].active && !Main.player[num959].dead)
             {
-                if (projectile.Distance(Main.player[num959].Center) > num954)
+                if (projectile.Distance(Main.player[num959].Center) > 320f)
                 {
                     Vector2 vector102 = projectile.DirectionTo(Main.player[num959].Center);
                     if (vector102.HasNaNs())
-                    {
                         vector102 = Vector2.UnitY;
-                    }
+
                     projectile.velocity = (projectile.velocity * (inertia - 1f) + vector102 * scaleFactor12) / inertia;
                 }
             }
             else
             {
                 if (projectile.timeLeft > 30)
-                {
                     projectile.timeLeft = 30;
-                }
+
                 if (projectile.ai[0] != -1f)
                 {
                     projectile.ai[0] = -1f;
@@ -100,8 +85,8 @@ namespace CalamityMod.Projectiles.Boss
             Main.PlaySound(SoundID.Item14, projectile.position);
             projectile.position = projectile.Center;
             projectile.width = projectile.height = 160;
-            projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
-            projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
+            projectile.position.X = projectile.position.X - (projectile.width / 2);
+            projectile.position.Y = projectile.position.Y - (projectile.height / 2);
             projectile.Damage();
             for (int num621 = 0; num621 < 30; num621++)
             {
@@ -110,7 +95,7 @@ namespace CalamityMod.Projectiles.Boss
                 if (Main.rand.NextBool(2))
                 {
                     Main.dust[num622].scale = 0.5f;
-                    Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
+                    Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
                 }
             }
             for (int num623 = 0; num623 < 40; num623++)

@@ -920,7 +920,7 @@ namespace CalamityMod.NPCs
                 case NPCID.PrimeCannon:
                 case NPCID.PrimeSaw:
                 case NPCID.PrimeLaser:
-                    npc.lifeMax = (int)(npc.lifeMax * 1.05);
+                    npc.lifeMax = (int)(npc.lifeMax * 0.8);
                     break;
 
                 case NPCID.Retinazer:
@@ -995,17 +995,22 @@ namespace CalamityMod.NPCs
             {
                 npc.lifeMax = (int)(npc.lifeMax * 1.05);
             }
-            else if (npc.type == NPCID.SkeletronHead)
+            else if (npc.type == NPCID.SkeletronHead) // 8800 in expert, 6600 in rev, 4400 in death
             {
-				if (!CalamityWorld.death)
-					npc.lifeMax = (int)(npc.lifeMax * 1.25);
+				if (CalamityWorld.death)
+					npc.lifeMax = (int)(npc.lifeMax * 0.5);
+				else
+					npc.lifeMax = (int)(npc.lifeMax * 0.75);
 
 				npc.npcSlots = 12f;
             }
-            else if (npc.type == NPCID.SkeletronHand)
+            else if (npc.type == NPCID.SkeletronHand) // 3120 in expert, 11232 in rev, 18720 in death
             {
-                npc.lifeMax = (int)(npc.lifeMax * 0.75);
-            }
+				if (CalamityWorld.death)
+					npc.lifeMax = (int)(npc.lifeMax * 0.75);
+				else
+					npc.lifeMax = (int)(npc.lifeMax * 0.9);
+			}
             else if (npc.type == NPCID.QueenBee)
             {
                 npc.lifeMax = (int)(npc.lifeMax * 1.15);
@@ -1057,6 +1062,10 @@ namespace CalamityMod.NPCs
 					npc.lifeMax = (int)(npc.lifeMax * 1.45);
 					npc.npcSlots = 12f;
                 }
+				else if (npc.type <= NPCID.PrimeLaser && npc.type >= NPCID.PrimeCannon)
+				{
+					npc.lifeMax = (int)(npc.lifeMax * 0.65);
+				}
                 else if (npc.type == NPCID.Retinazer)
                 {
                     npc.lifeMax = (int)(npc.lifeMax * 1.25);

@@ -596,6 +596,8 @@ namespace CalamityMod.NPCs.Ravager
 
 					if ((npc.position.X < targetVector.X + offset && npc.position.X + npc.width > targetVector.X + player.width + offset && (inRange || npc.ai[0] != 2f)) || npc.ai[1] > 0f || npc.Calamity().newAI[3] >= 180f)
                     {
+						npc.damage = npc.defDamage;
+
 						if (npc.ai[0] == 2f)
 						{
 							float stopBeforeFallTime = 30f;
@@ -641,32 +643,33 @@ namespace CalamityMod.NPCs.Ravager
 						float velocityMult = 1.8f;
 						float velocityXChange = 0.2f + Math.Abs(npc.Center.X - player.Center.X) * 0.001f;
 
+						float velocityXBoost = death ? 4f : 4f * (1f - lifeRatio);
+						float velocityX = 8f + velocityXBoost + Math.Abs(npc.Center.X - player.Center.X) * 0.001f;
+
+						if (npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))
+							velocityX += 3f;
+						if (!rightClawActive || death)
+							velocityX += 1f;
+						if (!leftClawActive || death)
+							velocityX += 1f;
+						if (!headActive || death)
+							velocityX += 1f;
+						if (!rightLegActive || death)
+							velocityX += 1f;
+						if (!leftLegActive || death)
+							velocityX += 1f;
+
 						if (npc.ai[0] == 2f)
+						{
+							npc.damage = 0;
 							velocityXChange *= velocityMult;
+							velocityX *= velocityMult;
+						}
 
 						if (npc.direction < 0)
                             npc.velocity.X -= velocityXChange;
                         else if (npc.direction > 0)
                             npc.velocity.X += velocityXChange;
-
-						float velocityXBoost = death ? 4f : 4f * (1f - lifeRatio);
-                        float velocityX = 8f + velocityXBoost + Math.Abs(npc.Center.X - player.Center.X) * 0.001f;
-
-                        if (npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))
-                            velocityX += 3f;
-                        if (!rightClawActive || death)
-                            velocityX += 1f;
-                        if (!leftClawActive || death)
-                            velocityX += 1f;
-                        if (!headActive || death)
-                            velocityX += 1f;
-                        if (!rightLegActive || death)
-                            velocityX += 1f;
-                        if (!leftLegActive || death)
-                            velocityX += 1f;
-
-						if (npc.ai[0] == 2f)
-							velocityX *= velocityMult;
 
                         if (npc.velocity.X < -velocityX)
                             npc.velocity.X = -velocityX;
