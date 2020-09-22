@@ -799,7 +799,7 @@ namespace CalamityMod.NPCs
 
             if (CalamityWorld.revenge)
             {
-                RevengeanceStatChanges(npc, mod);
+                RevDeathStatChanges(npc, mod);
             }
 
             OtherStatChanges(npc);
@@ -932,8 +932,8 @@ namespace CalamityMod.NPCs
         }
         #endregion
 
-        #region Revengeance Stat Changes
-        private void RevengeanceStatChanges(NPC npc, Mod mod)
+        #region Revengeance and Death Mode Stat Changes
+        private void RevDeathStatChanges(NPC npc, Mod mod)
         {
             npc.value = (int)(npc.value * 1.5);
 
@@ -1044,6 +1044,11 @@ namespace CalamityMod.NPCs
                 npc.lifeMax = (int)(npc.lifeMax * 1.25);
                 npc.npcSlots = 10f;
             }
+			else if (npc.type == NPCID.KingSlime)
+			{
+				if (CalamityWorld.death)
+					npc.scale = 3f;
+			}
             else if (npc.type == NPCID.Wraith || npc.type == NPCID.Mimic || npc.type == NPCID.Reaper || npc.type == NPCID.PresentMimic || npc.type == NPCID.SandElemental)
             {
                 npc.knockBackResist = 0f;

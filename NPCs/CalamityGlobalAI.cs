@@ -116,6 +116,8 @@ namespace CalamityMod.NPCs
         }
         #endregion
 
+		// Master Mode changes
+		// 1 - Far larger size, 2 - Glows rainbow colors, 3 - Spawns a rainbow slime every 5% HP
         #region Buffed King Slime AI
         public static bool BuffedKingSlimeAI(NPC npc, Mod mod)
         {
@@ -476,8 +478,10 @@ namespace CalamityMod.NPCs
 			if (npc.life <= 0)
 				return false;
 
-            // Adjust size npcd on HP
-            lifeRatio = lifeRatio * 0.5f + 0.75f;
+			// Adjust size based on HP
+			float maxScale = death ? 3f : 1.25f;
+			float minScale = 0.75f;
+            lifeRatio = lifeRatio * (maxScale - minScale) + minScale;
             lifeRatio *= num234;
 			if (lifeRatio != npc.scale)
 			{
@@ -562,6 +566,8 @@ namespace CalamityMod.NPCs
         }
         #endregion
 
+		// Master Mode changes
+		// 1 - 2 eyes spawn at once, one in phase 1 and one in phase 2
         #region Buffed Eye of Cthulhu AI
         public static bool BuffedEyeofCthulhuAI(NPC npc, bool enraged, Mod mod)
         {
@@ -1379,6 +1385,8 @@ namespace CalamityMod.NPCs
         }
         #endregion
 
+		// Master Mode changes
+		// 1 - Far more segments, 2 - Larger scale, 3 - Can fly more easily, similar to the small perf worm
         #region Buffed Eater of Worlds AI
         public static bool BuffedEaterofWorldsAI(NPC npc, Mod mod)
         {
@@ -1944,6 +1952,8 @@ namespace CalamityMod.NPCs
 		}
 		#endregion
 
+		// Master Mode changes
+		// 1 - Spawns far more Creepers, 2 - Moves and dashes far quicker, 3 - Creepers charge much quicker, 4 - Fully visible mirages in phase 2
 		#region Buffed Brain of Cthulhu AI
 		public static bool BuffedBrainofCthulhuAI(NPC npc, bool enraged, Mod mod)
         {
@@ -2640,6 +2650,8 @@ namespace CalamityMod.NPCs
 		}
 		#endregion
 
+		// Master Mode changes
+		// 1 - Always has 1 added to her enrage scale
 		#region Buffed Queen Bee AI
 		public static bool BuffedQueenBeeAI(NPC npc, Mod mod)
 		{
@@ -3255,6 +3267,8 @@ namespace CalamityMod.NPCs
 		}
         #endregion
 
+		// Master Mode changes
+		// 1 - Arms are immune to damage and Skeletron no longer has increased defense while the arms are alive
         #region Buffed Skeletron AI
         public static bool BuffedSkeletronAI(NPC npc, bool enraged, Mod mod)
         {
@@ -3921,6 +3935,8 @@ namespace CalamityMod.NPCs
         }
         #endregion
 
+		// Master Mode changes
+		// 1 - Hungries spawn detached and have more health, 2 - Eyes are smaller and mouth is bigger, 3 - Moves quicker
         #region Buffed Wall of Flesh AI
         public static bool BuffedWallofFleshAI(NPC npc, bool enraged, Mod mod)
         {
@@ -4431,6 +4447,8 @@ namespace CalamityMod.NPCs
         }
         #endregion
 
+		// Master Mode changes
+		// 1 - Splits like the Eater of Worlds
         #region Buffed Destroyer AI
         public static bool BuffedDestroyerAI(NPC npc, bool enraged, Mod mod)
         {
@@ -5455,6 +5473,8 @@ namespace CalamityMod.NPCs
 		}
 		#endregion
 
+		// Master Mode changes
+		// 1 - Retinazer fires spreads of death lasers, moves and charges more often and faster, cycles attacks faster, 2 - Spazmatism moves and charges more often and faster, cycles attacks faster, 3 - Retinazer is slightly smaller and Spazmatism is slightly larger
 		#region Buffed Twins AI
 		public static bool BuffedRetinazerAI(NPC npc, bool enraged, Mod mod)
         {
@@ -6906,6 +6926,8 @@ namespace CalamityMod.NPCs
         }
         #endregion
 
+		// Master Mode changes
+		// 1 - Charges far quicker, 2 - Arms and head accelerate extremely fast, 3 - Arms remain closer to the head and resist piercing
         #region Buffed Skeletron Prime AI
         public static bool BuffedSkeletronPrimeAI(NPC npc, bool enraged, Mod mod)
         {
@@ -7682,8 +7704,8 @@ namespace CalamityMod.NPCs
                 }
 
                 Vector2 vector63 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
-                float num513 = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2) - 350f - vector63.X;
-                float num514 = Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2) - 120f - vector63.Y; // Used to be 20f
+                float num513 = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2) - 320f - vector63.X;
+                float num514 = Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2) - 160f - vector63.Y;
                 float num515 = (float)Math.Sqrt(num513 * num513 + num514 * num514);
                 num515 = (BossRushEvent.BossRushActive ? 10f : 7f) / num515;
                 num513 *= num515;
@@ -7715,10 +7737,10 @@ namespace CalamityMod.NPCs
                 }
 
                 npc.TargetClosest(true);
+
                 vector63 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
                 num513 = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2) - vector63.X;
                 num514 = Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2) - vector63.Y;
-                num515 = (float)Math.Sqrt(num513 * num513 + num514 * num514);
                 npc.rotation = (float)Math.Atan2(num514, num513) - MathHelper.PiOver2;
 
                 if (Main.netMode != NetmodeID.MultiplayerClient && !dontAttack)
@@ -7979,10 +8001,10 @@ namespace CalamityMod.NPCs
                 }
 
                 npc.TargetClosest(true);
+
                 vector61 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
                 num499 = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2) - vector61.X;
                 num500 = Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2) - vector61.Y;
-                num501 = (float)Math.Sqrt(num499 * num499 + num500 * num500);
                 npc.rotation = (float)Math.Atan2(num500, num499) - MathHelper.PiOver2;
 
                 if (Main.netMode != NetmodeID.MultiplayerClient && !dontAttack)
@@ -8208,7 +8230,6 @@ namespace CalamityMod.NPCs
                     Vector2 vector57 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
                     float num483 = Main.npc[(int)npc.ai[1]].position.X + (Main.npc[(int)npc.ai[1]].width / 2) - 200f * npc.ai[0] - vector57.X;
                     float num484 = Main.npc[(int)npc.ai[1]].position.Y + 230f - vector57.Y;
-                    float num485 = (float)Math.Sqrt(num483 * num483 + num484 * num484);
                     npc.rotation = (float)Math.Atan2(num484, num483) + MathHelper.PiOver2;
                     return false;
                 }
@@ -8222,7 +8243,6 @@ namespace CalamityMod.NPCs
                     Vector2 vector58 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
                     float num486 = Main.npc[(int)npc.ai[1]].position.X + (Main.npc[(int)npc.ai[1]].width / 2) - 280f * npc.ai[0] - vector58.X;
                     float num487 = Main.npc[(int)npc.ai[1]].position.Y + 230f - vector58.Y;
-                    float num488 = (float)Math.Sqrt(num486 * num486 + num487 * num487);
                     npc.rotation = (float)Math.Atan2(num487, num486) + MathHelper.PiOver2;
 
                     npc.velocity.X = (npc.velocity.X * 5f + Main.npc[(int)npc.ai[1]].velocity.X) / 6f;
@@ -8247,7 +8267,7 @@ namespace CalamityMod.NPCs
                         vector58 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
                         num486 = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2) - vector58.X;
                         num487 = Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2) - vector58.Y;
-                        num488 = (float)Math.Sqrt(num486 * num486 + num487 * num487);
+                        float num488 = (float)Math.Sqrt(num486 * num486 + num487 * num487);
                         num488 = chargeVelocity / num488;
                         npc.velocity.X = num486 * num488;
                         npc.velocity.Y = num487 * num488;
@@ -8287,7 +8307,6 @@ namespace CalamityMod.NPCs
                     Vector2 vector59 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
                     float num489 = Main.npc[(int)npc.ai[1]].position.X + (Main.npc[(int)npc.ai[1]].width / 2) - 200f * npc.ai[0] - vector59.X;
                     float num490 = Main.npc[(int)npc.ai[1]].position.Y + 230f - vector59.Y;
-                    float num491 = (float)Math.Sqrt(num489 * num489 + num490 * num490);
                     npc.rotation = (float)Math.Atan2(num490, num489) + MathHelper.PiOver2;
 
                     npc.velocity.Y = (npc.velocity.Y * 5f + Main.npc[(int)npc.ai[1]].velocity.Y) / 6f;
@@ -8311,7 +8330,7 @@ namespace CalamityMod.NPCs
                         vector59 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
                         num489 = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2) - vector59.X;
                         num490 = Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2) - vector59.Y;
-                        num491 = (float)Math.Sqrt(num489 * num489 + num490 * num490);
+                        float num491 = (float)Math.Sqrt(num489 * num489 + num490 * num490);
                         num491 = chargeVelocity / num491;
                         npc.velocity.X = num489 * num491;
                         npc.velocity.Y = num490 * num491;
@@ -8525,7 +8544,6 @@ namespace CalamityMod.NPCs
                     Vector2 vector52 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
                     float num468 = Main.npc[(int)npc.ai[1]].position.X + (Main.npc[(int)npc.ai[1]].width / 2) - 200f * npc.ai[0] - vector52.X;
                     float num469 = Main.npc[(int)npc.ai[1]].position.Y + 230f - vector52.Y;
-                    float num470 = (float)Math.Sqrt(num468 * num468 + num469 * num469);
                     npc.rotation = (float)Math.Atan2(num469, num468) + MathHelper.PiOver2;
                     return false;
                 }
@@ -8535,7 +8553,6 @@ namespace CalamityMod.NPCs
                     Vector2 vector53 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
                     float num471 = Main.npc[(int)npc.ai[1]].position.X + (Main.npc[(int)npc.ai[1]].width / 2) - 200f * npc.ai[0] - vector53.X;
                     float num472 = Main.npc[(int)npc.ai[1]].position.Y + 230f - vector53.Y;
-                    float num473 = (float)Math.Sqrt(num471 * num471 + num472 * num472);
                     npc.rotation = (float)Math.Atan2(num472, num471) + MathHelper.PiOver2;
 
                     npc.velocity.X *= 0.95f;
@@ -8558,7 +8575,7 @@ namespace CalamityMod.NPCs
                         vector53 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
                         num471 = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2) - vector53.X;
                         num472 = Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2) - vector53.Y;
-                        num473 = (float)Math.Sqrt(num471 * num471 + num472 * num472);
+                        float num473 = (float)Math.Sqrt(num471 * num471 + num472 * num472);
                         num473 = chargeVelocity / num473;
                         npc.velocity.X = num471 * num473;
                         npc.velocity.Y = num472 * num473;
@@ -8633,7 +8650,6 @@ namespace CalamityMod.NPCs
                         vector54 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
                         num474 = Main.npc[(int)npc.ai[1]].position.X + (Main.npc[(int)npc.ai[1]].width / 2) - 200f * npc.ai[0] - vector54.X;
                         num475 = Main.npc[(int)npc.ai[1]].position.Y + 230f - vector54.Y;
-                        num476 = (float)Math.Sqrt(num474 * num474 + num475 * num475);
                         npc.rotation = (float)Math.Atan2(num475, num474) + MathHelper.PiOver2;
                         return false;
                     }
@@ -8647,6 +8663,8 @@ namespace CalamityMod.NPCs
         }
         #endregion
 
+		// Master Mode changes
+		// 1 - Spawns multiple tentacle rings that now rotate, 2 - Spawns far more tentacles to protect herself in phase 2 and they resist piercing, 3 - Spore gas spreads out far more, 4 - Plantera is larger
         #region Buffed Plantera AI
         public static bool BuffedPlanteraAI(NPC npc, bool enraged, Mod mod)
         {
@@ -10461,7 +10479,7 @@ namespace CalamityMod.NPCs
         #endregion
 
 		// Master Mode changes
-		// 1 - Cycle between attacks faster, 2 - Move faster, 3 - Smaller size, 4 - Bigger tornadoes
+		// 1 - Cycles between attacks faster, 2 - Move faster, 3 - Smaller size, 4 - Bigger tornadoes
         #region Buffed Duke Fishron AI
         public static bool BuffedDukeFishronAI(NPC npc, bool enraged, Mod mod)
         {
@@ -11425,7 +11443,7 @@ namespace CalamityMod.NPCs
         #endregion
 		
 		// Master Mode changes
-		// 1 - Use more dangerous attacks more often, 2 - Cycle between attacks faster
+		// 1 - Use more dangerous attacks more often, 2 - Cycles between attacks faster
         #region Buffed Cultist AI
         public static bool BuffedCultistAI(NPC npc, bool enraged, Mod mod)
         {
@@ -12645,7 +12663,7 @@ namespace CalamityMod.NPCs
         #endregion
 
 		// Master Mode changes
-		// 1 - lol
+		// 1 - Moon Lord is at maximum aggression at all times
         #region Buffed Moon Lord AI
         public static bool BuffedMoonLordAI(NPC npc, bool enraged, Mod mod)
         {
