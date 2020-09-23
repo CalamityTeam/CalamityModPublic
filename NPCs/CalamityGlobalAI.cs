@@ -1467,14 +1467,8 @@ namespace CalamityMod.NPCs
                 }
             }
 
-			// Set worm variable for worms
-			if (BossRushEvent.BossRushActive)
-			{
-				if (npc.ai[3] > 0f)
-					npc.realLife = (int)npc.ai[3];
-			}
-			else
-				npc.realLife = -1;
+            if (!BossRushEvent.BossRushActive)
+                npc.realLife = -1;
 
             // Target
             if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead)
@@ -1487,58 +1481,30 @@ namespace CalamityMod.NPCs
                     npc.timeLeft = 300;
             }
 
-			if (BossRushEvent.BossRushActive)
+			// Force kill BR Eater of Worlds if any of his segments fall below 5% health.
+            if (BossRushEvent.BossRushActive && npc.life <= npc.lifeMax * 0.05)
 			{
-				if (npc.life <= npc.lifeMax * 0.05)
-				{
-					npc.life = 0;
-					npc.HitEffect(0, 10.0);
-					npc.NPCLoot();
+				npc.life = 0;
+				npc.HitEffect(0, 10.0);
+				npc.NPCLoot();
 
-					for (int n = 0; n < Main.maxNPCs; n++)
-					{
-						if (Main.npc[n].aiStyle == npc.aiStyle)
-							Main.npc[n].active = false;
-					}
-				}
-
-				// Check if other segments are still alive, if not, die
-				if (npc.type > NPCID.EaterofWorldsHead)
-				{
-					bool shouldDespawn = true;
-					for (int i = 0; i < Main.maxNPCs; i++)
-					{
-						if (Main.npc[i].active && Main.npc[i].type == NPCID.EaterofWorldsHead)
-							shouldDespawn = false;
-					}
-					if (!shouldDespawn)
-					{
-						if (npc.ai[1] > 0f)
-							shouldDespawn = false;
-						else if (Main.npc[(int)npc.ai[1]].life > 0)
-							shouldDespawn = false;
-					}
-					if (shouldDespawn)
-					{
-						npc.life = 0;
-						npc.HitEffect(0, 10.0);
-						npc.checkDead();
-						npc.active = false;
-					}
-				}
+				for (int n = 0; n < Main.maxNPCs; n++)
+					if (Main.npc[n].aiStyle == npc.aiStyle)
+						Main.npc[n].active = false;
 			}
 
-            // Spawn segments
+            // Spawn the reamining segments of the worm (server side only of course!)
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
 				if (BossRushEvent.BossRushActive)
 				{
-					// Spawn segments from head
+					// In BR, spawn all segments from the head
 					if (npc.ai[0] == 0f && npc.type == NPCID.EaterofWorldsHead)
 					{
-						npc.ai[3] = npc.whoAmI;
+						// Set the head's own ai[3] and real life to point to itself.
+                        npc.ai[3] = npc.whoAmI;
 						npc.realLife = npc.whoAmI;
-						int index = npc.whoAmI;
+						int prevSegmentIndex = npc.whoAmI;
 
 						for (int j = 0; j <= totalSegments; j++)
 						{
@@ -1547,12 +1513,19 @@ namespace CalamityMod.NPCs
 								type = NPCID.EaterofWorldsTail;
 
 							int segment = NPC.NewNPC((int)(npc.position.X + (npc.width / 2)), (int)(npc.position.Y + npc.height), type, npc.whoAmI);
+
+                            // Set ai[3] and real life to point to the head's index.
 							Main.npc[segment].ai[3] = npc.whoAmI;
 							Main.npc[segment].realLife = npc.whoAmI;
-							Main.npc[segment].ai[1] = index;
-							Main.npc[index].ai[0] = segment;
+
+                            // Link this segment to the previously spawned one with ai[0] and ai[1].
+							Main.npc[segment].ai[1] = prevSegmentIndex;
+							Main.npc[prevSegmentIndex].ai[0] = segment;
+
 							NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, segment, 0f, 0f, 0f, 0, 0, 0);
-							index = segment;
+
+                            // Update the "previous segment" index.
+							prevSegmentIndex = segment;
 						}
 					}
 				}
@@ -1661,8 +1634,8 @@ namespace CalamityMod.NPCs
                 num32 = Main.maxTilesY;
 
             // Fly or not
-            bool flag2 = false;
-            if (!flag2)
+            bool inTiles = false;
+            if (!inTiles)
             {
                 for (int num33 = num29; num33 < num30; num33++)
                 {
@@ -1675,7 +1648,7 @@ namespace CalamityMod.NPCs
                             vector.Y = num34 * 16;
                             if (npc.position.X + npc.width > vector.X && npc.position.X < vector.X + 16f && npc.position.Y + npc.height > vector.Y && npc.position.Y < vector.Y + 16f)
                             {
-                                flag2 = true;
+                                inTiles = true;
                                 if (Main.rand.NextBool(100) && Main.tile[num33, num34].nactive())
                                 {
                                     WorldGen.KillTile(num33, num34, true, true, false);
@@ -1685,14 +1658,14 @@ namespace CalamityMod.NPCs
                     }
                 }
             }
-            if (!flag2 && npc.type == NPCID.EaterofWorldsHead)
+            if (!inTiles && npc.type == NPCID.EaterofWorldsHead)
             {
                 Rectangle rectangle = new Rectangle((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height);
                 int num35 = death ? 400 : 850;
                 if (BossRushEvent.BossRushActive)
                     num35 /= 2;
 
-                bool flag3 = true;
+                bool freeMoveAnyway = true;
                 for (int num36 = 0; num36 < Main.maxPlayers; num36++)
                 {
                     if (Main.player[num36].active)
@@ -1700,13 +1673,13 @@ namespace CalamityMod.NPCs
                         Rectangle rectangle2 = new Rectangle((int)Main.player[num36].position.X - num35, (int)Main.player[num36].position.Y - num35, num35 * 2, num35 * 2);
                         if (rectangle.Intersects(rectangle2))
                         {
-                            flag3 = false;
+                            freeMoveAnyway = false;
                             break;
                         }
                     }
                 }
-                if (flag3)
-                    flag2 = true;
+                if (freeMoveAnyway)
+                    inTiles = true;
             }
 
 			// Velocity and acceleration
@@ -1738,6 +1711,7 @@ namespace CalamityMod.NPCs
             num40 -= vector2.Y;
             float num52 = (float)Math.Sqrt(num39 * num39 + num40 * num40);
 
+            // Does this worm segment have a "previous segment" defined?
             if (npc.ai[1] > 0f && npc.ai[1] < Main.npc.Length)
             {
                 try
@@ -1760,6 +1734,8 @@ namespace CalamityMod.NPCs
                 npc.position.X += num39;
                 npc.position.Y += num40;
             }
+            
+            // Otherwise this is a head. (Why does this not just check for head NPC type?)
             else
             {
                 // Prevent new heads from being slowed when they spawn
@@ -1771,7 +1747,7 @@ namespace CalamityMod.NPCs
                     npc.velocity = Vector2.Normalize(Main.player[npc.target].Center - npc.Center) * (num37 * (BossRushEvent.BossRushActive ? 0.8f : death ? 0.5f : 0.4f));
                 }
 
-                if (!flag2)
+                if (!inTiles)
                 {
                     npc.TargetClosest(true);
 
@@ -1824,17 +1800,17 @@ namespace CalamityMod.NPCs
                     num40 *= num57;
 
                     // Despawn
-                    bool flag4 = npc.type == NPCID.EaterofWorldsHead && ((!Main.player[npc.target].ZoneCorrupt && !Main.player[npc.target].ZoneCrimson) || Main.player[npc.target].dead);
-                    if (flag4 && !BossRushEvent.BossRushActive)
+                    bool shouldDespawn = npc.type == NPCID.EaterofWorldsHead && ((!Main.player[npc.target].ZoneCorrupt && !Main.player[npc.target].ZoneCrimson) || Main.player[npc.target].dead);
+                    if (shouldDespawn && !BossRushEvent.BossRushActive)
                     {
-                        bool flag5 = true;
+                        bool nobodyElseInEvilBiome = true;
                         for (int num58 = 0; num58 < Main.maxPlayers; num58++)
                         {
                             if (Main.player[num58].active && !Main.player[num58].dead && (Main.player[num58].ZoneCorrupt || Main.player[num58].ZoneCrimson))
-                                flag5 = false;
+                                nobodyElseInEvilBiome = false;
                         }
 
-                        if (flag5)
+                        if (nobodyElseInEvilBiome)
                         {
                             if (Main.netMode != NetmodeID.MultiplayerClient && (npc.position.Y / 16f) > (Main.rockLayer + Main.maxTilesY) / 2.0)
                             {
@@ -1924,7 +1900,7 @@ namespace CalamityMod.NPCs
 
                 if (npc.type == NPCID.EaterofWorldsHead)
                 {
-                    if (flag2)
+                    if (inTiles)
                     {
                         if (npc.localAI[0] != 1f)
                             npc.netUpdate = true;
@@ -1943,6 +1919,18 @@ namespace CalamityMod.NPCs
                 }
             }
 
+            // Manually sync newAI because there is no GlobalNPC.SendExtraAI
+            if (Main.netMode == NetmodeID.Server)
+			{
+                ModPacket packet = mod.GetPacket();
+                packet.Write((byte)CalamityModMessageType.SyncCalamityNPCAIArray);
+                packet.Write((byte)npc.whoAmI);
+                packet.Write(calamityGlobalNPC.newAI[0]);
+                packet.Write(calamityGlobalNPC.newAI[1]);
+                packet.Write(calamityGlobalNPC.newAI[2]);
+                packet.Write(calamityGlobalNPC.newAI[3]);
+                packet.Send(-1, -1);
+            }
             return false;
         }
 

@@ -149,7 +149,9 @@ namespace CalamityMod
                         break;
 
 
+                    //
                     // Ozzatron's packets
+                    //
                     case CalamityModMessageType.PowerCellFactory:
                         TEPowerCellFactory.ReadSyncPacket(mod, reader);
                         break;
@@ -165,7 +167,6 @@ namespace CalamityMod
                     case CalamityModMessageType.LabHologramProjector:
                         TELabHologramProjector.ReadSyncPacket(mod, reader);
                         break;
-
                     // This code has been edited to fail gracefully when trying to provide data for an invalid NPC.
                     case CalamityModMessageType.SyncCalamityNPCAIArray:
                         // Read the entire packet regardless of anything
@@ -186,6 +187,7 @@ namespace CalamityMod
                         cgn.newAI[2] = ai2;
                         cgn.newAI[3] = ai3;
                         break;
+
 
                     case CalamityModMessageType.ProvidenceDyeConditionSync:
                         byte npcIndex3 = reader.ReadByte();
