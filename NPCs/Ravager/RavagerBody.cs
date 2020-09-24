@@ -441,7 +441,7 @@ namespace CalamityMod.NPCs.Ravager
                         npc.TargetClosest(true);
 
 						bool shouldFall = player.position.Y >= npc.Bottom.Y;
-						float velocityXBoost = death ? 4f : 4f * (1f - lifeRatio);
+						float velocityXBoost = death ? 6f * (1f - lifeRatio) : 4f * (1f - lifeRatio);
 						float velocityX = ((enrage || npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive)) ? 8f : 4f) + velocityXBoost;
 						velocityY = -16f;
 
@@ -585,7 +585,7 @@ namespace CalamityMod.NPCs.Ravager
 							npc.velocity.Y = -velocityY;
 					}
 
-					float maxOffset = death ? 240f : 240f * (1f - lifeRatio);
+					float maxOffset = death ? 320f * (1f - lifeRatio) : 240f * (1f - lifeRatio);
 					float offset = npc.ai[0] == 2f ? maxOffset * npc.Calamity().newAI[2] : 0f;
 
 					// Set offset to 0 if the target stops moving
@@ -602,7 +602,7 @@ namespace CalamityMod.NPCs.Ravager
 						{
 							float stopBeforeFallTime = 30f;
 							if (expertMode)
-								stopBeforeFallTime -= death ? 15f : 15f * (1f - lifeRatio);
+								stopBeforeFallTime -= death ? 15f * (1f - lifeRatio) : 10f * (1f - lifeRatio);
 
 							if (npc.ai[1] < stopBeforeFallTime)
 							{
@@ -611,7 +611,7 @@ namespace CalamityMod.NPCs.Ravager
 							}
 							else
 							{
-								float fallSpeedBoost = death ? 1.2f : 1.2f * (1f - lifeRatio);
+								float fallSpeedBoost = death ? 1.8f * (1f - lifeRatio) : 1.2f * (1f - lifeRatio);
 								float fallSpeed = 1.2f + fallSpeedBoost;
 
 								if (npc.Calamity().newAI[1] > 1f)
@@ -628,7 +628,7 @@ namespace CalamityMod.NPCs.Ravager
 
 							if (npc.Bottom.Y < player.position.Y)
 							{
-								float fallSpeedBoost = death ? 0.6f : 0.6f * (1f - lifeRatio);
+								float fallSpeedBoost = death ? 0.9f * (1f - lifeRatio) : 0.6f * (1f - lifeRatio);
 								float fallSpeed = 0.6f + fallSpeedBoost;
 
 								if (npc.Calamity().newAI[1] > 1f)
@@ -643,7 +643,7 @@ namespace CalamityMod.NPCs.Ravager
 						float velocityMult = 1.8f;
 						float velocityXChange = 0.2f + Math.Abs(npc.Center.X - player.Center.X) * 0.001f;
 
-						float velocityXBoost = death ? 4f : 4f * (1f - lifeRatio);
+						float velocityXBoost = death ? 6f * (1f - lifeRatio) : 4f * (1f - lifeRatio);
 						float velocityX = 8f + velocityXBoost + Math.Abs(npc.Center.X - player.Center.X) * 0.001f;
 
 						if (npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))

@@ -99,7 +99,7 @@ namespace CalamityMod.NPCs.Ravager
                 float num661 = Main.npc[CalamityGlobalNPC.scavenger].Center.Y - vector79.Y;
                 num661 += 88f;
                 num660 -= 70f;
-                float num662 = (float)Math.Sqrt((double)(num660 * num660 + num661 * num661));
+                float num662 = (float)Math.Sqrt(num660 * num660 + num661 * num661);
                 if (num662 < 12f + num659)
                 {
                     npc.rotation = 0f;

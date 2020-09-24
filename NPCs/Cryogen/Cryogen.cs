@@ -561,7 +561,7 @@ namespace CalamityMod.NPCs.Cryogen
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
                     npc.localAI[0] += 1f;
-                    if (npc.localAI[0] >= 60f && npc.alpha == 0)
+                    if (npc.localAI[0] >= 60f && npc.Opacity == 1f)
                     {
                         npc.localAI[0] = 0f;
                         if (Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height))
@@ -650,11 +650,11 @@ namespace CalamityMod.NPCs.Cryogen
                         Main.dust[dust].noGravity = true;
                     }
 
-                    npc.alpha += 2;
-                    if (npc.alpha >= 255)
+                    npc.Opacity -= 0.008f;
+                    if (npc.Opacity <= 0f)
                     {
                         Main.PlaySound(SoundID.Item8, npc.Center);
-                        npc.alpha = 255;
+                        npc.Opacity = 0f;
                         npc.position = position;
 
                         for (int n = 0; n < 15; n++)
@@ -669,10 +669,10 @@ namespace CalamityMod.NPCs.Cryogen
                 }
                 else if (npc.ai[1] == 2f)
                 {
-                    npc.alpha -= 50;
-                    if (npc.alpha <= 0)
+                    npc.Opacity += 0.2f;
+                    if (npc.Opacity >= 1f)
                     {
-                        npc.alpha = 0;
+                        npc.Opacity = 1f;
                         npc.ai[1] = 0f;
                         npc.netUpdate = true;
                     }
@@ -998,8 +998,17 @@ namespace CalamityMod.NPCs.Cryogen
             {
                 string phase = "CalamityMod/NPCs/Cryogen/Cryogen_Phase" + currentPhase;
                 Texture2D texture = ModContent.GetTexture(phase);
-                CalamityMod.DrawTexture(spriteBatch, texture, 0, npc, drawColor);
-                return false;
+
+				SpriteEffects spriteEffects = SpriteEffects.None;
+				if (npc.spriteDirection == 1)
+					spriteEffects = SpriteEffects.FlipHorizontally;
+
+				Vector2 origin = new Vector2(Main.npcTexture[npc.type].Width / 2, Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type] / 2);
+				Vector2 drawPos = npc.Center - Main.screenPosition;
+				drawPos -= new Vector2(texture.Width, texture.Height / Main.npcFrameCount[npc.type]) * npc.scale / 2f;
+				drawPos += origin * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+				spriteBatch.Draw(texture, drawPos, npc.frame, npc.GetAlpha(drawColor), npc.rotation, origin, npc.scale, spriteEffects, 0f);
+				return false;
             }
             return true;
         }

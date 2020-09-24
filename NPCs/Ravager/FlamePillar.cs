@@ -47,7 +47,9 @@ namespace CalamityMod.NPCs.Ravager
         public override void AI()
         {
             bool provy = CalamityWorld.downedProvidence;
-            if (CalamityGlobalNPC.scavenger < 0 || !Main.npc[CalamityGlobalNPC.scavenger].active)
+			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+
+			if (CalamityGlobalNPC.scavenger < 0 || !Main.npc[CalamityGlobalNPC.scavenger].active)
             {
                 npc.dontTakeDamage = false;
                 npc.life = 0;
@@ -92,7 +94,7 @@ namespace CalamityMod.NPCs.Ravager
                 {
                     npc.ai[1] -= 1f;
                     npc.localAI[0] += 1f;
-                    if (npc.localAI[0] % 60f == 0f)
+                    if (npc.localAI[0] % (death ? 45f : 60f) == 0f)
                     {
                         if (Main.netMode != NetmodeID.MultiplayerClient)
                         {

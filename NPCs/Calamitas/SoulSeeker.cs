@@ -3,6 +3,7 @@ using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Dusts;
 using CalamityMod.Events;
 using CalamityMod.Projectiles.Boss;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -85,13 +86,15 @@ namespace CalamityMod.NPCs.Calamitas
 			// Setting this in SetDefaults will disable expert mode scaling, so put it here instead
 			npc.damage = 0;
 
-			bool expertMode = Main.expertMode;
+			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+
 			if (CalamityGlobalNPC.calamitas < 0 || !Main.npc[CalamityGlobalNPC.calamitas].active)
 			{
 				npc.active = false;
 				npc.netUpdate = true;
 				return false;
 			}
+
             NPC parent = Main.npc[CalamityGlobalNPC.calamitas];
 			if (start)
             {
@@ -102,11 +105,14 @@ namespace CalamityMod.NPCs.Calamitas
                 npc.ai[1] = npc.ai[0];
                 start = false;
             }
+
             npc.TargetClosest(true);
-            Vector2 direction = Main.player[npc.target].Center - npc.Center;
-            direction.Normalize();
-            direction *= BossRushEvent.BossRushActive ? 14f : 9f;
-            npc.rotation = direction.ToRotation() + MathHelper.Pi;
+
+            Vector2 velocity = Main.player[npc.target].Center - npc.Center;
+            velocity.Normalize();
+            velocity *= BossRushEvent.BossRushActive ? 14f : 9f;
+            npc.rotation = velocity.ToRotation() + MathHelper.Pi;
+
             timer++;
             if (timer > 60)
             {
@@ -114,27 +120,24 @@ namespace CalamityMod.NPCs.Calamitas
                 {
 					int npcType = ModContent.NPCType<LifeSeeker>();
                     if (NPC.CountNPCS(npcType) < 3)
-                    {
-                        int x = (int)(npc.position.X + Main.rand.Next(npc.width - 25));
-                        int y = (int)(npc.position.Y + Main.rand.Next(npc.height - 25));
-                        NPC.NewNPC(x, y, npcType, 0, 0f, 0f, 0f, 0f, 255);
-                    }
+                        NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, npcType);
+
                     for (int d = 0; d < 3; d++)
-                    {
                         Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 2f);
-                    }
+
 					int type = ModContent.ProjectileType<BrimstoneBarrage>();
 					int damage = npc.GetProjectileDamage(type);
-					Projectile.NewProjectile(npc.Center, direction, type, damage, 1f, npc.target, 1f, 0f);
+					Projectile.NewProjectile(npc.Center, velocity, type, damage, 1f, npc.target, 1f, 0f);
                 }
                 timer = 0;
             }
+
             double deg = npc.ai[1];
             double rad = deg * (Math.PI / 180);
-            double dist = 150;
+            double dist = death ? 180 : 150;
             npc.position.X = parent.Center.X - (int)(Math.Cos(rad) * dist) - npc.width / 2;
             npc.position.Y = parent.Center.Y - (int)(Math.Sin(rad) * dist) - npc.height / 2;
-            npc.ai[1] += 2f;
+            npc.ai[1] += death ? 0.5f : 2f;
             return false;
         }
 

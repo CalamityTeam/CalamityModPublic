@@ -98,6 +98,10 @@ namespace CalamityMod.NPCs.Ravager
 			bool fireProjectiles = npc.ai[1] >= 480f;
 			if (fireProjectiles && Vector2.Distance(npc.Center, player.Center) > 80f)
             {
+				int type = ModContent.ProjectileType<ScavengerLaser>();
+				int damage = npc.GetProjectileDamage(type);
+				float projectileVelocity = death ? 8f : 6f;
+
 				if (npc.ai[1] >= 600f)
 				{
 					npc.ai[0] += 1f;
@@ -106,9 +110,7 @@ namespace CalamityMod.NPCs.Ravager
 					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
 						Main.PlaySound(SoundID.Item33, npc.position);
-						int type = ModContent.ProjectileType<ScavengerLaser>();
-						int damage = npc.GetProjectileDamage(type);
-						Projectile.NewProjectile(npc.Center, Vector2.Normalize(player.Center - npc.Center) * 6f, type, damage + (provy ? 30 : 0), 0f, Main.myPlayer, 0f, -1f);
+						Projectile.NewProjectile(npc.Center, Vector2.Normalize(player.Center - npc.Center) * projectileVelocity, type, damage + (provy ? 30 : 0), 0f, Main.myPlayer, 0f, -1f);
 					}
 				}
 				else
@@ -118,9 +120,7 @@ namespace CalamityMod.NPCs.Ravager
 						if (Main.netMode != NetmodeID.MultiplayerClient)
 						{
 							Main.PlaySound(SoundID.Item33, npc.position);
-							int type = ModContent.ProjectileType<ScavengerLaser>();
-							int damage = npc.GetProjectileDamage(type);
-							Projectile.NewProjectile(npc.Center, Vector2.Normalize(player.Center - npc.Center) * 6f, type, damage + (provy ? 30 : 0), 0f, Main.myPlayer, 0f, -1f);
+							Projectile.NewProjectile(npc.Center, Vector2.Normalize(player.Center - npc.Center) * projectileVelocity, type, damage + (provy ? 30 : 0), 0f, Main.myPlayer, 0f, -1f);
 						}
 					}
 				}
@@ -130,7 +130,7 @@ namespace CalamityMod.NPCs.Ravager
 			float num824 = 0.15f;
 			if (death)
 			{
-				num823 += 1f;
+				num823 += 2.4f;
 				num824 += 0.03f;
 			}
 			if (provy)

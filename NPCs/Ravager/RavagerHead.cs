@@ -75,8 +75,9 @@ namespace CalamityMod.NPCs.Ravager
         {
             bool provy = CalamityWorld.downedProvidence && !BossRushEvent.BossRushActive;
             bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
+			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
 
-            if (CalamityGlobalNPC.scavenger < 0 || !Main.npc[CalamityGlobalNPC.scavenger].active)
+			if (CalamityGlobalNPC.scavenger < 0 || !Main.npc[CalamityGlobalNPC.scavenger].active)
             {
                 npc.active = false;
                 npc.netUpdate = true;
@@ -114,7 +115,7 @@ namespace CalamityMod.NPCs.Ravager
             }
 
             npc.ai[1] += 1f;
-            if (npc.ai[1] >= 480f)
+            if (npc.ai[1] >= (death ? 420f : 480f))
             {
                 Main.PlaySound(SoundID.Item62, npc.position);
                 npc.TargetClosest(true);

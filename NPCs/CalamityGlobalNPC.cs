@@ -1035,10 +1035,11 @@ namespace CalamityMod.NPCs
                 npc.lifeMax = (int)(npc.lifeMax * 1.3);
 
                 if (npc.type == NPCID.EaterofWorldsHead)
-                {
                     npc.npcSlots = 10f;
-                }
-            }
+
+				if (CalamityWorld.death)
+					npc.scale = 1.2f;
+			}
             else if (npc.type == NPCID.EyeofCthulhu)
             {
                 npc.lifeMax = (int)(npc.lifeMax * 1.25);
@@ -1673,9 +1674,9 @@ namespace CalamityMod.NPCs
 						index = -1;
 				}
 
-				if (npc.type == NPCID.DukeFishron)
+				if (npc.type == NPCID.DukeFishron && CalamityWorld.death)
 				{
-					if (npc.life / (float)npc.lifeMax < (CalamityWorld.death ? 0.33f : 0.2f))
+					if (npc.life / (float)npc.lifeMax < 0.33f)
 						index = -1;
 				}
 			}
