@@ -20,7 +20,6 @@ namespace CalamityMod.Items.Weapons.Summon
                                "These spikes accelerate rapidly towards a nearby enemy to inflict heavy damage\n" +
                                "They take some time to regenerate after launching themselves at the target, however\n" +
                                "On right click, summons a duplicate ring around the targeted enemy, which slowly converges before exploding\n" +
-                               "Minion damage bonuses apply to this weapon twice for more damage\n" +
                                "Revengeance Drop");
         }
 
@@ -59,14 +58,8 @@ namespace CalamityMod.Items.Weapons.Summon
 			}
         }
 
-        public override void ModifyWeaponDamage(Player player, ref float add, ref float mult, ref float flat)
-		{
-			mult += player.MinionDamage() - 1f;
-		}
-
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            //damage = (int)(damage * player.MinionDamage());
             float totalMinionSlots = 0f;
             for (int i = 0; i < Main.projectile.Length; i++)
             {

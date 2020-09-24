@@ -22443,8 +22443,8 @@ namespace CalamityMod.NPCs
                             }
                         }
                     }
-                    int x = (int)npc.Center.Y / 16;
-                    int y = (int)npc.Center.X / 16;
+                    int x = (int)npc.Center.X / 16;
+                    int y = (int)npc.Center.Y / 16;
                     if (Main.tile[x, y - 1] is null)
                     {
                         Main.tile[x, y - 1] = new Tile();
