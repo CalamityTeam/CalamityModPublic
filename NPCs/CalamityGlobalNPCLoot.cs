@@ -1,7 +1,6 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.CalPlayer;
 using CalamityMod.Events;
-using CalamityMod.Items;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.DifficultyItems;
 using CalamityMod.Items.LoreItems;
@@ -13,19 +12,10 @@ using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
-using CalamityMod.NPCs.AquaticScourge;
 using CalamityMod.NPCs.AstrumDeus;
-using CalamityMod.NPCs.Bumblebirb;
-using CalamityMod.NPCs.Calamitas;
-using CalamityMod.NPCs.Crabulon;
-using CalamityMod.NPCs.DesertScourge;
 using CalamityMod.NPCs.DevourerofGods;
-using CalamityMod.NPCs.HiveMind;
 using CalamityMod.NPCs.Leviathan;
 using CalamityMod.NPCs.NormalNPCs;
-using CalamityMod.NPCs.Perforator;
-using CalamityMod.NPCs.ProfanedGuardians;
-using CalamityMod.NPCs.Ravager;
 using CalamityMod.NPCs.SlimeGod;
 using CalamityMod.NPCs.StormWeaver;
 using CalamityMod.NPCs.SulphurousSea;
@@ -410,7 +400,21 @@ namespace CalamityMod.NPCs
         #region Boss Rush Loot Cancel
         private bool BossRushLootCancel(NPC npc, Mod mod)
         {
-            if (npc.type == ModContent.NPCType<Siren>() || npc.type == ModContent.NPCType<Leviathan.Leviathan>())
+            // Eater of Worlds splits in Boss Rush now, so you have to kill every single segment to progress.
+            // Vanilla sets npc.boss to true for the last Eater of Worlds segment to die in NPC.checkDead.
+            // This means we do not need to manually check for other segments ourselves.
+            if (npc.type == NPCID.EaterofWorldsHead || npc.type == NPCID.EaterofWorldsBody || npc.type == NPCID.EaterofWorldsTail)
+            {
+                if (npc.boss)
+				{
+                    BossRushEvent.BossRushStage++;
+                    CalamityUtils.KillAllHostileProjectiles();
+                    CalamityWorld.bossRushHostileProjKillCounter = 3;
+				}
+            }
+            
+            // Anahita and Leviathan manually check for each other (this probably isn't necessary).
+            else if (npc.type == ModContent.NPCType<Siren>() || npc.type == ModContent.NPCType<Leviathan.Leviathan>())
             {
                 int bossType = (npc.type == ModContent.NPCType<Siren>()) ? ModContent.NPCType<Leviathan.Leviathan>() : ModContent.NPCType<Siren>();
                 if (!NPC.AnyNPCs(bossType))
@@ -420,12 +424,16 @@ namespace CalamityMod.NPCs
 					CalamityWorld.bossRushHostileProjKillCounter = 3;
                 }
             }
+            
+            // Killing any split Deus head ends the fight instantly. You don't need to kill both.
             else if (npc.type == ModContent.NPCType<AstrumDeusHeadSpectral>() && npc.Calamity().newAI[0] != 0f)
             {
                 BossRushEvent.BossRushStage++;
                 CalamityUtils.KillAllHostileProjectiles();
                 CalamityWorld.bossRushHostileProjKillCounter = 3;
             }
+
+            // All Slime God entities must be killed to progress to the next stage.
             else if (npc.type == ModContent.NPCType<SlimeGodCore>() || npc.type == ModContent.NPCType<SlimeGodSplit>() || npc.type == ModContent.NPCType<SlimeGodRunSplit>())
             {
                 if (npc.type == ModContent.NPCType<SlimeGodCore>() && !NPC.AnyNPCs(ModContent.NPCType<SlimeGodSplit>()) && !NPC.AnyNPCs(ModContent.NPCType<SlimeGodRunSplit>()) &&
@@ -450,6 +458,8 @@ namespace CalamityMod.NPCs
 					CalamityWorld.bossRushHostileProjKillCounter = 3;
                 }
             }
+
+            // This is the generic form of "Are there any remaining NPCs on the boss list for this boss rush stage?" check.
             else if ((BossRushEvent.Bosses.Any(boss => boss.EntityID == npc.type) && !BossRushEvent.BossIDsAfterDeath.ContainsKey(npc.type)) ||
                      BossRushEvent.BossIDsAfterDeath.Values.Any(killList => killList.Contains(npc.type)))
             {
@@ -459,6 +469,7 @@ namespace CalamityMod.NPCs
                 if (BossRushEvent.BossDeathEffects.ContainsKey(npc.type))
                     BossRushEvent.BossDeathEffects[npc.type].Invoke(npc);
             }
+
             if (Main.netMode == NetmodeID.Server)
             {
                 var netMessage = mod.GetPacket();
