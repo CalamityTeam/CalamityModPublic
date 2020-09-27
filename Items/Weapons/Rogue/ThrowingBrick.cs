@@ -16,13 +16,12 @@ namespace CalamityMod.Items.Weapons.Rogue
         }
         public override void SafeSetDefaults()
         {
-            item.damage = 7;
+            item.damage = 14;
             item.shootSpeed = 12f;
             item.shoot = ModContent.ProjectileType<Brick>();
             item.width = 26;
             item.height = 20;
-            item.useTime = 20;
-            item.useAnimation = 20;
+            item.useTime = item.useAnimation = 40;
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.knockBack = 5f;
             item.crit = 20;
@@ -40,7 +39,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             //Check if stealth is full
             if (player.Calamity().StealthStrikeAvailable())
             {
-                int p = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<Brick>(), damage, knockBack, player.whoAmI, 1);
+                int p = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 1);
                 Main.projectile[p].Calamity().stealthStrike = true;
                 return false;
             }

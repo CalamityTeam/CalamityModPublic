@@ -123,6 +123,7 @@ namespace CalamityMod.CalPlayer
 		public int potionTimer = 0;
 		public bool blockAllDashes = false;
 		public bool resetHeightandWidth = false;
+		public bool noLifeRegen = false;
         #endregion
 
         #region Tile Entity Trackers
@@ -1378,6 +1379,7 @@ namespace CalamityMod.CalPlayer
             externalAbyssLight = 0;
             externalColdImmunity = externalHeatImmunity = false;
             alcoholPoisonLevel = 0;
+			noLifeRegen = false;
 
             thirdSage = false;
             if (player.immuneTime <= 0)
@@ -2085,6 +2087,7 @@ namespace CalamityMod.CalPlayer
 			prismaticLasers = 0;
 			roverDriveTimer = 0;
 			resetHeightandWidth = false;
+			noLifeRegen = false;
 
             alcoholPoisoning = false;
             shadowflame = false;

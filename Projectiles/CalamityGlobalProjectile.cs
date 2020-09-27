@@ -2005,8 +2005,13 @@ namespace CalamityMod.Projectiles
             if (Main.player[Main.myPlayer].Calamity().trippy)
                 return new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB, projectile.alpha);
 
-            if (Main.player[Main.myPlayer].Calamity().omniscience && projectile.hostile)
-                return Color.Coral;
+            if (Main.LocalPlayer.Calamity().omniscience && projectile.hostile && projectile.damage > 0 && projectile.alpha < 255)
+			{
+				if (projectile.modProjectile is null || projectile.modProjectile != null && projectile.modProjectile.CanHitPlayer(Main.LocalPlayer) && projectile.modProjectile.CanDamage())
+				{
+					return Color.Coral;
+				}
+			}
 
             if (projectile.type == ProjectileID.PinkLaser)
             {

@@ -18,12 +18,15 @@ namespace CalamityMod.CalPlayer
             Point point = player.Center.ToTileCoordinates();
             CalamityPlayer modPlayer = player.Calamity();
 
+			if (CalamityWorld.ironHeart || player.ownedProjectileCounts[ModContent.ProjectileType<BloodBoilerFire>()] > 0)
+				modPlayer.noLifeRegen = true;
+
 			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
 			int lifeRegenMult = death ? 2 : 1;
 			int lifeRegenLost = 0;
 
             // Initial Debuffs
-			
+
 			// Vanilla
 			if (death)
 			{
@@ -392,7 +395,7 @@ namespace CalamityMod.CalPlayer
                 if (player.whoAmI == Main.myPlayer && modPlayer.bloodfinTimer <= 0)
                 {
                     modPlayer.bloodfinTimer = 30;
-					if (player.statLife <= (int)(player.statLifeMax2 * 0.75) && !CalamityWorld.ironHeart)
+					if (player.statLife <= (int)(player.statLifeMax2 * 0.75) && !modPlayer.noLifeRegen)
 						player.statLife += 1;
                 }
             }
@@ -453,7 +456,7 @@ namespace CalamityMod.CalPlayer
 
 			// Last Debuffs
 
-			if (CalamityWorld.ironHeart || modPlayer.omegaBlueChestplate || modPlayer.godSlayerCooldown || player.ownedProjectileCounts[ModContent.ProjectileType<BloodBoilerFire>()] > 0)
+			if (modPlayer.noLifeRegen)
             {
                 if (player.lifeRegen > 0)
                     player.lifeRegen = 0;
@@ -707,6 +710,20 @@ namespace CalamityMod.CalPlayer
 
 			if (modPlayer.etherealExtorter && player.ZoneGlowshroom)
 				player.lifeRegen += 1;
+
+			if (modPlayer.pinkCandle && !modPlayer.noLifeRegen)
+			{
+				// Every frame, add up 1/60th of the healing value (0.4% max HP per second)
+				modPlayer.pinkCandleHealFraction += player.statLifeMax2 * 0.004 / 60;
+				if (modPlayer.pinkCandleHealFraction >= 1D)
+				{
+					modPlayer.pinkCandleHealFraction = 0D;
+					if (player.statLife < player.statLifeMax2)
+						player.statLife++;
+				}
+			}
+			else
+				modPlayer.pinkCandleHealFraction = 0D;
 
 			// Standing still healing bonuses (all exclusive with vanilla Shiny Stone)
 			if (!player.shinyStone)
