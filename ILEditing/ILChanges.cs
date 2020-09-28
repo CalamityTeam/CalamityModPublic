@@ -1,6 +1,7 @@
 using CalamityMod.Tiles.DraedonStructures;
 using MonoMod.Cil;
 using System;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.GameInput;
 using Terraria.ID;
@@ -10,18 +11,28 @@ namespace CalamityMod.ILEditing
 {
     public class ILChanges
     {
+        // This list should contain all vanilla NPCs present in Boss Rush which ARE NOT bosses and whose health is boosted over 32,768.
+        private static readonly List<int> NeedsFourLifeBytes = new List<int>()
+        {
+            NPCID.EaterofWorldsHead,
+            NPCID.EaterofWorldsBody,
+            NPCID.EaterofWorldsTail,
+            NPCID.Creeper,
+            NPCID.WallofFleshEye,
+        };
+        
         /// <summary>
         /// Loads all IL Editing changes in the mod.
         /// </summary>
         public static void Initialize()
         {
-            ChangeEoWLifeBytes();
+            ApplyLifeBytesChanges();
             SlideDungeonOver();
             LabDoorFixes();
         }
 
         #region IL Editing Routines
-        private static void ChangeEoWLifeBytes() => On.Terraria.Main.InitLifeBytes += EoWLifeBytes;
+        private static void ApplyLifeBytesChanges() => On.Terraria.Main.InitLifeBytes += BossRushLifeBytes;
 
         private static void SlideDungeonOver()
         {
@@ -51,10 +62,11 @@ namespace CalamityMod.ILEditing
         #endregion
 
         #region IL Editing Injection Functions
-        private static void EoWLifeBytes(On.Terraria.Main.orig_InitLifeBytes orig)
+        private static void BossRushLifeBytes(On.Terraria.Main.orig_InitLifeBytes orig)
         {
             orig();
-            Main.npcLifeBytes[NPCID.EaterofWorldsHead] = Main.npcLifeBytes[NPCID.EaterofWorldsBody] = Main.npcLifeBytes[NPCID.EaterofWorldsTail] = 4;
+            foreach (int npcType in NeedsFourLifeBytes)
+                Main.npcLifeBytes[npcType] = 4;
         }
 
         private static bool LabDoorsOpen(On.Terraria.WorldGen.orig_OpenDoor orig, int i, int j, int direction)
