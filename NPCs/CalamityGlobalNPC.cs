@@ -209,9 +209,9 @@ namespace CalamityMod.NPCs
             { NPCID.GolemFistLeft, 250000 },
             { NPCID.GolemFistRight, 250000 },
 
-            { NPCID.EaterofWorldsHead, 190000 }, // 30 seconds
-            { NPCID.EaterofWorldsBody, 190000 }, // 77 segments on rev: 190K * 77 = 14.63M
-            { NPCID.EaterofWorldsTail, 190000 },
+            { NPCID.EaterofWorldsHead, 100000 }, // 30 seconds + immunity timer at start
+            { NPCID.EaterofWorldsBody, 100000 },
+            { NPCID.EaterofWorldsTail, 100000 },
 
             // Tier 2
             { NPCID.TheDestroyer, 2500000 }, // 30 seconds + immunity timer at start
