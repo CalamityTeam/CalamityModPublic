@@ -1403,7 +1403,7 @@ namespace CalamityMod.NPCs
             // Percent segments remaining, add two to total for head and tail
             float lifeRatio = segmentCount / (totalSegments + 2);
 
-			// 10 seconds of resistance to prevent spawn killing
+            // 10 seconds of resistance to prevent spawn killing
 			if (calamityGlobalNPC.newAI[1] < 600f && BossRushEvent.BossRushActive)
 				calamityGlobalNPC.newAI[1] += 1f;
 
@@ -1537,6 +1537,7 @@ namespace CalamityMod.NPCs
                     float segmentLifeRatio = npc.life / (float)npc.lifeMax;
                     int whoAmI = npc.whoAmI;
 					float ai0Holdover = npc.ai[0];
+                    float newAI1Holdover = calamityGlobalNPC.newAI[1];
 					int aiTimer = calamityGlobalNPC.AITimer;
 
                     // Actually transform the body segment into a head segment.
@@ -1544,12 +1545,13 @@ namespace CalamityMod.NPCs
 					npc.life = (int)(npc.lifeMax * segmentLifeRatio);
                     npc.whoAmI = whoAmI;
                     npc.ai[0] = ai0Holdover;
-                    // Heads spawned mid fight by splitting do not get spawn invincibility.
+                    // Heads spawned mid fight by splitting do not get reset spawn invincibility.
                     CalamityGlobalNPC newCGN = npc.Calamity();
-                    newCGN.newAI[1] = calamityGlobalNPC.newAI[1];
+                    newCGN.newAI[1] = newAI1Holdover;
                     newCGN.AITimer = aiTimer;
                     npc.TargetClosest(true);
 					npc.netUpdate = true;
+                    npc.netSpam = 0;
 				}
 
 				// If this segment is a body and its next segment is dead (or was rendered into a head), transform into a tail.
@@ -1569,6 +1571,7 @@ namespace CalamityMod.NPCs
                     npc.Calamity().AITimer = aiTimer;
 					npc.TargetClosest(true);
 					npc.netUpdate = true;
+                    npc.netSpam = 0;
 				}
 
 				// If for any reason this segment was deleted, send info to clients so they also see it die.
@@ -1877,7 +1880,7 @@ namespace CalamityMod.NPCs
             }
 
             // Manually sync newAI because there is no GlobalNPC.SendExtraAI
-            if (Main.netMode == NetmodeID.Server)
+            if (npc.active && npc.netUpdate && Main.netMode == NetmodeID.Server)
 			{
                 ModPacket packet = mod.GetPacket();
                 packet.Write((byte)CalamityModMessageType.SyncCalamityNPCAIArray);
