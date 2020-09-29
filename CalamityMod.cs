@@ -37,7 +37,6 @@ using CalamityMod.Projectiles.Summon;
 using CalamityMod.Schematics;
 using CalamityMod.Skies;
 using CalamityMod.TileEntities;
-using CalamityMod.Tiles.DraedonStructures;
 using CalamityMod.UI;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -49,7 +48,6 @@ using System.Reflection;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.GameContent.Dyes;
-using Terraria.GameInput;
 using Terraria.Graphics.Effects;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
@@ -137,7 +135,7 @@ namespace CalamityMod
             ILChanges.Initialize();
             BossRushEvent.Load();
             thorium = ModLoader.GetMod("ThoriumMod");
-
+            
             BossHealthBarManager.Load(this);
 
             CalamityLists.LoadLists();
@@ -147,91 +145,6 @@ namespace CalamityMod
             SetupThoriumBossDR(thorium);
 
             CalamityLocalization.AddLocalizations();
-
-            On.Terraria.Player.TileInteractionsUse += Player_TileInteractionsUse;
-            On.Terraria.WorldGen.OpenDoor += LabDoorsOpen;
-            On.Terraria.WorldGen.CloseDoor += LabDoorsClose;
-        }
-
-        private static bool LabDoorsOpen(On.Terraria.WorldGen.orig_OpenDoor orig, int i, int j, int direction)
-        {
-            Tile tile = Main.tile[i, j];
-            if (tile.type == ModContent.TileType<AgedLaboratoryDoorOpen>() || tile.type == ModContent.TileType<AgedLaboratoryDoorClosed>() ||
-            tile.type == ModContent.TileType<LaboratoryDoorOpen>() || tile.type == ModContent.TileType<LaboratoryDoorClosed>())
-            {
-                return false;
-            }
-            else
-            {
-                return orig(i, j, direction);
-            }
-        }
-
-        private static bool LabDoorsClose(On.Terraria.WorldGen.orig_CloseDoor orig, int i, int j, bool forced)
-        {
-            Tile tile = Main.tile[i, j];
-            if (tile.type == ModContent.TileType<AgedLaboratoryDoorOpen>() || tile.type == ModContent.TileType<AgedLaboratoryDoorClosed>() ||
-            tile.type == ModContent.TileType<LaboratoryDoorOpen>() || tile.type == ModContent.TileType<LaboratoryDoorClosed>())
-            {
-                return false;
-            }
-            else
-            {
-                return orig(i, j, forced);
-            }
-        }
-
-        private static void Player_TileInteractionsUse(On.Terraria.Player.orig_TileInteractionsUse orig, Player player, int i, int j)
-        {
-            Tile tile = Main.tile[i, j];
-            if (tile.type == ModContent.TileType<AgedLaboratoryDoorOpen>())
-            {
-                DoorSwap(ModContent.TileType<AgedLaboratoryDoorClosed>(), ModContent.TileType<AgedLaboratoryDoorOpen>(), i, j);
-            }
-            else if (tile.type == ModContent.TileType<AgedLaboratoryDoorClosed>())
-            {
-                DoorSwap(ModContent.TileType<AgedLaboratoryDoorOpen>(), ModContent.TileType<AgedLaboratoryDoorClosed>(), i, j);
-            }
-            else if (tile.type == ModContent.TileType<LaboratoryDoorOpen>())
-            {
-                DoorSwap(ModContent.TileType<LaboratoryDoorClosed>(), ModContent.TileType<LaboratoryDoorOpen>(), i, j);
-            }
-            else if (tile.type == ModContent.TileType<LaboratoryDoorClosed>())
-            {
-                DoorSwap(ModContent.TileType<LaboratoryDoorOpen>(), ModContent.TileType<LaboratoryDoorClosed>(), i, j);
-            }
-            else
-            {
-                orig(player, i, j);
-            }
-        }
-
-        public static void DoorSwap(int type1, int type2, int i, int j, bool forced = false)
-        {
-            if (PlayerInput.Triggers.JustPressed.MouseRight || forced)
-            {
-                ushort type = (ushort)type1;
-                short frameY = 0;
-                for (int dy = -4; dy < 4; dy++)
-                {
-                    if (Main.tile[i, j + dy].frameY > 0 && frameY == 0)
-                        continue;
-                    if (Main.tile[i, j + dy].type == type2)
-                    {
-                        if (Main.tile[i, j + dy] is null)
-                        {
-                            Main.tile[i, j + dy] = new Tile();
-                        }
-                        Main.tile[i, j + dy].type = type;
-                        Main.tile[i, j + dy].frameY = frameY;
-                        frameY += 16;
-                        if ((int)frameY / 16 >= 4)
-                            break;
-                    }
-                }
-
-                Main.PlaySound(SoundID.DoorClosed, i * 16, j * 16, 1, 1f, 0f);
-            }
         }
 
         private void LoadClient()

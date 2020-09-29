@@ -30,7 +30,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.UI
 {
-	/*
+    /*
     Heyo! Here's some things you might need to know about this class and where to change things:
 
     In the "Load" method is where the "OneToMany" dictionary is updated.
@@ -53,7 +53,7 @@ namespace CalamityMod.UI
     That should be it -- ask if you have any questions!
     */
 
-	internal static class BossHealthBarManager
+    internal static class BossHealthBarManager
     {
         private static readonly int MAX_BARS = 4;
 
@@ -214,7 +214,7 @@ namespace CalamityMod.UI
 
                 //Hardmode
                 NPCID.GoblinSummoner, //2000 HP
-				NPCID.WyvernHead,
+                NPCID.WyvernHead,
                 NPCID.Paladin,
                 NPCID.IceGolem,
                 NPCID.SandElemental,
@@ -599,8 +599,8 @@ namespace CalamityMod.UI
                         if (Main.npc[i].active && Main.npc[i].life > 0 && _arrayOfIds.Contains(Main.npc[i].type))
                         {
                             if ((Main.npc[i].type == NPCID.MoonLordHead && (Main.npc[i].ai[0] == -2f || Main.npc[i].ai[0] == -3f || Main.npc[i].Calamity().newAI[0] == 1f)) ||
-								(Main.npc[i].type == NPCID.MoonLordHand && (Main.npc[i].ai[0] == -2f || Main.npc[i].Calamity().newAI[0] == 1f)) ||
-								(Main.npc[i].type == NPCID.MoonLordCore && Main.npc[i].ai[0] == 2f))
+                                (Main.npc[i].type == NPCID.MoonLordHand && (Main.npc[i].ai[0] == -2f || Main.npc[i].Calamity().newAI[0] == 1f)) ||
+                                (Main.npc[i].type == NPCID.MoonLordCore && Main.npc[i].ai[0] == 2f))
                                 continue;
 
                             currentLife += Main.npc[i].life;
@@ -823,7 +823,7 @@ namespace CalamityMod.UI
                             Vector2 countSize5 = Main.fontItemStack.MeasureString(count5) * textScale;
                             float countX5 = Math.Max(x, x + mainBarWidth - countSize5.X);
                             DrawBorderStringEightWay(sb, Main.fontItemStack, count5, new Vector2(countX5, y + MainBarYOffset + 17), Color.White, Color.Black * 0.24f, textScale);
-							return;
+                            return;
                     }
 
                     string actualLife = "(" + _npc.life + " / " + _npc.lifeMax + ")";

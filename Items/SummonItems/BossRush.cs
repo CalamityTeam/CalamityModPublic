@@ -35,10 +35,16 @@ namespace CalamityMod.Items.SummonItems
         {
             for (int doom = 0; doom < 200; doom++)
             {
-                if (Main.npc[doom].active && Main.npc[doom].boss)
+                NPC n = Main.npc[doom];
+                if (!n.active)
+                    continue;
+
+                // will also correctly despawn EoW because none of his segments are boss flagged
+                bool shouldDespawn = n.boss || n.type == NPCID.EaterofWorldsHead || n.type == NPCID.EaterofWorldsBody || n.type == NPCID.EaterofWorldsTail;
+                if (shouldDespawn)
                 {
-                    Main.npc[doom].active = false;
-                    Main.npc[doom].netUpdate = true;
+                    n.active = false;
+                    n.netUpdate = true;
                 }
             }
             if (!BossRushEvent.BossRushActive)
