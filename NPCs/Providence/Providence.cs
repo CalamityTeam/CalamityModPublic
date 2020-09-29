@@ -232,8 +232,8 @@ namespace CalamityMod.NPCs.Providence
 			int dustType = Main.dayTime ? (int)CalamityDusts.ProfanedFire : (int)CalamityDusts.Nightwither;
 
 			// Phase times
-			float phaseTime = nightTime ? 240f : 300f;
-			float crystalPhaseTime = nightTime ? 60f : 120f;
+			float phaseTime = nightTime ? (300f - 120f * (1f - lifeRatio)) : 300f;
+			float crystalPhaseTime = nightTime ? (60f * lifeRatio) : death ? 60f : 120f;
 			int nightCrystalTime = 210;
 			float attackDelayAfterCocoon = 90f;
 
@@ -243,7 +243,7 @@ namespace CalamityMod.NPCs.Providence
 			bool delayAttacks = npc.localAI[2] > 0f;
 
 			// Spear phase
-			float spearRateIncrease = death ? 1f : 1f * (1f - lifeRatio);
+			float spearRateIncrease = death ? 2f * (1f - lifeRatio) : 1f - lifeRatio;
 			float enragedSpearRateIncrease = 0.5f;
 			float bossRushSpearRateIncrease = 0.25f;
 			float baseSpearRate = 18f;
@@ -262,10 +262,10 @@ namespace CalamityMod.NPCs.Providence
 			Vector2 fireFrom = new Vector2(vector.X, vector.Y + 20f);
 
 			// Cocoon projectile initial velocity
-			float cocoonProjVelocity = 3f;
+			float cocoonProjVelocity = 3f + (nightTime ? 1.5f : death ? 1f - lifeRatio : 0f);
 
 			// Distance X needed from target in order to fire holy or molten blasts
-			float distanceNeededToShoot = revenge ? 360f : 420f;
+			float distanceNeededToShoot = death ? 300f : revenge ? 360f : 420f;
 
 			// X distance from target
 			float distanceX = Math.Abs(vector.X - player.Center.X);
@@ -478,7 +478,7 @@ namespace CalamityMod.NPCs.Providence
                 // Increase distance from target when firing molten blasts or holy bombs
                 bool stayAwayFromTarget = AIState == (int)Phase.MoltenBlobs || AIState == (int)Phase.HolyBomb;
                 if (stayAwayFromTarget)
-                    num851 += revenge ? 200f : 100f;
+                    num851 += death ? 240f : revenge ? 180f : 120f;
 
                 // Change X movement path if far enough away from target
                 if (vector.X < player.Center.X && flightPath < 0 && distanceX > num851)
@@ -486,10 +486,11 @@ namespace CalamityMod.NPCs.Providence
                 if (vector.X > player.Center.X && flightPath > 0 && distanceX > num851)
                     flightPath = 0;
 
-                // Velocity and acceleration
-                bool increaseSpeed = calamityGlobalNPC.newAI[0] > 150f;
-				float accelerationBoost = death ? 0.2f : 0.2f * (1f - lifeRatio);
-				float velocityBoost = death ? 4f : 4f * (1f - lifeRatio);
+				// Velocity and acceleration
+				float speedIncreaseTimer = nightTime ? 90f : death ? 120f : 150f;
+                bool increaseSpeed = calamityGlobalNPC.newAI[0] > speedIncreaseTimer;
+				float accelerationBoost = death ? 0.3f * (1f - lifeRatio) : 0.2f * (1f - lifeRatio);
+				float velocityBoost = death ? 6f * (1f - lifeRatio) : 4f * (1f - lifeRatio);
                 float acceleration = (expertMode ? 1.1f : 1.05f) + accelerationBoost;
                 float velocity = (expertMode ? 16f : 15f) + velocityBoost;
                 if (BossRushEvent.BossRushActive || nightTime)
@@ -504,7 +505,7 @@ namespace CalamityMod.NPCs.Providence
                 }
                 else if (increaseSpeed)
                 {
-                    velocity += (calamityGlobalNPC.newAI[0] - 150f) * 0.04f;
+                    velocity += (calamityGlobalNPC.newAI[0] - speedIncreaseTimer) * 0.04f;
                     if (velocity > 30f)
                         velocity = 30f;
                 }
@@ -771,7 +772,7 @@ namespace CalamityMod.NPCs.Providence
 					{
 						npc.ai[3] += 1f;
 
-						int shootBoost = death ? 3 : (int)(4f * (1f - lifeRatio));
+						int shootBoost = death ? (int)Math.Round(5f * (1f - lifeRatio)) : (int)Math.Round(4f * (1f - lifeRatio));
 						int num856 = (expertMode ? 24 : 26) - shootBoost;
 						if (enraged)
 							num856 = 20;
@@ -788,7 +789,7 @@ namespace CalamityMod.NPCs.Providence
 							float num858 = player.Center.Y - vector.Y;
 							float num859 = (float)Math.Sqrt(num857 * num857 + num858 * num858);
 
-							float velocityBoost = death ? 2.5f : 2.5f * (1f - lifeRatio);
+							float velocityBoost = death ? 4f * (1f - lifeRatio) : 2.5f * (1f - lifeRatio);
 							float num860 = (expertMode ? 10.25f : 9f) + velocityBoost;
 							if (enraged)
 								num860 = 12.75f;
@@ -825,7 +826,7 @@ namespace CalamityMod.NPCs.Providence
 					{
 						npc.ai[3] += 1f;
 
-						int shootBoost = death ? 4 : (int)(5f * (1f - lifeRatio));
+						int shootBoost = death ? (int)Math.Round(6f * (1f - lifeRatio)) : (int)Math.Round(5f * (1f - lifeRatio));
 						int num864 = (expertMode ? 36 : 39) - shootBoost;
 						if (BossRushEvent.BossRushActive)
 							num864 = 31;
@@ -1010,7 +1011,7 @@ namespace CalamityMod.NPCs.Providence
 					{
 						npc.ai[3] += 1f;
 
-						int shootBoost = death ? 3 : (int)(4f * (1f - lifeRatio));
+						int shootBoost = death ? (int)Math.Round(5f * (1f - lifeRatio)) : (int)Math.Round(4f * (1f - lifeRatio));
 						int num856 = (expertMode ? 24 : 26) - shootBoost;
 						if (BossRushEvent.BossRushActive)
 							num856 = 20;
@@ -1027,7 +1028,7 @@ namespace CalamityMod.NPCs.Providence
 							float num858 = player.Center.Y - vector.Y;
 							float num859 = (float)Math.Sqrt(num857 * num857 + num858 * num858);
 
-							float shootBoost2 = death ? 2.5f : 2.5f * (1f - lifeRatio);
+							float shootBoost2 = death ? 4f * (1f - lifeRatio) : 2.5f * (1f - lifeRatio);
 							float num860 = (expertMode ? 10.25f : 9f) + shootBoost2;
 							if (BossRushEvent.BossRushActive)
 								num860 = 12.75f;
@@ -1064,7 +1065,7 @@ namespace CalamityMod.NPCs.Providence
 					{
 						npc.ai[3] += 1f;
 
-						int shootBoost = death ? 9 : (int)(10f * (1f - lifeRatio));
+						int shootBoost = death ? (int)Math.Round(12f * (1f - lifeRatio)) : (int)Math.Round(10f * (1f - lifeRatio));
 						int num864 = (expertMode ? 73 : 77) - shootBoost;
 						if (enraged)
 							num864 = 63;
@@ -1134,13 +1135,16 @@ namespace CalamityMod.NPCs.Providence
 									Projectile.NewProjectile(fireFrom, vector2, projectileType, holySpearDamage, 0f, Main.myPlayer, 0f, 0f);
 								}
 
+								if (spearRateIncrease > 1f)
+									spearRateIncrease = 1f;
+
 								float radialOffset = MathHelper.Lerp(0.2f, 0.4f, spearRateIncrease);
 								calamityGlobalNPC.newAI[1] += radialOffset;
 							}
 
 							calamityGlobalNPC.newAI[2] += 1f;
 
-							cocoonProjVelocity = expertMode ? 12f : 10f;
+							cocoonProjVelocity = death ? 14f : revenge ? 13f : expertMode ? 12f : 10f;
 							Vector2 velocity2 = Vector2.Normalize(player.Center - fireFrom) * cocoonProjVelocity;
 							Projectile.NewProjectile(fireFrom, velocity2, projectileType, holySpearDamage, 0f, Main.myPlayer, 1f, 0f);
 						}

@@ -50,11 +50,14 @@ namespace CalamityMod.NPCs.DesertScourge
             npc.DeathSound = SoundID.NPCDeath1;
             npc.netAlways = true;
             npc.dontCountMe = true;
-            if (Main.expertMode)
-            {
-                npc.scale = 1.15f;
-            }
-        }
+
+			if (CalamityWorld.death || BossRushEvent.BossRushActive)
+				npc.scale = 1.25f;
+			else if (CalamityWorld.revenge)
+				npc.scale = 1.15f;
+			else if (Main.expertMode)
+				npc.scale = 1.1f;
+		}
 
         public override void SendExtraAI(BinaryWriter writer)
         {
@@ -106,7 +109,7 @@ namespace CalamityMod.NPCs.DesertScourge
                 {
                     npc.localAI[0] += 4f;
                 }
-                if (npc.localAI[0] >= (float)Main.rand.Next(1400, 26000))
+                if (npc.localAI[0] >= (float)Main.rand.Next(1400, 26001))
                 {
                     npc.localAI[0] = 0f;
                     if (Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height))

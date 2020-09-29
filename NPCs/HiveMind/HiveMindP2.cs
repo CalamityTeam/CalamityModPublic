@@ -335,7 +335,7 @@ namespace CalamityMod.NPCs.HiveMind
                     if (nextState == 0)
                     {
 						npc.TargetClosest(true);
-						if ((CalamityWorld.revenge && npc.life < npc.lifeMax * 0.66) || CalamityWorld.death || BossRushEvent.BossRushActive)
+						if (CalamityWorld.revenge && npc.life < npc.lifeMax * 0.66)
                         {
 							if (CalamityWorld.death || BossRushEvent.BossRushActive)
 							{
@@ -481,7 +481,7 @@ namespace CalamityMod.NPCs.HiveMind
                         npc.alpha = 255;
                         npc.velocity = Vector2.Zero;
                         dashStarted = false;
-                        if ((CalamityWorld.revenge && npc.life < npc.lifeMax * 0.66) || CalamityWorld.death || BossRushEvent.BossRushActive)
+                        if (CalamityWorld.revenge && npc.life < npc.lifeMax * 0.66)
                         {
 							state = nextState;
                             nextState = 0;

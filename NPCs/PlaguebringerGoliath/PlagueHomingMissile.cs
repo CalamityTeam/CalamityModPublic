@@ -75,7 +75,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                 Main.dust[num252].noGravity = true;
                 Main.dust[num252].position = npc.Center + new Vector2(0f, (float)(-(float)npc.height / 2 - 6)).RotatedBy((double)npc.rotation, default) * 1.1f;
             }
-            npc.rotation = npc.velocity.ToRotation() + 1.57079637f;
+            npc.rotation = npc.velocity.ToRotation() + MathHelper.PiOver2;
             if (npc.ai[2] < 90f)
             {
                 npc.ai[2] += 1f;

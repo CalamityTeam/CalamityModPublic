@@ -2163,59 +2163,6 @@ namespace CalamityMod.NPCs
                         // Complete stop
                         npc.velocity *= 0f;
 
-                        // Blood spurt
-                        if (phase5)
-                        {
-                            // Blood dust
-                            for (int num621 = 0; num621 < 6; num621++)
-                            {
-                                int num622 = Dust.NewDust(npc.position, npc.width, npc.height, 5, 0f, 0f, 100, default, 1f);
-                                Main.dust[num622].velocity *= 3f;
-                                if (Main.rand.NextBool(2))
-                                {
-                                    Main.dust[num622].scale = 0.25f;
-                                    Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
-                                }
-                            }
-                            for (int num623 = 0; num623 < 12; num623++)
-                            {
-                                int num624 = Dust.NewDust(npc.position, npc.width, npc.height, 5, 0f, 0f, 100, default, 1.5f);
-                                Main.dust[num624].noGravity = true;
-                                Main.dust[num624].velocity *= 5f;
-                                num624 = Dust.NewDust(npc.position, npc.width, npc.height, 5, 0f, 0f, 100, default, 1f);
-                                Main.dust[num624].velocity *= 2f;
-                            }
-
-                            // Projectile speed and spread
-                            float num179 = 8f;
-                            Vector2 value9 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
-                            float num180 = Main.player[npc.target].position.X + Main.player[npc.target].width * 0.5f - value9.X;
-                            float num181 = Math.Abs(num180) * 0.1f;
-                            float num182 = Main.player[npc.target].position.Y + Main.player[npc.target].height * 0.5f - value9.Y - num181;
-                            float num183 = (float)Math.Sqrt(num180 * num180 + num182 * num182);
-                            num183 = num179 / num183;
-                            num180 *= num183;
-                            num182 *= num183;
-                            value9.X += num180;
-                            value9.Y += num182;
-
-							// Fire 10 projectiles in an arc
-							int type = ModContent.ProjectileType<BloodGeyser>();
-							int damage = npc.GetProjectileDamage(type);
-							int maxProjs = death ? 5 + (int)(5 * (1f - lifeRatio)) : 5;
-							int randMax = death ? 120 + (int)(120 * (1f - lifeRatio)) : 120;
-							for (int num186 = 0; num186 < maxProjs; num186++)
-                            {
-                                num180 = Main.player[npc.target].position.X + Main.player[npc.target].width * 0.5f - value9.X;
-                                num182 = Main.player[npc.target].position.Y + Main.player[npc.target].height * 0.5f - value9.Y;
-                                num183 = (float)Math.Sqrt(num180 * num180 + num182 * num182);
-                                num183 = num179 / num183;
-                                num180 += Main.rand.Next(-randMax, randMax + 1);
-                                num180 *= num183;
-                                Projectile.NewProjectile(value9.X, value9.Y, num180, -5f, type, damage, 0f, Main.myPlayer, 0f, 0f);
-                            }
-                        }
-
                         bool charge = phase4 ? Main.rand.Next(4) > 0 : Main.rand.NextBool();
                         if (phase5)
                             charge = true;
@@ -7283,7 +7230,7 @@ namespace CalamityMod.NPCs
 					if (num457 > 150f)
 					{
 						float baseDistanceVelocityMult = 1f + MathHelper.Clamp((num457 - 150f) * 0.0015f, 0.05f, 1.5f);
-						num457 *= baseDistanceVelocityMult;
+						speed *= baseDistanceVelocityMult;
 					}
 
 					num457 = speed / num457;
@@ -12640,7 +12587,7 @@ namespace CalamityMod.NPCs
         #endregion
 
 		// Master Mode changes
-		// 1 - Moon Lord is at maximum aggression at all times, 2 - True eyes don't use deathrays anymore
+		// 1 - Moon Lord is at maximum aggression at all times
         #region Buffed Moon Lord AI
         public static bool BuffedMoonLordAI(NPC npc, bool enraged, Mod mod)
         {
@@ -13370,17 +13317,6 @@ namespace CalamityMod.NPCs
                         {
 							int projectileType = ProjectileID.PhantasmalDeathray;
 							int damage = npc.GetProjectileDamage(projectileType);
-							for (int i = 0; i < Main.maxProjectiles; i++)
-							{
-								if (Main.projectile[i].active)
-								{
-									if (Main.projectile[i].type == projectileType)
-									{
-										calamityGlobalNPC.newAI[1] *= 1.5f;
-										break;
-									}
-								}
-							}
 
                             npc.TargetClosest(false);
                             Vector2 vector200 = Main.player[npc.target].Center - npc.Center;
@@ -13391,7 +13327,7 @@ namespace CalamityMod.NPCs
                                 num1225 = 1f;
 
                             vector200 = vector200.RotatedBy(-(double)num1225 * MathHelper.TwoPi / 6f);
-                            Projectile.NewProjectile(npc.Center.X, npc.Center.Y, vector200.X, vector200.Y, projectileType, damage, 0f, Main.myPlayer, num1225 * MathHelper.TwoPi / calamityGlobalNPC.newAI[1], (float)npc.whoAmI);
+                            Projectile.NewProjectile(npc.Center.X, npc.Center.Y, vector200.X, vector200.Y, projectileType, damage, 0f, Main.myPlayer, num1225 * MathHelper.TwoPi / calamityGlobalNPC.newAI[1], npc.whoAmI);
                             npc.ai[2] = (vector200.ToRotation() + MathHelper.Pi + MathHelper.TwoPi) * num1225;
                             npc.netUpdate = true;
                         }
@@ -14328,7 +14264,7 @@ namespace CalamityMod.NPCs
 						Projectile.NewProjectile(npc.Center.X + vector214.X, npc.Center.Y + vector214.Y, vector215.X, vector215.Y, type, damage, 0f, Main.myPlayer, 0f, 0f);
 					}
 				}
-				else if (npc.ai[0] == 2f)
+				else if (npc.ai[0] == 2f || npc.ai[0] == 4f)
 				{
 					int type = ProjectileID.PhantasmalSphere;
 					int damage = npc.GetProjectileDamage(type);

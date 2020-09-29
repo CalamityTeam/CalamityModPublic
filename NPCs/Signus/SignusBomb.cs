@@ -1,4 +1,6 @@
 using CalamityMod.Dusts;
+using CalamityMod.Events;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -52,6 +54,8 @@ namespace CalamityMod.NPCs.Signus
 				return;
 			}
 
+			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+
 			Lighting.AddLight((int)((npc.position.X + (npc.width / 2)) / 16f), (int)((npc.position.Y + (npc.height / 2)) / 16f), 0.7f, 0.2f, 1.1f);
 
 			npc.rotation = npc.velocity.X * 0.04f;
@@ -100,7 +104,7 @@ namespace CalamityMod.NPCs.Signus
 				}
 			}
 
-			float num1372 = 14f;
+			float num1372 = death ? 16f : 14f;
             Vector2 vector167 = new Vector2(npc.Center.X + (npc.direction * 20), npc.Center.Y + 6f);
             float num1373 = player.position.X + player.width * 0.5f - vector167.X;
             float num1374 = player.Center.Y - vector167.Y;

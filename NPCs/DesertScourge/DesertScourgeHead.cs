@@ -64,10 +64,13 @@ namespace CalamityMod.NPCs.DesertScourge
                 music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/DesertScourge");
             else
                 music = MusicID.Boss1;
-            if (Main.expertMode)
-            {
-                npc.scale = 1.15f;
-            }
+
+			if (CalamityWorld.death || BossRushEvent.BossRushActive)
+				npc.scale = 1.25f;
+			else if (CalamityWorld.revenge)
+				npc.scale = 1.15f;
+			else if (Main.expertMode)
+                npc.scale = 1.1f;
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -105,8 +108,8 @@ namespace CalamityMod.NPCs.DesertScourge
 
 			if (expertMode)
 			{
-				speed += death ? 6f : 6f * (1f - lifeRatio);
-				turnSpeed += death ? 0.06f : 0.06f * (1f - lifeRatio);
+				speed += death ? 9f * (1f - lifeRatio) : 6f * (1f - lifeRatio);
+				turnSpeed += death ? 0.09f * (1f - lifeRatio) : 0.06f * (1f - lifeRatio);
 			}
 
 			if (lungeUpward)
@@ -146,7 +149,7 @@ namespace CalamityMod.NPCs.DesertScourge
                 if (!TailSpawned && npc.ai[0] == 0f)
                 {
                     int Previous = npc.whoAmI;
-					int minLength = expertMode ? 30 : 25;
+					int minLength = death ? 40 : revenge ? 35 : expertMode ? 30 : 25;
                     for (int num36 = 0; num36 < minLength + 1; num36++)
                     {
                         int lol;

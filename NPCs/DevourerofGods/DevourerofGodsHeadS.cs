@@ -39,18 +39,33 @@ namespace CalamityMod.NPCs.DevourerofGods
 			End = 2
 		}
 
+		private enum LaserWallType
+		{
+			Normal = 0,
+			Offset = 1,
+			MultiLayered = 2,
+			DiagonalHorizontal = 3,
+			DiagonalVertical = 4
+		}
+
 		private bool tail = false;
         private const int minLength = 100;
         private const int maxLength = 101;
         private bool halfLife = false;
-        private int[] shotSpacing = new int[4] { 1050, 1050, 1050, 1050 };
+
+		private const int shotSpacingMax = 1050;
+		private int[] shotSpacing = new int[4] { shotSpacingMax, shotSpacingMax, shotSpacingMax, shotSpacingMax };
         private const int spacingVar = 105;
+		private const int diagonalSpacingVar = 350;
         private const int totalShots = 20;
+		private const int totalDiagonalShots = 6;
+		private const float laserWallSpacingOffset = 16f;
+		private int laserWallType = 0;
+		public int laserWallPhase = 0;
+
 		private const int idleCounterMax = 360;
         private int idleCounter = idleCounterMax;
-        public int laserWallPhase = 0;
 		private int postTeleportTimer = 0;
-		private int laserWallType = 0;
 
         public override void SetStaticDefaults()
         {
@@ -221,7 +236,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 				// Set alpha after teleport
 				if (postTeleportTimer > 0)
 				{
-					postTeleportTimer -= 4;
+					postTeleportTimer -= 2;
 					if (postTeleportTimer < 0)
 						postTeleportTimer = 0;
 
@@ -335,9 +350,13 @@ namespace CalamityMod.NPCs.DevourerofGods
 						float targetPosY = player.position.Y;
 						int type = ModContent.ProjectileType<DoGDeath>();
 						int damage = npc.GetProjectileDamage(type);
+						Vector2 start = default;
+						Vector2 velocity = default;
+						Vector2 aim = expertMode ? player.Center + player.velocity * 20f : Vector2.Zero;
+
 						switch (laserWallType)
 						{
-							case 0:
+							case (int)LaserWallType.Normal:
 
 								for (int x = 0; x < totalShots; x++)
 								{
@@ -345,10 +364,11 @@ namespace CalamityMod.NPCs.DevourerofGods
 									Projectile.NewProjectile(player.position.X - spawnOffset, targetPosY + shotSpacing[0], speed, 0f, type, damage, 0f, Main.myPlayer, 0f, 0f);
 									shotSpacing[0] -= spacingVar;
 								}
-								laserWallType = 1;
+
+								laserWallType = (int)LaserWallType.Offset;
 								break;
 
-							case 1:
+							case (int)LaserWallType.Offset:
 
 								targetPosY += 50f;
 								for (int x = 0; x < totalShots; x++)
@@ -357,10 +377,11 @@ namespace CalamityMod.NPCs.DevourerofGods
 									Projectile.NewProjectile(player.position.X - spawnOffset, targetPosY + shotSpacing[0], speed, 0f, type, damage, 0f, Main.myPlayer, 0f, 0f);
 									shotSpacing[0] -= spacingVar;
 								}
-								laserWallType = revenge ? 2 : 0;
+
+								laserWallType = revenge ? (int)LaserWallType.MultiLayered : expertMode ? (int)LaserWallType.DiagonalHorizontal : (int)LaserWallType.Normal;
 								break;
 
-							case 2:
+							case (int)LaserWallType.MultiLayered:
 
 								for (int x = 0; x < totalShots; x++)
 								{
@@ -368,17 +389,56 @@ namespace CalamityMod.NPCs.DevourerofGods
 									Projectile.NewProjectile(player.position.X - spawnOffset, targetPosY + shotSpacing[0], speed, 0f, type, damage, 0f, Main.myPlayer, 0f, 0f);
 									shotSpacing[0] -= spacingVar;
 								}
-								for (int x = 0; x < 10; x++)
+
+								int totalBonusLasers = totalShots / 2;
+								for (int x = 0; x < totalBonusLasers; x++)
 								{
 									Projectile.NewProjectile(player.position.X + spawnOffset, targetPosY + shotSpacing[3], -speed, 0f, type, damage, 0f, Main.myPlayer, 0f, 0f);
 									Projectile.NewProjectile(player.position.X - spawnOffset, targetPosY + shotSpacing[3], speed, 0f, type, damage, 0f, Main.myPlayer, 0f, 0f);
 									shotSpacing[3] -= Main.rand.NextBool(2) ? 180 : 200;
 								}
-								shotSpacing[3] = 1050;
-								laserWallType = 0;
+
+								laserWallType = (int)LaserWallType.DiagonalHorizontal;
+								break;
+
+							case (int)LaserWallType.DiagonalHorizontal:
+
+								for (int x = 0; x < totalDiagonalShots + 1; x++)
+								{
+									start = new Vector2(player.position.X + spawnOffset, targetPosY + shotSpacing[0]);
+									aim.Y += laserWallSpacingOffset * (x - 3);
+									velocity = Vector2.Normalize(aim - start) * speed;
+									Projectile.NewProjectile(start, velocity, type, damage, 0f, Main.myPlayer, 0f, 0f);
+
+									start = new Vector2(player.position.X - spawnOffset, targetPosY + shotSpacing[0]);
+									velocity = Vector2.Normalize(aim - start) * speed;
+									Projectile.NewProjectile(start, velocity, type, damage, 0f, Main.myPlayer, 0f, 0f);
+
+									shotSpacing[0] -= diagonalSpacingVar;
+								}
+
+								laserWallType = revenge ? (int)LaserWallType.DiagonalVertical : (int)LaserWallType.Normal;
+								break;
+
+							case (int)LaserWallType.DiagonalVertical:
+
+								for (int x = 0; x < totalDiagonalShots + 1; x++)
+								{
+									start = new Vector2(player.position.X + shotSpacing[0], targetPosY + spawnOffset);
+									aim.X += laserWallSpacingOffset * (x - 3);
+									velocity = Vector2.Normalize(aim - start) * speed;
+									Projectile.NewProjectile(start, velocity, type, damage, 0f, Main.myPlayer, 0f, 0f);
+
+									start = new Vector2(player.position.X + shotSpacing[0], targetPosY - spawnOffset);
+									velocity = Vector2.Normalize(aim - start) * speed;
+									Projectile.NewProjectile(start, velocity, type, damage, 0f, Main.myPlayer, 0f, 0f);
+
+									shotSpacing[0] -= diagonalSpacingVar;
+								}
+
+								laserWallType = (int)LaserWallType.Normal;
 								break;
 						}
-						shotSpacing[0] = 1050;
 
 						// Lower wall
 						for (int x = 0; x < totalShots; x++)
@@ -386,7 +446,6 @@ namespace CalamityMod.NPCs.DevourerofGods
 							Projectile.NewProjectile(player.position.X + shotSpacing[1], player.position.Y + spawnOffset, 0f, -speed, type, damage, 0f, Main.myPlayer, 0f, 0f);
 							shotSpacing[1] -= spacingVar;
 						}
-						shotSpacing[1] = 1050;
 
 						// Upper wall
 						for (int x = 0; x < totalShots; x++)
@@ -394,7 +453,9 @@ namespace CalamityMod.NPCs.DevourerofGods
 							Projectile.NewProjectile(player.position.X + shotSpacing[2], player.position.Y - spawnOffset, 0f, speed, type, damage, 0f, Main.myPlayer, 0f, 0f);
 							shotSpacing[2] -= spacingVar;
 						}
-						shotSpacing[2] = 1050;
+
+						for (int i = 0; i < shotSpacing.Length; i++)
+							shotSpacing[i] = shotSpacingMax;
 					}
 
 					calamityGlobalNPC.newAI[1] += 1f;
@@ -450,8 +511,10 @@ namespace CalamityMod.NPCs.DevourerofGods
             else if (npc.velocity.X > 0f)
                 npc.spriteDirection = 1;
 
-            // Flight
-            if (npc.ai[2] == 0f)
+			int phaseLimit = death ? 600 : 900;
+
+			// Flight
+			if (npc.ai[2] == 0f)
             {
                 if (Main.netMode != NetmodeID.Server)
                 {
@@ -463,7 +526,6 @@ namespace CalamityMod.NPCs.DevourerofGods
 
                 npc.localAI[1] = 0f;
 
-				int phaseLimit = death ? 600 : 900;
 				float speed = death ? 16.5f : 15f;
                 float turnSpeed = death ? 0.33f : 0.3f;
                 float homingSpeed = death ? 30f : 24f;
@@ -471,7 +533,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 
 				if (expertMode)
 				{
-					phaseLimit /= (1 + (int)(5f * (1f - lifeRatio)));
+					phaseLimit /= 1 + (int)(5f * (1f - lifeRatio));
 
 					if (phaseLimit < 180)
 						phaseLimit = 180;
@@ -493,9 +555,9 @@ namespace CalamityMod.NPCs.DevourerofGods
 
 				float num188 = speed;
                 float num189 = turnSpeed;
-                Vector2 vector18 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
-                float num191 = player.position.X + (player.width / 2);
-                float num192 = player.position.Y + (player.height / 2);
+                Vector2 vector18 = npc.Center;
+                float num191 = player.Center.X;
+                float num192 = player.Center.Y;
                 int num42 = -1;
                 int num43 = (int)(player.Center.X / 16f);
                 int num44 = (int)(player.Center.Y / 16f);
@@ -728,7 +790,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                     bool flag95 = true;
                     if (npc.position.Y > player.position.Y)
                     {
-                        for (int num955 = 0; num955 < 255; num955++)
+                        for (int num955 = 0; num955 < Main.maxPlayers; num955++)
                         {
                             if (Main.player[num955].active)
                             {
@@ -748,9 +810,9 @@ namespace CalamityMod.NPCs.DevourerofGods
                     npc.localAI[1] = 0f;
 
                 float num189 = turnSpeed;
-                Vector2 vector18 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
-                float num191 = player.position.X + (player.width / 2);
-                float num192 = player.position.Y + (player.height / 2);
+                Vector2 vector18 = npc.Center;
+                float num191 = player.Center.X;
+                float num192 = player.Center.Y;
                 num191 = (int)(num191 / 16f) * 16;
                 num192 = (int)(num192 / 16f) * 16;
                 vector18.X = (int)(vector18.X / 16f) * 16;
@@ -886,7 +948,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                     }
                 }
 
-                npc.rotation = (float)Math.Atan2(npc.velocity.Y, npc.velocity.X) + 1.57f;
+				npc.rotation = (float)Math.Atan2(npc.velocity.Y, npc.velocity.X) + MathHelper.PiOver2;
 
                 if (flies)
                 {
@@ -906,7 +968,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                 if (((npc.velocity.X > 0f && npc.oldVelocity.X < 0f) || (npc.velocity.X < 0f && npc.oldVelocity.X > 0f) || (npc.velocity.Y > 0f && npc.oldVelocity.Y < 0f) || (npc.velocity.Y < 0f && npc.oldVelocity.Y > 0f)) && !npc.justHit)
                     npc.netUpdate = true;
 
-                if (calamityGlobalNPC.newAI[2] > (death ? 600f : 900f))
+                if (calamityGlobalNPC.newAI[2] > phaseLimit)
                 {
                     npc.ai[2] = 0f;
 					calamityGlobalNPC.newAI[2] = 0f;

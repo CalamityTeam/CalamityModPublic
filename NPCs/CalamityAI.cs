@@ -78,69 +78,72 @@ namespace CalamityMod.NPCs
 			bool doSpiral = false;
 			if (head && calamityGlobalNPC.newAI[0] == 1f && calamityGlobalNPC.newAI[2] == 1f && revenge)
 			{
-				float ai3 = 660f;
-				calamityGlobalNPC.newAI[3] += 1f;
-				doSpiral = calamityGlobalNPC.newAI[1] == 0f && calamityGlobalNPC.newAI[3] >= ai3;
-				if (doSpiral)
+				if (Vector2.Distance(npc.Center, player.Center) > 320f || calamityGlobalNPC.newAI[3] > 0f)
 				{
-					// Barf
-					if (calamityGlobalNPC.newAI[3] % 40f == 0f)
+					float ai3 = 660f;
+					calamityGlobalNPC.newAI[3] += 1f;
+					doSpiral = calamityGlobalNPC.newAI[1] == 0f && calamityGlobalNPC.newAI[3] >= ai3;
+					if (doSpiral)
 					{
-						Main.PlaySound(4, (int)npc.position.X, (int)npc.position.Y, 13);
-
-						if (Main.netMode != NetmodeID.MultiplayerClient)
+						// Barf
+						if (calamityGlobalNPC.newAI[3] % 40f == 0f)
 						{
-							float num742 = BossRushEvent.BossRushActive ? 16f : death ? 10f : 8f;
-							float num743 = player.Center.X - vectorCenter.X;
-							float num744 = player.Center.Y - vectorCenter.Y;
-							float num745 = (float)Math.Sqrt(num743 * num743 + num744 * num744);
+							Main.PlaySound(4, (int)npc.position.X, (int)npc.position.Y, 13);
 
-							num745 = num742 / num745;
-							num743 *= num745;
-							num744 *= num745;
-
-							int type = ModContent.ProjectileType<SandBlast>();
-							int damage = npc.GetProjectileDamage(type);
-							int numProj = death ? 5 : 3;
-							int spread = death ? 60 : 36;
-							float rotation = MathHelper.ToRadians(spread);
-							float baseSpeed = (float)Math.Sqrt(num743 * num743 + num744 * num744);
-							double startAngle = Math.Atan2(num743, num744) - rotation / 2;
-							double deltaAngle = rotation / numProj;
-							double offsetAngle;
-
-							for (int i = 0; i < numProj; i++)
+							if (Main.netMode != NetmodeID.MultiplayerClient)
 							{
-								offsetAngle = startAngle + deltaAngle * i;
-								int proj = Projectile.NewProjectile(vectorCenter.X, vectorCenter.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), type, damage, 0f, Main.myPlayer, 0f, 0f);
-								Main.projectile[proj].tileCollide = false;
+								float num742 = BossRushEvent.BossRushActive ? 16f : death ? 10f : 8f;
+								float num743 = player.Center.X - vectorCenter.X;
+								float num744 = player.Center.Y - vectorCenter.Y;
+								float num745 = (float)Math.Sqrt(num743 * num743 + num744 * num744);
+
+								num745 = num742 / num745;
+								num743 *= num745;
+								num744 *= num745;
+
+								int type = ModContent.ProjectileType<SandBlast>();
+								int damage = npc.GetProjectileDamage(type);
+								int numProj = death ? 5 : 3;
+								int spread = death ? 60 : 36;
+								float rotation = MathHelper.ToRadians(spread);
+								float baseSpeed = (float)Math.Sqrt(num743 * num743 + num744 * num744);
+								double startAngle = Math.Atan2(num743, num744) - rotation / 2;
+								double deltaAngle = rotation / numProj;
+								double offsetAngle;
+
+								for (int i = 0; i < numProj; i++)
+								{
+									offsetAngle = startAngle + deltaAngle * i;
+									int proj = Projectile.NewProjectile(vectorCenter.X, vectorCenter.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), type, damage, 0f, Main.myPlayer, 0f, 0f);
+									Main.projectile[proj].tileCollide = false;
+								}
 							}
 						}
-					}
 
-					// Velocity boost
-					if (calamityGlobalNPC.newAI[3] == ai3)
-					{
-						npc.velocity.Normalize();
-						npc.velocity *= 24f;
-					}
+						// Velocity boost
+						if (calamityGlobalNPC.newAI[3] == ai3)
+						{
+							npc.velocity.Normalize();
+							npc.velocity *= 24f;
+						}
 
-					 // Spin velocity
-					float velocity = (float)(Math.PI * 2D) / 120f;
-					npc.velocity = npc.velocity.RotatedBy(-(double)velocity * npc.localAI[1]);
-					npc.rotation = (float)Math.Atan2(npc.velocity.Y, npc.velocity.X) + MathHelper.PiOver2;
+						// Spin velocity
+						float velocity = (float)(Math.PI * 2D) / 120f;
+						npc.velocity = npc.velocity.RotatedBy(-(double)velocity * npc.localAI[1]);
+						npc.rotation = (float)Math.Atan2(npc.velocity.Y, npc.velocity.X) + MathHelper.PiOver2;
 
-					// Reset and charge at target
-					if (calamityGlobalNPC.newAI[3] >= ai3 + 120f)
-					{
-						npc.TargetClosest(true);
-						calamityGlobalNPC.newAI[3] = 0f;
-						float chargeVelocity = BossRushEvent.BossRushActive ? 24f : death ? 16f : 12f;
-						npc.velocity = Vector2.Normalize(player.Center - npc.Center) * chargeVelocity;
+						// Reset and charge at target
+						if (calamityGlobalNPC.newAI[3] >= ai3 + 120f)
+						{
+							npc.TargetClosest(true);
+							calamityGlobalNPC.newAI[3] = 0f;
+							float chargeVelocity = BossRushEvent.BossRushActive ? 24f : death ? 16f : 12f;
+							npc.velocity = Vector2.Normalize(player.Center - npc.Center) * chargeVelocity;
+						}
 					}
+					else
+						npc.localAI[1] = npc.Center.X - player.Center.X < 0 ? 1f : -1f;
 				}
-				else
-					npc.localAI[1] = npc.Center.X - player.Center.X < 0 ? 1f : -1f;
 			}
 
 			if (Main.netMode != NetmodeID.MultiplayerClient)
@@ -184,7 +187,7 @@ namespace CalamityMod.NPCs
 
 						if (npc.localAI[0] >= (BossRushEvent.BossRushActive ? 300f : (revenge ? 360f : 420f)))
 						{
-							if (Vector2.Distance(player.Center, npc.Center) > 300f)
+							if (Vector2.Distance(player.Center, npc.Center) > 320f)
 							{
 								npc.localAI[0] = 0f;
 								npc.netUpdate = true;
@@ -405,8 +408,8 @@ namespace CalamityMod.NPCs
 					}
 					if (death)
 					{
-						num188 += Vector2.Distance(player.Center, npc.Center) * 0.005f * (1f - lifeRatio);
-						num189 += Vector2.Distance(player.Center, npc.Center) * 0.0001f * (1f - lifeRatio);
+						num188 += Vector2.Distance(player.Center, npc.Center) * 0.004f * (1f - lifeRatio);
+						num189 += Vector2.Distance(player.Center, npc.Center) * 0.00004f * (1f - lifeRatio);
 					}
 				}
 
@@ -3158,7 +3161,7 @@ namespace CalamityMod.NPCs
 					npc.localAI[1] = 0f;
 
 				// Despawn
-				float fallSpeed = 16f;
+				float fallSpeed = death ? 17.5f : 16f;
 				if (player.dead || Main.dayTime)
 				{
 					flag2 = false;
@@ -3180,14 +3183,14 @@ namespace CalamityMod.NPCs
 					}
 				}
 
-				float fallSpeedBoost = death ? 6.5f * (1f - lifeRatio) : 5f * (1f - lifeRatio);
+				float fallSpeedBoost = 5f * (1f - lifeRatio);
 				fallSpeed += fallSpeedBoost;
 
 				// Speed and movement
-				float speedBoost = death ? ((targetFloatingUp ? 0.32f : 0.16f) * (1f - lifeRatio)) : ((targetFloatingUp ? 0.26f : 0.13f) * (1f - lifeRatio));
-				float turnSpeedBoost = death ? ((targetFloatingUp ? 0.5f : 0.25f) * (1f - lifeRatio)) : ((targetFloatingUp ? 0.4f : 0.2f) * (1f - lifeRatio));
-				float speed = 0.13f + speedBoost;
-				float turnSpeed = 0.2f + turnSpeedBoost;
+				float speedBoost = death ? ((targetFloatingUp ? 0.2f : 0.1f) * (1f - lifeRatio)) : ((targetFloatingUp ? 0.26f : 0.13f) * (1f - lifeRatio));
+				float turnSpeedBoost = death ? ((targetFloatingUp ? 0.36f : 0.18f) * (1f - lifeRatio)) : ((targetFloatingUp ? 0.4f : 0.2f) * (1f - lifeRatio));
+				float speed = (death ? 0.18f : 0.13f) + speedBoost;
+				float turnSpeed = (death ? 0.25f : 0.2f) + turnSpeedBoost;
 
 				if (flyAtTarget)
 				{

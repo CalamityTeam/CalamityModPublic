@@ -7056,7 +7056,7 @@ namespace CalamityMod.CalPlayer
                 npc.AddBuff(BuffID.Poisoned, 120);
             if (CalamityWorld.revenge)
             {
-                if (npc.type == NPCID.ShadowFlameApparition || (npc.type == NPCID.ChaosBall && Main.hardMode))
+                if (npc.type == NPCID.ShadowFlameApparition || (npc.type == NPCID.ChaosBall && (Main.hardMode || areThereAnyDamnBosses)))
                 {
                     player.AddBuff(ModContent.BuffType<Shadowflame>(), 180);
                 }

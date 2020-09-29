@@ -19,23 +19,24 @@ namespace CalamityMod.Projectiles.Boss
             projectile.height = 12;
             projectile.hostile = true;
             projectile.tileCollide = false;
-            projectile.timeLeft = 300;
+            projectile.timeLeft = 420;
             projectile.penetrate = 1;
-            projectile.aiStyle = 1;
-            aiType = ProjectileID.WoodenArrowFriendly;
         }
 
         public override void AI()
         {
-            if (projectile.timeLeft < 180)
+            if (projectile.timeLeft < 300)
                 projectile.tileCollide = true;
 
-            projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + 1.57f;
+            projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + MathHelper.PiOver2;
 
             int num469 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, DustID.Blood, 0f, 0f, 100, default, 0.5f);
             Main.dust[num469].noGravity = true;
             Main.dust[num469].velocity *= 0f;
-        }
+
+			projectile.velocity.Y += 0.06f;
+			projectile.velocity.X *= 0.995f;
+		}
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {

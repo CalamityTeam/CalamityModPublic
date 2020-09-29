@@ -221,7 +221,7 @@ namespace CalamityMod.NPCs.Crabulon
             {
                 npc.velocity *= 0.98f;
                 npc.ai[1] += 1f;
-                if (npc.ai[1] >= (revenge ? 30f : 60f))
+                if (npc.ai[1] >= (death ? 5f : revenge ? 30f : 60f))
                 {
 					npc.TargetClosest(true);
 					npc.noGravity = true;
@@ -239,6 +239,8 @@ namespace CalamityMod.NPCs.Crabulon
                     num823 = 1.5f;
                 if (phase3)
                     num823 = 2f;
+				if (death)
+					num823 += 2f * (1f - lifeRatio);
                 if (BossRushEvent.BossRushActive)
                     num823 = 12f;
                 if (npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))
@@ -313,7 +315,7 @@ namespace CalamityMod.NPCs.Crabulon
                     }
                 }
                 npc.ai[1] += 1f;
-                if (npc.ai[1] >= 360f)
+                if (npc.ai[1] >= (360f - (death ? 120f * (1f - lifeRatio) : 0f)))
                 {
 					npc.TargetClosest(true);
 					npc.noGravity = false;
@@ -499,13 +501,14 @@ namespace CalamityMod.NPCs.Crabulon
 					if (npc.position.X < player.position.X && npc.position.X + npc.width > player.position.X + player.width)
                     {
                         npc.velocity.X *= 0.9f;
-                        npc.velocity.Y += BossRushEvent.BossRushActive ? 0.3f : 0.15f;
+                        npc.velocity.Y += BossRushEvent.BossRushActive ? 0.3f : death ? 0.18f : 0.15f;
                     }
                     else
                     {
 						float velocityX = 0.11f +
 							(expertMode ? 0.02f : 0f) +
-							(revenge ? 0.02f : 0f);
+							(revenge ? 0.02f : 0f) +
+							(death ? 0.02f : 0f);
 
                         if (npc.direction < 0)
                             npc.velocity.X -= velocityX;
@@ -553,13 +556,13 @@ namespace CalamityMod.NPCs.Crabulon
                     if ((npc.life + num660) < npc.localAI[0])
                     {
                         npc.localAI[0] = npc.life;
-                        int num661 = expertMode ? Main.rand.Next(2, 4) : Main.rand.Next(1, 3);
+                        int num661 = death ? 3 : expertMode ? Main.rand.Next(2, 4) : Main.rand.Next(1, 3);
                         for (int num662 = 0; num662 < num661; num662++)
                         {
                             int x = (int)(npc.position.X + Main.rand.Next(npc.width - 32));
                             int y = (int)(npc.position.Y + Main.rand.Next(npc.height - 32));
                             int num663 = ModContent.NPCType<CrabShroom>();
-                            int num664 = NPC.NewNPC(x, y, num663, 0, 0f, 0f, 0f, 0f, 255);
+                            int num664 = NPC.NewNPC(x, y, num663);
                             Main.npc[num664].SetDefaults(num663, -1f);
                             Main.npc[num664].velocity.X = Main.rand.Next(-50, 51) * 0.1f;
                             Main.npc[num664].velocity.Y = Main.rand.Next(-50, -31) * 0.1f;

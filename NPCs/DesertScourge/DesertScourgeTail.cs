@@ -1,4 +1,5 @@
 using CalamityMod.Events;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System.IO;
 using Terraria;
@@ -47,11 +48,14 @@ namespace CalamityMod.NPCs.DesertScourge
             npc.DeathSound = SoundID.NPCDeath1;
             npc.netAlways = true;
             npc.dontCountMe = true;
-            if (Main.expertMode)
-            {
-                npc.scale = 1.15f;
-            }
-        }
+
+			if (CalamityWorld.death || BossRushEvent.BossRushActive)
+				npc.scale = 1.25f;
+			else if (CalamityWorld.revenge)
+				npc.scale = 1.15f;
+			else if (Main.expertMode)
+				npc.scale = 1.1f;
+		}
 
         public override void SendExtraAI(BinaryWriter writer)
         {

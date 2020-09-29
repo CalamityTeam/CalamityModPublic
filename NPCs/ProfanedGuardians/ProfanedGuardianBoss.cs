@@ -191,7 +191,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             float num1000 = (lifeRatio < 0.75f || death) ? 14f : 16f;
             if (revenge)
             {
-                num1000 *= 1.15f;
+                num1000 *= 0.9f;
             }
             float num1006 = 0.111111117f * num1000;
             int num1009 = (npc.ai[0] == 2f) ? 2 : 1;
@@ -208,9 +208,9 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             }
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
-				float shootBoost = 2f * (1f - lifeRatio);
+				float shootBoost = death ? 3f * (1f - lifeRatio) : 2f * (1f - lifeRatio);
                 npc.localAI[0] += 1f + shootBoost;
-                if (npc.localAI[0] >= (BossRushEvent.BossRushActive ? 210f : 240f))
+                if (npc.localAI[0] >= (BossRushEvent.BossRushActive ? 210f : 240f) && Vector2.Distance(vectorCenter, player.Center) > 160f)
                 {
                     npc.localAI[0] = 0f;
 
@@ -316,10 +316,8 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 						int type = ModContent.ProjectileType<FlareDust>();
 						int damage = npc.GetProjectileDamage(type);
 						Vector2 vector173 = Vector2.Normalize(player.Center - vectorCenter) * (npc.width + 20) / 2f + vectorCenter;
-						int projectile = Projectile.NewProjectile((int)vector173.X, (int)vector173.Y, npc.direction * 2, 4f, type, damage, 0f, Main.myPlayer, 2f, 0f);
+						int projectile = Projectile.NewProjectile(vector173, Vector2.Zero, type, damage, 0f, Main.myPlayer, 2f, 0f);
                         Main.projectile[projectile].timeLeft = 120;
-                        Main.projectile[projectile].velocity.X = 0f;
-                        Main.projectile[projectile].velocity.Y = 0f;
                         dustTimer = 3;
                     }
                 }

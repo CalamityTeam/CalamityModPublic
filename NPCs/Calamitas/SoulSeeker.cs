@@ -36,7 +36,7 @@ namespace CalamityMod.NPCs.Calamitas
             npc.damage = 40;
             npc.defense = 10;
 			npc.DR_NERD(0.1f);
-            npc.lifeMax = 2500;
+            npc.lifeMax = CalamityWorld.death ? 1500 : 2500;
             if (BossRushEvent.BossRushActive)
             {
                 npc.lifeMax = 150000;

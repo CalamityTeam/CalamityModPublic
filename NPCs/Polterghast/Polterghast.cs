@@ -45,7 +45,7 @@ namespace CalamityMod.NPCs.Polterghast
 			npc.width = 90;
             npc.height = 120;
             npc.defense = 90;
-			npc.DR_NERD(0.3f, null, null, null, true);
+			npc.DR_NERD(0.2f, null, null, null, true);
 			CalamityGlobalNPC global = npc.Calamity();
             global.multDRReductions.Add(BuffID.CursedInferno, 0.9f);
             npc.LifeMaxNERB(412500, 495000, 3250000);
@@ -270,36 +270,19 @@ namespace CalamityMod.NPCs.Polterghast
 				acceleration += revenge ? 0.035f : 0.025f;
 			}
 
-			// Move faster if inside active tiles
-			int radius = 2; // 2 tile radius
-			int diameter = radius * 2;
-			int npcCenterX = (int)(vector.X / 16f);
-			int npcCenterY = (int)(vector.Y / 16f);
-			Rectangle area = new Rectangle(npcCenterX - radius, npcCenterY - radius, diameter, diameter);
-			bool insideTiles = false;
-			for (int x = area.Left; x < area.Right; x++)
-			{
-				for (int y = area.Top; y < area.Bottom; y++)
-				{
-					if (Main.tile[x, y] != null)
-					{
-						if (Main.tile[x, y].nactive() && Main.tileSolid[Main.tile[x, y].type] && !Main.tileSolidTop[Main.tile[x, y].type] && !TileID.Sets.Platforms[Main.tile[x, y].type])
-							insideTiles = true;
-					}
-				}
-			}
-
 			// Slow down if close to target and not inside tiles
-			if (!speedUp && !insideTiles && !charging && !chargePhase)
+			if (!speedUp && !Collision.SolidCollision(npc.position, npc.width, npc.height) && Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height) && !charging && !chargePhase)
 			{
 				velocity = 8f;
 				acceleration = 0.035f;
 			}
 
 			// Detect active tiles around Polterghast
-			radius = 20; // 20 tile radius
-			diameter = radius * 2;
-			area = new Rectangle(npcCenterX - radius, npcCenterY - radius, diameter, diameter);
+			int radius = 20; // 20 tile radius
+			int diameter = radius * 2;
+			int npcCenterX = (int)(vector.X / 16f);
+			int npcCenterY = (int)(vector.Y / 16f);
+			Rectangle area = new Rectangle(npcCenterX - radius, npcCenterY - radius, diameter, diameter);
 			int nearbyActiveTiles = 0; // 0 to 1600
 			for (int x = area.Left; x < area.Right; x++)
 			{
@@ -370,19 +353,25 @@ namespace CalamityMod.NPCs.Polterghast
 				}
 
 				float num738 = (float)Math.Sqrt(num736 * num736 + num737 * num737);
-				int num739 = 500;
+				float maxDistanceFromHooks = expertMode ? 650f : 500f;
 				if (speedBoost)
-					num739 += 250;
-				if (expertMode)
-					num739 += 150;
+					maxDistanceFromHooks += 250f;
+				if (death)
+					maxDistanceFromHooks += maxDistanceFromHooks * 0.1f * (1f - lifeRatio);
 
 				// Increase speed based on nearby active tiles
 				velocity *= tileEnrageMult;
 				acceleration *= tileEnrageMult;
 
-				if (num738 >= num739)
+				if (death)
 				{
-					num738 = num739 / num738;
+					velocity += velocity * 0.15f * (1f - lifeRatio);
+					acceleration += acceleration * 0.15f * (1f - lifeRatio);
+				}
+
+				if (num738 >= maxDistanceFromHooks)
+				{
+					num738 = maxDistanceFromHooks / num738;
 					num736 *= num738;
 					num737 *= num738;
 				}
@@ -431,7 +420,7 @@ namespace CalamityMod.NPCs.Polterghast
 				}
 
 				// Slow down considerably if near player
-				if (!speedUp && nearbyActiveTiles > 800 && !insideTiles && !charging)
+				if (!speedUp && nearbyActiveTiles > 800 && !Collision.SolidCollision(npc.position, npc.width, npc.height) && Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height) && !charging)
 				{
 					if (npc.velocity.Length() > velocity)
 						npc.velocity *= 0.97f;

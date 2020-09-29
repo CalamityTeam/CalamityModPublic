@@ -275,6 +275,7 @@ namespace CalamityMod
 					99, // 128 while spinning
 					132 } }, // 171 while spinning
 				{ NPCID.SkeletronHand, new int[] { 20, 44, 55, 66, 99 } },
+				{ NPCID.ChaosBall, new int[] { 0, 0, 0, 40, 60 } },
 
 				{ ModContent.NPCType<SlimeGodCore>(), new int[] { 40, 80, 96, 104, 135 } },
 				{ ModContent.NPCType<SlimeGod>(), new int[] { 45, 90, 108, 118, 150 } },
@@ -482,8 +483,6 @@ namespace CalamityMod
 
 				{ new Tuple<int, int>(NPCID.EaterofWorldsHead, ProjectileID.CursedFlameHostile), new int[] { 0, 0, 60, 68, 90 } },
 
-				{ new Tuple<int, int>(NPCID.BrainofCthulhu, ModContent.ProjectileType<BloodGeyser>()), new int[] { 0, 0, 60, 68, 90 } },
-
 				{ new Tuple<int, int>(ModContent.NPCType<HiveMindP2>(), ModContent.ProjectileType<ShadeNimbusHostile>()), new int[] { 36, 56, 68, 76, 102 } },
 				{ new Tuple<int, int>(ModContent.NPCType<DankCreeper>(), ModContent.ProjectileType<ShadeNimbusHostile>()), new int[] { 0, 56, 68, 76, 102 } },
 				{ new Tuple<int, int>(ModContent.NPCType<DarkHeart>(), ModContent.ProjectileType<ShaderainHostile>()), new int[] { 36, 56, 68, 76, 102 } },
@@ -492,9 +491,6 @@ namespace CalamityMod
 
 				{ new Tuple<int, int>(ModContent.NPCType<PerforatorHive>(), ModContent.ProjectileType<BloodGeyser>()), new int[] { 36, 56, 68, 76, 102 } },
 				{ new Tuple<int, int>(ModContent.NPCType<PerforatorHive>(), ModContent.ProjectileType<IchorShot>()), new int[] { 36, 56, 68, 76, 102 } },
-				{ new Tuple<int, int>(ModContent.NPCType<PerforatorBodySmall>(), ModContent.ProjectileType<BloodClot>()), new int[] { 30, 48, 60, 68, 90 } },
-				{ new Tuple<int, int>(ModContent.NPCType<PerforatorBodyMedium>(), ModContent.ProjectileType<BloodClot>()), new int[] { 30, 48, 60, 68, 90 } },
-				{ new Tuple<int, int>(ModContent.NPCType<PerforatorBodyLarge>(), ModContent.ProjectileType<BloodClot>()), new int[] { 30, 48, 60, 68, 90 } },
 
 				{ new Tuple<int, int>(NPCID.QueenBee, ProjectileID.Stinger), new int[] { 22, 44, 64, 72, 96 } }, // 66 damage in non-rev master mode
 
@@ -567,6 +563,12 @@ namespace CalamityMod
 				{ new Tuple<int, int>(NPCID.PrimeLaser, ProjectileID.DeathLaser), new int[] { 50, 100, 124, 136, 186 } }, // 150 in non-rev master mode
 
 				{ new Tuple<int, int>(ModContent.NPCType<Calamitas>(), ModContent.ProjectileType<BrimstoneLaser>()), new int[] {
+					70, // 52 in rapid fire
+					112, // 84 in rapid fire
+					128, // 96 in rapid fire
+					140, // 104 in rapid fire
+					192 } }, // 144 in rapid fire
+				{ new Tuple<int, int>(ModContent.NPCType<CalamitasRun3>(), ModContent.ProjectileType<BrimstoneLaser>()), new int[] {
 					70, // 52 in rapid fire
 					112, // 84 in rapid fire
 					128, // 96 in rapid fire
@@ -650,7 +652,7 @@ namespace CalamityMod
 				{ new Tuple<int, int>(ModContent.NPCType<ProfanedGuardianBoss2>(), ModContent.ProjectileType<ProfanedSpear>()), new int[] { 120, 200, 220, 232, 330 } },
 
 				{ new Tuple<int, int>(ModContent.NPCType<Bumblefuck>(), ModContent.ProjectileType<RedLightningFeather>()), new int[] { 120, 200, 220, 232, 330 } },
-				{ new Tuple<int, int>(ModContent.NPCType<Bumblefuck>(), ModContent.ProjectileType<BirbAura>()), new int[] { 200, 300, 332, 256, 498 } },
+				{ new Tuple<int, int>(ModContent.NPCType<Bumblefuck>(), ModContent.ProjectileType<BirbAuraFlare>()), new int[] { 200, 300, 332, 256, 498 } },
 
 				{ new Tuple<int, int>(ModContent.NPCType<Providence>(), ModContent.ProjectileType<HolyBlast>()), new int[] { 130, 208, 228, 240, 342 } },
 				{ new Tuple<int, int>(ModContent.NPCType<Providence>(), ModContent.ProjectileType<HolyFire>()), new int[] { 120, 192, 220, 236, 330 } },
@@ -695,13 +697,14 @@ namespace CalamityMod
 				{ new Tuple<int, int>(ModContent.NPCType<OldDukeToothBall>(), ModContent.ProjectileType<SandPoisonCloud>()), new int[] { 140, 220, 252, 272, 378 } },
 				{ new Tuple<int, int>(ModContent.NPCType<OldDukeSharkron>(), ModContent.ProjectileType<OldDukeGore>()), new int[] { 140, 220, 244, 256, 366 } },
 
-				{ new Tuple<int, int>(ModContent.NPCType<DevourerofGodsBody>(), ModContent.ProjectileType<DoGNebulaShot>()), new int[] { 140, 232, 256, 272, 384 } },
+				{ new Tuple<int, int>(ModContent.NPCType<DevourerofGodsHead>(), ModContent.ProjectileType<DoGDeath>()), new int[] { 160, 276, 304, 320, 456 } },
 				{ new Tuple<int, int>(ModContent.NPCType<DevourerofGodsHeadS>(), ModContent.ProjectileType<DoGFire>()), new int[] { 180, 300, 332, 348, 498 } },
 				{ new Tuple<int, int>(ModContent.NPCType<DevourerofGodsHeadS>(), ModContent.ProjectileType<DoGDeath>()), new int[] { 160, 276, 304, 320, 456 } },
 
 				{ new Tuple<int, int>(ModContent.NPCType<Yharon>(), ModContent.ProjectileType<FlareBomb>()), new int[] { 180, 300, 332, 348, 498 } },
 				{ new Tuple<int, int>(ModContent.NPCType<Yharon>(), ModContent.ProjectileType<Flarenado>()), new int[] { 200, 340, 376, 396, 564 } },
 				{ new Tuple<int, int>(ModContent.NPCType<Yharon>(), ModContent.ProjectileType<Infernado>()), new int[] { 300, 520, 548, 564, 822 } },
+				{ new Tuple<int, int>(ModContent.NPCType<Yharon>(), ModContent.ProjectileType<Infernado2>()), new int[] { 300, 520, 548, 564, 822 } },
 				{ new Tuple<int, int>(ModContent.NPCType<Yharon>(), ModContent.ProjectileType<FlareDust>()), new int[] { 250, 440, 464, 476, 696 } },
 				{ new Tuple<int, int>(ModContent.NPCType<Yharon>(), ModContent.ProjectileType<FlareDust2>()), new int[] { 180, 300, 332, 348, 498 } },
 				{ new Tuple<int, int>(ModContent.NPCType<Yharon>(), ModContent.ProjectileType<YharonFireball>()), new int[] { 250, 440, 464, 476, 696 } },

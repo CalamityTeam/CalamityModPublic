@@ -41,7 +41,14 @@ namespace CalamityMod.NPCs.Perforator
             npc.DeathSound = SoundID.NPCDeath1;
             npc.netAlways = true;
             npc.dontCountMe = true;
-        }
+
+			if (CalamityWorld.death || BossRushEvent.BossRushActive)
+				npc.scale = 1.25f;
+			else if (CalamityWorld.revenge)
+				npc.scale = 1.15f;
+			else if (Main.expertMode)
+				npc.scale = 1.1f;
+		}
 
         public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)
         {
@@ -55,40 +62,6 @@ namespace CalamityMod.NPCs.Perforator
 				npc.TargetClosest(true);
 
 			Player player = Main.player[npc.target];
-
-			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
-            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-            if (Main.netMode != NetmodeID.MultiplayerClient)
-            {
-                int shoot = revenge ? 5 : 4;
-                npc.localAI[0] += Main.rand.Next(shoot);
-                if (npc.localAI[0] >= Main.rand.Next(1200, 6000))
-                {
-                    npc.localAI[0] = 0f;
-                    npc.TargetClosest(true);
-                    if (Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height))
-                    {
-                        float num941 = revenge ? 7f : 6f;
-                        Vector2 vector104 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + (npc.height / 2));
-                        float num942 = player.position.X + player.width * 0.5f - vector104.X;
-                        float num943 = player.position.Y + player.height * 0.5f - vector104.Y;
-                        float num944 = (float)Math.Sqrt(num942 * num942 + num943 * num943);
-                        num944 = num941 / num944;
-                        num942 *= num944;
-                        num943 *= num944;
-						int type = ModContent.ProjectileType<BloodClot>();
-						int damage = npc.GetProjectileDamage(type);
-						vector104.X += num942 * 5f;
-                        vector104.Y += num943 * 5f;
-                        if (Main.rand.NextBool(2))
-                        {
-                            int num947 = Projectile.NewProjectile(vector104.X, vector104.Y, num942, num943, type, damage, 0f, Main.myPlayer, 0f, 0f);
-                            Main.projectile[num947].timeLeft = 160;
-                        }
-                        npc.netUpdate = true;
-                    }
-                }
-            }
 			if (player.dead)
 			{
 				npc.TargetClosest(false);
@@ -159,7 +132,7 @@ namespace CalamityMod.NPCs.Perforator
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
-            npc.lifeMax = (int)(npc.lifeMax * 0.7f * bossLifeScale);
+            npc.lifeMax = (int)(npc.lifeMax * 0.85f * bossLifeScale);
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)

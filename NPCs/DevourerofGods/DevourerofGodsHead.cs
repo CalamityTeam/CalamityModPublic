@@ -1,25 +1,40 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Dusts;
+using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
-using Terraria.ModLoader.Config;
-using CalamityMod;
 
 namespace CalamityMod.NPCs.DevourerofGods
 {
     [AutoloadBossHead]
     public class DevourerofGodsHead : ModNPC
     {
-        private bool tail = false;
+		private enum LaserWallType
+		{
+			DiagonalRight = 0,
+			DiagonalLeft = 1,
+			DiagonalHorizontal = 2,
+			DiagonalCross = 3
+		}
+
+		private const int shotSpacingMax = 750;
+		private int shotSpacing = shotSpacingMax;
+		private const int spacingVar = 250;
+		private const int totalShots = 6;
+		private int laserWallType = 0;
+		private const float laserWallSpacingOffset = 16f;
+
+		private bool tail = false;
         private const int minLength = 80;
         private const int maxLength = 81;
         private bool halfLife = false;
@@ -69,14 +84,18 @@ namespace CalamityMod.NPCs.DevourerofGods
             writer.Write(halfLife);
             writer.Write(halfLife2);
             writer.Write(spawnDoGCountdown);
-        }
+			writer.Write(shotSpacing);
+			writer.Write(laserWallType);
+		}
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
             halfLife = reader.ReadBoolean();
             halfLife2 = reader.ReadBoolean();
             spawnDoGCountdown = reader.ReadInt32();
-        }
+			shotSpacing = reader.ReadInt32();
+			laserWallType = reader.ReadInt32();
+		}
 
         public override void AI()
         {
@@ -98,6 +117,9 @@ namespace CalamityMod.NPCs.DevourerofGods
 			// Percent life remaining
 			float lifeRatio = npc.life / (float)npc.lifeMax;
 
+			bool phase2 = lifeRatio < 0.75f || (death && lifeRatio < 0.9f);
+			bool phase3 = lifeRatio < 0.2f;
+
             // Light
             Lighting.AddLight((int)((npc.position.X + (npc.width / 2)) / 16f), (int)((npc.position.Y + (npc.height / 2)) / 16f), 0.2f, 0.05f, 0.2f);
 
@@ -112,7 +134,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 			Player player = Main.player[npc.target];
 
 			// Spawn Guardians
-			if (lifeRatio < 0.2f)
+			if (phase3)
             {
                 if (!halfLife)
                 {
@@ -140,7 +162,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                     }
                 }
             }
-            else if (lifeRatio < 0.6f)
+            else if (phase2)
             {
                 if (!halfLife2)
                 {
@@ -199,7 +221,112 @@ namespace CalamityMod.NPCs.DevourerofGods
                     }
                     tail = true;
                 }
-            }
+
+				if (phase2)
+				{
+					float speed = 12f;
+					float spawnOffset = 1500f;
+					float divisor = death ? 360f : 480f;
+
+					if (calamityGlobalNPC.newAI[1] % divisor == 0f)
+					{
+						Main.PlaySound(SoundID.Item12, player.position);
+
+						// Side walls
+						int type = ModContent.ProjectileType<DoGDeath>();
+						int damage = npc.GetProjectileDamage(type);
+						Vector2 start = default;
+						Vector2 velocity = default;
+						Vector2 aim = expertMode ? player.Center + player.velocity * 20f : Vector2.Zero;
+						Vector2 aimClone = aim;
+
+						switch (laserWallType)
+						{
+							case (int)LaserWallType.DiagonalRight:
+
+								for (int x = 0; x < totalShots + 1; x++)
+								{
+									start = new Vector2(player.position.X + spawnOffset, player.position.Y + shotSpacing);
+									aim.Y += laserWallSpacingOffset * (x - 3);
+									velocity = Vector2.Normalize(aim - start) * speed;
+									Projectile.NewProjectile(start, velocity, type, damage, 0f, Main.myPlayer, 0f, 0f);
+
+									shotSpacing -= spacingVar;
+								}
+
+								laserWallType = (int)LaserWallType.DiagonalLeft;
+								break;
+
+							case (int)LaserWallType.DiagonalLeft:
+
+								for (int x = 0; x < totalShots + 1; x++)
+								{
+									start = new Vector2(player.position.X - spawnOffset, player.position.Y + shotSpacing);
+									aim.Y += laserWallSpacingOffset * (x - 3);
+									velocity = Vector2.Normalize(aim - start) * speed;
+									Projectile.NewProjectile(start, velocity, type, damage, 0f, Main.myPlayer, 0f, 0f);
+
+									shotSpacing -= spacingVar;
+								}
+
+								laserWallType = expertMode ? (int)LaserWallType.DiagonalHorizontal : (int)LaserWallType.DiagonalRight;
+								break;
+
+							case (int)LaserWallType.DiagonalHorizontal:
+
+								for (int x = 0; x < totalShots + 1; x++)
+								{
+									start = new Vector2(player.position.X + spawnOffset, player.position.Y + shotSpacing);
+									aim.Y += laserWallSpacingOffset * (x - 3);
+									velocity = Vector2.Normalize(aim - start) * speed;
+									Projectile.NewProjectile(start, velocity, type, damage, 0f, Main.myPlayer, 0f, 0f);
+
+									start = new Vector2(player.position.X - spawnOffset, player.position.Y + shotSpacing);
+									velocity = Vector2.Normalize(aim - start) * speed;
+									Projectile.NewProjectile(start, velocity, type, damage, 0f, Main.myPlayer, 0f, 0f);
+
+									shotSpacing -= spacingVar;
+								}
+
+								laserWallType = revenge ? (int)LaserWallType.DiagonalCross : (int)LaserWallType.DiagonalRight;
+								break;
+
+							case (int)LaserWallType.DiagonalCross:
+
+								for (int x = 0; x < totalShots + 1; x++)
+								{
+									start = new Vector2(player.position.X + spawnOffset, player.position.Y + shotSpacing);
+									aim.Y += laserWallSpacingOffset * (x - 3);
+									velocity = Vector2.Normalize(aim - start) * speed;
+									Projectile.NewProjectile(start, velocity, type, damage, 0f, Main.myPlayer, 0f, 0f);
+
+									start = new Vector2(player.position.X - spawnOffset, player.position.Y + shotSpacing);
+									velocity = Vector2.Normalize(aim - start) * speed;
+									Projectile.NewProjectile(start, velocity, type, damage, 0f, Main.myPlayer, 0f, 0f);
+
+									start = new Vector2(player.position.X + shotSpacing, player.position.Y + spawnOffset);
+									aimClone.X += laserWallSpacingOffset * (x - 3);
+									velocity = Vector2.Normalize(aimClone - start) * speed;
+									Projectile.NewProjectile(start, velocity, type, damage, 0f, Main.myPlayer, 0f, 0f);
+
+									start = new Vector2(player.position.X + shotSpacing, player.position.Y - spawnOffset);
+									velocity = Vector2.Normalize(aimClone - start) * speed;
+									Projectile.NewProjectile(start, velocity, type, damage, 0f, Main.myPlayer, 0f, 0f);
+
+									shotSpacing -= spacingVar;
+								}
+
+								laserWallType = (int)LaserWallType.DiagonalRight;
+								break;
+						}
+						shotSpacing = shotSpacingMax;
+					}
+
+					calamityGlobalNPC.newAI[1] += 1f;
+				}
+				else
+					calamityGlobalNPC.newAI[1] = 0f;
+			}
 
             // Despawn
             if (player.dead)
@@ -253,7 +380,8 @@ namespace CalamityMod.NPCs.DevourerofGods
                 // Flying movement
                 npc.localAI[1] = 0f;
 
-				calamityGlobalNPC.newAI[2] += 1f;
+				float phaseChangeRate = 1f + (expertMode ? 9f * (1f - lifeRatio) : 0f);
+				calamityGlobalNPC.newAI[2] += phaseChangeRate;
 
 				float speed = death ? 16.5f : 15f;
 				float turnSpeed = death ? 0.33f : 0.3f;
@@ -262,8 +390,6 @@ namespace CalamityMod.NPCs.DevourerofGods
 
 				if (expertMode)
 				{
-					calamityGlobalNPC.newAI[2] += 9f * (1f - lifeRatio);
-
 					speed += 3f * (1f - lifeRatio);
 					turnSpeed += 0.06f * (1f - lifeRatio);
 					homingSpeed += 9f * (1f - lifeRatio);

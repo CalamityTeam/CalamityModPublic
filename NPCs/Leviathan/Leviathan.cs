@@ -240,8 +240,8 @@ namespace CalamityMod.NPCs.Leviathan
                     float num413 = (sirenAlive && !phase4) ? 0.1f : 0.2f;
 					if (expertMode && (!sirenAlive || phase4))
 					{
-						num412 += death ? 3.5f : 3.5f * (1f - lifeRatio);
-						num413 += death ? 0.1f : 0.1f * (1f - lifeRatio);
+						num412 += death ? 6f * (1f - lifeRatio) : 3.5f * (1f - lifeRatio);
+						num413 += death ? 0.15f * (1f - lifeRatio) : 0.1f * (1f - lifeRatio);
 					}
                     if (BossRushEvent.BossRushActive)
                     {
@@ -408,8 +408,8 @@ namespace CalamityMod.NPCs.Leviathan
                         float num1064 = (sirenAlive && !phase4) ? 0.05f : 0.065f;
 						if (expertMode && (!sirenAlive || phase4))
 						{
-							num1063 += death ? 4f : 4f * (1f - lifeRatio);
-							num1064 += death ? 0.03f : 0.03f * (1f - lifeRatio);
+							num1063 += death ? 7f * (1f - lifeRatio) : 4f * (1f - lifeRatio);
+							num1064 += death ? 0.05f * (1f - lifeRatio) : 0.03f * (1f - lifeRatio);
 						}
 						if (BossRushEvent.BossRushActive)
                         {
@@ -464,7 +464,8 @@ namespace CalamityMod.NPCs.Leviathan
                 else if (npc.ai[0] == 2f)
                 {
                     Vector2 distFromPlayer = player.Center - npc.Center;
-                    if (npc.ai[1] > 1f || distFromPlayer.Length() > 2400f)
+					float chargeAmt = death ? 2f : 1f;
+                    if (npc.ai[1] >= chargeAmt * 2f || distFromPlayer.Length() > 2400f)
                     {
                         npc.ai[0] = 0f;
                         npc.ai[1] = 0f;
@@ -501,7 +502,7 @@ namespace CalamityMod.NPCs.Leviathan
                             float num1044 = revenge ? 20f : 18f;
 
 							if (revenge && (!sirenAlive || phase4))
-								num1044 += death ? 6f : 6f * (1f - lifeRatio);
+								num1044 += death ? 9f * (1f - lifeRatio) : 6f * (1f - lifeRatio);
 
                             if (npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))
                                 num1044 += 4f;
@@ -525,8 +526,8 @@ namespace CalamityMod.NPCs.Leviathan
                         float num1049 = revenge ? 0.12f : 0.11f;
 						if (revenge && (!sirenAlive || phase4))
 						{
-							num1048 += death ? 6f : 6f * (1f - lifeRatio);
-							num1049 += death ? 0.1f : 0.1f * (1f - lifeRatio);
+							num1048 += death ? 9f * (1f - lifeRatio) : 6f * (1f - lifeRatio);
+							num1049 += death ? 0.15f * (1f - lifeRatio) : 0.1f * (1f - lifeRatio);
 						}
 
                         if (npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))
@@ -590,8 +591,8 @@ namespace CalamityMod.NPCs.Leviathan
                         float num1052 = revenge ? 0.11f : 0.1f;
 						if (revenge && (!sirenAlive || phase4))
 						{
-							npc.velocity *= death ? 0.81f : MathHelper.Lerp(0.81f, 1f, lifeRatio);
-							num1052 += death ? 0.1f : 0.1f * (1f - lifeRatio);
+							npc.velocity *= death ? MathHelper.Lerp(0.75f, 1f, lifeRatio) : MathHelper.Lerp(0.81f, 1f, lifeRatio);
+							num1052 += death ? 0.15f * (1f - lifeRatio) : 0.1f * (1f - lifeRatio);
 						}
 
                         if (Math.Abs(npc.velocity.X) + Math.Abs(npc.velocity.Y) < num1052)

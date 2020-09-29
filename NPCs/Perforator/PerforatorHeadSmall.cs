@@ -15,8 +15,6 @@ namespace CalamityMod.NPCs.Perforator
     {
         private const int MsgType = 23;
         private bool flies = false;
-        private int minLength = (CalamityWorld.death || BossRushEvent.BossRushActive) ? 3 : 6;
-        private int maxLength = (CalamityWorld.death || BossRushEvent.BossRushActive) ? 4 : 7;
         private bool TailSpawned = false;
 
         public override void SetStaticDefaults()
@@ -44,11 +42,19 @@ namespace CalamityMod.NPCs.Perforator
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath1;
             npc.netAlways = true;
-        }
+
+			if (CalamityWorld.death || BossRushEvent.BossRushActive)
+				npc.scale = 1.25f;
+			else if (CalamityWorld.revenge)
+				npc.scale = 1.15f;
+			else if (Main.expertMode)
+				npc.scale = 1.1f;
+		}
 
         public override void AI()
         {
             bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
+			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
 			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
 
 			// Percent life remaining
@@ -59,8 +65,8 @@ namespace CalamityMod.NPCs.Perforator
 
 			if (expertMode)
 			{
-				speed += death ? 4f : 4f * (1f - lifeRatio);
-				turnSpeed += death ? 0.04f : 0.04f * (1f - lifeRatio);
+				speed += death ? 6f * (1f - lifeRatio) : 4f * (1f - lifeRatio);
+				turnSpeed += death ? 0.06f * (1f - lifeRatio) : 0.04f * (1f - lifeRatio);
 			}
 
 			if (npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))
@@ -93,33 +99,38 @@ namespace CalamityMod.NPCs.Perforator
                 npc.alpha = 0;
             }
 
-            if (!TailSpawned)
-            {
-                int Previous = npc.whoAmI;
-                for (int num36 = 0; num36 < maxLength; num36++)
-                {
-                    int lol;
-                    if (num36 >= 0 && num36 < minLength)
-                    {
-                        lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), ModContent.NPCType<PerforatorBodySmall>(), npc.whoAmI);
-                    }
-                    else
-                    {
-                        lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), ModContent.NPCType<PerforatorTailSmall>(), npc.whoAmI);
-                    }
-                    Main.npc[lol].realLife = npc.whoAmI;
-                    Main.npc[lol].ai[2] = (float)npc.whoAmI;
-                    Main.npc[lol].ai[1] = (float)Previous;
-                    Main.npc[Previous].ai[0] = (float)lol;
-                    NetMessage.SendData(MsgType, -1, -1, null, lol, 0f, 0f, 0f, 0);
-                    Previous = lol;
-                }
-                TailSpawned = true;
-            }
+			if (Main.netMode != NetmodeID.MultiplayerClient)
+			{
+				if (!TailSpawned)
+				{
+					int Previous = npc.whoAmI;
+					int maxLength = death ? 9 : revenge ? 8 : expertMode ? 7 : 5;
+					for (int num36 = 0; num36 < maxLength; num36++)
+					{
+						int lol;
+						if (num36 >= 0 && num36 < maxLength - 1)
+						{
+							lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), ModContent.NPCType<PerforatorBodySmall>(), npc.whoAmI);
+						}
+						else
+						{
+							lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), ModContent.NPCType<PerforatorTailSmall>(), npc.whoAmI);
+						}
+						Main.npc[lol].realLife = npc.whoAmI;
+						Main.npc[lol].ai[2] = npc.whoAmI;
+						Main.npc[lol].ai[1] = Previous;
+						Main.npc[Previous].ai[0] = lol;
+						NetMessage.SendData(MsgType, -1, -1, null, lol, 0f, 0f, 0f, 0);
+						Previous = lol;
+					}
+					TailSpawned = true;
+				}
+			}
+
             int num180 = (int)(npc.position.X / 16f) - 1;
-            int num181 = (int)((npc.position.X + (float)npc.width) / 16f) + 2;
+            int num181 = (int)((npc.position.X + npc.width) / 16f) + 2;
             int num182 = (int)(npc.position.Y / 16f) - 1;
-            int num183 = (int)((npc.position.Y + (float)npc.height) / 16f) + 2;
+            int num183 = (int)((npc.position.Y + npc.height) / 16f) + 2;
             if (num180 < 0)
             {
                 num180 = 0;
@@ -161,11 +172,11 @@ namespace CalamityMod.NPCs.Perforator
             {
                 npc.localAI[1] = 1f;
                 Rectangle rectangle12 = new Rectangle((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height);
-                int num954 = 100;
-                bool flag95 = true;
+                int num954 = death ? 160 : revenge ? 200 : expertMode ? 240 : 300;
+				bool flag95 = true;
                 if (npc.position.Y > player.position.Y)
                 {
-                    for (int num955 = 0; num955 < 255; num955++)
+                    for (int num955 = 0; num955 < Main.maxPlayers; num955++)
                     {
                         if (Main.player[num955].active)
                         {
@@ -191,14 +202,14 @@ namespace CalamityMod.NPCs.Perforator
             {
 				npc.TargetClosest(false);
 				flag94 = false;
-                npc.velocity.Y = npc.velocity.Y + 0.05f;
-                if ((double)npc.position.Y > Main.worldSurface * 16.0)
+                npc.velocity.Y += 1f;
+                if (npc.position.Y > Main.worldSurface * 16.0)
                 {
-                    npc.velocity.Y = npc.velocity.Y + 0.05f;
+                    npc.velocity.Y += 1f;
                 }
-                if ((double)npc.position.Y > Main.rockLayer * 16.0)
+                if (npc.position.Y > Main.rockLayer * 16.0)
                 {
-                    for (int num957 = 0; num957 < 200; num957++)
+                    for (int num957 = 0; num957 < Main.maxNPCs; num957++)
                     {
                         if (Main.npc[num957].aiStyle == npc.aiStyle)
                         {
@@ -473,7 +484,7 @@ namespace CalamityMod.NPCs.Perforator
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
-            npc.lifeMax = (int)(npc.lifeMax * 0.7f * bossLifeScale);
+            npc.lifeMax = (int)(npc.lifeMax * 0.85f * bossLifeScale);
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
