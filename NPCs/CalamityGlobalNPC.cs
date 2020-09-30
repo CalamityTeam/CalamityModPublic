@@ -3345,37 +3345,6 @@ namespace CalamityMod.NPCs
 
 			if (!projectile.npcProj && !projectile.trap)
 			{
-				if (ShouldAffectNPC(npc) && Main.rand.NextBool(15) && !CalamityPlayer.areThereAnyDamnBosses)
-				{
-					if (modPlayer.eGauntlet && projectile.melee)
-					{
-						damage = npc.lifeMax * 3;
-					}
-
-					if (modPlayer.eTalisman && projectile.magic)
-					{
-						damage = npc.lifeMax * 3;
-					}
-
-					if (modPlayer.nanotech && projectile.Calamity().rogue)
-					{
-						damage = npc.lifeMax * 3;
-					}
-
-					if (modPlayer.eQuiver && projectile.ranged)
-					{
-						damage = npc.lifeMax * 3;
-					}
-
-					if (modPlayer.nucleogenesis)
-					{
-						if (projectile.IsSummon())
-						{
-							damage = npc.lifeMax * 3;
-						}
-					}
-				}
-
 				if (projectile.ranged && modPlayer.plagueReaper && pFlames > 0)
 				{
 					damage = (int)(damage * 1.1);

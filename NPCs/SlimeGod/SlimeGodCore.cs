@@ -175,7 +175,7 @@ namespace CalamityMod.NPCs.SlimeGod
 
 					if (npc.position.Y > Main.worldSurface * 16.0)
                     {
-                        for (int x = 0; x < 200; x++)
+                        for (int x = 0; x < Main.maxNPCs; x++)
                         {
                             if (Main.npc[x].type == ModContent.NPCType<SlimeGod>() || Main.npc[x].type == ModContent.NPCType<SlimeGodSplit>() ||
                                 Main.npc[x].type == ModContent.NPCType<SlimeGodRun>() || Main.npc[x].type == ModContent.NPCType<SlimeGodRunSplit>())
@@ -365,7 +365,7 @@ namespace CalamityMod.NPCs.SlimeGod
 								npc.ai[3] = 0f;
 								npc.localAI[0] = 0f;
 								npc.localAI[1] = 0f;
-								float chargeVelocity = death ? 12f : 8f;
+								float chargeVelocity = death ? 12f : 9f;
 								npc.velocity = Vector2.Normalize(player.Center - vectorCenter) * chargeVelocity;
 								return;
 							}

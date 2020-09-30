@@ -15,7 +15,6 @@ namespace CalamityMod.Items.Accessories
             Tooltip.SetDefault("Rogue projectiles create nanoblades as they travel\n" +
                 "Stealth strikes summon nanobeams and sparks on enemy hits\n" +
 				"Stealth strikes have +20 armor penetration, deal 5% more damage, and heal for 1 HP\n" +
-                "Rogue weapons have a chance to instantly kill normal enemies\n" +
                 "12% increased rogue damage and 15% increased rogue velocity\n" +
                 "Whenever you crit an enemy with a rogue weapon your rogue damage increases\n" +
                 "This effect can stack up to 150 times\n" +
