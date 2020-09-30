@@ -41,7 +41,7 @@ namespace CalamityMod.Items.Armor
             modPlayer.fathomSwarmer = true;
             player.spikedBoots = 2;
             player.maxMinions++;
-            player.minionDamage += 0.05f;
+            player.minionDamage += 0.1f;
             if (Collision.DrownCollision(player.position, player.width, player.height, player.gravDir))
             {
                 player.minionDamage += 0.3f;
@@ -51,7 +51,7 @@ namespace CalamityMod.Items.Armor
         public override void UpdateEquip(Player player)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            player.minionDamage += 0.1f;
+            player.minionDamage += 0.05f;
 			if (player.breath <= player.breathMax + 2 && !modPlayer.ZoneAbyss)
 			{
 				player.breath = player.breathMax + 3;
