@@ -3857,6 +3857,8 @@ namespace CalamityMod.NPCs
 
             // Percent life remaining
             float lifeRatio = npc.life / (float)npc.lifeMax;
+            // Clamp life ratio to prevent bad velocity math.
+            lifeRatio = MathHelper.Clamp(lifeRatio, 0f, 1f);
 
             // Phases based on HP
             bool phase2 = lifeRatio < 0.66f || death;
