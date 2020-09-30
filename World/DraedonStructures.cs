@@ -52,6 +52,12 @@ namespace CalamityMod.World
             {
                 return true;
             }
+			// Avoid Thorium's Blood Chamber (where you summon Viscount)
+            if (tile.type == TileID.StoneSlab ||
+                tile.wall == WallID.StoneSlab)
+            {
+                return true;
+            }
             return false;
         }
 
