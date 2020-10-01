@@ -521,8 +521,8 @@ namespace CalamityMod.NPCs.Ravager
 
 							if (!NPC.AnyNPCs(ModContent.NPCType<RockPillar>()))
 							{
-								NPC.NewNPC((int)player.Center.X - spawnDistance, (int)player.Center.Y - 100, ModContent.NPCType<RockPillar>());
-								NPC.NewNPC((int)player.Center.X + spawnDistance, (int)player.Center.Y - 100, ModContent.NPCType<RockPillar>());
+								NPC.NewNPC((int)(player.Center.X - spawnDistance * 1.25f), (int)player.Center.Y - 100, ModContent.NPCType<RockPillar>());
+								NPC.NewNPC((int)(player.Center.X + spawnDistance * 1.25f), (int)player.Center.Y - 100, ModContent.NPCType<RockPillar>());
 							}
 							else if (!NPC.AnyNPCs(ModContent.NPCType<FlamePillar>()))
 							{
