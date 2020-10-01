@@ -133,7 +133,7 @@ namespace CalamityMod.NPCs.Leviathan
 			float lifeRatio = npc.life / (float)npc.lifeMax;
 
 			// Phases
-			bool phase2 = (lifeRatio < 0.7f && expertMode) || death;
+			bool phase2 = lifeRatio < 0.7f && expertMode;
 			bool phase3 = lifeRatio < 0.4f;
 			bool phase4 = lifeRatio < 0.2f;
 
@@ -312,7 +312,7 @@ namespace CalamityMod.NPCs.Leviathan
                         if (!player.dead)
                         {
                             npc.ai[2] += 1f;
-                            if (!sirenAlive || death || phase4)
+                            if (!sirenAlive || phase4)
                                 npc.ai[2] += 2f;
                         }
 

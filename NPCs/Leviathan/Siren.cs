@@ -330,7 +330,7 @@ namespace CalamityMod.NPCs.Leviathan
             // Phase switch
             if (npc.ai[0] == -1f)
             {
-                int random = (((phase2 || death) && expertMode && !leviAlive) || phase4) ? 4 : 3;
+                int random = ((phase2 && expertMode && !leviAlive) || phase4) ? 4 : 3;
 				int num618;
 				do num618 = Main.rand.Next(random);
 				while (num618 == npc.ai[1] || num618 == 1);
@@ -559,7 +559,7 @@ namespace CalamityMod.NPCs.Leviathan
 					if (npc.localAI[3] > 2f)
 						npc.localAI[3] = 0f;
 
-					if (((phase2 || death) && !leviAlive) || phase4)
+					if ((phase2 && !leviAlive) || phase4)
 						totalProjectiles += totalProjectiles / 2;
 
 					float radians = MathHelper.TwoPi / totalProjectiles;
@@ -610,7 +610,7 @@ namespace CalamityMod.NPCs.Leviathan
                     float chargeVelocity = BossRushEvent.BossRushActive ? 31f : (leviAlive && !phase4) ? 21f : 26f;
 
 					if (revenge)
-						chargeVelocity += 2f + (death ? 4f : 4f * (1f - lifeRatio));
+						chargeVelocity += 2f + (death ? 6f * (1f - lifeRatio) : 4f * (1f - lifeRatio));
 
                     npc.velocity = Vector2.Normalize(player.Center - vector) * chargeVelocity;
                     npc.rotation = (float)Math.Atan2(npc.velocity.Y, npc.velocity.X);

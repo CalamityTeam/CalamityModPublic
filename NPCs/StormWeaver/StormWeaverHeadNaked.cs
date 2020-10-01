@@ -22,8 +22,6 @@ namespace CalamityMod.NPCs.StormWeaver
         private const float speed = 13f;
         private const float turnSpeed = 0.35f;
         private bool tail = false;
-        private int minLength = 40;
-        private int maxLength = 41;
         private int invinceTime = 180;
 
         public override void SetStaticDefaults()
@@ -70,7 +68,14 @@ namespace CalamityMod.NPCs.StormWeaver
             {
                 npc.buffImmune[k] = true;
             }
-        }
+
+			if (CalamityWorld.death || BossRushEvent.BossRushActive)
+				npc.scale = 1.2f;
+			else if (CalamityWorld.revenge)
+				npc.scale = 1.15f;
+			else if (Main.expertMode)
+				npc.scale = 1.1f;
+		}
 
         public override void SendExtraAI(BinaryWriter writer)
         {
@@ -159,10 +164,11 @@ namespace CalamityMod.NPCs.StormWeaver
                 if (!tail && npc.ai[0] == 0f)
                 {
                     int Previous = npc.whoAmI;
-                    for (int num36 = 0; num36 < maxLength; num36++)
+					int totalLength = death ? 60 : revenge ? 50 : expertMode ? 40 : 30;
+					for (int num36 = 0; num36 < totalLength; num36++)
                     {
                         int lol;
-                        if (num36 >= 0 && num36 < minLength)
+                        if (num36 >= 0 && num36 < totalLength - 1)
                         {
                             lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), ModContent.NPCType<StormWeaverBodyNaked>(), npc.whoAmI);
                         }

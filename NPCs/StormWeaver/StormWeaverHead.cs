@@ -18,8 +18,6 @@ namespace CalamityMod.NPCs.StormWeaver
         private const float speed = 10f;
         private const float turnSpeed = 0.3f;
         private bool tail = false;
-        private const int minLength = 30;
-        private const int maxLength = 31;
 
         public override void SetStaticDefaults()
         {
@@ -68,7 +66,14 @@ namespace CalamityMod.NPCs.StormWeaver
             {
                 npc.buffImmune[k] = true;
             }
-        }
+
+			if (CalamityWorld.death || BossRushEvent.BossRushActive)
+				npc.scale = 1.2f;
+			else if (CalamityWorld.revenge)
+				npc.scale = 1.15f;
+			else if (Main.expertMode)
+				npc.scale = 1.1f;
+		}
 
         public override void SendExtraAI(BinaryWriter writer)
         {
@@ -84,7 +89,8 @@ namespace CalamityMod.NPCs.StormWeaver
         {
 			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
 			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-            if (npc.defense < 99999 && (CalamityWorld.DoGSecondStageCountdown <= 0 || !CalamityWorld.downedSentinel2))
+			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+			if (npc.defense < 99999 && (CalamityWorld.DoGSecondStageCountdown <= 0 || !CalamityWorld.downedSentinel2))
             {
                 npc.defense = 99999;
             }
@@ -125,10 +131,11 @@ namespace CalamityMod.NPCs.StormWeaver
                 if (!tail && npc.ai[0] == 0f)
                 {
                     int Previous = npc.whoAmI;
-                    for (int num36 = 0; num36 < maxLength; num36++)
+					int totalLength = death ? 60 : revenge ? 50 : expertMode ? 40 : 30;
+					for (int num36 = 0; num36 < totalLength; num36++)
                     {
                         int lol;
-                        if (num36 >= 0 && num36 < minLength)
+                        if (num36 >= 0 && num36 < totalLength - 1)
                         {
                             lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), ModContent.NPCType<StormWeaverBody>(), npc.whoAmI);
                         }

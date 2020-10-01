@@ -137,7 +137,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             Lighting.AddLight((int)((npc.position.X + (npc.width / 2)) / 16f), (int)((npc.position.Y + (npc.height / 2)) / 16f), 0.3f, 0.7f, 0f);
 
             // Show message
-            if (!halfLife && ((lifeRatio < 0.5f && expertMode) || death))
+            if (!halfLife && lifeRatio < 0.5f && expertMode)
             {
                 string key = "Mods.CalamityMod.PlagueBossText";
                 Color messageColor = Color.Lime;
@@ -193,7 +193,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 			if (BossRushEvent.BossRushActive)
 				enrageScale = 0;
 
-			bool diagonalDash = revenge && (lifeRatio < 0.8f || death);
+			bool diagonalDash = revenge && lifeRatio < 0.8f;
 
 			if (npc.ai[0] != 0f && npc.ai[0] != 4f)
 				npc.rotation = npc.velocity.X * 0.02f;
@@ -503,7 +503,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 				npc.Calamity().newAI[0] += 1f;
 				if (num1057 < 600f || npc.Calamity().newAI[0] >= 180f)
                 {
-                    npc.ai[0] = (lifeRatio < 0.66f || death) ? 5f : 1f;
+                    npc.ai[0] = lifeRatio < 0.66f ? 5f : 1f;
                     npc.ai[1] = 0f;
 					npc.Calamity().newAI[0] = 0f;
 					npc.netUpdate = true;
@@ -904,17 +904,17 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
                     npc.velocity *= 0.9f;
                     float num1052 = revenge ? 0.12f : 0.1f;
-                    if (lifeRatio < 0.5f || death)
+                    if (lifeRatio < 0.5f)
                     {
                         npc.velocity *= 0.9f;
                         num1052 += 0.05f;
                     }
-                    if (lifeRatio < 0.3f || death)
+                    if (lifeRatio < 0.3f)
                     {
                         npc.velocity *= 0.9f;
                         num1052 += 0.05f;
                     }
-                    if (lifeRatio < 0.1f || death)
+                    if (lifeRatio < 0.1f)
                     {
                         npc.velocity *= 0.9f;
                         num1052 += 0.05f;

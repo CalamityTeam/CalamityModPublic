@@ -117,7 +117,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 			// Percent life remaining
 			float lifeRatio = npc.life / (float)npc.lifeMax;
 
-			bool phase2 = lifeRatio < 0.75f || (death && lifeRatio < 0.9f);
+			bool phase2 = lifeRatio < 0.75f;
 			bool phase3 = lifeRatio < 0.2f;
 
             // Light

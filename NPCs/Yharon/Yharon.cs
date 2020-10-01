@@ -321,23 +321,23 @@ namespace CalamityMod.NPCs.Yharon
 				chargeSpeed *= velocityMult;
 			}
 
-            int flareBombPhaseTimer = 60;
-            int flareBombSpawnDivisor = 3;
-            float flareBombPhaseAcceleration = 0.8f;
-            float flareBombPhaseVelocity = 12f;
+            int flareBombPhaseTimer = death ? 40 : 60;
+            int flareBombSpawnDivisor = flareBombPhaseTimer / 20;
+            float flareBombPhaseAcceleration = death ? 0.92f : 0.8f;
+            float flareBombPhaseVelocity = death ? 14f : 12f;
 
             int fireTornadoPhaseTimer = 90;
 
             int newPhaseTimer = 180;
 
-            int flareDustPhaseTimer = 300;
-			int flareDustPhaseTimer2 = 150;
+            int flareDustPhaseTimer = death ? 250 : 300;
+			int flareDustPhaseTimer2 = death ? 120 : 150;
 
 			float spinTime = flareDustPhaseTimer / 2;
 
-			int flareDustSpawnDivisor = 30;
-			int flareDustSpawnDivisor2 = 5;
-			int flareDustSpawnDivisor3 = 12;
+			int flareDustSpawnDivisor = flareDustPhaseTimer / 10;
+			int flareDustSpawnDivisor2 = flareDustPhaseTimer2 / 30;
+			int flareDustSpawnDivisor3 = flareDustPhaseTimer / 25;
 
 			float spinPhaseVelocity = 25f;
             float spinPhaseRotation = MathHelper.TwoPi * 3 / spinTime;
@@ -997,7 +997,8 @@ namespace CalamityMod.NPCs.Yharon
 					if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
 						SpawnDetonatingFlares(flareDustBulletHellSpawn, player, maxFlareCount, new int[] { ModContent.NPCType<DetonatingFlare2>() });
-						int totalProjectiles = 38 - (int)(npc.ai[2] / 15f); // 36 for first ring, 18 for last ring
+						int ringReduction = (int)MathHelper.Lerp(0f, 20f, npc.ai[2] / flareDustPhaseTimer);
+						int totalProjectiles = 38 - ringReduction; // 36 for first ring, 18 for last ring
 						DoFlareDustBulletHell(0, flareDustSpawnDivisor, npc.GetProjectileDamage(ModContent.ProjectileType<FlareDust>()), totalProjectiles, 0f, 0f, false);
 					}
                 }
@@ -1645,16 +1646,16 @@ namespace CalamityMod.NPCs.Yharon
             float splittingFireballBreathYVelocityTimer = 40f;
             float splittingFireballBreathPhaseTimer = splittingFireballBreathTimer + splittingFireballBreathTimer2 + splittingFireballBreathYVelocityTimer;
 
-            float spinPhaseTimer = secondPhasePhase == 4 ? 180f : 240f;
+            int spinPhaseTimer = secondPhasePhase == 4 ? (death ? 160 : 180) : (death ? 200 : 240);
 			float spinTime = spinPhaseTimer / 2;
 			float spinRotation = MathHelper.TwoPi * 3 / spinTime;
 			float spinPhaseVelocity = 25f;
-			int flareDustSpawnDivisor = 24;
-			int flareDustSpawnDivisor3 = 12 + (secondPhasePhase == 4 ? 4 : 0);
+			int flareDustSpawnDivisor = spinPhaseTimer / 10;
+			int flareDustSpawnDivisor2 = spinPhaseTimer / 20 + (secondPhasePhase == 4 ? spinPhaseTimer / 60 : 0);
 			float increasedIdleTimeAfterBulletHell = -120f;
 
-			float flareSpawnDecelerationTimer = 90f;
-			float flareSpawnPhaseTimer = 180f;
+			float flareSpawnDecelerationTimer = death ? 75f : 90f;
+			float flareSpawnPhaseTimer = death ? 150f : 180f;
 
 			float teleportPhaseTimer = 45f;
 
@@ -2153,20 +2154,21 @@ namespace CalamityMod.NPCs.Yharon
 
 						// For phase 4: Rotate spiral by 18 * (240 / 16) = +135 degrees and then back -135 degrees
 
-						if (npc.ai[1] % flareDustSpawnDivisor3 == 0f)
+						if (npc.ai[1] % flareDustSpawnDivisor2 == 0f)
 						{
 							int totalProjectiles = secondPhasePhase == 4 ? 12 : 10;
 							float projectileVelocity = secondPhasePhase == 4 ? 16f : 12f;
 							float radialOffset = secondPhasePhase == 4 ? 2.8f : 3.2f;
-							DoFlareDustBulletHell(1, (int)spinPhaseTimer, npc.GetProjectileDamage(ModContent.ProjectileType<FlareDust>()), totalProjectiles, projectileVelocity, radialOffset, true);
+							DoFlareDustBulletHell(1, spinPhaseTimer, npc.GetProjectileDamage(ModContent.ProjectileType<FlareDust>()), totalProjectiles, projectileVelocity, radialOffset, true);
 						}
 					}
 					else
 					{
 						if (npc.ai[1] % flareDustSpawnDivisor == 0f)
 						{
-							int totalProjectiles = (secondPhasePhase == 2 ? 42 : 38) - (int)(npc.ai[1] / 12f); // 36 for first ring, 18 for last ring
-							DoFlareDustBulletHell(0, (int)spinPhaseTimer, npc.GetProjectileDamage(ModContent.ProjectileType<FlareDust>()), totalProjectiles, 0f, 0f, true);
+							int ringReduction = (int)MathHelper.Lerp(0f, 18f, npc.ai[1] / spinPhaseTimer);
+							int totalProjectiles = (secondPhasePhase == 2 ? 42 : 38) - ringReduction; // 36 for first ring, 18 for last ring
+							DoFlareDustBulletHell(0, spinPhaseTimer, npc.GetProjectileDamage(ModContent.ProjectileType<FlareDust>()), totalProjectiles, 0f, 0f, true);
 						}
 					}
 

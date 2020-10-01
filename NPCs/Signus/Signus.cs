@@ -119,8 +119,9 @@ namespace CalamityMod.NPCs.Signus
 			int maxTeleports = (death && lifeRatio < 0.9) ? 1 : revenge ? 2 : expertMode ? 3 : 4;
 			float inertia = death ? 10f : revenge ? 11f : expertMode ? 12f : 14f;
 			float chargeVelocity = death ? 14f : revenge ? 13f : expertMode ? 12f : 10f;
-			bool phase2 = (lifeRatio < 0.75f && expertMode) || death;
-            bool phase3 = lifeRatio < 0.5f || death;
+			bool phase2 = lifeRatio < 0.75f && expertMode;
+            bool phase3 = lifeRatio < 0.5f;
+			bool phase4 = lifeRatio < 0.33f;
 
 			npc.damage = npc.defDamage;
 
@@ -228,7 +229,7 @@ namespace CalamityMod.NPCs.Signus
 				{
 					int phase;
 					do phase = Main.rand.Next(5);
-					while (phase == npc.ai[1] || phase == 1 || phase == 2);
+					while (phase == npc.ai[1] || (phase == 0 && phase4) || phase == 1 || phase == 2);
 
 					npc.ai[0] = phase;
 					npc.ai[1] = 0f;

@@ -133,10 +133,11 @@ namespace CalamityMod.NPCs
 			float lifeRatio = npc.life / (float)npc.lifeMax;
 
             // Phases based on life percentage
-            bool phase2 = lifeRatio < 0.5f || death;
+            bool phase2 = lifeRatio < 0.75f;
+			bool phase3 = lifeRatio < 0.5f;
 
-            // Spawn crystal in phase 2
-            if (phase2 && !NPC.AnyNPCs(ModContent.NPCType<KingSlimeJewel>()) && Main.netMode != NetmodeID.MultiplayerClient)
+			// Spawn crystal in phase 2
+			if (phase3 && !NPC.AnyNPCs(ModContent.NPCType<KingSlimeJewel>()) && Main.netMode != NetmodeID.MultiplayerClient)
             {
                 Vector2 vector = npc.Center + new Vector2(-40f, -(float)npc.height / 2);
                 for (int num621 = 0; num621 < 20; num621++)
@@ -578,10 +579,10 @@ namespace CalamityMod.NPCs
             // Percent life remaining
             float lifeRatio = npc.life / (float)npc.lifeMax;
 			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
-			bool phase2 = lifeRatio < 0.85f || death;
-            bool phase3 = lifeRatio < 0.75f || death;
-            bool phase4 = lifeRatio < 0.65f || death;
-            bool phase5 = lifeRatio < 0.5f || death;
+			bool phase2 = lifeRatio < 0.75f;
+            bool phase3 = lifeRatio < 0.65f;
+            bool phase4 = lifeRatio < 0.55f;
+            bool phase5 = lifeRatio < 0.4f;
 			float num5 = (float)(death ? 20 - Math.Ceiling(5f * (1f - lifeRatio)) : 20);
 
 			if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
@@ -658,8 +659,13 @@ namespace CalamityMod.NPCs
                 {
                     float num11 = 7f;
                     float num12 = 0.15f;
+					if (death)
+					{
+						num11 += 8f * (1f - lifeRatio);
+						num12 += 0.17f * (1f - lifeRatio);
+					}
 
-                    Vector2 vector = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
+					Vector2 vector = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
                     float num13 = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2) - vector.X;
                     float num14 = Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2) - 200f - vector.Y;
                     float num15 = (float)Math.Sqrt(num13 * num13 + num14 * num14);
@@ -695,7 +701,7 @@ namespace CalamityMod.NPCs
                     }
 
                     npc.ai[2] += 1f;
-                    float num17 = 180f;
+                    float num17 = 180f - (death ? 200f * (1f - lifeRatio) : 0f);
                     if (npc.ai[2] >= num17)
                     {
                         npc.ai[1] = 1f;
@@ -752,8 +758,10 @@ namespace CalamityMod.NPCs
                 {
                     npc.rotation = num8;
                     float num24 = 7.25f;
+					if (death)
+						num24 += 8.5f * (1f - lifeRatio);
 
-                    Vector2 vector4 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
+					Vector2 vector4 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
                     float num25 = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2) - vector4.X;
                     float num26 = Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2) - vector4.Y;
                     float num27 = (float)Math.Sqrt(num25 * num25 + num26 * num26);
@@ -783,7 +791,10 @@ namespace CalamityMod.NPCs
                         npc.rotation = (float)Math.Atan2(npc.velocity.Y, npc.velocity.X) - MathHelper.PiOver2;
 
                     int num28 = 90;
-                    if (npc.ai[2] >= num28)
+					if (death)
+						num28 -= (int)Math.Ceiling(120f * (1f - lifeRatio));
+
+					if (npc.ai[2] >= num28)
                     {
                         npc.ai[3] += 1f;
                         npc.ai[2] = 0f;
@@ -911,9 +922,14 @@ namespace CalamityMod.NPCs
 
                 if (npc.ai[1] == 0f)
                 {
-                    float num37 = ((enraged || configBossRushBoost) ? 8f : 5.5f) + 3.5f * (0.85f - lifeRatio);
-                    float num38 = ((enraged || configBossRushBoost) ? 0.09f : 0.06f) + 0.025f * (0.85f - lifeRatio);
-                    if (BossRushEvent.BossRushActive)
+                    float num37 = ((enraged || configBossRushBoost) ? 8f : 5.5f) + 3.5f * (0.75f - lifeRatio);
+                    float num38 = ((enraged || configBossRushBoost) ? 0.09f : 0.06f) + 0.025f * (0.75f - lifeRatio);
+					if (death)
+					{
+						num37 += 5f * (0.75f - lifeRatio);
+						num38 += 0.04f * (0.75f - lifeRatio);
+					}
+					if (BossRushEvent.BossRushActive)
                     {
                         num37 *= 2f;
                         num38 *= 2f;
@@ -970,7 +986,8 @@ namespace CalamityMod.NPCs
                     }
 
                     npc.ai[2] += 1f;
-                    if (npc.ai[2] >= 200f)
+					float phaseLimit = 200f - (death ? 200f * (0.75f - lifeRatio) : 0f);
+					if (npc.ai[2] >= phaseLimit)
                     {
                         npc.ai[1] = 1f;
                         npc.ai[2] = 0f;
@@ -989,8 +1006,10 @@ namespace CalamityMod.NPCs
                     Main.PlaySound(SoundID.ForceRoar, (int)npc.position.X, (int)npc.position.Y, 0, 1f, 0f);
                     npc.rotation = num8;
 
-                    float num42 = ((enraged || configBossRushBoost) ? 9.5f : 6.2f) + 4f * (0.85f - lifeRatio);
-                    if (npc.ai[3] == 1f)
+                    float num42 = ((enraged || configBossRushBoost) ? 9.5f : 6.2f) + 4f * (0.75f - lifeRatio);
+					if (death)
+						num42 += 5.5f * (0.75f - lifeRatio);
+					if (npc.ai[3] == 1f)
                         num42 *= 1.15f;
                     if (npc.ai[3] == 2f)
                         num42 *= 1.3f;
@@ -1029,7 +1048,10 @@ namespace CalamityMod.NPCs
                         npc.rotation = (float)Math.Atan2(npc.velocity.Y, npc.velocity.X) - MathHelper.PiOver2;
 
                     int num47 = 80;
-                    if (npc.ai[2] >= num47)
+					if (death)
+						num47 -= (int)Math.Ceiling(40f * (0.75f - lifeRatio));
+
+					if (npc.ai[2] >= num47)
                     {
                         npc.ai[3] += 1f;
                         npc.ai[2] = 0f;
@@ -1071,7 +1093,7 @@ namespace CalamityMod.NPCs
                     else if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         npc.TargetClosest(true);
-						float speedBoost = death ? 5f * (1f - lifeRatio) : 3.5f * (0.7f - lifeRatio);
+						float speedBoost = death ? 5f * (0.65f - lifeRatio) : 3.5f * (0.65f - lifeRatio);
 						float num48 = ((enraged || configBossRushBoost) ? 26f : 18f) + speedBoost;
                         if (BossRushEvent.BossRushActive)
                             num48 *= 1.5f;
@@ -1178,7 +1200,7 @@ namespace CalamityMod.NPCs
                         npc.ai[3] += 1f;
                         npc.ai[2] = 0f;
 
-						float maxCharges = death ? (lifeRatio < 0.33f ? 3f : lifeRatio < 0.66f ? 4f : 5f) : lifeRatio < 0.25f ? 4f : 5f;
+						float maxCharges = death ? (lifeRatio < 0.05f ? 1f : lifeRatio < 0.1f ? 2f : lifeRatio < 0.15f ? 3f : lifeRatio < 0.25f ? 4f : 5f) : lifeRatio < 0.2f ? 4f : 5f;
                         if (npc.ai[3] >= maxCharges)
                         {
                             npc.ai[1] = 0f;
@@ -1192,8 +1214,8 @@ namespace CalamityMod.NPCs
                 else if (npc.ai[1] == 5f)
                 {
                     float num62 = 600f;
-					float speedBoost = death ? 4f * (1f - lifeRatio) : 4f * (0.5f - lifeRatio);
-					float speedBoost2 = death ? 0.1f * (1f - lifeRatio) : 0.1f * (0.5f - lifeRatio);
+					float speedBoost = death ? 6f * (0.4f - lifeRatio) : 4f * (0.4f - lifeRatio);
+					float speedBoost2 = death ? 0.15f * (0.4f - lifeRatio) : 0.1f * (0.4f - lifeRatio);
 					float num63 = ((enraged || configBossRushBoost) ? 12f : 8f) + speedBoost;
                     float num64 = ((enraged || configBossRushBoost) ? 0.4f : 0.25f) + speedBoost2;
                     if (BossRushEvent.BossRushActive)
@@ -1281,7 +1303,7 @@ namespace CalamityMod.NPCs
                             Dust.NewDust(vector2, 20, 20, 5, vector3.X * 0.4f, vector3.Y * 0.4f, 0, default, 1f);
                     }
 
-					float timeGateValue = horizontalCharge ? (100f - (death ? 20f * (1f - lifeRatio) : 0f)) : (70f - (death ? 15f * (1f - lifeRatio) : 0f));
+					float timeGateValue = horizontalCharge ? (100f - (death ? 20f * (0.4f - lifeRatio) : 0f)) : (70f - (death ? 15f * (0.4f - lifeRatio) : 0f));
 					if (npc.ai[2] >= timeGateValue)
                     {
                         switch ((int)calamityGlobalNPC.newAI[0])
@@ -1323,7 +1345,7 @@ namespace CalamityMod.NPCs
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         npc.TargetClosest(true);
-						float speedBoost = death ? 4f * (1f - lifeRatio) : 4f * (0.5f - lifeRatio);
+						float speedBoost = death ? 6f * (0.4f - lifeRatio) : 4f * (0.4f - lifeRatio);
 						float num48 = ((enraged || configBossRushBoost) ? 26f : 18f) + speedBoost;
                         if (BossRushEvent.BossRushActive)
                             num48 *= 1.5f;
@@ -1408,10 +1430,10 @@ namespace CalamityMod.NPCs
 				calamityGlobalNPC.newAI[1] += 1f;
 
 			// Phases
-			bool phase2 = lifeRatio < 0.9f || death;
-            bool phase3 = lifeRatio < 0.75f || death;
-            bool phase4 = lifeRatio < 0.4f || death;
-            bool phase5 = lifeRatio < 0.1f || (death && lifeRatio < 0.2f);
+			bool phase2 = lifeRatio < 0.9f;
+            bool phase3 = lifeRatio < 0.75f;
+            bool phase4 = lifeRatio < 0.4f;
+            bool phase5 = lifeRatio < 0.1f;
 
             // Fire projectiles
             if (Main.netMode != NetmodeID.MultiplayerClient && (!phase5 || death))
@@ -1968,10 +1990,10 @@ namespace CalamityMod.NPCs
                 float lifeRatio = npc.life / (float)npc.lifeMax;
 
 				// Phases based on HP
-                bool phase2 = lifeRatio < 0.85f || death;
-                bool phase3 = lifeRatio < 0.7f || death;
-                bool phase4 = lifeRatio < 0.5f || death;
-                bool phase5 = lifeRatio < 0.3f || death;
+                bool phase2 = lifeRatio < 0.85f;
+                bool phase3 = lifeRatio < 0.7f;
+                bool phase4 = lifeRatio < 0.5f;
+                bool phase5 = lifeRatio < 0.3f;
                 bool spinning = npc.ai[0] == -4f;
 
 				// KnockBack
@@ -3859,8 +3881,8 @@ namespace CalamityMod.NPCs
             float lifeRatio = npc.life / (float)npc.lifeMax;
 
             // Phases based on HP
-            bool phase2 = lifeRatio < 0.66f || death;
-            bool phase3 = lifeRatio < 0.33f || death;
+            bool phase2 = lifeRatio < 0.66f;
+            bool phase3 = lifeRatio < 0.33f;
 
             // Start leech spawning based on HP
             npc.ai[1] += 1f;
@@ -4319,7 +4341,7 @@ namespace CalamityMod.NPCs
 
                     if (flag30)
                     {
-                        bool phase2 = lifeRatio < 0.5 || death;
+                        bool phase2 = lifeRatio < 0.5;
                         float velocity = (fireAcceleratingLasers ? 3f : 9f) + shootBoost;
                         if (BossRushEvent.BossRushActive)
                             velocity *= 1.5f;
@@ -4362,9 +4384,9 @@ namespace CalamityMod.NPCs
             float lifeRatio = npc.life / (float)npc.lifeMax;
 
             // Phases based on life percentage
-            bool phase2 = lifeRatio < 0.85f || death;
-			bool phase3 = lifeRatio < 0.7f || death;
-			bool startFlightPhase = lifeRatio < 0.5f || death;
+            bool phase2 = lifeRatio < 0.85f;
+			bool phase3 = lifeRatio < 0.7f;
+			bool startFlightPhase = lifeRatio < 0.5f;
 			bool phase4 = lifeRatio < 0.25f;
 			bool phase5 = lifeRatio < 0.1f;
 
@@ -4434,10 +4456,10 @@ namespace CalamityMod.NPCs
 
             if (npc.type == NPCID.TheDestroyerBody)
             {
-                // Gain more defense as health lowers with a max of 30, lose defense if probe has been launched
+                // Gain more defense as health lowers with a max of 10, lose defense if probe has been launched
                 if (npc.ai[2] == 0f)
                 {
-					int defenseBoost = death ? 10 : (int)(10f * (1f - lifeRatio));
+					int defenseBoost = (int)(10f * (1f - lifeRatio));
                     npc.defense = npc.defDefense + defenseBoost;
                 }
                 else
@@ -5395,7 +5417,7 @@ namespace CalamityMod.NPCs
             if (CalamityGlobalNPC.fireEye != -1)
                 spazAlive = Main.npc[CalamityGlobalNPC.fireEye].active;
 
-            bool enrage = lifeRatio < (death ? 0.5f : 0.25f);
+            bool enrage = lifeRatio < 0.25f;
 
             // I'm not commenting this entire fucking thing, already did spaz, I'm not doing ret
             if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
@@ -5472,6 +5494,12 @@ namespace CalamityMod.NPCs
                     float num382 = 8.25f;
                     float num383 = 0.115f;
 
+					if (death)
+					{
+						num382 += 8f * (1f - lifeRatio);
+						num383 += 0.1f * (1f - lifeRatio);
+					}
+
 					if (BossRushEvent.BossRushActive)
                     {
                         num382 *= 1.5f;
@@ -5518,7 +5546,7 @@ namespace CalamityMod.NPCs
                     }
 
                     npc.ai[2] += 1f;
-                    if (npc.ai[2] >= 450f)
+                    if (npc.ai[2] >= 450f - (death ? 900f * (1f - lifeRatio) : 0f))
                     {
                         npc.ai[1] = 1f;
                         npc.ai[2] = 0f;
@@ -5562,7 +5590,10 @@ namespace CalamityMod.NPCs
                 {
                     npc.rotation = num378;
                     float num393 = BossRushEvent.BossRushActive ? 22.5f : 15f;
-                    Vector2 vector41 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
+					if (death)
+						num393 += 12f * (1f - lifeRatio);
+
+					Vector2 vector41 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
                     float num394 = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2) - vector41.X;
                     float num395 = Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2) - vector41.Y;
                     float num396 = (float)Math.Sqrt(num394 * num394 + num395 * num395);
@@ -5606,7 +5637,7 @@ namespace CalamityMod.NPCs
                 }
 
                 // Enter phase 2 earlier
-                if (lifeRatio < 0.7f || targetFloatingUp || death)
+                if (lifeRatio < 0.7f || targetFloatingUp)
                 {
                     npc.ai[0] = 1f;
                     npc.ai[1] = 0f;
@@ -5691,8 +5722,8 @@ namespace CalamityMod.NPCs
 
                 if (npc.ai[1] == 0f)
                 {
-                    float num399 = 9.5f + (death ? 3f * (1f - lifeRatio) : 0f);
-                    float num400 = 0.175f + (death ? 0.05f * (1f - lifeRatio) : 0f);
+                    float num399 = 9.5f + (death ? 3f * (0.7f - lifeRatio) : 0f);
+                    float num400 = 0.175f + (death ? 0.05f * (0.7f - lifeRatio) : 0f);
 
 					// Reduce acceleration if target is holding a true melee weapon
 					Item targetSelectedItem = Main.player[npc.target].inventory[Main.player[npc.target].selectedItem];
@@ -5749,7 +5780,7 @@ namespace CalamityMod.NPCs
                         npc.localAI[1] += 2f;
                     }
 
-                    if (npc.ai[2] >= 300f - (death ? 120f * (1f - lifeRatio) : 0f))
+                    if (npc.ai[2] >= 300f - (death ? 120f * (0.7f - lifeRatio) : 0f))
                     {
                         npc.ai[1] = 1f;
                         npc.ai[2] = 0f;
@@ -5765,7 +5796,7 @@ namespace CalamityMod.NPCs
 
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        npc.localAI[1] += 1f + (death ? 1f - lifeRatio : 0f);
+                        npc.localAI[1] += 1f + (death ? 0.7f - lifeRatio : 0f);
                         if (npc.localAI[1] >= (spazAlive ? 72f : 24f))
                         {
                             bool canHit = Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height);
@@ -5803,8 +5834,8 @@ namespace CalamityMod.NPCs
                         if (npc.position.X + (npc.width / 2) < Main.player[npc.target].position.X + Main.player[npc.target].width)
                             num408 = -1;
 
-                        float num409 = 9.5f + (death ? 3f * (1f - lifeRatio) : 0f);
-                        float num410 = 0.25f + (death ? 0.075f * (1f - lifeRatio) : 0f);
+                        float num409 = 9.5f + (death ? 3f * (0.7f - lifeRatio) : 0f);
+                        float num410 = 0.25f + (death ? 0.075f * (0.7f - lifeRatio) : 0f);
 
 						// Reduce acceleration if target is holding a true melee weapon
 						Item targetSelectedItem = Main.player[npc.target].inventory[Main.player[npc.target].selectedItem];
@@ -5866,7 +5897,7 @@ namespace CalamityMod.NPCs
 
                         if (Main.netMode != NetmodeID.MultiplayerClient)
                         {
-                            npc.localAI[1] += 1f + (death ? 1f - lifeRatio : 0f);
+                            npc.localAI[1] += 1f + (death ? 0.7f - lifeRatio : 0f);
                             if (npc.localAI[1] > (spazAlive ? 24f : 8f))
                             {
                                 bool canHit = Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height);
@@ -5897,7 +5928,7 @@ namespace CalamityMod.NPCs
                         }
 
                         npc.ai[2] += spazAlive ? 1f : 1.5f;
-                        if (npc.ai[2] >= 180f - (death ? 60f * (1f - lifeRatio) : 0f))
+                        if (npc.ai[2] >= 180f - (death ? 90f * (0.7f - lifeRatio) : 0f))
                         {
                             npc.ai[1] = (!spazAlive || enrage) ? 4f : 0f;
                             npc.ai[2] = 0f;
@@ -5912,7 +5943,7 @@ namespace CalamityMod.NPCs
                     {
                         // Set rotation and velocity
                         npc.rotation = num378;
-                        float num450 = (death ? 24f : 22f) + (death ? 8f * (1f - lifeRatio) : 0f);
+                        float num450 = 22f + (death ? 8f * (0.7f - lifeRatio) : 0f);
 
                         if (!spazAlive)
                             num450 += 2f;
@@ -5940,7 +5971,7 @@ namespace CalamityMod.NPCs
 
                         float chargeTime = spazAlive ? 110f : 75f;
 						if (death)
-							chargeTime -= death ? chargeTime * 0.25f * (1f - lifeRatio) : 0f;
+							chargeTime -= chargeTime * 0.25f * (0.7f - lifeRatio);
 						if (BossRushEvent.BossRushActive)
                             chargeTime *= 0.8f;
 
@@ -6005,8 +6036,8 @@ namespace CalamityMod.NPCs
                     else if (npc.ai[1] == 4f)
                     {
                         int num62 = spazAlive ? 600 : 500;
-                        float num63 = ((enraged || configBossRushBoost) ? 18f : 12f) + (death ? 4f * (1f - lifeRatio) : 0f);
-                        float num64 = ((enraged || configBossRushBoost) ? 0.45f : 0.3f) + (death ? 0.1f * (1f - lifeRatio) : 0f);
+                        float num63 = ((enraged || configBossRushBoost) ? 18f : 12f) + (death ? 4f * (0.7f - lifeRatio) : 0f);
+                        float num64 = ((enraged || configBossRushBoost) ? 0.45f : 0.3f) + (death ? 0.1f * (0.7f - lifeRatio) : 0f);
 
                         if (spazAlive)
                         {
@@ -6060,7 +6091,7 @@ namespace CalamityMod.NPCs
 
                         // Take 1.25 or 1 second to get in position, then charge
                         npc.ai[2] += 1f;
-                        if (npc.ai[2] >= (spazAlive ? 75f : 60f) - (death ? 20f * (1f - lifeRatio) : 0f))
+                        if (npc.ai[2] >= (spazAlive ? 75f : 60f) - (death ? 20f * (0.7f - lifeRatio) : 0f))
                         {
                             npc.TargetClosest(true);
                             npc.ai[1] = 2f;
@@ -6095,7 +6126,7 @@ namespace CalamityMod.NPCs
             if (CalamityGlobalNPC.laserEye != -1)
                 retAlive = Main.npc[CalamityGlobalNPC.laserEye].active;
 
-            bool enrage = lifeRatio < (death ? 0.5f : 0.25f);
+            bool enrage = lifeRatio < 0.25f;
 
             // Get a target
             if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
@@ -6182,7 +6213,13 @@ namespace CalamityMod.NPCs
                     float num424 = 12f;
                     float num425 = 0.4f;
 
-                    if (BossRushEvent.BossRushActive)
+					if (death)
+					{
+						num424 += 9f * (1f - lifeRatio);
+						num425 += 0.3f * (1f - lifeRatio);
+					}
+
+					if (BossRushEvent.BossRushActive)
                     {
                         num424 *= 1.5f;
                         num425 *= 1.5f;
@@ -6228,7 +6265,7 @@ namespace CalamityMod.NPCs
 
                     // Fire cursed flames for 5 seconds
                     npc.ai[2] += 1f;
-                    if (npc.ai[2] >= 300f)
+                    if (npc.ai[2] >= 300f - (death ? 600f * (1f - lifeRatio) : 0f))
                     {
                         // Reset AI array and go to charging phase
                         npc.ai[1] = 1f;
@@ -6276,6 +6313,9 @@ namespace CalamityMod.NPCs
                     // Rotation and velocity
                     npc.rotation = num420;
                     float num434 = BossRushEvent.BossRushActive ? 24f : 16f;
+					if (death)
+						num434 += 12f * (1f - lifeRatio);
+
                     Vector2 vector45 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
                     float num435 = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2) - vector45.X;
                     float num436 = Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2) - vector45.Y;
@@ -6312,7 +6352,11 @@ namespace CalamityMod.NPCs
                         npc.ai[2] = 0f;
                         npc.target = Main.maxPlayers;
                         npc.rotation = num420;
-                        if (npc.ai[3] >= 8f)
+						float totalCharges = 8f;
+						if (death)
+							totalCharges -= (float)Math.Ceiling(16f * (1f - lifeRatio));
+
+						if (npc.ai[3] >= totalCharges)
                         {
                             npc.ai[1] = 0f;
                             npc.ai[3] = 0f;
@@ -6323,7 +6367,7 @@ namespace CalamityMod.NPCs
                 }
 
                 // Enter phase 2 earlier
-                if (lifeRatio < 0.7f || targetFloatingUp || death)
+                if (lifeRatio < 0.7f || targetFloatingUp)
                 {
                     // Reset AI array and go to transition phase
                     npc.ai[0] = 1f;
@@ -6418,8 +6462,8 @@ namespace CalamityMod.NPCs
                 // Shadowflamethrower phase
                 if (npc.ai[1] == 0f)
                 {
-                    float num440 = 6.2f + (death ? 2f * (1f - lifeRatio) : 0f);
-                    float num441 = 0.1f + (death ? 0.03f * (1f - lifeRatio) : 0f);
+                    float num440 = 6.2f + (death ? 2f * (0.7f - lifeRatio) : 0f);
+                    float num441 = 0.1f + (death ? 0.03f * (0.7f - lifeRatio) : 0f);
                     if (BossRushEvent.BossRushActive)
                     {
                         num440 *= 1.5f;
@@ -6480,7 +6524,7 @@ namespace CalamityMod.NPCs
 
                     // Fire flamethrower for x seconds
                     npc.ai[2] += retAlive ? 1f : 2f;
-                    if (npc.ai[2] >= 180f - (death ? 60f * (1f - lifeRatio) : 0f))
+                    if (npc.ai[2] >= 180f - (death ? 60f * (0.7f - lifeRatio) : 0f))
                     {
                         npc.ai[1] = (!retAlive || enrage) ? 5f : 1f;
                         npc.ai[2] = 0f;
@@ -6549,7 +6593,7 @@ namespace CalamityMod.NPCs
 
                         // Set rotation and velocity
                         npc.rotation = num420;
-                        float num450 = 16.75f + (death ? 5f * (1f - lifeRatio) : 0f);
+                        float num450 = 16.75f + (death ? 5f * (0.7f - lifeRatio) : 0f);
 
                         // Enrage
                         if (targetFloatingUp)
@@ -6580,7 +6624,7 @@ namespace CalamityMod.NPCs
                         if (BossRushEvent.BossRushActive)
                             npc.ai[2] += 0.4f;
 
-                        float chargeTime = 50f - (death ? 12f * (1f - lifeRatio) : 0f);
+                        float chargeTime = 50f - (death ? 12f * (0.7f - lifeRatio) : 0f);
 
                         // Slow down
                         if (npc.ai[2] >= chargeTime)
@@ -6639,7 +6683,7 @@ namespace CalamityMod.NPCs
                             npc.TargetClosest(true);
 
                             // Velocity
-                            float num48 = ((enraged || configBossRushBoost) ? 30f : 20f) + (death ? 6f * (1f - lifeRatio) : 0f);
+                            float num48 = ((enraged || configBossRushBoost) ? 30f : 20f) + (death ? 6f * (0.7f - lifeRatio) : 0f);
                             if (BossRushEvent.BossRushActive)
                                 num48 *= 1.5f;
                             if (npc.ai[2] == -1f || (!retAlive && npc.ai[3] == secondFastCharge))
@@ -6689,7 +6733,7 @@ namespace CalamityMod.NPCs
                         if (npc.ai[2] == 0f)
                             Main.PlaySound(SoundID.Roar, (int)npc.position.X, (int)npc.position.Y, 0, 1f, 0f);
 
-                        float num60 = ((!retAlive && npc.ai[3] == 4f) ? 75f : 50f) - (death ? 14f * (1f - lifeRatio) : 0f);
+                        float num60 = ((!retAlive && npc.ai[3] == 4f) ? 75f : 50f) - (death ? 14f * (0.7f - lifeRatio) : 0f);
                         if (BossRushEvent.BossRushActive)
                             num60 *= 0.8f;
 
@@ -6729,8 +6773,8 @@ namespace CalamityMod.NPCs
                     else if (npc.ai[1] == 5f)
                     {
                         float num62 = retAlive ? 600f : 500f;
-                        float num63 = ((enraged || configBossRushBoost) ? 24f : 16f) + (death ? 5f * (1f - lifeRatio) : 0f);
-                        float num64 = ((enraged || configBossRushBoost) ? 0.6f : 0.4f) + (death ? 0.1f * (1f - lifeRatio) : 0f);
+                        float num63 = ((enraged || configBossRushBoost) ? 24f : 16f) + (death ? 5f * (0.7f - lifeRatio) : 0f);
+                        float num64 = ((enraged || configBossRushBoost) ? 0.6f : 0.4f) + (death ? 0.1f * (0.7f - lifeRatio) : 0f);
 
                         if (retAlive)
                         {
@@ -6805,7 +6849,7 @@ namespace CalamityMod.NPCs
                         }
 
                         // Take 3 seconds to get in position, then charge
-                        if (npc.ai[2] >= (retAlive ? 180f : 135f) - (death ? 45f * (1f - lifeRatio) : 0f))
+                        if (npc.ai[2] >= (retAlive ? 180f : 135f) - (death ? 45f * (0.7f - lifeRatio) : 0f))
                         {
                             npc.TargetClosest(true);
                             npc.ai[1] = 3f;
@@ -6918,8 +6962,8 @@ namespace CalamityMod.NPCs
 			npc.defense = npc.defDefense + (cannonAlive ? defenseBoost : 0) + (laserAlive ? defenseBoost : 0) + (viceAlive ? defenseBoost : 0) + (sawAlive ? defenseBoost : 0);
 
 			// Phases
-			bool phase2 = lifeRatio < 0.66f || (death && allArmsDead);
-            bool phase3 = lifeRatio < 0.33f || (death && allArmsDead);
+			bool phase2 = lifeRatio < 0.66f;
+            bool phase3 = lifeRatio < 0.33f;
 
 			// Kill all arms if Prime Head enters phase 2
 			if (phase2 && !allArmsDead)
@@ -8578,7 +8622,7 @@ namespace CalamityMod.NPCs
 			// Phases based on HP
 			bool phase1phase2 = lifeRatio < 0.75f;
             bool phase2 = lifeRatio <= 0.5f;
-            bool phase3 = lifeRatio < 0.35f || (death && phase2);
+            bool phase3 = lifeRatio < 0.35f;
 			bool phase4 = lifeRatio < 0.2f;
 
 			// Variables and target
@@ -9483,9 +9527,9 @@ namespace CalamityMod.NPCs
 
 			// Phases
 			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
-			bool phase2 = lifeRatio < 0.75f || death;
-            bool phase3 = lifeRatio < 0.5f || death;
-            bool phase4 = lifeRatio < 0.25f || death;
+			bool phase2 = lifeRatio < 0.75f;
+            bool phase3 = lifeRatio < 0.5f;
+            bool phase4 = lifeRatio < 0.25f;
 
 			// Spawn parts
 			if (npc.localAI[0] == 0f && Main.netMode != NetmodeID.MultiplayerClient)
@@ -10077,9 +10121,9 @@ namespace CalamityMod.NPCs
 
 			// Phases
 			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
-            bool phase2 = lifeRatio < 0.7f || golemLifeRatio < 0.85f || death;
-            bool phase3 = lifeRatio < 0.4f || golemLifeRatio < 0.7f || death;
-            bool phase4 = lifeRatio < 0.1f || golemLifeRatio < 0.55f || death;
+            bool phase2 = lifeRatio < 0.7f || golemLifeRatio < 0.85f;
+            bool phase3 = lifeRatio < 0.55f || golemLifeRatio < 0.7f;
+            bool phase4 = lifeRatio < 0.4f || golemLifeRatio < 0.55f;
 
 			// Float through tiles or not
 			bool flag44 = false;

@@ -426,11 +426,11 @@ namespace CalamityMod.NPCs.Ravager
 								npc.ai[1] += 1f;
 						}
 
-						if ((!rightClawActive && !leftClawActive) || death || npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))
+						if ((!rightClawActive && !leftClawActive) || npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))
                             npc.ai[1] += 1f;
-                        if (!headActive || death || npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))
+                        if (!headActive || npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))
                             npc.ai[1] += 1f;
-                        if ((!rightLegActive && !leftLegActive) || death || npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))
+                        if ((!rightLegActive && !leftLegActive) || npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))
                             npc.ai[1] += 1f;
                     }
 
@@ -648,15 +648,15 @@ namespace CalamityMod.NPCs.Ravager
 
 						if (npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))
 							velocityX += 3f;
-						if (!rightClawActive || death)
+						if (!rightClawActive)
 							velocityX += 1f;
-						if (!leftClawActive || death)
+						if (!leftClawActive)
 							velocityX += 1f;
-						if (!headActive || death)
+						if (!headActive)
 							velocityX += 1f;
-						if (!rightLegActive || death)
+						if (!rightLegActive)
 							velocityX += 1f;
-						if (!leftLegActive || death)
+						if (!leftLegActive)
 							velocityX += 1f;
 
 						if (npc.ai[0] == 2f)

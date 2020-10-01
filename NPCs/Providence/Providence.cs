@@ -239,7 +239,7 @@ namespace CalamityMod.NPCs.Providence
 
 			// Phases
 			bool ignoreGuardianAmt = lifeRatio < (death ? 0.2f : 0.15f);
-            bool phase2 = (lifeRatio < 0.75f || death) && !nightTime;
+            bool phase2 = lifeRatio < 0.75f && !nightTime;
 			bool delayAttacks = npc.localAI[2] > 0f;
 
 			// Spear phase
@@ -262,7 +262,7 @@ namespace CalamityMod.NPCs.Providence
 			Vector2 fireFrom = new Vector2(vector.X, vector.Y + 20f);
 
 			// Cocoon projectile initial velocity
-			float cocoonProjVelocity = 3f + (nightTime ? 1.5f : death ? 1f - lifeRatio : 0f);
+			float cocoonProjVelocity = 3f + (death ? 2f * (1f - lifeRatio) : 0f);
 
 			// Distance X needed from target in order to fire holy or molten blasts
 			float distanceNeededToShoot = death ? 300f : revenge ? 360f : 420f;

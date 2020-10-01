@@ -21,7 +21,8 @@ namespace CalamityMod.NPCs.Calamitas
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Soul Seeker");
-			NPCID.Sets.TrailingMode[npc.type] = 5;
+			Main.npcFrameCount[npc.type] = 5;
+			NPCID.Sets.TrailingMode[npc.type] = 1;
 		}
 
         public override void SetDefaults()

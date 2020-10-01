@@ -88,8 +88,8 @@ namespace CalamityMod.NPCs.Crabulon
 			float lifeRatio = npc.life / (float)npc.lifeMax;
 
 			// Phases
-			bool phase2 = (lifeRatio < 0.5f && expertMode) || death;
-			bool phase3 = (lifeRatio < 0.1f && expertMode) || death;
+			bool phase2 = lifeRatio < 0.66f && expertMode;
+			bool phase3 = lifeRatio < 0.33f && expertMode;
 
 			// Get a target
 			if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)

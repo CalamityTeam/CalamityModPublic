@@ -188,7 +188,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 npc.spriteDirection = -Math.Sign(npc.velocity.X);
             }
             npc.spriteDirection = Math.Sign(npc.velocity.X);
-            float num1000 = (lifeRatio < 0.75f || death) ? 14f : 16f;
+            float num1000 = lifeRatio < 0.75f ? 14f : 16f;
             if (revenge)
             {
                 num1000 *= 0.9f;
@@ -310,7 +310,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
                     dustTimer--;
-                    if ((lifeRatio < 0.5f || death) && dustTimer <= 0)
+                    if (lifeRatio < 0.5f && dustTimer <= 0)
                     {
                         Main.PlaySound(SoundID.Item20, npc.position);
 						int type = ModContent.ProjectileType<FlareDust>();

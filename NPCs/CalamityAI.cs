@@ -620,7 +620,8 @@ namespace CalamityMod.NPCs
 			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
 			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
 			bool calamity = modPlayer.ZoneCalamity;
-			bool phase2 = (lifeRatio < 0.5f && revenge) || death;
+			bool phase2 = lifeRatio < 0.5f && revenge;
+			bool phase3 = lifeRatio < 0.33f;
 
 			// Emit dust
 			int dustAmt = (npc.ai[0] == 2f) ? 2 : 1;
@@ -666,8 +667,22 @@ namespace CalamityMod.NPCs
 				}
 			}
 
+			if (npc.ai[0] == -1f)
+			{
+				if (Main.netMode != NetmodeID.MultiplayerClient)
+				{
+					int phase;
+					int random = phase2 ? 6 : 5;
+					do phase = Main.rand.Next(random);
+					while (phase == npc.ai[1] || (phase == 0 && phase3) || phase == 1 || phase == 2);
+
+					npc.ai[0] = phase;
+					npc.ai[1] = 0f;
+				}
+			}
+
 			// Pick a location to teleport to
-			if (npc.ai[0] == 0f)
+			else if (npc.ai[0] == 0f)
 			{
 				npc.chaseable = true;
 				if (Main.netMode != NetmodeID.MultiplayerClient)
@@ -755,7 +770,7 @@ namespace CalamityMod.NPCs
 					npc.alpha = 0;
 					if (npc.ai[3] >= 2f || phase2)
 					{
-						npc.ai[0] = phase2 ? 5f : 3f;
+						npc.ai[0] = -1f;
 						npc.ai[1] = 0f;
 						npc.ai[2] = 0f;
 						npc.ai[3] = 0f;
@@ -891,8 +906,8 @@ namespace CalamityMod.NPCs
 				if (npc.ai[1] >= divisor * 10f)
 				{
 					npc.TargetClosest(true);
-					npc.ai[0] = 4f;
-					npc.ai[1] = 0f;
+					npc.ai[0] = -1f;
+					npc.ai[1] = 3f;
 					npc.ai[2] = 0f;
 					npc.ai[3] = 0f;
 					npc.netUpdate = true;
@@ -967,8 +982,8 @@ namespace CalamityMod.NPCs
 				if (npc.ai[1] >= (death ? 240f : 300f))
 				{
 					npc.TargetClosest(true);
-					npc.ai[0] = 0f;
-					npc.ai[1] = 0f;
+					npc.ai[0] = -1f;
+					npc.ai[1] = 4f;
 					npc.ai[2] = 0f;
 					npc.ai[3] = 0f;
 					npc.netUpdate = true;
@@ -1009,8 +1024,8 @@ namespace CalamityMod.NPCs
 					npc.localAI[1] = 0f;
 					if (npc.ai[2] >= (death ? 1f : 2f))
 					{
-						npc.ai[0] = 3f;
-						npc.ai[1] = 0f;
+						npc.ai[0] = -1f;
+						npc.ai[1] = 5f;
 						npc.ai[2] = 0f;
 						calamityGlobalNPC.newAI[0] = 0f;
 					}
@@ -2270,8 +2285,8 @@ namespace CalamityMod.NPCs
             npc.spriteDirection = (npc.direction > 0) ? 1 : -1;
 
 			// Phases
-			bool phase2 = lifeRatio < 0.75f || death;
-			bool phase3 = lifeRatio < 0.5f || death;
+			bool phase2 = lifeRatio < 0.75f;
+			bool phase3 = lifeRatio < 0.5f;
 
 			// Despawn
 			if (!player.active || player.dead || dayTime || Vector2.Distance(player.Center, npc.Center) > 5600f)
@@ -2849,9 +2864,9 @@ namespace CalamityMod.NPCs
 			// Phases based on life percentage
 			bool halfHealth = lifeRatio < 0.5f;
 			bool doubleWormPhase = calamityGlobalNPC.newAI[0] != 0f;
-			bool phase2 = (lifeRatio < 0.9f && expertMode) || death || (doubleWormPhase && expertMode);
+			bool phase2 = (lifeRatio < 0.9f && expertMode) || (doubleWormPhase && expertMode);
 			bool startFlightPhase = lifeRatio < 0.8f || death || doubleWormPhase;
-			bool phase3 = (lifeRatio < 0.7f && expertMode) || death || (doubleWormPhase && expertMode);
+			bool phase3 = (lifeRatio < 0.7f && expertMode) || (doubleWormPhase && expertMode);
 			bool phase4 = lifeRatio < 0.5f && doubleWormPhase && expertMode;
 			bool phase5 = lifeRatio < 0.2f && doubleWormPhase && expertMode;
 
@@ -3863,7 +3878,7 @@ namespace CalamityMod.NPCs
 			float lifeRatio = npc.life / (float)npc.lifeMax;
 
 			// Phases
-			bool phase2 = lifeRatio < (revenge ? 0.75f : 0.5f) || death;
+			bool phase2 = lifeRatio < (revenge ? 0.75f : 0.5f);
 			bool phase3 = lifeRatio < (death ? 0.4f : revenge ? 0.25f : 0.1f) && expertMode;
 
 			float birbSpawnPhaseTimer = 180f;
