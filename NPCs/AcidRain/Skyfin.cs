@@ -18,6 +18,7 @@ namespace CalamityMod.NPCs.AcidRain
         public const float DiveTime = 90f;
         public const float TotalTime = DiveDelay + DiveTime;
         public bool Flying = false;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Skyfin");
@@ -38,15 +39,15 @@ namespace CalamityMod.NPCs.AcidRain
             if (CalamityWorld.downedPolterghast)
             {
 				npc.knockBackResist = 0.8f;
-                npc.damage = 150;
-                npc.lifeMax = 5001;
-                npc.defense = 58;
+                npc.damage = 88;
+                npc.lifeMax = 5500;
+                npc.defense = 18;
 				npc.DR_NERD(0.05f);
             }
             else if (CalamityWorld.downedAquaticScourge)
             {
-                npc.damage = 85;
-                npc.lifeMax = 400;
+                npc.damage = 38;
+                npc.lifeMax = 220;
 				npc.DR_NERD(0.05f);
             }
 
@@ -62,14 +63,17 @@ namespace CalamityMod.NPCs.AcidRain
             banner = npc.type;
             bannerItem = ModContent.ItemType<SkyfinBanner>();
         }
+
         public override void SendExtraAI(BinaryWriter writer)
         {
             writer.Write(Flying);
         }
+
         public override void ReceiveExtraAI(BinaryReader reader)
         {
             Flying = reader.ReadBoolean();
         }
+
         public override void AI()
         {
             npc.TargetClosest(false);
@@ -218,6 +222,7 @@ namespace CalamityMod.NPCs.AcidRain
             npc.rotation = npc.velocity.ToRotation() +
                 (npc.direction > 0).ToInt() * MathHelper.Pi;
         }
+
         public override void FindFrame(int frameHeight)
         {
             npc.frameCounter++;
@@ -231,16 +236,13 @@ namespace CalamityMod.NPCs.AcidRain
                 }
             }
         }
+
         public override void NPCLoot()
         {
             DropHelper.DropItemChance(npc, ModContent.ItemType<SulfuricScale>(), 2 * (CalamityWorld.downedAquaticScourge ? 6 : 1), 1, 3);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<SkyfinBombers>(), CalamityWorld.downedAquaticScourge, 0.05f);
         }
-        public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
-        {
-            npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);
-            npc.damage = (int)(npc.damage * 0.85f);
-        }
+
         public override void HitEffect(int hitDirection, double damage)
         {
             for (int k = 0; k < 8; k++)
@@ -258,6 +260,7 @@ namespace CalamityMod.NPCs.AcidRain
                 }
             }
         }
+
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
             target.AddBuff(ModContent.BuffType<Irradiated>(), 180);

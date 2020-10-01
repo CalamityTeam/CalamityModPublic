@@ -26,17 +26,17 @@ namespace CalamityMod.NPCs.AcidRain
             npc.height = 34;
             npc.aiStyle = aiType = -1;
 
-            npc.damage = 75;
-            npc.lifeMax = 520;
+            npc.damage = 45;
+            npc.lifeMax = 280;
             npc.defense = 15;
 			npc.DR_NERD(0.075f);
 
             if (CalamityWorld.downedPolterghast)
             {
-                npc.damage = 150;
-                npc.lifeMax = 4500;
-                npc.defense = 65;
-				npc.DR_NERD(0.35f);
+                npc.damage = 120;
+                npc.lifeMax = 7000;
+                npc.defense = 35;
+				npc.DR_NERD(0.15f);
             }
 
             npc.knockBackResist = 0.6f;
@@ -53,6 +53,7 @@ namespace CalamityMod.NPCs.AcidRain
             banner = npc.type;
             bannerItem = ModContent.ItemType<OrthoceraBanner>();
         }
+
         public override void AI()
         {
             npc.TargetClosest(false);
@@ -140,10 +141,13 @@ namespace CalamityMod.NPCs.AcidRain
                         float rotation = npc.rotation - MathHelper.Pi - MathHelper.PiOver2 - MathHelper.PiOver4;
                         if (npc.spriteDirection == -1)
                             rotation += MathHelper.PiOver2;
+
                         int damage = CalamityWorld.downedPolterghast ? 40 : CalamityWorld.downedAquaticScourge ? 26 : 18;
+						if (Main.expertMode)
+							damage = (int)Math.Round(damage * 0.8);
+
                         if (CalamityWorld.downedPolterghast)
                         {
-                            damage = 44;
                             for (int i = 0; i < 2; i++)
                             {
                                 float angle = MathHelper.Lerp(-0.3f, 0.3f, i / 2f);
@@ -157,11 +161,13 @@ namespace CalamityMod.NPCs.AcidRain
                 npc.velocity = Vector2.Clamp(npc.velocity, new Vector2(-maxSpeed), new Vector2(maxSpeed));
             }
         }
+
         public override void NPCLoot()
         {
             DropHelper.DropItemChance(npc, ModContent.ItemType<CorrodedFossil>(), 3 * (CalamityWorld.downedPolterghast ? 5 : 1), 1, 3);
             DropHelper.DropItemChance(npc, ModContent.ItemType<OrthoceraShell>(), 20);
         }
+
         public override void FindFrame(int frameHeight)
         {
             npc.frameCounter++;
@@ -175,11 +181,7 @@ namespace CalamityMod.NPCs.AcidRain
                 }
             }
         }
-        public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
-        {
-            npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);
-            npc.damage = (int)(npc.damage * 0.85f);
-        }
+
         public override void HitEffect(int hitDirection, double damage)
         {
             for (int k = 0; k < 5; k++)
@@ -196,6 +198,7 @@ namespace CalamityMod.NPCs.AcidRain
                 }
             }
         }
+
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
             target.AddBuff(ModContent.BuffType<Irradiated>(), 180);

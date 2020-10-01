@@ -17,6 +17,7 @@ namespace CalamityMod.NPCs.AcidRain
     {
         public abstract List<int> Loot { get; }
     }
+
     public class GammaSlime : ModNPC
     {
         public float angularMultiplier1;
@@ -33,10 +34,10 @@ namespace CalamityMod.NPCs.AcidRain
             npc.width = 40;
             npc.height = 44;
 
-			npc.damage = 130;
-			npc.lifeMax = 5915;
+			npc.damage = 110;
+			npc.lifeMax = 9200;
 			npc.DR_NERD(0.15f);
-			npc.defense = 50;
+			npc.defense = 25;
 
             npc.aiStyle = aiType = -1;
 
@@ -56,21 +57,19 @@ namespace CalamityMod.NPCs.AcidRain
             banner = npc.type;
             bannerItem = ModContent.ItemType<GammaSlimeBanner>();
         }
+
         public override void SendExtraAI(BinaryWriter writer)
         {
             writer.Write(angularMultiplier1);
             writer.Write(angularMultiplier2);
         }
+
         public override void ReceiveExtraAI(BinaryReader reader)
         {
             angularMultiplier1 = reader.ReadSingle();
             angularMultiplier2 = reader.ReadSingle();
         }
-        public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
-        {
-            npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);
-            npc.damage = (int)(npc.damage * 0.85f);
-        }
+
         public override void AI()
         {
             Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0.6f, 0.8f, 0.6f);
@@ -91,7 +90,7 @@ namespace CalamityMod.NPCs.AcidRain
                         {
                             float angle = MathHelper.TwoPi / 5f * i + (npc.ai[1] % 2) * MathHelper.PiOver2;
                             Projectile.NewProjectile(npc.Center, angle.ToRotationVector2() * 7f, ModContent.ProjectileType<GammaAcid>(),
-                                45, 3f);
+                                Main.expertMode ? 36 : 45, 3f);
                         }
                     }
                     npc.netUpdate = true;
@@ -141,7 +140,7 @@ namespace CalamityMod.NPCs.AcidRain
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
                     Main.PlaySound(SoundID.Zombie, (int)npc.position.X, (int)npc.position.Y, 104); // Moon lord beam sound
-                    Projectile.NewProjectile(npc.Center, -Vector2.UnitY, ModContent.ProjectileType<GammaBeam>(), 120, 4f, Main.myPlayer, 0f, npc.whoAmI);
+                    Projectile.NewProjectile(npc.Center, -Vector2.UnitY, ModContent.ProjectileType<GammaBeam>(), Main.expertMode ? 96 : 120, 4f, Main.myPlayer, 0f, npc.whoAmI);
                 }
             }
             // Very complex particle effects while releasing the beam

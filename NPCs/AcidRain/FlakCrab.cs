@@ -25,15 +25,15 @@ namespace CalamityMod.NPCs.AcidRain
             npc.width = 28;
             npc.height = 70;
 
-            npc.damage = 0;
-            npc.lifeMax = 600;
+            npc.damage = 10;
+            npc.lifeMax = 300;
 
             npc.aiStyle = aiType = -1;
 
             if (CalamityWorld.downedPolterghast)
             {
-                npc.lifeMax = 7000;
-				npc.DR_NERD(0.4f);
+                npc.lifeMax = 7500;
+				npc.DR_NERD(0.2f);
             }
 
             npc.knockBackResist = 0f;
@@ -50,23 +50,24 @@ namespace CalamityMod.NPCs.AcidRain
             banner = npc.type;
             bannerItem = ModContent.ItemType<FlakCrabBanner>();
         }
+
         public override void SendExtraAI(BinaryWriter writer)
         {
             writer.Write(npc.localAI[0]);
             writer.Write(npc.localAI[1]);
         }
+
         public override void ReceiveExtraAI(BinaryReader reader)
         {
             npc.localAI[0] = reader.ReadSingle();
             npc.localAI[1] = reader.ReadSingle();
         }
-        public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
-        {
-            npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);
-            npc.damage = (int)(npc.damage * 0.85f);
-        }
+
         public override void AI()
         {
+			// Enables expert scaling, if damage is 0 in set defaults expert scaling will not happen
+			npc.damage = 0;
+
             Player closest = Main.player[Player.FindClosest(npc.Top, 0, 0)];
             npc.ai[0]++;
             npc.defense = npc.localAI[1] < 10f ? 999999 : 20;
@@ -91,7 +92,7 @@ namespace CalamityMod.NPCs.AcidRain
                     {
                         float speed = CalamityWorld.downedPolterghast ? 29f : 17f;
                         speed *= Main.rand.NextFloat(0.8f, 1.2f);
-                        int damage = CalamityWorld.downedPolterghast ? 42 : 23;
+                        int damage = Main.expertMode ? CalamityWorld.downedPolterghast ? 32 : 18 : CalamityWorld.downedPolterghast ? 42 : 23;
                         Projectile.NewProjectile(npc.Top + Vector2.UnitY * 6f, npc.DirectionTo(closest.Center).RotatedByRandom(0.25f) * speed,
                             ModContent.ProjectileType<FlakAcid>(), damage, 2f);
                         npc.ai[1] = 0;
@@ -140,6 +141,7 @@ namespace CalamityMod.NPCs.AcidRain
                 npc.chaseable = true;
             }
         }
+
         public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)
         {
             // Don't draw the bar if in stealth mode
@@ -147,11 +149,13 @@ namespace CalamityMod.NPCs.AcidRain
                 return false;
             return null;
         }
+
         public override void NPCLoot()
         {
             DropHelper.DropItemChance(npc, ModContent.ItemType<CorrodedFossil>(), 3 * (CalamityWorld.downedPolterghast ? 5 : 1), 1, 3);
 			DropHelper.DropItemChance(npc, ModContent.ItemType<FlakToxicannon>(), 0.05f);
         }
+
         public override void FindFrame(int frameHeight)
         {
             if (npc.localAI[1] < 10f)
@@ -177,6 +181,7 @@ namespace CalamityMod.NPCs.AcidRain
                 npc.frame.Y = 0;
             }
         }
+
         public override void HitEffect(int hitDirection, double damage)
         {
             for (int k = 0; k < 5; k++)

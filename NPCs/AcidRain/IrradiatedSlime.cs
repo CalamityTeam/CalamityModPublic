@@ -13,6 +13,7 @@ namespace CalamityMod.NPCs.AcidRain
     public class IrradiatedSlime : ModNPC
     {
         public bool Falling = true;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Irradiated Slime");
@@ -24,8 +25,8 @@ namespace CalamityMod.NPCs.AcidRain
             npc.width = 40;
             npc.height = 30;
 
-            npc.damage = 75;
-            npc.lifeMax = 425;
+            npc.damage = 42;
+            npc.lifeMax = 220;
             npc.defense = 5;
 
             npc.knockBackResist = 0f;
@@ -44,19 +45,17 @@ namespace CalamityMod.NPCs.AcidRain
             banner = npc.type;
             bannerItem = ModContent.ItemType<IrradiatedSlimeBanner>();
         }
+
         public override void SendExtraAI(BinaryWriter writer)
         {
             writer.Write(Falling);
         }
+
         public override void ReceiveExtraAI(BinaryReader reader)
         {
             Falling = reader.ReadBoolean();
         }
-        public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
-        {
-            npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);
-            npc.damage = (int)(npc.damage * 0.85f);
-        }
+
         public override void AI()
         {
             Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0.6f, 0.8f, 0.6f);
@@ -101,10 +100,12 @@ namespace CalamityMod.NPCs.AcidRain
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/IrradiatedSlime2"), 1f);
             }
         }
+
 		public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
 			CalamityGlobalNPC.DrawGlowmask(npc, spriteBatch, ModContent.GetTexture(Texture + "Glow"));
 		}
+
 		public override void NPCLoot()
         {
             DropHelper.DropItemChance(npc, ModContent.ItemType<LeadCore>(), 30);

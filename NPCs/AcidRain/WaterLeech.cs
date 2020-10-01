@@ -15,6 +15,7 @@ namespace CalamityMod.NPCs.AcidRain
     {
         public const float ChasePromptDistance = 55f;
         public const float ChaseMaxDistance = 140f;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Water Leech");
@@ -26,20 +27,19 @@ namespace CalamityMod.NPCs.AcidRain
             npc.width = 26;
             npc.height = 14;
 
-            npc.damage = 20;
-            npc.lifeMax = 60;
-            npc.defense = 0;
+            npc.damage = 10;
+            npc.lifeMax = 30;
 
             if (CalamityWorld.downedPolterghast)
             {
-                npc.damage = 120;
-                npc.lifeMax = 4000;
-                npc.defense = 30;
+                npc.damage = 60;
+                npc.lifeMax = 2250;
+                npc.defense = 10;
             }
             else if (CalamityWorld.downedAquaticScourge)
             {
-                npc.damage = 80;
-                npc.lifeMax = 150;
+                npc.damage = 30;
+                npc.lifeMax = 90;
             }
 
             npc.value = Item.buyPrice(0, 0, 2, 5);
@@ -55,14 +55,17 @@ namespace CalamityMod.NPCs.AcidRain
             banner = npc.type;
             bannerItem = ModContent.ItemType<WaterLeechBanner>();
         }
+
         public override void SendExtraAI(BinaryWriter writer)
         {
             writer.Write(npc.dontTakeDamage);
         }
+
         public override void ReceiveExtraAI(BinaryReader reader)
         {
             npc.dontTakeDamage = reader.ReadBoolean();
         }
+
         public override void AI()
         {
             if (npc.localAI[0] == 0f)
@@ -162,6 +165,7 @@ namespace CalamityMod.NPCs.AcidRain
             }
             npc.dontTakeDamage = !player.wet;
         }
+
         public override void FindFrame(int frameHeight)
         {
             npc.frameCounter++;
@@ -175,11 +179,7 @@ namespace CalamityMod.NPCs.AcidRain
                 }
             }
         }
-        public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
-        {
-            npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);
-            npc.damage = (int)(npc.damage * 0.85f);
-        }
+
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
             if (spawnInfo.playerSafe || !spawnInfo.player.Calamity().ZoneSulphur || !Main.raining)
@@ -196,6 +196,7 @@ namespace CalamityMod.NPCs.AcidRain
                 Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.SulfurousSeaAcid, hitDirection, -1f, 0, default, 1f);
             }
         }
+
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
             target.AddBuff(ModContent.BuffType<Irradiated>(), 120);
