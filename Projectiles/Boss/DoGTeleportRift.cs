@@ -33,6 +33,9 @@ namespace CalamityMod.Projectiles.Boss
 			if (projectile.ai[0] == -1f)
 				return;
 
+			if (projectile.timeLeft < 160)
+				projectile.timeLeft = 160;
+
 			if (!Main.npc[(int)projectile.ai[0]].active)
 				projectile.Kill();
 

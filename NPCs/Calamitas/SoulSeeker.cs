@@ -201,7 +201,7 @@ namespace CalamityMod.NPCs.Calamitas
 					Color afterImageColor = lightColor;
 					afterImageColor = Color.Lerp(afterImageColor, white, colorLerpAmt);
 					afterImageColor = npc.GetAlpha(afterImageColor);
-					afterImageColor *= (float)(afterImageAmt - a) / 15f;
+					afterImageColor *= (afterImageAmt - a) / 15f;
 					Vector2 afterimagePos = npc.oldPos[a] + new Vector2(npc.width, npc.height) / 2f - Main.screenPosition;
 					afterimagePos -= new Vector2(texture.Width, texture.Height / Main.npcFrameCount[npc.type]) * npc.scale / 2f;
 					afterimagePos += origin * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
@@ -210,7 +210,7 @@ namespace CalamityMod.NPCs.Calamitas
 			}
 
 			Vector2 drawPos = npc.Center - Main.screenPosition;
-			drawPos -= new Vector2((float)texture.Width, (float)(texture.Height)) * npc.scale / 2f;
+			drawPos -= new Vector2(texture.Width, texture.Height / Main.npcFrameCount[npc.type]) * npc.scale / 2f;
 			drawPos += origin * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
 			spriteBatch.Draw(texture, drawPos, npc.frame, npc.GetAlpha(lightColor), npc.rotation, origin, npc.scale, spriteEffects, 0f);
 
@@ -223,7 +223,7 @@ namespace CalamityMod.NPCs.Calamitas
 				{
 					Color glowColor = glow;
 					glowColor = Color.Lerp(glowColor, white, colorLerpAmt);
-					glowColor *= (float)(afterImageAmt - a) / 15f;
+					glowColor *= (afterImageAmt - a) / 15f;
 					Vector2 afterimagePos = npc.oldPos[a] + new Vector2(npc.width, npc.height) / 2f - Main.screenPosition;
 					afterimagePos -= new Vector2(texture.Width, texture.Height / Main.npcFrameCount[npc.type]) * npc.scale / 2f;
 					afterimagePos += origin * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
