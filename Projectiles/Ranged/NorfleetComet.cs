@@ -118,6 +118,8 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
+			if (projectile.timeLeft >= 600)
+				return false;
             CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
             return false;
         }
