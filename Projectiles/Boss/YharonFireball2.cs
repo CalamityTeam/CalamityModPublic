@@ -13,6 +13,7 @@ namespace CalamityMod.Projectiles.Boss
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Dragon Fireball");
+            Main.projFrames[projectile.type] = 5;
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 4;
             ProjectileID.Sets.TrailingMode[projectile.type] = 0;
         }
@@ -42,6 +43,16 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void AI()
         {
+            projectile.frameCounter++;
+            if (projectile.frameCounter > 4)
+            {
+                projectile.frame++;
+                projectile.frameCounter = 0;
+            }
+            if (projectile.frame >= Main.projFrames[projectile.type])
+            {
+                projectile.frame = 0;
+            }
             if (projectile.velocity.Y < 0f)
             {
                 projectile.velocity.Y *= 0.97f;
@@ -60,7 +71,7 @@ namespace CalamityMod.Projectiles.Boss
                 projectile.velocity.Y = 1f;
             }
             projectile.velocity.X *= 0.995f;
-            projectile.rotation = projectile.velocity.ToRotation() + 1.57079637f;
+            projectile.rotation = projectile.velocity.ToRotation() - MathHelper.PiOver2;
             if (projectile.localAI[0] == 0f)
             {
                 projectile.localAI[0] = 1f;
@@ -105,22 +116,19 @@ namespace CalamityMod.Projectiles.Boss
         public override void Kill(int timeLeft)
         {
             Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 14, 0.5f, 0f);
-            projectile.position = projectile.Center;
-            projectile.width = projectile.height = 144;
-            projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
-            projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
-            for (int num193 = 0; num193 < 2; num193++)
+			CalamityGlobalProjectile.ExpandHitboxBy(projectile, 144);
+            for (int d = 0; d < 2; d++)
             {
-                Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 55, 0f, 0f, 100, default, 1.5f);
+                Dust.NewDust(projectile.position, projectile.width, projectile.height, 55, 0f, 0f, 100, default, 1.5f);
             }
-            for (int num194 = 0; num194 < 20; num194++)
+            for (int d = 0; d < 20; d++)
             {
-                int num195 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 55, 0f, 0f, 0, default, 2.5f);
-                Main.dust[num195].noGravity = true;
-                Main.dust[num195].velocity *= 3f;
-                num195 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 55, 0f, 0f, 100, default, 1.5f);
-                Main.dust[num195].velocity *= 2f;
-                Main.dust[num195].noGravity = true;
+                int idx = Dust.NewDust(projectile.position, projectile.width, projectile.height, 55, 0f, 0f, 0, default, 2.5f);
+                Main.dust[idx].noGravity = true;
+                Main.dust[idx].velocity *= 3f;
+                idx = Dust.NewDust(projectile.position, projectile.width, projectile.height, 55, 0f, 0f, 100, default, 1.5f);
+                Main.dust[idx].velocity *= 2f;
+                Main.dust[idx].noGravity = true;
             }
             projectile.Damage();
         }

@@ -18,7 +18,7 @@ namespace CalamityMod.Projectiles.Boss
 		public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Flare Dust");
-            Main.projFrames[projectile.type] = 4;
+            Main.projFrames[projectile.type] = 5;
         }
 
         public override void SetDefaults()
@@ -60,7 +60,7 @@ namespace CalamityMod.Projectiles.Boss
                 projectile.frame++;
                 projectile.frameCounter = 0;
             }
-            if (projectile.frame > 3)
+            if (projectile.frame >= Main.projFrames[projectile.type])
                 projectile.frame = 0;
 
             Lighting.AddLight(projectile.Center, 0.5f, 0.25f, 0f);
@@ -120,28 +120,25 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(SoundID.Item14, projectile.position);
-            projectile.position = projectile.Center;
-            projectile.width = projectile.height = 48;
-            projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
-            projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
-            for (int num621 = 0; num621 < 2; num621++)
+            Main.PlaySound(SoundID.Item14, projectile.Center);
+			CalamityGlobalProjectile.ExpandHitboxBy(projectile, 48);
+            for (int d = 0; d < 2; d++)
             {
-                int num622 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 244, 0f, 0f, 100, default, 1f);
-                Main.dust[num622].velocity *= 3f;
+                int idx = Dust.NewDust(projectile.position, projectile.width, projectile.height, 244, 0f, 0f, 100, default, 1f);
+                Main.dust[idx].velocity *= 3f;
                 if (Main.rand.NextBool(2))
                 {
-                    Main.dust[num622].scale = 0.5f;
-                    Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
+                    Main.dust[idx].scale = 0.5f;
+                    Main.dust[idx].fadeIn = 1f + Main.rand.NextFloat(0.1f, 1f);
                 }
             }
-            for (int num623 = 0; num623 < 4; num623++)
+            for (int d = 0; d < 4; d++)
             {
-                int num624 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 244, 0f, 0f, 100, default, 2f);
-                Main.dust[num624].noGravity = true;
-                Main.dust[num624].velocity *= 5f;
-                num624 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 244, 0f, 0f, 100, default, 1f);
-                Main.dust[num624].velocity *= 2f;
+                int idx = Dust.NewDust(projectile.position, projectile.width, projectile.height, 244, 0f, 0f, 100, default, 2f);
+                Main.dust[idx].noGravity = true;
+                Main.dust[idx].velocity *= 5f;
+                idx = Dust.NewDust(projectile.position, projectile.width, projectile.height, 244, 0f, 0f, 100, default, 1f);
+                Main.dust[idx].velocity *= 2f;
             }
 			CalamityUtils.ExplosionGores(projectile.Center, 3);
             projectile.Damage();
