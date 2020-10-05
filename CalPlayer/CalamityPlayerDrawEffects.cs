@@ -411,7 +411,7 @@ namespace CalamityMod.CalPlayer
             if (modPlayer.roverDriveTimer < 616 && modPlayer.roverDrive && !drawPlayer.dead)
             {
                 Texture2D texture = ModContent.GetTexture("CalamityMod/ExtraTextures/RoverAccShield");
-				Vector2 drawPos = drawInfo.position + drawPlayer.Size * 0.5f - Main.screenPosition + new Vector2(0f, drawPlayer.gfxOffY);
+				Vector2 drawPos = drawPlayer.Center - Main.screenPosition;
 				Rectangle frame = texture.Frame(1, 11, 0, modPlayer.roverFrame);
 				Color color = Color.White * 0.625f;
 				Vector2 origin = new Vector2(texture.Width / 2f, texture.Width / 2f / 11f);
