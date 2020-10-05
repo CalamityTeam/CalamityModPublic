@@ -104,10 +104,7 @@ namespace CalamityMod.Projectiles.Boss
 			projectile.localAI[0] += 1f;
 		}
 
-        public override Color? GetAlpha(Color lightColor)
-        {
-            return new Color(255, Main.DiscoG, 53, projectile.alpha);
-        }
+        public override Color? GetAlpha(Color lightColor) => new Color(200, 200, 200, projectile.alpha);
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
