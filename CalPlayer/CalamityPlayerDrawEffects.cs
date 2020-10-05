@@ -411,7 +411,7 @@ namespace CalamityMod.CalPlayer
             if (modPlayer.roverDriveTimer < 616 && modPlayer.roverDrive && !drawPlayer.dead)
             {
                 Texture2D texture = ModContent.GetTexture("CalamityMod/ExtraTextures/RoverAccShield");
-				Vector2 drawPos = drawPlayer.Center - Main.screenPosition + new Vector2(0f, drawPlayer.gfxOffY);
+				Vector2 drawPos = drawInfo.position + drawPlayer.Size * 0.5f - Main.screenPosition + new Vector2(0f, drawPlayer.gfxOffY);
 				Rectangle frame = texture.Frame(1, 11, 0, modPlayer.roverFrame);
 				Color color = Color.White * 0.625f;
 				Vector2 origin = new Vector2(texture.Width / 2f, texture.Width / 2f / 11f);
@@ -426,7 +426,7 @@ namespace CalamityMod.CalPlayer
         public static readonly PlayerLayer StratusSphereDrawing = new PlayerLayer("CalamityMod", "StratusSphereDrawing", PlayerLayer.HeldProjFront, drawInfo =>
         {
             Player drawPlayer = drawInfo.drawPlayer;
-            if (drawPlayer.inventory[drawPlayer.selectedItem].type == ModContent.ItemType<StratusSphere>())
+            if (drawPlayer.heldItem.type == ModContent.ItemType<StratusSphere>())
             {
                 SpriteEffects effect;
                 if (drawPlayer.direction == 1)
