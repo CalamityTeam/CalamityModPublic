@@ -226,13 +226,11 @@ namespace CalamityMod.NPCs.DevourerofGods
 				}
 				else if (laserWallPhase == (int)LaserWallPhase.FireLaserWalls)
 				{
-					if (idleCounter == idleCounterMax / 2)
-						SpawnTeleportLocation(player);
-
 					// Remain in laser wall firing phase for 6 seconds
 					idleCounter--;
 					if (idleCounter <= 0)
 					{
+						SpawnTeleportLocation(player);
 						laserWallPhase = (int)LaserWallPhase.End;
 						idleCounter = idleCounterMax;
 					}
