@@ -32,7 +32,8 @@ namespace CalamityMod.Items.Tools
 		{
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ItemID.IronBar, 10);
-			recipe.AddIngredient(ItemID.Chain, 1);
+            recipe.anyIronBar = true;
+			recipe.AddIngredient(ItemID.Chain);
 			recipe.AddTile(TileID.Anvils);
 			recipe.SetResult(this);
 			recipe.AddRecipe();

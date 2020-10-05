@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Boss
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Infernado");
-            Main.projFrames[projectile.type] = 6;
+            Main.projFrames[projectile.type] = 12;
         }
 
         public override void SetDefaults()
@@ -48,11 +48,11 @@ namespace CalamityMod.Projectiles.Boss
                 projectile.netUpdate = true;
                 return;
             }
-            int num613 = 35;
-            int num614 = 35;
-            float num615 = 3.5f;
-            int num616 = 320;
-            int num617 = 88;
+			float scaleBase = 70f;
+            float scaleMult = 3.5f;
+            float baseWidth = 320f;
+            float baseHeight = 88f;
+
             if (projectile.velocity.X != 0f)
             {
                 projectile.direction = projectile.spriteDirection = -Math.Sign(projectile.velocity.X);
@@ -63,28 +63,24 @@ namespace CalamityMod.Projectiles.Boss
                 projectile.frame++;
                 projectile.frameCounter = 0;
             }
-            if (projectile.frame >= 6)
+            if (projectile.frame >= Main.projFrames[projectile.type])
             {
                 projectile.frame = 0;
             }
             if (projectile.localAI[0] == 0f)
             {
                 projectile.localAI[0] = 1f;
-                projectile.position.X = projectile.position.X + (float)(projectile.width / 2);
-                projectile.position.Y = projectile.position.Y + (float)(projectile.height / 2);
-                projectile.scale = ((float)(num613 + num614) - projectile.ai[1]) * num615 / (float)(num614 + num613);
-                projectile.width = (int)((float)num616 * projectile.scale);
-                projectile.height = (int)((float)num617 * projectile.scale);
-                projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
-                projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
+                projectile.scale = (scaleBase - projectile.ai[1]) * scaleMult / scaleBase;
+				CalamityGlobalProjectile.ExpandHitboxBy(projectile, (int)(baseWidth * projectile.scale), (int)(baseHeight * projectile.scale));
                 projectile.netUpdate = true;
             }
             if (projectile.ai[1] != -1f)
             {
-                projectile.scale = ((float)(num613 + num614) - projectile.ai[1]) * num615 / (float)(num614 + num613);
-                projectile.width = (int)((float)num616 * projectile.scale);
-                projectile.height = (int)((float)num617 * projectile.scale);
+                projectile.scale = (scaleBase - projectile.ai[1]) * scaleMult / scaleBase;
+                projectile.width = (int)(baseWidth * projectile.scale);
+                projectile.height = (int)(baseHeight * projectile.scale);
             }
+
             if (!Collision.SolidCollision(projectile.position, projectile.width, projectile.height))
             {
                 projectile.alpha -= 30;
@@ -105,27 +101,27 @@ namespace CalamityMod.Projectiles.Boss
             {
                 projectile.ai[0] -= 1f;
             }
+
             if (projectile.ai[0] == 1f && projectile.ai[1] > 0f && projectile.owner == Main.myPlayer)
             {
                 projectile.netUpdate = true;
                 Vector2 center = projectile.Center;
-                center.Y -= (float)num617 * projectile.scale / 2f;
-                float num618 = ((float)(num613 + num614) - projectile.ai[1] + 1f) * num615 / (float)(num614 + num613);
-                center.Y -= (float)num617 * num618 / 2f;
+                center.Y -= baseHeight * projectile.scale / 2f;
+                float num618 = (scaleBase - projectile.ai[1] + 1f) * scaleMult / scaleBase;
+                center.Y -= baseHeight * num618 / 2f;
                 center.Y += 2f;
-                Projectile.NewProjectile(center.X, center.Y, projectile.velocity.X, projectile.velocity.Y, projectile.type, projectile.damage, projectile.knockBack, projectile.owner, 10f, projectile.ai[1] - 1f);
+                Projectile.NewProjectile(center, projectile.velocity, projectile.type, projectile.damage, projectile.knockBack, projectile.owner, 11f, projectile.ai[1] - 1f);
             }
             if (projectile.ai[0] <= 0f)
             {
                 float num622 = 0.104719758f;
-                float num623 = (float)projectile.width / 10f;
+                float num623 = (float)projectile.width / 5f;
                 num623 *= 2f;
                 float num624 = (float)(Math.Cos((double)(num622 * -(double)projectile.ai[0])) - 0.5) * num623;
-                projectile.position.X = projectile.position.X - num624 * (float)-(float)projectile.direction;
+                projectile.position.X -= num624 * -projectile.direction;
                 projectile.ai[0] -= 1f;
                 num624 = (float)(Math.Cos((double)(num622 * -(double)projectile.ai[0])) - 0.5) * num623;
-                projectile.position.X = projectile.position.X + num624 * (float)-(float)projectile.direction;
-                return;
+                projectile.position.X += num624 * -projectile.direction;
             }
         }
 
