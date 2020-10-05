@@ -119,7 +119,7 @@ namespace CalamityMod.Projectiles.Ranged
                 }
             }
             projectile.rotation = projectile.velocity.ToRotation();
-            Vector2 displayOffset = new Vector2(32f, -10f * projectile.direction).RotatedBy(projectile.rotation);
+            Vector2 displayOffset = new Vector2(27f, -10f * projectile.direction).RotatedBy(projectile.rotation);
             projectile.Center = player.RotatedRelativePoint(player.MountedCenter, true) + displayOffset;
             if (projectile.spriteDirection == -1)
                 projectile.rotation += MathHelper.Pi;
