@@ -426,7 +426,7 @@ namespace CalamityMod.CalPlayer
         public static readonly PlayerLayer StratusSphereDrawing = new PlayerLayer("CalamityMod", "StratusSphereDrawing", PlayerLayer.HeldProjFront, drawInfo =>
         {
             Player drawPlayer = drawInfo.drawPlayer;
-            if (drawPlayer.heldItem.type == ModContent.ItemType<StratusSphere>())
+            if (drawPlayer.inventory[drawPlayer.selectedItem].type == ModContent.ItemType<StratusSphere>())
             {
                 SpriteEffects effect;
                 if (drawPlayer.direction == 1)
