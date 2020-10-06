@@ -11387,9 +11387,9 @@ namespace CalamityMod.NPCs
             bool isCultist = npc.type == NPCID.CultistBoss;
             bool dontTakeDamage = false;
 
-            int iceMistDamage = npc.GetProjectileDamage(ProjectileID.CultistBossIceMist);
+            int iceMistDamage = isCultist ? npc.GetProjectileDamage(ProjectileID.CultistBossIceMist) : 0;
             int fireballDamage = isCultist ? npc.GetProjectileDamage(ProjectileID.CultistBossFireBall) : npc.GetProjectileDamage(ProjectileID.CultistBossFireBallClone);
-            int lightningDamage = npc.GetProjectileDamage(ProjectileID.CultistBossLightningOrb);
+            int lightningDamage = isCultist ? npc.GetProjectileDamage(ProjectileID.CultistBossLightningOrb) : 0;
 
 			int iceMistFireRate = 60 -
                 (phase2 ? 5 : 0) -

@@ -59,7 +59,7 @@ namespace CalamityMod.Projectiles.Boss
                 projectile.alpha = 0;
             }
 
-			if (projectile.ai[0] == 0f || (projectile.timeLeft > 135 && projectile.ai[1] == 1f))
+			if (projectile.ai[0] == -1f || (projectile.timeLeft > 135 && projectile.ai[1] == 1f))
 				return;
 
 			float inertia = revenge ? 70f : 77f;

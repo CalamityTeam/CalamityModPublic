@@ -699,7 +699,7 @@ namespace CalamityMod.NPCs.Yharon
 						SpawnDetonatingFlares(fromMouth, player, maxFlareCount, new int[] { ModContent.NPCType<DetonatingFlare>() });
 						int type = ModContent.ProjectileType<FlareBomb>();
 						int damage = npc.GetProjectileDamage(type);
-						Projectile.NewProjectile(fromMouth, Vector2.Zero, type, damage, 0f, Main.myPlayer, 0f, 0f);
+						Projectile.NewProjectile(fromMouth, Vector2.Zero, type, damage, 0f, Main.myPlayer, npc.target, 1f);
                     }
                 }
 
@@ -1465,7 +1465,7 @@ namespace CalamityMod.NPCs.Yharon
 						SpawnDetonatingFlares(fromMouth, player, maxFlareCount, new int[] { ModContent.NPCType<DetonatingFlare>(), ModContent.NPCType<DetonatingFlare2>() });
 						int type = ModContent.ProjectileType<FlareBomb>();
 						int damage = npc.GetProjectileDamage(type);
-						Projectile.NewProjectile(fromMouth, Vector2.Zero, type, damage, 0f, Main.myPlayer, 0f, 0f);
+						Projectile.NewProjectile(fromMouth, Vector2.Zero, type, damage, 0f, Main.myPlayer, npc.target, 1f);
 					}
 				}
 
@@ -2230,7 +2230,7 @@ namespace CalamityMod.NPCs.Yharon
 							Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/YharonRoarShort"), (int)npc.position.X, (int)npc.position.Y);
 
 							if (expertMode)
-								DoFireRing(300, npc.GetProjectileDamage(ModContent.ProjectileType<FlareBomb>()), 1f);
+								DoFireRing(300, npc.GetProjectileDamage(ModContent.ProjectileType<FlareBomb>()), npc.target, 1f);
 
 							Vector2 vector7 = npc.Center + (MathHelper.TwoPi * Main.rand.NextFloat()).ToRotationVector2() * new Vector2(2f, 1f) * 100f * (0.6f + Main.rand.NextFloat() * 0.4f);
 
@@ -2498,7 +2498,7 @@ namespace CalamityMod.NPCs.Yharon
 		#endregion
 
 		#region Fire Ring
-		public void DoFireRing(int timeLeft, int damage, float ai1)
+		public void DoFireRing(int timeLeft, int damage, float ai0, float ai1)
 		{
 			if (Main.netMode != NetmodeID.MultiplayerClient)
 			{
@@ -2508,7 +2508,7 @@ namespace CalamityMod.NPCs.Yharon
 				for (int i = 0; i < totalProjectiles; i++)
 				{
 					Vector2 vector255 = new Vector2(0f, -velocity).RotatedBy(radians * i);
-					int proj = Projectile.NewProjectile(npc.Center, vector255, ModContent.ProjectileType<FlareBomb>(), damage, 0f, Main.myPlayer, 0f, ai1);
+					int proj = Projectile.NewProjectile(npc.Center, vector255, ModContent.ProjectileType<FlareBomb>(), damage, 0f, Main.myPlayer, ai0, ai1);
 					Main.projectile[proj].timeLeft = timeLeft;
 				}
 			}
@@ -3053,7 +3053,7 @@ namespace CalamityMod.NPCs.Yharon
             }
             if (npc.life <= 0)
             {
-                DoFireRing(300, (Main.expertMode || BossRushEvent.BossRushActive) ? 125 : 150, 0f);
+                DoFireRing(300, (Main.expertMode || BossRushEvent.BossRushActive) ? 125 : 150, -1f, 0f);
                 npc.position.X = npc.position.X + (npc.width / 2);
                 npc.position.Y = npc.position.Y + (npc.height / 2);
                 npc.width = 300;
