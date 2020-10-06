@@ -583,7 +583,7 @@ namespace CalamityMod.NPCs
             bool phase3 = lifeRatio < 0.65f;
             bool phase4 = lifeRatio < 0.55f;
             bool phase5 = lifeRatio < 0.4f;
-			float num5 = (float)(death ? 20 - Math.Ceiling(5f * (1f - lifeRatio)) : 20);
+			float num5 = (float)(death ? 20 - Math.Round(5f * (1f - lifeRatio)) : 20);
 
 			if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
                 npc.TargetClosest(true);
@@ -792,7 +792,7 @@ namespace CalamityMod.NPCs
 
                     int num28 = 90;
 					if (death)
-						num28 -= (int)Math.Ceiling(120f * (1f - lifeRatio));
+						num28 -= (int)Math.Round(120f * (1f - lifeRatio));
 
 					if (npc.ai[2] >= num28)
                     {
@@ -1049,7 +1049,7 @@ namespace CalamityMod.NPCs
 
                     int num47 = 80;
 					if (death)
-						num47 -= (int)Math.Ceiling(40f * (0.75f - lifeRatio));
+						num47 -= (int)Math.Round(40f * (0.75f - lifeRatio));
 
 					if (npc.ai[2] >= num47)
                     {
@@ -1372,7 +1372,7 @@ namespace CalamityMod.NPCs
                     if (npc.ai[2] == 0f)
                         Main.PlaySound(SoundID.Roar, (int)npc.position.X, (int)npc.position.Y, 0, 1f, 0f);
 
-                    float num60 = (float)Math.Ceiling(num5 * 2.5f);
+                    float num60 = (float)Math.Round(num5 * 2.5f);
                     npc.ai[2] += 1f;
 
                     if (npc.ai[2] == num60 && Vector2.Distance(npc.position, Main.player[npc.target].position) < 200f)
@@ -1408,7 +1408,7 @@ namespace CalamityMod.NPCs
         #endregion
 
 		// Master Mode changes
-		// 1 - Far more segments, 2 - Larger scale, 3 - Can fly more easily, similar to the small perf worm
+		// 1 - More segments, 2 - Spawns as 5 split worms instead of a single worm
         #region Buffed Eater of Worlds AI
         public static bool BuffedEaterofWorldsAI(NPC npc, Mod mod)
         {
@@ -2568,7 +2568,7 @@ namespace CalamityMod.NPCs
 		#endregion
 
 		// Master Mode changes
-		// 1 - Always has 1 added to her enrage scale
+		// 1 - Always has 1 added to her enrage scale, 2 - Fires beehives instead of bees during bee spawn phase
 		#region Buffed Queen Bee AI
 		public static bool BuffedQueenBeeAI(NPC npc, Mod mod)
 		{
@@ -2858,7 +2858,7 @@ namespace CalamityMod.NPCs
 						npc.velocity *= 0.9f;
 						num606 += 0.05f;
 					}
-					if (enrageScale > 0)
+					if (enrageScale > 0f)
 						npc.velocity *= 0.7f;
 
 					if (Math.Abs(npc.velocity.X) + Math.Abs(npc.velocity.Y) < num606)
@@ -3082,7 +3082,7 @@ namespace CalamityMod.NPCs
 				if (!Collision.CanHit(new Vector2(vector78.X, vector78.Y - 30f), 1, 1, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
 				{
 					num620 = BossRushEvent.BossRushActive ? 0.125f : 0.1f;
-					if (enrageScale > 0)
+					if (enrageScale > 0f)
 						num620 = 0.5f;
 
 					vector79 = vector78;
@@ -3188,7 +3188,7 @@ namespace CalamityMod.NPCs
         #endregion
 
 		// Master Mode changes
-		// 1 - Arms are immune to damage and Skeletron no longer has increased defense while the arms are alive
+		// 1 - Arms are immune to damage and Skeletron no longer has increased defense while the arms are alive, 2 - Moves far more aggressively
         #region Buffed Skeletron AI
         public static bool BuffedSkeletronAI(NPC npc, bool enraged, Mod mod)
         {
@@ -3285,7 +3285,7 @@ namespace CalamityMod.NPCs
             int num156 = 0;
             for (int num157 = 0; num157 < Main.maxNPCs; num157++)
             {
-                if (Main.npc[num157].active && Main.npc[num157].type == npc.type + 1)
+                if (Main.npc[num157].active && Main.npc[num157].type == NPCID.SkeletronHand)
                     num156++;
             }
             bool handsDead = num156 == 0;
@@ -3856,7 +3856,7 @@ namespace CalamityMod.NPCs
         #endregion
 
 		// Master Mode changes
-		// 1 - Hungries spawn detached and have more health, 2 - Eyes are smaller and mouth is bigger, 3 - Moves quicker
+		// 1 - Hungries spawn detached and have more health, 2 - Moves quicker overall, 3 - Mouth vomits a tight spread of 3 demon scythes at the same time as its leech vomit, 4 - Eyes become immune to damage and stop firing when the wall drops below 15% health
         #region Buffed Wall of Flesh AI
         public static bool BuffedWallofFleshAI(NPC npc, bool enraged, Mod mod)
         {
@@ -6356,7 +6356,7 @@ namespace CalamityMod.NPCs
                         npc.rotation = num420;
 						float totalCharges = 8f;
 						if (death)
-							totalCharges -= (float)Math.Ceiling(16f * (1f - lifeRatio));
+							totalCharges -= (float)Math.Round(16f * (1f - lifeRatio));
 
 						if (npc.ai[3] >= totalCharges)
                         {
@@ -6735,7 +6735,7 @@ namespace CalamityMod.NPCs
                         if (npc.ai[2] == 0f)
                             Main.PlaySound(SoundID.Roar, (int)npc.position.X, (int)npc.position.Y, 0, 1f, 0f);
 
-                        float num60 = ((!retAlive && npc.ai[3] == 4f) ? 75f : 50f) - (death ? 14f * (0.7f - lifeRatio) : 0f);
+                        float num60 = ((!retAlive && npc.ai[3] == 4f) ? 75f : 50f) - (float)Math.Round(death ? 14f * (0.7f - lifeRatio) : 0f);
                         if (BossRushEvent.BossRushActive)
                             num60 *= 0.8f;
 
@@ -7334,7 +7334,7 @@ namespace CalamityMod.NPCs
                     else
                     {
                         npc.velocity = npc.velocity.RotatedBy(MathHelper.Pi / spinVelocity * -calamityGlobalNPC.newAI[0]);
-						float skullSpawnDivisor = death ? 30f - 10f * (1f - lifeRatio) : 30f;
+						float skullSpawnDivisor = death ? 30f - (float)Math.Round(10f * (1f - lifeRatio)) : 30f;
                         if (npc.ai[2] % skullSpawnDivisor == 0f)
                         {
                             calamityGlobalNPC.newAI[1] += 1f;
@@ -7437,8 +7437,8 @@ namespace CalamityMod.NPCs
                             npc.velocity.Y -= fligthAcceleration;
                     }
 
-					float missileSpawnDivisor = death ? 12f - 4f * (1f - lifeRatio) : 12f;
-					if (npc.ai[2] % 12f == 0f)
+					float missileSpawnDivisor = death ? 12f - (float)Math.Round(4f * (1f - lifeRatio)) : 12f;
+					if (npc.ai[2] % missileSpawnDivisor == 0f)
                     {
                         calamityGlobalNPC.newAI[1] += 1f;
 
@@ -9517,7 +9517,7 @@ namespace CalamityMod.NPCs
         #endregion
 
 		// Master Mode changes
-		// 1 - Allow fists to travel further and faster, 2 - Make head and detached head smaller, 3 - More projectiles
+		// 1 - Allow fists to travel further and faster, 2 - More projectiles, 3 - Fists can no longer be broken
         #region Buffed Golem AI
         public static bool BuffedGolemAI(NPC npc, bool enraged, Mod mod)
         {
@@ -10397,7 +10397,7 @@ namespace CalamityMod.NPCs
         #endregion
 
 		// Master Mode changes
-		// 1 - Cycles between attacks faster, 2 - Moves faster, 3 - Smaller size, 4 - Bigger tornadoes
+		// 1 - Cycles between attacks faster, 2 - Moves faster, 3 - Bigger tornadoes
         #region Buffed Duke Fishron AI
         public static bool BuffedDukeFishronAI(NPC npc, bool enraged, Mod mod)
         {
