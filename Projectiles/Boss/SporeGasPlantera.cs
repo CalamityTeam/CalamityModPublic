@@ -39,7 +39,7 @@ namespace CalamityMod.Projectiles.Boss
         public override void AI()
         {
             projectile.ai[1] += 1f;
-            if (projectile.ai[1] > 900f)
+            if (projectile.ai[1] > 1800f)
 			{
                 projectile.localAI[0] += 10f;
 				projectile.damage = 0;
@@ -58,12 +58,12 @@ namespace CalamityMod.Projectiles.Boss
             projectile.rotation += projectile.direction * 0.002f;
 
             if (projectile.velocity.Length() > 0.5f)
-                projectile.velocity *= 0.99f;
+                projectile.velocity *= 0.98f;
         }
 
         public override bool CanHitPlayer(Player target)
 		{
-            if (projectile.ai[1] > 570f)
+            if (projectile.ai[1] > 1800f)
             {
                 return false;
             }
