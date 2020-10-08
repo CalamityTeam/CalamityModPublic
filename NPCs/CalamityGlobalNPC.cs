@@ -982,6 +982,10 @@ namespace CalamityMod.NPCs
                 npc.lifeMax = (int)(npc.lifeMax * 2.3);
                 npc.npcSlots = 32f;
             }
+			else if (npc.type == NPCID.PlanterasTentacle)
+			{
+				npc.dontTakeDamage = true;
+			}
             else if (npc.type == NPCID.WallofFlesh || npc.type == NPCID.WallofFleshEye)
             {
                 npc.lifeMax = (int)(npc.lifeMax * 1.9);

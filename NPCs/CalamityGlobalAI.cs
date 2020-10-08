@@ -4352,7 +4352,7 @@ namespace CalamityMod.NPCs
 						int damage = npc.GetProjectileDamage(projectileType);
 
 						float laserSpawnDistance = fireAcceleratingLasers ? 30f : 10f;
-						Vector2 projectileVelocity = Vector2.Normalize(Main.player[npc.target].Center - npc.Center) * velocity;
+						Vector2 projectileVelocity = Vector2.Normalize(Main.player[npc.target].Center + (fireAcceleratingLasers ? Main.player[npc.target].velocity * 20f : Vector2.Zero) - npc.Center) * velocity;
 						Vector2 projectileSpawn = npc.Center + projectileVelocity * laserSpawnDistance;
 
 						int proj = Projectile.NewProjectile(projectileSpawn, projectileVelocity, projectileType, damage, 0f, Main.myPlayer, fireAcceleratingLasers ? 1f : 0f, 0f);
@@ -8634,7 +8634,7 @@ namespace CalamityMod.NPCs
 
             // Check for Jungle and remaining Tentacles
             bool surface = !BossRushEvent.BossRushActive && Main.player[npc.target].position.Y < Main.worldSurface * 16.0;
-			int maxTentacles = phase4 ? 15 : phase3 ? 12 : phase2 ? 9 : phase1phase2 ? 6 : 3;
+			int maxTentacles = phase4 ? 10 : phase3 ? 8 : phase2 ? 6 : phase1phase2 ? 4 : 3;
             int tentacleCount = NPC.CountNPCS(NPCID.PlanterasTentacle);
             bool tentaclesDead = tentacleCount == 0;
 			float speedUpDistance = 480f;
@@ -8855,16 +8855,16 @@ namespace CalamityMod.NPCs
 					{
 						npc.localAI[0] = 2f;
 						int baseTentacles = death ? 9 : 6;
-						int totalTentacles = (int)((baseTentacles - NPC.CountNPCS(NPCID.PlanterasTentacle)) * tileEnrageMult);
+						int totalTentacles = (int)(baseTentacles * tileEnrageMult);
 						for (int i = 0; i < totalTentacles; i++)
 						{
-							NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, NPCID.PlanterasTentacle, npc.whoAmI);
+							NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, NPCID.PlanterasTentacle, npc.whoAmI, 0f, 0f, lifeRatio);
 						}
 					}
 				}
 
                 // Adjust stats
-                npc.defense = 42 + tentacleCount * 5;
+                npc.defense = 42;
                 npc.damage = npc.defDamage;
                 if (enrage)
                 {
@@ -8950,7 +8950,7 @@ namespace CalamityMod.NPCs
             else
             {
                 // Adjust stats
-                npc.defense = 21 + tentacleCount * 5;
+                npc.defense = 21;
                 npc.damage = (int)(npc.defDamage * 1.4f);
 				npc.chaseable = true;
 				if (enrage)
@@ -8966,10 +8966,10 @@ namespace CalamityMod.NPCs
                     {
                         npc.localAI[0] = 3f;
 						int baseTentacles = death ? 15 : 10;
-						int totalTentacles = (int)((baseTentacles - NPC.CountNPCS(NPCID.PlanterasTentacle)) * tileEnrageMult);
+						int totalTentacles = (int)(baseTentacles * tileEnrageMult);
                         for (int i = 0; i < totalTentacles; i++)
                         {
-                            NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, NPCID.PlanterasTentacle, npc.whoAmI);
+                            NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, NPCID.PlanterasTentacle, npc.whoAmI, 0f, 0f, lifeRatio);
                         }
                     }
 				}
@@ -9207,10 +9207,6 @@ namespace CalamityMod.NPCs
                 }
             }
 
-			// Tentacle spawns as HP reduces
-			if (tentacleCount >= maxTentacles)
-				return false;
-
 			if (npc.ai[0] == 0f && npc.life > 0)
 				npc.ai[0] = npc.lifeMax;
 
@@ -9224,7 +9220,7 @@ namespace CalamityMod.NPCs
 						npc.ai[0] = npc.life;
 						int numTentacles = death ? 3 : 2;
 						for (int i = 0; i < numTentacles; i++)
-							NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, NPCID.PlanterasTentacle, npc.whoAmI);
+							NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, NPCID.PlanterasTentacle, npc.whoAmI, 0f, 0f, lifeRatio);
 					}
 				}
 			}
@@ -9399,20 +9395,15 @@ namespace CalamityMod.NPCs
 			// 3 seconds of resistance and no damage to prevent spawn killing and unfair hits
 			if (calamityGlobalNPC.newAI[1] < 90f)
 			{
+				npc.ai[3] = npc.ai[2];
 				npc.damage = 0;
-				npc.defense = npc.defDefense + 999;
 				calamityGlobalNPC.newAI[1] += 1f;
 			}
 			else
-			{
 				npc.damage = npc.defDamage;
-				npc.defense = npc.defDefense;
-			}
 
 			// Set Plantera to a variable
 			int num778 = NPC.plantBoss;
-            if (npc.ai[3] > 0f)
-                num778 = (int)npc.ai[3] - 1;
 
 			// Tile enrage
 			float tileEnrageMult = Main.npc[NPC.plantBoss].ai[3];
@@ -9426,6 +9417,7 @@ namespace CalamityMod.NPCs
 					npc.localAI[0] = Main.rand.Next(120, 481);
 					npc.ai[0] = Main.rand.Next(-100, 101);
 					npc.ai[1] = Main.rand.Next(-100, 101);
+					npc.ai[2] = MathHelper.Clamp(npc.ai[2] + Main.rand.Next(-100, 101) * 0.0005f, -npc.ai[3], npc.ai[3]);
 					npc.netUpdate = true;
 				}
 			}
@@ -9433,13 +9425,11 @@ namespace CalamityMod.NPCs
             // Target
             npc.TargetClosest(true);
 
-			float lifeRatio = npc.life / (float)npc.lifeMax;
-
 			// Velocity and acceleration
 			float num779 = BossRushEvent.BossRushActive ? 3f : death ? 2.4f : 0.8f;
-            float num781 = 1f - lifeRatio;
+            float num781 = 1f - npc.ai[2];
             float num780 = (BossRushEvent.BossRushActive ? 300f : 200f) + (num781 * 200f);
-			float deceleration = (death ? 0.5f : 0.8f) - 0.2f * (1f - lifeRatio);
+			float deceleration = (death ? 0.5f : 0.8f) - 0.2f * (1f - npc.ai[2]);
 
             // Despawn if Plantera is gone
             if (!Main.npc[num778].active || NPC.plantBoss < 0)
@@ -9485,7 +9475,7 @@ namespace CalamityMod.NPCs
                     npc.velocity.Y *= deceleration;
             }
 
-			float velocityLimit = 12f + 6f * (1f - lifeRatio);
+			float velocityLimit = 12f + 6f * (1f - npc.ai[2]);
             if (npc.velocity.X > velocityLimit)
                 npc.velocity.X = velocityLimit;
             if (npc.velocity.X < -velocityLimit)
