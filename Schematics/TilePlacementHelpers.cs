@@ -44,13 +44,15 @@ namespace CalamityMod.Schematics
             return newTile;
         }
 
-        //
-        // NOTE: These two seemingly copy-pasted functions are both necessary because the Action<> signature is different.
-        // It is very difficult if not impossible to combine these into one function.
-        //
-
-        public static void PlaceStructure(string mapKey, Point placementPosition, PlacementAnchorType placementAnchor, Action<Chest> chestInteraction = null)
+        public static void PlaceStructure<T>(string mapKey, Point placementPosition, PlacementAnchorType placementAnchor, ref bool specialCondition, T chestInteraction = null) where T : Delegate
         {
+            if (chestInteraction != null &&
+                !(chestInteraction is Action<Chest>) && 
+                !(chestInteraction is Action<Chest, int, bool>))
+            {
+                throw new ArgumentException("The chest interaction function has invalid parameters.", nameof(chestInteraction));
+            }
+
             LoadEverything(); // Just in case they weren't loaded properly beforehand.
 
             // If no structure schematic matching that name was found, cancel.
@@ -69,6 +71,7 @@ namespace CalamityMod.Schematics
 
             // TopLeft is the default because anchoring things at their top-left corner is the default Terraria behavior.
             // This is why it does nothing.
+
             switch (placementAnchor)
             {
                 case PlacementAnchorType.TopRight:
@@ -122,7 +125,14 @@ namespace CalamityMod.Schematics
                         if (tile.frameX % 36 == 0 && tile.frameY == 0)
                         {
                             Chest chest = PlaceChest(x + xOffset, y + yOffset, tile.type);
-                            chestInteraction?.Invoke(chest);
+
+                            if (chestInteraction is Action<Chest, int, bool>)
+                            {
+                                (chestInteraction as Action<Chest, int, bool>)?.Invoke(chest, tile.type, specialCondition);
+                                specialCondition = true;
+                            }
+                            else if (chestInteraction is Action<Chest>)
+                                (chestInteraction as Action<Chest>)?.Invoke(chest);
                         }
                     }
 
@@ -145,107 +155,11 @@ namespace CalamityMod.Schematics
                     pilePlacementFunction?.Invoke(x + xOffset, y + yOffset, placeInArea);
                 }
             }
-        }
 
-        public static void PlaceStructure(string mapKey, Point placementPosition, PlacementAnchorType placementAnchor, ref bool specialCondition, Action<Chest, int, bool> chestInteraction = null)
-        {
-            LoadEverything(); // Just in case they weren't loaded properly beforehand.
-
-            // If no structure schematic matching that name was found, cancel.
-            if (!TileMaps.ContainsKey(mapKey))
-                return;
-
-            PilePlacementMaps.TryGetValue(mapKey, out PilePlacementFunction pilePlacementFunction);
-            ColorTileCombination[,] schematic = TileMaps[mapKey];
-
-            // Make an array for the tiles that used to be where this schematic will be pasted.
-            int sWidth = schematic.GetLength(0);
-            int sHeight = schematic.GetLength(1);
-            Tile[,] oldTiles = new Tile[sWidth, sHeight];
-
-
-            int xOffset = placementPosition.X;
-            int yOffset = placementPosition.Y;
-
-            // TopLeft is the default because anchoring things at their top-left corner is the default Terraria behavior.
-            // This is why it does nothing.
-            switch (placementAnchor)
-            {
-                case PlacementAnchorType.TopRight:
-                    xOffset += sWidth;
-                    break;
-                case PlacementAnchorType.Center:
-                    xOffset += sWidth / 2;
-                    yOffset += sHeight / 2;
-                    break;
-                case PlacementAnchorType.BottomLeft:
-                    yOffset += sHeight;
-                    break;
-                case PlacementAnchorType.BottomRight:
-                    xOffset += sWidth;
-                    yOffset += sHeight;
-                    break;
-                case PlacementAnchorType.TopLeft:
-                default:
-                    break;
-            }
-
-            // Fill the old tiles array while simultaneously destroying everything in the target rectangle.
-            for (int x = 0; x < sWidth; x++)
-            {
-                for (int y = 0; y < sHeight; y++)
-                {
-                    oldTiles[x, y] = (Tile)CalamityUtils.ParanoidTileRetrieval(x + xOffset, y + yOffset).Clone();
-
-                    // Attempting to break chests causes the game to attempt to infinitely recurse in an attempt to break the tile, resulting in a stack overflow.
-                    if (oldTiles[x, y].type == TileID.Containers)
-                        continue;
-                    WorldGen.KillTile(x + xOffset, y + yOffset);
-                }
-            }
-
-            // Lay down the schematic. If the schematic calls for it, bring back tiles that are stored in the old tiles array.
-            for (int x = 0; x < sWidth; x++)
-            {
-                for (int y = 0; y < sHeight; y++)
-                {
-                    if (!WorldGen.InWorld(x + xOffset, y + yOffset))
-                        continue;
-
-                    Tile tile = schematic[x, y].InternalTile;
-                    ModTile modTile = TileLoader.GetTile(tile.type);
-                    bool isChest = tile.type == TileID.Containers || (modTile != null && modTile.chest != "");
-
-                    // If the determined tile type is a chest, define it appropriately.
-                    if (isChest)
-                    {
-                        if (tile.frameX % 36 == 0 && tile.frameY == 0)
-                        {
-                            Chest chest = PlaceChest(x + xOffset, y + yOffset, tile.type);
-                            chestInteraction?.Invoke(chest, tile.type, specialCondition);
-                            specialCondition = true;
-                        }
-                    }
-
-                    // Trees and cacti get special treatment and are always imported back in to prevent world corruption.
-                    if (tile.type == TileID.Trees || tile.type == TileID.PineTree || tile.type == TileID.Cactus)
-                    {
-                        ushort oldWall = oldTiles[x, y].wall;
-                        oldTiles[x, y] = new Tile
-                        {
-                            wall = oldWall
-                        };
-                    }
-                    else
-                    {
-                        Main.tile[x + xOffset, y + yOffset] = (Tile)SchematicTileConversion(oldTiles[x, y], tile, schematic[x, y].InternalColor).Clone();
-                        TryToPlaceTileEntities(x + xOffset, y + yOffset);
-                    }
-
-                    Rectangle placeInArea = new Rectangle(x, y, sWidth, sHeight);
-                    pilePlacementFunction?.Invoke(x + xOffset, y + yOffset, placeInArea);
-                }
-            }
+            // Sync the placed structure if it isn't created at world-gen time.
+            // Pray to whatever god you believe in that this packet doesn't drop :HDFailure:
+            if (!WorldGen.gen)
+                NetMessage.SendTileRange(-1, xOffset, yOffset, sWidth, sHeight);
         }
 
         private static void TryToPlaceTileEntities(int x, int y)
