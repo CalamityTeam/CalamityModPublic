@@ -119,7 +119,7 @@ namespace CalamityMod.World
 				else
                 {
                     bool _ = true;
-                    PlaceStructure(mapKey, new Point(placementPoint.X, placementPoint.Y), PlacementAnchorType.TopLeft, ref _, new Action<Chest>(chest => FillWorkshopChest(chest)));
+                    PlaceStructure(mapKey, new Point(placementPoint.X, placementPoint.Y), PlacementAnchorType.TopLeft, ref _, new Action<Chest>(FillWorkshopChest));
                     break;
                 }
 
@@ -184,7 +184,7 @@ namespace CalamityMod.World
                 else
                 {
                     bool _ = true;
-                    PlaceStructure(mapKey, new Point(placementPoint.X, placementPoint.Y), PlacementAnchorType.TopLeft, ref _, new Action<Chest>(chest => FillLaboratoryChest(chest)));
+                    PlaceStructure(mapKey, new Point(placementPoint.X, placementPoint.Y), PlacementAnchorType.TopLeft, ref _, new Action<Chest>(FillLaboratoryChest));
                     break;
                 }
             }
@@ -255,7 +255,7 @@ namespace CalamityMod.World
 				else
 				{
                     bool hasPlacedMurasama = false;
-                    PlaceStructure(mapKey, new Point(placementPoint.X, placementPoint.Y), PlacementAnchorType.TopLeft, ref hasPlacedMurasama, new Action<Chest, int, bool>((chest, type, hasPlaced) => FillHellLaboratoryChest(chest, type, hasPlaced)));
+                    PlaceStructure(mapKey, new Point(placementPoint.X, placementPoint.Y), PlacementAnchorType.TopLeft, ref hasPlacedMurasama, new Action<Chest, int, bool>(FillHellLaboratoryChest));
                     break;
                 }
             }
@@ -327,7 +327,7 @@ namespace CalamityMod.World
             while (tries < 50000);
 
             bool hasPlacedLogAndSchematic = false;
-            PlaceStructure(mapKey, new Point(placementPoint.X, placementPoint.Y), PlacementAnchorType.TopLeft, ref hasPlacedLogAndSchematic, new Action<Chest, int, bool>((chest, type, hasPlaced) => FillSunkenSeaLaboratoryChest(chest, type, hasPlaced)));
+            PlaceStructure(mapKey, new Point(placementPoint.X, placementPoint.Y), PlacementAnchorType.TopLeft, ref hasPlacedLogAndSchematic, new Action<Chest, int, bool>(FillSunkenSeaLaboratoryChest));
         }
         #endregion
 
@@ -406,7 +406,7 @@ namespace CalamityMod.World
 				else
 				{
                     bool hasPlacedLogAndSchematic = false;
-                    PlaceStructure(mapKey, new Point(placementPoint.X, placementPoint.Y), PlacementAnchorType.TopLeft, ref hasPlacedLogAndSchematic, new Action<Chest, int, bool>((chest, type, hasPlaced) => FillIceLaboratoryChest(chest, type, hasPlaced)));
+                    PlaceStructure(mapKey, new Point(placementPoint.X, placementPoint.Y), PlacementAnchorType.TopLeft, ref hasPlacedLogAndSchematic, new Action<Chest, int, bool>(FillIceLaboratoryChest));
                     break;
                 }
             }
@@ -485,7 +485,7 @@ namespace CalamityMod.World
 				else
 				{
                     bool hasPlacedLogAndSchematic = false;
-                    PlaceStructure(mapKey, new Point(placementPoint.X, placementPoint.Y), PlacementAnchorType.TopLeft, ref hasPlacedLogAndSchematic, new Action<Chest, int, bool>((chest, type, hasPlaced) => FillPlagueLaboratoryChest(chest, type, hasPlaced)));
+                    PlaceStructure(mapKey, new Point(placementPoint.X, placementPoint.Y), PlacementAnchorType.TopLeft, ref hasPlacedLogAndSchematic, new Action<Chest, int, bool>(FillPlagueLaboratoryChest));
                     break;
                 }
             }
