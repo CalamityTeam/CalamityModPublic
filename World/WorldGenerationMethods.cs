@@ -25,6 +25,8 @@ using CalamityMod.Walls;
 using CalamityMod.World.Planets;
 using Microsoft.Xna.Framework;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using Terraria;
 using Terraria.ID;
@@ -639,14 +641,45 @@ namespace CalamityMod.World
                     int checkWidth = 180;
                     float averageHeight = 0f;
                     float lowestHeight = 0f;
+
+                    int xAreaToSpawn = i;
+
+                    Dictionary<int, float> xAreaHeightMap = new Dictionary<int, float>();
+
+                    // Gauge the bumpiness of various potential locations.
+                    // The least bumpy one will be selected as the place to spawn the monolith.
+                    for (int tries = 0; tries < 30; tries++)
+					{
+                        int x = i + Main.rand.Next(-60, 61);
+
+                        // Don't attempt to add duplicate keys.
+                        if (xAreaHeightMap.ContainsKey(x))
+                            continue;
+
+                        float averageRelativeHeight = 0f;
+                        for (int dx = -30; dx <= 30; dx++)
+						{
+                            WorldUtils.Find(new Point(x + dx, j - 180), Searches.Chain(new Searches.Down(360), new Conditions.IsSolid()), out Point result);
+                            averageRelativeHeight += Math.Abs(result.Y - j);
+                        }
+                        averageRelativeHeight /= 60f;
+                        xAreaHeightMap.Add(x, averageRelativeHeight);
+                    }
+
+                    i = xAreaHeightMap.OrderBy(x => x.Value).First().Key;
+
                     for (int x = i - checkWidth / 2; x < i + checkWidth / 2; x++)
                     {
                         int y = j - 200;
-                        while (!Main.tileSolid[CalamityUtils.ParanoidTileRetrieval(x, y).type] || !CalamityUtils.ParanoidTileRetrieval(x, y).active())
+                        Tile tileAtPosition = CalamityUtils.ParanoidTileRetrieval(x, y);
+                        while (!Main.tileSolid[tileAtPosition.type] ||
+                            !tileAtPosition.active() ||
+                            TileID.Sets.Platforms[tileAtPosition.type])
                         {
                             y++;
                             if (y > j - 10)
                                 break;
+                            tileAtPosition = CalamityUtils.ParanoidTileRetrieval(x, y);
                         }
                         lowestHeight = (int)MathHelper.Max(lowestHeight, y);
                         averageHeight += y;
