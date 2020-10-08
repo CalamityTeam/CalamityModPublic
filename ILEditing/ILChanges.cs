@@ -27,6 +27,7 @@ namespace CalamityMod.ILEditing
         /// </summary>
         public static void Initialize()
         {
+            On.Terraria.NPC.SlimeRainSpawns += PreventBossSlimeRainSpawns;
             ApplyLifeBytesChanges();
             SlideDungeonOver();
             LabDoorFixes();
@@ -68,7 +69,6 @@ namespace CalamityMod.ILEditing
 
         private static void LabDoorFixes()
         {
-			On.Terraria.NPC.SlimeRainSpawns += PreventBossSlimeRainSpawns;
             On.Terraria.Player.TileInteractionsUse += Player_TileInteractionsUse;
             On.Terraria.WorldGen.OpenDoor += LabDoorsOpen;
             On.Terraria.WorldGen.CloseDoor += LabDoorsClose;
