@@ -68,10 +68,17 @@ namespace CalamityMod.ILEditing
 
         private static void LabDoorFixes()
         {
+			On.Terraria.NPC.SlimeRainSpawns += PreventBossSlimeRainSpawns;
             On.Terraria.Player.TileInteractionsUse += Player_TileInteractionsUse;
             On.Terraria.WorldGen.OpenDoor += LabDoorsOpen;
             On.Terraria.WorldGen.CloseDoor += LabDoorsClose;
         }
+
+		private static void PreventBossSlimeRainSpawns(On.Terraria.NPC.orig_SlimeRainSpawns orig, int plr)
+		{
+            if (!Main.player[plr].Calamity().bossZen)
+                orig(plr);
+		}
         #endregion
 
         #region IL Editing Injection Functions
