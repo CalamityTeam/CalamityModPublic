@@ -4,9 +4,14 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
-using Terraria.ModLoader;
+using System.Runtime.Serialization.Formatters.Binary;
+using Terraria;
+using Terraria.ModLoader.IO;
+
+using SystemDrawing = System.Drawing;
 
 namespace CalamityMod.Schematics
 {
@@ -50,11 +55,9 @@ namespace CalamityMod.Schematics
             // This should always be the case as it is added by default with the auto-generated code.
             bool isSuitableMethod(MethodInfo method)
             {
-                GeneratedCodeAttribute generatedCodeAttribute = method.GetCustomAttribute(typeof(GeneratedCodeAttribute)) as GeneratedCodeAttribute;
-
-                if (generatedCodeAttribute == null)
-                    return false;
-                return generatedCodeAttribute.Tool.ToLower() == "screencapturetoschematic";
+				if (!(method.GetCustomAttribute(typeof(GeneratedCodeAttribute)) is GeneratedCodeAttribute generatedCodeAttribute))
+					return false;
+				return generatedCodeAttribute.Tool.ToLower() == "screencapturetoschematic";
             }
             MethodInfo[] appropriateMethodsFound = toSearch.GetMethods(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Static);
             MethodInfo match = appropriateMethodsFound.First(isSuitableMethod);
@@ -62,20 +65,28 @@ namespace CalamityMod.Schematics
                 throw new NullReferenceException($"Could not load any methods from {toSearch.FullName} that are appropriately marked to be used for schematic loading.");
             return match;
         }
-        internal static ColorTileCombination[,] LoadSchematicCodeAndTexture(Type schematicType, string texturePath)
+        internal static ColorTileCombination[,] LoadSchematicCodeAndTexture(Type schematicType, string schematicPath)
         {
             ColorTileMap map = (ColorTileMap)SeekSchematicLoaderInType(schematicType).Invoke(null, null);
-            Texture2D schemanticTexture = ModContent.GetTexture($"CalamityMod/{texturePath}");
 
-            ColorTileCombination[,] schematic = new ColorTileCombination[schemanticTexture.Width, schemanticTexture.Height];
-            Color[,] colors = schemanticTexture.GetColorsFromTexture();
-            for (int x = 0; x < schemanticTexture.Width; x++)
+            // Forcefully load textures, in spite of multiplayer restrictions.
+
+            Stream schematicStream = CalamityMod.Instance.GetFileStream(schematicPath + ".sch", true);
+
+            var systemImage = (SystemDrawing.Bitmap)new BinaryFormatter().Deserialize(schematicStream);
+
+            ColorTileCombination[,] schematic = new ColorTileCombination[systemImage.Width, systemImage.Height];
+
+            for (int x = 0; x < systemImage.Width; x++)
             {
-                for (int y = 0; y < schemanticTexture.Height; y++)
+                for (int y = 0; y < systemImage.Height; y++)
                 {
-                    schematic[x, y] = new ColorTileCombination(colors[x, y], map[colors[x, y]].SpecifiedTile);
+                    var systemColor = systemImage.GetPixel(x, y);
+                    Color xnaColor = new Color(systemColor.R, systemColor.G, systemColor.B, systemColor.A);
+                    schematic[x, y] = new ColorTileCombination(xnaColor, map[xnaColor].SpecifiedTile);
                 }
             }
+
             return schematic;
         }
         #endregion

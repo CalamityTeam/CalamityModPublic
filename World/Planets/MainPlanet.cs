@@ -106,7 +106,7 @@ namespace CalamityMod.World.Planets
             }));
 
             bool hasPlacedLogAndSchematic = false;
-            SchematicPlacementHelpers.PlaceStructure("Planetoid Laboratory", new Point(origin.X - 33, origin.Y - 17), SchematicPlacementHelpers.PlacementAnchorType.TopLeft, ref hasPlacedLogAndSchematic, DraedonStructures.FillPlanetoidLaboratoryChest);
+            SchematicPlacementHelpers.PlaceStructure("Planetoid Laboratory", new Point(origin.X - 33, origin.Y - 17), SchematicPlacementHelpers.PlacementAnchorType.TopLeft, ref hasPlacedLogAndSchematic, new Action<Chest, int, bool>(DraedonStructures.FillPlanetoidLaboratoryChest));
 
             //PLACE BREAKABLE GRASS AND TREES
             WorldUtils.Gen(origin, new ModShapes.OuterOutline(mainShape, true, true), Actions.Chain(new GenAction[]

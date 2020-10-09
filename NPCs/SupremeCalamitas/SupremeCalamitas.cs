@@ -2174,7 +2174,9 @@ namespace CalamityMod.NPCs.SupremeCalamitas
         // If SCal is killed too quickly, cancel all drops and chastise the player
         public override bool SpecialNPCLoot()
         {
-            if (lootTimer < 6000) //75 seconds for bullet hells + 25 seconds for normal phases
+			//75 seconds for bullet hells + 25 seconds for normal phases.
+			//Does not occur in Boss Rush due to weakened SCal + stronger weapons (rarely occurs with just Cal gear)
+            if ((lootTimer < 6000) && !BossRushEvent.BossRushActive)
             {
                 string key = "Mods.CalamityMod.SupremeBossText2";
                 Color messageColor = Color.Orange;

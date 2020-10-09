@@ -145,6 +145,7 @@ namespace CalamityMod
             SetupThoriumBossDR(thorium);
 
             CalamityLocalization.AddLocalizations();
+            SchematicLoader.LoadEverything();
         }
 
         private void LoadClient()
@@ -222,8 +223,6 @@ namespace CalamityMod
             GameShaders.Hair.BindShader(ModContent.ItemType<RageHairDye>(), new LegacyHairShaderData().UseLegacyMethod((Player player, Color newColor, ref bool lighting) => Color.Lerp(player.hairColor, new Color(255, 83, 48), ((float)player.Calamity().rage / (float)player.Calamity().rageMax))));
             GameShaders.Hair.BindShader(ModContent.ItemType<WingTimeHairDye>(), new LegacyHairShaderData().UseLegacyMethod((Player player, Color newColor, ref bool lighting) => Color.Lerp(player.hairColor, new Color(139, 205, 255), ((float)player.wingTime / (float)player.wingTimeMax))));
             GameShaders.Hair.BindShader(ModContent.ItemType<StealthHairDye>(), new LegacyHairShaderData().UseLegacyMethod((Player player, Color newColor, ref bool lighting) => Color.Lerp(player.hairColor, new Color(186, 85, 211), (player.Calamity().rogueStealth / player.Calamity().rogueStealthMax))));
-
-            SchematicLoader.LoadEverything();
 
             PopupGUIManager.LoadGUIs();
             InvasionProgressUIManager.LoadGUIs();
