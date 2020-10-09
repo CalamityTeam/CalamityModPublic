@@ -709,6 +709,7 @@ namespace CalamityMod.NPCs.Cryogen
                     npc.ai[1] = 0f;
                     npc.localAI[0] = 0f;
                     npc.localAI[2] = 0f;
+					npc.Opacity = 1f;
                     teleportLocationX = 0;
                     iceShard = 0;
                     npc.netUpdate = true;

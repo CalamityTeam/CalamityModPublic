@@ -233,7 +233,7 @@ namespace CalamityMod.NPCs.Providence
 
 			// Phase times
 			float phaseTime = nightTime ? (300f - 120f * (1f - lifeRatio)) : 300f;
-			float crystalPhaseTime = nightTime ? (60f * lifeRatio) : death ? 60f : 120f;
+			float crystalPhaseTime = nightTime ? (float)Math.Round(60f * lifeRatio) : death ? 60f : 120f;
 			int nightCrystalTime = 210;
 			float attackDelayAfterCocoon = 90f;
 
