@@ -9395,7 +9395,6 @@ namespace CalamityMod.NPCs
 			// 3 seconds of resistance and no damage to prevent spawn killing and unfair hits
 			if (calamityGlobalNPC.newAI[1] < 90f)
 			{
-				npc.ai[3] = npc.ai[2];
 				npc.damage = 0;
 				calamityGlobalNPC.newAI[1] += 1f;
 			}
@@ -9406,7 +9405,7 @@ namespace CalamityMod.NPCs
 			int num778 = NPC.plantBoss;
 
 			// Tile enrage
-			float tileEnrageMult = Main.npc[NPC.plantBoss].ai[3];
+			float tileEnrageMult = Main.npc[num778].ai[3];
 
 			// Movement variables
 			if (Main.netMode != NetmodeID.MultiplayerClient)
@@ -9417,7 +9416,6 @@ namespace CalamityMod.NPCs
 					npc.localAI[0] = Main.rand.Next(120, 481);
 					npc.ai[0] = Main.rand.Next(-100, 101);
 					npc.ai[1] = Main.rand.Next(-100, 101);
-					npc.ai[2] = MathHelper.Clamp(npc.ai[2] + Main.rand.Next(-100, 101) * 0.0005f, -npc.ai[3], npc.ai[3]);
 					npc.netUpdate = true;
 				}
 			}
@@ -9432,7 +9430,7 @@ namespace CalamityMod.NPCs
 			float deceleration = (death ? 0.5f : 0.8f) - 0.2f * (1f - npc.ai[2]);
 
             // Despawn if Plantera is gone
-            if (!Main.npc[num778].active || NPC.plantBoss < 0)
+            if (!Main.npc[num778].active || num778 < 0)
             {
                 npc.active = false;
                 return false;
