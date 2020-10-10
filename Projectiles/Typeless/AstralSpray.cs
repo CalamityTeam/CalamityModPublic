@@ -24,11 +24,12 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override bool PreAI()
         {
-            if (projectile.owner == Main.myPlayer/* && Main.netMode != NetmodeID.MultiplayerClient*/)
+            if (Main.netMode != NetmodeID.MultiplayerClient)
             {
                 int x = (int)(projectile.Center.X / 16f);
                 int y = (int)(projectile.Center.Y / 16f);
                 WorldGenerationMethods.ConvertToAstral(x - 1, x + 1, y - 1, y + 1);
+                NetMessage.SendTileRange(-1, x - 1, y - 1, 2, 2);
             }
             if (projectile.timeLeft > 133)
             {
