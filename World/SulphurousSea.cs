@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.World.Generation;
 
 namespace CalamityMod.World
 {
@@ -44,12 +45,12 @@ namespace CalamityMod.World
 				// Small world
 				if (Main.maxTilesX == 4200)
 				{
-					return (int)((Main.rockLayer + 20 - YStart) * 0.65);
+					return (int)((Main.rockLayer + 20 - YStart) * 0.8);
 				}
 				// Medium world
 				else if (Main.maxTilesX == 6400)
 				{
-					return (int)((Main.rockLayer + 20 - YStart) * 0.8);
+					return (int)((Main.rockLayer + 20 - YStart) * 0.85);
 				}
 				// Large world
 				else
@@ -77,6 +78,7 @@ namespace CalamityMod.World
 			CreateWater();
 			GenerateHardenedSandstone();
 			RemoveStupidTilesAboveSea();
+			GenerateLake();
 			SettleWater(); // The island Y spawn position calculations are relative to water. Settling the water before doing these calculations is ideal.
 			GenerateIslands();
 			GenerateVentsAndFossils();
@@ -131,6 +133,10 @@ namespace CalamityMod.World
 			{
 				randomValue2 = WorldGen.genRand.NextFloat(-0.2f, 0.2f);
 			}
+
+			float randomValue3 = WorldGen.genRand.NextFloat(0.42f, 0.96f) * WorldGen.genRand.NextBool(2).ToDirectionInt();
+			float wallBoundAtPosition(float xRatio) => (float)(Math.Sin(randomValue3 * MathHelper.Pi * xRatio) + Math.Cos(randomValue3 * Math.E / 2f * xRatio)) * 0.5f * 28f;
+
 			for (int x = 1; x < BiomeWidth; x++)
 			{
 				float xRatio = x / (float)BiomeWidth;
@@ -149,6 +155,9 @@ namespace CalamityMod.World
 								type = generateSand ? (ushort)ModContent.TileType<SulphurousSand>() : (ushort)ModContent.TileType<SulphurousSandstone>(),
 								wall = generateSand ? (ushort)ModContent.WallType<SulphurousSandWall>() : (ushort)ModContent.WallType<SulphurousSandstoneWall>()
 							};
+							if (y - YStart - 6 < wallBoundAtPosition(xRatio * MathHelper.TwoPi * 4f))
+								Main.tile[trueX, y].wall = WallID.None;
+
 							Main.tile[trueX, y].active(true);
 						}
 					}
@@ -172,6 +181,28 @@ namespace CalamityMod.World
 		public const float PerlinYDelta = 40;
 		public const float PerlinNoiseMax = 0.05f;
 		public const float PerlinThreshold = 0.1f; // Be careful with this number
+
+		public static void GenerateLake()
+		{
+			int lakeDepthMax = WorldGen.genRand.Next(36, 52 + 1);
+			float lakeSteepness = WorldGen.genRand.NextFloat(1.2f, 1.5f);
+			for (int x = 1; x < BiomeWidth; x++)
+			{
+				int trueX = CalamityWorld.abyssSide ? x : Main.maxTilesX - x;
+				float xRatio = x / (float)BiomeWidth;
+				int lakeDepth = (int)(Math.Sin(MathHelper.Min((1f - xRatio) * MathHelper.PiOver2 * lakeSteepness * 1.2f, MathHelper.PiOver2)) * lakeDepthMax);
+				for (int y = YStart; y <= YStart + lakeDepth; y++)
+				{
+					ushort oldWall = Main.tile[trueX, y].wall;
+					Main.tile[trueX, y] = new Tile()
+					{
+						wall = oldWall,
+						liquid = 255
+					};
+				}
+			}
+		}
+
 		public static void CreateWater()
 		{
 			int[] seeds = new int[PerlinIterations];
@@ -754,24 +785,22 @@ namespace CalamityMod.World
 			TileID.Vines,
 			TileID.CrimsonVines,
 			TileID.Containers,
+			TileID.DyePlants,
 			TileID.JungleGrass // Yes, this can happen on rare occasion
 		};
 		public static void DetermineYStart()
 		{
-			int maxHeight = 0;
-			for (int i = 40; i < BiomeWidth + 30; i++)
+			int xCheckPosition = CalamityWorld.abyssSide ? BiomeWidth + 1 : Main.maxTilesX - BiomeWidth - 1;
+			var searchCondition = Searches.Chain(new Searches.Down(3000), new Conditions.IsSolid());
+			Point determinedPoint;
+
+			do
 			{
-				int xCheck = CalamityWorld.abyssSide ? i : Main.maxTilesX - i;
-				int YStart = (int)WorldGen.worldSurfaceLow - 20; // 30 tiles below the absolute lowest a floating island can spawn
-				while (!Main.tile[xCheck, YStart].active() || !YStartWhitelist.Contains(Main.tile[xCheck, YStart].type))
-				{
-					YStart++;
-					if (YStart > Main.rockLayer - 40)
-						break;
-				}
-				maxHeight += YStart;
+				WorldUtils.Find(new Point(xCheckPosition, (int)WorldGen.worldSurfaceLow - 20), searchCondition, out determinedPoint);
+				xCheckPosition += CalamityWorld.abyssSide.ToDirectionInt();
 			}
-			YStart = maxHeight / BiomeWidth;
+			while (CalamityUtils.ParanoidTileRetrieval(determinedPoint.X, determinedPoint.Y).type == TileID.Ebonstone);
+			YStart = determinedPoint.Y;
 		}
 		public static void GrowSaplingImmediately(int i, int j)
 		{
