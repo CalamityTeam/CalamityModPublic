@@ -70,7 +70,18 @@ namespace CalamityMod.Projectiles.Boss
             return true;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override Color? GetAlpha(Color lightColor)
+		{
+			if (projectile.ai[1] > 1800f)
+			{
+				byte b2 = (byte)((26f - (projectile.ai[1] - 1800f)) * 10f);
+				byte a2 = (byte)(projectile.alpha * (b2 / 255f));
+				return new Color(b2, b2, b2, a2);
+			}
+			return new Color(255, 255, 255, projectile.alpha);
+		}
+
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             //Changes the texture of the projectile
             Texture2D texture = Main.projectileTexture[projectile.type];

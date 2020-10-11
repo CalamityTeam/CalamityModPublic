@@ -2021,6 +2021,17 @@ namespace CalamityMod.Projectiles
                 return Color.Transparent;
             }
 
+			if (projectile.type == ProjectileID.SeedPlantera || projectile.type == ProjectileID.PoisonSeedPlantera || projectile.type == ProjectileID.ThornBall)
+			{
+				if (projectile.timeLeft < 85)
+				{
+					byte b2 = (byte)(projectile.timeLeft * 3);
+					byte a2 = (byte)(projectile.alpha * (b2 / 255f));
+					return new Color(b2, b2, b2, a2);
+				}
+				return new Color(255, 255, 255, projectile.alpha);
+			}
+
             return null;
         }
 

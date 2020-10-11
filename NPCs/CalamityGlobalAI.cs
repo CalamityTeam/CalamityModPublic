@@ -8632,14 +8632,10 @@ namespace CalamityMod.NPCs
             bool despawn = false;
             npc.TargetClosest(true);
 
-            // Check for Jungle and remaining Tentacles
+            // Check for Jungle
             bool surface = !BossRushEvent.BossRushActive && Main.player[npc.target].position.Y < Main.worldSurface * 16.0;
-			int maxTentacles = phase4 ? 10 : phase3 ? 8 : phase2 ? 6 : phase1phase2 ? 4 : 3;
-            int tentacleCount = NPC.CountNPCS(NPCID.PlanterasTentacle);
-            bool tentaclesDead = tentacleCount == 0;
+			int maxTentacles = death ? 34 : 26;
 			float speedUpDistance = 480f;
-			if (tentaclesDead)
-				speedUpDistance -= 300f * (1f - lifeRatio);
 			bool speedUp = Vector2.Distance(Main.player[npc.target].Center, npc.Center) > speedUpDistance; // 30 or 40 tile distance
 
             // Despawn
@@ -8699,7 +8695,7 @@ namespace CalamityMod.NPCs
             {
                 velocity = 9f;
                 acceleration = 0.07f;
-                if (tentaclesDead || phase4)
+                if (phase4)
                     velocity = 11f;
             }
             else if (phase2)
@@ -8854,7 +8850,7 @@ namespace CalamityMod.NPCs
 					if (npc.localAI[0] == 1f)
 					{
 						npc.localAI[0] = 2f;
-						int baseTentacles = death ? 9 : 6;
+						int baseTentacles = death ? 3 : 2;
 						int totalTentacles = (int)(baseTentacles * tileEnrageMult);
 						for (int i = 0; i < totalTentacles; i++)
 						{
@@ -8965,7 +8961,7 @@ namespace CalamityMod.NPCs
                     if (npc.localAI[0] == 2f)
                     {
                         npc.localAI[0] = 3f;
-						int baseTentacles = death ? 15 : 10;
+						int baseTentacles = death ? 6 : 4;
 						int totalTentacles = (int)(baseTentacles * tileEnrageMult);
                         for (int i = 0; i < totalTentacles; i++)
                         {
@@ -9027,87 +9023,82 @@ namespace CalamityMod.NPCs
 					}
 
 					// Fire spread of poison seeds
-					if (tentacleCount < 8)
+					if (nearbyActiveTiles > 600)
+						npc.localAI[3] += 0.5f + (0.5f - lifeRatio) * 8f;
+					else
+						npc.localAI[3] += (nearbyActiveTiles > 300 ? 1f : 5f) + (0.5f - lifeRatio) * 8f;
+
+					// If hit, fire projectiles even if target is behind tiles
+					if (npc.justHit)
+						calamityGlobalNPC.newAI[3] = 1f;
+
+					if (npc.localAI[3] >= 360f)
 					{
-						int tentacleScale = 8 - tentacleCount; // 1 to 8
-
-						if (nearbyActiveTiles > 600)
-							npc.localAI[3] += 0.5f + ((tentacleScale - 1) * 0.5f);
-						else
-							npc.localAI[3] += (nearbyActiveTiles > 300 ? 1f : 5f) + ((tentacleScale - 1) * 0.5f);
-
-						// If hit, fire projectiles even if target is behind tiles
-						if (npc.justHit)
-							calamityGlobalNPC.newAI[3] = 1f;
-
-						if (npc.localAI[3] >= 360f)
+						bool canHit = Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height);
+						if (calamityGlobalNPC.newAI[3] > 0f)
 						{
-							bool canHit = Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height);
-							if (calamityGlobalNPC.newAI[3] > 0f)
+							canHit = true;
+							calamityGlobalNPC.newAI[3] = 0f;
+						}
+						if (canHit)
+						{
+							Vector2 vector93 = npc.Center;
+
+							float num742 = 8f - ((0.5f - lifeRatio) * 4f); // 8f to 6f, slower projectiles are harder to avoid
+							if (nearbyActiveTiles < 300)
+								num742 = 8.5f;
+							if (BossRushEvent.BossRushActive)
+								num742 *= 1.5f;
+
+							float num743 = Main.player[npc.target].position.X + Main.player[npc.target].width * 0.5f - vector93.X;
+							float num744 = Main.player[npc.target].position.Y + Main.player[npc.target].height * 0.5f - vector93.Y;
+							float num745 = (float)Math.Sqrt(num743 * num743 + num744 * num744);
+							num745 = num742 / num745;
+							num743 *= num745;
+							num744 *= num745;
+							vector93.X += num743 * 3f;
+							vector93.Y += num744 * 3f;
+
+							bool anyThornBalls = false;
+							for (int i = 0; i < Main.maxProjectiles; i++)
 							{
-								canHit = true;
-								calamityGlobalNPC.newAI[3] = 0f;
+								if (Main.projectile[i].active && Main.projectile[i].type == ProjectileID.ThornBall)
+									anyThornBalls = true;
+
+								if (anyThornBalls)
+									break;
 							}
-							if (canHit)
+							if (!anyThornBalls && Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
 							{
-								Vector2 vector93 = npc.Center;
+								int type = ProjectileID.ThornBall;
+								int damage = npc.GetProjectileDamage(type);
+								if (enrage)
+									damage *= 2;
 
-								float num742 = 8f - (tentacleScale * 0.25f); // 7.75f to 6f, slower projectiles are harder to avoid
+								Projectile.NewProjectile(vector93.X, vector93.Y, num743, num744, type, damage, 0f, Main.myPlayer, 0f, 0f);
+
+								npc.localAI[3] = -240f;
+							}
+							else
+							{
+								int numProj = 2;
+								int spread = 3 + (int)Math.Round((0.5f - lifeRatio) * 14f); // 3 to 10, wider spread is harder to avoid
 								if (nearbyActiveTiles < 300)
-									num742 = 8.5f;
-								if (BossRushEvent.BossRushActive)
-									num742 *= 1.5f;
+									spread = Main.rand.Next(3, 7) + (int)Math.Round((0.5f - lifeRatio) * 8f);
 
-								float num743 = Main.player[npc.target].position.X + Main.player[npc.target].width * 0.5f - vector93.X;
-								float num744 = Main.player[npc.target].position.Y + Main.player[npc.target].height * 0.5f - vector93.Y;
-								float num745 = (float)Math.Sqrt(num743 * num743 + num744 * num744);
-								num745 = num742 / num745;
-								num743 *= num745;
-								num744 *= num745;
-								vector93.X += num743 * 3f;
-								vector93.Y += num744 * 3f;
+								int type = ProjectileID.PoisonSeedPlantera;
+								int damage = npc.GetProjectileDamage(type);
+								if (enrage)
+									damage *= 2;
 
-								bool anyThornBalls = false;
-								for (int i = 0; i < Main.maxProjectiles; i++)
+								float rotation = MathHelper.ToRadians(spread);
+								for (int i = 0; i < numProj + 1; i++)
 								{
-									if (Main.projectile[i].active && Main.projectile[i].type == ProjectileID.ThornBall)
-										anyThornBalls = true;
-
-									if (anyThornBalls)
-										break;
+									Vector2 perturbedSpeed = new Vector2(num743, num744).RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (numProj - 1)));
+									Projectile.NewProjectile(vector93, perturbedSpeed, type, damage, 0f, Main.myPlayer, 0f, 0f);
 								}
-								if (!anyThornBalls && Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
-								{
-									int type = ProjectileID.ThornBall;
-									int damage = npc.GetProjectileDamage(type);
-									if (enrage)
-										damage *= 2;
 
-									Projectile.NewProjectile(vector93.X, vector93.Y, num743, num744, type, damage, 0f, Main.myPlayer, 0f, 0f);
-
-									npc.localAI[3] = -240f;
-								}
-								else
-								{
-									int numProj = 2;
-									int spread = 2 + tentacleScale; // 3 to 10, wider spread is harder to avoid
-									if (nearbyActiveTiles < 300)
-										spread = (Main.rand.NextBool(2) ? 3 : 6) + (tentacleScale / 2);
-
-									int type = ProjectileID.PoisonSeedPlantera;
-									int damage = npc.GetProjectileDamage(type);
-									if (enrage)
-										damage *= 2;
-
-									float rotation = MathHelper.ToRadians(spread);
-									for (int i = 0; i < numProj + 1; i++)
-									{
-										Vector2 perturbedSpeed = new Vector2(num743, num744).RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (numProj - 1)));
-										Projectile.NewProjectile(vector93, perturbedSpeed, type, damage, 0f, Main.myPlayer, 0f, 0f);
-									}
-
-									npc.localAI[3] = 0f;
-								}
+								npc.localAI[3] = 0f;
 							}
 						}
 					}
@@ -9214,12 +9205,12 @@ namespace CalamityMod.NPCs
 			{
 				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
-					int healthInterval = (int)(npc.lifeMax * 0.05);
+					int healthInterval = death ? (int)(npc.lifeMax * 0.04) : (int)(npc.lifeMax * 0.05);
 					if ((npc.life + healthInterval) < npc.ai[0])
 					{
 						npc.ai[0] = npc.life;
-						int numTentacles = death ? 3 : 2;
-						for (int i = 0; i < numTentacles; i++)
+
+						if (NPC.CountNPCS(NPCID.PlanterasTentacle) < maxTentacles)
 							NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, NPCID.PlanterasTentacle, npc.whoAmI, 0f, 0f, lifeRatio);
 					}
 				}
@@ -9404,16 +9395,11 @@ namespace CalamityMod.NPCs
 			// Set Plantera to a variable
 			int num778 = NPC.plantBoss;
 
-			// Tile enrage
-			float tileEnrageMult = Main.npc[num778].ai[3];
-
 			// Movement variables
 			if (Main.netMode != NetmodeID.MultiplayerClient)
 			{
-				npc.localAI[0] -= tileEnrageMult;
-				if (npc.localAI[0] <= 0f)
+				if (npc.ai[0] == 0f || npc.ai[1] == 0f)
 				{
-					npc.localAI[0] = Main.rand.Next(120, 481);
 					npc.ai[0] = Main.rand.Next(-100, 101);
 					npc.ai[1] = Main.rand.Next(-100, 101);
 					npc.netUpdate = true;
@@ -9426,7 +9412,7 @@ namespace CalamityMod.NPCs
 			// Velocity and acceleration
 			float num779 = BossRushEvent.BossRushActive ? 3f : death ? 2.4f : 0.8f;
             float num781 = 1f - npc.ai[2];
-            float num780 = (BossRushEvent.BossRushActive ? 300f : 200f) + (num781 * 200f);
+            float num780 = (BossRushEvent.BossRushActive ? 300f : 200f) + (num781 * 300f);
 			float deceleration = (death ? 0.5f : 0.8f) - 0.2f * (1f - npc.ai[2]);
 
             // Despawn if Plantera is gone
@@ -9437,36 +9423,34 @@ namespace CalamityMod.NPCs
             }
 
             // Movement
-            float num782 = Main.npc[num778].position.X + (Main.npc[num778].width / 2);
-            float num783 = Main.npc[num778].position.Y + (Main.npc[num778].height / 2);
-            Vector2 vector97 = new Vector2(num782, num783);
-            float num784 = num782 + npc.ai[0];
-            float num785 = num783 + npc.ai[1];
-            float num786 = num784 - vector97.X;
-            float num787 = num785 - vector97.Y;
+            Vector2 planteraCenter = Main.npc[num778].Center;
+            float num784 = planteraCenter.X + npc.ai[0];
+            float num785 = planteraCenter.Y + npc.ai[1];
+            float num786 = num784 - planteraCenter.X;
+            float num787 = num785 - planteraCenter.Y;
             float num788 = (float)Math.Sqrt(num786 * num786 + num787 * num787);
             num788 = num780 / num788;
             num786 *= num788;
             num787 *= num788;
-            if (npc.position.X < num782 + num786)
+            if (npc.position.X < planteraCenter.X + num786)
             {
                 npc.velocity.X += num779;
                 if (npc.velocity.X < 0f && num786 > 0f)
                     npc.velocity.X *= deceleration;
             }
-            else if (npc.position.X > num782 + num786)
+            else if (npc.position.X > planteraCenter.X + num786)
             {
                 npc.velocity.X -= num779;
                 if (npc.velocity.X > 0f && num786 < 0f)
                     npc.velocity.X *= deceleration;
             }
-            if (npc.position.Y < num783 + num787)
+            if (npc.position.Y < planteraCenter.Y + num787)
             {
                 npc.velocity.Y += num779;
                 if (npc.velocity.Y < 0f && num787 > 0f)
                     npc.velocity.Y *= deceleration;
             }
-            else if (npc.position.Y > num783 + num787)
+            else if (npc.position.Y > planteraCenter.Y + num787)
             {
                 npc.velocity.Y -= num779;
                 if (npc.velocity.Y > 0f && num787 < 0f)
@@ -10392,6 +10376,8 @@ namespace CalamityMod.NPCs
 			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
 			bool phase2 = lifeRatio <= 0.66f;
             bool phase3 = lifeRatio <= (death ? 0.33f : 0.2f);
+			bool phase4 = lifeRatio <= (death ? 0.22f : 0.1f);
+			bool phase5 = lifeRatio <= 0.11f && death;
             bool phase2AI = npc.ai[0] > 4f;
             bool phase3AI = npc.ai[0] > 9f;
             bool charging = npc.ai[3] < 10f;
@@ -10524,10 +10510,11 @@ namespace CalamityMod.NPCs
             }
 
             // Spawn cthulhunadoes in phase 3
-            if (phase3AI)
+            if (phase3AI && !phase5)
             {
                 calamityGlobalNPC.newAI[0] += 1f;
-                if (calamityGlobalNPC.newAI[0] >= 600f)
+				float timeGateValue = phase4 ? 900f : 600f;
+                if (calamityGlobalNPC.newAI[0] >= timeGateValue)
                 {
                     calamityGlobalNPC.newAI[0] = 0f;
 
@@ -11183,22 +11170,48 @@ namespace CalamityMod.NPCs
                 if (npc.ai[2] >= idlePhaseTimer)
                 {
                     int num33 = 0;
-                    switch ((int)npc.ai[3])
-                    {
-                        case 0:
-                        case 2:
-                        case 3:
-                        case 5:
-                        case 6:
-                        case 7:
-                            num33 = 1;
-                            break;
-                        case 1:
-                        case 4:
-                        case 8:
-                            num33 = 2;
-                            break;
-                    }
+					if (phase5)
+					{
+						num33 = 1;
+					}
+					else if (phase4)
+					{
+						switch ((int)npc.ai[3])
+						{
+							case 0:
+							case 1:
+							case 2:
+							case 4:
+							case 5:
+							case 6:
+							case 7:
+								num33 = 1;
+								break;
+							case 3:
+							case 8:
+								num33 = 2;
+								break;
+						}
+					}
+					else
+					{
+						switch ((int)npc.ai[3])
+						{
+							case 0:
+							case 2:
+							case 3:
+							case 5:
+							case 6:
+							case 7:
+								num33 = 1;
+								break;
+							case 1:
+							case 4:
+							case 8:
+								num33 = 2;
+								break;
+						}
+					}
 
                     // Set velocity for charge
                     if (num33 == 1)
@@ -11268,7 +11281,10 @@ namespace CalamityMod.NPCs
                     npc.ai[0] = 10f;
                     npc.ai[1] = 0f;
                     npc.ai[2] = 0f;
-                    npc.ai[3] += 1f;
+
+					if (!phase5)
+						npc.ai[3] += 1f;
+
                     npc.netUpdate = true;
                 }
             }
