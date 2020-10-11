@@ -815,6 +815,13 @@ namespace CalamityMod
                     return true;
                 }, InterfaceScaleType.None));
 
+                // Mode Indicator UI.
+                layers.Insert(mouseIndex, new LegacyGameInterfaceLayer("Mode Indicator UI", delegate ()
+                {
+                    ModeIndicatorUI.Draw(Main.spriteBatch);
+                    return true;
+                }, InterfaceScaleType.UI));
+
                 // Astral Arcanum overlay (if open)
                 layers.Insert(mouseIndex, new LegacyGameInterfaceLayer("Astral Arcanum UI", delegate ()
                 {
