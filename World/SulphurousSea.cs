@@ -90,6 +90,7 @@ namespace CalamityMod.World
 			PlaceStalactites();
 			PlaceColumns();
 			PlaceRustyChests();
+			CreateBeachNearSea();
 		}
         #endregion
 
@@ -123,6 +124,14 @@ namespace CalamityMod.World
 		#region Generating Initial Block
 		public static void CreateStartingBlock()
 		{
+			// Set above for general performance.
+			ushort sandTileType = (ushort)ModContent.TileType<SulphurousSand>();
+			ushort sandstoneTileType = (ushort)ModContent.TileType<SulphurousSandstone>();
+
+			ushort sandWallType = (ushort)ModContent.WallType<SulphurousSandWall>();
+			ushort sandstoneWallType = (ushort)ModContent.WallType<SulphurousSandstoneWall>();
+
+
 			float randomValue1 = WorldGen.genRand.NextFloat(-0.4f, 0.4f);
 			while (Math.Abs(randomValue1) < 0.22f)
 			{
@@ -152,8 +161,8 @@ namespace CalamityMod.World
 						{
 							Main.tile[trueX, y] = new Tile()
 							{
-								type = generateSand ? (ushort)ModContent.TileType<SulphurousSand>() : (ushort)ModContent.TileType<SulphurousSandstone>(),
-								wall = generateSand ? (ushort)ModContent.WallType<SulphurousSandWall>() : (ushort)ModContent.WallType<SulphurousSandstoneWall>()
+								type = generateSand ? sandTileType : sandstoneTileType,
+								wall = generateSand ? sandWallType : sandstoneWallType
 							};
 							if (y - YStart - 6 < wallBoundAtPosition(xRatio * MathHelper.TwoPi * 4f))
 								Main.tile[trueX, y].wall = WallID.None;
@@ -750,6 +759,72 @@ namespace CalamityMod.World
 		}
 		#endregion
 
+		#region Nearby Beach
+		public static readonly List<int> ValidBeachCovertTiles = new List<int>()
+		{
+			TileID.Dirt,
+			TileID.Stone,
+			TileID.Crimstone,
+			TileID.Ebonstone,
+			TileID.Sand,
+			TileID.Ebonsand,
+			TileID.Crimsand,
+			TileID.Grass,
+			TileID.CorruptGrass,
+			TileID.FleshGrass,
+			TileID.ClayBlock,
+			TileID.Mud,
+		};
+		public static readonly List<int> ValidBeachDestroyTiles = new List<int>()
+		{
+			TileID.Coral,
+			TileID.BeachPiles,
+			TileID.Plants,
+			TileID.Plants2,
+			TileID.SmallPiles,
+			TileID.LargePiles,
+			TileID.LargePiles2,
+			TileID.CorruptThorns,
+			TileID.CrimtaneThorns,
+			TileID.DyePlants,
+			TileID.Trees,
+			TileID.Sunflower,
+		};
+		public static void CreateBeachNearSea()
+		{
+			int beachWidth = WorldGen.genRand.Next(150, 190 + 1);
+
+			var searchCondition = Searches.Chain(new Searches.Down(3000), new Conditions.IsSolid());
+			WorldUtils.Find(new Point(BiomeWidth + 4, (int)WorldGen.worldSurfaceLow - 20), searchCondition, out Point determinedPoint);
+			Tile tileAtEdge = CalamityUtils.ParanoidTileRetrieval(determinedPoint.X, determinedPoint.Y);
+
+			// Extend outward to encompass some of the desert, if there is one.
+			if (tileAtEdge.type == TileID.Sand ||
+				tileAtEdge.type == TileID.Ebonsand ||
+				tileAtEdge.type == TileID.Crimsand)
+			{
+				beachWidth += 85;
+			}
+
+			for (int x = BiomeWidth - 10; x <= BiomeWidth + beachWidth; x++)
+			{
+				float xRatio = Utils.InverseLerp(BiomeWidth - 10, BiomeWidth + beachWidth, x, true);
+				int trueX = CalamityWorld.abyssSide ? x : Main.maxTilesX - x;
+				int depth = (int)(Math.Sin((1f - xRatio) * MathHelper.PiOver2) * 45 + 1);
+				for (int y = YStart - 40; y < YStart + depth; y++)
+				{
+					Tile tileAtPosition = CalamityUtils.ParanoidTileRetrieval(trueX, y);
+					if (tileAtPosition.active() && ValidBeachDestroyTiles.Contains(tileAtPosition.type))
+						Main.tile[trueX, y].active(false);
+					else if (tileAtPosition.active() && ValidBeachCovertTiles.Contains(tileAtPosition.type))
+					{
+						Main.tile[trueX, y].type = (ushort)ModContent.TileType<SulphurousSand>();
+					}
+				}
+			}
+		}
+		#endregion
+
 		#region Misc Functions
 		public static List<int> YStartWhitelist = new List<int>()
 		{
@@ -783,6 +858,8 @@ namespace CalamityMod.World
 			TileID.LargePiles2,
 			TileID.Trees,
 			TileID.Vines,
+			TileID.CorruptThorns,
+			TileID.CrimtaneThorns,
 			TileID.CrimsonVines,
 			TileID.Containers,
 			TileID.DyePlants,
