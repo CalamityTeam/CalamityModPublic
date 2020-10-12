@@ -126,7 +126,8 @@ namespace CalamityMod.Tiles
 		public override void KillTile(int i, int j, int type, ref bool fail, ref bool effectOnly, ref bool noItem)
 		{
 			Tile tile = Main.tile[i, j];
-			if(tile is null)
+
+			if (tile is null)
 				return;
 
 			// Helper function to shatter crystals attached to neighboring solid tiles.
@@ -156,13 +157,29 @@ namespace CalamityMod.Tiles
 		// LATER -- clean up copied decompiled pot code here
 		public override bool Drop(int i, int j, int type)
 		{
-			if (type == ModContent.TileType<AbyssalPots>())
+			Tile tileAtPosition = CalamityUtils.ParanoidTileRetrieval(i, j);
+			if (tileAtPosition.frameX % 36 == 0 && tileAtPosition.frameY % 36 == 0)
 			{
-				Item.NewItem(i * 16, j * 16, 16, 16, ModContent.ItemType<AbyssalTreasure>(), 1, false, 0, false, false);
-			}
-			else if (type == ModContent.TileType<SulphurousPots>())
-			{
-				Item.NewItem(i * 16, j * 16, 16, 16, ModContent.ItemType<SulphuricTreasure>(), 1, false, 0, false, false);
+				if (type == ModContent.TileType<AbyssalPots>())
+				{
+					Item.NewItem(i * 16, j * 16, 16, 16, ModContent.ItemType<AbyssalTreasure>());
+
+					for (int k = 0; k < Main.rand.Next(1, 2 + 1); k++)
+					{
+						Gore.NewGore(new Vector2(i, j) * 16, Main.rand.NextVector2CircularEdge(3f, 3f), mod.GetGoreSlot("Gores/SulphSeaGen/AbyssPotGore1"));
+						Gore.NewGore(new Vector2(i, j) * 16, Main.rand.NextVector2CircularEdge(3f, 3f), mod.GetGoreSlot("Gores/SulphSeaGen/AbyssPotGore2"));
+					}
+				}
+				else if (type == ModContent.TileType<SulphurousPots>())
+				{
+					Item.NewItem(i * 16, j * 16, 16, 16, ModContent.ItemType<SulphuricTreasure>());
+
+					for (int k = 0; k < Main.rand.Next(1, 2 + 1); k++)
+					{
+						Gore.NewGore(new Vector2(i, j) * 16, Main.rand.NextVector2CircularEdge(3f, 3f), mod.GetGoreSlot("Gores/SulphSeaGen/SulphPotGore1"));
+						Gore.NewGore(new Vector2(i, j) * 16, Main.rand.NextVector2CircularEdge(3f, 3f), mod.GetGoreSlot("Gores/SulphSeaGen/SulphPotGore2"));
+					}
+				}
 			}
 
 			// This is old pot code, kept here for legacy reasons with old worlds. Should be removed in a future update after a sufficient amount of time.
