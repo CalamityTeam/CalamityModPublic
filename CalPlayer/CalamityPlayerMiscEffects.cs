@@ -4105,7 +4105,7 @@ namespace CalamityMod.CalPlayer
 				{
 					Item item = player.inventory[i];
 
-					if (player.potionDelay > 0 && modPlayer.potionTimer > 0)
+					if (player.potionDelay > 0 || modPlayer.potionTimer > 0)
 						break;
 					if (item is null || item.stack <= 0)
 						continue;
