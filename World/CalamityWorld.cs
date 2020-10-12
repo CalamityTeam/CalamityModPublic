@@ -31,6 +31,7 @@ using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Terraria;
 using Terraria.GameContent.Events;
 using Terraria.GameContent.Generation;
@@ -1495,13 +1496,6 @@ namespace CalamityMod.World
             if (DoGSecondStageCountdown > 0)
             {
                 DoGSecondStageCountdown--;
-                if (Main.netMode == NetmodeID.Server)
-                {
-                    var netMessage = mod.GetPacket();
-                    netMessage.Write((byte)CalamityModMessageType.DoGCountdownSync);
-                    netMessage.Write(DoGSecondStageCountdown);
-                    netMessage.Send();
-                }
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
                     if (DoGSecondStageCountdown == 21540)
@@ -1518,7 +1512,16 @@ namespace CalamityMod.World
                     }
                     if (DoGSecondStageCountdown <= 60)
                     {
-                        if (!NPC.AnyNPCs(ModContent.NPCType<DevourerofGodsHeadS>()))
+                        int freeNPCSlots = Main.maxNPCs - Main.npc.Take(Main.maxNPCs).Where(npc => npc.active).Count();
+
+                        // If there are too many slots occupied, make a note in the logs,
+                        // and don't attempt to spawn the Devourer of Gods.
+                        if (freeNPCSlots < 102)
+                        {
+                            CalamityMod.Instance.Logger.Warn("You have too many occupied NPC slots for DoG to spawn. Remove dummies or kill excessive town NPCs.");
+                            DoGSecondStageCountdown = 0;
+                        }
+                        else if (!NPC.AnyNPCs(ModContent.NPCType<DevourerofGodsHeadS>()))
                         {
                             NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<DevourerofGodsHeadS>());
                             string key = "Mods.CalamityMod.EdgyBossText10";
@@ -1533,6 +1536,13 @@ namespace CalamityMod.World
                             }
                         }
                     }
+                }
+                if (Main.netMode == NetmodeID.Server)
+                {
+                    var netMessage = mod.GetPacket();
+                    netMessage.Write((byte)CalamityModMessageType.DoGCountdownSync);
+                    netMessage.Write(DoGSecondStageCountdown);
+                    netMessage.Send();
                 }
             }
 

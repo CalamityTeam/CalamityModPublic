@@ -519,7 +519,7 @@ namespace CalamityMod.CalPlayer
 				{
 					// Calculate underground darkness here. The effect is applied in CalamityMod.ModifyLightingBrightness.
 					Point point = player.Center.ToTileCoordinates();
-					if (point.Y > Main.worldSurface && !modPlayer.ZoneAbyss && !player.ZoneUnderworldHeight)
+					if (point.Y > Main.worldSurface && !modPlayer.ZoneAbyss && !player.ZoneUnderworldHeight && !CalamityPlayer.areThereAnyDamnBosses)
 					{
 						// Darkness strength scales smoothly with how deep you are.
 						double totalUndergroundDepth = Main.maxTilesY - 200D - Main.worldSurface;
@@ -872,6 +872,7 @@ namespace CalamityMod.CalPlayer
 				player.allDamage += damageUp;
 				modPlayer.AllCritBoost(critUp);
 			}
+
 			bool canProvideBuffs = modPlayer.profanedCrystalBuffs || (!modPlayer.profanedCrystal && modPlayer.pArtifact) || (modPlayer.profanedCrystal && CalamityWorld.downedSCal);
 			bool attack = player.ownedProjectileCounts[ModContent.ProjectileType<MiniGuardianAttack>()] > 0;
 			// Guardian bonuses if not burnt out
@@ -1947,10 +1948,14 @@ namespace CalamityMod.CalPlayer
 				{
 					// Abyss depth variables
 					Point point = player.Center.ToTileCoordinates();
-					double abyssSurface = Main.rockLayer - (double)Main.maxTilesY * 0.05;
+					double abyssSurface = Main.rockLayer - Main.maxTilesY * 0.05;
+					double abyssLevel1 = Main.rockLayer + Main.maxTilesY * 0.03;
 					double totalAbyssDepth = Main.maxTilesY - 250D - abyssSurface;
+					double totalAbyssDepthFromLayer1 = Main.maxTilesY - 250D - abyssLevel1;
 					double playerAbyssDepth = point.Y - abyssSurface;
+					double playerAbyssDepthFromLayer1 = point.Y - abyssLevel1;
 					double depthRatio = playerAbyssDepth / totalAbyssDepth;
+					double depthRatioFromAbyssLayer1 = playerAbyssDepthFromLayer1 / totalAbyssDepthFromLayer1;
 
 					// Darkness strength scales smoothly with how deep you are.
 					float darknessStrength = (float)depthRatio;
@@ -2003,7 +2008,7 @@ namespace CalamityMod.CalPlayer
 					}
 
 					// Breath lost while at zero breath
-					double breathLoss = 50D * depthRatio;
+					double breathLoss = point.Y > abyssLevel1 ? 50D * depthRatioFromAbyssLayer1 : 0D;
 
 					// Breath Loss Multiplier, depending on gear
 					double breathLossMult = 1D -

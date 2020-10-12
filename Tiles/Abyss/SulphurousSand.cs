@@ -25,6 +25,7 @@ namespace CalamityMod.Tiles.Abyss
             minPick = 55;
             soundType = SoundID.Dig;
             SetModPalmTree(new AcidWoodTree());
+            SetModCactus(new SulphurousCactus());
         }
 
         public override void NumDust(int i, int j, bool fail, ref int num)

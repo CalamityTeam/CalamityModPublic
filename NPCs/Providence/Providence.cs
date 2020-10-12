@@ -233,7 +233,7 @@ namespace CalamityMod.NPCs.Providence
 
 			// Phase times
 			float phaseTime = nightTime ? (300f - 120f * (1f - lifeRatio)) : 300f;
-			float crystalPhaseTime = nightTime ? (60f * lifeRatio) : death ? 60f : 120f;
+			float crystalPhaseTime = nightTime ? (float)Math.Round(60f * lifeRatio) : death ? 60f : 120f;
 			int nightCrystalTime = 210;
 			float attackDelayAfterCocoon = 90f;
 
@@ -1485,8 +1485,8 @@ namespace CalamityMod.NPCs.Providence
 			vector43 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
 			spriteBatch.Draw(texture, vector43, npc.frame, npc.GetAlpha(lightColor), npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 
-			Color color37 = Color.Lerp(Color.White, Main.dayTime ? Color.Yellow : Color.Cyan, 0.5f) * npc.Opacity;
-			Color color42 = Color.Lerp(Color.White, Main.dayTime ? Color.Violet : Color.BlueViolet, 0.5f) * npc.Opacity;
+			Color color37 = Color.Lerp(Color.White, nightTime ? Color.Cyan : Color.Yellow, 0.5f) * npc.Opacity;
+			Color color42 = Color.Lerp(Color.White, nightTime ? Color.BlueViolet : Color.Violet, 0.5f) * npc.Opacity;
 
 			if (CalamityConfig.Instance.Afterimages)
 			{

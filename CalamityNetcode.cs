@@ -1,6 +1,7 @@
 using CalamityMod.Events;
 using CalamityMod.NPCs;
 using CalamityMod.NPCs.NormalNPCs;
+using CalamityMod.NPCs.OldDuke;
 using CalamityMod.NPCs.Providence;
 using CalamityMod.TileEntities;
 using CalamityMod.World;
@@ -197,6 +198,38 @@ namespace CalamityMod
                         byte npcIndex4 = reader.ReadByte();
                         (Main.npc[npcIndex4].modNPC as Providence).challenge = reader.ReadBoolean();
                         break;
+
+                    case CalamityModMessageType.ServersideSpawnOldDuke:
+                        byte playerIndex2 = reader.ReadByte();
+
+                        if (Main.netMode != NetmodeID.Server)
+                            break;
+
+                        if (!NPC.AnyNPCs(ModContent.NPCType<OldDuke>()))
+                        {
+                            Player player = Main.player[playerIndex2];
+                            if (!player.active || player.dead)
+                                return;
+
+                            Projectile projectile = null;
+                            for (int i = 0; i < Main.maxProjectiles; i++)
+                            {
+                                projectile = Main.projectile[i];
+                                if (Main.projectile[i].active && Main.projectile[i].bobber && Main.projectile[i].owner == playerIndex2)
+                                {
+                                    projectile = Main.projectile[i];
+                                    break;
+                                }
+                            }
+
+                            if (projectile is null)
+                                return;
+
+                            int oldDuke = NPC.NewNPC((int)projectile.Center.X, (int)projectile.Center.Y + 100, ModContent.NPCType<OldDuke>());
+                            CalamityUtils.BossAwakenMessage(oldDuke);
+                        }
+                        break;
+
                     default:
                         CalamityMod.Instance.Logger.Error($"Failed to parse Calamity packet: No Calamity packet exists with ID {msgType}.");
                         break;
@@ -279,5 +312,7 @@ namespace CalamityMod
         ChargingStationItemChange,
         Turret,
         LabHologramProjector,
+
+        ServersideSpawnOldDuke
     }
 }

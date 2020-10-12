@@ -126,7 +126,7 @@ namespace CalamityMod.NPCs.Ravager
                 {
 					Vector2 shootFromVector = new Vector2(npc.Center.X, npc.Center.Y - 20f);
 					Vector2 velocity = new Vector2(0f, -15f);
-                    int nuke = Projectile.NewProjectile(shootFromVector, velocity, type, damage + (provy ? 30 : 0), 0f, Main.myPlayer, 0f, 0f);
+                    int nuke = Projectile.NewProjectile(shootFromVector, velocity, type, damage + (provy ? 30 : 0), 0f, Main.myPlayer, npc.target, 0f);
                     Main.projectile[nuke].velocity.Y = -15f;
                 }
             }
