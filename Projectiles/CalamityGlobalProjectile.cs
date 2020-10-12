@@ -2021,7 +2021,7 @@ namespace CalamityMod.Projectiles
                 return Color.Transparent;
             }
 
-			if (projectile.type == ProjectileID.SeedPlantera || projectile.type == ProjectileID.PoisonSeedPlantera || projectile.type == ProjectileID.ThornBall)
+			/*if (projectile.type == ProjectileID.SeedPlantera || projectile.type == ProjectileID.PoisonSeedPlantera || projectile.type == ProjectileID.ThornBall)
 			{
 				if (projectile.timeLeft < 85)
 				{
@@ -2030,7 +2030,7 @@ namespace CalamityMod.Projectiles
 					return new Color(b2, b2, b2, a2);
 				}
 				return new Color(255, 255, 255, projectile.alpha);
-			}
+			}*/
 
             return null;
         }

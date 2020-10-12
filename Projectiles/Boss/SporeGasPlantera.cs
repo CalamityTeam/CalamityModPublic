@@ -70,7 +70,7 @@ namespace CalamityMod.Projectiles.Boss
             return true;
         }
 
-		public override Color? GetAlpha(Color lightColor)
+		/*public override Color? GetAlpha(Color lightColor)
 		{
 			if (projectile.ai[1] > 1800f)
 			{
@@ -79,7 +79,7 @@ namespace CalamityMod.Projectiles.Boss
 				return new Color(b2, b2, b2, a2);
 			}
 			return new Color(255, 255, 255, projectile.alpha);
-		}
+		}*/
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {

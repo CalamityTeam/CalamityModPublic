@@ -8693,10 +8693,10 @@ namespace CalamityMod.NPCs
             float acceleration = 0.04f;
             if (phase3)
             {
-                velocity = 9f;
+                velocity = 7.5f;
                 acceleration = 0.07f;
                 if (phase4)
-                    velocity = 11f;
+                    velocity = 8f;
             }
             else if (phase2)
             {
@@ -8744,9 +8744,10 @@ namespace CalamityMod.NPCs
 
 			// Let hooks and tentacles know how enraged plantera is
 			npc.ai[3] = tileEnrageMult;
+			float tentacleEnrageMult = 1f - lifeRatio + (tileEnrageMult - 1f);
 
-            // Movement relative to the target and hook positions
-            Vector2 vector91 = new Vector2(num730, num731);
+			// Movement relative to the target and hook positions
+			Vector2 vector91 = new Vector2(num730, num731);
             float num736 = Main.player[npc.target].Center.X - vector91.X;
             float num737 = Main.player[npc.target].Center.Y - vector91.Y;
             if (despawn)
@@ -8854,7 +8855,7 @@ namespace CalamityMod.NPCs
 						int totalTentacles = (int)(baseTentacles * tileEnrageMult);
 						for (int i = 0; i < totalTentacles; i++)
 						{
-							NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, NPCID.PlanterasTentacle, npc.whoAmI, 0f, 0f, lifeRatio);
+							NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, NPCID.PlanterasTentacle, npc.whoAmI, 0f, 0f, tentacleEnrageMult);
 						}
 					}
 				}
@@ -8965,7 +8966,7 @@ namespace CalamityMod.NPCs
 						int totalTentacles = (int)(baseTentacles * tileEnrageMult);
                         for (int i = 0; i < totalTentacles; i++)
                         {
-                            NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, NPCID.PlanterasTentacle, npc.whoAmI, 0f, 0f, lifeRatio);
+                            NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, NPCID.PlanterasTentacle, npc.whoAmI, 0f, 0f, tentacleEnrageMult);
                         }
                     }
 				}
@@ -9211,7 +9212,7 @@ namespace CalamityMod.NPCs
 						npc.ai[0] = npc.life;
 
 						if (NPC.CountNPCS(NPCID.PlanterasTentacle) < maxTentacles)
-							NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, NPCID.PlanterasTentacle, npc.whoAmI, 0f, 0f, lifeRatio);
+							NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, NPCID.PlanterasTentacle, npc.whoAmI, 0f, 0f, tentacleEnrageMult);
 					}
 				}
 			}
@@ -9410,10 +9411,10 @@ namespace CalamityMod.NPCs
             npc.TargetClosest(true);
 
 			// Velocity and acceleration
-			float num779 = BossRushEvent.BossRushActive ? 3f : death ? 2.4f : 0.8f;
-            float num781 = 1f - npc.ai[2];
-            float num780 = (BossRushEvent.BossRushActive ? 300f : 200f) + (num781 * 300f);
-			float deceleration = (death ? 0.5f : 0.8f) - 0.2f * (1f - npc.ai[2]);
+			float num779 = BossRushEvent.BossRushActive ? 3f : death ? 2.4f : 1.6f;
+            float num781 = npc.ai[2];
+            float num780 = (BossRushEvent.BossRushActive ? 300f : 200f) + (num781 * 200f);
+			float deceleration = (death ? 0.5f : 0.8f) - 0.2f * num781;
 
             // Despawn if Plantera is gone
             if (!Main.npc[num778].active || num778 < 0)
@@ -9457,7 +9458,7 @@ namespace CalamityMod.NPCs
                     npc.velocity.Y *= deceleration;
             }
 
-			float velocityLimit = 12f + 6f * (1f - npc.ai[2]);
+			float velocityLimit = 12f + 6f * num781;
             if (npc.velocity.X > velocityLimit)
                 npc.velocity.X = velocityLimit;
             if (npc.velocity.X < -velocityLimit)
@@ -10510,10 +10511,10 @@ namespace CalamityMod.NPCs
             }
 
             // Spawn cthulhunadoes in phase 3
-            if (phase3AI && !phase5)
+            if (phase3AI && !phase4)
             {
                 calamityGlobalNPC.newAI[0] += 1f;
-				float timeGateValue = phase4 ? 900f : 600f;
+				float timeGateValue = 600f;
                 if (calamityGlobalNPC.newAI[0] >= timeGateValue)
                 {
                     calamityGlobalNPC.newAI[0] = 0f;

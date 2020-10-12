@@ -519,7 +519,7 @@ namespace CalamityMod.CalPlayer
 				{
 					// Calculate underground darkness here. The effect is applied in CalamityMod.ModifyLightingBrightness.
 					Point point = player.Center.ToTileCoordinates();
-					if (point.Y > Main.worldSurface && !modPlayer.ZoneAbyss && !player.ZoneUnderworldHeight)
+					if (point.Y > Main.worldSurface && !modPlayer.ZoneAbyss && !player.ZoneUnderworldHeight && !CalamityPlayer.areThereAnyDamnBosses)
 					{
 						// Darkness strength scales smoothly with how deep you are.
 						double totalUndergroundDepth = Main.maxTilesY - 200D - Main.worldSurface;
