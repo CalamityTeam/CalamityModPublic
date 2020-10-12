@@ -86,14 +86,12 @@ namespace CalamityMod.Items.Armor
                     int owner = player.whoAmI;
                     int typeHead = ModContent.ProjectileType<MechwormHead>();
                     int typeBody = ModContent.ProjectileType<MechwormBody>();
-                    int typeBody2 = ModContent.ProjectileType<MechwormBody2>();
                     int typeTail = ModContent.ProjectileType<MechwormTail>();
                     for (int i = 0; i < Main.maxProjectiles; i++)
                     {
                         if (Main.projectile[i].active && Main.projectile[i].owner == owner)
                         {
-                            if (Main.projectile[i].type == typeHead || Main.projectile[i].type == typeTail || Main.projectile[i].type == typeBody ||
-                                Main.projectile[i].type == typeBody2)
+                            if (Main.projectile[i].type == typeHead || Main.projectile[i].type == typeTail || Main.projectile[i].type == typeBody)
                             {
                                 Main.projectile[i].Kill();
                             }
@@ -168,7 +166,7 @@ namespace CalamityMod.Items.Armor
                         curr = Projectile.NewProjectile(vector2.X, vector2.Y, velX, velY, ModContent.ProjectileType<MechwormBody>(), damage, 1f, owner, (float)prev);
 
                         prev = curr;
-                        curr = Projectile.NewProjectile(vector2.X, vector2.Y, velX, velY, ModContent.ProjectileType<MechwormBody2>(), damage, 1f, owner, (float)prev);
+                        curr = Projectile.NewProjectile(vector2.X, vector2.Y, velX, velY, ModContent.ProjectileType<MechwormBody>(), damage, 1f, owner, (float)prev);
                         Main.projectile[prev].localAI[1] = (float)curr;
                         Main.projectile[prev].netUpdate = true;
 
@@ -180,7 +178,7 @@ namespace CalamityMod.Items.Armor
                     else if (head != -1 && tail != -1)
                     {
                         int body = Projectile.NewProjectile(vector2.X, vector2.Y, velX, velY, ModContent.ProjectileType<MechwormBody>(), damage, 1f, owner, Main.projectile[tail].ai[0]);
-                        int back = Projectile.NewProjectile(vector2.X, vector2.Y, velX, velY, ModContent.ProjectileType<MechwormBody2>(), damage, 1f, owner, (float)body);
+                        int back = Projectile.NewProjectile(vector2.X, vector2.Y, velX, velY, ModContent.ProjectileType<MechwormBody>(), damage, 1f, owner, (float)body);
 
                         Main.projectile[body].localAI[1] = (float)back;
                         Main.projectile[body].ai[1] = 1f;

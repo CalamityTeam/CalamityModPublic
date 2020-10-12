@@ -1,6 +1,7 @@
 using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -18,122 +19,177 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void SetDefaults()
         {
-            projectile.width = 20;
-            projectile.height = 20;
+            projectile.width = 24;
+            projectile.height = 24;
             projectile.friendly = true;
             projectile.ignoreWater = true;
             projectile.alpha = 255;
             projectile.minionSlots = 0.5f;
-            projectile.timeLeft = 18000;
+            projectile.timeLeft = 90000;
             projectile.penetrate = -1;
             projectile.tileCollide = false;
-            projectile.timeLeft *= 5;
             projectile.minion = true;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 5;
+            projectile.hide = true;
         }
 
-        public override void AI()
+        public static void SegmentAI(Projectile projectile, int offsetFromNextSegment, ref int playerMinionSlots)
         {
-            Lighting.AddLight((int)((projectile.position.X + (float)(projectile.width / 2)) / 16f), (int)((projectile.position.Y + (float)(projectile.height / 2)) / 16f), 0.15f, 0.01f, 0.15f);
-            Player player9 = Main.player[projectile.owner];
-            CalamityPlayer modPlayer = player9.Calamity();
-            if ((int)Main.time % 120 == 0)
-            {
-                projectile.netUpdate = true;
-            }
-            int num1051 = 10;
-            if (player9.dead)
-            {
-                modPlayer.mWorm = false;
-            }
-            if (modPlayer.mWorm)
-            {
-                projectile.timeLeft = 2;
-            }
-            Vector2 value68 = Vector2.Zero;
-            if (projectile.ai[1] == 1f)
-            {
-                projectile.ai[1] = 0f;
-                projectile.netUpdate = true;
-            }
-            int chase = Projectile.GetByUUID(projectile.owner, (int)projectile.ai[0]);
-            float num1064;
-            float scaleFactor17;
-            float scaleFactor18;
-            if (chase >= 0 && Main.projectile[chase].active)
-            {
-                //Delete the player's mechworm if it's attaching to something weird
-                if (Main.projectile[chase].type != ModContent.ProjectileType<MechwormBody2>() &&
-                    Main.projectile[chase].type != ModContent.ProjectileType<MechwormBody>() &&
-                    Main.projectile[chase].type != ModContent.ProjectileType<MechwormHead>())
-                {
-                    for (int i = 0; i < Main.projectile.Length; i++)
-                    {
-                        if (Main.projectile[i].active && Main.projectile[i].owner == projectile.owner &&
-                            (Main.projectile[i].type == ModContent.ProjectileType<MechwormBody2>() ||
-                             Main.projectile[i].type == ModContent.ProjectileType<MechwormBody>() ||
-                             Main.projectile[i].type == ModContent.ProjectileType<MechwormHead>() ||
-                             Main.projectile[i].type == ModContent.ProjectileType<MechwormTail>()))
-                        {
-                            Main.projectile[i].Kill();
-                        }
-                    }
-                }
-                value68 = Main.projectile[chase].Center;
-                num1064 = Main.projectile[chase].rotation;
-                scaleFactor18 = MathHelper.Clamp(Main.projectile[chase].scale, 0f, 50f);
+            if (projectile.alpha <= 128)
+                Lighting.AddLight(projectile.Center, Color.DarkMagenta.ToVector3());
+            Player owner = Main.player[projectile.owner];
+            CalamityPlayer modPlayer = owner.Calamity();
 
-                // Calculations have a safeguard against division by 0.
-                float speed = 0f;
-                for (int i = 0; i < Main.projectile.Length; i++)
-                {
-                    if (Main.projectile[i].active && Main.projectile[i].owner == projectile.owner && Main.projectile[i].type == ModContent.ProjectileType<MechwormHead>())
-                    {
-                        speed = Main.projectile[i].velocity.Length();
-                        break;
-                    }
-                }
-                scaleFactor17 = MechwormHead.ComputeDistance(16f, speed);
-                Main.projectile[chase].localAI[0] = projectile.localAI[0] + 1f;
-            }
-            else
+            // Minion stuff.
+            if (owner.dead)
+                modPlayer.mWorm = false;
+
+            if (modPlayer.mWorm)
+                projectile.timeLeft = 2;
+
+            // Sync the entire worm every 2 seconds
+            // This has potential to cause a packet storm, but only if the player is cheating in some way by freezing time.
+            if ((int)Main.time % 120 == 0)
+                projectile.netUpdate = true;
+
+            ref float aheadSegmentIndex = ref projectile.ai[0];
+            int aheadSegmentUUID = Projectile.GetByUUID(projectile.owner, aheadSegmentIndex);
+            
+            // Ensure that the segment ahead actually exists. If it doesn't, kill this segment.
+            if (!Main.projectile.IndexInRange(aheadSegmentUUID))
             {
-                //Maybe add some kill code here ?
+                projectile.Kill();
                 return;
             }
-            projectile.alpha -= 42;
-            if (projectile.alpha < 0)
+
+            // Delete segments if some are lost for whatever reason (such as a summon potion 
+            if (projectile.type == ModContent.ProjectileType<MechwormTail>() && (!owner.active || owner.maxMinions < playerMinionSlots))
             {
-                projectile.alpha = 0;
+                int lostSlots = playerMinionSlots - owner.maxMinions;
+                while (lostSlots > 0)
+                {
+                    Projectile ahead = Main.projectile[aheadSegmentUUID];
+                    // Each body slot is actually 0.5 slots. Kill two segments to lose 1 "true" slot.
+                    for (int i = 0; i < 2; i++)
+                    {
+                        if (ahead.type != ModContent.ProjectileType<MechwormHead>())
+                            projectile.localAI[1] = ahead.localAI[1];
+
+                        // Inherit the ahead segment index of the ahead segment (basically attaching to the segment that's two indices ahead).
+                        aheadSegmentIndex = ahead.ai[0];
+                        projectile.netUpdate = true;
+
+                        ahead.Kill();
+
+                        // And re-decide the ahead segment UUID.
+                        aheadSegmentUUID = Projectile.GetByUUID(projectile.owner, aheadSegmentIndex);
+
+                        // Ensure that the segment ahead actually exists. If it doesn't, kill this segment.
+                        if (!Main.projectile.IndexInRange(aheadSegmentUUID))
+                        {
+                            projectile.Kill();
+                            return;
+                        }
+                        ahead = Main.projectile[aheadSegmentUUID];
+                    }
+                    lostSlots--;
+                }
+                playerMinionSlots = owner.maxMinions;
             }
+
+            Projectile segmentAhead = Main.projectile[aheadSegmentUUID];
+            Projectile head = segmentAhead;
+
+            // Accumulate the total segments of the worm.
+            segmentAhead.localAI[0] = projectile.localAI[0] + 1f;
+
+            // Delete the player's mechworm if it's attaching to something weird
+            if (segmentAhead.type != ModContent.ProjectileType<MechwormBody>() &&
+                segmentAhead.type != ModContent.ProjectileType<MechwormHead>())
+            {
+                for (int i = 0; i < Main.maxProjectiles; i++)
+                {
+                    Projectile proj = Main.projectile[i];
+                    bool isProjectileMechwormSegment =
+                        proj.type == ModContent.ProjectileType<MechwormHead>() ||
+                        proj.type == ModContent.ProjectileType<MechwormBody>() ||
+                        proj.type == ModContent.ProjectileType<MechwormTail>();
+
+                    if (proj.active && proj.owner == projectile.owner && isProjectileMechwormSegment)
+                        proj.Kill();
+                }
+                return;
+            }
+
+            // Locate the head segment by looping through all worm segments until it is found.
+
+            while (head.type != ModContent.ProjectileType<MechwormHead>())
+            {
+                int aheadUUID = Projectile.GetByUUID(head.owner, head.ai[0]);
+                if (aheadUUID == -1)
+                {
+                    projectile.Kill();
+                    return;
+                }
+
+                head = Main.projectile[aheadUUID];
+            }
+
+            MechwormHead headModProj = head.modProjectile as MechwormHead;
+            if (headModProj.EndRiftGateUUID == -1)
+            {
+                // Very rapidly fade-in.
+                projectile.alpha = Utils.Clamp(projectile.alpha - 16, 0, 255);
+            }
+            else if (projectile.Hitbox.Intersects(Main.projectile[headModProj.EndRiftGateUUID].Hitbox))
+            {
+                // Disappear if touching the mechworm portal.
+                // It will look like it's teleporting, when in reality, it's
+                // just an invisible, uninteractable projectile for the time being.
+                projectile.alpha = 255;
+            }
+
             projectile.velocity = Vector2.Zero;
-            Vector2 vector134 = value68 - projectile.Center;
-            if (num1064 != projectile.rotation)
+            Vector2 offsetToDestination = segmentAhead.Center - projectile.Center;
+
+            // This variant of segment attachment incorporates rotation. 
+            // Given the fact that all segments will execute this code is succession, the
+            // result across the entire worm will exponentially decay over each segment, 
+            // allowing for smooth rotations. This code is what the stardust dragon uses for its segmenting.
+            if (segmentAhead.rotation != projectile.rotation)
             {
-                float num1068 = MathHelper.WrapAngle(num1064 - projectile.rotation);
-                vector134 = vector134.RotatedBy((double)(num1068 * 0.1f), default);
+                float offsetAngle = MathHelper.WrapAngle(segmentAhead.rotation - projectile.rotation);
+                offsetToDestination = offsetToDestination.RotatedBy(offsetAngle * 0.08f);
             }
-            projectile.rotation = vector134.ToRotation() + 1.57079637f;
-            projectile.position = projectile.Center;
-            projectile.netSpam = 5;
-            projectile.scale = scaleFactor18;
-            projectile.width = projectile.height = (int)((float)num1051 * projectile.scale);
-            projectile.Center = projectile.position;
-            projectile.netSpam = 5;
-            if (vector134 != Vector2.Zero)
-            {
-                projectile.Center = value68 - Vector2.Normalize(vector134) * projectile.Size.Length() * scaleFactor18;
-            }
-            projectile.spriteDirection = (vector134.X > 0f) ? 1 : -1;
-            projectile.netSpam = 5;
+            projectile.rotation = offsetToDestination.ToRotation() + MathHelper.PiOver2;
+
+            // Adjust the width/height of the segment in case the general size of the worm changes.
+            if (offsetToDestination != Vector2.Zero)
+                projectile.Center = segmentAhead.Center - offsetToDestination.SafeNormalize(Vector2.Zero) * offsetFromNextSegment;
+        }
+
+        public override void PostAI()
+        {
+            int _ = 0;
+            SegmentAI(projectile, 16, ref _);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Texture2D tex = Main.projectileTexture[projectile.type];
-            spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, projectile.GetAlpha(lightColor), projectile.rotation, tex.Size() / 2f, projectile.scale, SpriteEffects.None, 0f);
+            Vector2 drawPosition = projectile.Center - Main.screenPosition;
+            spriteBatch.Draw(tex, drawPosition, null, projectile.GetAlpha(lightColor), projectile.rotation, tex.Size() / 2f, projectile.scale, SpriteEffects.None, 0f);
             return false;
         }
+
+        public override bool CanDamage() => projectile.alpha == 0;
+
+        public override void DrawBehind(int index, List<int> drawCacheProjsBehindNPCsAndTiles, List<int> drawCacheProjsBehindNPCs, List<int> drawCacheProjsBehindProjectiles, List<int> drawCacheProjsOverWiresUI)
+        {
+            drawCacheProjsBehindProjectiles.Add(index);
+        }
+
+        public override bool ShouldUpdatePosition() => false;
     }
 }
