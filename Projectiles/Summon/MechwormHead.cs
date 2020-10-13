@@ -155,7 +155,7 @@ namespace CalamityMod.Projectiles.Summon
             }
 
             // Special movement.
-            if ((potentialTarget != null || AttackStateTimer > 0) && Time > 150f)
+            if ((potentialTarget != null || AttackStateTimer > 1) && Time > 150f)
             {
                 AttackMovement(potentialTarget);
 
