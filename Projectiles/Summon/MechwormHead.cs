@@ -145,7 +145,7 @@ namespace CalamityMod.Projectiles.Summon
             if ((int)Main.time % 120 == 0)
                 projectile.netUpdate = true;
 
-            NPC potentialTarget = projectile.Center.MinionHoming(2200f, owner);
+            NPC potentialTarget = projectile.Center.MinionHoming(AttackStateTimer > 0 ? 999999f : 2200f, owner);
 
             // Teleport to the player if the worm is far from them.
             if (projectile.Distance(owner.Center) > 2700f)
@@ -155,7 +155,7 @@ namespace CalamityMod.Projectiles.Summon
             }
 
             // Special movement.
-            if (potentialTarget != null && Time > 150f)
+            if ((potentialTarget != null || AttackStateTimer > 0) && Time > 150f)
             {
                 AttackMovement(potentialTarget);
 
@@ -242,13 +242,18 @@ namespace CalamityMod.Projectiles.Summon
 
         public void AttackMovement(NPC target)
         {
+            if (target is null)
+			{
+                AttackStateTimer = 0;
+                return;
+            }
             if (CurrentAttackState == AttackState.LaserCharge)
             {
                 int chargeTime = 45;
                 int redirectTime = 30;
                 if (AttackStateTimer % (chargeTime + redirectTime) < redirectTime)
                 {
-                    float angularTurnSpeed = MathHelper.ToRadians(12f);
+                    float angularTurnSpeed = MathHelper.ToRadians(18f);
                     float newSpeed = MathHelper.Lerp(projectile.velocity.Length(), 24f, 0.35f);
 
                     if (projectile.Distance(target.Center) > 1100f)
