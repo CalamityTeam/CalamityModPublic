@@ -8895,7 +8895,7 @@ namespace CalamityMod.NPCs
                         {
 							int projectileType = ProjectileID.SeedPlantera;
 							float projectileVelocity = BossRushEvent.BossRushActive ? 24f : 17f;
-							if (Main.rand.NextBool(2))
+							if (Main.rand.NextBool(6))
 							{
 								projectileType = ModContent.ProjectileType<SporeGasPlantera>();
 								projectileVelocity = BossRushEvent.BossRushActive ? 12f : 3f;
@@ -9108,7 +9108,7 @@ namespace CalamityMod.NPCs
 					float shootBoost = 2f * (0.5f - lifeRatio);
 					calamityGlobalNPC.newAI[0] += 1f + shootBoost;
 
-					if (calamityGlobalNPC.newAI[0] >= 450f)
+					if (calamityGlobalNPC.newAI[0] >= 600f)
 					{
 						Main.PlaySound(SoundID.Item20, npc.position);
 
