@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Potions
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<CoreofEleum>(), 3);
+            recipe.AddIngredient(ModContent.ItemType<PurifiedGel>(), 3);
             recipe.AddIngredient(ModContent.ItemType<EbonianGel>(), 2);
             recipe.AddIngredient(ItemID.PinkGel);
             recipe.AddIngredient(ItemID.BottledWater);

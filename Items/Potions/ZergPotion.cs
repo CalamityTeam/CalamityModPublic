@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Potions
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<CoreofChaos>(), 3);
+            recipe.AddIngredient(ModContent.ItemType<PurifiedGel>(), 3);
             recipe.AddIngredient(ModContent.ItemType<MurkySludge>(), 2);
             recipe.AddIngredient(ModContent.ItemType<DemonicBoneAsh>());
             recipe.AddIngredient(ItemID.BottledWater);
