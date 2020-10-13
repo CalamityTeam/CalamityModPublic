@@ -8634,7 +8634,7 @@ namespace CalamityMod.NPCs
 
             // Check for Jungle
             bool surface = !BossRushEvent.BossRushActive && Main.player[npc.target].position.Y < Main.worldSurface * 16.0;
-			int maxTentacles = death ? 34 : 26;
+			int maxTentacles = death ? 25 : 20;
 			float speedUpDistance = 480f;
 			bool speedUp = Vector2.Distance(Main.player[npc.target].Center, npc.Center) > speedUpDistance; // 30 or 40 tile distance
 
@@ -8689,19 +8689,19 @@ namespace CalamityMod.NPCs
             num731 /= num732;
 
             // Velocity and acceleration
-            float velocity = 4f;
-            float acceleration = 0.04f;
+            float velocity = 3f;
+            float acceleration = 0.03f;
             if (phase3)
             {
-                velocity = 7.5f;
-                acceleration = 0.07f;
+                velocity = 6f;
+                acceleration = 0.055f;
                 if (phase4)
-                    velocity = 8f;
+                    velocity = 6.5f;
             }
             else if (phase2)
             {
-                velocity = 7f;
-                acceleration = 0.07f;
+                velocity = 5.5f;
+                acceleration = 0.055f;
             }
 
             // Enrage if target is on the surface
@@ -8962,7 +8962,7 @@ namespace CalamityMod.NPCs
                     if (npc.localAI[0] == 2f)
                     {
                         npc.localAI[0] = 3f;
-						int baseTentacles = death ? 6 : 4;
+						int baseTentacles = death ? 10 : 8;
 						int totalTentacles = (int)(baseTentacles * tileEnrageMult);
                         for (int i = 0; i < totalTentacles; i++)
                         {
@@ -9206,7 +9206,7 @@ namespace CalamityMod.NPCs
 			{
 				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
-					int healthInterval = death ? (int)(npc.lifeMax * 0.04) : (int)(npc.lifeMax * 0.05);
+					int healthInterval = death ? (int)(npc.lifeMax * 0.08) : (int)(npc.lifeMax * 0.1);
 					if ((npc.life + healthInterval) < npc.ai[0])
 					{
 						npc.ai[0] = npc.life;
@@ -9395,6 +9395,7 @@ namespace CalamityMod.NPCs
 
 			// Set Plantera to a variable
 			int num778 = NPC.plantBoss;
+			float tileEnrageMult = Main.npc[num778].ai[3];
 
 			// Movement variables
 			if (Main.netMode != NetmodeID.MultiplayerClient)
@@ -9411,10 +9412,10 @@ namespace CalamityMod.NPCs
             npc.TargetClosest(true);
 
 			// Velocity and acceleration
-			float num779 = BossRushEvent.BossRushActive ? 3f : death ? 2.4f : 1.6f;
+			float num779 = (BossRushEvent.BossRushActive ? 3f : death ? 2.4f : 1.6f) * tileEnrageMult;
             float num781 = npc.ai[2];
-            float num780 = (BossRushEvent.BossRushActive ? 300f : 200f) + (num781 * 200f);
-			float deceleration = (death ? 0.5f : 0.8f) - 0.2f * num781;
+            float num780 = (BossRushEvent.BossRushActive ? 200f : 100f) + (num781 * 150f);
+			float deceleration = (death ? 0.5f : 0.8f) / (1f + num781);
 
             // Despawn if Plantera is gone
             if (!Main.npc[num778].active || num778 < 0)

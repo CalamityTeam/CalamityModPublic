@@ -6,6 +6,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using System.IO;
 
 namespace CalamityMod.NPCs.SupremeCalamitas
 {
@@ -43,6 +44,16 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             npc.DeathSound = SoundID.NPCDeath14;
         }
 
+        public override void SendExtraAI(BinaryWriter writer)
+        {
+            writer.Write(timer);
+        }
+
+        public override void ReceiveExtraAI(BinaryReader reader)
+        {
+            timer = reader.ReadInt32();
+        }
+
         public override bool PreAI()
         {
             bool expertMode = Main.expertMode;
@@ -68,9 +79,10 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 {
 					int type = ModContent.ProjectileType<BrimstoneBarrage>();
 					int damage = npc.GetProjectileDamage(type);
-					Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X, direction.Y, type, damage, 1f, npc.target);
+					Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X, direction.Y, type, damage, 1f, Main.myPlayer);
                 }
                 timer = 0;
+                npc.netUpdate = true;
             }
             if (CalamityGlobalNPC.SCal < 0 || !Main.npc[CalamityGlobalNPC.SCal].active)
             {

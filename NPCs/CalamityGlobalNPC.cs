@@ -4993,16 +4993,19 @@ namespace CalamityMod.NPCs
 						projectile.ai[0] = 2f;
 						projectile.netUpdate = true;
 
-						if (Main.netMode != NetmodeID.MultiplayerClient)
-						{
-							int boss = NPC.NewNPC((int)projectile.Center.X, (int)projectile.Center.Y + 100, type);
-							CalamityUtils.BossAwakenMessage(boss);
-						}
-						else
-						{
-							NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, plr, (float)type, 0f, 0f, 0, 0, 0);
-						}
-					}
+                        // The vanilla game uses a special packet for Duke Fishron spawning.
+                        // However, this packet doesn't work on modded NPC types, so we must create
+                        // a custom one.
+                        // Also, you can't use Netmode != NetmodeID.MultiplayerClient in a projectile context that
+                        // has an owner, hence the MyPlayer check.
+                        if (Main.myPlayer == projectile.owner)
+                        {
+                            var netMessage = CalamityMod.Instance.GetPacket();
+                            netMessage.Write((byte)CalamityModMessageType.ServersideSpawnOldDuke);
+                            netMessage.Write((byte)player.whoAmI);
+                            netMessage.Send();
+                        }
+                    }
 
                     break;
                 }
