@@ -122,6 +122,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 			writer.Write(postTeleportTimer);
 			writer.Write(laserWallType);
 			writer.Write(teleportTimer);
+            writer.Write(npc.alpha);
 		}
 
         public override void ReceiveExtraAI(BinaryReader reader)
@@ -137,6 +138,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 			postTeleportTimer = reader.ReadInt32();
 			laserWallType = reader.ReadInt32();
 			teleportTimer = reader.ReadInt32();
+            npc.alpha = reader.ReadInt32();
 		}
 
         public override void BossHeadRotation(ref float rotation)

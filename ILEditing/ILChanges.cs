@@ -1,4 +1,5 @@
 using CalamityMod.Tiles.DraedonStructures;
+using Mono.Cecil.Cil;
 using MonoMod.Cil;
 using System;
 using System.Collections.Generic;
@@ -29,6 +30,7 @@ namespace CalamityMod.ILEditing
             ApplyLifeBytesChanges();
             SlideDungeonOver();
             LabDoorFixes();
+            PreventStupidTreesNearOcean();
         }
 
         #region IL Editing Routines
@@ -50,6 +52,17 @@ namespace CalamityMod.ILEditing
                     WorldGen.dungeonX += (WorldGen.dungeonX < Main.maxTilesX / 2).ToDirectionInt() * 450;
                     WorldGen.dungeonX = Utils.Clamp(WorldGen.dungeonX, 200, Main.maxTilesX - 200);
                 });
+            };
+        }
+
+        private static void PreventStupidTreesNearOcean()
+        {
+            IL.Terraria.WorldGen.GrowLivingTree += (il) =>
+            {
+                var cursor = new ILCursor(il);
+                cursor.Emit(OpCodes.Ldarg_0);
+                cursor.EmitDelegate<Func<int, int>>(x => Utils.Clamp(x, 560, Main.maxTilesX - 560));
+                cursor.Emit(OpCodes.Starg, 0);
             };
         }
 
