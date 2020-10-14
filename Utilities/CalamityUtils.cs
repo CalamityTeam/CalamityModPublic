@@ -758,7 +758,7 @@ namespace CalamityMod
 					showsOver = true;
 			}
 			//Fail if you have potion sickness
-			if (player.potionDelay > 0 && player.Calamity().potionTimer > 0)
+			if (player.potionDelay > 0 || player.Calamity().potionTimer > 0)
 				showsOver = true;
 
 			if (!showsOver)

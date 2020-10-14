@@ -815,7 +815,14 @@ namespace CalamityMod.World
 				{
 					Tile tileAtPosition = CalamityUtils.ParanoidTileRetrieval(trueX, y);
 					if (tileAtPosition.active() && ValidBeachDestroyTiles.Contains(tileAtPosition.type))
-						Main.tile[trueX, y].active(false);
+					{
+						// Kill trees manually so that no leftover tiles are present.
+						if (Main.tile[trueX, y].type == TileID.Trees)
+							WorldGen.KillTile(trueX, y);
+						else
+							Main.tile[trueX, y].active(false);
+					}
+
 					else if (tileAtPosition.active() && ValidBeachCovertTiles.Contains(tileAtPosition.type))
 					{
 						Main.tile[trueX, y].type = (ushort)ModContent.TileType<SulphurousSand>();
