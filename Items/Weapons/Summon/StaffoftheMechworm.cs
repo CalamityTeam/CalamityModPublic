@@ -9,7 +9,7 @@ namespace CalamityMod.Items.Weapons.Summon
 	public class StaffoftheMechworm : ModItem
     {
         // This value is also referenced by the God Slayer and Auric summoner helmets.
-        public const int BaseDamage = 240; // originally 325
+        public const int BaseDamage = 255; // originally 325
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Staff of the Mechworm");

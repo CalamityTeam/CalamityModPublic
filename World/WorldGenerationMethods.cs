@@ -1032,7 +1032,7 @@ namespace CalamityMod.World
             }
         }
 
-        public static void ConvertFromAstral(int x, int y, ConvertType convert)
+        public static void ConvertFromAstral(int x, int y, ConvertType convert, bool tileframe = true)
         {
             Tile tile = Main.tile[x, y];
             int type = tile.type;
@@ -1254,6 +1254,18 @@ namespace CalamityMod.World
                     }
                 }
                 #endregion
+
+                if (tileframe)
+                {
+                    if (Main.netMode == NetmodeID.SinglePlayer)
+                    {
+                        WorldGen.SquareTileFrame(x, y, true);
+                    }
+                    else if (Main.netMode == NetmodeID.Server)
+                    {
+                        NetMessage.SendTileSquare(-1, x, y, 1);
+                    }
+                }
             }
         }
 
