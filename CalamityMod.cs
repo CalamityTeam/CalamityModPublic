@@ -109,6 +109,10 @@ namespace CalamityMod
         public override void Load()
         {
             Instance = this;
+
+            // Initialize the BossStats struct as early as it is safe to do so
+            NPCStats.Load();
+
             heartOriginal2 = Main.heartTexture;
             heartOriginal = Main.heart2Texture;
             rainOriginal = Main.rainTexture;
@@ -256,18 +260,16 @@ namespace CalamityMod
             bossVelocityDamageScaleValues = null;
 
             CalamityLists.UnloadLists();
+            NPCStats.Unload();
 
             thorium = null;
             fargosMutant = false;
-
-            Instance = null;
 
             PopupGUIManager.UnloadGUIs();
             InvasionProgressUIManager.UnloadGUIs();
             BossRushEvent.Unload();
             SchematicLoader.UnloadEverything();
             BossHealthBarManager.Unload();
-            base.Unload();
 
             TileFraming.Unload();
 
@@ -289,6 +291,9 @@ namespace CalamityMod
             rainOriginal = null;
             manaOriginal = null;
             carpetOriginal = null;
+
+            Instance = null;
+            base.Unload();
         }
         #endregion
 
