@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -28,6 +29,16 @@ namespace CalamityMod.Projectiles.Hybrid
 			projectile.usesLocalNPCImmunity = true;
 		}
 
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(projectile.localAI[0]);
+		}
+
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			projectile.localAI[0] = reader.ReadSingle();
+		}
+
 		public override Color? GetAlpha(Color lightColor)
 		{
 			return new Color(255, 248, 124, 255);
@@ -43,8 +54,14 @@ namespace CalamityMod.Projectiles.Hybrid
 			}
 			else if (projectile.ai[0] < 44f)
 			{
+				if (projectile.ai[1] < 0f)
+				{
+					projectile.Kill();
+					return;
+				}
+
 				NPC target = Main.npc[(int)projectile.ai[1]];
-				if (!target.CanBeChasedBy(projectile, false))
+				if (!target.CanBeChasedBy(projectile, false) || !target.active)
 				{
 					projectile.Kill();
 				}
