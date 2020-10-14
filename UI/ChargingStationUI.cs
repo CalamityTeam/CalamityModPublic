@@ -93,8 +93,11 @@ namespace CalamityMod.UI
             {
                 p.mouseInterface = Main.blockMouse = true;
 
+                // Don't EVER have two pointers to the same Item object. You MUST clone it.
+                // Otherwise, knockback prefixes are applied twice per frame and stack infinitely.
+                // Worse, this infinite stacking persists until the world is unloaded.
                 if (!pluggedItem.IsAir)
-                    Main.HoverItem = pluggedItem;
+                    Main.HoverItem = pluggedItem.Clone();
 
                 if (Main.mouseLeft && Main.mouseLeftRelease)
                 {
