@@ -8,6 +8,8 @@ namespace CalamityMod.Items.Weapons.Summon
 {
 	public class StaffoftheMechworm : ModItem
     {
+        // This value is also referenced by the God Slayer and Auric summoner helmets.
+        public const int BaseDamage = 275;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Staff of the Mechworm");
@@ -16,7 +18,7 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void SetDefaults()
         {
-            item.damage = 325;
+            item.damage = BaseDamage;
             item.mana = 15;
             item.width = 58;
             item.height = 58;
@@ -25,8 +27,8 @@ namespace CalamityMod.Items.Weapons.Summon
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.noMelee = true;
             item.knockBack = 2f;
-            item.value = Item.buyPrice(1, 40, 0, 0);
-            item.rare = 10;
+            item.value = Item.buyPrice(platinum: 1, gold: 40);
+            item.rare = ItemRarityID.Red;
             item.UseSound = SoundID.Item113;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<MechwormHead>();
