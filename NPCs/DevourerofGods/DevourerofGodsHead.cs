@@ -626,15 +626,21 @@ namespace CalamityMod.NPCs.DevourerofGods
                 {
                     npc.localAI[1] = 1f;
                     Rectangle rectangle12 = new Rectangle((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height);
-                    int num954 = 1000 - (int)(500f * (1f - lifeRatio));
-                    bool flag95 = true;
+
+					int num954 = death ? 1100 : 1175;
+					if (expertMode)
+						num954 -= (int)(150f * (1f - lifeRatio));
+					if (num954 < 1025)
+						num954 = 1025;
+
+					bool flag95 = true;
                     if (npc.position.Y > player.position.Y)
                     {
                         for (int num955 = 0; num955 < 255; num955++)
                         {
                             if (Main.player[num955].active)
                             {
-                                Rectangle rectangle13 = new Rectangle((int)Main.player[num955].position.X - num954, (int)Main.player[num955].position.Y - num954, num954 * 2, num954 * 2);
+                                Rectangle rectangle13 = new Rectangle((int)Main.player[num955].position.X - 1000, (int)Main.player[num955].position.Y - 1000, 2000, num954);
                                 if (rectangle12.Intersects(rectangle13))
                                 {
                                     flag95 = false;

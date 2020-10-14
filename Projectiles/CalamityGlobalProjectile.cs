@@ -270,7 +270,7 @@ namespace CalamityMod.Projectiles
 					}
 
 					int num147 = Player.FindClosest(projectile.Center, 1, 1);
-					float num146 = 12f + Vector2.Distance(Main.player[num147].Center, projectile.Center) * 0.01f;
+					float num146 = 7.5f * projectile.ai[1] + Vector2.Distance(Main.player[num147].Center, projectile.Center) * 0.01f;
 					Vector2 vector12 = Main.player[num147].Center - projectile.Center;
 					vector12.Normalize();
 					vector12 *= num146;
@@ -285,7 +285,6 @@ namespace CalamityMod.Projectiles
 					projectile.ai[0] += 1f;
 					if (projectile.ai[0] > 15f)
 					{
-						projectile.ai[0] = 15f;
 						if (projectile.velocity.Y == 0f && projectile.velocity.X != 0f)
 						{
 							projectile.velocity.X *= 0.97f;

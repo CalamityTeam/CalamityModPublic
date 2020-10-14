@@ -8937,7 +8937,7 @@ namespace CalamityMod.NPCs
 
 							vector93.X += num743 * 3f;
                             vector93.Y += num744 * 3f;
-                            Projectile.NewProjectile(vector93.X, vector93.Y, num743, num744, projectileType, damage, 0f, Main.myPlayer, 0f, 0f);
+                            Projectile.NewProjectile(vector93.X, vector93.Y, num743, num744, projectileType, damage, 0f, Main.myPlayer, 0f, projectileType == ProjectileID.ThornBall ? tileEnrageMult : 0f);
                         }
                     }
                 }
@@ -9076,7 +9076,7 @@ namespace CalamityMod.NPCs
 								if (enrage)
 									damage *= 2;
 
-								Projectile.NewProjectile(vector93.X, vector93.Y, num743, num744, type, damage, 0f, Main.myPlayer, 0f, 0f);
+								Projectile.NewProjectile(vector93.X, vector93.Y, num743, num744, type, damage, 0f, Main.myPlayer, 0f, tileEnrageMult);
 
 								npc.localAI[3] = -240f;
 							}
