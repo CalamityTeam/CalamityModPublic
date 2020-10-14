@@ -83,7 +83,7 @@ namespace CalamityMod.Schematics
 
             Stream schematicStream = CalamityMod.Instance.GetFileStream(schematicPath + ".sch", true);
 
-            var systemImage = (SerializableColor[,])new BinaryFormatter().Deserialize(schematicStream);
+            var systemImage = (Color[,])new BinaryFormatter().Deserialize(schematicStream);
 
             ColorTileCombination[,] schematic = new ColorTileCombination[systemImage.GetLength(0), systemImage.GetLength(1)];
 
@@ -91,9 +91,7 @@ namespace CalamityMod.Schematics
             {
                 for (int y = 0; y < systemImage.GetLength(1); y++)
                 {
-                    var systemColor = systemImage[x, y];
-                    Color xnaColor = new Color(systemColor.Red, systemColor.Green, systemColor.Blue, systemColor.Alpha);
-                    schematic[x, y] = new ColorTileCombination(xnaColor, map[xnaColor].SpecifiedTile);
+                    schematic[x, y] = new ColorTileCombination(systemImage[x, y], map[systemImage[x, y]].SpecifiedTile);
                 }
             }
 
