@@ -1,6 +1,7 @@
 using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
+using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.Projectiles.Summon;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
@@ -65,12 +66,9 @@ namespace CalamityMod.Items.Armor
                             }
                         }
                     }
-                    int maxMinionScale = player.maxMinions;
-                    if (maxMinionScale > 10)
-                    {
-                        maxMinionScale = 10;
-                    }
-                    int damage = (int)(35 * (((player.allDamage + player.minionDamage - 1f) * 5 / 3) + ((player.allDamage + player.minionDamage - 1f) * 0.46f * (maxMinionScale - 1))));
+
+                    // TODO -- clean this ugly shit up. This spawns a mechworm automatically with the correct damage (equal to the staff).
+                    int damage = (int)(StaffoftheMechworm.BaseDamage * player.MinionDamage());
                     Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
                     Vector2 value = Vector2.UnitX.RotatedBy((double)player.fullRotation, default);
                     Vector2 vector3 = Main.MouseWorld - vector2;
