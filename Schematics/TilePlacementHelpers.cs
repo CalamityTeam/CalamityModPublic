@@ -155,11 +155,6 @@ namespace CalamityMod.Schematics
                     pilePlacementFunction?.Invoke(x + xOffset, y + yOffset, placeInArea);
                 }
             }
-
-            // Sync the placed structure if it isn't created at world-gen time.
-            // Pray to whatever god you believe in that this packet doesn't drop :HDFailure:
-            if (!WorldGen.gen)
-                NetMessage.SendTileRange(-1, xOffset, yOffset, sWidth, sHeight);
         }
 
         private static void TryToPlaceTileEntities(int x, int y)

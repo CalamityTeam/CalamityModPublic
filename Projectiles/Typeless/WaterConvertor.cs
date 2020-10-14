@@ -56,7 +56,7 @@ namespace CalamityMod.Projectiles.Typeless
 						if (projectile.ai[0] == 4f)
 						{
 							WorldGenerationMethods.ConvertToAstral(i, j);
-							NetMessage.SendTileRange(-1, i, j, 5, 5);
+							NetMessage.SendTileRange(-1, i, j, 1, 1);
 						}
 					}
 				}
