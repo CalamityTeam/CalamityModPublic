@@ -8,17 +8,17 @@ namespace CalamityMod.Items.Weapons.Summon
 {
 	public class StaffoftheMechworm : ModItem
     {
+        // This value is also referenced by the God Slayer and Auric summoner helmets.
+        public const int BaseDamage = 275;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Staff of the Mechworm");
-            Tooltip.SetDefault("Summons an aerial mechworm to fight for you\n" +
-                "Damage scales with the amount of minion slots you have\n" +
-                "The damage scaling stops growing after 10 minion slots");
+            Tooltip.SetDefault("Summons an aerial mechworm to fight for you");
         }
 
         public override void SetDefaults()
         {
-            item.damage = 30;
+            item.damage = BaseDamage;
             item.mana = 15;
             item.width = 58;
             item.height = 58;
@@ -27,8 +27,8 @@ namespace CalamityMod.Items.Weapons.Summon
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.noMelee = true;
             item.knockBack = 2f;
-            item.value = Item.buyPrice(1, 40, 0, 0);
-            item.rare = 10;
+            item.value = Item.buyPrice(platinum: 1, gold: 40);
+            item.rare = ItemRarityID.Red;
             item.UseSound = SoundID.Item113;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<MechwormHead>();
@@ -58,12 +58,6 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            int maxMinionScale = player.maxMinions;
-            if (maxMinionScale > 10)
-            {
-                maxMinionScale = 10;
-            }
-            damage = (int)(damage * ((player.MinionDamage() * 5 / 3) + (player.MinionDamage() * 0.46f * (maxMinionScale - 1))));
             int head = -1;
             int tail = -1;
             for (int num187 = 0; num187 < Main.projectile.Length; num187++)
@@ -86,33 +80,29 @@ namespace CalamityMod.Items.Weapons.Summon
             }
             if (head == -1 && tail == -1)
             {
-                speedX = 0f;
-                speedY = 0f;
-                position.X = (float)Main.mouseX + Main.screenPosition.X;
-                position.Y = (float)Main.mouseY + Main.screenPosition.Y;
-                int curr = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
-                curr = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<MechwormBody>(), damage, knockBack, player.whoAmI, curr, 0f);
+                int curr = Projectile.NewProjectile(Main.MouseWorld, Vector2.Zero, type, damage, knockBack, player.whoAmI, 0f, 0f);
+                curr = Projectile.NewProjectile(Main.MouseWorld, Vector2.Zero, ModContent.ProjectileType<MechwormBody>(), damage, knockBack, player.whoAmI, curr, 0f);
                 int head2 = curr;
-                curr = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<MechwormBody2>(), damage, knockBack, player.whoAmI, curr, 0f);
+                curr = Projectile.NewProjectile(Main.MouseWorld, Vector2.Zero, ModContent.ProjectileType<MechwormBody>(), damage, knockBack, player.whoAmI, curr, 0f);
                 Main.projectile[head2].localAI[1] = curr;
                 head2 = curr;
-                curr = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<MechwormTail>(), damage, knockBack, player.whoAmI, curr, 0f);
+                curr = Projectile.NewProjectile(Main.MouseWorld, Vector2.Zero, ModContent.ProjectileType<MechwormTail>(), damage, knockBack, player.whoAmI, curr, 0f);
                 Main.projectile[head2].localAI[1] = curr;
             }
             else if (head != -1 && tail != -1)
             {
-                int body = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<MechwormBody>(), damage, knockBack, player.whoAmI, Projectile.GetByUUID(Main.myPlayer, Main.projectile[tail].ai[0]), 0f);
+                position = Main.projectile[tail].Center;
+                int body = Projectile.NewProjectile(position, Vector2.Zero, ModContent.ProjectileType<MechwormBody>(), damage, knockBack, player.whoAmI, Projectile.GetByUUID(Main.myPlayer, Main.projectile[tail].ai[0]), 0f);
                 int body2 = body;
-                body = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<MechwormBody2>(), damage, knockBack, player.whoAmI, body, 0f);
+
+                body = Projectile.NewProjectile(position, Vector2.Zero, ModContent.ProjectileType<MechwormBody>(), damage, knockBack, player.whoAmI, body, 0f);
+
                 Main.projectile[body2].localAI[1] = body;
                 Main.projectile[body2].netUpdate = true;
-                Main.projectile[body2].ai[1] = 1f;
                 Main.projectile[body].localAI[1] = tail;
                 Main.projectile[body].netUpdate = true;
-                Main.projectile[body].ai[1] = 1f;
                 Main.projectile[tail].ai[0] = Main.projectile[body].projUUID;
                 Main.projectile[tail].netUpdate = true;
-                Main.projectile[tail].ai[1] = 1f;
             }
             return false;
         }
