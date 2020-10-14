@@ -1676,7 +1676,7 @@ namespace CalamityMod.NPCs
 
 				if (npc.type == NPCID.DukeFishron && CalamityWorld.death)
 				{
-					if (npc.life / (float)npc.lifeMax < 0.33f)
+					if (npc.life / (float)npc.lifeMax < 0.4f)
 						index = -1;
 				}
 			}

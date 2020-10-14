@@ -10376,10 +10376,9 @@ namespace CalamityMod.NPCs
 
 			// Variables
 			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
-			bool phase2 = lifeRatio <= 0.66f;
-            bool phase3 = lifeRatio <= (death ? 0.33f : 0.2f);
-			bool phase4 = lifeRatio <= (death ? 0.22f : 0.1f);
-			bool phase5 = lifeRatio <= 0.11f && death;
+			bool phase2 = lifeRatio < 0.7f;
+            bool phase3 = lifeRatio < 0.4f;
+			bool phase4 = lifeRatio < 0.25f;
             bool phase2AI = npc.ai[0] > 4f;
             bool phase3AI = npc.ai[0] > 9f;
             bool charging = npc.ai[3] < 10f;
@@ -11172,11 +11171,7 @@ namespace CalamityMod.NPCs
                 if (npc.ai[2] >= idlePhaseTimer)
                 {
                     int num33 = 0;
-					if (phase5)
-					{
-						num33 = 1;
-					}
-					else if (phase4)
+					if (phase4)
 					{
 						switch ((int)npc.ai[3])
 						{
@@ -11194,6 +11189,9 @@ namespace CalamityMod.NPCs
 								num33 = 2;
 								break;
 						}
+
+						if (death)
+							num33 = 1;
 					}
 					else
 					{
@@ -11284,7 +11282,7 @@ namespace CalamityMod.NPCs
                     npc.ai[1] = 0f;
                     npc.ai[2] = 0f;
 
-					if (!phase5)
+					if (phase4 && !death)
 						npc.ai[3] += 1f;
 
                     npc.netUpdate = true;
