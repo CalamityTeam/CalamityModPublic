@@ -63,8 +63,8 @@ namespace CalamityMod.Projectiles.Summon
             writer.Write((byte)CurrentAttackState);
             writer.Write(AttackStateTimer);
             writer.Write(EndRiftGateUUID);
-            writer.WritePackedVector2(TeleportStartingPoint);
-            writer.WritePackedVector2(TeleportEndingPoint);
+            writer.WriteVector2(TeleportStartingPoint);
+            writer.WriteVector2(TeleportEndingPoint);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
@@ -72,8 +72,8 @@ namespace CalamityMod.Projectiles.Summon
             CurrentAttackState = (AttackState)reader.ReadByte();
             AttackStateTimer = reader.ReadInt32();
             EndRiftGateUUID = reader.ReadInt32();
-            TeleportStartingPoint = reader.ReadPackedVector2();
-            TeleportEndingPoint = reader.ReadPackedVector2();
+            TeleportStartingPoint = reader.ReadVector2();
+            TeleportEndingPoint = reader.ReadVector2();
         }
         #endregion
 
