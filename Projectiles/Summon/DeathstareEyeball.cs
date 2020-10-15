@@ -170,6 +170,7 @@ namespace CalamityMod.Projectiles.Summon
             // Pupil drawing.
             Texture2D pupilTexture = ModContent.GetTexture("CalamityMod/Projectiles/Summon/DeathstareEyePupil");
             Vector2 pupilDrawPosition = projectile.Center - Main.screenPosition + PupilAngle.ToRotationVector2() * PupilOutwardness;
+            pupilDrawPosition -= Vector2.UnitY * 4f;
             spriteBatch.Draw(pupilTexture, pupilDrawPosition, null, projectile.GetAlpha(lightColor), PupilAngle, pupilTexture.Size() * 0.5f, PupilScale, spriteEffects, 0f);
             return false;
 		}
