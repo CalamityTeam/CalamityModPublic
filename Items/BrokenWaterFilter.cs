@@ -10,7 +10,7 @@ namespace CalamityMod.Items
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Broken Water Filter");
-            Tooltip.SetDefault("Disables natural Acid Rain spawns");
+            Tooltip.SetDefault("Favorite this item to disable natural Acid Rain spawns");
         }
         public override void SetDefaults()
         {
@@ -21,8 +21,8 @@ namespace CalamityMod.Items
         }
         public override void UpdateInventory(Player player)
         {
-            CalamityPlayer modPlayer = player.Calamity();
-            modPlayer.noStupidNaturalARSpawns = true;
+			if (item.favorited)
+				player.Calamity().noStupidNaturalARSpawns = true;
         }
         public override void AddRecipes()
         {
