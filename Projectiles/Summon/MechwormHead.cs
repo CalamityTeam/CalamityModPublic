@@ -162,16 +162,24 @@ namespace CalamityMod.Projectiles.Summon
                 projectile.netUpdate = true;
             }
 
-            // Special movement.
+            // Special attack movement.
+
             if ((potentialTarget != null || AttackStateTimer > 1) && Time > 150f)
             {
+                // Don't bother attacking if the target is close to the world edge, to prevent issues.
+                if (potentialTarget != null &&
+                    !potentialTarget.Center.Between(new Vector2(240f), new Vector2(Main.maxTilesX - 15, Main.maxTilesY - 15) * 16f))
+                {
+                    PlayerFollowMovement(owner);
+                    return;
+                }
                 AttackMovement(potentialTarget);
 
                 if (AttackStateTimer++ >= AttackStateShiftTime)
                 {
                     if (CurrentAttackState == AttackState.PortalGateCharge)
                     {
-                        // Delete any remaining projectile spawned by this worm, just in case.
+                        // Delete any remaining portals spawned by this worm, just in case.
                         int portalType = ModContent.ProjectileType<MechwormTeleportRift>();
                         for (int i = 0; i < Main.maxProjectiles; i++)
                         {
@@ -193,6 +201,8 @@ namespace CalamityMod.Projectiles.Summon
                     AttackStateTimer = 0;
                 }
             }
+
+            // Player following movement.
             else
                 PlayerFollowMovement(owner);
 
@@ -313,6 +323,13 @@ namespace CalamityMod.Projectiles.Summon
             }
             else
             {
+                if (!target.Center.Between(new Vector2(592f), new Vector2(Main.maxTilesX - 37, Main.maxTilesY - 37) * 16f))
+				{
+                    CurrentAttackState = AttackState.LaserCharge;
+                    EndRiftGateUUID = -1;
+                    projectile.netUpdate = true;
+                    return;
+                }
                 int chargeTime = (int)MathHelper.Min(36 + TotalWormSegments, 70);
                 if (AttackStateTimer % chargeTime == 0)
                 {
