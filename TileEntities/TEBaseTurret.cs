@@ -224,7 +224,6 @@ namespace CalamityMod.TileEntities
 			else
 			{
 				reader.Close();
-				reader.Dispose();
 				return false;
 			}
 		}
