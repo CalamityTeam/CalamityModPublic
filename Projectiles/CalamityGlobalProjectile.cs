@@ -1269,6 +1269,7 @@ namespace CalamityMod.Projectiles
 						}
 					}
 				}
+				NetMessage.SendTileRange(-1, x - 1, y - 1, 2, 2);
 			}
         }
         #endregion
