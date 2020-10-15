@@ -47,7 +47,9 @@ namespace CalamityMod.NPCs.Ravager
         public override void AI()
         {
             bool provy = CalamityWorld.downedProvidence;
-            if (CalamityGlobalNPC.scavenger < 0 || !Main.npc[CalamityGlobalNPC.scavenger].active)
+			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+
+			if (CalamityGlobalNPC.scavenger < 0 || !Main.npc[CalamityGlobalNPC.scavenger].active)
             {
                 npc.dontTakeDamage = false;
                 npc.life = 0;
@@ -80,8 +82,11 @@ namespace CalamityMod.NPCs.Ravager
             if (npc.ai[0] == 0f)
             {
                 npc.ai[1] += 1f;
-                if (npc.ai[1] >= 180f)
-                    npc.ai[0] = 1f;
+				if (npc.ai[1] >= 60f)
+				{
+					npc.ai[0] = 1f;
+					npc.ai[1] = 180f;
+				}
             }
             else if (npc.ai[0] == 1f)
             {
@@ -89,18 +94,31 @@ namespace CalamityMod.NPCs.Ravager
                 {
                     npc.ai[1] -= 1f;
                     npc.localAI[0] += 1f;
-                    float SpeedY = -10f;
-                    if (BossRushEvent.BossRushActive)
-                    {
-                        SpeedY *= 1.5f;
-                    }
-                    if (npc.localAI[0] % 45f == 0f)
+                    if (npc.localAI[0] % (death ? 45f : 60f) == 0f)
                     {
                         if (Main.netMode != NetmodeID.MultiplayerClient)
                         {
-                            int damage = 45;
-                            Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 0f, SpeedY, ModContent.ProjectileType<RavagerFlame>(), damage + (provy ? 30 : 0), 0f, Main.myPlayer, 0f, 0f);
+							float speedY = -12f;
+							float speedX = 0f;
+							switch ((int)npc.ai[2])
+							{
+								case 0:
+									break;
+								case 1:
+									speedX = 2f;
+									break;
+								case 2:
+									speedX = -2f;
+									break;
+								default:
+									break;
+							}
+							Vector2 velocity = new Vector2(speedX, speedY);
+							int type = ModContent.ProjectileType<RavagerFlame>();
+							int damage = npc.GetProjectileDamage(type);
+							Projectile.NewProjectile(npc.Center, velocity, type, damage + (provy ? 30 : 0), 0f, Main.myPlayer, 0f, 0f);
                         }
+						npc.ai[2] += 1f;
                         npc.localAI[0] = 0f;
                         npc.netUpdate = true;
                     }

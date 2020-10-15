@@ -1,4 +1,4 @@
-using CalamityMod.Items.Placeables;
+using CalamityMod.Items.Placeables.DraedonStructures;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;

@@ -50,11 +50,14 @@ namespace CalamityMod.NPCs.DesertScourge
             npc.DeathSound = SoundID.NPCDeath1;
             npc.netAlways = true;
             npc.dontCountMe = true;
-            if (Main.expertMode)
-            {
-                npc.scale = 1.15f;
-            }
-        }
+
+			if (CalamityWorld.death || BossRushEvent.BossRushActive)
+				npc.scale = 1.25f;
+			else if (CalamityWorld.revenge)
+				npc.scale = 1.15f;
+			else if (Main.expertMode)
+				npc.scale = 1.1f;
+		}
 
         public override void SendExtraAI(BinaryWriter writer)
         {
@@ -106,7 +109,7 @@ namespace CalamityMod.NPCs.DesertScourge
                 {
                     npc.localAI[0] += 4f;
                 }
-                if (npc.localAI[0] >= (float)Main.rand.Next(1400, 26000))
+                if (npc.localAI[0] >= (float)Main.rand.Next(1400, 26001))
                 {
                     npc.localAI[0] = 0f;
                     if (Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height))
@@ -116,7 +119,6 @@ namespace CalamityMod.NPCs.DesertScourge
                         float num943 = player.position.Y + (float)player.height * 0.5f - vector104.Y;
                         float num944 = (float)Math.Sqrt((double)(num942 * num942 + num943 * num943));
                         int projectileType = ModContent.ProjectileType<SandBlast>();
-                        int damage = 12;
                         float num941 = BossRushEvent.BossRushActive ? 12f : 6f;
                         num944 = num941 / num944;
                         num942 *= num944;
@@ -125,7 +127,7 @@ namespace CalamityMod.NPCs.DesertScourge
                         vector104.Y += num943 * 5f;
                         if (Main.rand.NextBool(2) || BossRushEvent.BossRushActive)
                         {
-                            Projectile.NewProjectile(vector104.X, vector104.Y, num942, num943, projectileType, damage, 0f, Main.myPlayer, 0f, 0f);
+                            Projectile.NewProjectile(vector104.X, vector104.Y, num942, num943, projectileType, npc.GetProjectileDamage(projectileType), 0f, Main.myPlayer, 0f, 0f);
                         }
                         npc.netUpdate = true;
                     }

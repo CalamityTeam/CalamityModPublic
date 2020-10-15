@@ -4,11 +4,11 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Tools
 {
-	public class CementShoes : ModItem
+	public class BallAndChain : ModItem
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Cement Shoes");
+			DisplayName.SetDefault("Ball and Chain");
 			Tooltip.SetDefault("So heavy...\n" +
 				"Favorite this item to disable any dashes granted by equipment.");
 		}
@@ -16,8 +16,8 @@ namespace CalamityMod.Items.Tools
 		public override void SetDefaults()
 		{
 			item.width = 32;
-			item.height = 30;
-			item.rare = 1;
+			item.height = 50;
+			item.rare = ItemRarityID.Blue;
 		}
 
 		public override bool CanUseItem(Player player) => false;
@@ -25,15 +25,16 @@ namespace CalamityMod.Items.Tools
 		public override void UpdateInventory(Player player)
 		{
 			if (item.favorited)
-				player.Calamity().cementShoes = true;
+				player.Calamity().blockAllDashes = true;
 		}
 
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddRecipeGroup("SiltGroup", 20);
-			recipe.AddIngredient(ItemID.StoneBlock, 20);
-			recipe.AddTile(TileID.Furnaces);
+			recipe.AddIngredient(ItemID.IronBar, 10);
+            recipe.anyIronBar = true;
+			recipe.AddIngredient(ItemID.Chain);
+			recipe.AddTile(TileID.Anvils);
 			recipe.SetResult(this);
 			recipe.AddRecipe();
 		}

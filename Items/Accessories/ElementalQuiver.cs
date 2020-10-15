@@ -13,7 +13,6 @@ namespace CalamityMod.Items.Accessories
         {
             DisplayName.SetDefault("Elemental Quiver");
             Tooltip.SetDefault("Ranged projectiles have a chance to split\n" +
-                "Ranged weapons have a chance to instantly kill normal enemies\n" +
                 "10% increased ranged damage, 5% increased ranged critical strike chance, and 20% reduced ammo usage\n" +
                 "5 increased defense, 2 increased life regen, and 15% increased pick speed\n" +
 				"Greatly increases arrow speed and grants a 20% chance to not consume arrows");

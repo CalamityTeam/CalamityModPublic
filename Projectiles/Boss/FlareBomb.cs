@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Boss
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Flare Bomb");
-            Main.projFrames[projectile.type] = 4;
+            Main.projFrames[projectile.type] = 5;
         }
 
         public override void SetDefaults()
@@ -39,7 +39,7 @@ namespace CalamityMod.Projectiles.Boss
                 projectile.frame++;
                 projectile.frameCounter = 0;
             }
-            if (projectile.frame > 3)
+            if (projectile.frame >= Main.projFrames[projectile.type])
             {
                 projectile.frame = 0;
             }
@@ -59,10 +59,10 @@ namespace CalamityMod.Projectiles.Boss
                 projectile.alpha = 0;
             }
 
-			if (projectile.ai[0] == 0f || (projectile.timeLeft > 135 && projectile.ai[1] == 1f))
+			if (projectile.ai[0] == -1f || (projectile.timeLeft > 135 && projectile.ai[1] == 1f))
 				return;
 
-			float num953 = revenge ? 77f : 70f;
+			float inertia = revenge ? 70f : 77f;
 			float num954 = 40f;
 			float scaleFactor12 = revenge ? 35f : 28f;
 			int num959 = (int)projectile.ai[0];
@@ -75,7 +75,7 @@ namespace CalamityMod.Projectiles.Boss
                     {
                         vector102 = Vector2.UnitY;
                     }
-                    projectile.velocity = (projectile.velocity * (num953 - 1f) + vector102 * scaleFactor12) / num953;
+                    projectile.velocity = (projectile.velocity * (inertia - 1f) + vector102 * scaleFactor12) / inertia;
                 }
             }
             else
@@ -114,10 +114,7 @@ namespace CalamityMod.Projectiles.Boss
 			}
 		}
 
-        public override Color? GetAlpha(Color lightColor)
-        {
-            return new Color(255, Main.DiscoG, 53, projectile.alpha);
-        }
+        public override Color? GetAlpha(Color lightColor) => new Color(200, 200, 200, projectile.alpha);
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
@@ -130,31 +127,28 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(SoundID.Item14, projectile.position);
-            projectile.position = projectile.Center;
-            projectile.width = projectile.height = 48;
-            projectile.position.X = projectile.position.X - (projectile.width / 2);
-            projectile.position.Y = projectile.position.Y - (projectile.height / 2);
-            projectile.Damage();
-            for (int num621 = 0; num621 < 3; num621++)
+            Main.PlaySound(SoundID.Item14, projectile.Center);
+			CalamityGlobalProjectile.ExpandHitboxBy(projectile, 48);
+            for (int d = 0; d < 2; d++)
             {
-                int num622 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 244, 0f, 0f, 100, default, 2f);
-                Main.dust[num622].velocity *= 3f;
+                int idx = Dust.NewDust(projectile.position, projectile.width, projectile.height, 244, 0f, 0f, 100, default, 1f);
+                Main.dust[idx].velocity *= 3f;
                 if (Main.rand.NextBool(2))
                 {
-                    Main.dust[num622].scale = 0.5f;
-                    Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
+                    Main.dust[idx].scale = 0.5f;
+                    Main.dust[idx].fadeIn = 1f + Main.rand.NextFloat(0.1f, 1f);
                 }
             }
-            for (int num623 = 0; num623 < 5; num623++)
+            for (int d = 0; d < 4; d++)
             {
-                int num624 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 244, 0f, 0f, 100, default, 3f);
-                Main.dust[num624].noGravity = true;
-                Main.dust[num624].velocity *= 5f;
-                num624 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 244, 0f, 0f, 100, default, 2f);
-                Main.dust[num624].velocity *= 2f;
+                int idx = Dust.NewDust(projectile.position, projectile.width, projectile.height, 244, 0f, 0f, 100, default, 2f);
+                Main.dust[idx].noGravity = true;
+                Main.dust[idx].velocity *= 5f;
+                idx = Dust.NewDust(projectile.position, projectile.width, projectile.height, 244, 0f, 0f, 100, default, 1f);
+                Main.dust[idx].velocity *= 2f;
             }
 			CalamityUtils.ExplosionGores(projectile.Center, 3);
+            projectile.Damage();
         }
 
 		public override void OnHitPlayer(Player target, int damage, bool crit)

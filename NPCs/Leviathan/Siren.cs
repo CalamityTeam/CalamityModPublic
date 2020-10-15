@@ -131,7 +131,7 @@ namespace CalamityMod.NPCs.Leviathan
             bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
 			bool isNotOcean = player.position.Y < 800f || player.position.Y > Main.worldSurface * 16.0 || (player.position.X > 6400f && player.position.X < (Main.maxTilesX * 16 - 6400));
 			float lifeRatio = npc.life / (float)npc.lifeMax;
-			float bubbleVelocity = BossRushEvent.BossRushActive ? 16f : death ? 8f : revenge ? 7f : expertMode ? 6f : 5f;
+			float bubbleVelocity = BossRushEvent.BossRushActive ? 16f : death ? 9f : revenge ? 7f : expertMode ? 6f : 5f;
 			if (!leviAlive)
 				bubbleVelocity += 2f * (1f - lifeRatio);
 
@@ -330,7 +330,7 @@ namespace CalamityMod.NPCs.Leviathan
             // Phase switch
             if (npc.ai[0] == -1f)
             {
-                int random = (((phase2 || death) && expertMode && !leviAlive) || phase4) ? 4 : 3;
+                int random = ((phase2 && expertMode && !leviAlive) || phase4) ? 4 : 3;
 				int num618;
 				do num618 = Main.rand.Next(random);
 				while (num618 == npc.ai[1] || num618 == 1);
@@ -363,45 +363,49 @@ namespace CalamityMod.NPCs.Leviathan
                 float num1056 = player.position.Y + (player.height / 2) - 200f - vector118.Y;
                 float num1057 = (float)Math.Sqrt(num1055 * num1055 + num1056 * num1056);
 
-                if (num1057 < 600f)
+				npc.Calamity().newAI[0] += 1f;
+                if (num1057 < 600f || npc.Calamity().newAI[0] >= 180f)
                 {
                     npc.ai[0] = 1f;
                     npc.ai[1] = 0f;
-                    npc.netUpdate = true;
+					npc.Calamity().newAI[0] = 0f;
+					npc.netUpdate = true;
                     return;
                 }
 
+				float maxVelocityY = death ? 3f : 4f;
+				float maxVelocityX = death ? 7f : 8f;
                 if (npc.position.Y > player.position.Y - 350f)
                 {
                     if (npc.velocity.Y > 0f)
                         npc.velocity.Y *= 0.98f;
-                    npc.velocity.Y -= BossRushEvent.BossRushActive ? 0.15f : 0.1f;
-                    if (npc.velocity.Y > 4f)
-                        npc.velocity.Y = 4f;
+                    npc.velocity.Y -= BossRushEvent.BossRushActive ? 0.2f : death ? 0.12f : 0.1f;
+                    if (npc.velocity.Y > maxVelocityY)
+                        npc.velocity.Y = maxVelocityY;
                 }
                 else if (npc.position.Y < player.position.Y - 450f)
                 {
                     if (npc.velocity.Y < 0f)
                         npc.velocity.Y *= 0.98f;
-                    npc.velocity.Y += BossRushEvent.BossRushActive ? 0.15f : 0.1f;
-                    if (npc.velocity.Y < -4f)
-                        npc.velocity.Y = -4f;
+                    npc.velocity.Y += BossRushEvent.BossRushActive ? 0.2f : death ? 0.12f : 0.1f;
+                    if (npc.velocity.Y < -maxVelocityY)
+                        npc.velocity.Y = -maxVelocityY;
                 }
                 if (npc.position.X + (npc.width / 2) > player.position.X + (player.width / 2) + 100f)
                 {
                     if (npc.velocity.X > 0f)
                         npc.velocity.X *= 0.98f;
-                    npc.velocity.X -= BossRushEvent.BossRushActive ? 0.15f : 0.1f;
-                    if (npc.velocity.X > 8f)
-                        npc.velocity.X = 8f;
+                    npc.velocity.X -= BossRushEvent.BossRushActive ? 0.2f : death ? 0.12f : 0.1f;
+                    if (npc.velocity.X > maxVelocityX)
+                        npc.velocity.X = maxVelocityX;
                 }
                 if (npc.position.X + (npc.width / 2) < player.position.X + (player.width / 2) - 100f)
                 {
                     if (npc.velocity.X < 0f)
                         npc.velocity.X *= 0.98f;
-                    npc.velocity.X += BossRushEvent.BossRushActive ? 0.15f : 0.1f;
-                    if (npc.velocity.X < -8f)
-                        npc.velocity.X = -8f;
+                    npc.velocity.X += BossRushEvent.BossRushActive ? 0.2f : death ? 0.12f : 0.1f;
+                    if (npc.velocity.X < -maxVelocityX)
+                        npc.velocity.X = -maxVelocityX;
                 }
             }
 
@@ -429,7 +433,7 @@ namespace CalamityMod.NPCs.Leviathan
                 bool flag103 = false;
 				float num640 = 20f;
 				if (!leviAlive || phase4)
-					num640 -= 12f * (1f - lifeRatio);
+					num640 -= death ? 15f * (1f - lifeRatio) : 12f * (1f - lifeRatio);
 
 				if (npc.ai[1] > num640)
                 {
@@ -455,45 +459,48 @@ namespace CalamityMod.NPCs.Leviathan
 
                 if (num1060 > 600f)
                 {
-                    if (npc.position.Y > player.position.Y - 350f)
-                    {
-                        if (npc.velocity.Y > 0f)
-                            npc.velocity.Y *= 0.98f;
-                        npc.velocity.Y -= BossRushEvent.BossRushActive ? 0.15f : 0.1f;
-                        if (npc.velocity.Y > 4f)
-                            npc.velocity.Y = 4f;
-                    }
-                    else if (npc.position.Y < player.position.Y - 450f)
-                    {
-                        if (npc.velocity.Y < 0f)
-                            npc.velocity.Y *= 0.98f;
-                        npc.velocity.Y += BossRushEvent.BossRushActive ? 0.15f : 0.1f;
-                        if (npc.velocity.Y < -4f)
-                            npc.velocity.Y = -4f;
-                    }
-                    if (npc.position.X + (npc.width / 2) > player.position.X + (player.width / 2) + 100f)
-                    {
-                        if (npc.velocity.X > 0f)
-                            npc.velocity.X *= 0.98f;
-                        npc.velocity.X -= BossRushEvent.BossRushActive ? 0.15f : 0.1f;
-                        if (npc.velocity.X > 8f)
-                            npc.velocity.X = 8f;
-                    }
-                    if (npc.position.X + (npc.width / 2) < player.position.X + (player.width / 2) - 100f)
-                    {
-                        if (npc.velocity.X < 0f)
-                            npc.velocity.X *= 0.98f;
-                        npc.velocity.X += BossRushEvent.BossRushActive ? 0.15f : 0.1f;
-                        if (npc.velocity.X < -8f)
-                            npc.velocity.X = -8f;
-                    }
-                }
+					float maxVelocityY = death ? 3f : 4f;
+					float maxVelocityX = death ? 7f : 8f;
+					if (npc.position.Y > player.position.Y - 350f)
+					{
+						if (npc.velocity.Y > 0f)
+							npc.velocity.Y *= 0.98f;
+						npc.velocity.Y -= BossRushEvent.BossRushActive ? 0.2f : death ? 0.12f : 0.1f;
+						if (npc.velocity.Y > maxVelocityY)
+							npc.velocity.Y = maxVelocityY;
+					}
+					else if (npc.position.Y < player.position.Y - 450f)
+					{
+						if (npc.velocity.Y < 0f)
+							npc.velocity.Y *= 0.98f;
+						npc.velocity.Y += BossRushEvent.BossRushActive ? 0.2f : death ? 0.12f : 0.1f;
+						if (npc.velocity.Y < -maxVelocityY)
+							npc.velocity.Y = -maxVelocityY;
+					}
+					if (npc.position.X + (npc.width / 2) > player.position.X + (player.width / 2) + 100f)
+					{
+						if (npc.velocity.X > 0f)
+							npc.velocity.X *= 0.98f;
+						npc.velocity.X -= BossRushEvent.BossRushActive ? 0.2f : death ? 0.12f : 0.1f;
+						if (npc.velocity.X > maxVelocityX)
+							npc.velocity.X = maxVelocityX;
+					}
+					if (npc.position.X + (npc.width / 2) < player.position.X + (player.width / 2) - 100f)
+					{
+						if (npc.velocity.X < 0f)
+							npc.velocity.X *= 0.98f;
+						npc.velocity.X += BossRushEvent.BossRushActive ? 0.2f : death ? 0.12f : 0.1f;
+						if (npc.velocity.X < -maxVelocityX)
+							npc.velocity.X = -maxVelocityX;
+					}
+				}
                 else
                     npc.velocity *= 0.9f;
 
                 npc.spriteDirection = npc.direction;
 
-                if (npc.ai[2] > 4f)
+				float maxBubbleSpawn = death ? 3f : 4f;
+                if (npc.ai[2] > maxBubbleSpawn)
                 {
                     npc.ai[0] = -1f;
                     npc.ai[1] = 0f;
@@ -508,8 +515,8 @@ namespace CalamityMod.NPCs.Leviathan
                 npc.rotation = npc.velocity.X * 0.02f;
 
 				Vector2 targetVector = player.Center + new Vector2(0f, -350f);
-				Vector2 vector3 = Vector2.Normalize(targetVector - vector - npc.velocity) * (BossRushEvent.BossRushActive ? 18f : 12f);
-				float acceleration = BossRushEvent.BossRushActive ? 0.5f : 0.25f;
+				Vector2 vector3 = Vector2.Normalize(targetVector - vector - npc.velocity) * (BossRushEvent.BossRushActive ? 18f : death ? 13.5f : 12f);
+				float acceleration = BossRushEvent.BossRushActive ? 0.5f : death ? 0.28f : 0.25f;
 
 				if (Math.Abs(npc.Center.Y - targetVector.Y) > 50f || Math.Abs(npc.Center.X - player.Center.X) > 350f)
 					npc.SimpleFlyMovement(vector3, acceleration);
@@ -523,18 +530,13 @@ namespace CalamityMod.NPCs.Leviathan
 				bool shootProjectiles = npc.ai[1] % divisor == 0f;
 				if (Main.netMode != NetmodeID.MultiplayerClient && shootProjectiles)
 				{
-					int projectileDamage = expertMode ? 26 : 32;
 					float projectileVelocity = expertMode ? 3f : 2f;
-
 					if (!leviAlive || phase4)
-					{
-						projectileDamage += expertMode ? 3 : 4;
-						projectileVelocity += 2f * (1f - lifeRatio);
-					}
+						projectileVelocity += death ? 3f * (1f - lifeRatio) : 2f * (1f - lifeRatio);
 
 					int totalProjectiles = 8;
 					int projectileDistance = 600;
-					int projectileType = ModContent.ProjectileType<WaterSpear>();
+					int type = ModContent.ProjectileType<WaterSpear>();
 					switch ((int)npc.localAI[3])
 					{
 						case 0:
@@ -542,12 +544,12 @@ namespace CalamityMod.NPCs.Leviathan
 							break;
 						case 1:
 							totalProjectiles = 3;
-							projectileType = ModContent.ProjectileType<FrostMist>();
+							type = ModContent.ProjectileType<FrostMist>();
 							Main.PlaySound(SoundID.Item30, player.position);
 							break;
 						case 2:
 							totalProjectiles = 6;
-							projectileType = ModContent.ProjectileType<SirenSong>();
+							type = ModContent.ProjectileType<SirenSong>();
 							float soundPitch = (Main.rand.NextFloat() - 0.5f) * 0.5f;
 							Main.harpNote = soundPitch;
 							Main.PlaySound(SoundID.Item26, player.position);
@@ -557,15 +559,16 @@ namespace CalamityMod.NPCs.Leviathan
 					if (npc.localAI[3] > 2f)
 						npc.localAI[3] = 0f;
 
-					if (((phase2 || death) && !leviAlive) || phase4)
+					if ((phase2 && !leviAlive) || phase4)
 						totalProjectiles += totalProjectiles / 2;
 
 					float radians = MathHelper.TwoPi / totalProjectiles;
+					int damage = npc.GetProjectileDamage(type);
 					for (int i = 0; i < totalProjectiles; i++)
 					{
 						Vector2 spawnVector = player.Center + Vector2.Normalize(new Vector2(0f, -projectileVelocity).RotatedBy(radians * i)) * projectileDistance;
 						Vector2 velocity = Vector2.Normalize(player.Center - spawnVector) * projectileVelocity;
-						Projectile.NewProjectile(spawnVector, velocity, projectileType, projectileDamage, 0f, Main.myPlayer);
+						Projectile.NewProjectile(spawnVector, velocity, type, damage, 0f, Main.myPlayer);
 					}
 				}
 
@@ -607,7 +610,7 @@ namespace CalamityMod.NPCs.Leviathan
                     float chargeVelocity = BossRushEvent.BossRushActive ? 31f : (leviAlive && !phase4) ? 21f : 26f;
 
 					if (revenge)
-						chargeVelocity += 2f + (death ? 4f : 4f * (1f - lifeRatio));
+						chargeVelocity += 2f + (death ? 6f * (1f - lifeRatio) : 4f * (1f - lifeRatio));
 
                     npc.velocity = Vector2.Normalize(player.Center - vector) * chargeVelocity;
                     npc.rotation = (float)Math.Atan2(npc.velocity.Y, npc.velocity.X);

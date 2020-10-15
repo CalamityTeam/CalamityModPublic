@@ -758,7 +758,7 @@ namespace CalamityMod
 					showsOver = true;
 			}
 			//Fail if you have potion sickness
-			if (player.potionDelay > 0 && player.Calamity().potionTimer > 0)
+			if (player.potionDelay > 0 || player.Calamity().potionTimer > 0)
 				showsOver = true;
 
 			if (!showsOver)
@@ -1326,30 +1326,36 @@ namespace CalamityMod
 					}
 				}
 			}
-			bool foundTarget = false;
-			Vector2 targetPos = new Vector2(0f, 0f);
-			float maxDist = 600f;
-			for (int i = 0; i < Main.maxNPCs; i++)
+			if (projectile.Calamity().lineColor != 1 || projectile.timeLeft < (3300 + projectile.localAI[0]))
 			{
-				NPC npc = Main.npc[i];
-				if (npc.CanBeChasedBy(projectile, false))
+				bool foundTarget = false;
+				Vector2 targetPos = new Vector2(0f, 0f);
+				float maxDist = 600f;
+				for (int i = 0; i < Main.maxNPCs; i++)
 				{
-					float targetDist = Vector2.Distance(projectile.Center, npc.Center);
-					if (targetDist < maxDist)
+					NPC npc = Main.npc[i];
+					if (npc.CanBeChasedBy(projectile, false))
 					{
-						targetPos = npc.Center;
-						foundTarget = true;
-						break;
+						float targetDist = Vector2.Distance(projectile.Center, npc.Center);
+						if (targetDist < maxDist)
+						{
+							targetPos = npc.Center;
+							foundTarget = true;
+							break;
+						}
 					}
 				}
-			}
-			if (foundTarget)
-			{
-				Vector2 targetVec = targetPos - projectile.Center;
-				targetVec.Normalize();
-				targetVec *= 0.75f;
-				projectile.velocity = (projectile.velocity * 10f + targetVec) / 11f;
-				return;
+				if (foundTarget)
+				{
+					if (projectile.Calamity().lineColor == 1)
+						projectile.extraUpdates = 5;
+
+					Vector2 targetVec = targetPos - projectile.Center;
+					targetVec.Normalize();
+					targetVec *= 0.75f;
+					projectile.velocity = (projectile.velocity * 10f + targetVec) / 11f;
+					return;
+				}
 			}
 			if (projectile.velocity.Length() > 0.2f)
 			{
@@ -1764,37 +1770,37 @@ namespace CalamityMod
 
 		public static bool DrawBeam(this Projectile projectile, float length, float width, Color lightColor, Texture2D texture = null)
 		{
-            if (texture is null)
-                texture = Main.projectileTexture[projectile.type];
+			if (texture is null)
+				texture = Main.projectileTexture[projectile.type];
 
-            float widthOffset = (float)(texture.Width - projectile.width) * 0.5f + (float)projectile.width * 0.5f;
-            float heightOffset = (float)(projectile.height / 2);
+			float widthOffset = (float)(texture.Width - projectile.width) * 0.5f + (float)projectile.width * 0.5f;
+			float heightOffset = (float)(projectile.height / 2);
 			Vector2 origin = new Vector2(widthOffset, heightOffset);
-            SpriteEffects spriteEffects = SpriteEffects.None;
-            if (projectile.spriteDirection == -1)
-            {
-                spriteEffects = SpriteEffects.FlipHorizontally;
-            }
-            Rectangle roughScreenBounds = new Rectangle((int)Main.screenPosition.X - 500, (int)Main.screenPosition.Y - 500, Main.screenWidth + 1000, Main.screenHeight + 1000);
-            if (projectile.getRect().Intersects(roughScreenBounds))
-            {
-                Vector2 drawPos = projectile.position - Main.screenPosition + origin;
+			SpriteEffects spriteEffects = SpriteEffects.None;
+			if (projectile.spriteDirection == -1)
+			{
+				spriteEffects = SpriteEffects.FlipHorizontally;
+			}
+			Rectangle roughScreenBounds = new Rectangle((int)Main.screenPosition.X - 500, (int)Main.screenPosition.Y - 500, Main.screenWidth + 1000, Main.screenHeight + 1000);
+			if (projectile.getRect().Intersects(roughScreenBounds))
+			{
+				Vector2 drawPos = projectile.position - Main.screenPosition + origin;
 				drawPos.Y += projectile.gfxOffY;
-                float maxTrailPoints = length;
-                float wide = width;
-                if (projectile.ai[1] == 1f)
-                {
-                    maxTrailPoints = (int)projectile.localAI[0];
-                }
-                for (int i = 1; i <= (int)projectile.localAI[0]; i++)
-                {
-                    Vector2 offset = Vector2.Normalize(projectile.velocity) * (float)i * wide;
-                    Color color = projectile.GetAlpha(lightColor);
-                    color *= (maxTrailPoints - (float)i) / maxTrailPoints;
-                    color.A = 0;
-                    Main.spriteBatch.Draw(texture, drawPos - offset, null, color, projectile.rotation, origin, projectile.scale, spriteEffects, 0f);
-                }
-            }
+				float maxTrailPoints = length;
+				float wide = width;
+				if (projectile.ai[1] == 1f)
+				{
+					maxTrailPoints = (int)projectile.localAI[0];
+				}
+				for (int i = 1; i <= (int)projectile.localAI[0]; i++)
+				{
+					Vector2 offset = Vector2.Normalize(projectile.velocity) * (float)i * wide;
+					Color color = projectile.GetAlpha(lightColor);
+					color *= (maxTrailPoints - (float)i) / maxTrailPoints;
+					color.A = 0;
+					Main.spriteBatch.Draw(texture, drawPos - offset, null, color, projectile.rotation, origin, projectile.scale, spriteEffects, 0f);
+				}
+			}
 			return false;
 		}
 

@@ -1,5 +1,6 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
+using CalamityMod.NPCs.Providence;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -45,6 +46,10 @@ namespace CalamityMod.Projectiles.Boss
                 projectile.velocity.X *= 1.05f;
             }
             int num103 = Player.FindClosest(projectile.Center, 1, 1);
+			if (projectile.ai[1] == 0f)
+			{
+				projectile.damage = projectile.GetProjectileDamage(ModContent.NPCType<Providence>());
+			}
             projectile.ai[1] += 1f;
             if (projectile.ai[1] < 180f && projectile.ai[1] > 60f)
             {

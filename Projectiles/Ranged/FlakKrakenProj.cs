@@ -40,6 +40,13 @@ namespace CalamityMod.Projectiles.Ranged
                 projectile.Kill();
                 return;
             }
+
+
+            // This code uses player-specific fields (such as the mouse), and does not need to be run for anyone
+            // other than its owner.
+            if (Main.myPlayer != projectile.owner)
+                return;
+
             projectile.rotation += 0.2f;
             if (projectile.localAI[0] < 1f)
             {

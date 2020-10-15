@@ -1,12 +1,13 @@
 using CalamityMod.Events;
+using CalamityMod.NPCs;
 using CalamityMod.NPCs.NormalNPCs;
+using CalamityMod.NPCs.OldDuke;
 using CalamityMod.NPCs.Providence;
 using CalamityMod.TileEntities;
 using CalamityMod.World;
 using System;
 using System.IO;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -149,7 +150,9 @@ namespace CalamityMod
                         break;
 
 
+                    //
                     // Ozzatron's packets
+                    //
                     case CalamityModMessageType.PowerCellFactory:
                         TEPowerCellFactory.ReadSyncPacket(mod, reader);
                         break;
@@ -162,14 +165,31 @@ namespace CalamityMod
                     case CalamityModMessageType.Turret:
                         TEBaseTurret.ReadSyncPacket(mod, reader);
                         break;
-
-                    case CalamityModMessageType.SyncCalamityNPCAIArray:
-                        byte npcIndex2 = reader.ReadByte();
-                        Main.npc[npcIndex2].Calamity().newAI[0] = reader.ReadSingle();
-                        Main.npc[npcIndex2].Calamity().newAI[1] = reader.ReadSingle();
-                        Main.npc[npcIndex2].Calamity().newAI[2] = reader.ReadSingle();
-                        Main.npc[npcIndex2].Calamity().newAI[3] = reader.ReadSingle();
+                    case CalamityModMessageType.LabHologramProjector:
+                        TELabHologramProjector.ReadSyncPacket(mod, reader);
                         break;
+                    // This code has been edited to fail gracefully when trying to provide data for an invalid NPC.
+                    case CalamityModMessageType.SyncCalamityNPCAIArray:
+                        // Read the entire packet regardless of anything
+                        byte npcIdx = reader.ReadByte();
+                        float ai0 = reader.ReadSingle();
+                        float ai1 = reader.ReadSingle();
+                        float ai2 = reader.ReadSingle();
+                        float ai3 = reader.ReadSingle();
+
+                        // If the NPC in question isn't valid, don't do anything.
+                        NPC npc = Main.npc[npcIdx];
+                        if (!npc.active)
+                            break;
+
+                        CalamityGlobalNPC cgn = npc.Calamity();
+                        cgn.newAI[0] = ai0;
+                        cgn.newAI[1] = ai1;
+                        cgn.newAI[2] = ai2;
+                        cgn.newAI[3] = ai3;
+                        break;
+
+
                     case CalamityModMessageType.ProvidenceDyeConditionSync:
                         byte npcIndex3 = reader.ReadByte();
                         (Main.npc[npcIndex3].modNPC as Providence).hasTakenDaytimeDamage = reader.ReadBoolean();
@@ -178,6 +198,35 @@ namespace CalamityMod
                         byte npcIndex4 = reader.ReadByte();
                         (Main.npc[npcIndex4].modNPC as Providence).challenge = reader.ReadBoolean();
                         break;
+
+                    case CalamityModMessageType.ServersideSpawnOldDuke:
+                        byte playerIndex2 = reader.ReadByte();
+
+                        if (Main.netMode != NetmodeID.Server)
+                            break;
+
+                        Player player = Main.player[playerIndex2];
+                        if (!player.active || player.dead)
+                            return;
+
+                        Projectile projectile = null;
+                        for (int i = 0; i < Main.maxProjectiles; i++)
+                        {
+                            projectile = Main.projectile[i];
+                            if (Main.projectile[i].active && Main.projectile[i].bobber && Main.projectile[i].owner == playerIndex2)
+                            {
+                                projectile = Main.projectile[i];
+                                break;
+                            }
+                        }
+
+                        if (projectile is null)
+                            return;
+
+                        int oldDuke = NPC.NewNPC((int)projectile.Center.X, (int)projectile.Center.Y + 100, ModContent.NPCType<OldDuke>());
+                        CalamityUtils.BossAwakenMessage(oldDuke);
+                        break;
+
                     default:
                         CalamityMod.Instance.Logger.Error($"Failed to parse Calamity packet: No Calamity packet exists with ID {msgType}.");
                         break;
@@ -210,13 +259,16 @@ namespace CalamityMod
         MagicLevelSync,
         SummonLevelSync,
         RogueLevelSync,
+
         ExactMeleeLevelSync,
         ExactRangedLevelSync,
         ExactMagicLevelSync,
         ExactSummonLevelSync,
         ExactRogueLevelSync,
+
         StressSync,
         AdrenalineSync,
+
         TeleportPlayer,
         BossRushStage,
         DoGCountdownSync,
@@ -225,22 +277,29 @@ namespace CalamityMod
         ArmoredDiggerCountdownSync,
         BossTypeSync,
         DeathCountSync,
+
         RevengeanceBoolSync,
         DeathBoolSync,
         DefiledBoolSync,
         IronHeartBoolSync,
         ArmageddonBoolSync,
         DemonTrophyBoolSync,
+
         NPCRegenerationSync,
+
         DeathModeUnderworldTimeSync,
         DeathModeBlizzardTimeSync,
         DeathBossSpawnCountdownSync,
+
         AcidRainSync,
         AcidRainUIDrawFadeSync,
         AcidRainOldDukeSummonSync,
+
         GaelsGreatswordSwingSync,
+
         SpawnSuperDummy,
         SyncCalamityNPCAIArray,
+
         ProvidenceDyeConditionSync, // We shouldn't fucking need this. Die in a hole, Multiplayer.
         PSCChallengeSync, // See above
 
@@ -248,6 +307,9 @@ namespace CalamityMod
         PowerCellFactory,
         ChargingStationStandard,
         ChargingStationItemChange,
-        Turret
+        Turret,
+        LabHologramProjector,
+
+        ServersideSpawnOldDuke
     }
 }

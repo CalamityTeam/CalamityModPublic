@@ -4,17 +4,14 @@ using CalamityMod.CalPlayer;
 using CalamityMod.Dusts;
 using CalamityMod.Events;
 using CalamityMod.NPCs.NormalNPCs;
-using CalamityMod.Projectiles.Boss;
 using CalamityMod.Projectiles.Healing;
 using CalamityMod.Projectiles.Hybrid;
 using CalamityMod.Projectiles.Magic;
 using CalamityMod.Projectiles.Melee;
 using CalamityMod.Projectiles.Melee.Yoyos;
-using CalamityMod.Projectiles.Ranged;
 using CalamityMod.Projectiles.Rogue;
 using CalamityMod.Projectiles.Summon;
 using CalamityMod.Projectiles.Typeless;
-using CalamityMod.Projectiles.Typeless.FiniteUse;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -27,7 +24,7 @@ using static Terraria.ModLoader.ModContent;
 
 namespace CalamityMod.Projectiles
 {
-    public class CalamityGlobalProjectile : GlobalProjectile
+	public class CalamityGlobalProjectile : GlobalProjectile
     {
         public override bool InstancePerEntity
         {
@@ -55,7 +52,6 @@ namespace CalamityMod.Projectiles
         public float spawnedPlayerMinionDamageValue = 1f;
         public int spawnedPlayerMinionProjectileDamageValue = 0;
         public int defDamage = 0;
-		public int defCrit = 0;
 
 		// Rogue Stuff
 		public bool stealthStrike = false; //Update all existing rogue weapons with this
@@ -274,7 +270,7 @@ namespace CalamityMod.Projectiles
 					}
 
 					int num147 = Player.FindClosest(projectile.Center, 1, 1);
-					float num146 = 12f + Vector2.Distance(Main.player[num147].Center, projectile.Center) * 0.01f;
+					float num146 = 7.5f * projectile.ai[1] + Vector2.Distance(Main.player[num147].Center, projectile.Center) * 0.01f;
 					Vector2 vector12 = Main.player[num147].Center - projectile.Center;
 					vector12.Normalize();
 					vector12 *= num146;
@@ -289,7 +285,6 @@ namespace CalamityMod.Projectiles
 					projectile.ai[0] += 1f;
 					if (projectile.ai[0] > 15f)
 					{
-						projectile.ai[0] = 15f;
 						if (projectile.velocity.Y == 0f && projectile.velocity.X != 0f)
 						{
 							projectile.velocity.X *= 0.97f;
@@ -337,9 +332,16 @@ namespace CalamityMod.Projectiles
 					}
 				}
 
-				// Large cthulhunadoes
+				else if (projectile.type == ProjectileID.Sharknado)
+				{
+					projectile.damage = projectile.GetProjectileDamage(NPCID.DukeFishron);
+				}
+
+				// Larger cthulhunadoes
 				else if (projectile.type == ProjectileID.Cthulunado)
 				{
+					projectile.damage = projectile.GetProjectileDamage(NPCID.DukeFishron);
+
 					int num606 = 16;
 					int num607 = 16;
 					float num608 = 2f;
@@ -546,7 +548,9 @@ namespace CalamityMod.Projectiles
 							projectile.Kill();
 							return false;
 						}
-						if (projectile.velocity.Length() < 24f)
+
+						float velocityLimit = (CalamityWorld.death || BossRushEvent.BossRushActive) ? 28f : 24f;
+						if (projectile.velocity.Length() < velocityLimit)
 							projectile.velocity *= 1.01f;
 					}
 					if (projectile.alpha < 40)
@@ -561,7 +565,8 @@ namespace CalamityMod.Projectiles
 				// Moon Lord big eye spheres
 				else if (projectile.type == ProjectileID.PhantasmalSphere && Main.npc[(int)projectile.ai[1]].type == NPCID.MoonLordHand)
 				{
-					if (projectile.velocity.Length() < 12f)
+					float velocityLimit = (CalamityWorld.death || BossRushEvent.BossRushActive) ? 14f : 12f;
+					if (projectile.velocity.Length() < velocityLimit)
 						projectile.velocity *= 1.0075f;
 
 					return true;
@@ -688,7 +693,7 @@ namespace CalamityMod.Projectiles
 					}
 					if (projectile.velocity.X != 0f)
 					{
-						projectile.direction = (projectile.spriteDirection = -Math.Sign(projectile.velocity.X));
+						projectile.direction = projectile.spriteDirection = -Math.Sign(projectile.velocity.X);
 					}
 					projectile.frameCounter++;
 					if (projectile.frameCounter > 2)
@@ -705,18 +710,18 @@ namespace CalamityMod.Projectiles
 						projectile.localAI[0] = 1f;
 						projectile.position.X += projectile.width / 2;
 						projectile.position.Y += projectile.height / 2;
-						projectile.scale = ((float)(num520 + num521) - projectile.ai[1]) * num522 / (float)(num521 + num520);
-						projectile.width = (int)((float)num523 * projectile.scale);
-						projectile.height = (int)((float)num524 * projectile.scale);
+						projectile.scale = (num520 + num521 - projectile.ai[1]) * num522 / (num521 + num520);
+						projectile.width = (int)(num523 * projectile.scale);
+						projectile.height = (int)(num524 * projectile.scale);
 						projectile.position.X -= projectile.width / 2;
 						projectile.position.Y -= projectile.height / 2;
 						projectile.netUpdate = true;
 					}
 					if (projectile.ai[1] != -1f)
 					{
-						projectile.scale = ((float)(num520 + num521) - projectile.ai[1]) * num522 / (float)(num521 + num520);
-						projectile.width = (int)((float)num523 * projectile.scale);
-						projectile.height = (int)((float)num524 * projectile.scale);
+						projectile.scale = (num520 + num521 - projectile.ai[1]) * num522 / (num521 + num520);
+						projectile.width = (int)(num523 * projectile.scale);
+						projectile.height = (int)(num524 * projectile.scale);
 					}
 					if (!Collision.SolidCollision(projectile.position, projectile.width, projectile.height))
 					{
@@ -746,25 +751,25 @@ namespace CalamityMod.Projectiles
 					{
 						projectile.netUpdate = true;
 						Vector2 center2 = projectile.Center;
-						center2.Y -= (float)num524 * projectile.scale / 2f;
-						float num525 = ((float)(num520 + num521) - projectile.ai[1] + 1f) * num522 / (float)(num521 + num520);
-						center2.Y -= (float)num524 * num525 / 2f;
+						center2.Y -= num524 * projectile.scale / 2f;
+						float num525 = (num520 + num521 - projectile.ai[1] + 1f) * num522 / (num521 + num520);
+						center2.Y -= num524 * num525 / 2f;
 						center2.Y += 2f;
 						Projectile.NewProjectile(center2, projectile.velocity, projectile.type, projectile.damage, projectile.knockBack, projectile.owner, 10f, projectile.ai[1] - 1f);
 					}
 					if (projectile.ai[0] <= 0f)
 					{
 						float num529 = (float)Math.PI / 30f;
-						float num530 = (float)projectile.width / 5f;
+						float num530 = projectile.width / 5f;
 						if (projectile.type == ProjectileID.Cthulunado)
 						{
 							num530 *= 2f;
 						}
 						float num531 = (float)(Math.Cos(num529 * (-projectile.ai[0])) - 0.5) * num530;
-						projectile.position.X -= num531 * (float)(-projectile.direction);
+						projectile.position.X -= num531 * (-projectile.direction);
 						projectile.ai[0] -= 1f;
 						num531 = (float)(Math.Cos(num529 * (-projectile.ai[0])) - 0.5) * num530;
-						projectile.position.X += num531 * (float)(-projectile.direction);
+						projectile.position.X += num531 * (-projectile.direction);
 					}
 
 					return false;
@@ -1228,48 +1233,45 @@ namespace CalamityMod.Projectiles
 			Player player = Main.player[projectile.owner];
 			CalamityPlayer modPlayer = player.Calamity();
 
-			// Set crit here to avoid issues with projectiles that change class types in PreAI and AI
-			if (defCrit == 0 && !projectile.npcProj && !projectile.trap && Main.myPlayer == projectile.owner)
-			{
-				if (projectile.melee)
-					defCrit = modPlayer.critStats[0];
-				else if (projectile.ranged)
-					defCrit = modPlayer.critStats[1];
-				else if (projectile.magic)
-					defCrit = modPlayer.critStats[2];
-				else if (rogue)
-					defCrit = modPlayer.critStats[3];
-				else if (projectile.IsSummon())
-					defCrit = 4;
-				else if (player.ActiveItem().crit > 0)
-					defCrit = player.ActiveItem().crit;
-			}
+			// optimization to remove conversion X/Y loop for irrelevant projectiles
+			bool isConversionProjectile = projectile.type == ProjectileID.PurificationPowder
+				|| projectile.type == ProjectileID.PureSpray
+				|| projectile.type == ProjectileID.CorruptSpray
+				|| projectile.type == ProjectileID.CrimsonSpray
+				|| projectile.type == ProjectileID.HallowSpray;
+			if (!isConversionProjectile)
+				return;
 
 			if (projectile.owner == Main.myPlayer/* && Main.netMode != NetmodeID.MultiplayerClient*/)
 			{
 				int x = (int)(projectile.Center.X / 16f);
 				int y = (int)(projectile.Center.Y / 16f);
+
+				bool isPowder = projectile.type == ProjectileID.PurificationPowder;
+				/* || projectile.type == ProjectileID.VilePowder || projectile.type == ProjectileID.ViciousPowder */
+
 				for (int i = x - 1; i <= x + 1; i++)
 				{
 					for (int j = y - 1; j <= y + 1; j++)
 					{
 						if (projectile.type == ProjectileID.PureSpray || projectile.type == ProjectileID.PurificationPowder)
 						{
-							WorldGenerationMethods.ConvertFromAstral(i, j, ConvertType.Pure);
+							WorldGenerationMethods.ConvertFromAstral(i, j, ConvertType.Pure, !isPowder);
 						}
 						//commented out for Terraria 1.4 when vile/vicious powder spread corruption/crimson
 						if (projectile.type == ProjectileID.CorruptSpray)// || projectile.type == ProjectileID.VilePowder)
 						{
-							WorldGenerationMethods.ConvertFromAstral(i, j, ConvertType.Corrupt);
+							WorldGenerationMethods.ConvertFromAstral(i, j, ConvertType.Corrupt, !isPowder);
 						}
 						if (projectile.type == ProjectileID.CrimsonSpray)// || projectile.type == ProjectileID.ViciousPowder)
 						{
-							WorldGenerationMethods.ConvertFromAstral(i, j, ConvertType.Crimson);
+							WorldGenerationMethods.ConvertFromAstral(i, j, ConvertType.Crimson, !isPowder);
 						}
 						if (projectile.type == ProjectileID.HallowSpray)
 						{
 							WorldGenerationMethods.ConvertFromAstral(i, j, ConvertType.Hallow);
 						}
+						NetMessage.SendTileRange(-1, i, j, 1, 1);
 					}
 				}
 			}
@@ -1306,57 +1308,8 @@ namespace CalamityMod.Projectiles
 				}
 			}
 
-			if (projectile.owner == Main.myPlayer && !projectile.npcProj && !projectile.trap)
-			{
-				int critMax = 100;
-				int critChance = (int)MathHelper.Clamp(defCrit, 1, critMax);
-				crit = Main.rand.Next(1, critMax + 1) <= critChance;
-
-				if ((uint)(projectile.type - ProjectileID.DD2LightningAuraT1) <= 2u)
-				{
-					if (player.setMonkT3)
-						crit = Main.rand.NextBool(4);
-					else if (player.setMonkT2)
-						crit = Main.rand.NextBool(6);
-				}
-
-				if (rogue && stealthStrike && modPlayer.stealthStrikeAlwaysCrits)
-					crit = true;
-
-				//Following things need to be done in here.  If done in the projectile file, it's overridden by the thing above
-				if (projectile.type == ProjectileType<PwnagehammerProj>() && projectile.ai[0] == 1f)
-					crit = true;
-
-				if (projectile.type == ProjectileType<ImpactRound>())
-				{
-					double damageMult = 1D;
-					if (crit)
-					{
-						damageMult += 0.25;
-					}
-					if (target.Inorganic())
-					{
-						damageMult += 0.1;
-					}
-					damage = (int)(damage * damageMult);
-				}
-
-				if (projectile.type == ProjectileType<SphereSpiked>())
-				{
-					damage = (int)(damage * 1.2);
-					if (!crit)
-						crit = Main.rand.NextBool(10);
-				}
-
-				if (projectile.type == ProjectileType<MagnumRound>())
-				{
-					if (crit)
-					{
-						damage = (int)(damage * 1.25);
-						knockback *= 1.25f;
-					}
-				}
-			}
+			if (!projectile.npcProj && !projectile.trap && rogue && stealthStrike && modPlayer.stealthStrikeAlwaysCrits)
+				crit = true;
 		}
 		#endregion
 
@@ -2056,8 +2009,13 @@ namespace CalamityMod.Projectiles
             if (Main.player[Main.myPlayer].Calamity().trippy)
                 return new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB, projectile.alpha);
 
-            if (Main.player[Main.myPlayer].Calamity().omniscience && projectile.hostile)
-                return Color.Coral;
+            if (Main.LocalPlayer.Calamity().omniscience && projectile.hostile && projectile.damage > 0 && projectile.alpha < 255)
+			{
+				if (projectile.modProjectile is null || projectile.modProjectile != null && projectile.modProjectile.CanHitPlayer(Main.LocalPlayer) && projectile.modProjectile.CanDamage())
+				{
+					return Color.Coral;
+				}
+			}
 
             if (projectile.type == ProjectileID.PinkLaser)
             {
@@ -2066,6 +2024,17 @@ namespace CalamityMod.Projectiles
 
                 return Color.Transparent;
             }
+
+			if (projectile.type == ProjectileID.SeedPlantera || projectile.type == ProjectileID.PoisonSeedPlantera || projectile.type == ProjectileID.ThornBall)
+			{
+				if (projectile.timeLeft < 85)
+				{
+					byte b2 = (byte)(projectile.timeLeft * 3);
+					byte a2 = (byte)(projectile.alpha * (b2 / 255f));
+					return new Color(b2, b2, b2, a2);
+				}
+				return new Color(255, 255, 255, projectile.alpha);
+			}
 
             return null;
         }

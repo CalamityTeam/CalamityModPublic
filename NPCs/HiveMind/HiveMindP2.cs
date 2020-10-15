@@ -335,7 +335,7 @@ namespace CalamityMod.NPCs.HiveMind
                     if (nextState == 0)
                     {
 						npc.TargetClosest(true);
-						if ((CalamityWorld.revenge && npc.life < npc.lifeMax * 0.66) || CalamityWorld.death || BossRushEvent.BossRushActive)
+						if (CalamityWorld.revenge && npc.life < npc.lifeMax * 0.66)
                         {
 							if (CalamityWorld.death || BossRushEvent.BossRushActive)
 							{
@@ -481,7 +481,7 @@ namespace CalamityMod.NPCs.HiveMind
                         npc.alpha = 255;
                         npc.velocity = Vector2.Zero;
                         dashStarted = false;
-                        if ((CalamityWorld.revenge && npc.life < npc.lifeMax * 0.66) || CalamityWorld.death || BossRushEvent.BossRushActive)
+                        if (CalamityWorld.revenge && npc.life < npc.lifeMax * 0.66)
                         {
 							state = nextState;
                             nextState = 0;
@@ -631,8 +631,9 @@ namespace CalamityMod.NPCs.HiveMind
                                 npc.ai[0]++;
                                 if (Main.netMode != NetmodeID.MultiplayerClient)
                                 {
-                                    int damage = Main.expertMode ? 14 : 18;
-                                    Projectile.NewProjectile(npc.position.X + Main.rand.Next(npc.width), npc.position.Y + Main.rand.Next(npc.height), 0, 0, ModContent.ProjectileType<ShadeNimbusHostile>(), damage, 0, Main.myPlayer, 11, 0);
+									int type = ModContent.ProjectileType<ShadeNimbusHostile>();
+									int damage = npc.GetProjectileDamage(type);
+									Projectile.NewProjectile(npc.position.X + Main.rand.Next(npc.width), npc.position.Y + Main.rand.Next(npc.height), 0, 0, type, damage, 0, Main.myPlayer, 11, 0);
                                 }
                                 if (npc.ai[0] == 10)
                                 {

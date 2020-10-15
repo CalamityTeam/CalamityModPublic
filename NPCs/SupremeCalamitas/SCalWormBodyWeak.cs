@@ -119,15 +119,17 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 				if (npc.localAI[0] >= 900f)
 				{
 					npc.localAI[0] = 0f;
-					int damage = Main.expertMode ? 150 : 200;
+					int type = ModContent.ProjectileType<BrimstoneBarrage>();
+					int damage = npc.GetProjectileDamage(type);
 					int totalProjectiles = 4;
 					float radians = MathHelper.TwoPi / totalProjectiles;
 					Vector2 spinningPoint = Vector2.Normalize(new Vector2(-1f, -1f));
 					for (int k = 0; k < totalProjectiles; k++)
 					{
-						Vector2 vector255 = spinningPoint.RotatedBy(radians * k);
-						Projectile.NewProjectile(npc.Center, vector255, ModContent.ProjectileType<BrimstoneBarrage>(), damage, 0f, Main.myPlayer, 0f, 0f);
+						Vector2 velocity = spinningPoint.RotatedBy(radians * k);
+						Projectile.NewProjectile(npc.Center, velocity, type, damage, 0f, Main.myPlayer);
 					}
+					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SCalSounds/BrimstoneShoot"), npc.Center);
 				}
 			}
 

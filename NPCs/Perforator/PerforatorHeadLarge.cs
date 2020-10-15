@@ -15,8 +15,6 @@ namespace CalamityMod.NPCs.Perforator
     public class PerforatorHeadLarge : ModNPC
     {
         private bool flies = false;
-        private int minLength = (CalamityWorld.death || BossRushEvent.BossRushActive) ? 7 : 15;
-        private int maxLength = (CalamityWorld.death || BossRushEvent.BossRushActive) ? 8 : 16;
         private bool TailSpawned = false;
 
         public override void SetStaticDefaults()
@@ -45,23 +43,46 @@ namespace CalamityMod.NPCs.Perforator
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath1;
             npc.netAlways = true;
-        }
+
+			if (CalamityWorld.death || BossRushEvent.BossRushActive)
+				npc.scale = 1.25f;
+			else if (CalamityWorld.revenge)
+				npc.scale = 1.15f;
+			else if (Main.expertMode)
+				npc.scale = 1.1f;
+		}
 
         public override void AI()
         {
             bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
+			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
 			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
 
 			// Percent life remaining
 			float lifeRatio = npc.life / (float)npc.lifeMax;
+
+			if (revenge || lifeRatio < (expertMode ? 0.75f : 0.5f))
+				npc.Calamity().newAI[0] += 1f;
+
+			float burrowTimeGateValue = death ? 210f : 270f;
+			bool burrow = npc.Calamity().newAI[0] >= burrowTimeGateValue;
+			bool resetTime = npc.Calamity().newAI[0] >= burrowTimeGateValue + 600f;
+			bool lungeUpward = burrow && npc.Calamity().newAI[1] == 1f;
+			bool quickFall = npc.Calamity().newAI[1] == 2f;
 
 			float speed = 14f;
 			float turnSpeed = 0.12f;
 
 			if (expertMode)
 			{
-				speed += death ? 4f : 4f * (1f - lifeRatio);
-				turnSpeed += death ? 0.04f : 0.04f * (1f - lifeRatio);
+				speed += death ? 6f * (1f - lifeRatio) : 4f * (1f - lifeRatio);
+				turnSpeed += death ? 0.06f * (1f - lifeRatio) : 0.04f * (1f - lifeRatio);
+			}
+
+			if (lungeUpward)
+			{
+				speed *= 1.25f;
+				turnSpeed *= 1.25f;
 			}
 
 			if (npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))
@@ -94,37 +115,42 @@ namespace CalamityMod.NPCs.Perforator
                 npc.alpha = 0;
             }
 
-            if (!TailSpawned)
-            {
-                int Previous = npc.whoAmI;
-                for (int num36 = 0; num36 < maxLength; num36++)
-                {
-                    int lol;
-                    if (num36 >= 0 && num36 < minLength)
-                    {
-                        lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), ModContent.NPCType<PerforatorBodyLarge>(), npc.whoAmI);
-                    }
-                    else
-                    {
-                        lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), ModContent.NPCType<PerforatorTailLarge>(), npc.whoAmI);
-                    }
-                    if (num36 % 2 == 0)
-                    {
-                        Main.npc[lol].localAI[3] = 1f;
-                    }
-                    Main.npc[lol].realLife = npc.whoAmI;
-                    Main.npc[lol].ai[2] = (float)npc.whoAmI;
-                    Main.npc[lol].ai[1] = (float)Previous;
-                    Main.npc[Previous].ai[0] = (float)lol;
-                    NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, lol, 0f, 0f, 0f, 0);
-                    Previous = lol;
-                }
-                TailSpawned = true;
-            }
+			if (Main.netMode != NetmodeID.MultiplayerClient)
+			{
+				if (!TailSpawned)
+				{
+					int Previous = npc.whoAmI;
+					int maxLength = death ? 27 : revenge ? 24 : expertMode ? 21 : 15;
+					for (int num36 = 0; num36 < maxLength; num36++)
+					{
+						int lol;
+						if (num36 >= 0 && num36 < maxLength - 1)
+						{
+							lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), ModContent.NPCType<PerforatorBodyLarge>(), npc.whoAmI);
+						}
+						else
+						{
+							lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), ModContent.NPCType<PerforatorTailLarge>(), npc.whoAmI);
+						}
+						if (num36 % 2 == 0)
+						{
+							Main.npc[lol].localAI[3] = 1f;
+						}
+						Main.npc[lol].realLife = npc.whoAmI;
+						Main.npc[lol].ai[2] = npc.whoAmI;
+						Main.npc[lol].ai[1] = Previous;
+						Main.npc[Previous].ai[0] = lol;
+						NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, lol, 0f, 0f, 0f, 0);
+						Previous = lol;
+					}
+					TailSpawned = true;
+				}
+			}
+
             int num180 = (int)(npc.position.X / 16f) - 1;
-            int num181 = (int)((npc.position.X + (float)npc.width) / 16f) + 2;
+            int num181 = (int)((npc.position.X + npc.width) / 16f) + 2;
             int num182 = (int)(npc.position.Y / 16f) - 1;
-            int num183 = (int)((npc.position.Y + (float)npc.height) / 16f) + 2;
+            int num183 = (int)((npc.position.Y + npc.height) / 16f) + 2;
             if (num180 < 0)
             {
                 num180 = 0;
@@ -141,19 +167,19 @@ namespace CalamityMod.NPCs.Perforator
             {
                 num183 = Main.maxTilesY;
             }
-            bool flag94 = flies;
+            bool flag94 = flies || lungeUpward;
             if (!flag94)
             {
                 for (int num952 = num180; num952 < num181; num952++)
                 {
                     for (int num953 = num182; num953 < num183; num953++)
                     {
-                        if (Main.tile[num952, num953] != null && ((Main.tile[num952, num953].nactive() && (Main.tileSolid[(int)Main.tile[num952, num953].type] || (Main.tileSolidTop[(int)Main.tile[num952, num953].type] && Main.tile[num952, num953].frameY == 0))) || Main.tile[num952, num953].liquid > 64))
+                        if (Main.tile[num952, num953] != null && ((Main.tile[num952, num953].nactive() && (Main.tileSolid[Main.tile[num952, num953].type] || (Main.tileSolidTop[Main.tile[num952, num953].type] && Main.tile[num952, num953].frameY == 0))) || Main.tile[num952, num953].liquid > 64))
                         {
                             Vector2 vector105;
-                            vector105.X = (float)(num952 * 16);
-                            vector105.Y = (float)(num953 * 16);
-                            if (npc.position.X + (float)npc.width > vector105.X && npc.position.X < vector105.X + 16f && npc.position.Y + (float)npc.height > vector105.Y && npc.position.Y < vector105.Y + 16f)
+                            vector105.X = num952 * 16;
+                            vector105.Y = num953 * 16;
+                            if (npc.position.X + npc.width > vector105.X && npc.position.X < vector105.X + 16f && npc.position.Y + npc.height > vector105.Y && npc.position.Y < vector105.Y + 16f)
                             {
                                 flag94 = true;
                                 break;
@@ -166,11 +192,11 @@ namespace CalamityMod.NPCs.Perforator
             {
                 npc.localAI[1] = 1f;
                 Rectangle rectangle12 = new Rectangle((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height);
-                int num954 = 200;
+                int num954 = death ? 160 : revenge ? 200 : expertMode ? 240 : 300;
                 bool flag95 = true;
                 if (npc.position.Y > player.position.Y)
                 {
-                    for (int num955 = 0; num955 < 255; num955++)
+                    for (int num955 = 0; num955 < Main.maxPlayers; num955++)
                     {
                         if (Main.player[num955].active)
                         {
@@ -196,14 +222,14 @@ namespace CalamityMod.NPCs.Perforator
             {
 				npc.TargetClosest(false);
 				flag94 = false;
-                npc.velocity.Y = npc.velocity.Y + 0.05f;
-                if ((double)npc.position.Y > Main.worldSurface * 16.0)
+                npc.velocity.Y += 1f;
+                if (npc.position.Y > Main.worldSurface * 16.0)
                 {
-                    npc.velocity.Y = npc.velocity.Y + 0.05f;
+                    npc.velocity.Y += 1f;
                 }
-                if ((double)npc.position.Y > Main.rockLayer * 16.0)
+                if (npc.position.Y > Main.rockLayer * 16.0)
                 {
-                    for (int num957 = 0; num957 < 200; num957++)
+                    for (int num957 = 0; num957 < Main.maxNPCs; num957++)
                     {
                         if (Main.npc[num957].aiStyle == npc.aiStyle)
                         {
@@ -214,17 +240,46 @@ namespace CalamityMod.NPCs.Perforator
             }
             float num188 = speed;
             float num189 = turnSpeed;
-            Vector2 vector18 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
-            float num191 = player.position.X + (float)(player.width / 2);
-            float num192 = player.position.Y + (float)(player.height / 2);
-            num191 = (float)((int)(num191 / 16f) * 16);
-            num192 = (float)((int)(num192 / 16f) * 16);
-            vector18.X = (float)((int)(vector18.X / 16f) * 16);
-            vector18.Y = (float)((int)(vector18.Y / 16f) * 16);
+			float burrowTarget = player.Center.Y + 1000f;
+			float lungeTarget = player.Center.Y - 600f;
+			Vector2 vector18 = npc.Center;
+            float num191 = player.Center.X;
+            float num192 = lungeUpward ? lungeTarget : burrow ? burrowTarget : player.Center.Y;
+			num191 = (int)(num191 / 16f) * 16;
+            num192 = (int)(num192 / 16f) * 16;
+            vector18.X = (int)(vector18.X / 16f) * 16;
+            vector18.Y = (int)(vector18.Y / 16f) * 16;
             num191 -= vector18.X;
             num192 -= vector18.Y;
-            float num193 = (float)Math.Sqrt((double)(num191 * num191 + num192 * num192));
-            if (!flag94)
+            float num193 = (float)Math.Sqrt(num191 * num191 + num192 * num192);
+
+			// Lunge up towards target
+			if (burrow && npc.Center.Y >= burrowTarget - 16f)
+				npc.Calamity().newAI[1] = 1f;
+
+			// Quickly fall back down once above target
+			if (lungeUpward && npc.Center.Y <= player.Center.Y - 420f)
+				npc.Calamity().newAI[1] = 2f;
+
+			// Quickly fall and reset variables once at target's Y position
+			if (quickFall)
+			{
+				npc.velocity.Y += 1f;
+				if (npc.Center.Y >= player.Center.Y)
+				{
+					npc.Calamity().newAI[0] = 0f;
+					npc.Calamity().newAI[1] = 0f;
+				}
+			}
+
+			// Reset variables if the burrow and lunge attack is taking too long
+			if (resetTime)
+			{
+				npc.Calamity().newAI[0] = 0f;
+				npc.Calamity().newAI[1] = 0f;
+			}
+
+			if (!flag94)
             {
                 npc.TargetClosest(true);
                 npc.velocity.Y = npc.velocity.Y + (turnSpeed * 0.5f);
@@ -232,7 +287,7 @@ namespace CalamityMod.NPCs.Perforator
                 {
                     npc.velocity.Y = num188;
                 }
-                if ((double)(Math.Abs(npc.velocity.X) + Math.Abs(npc.velocity.Y)) < (double)num188 * 0.4)
+                if ((Math.Abs(npc.velocity.X) + Math.Abs(npc.velocity.Y)) < num188 * 0.4)
                 {
                     if (npc.velocity.X < 0f)
                     {
@@ -476,11 +531,6 @@ namespace CalamityMod.NPCs.Perforator
 			DropHelper.DropItem(npc, ItemID.CrimtaneBar, 3, 5);
 			DropHelper.DropItem(npc, ItemID.Vertebrae, 2, 4);
 		}
-
-        public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
-        {
-            npc.lifeMax = (int)(npc.lifeMax * 0.7f * bossLifeScale);
-        }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {

@@ -75,24 +75,24 @@ namespace CalamityMod.NPCs.Ravager
         {
             bool provy = CalamityWorld.downedProvidence && !BossRushEvent.BossRushActive;
             bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
-			Player player = Main.player[npc.target];
-            if (CalamityGlobalNPC.scavenger < 0 || !Main.npc[CalamityGlobalNPC.scavenger].active)
+			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+
+			if (CalamityGlobalNPC.scavenger < 0 || !Main.npc[CalamityGlobalNPC.scavenger].active)
             {
                 npc.active = false;
                 npc.netUpdate = true;
                 return;
             }
+
             if (npc.timeLeft < 1800)
-            {
                 npc.timeLeft = 1800;
-            }
+
             float speed = 21f;
-            Vector2 center = new Vector2(npc.Center.X, npc.Center.Y);
-            float centerX = Main.npc[CalamityGlobalNPC.scavenger].Center.X - center.X;
-            float centerY = Main.npc[CalamityGlobalNPC.scavenger].Center.Y - center.Y;
+            float centerX = Main.npc[CalamityGlobalNPC.scavenger].Center.X - npc.Center.X;
+            float centerY = Main.npc[CalamityGlobalNPC.scavenger].Center.Y - npc.Center.Y;
             centerY -= 20f;
             centerX += 1f;
-            float totalSpeed = (float)Math.Sqrt((double)(centerX * centerX + centerY * centerY));
+            float totalSpeed = (float)Math.Sqrt(centerX * centerX + centerY * centerY);
             if (totalSpeed < 20f)
             {
                 npc.rotation = 0f;
@@ -106,34 +106,27 @@ namespace CalamityMod.NPCs.Ravager
                 npc.velocity.Y = centerY * totalSpeed;
                 npc.rotation = npc.velocity.X * 0.1f;
             }
+
             if (npc.alpha > 0)
             {
                 npc.alpha -= 10;
                 if (npc.alpha < 0)
-                {
                     npc.alpha = 0;
-                }
-                npc.ai[1] = 30f;
             }
+
             npc.ai[1] += 1f;
-            if (npc.ai[1] >= 450f)
+            if (npc.ai[1] >= (death ? 420f : 480f))
             {
                 Main.PlaySound(SoundID.Item62, npc.position);
                 npc.TargetClosest(true);
                 npc.ai[1] = 0f;
-                Vector2 shootFromVector = new Vector2(npc.Center.X, npc.Center.Y - 20f);
-                float nukeSpeed = 1f;
-                float playerDistanceX = player.position.X + (float)player.width * 0.5f - shootFromVector.X;
-                float playerDistanceY = player.position.Y + (float)player.height * 0.5f - shootFromVector.Y;
-                float totalPlayerDistance = (float)Math.Sqrt((double)(playerDistanceX * playerDistanceX + playerDistanceY * playerDistanceY));
-                totalPlayerDistance = nukeSpeed / totalPlayerDistance;
-                playerDistanceX *= totalPlayerDistance;
-                playerDistanceY *= totalPlayerDistance;
-                int nukeDamage = expertMode ? 45 : 60;
-                int projectileType = ModContent.ProjectileType<ScavengerNuke>();
-                if (Main.netMode != NetmodeID.MultiplayerClient)
+				int type = ModContent.ProjectileType<ScavengerNuke>();
+				int damage = npc.GetProjectileDamage(type);
+				if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
-                    int nuke = Projectile.NewProjectile(shootFromVector.X, shootFromVector.Y, playerDistanceX, playerDistanceY, projectileType, nukeDamage + (provy ? 30 : 0), 0f, Main.myPlayer, 0f, 0f);
+					Vector2 shootFromVector = new Vector2(npc.Center.X, npc.Center.Y - 20f);
+					Vector2 velocity = new Vector2(0f, -15f);
+                    int nuke = Projectile.NewProjectile(shootFromVector, velocity, type, damage + (provy ? 30 : 0), 0f, Main.myPlayer, npc.target, 0f);
                     Main.projectile[nuke].velocity.Y = -15f;
                 }
             }

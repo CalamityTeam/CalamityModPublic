@@ -9,7 +9,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 {
     public class GaussDagger : ModItem
     {
-        public const int HitsRequiredForFlux = 3;
+        public const int HitsRequiredForFlux = 2;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Gauss Dagger");

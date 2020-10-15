@@ -46,21 +46,21 @@ namespace CalamityMod.Projectiles.Ranged
                     case 540:
                         projectile.localAI[0] += 1f;
                         projectile.ai[0] = -1f;
-                        Main.PlaySound(SoundID.Item14, projectile.position);
-                        int num226 = 36;
-                        for (int num227 = 0; num227 < num226; num227++)
+                        Main.PlaySound(SoundID.Item14, projectile.Center);
+                        int dustAmt = 36;
+                        for (int d = 0; d < dustAmt; d++)
                         {
-                            Vector2 vector6 = Vector2.Normalize(projectile.velocity) * 9f;
-                            vector6 = vector6.RotatedBy((num227 - (num226 / 2 - 1)) * 6.28318548f / num226, default) + player.Center;
-                            Vector2 vector7 = vector6 - player.Center;
-                            int num228 = Dust.NewDust(vector6 + vector7, 0, 0, 221, 0f, 0f, 0, default, 4f);
-                            Main.dust[num228].noGravity = true;
-                            Main.dust[num228].velocity = vector7;
+                            Vector2 source = Vector2.Normalize(projectile.velocity) * 9f;
+                            source = source.RotatedBy((d - (dustAmt / 2 - 1)) * MathHelper.TwoPi / dustAmt, default) + player.Center;
+                            Vector2 dustVel = source - player.Center;
+                            int index = Dust.NewDust(source + dustVel, 0, 0, 221, 0f, 0f, 0, default, 4f);
+                            Main.dust[index].noGravity = true;
+                            Main.dust[index].velocity = dustVel;
                         }
                         break;
                 }
             }
-            int baseUseTime = 27;
+            int baseUseTime = 27; //Ranges from 27 to 15 use time
             int modifier = 2;
             bool timeToFire = false;
             if (projectile.ai[1] <= 0f)
@@ -73,18 +73,17 @@ namespace CalamityMod.Projectiles.Ranged
             {
                 projectile.soundDelay = baseUseTime - modifier * (int)projectile.localAI[0];
                 if (projectile.ai[0] != 1f)
-                    Main.PlaySound(SoundID.Item92, projectile.position);
+                    Main.PlaySound(SoundID.Item92, projectile.Center);
             }
-            player.phantasmTime = 2;
             if (timeToFire && Main.myPlayer == projectile.owner)
             {
                 if (canFire)
                 {
                     int type = ModContent.ProjectileType<FallenStarProj>();
-                    float scaleFactor = 16f;
+                    float shootSpeed = 16f;
                     int damage = player.GetWeaponDamage(player.ActiveItem());
                     float knockBack = player.ActiveItem().knockBack;
-                    player.PickAmmo(player.ActiveItem(), ref type, ref scaleFactor, ref canFire, ref damage, ref knockBack, false);
+                    player.PickAmmo(player.ActiveItem(), ref type, ref shootSpeed, ref canFire, ref damage, ref knockBack, false);
                     for (int i = 0; i < 5; i++)
                     {
                         knockBack = player.GetWeaponKnockback(player.ActiveItem(), knockBack);
@@ -97,7 +96,7 @@ namespace CalamityMod.Projectiles.Ranged
                         projectile.velocity.Normalize();
                         float variation = (1f + projectile.localAI[0]) * 3f;
                         Vector2 position = playerPosition + Utils.RandomVector2(Main.rand, -variation, variation);
-                        Vector2 speed = projectile.velocity * scaleFactor * (0.6f + Main.rand.NextFloat() * 0.6f);
+                        Vector2 speed = projectile.velocity * shootSpeed * Main.rand.NextFloat(0.6f, 1.2f);
 						type = Utils.SelectRandom(Main.rand, new int[]
 						{
 							ModContent.ProjectileType<PlasmaBlast>(),
@@ -106,7 +105,7 @@ namespace CalamityMod.Projectiles.Ranged
 							ModContent.ProjectileType<FallenStarProj>(),
 							ProjectileID.Starfury
 						});
-                        int star = Projectile.NewProjectile(position, speed, type, damage, knockBack, projectile.owner, 0f, 0f);
+                        int star = Projectile.NewProjectile(position, speed, type, damage, knockBack, projectile.owner);
                         Main.projectile[star].penetrate = 1;
                         Main.projectile[star].timeLeft = 300;
                         Main.projectile[star].Calamity().forceRanged = true;
@@ -120,10 +119,10 @@ namespace CalamityMod.Projectiles.Ranged
                 }
             }
             projectile.rotation = projectile.velocity.ToRotation();
-            Vector2 displayOffset = new Vector2(32, 0).RotatedBy(projectile.rotation);
+            Vector2 displayOffset = new Vector2(27f, -10f * projectile.direction).RotatedBy(projectile.rotation);
             projectile.Center = player.RotatedRelativePoint(player.MountedCenter, true) + displayOffset;
             if (projectile.spriteDirection == -1)
-                projectile.rotation += 3.14159274f;
+                projectile.rotation += MathHelper.Pi;
             projectile.spriteDirection = projectile.direction;
             projectile.timeLeft = 2;
             player.ChangeDir(projectile.direction);
@@ -133,9 +132,6 @@ namespace CalamityMod.Projectiles.Ranged
             player.itemRotation = (float)Math.Atan2(projectile.velocity.Y * projectile.direction, projectile.velocity.X * projectile.direction);
         }
 
-        public override bool CanDamage()
-        {
-            return false;
-        }
+        public override bool CanDamage() => false;
     }
 }

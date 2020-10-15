@@ -12,9 +12,8 @@ namespace CalamityMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Reaper Tooth Necklace");
-            Tooltip.SetDefault("Increases armor penetration by 100\n" +
-                "Increases all damage by 25%\n" +
-                "Cuts your defense and damage reduction in half");
+            Tooltip.SetDefault("Increases armor penetration by 120\n" +
+                "Reduces your defense and damage reduction by 25%");
         }
 
         public override void SetDefaults()
@@ -31,7 +30,7 @@ namespace CalamityMod.Items.Accessories
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.reaperToothNecklace = true;
-            player.armorPenetration += 100;
+            player.armorPenetration += 120;
         }
 
         public override void AddRecipes()

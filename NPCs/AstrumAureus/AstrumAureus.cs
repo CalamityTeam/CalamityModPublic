@@ -280,7 +280,7 @@ namespace CalamityMod.NPCs.AstrumAureus
             }
 
 			int frameCount = Main.npcFrameCount[npc.type];
-			Vector2 vector11 = new Vector2((float)(Main.npcTexture[npc.type].Width / 2), (float)(Main.npcTexture[npc.type].Height / frameCount / 2));
+			Vector2 vector11 = new Vector2(Main.npcTexture[npc.type].Width / 2, Main.npcTexture[npc.type].Height / frameCount / 2);
             Rectangle frame = npc.frame;
             float scale = npc.scale;
             float rotation = npc.rotation;
@@ -298,16 +298,16 @@ namespace CalamityMod.NPCs.AstrumAureus
 					Color color38 = drawColor;
 					color38 = Color.Lerp(color38, color36, amount9);
 					color38 = npc.GetAlpha(color38);
-					color38 *= (float)(num153 - num155) / 15f;
-					Vector2 vector41 = npc.oldPos[num155] + new Vector2((float)npc.width, (float)npc.height) / 2f - Main.screenPosition;
-					vector41 -= new Vector2((float)NPCTexture.Width, (float)(NPCTexture.Height / frameCount)) * scale / 2f;
+					color38 *= (num153 - num155) / 15f;
+					Vector2 vector41 = npc.oldPos[num155] + new Vector2(npc.width, npc.height) / 2f - Main.screenPosition;
+					vector41 -= new Vector2(NPCTexture.Width, NPCTexture.Height / frameCount) * scale / 2f;
 					vector41 += vector11 * scale + new Vector2(0f, 4f + offsetY);
 					spriteBatch.Draw(NPCTexture, vector41, frame, color38, rotation, vector11, scale, spriteEffects, 0f);
 				}
 			}
 
 			Vector2 vector43 = npc.Center - Main.screenPosition;
-			vector43 -= new Vector2((float)NPCTexture.Width, (float)(NPCTexture.Height / frameCount)) * scale / 2f;
+			vector43 -= new Vector2(NPCTexture.Width, NPCTexture.Height / frameCount) * scale / 2f;
 			vector43 += vector11 * scale + new Vector2(0f, 4f + offsetY);
 			spriteBatch.Draw(NPCTexture, vector43, frame, npc.GetAlpha(drawColor), rotation, vector11, scale, spriteEffects, 0f);
 
@@ -323,9 +323,9 @@ namespace CalamityMod.NPCs.AstrumAureus
 						Color color41 = color40;
 						color41 = Color.Lerp(color41, color36, amount9);
 						color41 = npc.GetAlpha(color41);
-						color41 *= (float)(num153 - num163) / 15f;
-						Vector2 vector44 = npc.oldPos[num163] + new Vector2((float)npc.width, (float)npc.height) / 2f - Main.screenPosition;
-						vector44 -= new Vector2((float)GlowMaskTexture.Width, (float)(GlowMaskTexture.Height / frameCount)) * scale / 2f;
+						color41 *= (num153 - num163) / 15f;
+						Vector2 vector44 = npc.oldPos[num163] + new Vector2(npc.width, npc.height) / 2f - Main.screenPosition;
+						vector44 -= new Vector2(GlowMaskTexture.Width, GlowMaskTexture.Height / frameCount) * scale / 2f;
 						vector44 += vector11 * scale + new Vector2(0f, 4f + offsetY);
 						spriteBatch.Draw(GlowMaskTexture, vector44, frame, color41, rotation, vector11, scale, spriteEffects, 0f);
 					}
@@ -418,12 +418,12 @@ namespace CalamityMod.NPCs.AstrumAureus
             }
             if (npc.life <= 0)
             {
-                npc.position.X = npc.position.X + (float)(npc.width / 2);
-                npc.position.Y = npc.position.Y + (float)(npc.height / 2);
+                npc.position.X = npc.position.X + (npc.width / 2);
+                npc.position.Y = npc.position.Y + (npc.height / 2);
                 npc.width = 150;
                 npc.height = 100;
-                npc.position.X = npc.position.X - (float)(npc.width / 2);
-                npc.position.Y = npc.position.Y - (float)(npc.height / 2);
+                npc.position.X = npc.position.X - (npc.width / 2);
+                npc.position.Y = npc.position.Y - (npc.height / 2);
                 for (int num621 = 0; num621 < 50; num621++)
                 {
                     int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, (int)CalamityDusts.PurpleCosmolite, 0f, 0f, 100, default, 2f);
@@ -431,7 +431,7 @@ namespace CalamityMod.NPCs.AstrumAureus
                     if (Main.rand.NextBool(2))
                     {
                         Main.dust[num622].scale = 0.5f;
-                        Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
+                        Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
                     }
                 }
                 for (int num623 = 0; num623 < 100; num623++)

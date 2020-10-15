@@ -2,6 +2,7 @@
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Events;
 using CalamityMod.NPCs.CeaselessVoid;
+using CalamityMod.NPCs.DevourerofGods;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -13,7 +14,20 @@ namespace CalamityMod.Projectiles.Typeless
 	public class YanmeisKnifeSlash : ModProjectile
 	{
 		// This is a rather weird thing, but it's what the patron asked for.
-		public static readonly Func<NPC, bool> CanRecieveCoolEffectsFrom = (npc) => (npc.boss && npc.type != ModContent.NPCType<CeaselessVoid>()) || CalamityLists.bossMinionList.Contains(npc.type) || CalamityLists.minibossList.Contains(npc.type) || AcidRainEvent.AllMinibosses.Contains(npc.type);
+		public static readonly Func<NPC, bool> CanRecieveCoolEffectsFrom = (npc) =>
+		{
+			bool validBoss = npc.boss && npc.type != ModContent.NPCType<CeaselessVoid>()
+				&& npc.type != ModContent.NPCType<DevourerofGodsBody>()
+				&& npc.type != ModContent.NPCType<DevourerofGodsBodyS>();
+			if (validBoss)
+				return true;
+			bool bossMinion = CalamityLists.bossMinionList.Contains(npc.type);
+			if (bossMinion)
+				return true;
+			bool miniboss = CalamityLists.minibossList.Contains(npc.type) || AcidRainEvent.AllMinibosses.Contains(npc.type);
+			return miniboss;
+		};
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Yanmei's Knife");
@@ -30,7 +44,9 @@ namespace CalamityMod.Projectiles.Typeless
 			projectile.ownerHitCheck = true;
 			projectile.usesLocalNPCImmunity = true;
 			projectile.localNPCHitCooldown = 20;
-			projectile.Calamity().trueMelee = true;
+
+			// Not considered true melee to prevent Titan Scale from triggering.
+			// projectile.Calamity().trueMelee = true;
 		}
 
 		public override void AI()

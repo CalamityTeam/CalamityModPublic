@@ -414,7 +414,7 @@ namespace CalamityMod.CalPlayer
 				Vector2 drawPos = drawPlayer.Center - Main.screenPosition + new Vector2(0f, drawPlayer.gfxOffY);
 				Rectangle frame = texture.Frame(1, 11, 0, modPlayer.roverFrame);
 				Color color = Color.White * 0.625f;
-				Vector2 origin = new Vector2(texture.Width / 2f, texture.Width / 2f / 11f);
+				Vector2 origin = new Vector2(texture.Width / 2f, texture.Height / 2f / 11f);
 				float scale = 1f + (float)Math.Cos(Main.GlobalTime) * 0.1f;
 				SpriteEffects spriteEffects = drawPlayer.direction != -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
 

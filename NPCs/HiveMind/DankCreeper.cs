@@ -117,7 +117,9 @@ namespace CalamityMod.NPCs.HiveMind
         {
             if (Main.expertMode && Main.netMode != NetmodeID.MultiplayerClient)
             {
-                Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 0f, 0f, ModContent.ProjectileType<ShadeNimbusHostile>(), 14, 0f, Main.myPlayer, 0f, 0f);
+				int type = ModContent.ProjectileType<ShadeNimbusHostile>();
+				int damage = npc.GetProjectileDamage(type);
+				Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 0f, 0f, type, damage, 0f, Main.myPlayer, 0f, 0f);
             }
         }
     }

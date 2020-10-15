@@ -1,11 +1,11 @@
 using CalamityMod.CalPlayer;
 using CalamityMod.Items.DraedonMisc;
 using CalamityMod.TileEntities;
-using CalamityMod.Tiles.DraedonStructures;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -16,32 +16,43 @@ namespace CalamityMod.UI
         public const float MaxPlayerDistance = 160f;
         private const int GuiWidth = 36;
         private const int GuiHeight = 36;
-        private const float SlotDrawOffsetX = 16f;
+        private const float SlotDrawOffsetX = 32f;
         private const float SlotDrawOffsetY = -14f;
 
         public static void Draw(SpriteBatch spriteBatch)
         {
             Player p = Main.LocalPlayer;
             CalamityPlayer mp = p.Calamity();
-            TEPowerCellFactory factory = mp.CurrentlyViewedFactory;
+            int factoryID = mp.CurrentlyViewedFactoryID;
             
             // The UI only draws if the player is viewing a factory.
-            if (factory is null)
+            if (factoryID == -1)
                 return;
+
+            // Check if this tile entity ID is actually a factory. If it's not, immediately destroy this UI.
+            TEPowerCellFactory factory;
+            bool factoryIsValid = TileEntity.ByID.TryGetValue(factoryID, out TileEntity te);
+            if (factoryIsValid && te is TEPowerCellFactory cast)
+                factory = cast;
+            else
+            {
+                mp.CurrentlyViewedFactoryID = -1;
+                return;
+            }
 
             // If the player's inventory isn't open, or they have a chest open, immediately destroy this UI.
             if (!Main.playerInventory || p.chest != -1)
             {
-                mp.CurrentlyViewedFactory = null;
+                mp.CurrentlyViewedFactoryID = -1;
                 return;
             }
 
             // If the player is too far away from their viewed factory, immediately destroy this UI and play the menu close sound.
-            Vector2 factoryWorldCenter = factory.Position.ToWorldCoordinates(8f * PowerCellFactory.Width, 8f * PowerCellFactory.Height);
-            if (Vector2.DistanceSquared(p.Center, factoryWorldCenter) > MaxPlayerDistance * MaxPlayerDistance)
+            Vector2 factoryWorldCenter = factory.Center;
+            if (p.DistanceSQ(factoryWorldCenter) > MaxPlayerDistance * MaxPlayerDistance)
             {
                 Main.PlaySound(SoundID.MenuClose);
-                mp.CurrentlyViewedFactory = null;
+                mp.CurrentlyViewedFactoryID = -1;
                 return;
             }
 
@@ -55,7 +66,7 @@ namespace CalamityMod.UI
                 powercell.stack = factory.CellStack;
             }
 
-            Vector2 uiBasePos = new Vector2(mp.CurrentlyViewedFactoryX, mp.CurrentlyViewedFactoryY);
+            Vector2 uiBasePos = factory.Position.ToWorldCoordinates(0f, 0f);
 
             // Draw the factory's stored item as an inventory slot.
             Vector2 powercellDrawPos = uiBasePos + new Vector2(SlotDrawOffsetX, SlotDrawOffsetY) - Main.screenPosition;
@@ -69,6 +80,8 @@ namespace CalamityMod.UI
             // If the player's cursor is over the slot and there are power cells, then interaction with the UI is possible.
             if (mouseRect.Intersects(powercellSlotRect) && powercell.stack > 0)
             {
+                p.mouseInterface = Main.blockMouse = true;
+
                 if (!powercell.IsAir)
                     Main.HoverItem = powercell;
 
@@ -106,9 +119,6 @@ namespace CalamityMod.UI
 
                 // Since HoverItem is active, we don't need to input anything into this method.
                 Main.instance.MouseTextHackZoom("");
-
-                // Specifically do not block mouse input if holding a pickaxe, so that you can mine blocks behind the UI.
-                Main.blockMouse = Main.LocalPlayer.ActiveItem().pick <= 0;
             }
         }
 

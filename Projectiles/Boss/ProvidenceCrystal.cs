@@ -116,10 +116,10 @@ namespace CalamityMod.Projectiles.Boss
             Rectangle rectangle17 = texture2D34.Frame(1, Main.projFrames[projectile.type], 0, projectile.frame);
             Color alpha5 = projectile.GetAlpha(color25);
             Vector2 origin11 = rectangle17.Size() / 2f;
-            float scaleFactor5 = (float)Math.Cos(6.28318548f * (projectile.localAI[0] / 60f)) + 3f + 3f;
+            float scaleFactor5 = (float)Math.Cos(MathHelper.TwoPi * (projectile.localAI[0] / 60f)) + 3f + 3f;
             for (float num286 = 0f; num286 < 4f; num286 += 1f)
             {
-                double angle = num286 * 1.57079637f;
+                double angle = num286 * MathHelper.PiOver2;
                 Vector2 center = default;
                 Main.spriteBatch.Draw(texture2D34, vector59 + Vector2.UnitY.RotatedBy(angle, center) * scaleFactor5, new Microsoft.Xna.Framework.Rectangle?(rectangle17), alpha5 * 0.2f, projectile.rotation, origin11, projectile.scale, SpriteEffects.None, 0f);
             }

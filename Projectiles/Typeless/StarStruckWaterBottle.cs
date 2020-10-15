@@ -36,7 +36,7 @@ namespace CalamityMod.Projectiles.Typeless
         {
             if (projectile.owner == Main.myPlayer)
             {
-				Main.PlaySound(SoundID.Shatter, (int) projectile.position.X, (int) projectile.position.Y, 1, 1f, 0.0f);
+				Main.PlaySound(SoundID.Shatter, (int)projectile.position.X, (int)projectile.position.Y, 1, 1f, 0f);
 				for (int index = 0; index < 5; ++index)
 					Dust.NewDust(projectile.position, projectile.width, projectile.height, 13, 0f, 0f, 0, new Color(), 1f);
 				for (int index1 = 0; index1 < 30; ++index1)
@@ -47,7 +47,7 @@ namespace CalamityMod.Projectiles.Typeless
 					dust.velocity.X *= 1.5f;
 					dust.velocity *= 3f;
 				}
-                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<WaterConvertor>(), 0, 0f, projectile.owner, 4f);
+                Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<WaterConvertor>(), 0, 0f, projectile.owner, 4f);
             }
         }
     }

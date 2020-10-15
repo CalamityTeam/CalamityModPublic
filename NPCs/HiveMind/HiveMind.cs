@@ -117,7 +117,7 @@ namespace CalamityMod.NPCs.HiveMind
                 if (npc.localAI[0] == 0f)
                 {
                     npc.localAI[0] = 1f;
-					int maxBlobs = death ? 8 : revenge ? 7 : expertMode ? 6 : 5;
+					int maxBlobs = death ? 15 : revenge ? 7 : expertMode ? 6 : 5;
                     for (int i = 0; i < maxBlobs; i++)
                     {
                         NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, ModContent.NPCType<HiveBlob>(), npc.whoAmI);
@@ -182,7 +182,7 @@ namespace CalamityMod.NPCs.HiveMind
             burrowTimer--;
             if (burrowTimer < -120)
             {
-                burrowTimer = death ? 240 : revenge ? 300 : expertMode ? 360 : 420;
+                burrowTimer = death ? 180 : revenge ? 300 : expertMode ? 360 : 420;
                 npc.scale = 1f;
                 npc.alpha = 0;
                 npc.dontTakeDamage = false;

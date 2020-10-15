@@ -129,11 +129,15 @@ namespace CalamityMod.NPCs.Perforator
 				npc.dontTakeDamage = isCrimson ? false : true;
 			}
 
+			float playerLocation = npc.Center.X - player.Center.X;
+			npc.direction = playerLocation < 0 ? 1 : -1;
+			npc.spriteDirection = npc.direction;
+
 			if (Main.netMode != NetmodeID.MultiplayerClient)
 			{
 				int shoot = revenge ? 6 : 4;
-				npc.localAI[0] += (float)Main.rand.Next(shoot);
-				if (npc.localAI[0] >= (float)Main.rand.Next(300, 901) && npc.position.Y + (float)npc.height < player.position.Y && Vector2.Distance(player.Center, npc.Center) > 80f)
+				npc.localAI[0] += Main.rand.Next(shoot);
+				if (npc.localAI[0] >= Main.rand.Next(300, 901) && npc.position.Y + npc.height < player.position.Y && Vector2.Distance(player.Center, npc.Center) > 80f)
 				{
 					npc.localAI[0] = 0f;
 					Main.PlaySound(SoundID.NPCHit20, npc.position);
@@ -145,7 +149,7 @@ namespace CalamityMod.NPCs.Perforator
 						if (Main.rand.NextBool(2))
 						{
 							Main.dust[num622].scale = 0.25f;
-							Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
+							Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
 						}
 					}
 
@@ -158,30 +162,18 @@ namespace CalamityMod.NPCs.Perforator
 						Main.dust[num624].velocity *= 2f;
 					}
 
-					float num179 = 8f;
-					Vector2 value9 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
-					float num180 = player.position.X + (float)player.width * 0.5f - value9.X;
-					float num181 = Math.Abs(num180) * 0.1f;
-					float num182 = player.position.Y + (float)player.height * 0.5f - value9.Y - num181;
-					float num183 = (float)Math.Sqrt((double)(num180 * num180 + num182 * num182));
-					npc.netUpdate = true;
-					num183 = num179 / num183;
-					num180 *= num183;
-					num182 *= num183;
-					int num184 = expertMode ? 14 : 18;
-					int num185 = Main.rand.NextBool(2) ? ModContent.ProjectileType<IchorShot>() : ModContent.ProjectileType<BloodGeyser>();
-					value9.X += num180;
-					value9.Y += num182;
-
-					for (int num186 = 0; num186 < 20; num186++)
+					int type = Main.rand.NextBool(2) ? ModContent.ProjectileType<IchorShot>() : ModContent.ProjectileType<BloodGeyser>();
+					int damage = npc.GetProjectileDamage(type);
+					int totalProjectiles = death ? 16 : revenge ? 14 : expertMode ? 12 : 10;
+					float maxVelocity = 8f;
+					float velocityAdjustment = maxVelocity * 1.5f / totalProjectiles;
+					Vector2 start = new Vector2(npc.Center.X, npc.Center.Y + 30f);
+					Vector2 destination = new Vector2(Vector2.Normalize(player.Center - start).X, 0f) * maxVelocity * 0.4f;
+					Vector2 velocity = destination + Vector2.UnitY * -maxVelocity;
+					for (int i = 0; i < totalProjectiles + 1; i++)
 					{
-						num180 = player.position.X + (float)player.width * 0.5f - value9.X;
-						num182 = player.position.Y + (float)player.height * 0.5f - value9.Y;
-						num183 = (float)Math.Sqrt((double)(num180 * num180 + num182 * num182));
-						num183 = num179 / num183;
-						num180 += (float)Main.rand.Next(-180, 181);
-						num180 *= num183;
-						Projectile.NewProjectile(value9.X, value9.Y, num180, -5f, num185, num184, 0f, Main.myPlayer, 0f, 0f);
+						Projectile.NewProjectile(start, velocity, type, damage, 0f, Main.myPlayer, 0f, 0f);
+						velocity.X += velocityAdjustment * npc.direction;
 					}
 				}
 			}
@@ -192,7 +184,7 @@ namespace CalamityMod.NPCs.Perforator
 			{
 				if (wormsAlive == 1)
 				{
-					Movement(player, 4f, 1f, (BossRushEvent.BossRushActive ? 0.2f : 0.15f), 160f, 300f, 400f, false);
+					Movement(player, 4f, 1f, BossRushEvent.BossRushActive ? 0.2f : 0.15f, 160f, 300f, 400f, false);
 					npc.ai[0] = 0f;
 				}
 				else
@@ -201,19 +193,19 @@ namespace CalamityMod.NPCs.Perforator
 					{
 						if (large || death)
 						{
-							Movement(player, 5f, 1.5f, (BossRushEvent.BossRushActive ? 0.195f : 0.13f), 360f, 10f, 50f, true);
+							Movement(player, 5f, 1.5f, BossRushEvent.BossRushActive ? 0.195f : death ? 0.15f : 0.13f, 360f, 10f, 50f, true);
 						}
 						else if (medium)
 						{
-							Movement(player, 6f, 2f, (BossRushEvent.BossRushActive ? 0.18f : 0.12f), 340f, 15f, 50f, true);
+							Movement(player, 6f, 2f, BossRushEvent.BossRushActive ? 0.18f : death ? 0.14f : 0.12f, 340f, 15f, 50f, true);
 						}
 						else if (small)
 						{
-							Movement(player, 7f, 2.5f, (BossRushEvent.BossRushActive ? 0.165f : 0.11f), 320f, 20f, 50f, true);
+							Movement(player, 7f, 2.5f, BossRushEvent.BossRushActive ? 0.165f : death ? 0.13f : 0.11f, 320f, 20f, 50f, true);
 						}
 						else
 						{
-							Movement(player, 8f, 3f, (BossRushEvent.BossRushActive ? 0.15f : 0.1f), 300f, 25f, 50f, true);
+							Movement(player, 8f, 3f, BossRushEvent.BossRushActive ? 0.15f : death ? 0.12f : 0.1f, 300f, 25f, 50f, true);
 						}
 					}
 					else
@@ -233,16 +225,16 @@ namespace CalamityMod.NPCs.Perforator
 
 			if (npc.ai[3] == 0f && npc.life > 0)
 			{
-				npc.ai[3] = (float)npc.lifeMax;
+				npc.ai[3] = npc.lifeMax;
 			}
 			if (npc.life > 0)
 			{
 				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
-					int num660 = (int)((double)npc.lifeMax * 0.3);
-					if ((float)(npc.life + num660) < npc.ai[3])
+					int num660 = (int)(npc.lifeMax * 0.3);
+					if ((npc.life + num660) < npc.ai[3])
 					{
-						npc.ai[3] = (float)npc.life;
+						npc.ai[3] = npc.life;
 						int wormType = ModContent.NPCType<PerforatorHeadSmall>();
 						if (!small)
 						{
@@ -258,7 +250,7 @@ namespace CalamityMod.NPCs.Perforator
 							large = true;
 							wormType = ModContent.NPCType<PerforatorHeadLarge>();
 						}
-						NPC.SpawnOnPlayer(npc.FindClosestPlayer(), wormType);
+						NPC.NewNPC((int)npc.Center.X, (int)(npc.Center.Y + 800f), wormType, 1);
 					}
 				}
 			}
@@ -266,7 +258,7 @@ namespace CalamityMod.NPCs.Perforator
 
 		private void Movement(Player target, float velocityX, float velocityY, float acceleration, float x, float y, float y2, bool charging)
 		{
-			if (npc.position.Y > target.position.Y - y) //200
+			if (npc.position.Y > target.position.Y - y)
 			{
 				if (npc.velocity.Y > 0f)
 				{
@@ -278,7 +270,7 @@ namespace CalamityMod.NPCs.Perforator
 					npc.velocity.Y = velocityY;
 				}
 			}
-			else if (npc.position.Y < target.position.Y - y2) //500
+			else if (npc.position.Y < target.position.Y - y2)
 			{
 				if (npc.velocity.Y < 0f)
 				{

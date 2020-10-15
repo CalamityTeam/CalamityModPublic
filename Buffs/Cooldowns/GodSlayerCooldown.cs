@@ -19,6 +19,7 @@ namespace CalamityMod.Buffs.Cooldowns
         public override void Update(Player player, ref int buffIndex)
         {
             player.Calamity().godSlayerCooldown = true;
+			player.Calamity().noLifeRegen = true;
         }
     }
 }

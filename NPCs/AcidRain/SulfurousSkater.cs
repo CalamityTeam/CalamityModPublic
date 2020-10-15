@@ -18,6 +18,7 @@ namespace CalamityMod.NPCs.AcidRain
     public class SulfurousSkater : ModNPC
     {
         public bool Flying = false;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Sulphurous Skater");
@@ -25,28 +26,31 @@ namespace CalamityMod.NPCs.AcidRain
             NPCID.Sets.TrailingMode[npc.type] = 1;
             NPCID.Sets.TrailCacheLength[npc.type] = 6;
         }
+
         public override void SendExtraAI(BinaryWriter writer)
         {
             writer.Write(Flying);
         }
+
         public override void ReceiveExtraAI(BinaryReader reader)
         {
             Flying = reader.ReadBoolean();
         }
+
         public override void SetDefaults()
         {
             npc.width = 48;
             npc.height = 48;
 
-            npc.damage = 70;
-            npc.lifeMax = 520;
+            npc.damage = 48;
+            npc.lifeMax = 280;
             npc.defense = 3;
 
             if (CalamityWorld.downedPolterghast)
             {
-                npc.damage = 100;
-                npc.lifeMax = 5000;
-                npc.defense = 33;
+                npc.damage = 85;
+                npc.lifeMax = 7000;
+                npc.defense = 15;
             }
 
             npc.knockBackResist = 0.8f;
@@ -65,6 +69,7 @@ namespace CalamityMod.NPCs.AcidRain
 
             npc.aiStyle = aiType = -1;
         }
+
         public override void AI()
         {
             npc.TargetClosest(false);
@@ -165,6 +170,7 @@ namespace CalamityMod.NPCs.AcidRain
                 }
             }
         }
+
         public override void FindFrame(int frameHeight)
         {
             if (!Flying)
@@ -183,15 +189,11 @@ namespace CalamityMod.NPCs.AcidRain
                 }
             }
         }
+
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
         {
             CalamityGlobalNPC.DrawGlowmask(npc, spriteBatch, ModContent.GetTexture(Texture + "Glow"), true, Vector2.UnitY * 4f);
             CalamityGlobalNPC.DrawAfterimage(npc, spriteBatch, drawColor, Color.Transparent, directioning: true, invertedDirection: true);
-        }
-        public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
-        {
-            npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);
-            npc.damage = (int)(npc.damage * 0.85f);
         }
 
         public override void HitEffect(int hitDirection, double damage)

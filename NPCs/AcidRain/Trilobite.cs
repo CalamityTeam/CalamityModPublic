@@ -17,6 +17,7 @@ namespace CalamityMod.NPCs.AcidRain
         // When the abs(velocity) is less than this, lunge in the water
         public const float MinSpeedLungePrompt = 0.5f;
         public const float MinYDriftSpeed = 0.9f;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Trilobite");
@@ -31,17 +32,16 @@ namespace CalamityMod.NPCs.AcidRain
             npc.height = 38;
             npc.aiStyle = aiType = -1;
 
-            npc.damage = 66;
-            npc.lifeMax = 600;
+            npc.damage = 45;
+            npc.lifeMax = 300;
             npc.defense = 15;
 			npc.DR_NERD(0.25f);
 
             if (CalamityWorld.downedPolterghast)
             {
-                npc.damage = 120;
-                npc.lifeMax = 4900;
-                npc.defense = 78;
-				npc.DR_NERD(0.4f);
+                npc.damage = 80;
+                npc.lifeMax = 7500;
+                npc.defense = 30;
             }
 
             npc.knockBackResist = 0.2f;
@@ -58,6 +58,7 @@ namespace CalamityMod.NPCs.AcidRain
             banner = npc.type;
             bannerItem = ModContent.ItemType<TrilobiteBanner>();
         }
+
         public override void AI()
         {
             npc.TargetClosest(false);
@@ -126,15 +127,12 @@ namespace CalamityMod.NPCs.AcidRain
                 }
             }
         }
-        public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
-        {
-            npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);
-            npc.damage = (int)(npc.damage * 0.85f);
-        }
+
         public override void NPCLoot()
         {
             DropHelper.DropItemChance(npc, ModContent.ItemType<CorrodedFossil>(), 3 * (CalamityWorld.downedPolterghast ? 5 : 1), 1, 3);
         }
+
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
         {
             if (npc.velocity.Length() > 0.5f)
@@ -142,6 +140,7 @@ namespace CalamityMod.NPCs.AcidRain
                 CalamityGlobalNPC.DrawAfterimage(npc, spriteBatch, drawColor, Color.Transparent, directioning: true);
             }
         }
+
         public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
             if (Main.netMode != NetmodeID.MultiplayerClient)
@@ -150,6 +149,9 @@ namespace CalamityMod.NPCs.AcidRain
                 {
                     Main.PlaySound(SoundID.NPCDeath11, npc.Center);
                     int projDamage = CalamityWorld.downedPolterghast ? 35 : CalamityWorld.downedAquaticScourge ? 29 : 21;
+					if (Main.expertMode)
+						projDamage = (int)Math.Round(projDamage * 0.8);
+
                     Projectile.NewProjectile(npc.Center + Utils.NextVector2Unit(Main.rand) * npc.Size * 0.7f,
                         -npc.velocity.RotatedByRandom(MathHelper.ToRadians(10f)), ModContent.ProjectileType<TrilobiteSpike>(),
                         projDamage, 3f);
@@ -158,6 +160,7 @@ namespace CalamityMod.NPCs.AcidRain
                 }
             }
         }
+
         public override void FindFrame(int frameHeight)
         {
             npc.frameCounter++;
@@ -171,6 +174,7 @@ namespace CalamityMod.NPCs.AcidRain
                 }
             }
         }
+
         public override void HitEffect(int hitDirection, double damage)
         {
             for (int k = 0; k < 5; k++)
@@ -188,6 +192,7 @@ namespace CalamityMod.NPCs.AcidRain
                 }
             }
         }
+
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
             target.AddBuff(ModContent.BuffType<Irradiated>(), 180);

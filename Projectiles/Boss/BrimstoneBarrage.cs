@@ -1,7 +1,8 @@
 using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.NPCs.SupremeCalamitas;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
+using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -29,6 +30,16 @@ namespace CalamityMod.Projectiles.Boss
 			cooldownSlot = 1;
         }
 
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(projectile.localAI[0]);
+		}
+
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			projectile.localAI[0] = reader.ReadSingle();
+		}
+
 		public override void AI()
         {
 			if (projectile.velocity.Length() < (projectile.ai[1] == 0f ? 14f : 10f))
@@ -47,6 +58,14 @@ namespace CalamityMod.Projectiles.Boss
 
 			if (projectile.timeLeft < 60)
 				projectile.Opacity = MathHelper.Clamp(projectile.timeLeft / 60f, 0f, 1f);
+
+			if (projectile.localAI[0] == 0f)
+			{
+				projectile.localAI[0] = 1f;
+
+				if (projectile.ai[0] == 0f)
+					projectile.damage = projectile.GetProjectileDamage(ModContent.NPCType<SupremeCalamitas>());
+			}
 
 			Lighting.AddLight(projectile.Center, 0.75f, 0f, 0f);
         }

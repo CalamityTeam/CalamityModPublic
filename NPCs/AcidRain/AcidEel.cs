@@ -27,22 +27,22 @@ namespace CalamityMod.NPCs.AcidRain
             npc.height = 18;
 
             npc.damage = 20;
-            npc.lifeMax = 100;
+            npc.lifeMax = 80;
             npc.defense = 4;
             npc.knockBackResist = 0.9f;
 
             if (CalamityWorld.downedPolterghast)
             {
 				npc.DR_NERD(0.05f);
-                npc.damage = 120;
-                npc.lifeMax = 5500;
-                npc.defense = 45;
+                npc.damage = 100;
+                npc.lifeMax = 6000;
+                npc.defense = 20;
 				npc.knockBackResist = 0.7f;
             }
             else if (CalamityWorld.downedAquaticScourge)
             {
-                npc.damage = 80;
-                npc.lifeMax = 420;
+                npc.damage = 50;
+                npc.lifeMax = 240;
             }
 
             npc.value = Item.buyPrice(0, 0, 3, 32);
@@ -59,6 +59,7 @@ namespace CalamityMod.NPCs.AcidRain
             banner = npc.type;
             bannerItem = ModContent.ItemType<AcidEelBanner>();
         }
+
         public override void AI()
         {
             npc.TargetClosest(false);
@@ -133,11 +134,13 @@ namespace CalamityMod.NPCs.AcidRain
                     npc.velocity.Y += 0.15f;
             }
         }
+
         public override void NPCLoot()
         {
             DropHelper.DropItemChance(npc, ModContent.ItemType<SulfuricScale>(), 2 * (CalamityWorld.downedAquaticScourge ? 6 : 1), 1, 3);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<SlitheringEels>(), CalamityWorld.downedAquaticScourge, 0.05f);
         }
+
         public override void FindFrame(int frameHeight)
         {
             npc.frameCounter++;
@@ -151,6 +154,7 @@ namespace CalamityMod.NPCs.AcidRain
                 }
             }
         }
+
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
         {
             CalamityGlobalNPC.DrawGlowmask(npc, spriteBatch, ModContent.GetTexture(Texture + "Glow"));
@@ -159,11 +163,7 @@ namespace CalamityMod.NPCs.AcidRain
                 CalamityGlobalNPC.DrawAfterimage(npc, spriteBatch, drawColor, Color.Transparent, directioning: true);
             }
         }
-        public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
-        {
-            npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);
-            npc.damage = (int)(npc.damage * 0.85f);
-        }
+        
         public override void HitEffect(int hitDirection, double damage)
         {
             for (int k = 0; k < 8; k++)
@@ -181,6 +181,7 @@ namespace CalamityMod.NPCs.AcidRain
                 }
             }
         }
+
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
             target.AddBuff(ModContent.BuffType<Irradiated>(), 180);

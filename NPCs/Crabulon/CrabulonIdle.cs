@@ -88,8 +88,8 @@ namespace CalamityMod.NPCs.Crabulon
 			float lifeRatio = npc.life / (float)npc.lifeMax;
 
 			// Phases
-			bool phase2 = (lifeRatio < 0.5f && expertMode) || death;
-			bool phase3 = (lifeRatio < 0.1f && expertMode) || death;
+			bool phase2 = lifeRatio < 0.66f && expertMode;
+			bool phase3 = lifeRatio < 0.33f && expertMode;
 
 			// Get a target
 			if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)
@@ -170,8 +170,7 @@ namespace CalamityMod.NPCs.Crabulon
                             npc.ai[3] = 0f;
                         }
                         float num353 = 10f;
-                        int num354 = expertMode ? 12 : 16;
-                        int num355 = ModContent.ProjectileType<MushBomb>();
+                        int type = ModContent.ProjectileType<MushBomb>();
                         Main.PlaySound(SoundID.Item42, (int)npc.position.X, (int)npc.position.Y);
                         if (BossRushEvent.BossRushActive)
                         {
@@ -194,7 +193,7 @@ namespace CalamityMod.NPCs.Crabulon
                         num350 *= num351;
                         vector34.X += num349;
                         vector34.Y += num350;
-                        Projectile.NewProjectile(vector34.X, vector34.Y, num349, num350 - 5f, num355, num354, 0f, Main.myPlayer, 0f, 0f);
+                        Projectile.NewProjectile(vector34.X, vector34.Y, num349, num350 - 5f, type, npc.GetProjectileDamage(type), 0f, Main.myPlayer, 0f, 0f);
                     }
                 }
             }
@@ -222,7 +221,7 @@ namespace CalamityMod.NPCs.Crabulon
             {
                 npc.velocity *= 0.98f;
                 npc.ai[1] += 1f;
-                if (npc.ai[1] >= (revenge ? 30f : 60f))
+                if (npc.ai[1] >= (death ? 5f : revenge ? 30f : 60f))
                 {
 					npc.TargetClosest(true);
 					npc.noGravity = true;
@@ -240,6 +239,8 @@ namespace CalamityMod.NPCs.Crabulon
                     num823 = 1.5f;
                 if (phase3)
                     num823 = 2f;
+				if (death)
+					num823 += 2f * (1f - lifeRatio);
                 if (BossRushEvent.BossRushActive)
                     num823 = 12f;
                 if (npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))
@@ -314,7 +315,7 @@ namespace CalamityMod.NPCs.Crabulon
                     }
                 }
                 npc.ai[1] += 1f;
-                if (npc.ai[1] >= 360f)
+                if (npc.ai[1] >= (360f - (death ? 120f * (1f - lifeRatio) : 0f)))
                 {
 					npc.TargetClosest(true);
 					npc.noGravity = false;
@@ -435,7 +436,9 @@ namespace CalamityMod.NPCs.Crabulon
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                         Projectile.NewProjectile((int)npc.Center.X, (int)npc.Center.Y + 20, 0f, 0f, ModContent.ProjectileType<Mushmash>(), 20, 0f, Main.myPlayer, 0f, 0f);
 
-					int num354 = expertMode ? 12 : 16;
+					int type = ModContent.ProjectileType<MushBombFall>();
+					int damage = npc.GetProjectileDamage(type);
+
 					if (npc.ai[2] % 2f == 0f && phase2 && revenge)
 					{
 						if (Main.netMode != NetmodeID.MultiplayerClient)
@@ -443,7 +446,7 @@ namespace CalamityMod.NPCs.Crabulon
 							float velocityX = npc.ai[2] == 0f ? -4f : 4f;
 							for (int x = 0; x < 20; x++)
 							{
-								Projectile.NewProjectile(npc.Center.X + shotSpacing, npc.Center.Y - 1000f, velocityX, 0f, ModContent.ProjectileType<MushBombFall>(), num354, 0f, Main.myPlayer, 0f, 0f);
+								Projectile.NewProjectile(npc.Center.X + shotSpacing, npc.Center.Y - 1000f, velocityX, 0f, type, damage, 0f, Main.myPlayer, 0f, 0f);
 								shotSpacing -= 100;
 							}
 							shotSpacing = 1000;
@@ -458,7 +461,7 @@ namespace CalamityMod.NPCs.Crabulon
                         {
                             for (int x = 0; x < 20; x++)
                             {
-                                Projectile.NewProjectile(npc.Center.X + shotSpacing, npc.Center.Y - 1000f, 0f, 0f, ModContent.ProjectileType<MushBombFall>(), num354, 0f, Main.myPlayer, 0f, 0f);
+                                Projectile.NewProjectile(npc.Center.X + shotSpacing, npc.Center.Y - 1000f, 0f, 0f, type, damage, 0f, Main.myPlayer, 0f, 0f);
                                 shotSpacing -= 100;
                             }
                             shotSpacing = 1000;
@@ -498,13 +501,14 @@ namespace CalamityMod.NPCs.Crabulon
 					if (npc.position.X < player.position.X && npc.position.X + npc.width > player.position.X + player.width)
                     {
                         npc.velocity.X *= 0.9f;
-                        npc.velocity.Y += BossRushEvent.BossRushActive ? 0.3f : 0.15f;
+                        npc.velocity.Y += BossRushEvent.BossRushActive ? 0.3f : death ? 0.18f : 0.15f;
                     }
                     else
                     {
 						float velocityX = 0.11f +
 							(expertMode ? 0.02f : 0f) +
-							(revenge ? 0.02f : 0f);
+							(revenge ? 0.02f : 0f) +
+							(death ? 0.02f : 0f);
 
                         if (npc.direction < 0)
                             npc.velocity.X -= velocityX;
@@ -552,13 +556,13 @@ namespace CalamityMod.NPCs.Crabulon
                     if ((npc.life + num660) < npc.localAI[0])
                     {
                         npc.localAI[0] = npc.life;
-                        int num661 = expertMode ? Main.rand.Next(2, 4) : Main.rand.Next(1, 3);
+                        int num661 = death ? 3 : expertMode ? Main.rand.Next(2, 4) : Main.rand.Next(1, 3);
                         for (int num662 = 0; num662 < num661; num662++)
                         {
                             int x = (int)(npc.position.X + Main.rand.Next(npc.width - 32));
                             int y = (int)(npc.position.Y + Main.rand.Next(npc.height - 32));
                             int num663 = ModContent.NPCType<CrabShroom>();
-                            int num664 = NPC.NewNPC(x, y, num663, 0, 0f, 0f, 0f, 0f, 255);
+                            int num664 = NPC.NewNPC(x, y, num663);
                             Main.npc[num664].SetDefaults(num663, -1f);
                             Main.npc[num664].velocity.X = Main.rand.Next(-50, 51) * 0.1f;
                             Main.npc[num664].velocity.Y = Main.rand.Next(-50, -31) * 0.1f;

@@ -234,11 +234,12 @@ namespace CalamityMod.NPCs.Ravager
 								float velocity = BossRushEvent.BossRushActive ? 10f : 7f;
 								int totalProjectiles = 8;
 								float radians = MathHelper.TwoPi / totalProjectiles;
-								int laserDamage = 45;
+								int type = ProjectileID.EyeBeam;
+								int damage = npc.GetProjectileDamage(type);
 								for (int i = 0; i < totalProjectiles; i++)
 								{
 									Vector2 vector255 = new Vector2(0f, -velocity).RotatedBy(radians * i);
-									Projectile.NewProjectile(npc.Center, vector255, ProjectileID.EyeBeam, laserDamage + (provy ? 30 : 0), 0f, Main.myPlayer, 0f, 0f);
+									Projectile.NewProjectile(npc.Center, vector255, type, damage + (provy ? 30 : 0), 0f, Main.myPlayer, 0f, 0f);
 								}
 							}
 						}
@@ -278,9 +279,10 @@ namespace CalamityMod.NPCs.Ravager
 							Main.PlaySound(SoundID.Item20, npc.position);
 							npc.localAI[2] = 0f;
 							Vector2 shootFromVector = new Vector2(npc.Center.X + 80f, npc.Center.Y + 45f);
-							int damage = 40;
+							int type = ProjectileID.Fireball;
+							int damage = npc.GetProjectileDamage(type);
 							float velocity = BossRushEvent.BossRushActive ? 18f : 12f;
-							Projectile.NewProjectile(shootFromVector.X, shootFromVector.Y, velocity, 0f, ProjectileID.Fireball, damage + (provy ? 30 : 0), 0f, Main.myPlayer, 0f, 0f);
+							Projectile.NewProjectile(shootFromVector.X, shootFromVector.Y, velocity, 0f, type, damage + (provy ? 30 : 0), 0f, Main.myPlayer, 0f, 0f);
 						}
 					}
 				}
@@ -317,9 +319,10 @@ namespace CalamityMod.NPCs.Ravager
 							Main.PlaySound(SoundID.Item20, npc.position);
 							npc.localAI[3] = 0f;
 							Vector2 shootFromVector = new Vector2(npc.Center.X - 80f, npc.Center.Y + 45f);
-							int damage = 40;
+							int type = ProjectileID.Fireball;
+							int damage = npc.GetProjectileDamage(type);
 							float velocity = BossRushEvent.BossRushActive ? -18f : -12f;
-							Projectile.NewProjectile(shootFromVector.X, shootFromVector.Y, velocity, 0f, ProjectileID.Fireball, damage + (provy ? 30 : 0), 0f, Main.myPlayer, 0f, 0f);
+							Projectile.NewProjectile(shootFromVector.X, shootFromVector.Y, velocity, 0f, type, damage + (provy ? 30 : 0), 0f, Main.myPlayer, 0f, 0f);
 						}
 					}
 				}
@@ -355,8 +358,9 @@ namespace CalamityMod.NPCs.Ravager
 						{
 							npc.ai[2] = 0f;
 							Vector2 shootFromVector = new Vector2(npc.Center.X + 60f, npc.Center.Y + 60f);
-							int damage = 35;
-							int fire = Projectile.NewProjectile(shootFromVector.X, shootFromVector.Y, 0f, 2f, ProjectileID.GreekFire1 + Main.rand.Next(3), damage + (provy ? 30 : 0), 0f, Main.myPlayer, 0f, 0f);
+							int type = ProjectileID.GreekFire1;
+							int damage = npc.GetProjectileDamage(type);
+							int fire = Projectile.NewProjectile(shootFromVector.X, shootFromVector.Y, 0f, 2f, type + Main.rand.Next(3), damage + (provy ? 30 : 0), 0f, Main.myPlayer, 0f, 0f);
 							Main.projectile[fire].timeLeft = 180;
 						}
 					}
@@ -394,8 +398,9 @@ namespace CalamityMod.NPCs.Ravager
 						{
 							npc.ai[3] = 0f;
 							Vector2 shootFromVector = new Vector2(npc.Center.X - 60f, npc.Center.Y + 60f);
-							int damage = 35;
-							int fire = Projectile.NewProjectile(shootFromVector.X, shootFromVector.Y, 0f, 2f, ProjectileID.GreekFire1 + Main.rand.Next(3), damage + (provy ? 30 : 0), 0f, Main.myPlayer, 0f, 0f);
+							int type = ProjectileID.GreekFire1;
+							int damage = npc.GetProjectileDamage(type);
+							int fire = Projectile.NewProjectile(shootFromVector.X, shootFromVector.Y, 0f, 2f, type + Main.rand.Next(3), damage + (provy ? 30 : 0), 0f, Main.myPlayer, 0f, 0f);
 							Main.projectile[fire].timeLeft = 180;
 						}
 					}
@@ -421,11 +426,11 @@ namespace CalamityMod.NPCs.Ravager
 								npc.ai[1] += 1f;
 						}
 
-						if ((!rightClawActive && !leftClawActive) || death || npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))
+						if ((!rightClawActive && !leftClawActive) || npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))
                             npc.ai[1] += 1f;
-                        if (!headActive || death || npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))
+                        if (!headActive || npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))
                             npc.ai[1] += 1f;
-                        if ((!rightLegActive && !leftLegActive) || death || npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))
+                        if ((!rightLegActive && !leftLegActive) || npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))
                             npc.ai[1] += 1f;
                     }
 
@@ -436,7 +441,7 @@ namespace CalamityMod.NPCs.Ravager
                         npc.TargetClosest(true);
 
 						bool shouldFall = player.position.Y >= npc.Bottom.Y;
-						float velocityXBoost = death ? 4f : 4f * (1f - lifeRatio);
+						float velocityXBoost = death ? 6f * (1f - lifeRatio) : 4f * (1f - lifeRatio);
 						float velocityX = ((enrage || npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive)) ? 8f : 4f) + velocityXBoost;
 						velocityY = -16f;
 
@@ -516,13 +521,13 @@ namespace CalamityMod.NPCs.Ravager
 
 							if (!NPC.AnyNPCs(ModContent.NPCType<RockPillar>()))
 							{
-								NPC.NewNPC((int)npc.Center.X - spawnDistance, (int)npc.Center.Y - 10, ModContent.NPCType<RockPillar>());
-								NPC.NewNPC((int)npc.Center.X + spawnDistance, (int)npc.Center.Y - 10, ModContent.NPCType<RockPillar>());
+								NPC.NewNPC((int)(player.Center.X - spawnDistance * 1.25f), (int)player.Center.Y - 100, ModContent.NPCType<RockPillar>());
+								NPC.NewNPC((int)(player.Center.X + spawnDistance * 1.25f), (int)player.Center.Y - 100, ModContent.NPCType<RockPillar>());
 							}
 							else if (!NPC.AnyNPCs(ModContent.NPCType<FlamePillar>()))
 							{
-								NPC.NewNPC((int)npc.Center.X - spawnDistance * 2, (int)npc.Center.Y - 10, ModContent.NPCType<FlamePillar>());
-								NPC.NewNPC((int)npc.Center.X + spawnDistance * 2, (int)npc.Center.Y - 10, ModContent.NPCType<FlamePillar>());
+								NPC.NewNPC((int)player.Center.X - spawnDistance * 2, (int)player.Center.Y - 100, ModContent.NPCType<FlamePillar>());
+								NPC.NewNPC((int)player.Center.X + spawnDistance * 2, (int)player.Center.Y - 100, ModContent.NPCType<FlamePillar>());
 							}
 						}
                     }
@@ -580,7 +585,7 @@ namespace CalamityMod.NPCs.Ravager
 							npc.velocity.Y = -velocityY;
 					}
 
-					float maxOffset = 360f;
+					float maxOffset = death ? 320f * (1f - lifeRatio) : 240f * (1f - lifeRatio);
 					float offset = npc.ai[0] == 2f ? maxOffset * npc.Calamity().newAI[2] : 0f;
 
 					// Set offset to 0 if the target stops moving
@@ -589,13 +594,15 @@ namespace CalamityMod.NPCs.Ravager
 					else
 						npc.Calamity().newAI[2] = player.direction;
 
-					if ((npc.position.X < targetVector.X + offset && npc.position.X + npc.width > targetVector.X + player.width + offset && (inRange || npc.ai[0] != 2f)) || npc.ai[1] > 0f || npc.Calamity().newAI[3] >= 300f)
+					if ((npc.position.X < targetVector.X + offset && npc.position.X + npc.width > targetVector.X + player.width + offset && (inRange || npc.ai[0] != 2f)) || npc.ai[1] > 0f || npc.Calamity().newAI[3] >= 180f)
                     {
+						npc.damage = npc.defDamage;
+
 						if (npc.ai[0] == 2f)
 						{
-							float stopBeforeFallTime = 25f;
+							float stopBeforeFallTime = 30f;
 							if (expertMode)
-								stopBeforeFallTime -= death ? 5f : 5f * (1f - lifeRatio);
+								stopBeforeFallTime -= death ? 15f * (1f - lifeRatio) : 10f * (1f - lifeRatio);
 
 							if (npc.ai[1] < stopBeforeFallTime)
 							{
@@ -604,7 +611,7 @@ namespace CalamityMod.NPCs.Ravager
 							}
 							else
 							{
-								float fallSpeedBoost = death ? 1.2f : 1.2f * (1f - lifeRatio);
+								float fallSpeedBoost = death ? 1.8f * (1f - lifeRatio) : 1.2f * (1f - lifeRatio);
 								float fallSpeed = 1.2f + fallSpeedBoost;
 
 								if (npc.Calamity().newAI[1] > 1f)
@@ -621,7 +628,7 @@ namespace CalamityMod.NPCs.Ravager
 
 							if (npc.Bottom.Y < player.position.Y)
 							{
-								float fallSpeedBoost = death ? 0.6f : 0.6f * (1f - lifeRatio);
+								float fallSpeedBoost = death ? 0.9f * (1f - lifeRatio) : 0.6f * (1f - lifeRatio);
 								float fallSpeed = 0.6f + fallSpeedBoost;
 
 								if (npc.Calamity().newAI[1] > 1f)
@@ -636,32 +643,33 @@ namespace CalamityMod.NPCs.Ravager
 						float velocityMult = 1.8f;
 						float velocityXChange = 0.2f + Math.Abs(npc.Center.X - player.Center.X) * 0.001f;
 
+						float velocityXBoost = death ? 6f * (1f - lifeRatio) : 4f * (1f - lifeRatio);
+						float velocityX = 8f + velocityXBoost + Math.Abs(npc.Center.X - player.Center.X) * 0.001f;
+
+						if (npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))
+							velocityX += 3f;
+						if (!rightClawActive)
+							velocityX += 1f;
+						if (!leftClawActive)
+							velocityX += 1f;
+						if (!headActive)
+							velocityX += 1f;
+						if (!rightLegActive)
+							velocityX += 1f;
+						if (!leftLegActive)
+							velocityX += 1f;
+
 						if (npc.ai[0] == 2f)
+						{
+							npc.damage = 0;
 							velocityXChange *= velocityMult;
+							velocityX *= velocityMult;
+						}
 
 						if (npc.direction < 0)
                             npc.velocity.X -= velocityXChange;
                         else if (npc.direction > 0)
                             npc.velocity.X += velocityXChange;
-
-						float velocityXBoost = death ? 4f : 4f * (1f - lifeRatio);
-                        float velocityX = 8f + velocityXBoost + Math.Abs(npc.Center.X - player.Center.X) * 0.001f;
-
-                        if (npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))
-                            velocityX += 3f;
-                        if (!rightClawActive || death)
-                            velocityX += 1f;
-                        if (!leftClawActive || death)
-                            velocityX += 1f;
-                        if (!headActive || death)
-                            velocityX += 1f;
-                        if (!rightLegActive || death)
-                            velocityX += 1f;
-                        if (!leftLegActive || death)
-                            velocityX += 1f;
-
-						if (npc.ai[0] == 2f)
-							velocityX *= velocityMult;
 
                         if (npc.velocity.X < -velocityX)
                             npc.velocity.X = -velocityX;

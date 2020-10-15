@@ -39,7 +39,7 @@ namespace CalamityMod.Projectiles.Boss
         public override void AI()
         {
             projectile.ai[1] += 1f;
-            if (projectile.ai[1] > 900f)
+            if (projectile.ai[1] > 1800f)
 			{
                 projectile.localAI[0] += 10f;
 				projectile.damage = 0;
@@ -58,19 +58,30 @@ namespace CalamityMod.Projectiles.Boss
             projectile.rotation += projectile.direction * 0.002f;
 
             if (projectile.velocity.Length() > 0.5f)
-                projectile.velocity *= 0.99f;
+                projectile.velocity *= 0.98f;
         }
 
         public override bool CanHitPlayer(Player target)
 		{
-            if (projectile.ai[1] > 570f)
+            if (projectile.ai[1] > 1800f)
             {
                 return false;
             }
             return true;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override Color? GetAlpha(Color lightColor)
+		{
+			if (projectile.ai[1] > 1800f)
+			{
+				byte b2 = (byte)((26f - (projectile.ai[1] - 1800f)) * 10f);
+				byte a2 = (byte)(projectile.alpha * (b2 / 255f));
+				return new Color(b2, b2, b2, a2);
+			}
+			return new Color(255, 255, 255, projectile.alpha);
+		}
+
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             //Changes the texture of the projectile
             Texture2D texture = Main.projectileTexture[projectile.type];

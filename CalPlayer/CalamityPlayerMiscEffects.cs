@@ -519,7 +519,7 @@ namespace CalamityMod.CalPlayer
 				{
 					// Calculate underground darkness here. The effect is applied in CalamityMod.ModifyLightingBrightness.
 					Point point = player.Center.ToTileCoordinates();
-					if (point.Y > Main.worldSurface && !modPlayer.ZoneAbyss && !player.ZoneUnderworldHeight)
+					if (point.Y > Main.worldSurface && !modPlayer.ZoneAbyss && !player.ZoneUnderworldHeight && !CalamityPlayer.areThereAnyDamnBosses)
 					{
 						// Darkness strength scales smoothly with how deep you are.
 						double totalUndergroundDepth = Main.maxTilesY - 200D - Main.worldSurface;
@@ -872,6 +872,7 @@ namespace CalamityMod.CalPlayer
 				player.allDamage += damageUp;
 				modPlayer.AllCritBoost(critUp);
 			}
+
 			bool canProvideBuffs = modPlayer.profanedCrystalBuffs || (!modPlayer.profanedCrystal && modPlayer.pArtifact) || (modPlayer.profanedCrystal && CalamityWorld.downedSCal);
 			bool attack = player.ownedProjectileCounts[ModContent.ProjectileType<MiniGuardianAttack>()] > 0;
 			// Guardian bonuses if not burnt out
@@ -1010,6 +1011,8 @@ namespace CalamityMod.CalPlayer
 				modPlayer.plagueReaperCooldown--;
 			if (modPlayer.brimflameFrenzyTimer > 0)
 				modPlayer.brimflameFrenzyTimer--;
+			if (modPlayer.bloodflareSoulTimer > 0)
+				modPlayer.bloodflareSoulTimer--;
 			if (modPlayer.fungalSymbioteTimer > 0)
 				modPlayer.fungalSymbioteTimer--;
 			if (player.miscCounter % 20 == 0)
@@ -1173,7 +1176,7 @@ namespace CalamityMod.CalPlayer
 			if (modPlayer.raiderTalisman)
 			{
 				float damageMult = modPlayer.nanotech ? 0.1f : 0.15f;
-				modPlayer.throwingDamage += (float)modPlayer.raiderStack / 150f * damageMult;
+				modPlayer.throwingDamage += modPlayer.raiderStack / 150f * damageMult;
 			}
 
 			// Silva minion bonus
@@ -1195,10 +1198,7 @@ namespace CalamityMod.CalPlayer
             }
 
 			if (modPlayer.kamiBoost)
-			{
-				player.allDamage += 0.3f;
-				player.statDefense += 20;
-			}
+				player.allDamage += 0.15f;
 
 			if (modPlayer.roverDriveTimer < 616)
 			{
@@ -1529,6 +1529,13 @@ namespace CalamityMod.CalPlayer
 			{
 				player.allDamage += 0.1f;
 				modPlayer.AllCritBoost(5);
+			}
+			if (modPlayer.slimeGodLore)
+			{
+				if (Main.myPlayer == player.whoAmI)
+					player.AddBuff(BuffID.Slimed, 2);
+
+				player.statDefense -= 10;
 			}
 			if (modPlayer.destroyerLore)
 			{
@@ -1941,10 +1948,14 @@ namespace CalamityMod.CalPlayer
 				{
 					// Abyss depth variables
 					Point point = player.Center.ToTileCoordinates();
-					double abyssSurface = Main.rockLayer - (double)Main.maxTilesY * 0.05;
+					double abyssSurface = Main.rockLayer - Main.maxTilesY * 0.05;
+					double abyssLevel1 = Main.rockLayer + Main.maxTilesY * 0.03;
 					double totalAbyssDepth = Main.maxTilesY - 250D - abyssSurface;
+					double totalAbyssDepthFromLayer1 = Main.maxTilesY - 250D - abyssLevel1;
 					double playerAbyssDepth = point.Y - abyssSurface;
+					double playerAbyssDepthFromLayer1 = point.Y - abyssLevel1;
 					double depthRatio = playerAbyssDepth / totalAbyssDepth;
+					double depthRatioFromAbyssLayer1 = playerAbyssDepthFromLayer1 / totalAbyssDepthFromLayer1;
 
 					// Darkness strength scales smoothly with how deep you are.
 					float darknessStrength = (float)depthRatio;
@@ -1997,7 +2008,7 @@ namespace CalamityMod.CalPlayer
 					}
 
 					// Breath lost while at zero breath
-					double breathLoss = 50D * depthRatio;
+					double breathLoss = point.Y > abyssLevel1 ? 50D * depthRatioFromAbyssLayer1 : 0D;
 
 					// Breath Loss Multiplier, depending on gear
 					double breathLossMult = 1D -
@@ -3037,22 +3048,22 @@ namespace CalamityMod.CalPlayer
 
 			if (modPlayer.community)
 			{
-				float floatTypeBoost = 0.01f +
+				float floatTypeBoost = 0.05f +
 					(NPC.downedSlimeKing ? 0.01f : 0f) +
 					(NPC.downedBoss1 ? 0.01f : 0f) +
 					(NPC.downedBoss2 ? 0.01f : 0f) +
-					(NPC.downedQueenBee ? 0.01f : 0f) + //0.05
-					(NPC.downedBoss3 ? 0.01f : 0f) +
+					(NPC.downedQueenBee ? 0.01f : 0f) +
+					(NPC.downedBoss3 ? 0.01f : 0f) + // 0.1
 					(Main.hardMode ? 0.01f : 0f) +
 					(NPC.downedMechBossAny ? 0.01f : 0f) +
 					(NPC.downedPlantBoss ? 0.01f : 0f) +
-					(NPC.downedGolemBoss ? 0.01f : 0f) + //0.1
-					(NPC.downedFishron ? 0.01f : 0f) +
+					(NPC.downedGolemBoss ? 0.01f : 0f) +
+					(NPC.downedFishron ? 0.01f : 0f) + // 0.15
 					(NPC.downedAncientCultist ? 0.01f : 0f) +
 					(NPC.downedMoonlord ? 0.01f : 0f) +
-					(CalamityWorld.downedProvidence ? 0.02f : 0f) + //0.15
-					(CalamityWorld.downedDoG ? 0.02f : 0f) + //0.17
-					(CalamityWorld.downedYharon ? 0.03f : 0f); //0.2
+					(CalamityWorld.downedProvidence ? 0.01f : 0f) +
+					(CalamityWorld.downedDoG ? 0.01f : 0f) +
+					(CalamityWorld.downedYharon ? 0.01f : 0f); // 0.2
 				int integerTypeBoost = (int)(floatTypeBoost * 50f);
 				int critBoost = integerTypeBoost / 2;
 				float damageBoost = floatTypeBoost * 0.5f;
@@ -3062,8 +3073,9 @@ namespace CalamityMod.CalPlayer
 				modPlayer.AllCritBoost(critBoost);
 				player.minionKB += floatTypeBoost;
 				player.moveSpeed += floatTypeBoost;
+				double wingTimeBoost = 1 + floatTypeBoost;
 				if (player.wingTimeMax > 0)
-					player.wingTimeMax = (int)(player.wingTimeMax * 1.15);
+					player.wingTimeMax = (int)(player.wingTimeMax * wingTimeBoost);
 			}
 
 			if (modPlayer.ravagerLore)
@@ -3210,20 +3222,6 @@ namespace CalamityMod.CalPlayer
 			if (modPlayer.thirdSageH && !player.dead && modPlayer.healToFull)
 				player.statLife = player.statLifeMax2;
 
-			if (modPlayer.pinkCandle && !CalamityWorld.ironHeart)
-			{
-				// Every frame, add up 1/60th of the healing value (0.4% max HP per second)
-				modPlayer.pinkCandleHealFraction += player.statLifeMax2 * 0.004 / 60;
-				if (modPlayer.pinkCandleHealFraction >= 1D)
-				{
-					modPlayer.pinkCandleHealFraction = 0D;
-					if (player.statLife < player.statLifeMax2)
-						player.statLife++;
-				}
-			}
-			else
-				modPlayer.pinkCandleHealFraction = 0D;
-
 			if (modPlayer.manaOverloader)
 			{
 				player.magicDamage += 0.06f;
@@ -3364,9 +3362,8 @@ namespace CalamityMod.CalPlayer
 
 			if (modPlayer.reaperToothNecklace)
 			{
-				player.allDamage += 0.25f;
 				if (player.statDefense > 0)
-					player.statDefense /= 2;
+					player.statDefense = (int)(player.statDefense * 0.75);
 			}
 
 			if (modPlayer.deepDiver)
@@ -3944,23 +3941,28 @@ namespace CalamityMod.CalPlayer
 		{
 			if (modPlayer.vHex)
 				player.endurance -= 0.3f;
+
 			if (modPlayer.irradiated)
 			{
 				if (modPlayer.boomerDukeLore)
-				{
 					player.endurance += 0.05f;
-				}
 				else
-				{
 					player.endurance -= 0.1f;
-				}
 			}
+
 			if (modPlayer.corrEffigy)
 				player.endurance -= 0.2f;
-			if (modPlayer.marked || modPlayer.reaperToothNecklace)
+
+			if (modPlayer.marked)
 			{
 				if (player.endurance > 0f)
 					player.endurance *= 0.5f;
+			}
+
+			if (modPlayer.reaperToothNecklace)
+			{
+				if (player.endurance > 0f)
+					player.endurance *= 0.75f;
 			}
 		}
 		#endregion
@@ -4112,7 +4114,7 @@ namespace CalamityMod.CalPlayer
 				{
 					Item item = player.inventory[i];
 
-					if (player.potionDelay > 0 && modPlayer.potionTimer > 0)
+					if (player.potionDelay > 0 || modPlayer.potionTimer > 0)
 						break;
 					if (item is null || item.stack <= 0)
 						continue;

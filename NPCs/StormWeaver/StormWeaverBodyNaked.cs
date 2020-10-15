@@ -61,7 +61,14 @@ namespace CalamityMod.NPCs.StormWeaver
                 npc.buffImmune[k] = true;
             }
             npc.dontCountMe = true;
-        }
+
+			if (CalamityWorld.death || BossRushEvent.BossRushActive)
+				npc.scale = 1.2f;
+			else if (CalamityWorld.revenge)
+				npc.scale = 1.15f;
+			else if (Main.expertMode)
+				npc.scale = 1.1f;
+		}
 
         public override void SendExtraAI(BinaryWriter writer)
         {

@@ -114,7 +114,7 @@ namespace CalamityMod.NPCs.Ravager
                 float num661 = Main.npc[CalamityGlobalNPC.scavenger].Center.Y - vector79.Y;
                 num661 += 50f;
                 num660 -= 120f;
-                float num662 = (float)Math.Sqrt((double)(num660 * num660 + num661 * num661));
+                float num662 = (float)Math.Sqrt(num660 * num660 + num661 * num661);
                 if (num662 < 12f + num659)
                 {
                     npc.rotation = 0f;
@@ -151,7 +151,7 @@ namespace CalamityMod.NPCs.Ravager
                     num662 = num659 / num662;
                     npc.velocity.X = num660 * num662;
                     npc.velocity.Y = num661 * num662;
-                    npc.rotation = (float)Math.Atan2((double)npc.velocity.Y, (double)npc.velocity.X);
+                    npc.rotation = (float)Math.Atan2(npc.velocity.Y, npc.velocity.X);
                 }
             }
             else if (npc.ai[0] == 1f)
@@ -175,12 +175,12 @@ namespace CalamityMod.NPCs.Ravager
                 Vector2 vector80 = new Vector2(npc.Center.X, npc.Center.Y);
                 float num664 = Main.player[npc.target].Center.X - vector80.X;
                 float num665 = Main.player[npc.target].Center.Y - vector80.Y;
-                float num666 = (float)Math.Sqrt((double)(num664 * num664 + num665 * num665));
+                float num666 = (float)Math.Sqrt(num664 * num664 + num665 * num665);
                 num666 = num663 / num666;
                 npc.velocity.X = num664 * num666;
                 npc.velocity.Y = num665 * num666;
                 npc.ai[0] = 2f;
-                npc.rotation = (float)Math.Atan2((double)-(double)npc.velocity.Y, (double)-(double)npc.velocity.X);
+                npc.rotation = (float)Math.Atan2(-npc.velocity.Y, -npc.velocity.X);
             }
             else if (npc.ai[0] == 2f)
             {
@@ -213,8 +213,8 @@ namespace CalamityMod.NPCs.Ravager
                 num668 += Main.npc[CalamityGlobalNPC.scavenger].velocity.Y;
                 num668 += 40f;
                 num667 -= 110f;
-                float num669 = (float)Math.Sqrt((double)(num667 * num667 + num668 * num668));
-                if ((num669 > 700f || npc.collideX || npc.collideY) | npc.justHit)
+                float num669 = (float)Math.Sqrt(num667 * num667 + num668 * num668);
+                if ((num669 > (death ? 900f : 700f) || npc.collideX || npc.collideY) | npc.justHit)
                 {
                     npc.noTileCollide = true;
                     npc.ai[0] = 0f;
@@ -228,7 +228,7 @@ namespace CalamityMod.NPCs.Ravager
                 Vector2 vector82 = new Vector2(npc.Center.X, npc.Center.Y);
                 float num673 = Main.player[npc.target].Center.X - vector82.X;
                 float num674 = Main.player[npc.target].Center.Y - vector82.Y;
-                float num675 = (float)Math.Sqrt((double)(num673 * num673 + num674 * num674));
+                float num675 = (float)Math.Sqrt(num673 * num673 + num674 * num674);
                 num675 = num671 / num675;
                 num673 *= num675;
                 num674 *= num675;
@@ -264,7 +264,7 @@ namespace CalamityMod.NPCs.Ravager
                         npc.velocity.Y -= num672 * 2f;
                     }
                 }
-                npc.rotation = (float)Math.Atan2((double)-(double)npc.velocity.Y, (double)-(double)npc.velocity.X);
+                npc.rotation = (float)Math.Atan2(-npc.velocity.Y, -npc.velocity.X);
             }
         }
 
@@ -275,11 +275,11 @@ namespace CalamityMod.NPCs.Ravager
             float drawPositionY = Main.npc[CalamityGlobalNPC.scavenger].Center.Y - center.Y;
             drawPositionY += 12f;
             drawPositionX -= 28f;
-            float rotation = (float)Math.Atan2((double)drawPositionY, (double)drawPositionX) - 1.57f;
+            float rotation = (float)Math.Atan2(drawPositionY, drawPositionX) - MathHelper.PiOver2;
             bool draw = true;
             while (draw)
             {
-                float totalDrawDistance = (float)Math.Sqrt((double)(drawPositionX * drawPositionX + drawPositionY * drawPositionY));
+                float totalDrawDistance = (float)Math.Sqrt(drawPositionX * drawPositionX + drawPositionY * drawPositionY);
                 if (totalDrawDistance < 16f)
                 {
                     draw = false;
@@ -298,7 +298,7 @@ namespace CalamityMod.NPCs.Ravager
                     Color color = Lighting.GetColor((int)center.X / 16, (int)(center.Y / 16f));
                     spriteBatch.Draw(ModContent.GetTexture("CalamityMod/NPCs/Ravager/RavagerChain"), new Vector2(center.X - Main.screenPosition.X, center.Y - Main.screenPosition.Y),
                         new Rectangle?(new Rectangle(0, 0, ModContent.GetTexture("CalamityMod/NPCs/Ravager/RavagerChain").Width, ModContent.GetTexture("CalamityMod/NPCs/Ravager/RavagerChain").Height)), color, rotation,
-                        new Vector2((float)ModContent.GetTexture("CalamityMod/NPCs/Ravager/RavagerChain").Width * 0.5f, (float)ModContent.GetTexture("CalamityMod/NPCs/Ravager/RavagerChain").Height * 0.5f), 1f, SpriteEffects.None, 0f);
+                        new Vector2(ModContent.GetTexture("CalamityMod/NPCs/Ravager/RavagerChain").Width * 0.5f, ModContent.GetTexture("CalamityMod/NPCs/Ravager/RavagerChain").Height * 0.5f), 1f, SpriteEffects.None, 0f);
                 }
             }
             return true;
@@ -328,9 +328,9 @@ namespace CalamityMod.NPCs.Ravager
             if (npc.life > 0)
             {
                 int num285 = 0;
-                while ((double)num285 < damage / (double)npc.lifeMax * 100.0)
+                while (num285 < damage / npc.lifeMax * 100.0)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, (float)hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
                     num285++;
                 }
             }

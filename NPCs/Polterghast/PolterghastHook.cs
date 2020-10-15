@@ -148,12 +148,12 @@ namespace CalamityMod.NPCs.Polterghast
                     if (Main.netMode != NetmodeID.MultiplayerClient && npc.ai[2] == 20f)
                     {
                         float num151 = (BossRushEvent.BossRushActive ? 14f : 10f) * tileEnrageMult;
-						int num152 = expertMode ? 48 : 60;
-                        int num153 = ModContent.ProjectileType<PhantomHookShot>();
-                        num149 = num151 / num149;
+						int type = ModContent.ProjectileType<PhantomHookShot>();
+						int damage = npc.GetProjectileDamage(type);
+						num149 = num151 / num149;
                         num147 *= num149;
                         num148 *= num149;
-                        int proj = Projectile.NewProjectile(vector17.X, vector17.Y, num147, num148, num153, num152, 0f, Main.myPlayer, 0f, 0f);
+                        int proj = Projectile.NewProjectile(vector17.X, vector17.Y, num147, num148, type, damage, 0f, Main.myPlayer, 0f, 0f);
                     }
                 }
                 return;
@@ -171,7 +171,7 @@ namespace CalamityMod.NPCs.Polterghast
             {
                 float num740 = Main.player[npc.target].Center.X - npc.Center.X;
                 float num741 = Main.player[npc.target].Center.Y - npc.Center.Y;
-                npc.rotation = (float)Math.Atan2(num741, num740) + 1.57f;
+                npc.rotation = (float)Math.Atan2(num741, num740) + MathHelper.PiOver2;
             }
 
             if (Main.netMode == NetmodeID.MultiplayerClient)
@@ -193,7 +193,7 @@ namespace CalamityMod.NPCs.Polterghast
 				}
 				else
 				{
-					float shootBoost = death ? 2f : 2f * (1f - lifeRatio);
+					float shootBoost = death ? 4f * (1f - lifeRatio) : 2f * (1f - lifeRatio);
 					npc.localAI[0] -= 1f + shootBoost * tileEnrageMult;
 					if (expertMode)
 						npc.localAI[0] -= Vector2.Distance(npc.Center, player.Center) * 0.002f;
@@ -205,7 +205,7 @@ namespace CalamityMod.NPCs.Polterghast
 
                 if (!despawnBoost && npc.localAI[0] <= 0f && npc.ai[0] != 0f)
                 {
-                    for (int num763 = 0; num763 < 200; num763++)
+                    for (int num763 = 0; num763 < Main.maxNPCs; num763++)
                     {
                         if (num763 != npc.whoAmI && Main.npc[num763].active && Main.npc[num763].type == npc.type && (Main.npc[num763].velocity.X != 0f || Main.npc[num763].velocity.Y != 0f))
                             npc.localAI[0] = 180f;
@@ -255,7 +255,7 @@ namespace CalamityMod.NPCs.Polterghast
 
             if (npc.ai[0] > 0f && npc.ai[1] > 0f)
             {
-				float velocityBoost = death ? 2f : 2f * (1f - lifeRatio);
+				float velocityBoost = death ? 4f * (1f - lifeRatio) : 2f * (1f - lifeRatio);
                 float velocity = (8f + velocityBoost) * tileEnrageMult;
                 if (expertMode)
                     velocity += npc.localAI[1];

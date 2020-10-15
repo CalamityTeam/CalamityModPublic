@@ -1,4 +1,6 @@
 using CalamityMod.Dusts;
+using CalamityMod.Events;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -52,6 +54,8 @@ namespace CalamityMod.NPCs.Signus
 				return;
 			}
 
+			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+
 			Lighting.AddLight((int)((npc.position.X + (npc.width / 2)) / 16f), (int)((npc.position.Y + (npc.height / 2)) / 16f), 0.7f, 0.2f, 1.1f);
 
 			npc.rotation = npc.velocity.X * 0.04f;
@@ -68,9 +72,9 @@ namespace CalamityMod.NPCs.Signus
 				npc.Calamity().newAI[0] += 1f;
 				npc.velocity *= 0.98f;
 				npc.dontTakeDamage = false;
-				npc.scale = MathHelper.Lerp(1f, 3f, npc.Calamity().newAI[0] / 85f);
+				npc.scale = MathHelper.Lerp(1f, 3f, npc.Calamity().newAI[0] / 45f);
 
-				if (npc.Calamity().newAI[0] >= 85f)
+				if (npc.Calamity().newAI[0] >= 45f)
 				{
 					CheckDead();
 					npc.life = 0;
@@ -100,7 +104,7 @@ namespace CalamityMod.NPCs.Signus
 				}
 			}
 
-			float num1372 = 14f;
+			float num1372 = death ? 16f : 14f;
             Vector2 vector167 = new Vector2(npc.Center.X + (npc.direction * 20), npc.Center.Y + 6f);
             float num1373 = player.position.X + player.width * 0.5f - vector167.X;
             float num1374 = player.Center.Y - vector167.Y;
@@ -147,6 +151,9 @@ namespace CalamityMod.NPCs.Signus
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
+			if (npc.Calamity().newAI[0] >= 45f)
+				return false;
+
 			SpriteEffects spriteEffects = SpriteEffects.None;
 			if (npc.spriteDirection == 1)
 				spriteEffects = SpriteEffects.FlipHorizontally;

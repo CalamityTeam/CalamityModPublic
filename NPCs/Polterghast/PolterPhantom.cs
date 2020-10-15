@@ -64,16 +64,28 @@ namespace CalamityMod.NPCs.Polterghast
         public override void SendExtraAI(BinaryWriter writer)
         {
             writer.Write(despawnTimer);
-        }
+			CalamityGlobalNPC cgn = npc.Calamity();
+			writer.Write(cgn.newAI[0]);
+			writer.Write(cgn.newAI[1]);
+			writer.Write(cgn.newAI[2]);
+			writer.Write(cgn.newAI[3]);
+		}
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
             despawnTimer = reader.ReadInt32();
-        }
+			CalamityGlobalNPC cgn = npc.Calamity();
+			cgn.newAI[0] = reader.ReadSingle();
+			cgn.newAI[1] = reader.ReadSingle();
+			cgn.newAI[2] = reader.ReadSingle();
+			cgn.newAI[3] = reader.ReadSingle();
+		}
 
         public override void AI()
         {
             CalamityGlobalNPC.ghostBossClone = npc.whoAmI;
+
+			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
 
             npc.alpha -= 5;
             if (npc.alpha < 50)
@@ -90,7 +102,10 @@ namespace CalamityMod.NPCs.Polterghast
 
 			Player player = Main.player[Main.npc[CalamityGlobalNPC.ghostBoss].target];
 
-            Vector2 vector = npc.Center;
+			// Percent life remaining, Polter
+			float lifeRatio = Main.npc[CalamityGlobalNPC.ghostBoss].life / Main.npc[CalamityGlobalNPC.ghostBoss].lifeMax;
+
+			Vector2 vector = npc.Center;
 
 			// Scale multiplier based on nearby active tiles
 			float tileEnrageMult = Main.npc[CalamityGlobalNPC.ghostBoss].ai[3];
@@ -107,8 +122,8 @@ namespace CalamityMod.NPCs.Polterghast
             if (npc.timeLeft < 1500)
                 npc.timeLeft = 1500;
 
-            float num734 = 3f;
-            float num735 = 0.03f;
+            float velocity = 3f;
+            float acceleration = 0.03f;
             if (!player.ZoneDungeon && !BossRushEvent.BossRushActive && player.position.Y < Main.worldSurface * 16.0)
             {
                 despawnTimer--;
@@ -123,23 +138,23 @@ namespace CalamityMod.NPCs.Polterghast
 				}
 
                 speedBoost1 = true;
-                num734 += 8f;
-                num735 = 0.15f;
+				velocity += 8f;
+				acceleration = 0.15f;
             }
             else
                 despawnTimer++;
 
             if (Main.npc[CalamityGlobalNPC.ghostBoss].ai[2] < 300f)
             {
-                num734 = 21f;
-                num735 = 0.13f;
+				velocity = 21f;
+				acceleration = 0.13f;
             }
 
 			if (expertMode)
 			{
 				chargeVelocity += revenge ? 4f : 2f;
-				num734 += revenge ? 5f : 3.5f;
-				num735 += revenge ? 0.035f : 0.025f;
+				velocity += revenge ? 5f : 3.5f;
+				acceleration += revenge ? 0.035f : 0.025f;
 			}
 
 			// Look at target
@@ -175,23 +190,29 @@ namespace CalamityMod.NPCs.Polterghast
 				{
 					num737 *= -1f;
 					num736 *= -1f;
-					num734 += 8f;
+					velocity += 8f;
 				}
 
 				float num738 = (float)Math.Sqrt(num736 * num736 + num737 * num737);
-				int num739 = 500;
+				float maxDistanceFromHooks = expertMode ? 650f : 500f;
 				if (speedBoost1)
-					num739 += 500;
-				if (expertMode)
-					num739 += 150;
+					maxDistanceFromHooks += 500f;
+				if (death)
+					maxDistanceFromHooks += maxDistanceFromHooks * 0.1f * (1f - lifeRatio);
 
 				// Increase speed based on nearby active tiles
-				num734 *= tileEnrageMult;
-				num735 *= tileEnrageMult;
+				velocity *= tileEnrageMult;
+				acceleration *= tileEnrageMult;
 
-				if (num738 >= num739)
+				if (death)
 				{
-					num738 = num739 / num738;
+					velocity += velocity * 0.15f * (1f - lifeRatio);
+					acceleration += acceleration * 0.15f * (1f - lifeRatio);
+				}
+
+				if (num738 >= maxDistanceFromHooks)
+				{
+					num738 = maxDistanceFromHooks / num738;
 					num736 *= num738;
 					num737 *= num738;
 				}
@@ -203,41 +224,41 @@ namespace CalamityMod.NPCs.Polterghast
 				num737 = movementLimitY - vector91.Y;
 				num738 = (float)Math.Sqrt(num736 * num736 + num737 * num737);
 
-				if (num738 < num734)
+				if (num738 < velocity)
 				{
 					num736 = npc.velocity.X;
 					num737 = npc.velocity.Y;
 				}
 				else
 				{
-					num738 = num734 / num738;
+					num738 = velocity / num738;
 					num736 *= num738;
 					num737 *= num738;
 				}
 
 				if (npc.velocity.X < num736)
 				{
-					npc.velocity.X += num735;
+					npc.velocity.X += acceleration;
 					if (npc.velocity.X < 0f && num736 > 0f)
-						npc.velocity.X += num735 * 2f;
+						npc.velocity.X += acceleration * 2f;
 				}
 				else if (npc.velocity.X > num736)
 				{
-					npc.velocity.X -= num735;
+					npc.velocity.X -= acceleration;
 					if (npc.velocity.X > 0f && num736 < 0f)
-						npc.velocity.X -= num735 * 2f;
+						npc.velocity.X -= acceleration * 2f;
 				}
 				if (npc.velocity.Y < num737)
 				{
-					npc.velocity.Y += num735;
+					npc.velocity.Y += acceleration;
 					if (npc.velocity.Y < 0f && num737 > 0f)
-						npc.velocity.Y += num735 * 2f;
+						npc.velocity.Y += acceleration * 2f;
 				}
 				else if (npc.velocity.Y > num737)
 				{
-					npc.velocity.Y -= num735;
+					npc.velocity.Y -= acceleration;
 					if (npc.velocity.Y > 0f && num737 < 0f)
-						npc.velocity.Y -= num735 * 2f;
+						npc.velocity.Y -= acceleration * 2f;
 				}
 			}
 			else
@@ -310,12 +331,14 @@ namespace CalamityMod.NPCs.Polterghast
 					float chargeDistanceGateValue = 32f;
 
 					if (Vector2.Distance(vector, chargeVector) <= chargeDistanceGateValue)
-					{
 						npc.velocity *= 0.8f;
-						return;
+					else
+					{
+						if (Vector2.Distance(vector, chargeVector) > 1200f)
+							npc.velocity = chargeLocationVelocity;
+						else
+							npc.SimpleFlyMovement(chargeLocationVelocity, chargeAcceleration);
 					}
-
-					npc.SimpleFlyMovement(chargeLocationVelocity, chargeAcceleration);
 				}
 
 				npc.netUpdate = true;
@@ -392,7 +415,12 @@ namespace CalamityMod.NPCs.Polterghast
             }
         }
 
-        public override void OnHitPlayer(Player player, int damage, bool crit)
+		public override bool CheckActive()
+		{
+			return false;
+		}
+
+		public override void OnHitPlayer(Player player, int damage, bool crit)
         {
             if (CalamityWorld.revenge)
                 player.AddBuff(ModContent.BuffType<Horror>(), 180, true);

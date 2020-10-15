@@ -19,8 +19,7 @@ namespace CalamityMod.Items.Accessories
 				"20% increased true melee damage\n" +
                 "Increased invincibility after taking damage\n" +
                 "Temporary immunity to lava\n" +
-                "Increased melee knockback\n" +
-                "Melee attacks have a chance to instantly kill normal enemies");
+                "Increased melee knockback");
         }
 
         public override void SetDefaults()

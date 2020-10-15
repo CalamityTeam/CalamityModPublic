@@ -28,11 +28,14 @@ namespace CalamityMod.NPCs.Leviathan
         int counter = 0;
         bool initialised = false;
 		int soundDelay = 0;
+        public static Texture2D AttackTexture = null;
 
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("The Leviathan");
-            Main.npcFrameCount[npc.type] = 6;
+            Main.npcFrameCount[npc.type] = 3;
+            if (!Main.dedServ)
+                AttackTexture = ModContent.GetTexture("CalamityMod/NPCs/Leviathan/LeviathanAttack");
         }
 
         public override void SetDefaults()
@@ -95,17 +98,15 @@ namespace CalamityMod.NPCs.Leviathan
         public override void SendExtraAI(BinaryWriter writer)
         {
             writer.Write(npc.dontTakeDamage);
-            writer.Write(counter);
-            writer.Write(initialised);
             writer.Write(soundDelay);
+            writer.Write(npc.Calamity().newAI[3]);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
             npc.dontTakeDamage = reader.ReadBoolean();
-            counter = reader.ReadInt32();
-            initialised = reader.ReadBoolean();
             soundDelay = reader.ReadInt32();
+            npc.Calamity().newAI[3] = reader.ReadSingle();
         }
 
         public override void AI()
@@ -132,7 +133,7 @@ namespace CalamityMod.NPCs.Leviathan
 			float lifeRatio = npc.life / (float)npc.lifeMax;
 
 			// Phases
-			bool phase2 = (lifeRatio < 0.7f && expertMode) || death;
+			bool phase2 = lifeRatio < 0.7f && expertMode;
 			bool phase3 = lifeRatio < 0.4f;
 			bool phase4 = lifeRatio < 0.2f;
 
@@ -239,8 +240,8 @@ namespace CalamityMod.NPCs.Leviathan
                     float num413 = (sirenAlive && !phase4) ? 0.1f : 0.2f;
 					if (expertMode && (!sirenAlive || phase4))
 					{
-						num412 += death ? 3.5f : 3.5f * (1f - lifeRatio);
-						num413 += death ? 0.1f : 0.1f * (1f - lifeRatio);
+						num412 += death ? 6f * (1f - lifeRatio) : 3.5f * (1f - lifeRatio);
+						num413 += death ? 0.15f * (1f - lifeRatio) : 0.1f * (1f - lifeRatio);
 					}
                     if (BossRushEvent.BossRushActive)
                     {
@@ -311,7 +312,7 @@ namespace CalamityMod.NPCs.Leviathan
                         if (!player.dead)
                         {
                             npc.ai[2] += 1f;
-                            if (!sirenAlive || death || phase4)
+                            if (!sirenAlive || phase4)
                                 npc.ai[2] += 2f;
                         }
 
@@ -325,23 +326,17 @@ namespace CalamityMod.NPCs.Leviathan
                             if (Main.netMode != NetmodeID.MultiplayerClient)
                             {
                                 float speed = (sirenAlive && !phase4 && !death) ? 13.5f : 16f;
-                                int dmg = 40;
-                                int projType = ModContent.ProjectileType<LeviathanBomb>();
+                                int type = ModContent.ProjectileType<LeviathanBomb>();
+								int damage = npc.GetProjectileDamage(type);
 
-                                if (expertMode)
-                                {
+								if (expertMode)
                                     speed = (sirenAlive && !phase4 && !death) ? 14f : 17f;
-									dmg = 33;
-                                }
 
                                 if (npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))
                                     speed = 22f;
 
 								if (!sirenAlive || phase4)
-								{
 									speed += 3f * (1f - lifeRatio);
-									dmg += expertMode ? 3 : 4;
-								}
 
 								if (BossRushEvent.BossRushActive)
                                     speed *= 1.5f;
@@ -352,7 +347,7 @@ namespace CalamityMod.NPCs.Leviathan
                                 num416 *= num417;
                                 vector40.X += num415 * 4f;
                                 vector40.Y += num416 * 4f;
-                                Projectile.NewProjectile(vector40.X, vector40.Y, num415, num416, projType, dmg, 0f, Main.myPlayer, 0f, 0f);
+                                Projectile.NewProjectile(vector40.X, vector40.Y, num415, num416, type, damage, 0f, Main.myPlayer, 0f, 0f);
 								if (soundDelay <= 0)
 								{
 									soundDelay = 120;
@@ -413,8 +408,8 @@ namespace CalamityMod.NPCs.Leviathan
                         float num1064 = (sirenAlive && !phase4) ? 0.05f : 0.065f;
 						if (expertMode && (!sirenAlive || phase4))
 						{
-							num1063 += death ? 4f : 4f * (1f - lifeRatio);
-							num1064 += death ? 0.03f : 0.03f * (1f - lifeRatio);
+							num1063 += death ? 7f * (1f - lifeRatio) : 4f * (1f - lifeRatio);
+							num1064 += death ? 0.05f * (1f - lifeRatio) : 0.03f * (1f - lifeRatio);
 						}
 						if (BossRushEvent.BossRushActive)
                         {
@@ -469,7 +464,8 @@ namespace CalamityMod.NPCs.Leviathan
                 else if (npc.ai[0] == 2f)
                 {
                     Vector2 distFromPlayer = player.Center - npc.Center;
-                    if (npc.ai[1] > 1f || distFromPlayer.Length() > 2400f)
+					float chargeAmt = death ? 2f : 1f;
+                    if (npc.ai[1] >= chargeAmt * 2f || distFromPlayer.Length() > 2400f)
                     {
                         npc.ai[0] = 0f;
                         npc.ai[1] = 0f;
@@ -506,7 +502,7 @@ namespace CalamityMod.NPCs.Leviathan
                             float num1044 = revenge ? 20f : 18f;
 
 							if (revenge && (!sirenAlive || phase4))
-								num1044 += death ? 6f : 6f * (1f - lifeRatio);
+								num1044 += death ? 9f * (1f - lifeRatio) : 6f * (1f - lifeRatio);
 
                             if (npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))
                                 num1044 += 4f;
@@ -530,8 +526,8 @@ namespace CalamityMod.NPCs.Leviathan
                         float num1049 = revenge ? 0.12f : 0.11f;
 						if (revenge && (!sirenAlive || phase4))
 						{
-							num1048 += death ? 6f : 6f * (1f - lifeRatio);
-							num1049 += death ? 0.1f : 0.1f * (1f - lifeRatio);
+							num1048 += death ? 9f * (1f - lifeRatio) : 6f * (1f - lifeRatio);
+							num1049 += death ? 0.15f * (1f - lifeRatio) : 0.1f * (1f - lifeRatio);
 						}
 
                         if (npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))
@@ -595,8 +591,8 @@ namespace CalamityMod.NPCs.Leviathan
                         float num1052 = revenge ? 0.11f : 0.1f;
 						if (revenge && (!sirenAlive || phase4))
 						{
-							npc.velocity *= death ? 0.81f : MathHelper.Lerp(0.81f, 1f, lifeRatio);
-							num1052 += death ? 0.1f : 0.1f * (1f - lifeRatio);
+							npc.velocity *= death ? MathHelper.Lerp(0.75f, 1f, lifeRatio) : MathHelper.Lerp(0.81f, 1f, lifeRatio);
+							num1052 += death ? 0.15f * (1f - lifeRatio) : 0.1f * (1f - lifeRatio);
 						}
 
                         if (Math.Abs(npc.velocity.X) + Math.Abs(npc.velocity.Y) < num1052)
@@ -719,7 +715,7 @@ namespace CalamityMod.NPCs.Leviathan
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
-            Texture2D texture = ModContent.GetTexture("CalamityMod/NPCs/Leviathan/LeviathanAttack");
+            Texture2D texture = AttackTexture;
 			if (npc.ai[0] == 1f || npc.Calamity().newAI[3] < 180f)
             {
 				texture = Main.npcTexture[npc.type];
@@ -762,7 +758,7 @@ namespace CalamityMod.NPCs.Leviathan
 					npc.frame.Y += height;
 			}
 
-            if (counter == Main.npcFrameCount[npc.type])
+            if (counter == 6)
             {
                 counter = 1;
                 npc.frame.Y = 0;

@@ -6,6 +6,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using System.IO;
 
 namespace CalamityMod.NPCs.SupremeCalamitas
 {
@@ -43,14 +44,25 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             npc.DeathSound = SoundID.NPCDeath14;
         }
 
+        public override void SendExtraAI(BinaryWriter writer)
+        {
+            writer.Write(timer);
+        }
+
+        public override void ReceiveExtraAI(BinaryReader reader)
+        {
+            timer = reader.ReadInt32();
+        }
+
         public override bool PreAI()
         {
+            NPC parent = Main.npc[CalamityGlobalNPC.SCal];
             bool expertMode = Main.expertMode;
             if (start)
             {
                 for (int num621 = 0; num621 < 10; num621++)
                 {
-                    int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 2f);
+                    int num622 = Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 2f);
                 }
                 npc.ai[1] = npc.ai[0];
                 start = false;
@@ -63,21 +75,32 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             timer++;
             if (timer > 180)
             {
+				for (int i = 0; i < Main.maxNPCs; i++)
+				{
+					NPC seeker = Main.npc[i];
+					if (seeker.type == npc.type)
+					{
+						if (seeker == npc)
+							Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SCalSounds/BrimstoneShoot"), parent.Center);
+						break;
+					}
+				}
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
-                    int damage = expertMode ? 150 : 200; //600 500
-                    Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X, direction.Y, ModContent.ProjectileType<BrimstoneBarrage>(), damage, 1f, npc.target);
+					int type = ModContent.ProjectileType<BrimstoneBarrage>();
+					int damage = npc.GetProjectileDamage(type);
+					Projectile.NewProjectile(npc.Center, direction, type, damage, 1f, Main.myPlayer);
                 }
                 timer = 0;
+                npc.netUpdate = true;
             }
-            if (CalamityGlobalNPC.SCal < 0 || !Main.npc[CalamityGlobalNPC.SCal].active)
+            if (CalamityGlobalNPC.SCal < 0 || !parent.active)
             {
                 npc.active = false;
                 npc.netUpdate = true;
                 return false;
             }
             Player player = Main.player[npc.target];
-            NPC parent = Main.npc[NPC.FindFirstNPC(ModContent.NPCType<SupremeCalamitas>())];
             double deg = (double)npc.ai[1];
             double rad = deg * (Math.PI / 180);
             double dist = 300;

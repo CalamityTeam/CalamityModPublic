@@ -209,9 +209,9 @@ namespace CalamityMod.NPCs
             { NPCID.GolemFistLeft, 250000 },
             { NPCID.GolemFistRight, 250000 },
 
-            { NPCID.EaterofWorldsHead, 15000000 }, // 30 seconds
-            { NPCID.EaterofWorldsBody, 15000000 },
-            { NPCID.EaterofWorldsTail, 15000000 },
+            { NPCID.EaterofWorldsHead, 100000 }, // 30 seconds + immunity timer at start
+            { NPCID.EaterofWorldsBody, 100000 },
+            { NPCID.EaterofWorldsTail, 100000 },
 
             // Tier 2
             { NPCID.TheDestroyer, 2500000 }, // 30 seconds + immunity timer at start
@@ -799,7 +799,7 @@ namespace CalamityMod.NPCs
 
             if (CalamityWorld.revenge)
             {
-                RevengeanceStatChanges(npc, mod);
+                RevDeathStatChanges(npc, mod);
             }
 
             OtherStatChanges(npc);
@@ -920,7 +920,7 @@ namespace CalamityMod.NPCs
                 case NPCID.PrimeCannon:
                 case NPCID.PrimeSaw:
                 case NPCID.PrimeLaser:
-                    npc.lifeMax = (int)(npc.lifeMax * 1.05);
+                    npc.lifeMax = (int)(npc.lifeMax * 0.8);
                     break;
 
                 case NPCID.Retinazer:
@@ -932,8 +932,8 @@ namespace CalamityMod.NPCs
         }
         #endregion
 
-        #region Revengeance Stat Changes
-        private void RevengeanceStatChanges(NPC npc, Mod mod)
+        #region Revengeance and Death Mode Stat Changes
+        private void RevDeathStatChanges(NPC npc, Mod mod)
         {
             npc.value = (int)(npc.value * 1.5);
 
@@ -995,20 +995,32 @@ namespace CalamityMod.NPCs
             {
                 npc.lifeMax = (int)(npc.lifeMax * 1.05);
             }
-            else if (npc.type == NPCID.SkeletronHead)
+            else if (npc.type == NPCID.SkeletronHead) // 8800 in expert, 6600 in rev, 4400 in death
             {
-                npc.lifeMax = (int)(npc.lifeMax * 1.25);
-                npc.npcSlots = 12f;
+				if (CalamityWorld.death)
+					npc.lifeMax = (int)(npc.lifeMax * 0.5);
+				else
+					npc.lifeMax = (int)(npc.lifeMax * 0.75);
+
+				npc.npcSlots = 12f;
             }
-            else if (npc.type == NPCID.SkeletronHand)
+            else if (npc.type == NPCID.SkeletronHand) // 3120 in expert, 11232 in rev, 18720 in death
             {
-                npc.lifeMax = (int)(npc.lifeMax * 0.75);
-            }
+				if (CalamityWorld.death)
+					npc.lifeMax = (int)(npc.lifeMax * 0.75);
+				else
+					npc.lifeMax = (int)(npc.lifeMax * 0.9);
+			}
             else if (npc.type == NPCID.QueenBee)
             {
                 npc.lifeMax = (int)(npc.lifeMax * 1.15);
                 npc.npcSlots = 14f;
             }
+			else if ((npc.type == NPCID.Bee || npc.type == NPCID.BeeSmall) && CalamityPlayer.areThereAnyDamnBosses)
+			{
+				npc.lifeMax = (int)(npc.lifeMax * 1.4);
+				npc.scale = 1.25f;
+			}
             else if (npc.type == NPCID.BrainofCthulhu)
             {
                 npc.lifeMax = (int)(npc.lifeMax * 1.6);
@@ -1023,15 +1035,21 @@ namespace CalamityMod.NPCs
                 npc.lifeMax = (int)(npc.lifeMax * 1.3);
 
                 if (npc.type == NPCID.EaterofWorldsHead)
-                {
                     npc.npcSlots = 10f;
-                }
-            }
+
+				if (CalamityWorld.death)
+					npc.scale = 1.2f;
+			}
             else if (npc.type == NPCID.EyeofCthulhu)
             {
                 npc.lifeMax = (int)(npc.lifeMax * 1.25);
                 npc.npcSlots = 10f;
             }
+			else if (npc.type == NPCID.KingSlime)
+			{
+				if (CalamityWorld.death)
+					npc.scale = 3f;
+			}
             else if (npc.type == NPCID.Wraith || npc.type == NPCID.Mimic || npc.type == NPCID.Reaper || npc.type == NPCID.PresentMimic || npc.type == NPCID.SandElemental)
             {
                 npc.knockBackResist = 0f;
@@ -1050,6 +1068,10 @@ namespace CalamityMod.NPCs
 					npc.lifeMax = (int)(npc.lifeMax * 1.45);
 					npc.npcSlots = 12f;
                 }
+				else if (npc.type <= NPCID.PrimeLaser && npc.type >= NPCID.PrimeCannon)
+				{
+					npc.lifeMax = (int)(npc.lifeMax * 0.65);
+				}
                 else if (npc.type == NPCID.Retinazer)
                 {
                     npc.lifeMax = (int)(npc.lifeMax * 1.25);
@@ -1285,27 +1307,27 @@ namespace CalamityMod.NPCs
                         break;
 
                     case 2:
-                        scalar = 0.82;
+                        scalar = 0.82; // 1.64
                         break;
 
                     case 3:
-                        scalar = 0.72;
+                        scalar = 0.72; // 2.16
                         break;
 
                     case 4:
-                        scalar = 0.64;
+                        scalar = 0.64; // 2.56
                         break;
 
                     case 5:
-                        scalar = 0.57;
+                        scalar = 0.57; // 2.85
                         break;
 
                     case 6:
-                        scalar = 0.52;
+                        scalar = 0.52; // 3.12
                         break;
 
                     default:
-                        scalar = 0.47;
+                        scalar = 0.47; // 3.29 + 0.47 per player beyond 7
                         break;
                 }
 
@@ -1644,23 +1666,20 @@ namespace CalamityMod.NPCs
         #region Boss Head Slot
         public override void BossHeadSlot(NPC npc, ref int index)
         {
-            if (CalamityWorld.revenge)
-            {
-                if (npc.type == NPCID.BrainofCthulhu)
-                {
-                    if (npc.life / (float)npc.lifeMax < (CalamityWorld.death ? 0.33f : 0.2f))
-                        index = -1;
-                }
+			if (CalamityWorld.revenge)
+			{
+				if (npc.type == NPCID.BrainofCthulhu)
+				{
+					if (npc.life / (float)npc.lifeMax < (CalamityWorld.death ? 1f : 0.2f))
+						index = -1;
+				}
 
-                if (CalamityWorld.death)
-                {
-                    if (npc.type == NPCID.DukeFishron)
-                    {
-                        if (npc.life / (float)npc.lifeMax < 0.15f)
-                            index = -1;
-                    }
-                }
-            }
+				if (npc.type == NPCID.DukeFishron && CalamityWorld.death)
+				{
+					if (npc.life / (float)npc.lifeMax < 0.4f)
+						index = -1;
+				}
+			}
         }
         #endregion
 
@@ -3326,37 +3345,6 @@ namespace CalamityMod.NPCs
 
 			if (!projectile.npcProj && !projectile.trap)
 			{
-				if (ShouldAffectNPC(npc) && Main.rand.NextBool(15) && !CalamityPlayer.areThereAnyDamnBosses)
-				{
-					if (modPlayer.eGauntlet && projectile.melee)
-					{
-						damage = npc.lifeMax * 3;
-					}
-
-					if (modPlayer.eTalisman && projectile.magic)
-					{
-						damage = npc.lifeMax * 3;
-					}
-
-					if (modPlayer.nanotech && projectile.Calamity().rogue)
-					{
-						damage = npc.lifeMax * 3;
-					}
-
-					if (modPlayer.eQuiver && projectile.ranged)
-					{
-						damage = npc.lifeMax * 3;
-					}
-
-					if (modPlayer.nucleogenesis)
-					{
-						if (projectile.IsSummon())
-						{
-							damage = npc.lifeMax * 3;
-						}
-					}
-				}
-
 				if (projectile.ranged && modPlayer.plagueReaper && pFlames > 0)
 				{
 					damage = (int)(damage * 1.1);
@@ -4361,7 +4349,7 @@ namespace CalamityMod.NPCs
                 return new Color(200, 50, 50, npc.alpha);
             }
 
-            if (npc.Calamity().kamiFlu > 0)
+            if (npc.Calamity().kamiFlu > 0 && !CalamityLists.kamiDebuffColorImmuneList.Contains(npc.type))
             {
                 return new Color(51, 197, 108, npc.alpha);
             }
@@ -5001,16 +4989,44 @@ namespace CalamityMod.NPCs
 						projectile.ai[0] = 2f;
 						projectile.netUpdate = true;
 
-						if (Main.netMode != NetmodeID.MultiplayerClient)
-						{
-							int boss = NPC.NewNPC((int)projectile.Center.X, (int)projectile.Center.Y + 100, type);
-							CalamityUtils.BossAwakenMessage(boss);
-						}
-						else
-						{
-							NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, plr, (float)type, 0f, 0f, 0, 0, 0);
-						}
-					}
+                        // The vanilla game uses a special packet for Duke Fishron spawning.
+                        // However, this packet doesn't work on modded NPC types, so we must create
+                        // a custom one.
+                        // Also, you can't use Netmode != NetmodeID.MultiplayerClient in a projectile context that
+                        // has an owner, hence the MyPlayer check.
+                        if (Main.myPlayer == projectile.owner)
+                        {
+                            if (Main.netMode == NetmodeID.SinglePlayer)
+                            {
+                                if (!player.active || player.dead)
+                                    return;
+
+                                Projectile proj = null;
+                                for (int i = 0; i < Main.maxProjectiles; i++)
+                                {
+                                    proj = Main.projectile[i];
+                                    if (Main.projectile[i].active && Main.projectile[i].bobber && Main.projectile[i].owner == player.whoAmI)
+                                    {
+                                        proj = Main.projectile[i];
+                                        break;
+                                    }
+                                }
+
+                                if (proj is null)
+                                    return;
+
+                                int oldDuke = NPC.NewNPC((int)proj.Center.X, (int)proj.Center.Y + 100, NPCType<OldDuke.OldDuke>());
+                                CalamityUtils.BossAwakenMessage(oldDuke);
+                            }
+							else
+                            {
+                                var netMessage = CalamityMod.Instance.GetPacket();
+                                netMessage.Write((byte)CalamityModMessageType.ServersideSpawnOldDuke);
+                                netMessage.Write((byte)player.whoAmI);
+                                netMessage.Send();
+                            }
+                        }
+                    }
 
                     break;
                 }

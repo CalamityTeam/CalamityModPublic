@@ -64,6 +64,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             writer.Write(invinceTime);
             writer.Write(setAlpha);
             writer.Write(npc.dontTakeDamage);
+            writer.Write(npc.alpha);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
@@ -71,6 +72,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             invinceTime = reader.ReadInt32();
             setAlpha = reader.ReadBoolean();
             npc.dontTakeDamage = reader.ReadBoolean();
+            npc.alpha = reader.ReadInt32();
         }
 
         public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)

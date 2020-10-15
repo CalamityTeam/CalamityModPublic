@@ -1,3 +1,4 @@
+using CalamityMod.ILEditing;
 using CalamityMod.Items.Placeables.DraedonStructures;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -55,10 +56,7 @@ namespace CalamityMod.Tiles.DraedonStructures
             num = fail ? 1 : 3;
         }
 
-        public override void HitWire(int i, int j)
-        {
-			CalamityMod.DoorSwap(ModContent.TileType<LaboratoryDoorOpen>(), ModContent.TileType<LaboratoryDoorClosed>(), i, j, true);
-		}
+        public override void HitWire(int i, int j) => ILChanges.DoorSwap(ModContent.TileType<LaboratoryDoorOpen>(), ModContent.TileType<LaboratoryDoorClosed>(), i, j, true);
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {

@@ -6,6 +6,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using System;
 using Microsoft.Xna.Framework;
+using System.IO;
 
 namespace CalamityMod.NPCs.NormalNPCs
 {
@@ -36,7 +37,9 @@ namespace CalamityMod.NPCs.NormalNPCs
             get => npc.ai[3];
             set => npc.ai[3] = value;
         }
+
         public bool Supercharged => SuperchargeTimer > 0;
+        public ref float FlyAwayTimer => ref npc.localAI[0];
 
         public const float TotalHorizontalChargeTime = 75f;
         public override void SetStaticDefaults()
@@ -64,6 +67,10 @@ namespace CalamityMod.NPCs.NormalNPCs
             bannerItem = ModContent.ItemType<WulfrumDroneBanner>();
         }
 
+        public override void SendExtraAI(BinaryWriter writer) => writer.Write(FlyAwayTimer);
+
+        public override void ReceiveExtraAI(BinaryReader reader) => FlyAwayTimer = reader.ReadSingle();
+
         public override void AI()
         {
             npc.TargetClosest(false);
@@ -82,12 +89,23 @@ namespace CalamityMod.NPCs.NormalNPCs
                 // Fly away if there is no living target, or the closest target is too far away.
                 if (player.dead || !player.active || farFromPlayer || obstanceInFrontOfPlayer)
                 {
-                    npc.velocity = Vector2.Lerp(npc.velocity, Vector2.UnitY * -8f, 0.1f);
-                    npc.rotation = npc.rotation.AngleTowards(0f, MathHelper.ToRadians(15f));
-                    npc.noTileCollide = true;
+                    if (FlyAwayTimer > 150)
+					{
+                        npc.velocity = Vector2.Lerp(npc.velocity, Vector2.UnitY * -8f, 0.1f);
+                        npc.rotation = npc.rotation.AngleTowards(0f, MathHelper.ToRadians(15f));
+                        npc.noTileCollide = true;
+                    }
+                    else
+                    {
+                        npc.velocity *= 0.96f;
+                        npc.rotation = npc.rotation.AngleTowards(0f, MathHelper.ToRadians(15f));
+                        FlyAwayTimer++;
+                    }
                     return;
                 }
             }
+
+            FlyAwayTimer = Utils.Clamp(FlyAwayTimer - 3, 0, 180);
 
             npc.noTileCollide = !farFromPlayer;
 

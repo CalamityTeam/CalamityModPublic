@@ -32,7 +32,6 @@ using System;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Events
@@ -241,7 +240,8 @@ namespace CalamityMod.Events
             {
                 [ModContent.NPCType<HiveMind>()] = new int[] { ModContent.NPCType<HiveMindP2>() },
                 [ModContent.NPCType<StormWeaverHead>()] = new int[] { ModContent.NPCType<StormWeaverHeadNaked>(), ModContent.NPCType<StormWeaverBodyNaked>(), ModContent.NPCType<StormWeaverTailNaked>() },
-            };
+				[ModContent.NPCType<Calamitas>()] = new int[] { ModContent.NPCType<CalamitasRun3>() },
+			};
 
             BossDeathEffects = new Dictionary<int, Action<NPC>>()
             {

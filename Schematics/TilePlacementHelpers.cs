@@ -20,6 +20,7 @@ namespace CalamityMod.Schematics
             BottomLeft,
             BottomRight,
         }
+
         internal static Tile SchematicTileConversion(Tile oldTile, Tile toReplaceWith, Color schematicColorAtPosition)
         {
             float opacity = schematicColorAtPosition.A / 255f;
@@ -42,36 +43,60 @@ namespace CalamityMod.Schematics
                 newTile = (Tile)toReplaceWith.Clone();
             return newTile;
         }
-        public static void PlaceStructure(string mapKey, Point placementPosition, PlacementAnchorType placementAnchor, Action<Chest> chestInteraction = null)
+
+        public static void PlaceStructure<T>(string mapKey, Point placementPosition, PlacementAnchorType placementAnchor, ref bool specialCondition, T chestInteraction = null) where T : Delegate
         {
+            if (chestInteraction != null &&
+                !(chestInteraction is Action<Chest>) && 
+                !(chestInteraction is Action<Chest, int, bool>))
+            {
+                throw new ArgumentException("The chest interaction function has invalid parameters.", nameof(chestInteraction));
+            }
+
+            LoadEverything(); // Just in case they weren't loaded properly beforehand.
+
+            // If no structure schematic matching that name was found, cancel.
             if (!TileMaps.ContainsKey(mapKey))
                 return;
             PilePlacementMaps.TryGetValue(mapKey, out PilePlacementFunction pilePlacementFunction);
             ColorTileCombination[,] schematic = TileMaps[mapKey];
-            Tile[,] oldTiles = new Tile[schematic.GetLength(0), schematic.GetLength(1)];
+
+            // Make an array for the tiles that used to be where this schematic will be pasted.
+            int sWidth = schematic.GetLength(0);
+            int sHeight = schematic.GetLength(1);
+            Tile[,] oldTiles = new Tile[sWidth, sHeight];
+
             int xOffset = placementPosition.X;
             int yOffset = placementPosition.Y;
-            // Top-left is the default for terraria. There is no need to include it in this switch.
+
+            // TopLeft is the default because anchoring things at their top-left corner is the default Terraria behavior.
+            // This is why it does nothing.
+
             switch (placementAnchor)
             {
                 case PlacementAnchorType.TopRight:
-                    xOffset += schematic.GetLength(0);
+                    xOffset += sWidth;
                     break;
                 case PlacementAnchorType.Center:
-                    xOffset += schematic.GetLength(0) / 2;
-                    yOffset += schematic.GetLength(1) / 2;
+                    xOffset += sWidth / 2;
+                    yOffset += sHeight / 2;
                     break;
                 case PlacementAnchorType.BottomLeft:
-                    yOffset += schematic.GetLength(1);
+                    yOffset += sHeight;
                     break;
                 case PlacementAnchorType.BottomRight:
-                    xOffset += schematic.GetLength(0);
-                    yOffset += schematic.GetLength(1);
+                    xOffset += sWidth;
+                    yOffset += sHeight;
+                    break;
+                case PlacementAnchorType.TopLeft:
+                default:
                     break;
             }
-            for (int x = 0; x < schematic.GetLength(0); x++)
+            
+            // Fill the old tiles array while simultaneously destroying everything in the target rectangle.
+            for (int x = 0; x < sWidth; x++)
             {
-                for (int y = 0; y < schematic.GetLength(1); y++)
+                for (int y = 0; y < sHeight; y++)
                 {
                     oldTiles[x, y] = (Tile)Main.tile[x + xOffset, y + yOffset].Clone();
 
@@ -81,158 +106,82 @@ namespace CalamityMod.Schematics
                     WorldGen.KillTile(x + xOffset, y + yOffset);
                 }
             }
-            for (int x = 0; x < schematic.GetLength(0); x++)
+
+            // Lay down the schematic. If the schematic calls for it, bring back tiles that are stored in the old tiles array.
+            for (int x = 0; x < sWidth; x++)
             {
-                for (int y = 0; y < schematic.GetLength(1); y++)
+                for (int y = 0; y < sHeight; y++)
                 {
-                    if (WorldGen.InWorld(x + xOffset, y + yOffset))
-                    {
-                        Tile tile = schematic[x, y].InternalTile;
-                        ModTile modTile = TileLoader.GetTile(tile.type);
-                        bool isChest = tile.type == TileID.Containers || (modTile != null && modTile.chest != "");
-
-                        // If the determined tile type is a chest, define it appropriately.
-                        if (isChest)
-                        {
-                            if (tile.frameX % 36 == 0 && tile.frameY == 0)
-                            {
-                                Chest chest = PlaceChest(x + xOffset, y + yOffset, tile.type);
-                                chestInteraction?.Invoke(chest);
-                            }
-                        }
-                        if (tile.type == TileID.Trees || tile.type == TileID.PineTree || tile.type == TileID.Cactus)
-                        {
-                            ushort oldWall = oldTiles[x, y].wall;
-                            oldTiles[x, y] = new Tile
-                            {
-                                wall = oldWall
-                            };
-                        }
-                        else
-                        {
-                            Main.tile[x + xOffset, y + yOffset] = (Tile)SchematicTileConversion(oldTiles[x, y], tile, schematic[x, y].InternalColor).Clone();
-
-							TryToPlaceTileEntities(x + xOffset, y + yOffset);
-						}
-
-                        Rectangle placeInArea = new Rectangle(x, y, schematic.GetLength(0), schematic.GetLength(1));
-
-                        // Dictionary.TryGetValue returns null if the specified key is not present.
-                        pilePlacementFunction?.Invoke(x + xOffset, y + yOffset, placeInArea);
-                    }
-                }
-            }
-        }
-        public static void PlaceStructure(string mapKey, Point placementPosition, PlacementAnchorType placementAnchor, ref bool specialCondition, Action<Chest, int, bool> chestInteraction = null)
-        {
-            LoadEverything(); // Just in case they weren't loaded properly beforehand.
-
-            PilePlacementMaps.TryGetValue(mapKey, out PilePlacementFunction pilePlacementFunction);
-            ColorTileCombination[,] schematic = TileMaps[mapKey];
-            Tile[,] oldTiles = new Tile[schematic.GetLength(0), schematic.GetLength(1)];
-            int xOffset = placementPosition.X;
-            int yOffset = placementPosition.Y;
-            // Top-left is the default for terraria. There is no need to include it in this switch.
-            switch (placementAnchor)
-            {
-                case PlacementAnchorType.TopRight:
-                    xOffset += schematic.GetLength(0);
-                    break;
-                case PlacementAnchorType.Center:
-                    xOffset += schematic.GetLength(0) / 2;
-                    yOffset += schematic.GetLength(1) / 2;
-                    break;
-                case PlacementAnchorType.BottomLeft:
-                    yOffset += schematic.GetLength(1);
-                    break;
-                case PlacementAnchorType.BottomRight:
-                    xOffset += schematic.GetLength(0);
-                    yOffset += schematic.GetLength(1);
-                    break;
-            }
-            for (int x = 0; x < schematic.GetLength(0); x++)
-            {
-                for (int y = 0; y < schematic.GetLength(1); y++)
-                {
-                    oldTiles[x, y] = (Tile)CalamityUtils.ParanoidTileRetrieval(x + xOffset, y + yOffset).Clone();
-
-                    // Attempting to break chests causes the game to attempt to infinitely recurse in an attempt to break the tile, resulting in a stack overflow.
-                    if (oldTiles[x, y].type == TileID.Containers)
+                    if (!WorldGen.InWorld(x + xOffset, y + yOffset))
                         continue;
-                    WorldGen.KillTile(x + xOffset, y + yOffset);
-                }
-            }
-            for (int x = 0; x < schematic.GetLength(0); x++)
-            {
-                for (int y = 0; y < schematic.GetLength(1); y++)
-                {
-                    if (WorldGen.InWorld(x + xOffset, y + yOffset))
+
+                    Tile tile = schematic[x, y].InternalTile;
+                    ModTile modTile = TileLoader.GetTile(tile.type);
+                    bool isChest = tile.type == TileID.Containers || (modTile != null && modTile.chest != "");
+
+                    // If the determined tile type is a chest, define it appropriately.
+                    if (isChest)
                     {
-                        Tile tile = schematic[x, y].InternalTile;
-                        ModTile modTile = TileLoader.GetTile(tile.type);
-                        bool isChest = tile.type == TileID.Containers || (modTile != null && modTile.chest != "");
-                        // If the determined tile type is a chest, define it appropriately.
-                        if (isChest)
+                        if (tile.frameX % 36 == 0 && tile.frameY == 0)
                         {
-                            if (tile.frameX % 36 == 0 && tile.frameY == 0)
+                            Chest chest = PlaceChest(x + xOffset, y + yOffset, tile.type);
+
+                            if (chestInteraction is Action<Chest, int, bool>)
                             {
-                                Chest chest = PlaceChest(x + xOffset, y + yOffset, tile.type);
-                                chestInteraction?.Invoke(chest, tile.type, specialCondition);
+                                (chestInteraction as Action<Chest, int, bool>)?.Invoke(chest, tile.type, specialCondition);
                                 specialCondition = true;
                             }
+                            else if (chestInteraction is Action<Chest>)
+                                (chestInteraction as Action<Chest>)?.Invoke(chest);
                         }
-                        if (tile.type == TileID.Trees || tile.type == TileID.PineTree || tile.type == TileID.Cactus)
-                        {
-                            ushort oldWall = oldTiles[x, y].wall;
-                            oldTiles[x, y] = new Tile
-                            {
-                                wall = oldWall
-                            };
-                        }
-                        else
-                        {
-                            Main.tile[x + xOffset, y + yOffset] = (Tile)SchematicTileConversion(oldTiles[x, y], tile, schematic[x, y].InternalColor).Clone();
-
-                            // Temporary until the eldritch Tile Entity world corruption bug is killed.
-                            if (Main.tile[x + xOffset, y + yOffset].type == ModContent.TileType<ChargingStation>())
-                                Main.tile[x + xOffset, y + yOffset].active(false);
-
-							TryToPlaceTileEntities(x + xOffset, y + yOffset);
-                        }
-
-                        Rectangle placeInArea = new Rectangle(x, y, schematic.GetLength(0), schematic.GetLength(1));
-
-                        // Dictionary.TryGetValue returns null if the specified key is not present.
-                        pilePlacementFunction?.Invoke(x + xOffset, y + yOffset, placeInArea);
                     }
+
+                    // Trees and cacti get special treatment and are always imported back in to prevent world corruption.
+                    if (tile.type == TileID.Trees || tile.type == TileID.PineTree || tile.type == TileID.Cactus)
+                    {
+                        ushort oldWall = oldTiles[x, y].wall;
+                        oldTiles[x, y] = new Tile
+                        {
+                            wall = oldWall
+                        };
+                    }
+                    else
+                    {
+                        Main.tile[x + xOffset, y + yOffset] = (Tile)SchematicTileConversion(oldTiles[x, y], tile, schematic[x, y].InternalColor).Clone();
+                        TryToPlaceTileEntities(x + xOffset, y + yOffset);
+                    }
+
+                    Rectangle placeInArea = new Rectangle(x, y, sWidth, sHeight);
+                    pilePlacementFunction?.Invoke(x + xOffset, y + yOffset, placeInArea);
                 }
             }
         }
 
-		public static void TryToPlaceTileEntities(int x, int y)
-		{
-			Tile tileAtPosition = CalamityUtils.ParanoidTileRetrieval(x, y);
-			int tileType = tileAtPosition.type;
+        private static void TryToPlaceTileEntities(int x, int y)
+        {
+            Tile t = CalamityUtils.ParanoidTileRetrieval(x, y);
+            int tileType = t.type;
 
-			// A tile entity in an empty spot would make no sense.
-			if (!tileAtPosition.active())
-				return;
+            // A tile entity in an empty spot would make no sense.
+            if (!t.active())
+                return;
 
-			// Ignore tiles that aren't at the top left of the tile.
-			// Most tile entities won't even register the position as valid otherwise.
-			// Not to mention the possibility of multiple tile entities appearing.
-			if (tileAtPosition.frameX != 0 || tileAtPosition.frameY != 0)
-				return;
-	
-			// Runtime variables do not work with switches (such as ModContent calls).
-			// Therefore, the only other solutions would be to use an else if or delegate dictionary.
-			if (tileType == ModContent.TileType<DraedonLabTurret>())
-			{
-				TileEntity.PlaceEntityNet(x, y, ModContent.TileEntityType<TEDraedonLabTurret>());
-			}
-		}
+            // Ignore tiles that aren't at the top left of the tile.
+            // All of Calamity's worldgen-placed tile entities refuse to exist except at the top left corner of their host tile.
+            if (t.frameX != 0 || t.frameY != 0)
+                return;
 
-		public static Chest PlaceChest(int x, int y, int chestType)
+            // This cannot be a switch because switch cases must be compile time constants, which ModContent calls are not.
+            // Therefore the only option is an if-else ladder.
+            else if (tileType == ModContent.TileType<ChargingStation>())
+                TileEntity.PlaceEntityNet(x, y, ModContent.TileEntityType<TEChargingStation>());
+            else if (tileType == ModContent.TileType<DraedonLabTurret>())
+                TileEntity.PlaceEntityNet(x, y, ModContent.TileEntityType<TEDraedonLabTurret>());
+            else if (tileType == ModContent.TileType<LabHologramProjector>())
+                TileEntity.PlaceEntityNet(x, y, ModContent.TileEntityType<TELabHologramProjector>());
+        }
+
+        public static Chest PlaceChest(int x, int y, int chestType)
         {
             int chestIndex = Chest.FindEmptyChest(x, y, chestType);
             Main.chest[chestIndex] = new Chest()

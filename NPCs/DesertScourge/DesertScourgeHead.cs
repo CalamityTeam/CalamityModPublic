@@ -26,6 +26,7 @@ namespace CalamityMod.NPCs.DesertScourge
     {
         private bool flies = false;
         private bool TailSpawned = false;
+		public bool playRoarSound = false;
 
         public override void SetStaticDefaults()
         {
@@ -63,20 +64,25 @@ namespace CalamityMod.NPCs.DesertScourge
                 music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/DesertScourge");
             else
                 music = MusicID.Boss1;
-            if (Main.expertMode)
-            {
-                npc.scale = 1.15f;
-            }
+
+			if (CalamityWorld.death || BossRushEvent.BossRushActive)
+				npc.scale = 1.25f;
+			else if (CalamityWorld.revenge)
+				npc.scale = 1.15f;
+			else if (Main.expertMode)
+                npc.scale = 1.1f;
         }
 
         public override void SendExtraAI(BinaryWriter writer)
         {
             writer.Write(npc.dontTakeDamage);
+            writer.Write(playRoarSound);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
             npc.dontTakeDamage = reader.ReadBoolean();
+            playRoarSound = reader.ReadBoolean();
         }
 
         public override void AI()
@@ -102,8 +108,8 @@ namespace CalamityMod.NPCs.DesertScourge
 
 			if (expertMode)
 			{
-				speed += death ? 6f : 6f * (1f - lifeRatio);
-				turnSpeed += death ? 0.06f : 0.06f * (1f - lifeRatio);
+				speed += death ? 9f * (1f - lifeRatio) : 6f * (1f - lifeRatio);
+				turnSpeed += death ? 0.09f * (1f - lifeRatio) : 0.06f * (1f - lifeRatio);
 			}
 
 			if (lungeUpward)
@@ -143,7 +149,7 @@ namespace CalamityMod.NPCs.DesertScourge
                 if (!TailSpawned && npc.ai[0] == 0f)
                 {
                     int Previous = npc.whoAmI;
-					int minLength = expertMode ? 30 : 25;
+					int minLength = death ? 40 : revenge ? 35 : expertMode ? 30 : 25;
                     for (int num36 = 0; num36 < minLength + 1; num36++)
                     {
                         int lol;
@@ -271,11 +277,21 @@ namespace CalamityMod.NPCs.DesertScourge
 
 			// Lunge up towards target
 			if (burrow && npc.Center.Y >= burrowTarget - 16f)
+			{
 				npc.Calamity().newAI[1] = 1f;
+				if (!playRoarSound)
+				{
+					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/DesertScourgeRoar"), player.Center);
+					playRoarSound = true;
+				}
+			}
 
 			// Quickly fall back down once above target
 			if (lungeUpward && npc.Center.Y <= player.Center.Y - 420f)
+			{
 				npc.Calamity().newAI[1] = 2f;
+				playRoarSound = false;
+			}
 
 			// Quickly fall and reset variables once at target's Y position
 			if (quickFall)
@@ -285,6 +301,7 @@ namespace CalamityMod.NPCs.DesertScourge
 				{
 					npc.Calamity().newAI[0] = 0f;
 					npc.Calamity().newAI[1] = 0f;
+					playRoarSound = false;
 				}
 			}
 
@@ -351,7 +368,8 @@ namespace CalamityMod.NPCs.DesertScourge
                         num195 = 20f;
                     }
                     npc.soundDelay = (int)num195;
-                    Main.PlaySound(15, (int)npc.position.X, (int)npc.position.Y, 1);
+					//Play the worm digging sound.  No, I don't know why it's the same ID (but different style) as the generic boss roar and a scream
+                    Main.PlaySound(SoundID.Roar, (int)npc.position.X, (int)npc.position.Y, 1);
                 }
                 num193 = (float)System.Math.Sqrt(num191 * num191 + num192 * num192);
                 float num196 = System.Math.Abs(num191);

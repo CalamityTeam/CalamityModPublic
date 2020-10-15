@@ -61,7 +61,7 @@ namespace CalamityMod.NPCs.HiveMind
             Vector2 vector133 = new Vector2(npc.Center.X, npc.Center.Y);
             float num1166 = Main.player[npc.target].Center.X - vector133.X;
             float num1167 = Main.player[npc.target].Center.Y - vector133.Y - 400f;
-            float num1168 = (float)Math.Sqrt((double)(num1166 * num1166 + num1167 * num1167));
+            float num1168 = (float)Math.Sqrt(num1166 * num1166 + num1167 * num1167);
             if (num1168 < 20f)
             {
                 num1166 = npc.velocity.X;
@@ -105,16 +105,17 @@ namespace CalamityMod.NPCs.HiveMind
                     npc.velocity.Y = npc.velocity.Y - num1165 * 2f;
                 }
             }
-            if (npc.position.X + (float)npc.width > Main.player[npc.target].position.X && npc.position.X < Main.player[npc.target].position.X + (float)Main.player[npc.target].width && npc.position.Y + (float)npc.height < Main.player[npc.target].position.Y && Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height) && Main.netMode != NetmodeID.MultiplayerClient)
+            if (npc.position.X + npc.width > Main.player[npc.target].position.X && npc.position.X < Main.player[npc.target].position.X + Main.player[npc.target].width && npc.position.Y + npc.height < Main.player[npc.target].position.Y && Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height) && Main.netMode != NetmodeID.MultiplayerClient)
             {
                 npc.ai[0] += 1f;
                 if (npc.ai[0] >= 30f)
                 {
                     npc.ai[0] = 0f;
-                    int num1169 = (int)(npc.position.X + 10f + (float)Main.rand.Next(npc.width - 20));
-                    int num1170 = (int)(npc.position.Y + (float)npc.height + 4f);
-                    int num184 = Main.expertMode ? 14 : 18;
-                    Projectile.NewProjectile((float)num1169, (float)num1170, 0f, 4f, ModContent.ProjectileType<ShaderainHostile>(), num184, 0f, Main.myPlayer, 0f, 0f);
+                    int num1169 = (int)(npc.position.X + 10f + Main.rand.Next(npc.width - 20));
+                    int num1170 = (int)(npc.position.Y + npc.height + 4f);
+					int type = ModContent.ProjectileType<ShaderainHostile>();
+					int damage = npc.GetProjectileDamage(type);
+					Projectile.NewProjectile(num1169, num1170, 0f, 4f, type, damage, 0f, Main.myPlayer, 0f, 0f);
                 }
             }
         }

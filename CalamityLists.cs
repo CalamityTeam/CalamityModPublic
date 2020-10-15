@@ -111,8 +111,6 @@ namespace CalamityMod
         public static List<int> revengeanceProjectileBuffList25Percent;
         public static List<int> revengeanceProjectileBuffList20Percent;
         public static List<int> revengeanceProjectileBuffList15Percent;
-        public static List<int> revengeanceProjectileBuffList10Percent;
-        public static List<int> revengeanceProjectileBuffList5Percent;
         public static List<int> revengeanceLifeStealExceptionList;
         public static List<int> movementImpairImmuneList;
         public static List<int> needsDebuffIconDisplayList;
@@ -145,6 +143,8 @@ namespace CalamityMod
         public static List<int> minibossList;
 
         public static List<int> legOverrideList;
+
+        public static List<int> kamiDebuffColorImmuneList;
 
         public static void LoadLists()
         {
@@ -280,8 +280,8 @@ namespace CalamityMod
 
             trueMeleeProjectileList = new List<int>()
             {
-				// Vanilla shit
-				ProjectileID.Spear,
+                // Vanilla shit
+                ProjectileID.Spear,
                 ProjectileID.Trident,
                 ProjectileID.TheRottedFork,
                 ProjectileID.Swordfish,
@@ -302,7 +302,7 @@ namespace CalamityMod
                 ProjectileID.MonkStaffT3,
                 ProjectileID.NorthPoleWeapon,
 
-				// Tools
+                // Tools
                 ProjectileID.CobaltDrill,
                 ProjectileID.MythrilDrill,
                 ProjectileID.AdamantiteDrill,
@@ -330,8 +330,8 @@ namespace CalamityMod
                 ProjectileID.SawtoothShark,
                 ProjectileID.ButchersChainsaw,
 
-				// Calamity shit
-				ModContent.ProjectileType<DevilsSunriseProj>(),
+                // Calamity shit
+                ModContent.ProjectileType<DevilsSunriseProj>(),
                 ModContent.ProjectileType<MarniteObliteratorProj>(),
                 ModContent.ProjectileType<MurasamaSlash>(),
                 ModContent.ProjectileType<AmidiasTridentProj>(),
@@ -396,7 +396,7 @@ namespace CalamityMod
 
             projectileDestroyExceptionList = new List<int>()
             {
-				//holdout projectiles
+                //holdout projectiles
                 ProjectileID.Phantasm,
                 ProjectileID.VortexBeater,
                 ProjectileID.DD2PhoenixBow,
@@ -425,7 +425,7 @@ namespace CalamityMod
                 ModContent.ProjectileType<MurasamaSlash>(),
                 ModContent.ProjectileType<PhaseslayerProjectile>(),
 
-				//Some hostile boss projectiles
+                //Some hostile boss projectiles
                 ModContent.ProjectileType<BrimstoneMonster>(),
                 ModContent.ProjectileType<InfernadoRevenge>(),
                 ModContent.ProjectileType<OverlyDramaticDukeSummoner>(),
@@ -877,7 +877,7 @@ namespace CalamityMod
                 ModContent.ItemType<IceBarrage>(),
                 ModContent.ItemType<FrostBlossomStaff>(),
                 ModContent.ItemType<EndoHydraStaff>(),
-				//Cryonic Bar set stuff, could potentially be removed
+                //Cryonic Bar set stuff, could potentially be removed
                 ModContent.ItemType<Trinity>(),
                 ModContent.ItemType<Shimmerspark>(),
                 ModContent.ItemType<StarnightLance>(),
@@ -1341,12 +1341,7 @@ namespace CalamityMod
                 ProjectileID.EbonsandBallFalling,
                 ProjectileID.PearlSandBallFalling,
                 ProjectileID.CrimsandBallFalling,
-                ProjectileID.GeyserTrap,
-                ModContent.ProjectileType<SandBlast>(),
-                ModContent.ProjectileType<MushBomb>(),
-                ModContent.ProjectileType<MushBombFall>(),
-                ModContent.ProjectileType<BloodGeyser>(),
-                ModContent.ProjectileType<IchorShot>()
+                ProjectileID.GeyserTrap
             };
 
             revengeanceProjectileBuffList20Percent = new List<int>()
@@ -1355,17 +1350,7 @@ namespace CalamityMod
                 ProjectileID.DemonSickle,
                 ProjectileID.SandnadoHostile,
                 ProjectileID.DD2BetsyFireball,
-                ProjectileID.DD2BetsyFlameBreath,
-                ModContent.ProjectileType<Mushmash>(),
-                ModContent.ProjectileType<ShaderainHostile>(),
-                ModContent.ProjectileType<AbyssMine>(),
-                ModContent.ProjectileType<AbyssMine2>(),
-                ModContent.ProjectileType<AbyssBallVolley>(),
-                ModContent.ProjectileType<AbyssBallVolley2>(),
-                ModContent.ProjectileType<IceBlast>(),
-                ModContent.ProjectileType<IceBomb>(),
-                ModContent.ProjectileType<IceRain>(),
-                ModContent.ProjectileType<SandTooth>()
+                ProjectileID.DD2BetsyFlameBreath
             };
 
             revengeanceProjectileBuffList15Percent = new List<int>()
@@ -1374,7 +1359,6 @@ namespace CalamityMod
                 ProjectileID.SpearTrap,
                 ProjectileID.FlamethrowerTrap,
                 ProjectileID.FlamesTrap,
-                ProjectileID.Fireball,
                 ProjectileID.PaladinsHammerHostile,
                 ProjectileID.FlamingWood,
                 ProjectileID.FlamingScythe,
@@ -1390,85 +1374,9 @@ namespace CalamityMod
                 ProjectileID.VortexVortexLightning,
                 ProjectileID.VortexLightning,
                 ProjectileID.VortexAcid,
-                ProjectileID.Sharknado,
-                ProjectileID.Cthulunado,
-                ModContent.ProjectileType<SandPoisonCloud>(),
-                ModContent.ProjectileType<BrimstoneHellfireball>(),
-                ModContent.ProjectileType<HellfireExplosion>(),
-                ModContent.ProjectileType<BrimstoneRay>(),
-                ModContent.ProjectileType<BrimstoneLaser>(),
-                ModContent.ProjectileType<BrimstoneLaserSplit>(),
-                ModContent.ProjectileType<BrimstoneBall>(),
-                ModContent.ProjectileType<BrimstoneFire>(),
-                ModContent.ProjectileType<LeviathanBomb>(),
-                ModContent.ProjectileType<WaterSpear>(),
-                ModContent.ProjectileType<FrostMist>(),
-                ModContent.ProjectileType<SirenSong>(),
-                ModContent.ProjectileType<AstralFlame>(),
-                ModContent.ProjectileType<AstralLaser>(),
-                ModContent.ProjectileType<PlagueExplosion>(),
-                ModContent.ProjectileType<PlagueStingerGoliath>(),
-                ModContent.ProjectileType<PlagueStingerGoliathV2>(),
-                ModContent.ProjectileType<HiveBombGoliath>(),
-                ModContent.ProjectileType<ScavengerNuke>(),
-                ModContent.ProjectileType<AstralShot2>(),
-                ModContent.ProjectileType<DeusMine>(),
-                ModContent.ProjectileType<HolyBomb>(),
-                ModContent.ProjectileType<HolyFire>(),
-                ModContent.ProjectileType<HolyFire2>(),
-                ModContent.ProjectileType<HolyFlare>(),
-                ModContent.ProjectileType<MoltenBlast>(),
-                ModContent.ProjectileType<MoltenBlob>(),
-                ModContent.ProjectileType<DarkEnergyBall>(),
-                ModContent.ProjectileType<DoGBeam>(),
                 ModContent.ProjectileType<GreatSandBlast>(),
                 ModContent.ProjectileType<PearlBurst>(),
                 ModContent.ProjectileType<PearlRain>()
-            };
-
-            revengeanceProjectileBuffList10Percent = new List<int>()
-            {
-                ProjectileID.Boulder,
-                ModContent.ProjectileType<ProfanedSpear>(),
-                ModContent.ProjectileType<FlareDust>(),
-                ModContent.ProjectileType<RedLightningFeather>(),
-                ModContent.ProjectileType<RedLightning>(),
-                ModContent.ProjectileType<HolyBlast>(),
-                ModContent.ProjectileType<HolySpear>(),
-                ModContent.ProjectileType<ProvidenceCrystalShard>(),
-                ModContent.ProjectileType<ProvidenceHolyRay>(),
-                ModContent.ProjectileType<SignusScythe>(),
-                ModContent.ProjectileType<EssenceDust>(),
-                ModContent.ProjectileType<PhantomBlast>(),
-                ModContent.ProjectileType<PhantomBlast2>(),
-                ModContent.ProjectileType<PhantomGhostShot>(),
-                ModContent.ProjectileType<PhantomHookShot>(),
-                ModContent.ProjectileType<PhantomMine>(),
-                ModContent.ProjectileType<PhantomShot>(),
-                ModContent.ProjectileType<PhantomShot2>(),
-                ModContent.ProjectileType<OldDukeGore>(),
-                ModContent.ProjectileType<OldDukeVortex>(),
-                ModContent.ProjectileType<DoGDeath>(),
-                ModContent.ProjectileType<DoGFire>(),
-                ModContent.ProjectileType<DoGNebulaShot>(),
-                ModContent.ProjectileType<FlareBomb>(),
-                ModContent.ProjectileType<FlareDust2>(),
-                ModContent.ProjectileType<Flarenado>()
-            };
-
-            revengeanceProjectileBuffList5Percent = new List<int>()
-            {
-                ModContent.ProjectileType<Infernado>(),
-                ModContent.ProjectileType<Infernado2>(),
-                ModContent.ProjectileType<YharonFireball>(),
-                ModContent.ProjectileType<YharonFireball2>(),
-                ModContent.ProjectileType<BrimstoneBarrage>(),
-                ModContent.ProjectileType<BrimstoneHellblast>(),
-                ModContent.ProjectileType<BrimstoneFireblast>(),
-                ModContent.ProjectileType<BrimstoneGigaBlast>(),
-                ModContent.ProjectileType<BrimstoneHellblast2>(),
-                ModContent.ProjectileType<BrimstoneMonster>(),
-                ModContent.ProjectileType<BrimstoneWave>()
             };
 
             revengeanceLifeStealExceptionList = new List<int>()
@@ -2015,7 +1923,7 @@ namespace CalamityMod
                 NPCID.BaldZombie,
                 NPCID.PincushionZombie,
                 NPCID.ArmedZombiePincussion, // what is this spelling
-				NPCID.SlimedZombie,
+                NPCID.SlimedZombie,
                 NPCID.ArmedZombieSlimed,
                 NPCID.SwampZombie,
                 NPCID.ArmedZombieSwamp,
@@ -2042,8 +1950,8 @@ namespace CalamityMod
                 NPCID.SmallBaldZombie,
                 NPCID.BigZombie,
                 NPCID.SmallZombie
-				// halloween zombies not included because they don't drop shackles or zombie arms
-			};
+                // halloween zombies not included because they don't drop shackles or zombie arms
+            };
 
             demonEyeList = new List<int>()
             {
@@ -2051,7 +1959,7 @@ namespace CalamityMod
                 NPCID.CataractEye,
                 NPCID.SleepyEye,
                 NPCID.DialatedEye, // it is spelled "dilated"
-				NPCID.GreenEye,
+                NPCID.GreenEye,
                 NPCID.PurpleEye,
                 NPCID.DemonEyeOwl,
                 NPCID.DemonEyeSpaceship,
@@ -2082,13 +1990,13 @@ namespace CalamityMod
                 NPCID.BigSkeleton,
                 NPCID.SmallSkeleton,
 
-				//Note: These skeletons don't count for Skeleton Banner for some god forsaken reason
-				NPCID.SkeletonTopHat,
+                //Note: These skeletons don't count for Skeleton Banner for some god forsaken reason
+                NPCID.SkeletonTopHat,
                 NPCID.SkeletonAstonaut,
                 NPCID.SkeletonAlien,
 
-				//Other skeleton types
-				NPCID.ArmoredSkeleton,
+                //Other skeleton types
+                NPCID.ArmoredSkeleton,
                 NPCID.HeavySkeleton,
                 NPCID.SkeletonArcher,
                 NPCID.GreekSkeleton
@@ -2155,8 +2063,8 @@ namespace CalamityMod
                 NPCID.SantaNK1,
                 NPCID.Everscream,
                 NPCID.DD2Betsy,
-				NPCID.Mothron
-			};
+                NPCID.Mothron
+            };
 
             bossMinionList = new List<int>()
             {
@@ -2387,6 +2295,14 @@ namespace CalamityMod
                 CalamityMod.Instance.GetEquipSlot("SirenLeg", EquipType.Legs),
                 CalamityMod.Instance.GetEquipSlot("PopoLeg", EquipType.Legs)
             };
+
+            // Duke Fishron phase 3 becomes way too easy if you can make him stop being invisible with Yanmei's Knife.
+            // This is a list so that other NPCs can be added as necessary.
+            // IT DOES NOT make them immune to the debuff, just stops them from being recolored.
+            kamiDebuffColorImmuneList = new List<int>()
+            {
+                NPCID.DukeFishron,
+            };
         }
 
         public static void UnloadLists()
@@ -2430,8 +2346,6 @@ namespace CalamityMod
             revengeanceProjectileBuffList25Percent = null;
             revengeanceProjectileBuffList20Percent = null;
             revengeanceProjectileBuffList15Percent = null;
-            revengeanceProjectileBuffList10Percent = null;
-            revengeanceProjectileBuffList5Percent = null;
             revengeanceLifeStealExceptionList = null;
             movementImpairImmuneList = null;
             needsDebuffIconDisplayList = null;
@@ -2461,10 +2375,11 @@ namespace CalamityMod
             hornetList = null;
             mossHornetList = null;
             bossMinionList = null;
-			minibossList = null;
+            minibossList = null;
 
             legOverrideList = null;
 
+            kamiDebuffColorImmuneList = null;
         }
     }
 }

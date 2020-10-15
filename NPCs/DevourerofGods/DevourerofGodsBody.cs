@@ -137,33 +137,6 @@ namespace CalamityMod.NPCs.DevourerofGods
                     npc.alpha = 0;
             }
 
-            if (Main.netMode != NetmodeID.MultiplayerClient)
-            {
-                npc.localAI[0] += expertMode ? 1.5f : 1f;
-                int projectileType = ModContent.ProjectileType<DoGNebulaShot>();
-                int damage = expertMode ? 58 : 70;
-                float num941 = 5f;
-                if (npc.localAI[0] >= Main.rand.Next(1050, 12000))
-                {
-                    npc.localAI[0] = 0f;
-                    npc.TargetClosest(true);
-                    Vector2 vector104 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + (npc.height / 2));
-                    float num942 = player.position.X + player.width * 0.5f - vector104.X;
-                    float num943 = player.position.Y + player.height * 0.5f - vector104.Y;
-                    float num944 = (float)Math.Sqrt(num942 * num942 + num943 * num943);
-                    num944 = num941 / num944;
-                    num942 *= num944;
-                    num943 *= num944;
-                    vector104.X += num942 * 5f;
-                    vector104.Y += num943 * 5f;
-                    int proj = Projectile.NewProjectile(vector104.X, vector104.Y, num942, num943, projectileType, damage, 0f, Main.myPlayer, 0f, 0f);
-					Main.projectile[proj].ai[0] = Main.player[npc.target].Center.X;
-					Main.projectile[proj].ai[1] = Main.player[npc.target].Center.Y;
-					Main.projectile[proj].netUpdate = true;
-					npc.netUpdate = true;
-                }
-            }
-
             if (player.dead)
                 npc.TargetClosest(false);
 

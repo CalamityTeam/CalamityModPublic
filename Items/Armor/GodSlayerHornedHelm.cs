@@ -1,6 +1,7 @@
 using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
+using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.Projectiles.Summon;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
@@ -54,25 +55,20 @@ namespace CalamityMod.Items.Armor
                     int owner = player.whoAmI;
                     int typeHead = ModContent.ProjectileType<MechwormHead>();
                     int typeBody = ModContent.ProjectileType<MechwormBody>();
-                    int typeBody2 = ModContent.ProjectileType<MechwormBody2>();
                     int typeTail = ModContent.ProjectileType<MechwormTail>();
                     for (int i = 0; i < Main.maxProjectiles; i++)
                     {
                         if (Main.projectile[i].active && Main.projectile[i].owner == owner)
                         {
-                            if (Main.projectile[i].type == typeHead || Main.projectile[i].type == typeTail || Main.projectile[i].type == typeBody ||
-                                Main.projectile[i].type == typeBody2)
+                            if (Main.projectile[i].type == typeHead || Main.projectile[i].type == typeTail || Main.projectile[i].type == typeBody)
                             {
                                 Main.projectile[i].Kill();
                             }
                         }
                     }
-                    int maxMinionScale = player.maxMinions;
-                    if (maxMinionScale > 10)
-                    {
-                        maxMinionScale = 10;
-                    }
-                    int damage = (int)(35 * (((player.allDamage + player.minionDamage - 1f) * 5 / 3) + ((player.allDamage + player.minionDamage - 1f) * 0.46f * (maxMinionScale - 1))));
+
+                    // TODO -- clean this ugly shit up. This spawns a mechworm automatically with the correct damage (equal to the staff).
+                    int damage = (int)(StaffoftheMechworm.BaseDamage * player.MinionDamage());
                     Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
                     Vector2 value = Vector2.UnitX.RotatedBy((double)player.fullRotation, default);
                     Vector2 vector3 = Main.MouseWorld - vector2;
@@ -136,7 +132,7 @@ namespace CalamityMod.Items.Armor
                         curr = Projectile.NewProjectile(vector2.X, vector2.Y, velX, velY, ModContent.ProjectileType<MechwormBody>(), damage, 1f, owner, (float)prev);
 
                         prev = curr;
-                        curr = Projectile.NewProjectile(vector2.X, vector2.Y, velX, velY, ModContent.ProjectileType<MechwormBody2>(), damage, 1f, owner, (float)prev);
+                        curr = Projectile.NewProjectile(vector2.X, vector2.Y, velX, velY, ModContent.ProjectileType<MechwormBody>(), damage, 1f, owner, (float)prev);
                         Main.projectile[prev].localAI[1] = (float)curr;
                         Main.projectile[prev].netUpdate = true;
 
@@ -148,7 +144,7 @@ namespace CalamityMod.Items.Armor
                     else if (head != -1 && tail != -1)
                     {
                         int body = Projectile.NewProjectile(vector2.X, vector2.Y, velX, velY, ModContent.ProjectileType<MechwormBody>(), damage, 1f, owner, Main.projectile[tail].ai[0]);
-                        int back = Projectile.NewProjectile(vector2.X, vector2.Y, velX, velY, ModContent.ProjectileType<MechwormBody2>(), damage, 1f, owner, (float)body);
+                        int back = Projectile.NewProjectile(vector2.X, vector2.Y, velX, velY, ModContent.ProjectileType<MechwormBody>(), damage, 1f, owner, (float)body);
 
                         Main.projectile[body].localAI[1] = (float)back;
                         Main.projectile[body].ai[1] = 1f;

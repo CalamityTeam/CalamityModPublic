@@ -40,6 +40,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             set => npc.ai[3] = value;
         }
         public bool Supercharged => SuperchargeTimer > 0;
+        public ref float FlyAwayTimer => ref npc.localAI[0];
 
         public const float StunTimeMax = 45f;
         public const float SearchXOffset = 345f;
@@ -73,11 +74,13 @@ namespace CalamityMod.NPCs.NormalNPCs
         public override void SendExtraAI(BinaryWriter writer)
         {
             writer.Write(StunTime);
+            writer.Write(FlyAwayTimer);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
             StunTime = reader.ReadSingle();
+            FlyAwayTimer = reader.ReadSingle();
         }
 
         public override void FindFrame(int frameHeight)
@@ -108,12 +111,23 @@ namespace CalamityMod.NPCs.NormalNPCs
                 // Fly away if there is no living target, or the closest target is too far away.
                 if (player.dead || !player.active || farFromPlayer || obstanceInFrontOfPlayer)
                 {
-                    npc.velocity = Vector2.Lerp(npc.velocity, Vector2.UnitY * -8f, 0.1f);
-                    npc.rotation = npc.rotation.AngleTowards(0f, MathHelper.ToRadians(15f));
-                    npc.noTileCollide = true;
+                    if (FlyAwayTimer > 150)
+                    {
+                        npc.velocity = Vector2.Lerp(npc.velocity, Vector2.UnitY * -8f, 0.1f);
+                        npc.rotation = npc.rotation.AngleTowards(0f, MathHelper.ToRadians(15f));
+                        npc.noTileCollide = true;
+                    }
+                    else
+                    {
+                        npc.velocity *= 0.96f;
+                        npc.rotation = npc.rotation.AngleTowards(0f, MathHelper.ToRadians(15f));
+                        FlyAwayTimer++;
+                    }
                     return;
                 }
             }
+
+            FlyAwayTimer = Utils.Clamp(FlyAwayTimer - 3, 0, 180);
 
             npc.noTileCollide = !farFromPlayer;
 
