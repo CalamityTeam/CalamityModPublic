@@ -1471,6 +1471,7 @@ namespace CalamityMod.NPCs
 
                 case NPCID.EyeofCthulhu:
                     DropHelper.DropItemCondition(npc, ModContent.ItemType<VictoryShard>(), !Main.expertMode, 2, 4);
+                    DropHelper.DropItemCondition(npc, ModContent.ItemType<DeathstareRod>(), !Main.expertMode, 5, 1, 1);
                     DropHelper.DropItemCondition(npc, ModContent.ItemType<TeardropCleaver>(), !Main.expertMode, 5, 1, 1);
                     break;
 

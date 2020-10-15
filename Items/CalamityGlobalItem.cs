@@ -2983,6 +2983,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                     case ItemID.EyeOfCthulhuBossBag:
                         DropHelper.DropItem(player, ModContent.ItemType<VictoryShard>(), 3, 5);
                         DropHelper.DropItemChance(player, ModContent.ItemType<TeardropCleaver>(), 3);
+                        DropHelper.DropItemChance(player, ModContent.ItemType<DeathstareRod>(), 3);
                         DropHelper.DropItemCondition(player, ModContent.ItemType<CounterScarf>(), CalamityWorld.revenge);
                         break;
 
