@@ -167,6 +167,8 @@ namespace CalamityMod.Projectiles.Summon
             // Adjust the width/height of the segment in case the general size of the worm changes.
             if (offsetToDestination != Vector2.Zero)
                 projectile.Center = segmentAhead.Center - offsetToDestination.SafeNormalize(Vector2.Zero) * offsetFromNextSegment;
+
+            projectile.Center = Vector2.Clamp(projectile.Center, new Vector2(160f), new Vector2(Main.maxTilesX - 10, Main.maxTilesY - 10) * 16);
         }
 
         public override void PostAI()
