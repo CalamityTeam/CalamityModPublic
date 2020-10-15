@@ -864,6 +864,7 @@ namespace CalamityMod.World
                                 Main.tile[x, y].type = (ushort)ModContent.TileType<AstralMonolith>();
                                 break;
                             case TileID.LeafBlock:
+                            case TileID.Sunflower:
                                 WorldGen.KillTile(x, y);
 								if (Main.netMode == NetmodeID.MultiplayerClient)
 								{
@@ -1002,17 +1003,17 @@ namespace CalamityMod.World
 
                                 if (hanging)
                                 {
-                                    ConvertToAstral(x, topMost - 1);
+                                    ConvertToAstral(x, topMost - 1, false);
                                     break;
                                 }
                                 else
                                 {
                                     if (twoTall)
                                     {
-                                        ConvertToAstral(x, topMost + 2);
+                                        ConvertToAstral(x, topMost + 2, false);
                                         break;
                                     }
-                                    ConvertToAstral(x, topMost + 1);
+                                    ConvertToAstral(x, topMost + 1, false);
                                     break;
                                 }
                         }
@@ -1025,7 +1026,7 @@ namespace CalamityMod.World
                         }
                         else if (Main.netMode == NetmodeID.Server)
                         {
-                            NetMessage.SendTileSquare(-1, x, y, 1);
+                            NetMessage.SendData(MessageID.TileChange, -1, -1, null, 0, x, y);
                         }
                     }
                 }
