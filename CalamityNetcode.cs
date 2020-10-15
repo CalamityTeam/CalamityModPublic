@@ -205,29 +205,26 @@ namespace CalamityMod
                         if (Main.netMode != NetmodeID.Server)
                             break;
 
-                        if (!NPC.AnyNPCs(ModContent.NPCType<OldDuke>()))
-                        {
-                            Player player = Main.player[playerIndex2];
-                            if (!player.active || player.dead)
-                                return;
+                        Player player = Main.player[playerIndex2];
+                        if (!player.active || player.dead)
+                            return;
 
-                            Projectile projectile = null;
-                            for (int i = 0; i < Main.maxProjectiles; i++)
+                        Projectile projectile = null;
+                        for (int i = 0; i < Main.maxProjectiles; i++)
+                        {
+                            projectile = Main.projectile[i];
+                            if (Main.projectile[i].active && Main.projectile[i].bobber && Main.projectile[i].owner == playerIndex2)
                             {
                                 projectile = Main.projectile[i];
-                                if (Main.projectile[i].active && Main.projectile[i].bobber && Main.projectile[i].owner == playerIndex2)
-                                {
-                                    projectile = Main.projectile[i];
-                                    break;
-                                }
+                                break;
                             }
-
-                            if (projectile is null)
-                                return;
-
-                            int oldDuke = NPC.NewNPC((int)projectile.Center.X, (int)projectile.Center.Y + 100, ModContent.NPCType<OldDuke>());
-                            CalamityUtils.BossAwakenMessage(oldDuke);
                         }
+
+                        if (projectile is null)
+                            return;
+
+                        int oldDuke = NPC.NewNPC((int)projectile.Center.X, (int)projectile.Center.Y + 100, ModContent.NPCType<OldDuke>());
+                        CalamityUtils.BossAwakenMessage(oldDuke);
                         break;
 
                     default:
