@@ -24,7 +24,7 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override bool PreAI()
         {
-            if (Main.netMode != NetmodeID.MultiplayerClient)
+            if (Main.myPlayer == projectile.owner)
             {
                 int x = (int)(projectile.Center.X / 16f);
                 int y = (int)(projectile.Center.Y / 16f);
