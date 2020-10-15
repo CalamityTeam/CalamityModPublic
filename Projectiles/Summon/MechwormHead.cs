@@ -111,7 +111,7 @@ namespace CalamityMod.Projectiles.Summon
 
             Time++;
 
-            if (EndRiftGateUUID == -1)
+            if (!Main.projectile.IndexInRange(EndRiftGateUUID))
             {
                 // Very rapidly fade-in.
                 projectile.alpha = Utils.Clamp(projectile.alpha - 42, 0, 255);
@@ -146,6 +146,14 @@ namespace CalamityMod.Projectiles.Summon
                 projectile.netUpdate = true;
 
             NPC potentialTarget = projectile.Center.MinionHoming(AttackStateTimer > 0 ? 999999f : 2200f, owner);
+
+            // Make sure that a corresponding tail exists with this head projectile.
+            // If it doesn't, kill the head (and all associated segments as a result).
+            if (!WormTailCheck())
+            {
+                projectile.Kill();
+                return;
+            }
 
             // Teleport to the player if the worm is far from them.
             if (projectile.Distance(owner.Center) > 2700f)
@@ -204,6 +212,18 @@ namespace CalamityMod.Projectiles.Summon
             }
         }
 
+        public bool WormTailCheck()
+        {
+            int tailType = ModContent.ProjectileType<MechwormTail>();
+            for (int i = 0; i < Main.maxProjectiles; i++)
+            {
+                if (Main.projectile[i].type != tailType || !Main.projectile[i].active || Main.projectile[i].owner != projectile.owner)
+                    continue;
+                return true;
+            }
+            return false;
+        }
+
         public void PlayerFollowMovement(Player owner)
         {
             // Reset the gate UUID from any previous teleports.
@@ -243,7 +263,7 @@ namespace CalamityMod.Projectiles.Summon
         public void AttackMovement(NPC target)
         {
             if (target is null)
-			{
+            {
                 AttackStateTimer = 0;
                 return;
             }
@@ -348,11 +368,11 @@ namespace CalamityMod.Projectiles.Summon
                 }
             }
         }
-		#endregion
+        #endregion
 
-		#region Drawing
+        #region Drawing
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Texture2D tex = Main.projectileTexture[projectile.type];
             spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, projectile.GetAlpha(lightColor), projectile.rotation, tex.Size() / 2f, projectile.scale, SpriteEffects.None, 0f);
