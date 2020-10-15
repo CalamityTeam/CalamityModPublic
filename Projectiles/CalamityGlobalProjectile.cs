@@ -1246,30 +1246,34 @@ namespace CalamityMod.Projectiles
 			{
 				int x = (int)(projectile.Center.X / 16f);
 				int y = (int)(projectile.Center.Y / 16f);
+
+				bool isPowder = projectile.type == ProjectileID.PurificationPowder;
+				/* || projectile.type == ProjectileID.VilePowder || projectile.type == ProjectileID.ViciousPowder */
+
 				for (int i = x - 1; i <= x + 1; i++)
 				{
 					for (int j = y - 1; j <= y + 1; j++)
 					{
 						if (projectile.type == ProjectileID.PureSpray || projectile.type == ProjectileID.PurificationPowder)
 						{
-							WorldGenerationMethods.ConvertFromAstral(i, j, ConvertType.Pure);
+							WorldGenerationMethods.ConvertFromAstral(i, j, ConvertType.Pure, !isPowder);
 						}
 						//commented out for Terraria 1.4 when vile/vicious powder spread corruption/crimson
 						if (projectile.type == ProjectileID.CorruptSpray)// || projectile.type == ProjectileID.VilePowder)
 						{
-							WorldGenerationMethods.ConvertFromAstral(i, j, ConvertType.Corrupt);
+							WorldGenerationMethods.ConvertFromAstral(i, j, ConvertType.Corrupt, !isPowder);
 						}
 						if (projectile.type == ProjectileID.CrimsonSpray)// || projectile.type == ProjectileID.ViciousPowder)
 						{
-							WorldGenerationMethods.ConvertFromAstral(i, j, ConvertType.Crimson);
+							WorldGenerationMethods.ConvertFromAstral(i, j, ConvertType.Crimson, !isPowder);
 						}
 						if (projectile.type == ProjectileID.HallowSpray)
 						{
 							WorldGenerationMethods.ConvertFromAstral(i, j, ConvertType.Hallow);
 						}
+						NetMessage.SendTileRange(-1, i, j, 1, 1);
 					}
 				}
-				NetMessage.SendTileRange(-1, x - 1, y - 1, 2, 2);
 			}
         }
         #endregion
