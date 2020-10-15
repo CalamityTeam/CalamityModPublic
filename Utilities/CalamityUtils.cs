@@ -58,10 +58,10 @@ namespace CalamityMod
 		};
 		
 		#region Object Extensions
-		public static CalamityPlayer Calamity(this Player player) => (player is null || !player.active) ? null : player.GetModPlayer<CalamityPlayer>();
-		public static CalamityGlobalNPC Calamity(this NPC npc) => (npc is null || !npc.active) ? null : npc.GetGlobalNPC<CalamityGlobalNPC>();
-		public static CalamityGlobalItem Calamity(this Item item) => (item is null || item.IsAir) ? null : item.GetGlobalItem<CalamityGlobalItem>();
-		public static CalamityGlobalProjectile Calamity(this Projectile proj) => (proj is null || !proj.active) ? null : proj.GetGlobalProjectile<CalamityGlobalProjectile>();
+		public static CalamityPlayer Calamity(this Player player) => player.GetModPlayer<CalamityPlayer>();
+		public static CalamityGlobalNPC Calamity(this NPC npc) => npc.GetGlobalNPC<CalamityGlobalNPC>();
+		public static CalamityGlobalItem Calamity(this Item item) => item.GetGlobalItem<CalamityGlobalItem>();
+		public static CalamityGlobalProjectile Calamity(this Projectile proj) => proj.GetGlobalProjectile<CalamityGlobalProjectile>();
 		public static Item ActiveItem(this Player player) => Main.mouseItem.IsAir ? player.HeldItem : Main.mouseItem;
 		#endregion
 
@@ -1770,37 +1770,37 @@ namespace CalamityMod
 
 		public static bool DrawBeam(this Projectile projectile, float length, float width, Color lightColor, Texture2D texture = null)
 		{
-            if (texture is null)
-                texture = Main.projectileTexture[projectile.type];
+			if (texture is null)
+				texture = Main.projectileTexture[projectile.type];
 
-            float widthOffset = (float)(texture.Width - projectile.width) * 0.5f + (float)projectile.width * 0.5f;
-            float heightOffset = (float)(projectile.height / 2);
+			float widthOffset = (float)(texture.Width - projectile.width) * 0.5f + (float)projectile.width * 0.5f;
+			float heightOffset = (float)(projectile.height / 2);
 			Vector2 origin = new Vector2(widthOffset, heightOffset);
-            SpriteEffects spriteEffects = SpriteEffects.None;
-            if (projectile.spriteDirection == -1)
-            {
-                spriteEffects = SpriteEffects.FlipHorizontally;
-            }
-            Rectangle roughScreenBounds = new Rectangle((int)Main.screenPosition.X - 500, (int)Main.screenPosition.Y - 500, Main.screenWidth + 1000, Main.screenHeight + 1000);
-            if (projectile.getRect().Intersects(roughScreenBounds))
-            {
-                Vector2 drawPos = projectile.position - Main.screenPosition + origin;
+			SpriteEffects spriteEffects = SpriteEffects.None;
+			if (projectile.spriteDirection == -1)
+			{
+				spriteEffects = SpriteEffects.FlipHorizontally;
+			}
+			Rectangle roughScreenBounds = new Rectangle((int)Main.screenPosition.X - 500, (int)Main.screenPosition.Y - 500, Main.screenWidth + 1000, Main.screenHeight + 1000);
+			if (projectile.getRect().Intersects(roughScreenBounds))
+			{
+				Vector2 drawPos = projectile.position - Main.screenPosition + origin;
 				drawPos.Y += projectile.gfxOffY;
-                float maxTrailPoints = length;
-                float wide = width;
-                if (projectile.ai[1] == 1f)
-                {
-                    maxTrailPoints = (int)projectile.localAI[0];
-                }
-                for (int i = 1; i <= (int)projectile.localAI[0]; i++)
-                {
-                    Vector2 offset = Vector2.Normalize(projectile.velocity) * (float)i * wide;
-                    Color color = projectile.GetAlpha(lightColor);
-                    color *= (maxTrailPoints - (float)i) / maxTrailPoints;
-                    color.A = 0;
-                    Main.spriteBatch.Draw(texture, drawPos - offset, null, color, projectile.rotation, origin, projectile.scale, spriteEffects, 0f);
-                }
-            }
+				float maxTrailPoints = length;
+				float wide = width;
+				if (projectile.ai[1] == 1f)
+				{
+					maxTrailPoints = (int)projectile.localAI[0];
+				}
+				for (int i = 1; i <= (int)projectile.localAI[0]; i++)
+				{
+					Vector2 offset = Vector2.Normalize(projectile.velocity) * (float)i * wide;
+					Color color = projectile.GetAlpha(lightColor);
+					color *= (maxTrailPoints - (float)i) / maxTrailPoints;
+					color.A = 0;
+					Main.spriteBatch.Draw(texture, drawPos - offset, null, color, projectile.rotation, origin, projectile.scale, spriteEffects, 0f);
+				}
+			}
 			return false;
 		}
 
