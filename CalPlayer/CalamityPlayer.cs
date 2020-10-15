@@ -6194,8 +6194,11 @@ namespace CalamityMod.CalPlayer
 			// 10% is converted to 9%, 25% is converted to 20%, 50% is converted to 33%, 75% is converted to 43%, 100% is converted to 50%
 			if (contactDamageReduction > 0D)
 			{
-				if (marked || reaperToothNecklace)
+				if (marked)
 					contactDamageReduction *= 0.5;
+
+				if (reaperToothNecklace)
+					contactDamageReduction *= 0.75;
 
 				if (aCrunch)
 					contactDamageReduction *= 0.33;
@@ -6474,8 +6477,11 @@ namespace CalamityMod.CalPlayer
 			// 10% is converted to 9%, 25% is converted to 20%, 50% is converted to 33%, 75% is converted to 43%, 100% is converted to 50%
 			if (projectileDamageReduction > 0D)
 			{
-				if (marked || reaperToothNecklace)
+				if (marked)
 					projectileDamageReduction *= 0.5;
+
+				if (reaperToothNecklace)
+					projectileDamageReduction *= 0.75;
 
 				if (aCrunch)
 					projectileDamageReduction *= 0.33;

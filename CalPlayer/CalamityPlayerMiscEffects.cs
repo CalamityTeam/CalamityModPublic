@@ -3362,9 +3362,8 @@ namespace CalamityMod.CalPlayer
 
 			if (modPlayer.reaperToothNecklace)
 			{
-				player.allDamage += 0.25f;
 				if (player.statDefense > 0)
-					player.statDefense /= 2;
+					player.statDefense = (int)(player.statDefense * 0.75);
 			}
 
 			if (modPlayer.deepDiver)
@@ -3942,23 +3941,28 @@ namespace CalamityMod.CalPlayer
 		{
 			if (modPlayer.vHex)
 				player.endurance -= 0.3f;
+
 			if (modPlayer.irradiated)
 			{
 				if (modPlayer.boomerDukeLore)
-				{
 					player.endurance += 0.05f;
-				}
 				else
-				{
 					player.endurance -= 0.1f;
-				}
 			}
+
 			if (modPlayer.corrEffigy)
 				player.endurance -= 0.2f;
-			if (modPlayer.marked || modPlayer.reaperToothNecklace)
+
+			if (modPlayer.marked)
 			{
 				if (player.endurance > 0f)
 					player.endurance *= 0.5f;
+			}
+
+			if (modPlayer.reaperToothNecklace)
+			{
+				if (player.endurance > 0f)
+					player.endurance *= 0.75f;
 			}
 		}
 		#endregion
