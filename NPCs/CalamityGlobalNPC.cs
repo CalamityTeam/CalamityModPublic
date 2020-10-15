@@ -4996,10 +4996,35 @@ namespace CalamityMod.NPCs
                         // has an owner, hence the MyPlayer check.
                         if (Main.myPlayer == projectile.owner)
                         {
-                            var netMessage = CalamityMod.Instance.GetPacket();
-                            netMessage.Write((byte)CalamityModMessageType.ServersideSpawnOldDuke);
-                            netMessage.Write((byte)player.whoAmI);
-                            netMessage.Send();
+                            if (Main.netMode == NetmodeID.SinglePlayer)
+                            {
+                                if (!player.active || player.dead)
+                                    return;
+
+                                Projectile proj = null;
+                                for (int i = 0; i < Main.maxProjectiles; i++)
+                                {
+                                    proj = Main.projectile[i];
+                                    if (Main.projectile[i].active && Main.projectile[i].bobber && Main.projectile[i].owner == player.whoAmI)
+                                    {
+                                        proj = Main.projectile[i];
+                                        break;
+                                    }
+                                }
+
+                                if (proj is null)
+                                    return;
+
+                                int oldDuke = NPC.NewNPC((int)proj.Center.X, (int)proj.Center.Y + 100, NPCType<OldDuke.OldDuke>());
+                                CalamityUtils.BossAwakenMessage(oldDuke);
+                            }
+							else
+                            {
+                                var netMessage = CalamityMod.Instance.GetPacket();
+                                netMessage.Write((byte)CalamityModMessageType.ServersideSpawnOldDuke);
+                                netMessage.Write((byte)player.whoAmI);
+                                netMessage.Send();
+                            }
                         }
                     }
 

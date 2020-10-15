@@ -37,11 +37,29 @@ namespace CalamityMod
 {
 	public static class NPCStats
 	{
-		// I want to die
+		private const double ExpertContactVanillaMultiplier = 2D;
+		private const double NormalProjectileVanillaMultiplier = 2D;
+		private const double ExpertProjectileVanillaMultiplier = 4D;
+
+		#region Boss Stats Container Struct
+		internal struct BossStats
+		{
+			public static SortedDictionary<int, double> ExpertDamageMultiplier;
+			public static SortedDictionary<int, int[]> ContactDamageValues;
+			public static SortedDictionary<Tuple<int, int>, int[]> ProjectileDamageValues;
+		};
+		#endregion
+
+		#region Stat Retrieval Methods
 		public static void GetNPCDamage(this NPC npc)
 		{
-			double damageAdjustment = GetExpertDamageMultiplier(npc) * 2D;
-			BossStats.ContactDamageValues.TryGetValue(npc.type, out int[] contactDamage);
+			double damageAdjustment = GetExpertDamageMultiplier(npc) * ExpertContactVanillaMultiplier;
+
+			// Safety check: If for some reason the contact damage array is not initialized yet, set the NPC's damage to 1.
+			bool exists = BossStats.ContactDamageValues.TryGetValue(npc.type, out int[] contactDamage);
+			if (!exists)
+				npc.damage = 1;
+
 			int normalDamage = contactDamage[0];
 			int expertDamage = (int)Math.Round(contactDamage[1] / damageAdjustment);
 			int revengeanceDamage = (int)Math.Round(contactDamage[2] / damageAdjustment);
@@ -50,10 +68,17 @@ namespace CalamityMod
 			npc.damage = CalamityWorld.death ? deathDamage : CalamityWorld.revenge ? revengeanceDamage : Main.expertMode ? expertDamage : normalDamage;
 		}
 
+		// Gets the amount of damage a given projectile should do from this NPC.
+		// Automatically compensates for Terraria's internal spaghetti scaling.
 		public static int GetProjectileDamage(this NPC npc, int projType)
 		{
-			double damageAdjustment = Main.expertMode ? 4D : 2D;
-			BossStats.ProjectileDamageValues.TryGetValue(new Tuple<int, int>(npc.type, projType), out int[] projectileDamage);
+			double damageAdjustment = Main.expertMode ? ExpertProjectileVanillaMultiplier : NormalProjectileVanillaMultiplier;
+
+			// Safety check: If for some reason the projectile damage array is not initialized yet, return 1.
+			bool exists = BossStats.ProjectileDamageValues.TryGetValue(new Tuple<int, int>(npc.type, projType), out int[] projectileDamage);
+			if (!exists)
+				return 1;
+
 			int normalDamage = (int)Math.Round(projectileDamage[0] / damageAdjustment);
 			int expertDamage = (int)Math.Round(projectileDamage[1] / damageAdjustment);
 			int revengeanceDamage = (int)Math.Round(projectileDamage[2] / damageAdjustment);
@@ -62,10 +87,17 @@ namespace CalamityMod
 			return CalamityWorld.death ? deathDamage : CalamityWorld.revenge ? revengeanceDamage : Main.expertMode ? expertDamage : normalDamage;
 		}
 
+		// Gets the amount of damage this projectile should do from a given NPC.
+		// Automatically compensates for Terraria's internal spaghetti scaling.
 		public static int GetProjectileDamage(this Projectile projectile, int npcType)
 		{
-			double damageAdjustment = Main.expertMode ? 4D : 2D;
-			BossStats.ProjectileDamageValues.TryGetValue(new Tuple<int, int>(npcType, projectile.type), out int[] projectileDamage);
+			double damageAdjustment = Main.expertMode ? ExpertProjectileVanillaMultiplier : NormalProjectileVanillaMultiplier;
+
+			// Safety check: If for some reason the projectile damage array is not initialized yet, return 1.
+			bool exists = BossStats.ProjectileDamageValues.TryGetValue(new Tuple<int, int>(npcType, projectile.type), out int[] projectileDamage);
+			if (!exists)
+				return 1;
+
 			int normalDamage = (int)Math.Round(projectileDamage[0] / damageAdjustment);
 			int expertDamage = (int)Math.Round(projectileDamage[1] / damageAdjustment);
 			int revengeanceDamage = (int)Math.Round(projectileDamage[2] / damageAdjustment);
@@ -74,10 +106,16 @@ namespace CalamityMod
 			return CalamityWorld.death ? deathDamage : CalamityWorld.revenge ? revengeanceDamage : Main.expertMode ? expertDamage : normalDamage;
 		}
 
+		// Gets the raw amount of damage a projectile should do from this NPC.
+		// That is, this doesn't adjust the value to compensate for Terraria's internal spaghetti scaling.
 		public static int GetProjectileDamageNoScaling(this NPC npc, int projType)
 		{
-			BossStats.ProjectileDamageValues.TryGetValue(new Tuple<int, int>(npc.type, projType), out int[] projectileDamage);
-			return CalamityWorld.death ? projectileDamage[3] : CalamityWorld.revenge ? projectileDamage[2] : Main.expertMode ? projectileDamage[1] : projectileDamage[0];
+			bool exists = BossStats.ProjectileDamageValues.TryGetValue(new Tuple<int, int>(npc.type, projType), out int[] projectileDamage);
+			return !exists ? 1 // Base case for safety, in case the array is not initialized yet.
+				: CalamityWorld.death ? projectileDamage[3]
+				: CalamityWorld.revenge ? projectileDamage[2]
+				: Main.expertMode ? projectileDamage[1]
+				: projectileDamage[0];
 		}
 
 		/// <summary>
@@ -89,16 +127,17 @@ namespace CalamityMod
 		/// <returns></returns>
 		public static double GetExpertDamageMultiplier(this NPC npc, bool? master = null)
 		{
-			if (!BossStats.ExpertDamageMultiplier.ContainsKey(npc.type))
-				return 1D;
-
-			BossStats.ExpertDamageMultiplier.TryGetValue(npc.type, out double damageMult);
-			return damageMult;
+			bool exists = BossStats.ExpertDamageMultiplier.TryGetValue(npc.type, out double damageMult);
+			return exists ? damageMult : 1D;
 		}
+		#endregion
 
-		public struct BossStats
+		#region Load/Unload
+		// A static function, called exactly once, which initializes the BossStats struct at a predictable time.
+		// This is necessary to ensure this dictionary is populated as early as possible.
+		internal static void Load()
 		{
-			public static SortedDictionary<int, double> ExpertDamageMultiplier = new SortedDictionary<int, double>
+			BossStats.ExpertDamageMultiplier = new SortedDictionary<int, double>
 			{
 				{ NPCID.KingSlime, 0.8 },
 
@@ -215,8 +254,7 @@ namespace CalamityMod
 
 				{ ModContent.NPCType<SupremeCalamitas>(), 0.8 }
 			};
-
-			public static SortedDictionary<int, int[]> ContactDamageValues = new SortedDictionary<int, int[]>
+			BossStats.ContactDamageValues = new SortedDictionary<int, int[]>
 			{
 				{ NPCID.KingSlime, new int[] { 40, 64, 80, 88, 96 } },
 
@@ -470,8 +508,7 @@ namespace CalamityMod
 
 				{ ModContent.NPCType<SupremeCalamitas>(), new int[] { 350, 560, 592, 608, 768 } }
 			};
-
-			public static SortedDictionary<Tuple<int, int>, int[]> ProjectileDamageValues = new SortedDictionary<Tuple<int, int>, int[]>
+			BossStats.ProjectileDamageValues = new SortedDictionary<Tuple<int, int>, int[]>
 			{
 				{ new Tuple<int, int>(ModContent.NPCType<KingSlimeJewel>(), ModContent.ProjectileType<JewelProjectile>()), new int[] { 0, 0, 44, 48, 66 } },
 
@@ -724,6 +761,15 @@ namespace CalamityMod
 				{ new Tuple<int, int>(ModContent.NPCType<SupremeCatastrophe>(), ModContent.ProjectileType<BrimstoneHellblast2>()), new int[] { 400, 600, 632, 648, 948 } },
 				{ new Tuple<int, int>(ModContent.NPCType<SupremeCatastrophe>(), ModContent.ProjectileType<BrimstoneBarrage>()), new int[] { 350, 528, 556, 572, 834 } }
 			};
-		};
-    }
+		}
+
+		// Destroys the BossStats struct to save memory because mod assemblies will not be fully unloaded until TML 1.4.
+		internal static void Unload()
+		{
+			BossStats.ExpertDamageMultiplier = null;
+			BossStats.ContactDamageValues = null;
+			BossStats.ProjectileDamageValues = null;
+		}
+		#endregion
+	}
 }
