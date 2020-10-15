@@ -251,7 +251,8 @@ namespace CalamityMod.TileEntities
 				// If the charge value sent is not garbage, then try to apply the new charge to the plugged item.
 				if (!float.IsNaN(chargeOrNaN))
 				{
-					CalamityGlobalItem modItem = charger.PluggedItem?.Calamity() ?? null;
+					bool itemExists = charger.PluggedItem != null && !charger.PluggedItem.IsAir;
+					CalamityGlobalItem modItem = itemExists ? charger.PluggedItem.Calamity() : null;
 					if (modItem != null && modItem.UsesCharge)
 					{
 						if (modItem.Charge != chargeOrNaN && Main.netMode == NetmodeID.MultiplayerClient)
