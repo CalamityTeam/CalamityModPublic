@@ -58,10 +58,10 @@ namespace CalamityMod
 		};
 		
 		#region Object Extensions
-		public static CalamityPlayer Calamity(this Player player) => player.GetModPlayer<CalamityPlayer>();
-		public static CalamityGlobalNPC Calamity(this NPC npc) => npc.GetGlobalNPC<CalamityGlobalNPC>();
-		public static CalamityGlobalItem Calamity(this Item item) => item.GetGlobalItem<CalamityGlobalItem>();
-		public static CalamityGlobalProjectile Calamity(this Projectile proj) => proj.GetGlobalProjectile<CalamityGlobalProjectile>();
+		public static CalamityPlayer Calamity(this Player player) => (player is null || !player.active) ? null : player.GetModPlayer<CalamityPlayer>();
+		public static CalamityGlobalNPC Calamity(this NPC npc) => (npc is null || !npc.active) ? null : npc.GetGlobalNPC<CalamityGlobalNPC>();
+		public static CalamityGlobalItem Calamity(this Item item) => (item is null || item.IsAir) ? null : item.GetGlobalItem<CalamityGlobalItem>();
+		public static CalamityGlobalProjectile Calamity(this Projectile proj) => (proj is null || !proj.active) ? null : proj.GetGlobalProjectile<CalamityGlobalProjectile>();
 		public static Item ActiveItem(this Player player) => Main.mouseItem.IsAir ? player.HeldItem : Main.mouseItem;
 		#endregion
 
