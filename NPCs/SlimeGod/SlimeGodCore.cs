@@ -656,7 +656,8 @@ namespace CalamityMod.NPCs.SlimeGod
 					DropHelper.WeightStack<AbyssalTome>(w),
 					DropHelper.WeightStack<EldritchTome>(w),
 					DropHelper.WeightStack<CorroslimeStaff>(w),
-					DropHelper.WeightStack<CrimslimeStaff>(w)
+					DropHelper.WeightStack<CrimslimeStaff>(w),
+					DropHelper.WeightStack<SlimePuppetStaff>(w)
 				);
 
 				// Vanity
