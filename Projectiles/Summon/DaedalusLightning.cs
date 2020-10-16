@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
+using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -10,6 +11,8 @@ namespace CalamityMod.Projectiles.Summon
 {
 	public class DaedalusLightning : ModProjectile
 	{
+		internal PrimitiveTrail LightningDrawer;
+
 		public const int MaximumBranchingIterations = 3;
 		public const float LightningTurnRandomnessFactor = 1f;
 		public ref float InitialVelocityAngle => ref projectile.ai[0];
@@ -23,7 +26,7 @@ namespace CalamityMod.Projectiles.Summon
         {
             DisplayName.SetDefault("Daedalus Lightning");
 			ProjectileID.Sets.MinionShot[projectile.type] = true;
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 20;
+			ProjectileID.Sets.TrailCacheLength[projectile.type] = 100;
 			ProjectileID.Sets.TrailingMode[projectile.type] = 1;
 		}
 
@@ -68,6 +71,10 @@ namespace CalamityMod.Projectiles.Summon
 			// which allows random turning to occur.
 			projectile.frameCounter++;
 
+			projectile.scale = (float)Math.Sin(MathHelper.Pi * projectile.timeLeft / (45f * (projectile.MaxUpdates - 1))) * 4f;
+			if (projectile.scale > 1f)
+				projectile.scale = 1f;
+
 			Lighting.AddLight(projectile.Center, Color.Pink.ToVector3());
 			if (projectile.frameCounter >= projectile.extraUpdates * 2)
 			{
@@ -97,8 +104,7 @@ namespace CalamityMod.Projectiles.Summon
 					// This mess of math basically encourages movement at the ends of an extraUpdate cycle,
 					// discourages super frequenent randomness as the accumulated X speed changes get larger,
 					// or if the original speed is quite large.
-					if (Math.Abs(potentialBaseDirection.X * (projectile.extraUpdates + 1) * 2f * originalSpeed + AccumulatedXMovementSpeeds) >
-						projectile.MaxUpdates * 2f * LightningTurnRandomnessFactor)
+					if (Math.Abs(potentialBaseDirection.X * (projectile.extraUpdates + 1) * 2f * originalSpeed + AccumulatedXMovementSpeeds) > projectile.MaxUpdates * LightningTurnRandomnessFactor)
 					{
 						canChangeLightningDirection = false;
 					}
@@ -120,53 +126,25 @@ namespace CalamityMod.Projectiles.Summon
 			}
 		}
 
+		#region Drawing
+		internal float WidthFunction(float completionRatio)
+		{
+			float baseWidth = MathHelper.Lerp(2f, 6f, (float)Math.Sin(MathHelper.Pi * 4f * completionRatio) * 0.5f + 0.5f) * projectile.scale;
+			return baseWidth * (float)Math.Sin(MathHelper.Pi * completionRatio);
+		}
+		internal Color ColorFunction(float completionRatio)
+		{
+			Color baseColor = Color.Lerp(Color.Pink, Color.HotPink, (float)Math.Sin(MathHelper.TwoPi * completionRatio + Main.GlobalTime * 4f) * 0.5f + 0.5f);
+			return Color.Lerp(baseColor, Color.Red, ((float)Math.Sin(MathHelper.Pi * completionRatio + Main.GlobalTime * 4f) * 0.5f + 0.5f) * 0.8f);
+		}
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-			Vector2 end = projectile.Center + Vector2.UnitY * projectile.gfxOffY - Main.screenPosition;
-			Texture2D lightningTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/Lasers/RedLightningTexture");
-			Vector2 scaleVector = new Vector2(projectile.scale) / 2f;
-			for (int i = 0; i < 3; i++)
-			{
-				// c_1 and f_1 are two somewhat ambiguous fields that are used by various methods
-				// in the DelegateMethods class. c_1 is used to represent the current color to be
-				// drawn while f_1 represents the opacity.
-				switch (i)
-				{
-					case 0:
-						scaleVector = new Vector2(projectile.scale) * 0.6f;
-						DelegateMethods.c_1 = Color.HotPink * 0.5f;
-						break;
-					case 1:
-						scaleVector = new Vector2(projectile.scale) * 0.4f;
-						DelegateMethods.c_1 = Color.Pink * 0.5f;
-						break;
-					case 2:
-						scaleVector = new Vector2(projectile.scale) * 0.2f;
-						DelegateMethods.c_1 = Color.White * 0.5f;
-						break;
-				}
-				DelegateMethods.f_1 = 1f;
+			if (LightningDrawer is null)
+				LightningDrawer = new PrimitiveTrail(WidthFunction, ColorFunction, false);
 
-				// Ignore zero oldPos indices.
-				// There are almost guaranteed to be currently unfilled instead of being
-				// legitimate positions.
-				for (int j = projectile.oldPos.Length - 1; j > 0; j--)
-				{
-					if (!(projectile.oldPos[j] == Vector2.Zero))
-					{
-						Vector2 start = projectile.oldPos[j] + projectile.Size * 0.5f + Vector2.UnitY * projectile.gfxOffY - Main.screenPosition;
-						Vector2 end2 = projectile.oldPos[j - 1] + projectile.Size * 0.5f + Vector2.UnitY * projectile.gfxOffY - Main.screenPosition;
-						Utils.DrawLaser(spriteBatch, lightningTexture, start, end2, scaleVector, DelegateMethods.LightningLaserDraw);
-					}
-				}
-				if (projectile.oldPos[0] != Vector2.Zero)
-				{
-					DelegateMethods.f_1 = 1f;
-					Vector2 start2 = projectile.oldPos[0] + projectile.Size * 0.5f + Vector2.UnitY * projectile.gfxOffY - Main.screenPosition;
-					Utils.DrawLaser(Main.spriteBatch, lightningTexture, start2, end, scaleVector, DelegateMethods.LightningLaserDraw);
-				}
-			}
+			LightningDrawer.Draw(projectile.oldPos.Where(oldPos => oldPos != Vector2.Zero), projectile.Size * 0.5f - Main.screenPosition, 300);
 			return false;
         }
+		#endregion
 	}
 }

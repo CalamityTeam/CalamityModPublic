@@ -35,14 +35,20 @@ namespace CalamityMod
 		public VertexWidthFunction WidthFunction;
 		public VertexColorFunction ColorFunction;
 
+		// NOTE: Beziers can be laggy when a lot of control points are used, since our implementation
+		// uses a recursive Lerp that gets more computationally expensive the more original indices.
+		// n(n - 1)/2 linear interpolations to be precise, where n is the amount of original indices.
+		public bool UsesSmoothening;
 		public Effect EffectToUse;
 
-		public PrimitiveTrail(VertexWidthFunction widthFunction, VertexColorFunction colorFunction, Effect specialShader = null)
+		public PrimitiveTrail(VertexWidthFunction widthFunction, VertexColorFunction colorFunction, bool useSmoothening = true, Effect specialShader = null)
 		{
 			if (widthFunction is null || colorFunction is null)
 				throw new NullReferenceException($"In order to create a primitive trail, a non-null {(widthFunction is null ? "width" : "color")} function must be specified.");
 			WidthFunction = widthFunction;
 			ColorFunction = colorFunction;
+
+			UsesSmoothening = useSmoothening;
 
 			EffectToUse = specialShader ?? new BasicEffect(Main.instance.GraphicsDevice);
 			if (EffectToUse is BasicEffect)
@@ -83,22 +89,44 @@ namespace CalamityMod
 		{
 			if (EffectToUse is BasicEffect)
 				UpdateBasicEffect((BasicEffect)EffectToUse);
-			List<Vector2> originalControlPoints = new List<Vector2>();
+
+			// Don't smoothen the points unless explicitly told do so.
+			if (!UsesSmoothening)
+			{
+				List<Vector2> basePoints = originalPositions.Where(originalPosition => originalPosition != Vector2.Zero).ToList();
+				List<Vector2> endPoints = new List<Vector2>();
+
+				if (basePoints.Count < 3)
+					return endPoints;
+
+				// Remap the original positions across a certain length.
+				for (int i = 0; i < totalTrailPoints; i++)
+				{
+					float completionRatio = i / (float)totalTrailPoints;
+					int currentColorIndex = (int)(completionRatio * (basePoints.Count - 1));
+					Vector2 currentColor = basePoints[currentColorIndex];
+					Vector2 nextColor = basePoints[(currentColorIndex + 1) % basePoints.Count];
+					endPoints.Add(Vector2.Lerp(currentColor, nextColor, completionRatio * (basePoints.Count - 1) % 0.999f) + generalOffset);
+				}
+				return endPoints;
+			}
+
+			List<Vector2> controlPoints = new List<Vector2>();
 			for (int i = 0; i < originalPositions.Count(); i++)
 			{
 				// Don't incorporate points that are zeroed out.
 				// They are almost certainly a result of incomplete oldPos arrays.
 				if (originalPositions.ElementAt(i) == Vector2.Zero)
 					continue;
-				originalControlPoints.Add(originalPositions.ElementAt(i) + generalOffset);
+				controlPoints.Add(originalPositions.ElementAt(i) + generalOffset);
 			}
-			BezierCurve bezierCurve = new BezierCurve(originalControlPoints.ToArray());
-			return originalControlPoints.Count <= 1 ? originalControlPoints : bezierCurve.GetPoints(totalTrailPoints);
+			BezierCurve bezierCurve = new BezierCurve(controlPoints.ToArray());
+			return controlPoints.Count <= 1 ? controlPoints : bezierCurve.GetPoints(totalTrailPoints);
 		}
 
-		public List<VertexPosition2DColor> GetVerticesFromTrailPoints(List<Vector2> trailPoints)
+		public VertexPosition2DColor[] GetVerticesFromTrailPoints(List<Vector2> trailPoints)
 		{
-			List<VertexPosition2DColor> vertices = new List<VertexPosition2DColor>();
+			VertexPosition2DColor[] vertices = new VertexPosition2DColor[trailPoints.Count * 6];
 			for (int i = 0; i < trailPoints.Count - 1; i++)
 			{
 				float completionRatio = i / (float)trailPoints.Count;
@@ -122,14 +150,14 @@ namespace CalamityMod
 
 				// What this is doing, at its core, is defining a rectangle based on two triangles.
 				// These triangles are defined based on the width of the strip at that point.
-				// These rectangles combined are what make the trail itself.
-				vertices.Add(new VertexPosition2DColor(firstUp, vertexColor));
-				vertices.Add(new VertexPosition2DColor(secondUp, vertexColor));
-				vertices.Add(new VertexPosition2DColor(firstDown, vertexColor));
+				// The resulting rectangles combined are what make the trail itself.
+				vertices[i * 6] = new VertexPosition2DColor(firstUp, vertexColor);
+				vertices[i * 6 + 1] = new VertexPosition2DColor(secondUp, vertexColor);
+				vertices[i * 6 + 2] = new VertexPosition2DColor(firstDown, vertexColor);
 
-				vertices.Add(new VertexPosition2DColor(secondUp, vertexColor));
-				vertices.Add(new VertexPosition2DColor(secondDown, vertexColor));
-				vertices.Add(new VertexPosition2DColor(firstDown, vertexColor));
+				vertices[i * 6 + 3] = new VertexPosition2DColor(secondUp, vertexColor);
+				vertices[i * 6 + 4] = new VertexPosition2DColor(secondDown, vertexColor);
+				vertices[i * 6 + 5] = new VertexPosition2DColor(firstDown, vertexColor);
 			}
 			return vertices;
 		}
@@ -144,7 +172,7 @@ namespace CalamityMod
 			if (trailPoints.Count <= 1)
 				return;
 
-			List<VertexPosition2DColor> vertices = GetVerticesFromTrailPoints(trailPoints);
+			VertexPosition2DColor[] vertices = GetVerticesFromTrailPoints(trailPoints);
 
 			foreach (var pass in EffectToUse.CurrentTechnique.Passes)
 			{
@@ -153,7 +181,7 @@ namespace CalamityMod
 				// The division by 3 here is because, vertices is a list of vertices.
 				// That parameter, however, wants the amount of primitives (in this case triangles), it should draw.
 				// Getting the amount of triangles in this case is simply a matter of dividing the total vertices by 3.
-				Main.instance.GraphicsDevice.DrawUserPrimitives(PrimitiveType.TriangleList, vertices.ToArray(), 0, vertices.Count / 3);
+				Main.instance.GraphicsDevice.DrawUserPrimitives(PrimitiveType.TriangleList, vertices, 0, vertices.Length / 3);
 			}
 		}
 	}

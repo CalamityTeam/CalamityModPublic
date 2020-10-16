@@ -127,12 +127,14 @@ namespace CalamityMod.Projectiles.Summon
                         light.scale = Main.rand.NextFloat(1.2f, 1.45f);
                         light.noGravity = true;
                     }
-                    else if (AttackTimer >= ChargedLaserAttackTime / 2 && AttackTimer <= ChargedLaserAttackTime / 2 + 30 && AttackTimer % 10 == 9)
+                    else if (AttackTimer >= ChargedLaserAttackTime / 2 && AttackTimer <= ChargedLaserAttackTime / 2 + 60 && AttackTimer % 10 == 9)
                     {
                         Main.PlaySound(SoundID.Item122, ArmPosition);
                         if (Main.myPlayer == projectile.owner)
                         {
-                            Vector2 initialVelocity = projectile.DirectionTo(potentialTarget.Center) * 3f;
+                            Vector2 initialVelocity = projectile.DirectionTo(potentialTarget.Center) * 2f;
+                            if (Main.rand.NextBool(2))
+                                initialVelocity = initialVelocity.RotatedByRandom(0.4f);
                             float initialAngle = initialVelocity.ToRotation();
                             Projectile.NewProjectile(ArmPosition, initialVelocity, ModContent.ProjectileType<DaedalusLightning>(), projectile.damage, projectile.knockBack, projectile.owner, initialAngle, Main.rand.Next(100));
                         }
@@ -143,6 +145,11 @@ namespace CalamityMod.Projectiles.Summon
                     Vector2 initialVelocity = projectile.DirectionTo(potentialTarget.Center + potentialTarget.velocity * 15f) * 19f;
                     Projectile.NewProjectile(ArmPosition, initialVelocity, ModContent.ProjectileType<DaedalusPellet>(), projectile.damage, projectile.knockBack, projectile.owner);
                 }
+            }
+            else if (potentialTarget is null && AttackTimer != 0)
+            {
+                AttackTimer = 0;
+                projectile.netUpdate = true;
             }
         }
 
