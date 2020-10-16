@@ -1,3 +1,4 @@
+using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Summon;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -39,6 +40,15 @@ namespace CalamityMod.Items.Weapons.Summon
             if (!CalamityUtils.ParanoidTileRetrieval(mouseTileCoords.X, mouseTileCoords.Y).IsTileSolidGround())
                 Projectile.NewProjectile(Main.MouseWorld, Vector2.UnitY * 4f, type, damage, knockBack, player.whoAmI, 0f, 0f);
             return false;
+        }
+
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ModContent.ItemType<VerstaltiteBar>(), 12);
+            recipe.AddTile(TileID.MythrilAnvil);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
         }
     }
 }

@@ -1939,7 +1939,7 @@ namespace CalamityMod
 		#endregion
 
 		#region Tile Utilities
-		public static bool IsTileSolidGround(this Tile tile) => tile != null && tile.nactive() && Main.tileSolid[tile.type];
+		public static bool IsTileSolidGround(this Tile tile) => tile != null && tile.nactive() && (Main.tileSolid[tile.type] || Main.tileSolidTop[tile.type]);
 		public static void SafeSquareTileFrame(int x, int y, bool resetFrame = true)
 		{
 			if (Main.tile[x, y] is null)

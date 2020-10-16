@@ -18,6 +18,7 @@ namespace CalamityMod.Projectiles.Summon
         public const int ChargedLaserAttackTime = 120;
         public const float Gravity = 0.35f;
         public bool Stuck => StuckWalkThroughWallsTimer >= 40f || Collision.SolidCollision(projectile.Center, 2, 2);
+        public Vector2 ArmPosition => projectile.Center + new Vector2(projectile.spriteDirection == 1 ? -4f : 32f, 0f);
         public Player Owner => Main.player[projectile.owner];
         public ref float StuckWalkThroughWallsTimer => ref projectile.ai[0];
         public ref float StuckJumpSpeed => ref projectile.ai[1];
@@ -31,7 +32,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void SetDefaults()
         {
-            projectile.width = 40;
+            projectile.width = 28;
             projectile.height = 58;
             projectile.netImportant = true;
             projectile.friendly = true;
@@ -78,11 +79,11 @@ namespace CalamityMod.Projectiles.Summon
                 projectile.velocity.Y += Gravity;
 
             Vector2 destination;
-            NPC pontentialTarget = projectile.Center.MinionHoming(900f, Owner);
-            if (pontentialTarget is null)
+            NPC potentialTarget = projectile.Center.MinionHoming(900f, Owner);
+            if (potentialTarget is null)
                 destination = Owner.Center + Vector2.UnitX * (80f + (projectile.identity * 28f) % 560f);
 			else
-                destination = pontentialTarget.Center + Vector2.UnitX * (130f + (projectile.identity * 28f) % 560f);
+                destination = potentialTarget.Center + Vector2.UnitX * (130f + (projectile.identity * 28f) % 560f);
 
             // Go upwards, and check down again to discover any height differences before deciding where to move.
             Vector2 upwardCheck = destination - Vector2.UnitY * 2400f;
@@ -92,31 +93,55 @@ namespace CalamityMod.Projectiles.Summon
 
             StuckWalkThroughWallsTimer = Utils.Clamp(StuckWalkThroughWallsTimer, 0, 160);
 
-            if (projectile.Distance(Owner.Center) > 2500f)
+            if (projectile.Distance(Owner.Center) > 3500f)
 			{
                 projectile.Center = Owner.Center;
                 StuckWalkThroughWallsTimer = 0;
                 projectile.netImportant = true;
             }
-            if ((MoveToDestination(destination) || AttackTimer > 0) && pontentialTarget != null)
+            if ((MoveToDestination(destination) || AttackTimer > 0) && potentialTarget != null)
 			{
                 AttackTimer++;
                 if (AttackTimer == 1)
 				{
-                    UsingChargedLaserAttack = Main.rand.NextBool(3);
+                    UsingChargedLaserAttack = Main.rand.NextBool(7);
                     projectile.netUpdate = true;
                 }
 
-                if (Main.myPlayer == projectile.owner)
-				{
-                    if (UsingChargedLaserAttack && AttackTimer == ChargedLaserAttackTime / 2)
-                    {
+                if (AttackTimer >= (UsingChargedLaserAttack ? ChargedLaserAttackTime : ChargedPelletAttackTime))
+                {
+                    AttackTimer = 0;
+                    projectile.netUpdate = true;
+                }
 
+                projectile.spriteDirection = (potentialTarget.Center.X - projectile.Center.X < 0).ToDirectionInt();
+
+                if (UsingChargedLaserAttack)
+                {
+                    if (AttackTimer >= 45 && AttackTimer < ChargedLaserAttackTime / 2 && !Main.dedServ)
+                    {
+                        Vector2 drawOffset = Main.rand.NextVector2CircularEdge(12f, 12f);
+                        Dust light = Dust.NewDustPerfect(ArmPosition + drawOffset, 261);
+                        light.velocity = drawOffset.SafeNormalize(Vector2.Zero) * -2.5f;
+                        light.color = Color.Lerp(Color.HotPink, Color.LightPink, Main.rand.NextFloat());
+                        light.scale = Main.rand.NextFloat(1.2f, 1.45f);
+                        light.noGravity = true;
                     }
-                    else if (UsingChargedLaserAttack && AttackTimer == ChargedPelletAttackTime / 2)
+                    else if (AttackTimer >= ChargedLaserAttackTime / 2 && AttackTimer <= ChargedLaserAttackTime / 2 + 30 && AttackTimer % 10 == 9)
                     {
-
-					}
+                        Main.PlaySound(SoundID.Item122, ArmPosition);
+                        if (Main.myPlayer == projectile.owner)
+                        {
+                            Vector2 initialVelocity = projectile.DirectionTo(potentialTarget.Center) * 3f;
+                            float initialAngle = initialVelocity.ToRotation();
+                            Projectile.NewProjectile(ArmPosition, initialVelocity, ModContent.ProjectileType<DaedalusLightning>(), projectile.damage, projectile.knockBack, projectile.owner, initialAngle, Main.rand.Next(100));
+                        }
+                    }
+                }
+                else if (!UsingChargedLaserAttack && AttackTimer == ChargedPelletAttackTime / 2 && Main.myPlayer == projectile.owner)
+                {
+                    Vector2 initialVelocity = projectile.DirectionTo(potentialTarget.Center + potentialTarget.velocity * 15f) * 19f;
+                    Projectile.NewProjectile(ArmPosition, initialVelocity, ModContent.ProjectileType<DaedalusPellet>(), projectile.damage, projectile.knockBack, projectile.owner);
                 }
             }
         }
@@ -159,9 +184,10 @@ namespace CalamityMod.Projectiles.Summon
 
             projectile.tileCollide = true;
             // Don't bother moving any more if super close to the destination. 
-            // Just slow down.
-            if (Math.Abs(projectile.Center.X - destination.X) < 15 + Math.Abs(projectile.velocity.X))
+            // Just slow down and face the player.
+            if (Math.Abs(projectile.Center.X - destination.X) < 35 + Math.Abs(projectile.velocity.X))
             {
+                projectile.spriteDirection = (Owner.Center.X - projectile.Center.X < 0).ToDirectionInt();
                 StuckJumpSpeed = 0f;
                 projectile.velocity.X *= 0.8f;
                 return true;
@@ -226,8 +252,13 @@ namespace CalamityMod.Projectiles.Summon
 
         // Prevent on-tile collision death.
         public override bool OnTileCollide(Vector2 oldVelocity) => false;
+        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
+        {
+            fallThrough = false;
+            return true;
+        }
 
-		public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
             int startingWalkFrame = 6;
             int endingWalkFrame = 10;
