@@ -776,6 +776,7 @@ namespace CalamityMod.CalPlayer
         public bool vaporfied = false;
         public bool energyShellCooldown = false;
         public bool prismaticCooldown = false;
+        public bool waterLeechBleeding = false;
         #endregion
 
         #region Buff
@@ -1792,6 +1793,7 @@ namespace CalamityMod.CalPlayer
             vaporfied = false;
 			energyShellCooldown = false;
 			prismaticCooldown = false;
+            waterLeechBleeding = false;
 
             revivify = false;
             trinketOfChiBuff = false;
@@ -2137,11 +2139,12 @@ namespace CalamityMod.CalPlayer
             vaporfied = false;
 			energyShellCooldown = false;
 			prismaticCooldown = false;
-			#endregion
+            waterLeechBleeding = false;
+            #endregion
 
-			#region Rogue
-			// Stealth
-			rogueStealth = 0f;
+            #region Rogue
+            // Stealth
+            rogueStealth = 0f;
             rogueStealthMax = 0f;
             stealthAcceleration = 1f;
 
@@ -4222,6 +4225,10 @@ namespace CalamityMod.CalPlayer
             if (hFlames && damage == 10.0 && hitDirection == 0 && damageSource.SourceOtherIndex == 8)
             {
                 damageSource = PlayerDeathReason.ByCustomReason(player.name + " fell prey to their sins.");
+            }
+            if (waterLeechBleeding && damage == 10.0 && hitDirection == 0 && damageSource.SourceOtherIndex == 8)
+            {
+                damageSource = PlayerDeathReason.ByCustomReason(player.name + " lost too much blood.");
             }
             if (shadowflame && damage == 10.0 && hitDirection == 0 && damageSource.SourceOtherIndex == 8)
             {
