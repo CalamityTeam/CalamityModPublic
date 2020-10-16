@@ -20,6 +20,7 @@ namespace CalamityMod.Projectiles.Summon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Eyeball");
+            Main.projFrames[projectile.type] = 4;
             ProjectileID.Sets.NeedsUUID[projectile.type] = true;
             ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
             ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;

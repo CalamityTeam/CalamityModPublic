@@ -156,7 +156,6 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                     player.MinionDamage());
                 projectile.damage = newDamage;
             }
-
         }
         public void HandleHop(Vector2 targetPosition)
         {

@@ -296,6 +296,7 @@ namespace CalamityMod.Projectiles.Summon
                     if (Vector2.Dot(projectile.velocity.SafeNormalize(Vector2.Zero), projectile.DirectionTo(target.Center)) > 0.86f)
                         AttackStateTimer += redirectTime - (AttackStateTimer % chargeTime);
                 }
+
                 if (AttackStateTimer % (chargeTime + redirectTime) == chargeTime)
                 {
                     // Charge and release a spread of lasers.

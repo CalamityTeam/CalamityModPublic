@@ -953,6 +953,7 @@ namespace CalamityMod.CalPlayer
         public bool mountedScanner = false;
         public bool viridVanguard = false;
         public bool deathstareEyeball = false;
+        public bool daedalusGolem = false;
         #endregion
 
         #region Biome
@@ -1980,6 +1981,7 @@ namespace CalamityMod.CalPlayer
             mountedScanner = false;
             viridVanguard = false;
             deathstareEyeball = false;
+            daedalusGolem = false;
 
             abyssalDivingSuitPrevious = abyssalDivingSuit;
             abyssalDivingSuit = abyssalDivingSuitHide = abyssalDivingSuitForce = abyssalDivingSuitPower = false;
