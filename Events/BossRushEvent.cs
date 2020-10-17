@@ -187,7 +187,7 @@ namespace CalamityMod.Events
                 }),
                 new Boss(NPCID.MoonLordCore, spawnContext: type =>
                 {
-                    CalamityUtils.DisplayTextFromLocalizationKey("Mods.CalamityMod.BossRushTierThreeEndText2", XerocTextColor);
+                    CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.BossRushTierThreeEndText2", XerocTextColor);
                     NPC.SpawnOnPlayer(ClosestPlayerToWorldCenter, type);
                 }),
                 new Boss(ModContent.NPCType<AstrumDeusHeadSpectral>(), TimeChangeContext.Night),
@@ -214,7 +214,7 @@ namespace CalamityMod.Events
                 }, usesSpecialSound: true),
                 new Boss(ModContent.NPCType<SupremeCalamitas>(), spawnContext: type =>
                 {
-                    CalamityUtils.DisplayTextFromLocalizationKey("BossRushTierFourEndText2", XerocTextColor);
+                    CalamityUtils.DisplayLocalizedText("BossRushTierFourEndText2", XerocTextColor);
                     for (int playerIndex = 0; playerIndex < Main.maxPlayers; playerIndex++)
                     {
                         if (Main.player[playerIndex].active)
@@ -247,19 +247,19 @@ namespace CalamityMod.Events
             {
                 [NPCID.TheDestroyer] = npc =>
                 {
-                    CalamityUtils.DisplayTextFromLocalizationKey("Mods.CalamityMod.BossRushTierOneEndText", XerocTextColor);
+                    CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.BossRushTierOneEndText", XerocTextColor);
                 },
                 [NPCID.CultistBoss] = npc =>
                 {
-                    CalamityUtils.DisplayTextFromLocalizationKey("Mods.CalamityMod.BossRushTierTwoEndText", XerocTextColor);
+                    CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.BossRushTierTwoEndText", XerocTextColor);
                 },
                 [NPCID.DukeFishron] = npc =>
                 {
-                    CalamityUtils.DisplayTextFromLocalizationKey("Mods.CalamityMod.BossRushTierThreeEndText", XerocTextColor);
+                    CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.BossRushTierThreeEndText", XerocTextColor);
                 },
                 [ModContent.NPCType<Providence>()] = npc =>
                 {
-                    CalamityUtils.DisplayTextFromLocalizationKey("Mods.CalamityMod.BossRushTierFourEndText", XerocTextColor);
+                    CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.BossRushTierFourEndText", XerocTextColor);
                 },
                 [ModContent.NPCType<DevourerofGodsHeadS>()] = npc =>
                 {
@@ -278,7 +278,7 @@ namespace CalamityMod.Events
                         netMessage.Send();
                     }
 
-                    CalamityUtils.DisplayTextFromLocalizationKey("Mods.CalamityMod.BossRushTierFiveEndText", XerocTextColor);
+                    CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.BossRushTierFiveEndText", XerocTextColor);
                 }
             };
         }

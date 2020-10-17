@@ -212,12 +212,7 @@ namespace CalamityMod.NPCs.BrimstoneElemental
             string key2 = "Mods.CalamityMod.BrimmyBossText";
             Color messageColor2 = Color.Crimson;
             if (!CalamityWorld.downedBrimstoneElemental)
-            {
-                if (Main.netMode == NetmodeID.SinglePlayer)
-                    Main.NewText(Language.GetTextValue(key2), messageColor2);
-                else if (Main.netMode == NetmodeID.Server)
-                    NetMessage.BroadcastChatMessage(NetworkText.FromKey(key2), messageColor2);
-            }
+                CalamityUtils.DisplayLocalizedText(key2, messageColor2);
 
             // mark brimmy as dead
             CalamityWorld.downedBrimstoneElemental = true;

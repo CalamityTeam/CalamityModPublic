@@ -59,28 +59,14 @@ namespace CalamityMod.Items.DifficultyItems
                 CalamityWorld.defiled = true;
                 string key = "Mods.CalamityMod.DefiledText";
                 Color messageColor = Color.DarkSeaGreen;
-                if (Main.netMode == NetmodeID.SinglePlayer)
-                {
-                    Main.NewText(Language.GetTextValue(key), messageColor);
-                }
-                else if (Main.netMode == NetmodeID.Server)
-                {
-                    NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-                }
+                CalamityUtils.DisplayLocalizedText(key, messageColor);
             }
             else
             {
                 CalamityWorld.defiled = false;
                 string key = "Mods.CalamityMod.DefiledText2";
                 Color messageColor = Color.DarkSeaGreen;
-                if (Main.netMode == NetmodeID.SinglePlayer)
-                {
-                    Main.NewText(Language.GetTextValue(key), messageColor);
-                }
-                else if (Main.netMode == NetmodeID.Server)
-                {
-                    NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-                }
+                CalamityUtils.DisplayLocalizedText(key, messageColor);
             }
             CalamityWorld.DoGSecondStageCountdown = 0;
 

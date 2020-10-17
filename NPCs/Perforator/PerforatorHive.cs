@@ -407,11 +407,8 @@ namespace CalamityMod.NPCs.Perforator
                 Color messageColor = Color.Cyan;
                 WorldGenerationMethods.SpawnOre(ModContent.TileType<AerialiteOre>(), 12E-05, .4f, .6f);
 
-                if (Main.netMode == NetmodeID.SinglePlayer)
-                    Main.NewText(Language.GetTextValue(key), messageColor);
-                else if (Main.netMode == NetmodeID.Server)
-                    NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-            }
+				CalamityUtils.DisplayLocalizedText(key, messageColor);
+			}
 
             // Mark The Perforator Hive as dead
             CalamityWorld.downedPerforator = true;

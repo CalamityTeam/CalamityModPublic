@@ -80,14 +80,7 @@ namespace CalamityMod.Items.DifficultyItems
                 CalamityWorld.revenge = true;
                 string key = "Mods.CalamityMod.RevengeText";
                 Color messageColor = Color.Crimson;
-                if (Main.netMode == NetmodeID.SinglePlayer)
-                {
-                    Main.NewText(Language.GetTextValue(key), messageColor);
-                }
-                else if (Main.netMode == NetmodeID.Server)
-                {
-                    NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-                }
+                CalamityUtils.DisplayLocalizedText(key, messageColor);
 
                 CalamityNetcode.SyncWorld();
             }
@@ -96,42 +89,21 @@ namespace CalamityMod.Items.DifficultyItems
                 CalamityWorld.revenge = false;
                 string key = "Mods.CalamityMod.RevengeText2";
                 Color messageColor = Color.Crimson;
-                if (Main.netMode == NetmodeID.SinglePlayer)
-                {
-                    Main.NewText(Language.GetTextValue(key), messageColor);
-                }
-                else if (Main.netMode == NetmodeID.Server)
-                {
-                    NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-                }
+                CalamityUtils.DisplayLocalizedText(key, messageColor);
 
                 if (CalamityWorld.death)
                 {
                     CalamityWorld.death = false;
                     key = "Mods.CalamityMod.DeathText2";
                     messageColor = Color.Crimson;
-                    if (Main.netMode == NetmodeID.SinglePlayer)
-                    {
-                        Main.NewText(Language.GetTextValue(key), messageColor);
-                    }
-                    else if (Main.netMode == NetmodeID.Server)
-                    {
-                        NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-                    }
+                    CalamityUtils.DisplayLocalizedText(key, messageColor);
                 }
                 if (CalamityWorld.defiled)
                 {
                     CalamityWorld.defiled = false;
                     key = "Mods.CalamityMod.DefiledText2";
                     messageColor = Color.DarkSeaGreen;
-                    if (Main.netMode == NetmodeID.SinglePlayer)
-                    {
-                        Main.NewText(Language.GetTextValue(key), messageColor);
-                    }
-                    else if (Main.netMode == NetmodeID.Server)
-                    {
-                        NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-                    }
+                    CalamityUtils.DisplayLocalizedText(key, messageColor);
                 }
                 CalamityWorld.DoGSecondStageCountdown = 0;
 

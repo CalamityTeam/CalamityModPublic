@@ -1540,14 +1540,7 @@ namespace CalamityMod.World
                             NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<DevourerofGodsHeadS>());
                             string key = "Mods.CalamityMod.EdgyBossText10";
                             Color messageColor = Color.Cyan;
-                            if (Main.netMode == NetmodeID.SinglePlayer)
-                            {
-                                Main.NewText(Language.GetTextValue(key), messageColor);
-                            }
-                            else if (Main.netMode == NetmodeID.Server)
-                            {
-                                NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-                            }
+                            CalamityUtils.DisplayLocalizedText(key, messageColor);
                         }
                     }
                 }
@@ -1658,14 +1651,7 @@ namespace CalamityMod.World
             {
                 string key = "Mods.CalamityMod.AprilFools";
                 Color messageColor = Color.Crimson;
-                if (Main.netMode == NetmodeID.SinglePlayer)
-                {
-                    Main.NewText(Language.GetTextValue(key), messageColor);
-                }
-                else if (Main.netMode == NetmodeID.Server)
-                {
-                    NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-                }
+                CalamityUtils.DisplayLocalizedText(key, messageColor);
             }
 
             if (death && !CalamityPlayer.areThereAnyDamnBosses && !Main.snowMoon && !Main.pumpkinMoon && !DD2Event.Ongoing && player.statLifeMax2 >= 300 && !WorldGen.spawnEye && WorldGen.spawnHardBoss <= 0) //does not occur while a boss is alive or during certain events
@@ -2077,14 +2063,7 @@ namespace CalamityMod.World
         {
             string key = "Mods.CalamityMod.BossSpawnText";
             Color messageColor = Color.Crimson;
-            if (Main.netMode == NetmodeID.SinglePlayer)
-            {
-                Main.NewText(Language.GetTextValue(key), messageColor);
-            }
-            else if (Main.netMode == NetmodeID.Server)
-            {
-                NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-            }
+            CalamityUtils.DisplayLocalizedText(key, messageColor);
         }
         #endregion
     }
