@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Summon
 		internal PrimitiveTrail LightningDrawer;
 
 		public const int MaximumBranchingIterations = 3;
-		public const float LightningTurnRandomnessFactor = 1f;
+		public const float LightningTurnRandomnessFactor = 1.7f;
 		public ref float InitialVelocityAngle => ref projectile.ai[0];
 		// Technically not a ratio, and more of a seed, but it is used in a 0-2pi squash
 		// later in the code to get an arbitrary unit vector (which is then checked).
