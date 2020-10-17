@@ -86,10 +86,15 @@ namespace CalamityMod.Projectiles.Summon
                 destination = potentialTarget.Center + Vector2.UnitX * (130f + (projectile.identity * 28f) % 560f);
 
             // Go upwards, and check down again to discover any height differences before deciding where to move.
-            Vector2 upwardCheck = destination - Vector2.UnitY * 2400f;
-            upwardCheck.Y = Utils.Clamp(upwardCheck.Y, 0f, Main.maxTilesY * 16f - 100f);
-            WorldUtils.Find(upwardCheck.ToTileCoordinates(), Searches.Chain(new Searches.Down(200), new Conditions.IsSolid()), out Point loweredPoint);
-            destination = loweredPoint.ToWorldCoordinates();
+            // There's a chance that this will encounter a null tile. If it us, just skip this step.
+            try
+            {
+                Vector2 upwardCheck = destination - Vector2.UnitY * 2400f;
+                upwardCheck.Y = Utils.Clamp(upwardCheck.Y, 0f, Main.maxTilesY * 16f - 100f);
+                WorldUtils.Find(upwardCheck.ToTileCoordinates(), Searches.Chain(new Searches.Down(200), new Conditions.IsSolid()), out Point loweredPoint);
+                destination = loweredPoint.ToWorldCoordinates();
+            }
+            catch (NullReferenceException) { }
 
             StuckWalkThroughWallsTimer = Utils.Clamp(StuckWalkThroughWallsTimer, 0, 160);
 
