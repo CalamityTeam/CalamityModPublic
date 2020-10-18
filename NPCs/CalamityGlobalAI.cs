@@ -11282,7 +11282,7 @@ namespace CalamityMod.NPCs
                     npc.ai[1] = 0f;
                     npc.ai[2] = 0f;
 
-					if (phase4 && !death)
+					if (!phase4 || !death)
 						npc.ai[3] += 1f;
 
                     npc.netUpdate = true;
