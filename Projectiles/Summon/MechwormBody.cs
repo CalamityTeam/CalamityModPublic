@@ -124,6 +124,7 @@ namespace CalamityMod.Projectiles.Summon
 
             // Locate the head segment by looping through all worm segments until it is found.
 
+            int tries = 0;
             while (head.type != ModContent.ProjectileType<MechwormHead>())
             {
                 int aheadUUID = Projectile.GetByUUID(head.owner, head.ai[0]);
@@ -134,6 +135,13 @@ namespace CalamityMod.Projectiles.Summon
                 }
 
                 head = Main.projectile[aheadUUID];
+                
+                if (tries >= Main.maxProjectiles)
+                {
+                    projectile.Kill();
+                    return;
+                }
+                tries++;
             }
 
             MechwormHead headModProj = head.modProjectile as MechwormHead;
