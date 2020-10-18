@@ -1,10 +1,7 @@
 using CalamityMod.Items.DraedonMisc;
 using CalamityMod.Items.Materials;
-using CalamityMod.Items.Placeables;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Schematics;
-using CalamityMod.Tiles;
-using CalamityMod.Tiles.SunkenSea;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
@@ -13,7 +10,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-using static CalamityMod.Schematics.SchematicLoader;
+using static CalamityMod.Schematics.SchematicManager;
 using static CalamityMod.Schematics.SchematicPlacementHelpers;
 
 namespace CalamityMod.World
@@ -53,7 +50,7 @@ namespace CalamityMod.World
             {
                 return true;
             }
-			// Avoid Thorium's Blood Chamber (where you summon Viscount)
+            // Avoid Thorium's Blood Chamber (where you summon Viscount)
             if (tile.type == TileID.StoneSlab ||
                 tile.wall == WallID.StoneSlab)
             {
@@ -116,7 +113,7 @@ namespace CalamityMod.World
                 }
                 if (!canGenerateInLocation || nearbyOtherWorkshop || activeTilesInArea / totalTiles > 0.35f)
                     tries++;
-				else
+                else
                 {
                     bool _ = true;
                     PlaceStructure(mapKey, new Point(placementPoint.X, placementPoint.Y), PlacementAnchorType.TopLeft, ref _, new Action<Chest>(FillWorkshopChest));
@@ -224,7 +221,7 @@ namespace CalamityMod.World
             int tries = 0;
             string mapKey = "Hell Laboratory";
             PilePlacementMaps.TryGetValue(mapKey, out PilePlacementFunction pilePlacementFunction);
-            ColorTileCombination[,] schematic = TileMaps[mapKey];
+            SchematicMetaTile[,] schematic = TileMaps[mapKey];
 
             do
             {
@@ -233,7 +230,7 @@ namespace CalamityMod.World
                 int placementPositionY = WorldGen.genRand.Next(Main.maxTilesY - 150, Main.maxTilesY - 125);
 
                 placementPoint = new Point(placementPositionX, placementPositionY);
-                Vector2 schematicSize = new Vector2(TileMaps[mapKey].GetLength(0), TileMaps[mapKey].GetLength(1));
+                Vector2 schematicSize = new Vector2(schematic.GetLength(0), schematic.GetLength(1));
                 int xCheckArea = 30;
                 bool canGenerateInLocation = true;
 
@@ -251,9 +248,9 @@ namespace CalamityMod.World
                 if (!canGenerateInLocation)
                 {
                     tries++;
-				}
-				else
-				{
+                }
+                else
+                {
                     bool hasPlacedMurasama = false;
                     PlaceStructure(mapKey, new Point(placementPoint.X, placementPoint.Y), PlacementAnchorType.TopLeft, ref hasPlacedMurasama, new Action<Chest, int, bool>(FillHellLaboratoryChest));
                     break;
@@ -295,7 +292,7 @@ namespace CalamityMod.World
             int tries = 0;
             string mapKey = "Sunken Sea Laboratory";
             PilePlacementMaps.TryGetValue(mapKey, out PilePlacementFunction pilePlacementFunction);
-            ColorTileCombination[,] schematic = TileMaps[mapKey];
+            SchematicMetaTile[,] schematic = TileMaps[mapKey];
 
             do
             {
@@ -306,7 +303,7 @@ namespace CalamityMod.World
                 int placementPositionY = WorldGen.genRand.Next(WorldGen.UndergroundDesertLocation.Bottom + sunkenSeaHeight - 25, WorldGen.UndergroundDesertLocation.Bottom + sunkenSeaHeight + 10);
 
                 placementPoint = new Point(placementPositionX, placementPositionY);
-                Vector2 schematicSize = new Vector2(TileMaps[mapKey].GetLength(0), TileMaps[mapKey].GetLength(1));
+                Vector2 schematicSize = new Vector2(schematic.GetLength(0), schematic.GetLength(1));
                 int xCheckArea = 25;
                 bool shouldAvoidArea = false;
 
@@ -368,7 +365,7 @@ namespace CalamityMod.World
             int tries = 0;
             string mapKey = "Ice Laboratory";
             PilePlacementMaps.TryGetValue(mapKey, out PilePlacementFunction pilePlacementFunction);
-            ColorTileCombination[,] schematic = TileMaps[mapKey];
+            SchematicMetaTile[,] schematic = TileMaps[mapKey];
 
             do
             {
@@ -377,7 +374,7 @@ namespace CalamityMod.World
                 int placementPositionY = WorldGen.genRand.Next((int)Main.worldSurface + 160, underworldTop);
 
                 placementPoint = new Point(placementPositionX, placementPositionY);
-                Vector2 schematicSize = new Vector2(TileMaps[mapKey].GetLength(0), TileMaps[mapKey].GetLength(1));
+                Vector2 schematicSize = new Vector2(schematic.GetLength(0), schematic.GetLength(1));
                 int activeTilesInArea = 0;
                 int iceTilesInArea = 0;
                 int xCheckArea = 30;
@@ -403,8 +400,8 @@ namespace CalamityMod.World
                 }
                 if (!canGenerateInLocation || nearbyOtherWorkshop || iceTilesInArea < totalTiles * 0.35f)
                     tries++;
-				else
-				{
+                else
+                {
                     bool hasPlacedLogAndSchematic = false;
                     PlaceStructure(mapKey, new Point(placementPoint.X, placementPoint.Y), PlacementAnchorType.TopLeft, ref hasPlacedLogAndSchematic, new Action<Chest, int, bool>(FillIceLaboratoryChest));
                     break;
@@ -445,7 +442,7 @@ namespace CalamityMod.World
             int tries = 0;
             string mapKey = "Plague Laboratory";
             PilePlacementMaps.TryGetValue(mapKey, out PilePlacementFunction pilePlacementFunction);
-            ColorTileCombination[,] schematic = TileMaps[mapKey];
+            SchematicMetaTile[,] schematic = TileMaps[mapKey];
 
             do
             {
@@ -454,7 +451,7 @@ namespace CalamityMod.World
                 int placementPositionY = WorldGen.genRand.Next((int)Main.worldSurface + 160, underworldTop);
 
                 placementPoint = new Point(placementPositionX, placementPositionY);
-                Vector2 schematicSize = new Vector2(TileMaps[mapKey].GetLength(0), TileMaps[mapKey].GetLength(1));
+                Vector2 schematicSize = new Vector2(schematic.GetLength(0), schematic.GetLength(1));
                 int activeTilesInArea = 0;
                 int jungleTilesInArea = 0;
                 int xCheckArea = 30;
@@ -482,8 +479,8 @@ namespace CalamityMod.World
                 {
                     tries++;
                 }
-				else
-				{
+                else
+                {
                     bool hasPlacedLogAndSchematic = false;
                     PlaceStructure(mapKey, new Point(placementPoint.X, placementPoint.Y), PlacementAnchorType.TopLeft, ref hasPlacedLogAndSchematic, new Action<Chest, int, bool>(FillPlagueLaboratoryChest));
                     break;
@@ -517,7 +514,7 @@ namespace CalamityMod.World
                 new ChestItem(potionType, WorldGen.genRand.Next(3, 5 + 1)),
             };
 
-			Mod thorium = ModLoader.GetMod("ThoriumMod");
+            Mod thorium = ModLoader.GetMod("ThoriumMod");
             if (thorium != null)
                 contents.Add(new ChestItem(thorium.ItemType("MarineKelpPlanterBox"), WorldGen.genRand.Next(5, 9 + 1)));
 

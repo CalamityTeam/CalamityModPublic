@@ -6,7 +6,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using static CalamityMod.Schematics.SchematicLoader;
+using static CalamityMod.Schematics.SchematicManager;
 
 namespace CalamityMod.Schematics
 {
@@ -21,29 +21,6 @@ namespace CalamityMod.Schematics
             BottomRight,
         }
 
-        internal static Tile SchematicTileConversion(Tile oldTile, Tile toReplaceWith, Color schematicColorAtPosition)
-        {
-            float opacity = schematicColorAtPosition.A / 255f;
-
-            Tile newTile = new Tile();
-            // Destroy the original tile completely.
-            if (opacity == 0f)
-                return newTile;
-
-            // Destroy the original tile itself but preserve the wall.
-            if (oldTile.wall != 0 && toReplaceWith.wall == 0 && opacity > 0f && opacity <= 0.33f)
-                newTile.wall = oldTile.wall;
-
-            // Do nothing to the tile.
-            if (opacity > 0.33f && opacity <= 0.66f)
-                newTile = (Tile)oldTile.Clone();
-
-            // Completely replace the tile.
-            if (opacity > 0.66f)
-                newTile = (Tile)toReplaceWith.Clone();
-            return newTile;
-        }
-
         public static void PlaceStructure<T>(string mapKey, Point placementPosition, PlacementAnchorType placementAnchor, ref bool specialCondition, T chestInteraction = null) where T : Delegate
         {
             if (chestInteraction != null &&
@@ -53,13 +30,13 @@ namespace CalamityMod.Schematics
                 throw new ArgumentException("The chest interaction function has invalid parameters.", nameof(chestInteraction));
             }
 
-            LoadEverything(); // Just in case they weren't loaded properly beforehand.
+            Load(); // Just in case they weren't loaded properly beforehand.
 
             // If no structure schematic matching that name was found, cancel.
             if (!TileMaps.ContainsKey(mapKey))
                 return;
             PilePlacementMaps.TryGetValue(mapKey, out PilePlacementFunction pilePlacementFunction);
-            ColorTileCombination[,] schematic = TileMaps[mapKey];
+            SchematicMetaTile[,] schematic = TileMaps[mapKey];
 
             // Make an array for the tiles that used to be where this schematic will be pasted.
             int sWidth = schematic.GetLength(0);
@@ -115,20 +92,20 @@ namespace CalamityMod.Schematics
                     if (!WorldGen.InWorld(x + xOffset, y + yOffset))
                         continue;
 
-                    Tile tile = schematic[x, y].InternalTile;
-                    ModTile modTile = TileLoader.GetTile(tile.type);
-                    bool isChest = tile.type == TileID.Containers || (modTile != null && modTile.chest != "");
+                    SchematicMetaTile smt = schematic[x, y];
+                    ModTile modTile = TileLoader.GetTile(smt.type);
+                    bool isChest = smt.type == TileID.Containers || (modTile != null && modTile.chest != "");
 
                     // If the determined tile type is a chest, define it appropriately.
                     if (isChest)
                     {
-                        if (tile.frameX % 36 == 0 && tile.frameY == 0)
+                        if (smt.frameX % 36 == 0 && smt.frameY == 0)
                         {
-                            Chest chest = PlaceChest(x + xOffset, y + yOffset, tile.type);
+                            Chest chest = PlaceChest(x + xOffset, y + yOffset, smt.type);
 
                             if (chestInteraction is Action<Chest, int, bool>)
                             {
-                                (chestInteraction as Action<Chest, int, bool>)?.Invoke(chest, tile.type, specialCondition);
+                                (chestInteraction as Action<Chest, int, bool>)?.Invoke(chest, smt.type, specialCondition);
                                 specialCondition = true;
                             }
                             else if (chestInteraction is Action<Chest>)
@@ -137,7 +114,7 @@ namespace CalamityMod.Schematics
                     }
 
                     // Trees and cacti get special treatment and are always imported back in to prevent world corruption.
-                    if (tile.type == TileID.Trees || tile.type == TileID.PineTree || tile.type == TileID.Cactus)
+                    if (smt.type == TileID.Trees || smt.type == TileID.PineTree || smt.type == TileID.Cactus)
                     {
                         ushort oldWall = oldTiles[x, y].wall;
                         oldTiles[x, y] = new Tile
@@ -147,7 +124,8 @@ namespace CalamityMod.Schematics
                     }
                     else
                     {
-                        Main.tile[x + xOffset, y + yOffset] = (Tile)SchematicTileConversion(oldTiles[x, y], tile, schematic[x, y].InternalColor).Clone();
+                        // If the meta tile has the keep booleans set, it can choose to have them
+                        smt.ApplyTo(ref Main.tile[x + xOffset, y + yOffset]);
                         TryToPlaceTileEntities(x + xOffset, y + yOffset);
                     }
 
