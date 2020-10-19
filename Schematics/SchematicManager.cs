@@ -74,18 +74,18 @@ namespace CalamityMod.Schematics
 			switch (anchorType)
 			{
 				case PlacementAnchorType.TopRight:
-					cornerX -= width;
+					cornerX += width;
 					break;
 				case PlacementAnchorType.Center:
-					cornerX -= width / 2;
-					cornerY -= height / 2;
+					cornerX += width / 2;
+					cornerY += height / 2;
 					break;
 				case PlacementAnchorType.BottomLeft:
-					cornerY -= height;
+					cornerY += height;
 					break;
 				case PlacementAnchorType.BottomRight:
-					cornerX -= width;
-					cornerY -= height;
+					cornerX += width;
+					cornerY += height;
 					break;
 				case PlacementAnchorType.TopLeft:
 				default:
