@@ -30,8 +30,6 @@ namespace CalamityMod.Schematics
                 throw new ArgumentException("The chest interaction function has invalid parameters.", nameof(chestInteraction));
             }
 
-            Load(); // Just in case they weren't loaded properly beforehand.
-
             // If no structure schematic matching that name was found, cancel.
             if (!TileMaps.ContainsKey(mapKey))
                 return;
@@ -69,8 +67,9 @@ namespace CalamityMod.Schematics
                 default:
                     break;
             }
-            
+
             // Fill the old tiles array while simultaneously destroying everything in the target rectangle.
+            // This is necessary so that complex tiles on the edges are properly removed instead of sliced in half.
             for (int x = 0; x < sWidth; x++)
             {
                 for (int y = 0; y < sHeight; y++)
@@ -125,7 +124,7 @@ namespace CalamityMod.Schematics
                     else
                     {
                         // If the meta tile has the keep booleans set, it can choose to have them
-                        smt.ApplyTo(ref Main.tile[x + xOffset, y + yOffset]);
+                        smt.ApplyTo(ref Main.tile[x + xOffset, y + yOffset], oldTiles[x, y]);
                         TryToPlaceTileEntities(x + xOffset, y + yOffset);
                     }
 
