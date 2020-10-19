@@ -148,7 +148,7 @@ namespace CalamityMod.Schematics
 					// This is where the meta tile keep booleans are applied.
 					Tile t = Main.tile[x + cornerX, y + cornerY];
 					smt.ApplyTo(ref t, originalTiles[x, y]);
-					TryToPlaceTileEntities(x, y, t);
+					TryToPlaceTileEntities(x + cornerX, y + cornerY, t);
 
 					// Activate the pile placement function if defined.
 					Rectangle placeInArea = new Rectangle(x, y, width, height);
