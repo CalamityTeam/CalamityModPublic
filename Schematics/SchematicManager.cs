@@ -1,36 +1,199 @@
+using CalamityMod.TileEntities;
+using CalamityMod.Tiles.DraedonStructures;
 using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
+using Terraria;
+using Terraria.DataStructures;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Schematics
 {
-    public static class SchematicManager
-    {
-        internal static Dictionary<string, SchematicMetaTile[,]> TileMaps;
-        internal static Dictionary<string, PilePlacementFunction> PilePlacementMaps;
-        public delegate void PilePlacementFunction(int x, int y, Rectangle placeInArea);
+	public static class SchematicManager
+	{
+		internal static Dictionary<string, SchematicMetaTile[,]> TileMaps;
+		internal static Dictionary<string, PilePlacementFunction> PilePlacementMaps;
+		public delegate void PilePlacementFunction(int x, int y, Rectangle placeInArea);
 
-        internal static void Load()
-        {
-            PilePlacementMaps = new Dictionary<string, PilePlacementFunction>();
-            TileMaps = new Dictionary<string, SchematicMetaTile[,]>
-            {
-                // Draedon's Arsenal world gen structures
-                ["Workshop"] = CalamitySchematicIO.LoadSchematic("Schematics/Workshop.csch"),
-                ["Research Facility"] = CalamitySchematicIO.LoadSchematic("Schematics/ResearchFacility.csch"),
-                ["Hell Laboratory"] = CalamitySchematicIO.LoadSchematic("Schematics/HellLaboratory.csch"),
-                ["Sunken Sea Laboratory"] = CalamitySchematicIO.LoadSchematic("Schematics/SunkenSeaLaboratory.csch"),
-                ["Ice Laboratory"] = CalamitySchematicIO.LoadSchematic("Schematics/IceLaboratory.csch"),
-                ["Plague Laboratory"] = CalamitySchematicIO.LoadSchematic("Schematics/PlagueLaboratory.csch"),
-                ["Planetoid Laboratory"] = CalamitySchematicIO.LoadSchematic("Schematics/PlanetoidLaboratory.csch"),
+		#region Load/Unload
+		internal static void Load()
+		{
+			PilePlacementMaps = new Dictionary<string, PilePlacementFunction>();
+			TileMaps = new Dictionary<string, SchematicMetaTile[,]>
+			{
+				// Draedon's Arsenal world gen structures
+				["Workshop"] = CalamitySchematicIO.LoadSchematic("Schematics/Workshop.csch"),
+				["Research Facility"] = CalamitySchematicIO.LoadSchematic("Schematics/ResearchFacility.csch"),
+				["Hell Laboratory"] = CalamitySchematicIO.LoadSchematic("Schematics/HellLaboratory.csch"),
+				["Sunken Sea Laboratory"] = CalamitySchematicIO.LoadSchematic("Schematics/SunkenSeaLaboratory.csch"),
+				["Ice Laboratory"] = CalamitySchematicIO.LoadSchematic("Schematics/IceLaboratory.csch"),
+				["Plague Laboratory"] = CalamitySchematicIO.LoadSchematic("Schematics/PlagueLaboratory.csch"),
+				["Planetoid Laboratory"] = CalamitySchematicIO.LoadSchematic("Schematics/PlanetoidLaboratory.csch"),
 
-                // Astral world gen structures
-                ["Astral Beacon"] = CalamitySchematicIO.LoadSchematic("Schematics/AstralBeacon.csch"),
-            };
-        }
-        internal static void Unload()
-        {
-            TileMaps = null;
-            PilePlacementMaps = null;
-        }
-    }
+				// Astral world gen structures
+				["Astral Beacon"] = CalamitySchematicIO.LoadSchematic("Schematics/AstralBeacon.csch"),
+			};
+		}
+		internal static void Unload()
+		{
+			TileMaps = null;
+			PilePlacementMaps = null;
+		}
+		#endregion
+
+		#region Place Schematic
+		public static void PlaceSchematic<T>(string name, Point pos, PlacementAnchorType anchorType, ref bool specialCondition, T chestDelegate = null) where T : Delegate
+		{
+			// If no schematic exists with this name, cancel with a helpful log message.
+			if (!TileMaps.ContainsKey(name))
+			{
+				CalamityMod.Instance.Logger.Warn($"Tried to place a schematic with name \"{name}\". No matching schematic file found.");
+				return;
+			}
+
+			// Invalid chest interaction delegates need to throw an error.
+			if (chestDelegate != null &&
+				!(chestDelegate is Action<Chest>) &&
+				!(chestDelegate is Action<Chest, int, bool>))
+			{
+				throw new ArgumentException("The chest interaction function has invalid parameters.", nameof(chestDelegate));
+			}
+			PilePlacementMaps.TryGetValue(name, out PilePlacementFunction pilePlacementFunction);
+
+			// Grab the schematic itself from the dictionary of loaded schematics.
+			SchematicMetaTile[,] schematic = TileMaps[name];
+			int width = schematic.GetLength(0);
+			int height = schematic.GetLength(1);
+
+			// Calculate the appropriate location to start laying down schematic tiles.
+			// TopLeft is the default because anchoring things at their top-left corner is the default Terraria behavior.
+			// This is why it does nothing.
+			int cornerX = pos.X;
+			int cornerY = pos.Y;
+			switch (anchorType)
+			{
+				case PlacementAnchorType.TopRight:
+					cornerX -= width;
+					break;
+				case PlacementAnchorType.Center:
+					cornerX -= width / 2;
+					cornerY -= height / 2;
+					break;
+				case PlacementAnchorType.BottomLeft:
+					cornerY -= height;
+					break;
+				case PlacementAnchorType.BottomRight:
+					cornerX -= width;
+					cornerY -= height;
+					break;
+				case PlacementAnchorType.TopLeft:
+				default:
+					break;
+			}
+
+			// Make sure that all four corners of the target area are actually in the world.
+			if (!WorldGen.InWorld(cornerX, cornerY) || !WorldGen.InWorld(cornerX + width, cornerY + height))
+			{
+				CalamityMod.Instance.Logger.Warn("Schematic failed to place: Part of the target location is outside the game world.");
+				return;
+			}
+
+			// Make an array for the tiles that used to be where this schematic will be pasted.
+			Tile[,] originalTiles = new Tile[width, height];
+
+			// Schematic area pre-processing has three steps.
+			// Step 1: Kill all trees and cacti specifically. This prevents ugly tree/cactus pieces from being restored later.
+			// Step 2: Fill the original tiles array with everything that was originally in the target rectangle.
+			// Step 3: Destroy everything in the target rectangle (except chests -- that'll cause infinite recursion).
+			// The third step is necessary so that multi tiles on the edge of the region are properly destroyed (e.g. Life Crystals).
+
+			for (int x = 0; x < width; ++x)
+				for (int y = 0; y < height; ++y)
+				{
+					Tile t = Main.tile[x + cornerX, y + cornerY];
+					if (t.type == TileID.Trees || t.type == TileID.PineTree || t.type == TileID.Cactus)
+						WorldGen.KillTile(x + cornerX, y + cornerY);
+				}
+			for (int x = 0; x < width; ++x)
+				for (int y = 0; y < height; ++y)
+					originalTiles[x, y].CopyFrom(Main.tile[x + cornerX, y + cornerY]);
+			for (int x = 0; x < width; ++x)
+				for (int y = 0; y < height; ++y)
+					if (originalTiles[x, y].type != TileID.Containers)
+						WorldGen.KillTile(x + cornerX, y + cornerY);
+			
+			// Lay down the schematic. If the schematic calls for it, bring back tiles that are stored in the old tiles array.
+			for (int x = 0; x < width; ++x)
+				for (int y = 0; y < height; ++y)
+				{
+					SchematicMetaTile smt = schematic[x, y];
+					string modChestStr = TileLoader.GetTile(smt.type)?.chest ?? "";
+					bool isChest = smt.type == TileID.Containers || modChestStr != "";
+
+					// If the determined tile type is a chest and this is its top left corner, define it appropriately.
+					if (isChest && smt.frameX % 36 == 0 && smt.frameY == 0)
+					{
+						Chest chest = PlaceChest(x + cornerX, y + cornerY, smt.type);
+						// Use the appropriate chest delegate function to fill the chest.
+						if (chestDelegate is Action<Chest, int, bool>)
+						{
+							(chestDelegate as Action<Chest, int, bool>)?.Invoke(chest, smt.type, specialCondition);
+							specialCondition = true;
+						}
+						else if (chestDelegate is Action<Chest>)
+							(chestDelegate as Action<Chest>)?.Invoke(chest);
+					}
+
+					// This is where the meta tile keep booleans are applied.
+					Tile t = Main.tile[x + cornerX, y + cornerY];
+					smt.ApplyTo(ref t, originalTiles[x, y]);
+					TryToPlaceTileEntities(x, y, t);
+
+					// Activate the pile placement function if defined.
+					Rectangle placeInArea = new Rectangle(x, y, width, height);
+					pilePlacementFunction?.Invoke(x + cornerX, y + cornerY, placeInArea);
+				}
+		}
+		#endregion
+
+		#region Place Schematic Helper Methods
+		private static void TryToPlaceTileEntities(int x, int y, Tile t)
+		{
+			// A tile entity in an empty spot would make no sense.
+			if (!t.active())
+				return;
+			// Ignore tiles that aren't at the top left of the tile.
+			// All of Calamity's worldgen-placed tile entities refuse to exist except at the top left corner of their host tile.
+			if (t.frameX != 0 || t.frameY != 0)
+				return;
+
+			// This cannot be a switch because switch cases must be compile time constants, which ModContent calls are not.
+			// Therefore the only option is an if-else ladder.
+			int tileType = t.type;
+			if (tileType == ModContent.TileType<ChargingStation>())
+				TileEntity.PlaceEntityNet(x, y, ModContent.TileEntityType<TEChargingStation>());
+			else if (tileType == ModContent.TileType<DraedonLabTurret>())
+				TileEntity.PlaceEntityNet(x, y, ModContent.TileEntityType<TEDraedonLabTurret>());
+			else if (tileType == ModContent.TileType<LabHologramProjector>())
+				TileEntity.PlaceEntityNet(x, y, ModContent.TileEntityType<TELabHologramProjector>());
+		}
+
+		private static Chest PlaceChest(int x, int y, int chestType)
+		{
+			int chestIndex = Chest.FindEmptyChest(x, y, chestType);
+			Main.chest[chestIndex] = new Chest()
+			{
+				x = x,
+				y = y
+			};
+			Main.chest[chestIndex].item = new Item[Main.chest[chestIndex].item.Length];
+			for (int i = 0; i < Main.chest[chestIndex].item.Length; i++)
+			{
+				Main.chest[chestIndex].item[i] = new Item();
+			}
+			return Main.chest[chestIndex];
+		}
+		#endregion
+	}
 }

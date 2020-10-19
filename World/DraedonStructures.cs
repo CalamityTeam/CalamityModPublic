@@ -11,20 +11,9 @@ using Terraria.ID;
 using Terraria.ModLoader;
 
 using static CalamityMod.Schematics.SchematicManager;
-using static CalamityMod.Schematics.SchematicPlacementHelpers;
 
 namespace CalamityMod.World
 {
-    internal struct ChestItem
-    {
-        internal int Type;
-        internal int Stack;
-        internal ChestItem(int type, int stack)
-        {
-            Type = type;
-            Stack = stack;
-        }
-    }
     public static class DraedonStructures
     {
         public static bool ShouldAvoidLocation(Point placementPoint, bool careAboutLava = true)
@@ -116,7 +105,7 @@ namespace CalamityMod.World
                 else
                 {
                     bool _ = true;
-                    PlaceStructure(mapKey, new Point(placementPoint.X, placementPoint.Y), PlacementAnchorType.TopLeft, ref _, new Action<Chest>(FillWorkshopChest));
+                    PlaceSchematic(mapKey, new Point(placementPoint.X, placementPoint.Y), PlacementAnchorType.TopLeft, ref _, new Action<Chest>(FillWorkshopChest));
                     break;
                 }
 
@@ -181,7 +170,7 @@ namespace CalamityMod.World
                 else
                 {
                     bool _ = true;
-                    PlaceStructure(mapKey, new Point(placementPoint.X, placementPoint.Y), PlacementAnchorType.TopLeft, ref _, new Action<Chest>(FillLaboratoryChest));
+                    PlaceSchematic(mapKey, new Point(placementPoint.X, placementPoint.Y), PlacementAnchorType.TopLeft, ref _, new Action<Chest>(FillLaboratoryChest));
                     break;
                 }
             }
@@ -252,7 +241,7 @@ namespace CalamityMod.World
                 else
                 {
                     bool hasPlacedMurasama = false;
-                    PlaceStructure(mapKey, new Point(placementPoint.X, placementPoint.Y), PlacementAnchorType.TopLeft, ref hasPlacedMurasama, new Action<Chest, int, bool>(FillHellLaboratoryChest));
+                    PlaceSchematic(mapKey, new Point(placementPoint.X, placementPoint.Y), PlacementAnchorType.TopLeft, ref hasPlacedMurasama, new Action<Chest, int, bool>(FillHellLaboratoryChest));
                     break;
                 }
             }
@@ -324,7 +313,7 @@ namespace CalamityMod.World
             while (tries < 50000);
 
             bool hasPlacedLogAndSchematic = false;
-            PlaceStructure(mapKey, new Point(placementPoint.X, placementPoint.Y), PlacementAnchorType.TopLeft, ref hasPlacedLogAndSchematic, new Action<Chest, int, bool>(FillSunkenSeaLaboratoryChest));
+            PlaceSchematic(mapKey, new Point(placementPoint.X, placementPoint.Y), PlacementAnchorType.TopLeft, ref hasPlacedLogAndSchematic, new Action<Chest, int, bool>(FillSunkenSeaLaboratoryChest));
         }
         #endregion
 
@@ -403,7 +392,7 @@ namespace CalamityMod.World
                 else
                 {
                     bool hasPlacedLogAndSchematic = false;
-                    PlaceStructure(mapKey, new Point(placementPoint.X, placementPoint.Y), PlacementAnchorType.TopLeft, ref hasPlacedLogAndSchematic, new Action<Chest, int, bool>(FillIceLaboratoryChest));
+                    PlaceSchematic(mapKey, new Point(placementPoint.X, placementPoint.Y), PlacementAnchorType.TopLeft, ref hasPlacedLogAndSchematic, new Action<Chest, int, bool>(FillIceLaboratoryChest));
                     break;
                 }
             }
@@ -482,7 +471,7 @@ namespace CalamityMod.World
                 else
                 {
                     bool hasPlacedLogAndSchematic = false;
-                    PlaceStructure(mapKey, new Point(placementPoint.X, placementPoint.Y), PlacementAnchorType.TopLeft, ref hasPlacedLogAndSchematic, new Action<Chest, int, bool>(FillPlagueLaboratoryChest));
+                    PlaceSchematic(mapKey, new Point(placementPoint.X, placementPoint.Y), PlacementAnchorType.TopLeft, ref hasPlacedLogAndSchematic, new Action<Chest, int, bool>(FillPlagueLaboratoryChest));
                     break;
                 }
             }
