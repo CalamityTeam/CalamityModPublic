@@ -12,23 +12,20 @@ namespace CalamityMod.Schematics
         internal static void Load()
         {
             PilePlacementMaps = new Dictionary<string, PilePlacementFunction>();
-            // TODO -- re-enable this code after the schematics exist again.
-            /*
             TileMaps = new Dictionary<string, SchematicMetaTile[,]>
             {
                 // Draedon's Arsenal world gen structures
-                ["Workshop"] = CalamitySchematicIO.LoadSchematic("Schematics/WorkshopSchematic.csch"),
-                ["Research Facility"] = CalamitySchematicIO.LoadSchematic("Schematics/ResearchFacilitySchematic.csch"),
-                ["Hell Laboratory"] = CalamitySchematicIO.LoadSchematic("Schematics/HellLaboratorySchematic.csch"),
-                ["Sunken Sea Laboratory"] = CalamitySchematicIO.LoadSchematic("Schematics/SunkenSeaLaboratorySchematic.csch"),
-                ["Ice Laboratory"] = CalamitySchematicIO.LoadSchematic("Schematics/IceLaboratorySchematic.csch"),
-                ["Plague Laboratory"] = CalamitySchematicIO.LoadSchematic("Schematics/PlagueLaboratorySchematic.csch"),
-                ["Planetoid Laboratory"] = CalamitySchematicIO.LoadSchematic("Schematics/PlanetoidLaboratorySchematic.csch"),
+                ["Workshop"] = CalamitySchematicIO.LoadSchematic("Schematics/Workshop.csch"),
+                ["Research Facility"] = CalamitySchematicIO.LoadSchematic("Schematics/ResearchFacility.csch"),
+                ["Hell Laboratory"] = CalamitySchematicIO.LoadSchematic("Schematics/HellLaboratory.csch"),
+                ["Sunken Sea Laboratory"] = CalamitySchematicIO.LoadSchematic("Schematics/SunkenSeaLaboratory.csch"),
+                ["Ice Laboratory"] = CalamitySchematicIO.LoadSchematic("Schematics/IceLaboratory.csch"),
+                ["Plague Laboratory"] = CalamitySchematicIO.LoadSchematic("Schematics/PlagueLaboratory.csch"),
+                ["Planetoid Laboratory"] = CalamitySchematicIO.LoadSchematic("Schematics/PlanetoidLaboratory.csch"),
 
                 // Astral world gen structures
-                ["Astral Beacon"] = CalamitySchematicIO.LoadSchematic("Schematics/AstralBeaconSchematic.csch"),
+                ["Astral Beacon"] = CalamitySchematicIO.LoadSchematic("Schematics/AstralBeacon.csch"),
             };
-            */
         }
         internal static void Unload()
         {
