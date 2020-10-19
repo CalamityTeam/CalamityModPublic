@@ -117,7 +117,7 @@ namespace CalamityMod.Schematics
 				}
 			for (int x = 0; x < width; ++x)
 				for (int y = 0; y < height; ++y)
-					originalTiles[x, y].CopyFrom(Main.tile[x + cornerX, y + cornerY]);
+					originalTiles[x, y] = new Tile(Main.tile[x + cornerX, y + cornerY]);
 			for (int x = 0; x < width; ++x)
 				for (int y = 0; y < height; ++y)
 					if (originalTiles[x, y].type != TileID.Containers)
