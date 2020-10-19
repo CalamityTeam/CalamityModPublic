@@ -37,58 +37,54 @@ namespace CalamityMod.Schematics
             SchematicMetaTile[,] schematic = TileMaps[mapKey];
 
             // Make an array for the tiles that used to be where this schematic will be pasted.
-            int sWidth = schematic.GetLength(0);
-            int sHeight = schematic.GetLength(1);
-            Tile[,] oldTiles = new Tile[sWidth, sHeight];
+            int width = schematic.GetLength(0);
+            int height = schematic.GetLength(1);
+            Tile[,] oldTiles = new Tile[width, height];
 
-            int xOffset = placementPosition.X;
-            int yOffset = placementPosition.Y;
+            int cornerX = placementPosition.X;
+            int cornerY = placementPosition.Y;
 
             // TopLeft is the default because anchoring things at their top-left corner is the default Terraria behavior.
             // This is why it does nothing.
-
             switch (placementAnchor)
             {
                 case PlacementAnchorType.TopRight:
-                    xOffset += sWidth;
+                    cornerX += width;
                     break;
                 case PlacementAnchorType.Center:
-                    xOffset += sWidth / 2;
-                    yOffset += sHeight / 2;
+                    cornerX += width / 2;
+                    cornerY += height / 2;
                     break;
                 case PlacementAnchorType.BottomLeft:
-                    yOffset += sHeight;
+                    cornerY += height;
                     break;
                 case PlacementAnchorType.BottomRight:
-                    xOffset += sWidth;
-                    yOffset += sHeight;
+                    cornerX += width;
+                    cornerY += height;
                     break;
                 case PlacementAnchorType.TopLeft:
                 default:
                     break;
             }
 
-            // Fill the old tiles array while simultaneously destroying everything in the target rectangle.
-            // This is necessary so that complex tiles on the edges are properly removed instead of sliced in half.
-            for (int x = 0; x < sWidth; x++)
-            {
-                for (int y = 0; y < sHeight; y++)
-                {
-                    oldTiles[x, y] = (Tile)Main.tile[x + xOffset, y + yOffset].Clone();
+            // Fill the old tiles array with everything that was originally in the target rectangle.
+            // Once the old tiles array is filled, destroy everything in the target rectangle (except chests).
+            // This two-step process is necessary so that complex tiles are properly removed and replaced instead of getting sliced up.
+            for (int x = 0; x < width; ++x)
+                for (int y = 0; y < height; ++y)
+                    oldTiles[x, y] = (Tile)Main.tile[x + cornerX, y + cornerY].Clone();
 
-                    // Attempting to break chests causes the game to attempt to infinitely recurse in an attempt to break the tile, resulting in a stack overflow.
-                    if (oldTiles[x, y].type == TileID.Containers)
-                        continue;
-                    WorldGen.KillTile(x + xOffset, y + yOffset);
-                }
-            }
+            // Attempting to break vanilla chests directly causes infinite recursion, so don't.
+            for (int x = 0; x < width; ++x)
+                for (int y = 0; y < height; ++y)
+                    if (oldTiles[x, y].type != TileID.Containers)
+                        WorldGen.KillTile(x + cornerX, y + cornerY);
 
             // Lay down the schematic. If the schematic calls for it, bring back tiles that are stored in the old tiles array.
-            for (int x = 0; x < sWidth; x++)
-            {
-                for (int y = 0; y < sHeight; y++)
+            for (int x = 0; x < width; ++x)
+                for (int y = 0; y < height; ++y)
                 {
-                    if (!WorldGen.InWorld(x + xOffset, y + yOffset))
+                    if (!WorldGen.InWorld(x + cornerX, y + cornerY))
                         continue;
 
                     SchematicMetaTile smt = schematic[x, y];
@@ -100,7 +96,7 @@ namespace CalamityMod.Schematics
                     {
                         if (smt.frameX % 36 == 0 && smt.frameY == 0)
                         {
-                            Chest chest = PlaceChest(x + xOffset, y + yOffset, smt.type);
+                            Chest chest = PlaceChest(x + cornerX, y + cornerY, smt.type);
 
                             if (chestInteraction is Action<Chest, int, bool>)
                             {
@@ -114,24 +110,20 @@ namespace CalamityMod.Schematics
 
                     // Trees and cacti get special treatment and are always imported back in to prevent world corruption.
                     if (smt.type == TileID.Trees || smt.type == TileID.PineTree || smt.type == TileID.Cactus)
-                    {
-                        ushort oldWall = oldTiles[x, y].wall;
                         oldTiles[x, y] = new Tile
                         {
-                            wall = oldWall
+                            wall = oldTiles[x, y].wall
                         };
-                    }
                     else
                     {
-                        // If the meta tile has the keep booleans set, it can choose to have them
-                        smt.ApplyTo(ref Main.tile[x + xOffset, y + yOffset], oldTiles[x, y]);
-                        TryToPlaceTileEntities(x + xOffset, y + yOffset);
+                        // This is where the meta tile keep booleans are applied.
+                        smt.ApplyTo(ref Main.tile[x + cornerX, y + cornerY], oldTiles[x, y]);
+                        TryToPlaceTileEntities(x + cornerX, y + cornerY);
                     }
 
-                    Rectangle placeInArea = new Rectangle(x, y, sWidth, sHeight);
-                    pilePlacementFunction?.Invoke(x + xOffset, y + yOffset, placeInArea);
+                    Rectangle placeInArea = new Rectangle(x, y, width, height);
+                    pilePlacementFunction?.Invoke(x + cornerX, y + cornerY, placeInArea);
                 }
-            }
         }
 
         private static void TryToPlaceTileEntities(int x, int y)
