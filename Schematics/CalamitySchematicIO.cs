@@ -44,21 +44,43 @@ namespace CalamityMod.Schematics
 		}
 
 		// This function is used by the schematic placer to respect the keepTile and keepWall booleans.
-		public void ApplyTo(ref Tile t)
+		public void ApplyTo(ref Tile target, Tile original)
 		{
-			t.bTileHeader = bTileHeader;
-			t.bTileHeader2 = bTileHeader2;
-			t.bTileHeader3 = bTileHeader3;
-			t.sTileHeader = sTileHeader;
-			if (!keepTile)
+			// This full-overwrite hypothetical tile is used to partially copy over various forms of data.
+			// A lot of tile data is nefariously binary encoded into the tile header bytes.
+			Tile replacement = new Tile
 			{
-				t.type = type;
-				t.frameX = frameX;
-				t.frameY = frameY;
+				bTileHeader = bTileHeader,
+				bTileHeader2 = bTileHeader2,
+				bTileHeader3 = bTileHeader3,
+				sTileHeader = sTileHeader,
+				type = type,
+				frameX = frameX,
+				frameY = frameY,
+				wall = wall,
+				liquid = liquid
+			};
+
+			if (!keepTile && !keepWall) // full overwrite
+				target.CopyFrom(replacement);
+			else if (keepTile && keepWall) // full preservation
+				target.CopyFrom(original);
+			else if (keepWall) // wall from original, tile from replacement
+			{
+				target.CopyFrom(replacement);
+				target.wall = original.wall;
+				target.wallFrameX(original.wallFrameX());
+				target.wallFrameY(original.wallFrameY());
+				target.wallColor(original.wallColor());
 			}
-			if (!keepWall)
-				t.wall = wall;
-			t.liquid = liquid;
+			else if (keepTile) // tile from original, wall from replacement
+			{
+				target.CopyFrom(original);
+				target.wall = replacement.wall;
+				target.wallFrameX(replacement.wallFrameX());
+				target.wallFrameY(replacement.wallFrameY());
+				target.wallColor(replacement.wallColor());
+			}
 		}
 	}
 
@@ -179,8 +201,8 @@ namespace CalamityMod.Schematics
 			return -1;
 		}
 
-		private static string GetFullName(this ModTile mt) => $"{mt.mod.Name}.{mt.Name}";
-		private static string GetFullName(this ModWall mw) => $"{mw.mod.Name}.{mw.Name}";
+		private static string GetFullName(this ModTile mt) => $"{mt.mod.Name}/{mt.Name}";
+		private static string GetFullName(this ModWall mw) => $"{mw.mod.Name}/{mw.Name}";
 
 		private static void ComputeMetaIndices(ref SchematicData schematic, ref SchematicMetaTile smt)
 		{
@@ -482,8 +504,8 @@ namespace CalamityMod.Schematics
 				throw new InvalidDataException($"{InvalidFormatString} The file is not properly marked as compressed or uncompressed.");
 
 			SchematicMetaTile[,] ret;
+			byte[] buffer;
 			using (MemoryStream stream = new MemoryStream(SchematicBufferStartingSize))
-			using (BinaryReader reader = new BinaryReader(stream, Encoding.UTF8))
 			{
 				if (compression)
 					using (GZipStream gz = new GZipStream(fileInputStream, CompressionMode.Decompress))
@@ -491,6 +513,13 @@ namespace CalamityMod.Schematics
 				else
 					fileInputStream.CopyTo(stream);
 
+				CalamityMod.Instance.Logger.Warn($"{(compression ? "Compressed" : "Uncompressed")} stream of length {stream.Length} loaded");
+				buffer = stream.ToArray();
+			}
+
+			using (MemoryStream bufferStream = new MemoryStream(buffer, false))
+			using (BinaryReader reader = new BinaryReader(bufferStream, Encoding.UTF8))
+			{
 				// 2: Length of list 3.
 				ushort numModTileNames = reader.ReadUInt16();
 
@@ -530,7 +559,7 @@ namespace CalamityMod.Schematics
 					{
 						ushort tileIndex = reader.ReadUInt16();
 						ret[x, y] = uniqueTiles[tileIndex];
-					} 
+					}
 			}
 			return ret;
 		}
