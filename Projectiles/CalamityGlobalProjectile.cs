@@ -2085,8 +2085,6 @@ namespace CalamityMod.Projectiles
             return true;
         }
 
-		// This seems to not work with TrailingMode set to 0.
-		// It works when it's set to 1, but only when there's 8 or more afterimages -- and then it only uses the first 8. Dafuq?
 		public static void DrawCenteredAndAfterimage(Projectile projectile, Color lightColor, int trailingMode, int afterimageCounter, Texture2D texture = null, bool drawCentered = true)
         {
             if (texture is null)
@@ -2112,23 +2110,26 @@ namespace CalamityMod.Projectiles
                     case 0:
                         for (int i = 0; i < projectile.oldPos.Length; i++)
                         {
+							//Don't remove these float casts or they will break (for some reason)
                             Vector2 drawPos = projectile.oldPos[i] + centerOffset - Main.screenPosition + new Vector2(0f, projectile.gfxOffY);
-                            Color color = projectile.GetAlpha(lightColor) * ((projectile.oldPos.Length - i) / projectile.oldPos.Length);
-                            Main.spriteBatch.Draw(texture, drawPos, rectangle, color, rotation, origin, scale, spriteEffects, 0f);
+                            Color color = projectile.GetAlpha(lightColor) * ((float)(projectile.oldPos.Length - i) / (float)projectile.oldPos.Length);
+                            Main.spriteBatch.Draw(texture, drawPos, new Microsoft.Xna.Framework.Rectangle?(rectangle), color, rotation, origin, scale, spriteEffects, 0f);
                         }
                         break;
 
                     case 1:
-                        Color color25 = Lighting.GetColor((int)(projectile.Center.X / 16), (int)(projectile.Center.Y / 16));
-                        int whyIsThisAlwaysEight = 8;
+                        Color colorAtPosition = Lighting.GetColor((int)(projectile.Center.X / 16), (int)(projectile.Center.Y / 16));
+                        int afterimageCount = ProjectileID.Sets.TrailCacheLength[projectile.type];
                         int k = 1;
-                        while (k < whyIsThisAlwaysEight)
+                        while (k < afterimageCount)
                         {
-                            Color color26 = color25;
-                            color26 = projectile.GetAlpha(color26);
-                            float num164 = whyIsThisAlwaysEight - k;
-                            color26 *= num164 / (ProjectileID.Sets.TrailCacheLength[projectile.type] * 1.5f);
-                            Main.spriteBatch.Draw(texture, projectile.oldPos[k] + centerOffset - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), rectangle, color26, rotation, origin, scale, spriteEffects, 0f);
+							//Probably shouldn't remove these casts either
+                            Vector2 drawPos = projectile.oldPos[k] + centerOffset - Main.screenPosition + new Vector2(0f, projectile.gfxOffY);
+                            Color drawColor = projectile.GetAlpha(colorAtPosition);
+                            float colorMult = (float)(afterimageCount - k);
+                            drawColor *= colorMult / ((float)afterimageCount * 1.5f);
+                            Main.spriteBatch.Draw(texture, drawPos, new Microsoft.Xna.Framework.Rectangle?(rectangle), drawColor, rotation, origin, scale, spriteEffects, 0f);
+							//If afterimageCounter is greater than 1, it'll draw fewer afterimages more spaced out
                             k += afterimageCounter;
                         }
                         break;

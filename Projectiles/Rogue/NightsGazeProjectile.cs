@@ -51,34 +51,17 @@ namespace CalamityMod.Projectiles.Rogue
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(ModContent.BuffType<Nightwither>(), projectile.timeLeft);
-
-            int starCount = 6;
-            int starFrequency = 3;
-            float spread = 20f;
-            for (int i = 0; i < starCount; i++)
-            {
-                int projectileDamage = (int)(projectile.damage * 0.75f);
-                int projectileType = ModContent.ProjectileType<NightsGazeSpark>();
-                if (Main.rand.Next(starCount) < starFrequency)
-                {
-                    projectileType = ModContent.ProjectileType<NightsGazeStar>();
-                }
-                Vector2 velocity = projectile.oldVelocity.RotateRandom(MathHelper.ToRadians(spread));
-                float speed = Main.rand.NextFloat(1.5f, 2f);
-                float moveDuration = Main.rand.Next(5, 15);
-
-                Projectile.NewProjectile(projectile.Center, velocity * speed, projectileType, projectileDamage, 5f, projectile.owner, 0f, moveDuration);
-            }
-
-            Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 62, 0.6f);
-            Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 68, 0.2f);
-            Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 122, 0.4f);
+			OnHitEffects();
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
             target.AddBuff(ModContent.BuffType<Nightwither>(), projectile.timeLeft);
+			OnHitEffects();
+		}
 
+		private void OnHitEffects()
+		{
             int starCount = 6;
             int starFrequency = 3;
             float spread = 20f;
