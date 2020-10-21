@@ -6325,17 +6325,30 @@ namespace CalamityMod.CalPlayer
 			if (CalamityWorld.revenge)
 			{
 				double damageMultiplier = 1D;
+				bool containsProjectile = false;
 				if (CalamityLists.revengeanceProjectileBuffList25Percent.Contains(proj.type))
+				{
 					damageMultiplier += 0.25;
+					containsProjectile = true;
+				}
 				else if (CalamityLists.revengeanceProjectileBuffList20Percent.Contains(proj.type))
+				{
 					damageMultiplier += 0.2;
+					containsProjectile = true;
+				}
 				else if (CalamityLists.revengeanceProjectileBuffList15Percent.Contains(proj.type))
+				{
 					damageMultiplier += 0.15;
+					containsProjectile = true;
+				}
 
-				if (CalamityWorld.death)
-					damageMultiplier += (damageMultiplier - 1D) * 0.6;
+				if (containsProjectile)
+				{
+					if (CalamityWorld.death)
+						damageMultiplier += (damageMultiplier - 1D) * 0.6;
 
-				damage = (int)(damage * damageMultiplier);
+					damage = (int)(damage * damageMultiplier);
+				}
 			}
 
 			int bossRushDamage = (Main.expertMode ? 125 : 150) + (BossRushEvent.BossRushStage / 2);
