@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Magic
         {
             DisplayName.SetDefault("Blast");
             Main.projFrames[projectile.type] = 4;
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
+            ProjectileID.Sets.TrailCacheLength[projectile.type] = 4;
             ProjectileID.Sets.TrailingMode[projectile.type] = 1;
         }
 
@@ -44,9 +44,11 @@ namespace CalamityMod.Projectiles.Magic
             projectile.spriteDirection = projectile.direction = (projectile.velocity.X > 0).ToDirectionInt();
             projectile.rotation = projectile.velocity.ToRotation() + (projectile.spriteDirection == 1 ? 0f : MathHelper.Pi);
 
-            if (projectile.frameCounter++ % 4 == 3)
+            projectile.frameCounter++;
+            if (projectile.frameCounter > 4)
             {
                 projectile.frame++;
+                projectile.frameCounter = 0;
             }
             if (projectile.frame >= Main.projFrames[projectile.type])
             {
@@ -72,7 +74,7 @@ namespace CalamityMod.Projectiles.Magic
 			if (projectile.timeLeft > 599)
 				return false;
 
-			CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 2);
+			CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
             return false;
         }
 

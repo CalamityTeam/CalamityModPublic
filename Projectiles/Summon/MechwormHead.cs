@@ -60,8 +60,12 @@ namespace CalamityMod.Projectiles.Summon
         #region Syncing
         public override void SendExtraAI(BinaryWriter writer)
         {
-            writer.Write((byte)CurrentAttackState);
+            byte enumByte = (byte)CurrentAttackState;
+            writer.Write(enumByte);
             writer.Write(AttackStateTimer);
+            // localAI and alpha are not normally synced, so sync those
+            writer.Write(TotalWormSegments);
+            writer.Write(projectile.alpha);
             writer.Write(EndRiftGateUUID);
             writer.WriteVector2(TeleportStartingPoint);
             writer.WriteVector2(TeleportEndingPoint);
@@ -69,8 +73,11 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
-            CurrentAttackState = (AttackState)reader.ReadByte();
+            byte enumByte = reader.ReadByte();
+            CurrentAttackState = (AttackState)enumByte;
             AttackStateTimer = reader.ReadInt32();
+            TotalWormSegments = reader.ReadSingle();
+            projectile.alpha = reader.ReadInt32();
             EndRiftGateUUID = reader.ReadInt32();
             TeleportStartingPoint = reader.ReadVector2();
             TeleportEndingPoint = reader.ReadVector2();

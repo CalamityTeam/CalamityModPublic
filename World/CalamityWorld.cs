@@ -1168,13 +1168,27 @@ namespace CalamityMod.World
                 CalamityNetcode.SyncWorld();
             }
 
-            // Attempt to start the acid rain at the 4:29AM
-            bool moreRain = !downedEoCAcidRain || (!downedAquaticScourgeAcidRain && downedAquaticScourge) || (!downedBoomerDuke && downedPolterghast);
-            if (Main.time == 32399 && !Main.dayTime && Main.rand.NextBool(moreRain ? 3 : 300) && !Main.LocalPlayer.Calamity().noStupidNaturalARSpawns)
-            {
-                AcidRainEvent.TryStartEvent();
-                CalamityNetcode.SyncWorld();
-            }
+			// Attempt to start the acid rain at the 4:29AM
+			bool moreRain = !downedEoCAcidRain || (!downedAquaticScourgeAcidRain && downedAquaticScourge) || (!downedBoomerDuke && downedPolterghast);
+			if (Main.time == 32399 && !Main.dayTime && Main.rand.NextBool(moreRain ? 3 : 300))
+			{
+				bool noRain = false;
+				for (int playerIndex = 0; playerIndex < Main.maxPlayers; playerIndex++)
+				{
+					if (!Main.player[playerIndex].active)
+						continue;
+					if (Main.player[playerIndex].Calamity().noStupidNaturalARSpawns)
+					{
+						noRain = true;
+						break;
+					}
+				}
+				if (!noRain)
+				{
+					AcidRainEvent.TryStartEvent();
+					CalamityNetcode.SyncWorld();
+				}
+			}
             if (NPC.downedBoss1 && !downedEoCAcidRain && !forcedRainAlready)
             {
                 for (int playerIndex = 0; playerIndex < Main.maxPlayers; playerIndex++)

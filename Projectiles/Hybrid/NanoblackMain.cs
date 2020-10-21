@@ -10,17 +10,17 @@ namespace CalamityMod.Projectiles.Hybrid
 {
     public class NanoblackMain : ModProjectile
     {
-        private static float RotationIncrement = 0.22f;
-        private static int Lifetime = 240;
-        private static float ReboundTime = 50f;
-        private static int MinBladeTimer = 13;
-        private static int MaxBladeTimer = 18;
+        private const float RotationIncrement = 0.22f;
+        private const int Lifetime = 240;
+        private const float ReboundTime = 50f;
+        private const int MinBladeTimer = 13;
+        private const int MaxBladeTimer = 18;
 
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Nanoblack Reaper");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 8;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 1;
+            ProjectileID.Sets.TrailCacheLength[projectile.type] = 7;
+            ProjectileID.Sets.TrailingMode[projectile.type] = 2;
         }
 
         public override void SetDefaults()

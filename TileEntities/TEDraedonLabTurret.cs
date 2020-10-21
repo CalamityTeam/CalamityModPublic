@@ -120,7 +120,18 @@ namespace CalamityMod.TileEntities
 		}
 
 		// This type of turret syncs extra data: its player target index.
-		protected override void WriteExtraData(BinaryWriter writer) => writer.Write(_playerTargetIndex);
-		protected override void ReadExtraData(Mod mod, BinaryReader reader) => _playerTargetIndex = reader.ReadInt32();
+		// This only takes 2 bytes so a junk array is written for the remainder of the space.
+		private const int BytesUsed = 2;
+		private static readonly byte[] JunkData = new byte[] { 0x55, 0x55, 0x55, 0x55, 0x55, 0x55, 0x55, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA };
+		protected override void WriteExtraData(BinaryWriter writer)
+		{
+			writer.Write((short)_playerTargetIndex);
+			writer.Write(JunkData);
+		}
+		protected override void ReadExtraData(Mod mod, BinaryReader reader)
+		{
+			_playerTargetIndex = reader.ReadInt16();
+			_ = reader.ReadBytes(NumExtraBytes - BytesUsed);
+		}
 	}
 }
