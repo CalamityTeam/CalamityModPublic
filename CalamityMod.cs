@@ -149,7 +149,7 @@ namespace CalamityMod
             SetupThoriumBossDR(thorium);
 
             CalamityLocalization.AddLocalizations();
-            SchematicLoader.LoadEverything();
+            SchematicManager.Load();
         }
 
         private void LoadClient()
@@ -268,7 +268,7 @@ namespace CalamityMod
             PopupGUIManager.UnloadGUIs();
             InvasionProgressUIManager.UnloadGUIs();
             BossRushEvent.Unload();
-            SchematicLoader.UnloadEverything();
+            SchematicManager.Unload();
             BossHealthBarManager.Unload();
 
             TileFraming.Unload();

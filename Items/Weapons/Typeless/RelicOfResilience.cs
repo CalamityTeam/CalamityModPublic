@@ -1,6 +1,8 @@
 using CalamityMod.Buffs.Cooldowns;
 using CalamityMod.Projectiles.Damageable;
+using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
+using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -44,6 +46,15 @@ namespace CalamityMod.Items.Weapons.Typeless
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             player.AddBuff(ModContent.BuffType<ResilienceCooldown>(), CooldownSeconds * 60);
+            int[] shardTypes = new int[]
+            {
+                ModContent.ProjectileType<ArtifactOfResilienceShard1>(),
+                ModContent.ProjectileType<ArtifactOfResilienceShard2>(),
+                ModContent.ProjectileType<ArtifactOfResilienceShard3>(),
+                ModContent.ProjectileType<ArtifactOfResilienceShard4>(),
+                ModContent.ProjectileType<ArtifactOfResilienceShard5>(),
+                ModContent.ProjectileType<ArtifactOfResilienceShard6>(),
+            };
             if (player.ownedProjectileCounts[item.shoot] > 0)
             {
                 for (int i = 0; i < Main.projectile.Length; i++)
@@ -55,7 +66,7 @@ namespace CalamityMod.Items.Weapons.Typeless
                     }
                 }
             }
-            else
+            else if (shardTypes.All(proj => player.ownedProjectileCounts[proj] == 0))
             {
                 Projectile.NewProjectile(Main.MouseWorld, Vector2.Zero, type, damage, knockBack, player.whoAmI, 0f, 0f);
             }

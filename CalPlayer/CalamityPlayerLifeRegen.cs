@@ -4,7 +4,6 @@ using CalamityMod.Events;
 using CalamityMod.Projectiles.Ranged;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -22,7 +21,7 @@ namespace CalamityMod.CalPlayer
 				modPlayer.noLifeRegen = true;
 
 			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
-			int lifeRegenMult = death ? 2 : 1;
+			double lifeRegenMult = death ? 1.5 : 1D;
 			int lifeRegenLost = 0;
 
             // Initial Debuffs
@@ -372,7 +371,7 @@ namespace CalamityMod.CalPlayer
                 lifeRegenLost += 42; //the meaning of death
             }
 
-			player.lifeRegen -= lifeRegenLost * lifeRegenMult;
+			player.lifeRegen -= (int)(lifeRegenLost * lifeRegenMult);
 
 			// Buffs
 
@@ -496,7 +495,7 @@ namespace CalamityMod.CalPlayer
 				if (player.lavaRose)
 					lifeRegenDown = 3;
 
-				player.lifeRegen -= lifeRegenDown * lifeRegenMult;
+				player.lifeRegen -= (int)(lifeRegenDown * lifeRegenMult);
 			}
 
 			if (modPlayer.hInferno)
@@ -507,9 +506,9 @@ namespace CalamityMod.CalPlayer
                     player.lifeRegen = 0;
 
                 player.lifeRegenTime = 0;
-                player.lifeRegen -= modPlayer.hInfernoBoost * lifeRegenMult;
+                player.lifeRegen -= (int)(modPlayer.hInfernoBoost * lifeRegenMult);
 
-                if (player.lifeRegen < -200)
+				if (player.lifeRegen < -200)
                     player.lifeRegen = -200;
             }
             else
@@ -525,7 +524,7 @@ namespace CalamityMod.CalPlayer
 							player.lifeRegen = 0;
 
 						player.lifeRegenTime = 0;
-						player.lifeRegen -= 160 * lifeRegenMult;
+						player.lifeRegen -= (int)(160D * lifeRegenMult);
 					}
 				}
 			}

@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.autoReuse = true;
             item.height = 36;
             item.maxStack = 1;
-            item.value = Item.buyPrice(0, 0, 20, 0);
+            item.value = CalamityGlobalItem.Rarity1BuyPrice;
             item.rare = 1;
             item.shoot = ModContent.ProjectileType<GleamingDaggerProj>();
             item.shootSpeed = 15f;

@@ -21,7 +21,7 @@ namespace CalamityMod.Projectiles.Boss
             projectile.height = 12;
             projectile.hostile = true;
             projectile.penetrate = -1;
-            projectile.timeLeft = 1200;
+            projectile.timeLeft = 900;
             projectile.scale = 1.5f;
             cooldownSlot = 0;
         }
@@ -35,7 +35,7 @@ namespace CalamityMod.Projectiles.Boss
             }
             else
             {
-                projectile.velocity.Y = projectile.velocity.Y + 0.1f;
+                projectile.velocity.Y += 0.1f;
                 if (projectile.velocity.Y > 5f)
                 {
                     projectile.velocity.Y = 5f;

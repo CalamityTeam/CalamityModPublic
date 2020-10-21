@@ -643,7 +643,7 @@ namespace CalamityMod.NPCs
 			// Speed while moving in phase 1
 			float speed = BossRushEvent.BossRushActive ? 12f : !calamity ? 8f : death ? 6f : revenge ? 5.5f : expertMode ? 5f : 4.5f;
 			if (expertMode)
-				speed += death ? 4f * (1f - lifeRatio) : 2f * (1f - lifeRatio);
+				speed += death ? 3f * (1f - lifeRatio) : 2f * (1f - lifeRatio);
 
 			// Variables for target location relative to npc location
 			float xDistance = player.Center.X - vectorCenter.X;
@@ -831,7 +831,7 @@ namespace CalamityMod.NPCs
 							}
 						}
 
-						float projectileSpeed = BossRushEvent.BossRushActive ? 10f : death ? 6.5f : 5f;
+						float projectileSpeed = BossRushEvent.BossRushActive ? 10f : death ? 6f : 5f;
 						if (calamityGlobalNPC.enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))
 							projectileSpeed += 4f;
 						if (revenge)
@@ -923,7 +923,7 @@ namespace CalamityMod.NPCs
 				{
 					npc.localAI[0] += 1f;
 					if (expertMode)
-						npc.localAI[0] += death ? 2f * (1f - lifeRatio) : 1f - lifeRatio;
+						npc.localAI[0] += death ? 1.5f * (1f - lifeRatio) : 1f - lifeRatio;
 
 					if (calamityGlobalNPC.enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))
 						npc.localAI[0] += 2f;
@@ -2339,7 +2339,7 @@ namespace CalamityMod.NPCs
                         if ((npc.ai[0] >= 5f && npc.ai[0] != 7) || calamityGlobalNPC.enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))
                         {
                             float velocity = BossRushEvent.BossRushActive ? 14f : death ? 8f : 7f;
-							int totalProjectiles = 8;
+							int totalProjectiles = 6;
 							float radians = MathHelper.TwoPi / totalProjectiles;
 							int type = ModContent.ProjectileType<AstralFlame>();
 							int damage = npc.GetProjectileDamage(type);
@@ -2357,8 +2357,8 @@ namespace CalamityMod.NPCs
                         else if ((npc.ai[0] == 4f && npc.velocity.Y > 0f && expertMode) || npc.ai[0] == 2f)
                         {
                             float num179 = BossRushEvent.BossRushActive ? 24f : death ? 20f : 18.5f;
-							int maxProjectiles = death ? 8 : 5;
-							int spread = death ? 90 : 60;
+							int maxProjectiles = death ? 6 : 4;
+							int spread = death ? 60 : 45;
                             Vector2 value9 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
                             float num180 = player.position.X + player.width * 0.5f - value9.X;
                             float num181 = Math.Abs(num180) * 0.1f;
@@ -2442,7 +2442,7 @@ namespace CalamityMod.NPCs
 				// Set walking speed
                 float num823 = BossRushEvent.BossRushActive ? 12f : 6f;
 				if (expertMode)
-					num823 += death ? 4f * (1f - lifeRatio) : 2f * (1f - lifeRatio);
+					num823 += death ? 3f * (1f - lifeRatio) : 2f * (1f - lifeRatio);
 				if (revenge)
 					num823 += Math.Abs(npc.Center.X - player.Center.X) * 0.0025f;
 
@@ -2501,7 +2501,7 @@ namespace CalamityMod.NPCs
 
                 // Walk for a maximum of 6 seconds
                 npc.ai[1] += 1f;
-                if (npc.ai[1] >= (360f - (death ? 120f * (1f - lifeRatio) : 0f)))
+                if (npc.ai[1] >= (360f - (death ? 90f * (1f - lifeRatio) : 0f)))
                 {
                     // Collide with tiles again
                     npc.noTileCollide = false;
@@ -2537,7 +2537,7 @@ namespace CalamityMod.NPCs
                         // Set jump velocity, reset and set AI to next phase (Stomp)
                         float velocityX = BossRushEvent.BossRushActive ? 12f : 9f;
 						if (expertMode)
-							velocityX += death ? 5f * (1f - lifeRatio) : 3f * (1f - lifeRatio);
+							velocityX += death ? 4.5f * (1f - lifeRatio) : 3f * (1f - lifeRatio);
 
 						npc.velocity.X = velocityX * npc.direction;
 
@@ -2646,7 +2646,7 @@ namespace CalamityMod.NPCs
 
                         float num626 = BossRushEvent.BossRushActive ? 18f : 12f;
 						if (expertMode)
-							num626 += death ? 5f * (1f - lifeRatio) : 3f * (1f - lifeRatio);
+							num626 += death ? 4.5f * (1f - lifeRatio) : 3f * (1f - lifeRatio);
 
                         if (npc.velocity.X < -num626)
                             npc.velocity.X = -num626;
@@ -2671,7 +2671,7 @@ namespace CalamityMod.NPCs
                     if (!Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height))
                         npc.localAI[1] += 5f;
 
-                    if (npc.localAI[1] >= (240f - (death ? 90f * (1f - lifeRatio) : 0f)))
+                    if (npc.localAI[1] >= (240f - (death ? 60f * (1f - lifeRatio) : 0f)))
                     {
                         // Spawn slimes
                         bool spawnFlag = revenge;

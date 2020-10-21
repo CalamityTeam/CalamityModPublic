@@ -181,17 +181,17 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             Vector2 distFromPlayer = player.Center - vectorCenter;
 
 			// Enrage
-			float enrageScale = death ? 0.5f : 0f;
+			float enrageScale = death ? 0.25f : 0f;
 			if ((npc.position.Y / 16f) < Main.worldSurface || (npc.position.Y / 16f) > (Main.maxTilesY - 200))
-				enrageScale += 1f;
+				enrageScale += 0.5f;
 			if (!player.ZoneJungle)
-				enrageScale += 1f;
+				enrageScale += 0.5f;
 
-			if (enrageScale > 2f)
-				enrageScale = 2f;
+			if (enrageScale > 1f)
+				enrageScale = 1f;
 
 			if (BossRushEvent.BossRushActive)
-				enrageScale = 0;
+				enrageScale = 0f;
 
 			bool diagonalDash = revenge && lifeRatio < 0.8f;
 

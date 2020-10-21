@@ -533,25 +533,26 @@ namespace CalamityMod.CalPlayer
 						if (depthRatio > FadeAwayStart)
 						{
 							// Varies from 1.0 to 0.0 as depthRatio varies from FadeAwayStart to 1.0.
-							darknessStrength = MathHelper.Lerp(0f, 0.75f, (1f - (float)depthRatio) / (1f - FadeAwayStart));
+							darknessStrength = MathHelper.Lerp(0f, 1f, (1f - (float)depthRatio) / (1f - FadeAwayStart));
 						}
 
 						// Reduce the power of cave darkness based on your light level. 5+ is enough to totally eliminate it.
 						switch (lightStrength)
 						{
 							case 0:
-								break;
-							case 1:
 								darknessStrength *= 0.75f;
 								break;
+							case 1:
+								darknessStrength *= 0.5f;
+								break;
 							case 2:
-								darknessStrength *= 0.55f;
+								darknessStrength *= 0.25f;
 								break;
 							case 3:
-								darknessStrength *= 0.35f;
+								darknessStrength *= 0.15f;
 								break;
 							case 4:
-								darknessStrength *= 0.15f;
+								darknessStrength *= 0.05f;
 								break;
 							default:
 								darknessStrength = 0f;
@@ -3124,7 +3125,6 @@ namespace CalamityMod.CalPlayer
 			{
 				player.blind = true;
 				player.statDefense -= 15;
-				player.moveSpeed -= 0.15f;
 			}
 
 			if (modPlayer.aCrunch)

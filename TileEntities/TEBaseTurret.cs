@@ -1,4 +1,3 @@
-using IL.Terraria.GameContent.UI.States;
 using Microsoft.Xna.Framework;
 using System;
 using System.IO;
@@ -212,24 +211,35 @@ namespace CalamityMod.TileEntities
 			int teID = reader.ReadInt32();
 			bool exists = ByID.TryGetValue(teID, out TileEntity te);
 
+			// The rest of the packet must be read even if it turns out the turret doesn't exist for whatever reason.
+			int firingTime = reader.ReadInt32();
+			float angle = reader.ReadSingle();
+			Vector2 targetVec = reader.ReadVector2();
+
 			if (exists && te is TEBaseTurret turret)
 			{
-				turret.FiringTime = reader.ReadInt32();
-				turret.Angle = reader.ReadSingle();
-				turret.TargetPos = reader.ReadVector2();
+				turret.FiringTime = firingTime;
+				turret.Angle = angle;
+				turret.TargetPos = targetVec;
 				turret.ReadExtraData(mod, reader);
 				return true;
 			}
-			// If the tile entity doesn't exist or is invalid, just destroy the packet.
 			else
 			{
-				reader.Close();
+				// Otherwise, discard the fixed extra bytes so the message stream doesn't go haywire.
+				_ = reader.ReadBytes(NumExtraBytes);
 				return false;
 			}
 		}
 
 		// Subclasses cannot override SendSyncPacket, but they can override these functions to sync their own extra data.
-		protected virtual void WriteExtraData(BinaryWriter writer) { }
-		protected virtual void ReadExtraData(Mod mod, BinaryReader reader) { }
+		// Due to the limitations of TML packets, this data must be exactly 16 bytes in size.
+		// The default implementations here write 16 bytes of zeroes and dump all 16 bytes when read.
+		public const int NumExtraBytes = 16;
+		protected virtual void WriteExtraData(BinaryWriter writer) {
+			writer.Write(0Lu);
+			writer.Write(0Lu);
+		}
+		protected virtual void ReadExtraData(Mod mod, BinaryReader reader) => _ = reader.ReadBytes(NumExtraBytes);
 	}
 }
