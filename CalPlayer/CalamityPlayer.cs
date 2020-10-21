@@ -3879,11 +3879,6 @@ namespace CalamityMod.CalPlayer
                 runAccMult *= 0.4f;
                 runSpeedMult *= 0.4f;
             }
-            if (horror)
-            {
-                runAccMult *= 0.85f;
-                runSpeedMult *= 0.85f;
-            }
             if (fabledTortoise)
             {
                 runAccMult *= 0.5f;

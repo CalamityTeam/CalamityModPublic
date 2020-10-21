@@ -3125,7 +3125,6 @@ namespace CalamityMod.CalPlayer
 			{
 				player.blind = true;
 				player.statDefense -= 15;
-				player.moveSpeed -= 0.15f;
 			}
 
 			if (modPlayer.aCrunch)
