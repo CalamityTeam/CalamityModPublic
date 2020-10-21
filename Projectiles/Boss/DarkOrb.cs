@@ -550,8 +550,6 @@ namespace CalamityMod.Projectiles.Boss
         {
             target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 300);
             //target.AddBuff(ModContent.BuffType<Delirium>(), 300, true);
-			target.AddBuff(ModContent.BuffType<MarkedforDeath>(), 300);
-			target.AddBuff(ModContent.BuffType<Horror>(), 300, true);
 		}
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

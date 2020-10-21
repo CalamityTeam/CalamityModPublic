@@ -418,7 +418,6 @@ namespace CalamityMod.CalPlayer
         public bool affliction = false;
         public bool stressPills = false;
         public bool laudanum = false;
-        public bool doubledHorror = false;
         public bool heartOfDarkness = false;
         public bool draedonsHeart = false;
         public bool rampartOfDeities = false;
@@ -735,7 +734,6 @@ namespace CalamityMod.CalPlayer
         public bool lethalLavaBurn = false;
         public bool aCrunch = false;
         public bool absoluteRage = false;
-        public bool horror = false;
         public bool irradiated = false;
         public bool bFlames = false;
         public bool aFlames = false;
@@ -751,7 +749,6 @@ namespace CalamityMod.CalPlayer
         public bool vHex = false;
         public bool eGrav = false;
         public bool warped = false;
-        public bool marked = false;
         public bool cDepth = false;
         public bool fishAlert = false;
         public bool bOut = false;
@@ -1755,7 +1752,6 @@ namespace CalamityMod.CalPlayer
             lethalLavaBurn = false;
             aCrunch = false;
             absoluteRage = false;
-            horror = false;
             irradiated = false;
             bFlames = false;
             aFlames = false;
@@ -1770,7 +1766,6 @@ namespace CalamityMod.CalPlayer
             vHex = false;
             eGrav = false;
             warped = false;
-            marked = false;
             cDepth = false;
             fishAlert = false;
             bOut = false;
@@ -2081,7 +2076,6 @@ namespace CalamityMod.CalPlayer
 			icicleCooldown = 0;
 			statisTimer = 0;
 			hallowedRuneCooldown = 0;
-			doubledHorror = false;
 			sulphurBubbleCooldown = 0;
 			ladHearts = 0;
 			prismaticLasers = 0;
@@ -2095,7 +2089,6 @@ namespace CalamityMod.CalPlayer
             lethalLavaBurn = false;
             aCrunch = false;
             absoluteRage = false;
-            horror = false;
             irradiated = false;
             bFlames = false;
             aFlames = false;
@@ -2110,7 +2103,6 @@ namespace CalamityMod.CalPlayer
             vHex = false;
             eGrav = false;
             warped = false;
-            marked = false;
             cDepth = false;
             fishAlert = false;
             bOut = false;
@@ -3825,7 +3817,6 @@ namespace CalamityMod.CalPlayer
             float runAccMult = 1f +
                 (shadowSpeed ? 0.5f : 0f) +
                 (stressPills ? 0.05f : 0f) +
-                (laudanum && horror ? 0.1f : 0f) +
                 ((abyssalDivingSuit && player.IsUnderwater()) ? 0.05f : 0f) +
                 (sirenWaterBuff ? 0.15f : 0f) +
                 ((frostFlare && player.statLife < (int)(player.statLifeMax2 * 0.25)) ? 0.15f : 0f) +
@@ -3856,7 +3847,6 @@ namespace CalamityMod.CalPlayer
 				(slimeGodLore ? 0.1f : 0f) +
 				(etherealExtorter && player.ZoneBeach ? 0.05f : 0f) +
                 (stressPills ? 0.05f : 0f) +
-                (laudanum && horror ? 0.1f : 0f) +
                 (planarSpeedBoost > 0 ? (0.01f * planarSpeedBoost) : 0f) +
                 ((deepDiver && player.IsUnderwater()) ? 0.15f : 0f) +
                 (rogueStealthMax > 0f ? (rogueStealth >= rogueStealthMax ? rogueStealth * 0.05f : rogueStealth * 0.025f) : 0f);
@@ -6189,9 +6179,6 @@ namespace CalamityMod.CalPlayer
 			// 10% is converted to 9%, 25% is converted to 20%, 50% is converted to 33%, 75% is converted to 43%, 100% is converted to 50%
 			if (contactDamageReduction > 0D)
 			{
-				if (marked)
-					contactDamageReduction *= 0.5;
-
 				if (reaperToothNecklace)
 					contactDamageReduction *= 0.75;
 
@@ -6485,9 +6472,6 @@ namespace CalamityMod.CalPlayer
 			// 10% is converted to 9%, 25% is converted to 20%, 50% is converted to 33%, 75% is converted to 43%, 100% is converted to 50%
 			if (projectileDamageReduction > 0D)
 			{
-				if (marked)
-					projectileDamageReduction *= 0.5;
-
 				if (reaperToothNecklace)
 					projectileDamageReduction *= 0.75;
 
@@ -7095,7 +7079,6 @@ namespace CalamityMod.CalPlayer
                 }
 				else if (npc.type == NPCID.AncientDoom)
 				{
-					player.AddBuff(ModContent.BuffType<Horror>(), 180);
 					player.AddBuff(ModContent.BuffType<Shadowflame>(), 120);
 				}
 				else if (npc.type == NPCID.AncientLight)
@@ -7163,7 +7146,6 @@ namespace CalamityMod.CalPlayer
                 }
 				else if (proj.type == ProjectileID.AncientDoomProjectile)
 				{
-					player.AddBuff(ModContent.BuffType<Horror>(), 180);
 					player.AddBuff(ModContent.BuffType<Shadowflame>(), 120);
 				}
 				else if (proj.type == ProjectileID.CultistBossFireBallClone)

@@ -284,10 +284,6 @@ namespace CalamityMod.NPCs.Calamitas
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            if (CalamityWorld.revenge)
-            {
-                player.AddBuff(ModContent.BuffType<Horror>(), 180, true);
-            }
             player.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 300, true);
         }
     }

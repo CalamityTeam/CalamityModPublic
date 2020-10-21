@@ -341,11 +341,6 @@ namespace CalamityMod.NPCs.SulphurousSea
             player.AddBuff(BuffID.Bleeding, 300, true);
             player.AddBuff(BuffID.Venom, 300, true);
             player.AddBuff(BuffID.Rabies, 300, true);
-            if (CalamityWorld.revenge)
-            {
-                player.AddBuff(ModContent.BuffType<MarkedforDeath>(), 180);
-                player.AddBuff(ModContent.BuffType<Horror>(), 180, true);
-            }
         }
 
         public override void NPCLoot()

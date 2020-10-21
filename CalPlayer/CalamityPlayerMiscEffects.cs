@@ -1232,33 +1232,6 @@ namespace CalamityMod.CalPlayer
 				}
 			}
 
-			// Laudanum bonus
-			if (modPlayer.laudanum)
-			{
-				if (Main.myPlayer == player.whoAmI)
-				{
-					for (int l = 0; l < Player.MaxBuffs; l++)
-					{
-						int hasBuff = player.buffType[l];
-						if (!modPlayer.doubledHorror && hasBuff == ModContent.BuffType<Horror>())
-						{
-							player.buffTime[l] *= 2;
-							modPlayer.doubledHorror = true;
-							break;
-						}
-					}
-				}
-				if (modPlayer.horror)
-				{
-					player.statDefense += 15;
-					player.allDamage += 0.1f;
-					player.moveSpeed += 0.15f;
-					player.nightVision = true;
-				}
-			}
-			if (!modPlayer.horror)
-				modPlayer.doubledHorror = false;
-
 			// Draedon's Heart bonus
 			if (modPlayer.draedonsHeart)
 			{
@@ -3121,12 +3094,6 @@ namespace CalamityMod.CalPlayer
 				player.magicDamage -= 0.1f;
 			}
 
-			if (modPlayer.horror && !modPlayer.laudanum)
-			{
-				player.blind = true;
-				player.statDefense -= 15;
-			}
-
 			if (modPlayer.aCrunch)
 			{
 				player.statDefense -= ArmorCrunch.DefenseReduction;
@@ -3952,12 +3919,6 @@ namespace CalamityMod.CalPlayer
 
 			if (modPlayer.corrEffigy)
 				player.endurance -= 0.2f;
-
-			if (modPlayer.marked)
-			{
-				if (player.endurance > 0f)
-					player.endurance *= 0.5f;
-			}
 
 			if (modPlayer.reaperToothNecklace)
 			{

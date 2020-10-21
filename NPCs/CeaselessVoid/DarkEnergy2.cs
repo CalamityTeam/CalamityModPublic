@@ -239,10 +239,6 @@ namespace CalamityMod.NPCs.CeaselessVoid
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            if (CalamityWorld.revenge)
-            {
-                player.AddBuff(ModContent.BuffType<Horror>(), 300, true);
-            }
 			player.AddBuff(BuffID.VortexDebuff, 60, true);
 		}
 
