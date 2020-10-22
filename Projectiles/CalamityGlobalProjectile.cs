@@ -2158,7 +2158,7 @@ namespace CalamityMod.Projectiles
             }
 
             // Draw the projectile itself. Only do this if no afterimages are drawn because afterimage 0 is the projectile itself.
-            if (ProjectileID.Sets.TrailCacheLength[projectile.type] <= 0)
+            if (!CalamityConfig.Instance.Afterimages || ProjectileID.Sets.TrailCacheLength[projectile.type] <= 0)
             {
                 Vector2 startPos = drawCentered ? projectile.Center : projectile.position;
                 Main.spriteBatch.Draw(texture, startPos - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), rectangle, projectile.GetAlpha(lightColor), rotation, origin, scale, spriteEffects, 0f);
