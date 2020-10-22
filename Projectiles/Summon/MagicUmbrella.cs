@@ -15,7 +15,7 @@ namespace CalamityMod.Projectiles.Summon
             DisplayName.SetDefault("Umbrella");
             ProjectileID.Sets.MinionShot[projectile.type] = true;
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 1;
+            ProjectileID.Sets.TrailingMode[projectile.type] = 2;
         }
 
         public override void SetDefaults()
