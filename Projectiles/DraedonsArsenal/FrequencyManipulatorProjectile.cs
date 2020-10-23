@@ -28,6 +28,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             projectile.penetrate = 4;
             projectile.extraUpdates = 1;
             projectile.Calamity().rogue = true;
+			projectile.tileCollide = false;
         }
 
         public override void AI()
@@ -45,6 +46,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             }
             else if (Time == SpinTime + 1f)
             {
+				projectile.tileCollide = true;
                 RingDustEffect(player.itemLocation, 1f, 1f, 5f, 2f);
                 projectile.velocity = projectile.velocity.SafeNormalize(Vector2.UnitX * player.direction) * player.ActiveItem().shootSpeed;
             }
