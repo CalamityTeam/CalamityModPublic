@@ -1038,7 +1038,7 @@ namespace CalamityMod.NPCs
                     npc.npcSlots = 10f;
 
 				if (CalamityWorld.death)
-					npc.scale = 1.2f;
+					npc.scale = 1.1f;
 			}
             else if (npc.type == NPCID.EyeofCthulhu)
             {

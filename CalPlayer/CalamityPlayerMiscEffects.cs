@@ -470,11 +470,20 @@ namespace CalamityMod.CalPlayer
 				}
 			}
 
-			//extra DoT in the lava of the crags			
-			if (modPlayer.ZoneCalamity && player.lavaWet)
+			//extra DoT in the lava of the crags
+			if (player.lavaWet)
 			{
-				player.AddBuff(ModContent.BuffType<CragsLava>(), 2, false);
-            }
+				if (modPlayer.ZoneCalamity)
+					player.AddBuff(ModContent.BuffType<CragsLava>(), 2, false);
+			}
+			else
+			{
+				if (player.lavaImmune)
+				{
+					if (player.lavaTime < player.lavaMax)
+						player.lavaTime++;
+				}
+			}
 
             // Acid rain droplets
             if (player.whoAmI == Main.myPlayer)
@@ -1229,6 +1238,72 @@ namespace CalamityMod.CalPlayer
 					player.endurance += 0.05f;
 					player.moveSpeed += modPlayer.absorber ? 0.2f : 0.15f;
 					player.ignoreWater = true;
+				}
+			}
+
+			if (modPlayer.laudanum)
+			{
+				if (Main.myPlayer == player.whoAmI)
+				{
+					for (int l = 0; l < Player.MaxBuffs; l++)
+					{
+						int hasBuff = player.buffType[l];
+						if (hasBuff == ModContent.BuffType<ArmorCrunch>() || hasBuff == ModContent.BuffType<WarCleave>() || hasBuff == BuffID.Obstructed ||
+							hasBuff == BuffID.Ichor || hasBuff == BuffID.Chilled || hasBuff == BuffID.BrokenArmor || hasBuff == BuffID.Weak ||
+							hasBuff == BuffID.Slow || hasBuff == BuffID.Confused || hasBuff == BuffID.Blackout || hasBuff == BuffID.Darkness)
+						{
+							if (player.miscCounter % 2 == 0)
+								player.buffTime[l] *= 2;
+						}
+
+						switch (hasBuff)
+						{
+							case BuffID.Obstructed:
+								player.headcovered = false;
+								player.statDefense += 50;
+								player.allDamage += 0.5f;
+								modPlayer.AllCritBoost(25);
+								break;
+							case BuffID.Ichor:
+								player.statDefense += 40;
+								break;
+							case BuffID.Chilled:
+								player.chilled = false;
+								player.moveSpeed *= 1.3f;
+								break;
+							case BuffID.BrokenArmor:
+								player.brokenArmor = false;
+								player.statDefense = (int)(player.statDefense * 1.25);
+								break;
+							case BuffID.Weak:
+								player.meleeDamage += 0.151f;
+								player.statDefense += 14;
+								player.moveSpeed += 0.3f;
+								break;
+							case BuffID.Slow:
+								player.slow = false;
+								player.moveSpeed *= 1.5f;
+								break;
+							case BuffID.Confused:
+								player.confused = false;
+								player.statDefense += 30;
+								player.allDamage += 0.25f;
+								modPlayer.AllCritBoost(10);
+								break;
+							case BuffID.Blackout:
+								player.blackout = false;
+								player.statDefense += 30;
+								player.allDamage += 0.25f;
+								modPlayer.AllCritBoost(10);
+								break;
+							case BuffID.Darkness:
+								player.blind = false;
+								player.statDefense += 15;
+								player.allDamage += 0.1f;
+								modPlayer.AllCritBoost(5);
+								break;
+						}
+					}
 				}
 			}
 

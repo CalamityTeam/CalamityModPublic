@@ -1602,6 +1602,7 @@ namespace CalamityMod.Items
 					{
 						line2.text = "Provides immunity to direct damage from touching lava\n" +
 							"Provides temporary immunity to lava burn damage\n" +
+							"Greatly increases lava immunity time regeneration\n" +
 							"Reduces lava burn damage" + heatImmunity;
 					}
 				}

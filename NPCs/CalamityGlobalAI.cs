@@ -1918,7 +1918,7 @@ namespace CalamityMod.NPCs
 
 		public static int GetEaterOfWorldsSegmentsCountRevDeath()
 		{
-			return (CalamityWorld.death || BossRushEvent.BossRushActive) ? 92 : 77;
+			return (CalamityWorld.death || BossRushEvent.BossRushActive) ? 82 : 77;
 		}
 		#endregion
 
