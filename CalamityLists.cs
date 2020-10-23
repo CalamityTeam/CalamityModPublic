@@ -356,7 +356,8 @@ namespace CalamityMod
                 ModContent.ProjectileType<TerraLanceProjectile>(),
                 ModContent.ProjectileType<TyphonsGreedStaff>(),
                 ModContent.ProjectileType<UrchinSpearProjectile>(),
-                ModContent.ProjectileType<YateveoBloomSpear>()
+                ModContent.ProjectileType<YateveoBloomSpear>(),
+                ModContent.ProjectileType<HydraulicVoltCrasherProjectile>()
             };
 
             rangedProjectileExceptionList = new List<int>()
@@ -1473,7 +1474,8 @@ namespace CalamityMod
                 ModContent.ItemType<FrostcrushValari>(),
                 ModContent.ItemType<DefectiveSphere>(),
                 ModContent.ItemType<TerraDisk>(),
-                ModContent.ItemType<ToxicantTwister>()
+                ModContent.ItemType<ToxicantTwister>(),
+                ModContent.ItemType<TrackingDisk>()
             };
 
             boomerangProjList = new List<int>()
@@ -1514,7 +1516,8 @@ namespace CalamityMod
                 ModContent.ProjectileType<ButcherKnife>(),
                 ModContent.ProjectileType<TerraDiskProjectile>(),
                 ModContent.ProjectileType<TerraDiskProjectile2>(),
-                ModContent.ProjectileType<ToxicantTwisterTwoPointZero>()
+                ModContent.ProjectileType<ToxicantTwisterTwoPointZero>(),
+                ModContent.ProjectileType<TrackingDiskProjectile>()
             };
 
             javelinList = new List<int>()
@@ -1537,7 +1540,8 @@ namespace CalamityMod
                 ModContent.ItemType<PhantomLance>(),
                 ModContent.ItemType<ProfanedPartisan>(),
                 ModContent.ItemType<Turbulance>(),
-                ModContent.ItemType<NightsGaze>()
+                ModContent.ItemType<NightsGaze>(),
+                ModContent.ItemType<FrequencyManipulator>()
             };
 
             javelinProjList = new List<int>()
@@ -1561,7 +1565,8 @@ namespace CalamityMod
                 ModContent.ProjectileType<SpearofPaleolithProj>(),
                 ModContent.ProjectileType<AntumbraShardProjectile>(),
                 ModContent.ProjectileType<TurbulanceProjectile>(),
-                ModContent.ProjectileType<NightsGazeProjectile>()
+                ModContent.ProjectileType<NightsGazeProjectile>(),
+                ModContent.ProjectileType<FrequencyManipulatorProjectile>()
             };
 
             daggerList = new List<int>()
@@ -1674,7 +1679,8 @@ namespace CalamityMod
                 ModContent.ItemType<SkyfinBombers>(),
                 ModContent.ItemType<SpentFuelContainer>(),
                 ModContent.ItemType<SealedSingularity>(),
-                ModContent.ItemType<PlasmaGrenade>()
+                ModContent.ItemType<PlasmaGrenade>(),
+                ModContent.ItemType<WavePounder>()
             };
 
             flaskBombProjList = new List<int>()
@@ -1705,7 +1711,8 @@ namespace CalamityMod
                 ModContent.ProjectileType<SkyfinNuke>(),
                 ModContent.ProjectileType<SpentFuelContainerProjectile>(),
                 ModContent.ProjectileType<SealedSingularityProj>(),
-                ModContent.ProjectileType<PlasmaGrenadeProjectile>()
+                ModContent.ProjectileType<PlasmaGrenadeProjectile>(),
+                ModContent.ProjectileType<WavePounderProjectile>()
             };
 
             spikyBallList = new List<int>()
@@ -1720,7 +1727,8 @@ namespace CalamityMod
                 ModContent.ItemType<PoisonPack>(),
                 ModContent.ItemType<Nychthemeron>(),
                 ModContent.ItemType<MetalMonstrosity>(),
-                ModContent.ItemType<BurningStrife>()
+                ModContent.ItemType<BurningStrife>(),
+                ModContent.ItemType<SystemBane>()
             };
 
             spikyBallProjList = new List<int>()
@@ -1735,7 +1743,8 @@ namespace CalamityMod
                 ModContent.ProjectileType<PoisonBol>(),
                 ModContent.ProjectileType<NychthemeronProjectile>(),
                 ModContent.ProjectileType<MetalChunk>(),
-                ModContent.ProjectileType<BurningStrifeProj>()
+                ModContent.ProjectileType<BurningStrifeProj>(),
+                ModContent.ProjectileType<SystemBaneProjectile>()
             };
 
             noGravityList = new List<int>()
@@ -1758,6 +1767,7 @@ namespace CalamityMod
                 ModContent.ItemType<NightmareFuel>(),
                 ModContent.ItemType<EndothermicEnergy>(),
                 ModContent.ItemType<SoulofCryogen>(),
+                ModContent.ItemType<AscendantSpiritEssence>(),
 
                 ModContent.ItemType<KnowledgeAquaticScourge>(),
                 ModContent.ItemType<KnowledgeAstralInfection>(),
@@ -2138,7 +2148,7 @@ namespace CalamityMod
                 ModContent.NPCType<RavagerClawLeft>(),
                 ModContent.NPCType<RavagerClawRight>(),
                 ModContent.NPCType<RavagerLegLeft>(),
-                ModContent.NPCType<RavagerLegLeft>(),
+                ModContent.NPCType<RavagerLegRight>(),
                 ModContent.NPCType<RavagerHead>(),
                 NPCID.CultistDragonHead,
                 NPCID.CultistDragonBody1,
