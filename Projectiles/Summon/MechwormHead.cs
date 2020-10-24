@@ -166,6 +166,10 @@ namespace CalamityMod.Projectiles.Summon
             if (projectile.Distance(owner.Center) > 2700f)
             {
                 projectile.Center = owner.Center;
+
+                // Reset the mechworm's velocity in case it had any past speed that would cause it
+                // to fly away from its owner.
+                projectile.velocity = Main.rand.NextVector2CircularEdge(8f, 8f);
                 projectile.netUpdate = true;
             }
 
