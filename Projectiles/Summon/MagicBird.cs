@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Summon
         {
             DisplayName.SetDefault("Bird");
             Main.projFrames[projectile.type] = 7;
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 4;
+            ProjectileID.Sets.TrailCacheLength[projectile.type] = 5;
             ProjectileID.Sets.TrailingMode[projectile.type] = 0;
             ProjectileID.Sets.MinionShot[projectile.type] = true;
         }

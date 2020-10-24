@@ -53,14 +53,7 @@ namespace CalamityMod.Items.SummonItems
                 BossRushEvent.BossRushActive = true;
                 string key = "Mods.CalamityMod.BossRushStartText";
                 Color messageColor = Color.LightCoral;
-                if (Main.netMode == NetmodeID.SinglePlayer)
-                {
-                    Main.NewText(Language.GetTextValue(key), messageColor);
-                }
-                else if (Main.netMode == NetmodeID.Server)
-                {
-                    NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-                }
+                CalamityUtils.DisplayLocalizedText(key, messageColor);
             }
             else
             {

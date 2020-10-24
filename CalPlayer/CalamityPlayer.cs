@@ -7482,14 +7482,7 @@ namespace CalamityMod.CalPlayer
                     {
                         string key = "Mods.CalamityMod.SupremeBossText2";
                         Color messageColor = Color.Orange;
-                        if (Main.netMode == NetmodeID.SinglePlayer)
-                        {
-                            Main.NewText(Language.GetTextValue(key), messageColor);
-                        }
-                        else if (Main.netMode == NetmodeID.Server)
-                        {
-                            NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-                        }
+                        CalamityUtils.DisplayLocalizedText(key, messageColor);
                     }
                     if (CalamityWorld.DoGSecondStageCountdown > 0)
                     {
@@ -8277,6 +8270,7 @@ namespace CalamityMod.CalPlayer
             {
                 Main.NewText(deathText.ToString(), 225, 25, 25, false);
             }
+
             if (player.whoAmI == Main.myPlayer && player.difficulty == 0)
             {
                 player.DropCoins();

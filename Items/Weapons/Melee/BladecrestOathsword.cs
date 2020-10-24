@@ -25,7 +25,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.useTime = 25;
             item.knockBack = 4f;
             item.UseSound = SoundID.Item1;
-            item.autoReuse = false;
+            item.autoReuse = true;
             item.value = Item.buyPrice(0, 4, 0, 0);
             item.rare = 3;
             item.shoot = ModContent.ProjectileType<BloodScythe>();

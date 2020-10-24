@@ -963,17 +963,9 @@ namespace CalamityMod.NPCs.Polterghast
 					sulfSeaBoostMessage = "Mods.CalamityMod.AprilFools2"; // Goddamn boomer duke moments
 				}
 
-                if (Main.netMode == NetmodeID.SinglePlayer)
-				{
-                    Main.NewText(Language.GetTextValue(key), messageColor);
-                    Main.NewText(Language.GetTextValue(sulfSeaBoostMessage), sulfSeaBoostColor);
-				}
-                else if (Main.netMode == NetmodeID.Server)
-				{
-                    NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-                    NetMessage.BroadcastChatMessage(NetworkText.FromKey(sulfSeaBoostMessage), sulfSeaBoostColor);
-				}
-            }
+				CalamityUtils.DisplayLocalizedText(key, messageColor);
+				CalamityUtils.DisplayLocalizedText(sulfSeaBoostMessage, sulfSeaBoostColor);
+			}
 
             // Mark Polterghast as dead
             CalamityWorld.downedPolterghast = true;

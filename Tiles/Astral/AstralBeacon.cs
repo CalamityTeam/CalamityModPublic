@@ -66,11 +66,7 @@ namespace CalamityMod.Tiles.Astral
 
             if (Main.dayTime)
             {
-                string localizationKey = "Mods.CalamityMod.DeusAltarRejectNightText";
-                if (Main.netMode == NetmodeID.SinglePlayer)
-                    Main.NewText(Language.GetTextValue(localizationKey), FailColor);
-                else if (Main.netMode == NetmodeID.Server)
-                    NetMessage.BroadcastChatMessage(NetworkText.FromKey(localizationKey), FailColor);
+                CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.DeusAltarRejectNightText", FailColor);
                 return false;
             }
 

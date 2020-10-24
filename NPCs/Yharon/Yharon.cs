@@ -1519,10 +1519,7 @@ namespace CalamityMod.NPCs.Yharon
                 string key = "Mods.CalamityMod.FlameText";
                 Color messageColor = Color.Orange;
 
-                if (Main.netMode == NetmodeID.SinglePlayer)
-                    Main.NewText(Language.GetTextValue(key), messageColor);
-                else if (Main.netMode == NetmodeID.Server)
-                    NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
+                CalamityUtils.DisplayLocalizedText(key, messageColor);
             }
 
 			if (invincibilityCounter < 900)
@@ -2799,11 +2796,7 @@ namespace CalamityMod.NPCs.Yharon
 
                 string key = "Mods.CalamityMod.DargonBossText";
                 Color messageColor = Color.Orange;
-
-                if (Main.netMode == NetmodeID.SinglePlayer)
-                    Main.NewText(Language.GetTextValue(key), messageColor);
-                else if (Main.netMode == NetmodeID.Server)
-                    NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
+                CalamityUtils.DisplayLocalizedText(key, messageColor);
             }
 
             // Bags occur in either phase 1 or 2, as they don't contain phase 2 only drops
@@ -2860,10 +2853,7 @@ namespace CalamityMod.NPCs.Yharon
 
                     string key = "Mods.CalamityMod.AuricOreText";
                     Color messageColor = Color.Gold;
-                    if (Main.netMode == NetmodeID.SinglePlayer)
-                        Main.NewText(Language.GetTextValue(key), messageColor);
-                    else if (Main.netMode == NetmodeID.Server)
-                        NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
+                    CalamityUtils.DisplayLocalizedText(key, messageColor);
                 }
 
                 // Mark Yharon as dead

@@ -508,12 +508,17 @@ namespace CalamityMod
 			}
 		}
 
-		public static void DisplayTextFromLocalizationKey(string key, Color textColor)
+		public static void DisplayLocalizedText(string key, Color? textColor = null)
 		{
+			// An attempt to bypass the need for a separate method and runtime/compile-time parameter
+			// constraints by using nulls for defaults.
+			if (!textColor.HasValue)
+				textColor = Color.White;
+
 			if (Main.netMode == NetmodeID.SinglePlayer)
-				Main.NewText(Language.GetTextValue(key), textColor);
+				Main.NewText(Language.GetTextValue(key), textColor.Value);
 			else if (Main.netMode == NetmodeID.Server)
-				NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), textColor);
+				NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), textColor.Value);
 		}
 
 		/// Inflict typical exo weapon debuffs. Duration multiplier optional.

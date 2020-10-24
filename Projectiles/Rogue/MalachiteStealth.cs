@@ -139,10 +139,8 @@ namespace CalamityMod.Projectiles.Rogue
 						break;
 				}
 			}
-			// Main.NewText("found " + kunaiFound.ToString());
 			if (kunaiFound >= maxKunai && oldestKunai >= 0)
 			{
-				// Main.NewText("killing kunai " + oldestKunai.ToString());
 				Main.projectile[oldestKunai].Kill();
 			}
 		}

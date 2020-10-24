@@ -387,16 +387,8 @@ namespace CalamityMod.NPCs.AstrumAureus
                 string key2 = "Mods.CalamityMod.AureusBossText2";
                 Color messageColor = Color.Gold;
 
-                if (Main.netMode == NetmodeID.SinglePlayer)
-                {
-                    Main.NewText(Language.GetTextValue(key), messageColor);
-                    Main.NewText(Language.GetTextValue(key2), messageColor);
-                }
-                else if (Main.netMode == NetmodeID.Server)
-                {
-                    NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-                    NetMessage.BroadcastChatMessage(NetworkText.FromKey(key2), messageColor);
-                }
+                CalamityUtils.DisplayLocalizedText(key, messageColor);
+                CalamityUtils.DisplayLocalizedText(key2, messageColor);
             }
 
             // Mark Astrum Aureus as dead

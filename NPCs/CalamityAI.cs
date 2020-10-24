@@ -1117,14 +1117,7 @@ namespace CalamityMod.NPCs
 				NPC.NewNPC((int)npc.Center.X, (int)npc.position.Y + npc.height, ModContent.NPCType<CalamitasRun3>(), npc.whoAmI);
 				string key = "Mods.CalamityMod.CalamitasBossText";
 				Color messageColor = Color.Orange;
-				if (Main.netMode == NetmodeID.SinglePlayer)
-				{
-					Main.NewText(Language.GetTextValue(key), messageColor);
-				}
-				else if (Main.netMode == NetmodeID.Server)
-				{
-					NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-				}
+				CalamityUtils.DisplayLocalizedText(key, messageColor);
 				npc.active = false;
 				npc.netUpdate = true;
 				return;
@@ -1163,10 +1156,7 @@ namespace CalamityMod.NPCs
 
 					string key = "Mods.CalamityMod.CalamitasBossText3";
 					Color messageColor = Color.Orange;
-					if (Main.netMode == NetmodeID.SinglePlayer)
-						Main.NewText(Language.GetTextValue(key), messageColor);
-					else if (Main.netMode == NetmodeID.Server)
-						NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
+					CalamityUtils.DisplayLocalizedText(key, messageColor);
 
 					calamityGlobalNPC.newAI[1] = 1f;
 				}
@@ -1190,10 +1180,7 @@ namespace CalamityMod.NPCs
 
 								string key = "Mods.CalamityMod.CalamitasBossText2";
 								Color messageColor = Color.Orange;
-								if (Main.netMode == NetmodeID.SinglePlayer)
-									Main.NewText(Language.GetTextValue(key), messageColor);
-								else if (Main.netMode == NetmodeID.Server)
-									NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
+								CalamityUtils.DisplayLocalizedText(key, messageColor);
 							}
 							else if (calamityGlobalNPC.newAI[0] <= (float)npc.lifeMax * 0.4)
 								NPC.NewNPC((int)npc.Center.X, (int)npc.position.Y + npc.height, ModContent.NPCType<CalamitasRun2>(), npc.whoAmI);
