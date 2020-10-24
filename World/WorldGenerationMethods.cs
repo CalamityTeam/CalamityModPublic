@@ -691,8 +691,10 @@ namespace CalamityMod.World
 
                     // WorldGen.gen prevents NewItem from working, and thus prevents a bunch of dumb items from being spawned immediately and deleting the WoF/Aureus loot in the process.
                     WorldGen.gen = true;
+                    // Add the average height of a tree to the Y position to offset trees usually messing with the calculation.
+                    // Then also add 10 blocks because these things seem to always like to appear standing on the floor.
+                    int finalVerticalOffset = 18;
                     bool _ = true;
-                    int finalVerticalOffset = -8;
                     SchematicManager.PlaceSchematic<Action<Chest>>("Astral Beacon", new Point(i, (int)height + finalVerticalOffset), SchematicAnchor.Center, ref _);
                     WorldGen.gen = false;
                 }
