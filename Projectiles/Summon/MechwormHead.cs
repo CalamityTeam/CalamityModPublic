@@ -31,12 +31,22 @@ namespace CalamityMod.Projectiles.Summon
         internal ref float Time => ref projectile.ai[1];
         internal ref float TotalWormSegments => ref projectile.localAI[0];
 
+        private static bool Use_TML_0_11_7_7_Hacky_Netcode = true;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Mechworm");
             ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
             ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
             ProjectileID.Sets.NeedsUUID[projectile.type] = true;
+
+            if (ModLoader.version.CompareTo(new Version(0, 11, 7, 7)) > 0)
+            {
+                Use_TML_0_11_7_7_Hacky_Netcode = false;
+                mod.Logger.Info("ModLoader version > 0.11.7.7 detected. Mechworm UUID workaround is disabled.");
+            }
+            else
+                mod.Logger.Info("ModLoader version <= 0.11.7.7 detected. Mechworm UUID workaround is enabled.");
         }
 
         public override void SetDefaults()
@@ -60,6 +70,12 @@ namespace CalamityMod.Projectiles.Summon
         #region Syncing
         public override void SendExtraAI(BinaryWriter writer)
         {
+            // TODO -- remove when TML updates to 0.11.7.8
+            // TML 0.11.7.7 SPECIFIC FIX (because they were too slow to update): Write an extra UUID here.
+            // This is necessary because NetMessage case 27 and MessageBuffer case 27 are out of order with each other.
+            if (Use_TML_0_11_7_7_Hacky_Netcode)
+                writer.Write((short)projectile.projUUID);
+
             byte enumByte = (byte)CurrentAttackState;
             writer.Write(enumByte);
             writer.Write(AttackStateTimer);
@@ -81,6 +97,12 @@ namespace CalamityMod.Projectiles.Summon
             EndRiftGateUUID = reader.ReadInt32();
             TeleportStartingPoint = reader.ReadVector2();
             TeleportEndingPoint = reader.ReadVector2();
+
+            // TODO -- remove when TML updates to 0.11.7.8
+            // TML 0.11.7.7 SPECIFIC FIX (because they were too slow to update): Read and dump an extra UUID here.
+            // This is necessary because NetMessage case 27 and MessageBuffer case 27 are out of order with each other.
+            if (Use_TML_0_11_7_7_Hacky_Netcode)
+                _ = reader.ReadInt16();
         }
         #endregion
 
