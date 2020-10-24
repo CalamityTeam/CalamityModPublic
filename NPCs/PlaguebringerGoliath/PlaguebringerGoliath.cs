@@ -1175,11 +1175,6 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
             player.AddBuff(ModContent.BuffType<Plague>(), 300, true);
-            if (CalamityWorld.revenge)
-            {
-                player.AddBuff(ModContent.BuffType<Horror>(), 180, true);
-                player.AddBuff(ModContent.BuffType<MarkedforDeath>(), 180);
-            }
         }
     }
 }

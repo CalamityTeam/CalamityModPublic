@@ -274,14 +274,6 @@ namespace CalamityMod.NPCs.Crags
 			return false;
 		}
 
-		public override void OnHitPlayer(Player player, int damage, bool crit)
-        {
-            if (CalamityWorld.revenge)
-            {
-                player.AddBuff(ModContent.BuffType<Horror>(), 180, true);
-            }
-        }
-
         public override void NPCLoot()
         {
             DropHelper.DropItemCondition(npc, ModContent.ItemType<Bloodstone>(), CalamityWorld.downedProvidence, 2, 1, 1);

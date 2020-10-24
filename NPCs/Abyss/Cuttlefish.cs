@@ -371,10 +371,6 @@ namespace CalamityMod.NPCs.Abyss
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
             player.AddBuff(BuffID.Darkness, 120, true);
-            if (CalamityWorld.revenge)
-            {
-                player.AddBuff(ModContent.BuffType<Horror>(), 60, true);
-            }
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)

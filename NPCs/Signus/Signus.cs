@@ -868,10 +868,6 @@ namespace CalamityMod.NPCs.Signus
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
             player.AddBuff(ModContent.BuffType<WhisperingDeath>(), 420, true);
-            if (CalamityWorld.revenge)
-            {
-                player.AddBuff(ModContent.BuffType<Horror>(), 300, true);
-            }
         }
     }
 }

@@ -1089,9 +1089,6 @@ namespace CalamityMod.NPCs.Polterghast
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            if (CalamityWorld.revenge)
-                player.AddBuff(ModContent.BuffType<Horror>(), 300, true);
-
 			player.AddBuff(BuffID.MoonLeech, 900, true);
 		}
 

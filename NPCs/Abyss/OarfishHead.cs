@@ -354,11 +354,6 @@ namespace CalamityMod.NPCs.Abyss
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
             player.AddBuff(BuffID.Bleeding, 180, true);
-            if (CalamityWorld.revenge)
-            {
-                player.AddBuff(ModContent.BuffType<MarkedforDeath>(), 90);
-                player.AddBuff(ModContent.BuffType<Horror>(), 90, true);
-            }
         }
     }
 }

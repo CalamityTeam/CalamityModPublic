@@ -449,10 +449,6 @@ namespace CalamityMod.NPCs.Perforator
         {
             player.AddBuff(ModContent.BuffType<BurningBlood>(), 240, true);
             player.AddBuff(BuffID.Bleeding, 240, true);
-            if (CalamityWorld.revenge)
-            {
-                player.AddBuff(ModContent.BuffType<Horror>(), 180, true);
-            }
         }
     }
 }

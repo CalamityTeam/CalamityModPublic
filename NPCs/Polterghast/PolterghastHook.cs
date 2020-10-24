@@ -447,12 +447,6 @@ namespace CalamityMod.NPCs.Polterghast
             return true;
         }
 
-        public override void OnHitPlayer(Player player, int damage, bool crit)
-        {
-            if (CalamityWorld.revenge)
-                player.AddBuff(ModContent.BuffType<Horror>(), 180, true);
-        }
-
         public override void HitEffect(int hitDirection, double damage)
         {
             for (int k = 0; k < 5; k++)

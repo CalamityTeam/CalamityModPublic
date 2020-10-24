@@ -166,8 +166,6 @@ namespace CalamityMod.NPCs.Abyss
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
             player.AddBuff(ModContent.BuffType<CrushDepth>(), 500, true);
-            player.AddBuff(ModContent.BuffType<Horror>(), 200, true);
-            player.AddBuff(ModContent.BuffType<MarkedforDeath>(), 200);
         }
     }
 }

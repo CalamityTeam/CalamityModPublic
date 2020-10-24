@@ -142,14 +142,6 @@ namespace CalamityMod.NPCs.Signus
 			return false;
 		}
 
-		public override void OnHitPlayer(Player player, int damage, bool crit)
-        {
-            if (CalamityWorld.revenge)
-            {
-                player.AddBuff(ModContent.BuffType<MarkedforDeath>(), 180);
-            }
-        }
-
         public override bool CanHitPlayer(Player target, ref int cooldownSlot)
         {
             cooldownSlot = 0;

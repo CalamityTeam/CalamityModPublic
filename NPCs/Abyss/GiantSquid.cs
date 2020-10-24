@@ -243,11 +243,6 @@ namespace CalamityMod.NPCs.Abyss
         {
             player.AddBuff(ModContent.BuffType<CrushDepth>(), 180, true);
             player.AddBuff(BuffID.Darkness, 180, true);
-            if (CalamityWorld.revenge)
-            {
-                player.AddBuff(ModContent.BuffType<MarkedforDeath>(), 120);
-                player.AddBuff(ModContent.BuffType<Horror>(), 120, true);
-            }
         }
 
         public override void NPCLoot()

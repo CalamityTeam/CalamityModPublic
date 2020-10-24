@@ -26,7 +26,6 @@ namespace CalamityMod.Items.DifficultyItems
                 "Nerfs the effectiveness of the Titanium Armor set bonus.\n" +
                 "Makes life regen scale with your current HP, the higher your HP the lower your life regen (this is not based on max HP).\n" +
                 "Asphalt run speed is reduced by 33%, and the Nurse's healing cost is increased\n" +
-                "Allows certain enemies to inflict the Horror and Marked debuffs.\n" +
                 "Before you have killed your first boss you take 20% less damage from everything.\n" +
                 "Changes ALL boss AIs and some enemy AIs in vanilla and the Calamity Mod.\n" +
                 "Using this while a boss is alive will instantly kill you and despawn the boss.");

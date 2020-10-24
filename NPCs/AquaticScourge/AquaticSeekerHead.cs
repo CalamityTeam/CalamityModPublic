@@ -306,10 +306,6 @@ namespace CalamityMod.NPCs.AquaticScourge
         {
             player.AddBuff(BuffID.Bleeding, 120, true);
             player.AddBuff(BuffID.Venom, 120, true);
-            if (CalamityWorld.revenge)
-            {
-                player.AddBuff(ModContent.BuffType<MarkedforDeath>(), 60);
-            }
         }
     }
 }
