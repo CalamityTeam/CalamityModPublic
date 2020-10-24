@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 		{
 			item.width = 18;
 			item.height = 32;
-			item.damage = 140;
+			item.damage = 98;
 			item.noMelee = true;
 			item.noUseGraphic = true;
 			item.useAnimation = 15;
@@ -37,11 +37,11 @@ namespace CalamityMod.Items.Weapons.Rogue
 			item.Calamity().rogue = true;
 		}
 
-		// Gains 20% of missing health as base damage.
+		// Gains 10% of missing health as base damage.
 		public override void ModifyWeaponDamage(Player player, ref float add, ref float mult, ref float flat)
 		{
 			int lifeAmount = player.statLifeMax2 - player.statLife;
-			flat += lifeAmount * 0.2f * player.RogueDamage();
+			flat += lifeAmount * 0.1f * player.RogueDamage();
 		}
 
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
