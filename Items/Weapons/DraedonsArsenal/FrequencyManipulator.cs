@@ -45,7 +45,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 
 			modItem.UsesCharge = true;
 			modItem.MaxCharge = 85f;
-			modItem.ChargePerUse = 0.125f;
+			modItem.ChargePerUse = 0.04f;
 		}
 
 		public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;
