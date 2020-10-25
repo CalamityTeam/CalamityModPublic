@@ -1252,8 +1252,9 @@ namespace CalamityMod.CalPlayer
 							hasBuff == BuffID.Ichor || hasBuff == BuffID.Chilled || hasBuff == BuffID.BrokenArmor || hasBuff == BuffID.Weak ||
 							hasBuff == BuffID.Slow || hasBuff == BuffID.Confused || hasBuff == BuffID.Blackout || hasBuff == BuffID.Darkness)
 						{
+							// Every other frame, increase the buff timer by one frame. Thus, the buff lasts twice as long.
 							if (player.miscCounter % 2 == 0)
-								player.buffTime[l] *= 2;
+								player.buffTime[l] += 1;
 						}
 
 						switch (hasBuff)
