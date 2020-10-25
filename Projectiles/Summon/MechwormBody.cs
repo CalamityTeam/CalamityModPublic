@@ -95,10 +95,8 @@ namespace CalamityMod.Projectiles.Summon
                 playerMinionSlots = owner.maxMinions;
             }
 
-            Projectile segmentAhead = Main.projectile[aheadSegmentWhoAmI];
-            Projectile head = segmentAhead;
-
             // Accumulate the total segments of the worm.
+            Projectile segmentAhead = Main.projectile[aheadSegmentWhoAmI];
             segmentAhead.localAI[0] = projectile.localAI[0] + 1f;
 
             // Delete the player's entire mechworm if it's attaching to something weird.
@@ -118,9 +116,11 @@ namespace CalamityMod.Projectiles.Summon
                 return;
             }
 
-            // Locate the head segment by looping through all worm segments until it is found.
+            // Locate the head segment by sliding up the worm linked list until it is found.
+            // If the worm terminates or an infinite loop occurs, kill this segment.
             int tries = 0;
-            while (head.type != ModContent.ProjectileType<MechwormHead>())
+            Projectile head = segmentAhead;
+            while (head.active && head.type != headProjType)
             {
                 int aheadUUID = Projectile.GetByUUID(head.owner, head.ai[0]);
                 if (aheadUUID == -1)
