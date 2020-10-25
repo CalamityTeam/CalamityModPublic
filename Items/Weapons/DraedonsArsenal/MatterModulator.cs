@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 		{
 			DisplayName.SetDefault("Matter Modulator");
 			Tooltip.SetDefault("Using extra mass gained from collision with solid materials, it causes extra damage.\n" +
-			"Fires a burst of unstable matter that does significantly more damage after hitting a tile\n" +
+			"Fires a burst of unstable matter that does significant damage, but only after hitting a tile\n" +
 			"Deals more damage against enemies with high defenses");
 		}
 
