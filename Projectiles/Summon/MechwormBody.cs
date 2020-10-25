@@ -34,7 +34,7 @@ namespace CalamityMod.Projectiles.Summon
             projectile.hide = true;
         }
 
-        public static void SegmentAI(Projectile projectile, int offsetFromNextSegment, ref int playerMinionSlots)
+        internal static void SegmentAI(Projectile projectile, int offsetFromNextSegment, ref int playerMinionSlots)
         {
             if (projectile.alpha <= 128)
                 Lighting.AddLight(projectile.Center, Color.DarkMagenta.ToVector3());
@@ -48,11 +48,6 @@ namespace CalamityMod.Projectiles.Summon
             if (modPlayer.mWorm)
                 projectile.timeLeft = 2;
 
-            // Sync the entire worm every 2 seconds
-            // This has potential to cause a packet storm, but only if the player is cheating in some way by freezing time.
-            if ((int)Main.time % 120 == 0)
-                projectile.netUpdate = true;
-
             ref float aheadSegmentIndex = ref projectile.ai[0];
             int aheadSegmentUUID = Projectile.GetByUUID(projectile.owner, aheadSegmentIndex);
             
@@ -63,7 +58,7 @@ namespace CalamityMod.Projectiles.Summon
                 return;
             }
 
-            // Delete segments if some are lost for whatever reason (such as a summon potion 
+            // Delete segments if some are lost for whatever reason (such as a summon potion expiring).
             if (projectile.type == ModContent.ProjectileType<MechwormTail>() && (!owner.active || owner.maxMinions < playerMinionSlots))
             {
                 int lostSlots = playerMinionSlots - owner.maxMinions;
@@ -123,7 +118,6 @@ namespace CalamityMod.Projectiles.Summon
             }
 
             // Locate the head segment by looping through all worm segments until it is found.
-
             int tries = 0;
             while (head.type != ModContent.ProjectileType<MechwormHead>())
             {
@@ -142,6 +136,15 @@ namespace CalamityMod.Projectiles.Summon
                     return;
                 }
                 tries++;
+            }
+
+            // If the head is set to net update every body segment will also update.
+            // This update cannot be blocked by netSpam.
+            if (head.netUpdate)
+            {
+                projectile.netUpdate = true;
+                if (projectile.netSpam > 59)
+                    projectile.netSpam = 59;
             }
 
             MechwormHead headModProj = head.modProjectile as MechwormHead;
@@ -179,7 +182,7 @@ namespace CalamityMod.Projectiles.Summon
             projectile.Center = Vector2.Clamp(projectile.Center, new Vector2(160f), new Vector2(Main.maxTilesX - 10, Main.maxTilesY - 10) * 16);
         }
 
-        public override void PostAI()
+        public override void AI()
         {
             int _ = 0;
             SegmentAI(projectile, 16, ref _);

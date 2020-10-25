@@ -9,6 +9,7 @@ using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.Projectiles.Summon
 {
     public class MechwormHead : ModProjectile
@@ -24,14 +25,23 @@ namespace CalamityMod.Projectiles.Summon
         internal Vector2 TeleportStartingPoint;
         internal Vector2 TeleportEndingPoint;
         internal AttackState CurrentAttackState = AttackState.LaserCharge;
+
         internal const int MaxSegmentsToCountForScaling = 50;
         internal const int AttackStateShiftTime = 320;
+        internal const int StartupLethargy = 150;
+        internal const int LaserChargeFrames = 45;
+        internal const int LaserRedirectFrames = 30;
         internal const float MaxAttackFlySpeed = 33f;
 
         internal ref float Time => ref projectile.ai[1];
         internal ref float TotalWormSegments => ref projectile.localAI[0];
 
         private static bool Use_TML_0_11_7_7_Hacky_Netcode = true;
+
+
+        // Helper functions because Mechworm does a lot of checking for either itself or its target being near the edge of the world.
+        private static Vector2 WorldTopLeft(int tileDist = 15) => new Vector2(tileDist * 16f);
+        private static Vector2 WorldBottomRight(int tileDist = 15) => new Vector2(Main.maxTilesX - tileDist, Main.maxTilesY - tileDist) * 16f;
 
         public override void SetStaticDefaults()
         {
@@ -109,10 +119,12 @@ namespace CalamityMod.Projectiles.Summon
         #region AI
         public override void AI()
         {
+            // If the mechworm is opaque enough, produce light.
             if (projectile.alpha <= 128)
                 Lighting.AddLight(projectile.Center, Color.DarkMagenta.ToVector3());
 
-            projectile.Center = Vector2.Clamp(projectile.Center, new Vector2(160f), new Vector2(Main.maxTilesX - 10, Main.maxTilesY - 10) * 16);
+            // Stops the mechworm from getting too close to the world boundary. Projectiles can instantly cause crashes when they cross the world boundary.
+            projectile.Center = Vector2.Clamp(projectile.Center, WorldTopLeft(10), WorldBottomRight(10));
 
             Player owner = Main.player[projectile.owner];
 
@@ -129,8 +141,7 @@ namespace CalamityMod.Projectiles.Summon
             }
             CalamityPlayer modPlayer = owner.Calamity();
 
-            // Minion stuff.
-
+            // Maintain or remove the Mechworm buff from the owner.
             owner.AddBuff(ModContent.BuffType<Mechworm>(), 3600);
             if (owner.dead)
                 modPlayer.mWorm = false;
@@ -169,73 +180,36 @@ namespace CalamityMod.Projectiles.Summon
                 }
             }
 
-            // Sync the entire worm every 2 seconds
-            // This has potential to cause a packet storm, but only if the player is cheating in some way by freezing time.
-            if ((int)Main.time % 120 == 0)
-                projectile.netUpdate = true;
-
+            // Mechworm has an extremely generous default aggro range of 2200, but if it's already attacking, its bloodlust is insatiable.
             NPC potentialTarget = projectile.Center.MinionHoming(AttackStateTimer > 0 ? 999999f : 2200f, owner);
 
             // Make sure that a corresponding tail exists with this head projectile.
-            // If it doesn't, kill the head (and all associated segments as a result).
-            if (!WormTailCheck())
+            // If it doesn't, kill the head. All associated body segments will die either on the same or next frame.
+            if (!TailExists())
             {
                 projectile.Kill();
                 return;
             }
 
-            // Teleport to the player if the worm is far from them.
+            // Teleport to the player if the worm is very far away from them.
             if (projectile.Distance(owner.Center) > 2700f)
             {
                 projectile.Center = owner.Center;
-
-                // Reset the mechworm's velocity in case it had any past speed that would cause it
-                // to fly away from its owner.
-                projectile.velocity = Main.rand.NextVector2CircularEdge(8f, 8f);
+                // Reset the worm's velocity when it returns to the player so that it doesn't instantly yeet off somewhere.
+                projectile.velocity = Main.rand.NextVector2CircularEdge(3f, 3f);
                 projectile.netUpdate = true;
             }
 
-            // Special attack movement.
-
-            if ((potentialTarget != null || AttackStateTimer > 1) && Time > 150f)
+            // Don't bother attacking if the target is close to the world edge, to prevent issues.
+            if (potentialTarget != null && Time > StartupLethargy && TargetInSafeBoundaries(potentialTarget))
             {
-                // Don't bother attacking if the target is close to the world edge, to prevent issues.
-                if (potentialTarget != null &&
-                    !potentialTarget.Center.Between(new Vector2(240f), new Vector2(Main.maxTilesX - 15, Main.maxTilesY - 15) * 16f))
-                {
-                    PlayerFollowMovement(owner);
-                    return;
-                }
-                AttackMovement(potentialTarget);
-
-                if (AttackStateTimer++ >= AttackStateShiftTime)
-                {
-                    if (CurrentAttackState == AttackState.PortalGateCharge)
-                    {
-                        // Delete any remaining portals spawned by this worm, just in case.
-                        int portalType = ModContent.ProjectileType<MechwormTeleportRift>();
-                        for (int i = 0; i < Main.maxProjectiles; i++)
-                        {
-                            Projectile proj = Main.projectile[i];
-                            if (proj.type != portalType || !proj.active || proj.owner != projectile.owner)
-                                continue;
-
-                            proj.Kill();
-                            if (!Main.dedServ)
-                            {
-                                for (int j = 0; j < 16; j++)
-                                {
-                                    Dust.NewDustDirect(proj.position, 45, 45, (int)CalamityDusts.PurpleCosmolite);
-                                }
-                            }
-                        }
-                    }
-                    CurrentAttackState = CurrentAttackState == AttackState.LaserCharge ? AttackState.PortalGateCharge : AttackState.LaserCharge;
-                    AttackStateTimer = 0;
-                }
+                if (CurrentAttackState == AttackState.LaserCharge)
+                    LaserAttackMovement(potentialTarget);
+                else
+                    PortalAttackMovement(potentialTarget);
+                UpdateAttackStates();
             }
-
-            // Player following movement.
+            // Attacking movement can be canceled, so if it was, run the passive movement instead.
             else
                 PlayerFollowMovement(owner);
 
@@ -245,17 +219,16 @@ namespace CalamityMod.Projectiles.Summon
             int previousDirection = projectile.direction;
             projectile.direction = projectile.spriteDirection = (projectile.velocity.X > 0f).ToDirectionInt();
 
-            // If it changed for some reason, sync the head.
+            // If it changed for some reason, fire a net update. This update cannot be blocked by netSpam.
             if (previousDirection != projectile.direction)
             {
-                // Negate the anti-spam for this particular sync.
-                // Spamming may be required in this case.
-                projectile.netSpam -= 5;
                 projectile.netUpdate = true;
+                if (projectile.netSpam > 59)
+                    projectile.netSpam = 59;
             }
         }
 
-        public bool WormTailCheck()
+        private bool TailExists()
         {
             int tailType = ModContent.ProjectileType<MechwormTail>();
             for (int i = 0; i < Main.maxProjectiles; i++)
@@ -267,7 +240,9 @@ namespace CalamityMod.Projectiles.Summon
             return false;
         }
 
-        public void PlayerFollowMovement(Player owner)
+        private bool TargetInSafeBoundaries(NPC target) => target?.Center.Between(WorldTopLeft(), WorldBottomRight()) ?? true;
+
+        private void PlayerFollowMovement(Player owner)
         {
             // Reset the gate UUID from any previous teleports.
             if (EndRiftGateUUID != -1)
@@ -276,7 +251,12 @@ namespace CalamityMod.Projectiles.Summon
                 projectile.netUpdate = true;
             }
 
-            AttackStateTimer = 0;
+            // If any attack was in use previously, send a net update now that attack mode is off.
+            if (AttackStateTimer != 0)
+            {
+                AttackStateTimer = 0;
+                projectile.netUpdate = true;
+            }
 
             float hoverAcceleration = 0.2f;
             float distanceFromOwner = projectile.Distance(owner.Center);
@@ -298,124 +278,154 @@ namespace CalamityMod.Projectiles.Summon
             if (Math.Abs(projectile.velocity.Y) < 1f)
                 projectile.velocity.Y -= 0.1f;
 
-            float maxSpeed = Time < 150f ? 13f : 25f;
+            // The worm's max speed is more strictly capped for the first few seconds.
+            float maxSpeed = Time < StartupLethargy ? 13f : 25f;
             if (projectile.velocity.Length() > maxSpeed)
                 projectile.velocity = Vector2.Normalize(projectile.velocity) * maxSpeed;
         }
 
-        public void AttackMovement(NPC target)
+        private void LaserAttackMovement(NPC target)
         {
-            if (target is null)
+            // Reset the gate UUID from any previous teleports.
+            if (EndRiftGateUUID != -1)
             {
-                AttackStateTimer = 0;
+                EndRiftGateUUID = -1;
+                projectile.netUpdate = true;
+            }
+
+            // If the timer indicates the worm is in redirect mode, then angle towards the target.
+            if (AttackStateTimer % (LaserChargeFrames + LaserRedirectFrames) < LaserRedirectFrames)
+            {
+                float angularTurnSpeed = MathHelper.ToRadians(18f);
+                float newSpeed = MathHelper.Lerp(projectile.velocity.Length(), 24f, 0.35f);
+
+                if (projectile.Distance(target.Center) > 1100f)
+                    newSpeed = MathHelper.Lerp(projectile.velocity.Length(), 38f, 0.35f);
+
+                projectile.velocity = projectile.velocity.ToRotation().AngleTowards(projectile.AngleTo(target.Center), angularTurnSpeed).ToRotationVector2() * newSpeed;
+
+                // If the worm is very close to aiming directly at the target, immediately switch from redirecting to charging.
+                if (Vector2.Dot(projectile.velocity.SafeNormalize(Vector2.Zero), projectile.DirectionTo(target.Center)) > 0.86f)
+                {
+                    AttackStateTimer += LaserRedirectFrames - (AttackStateTimer % LaserChargeFrames);
+                    projectile.netUpdate = true;
+                }
+            }
+
+            // On the exact frame the worm enters charge mode, fire 3 lasers and send a net update.
+            if (AttackStateTimer % (LaserChargeFrames + LaserRedirectFrames) == LaserChargeFrames)
+            {
+                // Charge and fire three lasers.
+                projectile.velocity = projectile.DirectionTo(target.Center) * MaxAttackFlySpeed;
+
+                if (Main.myPlayer == projectile.owner)
+                {
+                    for (int i = 0; i < 3; i++)
+                    {
+                        Vector2 perturbedSpeed = projectile.velocity.RotatedBy(MathHelper.Lerp(-0.15f, 0.15f, i / 3f)) * 0.3f;
+                        Projectile.NewProjectile(projectile.Center, perturbedSpeed, ModContent.ProjectileType<MechwormLaser>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                    }
+                }
+
+                Main.PlaySound(SoundID.Item12, projectile.Center);
+                projectile.netUpdate = true;
+            }
+            
+            // If neither of the above if-statements trigger, the worm just moves forwards in a straight line and this AI function does nothing.
+        }
+
+        private void PortalAttackMovement(NPC target)
+        {
+            // Instantly abort and switch to laser mode if the target is too close to the edges of the world.
+            if (!target.Center.Between(WorldTopLeft(37), WorldBottomRight(37)))
+            {
+                CurrentAttackState = AttackState.LaserCharge;
+                EndRiftGateUUID = -1;
+                projectile.netUpdate = true;
                 return;
             }
-            if (CurrentAttackState == AttackState.LaserCharge)
+
+            int chargeTime = (int)MathHelper.Min(36 + TotalWormSegments, 70);
+            if (AttackStateTimer % chargeTime == 0)
             {
-                int chargeTime = 45;
-                int redirectTime = 30;
-                if (AttackStateTimer % (chargeTime + redirectTime) < redirectTime)
+                Vector2 offsetBounds = Vector2.Max(target.Size, new Vector2(425f + TotalWormSegments * 8f));
+                Vector2 offset = Main.rand.NextVector2CircularEdge(offsetBounds.X, offsetBounds.Y) * 0.65f;
+
+                // Dont teleport on the very first portal summon. Fly into a portal and THEN teleport later.
+                if (AttackStateTimer != 0)
                 {
-                    float angularTurnSpeed = MathHelper.ToRadians(18f);
-                    float newSpeed = MathHelper.Lerp(projectile.velocity.Length(), 24f, 0.35f);
-
-                    if (projectile.Distance(target.Center) > 1100f)
-                        newSpeed = MathHelper.Lerp(projectile.velocity.Length(), 38f, 0.35f);
-
-                    projectile.velocity = projectile.velocity.ToRotation().AngleTowards(projectile.AngleTo(target.Center), angularTurnSpeed).ToRotationVector2() * newSpeed;
-
-                    // If the worm is very close to aiming directly at the target, jump
-                    // immediately to the next charge phase.
-                    if (Vector2.Dot(projectile.velocity.SafeNormalize(Vector2.Zero), projectile.DirectionTo(target.Center)) > 0.86f)
-                        AttackStateTimer += redirectTime - (AttackStateTimer % chargeTime);
+                    TeleportStartingPoint = target.Center + offset;
+                    TeleportEndingPoint = target.Center - offset;
                 }
-                if (AttackStateTimer % (chargeTime + redirectTime) == chargeTime)
-                {
-                    // Charge and release a spread of lasers.
-                    projectile.velocity = projectile.DirectionTo(target.Center) * MaxAttackFlySpeed;
+                else
+                    TeleportEndingPoint = projectile.Center + projectile.velocity * chargeTime / 2f;
 
-                    if (Main.myPlayer == projectile.owner)
+                // On the starting frame of a teleport, spawn portals.
+                if (Main.myPlayer == projectile.owner)
+                {
+                    Projectile.NewProjectile(TeleportStartingPoint, Vector2.Zero, ModContent.ProjectileType<MechwormTeleportRift>(), 0, 0f, projectile.owner);
+                    int endGateIndex = Projectile.NewProjectile(TeleportEndingPoint, Vector2.Zero, ModContent.ProjectileType<MechwormTeleportRift>(), 0, 0f, projectile.owner);
+                    EndRiftGateUUID = Projectile.GetByUUID(projectile.owner, endGateIndex);
+
+                    Main.projectile[EndRiftGateUUID].ai[0] = chargeTime;
+                    Main.projectile[EndRiftGateUUID].timeLeft = chargeTime;
+                }
+
+                // Dont teleport on the very first portal summon.
+                if (AttackStateTimer != 0)
+                    projectile.Center = TeleportStartingPoint;
+
+                // Reset the alpha and position across the entire worm for the next charge.
+                for (int i = 0; i < Main.maxProjectiles; i++)
+                {
+                    Projectile otherProj = Main.projectile[i];
+                    if (!otherProj.active || otherProj.owner != projectile.owner || i == projectile.whoAmI)
+                        continue;
+
+                    if (otherProj.type == ModContent.ProjectileType<MechwormBody>() || otherProj.type == ModContent.ProjectileType<MechwormTail>())
                     {
-                        for (int i = 0; i < 3; i++)
-                        {
-                            Vector2 perturbedSpeed = projectile.velocity.RotatedBy(MathHelper.Lerp(-0.15f, 0.15f, i / 3f)) * 0.3f;
-                            Projectile.NewProjectile(projectile.Center, perturbedSpeed, ModContent.ProjectileType<MechwormLaser>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
-                        }
+                        otherProj.alpha = 0;
+                        if (AttackStateTimer != 0)
+                            otherProj.Center = projectile.Center;
+                        // There is no need to set the other projectiles to net update. They will do so when the head does.
                     }
-
-                    Main.PlaySound(SoundID.Item12, projectile.Center);
-                    projectile.netUpdate = true;
                 }
 
-                // Reset the gate UUID from any previous teleports.
-                if (EndRiftGateUUID != -1)
-                {
-                    EndRiftGateUUID = -1;
-                    projectile.netUpdate = true;
-                }
+                projectile.alpha = 0;
+                projectile.velocity = projectile.DirectionTo(TeleportEndingPoint) * (MaxAttackFlySpeed + target.velocity.Length() * 0.45f);
+                projectile.netUpdate = true;
             }
-            else
+        }
+
+        private void UpdateAttackStates()
+        {
+            // If the current attack state is out of time, pick a new one.
+            if (++AttackStateTimer >= AttackStateShiftTime)
             {
-                if (!target.Center.Between(new Vector2(592f), new Vector2(Main.maxTilesX - 37, Main.maxTilesY - 37) * 16f))
-				{
-                    CurrentAttackState = AttackState.LaserCharge;
-                    EndRiftGateUUID = -1;
-                    projectile.netUpdate = true;
-                    return;
-                }
-                int chargeTime = (int)MathHelper.Min(36 + TotalWormSegments, 70);
-                if (AttackStateTimer % chargeTime == 0)
-                {
-                    Vector2 offsetBounds = Vector2.Max(target.Size, new Vector2(425f + TotalWormSegments * 8f));
-                    Vector2 offset = Main.rand.NextVector2CircularEdge(offsetBounds.X, offsetBounds.Y) * 0.65f;
+                // When leaving portal-charge state, delete any remaining portals spawned by this worm.
+                if (CurrentAttackState == AttackState.PortalGateCharge)
+                    CleanUpMechwormPortals();
 
-                    // Dont teleport on the very first portal summon. Fly into a portal and THEN teleport later.
-                    if (AttackStateTimer != 0)
-                        TeleportStartingPoint = target.Center + offset;
+                CurrentAttackState = CurrentAttackState == AttackState.LaserCharge ? AttackState.PortalGateCharge : AttackState.LaserCharge;
+                AttackStateTimer = 0;
+                projectile.netUpdate = true;
+            }
+        }
 
-                    if (AttackStateTimer != 0)
-                        TeleportEndingPoint = target.Center - offset;
-                    else
-                        TeleportEndingPoint = projectile.Center + projectile.velocity * chargeTime / 2f;
+        private void CleanUpMechwormPortals()
+        {
+            int portalType = ModContent.ProjectileType<MechwormTeleportRift>();
+            for (int i = 0; i < Main.maxProjectiles; i++)
+            {
+                Projectile proj = Main.projectile[i];
+                if (proj.type != portalType || !proj.active || proj.owner != projectile.owner)
+                    continue;
 
-                    if (Main.myPlayer == projectile.owner)
-                    {
-                        Projectile.NewProjectile(TeleportStartingPoint, Vector2.Zero, ModContent.ProjectileType<MechwormTeleportRift>(), 0, 0f, projectile.owner);
-                        int endGateIndex = Projectile.NewProjectile(TeleportEndingPoint, Vector2.Zero, ModContent.ProjectileType<MechwormTeleportRift>(), 0, 0f, projectile.owner);
-                        EndRiftGateUUID = Projectile.GetByUUID(projectile.owner, endGateIndex);
-
-                        Main.projectile[EndRiftGateUUID].ai[0] = chargeTime;
-                        Main.projectile[EndRiftGateUUID].timeLeft = chargeTime;
-                    }
-
-                    // Dont teleport on the very first portal summon.
-                    if (AttackStateTimer != 0)
-                        projectile.Center = TeleportStartingPoint;
-
-                    // Reset the alpha and position across the entire worm for the next charge.
-                    for (int i = 0; i < Main.maxProjectiles; i++)
-                    {
-                        Projectile proj = Main.projectile[i];
-                        bool isProjectileMechwormSegment =
-                            proj.type == ModContent.ProjectileType<MechwormHead>() ||
-                            proj.type == ModContent.ProjectileType<MechwormBody>() ||
-                            proj.type == ModContent.ProjectileType<MechwormTail>();
-
-                        if (proj.active && proj.owner == projectile.owner && isProjectileMechwormSegment)
-                        {
-                            proj.alpha = 0;
-                            if (AttackStateTimer != 0)
-                            {
-                                proj.Center = projectile.Center;
-                                proj.netUpdate = true;
-                            }
-                        }
-                    }
-
-                    projectile.alpha = 0;
-                    projectile.velocity = projectile.DirectionTo(TeleportEndingPoint) * (MaxAttackFlySpeed + target.velocity.Length() * 0.45f);
-                    projectile.netUpdate = true;
-                }
+                proj.Kill();
+                // Spawn a little bit of dust when the portals are destroyed.
+                if (!Main.dedServ)
+                    for (int j = 0; j < 16; j++)
+                        Dust.NewDustDirect(proj.position, 45, 45, (int)CalamityDusts.PurpleCosmolite);
             }
         }
         #endregion
