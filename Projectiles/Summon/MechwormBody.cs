@@ -2,6 +2,7 @@ using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
+using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -34,6 +35,14 @@ namespace CalamityMod.Projectiles.Summon
             projectile.hide = true;
         }
 
+        // Arbitrary function used to identify a projectile based owner and identity.
+        // Used to get the correct projectile to attach to.
+        // Do not EVER touch this.
+        internal static bool SameIdentity(Projectile proj, int owner, int identity)
+        {
+            return proj.owner == owner && (proj.projUUID == identity || proj.identity == identity);
+        }
+
         internal static void SegmentAI(Projectile projectile, int offsetFromNextSegment, ref int playerMinionSlots)
         {
             // If the mechworm is opaque enough, produce light.
@@ -49,11 +58,15 @@ namespace CalamityMod.Projectiles.Summon
             if (modPlayer.mWorm)
                 projectile.timeLeft = 2;
 
-            ref float aheadSegmentIdentity = ref projectile.ai[0];
-            int aheadSegmentWhoAmI = Projectile.GetByUUID(projectile.owner, aheadSegmentIdentity);
-            
+            int headProjType = ModContent.ProjectileType<MechwormHead>();
+            int bodyProjType = ModContent.ProjectileType<MechwormBody>();
+            int tailProjType = ModContent.ProjectileType<MechwormTail>();
+
+            ref float segmentAheadIdentity = ref projectile.ai[0];
+            Projectile segmentAhead = Main.projectile.Take(Main.maxProjectiles).FirstOrDefault(proj => SameIdentity(proj, projectile.owner, (int)projectile.ai[0]));
+
             // Ensure that the segment ahead actually exists. If it doesn't, kill this segment.
-            if (!Main.projectile.IndexInRange(aheadSegmentWhoAmI))
+            if (segmentAhead is null || !Main.projectile.IndexInRange(segmentAhead.whoAmI) || segmentAhead.type != bodyProjType && segmentAhead.type != headProjType)
             {
                 projectile.Kill();
                 return;
@@ -66,7 +79,7 @@ namespace CalamityMod.Projectiles.Summon
                 int lostSlots = playerMinionSlots - owner.maxMinions;
                 while (lostSlots > 0)
                 {
-                    Projectile ahead = Main.projectile[aheadSegmentWhoAmI];
+                    Projectile ahead = segmentAhead;
                     // Each body slot is actually 0.5 slots. Kill two segments to lose 1 "true" slot.
                     for (int i = 0; i < 2; ++i)
                     {
@@ -74,21 +87,21 @@ namespace CalamityMod.Projectiles.Summon
                             projectile.localAI[1] = ahead.localAI[1];
 
                         // Inherit the ahead segment index of the ahead segment (basically attaching to the segment that's two indices ahead).
-                        aheadSegmentIdentity = ahead.ai[0];
+                        segmentAheadIdentity = ahead.ai[0];
                         projectile.netUpdate = true;
 
                         ahead.Kill();
 
-                        // And re-decide the ahead segment UUID.
-                        aheadSegmentWhoAmI = Projectile.GetByUUID(projectile.owner, aheadSegmentIdentity);
+                        // And re-decide the ahead segment.
+                        segmentAhead = Main.projectile.Take(Main.maxProjectiles).FirstOrDefault(proj => SameIdentity(proj, projectile.owner, (int)projectile.ai[0]));
 
                         // Ensure that the segment ahead actually exists. If it doesn't, kill this segment.
-                        if (!Main.projectile.IndexInRange(aheadSegmentWhoAmI))
+                        if (segmentAhead is null || !Main.projectile.IndexInRange(segmentAhead.whoAmI))
                         {
                             projectile.Kill();
                             return;
                         }
-                        ahead = Main.projectile[aheadSegmentWhoAmI];
+                        ahead = segmentAhead;
                     }
                     lostSlots--;
                 }
@@ -96,47 +109,17 @@ namespace CalamityMod.Projectiles.Summon
             }
 
             // Accumulate the total segments of the worm.
-            Projectile segmentAhead = Main.projectile[aheadSegmentWhoAmI];
             segmentAhead.localAI[0] = projectile.localAI[0] + 1f;
 
-            // Delete the player's entire mechworm if it's attaching to something weird.
-            int headProjType = ModContent.ProjectileType<MechwormHead>();
-            int bodyProjType = ModContent.ProjectileType<MechwormBody>();
-            int tailProjType = ModContent.ProjectileType<MechwormTail>();
-            if (segmentAhead.type != bodyProjType && segmentAhead.type != headProjType)
+            // Locate the head segment by looping through the projectile array.
+            // Doing identity checks across every segment would be much more expensive than doing just this one loop.
+            Projectile head = LocateHead(projectile);
+
+            // If no such head exists, kill this segment.
+            if (head is null)
             {
-                for (int i = 0; i < Main.maxProjectiles; ++i)
-                {
-                    Projectile otherProj = Main.projectile[i];
-                    if (!otherProj.active || otherProj.owner != projectile.owner)
-                        continue;
-                    if (otherProj.type == headProjType || otherProj.type == bodyProjType || otherProj.type == tailProjType)
-                        otherProj.Kill();
-                }
+                projectile.Kill();
                 return;
-            }
-
-            // Locate the head segment by sliding up the worm linked list until it is found.
-            // If the worm terminates or an infinite loop occurs, kill this segment.
-            int tries = 0;
-            Projectile head = segmentAhead;
-            while (head.active && head.type != headProjType)
-            {
-                int aheadUUID = Projectile.GetByUUID(head.owner, head.ai[0]);
-                if (aheadUUID == -1)
-                {
-                    projectile.Kill();
-                    return;
-                }
-
-                head = Main.projectile[aheadUUID];
-                
-                if (tries >= Main.maxProjectiles)
-                {
-                    projectile.Kill();
-                    return;
-                }
-                tries++;
             }
 
             // If the head is set to net update every body segment will also update.
@@ -181,6 +164,18 @@ namespace CalamityMod.Projectiles.Summon
                 projectile.Center = segmentAhead.Center - offsetToDestination.SafeNormalize(Vector2.Zero) * offsetFromNextSegment;
 
             projectile.Center = Vector2.Clamp(projectile.Center, new Vector2(160f), new Vector2(Main.maxTilesX - 10, Main.maxTilesY - 10) * 16);
+        }
+
+        public static Projectile LocateHead(Projectile projectile)
+        {
+            int headType = ModContent.ProjectileType<MechwormHead>();
+            for (int i = 0; i < Main.maxProjectiles; i++)
+            {
+                if (Main.projectile[i].type != headType || !Main.projectile[i].active || Main.projectile[i].owner != projectile.owner)
+                    continue;
+                return Main.projectile[i];
+            }
+            return null;
         }
 
         public override void AI()

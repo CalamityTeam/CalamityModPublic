@@ -1,5 +1,6 @@
 using CalamityMod.Projectiles.Summon;
 using Microsoft.Xna.Framework;
+using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -81,27 +82,23 @@ namespace CalamityMod.Items.Weapons.Summon
             if (head == -1 && tail == -1)
             {
                 int curr = Projectile.NewProjectile(Main.MouseWorld, Vector2.Zero, type, damage, knockBack, player.whoAmI, 0f, 0f);
-                curr = Projectile.NewProjectile(Main.MouseWorld, Vector2.Zero, ModContent.ProjectileType<MechwormBody>(), damage, knockBack, player.whoAmI, curr, 0f);
+                curr = Projectile.NewProjectile(Main.MouseWorld, Vector2.Zero, ModContent.ProjectileType<MechwormBody>(), damage, knockBack, player.whoAmI, Main.projectile[curr].identity, 0f);
                 int head2 = curr;
-                curr = Projectile.NewProjectile(Main.MouseWorld, Vector2.Zero, ModContent.ProjectileType<MechwormBody>(), damage, knockBack, player.whoAmI, curr, 0f);
+                curr = Projectile.NewProjectile(Main.MouseWorld, Vector2.Zero, ModContent.ProjectileType<MechwormBody>(), damage, knockBack, player.whoAmI, Main.projectile[curr].identity, 0f);
                 Main.projectile[head2].localAI[1] = curr;
                 head2 = curr;
-                curr = Projectile.NewProjectile(Main.MouseWorld, Vector2.Zero, ModContent.ProjectileType<MechwormTail>(), damage, knockBack, player.whoAmI, curr, 0f);
+                curr = Projectile.NewProjectile(Main.MouseWorld, Vector2.Zero, ModContent.ProjectileType<MechwormTail>(), damage, knockBack, player.whoAmI, Main.projectile[curr].identity, 0f);
                 Main.projectile[head2].localAI[1] = curr;
             }
             else if (head != -1 && tail != -1)
             {
                 position = Main.projectile[tail].Center;
-                int body = Projectile.NewProjectile(position, Vector2.Zero, ModContent.ProjectileType<MechwormBody>(), damage, knockBack, player.whoAmI, Projectile.GetByUUID(Main.myPlayer, Main.projectile[tail].ai[0]), 0f);
+                Projectile tailAheadSegment = Main.projectile.Take(Main.maxProjectiles).FirstOrDefault(x => x.identity == (int)Main.projectile[tail].ai[0]);
+                int body = Projectile.NewProjectile(position, Vector2.Zero, ModContent.ProjectileType<MechwormBody>(), damage, knockBack, player.whoAmI, tailAheadSegment.identity, 0f);
                 int body2 = body;
+                body = Projectile.NewProjectile(position, Vector2.Zero, ModContent.ProjectileType<MechwormBody>(), damage, knockBack, player.whoAmI, Main.projectile[body].identity, 0f);
 
-                body = Projectile.NewProjectile(position, Vector2.Zero, ModContent.ProjectileType<MechwormBody>(), damage, knockBack, player.whoAmI, body, 0f);
-
-                Main.projectile[body2].localAI[1] = body;
-                Main.projectile[body2].netUpdate = true;
-                Main.projectile[body].localAI[1] = tail;
-                Main.projectile[body].netUpdate = true;
-                Main.projectile[tail].ai[0] = Main.projectile[body].projUUID;
+                Main.projectile[tail].ai[0] = Main.projectile[body].identity;
                 Main.projectile[tail].netUpdate = true;
             }
             return false;

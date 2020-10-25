@@ -178,14 +178,6 @@ namespace CalamityMod.Projectiles.Summon
             // Mechworm has an extremely generous default aggro range of 2200, but if it's already attacking, its bloodlust is insatiable.
             NPC potentialTarget = projectile.Center.MinionHoming(AttackStateTimer > 0 ? 999999f : 2200f, owner);
 
-            // Make sure that a corresponding tail exists with this head projectile.
-            // If it doesn't, kill the head. All associated body segments will die either on the same or next frame.
-            if (!TailExists())
-            {
-                projectile.Kill();
-                return;
-            }
-
             // Teleport to the player if the worm is very far away from them.
             if (projectile.Distance(owner.Center) > 2700f)
             {
