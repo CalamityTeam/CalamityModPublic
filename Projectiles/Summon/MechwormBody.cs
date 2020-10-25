@@ -33,17 +33,6 @@ namespace CalamityMod.Projectiles.Summon
             projectile.localNPCHitCooldown = 5;
             projectile.hide = true;
         }
-        public static int LocalIndexFromIdentity(int owner, int uuid)
-        {
-            int indexFromUUID = Projectile.GetByUUID(owner, uuid);
-            for (int i = 0; i < Main.maxProjectiles; i++)
-            {
-                if (Main.projectile[i].identity != indexFromUUID || !Main.projectile[i].active || Main.projectile[i].owner != owner)
-                    continue;
-                return i;
-            }
-            return -1;
-        }
 
         public static void SegmentAI(Projectile projectile, int offsetFromNextSegment, ref int playerMinionSlots)
         {
@@ -65,7 +54,7 @@ namespace CalamityMod.Projectiles.Summon
                 projectile.netUpdate = true;
 
             ref float aheadSegmentIndex = ref projectile.ai[0];
-            int aheadSegmentUUID = LocalIndexFromIdentity(projectile.owner, (int)aheadSegmentIndex);
+            int aheadSegmentUUID = Projectile.GetByUUID(projectile.owner, aheadSegmentIndex);
             
             // Ensure that the segment ahead actually exists. If it doesn't, kill this segment.
             if (!Main.projectile.IndexInRange(aheadSegmentUUID))
@@ -94,7 +83,7 @@ namespace CalamityMod.Projectiles.Summon
                         ahead.Kill();
 
                         // And re-decide the ahead segment UUID.
-                        aheadSegmentUUID = LocalIndexFromIdentity(projectile.owner, (int)aheadSegmentIndex);
+                        aheadSegmentUUID = Projectile.GetByUUID(projectile.owner, aheadSegmentIndex);
 
                         // Ensure that the segment ahead actually exists. If it doesn't, kill this segment.
                         if (!Main.projectile.IndexInRange(aheadSegmentUUID))
@@ -138,7 +127,7 @@ namespace CalamityMod.Projectiles.Summon
             int tries = 0;
             while (head.type != ModContent.ProjectileType<MechwormHead>())
             {
-                int aheadUUID = LocalIndexFromIdentity(head.owner, (int)head.ai[0]);
+                int aheadUUID = Projectile.GetByUUID(head.owner, head.ai[0]);
                 if (aheadUUID == -1)
                 {
                     projectile.Kill();
