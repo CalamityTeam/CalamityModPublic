@@ -36,83 +36,84 @@ namespace CalamityMod.Projectiles.Summon
 
         internal static void SegmentAI(Projectile projectile, int offsetFromNextSegment, ref int playerMinionSlots)
         {
+            // If the mechworm is opaque enough, produce light.
             if (projectile.alpha <= 128)
                 Lighting.AddLight(projectile.Center, Color.DarkMagenta.ToVector3());
+
             Player owner = Main.player[projectile.owner];
             CalamityPlayer modPlayer = owner.Calamity();
 
-            // Minion stuff.
+            // Track the minion presence boolean.
             if (owner.dead)
                 modPlayer.mWorm = false;
-
             if (modPlayer.mWorm)
                 projectile.timeLeft = 2;
 
-            ref float aheadSegmentIndex = ref projectile.ai[0];
-            int aheadSegmentUUID = Projectile.GetByUUID(projectile.owner, aheadSegmentIndex);
+            ref float aheadSegmentIdentity = ref projectile.ai[0];
+            int aheadSegmentWhoAmI = Projectile.GetByUUID(projectile.owner, aheadSegmentIdentity);
             
             // Ensure that the segment ahead actually exists. If it doesn't, kill this segment.
-            if (!Main.projectile.IndexInRange(aheadSegmentUUID))
+            if (!Main.projectile.IndexInRange(aheadSegmentWhoAmI))
             {
                 projectile.Kill();
                 return;
             }
 
             // Delete segments if some are lost for whatever reason (such as a summon potion expiring).
-            if (projectile.type == ModContent.ProjectileType<MechwormTail>() && (!owner.active || owner.maxMinions < playerMinionSlots))
+            // playerMinionSlots is set to -1 for body segments to avoid type checking.
+            if (playerMinionSlots != -1 && (owner.maxMinions < playerMinionSlots || !owner.active))
             {
                 int lostSlots = playerMinionSlots - owner.maxMinions;
                 while (lostSlots > 0)
                 {
-                    Projectile ahead = Main.projectile[aheadSegmentUUID];
+                    Projectile ahead = Main.projectile[aheadSegmentWhoAmI];
                     // Each body slot is actually 0.5 slots. Kill two segments to lose 1 "true" slot.
-                    for (int i = 0; i < 2; i++)
+                    for (int i = 0; i < 2; ++i)
                     {
                         if (ahead.type != ModContent.ProjectileType<MechwormHead>())
                             projectile.localAI[1] = ahead.localAI[1];
 
                         // Inherit the ahead segment index of the ahead segment (basically attaching to the segment that's two indices ahead).
-                        aheadSegmentIndex = ahead.ai[0];
+                        aheadSegmentIdentity = ahead.ai[0];
                         projectile.netUpdate = true;
 
                         ahead.Kill();
 
                         // And re-decide the ahead segment UUID.
-                        aheadSegmentUUID = Projectile.GetByUUID(projectile.owner, aheadSegmentIndex);
+                        aheadSegmentWhoAmI = Projectile.GetByUUID(projectile.owner, aheadSegmentIdentity);
 
                         // Ensure that the segment ahead actually exists. If it doesn't, kill this segment.
-                        if (!Main.projectile.IndexInRange(aheadSegmentUUID))
+                        if (!Main.projectile.IndexInRange(aheadSegmentWhoAmI))
                         {
                             projectile.Kill();
                             return;
                         }
-                        ahead = Main.projectile[aheadSegmentUUID];
+                        ahead = Main.projectile[aheadSegmentWhoAmI];
                     }
                     lostSlots--;
                 }
                 playerMinionSlots = owner.maxMinions;
             }
 
-            Projectile segmentAhead = Main.projectile[aheadSegmentUUID];
+            Projectile segmentAhead = Main.projectile[aheadSegmentWhoAmI];
             Projectile head = segmentAhead;
 
             // Accumulate the total segments of the worm.
             segmentAhead.localAI[0] = projectile.localAI[0] + 1f;
 
-            // Delete the player's mechworm if it's attaching to something weird
-            if (segmentAhead.type != ModContent.ProjectileType<MechwormBody>() &&
-                segmentAhead.type != ModContent.ProjectileType<MechwormHead>())
+            // Delete the player's entire mechworm if it's attaching to something weird.
+            int headProjType = ModContent.ProjectileType<MechwormHead>();
+            int bodyProjType = ModContent.ProjectileType<MechwormBody>();
+            int tailProjType = ModContent.ProjectileType<MechwormTail>();
+            if (segmentAhead.type != bodyProjType && segmentAhead.type != headProjType)
             {
-                for (int i = 0; i < Main.maxProjectiles; i++)
+                for (int i = 0; i < Main.maxProjectiles; ++i)
                 {
-                    Projectile proj = Main.projectile[i];
-                    bool isProjectileMechwormSegment =
-                        proj.type == ModContent.ProjectileType<MechwormHead>() ||
-                        proj.type == ModContent.ProjectileType<MechwormBody>() ||
-                        proj.type == ModContent.ProjectileType<MechwormTail>();
-
-                    if (proj.active && proj.owner == projectile.owner && isProjectileMechwormSegment)
-                        proj.Kill();
+                    Projectile otherProj = Main.projectile[i];
+                    if (!otherProj.active || otherProj.owner != projectile.owner)
+                        continue;
+                    if (otherProj.type == headProjType || otherProj.type == bodyProjType || otherProj.type == tailProjType)
+                        otherProj.Kill();
                 }
                 return;
             }
@@ -184,7 +185,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void AI()
         {
-            int _ = 0;
+            int _ = -1;
             SegmentAI(projectile, 16, ref _);
         }
 

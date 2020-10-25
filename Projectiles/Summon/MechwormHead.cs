@@ -19,7 +19,6 @@ namespace CalamityMod.Projectiles.Summon
             PortalGateCharge,
             LaserCharge
         }
-        internal int DustProduceCounter = 3;
         internal int AttackStateTimer = 0;
         internal int EndRiftGateUUID = -1;
         internal Vector2 TeleportStartingPoint;
@@ -129,23 +128,19 @@ namespace CalamityMod.Projectiles.Summon
             Player owner = Main.player[projectile.owner];
 
             // Produce some dust when the worm is summoned.
-            if (DustProduceCounter > 0 && !Main.dedServ)
-            {
+            if (Time < 3 && !Main.dedServ)
                 for (int i = 0; i < 50; i++)
                 {
                     Dust purpleElectricity = Dust.NewDustDirect(projectile.position + Vector2.UnitY * 16f, projectile.width, projectile.height - 16, 234, 0f, 0f, 0, default, 1f);
                     purpleElectricity.velocity *= 2f;
                     purpleElectricity.scale *= 1.15f;
                 }
-                DustProduceCounter--;
-            }
             CalamityPlayer modPlayer = owner.Calamity();
 
             // Maintain or remove the Mechworm buff from the owner.
             owner.AddBuff(ModContent.BuffType<Mechworm>(), 3600);
             if (owner.dead)
                 modPlayer.mWorm = false;
-
             if (modPlayer.mWorm)
                 projectile.timeLeft = 2;
 
