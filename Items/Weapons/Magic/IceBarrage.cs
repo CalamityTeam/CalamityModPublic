@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Weapons.Magic
             Tooltip.SetDefault("Oh dear, you are dead!\n" +
 							   "Casts a deadly and powerful ice spell in the location of the cursor\n" +
 							   "This ice spell locks itself to the position of nearby enemies\n" +
-                               "Consumes 2 Blood Runes every time its used");
+                               "Consumes 2 Blood Runes every time it's used");
         }
 
         public override void SetDefaults()
