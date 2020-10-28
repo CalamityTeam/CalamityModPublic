@@ -3403,12 +3403,6 @@ namespace CalamityMod.CalPlayer
 					player.allDamage += 0.1f;
 			}
 
-			if (modPlayer.reaperToothNecklace)
-			{
-				if (player.statDefense > 0)
-					player.statDefense = (int)(player.statDefense * 0.75);
-			}
-
 			if (modPlayer.deepDiver)
 			{
 				player.allDamage += 0.15f;
@@ -3995,12 +3989,6 @@ namespace CalamityMod.CalPlayer
 
 			if (modPlayer.corrEffigy)
 				player.endurance -= 0.2f;
-
-			if (modPlayer.reaperToothNecklace)
-			{
-				if (player.endurance > 0f)
-					player.endurance *= 0.75f;
-			}
 		}
 		#endregion
 

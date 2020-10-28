@@ -511,7 +511,6 @@ namespace CalamityMod.CalPlayer
 		public bool abyssDivingGear = false;
         public bool abyssalAmulet = false;
         public bool lumenousAmulet = false;
-        public bool reaperToothNecklace = false;
         public bool aquaticEmblem = false;
         public bool darkSunRing = false;
         public bool calamityRing = false;
@@ -1654,7 +1653,6 @@ namespace CalamityMod.CalPlayer
 			abyssDivingGear = false;
             abyssalAmulet = false;
             lumenousAmulet = false;
-            reaperToothNecklace = false;
             aquaticEmblem = false;
 
             astralStarRain = false;
@@ -6179,9 +6177,6 @@ namespace CalamityMod.CalPlayer
 			// 10% is converted to 9%, 25% is converted to 20%, 50% is converted to 33%, 75% is converted to 43%, 100% is converted to 50%
 			if (contactDamageReduction > 0D)
 			{
-				if (reaperToothNecklace)
-					contactDamageReduction *= 0.75;
-
 				if (aCrunch)
 					contactDamageReduction *= 0.33;
 
@@ -6472,9 +6467,6 @@ namespace CalamityMod.CalPlayer
 			// 10% is converted to 9%, 25% is converted to 20%, 50% is converted to 33%, 75% is converted to 43%, 100% is converted to 50%
 			if (projectileDamageReduction > 0D)
 			{
-				if (reaperToothNecklace)
-					projectileDamageReduction *= 0.75;
-
 				if (aCrunch)
 					projectileDamageReduction *= 0.33;
 
