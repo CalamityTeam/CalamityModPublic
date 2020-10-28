@@ -11,6 +11,25 @@ namespace CalamityMod.World.Planets
     {
         private Rectangle _area;
 
+        public static bool InvalidSkyPlacementArea(Rectangle area)
+		{
+            Mod varia = ModLoader.GetMod("Varia");
+            for (int i = area.Left; i < area.Right; i++)
+            {
+                for (int j = area.Top; j < area.Bottom; j++)
+                {
+                    if (Main.tile[i, j].type == TileID.Cloud || Main.tile[i, j].type == TileID.RainCloud || Main.tile[i, j].type == TileID.Sunplate)
+                        return false;
+
+                    if (varia != null &&
+                        (Main.tile[i, j].type == varia.TileType("StarplateBrick") || Main.tile[i, j].type == varia.TileType("ForgottenCloud")))
+                    {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
         public bool CheckIfPlaceable(Point origin, int radius, StructureMap structures)
         {
             //Fluff is used to create padding between the planets. this is the minimum distance between planets (they can't be within "fluff" blocks)
@@ -19,24 +38,8 @@ namespace CalamityMod.World.Planets
             int diameter = myRadius * 2;
             _area = new Rectangle(origin.X - myRadius, origin.Y - myRadius, diameter, diameter);
 
-            Mod varia = ModLoader.GetMod("Varia");
-            for (int i = _area.Left; i < _area.Right; i++)
-            {
-                for (int j = _area.Top; j < _area.Bottom; j++)
-                {
-                    if (Main.tile[i, j].type == TileID.Cloud || Main.tile[i, j].type == TileID.RainCloud || Main.tile[i, j].type == TileID.Sunplate)
-                    {
-                        return false;
-                    }
-                    if (varia != null)
-                    {
-                        if (Main.tile[i, j].type == varia.TileType("StarplateBrick") || Main.tile[i, j].type == varia.TileType("ForgottenCloud"))
-                        {
-                            return false;
-                        }
-                    }
-                }
-            }
+            if (!InvalidSkyPlacementArea(_area))
+                return false;
 
             if (!structures.CanPlace(_area))
             {
