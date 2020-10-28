@@ -3415,22 +3415,6 @@ namespace CalamityMod.CalPlayer
 				player.endurance += 0.08f;
 				player.allDamage += 0.08f;
 			}
-			else if (modPlayer.bloodflareCore)
-			{
-				if (player.statDefense < 100)
-					player.allDamage += 0.15f;
-
-				if (player.statLife <= (int)(player.statLifeMax2 * 0.15))
-				{
-					player.endurance += 0.1f;
-					player.allDamage += 0.2f;
-				}
-				else if (player.statLife <= (int)(player.statLifeMax2 * 0.5))
-				{
-					player.endurance += 0.05f;
-					player.allDamage += 0.1f;
-				}
-			}
 
 			if (modPlayer.godSlayerThrowing)
 			{
@@ -3931,6 +3915,38 @@ namespace CalamityMod.CalPlayer
 					(modPlayer.yInsignia ? 0.1 : 0) +
 					(modPlayer.badgeOfBraveryRare ? 0.2 : 0);
 			modPlayer.trueMeleeDamage += damageAdd;
+
+			// Intentionally at the end: Bloodflare Core's defense reduction (after all other boosting effects and whatnot)
+			// This defense still comes back over time if you take off Bloodflare Core while you're missing defense.
+			// However, removing the item means you won't get healed as the defense comes back.
+			ref int lostDef = ref modPlayer.bloodflareCoreLostDefense;
+			if (lostDef > 0)
+			{
+				// Defense regeneration occurs every four frames while defense is missing
+				if (player.miscCounter % 4 == 0)
+				{
+					--lostDef;
+					if (modPlayer.bloodflareCore)
+					{
+						player.statLife += 1;
+						player.HealEffect(1, false);
+
+						// Produce an implosion of blood themed dust so it's obvious an effect is occurring
+						for (int i = 0; i < 3; ++i)
+						{
+							Vector2 offset = Main.rand.NextVector2Unit() * Main.rand.NextFloat(23f, 33f);
+							Vector2 dustPos = player.Center + offset;
+							Vector2 dustVel = offset * -0.08f;
+							Dust d = Dust.NewDustDirect(dustPos, 0, 0, 90, 0.08f, 0.08f);
+							d.velocity = dustVel;
+							d.noGravity = true;
+						}
+					} 
+				}
+
+				// Actually apply the defense reduction
+				player.statDefense -= lostDef;
+			} 
 		}
 		#endregion
 

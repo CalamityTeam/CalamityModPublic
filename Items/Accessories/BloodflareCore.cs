@@ -10,9 +10,7 @@ namespace CalamityMod.Items.Accessories
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Bloodflare Core");
-			Tooltip.SetDefault("When below 50% life you gain 5% increased damage reduction and 10% increased damage\n" +
-				"When below 15% life you gain 10% increased damage reduction and 20% increased damage\n" +
-				"When below 100 defense you gain 15% increased damage");
+			Tooltip.SetDefault("You lose up to half your defense after taking damage\n" + "Lost defense regenerates over time\n" + "You gain 1 health for every 1 defense gained as it regenerates");
 		}
 
 		public override void SetDefaults()

@@ -497,6 +497,7 @@ namespace CalamityMod.CalPlayer
         public bool bloodPact = false;
 		public bool bloodPactBoost = false;
         public bool bloodflareCore = false;
+        public int bloodflareCoreLostDefense = 0;
         public bool coreOfTheBloodGod = false;
         public bool elementalHeart = false;
         public bool crownJewel = false;
@@ -2383,6 +2384,7 @@ namespace CalamityMod.CalPlayer
 			brimlashBusterBoost = false;
 			animusBoost = 1f;
 			potionTimer = 0;
+            bloodflareCoreLostDefense = 0;
 
             if (BossRushEvent.BossRushActive)
             {
@@ -7804,6 +7806,29 @@ namespace CalamityMod.CalPlayer
             {
                 player.AddBuff(ModContent.BuffType<BurntOut>(), 300, true);
             }
+
+            // Bloodflare Core defense shattering
+            if (bloodflareCore)
+            {
+                // Shattered defense caps at half of total defense. Every hit adds its damage as shattered defense.
+                bloodflareCoreLostDefense = Math.Min(bloodflareCoreLostDefense + (int)damage, player.statDefense / 2);
+
+                // Play a sound and make dust to signify that defense has been shattered
+                Main.PlaySound(SoundID.DD2_MonkStaffGroundImpact, player.Center);
+                for (int i = 0; i < 36; ++i)
+                {
+                    float speed = Main.rand.NextFloat(1.8f, 8f);
+                    Vector2 dustVel = new Vector2(speed, speed);
+                    Dust d = Dust.NewDustDirect(player.position, player.width, player.height, 90);
+                    d.velocity = dustVel;
+                    d.noGravity = true;
+                    d.scale *= Main.rand.NextFloat(1.1f, 1.4f);
+                    Dust.CloneDust(d).velocity = dustVel.RotatedBy(MathHelper.PiOver2);
+                    Dust.CloneDust(d).velocity = dustVel.RotatedBy(MathHelper.Pi);
+                    Dust.CloneDust(d).velocity = dustVel.RotatedBy(MathHelper.Pi * 1.5f);
+                }
+            }
+
             bool hardMode = Main.hardMode;
             int iFramesToAdd = 0;
             if (player.whoAmI == Main.myPlayer)
