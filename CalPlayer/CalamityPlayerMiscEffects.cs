@@ -485,23 +485,23 @@ namespace CalamityMod.CalPlayer
 				}
 			}
 
-            // Acid rain droplets
-            if (player.whoAmI == Main.myPlayer)
-            {
-                if (CalamityWorld.rainingAcid && modPlayer.ZoneSulphur && !CalamityPlayer.areThereAnyDamnBosses && player.Center.Y < Main.worldSurface * 16f + 800f)
-                {
-                    int slimeRainRate = (int)(MathHelper.Clamp(Main.invasionSize * 0.4f, 13.5f, 50) * 2.25);
-                    Vector2 spawnPoint = new Vector2(player.Center.X + Main.rand.Next(-1000, 1001), player.Center.Y - Main.rand.Next(700, 801));
+			// Acid rain droplets
+			if (player.whoAmI == Main.myPlayer)
+			{
+				if (CalamityWorld.rainingAcid && modPlayer.ZoneSulphur && !CalamityPlayer.areThereAnyDamnBosses && player.Center.Y < Main.worldSurface * 16f + 800f)
+				{
+					int slimeRainRate = (int)(MathHelper.Clamp(Main.invasionSize * 0.4f, 13.5f, 50) * 2.25);
+					Vector2 spawnPoint = new Vector2(player.Center.X + Main.rand.Next(-1000, 1001), player.Center.Y - Main.rand.Next(700, 801));
 
-                    if (player.miscCounter % slimeRainRate == 0f)
-                    {
+					if (player.miscCounter % slimeRainRate == 0f)
+					{
 						if (CalamityWorld.downedAquaticScourge && !CalamityWorld.downedPolterghast && Main.rand.NextBool(12))
 						{
 							NPC.NewNPC((int)spawnPoint.X, (int)spawnPoint.Y, ModContent.NPCType<IrradiatedSlime>());
 						}
-                    }
-                }
-            }
+					}
+				}
+			}
 
 			//Hydrothermal blue smoke effects but it doesn't work epicccccc
 			if (player.whoAmI == Main.myPlayer)
@@ -520,8 +520,8 @@ namespace CalamityMod.CalPlayer
 				}
 			}
 
-            // Death Mode effects
-            modPlayer.caveDarkness = 0f;
+			// Death Mode effects
+			modPlayer.caveDarkness = 0f;
 			if (CalamityWorld.death)
 			{
 				if (player.whoAmI == Main.myPlayer)
@@ -698,9 +698,9 @@ namespace CalamityMod.CalPlayer
 								}
 
 								int randomFrequency2 = (int)(20f * frequencyMult);
-                                if (CalamityWorld.rainingAcid && player.Calamity().ZoneSulphur)
-                                    randomFrequency2 = (int)(randomFrequency2 * 3.75);
-                                if (player.miscCounter % (Main.hardMode ? 90 : 120) == 0 && Main.rand.NextBool(randomFrequency2))
+								if (CalamityWorld.rainingAcid && player.Calamity().ZoneSulphur)
+									randomFrequency2 = (int)(randomFrequency2 * 3.75);
+								if (player.miscCounter % (Main.hardMode ? 90 : 120) == 0 && Main.rand.NextBool(randomFrequency2))
 								{
 									if (!tileSafely.active())
 									{
@@ -1200,12 +1200,12 @@ namespace CalamityMod.CalPlayer
 				player.endurance += 0.05f;
 			}
 
-            // Hallowed Rune defense buff
-            if (modPlayer.hallowedDefense)
-            {
-                player.statDefense += 7;
-                player.endurance += 0.07f;
-            }
+			// Hallowed Rune defense buff
+			if (modPlayer.hallowedDefense)
+			{
+				player.statDefense += 7;
+				player.endurance += 0.07f;
+			}
 
 			if (modPlayer.kamiBoost)
 				player.allDamage += 0.15f;
@@ -2714,8 +2714,8 @@ namespace CalamityMod.CalPlayer
 				player.kbBuff = true;
 				if (modPlayer.titanBoost > 0)
 				{
-                    player.statDefense += 25;
-                    player.endurance += 0.1f;
+					player.statDefense += 25;
+					player.endurance += 0.1f;
 				}
 			}
 			else
@@ -3412,10 +3412,8 @@ namespace CalamityMod.CalPlayer
 
 			if (modPlayer.coreOfTheBloodGod)
 			{
-				player.endurance += 0.05f;
-				player.allDamage += 0.07f;
-				if (player.statDefense < 100)
-					player.allDamage += 0.15f;
+				player.endurance += 0.08f;
+				player.allDamage += 0.08f;
 			}
 			else if (modPlayer.bloodflareCore)
 			{
@@ -3560,31 +3558,31 @@ namespace CalamityMod.CalPlayer
 			}
 
 			if (modPlayer.dukeScales)
-            {
+			{
 				player.buffImmune[ModContent.BuffType<SulphuricPoisoning>()] = true;
 				player.buffImmune[BuffID.Poisoned] = true;
 				player.buffImmune[BuffID.Venom] = true;
-                if (player.statLife <= (int)(player.statLifeMax2 * 0.75))
-                {
-                    player.allDamage += 0.06f;
+				if (player.statLife <= (int)(player.statLifeMax2 * 0.75))
+				{
+					player.allDamage += 0.06f;
 					modPlayer.AllCritBoost(3);
-                }
-                if (player.statLife <= (int)(player.statLifeMax2 * 0.5))
-                {
-                    player.allDamage += 0.06f;
+				}
+				if (player.statLife <= (int)(player.statLifeMax2 * 0.5))
+				{
+					player.allDamage += 0.06f;
 					modPlayer.AllCritBoost(3);
-                }
-                if (player.statLife <= (int)(player.statLifeMax2 * 0.25))
-                {
-                    player.allDamage += 0.06f;
+				}
+				if (player.statLife <= (int)(player.statLifeMax2 * 0.25))
+				{
+					player.allDamage += 0.06f;
 					modPlayer.AllCritBoost(3);
-                }
+				}
 				if (player.lifeRegen < 0)
-                {
-                    player.allDamage += 0.1f;
+				{
+					player.allDamage += 0.1f;
 					modPlayer.AllCritBoost(5);
-                }
-            }
+				}
+			}
 
 			if (modPlayer.auricSet && modPlayer.silvaMelee)
 			{
@@ -3869,9 +3867,9 @@ namespace CalamityMod.CalPlayer
 			if (modPlayer.prismaticLasers == 1)
 			{
 				//Spawn some dust since you can use it again
-                int dustAmt = 36;
-                for (int dustIndex = 0; dustIndex < dustAmt; dustIndex++)
-                {
+				int dustAmt = 36;
+				for (int dustIndex = 0; dustIndex < dustAmt; dustIndex++)
+				{
 					Color color = Utils.SelectRandom(Main.rand, new Color[]
 					{
 						new Color(255, 0, 0, 50), //Red
@@ -3887,14 +3885,14 @@ namespace CalamityMod.CalPlayer
 						new Color(255, 0, 255, 50), //Fuschia
 						new Color(255, 0, 128, 50) //Hot Pink
 					});
-                    Vector2 source = Vector2.Normalize(player.velocity) * new Vector2(player.width / 2f, player.height) * 0.75f;
-                    source = source.RotatedBy((dustIndex - (dustAmt / 2 - 1)) * MathHelper.TwoPi / dustAmt, default) + player.Center;
-                    Vector2 dustVel = source - player.Center;
-                    int dusty = Dust.NewDust(source + dustVel, 0, 0, 267, dustVel.X * 1f, dustVel.Y * 1f, 100, color, 1f);
-                    Main.dust[dusty].noGravity = true;
-                    Main.dust[dusty].noLight = true;
-                    Main.dust[dusty].velocity = dustVel;
-                }
+					Vector2 source = Vector2.Normalize(player.velocity) * new Vector2(player.width / 2f, player.height) * 0.75f;
+					source = source.RotatedBy((dustIndex - (dustAmt / 2 - 1)) * MathHelper.TwoPi / dustAmt, default) + player.Center;
+					Vector2 dustVel = source - player.Center;
+					int dusty = Dust.NewDust(source + dustVel, 0, 0, 267, dustVel.X * 1f, dustVel.Y * 1f, 100, color, 1f);
+					Main.dust[dusty].noGravity = true;
+					Main.dust[dusty].noLight = true;
+					Main.dust[dusty].velocity = dustVel;
+				}
 			}
 
 			if (modPlayer.theBee)

@@ -2,6 +2,7 @@ using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
@@ -11,12 +12,10 @@ namespace CalamityMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Core of the Blood God");
-            Tooltip.SetDefault("5% increased damage reduction\n" +
-                "7% increased damage\n" +
-                "When below 100 defense you gain 15% increased damage\n" +
+            Tooltip.SetDefault("8% increased damage and damage reduction\n" +
+                "Boosts your max HP by 10%\n" +
                 "Halves enemy contact damage\n" +
-                "When you take contact damage this effect has a 20 second cooldown\n" +
-                "Boosts your max HP by 10%");
+                "When you take contact damage this effect has a 20 second cooldown");
         }
 
         public override void SetDefaults()
@@ -25,7 +24,7 @@ namespace CalamityMod.Items.Accessories
             item.height = 26;
             item.value = CalamityGlobalItem.Rarity14BuyPrice;
             item.expert = true;
-            item.rare = 10;
+            item.rare = ItemRarityID.Red;
             item.accessory = true;
         }
 
