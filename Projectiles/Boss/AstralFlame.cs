@@ -80,10 +80,7 @@ namespace CalamityMod.Projectiles.Boss
                     projectile.velocity *= scaleFactor2;
                 }
                 else if (Math.Abs(projectile.velocity.X) + Math.Abs(projectile.velocity.Y) < 18f)
-                {
-                    projectile.velocity.X *= 1.01f;
-                    projectile.velocity.Y *= 1.01f;
-                }
+                    projectile.velocity *= 1.01f;
             }
         }
 

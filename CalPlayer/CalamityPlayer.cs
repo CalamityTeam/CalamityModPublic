@@ -67,6 +67,15 @@ using Terraria.ModLoader.IO;
 
 namespace CalamityMod.CalPlayer
 {
+	public enum ClassType
+	{
+		Melee = 0,
+		Ranged = 1,
+		Magic = 2,
+		Summon = 3,
+		Rogue = 4
+	}
+
 	public enum GaelSwitchPhase
     {
         LoseRage = 0,
@@ -244,10 +253,13 @@ namespace CalamityMod.CalPlayer
         public bool playRogueStealthSound = false;
         public bool playFullRageSound = true;
         public bool playFullAdrenalineSound = true;
-        #endregion
+		#endregion
 
-        #region Proficiency
-        public int meleeLevel = 0;
+		#region Proficiency
+		private const int levelTier1 = 1500;
+		private const int levelTier2 = 5500;
+		private const int levelTier3 = 12500;
+		public int meleeLevel = 0;
         public int rangedLevel = 0;
         public int magicLevel = 0;
         public int rogueLevel = 0;
@@ -5429,22 +5441,24 @@ namespace CalamityMod.CalPlayer
                         gainLevelCooldown = 120;
                         if (item.melee && meleeLevel <= 12500)
                         {
-                            if (!Main.hardMode && meleeLevel >= 1500)
-                            {
-                                gainLevelCooldown = 1200; //20 seconds
-                            }
-                            if (!NPC.downedMoonlord && meleeLevel >= 5500)
-                            {
-                                gainLevelCooldown = 2400; //40 seconds
-                            }
+							if (!ReduceCooldown((int)ClassType.Melee))
+							{
+								if (!Main.hardMode && meleeLevel >= 1500)
+									gainLevelCooldown = 1200; //20 seconds
+								if (!NPC.downedMoonlord && meleeLevel >= 5500)
+									gainLevelCooldown = 2400; //40 seconds
+							}
+							else
+								gainLevelCooldown /= 2;
+
+							if (fasterMeleeLevel)
+								gainLevelCooldown /= 2;
+
                             meleeLevel++;
-                            if (fasterMeleeLevel && meleeLevel % 100 != 0 && Main.rand.NextBool(10)) //add only to non-multiples of 100
-                                meleeLevel++;
                             shootFireworksLevelUpMelee = true;
+
                             if (Main.netMode == NetmodeID.MultiplayerClient)
-                            {
-                                LevelPacket(false, 0);
-                            }
+                                LevelPacket(false, (int)ClassType.Melee);
                         }
                     }
                 }
@@ -5910,98 +5924,108 @@ namespace CalamityMod.CalPlayer
                         gainLevelCooldown = 120; //2 seconds
                         if (proj.melee && meleeLevel <= 12500)
                         {
-                            if (!Main.hardMode && meleeLevel >= 1500)
-                            {
-                                gainLevelCooldown = 1200; //20 seconds
-                            }
-                            if (!NPC.downedMoonlord && meleeLevel >= 5500)
-                            {
-                                gainLevelCooldown = 2400; //40 seconds
-                            }
-                            meleeLevel++;
-                            if (fasterMeleeLevel && meleeLevel % 100 != 0 && Main.rand.NextBool(10)) //add only to non-multiples of 100
-                                meleeLevel++;
+							if (!ReduceCooldown((int)ClassType.Melee))
+							{
+								if (!Main.hardMode && meleeLevel >= 1500)
+									gainLevelCooldown = 1200; //20 seconds
+								if (!NPC.downedMoonlord && meleeLevel >= 5500)
+									gainLevelCooldown = 2400; //40 seconds
+							}
+							else
+								gainLevelCooldown /= 2;
+
+							if (fasterMeleeLevel)
+								gainLevelCooldown /= 2;
+
+							meleeLevel++;
                             shootFireworksLevelUpMelee = true;
+
                             if (Main.netMode == NetmodeID.MultiplayerClient)
-                            {
-                                LevelPacket(false, 0);
-                            }
+                                LevelPacket(false, (int)ClassType.Melee);
                         }
                         else if (proj.ranged && rangedLevel <= 12500)
                         {
-                            if (!Main.hardMode && rangedLevel >= 1500)
-                            {
-                                gainLevelCooldown = 1200; //20 seconds
-                            }
-                            if (!NPC.downedMoonlord && rangedLevel >= 5500)
-                            {
-                                gainLevelCooldown = 2400; //40 seconds
-                            }
-                            rangedLevel++;
-                            if (fasterRangedLevel && rangedLevel % 100 != 0 && Main.rand.NextBool(10)) //add only to non-multiples of 100
-                                rangedLevel++;
+							if (!ReduceCooldown((int)ClassType.Ranged))
+							{
+								if (!Main.hardMode && rangedLevel >= 1500)
+									gainLevelCooldown = 1200; //20 seconds
+								if (!NPC.downedMoonlord && rangedLevel >= 5500)
+									gainLevelCooldown = 2400; //40 seconds
+							}
+							else
+								gainLevelCooldown /= 2;
+
+							if (fasterRangedLevel)
+								gainLevelCooldown /= 2;
+
+							rangedLevel++;
                             shootFireworksLevelUpRanged = true;
+
                             if (Main.netMode == NetmodeID.MultiplayerClient)
-                            {
-                                LevelPacket(false, 1);
-                            }
+                                LevelPacket(false, (int)ClassType.Ranged);
                         }
                         else if (proj.magic && magicLevel <= 12500)
                         {
-                            if (!Main.hardMode && magicLevel >= 1500)
-                            {
-                                gainLevelCooldown = 1200; //20 seconds
-                            }
-                            if (!NPC.downedMoonlord && magicLevel >= 5500)
-                            {
-                                gainLevelCooldown = 2400; //40 seconds
-                            }
-                            magicLevel++;
-                            if (fasterMagicLevel && magicLevel % 100 != 0 && Main.rand.NextBool(10)) //add only to non-multiples of 100
-                                magicLevel++;
+							if (!ReduceCooldown((int)ClassType.Magic))
+							{
+								if (!Main.hardMode && magicLevel >= 1500)
+									gainLevelCooldown = 1200; //20 seconds
+								if (!NPC.downedMoonlord && magicLevel >= 5500)
+									gainLevelCooldown = 2400; //40 seconds
+							}
+							else
+								gainLevelCooldown /= 2;
+
+							if (fasterMagicLevel)
+								gainLevelCooldown /= 2;
+
+							magicLevel++;
                             shootFireworksLevelUpMagic = true;
+
                             if (Main.netMode == NetmodeID.MultiplayerClient)
-                            {
-                                LevelPacket(false, 2);
-                            }
+                                LevelPacket(false, (int)ClassType.Magic);
                         }
                         else if (isSummon && summonLevel <= 12500)
                         {
-                            if (!Main.hardMode && summonLevel >= 1500)
-                            {
-                                gainLevelCooldown = 1200; //20 seconds
-                            }
-                            if (!NPC.downedMoonlord && summonLevel >= 5500)
-                            {
-                                gainLevelCooldown = 2400; //40 seconds
-                            }
-                            summonLevel++;
-                            if (fasterSummonLevel && summonLevel % 100 != 0 && Main.rand.NextBool(10)) //add only to non-multiples of 100
-                                summonLevel++;
+							if (!ReduceCooldown((int)ClassType.Summon))
+							{
+								if (!Main.hardMode && summonLevel >= 1500)
+									gainLevelCooldown = 1200; //20 seconds
+								if (!NPC.downedMoonlord && summonLevel >= 5500)
+									gainLevelCooldown = 2400; //40 seconds
+							}
+							else
+								gainLevelCooldown /= 2;
+
+							if (fasterSummonLevel)
+								gainLevelCooldown /= 2;
+
+							summonLevel++;
                             shootFireworksLevelUpSummon = true;
+
                             if (Main.netMode == NetmodeID.MultiplayerClient)
-                            {
-                                LevelPacket(false, 3);
-                            }
+                                LevelPacket(false, (int)ClassType.Summon);
                         }
                         else if (proj.Calamity().rogue && rogueLevel <= 12500)
                         {
-                            if (!Main.hardMode && rogueLevel >= 1500)
-                            {
-                                gainLevelCooldown = 1200; //20 seconds
-                            }
-                            if (!NPC.downedMoonlord && rogueLevel >= 5500)
-                            {
-                                gainLevelCooldown = 2400; //40 seconds
-                            }
-                            rogueLevel++;
-                            if (fasterRogueLevel && rogueLevel % 100 != 0 && Main.rand.NextBool(10)) //add only to non-multiples of 100
-                                rogueLevel++;
+							if (!ReduceCooldown((int)ClassType.Rogue))
+							{
+								if (!Main.hardMode && rogueLevel >= 1500)
+									gainLevelCooldown = 1200; //20 seconds
+								if (!NPC.downedMoonlord && rogueLevel >= 5500)
+									gainLevelCooldown = 2400; //40 seconds
+							}
+							else
+								gainLevelCooldown /= 2;
+
+							if (fasterRogueLevel)
+								gainLevelCooldown /= 2;
+
+							rogueLevel++;
                             shootFireworksLevelUpRogue = true;
+
                             if (Main.netMode == NetmodeID.MultiplayerClient)
-                            {
-                                LevelPacket(false, 4);
-                            }
+                                LevelPacket(false, (int)ClassType.Rogue);
                         }
                     }
                 }
@@ -6203,8 +6227,7 @@ namespace CalamityMod.CalPlayer
 
 			if (CalamityWorld.ironHeart)
 			{
-				int damageMin = 60 + (player.statLifeMax2 / 10);
-				int damageWithDR = (int)(damage * (1f - player.endurance));
+				int damageMin = 40 + (player.statLifeMax2 / 10);
 				if (damage < damageMin)
 				{
 					player.endurance = 0f;
@@ -6485,8 +6508,7 @@ namespace CalamityMod.CalPlayer
 
 			if (CalamityWorld.ironHeart)
 			{
-				int damageMin = 60 + (player.statLifeMax2 / 10);
-				int damageWithDR = (int)(damage * (1f - player.endurance));
+				int damageMin = (Main.expertMode ? 10 : 20) + (player.statLifeMax2 / (Main.expertMode ? 40 : 20));
 				if (damage < damageMin)
 				{
 					player.endurance = 0f;
@@ -7576,7 +7598,7 @@ namespace CalamityMod.CalPlayer
 
 			if (CalamityWorld.ironHeart)
 			{
-				int damageMin = 60 + (player.statLifeMax2 / 10);
+				int damageMin = 80 + (player.statLifeMax2 / 10);
 				playSound = false;
 				hurtSoundTimer = 20;
 				if (damage <= damageMin)
@@ -10080,6 +10102,68 @@ namespace CalamityMod.CalPlayer
         #endregion
 
         #region Proficiency Stuff
+		private bool ReduceCooldown(int classType)
+		{
+			switch (classType)
+			{
+				case (int)ClassType.Melee:
+
+					if (meleeLevel < levelTier3 && (rangedLevel >= levelTier3 || magicLevel >= levelTier3 || summonLevel >= levelTier3 || rogueLevel >= levelTier3))
+						return true;
+					if (meleeLevel < levelTier2 && (rangedLevel >= levelTier2 || magicLevel >= levelTier2 || summonLevel >= levelTier2 || rogueLevel >= levelTier2))
+						return true;
+					if (meleeLevel < levelTier1 && (rangedLevel >= levelTier1 || magicLevel >= levelTier1 || summonLevel >= levelTier1 || rogueLevel >= levelTier1))
+						return true;
+
+					break;
+
+				case (int)ClassType.Ranged:
+
+					if (rangedLevel < levelTier3 && (meleeLevel >= levelTier3 || magicLevel >= levelTier3 || summonLevel >= levelTier3 || rogueLevel >= levelTier3))
+						return true;
+					if (rangedLevel < levelTier2 && (meleeLevel >= levelTier2 || magicLevel >= levelTier2 || summonLevel >= levelTier2 || rogueLevel >= levelTier2))
+						return true;
+					if (rangedLevel < levelTier1 && (meleeLevel >= levelTier1 || magicLevel >= levelTier1 || summonLevel >= levelTier1 || rogueLevel >= levelTier1))
+						return true;
+
+					break;
+
+				case (int)ClassType.Magic:
+
+					if (magicLevel < levelTier3 && (rangedLevel >= levelTier3 || meleeLevel >= levelTier3 || summonLevel >= levelTier3 || rogueLevel >= levelTier3))
+						return true;
+					if (magicLevel < levelTier2 && (rangedLevel >= levelTier2 || meleeLevel >= levelTier2 || summonLevel >= levelTier2 || rogueLevel >= levelTier2))
+						return true;
+					if (magicLevel < levelTier1 && (rangedLevel >= levelTier1 || meleeLevel >= levelTier1 || summonLevel >= levelTier1 || rogueLevel >= levelTier1))
+						return true;
+
+					break;
+
+				case (int)ClassType.Summon:
+
+					if (summonLevel < levelTier3 && (rangedLevel >= levelTier3 || magicLevel >= levelTier3 || meleeLevel >= levelTier3 || rogueLevel >= levelTier3))
+						return true;
+					if (summonLevel < levelTier2 && (rangedLevel >= levelTier2 || magicLevel >= levelTier2 || meleeLevel >= levelTier2 || rogueLevel >= levelTier2))
+						return true;
+					if (summonLevel < levelTier1 && (rangedLevel >= levelTier1 || magicLevel >= levelTier1 || meleeLevel >= levelTier1 || rogueLevel >= levelTier1))
+						return true;
+
+					break;
+
+				case (int)ClassType.Rogue:
+
+					if (rogueLevel < levelTier3 && (rangedLevel >= levelTier3 || magicLevel >= levelTier3 || summonLevel >= levelTier3 || meleeLevel >= levelTier3))
+						return true;
+					if (rogueLevel < levelTier2 && (rangedLevel >= levelTier2 || magicLevel >= levelTier2 || summonLevel >= levelTier2 || meleeLevel >= levelTier2))
+						return true;
+					if (rogueLevel < levelTier1 && (rangedLevel >= levelTier1 || magicLevel >= levelTier1 || summonLevel >= levelTier1 || meleeLevel >= levelTier1))
+						return true;
+
+					break;
+			}
+			return false;
+		}
+
         public void GetExactLevelUp()
         {
             if (gainLevelCooldown > 0)
@@ -10089,49 +10173,49 @@ namespace CalamityMod.CalPlayer
             switch (meleeLevel)
             {
                 case 100:
-                    this.ExactLevelUp(0, 1, false);
+                    ExactLevelUp(0, 1, false);
                     break;
                 case 300:
-                    this.ExactLevelUp(0, 2, false);
+                    ExactLevelUp(0, 2, false);
                     break;
                 case 600:
-                    this.ExactLevelUp(0, 3, false);
+                    ExactLevelUp(0, 3, false);
                     break;
                 case 1000:
-                    this.ExactLevelUp(0, 4, false);
+                    ExactLevelUp(0, 4, false);
                     break;
                 case 1500:
-                    this.ExactLevelUp(0, 5, false);
+                    ExactLevelUp(0, 5, false);
                     break;
                 case 2100:
-                    this.ExactLevelUp(0, 6, false);
+                    ExactLevelUp(0, 6, false);
                     break;
                 case 2800:
-                    this.ExactLevelUp(0, 7, false);
+                    ExactLevelUp(0, 7, false);
                     break;
                 case 3600:
-                    this.ExactLevelUp(0, 8, false);
+                    ExactLevelUp(0, 8, false);
                     break;
                 case 4500:
-                    this.ExactLevelUp(0, 9, false);
+                    ExactLevelUp(0, 9, false);
                     break;
                 case 5500:
-                    this.ExactLevelUp(0, 10, false);
+                    ExactLevelUp(0, 10, false);
                     break;
                 case 6600:
-                    this.ExactLevelUp(0, 11, false);
+                    ExactLevelUp(0, 11, false);
                     break;
                 case 7800:
-                    this.ExactLevelUp(0, 12, false);
+                    ExactLevelUp(0, 12, false);
                     break;
                 case 9100:
-                    this.ExactLevelUp(0, 13, false);
+                    ExactLevelUp(0, 13, false);
                     break;
                 case 10500:
-                    this.ExactLevelUp(0, 14, false);
+                    ExactLevelUp(0, 14, false);
                     break;
                 case 12500: //celebration or some shit for final level, yay
-                    this.ExactLevelUp(0, 15, true);
+                    ExactLevelUp(0, 15, true);
                     break;
                 default:
                     break;
@@ -10142,49 +10226,49 @@ namespace CalamityMod.CalPlayer
             switch (rangedLevel)
             {
                 case 100:
-                    this.ExactLevelUp(1, 1, false);
+                    ExactLevelUp(1, 1, false);
                     break;
                 case 300:
-                    this.ExactLevelUp(1, 2, false);
+                    ExactLevelUp(1, 2, false);
                     break;
                 case 600:
-                    this.ExactLevelUp(1, 3, false);
+                    ExactLevelUp(1, 3, false);
                     break;
                 case 1000:
-                    this.ExactLevelUp(1, 4, false);
+                    ExactLevelUp(1, 4, false);
                     break;
                 case 1500:
-                    this.ExactLevelUp(1, 5, false);
+                    ExactLevelUp(1, 5, false);
                     break;
                 case 2100:
-                    this.ExactLevelUp(1, 6, false);
+                    ExactLevelUp(1, 6, false);
                     break;
                 case 2800:
-                    this.ExactLevelUp(1, 7, false);
+                    ExactLevelUp(1, 7, false);
                     break;
                 case 3600:
-                    this.ExactLevelUp(1, 8, false);
+                    ExactLevelUp(1, 8, false);
                     break;
                 case 4500:
-                    this.ExactLevelUp(1, 9, false);
+                    ExactLevelUp(1, 9, false);
                     break;
                 case 5500:
-                    this.ExactLevelUp(1, 10, false);
+                    ExactLevelUp(1, 10, false);
                     break;
                 case 6600:
-                    this.ExactLevelUp(1, 11, false);
+                    ExactLevelUp(1, 11, false);
                     break;
                 case 7800:
-                    this.ExactLevelUp(1, 12, false);
+                    ExactLevelUp(1, 12, false);
                     break;
                 case 9100:
-                    this.ExactLevelUp(1, 13, false);
+                    ExactLevelUp(1, 13, false);
                     break;
                 case 10500:
-                    this.ExactLevelUp(1, 14, false);
+                    ExactLevelUp(1, 14, false);
                     break;
                 case 12500: //celebration or some shit for final level, yay
-                    this.ExactLevelUp(1, 15, true);
+                    ExactLevelUp(1, 15, true);
                     break;
                 default:
                     break;
@@ -10195,49 +10279,49 @@ namespace CalamityMod.CalPlayer
             switch (magicLevel)
             {
                 case 100:
-                    this.ExactLevelUp(2, 1, false);
+                    ExactLevelUp(2, 1, false);
                     break;
                 case 300:
-                    this.ExactLevelUp(2, 2, false);
+                    ExactLevelUp(2, 2, false);
                     break;
                 case 600:
-                    this.ExactLevelUp(2, 3, false);
+                    ExactLevelUp(2, 3, false);
                     break;
                 case 1000:
-                    this.ExactLevelUp(2, 4, false);
+                    ExactLevelUp(2, 4, false);
                     break;
                 case 1500:
-                    this.ExactLevelUp(2, 5, false);
+                    ExactLevelUp(2, 5, false);
                     break;
                 case 2100:
-                    this.ExactLevelUp(2, 6, false);
+                    ExactLevelUp(2, 6, false);
                     break;
                 case 2800:
-                    this.ExactLevelUp(2, 7, false);
+                    ExactLevelUp(2, 7, false);
                     break;
                 case 3600:
-                    this.ExactLevelUp(2, 8, false);
+                    ExactLevelUp(2, 8, false);
                     break;
                 case 4500:
-                    this.ExactLevelUp(2, 9, false);
+                    ExactLevelUp(2, 9, false);
                     break;
                 case 5500:
-                    this.ExactLevelUp(2, 10, false);
+                    ExactLevelUp(2, 10, false);
                     break;
                 case 6600:
-                    this.ExactLevelUp(2, 11, false);
+                    ExactLevelUp(2, 11, false);
                     break;
                 case 7800:
-                    this.ExactLevelUp(2, 12, false);
+                    ExactLevelUp(2, 12, false);
                     break;
                 case 9100:
-                    this.ExactLevelUp(2, 13, false);
+                    ExactLevelUp(2, 13, false);
                     break;
                 case 10500:
-                    this.ExactLevelUp(2, 14, false);
+                    ExactLevelUp(2, 14, false);
                     break;
                 case 12500: //celebration or some shit for final level, yay
-                    this.ExactLevelUp(2, 15, true);
+                    ExactLevelUp(2, 15, true);
                     break;
                 default:
                     break;
@@ -10248,49 +10332,49 @@ namespace CalamityMod.CalPlayer
             switch (summonLevel)
             {
                 case 100:
-                    this.ExactLevelUp(3, 1, false);
+                    ExactLevelUp(3, 1, false);
                     break;
                 case 300:
-                    this.ExactLevelUp(3, 2, false);
+                    ExactLevelUp(3, 2, false);
                     break;
                 case 600:
-                    this.ExactLevelUp(3, 3, false);
+                    ExactLevelUp(3, 3, false);
                     break;
                 case 1000:
-                    this.ExactLevelUp(3, 4, false);
+                    ExactLevelUp(3, 4, false);
                     break;
                 case 1500:
-                    this.ExactLevelUp(3, 5, false);
+                    ExactLevelUp(3, 5, false);
                     break;
                 case 2100:
-                    this.ExactLevelUp(3, 6, false);
+                    ExactLevelUp(3, 6, false);
                     break;
                 case 2800:
-                    this.ExactLevelUp(3, 7, false);
+                    ExactLevelUp(3, 7, false);
                     break;
                 case 3600:
-                    this.ExactLevelUp(3, 8, false);
+                    ExactLevelUp(3, 8, false);
                     break;
                 case 4500:
-                    this.ExactLevelUp(3, 9, false);
+                    ExactLevelUp(3, 9, false);
                     break;
                 case 5500:
-                    this.ExactLevelUp(3, 10, false);
+                    ExactLevelUp(3, 10, false);
                     break;
                 case 6600:
-                    this.ExactLevelUp(3, 11, false);
+                    ExactLevelUp(3, 11, false);
                     break;
                 case 7800:
-                    this.ExactLevelUp(3, 12, false);
+                    ExactLevelUp(3, 12, false);
                     break;
                 case 9100:
-                    this.ExactLevelUp(3, 13, false);
+                    ExactLevelUp(3, 13, false);
                     break;
                 case 10500:
-                    this.ExactLevelUp(3, 14, false);
+                    ExactLevelUp(3, 14, false);
                     break;
                 case 12500: //celebration or some shit for final level, yay
-                    this.ExactLevelUp(3, 15, true);
+                    ExactLevelUp(3, 15, true);
                     break;
                 default:
                     break;
@@ -10301,49 +10385,49 @@ namespace CalamityMod.CalPlayer
             switch (rogueLevel)
             {
                 case 100:
-                    this.ExactLevelUp(4, 1, false);
+                    ExactLevelUp(4, 1, false);
                     break;
                 case 300:
-                    this.ExactLevelUp(4, 2, false);
+                    ExactLevelUp(4, 2, false);
                     break;
                 case 600:
-                    this.ExactLevelUp(4, 3, false);
+                    ExactLevelUp(4, 3, false);
                     break;
                 case 1000:
-                    this.ExactLevelUp(4, 4, false);
+                    ExactLevelUp(4, 4, false);
                     break;
                 case 1500:
-                    this.ExactLevelUp(4, 5, false);
+                    ExactLevelUp(4, 5, false);
                     break;
                 case 2100:
-                    this.ExactLevelUp(4, 6, false);
+                    ExactLevelUp(4, 6, false);
                     break;
                 case 2800:
-                    this.ExactLevelUp(4, 7, false);
+                    ExactLevelUp(4, 7, false);
                     break;
                 case 3600:
-                    this.ExactLevelUp(4, 8, false);
+                    ExactLevelUp(4, 8, false);
                     break;
                 case 4500:
-                    this.ExactLevelUp(4, 9, false);
+                    ExactLevelUp(4, 9, false);
                     break;
                 case 5500:
-                    this.ExactLevelUp(4, 10, false);
+                    ExactLevelUp(4, 10, false);
                     break;
                 case 6600:
-                    this.ExactLevelUp(4, 11, false);
+                    ExactLevelUp(4, 11, false);
                     break;
                 case 7800:
-                    this.ExactLevelUp(4, 12, false);
+                    ExactLevelUp(4, 12, false);
                     break;
                 case 9100:
-                    this.ExactLevelUp(4, 13, false);
+                    ExactLevelUp(4, 13, false);
                     break;
                 case 10500:
-                    this.ExactLevelUp(4, 14, false);
+                    ExactLevelUp(4, 14, false);
                     break;
                 case 12500: //celebration or some shit for final level, yay
-                    this.ExactLevelUp(4, 15, true);
+                    ExactLevelUp(4, 15, true);
                     break;
                 default:
                     break;

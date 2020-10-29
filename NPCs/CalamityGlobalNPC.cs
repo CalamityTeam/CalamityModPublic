@@ -314,6 +314,19 @@ namespace CalamityMod.NPCs
 			NPCID.EaterofWorldsTail
 		};
 
+		public static List<int> DeathModeSplittingWormIDs = new List<int>
+		{
+			NPCID.DuneSplicerHead,
+			NPCID.DuneSplicerBody,
+			NPCID.DuneSplicerTail,
+			NPCID.DiggerHead,
+			NPCID.DiggerBody,
+			NPCID.DiggerTail,
+			NPCID.SeekerHead,
+			NPCID.SeekerBody,
+			NPCID.SeekerTail
+		};
+
 		public static List<int> DestroyerIDs = new List<int>
 		{
 			NPCID.TheDestroyer,
@@ -912,7 +925,7 @@ namespace CalamityMod.NPCs
                     break;
 
                 case NPCID.SkeletronPrime:
-                    npc.lifeMax = (int)(npc.lifeMax * 1.9);
+                    npc.lifeMax = (int)(npc.lifeMax * 1.45);
                     npc.npcSlots = 12f;
                     break;
 
@@ -937,6 +950,11 @@ namespace CalamityMod.NPCs
         {
             npc.value = (int)(npc.value * 1.5);
 
+			if (DeathModeSplittingWormIDs.Contains(npc.type))
+			{
+				if (CalamityWorld.death)
+					npc.lifeMax = (int)(npc.lifeMax * 0.5);
+			}
             if (npc.type == NPCID.Mothron)
             {
                 npc.scale = 1.25f;
@@ -965,7 +983,7 @@ namespace CalamityMod.NPCs
             }
             else if (npc.type == NPCID.Golem)
             {
-                npc.lifeMax = (int)(npc.lifeMax * 4.0);
+                npc.lifeMax = (int)(npc.lifeMax * 3.5);
                 npc.npcSlots = 64f;
             }
             else if (npc.type == NPCID.GolemHead)
@@ -974,7 +992,7 @@ namespace CalamityMod.NPCs
             }
             else if (npc.type == NPCID.GolemHeadFree)
             {
-                npc.lifeMax = (int)(npc.lifeMax * 1.25);
+                npc.lifeMax = (int)(npc.lifeMax * 1.7);
                 npc.dontTakeDamage = false;
             }
             else if (npc.type == NPCID.Plantera)
@@ -995,7 +1013,7 @@ namespace CalamityMod.NPCs
             {
                 npc.lifeMax = (int)(npc.lifeMax * 1.05);
             }
-            else if (npc.type == NPCID.SkeletronHead) // 8800 in expert, 6600 in rev, 4400 in death
+            else if (npc.type == NPCID.SkeletronHead)
             {
 				if (CalamityWorld.death)
 					npc.lifeMax = (int)(npc.lifeMax * 0.5);
@@ -1004,10 +1022,10 @@ namespace CalamityMod.NPCs
 
 				npc.npcSlots = 12f;
             }
-            else if (npc.type == NPCID.SkeletronHand) // 3120 in expert, 11232 in rev, 18720 in death
+            else if (npc.type == NPCID.SkeletronHand)
             {
 				if (CalamityWorld.death)
-					npc.lifeMax = (int)(npc.lifeMax * 0.75);
+					npc.lifeMax = (int)(npc.lifeMax * 0.65);
 				else
 					npc.lifeMax = (int)(npc.lifeMax * 0.9);
 			}
@@ -1065,7 +1083,7 @@ namespace CalamityMod.NPCs
                 }
                 else if (npc.type == NPCID.SkeletronPrime)
                 {
-					npc.lifeMax = (int)(npc.lifeMax * 1.45);
+					npc.lifeMax = (int)(npc.lifeMax * 1.2);
 					npc.npcSlots = 12f;
                 }
 				else if (npc.type <= NPCID.PrimeLaser && npc.type >= NPCID.PrimeCannon)
@@ -2288,7 +2306,7 @@ namespace CalamityMod.NPCs
 						{
 							case NPCID.FungiSpore:
 							case NPCID.Spore:
-								return CalamityGlobalAI.BuffedSporeAI(npc, mod, true);
+								return CalamityGlobalAI.BuffedSporeAI(npc, mod);
 						}
 						break;
 					case 73:
@@ -2341,7 +2359,7 @@ namespace CalamityMod.NPCs
 			else if (Main.expertMode)
 			{
 				if (npc.type == NPCID.FungiSpore || npc.type == NPCID.Spore)
-					return CalamityGlobalAI.BuffedSporeAI(npc, mod, false);
+					return CalamityGlobalAI.BuffedSporeAI(npc, mod);
 			}
 
             return true;
@@ -3680,7 +3698,16 @@ namespace CalamityMod.NPCs
                     }
                 }
             }
-        }
+
+			if (spawnInfo.playerSafe)
+				return;
+
+			if (!Main.hardMode && spawnInfo.player.ZoneUnderworldHeight)
+			{
+				if (!NPC.AnyNPCs(NPCID.VoodooDemon))
+					pool[NPCID.VoodooDemon] = SpawnCondition.Underworld.Chance * 1.5f;
+			}
+		}
         #endregion
 
         #region Drawing
@@ -4320,9 +4347,6 @@ namespace CalamityMod.NPCs
 			{
 				switch (npc.type)
 				{
-					case NPCID.DevourerHead:
-					case NPCID.DevourerBody:
-					case NPCID.DevourerTail:
 					case NPCID.DiggerHead:
 					case NPCID.DiggerBody:
 					case NPCID.DiggerTail:

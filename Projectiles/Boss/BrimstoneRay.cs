@@ -103,7 +103,31 @@ namespace CalamityMod.Projectiles.Boss
 			float amount = 0.5f; //0.5f
             projectile.localAI[1] = MathHelper.Lerp(projectile.localAI[1], num807, amount); //length of laser, linear interpolation
             Vector2 vector79 = projectile.Center + projectile.velocity * (projectile.localAI[1] - 14f);
-            for (int num809 = 0; num809 < 2; num809++)
+
+			// Fire brimstone darts along the laser
+			if (Main.npc[(int)projectile.ai[1]].ai[1] == 210f && projectile.owner == Main.myPlayer)
+			{
+				Vector2 velocity = projectile.velocity;
+				velocity.Normalize();
+				float distanceBetweenProjectiles = 96f;
+				Vector2 fireFrom = new Vector2(Main.npc[(int)projectile.ai[1]].Center.X + (Main.npc[(int)projectile.ai[1]].spriteDirection > 0 ? 34f : -34f), Main.npc[(int)projectile.ai[1]].Center.Y - 74f) + velocity * distanceBetweenProjectiles;
+				int projectileAmt = (int)(projectile.localAI[1] / distanceBetweenProjectiles);
+				int type = ModContent.ProjectileType<BrimstoneBarrage>();
+				int damage = projectile.GetProjectileDamage(ModContent.NPCType<BrimstoneElemental>());
+				for (int i = 0; i < projectileAmt; i++)
+				{
+					int totalProjectiles = 2;
+					float radians = MathHelper.TwoPi / totalProjectiles;
+					for (int j = 0; j < totalProjectiles; j++)
+					{
+						Vector2 projVelocity = projectile.velocity.RotatedBy(radians * j + MathHelper.PiOver2);
+						Projectile.NewProjectile(fireFrom, projVelocity, type, damage, 0f, Main.myPlayer, 1f, 0f);
+					}
+					fireFrom += velocity * distanceBetweenProjectiles;
+				}
+			}
+
+			for (int num809 = 0; num809 < 2; num809++)
             {
                 float num810 = projectile.velocity.ToRotation() + ((Main.rand.Next(2) == 1) ? -1f : 1f) * MathHelper.PiOver2;
                 float num811 = (float)Main.rand.NextDouble() * 2f + 2f;

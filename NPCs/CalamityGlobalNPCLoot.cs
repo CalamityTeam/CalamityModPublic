@@ -59,22 +59,18 @@ namespace CalamityMod.NPCs
 			{
 				switch (npc.type)
 				{
-					case NPCID.DevourerHead:
-					case NPCID.DevourerBody:
-					case NPCID.DevourerTail:
-						return SplittingWormLoot(npc, mod, 0);
 					case NPCID.DiggerHead:
 					case NPCID.DiggerBody:
 					case NPCID.DiggerTail:
-						return SplittingWormLoot(npc, mod, 1);
+						return SplittingWormLoot(npc, mod, 0);
 					case NPCID.SeekerHead:
 					case NPCID.SeekerBody:
 					case NPCID.SeekerTail:
-						return SplittingWormLoot(npc, mod, 2);
+						return SplittingWormLoot(npc, mod, 1);
 					case NPCID.DuneSplicerHead:
 					case NPCID.DuneSplicerBody:
 					case NPCID.DuneSplicerTail:
-						return SplittingWormLoot(npc, mod, 3);
+						return SplittingWormLoot(npc, mod, 2);
 					default:
 						break;
 				}
@@ -482,10 +478,9 @@ namespace CalamityMod.NPCs
 		{
 			switch (wormType)
 			{
-				case 0: return CheckSegments(NPCID.DevourerHead, NPCID.DevourerBody, NPCID.DevourerTail);
-				case 1: return CheckSegments(NPCID.DiggerHead, NPCID.DiggerBody, NPCID.DiggerTail);
-				case 2: return CheckSegments(NPCID.SeekerHead, NPCID.SeekerBody, NPCID.SeekerTail);
-				case 3: return CheckSegments(NPCID.DuneSplicerHead, NPCID.DuneSplicerBody, NPCID.DuneSplicerTail);
+				case 0: return CheckSegments(NPCID.DiggerHead, NPCID.DiggerBody, NPCID.DiggerTail);
+				case 1: return CheckSegments(NPCID.SeekerHead, NPCID.SeekerBody, NPCID.SeekerTail);
+				case 2: return CheckSegments(NPCID.DuneSplicerHead, NPCID.DuneSplicerBody, NPCID.DuneSplicerTail);
 				default:
 					break;
 			}

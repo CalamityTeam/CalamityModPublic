@@ -179,10 +179,8 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
 			// Enrage
 			float enrageScale = death ? 0.25f : 0f;
-			if ((npc.position.Y / 16f) < Main.worldSurface || (npc.position.Y / 16f) > (Main.maxTilesY - 200))
-				enrageScale += 0.5f;
 			if (!player.ZoneJungle)
-				enrageScale += 0.5f;
+				enrageScale += 1f;
 
 			if (enrageScale > 1f)
 				enrageScale = 1f;
@@ -242,21 +240,27 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     do num596 = MissileCountdown == 1 ? 4 : Main.rand.Next(4);
                     while (num596 == npc.ai[1] || num596 == 1);
 
-                    if (num596 == 0 && diagonalDash && distFromPlayer.Length() < 1800f)
-                    {
-                        switch (Main.rand.Next(3))
-                        {
-                            case 0:
-                                chargeDistance = 0;
-                                break;
-                            case 1:
-                                chargeDistance = 400;
-                                break;
-                            case 2:
-                                chargeDistance = -400;
-                                break;
-                        }
-                    }
+					if (num596 == 0 && diagonalDash && distFromPlayer.Length() < 1800f)
+					{
+						do
+						{
+							switch (Main.rand.Next(3))
+							{
+								case 0:
+									chargeDistance = 0;
+									break;
+								case 1:
+									chargeDistance = 400;
+									break;
+								case 2:
+									chargeDistance = -400;
+									break;
+							}
+						}
+						while (chargeDistance == npc.ai[3]);
+
+						npc.ai[3] = -chargeDistance;
+					}
                     npc.ai[0] = num596;
                     npc.ai[1] = 0f;
                     npc.ai[2] = 0f;
@@ -421,11 +425,10 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                         num1051 = -1;
 
 					if (npc.direction == num1051 && (Math.Abs(vectorCenter.X - player.Center.X) > num1050 || Math.Abs(vectorCenter.Y - player.Center.Y) > num1050))
-					{
 						npc.ai[2] = 1f;
-					}
+
 					if (enrageScale > 0 && npc.ai[2] == 1f)
-						npc.velocity *= 0.75f;
+						npc.velocity *= 0.95f;
 
 					if (npc.ai[2] != 1f)
                     {
@@ -468,7 +471,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                         num1052 += 0.05f;
                     }
 					if (enrageScale > 0)
-						npc.velocity *= 0.85f;
+						npc.velocity *= 0.95f;
 
 					if (Math.Abs(npc.velocity.X) + Math.Abs(npc.velocity.Y) < num1052)
                     {
@@ -697,21 +700,30 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                         num1071 *= num1073;
                         num1072 *= num1073;
 
-                        int type = Main.rand.NextBool(2) ? ModContent.ProjectileType<PlagueStingerGoliath>() : ModContent.ProjectileType<PlagueStingerGoliathV2>();
-                        if (expertMode)
-                        {
-                            if (Main.rand.NextBool(6))
-                                type = ModContent.ProjectileType<HiveBombGoliath>();
-                        }
-                        else
-                        {
-                            if (Main.rand.NextBool(9))
-                                type = ModContent.ProjectileType<HiveBombGoliath>();
-                        }
+                        int type = ModContent.ProjectileType<PlagueStingerGoliathV2>();
+						switch ((int)npc.ai[2])
+						{
+							case 0:
+							case 1:
+								break;
+							case 2:
+							case 3:
+								if (expertMode)
+									type = ModContent.ProjectileType<PlagueStingerGoliath>();
+								break;
+							case 4:
+								type = ModContent.ProjectileType<HiveBombGoliath>();
+								break;
+						}
+
 						int damage = npc.GetProjectileDamage(type);
 						Projectile.NewProjectile(vector121.X, vector121.Y, num1071, num1072, type, damage, 0f, Main.myPlayer, 0f, player.position.Y);
                     }
-                }
+
+					npc.ai[2] += 1f;
+					if (npc.ai[2] > 4f)
+						npc.ai[2] = 0f;
+				}
 
                 Movement(100f, 400f, 500f, player, enrageScale);
 
@@ -723,7 +735,8 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 				{
                     npc.ai[0] = -1f;
                     npc.ai[1] = 3f;
-                    npc.netUpdate = true;
+					npc.ai[2] = 0f;
+					npc.netUpdate = true;
                 }
             }
 
@@ -869,7 +882,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     if (npc.direction == num1051 && Math.Abs(vectorCenter.X - player.Center.X) > num1050)
                         npc.ai[2] = 1f;
 					if (enrageScale > 0 && npc.ai[2] == 1f)
-						npc.velocity *= 0.75f;
+						npc.velocity *= 0.95f;
 
 					if (npc.ai[2] != 1f)
                     {
@@ -911,7 +924,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                         num1052 += 0.05f;
                     }
 					if (enrageScale > 0)
-						npc.velocity *= 0.85f;
+						npc.velocity *= 0.95f;
 
 					if (Math.Abs(npc.velocity.X) + Math.Abs(npc.velocity.Y) < num1052)
                     {
@@ -992,8 +1005,8 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("PlaguebringerGoliathGore" + i), 2f);
                 npc.position.X = npc.position.X + (npc.width / 2);
                 npc.position.Y = npc.position.Y + (npc.height / 2);
-                npc.width = 100;
-                npc.height = 100;
+                npc.width = 200;
+                npc.height = 200;
                 npc.position.X = npc.position.X - (npc.width / 2);
                 npc.position.Y = npc.position.Y - (npc.height / 2);
                 for (int num621 = 0; num621 < 40; num621++)

@@ -26,11 +26,6 @@ namespace CalamityMod.Tiles.Ores
             Main.tileSpelunker[Type] = true;
         }
 
-        public override bool CanExplode(int i, int j)
-        {
-            return NPC.downedBoss2;
-        }
-
         public override void NumDust(int i, int j, bool fail, ref int num)
         {
             num = fail ? 1 : 3;

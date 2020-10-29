@@ -12,8 +12,7 @@ namespace CalamityMod.Items.SummonItems
         {
             DisplayName.SetDefault("Abombination");
             Tooltip.SetDefault("Calls in the airborne jungle abomination\n" +
-                "Summons the Plaguebringer Goliath\n" +
-				"The boss enrages in the open air of the surface");
+                "Summons the Plaguebringer Goliath");
         }
 
         public override void SetDefaults()

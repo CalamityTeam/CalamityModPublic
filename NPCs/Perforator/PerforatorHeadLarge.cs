@@ -58,6 +58,15 @@ namespace CalamityMod.NPCs.Perforator
 			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
 			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
 
+			float enrageScale = 0f;
+			if ((npc.position.Y / 16f) < Main.worldSurface)
+				enrageScale += 1f;
+			if (!Main.player[npc.target].ZoneCrimson)
+				enrageScale += 1f;
+
+			if (BossRushEvent.BossRushActive)
+				enrageScale = 0f;
+
 			// Percent life remaining
 			float lifeRatio = npc.life / (float)npc.lifeMax;
 
@@ -70,13 +79,15 @@ namespace CalamityMod.NPCs.Perforator
 			bool lungeUpward = burrow && npc.Calamity().newAI[1] == 1f;
 			bool quickFall = npc.Calamity().newAI[1] == 2f;
 
-			float speed = 14f;
-			float turnSpeed = 0.12f;
+			float speed = 8f;
+			float turnSpeed = 0.06f;
 
 			if (expertMode)
 			{
-				speed += death ? 6f * (1f - lifeRatio) : 4f * (1f - lifeRatio);
-				turnSpeed += death ? 0.06f * (1f - lifeRatio) : 0.04f * (1f - lifeRatio);
+				float velocityScale = (death ? 12f : 10f) * enrageScale;
+				speed += velocityScale * (1f - lifeRatio);
+				float accelerationScale = (death ? 0.12f : 0.1f) * enrageScale;
+				turnSpeed += accelerationScale * (1f - lifeRatio);
 			}
 
 			if (lungeUpward)
