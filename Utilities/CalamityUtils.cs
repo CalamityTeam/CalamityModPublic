@@ -3798,6 +3798,15 @@ namespace CalamityMod
 		}
 		#endregion
 
+		#region Mathematical Utilities
+		/// <summary>
+		/// Computes the Manhattan Distance between two points. This is typically used as a cheaper alternative to Euclidean Distance.
+		/// </summary>
+		/// <param name="a">The first point.</param>
+		/// <param name="b">The second point.</param>
+		public static float ManhattanDistance(this Vector2 a, Vector2 b) => Math.Abs(a.X - b.X) + Math.Abs(a.Y - b.Y);
+		#endregion
+
 		#region Miscellaneous Utilities
 		public static T[] ShuffleArray<T>(T[] array, Random rand = null)
 		{
