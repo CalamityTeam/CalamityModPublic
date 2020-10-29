@@ -125,7 +125,7 @@ namespace CalamityMod
             TarraHotKey = RegisterHotKey("Armor Set Bonus", "Y");
             AstralTeleportHotKey = RegisterHotKey("Astral Teleport", "P");
             AstralArcanumUIHotkey = RegisterHotKey("Astral Arcanum UI Toggle", "O");
-            MomentumCapacitatorHotkey = RegisterHotKey("Momentom Capacitater Effect", "U");
+            MomentumCapacitatorHotkey = RegisterHotKey("Momentom Capacitator Effect", "U");
             SandCloakHotkey = RegisterHotKey("Sand Cloak Effect", "C");
             SpectralVeilHotKey = RegisterHotKey("Spectral Veil Teleport", "Z");
             PlaguePackHotKey = RegisterHotKey("Booster Dash", "Q");

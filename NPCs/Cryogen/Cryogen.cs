@@ -723,15 +723,8 @@ namespace CalamityMod.NPCs.Cryogen
 					{
 						string key = "Mods.CalamityMod.CryogenBossText";
 						Color messageColor = Color.Cyan;
-						if (Main.netMode == NetmodeID.SinglePlayer)
-						{
-							Main.NewText(Language.GetTextValue(key), messageColor);
-						}
-						else if (Main.netMode == NetmodeID.Server)
-						{
-							NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-						}
-					}
+                        CalamityUtils.DisplayLocalizedText(key, messageColor);
+                    }
                 }
             }
 			else if (npc.ai[0] == 5f)
@@ -1111,10 +1104,7 @@ namespace CalamityMod.NPCs.Cryogen
                 Color messageColor = Color.LightSkyBlue;
                 WorldGenerationMethods.SpawnOre(ModContent.TileType<CryonicOre>(), 15E-05, .45f, .65f);
 
-                if (Main.netMode == NetmodeID.SinglePlayer)
-                    Main.NewText(Language.GetTextValue(key), messageColor);
-                else if (Main.netMode == NetmodeID.Server)
-                    NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
+                CalamityUtils.DisplayLocalizedText(key, messageColor);
             }
 
             // Mark Cryogen as dead

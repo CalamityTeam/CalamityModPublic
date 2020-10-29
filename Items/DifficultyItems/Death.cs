@@ -67,28 +67,14 @@ namespace CalamityMod.Items.DifficultyItems
                 CalamityWorld.death = true;
                 string key = "Mods.CalamityMod.DeathText";
                 Color messageColor = Color.Crimson;
-                if (Main.netMode == NetmodeID.SinglePlayer)
-                {
-                    Main.NewText(Language.GetTextValue(key), messageColor);
-                }
-                else if (Main.netMode == NetmodeID.Server)
-                {
-                    NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-                }
+                CalamityUtils.DisplayLocalizedText(key, messageColor);
             }
             else
             {
                 CalamityWorld.death = false;
                 string key = "Mods.CalamityMod.DeathText2";
                 Color messageColor = Color.Crimson;
-                if (Main.netMode == NetmodeID.SinglePlayer)
-                {
-                    Main.NewText(Language.GetTextValue(key), messageColor);
-                }
-                else if (Main.netMode == NetmodeID.Server)
-                {
-                    NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-                }
+                CalamityUtils.DisplayLocalizedText(key, messageColor);
             }
             CalamityWorld.DoGSecondStageCountdown = 0;
 

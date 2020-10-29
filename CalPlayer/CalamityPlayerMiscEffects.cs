@@ -485,23 +485,23 @@ namespace CalamityMod.CalPlayer
 				}
 			}
 
-            // Acid rain droplets
-            if (player.whoAmI == Main.myPlayer)
-            {
-                if (CalamityWorld.rainingAcid && modPlayer.ZoneSulphur && !CalamityPlayer.areThereAnyDamnBosses && player.Center.Y < Main.worldSurface * 16f + 800f)
-                {
-                    int slimeRainRate = (int)(MathHelper.Clamp(Main.invasionSize * 0.4f, 13.5f, 50) * 2.25);
-                    Vector2 spawnPoint = new Vector2(player.Center.X + Main.rand.Next(-1000, 1001), player.Center.Y - Main.rand.Next(700, 801));
+			// Acid rain droplets
+			if (player.whoAmI == Main.myPlayer)
+			{
+				if (CalamityWorld.rainingAcid && modPlayer.ZoneSulphur && !CalamityPlayer.areThereAnyDamnBosses && player.Center.Y < Main.worldSurface * 16f + 800f)
+				{
+					int slimeRainRate = (int)(MathHelper.Clamp(Main.invasionSize * 0.4f, 13.5f, 50) * 2.25);
+					Vector2 spawnPoint = new Vector2(player.Center.X + Main.rand.Next(-1000, 1001), player.Center.Y - Main.rand.Next(700, 801));
 
-                    if (player.miscCounter % slimeRainRate == 0f)
-                    {
+					if (player.miscCounter % slimeRainRate == 0f)
+					{
 						if (CalamityWorld.downedAquaticScourge && !CalamityWorld.downedPolterghast && Main.rand.NextBool(12))
 						{
 							NPC.NewNPC((int)spawnPoint.X, (int)spawnPoint.Y, ModContent.NPCType<IrradiatedSlime>());
 						}
-                    }
-                }
-            }
+					}
+				}
+			}
 
 			//Hydrothermal blue smoke effects but it doesn't work epicccccc
 			if (player.whoAmI == Main.myPlayer)
@@ -520,8 +520,8 @@ namespace CalamityMod.CalPlayer
 				}
 			}
 
-            // Death Mode effects
-            modPlayer.caveDarkness = 0f;
+			// Death Mode effects
+			modPlayer.caveDarkness = 0f;
 			if (CalamityWorld.death)
 			{
 				if (player.whoAmI == Main.myPlayer)
@@ -672,6 +672,7 @@ namespace CalamityMod.CalPlayer
 										}
 									}
 
+									// Death Mode random lightning strikes
 									int randomFrequency2 = (int)(20f * frequencyMult);
 									if (CalamityWorld.rainingAcid && player.Calamity().ZoneSulphur)
 										randomFrequency2 = (int)(randomFrequency2 * 3.75);
@@ -685,41 +686,6 @@ namespace CalamityMod.CalPlayer
 											Vector2 velocity = Vector2.Normalize(direction) * 12f;
 											Projectile.NewProjectile(spawnPoint.X, spawnPoint.Y, 0f, velocity.Y, ModContent.ProjectileType<LightningMark>(), 0, 0f, player.whoAmI, 0f, 0f);
 										}
-									}
-								}
-							}
-							else
-							{
-								if (player.ZoneBeach && !modPlayer.ZoneSulphur)
-								{
-									if (player.miscCounter == 280 && Main.rand.NextBool(10) && player.ownedProjectileCounts[ProjectileID.Sharknado] < 1)
-									{
-										Main.PlaySound(SoundID.NPCDeath19, sharknadoSpawnPoint);
-										int y = (int)(sharknadoSpawnPoint.Y / 16f);
-										int x = (int)(sharknadoSpawnPoint.X / 16f);
-										int num333 = 100;
-										if (x < 10)
-											x = 10;
-										if (x > Main.maxTilesX - 10)
-											x = Main.maxTilesX - 10;
-										if (y < 10)
-											y = 10;
-										if (y > Main.maxTilesY - num333 - 10)
-											y = Main.maxTilesY - num333 - 10;
-
-										int spawnAreaY = Main.maxTilesY - y;
-										for (int j = y; j < y + spawnAreaY; j++)
-										{
-											Tile tile = Main.tile[x, j];
-											if ((tile.active() && Main.tileSolid[tile.type]) || tile.liquid >= 200)
-											{
-												y = j;
-												break;
-											}
-										}
-
-										int tornado = Projectile.NewProjectile(x * 16 + 8, y * 16 - 24, 0.01f, 0f, ProjectileID.Sharknado, 25, 4f, player.whoAmI, 16f, 15f);
-										Main.projectile[tornado].netUpdate = true;
 									}
 								}
 							}
@@ -1201,12 +1167,12 @@ namespace CalamityMod.CalPlayer
 				player.endurance += 0.05f;
 			}
 
-            // Hallowed Rune defense buff
-            if (modPlayer.hallowedDefense)
-            {
-                player.statDefense += 7;
-                player.endurance += 0.07f;
-            }
+			// Hallowed Rune defense buff
+			if (modPlayer.hallowedDefense)
+			{
+				player.statDefense += 7;
+				player.endurance += 0.07f;
+			}
 
 			if (modPlayer.kamiBoost)
 				player.allDamage += 0.15f;
@@ -1253,8 +1219,9 @@ namespace CalamityMod.CalPlayer
 							hasBuff == BuffID.Ichor || hasBuff == BuffID.Chilled || hasBuff == BuffID.BrokenArmor || hasBuff == BuffID.Weak ||
 							hasBuff == BuffID.Slow || hasBuff == BuffID.Confused || hasBuff == BuffID.Blackout || hasBuff == BuffID.Darkness)
 						{
+							// Every other frame, increase the buff timer by one frame. Thus, the buff lasts twice as long.
 							if (player.miscCounter % 2 == 0)
-								player.buffTime[l] *= 2;
+								player.buffTime[l] += 1;
 						}
 
 						switch (hasBuff)
@@ -2714,8 +2681,8 @@ namespace CalamityMod.CalPlayer
 				player.kbBuff = true;
 				if (modPlayer.titanBoost > 0)
 				{
-                    player.statDefense += 25;
-                    player.endurance += 0.1f;
+					player.statDefense += 25;
+					player.endurance += 0.1f;
 				}
 			}
 			else
@@ -3403,12 +3370,6 @@ namespace CalamityMod.CalPlayer
 					player.allDamage += 0.1f;
 			}
 
-			if (modPlayer.reaperToothNecklace)
-			{
-				if (player.statDefense > 0)
-					player.statDefense = (int)(player.statDefense * 0.75);
-			}
-
 			if (modPlayer.deepDiver)
 			{
 				player.allDamage += 0.15f;
@@ -3418,26 +3379,8 @@ namespace CalamityMod.CalPlayer
 
 			if (modPlayer.coreOfTheBloodGod)
 			{
-				player.endurance += 0.05f;
-				player.allDamage += 0.07f;
-				if (player.statDefense < 100)
-					player.allDamage += 0.15f;
-			}
-			else if (modPlayer.bloodflareCore)
-			{
-				if (player.statDefense < 100)
-					player.allDamage += 0.15f;
-
-				if (player.statLife <= (int)(player.statLifeMax2 * 0.15))
-				{
-					player.endurance += 0.1f;
-					player.allDamage += 0.2f;
-				}
-				else if (player.statLife <= (int)(player.statLifeMax2 * 0.5))
-				{
-					player.endurance += 0.05f;
-					player.allDamage += 0.1f;
-				}
+				player.endurance += 0.08f;
+				player.allDamage += 0.08f;
 			}
 
 			if (modPlayer.godSlayerThrowing)
@@ -3566,31 +3509,31 @@ namespace CalamityMod.CalPlayer
 			}
 
 			if (modPlayer.dukeScales)
-            {
+			{
 				player.buffImmune[ModContent.BuffType<SulphuricPoisoning>()] = true;
 				player.buffImmune[BuffID.Poisoned] = true;
 				player.buffImmune[BuffID.Venom] = true;
-                if (player.statLife <= (int)(player.statLifeMax2 * 0.75))
-                {
-                    player.allDamage += 0.06f;
+				if (player.statLife <= (int)(player.statLifeMax2 * 0.75))
+				{
+					player.allDamage += 0.06f;
 					modPlayer.AllCritBoost(3);
-                }
-                if (player.statLife <= (int)(player.statLifeMax2 * 0.5))
-                {
-                    player.allDamage += 0.06f;
+				}
+				if (player.statLife <= (int)(player.statLifeMax2 * 0.5))
+				{
+					player.allDamage += 0.06f;
 					modPlayer.AllCritBoost(3);
-                }
-                if (player.statLife <= (int)(player.statLifeMax2 * 0.25))
-                {
-                    player.allDamage += 0.06f;
+				}
+				if (player.statLife <= (int)(player.statLifeMax2 * 0.25))
+				{
+					player.allDamage += 0.06f;
 					modPlayer.AllCritBoost(3);
-                }
+				}
 				if (player.lifeRegen < 0)
-                {
-                    player.allDamage += 0.1f;
+				{
+					player.allDamage += 0.1f;
 					modPlayer.AllCritBoost(5);
-                }
-            }
+				}
+			}
 
 			if (modPlayer.auricSet && modPlayer.silvaMelee)
 			{
@@ -3875,9 +3818,9 @@ namespace CalamityMod.CalPlayer
 			if (modPlayer.prismaticLasers == 1)
 			{
 				//Spawn some dust since you can use it again
-                int dustAmt = 36;
-                for (int dustIndex = 0; dustIndex < dustAmt; dustIndex++)
-                {
+				int dustAmt = 36;
+				for (int dustIndex = 0; dustIndex < dustAmt; dustIndex++)
+				{
 					Color color = Utils.SelectRandom(Main.rand, new Color[]
 					{
 						new Color(255, 0, 0, 50), //Red
@@ -3893,14 +3836,14 @@ namespace CalamityMod.CalPlayer
 						new Color(255, 0, 255, 50), //Fuschia
 						new Color(255, 0, 128, 50) //Hot Pink
 					});
-                    Vector2 source = Vector2.Normalize(player.velocity) * new Vector2(player.width / 2f, player.height) * 0.75f;
-                    source = source.RotatedBy((dustIndex - (dustAmt / 2 - 1)) * MathHelper.TwoPi / dustAmt, default) + player.Center;
-                    Vector2 dustVel = source - player.Center;
-                    int dusty = Dust.NewDust(source + dustVel, 0, 0, 267, dustVel.X * 1f, dustVel.Y * 1f, 100, color, 1f);
-                    Main.dust[dusty].noGravity = true;
-                    Main.dust[dusty].noLight = true;
-                    Main.dust[dusty].velocity = dustVel;
-                }
+					Vector2 source = Vector2.Normalize(player.velocity) * new Vector2(player.width / 2f, player.height) * 0.75f;
+					source = source.RotatedBy((dustIndex - (dustAmt / 2 - 1)) * MathHelper.TwoPi / dustAmt, default) + player.Center;
+					Vector2 dustVel = source - player.Center;
+					int dusty = Dust.NewDust(source + dustVel, 0, 0, 267, dustVel.X * 1f, dustVel.Y * 1f, 100, color, 1f);
+					Main.dust[dusty].noGravity = true;
+					Main.dust[dusty].noLight = true;
+					Main.dust[dusty].velocity = dustVel;
+				}
 			}
 
 			if (modPlayer.theBee)
@@ -3939,6 +3882,38 @@ namespace CalamityMod.CalPlayer
 					(modPlayer.yInsignia ? 0.1 : 0) +
 					(modPlayer.badgeOfBraveryRare ? 0.2 : 0);
 			modPlayer.trueMeleeDamage += damageAdd;
+
+			// Intentionally at the end: Bloodflare Core's defense reduction (after all other boosting effects and whatnot)
+			// This defense still comes back over time if you take off Bloodflare Core while you're missing defense.
+			// However, removing the item means you won't get healed as the defense comes back.
+			ref int lostDef = ref modPlayer.bloodflareCoreLostDefense;
+			if (lostDef > 0)
+			{
+				// Defense regeneration occurs every four frames while defense is missing
+				if (player.miscCounter % 4 == 0)
+				{
+					--lostDef;
+					if (modPlayer.bloodflareCore)
+					{
+						player.statLife += 1;
+						player.HealEffect(1, false);
+
+						// Produce an implosion of blood themed dust so it's obvious an effect is occurring
+						for (int i = 0; i < 3; ++i)
+						{
+							Vector2 offset = Main.rand.NextVector2Unit() * Main.rand.NextFloat(23f, 33f);
+							Vector2 dustPos = player.Center + offset;
+							Vector2 dustVel = offset * -0.08f;
+							Dust d = Dust.NewDustDirect(dustPos, 0, 0, 90, 0.08f, 0.08f);
+							d.velocity = dustVel;
+							d.noGravity = true;
+						}
+					} 
+				}
+
+				// Actually apply the defense reduction
+				player.statDefense -= lostDef;
+			} 
 		}
 		#endregion
 
@@ -3995,12 +3970,6 @@ namespace CalamityMod.CalPlayer
 
 			if (modPlayer.corrEffigy)
 				player.endurance -= 0.2f;
-
-			if (modPlayer.reaperToothNecklace)
-			{
-				if (player.endurance > 0f)
-					player.endurance *= 0.75f;
-			}
 		}
 		#endregion
 

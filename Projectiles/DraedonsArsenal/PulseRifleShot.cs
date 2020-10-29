@@ -89,39 +89,20 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 			{
 				hasHit = true;
 
-				Vector2 vector35 = new Vector2(projectile.position.X + projectile.width * 0.5f, projectile.position.Y + projectile.height * 0.5f);
-				float num474 = 600f;
-
 				int alreadyTargetedNPCType = 0;
 				if (projectile.ai[1] > 0f)
 					alreadyTargetedNPCType = (int)projectile.ai[0];
 
 				for (int i = 0; i < Main.maxNPCs; i++)
 				{
-					if (Main.npc[i].CanBeChasedBy(projectile, false) && Collision.CanHit(projectile.Center, 1, 1, Main.npc[i].Center, 1, 1))
+					if (!Main.npc[i].CanBeChasedBy(projectile, false) || !Collision.CanHit(projectile.Center, 1, 1, Main.npc[i].Center, 1, 1))
+						continue;
+
+					if (alreadyTargetedNPCType != Main.npc[i].whoAmI &&
+						projectile.Center.ManhattanDistance(Main.npc[i].Center) < 600f)
 					{
-						if (alreadyTargetedNPCType != Main.npc[i].whoAmI)
-						{
-							float num476 = Main.npc[i].position.X + (Main.npc[i].width / 2);
-							float num477 = Main.npc[i].position.Y + (Main.npc[i].height / 2);
-
-							float num478 = Math.Abs(projectile.position.X + (projectile.width / 2) - num476) + Math.Abs(projectile.position.Y + (projectile.height / 2) - num477);
-							if (num478 < num474)
-							{
-								num474 = num478;
-
-								float num484 = num476 - vector35.X;
-								float num485 = num477 - vector35.Y;
-								float num486 = (float)Math.Sqrt(num484 * num484 + num485 * num485);
-
-								num486 = 2f / num486;
-								num484 *= num486;
-								num485 *= num486;
-
-								Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, num484, num485, projectile.type, projectile.damage / 2, 0f, projectile.owner, target.whoAmI, projectile.ai[1] + 1f);
-								break;
-							}
-						}
+						Projectile.NewProjectile(projectile.Center, projectile.DirectionTo(Main.npc[i].Center) * 2f, projectile.type, projectile.damage / 2, 0f, projectile.owner, target.whoAmI, projectile.ai[1] + 1f);
+						break;
 					}
 				}
 			}

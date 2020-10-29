@@ -43,7 +43,7 @@ namespace CalamityMod.Schematics
 		#endregion
 
 		#region Place Schematic
-		public static void PlaceSchematic<T>(string name, Point pos, PlacementAnchorType anchorType, ref bool specialCondition, T chestDelegate = null) where T : Delegate
+		public static void PlaceSchematic<T>(string name, Point pos, SchematicAnchor anchorType, ref bool specialCondition, T chestDelegate = null) where T : Delegate
 		{
 			// If no schematic exists with this name, cancel with a helpful log message.
 			if (!TileMaps.ContainsKey(name))
@@ -67,28 +67,41 @@ namespace CalamityMod.Schematics
 			int height = schematic.GetLength(1);
 
 			// Calculate the appropriate location to start laying down schematic tiles.
-			// TopLeft is the default because anchoring things at their top-left corner is the default Terraria behavior.
-			// This is why it does nothing.
 			int cornerX = pos.X;
 			int cornerY = pos.Y;
 			switch (anchorType)
 			{
-				case PlacementAnchorType.TopRight:
-					cornerX += width;
-					break;
-				case PlacementAnchorType.Center:
-					cornerX += width / 2;
-					cornerY += height / 2;
-					break;
-				case PlacementAnchorType.BottomLeft:
-					cornerY += height;
-					break;
-				case PlacementAnchorType.BottomRight:
-					cornerX += width;
-					cornerY += height;
-					break;
-				case PlacementAnchorType.TopLeft:
+				case SchematicAnchor.TopLeft: // Provided point is top-left corner = No change
+				case SchematicAnchor.Default: // This is also default behavior
 				default:
+					break;
+				case SchematicAnchor.TopCenter: // Provided point is top center = Top-left corner is 1/2 width to the left
+					cornerX -= width / 2;
+					break;
+				case SchematicAnchor.TopRight: // Provided point is top-right corner = Top-left corner is 1 width to the left
+					cornerX -= width;
+					break;
+				case SchematicAnchor.CenterLeft: // Provided point is left center: Top-left corner is 1/2 height above
+					cornerY -= height / 2;
+					break;
+				case SchematicAnchor.Center: // Provided point is center = Top-left corner is 1/2 width and 1/2 height up-left
+					cornerX -= width / 2;
+					cornerY -= height / 2;
+					break;
+				case SchematicAnchor.CenterRight: // Provided point is right center: Top-left corner is 1 width and 1/2 height up-left
+					cornerX -= width;
+					cornerY -= height / 2;
+					break;
+				case SchematicAnchor.BottomLeft: // Provided point is bottom-left corner = Top-left corner is 1 height above
+					cornerY -= height;
+					break;
+				case SchematicAnchor.BottomCenter: // Provided point is bottom center: Top-left corner is 1/2 width and 1 height up-left
+					cornerX -= width / 2;
+					cornerY -= height;
+					break;
+				case SchematicAnchor.BottomRight: // Provided point is bottom-right corner = Top-left corner is 1 width to the left and 1 height above
+					cornerX -= width;
+					cornerY -= height;
 					break;
 			}
 

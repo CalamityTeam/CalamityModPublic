@@ -512,8 +512,6 @@ namespace CalamityMod.Schematics
 						gz.CopyTo(stream);
 				else
 					fileInputStream.CopyTo(stream);
-
-				CalamityMod.Instance.Logger.Warn($"{(compression ? "Compressed" : "Uncompressed")} stream of length {stream.Length} loaded");
 				buffer = stream.ToArray();
 			}
 

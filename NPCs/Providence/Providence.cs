@@ -947,10 +947,7 @@ namespace CalamityMod.NPCs.Providence
 						string key = "Mods.CalamityMod.ProfanedBossText";
 						Color messageColor = Color.Orange;
 
-						if (Main.netMode == NetmodeID.SinglePlayer)
-							Main.NewText(Language.GetTextValue(key), messageColor);
-						else if (Main.netMode == NetmodeID.Server)
-							NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
+						CalamityUtils.DisplayLocalizedText(key, messageColor);
 					}
 
 					// Inflict Icarus Folly
@@ -1336,17 +1333,9 @@ namespace CalamityMod.NPCs.Providence
 
                 WorldGenerationMethods.SpawnOre(ModContent.TileType<UelibloomOre>(), 15E-05, .4f, .8f);
 
-                if (Main.netMode == NetmodeID.SinglePlayer)
-                {
-                    Main.NewText(Language.GetTextValue(key2), messageColor2);
-                    Main.NewText(Language.GetTextValue(key3), messageColor3);
-                }
-                else if (Main.netMode == NetmodeID.Server)
-                {
-                    NetMessage.BroadcastChatMessage(NetworkText.FromKey(key2), messageColor2);
-                    NetMessage.BroadcastChatMessage(NetworkText.FromKey(key3), messageColor3);
-                }
-            }
+				CalamityUtils.DisplayLocalizedText(key2, messageColor2);
+				CalamityUtils.DisplayLocalizedText(key3, messageColor3);
+			}
 
 			if (challenge)
 			{

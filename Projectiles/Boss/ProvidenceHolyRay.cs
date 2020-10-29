@@ -45,6 +45,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void AI()
         {
+			bool scissorLasers = CalamityWorld.revenge || !Main.dayTime || BossRushEvent.BossRushActive;
             Vector2? vector78 = null;
 
             if (projectile.velocity.HasNaNs() || projectile.velocity == Vector2.Zero)
@@ -67,13 +68,13 @@ namespace CalamityMod.Projectiles.Boss
 
             float num801 = 1f;
             projectile.localAI[0] += 1f;
-            if (projectile.localAI[0] >= ((CalamityWorld.revenge || BossRushEvent.BossRushActive) ? 100f : 180f))
+            if (projectile.localAI[0] >= (scissorLasers ? 100f : 180f))
             {
                 projectile.Kill();
                 return;
             }
 
-            projectile.scale = (float)Math.Sin(projectile.localAI[0] * MathHelper.Pi / ((CalamityWorld.revenge || BossRushEvent.BossRushActive) ? 100f : 180f)) * 10f * num801;
+            projectile.scale = (float)Math.Sin(projectile.localAI[0] * MathHelper.Pi / (scissorLasers ? 100f : 180f)) * 10f * num801;
             if (projectile.scale > num801)
             {
                 projectile.scale = num801;

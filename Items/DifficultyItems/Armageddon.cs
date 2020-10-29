@@ -65,14 +65,7 @@ namespace CalamityMod.Items.DifficultyItems
 
             string key = CalamityWorld.armageddon ? "Mods.CalamityMod.ArmageddonText" : "Mods.CalamityMod.ArmageddonText2";
             Color messageColor = Color.Fuchsia;
-            if (Main.netMode == NetmodeID.SinglePlayer)
-            {
-                Main.NewText(Language.GetTextValue(key), messageColor);
-            }
-            else if (Main.netMode == NetmodeID.Server)
-            {
-                NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-            }
+            CalamityUtils.DisplayLocalizedText(key, messageColor);
 
             CalamityNetcode.SyncWorld();
 

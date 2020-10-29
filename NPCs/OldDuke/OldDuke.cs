@@ -70,12 +70,16 @@ namespace CalamityMod.NPCs.OldDuke
 		{
 			writer.Write(npc.dontTakeDamage);
 			writer.Write(npc.localAI[0]);
+			writer.Write(npc.rotation);
+			writer.Write(npc.spriteDirection);
 		}
 
 		public override void ReceiveExtraAI(BinaryReader reader)
 		{
 			npc.dontTakeDamage = reader.ReadBoolean();
 			npc.localAI[0] = reader.ReadSingle();
+			npc.rotation = reader.ReadSingle();
+			npc.spriteDirection = reader.ReadInt32();
 		}
 
 		public override void AI()

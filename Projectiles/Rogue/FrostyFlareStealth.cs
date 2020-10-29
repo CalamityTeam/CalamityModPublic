@@ -121,10 +121,8 @@ namespace CalamityMod.Projectiles.Rogue
                         break;
                 }
             }
-            //Main.NewText("found " + flaresFound.ToString());
             if (flaresFound >= maxFlares && oldestFlare >= 0)
             {
-                //Main.NewText("killing flare " + oldestFlare.ToString());
                 Main.projectile[oldestFlare].Kill();
             }
         }

@@ -585,16 +585,9 @@ namespace CalamityMod.NPCs.DesertScourge
                 Color messageColor = Color.Aquamarine;
                 string key2 = "Mods.CalamityMod.SandstormTrigger";
                 Color messageColor2 = Color.PaleGoldenrod;
-                if (Main.netMode == NetmodeID.SinglePlayer)
-                {
-                    Main.NewText(Language.GetTextValue(key), messageColor);
-                    Main.NewText(Language.GetTextValue(key2), messageColor2);
-                }
-                else if (Main.netMode == NetmodeID.Server)
-                {
-                    NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-                    NetMessage.BroadcastChatMessage(NetworkText.FromKey(key2), messageColor2);
-                }
+
+                CalamityUtils.DisplayLocalizedText(key, messageColor);
+                CalamityUtils.DisplayLocalizedText(key2, messageColor2);
 
                 if (!Terraria.GameContent.Events.Sandstorm.Happening)
                     typeof(Terraria.GameContent.Events.Sandstorm).GetMethod("StartSandstorm", BindingFlags.Static | BindingFlags.NonPublic).Invoke(null, null);

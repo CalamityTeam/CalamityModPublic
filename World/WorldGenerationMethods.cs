@@ -190,10 +190,10 @@ namespace CalamityMod.World
                 PutItemInChest(ref chest, ItemID.GoldCoin, 1, 2);
             }
         }
-		#endregion
+        #endregion
 
-		#region Place Rox Shrine
-		public static void PlaceRoxShrine()
+        #region Place Rox Shrine
+        public static void PlaceRoxShrine()
         {
             while (!CalamityWorld.roxShrinePlaced)
             {
@@ -316,8 +316,8 @@ namespace CalamityMod.World
                         Main.tile[x, y].type == ModContent.TileType<HardenedAstralSand>() || Main.tile[x, y].type == ModContent.TileType<AstralIce>() ||
                         Main.tile[x, y].type == ModContent.TileType<AstralDirt>() || Main.tile[x, y].type == ModContent.TileType<AstralStone>() ||
                         Main.tile[x, y].type == ModContent.TileType<AstralGrass>() || Main.tile[x, y].type == ModContent.TileType<AstralSilt>() ||
-						Main.tile[x, y].type == ModContent.TileType<AstralFossil>() || Main.tile[x, y].type == ModContent.TileType<AstralSnow>() ||
-						Main.tile[x, y].type == ModContent.TileType<AstralClay>() || Main.tile[x, y].type == ModContent.TileType<AstralStone>()))
+                        Main.tile[x, y].type == ModContent.TileType<AstralFossil>() || Main.tile[x, y].type == ModContent.TileType<AstralSnow>() ||
+                        Main.tile[x, y].type == ModContent.TileType<AstralClay>() || Main.tile[x, y].type == ModContent.TileType<AstralStone>()))
                     {
                         astralTileCount++;
                         if (astralTileCount > astralTilesAllowed)
@@ -432,10 +432,7 @@ namespace CalamityMod.World
                             string key = "Mods.CalamityMod.AstralText";
                             Color messageColor = Color.Gold;
 
-                            if (Main.netMode == NetmodeID.SinglePlayer)
-                                Main.NewText(Language.GetTextValue(key), messageColor);
-                            else if (Main.netMode == NetmodeID.Server)
-                                NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
+                            CalamityUtils.DisplayLocalizedText(key, messageColor);
                             break;
                         }
                         break;
@@ -649,7 +646,7 @@ namespace CalamityMod.World
                     // Gauge the bumpiness of various potential locations.
                     // The least bumpy one will be selected as the place to spawn the monolith.
                     for (int tries = 0; tries < 30; tries++)
-					{
+                    {
                         int x = i + Main.rand.Next(-60, 61);
 
                         // Don't attempt to add duplicate keys.
@@ -658,7 +655,7 @@ namespace CalamityMod.World
 
                         float averageRelativeHeight = 0f;
                         for (int dx = -30; dx <= 30; dx++)
-						{
+                        {
                             WorldUtils.Find(new Point(x + dx, j - 180), Searches.Chain(new Searches.Down(360), new Conditions.IsSolid()), out Point result);
                             averageRelativeHeight += Math.Abs(result.Y - j);
                         }
@@ -694,8 +691,11 @@ namespace CalamityMod.World
 
                     // WorldGen.gen prevents NewItem from working, and thus prevents a bunch of dumb items from being spawned immediately and deleting the WoF/Aureus loot in the process.
                     WorldGen.gen = true;
+                    // Add the average height of a tree to the Y position to offset trees usually messing with the calculation.
+                    // Then also add 10 blocks because these things seem to always like to appear standing on the floor.
+                    int finalVerticalOffset = 18;
                     bool _ = true;
-                    SchematicManager.PlaceSchematic<Action<Chest>>("Astral Beacon", new Point(i, (int)height - 30), PlacementAnchorType.Center, ref _);
+                    SchematicManager.PlaceSchematic<Action<Chest>>("Astral Beacon", new Point(i, (int)height + finalVerticalOffset), SchematicAnchor.Center, ref _);
                     WorldGen.gen = false;
                 }
             }
@@ -910,10 +910,10 @@ namespace CalamityMod.World
                             case TileID.LeafBlock:
                             case TileID.Sunflower:
                                 WorldGen.KillTile(x, y);
-								if (Main.netMode == NetmodeID.MultiplayerClient)
-								{
-									NetMessage.SendData(MessageID.TileChange, -1, -1, null, 0, x, y);
-								}
+                                if (Main.netMode == NetmodeID.MultiplayerClient)
+                                {
+                                    NetMessage.SendData(MessageID.TileChange, -1, -1, null, 0, x, y);
+                                }
                                 break;
                             case TileID.LargePiles:
                                 if (tile.frameX <= 1170)
