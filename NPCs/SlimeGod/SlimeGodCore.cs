@@ -40,7 +40,7 @@ namespace CalamityMod.NPCs.SlimeGod
             npc.width = 44;
             npc.height = 44;
             npc.defense = 6;
-            npc.LifeMaxNERB(4000, 5000, 2500000);
+            npc.LifeMaxNERB(2000, 2500, 2500000);
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             NPCID.Sets.TrailCacheLength[npc.type] = 8;
@@ -503,7 +503,7 @@ namespace CalamityMod.NPCs.SlimeGod
             float num1372 = death ? 14f : revenge ? 11f : expertMode ? 8.5f : 6f;
             if (phase2)
             {
-                num1372 = revenge ? 14f : expertMode ? 12.5f : 11f;
+                num1372 = revenge ? 18f : expertMode ? 16f : 14f;
             }
             if (BossRushEvent.BossRushActive || player.gravDir == -1f)
             {
@@ -712,7 +712,7 @@ namespace CalamityMod.NPCs.SlimeGod
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(BuffID.VortexDebuff, 180, true);
+            player.AddBuff(BuffID.VortexDebuff, 150, true);
         }
     }
 }

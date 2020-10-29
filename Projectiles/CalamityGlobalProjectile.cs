@@ -212,7 +212,7 @@ namespace CalamityMod.Projectiles
                         projectile.localAI[1] = 1f;
                     }
 
-                    if (projectile.velocity.Length() < 18f)
+                    if (projectile.velocity.Length() < 14f)
                         projectile.velocity *= 1.0025f;
 
                     return false;
@@ -785,6 +785,12 @@ namespace CalamityMod.Projectiles
         {
             Player player = Main.player[projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
+
+			if (projectile.type == ProjectileID.RocketSkeleton && projectile.ai[1] == 1f)
+			{
+				if (projectile.velocity.Length() < 20f)
+					projectile.velocity *= 1.01f;
+			}
 
             if (defDamage == 0)
                 defDamage = projectile.damage;

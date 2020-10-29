@@ -57,16 +57,27 @@ namespace CalamityMod.NPCs.Perforator
 			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
 			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
 
+			float enrageScale = 0f;
+			if ((npc.position.Y / 16f) < Main.worldSurface)
+				enrageScale += 1f;
+			if (!Main.player[npc.target].ZoneCrimson)
+				enrageScale += 1f;
+
+			if (BossRushEvent.BossRushActive)
+				enrageScale = 0f;
+
 			// Percent life remaining
 			float lifeRatio = npc.life / (float)npc.lifeMax;
 
-			float speed = 16f;
-			float turnSpeed = 0.14f;
+			float speed = 8f;
+			float turnSpeed = 0.06f;
 
 			if (expertMode)
 			{
-				speed += death ? 2f * (1f - lifeRatio) : 1f - lifeRatio;
-				turnSpeed += death ? 0.02f * (1f - lifeRatio) : 0.01f * (1f - lifeRatio);
+				float velocityScale = (death ? 8f : 7f) * enrageScale;
+				speed += velocityScale * (1f - lifeRatio);
+				float accelerationScale = (death ? 0.08f : 0.07f) * enrageScale;
+				turnSpeed += accelerationScale * (1f - lifeRatio);
 			}
 
 			if (npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))
@@ -229,7 +240,7 @@ namespace CalamityMod.NPCs.Perforator
 				npc.Calamity().newAI[1] += 1f;
 
 				// Set velocity for when a new head spawns
-				npc.velocity = Vector2.Normalize(player.Center - npc.Center) * (num37 * (BossRushEvent.BossRushActive ? 0.8f : death ? 0.5f : 0.4f));
+				npc.velocity = Vector2.Normalize(player.Center - npc.Center) * (num37 * (BossRushEvent.BossRushActive ? 0.6f : death ? 0.3f : 0.2f));
 			}
 
 			if (!flag2)

@@ -145,9 +145,9 @@ namespace CalamityMod.NPCs.Ravager
 			}
 
 			Vector2 vector82 = npc.Center;
-			float distance = npc.ai[0] % 2f == 0f ? 360f : -360f;
+			float distance = npc.ai[0] % 2f == 0f ? 420f : -420f;
 			float num825 = player.Center.X + (fireProjectiles ? distance : 0f) - vector82.X;
-			float num826 = player.Center.Y + (fireProjectiles ? -180f : 360f) - vector82.Y;
+			float num826 = player.Center.Y + (fireProjectiles ? -210f : 420f) - vector82.Y;
 			float num827 = (float)Math.Sqrt(num825 * num825 + num826 * num826);
 			num827 = num823 / num827;
 			num825 *= num827;

@@ -526,60 +526,6 @@ namespace CalamityMod.CalPlayer
 			{
 				if (player.whoAmI == Main.myPlayer)
 				{
-					// Calculate underground darkness here. The effect is applied in CalamityMod.ModifyLightingBrightness.
-					Point point = player.Center.ToTileCoordinates();
-					if (point.Y > Main.worldSurface && !modPlayer.ZoneAbyss && !player.ZoneUnderworldHeight && !CalamityPlayer.areThereAnyDamnBosses)
-					{
-						// Darkness strength scales smoothly with how deep you are.
-						double totalUndergroundDepth = Main.maxTilesY - 200D - Main.worldSurface;
-						double playerUndergroundDepth = point.Y - Main.worldSurface;
-						double depthRatio = playerUndergroundDepth / totalUndergroundDepth;
-						int lightStrength = modPlayer.GetTotalLightStrength();
-
-						// In the last 50 blocks before hell, the darkness smoothly fades away.
-						float FadeAwayStart = (float)(1D - 50D / totalUndergroundDepth);
-						float darknessStrength = (float)(depthRatio / FadeAwayStart);
-						if (depthRatio > FadeAwayStart)
-						{
-							// Varies from 1.0 to 0.0 as depthRatio varies from FadeAwayStart to 1.0.
-							darknessStrength = MathHelper.Lerp(0f, 1f, (1f - (float)depthRatio) / (1f - FadeAwayStart));
-						}
-
-						// Reduce the power of cave darkness based on your light level. 5+ is enough to totally eliminate it.
-						switch (lightStrength)
-						{
-							case 0:
-								darknessStrength *= 0.75f;
-								break;
-							case 1:
-								darknessStrength *= 0.5f;
-								break;
-							case 2:
-								darknessStrength *= 0.25f;
-								break;
-							case 3:
-								darknessStrength *= 0.15f;
-								break;
-							case 4:
-								darknessStrength *= 0.05f;
-								break;
-							default:
-								darknessStrength = 0f;
-								break;
-						}
-						modPlayer.caveDarkness = darknessStrength;
-					}
-
-					// Immunity bools
-					bool hasMoltenSet = player.head == ArmorIDs.Head.MoltenHelmet && player.body == ArmorIDs.Body.MoltenBreastplate && player.legs == ArmorIDs.Legs.MoltenGreaves;
-
-					bool immunityToHotAndCold = hasMoltenSet || player.magmaStone || player.frostArmor || modPlayer.fBulwark || modPlayer.fBarrier ||
-						modPlayer.frostFlare || modPlayer.rampartOfDeities || modPlayer.cryogenSoul || modPlayer.snowman || modPlayer.blazingCore || modPlayer.permafrostsConcoction || modPlayer.profanedCrystalBuffs || modPlayer.coldDivinity || modPlayer.eGauntlet;
-
-					bool immunityToCold = player.HasBuff(BuffID.Campfire) || Main.campfire || player.resistCold || modPlayer.eskimoSet || player.buffImmune[BuffID.Frozen] || modPlayer.aAmpoule || player.HasBuff(BuffID.Inferno) || immunityToHotAndCold || modPlayer.externalColdImmunity;
-
-					bool immunityToHot = player.lavaImmune || player.lavaRose || player.lavaMax > 0 || immunityToHotAndCold || modPlayer.externalHeatImmunity;
-
 					// Thorn and spike effects
 					// 10 = crimson/corruption thorns, 17 = jungle thorns, 40 = dungeon spikes, 60 = temple spikes
 					Vector2 tileType;
@@ -606,27 +552,6 @@ namespace CalamityMod.CalPlayer
 							break;
 					}
 
-					// Astral effects
-					if (modPlayer.ZoneAstral)
-					{
-						player.gravity *= 0.75f;
-					}
-
-					// Space effects
-					if (player.InSpace())
-					{
-						if (Main.dayTime)
-						{
-							if (!immunityToHot)
-								player.AddBuff(BuffID.Burning, 2, false);
-						}
-						else
-						{
-							if (!immunityToCold)
-								player.AddBuff(BuffID.Frostburn, 2, false);
-						}
-					}
-
 					// Leech bleed
 					if (player.ZoneJungle && player.wet && !player.lavaWet && !player.honeyWet)
 					{
@@ -634,52 +559,153 @@ namespace CalamityMod.CalPlayer
 							player.AddBuff(BuffID.Bleeding, 300, false);
 					}
 
-					// Ice shards, lightning and sharknadoes
-					bool nearPillar =  player.PillarZone();
-					if (player.ZoneOverworldHeight && !BossRushEvent.BossRushActive && !CalamityPlayer.areThereAnyDamnBosses && !CalamityPlayer.areThereAnyDamnEvents && NPC.MoonLordCountdown == 0 && !player.InSpace())
+					if (!BossRushEvent.BossRushActive && !CalamityPlayer.areThereAnyDamnBosses && !CalamityPlayer.areThereAnyDamnEvents)
 					{
-						Vector2 sharknadoSpawnPoint = new Vector2(player.Center.X - Main.rand.Next(300, 701), player.Center.Y - Main.rand.Next(700, 801));
-						if (point.X > Main.maxTilesX / 2)
-							sharknadoSpawnPoint.X = player.Center.X + Main.rand.Next(300, 701);
+						// Astral effects
+						if (modPlayer.ZoneAstral)
+							player.gravity *= 0.75f;
 
-						if (Main.raining)
+						// Calculate underground darkness here. The effect is applied in CalamityMod.ModifyLightingBrightness.
+						Point point = player.Center.ToTileCoordinates();
+						if (point.Y > Main.worldSurface && !modPlayer.ZoneAbyss && !player.ZoneUnderworldHeight)
 						{
-							float frequencyMult = (1f - Main.cloudAlpha) * CalamityConfig.Instance.DeathWeatherMultiplier; // 3 to 0.055
+							// Darkness strength scales smoothly with how deep you are.
+							double totalUndergroundDepth = Main.maxTilesY - 200D - Main.worldSurface;
+							double playerUndergroundDepth = point.Y - Main.worldSurface;
+							double depthRatio = playerUndergroundDepth / totalUndergroundDepth;
+							int lightStrength = modPlayer.GetTotalLightStrength();
 
-							Vector2 spawnPoint = new Vector2(player.Center.X + Main.rand.Next(-1000, 1001), player.Center.Y - Main.rand.Next(700, 801));
-							Tile tileSafely = Framing.GetTileSafely((int)(spawnPoint.X / 16f), (int)(spawnPoint.Y / 16f));
-
-							if (player.ZoneSnow)
+							// In the last 50 blocks before hell, the darkness smoothly fades away.
+							float FadeAwayStart = (float)(1D - 50D / totalUndergroundDepth);
+							float darknessStrength = (float)(depthRatio / FadeAwayStart);
+							if (depthRatio > FadeAwayStart)
 							{
-								if (!tileSafely.active())
-								{
-									int divisor = (int)((Main.hardMode ? 50f : 60f) * frequencyMult);
-									float windVelocity = (float)Math.Sqrt(Math.Abs(Main.windSpeed)) * Math.Sign(Main.windSpeed) * (Main.cloudAlpha + 0.5f) * 25f + Main.rand.NextFloat() * 0.2f - 0.1f;
-									Vector2 velocity = new Vector2(windVelocity * 0.2f, 3f * Main.rand.NextFloat());
+								// Varies from 1.0 to 0.0 as depthRatio varies from FadeAwayStart to 1.0.
+								darknessStrength = MathHelper.Lerp(0f, 1f, (1f - (float)depthRatio) / (1f - FadeAwayStart));
+							}
 
-									if (player.miscCounter % divisor == 0 && Main.rand.NextBool(3))
-										Projectile.NewProjectile(spawnPoint, velocity, ModContent.ProjectileType<IceRain>(), 20, 0f, player.whoAmI, 2f, 0f);
+							// Reduce the power of cave darkness based on your light level. 5+ is enough to totally eliminate it.
+							switch (lightStrength)
+							{
+								case 0:
+									darknessStrength *= 0.75f;
+									break;
+								case 1:
+									darknessStrength *= 0.5f;
+									break;
+								case 2:
+									darknessStrength *= 0.25f;
+									break;
+								case 3:
+									darknessStrength *= 0.15f;
+									break;
+								case 4:
+									darknessStrength *= 0.05f;
+									break;
+								default:
+									darknessStrength = 0f;
+									break;
+							}
+							modPlayer.caveDarkness = darknessStrength;
+						}
+
+						// Ice shards, lightning and sharknadoes
+						bool nearPillar = player.PillarZone();
+						if (player.ZoneOverworldHeight && NPC.MoonLordCountdown == 0 && !player.InSpace())
+						{
+							Vector2 sharknadoSpawnPoint = new Vector2(player.Center.X - Main.rand.Next(300, 701), player.Center.Y - Main.rand.Next(700, 801));
+							if (point.X > Main.maxTilesX / 2)
+								sharknadoSpawnPoint.X = player.Center.X + Main.rand.Next(300, 701);
+
+							if (Main.raining)
+							{
+								float frequencyMult = (1f - Main.cloudAlpha) * CalamityConfig.Instance.DeathWeatherMultiplier; // 3 to 0.055
+
+								Vector2 spawnPoint = new Vector2(player.Center.X + Main.rand.Next(-1000, 1001), player.Center.Y - Main.rand.Next(700, 801));
+								Tile tileSafely = Framing.GetTileSafely((int)(spawnPoint.X / 16f), (int)(spawnPoint.Y / 16f));
+
+								if (player.ZoneSnow)
+								{
+									if (!tileSafely.active())
+									{
+										int divisor = (int)((Main.hardMode ? 50f : 60f) * frequencyMult);
+										float windVelocity = (float)Math.Sqrt(Math.Abs(Main.windSpeed)) * Math.Sign(Main.windSpeed) * (Main.cloudAlpha + 0.5f) * 25f + Main.rand.NextFloat() * 0.2f - 0.1f;
+										Vector2 velocity = new Vector2(windVelocity * 0.2f, 3f * Main.rand.NextFloat());
+
+										if (player.miscCounter % divisor == 0 && Main.rand.NextBool(3))
+											Projectile.NewProjectile(spawnPoint, velocity, ModContent.ProjectileType<IceRain>(), 20, 0f, player.whoAmI, 2f, 0f);
+									}
+								}
+								else
+								{
+									if (player.ZoneBeach && !modPlayer.ZoneSulphur)
+									{
+										int randomFrequency = (int)(50f * frequencyMult);
+										if (player.miscCounter == 280 && Main.rand.NextBool(randomFrequency) && player.ownedProjectileCounts[ProjectileID.Cthulunado] < 1)
+										{
+											Main.PlaySound(SoundID.NPCDeath19, (int)sharknadoSpawnPoint.X, (int)sharknadoSpawnPoint.Y);
+											int y = (int)(sharknadoSpawnPoint.Y / 16f);
+											int x = (int)(sharknadoSpawnPoint.X / 16f);
+											int yAdjust = 100;
+											if (x < 10)
+												x = 10;
+											if (x > Main.maxTilesX - 10)
+												x = Main.maxTilesX - 10;
+											if (y < 10)
+												y = 10;
+											if (y > Main.maxTilesY - yAdjust - 10)
+												y = Main.maxTilesY - yAdjust - 10;
+
+											int spawnAreaY = Main.maxTilesY - y;
+											for (int j = y; j < y + spawnAreaY; j++)
+											{
+												Tile tile = Main.tile[x, j];
+												if ((tile.active() && Main.tileSolid[tile.type]) || tile.liquid >= 200)
+												{
+													y = j;
+													break;
+												}
+											}
+
+											int tornado = Projectile.NewProjectile(x * 16 + 8, y * 16 - 24, 0f, 0f, ProjectileID.Cthulunado, 50, 4f, player.whoAmI, 16f, 24f);
+											Main.projectile[tornado].netUpdate = true;
+										}
+									}
+
+									int randomFrequency2 = (int)(20f * frequencyMult);
+									if (CalamityWorld.rainingAcid && player.Calamity().ZoneSulphur)
+										randomFrequency2 = (int)(randomFrequency2 * 3.75);
+									if (player.miscCounter % (Main.hardMode ? 90 : 120) == 0 && Main.rand.NextBool(randomFrequency2))
+									{
+										if (!tileSafely.active())
+										{
+											float randomVelocity = Main.rand.NextFloat() - 0.5f;
+											Vector2 fireTo = new Vector2(spawnPoint.X + 100f * randomVelocity, spawnPoint.Y + 900f);
+											Vector2 direction = fireTo - spawnPoint;
+											Vector2 velocity = Vector2.Normalize(direction) * 12f;
+											Projectile.NewProjectile(spawnPoint.X, spawnPoint.Y, 0f, velocity.Y, ModContent.ProjectileType<LightningMark>(), 0, 0f, player.whoAmI, 0f, 0f);
+										}
+									}
 								}
 							}
 							else
 							{
 								if (player.ZoneBeach && !modPlayer.ZoneSulphur)
 								{
-									int randomFrequency = (int)(50f * frequencyMult);
-									if (player.miscCounter == 280 && Main.rand.NextBool(randomFrequency) && player.ownedProjectileCounts[ProjectileID.Cthulunado] < 1)
+									if (player.miscCounter == 280 && Main.rand.NextBool(10) && player.ownedProjectileCounts[ProjectileID.Sharknado] < 1)
 									{
-										Main.PlaySound(SoundID.NPCDeath19, (int)sharknadoSpawnPoint.X, (int)sharknadoSpawnPoint.Y);
+										Main.PlaySound(SoundID.NPCDeath19, sharknadoSpawnPoint);
 										int y = (int)(sharknadoSpawnPoint.Y / 16f);
 										int x = (int)(sharknadoSpawnPoint.X / 16f);
-										int yAdjust = 100;
+										int num333 = 100;
 										if (x < 10)
 											x = 10;
 										if (x > Main.maxTilesX - 10)
 											x = Main.maxTilesX - 10;
 										if (y < 10)
 											y = 10;
-										if (y > Main.maxTilesY - yAdjust - 10)
-											y = Main.maxTilesY - yAdjust - 10;
+										if (y > Main.maxTilesY - num333 - 10)
+											y = Main.maxTilesY - num333 - 10;
 
 										int spawnAreaY = Main.maxTilesY - y;
 										for (int j = y; j < y + spawnAreaY; j++)
@@ -692,139 +718,114 @@ namespace CalamityMod.CalPlayer
 											}
 										}
 
-										int tornado = Projectile.NewProjectile(x * 16 + 8, y * 16 - 24, 0f, 0f, ProjectileID.Cthulunado, 50, 4f, player.whoAmI, 16f, 24f);
+										int tornado = Projectile.NewProjectile(x * 16 + 8, y * 16 - 24, 0.01f, 0f, ProjectileID.Sharknado, 25, 4f, player.whoAmI, 16f, 15f);
 										Main.projectile[tornado].netUpdate = true;
 									}
 								}
-
-								int randomFrequency2 = (int)(20f * frequencyMult);
-                                if (CalamityWorld.rainingAcid && player.Calamity().ZoneSulphur)
-                                    randomFrequency2 = (int)(randomFrequency2 * 3.75);
-                                if (player.miscCounter % (Main.hardMode ? 90 : 120) == 0 && Main.rand.NextBool(randomFrequency2))
-								{
-									if (!tileSafely.active())
-									{
-										float randomVelocity = Main.rand.NextFloat() - 0.5f;
-										Vector2 fireTo = new Vector2(spawnPoint.X + 100f * randomVelocity, spawnPoint.Y + 900f);
-										Vector2 direction = fireTo - spawnPoint;
-										Vector2 velocity = Vector2.Normalize(direction) * 12f;
-										Projectile.NewProjectile(spawnPoint.X, spawnPoint.Y, 0f, velocity.Y, ModContent.ProjectileType<LightningMark>(), 0, 0f, player.whoAmI, 0f, 0f);
-									}
-								}
 							}
 						}
-						else
+
+						// Immunity bools
+						bool hasMoltenSet = player.head == ArmorIDs.Head.MoltenHelmet && player.body == ArmorIDs.Body.MoltenBreastplate && player.legs == ArmorIDs.Legs.MoltenGreaves;
+
+						bool immunityToHotAndCold = hasMoltenSet || player.magmaStone || player.frostArmor || modPlayer.fBulwark || modPlayer.fBarrier ||
+							modPlayer.frostFlare || modPlayer.rampartOfDeities || modPlayer.cryogenSoul || modPlayer.snowman || modPlayer.blazingCore || modPlayer.permafrostsConcoction || modPlayer.profanedCrystalBuffs || modPlayer.coldDivinity || modPlayer.eGauntlet;
+
+						bool immunityToCold = player.HasBuff(BuffID.Campfire) || Main.campfire || player.resistCold || modPlayer.eskimoSet || player.buffImmune[BuffID.Frozen] || modPlayer.aAmpoule || player.HasBuff(BuffID.Inferno) || immunityToHotAndCold || modPlayer.externalColdImmunity;
+
+						bool immunityToHot = player.lavaImmune || player.lavaRose || player.lavaMax > 0 || immunityToHotAndCold || modPlayer.externalHeatImmunity;
+
+						// Space effects
+						if (player.InSpace())
 						{
-							if (player.ZoneBeach && !modPlayer.ZoneSulphur)
+							if (Main.dayTime)
 							{
-								if (player.miscCounter == 280 && Main.rand.NextBool(10) && player.ownedProjectileCounts[ProjectileID.Sharknado] < 1)
-								{
-									Main.PlaySound(SoundID.NPCDeath19, sharknadoSpawnPoint);
-									int y = (int)(sharknadoSpawnPoint.Y / 16f);
-									int x = (int)(sharknadoSpawnPoint.X / 16f);
-									int num333 = 100;
-									if (x < 10)
-										x = 10;
-									if (x > Main.maxTilesX - 10)
-										x = Main.maxTilesX - 10;
-									if (y < 10)
-										y = 10;
-									if (y > Main.maxTilesY - num333 - 10)
-										y = Main.maxTilesY - num333 - 10;
-
-									int spawnAreaY = Main.maxTilesY - y;
-									for (int j = y; j < y + spawnAreaY; j++)
-									{
-										Tile tile = Main.tile[x, j];
-										if ((tile.active() && Main.tileSolid[tile.type]) || tile.liquid >= 200)
-										{
-											y = j;
-											break;
-										}
-									}
-
-									int tornado = Projectile.NewProjectile(x * 16 + 8, y * 16 - 24, 0.01f, 0f, ProjectileID.Sharknado, 25, 4f, player.whoAmI, 16f, 15f);
-									Main.projectile[tornado].netUpdate = true;
-								}
+								if (!immunityToHot)
+									player.AddBuff(BuffID.Burning, 2, false);
+							}
+							else
+							{
+								if (!immunityToCold)
+									player.AddBuff(BuffID.Frostburn, 2, false);
 							}
 						}
-					}
 
-					// Cold timer
-					if (!player.behindBackWall && Main.raining && player.ZoneSnow && !immunityToCold && player.ZoneOverworldHeight)
-					{
-						bool affectedByColdWater = player.wet && !player.lavaWet && !player.honeyWet && !player.arcticDivingGear;
+						// Cold timer
+						if (!player.behindBackWall && Main.raining && player.ZoneSnow && !immunityToCold && player.ZoneOverworldHeight)
+						{
+							bool affectedByColdWater = player.wet && !player.lavaWet && !player.honeyWet && !player.arcticDivingGear;
 
-						player.AddBuff(ModContent.BuffType<DeathModeCold>(), 2, false);
+							player.AddBuff(ModContent.BuffType<DeathModeCold>(), 2, false);
 
-						modPlayer.deathModeBlizzardTime++;
-						if (affectedByColdWater)
 							modPlayer.deathModeBlizzardTime++;
-
-						if (modPlayer.deathModeUnderworldTime > 0)
-						{
-							modPlayer.deathModeUnderworldTime--;
 							if (affectedByColdWater)
+								modPlayer.deathModeBlizzardTime++;
+
+							if (modPlayer.deathModeUnderworldTime > 0)
+							{
 								modPlayer.deathModeUnderworldTime--;
-							if (modPlayer.deathModeUnderworldTime < 0)
-								modPlayer.deathModeUnderworldTime = 0;
+								if (affectedByColdWater)
+									modPlayer.deathModeUnderworldTime--;
+								if (modPlayer.deathModeUnderworldTime < 0)
+									modPlayer.deathModeUnderworldTime = 0;
+							}
 						}
-					}
-					else if (modPlayer.deathModeBlizzardTime > 0)
-					{
-						modPlayer.deathModeBlizzardTime--;
-						if (immunityToCold)
-							modPlayer.deathModeBlizzardTime--;
-						if (modPlayer.deathModeBlizzardTime < 0)
-							modPlayer.deathModeBlizzardTime = 0;
-					}
-
-					// Hot timer
-					if (player.ZoneUnderworldHeight && !immunityToHot)
-					{
-						bool affectedByHotLava = player.lavaWet;
-
-						player.AddBuff(ModContent.BuffType<DeathModeHot>(), 2, false);
-
-						modPlayer.deathModeUnderworldTime++;
-						if (affectedByHotLava)
-							modPlayer.deathModeUnderworldTime++;
-
-						if (modPlayer.deathModeBlizzardTime > 0)
+						else if (modPlayer.deathModeBlizzardTime > 0)
 						{
 							modPlayer.deathModeBlizzardTime--;
-							if (affectedByHotLava)
+							if (immunityToCold)
 								modPlayer.deathModeBlizzardTime--;
 							if (modPlayer.deathModeBlizzardTime < 0)
 								modPlayer.deathModeBlizzardTime = 0;
 						}
-					}
-					else if (modPlayer.deathModeUnderworldTime > 0)
-					{
-						modPlayer.deathModeUnderworldTime--;
-						if (immunityToHot)
+
+						// Hot timer
+						if (player.ZoneUnderworldHeight && !immunityToHot)
+						{
+							bool affectedByHotLava = player.lavaWet;
+
+							player.AddBuff(ModContent.BuffType<DeathModeHot>(), 2, false);
+
+							modPlayer.deathModeUnderworldTime++;
+							if (affectedByHotLava)
+								modPlayer.deathModeUnderworldTime++;
+
+							if (modPlayer.deathModeBlizzardTime > 0)
+							{
+								modPlayer.deathModeBlizzardTime--;
+								if (affectedByHotLava)
+									modPlayer.deathModeBlizzardTime--;
+								if (modPlayer.deathModeBlizzardTime < 0)
+									modPlayer.deathModeBlizzardTime = 0;
+							}
+						}
+						else if (modPlayer.deathModeUnderworldTime > 0)
+						{
 							modPlayer.deathModeUnderworldTime--;
-						if (modPlayer.deathModeUnderworldTime < 0)
-							modPlayer.deathModeUnderworldTime = 0;
+							if (immunityToHot)
+								modPlayer.deathModeUnderworldTime--;
+							if (modPlayer.deathModeUnderworldTime < 0)
+								modPlayer.deathModeUnderworldTime = 0;
+						}
+
+						// Cold effects
+						if (modPlayer.deathModeBlizzardTime > 1800)
+							player.AddBuff(BuffID.Frozen, 2, false);
+						if (modPlayer.deathModeBlizzardTime > 1980)
+							modPlayer.KillPlayer();
+
+						// Hot effects
+						if (modPlayer.deathModeUnderworldTime > 360)
+							player.AddBuff(BuffID.Weak, 2, false);
+						if (modPlayer.deathModeUnderworldTime > 720)
+							player.AddBuff(BuffID.Slow, 2, false);
+						if (modPlayer.deathModeUnderworldTime > 1080)
+							player.AddBuff(BuffID.OnFire, 2, false);
+						if (modPlayer.deathModeUnderworldTime > 1440)
+							player.AddBuff(BuffID.Confused, 2, false);
+						if (modPlayer.deathModeUnderworldTime > 1800)
+							player.AddBuff(BuffID.Burning, 2, false);
 					}
-
-					// Cold effects
-					if (modPlayer.deathModeBlizzardTime > 1800)
-						player.AddBuff(BuffID.Frozen, 2, false);
-					if (modPlayer.deathModeBlizzardTime > 1980)
-						modPlayer.KillPlayer();
-
-					// Hot effects
-					if (modPlayer.deathModeUnderworldTime > 360)
-						player.AddBuff(BuffID.Weak, 2, false);
-					if (modPlayer.deathModeUnderworldTime > 720)
-						player.AddBuff(BuffID.Slow, 2, false);
-					if (modPlayer.deathModeUnderworldTime > 1080)
-						player.AddBuff(BuffID.OnFire, 2, false);
-					if (modPlayer.deathModeUnderworldTime > 1440)
-						player.AddBuff(BuffID.Confused, 2, false);
-					if (modPlayer.deathModeUnderworldTime > 1800)
-						player.AddBuff(BuffID.Burning, 2, false);
 				}
 			}
 

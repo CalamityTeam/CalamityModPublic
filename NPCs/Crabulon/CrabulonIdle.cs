@@ -82,7 +82,7 @@ namespace CalamityMod.NPCs.Crabulon
 			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
             bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
 
-            npc.spriteDirection = npc.direction;
+			npc.spriteDirection = npc.direction;
 
 			// Percent life remaining
 			float lifeRatio = npc.life / (float)npc.lifeMax;
@@ -127,6 +127,15 @@ namespace CalamityMod.NPCs.Crabulon
             }
             else if (npc.timeLeft < 1800)
 				npc.timeLeft = 1800;
+
+			float enrageScale = 0f;
+			if ((npc.position.Y / 16f) < Main.worldSurface)
+				enrageScale += 1f;
+			if (!player.ZoneGlowshroom)
+				enrageScale += 1f;
+
+			if (BossRushEvent.BossRushActive)
+				enrageScale = 0f;
 
 			if (npc.ai[0] != 0f && npc.ai[0] < 3f)
             {
@@ -233,23 +242,23 @@ namespace CalamityMod.NPCs.Crabulon
             }
             else if (npc.ai[0] == 2f)
             {
-                float num823 = 1.25f;
-                bool flag51 = false;
+                float num823 = 1f;
                 if (phase2)
-                    num823 = 1.5f;
+                    num823 = 1.25f;
                 if (phase3)
-                    num823 = 2f;
+                    num823 = 1.75f;
 				if (death)
 					num823 += 2f * (1f - lifeRatio);
                 if (BossRushEvent.BossRushActive)
                     num823 = 12f;
                 if (npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))
                     num823 = 16f;
+				num823 += 2f * enrageScale;
 
-                if (Math.Abs(npc.Center.X - player.Center.X) < 50f)
-                {
+				bool flag51 = false;
+				if (Math.Abs(npc.Center.X - player.Center.X) < 50f)
                     flag51 = true;
-                }
+
                 if (flag51)
                 {
                     npc.velocity.X *= 0.9f;
@@ -509,6 +518,7 @@ namespace CalamityMod.NPCs.Crabulon
 							(expertMode ? 0.02f : 0f) +
 							(revenge ? 0.02f : 0f) +
 							(death ? 0.02f : 0f);
+						velocityX += 0.05f * enrageScale;
 
                         if (npc.direction < 0)
                             npc.velocity.X -= velocityX;
@@ -516,6 +526,7 @@ namespace CalamityMod.NPCs.Crabulon
                             npc.velocity.X += velocityX;
 
                         float num626 = BossRushEvent.BossRushActive ? 5f : 2.5f;
+						num626 += enrageScale;
                         if (revenge)
                         {
                             num626 += 1f;
@@ -556,7 +567,7 @@ namespace CalamityMod.NPCs.Crabulon
                     if ((npc.life + num660) < npc.localAI[0])
                     {
                         npc.localAI[0] = npc.life;
-                        int num661 = death ? 3 : expertMode ? Main.rand.Next(2, 4) : Main.rand.Next(1, 3);
+                        int num661 = death ? 3 : expertMode ? Main.rand.Next(2, 4) : 2;
                         for (int num662 = 0; num662 < num661; num662++)
                         {
                             int x = (int)(npc.position.X + Main.rand.Next(npc.width - 32));

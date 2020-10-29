@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Mounts
             mountData.flightTimeMax = 600;
             mountData.fatigueMax = 0;
             mountData.fallDamage = 0f;
-            mountData.runSpeed = 12f;
+            mountData.runSpeed = 10f;
             mountData.heightBoost = 44;
             mountData.acceleration = 0.2f;
             mountData.jumpHeight = 10;
