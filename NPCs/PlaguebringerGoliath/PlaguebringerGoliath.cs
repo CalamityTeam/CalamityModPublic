@@ -105,6 +105,8 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             writer.Write(despawnTimer);
             writer.Write(chargeDistance);
             writer.Write(charging);
+            for (int i = 0; i < 3; i++)
+                writer.Write(npc.Calamity().newAI[i]);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
@@ -116,6 +118,8 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             despawnTimer = reader.ReadInt32();
             chargeDistance = reader.ReadInt32();
             charging = reader.ReadBoolean();
+            for (int i = 0; i < 3; i++)
+                npc.Calamity().newAI[i] = reader.ReadSingle();
         }
 
         public override void AI()
@@ -264,6 +268,12 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     npc.ai[0] = num596;
                     npc.ai[1] = 0f;
                     npc.ai[2] = 0f;
+                    npc.netUpdate = true;
+
+                    // Prevent netUpdate from being blocked by the spam counter.
+                    // A phase switch sync is a critical operation that must be synced.
+                    if (npc.netSpam >= 60)
+                        npc.netSpam = 59;
                 }
             }
 
