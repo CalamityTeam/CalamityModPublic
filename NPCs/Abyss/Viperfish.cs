@@ -99,11 +99,6 @@ namespace CalamityMod.NPCs.Abyss
         {
             player.AddBuff(BuffID.Bleeding, 120, true);
             player.AddBuff(ModContent.BuffType<CrushDepth>(), 120, true);
-            if (CalamityWorld.revenge)
-            {
-                player.AddBuff(ModContent.BuffType<MarkedforDeath>(), 90);
-                player.AddBuff(ModContent.BuffType<Horror>(), 90, true);
-            }
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)

@@ -45,6 +45,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void AI()
         {
+			bool scissorLasers = CalamityWorld.revenge || !Main.dayTime || BossRushEvent.BossRushActive;
             Vector2? vector78 = null;
 
             if (projectile.velocity.HasNaNs() || projectile.velocity == Vector2.Zero)
@@ -67,13 +68,13 @@ namespace CalamityMod.Projectiles.Boss
 
             float num801 = 1f;
             projectile.localAI[0] += 1f;
-            if (projectile.localAI[0] >= ((CalamityWorld.revenge || BossRushEvent.BossRushActive) ? 100f : 180f))
+            if (projectile.localAI[0] >= (scissorLasers ? 100f : 180f))
             {
                 projectile.Kill();
                 return;
             }
 
-            projectile.scale = (float)Math.Sin(projectile.localAI[0] * 3.14159274f / ((CalamityWorld.revenge || BossRushEvent.BossRushActive) ? 100f : 180f)) * 10f * num801;
+            projectile.scale = (float)Math.Sin(projectile.localAI[0] * MathHelper.Pi / (scissorLasers ? 100f : 180f)) * 10f * num801;
             if (projectile.scale > num801)
             {
                 projectile.scale = num801;
@@ -81,7 +82,7 @@ namespace CalamityMod.Projectiles.Boss
 
             float num804 = projectile.velocity.ToRotation();
             num804 += projectile.ai[0];
-            projectile.rotation = num804 - 1.57079637f;
+            projectile.rotation = num804 - MathHelper.PiOver2;
             projectile.velocity = num804.ToRotationVector2();
 
             float num805 = 3f; //3f
@@ -114,7 +115,7 @@ namespace CalamityMod.Projectiles.Boss
             Vector2 vector79 = projectile.Center + projectile.velocity * (projectile.localAI[1] - 14f);
             for (int num809 = 0; num809 < 2; num809++)
             {
-                float num810 = projectile.velocity.ToRotation() + ((Main.rand.Next(2) == 1) ? -1f : 1f) * 1.57079637f;
+                float num810 = projectile.velocity.ToRotation() + ((Main.rand.Next(2) == 1) ? -1f : 1f) * MathHelper.PiOver2;
                 float num811 = (float)Main.rand.NextDouble() * 2f + 2f;
                 Vector2 vector80 = new Vector2((float)Math.Cos(num810) * num811, (float)Math.Sin(num810) * num811);
                 int num812 = Dust.NewDust(vector79, 0, 0, dustType, vector80.X, vector80.Y, 0, default, 1f);
@@ -124,7 +125,7 @@ namespace CalamityMod.Projectiles.Boss
 
             if (Main.rand.NextBool(5))
             {
-                Vector2 value29 = projectile.velocity.RotatedBy(1.5707963705062866, default) * ((float)Main.rand.NextDouble() - 0.5f) * projectile.width;
+                Vector2 value29 = projectile.velocity.RotatedBy(MathHelper.PiOver2, default) * ((float)Main.rand.NextDouble() - 0.5f) * projectile.width;
                 int num813 = Dust.NewDust(vector79 + value29 - Vector2.One * 4f, 8, 8, dustType, 0f, 0f, 100, default, 1.5f);
                 Dust dust = Main.dust[num813];
                 dust.velocity *= 0.5f;

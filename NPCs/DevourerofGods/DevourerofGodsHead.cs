@@ -143,10 +143,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 
                     string key = "Mods.CalamityMod.EdgyBossText";
                     Color messageColor = Color.Cyan;
-                    if (Main.netMode == NetmodeID.SinglePlayer)
-                        Main.NewText(Language.GetTextValue(key), messageColor);
-                    else if (Main.netMode == NetmodeID.Server)
-                        NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
+                    CalamityUtils.DisplayLocalizedText(key, messageColor);
 
                     halfLife = true;
                 }
@@ -445,7 +442,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                     num189 = homingTurnSpeed;
                 }
 
-				if (revenge)
+				if (expertMode)
 				{
 					num188 += Vector2.Distance(player.Center, npc.Center) * 0.005f * (1f - lifeRatio);
 					num189 += Vector2.Distance(player.Center, npc.Center) * 0.0001f * (1f - lifeRatio);
@@ -579,10 +576,6 @@ namespace CalamityMod.NPCs.DevourerofGods
 					fallSpeed += 3.5f * (1f - lifeRatio);
 					speed += 0.08f * (1f - lifeRatio);
 					turnSpeed += 0.12f * (1f - lifeRatio);
-				}
-
-				if (revenge)
-				{
 					speed += Vector2.Distance(player.Center, npc.Center) * 0.00005f * (1f - lifeRatio);
 					turnSpeed += Vector2.Distance(player.Center, npc.Center) * 0.00005f * (1f - lifeRatio);
 				}
@@ -880,10 +873,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             {
                 string key = "Mods.CalamityMod.EdgyBossText2";
                 Color messageColor = Color.Cyan;
-                if (Main.netMode == NetmodeID.SinglePlayer)
-                    Main.NewText(Language.GetTextValue(key), messageColor);
-                else if (Main.netMode == NetmodeID.Server)
-                    NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
+                CalamityUtils.DisplayLocalizedText(key, messageColor);
                 return false;
             }
             return true;

@@ -91,6 +91,18 @@ namespace CalamityMod.NPCs.DesertScourge
 			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
 			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
 
+			if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)
+				npc.TargetClosest(true);
+
+			Player player = Main.player[npc.target];
+
+			float enrageScale = 0f;
+			if (!player.ZoneDesert)
+				enrageScale += 2f;
+
+			if (BossRushEvent.BossRushActive)
+				enrageScale = 0f;
+
 			// Percent life remaining
 			float lifeRatio = npc.life / (float)npc.lifeMax;
 
@@ -108,8 +120,10 @@ namespace CalamityMod.NPCs.DesertScourge
 
 			if (expertMode)
 			{
-				speed += death ? 9f * (1f - lifeRatio) : 6f * (1f - lifeRatio);
-				turnSpeed += death ? 0.09f * (1f - lifeRatio) : 0.06f * (1f - lifeRatio);
+				float velocityScale = (death ? 9f : 6f) * enrageScale;
+				speed += velocityScale * (1f - lifeRatio);
+				float accelerationScale = (death ? 0.09f : 0.06f) * enrageScale;
+				turnSpeed += accelerationScale * (1f - lifeRatio);
 			}
 
 			if (lungeUpward)
@@ -132,11 +146,6 @@ namespace CalamityMod.NPCs.DesertScourge
 
 			if (npc.ai[3] > 0f)
                 npc.realLife = (int)npc.ai[3];
-
-            if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)
-                npc.TargetClosest(true);
-
-			Player player = Main.player[npc.target];
 
 			npc.dontTakeDamage = !player.ZoneDesert && !BossRushEvent.BossRushActive;
 
@@ -211,6 +220,8 @@ namespace CalamityMod.NPCs.DesertScourge
 			{
 				Rectangle rectangle12 = new Rectangle((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height);
 				int num954 = (npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive)) ? 500 : 1000;
+				if (enrageScale > 0f)
+					num954 = 200;
 				if (BossRushEvent.BossRushActive)
 					num954 /= 2;
 
@@ -574,16 +585,9 @@ namespace CalamityMod.NPCs.DesertScourge
                 Color messageColor = Color.Aquamarine;
                 string key2 = "Mods.CalamityMod.SandstormTrigger";
                 Color messageColor2 = Color.PaleGoldenrod;
-                if (Main.netMode == NetmodeID.SinglePlayer)
-                {
-                    Main.NewText(Language.GetTextValue(key), messageColor);
-                    Main.NewText(Language.GetTextValue(key2), messageColor2);
-                }
-                else if (Main.netMode == NetmodeID.Server)
-                {
-                    NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-                    NetMessage.BroadcastChatMessage(NetworkText.FromKey(key2), messageColor2);
-                }
+
+                CalamityUtils.DisplayLocalizedText(key, messageColor);
+                CalamityUtils.DisplayLocalizedText(key2, messageColor2);
 
                 if (!Terraria.GameContent.Events.Sandstorm.Happening)
                     typeof(Terraria.GameContent.Events.Sandstorm).GetMethod("StartSandstorm", BindingFlags.Static | BindingFlags.NonPublic).Invoke(null, null);

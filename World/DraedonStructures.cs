@@ -105,7 +105,7 @@ namespace CalamityMod.World
                 else
                 {
                     bool _ = true;
-                    PlaceSchematic(mapKey, new Point(placementPoint.X, placementPoint.Y), PlacementAnchorType.TopLeft, ref _, new Action<Chest>(FillWorkshopChest));
+                    PlaceSchematic(mapKey, new Point(placementPoint.X, placementPoint.Y), SchematicAnchor.TopLeft, ref _, new Action<Chest>(FillWorkshopChest));
                     break;
                 }
 
@@ -170,7 +170,7 @@ namespace CalamityMod.World
                 else
                 {
                     bool _ = true;
-                    PlaceSchematic(mapKey, new Point(placementPoint.X, placementPoint.Y), PlacementAnchorType.TopLeft, ref _, new Action<Chest>(FillLaboratoryChest));
+                    PlaceSchematic(mapKey, new Point(placementPoint.X, placementPoint.Y), SchematicAnchor.TopLeft, ref _, new Action<Chest>(FillLaboratoryChest));
                     break;
                 }
             }
@@ -241,7 +241,7 @@ namespace CalamityMod.World
                 else
                 {
                     bool hasPlacedMurasama = false;
-                    PlaceSchematic(mapKey, new Point(placementPoint.X, placementPoint.Y), PlacementAnchorType.TopLeft, ref hasPlacedMurasama, new Action<Chest, int, bool>(FillHellLaboratoryChest));
+                    PlaceSchematic(mapKey, new Point(placementPoint.X, placementPoint.Y), SchematicAnchor.TopLeft, ref hasPlacedMurasama, new Action<Chest, int, bool>(FillHellLaboratoryChest));
                     break;
                 }
             }
@@ -313,7 +313,7 @@ namespace CalamityMod.World
             while (tries < 50000);
 
             bool hasPlacedLogAndSchematic = false;
-            PlaceSchematic(mapKey, new Point(placementPoint.X, placementPoint.Y), PlacementAnchorType.TopLeft, ref hasPlacedLogAndSchematic, new Action<Chest, int, bool>(FillSunkenSeaLaboratoryChest));
+            PlaceSchematic(mapKey, new Point(placementPoint.X, placementPoint.Y), SchematicAnchor.TopLeft, ref hasPlacedLogAndSchematic, new Action<Chest, int, bool>(FillSunkenSeaLaboratoryChest));
         }
         #endregion
 
@@ -392,7 +392,7 @@ namespace CalamityMod.World
                 else
                 {
                     bool hasPlacedLogAndSchematic = false;
-                    PlaceSchematic(mapKey, new Point(placementPoint.X, placementPoint.Y), PlacementAnchorType.TopLeft, ref hasPlacedLogAndSchematic, new Action<Chest, int, bool>(FillIceLaboratoryChest));
+                    PlaceSchematic(mapKey, new Point(placementPoint.X, placementPoint.Y), SchematicAnchor.TopLeft, ref hasPlacedLogAndSchematic, new Action<Chest, int, bool>(FillIceLaboratoryChest));
                     break;
                 }
             }
@@ -471,7 +471,7 @@ namespace CalamityMod.World
                 else
                 {
                     bool hasPlacedLogAndSchematic = false;
-                    PlaceSchematic(mapKey, new Point(placementPoint.X, placementPoint.Y), PlacementAnchorType.TopLeft, ref hasPlacedLogAndSchematic, new Action<Chest, int, bool>(FillPlagueLaboratoryChest));
+                    PlaceSchematic(mapKey, new Point(placementPoint.X, placementPoint.Y), SchematicAnchor.TopLeft, ref hasPlacedLogAndSchematic, new Action<Chest, int, bool>(FillPlagueLaboratoryChest));
                     break;
                 }
             }

@@ -81,10 +81,18 @@ namespace CalamityMod.NPCs.Perforator
 			npc.TargetClosest(true);
 			Player player = Main.player[npc.target];
 
-			bool isCrimson = player.ZoneCrimson || BossRushEvent.BossRushActive;
 			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
 			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
 			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+
+			float enrageScale = 0f;
+			if ((npc.position.Y / 16f) < Main.worldSurface)
+				enrageScale += 1f;
+			if (!Main.player[npc.target].ZoneCrimson)
+				enrageScale += 1f;
+
+			if (BossRushEvent.BossRushActive)
+				enrageScale = 0f;
 
 			if (!player.active || player.dead || Vector2.Distance(player.Center, npc.Center) > 5600f)
 			{
@@ -120,14 +128,7 @@ namespace CalamityMod.NPCs.Perforator
 			if (NPC.AnyNPCs(ModContent.NPCType<PerforatorHeadSmall>()))
 				wormsAlive++;
 
-			if (largeWormAlive && expertMode)
-			{
-				npc.dontTakeDamage = true;
-			}
-			else
-			{
-				npc.dontTakeDamage = isCrimson ? false : true;
-			}
+			npc.dontTakeDamage = largeWormAlive && expertMode;
 
 			float playerLocation = npc.Center.X - player.Center.X;
 			npc.direction = playerLocation < 0 ? 1 : -1;
@@ -135,7 +136,7 @@ namespace CalamityMod.NPCs.Perforator
 
 			if (Main.netMode != NetmodeID.MultiplayerClient)
 			{
-				int shoot = revenge ? 6 : 4;
+				int shoot = (revenge ? 6 : 4) - wormsAlive;
 				npc.localAI[0] += Main.rand.Next(shoot);
 				if (npc.localAI[0] >= Main.rand.Next(300, 901) && npc.position.Y + npc.height < player.position.Y && Vector2.Distance(player.Center, npc.Center) > 80f)
 				{
@@ -168,7 +169,7 @@ namespace CalamityMod.NPCs.Perforator
 					float maxVelocity = 8f;
 					float velocityAdjustment = maxVelocity * 1.5f / totalProjectiles;
 					Vector2 start = new Vector2(npc.Center.X, npc.Center.Y + 30f);
-					Vector2 destination = new Vector2(Vector2.Normalize(player.Center - start).X, 0f) * maxVelocity * 0.4f;
+					Vector2 destination = wormsAlive > 0 ? new Vector2(Vector2.Normalize(player.Center - start).X, 0f) * maxVelocity * 0.4f : Vector2.Zero;
 					Vector2 velocity = destination + Vector2.UnitY * -maxVelocity;
 					for (int i = 0; i < totalProjectiles + 1; i++)
 					{
@@ -193,24 +194,24 @@ namespace CalamityMod.NPCs.Perforator
 					{
 						if (large || death)
 						{
-							Movement(player, 5f, 1.5f, BossRushEvent.BossRushActive ? 0.195f : death ? 0.15f : 0.13f, 360f, 10f, 50f, true);
+							Movement(player, 3.5f + 1.5f * enrageScale, 1f + 0.5f * enrageScale, BossRushEvent.BossRushActive ? 0.195f : death ? 0.15f : 0.13f, 360f, 10f, 50f, true);
 						}
 						else if (medium)
 						{
-							Movement(player, 6f, 2f, BossRushEvent.BossRushActive ? 0.18f : death ? 0.14f : 0.12f, 340f, 15f, 50f, true);
+							Movement(player, 4.5f + 1.5f * enrageScale, 1.5f + 0.5f * enrageScale, BossRushEvent.BossRushActive ? 0.18f : death ? 0.14f : 0.12f, 340f, 15f, 50f, true);
 						}
 						else if (small)
 						{
-							Movement(player, 7f, 2.5f, BossRushEvent.BossRushActive ? 0.165f : death ? 0.13f : 0.11f, 320f, 20f, 50f, true);
+							Movement(player, 5.5f + 1.5f * enrageScale, 2f + 0.5f * enrageScale, BossRushEvent.BossRushActive ? 0.165f : death ? 0.13f : 0.11f, 320f, 20f, 50f, true);
 						}
 						else
 						{
-							Movement(player, 8f, 3f, BossRushEvent.BossRushActive ? 0.15f : death ? 0.12f : 0.1f, 300f, 25f, 50f, true);
+							Movement(player, 6.5f + 1.5f * enrageScale, 2.5f + 0.5f * enrageScale, BossRushEvent.BossRushActive ? 0.15f : death ? 0.12f : 0.1f, 300f, 25f, 50f, true);
 						}
 					}
 					else
 					{
-						npc.velocity.X += (npc.Center.X <= player.Center.X ? -0.1f : 0.1f);
+						npc.velocity.X += npc.Center.X <= player.Center.X ? -0.1f : 0.1f;
 						if (npc.Center.X > player.Center.X + 320f || npc.Center.X < player.Center.X - 320f)
 						{
 							npc.ai[0] = 1f;
@@ -220,7 +221,7 @@ namespace CalamityMod.NPCs.Perforator
 			}
 			else
 			{
-				Movement(player, 4f, 1f, 0.1f, 160f, 300f, 400f, false);
+				Movement(player, 2.5f + 1.5f * enrageScale, 0.5f + 0.5f * enrageScale, 0.1f, 160f, 300f, 400f, false);
 			}
 
 			if (npc.ai[3] == 0f && npc.life > 0)
@@ -407,11 +408,8 @@ namespace CalamityMod.NPCs.Perforator
                 Color messageColor = Color.Cyan;
                 WorldGenerationMethods.SpawnOre(ModContent.TileType<AerialiteOre>(), 12E-05, .4f, .6f);
 
-                if (Main.netMode == NetmodeID.SinglePlayer)
-                    Main.NewText(Language.GetTextValue(key), messageColor);
-                else if (Main.netMode == NetmodeID.Server)
-                    NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-            }
+				CalamityUtils.DisplayLocalizedText(key, messageColor);
+			}
 
             // Mark The Perforator Hive as dead
             CalamityWorld.downedPerforator = true;

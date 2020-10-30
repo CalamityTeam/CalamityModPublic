@@ -719,6 +719,8 @@ namespace CalamityMod.World
 			TileID.Stalactite,
 			TileID.ImmatureHerbs,
 			TileID.MatureHerbs,
+			TileID.Pots,
+			TileID.Pumpkins, // Happens during Halloween
 		};
 
 		public static List<int> WallsForSulphSeaToDestroy = new List<int>()
@@ -730,7 +732,10 @@ namespace CalamityMod.World
 			WallID.DirtUnsafe3,
 			WallID.DirtUnsafe4,
 			WallID.Cave6Unsafe, // Rocky dirt wall
+			WallID.Grass,
 			WallID.GrassUnsafe,
+			WallID.Flower,
+			WallID.FlowerUnsafe,
 			WallID.CorruptGrassUnsafe,
 			WallID.EbonstoneUnsafe,
 			WallID.CrimstoneUnsafe,

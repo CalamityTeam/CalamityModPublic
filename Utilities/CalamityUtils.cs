@@ -504,12 +504,17 @@ namespace CalamityMod
 			}
 		}
 
-		public static void DisplayTextFromLocalizationKey(string key, Color textColor)
+		public static void DisplayLocalizedText(string key, Color? textColor = null)
 		{
+			// An attempt to bypass the need for a separate method and runtime/compile-time parameter
+			// constraints by using nulls for defaults.
+			if (!textColor.HasValue)
+				textColor = Color.White;
+
 			if (Main.netMode == NetmodeID.SinglePlayer)
-				Main.NewText(Language.GetTextValue(key), textColor);
+				Main.NewText(Language.GetTextValue(key), textColor.Value);
 			else if (Main.netMode == NetmodeID.Server)
-				NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), textColor);
+				NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), textColor.Value);
 		}
 
 		/// Inflict typical exo weapon debuffs. Duration multiplier optional.
@@ -3788,6 +3793,15 @@ namespace CalamityMod
 			Color nextColor = colors[(currentColorIndex + 1) % colors.Length];
 			return Color.Lerp(currentColor, nextColor, increment * colors.Length % 1f);
 		}
+		#endregion
+
+		#region Mathematical Utilities
+		/// <summary>
+		/// Computes the Manhattan Distance between two points. This is typically used as a cheaper alternative to Euclidean Distance.
+		/// </summary>
+		/// <param name="a">The first point.</param>
+		/// <param name="b">The second point.</param>
+		public static float ManhattanDistance(this Vector2 a, Vector2 b) => Math.Abs(a.X - b.X) + Math.Abs(a.Y - b.Y);
 		#endregion
 
 		#region Miscellaneous Utilities

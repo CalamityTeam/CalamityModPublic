@@ -260,27 +260,13 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 {
                     string key = "Mods.CalamityMod.SupremeBossText12"; //kill SCal 4 times
                     Color messageColor = Color.Orange;
-                    if (Main.netMode == NetmodeID.SinglePlayer)
-                    {
-                        Main.NewText(Language.GetTextValue(key), messageColor);
-                    }
-                    else if (Main.netMode == NetmodeID.Server)
-                    {
-                        NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-                    }
+                    CalamityUtils.DisplayLocalizedText(key, messageColor);
                 }
                 else if (Main.LocalPlayer.Calamity().sCalKillCount == 1)
                 {
                     string key = "Mods.CalamityMod.SupremeBossText11"; //kill SCal once
                     Color messageColor = Color.Orange;
-                    if (Main.netMode == NetmodeID.SinglePlayer)
-                    {
-                        Main.NewText(Language.GetTextValue(key), messageColor);
-                    }
-                    else if (Main.netMode == NetmodeID.Server)
-                    {
-                        NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-                    }
+                    CalamityUtils.DisplayLocalizedText(key, messageColor);
                 }
 
                 if (Main.LocalPlayer.Calamity().sCalDeathCount < 51)
@@ -289,40 +275,19 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     {
                         string key = "Mods.CalamityMod.SupremeBossText15"; //die 50 or more times
                         Color messageColor = Color.Orange;
-                        if (Main.netMode == NetmodeID.SinglePlayer)
-                        {
-                            Main.NewText(Language.GetTextValue(key), messageColor);
-                        }
-                        else if (Main.netMode == NetmodeID.Server)
-                        {
-                            NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-                        }
+                        CalamityUtils.DisplayLocalizedText(key, messageColor);
                     }
                     else if (Main.LocalPlayer.Calamity().sCalDeathCount > 19)
                     {
                         string key = "Mods.CalamityMod.SupremeBossText14"; //die 20 or more times
                         Color messageColor = Color.Orange;
-                        if (Main.netMode == NetmodeID.SinglePlayer)
-                        {
-                            Main.NewText(Language.GetTextValue(key), messageColor);
-                        }
-                        else if (Main.netMode == NetmodeID.Server)
-                        {
-                            NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-                        }
+                        CalamityUtils.DisplayLocalizedText(key, messageColor);
                     }
                     else if (Main.LocalPlayer.Calamity().sCalDeathCount > 4)
                     {
                         string key = "Mods.CalamityMod.SupremeBossText13"; //die 5 or more times
                         Color messageColor = Color.Orange;
-                        if (Main.netMode == NetmodeID.SinglePlayer)
-                        {
-                            Main.NewText(Language.GetTextValue(key), messageColor);
-                        }
-                        else if (Main.netMode == NetmodeID.Server)
-                        {
-                            NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-                        }
+                        CalamityUtils.DisplayLocalizedText(key, messageColor);
                     }
                 }
                 startText = true;
@@ -490,14 +455,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             {
                 string key = "Mods.CalamityMod.SupremeBossText3";
                 Color messageColor = Color.Orange;
-                if (Main.netMode == NetmodeID.SinglePlayer)
-                {
-                    Main.NewText(Language.GetTextValue(key), messageColor);
-                }
-                else if (Main.netMode == NetmodeID.Server)
-                {
-                    NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-                }
+                CalamityUtils.DisplayLocalizedText(key, messageColor);
+
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
                     spawnY += 250;
@@ -579,14 +538,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             {
                 string key = "Mods.CalamityMod.SupremeBossText4";
                 Color messageColor = Color.Orange;
-                if (Main.netMode == NetmodeID.SinglePlayer)
-                {
-                    Main.NewText(Language.GetTextValue(key), messageColor);
-                }
-                else if (Main.netMode == NetmodeID.Server)
-                {
-                    NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-                }
+                CalamityUtils.DisplayLocalizedText(key, messageColor);
                 startSecondAttack = true;
                 return;
             }
@@ -645,14 +597,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     music = MusicID.Boss3;
                 string key = "Mods.CalamityMod.SupremeBossText5";
                 Color messageColor = Color.Orange;
-                if (Main.netMode == NetmodeID.SinglePlayer)
-                {
-                    Main.NewText(Language.GetTextValue(key), messageColor);
-                }
-                else if (Main.netMode == NetmodeID.Server)
-                {
-                    NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-                }
+                CalamityUtils.DisplayLocalizedText(key, messageColor);
                 startThirdAttack = true;
                 return;
             }
@@ -718,14 +663,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     music = MusicID.LunarBoss;
                 string key = "Mods.CalamityMod.SupremeBossText7";
                 Color messageColor = Color.Orange;
-                if (Main.netMode == NetmodeID.SinglePlayer)
-                {
-                    Main.NewText(Language.GetTextValue(key), messageColor);
-                }
-                else if (Main.netMode == NetmodeID.Server)
-                {
-                    NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-                }
+                CalamityUtils.DisplayLocalizedText(key, messageColor);
                 startFourthAttack = true;
                 return;
             }
@@ -788,14 +726,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             {
                 string key = "Mods.CalamityMod.SupremeBossText9";
                 Color messageColor = Color.Orange;
-                if (Main.netMode == NetmodeID.SinglePlayer)
-                {
-                    Main.NewText(Language.GetTextValue(key), messageColor);
-                }
-                else if (Main.netMode == NetmodeID.Server)
-                {
-                    NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-                }
+                CalamityUtils.DisplayLocalizedText(key, messageColor);
                 startFifthAttack = true;
                 return;
             }
@@ -827,14 +758,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                         {
                             string key = "Mods.CalamityMod.SupremeBossText27";
                             Color messageColor = Color.Orange;
-                            if (Main.netMode == NetmodeID.SinglePlayer)
-                            {
-                                Main.NewText(Language.GetTextValue(key), messageColor);
-                            }
-                            else if (Main.netMode == NetmodeID.Server)
-                            {
-                                NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-                            }
+                            CalamityUtils.DisplayLocalizedText(key, messageColor);
                         }
                         giveUpCounter--;
 						bool canBeHit = giveUpCounter < 900;
@@ -846,27 +770,13 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     {
                         string key = "Mods.CalamityMod.SupremeBossText25";
                         Color messageColor = Color.Orange;
-                        if (Main.netMode == NetmodeID.SinglePlayer)
-                        {
-                            Main.NewText(Language.GetTextValue(key), messageColor);
-                        }
-                        else if (Main.netMode == NetmodeID.Server)
-                        {
-                            NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-                        }
+                        CalamityUtils.DisplayLocalizedText(key, messageColor);
                     }
                     if (giveUpCounter == 300)
                     {
                         string key = "Mods.CalamityMod.SupremeBossText26";
                         Color messageColor = Color.Orange;
-                        if (Main.netMode == NetmodeID.SinglePlayer)
-                        {
-                            Main.NewText(Language.GetTextValue(key), messageColor);
-                        }
-                        else if (Main.netMode == NetmodeID.Server)
-                        {
-                            NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-                        }
+                        CalamityUtils.DisplayLocalizedText(key, messageColor);
                     }
                     if (giveUpCounter <= 0)
                     {
@@ -893,14 +803,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
 					string key = "Mods.CalamityMod.SupremeBossText24";
                     Color messageColor = Color.Orange;
-                    if (Main.netMode == NetmodeID.SinglePlayer)
-                    {
-                        Main.NewText(Language.GetTextValue(key), messageColor);
-                    }
-                    else if (Main.netMode == NetmodeID.Server)
-                    {
-                        NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-                    }
+                    CalamityUtils.DisplayLocalizedText(key, messageColor);
                     gettingTired5 = true;
                     return;
                 }
@@ -908,14 +811,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 {
                     string key = "Mods.CalamityMod.SupremeBossText23";
                     Color messageColor = Color.Orange;
-                    if (Main.netMode == NetmodeID.SinglePlayer)
-                    {
-                        Main.NewText(Language.GetTextValue(key), messageColor);
-                    }
-                    else if (Main.netMode == NetmodeID.Server)
-                    {
-                        NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-                    }
+                    CalamityUtils.DisplayLocalizedText(key, messageColor);
                     gettingTired4 = true;
                     return;
                 }
@@ -923,14 +819,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 {
                     string key = "Mods.CalamityMod.SupremeBossText22";
                     Color messageColor = Color.Orange;
-                    if (Main.netMode == NetmodeID.SinglePlayer)
-                    {
-                        Main.NewText(Language.GetTextValue(key), messageColor);
-                    }
-                    else if (Main.netMode == NetmodeID.Server)
-                    {
-                        NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-                    }
+                    CalamityUtils.DisplayLocalizedText(key, messageColor);
                     gettingTired3 = true;
                     return;
                 }
@@ -938,14 +827,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 {
                     string key = "Mods.CalamityMod.SupremeBossText21";
                     Color messageColor = Color.Orange;
-                    if (Main.netMode == NetmodeID.SinglePlayer)
-                    {
-                        Main.NewText(Language.GetTextValue(key), messageColor);
-                    }
-                    else if (Main.netMode == NetmodeID.Server)
-                    {
-                        NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-                    }
+                    CalamityUtils.DisplayLocalizedText(key, messageColor);
                     gettingTired2 = true;
                     return;
                 }
@@ -953,14 +835,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 {
                     string key = "Mods.CalamityMod.SupremeBossText20";
                     Color messageColor = Color.Orange;
-                    if (Main.netMode == NetmodeID.SinglePlayer)
-                    {
-                        Main.NewText(Language.GetTextValue(key), messageColor);
-                    }
-                    else if (Main.netMode == NetmodeID.Server)
-                    {
-                        NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-                    }
+                    CalamityUtils.DisplayLocalizedText(key, messageColor);
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         spawnY += 250;
@@ -1018,14 +893,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             {
                 string key = "Mods.CalamityMod.SupremeBossText";
                 Color messageColor = Color.Orange;
-                if (Main.netMode == NetmodeID.SinglePlayer)
-                {
-                    Main.NewText(Language.GetTextValue(key), messageColor);
-                }
-                else if (Main.netMode == NetmodeID.Server)
-                {
-                    NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-                }
+                CalamityUtils.DisplayLocalizedText(key, messageColor);
                 halfLife = true;
             }
 
@@ -1035,14 +903,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 {
                     string key = "Mods.CalamityMod.SupremeBossText8";
                     Color messageColor = Color.Orange;
-                    if (Main.netMode == NetmodeID.SinglePlayer)
-                    {
-                        Main.NewText(Language.GetTextValue(key), messageColor);
-                    }
-                    else if (Main.netMode == NetmodeID.Server)
-                    {
-                        NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-                    }
+                    CalamityUtils.DisplayLocalizedText(key, messageColor);
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         Main.PlaySound(SoundID.Item74, npc.position);
@@ -1074,14 +935,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                         NPC.SpawnOnPlayer(npc.FindClosestPlayer(), ModContent.NPCType<SupremeCatastrophe>());
                         string key = "Mods.CalamityMod.SupremeBossText6";
                         Color messageColor = Color.Orange;
-                        if (Main.netMode == NetmodeID.SinglePlayer)
-                        {
-                            Main.NewText(Language.GetTextValue(key), messageColor);
-                        }
-                        else if (Main.netMode == NetmodeID.Server)
-                        {
-                            NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-                        }
+                        CalamityUtils.DisplayLocalizedText(key, messageColor);
                     }
                 }
             }
@@ -2180,14 +2034,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             {
                 string key = "Mods.CalamityMod.SupremeBossText2";
                 Color messageColor = Color.Orange;
-                if (Main.netMode == NetmodeID.SinglePlayer)
-                {
-                    Main.NewText(Language.GetTextValue(key), messageColor);
-                }
-                else if (Main.netMode == NetmodeID.Server)
-                {
-                    NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-                }
+                CalamityUtils.DisplayLocalizedText(key, messageColor);
                 return true;
             }
 
@@ -2283,10 +2130,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 key = "Mods.CalamityMod.SupremeBossText10";
             }
 
-            if (Main.netMode == NetmodeID.SinglePlayer)
-                Main.NewText(Language.GetTextValue(key), messageColor);
-            else if (Main.netMode == NetmodeID.Server)
-                NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
+            CalamityUtils.DisplayLocalizedText(key, messageColor);
         }
 
         public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
@@ -2432,10 +2276,6 @@ namespace CalamityMod.NPCs.SupremeCalamitas
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
             player.AddBuff(ModContent.BuffType<VulnerabilityHex>(), 600, true);
-            if (CalamityWorld.revenge)
-            {
-                player.AddBuff(ModContent.BuffType<Horror>(), 600, true);
-            }
         }
     }
 }

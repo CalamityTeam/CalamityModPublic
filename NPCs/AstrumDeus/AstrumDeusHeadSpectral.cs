@@ -275,10 +275,7 @@ namespace CalamityMod.NPCs.AstrumDeus
             {
                 string key = "Mods.CalamityMod.AstralBossText";
                 Color messageColor = Color.Gold;
-                if (Main.netMode == NetmodeID.SinglePlayer)
-                    Main.NewText(Language.GetTextValue(key), messageColor);
-                else if (Main.netMode == NetmodeID.Server)
-                    NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
+                CalamityUtils.DisplayLocalizedText(key, messageColor);
             }
 
             // Mark Astrum Deus as dead

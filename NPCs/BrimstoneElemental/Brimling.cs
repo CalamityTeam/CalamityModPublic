@@ -34,7 +34,7 @@ namespace CalamityMod.NPCs.BrimstoneElemental
             npc.height = 60;
             npc.defense = 0;
 			npc.DR_NERD(normalDR);
-            npc.lifeMax = 4000;
+            npc.lifeMax = 2000;
             npc.knockBackResist = 0f;
             for (int k = 0; k < npc.buffImmune.Length; k++)
             {
@@ -133,7 +133,7 @@ namespace CalamityMod.NPCs.BrimstoneElemental
             Vector2 vector251 = Main.player[npc.target].Center - value53;
             bool flag104 = Collision.CanHit(npc.Center, 1, 1, Main.player[npc.target].Center, 1, 1);
             npc.localAI[0] += 1f;
-            if (Main.netMode != NetmodeID.MultiplayerClient && npc.localAI[0] >= 300f && Main.npc[CalamityGlobalNPC.brimstoneElemental].ai[0] != 4f)
+            if (Main.netMode != NetmodeID.MultiplayerClient && npc.localAI[0] >= 360f && Main.npc[CalamityGlobalNPC.brimstoneElemental].ai[0] != 4f)
             {
                 npc.localAI[0] = 0f;
                 if (Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))

@@ -59,22 +59,18 @@ namespace CalamityMod.NPCs
 			{
 				switch (npc.type)
 				{
-					case NPCID.DevourerHead:
-					case NPCID.DevourerBody:
-					case NPCID.DevourerTail:
-						return SplittingWormLoot(npc, mod, 0);
 					case NPCID.DiggerHead:
 					case NPCID.DiggerBody:
 					case NPCID.DiggerTail:
-						return SplittingWormLoot(npc, mod, 1);
+						return SplittingWormLoot(npc, mod, 0);
 					case NPCID.SeekerHead:
 					case NPCID.SeekerBody:
 					case NPCID.SeekerTail:
-						return SplittingWormLoot(npc, mod, 2);
+						return SplittingWormLoot(npc, mod, 1);
 					case NPCID.DuneSplicerHead:
 					case NPCID.DuneSplicerBody:
 					case NPCID.DuneSplicerTail:
-						return SplittingWormLoot(npc, mod, 3);
+						return SplittingWormLoot(npc, mod, 2);
 					default:
 						break;
 				}
@@ -166,21 +162,11 @@ namespace CalamityMod.NPCs
 				// First kill text (this is not a loot function)
 				if (!Main.hardMode)
 				{
-					string key2 = "Mods.CalamityMod.UglyBossText"; //Sunken Sea buff
-					//string key = "Mods.CalamityMod.SteelSkullBossText"; //clone can now be fought
+					string key2 = "Mods.CalamityMod.UglyBossText";
 					Color messageColor2 = Color.Aquamarine;
-					//Color messageColor = Color.Crimson;
-					if (Main.netMode == NetmodeID.SinglePlayer)
-					{
-						Main.NewText(Language.GetTextValue(key2), messageColor2);
-					   // Main.NewText(Language.GetTextValue(key), messageColor);
-					}
-					else if (Main.netMode == NetmodeID.Server)
-					{
-						NetMessage.BroadcastChatMessage(NetworkText.FromKey(key2), messageColor2);
-						//NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-					}
-				}
+
+                    CalamityUtils.DisplayLocalizedText(key2, messageColor2);
+                }
             }
             else if (lastTwinStanding)
             {
@@ -234,16 +220,8 @@ namespace CalamityMod.NPCs
 
                     WorldGenerationMethods.SpawnOre(ModContent.TileType<PerennialOre>(), 12E-05, .5f, .7f);
 
-                    if (Main.netMode == NetmodeID.SinglePlayer)
-                    {
-                        Main.NewText(Language.GetTextValue(key2), messageColor2);
-                        Main.NewText(Language.GetTextValue(key3), messageColor3);
-                    }
-                    else if (Main.netMode == NetmodeID.Server)
-                    {
-                        NetMessage.BroadcastChatMessage(NetworkText.FromKey(key2), messageColor2);
-                        NetMessage.BroadcastChatMessage(NetworkText.FromKey(key3), messageColor3);
-                    }
+                    CalamityUtils.DisplayLocalizedText(key2, messageColor2);
+                    CalamityUtils.DisplayLocalizedText(key3, messageColor3);
                 }
             }
 			else if (npc.type == NPCID.Pumpking)
@@ -279,14 +257,7 @@ namespace CalamityMod.NPCs
                     string key = "Mods.CalamityMod.BabyBossText";
                     Color messageColor = Color.Lime;
 
-                    if (Main.netMode == NetmodeID.SinglePlayer)
-                    {
-                        Main.NewText(Language.GetTextValue(key), messageColor);
-                    }
-                    else if (Main.netMode == NetmodeID.Server)
-                    {
-                        NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-                    }
+                    CalamityUtils.DisplayLocalizedText(key, messageColor);
                 }
             }
             else if (npc.type == NPCID.DD2Betsy && !CalamityWorld.downedBetsy)
@@ -319,14 +290,7 @@ namespace CalamityMod.NPCs
                     string key = "Mods.CalamityMod.DeusText";
                     Color messageColor = Color.Gold;
 
-                    if (Main.netMode == NetmodeID.SinglePlayer)
-                    {
-                        Main.NewText(Language.GetTextValue(key), messageColor);
-                    }
-                    else if (Main.netMode == NetmodeID.Server)
-                    {
-                        NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-                    }
+                    CalamityUtils.DisplayLocalizedText(key, messageColor);
                 }
             }
             else if (npc.type == NPCID.MoonLordCore)
@@ -359,22 +323,11 @@ namespace CalamityMod.NPCs
                 {
                     WorldGenerationMethods.SpawnOre(ModContent.TileType<ExodiumOre>(), 12E-05, .01f, .07f);
 
-                    if (Main.netMode == NetmodeID.SinglePlayer)
-                    {
-                        Main.NewText(Language.GetTextValue(key), messageColor);
-                        Main.NewText(Language.GetTextValue(key2), messageColor2);
-                        Main.NewText(Language.GetTextValue(key3), messageColor3);
-                        Main.NewText(Language.GetTextValue(key4), messageColor4);
-                        Main.NewText(Language.GetTextValue(key5), messageColor5);
-                    }
-                    else if (Main.netMode == NetmodeID.Server)
-                    {
-                        NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-                        NetMessage.BroadcastChatMessage(NetworkText.FromKey(key2), messageColor2);
-                        NetMessage.BroadcastChatMessage(NetworkText.FromKey(key3), messageColor3);
-                        NetMessage.BroadcastChatMessage(NetworkText.FromKey(key4), messageColor4);
-                        NetMessage.BroadcastChatMessage(NetworkText.FromKey(key5), messageColor5);
-                    }
+                    CalamityUtils.DisplayLocalizedText(key, messageColor);
+                    CalamityUtils.DisplayLocalizedText(key2, messageColor);
+                    CalamityUtils.DisplayLocalizedText(key3, messageColor);
+                    CalamityUtils.DisplayLocalizedText(key4, messageColor);
+                    CalamityUtils.DisplayLocalizedText(key5, messageColor);
                 }
             }
 			//Since Calamity makes it spawn in pre-hardmode, don't want to cause other mods to freak out if they use it as a tier gate (like a new weapon or something)
@@ -525,10 +478,9 @@ namespace CalamityMod.NPCs
 		{
 			switch (wormType)
 			{
-				case 0: return CheckSegments(NPCID.DevourerHead, NPCID.DevourerBody, NPCID.DevourerTail);
-				case 1: return CheckSegments(NPCID.DiggerHead, NPCID.DiggerBody, NPCID.DiggerTail);
-				case 2: return CheckSegments(NPCID.SeekerHead, NPCID.SeekerBody, NPCID.SeekerTail);
-				case 3: return CheckSegments(NPCID.DuneSplicerHead, NPCID.DuneSplicerBody, NPCID.DuneSplicerTail);
+				case 0: return CheckSegments(NPCID.DiggerHead, NPCID.DiggerBody, NPCID.DiggerTail);
+				case 1: return CheckSegments(NPCID.SeekerHead, NPCID.SeekerBody, NPCID.SeekerTail);
+				case 2: return CheckSegments(NPCID.DuneSplicerHead, NPCID.DuneSplicerBody, NPCID.DuneSplicerTail);
 				default:
 					break;
 			}
@@ -977,28 +929,14 @@ namespace CalamityMod.NPCs
                     string key = "Mods.CalamityMod.GhostBossText2";
                     Color messageColor = Color.Cyan;
 
-                    if (Main.netMode == NetmodeID.SinglePlayer)
-                    {
-                        Main.NewText(Language.GetTextValue(key), messageColor);
-                    }
-                    else if (Main.netMode == NetmodeID.Server)
-                    {
-                        NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-                    }
+                    CalamityUtils.DisplayLocalizedText(key, messageColor);
                 }
                 else if (CalamityMod.ghostKillCount == 20)
                 {
                     string key = "Mods.CalamityMod.GhostBossText3";
                     Color messageColor = Color.Cyan;
 
-                    if (Main.netMode == NetmodeID.SinglePlayer)
-                    {
-                        Main.NewText(Language.GetTextValue(key), messageColor);
-                    }
-                    else if (Main.netMode == NetmodeID.Server)
-                    {
-                        NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-                    }
+                    CalamityUtils.DisplayLocalizedText(key, messageColor);
                 }
 
                 if (CalamityMod.ghostKillCount >= 30 && Main.netMode != NetmodeID.MultiplayerClient)
@@ -1026,28 +964,14 @@ namespace CalamityMod.NPCs
                     string key = "Mods.CalamityMod.SandSharkText";
                     Color messageColor = Color.Goldenrod;
 
-                    if (Main.netMode == NetmodeID.SinglePlayer)
-                    {
-                        Main.NewText(Language.GetTextValue(key), messageColor);
-                    }
-                    else if (Main.netMode == NetmodeID.Server)
-                    {
-                        NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-                    }
+                    CalamityUtils.DisplayLocalizedText(key, messageColor);
                 }
                 else if (CalamityMod.sharkKillCount == 8)
                 {
                     string key = "Mods.CalamityMod.SandSharkText2";
                     Color messageColor = Color.Goldenrod;
 
-                    if (Main.netMode == NetmodeID.SinglePlayer)
-                    {
-                        Main.NewText(Language.GetTextValue(key), messageColor);
-                    }
-                    else if (Main.netMode == NetmodeID.Server)
-                    {
-                        NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-                    }
+                    CalamityUtils.DisplayLocalizedText(key, messageColor);
                 }
                 if (CalamityMod.sharkKillCount >= 10 && Main.netMode != NetmodeID.MultiplayerClient)
                 {

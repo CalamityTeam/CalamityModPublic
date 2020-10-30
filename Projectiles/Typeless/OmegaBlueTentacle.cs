@@ -39,7 +39,6 @@ namespace CalamityMod.Projectiles.Typeless
                 for (int i = 0; i < 6; i++)
                 {
                     segment[i] = projectile.Center;
-                    //Main.NewText("init segment " + segment[i].X.ToString() + " " + segment[i].Y.ToString());
                 }
             }
             return true;

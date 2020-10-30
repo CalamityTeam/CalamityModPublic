@@ -33,7 +33,7 @@ namespace CalamityMod.Projectiles.Boss
 
             int num123 = Player.FindClosest(projectile.Center, 1, 1);
             projectile.ai[0] += 1f;
-            if (projectile.ai[0] < 110f && projectile.ai[0] > 30f)
+            if (projectile.ai[0] < 90f && projectile.ai[0] > 30f)
             {
                 float scaleFactor2 = projectile.velocity.Length();
                 Vector2 vector17 = Main.player[num123].Center - projectile.Center;

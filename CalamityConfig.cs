@@ -169,12 +169,6 @@ namespace CalamityMod
 
 		[Header("Revengeance Mode Changes")]
 
-		[Label("Buff Thorium Bosses")]
-		[BackgroundColor(192, 54, 64, 192)]
-		[DefaultValue(false)]
-		[Tooltip("Buffs Thorium bosses if Revengeance Mode or Death Mode is active.\nThe buff gives them extra health and DR, but has no other changes.")]
-		public bool BuffThoriumBosses { get; set; }
-
 		[Label("Rage and Adrenaline")]
 		[BackgroundColor(192, 54, 64, 192)]
 		[DefaultValue(true)]

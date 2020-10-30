@@ -106,14 +106,6 @@ namespace CalamityMod.NPCs.Yharon
 			return false;
 		}
 
-		public override void OnHitPlayer(Player player, int damage, bool crit)
-        {
-            if (CalamityWorld.revenge)
-            {
-                player.AddBuff(ModContent.BuffType<MarkedforDeath>(), 300);
-            }
-        }
-
         public override bool CanHitPlayer(Player target, ref int cooldownSlot)
         {
             cooldownSlot = 1;

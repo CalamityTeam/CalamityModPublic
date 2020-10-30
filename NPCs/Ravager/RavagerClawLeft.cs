@@ -316,10 +316,6 @@ namespace CalamityMod.NPCs.Ravager
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            if (CalamityWorld.revenge)
-            {
-                player.AddBuff(ModContent.BuffType<Horror>(), 300, true);
-            }
 			player.AddBuff(ModContent.BuffType<ArmorCrunch>(), 180, true);
 		}
 

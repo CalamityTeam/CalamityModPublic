@@ -124,23 +124,29 @@ namespace CalamityMod.NPCs.Cryogen
 
 			Player player = Main.player[npc.target];
 
-			bool isChill = player.ZoneSnow;
 			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
 			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
 			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+
+			float enrageScale = 0f;
+			if (!player.ZoneSnow)
+				enrageScale += 2f;
+
+			if (BossRushEvent.BossRushActive)
+				enrageScale = 0f;
 
 			// Percent life remaining
 			float lifeRatio = npc.life / (float)npc.lifeMax;
 
 			// Phases
-			bool phase2 = lifeRatio < (death ? 0.95 : revenge ? 0.89 : 0.83);
-			bool phase3 = lifeRatio < (death ? 0.8 : revenge ? 0.73 : 0.66);
-			bool phase4 = lifeRatio < (death ? 0.7 : revenge ? 0.6 : 0.49);
-			bool phase5 = lifeRatio < (death ? 0.55 : revenge ? 0.43 : 0.32);
-			bool phase6 = lifeRatio < (death ? 0.4 : revenge ? 0.27 : 0.15);
-			bool phase7 = lifeRatio < (death ? 0.25 : 0.15) && revenge;
-			bool phase8 = lifeRatio < (revenge ? 0.225 : 0.1);
-			bool phase9 = lifeRatio < (revenge ? 0.2 : 0.05) || death;
+			bool phase2 = lifeRatio < 0.85f;
+			bool phase3 = lifeRatio < 0.7f;
+			bool phase4 = lifeRatio < 0.55f;
+			bool phase5 = lifeRatio < 0.4f;
+			bool phase6 = lifeRatio < (death ? 0.3f : revenge ? 0.25f : expertMode ? 0.2f : 0.15f);
+			bool phase7 = lifeRatio < (death ? 0.15f : 0.1f) && revenge;
+			bool phase8 = lifeRatio < (revenge ? 0.075f : 0.05f);
+			bool phase9 = lifeRatio < (revenge ? 0.05f : 0.025f) || death;
 
 			if ((int)npc.ai[0] + 1 > currentPhase && currentPhase < 6)
             {
@@ -260,11 +266,8 @@ namespace CalamityMod.NPCs.Cryogen
                 float num1243 = player.Center.X - vector142.X;
                 float num1244 = player.Center.Y - vector142.Y;
                 float num1245 = (float)Math.Sqrt(num1243 * num1243 + num1244 * num1244);
-                float num1246 = isChill ? 4f : 8f;
-                if (death)
-                {
-                    num1246 = isChill ? 5f : 10f;
-                }
+                float num1246 = death ? 5f : 4f;
+				num1246 += 2f * enrageScale;
                 if (BossRushEvent.BossRushActive)
                 {
                     num1246 = 14f;
@@ -307,10 +310,10 @@ namespace CalamityMod.NPCs.Cryogen
                     }
                 }
 
-                float velocity = isChill ? 7.5f : 4f;
-                float acceleration = isChill ? 0.1f : 0.15f;
-                if (death)
-                    velocity = isChill ? 7f : 3.5f;
+                float velocity = death ? 3.5f : 4f;
+                float acceleration = 0.15f;
+				velocity -= enrageScale;
+				acceleration += 0.07f * enrageScale;
 				if (BossRushEvent.BossRushActive)
 				{
 					velocity = 3f;
@@ -430,12 +433,9 @@ namespace CalamityMod.NPCs.Cryogen
                 float num1243 = player.Center.X - vector142.X;
                 float num1244 = player.Center.Y - vector142.Y;
                 float num1245 = (float)Math.Sqrt(num1243 * num1243 + num1244 * num1244);
-                float num1246 = isChill ? 6f : 12f;
-                if (death)
-                {
-                    num1246 = isChill ? 7f : 14f;
-                }
-                if (BossRushEvent.BossRushActive)
+                float num1246 = death ? 7f : 6f;
+				num1246 += 2f * enrageScale;
+				if (BossRushEvent.BossRushActive)
                 {
                     num1246 = 20f;
                 }
@@ -495,10 +495,10 @@ namespace CalamityMod.NPCs.Cryogen
                     }
                 }
 
-				float velocity = isChill ? 7.5f : 4f;
-				float acceleration = isChill ? 0.1f : 0.15f;
-				if (death)
-					velocity = isChill ? 7f : 3.5f;
+				float velocity = death ? 3.5f : 4f;
+				float acceleration = 0.15f;
+				velocity -= enrageScale;
+				acceleration += 0.07f * enrageScale;
 				if (BossRushEvent.BossRushActive)
 				{
 					velocity = 3f;
@@ -723,15 +723,8 @@ namespace CalamityMod.NPCs.Cryogen
 					{
 						string key = "Mods.CalamityMod.CryogenBossText";
 						Color messageColor = Color.Cyan;
-						if (Main.netMode == NetmodeID.SinglePlayer)
-						{
-							Main.NewText(Language.GetTextValue(key), messageColor);
-						}
-						else if (Main.netMode == NetmodeID.Server)
-						{
-							NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-						}
-					}
+                        CalamityUtils.DisplayLocalizedText(key, messageColor);
+                    }
                 }
             }
 			else if (npc.ai[0] == 5f)
@@ -741,7 +734,7 @@ namespace CalamityMod.NPCs.Cryogen
 				if (phase7)
 				{
 					if (npc.ai[1] == 60f)
-						npc.velocity = Vector2.Normalize(player.Center - npc.Center) * (BossRushEvent.BossRushActive ? 30f : (isChill ? 18f : 24f));
+						npc.velocity = Vector2.Normalize(player.Center - npc.Center) * (BossRushEvent.BossRushActive ? 30f : 18f + enrageScale * 2f);
 
 					npc.ai[1] -= 1f;
 					if (npc.ai[1] <= 0f)
@@ -773,7 +766,7 @@ namespace CalamityMod.NPCs.Cryogen
 					return;
 				}
 
-				float num1372 = isChill ? 16f : 24f;
+				float num1372 = 16f + enrageScale * 2f;
 				if (BossRushEvent.BossRushActive)
                 {
                     num1372 = 32f;
@@ -868,10 +861,10 @@ namespace CalamityMod.NPCs.Cryogen
 					npc.netUpdate = true;
 				}
 
-				float velocity = isChill ? 6f : 3f;
-				float acceleration = isChill ? 0.2f : 0.3f;
-				if (death)
-					velocity = isChill ? 5f : 2.5f;
+				float velocity = death ? 5f : 6f;
+				float acceleration = 0.2f;
+				velocity -= enrageScale;
+				acceleration += 0.07f * enrageScale;
 				if (BossRushEvent.BossRushActive)
 				{
 					velocity = 2f;
@@ -1111,10 +1104,7 @@ namespace CalamityMod.NPCs.Cryogen
                 Color messageColor = Color.LightSkyBlue;
                 WorldGenerationMethods.SpawnOre(ModContent.TileType<CryonicOre>(), 15E-05, .45f, .65f);
 
-                if (Main.netMode == NetmodeID.SinglePlayer)
-                    Main.NewText(Language.GetTextValue(key), messageColor);
-                else if (Main.netMode == NetmodeID.Server)
-                    NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
+                CalamityUtils.DisplayLocalizedText(key, messageColor);
             }
 
             // Mark Cryogen as dead

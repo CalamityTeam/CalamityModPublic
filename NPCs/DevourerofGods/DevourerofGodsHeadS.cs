@@ -278,13 +278,10 @@ namespace CalamityMod.NPCs.DevourerofGods
 					// Anger message
 					string key = "Mods.CalamityMod.EdgyBossText11";
 					Color messageColor = Color.Cyan;
-					if (Main.netMode == NetmodeID.SinglePlayer)
-						Main.NewText(Language.GetTextValue(key), messageColor);
-					else if (Main.netMode == NetmodeID.Server)
-						NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
+                    CalamityUtils.DisplayLocalizedText(key, messageColor);
 
-					// Summon Thots
-					if (Main.netMode != NetmodeID.MultiplayerClient)
+                    // Summon Thots
+                    if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
 						Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/DevourerAttack"), (int)player.position.X, (int)player.position.Y);
 
@@ -625,7 +622,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                     num189 = homingTurnSpeed;
                 }
 
-				if (revenge)
+				if (expertMode)
 				{
 					num188 += Vector2.Distance(player.Center, npc.Center) * 0.005f * (1f - lifeRatio);
 					num189 += Vector2.Distance(player.Center, npc.Center) * 0.0001f * (1f - lifeRatio);
@@ -760,10 +757,10 @@ namespace CalamityMod.NPCs.DevourerofGods
                 float turnSpeed = death ? 0.24f : 0.18f;
 
 				if (expertMode)
+				{
 					turnSpeed += 0.12f * (1f - lifeRatio);
-
-				if (revenge)
 					turnSpeed += Vector2.Distance(player.Center, npc.Center) * 0.00005f * (1f - lifeRatio);
+				}
 
 				bool increaseSpeed = distanceFromTarget > 3200f;
 
@@ -1158,16 +1155,8 @@ namespace CalamityMod.NPCs.DevourerofGods
                 string key2 = "Mods.CalamityMod.DoGBossText2";
                 Color messageColor2 = Color.Orange;
 
-                if (Main.netMode == NetmodeID.SinglePlayer)
-                {
-                    Main.NewText(Language.GetTextValue(key), messageColor);
-                    Main.NewText(Language.GetTextValue(key2), messageColor2);
-                }
-                else if (Main.netMode == NetmodeID.Server)
-                {
-                    NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-                    NetMessage.BroadcastChatMessage(NetworkText.FromKey(key2), messageColor2);
-                }
+                CalamityUtils.DisplayLocalizedText(key, messageColor);
+                CalamityUtils.DisplayLocalizedText(key2, messageColor2);
             }
 
             // Mark DoG as dead
@@ -1204,10 +1193,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             {
                 string key = "Mods.CalamityMod.EdgyBossText2";
                 Color messageColor = Color.Cyan;
-                if (Main.netMode == NetmodeID.SinglePlayer)
-                    Main.NewText(Language.GetTextValue(key), messageColor);
-                else if (Main.netMode == NetmodeID.Server)
-                    NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
+                CalamityUtils.DisplayLocalizedText(key, messageColor);
                 return false;
             }
             return true;

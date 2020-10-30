@@ -107,12 +107,22 @@ namespace CalamityMod.NPCs.HiveMind
 
             npc.noGravity = false;
             npc.noTileCollide = false;
+
             bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
             bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
 			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
 			CalamityGlobalNPC.hiveMind = npc.whoAmI;
 
-            if (Main.netMode != NetmodeID.MultiplayerClient)
+			float enrageScale = 0f;
+			if ((npc.position.Y / 16f) < Main.worldSurface)
+				enrageScale += 1f;
+			if (!player.ZoneCorrupt)
+				enrageScale += 1f;
+
+			if (BossRushEvent.BossRushActive)
+				enrageScale = 0f;
+
+			if (Main.netMode != NetmodeID.MultiplayerClient)
             {
                 if (npc.localAI[0] == 0f)
                 {
@@ -182,7 +192,7 @@ namespace CalamityMod.NPCs.HiveMind
             burrowTimer--;
             if (burrowTimer < -120)
             {
-                burrowTimer = death ? 180 : revenge ? 300 : expertMode ? 360 : 420;
+                burrowTimer = (death ? 180 : revenge ? 300 : expertMode ? 360 : 420) - (int)enrageScale * 60;
                 npc.scale = 1f;
                 npc.alpha = 0;
                 npc.dontTakeDamage = false;
@@ -322,14 +332,6 @@ namespace CalamityMod.NPCs.HiveMind
         public override bool PreNPCLoot()
         {
             return false;
-        }
-
-        public override void OnHitPlayer(Player player, int damage, bool crit)
-        {
-            if (CalamityWorld.revenge)
-            {
-                player.AddBuff(ModContent.BuffType<Horror>(), 300, true);
-            }
         }
     }
 }

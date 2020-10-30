@@ -248,14 +248,6 @@ namespace CalamityMod.NPCs.Crags
             }
         }
 
-        public override void OnHitPlayer(Player player, int damage, bool crit)
-        {
-            if (CalamityWorld.revenge)
-            {
-                player.AddBuff(ModContent.BuffType<Horror>(), 180, true);
-            }
-        }
-
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
             return spawnInfo.player.Calamity().ZoneCalamity ? 0.125f : 0f;

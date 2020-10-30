@@ -12,35 +12,36 @@ namespace CalamityMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Reaper Tooth Necklace");
-            Tooltip.SetDefault("Increases armor penetration by 120\n" +
-                "Reduces your defense and damage reduction by 25%");
+            Tooltip.SetDefault("A grisly trophy from the ultimate predator\n" + "12% increased damage\n" + "Increases armor penetration by 100\n");
         }
 
         public override void SetDefaults()
         {
-            item.width = 26;
-            item.height = 26;
-            item.value = CalamityGlobalItem.Rarity13BuyPrice;
-            item.rare = 10;
+            item.width = 44;
+            item.height = 50;
             item.accessory = true;
+            item.value = CalamityGlobalItem.Rarity13BuyPrice;
+            item.rare = ItemRarityID.Red;
             item.Calamity().customRarity = CalamityRarity.PureGreen;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            modPlayer.reaperToothNecklace = true;
-            player.armorPenetration += 120;
+            player.allDamage += 0.12f;
+            player.armorPenetration += 100;
         }
 
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ItemID.SharkToothNecklace);
+            recipe.AddIngredient(ItemID.AvengerEmblem);
             recipe.AddIngredient(ModContent.ItemType<ReaperTooth>(), 6);
             recipe.AddIngredient(ModContent.ItemType<Lumenite>(), 15);
             recipe.AddIngredient(ModContent.ItemType<DepthCells>(), 15);
             recipe.AddIngredient(ModContent.ItemType<Tenebris>(), 5);
-            recipe.AddTile(TileID.MythrilAnvil);
+            recipe.AddTile(TileID.TinkerersWorkbench);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

@@ -205,7 +205,9 @@ namespace CalamityMod.NPCs.StormWeaver
 
             if (Main.player[npc.target].dead && npc.life > 0)
             {
-                npc.TargetClosest(false);
+				npc.localAI[1] = 0f;
+				calamityGlobalNPC.newAI[0] = 0f;
+				npc.TargetClosest(false);
                 npc.velocity.Y = npc.velocity.Y - 10f;
                 if ((double)npc.position.Y < Main.topWorld + 16f)
                 {

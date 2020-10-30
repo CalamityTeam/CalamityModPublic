@@ -18,8 +18,9 @@ namespace CalamityMod.Items.Accessories
                 "Boosts your damage by 5% and max movement speed and acceleration by 5%\n" +
                 "Rage mode does more damage\n" +
                 "You gain rage over time\n" +
-                "The Horror debuff lasts twice as long,\n" +
-                "but it instead grants various buffs to the player\n" +
+				"Converts certain debuffs into buffs and extends their durations\n" +
+				"Debuffs affected: Darkness, Blackout, Confused, Slow, Weak, Broken Armor,\n" +
+				"Armor Crunch, War Cleave, Chilled, Ichor and Obstructed\n" +
                 "Receiving a hit causes you to only lose half of your max adrenaline rather than all of it\n" +
                 "Standing still regenerates your life quickly and boosts your defense by 25");
             Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(5, 7));

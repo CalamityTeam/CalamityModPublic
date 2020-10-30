@@ -128,7 +128,7 @@ namespace CalamityMod.Projectiles.Rogue
 
                     int whoAmI = -1;
                     Vector2 targetSpot = projectile.Center;
-                    float detectRange = 400f;
+                    float detectRange = 1000f;
                     for (int i = 0; i < Main.maxNPCs; i++)
                     {
                         NPC npc = Main.npc[i];
@@ -148,7 +148,7 @@ namespace CalamityMod.Projectiles.Rogue
                     {
                         projectile.netUpdate = true;
                         projectile.ai[0] += (float)penetrationAmt;
-                        projectile.position = targetSpot + ((float)Main.rand.NextDouble() * 6.28318548f).ToRotationVector2() * 100f - new Vector2((float)projectile.width, (float)projectile.height) / 2f;
+                        projectile.position = targetSpot + ((float)Main.rand.NextDouble() * MathHelper.TwoPi).ToRotationVector2() * 100f - new Vector2((float)projectile.width, (float)projectile.height) / 2f;
                         projectile.velocity = Vector2.Normalize(targetSpot - projectile.Center) * 18f;
                     }
                     else

@@ -314,6 +314,19 @@ namespace CalamityMod.NPCs
 			NPCID.EaterofWorldsTail
 		};
 
+		public static List<int> DeathModeSplittingWormIDs = new List<int>
+		{
+			NPCID.DuneSplicerHead,
+			NPCID.DuneSplicerBody,
+			NPCID.DuneSplicerTail,
+			NPCID.DiggerHead,
+			NPCID.DiggerBody,
+			NPCID.DiggerTail,
+			NPCID.SeekerHead,
+			NPCID.SeekerBody,
+			NPCID.SeekerTail
+		};
+
 		public static List<int> DestroyerIDs = new List<int>
 		{
 			NPCID.TheDestroyer,
@@ -912,7 +925,7 @@ namespace CalamityMod.NPCs
                     break;
 
                 case NPCID.SkeletronPrime:
-                    npc.lifeMax = (int)(npc.lifeMax * 1.9);
+                    npc.lifeMax = (int)(npc.lifeMax * 1.45);
                     npc.npcSlots = 12f;
                     break;
 
@@ -937,6 +950,11 @@ namespace CalamityMod.NPCs
         {
             npc.value = (int)(npc.value * 1.5);
 
+			if (DeathModeSplittingWormIDs.Contains(npc.type))
+			{
+				if (CalamityWorld.death)
+					npc.lifeMax = (int)(npc.lifeMax * 0.5);
+			}
             if (npc.type == NPCID.Mothron)
             {
                 npc.scale = 1.25f;
@@ -965,7 +983,7 @@ namespace CalamityMod.NPCs
             }
             else if (npc.type == NPCID.Golem)
             {
-                npc.lifeMax = (int)(npc.lifeMax * 4.0);
+                npc.lifeMax = (int)(npc.lifeMax * 3.5);
                 npc.npcSlots = 64f;
             }
             else if (npc.type == NPCID.GolemHead)
@@ -974,7 +992,7 @@ namespace CalamityMod.NPCs
             }
             else if (npc.type == NPCID.GolemHeadFree)
             {
-                npc.lifeMax = (int)(npc.lifeMax * 1.25);
+                npc.lifeMax = (int)(npc.lifeMax * 1.7);
                 npc.dontTakeDamage = false;
             }
             else if (npc.type == NPCID.Plantera)
@@ -995,7 +1013,7 @@ namespace CalamityMod.NPCs
             {
                 npc.lifeMax = (int)(npc.lifeMax * 1.05);
             }
-            else if (npc.type == NPCID.SkeletronHead) // 8800 in expert, 6600 in rev, 4400 in death
+            else if (npc.type == NPCID.SkeletronHead)
             {
 				if (CalamityWorld.death)
 					npc.lifeMax = (int)(npc.lifeMax * 0.5);
@@ -1004,10 +1022,10 @@ namespace CalamityMod.NPCs
 
 				npc.npcSlots = 12f;
             }
-            else if (npc.type == NPCID.SkeletronHand) // 3120 in expert, 11232 in rev, 18720 in death
+            else if (npc.type == NPCID.SkeletronHand)
             {
 				if (CalamityWorld.death)
-					npc.lifeMax = (int)(npc.lifeMax * 0.75);
+					npc.lifeMax = (int)(npc.lifeMax * 0.65);
 				else
 					npc.lifeMax = (int)(npc.lifeMax * 0.9);
 			}
@@ -1038,7 +1056,7 @@ namespace CalamityMod.NPCs
                     npc.npcSlots = 10f;
 
 				if (CalamityWorld.death)
-					npc.scale = 1.2f;
+					npc.scale = 1.1f;
 			}
             else if (npc.type == NPCID.EyeofCthulhu)
             {
@@ -1065,7 +1083,7 @@ namespace CalamityMod.NPCs
                 }
                 else if (npc.type == NPCID.SkeletronPrime)
                 {
-					npc.lifeMax = (int)(npc.lifeMax * 1.45);
+					npc.lifeMax = (int)(npc.lifeMax * 1.2);
 					npc.npcSlots = 12f;
                 }
 				else if (npc.type <= NPCID.PrimeLaser && npc.type >= NPCID.PrimeCannon)
@@ -1286,11 +1304,6 @@ namespace CalamityMod.NPCs
         #region Scale Expert Multiplayer Stats
         public override void ScaleExpertStats(NPC npc, int numPlayers, float bossLifeScale)
         {
-            if (CalamityWorld.revenge)
-            {
-                ScaleThoriumBossHealth(npc, mod);
-            }
-
             if (Main.netMode == NetmodeID.SinglePlayer || numPlayers <= 1)
             {
                 return;
@@ -1332,104 +1345,6 @@ namespace CalamityMod.NPCs
                 }
 
                 npc.lifeMax = (int)(npc.lifeMax * scalar);
-            }
-        }
-        #endregion
-
-        #region Scale Thorium Boss Health
-        private void ScaleThoriumBossHealth(NPC npc, Mod mod)
-        {
-            if (CalamityConfig.Instance.BuffThoriumBosses)
-            {
-                Mod thorium = ModLoader.GetMod("ThoriumMod");
-                if (thorium != null)
-                {
-                    if (npc.type == thorium.NPCType("Hatchling") || npc.type == thorium.NPCType("DistractJelly") || npc.type == thorium.NPCType("ViscountBaby") ||
-                        npc.type == thorium.NPCType("BoreanHopper") || npc.type == thorium.NPCType("BoreanMyte1") || npc.type == thorium.NPCType("EnemyBeholder") ||
-                        npc.type == thorium.NPCType("ThousandSoulPhalactry") || npc.type == thorium.NPCType("AbyssalSpawn"))
-                    {
-                        npc.lifeMax = (int)(npc.lifeMax * 1.5);
-                    }
-                    else if (npc.type == thorium.NPCType("TheGrandThunderBirdv2"))
-                    {
-                        npc.buffImmune[BuffType<GlacialState>()] = true;
-                        npc.buffImmune[BuffType<TemporalSadness>()] = true;
-
-                        npc.lifeMax = (int)(npc.lifeMax * 1.5);
-                    }
-                    else if (npc.type == thorium.NPCType("QueenJelly"))
-                    {
-                        npc.buffImmune[BuffType<GlacialState>()] = true;
-                        npc.buffImmune[BuffType<TemporalSadness>()] = true;
-
-                        npc.lifeMax = (int)(npc.lifeMax * 1.35);
-                    }
-                    else if (npc.type == thorium.NPCType("Viscount"))
-                    {
-                        npc.buffImmune[BuffType<GlacialState>()] = true;
-                        npc.buffImmune[BuffType<TemporalSadness>()] = true;
-
-                        npc.lifeMax = (int)(npc.lifeMax * 1.25);
-                    }
-                    else if (npc.type == thorium.NPCType("GraniteEnergyStorm"))
-                    {
-                        npc.buffImmune[BuffType<GlacialState>()] = true;
-                        npc.buffImmune[BuffType<TemporalSadness>()] = true;
-
-                        npc.lifeMax = (int)(npc.lifeMax * 1.1);
-                    }
-                    else if (npc.type == thorium.NPCType("TheBuriedWarrior") || npc.type == thorium.NPCType("TheBuriedWarrior1") || npc.type == thorium.NPCType("TheBuriedWarrior2"))
-                    {
-                        npc.buffImmune[BuffType<GlacialState>()] = true;
-                        npc.buffImmune[BuffType<TemporalSadness>()] = true;
-
-                        npc.lifeMax = (int)(npc.lifeMax * 1.2);
-                    }
-                    else if (npc.type == thorium.NPCType("ThePrimeScouter") || npc.type == thorium.NPCType("CryoCore") || npc.type == thorium.NPCType("BioCore") ||
-                        npc.type == thorium.NPCType("PyroCore"))
-                    {
-                        npc.buffImmune[BuffType<GlacialState>()] = true;
-                        npc.buffImmune[BuffType<TemporalSadness>()] = true;
-
-                        npc.lifeMax = (int)(npc.lifeMax * 1.3);
-                    }
-                    else if (npc.type == thorium.NPCType("BoreanStrider") || npc.type == thorium.NPCType("BoreanStriderPopped"))
-                    {
-                        npc.buffImmune[BuffType<GlacialState>()] = true;
-                        npc.buffImmune[BuffType<TemporalSadness>()] = true;
-
-                        npc.lifeMax = (int)(npc.lifeMax * 1.4);
-                    }
-                    else if (npc.type == thorium.NPCType("FallenDeathBeholder") || npc.type == thorium.NPCType("FallenDeathBeholder2"))
-                    {
-                        npc.buffImmune[BuffType<GlacialState>()] = true;
-                        npc.buffImmune[BuffType<TemporalSadness>()] = true;
-
-                        npc.lifeMax = (int)(npc.lifeMax * 1.6);
-                    }
-                    else if (npc.type == thorium.NPCType("Lich") || npc.type == thorium.NPCType("LichHeadless"))
-                    {
-                        npc.buffImmune[BuffType<GlacialState>()] = true;
-                        npc.buffImmune[BuffType<TemporalSadness>()] = true;
-
-                        npc.lifeMax = (int)(npc.lifeMax * 1.6);
-                    }
-                    else if (npc.type == thorium.NPCType("Abyssion") || npc.type == thorium.NPCType("AbyssionCracked") || npc.type == thorium.NPCType("AbyssionReleased"))
-                    {
-                        npc.buffImmune[BuffType<GlacialState>()] = true;
-                        npc.buffImmune[BuffType<TemporalSadness>()] = true;
-
-                        npc.lifeMax = (int)(npc.lifeMax * 1.5);
-                    }
-                    else if (npc.type == thorium.NPCType("SlagFury") || npc.type == thorium.NPCType("Omnicide") || npc.type == thorium.NPCType("RealityBreaker") ||
-                        npc.type == thorium.NPCType("Aquaius") || npc.type == thorium.NPCType("Aquaius2"))
-                    {
-                        npc.buffImmune[BuffType<GlacialState>()] = true;
-                        npc.buffImmune[BuffType<TemporalSadness>()] = true;
-
-                        npc.lifeMax = (int)(npc.lifeMax * 1.3);
-                    }
-                }
             }
         }
         #endregion
@@ -2391,7 +2306,7 @@ namespace CalamityMod.NPCs
 						{
 							case NPCID.FungiSpore:
 							case NPCID.Spore:
-								return CalamityGlobalAI.BuffedSporeAI(npc, mod, true);
+								return CalamityGlobalAI.BuffedSporeAI(npc, mod);
 						}
 						break;
 					case 73:
@@ -2444,7 +2359,7 @@ namespace CalamityMod.NPCs
 			else if (Main.expertMode)
 			{
 				if (npc.type == NPCID.FungiSpore || npc.type == NPCID.Spore)
-					return CalamityGlobalAI.BuffedSporeAI(npc, mod, false);
+					return CalamityGlobalAI.BuffedSporeAI(npc, mod);
 			}
 
             return true;
@@ -3106,232 +3021,6 @@ namespace CalamityMod.NPCs
 						break;
 				}
 			}
-
-            if (CalamityWorld.revenge)
-            {
-                if (CalamityConfig.Instance.BuffThoriumBosses)
-                {
-                    Mod thorium = ModLoader.GetMod("ThoriumMod");
-                    if (thorium != null)
-                    {
-                        if (npc.type == thorium.NPCType("GraniteEnergyStorm") || npc.type == thorium.NPCType("TheBuriedWarrior") || npc.type == thorium.NPCType("TheBuriedWarrior1") ||
-                            npc.type == thorium.NPCType("TheBuriedWarrior2") || npc.type == thorium.NPCType("ThePrimeScouter") || npc.type == thorium.NPCType("CryoCore") ||
-                            npc.type == thorium.NPCType("BioCore") || npc.type == thorium.NPCType("PyroCore") || npc.type == thorium.NPCType("SlagFury") ||
-                            npc.type == thorium.NPCType("Omnicide") || npc.type == thorium.NPCType("RealityBreaker") || npc.type == thorium.NPCType("Aquaius") ||
-                            npc.type == thorium.NPCType("Aquaius2"))
-                        {
-                            target.AddBuff(BuffType<MarkedforDeath>(), 180);
-                        }
-                        else if (npc.type == thorium.NPCType("ViscountBaby") || npc.type == thorium.NPCType("EnemyBeholder") || npc.type == thorium.NPCType("AbyssalSpawn") ||
-                            npc.type == thorium.NPCType("Viscount") || npc.type == thorium.NPCType("FallenDeathBeholder") || npc.type == thorium.NPCType("FallenDeathBeholder2") ||
-                            npc.type == thorium.NPCType("Lich") || npc.type == thorium.NPCType("LichHeadless") || npc.type == thorium.NPCType("Abyssion") ||
-                            npc.type == thorium.NPCType("AbyssionCracked") || npc.type == thorium.NPCType("AbyssionReleased"))
-                        {
-                            target.AddBuff(BuffType<MarkedforDeath>(), 180);
-                            target.AddBuff(BuffType<Horror>(), 180);
-                        }
-                    }
-                }
-
-                switch (npc.type)
-                {
-                    case NPCID.DemonEye:
-                    case NPCID.EaterofSouls:
-                    case NPCID.EaterofWorldsTail:
-                    case NPCID.ChaosBall:
-                    case NPCID.VileSpit:
-                    case NPCID.LeechHead:
-                    case NPCID.Crimera:
-                    case NPCID.FaceMonster:
-                    case NPCID.BloodCrawler:
-                    case NPCID.BloodCrawlerWall:
-                        target.AddBuff(BuffType<Horror>(), 60);
-                        break;
-
-                    case NPCID.DevourerHead:
-                    case NPCID.EaterofWorldsBody:
-                    case NPCID.CorruptBunny:
-                    case NPCID.CorruptGoldfish:
-                    case NPCID.CorruptSlime:
-                    case NPCID.Corruptor:
-                    case NPCID.Clinger:
-                    case NPCID.Slimer:
-                    case NPCID.WanderingEye:
-                    case NPCID.Frankenstein:
-                    case NPCID.WallCreeper:
-                    case NPCID.WallCreeperWall:
-                    case NPCID.SwampThing:
-                    case NPCID.CorruptPenguin:
-                    case NPCID.Herpling:
-                    case NPCID.FloatyGross:
-                    case NPCID.Crimslime:
-                    case NPCID.BloodFeeder:
-                    case NPCID.BloodJelly:
-                    case NPCID.IchorSticker:
-                    case NPCID.Ghost:
-                    case NPCID.CreatureFromTheDeep:
-                    case NPCID.Fritz:
-                    case NPCID.CrimsonBunny:
-                    case NPCID.CrimsonGoldfish:
-                    case NPCID.CrimsonPenguin:
-                    case NPCID.Drippler:
-                        target.AddBuff(BuffType<Horror>(), 120);
-                        break;
-
-                    case NPCID.EyeofCthulhu:
-                    case NPCID.ServantofCthulhu:
-                    case NPCID.SkeletronHead:
-                    case NPCID.Demon:
-                    case NPCID.VoodooDemon:
-                    case NPCID.CursedHammer:
-                    case NPCID.SeekerHead:
-                    case NPCID.RedDevil:
-                    case NPCID.BlackRecluse:
-                    case NPCID.CrimsonAxe:
-                    case NPCID.Nymph:
-                    case NPCID.BlackRecluseWall:
-                    case NPCID.Eyezor:
-                    case NPCID.BrainofCthulhu:
-                    case NPCID.HeadlessHorseman:
-                    case NPCID.Splinterling:
-                    case NPCID.Hellhound:
-                    case NPCID.Poltergeist:
-                    case NPCID.Nailhead:
-                    case NPCID.DrManFly:
-                    case NPCID.ThePossessed:
-                    case NPCID.Mothron:
-                    case NPCID.Medusa:
-                    case NPCID.SandsharkCorrupt:
-                    case NPCID.SandsharkCrimson:
-                        target.AddBuff(BuffType<Horror>(), 180);
-                        break;
-
-                    case NPCID.MourningWood:
-                    case NPCID.Pumpking:
-                        target.AddBuff(BuffType<Horror>(), 240);
-                        break;
-
-                    case NPCID.WallofFlesh:
-                    case NPCID.Krampus:
-                        target.AddBuff(BuffType<Horror>(), 300);
-                        break;
-
-                    case NPCID.DungeonGuardian:
-                        target.AddBuff(BuffType<Horror>(), 1200);
-                        break;
-
-                    case NPCID.Creeper:
-                        target.AddBuff(BuffType<Horror>(), 60);
-                        target.AddBuff(BuffType<MarkedforDeath>(), 120);
-                        break;
-
-                    case NPCID.CursedSkull:
-                    case NPCID.SkeletronHand:
-                    case NPCID.TheHungry:
-                    case NPCID.TheHungryII:
-                    case NPCID.PumpkingBlade:
-                    case NPCID.BloodZombie:
-                        target.AddBuff(BuffType<Horror>(), 120);
-                        target.AddBuff(BuffType<MarkedforDeath>(), 120);
-                        break;
-
-                    case NPCID.DarkMummy:
-                        target.AddBuff(BuffType<Horror>(), 180);
-                        target.AddBuff(BuffType<MarkedforDeath>(), 120);
-                        break;
-
-                    case NPCID.EaterofWorldsHead:
-                    case NPCID.GiantCursedSkull:
-                    case NPCID.Butcher:
-                    case NPCID.Psycho:
-                        target.AddBuff(BuffType<Horror>(), 180);
-                        target.AddBuff(BuffType<MarkedforDeath>(), 180);
-                        break;
-
-                    case NPCID.Wraith:
-                    case NPCID.VampireBat:
-                    case NPCID.Vampire:
-                    case NPCID.Reaper:
-                        target.AddBuff(BuffType<Horror>(), 240);
-                        target.AddBuff(BuffType<MarkedforDeath>(), 180);
-                        break;
-
-                    case NPCID.AncientCultistSquidhead:
-                        target.AddBuff(BuffType<Horror>(), 240);
-                        target.AddBuff(BuffType<MarkedforDeath>(), 240);
-                        break;
-
-                    case NPCID.DungeonSpirit:
-                        target.AddBuff(BuffType<Horror>(), 300);
-                        target.AddBuff(BuffType<MarkedforDeath>(), 180);
-                        break;
-
-                    case NPCID.AncientDoom:
-                        target.AddBuff(BuffType<Horror>(), 300);
-                        target.AddBuff(BuffType<MarkedforDeath>(), 300);
-                        break;
-
-                    case NPCID.Snatcher:
-                        target.AddBuff(BuffType<MarkedforDeath>(), 60);
-                        break;
-
-                    case NPCID.BurningSphere:
-                    case NPCID.ManEater:
-                    case NPCID.Mummy:
-                    case NPCID.EnchantedSword:
-                    case NPCID.Werewolf:
-                        target.AddBuff(BuffType<MarkedforDeath>(), 120);
-                        break;
-
-                    case NPCID.Spazmatism:
-                    case NPCID.Probe:
-                    case NPCID.QueenBee:
-                    case NPCID.Spore:
-                    case NPCID.BoneLee:
-                    case NPCID.Flocko:
-                    case NPCID.DukeFishron:
-                    case NPCID.Sharkron:
-                    case NPCID.Sharkron2:
-                    case NPCID.ShadowFlameApparition:
-                    case NPCID.MartianDrone:
-                        target.AddBuff(BuffType<MarkedforDeath>(), 180);
-                        break;
-
-                    case NPCID.Mimic:
-                    case NPCID.AngryTrapper:
-                        target.AddBuff(BuffType<MarkedforDeath>(), 240);
-                        break;
-
-                    case NPCID.DetonatingBubble:
-                        target.AddBuff(BuffType<MarkedforDeath>(), 360);
-                        break;
-
-                    case NPCID.PrimeSaw:
-                    case NPCID.PrimeVice:
-						target.AddBuff(BuffID.Bleeding, 300);
-                        target.AddBuff(BuffType<MarkedforDeath>(), 180);
-						break;
-
-                    case NPCID.SkeletronPrime:
-						target.AddBuff(BuffID.Bleeding, 300);
-						break;
-
-					case NPCID.Golem:
-					case NPCID.GolemHead:
-					case NPCID.GolemHeadFree:
-						target.AddBuff(BuffID.BrokenArmor, 180);
-						break;
-
-					case NPCID.GolemFistRight:
-					case NPCID.GolemFistLeft:
-						target.AddBuff(BuffID.BrokenArmor, 180);
-                        target.AddBuff(BuffType<MarkedforDeath>(), 180);
-						break;
-
-                    default:
-                        break;
-                }
-            }
         }
         #endregion
 
@@ -4009,7 +3698,16 @@ namespace CalamityMod.NPCs
                     }
                 }
             }
-        }
+
+			if (spawnInfo.playerSafe)
+				return;
+
+			if (!Main.hardMode && spawnInfo.player.ZoneUnderworldHeight)
+			{
+				if (!NPC.AnyNPCs(NPCID.VoodooDemon))
+					pool[NPCID.VoodooDemon] = SpawnCondition.Underworld.Chance * 1.5f;
+			}
+		}
         #endregion
 
         #region Drawing
@@ -4649,9 +4347,6 @@ namespace CalamityMod.NPCs
 			{
 				switch (npc.type)
 				{
-					case NPCID.DevourerHead:
-					case NPCID.DevourerBody:
-					case NPCID.DevourerTail:
 					case NPCID.DiggerHead:
 					case NPCID.DiggerBody:
 					case NPCID.DiggerTail:

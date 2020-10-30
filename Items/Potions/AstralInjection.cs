@@ -60,7 +60,7 @@ namespace CalamityMod.Items.Potions
             recipe.AddIngredient(ModContent.ItemType<BloodOrb>(), 5);
             recipe.AddIngredient(ModContent.ItemType<AstralJelly>());
             recipe.AddTile(TileID.AlchemyTable);
-            recipe.SetResult(this, 4);
+            recipe.SetResult(this, 8);
             recipe.AddRecipe();
         }
     }

@@ -197,19 +197,12 @@ namespace CalamityMod.NPCs.AquaticScourge
                 if (!Main.player[Main.myPlayer].dead && Main.player[Main.myPlayer].active)
                     Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/MaulerRoar"), (int)Main.player[Main.myPlayer].position.X, (int)Main.player[Main.myPlayer].position.Y);
 
-                string sulfSeaBoostMessage = "Mods.CalamityMod.WetWormBossText";
+                string sulfSeaBoostKey = "Mods.CalamityMod.WetWormBossText";
                 Color sulfSeaBoostColor = AcidRainEvent.TextColor;
 
-                if (Main.netMode == NetmodeID.SinglePlayer)
-                {
-                    Main.NewText(Language.GetTextValue(sulfSeaBoostMessage), sulfSeaBoostColor);
-                }
-                else if (Main.netMode == NetmodeID.Server)
-                {
-                    NetMessage.BroadcastChatMessage(NetworkText.FromKey(sulfSeaBoostMessage), sulfSeaBoostColor);
-                }
-				//set a timer for acid rain to start after 10 seconds
-				CalamityWorld.forceRainTimer = 601;
+                CalamityUtils.DisplayLocalizedText(sulfSeaBoostKey, sulfSeaBoostColor);
+                //set a timer for acid rain to start after 10 seconds
+                CalamityWorld.forceRainTimer = 601;
             }
 
             // Mark Aquatic Scourge as dead
@@ -252,10 +245,6 @@ namespace CalamityMod.NPCs.AquaticScourge
         {
             player.AddBuff(BuffID.Bleeding, 360, true);
             player.AddBuff(BuffID.Venom, 360, true);
-            if (CalamityWorld.revenge)
-            {
-                player.AddBuff(ModContent.BuffType<MarkedforDeath>(), 180);
-            }
         }
     }
 }

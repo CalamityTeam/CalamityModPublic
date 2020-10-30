@@ -120,10 +120,6 @@ namespace CalamityMod.NPCs.Crags
         {
             player.AddBuff(BuffID.Weak, 120, true);
             player.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120, true);
-            if (CalamityWorld.revenge)
-            {
-                player.AddBuff(ModContent.BuffType<Horror>(), 180, true);
-            }
         }
 
         public override void NPCLoot()

@@ -129,9 +129,18 @@ namespace CalamityMod.NPCs.Leviathan
 			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
 			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
             bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
-			bool isNotOcean = player.position.Y < 800f || player.position.Y > Main.worldSurface * 16.0 || (player.position.X > 6400f && player.position.X < (Main.maxTilesX * 16 - 6400));
+			bool notOcean = player.position.Y < 800f || player.position.Y > Main.worldSurface * 16.0 || (player.position.X > 6400f && player.position.X < (Main.maxTilesX * 16 - 6400));
+
+			float enrageScale = 0f;
+			if (notOcean)
+				enrageScale += 2f;
+
+			if (BossRushEvent.BossRushActive)
+				enrageScale = 0f;
+
 			float lifeRatio = npc.life / (float)npc.lifeMax;
 			float bubbleVelocity = BossRushEvent.BossRushActive ? 16f : death ? 9f : revenge ? 7f : expertMode ? 6f : 5f;
+			bubbleVelocity += 2f * enrageScale;
 			if (!leviAlive)
 				bubbleVelocity += 2f * (1f - lifeRatio);
 
@@ -184,7 +193,7 @@ namespace CalamityMod.NPCs.Leviathan
 					npc.dontTakeDamage = true;
 				else
 				{
-					npc.dontTakeDamage = isNotOcean && !BossRushEvent.BossRushActive;
+					npc.dontTakeDamage = false;
 					npc.ai[3] = 0f;
 
 					if (npc.localAI[1] == -1f)
@@ -207,7 +216,7 @@ namespace CalamityMod.NPCs.Leviathan
 			}
 			else
 			{
-				npc.dontTakeDamage = isNotOcean && !BossRushEvent.BossRushActive;
+				npc.dontTakeDamage = false;
 
 				int num7 = (int)npc.ai[3] - 1;
 				if (num7 != -1 && Main.npc[num7].active && Main.npc[num7].type == ModContent.NPCType<SirenIce>())
@@ -259,18 +268,9 @@ namespace CalamityMod.NPCs.Leviathan
 			// Alpha
 			if (npc.damage != 0)
 			{
-				if (isNotOcean)
-				{
-					npc.alpha += 3;
-					if (npc.alpha >= 150)
-						npc.alpha = 150;
-				}
-				else
-				{
-					npc.alpha -= 5;
-					if (npc.alpha <= 0)
-						npc.alpha = 0;
-				}
+				npc.alpha -= 5;
+				if (npc.alpha <= 0)
+					npc.alpha = 0;
 			}
 
             // Play sound
@@ -375,7 +375,10 @@ namespace CalamityMod.NPCs.Leviathan
 
 				float maxVelocityY = death ? 3f : 4f;
 				float maxVelocityX = death ? 7f : 8f;
-                if (npc.position.Y > player.position.Y - 350f)
+				maxVelocityY -= enrageScale;
+				maxVelocityX -= 2f * enrageScale;
+
+				if (npc.position.Y > player.position.Y - 350f)
                 {
                     if (npc.velocity.Y > 0f)
                         npc.velocity.Y *= 0.98f;
@@ -391,6 +394,7 @@ namespace CalamityMod.NPCs.Leviathan
                     if (npc.velocity.Y < -maxVelocityY)
                         npc.velocity.Y = -maxVelocityY;
                 }
+
                 if (npc.position.X + (npc.width / 2) > player.position.X + (player.width / 2) + 100f)
                 {
                     if (npc.velocity.X > 0f)
@@ -399,6 +403,7 @@ namespace CalamityMod.NPCs.Leviathan
                     if (npc.velocity.X > maxVelocityX)
                         npc.velocity.X = maxVelocityX;
                 }
+
                 if (npc.position.X + (npc.width / 2) < player.position.X + (player.width / 2) - 100f)
                 {
                     if (npc.velocity.X < 0f)
@@ -461,6 +466,9 @@ namespace CalamityMod.NPCs.Leviathan
                 {
 					float maxVelocityY = death ? 3f : 4f;
 					float maxVelocityX = death ? 7f : 8f;
+					maxVelocityY -= enrageScale;
+					maxVelocityX -= 2f * enrageScale;
+
 					if (npc.position.Y > player.position.Y - 350f)
 					{
 						if (npc.velocity.Y > 0f)
@@ -477,6 +485,7 @@ namespace CalamityMod.NPCs.Leviathan
 						if (npc.velocity.Y < -maxVelocityY)
 							npc.velocity.Y = -maxVelocityY;
 					}
+
 					if (npc.position.X + (npc.width / 2) > player.position.X + (player.width / 2) + 100f)
 					{
 						if (npc.velocity.X > 0f)
@@ -485,6 +494,7 @@ namespace CalamityMod.NPCs.Leviathan
 						if (npc.velocity.X > maxVelocityX)
 							npc.velocity.X = maxVelocityX;
 					}
+
 					if (npc.position.X + (npc.width / 2) < player.position.X + (player.width / 2) - 100f)
 					{
 						if (npc.velocity.X < 0f)
@@ -515,8 +525,11 @@ namespace CalamityMod.NPCs.Leviathan
                 npc.rotation = npc.velocity.X * 0.02f;
 
 				Vector2 targetVector = player.Center + new Vector2(0f, -350f);
-				Vector2 vector3 = Vector2.Normalize(targetVector - vector - npc.velocity) * (BossRushEvent.BossRushActive ? 18f : death ? 13.5f : 12f);
+				float velocity = BossRushEvent.BossRushActive ? 18f : death ? 13.5f : 12f;
+				velocity += 3f * enrageScale;
+				Vector2 vector3 = Vector2.Normalize(targetVector - vector - npc.velocity) * velocity;
 				float acceleration = BossRushEvent.BossRushActive ? 0.5f : death ? 0.28f : 0.25f;
+				acceleration += 0.1f * enrageScale;
 
 				if (Math.Abs(npc.Center.Y - targetVector.Y) > 50f || Math.Abs(npc.Center.X - player.Center.X) > 350f)
 					npc.SimpleFlyMovement(vector3, acceleration);
@@ -524,6 +537,7 @@ namespace CalamityMod.NPCs.Leviathan
 				npc.ai[1] += 1f;
 
 				float divisor = 140f;
+				divisor -= (int)(20f * enrageScale);
 				if (!leviAlive || phase4)
 					divisor -= (float)Math.Ceiling(50f * (1f - lifeRatio));
 
@@ -531,6 +545,7 @@ namespace CalamityMod.NPCs.Leviathan
 				if (Main.netMode != NetmodeID.MultiplayerClient && shootProjectiles)
 				{
 					float projectileVelocity = expertMode ? 3f : 2f;
+					projectileVelocity += enrageScale;
 					if (!leviAlive || phase4)
 						projectileVelocity += death ? 3f * (1f - lifeRatio) : 2f * (1f - lifeRatio);
 
@@ -567,8 +582,8 @@ namespace CalamityMod.NPCs.Leviathan
 					for (int i = 0; i < totalProjectiles; i++)
 					{
 						Vector2 spawnVector = player.Center + Vector2.Normalize(new Vector2(0f, -projectileVelocity).RotatedBy(radians * i)) * projectileDistance;
-						Vector2 velocity = Vector2.Normalize(player.Center - spawnVector) * projectileVelocity;
-						Projectile.NewProjectile(spawnVector, velocity, type, damage, 0f, Main.myPlayer);
+						Vector2 projVelocity = Vector2.Normalize(player.Center - spawnVector) * projectileVelocity;
+						Projectile.NewProjectile(spawnVector, projVelocity, type, damage, 0f, Main.myPlayer);
 					}
 				}
 
@@ -580,6 +595,7 @@ namespace CalamityMod.NPCs.Leviathan
 				}
 
 				float phaseTimer = 300f;
+				phaseTimer -= 30f * enrageScale;
 				if (!leviAlive || phase4)
 					phaseTimer -= 150f * (1f - lifeRatio);
 
@@ -608,6 +624,7 @@ namespace CalamityMod.NPCs.Leviathan
 
                     // Velocity and rotation
                     float chargeVelocity = BossRushEvent.BossRushActive ? 31f : (leviAlive && !phase4) ? 21f : 26f;
+					chargeVelocity += 7f * enrageScale;
 
 					if (revenge)
 						chargeVelocity += 2f + (death ? 6f * (1f - lifeRatio) : 4f * (1f - lifeRatio));

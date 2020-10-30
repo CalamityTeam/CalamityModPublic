@@ -218,10 +218,7 @@ namespace CalamityMod.NPCs.Calamitas
                 if (!Main.player[Main.myPlayer].dead && Main.player[Main.myPlayer].active)
                     Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/WyrmScream"), (int)Main.player[Main.myPlayer].position.X, (int)Main.player[Main.myPlayer].position.Y);
 
-                if (Main.netMode == NetmodeID.SinglePlayer)
-                    Main.NewText(Language.GetTextValue(key), messageColor);
-                else if (Main.netMode == NetmodeID.Server)
-                    NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
+                CalamityUtils.DisplayLocalizedText(key, messageColor);
             }
 
             // Mark Calamitas as dead
@@ -284,10 +281,6 @@ namespace CalamityMod.NPCs.Calamitas
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            if (CalamityWorld.revenge)
-            {
-                player.AddBuff(ModContent.BuffType<Horror>(), 180, true);
-            }
             player.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 300, true);
         }
     }

@@ -4,6 +4,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.Projectiles.Summon
 {
     public class MagicBat : ModProjectile
@@ -26,15 +27,9 @@ namespace CalamityMod.Projectiles.Summon
             projectile.Calamity().rogue = true;
         }
 
-        public override void AI()
-        {
-            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver4;
-        }
+        public override void AI() => projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver4;
 
-        public override Color? GetAlpha(Color lightColor)
-        {
-            return new Color(80, 200, 120, projectile.alpha);
-        }
+        public override Color? GetAlpha(Color lightColor) => new Color(80, 200, 120, projectile.alpha);
 
         public override void Kill(int timeLeft)
         {

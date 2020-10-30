@@ -212,7 +212,7 @@ namespace CalamityMod.Projectiles
                         projectile.localAI[1] = 1f;
                     }
 
-                    if (projectile.velocity.Length() < 18f)
+                    if (projectile.velocity.Length() < 14f)
                         projectile.velocity *= 1.0025f;
 
                     return false;
@@ -785,6 +785,12 @@ namespace CalamityMod.Projectiles
         {
             Player player = Main.player[projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
+
+			if (projectile.type == ProjectileID.RocketSkeleton && projectile.ai[1] == 1f)
+			{
+				if (projectile.velocity.Length() < 20f)
+					projectile.velocity *= 1.01f;
+			}
 
             if (defDamage == 0)
                 defDamage = projectile.damage;
@@ -2158,7 +2164,7 @@ namespace CalamityMod.Projectiles
             }
 
             // Draw the projectile itself. Only do this if no afterimages are drawn because afterimage 0 is the projectile itself.
-            if (ProjectileID.Sets.TrailCacheLength[projectile.type] <= 0)
+            if (!CalamityConfig.Instance.Afterimages || ProjectileID.Sets.TrailCacheLength[projectile.type] <= 0)
             {
                 Vector2 startPos = drawCentered ? projectile.Center : projectile.position;
                 Main.spriteBatch.Draw(texture, startPos - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), rectangle, projectile.GetAlpha(lightColor), rotation, origin, scale, spriteEffects, 0f);

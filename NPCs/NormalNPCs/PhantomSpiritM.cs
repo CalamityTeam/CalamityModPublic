@@ -57,14 +57,6 @@ namespace CalamityMod.NPCs.NormalNPCs
             return;
         }
 
-        public override void OnHitPlayer(Player player, int damage, bool crit)
-        {
-            if (CalamityWorld.revenge)
-            {
-                player.AddBuff(ModContent.BuffType<MarkedforDeath>(), 150);
-            }
-        }
-
         public override void HitEffect(int hitDirection, double damage)
         {
             for (int k = 0; k < 5; k++)

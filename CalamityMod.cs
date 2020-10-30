@@ -100,7 +100,6 @@ namespace CalamityMod
         public const float bitingEnemeyVelocityScale = 0.8f;
 
         // TODO -- Calamity should check for other mods existing in exactly one place
-        internal Mod thorium = null;
         public bool fargosMutant = false;
 
         internal static CalamityMod Instance;
@@ -126,7 +125,7 @@ namespace CalamityMod
             TarraHotKey = RegisterHotKey("Armor Set Bonus", "Y");
             AstralTeleportHotKey = RegisterHotKey("Astral Teleport", "P");
             AstralArcanumUIHotkey = RegisterHotKey("Astral Arcanum UI Toggle", "O");
-            MomentumCapacitatorHotkey = RegisterHotKey("Momentom Capacitater Effect", "U");
+            MomentumCapacitatorHotkey = RegisterHotKey("Momentom Capacitator Effect", "U");
             SandCloakHotkey = RegisterHotKey("Sand Cloak Effect", "C");
             SpectralVeilHotKey = RegisterHotKey("Spectral Veil Teleport", "Z");
             PlaguePackHotKey = RegisterHotKey("Booster Dash", "Q");
@@ -138,7 +137,6 @@ namespace CalamityMod
 
             ILChanges.Initialize();
             BossRushEvent.Load();
-            thorium = ModLoader.GetMod("ThoriumMod");
             
             BossHealthBarManager.Load(this);
 
@@ -146,7 +144,6 @@ namespace CalamityMod
             SetupVanillaDR();
             SetupBossKillTimes();
             SetupBossVelocityScalingValues();
-            SetupThoriumBossDR(thorium);
 
             CalamityLocalization.AddLocalizations();
             SchematicManager.Load();
@@ -262,7 +259,6 @@ namespace CalamityMod
             CalamityLists.UnloadLists();
             NPCStats.Unload();
 
-            thorium = null;
             fargosMutant = false;
 
             PopupGUIManager.UnloadGUIs();
@@ -431,44 +427,6 @@ namespace CalamityMod
                 { NPCID.WalkingAntlion, 0.1f },
                 { NPCID.WallofFlesh, 0.5f },
             };
-        }
-        #endregion
-
-        #region Thorium Boss DR
-        private void SetupThoriumBossDR(Mod thorium)
-        {
-            if (thorium is null || !CalamityConfig.Instance.BuffThoriumBosses)
-                return;
-
-            void ThoriumDR(string npcName, float dr) {
-                int type = thorium.NPCType(npcName);
-                if (DRValues.ContainsKey(type))
-                    DRValues[type] = dr;
-                else
-                    DRValues.Add(type, dr);
-            };
-
-            ThoriumDR("Viscount", 0.05f);
-            ThoriumDR("BoreanStrider", 0.05f);
-            ThoriumDR("FallenDeathBeholder", 0.05f);
-            ThoriumDR("Lich", 0.05f);
-            ThoriumDR("AbyssionReleased", 0.05f);
-            ThoriumDR("CryoCore", 0.1f);
-            ThoriumDR("BioCore", 0.1f);
-            ThoriumDR("PyroCore", 0.1f);
-            ThoriumDR("Aquaius", 0.1f);
-            ThoriumDR("ThePrimeScouter", 0.2f);
-            ThoriumDR("FallenDeathBeholder2", 0.2f);
-            ThoriumDR("SlagFury", 0.2f);
-            ThoriumDR("Aquaius2", 0.2f);
-            ThoriumDR("GraniteEnergyStorm", 0.2f);
-            ThoriumDR("TheBuriedWarrior", 0.25f);
-            ThoriumDR("TheBuriedWarrior1", 0.25f);
-            ThoriumDR("TheBuriedWarrior2", 0.25f);
-            ThoriumDR("LichHeadless", 0.25f);
-            ThoriumDR("AbyssionCracked", 0.25f);
-            ThoriumDR("Omnicide", 0.3f);
-            ThoriumDR("Abyssion", 0.35f);
         }
         #endregion
 

@@ -356,7 +356,8 @@ namespace CalamityMod
                 ModContent.ProjectileType<TerraLanceProjectile>(),
                 ModContent.ProjectileType<TyphonsGreedStaff>(),
                 ModContent.ProjectileType<UrchinSpearProjectile>(),
-                ModContent.ProjectileType<YateveoBloomSpear>()
+                ModContent.ProjectileType<YateveoBloomSpear>(),
+                ModContent.ProjectileType<HydraulicVoltCrasherProjectile>()
             };
 
             rangedProjectileExceptionList = new List<int>()
@@ -1473,7 +1474,8 @@ namespace CalamityMod
                 ModContent.ItemType<FrostcrushValari>(),
                 ModContent.ItemType<DefectiveSphere>(),
                 ModContent.ItemType<TerraDisk>(),
-                ModContent.ItemType<ToxicantTwister>()
+                ModContent.ItemType<ToxicantTwister>(),
+                ModContent.ItemType<TrackingDisk>()
             };
 
             boomerangProjList = new List<int>()
@@ -1514,7 +1516,8 @@ namespace CalamityMod
                 ModContent.ProjectileType<ButcherKnife>(),
                 ModContent.ProjectileType<TerraDiskProjectile>(),
                 ModContent.ProjectileType<TerraDiskProjectile2>(),
-                ModContent.ProjectileType<ToxicantTwisterTwoPointZero>()
+                ModContent.ProjectileType<ToxicantTwisterTwoPointZero>(),
+                ModContent.ProjectileType<TrackingDiskProjectile>()
             };
 
             javelinList = new List<int>()
@@ -1537,7 +1540,8 @@ namespace CalamityMod
                 ModContent.ItemType<PhantomLance>(),
                 ModContent.ItemType<ProfanedPartisan>(),
                 ModContent.ItemType<Turbulance>(),
-                ModContent.ItemType<NightsGaze>()
+                ModContent.ItemType<NightsGaze>(),
+                ModContent.ItemType<FrequencyManipulator>()
             };
 
             javelinProjList = new List<int>()
@@ -1561,7 +1565,8 @@ namespace CalamityMod
                 ModContent.ProjectileType<SpearofPaleolithProj>(),
                 ModContent.ProjectileType<AntumbraShardProjectile>(),
                 ModContent.ProjectileType<TurbulanceProjectile>(),
-                ModContent.ProjectileType<NightsGazeProjectile>()
+                ModContent.ProjectileType<NightsGazeProjectile>(),
+                ModContent.ProjectileType<FrequencyManipulatorProjectile>()
             };
 
             daggerList = new List<int>()
@@ -1674,7 +1679,8 @@ namespace CalamityMod
                 ModContent.ItemType<SkyfinBombers>(),
                 ModContent.ItemType<SpentFuelContainer>(),
                 ModContent.ItemType<SealedSingularity>(),
-                ModContent.ItemType<PlasmaGrenade>()
+                ModContent.ItemType<PlasmaGrenade>(),
+                ModContent.ItemType<WavePounder>()
             };
 
             flaskBombProjList = new List<int>()
@@ -1705,7 +1711,8 @@ namespace CalamityMod
                 ModContent.ProjectileType<SkyfinNuke>(),
                 ModContent.ProjectileType<SpentFuelContainerProjectile>(),
                 ModContent.ProjectileType<SealedSingularityProj>(),
-                ModContent.ProjectileType<PlasmaGrenadeProjectile>()
+                ModContent.ProjectileType<PlasmaGrenadeProjectile>(),
+                ModContent.ProjectileType<WavePounderProjectile>()
             };
 
             spikyBallList = new List<int>()
@@ -1720,7 +1727,8 @@ namespace CalamityMod
                 ModContent.ItemType<PoisonPack>(),
                 ModContent.ItemType<Nychthemeron>(),
                 ModContent.ItemType<MetalMonstrosity>(),
-                ModContent.ItemType<BurningStrife>()
+                ModContent.ItemType<BurningStrife>(),
+                ModContent.ItemType<SystemBane>()
             };
 
             spikyBallProjList = new List<int>()
@@ -1735,7 +1743,8 @@ namespace CalamityMod
                 ModContent.ProjectileType<PoisonBol>(),
                 ModContent.ProjectileType<NychthemeronProjectile>(),
                 ModContent.ProjectileType<MetalChunk>(),
-                ModContent.ProjectileType<BurningStrifeProj>()
+                ModContent.ProjectileType<BurningStrifeProj>(),
+                ModContent.ProjectileType<SystemBaneProjectile>()
             };
 
             noGravityList = new List<int>()
@@ -1758,6 +1767,7 @@ namespace CalamityMod
                 ModContent.ItemType<NightmareFuel>(),
                 ModContent.ItemType<EndothermicEnergy>(),
                 ModContent.ItemType<SoulofCryogen>(),
+                ModContent.ItemType<AscendantSpiritEssence>(),
 
                 ModContent.ItemType<KnowledgeAquaticScourge>(),
                 ModContent.ItemType<KnowledgeAstralInfection>(),
@@ -2138,7 +2148,7 @@ namespace CalamityMod
                 ModContent.NPCType<RavagerClawLeft>(),
                 ModContent.NPCType<RavagerClawRight>(),
                 ModContent.NPCType<RavagerLegLeft>(),
-                ModContent.NPCType<RavagerLegLeft>(),
+                ModContent.NPCType<RavagerLegRight>(),
                 ModContent.NPCType<RavagerHead>(),
                 NPCID.CultistDragonHead,
                 NPCID.CultistDragonBody1,
@@ -2168,125 +2178,6 @@ namespace CalamityMod
                 ModContent.NPCType<SupremeCataclysm>(),
                 ModContent.NPCType<SupremeCatastrophe>()
             };
-
-            Mod thorium = ModLoader.GetMod("ThoriumMod");
-            if (CalamityConfig.Instance.BuffThoriumBosses && thorium != null)
-            {
-                enemyImmunityList.Add(thorium.NPCType("TheGrandThunderBirdv2"));
-                enemyImmunityList.Add(thorium.NPCType("QueenJelly"));
-                enemyImmunityList.Add(thorium.NPCType("Viscount"));
-                enemyImmunityList.Add(thorium.NPCType("GraniteEnergyStorm"));
-                enemyImmunityList.Add(thorium.NPCType("TheBuriedWarrior"));
-                enemyImmunityList.Add(thorium.NPCType("ThePrimeScouter"));
-                enemyImmunityList.Add(thorium.NPCType("BoreanStrider"));
-                enemyImmunityList.Add(thorium.NPCType("BoreanStriderPopped"));
-                enemyImmunityList.Add(thorium.NPCType("FallenDeathBeholder"));
-                enemyImmunityList.Add(thorium.NPCType("FallenDeathBeholder2"));
-                enemyImmunityList.Add(thorium.NPCType("Lich"));
-                enemyImmunityList.Add(thorium.NPCType("LichHeadless"));
-                enemyImmunityList.Add(thorium.NPCType("Abyssion"));
-                enemyImmunityList.Add(thorium.NPCType("AbyssionCracked"));
-                enemyImmunityList.Add(thorium.NPCType("AbyssionReleased"));
-                enemyImmunityList.Add(thorium.NPCType("SlagFury"));
-                enemyImmunityList.Add(thorium.NPCType("Omnicide"));
-                enemyImmunityList.Add(thorium.NPCType("RealityBreaker"));
-                enemyImmunityList.Add(thorium.NPCType("Aquaius"));
-                enemyImmunityList.Add(thorium.NPCType("Aquaius2"));
-
-                revengeanceEnemyBuffList25Percent.Add(thorium.NPCType("TheGrandThunderBirdv2"));
-                revengeanceEnemyBuffList25Percent.Add(thorium.NPCType("QueenJelly"));
-                revengeanceEnemyBuffList20Percent.Add(thorium.NPCType("Viscount"));
-                revengeanceEnemyBuffList20Percent.Add(thorium.NPCType("GraniteEnergyStorm"));
-                revengeanceEnemyBuffList20Percent.Add(thorium.NPCType("TheBuriedWarrior"));
-                revengeanceEnemyBuffList20Percent.Add(thorium.NPCType("ThePrimeScouter"));
-                revengeanceEnemyBuffList20Percent.Add(thorium.NPCType("BoreanStrider"));
-                revengeanceEnemyBuffList20Percent.Add(thorium.NPCType("BoreanStriderPopped"));
-                revengeanceEnemyBuffList15Percent.Add(thorium.NPCType("FallenDeathBeholder"));
-                revengeanceEnemyBuffList15Percent.Add(thorium.NPCType("FallenDeathBeholder2"));
-                revengeanceEnemyBuffList15Percent.Add(thorium.NPCType("Lich"));
-                revengeanceEnemyBuffList15Percent.Add(thorium.NPCType("LichHeadless"));
-                revengeanceEnemyBuffList15Percent.Add(thorium.NPCType("Abyssion"));
-                revengeanceEnemyBuffList15Percent.Add(thorium.NPCType("AbyssionCracked"));
-                revengeanceEnemyBuffList15Percent.Add(thorium.NPCType("AbyssionReleased"));
-                revengeanceEnemyBuffList15Percent.Add(thorium.NPCType("SlagFury"));
-                revengeanceEnemyBuffList15Percent.Add(thorium.NPCType("Omnicide"));
-                revengeanceEnemyBuffList15Percent.Add(thorium.NPCType("RealityBreaker"));
-                revengeanceEnemyBuffList15Percent.Add(thorium.NPCType("Aquaius"));
-                revengeanceEnemyBuffList15Percent.Add(thorium.NPCType("Aquaius2"));
-
-                revengeanceProjectileBuffList25Percent.Add(thorium.ProjectileType("GrandThunderBirdZap"));
-                revengeanceProjectileBuffList25Percent.Add(thorium.ProjectileType("ThunderGust"));
-                revengeanceProjectileBuffList25Percent.Add(thorium.ProjectileType("BubbleBomb"));
-                revengeanceProjectileBuffList25Percent.Add(thorium.ProjectileType("QueenJellyArm"));
-                revengeanceProjectileBuffList25Percent.Add(thorium.ProjectileType("QueenTorrent"));
-                revengeanceProjectileBuffList20Percent.Add(thorium.ProjectileType("ViscountRipple"));
-                revengeanceProjectileBuffList20Percent.Add(thorium.ProjectileType("ViscountRipple2"));
-                revengeanceProjectileBuffList20Percent.Add(thorium.ProjectileType("ViscountBlood"));
-                revengeanceProjectileBuffList20Percent.Add(thorium.ProjectileType("ViscountStomp"));
-                revengeanceProjectileBuffList20Percent.Add(thorium.ProjectileType("ViscountStomp2"));
-                revengeanceProjectileBuffList20Percent.Add(thorium.ProjectileType("ViscountRockFall"));
-                revengeanceProjectileBuffList20Percent.Add(thorium.ProjectileType("GraniteCharge"));
-                revengeanceProjectileBuffList20Percent.Add(thorium.ProjectileType("BuriedShock"));
-                revengeanceProjectileBuffList20Percent.Add(thorium.ProjectileType("BuriedDagger"));
-                revengeanceProjectileBuffList20Percent.Add(thorium.ProjectileType("BuriedArrow"));
-                revengeanceProjectileBuffList20Percent.Add(thorium.ProjectileType("BuriedArrow2"));
-                revengeanceProjectileBuffList20Percent.Add(thorium.ProjectileType("BuriedArrowF"));
-                revengeanceProjectileBuffList20Percent.Add(thorium.ProjectileType("BuriedArrowP"));
-                revengeanceProjectileBuffList20Percent.Add(thorium.ProjectileType("BuriedArrowC"));
-                revengeanceProjectileBuffList20Percent.Add(thorium.ProjectileType("BuriedMagic"));
-                revengeanceProjectileBuffList20Percent.Add(thorium.ProjectileType("BuriedMagicPop"));
-                revengeanceProjectileBuffList20Percent.Add(thorium.ProjectileType("MainBeamOuter"));
-                revengeanceProjectileBuffList20Percent.Add(thorium.ProjectileType("MainBeam"));
-                revengeanceProjectileBuffList20Percent.Add(thorium.ProjectileType("MainBeamCheese"));
-                revengeanceProjectileBuffList20Percent.Add(thorium.ProjectileType("VaporizeBlast"));
-                revengeanceProjectileBuffList20Percent.Add(thorium.ProjectileType("GravitonSurge"));
-                revengeanceProjectileBuffList20Percent.Add(thorium.ProjectileType("Vaporize"));
-                revengeanceProjectileBuffList20Percent.Add(thorium.ProjectileType("GravitonCharge"));
-                revengeanceProjectileBuffList20Percent.Add(thorium.ProjectileType("GravitySpark"));
-                revengeanceProjectileBuffList15Percent.Add(thorium.ProjectileType("DoomBeholderBeam"));
-                revengeanceProjectileBuffList15Percent.Add(thorium.ProjectileType("VoidLaserPro"));
-                revengeanceProjectileBuffList15Percent.Add(thorium.ProjectileType("BeholderBeam"));
-                revengeanceProjectileBuffList15Percent.Add(thorium.ProjectileType("BlizzardBarrage"));
-                revengeanceProjectileBuffList15Percent.Add(thorium.ProjectileType("FrostSurge"));
-                revengeanceProjectileBuffList15Percent.Add(thorium.ProjectileType("FrostSurgeR"));
-                revengeanceProjectileBuffList15Percent.Add(thorium.ProjectileType("BlizzardCascade"));
-                revengeanceProjectileBuffList15Percent.Add(thorium.ProjectileType("BlizzardBoom"));
-                revengeanceProjectileBuffList15Percent.Add(thorium.ProjectileType("BlizzardFang"));
-                revengeanceProjectileBuffList15Percent.Add(thorium.ProjectileType("FrostMytePro"));
-                revengeanceProjectileBuffList15Percent.Add(thorium.ProjectileType("IceAnomaly"));
-                revengeanceProjectileBuffList15Percent.Add(thorium.ProjectileType("LichGaze"));
-                revengeanceProjectileBuffList15Percent.Add(thorium.ProjectileType("LichGazeB"));
-                revengeanceProjectileBuffList15Percent.Add(thorium.ProjectileType("LichFlareSpawn"));
-                revengeanceProjectileBuffList15Percent.Add(thorium.ProjectileType("LichFlare"));
-                revengeanceProjectileBuffList15Percent.Add(thorium.ProjectileType("LichPulse"));
-                revengeanceProjectileBuffList15Percent.Add(thorium.ProjectileType("LichMatter"));
-                revengeanceProjectileBuffList15Percent.Add(thorium.ProjectileType("SoulRenderLich"));
-                revengeanceProjectileBuffList15Percent.Add(thorium.ProjectileType("LichFlareDeathD"));
-                revengeanceProjectileBuffList15Percent.Add(thorium.ProjectileType("LichFlareDeathU"));
-                revengeanceProjectileBuffList15Percent.Add(thorium.ProjectileType("Whirlpool"));
-                revengeanceProjectileBuffList15Percent.Add(thorium.ProjectileType("AbyssionSpit"));
-                revengeanceProjectileBuffList15Percent.Add(thorium.ProjectileType("AbyssionSpit2"));
-                revengeanceProjectileBuffList15Percent.Add(thorium.ProjectileType("AquaRipple"));
-                revengeanceProjectileBuffList15Percent.Add(thorium.ProjectileType("AbyssalStrike2"));
-                revengeanceProjectileBuffList15Percent.Add(thorium.ProjectileType("OldGodSpit"));
-                revengeanceProjectileBuffList15Percent.Add(thorium.ProjectileType("OldGodSpit2"));
-                revengeanceProjectileBuffList15Percent.Add(thorium.ProjectileType("WaterPulse"));
-                revengeanceProjectileBuffList15Percent.Add(thorium.ProjectileType("TyphoonBlastHostile"));
-                revengeanceProjectileBuffList15Percent.Add(thorium.ProjectileType("TyphoonBlastHostileSmaller"));
-                revengeanceProjectileBuffList15Percent.Add(thorium.ProjectileType("AquaBarrage"));
-                revengeanceProjectileBuffList15Percent.Add(thorium.ProjectileType("DeathRaySpawnR"));
-                revengeanceProjectileBuffList15Percent.Add(thorium.ProjectileType("DeathRaySpawnL"));
-                revengeanceProjectileBuffList15Percent.Add(thorium.ProjectileType("DeathRaySpawn"));
-                revengeanceProjectileBuffList15Percent.Add(thorium.ProjectileType("OmniDeath"));
-                revengeanceProjectileBuffList15Percent.Add(thorium.ProjectileType("OmniSphereOrb"));
-                revengeanceProjectileBuffList15Percent.Add(thorium.ProjectileType("FlameLash"));
-                revengeanceProjectileBuffList15Percent.Add(thorium.ProjectileType("FlamePulse"));
-                revengeanceProjectileBuffList15Percent.Add(thorium.ProjectileType("FlamePulseTorn"));
-                revengeanceProjectileBuffList15Percent.Add(thorium.ProjectileType("FlameNova"));
-                revengeanceProjectileBuffList15Percent.Add(thorium.ProjectileType("MoltenFury"));
-                revengeanceProjectileBuffList15Percent.Add(thorium.ProjectileType("RealityFury"));
-                revengeanceProjectileBuffList15Percent.Add(thorium.ProjectileType("UFOBlast"));
-            }
 
             legOverrideList = new List<int>()
             {
