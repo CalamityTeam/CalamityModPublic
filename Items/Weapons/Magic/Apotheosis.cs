@@ -22,13 +22,12 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.damage = 420;
+            item.damage = 2420;
             item.magic = true;
             item.mana = (int)42.0;
             item.width = 30;
             item.height = 34;
-            item.useTime = 15;
-            item.useAnimation = 15;
+            item.useTime = item.useAnimation = 177;
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.useTurn = false;
             item.noMelee = true;
@@ -37,8 +36,8 @@ namespace CalamityMod.Items.Weapons.Magic
             item.rare = 10;
             item.UseSound = SoundID.Item92;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<ApothMark>();
-            item.shootSpeed = 15.69f;
+            item.shoot = ModContent.ProjectileType<ApotheosisWorm>();
+            item.shootSpeed = 42.0f;
             item.Calamity().customRarity = CalamityRarity.Developer;
         }
 
