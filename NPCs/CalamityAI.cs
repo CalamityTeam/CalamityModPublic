@@ -690,6 +690,12 @@ namespace CalamityMod.NPCs
 
 					npc.ai[0] = phase;
 					npc.ai[1] = 0f;
+					npc.netUpdate = true;
+
+					// Prevent netUpdate from being blocked by the spam counter.
+					// A phase switch sync is a critical operation that must be synced.
+					if (npc.netSpam >= 60)
+						npc.netSpam = 59;
 				}
 			}
 
@@ -1620,6 +1626,7 @@ namespace CalamityMod.NPCs
 				npc.velocity = vector * chargeVelocity;
 
 				npc.ai[1] = 3f;
+				npc.netUpdate = true;
 			}
 			else if (npc.ai[1] == 3f)
 			{
@@ -1643,6 +1650,7 @@ namespace CalamityMod.NPCs
 					npc.ai[2] = 0f;
 					npc.target = 255;
 					npc.rotation = num803;
+					npc.netUpdate = true;
 					if (npc.ai[3] >= 2f)
 					{
 						npc.ai[1] = 0f;

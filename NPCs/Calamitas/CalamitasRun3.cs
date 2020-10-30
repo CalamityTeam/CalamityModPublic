@@ -100,11 +100,15 @@ namespace CalamityMod.NPCs.Calamitas
         public override void SendExtraAI(BinaryWriter writer)
         {
 			writer.Write(npc.chaseable);
+            for (int i = 0; i < 2; i++)
+                writer.Write(npc.Calamity().newAI[i]);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
 			npc.chaseable = reader.ReadBoolean();
+            for (int i = 0; i < 2; i++)
+                npc.Calamity().newAI[i] = reader.ReadSingle();
         }
 
         public override void FindFrame(int frameHeight)

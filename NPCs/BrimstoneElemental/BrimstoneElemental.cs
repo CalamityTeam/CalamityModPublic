@@ -99,13 +99,17 @@ namespace CalamityMod.NPCs.BrimstoneElemental
             writer.Write(npc.chaseable);
 			writer.Write(npc.localAI[0]);
 			writer.Write(npc.localAI[1]);
-		}
+            for (int i = 0; i < 3; i++)
+                writer.Write(npc.Calamity().newAI[i]);
+        }
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
             npc.chaseable = reader.ReadBoolean();
 			npc.localAI[0] = reader.ReadSingle();
 			npc.localAI[1] = reader.ReadSingle();
+            for (int i = 0; i < 3; i++)
+                npc.Calamity().newAI[i] = reader.ReadSingle();
 		}
 
         public override void AI()
