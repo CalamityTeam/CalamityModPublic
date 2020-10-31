@@ -694,8 +694,8 @@ namespace CalamityMod.NPCs
 
 					// Prevent netUpdate from being blocked by the spam counter.
 					// A phase switch sync is a critical operation that must be synced.
-					if (npc.netSpam >= 60)
-						npc.netSpam = 59;
+					if (npc.netSpam >= 10)
+						npc.netSpam = 9;
 				}
 			}
 

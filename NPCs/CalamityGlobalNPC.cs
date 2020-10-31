@@ -3188,7 +3188,7 @@ namespace CalamityMod.NPCs
 			{
 				if (projectile.type == ProjectileType<CrescentMoonFlail>())
 				{
-					damage = (int)(damage * 0.2);
+					damage = (int)(damage * 0.55);
 				}
 				else if (projectile.type == ProjectileType<CalamariInk>())
 				{
