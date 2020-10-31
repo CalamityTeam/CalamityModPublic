@@ -1158,7 +1158,7 @@ namespace CalamityMod.Items
                         if (item.type == ModContent.ItemType<Contagion>())
                             tt2.overrideColor = new Color(207, 17, 117);
                         if (item.type == ModContent.ItemType<RoyalKnivesMelee>() || item.type == ModContent.ItemType<RoyalKnives>())
-                            tt2.overrideColor = CalamityUtils.ColorSwap(new Color(154, 255, 151), new Color(228, 151, 255), 4f);
+                            tt2.overrideColor = CalamityUtils.ColorSwap(new Color(154, 255, 151), new Color(228, 151, 255), 4f);							
                         if (item.type == ModContent.ItemType<DemonshadeHelm>() || item.type == ModContent.ItemType<DemonshadeBreastplate>() || item.type == ModContent.ItemType<DemonshadeGreaves>())
                             tt2.overrideColor = CalamityUtils.ColorSwap(new Color(255, 132, 22), new Color(221, 85, 7), 4f);
                         if (item.type == ModContent.ItemType<PrototypeAndromechaRing>())
@@ -1176,6 +1176,22 @@ namespace CalamityMod.Items
                                 tt2.overrideColor = Color.Lerp(Color.White, new Color(89, 229, 255), (Main.GlobalTime % 1f - 0.8f) / 0.2f);
                             }
                         }
+                        if (item.type == ModContent.ItemType<Earth>())
+						{
+							List<Color> earthColors = new List<Color>()
+							{
+								new Color(255, 93, 143),
+								new Color(178, 247, 239),
+								new Color(171, 196, 255)
+							};
+							if (tt2 != null)
+							{
+								int colorIndex = (int)(Main.GlobalTime / 2 % earthColors.Count);
+								Color currentColor = earthColors[colorIndex];
+								Color nextColor = earthColors[(colorIndex + 1) % earthColors.Count];
+								tt2.overrideColor = Color.Lerp(currentColor, nextColor, Main.GlobalTime % 2f > 1f ? 1f : Main.GlobalTime % 1f);
+							}
+						}
 
                         // Uniquely colored legendary weapons and Yharim's Crystal
                         if (item.type == ModContent.ItemType<AegisBlade>() || item.type == ModContent.ItemType<YharimsCrystal>())
