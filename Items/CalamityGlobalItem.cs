@@ -1180,9 +1180,9 @@ namespace CalamityMod.Items
 						{
 							List<Color> earthColors = new List<Color>()
 							{
-								new Color(255, 93, 143),
-								new Color(178, 247, 239),
-								new Color(171, 196, 255)
+								new Color(255, 99, 146),
+								new Color(255, 228, 94),
+								new Color(127, 200, 248)
 							};
 							if (tt2 != null)
 							{
