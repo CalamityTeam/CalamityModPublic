@@ -1125,7 +1125,7 @@ namespace CalamityMod.Items
                         break;
 
                     case CalamityRarity.ItemSpecific:
-                        // Uniquely colored developer weapons
+                        // Uniquely colored developer items
                         if (item.type == ModContent.ItemType<Fabstaff>())
                             tt2.overrideColor = new Color(Main.DiscoR, 100, 255);
                         if (item.type == ModContent.ItemType<BlushieStaff>())
@@ -1150,6 +1150,16 @@ namespace CalamityMod.Items
                             tt2.overrideColor = new Color(129, 29, 149);
                         if (item.type == ModContent.ItemType<Svantechnical>())
                             tt2.overrideColor = new Color(220, 20, 60);
+                        if (item.type == ModContent.ItemType<TriactisTruePaladinianMageHammerofMightMelee>() || item.type == ModContent.ItemType<TriactisTruePaladinianMageHammerofMight>())
+                            tt2.overrideColor = new Color(227, 226, 180);
+                        if (item.type == ModContent.ItemType<SomaPrime>())
+                            tt2.overrideColor = new Color(254, 253, 235);
+                        if (item.type == ModContent.ItemType<Contagion>())
+                            tt2.overrideColor = new Color(207, 17, 117);
+                        if (item.type == ModContent.ItemType<RoyalKnivesMelee>() || item.type == ModContent.ItemType<RoyalKnives>())
+                            tt2.overrideColor = CalamityUtils.ColorSwap(new Color(154, 255, 151), new Color(228, 151, 255), 2f);
+                        if (item.type == ModContent.ItemType<DemonshadeHelm>() || item.type == ModContent.ItemType<DemonshadeBreastplate>() || item.type == ModContent.ItemType<DemonshadeGreaves>())
+                            tt2.overrideColor = CalamityUtils.ColorSwap(new Color(255, 132, 22), new Color(221, 85, 7), 2f);
                         if (item.type == ModContent.ItemType<PrototypeAndromechaRing>())
                         {
                             if (Main.GlobalTime % 1f < 0.6f)
