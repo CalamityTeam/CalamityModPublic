@@ -1145,20 +1145,22 @@ namespace CalamityMod.Items
                             tt2.overrideColor = CalamityUtils.ColorSwap(new Color(255, 69, 0), new Color(139, 0, 0), 4f);
                         if (item.type == ModContent.ItemType<ScarletDevil>())
                             tt2.overrideColor = CalamityUtils.ColorSwap(new Color(191, 45, 71), new Color(185, 187, 253), 4f);
+                        if (item.type == ModContent.ItemType<RedSun>())
+                            tt2.overrideColor = CalamityUtils.ColorSwap(new Color(204, 86, 80), new Color(237, 69, 141), 4f);
                         if (item.type == ModContent.ItemType<GaelsGreatsword>())
                             tt2.overrideColor = new Color(146, 0, 0);
                         if (item.type == ModContent.ItemType<CrystylCrusher>())
                             tt2.overrideColor = new Color(129, 29, 149);
                         if (item.type == ModContent.ItemType<Svantechnical>())
                             tt2.overrideColor = new Color(220, 20, 60);
-                        if (item.type == ModContent.ItemType<TriactisTruePaladinianMageHammerofMightMelee>() || item.type == ModContent.ItemType<TriactisTruePaladinianMageHammerofMight>())
-                            tt2.overrideColor = new Color(227, 226, 180);
                         if (item.type == ModContent.ItemType<SomaPrime>())
                             tt2.overrideColor = new Color(254, 253, 235);
                         if (item.type == ModContent.ItemType<Contagion>())
                             tt2.overrideColor = new Color(207, 17, 117);
+                        if (item.type == ModContent.ItemType<TriactisTruePaladinianMageHammerofMightMelee>() || item.type == ModContent.ItemType<TriactisTruePaladinianMageHammerofMight>())
+                            tt2.overrideColor = new Color(227, 226, 180);
                         if (item.type == ModContent.ItemType<RoyalKnivesMelee>() || item.type == ModContent.ItemType<RoyalKnives>())
-                            tt2.overrideColor = CalamityUtils.ColorSwap(new Color(154, 255, 151), new Color(228, 151, 255), 4f);							
+                            tt2.overrideColor = CalamityUtils.ColorSwap(new Color(154, 255, 151), new Color(228, 151, 255), 4f);
                         if (item.type == ModContent.ItemType<DemonshadeHelm>() || item.type == ModContent.ItemType<DemonshadeBreastplate>() || item.type == ModContent.ItemType<DemonshadeGreaves>())
                             tt2.overrideColor = CalamityUtils.ColorSwap(new Color(255, 132, 22), new Color(221, 85, 7), 4f);
                         if (item.type == ModContent.ItemType<PrototypeAndromechaRing>())
