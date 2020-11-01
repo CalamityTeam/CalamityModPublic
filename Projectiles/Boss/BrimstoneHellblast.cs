@@ -72,11 +72,14 @@ namespace CalamityMod.Projectiles.Boss
 
 		public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<AbyssalFlames>(), 180);
-
-            if (projectile.ai[0] == 0f)
-                target.AddBuff(ModContent.BuffType<VulnerabilityHex>(), 120, true);
-        }
+			if (projectile.ai[0] == 0f)
+			{
+				target.AddBuff(ModContent.BuffType<AbyssalFlames>(), 180);
+				target.AddBuff(ModContent.BuffType<VulnerabilityHex>(), 120);
+			}
+			else
+				target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
+		}
 
         public override void Kill(int timeLeft)
         {

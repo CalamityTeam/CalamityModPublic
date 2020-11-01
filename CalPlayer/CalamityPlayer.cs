@@ -6062,7 +6062,7 @@ namespace CalamityMod.CalPlayer
 		#region Modify Hit By NPC
 		public override void ModifyHitByNPC(NPC npc, ref int damage, ref bool crit)
 		{
-			int bossRushDamage = (Main.expertMode ? 500 : 300) + (BossRushEvent.BossRushStage * 2);
+			int bossRushDamage = (Main.expertMode ? 400 : 240) + (BossRushEvent.BossRushStage * 2);
 			if (BossRushEvent.BossRushActive)
 			{
 				if (damage < bossRushDamage)
@@ -6353,7 +6353,7 @@ namespace CalamityMod.CalPlayer
 				}
 			}
 
-			int bossRushDamage = (Main.expertMode ? 125 : 150) + (BossRushEvent.BossRushStage / 2);
+			int bossRushDamage = (Main.expertMode ? 90 : 110) + (BossRushEvent.BossRushStage / 2);
 			if (BossRushEvent.BossRushActive)
 			{
 				if (damage < bossRushDamage)
@@ -7558,12 +7558,12 @@ namespace CalamityMod.CalPlayer
             }
 
             #region MultiplierBoosts
-            double damageMult = 1.0 +
-                (dArtifact ? 0.25 : 0.0) +
-                (DoGLore ? 0.1 : 0.0) +
-                ((player.beetleDefense && player.beetleOrbs > 0) ? (0.05 * player.beetleOrbs) : 0.0) +
-                (enraged ? 0.25 : 0.0) +
-                ((CalamityWorld.defiled && Main.rand.NextBool(4)) ? 0.5 : 0.0);
+            double damageMult = 1D +
+                (dArtifact ? 0.15 : 0D) +
+                (DoGLore ? 0.05 : 0D) +
+                ((player.beetleDefense && player.beetleOrbs > 0) ? (0.05 * player.beetleOrbs) : 0D) +
+                (enraged ? 0.25 : 0D) +
+                ((CalamityWorld.defiled && Main.rand.NextBool(4)) ? 0.5 : 0D);
 
 			if (bloodPact && Main.rand.NextBool(4))
 			{
@@ -7590,9 +7590,8 @@ namespace CalamityMod.CalPlayer
 					newDamageLimit += bossDamageLimitIncrease;*/
 
                 if (newDamage < newDamageLimit)
-                {
                     newDamage = newDamageLimit;
-                }
+
                 damage = (int)newDamage;
             }
 

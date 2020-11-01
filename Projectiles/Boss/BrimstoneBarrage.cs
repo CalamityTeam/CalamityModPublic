@@ -77,11 +77,14 @@ namespace CalamityMod.Projectiles.Boss
 			if (projectile.Opacity != 1f)
 				return;
 
-			target.AddBuff(ModContent.BuffType<AbyssalFlames>(), 180);
-
-            if (projectile.ai[0] == 0f)
-                target.AddBuff(ModContent.BuffType<VulnerabilityHex>(), 120, true);
-        }
+			if (projectile.ai[0] == 0f)
+			{
+				target.AddBuff(ModContent.BuffType<AbyssalFlames>(), 180);
+				target.AddBuff(ModContent.BuffType<VulnerabilityHex>(), 120);
+			}
+			else
+				target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
+		}
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {

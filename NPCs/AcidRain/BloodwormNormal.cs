@@ -102,7 +102,7 @@ namespace CalamityMod.NPCs.AcidRain
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            return (spawnInfo.player.Calamity().ZoneSulphur && CalamityWorld.downedPolterghast && !CalamityWorld.rainingAcid) ? SpawnCondition.WormCritter.Chance * 1.569f : 0f;
+            return (spawnInfo.player.Calamity().ZoneSulphur && CalamityWorld.encounteredOldDuke && !CalamityWorld.rainingAcid) ? SpawnCondition.WormCritter.Chance * 2.569f : 0f;
         }
 
         public override void OnCatchNPC(Player player, Item item)

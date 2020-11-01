@@ -100,6 +100,7 @@ namespace CalamityMod.World
         public static bool startAcidicDownpour = false;
         public static bool forcedRainAlready = false;
         public static bool forcedDownpourWithTear = false;
+		public static bool encounteredOldDuke = false;
         public static int forceRainTimer = 0;
         public static int timeSinceAcidRainKill = 0;
         public static int timeSinceAcidStarted = 0;
@@ -468,6 +469,8 @@ namespace CalamityMod.World
                 downed.Add("forcedRain");
             if (forcedDownpourWithTear)
                 downed.Add("forcedTear");
+			if (encounteredOldDuke)
+				downed.Add("encounteredOldDuke");
 
             return new TagCompound
             {
@@ -575,6 +578,7 @@ namespace CalamityMod.World
             startAcidicDownpour = downed.Contains("startDownpour");
             forcedRainAlready = downed.Contains("forcedRain");
             forcedDownpourWithTear = downed.Contains("forcedTear");
+			encounteredOldDuke = downed.Contains("encounteredOldDuke");
 
             abyssChasmBottom = tag.GetInt("abyssChasmBottom");
             acidRainPoints = tag.GetInt("acidRainPoints");
@@ -688,7 +692,7 @@ namespace CalamityMod.World
                 BitsByte flags10 = reader.ReadByte();
                 anglerName = flags10[0];
                 clothierName = flags10[1];
-                _ = flags10[2];
+                encounteredOldDuke = flags10[2];
                 _ = flags10[3];
                 _ = flags10[4];
                 _ = flags10[5];
@@ -799,7 +803,7 @@ namespace CalamityMod.World
             BitsByte flags10 = new BitsByte();
             flags10[0] = anglerName;
             flags10[1] = clothierName;
-            flags10[2] = false;
+            flags10[2] = encounteredOldDuke;
             flags10[3] = false;
             flags10[4] = false;
             flags10[5] = false;
@@ -920,7 +924,7 @@ namespace CalamityMod.World
             BitsByte flags10 = reader.ReadByte();
             anglerName = flags10[0];
             clothierName = flags10[1];
-            _ = flags10[2];
+            encounteredOldDuke = flags10[2];
             _ = flags10[3];
             _ = flags10[4];
             _ = flags10[5];

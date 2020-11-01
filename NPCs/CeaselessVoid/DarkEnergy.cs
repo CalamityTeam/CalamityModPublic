@@ -155,7 +155,14 @@ namespace CalamityMod.NPCs.CeaselessVoid
                 npc.dontTakeDamage = false;
             }
 
-            Vector2 vectorCenter = npc.Center;
+			if (CalamityGlobalNPC.voidBoss < 0 || !Main.npc[CalamityGlobalNPC.voidBoss].active)
+			{
+				npc.active = false;
+				npc.netUpdate = true;
+				return;
+			}
+
+			Vector2 vectorCenter = npc.Center;
             npc.TargetClosest(true);
             Player player = Main.player[npc.target];
 
@@ -163,12 +170,36 @@ namespace CalamityMod.NPCs.CeaselessVoid
                 (CalamityWorld.revenge ? 0.2 : 0.0) +
                 (CalamityWorld.death ? 0.2 : 0.0);
 
-            if ((double)npc.life < (double)npc.lifeMax * mult || BossRushEvent.BossRushActive)
-            {
+            if (npc.life < npc.lifeMax * mult || BossRushEvent.BossRushActive)
                 npc.knockBackResist = 0f;
-            }
 
-            if (npc.ai[1] == 0f)
+			float tileEnrageMult = Main.npc[CalamityGlobalNPC.voidBoss].ai[1];
+
+			float num1247 = 0.5f;
+			float maxDistance = 48f * tileEnrageMult;
+			for (int num1248 = 0; num1248 < Main.maxNPCs; num1248++)
+			{
+				if (Main.npc[num1248].active)
+				{
+					if (num1248 != npc.whoAmI && Main.npc[num1248].type == npc.type)
+					{
+						if (Vector2.Distance(npc.Center, Main.npc[num1248].Center) < maxDistance)
+						{
+							if (npc.position.X < Main.npc[num1248].position.X)
+								npc.velocity.X = npc.velocity.X - num1247;
+							else
+								npc.velocity.X = npc.velocity.X + num1247;
+
+							if (npc.position.Y < Main.npc[num1248].position.Y)
+								npc.velocity.Y = npc.velocity.Y - num1247;
+							else
+								npc.velocity.Y = npc.velocity.Y + num1247;
+						}
+					}
+				}
+			}
+
+			if (npc.ai[1] == 0f)
             {
                 npc.scale -= 0.01f;
                 npc.alpha += 15;
@@ -189,24 +220,22 @@ namespace CalamityMod.NPCs.CeaselessVoid
                 }
             }
 
-            if (!player.active || player.dead || CalamityGlobalNPC.voidBoss < 0 || !Main.npc[CalamityGlobalNPC.voidBoss].active)
+            if (!player.active || player.dead)
             {
                 npc.TargetClosest(false);
                 player = Main.player[npc.target];
                 if (!player.active || player.dead)
                 {
                     npc.velocity = new Vector2(0f, -10f);
+
                     if (npc.timeLeft > 150)
-                    {
                         npc.timeLeft = 150;
-                    }
+
                     return;
                 }
             }
             else if (npc.timeLeft < 1800)
-            {
                 npc.timeLeft = 1800;
-            }
 
             if (npc.ai[0] == 0f)
             {
@@ -216,7 +245,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
                 float num786 = (float)Math.Sqrt((double)(num784 * num784 + num785 * num785));
                 if (num786 > 90f)
                 {
-                    num786 = (BossRushEvent.BossRushActive ? 24f : 16f) / num786;
+                    num786 = (BossRushEvent.BossRushActive ? 24f : 16f) * tileEnrageMult / num786;
                     num784 *= num786;
                     num785 *= num786;
                     npc.velocity.X = (npc.velocity.X * 15f + num784) / 16f;
@@ -235,7 +264,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
                     num784 = player.Center.X - vector96.X;
                     num785 = player.Center.Y - vector96.Y;
                     num786 = (float)Math.Sqrt((double)(num784 * num784 + num785 * num785));
-                    num786 = (BossRushEvent.BossRushActive ? 16f : 12f) / num786;
+                    num786 = (BossRushEvent.BossRushActive ? 16f : 12f) * tileEnrageMult / num786;
                     npc.velocity.X = num784 * num786;
                     npc.velocity.Y = num785 * num786;
                     npc.ai[0] = 1f;
@@ -246,7 +275,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
             {
                 Vector2 value4 = player.Center - npc.Center;
                 value4.Normalize();
-                value4 *= BossRushEvent.BossRushActive ? 16f : 11f;
+                value4 *= (BossRushEvent.BossRushActive ? 16f : 11f) * tileEnrageMult;
                 npc.velocity = (npc.velocity * 99f + value4) / 100f;
                 Vector2 vector97 = new Vector2(npc.Center.X, npc.Center.Y);
                 float num787 = Main.npc[CalamityGlobalNPC.voidBoss].Center.X - vector97.X;

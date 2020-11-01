@@ -133,6 +133,9 @@ namespace CalamityMod.NPCs.DevourerofGods
 
 			Player player = Main.player[npc.target];
 
+			bool increaseSpeed = Vector2.Distance(player.Center, vector) > CalamityGlobalNPC.CatchUpDistance200Tiles;
+			bool increaseSpeedMore = Vector2.Distance(player.Center, vector) > CalamityGlobalNPC.CatchUpDistance350Tiles;
+
 			// Spawn Guardians
 			if (phase3)
             {
@@ -370,7 +373,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             {
                 if (Main.netMode != NetmodeID.Server)
                 {
-                    if (!Main.player[Main.myPlayer].dead && Main.player[Main.myPlayer].active && Vector2.Distance(Main.player[Main.myPlayer].Center, vector) < 5600f)
+                    if (!Main.player[Main.myPlayer].dead && Main.player[Main.myPlayer].active && Vector2.Distance(Main.player[Main.myPlayer].Center, vector) < CalamityGlobalNPC.CatchUpDistance350Tiles)
                         Main.player[Main.myPlayer].AddBuff(ModContent.BuffType<Warped>(), 2);
                 }
 
@@ -394,10 +397,12 @@ namespace CalamityMod.NPCs.DevourerofGods
 				}
 
 				// Go to ground phase sooner
-				if (Vector2.Distance(player.Center, vector) > 5600f)
+				if (increaseSpeedMore)
 					calamityGlobalNPC.newAI[2] += 10f;
+				else if (increaseSpeed)
+					calamityGlobalNPC.newAI[2] += 2f;
 
-                float num188 = speed;
+				float num188 = speed;
                 float num189 = turnSpeed;
                 Vector2 vector18 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
                 float num191 = player.position.X + (player.width / 2);
@@ -561,7 +566,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             {
                 if (Main.netMode != NetmodeID.Server)
                 {
-                    if (!Main.player[Main.myPlayer].dead && Main.player[Main.myPlayer].active && Vector2.Distance(Main.player[Main.myPlayer].Center, vector) < 5600f)
+                    if (!Main.player[Main.myPlayer].dead && Main.player[Main.myPlayer].active && Vector2.Distance(Main.player[Main.myPlayer].Center, vector) < CalamityGlobalNPC.CatchUpDistance350Tiles)
                         Main.player[Main.myPlayer].AddBuff(ModContent.BuffType<ExtremeGrav>(), 2);
                 }
 
@@ -580,17 +585,17 @@ namespace CalamityMod.NPCs.DevourerofGods
 					turnSpeed += Vector2.Distance(player.Center, npc.Center) * 0.00005f * (1f - lifeRatio);
 				}
 
-				bool increaseSpeed = Vector2.Distance(player.Center, vector) > 3200f;
-
                 // Enrage
-                if (Vector2.Distance(player.Center, vector) > 5600f)
+                if (increaseSpeedMore)
                 {
+					fallSpeed *= 3f;
                     speed *= 4f;
                     turnSpeed *= 6f;
                 }
                 else if (increaseSpeed)
                 {
-                    speed *= 2f;
+					fallSpeed *= 1.5f;
+					speed *= 2f;
                     turnSpeed *= 3f;
                 }
 
@@ -695,10 +700,15 @@ namespace CalamityMod.NPCs.DevourerofGods
 					double maximumSpeed1 = death ? 0.44 : 0.4;
 					double maximumSpeed2 = death ? 1.08 : 1D;
 
+					if (increaseSpeedMore)
+					{
+						maximumSpeed1 *= 4;
+						maximumSpeed2 *= 4;
+					}
 					if (increaseSpeed)
 					{
-						maximumSpeed1 += 0.8;
-						maximumSpeed2 += 2D;
+						maximumSpeed1 *= 2;
+						maximumSpeed2 *= 2;
 					}
 
 					if (expertMode)

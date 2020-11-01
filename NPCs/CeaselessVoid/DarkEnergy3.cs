@@ -153,15 +153,47 @@ namespace CalamityMod.NPCs.CeaselessVoid
                 npc.dontTakeDamage = false;
             }
 
-            double mult = 0.5 +
+			if (CalamityGlobalNPC.voidBoss < 0 || !Main.npc[CalamityGlobalNPC.voidBoss].active)
+			{
+				npc.active = false;
+				npc.netUpdate = true;
+				return;
+			}
+
+			double mult = 0.5 +
                 (CalamityWorld.revenge ? 0.2 : 0.0) +
                 (CalamityWorld.death ? 0.2 : 0.0);
-            if ((double)npc.life < (double)npc.lifeMax * mult || BossRushEvent.BossRushActive)
-            {
-                npc.knockBackResist = 0f;
-            }
 
-            if (npc.ai[1] == 0f)
+            if (npc.life < npc.lifeMax * mult || BossRushEvent.BossRushActive)
+                npc.knockBackResist = 0f;
+
+			float tileEnrageMult = Main.npc[CalamityGlobalNPC.voidBoss].ai[1];
+
+			float num1247 = 0.5f;
+			float maxDistance = 48f * tileEnrageMult;
+			for (int num1248 = 0; num1248 < Main.maxNPCs; num1248++)
+			{
+				if (Main.npc[num1248].active)
+				{
+					if (num1248 != npc.whoAmI && Main.npc[num1248].type == npc.type)
+					{
+						if (Vector2.Distance(npc.Center, Main.npc[num1248].Center) < maxDistance)
+						{
+							if (npc.position.X < Main.npc[num1248].position.X)
+								npc.velocity.X = npc.velocity.X - num1247;
+							else
+								npc.velocity.X = npc.velocity.X + num1247;
+
+							if (npc.position.Y < Main.npc[num1248].position.Y)
+								npc.velocity.Y = npc.velocity.Y - num1247;
+							else
+								npc.velocity.Y = npc.velocity.Y + num1247;
+						}
+					}
+				}
+			}
+
+			if (npc.ai[1] == 0f)
             {
                 npc.scale -= 0.01f;
                 npc.alpha += 15;
@@ -181,28 +213,27 @@ namespace CalamityMod.NPCs.CeaselessVoid
                     npc.ai[1] = 0f;
                 }
             }
+
             npc.TargetClosest(true);
             Player player = Main.player[npc.target];
-            if (!player.active || player.dead || CalamityGlobalNPC.voidBoss < 0 || !Main.npc[CalamityGlobalNPC.voidBoss].active)
+            if (!player.active || player.dead)
             {
                 npc.TargetClosest(false);
                 player = Main.player[npc.target];
                 if (!player.active || player.dead)
                 {
                     npc.velocity = new Vector2(0f, -10f);
+
                     if (npc.timeLeft > 150)
-                    {
                         npc.timeLeft = 150;
-                    }
+
                     return;
                 }
             }
             else if (npc.timeLeft < 1800)
-            {
                 npc.timeLeft = 1800;
-            }
 
-            float num1372 = expertMode ? 10f : 8f;
+            float num1372 = (expertMode ? 10f : 8f) * tileEnrageMult;
             if (CalamityWorld.revenge || BossRushEvent.BossRushActive)
                 num1372 += 2f;
             if (CalamityWorld.death || BossRushEvent.BossRushActive)
@@ -232,6 +263,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
                 }
                 return;
             }
+
             npc.velocity.X = (npc.velocity.X * 50f + num1373) / 51f;
             npc.velocity.Y = (npc.velocity.Y * 50f + num1374) / 51f;
             if (num1375 < 350f)

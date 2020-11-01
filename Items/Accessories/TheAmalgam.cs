@@ -127,17 +127,21 @@ namespace CalamityMod.Items.Accessories
 
             if (player.immune)
             {
-                if (Main.rand.NextBool(20))
+                if (player.miscCounter % 8 == 0)
                 {
                     if (player.whoAmI == Main.myPlayer)
                     {
 						int type = Main.rand.NextBool(2) ? ProjectileType<AuraRain>() : ProjectileType<StandingFire>();
 						Projectile rain = CalamityUtils.ProjectileRain(player.Center, 400f, 100f, 500f, 800f, 22f, type, (int)(ProjectileDamage * player.AverageDamage()), 5f, player.whoAmI, 6, 1);
 						if (type == ProjectileType<AuraRain>())
+						{
 							rain.tileCollide = false;
+							rain.penetrate = 1;
+						}
                     }
                 }
             }
+
             int buffType = BuffID.Venom;
             float auraRange = 300f;
             int auraDmg = (int)(AuraDamage * player.AverageDamage());
@@ -162,6 +166,7 @@ namespace CalamityMod.Items.Accessories
 					}
 				}
             }
+
 			if (counter % 480 == 0)
 			{
 				if (player.whoAmI == Main.myPlayer)

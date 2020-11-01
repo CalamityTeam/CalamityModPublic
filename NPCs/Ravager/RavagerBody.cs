@@ -526,8 +526,9 @@ namespace CalamityMod.NPCs.Ravager
 							}
 							else if (!NPC.AnyNPCs(ModContent.NPCType<FlamePillar>()))
 							{
-								NPC.NewNPC((int)player.Center.X - spawnDistance * 2, (int)player.Center.Y - 100, ModContent.NPCType<FlamePillar>());
-								NPC.NewNPC((int)player.Center.X + spawnDistance * 2, (int)player.Center.Y - 100, ModContent.NPCType<FlamePillar>());
+								float distanceMultiplier = finalPhase ? 2.5f : 2f;
+								NPC.NewNPC((int)player.Center.X - (int)(spawnDistance * distanceMultiplier), (int)player.Center.Y - 100, ModContent.NPCType<FlamePillar>());
+								NPC.NewNPC((int)player.Center.X + (int)(spawnDistance * distanceMultiplier), (int)player.Center.Y - 100, ModContent.NPCType<FlamePillar>());
 							}
 						}
                     }

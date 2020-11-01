@@ -9,7 +9,7 @@ namespace CalamityMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Trinket of Chi");
-            Tooltip.SetDefault("After 2 seconds of standing still and not attacking you gain a buff\n" +
+            Tooltip.SetDefault("After 1 second of standing still and not attacking you gain a buff\n" +
                 "This buff boosts your damage by 50% and decreases damage taken by 15%\n" +
                 "The buff deactivates after you move or attack once");
         }

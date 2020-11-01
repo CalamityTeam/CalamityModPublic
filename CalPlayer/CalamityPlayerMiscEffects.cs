@@ -1300,7 +1300,7 @@ namespace CalamityMod.CalPlayer
 			{
 				player.endurance += 0.07f;
 				player.statDefense += 20;
-				player.allDamage += 0.12f;
+				player.allDamage += 0.1f;
 			}
 
 			// Ambrosial Ampoule bonus and other light-granting bonuses
@@ -2258,7 +2258,7 @@ namespace CalamityMod.CalPlayer
 
 				if (player.StandingStill(0.1f) && !player.mount.Active)
 				{
-					if (modPlayer.chiBuffTimer < 120)
+					if (modPlayer.chiBuffTimer < 60)
 						modPlayer.chiBuffTimer++;
 					else
 						player.AddBuff(ModContent.BuffType<ChiBuff>(), 6);
@@ -3122,7 +3122,7 @@ namespace CalamityMod.CalPlayer
 
 			if (modPlayer.pFlames)
 			{
-				player.blind = true;
+				player.blind = !modPlayer.alchFlask;
 				player.statDefense -= Plague.DefenseReduction;
 				player.moveSpeed -= 0.15f;
 			}
@@ -3364,7 +3364,7 @@ namespace CalamityMod.CalPlayer
 			if (modPlayer.yInsignia)
 			{
 				player.longInvince = true;
-				player.meleeDamage += 0.05f;
+				player.meleeDamage += 0.1f;
 				player.lavaMax += 240;
 				if (player.statLife <= (int)(player.statLifeMax2 * 0.5))
 					player.allDamage += 0.1f;

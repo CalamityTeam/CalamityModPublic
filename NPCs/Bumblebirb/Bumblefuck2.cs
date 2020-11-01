@@ -95,17 +95,17 @@ namespace CalamityMod.NPCs.Bumblebirb
 
             if (npc.ai[0] == 0f || npc.ai[0] == 1f)
             {
-                for (int num1376 = 0; num1376 < Main.maxNPCs; num1376++)
+                for (int i = 0; i < Main.maxNPCs; i++)
                 {
-                    if (num1376 != npc.whoAmI && Main.npc[num1376].active && Main.npc[num1376].type == npc.type)
+                    if (i != npc.whoAmI && Main.npc[i].active && Main.npc[i].type == npc.type)
                     {
-                        Vector2 value42 = Main.npc[num1376].Center - npc.Center;
+                        Vector2 value42 = Main.npc[i].Center - npc.Center;
                         if (value42.Length() < (npc.width + npc.height))
                         {
                             value42.Normalize();
                             value42 *= -0.1f;
                             npc.velocity += value42;
-                            NPC nPC6 = Main.npc[num1376];
+                            NPC nPC6 = Main.npc[i];
                             nPC6.velocity -= value42;
                         }
                     }

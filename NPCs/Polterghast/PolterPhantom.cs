@@ -36,7 +36,7 @@ namespace CalamityMod.NPCs.Polterghast
             npc.knockBackResist = 0f;
             npc.aiStyle = -1;
             aiType = -1;
-            npc.alpha = 255;
+            npc.Opacity = 0f;
             for (int k = 0; k < npc.buffImmune.Length; k++)
             {
                 npc.buffImmune[k] = true;
@@ -86,10 +86,6 @@ namespace CalamityMod.NPCs.Polterghast
             CalamityGlobalNPC.ghostBossClone = npc.whoAmI;
 
 			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
-
-            npc.alpha -= 5;
-            if (npc.alpha < 50)
-                npc.alpha = 50;
 
             if (CalamityGlobalNPC.ghostBoss < 0 || !Main.npc[CalamityGlobalNPC.ghostBoss].active)
             {
@@ -168,6 +164,10 @@ namespace CalamityMod.NPCs.Polterghast
 
 			if (!chargePhase)
 			{
+				npc.Opacity += 0.02f;
+				if (npc.Opacity > 0.8f)
+					npc.Opacity = 0.8f;
+
 				float movementLimitX = 0f;
 				float movementLimitY = 0f;
 				int numHooks = 4;
@@ -266,6 +266,10 @@ namespace CalamityMod.NPCs.Polterghast
 				// Charge
 				if (npc.Calamity().newAI[3] == 1f)
 				{
+					npc.Opacity += 0.06f;
+					if (npc.Opacity > 0.8f)
+						npc.Opacity = 0.8f;
+
 					if (npc.Calamity().newAI[1] == 0f)
 					{
 						npc.velocity = Vector2.Normalize(player.Center - vector) * chargeVelocity;
@@ -330,6 +334,19 @@ namespace CalamityMod.NPCs.Polterghast
 					// Line up a charge
 					float chargeDistanceGateValue = 32f;
 
+					if (Vector2.Distance(vector, chargeVector) <= chargeDistanceGateValue * 3f)
+					{
+						npc.Opacity += 0.06f;
+						if (npc.Opacity > 0.8f)
+							npc.Opacity = 0.8f;
+					}
+					else
+					{
+						npc.Opacity -= 0.06f;
+						if (npc.Opacity < 0f)
+							npc.Opacity = 0f;
+					}
+
 					if (Vector2.Distance(vector, chargeVector) <= chargeDistanceGateValue)
 						npc.velocity *= 0.8f;
 					else
@@ -353,7 +370,7 @@ namespace CalamityMod.NPCs.Polterghast
 
         public override Color? GetAlpha(Color drawColor)
         {
-            return new Color(200, 150, 255, npc.alpha);
+            return new Color(200, 150, 255) * npc.Opacity;
         }
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
@@ -365,7 +382,7 @@ namespace CalamityMod.NPCs.Polterghast
 			Texture2D texture2D15 = Main.npcTexture[npc.type];
 			Vector2 vector11 = new Vector2(Main.npcTexture[npc.type].Width / 2, Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type] / 2);
 			Color color36 = Color.White;
-			Color lightRed = new Color(255, 100, 100, 255);
+			Color lightRed = new Color(255, 100, 100, 255) * npc.Opacity;
 			float amount9 = 0.5f;
 			int num153 = 7;
 
@@ -397,6 +414,26 @@ namespace CalamityMod.NPCs.Polterghast
 			vector43 -= new Vector2(texture2D15.Width, texture2D15.Height / Main.npcFrameCount[npc.type]) * npc.scale / 2f;
 			vector43 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
 			spriteBatch.Draw(texture2D15, vector43, npc.frame, color, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+
+			Texture2D texture2D16 = ModContent.GetTexture("CalamityMod/NPCs/Polterghast/PolterPhantomGlow");
+			Color color42 = Color.Lerp(Color.White, Color.Red, 0.5f);
+
+			if (CalamityConfig.Instance.Afterimages)
+			{
+				for (int num163 = 1; num163 < num153; num163++)
+				{
+					Vector2 vector44 = npc.oldPos[num163] + new Vector2(npc.width, npc.height) / 2f - Main.screenPosition;
+					vector44 -= new Vector2(texture2D15.Width, texture2D15.Height / Main.npcFrameCount[npc.type]) * npc.scale / 2f;
+					vector44 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+					Color color43 = color42;
+					color43 = Color.Lerp(color43, color36, amount9);
+					color43 = npc.GetAlpha(color43);
+					color43 *= (num153 - num163) / 15f;
+					spriteBatch.Draw(texture2D16, vector44, npc.frame, color43, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+				}
+			}
+
+			spriteBatch.Draw(texture2D16, vector43, npc.frame, color42, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 
 			return false;
 		}

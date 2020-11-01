@@ -140,7 +140,7 @@ namespace CalamityMod.NPCs.Leviathan
 
 			float lifeRatio = npc.life / (float)npc.lifeMax;
 			float bubbleVelocity = BossRushEvent.BossRushActive ? 16f : death ? 9f : revenge ? 7f : expertMode ? 6f : 5f;
-			bubbleVelocity += 2f * enrageScale;
+			bubbleVelocity += 4f * enrageScale;
 			if (!leviAlive)
 				bubbleVelocity += 2f * (1f - lifeRatio);
 
@@ -526,10 +526,10 @@ namespace CalamityMod.NPCs.Leviathan
 
 				Vector2 targetVector = player.Center + new Vector2(0f, -350f);
 				float velocity = BossRushEvent.BossRushActive ? 18f : death ? 13.5f : 12f;
-				velocity += 3f * enrageScale;
+				velocity += 6f * enrageScale;
 				Vector2 vector3 = Vector2.Normalize(targetVector - vector - npc.velocity) * velocity;
 				float acceleration = BossRushEvent.BossRushActive ? 0.5f : death ? 0.28f : 0.25f;
-				acceleration += 0.1f * enrageScale;
+				acceleration += 0.2f * enrageScale;
 
 				if (Math.Abs(npc.Center.Y - targetVector.Y) > 50f || Math.Abs(npc.Center.X - player.Center.X) > 350f)
 					npc.SimpleFlyMovement(vector3, acceleration);
@@ -537,7 +537,7 @@ namespace CalamityMod.NPCs.Leviathan
 				npc.ai[1] += 1f;
 
 				float divisor = 140f;
-				divisor -= (int)(20f * enrageScale);
+				divisor -= (int)(30f * enrageScale);
 				if (!leviAlive || phase4)
 					divisor -= (float)Math.Ceiling(50f * (1f - lifeRatio));
 
@@ -545,7 +545,7 @@ namespace CalamityMod.NPCs.Leviathan
 				if (Main.netMode != NetmodeID.MultiplayerClient && shootProjectiles)
 				{
 					float projectileVelocity = expertMode ? 3f : 2f;
-					projectileVelocity += enrageScale;
+					projectileVelocity += 2f * enrageScale;
 					if (!leviAlive || phase4)
 						projectileVelocity += death ? 3f * (1f - lifeRatio) : 2f * (1f - lifeRatio);
 
@@ -595,7 +595,7 @@ namespace CalamityMod.NPCs.Leviathan
 				}
 
 				float phaseTimer = 300f;
-				phaseTimer -= 30f * enrageScale;
+				phaseTimer -= 60f * enrageScale;
 				if (!leviAlive || phase4)
 					phaseTimer -= 150f * (1f - lifeRatio);
 
@@ -624,7 +624,7 @@ namespace CalamityMod.NPCs.Leviathan
 
                     // Velocity and rotation
                     float chargeVelocity = BossRushEvent.BossRushActive ? 31f : (leviAlive && !phase4) ? 21f : 26f;
-					chargeVelocity += 7f * enrageScale;
+					chargeVelocity += 14f * enrageScale;
 
 					if (revenge)
 						chargeVelocity += 2f + (death ? 6f * (1f - lifeRatio) : 4f * (1f - lifeRatio));

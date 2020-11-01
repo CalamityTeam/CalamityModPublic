@@ -233,7 +233,14 @@ namespace CalamityMod.Events
                     netMessage.Write(CalamityWorld.triedToSummonOldDuke);
                     netMessage.Send();
                 }
-            }
+				if (Main.netMode == NetmodeID.Server)
+				{
+					var netMessage = CalamityMod.Instance.GetPacket();
+					netMessage.Write((byte)CalamityModMessageType.EncounteredOldDukeSync);
+					netMessage.Write(CalamityWorld.encounteredOldDuke);
+					netMessage.Send();
+				}
+			}
         }
     }
 }

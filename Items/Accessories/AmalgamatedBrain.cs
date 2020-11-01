@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Amalgamated Brain");
-            Tooltip.SetDefault("12% increased damage\n" +
+            Tooltip.SetDefault("10% increased damage\n" +
                                "Shade rains down when you are hit\n" +
                                "You will confuse nearby enemies when you are struck");
         }
@@ -34,16 +34,17 @@ namespace CalamityMod.Items.Accessories
             modPlayer.aBrain = true;
             if (player.immune)
             {
-                if (Main.rand.NextBool(8))
+                if (player.miscCounter % 6 == 0)
                 {
                     if (player.whoAmI == Main.myPlayer)
                     {
 						Projectile rain = CalamityUtils.ProjectileRain(player.Center, 400f, 100f, 500f, 800f, 22f, ModContent.ProjectileType<AuraRain>(), (int)(60 * player.AverageDamage()), 2f, player.whoAmI, 6, 1);
 						rain.tileCollide = false;
+						rain.penetrate = 1;
                     }
                 }
             }
-            player.allDamage += 0.12f;
+            player.allDamage += 0.1f;
         }
 
         public override void AddRecipes()

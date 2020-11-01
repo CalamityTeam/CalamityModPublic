@@ -137,7 +137,10 @@ namespace CalamityMod
                     case CalamityModMessageType.AcidRainOldDukeSummonSync:
                         CalamityWorld.triedToSummonOldDuke = reader.ReadBoolean();
                         break;
-                    case CalamityModMessageType.GaelsGreatswordSwingSync:
+					case CalamityModMessageType.EncounteredOldDukeSync:
+						CalamityWorld.encounteredOldDuke = reader.ReadBoolean();
+						break;
+					case CalamityModMessageType.GaelsGreatswordSwingSync:
                         byte playerIndex = reader.ReadByte();
                         Main.player[playerIndex].Calamity().gaelSwipes = reader.ReadInt32();
                         break;
@@ -294,8 +297,9 @@ namespace CalamityMod
         AcidRainSync,
         AcidRainUIDrawFadeSync,
         AcidRainOldDukeSummonSync,
+		EncounteredOldDukeSync,
 
-        GaelsGreatswordSwingSync,
+		GaelsGreatswordSwingSync,
 
         SpawnSuperDummy,
         SyncCalamityNPCAIArray,

@@ -549,7 +549,7 @@ namespace CalamityMod.Projectiles
                             return false;
                         }
 
-                        float velocityLimit = (CalamityWorld.death || BossRushEvent.BossRushActive) ? 28f : 24f;
+                        float velocityLimit = (CalamityWorld.death || BossRushEvent.BossRushActive) ? 22f : 20f;
                         if (projectile.velocity.Length() < velocityLimit)
                             projectile.velocity *= 1.01f;
                     }
@@ -786,12 +786,6 @@ namespace CalamityMod.Projectiles
             Player player = Main.player[projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
 
-			if (projectile.type == ProjectileID.RocketSkeleton && projectile.ai[1] == 1f)
-			{
-				if (projectile.velocity.Length() < 20f)
-					projectile.velocity *= 1.01f;
-			}
-
             if (defDamage == 0)
                 defDamage = projectile.damage;
 
@@ -806,19 +800,19 @@ namespace CalamityMod.Projectiles
                         projectile.damage = defDamage;
                     }
                     else
-                        projectile.damage = defDamage + 60;
+                        projectile.damage = defDamage + 30;
                 }
             }
 
             if (CalamityWorld.downedDoG && (Main.pumpkinMoon || Main.snowMoon))
             {
                 if (CalamityLists.eventProjectileBuffList.Contains(projectile.type))
-                    projectile.damage = defDamage + 70;
+                    projectile.damage = defDamage + 35;
             }
             else if (CalamityWorld.buffedEclipse && Main.eclipse)
             {
                 if (CalamityLists.eventProjectileBuffList.Contains(projectile.type))
-                    projectile.damage = defDamage + 100;
+                    projectile.damage = defDamage + 50;
             }
 
             // Iron Heart damage variable will scale with projectile.damage

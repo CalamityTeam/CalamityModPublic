@@ -306,8 +306,6 @@ namespace CalamityMod.NPCs.HiveMind
 
 			Player player = Main.player[npc.target];
 
-            CalamityGlobalNPC.hiveMind = npc.whoAmI;
-
 			float enrageScale = 0f;
 			if ((npc.position.Y / 16f) < Main.worldSurface)
 				enrageScale += 1f;
