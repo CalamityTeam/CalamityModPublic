@@ -510,11 +510,12 @@ namespace CalamityMod.NPCs.Ravager
 						{
 							for (int i = 0; i < Main.maxNPCs; i++)
 							{
-								if (Main.npc[i].type == ModContent.NPCType<RockPillar>() && Main.npc[i].ai[0] == 0f)
-								{
-									Main.npc[i].ai[1] = -1f;
-									Main.npc[i].direction = npc.direction;
-								}
+                                if (Main.npc[i].type == ModContent.NPCType<RockPillar>() && Main.npc[i].ai[0] == 0f)
+                                {
+                                    Main.npc[i].ai[1] = -1f;
+                                    Main.npc[i].direction = npc.direction;
+                                    Main.npc[i].netUpdate = true;
+                                }
 							}
 
 							int spawnDistance = 360;

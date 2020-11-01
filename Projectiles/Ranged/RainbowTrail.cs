@@ -16,7 +16,7 @@ namespace CalamityMod.Projectiles.Ranged
 			projectile.aiStyle = 46;
 			projectile.friendly = true;
 			projectile.penetrate = -1;
-			projectile.magic = true;
+			projectile.ranged = true;
 			projectile.alpha = 255;
 			projectile.light = 0.3f;
 			projectile.tileCollide = false;

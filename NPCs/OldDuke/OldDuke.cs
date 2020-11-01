@@ -72,6 +72,8 @@ namespace CalamityMod.NPCs.OldDuke
 			writer.Write(npc.localAI[0]);
 			writer.Write(npc.rotation);
 			writer.Write(npc.spriteDirection);
+			for (int i = 0; i < 4; i++)
+				writer.Write(npc.Calamity().newAI[i]);
 		}
 
 		public override void ReceiveExtraAI(BinaryReader reader)
@@ -80,6 +82,8 @@ namespace CalamityMod.NPCs.OldDuke
 			npc.localAI[0] = reader.ReadSingle();
 			npc.rotation = reader.ReadSingle();
 			npc.spriteDirection = reader.ReadInt32();
+			for (int i = 0; i < 4; i++)
+				npc.Calamity().newAI[i] = reader.ReadSingle();
 		}
 
 		public override void AI()
