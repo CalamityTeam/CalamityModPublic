@@ -2037,8 +2037,8 @@ namespace CalamityMod.NPCs
 				// Phases based on HP
                 bool phase2 = lifeRatio < 0.85f;
                 bool phase3 = lifeRatio < 0.7f;
-                bool phase4 = lifeRatio < 0.5f;
-                bool phase5 = lifeRatio < 0.3f;
+                bool phase4 = lifeRatio < 0.55f;
+                bool phase5 = lifeRatio < 0.4f;
                 bool spinning = npc.ai[0] == -4f;
 
 				// KnockBack
@@ -2070,9 +2070,9 @@ namespace CalamityMod.NPCs
                         float num795 = Main.player[npc.target].Center.X - vector98.X;
                         float num796 = Main.player[npc.target].Center.Y - vector98.Y;
                         float num797 = (float)Math.Sqrt(num795 * num795 + num796 * num796);
-						float velocityScale = (death ? 4f : 2f) * enrageScale;
+						float velocityScale = death ? 4f : 2f;
 						float velocityBoost = velocityScale * (1f - lifeRatio);
-                        float num798 = 8f + velocityBoost;
+                        float num798 = 8f + velocityBoost + 3f * enrageScale;
                         if (BossRushEvent.BossRushActive)
                             num798 *= 2f;
 
@@ -2111,7 +2111,7 @@ namespace CalamityMod.NPCs
                             Main.PlaySound(SoundID.ForceRoar, (int)npc.position.X, (int)npc.position.Y, -1, 1f, 0f);
 
                             // Velocity
-                            npc.velocity = Vector2.Normalize(Main.player[npc.target].Center - npc.Center) * (BossRushEvent.BossRushActive ? 24f : death ? 16f : 14f);
+                            npc.velocity = Vector2.Normalize(Main.player[npc.target].Center - npc.Center) * ((BossRushEvent.BossRushActive ? 24f : death ? 16f : 14f) + 4f * enrageScale);
                         }
                     }
 
@@ -2169,7 +2169,7 @@ namespace CalamityMod.NPCs
                         if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) < 400f) // 25 tile distance
                         {
                             npc.ai[2] -= 1f;
-                            npc.velocity = Vector2.Normalize(Main.player[npc.target].Center - npc.Center) * (BossRushEvent.BossRushActive ? -16f : death ? -8f : -6f);
+                            npc.velocity = Vector2.Normalize(Main.player[npc.target].Center - npc.Center) * ((BossRushEvent.BossRushActive ? -16f : death ? -8f : -6f) - 2f * enrageScale);
                         }
                     }
 
@@ -13792,19 +13792,19 @@ namespace CalamityMod.NPCs
                             Vector2 vector168 = Utils.Vector2FromElipse(npc.localAI[0].ToRotationVector2(), vector165 * npc.localAI[1]);
                             Vector2 vector169 = npc.Center + Vector2.Normalize(vector168) * vector165.Length() * 0.4f + value11;
 
-                            float velocity = BossRushEvent.BossRushActive ? 7.5f : death ? 5f : 4.5f;
+                            float velocity = BossRushEvent.BossRushActive ? 7.5f : death ? 3.5f : 3f;
 							switch (aggressionLevel)
 							{
 								case 4:
 									break;
 								case 3:
-									velocity -= 0.25f;
+									velocity += 0.5f;
 									break;
 								case 2:
-									velocity -= 0.5f;
+									velocity += 1f;
 									break;
 								case 1:
-									velocity -= 0.75f;
+									velocity += 1.5f;
 									break;
 								default:
 									break;
@@ -13816,6 +13816,7 @@ namespace CalamityMod.NPCs
 							int damage = npc.GetProjectileDamage(type);
 							int proj = Projectile.NewProjectile(vector169, vector170, type, damage, 0f, Main.myPlayer, 0f, ai);
 							Main.projectile[proj].timeLeft = 1200;
+							Main.projectile[proj].Calamity().lineColor = aggressionLevel;
                         }
                     }
                     else

@@ -1346,8 +1346,6 @@ namespace CalamityMod.CalPlayer
             // Max health reductions
             if (crimEffigy)
                 player.statLifeMax2 = (int)(player.statLifeMax2 * 0.8);
-            if (badgeOfBraveryRare)
-                player.statLifeMax2 = (int)(player.statLifeMax2 * 0.75);
             if (regenator)
                 player.statLifeMax2 = (int)(player.statLifeMax2 * 0.5);
             if (skeletronLore)
@@ -3562,7 +3560,15 @@ namespace CalamityMod.CalPlayer
             }
             if (badgeOfBraveryRare)
             {
-                meleeSpeedMult += 0.2f;
+				float maxDistance = 480f; // 30 tile distance
+				for (int l = 0; l < Main.maxNPCs; l++)
+				{
+					NPC nPC = Main.npc[l];
+					if (nPC.active && !nPC.friendly && nPC.damage > 0 && !nPC.dontTakeDamage && Vector2.Distance(player.Center, nPC.Center) <= maxDistance)
+					{
+						meleeSpeedMult += MathHelper.Lerp(0f, 0.3f, 1f - (Vector2.Distance(player.Center, nPC.Center) / maxDistance));
+					}
+				}
             }
             if (eGauntlet)
             {

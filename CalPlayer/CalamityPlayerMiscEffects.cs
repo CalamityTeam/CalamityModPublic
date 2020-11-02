@@ -3217,7 +3217,17 @@ namespace CalamityMod.CalPlayer
 			}
 
 			if (modPlayer.badgeOfBraveryRare)
-				player.meleeDamage += 0.2f;
+			{
+				float maxDistance = 480f; // 30 tile distance
+				for (int l = 0; l < Main.maxNPCs; l++)
+				{
+					NPC nPC = Main.npc[l];
+					if (nPC.active && !nPC.friendly && nPC.damage > 0 && !nPC.dontTakeDamage && Vector2.Distance(player.Center, nPC.Center) <= maxDistance)
+					{
+						player.meleeDamage += MathHelper.Lerp(0f, 0.3f, 1f - (Vector2.Distance(player.Center, nPC.Center) / maxDistance));
+					}
+				}
+			}
 
 			if (modPlayer.calamitasLore)
 				player.maxMinions += 2;

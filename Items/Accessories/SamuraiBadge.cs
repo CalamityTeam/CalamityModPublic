@@ -9,7 +9,8 @@ namespace CalamityMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Samurai Badge");
-            Tooltip.SetDefault("20% increased melee and true melee damage and speed");
+            Tooltip.SetDefault("Increases melee damage, true melee damage and melee speed the closer you are to enemies\n" +
+				"Max boost is 30% increased melee damage, true melee damage and melee speed");
         }
 
         public override void SetDefaults()

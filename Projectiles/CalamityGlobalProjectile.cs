@@ -496,7 +496,7 @@ namespace CalamityMod.Projectiles
                     else if (projectile.ai[0] == 2f)
                     {
                         projectile.localAI[0] += 1f;
-                        if (projectile.localAI[0] >= 60f)
+                        if (projectile.localAI[0] >= 45f)
                         {
                             projectile.localAI[0] = 0f;
                             projectile.ai[0] = 3f;
@@ -549,7 +549,7 @@ namespace CalamityMod.Projectiles
                             return false;
                         }
 
-                        float velocityLimit = (CalamityWorld.death || BossRushEvent.BossRushActive) ? 22f : 20f;
+                        float velocityLimit = ((CalamityWorld.death || BossRushEvent.BossRushActive) ? 28f : 24f) / MathHelper.Clamp(lineColor * 0.75f, 1f, 3f);
                         if (projectile.velocity.Length() < velocityLimit)
                             projectile.velocity *= 1.01f;
                     }
