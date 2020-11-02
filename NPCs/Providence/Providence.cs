@@ -243,7 +243,7 @@ namespace CalamityMod.NPCs.Providence
 			bool delayAttacks = npc.localAI[2] > 0f;
 
 			// Spear phase
-			float spearRateIncrease = death ? 2f * (1f - lifeRatio) : 1f - lifeRatio;
+			float spearRateIncrease = 1f - lifeRatio;
 			float enragedSpearRateIncrease = 0.5f;
 			float bossRushSpearRateIncrease = 0.25f;
 			float baseSpearRate = 18f;
@@ -1230,13 +1230,21 @@ namespace CalamityMod.NPCs.Providence
 								if (velocity.X < 0f)
 									num1225 = 1f;
 
-								velocity = velocity.RotatedBy(-(double)num1225 * MathHelper.TwoPi / 6f, default);
+								velocity = velocity.RotatedBy(-(double)num1225 * MathHelper.TwoPi / 6f);
 								Projectile.NewProjectile(vector.X, vector.Y + 32f, velocity.X, velocity.Y, ModContent.ProjectileType<ProvidenceHolyRay>(), holyLaserDamage, 0f, Main.myPlayer, num1225 * MathHelper.TwoPi / rotation, npc.whoAmI);
 
 								if (revenge)
 									Projectile.NewProjectile(vector.X, vector.Y + 32f, -velocity.X, -velocity.Y, ModContent.ProjectileType<ProvidenceHolyRay>(), holyLaserDamage, 0f, Main.myPlayer, -num1225 * MathHelper.TwoPi / rotation, npc.whoAmI);
 
-								npc.ai[3] = (velocity.ToRotation() + MathHelper.TwoPi + MathHelper.Pi) * num1225;
+								if (nightTime)
+								{
+									velocity = velocity.RotatedBy((double)num1225 * MathHelper.TwoPi / 6f);
+									Projectile.NewProjectile(vector.X, vector.Y + 32f, velocity.X, velocity.Y, ModContent.ProjectileType<ProvidenceHolyRay>(), holyLaserDamage, 0f, Main.myPlayer, num1225 * MathHelper.TwoPi / rotation, npc.whoAmI);
+
+									if (revenge)
+										Projectile.NewProjectile(vector.X, vector.Y + 32f, -velocity.X, -velocity.Y, ModContent.ProjectileType<ProvidenceHolyRay>(), holyLaserDamage, 0f, Main.myPlayer, -num1225 * MathHelper.TwoPi / rotation, npc.whoAmI);
+								}
+
 								npc.netUpdate = true;
 							}
 						}

@@ -702,7 +702,7 @@ namespace CalamityMod.CalPlayer
 						bool immunityToHot = player.lavaImmune || player.lavaRose || player.lavaMax > 0 || immunityToHotAndCold || modPlayer.externalHeatImmunity;
 
 						// Space effects
-						if (player.InSpace())
+						if (!player.behindBackWall && player.InSpace())
 						{
 							if (Main.dayTime)
 							{
@@ -746,7 +746,7 @@ namespace CalamityMod.CalPlayer
 						}
 
 						// Hot timer
-						if (player.ZoneUnderworldHeight && !immunityToHot)
+						if (!player.behindBackWall && player.ZoneUnderworldHeight && !immunityToHot)
 						{
 							bool affectedByHotLava = player.lavaWet;
 
@@ -1155,10 +1155,6 @@ namespace CalamityMod.CalPlayer
 				float damageMult = modPlayer.nanotech ? 0.1f : 0.15f;
 				modPlayer.throwingDamage += modPlayer.raiderStack / 150f * damageMult;
 			}
-
-			// Silva minion bonus
-			if (modPlayer.silvaCountdown <= 0 && modPlayer.hasSilvaEffect && modPlayer.silvaSummon)
-				player.maxMinions += 2;
 
 			// Spirit Glyph defense buff
 			if (modPlayer.sDefense)

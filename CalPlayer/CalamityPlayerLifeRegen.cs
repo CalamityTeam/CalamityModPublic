@@ -346,6 +346,8 @@ namespace CalamityMod.CalPlayer
 			}
 			if (modPlayer.alcoholPoisonLevel > 3)
 			{
+				player.nebulaLevelLife = 0;
+
 				if (player.whoAmI == Main.myPlayer)
 					player.AddBuff(ModContent.BuffType<AlcoholPoisoning>(), 2, false);
 
@@ -500,6 +502,8 @@ namespace CalamityMod.CalPlayer
 
 			if (modPlayer.hInferno)
             {
+				player.nebulaLevelLife = 0;
+
                 modPlayer.hInfernoBoost++;
 
                 if (player.lifeRegen > 0)
@@ -520,6 +524,8 @@ namespace CalamityMod.CalPlayer
 				{
 					if (player.statLife > 100)
 					{
+						player.nebulaLevelLife = 0;
+
 						if (player.lifeRegen > 0)
 							player.lifeRegen = 0;
 

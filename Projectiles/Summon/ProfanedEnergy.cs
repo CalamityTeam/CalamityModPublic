@@ -145,7 +145,7 @@ namespace CalamityMod.Projectiles.Summon
 						ModContent.ProjectileType<FlameBlast>(),
 						ModContent.ProjectileType<FlameBurst>()
 					});
-                    float speed = Main.rand.Next(20, 30); //modify the speed the projectile are shot.  Lower number = slower projectile.
+                    float speed = 25f;
                     Vector2 vector29 = new Vector2(projectile.position.X + (float)projectile.width * 0.5f, projectile.position.Y + (float)projectile.height * 0.5f);
                     float num404 = num516 - vector29.X;
                     float num405 = num517 - vector29.Y;
@@ -154,7 +154,7 @@ namespace CalamityMod.Projectiles.Summon
                     num404 *= num406;
                     num405 *= num406;
                     Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, num404, num405, projectileType, projectile.damage, projectile.knockBack, projectile.owner, (float)target, 0f);
-                    projectile.ai[0] = 8f;
+                    projectile.ai[0] = 16f;
                 }
             }
         }

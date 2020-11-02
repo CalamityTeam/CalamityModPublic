@@ -4422,7 +4422,7 @@ namespace CalamityMod.NPCs
 				npc.spriteDirection = npc.direction;
 
 				npc.ai[1] += 1f;
-				if (npc.ai[1] > 10f)
+				if (npc.ai[1] > 20f)
 				{
 					npc.velocity = vector206;
 

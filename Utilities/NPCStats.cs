@@ -254,6 +254,7 @@ namespace CalamityMod
 
 				{ ModContent.NPCType<SupremeCalamitas>(), 0.8 }
 			};
+
 			BossStats.ContactDamageValues = new SortedDictionary<int, int[]>
 			{
 				{ NPCID.KingSlime, new int[] { 40, 64, 80, 88, 96 } },
@@ -508,6 +509,7 @@ namespace CalamityMod
 
 				{ ModContent.NPCType<SupremeCalamitas>(), new int[] { 350, 560, 592, 608, 768 } }
 			};
+
 			BossStats.ProjectileDamageValues = new SortedDictionary<Tuple<int, int>, int[]>
 			{
 				{ new Tuple<int, int>(ModContent.NPCType<KingSlimeJewel>(), ModContent.ProjectileType<JewelProjectile>()), new int[] { 0, 0, 44, 48, 66 } },

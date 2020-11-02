@@ -5575,9 +5575,9 @@ namespace CalamityMod.CalPlayer
                 if (Main.rand.NextBool(randomChance))
                     damageMult += 1.0;
             }
-            if (silvaCountdown > 0 && hasSilvaEffect && silvaRanged && proj.ranged)
+            if (silvaCountdown <= 0 && hasSilvaEffect && silvaRanged && proj.ranged)
             {
-                damageMult += 0.4;
+                damageMult += 0.1;
             }
             if (silvaCountdown <= 0 && hasSilvaEffect && silvaThrowing && proj.Calamity().rogue)
             {
@@ -10816,37 +10816,37 @@ namespace CalamityMod.CalPlayer
             {
                 player.minionDamage += 0.12f;
                 player.minionKB += 3.0f;
-                player.maxMinions += 3;
+                player.maxMinions += 2;
             }
             else if (summonLevel >= 10500)
             {
                 player.minionDamage += 0.1f;
                 player.minionKB += 3.0f;
-                player.maxMinions += 2;
+                player.maxMinions++;
             }
             else if (summonLevel >= 9100)
             {
                 player.minionDamage += 0.09f;
                 player.minionKB += 2.7f;
-                player.maxMinions += 2;
+                player.maxMinions++;
             }
             else if (summonLevel >= 7800)
             {
                 player.minionDamage += 0.08f;
                 player.minionKB += 2.4f;
-                player.maxMinions += 2;
+                player.maxMinions++;
             }
             else if (summonLevel >= 6600)
             {
                 player.minionDamage += 0.07f;
                 player.minionKB += 2.1f;
-                player.maxMinions += 2;
+                player.maxMinions++;
             }
             else if (summonLevel >= 5500)
             {
                 player.minionDamage += 0.06f;
                 player.minionKB += 1.8f;
-                player.maxMinions += 2;
+                player.maxMinions++;
             }
             else if (summonLevel >= 4500)
             {
@@ -10858,19 +10858,16 @@ namespace CalamityMod.CalPlayer
             {
                 player.minionDamage += 0.05f;
                 player.minionKB += 1.5f;
-                player.maxMinions++;
             }
             else if (summonLevel >= 2800)
             {
                 player.minionDamage += 0.04f;
                 player.minionKB += 1.2f;
-                player.maxMinions++;
             }
             else if (summonLevel >= 2100)
             {
                 player.minionDamage += 0.04f;
                 player.minionKB += 0.9f;
-                player.maxMinions++;
             }
             else if (summonLevel >= 1500)
             {

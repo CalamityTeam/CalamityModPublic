@@ -761,7 +761,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 
 				if (expertMode)
 				{
-					turnSpeed += 0.12f * (1f - lifeRatio);
+					turnSpeed += 0.1f * (1f - lifeRatio);
 					turnSpeed += Vector2.Distance(player.Center, npc.Center) * 0.00005f * (1f - lifeRatio);
 				}
 
@@ -901,8 +901,8 @@ namespace CalamityMod.NPCs.DevourerofGods
 
 					if (expertMode)
 					{
-						maximumSpeed1 += 0.12f * (1f - lifeRatio);
-						maximumSpeed2 += 0.25f * (1f - lifeRatio);
+						maximumSpeed1 += 0.1f * (1f - lifeRatio);
+						maximumSpeed2 += 0.2f * (1f - lifeRatio);
 					}
 
                     num193 = (float)Math.Sqrt(num191 * num191 + num192 * num192);
