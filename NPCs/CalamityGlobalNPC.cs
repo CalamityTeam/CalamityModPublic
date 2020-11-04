@@ -2523,8 +2523,7 @@ namespace CalamityMod.NPCs
                 case 15:
                     if (npc.type != NPCType<StormWeaverHead>() && npc.type != NPCType<StormWeaverBody>() &&
                         npc.type != NPCType<StormWeaverTail>() && npc.type != NPCType<StormWeaverHeadNaked>() &&
-                        npc.type != NPCType<StormWeaverBodyNaked>() && npc.type != NPCType<StormWeaverTailNaked>() &&
-                        npc.type != NPCType<StasisProbe>() && npc.type != NPCType<StasisProbeNaked>())
+                        npc.type != NPCType<StormWeaverBodyNaked>() && npc.type != NPCType<StormWeaverTailNaked>())
                     {
                         npc.active = false;
                         npc.netUpdate = true;

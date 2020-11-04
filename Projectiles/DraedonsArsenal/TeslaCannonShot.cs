@@ -105,7 +105,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 								if (!Main.npc[i].CanBeChasedBy(projectile, false) || !Collision.CanHit(projectile.Center, 1, 1, Main.npc[i].Center, 1, 1))
 									continue;
 
-								if (projectile.Center.ManhattanDistance(Main.npc[i].Center) < 600f)
+								if (projectile.Center.ManhattanDistance(Main.npc[i].Center) < num474)
 								{
 									Projectile.NewProjectile(projectile.Center, projectile.DirectionTo(Main.npc[i].Center) * 2f, projectile.type, projectile.damage / 2, projectile.knockBack * 0.5f, projectile.owner, 0f, -1f);
 

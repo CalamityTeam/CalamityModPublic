@@ -3738,7 +3738,7 @@ namespace CalamityMod.CalPlayer
             if (weakPetrification)
                 WeakPetrification();
 
-            if (silvaCountdown > 0 && hasSilvaEffect && silvaSet)
+            if (lol || (silvaCountdown > 0 && hasSilvaEffect && silvaSet))
             {
                 if (player.lifeRegen < 0)
                     player.lifeRegen = 0;
@@ -3764,7 +3764,7 @@ namespace CalamityMod.CalPlayer
             if (weakPetrification)
                 WeakPetrification();
 
-			if (silvaCountdown > 0 && hasSilvaEffect && silvaSet)
+			if (lol || (silvaCountdown > 0 && hasSilvaEffect && silvaSet))
             {
                 if (player.lifeRegen < 0)
                     player.lifeRegen = 0;

@@ -2169,8 +2169,6 @@ namespace CalamityMod
                 ModContent.NPCType<DarkEnergy2>(),
                 ModContent.NPCType<DarkEnergy3>(),
                 ModContent.NPCType<CosmicLantern>(),
-                ModContent.NPCType<StasisProbe>(),
-                ModContent.NPCType<StasisProbeNaked>(),
                 ModContent.NPCType<DevourerofGodsHead2>(),
                 ModContent.NPCType<DevourerofGodsBody2>(),
                 ModContent.NPCType<DevourerofGodsTail2>(),

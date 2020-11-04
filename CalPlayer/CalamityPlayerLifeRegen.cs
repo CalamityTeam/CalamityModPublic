@@ -541,7 +541,7 @@ namespace CalamityMod.CalPlayer
                     player.mount.Dismount(player);
             }
 
-            if (modPlayer.silvaCountdown > 0 && modPlayer.hasSilvaEffect && modPlayer.silvaSet)
+            if (modPlayer.lol || (modPlayer.silvaCountdown > 0 && modPlayer.hasSilvaEffect && modPlayer.silvaSet))
             {
                 if (player.lifeRegen < 0)
                     player.lifeRegen = 0;

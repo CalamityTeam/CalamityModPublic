@@ -29,9 +29,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using Terraria;
-using Terraria.DataStructures;
-using Terraria.Graphics.Effects;
-using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
@@ -1172,7 +1169,7 @@ namespace CalamityMod.NPCs.Providence
 					{
 						if (npc.ai[1] == crystalPhaseTime && Main.netMode != NetmodeID.MultiplayerClient)
 						{
-							int proj = Projectile.NewProjectile(player.Center.X, player.Center.Y - 360f, 0f, 0f, ModContent.ProjectileType<ProvidenceCrystal>(), crystalDamage, 0f, player.whoAmI, 0f, 0f);
+							int proj = Projectile.NewProjectile(player.Center.X, player.Center.Y - 360f, 0f, 0f, ModContent.ProjectileType<ProvidenceCrystal>(), crystalDamage, 0f, player.whoAmI, lifeRatio, 0f);
 
 							if (nightTime)
 								Main.projectile[proj].timeLeft = nightCrystalTime;
@@ -1234,15 +1231,18 @@ namespace CalamityMod.NPCs.Providence
 								if (velocity.X < 0f)
 									num1225 = 1f;
 
+								// 60 degrees offset
 								velocity = velocity.RotatedBy(-(double)num1225 * MathHelper.TwoPi / 6f);
 								Projectile.NewProjectile(vector.X, vector.Y + 32f, velocity.X, velocity.Y, ModContent.ProjectileType<ProvidenceHolyRay>(), holyLaserDamage, 0f, Main.myPlayer, num1225 * MathHelper.TwoPi / rotation, npc.whoAmI);
 
+								// -60 degrees offset
 								if (revenge)
 									Projectile.NewProjectile(vector.X, vector.Y + 32f, -velocity.X, -velocity.Y, ModContent.ProjectileType<ProvidenceHolyRay>(), holyLaserDamage, 0f, Main.myPlayer, -num1225 * MathHelper.TwoPi / rotation, npc.whoAmI);
 
-								if (nightTime)
+								if (nightTime && lifeRatio < 0.5f)
 								{
-									velocity = velocity.RotatedBy((double)num1225 * MathHelper.TwoPi / 6f);
+									rotation *= 0.33f;
+									velocity = velocity.RotatedBy(-(double)num1225 * MathHelper.TwoPi / 2f);
 									Projectile.NewProjectile(vector.X, vector.Y + 32f, velocity.X, velocity.Y, ModContent.ProjectileType<ProvidenceHolyRay>(), holyLaserDamage, 0f, Main.myPlayer, num1225 * MathHelper.TwoPi / rotation, npc.whoAmI);
 
 									if (revenge)

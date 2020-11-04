@@ -14,8 +14,6 @@ namespace CalamityMod.NPCs.Perforator
 	[AutoloadBossHead]
     public class PerforatorHeadMedium : ModNPC
     {
-        private bool flies = false;
-
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("The Perforator");

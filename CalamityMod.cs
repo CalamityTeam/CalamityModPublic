@@ -616,8 +616,6 @@ namespace CalamityMod
                 { ModContent.NPCType<StormWeaverHeadNaked>(), bitingEnemeyVelocityScale },
                 { ModContent.NPCType<StormWeaverBodyNaked>(), velocityScaleMin },
                 { ModContent.NPCType<StormWeaverTailNaked>(), velocityScaleMin },
-                { ModContent.NPCType<StasisProbe>(), velocityScaleMin },
-                { ModContent.NPCType<StasisProbeNaked>(), velocityScaleMin },
                 { ModContent.NPCType<Signus>(), velocityScaleMin },
                 { ModContent.NPCType<CosmicLantern>(), velocityScaleMin },
                 { ModContent.NPCType<Polterghast>(), bitingEnemeyVelocityScale },

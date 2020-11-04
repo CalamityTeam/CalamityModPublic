@@ -115,8 +115,15 @@ namespace CalamityMod.Projectiles
                     break;
             }
 
-            // Disable Lunatic Cultist's homing resistance globally
-            ProjectileID.Sets.Homing[projectile.type] = false;
+			if (projectile.type >= ProjectileID.BlackCounterweight && projectile.type <= ProjectileID.YellowCounterweight)
+			{
+				projectile.MaxUpdates = 2;
+				projectile.usesIDStaticNPCImmunity = true;
+				projectile.idStaticNPCHitCooldown = 10;
+			}
+
+			// Disable Lunatic Cultist's homing resistance globally
+			ProjectileID.Sets.Homing[projectile.type] = false;
         }
         #endregion
 
