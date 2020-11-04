@@ -227,6 +227,9 @@ namespace CalamityMod.NPCs.AstrumAureus
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
+			if (npc.Calamity().newAI[0] >= 45f)
+				return false;
+
 			SpriteEffects spriteEffects = SpriteEffects.None;
 			if (npc.spriteDirection == 1)
 				spriteEffects = SpriteEffects.FlipHorizontally;

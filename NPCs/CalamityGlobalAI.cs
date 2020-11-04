@@ -2162,7 +2162,7 @@ namespace CalamityMod.NPCs
 
                     npc.ai[2] += 1f;
 
-                    float timer = (death ? 60f - 45f * (1f - lifeRatio) : 60f) + npc.ai[3];
+                    float timer = (death ? 30f - 30f * (1f - lifeRatio) : 30f) + npc.ai[3];
 
                     if (npc.ai[2] >= timer - 5f)
                     {

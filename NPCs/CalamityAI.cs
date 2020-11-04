@@ -4402,6 +4402,12 @@ namespace CalamityMod.NPCs
 			// Prepare to charge
 			else if (npc.ai[0] == 3.1f)
 			{
+				if (npc.ai[2] < 10f)
+				{
+					npc.ai[2] += 1f;
+					return;
+				}
+
 				npc.noTileCollide = true;
 
 				npc.rotation = (npc.rotation * rotationMult * 0.5f + npc.velocity.X * rotationAmt * 0.85f) / 5f;
@@ -4422,7 +4428,7 @@ namespace CalamityMod.NPCs
 				npc.spriteDirection = npc.direction;
 
 				npc.ai[1] += 1f;
-				if (npc.ai[1] > 20f)
+				if (npc.ai[1] > 10f)
 				{
 					npc.velocity = vector206;
 
@@ -4432,8 +4438,8 @@ namespace CalamityMod.NPCs
 						npc.direction = 1;
 
 					npc.ai[0] = 3.2f;
-					npc.ai[1] = 0f;
 					npc.ai[1] = npc.direction;
+					npc.ai[2] = 0f;
 				}
 			}
 
@@ -4623,18 +4629,18 @@ namespace CalamityMod.NPCs
 				npc.damage = npc.defDamage;
 			}
 
-			int num2 = expertMode ? 55 : 60;
-			float num3 = expertMode ? 0.75f : 0.7f;
-			float scaleFactor = expertMode ? 14f : 13f;
+			int idlePhaseTimer = expertMode ? 55 : 60;
+			float idlePhaseAcceleration = expertMode ? 0.75f : 0.7f;
+			float idlePhaseVelocity = expertMode ? 14f : 13f;
 			if (phase3AI)
 			{
-				num3 = expertMode ? 0.85f : 0.8f;
-				scaleFactor = expertMode ? 16f : 15f;
+				idlePhaseAcceleration = expertMode ? 0.85f : 0.8f;
+				idlePhaseVelocity = expertMode ? 16f : 15f;
 			}
 			else if (phase2AI & charging)
 			{
-				num3 = expertMode ? 0.8f : 0.75f;
-				scaleFactor = expertMode ? 15f : 14f;
+				idlePhaseAcceleration = expertMode ? 0.8f : 0.75f;
+				idlePhaseVelocity = expertMode ? 15f : 14f;
 			}
 
 			int chargeTime = expertMode ? 34 : 36;
@@ -4652,45 +4658,45 @@ namespace CalamityMod.NPCs
 
 			if (death)
 			{
-				num2 = 51;
-				num3 *= 1.05f;
-				scaleFactor *= 1.05f;
+				idlePhaseTimer = 51;
+				idlePhaseAcceleration *= 1.05f;
+				idlePhaseVelocity *= 1.05f;
 				chargeTime -= 2;
 				chargeVelocity *= 1.1f;
 			}
 			else if (revenge)
 			{
-				num2 = 53;
-				num3 *= 1.025f;
-				scaleFactor *= 1.025f;
+				idlePhaseTimer = 53;
+				idlePhaseAcceleration *= 1.025f;
+				idlePhaseVelocity *= 1.025f;
 				chargeTime -= 1;
 				chargeVelocity *= 1.05f;
 			}
 			
 			if (BossRushEvent.BossRushActive)
 			{
-				num2 = 35;
-				num3 *= 1.1f;
-				scaleFactor *= 1.15f;
+				idlePhaseTimer = 35;
+				idlePhaseAcceleration *= 1.1f;
+				idlePhaseVelocity *= 1.15f;
 				chargeTime -= 3;
 				chargeVelocity *= 1.25f;
 			}
 
 			if (calamityGlobalNPC.newAI[1] == 1f)
-				scaleFactor *= 0.25f;
+				idlePhaseVelocity *= 0.25f;
 
 			// Variables
-			int num6 = BossRushEvent.BossRushActive ? 60 : death ? 90 : 120;
-			int num7 = BossRushEvent.BossRushActive ? 12 : death ? 18 : 24;
-			float num8 = BossRushEvent.BossRushActive ? 0.7f : death ? 0.6f : 0.55f;
-			float scaleFactor2 = BossRushEvent.BossRushActive ? 12f : death ? 10f : 9f;
+			int toothBallBelchPhaseTimer = BossRushEvent.BossRushActive ? 60 : death ? 90 : 120;
+			int toothBallBelchPhaseDivisor = BossRushEvent.BossRushActive ? 12 : death ? 18 : 24;
+			float toothBallBelchPhaseAcceleration = BossRushEvent.BossRushActive ? 0.7f : death ? 0.6f : 0.55f;
+			float toothBallBelchPhaseVelocity = BossRushEvent.BossRushActive ? 12f : death ? 10f : 9f;
 			int num9 = 120;
 			int num10 = 180;
 			int num12 = 30;
 			int num13 = BossRushEvent.BossRushActive ? 60 : death ? 90 : 120;
-			int num14 = BossRushEvent.BossRushActive ? 12 : death ? 18 : 24;
+			int toothBallSpinPhaseDivisor = BossRushEvent.BossRushActive ? 12 : death ? 18 : 24;
 			float spinTime = num13 / 2;
-			float scaleFactor3 = BossRushEvent.BossRushActive ? 11f : death ? 9.5f : 9f;
+			float toothBallSpinToothBallVelocity = BossRushEvent.BossRushActive ? 11f : death ? 9.5f : 9f;
 			float scaleFactor4 = 22f;
 			float num15 = MathHelper.TwoPi / spinTime;
 			int num16 = 75;
@@ -4738,16 +4744,24 @@ namespace CalamityMod.NPCs
 
 			// If the player isn't in the ocean biome or Old Duke is transitioning between phases, become immune
 			if (!phase3AI)
-				npc.dontTakeDamage = npc.ai[0] == -1f || npc.ai[0] == 4f || npc.ai[0] == 9f || enrage;
+				npc.dontTakeDamage = npc.ai[0] == -1f || npc.ai[0] == 4f || npc.ai[0] == 9f;
 
 			// Enrage
 			if (enrage)
 			{
-				num2 = 30;
-				npc.damage = npc.defDamage * 2;
-				npc.defense = npc.defDefense * 2;
-				npc.ai[3] = 0f;
+				toothBallBelchPhaseTimer = 30;
+				toothBallBelchPhaseDivisor = 6;
+				toothBallBelchPhaseAcceleration = 1f;
+				toothBallBelchPhaseVelocity = 15f;
+				idlePhaseTimer = 20;
+				idlePhaseAcceleration = 1.2f;
+				idlePhaseVelocity = 20f;
+				chargeTime = 25;
 				chargeVelocity += 8f;
+				toothBallSpinPhaseDivisor = 6;
+				toothBallSpinToothBallVelocity = 15f;
+				npc.damage = npc.defDamage * 2;
+				npc.defense = npc.defDefense * 3;
 			}
 
 			// Set variables for spawn effects
@@ -4891,8 +4905,8 @@ namespace CalamityMod.NPCs
 				if (npc.ai[1] == 0f)
 					npc.ai[1] = 500 * Math.Sign((vector - player.Center).X);
 
-				Vector2 vector3 = Vector2.Normalize(player.Center + new Vector2(npc.ai[1], -300f) - vector - npc.velocity) * scaleFactor;
-				npc.SimpleFlyMovement(vector3, num3);
+				Vector2 vector3 = Vector2.Normalize(player.Center + new Vector2(npc.ai[1], -300f) - vector - npc.velocity) * idlePhaseVelocity;
+				npc.SimpleFlyMovement(vector3, idlePhaseAcceleration);
 
 				// Rotation and direction
 				int num22 = Math.Sign(player.Center.X - vector.X);
@@ -4913,7 +4927,7 @@ namespace CalamityMod.NPCs
 				if (calamityGlobalNPC.newAI[1] != 1f || (phase2 && !phase2AI))
 				{
 					npc.ai[2] += 1f;
-					if (npc.ai[2] >= num2 || (phase2 && !phase2AI))
+					if (npc.ai[2] >= idlePhaseTimer || (phase2 && !phase2AI))
 					{
 						int num23 = 0;
 						switch ((int)npc.ai[3])
@@ -5030,14 +5044,14 @@ namespace CalamityMod.NPCs
 				if (npc.ai[1] == 0f)
 					npc.ai[1] = 500 * Math.Sign((vector - player.Center).X);
 
-				Vector2 vector5 = Vector2.Normalize(player.Center + new Vector2(npc.ai[1], -300f) - vector - npc.velocity) * scaleFactor2;
-				npc.SimpleFlyMovement(vector5, num8);
+				Vector2 vector5 = Vector2.Normalize(player.Center + new Vector2(npc.ai[1], -300f) - vector - npc.velocity) * toothBallBelchPhaseVelocity;
+				npc.SimpleFlyMovement(vector5, toothBallBelchPhaseAcceleration);
 
 				// Play sounds and spawn Tooth Balls
 				if (npc.ai[2] == 0f)
 					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/OldDukeRoar"), (int)npc.position.X, (int)npc.position.Y);
 
-				if (npc.ai[2] % num7 == 0f)
+				if (npc.ai[2] % toothBallBelchPhaseDivisor == 0f)
 				{
 					if (npc.ai[2] % 40f == 0f && npc.ai[2] != 0f)
 						Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/OldDukeVomit"), (int)npc.position.X, (int)npc.position.Y);
@@ -5060,7 +5074,7 @@ namespace CalamityMod.NPCs
 				}
 
 				npc.ai[2] += 1f;
-				if (npc.ai[2] >= num6)
+				if (npc.ai[2] >= toothBallBelchPhaseTimer)
 				{
 					calamityGlobalNPC.newAI[0] += 30f;
 					npc.ai[0] = 0f;
@@ -5145,8 +5159,8 @@ namespace CalamityMod.NPCs
 				if (npc.ai[1] == 0f)
 					npc.ai[1] = 500 * Math.Sign((vector - player.Center).X);
 
-				Vector2 vector8 = Vector2.Normalize(player.Center + new Vector2(npc.ai[1], -300f) - vector - npc.velocity) * scaleFactor;
-				npc.SimpleFlyMovement(vector8, num3);
+				Vector2 vector8 = Vector2.Normalize(player.Center + new Vector2(npc.ai[1], -300f) - vector - npc.velocity) * idlePhaseVelocity;
+				npc.SimpleFlyMovement(vector8, idlePhaseAcceleration);
 
 				// Direction and rotation
 				int num27 = Math.Sign(player.Center.X - vector.X);
@@ -5167,7 +5181,7 @@ namespace CalamityMod.NPCs
 				if (calamityGlobalNPC.newAI[1] != 1f || (phase3 && !phase3AI))
 				{
 					npc.ai[2] += 1f;
-					if (npc.ai[2] >= num2 || (phase3 && !phase3AI))
+					if (npc.ai[2] >= idlePhaseTimer || (phase3 && !phase3AI))
 					{
 						int num28 = 0;
 						switch ((int)npc.ai[3])
@@ -5306,7 +5320,7 @@ namespace CalamityMod.NPCs
 					}
 				}
 
-				if (npc.ai[2] % num14 == 0f)
+				if (npc.ai[2] % toothBallSpinPhaseDivisor == 0f)
 				{
 					if (npc.ai[2] % 45f == 0f && npc.ai[2] != 0f)
 						Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/OldDukeVomit"), (int)npc.position.X, (int)npc.position.Y);
@@ -5316,7 +5330,7 @@ namespace CalamityMod.NPCs
 						Vector2 vector10 = Vector2.Normalize(npc.velocity) * (npc.width + 20) / 2f + vector;
 						int num31 = NPC.NewNPC((int)vector10.X, (int)vector10.Y + 45, ModContent.NPCType<OldDukeToothBall>());
 						Main.npc[num31].target = npc.target;
-						Main.npc[num31].velocity = Vector2.Normalize(npc.velocity).RotatedBy(MathHelper.PiOver2 * npc.direction) * scaleFactor3;
+						Main.npc[num31].velocity = Vector2.Normalize(npc.velocity).RotatedBy(MathHelper.PiOver2 * npc.direction) * toothBallSpinToothBallVelocity;
 						Main.npc[num31].netUpdate = true;
 						Main.npc[num31].ai[3] = Main.rand.Next(30, 181);
 					}
@@ -5433,8 +5447,8 @@ namespace CalamityMod.NPCs
 				if (npc.ai[1] == 0f)
 					npc.ai[1] = 500 * Math.Sign((vector - player.Center).X);
 
-				Vector2 desiredVelocity = Vector2.Normalize(player.Center + new Vector2(-npc.ai[1], -300f) - vector - npc.velocity) * scaleFactor;
-				npc.SimpleFlyMovement(desiredVelocity, num3);
+				Vector2 desiredVelocity = Vector2.Normalize(player.Center + new Vector2(-npc.ai[1], -300f) - vector - npc.velocity) * idlePhaseVelocity;
+				npc.SimpleFlyMovement(desiredVelocity, idlePhaseAcceleration);
 
 				// Rotation and direction
 				int num32 = Math.Sign(player.Center.X - vector.X);
@@ -5459,7 +5473,7 @@ namespace CalamityMod.NPCs
 				if (calamityGlobalNPC.newAI[1] != 1f)
 				{
 					npc.ai[2] += 1f;
-					if (npc.ai[2] >= num2)
+					if (npc.ai[2] >= idlePhaseTimer)
 					{
 						int num33 = 0;
 						switch ((int)npc.ai[3])
@@ -5716,7 +5730,7 @@ namespace CalamityMod.NPCs
 					}
 				}
 
-				if (npc.ai[2] % num14 == 0f)
+				if (npc.ai[2] % toothBallSpinPhaseDivisor == 0f)
 				{
 					if (npc.ai[2] % 45f == 0f && npc.ai[2] != 0f)
 						Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/OldDukeVomit"), (int)npc.position.X, (int)npc.position.Y);
@@ -5726,7 +5740,7 @@ namespace CalamityMod.NPCs
 						Vector2 vector10 = Vector2.Normalize(npc.velocity) * (npc.width + 20) / 2f + vector;
 						int num31 = NPC.NewNPC((int)vector10.X, (int)vector10.Y + 45, ModContent.NPCType<OldDukeToothBall>());
 						Main.npc[num31].target = npc.target;
-						Main.npc[num31].velocity = Vector2.Normalize(npc.velocity).RotatedBy(MathHelper.PiOver2 * npc.direction) * scaleFactor3;
+						Main.npc[num31].velocity = Vector2.Normalize(npc.velocity).RotatedBy(MathHelper.PiOver2 * npc.direction) * toothBallSpinToothBallVelocity;
 						Main.npc[num31].netUpdate = true;
 						Main.npc[num31].ai[3] = Main.rand.Next(30, 361);
 					}

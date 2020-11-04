@@ -29,7 +29,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
 
         public override void AI()
         {
-			CalamityGlobalProjectile.MagnetSphereHitscan(projectile, 300f, 0f, 48f, 5, (Main.rand.NextBool(2) ? ModContent.ProjectileType<Dark>() : ModContent.ProjectileType<Light>()));
+			CalamityGlobalProjectile.MagnetSphereHitscan(projectile, 300f, 10f, 48f, 5, Main.rand.NextBool(2) ? ModContent.ProjectileType<Dark>() : ModContent.ProjectileType<Light>());
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

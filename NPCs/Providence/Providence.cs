@@ -29,6 +29,9 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using Terraria;
+using Terraria.DataStructures;
+using Terraria.Graphics.Effects;
+using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
@@ -271,7 +274,8 @@ namespace CalamityMod.NPCs.Providence
 			float distanceX = Math.Abs(vector.X - player.Center.X);
 
 			// Inflict Holy Inferno if target is too far away
-			if (Vector2.Distance(player.Center, vector) > 2800f)
+			float maxDistance = (AIState == (int)Phase.FlameCocoon || AIState == (int)Phase.SpearCocoon) ? 1400f : 2800f;
+			if (Vector2.Distance(player.Center, vector) > maxDistance)
             {
                 if (!player.dead && player.active)
                     player.AddBuff(ModContent.BuffType<HolyInferno>(), 2);
@@ -1147,8 +1151,8 @@ namespace CalamityMod.NPCs.Providence
 						}
 					}
 
-					npc.ai[1] += 1f;
-					if (npc.ai[1] >= phaseTime)
+					npc.ai[3] += 1f;
+					if (npc.ai[3] >= phaseTime)
 					{
 						AIState = (int)Phase.PhaseChange;
 						npc.localAI[2] = attackDelayAfterCocoon;
@@ -1663,7 +1667,7 @@ namespace CalamityMod.NPCs.Providence
 
         public override void HitEffect(int hitDirection, double damage)
         {
-            if(npc.soundDelay == 0)
+            if (npc.soundDelay == 0)
             {
                 npc.soundDelay = 8;
                 Main.PlaySound(mod.GetLegacySoundSlot(SoundType.NPCHit, "Sounds/NPCHit/ProvidenceHurt"), npc.Center);

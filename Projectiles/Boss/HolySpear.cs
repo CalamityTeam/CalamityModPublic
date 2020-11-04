@@ -58,12 +58,6 @@ namespace CalamityMod.Projectiles.Boss
 			}
 
 			float timeGateValue = 540f;
-			int playerIndex = Player.FindClosest(projectile.Center, 1, 1);
-			Vector2 velocity2 = Main.player[playerIndex].Center - projectile.Center;
-			float scaleFactor = projectile.velocity.Length();
-			velocity2.Normalize();
-			velocity2 *= scaleFactor;
-
 			if (projectile.ai[0] == 0f)
 			{
 				projectile.ai[1] += 1f;
@@ -80,12 +74,6 @@ namespace CalamityMod.Projectiles.Boss
 				{
 					if (projectile.velocity.Length() < extremeVelocity)
 						projectile.velocity *= acceleration;
-					else
-					{
-						projectile.velocity = (projectile.velocity * 10f + velocity2) / 11f;
-						projectile.velocity.Normalize();
-						projectile.velocity *= scaleFactor;
-					}
 				}
 				else
 				{
@@ -105,23 +93,14 @@ namespace CalamityMod.Projectiles.Boss
 			}
 			else
 			{
-				if (projectile.localAI[1] >= timeGateValue)
-				{
-					projectile.velocity = (projectile.velocity * 10f + velocity2) / 11f;
-					projectile.velocity.Normalize();
-					projectile.velocity *= scaleFactor;
-				}
-				else
-				{
-					float frequency = 0.1f;
-					float amplitude = 2f;
+				float frequency = 0.1f;
+				float amplitude = 2f;
 
-					projectile.ai[1] += frequency;
+				projectile.ai[1] += frequency;
 
-					float wavyVelocity = (float)Math.Sin(projectile.ai[1]);
+				float wavyVelocity = (float)Math.Sin(projectile.ai[1]);
 
-					projectile.velocity = velocity + new Vector2(wavyVelocity, wavyVelocity).RotatedBy(MathHelper.ToRadians(velocity.ToRotation())) * amplitude;
-				}
+				projectile.velocity = velocity + new Vector2(wavyVelocity, wavyVelocity).RotatedBy(MathHelper.ToRadians(velocity.ToRotation())) * amplitude;
 			}
 
 			if (projectile.localAI[1] < timeGateValue)
