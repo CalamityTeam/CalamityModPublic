@@ -1034,22 +1034,23 @@ namespace CalamityMod
                 ModContent.BuffType<WhiteWineBuff>()
             };
 
-            doubleDamageBuffList = new List<int>()
-            {
-                ItemID.BallOHurt,
-                ItemID.TheMeatball,
-                ItemID.BlueMoon,
-                ItemID.Sunfury,
-                ItemID.DaoofPow,
-                ItemID.FlowerPow,
-                ItemID.Anchor,
-                ItemID.KOCannon,
-                ItemID.GolemFist,
-                ItemID.BreakerBlade,
-                ItemID.MonkStaffT2,
-                ItemID.ProximityMineLauncher,
-                ItemID.FireworksLauncher,
-                ItemID.ShadowbeamStaff
+			doubleDamageBuffList = new List<int>()
+			{
+				ItemID.BallOHurt,
+				ItemID.TheMeatball,
+				ItemID.BlueMoon,
+				ItemID.Sunfury,
+				ItemID.DaoofPow,
+				ItemID.FlowerPow,
+				ItemID.Anchor,
+				ItemID.KOCannon,
+				ItemID.GolemFist,
+				ItemID.BreakerBlade,
+				ItemID.MonkStaffT2,
+				ItemID.ProximityMineLauncher,
+				ItemID.FireworksLauncher,
+				ItemID.ShadowbeamStaff,
+				ItemID.Terrarian
             };
 
             sixtySixDamageBuffList = new List<int>()

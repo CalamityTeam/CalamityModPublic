@@ -19,7 +19,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
         {
             DisplayName.SetDefault("The Microwave");
             ProjectileID.Sets.YoyosLifeTimeMultiplier[projectile.type] = -1f;
-            ProjectileID.Sets.YoyosMaximumRange[projectile.type] = 320f;
+            ProjectileID.Sets.YoyosMaximumRange[projectile.type] = 450f;
             ProjectileID.Sets.YoyosTopSpeed[projectile.type] = 14f;
 
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 4;

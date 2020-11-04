@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
         {
             DisplayName.SetDefault("Fault");
             ProjectileID.Sets.YoyosLifeTimeMultiplier[projectile.type] = 14f;
-            ProjectileID.Sets.YoyosMaximumRange[projectile.type] = 290f;
+            ProjectileID.Sets.YoyosMaximumRange[projectile.type] = 420f;
             ProjectileID.Sets.YoyosTopSpeed[projectile.type] = 13f;
 
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 4;
@@ -50,7 +50,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
             target.AddBuff(BuffID.OnFire, 300);
             if (projectile.owner == Main.myPlayer)
             {
-                int boom = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<FuckYou>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
+                int boom = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<FuckYou>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
                 Main.projectile[boom].Calamity().forceMelee = true;
             }
         }

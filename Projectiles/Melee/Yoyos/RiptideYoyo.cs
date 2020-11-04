@@ -28,7 +28,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
 
         public override void AI()
         {
-            if (Main.rand.Next(1, 51) == 1)
+            if (Main.rand.NextBool(30))
             {
                 switch (Main.rand.Next(1, 9))
                 {

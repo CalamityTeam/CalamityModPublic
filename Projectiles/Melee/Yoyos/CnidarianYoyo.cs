@@ -26,11 +26,12 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
             projectile.friendly = true;
             projectile.melee = true;
             projectile.penetrate = -1;
-        }
+			projectile.MaxUpdates = 2;
+		}
 
         public override void AI()
         {
-			CalamityGlobalProjectile.MagnetSphereHitscan(projectile, 300f, 6f, 60f, 5, ModContent.ProjectileType<Seashell>(), 0.5);
+			CalamityGlobalProjectile.MagnetSphereHitscan(projectile, 300f, 6f, 180f, 5, ModContent.ProjectileType<Seashell>(), 0.75);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

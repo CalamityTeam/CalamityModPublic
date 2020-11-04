@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
         {
             DisplayName.SetDefault("Verdant");
             ProjectileID.Sets.YoyosLifeTimeMultiplier[projectile.type] = -1f;
-            ProjectileID.Sets.YoyosMaximumRange[projectile.type] = 400;
+            ProjectileID.Sets.YoyosMaximumRange[projectile.type] = 560f;
             ProjectileID.Sets.YoyosTopSpeed[projectile.type] = 17f;
 
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 8;

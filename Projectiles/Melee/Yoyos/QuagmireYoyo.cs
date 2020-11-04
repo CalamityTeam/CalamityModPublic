@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
         {
             DisplayName.SetDefault("Quagmire");
             ProjectileID.Sets.YoyosLifeTimeMultiplier[projectile.type] = 12f;
-            ProjectileID.Sets.YoyosMaximumRange[projectile.type] = 275f;
+            ProjectileID.Sets.YoyosMaximumRange[projectile.type] = 400f;
             ProjectileID.Sets.YoyosTopSpeed[projectile.type] = 15f;
         }
 

@@ -3083,7 +3083,7 @@ namespace CalamityMod.NPCs
 					{
 						damage = (int)(damage * 0.6);
 					}
-					else if (projectile.type == ProjectileType<SolarBeam2>() || projectile.type == ProjectileID.InfernoFriendlyBolt || projectile.type == ProjectileID.InfernoFriendlyBlast || projectile.type == ProjectileID.RainbowFront || projectile.type == ProjectileID.RainbowBack || projectile.type == ProjectileType<PlagueFang>() || projectile.type == ProjectileType<SakuraBullet>() || projectile.type == ProjectileType<PurpleButterfly>() || projectile.type == ProjectileType<ForbiddenSunburst>() || projectile.type == ProjectileType<IceCluster>() || projectile.type == ProjectileID.ChargedBlasterLaser)
+					else if (projectile.type == ProjectileType<SolarBeam2>() || projectile.type == ProjectileID.InfernoFriendlyBolt || projectile.type == ProjectileID.InfernoFriendlyBlast || projectile.type == ProjectileID.RainbowFront || projectile.type == ProjectileID.RainbowBack || projectile.type == ProjectileType<PlagueFang>() || projectile.type == ProjectileType<SakuraBullet>() || projectile.type == ProjectileType<PurpleButterfly>() || projectile.type == ProjectileType<IceCluster>() || projectile.type == ProjectileID.ChargedBlasterLaser)
 					{
 						damage = (int)(damage * 0.75);
 					}
@@ -3242,7 +3242,7 @@ namespace CalamityMod.NPCs
 
 		private void PierceResistGlobal(Projectile projectile, ref int damage)
 		{
-			if (projectile.IsSummon())
+			if (projectile.IsSummon() || projectile.aiStyle == 99)
 				return;
 
 			if (projectile.penetrate == -1)
