@@ -36,6 +36,7 @@ namespace CalamityMod.Projectiles.Melee
 		{
 			projectile.width = 236;
 			projectile.height = 180;
+			projectile.scale = 2f;
 			projectile.friendly = true;
 			projectile.penetrate = -1;
 			projectile.tileCollide = false;
@@ -52,7 +53,7 @@ namespace CalamityMod.Projectiles.Melee
 			Vector2 origin = texture.Size() / new Vector2(2f, 7f) * 0.5f;
 			Rectangle frame = texture.Frame(2, 7, frameX, frameY);
 			SpriteEffects spriteEffects = projectile.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-			spriteBatch.Draw(texture, projectile.Center - Main.screenPosition, frame, Color.White, projectile.rotation, origin, 1f, spriteEffects, 0f);
+			spriteBatch.Draw(texture, projectile.Center - Main.screenPosition, frame, Color.White, projectile.rotation, origin, projectile.scale, spriteEffects, 0f);
 			return false;
 		}
 
@@ -100,7 +101,8 @@ namespace CalamityMod.Projectiles.Melee
 			projectile.direction = (Math.Cos(velocityAngle) > 0).ToDirectionInt();
 
 			// Positioning close to the end of the player's arm.
-			projectile.position = playerRotatedPoint - projectile.Size * 0.5f + velocityAngle.ToRotationVector2() * 80f;
+			float offset = 80f * projectile.scale;
+			projectile.position = playerRotatedPoint - projectile.Size * 0.5f + velocityAngle.ToRotationVector2() * offset;
 
 			// Sprite and player directioning.
 			projectile.spriteDirection = projectile.direction;
