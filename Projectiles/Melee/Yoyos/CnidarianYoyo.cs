@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
         {
             DisplayName.SetDefault("Cnidarian");
             ProjectileID.Sets.YoyosLifeTimeMultiplier[projectile.type] = 7f;
-            ProjectileID.Sets.YoyosMaximumRange[projectile.type] = 190f;
+            ProjectileID.Sets.YoyosMaximumRange[projectile.type] = 240f;
             ProjectileID.Sets.YoyosTopSpeed[projectile.type] = 11f;
         }
 

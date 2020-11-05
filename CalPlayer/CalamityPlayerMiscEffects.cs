@@ -116,6 +116,34 @@ namespace CalamityMod.CalPlayer
 		#region Revengeance Effects
 		private static void RevengeanceModeMiscEffects(Player player, CalamityPlayer modPlayer, Mod mod)
 		{
+			if (CalamityGlobalNPC.holyBoss != -1)
+			{
+				if (Main.npc[CalamityGlobalNPC.holyBoss].active)
+				{
+					if (Main.myPlayer == Main.npc[CalamityGlobalNPC.holyBoss].target)
+					{
+						float x = Vector2.Distance(Main.player[Main.npc[CalamityGlobalNPC.holyBoss].target].Center, Main.npc[CalamityGlobalNPC.holyBoss].Center);
+						float aiState = Main.npc[CalamityGlobalNPC.holyBoss].ai[0];
+						float aiTimer = Main.npc[CalamityGlobalNPC.holyBoss].ai[3];
+
+						float baseDistance = 2800f;
+						float shorterFlameCocoonDistance = 1000f;
+						float shorterSpearCocoonDistance = 1400f;
+						float shorterDistance = aiState == 2f ? shorterFlameCocoonDistance : shorterSpearCocoonDistance;
+
+						float maxDistance = (aiState == 2f || aiState == 5f) ? baseDistance - MathHelper.Lerp(0f, shorterDistance, MathHelper.Clamp(aiTimer / 120f, 0f, 1f)) : baseDistance;
+						float drawDarknessDistance = maxDistance - 400f;
+						float intensityScalar = MathHelper.Lerp(0f, 0.9f, MathHelper.Clamp((x - drawDarknessDistance) / 400f, 0f, 1f));
+
+						if (!Main.player[Main.npc[CalamityGlobalNPC.holyBoss].target].Calamity().ZoneAbyss && !Main.player[Main.npc[CalamityGlobalNPC.holyBoss].target].headcovered)
+							ScreenObstruction.screenObstruction = MathHelper.Lerp(ScreenObstruction.screenObstruction, 1f, intensityScalar);
+
+						// Return to prevent running other darkness code
+						return;
+					}
+				}
+			}
+
 			if (CalamityWorld.revenge)
 			{
 				// This effect is way too annoying during the fight so I disabled it - Fab

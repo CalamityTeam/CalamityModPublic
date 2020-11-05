@@ -82,7 +82,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
 				bubbleCounter++;
 				if (bubbleCounter >= 60)
 				{
-					int bubbleAmt = 9;
+					int bubbleAmt = 7;
 					for (float i = 0; i < bubbleAmt; i++)
 					{
 						int projType = ModContent.ProjectileType<SulphurousGrabberBubble>();

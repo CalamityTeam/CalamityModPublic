@@ -48,6 +48,7 @@ using System.Reflection;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.GameContent.Dyes;
+using Terraria.GameContent.Events;
 using Terraria.Graphics.Effects;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
@@ -1326,6 +1327,32 @@ namespace CalamityMod
         {
             // Apply the calculated darkness value for the local player.
             CalamityPlayer modPlayer = Main.LocalPlayer.Calamity();
+			if (CalamityGlobalNPC.holyBoss != -1)
+			{
+				if (Main.npc[CalamityGlobalNPC.holyBoss].active)
+				{
+					if (Main.myPlayer == Main.npc[CalamityGlobalNPC.holyBoss].target)
+					{
+						float x = Vector2.Distance(Main.player[Main.npc[CalamityGlobalNPC.holyBoss].target].Center, Main.npc[CalamityGlobalNPC.holyBoss].Center);
+						float aiState = Main.npc[CalamityGlobalNPC.holyBoss].ai[0];
+						float aiTimer = Main.npc[CalamityGlobalNPC.holyBoss].ai[3];
+
+						float baseDistance = 2800f;
+						float shorterFlameCocoonDistance = 1000f;
+						float shorterSpearCocoonDistance = 1400f;
+						float shorterDistance = aiState == 2f ? shorterFlameCocoonDistance : shorterSpearCocoonDistance;
+
+						float maxDistance = (aiState == 2f || aiState == 5f) ? baseDistance - MathHelper.Lerp(0f, shorterDistance, MathHelper.Clamp(aiTimer / 120f, 0f, 1f)) : baseDistance;
+						float drawDarknessDistance = maxDistance - 400f;
+						float intensityScalar = MathHelper.Lerp(0f, 0.9f, MathHelper.Clamp((x - drawDarknessDistance) / 400f, 0f, 1f));
+						scale -= intensityScalar;
+
+						// Return to prevent running other darkness code
+						return;
+					}
+				}
+			}
+
             float darkRatio = MathHelper.Clamp(modPlayer.caveDarkness, 0f, 1f);
 
             if (modPlayer.ZoneAbyss)

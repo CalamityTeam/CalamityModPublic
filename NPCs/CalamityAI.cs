@@ -2673,6 +2673,7 @@ namespace CalamityMod.NPCs
                     }
 
 					// Fire lasers on stomp
+					Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 33);
 					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
 						float num179 = BossRushEvent.BossRushActive ? 24f : death ? 20f : 18.5f;
@@ -4402,12 +4403,6 @@ namespace CalamityMod.NPCs
 			// Prepare to charge
 			else if (npc.ai[0] == 3.1f)
 			{
-				if (npc.ai[2] < 10f)
-				{
-					npc.ai[2] += 1f;
-					return;
-				}
-
 				npc.noTileCollide = true;
 
 				npc.rotation = (npc.rotation * rotationMult * 0.5f + npc.velocity.X * rotationAmt * 0.85f) / 5f;
@@ -4439,7 +4434,6 @@ namespace CalamityMod.NPCs
 
 					npc.ai[0] = 3.2f;
 					npc.ai[1] = npc.direction;
-					npc.ai[2] = 0f;
 				}
 			}
 
@@ -4634,6 +4628,7 @@ namespace CalamityMod.NPCs
 			float idlePhaseVelocity = expertMode ? 14f : 13f;
 			if (phase3AI)
 			{
+				idlePhaseTimer = 25;
 				idlePhaseAcceleration = expertMode ? 0.85f : 0.8f;
 				idlePhaseVelocity = expertMode ? 16f : 15f;
 			}
@@ -4658,7 +4653,7 @@ namespace CalamityMod.NPCs
 
 			if (death)
 			{
-				idlePhaseTimer = 51;
+				idlePhaseTimer -= 4;
 				idlePhaseAcceleration *= 1.05f;
 				idlePhaseVelocity *= 1.05f;
 				chargeTime -= 2;
@@ -4666,7 +4661,7 @@ namespace CalamityMod.NPCs
 			}
 			else if (revenge)
 			{
-				idlePhaseTimer = 53;
+				idlePhaseTimer -= 2;
 				idlePhaseAcceleration *= 1.025f;
 				idlePhaseVelocity *= 1.025f;
 				chargeTime -= 1;
@@ -4675,12 +4670,15 @@ namespace CalamityMod.NPCs
 			
 			if (BossRushEvent.BossRushActive)
 			{
-				idlePhaseTimer = 35;
+				idlePhaseTimer -= 20;
 				idlePhaseAcceleration *= 1.1f;
 				idlePhaseVelocity *= 1.15f;
 				chargeTime -= 3;
 				chargeVelocity *= 1.25f;
 			}
+
+			if (idlePhaseTimer < 20)
+				idlePhaseTimer = 20;
 
 			if (calamityGlobalNPC.newAI[1] == 1f)
 				idlePhaseVelocity *= 0.25f;

@@ -165,45 +165,46 @@ namespace CalamityMod.Projectiles.Melee
             bool glow = player.ZoneGlowshroom;
             bool hell = player.ZoneUnderworldHeight;
 			bool holy = player.ZoneHoly;
+			int debuffTime = 90;
 			if (astral)
 			{
-                target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 180);
+                target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), debuffTime);
 			}
 			else if (jungle)
             {
-                target.AddBuff(ModContent.BuffType<Plague>(), 180);
+                target.AddBuff(BuffID.Venom, debuffTime);
             }
             else if (snow)
             {
-                target.AddBuff(ModContent.BuffType<GlacialState>(), 180);
+                target.AddBuff(ModContent.BuffType<GlacialState>(), debuffTime / 2);
             }
             else if (beach)
             {
-                target.AddBuff(ModContent.BuffType<CrushDepth>(), 180);
+                target.AddBuff(ModContent.BuffType<CrushDepth>(), debuffTime);
             }
             else if (dungeon)
             {
-                target.AddBuff(BuffID.Frostburn, 180);
+                target.AddBuff(BuffID.Frostburn, debuffTime);
             }
             else if (desert)
             {
-                target.AddBuff(ModContent.BuffType<HolyFlames>(), 180);
+                target.AddBuff(ModContent.BuffType<HolyFlames>(), debuffTime);
             }
             else if (glow)
             {
-                target.AddBuff(ModContent.BuffType<TemporalSadness>(), 180);
+                target.AddBuff(ModContent.BuffType<TemporalSadness>(), debuffTime);
             }
             else if (hell)
             {
-                target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 180);
+                target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), debuffTime);
             }
 			else if (holy)
 			{
-				target.AddBuff(ModContent.BuffType<HolyFlames>(), 180);
+				target.AddBuff(ModContent.BuffType<HolyFlames>(), debuffTime);
 			}
 			else
             {
-                target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 180);
+                target.AddBuff(ModContent.BuffType<ArmorCrunch>(), debuffTime);
             }
         }
     }

@@ -169,8 +169,8 @@ namespace CalamityMod.NPCs.CeaselessVoid
 
 			float tileEnrageMult = Main.npc[CalamityGlobalNPC.voidBoss].ai[1];
 
-			float num1247 = 0.5f;
-			float maxDistance = 48f * MathHelper.Lerp(0.3333333334f, 1.6f, MathHelper.Clamp((tileEnrageMult - 1f) * 1.6666666667f, 0f, 1f));
+			float num1247 = 0.1f;
+			float maxDistance = 24f * MathHelper.Lerp(0.3333333334f, 1.6f, MathHelper.Clamp((tileEnrageMult - 1f) * 1.6666666667f, 0f, 1f));
 			for (int num1248 = 0; num1248 < Main.maxNPCs; num1248++)
 			{
 				if (Main.npc[num1248].active)
@@ -299,7 +299,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-			player.AddBuff(BuffID.VortexDebuff, 60, true);
+			player.AddBuff(BuffID.VortexDebuff, 20, true);
 		}
 
         public override bool CanHitPlayer(Player target, ref int cooldownSlot)

@@ -271,11 +271,15 @@ namespace CalamityMod.NPCs.Providence
 			float distanceX = Math.Abs(vector.X - player.Center.X);
 
 			// Inflict Holy Inferno if target is too far away
-			float maxDistance = (AIState == (int)Phase.FlameCocoon || AIState == (int)Phase.SpearCocoon) ? 1400f : 2800f;
+			float baseDistance = 2800f;
+			float shorterFlameCocoonDistance = 1800f;
+			float shorterSpearCocoonDistance = 1400f;
+			float shorterDistance = AIState == (int)Phase.FlameCocoon ? shorterFlameCocoonDistance : shorterSpearCocoonDistance;
+			float maxDistance = (AIState == (int)Phase.FlameCocoon || AIState == (int)Phase.SpearCocoon) ? shorterDistance : baseDistance;
 			if (Vector2.Distance(player.Center, vector) > maxDistance)
             {
-                if (!player.dead && player.active)
-                    player.AddBuff(ModContent.BuffType<HolyInferno>(), 2);
+				if (!player.dead && player.active)
+					player.AddBuff(ModContent.BuffType<HolyInferno>(), 2);
             }
 
             // Count the remaining Guardians, healer especially because it allows the boss to heal

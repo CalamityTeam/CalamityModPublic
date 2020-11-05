@@ -29,25 +29,17 @@ namespace CalamityMod.NPCs.Providence
             if (UpdatePIndex())
             {
                 float x = 0f;
-				float aiState = 0f;
-				float aiTimer = 0f;
                 if (ProvIndex != -1)
-                {
                     x = Vector2.Distance(Main.player[Main.myPlayer].Center, Main.npc[ProvIndex].Center);
-					aiState = Main.npc[ProvIndex].ai[0];
-					aiTimer = Main.npc[ProvIndex].ai[3];
-                }
 
 				float spawnAnimationTimer = 180f;
-				float maxDistance = (aiState == 2f || aiState == 5f) ? 2800f - MathHelper.Lerp(0f, 1400f, MathHelper.Clamp(aiTimer / 120f, 0f, 1f)) : 2800f;
-				float drawShaderDistance = maxDistance - 160f;
-				float intensityScalar = 0.25f + MathHelper.Lerp(0f, 0.75f, MathHelper.Clamp((x - drawShaderDistance) / 320f, 0f, 0.75f));
+				float intensityScalar = 0.25f;
 				if (Main.npc[ProvIndex].Calamity().newAI[3] < spawnAnimationTimer)
 					intensityScalar = MathHelper.Lerp(0f, intensityScalar, Main.npc[ProvIndex].Calamity().newAI[3] / spawnAnimationTimer);
 
-                return (1f - Utils.SmoothStep(6000f, 9000f, x)) * intensityScalar;
+                return (1f - Utils.SmoothStep(3000f, 6000f, x)) * intensityScalar;
             }
-            return 0f; //0.5
+            return 0f;
         }
 
         public override Color OnTileColor(Color inColor)

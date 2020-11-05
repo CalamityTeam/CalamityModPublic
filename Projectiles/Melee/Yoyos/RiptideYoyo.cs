@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
         {
             DisplayName.SetDefault("Riptide");
             ProjectileID.Sets.YoyosLifeTimeMultiplier[projectile.type] = 7.5f;
-            ProjectileID.Sets.YoyosMaximumRange[projectile.type] = 180f;
+            ProjectileID.Sets.YoyosMaximumRange[projectile.type] = 220f;
             ProjectileID.Sets.YoyosTopSpeed[projectile.type] = 12.5f;
         }
 

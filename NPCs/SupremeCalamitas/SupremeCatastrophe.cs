@@ -103,13 +103,13 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 npc.ai[3] += scale;
                 distanceY += scale;
             }
-            if (npc.ai[3] >= distanceX * 2)
+            else
                 npc.ai[3] = 0f;
 
             Vector2 vector83 = new Vector2(npc.Center.X, npc.Center.Y);
             float num678 = Main.player[npc.target].Center.X - vector83.X - distanceX;
             float num679 = Main.player[npc.target].Center.Y - vector83.Y + distanceY;
-            npc.rotation = 4.71f;
+            npc.rotation = MathHelper.PiOver2 * 3f;
             float num680 = (float)Math.Sqrt((double)(num678 * num678 + num679 * num679));
             num680 = num676 / num680;
             num678 *= num680;
@@ -153,7 +153,11 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             if (npc.localAI[0] >= 120f)
             {
                 npc.ai[1] += 1f;
-                if (npc.ai[1] >= 30f)
+				if (deadBrother)
+				{
+					npc.ai[1] += 1f;
+				}
+				if (npc.ai[1] >= 30f)
                 {
                     npc.ai[1] = 0f;
 					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SCalSounds/BrimstoneHellblastSound"), npc.Center);
