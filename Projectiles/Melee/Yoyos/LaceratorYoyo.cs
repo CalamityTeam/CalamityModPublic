@@ -38,12 +38,9 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
         {
             if (target.type == NPCID.TargetDummy || !target.canGhostHeal || Main.player[projectile.owner].moonLeech)
                 return;
+
             Player player = Main.player[projectile.owner];
-            if (Main.rand.NextBool(5))
-            {
-                player.statLife += 1;
-                player.HealEffect(1);
-            }
+            player.lifeRegenTime += 2;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

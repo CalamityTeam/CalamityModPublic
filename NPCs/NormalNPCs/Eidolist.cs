@@ -28,10 +28,6 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.width = 60;
             npc.height = 80;
             npc.lifeMax = 10000;
-            if (CalamityWorld.death)
-            {
-                npc.lifeMax = 13000;
-            }
             npc.knockBackResist = 0f;
             for (int k = 0; k < npc.buffImmune.Length; k++)
             {

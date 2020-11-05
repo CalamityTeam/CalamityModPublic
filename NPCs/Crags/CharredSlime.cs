@@ -37,10 +37,9 @@ namespace CalamityMod.NPCs.Crags
             npc.DeathSound = SoundID.NPCDeath1;
             if (CalamityWorld.downedProvidence)
             {
-                npc.damage = 227;
-                npc.defense = 90;
-                npc.lifeMax = 7500;
-                npc.value = Item.buyPrice(0, 0, 50, 0);
+                npc.damage = 80;
+                npc.defense = 20;
+                npc.lifeMax = 3500;
             }
             banner = npc.type;
             bannerItem = ModContent.ItemType<CharredSlimeBanner>();

@@ -27,9 +27,9 @@ namespace CalamityMod.NPCs.Crags
             aiType = -1;
             npc.npcSlots = 1f;
             npc.damage = 30;
-            npc.width = 60; //324
-            npc.height = 40; //216
-            npc.defense = 40;
+            npc.width = 60;
+            npc.height = 40;
+            npc.defense = 30;
 			npc.DR_NERD(0.15f);
             npc.lifeMax = 60;
             npc.knockBackResist = 0.65f;
@@ -40,10 +40,9 @@ namespace CalamityMod.NPCs.Crags
             npc.DeathSound = SoundID.NPCDeath14;
             if (CalamityWorld.downedProvidence)
             {
-                npc.damage = 170;
-                npc.defense = 200;
-                npc.lifeMax = 3000;
-                npc.value = Item.buyPrice(0, 0, 50, 0);
+                npc.damage = 60;
+                npc.defense = 45;
+                npc.lifeMax = 2000;
             }
             banner = npc.type;
             bannerItem = ModContent.ItemType<SoulSlurperBanner>();

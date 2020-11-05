@@ -33,10 +33,9 @@ namespace CalamityMod.NPCs.Crags
             npc.DeathSound = SoundID.NPCDeath1;
             if (CalamityWorld.downedProvidence)
             {
-                npc.damage = 227;
-                npc.defense = 101;
-                npc.lifeMax = 5000;
-                npc.value = Item.buyPrice(0, 0, 50, 0);
+                npc.damage = 80;
+                npc.defense = 20;
+                npc.lifeMax = 3000;
             }
             banner = npc.type;
             bannerItem = ModContent.ItemType<CalamityEyeBanner>();
@@ -45,7 +44,7 @@ namespace CalamityMod.NPCs.Crags
 
         public override void AI()
         {
-			if ((double) npc.life < (double) npc.lifeMax * 0.5)
+			if (npc.life < npc.lifeMax * 0.5)
 			{
 				if (npc.direction == -1 && npc.velocity.X > -6f)
 				{

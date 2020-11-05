@@ -24,11 +24,12 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
             projectile.melee = true;
             projectile.alpha = 150;
             projectile.penetrate = -1;
-        }
+			projectile.MaxUpdates = 2;
+		}
 
         public override void AI()
         {
-            if (Main.rand.NextBool(30))
+            if (Main.rand.NextBool(90))
             {
                 switch (Main.rand.Next(1, 9))
                 {

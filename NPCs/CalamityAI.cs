@@ -4628,9 +4628,8 @@ namespace CalamityMod.NPCs
 			float idlePhaseVelocity = expertMode ? 14f : 13f;
 			if (phase3AI)
 			{
-				idlePhaseTimer = 25;
-				idlePhaseAcceleration = expertMode ? 0.85f : 0.8f;
-				idlePhaseVelocity = expertMode ? 16f : 15f;
+				idlePhaseAcceleration = expertMode ? 0.6f : 0.55f;
+				idlePhaseVelocity = expertMode ? 12f : 11f;
 			}
 			else if (phase2AI & charging)
 			{
@@ -4653,7 +4652,7 @@ namespace CalamityMod.NPCs
 
 			if (death)
 			{
-				idlePhaseTimer -= 4;
+				idlePhaseTimer = 51;
 				idlePhaseAcceleration *= 1.05f;
 				idlePhaseVelocity *= 1.05f;
 				chargeTime -= 2;
@@ -4661,7 +4660,7 @@ namespace CalamityMod.NPCs
 			}
 			else if (revenge)
 			{
-				idlePhaseTimer -= 2;
+				idlePhaseTimer = 53;
 				idlePhaseAcceleration *= 1.025f;
 				idlePhaseVelocity *= 1.025f;
 				chargeTime -= 1;
@@ -4670,15 +4669,12 @@ namespace CalamityMod.NPCs
 			
 			if (BossRushEvent.BossRushActive)
 			{
-				idlePhaseTimer -= 20;
+				idlePhaseTimer = 35;
 				idlePhaseAcceleration *= 1.1f;
 				idlePhaseVelocity *= 1.15f;
 				chargeTime -= 3;
 				chargeVelocity *= 1.25f;
 			}
-
-			if (idlePhaseTimer < 20)
-				idlePhaseTimer = 20;
 
 			if (calamityGlobalNPC.newAI[1] == 1f)
 				idlePhaseVelocity *= 0.25f;

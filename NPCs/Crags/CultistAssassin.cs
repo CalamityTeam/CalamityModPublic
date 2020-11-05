@@ -20,22 +20,21 @@ namespace CalamityMod.NPCs.Crags
             npc.lavaImmune = true;
             npc.aiStyle = 3;
             npc.damage = 50;
-            npc.width = 18; //324
-            npc.height = 40; //216
+            npc.width = 18;
+            npc.height = 40;
             npc.defense = 25;
             npc.lifeMax = 80;
             npc.knockBackResist = 0.5f;
             animationType = NPCID.ZombieXmas;
             aiType = NPCID.ChaosElemental;
-            npc.value = Item.buyPrice(0, 0, 2, 0);
+            npc.value = Item.buyPrice(0, 0, 10, 0);
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath50;
             if (CalamityWorld.downedProvidence)
             {
-                npc.damage = 250;
-                npc.defense = 130;
-                npc.lifeMax = 5000;
-                npc.value = Item.buyPrice(0, 0, 50, 0);
+                npc.damage = 100;
+                npc.defense = 40;
+                npc.lifeMax = 3000;
             }
             banner = npc.type;
             bannerItem = ModContent.ItemType<CultistAssassinBanner>();

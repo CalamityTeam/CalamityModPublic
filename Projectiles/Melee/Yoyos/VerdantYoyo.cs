@@ -41,7 +41,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
             if (Main.rand.NextBool(5))
                 Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 75, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
 
-			CalamityGlobalProjectile.MagnetSphereHitscan(projectile, 300f, 6f, 54f, 5, ProjectileID.CrystalLeafShot, 0.8);
+			CalamityGlobalProjectile.MagnetSphereHitscan(projectile, 300f, 12f, 54f, 5, ProjectileID.CrystalLeafShot, 0.8);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
