@@ -50,7 +50,7 @@ namespace CalamityMod.Projectiles.Melee
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
-			if (projectile.frameCounter <= 0)
+			if (projectile.frameCounter <= 1)
 				return false;
 			Texture2D texture = Main.projectileTexture[projectile.type];
 			Vector2 origin = texture.Size() / new Vector2(2f, 7f) * 0.5f;
