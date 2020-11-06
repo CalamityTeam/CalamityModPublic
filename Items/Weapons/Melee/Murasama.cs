@@ -11,8 +11,8 @@ namespace CalamityMod.Items.Weapons.Melee
 {
 	public class Murasama : ModItem
 	{
-		private int frameCounter = 0;
-		private int frame = 0;
+		public int frameCounter = 0;
+		public int frame = 0;
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Murasama");
@@ -44,39 +44,25 @@ namespace CalamityMod.Items.Weapons.Melee
 			Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(5, 14));
 		}
 
-		internal Rectangle GetCurrentFrame(bool frameCounterUp = true)
+		public override bool PreDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frameI, Color drawColor, Color itemColor, Vector2 origin, float scale)
 		{
 			//0 = 6 frames, 8 = 3 frames]
-			int applicableCounter = frame == 0 ? 36 : frame == 8 ? 24 : 6;
-			
-			if (frameCounter >= applicableCounter)
-			{
-				frameCounter = -1;
-				frame = frame == 13 ? 0 : frame + 1;
-			}
-			if (frameCounterUp)
-				frameCounter++;
-			return new Rectangle(0, item.height * frame, item.width, item.height);
-		}
-
-		public override bool PreDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
-		{
 			Texture2D texture = ModContent.GetTexture(Texture);
-			spriteBatch.Draw(texture, position, GetCurrentFrame(), Color.White, 0f, origin, scale, SpriteEffects.None, 0);
+			spriteBatch.Draw(texture, position, item.GetCurrentFrame(ref frame, ref frameCounter, frame == 0 ? 36 : frame == 8 ? 24 : 6, 13), Color.White, 0f, origin, scale, SpriteEffects.None, 0);
 			return false;
 		}
 
 		public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)
 		{
 			Texture2D texture = ModContent.GetTexture(Texture);
-			spriteBatch.Draw(texture, item.position - Main.screenPosition, GetCurrentFrame(), lightColor, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0);
+			spriteBatch.Draw(texture, item.position - Main.screenPosition, item.GetCurrentFrame(ref frame, ref frameCounter, frame == 0 ? 36 : frame == 8 ? 24 : 6, 13), lightColor, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0);
 			return false;
 		}
 
 		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
 		{
 			Texture2D texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Melee/MurasamaGlow");
-			spriteBatch.Draw(texture, item.position - Main.screenPosition, GetCurrentFrame(false), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0);
+			spriteBatch.Draw(texture, item.position - Main.screenPosition, item.GetCurrentFrame(ref frame, ref frameCounter, frame == 0 ? 36 : frame == 8 ? 24 : 6, 13, false), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0);
 		}
 
 		public override bool CanUseItem(Player player)

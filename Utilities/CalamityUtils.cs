@@ -3565,6 +3565,18 @@ namespace CalamityMod
 				new Rectangle?(frame), Color.White, rotation, center, 1f, SpriteEffects.None, 0f);
 		}
 
+		public static Rectangle GetCurrentFrame(this Item item, ref int frame, ref int frameCounter, int frameDelay, int frameAmt, bool frameCounterUp = true)
+		{
+			if (frameCounter >= frameDelay)
+			{
+				frameCounter = -1;
+				frame = frame == frameAmt - 1 ? 0 : frame + 1;
+			}
+			if (frameCounterUp)
+				frameCounter++;
+			return new Rectangle(0, item.height * frame, item.width, item.height);
+		}
+
 		public static bool DrawFishingLine(this Projectile projectile, int fishingRodType, Color poleColor, int xPositionAdditive = 45, float yPositionAdditive = 35f)
 		{
 			Player player = Main.player[projectile.owner];
