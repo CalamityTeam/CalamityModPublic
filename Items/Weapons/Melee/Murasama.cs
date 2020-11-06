@@ -69,7 +69,7 @@ namespace CalamityMod.Items.Weapons.Melee
 		{
 			if (player.ownedProjectileCounts[item.shoot] > 0)
 				return false;
-			return CalamityWorld.downedYharon || player.name == "Sam" || player.name == "Samuel Rodrigues";
+			return CalamityWorld.downedYharon || player.name == "Jetstream Sam" || player.name == "Samuel Rodrigues";
 		}
 
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
