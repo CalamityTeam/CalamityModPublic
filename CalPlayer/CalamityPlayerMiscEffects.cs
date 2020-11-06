@@ -1248,7 +1248,7 @@ namespace CalamityMod.CalPlayer
 								player.buffTime[l] += 1;
 						}
 
-						// See earlier as Laud cancels out the normal effects
+						// See later as Laud cancels out the normal effects
 						if (hasBuff == ModContent.BuffType<ArmorCrunch>())
 						{
 							// +15 defense
