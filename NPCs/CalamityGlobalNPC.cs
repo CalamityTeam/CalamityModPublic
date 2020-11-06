@@ -3066,15 +3066,11 @@ namespace CalamityMod.NPCs
 					}*/
 
 					// New resists
-					if (projectile.type == ProjectileType<RainbowBoom>() || projectile.type == ProjectileType<RainBolt>())
-					{
-						damage = (int)(damage * 0.2);
-					}
-					else if (ProjectileID.Sets.StardustDragon[projectile.type] || projectile.type == ProjectileType<PlaguenadeBee>() || projectile.type == ProjectileType<PlaguenadeProj>())
+					if (ProjectileID.Sets.StardustDragon[projectile.type] || projectile.type == ProjectileType<PlaguenadeBee>() || projectile.type == ProjectileType<PlaguenadeProj>())
 					{
 						damage = (int)(damage * 0.25);
 					}
-					else if (projectile.type == ProjectileID.DD2BetsyArrow || projectile.type == ProjectileType<ForbiddenSunProjectile>() || projectile.type == ProjectileType<ForbiddenSunburst>() || projectile.type == ProjectileType<Tornado>())
+					else if (projectile.type == ProjectileType<RainbowBoom>() || projectile.type == ProjectileType<RainBolt>() || projectile.type == ProjectileID.DD2BetsyArrow || projectile.type == ProjectileType<ForbiddenSunProjectile>() || projectile.type == ProjectileType<ForbiddenSunburst>() || projectile.type == ProjectileType<Tornado>())
 					{
 						damage = (int)(damage * 0.5);
 					}

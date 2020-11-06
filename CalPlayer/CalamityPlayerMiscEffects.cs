@@ -127,8 +127,8 @@ namespace CalamityMod.CalPlayer
 						float aiTimer = Main.npc[CalamityGlobalNPC.holyBoss].ai[3];
 
 						float baseDistance = 2800f;
-						float shorterFlameCocoonDistance = 1000f;
-						float shorterSpearCocoonDistance = 1400f;
+						float shorterFlameCocoonDistance = CalamityWorld.death ? 600f : CalamityWorld.revenge ? 400f : Main.expertMode ? 200f : 0f;
+						float shorterSpearCocoonDistance = CalamityWorld.death ? 1000f : CalamityWorld.revenge ? 400f : Main.expertMode ? 200f : 0f;
 						float shorterDistance = aiState == 2f ? shorterFlameCocoonDistance : shorterSpearCocoonDistance;
 
 						float maxDistance = (aiState == 2f || aiState == 5f) ? baseDistance - MathHelper.Lerp(0f, shorterDistance, MathHelper.Clamp(aiTimer / 120f, 0f, 1f)) : baseDistance;
@@ -137,9 +137,6 @@ namespace CalamityMod.CalPlayer
 
 						if (!Main.player[Main.npc[CalamityGlobalNPC.holyBoss].target].Calamity().ZoneAbyss && !Main.player[Main.npc[CalamityGlobalNPC.holyBoss].target].headcovered)
 							ScreenObstruction.screenObstruction = MathHelper.Lerp(ScreenObstruction.screenObstruction, 1f, intensityScalar);
-
-						// Return to prevent running other darkness code
-						return;
 					}
 				}
 			}
