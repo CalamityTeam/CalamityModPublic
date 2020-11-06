@@ -44,11 +44,14 @@ namespace CalamityMod.Projectiles.Melee
 			projectile.ownerHitCheck = true;
 			projectile.usesIDStaticNPCImmunity = true;
 			projectile.idStaticNPCHitCooldown = 21;
+			projectile.frameCounter = 0;
 			//projectile.Calamity().trueMelee = true;
 		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
+			if (projectile.frameCounter <= 0)
+				return false;
 			Texture2D texture = Main.projectileTexture[projectile.type];
 			Vector2 origin = texture.Size() / new Vector2(2f, 7f) * 0.5f;
 			Rectangle frame = texture.Frame(2, 7, frameX, frameY);
