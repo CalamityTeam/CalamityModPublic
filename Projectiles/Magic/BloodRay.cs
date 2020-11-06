@@ -48,11 +48,10 @@ namespace CalamityMod.Projectiles.Magic
                 {
                     int dustType = Main.rand.NextBool(4) ? 182 : (int)CalamityDusts.Brimstone;
                     Vector2 dustSpawnPos = projectile.position - projectile.velocity * i / 2f;
-                    Dust corruptMagic = Dust.NewDustPerfect(dustSpawnPos, dustType);
-                    corruptMagic.scale = Main.rand.NextFloat(0.96f, 1.04f);
-                    corruptMagic.scale *= MathHelper.Lerp(1f, 1.7f, Time / Lifetime);
-                    corruptMagic.noGravity = true;
-                    corruptMagic.velocity *= 0.1f;
+                    Dust crimtameMagic = Dust.NewDustPerfect(dustSpawnPos, dustType);
+                    crimtameMagic.scale = Main.rand.NextFloat(0.96f, 1.04f) * MathHelper.Lerp(1f, 1.7f, Time / Lifetime);
+                    crimtameMagic.noGravity = true;
+                    crimtameMagic.velocity *= 0.1f;
                 }
             }
         }

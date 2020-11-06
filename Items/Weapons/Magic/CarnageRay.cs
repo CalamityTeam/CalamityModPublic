@@ -12,7 +12,8 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Carnage Ray");
-            Tooltip.SetDefault("Fires a blood ray that splits if enemies are near it");
+            Tooltip.SetDefault("Fires a blood ray\n" +
+                "The farther along the ray hit enemies are, the more damage they take");
             Item.staff[item.type] = true;
         }
 

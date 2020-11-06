@@ -12,7 +12,8 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Terra Ray");
-            Tooltip.SetDefault("Casts an energy ray that splits if enemies are near it");
+            Tooltip.SetDefault("Casts an energy ray that splits into energy on enemy hits\n" +
+                "More energy is created the farther along the ray the hit enemy is");
             Item.staff[item.type] = true;
         }
 

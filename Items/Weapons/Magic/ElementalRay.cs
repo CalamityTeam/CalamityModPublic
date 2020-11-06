@@ -12,7 +12,11 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Elemental Ray");
-            Tooltip.SetDefault("Casts a rainbow ray that splits when enemies are near it");
+            Tooltip.SetDefault("Casts four celestial beams near the player\n" +
+                "Solar beams explode into fire on enemy hits\n" +
+                "Nebula beams sweep a little bit over time\n" +
+                "Vortex beams act like fast lightning and electrify enemies on hit\n" +
+                "Stardust beams release small stars that home on enemy hits");
             Item.staff[item.type] = true;
         }
 
@@ -67,8 +71,13 @@ namespace CalamityMod.Items.Weapons.Magic
             Vector2 spawnOffset = player.DirectionTo(Main.MouseWorld).RotatedBy(offsetAngle) * -Main.rand.NextFloat(40f, 96f);
             Vector2 shootDirection = (Main.MouseWorld - (position + spawnOffset)).SafeNormalize(Vector2.UnitX * player.direction);
             int beam = Projectile.NewProjectile(position + spawnOffset, shootDirection * shootSpeed, type, damage, knockBack, player.whoAmI);
+
+            // Define specific values for fired lightning.
             if (type == ModContent.ProjectileType<VortexElementalBeam>())
+            {
                 Main.projectile[beam].ai[0] = shootDirection.ToRotation();
+                Main.projectile[beam].ai[1] = Main.rand.Next(100);
+            }
             return false;
 		}
 
