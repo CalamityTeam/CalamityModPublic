@@ -286,6 +286,7 @@ namespace CalamityMod.CalPlayer
         public float stealthAcceleration = 1f;
         public bool stealthStrikeThisFrame = false;
         public bool stealthStrikeHalfCost = false;
+        public bool stealthStrike75Cost = false;
         public bool stealthStrikeAlwaysCrits = false;
         public bool wearingRogueArmor = false;
         public float accStealthGenBoost = 0f;
@@ -9667,6 +9668,7 @@ namespace CalamityMod.CalPlayer
             stealthGenMoving = 1f;
             stealthStrikeThisFrame = false;
             stealthStrikeHalfCost = false;
+            stealthStrike75Cost = false;
             stealthStrikeAlwaysCrits = false;
 
             // stealthAcceleration only resets if you don't have either of the accelerator accessories equipped
@@ -9837,7 +9839,12 @@ namespace CalamityMod.CalPlayer
         {
             if (rogueStealthMax <= 0f)
                 return false;
-            return rogueStealth >= rogueStealthMax * (stealthStrikeHalfCost ? 0.5f : 1f);
+			float consumptionMult = 1f;
+			if (stealthStrikeHalfCost)
+				consumptionMult = 0.5f;
+			else if (stealthStrike75Cost)
+				consumptionMult = 0.75f;
+            return rogueStealth >= rogueStealthMax * consumptionMult;
         }
 
         internal void ConsumeStealthByAttacking()
@@ -9851,7 +9858,13 @@ namespace CalamityMod.CalPlayer
                 if (rogueStealth <= 0f)
                     rogueStealth = 0f;
             }
-            else
+            else if (stealthStrike75Cost)
+			{
+                rogueStealth -= 0.75f * rogueStealthMax;
+                if (rogueStealth <= 0f)
+                    rogueStealth = 0f;
+            }
+			else
                 rogueStealth = 0f;
         }
         #endregion
