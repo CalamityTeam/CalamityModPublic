@@ -1248,6 +1248,18 @@ namespace CalamityMod.CalPlayer
 								player.buffTime[l] += 1;
 						}
 
+						// See earlier as Laud cancels out the normal effects
+						if (hasBuff == ModContent.BuffType<ArmorCrunch>())
+						{
+							// +15 defense
+							player.statDefense += ArmorCrunch.DefenseReduction;
+						}
+						if (hasBuff == ModContent.BuffType<WarCleave>())
+						{
+							// +10% damage reduction
+							player.endurance += 0.1f;
+						}
+
 						switch (hasBuff)
 						{
 							case BuffID.Obstructed:
@@ -3161,13 +3173,13 @@ namespace CalamityMod.CalPlayer
 				player.magicDamage -= 0.1f;
 			}
 
-			if (modPlayer.aCrunch)
+			if (modPlayer.aCrunch && !modPlayer.laudanum)
 			{
 				player.statDefense -= ArmorCrunch.DefenseReduction;
 				player.endurance *= 0.33f;
 			}
 
-			if (modPlayer.wCleave)
+			if (modPlayer.wCleave && !modPlayer.laudanum)
 			{
 				player.statDefense -= WarCleave.DefenseReduction;
 				player.endurance *= 0.75f;
