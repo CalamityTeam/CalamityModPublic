@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.DataStructures;
@@ -13,20 +15,25 @@ namespace CalamityMod.Items.Materials
             Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(6, 6));
         }
 
-        public override void Update(ref float gravity, ref float maxFallSpeed)
-        {
-            float brightness = Main.essScale * Main.rand.NextFloat(0.9f, 1.1f);
-            Lighting.AddLight(item.Center, 0.7f * brightness, 0.7f * brightness, 0f);
-        }
-
         public override void SetDefaults()
         {
-            item.width = 20;
-            item.height = 20;
+            item.width = 38;
+            item.height = 36;
             item.maxStack = 999;
             item.rare = 10;
             item.value = Item.sellPrice(gold: 2);
             item.Calamity().customRarity = CalamityRarity.DarkBlue;
+        }
+
+        public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
+        {
+            CalamityUtils.DrawItemGlowmask(item, spriteBatch, 6, rotation, ModContent.GetTexture("CalamityMod/Items/Materials/NightmareFuelGlow"));
+        }
+
+        public override void Update(ref float gravity, ref float maxFallSpeed)
+        {
+            float brightness = Main.essScale * Main.rand.NextFloat(0.9f, 1.1f);
+            Lighting.AddLight(item.Center, 0.7f * brightness, 0.7f * brightness, 0f);
         }
     }
 }

@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
@@ -15,19 +17,23 @@ namespace CalamityMod.Items.Materials
 
         public override void SetDefaults()
         {
-            item.width = 20;
-            item.height = 19;
+            item.width = 28;
+            item.height = 32;
             item.maxStack = 999;
             item.rare = 10;
             item.value = Item.sellPrice(gold: 12);
             item.Calamity().customRarity = CalamityRarity.Violet;
         }
 
+        public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
+        {
+            CalamityUtils.DrawItemGlowmask(item, spriteBatch, 8, rotation, ModContent.GetTexture("CalamityMod/Items/Materials/DarksunFragmentGlow"));
+        }
+
         public override void Update(ref float gravity, ref float maxFallSpeed)
         {
-            float num = (float)Main.rand.Next(90, 111) * 0.01f;
-            num *= Main.essScale;
-            Lighting.AddLight((int)((item.position.X + (float)(item.width / 2)) / 16f), (int)((item.position.Y + (float)(item.height / 2)) / 16f), 0.5f * num, 0.5f * num, 0.5f * num);
+            float brightness = Main.essScale * Main.rand.NextFloat(0.9f, 1.1f);
+            Lighting.AddLight(item.Center, 0.5f * brightness, 0.5f * brightness, 0.5f * brightness);
         }
     }
 }
