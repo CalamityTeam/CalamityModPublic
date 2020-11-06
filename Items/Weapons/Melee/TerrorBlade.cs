@@ -38,8 +38,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
 		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
 		{
-			Vector2 origin = new Vector2(44f, 38f);
-			spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Items/Weapons/Melee/TerrorBladeGlow"), item.Center - Main.screenPosition, null, Color.White, rotation, origin, 1f, SpriteEffects.None, 0f);
+			item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.GetTexture("CalamityMod/Items/Weapons/Melee/TerrorBladeGlow"));
 		}
 
 		public override void MeleeEffects(Player player, Rectangle hitbox)

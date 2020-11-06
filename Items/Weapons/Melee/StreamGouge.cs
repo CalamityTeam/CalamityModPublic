@@ -41,21 +41,10 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
-            Vector2 origin = new Vector2(50f, 48f);
-            spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Items/Weapons/Melee/StreamGougeGlow"), item.Center - Main.screenPosition, null, Color.White, rotation, origin, 1f, SpriteEffects.None, 0f);
+			item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.GetTexture("CalamityMod/Items/Weapons/Melee/StreamGougeGlow"));
         }
 
-        public override bool CanUseItem(Player player)
-        {
-            for (int i = 0; i < 1000; ++i)
-            {
-                if (Main.projectile[i].active && Main.projectile[i].owner == Main.myPlayer && Main.projectile[i].type == item.shoot)
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
+        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;
 
         public override void AddRecipes()
         {

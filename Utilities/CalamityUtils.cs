@@ -3555,14 +3555,10 @@ namespace CalamityMod
 		#endregion
 
 		#region Drawing Utilities
-		public static void DrawItemGlowmask(this Item item, SpriteBatch spriteBatch, int frameCount, float rotation, Texture2D glowmaskTexture)
+		public static void DrawItemGlowmaskSingleFrame(this Item item, SpriteBatch spriteBatch, float rotation, Texture2D glowmaskTexture)
 		{
-			Vector2 center = new Vector2((float)(Main.itemTexture[item.type].Width / 2), (float)(Main.itemTexture[item.type].Height / frameCount / 2));
-			Rectangle frame = Main.itemAnimations[item.type].GetFrame(glowmaskTexture);
-			Vector2 drawPosition = item.Center - Main.screenPosition;
-
-			spriteBatch.Draw(glowmaskTexture, drawPosition,
-				new Rectangle?(frame), Color.White, rotation, center, 1f, SpriteEffects.None, 0f);
+			Vector2 origin = new Vector2(glowmaskTexture.Width / 2f, glowmaskTexture.Height / 2f - 2f);
+			spriteBatch.Draw(glowmaskTexture, item.Center - Main.screenPosition, null, Color.White, rotation, origin, 1f, SpriteEffects.None, 0f);
 		}
 
 		public static Rectangle GetCurrentFrame(this Item item, ref int frame, ref int frameCounter, int frameDelay, int frameAmt, bool frameCounterUp = true)
