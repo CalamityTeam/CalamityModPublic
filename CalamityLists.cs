@@ -402,6 +402,7 @@ namespace CalamityMod
                 ProjectileID.VortexBeater,
                 ProjectileID.DD2PhoenixBow,
                 ProjectileID.LastPrism,
+                ProjectileID.LastPrismLaser,
                 ProjectileID.LaserMachinegun,
                 ProjectileID.ChargedBlasterCannon,
                 ProjectileID.MedusaHead,
@@ -418,7 +419,10 @@ namespace CalamityMod
                 ModContent.ProjectileType<T1000Proj>(),
                 ModContent.ProjectileType<YharimsCrystalPrism>(),
                 ModContent.ProjectileType<DarkSparkPrism>(),
+                ModContent.ProjectileType<YharimsCrystalBeam>(),
+                ModContent.ProjectileType<DarkSparkBeam>(),
                 ModContent.ProjectileType<GhastlyVisageProj>(),
+                // ModContent.ProjectileType<ApotheosisWorm>(), // TODO: ADD THE APOTHEOSIS WORM HERE LATER. IT IS IN A DIFFERENT BRANCH AS OF WRITING THIS.
 
                 ModContent.ProjectileType<FlakKrakenProj>(),
                 ModContent.ProjectileType<SylvanSlashAttack>(),
