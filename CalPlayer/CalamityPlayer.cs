@@ -3564,10 +3564,10 @@ namespace CalamityMod.CalPlayer
 				float maxDistance = 480f; // 30 tile distance
 				for (int l = 0; l < Main.maxNPCs; l++)
 				{
-					NPC nPC = Main.npc[l];
-					if (nPC.active && !nPC.friendly && nPC.damage > 0 && !nPC.dontTakeDamage && Vector2.Distance(player.Center, nPC.Center) <= maxDistance)
+					NPC npc = Main.npc[l];
+					if (npc.active && !npc.friendly && (npc.damage > 0 || npc.boss) && !npc.dontTakeDamage && Vector2.Distance(player.Center, npc.Center) <= maxDistance)
 					{
-						meleeSpeedMult += MathHelper.Lerp(0f, 0.3f, 1f - (Vector2.Distance(player.Center, nPC.Center) / maxDistance));
+						meleeSpeedMult += MathHelper.Lerp(0f, 0.3f, 1f - (Vector2.Distance(player.Center, npc.Center) / maxDistance));
 					}
 				}
             }
