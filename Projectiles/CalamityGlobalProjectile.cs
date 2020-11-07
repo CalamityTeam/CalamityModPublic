@@ -2129,16 +2129,18 @@ namespace CalamityMod.Projectiles
                     // Paladin's Hammer style afterimages. Can be optionally spaced out further by using the typeOneDistanceMultiplier variable.
                     // Type 1 afterimages linearly scale down from 66% to 0% opacity. They otherwise do not differ from type 0.
                     case 1:
-                        Color colorAtPosition = Lighting.GetColor((int)(projectile.Center.X / 16), (int)(projectile.Center.Y / 16));
-                        Color drawColor = projectile.GetAlpha(colorAtPosition);
+                        Color drawColor = projectile.GetAlpha(lightColor);
                         int afterimageCount = ProjectileID.Sets.TrailCacheLength[projectile.type];
-                        int k = 1;
+                        int k = 0;
                         while (k < afterimageCount)
                         {
                             Vector2 drawPos = projectile.oldPos[k] + centerOffset - Main.screenPosition + new Vector2(0f, projectile.gfxOffY);
                             // DO NOT REMOVE THESE "UNNECESSARY" FLOAT CASTS EITHER.
-                            float colorMult = (float)(afterimageCount - k);
-                            drawColor *= colorMult / ((float)afterimageCount * 1.5f);
+							if (k > 0)
+							{
+								float colorMult = (float)(afterimageCount - k);
+								drawColor *= colorMult / ((float)afterimageCount * 1.5f);
+							}
                             Main.spriteBatch.Draw(texture, drawPos, new Microsoft.Xna.Framework.Rectangle?(rectangle), drawColor, rotation, origin, scale, spriteEffects, 0f);
                             k += typeOneDistanceMultiplier;
                         }
