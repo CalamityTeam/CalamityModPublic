@@ -13,8 +13,6 @@ namespace CalamityMod.Projectiles.Magic
         {
             DisplayName.SetDefault("Blast");
             Main.projFrames[projectile.type] = 4;
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 4;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 1;
         }
 
         public override void SetDefaults()
@@ -69,14 +67,22 @@ namespace CalamityMod.Projectiles.Magic
             }
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
-        {
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
 			if (projectile.timeLeft > 599)
 				return false;
 
-			CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
-            return false;
-        }
+			Texture2D texture = Main.projectileTexture[projectile.type];
+			Rectangle rectangle = new Rectangle(0, 0, texture.Width, texture.Height);
+			Vector2 origin = rectangle.Size() / 2f;
+
+			SpriteEffects spriteEffects = SpriteEffects.None;
+			if (projectile.spriteDirection == -1)
+				spriteEffects = SpriteEffects.FlipHorizontally;
+
+			Main.spriteBatch.Draw(texture, projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), rectangle, lightColor, projectile.rotation, origin, projectile.scale, spriteEffects, 0f);
+			return false;
+		}
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
