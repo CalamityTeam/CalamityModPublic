@@ -770,7 +770,10 @@ namespace CalamityMod
 			{
 				Main.PlaySound(item.UseSound, player.Center);
 
-				int healAmt = player.Calamity().bloodPactBoost ? (int)(item.healLife * 1.5) : item.healLife;
+				double healMult = 1D +
+						(player.Calamity().coreOfTheBloodGod ? 0.15 : 0) +
+						(player.Calamity().bloodPactBoost ? 0.5 : 0);
+				int healAmt = (int)(item.healLife * healMult);
 				if (CalamityWorld.ironHeart)
 					healAmt = 0;
 				if (healAmt > 0 && player.QuickHeal_GetItemToUse() != null)

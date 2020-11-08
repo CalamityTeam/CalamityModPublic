@@ -4339,8 +4339,10 @@ namespace CalamityMod.CalPlayer
 		#region Get Heal Life
 		public override void GetHealLife(Item item, bool quickHeal, ref int healValue)
 		{
-			if (bloodPactBoost)
-				healValue = (int)(healValue * 1.5);
+			double healMult = 1D +
+					(coreOfTheBloodGod ? 0.15 : 0) +
+					(bloodPactBoost ? 0.5 : 0);
+			healValue = (int)(healValue * healMult);
 			if (CalamityWorld.ironHeart)
 				healValue = 0;
 		}
