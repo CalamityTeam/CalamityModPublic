@@ -34,6 +34,8 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
         public override void AI()
         {
 			CalamityGlobalProjectile.MagnetSphereHitscan(projectile, 300f, 6f, 48f, 5, ModContent.ProjectileType<BrimstoneLaserFriendly>(), 0.5);
+			if ((projectile.position - Main.player[projectile.owner].position).Length() > 3200f) //200 blocks
+				projectile.Kill();
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

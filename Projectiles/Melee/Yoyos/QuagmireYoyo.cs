@@ -29,6 +29,8 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
 
         public override void AI()
         {
+			if ((projectile.position - Main.player[projectile.owner].position).Length() > 3200f) //200 blocks
+				projectile.Kill();
             if (Main.rand.NextBool(5))
                 Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 44, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
             if (projectile.owner == Main.myPlayer)
