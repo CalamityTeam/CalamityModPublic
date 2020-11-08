@@ -1,11 +1,11 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Buffs.StatDebuffs;
 
-namespace CalamityMod.Projectiles.DraedonsArsenal
+namespace CalamityMod.Projectiles.Summon
 {
     public class PolypLauncherProjectile : ModProjectile
     {

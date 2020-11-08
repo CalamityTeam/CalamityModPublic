@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Summon
 {
@@ -18,7 +19,7 @@ namespace CalamityMod.Projectiles.Summon
 			projectile.width = 13;
 			projectile.height = 13;
             projectile.ignoreWater = true;
-            projectile.timeLeft = 120
+            projectile.timeLeft = 120;
 			projectile.minion = true;
             projectile.minionSlots = 0f;
 		}
