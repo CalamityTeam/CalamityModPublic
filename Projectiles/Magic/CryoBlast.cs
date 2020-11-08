@@ -73,7 +73,9 @@ namespace CalamityMod.Projectiles.Magic
 				return false;
 
 			Texture2D texture = Main.projectileTexture[projectile.type];
-			Rectangle rectangle = new Rectangle(0, 0, texture.Width, texture.Height);
+			int frameHeight = texture.Height / Main.projFrames[projectile.type];
+			int frameY = frameHeight * projectile.frame;
+			Rectangle rectangle = new Rectangle(0, frameY, texture.Width, texture.Height);
 			Vector2 origin = rectangle.Size() / 2f;
 
 			SpriteEffects spriteEffects = SpriteEffects.None;
