@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Weapons.Summon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Polyp Launcher");
-            Tooltip.SetDefault("Summons a toad that explodes if enemies are nearby");
+            Tooltip.SetDefault("Summons a polyp bunch that launches coral chunks at nearby enemies");
         }
 
         public override void SetDefaults()

@@ -41,7 +41,7 @@ namespace CalamityMod.Projectiles.Summon
 			int splash = 0;
 			while (splash < 4)
 			{
-				Dust.NewDust(projectile.position, projectile.width, projectile.height, 67, -projectile.velocity.X * 0.15f, -projectile.velocity.Y * 0.10f, 150, default, 0.9f);
+				Dust.NewDust(projectile.position, projectile.width, projectile.height, 225, -projectile.velocity.X * 0.15f, -projectile.velocity.Y * 0.10f, 150, default, 0.7f);
 				splash += 1;
 			}
 		}

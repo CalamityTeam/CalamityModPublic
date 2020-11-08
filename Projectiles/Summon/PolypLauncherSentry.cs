@@ -17,7 +17,7 @@ namespace CalamityMod.Projectiles.Summon
         public override void SetDefaults()
         {
             projectile.width = 42;
-            projectile.height = 28;
+            projectile.height = 25;
             projectile.ignoreWater = true;
             projectile.tileCollide = true;
             projectile.sentry = true;
@@ -77,12 +77,12 @@ namespace CalamityMod.Projectiles.Summon
                 {
 					Vector2 spawnPosition = new Vector2(projectile.oldPosition.X + (projectile.width / 2), projectile.oldPosition.Y + (projectile.height / 2));
 
-                    float shootSpeed = 9f;
+                    float shootSpeed = 16f;
                     float gravity = -PolypLauncherProjectile.Gravity;
                     float distance = Vector2.Distance(spawnPosition, potentialTarget.Center);
-                    float angle = 0.5f * (float)Math.Asin(MathHelper.Clamp(gravity * distance / (float)Math.Pow(shootSpeed, 2), -1f, 1f));
+                    float angle = 0.25f * (float)Math.Asin(MathHelper.Clamp(gravity * distance * 1.5f / (float)Math.Pow(shootSpeed, 2), -1f, 1f));
 
-                    Vector2 velocity = new Vector2(0f, -shootSpeed).RotatedBy(angle).RotatedByRandom(0.015f);
+                    Vector2 velocity = new Vector2(0f, -shootSpeed).RotatedBy(angle).RotatedByRandom(0.1f);
                     velocity.X *= (potentialTarget.Center.X - projectile.Center.X < 0).ToDirectionInt();
 
 					Projectile.NewProjectile(spawnPosition, velocity, ModContent.ProjectileType<PolypLauncherProjectile>(), projectile.damage, projectile.knockBack, projectile.owner);

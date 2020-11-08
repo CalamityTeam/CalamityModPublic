@@ -374,6 +374,8 @@ namespace CalamityMod.NPCs.TownNPCs
             nextSlot++;
             shop.item[nextSlot].SetDefaults(ModContent.ItemType<MagicalConch>());
             nextSlot++;
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<PolypLauncher>());
+            nextSlot++;
             if (CalamityWorld.downedDesertScourge)
             {
                 shop.item[nextSlot].SetDefaults(ModContent.ItemType<DriedSeafood>());

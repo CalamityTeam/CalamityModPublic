@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class PolypLauncherProjectile : ModProjectile
     {
-        public const float Gravity = 0.5f;
+        public const float Gravity = 0.4f;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Polyp Chunk");
@@ -40,7 +40,6 @@ namespace CalamityMod.Projectiles.Summon
             {
                 projectile.alpha = (int)MathHelper.Lerp(255, 0, projectile.ai[0] / 10f);
             }
-            projectile.tileCollide = projectile.alpha == 0;
 			projectile.rotation += (Math.Abs(projectile.velocity.X) + Math.Abs(projectile.velocity.Y)) * 0.1f * projectile.direction;
         }
 
@@ -51,7 +50,7 @@ namespace CalamityMod.Projectiles.Summon
 			int dust_splash = 0;
 			while (dust_splash < 9)
 			{
-				Dust.NewDust(projectile.position, projectile.width, projectile.height, 180, -projectile.velocity.X * 0.15f, -projectile.velocity.Y * 0.15f, 120, default, 1.5f);
+				Dust.NewDust(projectile.position, projectile.width, projectile.height, 225, -projectile.velocity.X * 0.15f, -projectile.velocity.Y * 0.15f, 120, default, 1f);
 				dust_splash += 1;
 			}
 			int split = 0;
