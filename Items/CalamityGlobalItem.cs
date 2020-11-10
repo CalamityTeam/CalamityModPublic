@@ -2,6 +2,7 @@ using CalamityMod.Buffs.Potions;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.CalPlayer;
 using CalamityMod.Items.Accessories;
+using CalamityMod.Items.Armor;
 using CalamityMod.Items.DifficultyItems;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.PermanentBoosters;
@@ -1125,7 +1126,7 @@ namespace CalamityMod.Items
                         break;
 
                     case CalamityRarity.ItemSpecific:
-                        // Uniquely colored developer weapons
+                        // Uniquely colored developer items
                         if (item.type == ModContent.ItemType<Fabstaff>())
                             tt2.overrideColor = new Color(Main.DiscoR, 100, 255);
                         if (item.type == ModContent.ItemType<BlushieStaff>())
@@ -1137,19 +1138,31 @@ namespace CalamityMod.Items
                         if (item.type == ModContent.ItemType<ProfanedSoulCrystal>())
                             tt2.overrideColor = CalamityUtils.ColorSwap(new Color(255, 166, 0), new Color(25, 250, 25), 4f); //alternates between emerald green and amber (BanditHueh)
                         if (item.type == ModContent.ItemType<BensUmbrella>())
-                            tt2.overrideColor = CalamityUtils.ColorSwap(new Color(210, 0, 255), new Color(255, 248, 24), 2f);
+                            tt2.overrideColor = CalamityUtils.ColorSwap(new Color(210, 0, 255), new Color(255, 248, 24), 4f);
                         if (item.type == ModContent.ItemType<Endogenesis>())
-                            tt2.overrideColor = CalamityUtils.ColorSwap(new Color(131, 239, 255), new Color(36, 55, 230), 2f);
+                            tt2.overrideColor = CalamityUtils.ColorSwap(new Color(131, 239, 255), new Color(36, 55, 230), 4f);
                         if (item.type == ModContent.ItemType<DraconicDestruction>())
-                            tt2.overrideColor = CalamityUtils.ColorSwap(new Color(255, 69, 0), new Color(139, 0, 0), 2f);
+                            tt2.overrideColor = CalamityUtils.ColorSwap(new Color(255, 69, 0), new Color(139, 0, 0), 4f);
                         if (item.type == ModContent.ItemType<ScarletDevil>())
-                            tt2.overrideColor = CalamityUtils.ColorSwap(new Color(191, 45, 71), new Color(185, 187, 253), 2f);
+                            tt2.overrideColor = CalamityUtils.ColorSwap(new Color(191, 45, 71), new Color(185, 187, 253), 4f);
+                        if (item.type == ModContent.ItemType<RedSun>())
+                            tt2.overrideColor = CalamityUtils.ColorSwap(new Color(204, 86, 80), new Color(237, 69, 141), 4f);
                         if (item.type == ModContent.ItemType<GaelsGreatsword>())
                             tt2.overrideColor = new Color(146, 0, 0);
                         if (item.type == ModContent.ItemType<CrystylCrusher>())
                             tt2.overrideColor = new Color(129, 29, 149);
                         if (item.type == ModContent.ItemType<Svantechnical>())
                             tt2.overrideColor = new Color(220, 20, 60);
+                        if (item.type == ModContent.ItemType<SomaPrime>())
+                            tt2.overrideColor = new Color(254, 253, 235);
+                        if (item.type == ModContent.ItemType<Contagion>())
+                            tt2.overrideColor = new Color(207, 17, 117);
+                        if (item.type == ModContent.ItemType<TriactisTruePaladinianMageHammerofMightMelee>() || item.type == ModContent.ItemType<TriactisTruePaladinianMageHammerofMight>())
+                            tt2.overrideColor = new Color(227, 226, 180);
+                        if (item.type == ModContent.ItemType<RoyalKnivesMelee>() || item.type == ModContent.ItemType<RoyalKnives>())
+                            tt2.overrideColor = CalamityUtils.ColorSwap(new Color(154, 255, 151), new Color(228, 151, 255), 4f);
+                        if (item.type == ModContent.ItemType<DemonshadeHelm>() || item.type == ModContent.ItemType<DemonshadeBreastplate>() || item.type == ModContent.ItemType<DemonshadeGreaves>())
+                            tt2.overrideColor = CalamityUtils.ColorSwap(new Color(255, 132, 22), new Color(221, 85, 7), 4f);
                         if (item.type == ModContent.ItemType<PrototypeAndromechaRing>())
                         {
                             if (Main.GlobalTime % 1f < 0.6f)
@@ -1165,6 +1178,22 @@ namespace CalamityMod.Items
                                 tt2.overrideColor = Color.Lerp(Color.White, new Color(89, 229, 255), (Main.GlobalTime % 1f - 0.8f) / 0.2f);
                             }
                         }
+                        if (item.type == ModContent.ItemType<Earth>())
+						{
+							List<Color> earthColors = new List<Color>()
+							{
+								new Color(255, 99, 146),
+								new Color(255, 228, 94),
+								new Color(127, 200, 248)
+							};
+							if (tt2 != null)
+							{
+								int colorIndex = (int)(Main.GlobalTime / 2 % earthColors.Count);
+								Color currentColor = earthColors[colorIndex];
+								Color nextColor = earthColors[(colorIndex + 1) % earthColors.Count];
+								tt2.overrideColor = Color.Lerp(currentColor, nextColor, Main.GlobalTime % 2f > 1f ? 1f : Main.GlobalTime % 1f);
+							}
+						}
 
                         // Uniquely colored legendary weapons and Yharim's Crystal
                         if (item.type == ModContent.ItemType<AegisBlade>() || item.type == ModContent.ItemType<YharimsCrystal>())

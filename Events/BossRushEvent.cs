@@ -214,7 +214,7 @@ namespace CalamityMod.Events
                 }, usesSpecialSound: true),
                 new Boss(ModContent.NPCType<SupremeCalamitas>(), spawnContext: type =>
                 {
-                    CalamityUtils.DisplayLocalizedText("BossRushTierFourEndText2", XerocTextColor);
+                    CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.BossRushTierFourEndText2", XerocTextColor);
                     for (int playerIndex = 0; playerIndex < Main.maxPlayers; playerIndex++)
                     {
                         if (Main.player[playerIndex].active)

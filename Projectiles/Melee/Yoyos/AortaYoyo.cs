@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -33,6 +34,8 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
 		public override void AI()
 		{
 			CalamityGlobalProjectile.MagnetSphereHitscan(projectile, 240f, 6f, 180f, 3, ModContent.ProjectileType<Blood2>(), 0.25);
+			if ((projectile.position - Main.player[projectile.owner].position).Length() > 3200f) //200 blocks
+				projectile.Kill();
 		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

@@ -8,6 +8,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Buffs.StatDebuffs;
 using System.IO;
+using CalamityMod.Buffs.DamageOverTime;
 
 namespace CalamityMod.NPCs.AcidRain
 {
@@ -27,18 +28,15 @@ namespace CalamityMod.NPCs.AcidRain
             npc.width = 26;
             npc.height = 14;
 
-            npc.damage = 10;
             npc.lifeMax = 30;
 
             if (CalamityWorld.downedPolterghast)
             {
-                npc.damage = 60;
                 npc.lifeMax = 2250;
                 npc.defense = 10;
             }
             else if (CalamityWorld.downedAquaticScourge)
             {
-                npc.damage = 30;
                 npc.lifeMax = 90;
             }
 
@@ -120,6 +118,7 @@ namespace CalamityMod.NPCs.AcidRain
                 if (npc.Distance(destination) < 45f)
                 {
                     player.AddBuff(BuffID.Bleeding, 180, true);
+                    player.AddBuff(ModContent.BuffType<HeavyBleeding>(), 30, true);
                 }
                 else if (!npc.wet && npc.Distance(destination) > 85f)
                 {

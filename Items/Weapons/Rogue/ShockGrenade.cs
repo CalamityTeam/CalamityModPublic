@@ -50,8 +50,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
-            Vector2 origin = new Vector2(item.width / 2, item.height / 2);
-            spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Items/Weapons/Rogue/ShockGrenadeGlow"), item.Center - Main.screenPosition, null, Color.White, rotation, origin, 1f, SpriteEffects.None, 0f);
+			item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.GetTexture("CalamityMod/Items/Weapons/Rogue/ShockGrenadeGlow"));
         }
 
         public override void AddRecipes()

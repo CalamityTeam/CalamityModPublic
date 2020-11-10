@@ -13,6 +13,7 @@ using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
+using CalamityMod.NPCs.TownNPCs;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.Tiles.Ores;
 using CalamityMod.World;
@@ -2798,6 +2799,8 @@ namespace CalamityMod.NPCs.Yharon
                 Color messageColor = Color.Orange;
                 CalamityUtils.DisplayLocalizedText(key, messageColor);
             }
+
+			CalamityGlobalTownNPC.SetNewShopVariable(new int[] { ModContent.NPCType<THIEF>() }, CalamityWorld.buffedEclipse);
 
             // Bags occur in either phase 1 or 2, as they don't contain phase 2 only drops
             DropHelper.DropBags(npc);

@@ -42,6 +42,9 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
                 Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 75, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
 
 			CalamityGlobalProjectile.MagnetSphereHitscan(projectile, 300f, 12f, 54f, 5, ProjectileID.CrystalLeafShot, 0.8);
+
+			if ((projectile.position - Main.player[projectile.owner].position).Length() > 3200f) //200 blocks
+				projectile.Kill();
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

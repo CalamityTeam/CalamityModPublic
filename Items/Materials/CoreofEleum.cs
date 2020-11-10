@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -13,18 +15,22 @@ namespace CalamityMod.Items.Materials
 
         public override void SetDefaults()
         {
-            item.width = 16;
-            item.height = 16;
+            item.width = 34;
+            item.height = 34;
             item.maxStack = 999;
             item.value = Item.sellPrice(silver: 40);
             item.rare = 8;
         }
 
+		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
+		{
+			item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.GetTexture("CalamityMod/Items/Materials/CoreofEleumGlow"));
+		}
+
         public override void Update(ref float gravity, ref float maxFallSpeed)
         {
-            float num = (float)Main.rand.Next(90, 111) * 0.01f;
-            num *= Main.essScale;
-            Lighting.AddLight((int)((item.position.X + (float)(item.width / 2)) / 16f), (int)((item.position.Y + (float)(item.height / 2)) / 16f), 0.15f * num, 0.05f * num, 0.5f * num);
+            float brightness = Main.essScale * Main.rand.NextFloat(0.9f, 1.1f);
+            Lighting.AddLight(item.Center, 0.15f * brightness, 0.05f * brightness, 0.5f * brightness);
         }
 
         public override void AddRecipes()

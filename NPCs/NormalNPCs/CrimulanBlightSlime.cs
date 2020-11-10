@@ -73,7 +73,7 @@ namespace CalamityMod.NPCs.NormalNPCs
         public override void NPCLoot()
         {
             int item = Item.NewItem(npc.Center, npc.Size, ModContent.ItemType<EbonianGel>(), Main.rand.Next(15, 21), false, 0, false, false);
-            Main.item[item].color = new Color(250, 50, 50, 255);
+            Main.item[item].notAmmo = true;
             NetMessage.SendData(MessageID.ItemTweaker, -1, -1, null, item, 1f, 0f, 0f, 0, 0, 0);
 
             DropHelper.DropItem(npc, ItemID.Gel, 10, 14);

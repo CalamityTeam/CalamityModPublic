@@ -202,7 +202,20 @@ namespace CalamityMod.CalPlayer
 				lifeRegenLost += 16;
             }
 
-            if (modPlayer.pFlames)
+			if (modPlayer.waterLeechBleeding)
+			{
+				if (player.lifeRegen > 0)
+					player.lifeRegen = 0;
+
+				player.lifeRegenTime = 0;
+				lifeRegenLost += 6;
+				if (CalamityWorld.downedAquaticScourge)
+					lifeRegenLost += 6;
+				if (CalamityWorld.downedPolterghast)
+					lifeRegenLost += 12;
+			}
+
+			if (modPlayer.pFlames)
             {
                 if (player.lifeRegen > 0)
                     player.lifeRegen = 0;

@@ -10,7 +10,8 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Oblivion");
-            Tooltip.SetDefault("Fires brimstone lasers when enemies are near");
+            Tooltip.SetDefault("Fires brimstone lasers when enemies are near\n" +
+			"A very agile yoyo");
             ItemID.Sets.Yoyo[item.type] = true;
             ItemID.Sets.GamepadExtraRange[item.type] = 15;
             ItemID.Sets.GamepadSmartQuickReach[item.type] = true;

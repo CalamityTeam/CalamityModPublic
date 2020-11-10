@@ -38,7 +38,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.autoReuse = true;
             item.value = Item.buyPrice(5, 0, 0, 0);
             item.rare = 10;
-            item.Calamity().customRarity = CalamityRarity.Developer;
+            item.Calamity().customRarity = CalamityRarity.ItemSpecific;
         }
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)

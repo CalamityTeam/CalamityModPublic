@@ -47,9 +47,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
-			Texture2D glowmask = ModContent.GetTexture("CalamityMod/Items/Weapons/Ranged/AuroraBlazerGlow");
-            Vector2 origin = new Vector2(glowmask.Width / 2f, glowmask.Height / 2f - 2f);
-            spriteBatch.Draw(glowmask, item.Center - Main.screenPosition, null, Color.White, rotation, origin, 1f, SpriteEffects.None, 0f);
+			item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.GetTexture("CalamityMod/Items/Weapons/Ranged/AuroraBlazerGlow"));
         }
 
         public override Vector2? HoldoutOffset() => new Vector2(-10, 0);

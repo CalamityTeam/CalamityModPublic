@@ -28,8 +28,7 @@ namespace CalamityMod.Items.Accessories
 
 		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
 		{
-			Vector2 origin = new Vector2(19f, 20f);
-			spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Items/Accessories/Affliction"), item.Center - Main.screenPosition, null, Color.White, rotation, origin, 1f, SpriteEffects.None, 0f);
+			item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.GetTexture("CalamityMod/Items/Accessories/Affliction"));
 		}
 
 		public override void UpdateAccessory(Player player, bool hideVisual)
@@ -38,10 +37,9 @@ namespace CalamityMod.Items.Accessories
             modPlayer.affliction = true;
             if (player.whoAmI != Main.myPlayer && player.miscCounter % 10 == 0)
             {
-                int myPlayer = Main.myPlayer;
-                if (Main.player[myPlayer].team == player.team && player.team != 0)
+                if (Main.LocalPlayer.team == player.team && player.team != 0)
                 {
-                    Main.player[myPlayer].AddBuff(ModContent.BuffType<Afflicted>(), 20, true);
+                    Main.LocalPlayer.AddBuff(ModContent.BuffType<Afflicted>(), 20, true);
                 }
             }
         }
