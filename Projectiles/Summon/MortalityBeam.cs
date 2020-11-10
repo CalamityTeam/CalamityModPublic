@@ -1,14 +1,16 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.Projectiles.Summon
 {
     public class MortalityBeam : ModProjectile
     {
+        public ref float Time => ref projectile.ai[0];
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Beam");
@@ -34,18 +36,23 @@ namespace CalamityMod.Projectiles.Summon
             Lighting.AddLight(projectile.Center, Color.White.ToVector3());
             if (!Main.dedServ)
             {
-                for (int i = 0; i < 7; i++)
+                for (int i = -1; i <= 1; i += 2)
                 {
-                    Dust rainbowDust = Dust.NewDustPerfect(projectile.Center + Main.rand.NextVector2Circular(5f, 5f), 261);
+                    float offset = (float)Math.Sin(Time / 45f * MathHelper.TwoPi) * 10f * i;
+                    Vector2 rotatedOffset = new Vector2(offset, 2f).RotatedBy(projectile.velocity.ToRotation() + MathHelper.PiOver2);
+
+                    Dust rainbowDust = Dust.NewDustPerfect(projectile.Center + rotatedOffset, 261);
                     rainbowDust.color = Main.hslToRgb(Main.rand.NextFloat(), 0.9f, 0.5f);
-                    rainbowDust.velocity += projectile.velocity;
+                    rainbowDust.velocity = Vector2.Zero;
+                    rainbowDust.scale = 1.5f;
                     rainbowDust.noGravity = true;
                 }
             }
 
+            Time++;
             NPC potentialTarget = projectile.Center.MinionHoming(1000f, Main.player[projectile.owner], false);
             if (potentialTarget != null)
-                projectile.velocity = (projectile.velocity * 5f + projectile.DirectionTo(potentialTarget.Center) * 20f) / 6f;
+                projectile.velocity = (projectile.velocity * 5f + projectile.DirectionTo(potentialTarget.Center) * 13f) / 6f;
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
