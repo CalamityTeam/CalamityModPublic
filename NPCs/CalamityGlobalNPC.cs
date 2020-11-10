@@ -338,6 +338,13 @@ namespace CalamityMod.NPCs
 			NPCID.TheDestroyerTail
 		};
 
+		public static List<int> DarkEnergyIDs = new List<int>
+		{
+			NPCType<DarkEnergy>(),
+			NPCType<DarkEnergy2>(),
+			NPCType<DarkEnergy3>()
+		};
+
 		public static List<int> StormWeaverIDs = new List<int>
 		{
 			NPCType<StormWeaverHeadNaked>(),
@@ -838,7 +845,7 @@ namespace CalamityMod.NPCs
 				npc.buffImmune[BuffID.Slow] = true;
 			}
 
-			if (DestroyerIDs.Contains(npc.type) || (EaterofWorldsIDs.Contains(npc.type) && BossRushEvent.BossRushActive) || npc.type == NPCID.DD2EterniaCrystal || npc.townNPC || npc.type == NPCID.SpikeBall || npc.type == NPCID.BlazingWheel)
+			if (DestroyerIDs.Contains(npc.type) || npc.type == NPCID.SkeletronHead || (EaterofWorldsIDs.Contains(npc.type) && BossRushEvent.BossRushActive) || npc.type == NPCID.DD2EterniaCrystal || npc.townNPC || npc.type == NPCID.SpikeBall || npc.type == NPCID.BlazingWheel)
 			{
 				for (int k = 0; k < npc.buffImmune.Length; k++)
 				{
@@ -3051,21 +3058,6 @@ namespace CalamityMod.NPCs
 					GrenadeResist(projectile, ref damage);
 					PierceResistGlobal(projectile, ref damage);
 
-					// Old resists
-					/*if (projectile.type == ProjectileType<AtlantisSpear2>())
-					{
-						damage = (int)(damage * 0.1);
-					}
-					else if (projectile.type == ProjectileType<DormantBrimseekerBab>())
-					{
-						damage = (int)(damage * 0.2);
-					}
-					else if (projectile.type == player.beeType() || projectile.type == ProjectileType<MalachiteBolt>())
-					{
-						damage = (int)(damage * 0.4);
-					}*/
-
-					// New resists
 					if (ProjectileID.Sets.StardustDragon[projectile.type] || projectile.type == ProjectileType<PlaguenadeBee>() || projectile.type == ProjectileType<PlaguenadeProj>())
 					{
 						damage = (int)(damage * 0.25);
@@ -3083,7 +3075,7 @@ namespace CalamityMod.NPCs
 						damage = (int)(damage * 0.75);
 					}
 				}
-				else if (CosmicGuardianIDs.Contains(npc.type))
+				else if (CosmicGuardianIDs.Contains(npc.type) || DarkEnergyIDs.Contains(npc.type))
 				{
 					GrenadeResist(projectile, ref damage);
 					PierceResistGlobal(projectile, ref damage);
@@ -3111,6 +3103,10 @@ namespace CalamityMod.NPCs
 					{
 						damage = (int)(damage * 0.5);
 					}
+					else if (projectile.type == ProjectileType<WavePounderBoom>())
+					{
+						damage = (int)(damage * 0.4);
+					}
 					else if (ProjectileID.Sets.StardustDragon[projectile.type])
 					{
 						damage = (int)(damage * 0.1);
@@ -3129,6 +3125,10 @@ namespace CalamityMod.NPCs
 					{
 						damage = (int)(damage * 0.5);
 					}
+					else if (projectile.type == ProjectileType<VoltageStream>())
+					{
+						damage = (int)(damage * 0.45);
+					}
 					else if (projectile.type == ProjectileType<SulphuricNukesplosion>())
 					{
 						damage = (int)(damage * 0.38);
@@ -3146,6 +3146,10 @@ namespace CalamityMod.NPCs
 					if (projectile.type == ProjectileType<FlameBeamTip>() || projectile.type == ProjectileType<FlameBeamTip2>())
 					{
 						damage = (int)(damage * 0.9);
+					}
+					else if (projectile.type == ProjectileType<VoltageStream>())
+					{
+						damage = (int)(damage * 0.75);
 					}
 					if (projectile.type == ProjectileType<SHPExplosion>() || projectile.type == ProjectileType<DormantBrimseekerBab>() || projectile.type == ProjectileType<PoleWarperSummon>())
 					{
@@ -4337,7 +4341,7 @@ namespace CalamityMod.NPCs
                 }
 				else if (DestroyerIDs.Contains(npc.type))
 				{
-					if (drawColor != Color.Black && ((newAI[3] >= 900f && npc.life / (float)npc.lifeMax < 0.5f) || (newAI[1] < 600f && newAI[1] > 60f)))
+					if (drawColor != Color.Black && npc.ai[2] == 0f && ((newAI[3] >= 900f && npc.life / (float)npc.lifeMax < 0.5f) || (newAI[1] < 600f && newAI[1] > 60f)))
 					{
 						Vector2 halfSize = npc.frame.Size() / 2;
 						SpriteEffects spriteEffects = SpriteEffects.None;

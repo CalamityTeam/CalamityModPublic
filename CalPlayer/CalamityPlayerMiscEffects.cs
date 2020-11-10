@@ -131,7 +131,24 @@ namespace CalamityMod.CalPlayer
 						float shorterSpearCocoonDistance = CalamityWorld.death ? 1000f : CalamityWorld.revenge ? 400f : Main.expertMode ? 200f : 0f;
 						float shorterDistance = aiState == 2f ? shorterFlameCocoonDistance : shorterSpearCocoonDistance;
 
-						float maxDistance = (aiState == 2f || aiState == 5f) ? baseDistance - MathHelper.Lerp(0f, shorterDistance, MathHelper.Clamp(aiTimer / 120f, 0f, 1f)) : baseDistance;
+						bool guardianAlive = false;
+						if (CalamityGlobalNPC.holyBossAttacker != -1)
+						{
+							if (Main.npc[CalamityGlobalNPC.holyBossAttacker].active)
+								guardianAlive = true;
+						}
+						if (CalamityGlobalNPC.holyBossDefender != -1)
+						{
+							if (Main.npc[CalamityGlobalNPC.holyBossDefender].active)
+								guardianAlive = true;
+						}
+						if (CalamityGlobalNPC.holyBossHealer != -1)
+						{
+							if (Main.npc[CalamityGlobalNPC.holyBossHealer].active)
+								guardianAlive = true;
+						}
+
+						float maxDistance = guardianAlive ? baseDistance : (aiState == 2f || aiState == 5f) ? baseDistance - MathHelper.Lerp(0f, shorterDistance, MathHelper.Clamp(aiTimer / 120f, 0f, 1f)) : baseDistance;
 						float drawDarknessDistance = maxDistance - 400f;
 						float intensityScalar = MathHelper.Lerp(0f, 0.9f, MathHelper.Clamp((x - drawDarknessDistance) / 400f, 0f, 1f));
 

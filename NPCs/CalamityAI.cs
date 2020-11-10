@@ -4669,11 +4669,11 @@ namespace CalamityMod.NPCs
 			
 			if (BossRushEvent.BossRushActive)
 			{
-				idlePhaseTimer = 35;
-				idlePhaseAcceleration *= 1.1f;
-				idlePhaseVelocity *= 1.15f;
+				idlePhaseTimer = 45;
+				idlePhaseAcceleration *= 1.06f;
+				idlePhaseVelocity *= 1.12f;
 				chargeTime -= 3;
-				chargeVelocity *= 1.25f;
+				chargeVelocity *= 1.15f;
 			}
 
 			if (calamityGlobalNPC.newAI[1] == 1f)

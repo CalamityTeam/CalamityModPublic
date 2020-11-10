@@ -300,15 +300,6 @@ namespace CalamityMod.NPCs.CeaselessVoid
 			return CalamityGlobalNPC.voidBoss < 0 || !Main.npc[CalamityGlobalNPC.voidBoss].active;
 		}
 
-		public override void OnHitByProjectile(Projectile projectile, int damage, float knockback, bool crit)
-        {
-            if (CalamityWorld.DoGSecondStageCountdown <= 0 || !CalamityWorld.downedSentinel1)
-            {
-                if (projectile.type == ModContent.ProjectileType<MoltenAmputatorProj>())
-                    damage = (int)(damage * 0.9);
-            }
-        }
-
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
 			player.AddBuff(BuffID.VortexDebuff, 20, true);

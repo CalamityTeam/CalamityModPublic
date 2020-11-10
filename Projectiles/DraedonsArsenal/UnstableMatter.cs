@@ -12,11 +12,13 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 			get => projectile.ai[0] == 1f;
 			set => projectile.ai[0] = value.ToInt();
 		}
+
 		public float Time
 		{
 			get => projectile.ai[1];
 			set => projectile.ai[1] = value;
 		}
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Unstable Matter");
@@ -68,6 +70,9 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
 		public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
 		{
+			if (!HasCollidedWithATile)
+				damage /= 3;
+			
 			damage += target.defense / 3;
 		}
 
@@ -81,7 +86,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 				// And bounce off the tile. Or towards a nearby enemy, if there is one.
 				NPC potentialTarget = projectile.Center.ClosestNPCAt(700f, false);
 				if (potentialTarget != null)
-					projectile.velocity = projectile.DirectionTo(potentialTarget.Center);	
+					projectile.velocity = projectile.DirectionTo(potentialTarget.Center);
 				else
 				{
 					if (projectile.velocity.X != oldVelocity.X)
@@ -97,7 +102,5 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 			}
 			return true;
 		}
-
-		public override bool CanDamage() => HasCollidedWithATile;
 	}
 }

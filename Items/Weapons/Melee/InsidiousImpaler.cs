@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetDefaults()
         {
             item.width = 66;
-            item.damage = 390;
+            item.damage = 350;
             item.melee = true;
             item.noMelee = true;
             item.useTurn = true;
@@ -35,16 +35,6 @@ namespace CalamityMod.Items.Weapons.Melee
             item.shootSpeed = 5f;
         }
 
-        public override bool CanUseItem(Player player)
-        {
-            for (int i = 0; i < Main.maxProjectiles; ++i)
-            {
-                if (Main.projectile[i].active && Main.projectile[i].owner == Main.myPlayer && Main.projectile[i].type == item.shoot)
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
-    }
+		public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;
+	}
 }

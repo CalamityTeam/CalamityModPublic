@@ -16,11 +16,13 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
         public float AcidShootTimer = 0f;
         public float AcidShootCooldown = 0f;
         public float FallThroughYPoint = 0f;
+
         public bool ReleasingAcid
         {
             get => projectile.ai[0] != 0f;
             set => projectile.ai[0] = value.ToInt();
         }
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Pet Froge");
@@ -49,6 +51,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             writer.Write(AcidShootTimer);
             writer.Write(AcidShootCooldown);
         }
+
         public override void ReceiveExtraAI(BinaryReader reader)
         {
             HopCooldown = reader.ReadSingle();
@@ -157,6 +160,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                 projectile.damage = newDamage;
             }
         }
+
         public void HandleHop(Vector2 targetPosition)
         {
             if (HopCooldown <= 0f && projectile.oldPosition.Y == projectile.position.Y)
@@ -178,6 +182,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                 HopCooldown--;
             }
         }
+
         public void PlayerSeparationAnxietyAI(Player player, ref int minimumFrame, ref int maximumFrame)
         {
             // If the player is extremely far away, don't bother homing. Just go to the player's location.
@@ -225,6 +230,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                 HandleHop(player.Center);
             }
         }
+
         public void NPCTargetingAI(NPC potentialTarget)
         {
             HandleHop(potentialTarget.Center);
@@ -269,6 +275,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                 AcidShootCooldown--;
             projectile.velocity.X *= 0.8f;
         }
+
         public void ManipulateFrames(int minimumFrame, int maximumFrame)
         {
             if (projectile.frame < minimumFrame)
@@ -302,12 +309,15 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                              0f);
             return false;
         }
+
         public override bool OnTileCollide(Vector2 oldVelocity) => false;
+
         public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
         {
             fallThrough = projectile.Bottom.Y < FallThroughYPoint - 120f;
             return base.TileCollideStyle(ref width, ref height, ref fallThrough);
         }
+
         public override bool CanDamage() => false;
     }
 }

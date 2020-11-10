@@ -75,7 +75,7 @@ namespace CalamityMod.Items.Weapons.Magic
                 num80 = num72 / num80;
             }
 
-            int num107 = 10;
+            int num107 = 3;
             for (int num108 = 0; num108 < num107; num108++)
             {
                 vector2 = new Vector2(player.position.X + (float)player.width * 0.5f + (float)(Main.rand.Next(201) * -(float)player.direction) + ((float)Main.mouseX + Main.screenPosition.X - player.position.X), player.MountedCenter.Y - 600f);
@@ -95,8 +95,8 @@ namespace CalamityMod.Items.Weapons.Magic
                 num80 = num72 / num80;
                 num78 *= num80;
                 num79 *= num80;
-                float speedX4 = num78 + (float)Main.rand.Next(-120, 121) * 0.02f;
-                float speedY5 = num79 + (float)Main.rand.Next(-120, 121) * 0.02f;
+                float speedX4 = num78 + (float)Main.rand.Next(-30, 31) * 0.02f;
+                float speedY5 = num79 + (float)Main.rand.Next(-30, 31) * 0.02f;
                 Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, ModContent.ProjectileType<AuraRain>(), damage, knockBack, player.whoAmI, 0f, (float)Main.rand.Next(10));
             }
             return false;

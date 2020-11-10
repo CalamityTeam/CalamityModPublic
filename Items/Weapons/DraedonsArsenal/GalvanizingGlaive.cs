@@ -24,7 +24,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 
             item.width = 56;
             item.height = 52;
-            item.damage = 84;
+            item.damage = 100;
             item.noMelee = true;
             item.noUseGraphic = true;
             item.channel = true;
@@ -56,6 +56,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
             Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI, swingOffset);
             return false;
         }
+
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);

@@ -61,7 +61,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
                     speedY = MathHelper.Clamp(speedY, -15f, 15f);
                     if (projectile.owner == Main.myPlayer)
                     {
-                        int proj = Projectile.NewProjectile(spawnPosition.X, spawnPosition.Y, speedX, speedY, ModContent.ProjectileType<AstralStar>(), (int)(projectile.damage * 0.2), 1f, projectile.owner);
+                        int proj = Projectile.NewProjectile(spawnPosition.X, spawnPosition.Y, speedX, speedY, ModContent.ProjectileType<AstralStar>(), (int)(projectile.damage * 0.4), 1f, projectile.owner, 3f, 0f);
                         Main.projectile[proj].Calamity().forceMelee = true;
                     }
                 }

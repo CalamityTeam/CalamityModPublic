@@ -43,7 +43,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                         Dust dust = Dust.NewDustPerfect(projectile.Center, 263);
                         dust.velocity = angle.ToRotationVector2().RotatedByRandom(0.25f) * Main.rand.NextFloat(6f, 8f);
                         dust.noGravity = true;
-                        dust.scale = 2.1f;
+                        dust.scale = 1.6f;
                     }
                 }
                 // Ring dust.
@@ -54,10 +54,11 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                     Dust dust = Dust.NewDustPerfect(projectile.Center + angle.ToRotationVector2() * radius, 226);
                     dust.velocity = Vector2.Zero;
                     dust.noGravity = true;
-                    dust.scale = 2f;
+                    dust.scale = 1.5f;
                 }
             }
         }
+
         public override void Kill(int timeLeft)
         {
             if (Main.myPlayer == projectile.owner)

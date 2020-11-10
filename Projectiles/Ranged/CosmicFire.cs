@@ -21,7 +21,7 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.ranged = true;
             projectile.penetrate = -1;
             projectile.extraUpdates = 3;
-            projectile.timeLeft = 90;
+            projectile.timeLeft = 100;
         }
 
         public override void AI()
@@ -31,10 +31,6 @@ namespace CalamityMod.Projectiles.Ranged
                 projectile.scale *= 1.01f;
             }
             Lighting.AddLight(projectile.Center, 0.25f, 0f, 0.1f);
-            if (projectile.timeLeft > 90)
-            {
-                projectile.timeLeft = 90;
-            }
             if (projectile.ai[0] > 7f)
             {
                 float scalar = 1f;
