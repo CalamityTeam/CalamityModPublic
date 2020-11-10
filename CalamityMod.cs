@@ -1346,7 +1346,7 @@ namespace CalamityMod
 
 						float baseDistance = 2800f;
 						float shorterFlameCocoonDistance = CalamityWorld.death ? 600f : CalamityWorld.revenge ? 400f : Main.expertMode ? 200f : 0f;
-						float shorterSpearCocoonDistance = CalamityWorld.death ? 1000f : CalamityWorld.revenge ? 400f : Main.expertMode ? 200f : 0f;
+						float shorterSpearCocoonDistance = CalamityWorld.death ? 1000f : CalamityWorld.revenge ? 650f : Main.expertMode ? 300f : 0f;
 						float shorterDistance = aiState == 2f ? shorterFlameCocoonDistance : shorterSpearCocoonDistance;
 
 						bool guardianAlive = false;
