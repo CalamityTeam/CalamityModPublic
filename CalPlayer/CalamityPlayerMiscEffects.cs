@@ -3274,14 +3274,22 @@ namespace CalamityMod.CalPlayer
 			if (modPlayer.badgeOfBraveryRare)
 			{
 				float maxDistance = 480f; // 30 tile distance
+				float damageBoost = 0f;
 				for (int l = 0; l < Main.maxNPCs; l++)
 				{
-					NPC npc = Main.npc[l];
-					if (npc.active && !npc.friendly && (npc.damage > 0 || npc.boss) && !npc.dontTakeDamage && Vector2.Distance(player.Center, npc.Center) <= maxDistance)
+					NPC nPC = Main.npc[l];
+					if (nPC.active && !nPC.friendly && (nPC.damage > 0 || nPC.boss) && !nPC.dontTakeDamage && Vector2.Distance(player.Center, nPC.Center) <= maxDistance)
 					{
-						player.meleeDamage += MathHelper.Lerp(0f, 0.3f, 1f - (Vector2.Distance(player.Center, npc.Center) / maxDistance));
+						damageBoost += MathHelper.Lerp(0f, 0.3f, 1f - (Vector2.Distance(player.Center, nPC.Center) / maxDistance));
+
+						if (damageBoost >= 0.3f)
+						{
+							damageBoost = 0.3f;
+							break;
+						}
 					}
 				}
+				player.meleeDamage += damageBoost;
 			}
 
 			if (modPlayer.calamitasLore)
@@ -3944,14 +3952,22 @@ namespace CalamityMod.CalPlayer
 			if (modPlayer.badgeOfBraveryRare)
 			{
 				float maxDistance = 480f; // 30 tile distance
+				float damageBoost = 0f;
 				for (int l = 0; l < Main.maxNPCs; l++)
 				{
-					NPC npc = Main.npc[l];
-					if (npc.active && !npc.friendly && (npc.damage > 0 || npc.boss) && !npc.dontTakeDamage && Vector2.Distance(player.Center, npc.Center) <= maxDistance)
+					NPC nPC = Main.npc[l];
+					if (nPC.active && !nPC.friendly && (nPC.damage > 0 || nPC.boss) && !nPC.dontTakeDamage && Vector2.Distance(player.Center, nPC.Center) <= maxDistance)
 					{
-						damageAdd += MathHelper.Lerp(0f, 0.3f, 1f - (Vector2.Distance(player.Center, npc.Center) / maxDistance));
+						damageBoost += MathHelper.Lerp(0f, 0.3f, 1f - (Vector2.Distance(player.Center, nPC.Center) / maxDistance));
+
+						if (damageBoost >= 0.3f)
+						{
+							damageBoost = 0.3f;
+							break;
+						}
 					}
 				}
+				damageAdd += damageBoost;
 			}
 			modPlayer.trueMeleeDamage += damageAdd;
 
