@@ -766,7 +766,10 @@ namespace CalamityMod
 			{
 				Main.PlaySound(item.UseSound, player.Center);
 
-				int healAmt = player.Calamity().bloodPactBoost ? (int)(item.healLife * 1.5) : item.healLife;
+				double healMult = 1D +
+						(player.Calamity().coreOfTheBloodGod ? 0.15 : 0) +
+						(player.Calamity().bloodPactBoost ? 0.5 : 0);
+				int healAmt = (int)(item.healLife * healMult);
 				if (CalamityWorld.ironHeart)
 					healAmt = 0;
 				if (healAmt > 0 && player.QuickHeal_GetItemToUse() != null)
@@ -3552,14 +3555,22 @@ namespace CalamityMod
 		#endregion
 
 		#region Drawing Utilities
-		public static void DrawItemGlowmask(this Item item, SpriteBatch spriteBatch, int frameCount, float rotation, Texture2D glowmaskTexture)
+		public static void DrawItemGlowmaskSingleFrame(this Item item, SpriteBatch spriteBatch, float rotation, Texture2D glowmaskTexture)
 		{
-			Vector2 center = new Vector2((float)(Main.itemTexture[item.type].Width / 2), (float)(Main.itemTexture[item.type].Height / frameCount / 2));
-			Rectangle frame = Main.itemAnimations[item.type].GetFrame(glowmaskTexture);
-			Vector2 drawPosition = item.Center - Main.screenPosition;
+			Vector2 origin = new Vector2(glowmaskTexture.Width / 2f, glowmaskTexture.Height / 2f - 2f);
+			spriteBatch.Draw(glowmaskTexture, item.Center - Main.screenPosition, null, Color.White, rotation, origin, 1f, SpriteEffects.None, 0f);
+		}
 
-			spriteBatch.Draw(glowmaskTexture, drawPosition,
-				new Rectangle?(frame), Color.White, rotation, center, 1f, SpriteEffects.None, 0f);
+		public static Rectangle GetCurrentFrame(this Item item, ref int frame, ref int frameCounter, int frameDelay, int frameAmt, bool frameCounterUp = true)
+		{
+			if (frameCounter >= frameDelay)
+			{
+				frameCounter = -1;
+				frame = frame == frameAmt - 1 ? 0 : frame + 1;
+			}
+			if (frameCounterUp)
+				frameCounter++;
+			return new Rectangle(0, item.height * frame, item.width, item.height);
 		}
 
 		public static bool DrawFishingLine(this Projectile projectile, int fishingRodType, Color poleColor, int xPositionAdditive = 45, float yPositionAdditive = 35f)

@@ -46,6 +46,9 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
         // localAI[1] counts up to 19 (4 x 5 - 1), then resets back to 0 for a 20-frame cycle.
         public override void AI()
         {
+			if ((projectile.position - Main.player[projectile.owner].position).Length() > 3200f) //200 blocks
+				projectile.Kill();
+
             // Only do stuff once per frame, despite the yoyo's extra updates.
             extraUpdateCounter = (extraUpdateCounter + 1) % UpdatesPerFrame;
             if (extraUpdateCounter != UpdatesPerFrame - 1)

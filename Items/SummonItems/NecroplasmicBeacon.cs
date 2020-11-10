@@ -32,8 +32,7 @@ namespace CalamityMod.Items.SummonItems
 
 		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
 		{
-			Vector2 origin = new Vector2(21f, 27f); //21, 29
-			spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Items/SummonItems/NecroplasmicBeaconGlow"), item.Center - Main.screenPosition, null, Color.White, rotation, origin, 1f, SpriteEffects.None, 0f);
+			item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.GetTexture("CalamityMod/Items/SummonItems/NecroplasmicBeaconGlow"));
 		}
 
 		public override bool CanUseItem(Player player)

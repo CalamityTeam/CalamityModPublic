@@ -126,7 +126,7 @@ namespace CalamityMod
             TarraHotKey = RegisterHotKey("Armor Set Bonus", "Y");
             AstralTeleportHotKey = RegisterHotKey("Astral Teleport", "P");
             AstralArcanumUIHotkey = RegisterHotKey("Astral Arcanum UI Toggle", "O");
-            MomentumCapacitatorHotkey = RegisterHotKey("Momentom Capacitator Effect", "U");
+            MomentumCapacitatorHotkey = RegisterHotKey("Momentum Capacitor Effect", "U");
             SandCloakHotkey = RegisterHotKey("Sand Cloak Effect", "C");
             SpectralVeilHotKey = RegisterHotKey("Spectral Veil Teleport", "Z");
             PlaguePackHotKey = RegisterHotKey("Booster Dash", "Q");
@@ -814,6 +814,13 @@ namespace CalamityMod
                     }
                     return true;
                 }, InterfaceScaleType.None));
+
+                // Mode Indicator UI.
+                layers.Insert(mouseIndex, new LegacyGameInterfaceLayer("Mode Indicator UI", delegate ()
+                {
+                    ModeIndicatorUI.Draw(Main.spriteBatch);
+                    return true;
+                }, InterfaceScaleType.UI));
 
                 // Astral Arcanum overlay (if open)
                 layers.Insert(mouseIndex, new LegacyGameInterfaceLayer("Astral Arcanum UI", delegate ()

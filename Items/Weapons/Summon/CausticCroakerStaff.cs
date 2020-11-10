@@ -38,11 +38,7 @@ namespace CalamityMod.Items.Weapons.Summon
         {
             if (player.altFunctionUse != 2)
             {
-                position = Main.MouseWorld;
-                Point mouseTileCoords = position.ToTileCoordinates();
-                if (WorldGen.SolidTile(mouseTileCoords.X, mouseTileCoords.Y + 1))
-                    return false;
-                Projectile.NewProjectile(position, Vector2.Zero, type, damage, knockBack, player.whoAmI);
+                Projectile.NewProjectile(Main.MouseWorld, Vector2.Zero, type, damage, knockBack, player.whoAmI);
                 player.UpdateMaxTurrets();
             }
             return false;

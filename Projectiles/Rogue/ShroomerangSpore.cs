@@ -7,7 +7,6 @@ namespace CalamityMod.Projectiles.Rogue
 {
 	public class ShroomerangSpore : ModProjectile
     {
-		private int scaleFactor = 0;
 		private bool initialized = false;
         public override void SetStaticDefaults()
         {

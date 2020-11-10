@@ -286,6 +286,7 @@ namespace CalamityMod.CalPlayer
         public float stealthAcceleration = 1f;
         public bool stealthStrikeThisFrame = false;
         public bool stealthStrikeHalfCost = false;
+        public bool stealthStrike75Cost = false;
         public bool stealthStrikeAlwaysCrits = false;
         public bool wearingRogueArmor = false;
         public float accStealthGenBoost = 0f;
@@ -776,6 +777,7 @@ namespace CalamityMod.CalPlayer
         public bool vaporfied = false;
         public bool energyShellCooldown = false;
         public bool prismaticCooldown = false;
+        public bool waterLeechBleeding = false;
         #endregion
 
         #region Buff
@@ -1797,6 +1799,7 @@ namespace CalamityMod.CalPlayer
             vaporfied = false;
 			energyShellCooldown = false;
 			prismaticCooldown = false;
+            waterLeechBleeding = false;
 
             revivify = false;
             trinketOfChiBuff = false;
@@ -2147,11 +2150,12 @@ namespace CalamityMod.CalPlayer
             vaporfied = false;
 			energyShellCooldown = false;
 			prismaticCooldown = false;
-			#endregion
+            waterLeechBleeding = false;
+            #endregion
 
-			#region Rogue
-			// Stealth
-			rogueStealth = 0f;
+            #region Rogue
+            // Stealth
+            rogueStealth = 0f;
             rogueStealthMax = 0f;
             stealthAcceleration = 1f;
 
@@ -3573,10 +3577,10 @@ namespace CalamityMod.CalPlayer
 				float maxDistance = 480f; // 30 tile distance
 				for (int l = 0; l < Main.maxNPCs; l++)
 				{
-					NPC nPC = Main.npc[l];
-					if (nPC.active && !nPC.friendly && nPC.damage > 0 && !nPC.dontTakeDamage && Vector2.Distance(player.Center, nPC.Center) <= maxDistance)
+					NPC npc = Main.npc[l];
+					if (npc.active && !npc.friendly && (npc.damage > 0 || npc.boss) && !npc.dontTakeDamage && Vector2.Distance(player.Center, npc.Center) <= maxDistance)
 					{
-						meleeSpeedMult += MathHelper.Lerp(0f, 0.3f, 1f - (Vector2.Distance(player.Center, nPC.Center) / maxDistance));
+						meleeSpeedMult += MathHelper.Lerp(0f, 0.3f, 1f - (Vector2.Distance(player.Center, npc.Center) / maxDistance));
 					}
 				}
             }
@@ -4233,6 +4237,10 @@ namespace CalamityMod.CalPlayer
             {
                 damageSource = PlayerDeathReason.ByCustomReason(player.name + " fell prey to their sins.");
             }
+            if (waterLeechBleeding && damage == 10.0 && hitDirection == 0 && damageSource.SourceOtherIndex == 8)
+            {
+                damageSource = PlayerDeathReason.ByCustomReason(player.name + " lost too much blood.");
+            }
             if (shadowflame && damage == 10.0 && hitDirection == 0 && damageSource.SourceOtherIndex == 8)
             {
                 damageSource = PlayerDeathReason.ByCustomReason(player.name + "'s spirit was turned to ash.");
@@ -4348,8 +4356,10 @@ namespace CalamityMod.CalPlayer
 		#region Get Heal Life
 		public override void GetHealLife(Item item, bool quickHeal, ref int healValue)
 		{
-			if (bloodPactBoost)
-				healValue = (int)(healValue * 1.5);
+			double healMult = 1D +
+					(coreOfTheBloodGod ? 0.15 : 0) +
+					(bloodPactBoost ? 0.5 : 0);
+			healValue = (int)(healValue * healMult);
 			if (CalamityWorld.ironHeart)
 				healValue = 0;
 		}
@@ -9677,6 +9687,7 @@ namespace CalamityMod.CalPlayer
             stealthGenMoving = 1f;
             stealthStrikeThisFrame = false;
             stealthStrikeHalfCost = false;
+            stealthStrike75Cost = false;
             stealthStrikeAlwaysCrits = false;
 
             // stealthAcceleration only resets if you don't have either of the accelerator accessories equipped
@@ -9847,7 +9858,12 @@ namespace CalamityMod.CalPlayer
         {
             if (rogueStealthMax <= 0f)
                 return false;
-            return rogueStealth >= rogueStealthMax * (stealthStrikeHalfCost ? 0.5f : 1f);
+			float consumptionMult = 1f;
+			if (stealthStrikeHalfCost)
+				consumptionMult = 0.5f;
+			else if (stealthStrike75Cost)
+				consumptionMult = 0.75f;
+            return rogueStealth >= rogueStealthMax * consumptionMult;
         }
 
         internal void ConsumeStealthByAttacking()
@@ -9861,7 +9877,13 @@ namespace CalamityMod.CalPlayer
                 if (rogueStealth <= 0f)
                     rogueStealth = 0f;
             }
-            else
+            else if (stealthStrike75Cost)
+			{
+                rogueStealth -= 0.75f * rogueStealthMax;
+                if (rogueStealth <= 0f)
+                    rogueStealth = 0f;
+            }
+			else
                 rogueStealth = 0f;
         }
         #endregion

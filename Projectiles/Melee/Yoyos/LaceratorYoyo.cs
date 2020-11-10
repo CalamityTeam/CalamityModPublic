@@ -34,6 +34,12 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
             projectile.localNPCHitCooldown = 8;
         }
 
+		public override void AI()
+		{
+			if ((projectile.position - Main.player[projectile.owner].position).Length() > 3200f) //200 blocks
+				projectile.Kill();
+		}
+
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             if (target.type == NPCID.TargetDummy || !target.canGhostHeal || Main.player[projectile.owner].moonLeech)

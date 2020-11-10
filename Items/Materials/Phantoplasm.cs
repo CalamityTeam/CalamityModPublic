@@ -23,9 +23,6 @@ namespace CalamityMod.Items.Materials
             item.Calamity().customRarity = CalamityRarity.PureGreen;
         }
 
-        public override Color? GetAlpha(Color lightColor)
-        {
-            return new Color(200, 200, 200, 0);
-        }
+        public override Color? GetAlpha(Color lightColor) => new Color(200, 200, 200, 0);
     }
 }

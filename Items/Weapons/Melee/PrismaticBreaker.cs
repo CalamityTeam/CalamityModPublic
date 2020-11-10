@@ -81,9 +81,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
-			//item.width and then item.height - 2f
-            Vector2 origin = new Vector2(25f, 23f);
-            spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Items/Weapons/Melee/PrismaticBreakerGlow"), item.Center - Main.screenPosition, null, Color.White, rotation, origin, 1f, SpriteEffects.None, 0f);
+			item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.GetTexture("CalamityMod/Items/Weapons/Melee/PrismaticBreakerGlow"));
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

@@ -635,6 +635,12 @@ namespace CalamityMod.World
                 if (CanAstralBiomeSpawn())
                 {
                     DoAstralConversion(new Point(i, j));
+
+                    // Upward checks go up 180 tiles. If for whatever reason the placement Y position
+                    // would cause this upward movement to go outside of the world, clamp it to prevent index problems.
+                    if (j < 181)
+                        j = 181;
+
                     int checkWidth = 180;
                     float averageHeight = 0f;
                     float lowestHeight = 0f;
