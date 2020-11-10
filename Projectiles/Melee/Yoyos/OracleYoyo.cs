@@ -57,6 +57,9 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
 
         public override void AI()
         {
+			if ((projectile.position - Main.player[projectile.owner].position).Length() > 3200f) //200 blocks
+				projectile.Kill();
+
             // Only do stuff once per frame, despite the yoyo's extra updates.
             extraUpdateCounter = (extraUpdateCounter + 1) % UpdatesPerFrame;
             if (extraUpdateCounter != UpdatesPerFrame - 1)

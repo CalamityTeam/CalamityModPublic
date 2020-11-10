@@ -1263,6 +1263,18 @@ namespace CalamityMod.CalPlayer
 								player.buffTime[l] += 1;
 						}
 
+						// See later as Laud cancels out the normal effects
+						if (hasBuff == ModContent.BuffType<ArmorCrunch>())
+						{
+							// +15 defense
+							player.statDefense += ArmorCrunch.DefenseReduction;
+						}
+						if (hasBuff == ModContent.BuffType<WarCleave>())
+						{
+							// +10% damage reduction
+							player.endurance += 0.1f;
+						}
+
 						switch (hasBuff)
 						{
 							case BuffID.Obstructed:
@@ -3176,13 +3188,13 @@ namespace CalamityMod.CalPlayer
 				player.magicDamage -= 0.1f;
 			}
 
-			if (modPlayer.aCrunch)
+			if (modPlayer.aCrunch && !modPlayer.laudanum)
 			{
 				player.statDefense -= ArmorCrunch.DefenseReduction;
 				player.endurance *= 0.33f;
 			}
 
-			if (modPlayer.wCleave)
+			if (modPlayer.wCleave && !modPlayer.laudanum)
 			{
 				player.statDefense -= WarCleave.DefenseReduction;
 				player.endurance *= 0.75f;
@@ -3264,10 +3276,10 @@ namespace CalamityMod.CalPlayer
 				float maxDistance = 480f; // 30 tile distance
 				for (int l = 0; l < Main.maxNPCs; l++)
 				{
-					NPC nPC = Main.npc[l];
-					if (nPC.active && !nPC.friendly && nPC.damage > 0 && !nPC.dontTakeDamage && Vector2.Distance(player.Center, nPC.Center) <= maxDistance)
+					NPC npc = Main.npc[l];
+					if (npc.active && !npc.friendly && (npc.damage > 0 || npc.boss) && !npc.dontTakeDamage && Vector2.Distance(player.Center, npc.Center) <= maxDistance)
 					{
-						player.meleeDamage += MathHelper.Lerp(0f, 0.3f, 1f - (Vector2.Distance(player.Center, nPC.Center) / maxDistance));
+						player.meleeDamage += MathHelper.Lerp(0f, 0.3f, 1f - (Vector2.Distance(player.Center, npc.Center) / maxDistance));
 					}
 				}
 			}
@@ -3928,8 +3940,19 @@ namespace CalamityMod.CalPlayer
 					((player.head == ArmorIDs.Head.MoltenHelmet && player.body == ArmorIDs.Body.MoltenBreastplate && player.legs == ArmorIDs.Legs.MoltenGreaves) ? 0.2 : 0) +
 					(player.kbGlove ? 0.1 : 0) +
 					(modPlayer.eGauntlet ? 0.1 : 0) +
-					(modPlayer.yInsignia ? 0.1 : 0) +
-					(modPlayer.badgeOfBraveryRare ? 0.2 : 0);
+					(modPlayer.yInsignia ? 0.1 : 0);
+			if (modPlayer.badgeOfBraveryRare)
+			{
+				float maxDistance = 480f; // 30 tile distance
+				for (int l = 0; l < Main.maxNPCs; l++)
+				{
+					NPC npc = Main.npc[l];
+					if (npc.active && !npc.friendly && (npc.damage > 0 || npc.boss) && !npc.dontTakeDamage && Vector2.Distance(player.Center, npc.Center) <= maxDistance)
+					{
+						damageAdd += MathHelper.Lerp(0f, 0.3f, 1f - (Vector2.Distance(player.Center, npc.Center) / maxDistance));
+					}
+				}
+			}
 			modPlayer.trueMeleeDamage += damageAdd;
 
 			// Intentionally at the end: Bloodflare Core's defense reduction (after all other boosting effects and whatnot)

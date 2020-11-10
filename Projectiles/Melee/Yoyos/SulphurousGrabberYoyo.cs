@@ -94,6 +94,9 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
 					bubbleCounter = 0;
 				}
 			}
+
+			if ((projectile.position - Main.player[projectile.owner].position).Length() > 3200f) //200 blocks
+				projectile.Kill();
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

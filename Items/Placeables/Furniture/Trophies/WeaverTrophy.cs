@@ -7,7 +7,7 @@ namespace CalamityMod.Items.Placeables.Furniture.Trophies
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Weaver Trophy");
+            DisplayName.SetDefault("Storm Weaver Trophy");
         }
 
         public override void SetDefaults()

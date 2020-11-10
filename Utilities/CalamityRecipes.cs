@@ -910,13 +910,6 @@ namespace CalamityMod
             });
             RecipeGroup.RegisterGroup("AnyGoldBar", group);
 
-            group = new RecipeGroup(() => "Any Evil Ore", new int[]
-            {
-                ItemID.CrimtaneOre,
-                ItemID.DemoniteOre
-            });
-            RecipeGroup.RegisterGroup("AnyEvilOre", group);
-
             group = new RecipeGroup(() => "Any Evil Block", new int[]
             {
                 ItemID.EbonstoneBlock,

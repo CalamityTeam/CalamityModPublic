@@ -57,7 +57,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
             // Spawn invisible but damaging aura projectile
             if (projectile.owner == Main.myPlayer && !spawnedAura)
             {
-                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<MicrowaveAura>(), (int)(projectile.damage * 0.35), projectile.knockBack, projectile.owner, projectile.identity, 0f);
+                Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<MicrowaveAura>(), (int)(projectile.damage * 0.35), projectile.knockBack, projectile.owner, projectile.identity, 0f);
 				spawnedAura = true;
             }
 
@@ -80,6 +80,9 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
                 Main.dust[dust].velocity *= 0.2f;
                 Main.dust[dust].scale = 0.1599999999f;
             }
+
+			if ((projectile.position - Main.player[projectile.owner].position).Length() > 3200f) //200 blocks
+				projectile.Kill();
         }
 
         public override void Kill(int timeLeft)

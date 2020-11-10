@@ -143,7 +143,7 @@ namespace CalamityMod.Items.Accessories
 				sb.Append("Defense Lost: ").Append(defenseLoss);
 			}
 			else
-				sb.Append("Abyss stats only displayed while in the Abyss");
+				sb.Append("Other Abyss stats are only displayed while in the Abyss");
 
 			return sb.ToString();
 		}

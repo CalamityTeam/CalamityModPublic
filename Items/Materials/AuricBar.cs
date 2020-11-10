@@ -10,6 +10,8 @@ namespace CalamityMod.Items.Materials
 {
     public class AuricBar : ModItem
     {
+		public int frameCounter = 0;
+		public int frame = 0;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Auric Tesla Bar");
@@ -26,16 +28,23 @@ namespace CalamityMod.Items.Materials
             item.Calamity().customRarity = CalamityRarity.Violet;
         }
 
-        public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
-        {
-            CalamityUtils.DrawItemGlowmask(item, spriteBatch, 16, rotation, ModContent.GetTexture("CalamityMod/Items/Materials/AuricBarGlow"));
-        }
+		public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)
+		{
+			Texture2D texture = Main.itemTexture[item.type];
+			spriteBatch.Draw(texture, item.position - Main.screenPosition, item.GetCurrentFrame(ref frame, ref frameCounter, 6, 16), lightColor, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0);
+			return false;
+		}
+
+		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
+		{
+			Texture2D texture = ModContent.GetTexture("CalamityMod/Items/Materials/AuricBarGlow");
+			spriteBatch.Draw(texture, item.position - Main.screenPosition, item.GetCurrentFrame(ref frame, ref frameCounter, 6, 16, false), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0);
+		}
 
         public override void Update(ref float gravity, ref float maxFallSpeed)
         {
-            float num = (float)Main.rand.Next(90, 111) * 0.01f;
-            num *= Main.essScale;
-            Lighting.AddLight((int)((item.position.X + (float)(item.width / 2)) / 16f), (int)((item.position.Y + (float)(item.height / 2)) / 16f), 0.5f * num, 0.7f * num, 0f);
+            float brightness = Main.essScale * Main.rand.NextFloat(0.9f, 1.1f);
+            Lighting.AddLight(item.Center, 0.5f * brightness, 0.7f * brightness, 0f);
         }
 
         public override void AddRecipes()
