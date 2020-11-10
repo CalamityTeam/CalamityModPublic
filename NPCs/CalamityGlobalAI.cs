@@ -4610,7 +4610,7 @@ namespace CalamityMod.NPCs
                         if (Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height))
                         {
 							// Laser speed
-                            float projectileSpeed = npc.ai[2] == 0f ? 2f : 4f;
+                            float projectileSpeed = npc.ai[2] == 0f ? 4f : 2f;
 							projectileSpeed += enrageScale;
                             if (phase2)
                                 projectileSpeed += 0.25f;

@@ -26,12 +26,14 @@ namespace CalamityMod.Items.Weapons.Melee
             item.useTime = 19;
             item.knockBack = 7.5f;
             item.UseSound = SoundID.Item1;
-            item.autoReuse = false;
+            item.autoReuse = true;
             item.height = 56;
             item.value = Item.buyPrice(0, 36, 0, 0);
             item.rare = 5;
             item.shoot = ModContent.ProjectileType<BrimlanceProj>();
             item.shootSpeed = 12f;
         }
-    }
+
+		public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;
+	}
 }

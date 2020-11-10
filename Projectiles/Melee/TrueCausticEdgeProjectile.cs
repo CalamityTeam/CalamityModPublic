@@ -49,7 +49,6 @@ namespace CalamityMod.Projectiles.Melee
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            projectile.damage = (int)(projectile.damage * 1.25);
             projectile.penetrate--;
             if (projectile.penetrate <= 0)
             {

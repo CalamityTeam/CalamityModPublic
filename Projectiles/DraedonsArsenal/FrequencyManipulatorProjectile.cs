@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 			set => projectile.ai[0] = value;
 		}
 		public const int TotalSpins = 2;
-		public const float SpinTime = 60f;
+		public const float SpinTime = 30f;
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Frequency Manipulator");

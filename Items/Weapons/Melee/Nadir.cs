@@ -43,15 +43,9 @@ namespace CalamityMod.Items.Weapons.Melee
             item.shootSpeed = ShootSpeed;
         }
 
-        public override bool CanUseItem(Player player)
-        {
-            for (int i = 0; i < Main.projectile.Length; ++i)
-                if (Main.projectile[i].active && Main.projectile[i].owner == Main.myPlayer && Main.projectile[i].type == item.shoot)
-                    return false;
-            return true;
-        }
+		public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;
 
-        public override void AddRecipes()
+		public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<SpatialLance>());

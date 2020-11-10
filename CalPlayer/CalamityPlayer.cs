@@ -7896,7 +7896,7 @@ namespace CalamityMod.CalPlayer
                 }
                 if (BossRushEvent.BossRushActive && CalamityConfig.Instance.BossRushImmunityFrameCurse)
                 {
-                    bossRushImmunityFrameCurseTimer = 300 + player.immuneTime;
+                    bossRushImmunityFrameCurseTimer = 180 + player.immuneTime;
                 }
                 if (damage > 25)
                 {

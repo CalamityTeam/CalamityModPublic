@@ -258,7 +258,7 @@ namespace CalamityMod
 		[Label("Immunity Frame Curse")]
 		[BackgroundColor(192, 54, 64, 192)]
 		[DefaultValue(false)]
-		[Tooltip("During the Boss Rush, being hit twice within five seconds will cause instant death.\nThis effect ignores revives.")]
+		[Tooltip("During the Boss Rush, being hit twice within three seconds will cause instant death.\nThis effect ignores revives.")]
 		public bool BossRushImmunityFrameCurse { get; set; }
 
 		[Label("Xeroc Curse")]

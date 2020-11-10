@@ -16,22 +16,27 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             Electrocuting,
             ReelingBack
         }
+
         public TaserAIState AIState
         {
             get => (TaserAIState)(int)projectile.ai[0];
             set => projectile.ai[0] = (int)value;
         }
+
         public float Time
         {
             get => projectile.ai[1];
             set => projectile.ai[1] = value;
         }
+
         public int ElectrocutionTarget
         {
             get => (int)projectile.localAI[0];
             set => projectile.localAI[0] = value;
         }
-        public const float ReelbackSpeed = 7f;
+
+        public const float ReelbackSpeed = 15f;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Taser");

@@ -261,16 +261,16 @@ namespace CalamityMod.Items
                 if (player.whoAmI == Main.myPlayer)
                 {
                     if (item.melee)
-                        Projectile.NewProjectile(position, velocity * 0.5f, ModContent.ProjectileType<LuxorsGiftMelee>(), CalamityUtils.DamageSoftCap(newDamage * 0.4, 60), 0f, player.whoAmI);
+                        Projectile.NewProjectile(position, velocity * 0.5f, ModContent.ProjectileType<LuxorsGiftMelee>(), CalamityUtils.DamageSoftCap(newDamage * 0.6, 60), 0f, player.whoAmI);
 
                     else if (rogue)
-                        Projectile.NewProjectile(position, velocity, ModContent.ProjectileType<LuxorsGiftRogue>(), CalamityUtils.DamageSoftCap(newDamage * 0.35, 50), 0f, player.whoAmI);
+                        Projectile.NewProjectile(position, velocity, ModContent.ProjectileType<LuxorsGiftRogue>(), CalamityUtils.DamageSoftCap(newDamage * 0.5, 50), 0f, player.whoAmI);
 
                     else if (item.ranged)
-                        Projectile.NewProjectile(position, velocity * 1.5f, ModContent.ProjectileType<LuxorsGiftRanged>(), CalamityUtils.DamageSoftCap(newDamage * 0.275, 40), 0f, player.whoAmI);
+                        Projectile.NewProjectile(position, velocity * 1.5f, ModContent.ProjectileType<LuxorsGiftRanged>(), CalamityUtils.DamageSoftCap(newDamage * 0.4, 40), 0f, player.whoAmI);
 
                     else if (item.magic)
-                        Projectile.NewProjectile(position, velocity, ModContent.ProjectileType<LuxorsGiftMagic>(), CalamityUtils.DamageSoftCap(newDamage * 0.525, 80), 0f, player.whoAmI);
+                        Projectile.NewProjectile(position, velocity, ModContent.ProjectileType<LuxorsGiftMagic>(), CalamityUtils.DamageSoftCap(newDamage * 0.8, 80), 0f, player.whoAmI);
 
                     else if (item.summon && player.ownedProjectileCounts[ModContent.ProjectileType<LuxorsGiftSummon>()] < 1)
                         Projectile.NewProjectile(position, Vector2.Zero, ModContent.ProjectileType<LuxorsGiftSummon>(), damage, 0f, player.whoAmI);

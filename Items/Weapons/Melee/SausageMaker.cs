@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.useTime = 20;
             item.knockBack = 6.25f;
             item.UseSound = SoundID.Item1;
-            item.autoReuse = false;
+            item.autoReuse = true;
             item.height = 42;
             item.value = Item.buyPrice(0, 4, 0, 0);
             item.rare = 3;
@@ -35,7 +35,9 @@ namespace CalamityMod.Items.Weapons.Melee
             item.shootSpeed = 6f;
         }
 
-        public override void AddRecipes()
+		public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;
+
+		public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<BloodSample>(), 8);

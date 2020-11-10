@@ -101,7 +101,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 					if (alreadyTargetedNPCType != Main.npc[i].whoAmI &&
 						projectile.Center.ManhattanDistance(Main.npc[i].Center) < 600f)
 					{
-						Projectile.NewProjectile(projectile.Center, projectile.DirectionTo(Main.npc[i].Center) * 2f, projectile.type, projectile.damage / 2, 0f, projectile.owner, target.whoAmI, projectile.ai[1] + 1f);
+						Projectile.NewProjectile(projectile.Center, projectile.DirectionTo(Main.npc[i].Center) * 5f, projectile.type, projectile.damage / 2, 0f, projectile.owner, Main.npc[i].whoAmI, projectile.ai[1] + 1f);
 						break;
 					}
 				}
@@ -110,9 +110,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 			if (!target.boss)
 			{
 				if (target.Inorganic())
-				{
 					damage += target.lifeMax / 250;
-				}
 			}
 		}
 

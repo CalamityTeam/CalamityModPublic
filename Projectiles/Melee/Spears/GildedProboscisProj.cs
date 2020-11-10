@@ -48,8 +48,11 @@ namespace CalamityMod.Projectiles.Melee.Spears
                 return;
 
             Player player = Main.player[projectile.owner];
-            player.statLife += 1;
-            player.HealEffect(1);
+			if (Main.rand.NextBool(2))
+			{
+				player.statLife += 1;
+				player.HealEffect(1);
+			}
         }
     }
 }
