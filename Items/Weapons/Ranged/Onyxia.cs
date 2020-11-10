@@ -52,8 +52,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             float shardKB = 2f * knockBack;
             float shardVelocityX = (speedX + (float)Main.rand.Next(-25, 26) * 0.05f) * 0.9f;
             float shardVelocityY = (speedY + (float)Main.rand.Next(-25, 26) * 0.05f) * 0.9f;
-            int onyx = Projectile.NewProjectile(position.X, position.Y, shardVelocityX, shardVelocityY, ProjectileID.BlackBolt, shardDamage, shardKB, player.whoAmI, 0f, 0f);
-			Main.projectile[onyx].timeLeft -= 20;
+            Projectile.NewProjectile(position.X, position.Y, shardVelocityX, shardVelocityY, ProjectileID.BlackBolt, shardDamage, shardKB, player.whoAmI, 0f, 0f);
 
             // Fire three symmetric pairs of bullets alongside it
             Vector2 baseVelocity = new Vector2(speedX, speedY);

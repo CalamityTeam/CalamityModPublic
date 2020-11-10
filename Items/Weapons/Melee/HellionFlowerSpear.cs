@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.useTime = 20;
             item.knockBack = 7.5f;
             item.UseSound = SoundID.Item1;
-            item.autoReuse = false;
+            item.autoReuse = true;
             item.height = 64;
             item.value = Item.buyPrice(0, 60, 0, 0);
             item.rare = 7;
@@ -36,7 +36,9 @@ namespace CalamityMod.Items.Weapons.Melee
             item.shootSpeed = 8f;
         }
 
-        public override void AddRecipes()
+		public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;
+
+		public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<DraedonBar>(), 12);

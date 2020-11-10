@@ -42,7 +42,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             projectile.minion = true;
             projectile.tileCollide = false;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 24;
+            projectile.localNPCHitCooldown = 12;
         }
 
         public override void AI()
@@ -70,6 +70,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             }
             Time++;
         }
+
         public void Initialize(Player player)
         {
             projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
@@ -82,6 +83,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                 dust.noGravity = true;
             }
         }
+
         // While this projectile cannot attack, the projectiles it shoots derive from the damage.
         public void AdjustDamage(Player player)
         {
@@ -93,6 +95,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                 projectile.damage = trueDamage;
             }
         }
+
         public void GrantBuffs(Player player)
         {
             bool isCorrectProjectile = projectile.type == ModContent.ProjectileType<PoleWarperSummon>();
@@ -109,6 +112,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                 }
             }
         }
+
         public void PlayerMovement(Player player)
         {
             Vector2 destination = player.Center + Vector2.UnitY.RotatedBy(Time / 16f + AngularOffset + (!North).ToInt() * MathHelper.Pi) * 180f;
@@ -116,6 +120,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             projectile.velocity = projectile.velocity.SafeNormalize(Vector2.UnitY) * 10f;
             projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
         }
+
         public void NPCMovement(NPC npc)
         {
             for (int i = 0; i < Main.projectile.Length; i++)
@@ -150,6 +155,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                 projectile.rotation = projectile.AngleTo(npc.Center) + MathHelper.PiOver2;
             }
         }
+
         public void RepelMovement()
         {
             // This does not incorporate attraction on purpose. Doing so causes the minions to very easily become distracted.
@@ -173,6 +179,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                 }
             }
         }
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, 1, 2);

@@ -694,7 +694,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
                     if (bulletHellCounter2 % 30 == 0) //projectiles that move in wave pattern
                     {
-						int random = Main.rand.Next(-1000, 1001);
+						int random = Main.rand.Next(-500, 501);
 						Projectile.NewProjectile(player.position.X + 1000f, player.position.Y + random, -5f * uDieLul, 0f, ModContent.ProjectileType<BrimstoneWave>(), waveDamage, 0f, Main.myPlayer, 0f, 0f);
 						Projectile.NewProjectile(player.position.X - 1000f, player.position.Y - random, 5f * uDieLul, 0f, ModContent.ProjectileType<BrimstoneWave>(), waveDamage, 0f, Main.myPlayer, 0f, 0f);
 					}

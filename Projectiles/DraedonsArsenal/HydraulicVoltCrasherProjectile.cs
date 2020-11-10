@@ -29,6 +29,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             projectile.melee = true;
             projectile.scale = 1.1f;
         }
+
         public override void AI()
         {
             projectile.timeLeft = 60;
@@ -112,6 +113,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             projectile.position -= projectile.velocity.ToRotation().ToRotationVector2() * 8f;
             projectile.velocity.X *= Main.rand.NextFloat(0.97f, 1.03f);
         }
+
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/PlasmaBolt"), target.Center);
@@ -139,6 +141,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                 }
             }
         }
+
         public bool TryToSuperchargeNPC(NPC npc)
         {
             // Prevent supercharging an enemy twice.
@@ -154,7 +157,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             Projectile.NewProjectileDirect(npc.Center,
                                            Vector2.Zero,
                                            ModContent.ProjectileType<VoltageStream>(),
-                                           (int)(projectile.damage * 0.35),
+                                           (int)(projectile.damage * 0.8),
                                            0f,
                                            projectile.owner,
                                            0f,

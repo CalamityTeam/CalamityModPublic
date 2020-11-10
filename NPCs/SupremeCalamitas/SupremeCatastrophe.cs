@@ -157,7 +157,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 				{
 					npc.ai[1] += 1f;
 				}
-				if (npc.ai[1] >= 30f)
+				if (npc.ai[1] >= 45f)
                 {
                     npc.ai[1] = 0f;
 					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SCalSounds/BrimstoneHellblastSound"), npc.Center);

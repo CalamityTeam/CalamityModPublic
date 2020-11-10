@@ -20,7 +20,9 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetDefaults()
         {
             item.width = 100;
-            item.damage = 1900;
+			item.height = 100;
+			item.scale = 1.5f;
+			item.damage = 1900;
             item.melee = true;
             item.useAnimation = 17;
             item.useStyle = ItemUseStyleID.SwingThrow;
@@ -29,7 +31,6 @@ namespace CalamityMod.Items.Weapons.Melee
             item.knockBack = 9f;
             item.UseSound = SoundID.Item20;
             item.autoReuse = true;
-            item.height = 100;
             item.value = Item.buyPrice(1, 80, 0, 0);
             item.rare = 10;
             item.shoot = ModContent.ProjectileType<EssenceFireball>();

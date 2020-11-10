@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.rare = 10;
             item.shoot = ModContent.ProjectileType<TriactisOPHammer>();
             item.shootSpeed = 25f;
-            item.Calamity().customRarity = CalamityRarity.Developer;
+            item.Calamity().customRarity = CalamityRarity.ItemSpecific;
         }
 
         public override void AddRecipes()

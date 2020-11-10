@@ -56,6 +56,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 4;
             projectile.tileCollide = true;
+			projectile.extraUpdates = 1;
             projectile.Calamity().hasInorganicEnemyHitBoost = true;
             projectile.Calamity().inorganicEnemyHitBoost = 0.003f;
         }

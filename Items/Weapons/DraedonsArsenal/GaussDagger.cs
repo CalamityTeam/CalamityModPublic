@@ -24,10 +24,11 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
             item.melee = true;
             item.width = 26;
             item.height = 26;
+			item.scale = 1.5f;
             item.useTime = 24;
             item.useAnimation = 24;
             item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTurn = false;
+            item.useTurn = true;
             item.knockBack = 7f;
 
             item.value = CalamityGlobalItem.Rarity3BuyPrice;

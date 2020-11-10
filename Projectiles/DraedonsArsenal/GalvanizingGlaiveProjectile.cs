@@ -30,7 +30,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             projectile.ownerHitCheck = true;
             projectile.hide = true;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 8;
+            projectile.localNPCHitCooldown = 6;
             projectile.alpha = 255;
         }
 

@@ -12,8 +12,10 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             get => projectile.ai[0];
             set => projectile.ai[0] = value;
         }
+
         public const float FallAcceleration = 0.15f;
         public const float MaxFallSpeed = 12f;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Plasma Grenade");
@@ -54,7 +56,8 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
         public override void Kill(int timeLeft)
         {
-            if (projectile.Calamity().stealthStrike)
+			Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/PlasmaGrenadeExplosion"), (int)projectile.position.X, (int)projectile.position.Y);
+			if (projectile.Calamity().stealthStrike)
             {
                 if (Main.myPlayer == projectile.owner)
                 {

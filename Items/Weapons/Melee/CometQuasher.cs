@@ -17,8 +17,10 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.width = 54;
-            item.damage = 120;
+            item.width = 46;
+			item.height = 62;
+			item.scale = 1.5f;
+			item.damage = 120;
             item.melee = true;
             item.useAnimation = 22;
             item.useStyle = ItemUseStyleID.SwingThrow;
@@ -27,7 +29,6 @@ namespace CalamityMod.Items.Weapons.Melee
             item.knockBack = 7.75f;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
-            item.height = 54;
             item.value = Item.buyPrice(0, 80, 0, 0);
             item.rare = 8;
             item.shootSpeed = 9f;
@@ -81,7 +82,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 num79 *= num80;
                 float num114 = num78;
                 float num115 = num79 + (float)Main.rand.Next(-40, 41) * 0.02f;
-                int proj = Projectile.NewProjectile(vector2.X, vector2.Y, num114 * 0.75f, num115 * 0.75f, ModContent.ProjectileType<CometQuasherMeteor>(), (int)(item.damage * player.MeleeDamage() * 0.75f), knockback, player.whoAmI, 0f, 0.5f + (float)Main.rand.NextDouble() * 0.3f);
+                int proj = Projectile.NewProjectile(vector2.X, vector2.Y, num114 * 0.75f, num115 * 0.75f, ModContent.ProjectileType<CometQuasherMeteor>(), (int)(item.damage * player.MeleeDamage() * 0.5f), knockback, player.whoAmI, 0f, 0.5f + (float)Main.rand.NextDouble() * 0.3f);
                 Main.projectile[proj].Calamity().lineColor = Main.rand.Next(3);
             }
         }

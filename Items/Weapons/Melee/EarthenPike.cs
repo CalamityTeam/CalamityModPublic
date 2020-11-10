@@ -27,12 +27,14 @@ namespace CalamityMod.Items.Weapons.Melee
             item.useTime = 25;
             item.knockBack = 7f;
             item.UseSound = SoundID.Item1;
-            item.autoReuse = false;
+            item.autoReuse = true;
             item.height = 60;
             item.value = Item.buyPrice(0, 36, 0, 0);
             item.rare = 5;
             item.shoot = ModContent.ProjectileType<EarthenPikeSpear>();
-            item.shootSpeed = 6f;
+            item.shootSpeed = 8f;
         }
-    }
+
+		public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;
+	}
 }

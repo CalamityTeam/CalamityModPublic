@@ -128,6 +128,24 @@ namespace CalamityMod
 		[Tooltip("Sets Reactive Boss DR to always be full strength, even if the boss has already been defeated.\nIf disabled, the effect is only 66% as powerful after the boss has been defeated.\n\nReactive Boss DR makes bosses smoothly take less damage if they are being killed very quickly.\nIn most cases, the system has no noticeable effect.")]
 		public bool FullPowerReactiveBossDR { get; set; }
 
+		[Label("Let Town NPCs spawn at night.")]
+		[BackgroundColor(192, 54, 64, 192)]
+		[DefaultValue(false)]
+		[Tooltip("Allows you to determine if town NPCs (including the Old Man) can spawn at night.")]
+		public bool CanTownNPCsSpawnAtNight { get; set; }
+
+		private const int MinTownNPCSpawnMultiplier = 1;
+		private const int MaxTownNPCSpawnMultiplier = 10;
+
+		[Label("Town NPC Spawn Rate Multiplier")]
+		[BackgroundColor(192, 54, 64, 192)]
+		[Range(MinTownNPCSpawnMultiplier, MaxTownNPCSpawnMultiplier)]
+		[Increment(1)]
+		[DrawTicks]
+		[DefaultValue(MinTownNPCSpawnMultiplier)]
+		[Tooltip("Makes town NPCs spawn more quickly, the higher this value is.")]
+		public int TownNPCSpawnRateMultiplier { get; set; }
+
 		private const float MinBossHealthBoost = 0f;
 		private const float MaxBossHealthBoost = 900f;
 
@@ -258,7 +276,7 @@ namespace CalamityMod
 		[Label("Immunity Frame Curse")]
 		[BackgroundColor(192, 54, 64, 192)]
 		[DefaultValue(false)]
-		[Tooltip("During the Boss Rush, being hit twice within five seconds will cause instant death.\nThis effect ignores revives.")]
+		[Tooltip("During the Boss Rush, being hit twice within three seconds will cause instant death.\nThis effect ignores revives.")]
 		public bool BossRushImmunityFrameCurse { get; set; }
 
 		[Label("Xeroc Curse")]

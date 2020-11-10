@@ -3,6 +3,7 @@ using Mono.Cecil.Cil;
 using MonoMod.Cil;
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using Terraria;
 using Terraria.GameInput;
 using Terraria.ID;
@@ -27,8 +28,13 @@ namespace CalamityMod.ILEditing
         /// </summary>
         public static void Initialize()
         {
+            var spawnTownNPCMethod = typeof(Main).GetMethod("UpdateTime_SpawnTownNPCs", BindingFlags.Static | BindingFlags.NonPublic);
+            cachedUpdateTime_SpawnTownNPCs = Delegate.CreateDelegate(typeof(Action), spawnTownNPCMethod) as Action;
+
+            On.Terraria.NPC.SlimeRainSpawns += PreventBossSlimeRainSpawns;
             ApplyLifeBytesChanges();
             SlideDungeonOver();
+            AlterTownNPCSpawnRate();
             LabDoorFixes();
             PreventStupidTreesNearOcean();
         }
@@ -71,6 +77,48 @@ namespace CalamityMod.ILEditing
             On.Terraria.Player.TileInteractionsUse += Player_TileInteractionsUse;
             On.Terraria.WorldGen.OpenDoor += LabDoorsOpen;
             On.Terraria.WorldGen.CloseDoor += LabDoorsClose;
+        }
+
+		private static void PreventBossSlimeRainSpawns(On.Terraria.NPC.orig_SlimeRainSpawns orig, int plr)
+		{
+            if (!Main.player[plr].Calamity().bossZen)
+                orig(plr);
+		}
+
+        private static Action cachedUpdateTime_SpawnTownNPCs;
+
+        private static void AlterTownNPCSpawnRate()
+        {
+            IL.Terraria.Main.UpdateTime += (il) =>
+            {
+                // Don't do town NPC spawning at the end (after a !Main.dayTime return).
+                // Do it at the beginning in spite of time.
+
+                var cursor = new ILCursor(il);
+                cursor.EmitDelegate<Action>(() =>
+                {
+                    // A cached delegate is used here instead of direct reflection for performance reasons
+                    // since UpdateTime is called every frame.
+                    if (Main.dayTime || CalamityConfig.Instance.CanTownNPCsSpawnAtNight)
+                        cachedUpdateTime_SpawnTownNPCs();
+                });
+
+                if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchCallOrCallvirt<Main>("UpdateTime_SpawnTownNPCs")))
+                {
+                    CalamityMod.Instance.Logger.Warn("Town NPC spawn editing code failed.");
+                    return;
+                }
+
+                cursor.Emit(OpCodes.Ret);
+            };
+
+            On.Terraria.Main.UpdateTime_SpawnTownNPCs += (orig) =>
+            {
+                int oldWorldRate = Main.worldRate;
+                Main.worldRate *= CalamityConfig.Instance.TownNPCSpawnRateMultiplier;
+                orig();
+                Main.worldRate = oldWorldRate;
+            };
         }
         #endregion
 

@@ -27,8 +27,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void AI()
         {
-            projectile.velocity.X *= 0.985f;
-            projectile.velocity.Y *= 0.985f;
+            projectile.velocity *= 0.985f;
             if (Main.rand.NextBool(5))
             {
                 Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 67, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
@@ -48,9 +47,9 @@ namespace CalamityMod.Projectiles.Melee
                 for (i = 0; i < 2; i++)
                 {
                     offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-                    int projectile1 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ProjectileID.FrostShard, 30, 2f, projectile.owner, 0f, 0f);
+                    int projectile1 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ProjectileID.FrostShard, (int)(projectile.damage * 0.5), 0f, projectile.owner, 0f, 0f);
                     Main.projectile[projectile1].Calamity().forceMelee = true;
-                    int projectile2 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ProjectileID.FrostShard, 30, 2f, projectile.owner, 0f, 0f);
+                    int projectile2 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ProjectileID.FrostShard, (int)(projectile.damage * 0.5), 0f, projectile.owner, 0f, 0f);
                     Main.projectile[projectile2].Calamity().forceMelee = true;
                 }
             }

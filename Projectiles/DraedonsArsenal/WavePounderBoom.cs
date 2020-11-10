@@ -21,24 +21,29 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 			Position = position;
 		}
 	}
+
 	public class WavePounderBoom : ModProjectile
 	{
 		public ScreenShakeSpot CurrentSpot;
+
 		public float Radius
 		{
 			get => projectile.ai[0];
 			set => projectile.ai[0] = value;
 		}
+
 		public float MaxRadius
 		{
 			get => projectile.ai[1];
 			set => projectile.ai[1] = value;
 		}
+
 		public float InterpolationStep
 		{
 			get => projectile.localAI[1];
 			set => projectile.localAI[1] = value;
 		}
+
 		public const int Lifetime = 60;
 
 		public override void SetStaticDefaults()
@@ -94,11 +99,13 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 			projectile.scale = MathHelper.Lerp(1.2f, 5f, Utils.InverseLerp(Lifetime, 0f, projectile.timeLeft, true));
 			CalamityGlobalProjectile.ExpandHitboxBy(projectile, (int)(Radius * projectile.scale), (int)(Radius * projectile.scale));
 		}
+
 		public override void Kill(int timeLeft)
 		{
 			if (projectile.Calamity().stealthStrike)
 				CalamityWorld.ScreenShakeSpots.Remove(Projectile.GetByUUID(projectile.owner, projectile.whoAmI)); // Remove the explosion associated with this projectile's UUID.
 		}
+
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
 			spriteBatch.End();

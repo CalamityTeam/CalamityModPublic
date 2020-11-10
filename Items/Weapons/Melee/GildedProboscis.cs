@@ -36,16 +36,6 @@ namespace CalamityMod.Items.Weapons.Melee
             item.Calamity().customRarity = CalamityRarity.Turquoise;
         }
 
-        public override bool CanUseItem(Player player)
-        {
-            for (int i = 0; i < Main.maxProjectiles; ++i)
-            {
-                if (Main.projectile[i].active && Main.projectile[i].owner == Main.myPlayer && Main.projectile[i].type == item.shoot)
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
-    }
+		public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;
+	}
 }
