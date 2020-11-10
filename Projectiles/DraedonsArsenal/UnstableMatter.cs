@@ -31,8 +31,8 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 			projectile.friendly = true;
 			projectile.ranged = true;
 			projectile.tileCollide = true;
-			projectile.penetrate = 1;
-			projectile.timeLeft = 360;
+			projectile.penetrate = -1;
+			projectile.timeLeft = 480;
 		}
 
 		public override void AI()
@@ -63,7 +63,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 				Dust dust = Dust.NewDustPerfect(projectile.Center, 107);
 				dust.velocity = Main.rand.NextVector2CircularEdge(speed, speed) - projectile.velocity;
 				dust.fadeIn = persistence;
-				dust.scale = 1.2f;
+				dust.scale = 0.9f;
 				dust.noGravity = true;
 			}
 		}
@@ -72,7 +72,9 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 		{
 			if (!HasCollidedWithATile)
 				damage /= 3;
-			
+			else if (projectile.penetrate == -1)
+				projectile.penetrate = 1;
+
 			damage += target.defense / 3;
 		}
 

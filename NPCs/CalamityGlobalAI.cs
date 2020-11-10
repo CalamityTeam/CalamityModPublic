@@ -4545,7 +4545,7 @@ namespace CalamityMod.NPCs
                 // Gain more defense as health lowers with a max of 10, lose defense if probe has been launched
                 if (npc.ai[2] == 0f || enrageScale > 0f)
                 {
-					int defenseBoost = (int)(10f * (1f - lifeRatio) * enrageScale);
+					int defenseBoost = (int)(10f * (1f - lifeRatio));
                     npc.defense = npc.defDefense + defenseBoost;
                 }
                 else

@@ -3561,15 +3561,23 @@ namespace CalamityMod.CalPlayer
             if (badgeOfBraveryRare)
             {
 				float maxDistance = 480f; // 30 tile distance
+				float meleeSpeedBoost = 0f;
 				for (int l = 0; l < Main.maxNPCs; l++)
 				{
 					NPC nPC = Main.npc[l];
 					if (nPC.active && !nPC.friendly && nPC.damage > 0 && !nPC.dontTakeDamage && Vector2.Distance(player.Center, nPC.Center) <= maxDistance)
 					{
 						meleeSpeedMult += MathHelper.Lerp(0f, 0.3f, 1f - (Vector2.Distance(player.Center, nPC.Center) / maxDistance));
+
+						if (meleeSpeedBoost >= 0.3f)
+						{
+							meleeSpeedBoost = 0.3f;
+							break;
+						}
 					}
 				}
-            }
+				meleeSpeedMult += meleeSpeedBoost;
+			}
             if (eGauntlet)
             {
                 meleeSpeedMult += 0.15f;
