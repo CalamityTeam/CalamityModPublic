@@ -45,7 +45,7 @@ namespace CalamityMod.Projectiles.Boss
 
 			int index = Player.FindClosest(projectile.Center, projectile.width, projectile.height);
 			Player player = Main.player[index];
-			if (player is null)
+			if (player is null || player.Calamity().lol)
 				return;
 
 			float playerDist = Vector2.Distance(player.Center, projectile.Center);

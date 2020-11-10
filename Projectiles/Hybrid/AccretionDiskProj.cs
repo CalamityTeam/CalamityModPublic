@@ -73,8 +73,7 @@ namespace CalamityMod.Projectiles.Hybrid
 
 			if (homeIn)
 			{
-				projectile.localAI[0] += 1f;
-				if (projectile.localAI[0] % 10f == 0f && Main.rand.NextBool(5))
+				if (Main.player[projectile.owner].miscCounter % 50 == 0)
 				{
 					int splitProj = ModContent.ProjectileType<AccretionDisk2>();
 					if (projectile.owner == Main.myPlayer && Main.player[projectile.owner].ownedProjectileCounts[splitProj] < 25)

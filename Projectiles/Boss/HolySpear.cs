@@ -13,7 +13,6 @@ namespace CalamityMod.Projectiles.Boss
 	public class HolySpear : ModProjectile
     {
 		Vector2 velocity = Vector2.Zero;
-		Vector2 providenceCenter = Vector2.Zero;
 
         public override void SetStaticDefaults()
         {
@@ -39,7 +38,6 @@ namespace CalamityMod.Projectiles.Boss
             writer.Write(projectile.localAI[0]);
             writer.Write(projectile.localAI[1]);
 			writer.WriteVector2(velocity);
-			writer.WriteVector2(providenceCenter);
 		}
 
         public override void ReceiveExtraAI(BinaryReader reader)
@@ -47,7 +45,6 @@ namespace CalamityMod.Projectiles.Boss
             projectile.localAI[0] = reader.ReadSingle();
             projectile.localAI[1] = reader.ReadSingle();
 			velocity = reader.ReadVector2();
-			providenceCenter = reader.ReadVector2();
 		}
 
         public override void AI()
@@ -56,21 +53,11 @@ namespace CalamityMod.Projectiles.Boss
 			{
 				projectile.localAI[0] = 1f;
 
-				providenceCenter = Main.npc[CalamityGlobalNPC.holyBoss].Center;
-
 				if (projectile.ai[0] == 1f)
 					velocity = projectile.velocity;
 			}
 
-			float timeGateValue = 510f;
-			float timeGateValue2 = 540f;
-			int playerIndex = Player.FindClosest(projectile.Center, 1, 1);
-			bool farFromProvidence = Vector2.Distance(Main.player[playerIndex].Center, providenceCenter) > 1920f;
-			Vector2 velocity2 = Main.player[playerIndex].Center - projectile.Center;
-			float scaleFactor = projectile.velocity.Length();
-			velocity2.Normalize();
-			velocity2 *= scaleFactor;
-
+			float timeGateValue = 540f;
 			if (projectile.ai[0] == 0f)
 			{
 				projectile.ai[1] += 1f;
@@ -83,16 +70,10 @@ namespace CalamityMod.Projectiles.Boss
 				float deceleration = 0.95f;
 				float acceleration = 1.2f;
 
-				if (projectile.localAI[1] > timeGateValue)
+				if (projectile.localAI[1] >= timeGateValue)
 				{
 					if (projectile.velocity.Length() < extremeVelocity)
 						projectile.velocity *= acceleration;
-					else
-					{
-						projectile.velocity = (projectile.velocity * 10f + velocity2) / 11f;
-						projectile.velocity.Normalize();
-						projectile.velocity *= scaleFactor;
-					}
 				}
 				else
 				{
@@ -112,26 +93,17 @@ namespace CalamityMod.Projectiles.Boss
 			}
 			else
 			{
-				if (projectile.localAI[1] > timeGateValue)
-				{
-					projectile.velocity = (projectile.velocity * 10f + velocity2) / 11f;
-					projectile.velocity.Normalize();
-					projectile.velocity *= scaleFactor;
-				}
-				else
-				{
-					float frequency = 0.1f;
-					float amplitude = 2f;
+				float frequency = 0.1f;
+				float amplitude = 2f;
 
-					projectile.ai[1] += frequency;
+				projectile.ai[1] += frequency;
 
-					float wavyVelocity = (float)Math.Sin(projectile.ai[1]);
+				float wavyVelocity = (float)Math.Sin(projectile.ai[1]);
 
-					projectile.velocity = velocity + new Vector2(wavyVelocity, wavyVelocity).RotatedBy(MathHelper.ToRadians(velocity.ToRotation())) * amplitude;
-				}
+				projectile.velocity = velocity + new Vector2(wavyVelocity, wavyVelocity).RotatedBy(MathHelper.ToRadians(velocity.ToRotation())) * amplitude;
 			}
 
-			if (projectile.localAI[1] < timeGateValue2)
+			if (projectile.localAI[1] < timeGateValue)
 			{
 				projectile.localAI[1] += 1f;
 

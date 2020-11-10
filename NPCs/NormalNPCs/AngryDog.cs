@@ -28,7 +28,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.lifeMax = 50;
             if (CalamityWorld.downedCryogen)
             {
-                npc.damage = 84;
+                npc.damage = 60;
                 npc.defense = 10;
                 npc.lifeMax = 1000;
             }

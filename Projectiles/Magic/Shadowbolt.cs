@@ -48,14 +48,14 @@ namespace CalamityMod.Projectiles.Magic
             return false;
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-        {
-            if (target.type == NPCID.TargetDummy)
-            {
-                return;
-            }
-            projectile.damage = (int)((double)projectile.damage * 1.1);
-        }
+		public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+		{
+			if (target.type == NPCID.TargetDummy)
+			{
+				return;
+			}
+			projectile.damage = (int)(projectile.damage * 1.1);
+		}
 
         public override void AI()
         {

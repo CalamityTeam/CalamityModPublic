@@ -20,8 +20,8 @@ namespace CalamityMod.NPCs.Crags
             npc.aiStyle = -1;
             aiType = -1;
             npc.damage = 40;
-            npc.width = 72; //324
-            npc.height = 72; //216
+            npc.width = 72;
+            npc.height = 72;
             npc.defense = 38;
 			npc.DR_NERD(0.35f);
             npc.lifeMax = 120;
@@ -33,10 +33,9 @@ namespace CalamityMod.NPCs.Crags
             npc.lavaImmune = true;
             if (CalamityWorld.downedProvidence)
             {
-                npc.damage = 190;
-                npc.defense = 185;
-                npc.lifeMax = 5000;
-                npc.value = Item.buyPrice(0, 0, 50, 0);
+                npc.damage = 80;
+                npc.defense = 50;
+                npc.lifeMax = 3000;
             }
             banner = npc.type;
             bannerItem = ModContent.ItemType<DespairStoneBanner>();

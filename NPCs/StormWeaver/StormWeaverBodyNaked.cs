@@ -12,7 +12,6 @@ namespace CalamityMod.NPCs.StormWeaver
 {
     public class StormWeaverBodyNaked : ModNPC
     {
-        private int spawn = 14;
         private int invinceTime = 180;
 
         public override void SetStaticDefaults()
@@ -280,20 +279,6 @@ namespace CalamityMod.NPCs.StormWeaver
                     Main.dust[num624].velocity *= 5f;
                     num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, (int)CalamityDusts.PurpleCosmolite, 0f, 0f, 100, default, 2f);
                     Main.dust[num624].velocity *= 2f;
-                }
-            }
-            if (NPC.CountNPCS(ModContent.NPCType<StasisProbeNaked>()) < 3)
-            {
-                spawn--;
-                if (npc.life > 0 && Main.netMode != NetmodeID.MultiplayerClient && spawn <= 0)
-                {
-                    spawn = 14;
-                    int num660 = NPC.NewNPC((int)(npc.position.X + (npc.width / 2)), (int)(npc.position.Y + npc.height), ModContent.NPCType<StasisProbeNaked>(), 0, 0f, 0f, 0f, 0f, 255);
-                    if (Main.netMode == NetmodeID.Server)
-                    {
-                        NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, num660, 0f, 0f, 0f, 0, 0, 0);
-                    }
-                    npc.netUpdate = true;
                 }
             }
         }

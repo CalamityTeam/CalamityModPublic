@@ -15,7 +15,7 @@ namespace CalamityMod.Items.Accessories
             DisplayName.SetDefault("Yharim's Insignia");
             Tooltip.SetDefault("10% increased damage when under 50% life\n" +
                 "10% increased melee speed\n" +
-                "5% increased melee damage and 10% increased true melee damage\n" +
+                "10% increased melee and true melee damage\n" +
                 "Melee attacks and melee projectiles inflict holy fire\n" +
                 "Increased invincibility after taking damage\n" +
                 "Temporary immunity to lava\n" +
@@ -58,8 +58,8 @@ namespace CalamityMod.Items.Accessories
             recipe.AddIngredient(ItemID.WarriorEmblem);
             recipe.AddIngredient(ModContent.ItemType<NecklaceofVexation>());
             recipe.AddIngredient(ModContent.ItemType<CoreofCinder>(), 5);
-            recipe.AddIngredient(ItemID.CrossNecklace);
-            recipe.AddIngredient(ModContent.ItemType<BadgeofBravery>());
+			recipe.AddIngredient(ModContent.ItemType<DivineGeode>(), 5);
+			recipe.AddIngredient(ItemID.CrossNecklace);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();

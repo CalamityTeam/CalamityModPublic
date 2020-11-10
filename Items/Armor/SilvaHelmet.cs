@@ -50,7 +50,7 @@ namespace CalamityMod.Items.Armor
                 "This effect only triggers once per life and if you are reduced to 400 max life the invincibility effect will stop\n" +
                 "Your max life will return to normal if you die\n" +
                 "Summons an ancient leaf prism to blast your enemies with life energy\n" +
-                "After the silva invulnerability time your minions will deal 10% more damage and you will gain +2 max minions";
+                "After the silva invulnerability time your minions will deal 10% more damage";
             if (player.whoAmI == Main.myPlayer)
             {
                 if (player.FindBuffIndex(ModContent.BuffType<SilvaSummonSetBuff>()) == -1)

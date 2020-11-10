@@ -47,7 +47,8 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
         public override void AI()
         {
-            Player player = Main.player[npc.target];
+			Lighting.AddLight(npc.Center, 0.03f, 0.2f, 0f);
+			Player player = Main.player[npc.target];
             if (!player.active || player.dead)
             {
                 npc.TargetClosest(false);

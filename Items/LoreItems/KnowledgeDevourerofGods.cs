@@ -15,7 +15,7 @@ namespace CalamityMod.Items.LoreItems
             Tooltip.SetDefault("This serpent’s power to assimilate the abilities and energy of those it consumed is unique in almost all the known cosmos, save for its lesser brethren.\n" +
                 "I would have soon had to eliminate it as a threat had it been given more time and creatures to feast upon.\n" +
                 "Favorite this item to boost the power of your true melee strikes by 25%.\n" +
-				"However, due to your reckless nature you will take increased damage.");
+				"However, due to your reckless nature you will take 5% increased damage.");
         }
 
         public override void SetDefaults()

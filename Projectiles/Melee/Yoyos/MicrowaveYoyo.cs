@@ -19,7 +19,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
         {
             DisplayName.SetDefault("The Microwave");
             ProjectileID.Sets.YoyosLifeTimeMultiplier[projectile.type] = -1f;
-            ProjectileID.Sets.YoyosMaximumRange[projectile.type] = 320f;
+            ProjectileID.Sets.YoyosMaximumRange[projectile.type] = 450f;
             ProjectileID.Sets.YoyosTopSpeed[projectile.type] = 14f;
 
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 4;
@@ -57,7 +57,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
             // Spawn invisible but damaging aura projectile
             if (projectile.owner == Main.myPlayer && !spawnedAura)
             {
-                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<MicrowaveAura>(), (int)((double)projectile.damage * 0.5f), projectile.knockBack, projectile.owner, projectile.identity, 0f);
+                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<MicrowaveAura>(), (int)(projectile.damage * 0.35), projectile.knockBack, projectile.owner, projectile.identity, 0f);
 				spawnedAura = true;
             }
 

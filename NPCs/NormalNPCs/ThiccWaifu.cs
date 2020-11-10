@@ -31,12 +31,6 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.defense = 18;
 			npc.DR_NERD(0.05f);
             npc.lifeMax = 6000;
-            if (CalamityWorld.downedProvidence)
-            {
-                npc.damage = 190;
-                npc.defense = 60;
-                npc.lifeMax = 30000;
-            }
             npc.knockBackResist = 0.05f;
             npc.value = Item.buyPrice(0, 1, 50, 0);
             npc.HitSound = SoundID.NPCHit23;

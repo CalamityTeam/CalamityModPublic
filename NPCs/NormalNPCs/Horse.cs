@@ -150,7 +150,21 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override bool PreAI()
         {
-            if (Main.netMode != NetmodeID.MultiplayerClient)
+			npc.TargetClosest(true);
+
+			if (Main.player[npc.target].dead || !Main.player[npc.target].active)
+			{
+				if (npc.velocity.Y < -2f)
+					npc.velocity.Y = -2f;
+				npc.velocity.Y += 0.1f;
+				if (npc.velocity.Y > 12f)
+					npc.velocity.Y = 12f;
+
+				if (npc.timeLeft > 60)
+					npc.timeLeft = 60;
+			}
+
+			if (Main.netMode != NetmodeID.MultiplayerClient)
             {
                 npc.localAI[0] += 1f;
                 if (npc.localAI[0] >= 300f)
@@ -190,33 +204,26 @@ namespace CalamityMod.NPCs.NormalNPCs
                     }
                 }
             }
-            if ((double)Math.Abs(npc.velocity.X) > 0.2)
-            {
+
+            if (Math.Abs(npc.velocity.X) > 0.2)
                 npc.spriteDirection = npc.direction;
-            }
-            bool expertMode = Main.expertMode;
-            npc.TargetClosest(true);
+
             Vector2 direction = Main.player[npc.target].Center - npc.Center;
             direction.Normalize();
-            chargetimer += expertMode ? 2 : 1;
-            if (chargetimer >= (CalamityWorld.death ? 14D : Math.Sqrt(npc.life) * 14D))
-            {
-                if (Main.rand.NextBool(25))
-                {
-                    direction.X *= 6f;
-                    direction.Y *= 6f;
-                    npc.velocity = direction;
-                    chargetimer = 0;
-                }
-            }
+            chargetimer += Main.expertMode ? 2 : 1;
+			if (chargetimer >= 600)
+			{
+				direction *= 6f;
+				npc.velocity = direction;
+				chargetimer = 0;
+			}
+
             if (Math.Sqrt((npc.velocity.X * npc.velocity.X) + (npc.velocity.Y * npc.velocity.Y)) > basespeed)
-            {
                 npc.velocity *= 0.985f;
-            }
+
             if (Math.Sqrt((npc.velocity.X * npc.velocity.X) + (npc.velocity.Y * npc.velocity.Y)) <= basespeed * 1.15)
-            {
                 npc.velocity = direction * basespeed;
-            }
+
             return false;
         }
 

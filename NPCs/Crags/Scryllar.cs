@@ -21,8 +21,8 @@ namespace CalamityMod.NPCs.Crags
             npc.aiStyle = -1;
             aiType = -1;
             npc.damage = 50;
-            npc.width = 80; //324
-            npc.height = 80; //216
+            npc.width = 80;
+            npc.height = 80;
             npc.defense = 18;
             npc.lifeMax = 90;
             npc.alpha = 100;
@@ -35,10 +35,9 @@ namespace CalamityMod.NPCs.Crags
             npc.lavaImmune = true;
             if (CalamityWorld.downedProvidence)
             {
-                npc.damage = 260;
-                npc.defense = 90;
-                npc.lifeMax = 4000;
-                npc.value = Item.buyPrice(0, 0, 50, 0);
+                npc.damage = 90;
+                npc.defense = 30;
+                npc.lifeMax = 2500;
             }
             banner = npc.type;
             bannerItem = ModContent.ItemType<ScryllarBanner>();

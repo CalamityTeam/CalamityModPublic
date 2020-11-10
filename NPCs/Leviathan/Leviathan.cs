@@ -247,8 +247,8 @@ namespace CalamityMod.NPCs.Leviathan
 
                     float num412 = (sirenAlive && !phase4) ? 3.5f : 7f;
                     float num413 = (sirenAlive && !phase4) ? 0.1f : 0.2f;
-					num412 += 2f * enrageScale;
-					num413 += 0.05f * enrageScale;
+					num412 += 4f * enrageScale;
+					num413 += 0.1f * enrageScale;
 
 					if (expertMode && (!sirenAlive || phase4))
 					{
@@ -345,7 +345,7 @@ namespace CalamityMod.NPCs.Leviathan
 								if (expertMode)
                                     speed = (sirenAlive && !phase4 && !death) ? 14f : 17f;
 
-								speed += 4f * enrageScale;
+								speed += 8f * enrageScale;
 
                                 if (npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))
                                     speed = 22f;
@@ -421,8 +421,8 @@ namespace CalamityMod.NPCs.Leviathan
                     {
                         float num1063 = (sirenAlive && !phase4) ? 7f : 8f;
                         float num1064 = (sirenAlive && !phase4) ? 0.05f : 0.065f;
-						num1063 += 2f * enrageScale;
-						num1064 += 0.02f * enrageScale;
+						num1063 += 4f * enrageScale;
+						num1064 += 0.04f * enrageScale;
 
 						if (expertMode && (!sirenAlive || phase4))
 						{
@@ -494,7 +494,7 @@ namespace CalamityMod.NPCs.Leviathan
                     }
 
 					float chargeDistance = (sirenAlive && !phase4) ? 1100f : 900f;
-					chargeDistance -= 100f * enrageScale;
+					chargeDistance -= 150f * enrageScale;
 					if (!sirenAlive || phase4)
 						chargeDistance -= 250f * (1f - lifeRatio);
 
@@ -520,7 +520,7 @@ namespace CalamityMod.NPCs.Leviathan
                             npc.ai[2] = 0f;
 
                             float num1044 = revenge ? 20f : 18f;
-							num1044 += 4f * enrageScale;
+							num1044 += 8f * enrageScale;
 
 							if (revenge && (!sirenAlive || phase4))
 								num1044 += death ? 9f * (1f - lifeRatio) : 6f * (1f - lifeRatio);
@@ -545,8 +545,8 @@ namespace CalamityMod.NPCs.Leviathan
 
                         float num1048 = revenge ? 7.5f : 6.5f;
                         float num1049 = revenge ? 0.12f : 0.11f;
-						num1048 += 2f * enrageScale;
-						num1049 += 0.03f * enrageScale;
+						num1048 += 4f * enrageScale;
+						num1049 += 0.06f * enrageScale;
 
 						if (revenge && (!sirenAlive || phase4))
 						{
@@ -614,7 +614,7 @@ namespace CalamityMod.NPCs.Leviathan
 
                         npc.velocity *= 0.9f;
                         float num1052 = revenge ? 0.11f : 0.1f;
-						num1052 += 0.03f * enrageScale;
+						num1052 += 0.06f * enrageScale;
 
 						if (revenge && (!sirenAlive || phase4))
 						{

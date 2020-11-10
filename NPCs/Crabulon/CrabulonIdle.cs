@@ -323,6 +323,10 @@ namespace CalamityMod.NPCs.Crabulon
                         npc.velocity.Y += 0.5f;
                     }
                 }
+
+                if (npc.ai[1] % 25f == 24f)
+                    npc.netUpdate = true;
+
                 npc.ai[1] += 1f;
                 if (npc.ai[1] >= (360f - (death ? 120f * (1f - lifeRatio) : 0f)))
                 {
@@ -345,6 +349,9 @@ namespace CalamityMod.NPCs.Crabulon
                 {
                     npc.velocity.X *= 0.8f;
                     npc.ai[1] += 1f;
+                    if (npc.ai[1] % 15f == 14f)
+                        npc.netUpdate = true;
+
                     if (npc.ai[1] > 0f)
                     {
 						if (revenge)
@@ -433,6 +440,7 @@ namespace CalamityMod.NPCs.Crabulon
 
                         npc.ai[0] = 4f;
                         npc.ai[1] = 0f;
+                        npc.netUpdate = true;
                     }
                 }
             }
@@ -480,13 +488,15 @@ namespace CalamityMod.NPCs.Crabulon
                         npc.ai[2] = 0f;
 						if (revenge)
 							npc.ai[3] = 0f;
+                        npc.netUpdate = true;
                     }
                     else
                     {
                         npc.ai[0] = 3f;
 						if (revenge)
 							npc.ai[3] += 1f;
-					}
+                        npc.netUpdate = true;
+                    }
 
                     for (int num622 = (int)npc.position.X - 20; num622 < (int)npc.position.X + npc.width + 40; num622 += 20)
                     {

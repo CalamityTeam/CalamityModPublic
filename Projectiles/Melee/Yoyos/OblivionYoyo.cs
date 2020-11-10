@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
         {
             DisplayName.SetDefault("Oblivion");
             ProjectileID.Sets.YoyosLifeTimeMultiplier[projectile.type] = -1f;
-            ProjectileID.Sets.YoyosMaximumRange[projectile.type] = 360f;
+            ProjectileID.Sets.YoyosMaximumRange[projectile.type] = 400f;
             ProjectileID.Sets.YoyosTopSpeed[projectile.type] = 16.5f;
 
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 4;
@@ -28,11 +28,12 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
             projectile.friendly = true;
             projectile.melee = true;
             projectile.penetrate = -1;
-        }
+			projectile.MaxUpdates = 2;
+		}
 
         public override void AI()
         {
-			CalamityGlobalProjectile.MagnetSphereHitscan(projectile, 300f, 6f, 16f, 5, ModContent.ProjectileType<BrimstoneLaserFriendly>(), 0.25);
+			CalamityGlobalProjectile.MagnetSphereHitscan(projectile, 300f, 6f, 48f, 5, ModContent.ProjectileType<BrimstoneLaserFriendly>(), 0.5);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

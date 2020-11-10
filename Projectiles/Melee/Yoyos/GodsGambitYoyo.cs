@@ -25,11 +25,12 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
             projectile.friendly = true;
             projectile.melee = true;
             projectile.penetrate = -1;
-        }
+			projectile.MaxUpdates = 2;
+		}
 
         public override void AI()
         {
-			CalamityGlobalProjectile.MagnetSphereHitscan(projectile, 450f, 6f, 10f, 5, ProjectileID.SlimeGun, 0.75);
+			CalamityGlobalProjectile.MagnetSphereHitscan(projectile, 450f, 6f, 30f, 5, ProjectileID.SlimeGun, 0.75);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

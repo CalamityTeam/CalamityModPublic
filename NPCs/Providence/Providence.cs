@@ -243,7 +243,7 @@ namespace CalamityMod.NPCs.Providence
 			bool delayAttacks = npc.localAI[2] > 0f;
 
 			// Spear phase
-			float spearRateIncrease = death ? 2f * (1f - lifeRatio) : 1f - lifeRatio;
+			float spearRateIncrease = 1f - lifeRatio;
 			float enragedSpearRateIncrease = 0.5f;
 			float bossRushSpearRateIncrease = 0.25f;
 			float baseSpearRate = 18f;
@@ -271,10 +271,15 @@ namespace CalamityMod.NPCs.Providence
 			float distanceX = Math.Abs(vector.X - player.Center.X);
 
 			// Inflict Holy Inferno if target is too far away
-			if (Vector2.Distance(player.Center, vector) > 2800f)
+			float baseDistance = 2800f;
+			float shorterFlameCocoonDistance = 1800f;
+			float shorterSpearCocoonDistance = 1400f;
+			float shorterDistance = AIState == (int)Phase.FlameCocoon ? shorterFlameCocoonDistance : shorterSpearCocoonDistance;
+			float maxDistance = (AIState == (int)Phase.FlameCocoon || AIState == (int)Phase.SpearCocoon) ? shorterDistance : baseDistance;
+			if (Vector2.Distance(player.Center, vector) > maxDistance)
             {
-                if (!player.dead && player.active)
-                    player.AddBuff(ModContent.BuffType<HolyInferno>(), 2);
+				if (!player.dead && player.active)
+					player.AddBuff(ModContent.BuffType<HolyInferno>(), 2);
             }
 
             // Count the remaining Guardians, healer especially because it allows the boss to heal
@@ -1147,8 +1152,8 @@ namespace CalamityMod.NPCs.Providence
 						}
 					}
 
-					npc.ai[1] += 1f;
-					if (npc.ai[1] >= phaseTime)
+					npc.ai[3] += 1f;
+					if (npc.ai[3] >= phaseTime)
 					{
 						AIState = (int)Phase.PhaseChange;
 						npc.localAI[2] = attackDelayAfterCocoon;
@@ -1168,7 +1173,7 @@ namespace CalamityMod.NPCs.Providence
 					{
 						if (npc.ai[1] == crystalPhaseTime && Main.netMode != NetmodeID.MultiplayerClient)
 						{
-							int proj = Projectile.NewProjectile(player.Center.X, player.Center.Y - 360f, 0f, 0f, ModContent.ProjectileType<ProvidenceCrystal>(), crystalDamage, 0f, player.whoAmI, 0f, 0f);
+							int proj = Projectile.NewProjectile(player.Center.X, player.Center.Y - 360f, 0f, 0f, ModContent.ProjectileType<ProvidenceCrystal>(), crystalDamage, 0f, player.whoAmI, lifeRatio, 0f);
 
 							if (nightTime)
 								Main.projectile[proj].timeLeft = nightCrystalTime;
@@ -1230,13 +1235,24 @@ namespace CalamityMod.NPCs.Providence
 								if (velocity.X < 0f)
 									num1225 = 1f;
 
-								velocity = velocity.RotatedBy(-(double)num1225 * MathHelper.TwoPi / 6f, default);
+								// 60 degrees offset
+								velocity = velocity.RotatedBy(-(double)num1225 * MathHelper.TwoPi / 6f);
 								Projectile.NewProjectile(vector.X, vector.Y + 32f, velocity.X, velocity.Y, ModContent.ProjectileType<ProvidenceHolyRay>(), holyLaserDamage, 0f, Main.myPlayer, num1225 * MathHelper.TwoPi / rotation, npc.whoAmI);
 
+								// -60 degrees offset
 								if (revenge)
 									Projectile.NewProjectile(vector.X, vector.Y + 32f, -velocity.X, -velocity.Y, ModContent.ProjectileType<ProvidenceHolyRay>(), holyLaserDamage, 0f, Main.myPlayer, -num1225 * MathHelper.TwoPi / rotation, npc.whoAmI);
 
-								npc.ai[3] = (velocity.ToRotation() + MathHelper.TwoPi + MathHelper.Pi) * num1225;
+								if (nightTime && lifeRatio < 0.5f)
+								{
+									rotation *= 0.33f;
+									velocity = velocity.RotatedBy(-(double)num1225 * MathHelper.TwoPi / 2f);
+									Projectile.NewProjectile(vector.X, vector.Y + 32f, velocity.X, velocity.Y, ModContent.ProjectileType<ProvidenceHolyRay>(), holyLaserDamage, 0f, Main.myPlayer, num1225 * MathHelper.TwoPi / rotation, npc.whoAmI);
+
+									if (revenge)
+										Projectile.NewProjectile(vector.X, vector.Y + 32f, -velocity.X, -velocity.Y, ModContent.ProjectileType<ProvidenceHolyRay>(), holyLaserDamage, 0f, Main.myPlayer, -num1225 * MathHelper.TwoPi / rotation, npc.whoAmI);
+								}
+
 								npc.netUpdate = true;
 							}
 						}
@@ -1655,7 +1671,7 @@ namespace CalamityMod.NPCs.Providence
 
         public override void HitEffect(int hitDirection, double damage)
         {
-            if(npc.soundDelay == 0)
+            if (npc.soundDelay == 0)
             {
                 npc.soundDelay = 8;
                 Main.PlaySound(mod.GetLegacySoundSlot(SoundType.NPCHit, "Sounds/NPCHit/ProvidenceHurt"), npc.Center);

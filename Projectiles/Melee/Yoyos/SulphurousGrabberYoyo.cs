@@ -19,7 +19,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
         {
             DisplayName.SetDefault("Sulphurous Grabber Yoyo");
             ProjectileID.Sets.YoyosLifeTimeMultiplier[projectile.type] = -1f;
-            ProjectileID.Sets.YoyosMaximumRange[projectile.type] = 300f;
+            ProjectileID.Sets.YoyosMaximumRange[projectile.type] = 350f;
             ProjectileID.Sets.YoyosTopSpeed[projectile.type] = 16f;
 
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 4;
@@ -82,14 +82,14 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
 				bubbleCounter++;
 				if (bubbleCounter >= 60)
 				{
-					int bubbleAmt = 9;
+					int bubbleAmt = 7;
 					for (float i = 0; i < bubbleAmt; i++)
 					{
 						int projType = ModContent.ProjectileType<SulphurousGrabberBubble>();
 						if (Main.rand.NextBool(10))
 							projType = ModContent.ProjectileType<SulphurousGrabberBubble2>();
 						float angle = MathHelper.TwoPi / bubbleAmt * i + (float)Math.Sin(arbitraryTimer / 20f) * MathHelper.PiOver2;
-						Projectile.NewProjectile(projectile.Center, angle.ToRotationVector2() * 8f, projType, projectile.damage / 5, projectile.knockBack / 5, projectile.owner, 0f, 0f);
+						Projectile.NewProjectile(projectile.Center, angle.ToRotationVector2() * 8f, projType, projectile.damage / 4, projectile.knockBack / 4, projectile.owner, 0f, 0f);
 					}
 					bubbleCounter = 0;
 				}

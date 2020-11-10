@@ -11,7 +11,8 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Aorta");
-            Tooltip.SetDefault("An exceptionally agile yoyo");
+            Tooltip.SetDefault("Fires homing blood when enemies are near\n" +
+				"An exceptionally agile yoyo");
             ItemID.Sets.Yoyo[item.type] = true;
             ItemID.Sets.GamepadExtraRange[item.type] = 15;
             ItemID.Sets.GamepadSmartQuickReach[item.type] = true;

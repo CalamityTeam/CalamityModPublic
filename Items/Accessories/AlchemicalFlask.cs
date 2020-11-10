@@ -1,4 +1,3 @@
-using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using Terraria;
@@ -14,6 +13,7 @@ namespace CalamityMod.Items.Accessories
             DisplayName.SetDefault("Alchemical Flask");
             Tooltip.SetDefault("All attacks inflict the plague\n" +
                 "Reduces the damage caused to you by the plague\n" +
+				"Removes the blindness effect caused by the plague\n" +
                 "Projectiles spawn plague seekers on enemy hits");
         }
 

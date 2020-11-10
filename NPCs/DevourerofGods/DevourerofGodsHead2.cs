@@ -81,7 +81,10 @@ namespace CalamityMod.NPCs.DevourerofGods
 
             Vector2 vector = npc.Center;
 
-            Lighting.AddLight((int)((npc.position.X + (npc.width / 2)) / 16f), (int)((npc.position.Y + (npc.height / 2)) / 16f), 0.2f, 0.05f, 0.2f);
+			bool increaseSpeed = Vector2.Distance(player.Center, vector) > CalamityGlobalNPC.CatchUpDistance200Tiles;
+			bool increaseSpeedMore = Vector2.Distance(player.Center, vector) > CalamityGlobalNPC.CatchUpDistance350Tiles;
+
+			Lighting.AddLight((int)((npc.position.X + (npc.width / 2)) / 16f), (int)((npc.position.Y + (npc.height / 2)) / 16f), 0.2f, 0.05f, 0.2f);
 
             if (npc.ai[3] > 0f)
             {
@@ -158,10 +161,15 @@ namespace CalamityMod.NPCs.DevourerofGods
 			float num188 = CalamityWorld.revenge ? 16f : 14f;
 			float num189 = CalamityWorld.revenge ? 0.15f : 0.13f;
 
-			if (Vector2.Distance(player.Center, vector) > 3000f) //RAGE
+			if (increaseSpeedMore)
+			{
+				num188 *= 4f;
+				num189 *= 6f;
+			}
+			else if (increaseSpeed)
 			{
 				num188 *= 2f;
-				num189 *= 2f;
+				num189 *= 3f;
 			}
 
 			for (int num52 = 0; num52 < Main.maxNPCs; num52++)

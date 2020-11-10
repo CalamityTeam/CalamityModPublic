@@ -79,6 +79,10 @@ namespace CalamityMod.NPCs
         public Dictionary<int, float> flatDRReductions = new Dictionary<int, float>();
         public Dictionary<int, float> multDRReductions = new Dictionary<int, float>();
 
+		// Distance values for when bosses increase velocity to catch up to their target
+		public const float CatchUpDistance200Tiles = 3200f;
+		public const float CatchUpDistance350Tiles = 5600f;
+
 		// Max velocity used in contact damage scaling
 		public float maxVelocity = 0f;
 
@@ -442,7 +446,7 @@ namespace CalamityMod.NPCs
 			for (int i = 0; i < bobbitWormBottom.Length; i++)
 				ResetSavedIndex(ref bobbitWormBottom[i], NPCType<BobbitWormSegment>());
 
-            ResetSavedIndex(ref hiveMind, NPCType<HiveMind.HiveMind>(), NPCType<HiveMindP2>());
+            ResetSavedIndex(ref hiveMind, NPCType<HiveMind.HiveMind>());
             ResetSavedIndex(ref perfHive, NPCType<PerforatorHive>());
             ResetSavedIndex(ref slimeGodPurple, NPCType<SlimeGod.SlimeGod>(), NPCType<SlimeGodSplit>());
             ResetSavedIndex(ref slimeGodRed, NPCType<SlimeGodRun>(), NPCType<SlimeGodRunSplit>());
@@ -1154,14 +1158,14 @@ namespace CalamityMod.NPCs
                 if (CalamityLists.pumpkinMoonBuffList.Contains(npc.type))
                 {
                     npc.lifeMax = (int)(npc.lifeMax * 7.5);
-                    npc.damage += 160;
+                    npc.damage += 100;
                     npc.life = npc.lifeMax;
                     npc.defDamage = npc.damage;
                 }
                 else if (CalamityLists.frostMoonBuffList.Contains(npc.type))
                 {
                     npc.lifeMax = (int)(npc.lifeMax * 6.0);
-                    npc.damage += 160;
+                    npc.damage += 100;
                     npc.life = npc.lifeMax;
                     npc.defDamage = npc.damage;
                 }
@@ -1170,7 +1174,7 @@ namespace CalamityMod.NPCs
             if (CalamityLists.eclipseBuffList.Contains(npc.type) && CalamityWorld.buffedEclipse)
             {
                 npc.lifeMax = (int)(npc.lifeMax * 32.5);
-                npc.damage += 210;
+                npc.damage += 150;
                 npc.life = npc.lifeMax;
                 npc.defDamage = npc.damage;
             }
@@ -1180,7 +1184,7 @@ namespace CalamityMod.NPCs
                 if (CalamityLists.dungeonEnemyBuffList.Contains(npc.type))
                 {
                     npc.lifeMax = (int)(npc.lifeMax * 2.5);
-                    npc.damage += 150;
+                    npc.damage += 90;
                     npc.life = npc.lifeMax;
                     npc.defDamage = npc.damage;
                 }
@@ -2519,8 +2523,7 @@ namespace CalamityMod.NPCs
                 case 15:
                     if (npc.type != NPCType<StormWeaverHead>() && npc.type != NPCType<StormWeaverBody>() &&
                         npc.type != NPCType<StormWeaverTail>() && npc.type != NPCType<StormWeaverHeadNaked>() &&
-                        npc.type != NPCType<StormWeaverBodyNaked>() && npc.type != NPCType<StormWeaverTailNaked>() &&
-                        npc.type != NPCType<StasisProbe>() && npc.type != NPCType<StasisProbeNaked>())
+                        npc.type != NPCType<StormWeaverBodyNaked>() && npc.type != NPCType<StormWeaverTailNaked>())
                     {
                         npc.active = false;
                         npc.netUpdate = true;
@@ -3063,15 +3066,11 @@ namespace CalamityMod.NPCs
 					}*/
 
 					// New resists
-					if (projectile.type == ProjectileType<RainbowBoom>() || projectile.type == ProjectileType<RainBolt>())
-					{
-						damage = (int)(damage * 0.2);
-					}
-					else if (ProjectileID.Sets.StardustDragon[projectile.type] || projectile.type == ProjectileType<PlaguenadeBee>() || projectile.type == ProjectileType<PlaguenadeProj>())
+					if (ProjectileID.Sets.StardustDragon[projectile.type] || projectile.type == ProjectileType<PlaguenadeBee>() || projectile.type == ProjectileType<PlaguenadeProj>())
 					{
 						damage = (int)(damage * 0.25);
 					}
-					else if (projectile.type == ProjectileID.DD2BetsyArrow || projectile.type == ProjectileType<ForbiddenSunProjectile>() || projectile.type == ProjectileType<ForbiddenSunburst>() || projectile.type == ProjectileType<Tornado>())
+					else if (projectile.type == ProjectileType<RainbowBoom>() || projectile.type == ProjectileType<RainBolt>() || projectile.type == ProjectileID.DD2BetsyArrow || projectile.type == ProjectileType<ForbiddenSunProjectile>() || projectile.type == ProjectileType<ForbiddenSunburst>() || projectile.type == ProjectileType<Tornado>())
 					{
 						damage = (int)(damage * 0.5);
 					}
@@ -3079,7 +3078,7 @@ namespace CalamityMod.NPCs
 					{
 						damage = (int)(damage * 0.6);
 					}
-					else if (projectile.type == ProjectileType<SolarBeam2>() || projectile.type == ProjectileID.InfernoFriendlyBolt || projectile.type == ProjectileID.InfernoFriendlyBlast || projectile.type == ProjectileID.RainbowFront || projectile.type == ProjectileID.RainbowBack || projectile.type == ProjectileType<PlagueFang>() || projectile.type == ProjectileType<SakuraBullet>() || projectile.type == ProjectileType<PurpleButterfly>() || projectile.type == ProjectileType<ForbiddenSunburst>() || projectile.type == ProjectileType<IceCluster>() || projectile.type == ProjectileID.ChargedBlasterLaser)
+					else if (projectile.type == ProjectileType<SolarBeam2>() || projectile.type == ProjectileID.InfernoFriendlyBolt || projectile.type == ProjectileID.InfernoFriendlyBlast || projectile.type == ProjectileID.RainbowFront || projectile.type == ProjectileID.RainbowBack || projectile.type == ProjectileType<PlagueFang>() || projectile.type == ProjectileType<SakuraBullet>() || projectile.type == ProjectileType<PurpleButterfly>() || projectile.type == ProjectileType<IceCluster>() || projectile.type == ProjectileID.ChargedBlasterLaser)
 					{
 						damage = (int)(damage * 0.75);
 					}
@@ -3188,7 +3187,7 @@ namespace CalamityMod.NPCs
 			{
 				if (projectile.type == ProjectileType<CrescentMoonFlail>())
 				{
-					damage = (int)(damage * 0.2);
+					damage = (int)(damage * 0.55);
 				}
 				else if (projectile.type == ProjectileType<CalamariInk>())
 				{
@@ -3238,7 +3237,7 @@ namespace CalamityMod.NPCs
 
 		private void PierceResistGlobal(Projectile projectile, ref int damage)
 		{
-			if (projectile.IsSummon())
+			if (projectile.IsSummon() || projectile.aiStyle == 99)
 				return;
 
 			if (projectile.penetrate == -1)
@@ -4329,15 +4328,29 @@ namespace CalamityMod.NPCs
 
                     SpriteEffects spriteEffects = SpriteEffects.None;
                     if (npc.spriteDirection == 1)
-                    {
                         spriteEffects = SpriteEffects.FlipHorizontally;
-                    }
 
                     spriteBatch.Draw(npcTexture, npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame, npc.GetAlpha(drawColor), npc.rotation, npc.frame.Size() / 2, npc.scale, spriteEffects, 0);
 
                     spriteBatch.Draw(Main.BoneEyesTexture, npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY),
                         npc.frame, new Color(200, 200, 200, 0), npc.rotation, npc.frame.Size() / 2, npc.scale, spriteEffects, 0);
                 }
+				else if (DestroyerIDs.Contains(npc.type))
+				{
+					if (drawColor != Color.Black && ((newAI[3] >= 900f && npc.life / (float)npc.lifeMax < 0.5f) || (newAI[1] < 600f && newAI[1] > 60f)))
+					{
+						Vector2 halfSize = npc.frame.Size() / 2;
+						SpriteEffects spriteEffects = SpriteEffects.None;
+						if (npc.spriteDirection == 1)
+							spriteEffects = SpriteEffects.FlipHorizontally;
+
+						for (int i = 0; i < 3; i++)
+						{
+							spriteBatch.Draw(Main.destTexture[npc.type - NPCID.TheDestroyer], npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame,
+								new Color(0, 0, 255, 0) * (1f - npc.alpha / 255f), npc.rotation, halfSize, npc.scale, spriteEffects, 0f);
+						}
+					}
+				}
             }
 		}
 

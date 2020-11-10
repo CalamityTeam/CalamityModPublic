@@ -1351,8 +1351,6 @@ namespace CalamityMod.CalPlayer
             // Max health reductions
             if (crimEffigy)
                 player.statLifeMax2 = (int)(player.statLifeMax2 * 0.8);
-            if (badgeOfBraveryRare)
-                player.statLifeMax2 = (int)(player.statLifeMax2 * 0.75);
             if (regenator)
                 player.statLifeMax2 = (int)(player.statLifeMax2 * 0.5);
             if (skeletronLore)
@@ -3572,7 +3570,15 @@ namespace CalamityMod.CalPlayer
             }
             if (badgeOfBraveryRare)
             {
-                meleeSpeedMult += 0.2f;
+				float maxDistance = 480f; // 30 tile distance
+				for (int l = 0; l < Main.maxNPCs; l++)
+				{
+					NPC nPC = Main.npc[l];
+					if (nPC.active && !nPC.friendly && nPC.damage > 0 && !nPC.dontTakeDamage && Vector2.Distance(player.Center, nPC.Center) <= maxDistance)
+					{
+						meleeSpeedMult += MathHelper.Lerp(0f, 0.3f, 1f - (Vector2.Distance(player.Center, nPC.Center) / maxDistance));
+					}
+				}
             }
             if (eGauntlet)
             {
@@ -3742,7 +3748,7 @@ namespace CalamityMod.CalPlayer
             if (weakPetrification)
                 WeakPetrification();
 
-            if (silvaCountdown > 0 && hasSilvaEffect && silvaSet)
+            if (lol || (silvaCountdown > 0 && hasSilvaEffect && silvaSet))
             {
                 if (player.lifeRegen < 0)
                     player.lifeRegen = 0;
@@ -3768,7 +3774,7 @@ namespace CalamityMod.CalPlayer
             if (weakPetrification)
                 WeakPetrification();
 
-			if (silvaCountdown > 0 && hasSilvaEffect && silvaSet)
+			if (lol || (silvaCountdown > 0 && hasSilvaEffect && silvaSet))
             {
                 if (player.lifeRegen < 0)
                     player.lifeRegen = 0;
@@ -5585,9 +5591,9 @@ namespace CalamityMod.CalPlayer
                 if (Main.rand.NextBool(randomChance))
                     damageMult += 1.0;
             }
-            if (silvaCountdown > 0 && hasSilvaEffect && silvaRanged && proj.ranged)
+            if (silvaCountdown <= 0 && hasSilvaEffect && silvaRanged && proj.ranged)
             {
-                damageMult += 0.4;
+                damageMult += 0.1;
             }
             if (silvaCountdown <= 0 && hasSilvaEffect && silvaThrowing && proj.Calamity().rogue)
             {
@@ -6072,7 +6078,7 @@ namespace CalamityMod.CalPlayer
 		#region Modify Hit By NPC
 		public override void ModifyHitByNPC(NPC npc, ref int damage, ref bool crit)
 		{
-			int bossRushDamage = (Main.expertMode ? 500 : 300) + (BossRushEvent.BossRushStage * 2);
+			int bossRushDamage = (Main.expertMode ? 400 : 240) + (BossRushEvent.BossRushStage * 2);
 			if (BossRushEvent.BossRushActive)
 			{
 				if (damage < bossRushDamage)
@@ -6363,7 +6369,7 @@ namespace CalamityMod.CalPlayer
 				}
 			}
 
-			int bossRushDamage = (Main.expertMode ? 125 : 150) + (BossRushEvent.BossRushStage / 2);
+			int bossRushDamage = (Main.expertMode ? 90 : 110) + (BossRushEvent.BossRushStage / 2);
 			if (BossRushEvent.BossRushActive)
 			{
 				if (damage < bossRushDamage)
@@ -7568,12 +7574,12 @@ namespace CalamityMod.CalPlayer
             }
 
             #region MultiplierBoosts
-            double damageMult = 1.0 +
-                (dArtifact ? 0.25 : 0.0) +
-                (DoGLore ? 0.1 : 0.0) +
-                ((player.beetleDefense && player.beetleOrbs > 0) ? (0.05 * player.beetleOrbs) : 0.0) +
-                (enraged ? 0.25 : 0.0) +
-                ((CalamityWorld.defiled && Main.rand.NextBool(4)) ? 0.5 : 0.0);
+            double damageMult = 1D +
+                (dArtifact ? 0.15 : 0D) +
+                (DoGLore ? 0.05 : 0D) +
+                ((player.beetleDefense && player.beetleOrbs > 0) ? (0.05 * player.beetleOrbs) : 0D) +
+                (enraged ? 0.25 : 0D) +
+                ((CalamityWorld.defiled && Main.rand.NextBool(4)) ? 0.5 : 0D);
 
 			if (bloodPact && Main.rand.NextBool(4))
 			{
@@ -7600,9 +7606,8 @@ namespace CalamityMod.CalPlayer
 					newDamageLimit += bossDamageLimitIncrease;*/
 
                 if (newDamage < newDamageLimit)
-                {
                     newDamage = newDamageLimit;
-                }
+
                 damage = (int)newDamage;
             }
 
@@ -10827,37 +10832,37 @@ namespace CalamityMod.CalPlayer
             {
                 player.minionDamage += 0.12f;
                 player.minionKB += 3.0f;
-                player.maxMinions += 3;
+                player.maxMinions += 2;
             }
             else if (summonLevel >= 10500)
             {
                 player.minionDamage += 0.1f;
                 player.minionKB += 3.0f;
-                player.maxMinions += 2;
+                player.maxMinions++;
             }
             else if (summonLevel >= 9100)
             {
                 player.minionDamage += 0.09f;
                 player.minionKB += 2.7f;
-                player.maxMinions += 2;
+                player.maxMinions++;
             }
             else if (summonLevel >= 7800)
             {
                 player.minionDamage += 0.08f;
                 player.minionKB += 2.4f;
-                player.maxMinions += 2;
+                player.maxMinions++;
             }
             else if (summonLevel >= 6600)
             {
                 player.minionDamage += 0.07f;
                 player.minionKB += 2.1f;
-                player.maxMinions += 2;
+                player.maxMinions++;
             }
             else if (summonLevel >= 5500)
             {
                 player.minionDamage += 0.06f;
                 player.minionKB += 1.8f;
-                player.maxMinions += 2;
+                player.maxMinions++;
             }
             else if (summonLevel >= 4500)
             {
@@ -10869,19 +10874,16 @@ namespace CalamityMod.CalPlayer
             {
                 player.minionDamage += 0.05f;
                 player.minionKB += 1.5f;
-                player.maxMinions++;
             }
             else if (summonLevel >= 2800)
             {
                 player.minionDamage += 0.04f;
                 player.minionKB += 1.2f;
-                player.maxMinions++;
             }
             else if (summonLevel >= 2100)
             {
                 player.minionDamage += 0.04f;
                 player.minionKB += 0.9f;
-                player.maxMinions++;
             }
             else if (summonLevel >= 1500)
             {

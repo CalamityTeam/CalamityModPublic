@@ -120,11 +120,14 @@ namespace CalamityMod.NPCs.DesertScourge
 
 			if (expertMode)
 			{
-				float velocityScale = (death ? 9f : 6f) * enrageScale;
+				float velocityScale = death ? 9f : 6f;
 				speed += velocityScale * (1f - lifeRatio);
-				float accelerationScale = (death ? 0.09f : 0.06f) * enrageScale;
+				float accelerationScale = death ? 0.09f : 0.06f;
 				turnSpeed += accelerationScale * (1f - lifeRatio);
 			}
+
+			speed += 4f * enrageScale;
+			turnSpeed += 0.04f * enrageScale;
 
 			if (lungeUpward)
 			{
@@ -146,8 +149,6 @@ namespace CalamityMod.NPCs.DesertScourge
 
 			if (npc.ai[3] > 0f)
                 npc.realLife = (int)npc.ai[3];
-
-			npc.dontTakeDamage = !player.ZoneDesert && !BossRushEvent.BossRushActive;
 
             npc.alpha -= 42;
             if (npc.alpha < 0)

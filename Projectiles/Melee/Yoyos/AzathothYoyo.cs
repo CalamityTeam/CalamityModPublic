@@ -39,7 +39,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
             if (Main.rand.NextBool(6))
             {
                 if (projectile.owner == Main.myPlayer)
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X * 0.35f, projectile.velocity.Y * 0.35f, ModContent.ProjectileType<CosmicOrb>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                    Projectile.NewProjectile(projectile.Center, projectile.velocity * 0.35f, ModContent.ProjectileType<CosmicOrb>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
             }
         }
 

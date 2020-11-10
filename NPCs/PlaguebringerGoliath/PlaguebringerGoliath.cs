@@ -105,6 +105,8 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             writer.Write(despawnTimer);
             writer.Write(chargeDistance);
             writer.Write(charging);
+            for (int i = 0; i < 3; i++)
+                writer.Write(npc.Calamity().newAI[i]);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
@@ -116,6 +118,8 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             despawnTimer = reader.ReadInt32();
             chargeDistance = reader.ReadInt32();
             charging = reader.ReadBoolean();
+            for (int i = 0; i < 3; i++)
+                npc.Calamity().newAI[i] = reader.ReadSingle();
         }
 
         public override void AI()
@@ -264,6 +268,12 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     npc.ai[0] = num596;
                     npc.ai[1] = 0f;
                     npc.ai[2] = 0f;
+                    npc.netUpdate = true;
+
+                    // Prevent netUpdate from being blocked by the spam counter.
+                    // A phase switch sync is a critical operation that must be synced.
+                    if (npc.netSpam >= 10)
+                        npc.netSpam = 9;
                 }
             }
 
@@ -287,6 +297,11 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     npc.ai[1] = 0f;
                     npc.ai[2] = 0f;
                     npc.netUpdate = true;
+
+                    // Prevent netUpdate from being blocked by the spam counter.
+                    // A phase switch sync is a critical operation that must be synced.
+                    if (npc.netSpam >= 10)
+                        npc.netSpam = 9;
                     return;
                 }
 
@@ -341,6 +356,9 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 						if (npc.spriteDirection != 1)
 							npc.rotation += (float)Math.PI;
 
+                        npc.netUpdate = true;
+                        npc.netSpam -= 5;
+
 						Main.PlaySound(15, (int)npc.position.X, (int)npc.position.Y, 0);
                         return;
                     }
@@ -392,11 +410,8 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
                     npc.direction = playerLocation < 0 ? 1 : -1;
                     npc.spriteDirection = npc.direction;
-
-					npc.netUpdate = true;
-
-					if (npc.netSpam > 10)
-						npc.netSpam = 10;
+                    npc.netUpdate = true;
+                    npc.netSpam -= 5;
                 }
 
                 // Slow down after charge
@@ -443,6 +458,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 						if (npc.Calamity().newAI[0] > 90f)
 							npc.velocity *= 1.01f;
 
+                        npc.netUpdate = true;
 						return;
                     }
 
@@ -479,11 +495,6 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                         npc.ai[1] += 1f;
 						npc.Calamity().newAI[0] = 0f;
                     }
-
-					npc.netUpdate = true;
-
-					if (npc.netSpam > 10)
-						npc.netSpam = 10;
 				}
             }
 
@@ -507,6 +518,11 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     npc.ai[1] = 0f;
 					npc.Calamity().newAI[0] = 0f;
 					npc.netUpdate = true;
+
+                    // Prevent netUpdate from being blocked by the spam counter.
+                    // A phase switch sync is a critical operation that must be synced.
+                    if (npc.netSpam >= 10)
+                        npc.netSpam = 9;
                     return;
                 }
 
@@ -521,7 +537,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
                 npc.TargetClosest(true);
 
-                Vector2 vector119 = new Vector2(npc.direction == 1 ? npc.getRect().BottomLeft().X : npc.getRect().BottomRight().X, npc.getRect().Bottom().Y - 40f);
+                Vector2 vector119 = new Vector2(npc.direction == 1 ? npc.getRect().BottomLeft().X : npc.getRect().BottomRight().X, npc.getRect().Bottom().Y + 20f);
                 vector119.X += npc.direction * 120;
                 float num1058 = player.position.X + (player.width / 2) - vectorCenter.X;
                 float num1059 = player.position.Y + (player.height / 2) - vectorCenter.Y;
@@ -568,6 +584,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 							Main.npc[num1062].localAI[0] = 60f;
                             Main.npc[num1062].netUpdate = true;
                         }
+                        npc.netUpdate = true;
                     }
                 }
 
@@ -587,6 +604,11 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     npc.ai[1] = 2f;
 					npc.ai[2] = 0f;
 					npc.netUpdate = true;
+
+                    // Prevent netUpdate from being blocked by the spam counter.
+                    // A phase switch sync is a critical operation that must be synced.
+                    if (npc.netSpam >= 10)
+                        npc.netSpam = 9;
                 }
             }
 
@@ -597,7 +619,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
                 npc.TargetClosest(true);
 
-                Vector2 vector119 = new Vector2(npc.direction == 1 ? npc.getRect().BottomLeft().X : npc.getRect().BottomRight().X, npc.getRect().Bottom().Y - 40f);
+                Vector2 vector119 = new Vector2(npc.direction == 1 ? npc.getRect().BottomLeft().X : npc.getRect().BottomRight().X, npc.getRect().Bottom().Y + 20f);
                 vector119.X += npc.direction * 120;
                 float num1058 = player.position.X + (player.width / 2) - vectorCenter.X;
                 float num1059 = player.position.Y + (player.height / 2) - vectorCenter.Y;
@@ -610,6 +632,9 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     npc.ai[1] += 0.25f;
                 if (lifeRatio < 0.1f)
                     npc.ai[1] += 0.25f;
+
+                if (npc.ai[1] % 20f == 19f)
+                    npc.netUpdate = true;
 
                 if (npc.ai[1] > 40f - 12f * enrageScale)
                 {
@@ -665,13 +690,18 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     npc.ai[1] = 2f;
 					npc.ai[2] = 0f;
 					npc.netUpdate = true;
+
+                    // Prevent netUpdate from being blocked by the spam counter.
+                    // A phase switch sync is a critical operation that must be synced.
+                    if (npc.netSpam >= 10)
+                        npc.netSpam = 9;
                 }
             }
 
             // Stinger phase
             else if (npc.ai[0] == 3f)
             {
-                Vector2 vector121 = new Vector2(npc.direction == 1 ? npc.getRect().BottomLeft().X : npc.getRect().BottomRight().X, npc.getRect().Bottom().Y - 40f);
+                Vector2 vector121 = new Vector2(npc.direction == 1 ? npc.getRect().BottomLeft().X : npc.getRect().BottomRight().X, npc.getRect().Bottom().Y + 20f);
                 vector121.X += npc.direction * 120;
 
 				npc.ai[1] += 1f;
@@ -718,6 +748,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
 						int damage = npc.GetProjectileDamage(type);
 						Projectile.NewProjectile(vector121.X, vector121.Y, num1071, num1072, type, damage, 0f, Main.myPlayer, 0f, player.position.Y);
+                        npc.netUpdate = true;
                     }
 
 					npc.ai[2] += 1f;
@@ -737,6 +768,11 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     npc.ai[1] = 3f;
 					npc.ai[2] = 0f;
 					npc.netUpdate = true;
+
+                    // Prevent netUpdate from being blocked by the spam counter.
+                    // A phase switch sync is a critical operation that must be synced.
+                    if (npc.netSpam >= 10)
+                        npc.netSpam = 9;
                 }
             }
 
@@ -757,6 +793,11 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     npc.ai[1] = -1f;
                     npc.ai[2] = 0f;
                     npc.netUpdate = true;
+
+                    // Prevent netUpdate from being blocked by the spam counter.
+                    // A phase switch sync is a critical operation that must be synced.
+                    if (npc.netSpam >= 10)
+                        npc.netSpam = 9;
                     return;
                 }
 
@@ -817,6 +858,8 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 						if (npc.spriteDirection != 1)
 							npc.rotation += (float)Math.PI;
 
+                        npc.netUpdate = true;
+
 						return;
                     }
 
@@ -857,11 +900,6 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
                     npc.direction = playerLocation < 0 ? 1 : -1;
                     npc.spriteDirection = npc.direction;
-
-					npc.netUpdate = true;
-
-					if (npc.netSpam > 10)
-						npc.netSpam = 10;
 				}
 
                 // Slow down after charge
@@ -932,17 +970,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                         npc.ai[1] += 1f;
 						npc.Calamity().newAI[0] = 0f;
                     }
-
-					npc.netUpdate = true;
-
-					if (npc.netSpam > 10)
-						npc.netSpam = 10;
 				}
-            }
-
-            if (Main.netMode == NetmodeID.Server)
-            {
-                NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, npc.whoAmI, 0f, 0f, 0f, 0, 0, 0);
             }
         }
 

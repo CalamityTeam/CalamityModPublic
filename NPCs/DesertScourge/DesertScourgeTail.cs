@@ -1,7 +1,6 @@
 using CalamityMod.Events;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
-using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -57,16 +56,6 @@ namespace CalamityMod.NPCs.DesertScourge
 				npc.scale = 1.1f;
 		}
 
-        public override void SendExtraAI(BinaryWriter writer)
-        {
-            writer.Write(npc.dontTakeDamage);
-        }
-
-        public override void ReceiveExtraAI(BinaryReader reader)
-        {
-            npc.dontTakeDamage = reader.ReadBoolean();
-        }
-
         public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)
         {
             return false;
@@ -80,7 +69,6 @@ namespace CalamityMod.NPCs.DesertScourge
 			}
 
 			Player player = Main.player[npc.target];
-            npc.dontTakeDamage = !player.ZoneDesert && !BossRushEvent.BossRushActive;
             if (!Main.npc[(int)npc.ai[1]].active)
             {
                 npc.life = 0;

@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Accessories
         {
             DisplayName.SetDefault("Blazing Core");
             Tooltip.SetDefault("The searing core of the profaned goddess\n" +
-                               "10% damage reduction \n" +
+                               "10% damage reduction\n" +
                                "Being hit creates a miniature sun that lingers, dealing damage to nearby enemies\n" +
                                "The sun will slowly drag enemies into it\n" +
                                "Only one sun can be active at once\n" +

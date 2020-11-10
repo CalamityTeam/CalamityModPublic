@@ -180,7 +180,8 @@ namespace CalamityMod.NPCs.DevourerofGods
 			Player player = Main.player[npc.target];
 
 			float distanceFromTarget = Vector2.Distance(player.Center, vector);
-			bool tooFarAway = distanceFromTarget > 5600f;
+			bool increaseSpeed = distanceFromTarget > CalamityGlobalNPC.CatchUpDistance200Tiles;
+			bool increaseSpeedMore = distanceFromTarget > CalamityGlobalNPC.CatchUpDistance350Tiles;
 
 			// Immunity after teleport
 			npc.dontTakeDamage = postTeleportTimer > 0;
@@ -529,7 +530,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             {
                 if (Main.netMode != NetmodeID.Server)
                 {
-                    if (!Main.player[Main.myPlayer].dead && Main.player[Main.myPlayer].active && Vector2.Distance(Main.player[Main.myPlayer].Center, vector) < 5600f)
+                    if (!Main.player[Main.myPlayer].dead && Main.player[Main.myPlayer].active && Vector2.Distance(Main.player[Main.myPlayer].Center, vector) < CalamityGlobalNPC.CatchUpDistance350Tiles)
                         Main.player[Main.myPlayer].AddBuff(ModContent.BuffType<Warped>(), 2);
                 }
 
@@ -563,13 +564,15 @@ namespace CalamityMod.NPCs.DevourerofGods
 				}
 
 				// Go to ground phase sooner
-				if (tooFarAway)
+				if (increaseSpeedMore)
 				{
 					if (laserWallPhase == (int)LaserWallPhase.SetUp && calamityGlobalNPC.newAI[3] <= alphaGateValue)
 						SpawnTeleportLocation(player);
 					else
 						calamityGlobalNPC.newAI[2] += 10f;
 				}
+				else
+					calamityGlobalNPC.newAI[2] += 2f;
 
 				float num188 = speed;
                 float num189 = turnSpeed;
@@ -741,7 +744,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             {
                 if (Main.netMode != NetmodeID.Server)
                 {
-                    if (!Main.player[Main.myPlayer].dead && Main.player[Main.myPlayer].active && Vector2.Distance(Main.player[Main.myPlayer].Center, vector) < 5600f)
+                    if (!Main.player[Main.myPlayer].dead && Main.player[Main.myPlayer].active && Vector2.Distance(Main.player[Main.myPlayer].Center, vector) < CalamityGlobalNPC.CatchUpDistance350Tiles)
                         Main.player[Main.myPlayer].AddBuff(ModContent.BuffType<ExtremeGrav>(), 2);
                 }
 
@@ -758,22 +761,26 @@ namespace CalamityMod.NPCs.DevourerofGods
 
 				if (expertMode)
 				{
-					turnSpeed += 0.12f * (1f - lifeRatio);
+					turnSpeed += 0.1f * (1f - lifeRatio);
 					turnSpeed += Vector2.Distance(player.Center, npc.Center) * 0.00005f * (1f - lifeRatio);
 				}
 
-				bool increaseSpeed = distanceFromTarget > 3200f;
-
 				// Enrage
-				if (tooFarAway)
+				if (increaseSpeedMore)
 				{
 					if (laserWallPhase == (int)LaserWallPhase.SetUp && calamityGlobalNPC.newAI[3] <= alphaGateValue)
 						SpawnTeleportLocation(player);
 					else
+					{
+						fallSpeed *= 3f;
 						turnSpeed *= 6f;
+					}
 				}
 				else if (increaseSpeed)
+				{
+					fallSpeed *= 1.5f;
 					turnSpeed *= 3f;
+				}
 
                 if (!flies)
                 {
@@ -881,16 +888,21 @@ namespace CalamityMod.NPCs.DevourerofGods
                     double maximumSpeed1 = death ? 0.46 : 0.4;
                     double maximumSpeed2 = death ? 1.125 : 1D;
 
+					if (increaseSpeedMore)
+					{
+						maximumSpeed1 *= 4;
+						maximumSpeed2 *= 4;
+					}
 					if (increaseSpeed)
 					{
-						maximumSpeed1 += 0.8;
-						maximumSpeed2 += 2D;
+						maximumSpeed1 *= 2;
+						maximumSpeed2 *= 2;
 					}
 
 					if (expertMode)
 					{
-						maximumSpeed1 += 0.12f * (1f - lifeRatio);
-						maximumSpeed2 += 0.25f * (1f - lifeRatio);
+						maximumSpeed1 += 0.1f * (1f - lifeRatio);
+						maximumSpeed2 += 0.2f * (1f - lifeRatio);
 					}
 
                     num193 = (float)Math.Sqrt(num191 * num191 + num192 * num192);
@@ -1259,7 +1271,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             player.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 300, true);
             player.AddBuff(ModContent.BuffType<WhisperingDeath>(), 420, true);
             player.AddBuff(BuffID.Frostburn, 300, true);
-            if ((CalamityWorld.death || BossRushEvent.BossRushActive) && (npc.alpha <= 0 || postTeleportTimer > 0))
+            if ((CalamityWorld.death || BossRushEvent.BossRushActive) && (npc.alpha <= 0 || postTeleportTimer > 0) && !player.Calamity().lol)
             {
                 player.KillMe(PlayerDeathReason.ByCustomReason(player.name + "'s essence was consumed by the devourer."), 1000.0, 0, false);
             }

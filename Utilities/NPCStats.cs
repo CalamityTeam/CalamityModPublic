@@ -254,6 +254,7 @@ namespace CalamityMod
 
 				{ ModContent.NPCType<SupremeCalamitas>(), 0.8 }
 			};
+
 			BossStats.ContactDamageValues = new SortedDictionary<int, int[]>
 			{
 				{ NPCID.KingSlime, new int[] { 40, 64, 80, 88, 96 } },
@@ -508,6 +509,7 @@ namespace CalamityMod
 
 				{ ModContent.NPCType<SupremeCalamitas>(), new int[] { 350, 560, 592, 608, 768 } }
 			};
+
 			BossStats.ProjectileDamageValues = new SortedDictionary<Tuple<int, int>, int[]>
 			{
 				{ new Tuple<int, int>(ModContent.NPCType<KingSlimeJewel>(), ModContent.ProjectileType<JewelProjectile>()), new int[] { 0, 0, 44, 48, 66 } },
@@ -714,8 +716,6 @@ namespace CalamityMod
 				{ new Tuple<int, int>(ModContent.NPCType<StormWeaverHead>(), ProjectileID.CultistBossLightningOrbArc), new int[] { 150, 264, 288, 300, 432 } },
 				{ new Tuple<int, int>(ModContent.NPCType<StormWeaverHeadNaked>(), ProjectileID.CultistBossLightningOrb), new int[] { 150, 264, 288, 300, 432 } },
 				{ new Tuple<int, int>(ModContent.NPCType<StormWeaverHeadNaked>(), ProjectileID.CultistBossLightningOrbArc), new int[] { 150, 264, 288, 300, 432 } },
-				{ new Tuple<int, int>(ModContent.NPCType<StasisProbe>(), ProjectileID.PinkLaser), new int[] { 120, 200, 232, 248, 348 } },
-				{ new Tuple<int, int>(ModContent.NPCType<StasisProbeNaked>(), ProjectileID.PinkLaser), new int[] { 120, 200, 232, 248, 348 } },
 
 				{ new Tuple<int, int>(ModContent.NPCType<Signus>(), ModContent.ProjectileType<SignusScythe>()), new int[] { 120, 192, 212, 224, 318 } },
 				{ new Tuple<int, int>(ModContent.NPCType<Signus>(), ModContent.ProjectileType<EssenceDust>()), new int[] { 140, 240, 264, 280, 396 } },

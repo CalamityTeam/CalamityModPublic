@@ -9,8 +9,6 @@ namespace CalamityMod.NPCs.StormWeaver
 {
 	public class StormWeaverBody : ModNPC
     {
-        private int spawn = 0;
-
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Storm Weaver");
@@ -237,19 +235,6 @@ namespace CalamityMod.NPCs.StormWeaver
                     Main.dust[num624].velocity *= 5f;
                     num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 173, 0f, 0f, 100, default, 2f);
                     Main.dust[num624].velocity *= 2f;
-                }
-            }
-            if (NPC.CountNPCS(ModContent.NPCType<StasisProbe>()) < 3)
-            {
-                if (npc.life > 0 && Main.netMode != NetmodeID.MultiplayerClient && spawn == 0 && Main.rand.NextBool(15))
-                {
-                    spawn = 1;
-                    int num660 = NPC.NewNPC((int)(npc.position.X + (float)(npc.width / 2)), (int)(npc.position.Y + (float)npc.height), ModContent.NPCType<StasisProbe>(), 0, 0f, 0f, 0f, 0f, 255);
-                    if (Main.netMode == NetmodeID.Server)
-                    {
-                        NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, num660, 0f, 0f, 0f, 0, 0, 0);
-                    }
-                    npc.netUpdate = true;
                 }
             }
         }

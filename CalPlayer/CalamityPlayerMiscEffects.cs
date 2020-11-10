@@ -116,6 +116,31 @@ namespace CalamityMod.CalPlayer
 		#region Revengeance Effects
 		private static void RevengeanceModeMiscEffects(Player player, CalamityPlayer modPlayer, Mod mod)
 		{
+			if (CalamityGlobalNPC.holyBoss != -1)
+			{
+				if (Main.npc[CalamityGlobalNPC.holyBoss].active)
+				{
+					if (Main.myPlayer == Main.npc[CalamityGlobalNPC.holyBoss].target)
+					{
+						float x = Vector2.Distance(Main.player[Main.npc[CalamityGlobalNPC.holyBoss].target].Center, Main.npc[CalamityGlobalNPC.holyBoss].Center);
+						float aiState = Main.npc[CalamityGlobalNPC.holyBoss].ai[0];
+						float aiTimer = Main.npc[CalamityGlobalNPC.holyBoss].ai[3];
+
+						float baseDistance = 2800f;
+						float shorterFlameCocoonDistance = CalamityWorld.death ? 600f : CalamityWorld.revenge ? 400f : Main.expertMode ? 200f : 0f;
+						float shorterSpearCocoonDistance = CalamityWorld.death ? 1000f : CalamityWorld.revenge ? 400f : Main.expertMode ? 200f : 0f;
+						float shorterDistance = aiState == 2f ? shorterFlameCocoonDistance : shorterSpearCocoonDistance;
+
+						float maxDistance = (aiState == 2f || aiState == 5f) ? baseDistance - MathHelper.Lerp(0f, shorterDistance, MathHelper.Clamp(aiTimer / 120f, 0f, 1f)) : baseDistance;
+						float drawDarknessDistance = maxDistance - 400f;
+						float intensityScalar = MathHelper.Lerp(0f, 0.9f, MathHelper.Clamp((x - drawDarknessDistance) / 400f, 0f, 1f));
+
+						if (!Main.player[Main.npc[CalamityGlobalNPC.holyBoss].target].Calamity().ZoneAbyss && !Main.player[Main.npc[CalamityGlobalNPC.holyBoss].target].headcovered)
+							ScreenObstruction.screenObstruction = MathHelper.Lerp(ScreenObstruction.screenObstruction, 1f, intensityScalar);
+					}
+				}
+			}
+
 			if (CalamityWorld.revenge)
 			{
 				// This effect is way too annoying during the fight so I disabled it - Fab
@@ -702,7 +727,7 @@ namespace CalamityMod.CalPlayer
 						bool immunityToHot = player.lavaImmune || player.lavaRose || player.lavaMax > 0 || immunityToHotAndCold || modPlayer.externalHeatImmunity;
 
 						// Space effects
-						if (player.InSpace())
+						if (!player.behindBackWall && player.InSpace())
 						{
 							if (Main.dayTime)
 							{
@@ -746,7 +771,7 @@ namespace CalamityMod.CalPlayer
 						}
 
 						// Hot timer
-						if (player.ZoneUnderworldHeight && !immunityToHot)
+						if (!player.behindBackWall && player.ZoneUnderworldHeight && !immunityToHot)
 						{
 							bool affectedByHotLava = player.lavaWet;
 
@@ -1156,10 +1181,6 @@ namespace CalamityMod.CalPlayer
 				modPlayer.throwingDamage += modPlayer.raiderStack / 150f * damageMult;
 			}
 
-			// Silva minion bonus
-			if (modPlayer.silvaCountdown <= 0 && modPlayer.hasSilvaEffect && modPlayer.silvaSummon)
-				player.maxMinions += 2;
-
 			// Spirit Glyph defense buff
 			if (modPlayer.sDefense)
 			{
@@ -1300,7 +1321,7 @@ namespace CalamityMod.CalPlayer
 			{
 				player.endurance += 0.07f;
 				player.statDefense += 20;
-				player.allDamage += 0.12f;
+				player.allDamage += 0.1f;
 			}
 
 			// Ambrosial Ampoule bonus and other light-granting bonuses
@@ -2258,7 +2279,7 @@ namespace CalamityMod.CalPlayer
 
 				if (player.StandingStill(0.1f) && !player.mount.Active)
 				{
-					if (modPlayer.chiBuffTimer < 120)
+					if (modPlayer.chiBuffTimer < 60)
 						modPlayer.chiBuffTimer++;
 					else
 						player.AddBuff(ModContent.BuffType<ChiBuff>(), 6);
@@ -3122,7 +3143,7 @@ namespace CalamityMod.CalPlayer
 
 			if (modPlayer.pFlames)
 			{
-				player.blind = true;
+				player.blind = !modPlayer.alchFlask;
 				player.statDefense -= Plague.DefenseReduction;
 				player.moveSpeed -= 0.15f;
 			}
@@ -3221,7 +3242,17 @@ namespace CalamityMod.CalPlayer
 			}
 
 			if (modPlayer.badgeOfBraveryRare)
-				player.meleeDamage += 0.2f;
+			{
+				float maxDistance = 480f; // 30 tile distance
+				for (int l = 0; l < Main.maxNPCs; l++)
+				{
+					NPC nPC = Main.npc[l];
+					if (nPC.active && !nPC.friendly && nPC.damage > 0 && !nPC.dontTakeDamage && Vector2.Distance(player.Center, nPC.Center) <= maxDistance)
+					{
+						player.meleeDamage += MathHelper.Lerp(0f, 0.3f, 1f - (Vector2.Distance(player.Center, nPC.Center) / maxDistance));
+					}
+				}
+			}
 
 			if (modPlayer.calamitasLore)
 				player.maxMinions += 2;
@@ -3364,7 +3395,7 @@ namespace CalamityMod.CalPlayer
 			if (modPlayer.yInsignia)
 			{
 				player.longInvince = true;
-				player.meleeDamage += 0.05f;
+				player.meleeDamage += 0.1f;
 				player.lavaMax += 240;
 				if (player.statLife <= (int)(player.statLifeMax2 * 0.5))
 					player.allDamage += 0.1f;

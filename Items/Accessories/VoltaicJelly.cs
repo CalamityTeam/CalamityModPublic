@@ -24,7 +24,7 @@ namespace CalamityMod.Items.Accessories
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
 			player.Calamity().voltaicJelly = true;
-            player.maxMinions ++;
+            player.maxMinions++;
         }
     }
 }
