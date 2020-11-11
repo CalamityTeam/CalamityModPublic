@@ -303,9 +303,8 @@ namespace CalamityMod.CalPlayer
 						}
 
 						// All positive adrenaline gains are multiplied by 44.44444% during the SCal fight.
-						// This is likely to be changed so that SCal cancels the items directly.
 						if (SCalAlive && adrenalineDiff > 0f)
-							adrenalineDiff *= 4f / 9f;
+							adrenalineDiff *= 0.3f;
 
 						// Apply the adrenaline change and cap adrenaline in both directions.
 						modPlayer.adrenaline += adrenalineDiff;
