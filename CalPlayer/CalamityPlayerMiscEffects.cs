@@ -294,20 +294,7 @@ namespace CalamityMod.CalPlayer
 							if ((CalamityPlayer.areThereAnyDamnBosses || CalamityWorld.DoGSecondStageCountdown > 0 || BossRushEvent.BossRushActive) && 
 								!wofAndNotHell)
 							{
-								int numAdrenBoosts =
-									(modPlayer.adrenalineBoostOne ? 1 : 0) +
-									(modPlayer.adrenalineBoostTwo ? 1 : 0) +
-									(modPlayer.adrenalineBoostThree ? 1 : 0);
-
-								int adrenFillSeconds = 3600;
-								switch (numAdrenBoosts)
-								{
-									default: adrenFillSeconds = 45; break; // Early game: 45 seconds
-									case 1: adrenFillSeconds = 35; break; // Slime God: 35 seconds
-									case 2: adrenFillSeconds = 25; break; // Astrum Deus: 25 sceonds
-									case 3: adrenFillSeconds = 20; break; // Polterghast: 20 seconds
-								}
-								adrenalineDiff += modPlayer.adrenalineMax / (60f * adrenFillSeconds);
+								adrenalineDiff += modPlayer.adrenalineMax / (60f * 30);
 							}
 
 							// If you aren't actively in a boss fight, adrenaline rapidly fades away over 2 seconds.
@@ -4105,10 +4092,12 @@ namespace CalamityMod.CalPlayer
 				(player.wereWolf ? 0.2f : 0f) +
 				(player.jumpBoost ? 1.5f : 0f);
 			modPlayer.jumpSpeedStat = trueJumpSpeedBoost * 20f;
-			modPlayer.adrenalineChargeStat = 45 -
-				(modPlayer.adrenalineBoostOne ? 10 : 0) -
-				(modPlayer.adrenalineBoostTwo ? 10 : 0) -
-				(modPlayer.adrenalineBoostThree ? 5 : 0);
+			int adrenalineDamageBoost = 0 +
+				(modPlayer.adrenalineBoostOne ? 15 : 0) +
+				(modPlayer.adrenalineBoostTwo ? 15 : 0) +
+				(modPlayer.adrenalineBoostThree ? 15 : 0);
+			modPlayer.adrenalineDamageStat = 200 + adrenalineDamageBoost;
+			modPlayer.adrenalineDRStat = 50 + (adrenalineDamageBoost / 3);
 			bool DHorHoD = modPlayer.draedonsHeart || modPlayer.heartOfDarkness;
 			int rageDamageBoost = 0 +
 				(modPlayer.rageBoostOne ? 15 : 0) +

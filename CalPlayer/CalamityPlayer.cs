@@ -191,7 +191,8 @@ namespace CalamityMod.CalPlayer
         public int armorPenetrationStat = 0;
         public float wingFlightTimeStat = 0f;
 		public float jumpSpeedStat = 0f;
-        public int adrenalineChargeStat = 0;
+        public int adrenalineDamageStat = 0;
+		public int adrenalineDRStat = 0;
         public int rageDamageStat = 0;
         public int moveSpeedStat = 0;
         public int abyssLightLevelStat = 0;
@@ -5344,7 +5345,7 @@ namespace CalamityMod.CalPlayer
                 {
                     if (item.melee)
                     {
-                        damageMult += (DHorHoD ? 2.3 : 2.0);
+                        damageMult += DHorHoD ? 3.1 : 2.8;
                     }
                 }
                 else if (rageModeActive)
@@ -5363,8 +5364,12 @@ namespace CalamityMod.CalPlayer
                 {
                     if (item.melee)
                     {
-                        damageMult += 1.5;
-                    }
+						double adrenalineDamageBoost = 0D +
+							(adrenalineBoostOne ? 0.15 : 0D) +
+							(adrenalineBoostTwo ? 0.15 : 0D) +
+							(adrenalineBoostThree ? 0.15 : 0D);
+						damageMult += 2D + adrenalineDamageBoost;
+					}
                 }
             }
             damage = (int)(damage * damageMult);
@@ -5638,17 +5643,17 @@ namespace CalamityMod.CalPlayer
                 {
                     if (hasClassType)
                     {
-                        damageMult += (DHorHoD ? 2.3 : 2.0);
+                        damageMult += DHorHoD ? 3.1 : 2.8;
                     }
                 }
                 else if (rageModeActive)
                 {
                     if (hasClassType)
                     {
-                        double rageDamageBoost = 0.0 +
-                            (rageBoostOne ? 0.15 : 0.0) +
-                            (rageBoostTwo ? 0.15 : 0.0) +
-                            (rageBoostThree ? 0.15 : 0.0);
+                        double rageDamageBoost = 0D +
+                            (rageBoostOne ? 0.15 : 0D) +
+                            (rageBoostTwo ? 0.15 : 0D) +
+                            (rageBoostThree ? 0.15 : 0D);
                         double rageDamage = (DHorHoD ? 0.65 : 0.5) + rageDamageBoost;
                         damageMult += rageDamage;
                     }
@@ -5657,7 +5662,11 @@ namespace CalamityMod.CalPlayer
                 {
                     if (hasClassType)
                     {
-                        damageMult += 1.5;
+						double adrenalineDamageBoost = 0D +
+							(adrenalineBoostOne ? 0.15 : 0D) +
+							(adrenalineBoostTwo ? 0.15 : 0D) +
+							(adrenalineBoostThree ? 0.15 : 0D);
+						damageMult += 2D + adrenalineDamageBoost;
                     }
                 }
             }
@@ -6199,7 +6208,13 @@ namespace CalamityMod.CalPlayer
 				if (CalamityConfig.Instance.Rippers)
 				{
 					if (adrenaline == adrenalineMax && !adrenalineModeActive)
-						contactDamageReduction += 0.5;
+					{
+						double adrenalineDRBoost = 0D +
+							(adrenalineBoostOne ? 0.05 : 0D) +
+							(adrenalineBoostTwo ? 0.05 : 0D) +
+							(adrenalineBoostThree ? 0.05 : 0D);
+						contactDamageReduction += 0.5 + adrenalineDRBoost;
+					}
 				}
 			}
 
@@ -6488,7 +6503,13 @@ namespace CalamityMod.CalPlayer
 				if (CalamityConfig.Instance.Rippers)
 				{
 					if (adrenaline == adrenalineMax && !adrenalineModeActive)
-						projectileDamageReduction += 0.5;
+					{
+						double adrenalineDRBoost = 0D +
+							(adrenalineBoostOne ? 0.05 : 0D) +
+							(adrenalineBoostTwo ? 0.05 : 0D) +
+							(adrenalineBoostThree ? 0.05 : 0D);
+						projectileDamageReduction += 0.5 + adrenalineDRBoost;
+					}
 				}
 			}
 

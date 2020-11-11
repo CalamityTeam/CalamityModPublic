@@ -2,7 +2,6 @@ using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -15,7 +14,7 @@ namespace CalamityMod.Items.PermanentBoosters
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Ectoheart");
-			Tooltip.SetDefault("Permanently makes Adrenaline Mode take 5 less seconds to charge\n" +
+			Tooltip.SetDefault("Permanently increases Adrenaline Mode damage by 15% and damage reduction by 5%\n" +
 				"Revengeance drop");
 		}
 
