@@ -6,7 +6,7 @@ using Terraria.ObjectData;
 
 namespace CalamityMod.Tiles
 {
-    public class CryonicBar : ModTile
+    public class AerialiteBarTile : ModTile
     {
         public override void SetDefaults()
         {
@@ -20,21 +20,21 @@ namespace CalamityMod.Tiles
             TileObjectData.newTile.LavaDeath = false;
             TileObjectData.addTile(Type);
 
-            dustType = 44;
-            drop = ModContent.ItemType<VerstaltiteBar>();
+            dustType = 187;
+            drop = ModContent.ItemType<AerialiteBar>();
 
-            AddMapEntry(new Color(138, 43, 226)); //blue violet
+            AddMapEntry(new Color(141, 232, 246));
         }
 
         public override bool CreateDust(int i, int j, ref int type)
         {
             if (Main.rand.NextBool(2))
             {
-                type = 56;
+                type = 187;
             }
             else
             {
-                type = 73;
+                type = 16;
             }
             return true;
         }

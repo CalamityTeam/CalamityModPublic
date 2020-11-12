@@ -1,3 +1,4 @@
+using CalamityMod.Dusts;
 using CalamityMod.Items.Materials;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -6,7 +7,7 @@ using Terraria.ObjectData;
 
 namespace CalamityMod.Tiles
 {
-    public class CryonicBar : ModTile
+    public class AuricTeslaBar : ModTile
     {
         public override void SetDefaults()
         {
@@ -20,22 +21,15 @@ namespace CalamityMod.Tiles
             TileObjectData.newTile.LavaDeath = false;
             TileObjectData.addTile(Type);
 
-            dustType = 44;
-            drop = ModContent.ItemType<VerstaltiteBar>();
+            dustType = ModContent.DustType<AuricBarDust>();
+            drop = ModContent.ItemType<AuricBar>();
 
-            AddMapEntry(new Color(138, 43, 226)); //blue violet
+            AddMapEntry(new Color(255, 227, 81));
         }
 
         public override bool CreateDust(int i, int j, ref int type)
         {
-            if (Main.rand.NextBool(2))
-            {
-                type = 56;
-            }
-            else
-            {
-                type = 73;
-            }
+            type = ModContent.DustType<AuricBarDust>();
             return true;
         }
 
