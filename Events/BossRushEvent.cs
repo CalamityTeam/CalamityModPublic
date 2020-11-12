@@ -190,7 +190,13 @@ namespace CalamityMod.Events
                     CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.BossRushTierThreeEndText2", XerocTextColor);
                     NPC.SpawnOnPlayer(ClosestPlayerToWorldCenter, type);
                 }),
-                new Boss(ModContent.NPCType<AstrumDeusHeadSpectral>(), TimeChangeContext.Night),
+                new Boss(ModContent.NPCType<AstrumDeusHeadSpectral>(), TimeChangeContext.Night, type =>
+                {
+                    Player player = Main.player[ClosestPlayerToWorldCenter];
+
+                    Main.PlaySound(CalamityMod.Instance.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/AstrumDeusSpawn"), player.Center);
+                    NPC.SpawnOnPlayer(ClosestPlayerToWorldCenter, type);
+                }, usesSpecialSound: true),
                 new Boss(ModContent.NPCType<Polterghast>(), TimeChangeContext.Day),
                 new Boss(ModContent.NPCType<PlaguebringerGoliath>()),
                 new Boss(ModContent.NPCType<Calamitas>(), TimeChangeContext.Night, specialSpawnCountdown: 420),

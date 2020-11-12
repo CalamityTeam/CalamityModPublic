@@ -45,6 +45,7 @@ namespace CalamityMod.Projectiles.Boss
 				int idx = NPC.NewNPC((int)projectile.Center.X, (int)projectile.Center.Y - (int)MaxUpwardRise, ModContent.NPCType<AstrumDeusHeadSpectral>(), 1);
 				if (idx != -1)
 				{
+					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/AstrumDeusSpawn"), projectile.Center);
 					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
 						CalamityUtils.BossAwakenMessage(idx);
@@ -107,6 +108,7 @@ namespace CalamityMod.Projectiles.Boss
                     dust.velocity = angle.ToRotationVector2() * 7f;
                     dust.noGravity = true;
                 }
+				Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/AstralBeaconOrbPulse"), projectile.Center);
             }
 
             DrawStars(spriteBatch, offset);

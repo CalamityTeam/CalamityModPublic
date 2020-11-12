@@ -3099,6 +3099,8 @@ namespace CalamityMod.NPCs
 								netMessage.Write(Main.npc[headTwoID].Calamity().newAI[3]);
 								netMessage.Send();
 							}
+
+							Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/AstrumDeusSplit"), npc.Center);
 						}
 						return;
 					}

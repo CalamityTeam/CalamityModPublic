@@ -456,8 +456,9 @@ namespace CalamityMod
 				target.HitSound != SoundID.NPCHit5 && target.HitSound != SoundID.NPCHit11 && target.HitSound != SoundID.NPCHit30 &&
 				target.HitSound != SoundID.NPCHit34 && target.HitSound != SoundID.NPCHit36 && target.HitSound != SoundID.NPCHit42 &&
 				target.HitSound != SoundID.NPCHit49 && target.HitSound != SoundID.NPCHit52 && target.HitSound != SoundID.NPCHit53 &&
-				target.HitSound != SoundID.NPCHit54 && target.HitSound != null) || target.type == ModContent.NPCType<Providence>() || 
-				target.type == ModContent.NPCType<ScornEater>())
+				target.HitSound != SoundID.NPCHit54 && target.HitSound != null && target.type != ModContent.NPCType<AstrumDeusHeadSpectral>() &&
+				target.type != ModContent.NPCType<AstrumDeusBodySpectral>() && target.type != ModContent.NPCType<AstrumDeusTailSpectral>()) ||
+				target.type == ModContent.NPCType<Providence>() || target.type == ModContent.NPCType<ScornEater>())
 			{
 				return true;
 			}
