@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
             item.knockBack = 12f;
             item.width = 56;
             item.height = 24;
-            item.damage = 70;
+            item.damage = 65;
             item.hammer = 230;
             item.UseSound = SoundID.Item23;
 

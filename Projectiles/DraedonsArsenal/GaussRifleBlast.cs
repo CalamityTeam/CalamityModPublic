@@ -32,6 +32,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
         public override void AI()
         {
             Time++;
+			projectile.tileCollide = Time > 3f;
             if (!Main.dedServ)
             {
                 // Idle dust.

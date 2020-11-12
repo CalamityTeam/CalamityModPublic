@@ -3125,13 +3125,13 @@ namespace CalamityMod.NPCs
 					{
 						damage = (int)(damage * 0.5);
 					}
-					else if (projectile.type == ProjectileType<VoltageStream>())
-					{
-						damage = (int)(damage * 0.45);
-					}
 					else if (projectile.type == ProjectileType<SulphuricNukesplosion>())
 					{
 						damage = (int)(damage * 0.38);
+					}
+					else if (projectile.type == ProjectileType<VoltageStream>())
+					{
+						damage = (int)(damage * 0.3);
 					}
 					else if (projectile.type == ProjectileType<SeasSearingSpout>())
 					{
