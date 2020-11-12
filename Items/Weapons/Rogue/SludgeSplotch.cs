@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.autoReuse = true;
             item.height = 30;
             item.maxStack = 999;
-            item.value = Item.buyPrice(0, 1, 0, 0);
+            item.value = Item.sellPrice(0, 0, 0, 40);
             item.rare = 1;
             item.shoot = ModContent.ProjectileType<SludgeSplotchProj1>();
             item.shootSpeed = 10f;
