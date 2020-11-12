@@ -82,10 +82,8 @@ namespace CalamityMod.Projectiles.Ranged
         {
 			if (projectile.owner == Main.myPlayer)
 			{
-				projectile.position = projectile.Center;
-				projectile.width = projectile.height = 192;
-				projectile.Center = projectile.position;
-				Main.PlaySound(SoundID.Item14, projectile.position);
+				CalamityGlobalProjectile.ExpandHitboxBy(projectile, 192);
+				Main.PlaySound(SoundID.Item14, projectile.Center);
 				//DO NOT REMOVE THIS PROJECTILE
 				Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<MagnomalyExplosion>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
 
