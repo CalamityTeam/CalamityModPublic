@@ -9038,7 +9038,7 @@ namespace CalamityMod.CalPlayer
                 }
                 else if (dashMod == 4) //Asgardian Aegis
                 {
-                    dashDistance = 23.9f;
+                    dashDistance = 22.3f;
                     int direction = 0;
                     bool justDashed = false;
                     if (dashTimeMod > 0)
@@ -9227,7 +9227,7 @@ namespace CalamityMod.CalPlayer
                 }
                 else if (dashMod == 7) //Statis' Belt of Curses
                 {
-                    dashDistance = 21.9f;
+                    dashDistance = 23.9f;
                     int direction = 0;
                     bool justDashed = false;
                     if (dashTimeMod > 0)
