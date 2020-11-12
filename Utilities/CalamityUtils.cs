@@ -5,6 +5,7 @@ using CalamityMod.Events;
 using CalamityMod.Items;
 using CalamityMod.Items.Tools.ClimateChange;
 using CalamityMod.NPCs;
+using CalamityMod.NPCs.AstrumDeus;
 using CalamityMod.NPCs.NormalNPCs;
 using CalamityMod.NPCs.Providence;
 using CalamityMod.Projectiles;

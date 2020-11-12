@@ -4,6 +4,7 @@ using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Materials
@@ -16,7 +17,6 @@ namespace CalamityMod.Items.Materials
         {
             DisplayName.SetDefault("Auric Tesla Bar");
             Tooltip.SetDefault("It radiates godly energy");
-            Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(6, 16));
         }
 
         public override void SetDefaults()

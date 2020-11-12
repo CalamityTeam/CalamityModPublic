@@ -1,4 +1,4 @@
-using CalamityMod.Dusts;
+using CalamityMod.Dusts.Furniture;
 using CalamityMod.Items.Materials;
 using Microsoft.Xna.Framework;
 using Terraria;
