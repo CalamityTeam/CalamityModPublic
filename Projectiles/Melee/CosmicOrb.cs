@@ -85,7 +85,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override Color? GetAlpha(Color lightColor)
         {
-            return new Color(0, 255 - projectile.alpha, 0, 0);
+            return new Color(200 - projectile.alpha, 200 - projectile.alpha, 200 - projectile.alpha, 200 - projectile.alpha);
         }
     }
 }
