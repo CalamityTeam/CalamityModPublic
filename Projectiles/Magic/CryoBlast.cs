@@ -30,10 +30,7 @@ namespace CalamityMod.Projectiles.Magic
             if (projectile.scale <= 3.6f)
             {
                 projectile.scale *= 1.01f;
-				projectile.position = projectile.Center;
-                projectile.width = (int)(35f * projectile.scale);
-                projectile.height = (int)(35f * projectile.scale);
-				projectile.Center = projectile.position;
+				CalamityGlobalProjectile.ExpandHitboxBy(projectile, (int)(35f * projectile.scale));
             }
 
 			if (projectile.timeLeft < 53)
@@ -67,24 +64,7 @@ namespace CalamityMod.Projectiles.Magic
             }
         }
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
-		{
-			if (projectile.timeLeft > 599)
-				return false;
-
-			Texture2D texture = Main.projectileTexture[projectile.type];
-			int frameHeight = texture.Height / Main.projFrames[projectile.type];
-			int frameY = frameHeight * projectile.frame;
-			Rectangle rectangle = new Rectangle(0, frameY, texture.Width, texture.Height);
-			Vector2 origin = rectangle.Size() / 2f;
-
-			SpriteEffects spriteEffects = SpriteEffects.None;
-			if (projectile.spriteDirection == -1)
-				spriteEffects = SpriteEffects.FlipHorizontally;
-
-			Main.spriteBatch.Draw(texture, projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), rectangle, lightColor, projectile.rotation, origin, projectile.scale, spriteEffects, 0f);
-			return false;
-		}
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor) => projectile.timeLeft <= 599;
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
