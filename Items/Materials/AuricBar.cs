@@ -35,6 +35,11 @@ namespace CalamityMod.Items.Materials
 			item.consumable = true;
         }
 
+		public override void UseStyle(Player player)
+		{
+			player.itemLocation += new Vector2(-10f * player.direction, 10f * player.gravDir).RotatedBy(player.itemRotation);
+		}
+
 		public override bool PreDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frameI, Color drawColor, Color itemColor, Vector2 origin, float scale)
 		{
 			Texture2D texture = ModContent.GetTexture("CalamityMod/Items/Materials/AuricBar_Animated");
