@@ -64,7 +64,24 @@ namespace CalamityMod.Projectiles.Magic
             }
         }
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor) => projectile.timeLeft <= 599;
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			if (projectile.timeLeft > 599)
+				return false;
+
+			Texture2D texture = Main.projectileTexture[projectile.type];
+			Vector2 drawPos = projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY);
+			int height = texture.Height / Main.projFrames[projectile.type];
+			int frameHeight = height * projectile.frame;
+			Rectangle rectangle = new Rectangle(0, frameHeight, texture.Width, height);
+			Vector2 origin = new Vector2(texture.Width / 2f, height / 2f);
+			SpriteEffects spriteEffects = SpriteEffects.None;
+			if (projectile.spriteDirection == -1)
+				spriteEffects = SpriteEffects.FlipHorizontally;
+
+			spriteBatch.Draw(texture, drawPos, new Microsoft.Xna.Framework.Rectangle?(rectangle), lightColor, projectile.rotation, origin, projectile.scale, spriteEffects, 0f);
+			return false;
+		}
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
