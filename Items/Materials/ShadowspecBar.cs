@@ -20,8 +20,8 @@ namespace CalamityMod.Items.Materials
         public override void SetDefaults()
         {
 			item.createTile = ModContent.TileType<ShadowspecBarTile>();
-            item.width = 15;
-            item.height = 12;
+            item.width = 38;
+            item.height = 40;
             item.maxStack = 999;
             item.rare = ItemRarityID.Red;
             item.value = Item.sellPrice(gold: 85);

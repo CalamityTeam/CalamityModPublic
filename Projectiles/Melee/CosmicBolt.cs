@@ -37,6 +37,7 @@ namespace CalamityMod.Projectiles.Melee
                     dust.position.Y += (float)(projectile.height / 2);
                     dust.scale = Main.rand.NextFloat(0.49f, 0.763f);
                     dust.velocity *= 0.2f;
+                    dust.noGravity = true;
                 }
             }
         }
