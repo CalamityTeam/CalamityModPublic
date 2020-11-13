@@ -23,10 +23,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             projectile.width = projectile.height = 60;
             projectile.friendly = true;
             projectile.ranged = true;
-            projectile.penetrate = 1;
             projectile.timeLeft = 300;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 8;
         }
 
         public override void AI()
