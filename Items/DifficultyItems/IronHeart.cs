@@ -16,8 +16,7 @@ namespace CalamityMod.Items.DifficultyItems
             DisplayName.SetDefault("Iron Heart");
             Tooltip.SetDefault("Healing with potions and all positive life regen is disabled.\n" +
 				"Enemy damage scales with your max health.\n" +
-                "Can be toggled on and off.\n" +
-				"Using this while a boss is alive will instantly kill you and despawn the boss.");
+                "Can be toggled on and off.");
         }
 
         public override void SetDefaults()
@@ -35,15 +34,12 @@ namespace CalamityMod.Items.DifficultyItems
 
         public override bool UseItem(Player player)
         {
-			for (int doom = 0; doom < Main.npc.Length; doom++)
+			if (CalamityPlayer.areThereAnyDamnBosses || CalamityWorld.DoGSecondStageCountdown > 0 || BossRushEvent.BossRushActive)
 			{
-				if ((Main.npc[doom].active && (Main.npc[doom].boss || Main.npc[doom].type == NPCID.EaterofWorldsHead || Main.npc[doom].type == NPCID.EaterofWorldsTail || Main.npc[doom].type == ModContent.NPCType<SlimeGodRun>() ||
-					Main.npc[doom].type == ModContent.NPCType<SlimeGodRunSplit>() || Main.npc[doom].type == ModContent.NPCType<SlimeGod>() || Main.npc[doom].type == ModContent.NPCType<SlimeGodSplit>())) || CalamityWorld.DoGSecondStageCountdown > 0)
-				{
-					player.KillMe(PlayerDeathReason.ByCustomReason(player.name + " tried to change the rules."), 1000.0, 0, false);
-					Main.npc[doom].active = Main.npc[doom].friendly;
-					Main.npc[doom].netUpdate = true;
-				}
+                string key = "Mods.CalamityMod.ChangingTheRules";
+                Color messageColor = Color.LightSkyBlue;
+                CalamityUtils.DisplayLocalizedText(key, messageColor);
+				return true;
 			}
 			if (!CalamityWorld.ironHeart)
             {

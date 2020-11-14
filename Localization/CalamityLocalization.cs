@@ -127,6 +127,8 @@ namespace CalamityMod.Localization
                 new [] { "IronHeartText", "Iron Heart is active, healing is disabled." },
                 new [] { "IronHeartText2", "Iron Heart is not active, healing is restored." },
 
+                new [] { "ChangingTheRules", "Now is not the time to change the rules of this game!" },
+
                 new [] { "FlameText", "The air is getting warmer around you." },
 
                 new [] { "BossRushStartText", "Hmm? Ah, another contender. Very well, may the ritual commence!" },

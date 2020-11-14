@@ -25,8 +25,7 @@ namespace CalamityMod.Items.DifficultyItems
                 "Nurse no longer heals while a boss is alive.\n" +
                 "Increases damage done by several debuffs.\n" +
                 "Effect can be toggled on and off.\n" +
-                "Effect will only work if Revengeance Mode is active.\n" +
-                "Using this while a boss is alive will instantly kill you and despawn the boss.");
+                "Effect will only work if Revengeance Mode is active.");
         }
 
         public override void SetDefaults()
@@ -41,27 +40,17 @@ namespace CalamityMod.Items.DifficultyItems
             item.consumable = false;
         }
 
-        public override bool CanUseItem(Player player)
-        {
-            if (!CalamityWorld.revenge || BossRushEvent.BossRushActive)
-            {
-                return false;
-            }
-            return true;
-        }
+        public override bool CanUseItem(Player player) => CalamityWorld.revenge;
 
         public override bool UseItem(Player player)
         {
-            for (int doom = 0; doom < Main.npc.Length; doom++)
-            {
-                if ((Main.npc[doom].active && (Main.npc[doom].boss || Main.npc[doom].type == NPCID.EaterofWorldsHead || Main.npc[doom].type == NPCID.EaterofWorldsTail || Main.npc[doom].type == ModContent.NPCType<SlimeGodRun>() ||
-                    Main.npc[doom].type == ModContent.NPCType<SlimeGodRunSplit>() || Main.npc[doom].type == ModContent.NPCType<SlimeGod>() || Main.npc[doom].type == ModContent.NPCType<SlimeGodSplit>())) || CalamityWorld.DoGSecondStageCountdown > 0)
-                {
-                    player.KillMe(PlayerDeathReason.ByCustomReason(player.name + " tried to change the rules."), 1000.0, 0, false);
-                    Main.npc[doom].active = Main.npc[doom].friendly;
-                    Main.npc[doom].netUpdate = true;
-                }
-            }
+			if (CalamityPlayer.areThereAnyDamnBosses || CalamityWorld.DoGSecondStageCountdown > 0 || BossRushEvent.BossRushActive)
+			{
+                string key = "Mods.CalamityMod.ChangingTheRules";
+                Color messageColor = Color.Crimson;
+                CalamityUtils.DisplayLocalizedText(key, messageColor);
+				return true;
+			}
             if (!CalamityWorld.death)
             {
                 CalamityWorld.death = true;
