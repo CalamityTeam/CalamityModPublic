@@ -20,7 +20,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
         public override void SetDefaults()
         {
-            projectile.width = projectile.height = 60;
+            projectile.width = projectile.height = 40;
             projectile.friendly = true;
             projectile.ranged = true;
             projectile.timeLeft = 300;
