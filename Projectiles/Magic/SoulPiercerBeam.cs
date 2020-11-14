@@ -46,18 +46,9 @@ namespace CalamityMod.Projectiles.Magic
         {
             for (int x = 0; x < 3; x++)
             {
-                float xPos = projectile.ai[0] > 0 ? projectile.position.X + 500 : projectile.position.X - 500;
-                Vector2 vector2 = new Vector2(xPos, projectile.position.Y + Main.rand.Next(-500, 501));
-                float num80 = xPos;
-                float speedX = (float)target.position.X - vector2.X;
-                float speedY = (float)target.position.Y - vector2.Y;
-                float dir = (float)Math.Sqrt((double)(speedX * speedX + speedY * speedY));
-                dir = 10 / num80;
-                speedX *= dir * 150;
-                speedY *= dir * 150;
                 if (projectile.owner == Main.myPlayer)
                 {
-                    Projectile.NewProjectile(vector2.X, vector2.Y, speedX, speedY, ModContent.ProjectileType<SoulPiercerBolt>(), (int)((double)projectile.damage * 0.5), 0f, projectile.owner);
+					CalamityUtils.ProjectileBarrage(projectile.Center, target.Center, true, -500f, 500f, 0f, 500f, 10f, ModContent.ProjectileType<SoulPiercerBolt>(), (int)(projectile.damage * 0.5), 0f, projectile.owner, false, 0f);
                 }
             }
         }
