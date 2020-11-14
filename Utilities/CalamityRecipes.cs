@@ -368,7 +368,7 @@ namespace CalamityMod
             // Guide Voodoo Doll
             ModRecipe r = GetNewRecipe();
             r.AddIngredient(ItemID.Leather, 2);
-            r.AddRecipeGroup("FetidBloodletting", 2);
+            r.AddRecipeGroup("EvilPowder", 10);
             r.AddTile(TileID.Hellforge);
             r.SetResult(ItemID.GuideVoodooDoll);
             r.AddRecipe();
@@ -945,12 +945,12 @@ namespace CalamityMod
             });
             RecipeGroup.RegisterGroup("NForEE", group);
 
-            group = new RecipeGroup(() => "Any Evil Essence", new int[]
+            group = new RecipeGroup(() => "Any Evil Powder", new int[]
             {
-                ModContent.ItemType<FetidEssence>(),
-                ModContent.ItemType<BloodlettingEssence>()
+                ItemID.VilePowder,
+                ItemID.ViciousPowder
             });
-            RecipeGroup.RegisterGroup("FetidBloodletting", group);
+            RecipeGroup.RegisterGroup("EvilPowder", group);
 
             group = new RecipeGroup(() => "Shadow Scale or Tissue Sample", new int[]
             {
