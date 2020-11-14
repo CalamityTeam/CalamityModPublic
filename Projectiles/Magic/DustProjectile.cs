@@ -1,102 +1,108 @@
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Magic
 {
-    public class DustProjectile : ModProjectile
-    {
-        public override void SetStaticDefaults()
-        {
-            DisplayName.SetDefault("Dust");
-        }
+	public class DustProjectile : ModProjectile
+	{
+		public override void SetStaticDefaults()
+		{
+			DisplayName.SetDefault("Dust");
+            Main.projFrames[projectile.type] = 6;
+            ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
+            ProjectileID.Sets.TrailingMode[projectile.type] = 2;
+		}
 
-        public override void SetDefaults()
-        {
-            projectile.width = 50;
-            projectile.height = 50;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.tileCollide = false;
-            projectile.magic = true;
-            projectile.penetrate = -1;
-            projectile.extraUpdates = 3;
-            projectile.timeLeft = 160;
-        }
+		public override void SetDefaults()
+		{
+			projectile.width = 100;
+			projectile.height = 100;
+			projectile.friendly = true;
+			projectile.ignoreWater = true;
+			projectile.tileCollide = false;
+			projectile.magic = true;
+			projectile.penetrate = -1;
+			projectile.extraUpdates = 3;
+			projectile.timeLeft = 90;
+		}
 
-        public override void AI()
-        {
-            Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0.5f / 255f, (255 - projectile.alpha) * 0.4f / 255f, (255 - projectile.alpha) * 0.01f / 255f);
-            if (projectile.timeLeft > 60)
+		public override void AI()
+		{
+			Lighting.AddLight(projectile.Center, 0.5f, 0.4f, 0.01f);
+            projectile.frameCounter++;
+            if (projectile.frameCounter > 6)
             {
-                projectile.timeLeft = 60;
+                projectile.frame++;
+                projectile.frameCounter = 0;
             }
-            if (projectile.ai[0] > 7f)
+            if (projectile.frame >= Main.projFrames[projectile.type])
             {
-                float num296 = 1f;
-                if (projectile.ai[0] == 8f)
-                {
-                    num296 = 0.25f;
-                }
-                else if (projectile.ai[0] == 9f)
-                {
-                    num296 = 0.5f;
-                }
-                else if (projectile.ai[0] == 10f)
-                {
-                    num296 = 0.75f;
-                }
-                projectile.ai[0] += 1f;
-                int num297 = 32;
-                for (int num298 = 0; num298 < 2; num298++)
-                {
-                    int num299 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, num297, projectile.velocity.X * 0.2f, projectile.velocity.Y * 0.2f, 100, default, 1f);
-                    if (Main.rand.NextBool(3))
-                    {
-                        Main.dust[num299].noGravity = true;
-                        Main.dust[num299].scale *= 4f;
-                        Dust expr_DBEF_cp_0 = Main.dust[num299];
-                        expr_DBEF_cp_0.velocity.X *= 2f;
-                        Dust expr_DC0F_cp_0 = Main.dust[num299];
-                        expr_DC0F_cp_0.velocity.Y *= 2f;
-                    }
-                    else
-                    {
-                        Main.dust[num299].scale *= 1.5f;
-                    }
-                    Dust expr_DC74_cp_0 = Main.dust[num299];
-                    expr_DC74_cp_0.velocity.X *= 1.2f;
-                    Dust expr_DC94_cp_0 = Main.dust[num299];
-                    expr_DC94_cp_0.velocity.Y *= 1.2f;
-                    Main.dust[num299].scale *= num296;
-                }
-                for (int num298 = 0; num298 < 2; num298++)
-                {
-                    int num299 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, num297, projectile.velocity.X * 0.2f, projectile.velocity.Y * 0.2f, 100, default, 1f);
-                    if (Main.rand.NextBool(3))
-                    {
-                        Main.dust[num299].noGravity = true;
-                        Main.dust[num299].scale *= 5f;
-                        Dust expr_DBEF_cp_0 = Main.dust[num299];
-                        expr_DBEF_cp_0.velocity.X *= 2f;
-                        Dust expr_DC0F_cp_0 = Main.dust[num299];
-                        expr_DC0F_cp_0.velocity.Y *= 2f;
-                    }
-                    else
-                    {
-                        Main.dust[num299].scale *= 2.5f;
-                    }
-                    Dust expr_DC74_cp_0 = Main.dust[num299];
-                    expr_DC74_cp_0.velocity.X *= 1.2f;
-                    Dust expr_DC94_cp_0 = Main.dust[num299];
-                    expr_DC94_cp_0.velocity.Y *= 1.2f;
-                    Main.dust[num299].scale *= num296;
-                }
+                projectile.frame = 0;
             }
-            else
-            {
-                projectile.ai[0] += 1f;
-            }
-            projectile.rotation += 0.3f * (float)projectile.direction;
-        }
-    }
+            projectile.rotation += (Math.Abs(projectile.velocity.X) + Math.Abs(projectile.velocity.Y)) * 0.01f * (float)projectile.direction;
+			if (projectile.ai[0] > 7f)
+			{
+				int dustType = 32;
+				int idx = Dust.NewDust(projectile.position, projectile.width, projectile.height, dustType, projectile.velocity.X * 0.2f, projectile.velocity.Y * 0.2f, 100, default, 1f);
+				Dust dust = Main.dust[idx];
+				if (Main.rand.NextBool(3))
+				{
+					dust.noGravity = true;
+					dust.scale *= 2f;
+					dust.velocity.X *= 3f;
+					dust.velocity.Y *= 3f;
+				}
+				dust.velocity.X *= 1.5f;
+				dust.velocity.Y *= 1.5f;
+			}
+			projectile.ai[0] += 1f;
+			projectile.rotation += 0.3f * (float)projectile.direction;
+			if (projectile.timeLeft < 30)
+				projectile.Opacity = MathHelper.Lerp(0f, 1f, (float)projectile.timeLeft / 30f);
+		}
+
+		public override bool CanDamage() => projectile.timeLeft > 30;
+
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			//Changes the texture of the projectile
+			Texture2D texture = Main.projectileTexture[projectile.type];
+			switch ((int)projectile.ai[1])
+			{
+				case 0:
+					break;
+				case 1:
+					texture = ModContent.GetTexture("CalamityMod/Projectiles/Magic/DustIban");
+					break;
+				default:
+					break;
+			}
+            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1, texture);
+
+			// Dust effects
+			Circle dustCircle = new Circle(projectile.Center, projectile.width / 2);
+
+			for (int i = 0; i < 20; i++)
+			{
+				// Dust
+				Vector2 dustPos = dustCircle.RandomPointInCircle();
+				if ((dustPos - projectile.Center).Length() > 48)
+				{
+					int dustIndex = Dust.NewDust(dustPos, 1, 1, 32);
+					Main.dust[dustIndex].noGravity = true;
+					Main.dust[dustIndex].fadeIn = 1f;
+					Vector2 dustVelocity = projectile.Center - Main.dust[dustIndex].position;
+					float distToCenter = dustVelocity.Length();
+					dustVelocity.Normalize();
+					dustVelocity = dustVelocity.RotatedBy(MathHelper.ToRadians(-90f));
+					dustVelocity *= distToCenter * 0.04f;
+					Main.dust[dustIndex].velocity = dustVelocity;
+				}
+			}
+			return false;
+		}
+	}
 }
