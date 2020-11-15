@@ -6,6 +6,8 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class Feather : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Magic/TradewindsProjectile";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Feather");

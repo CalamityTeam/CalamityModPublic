@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class NapalmArrowProj : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Ammo/NapalmArrow";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Arrow");

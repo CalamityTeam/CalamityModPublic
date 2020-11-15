@@ -9,6 +9,7 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class ExecutionersBladeStealthProj : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/ExecutionersBlade";
 
         public override void SetStaticDefaults()
         {
@@ -39,7 +40,7 @@ namespace CalamityMod.Projectiles.Rogue
         public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Vector2 origin = new Vector2(32f, 32f);
-            spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Projectiles/Rogue/ExecutionersBladeStealthGlow"), projectile.Center - Main.screenPosition, null, Color.White, projectile.rotation, origin, 1f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Items/Weapons/Rogue/ExecutionersBladeGlow"), projectile.Center - Main.screenPosition, null, Color.White, projectile.rotation, origin, 1f, SpriteEffects.None, 0f);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

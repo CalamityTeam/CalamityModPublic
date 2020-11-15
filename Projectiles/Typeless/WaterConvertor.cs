@@ -6,6 +6,8 @@ namespace CalamityMod.Projectiles.Typeless
 {
     public class WaterConvertor : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetDefaults()
         {
             projectile.penetrate = -1;

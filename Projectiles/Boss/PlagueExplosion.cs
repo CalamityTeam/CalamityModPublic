@@ -7,6 +7,8 @@ namespace CalamityMod.Projectiles.Boss
 {
     public class PlagueExplosion : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Plague Stinger Explosion");
@@ -71,7 +73,7 @@ namespace CalamityMod.Projectiles.Boss
                 num466 = num465 / num466;
                 num463 *= num466;
                 num464 *= num466;
-                int num467 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 89, 0f, 0f, 100, default, 0.5f);
+                int num467 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 89, 0f, 0f, 100, default, 0.5f);
                 Main.dust[num467].noGravity = true;
                 Main.dust[num467].position.X = projectile.Center.X;
                 Main.dust[num467].position.Y = projectile.Center.Y;

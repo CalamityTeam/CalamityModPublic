@@ -6,6 +6,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
 	public class CelestialReaperProjectile : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/CelestialReaper";
+
         public int HomingCooldown = 0;
         public override void SetStaticDefaults()
         {

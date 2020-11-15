@@ -7,6 +7,8 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class FlameBurst : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         private float count = 0;
 
         public override void SetStaticDefaults()

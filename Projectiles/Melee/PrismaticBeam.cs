@@ -12,6 +12,8 @@ namespace CalamityMod.Projectiles.Melee
 {
 	public class PrismaticBeam : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Magic/YharimsCrystalBeam";
+
 		public Color[] colors = new Color[]
 		{
 			new Color(255, 0, 0, 50), //Red

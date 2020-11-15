@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class EnergyOrb : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Magic/BlueBubble";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Energy Orb");
@@ -30,13 +32,10 @@ namespace CalamityMod.Projectiles.Summon
             projectile.localAI[0] += 1f;
             if (projectile.localAI[0] > 4f)
             {
-                for (int num468 = 0; num468 < 1; num468++)
-                {
-                    int num469 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 132, 0f, 0f, 100, default, 1f);
-					if (Main.rand.Next(6) != 0)
-						Main.dust[num469].noGravity = true;
-                    Main.dust[num469].velocity *= 0f;
-                }
+				int num469 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 132, 0f, 0f, 100, default, 1f);
+				if (Main.rand.Next(6) != 0)
+					Main.dust[num469].noGravity = true;
+				Main.dust[num469].velocity *= 0f;
             }
             NPC potentialTarget = projectile.Center.MinionHoming(400f, Main.player[projectile.owner]);
             if (potentialTarget != null)

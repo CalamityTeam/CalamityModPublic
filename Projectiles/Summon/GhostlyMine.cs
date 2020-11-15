@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class GhostlyMine : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Boss/PhantomMine";
+
         public bool start = true;
         public bool spawnDust = true;
 

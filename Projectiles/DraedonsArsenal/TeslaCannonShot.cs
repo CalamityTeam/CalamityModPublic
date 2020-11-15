@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 {
 	public class TeslaCannonShot : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
 		private int[] dustArray = new int[7] { 56, 111, 137, 160, 206, 229, 226 };
 
 		private int arcs = 0;

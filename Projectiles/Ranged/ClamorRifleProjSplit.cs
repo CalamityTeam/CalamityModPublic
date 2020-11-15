@@ -5,6 +5,8 @@ namespace CalamityMod.Projectiles.Ranged
 {
 	public class ClamorRifleProjSplit : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Ranged/ClamorRifleProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Energy Bolt");

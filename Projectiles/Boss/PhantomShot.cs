@@ -10,6 +10,8 @@ namespace CalamityMod.Projectiles.Boss
 {
     public class PhantomShot : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Boss/PhantomHookShot";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Phantom Shot");

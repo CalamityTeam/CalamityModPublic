@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.Hybrid
 {
     public class AccretionDisk2 : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/AccretionDisk";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Accretion Disk");

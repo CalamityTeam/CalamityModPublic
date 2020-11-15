@@ -7,6 +7,8 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class AbyssBall : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Boss/AbyssBallVolley";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Abyss Ball");

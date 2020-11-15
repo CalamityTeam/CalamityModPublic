@@ -7,6 +7,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class SphereSpiked : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/DefectiveSphere";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Spiked Sphere");

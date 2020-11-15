@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.Boss
 {
     public class DarkEnergyBall2 : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Boss/DarkEnergyBall";
+
         private bool start = true;
 		private float startingPosX = 0f;
 		private float startingPosY = 0f;

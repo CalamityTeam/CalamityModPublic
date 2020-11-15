@@ -7,6 +7,8 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 {
 	public class UnstableMatter : ModProjectile
 	{
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
 		public bool HasCollidedWithATile
 		{
 			get => projectile.ai[0] == 1f;

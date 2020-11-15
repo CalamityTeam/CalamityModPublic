@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class DrizzlefishFireSplit : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Ranged/DrizzlefishFire";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Drizzlefish Flames");
@@ -31,7 +33,7 @@ namespace CalamityMod.Projectiles.Ranged
             //Changes the texture of the projectile
             if (projectile.ai[1] == 1f)
             {
-                Texture2D texture = ModContent.GetTexture("CalamityMod/Projectiles/Ranged/DrizzlefishFireSplit2");
+                Texture2D texture = ModContent.GetTexture("CalamityMod/Projectiles/Ranged/DrizzlefishFire2");
                 Main.spriteBatch.Draw(texture, projectile.Center - Main.screenPosition, new Rectangle?(new Rectangle(0, 0, 16, 16)), projectile.GetAlpha(lightColor), projectile.rotation, new Vector2(texture.Width / 2f, 20 / 2f), projectile.scale, SpriteEffects.None, 0f);
                 return false;
             }

@@ -10,6 +10,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
 	public class AlphaVirusProjectile : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/AlphaVirus";
+
         public static int lifetime = 600;
         public static float finalVelocity = 2f;
         public static float decelerationRate = 0.07f;

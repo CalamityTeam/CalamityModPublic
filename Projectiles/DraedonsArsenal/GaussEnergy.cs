@@ -5,6 +5,8 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 {
     public class GaussEnergy : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
     	public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Gauss Energy");

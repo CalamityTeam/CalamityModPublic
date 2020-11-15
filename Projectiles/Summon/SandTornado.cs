@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class SandTornado : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/TornadoProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Tornado");

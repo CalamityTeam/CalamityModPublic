@@ -6,6 +6,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class MoltenBlobThrown : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Boss/MoltenBlob";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Blob");

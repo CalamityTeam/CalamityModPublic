@@ -12,6 +12,8 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class BloodfireArrowProj : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Ammo/BloodfireArrow";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Bloodfire Arrow");

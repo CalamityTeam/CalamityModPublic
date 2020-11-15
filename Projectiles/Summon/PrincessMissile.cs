@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class PrincessMissile : ModProjectile
     {
+        public override string Texture => "CalamityMod/NPCs/PlaguebringerGoliath/PlagueHomingMissile";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Hive Bomb");

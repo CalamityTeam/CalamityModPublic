@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
 	public class AcidBarrelDrop : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Environment/AcidDrop";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Acid");

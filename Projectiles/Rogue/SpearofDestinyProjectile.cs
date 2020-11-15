@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class SpearofDestinyProjectile : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/SpearofDestiny";
+
 		private bool initialized = false;
 
         public override void SetStaticDefaults()

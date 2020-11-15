@@ -11,6 +11,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class HeavenfallenStardiskBoomerang : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/HeavenfallenStardisk";
+
         private bool explode = false;
 
         public override void SetStaticDefaults()

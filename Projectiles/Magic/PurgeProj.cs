@@ -7,6 +7,8 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class PurgeProj : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Magic/Purge";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Purge");
@@ -26,7 +28,7 @@ namespace CalamityMod.Projectiles.Magic
         public override void AI()
         {
             Player player = Main.player[projectile.owner];
-            float num = 1.57079637f;
+            float num = 0f;
             Vector2 vector = player.RotatedRelativePoint(player.MountedCenter, true);
             if (projectile.type == ModContent.ProjectileType<PurgeProj>())
             {

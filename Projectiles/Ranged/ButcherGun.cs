@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class ButcherGun : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Ranged/Butcher";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Butcher");

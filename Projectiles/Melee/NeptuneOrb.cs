@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class NeptuneOrb : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Melee/DepthOrb";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Beam");

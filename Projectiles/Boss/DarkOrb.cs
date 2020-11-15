@@ -11,6 +11,8 @@ namespace CalamityMod.Projectiles.Boss
 {
     public class DarkOrb : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/LightningProj";
+
 		private bool start = true;
 		private Vector2 center = Vector2.Zero;
 		private Vector2 velocity = Vector2.Zero;

@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class EelDrop : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Environment/AcidDrop";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Acid");

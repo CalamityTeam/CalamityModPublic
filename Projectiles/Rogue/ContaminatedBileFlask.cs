@@ -7,6 +7,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class ContaminatedBileFlask : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/ContaminatedBile";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Contaminated Bile");

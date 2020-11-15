@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class KarasawaShot : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         private int dust1 = 187; //160
         private int dust2 = 229; //187
 

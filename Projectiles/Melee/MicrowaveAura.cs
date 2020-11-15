@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.Melee
 {
 	public class MicrowaveAura : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
 		private int radius = 100;
 
         public override void SetStaticDefaults()

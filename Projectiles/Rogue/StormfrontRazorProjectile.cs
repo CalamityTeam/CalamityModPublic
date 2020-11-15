@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class StormfrontRazorProjectile : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/StormfrontRazor";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Stormfront Knife");

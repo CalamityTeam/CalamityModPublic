@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.Magic
 {
 	public class AuroraAustralis : ModProjectile
 	{
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
 		private static float CosFrequency = 0.05f;
 		private static float CosAmplitude = 0.008f;
 		public int[] dustTypes = new int[]

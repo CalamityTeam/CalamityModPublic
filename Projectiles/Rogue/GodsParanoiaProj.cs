@@ -10,6 +10,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
 	public class GodsParanoiaProj : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/GodsParanoia";
+
 		public int kunaiStabbing = 12;
 
         public override void SetStaticDefaults()

@@ -83,7 +83,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                 Vector2 offset = projectile.Size * 0.5f + projectile.Size.RotatedBy(projectile.velocity.ToRotation() - MathHelper.PiOver4) * 0.4f;
                 Vector2 start = oldPositions[i] + offset - Main.screenPosition + Vector2.UnitY * projectile.gfxOffY;
                 Vector2 end = oldPositions[i + 2] + offset - Main.screenPosition + Vector2.UnitY * projectile.gfxOffY;
-                Utils.DrawLaser(spriteBatch, ModContent.GetTexture("CalamityMod/Projectiles/DraedonsArsenal/GalvanizingLightning"), start, end, new Vector2(0.2f), new Utils.LaserLineFraming(DelegateMethods.LightningLaserDraw));
+                Utils.DrawLaser(spriteBatch, ModContent.GetTexture("CalamityMod/Projectiles/LightningProj"), start, end, new Vector2(0.2f), new Utils.LaserLineFraming(DelegateMethods.LightningLaserDraw));
             }
         }
 

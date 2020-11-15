@@ -14,6 +14,8 @@ namespace CalamityMod.Projectiles.Boss
 {
     public class OverlyDramaticDukeSummoner : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Boss/OldDukeVortex";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Old Duke Summoner");

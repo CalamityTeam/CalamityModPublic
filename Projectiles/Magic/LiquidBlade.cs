@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class LiquidBlade : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Magic/InfernalBlade";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Blade");

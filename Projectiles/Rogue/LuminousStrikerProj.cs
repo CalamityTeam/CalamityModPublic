@@ -10,6 +10,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
 	public class LuminousStrikerProj : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/LuminousStriker";
+
     	public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Luminous Striker");

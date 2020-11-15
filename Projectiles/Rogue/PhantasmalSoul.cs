@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
 	public class PhantasmalSoul : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Melee/GhastlySoulSmall";
+
         private int originDamage;
         private int divider = 10;
         public override void SetStaticDefaults()

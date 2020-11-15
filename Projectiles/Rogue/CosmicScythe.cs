@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
 	public class CosmicScythe : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Boss/SignusScythe";
+
         private int originalDamage;
 
         public override void SetStaticDefaults()

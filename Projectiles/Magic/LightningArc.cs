@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class LightningArc : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetStaticDefaults()
         {
 			DisplayName.SetDefault("Lightning Arc");

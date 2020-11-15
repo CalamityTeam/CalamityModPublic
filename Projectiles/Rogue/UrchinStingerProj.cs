@@ -10,6 +10,8 @@ namespace CalamityMod.Projectiles.Rogue
 {   
     public class UrchinStingerProj : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/UrchinStinger";
+
         private int projdmg = 0;
         public override void SetStaticDefaults()
         {

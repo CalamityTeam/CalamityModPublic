@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class AcidShrapnel : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Rogue/BarrelShrapnel";
+
         public bool HitTile = false;
         public override void SetStaticDefaults()
         {

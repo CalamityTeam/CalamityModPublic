@@ -10,6 +10,8 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class StarfleetMK2Gun : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Ranged/StarfleetMK2";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Starmada");

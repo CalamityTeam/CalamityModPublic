@@ -7,6 +7,8 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class VisceraBeam : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public float healAmt = 1f;
 
         public override void SetStaticDefaults()

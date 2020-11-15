@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class BrimstoneFireballMinion : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Boss/BrimstoneHellfireball";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Brimfire");

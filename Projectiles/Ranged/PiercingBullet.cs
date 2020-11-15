@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class PiercingBullet : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Ranged/AMRShot";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Piercing Blow");

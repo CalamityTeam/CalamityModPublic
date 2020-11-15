@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
 	public class MalachiteProj : ModProjectile
 	{
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/Malachite";
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Malachite");

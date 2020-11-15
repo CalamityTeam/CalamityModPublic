@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class DeepSeaDumbbell3 : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/DeepSeaDumbbell";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Deep Sea Dumbbell");

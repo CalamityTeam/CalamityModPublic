@@ -7,6 +7,8 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class RoxSlam : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetDefaults()
         {
             projectile.width = 10;

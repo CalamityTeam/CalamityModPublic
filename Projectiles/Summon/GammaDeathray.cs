@@ -11,6 +11,8 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class GammaDeathray : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Enemy/CragmawBeam";
+
         public float MaximumLength => projectile.Distance(Main.MouseWorld);
         // How fat the laser is
         public const float LaserSize = 1.35f;

@@ -7,6 +7,8 @@ namespace CalamityMod.Projectiles.Boss
 {
     public class BrimstoneLaserSplit : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Boss/BrimstoneLaser";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Brimstone Homing Laser");

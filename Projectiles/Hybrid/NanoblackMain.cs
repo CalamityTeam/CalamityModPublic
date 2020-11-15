@@ -10,6 +10,8 @@ namespace CalamityMod.Projectiles.Hybrid
 {
     public class NanoblackMain : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/NanoblackReaperRogue";
+
         private const float RotationIncrement = 0.22f;
         private const int Lifetime = 240;
         private const float ReboundTime = 50f;

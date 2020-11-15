@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.Hybrid
 {
     public class CorpusAvertorProj : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/CorpusAvertor";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Corpus Avertor");

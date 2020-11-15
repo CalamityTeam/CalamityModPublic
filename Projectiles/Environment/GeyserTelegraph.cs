@@ -6,6 +6,8 @@ namespace CalamityMod.Projectiles.Environment
 {
 	public class GeyserTelegraph : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
 		private bool initialized = false;
         public override void SetStaticDefaults()
         {

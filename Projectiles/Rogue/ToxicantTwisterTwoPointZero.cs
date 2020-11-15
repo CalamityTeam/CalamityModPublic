@@ -10,6 +10,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
 	public class ToxicantTwisterTwoPointZero : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/ToxicantTwister";
+
 		private int lifeTime = 300;
 		private int targetIndex = -1;
 

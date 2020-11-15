@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class SlickCaneProjectile : BaseSpearProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/SlickCane";
+
 		private bool initialized = false;
         public override void SetStaticDefaults()
         {

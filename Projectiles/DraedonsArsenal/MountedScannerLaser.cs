@@ -10,6 +10,8 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 {
     public class MountedScannerLaser : BaseLaserbeamProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public int OwnerIndex
         {
             get => Projectile.GetByUUID(projectile.owner, projectile.ai[1]);

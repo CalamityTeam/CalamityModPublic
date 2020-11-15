@@ -4,6 +4,8 @@ namespace CalamityMod.Projectiles.Hybrid
 {
     public class SeashellBoomerangProjectile : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/SeashellBoomerang";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Boomerang");

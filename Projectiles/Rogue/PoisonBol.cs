@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class PoisonBol : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/PoisonPack";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Poison Ball");

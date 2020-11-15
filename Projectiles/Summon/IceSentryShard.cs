@@ -7,6 +7,8 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class IceSentryShard : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Boss/IceRain";
+
         public override void SetDefaults()
         {
             projectile.width = 12;

@@ -6,6 +6,8 @@ namespace CalamityMod.Projectiles.Ranged
 {
 	public class DesertTornado : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/TornadoProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Tornado");

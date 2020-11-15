@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class HadopelagicEchoSoundwave : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Magic/EidolicWailSoundwave";
+
 		private int echoCooldown = 0;
 		private bool playedSound = false;
 		private static int penetrationAmt = 50;

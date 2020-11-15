@@ -5,6 +5,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
 	public class ApoctolithShard : ModProjectile
 	{
+        public override string Texture => "CalamityMod/Projectiles/Rogue/AbyssalMirrorProjectile";
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Apoctolith Shard");

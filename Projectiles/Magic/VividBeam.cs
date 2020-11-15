@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.Magic
 {
 	public class VividBeam : ModProjectile
 	{
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
 		private bool initialized = false;
 		public override void SetStaticDefaults()
 		{
