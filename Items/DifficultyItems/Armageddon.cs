@@ -51,8 +51,8 @@ namespace CalamityMod.Items.DifficultyItems
             CalamityWorld.DoGSecondStageCountdown = 0;
 
             string key2 = CalamityWorld.armageddon ? "Mods.CalamityMod.ArmageddonText" : "Mods.CalamityMod.ArmageddonText2";
-            Color messageColor = Color.Fuchsia;
-            CalamityUtils.DisplayLocalizedText(key2, messageColor);
+            Color messageColor2 = Color.Fuchsia;
+            CalamityUtils.DisplayLocalizedText(key2, messageColor2);
 
             CalamityNetcode.SyncWorld();
 
