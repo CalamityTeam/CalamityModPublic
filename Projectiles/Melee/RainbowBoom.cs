@@ -87,7 +87,7 @@ namespace CalamityMod.Projectiles.Melee
 
 		public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
 		{
-			projectile.damage = (int)(projectile.damage * 0.8);
+			projectile.damage = (int)(projectile.damage * 0.9);
 		}
 	}
 }

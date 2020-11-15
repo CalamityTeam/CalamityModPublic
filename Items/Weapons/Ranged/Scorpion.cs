@@ -52,7 +52,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 		public override float UseTimeMultiplier	(Player player)
 		{
 			if (player.altFunctionUse == 2)
-				return (13f/42f);
+				return 13f/42f;
 			return 1f;
 		}
 
@@ -60,7 +60,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             if (player.altFunctionUse == 2)
             {
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<BigNuke>(), (int)(damage * 2.2999), knockBack, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<BigNuke>(), (int)(damage * 1.25), knockBack, player.whoAmI, 0f, 0f);
                 return false;
             }
             else

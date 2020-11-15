@@ -3053,6 +3053,10 @@ namespace CalamityMod.NPCs
 			// Expert Mode resists, mostly worms
 			if (Main.expertMode)
 			{
+				// Nerfed because these are really overpowered
+				if (projectile.type == ProjectileID.CursedDartFlame)
+					damage /= 2;
+
 				if (AstrumDeusIDs.Contains(npc.type))
 				{
 					GrenadeResist(projectile, ref damage);
@@ -4656,9 +4660,9 @@ namespace CalamityMod.NPCs
 			if (EaterofWorldsIDs.Contains(target.type) || DestroyerIDs.Contains(target.type))
 				return false;
 
-            if (target.damage > 0 && !target.boss && !target.friendly && !target.dontTakeDamage &&
-                target.type != NPCID.MourningWood && target.type != NPCID.Everscream && target.type != NPCID.SantaNK1 &&
-                target.type != NPCType<Reaper>() && target.type != NPCType<Mauler>() && target.type != NPCType<EidolonWyrmHead>() &&
+            if (target.damage > 0 && !target.boss && !target.friendly && !target.dontTakeDamage && target.type != NPCID.Creeper && target.type != NPCType<RavagerClawLeft>() &&
+                target.type != NPCID.MourningWood && target.type != NPCID.Everscream && target.type != NPCID.SantaNK1 && target.type != NPCType<RavagerClawRight>() &&
+				target.type != NPCType<Reaper>() && target.type != NPCType<Mauler>() && target.type != NPCType<EidolonWyrmHead>() && target.type != NPCID.GolemFistLeft && target.type != NPCID.GolemFistRight &&
                 target.type != NPCType<EidolonWyrmHeadHuge>() && target.type != NPCType<ColossalSquid>() && target.type != NPCID.DD2Betsy && !CalamityLists.enemyImmunityList.Contains(target.type) && !AcidRainEvent.AllMinibosses.Contains(target.type))
             {
                 return true;
