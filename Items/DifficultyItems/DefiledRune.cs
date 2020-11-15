@@ -36,7 +36,12 @@ namespace CalamityMod.Items.DifficultyItems
 
         public override bool UseItem(Player player)
         {
-			if (CalamityPlayer.areThereAnyDamnBosses || CalamityWorld.DoGSecondStageCountdown > 0 || BossRushEvent.BossRushActive)
+            // This world syncing code should only be run by one entity- the server, to prevent a race condition
+            // with the packets.
+            if (Main.netMode == NetmodeID.MultiplayerClient)
+                return true;
+
+            if (CalamityPlayer.areThereAnyDamnBosses || CalamityWorld.DoGSecondStageCountdown > 0 || BossRushEvent.BossRushActive)
 			{
                 string key = "Mods.CalamityMod.ChangingTheRules";
                 Color messageColor = Color.DarkSeaGreen;
@@ -58,30 +63,8 @@ namespace CalamityMod.Items.DifficultyItems
                 CalamityUtils.DisplayLocalizedText(key, messageColor);
             }
             CalamityWorld.DoGSecondStageCountdown = 0;
-
             CalamityNetcode.SyncWorld();
 
-            if (Main.netMode == NetmodeID.Server)
-            {
-                var netMessage = mod.GetPacket();
-                netMessage.Write((byte)CalamityModMessageType.DefiledBoolSync);
-                netMessage.Write(CalamityWorld.defiled);
-                netMessage.Send();
-            }
-            if (Main.netMode == NetmodeID.Server)
-            {
-                var netMessage = mod.GetPacket();
-                netMessage.Write((byte)CalamityModMessageType.RevengeanceBoolSync);
-                netMessage.Write(CalamityWorld.revenge);
-                netMessage.Send();
-            }
-            if (Main.netMode == NetmodeID.Server)
-            {
-                var netMessage = mod.GetPacket();
-                netMessage.Write((byte)CalamityModMessageType.DoGCountdownSync);
-                netMessage.Write(CalamityWorld.DoGSecondStageCountdown);
-                netMessage.Send();
-            }
             return true;
         }
 

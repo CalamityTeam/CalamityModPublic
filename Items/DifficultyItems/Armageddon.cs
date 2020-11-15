@@ -33,6 +33,11 @@ namespace CalamityMod.Items.DifficultyItems
 
         public override bool UseItem(Player player)
         {
+            // This world syncing code should only be run by one entity- the server, to prevent a race condition
+            // with the packets.
+            if (Main.netMode == NetmodeID.MultiplayerClient)
+                return true;
+
 			if (CalamityPlayer.areThereAnyDamnBosses || CalamityWorld.DoGSecondStageCountdown > 0 || BossRushEvent.BossRushActive)
 			{
                 string key = "Mods.CalamityMod.ChangingTheRules";
@@ -40,14 +45,7 @@ namespace CalamityMod.Items.DifficultyItems
                 CalamityUtils.DisplayLocalizedText(key, messageColor);
 				return true;
 			}
-            if (!CalamityWorld.armageddon)
-            {
-                CalamityWorld.armageddon = true;
-            }
-            else
-            {
-                CalamityWorld.armageddon = false;
-            }
+            CalamityWorld.armageddon = !CalamityWorld.armageddon;
             CalamityWorld.DoGSecondStageCountdown = 0;
 
             string key2 = CalamityWorld.armageddon ? "Mods.CalamityMod.ArmageddonText" : "Mods.CalamityMod.ArmageddonText2";
@@ -56,13 +54,6 @@ namespace CalamityMod.Items.DifficultyItems
 
             CalamityNetcode.SyncWorld();
 
-            if (Main.netMode == NetmodeID.Server)
-            {
-                var netMessage = mod.GetPacket();
-                netMessage.Write((byte)CalamityModMessageType.ArmageddonBoolSync);
-                netMessage.Write(CalamityWorld.armageddon);
-                netMessage.Send();
-            }
             return true;
         }
 
