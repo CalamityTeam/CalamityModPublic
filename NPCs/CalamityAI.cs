@@ -3100,7 +3100,7 @@ namespace CalamityMod.NPCs
 								netMessage.Send();
 							}
 
-							Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/AstrumDeusSplit"), npc.Center);
+							Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/AstrumDeusSplit"), player.Center);
 						}
 						return;
 					}
