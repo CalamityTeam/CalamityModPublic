@@ -117,7 +117,10 @@ namespace CalamityMod.NPCs
         #endregion
 
 		// Master Mode changes
-		// 1 - Far larger size, 2 - Glows rainbow colors, 3 - Spawns a rainbow slime every 5% HP
+		/* 1 - Rainbow colored
+		   2 - Spawns a rainbow slime every 5% HP
+		   3 - Teleports ahead of target
+		   4 - Can use a jump and slam like a Big Mimic*/
         #region Buffed King Slime AI
         public static bool BuffedKingSlimeAI(NPC npc, Mod mod)
         {
@@ -565,12 +568,15 @@ namespace CalamityMod.NPCs
             }
             return false;
         }
-        #endregion
+		#endregion
 
 		// Master Mode changes
-		// 1 - 2 eyes spawn at once, one in phase 1 and one in phase 2
-        #region Buffed Eye of Cthulhu AI
-        public static bool BuffedEyeofCthulhuAI(NPC npc, bool enraged, Mod mod)
+		/* 1 - Spawns a clone of itself that copies every movement of the main eye but inverted (if main is on top and to the left, the mirror is on bottom and to the right)
+		   2 - Damaging either eye causes damage to both
+		   3 - Horizontal dashes in phase 2 are far more common
+		   4 - The delay between dashes and horizontal dashes is reduced*/
+		#region Buffed Eye of Cthulhu AI
+		public static bool BuffedEyeofCthulhuAI(NPC npc, bool enraged, Mod mod)
         {
             CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
@@ -1423,12 +1429,15 @@ namespace CalamityMod.NPCs
 
             return false;
         }
-        #endregion
+		#endregion
 
 		// Master Mode changes
-		// 1 - More segments, 2 - Spawns as 5 split worms instead of a single worm
-        #region Buffed Eater of Worlds AI
-        public static bool BuffedEaterofWorldsAI(NPC npc, Mod mod)
+		/* 1 - First head that spawns will spawn 4 other heads, creating 5 worms in total
+		   2 - Each worm is 30 segments long and is immune to debuffs
+		   3 - Worm heads push away from each other
+		   4 - Vile Spits home in on the target slightly*/
+		#region Buffed Eater of Worlds AI
+		public static bool BuffedEaterofWorldsAI(NPC npc, Mod mod)
         {
             CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
@@ -1959,7 +1968,10 @@ namespace CalamityMod.NPCs
 		#endregion
 
 		// Master Mode changes
-		// 1 - Spawns far more Creepers, 2 - Moves and dashes far quicker, 3 - Creepers charge much quicker, 4 - Fully visible mirages in phase 2
+		/* 1 - Afterimages are fully visible at all times in phase 2 and deal contact damage
+		   2 - No longer spins before charging in final phase
+		   3 - Creepers spread out from each other
+		   4 - Creepers are immune to debuffs*/
 		#region Buffed Brain of Cthulhu AI
 		public static bool BuffedBrainofCthulhuAI(NPC npc, bool enraged, Mod mod)
         {

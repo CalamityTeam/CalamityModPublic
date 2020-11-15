@@ -3050,13 +3050,13 @@ namespace CalamityMod.NPCs
 				}
 			}
 
+			// Nerfed because these are really overpowered
+			if (projectile.type == ProjectileID.CursedDartFlame)
+				damage /= 2;
+
 			// Expert Mode resists, mostly worms
 			if (Main.expertMode)
 			{
-				// Nerfed because these are really overpowered
-				if (projectile.type == ProjectileID.CursedDartFlame)
-					damage /= 2;
-
 				if (AstrumDeusIDs.Contains(npc.type))
 				{
 					GrenadeResist(projectile, ref damage);

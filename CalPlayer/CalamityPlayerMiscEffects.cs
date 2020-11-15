@@ -302,9 +302,9 @@ namespace CalamityMod.CalPlayer
 								adrenalineDiff = -modPlayer.adrenalineMax / 120f;
 						}
 
-						// All positive adrenaline gains are multiplied by 44.44444% during the SCal fight.
+						// Takes 45 seconds to charge in the SCal fight.
 						if (SCalAlive && adrenalineDiff > 0f)
-							adrenalineDiff *= 0.3f;
+							adrenalineDiff *= 0.67f;
 
 						// Apply the adrenaline change and cap adrenaline in both directions.
 						modPlayer.adrenaline += adrenalineDiff;
