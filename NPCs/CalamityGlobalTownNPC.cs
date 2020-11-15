@@ -57,6 +57,7 @@ namespace CalamityMod.NPCs
 		private static readonly string[] GoblinTinkererNames =
 		{
 			"Verth",
+			"Gormer", // <@!287651204924833795> (Picasso's Bean#2819)
 		};
 		private const int GuideVanillaNames = 34;
 		private static readonly string[] GuideNames =
@@ -125,6 +126,7 @@ namespace CalamityMod.NPCs
 			"Inorim, son of Ivukey",
 			"Jensen",
 			"Merasmus", // <@!288066987819663360> (Spider pee pee#3328)
+			"Habolo", // <@!163028025494077441> (ChristmasGoat#7810)
 		};
 		#endregion
 

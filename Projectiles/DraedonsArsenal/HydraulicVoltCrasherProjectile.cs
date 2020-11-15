@@ -20,14 +20,14 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
         public override void SetDefaults()
         {
             projectile.width = 56;
-            projectile.height = 26;
+            projectile.height = 56;
             projectile.friendly = true;
             projectile.penetrate = -1;
             projectile.tileCollide = false;
             projectile.hide = true;
             projectile.ownerHitCheck = true;
             projectile.melee = true;
-            projectile.scale = 1.1f;
+            projectile.scale = 1.3f;
         }
 
         public override void AI()

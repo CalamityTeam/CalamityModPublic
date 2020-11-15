@@ -203,6 +203,8 @@ namespace CalamityMod.ILEditing
                         }
                         Main.tile[i, j + dy].type = type;
                         Main.tile[i, j + dy].frameY = frameY;
+						if (Main.netMode == NetmodeID.Server)
+							WorldGen.TileFrame(i, j + dy, false, false);
                         frameY += 16;
                         if ((int)frameY / 16 >= 4)
                             break;

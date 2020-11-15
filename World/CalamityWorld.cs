@@ -1481,9 +1481,9 @@ namespace CalamityMod.World
                                                 tile.frameX = (short)(WorldGen.genRand.Next(18) * 18);
                                             }
 
-                                            WorldGen.SquareTileFrame(x, y, true);
+                                            WorldGen.SquareTileFrame(x, y);
 
-                                            if (Main.netMode == 2)
+                                            if (Main.netMode == NetmodeID.Server)
                                                 NetMessage.SendTileSquare(-1, x, y, 1, TileChangeType.None);
                                         }
                                     }

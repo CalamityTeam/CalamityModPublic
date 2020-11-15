@@ -53,8 +53,6 @@ namespace CalamityMod.Items.Weapons.Rogue
             if (player.altFunctionUse == 2)
             {
                 item.useStyle = ItemUseStyleID.HoldingUp;
-                item.useAnimation = 45;
-                item.useTime = 45;
                 item.noMelee = false;
                 item.noUseGraphic = false;
                 item.autoReuse = false;
@@ -63,8 +61,6 @@ namespace CalamityMod.Items.Weapons.Rogue
             else
             {
                 item.useStyle = ItemUseStyleID.SwingThrow;
-                item.useAnimation = 25;
-                item.useTime = 25;
                 item.noMelee = true;
                 item.noUseGraphic = true;
                 item.autoReuse = true;
@@ -72,6 +68,13 @@ namespace CalamityMod.Items.Weapons.Rogue
             }
             return base.CanUseItem(player);
         }
+
+		public override float UseTimeMultiplier	(Player player)
+		{
+			if (player.altFunctionUse == 2)
+				return (5f/9f);
+			return 1f;
+		}
 
         public override void ModifyWeaponDamage(Player player, ref float add, ref float mult, ref float flat)
         {
