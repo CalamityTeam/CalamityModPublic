@@ -1,5 +1,5 @@
+using CalamityMod.CalPlayer;
 using CalamityMod.Events;
-using CalamityMod.NPCs.SlimeGod;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -50,9 +50,9 @@ namespace CalamityMod.Items.DifficultyItems
             }
             CalamityWorld.DoGSecondStageCountdown = 0;
 
-            string key = CalamityWorld.armageddon ? "Mods.CalamityMod.ArmageddonText" : "Mods.CalamityMod.ArmageddonText2";
+            string key2 = CalamityWorld.armageddon ? "Mods.CalamityMod.ArmageddonText" : "Mods.CalamityMod.ArmageddonText2";
             Color messageColor = Color.Fuchsia;
-            CalamityUtils.DisplayLocalizedText(key, messageColor);
+            CalamityUtils.DisplayLocalizedText(key2, messageColor);
 
             CalamityNetcode.SyncWorld();
 

@@ -56,7 +56,7 @@ namespace CalamityMod.Items.Accessories
             recipe.AddIngredient(ModContent.ItemType<LivingDew>());
             recipe.AddIngredient(ItemID.BottledHoney, 10);
             recipe.AddIngredient(ModContent.ItemType<TrapperBulb>(), 2);
-            recipe.AddIngredient(ItemID.ButterflyPowder);
+            recipe.AddIngredient(ItemID.ButterflyDust);
             recipe.AddIngredient(ModContent.ItemType<BeetleJuice>(), 3);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);

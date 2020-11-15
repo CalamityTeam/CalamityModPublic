@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Potions
 
         public override void AddRecipes()
         {
-            recipe = new ModRecipe(mod);
+            ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<BloodOrb>(), 10);
             recipe.AddIngredient(ItemID.BottledWater);
             recipe.AddTile(TileID.AlchemyTable);
