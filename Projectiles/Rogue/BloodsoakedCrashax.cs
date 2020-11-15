@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
 	public class BloodsoakedCrashax : ModProjectile
 	{
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/BloodsoakedCrasher";
+
 		private int bounce = 3; //number of times it bounces
 		private int grind = 0; //used to know when to slow down
 

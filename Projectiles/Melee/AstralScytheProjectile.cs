@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class AstralScytheProjectile : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Enemy/MantisRing";
+
 		private int tileCounter = 5;
 
         public override void SetStaticDefaults()

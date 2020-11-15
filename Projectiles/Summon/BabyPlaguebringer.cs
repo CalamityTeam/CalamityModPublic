@@ -10,6 +10,8 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class BabyPlaguebringer : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Pets/PlaguebringerBab";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Baby Plaguebringer");

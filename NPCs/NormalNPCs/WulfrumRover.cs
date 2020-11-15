@@ -141,6 +141,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             DropHelper.DropItem(npc, ModContent.ItemType<WulfrumShard>());
 			DropHelper.DropItemCondition(npc, ModContent.ItemType<EnergyCore>(), Supercharged);
 			DropHelper.DropItemChance(npc, ModContent.ItemType<RoverDrive>(), 10);
+            DropHelper.DropItemChance(npc, ModContent.ItemType<WulfrumBattery>(), 0.07f);
         }
     }
 }

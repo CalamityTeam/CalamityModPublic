@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class TitaniumShurikenProjectile : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/TitaniumShuriken";
+
         private static float RotationIncrement = 0.22f;
         private static float ReboundTime = 26f;
 

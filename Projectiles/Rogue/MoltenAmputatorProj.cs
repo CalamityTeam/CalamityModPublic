@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class MoltenAmputatorProj : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/MoltenAmputator";
+
         private int stealthyBlobTimer = 6;
 
         public override void SetStaticDefaults()

@@ -11,6 +11,8 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class ElysianArrowProj : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Ammo/ElysianArrow";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Arrow");

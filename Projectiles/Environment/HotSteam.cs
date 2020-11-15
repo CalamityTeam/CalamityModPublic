@@ -7,6 +7,8 @@ namespace CalamityMod.Projectiles.Environment
 {
     public class HotSteam : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Steam");

@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.Ranged
 {
 	public class AuroraFire : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
 		private const int framesBeforeTurning = 70;
 		private bool initialized = false;
 		private int radianAmt = 0;

@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class UltimaBowProjectile : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Ranged/Ultima";
+
         public float Time
         {
             get => projectile.ai[0];

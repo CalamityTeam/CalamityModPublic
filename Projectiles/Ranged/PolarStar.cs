@@ -10,6 +10,8 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class PolarStar : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/LaserProj";
+
         private int dust1 = 86;
         private int dust2 = 91;
 

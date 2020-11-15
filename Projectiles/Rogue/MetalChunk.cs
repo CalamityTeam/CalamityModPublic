@@ -7,6 +7,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class MetalChunk : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/MetalMonstrosity";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Metal Chunk"); //Metal Chungus - Shucks

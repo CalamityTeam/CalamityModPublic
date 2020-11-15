@@ -4,6 +4,8 @@ namespace CalamityMod.Projectiles.Ranged
 {
 	public class RainbowTrail : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Ranged/RainbowFront";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Rainbow");

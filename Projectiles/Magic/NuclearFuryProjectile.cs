@@ -51,14 +51,12 @@ namespace CalamityMod.Projectiles.Magic
 				projectile.alpha -= 5;
 				if (projectile.alpha < 50)
 					projectile.alpha = 50;
-				projectile.rotation += projectile.velocity.X * 0.1f;
-				projectile.frame = (int)(projectile.localAI[1] / 3f) % 3;
 				Lighting.AddLight((int)projectile.Center.X / 16, (int)projectile.Center.Y / 16, 0.1f, 0.4f, 0.6f);
 			}
+			projectile.rotation += projectile.velocity.X * 0.1f;
 			int num1 = -1;
-			Vector2 vector2 = projectile.Center;
-			float num2 = 500f;
-            Vector2 value = new Vector2(0.5f);
+			Vector2 targetVec = projectile.Center;
+			float maxDistance = 500f;
 			if (projectile.localAI[0] > 0f)
 			{
 				projectile.localAI[0] -= 1f;
@@ -70,12 +68,17 @@ namespace CalamityMod.Projectiles.Magic
 					NPC npc = Main.npc[index];
 					if (npc.CanBeChasedBy(projectile, false) && (projectile.ai[0] == 0f || projectile.ai[0] == (index + 1f)))
 					{
-						Vector2 center = npc.position + npc.Size * value;
-						float num3 = Vector2.Distance(center, vector2);
-						if (num3 < num2 && Collision.CanHit(projectile.position, projectile.width, projectile.height, npc.position, npc.width, npc.height))
+						float extraDistance = (npc.width / 2) + (npc.height / 2);
+
+						bool canHit = true;
+						if (extraDistance < maxDistance)
+							canHit = Collision.CanHit(projectile.Center, 1, 1, npc.Center, 1, 1);
+
+						float npcDist = Vector2.Distance(npc.Center, targetVec);
+						if (npcDist < (maxDistance + extraDistance) && canHit)
 						{
-							num2 = num3;
-							vector2 = center;
+							maxDistance = npcDist;
+							targetVec = npc.Center;
 							num1 = index;
 						}
 					}
@@ -97,7 +100,7 @@ namespace CalamityMod.Projectiles.Magic
 					if ((Math.Abs(projectile.Center.X - Main.npc[index].Center.X) + Math.Abs(projectile.Center.Y - Main.npc[index].Center.Y)) < 1000f)
 					{
 						flag = true;
-						vector2 = Main.npc[index].Center;
+						targetVec = Main.npc[index].Center;
 					}
 				}
 				else
@@ -109,7 +112,7 @@ namespace CalamityMod.Projectiles.Magic
 			}
 			if (flag)
 			{
-				double num3 = (double)(vector2 - projectile.Center).ToRotation() - (double)projectile.velocity.ToRotation();
+				double num3 = (double)(targetVec - projectile.Center).ToRotation() - (double)projectile.velocity.ToRotation();
 				if (num3 > Math.PI)
 					num3 -= 2.0 * Math.PI;
 				if (num3 < -1.0 * Math.PI)
@@ -134,7 +137,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override Color? GetAlpha(Color lightColor)
         {
-            return new Color(0, 0, 200, 0);
+            return new Color(200, 200, 200, 200);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

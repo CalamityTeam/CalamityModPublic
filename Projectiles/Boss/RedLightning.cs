@@ -10,6 +10,8 @@ namespace CalamityMod.Projectiles.Boss
 {
 	public class RedLightning : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/LightningProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Red Lightning");

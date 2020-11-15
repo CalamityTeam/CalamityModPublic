@@ -10,6 +10,8 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class GalileosMoon : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Magic/Crescent";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Crescent Moon");

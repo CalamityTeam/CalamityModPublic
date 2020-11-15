@@ -7,6 +7,8 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 {
 	public class FrequencyManipulatorProjectile : ModProjectile
 	{
+        public override string Texture => "CalamityMod/Items/Weapons/DraedonsArsenal/FrequencyManipulator";
+
 		public float Time
 		{
 			get => projectile.ai[0];

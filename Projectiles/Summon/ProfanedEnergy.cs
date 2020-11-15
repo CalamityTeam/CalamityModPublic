@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class ProfanedEnergy : ModProjectile
     {
+        public override string Texture => "CalamityMod/NPCs/NormalNPCs/ImpiousImmolator";
+
         private float count = 0f;
 
         public override void SetStaticDefaults()

@@ -1,9 +1,10 @@
 using CalamityMod.Items.Placeables.Ores;
+using CalamityMod.Tiles;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.DataStructures;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Materials
@@ -16,21 +17,39 @@ namespace CalamityMod.Items.Materials
         {
             DisplayName.SetDefault("Auric Tesla Bar");
             Tooltip.SetDefault("It radiates godly energy");
-            Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(6, 16));
         }
 
         public override void SetDefaults()
         {
+			item.createTile = ModContent.TileType<AuricTeslaBar>();
             item.width = 50;
             item.height = 30;
             item.maxStack = 999;
             item.value = Item.sellPrice(gold: 60);
             item.Calamity().customRarity = CalamityRarity.Violet;
+			item.useStyle = ItemUseStyleID.SwingThrow;
+			item.useTurn = true;
+			item.useAnimation = 15;
+			item.useTime = 10;
+			item.autoReuse = true;
+			item.consumable = true;
         }
+
+		public override void UseStyle(Player player)
+		{
+			player.itemLocation += new Vector2(-10f * player.direction, 10f * player.gravDir).RotatedBy(player.itemRotation);
+		}
+
+		public override bool PreDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frameI, Color drawColor, Color itemColor, Vector2 origin, float scale)
+		{
+			Texture2D texture = ModContent.GetTexture("CalamityMod/Items/Materials/AuricBar_Animated");
+			spriteBatch.Draw(texture, position, item.GetCurrentFrame(ref frame, ref frameCounter, 6, 16), Color.White, 0f, origin, scale, SpriteEffects.None, 0);
+			return false;
+		}
 
 		public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)
 		{
-			Texture2D texture = Main.itemTexture[item.type];
+			Texture2D texture = ModContent.GetTexture("CalamityMod/Items/Materials/AuricBar_Animated");
 			spriteBatch.Draw(texture, item.position - Main.screenPosition, item.GetCurrentFrame(ref frame, ref frameCounter, 6, 16), lightColor, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0);
 			return false;
 		}

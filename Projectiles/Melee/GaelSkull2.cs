@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.Melee
 {
 	public class GaelSkull2 : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Melee/GaelSkull";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Ark of the Cosmos' Superior Cousin");

@@ -10,6 +10,8 @@ namespace CalamityMod.Projectiles.Boss
 {
     public class FlareDust : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Boss/FlareBomb";
+
 		private bool start = true;
 		private float startingPosX = 0f;
 		private float startingPosY = 0f;

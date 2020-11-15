@@ -1,5 +1,6 @@
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.DraedonsArsenal;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -46,6 +47,8 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
             modItem.MaxCharge = 85f;
             modItem.ChargePerUse = 0f; // This weapon is a holdout. Charge is consumed by the holdout projectile.
         }
+
+		public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0 && item.Calamity().Charge > 0;
 
         public override void AddRecipes()
         {

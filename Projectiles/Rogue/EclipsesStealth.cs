@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
 	public class EclipsesStealth : ModProjectile
 	{
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/EclipsesFall";
+
 		private bool changedTimeLeft = false;
 
 		public override void SetStaticDefaults()

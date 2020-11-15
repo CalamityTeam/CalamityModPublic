@@ -10,6 +10,8 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class DarkSparkPrism : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Magic/DarkSpark";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Crystal");

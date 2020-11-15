@@ -1,4 +1,3 @@
-
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
@@ -7,6 +6,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class ExorcismShockwave : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public static float radius = 100;
 
         public override void SetStaticDefaults()

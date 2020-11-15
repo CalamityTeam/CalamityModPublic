@@ -7,6 +7,8 @@ namespace CalamityMod.Projectiles.Summon
 {
 	public class MidnightSunBeaconProj : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Summon/MidnightSunBeacon";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Beacon");

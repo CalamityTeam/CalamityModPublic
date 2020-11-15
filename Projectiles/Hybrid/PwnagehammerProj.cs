@@ -11,6 +11,8 @@ namespace CalamityMod.Projectiles.Hybrid
 {
 	public class PwnagehammerProj : ModProjectile
 	{
+        public override string Texture => "CalamityMod/Items/Weapons/Melee/PwnagehammerMelee";
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Pwnagehammer");

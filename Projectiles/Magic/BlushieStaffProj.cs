@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class BlushieStaffProj : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         private const int xRange = 600;
         private const int yRange = 320;
 

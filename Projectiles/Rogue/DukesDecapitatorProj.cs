@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
 	public class DukesDecapitatorProj : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/DukesDecapitator";
+
 		bool stealthBubbles = false;
 		float rotationAmount = 1.5f;
 

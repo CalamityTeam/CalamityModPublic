@@ -7,6 +7,8 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class AstralCrystalInvisibleExplosion : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetDefaults()
         {
             projectile.width = 20;

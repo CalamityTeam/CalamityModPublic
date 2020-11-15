@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class CursedDaggerProj : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/CursedDagger";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Cursed Dagger");

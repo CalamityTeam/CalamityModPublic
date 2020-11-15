@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class FantasyTalismanStealth : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Rogue/FantasyTalismanProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Talisman");

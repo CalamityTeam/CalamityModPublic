@@ -10,6 +10,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class ScarletDevilProjectile : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/ScarletDevil";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Spear the Gungnir");

@@ -10,6 +10,8 @@ namespace CalamityMod.Projectiles.Melee
 {
 	public class ExoGladiusBeam : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Melee/ExoGladius";
+
         private int penetrationAmt = 6;
         private Color currentColor = Color.Black;
         public const float maxScale = 1.8f;

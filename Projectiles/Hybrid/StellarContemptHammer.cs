@@ -10,6 +10,8 @@ namespace CalamityMod.Projectiles.Hybrid
 {
     public class StellarContemptHammer : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Melee/StellarContemptMelee";
+
         private static float RotationIncrement = 0.22f;
         private static int Lifetime = 240;
         private static float ReboundTime = 26f;

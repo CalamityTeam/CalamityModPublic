@@ -10,6 +10,8 @@ namespace CalamityMod.Projectiles.Hybrid
 {
     public class TriactisOPHammer : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Melee/TriactisTruePaladinianMageHammerofMightMelee";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Hammer");

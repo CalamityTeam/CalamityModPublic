@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.Summon
 {
 	public class IrradiatedAura : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Irradiated Aura");

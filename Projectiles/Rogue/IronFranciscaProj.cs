@@ -10,6 +10,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class IronFranciscaProj : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/IronFrancisca";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Iron Francisca");

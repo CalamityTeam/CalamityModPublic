@@ -11,6 +11,8 @@ namespace CalamityMod.Projectiles.Hybrid
 {
     public class KelvinCatalystBoomerang : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/KelvinCatalyst";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Kelvin Catalyst");

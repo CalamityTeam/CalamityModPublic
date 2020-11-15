@@ -7,6 +7,8 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class FungiOrb2 : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Ranged/FungiOrb";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Orb");

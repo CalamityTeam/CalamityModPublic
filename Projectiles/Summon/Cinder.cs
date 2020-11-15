@@ -7,6 +7,8 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class Cinder : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public const float FallAcceleration = 0.185f;
         public const float FallSpeedMax = 16;
         public const float FallDelay = 300;

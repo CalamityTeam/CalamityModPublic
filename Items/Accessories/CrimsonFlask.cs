@@ -1,4 +1,3 @@
-using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -34,7 +33,7 @@ namespace CalamityMod.Items.Accessories
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<BloodlettingEssence>(), 3);
+            recipe.AddIngredient(ItemID.ViciousPowder, 15);
             recipe.AddIngredient(ItemID.Vertebrae, 10);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);

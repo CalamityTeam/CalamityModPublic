@@ -10,6 +10,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class LionfishProj : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/Lionfish";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Lionfish");

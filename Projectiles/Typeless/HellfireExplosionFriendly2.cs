@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.Typeless
 {
     public class HellfireExplosionFriendly2 : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Explosion");

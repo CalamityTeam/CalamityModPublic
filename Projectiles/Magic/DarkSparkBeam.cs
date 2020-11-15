@@ -13,6 +13,8 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class DarkSparkBeam : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Magic/YharimsCrystalBeam";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Beam");

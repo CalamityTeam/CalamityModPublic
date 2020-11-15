@@ -5,6 +5,8 @@ namespace CalamityMod.Projectiles.Ranged
 {
 	public class MagnomalyExplosion : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetStaticDefaults() //don't remove this projectile
         {
             DisplayName.SetDefault("Explosion");

@@ -23,8 +23,8 @@ namespace CalamityMod.NPCs.Astral
         public override void SetDefaults()
         {
             npc.damage = 40;
-            npc.width = 44;
-            npc.height = 28;
+            npc.width = 36;
+            npc.height = 31;
             npc.aiStyle = 1;
             npc.defense = 8;
             npc.lifeMax = 200;

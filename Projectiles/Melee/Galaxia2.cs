@@ -13,6 +13,8 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class Galaxia2 : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Melee/Galaxia";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Orb");

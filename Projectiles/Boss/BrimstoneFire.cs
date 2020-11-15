@@ -7,6 +7,8 @@ namespace CalamityMod.Projectiles.Boss
 {
     public class BrimstoneFire : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Brimstone Fire");
@@ -45,7 +47,7 @@ namespace CalamityMod.Projectiles.Boss
                 int dustType = (int)CalamityDusts.Brimstone;
 				if (Main.rand.NextBool(2))
 				{
-					int fire = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, dustType, projectile.velocity.X * 0.1f, projectile.velocity.Y * 0.1f, 100, default, 1f);
+					int fire = Dust.NewDust(projectile.position, projectile.width, projectile.height, dustType, projectile.velocity.X * 0.1f, projectile.velocity.Y * 0.1f, 100, default, 1f);
 					Dust dust = Main.dust[fire];
 					if (Main.rand.NextBool(3))
 					{

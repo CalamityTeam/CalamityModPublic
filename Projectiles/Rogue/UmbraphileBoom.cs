@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
 	public class UmbraphileBoom : ModProjectile
 	{
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Explosion");

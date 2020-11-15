@@ -51,7 +51,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Texture2D texture = ModContent.GetTexture("CalamityMod/Projectiles/Rogue/EclipseMirrorFlash");
+            Texture2D texture = Main.projectileTexture[projectile.type];
             spriteBatch.Draw
             (
                 texture,

@@ -10,6 +10,8 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 {
     public class PulsePistolShot : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public NPC Target
         {
             get => Main.npc[(int)projectile.ai[0]];

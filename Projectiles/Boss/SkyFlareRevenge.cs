@@ -7,6 +7,8 @@ namespace CalamityMod.Projectiles.Boss
 {
     public class SkyFlareRevenge : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Boss/SkyFlare";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Sky Flare");

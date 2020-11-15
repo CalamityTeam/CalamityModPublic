@@ -7,6 +7,8 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class VividClarityBeam : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Ray");

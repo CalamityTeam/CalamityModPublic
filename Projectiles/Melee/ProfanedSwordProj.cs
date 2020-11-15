@@ -10,6 +10,8 @@ namespace CalamityMod.Projectiles.Melee
 {
 	public class ProfanedSwordProj : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Melee/ProfanedSword";
+
 		private int explosionCount = 0;
         public override void SetStaticDefaults()
         {

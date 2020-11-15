@@ -7,6 +7,8 @@ namespace CalamityMod.Projectiles.Boss
 {
     public class RavagerFlame : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Blue Flame");
@@ -30,7 +32,7 @@ namespace CalamityMod.Projectiles.Boss
         {
             for (int num468 = 0; num468 < 2; num468++)
             {
-                int num469 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 135, 0f, 0f, 100, default, 3f);
+                int num469 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 135, 0f, 0f, 100, default, 3f);
                 Main.dust[num469].noGravity = true;
                 Main.dust[num469].velocity *= 0f;
             }

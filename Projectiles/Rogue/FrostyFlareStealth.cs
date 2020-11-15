@@ -8,7 +8,7 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class FrostyFlareStealth : ModProjectile
     {
-        public override string Texture => "CalamityMod/Projectiles/Rogue/FrostyFlareProj";
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/FrostyFlare";
 
         public override void SetDefaults()
         {

@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
 	public class SkyfinNuke : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/SkyfinBombers";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Skyfin Nuke");

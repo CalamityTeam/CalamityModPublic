@@ -7,6 +7,8 @@ namespace CalamityMod.Projectiles.Boss
 {
     public class Shadowflamethrower : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Shadowflame Breath");

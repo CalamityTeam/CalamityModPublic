@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
 	public class Honeycomb : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/HardenedHoneycomb";
+
         private const float radius = 15f;
 
         public override void SetStaticDefaults()

@@ -12,6 +12,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class RadiantExplosion : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         private bool updatedTime = false;
 
         public override void SetStaticDefaults()

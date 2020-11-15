@@ -7,6 +7,8 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class ContagionBow : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Ranged/Contagion";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Contagion");
@@ -26,7 +28,7 @@ namespace CalamityMod.Projectiles.Ranged
         public override void AI()
         {
             Player player = Main.player[projectile.owner];
-            float num = MathHelper.PiOver2;
+            float num = 0f;
             Vector2 vector = player.RotatedRelativePoint(player.MountedCenter, true);
             if (projectile.type == ModContent.ProjectileType<ContagionBow>())
             {

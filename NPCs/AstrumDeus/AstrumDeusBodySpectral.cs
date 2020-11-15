@@ -40,8 +40,7 @@ namespace CalamityMod.NPCs.AstrumDeus
             npc.noGravity = true;
             npc.noTileCollide = true;
             npc.canGhostHeal = false;
-            npc.HitSound = SoundID.NPCHit4;
-            npc.DeathSound = SoundID.NPCDeath14;
+            npc.DeathSound = mod.GetLegacySoundSlot(SoundType.NPCKilled, "Sounds/NPCKilled/AstrumDeusDeath");
             npc.netAlways = true;
             npc.boss = true;
             for (int k = 0; k < npc.buffImmune.Length; k++)
@@ -169,6 +168,12 @@ namespace CalamityMod.NPCs.AstrumDeus
 
         public override void HitEffect(int hitDirection, double damage)
         {
+            if (npc.soundDelay == 0)
+            {
+                npc.soundDelay = 8;
+                Main.PlaySound(mod.GetLegacySoundSlot(SoundType.NPCHit, "Sounds/NPCHit/AstrumDeusHit"), npc.Center);
+            }
+
             if (npc.life <= 0)
             {
                 npc.position.X = npc.position.X + (npc.width / 2);

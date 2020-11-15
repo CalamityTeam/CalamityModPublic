@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.Melee
 {
 	public class PlagueBeeDust : ModProjectile
 	{
+        public override string Texture => "CalamityMod/Projectiles/Melee/PlagueDust";
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Dust");

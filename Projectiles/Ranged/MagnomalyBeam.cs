@@ -10,6 +10,8 @@ namespace CalamityMod.Projectiles.Ranged
 {
 	public class MagnomalyBeam : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/LaserProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Beam");

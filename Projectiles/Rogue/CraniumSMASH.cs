@@ -6,6 +6,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
 	public class CraniumSMASH : ModProjectile
 	{
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Cranium SMASH");

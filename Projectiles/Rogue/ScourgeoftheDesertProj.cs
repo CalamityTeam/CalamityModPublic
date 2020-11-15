@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class ScourgeoftheDesertProj : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/ScourgeoftheDesert";
+
         private int StealthDamageCap = 0;
         private int BaseDamage = 0;
 

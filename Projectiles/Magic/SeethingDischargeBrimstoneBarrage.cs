@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class SeethingDischargeBrimstoneBarrage : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Boss/BrimstoneBarrage";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Brimstone");

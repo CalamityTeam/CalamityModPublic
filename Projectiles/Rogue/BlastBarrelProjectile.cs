@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
 	public class BlastBarrelProjectile : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/BlastBarrel";
+
         public float BounceEffectCooldown = 0f;
         public float OldVelocityX = 0f;
         public float RemainingBounces

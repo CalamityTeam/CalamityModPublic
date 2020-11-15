@@ -6,6 +6,8 @@ namespace CalamityMod.Projectiles.Melee
 {
 	public class EssenceFlame2 : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Healing/EssenceFlame";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Flame");

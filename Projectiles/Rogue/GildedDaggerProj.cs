@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
 	public class GildedDaggerProj : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/GildedDagger";
+
         private bool hasHitEnemy = false;
         private int targetNPC = -1;
         private List<int> previousNPCs = new List<int>() { -1 };

@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
 	public class ShinobiBladeProjectile : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/ShinobiBlade";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Shinobi Blade");

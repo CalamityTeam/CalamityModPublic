@@ -7,6 +7,8 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class JudgementProj : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         int whiteLightTimer = 5;
 
         public override void SetStaticDefaults()

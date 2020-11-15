@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class PhangasmBow : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Ranged/Phangasm";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Phangasm");

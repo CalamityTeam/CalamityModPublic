@@ -10,6 +10,8 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class SeethingDischargeBrimstoneHellblast : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Boss/BrimstoneHellblast";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Hellblast");

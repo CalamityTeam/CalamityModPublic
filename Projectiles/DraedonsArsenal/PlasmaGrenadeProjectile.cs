@@ -7,6 +7,8 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 {
     public class PlasmaGrenadeProjectile : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/DraedonsArsenal/PlasmaGrenade";
+
         public float Time
         {
             get => projectile.ai[0];

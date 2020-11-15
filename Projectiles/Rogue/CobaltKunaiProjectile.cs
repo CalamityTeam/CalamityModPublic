@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class CobaltKunaiProjectile : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/CobaltKunai";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Kunai");

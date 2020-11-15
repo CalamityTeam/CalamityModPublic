@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.Typeless
 {
     public class CursorProjSplit : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Typeless/CursorProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Aestheticus Crystal");

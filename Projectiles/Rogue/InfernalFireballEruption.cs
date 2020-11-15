@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class InfernalFireballEruption : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Rogue/InfernalFireball";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Dragon Fireball");

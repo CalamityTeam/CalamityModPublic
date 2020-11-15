@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class ArcherfishShot : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Water Round");

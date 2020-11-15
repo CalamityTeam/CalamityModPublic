@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class HadopelagicEcho2 : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Magic/EidolicWailSoundwave";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Echo");

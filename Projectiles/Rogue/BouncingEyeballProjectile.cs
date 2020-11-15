@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class BouncingEyeballProjectile : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/BouncingEyeball";
+
         private int Bounces = 5;
         public override void SetStaticDefaults()
         {

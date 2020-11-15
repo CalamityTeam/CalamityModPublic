@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.Typeless
 {
     public class StarStruckWaterBottle : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Typeless/StarStruckWater";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Bottle");

@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class StealthRain : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Boss/ShaderainHostile";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Rain");

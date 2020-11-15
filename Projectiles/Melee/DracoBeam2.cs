@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class DracoBeam2 : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Melee/DracoBeam";
+
         private int start = 60;
         private int speedTimer = 120;
 

@@ -10,6 +10,8 @@ namespace CalamityMod.Projectiles.Hybrid
 {
     public class OPHammer : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Melee/TruePaladinsHammerMelee";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Hammer");

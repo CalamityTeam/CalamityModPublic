@@ -11,6 +11,8 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class RustShrapnel : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Rogue/BarrelShrapnel";
+
         public bool HitTile = false;
         public override void SetStaticDefaults()
         {

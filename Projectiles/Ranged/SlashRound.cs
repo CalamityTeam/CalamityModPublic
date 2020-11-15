@@ -6,6 +6,8 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class SlashRound : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Ranged/AMRShot";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Round");

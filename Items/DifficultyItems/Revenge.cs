@@ -1,5 +1,5 @@
+using CalamityMod.CalPlayer;
 using CalamityMod.Events;
-using CalamityMod.NPCs.SlimeGod;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
@@ -27,8 +27,7 @@ namespace CalamityMod.Items.DifficultyItems
                 "Makes life regen scale with your current HP, the higher your HP the lower your life regen (this is not based on max HP).\n" +
                 "Asphalt run speed is reduced by 33%, and the Nurse's healing cost is increased\n" +
                 "Before you have killed your first boss you take 20% less damage from everything.\n" +
-                "Changes ALL boss AIs and some enemy AIs in vanilla and the Calamity Mod.\n" +
-                "Using this while a boss is alive will instantly kill you and despawn the boss.");
+                "Changes ALL boss AIs and some enemy AIs in vanilla and the Calamity Mod.");
         }
 
         public override void SetDefaults()
@@ -60,20 +59,22 @@ namespace CalamityMod.Items.DifficultyItems
             }
         }
 
-        public override bool CanUseItem(Player player) => Main.expertMode && !BossRushEvent.BossRushActive;
+        public override bool CanUseItem(Player player) => Main.expertMode;
 
         public override bool UseItem(Player player)
         {
-            for (int doom = 0; doom < Main.npc.Length; doom++)
-            {
-				NPC npc = Main.npc[doom];
-                if ((npc.active && (npc.boss || npc.type == NPCID.EaterofWorldsHead || npc.type == NPCID.EaterofWorldsTail || npc.type == ModContent.NPCType<SlimeGodRun>() || npc.type == ModContent.NPCType<SlimeGodRunSplit>() || npc.type == ModContent.NPCType<SlimeGod>() || npc.type == ModContent.NPCType<SlimeGodSplit>())) || CalamityWorld.DoGSecondStageCountdown > 0)
-                {
-                    player.KillMe(PlayerDeathReason.ByCustomReason(player.name + " tried to change the rules."), 1000.0, 0, false);
-                    npc.active = npc.friendly;
-                    npc.netUpdate = true;
-                }
-            }
+            // This world syncing code should only be run by one entity- the server, to prevent a race condition
+            // with the packets.
+            if (Main.netMode == NetmodeID.MultiplayerClient)
+                return true;
+
+            if (CalamityPlayer.areThereAnyDamnBosses || CalamityWorld.DoGSecondStageCountdown > 0 || BossRushEvent.BossRushActive)
+			{
+                string key = "Mods.CalamityMod.ChangingTheRules";
+                Color messageColor = Color.Crimson;
+                CalamityUtils.DisplayLocalizedText(key, messageColor);
+				return true;
+			}
             if (!CalamityWorld.revenge)
             {
                 CalamityWorld.revenge = true;
@@ -105,22 +106,7 @@ namespace CalamityMod.Items.DifficultyItems
                     CalamityUtils.DisplayLocalizedText(key, messageColor);
                 }
                 CalamityWorld.DoGSecondStageCountdown = 0;
-
                 CalamityNetcode.SyncWorld();
-                if (Main.netMode == NetmodeID.Server)
-                {
-                    var netMessage = mod.GetPacket();
-                    netMessage.Write((byte)CalamityModMessageType.RevengeanceBoolSync);
-                    netMessage.Write(CalamityWorld.revenge);
-                    netMessage.Send();
-                }
-                if (Main.netMode == NetmodeID.Server)
-                {
-                    var netMessage = mod.GetPacket();
-                    netMessage.Write((byte)CalamityModMessageType.DoGCountdownSync);
-                    netMessage.Write(CalamityWorld.DoGSecondStageCountdown);
-                    netMessage.Send();
-                }
             }
             return true;
         }

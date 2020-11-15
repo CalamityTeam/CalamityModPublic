@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class BloodBoilerFire : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
 		private bool playedSound = false;
 
         public override void SetStaticDefaults()

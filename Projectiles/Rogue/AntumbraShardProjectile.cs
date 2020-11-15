@@ -10,6 +10,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class AntumbraShardProjectile : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/XerocPitchfork";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Antumbra Shard");
@@ -32,7 +34,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void AI()
         {
-            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.ToRadians(135f);
+            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.ToRadians(45f);
             if (projectile.spriteDirection == -1)
             {
                 projectile.rotation -= 1.57f;

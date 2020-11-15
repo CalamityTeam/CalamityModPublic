@@ -4,6 +4,7 @@ using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
+using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -644,6 +645,7 @@ namespace CalamityMod.NPCs.StormWeaver
                 // Weapons
                 DropHelper.DropItemChance(npc, ModContent.ItemType<TheStorm>(), Main.expertMode ? 3 : 4);
                 DropHelper.DropItemChance(npc, ModContent.ItemType<StormDragoon>(), Main.expertMode ? 3 : 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<Thunderstorm>(), DropHelper.RareVariantDropRateFloat);
 
                 // Vanity
                 DropHelper.DropItemChance(npc, ModContent.ItemType<WeaverTrophy>(), 10);

@@ -10,6 +10,8 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 {
     public class SystemBaneLightning : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/LightningProj";
+
         public int ElectrocutionTarget
         {
             get => (int)projectile.ai[0];
