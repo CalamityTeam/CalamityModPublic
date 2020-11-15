@@ -41,7 +41,7 @@ namespace CalamityMod.Items.Tools.ClimateChange
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddRecipeGroup("FetidBloodletting", 2);
+            recipe.AddRecipeGroup("EvilPowder", 10);
             recipe.AddIngredient(ModContent.ItemType<UnholyCore>(), 5);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
