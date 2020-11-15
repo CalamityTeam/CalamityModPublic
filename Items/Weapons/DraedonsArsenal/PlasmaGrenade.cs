@@ -26,13 +26,13 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 
             item.width = 22;
             item.height = 28;
-            item.damage = 9572;
+            item.damage = 11780;
             item.noMelee = true;
             item.noUseGraphic = true;
             item.consumable = true;
             item.maxStack = 999;
             item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useAnimation = item.useTime = 22;
+            item.useAnimation = item.useTime = 27;
             item.knockBack = 3f;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
@@ -42,7 +42,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
             modItem.customRarity = CalamityRarity.DraedonRust;
 
             item.shoot = ModContent.ProjectileType<PlasmaGrenadeProjectile>();
-            item.shootSpeed = 19f;
+            item.shootSpeed = 14f;
             modItem.rogue = true;
         }
 
