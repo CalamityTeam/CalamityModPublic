@@ -65,7 +65,11 @@ namespace CalamityMod
 			int revengeanceDamage = (int)Math.Round(contactDamage[2] / damageAdjustment);
 			int deathDamage = (int)Math.Round(contactDamage[3] / damageAdjustment);
 			int masterDamage = (int)Math.Round(contactDamage[4] / damageAdjustment);
-			npc.damage = CalamityWorld.death ? deathDamage : CalamityWorld.revenge ? revengeanceDamage : Main.expertMode ? expertDamage : normalDamage;
+
+			// If the assigned value would be -1, don't actually assign it. This allows for conditionally disabling the system.
+			int damageToUse = CalamityWorld.death ? deathDamage : CalamityWorld.revenge ? revengeanceDamage : Main.expertMode ? expertDamage : normalDamage;
+			if (damageToUse != -1)
+				npc.damage = damageToUse;
 		}
 
 		// Gets the amount of damage a given projectile should do from this NPC.
@@ -283,7 +287,7 @@ namespace CalamityMod
 				{ NPCID.EaterofWorldsHead, new int[] { 25, 55, 77, 88, 132 } },
 				{ NPCID.EaterofWorldsBody, new int[] { 15, 24, 32, 40, 60 } },
 				{ NPCID.EaterofWorldsTail, new int[] { 10, 16, 24, 32, 42 } },
-				{ NPCID.VileSpit, new int[] { 0, 64, 64, 64, 96 } },
+				{ NPCID.VileSpit, new int[] { -1, 64, 64, 64, 96 } },
 
 				{ NPCID.BrainofCthulhu, new int[] { 30, 54, 81, 99, 135 } },
 				{ NPCID.Creeper, new int[] { 20, 36, 54, 72, 90 } },
@@ -314,7 +318,7 @@ namespace CalamityMod
 					99, // 128 while spinning
 					132 } }, // 171 while spinning
 				{ NPCID.SkeletronHand, new int[] { 20, 44, 55, 66, 99 } },
-				{ NPCID.ChaosBall, new int[] { 0, 0, 0, 40, 60 } },
+				{ NPCID.ChaosBall, new int[] { -1, -1, -1, 40, 60 } },
 
 				{ ModContent.NPCType<SlimeGodCore>(), new int[] { 40, 80, 96, 104, 135 } },
 				{ ModContent.NPCType<SlimeGod>(), new int[] { 45, 90, 108, 118, 150 } },
