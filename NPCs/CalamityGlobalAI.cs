@@ -2639,7 +2639,10 @@ namespace CalamityMod.NPCs
 		#endregion
 
 		// Master Mode changes
-		// 1 - Always has 1 added to her enrage scale, 2 - Fires beehives instead of bees during bee spawn phase
+		/* 1 - Fires beehives in bee spawn phase instead of bees
+		   2 - 
+		   3 - Creepers spread out from each other
+		   4 - Creepers are immune to debuffs*/
 		#region Buffed Queen Bee AI
 		public static bool BuffedQueenBeeAI(NPC npc, Mod mod)
 		{

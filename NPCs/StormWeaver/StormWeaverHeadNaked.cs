@@ -189,13 +189,18 @@ namespace CalamityMod.NPCs.StormWeaver
 				if (expertMode)
 				{
 					npc.localAI[0] += 1f;
-					if (npc.localAI[0] >= 300f)
+					if (npc.localAI[0] >= 450f)
 					{
 						npc.localAI[0] = 0f;
 						npc.TargetClosest(true);
 						npc.netUpdate = true;
-						float xPos = Main.rand.NextBool(2) ? Main.player[npc.target].position.X + 500f : Main.player[npc.target].position.X - 500f;
-						Vector2 spawnPos = new Vector2(xPos, Main.player[npc.target].position.Y + Main.rand.Next(-500, 501));
+
+						int random = Main.rand.Next(250, 501);
+						float xPos = Main.rand.NextBool(2) ? Main.player[npc.target].position.X + random : Main.player[npc.target].position.X - random;
+						random = Main.rand.Next(250, 501);
+						float yPos = Main.rand.NextBool(2) ? Main.player[npc.target].position.Y + random : Main.player[npc.target].position.Y - random;
+						Vector2 spawnPos = new Vector2(xPos, yPos);
+
 						int type = ProjectileID.CultistBossLightningOrb;
 						int damage = npc.GetProjectileDamage(type);
 						Projectile.NewProjectile(spawnPos, Vector2.Zero, type, damage, 0f, Main.myPlayer, 0f, 0f);
@@ -295,7 +300,7 @@ namespace CalamityMod.NPCs.StormWeaver
 						num188 += Vector2.Distance(Main.player[npc.target].Center, npc.Center) * 0.01f * (1f - (float)lifeRatio);
 						num189 += Vector2.Distance(Main.player[npc.target].Center, npc.Center) * 0.0001f * (1f - (float)lifeRatio);
 						num188 *= 2f;
-						num189 *= 0.75f;
+						num189 *= 0.85f;
 
 						float stopChargeDistance = 800f * npc.localAI[2];
 						if (stopChargeDistance < 0)
@@ -362,9 +367,9 @@ namespace CalamityMod.NPCs.StormWeaver
 					{
 						speed2 += 1;
 					}
-					float spawnX2 = Main.rand.Next(2001) - 1000f + Main.player[npc.target].Center.X;
+					float spawnX2 = npc.Center.X > Main.player[npc.target].Center.X ? 1000f : -1000f;
 					float spawnY2 = -1000f + Main.player[npc.target].Center.Y;
-					Vector2 baseSpawn = new Vector2(spawnX2, spawnY2);
+					Vector2 baseSpawn = new Vector2(spawnX2 + Main.player[npc.target].Center.X, spawnY2);
 					Vector2 baseVelocity = Main.player[npc.target].Center - baseSpawn;
 					baseVelocity.Normalize();
 					baseVelocity *= speed2;
