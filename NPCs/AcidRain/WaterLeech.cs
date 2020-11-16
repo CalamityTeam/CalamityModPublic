@@ -196,11 +196,6 @@ namespace CalamityMod.NPCs.AcidRain
             }
         }
 
-        public override void OnHitPlayer(Player target, int damage, bool crit)
-        {
-            target.AddBuff(ModContent.BuffType<Irradiated>(), 120);
-        }
-
         public override void NPCLoot()
         {
 			float dropChance = CalamityWorld.downedAquaticScourge ? 0.01f : 0.05f;

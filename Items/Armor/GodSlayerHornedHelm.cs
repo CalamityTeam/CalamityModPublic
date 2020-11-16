@@ -165,8 +165,8 @@ namespace CalamityMod.Items.Armor
             player.setBonus = "65% increased minion damage\n" +
                 "You will survive fatal damage and will be healed 150 HP if an attack would have killed you\n" +
                 "This effect can only occur once every 45 seconds\n" +
-				"While the cooldown for this effect is active all life regen is disabled\n" +
-				"Hitting enemies will summon god slayer phantoms\n" +
+                "While the cooldown for this effect is active all life regen is halved\n" +
+                "Hitting enemies will summon god slayer phantoms\n" +
                 "Summons a god-eating mechworm to fight for you";
             player.minionDamage += 0.65f;
         }
