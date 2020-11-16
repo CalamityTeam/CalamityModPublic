@@ -79,7 +79,6 @@ namespace CalamityMod
         public static List<int> enemyImmunityList;
         public static List<int> dungeonEnemyBuffList;
         public static List<int> dungeonProjectileBuffList;
-        public static List<int> bossScaleList;
         public static List<int> bossHPScaleList;
         public static List<int> beeEnemyList;
         public static List<int> beeProjectileList;
@@ -581,29 +580,6 @@ namespace CalamityMod
                 ProjectileID.RocketSkeleton,
                 ProjectileID.BulletDeadeye,
                 ProjectileID.Shadowflames
-            };
-
-            bossScaleList = new List<int>()
-            {
-                NPCID.EaterofWorldsHead,
-                NPCID.EaterofWorldsBody,
-                NPCID.EaterofWorldsTail,
-                NPCID.Creeper,
-                NPCID.SkeletronHand,
-                NPCID.WallofFleshEye,
-                NPCID.TheHungry,
-                NPCID.TheHungryII,
-                NPCID.TheDestroyerBody,
-                NPCID.TheDestroyerTail,
-                NPCID.PrimeCannon,
-                NPCID.PrimeVice,
-                NPCID.PrimeSaw,
-                NPCID.PrimeLaser,
-                NPCID.PlanterasTentacle,
-                NPCID.Pumpking,
-                NPCID.IceQueen,
-                NPCID.Mothron,
-                NPCID.GolemHead
             };
 
             bossHPScaleList = new List<int>()
@@ -2209,7 +2185,6 @@ namespace CalamityMod
             enemyImmunityList = null;
             dungeonEnemyBuffList = null;
             dungeonProjectileBuffList = null;
-            bossScaleList = null;
             bossHPScaleList = null;
             beeEnemyList = null;
             friendlyBeeList = null;

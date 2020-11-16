@@ -1315,13 +1315,16 @@ namespace CalamityMod.NPCs
         #region Scale Expert Multiplayer Stats
         public override void ScaleExpertStats(NPC npc, int numPlayers, float bossLifeScale)
         {
+            // Do absolutely nothing in single player, or in multiplayer with only one player connected.
             if (Main.netMode == NetmodeID.SinglePlayer || numPlayers <= 1)
-            {
                 return;
-            }
 
-            if (((npc.boss || CalamityLists.bossScaleList.Contains(npc.type)) && npc.type < NPCID.Count) ||
-                (npc.modNPC != null && npc.modNPC.mod.Name.Equals("CalamityMod")))
+            bool countsAsBoss = npc.boss || NPCID.Sets.TechnicallyABoss[npc.type];
+            bool scalesLikeBoss = countsAsBoss || CalamityLists.bossHPScaleList.Contains(npc.type);
+            bool isCalamityNPC = npc.modNPC != null && npc.modNPC.mod == CalamityMod.Instance;
+
+            // All bosses, NPCs that are supposed to scale like bosses, and Calamity NPCs follow these rules.
+            if (scalesLikeBoss || isCalamityNPC)
             {
                 double scalar;
                 switch (numPlayers) // Decrease HP in multiplayer before vanilla scaling
