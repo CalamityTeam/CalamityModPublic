@@ -119,7 +119,7 @@ namespace CalamityMod.NPCs
 		// Master Mode changes
 		/* 1 - Rainbow colored
 		   2 - Spawns a rainbow slime every 5% HP
-		   3 - Teleports ahead of target
+		   3 - Teleports ahead of his target
 		   4 - Can use a jump and slam like a Big Mimic*/
         #region Buffed King Slime AI
         public static bool BuffedKingSlimeAI(NPC npc, Mod mod)
@@ -573,7 +573,7 @@ namespace CalamityMod.NPCs
 		// Master Mode changes
 		/* 1 - Spawns a clone of itself that copies every movement of the main eye but inverted (if main is on top and to the left, the mirror is on bottom and to the right)
 		   2 - Damaging either eye causes damage to both
-		   3 - Horizontal dashes in phase 2 are far more common
+		   3 - Horizontal dashes are far more common
 		   4 - The delay between dashes and horizontal dashes is reduced*/
 		#region Buffed Eye of Cthulhu AI
 		public static bool BuffedEyeofCthulhuAI(NPC npc, bool enraged, Mod mod)
@@ -1435,7 +1435,7 @@ namespace CalamityMod.NPCs
 		/* 1 - First head that spawns will spawn 4 other heads, creating 5 worms in total
 		   2 - Each worm is 30 segments long and is immune to debuffs
 		   3 - Worm heads push away from each other
-		   4 - Vile Spits home in on the target slightly*/
+		   4 - Vile Spits home in on the target slightly and no longer die when hit*/
 		#region Buffed Eater of Worlds AI
 		public static bool BuffedEaterofWorldsAI(NPC npc, Mod mod)
         {
@@ -1968,7 +1968,7 @@ namespace CalamityMod.NPCs
 		#endregion
 
 		// Master Mode changes
-		/* 1 - Afterimages are fully visible at all times in phase 2 and deal contact damage
+		/* 1 - Afterimages are fully visible at all times in phase 2; below 60%, they begin moving on their own, deal contact damage, but the player will be able to knock them back
 		   2 - No longer spins before charging in final phase
 		   3 - Creepers spread out from each other
 		   4 - Creepers are immune to debuffs*/
@@ -2639,10 +2639,10 @@ namespace CalamityMod.NPCs
 		#endregion
 
 		// Master Mode changes
-		/* 1 - Fires beehives in bee spawn phase instead of bees
-		   2 - 
-		   3 - Creepers spread out from each other
-		   4 - Creepers are immune to debuffs*/
+		/* 1 - Fires beehives in bee spawn phase instead of bees, beehives spawn bees even if they hit water
+		   2 - Charges start off slow but accelerate to insane speed after several frames, this delay becomes shorter for the second and third dashes
+		   3 - Fires stingers in a triple spread and they accelerate over time
+		   4 - All attacks inflict Venom*/
 		#region Buffed Queen Bee AI
 		public static bool BuffedQueenBeeAI(NPC npc, Mod mod)
 		{
