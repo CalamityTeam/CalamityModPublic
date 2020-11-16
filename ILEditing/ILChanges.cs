@@ -162,15 +162,9 @@ namespace CalamityMod.ILEditing
 
             // If it's one of the two lab doors, use custom code to open the door and sync tiles in multiplayer.
             else if (tile.type == labDoorClosed)
-            {
-                OpenLabDoor(tile, i, j, labDoorOpen);
-                return false;
-            }
+                return OpenLabDoor(tile, i, j, labDoorOpen);
             else if (tile.type == aLabDoorClosed)
-            {
-                OpenLabDoor(tile, i, j, aLabDoorOpen);
-                return false;
-            }
+                return OpenLabDoor(tile, i, j, aLabDoorOpen);
 
             // If it's anything else, let vanilla and/or TML handle it.
             return orig(i, j, direction);
@@ -185,15 +179,9 @@ namespace CalamityMod.ILEditing
 
             // If it's one of the two lab doors, use custom code to open the door and sync tiles in multiplayer.
             else if (tile.type == labDoorOpen)
-            {
-                CloseLabDoor(tile, i, j, labDoorClosed);
-                return false;
-            }
+                return CloseLabDoor(tile, i, j, labDoorClosed);
             else if (tile.type == aLabDoorOpen)
-            {
-                CloseLabDoor(tile, i, j, aLabDoorClosed);
-                return false;
-            }
+                return CloseLabDoor(tile, i, j, aLabDoorClosed);
 
             // If it's anything else, let vanilla and/or TML handle it.
             return orig(i, j, forced);
@@ -219,19 +207,19 @@ namespace CalamityMod.ILEditing
             return ++topY;
         }
 
-        private static void OpenLabDoor(Tile tile, int i, int j, int openID)
+        private static bool OpenLabDoor(Tile tile, int i, int j, int openID)
         {
             int topY = FindTopOfDoor(i, j, tile);
-            DirectlyTransformLabDoor(i, topY, openID);
+            return DirectlyTransformLabDoor(i, topY, openID);
         }
 
-        private static void CloseLabDoor(Tile tile, int i, int j, int closedID)
+        private static bool CloseLabDoor(Tile tile, int i, int j, int closedID)
         {
             int topY = FindTopOfDoor(i, j, tile);
-            DirectlyTransformLabDoor(i, topY, closedID);
+            return DirectlyTransformLabDoor(i, topY, closedID);
         }
 
-        private static void DirectlyTransformLabDoor(int doorX, int doorY, int newDoorID, int wireHitY = -1)
+        private static bool DirectlyTransformLabDoor(int doorX, int doorY, int newDoorID, int wireHitY = -1)
         {
             // Transform the door one tile at a time.
             // If applicable, skip wiring for all door tiles except the one that was hit by this wire event.
@@ -248,6 +236,7 @@ namespace CalamityMod.ILEditing
 
             // Play the door closing sound (lab doors do not use the door opening sound)
             Main.PlaySound(SoundID.DoorClosed, doorX * 16, doorY * 16);
+            return true;
         }
         #endregion
     }
