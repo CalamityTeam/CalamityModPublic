@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 {
 	public class PulseRifle : ModItem
 	{
-		private int BaseDamage = 8560;
+		private int BaseDamage = 10000;
 
 		public override void SetStaticDefaults()
 		{
@@ -46,7 +46,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 
 			modItem.UsesCharge = true;
 			modItem.MaxCharge = 250f;
-			modItem.ChargePerUse = 0.3f;
+			modItem.ChargePerUse = 0.24f;
 		}
 
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
