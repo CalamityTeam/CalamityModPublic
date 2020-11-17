@@ -3572,7 +3572,7 @@ namespace CalamityMod.CalPlayer
 					NPC nPC = Main.npc[l];
 					if (nPC.active && !nPC.friendly && (nPC.damage > 0 || nPC.boss) && !nPC.dontTakeDamage && Vector2.Distance(player.Center, nPC.Center) <= maxDistance)
 					{
-						meleeSpeedMult += MathHelper.Lerp(0f, 0.3f, 1f - (Vector2.Distance(player.Center, nPC.Center) / maxDistance));
+						meleeSpeedBoost += MathHelper.Lerp(0f, 0.3f, 1f - (Vector2.Distance(player.Center, nPC.Center) / maxDistance));
 
 						if (meleeSpeedBoost >= 0.3f)
 						{
