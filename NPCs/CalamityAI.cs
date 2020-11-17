@@ -636,6 +636,8 @@ namespace CalamityMod.NPCs
 			if (BossRushEvent.BossRushActive)
 				enrageScale = 0f;
 
+			npc.Calamity().DR = npc.ai[0] == 4f ? 0.6f : 0.15f;
+
 			// Emit dust
 			int dustAmt = (npc.ai[0] == 2f) ? 2 : 1;
 			int size = (npc.ai[0] == 2f) ? 50 : 35;
@@ -940,7 +942,8 @@ namespace CalamityMod.NPCs
 			// Cocoon bullet hell
 			else if (npc.ai[0] == 4f)
 			{
-				npc.defense = 99999;
+				npc.defense = npc.defDefense * 4;
+
 				npc.chaseable = false;
 				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
@@ -1015,7 +1018,7 @@ namespace CalamityMod.NPCs
 			// Laser beam attack
 			else if (npc.ai[0] == 5f)
 			{
-				npc.defense = npc.defDefense * 3;
+				npc.defense = npc.defDefense * 2;
 
 				Vector2 source = new Vector2(vectorCenter.X + (npc.spriteDirection > 0 ? 34f : -34f), vectorCenter.Y - 74f);
 				Vector2 aimAt = player.Center + player.velocity * 20f;
@@ -4598,17 +4601,6 @@ namespace CalamityMod.NPCs
 			if (calamityGlobalNPC.newAI[0] >= 300f)
 				calamityGlobalNPC.newAI[1] = 1f;
 
-			if (calamityGlobalNPC.newAI[1] == 1f)
-			{
-				// Play tired sound
-				if (calamityGlobalNPC.newAI[0] % 60f == 0f)
-					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/OldDukeHuff"), (int)npc.position.X, (int)npc.position.Y);
-
-				calamityGlobalNPC.newAI[0] -= 1f;
-				if (calamityGlobalNPC.newAI[0] <= 0f)
-					calamityGlobalNPC.newAI[1] = 0f;
-			}
-
 			// Adjust stats
 			calamityGlobalNPC.DR = calamityGlobalNPC.newAI[1] == 1f ? 0f : 0.5f;
 			npc.defense = calamityGlobalNPC.newAI[1] == 1f ? 0 : npc.defDefense;
@@ -4731,6 +4723,17 @@ namespace CalamityMod.NPCs
 					npc.ai[0] = 0f;
 
 				npc.ai[2] = 0f;
+			}
+
+			if (calamityGlobalNPC.newAI[1] == 1f)
+			{
+				// Play tired sound
+				if (calamityGlobalNPC.newAI[0] % 60f == 0f)
+					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/OldDukeHuff"), player.Center);
+
+				calamityGlobalNPC.newAI[0] -= 1f;
+				if (calamityGlobalNPC.newAI[0] <= 0f)
+					calamityGlobalNPC.newAI[1] = 0f;
 			}
 
 			// Enrage variable

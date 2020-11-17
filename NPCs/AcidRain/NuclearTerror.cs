@@ -52,7 +52,7 @@ namespace CalamityMod.NPCs.AcidRain
             {
                 npc.buffImmune[k] = true;
             }
-			npc.DR_NERD(0.4f);
+			npc.DR_NERD(0.3f);
             npc.lavaImmune = false;
             npc.noGravity = false;
             npc.noTileCollide = false;

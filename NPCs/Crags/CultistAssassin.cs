@@ -22,7 +22,7 @@ namespace CalamityMod.NPCs.Crags
             npc.damage = 50;
             npc.width = 18;
             npc.height = 40;
-            npc.defense = 25;
+            npc.defense = 16;
             npc.lifeMax = 80;
             npc.knockBackResist = 0.5f;
             animationType = NPCID.ZombieXmas;
@@ -33,7 +33,7 @@ namespace CalamityMod.NPCs.Crags
             if (CalamityWorld.downedProvidence)
             {
                 npc.damage = 100;
-                npc.defense = 40;
+                npc.defense = 30;
                 npc.lifeMax = 3000;
             }
             banner = npc.type;

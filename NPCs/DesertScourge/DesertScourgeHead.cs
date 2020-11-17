@@ -17,7 +17,6 @@ using System.IO;
 using System.Reflection;
 using Terraria;
 using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 namespace CalamityMod.NPCs.DesertScourge
 {

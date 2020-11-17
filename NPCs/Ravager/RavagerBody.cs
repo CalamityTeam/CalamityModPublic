@@ -44,7 +44,7 @@ namespace CalamityMod.NPCs.Ravager
             npc.height = 214;
             npc.defense = 55;
             npc.value = Item.buyPrice(0, 25, 0, 0);
-			npc.DR_NERD(0.4f);
+			npc.DR_NERD(0.35f);
             npc.LifeMaxNERB(42700, 53500, 4600000);
             if (CalamityWorld.downedProvidence && !BossRushEvent.BossRushActive)
             {

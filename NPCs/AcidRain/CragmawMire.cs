@@ -147,9 +147,9 @@ namespace CalamityMod.NPCs.AcidRain
 
             if (!Phase2)
             {
-                npc.Calamity().DR = 0.4f;
+                npc.Calamity().DR = 0.3f;
                 if (!player.wet)
-                    npc.Calamity().DR = 0.6f;
+                    npc.Calamity().DR = 0.5f;
                 npc.HitSound = SoundID.NPCHit42;
                 if (npc.ai[0] % 420f < 240f)
                 {

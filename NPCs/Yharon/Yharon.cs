@@ -23,7 +23,6 @@ using System;
 using System.IO;
 using Terraria;
 using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.Yharon
@@ -47,8 +46,8 @@ namespace CalamityMod.NPCs.Yharon
         private bool spawnArena = false;
         private int invincibilityCounter = 0;
 
-        public static float Phase1_DR = 0.24f;
-        public static float Phase2_DR = 0.26f;
+        public static float Phase1_DR = 0.2f;
+        public static float Phase2_DR = 0.25f;
 		public static float ChargeTelegraph_DR = 0.4f;
         public static float EnragedDR = 0.9f;
 
@@ -65,7 +64,7 @@ namespace CalamityMod.NPCs.Yharon
 			npc.GetNPCDamage();
 			npc.width = 200;
             npc.height = 200;
-            npc.defense = 150;
+            npc.defense = 90;
             npc.LifeMaxNERB(2275000, 2525000, 3700000);
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);

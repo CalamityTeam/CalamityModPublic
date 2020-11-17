@@ -985,7 +985,7 @@ namespace CalamityMod.NPCs
             }
             else if (npc.type == NPCID.DukeFishron)
             {
-                npc.lifeMax = (int)(npc.lifeMax * 1.85);
+                npc.lifeMax = (int)(npc.lifeMax * 1.95);
                 npc.npcSlots = 20f;
             }
             else if (npc.type == NPCID.Sharkron || npc.type == NPCID.Sharkron2)
@@ -1008,7 +1008,7 @@ namespace CalamityMod.NPCs
             }
             else if (npc.type == NPCID.Plantera)
             {
-                npc.lifeMax = (int)(npc.lifeMax * 2.3);
+                npc.lifeMax = (int)(npc.lifeMax * 2.35);
                 npc.npcSlots = 32f;
             }
             else if (npc.type == NPCID.WallofFlesh || npc.type == NPCID.WallofFleshEye)
@@ -1042,7 +1042,7 @@ namespace CalamityMod.NPCs
 			}
             else if (npc.type == NPCID.QueenBee)
             {
-                npc.lifeMax = (int)(npc.lifeMax * 1.15);
+                npc.lifeMax = (int)(npc.lifeMax * 1.2);
                 npc.npcSlots = 14f;
             }
 			else if ((npc.type == NPCID.Bee || npc.type == NPCID.BeeSmall) && CalamityPlayer.areThereAnyDamnBosses)
@@ -1071,7 +1071,7 @@ namespace CalamityMod.NPCs
 			}
             else if (npc.type == NPCID.EyeofCthulhu)
             {
-                npc.lifeMax = (int)(npc.lifeMax * 1.25);
+                npc.lifeMax = (int)(npc.lifeMax * 1.3);
                 npc.npcSlots = 10f;
             }
 			else if (npc.type == NPCID.KingSlime)
@@ -1103,12 +1103,12 @@ namespace CalamityMod.NPCs
 				}
                 else if (npc.type == NPCID.Retinazer)
                 {
-                    npc.lifeMax = (int)(npc.lifeMax * 1.25);
+                    npc.lifeMax = (int)(npc.lifeMax * 1.3);
                     npc.npcSlots = 10f;
                 }
                 else if (npc.type == NPCID.Spazmatism)
                 {
-                    npc.lifeMax = (int)(npc.lifeMax * 1.3);
+                    npc.lifeMax = (int)(npc.lifeMax * 1.35);
                     npc.npcSlots = 10f;
                 }
             }

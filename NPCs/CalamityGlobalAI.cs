@@ -931,7 +931,7 @@ namespace CalamityMod.NPCs
 
             else
             {
-                npc.defense = 6;
+                npc.defense = 0;
                 npc.damage = (int)(npc.defDamage * (phase5 ? 1.4f : 1.2f));
 
                 if (npc.ai[1] == 0f & phase5)
@@ -2666,7 +2666,7 @@ namespace CalamityMod.NPCs
 			float lifeRatio = npc.life / (float)npc.lifeMax;
 
 			// Boost defense as health decreases
-			int statBoost = (int)(20f * (1f - lifeRatio));
+			int statBoost = (int)(10f * (1f - lifeRatio));
 			npc.defense = npc.defDefense + statBoost;
 
 			// Get a target
@@ -4557,15 +4557,6 @@ namespace CalamityMod.NPCs
 
             if (npc.type == NPCID.TheDestroyerBody)
             {
-                // Gain more defense as health lowers with a max of 10, lose defense if probe has been launched
-                if (npc.ai[2] == 0f || enrageScale > 0f)
-                {
-					int defenseBoost = (int)(10f * (1f - lifeRatio));
-                    npc.defense = npc.defDefense + defenseBoost;
-                }
-                else
-                    npc.defense = npc.defDefense - 10;
-
                 // Enrage, fire more cyan lasers
                 if (targetFloatingUp || enrageScale > 0f)
                 {
@@ -5824,7 +5815,7 @@ namespace CalamityMod.NPCs
                         spazInPhase1 = Main.npc[CalamityGlobalNPC.fireEye].ai[0] == 1f || Main.npc[CalamityGlobalNPC.fireEye].ai[0] == 2f || Main.npc[CalamityGlobalNPC.fireEye].ai[0] == 0f;
                 }
 
-                int defenseGain = spazInPhase1 ? 9999 : 20;
+                int defenseGain = spazInPhase1 ? 9999 : 10;
                 npc.chaseable = !spazInPhase1;
 
                 npc.damage = (int)(npc.defDamage * 1.5);
@@ -6591,7 +6582,7 @@ namespace CalamityMod.NPCs
                         retInPhase1 = Main.npc[CalamityGlobalNPC.laserEye].ai[0] == 1f || Main.npc[CalamityGlobalNPC.laserEye].ai[0] == 2f || Main.npc[CalamityGlobalNPC.laserEye].ai[0] == 0f;
                 }
 
-                int defenseGain = retInPhase1 ? 9999 : 30;
+                int defenseGain = retInPhase1 ? 9999 : 18;
                 npc.chaseable = !retInPhase1;
 
                 // Increase defense and damage
@@ -9007,7 +8998,7 @@ namespace CalamityMod.NPCs
 				}
 
                 // Adjust stats
-                npc.defense = 42;
+                npc.defense = 32;
                 npc.damage = npc.defDamage;
                 if (enrage)
                 {
@@ -9093,7 +9084,7 @@ namespace CalamityMod.NPCs
             else
             {
                 // Adjust stats
-                npc.defense = 21;
+                npc.defense = 10;
                 npc.damage = (int)(npc.defDamage * 1.4f);
 				npc.chaseable = true;
 				if (enrage)
@@ -10533,17 +10524,17 @@ namespace CalamityMod.NPCs
             if (phase3AI)
             {
                 npc.damage = (int)(npc.defDamage * 1.32f);
-                npc.defense = (int)(npc.defDefense * 0.75f);
-            }
+				npc.defense = 0;
+			}
             else if (phase2AI)
             {
                 npc.damage = (int)(npc.defDamage * 1.44f);
-                npc.defense = npc.defDefense;
-            }
+				npc.defense = (int)(npc.defDefense * 0.8f);
+			}
             else
             {
                 npc.damage = npc.defDamage;
-                npc.defense = (int)(npc.defDefense * 1.2f);
+                npc.defense = npc.defDefense;
             }
 
             int idlePhaseTimer = 30;

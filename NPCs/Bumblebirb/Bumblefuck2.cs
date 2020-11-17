@@ -30,7 +30,7 @@ namespace CalamityMod.NPCs.Bumblebirb
 			npc.width = 120;
             npc.height = 80;
             npc.defense = 20;
-            npc.LifeMaxNERB(12000, 15000, 50000);
+            npc.LifeMaxNERB(9000, 11250, 50000); // Old HP - 12000, 15000
             npc.knockBackResist = 0f;
             for (int k = 0; k < npc.buffImmune.Length; k++)
             {

@@ -71,9 +71,9 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
         private Rectangle safeBox = default;
 
-        public static float normalDR = 0.7f;
-        public static float deathDR = 0.75f;
-        public static float bossRushDR = 0.6f;
+        public static float normalDR = 0.25f;
+        public static float deathDR = 0.3f;
+        public static float bossRushDR = 0.2f;
         public static float enragedDR = 0.99f;
 
         public override void SetStaticDefaults()
@@ -89,7 +89,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 			npc.npcSlots = 50f;
             npc.width = 120;
             npc.height = 120;
-            npc.defense = 120;
+            npc.defense = 100;
 			npc.DR_NERD(normalDR, normalDR, deathDR, bossRushDR, true);
 			CalamityGlobalNPC global = npc.Calamity();
             global.multDRReductions.Add(BuffID.CursedInferno, 0.9f);
