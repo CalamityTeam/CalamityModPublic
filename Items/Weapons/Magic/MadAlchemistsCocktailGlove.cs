@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Weapons.Magic
     public class MadAlchemistsCocktailGlove : ModItem
     {
         private int FlaskType = 0;
-        private int BaseDamage = 200;
+        private int BaseDamage = 150;
 
         public override void SetStaticDefaults()
         {

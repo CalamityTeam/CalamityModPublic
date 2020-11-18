@@ -3231,13 +3231,6 @@ namespace CalamityMod.NPCs
 					damage = (int)(damage * 1.35);
 				}
 			}
-			else if (npc.type == NPCType<Providence.Providence>())
-			{
-				if (projectile.type == ProjectileType<ElementalAxeMinion>())
-				{
-					damage = (int)(damage * 1.5);
-				}
-			}
 		}
 
 		private void GrenadeResist(Projectile projectile, ref int damage)

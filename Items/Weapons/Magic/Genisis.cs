@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.damage = 55;
+            item.damage = 41;
             item.magic = true;
             item.mana = 4;
             item.width = 74;
@@ -49,7 +49,7 @@ namespace CalamityMod.Items.Weapons.Magic
             float SpeedY = speedY + (float)Main.rand.Next(-20, 21) * 0.05f;
             for (int index = 0; index < num6; ++index)
             {
-                int projectile = Projectile.NewProjectile(position.X, position.Y, SpeedX * 1.05f, SpeedY * 1.05f, ProjectileID.LaserMachinegunLaser, (int)((double)damage * 0.65), knockBack * 0.6f, player.whoAmI, 0f, 0f);
+                int projectile = Projectile.NewProjectile(position.X, position.Y, SpeedX * 1.05f, SpeedY * 1.05f, ProjectileID.LaserMachinegunLaser, (int)(damage * 0.65), knockBack * 0.6f, player.whoAmI, 0f, 0f);
                 Main.projectile[projectile].timeLeft = 120;
             }
             return false;
