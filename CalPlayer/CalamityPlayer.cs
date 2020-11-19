@@ -191,7 +191,8 @@ namespace CalamityMod.CalPlayer
         public int armorPenetrationStat = 0;
         public float wingFlightTimeStat = 0f;
 		public float jumpSpeedStat = 0f;
-        public int adrenalineChargeStat = 0;
+        public int adrenalineDamageStat = 0;
+		public int adrenalineDRStat = 0;
         public int rageDamageStat = 0;
         public int moveSpeedStat = 0;
         public int abyssLightLevelStat = 0;
@@ -3572,19 +3573,27 @@ namespace CalamityMod.CalPlayer
             {
                 meleeSpeedMult += 0.15f;
             }
-            if (badgeOfBraveryRare)
-            {
+			if (badgeOfBraveryRare)
+			{
 				float maxDistance = 480f; // 30 tile distance
+				float meleeSpeedBoost = 0f;
 				for (int l = 0; l < Main.maxNPCs; l++)
 				{
-					NPC npc = Main.npc[l];
-					if (npc.active && !npc.friendly && (npc.damage > 0 || npc.boss) && !npc.dontTakeDamage && Vector2.Distance(player.Center, npc.Center) <= maxDistance)
+					NPC nPC = Main.npc[l];
+					if (nPC.active && !nPC.friendly && (nPC.damage > 0 || nPC.boss) && !nPC.dontTakeDamage && Vector2.Distance(player.Center, nPC.Center) <= maxDistance)
 					{
-						meleeSpeedMult += MathHelper.Lerp(0f, 0.3f, 1f - (Vector2.Distance(player.Center, npc.Center) / maxDistance));
+						meleeSpeedBoost += MathHelper.Lerp(0f, 0.3f, 1f - (Vector2.Distance(player.Center, nPC.Center) / maxDistance));
+
+						if (meleeSpeedBoost >= 0.3f)
+						{
+							meleeSpeedBoost = 0.3f;
+							break;
+						}
 					}
 				}
-            }
-            if (eGauntlet)
+				meleeSpeedMult += meleeSpeedBoost;
+			}
+			if (eGauntlet)
             {
                 meleeSpeedMult += 0.15f;
             }
@@ -5346,7 +5355,7 @@ namespace CalamityMod.CalPlayer
                 {
                     if (item.melee)
                     {
-                        damageMult += (DHorHoD ? 2.3 : 2.0);
+                        damageMult += DHorHoD ? 3.1 : 2.8;
                     }
                 }
                 else if (rageModeActive)
@@ -5365,8 +5374,12 @@ namespace CalamityMod.CalPlayer
                 {
                     if (item.melee)
                     {
-                        damageMult += 1.5;
-                    }
+						double adrenalineDamageBoost = 0D +
+							(adrenalineBoostOne ? 0.15 : 0D) +
+							(adrenalineBoostTwo ? 0.15 : 0D) +
+							(adrenalineBoostThree ? 0.15 : 0D);
+						damageMult += 2D + adrenalineDamageBoost;
+					}
                 }
             }
             damage = (int)(damage * damageMult);
@@ -5640,17 +5653,17 @@ namespace CalamityMod.CalPlayer
                 {
                     if (hasClassType)
                     {
-                        damageMult += (DHorHoD ? 2.3 : 2.0);
+                        damageMult += DHorHoD ? 3.1 : 2.8;
                     }
                 }
                 else if (rageModeActive)
                 {
                     if (hasClassType)
                     {
-                        double rageDamageBoost = 0.0 +
-                            (rageBoostOne ? 0.15 : 0.0) +
-                            (rageBoostTwo ? 0.15 : 0.0) +
-                            (rageBoostThree ? 0.15 : 0.0);
+                        double rageDamageBoost = 0D +
+                            (rageBoostOne ? 0.15 : 0D) +
+                            (rageBoostTwo ? 0.15 : 0D) +
+                            (rageBoostThree ? 0.15 : 0D);
                         double rageDamage = (DHorHoD ? 0.65 : 0.5) + rageDamageBoost;
                         damageMult += rageDamage;
                     }
@@ -5659,7 +5672,11 @@ namespace CalamityMod.CalPlayer
                 {
                     if (hasClassType)
                     {
-                        damageMult += 1.5;
+						double adrenalineDamageBoost = 0D +
+							(adrenalineBoostOne ? 0.15 : 0D) +
+							(adrenalineBoostTwo ? 0.15 : 0D) +
+							(adrenalineBoostThree ? 0.15 : 0D);
+						damageMult += 2D + adrenalineDamageBoost;
                     }
                 }
             }
@@ -6201,7 +6218,13 @@ namespace CalamityMod.CalPlayer
 				if (CalamityConfig.Instance.Rippers)
 				{
 					if (adrenaline == adrenalineMax && !adrenalineModeActive)
-						contactDamageReduction += 0.5;
+					{
+						double adrenalineDRBoost = 0D +
+							(adrenalineBoostOne ? 0.05 : 0D) +
+							(adrenalineBoostTwo ? 0.05 : 0D) +
+							(adrenalineBoostThree ? 0.05 : 0D);
+						contactDamageReduction += 0.5 + adrenalineDRBoost;
+					}
 				}
 			}
 
@@ -6490,7 +6513,13 @@ namespace CalamityMod.CalPlayer
 				if (CalamityConfig.Instance.Rippers)
 				{
 					if (adrenaline == adrenalineMax && !adrenalineModeActive)
-						projectileDamageReduction += 0.5;
+					{
+						double adrenalineDRBoost = 0D +
+							(adrenalineBoostOne ? 0.05 : 0D) +
+							(adrenalineBoostTwo ? 0.05 : 0D) +
+							(adrenalineBoostThree ? 0.05 : 0D);
+						projectileDamageReduction += 0.5 + adrenalineDRBoost;
+					}
 				}
 			}
 
@@ -9019,7 +9048,7 @@ namespace CalamityMod.CalPlayer
                 }
                 else if (dashMod == 4) //Asgardian Aegis
                 {
-                    dashDistance = 23.9f;
+                    dashDistance = 22.7f;
                     int direction = 0;
                     bool justDashed = false;
                     if (dashTimeMod > 0)
@@ -9208,7 +9237,7 @@ namespace CalamityMod.CalPlayer
                 }
                 else if (dashMod == 7) //Statis' Belt of Curses
                 {
-                    dashDistance = 21.9f;
+                    dashDistance = 25.4f;
                     int direction = 0;
                     bool justDashed = false;
                     if (dashTimeMod > 0)

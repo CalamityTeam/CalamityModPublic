@@ -26,22 +26,44 @@ namespace CalamityMod.Projectiles.Boss
         public override void AI()
         {
             Lighting.AddLight((int)((projectile.position.X + (projectile.width / 2)) / 16f), (int)((projectile.position.Y + (projectile.height / 2)) / 16f), 0.01f, 0.25f, 0.25f);
-            projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + 1.57f;
-            int num3;
-            for (int num322 = 0; num322 < 2; num322 = num3 + 1)
+
+            projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + MathHelper.PiOver2;
+
+            for (int num322 = 0; num322 < 2; num322++)
             {
                 int num323 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 92, projectile.velocity.X, projectile.velocity.Y, 50, default, 0.6f);
                 Main.dust[num323].noGravity = true;
                 Dust dust = Main.dust[num323];
                 dust.velocity *= 0.3f;
-                num3 = num322;
             }
+
             if (projectile.ai[1] == 0f)
             {
                 projectile.ai[1] = 1f;
                 Main.PlaySound(SoundID.Item28, projectile.position);
             }
-        }
+
+			if (projectile.localAI[0] == 0f)
+			{
+				projectile.scale += 0.01f;
+				projectile.alpha -= 50;
+				if (projectile.alpha <= 0)
+				{
+					projectile.localAI[0] = 1f;
+					projectile.alpha = 0;
+				}
+			}
+			else
+			{
+				projectile.scale -= 0.01f;
+				projectile.alpha += 50;
+				if (projectile.alpha >= 255)
+				{
+					projectile.localAI[0] = 0f;
+					projectile.alpha = 255;
+				}
+			}
+		}
 
 		public override Color? GetAlpha(Color lightColor)
 		{

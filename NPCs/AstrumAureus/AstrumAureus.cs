@@ -45,7 +45,7 @@ namespace CalamityMod.NPCs.AstrumAureus
 			npc.GetNPCDamage();
 			npc.width = 400;
             npc.height = 280;
-            npc.defense = 50;
+            npc.defense = 40;
 			npc.DR_NERD(0.15f);
             npc.LifeMaxNERB(84000, NPC.downedMoonlord ? 390000 : 107000, 7400000); // 30 seconds in boss rush
             npc.aiStyle = -1;

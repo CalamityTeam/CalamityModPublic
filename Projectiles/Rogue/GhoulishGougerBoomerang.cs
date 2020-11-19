@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class GhoulishGougerBoomerang : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/GhoulishGouger";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Scythe");
@@ -122,7 +124,7 @@ namespace CalamityMod.Projectiles.Rogue
 		public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
 			Vector2 origin = new Vector2(37f, 34f);
-			spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Projectiles/Rogue/GhoulishGougerBoomerangGlow"), projectile.Center - Main.screenPosition, null, Color.White, projectile.rotation, origin, 1f, SpriteEffects.None, 0f);
+			spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Items/Weapons/Rogue/GhoulishGougerGlow"), projectile.Center - Main.screenPosition, null, Color.White, projectile.rotation, origin, 1f, SpriteEffects.None, 0f);
 		}
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

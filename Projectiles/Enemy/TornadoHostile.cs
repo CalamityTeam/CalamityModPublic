@@ -7,6 +7,8 @@ namespace CalamityMod.Projectiles.Enemy
 {
     public class TornadoHostile : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/TornadoProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Tornado");

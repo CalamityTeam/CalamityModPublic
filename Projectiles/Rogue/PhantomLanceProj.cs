@@ -10,6 +10,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class PhantomLanceProj : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/PhantomLance";
+
         private int projCount = 22;
 
         public override void SetStaticDefaults()

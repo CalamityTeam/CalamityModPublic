@@ -73,7 +73,7 @@ namespace CalamityMod.Tiles.Astral
             Vector2 ritualSpawnPosition = new Vector2(left + Width / 2, top).ToWorldCoordinates();
             ritualSpawnPosition += new Vector2(0f, -24f);
 
-            Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/ProvidenceHolyRay"), ritualSpawnPosition);
+            Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/AstralBeaconUse"), ritualSpawnPosition);
             Projectile.NewProjectile(ritualSpawnPosition, Vector2.Zero, ModContent.ProjectileType<DeusRitualDrama>(), 0, 0f, Main.myPlayer);
 
             if (!usingStarcore)

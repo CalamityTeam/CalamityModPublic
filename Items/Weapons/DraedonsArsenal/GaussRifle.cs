@@ -23,9 +23,9 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 			item.width = 112;
 			item.height = 36;
 			item.ranged = true;
-			item.damage = 170;
+			item.damage = 150;
 			item.knockBack = 30f;
-			item.useTime = item.useAnimation = 28;
+			item.useTime = item.useAnimation = 32;
 			item.autoReuse = true;
 
 			item.useStyle = ItemUseStyleID.HoldingOut;
@@ -46,7 +46,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-			Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<GaussRifleBlast>(), damage, knockBack, player.whoAmI, 0f, 0f);
+			Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<GaussRifleBlast>(), damage, knockBack, player.whoAmI);
 			return false;
 		}
 

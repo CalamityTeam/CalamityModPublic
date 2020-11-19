@@ -12,6 +12,7 @@ namespace CalamityMod.Projectiles.Magic
         public static readonly float ExponentialDamageBoost = (float)Math.Pow(MaxExponentialDamageBoost, 1f / Lifetime);
         public ref float Time => ref projectile.ai[0];
         public ref float InitialDamage => ref projectile.ai[1];
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Blood Ray");

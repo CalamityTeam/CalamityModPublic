@@ -5,6 +5,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class SandDollarProj : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/SandDollar";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Sand Dollar");

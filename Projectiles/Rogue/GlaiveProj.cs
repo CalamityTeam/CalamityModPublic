@@ -10,6 +10,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class GlaiveProj : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/Glaive";
+
         private static int Lifetime = 180;
         private static int ReboundTime = 45;
 

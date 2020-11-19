@@ -5,6 +5,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class CraniumSmasherProj : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/CraniumSmasher";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Cranium Smasher");

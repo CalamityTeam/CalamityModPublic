@@ -17,6 +17,7 @@ namespace CalamityMod.Projectiles.Magic
         public override Texture2D LaserEndTexture => ModContent.GetTexture("CalamityMod/ExtraTextures/Lasers/UltimaRayEnd");
 
         public ref float ShardCooldown => ref projectile.ai[1];
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Beam");

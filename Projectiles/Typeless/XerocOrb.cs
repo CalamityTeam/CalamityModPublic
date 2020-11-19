@@ -7,6 +7,8 @@ namespace CalamityMod.Projectiles.Typeless
 {
 	public class XerocOrb : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Healing/XerocHealOrb";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Orb");

@@ -40,7 +40,7 @@ namespace CalamityMod.NPCs.Signus
 			npc.GetNPCDamage();
 			npc.width = 130;
             npc.height = 130;
-            npc.defense = 70;
+            npc.defense = 60;
             Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
             if (calamityModMusic != null)
                 music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/ScourgeofTheUniverse");

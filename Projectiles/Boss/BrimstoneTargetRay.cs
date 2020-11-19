@@ -10,6 +10,8 @@ namespace CalamityMod.Projectiles.Boss
 {
 	public class BrimstoneTargetRay : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Brimstone Target Ray");

@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class SulphuricAcidBubble2 : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Enemy/SulphuricAcidBubble";
+
         public float counter = 0f;
         public float counter2 = 0f;
         public int killCounter = 0;

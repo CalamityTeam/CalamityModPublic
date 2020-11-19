@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
 	public class StickyBol : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/StickySpikyBall";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Sticky Bol");

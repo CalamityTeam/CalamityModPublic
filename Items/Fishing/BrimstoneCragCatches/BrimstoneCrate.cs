@@ -35,6 +35,11 @@ namespace CalamityMod.Items.Fishing.BrimstoneCragCatches
 
         public override void RightClick(Player player)
         {
+			//Vanilla materials
+			DropHelper.DropItem(player, ItemID.Hellstone, 5, 10);
+			DropHelper.DropItem(player, ItemID.Obsidian, 5, 10);
+			DropHelper.DropItemChance(player, ItemID.HellstoneBar, 2, 3, 5);
+
             //Modded materials
 			DropHelper.DropItem(player, ModContent.ItemType<DemonicBoneAsh>(), 3, 5);
             DropHelper.DropItemCondition(player, ModContent.ItemType<EssenceofChaos>(), Main.hardMode, 0.5f, 5, 15);

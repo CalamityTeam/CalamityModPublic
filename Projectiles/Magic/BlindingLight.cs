@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class BlindingLight : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         private const float Radius = 1400f;
         private const int Lifetime = 45;
         

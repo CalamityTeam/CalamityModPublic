@@ -6,6 +6,8 @@ namespace CalamityMod.Projectiles.Ranged
 {
 	public class MagnomalyAura : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
 		private int radius = 100;
 
         public override void SetStaticDefaults()

@@ -6,6 +6,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class EnchantedAxe2 : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/EnchantedAxe";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Enchanted Axe");

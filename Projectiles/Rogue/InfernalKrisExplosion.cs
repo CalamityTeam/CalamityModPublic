@@ -1,4 +1,3 @@
-
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -8,6 +7,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class InfernalKrisExplosion : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public static float radius = 64;
 
         public override void SetStaticDefaults()

@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.Hybrid
 {
     public class MangroveChakramProjectile : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/MangroveChakram";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Chakram");

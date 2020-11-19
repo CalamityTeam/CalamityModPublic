@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class NorfleetComet : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Melee/GalacticaComet";
+
         private int noTileHitCounter = 120;
 
         public override void SetStaticDefaults()

@@ -10,6 +10,8 @@ namespace CalamityMod.Projectiles.Magic
 {
 	public class MagicNebulaShot : BaseLaserbeamProjectile
 	{
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
 		private Color startingColor = new Color(119, 210, 255);
 		private Color secondColor = new Color(247, 119, 255);
 		public override float MaxScale => 0.7f;

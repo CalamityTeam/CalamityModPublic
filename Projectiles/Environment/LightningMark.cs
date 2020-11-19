@@ -6,6 +6,8 @@ namespace CalamityMod.Projectiles.Environment
 {
 	public class LightningMark : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Lightning Mark");

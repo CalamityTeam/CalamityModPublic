@@ -30,7 +30,7 @@ namespace CalamityMod.Projectiles.Melee
 			aiType = ProjectileID.LightBeam;
 			projectile.friendly = true;
             projectile.penetrate = 1;
-            projectile.timeLeft = 90;
+            projectile.timeLeft = 120;
             projectile.melee = true;
         }
 

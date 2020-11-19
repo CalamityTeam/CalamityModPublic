@@ -7,6 +7,8 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class RadiantResolutionFire : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Fire");

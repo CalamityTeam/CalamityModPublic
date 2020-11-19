@@ -7,6 +7,8 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class DNA2 : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Melee/DNA";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("DNA");

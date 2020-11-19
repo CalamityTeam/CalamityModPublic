@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
 	public class ReaperProjectile : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/TheReaper";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Scythe");

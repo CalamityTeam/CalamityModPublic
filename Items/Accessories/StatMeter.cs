@@ -77,8 +77,9 @@ namespace CalamityMod.Items.Accessories
 			// Only append rippers stats in Rev+, if rippers are enabled.
 			if (CalamityWorld.revenge && CalamityConfig.Instance.Rippers)
 			{
-				sb.Append("Adrenaline Charge Time: ").Append(modPlayer.adrenalineChargeStat)
-					.Append(" seconds | Rage Damage Boost: ").Append(modPlayer.rageDamageStat)
+				sb.Append("Adrenaline Damage Boost: ").Append(modPlayer.adrenalineDamageStat)
+					.Append("% | Adrenaline DR Boost: ").Append(modPlayer.adrenalineDRStat)
+					.Append("% | Rage Damage Boost: ").Append(modPlayer.rageDamageStat)
 					.Append("%\n\n");
 			}
 

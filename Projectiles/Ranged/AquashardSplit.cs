@@ -6,6 +6,8 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class AquashardSplit : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Ranged/Aquashard";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Aquashard");

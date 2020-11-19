@@ -14,6 +14,8 @@ namespace CalamityMod.Projectiles.Boss
 {
     public class HolyBurnOrb : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/StarProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Holy Orb");

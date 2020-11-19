@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 {
     public class PulseRifleShot : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
 		private int dust1 = 27; //purple
 		private int dust2 = 173; //shortlived purple
 		private int dust3 = 234; //cyan and pink

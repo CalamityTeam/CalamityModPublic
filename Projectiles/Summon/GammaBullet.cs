@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class GammaBullet : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Enemy/NuclearBulletMedium";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Gamma Bullet");

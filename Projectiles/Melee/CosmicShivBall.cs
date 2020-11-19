@@ -10,6 +10,8 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class CosmicShivBall : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public NPC target = null;
         public const float maxDistanceToTarget = 900f;
         public bool initialized = false;

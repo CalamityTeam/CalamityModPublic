@@ -1404,20 +1404,6 @@ namespace CalamityMod.NPCs
                     DropHelper.DropItemCondition(npc, ModContent.ItemType<HardenedHoneycomb>(), !Main.expertMode, 30, 50);
                     break;
 
-                case NPCID.DevourerHead:
-                case NPCID.SeekerHead:
-                    DropHelper.DropItemChance(npc, ModContent.ItemType<FetidEssence>(), Main.expertMode ? 2 : 3);
-                    break;
-
-                case NPCID.FaceMonster:
-                case NPCID.Herpling:
-                    DropHelper.DropItemChance(npc, ModContent.ItemType<BloodlettingEssence>(), Main.expertMode ? 4 : 5);
-                    break;
-
-                case NPCID.ManEater:
-                    DropHelper.DropItemChance(npc, ModContent.ItemType<ManeaterBulb>(), Main.expertMode ? 2 : 3);
-                    break;
-
                 case NPCID.AngryTrapper:
                     DropHelper.DropItemChance(npc, ModContent.ItemType<TrapperBulb>(), Main.expertMode ? 4 : 5);
                     break;
@@ -1428,10 +1414,6 @@ namespace CalamityMod.NPCs
                 case NPCID.BigCrimslime:
                 case NPCID.LittleCrimslime:
                     DropHelper.DropItemChance(npc, ModContent.ItemType<MurkySludge>(), Main.expertMode ? 3 : 4);
-                    break;
-
-                case NPCID.Moth:
-                    DropHelper.DropItemChance(npc, ModContent.ItemType<GypsyPowder>(), Main.expertMode ? 1f : 0.5f);
                     break;
 
                 case NPCID.Derpling:

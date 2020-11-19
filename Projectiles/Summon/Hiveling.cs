@@ -10,6 +10,8 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class Hiveling : ModProjectile
     {
+        public override string Texture => "CalamityMod/NPCs/Astral/Hiveling";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Hiveling");

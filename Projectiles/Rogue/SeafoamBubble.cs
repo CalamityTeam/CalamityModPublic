@@ -7,6 +7,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class SeafoamBubble : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Typeless/CoralBubble";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Seafoam Bubble");

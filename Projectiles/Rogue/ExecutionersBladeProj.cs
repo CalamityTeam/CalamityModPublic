@@ -9,6 +9,7 @@ namespace CalamityMod.Projectiles.Rogue
 {
 	public class ExecutionersBladeProj : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/ExecutionersBlade";
 
         private void handleStealth(Vector2 position, int damage, bool crit, float knockback)
         {
@@ -20,7 +21,7 @@ namespace CalamityMod.Projectiles.Rogue
                     Main.PlaySound(SoundID.Item73, projectile.position);
                     for (int i = 0; i < 20; i++)
                     {
-                        Projectile.NewProjectile(new Vector2(position.X + (-600 + i * 60), position.Y - 800), new Vector2(0f, 5f), ModContent.ProjectileType<ExecutionersBladeStealthProj>(), (int)((double)projectile.damage * 1.2f), projectile.knockBack, player.whoAmI);
+                        Projectile.NewProjectile(new Vector2(position.X + (-600 + i * 60), position.Y - 800), new Vector2(0f, 5f), ModContent.ProjectileType<ExecutionersBladeStealthProj>(), (int)(projectile.damage * 1.2f), projectile.knockBack, player.whoAmI);
                     }
                 }
             }
@@ -59,7 +60,7 @@ namespace CalamityMod.Projectiles.Rogue
         public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Vector2 origin = new Vector2(32f, 32f);
-            spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Projectiles/Rogue/ExecutionersBladeGlow"), projectile.Center - Main.screenPosition, null, Color.White, projectile.rotation, origin, 1f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Items/Weapons/Rogue/ExecutionersBladeGlow"), projectile.Center - Main.screenPosition, null, Color.White, projectile.rotation, origin, 1f, SpriteEffects.None, 0f);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

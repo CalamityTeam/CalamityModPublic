@@ -10,7 +10,7 @@ namespace CalamityMod.UI
 	{
 		public static readonly Vector2 OffsetToAreaCenter = new Vector2(0f, 4f);
 		public static Vector2 DifficultyIconOffset => new Vector2(0f, -16f);
-		public static Vector2 ArmageddonIconOffset => new Vector2(12f, 7f);
+		public static Vector2 ArmageddonIconOffset => new Vector2(11.5f, 7f);
 		public static Vector2 DefiledRuneIconOffset => new Vector2(-12f, 7);
 		public static void Draw(SpriteBatch spriteBatch)
 		{

@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.Melee
 {
 	public class Razorwind : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/TornadoProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Razorwind");

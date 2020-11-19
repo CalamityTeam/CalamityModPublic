@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.Typeless
 {
     public class SabatonSlam : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetDefaults()
         {
             projectile.width = 10;

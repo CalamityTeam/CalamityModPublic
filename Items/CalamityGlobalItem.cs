@@ -2957,13 +2957,11 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                         break;
 
 					case ItemID.CorruptFishingCrate:
-                        DropHelper.DropItemChance(player, ModContent.ItemType<FetidEssence>(), 4, 5, 8);
                         DropHelper.DropItemChance(player, ModContent.ItemType<EbonianGel>(), 4, 5, 8);
                         DropHelper.DropItemChance(player, ModContent.ItemType<MurkySludge>(), 5, 1, 3);
                         break;
 
 					case ItemID.CrimsonFishingCrate:
-                        DropHelper.DropItemChance(player, ModContent.ItemType<BloodlettingEssence>(), 4, 5, 8);
                         DropHelper.DropItemChance(player, ModContent.ItemType<EbonianGel>(), 4, 5, 8);
                         DropHelper.DropItemChance(player, ModContent.ItemType<MurkySludge>(), 5, 1, 3);
                         break;
@@ -2980,7 +2978,6 @@ Grants immunity to fire blocks, and temporary immunity to lava";
 
 					case ItemID.JungleFishingCrate:
                         DropHelper.DropItemChance(player, ModContent.ItemType<MurkyPaste>(), 5, 1, 3);
-                        DropHelper.DropItemChance(player, ModContent.ItemType<ManeaterBulb>(), 5, 1, 3);
                         DropHelper.DropItemCondition(player, ModContent.ItemType<BeetleJuice>(), Main.hardMode, 0.2f, 1, 3);
                         DropHelper.DropItemCondition(player, ModContent.ItemType<TrapperBulb>(), Main.hardMode, 0.2f, 1, 3);
                         DropHelper.DropItemCondition(player, ItemID.ChlorophyteBar, (CalamityWorld.downedCalamitas || NPC.downedPlantBoss), 0.25f, 5, 10);

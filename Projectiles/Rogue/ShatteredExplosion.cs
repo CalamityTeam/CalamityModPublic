@@ -6,6 +6,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class ShatteredExplosion : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         bool dust = true;
 
         public override void SetStaticDefaults()

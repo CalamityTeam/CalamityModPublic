@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class BrackishFlaskProj : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/BrackishFlask";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Brackish Flask");

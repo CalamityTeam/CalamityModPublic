@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
 	public class EclipsesFallMain : ModProjectile
 	{
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/EclipsesFall";
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Eclipse's Fall");

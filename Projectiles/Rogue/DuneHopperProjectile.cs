@@ -7,6 +7,7 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class DuneHopperProjectile : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/DuneHopper";
 
         public override void SetStaticDefaults()
         {
@@ -34,11 +35,7 @@ namespace CalamityMod.Projectiles.Rogue
                     projectile.velocity.Y += 0.4f;
                 }
             }
-            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 2.355f;
-            if (projectile.spriteDirection == -1)
-            {
-                projectile.rotation -= 1.57f;
-            }
+            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + MathHelper.ToRadians(45f);
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)

@@ -7,6 +7,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class DesecratedWaterProj : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/DesecratedWater";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Desecrated Water");

@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class PalladiumJavelinProjectile : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/PalladiumJavelin";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Javelin");

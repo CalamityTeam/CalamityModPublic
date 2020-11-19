@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class SupernovaBomb : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/Supernova";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Supernova Bomb");

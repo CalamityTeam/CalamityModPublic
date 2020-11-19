@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
 	public class GreenDonkeyKongReference : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/AcidicRainBarrel";
+
         public float cooldown = 0f;
         public float oldVelocityX = 0f;
         public override void SetStaticDefaults()

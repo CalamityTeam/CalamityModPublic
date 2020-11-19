@@ -11,6 +11,7 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class StellarKnifeProj : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/StellarKnife";
 
         public override void SetStaticDefaults()
         {
@@ -46,17 +47,13 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.ai[1] += 0.75f;
             if (projectile.ai[1] <= 60f)
             {
-                projectile.rotation += 1f;
+                projectile.rotation -= 1f;
                 projectile.velocity.X *= 0.985f;
                 projectile.velocity.Y *= 0.985f;
             }
             else
             {
-                projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 2.355f;
-                if (projectile.spriteDirection == -1)
-                {
-                    projectile.rotation -= 1.57f;
-                }
+                projectile.rotation = projectile.velocity.ToRotation() + MathHelper.ToRadians(45f);
 				projectile.localAI[0]++;
 
 				Vector2 center = projectile.Center;

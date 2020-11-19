@@ -10,6 +10,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
 	public class ProfanedPartisanproj : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/ProfanedPartisan";
+
     	public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Profaned Partisan");

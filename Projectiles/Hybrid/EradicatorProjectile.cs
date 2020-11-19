@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.Hybrid
 {
 	public class EradicatorProjectile : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/Eradicator";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Eradicator");
@@ -46,7 +48,7 @@ namespace CalamityMod.Projectiles.Hybrid
         public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Vector2 origin = new Vector2(31f, 29f);
-            spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Projectiles/Hybrid/EradicatorProjectileGlow"), projectile.Center - Main.screenPosition, null, Color.White, projectile.rotation, origin, 1f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Items/Weapons/Rogue/EradicatorGlow"), projectile.Center - Main.screenPosition, null, Color.White, projectile.rotation, origin, 1f, SpriteEffects.None, 0f);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

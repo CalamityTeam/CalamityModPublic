@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class DraconicSpark : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public static int Lifetime = 120;
         public static float MaxHomingRange = 600f;
         public static float HomingVelocity = 20f;

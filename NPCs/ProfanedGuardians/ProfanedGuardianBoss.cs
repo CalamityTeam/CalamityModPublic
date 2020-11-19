@@ -40,9 +40,9 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 			npc.GetNPCDamage();
 			npc.width = 100;
             npc.height = 80;
-            npc.defense = 50;
-			npc.DR_NERD(0.4f);
-            npc.LifeMaxNERB(102500, 112500, 1650000);
+            npc.defense = 40;
+			npc.DR_NERD(0.3f);
+            npc.LifeMaxNERB(76875, 84375, 1650000); // Old HP - 102500, 112500
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.knockBackResist = 0f;

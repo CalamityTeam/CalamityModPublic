@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.Hybrid
 {
     public class TerraDiskProjectile : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/TerraDisk";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Terra Disk");

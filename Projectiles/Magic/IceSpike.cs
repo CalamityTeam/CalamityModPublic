@@ -7,6 +7,8 @@ namespace CalamityMod.Projectiles.Magic
 {
 	public class IceSpike : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Boss/IceRain";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Spike");

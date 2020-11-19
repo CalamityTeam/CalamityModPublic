@@ -8,6 +8,7 @@ namespace CalamityMod.Projectiles.Rogue
 {
 	public class HellsSunProj : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/HellsSun";
 
         public override void SetStaticDefaults()
         {

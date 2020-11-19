@@ -24,6 +24,8 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
 	public class WavePounderBoom : ModProjectile
 	{
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
 		public ScreenShakeSpot CurrentSpot;
 
 		public float Radius

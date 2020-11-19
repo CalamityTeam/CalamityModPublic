@@ -37,7 +37,7 @@ namespace CalamityMod.NPCs.Abyss
             npc.damage = 1500;
             npc.width = 254; //36
             npc.height = 138; //20
-            npc.defense = 3000;
+            npc.defense = 700;
             CalamityGlobalNPC global = npc.Calamity();
             global.DR = 0.999999f;
             global.unbreakableDR = true;

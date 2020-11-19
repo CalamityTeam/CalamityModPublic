@@ -11,6 +11,8 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class AstralCrystal : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Boss/AstralFlame";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Crystal");

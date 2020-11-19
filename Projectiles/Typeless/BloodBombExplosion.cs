@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.Typeless
 {
     public class BloodBombExplosion : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Explosion");

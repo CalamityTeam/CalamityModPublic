@@ -10,6 +10,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class ScourgeoftheSeasProjectile : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/ScourgeoftheSeas";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Moist Scourge");

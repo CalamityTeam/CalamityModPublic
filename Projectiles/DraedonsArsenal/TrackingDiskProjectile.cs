@@ -13,6 +13,8 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 {
     public class TrackingDiskProjectile : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/DraedonsArsenal/TrackingDisk";
+
         public bool ReturningToPlayer
         {
             get => projectile.ai[0] == 1f;

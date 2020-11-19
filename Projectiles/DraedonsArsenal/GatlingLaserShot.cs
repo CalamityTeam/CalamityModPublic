@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 {
     public class GatlingLaserShot : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
 		private int dust = 182;
 
     	public override void SetStaticDefaults()

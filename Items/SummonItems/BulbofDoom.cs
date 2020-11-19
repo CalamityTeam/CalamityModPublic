@@ -48,7 +48,7 @@ namespace CalamityMod.Items.SummonItems
             recipe.AddIngredient(ItemID.SoulofNight, 10);
             recipe.AddIngredient(ItemID.SoulofLight, 10);
             recipe.AddIngredient(ModContent.ItemType<MurkyPaste>(), 3);
-            recipe.AddIngredient(ModContent.ItemType<ManeaterBulb>());
+            recipe.AddIngredient(ItemID.Vine);
             recipe.AddIngredient(ModContent.ItemType<TrapperBulb>());
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);

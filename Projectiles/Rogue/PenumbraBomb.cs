@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
 	public class PenumbraBomb : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/Penumbra";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Penumbra Bomb");

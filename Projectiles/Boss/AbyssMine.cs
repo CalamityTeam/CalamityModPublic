@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.Boss
 {
     public class AbyssMine : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Boss/AbyssBallVolley";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Abyss Mine");

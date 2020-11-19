@@ -1,8 +1,8 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Accessories;
-using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
+using CalamityMod.Items.Potions;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -29,7 +29,7 @@ namespace CalamityMod.NPCs.Abyss
             npc.damage = 34;
             npc.width = 50;
             npc.height = 28;
-            npc.defense = 12;
+            npc.defense = 8;
             npc.lifeMax = 110;
             npc.aiStyle = -1;
             aiType = -1;
@@ -389,7 +389,7 @@ namespace CalamityMod.NPCs.Abyss
         public override void NPCLoot()
         {
             DropHelper.DropItemCondition(npc, ModContent.ItemType<HalibutCannon>(), CalamityWorld.revenge, CalamityGlobalNPCLoot.halibutCannonBaseDropChance, 1, 1);
-            DropHelper.DropItemChance(npc, ModContent.ItemType<CloakingGland>(), 2);
+            DropHelper.DropItemChance(npc, ModContent.ItemType<AnechoicCoating>(), 2);
             int inkBombDropRate = CalamityWorld.defiled ? DropHelper.DefiledDropRateInt : Main.expertMode ? 50 : 100;
             DropHelper.DropItemChance(npc, ModContent.ItemType<InkBomb>(), inkBombDropRate, 1, 1);
         }

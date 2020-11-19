@@ -10,6 +10,8 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class AstralProbeRound : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Ranged/AstralRound";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Blast");

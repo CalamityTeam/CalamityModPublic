@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.Hybrid
 {
     public class FlameScytheProjectile : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/FlameScythe";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Scythe");

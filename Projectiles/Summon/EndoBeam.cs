@@ -10,6 +10,8 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class EndoBeam : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         // For if this laser should stop firing if it hits a tile
         private static bool LaserTileCollision = false;
 

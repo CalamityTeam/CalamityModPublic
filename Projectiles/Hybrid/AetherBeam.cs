@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.Hybrid
 {
     public class AetherBeam : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/LaserProj";
+
         private bool split = true;
 
         public override void SetStaticDefaults()

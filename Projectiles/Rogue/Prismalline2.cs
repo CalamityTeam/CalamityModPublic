@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class Prismalline2 : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/Prismalline";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Prismalline");
@@ -27,11 +29,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void AI()
         {
-            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 2.355f;
-            if (projectile.spriteDirection == -1)
-            {
-                projectile.rotation -= 1.57f;
-            }
+            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.ToRadians(45f);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

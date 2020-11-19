@@ -29,6 +29,7 @@ namespace CalamityMod.NPCs.AcidRain
             npc.height = 14;
 
             npc.lifeMax = 30;
+			npc.damage = 0;
 
             if (CalamityWorld.downedPolterghast)
             {
@@ -194,11 +195,6 @@ namespace CalamityMod.NPCs.AcidRain
             {
                 Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.SulfurousSeaAcid, hitDirection, -1f, 0, default, 1f);
             }
-        }
-
-        public override void OnHitPlayer(Player target, int damage, bool crit)
-        {
-            target.AddBuff(ModContent.BuffType<Irradiated>(), 120);
         }
 
         public override void NPCLoot()

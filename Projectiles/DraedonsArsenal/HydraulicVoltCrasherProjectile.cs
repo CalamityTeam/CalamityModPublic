@@ -1,6 +1,7 @@
 ﻿using CalamityMod.Items;
 using CalamityMod.Items.Weapons.DraedonsArsenal;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -20,14 +21,14 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
         public override void SetDefaults()
         {
             projectile.width = 56;
-            projectile.height = 26;
+            projectile.height = 56;
             projectile.friendly = true;
             projectile.penetrate = -1;
             projectile.tileCollide = false;
             projectile.hide = true;
             projectile.ownerHitCheck = true;
             projectile.melee = true;
-            projectile.scale = 1.1f;
+            projectile.scale = 1.3f;
         }
 
         public override void AI()
@@ -103,8 +104,10 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
             if (Main.rand.NextBool(5))
             {
-                Vector2 spawnPosition = projectile.Center;
-                spawnPosition += projectile.Size.RotatedBy(projectile.velocity.ToRotation() - MathHelper.ToRadians(25f)) * 0.65f * projectile.scale;
+				Vector2 spawnPosition = projectile.velocity;
+				spawnPosition.Normalize();
+				spawnPosition *= projectile.Size;
+				spawnPosition += projectile.Center;
                 Dust dust = Dust.NewDustPerfect(spawnPosition, 226);
                 dust.velocity = projectile.velocity.SafeNormalize(Vector2.Zero) * Main.rand.NextFloat(2f, 3.6f);
                 dust.velocity += player.velocity * 0.4f;
@@ -164,5 +167,18 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                                            npc.whoAmI);
             return true;
         }
+
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			Texture2D texture = Main.projectileTexture[projectile.type];
+			int height = texture.Height / Main.projFrames[projectile.type];
+			int frameHeight = height * projectile.frame;
+			SpriteEffects spriteEffects = SpriteEffects.None;
+			if (projectile.spriteDirection == -1)
+				spriteEffects = SpriteEffects.FlipHorizontally;
+
+			spriteBatch.Draw(texture, projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, frameHeight, texture.Width, height)), lightColor, projectile.rotation, new Vector2(texture.Width / 2f, height / 2f), projectile.scale, spriteEffects, 0f);
+			return false;
+		}
     }
 }

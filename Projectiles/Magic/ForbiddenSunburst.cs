@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class ForbiddenSunburst : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         private static float ExplosionRadius = 190.0f;
 
         public override void SetStaticDefaults()

@@ -6,6 +6,8 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class BlueExoArrow2 : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/LaserProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Arrow");

@@ -8,7 +8,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 {
     public class StellarContemptRogue : RogueWeapon
     {
-        public static int BaseDamage = 325;
+        public static int BaseDamage = 250;
         public static float Speed = 18f;
 
         public override void SetStaticDefaults()

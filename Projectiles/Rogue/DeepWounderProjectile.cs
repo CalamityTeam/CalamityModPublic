@@ -10,6 +10,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class DeepWounderProjectile : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/DeepWounder";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Deep Wounder Projectile");

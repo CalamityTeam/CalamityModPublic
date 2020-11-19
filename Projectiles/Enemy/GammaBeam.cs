@@ -11,6 +11,8 @@ namespace CalamityMod.Projectiles.Enemy
 {
     public class GammaBeam : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Enemy/CragmawBeam";
+
         // How long this laser can exist before it is deleted.
         public const int TrueTimeLeft = 180;
 

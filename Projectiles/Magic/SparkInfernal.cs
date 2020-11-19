@@ -6,6 +6,8 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class SparkInfernal : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Spark");

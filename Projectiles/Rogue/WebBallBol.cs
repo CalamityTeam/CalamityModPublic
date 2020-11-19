@@ -6,6 +6,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
 	public class WebBallBol : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/WebBall";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Web Ball");

@@ -4,6 +4,8 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class ShadeNimbus : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Boss/ShadeNimbusHostile";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Nimbus");

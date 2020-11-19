@@ -17,7 +17,7 @@ namespace CalamityMod.NPCs.BrimstoneElemental
     {
         private bool boostDR = false;
         public static float normalDR = 0.15f;
-        public static float boostedDR = 0.8f;
+        public static float boostedDR = 0.6f;
 
         public override void SetStaticDefaults()
         {
@@ -100,7 +100,8 @@ namespace CalamityMod.NPCs.BrimstoneElemental
                 npc.netUpdate = true;
                 return;
             }
-            bool goIntoShell = (double)npc.life <= (double)npc.lifeMax * 0.1;
+
+            bool goIntoShell = npc.life <= npc.lifeMax * 0.25;
             bool provy = CalamityWorld.downedProvidence && !BossRushEvent.BossRushActive;
             if (goIntoShell || Main.npc[CalamityGlobalNPC.brimstoneElemental].ai[0] == 4f)
             {
@@ -114,7 +115,7 @@ namespace CalamityMod.NPCs.BrimstoneElemental
             }
 
             // Set DR based on boost status
-            npc.Calamity().DR = boostDR ? boostedDR : CalamityWorld.revenge ? normalDR : 0f;
+            npc.Calamity().DR = boostDR ? boostedDR : normalDR;
 
             float num1446 = goIntoShell ? 1f : (BossRushEvent.BossRushActive ? 12f : 6f);
             int num1447 = 480;

@@ -909,6 +909,9 @@ namespace CalamityMod.CalPlayer
 
 				if (modPlayer.eaterOfWorldsLore)
 					player.lifeRegen /= 2;
+
+				if (modPlayer.godSlayerCooldown)
+					player.lifeRegen /= 2;
 			}
 
 			if (BossRushEvent.BossRushActive)

@@ -11,6 +11,8 @@ namespace CalamityMod.Projectiles.Summon
 {
 	public class ApexShark : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Ranged/SandyWaifuShark";
+
         private int HitCooldown = 0;
         public override void SetStaticDefaults()
         {

@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
 	public class SandslasherProj : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/Sandslasher";
+
     	public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Sandslasher");

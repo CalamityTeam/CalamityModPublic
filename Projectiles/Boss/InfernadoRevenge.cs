@@ -11,6 +11,8 @@ namespace CalamityMod.Projectiles.Boss
 {
     public class InfernadoRevenge : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Boss/Flarenado";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Infernado");

@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class PlanetaryAnnihilationProj : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         private int dustType = 0;
 
         public override void SetStaticDefaults()

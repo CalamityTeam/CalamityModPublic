@@ -50,7 +50,6 @@ namespace CalamityMod.Items.Fishing.SulphurCatches
             DropHelper.DropItemChance(player, ItemID.Starfish, 0.5f, 2, 3);
             DropHelper.DropItemChance(player, ItemID.Seashell, 0.5f, 2, 3);
             DropHelper.DropItemChance(player, ItemID.Coral, 0.5f, 2, 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<CloakingGland>(), 0.5f, 2, 3);
             DropHelper.DropItemChance(player, ModContent.ItemType<VictoryShard>(), 0.5f, 2, 3);
 			if (CalamityWorld.downedEoCAcidRain)
 			{

@@ -30,10 +30,7 @@ namespace CalamityMod.Projectiles.Magic
             if (projectile.scale <= 3.6f)
             {
                 projectile.scale *= 1.01f;
-				projectile.position = projectile.Center;
-                projectile.width = (int)(35f * projectile.scale);
-                projectile.height = (int)(35f * projectile.scale);
-				projectile.Center = projectile.position;
+				CalamityGlobalProjectile.ExpandHitboxBy(projectile, (int)(35f * projectile.scale));
             }
 
 			if (projectile.timeLeft < 53)
@@ -73,16 +70,16 @@ namespace CalamityMod.Projectiles.Magic
 				return false;
 
 			Texture2D texture = Main.projectileTexture[projectile.type];
-			int frameHeight = texture.Height / Main.projFrames[projectile.type];
-			int frameY = frameHeight * projectile.frame;
-			Rectangle rectangle = new Rectangle(0, frameY, texture.Width, texture.Height);
-			Vector2 origin = rectangle.Size() / 2f;
-
+			Vector2 drawPos = projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY);
+			int height = texture.Height / Main.projFrames[projectile.type];
+			int frameHeight = height * projectile.frame;
+			Rectangle rectangle = new Rectangle(0, frameHeight, texture.Width, height);
+			Vector2 origin = new Vector2(texture.Width / 2f, height / 2f);
 			SpriteEffects spriteEffects = SpriteEffects.None;
 			if (projectile.spriteDirection == -1)
 				spriteEffects = SpriteEffects.FlipHorizontally;
 
-			Main.spriteBatch.Draw(texture, projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), rectangle, lightColor, projectile.rotation, origin, projectile.scale, spriteEffects, 0f);
+			spriteBatch.Draw(texture, drawPos, new Microsoft.Xna.Framework.Rectangle?(rectangle), lightColor, projectile.rotation, origin, projectile.scale, spriteEffects, 0f);
 			return false;
 		}
 

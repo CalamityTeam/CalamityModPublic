@@ -117,7 +117,10 @@ namespace CalamityMod.NPCs
         #endregion
 
 		// Master Mode changes
-		// 1 - Far larger size, 2 - Glows rainbow colors, 3 - Spawns a rainbow slime every 5% HP
+		/* 1 - Rainbow colored
+		   2 - Spawns a rainbow slime every 5% HP
+		   3 - Teleports ahead of his target
+		   4 - Can use a jump and slam like a Big Mimic*/
         #region Buffed King Slime AI
         public static bool BuffedKingSlimeAI(NPC npc, Mod mod)
         {
@@ -565,12 +568,15 @@ namespace CalamityMod.NPCs
             }
             return false;
         }
-        #endregion
+		#endregion
 
 		// Master Mode changes
-		// 1 - 2 eyes spawn at once, one in phase 1 and one in phase 2
-        #region Buffed Eye of Cthulhu AI
-        public static bool BuffedEyeofCthulhuAI(NPC npc, bool enraged, Mod mod)
+		/* 1 - Spawns a clone of itself that copies every movement of the main eye but inverted (if main is on top and to the left, the mirror is on bottom and to the right)
+		   2 - Damaging either eye causes damage to both
+		   3 - Horizontal dashes are far more common
+		   4 - The delay between dashes and horizontal dashes is reduced*/
+		#region Buffed Eye of Cthulhu AI
+		public static bool BuffedEyeofCthulhuAI(NPC npc, bool enraged, Mod mod)
         {
             CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
@@ -925,7 +931,7 @@ namespace CalamityMod.NPCs
 
             else
             {
-                npc.defense = 6;
+                npc.defense = 0;
                 npc.damage = (int)(npc.defDamage * (phase5 ? 1.4f : 1.2f));
 
                 if (npc.ai[1] == 0f & phase5)
@@ -1423,12 +1429,15 @@ namespace CalamityMod.NPCs
 
             return false;
         }
-        #endregion
+		#endregion
 
 		// Master Mode changes
-		// 1 - More segments, 2 - Spawns as 5 split worms instead of a single worm
-        #region Buffed Eater of Worlds AI
-        public static bool BuffedEaterofWorldsAI(NPC npc, Mod mod)
+		/* 1 - First head that spawns will spawn 4 other heads, creating 5 worms in total
+		   2 - Each worm is 30 segments long and is immune to debuffs
+		   3 - Worm heads push away from each other
+		   4 - Vile Spits home in on the target slightly and no longer die when hit*/
+		#region Buffed Eater of Worlds AI
+		public static bool BuffedEaterofWorldsAI(NPC npc, Mod mod)
         {
             CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
@@ -1959,7 +1968,10 @@ namespace CalamityMod.NPCs
 		#endregion
 
 		// Master Mode changes
-		// 1 - Spawns far more Creepers, 2 - Moves and dashes far quicker, 3 - Creepers charge much quicker, 4 - Fully visible mirages in phase 2
+		/* 1 - Afterimages are fully visible at all times in phase 2; below 60%, they begin moving on their own, deal contact damage, but the player will be able to knock them back
+		   2 - No longer spins before charging in final phase
+		   3 - Creepers spread out from each other
+		   4 - Creepers are immune to debuffs*/
 		#region Buffed Brain of Cthulhu AI
 		public static bool BuffedBrainofCthulhuAI(NPC npc, bool enraged, Mod mod)
         {
@@ -2627,7 +2639,10 @@ namespace CalamityMod.NPCs
 		#endregion
 
 		// Master Mode changes
-		// 1 - Always has 1 added to her enrage scale, 2 - Fires beehives instead of bees during bee spawn phase
+		/* 1 - Fires beehives in bee spawn phase instead of bees, beehives spawn bees even if they hit water
+		   2 - Charges start off slow but accelerate to insane speed after several frames, this delay becomes shorter for the second and third dashes
+		   3 - Fires stingers in a triple spread and they accelerate over time
+		   4 - All attacks inflict Venom*/
 		#region Buffed Queen Bee AI
 		public static bool BuffedQueenBeeAI(NPC npc, Mod mod)
 		{
@@ -2651,7 +2666,7 @@ namespace CalamityMod.NPCs
 			float lifeRatio = npc.life / (float)npc.lifeMax;
 
 			// Boost defense as health decreases
-			int statBoost = (int)(20f * (1f - lifeRatio));
+			int statBoost = (int)(10f * (1f - lifeRatio));
 			npc.defense = npc.defDefense + statBoost;
 
 			// Get a target
@@ -4542,15 +4557,6 @@ namespace CalamityMod.NPCs
 
             if (npc.type == NPCID.TheDestroyerBody)
             {
-                // Gain more defense as health lowers with a max of 10, lose defense if probe has been launched
-                if (npc.ai[2] == 0f || enrageScale > 0f)
-                {
-					int defenseBoost = (int)(10f * (1f - lifeRatio) * enrageScale);
-                    npc.defense = npc.defDefense + defenseBoost;
-                }
-                else
-                    npc.defense = npc.defDefense - 10;
-
                 // Enrage, fire more cyan lasers
                 if (targetFloatingUp || enrageScale > 0f)
                 {
@@ -5809,7 +5815,7 @@ namespace CalamityMod.NPCs
                         spazInPhase1 = Main.npc[CalamityGlobalNPC.fireEye].ai[0] == 1f || Main.npc[CalamityGlobalNPC.fireEye].ai[0] == 2f || Main.npc[CalamityGlobalNPC.fireEye].ai[0] == 0f;
                 }
 
-                int defenseGain = spazInPhase1 ? 9999 : 20;
+                int defenseGain = spazInPhase1 ? 9999 : 10;
                 npc.chaseable = !spazInPhase1;
 
                 npc.damage = (int)(npc.defDamage * 1.5);
@@ -6576,7 +6582,7 @@ namespace CalamityMod.NPCs
                         retInPhase1 = Main.npc[CalamityGlobalNPC.laserEye].ai[0] == 1f || Main.npc[CalamityGlobalNPC.laserEye].ai[0] == 2f || Main.npc[CalamityGlobalNPC.laserEye].ai[0] == 0f;
                 }
 
-                int defenseGain = retInPhase1 ? 9999 : 30;
+                int defenseGain = retInPhase1 ? 9999 : 18;
                 npc.chaseable = !retInPhase1;
 
                 // Increase defense and damage
@@ -8992,7 +8998,7 @@ namespace CalamityMod.NPCs
 				}
 
                 // Adjust stats
-                npc.defense = 42;
+                npc.defense = 32;
                 npc.damage = npc.defDamage;
                 if (enrage)
                 {
@@ -9078,7 +9084,7 @@ namespace CalamityMod.NPCs
             else
             {
                 // Adjust stats
-                npc.defense = 21;
+                npc.defense = 10;
                 npc.damage = (int)(npc.defDamage * 1.4f);
 				npc.chaseable = true;
 				if (enrage)
@@ -10518,17 +10524,17 @@ namespace CalamityMod.NPCs
             if (phase3AI)
             {
                 npc.damage = (int)(npc.defDamage * 1.32f);
-                npc.defense = (int)(npc.defDefense * 0.75f);
-            }
+				npc.defense = 0;
+			}
             else if (phase2AI)
             {
                 npc.damage = (int)(npc.defDamage * 1.44f);
-                npc.defense = npc.defDefense;
-            }
+				npc.defense = (int)(npc.defDefense * 0.8f);
+			}
             else
             {
                 npc.damage = npc.defDamage;
-                npc.defense = (int)(npc.defDefense * 1.2f);
+                npc.defense = npc.defDefense;
             }
 
             int idlePhaseTimer = 30;

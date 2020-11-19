@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class IceBarrageMain : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         private int pwidth = 58;
         private int pheight = 58;
         public override void SetStaticDefaults()

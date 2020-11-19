@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class VanquisherArrowMain : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Ammo/VanquisherArrow";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Arrow");
@@ -29,7 +31,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void AI()
         {
-            projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + MathHelper.PiOver2;
+            projectile.rotation = projectile.velocity.ToRotation() - MathHelper.PiOver2;
             if (projectile.timeLeft % 60 == 0)
             {
                 if (projectile.owner == Main.myPlayer)
@@ -49,7 +51,7 @@ namespace CalamityMod.Projectiles.Ranged
                 color = new Color(b2, b2, b2, a2);
             }
             Rectangle frame = new Rectangle(0, 0, Main.projectileTexture[projectile.type].Width, Main.projectileTexture[projectile.type].Height);
-            spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Projectiles/Ranged/VanquisherArrowGlow"), projectile.Center - Main.screenPosition, frame, color, projectile.rotation, projectile.Size / 2, 1f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Items/Ammo/VanquisherArrowGlow"), projectile.Center - Main.screenPosition, frame, color, projectile.rotation, projectile.Size / 2, 1f, SpriteEffects.None, 0f);
         }
 
         public override Color? GetAlpha(Color lightColor)
