@@ -5447,7 +5447,7 @@ namespace CalamityMod.CalPlayer
 							ProjectileID.HallowStar,
 							ModContent.ProjectileType<FallenStarProj>()
 						});
-						CalamityUtils.ProjectileRain(target.Center, 400f, 100f, 500f, 800f, 25f, projectileType, (int)(120 * player.AverageDamage()), 5f, player.whoAmI, 6);
+						CalamityUtils.ProjectileRain(target.Center, 400f, 100f, 500f, 800f, 12f, projectileType, (int)(120 * player.AverageDamage()), 5f, player.whoAmI, 6, 0, 10, 2);
                     }
                 }
                 if (bloodflareMelee && item.melee)

@@ -27,7 +27,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.height = 160;
             npc.defense = 38;
 			npc.DR_NERD(0.05f);
-            npc.lifeMax = 16000;
+            npc.lifeMax = 12000;
             npc.knockBackResist = 0f;
             aiType = -1;
             for (int k = 0; k < npc.buffImmune.Length; k++)

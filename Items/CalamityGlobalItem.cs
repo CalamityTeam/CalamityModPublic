@@ -61,6 +61,8 @@ namespace CalamityMod.Items
 
 		public int timesUsed = 0;
 
+		public int reforgeTier = 0;
+
         #region Chargeable Item Variables
         public bool UsesCharge = false;
         public float Charge = 0f;
@@ -127,36 +129,38 @@ namespace CalamityMod.Items
             if (CalamityLists.weaponAutoreuseList?.Contains(item.type) ?? false)
                 item.autoReuse = true;
 
-            if (item.type == ItemID.PsychoKnife || item.type == ItemID.TaxCollectorsStickOfDoom)
-                item.damage *= 4;
-            else if (item.type == ItemID.SpectreStaff)
-                item.damage *= 3;
-            else if (CalamityLists.doubleDamageBuffList?.Contains(item.type) ?? false)
-                item.damage *= 2;
-            else if (item.type == ItemID.RainbowRod)
-                item.damage = (int)(item.damage * 1.75);
-            else if (CalamityLists.sixtySixDamageBuffList?.Contains(item.type) ?? false)
-                item.damage = (int)(item.damage * 1.66);
-            else if (CalamityLists.fiftyDamageBuffList?.Contains(item.type) ?? false)
-                item.damage = (int)(item.damage * 1.5);
-            else if (CalamityLists.thirtyThreeDamageBuffList?.Contains(item.type) ?? false)
-                item.damage = (int)(item.damage * 1.33);
-            else if (CalamityLists.twentyFiveDamageBuffList?.Contains(item.type) ?? false)
-                item.damage = (int)(item.damage * 1.25);
-            else if (CalamityLists.twentyDamageBuffList?.Contains(item.type) ?? false)
-                item.damage = (int)(item.damage * 1.2);
-            else if (CalamityLists.tenDamageBuffList?.Contains(item.type) ?? false)
-                item.damage = (int)(item.damage * 1.1);
-            else if (CalamityLists.tenDamageNerfList?.Contains(item.type) ?? false)
-                item.damage = (int)(item.damage * 0.9);
-            else if (CalamityLists.quarterDamageNerfList?.Contains(item.type) ?? false)
-                item.damage = (int)(item.damage * 0.75);
-            else if (item.type == ItemID.BlizzardStaff)
-                item.damage = (int)(item.damage * 0.7);
-            else if (item.type == ItemID.LaserMachinegun)
-                item.damage = (int)(item.damage * 0.65);
-            else if (item.type == ItemID.StardustDragonStaff)
-                item.damage = (int)(item.damage * 0.5);
+			if (item.type == ItemID.PsychoKnife || item.type == ItemID.TaxCollectorsStickOfDoom)
+				item.damage *= 4;
+			else if (item.type == ItemID.SpectreStaff)
+				item.damage *= 3;
+			else if (CalamityLists.doubleDamageBuffList?.Contains(item.type) ?? false)
+				item.damage *= 2;
+			else if (item.type == ItemID.RainbowRod)
+				item.damage = (int)(item.damage * 1.75);
+			else if (CalamityLists.sixtySixDamageBuffList?.Contains(item.type) ?? false)
+				item.damage = (int)(item.damage * 1.66);
+			else if (CalamityLists.fiftyDamageBuffList?.Contains(item.type) ?? false)
+				item.damage = (int)(item.damage * 1.5);
+			else if (CalamityLists.thirtyThreeDamageBuffList?.Contains(item.type) ?? false)
+				item.damage = (int)(item.damage * 1.33);
+			else if (CalamityLists.twentyFiveDamageBuffList?.Contains(item.type) ?? false)
+				item.damage = (int)(item.damage * 1.25);
+			else if (CalamityLists.twentyDamageBuffList?.Contains(item.type) ?? false)
+				item.damage = (int)(item.damage * 1.2);
+			else if (CalamityLists.tenDamageBuffList?.Contains(item.type) ?? false)
+				item.damage = (int)(item.damage * 1.1);
+			else if (CalamityLists.tenDamageNerfList?.Contains(item.type) ?? false)
+				item.damage = (int)(item.damage * 0.9);
+			else if (item.type == ItemID.LastPrism)
+				item.damage = (int)(item.damage * 0.8);
+			else if (CalamityLists.quarterDamageNerfList?.Contains(item.type) ?? false)
+				item.damage = (int)(item.damage * 0.75);
+			else if (item.type == ItemID.BlizzardStaff)
+				item.damage = (int)(item.damage * 0.7);
+			else if (item.type == ItemID.LaserMachinegun)
+				item.damage = (int)(item.damage * 0.65);
+			else if (item.type == ItemID.StardustDragonStaff)
+				item.damage = (int)(item.damage * 0.5);
 
             if (item.type == ItemID.BookStaff)
                 item.mana = 10;
@@ -474,7 +478,8 @@ namespace CalamityMod.Items
                 ["rogue"] = rogue,
                 ["timesUsed"] = timesUsed,
                 ["rarity"] = (int)customRarity,
-                ["charge"] = Charge
+                ["charge"] = Charge,
+				["reforgeTier"] = reforgeTier
             };
         }
 
@@ -489,6 +494,8 @@ namespace CalamityMod.Items
                 Charge = tag.GetInt("Charge");
             else
                 Charge = tag.GetFloat("charge");
+
+			reforgeTier = tag.GetInt("reforgeTimer");
         }
 
         public override void LoadLegacy(Item item, BinaryReader reader)
@@ -497,6 +504,7 @@ namespace CalamityMod.Items
             customRarity = (CalamityRarity)reader.ReadInt32();
             timesUsed = reader.ReadInt32();
             Charge = reader.ReadSingle();
+			reforgeTier = reader.ReadInt32();
 
             if (loadVersion == 0)
             {
@@ -518,6 +526,7 @@ namespace CalamityMod.Items
             writer.Write((int)customRarity);
             writer.Write(timesUsed);
             writer.Write(Charge);
+			writer.Write(reforgeTier);
         }
 
         public override void NetReceive(Item item, BinaryReader reader)
@@ -528,6 +537,7 @@ namespace CalamityMod.Items
             customRarity = (CalamityRarity)reader.ReadInt32();
             timesUsed = reader.ReadInt32();
             Charge = reader.ReadSingle();
+			reforgeTier = reader.ReadInt32();
         }
         #endregion
 

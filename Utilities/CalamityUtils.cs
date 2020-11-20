@@ -1111,7 +1111,7 @@ namespace CalamityMod
 			}
 		}
 
-		public static Projectile ProjectileRain(Vector2 targetPos, float xLimit, float xVariance, float yLimitLower, float yLimitUpper, float projSpeed, int projType, int damage, float knockback, int owner, int forceType = 0, int immunitySetting = 0, int cooldown = 10)
+		public static Projectile ProjectileRain(Vector2 targetPos, float xLimit, float xVariance, float yLimitLower, float yLimitUpper, float projSpeed, int projType, int damage, float knockback, int owner, int forceType = 0, int immunitySetting = 0, int cooldown = 10, int extraUpdates = 0)
 		{
 			float x = targetPos.X + Main.rand.NextFloat(-xLimit, xLimit);
 			if (projType == ModContent.ProjectileType<AstralStarMagic>())
@@ -1126,6 +1126,7 @@ namespace CalamityMod
 			velocity.X *= targetDist;
 			velocity.Y *= targetDist;
 			Projectile proj = Projectile.NewProjectileDirect(source, velocity, projType, damage, knockback, owner, 0f, 0f);
+			proj.extraUpdates += extraUpdates;
 			CalamityGlobalProjectile modProj = proj.Calamity();
 			if (forceType > 0)
 			{

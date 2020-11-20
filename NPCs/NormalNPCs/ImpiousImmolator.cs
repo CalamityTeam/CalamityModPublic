@@ -32,7 +32,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.width = 60;
             npc.height = 60;
             npc.defense = 30;
-            npc.lifeMax = 11000;
+            npc.lifeMax = 8250;
             npc.aiStyle = -1;
             aiType = -1;
             for (int k = 0; k < npc.buffImmune.Length; k++)

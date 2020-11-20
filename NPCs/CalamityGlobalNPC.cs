@@ -3708,7 +3708,7 @@ namespace CalamityMod.NPCs
 			if (!Main.hardMode && spawnInfo.player.ZoneUnderworldHeight && !calamityBiomeZone)
 			{
 				if (!NPC.AnyNPCs(NPCID.VoodooDemon))
-					pool[NPCID.VoodooDemon] = SpawnCondition.Underworld.Chance * 1.25f;
+					pool[NPCID.VoodooDemon] = SpawnCondition.Underworld.Chance * 0.75f;
 			}
 		}
         #endregion

@@ -1045,7 +1045,7 @@ namespace CalamityMod.NPCs
                     break;
 
                 case NPCID.SeaSnail:
-                    DropHelper.DropItemChance(npc, ModContent.ItemType<SeaShell>(), Main.expertMode ? 2 : 3);
+                    DropHelper.DropItemChance(npc, ModContent.ItemType<SeaShell>(), Main.expertMode ? 1 : 2);
                     break;
 
                 case NPCID.GreekSkeleton:
