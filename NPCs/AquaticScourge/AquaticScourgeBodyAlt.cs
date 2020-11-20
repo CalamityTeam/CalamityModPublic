@@ -1,6 +1,7 @@
 using CalamityMod.Events;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
+using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -50,7 +51,23 @@ namespace CalamityMod.NPCs.AquaticScourge
 				npc.scale = 1.1f;
 		}
 
-        public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			for (int i = 0; i < 4; i++)
+			{
+				writer.Write(npc.Calamity().newAI[i]);
+			}
+		}
+
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			for (int i = 0; i < 4; i++)
+			{
+				npc.Calamity().newAI[i] = reader.ReadSingle();
+			}
+		}
+
+		public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)
         {
             return false;
         }
