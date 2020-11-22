@@ -25,10 +25,10 @@ namespace CalamityMod.Projectiles.Melee
 			projectile.width = 62;
 			projectile.height = 62;
 			projectile.friendly = true;
+			projectile.melee = true;
 			projectile.tileCollide = false;
 			projectile.penetrate = -1;
 			projectile.extraUpdates = 2;
-			projectile.melee = true;
 		}
 
 		public override void AI()
