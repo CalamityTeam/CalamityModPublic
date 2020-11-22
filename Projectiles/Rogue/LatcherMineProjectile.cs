@@ -7,6 +7,7 @@ namespace CalamityMod.Projectiles.Rogue
 {
 	public class LatcherMineProjectile : ModProjectile
     {
+        private int projdmg = 0;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Latcher Mine");
@@ -113,6 +114,7 @@ namespace CalamityMod.Projectiles.Rogue
         }
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
+			projdmg = projectile.damage;
             projectile.ModifyHitNPCSticky(6, false);
         }
 
@@ -138,12 +140,12 @@ namespace CalamityMod.Projectiles.Rogue
                 if (Main.rand.NextBool(2) && projectile.Calamity().stealthStrike)
                 {
                     Vector2 shrapnelVelocity = (Vector2.UnitY * (-16f + Main.rand.NextFloat(-3, 12f))).RotatedByRandom((double)MathHelper.ToRadians(40f));
-                    Projectile.NewProjectile(projectile.Top, shrapnelVelocity, ModContent.ProjectileType<BarrelShrapnel>(), projectile.damage, 3f, projectile.owner);
+                    Projectile.NewProjectile(projectile.Top, shrapnelVelocity, ModContent.ProjectileType<BarrelShrapnel>(), projdmg, 3f, projectile.owner);
                 }
                 else
                 {
                     Vector2 fireVelocity = (Vector2.UnitY * (-16f + Main.rand.NextFloat(-3, 12f))).RotatedByRandom((double)MathHelper.ToRadians(40f));
-                    int fireIndex = Projectile.NewProjectile(projectile.Top, fireVelocity, ModContent.ProjectileType<TotalityFire>(), projectile.damage / 3, 1f, projectile.owner);
+                    int fireIndex = Projectile.NewProjectile(projectile.Top, fireVelocity, ModContent.ProjectileType<TotalityFire>(), projdmg / 3, 1f, projectile.owner);
                     Main.projectile[fireIndex].localNPCHitCooldown = -2;
                 }
             }
