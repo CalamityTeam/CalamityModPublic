@@ -1,5 +1,5 @@
 using CalamityMod.Items.Materials;
-using CalamityMod.Projectiles.Hybrid;
+using CalamityMod.Projectiles.Rogue;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using System;
@@ -9,7 +9,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class RoyalKnives : RogueWeapon
+	public class RoyalKnives : RogueWeapon
     {
         public override void SetStaticDefaults()
         {
@@ -30,8 +30,8 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.UseSound = SoundID.Item39;
             item.autoReuse = true;
             item.height = 20;
-            item.value = Item.buyPrice(5, 0, 0, 0);
-            item.rare = 10;
+            item.value = Item.buyPrice(platinum: 5);
+            item.rare = ItemRarityID.Red;
             item.shoot = ModContent.ProjectileType<IllustriousKnife>();
             item.shootSpeed = 9f;
             item.Calamity().rogue = true;
