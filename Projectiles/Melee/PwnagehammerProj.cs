@@ -7,11 +7,11 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace CalamityMod.Projectiles.Hybrid
+namespace CalamityMod.Projectiles.Melee
 {
 	public class PwnagehammerProj : ModProjectile
 	{
-        public override string Texture => "CalamityMod/Items/Weapons/Melee/PwnagehammerMelee";
+		public override string Texture => "CalamityMod/Items/Weapons/Melee/PwnagehammerMelee";
 
 		public override void SetStaticDefaults()
 		{
@@ -42,7 +42,7 @@ namespace CalamityMod.Projectiles.Hybrid
 
 		public override void AI()
 		{
-			projectile.direction = projectile.spriteDirection = (projectile.velocity.X > 0f) ? 1 : -1;
+			projectile.direction = projectile.spriteDirection = projectile.velocity.X > 0f ? 1 : -1;
 			projectile.rotation += MathHelper.ToRadians(22.5f) * projectile.direction;
 
 			if (projectile.ai[0] == 1f)
@@ -60,9 +60,7 @@ namespace CalamityMod.Projectiles.Hybrid
 							float distanceTo = vec.Length();
 							distanceTo -= (float)Math.Sqrt(npc.width * npc.width + npc.height * npc.height) * 0.75f;
 							if (distanceTo < distance && Collision.CanHit(projectile.position, projectile.width, projectile.height, npc.position, npc.width, npc.height))
-							{
 								projectile.ai[1] = i;
-							}
 						}
 					}
 				}
@@ -91,7 +89,7 @@ namespace CalamityMod.Projectiles.Hybrid
 			{
 				Vector2 offset = new Vector2(12, 0).RotatedByRandom(MathHelper.ToRadians(360f));
 				Vector2 velOffset = new Vector2(4, 0).RotatedBy(offset.ToRotation());
-				Dust dust = Dust.NewDustPerfect(new Vector2(projectile.Center.X, projectile.Center.Y) + offset, DustID.GoldFlame, new Vector2((projectile.velocity.X * 0.2f) + velOffset.X, (projectile.velocity.Y * 0.2f) + velOffset.Y), 100, new Color(255, 245, 198), 2f);
+				Dust dust = Dust.NewDustPerfect(new Vector2(projectile.Center.X, projectile.Center.Y) + offset, DustID.GoldFlame, new Vector2(projectile.velocity.X * 0.2f + velOffset.X, projectile.velocity.Y * 0.2f + velOffset.Y), 100, new Color(255, 245, 198), 2f);
 				dust.noGravity = true;
 			}
 
@@ -99,7 +97,7 @@ namespace CalamityMod.Projectiles.Hybrid
 			{
 				Vector2 offset = new Vector2(12, 0).RotatedByRandom(MathHelper.ToRadians(360f));
 				Vector2 velOffset = new Vector2(4, 0).RotatedBy(offset.ToRotation());
-				Dust dust = Dust.NewDustPerfect(new Vector2(projectile.Center.X, projectile.Center.Y) + offset, DustID.GoldFlame, new Vector2((projectile.velocity.X * 0.2f) + velOffset.X, (projectile.velocity.Y * 0.2f) + velOffset.Y), 100, new Color(255, 245, 198), 2f);
+				Dust dust = Dust.NewDustPerfect(new Vector2(projectile.Center.X, projectile.Center.Y) + offset, DustID.GoldFlame, new Vector2(projectile.velocity.X * 0.2f + velOffset.X, projectile.velocity.Y * 0.2f + velOffset.Y), 100, new Color(255, 245, 198), 2f);
 				dust.noGravity = true;
 			}
 		}
@@ -120,14 +118,14 @@ namespace CalamityMod.Projectiles.Hybrid
 					dust.noGravity = true;
 					dust.velocity = velOffset;
 					dust.scale = 2.5f;
-					if ((i % 2) == 0)
+					if (i % 2 == 0)
 					{
 						dust = Dust.NewDustPerfect(projectile.position + offset, 269, new Vector2(velOffset.X, velOffset.Y));
 						dust.noGravity = true;
 						dust.velocity = velOffset * 2f;
 						dust.scale = 2.5f;
 					}
-					if ((i % 4) == 0)
+					if (i % 4 == 0)
 					{
 						dust = Dust.NewDustPerfect(projectile.position + offset, 269, new Vector2(velOffset.X, velOffset.Y));
 						dust.noGravity = true;
@@ -147,20 +145,16 @@ namespace CalamityMod.Projectiles.Hybrid
 					if (distanceTo < distance && npc.CanBeChasedBy(projectile, false) && k != projectile.localAI[0])
 					{
 						float alldamage = projectile.damage * 1.25f;
-						double damage = npc.StrikeNPC((int)alldamage, projectile.knockBack, (projectile.velocity.X > 0f) ? 1 : -1);
+						double damage = npc.StrikeNPC((int)alldamage, projectile.knockBack, projectile.velocity.X > 0f ? 1 : -1);
 						player.addDPS((int)damage);
 					}
 				}
 				SoundEffectInstance sound1 = Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/PwnagehammerHoming"), projectile.Center);
 				if (sound1 != null)
-				{
 					sound1.Volume = 0.3f;
-				}
 				SoundEffectInstance sound2 = Main.PlaySound(SoundID.Item14, projectile.Center);
 				if (sound2 != null)
-				{
 					sound2.Volume = 0.22f;
-				}
 			}
 			else
 			{
@@ -188,7 +182,7 @@ namespace CalamityMod.Projectiles.Hybrid
 					if (distanceTo < distance && npc.CanBeChasedBy(projectile, false) && k != projectile.localAI[0])
 					{
 						float alldamage = projectile.damage * 0.75f;
-						double damage = npc.StrikeNPC((int)alldamage, projectile.knockBack, (projectile.velocity.X > 0f) ? 1 : -1);
+						double damage = npc.StrikeNPC((int)alldamage, projectile.knockBack, projectile.velocity.X > 0f ? 1 : -1);
 						player.addDPS((int)damage);
 					}
 				}
@@ -200,9 +194,7 @@ namespace CalamityMod.Projectiles.Hybrid
 				}
 				SoundEffectInstance sound2 = Main.PlaySound(SoundID.Item14, projectile.Center);
 				if (sound2 != null)
-				{
 					sound2.Volume = 0.11f;
-				}
 			}
 		}
 
@@ -211,10 +203,8 @@ namespace CalamityMod.Projectiles.Hybrid
 			if (projectile.ai[0] == 1f && Main.myPlayer == projectile.owner)
 			{
 				crit = true;
-				int hammer = Projectile.NewProjectile(projectile.Center, new Vector2(0, -15f), ModContent.ProjectileType<PwnagehammerProjStealthStrike>(), projectile.damage * 2, projectile.knockBack, projectile.owner, 0f, projectile.ai[1]);
+				int hammer = Projectile.NewProjectile(projectile.Center, new Vector2(0, -15f), ModContent.ProjectileType<PwnagehammerEcho>(), projectile.damage * 2, projectile.knockBack, projectile.owner, 0f, projectile.ai[1]);
 				Main.projectile[hammer].localAI[0] = Math.Sign(projectile.velocity.X);
-				Main.projectile[hammer].melee = projectile.melee;
-				Main.projectile[hammer].Calamity().rogue = projectile.Calamity().rogue;
 				Main.projectile[hammer].netUpdate = true;
 			}
 		}
@@ -223,10 +213,8 @@ namespace CalamityMod.Projectiles.Hybrid
 		{
 			if (projectile.ai[0] == 1f && Main.myPlayer == projectile.owner)
 			{
-				int hammer = Projectile.NewProjectile(projectile.Center, new Vector2(0, -15f), ModContent.ProjectileType<PwnagehammerProjStealthStrike>(), projectile.damage * 2, projectile.knockBack, projectile.owner, 0f, projectile.ai[1]);
+				int hammer = Projectile.NewProjectile(projectile.Center, new Vector2(0, -15f), ModContent.ProjectileType<PwnagehammerEcho>(), projectile.damage * 2, projectile.knockBack, projectile.owner, 0f, projectile.ai[1]);
 				Main.projectile[hammer].localAI[0] = Math.Sign(projectile.velocity.X);
-				Main.projectile[hammer].melee = projectile.melee;
-				Main.projectile[hammer].Calamity().rogue = projectile.Calamity().rogue;
 				Main.projectile[hammer].netUpdate = true;
 			}
 		}

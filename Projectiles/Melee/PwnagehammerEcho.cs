@@ -6,13 +6,13 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace CalamityMod.Projectiles.Hybrid
+namespace CalamityMod.Projectiles.Melee
 {
-	public class PwnagehammerProjStealthStrike : ModProjectile
+	public class PwnagehammerEcho : ModProjectile
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Spectral Hammer");
+			DisplayName.SetDefault("Pwnagehammer Echo");
 			ProjectileID.Sets.TrailCacheLength[projectile.type] = 7;
 			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
 		}
@@ -23,6 +23,7 @@ namespace CalamityMod.Projectiles.Hybrid
 			projectile.height = 40;
 			projectile.aiStyle = 0;
 			projectile.friendly = true;
+			projectile.melee = true;
 			projectile.penetrate = 1;
 			projectile.tileCollide = false;
 			projectile.ignoreWater = true;
@@ -62,9 +63,7 @@ namespace CalamityMod.Projectiles.Hybrid
 
 				NPC target = Main.npc[(int)projectile.ai[1]];
 				if (!target.CanBeChasedBy(projectile, false) || !target.active)
-				{
 					projectile.Kill();
-				}
 				else
 				{
 					float velConst = 3f;
@@ -77,7 +76,7 @@ namespace CalamityMod.Projectiles.Hybrid
 			{
 				Vector2 offset = new Vector2(7, 0).RotatedByRandom(MathHelper.ToRadians(360f));
 				Vector2 velOffset = new Vector2(3, 0).RotatedBy(offset.ToRotation());
-				Dust dust = Dust.NewDustPerfect(new Vector2(projectile.position.X, projectile.position.Y) + offset, DustID.GoldFlame, new Vector2((projectile.velocity.X * 0.2f) + velOffset.X, (projectile.velocity.Y * 0.2f) + velOffset.Y), 100, new Color(255, 245, 198), 2f);
+				Dust dust = Dust.NewDustPerfect(new Vector2(projectile.position.X, projectile.position.Y) + offset, DustID.GoldFlame, new Vector2(projectile.velocity.X * 0.2f + velOffset.X, projectile.velocity.Y * 0.2f + velOffset.Y), 100, new Color(255, 245, 198), 2f);
 				dust.noGravity = true;
 			}
 
@@ -85,7 +84,7 @@ namespace CalamityMod.Projectiles.Hybrid
 			{
 				Vector2 offset = new Vector2(7, 0).RotatedByRandom(MathHelper.ToRadians(360f));
 				Vector2 velOffset = new Vector2(3, 0).RotatedBy(offset.ToRotation());
-				Dust dust = Dust.NewDustPerfect(new Vector2(projectile.position.X, projectile.position.Y) + offset, DustID.GoldFlame, new Vector2((projectile.velocity.X * 0.2f) + velOffset.X, (projectile.velocity.Y * 0.2f) + velOffset.Y), 100, new Color(255, 245, 198), 2f);
+				Dust dust = Dust.NewDustPerfect(new Vector2(projectile.position.X, projectile.position.Y) + offset, DustID.GoldFlame, new Vector2(projectile.velocity.X * 0.2f + velOffset.X, projectile.velocity.Y * 0.2f + velOffset.Y), 100, new Color(255, 245, 198), 2f);
 				dust.noGravity = true;
 			}
 		}
@@ -93,9 +92,7 @@ namespace CalamityMod.Projectiles.Hybrid
 		public override bool? CanHitNPC(NPC target)
 		{
 			if (projectile.ai[0] <= 42f)
-			{
 				return false;
-			}
 			return null;
 		}
 
@@ -147,9 +144,7 @@ namespace CalamityMod.Projectiles.Hybrid
 		{
 			SpriteEffects spriteEffects = SpriteEffects.None;
 			if (projectile.spriteDirection == -1)
-			{
 				spriteEffects = SpriteEffects.FlipHorizontally;
-			}
 			Texture2D texture = Main.projectileTexture[projectile.type];
 			Rectangle sourceRectangle = new Rectangle(0, 0, texture.Width, texture.Height);
 			Vector2 origin = sourceRectangle.Size() / 2f;
@@ -158,8 +153,8 @@ namespace CalamityMod.Projectiles.Hybrid
 			{
 				float rot = MathHelper.ToRadians(22.5f) * Math.Sign(projectile.velocity.X);
 				Vector2 drawPos = projectile.oldPos[i] - Main.screenPosition + origin + new Vector2(0f, projectile.gfxOffY);
-				Color color = projectile.GetAlpha(lightColor) * ((float)(projectile.oldPos.Length - i) / (float)projectile.oldPos.Length);
-				spriteBatch.Draw(texture, drawPos, new Rectangle?(), color, projectile.rotation - (i * rot), origin, projectile.scale, spriteEffects, 0f);
+				Color color = projectile.GetAlpha(lightColor) * ((projectile.oldPos.Length - i) / (float)projectile.oldPos.Length);
+				spriteBatch.Draw(texture, drawPos, new Rectangle?(), color, projectile.rotation - i * rot, origin, projectile.scale, spriteEffects, 0f);
 			}
 			return false;
 		}
