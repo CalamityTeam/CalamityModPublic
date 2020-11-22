@@ -1,5 +1,5 @@
 using CalamityMod.Items.Materials;
-using CalamityMod.Projectiles.Hybrid;
+using CalamityMod.Projectiles.Rogue;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using System;
@@ -9,7 +9,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class EmpyreanKnivesThrown : RogueWeapon
+	public class EmpyreanKnivesThrown : RogueWeapon
     {
         public override void SetStaticDefaults()
         {
@@ -30,8 +30,8 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.UseSound = SoundID.Item39;
             item.autoReuse = true;
             item.height = 20;
-            item.value = Item.buyPrice(2, 50, 0, 0);
-            item.rare = 10;
+            item.value = Item.buyPrice(platinum: 2, gold: 50);
+            item.rare = ItemRarityID.Red;
             item.shoot = ModContent.ProjectileType<EmpyreanKnife>();
             item.shootSpeed = 15f;
             item.Calamity().rogue = true;
@@ -94,7 +94,7 @@ namespace CalamityMod.Items.Weapons.Rogue
                 float x4 = vector2.X;
                 float y4 = vector2.Y;
                 int knife = Projectile.NewProjectile(x4, y4, num148, num149, type, damage, knockBack, player.whoAmI, 0f, 1f);
-				Main.projectile[knife].Calamity().stealthStrike = player.Calamity().StealthStrikeAvailable();
+                Main.projectile[knife].Calamity().stealthStrike = player.Calamity().StealthStrikeAvailable();
             }
             return false;
         }
