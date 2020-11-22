@@ -23,17 +23,12 @@ namespace CalamityMod.Projectiles.Hybrid
             projectile.alpha = 255;
             projectile.penetrate = 1;
             projectile.timeLeft = 300;
-            projectile.melee = true;
             projectile.extraUpdates = 3;
+            projectile.Calamity().rogue = true;
         }
 
         public override void AI()
         {
-            if (projectile.ai[1] == 1f)
-            {
-                projectile.melee = false;
-                projectile.Calamity().rogue = true;
-            }
             if (projectile.alpha > 0)
             {
                 projectile.alpha -= 50;
@@ -169,7 +164,7 @@ namespace CalamityMod.Projectiles.Hybrid
             int num214 = Main.projectileTexture[projectile.type].Height / Main.projFrames[projectile.type];
             int y6 = num214 * projectile.frame;
             Vector2 origin = new Vector2(9f, 10f);
-            spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Projectiles/Hybrid/ScourgeoftheCosmosMiniGlow"), projectile.Center - Main.screenPosition, new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, y6, texture2D13.Width, num214)), Color.White, projectile.rotation, origin, projectile.scale, SpriteEffects.None, 0f);
+            spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Projectiles/Rogue/ScourgeoftheCosmosMiniGlow"), projectile.Center - Main.screenPosition, new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, y6, texture2D13.Width, num214)), Color.White, projectile.rotation, origin, projectile.scale, SpriteEffects.None, 0f);
         }
     }
 }
