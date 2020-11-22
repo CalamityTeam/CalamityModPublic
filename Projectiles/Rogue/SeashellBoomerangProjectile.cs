@@ -1,6 +1,7 @@
 using Terraria.ID;
 using Terraria.ModLoader;
-namespace CalamityMod.Projectiles.Hybrid
+
+namespace CalamityMod.Projectiles.Rogue
 {
     public class SeashellBoomerangProjectile : ModProjectile
     {
@@ -8,7 +9,7 @@ namespace CalamityMod.Projectiles.Hybrid
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Boomerang");
+            DisplayName.SetDefault("Seashell Boomerang");
         }
 
         public override void SetDefaults()
@@ -20,7 +21,7 @@ namespace CalamityMod.Projectiles.Hybrid
             projectile.aiStyle = 3;
             projectile.timeLeft = 240;
             aiType = ProjectileID.WoodenBoomerang;
-            projectile.melee = true;
+			projectile.Calamity().rogue = true;
         }
     }
 }
