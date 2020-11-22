@@ -1167,7 +1167,7 @@ namespace CalamityMod.Items
                             tt2.overrideColor = new Color(254, 253, 235);
                         if (item.type == ModContent.ItemType<Contagion>())
                             tt2.overrideColor = new Color(207, 17, 117);
-                        if (item.type == ModContent.ItemType<TriactisTruePaladinianMageHammerofMightMelee>() || item.type == ModContent.ItemType<TriactisTruePaladinianMageHammerofMight>())
+                        if (item.type == ModContent.ItemType<TriactisTruePaladinianMageHammerofMightMelee>())
                             tt2.overrideColor = new Color(227, 226, 180);
                         if (item.type == ModContent.ItemType<RoyalKnives>())
                             tt2.overrideColor = CalamityUtils.ColorSwap(new Color(154, 255, 151), new Color(228, 151, 255), 4f);
