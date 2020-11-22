@@ -5,7 +5,6 @@ using CalamityMod.Dusts;
 using CalamityMod.Events;
 using CalamityMod.NPCs.NormalNPCs;
 using CalamityMod.Projectiles.Healing;
-using CalamityMod.Projectiles.Hybrid;
 using CalamityMod.Projectiles.Magic;
 using CalamityMod.Projectiles.Melee;
 using CalamityMod.Projectiles.Melee.Yoyos;
@@ -24,7 +23,7 @@ using static Terraria.ModLoader.ModContent;
 
 namespace CalamityMod.Projectiles
 {
-    public class CalamityGlobalProjectile : GlobalProjectile
+	public class CalamityGlobalProjectile : GlobalProjectile
     {
         public override bool InstancePerEntity
         {
