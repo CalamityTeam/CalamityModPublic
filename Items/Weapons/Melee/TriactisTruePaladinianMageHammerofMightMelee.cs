@@ -1,5 +1,5 @@
 using CalamityMod.Items.Materials;
-using CalamityMod.Projectiles.Hybrid;
+using CalamityMod.Projectiles.Melee;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
 using Terraria.ID;
@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
-    public class TriactisTruePaladinianMageHammerofMightMelee : ModItem
+	public class TriactisTruePaladinianMageHammerofMightMelee : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -29,11 +29,11 @@ namespace CalamityMod.Items.Weapons.Melee
             item.UseSound = SoundID.Item1;
             item.melee = true;
             item.height = 160;
-            item.value = Item.buyPrice(5, 0, 0, 0);
-            item.rare = 10;
-            item.shoot = ModContent.ProjectileType<TriactisOPHammer>();
             item.shootSpeed = 25f;
+            item.value = Item.buyPrice(platinum: 5);
+            item.rare = ItemRarityID.Red;
             item.Calamity().customRarity = CalamityRarity.ItemSpecific;
+            item.shoot = ModContent.ProjectileType<TriactisHammerProj>();
         }
 
         public override void AddRecipes()
