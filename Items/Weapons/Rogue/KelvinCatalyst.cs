@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.UseSound = SoundID.Item1;
             item.height = 20;
             item.value = Item.buyPrice(gold: 48);
-            item.rare = ItemRarityID.Purple;
+            item.rare = ItemRarityID.LightPurple;
             item.shoot = ModContent.ProjectileType<KelvinCatalystBoomerang>();
             item.shootSpeed = 8f;
             item.Calamity().rogue = true;
