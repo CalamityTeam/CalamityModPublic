@@ -69,7 +69,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod
 {
-    public class CalamityLists
+	public class CalamityLists
     {
         public static IList<string> donatorList;
         public static List<int> trueMeleeProjectileList; // DO NOT, EVER, DELETE THIS LIST, OR I WILL COME FOR YOU :D
@@ -831,7 +831,6 @@ namespace CalamityMod
                 ModContent.ItemType<GlacialCrusher>(),
                 ModContent.ItemType<TemporalFloeSword>(),
                 ModContent.ItemType<ColdheartIcicle>(),
-                ModContent.ItemType<KelvinCatalystMelee>(),
                 ModContent.ItemType<CosmicDischarge>(),
                 ModContent.ItemType<EffluviumBow>(),
                 ModContent.ItemType<EternalBlizzard>(),
