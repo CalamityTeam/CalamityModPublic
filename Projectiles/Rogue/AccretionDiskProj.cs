@@ -7,11 +7,11 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace CalamityMod.Projectiles.Hybrid
+namespace CalamityMod.Projectiles.Rogue
 {
 	public class AccretionDiskProj : ModProjectile
 	{
-        public override string Texture => "CalamityMod/Items/Weapons/Rogue/AccretionDisk";
+		public override string Texture => "CalamityMod/Items/Weapons/Rogue/AccretionDisk";
 
 		public override void SetStaticDefaults()
 		{
@@ -32,14 +32,14 @@ namespace CalamityMod.Projectiles.Hybrid
 			projectile.aiStyle = 3;
 			projectile.timeLeft = 400;
 			aiType = ProjectileID.WoodenBoomerang;
-			projectile.melee = true;
+			projectile.Calamity().rogue = true;
 		}
 
 		public override void AI()
 		{
 			if (Main.rand.NextBool(3))
 			{
-				int rainbow = Dust.NewDust(projectile.position, projectile.width, projectile.height, 66, (float)(projectile.direction * 2), 0f, 150, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB), 1.3f);
+				int rainbow = Dust.NewDust(projectile.position, projectile.width, projectile.height, 66, projectile.direction * 2, 0f, 150, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB), 1.3f);
 				Main.dust[rainbow].noGravity = true;
 				Main.dust[rainbow].velocity *= 0f;
 			}
@@ -54,13 +54,13 @@ namespace CalamityMod.Projectiles.Hybrid
 				NPC npc = Main.npc[i];
 				if (npc.CanBeChasedBy(projectile, false))
 				{
-					float extraDistance = (npc.width / 2) + (npc.height / 2);
+					float extraDistance = npc.width / 2 + npc.height / 2;
 
 					bool canHit = true;
 					if (extraDistance < maxDistance)
 						canHit = Collision.CanHit(projectile.Center, 1, 1, npc.Center, 1, 1);
 
-					if (Vector2.Distance(npc.Center, projectile.Center) < (maxDistance + extraDistance) && canHit)
+					if (Vector2.Distance(npc.Center, projectile.Center) < maxDistance + extraDistance && canHit)
 					{
 						homeIn = true;
 						break;
@@ -69,9 +69,7 @@ namespace CalamityMod.Projectiles.Hybrid
 			}
 
 			if (!projectile.friendly)
-			{
 				homeIn = false;
-			}
 
 			if (homeIn)
 			{
@@ -88,11 +86,9 @@ namespace CalamityMod.Projectiles.Hybrid
 						{
 							offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
 							int disk = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), splitProj, projectile.damage, projectile.knockBack, projectile.owner);
-							Main.projectile[disk].Calamity().forceMelee = projectile.melee;
-							Main.projectile[disk].Calamity().forceRogue = projectile.Calamity().rogue;
+							Main.projectile[disk].Calamity().forceRogue = true;
 							int disk2 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), splitProj, projectile.damage, projectile.knockBack, projectile.owner);
-							Main.projectile[disk2].Calamity().forceMelee = projectile.melee;
-							Main.projectile[disk2].Calamity().forceRogue = projectile.Calamity().rogue;
+							Main.projectile[disk2].Calamity().forceRogue = true;
 						}
 					}
 				}
