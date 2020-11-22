@@ -1,4 +1,3 @@
-using CalamityMod.Projectiles.Hybrid;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -90,10 +89,8 @@ namespace CalamityMod.Projectiles.Rogue
 							for (i = 0; i < 3; i++)
 							{
 								offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-								int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<TerraDiskProjectile2>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
-								Main.projectile[proj].Calamity().forceRogue = true;
-								int proj2 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<TerraDiskProjectile2>(), projectile.damage / 2, projectile.knockBack, projectile.owner, 0f, 0f);
-								Main.projectile[proj2].Calamity().forceRogue = true;
+								Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<TerraDiskProjectile2>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+								Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<TerraDiskProjectile2>(), projectile.damage / 2, projectile.knockBack, projectile.owner, 0f, 0f);
 							}
 						}
 					}
