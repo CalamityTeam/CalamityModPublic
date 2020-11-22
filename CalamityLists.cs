@@ -1473,7 +1473,7 @@ namespace CalamityMod
                 ModContent.ProjectileType<KylieBoomerang>(),
                 ModContent.ProjectileType<MangroveChakramProjectile>(),
                 ModContent.ProjectileType<MoltenAmputatorProj>(),
-                ModContent.ProjectileType<OPHammer>(),
+                ModContent.ProjectileType<FallenPaladinsHammerProj>(),
                 ModContent.ProjectileType<SandDollarProj>(),
                 ModContent.ProjectileType<SandDollarStealth>(),
                 ModContent.ProjectileType<SeashellBoomerangProjectile>(),
