@@ -66,7 +66,7 @@ namespace CalamityMod.Items.TreasureBags
                 DropHelper.WeightStack<Deathwind>(w),
                 DropHelper.WeightStack<DeathhailStaff>(w),
                 DropHelper.WeightStack<StaffoftheMechworm>(w),
-                Main.rand.NextBool() ? DropHelper.WeightStack<EradicatorMelee>(w) : DropHelper.WeightStack<Eradicator>(w)
+                DropHelper.WeightStack<Eradicator>(w)
             );
 
             DropHelper.DropItemChance(player, ModContent.ItemType<Skullmasher>(), DropHelper.RareVariantDropRateInt);
