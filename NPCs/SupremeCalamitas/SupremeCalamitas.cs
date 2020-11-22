@@ -1,10 +1,11 @@
 using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Dusts;
+using CalamityMod.Events;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Pets;
+using CalamityMod.Items.Placeables.Furniture.Trophies;
 using CalamityMod.Items.Potions;
 using CalamityMod.Items.Tools;
 using CalamityMod.Items.Weapons.Magic;
@@ -21,10 +22,7 @@ using System;
 using System.IO;
 using Terraria;
 using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
-using CalamityMod.Items.Placeables.Furniture.Trophies;
-using CalamityMod.Events;
 
 namespace CalamityMod.NPCs.SupremeCalamitas
 {
@@ -2066,7 +2064,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 ModContent.ItemType<Endogenesis>(),
                 ModContent.ItemType<Fabstaff>(),
                 ModContent.ItemType<PrototypeAndromechaRing>(), // Flamsteed Ring
-                ModContent.ItemType<RoyalKnives>(), // Illustrious Knives
+                ModContent.ItemType<RoyalKnivesMelee>(), // Illustrious Knives
 				ModContent.ItemType<NanoblackReaperRogue>(),
 				ModContent.ItemType<RedSun>(),
 				ModContent.ItemType<ScarletDevil>(),

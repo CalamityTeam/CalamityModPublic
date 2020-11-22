@@ -1,5 +1,6 @@
 using CalamityMod.Items.Materials;
-using CalamityMod.Projectiles.Rogue;
+using CalamityMod.Projectiles.Hybrid;
+using CalamityMod.Projectiles.Melee;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using System;
@@ -7,9 +8,9 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace CalamityMod.Items.Weapons.Rogue
+namespace CalamityMod.Items.Weapons.Melee
 {
-	public class RoyalKnives : RogueWeapon
+    public class RoyalKnivesMelee : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -17,10 +18,11 @@ namespace CalamityMod.Items.Weapons.Rogue
             Tooltip.SetDefault("Throws a flurry of homing knives that can heal the user");
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             item.width = 18;
             item.damage = 2000;
+            item.melee = true;
             item.noMelee = true;
             item.noUseGraphic = true;
             item.useAnimation = 12;
@@ -34,7 +36,6 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.rare = ItemRarityID.Red;
             item.shoot = ModContent.ProjectileType<IllustriousKnife>();
             item.shootSpeed = 9f;
-            item.Calamity().rogue = true;
             item.Calamity().customRarity = CalamityRarity.ItemSpecific;
         }
 
@@ -94,7 +95,7 @@ namespace CalamityMod.Items.Weapons.Rogue
                 float x4 = vector2.X;
                 float y4 = vector2.Y;
                 int knife = Projectile.NewProjectile(x4, y4, num148, num149, type, damage, knockBack, player.whoAmI, 0f, 0f);
-				Main.projectile[knife].Calamity().stealthStrike = player.Calamity().StealthStrikeAvailable();
+                Main.projectile[knife].Calamity().forceMelee = true;
             }
             return false;
         }
@@ -104,7 +105,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<ShadowspecBar>(), 5);
             recipe.AddIngredient(ModContent.ItemType<CoreofCalamity>(), 3);
-            recipe.AddIngredient(ModContent.ItemType<EmpyreanKnivesThrown>());
+            recipe.AddIngredient(ModContent.ItemType<EmpyreanKnives>());
             recipe.AddTile(ModContent.TileType<DraedonsForge>());
             recipe.SetResult(this);
             recipe.AddRecipe();

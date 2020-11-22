@@ -1,5 +1,5 @@
 using CalamityMod.Items.Materials;
-using CalamityMod.Projectiles.Rogue;
+using CalamityMod.Projectiles.Melee;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using System;
@@ -7,9 +7,9 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace CalamityMod.Items.Weapons.Rogue
+namespace CalamityMod.Items.Weapons.Melee
 {
-	public class EmpyreanKnivesThrown : RogueWeapon
+    public class EmpyreanKnives : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -17,10 +17,11 @@ namespace CalamityMod.Items.Weapons.Rogue
             Tooltip.SetDefault("Throws a flurry of bouncing knives that can heal the user");
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             item.width = 18;
-            item.damage = 520;
+            item.damage = 600;
+            item.melee = true;
             item.noMelee = true;
             item.noUseGraphic = true;
             item.useAnimation = 15;
@@ -34,7 +35,6 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.rare = ItemRarityID.Red;
             item.shoot = ModContent.ProjectileType<EmpyreanKnife>();
             item.shootSpeed = 15f;
-            item.Calamity().rogue = true;
             item.Calamity().customRarity = CalamityRarity.Violet;
         }
 
@@ -93,8 +93,7 @@ namespace CalamityMod.Items.Weapons.Rogue
                 num149 *= num80;
                 float x4 = vector2.X;
                 float y4 = vector2.Y;
-                int knife = Projectile.NewProjectile(x4, y4, num148, num149, type, damage, knockBack, player.whoAmI, 0f, 1f);
-                Main.projectile[knife].Calamity().stealthStrike = player.Calamity().StealthStrikeAvailable();
+                Projectile.NewProjectile(x4, y4, num148, num149, type, damage, knockBack, player.whoAmI, 0f, 0f);
             }
             return false;
         }
@@ -105,7 +104,6 @@ namespace CalamityMod.Items.Weapons.Rogue
             recipe.AddIngredient(ItemID.VampireKnives);
             recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 10);
             recipe.AddIngredient(ModContent.ItemType<DarksunFragment>(), 10);
-            recipe.AddIngredient(ModContent.ItemType<LunarKunai>(), 999);
             recipe.AddTile(ModContent.TileType<DraedonsForge>());
             recipe.SetResult(this);
             recipe.AddRecipe();

@@ -1,14 +1,13 @@
 using CalamityMod.Items.Materials;
-using CalamityMod.Projectiles.Rogue;
+using CalamityMod.Projectiles.Melee;
 using CalamityMod.Tiles.Furniture.CraftingStations;
-using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace CalamityMod.Items.Weapons.Rogue
+namespace CalamityMod.Items.Weapons.Melee
 {
-	public class ScourgeoftheCosmosThrown : RogueWeapon
+    public class ScourgeoftheCosmos : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -16,10 +15,11 @@ namespace CalamityMod.Items.Weapons.Rogue
             Tooltip.SetDefault("Throws a bouncing cosmic scourge that emits tiny homing cosmic scourges on death and tile hits");
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             item.width = 18;
-            item.damage = 1100;
+            item.damage = 1300;
+            item.melee = true;
             item.noMelee = true;
             item.noUseGraphic = true;
             item.useAnimation = 20;
@@ -29,19 +29,11 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.UseSound = SoundID.Item109;
             item.autoReuse = true;
             item.height = 20;
-            item.value = Item.buyPrice(2, 50, 0, 0);
-            item.rare = 10;
+            item.value = Item.buyPrice(platinum: 2, gold: 50);
+            item.rare = ItemRarityID.Red;
             item.shoot = ModContent.ProjectileType<ScourgeoftheCosmosProj>();
             item.shootSpeed = 15f;
-            item.Calamity().rogue = true;
             item.Calamity().customRarity = CalamityRarity.Violet;
-        }
-
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
-        {
-			int javelin = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI, 0f, 1f);
-			Main.projectile[javelin].Calamity().stealthStrike = player.Calamity().StealthStrikeAvailable();
-            return false;
         }
 
         public override void AddRecipes()
@@ -50,7 +42,6 @@ namespace CalamityMod.Items.Weapons.Rogue
             recipe.AddIngredient(ItemID.ScourgeoftheCorruptor);
             recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 10);
             recipe.AddIngredient(ModContent.ItemType<DarksunFragment>(), 10);
-            recipe.AddIngredient(ModContent.ItemType<XerocPitchfork>(), 200);
             recipe.AddTile(ModContent.TileType<DraedonsForge>());
             recipe.SetResult(this);
             recipe.AddRecipe();

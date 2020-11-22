@@ -1,4 +1,3 @@
-using CalamityMod.Projectiles.Hybrid;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -6,7 +5,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace CalamityMod.Projectiles.Rogue
+namespace CalamityMod.Projectiles.Melee
 {
 	public class ScourgeoftheCosmosProj : ModProjectile
 	{
@@ -25,10 +24,10 @@ namespace CalamityMod.Projectiles.Rogue
 			projectile.height = 14;
 			projectile.alpha = 255;
 			projectile.friendly = true;
+			projectile.melee = true;
 			projectile.ignoreWater = true;
 			projectile.penetrate = 1;
 			projectile.extraUpdates = 1;
-			projectile.Calamity().rogue = true;
 		}
 
 		public override void AI()

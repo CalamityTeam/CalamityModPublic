@@ -5,7 +5,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace CalamityMod.Projectiles.Rogue
+namespace CalamityMod.Projectiles.Melee
 {
 	public class EmpyreanKnife : ModProjectile
 	{
@@ -23,10 +23,10 @@ namespace CalamityMod.Projectiles.Rogue
 			projectile.width = 12;
 			projectile.height = 12;
 			projectile.friendly = true;
+			projectile.melee = true;
 			projectile.penetrate = 1;
 			projectile.timeLeft = 300;
 			projectile.extraUpdates = 1;
-			projectile.Calamity().rogue = true;
 		}
 
 		public override void AI()
