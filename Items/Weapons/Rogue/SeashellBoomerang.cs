@@ -12,6 +12,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Seashell Boomerang");
+            Tooltip.SetDefault("Stealth strikes fire seashells at nearby enemies");
         }
 
         public override void SafeSetDefaults()

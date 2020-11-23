@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.World.Generation;
 
 namespace CalamityMod.Projectiles.Rogue
 {
@@ -41,6 +42,8 @@ namespace CalamityMod.Projectiles.Rogue
 				int smoke = Gore.NewGore(goreVec, default, Main.rand.Next(375, 378), 0.75f);
 				Main.gore[smoke].behindTiles = true;
 			}
+			if (projectile.localAI[0] > 0f)
+				projectile.localAI[0]--;
 		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
@@ -54,20 +57,30 @@ namespace CalamityMod.Projectiles.Rogue
 		{
 			target.immune[projectile.owner] = 6;
 			target.AddBuff(BuffID.OnFire, 300);
-			if (projectile.owner == Main.myPlayer)
-			{
-				int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<FuckYou>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
-				Main.projectile[proj].Calamity().forceRogue = true;
-			}
+			OnHitEffects(target.Center);
 		}
 
 		public override void OnHitPvp(Player target, int damage, bool crit)
 		{
 			target.AddBuff(BuffID.OnFire, 300);
+			OnHitEffects(target.Center);
+		}
+
+		private void OnHitEffects(Vector2 position)
+		{
 			if (projectile.owner == Main.myPlayer)
 			{
-				int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<FuckYou>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
+				int proj = Projectile.NewProjectile(position, Vector2.Zero, ModContent.ProjectileType<FuckYou>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
 				Main.projectile[proj].Calamity().forceRogue = true;
+				if (projectile.Calamity().stealthStrike && projectile.localAI[0] <= 0f)
+				{
+					Point result;
+					if (WorldUtils.Find(projectile.Top.ToTileCoordinates(), Searches.Chain((GenSearch)new Searches.Down(80), (GenCondition)new Conditions.IsSolid()), out result))
+					{
+						Projectile.NewProjectile(result.ToVector2() * 16f, Vector2.Zero, ModContent.ProjectileType<BlueFlamePillar>(), projectile.damage, 2f, projectile.owner, 1f);
+						projectile.localAI[0] = 30f;
+					}
+				}
 			}
 		}
 	}

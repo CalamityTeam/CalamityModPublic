@@ -1,3 +1,5 @@
+using CalamityMod.Projectiles.Typeless;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -27,7 +29,7 @@ namespace CalamityMod.Projectiles.Rogue
         public override void AI()
         {
 			if (projectile.Calamity().stealthStrike)
-				CalamityGlobalProjectile.MagnetSphereHitscan(projectile, 300f, 10f, 60f, 5, ModContent.ProjectileType<Seashell>());
+				CalamityGlobalProjectile.MagnetSphereHitscan(projectile, 300f, 10f, 20f, 5, ModContent.ProjectileType<Seashell>());
         }
     }
 }

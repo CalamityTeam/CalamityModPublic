@@ -50,8 +50,13 @@ namespace CalamityMod.Projectiles.Rogue
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
+			Texture2D tex = Main.projectileTexture[projectile.type];
+			if (projectile.ai[0] == 1f)
+			{
+				tex = ModContent.GetTexture("CalamityMod/Projectiles/Rogue/BlueFlamePillarScoria");
+			}
             Rectangle frame = new Rectangle(frameX * 80, frameY * 322, 80, 322);
-            spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Projectiles/Rogue/BlueFlamePillar"), projectile.Center - Main.screenPosition, frame, Color.White, projectile.rotation, projectile.Size / 2, 1f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, frame, Color.White, projectile.rotation, projectile.Size / 2, 1f, SpriteEffects.None, 0f);
             return false;
         }
     }
