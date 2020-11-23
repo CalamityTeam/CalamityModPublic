@@ -156,10 +156,7 @@ namespace CalamityMod.Projectiles.Rogue
 			Vector2 velocityOffset = Main.rand.NextFloat(-velocityMult, velocityMult) * projectile.velocity;
 			Vector2 pos = projectile.Center + directOffset + velocityOffset;
 			if (projectile.owner == Main.myPlayer)
-			{
-				int proj = Projectile.NewProjectile(pos, Vector2.Zero, bladeID, bladeDamage, bladeKB, projectile.owner, 0f, spin);
-				CalamityGlobalProjectile cgp = Main.projectile[proj].Calamity();
-			}
+				Projectile.NewProjectile(pos, Vector2.Zero, bladeID, bladeDamage, bladeKB, projectile.owner, 0f, spin);
 		}
 	}
 }

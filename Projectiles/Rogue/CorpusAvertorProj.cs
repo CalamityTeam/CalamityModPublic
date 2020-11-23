@@ -25,17 +25,11 @@ namespace CalamityMod.Projectiles.Rogue
 			projectile.friendly = true;
 			projectile.penetrate = 1;
 			projectile.timeLeft = 300;
-			projectile.melee = true;
+			projectile.Calamity().rogue = true;
 		}
 
 		public override void AI()
 		{
-			if (projectile.ai[1] == 1f)
-			{
-				projectile.melee = false;
-				projectile.Calamity().rogue = true;
-			}
-
 			projectile.rotation += (Math.Abs(projectile.velocity.X) + Math.Abs(projectile.velocity.Y)) * 0.02f;
 
 			if (projectile.ai[0] < 120f)
@@ -50,7 +44,7 @@ namespace CalamityMod.Projectiles.Rogue
 					velocity *= mult;
 
 					Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, velocity.X, velocity.Y, ModContent.ProjectileType<CorpusAvertorClone>(),
-						(int)(projectile.damage * mult), projectile.knockBack * mult, projectile.owner, projectile.ai[0], projectile.melee ? 0f : 1f);
+						(int)(projectile.damage * mult), projectile.knockBack * mult, projectile.owner, projectile.ai[0]);
 				}
 			}
 			else

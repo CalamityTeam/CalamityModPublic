@@ -1,5 +1,4 @@
 using CalamityMod.Items.Materials;
-using CalamityMod.Projectiles.Hybrid;
 using CalamityMod.Projectiles.Melee;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
@@ -94,8 +93,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 num149 *= num80;
                 float x4 = vector2.X;
                 float y4 = vector2.Y;
-                int knife = Projectile.NewProjectile(x4, y4, num148, num149, type, damage, knockBack, player.whoAmI, 0f, 0f);
-                Main.projectile[knife].Calamity().forceMelee = true;
+                Projectile.NewProjectile(x4, y4, num148, num149, type, damage, knockBack, player.whoAmI, 0f, 0f);
             }
             return false;
         }

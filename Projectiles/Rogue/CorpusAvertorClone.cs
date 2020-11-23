@@ -25,18 +25,12 @@ namespace CalamityMod.Projectiles.Rogue
 			projectile.friendly = true;
 			projectile.penetrate = 1;
 			projectile.timeLeft = 180;
-			projectile.melee = true;
 			projectile.tileCollide = false;
+			projectile.Calamity().rogue = true;
 		}
 
 		public override void AI()
 		{
-			if (projectile.ai[1] == 1f)
-			{
-				projectile.melee = false;
-				projectile.Calamity().rogue = true;
-			}
-
 			projectile.rotation += (Math.Abs(projectile.velocity.X) + Math.Abs(projectile.velocity.Y)) * 0.04f;
 
 			projectile.velocity.X *= 1.005f;
