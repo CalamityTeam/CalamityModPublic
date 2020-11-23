@@ -85,10 +85,8 @@ namespace CalamityMod.Projectiles.Rogue
 						for (int i = 0; i < 4; i++)
 						{
 							offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-							int disk = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), splitProj, projectile.damage, projectile.knockBack, projectile.owner);
-							Main.projectile[disk].Calamity().forceRogue = true;
-							int disk2 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), splitProj, projectile.damage, projectile.knockBack, projectile.owner);
-							Main.projectile[disk2].Calamity().forceRogue = true;
+							Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), splitProj, projectile.damage, projectile.knockBack, projectile.owner);
+							Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), splitProj, projectile.damage, projectile.knockBack, projectile.owner);
 						}
 					}
 				}
