@@ -2408,7 +2408,7 @@ namespace CalamityMod.Projectiles
                             {
                                 int projectile2 = Projectile.NewProjectile(value.X, value.Y, velocity.X, velocity.Y, spawnedProjectile, (int)(projectile.damage * damageMult), projectile.knockBack, projectile.owner, 0f, 0f);
 
-                                if (projectile.type == ProjectileType<EradicatorProjectile>() && projectile.Calamity().rogue)
+                                if (projectile.type == ProjectileType<EradicatorProjectile>())
                                     Main.projectile[projectile2].Calamity().forceRogue = true;
                             }
                         }
@@ -2429,6 +2429,9 @@ namespace CalamityMod.Projectiles
                         if (projectile.type == ProjectileType<CnidarianYoyo>() || projectile.type == ProjectileType<GodsGambitYoyo>() ||
                             projectile.type == ProjectileType<ShimmersparkYoyo>() || projectile.type == ProjectileType<VerdantYoyo>())
                             Main.projectile[projectile2].Calamity().forceMelee = true;
+
+						if (projectile.type == ProjectileType<SeashellBoomerangProjectile>())
+							Main.projectile[projectile2].Calamity().forceRogue = true;
                     }
                 }
             }

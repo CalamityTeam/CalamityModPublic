@@ -23,5 +23,11 @@ namespace CalamityMod.Projectiles.Rogue
             aiType = ProjectileID.WoodenBoomerang;
 			projectile.Calamity().rogue = true;
         }
+
+        public override void AI()
+        {
+			if (projectile.Calamity().stealthStrike)
+				CalamityGlobalProjectile.MagnetSphereHitscan(projectile, 300f, 10f, 60f, 5, ModContent.ProjectileType<Seashell>());
+        }
     }
 }
