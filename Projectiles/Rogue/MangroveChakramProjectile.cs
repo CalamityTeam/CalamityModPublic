@@ -32,6 +32,18 @@ namespace CalamityMod.Projectiles.Rogue
 			Lighting.AddLight(projectile.Center, 0f, 0.25f, 0f);
 			if (Main.rand.NextBool(5))
 				Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 44, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+            if (projectile.Calamity().stealthStrike)
+            {
+                if (projectile.timeLeft % 20 == 0)
+                {
+                    for (int i = 0; i < 2; i++)
+                    {
+                        Projectile.NewProjectile(projectile.Center + new Vector2(Main.rand.NextFloat(-5f,5f), Main.rand.NextFloat(-5f,5f)),
+                            (projectile.velocity).RotatedByRandom(0.1f) * 0.1f,
+                            ModContent.ProjectileType<MangroveChakramFlower>(), projectile.damage / 2, 0f, projectile.owner);
+                    }
+                }
+            }
 		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
