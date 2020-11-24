@@ -906,7 +906,7 @@ namespace CalamityMod
 		/// </summary>
 		/// <param name="projectile">The projectile you're adding sticky behaviour to</param>
 		/// <param name="timeLeft">Number of seconds you want a projectile to cling to an NPC</param>
-		public static void StickyProjAI (this Projectile projectile, int timeLeft)
+		public static void StickyProjAI (this Projectile projectile, int timeLeft, bool findNewNPC = false)
 		{
 			if (projectile.ai[0] == 1f)
 			{
@@ -955,10 +955,13 @@ namespace CalamityMod
 					killProj = true;
 				}
 
-				//Kill the projectile if needed
+				//Kill the projectile or reset stats if needed
 				if (killProj)
 				{
-					projectile.Kill();
+					if (findNewNPC)
+						projectile.ai[0] = 0f;
+					else
+						projectile.Kill();
 				}
 			}
 		}

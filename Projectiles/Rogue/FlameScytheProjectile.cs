@@ -77,7 +77,7 @@ namespace CalamityMod.Projectiles.Rogue
 					Point result;
 					if (WorldUtils.Find(projectile.Top.ToTileCoordinates(), Searches.Chain((GenSearch)new Searches.Down(80), (GenCondition)new Conditions.IsSolid()), out result))
 					{
-						Projectile.NewProjectile(result.ToVector2() * 16f, Vector2.Zero, ModContent.ProjectileType<BlueFlamePillar>(), projectile.damage, 2f, projectile.owner, 1f);
+						Projectile.NewProjectile(result.ToVector2() * 16f, Vector2.Zero, ModContent.ProjectileType<SubductionFlameburst>(), projectile.damage, 2f, projectile.owner, 1f);
 						projectile.localAI[0] = 30f;
 					}
 				}
