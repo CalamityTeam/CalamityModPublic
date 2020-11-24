@@ -43,6 +43,7 @@ namespace CalamityMod.Projectiles.Melee
 				{
 					parent = p;
 					active = true;
+					break;
 				}
 			}
 
