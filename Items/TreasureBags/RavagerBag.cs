@@ -56,8 +56,7 @@ namespace CalamityMod.Items.TreasureBags
                 DropHelper.WeightStack<SpikecragStaff>(w),
                 DropHelper.WeightStack<CraniumSmasher>(w)
             );
-
-            DropHelper.DropItemFromSetChance(player, 0.05f, ModContent.ItemType<CorpusAvertorMelee>(), ModContent.ItemType<CorpusAvertor>());
+            DropHelper.DropItemChance(player, ModContent.ItemType<CorpusAvertor>(), 0.05f);
 
             // Equipment
             DropHelper.DropItemChance(player, ModContent.ItemType<BloodPact>(), 0.5f);

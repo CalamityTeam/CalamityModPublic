@@ -1948,6 +1948,40 @@ namespace CalamityMod
 		#endregion
 
 		#region Tile Utilities
+
+		public static string GetMapChestName(string baseName, int x, int y)
+		{
+			// Bounds check.
+			if (!WorldGen.InWorld(x, y, 2))
+				return baseName;
+
+			// Tile null check.
+			Tile tile = Main.tile[x, y];
+			if (tile is null)
+				return baseName;
+
+			int left = x;
+			int top = y;
+			if (tile.frameX % 36 != 0)
+				left--;
+			if (tile.frameY != 0)
+				top--;
+
+			int chest = Chest.FindChest(left, top);
+
+			// Valid chest index check.
+			if (chest < 0)
+				return baseName;
+
+			string name = baseName;
+
+			// Concatenate the chest's custom name if it has one.
+			if (!string.IsNullOrEmpty(Main.chest[chest].name))
+				name += $": {Main.chest[chest].name}";
+
+			return name;
+		}
+
 		public static void SafeSquareTileFrame(int x, int y, bool resetFrame = true)
 		{
 			if (Main.tile[x, y] is null)

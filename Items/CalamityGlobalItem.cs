@@ -1129,7 +1129,7 @@ namespace CalamityMod.Items
                             tt2.overrideColor = new Color(0, 0, 255);
                         if (item.type == ModContent.ItemType<Judgement>())
                             tt2.overrideColor = Judgement.GetSyncedLightColor();
-                        if (item.type == ModContent.ItemType<NanoblackReaperMelee>() || item.type == ModContent.ItemType<NanoblackReaperRogue>())
+                        if (item.type == ModContent.ItemType<NanoblackReaperRogue>())
                             tt2.overrideColor = new Color(0.34f, 0.34f + 0.66f * Main.DiscoG / 255f, 0.34f + 0.5f * Main.DiscoG / 255f);
                         if (item.type == ModContent.ItemType<ProfanedSoulCrystal>())
                             tt2.overrideColor = CalamityUtils.ColorSwap(new Color(255, 166, 0), new Color(25, 250, 25), 4f); //alternates between emerald green and amber (BanditHueh)
@@ -1153,9 +1153,9 @@ namespace CalamityMod.Items
                             tt2.overrideColor = new Color(254, 253, 235);
                         if (item.type == ModContent.ItemType<Contagion>())
                             tt2.overrideColor = new Color(207, 17, 117);
-                        if (item.type == ModContent.ItemType<TriactisTruePaladinianMageHammerofMightMelee>() || item.type == ModContent.ItemType<TriactisTruePaladinianMageHammerofMight>())
+                        if (item.type == ModContent.ItemType<TriactisTruePaladinianMageHammerofMightMelee>())
                             tt2.overrideColor = new Color(227, 226, 180);
-                        if (item.type == ModContent.ItemType<RoyalKnivesMelee>() || item.type == ModContent.ItemType<RoyalKnives>())
+                        if (item.type == ModContent.ItemType<RoyalKnivesMelee>())
                             tt2.overrideColor = CalamityUtils.ColorSwap(new Color(154, 255, 151), new Color(228, 151, 255), 4f);
                         if (item.type == ModContent.ItemType<DemonshadeHelm>() || item.type == ModContent.ItemType<DemonshadeBreastplate>() || item.type == ModContent.ItemType<DemonshadeGreaves>())
                             tt2.overrideColor = CalamityUtils.ColorSwap(new Color(255, 132, 22), new Color(221, 85, 7), 4f);
