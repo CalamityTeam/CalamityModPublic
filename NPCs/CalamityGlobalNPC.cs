@@ -1454,11 +1454,7 @@ namespace CalamityMod.NPCs
             damage = Main.CalculateDamage((int)damage, effectiveDefense);
 
             // DR applies after vanilla defense.
-            damage = ApplyDR(npc, damage);
-
-            // Add Yellow Candle damage if the NPC isn't supposed to be "near invincible"
-            if (yellowCandle > 0 && DR < 0.99f && npc.takenDamageMultiplier > 0.05f)
-                damage += yellowCandleDamage;
+            damage = ApplyDR(npc, damage, yellowCandleDamage);
 
             // Cancel out vanilla defense math by reversing the calculation vanilla is about to perform.
             // While roundabout, this is safer than returning false to stop vanilla damage calculations entirely.
@@ -1473,7 +1469,7 @@ namespace CalamityMod.NPCs
         /// </summary>
         /// <param name="damage">Incoming damage. Has been modified by Main.DamageVar and boosted by armor penetration, but nothing else.</param>
         /// <returns></returns>
-        private double ApplyDR(NPC npc, double damage)
+        private double ApplyDR(NPC npc, double damage, double yellowCandleDamage)
         {
             if ((DR <= 0f && KillTime == 0) || damage <= 1.0)
                 return damage;
@@ -1485,6 +1481,10 @@ namespace CalamityMod.NPCs
             // DR floor is 0%. Nothing can have negative DR.
             if (effectiveDR <= 0f)
                 effectiveDR = 0f;
+
+			// Add Yellow Candle damage if the NPC isn't supposed to be "near invincible"
+			if (yellowCandle > 0 && DR < 0.99f && npc.takenDamageMultiplier > 0.05f)
+				damage += yellowCandleDamage;
 
 			// Calculate extra DR based on kill time, similar to the Hush boss from The Binding of Isaac
 			if (KillTime > 0 && AITimer < KillTime && !BossRushEvent.BossRushActive)

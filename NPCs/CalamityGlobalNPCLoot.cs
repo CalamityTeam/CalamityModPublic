@@ -322,8 +322,9 @@ namespace CalamityMod.NPCs
                 if (!NPC.downedMoonlord)
                 {
                     WorldGenerationMethods.SpawnOre(ModContent.TileType<ExodiumOre>(), 12E-05, .01f, .07f);
+					WorldGenerationMethods.SpawnOre(TileID.LunarOre, 12E-05, .65f, .8f);
 
-                    CalamityUtils.DisplayLocalizedText(key, messageColor);
+					CalamityUtils.DisplayLocalizedText(key, messageColor);
                     CalamityUtils.DisplayLocalizedText(key2, messageColor);
                     CalamityUtils.DisplayLocalizedText(key3, messageColor);
                     CalamityUtils.DisplayLocalizedText(key4, messageColor);

@@ -240,38 +240,38 @@ namespace CalamityMod.World
             }
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
-                for (int k = 0; k < (int)((double)(x * y) * frequency); k++)
+                for (int k = 0; k < (int)(x * y * frequency); k++)
                 {
                     int tilesX = WorldGen.genRand.Next(0, x);
                     int tilesY = WorldGen.genRand.Next((int)(y * depth), (int)(y * depthLimit));
                     if (type == ModContent.TileType<AuricOre>())
                     {
-                        WorldGen.OreRunner(tilesX, tilesY, (double)WorldGen.genRand.Next(12, 18), WorldGen.genRand.Next(12, 18), (ushort)type);
+                        WorldGen.OreRunner(tilesX, tilesY, WorldGen.genRand.Next(6, 12), WorldGen.genRand.Next(6, 12), (ushort)type);
                     }
                     else if (type == ModContent.TileType<UelibloomOre>())
-                    { //mud
-                        if (Main.tile[tilesX, tilesY].type == 59)
+                    {
+                        if (Main.tile[tilesX, tilesY].type == TileID.Mud)
                         {
-                            WorldGen.OreRunner(tilesX, tilesY, (double)WorldGen.genRand.Next(3, 8), WorldGen.genRand.Next(3, 8), (ushort)type);
+                            WorldGen.OreRunner(tilesX, tilesY, WorldGen.genRand.Next(3, 8), WorldGen.genRand.Next(3, 8), (ushort)type);
                         }
                     }
-                    else if (type == ModContent.TileType<PerennialOre>())
-                    { //dirt, stone
-                        if (Main.tile[tilesX, tilesY].type == 0 || Main.tile[tilesX, tilesY].type == 1)
+                    else if (type == ModContent.TileType<PerennialOre>() || type == TileID.LunarOre)
+                    {
+                        if (Main.tile[tilesX, tilesY].type == TileID.Dirt || Main.tile[tilesX, tilesY].type == TileID.Stone)
                         {
-                            WorldGen.OreRunner(tilesX, tilesY, (double)WorldGen.genRand.Next(3, 8), WorldGen.genRand.Next(3, 8), (ushort)type);
+                            WorldGen.OreRunner(tilesX, tilesY, WorldGen.genRand.Next(3, 8), WorldGen.genRand.Next(3, 8), (ushort)type);
                         }
                     }
                     else if (type == ModContent.TileType<CryonicOre>())
-                    { //snow, ice, purple ice, pink ice, red ice, astral snow, astral ice
-                        if (Main.tile[tilesX, tilesY].type == 147 || Main.tile[tilesX, tilesY].type == 161 || Main.tile[tilesX, tilesY].type == 163 || Main.tile[tilesX, tilesY].type == 164 || Main.tile[tilesX, tilesY].type == 200 || Main.tile[tilesX, tilesY].type == ModContent.TileType<AstralSnow>() || Main.tile[tilesX, tilesY].type == ModContent.TileType<AstralIce>())
+                    {
+                        if (Main.tile[tilesX, tilesY].type == TileID.SnowBlock || Main.tile[tilesX, tilesY].type == TileID.IceBlock || Main.tile[tilesX, tilesY].type == TileID.CorruptIce || Main.tile[tilesX, tilesY].type == TileID.HallowedIce || Main.tile[tilesX, tilesY].type == TileID.FleshIce || Main.tile[tilesX, tilesY].type == ModContent.TileType<AstralSnow>() || Main.tile[tilesX, tilesY].type == ModContent.TileType<AstralIce>())
                         {
-                            WorldGen.OreRunner(tilesX, tilesY, (double)WorldGen.genRand.Next(3, 8), WorldGen.genRand.Next(3, 8), (ushort)type);
+                            WorldGen.OreRunner(tilesX, tilesY, WorldGen.genRand.Next(3, 8), WorldGen.genRand.Next(3, 8), (ushort)type);
                         }
                     }
                     else
                     {
-                        WorldGen.OreRunner(tilesX, tilesY, (double)WorldGen.genRand.Next(3, 8), WorldGen.genRand.Next(3, 8), (ushort)type);
+                        WorldGen.OreRunner(tilesX, tilesY, WorldGen.genRand.Next(3, 8), WorldGen.genRand.Next(3, 8), (ushort)type);
                     }
                 }
             }

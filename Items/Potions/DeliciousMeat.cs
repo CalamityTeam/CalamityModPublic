@@ -25,7 +25,7 @@ namespace CalamityMod.Items.Potions
             item.useStyle = ItemUseStyleID.EatingUsing;
             item.useTurn = true;
             item.buffType = BuffID.WellFed;
-            item.buffTime = 108000;
+            item.buffTime = CalamityUtils.SecondsToFrames(1800f);
         }
     }
 }

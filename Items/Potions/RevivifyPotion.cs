@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Potions
             item.UseSound = SoundID.Item3;
             item.consumable = true;
 			item.buffType = ModContent.BuffType<Revivify>();
-			item.buffTime = 3600;
+			item.buffTime = CalamityUtils.SecondsToFrames(120f);
 			item.value = Item.buyPrice(0, 2, 0, 0);
         }
 

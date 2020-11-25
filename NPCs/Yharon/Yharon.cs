@@ -2888,10 +2888,17 @@ namespace CalamityMod.NPCs.Yharon
             }
             return true;
         }
-        #endregion
+		#endregion
 
-        #region HP Bar Cooldown Slot and Stats
-        public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)
+		#region On Hit Player
+		public override void OnHitPlayer(Player player, int damage, bool crit)
+		{
+			player.AddBuff(ModContent.BuffType<LethalLavaBurn>(), 420, true);
+		}
+		#endregion
+
+		#region HP Bar Cooldown Slot and Stats
+		public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)
         {
             scale = 2f;
             return null;

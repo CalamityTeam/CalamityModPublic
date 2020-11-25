@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Potions
             item.UseSound = SoundID.Item3;
             item.consumable = true;
             item.buffType = ModContent.BuffType<AstralInjectionBuff>();
-            item.buffTime = 180;
+            item.buffTime = CalamityUtils.SecondsToFrames(5f);
             item.value = Item.buyPrice(0, 2, 0, 0);
         }
 

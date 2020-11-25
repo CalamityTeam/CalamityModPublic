@@ -28,7 +28,7 @@ Reduces life regen by 2 and defense by 6");
             item.UseSound = SoundID.Item3;
             item.consumable = true;
             item.buffType = ModContent.BuffType<BloodyMaryBuff>();
-            item.buffTime = 18000; //5 minutes
+            item.buffTime = CalamityUtils.SecondsToFrames(480f);
             item.value = Item.buyPrice(0, 10, 0, 0);
         }
     }

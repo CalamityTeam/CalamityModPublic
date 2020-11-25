@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Potions
             item.UseSound = SoundID.Item3;
             item.consumable = true;
             item.buffType = ModContent.BuffType<CeaselessHunger>();
-            item.buffTime = 600;
+            item.buffTime = CalamityUtils.SecondsToFrames(10f);
             item.value = Item.buyPrice(0, 2, 0, 0);
         }
 

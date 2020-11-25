@@ -1110,7 +1110,7 @@ namespace CalamityMod.CalPlayer
 				{
 					modPlayer.tarraThrowingCrits = 0;
 					if (player.whoAmI == Main.myPlayer)
-						player.AddBuff(ModContent.BuffType<TarragonImmunity>(), 300, false);
+						player.AddBuff(ModContent.BuffType<TarragonImmunity>(), 180, false);
 				}
 
 				for (int l = 0; l < Player.MaxBuffs; l++)
@@ -1336,7 +1336,7 @@ namespace CalamityMod.CalPlayer
 			if (modPlayer.affliction || modPlayer.afflicted)
 			{
 				player.endurance += 0.07f;
-				player.statDefense += 20;
+				player.statDefense += 10;
 				player.allDamage += 0.1f;
 			}
 
@@ -2732,7 +2732,7 @@ namespace CalamityMod.CalPlayer
 				player.minionKB += 1.2f;
 				player.pickSpeed -= 0.15f;
 				if (Main.eclipse || !Main.dayTime)
-					player.statDefense += 30;
+					player.statDefense += 15;
 			}
 
 			if (modPlayer.eGauntlet)
@@ -3425,10 +3425,10 @@ namespace CalamityMod.CalPlayer
 					player.allDamage += 0.1f;
 			}
 
-			if (modPlayer.deepDiver)
+			if (modPlayer.deepDiver && player.IsUnderwater())
 			{
 				player.allDamage += 0.15f;
-				player.statDefense += (int)(player.statDefense * 0.15);
+				player.statDefense += 15;
 				player.moveSpeed += 0.15f;
 			}
 

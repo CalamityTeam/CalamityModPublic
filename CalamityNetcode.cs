@@ -98,7 +98,13 @@ namespace CalamityMod
                     case CalamityModMessageType.DeathModeBlizzardTimeSync:
                         Main.player[reader.ReadInt32()].Calamity().HandleDeathModeBlizzardTime(reader);
                         break;
-                    case CalamityModMessageType.NPCRegenerationSync:
+					case CalamityModMessageType.ItemTypeLastReforgedSync:
+						Main.player[reader.ReadInt32()].Calamity().HandleItemTypeLastReforged(reader);
+						break;
+					case CalamityModMessageType.ReforgeTierSafetySync:
+						Main.player[reader.ReadInt32()].Calamity().HandleReforgeTierSafety(reader);
+						break;
+					case CalamityModMessageType.NPCRegenerationSync:
                         byte npcIndex = reader.ReadByte();
                         Main.npc[npcIndex].lifeRegen = reader.ReadInt32();
                         break;
@@ -263,7 +269,10 @@ namespace CalamityMod
         DeathModeBlizzardTimeSync,
         DeathBossSpawnCountdownSync,
 
-        AcidRainSync,
+		ItemTypeLastReforgedSync,
+		ReforgeTierSafetySync,
+
+		AcidRainSync,
         AcidRainUIDrawFadeSync,
         AcidRainOldDukeSummonSync,
 		EncounteredOldDukeSync,

@@ -338,19 +338,19 @@ namespace CalamityMod.NPCs.TownNPCs
 			}
 
             shop.item[nextSlot].SetDefaults(ModContent.ItemType<BlueCandle>());
-            shop.item[nextSlot].shopCustomPrice = Item.buyPrice(2, 0, 0, 0);
+            shop.item[nextSlot].shopCustomPrice = Item.buyPrice(1, 0, 0, 0);
             nextSlot++;
 
             shop.item[nextSlot].SetDefaults(ModContent.ItemType<PinkCandle>());
-            shop.item[nextSlot].shopCustomPrice = Item.buyPrice(2, 0, 0, 0);
+            shop.item[nextSlot].shopCustomPrice = Item.buyPrice(1, 0, 0, 0);
             nextSlot++;
 
             shop.item[nextSlot].SetDefaults(ModContent.ItemType<PurpleCandle>());
-            shop.item[nextSlot].shopCustomPrice = Item.buyPrice(2, 0, 0, 0);
+            shop.item[nextSlot].shopCustomPrice = Item.buyPrice(1, 0, 0, 0);
             nextSlot++;
 
             shop.item[nextSlot].SetDefaults(ModContent.ItemType<YellowCandle>());
-            shop.item[nextSlot].shopCustomPrice = Item.buyPrice(2, 0, 0, 0);
+            shop.item[nextSlot].shopCustomPrice = Item.buyPrice(1, 0, 0, 0);
             nextSlot++;
 
             shop.item[nextSlot].SetDefaults(ModContent.ItemType<OddMushroom>());

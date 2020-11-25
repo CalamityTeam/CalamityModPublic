@@ -28,7 +28,7 @@ Reduces life regen by 10 and defense by 40");
             item.UseSound = SoundID.Item3;
             item.consumable = true;
             item.buffType = ModContent.BuffType<EverclearBuff>();
-            item.buffTime = 900; //15 seconds
+            item.buffTime = CalamityUtils.SecondsToFrames(60f);
             item.value = Item.buyPrice(0, 6, 60, 0);
         }
     }

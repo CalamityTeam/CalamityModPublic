@@ -48,6 +48,12 @@ namespace CalamityMod.Tiles
 			(ushort)ModContent.TileType<Voidstone>()
 		};
 
+		public override void SetDefaults()
+		{
+			Main.tileSpelunker[TileID.LunarOre] = true;
+			Main.tileValue[TileID.LunarOre] = 900;
+		}
+
 		public override bool PreHitWire(int i, int j, int type)
 		{
 			return !BossRushEvent.BossRushActive;

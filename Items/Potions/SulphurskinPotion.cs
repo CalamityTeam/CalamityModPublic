@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Potions
             item.UseSound = SoundID.Item3;
             item.consumable = true;
             item.buffType = ModContent.BuffType<SulphurskinBuff>();
-            item.buffTime = 7200; //2 minutes
+            item.buffTime = CalamityUtils.SecondsToFrames(240f);
             item.value = Item.buyPrice(0, 2, 0, 0);
         }
 
