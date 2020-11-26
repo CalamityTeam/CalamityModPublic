@@ -24,6 +24,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.Calamity().rogue = true;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 5;
+			projectile.timeLeft = 600;
         }
         public override void AI()
         {
@@ -34,7 +35,7 @@ namespace CalamityMod.Projectiles.Rogue
             }
             else
             {
-                NPC target = projectile.position.ClosestNPCAt(640f);
+                NPC target = projectile.Center.ClosestNPCAt(640f);
                 if (target != null)
                 {
                     projectile.velocity = (projectile.velocity * 20f + projectile.DirectionTo(target.Center) * 20f) / 21f;
