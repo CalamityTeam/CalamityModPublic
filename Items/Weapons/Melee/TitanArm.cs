@@ -33,53 +33,32 @@ namespace CalamityMod.Items.Weapons.Melee
             item.value = CalamityGlobalItem.Rarity7BuyPrice;
         }
 
-		public override void ModifyHitNPC(Player player, NPC target, ref int damage, ref float knockBack, ref bool crit)
-		{
-			if (target.knockBackResist <= 0f)
-				return;
-
-			// Manually doing knockback because it is capped in vanilla. This lets Titan Arm reach its full potential. =D
-			// This is modified vanilla code from StrikeNPC method in NPC.cs
-			// Extra Note: Will cause an out of bounds error on enemies that don't despawn and are affected. See Blue Cultist Archer.
-			float kbAmt = knockBack * 9001f * target.knockBackResist; //That obligatory over 9000 reference
-			if (crit)
-				kbAmt *= 1.4f;
-			if (player.direction < 0 && target.velocity.X > -kbAmt)
-			{
-				if (target.velocity.X > 0f)
-					target.velocity.X -= kbAmt;
-				target.velocity.X -= kbAmt;
-				if (target.velocity.X < -kbAmt)
-					target.velocity.X = -kbAmt;
-			}
-			else if (player.direction > 0 && target.velocity.X < kbAmt)
-			{
-				if (target.velocity.X < 0f)
-					target.velocity.X += kbAmt;
-				target.velocity.X += kbAmt;
-				if (target.velocity.X > kbAmt)
-					target.velocity.X = kbAmt;
-			}
-			float kbAmtY = target.noGravity ? kbAmt * -0.5f : kbAmt * -0.75f;
-			if (target.velocity.Y > kbAmtY)
-			{
-				target.velocity.Y += kbAmtY;
-				if (target.velocity.Y < kbAmtY)
-					target.velocity.Y = kbAmtY;
-			}
-		}
-
 		// Boosting crit in SetDefaults along with knockback seemed to severely inflate the reforging price. Guaranteed crits for more knockback.
 		public override void GetWeaponCrit(Player player, ref int crit) => crit = 100;
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 120);
+			YeetEnemies(player, target, crit);
         }
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
             target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 120);
         }
+
+		private void YeetEnemies(Player player, NPC target, bool crit)
+		{
+			// Manually doing knockback because it is capped in vanilla. This lets Titan Arm reach its full potential. =D
+			// This is modified vanilla code from StrikeNPC method in NPC.cs
+			// Extra Note: Will cause an out of bounds error on enemies that don't despawn and are affected. See Blue Cultist Archer.
+			// Extra (extra) Note: Fails in ModifyHitNPC if the enemy has too much health due to velocity clamping if you don't do enough damage.
+			float kbAmt = player.GetWeaponKnockback(item, item.knockBack) * 9001f * target.knockBackResist; //That obligatory over 9000 reference
+			if (crit)
+				kbAmt *= 1.4f;
+			float kbAmtY = target.noGravity ? kbAmt * -0.5f : kbAmt * -0.75f;
+			target.velocity.Y += kbAmtY;
+			target.velocity.X += kbAmt * player.direction;
+		}
     }
 }
