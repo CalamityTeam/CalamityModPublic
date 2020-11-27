@@ -714,6 +714,10 @@ namespace CalamityMod.CalPlayer
             {
                 player.lifeRegen += 2;
             }
+			if (modPlayer.avertorBonus)
+            {
+                player.lifeRegen += 4;
+            }
 
 			if (modPlayer.bloodflareSummon)
 			{

@@ -43,7 +43,7 @@ namespace CalamityMod.Projectiles.Rogue
 					float mult = projectile.ai[0] / 80f; // Ranges from 0.25 to 0.5 to 0.75
 					velocity *= mult;
 
-					Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, velocity.X, velocity.Y, ModContent.ProjectileType<CorpusAvertorClone>(),
+					Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<CorpusAvertorClone>(),
 						(int)(projectile.damage * mult), projectile.knockBack * mult, projectile.owner, projectile.ai[0]);
 				}
 			}
@@ -53,7 +53,7 @@ namespace CalamityMod.Projectiles.Rogue
 				projectile.velocity.Y *= 1.01f;
 
 				int scale = (int)((projectile.ai[0] - 60f) * 4.25f);
-				int dust = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 5, 0f, 0f, 100, new Color(scale, 0, 0, 50), 2f);
+				int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, 5, 0f, 0f, 100, new Color(scale, 0, 0, 50), 2f);
 				Main.dust[dust].velocity *= 0f;
 				Main.dust[dust].noGravity = true;
 			}

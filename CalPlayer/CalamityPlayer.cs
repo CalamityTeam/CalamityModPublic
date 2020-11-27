@@ -874,6 +874,7 @@ namespace CalamityMod.CalPlayer
         public bool hallowedPower = false;
         public bool hallowedRegen = false;
         public bool kamiBoost = false;
+		public bool avertorBonus = false;
         #endregion
 
         #region Minion
@@ -1631,6 +1632,7 @@ namespace CalamityMod.CalPlayer
             hallowedRegen = false;
             hallowedPower = false;
             kamiBoost = false;
+			avertorBonus = false;
             IBoots = false;
             elysianFire = false;
             sTracers = false;
@@ -2194,6 +2196,7 @@ namespace CalamityMod.CalPlayer
             xRage = false;
             xWrath = false;
             kamiBoost = false;
+			avertorBonus = false;
             graxDefense = false;
             encased = false;
             sMeleeBoost = false;

@@ -1200,6 +1200,9 @@ namespace CalamityMod.CalPlayer
 			if (modPlayer.kamiBoost)
 				player.allDamage += 0.15f;
 
+			if (modPlayer.avertorBonus)
+				player.allDamage += 0.1f;
+
 			if (modPlayer.roverDriveTimer < 616)
 			{
 				player.statDefense += 10;
