@@ -31,6 +31,16 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.Calamity().rogue = true;
         }
 
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(projectile.localAI[1]);
+		}
+
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			projectile.localAI[1] = reader.ReadSingle();
+		}
+
         public override void AI()
         {
 			//synthesized timeLeft
@@ -54,15 +64,10 @@ namespace CalamityMod.Projectiles.Rogue
             else
             {
                 projectile.rotation = projectile.velocity.ToRotation() + MathHelper.ToRadians(45f);
-				projectile.localAI[0]++;
 
 				Vector2 center = projectile.Center;
 				float maxDistance = 600f;
 				bool homeIn = false;
-
-				if (projectile.localAI[0] >= 20f && !homeIn) //shorten knife lifespan if it hasn't found a target
-					if (projectile.timeLeft >= 60)
-						projectile.timeLeft = 60;
 
 				for (int i = 0; i < Main.maxNPCs; i++)
 				{
@@ -91,6 +96,9 @@ namespace CalamityMod.Projectiles.Rogue
 				}
                 else
                 {
+					//shorten knife lifespan if it hasn't found a target
+					if (projectile.timeLeft > 60)
+						projectile.timeLeft = 60;
                     projectile.velocity.X *= 0.92f;
                     projectile.velocity.Y *= 0.92f;
                 }
