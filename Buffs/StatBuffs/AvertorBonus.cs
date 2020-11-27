@@ -9,11 +9,10 @@ namespace CalamityMod.Buffs.StatBuffs
         {
             DisplayName.SetDefault("Avertor Bonus");
             Description.SetDefault("Boosted damage and life regeneration");
-            Main.debuff[Type] = true;
+            Main.debuff[Type] = false;
             Main.pvpBuff[Type] = true;
-            Main.buffNoSave[Type] = false;
+            Main.buffNoSave[Type] = true;
             longerExpertDebuff = false;
-            canBeCleared = false;
         }
 
 		public override void Update(Player player, ref int buffIndex)
