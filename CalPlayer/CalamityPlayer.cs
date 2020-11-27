@@ -588,11 +588,9 @@ namespace CalamityMod.CalPlayer
         public bool hasJetpack = false;
         public int jetPackCooldown = 0;
         public bool plaguedFuelPack = false;
-        public int plaguedFuelPackDash = 0;
-        public int plaguedFuelPackDirection = 0;
         public bool blunderBooster = false;
-        public int blunderBoosterDash = 0;
-        public int blunderBoosterDirection = 0;
+        public int jetPackDash = 0;
+        public int jetPackDirection = 0;
         public bool veneratedLocket = false;
         public bool camper = false;
         public bool corrosiveSpine = false;
@@ -2084,10 +2082,8 @@ namespace CalamityMod.CalPlayer
             polarisBoostCounter = 0;
             spectralVeilImmunity = 0;
             jetPackCooldown = 0;
-            blunderBoosterDash = 0;
-            blunderBoosterDirection = 0;
-            plaguedFuelPackDash = 0;
-            plaguedFuelPackDirection = 0;
+            jetPackDash = 0;
+            jetPackDirection = 0;
             andromedaCripple = 0;
             theBeeCooldown = 0;
             killSpikyBalls = false;
@@ -2813,13 +2809,7 @@ namespace CalamityMod.CalPlayer
                                 Main.dust[dustIndex].noLight = true;
                             }
 
-                            player.immune = true;
-                            player.immuneTime = 120;
                             spectralVeilImmunity = 120;
-                            for (int k = 0; k < player.hurtCooldowns.Length; k++)
-                            {
-                                player.hurtCooldowns[k] = player.immuneTime;
-                            }
                         }
                     }
                 }
@@ -2827,24 +2817,12 @@ namespace CalamityMod.CalPlayer
             if (CalamityMod.PlaguePackHotKey.JustPressed && hasJetpack && Main.myPlayer == player.whoAmI && rogueStealth >= rogueStealthMax * 0.25f &&
                 wearingRogueArmor && rogueStealthMax > 0 && jetPackCooldown == 0 && !player.mount.Active)
             {
-				if (blunderBooster)
-				{
-					jetPackCooldown = 90;
-					blunderBoosterDash = 15;
-					blunderBoosterDirection = player.direction;
-					rogueStealth -= rogueStealthMax * 0.25f;
-					Main.PlaySound(SoundID.Item66, player.Center);
-					Main.PlaySound(SoundID.Item34, player.Center);
-				}
-				else if (plaguedFuelPack)
-				{
-					jetPackCooldown = 90;
-					plaguedFuelPackDash = 10;
-					plaguedFuelPackDirection = player.direction;
-					rogueStealth -= rogueStealthMax * 0.25f;
-					Main.PlaySound(SoundID.Item66, player.Center);
-					Main.PlaySound(SoundID.Item34, player.Center);
-				}
+				jetPackDash = blunderBooster ? 15 : 10;
+				jetPackDirection = player.direction;
+				jetPackCooldown = 60;
+				rogueStealth -= rogueStealthMax * 0.25f;
+				Main.PlaySound(SoundID.Item66, player.Center);
+				Main.PlaySound(SoundID.Item34, player.Center);
             }
             if (CalamityMod.TarraHotKey.JustPressed)
             {
@@ -3981,61 +3959,149 @@ namespace CalamityMod.CalPlayer
         }
         #endregion
 
-        #region Rogue Mirrors
+        #region Dodges
+		private bool HandleDodges()
+		{
+			if (player.whoAmI != Main.myPlayer)
+				return false;
+
+			if (spectralVeil && spectralVeilImmunity > 0)
+			{
+				SpectralVeil();
+				return true;
+			}
+			// Scarf cooldowns affect each other
+			bool playerDashing = player.pulley || player.grappling[0] == -1 && !player.tongued;
+            if (playerDashing && dashMod == 1 && player.dashDelay < 0 && dodgeScarf && !scarfCooldown && !eScarfCooldown)
+			{
+				OnDodge();
+				return true;
+			}
+			// Mirror cooldowns affect each other
+			if (Main.rand.NextBool(10) && player.immuneTime <= 0 && !eclipseMirrorCooldown && !abyssalMirrorCooldown)
+			{
+				if (eclipseMirror)
+				{
+					EclipseMirrorEvade();
+					return true;
+				}
+				else if (abyssalMirror)
+				{
+					AbyssMirrorEvade();
+					return true;
+				}
+			}
+			return false;
+		}
+
+		private void SpectralVeil()
+		{
+			player.immune = true;
+			player.immuneTime = spectralVeilImmunity; //Set immunity before setting this variable to 0
+			for (int k = 0; k < player.hurtCooldowns.Length; k++)
+			{
+				player.hurtCooldowns[k] = player.immuneTime;
+			}
+			rogueStealth = rogueStealthMax;
+			spectralVeilImmunity = 0;
+
+			Vector2 sVeilDustDir = new Vector2(Main.rand.NextFloat(-1f, 1f), Main.rand.NextFloat(-1f, 1f));
+			sVeilDustDir.Normalize();
+			sVeilDustDir *= 0.5f;
+
+			for (int j = 0; j < 20; j++)
+			{
+				int sVeilDustIndex1 = Dust.NewDust(player.Center, 1, 1, 21, sVeilDustDir.X * j, sVeilDustDir.Y * j);
+				int sVeilDustIndex2 = Dust.NewDust(player.Center, 1, 1, 21, -sVeilDustDir.X * j, -sVeilDustDir.Y * j);
+				Main.dust[sVeilDustIndex1].noGravity = false;
+				Main.dust[sVeilDustIndex1].noLight = false;
+				Main.dust[sVeilDustIndex2].noGravity = false;
+				Main.dust[sVeilDustIndex2].noLight = false;
+			}
+
+			Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SilvaDispel"), player.Center);
+
+			NetMessage.SendData(MessageID.Dodge, -1, -1, null, player.whoAmI, 1f, 0f, 0f, 0, 0, 0);
+		}
+
+        private void OnDodge()
+        {
+			if (evasionScarf)
+			{
+				player.AddBuff(ModContent.BuffType<EvasionScarfBoost>(), CalamityUtils.SecondsToFrames(9f));
+				player.AddBuff(ModContent.BuffType<EvasionScarfCooldown>(), player.chaosState ? CalamityUtils.SecondsToFrames(20f) : CalamityUtils.SecondsToFrames(13f));
+			}
+			else
+			{
+				player.AddBuff(ModContent.BuffType<ScarfMeleeBoost>(), 540);
+				player.AddBuff(ModContent.BuffType<ScarfCooldown>(), player.chaosState ? 1800 : 900);
+			}
+			player.immune = true;
+			player.immuneTime = player.longInvince ? 100 : 60;
+			for (int k = 0; k < player.hurtCooldowns.Length; k++)
+			{
+				player.hurtCooldowns[k] = player.immuneTime;
+			}
+			for (int j = 0; j < 100; j++)
+			{
+				int num = Dust.NewDust(player.position, player.width, player.height, 235, 0f, 0f, 100, default, 2f);
+				Dust dust = Main.dust[num];
+				dust.position.X += (float)Main.rand.Next(-20, 21);
+				dust.position.Y += (float)Main.rand.Next(-20, 21);
+				dust.velocity *= 0.4f;
+				dust.scale *= 1f + (float)Main.rand.Next(40) * 0.01f;
+				dust.shader = GameShaders.Armor.GetSecondaryShader(player.cWaist, player);
+				if (Main.rand.NextBool(2))
+				{
+					dust.scale *= 1f + (float)Main.rand.Next(40) * 0.01f;
+					dust.noGravity = true;
+				}
+			}
+			NetMessage.SendData(MessageID.Dodge, -1, -1, null, player.whoAmI, 1f, 0f, 0f, 0, 0, 0);
+        }
+
         public void AbyssMirrorEvade()
         {
-            if (player.whoAmI == Main.myPlayer && abyssalMirror && !abyssalMirrorCooldown && !eclipseMirror)
-            {
-                player.AddBuff(ModContent.BuffType<AbyssalMirrorCooldown>(), 1200);
-                player.immune = true;
-                player.immuneTime = player.longInvince ? 100 : 60;
-                player.noKnockback = true;
-                rogueStealth += 0.5f;
+			player.AddBuff(ModContent.BuffType<AbyssalMirrorCooldown>(), 1200);
+			player.immune = true;
+			player.immuneTime = player.longInvince ? 100 : 60;
+			player.noKnockback = true;
+			rogueStealth += 0.5f;
 
-                for (int k = 0; k < player.hurtCooldowns.Length; k++)
-                {
-                    player.hurtCooldowns[k] = player.immuneTime;
-                }
+			for (int k = 0; k < player.hurtCooldowns.Length; k++)
+			{
+				player.hurtCooldowns[k] = player.immuneTime;
+			}
 
-                Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SilvaActivation"), player.Center);
+			Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SilvaActivation"), player.Center);
 
-                for (int i = 0; i < 10; i++)
-                {
-                    int lumenyl = Projectile.NewProjectile(player.Center.X, player.Center.Y, Main.rand.NextFloat(-2f, 2f), Main.rand.NextFloat(-2f, 2f), ModContent.ProjectileType<AbyssalMirrorProjectile>(), (int)(55 * player.RogueDamage()), 0, player.whoAmI);
-                    Main.projectile[lumenyl].rotation = Main.rand.NextFloat(0, 360);
-                    Main.projectile[lumenyl].frame = Main.rand.Next(0, 4);
-                }
+			for (int i = 0; i < 10; i++)
+			{
+				int lumenyl = Projectile.NewProjectile(player.Center.X, player.Center.Y, Main.rand.NextFloat(-2f, 2f), Main.rand.NextFloat(-2f, 2f), ModContent.ProjectileType<AbyssalMirrorProjectile>(), (int)(55 * player.RogueDamage()), 0, player.whoAmI);
+				Main.projectile[lumenyl].rotation = Main.rand.NextFloat(0, 360);
+				Main.projectile[lumenyl].frame = Main.rand.Next(0, 4);
+			}
 
-                if (player.whoAmI == Main.myPlayer)
-                {
-                    NetMessage.SendData(MessageID.Dodge, -1, -1, null, player.whoAmI, 1f, 0f, 0f, 0, 0, 0);
-                }
-            }
+			NetMessage.SendData(MessageID.Dodge, -1, -1, null, player.whoAmI, 1f, 0f, 0f, 0, 0, 0);
         }
 
         public void EclipseMirrorEvade()
         {
-            if (player.whoAmI == Main.myPlayer && eclipseMirror && !eclipseMirrorCooldown)
-            {
-                player.AddBuff(ModContent.BuffType<EclipseMirrorCooldown>(), 1200);
-                player.immune = true;
-                player.immuneTime = player.longInvince ? 100 : 60;
-                player.noKnockback = true;
-                rogueStealth = rogueStealthMax;
+			player.AddBuff(ModContent.BuffType<EclipseMirrorCooldown>(), 1200);
+			player.immune = true;
+			player.immuneTime = player.longInvince ? 100 : 60;
+			player.noKnockback = true;
+			rogueStealth = rogueStealthMax;
 
-                for (int k = 0; k < player.hurtCooldowns.Length; k++)
-                {
-                    player.hurtCooldowns[k] = player.immuneTime;
-                }
+			for (int k = 0; k < player.hurtCooldowns.Length; k++)
+			{
+				player.hurtCooldowns[k] = player.immuneTime;
+			}
 
-                Main.PlaySound(SoundID.Item68, player.Center);
-                Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<EclipseMirrorBurst>(), (int)(7000 * player.RogueDamage()), 0, player.whoAmI);
+			Main.PlaySound(SoundID.Item68, player.Center);
+			Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<EclipseMirrorBurst>(), (int)(7000 * player.RogueDamage()), 0, player.whoAmI);
 
-                if (player.whoAmI == Main.myPlayer)
-                {
-                    NetMessage.SendData(MessageID.Dodge, -1, -1, null, player.whoAmI, 1f, 0f, 0f, 0, 0, 0);
-                }
-            }
+			NetMessage.SendData(MessageID.Dodge, -1, -1, null, player.whoAmI, 1f, 0f, 0f, 0, 0, 0);
         }
         #endregion
 
@@ -7586,6 +7652,9 @@ namespace CalamityMod.CalPlayer
         #region Pre Hurt
         public override bool PreHurt(bool pvp, bool quiet, ref int damage, ref int hitDirection, ref bool crit, ref bool customDamage, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
         {
+			if (HandleDodges())
+				return false;
+
             if (CalamityWorld.armageddon || SCalLore || (BossRushEvent.BossRushActive && bossRushImmunityFrameCurseTimer > 0))
             {
                 if (areThereAnyDamnBosses || SCalLore || (BossRushEvent.BossRushActive && bossRushImmunityFrameCurseTimer > 0))
@@ -8688,36 +8757,6 @@ namespace CalamityMod.CalPlayer
                     }
                 }
             }
-            if (dashMod == 1 && player.dashDelay < 0 && player.whoAmI == Main.myPlayer) //Counter Scarf
-            {
-                Rectangle rectangle = new Rectangle((int)((double)player.position.X + (double)player.velocity.X * 0.5 - 4.0), (int)((double)player.position.Y + (double)player.velocity.Y * 0.5 - 4.0), player.width + 8, player.height + 8);
-                for (int i = 0; i < Main.maxNPCs; i++)
-                {
-					NPC npc = Main.npc[i];
-                    if (npc.active && !npc.dontTakeDamage && !npc.friendly && !npc.townNPC && npc.immune[player.whoAmI] <= 0 && npc.damage > 0)
-                    {
-                        Rectangle rect = npc.getRect();
-                        if (rectangle.Intersects(rect) && (npc.noTileCollide || player.CanHit(npc)))
-                        {
-                            OnDodge();
-                            break;
-                        }
-                    }
-                }
-                for (int i = 0; i < Main.maxProjectiles; i++)
-                {
-					Projectile proj = Main.projectile[i];
-                    if (proj.active && !proj.friendly && proj.hostile && proj.damage > 0)
-                    {
-                        Rectangle rect = proj.getRect();
-                        if (rectangle.Intersects(rect))
-                        {
-                            OnDodge();
-                            break;
-                        }
-                    }
-                }
-            }
             if (player.dashDelay > 0)
             {
                 return;
@@ -9404,48 +9443,6 @@ namespace CalamityMod.CalPlayer
             }
         }
 
-        private void OnDodge()
-        {
-            if (player.whoAmI == Main.myPlayer && dodgeScarf && !scarfCooldown && !eScarfCooldown)
-            {
-				if (evasionScarf)
-				{
-					player.AddBuff(ModContent.BuffType<EvasionScarfBoost>(), CalamityUtils.SecondsToFrames(9f));
-					player.AddBuff(ModContent.BuffType<EvasionScarfCooldown>(), player.chaosState ? CalamityUtils.SecondsToFrames(20f) : CalamityUtils.SecondsToFrames(13f));
-				}
-				else
-				{
-					player.AddBuff(ModContent.BuffType<ScarfMeleeBoost>(), 540);
-					player.AddBuff(ModContent.BuffType<ScarfCooldown>(), player.chaosState ? 1800 : 900);
-				}
-                player.immune = true;
-                player.immuneTime = player.longInvince ? 100 : 60;
-                for (int k = 0; k < player.hurtCooldowns.Length; k++)
-                {
-                    player.hurtCooldowns[k] = player.immuneTime;
-                }
-                for (int j = 0; j < 100; j++)
-                {
-                    int num = Dust.NewDust(player.position, player.width, player.height, 235, 0f, 0f, 100, default, 2f);
-                    Dust dust = Main.dust[num];
-                    dust.position.X += (float)Main.rand.Next(-20, 21);
-                    dust.position.Y += (float)Main.rand.Next(-20, 21);
-                    dust.velocity *= 0.4f;
-                    dust.scale *= 1f + (float)Main.rand.Next(40) * 0.01f;
-                    dust.shader = GameShaders.Armor.GetSecondaryShader(player.cWaist, player);
-                    if (Main.rand.NextBool(2))
-                    {
-                        dust.scale *= 1f + (float)Main.rand.Next(40) * 0.01f;
-                        dust.noGravity = true;
-                    }
-                }
-                if (player.whoAmI == Main.myPlayer)
-                {
-                    NetMessage.SendData(MessageID.Dodge, -1, -1, null, player.whoAmI, 1f, 0f, 0f, 0, 0, 0);
-                }
-            }
-        }
-
         public void ModHorizontalMovement()
         {
             float num = (player.accRunSpeed + player.maxRunSpeed) / 2f;
@@ -9814,6 +9811,9 @@ namespace CalamityMod.CalPlayer
             bool isChannelable = it.channel;
             bool hasNonWeaponFunction = isPickaxe || isAxe || isHammer || isPlaced || isChannelable;
             bool playerUsingWeapon = hasDamage && hasHitboxes && !hasNonWeaponFunction;
+			bool animationCheck = player.itemAnimation == player.itemAnimationMax - 1;
+			if (it.useAnimation == it.useTime)
+				animationCheck = player.itemTime == player.itemAnimationMax - 1;
             if (!stealthStrikeThisFrame && player.itemAnimation == player.itemAnimationMax - 1 && playerUsingWeapon)
                 ConsumeStealthByAttacking();
         }

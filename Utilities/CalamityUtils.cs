@@ -801,7 +801,7 @@ namespace CalamityMod
 					if (item.healMana > 0)
 						player.ManaEffect(item.healMana);
 				}
-				if (item.potion)
+				if (item.potion && healAmt > 0) //Don't inflict Potion Sickness if you don't actually heal
 				{
 					int duration = reducedPotionSickness ? 3000 : 3600;
 					if (player.pStone)
