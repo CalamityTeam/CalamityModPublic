@@ -9814,7 +9814,7 @@ namespace CalamityMod.CalPlayer
 			bool animationCheck = player.itemAnimation == player.itemAnimationMax - 1;
 			if (it.useAnimation == it.useTime)
 				animationCheck = player.itemTime == player.itemAnimationMax - 1;
-            if (!stealthStrikeThisFrame && player.itemAnimation == player.itemAnimationMax - 1 && playerUsingWeapon)
+            if (!stealthStrikeThisFrame && animationCheck && playerUsingWeapon)
                 ConsumeStealthByAttacking();
         }
 
