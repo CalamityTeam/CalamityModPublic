@@ -10,6 +10,8 @@ namespace CalamityMod.Items.Weapons.Rogue
 {
     public class ExecutionersBlade : RogueWeapon
     {
+		private int counter = 0;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Executioner's Blade");
@@ -20,11 +22,12 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SafeSetDefaults()
         {
             item.width = 64;
-            item.damage = 420;
+            item.damage = 467;
             item.noMelee = true;
             item.noUseGraphic = true;
             item.useTime = 3;
             item.useAnimation = 9;
+            item.reuseDelay = 1;
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.knockBack = 6.75f;
             item.UseSound = SoundID.Item73;
@@ -55,12 +58,16 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            if (player.Calamity().StealthStrikeAvailable())
+            if (player.Calamity().StealthStrikeAvailable() && counter == 0)
             {
                 int stealth = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
                 Main.projectile[stealth].Calamity().stealthStrike = true;
                 return false;
             }
+
+			counter++;
+			if (counter >= item.useAnimation / item.useTime)
+				counter = 0;
             return true;
         }
     }
