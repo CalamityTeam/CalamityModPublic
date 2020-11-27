@@ -3808,8 +3808,11 @@ Grants immunity to fire blocks, and temporary immunity to lava";
 							prefix = Main.rand.Next(22, 25);
 							break;
 						case 6:
-							// Legendary = 25
-							prefix = 25;
+							// Legendary = 25, Light = 6 ~We are tool friendly (=
+							if (item.pick > 0 || item.axe > 0 || item.hammer > 0)
+								prefix = Main.rand.NextBool() ? 25 : 6;
+							else
+								prefix = 25;
 							break;
 					}
 					switch (prefix)
