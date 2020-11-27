@@ -9958,7 +9958,7 @@ namespace CalamityMod.NPCs
                 npc.TargetClosest(true);
 
             // Despawn
-            int num649 = BossRushEvent.BossRushActive ? 4500 : 3000;
+            int num649 = 4500;
             if (Math.Abs(npc.Center.X - Main.player[npc.target].Center.X) + Math.Abs(npc.Center.Y - Main.player[npc.target].Center.Y) > num649)
             {
                 npc.TargetClosest(true);

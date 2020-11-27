@@ -121,6 +121,8 @@ namespace CalamityMod.Items
 				item.damage *= 3;
 			else if (CalamityLists.doubleDamageBuffList?.Contains(item.type) ?? false)
 				item.damage *= 2;
+			else if (item.type == ItemID.Terrarian)
+				item.damage = (int)(item.damage * 1.85);
 			else if (item.type == ItemID.RainbowRod)
 				item.damage = (int)(item.damage * 1.75);
 			else if (CalamityLists.sixtySixDamageBuffList?.Contains(item.type) ?? false)
