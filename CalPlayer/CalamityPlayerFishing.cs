@@ -494,7 +494,7 @@ namespace CalamityMod.CalPlayer
 
 				if (player.ZoneOverworldHeight && Main.bloodMoon)
 				{
-					if (Main.rand.NextBool(15))
+					if (Main.rand.NextBool(25))
 					{
 						caughtType = ModContent.ItemType<Xerocodile>();
 					}
