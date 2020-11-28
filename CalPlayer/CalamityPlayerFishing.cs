@@ -365,11 +365,11 @@ namespace CalamityMod.CalPlayer
 					{
 						caughtType = ModContent.ItemType<AldebaranAlewife>();
 					}
-					else if (player.cratePotion && astralFish <= 28 && astralFish >= 9) // 20%
+					else if (player.cratePotion && astralFish <= 18 && astralFish >= 9) // 10%
 					{
 						caughtType = ModContent.ItemType<AstralCrate>();
 					}
-					else if (!player.cratePotion && astralFish <= 18 && astralFish >= 9) // 10%
+					else if (!player.cratePotion && astralFish <= 13 && astralFish >= 9) // 5%
 					{
 						caughtType = ModContent.ItemType<AstralCrate>();
 					}
@@ -385,7 +385,7 @@ namespace CalamityMod.CalPlayer
 					{
 						caughtType = ModContent.ItemType<PolarisParrotfish>();
 					}
-					else // 31% w/o crate pot, 21% w/ crate pot
+					else // 36% w/o crate pot, 31% w/ crate pot
 					{
 						caughtType = ModContent.ItemType<TwinklingPollox>();
 						return;
@@ -407,11 +407,11 @@ namespace CalamityMod.CalPlayer
 					{
 						caughtType = ModContent.ItemType<CoralskinFoolfish>();
 					}
-					else if (player.cratePotion && sunkenFish <= 28 && sunkenFish >= 9) // 20%
+					else if (player.cratePotion && sunkenFish <= 18 && sunkenFish >= 9) // 10%
 					{
 						caughtType = ModContent.ItemType<SunkenCrate>();
 					}
-					else if (!player.cratePotion && sunkenFish <= 18 && sunkenFish >= 9) // 10%
+					else if (!player.cratePotion && sunkenFish <= 13 && sunkenFish >= 9) // 5%
 					{
 						caughtType = ModContent.ItemType<SunkenCrate>();
 					}
@@ -431,7 +431,7 @@ namespace CalamityMod.CalPlayer
 					{
 						caughtType = ModContent.ItemType<SparklingEmpress>();
 					}
-					else // 33% w/o crate pot, 23% w/ crate pot + 18% if prehardmode
+					else // 38% w/o crate pot, 33% w/ crate pot + 18% if prehardmode
 					{
 						caughtType = ModContent.ItemType<PrismaticGuppy>();
 						return;
@@ -526,11 +526,11 @@ namespace CalamityMod.CalPlayer
 					{
 						caughtType = ModContent.ItemType<ChaoticFish>();
 					}
-					else if (player.cratePotion && cragFish <= 40 && cragFish >= 21) // 20%
+					else if (player.cratePotion && cragFish <= 30 && cragFish >= 21) // 10%
 					{
 						caughtType = ModContent.ItemType<BrimstoneCrate>();
 					}
-					else if (!player.cratePotion && cragFish <= 30 && cragFish >= 21) // 10%
+					else if (!player.cratePotion && cragFish <= 25 && cragFish >= 21) // 5%
 					{
 						caughtType = ModContent.ItemType<BrimstoneCrate>();
 					}
@@ -546,7 +546,7 @@ namespace CalamityMod.CalPlayer
 					{
 						caughtType = ModContent.ItemType<CharredLasher>();
 					}
-					else // 27% w/o crate pot, 17% w/ crate pot, add 10% pre-Prov, add another 14% prehardmode
+					else // 32% w/o crate pot, 27% w/ crate pot, add 10% pre-Prov, add another 14% prehardmode
 					{
 						caughtType = ModContent.ItemType<CragBullhead>();
 					}
