@@ -4294,9 +4294,12 @@ Grants immunity to fire blocks, and temporary immunity to lava";
 							prefix = 6;
 							break;
 						case 5:
-						case 6:
 							// Mystic = 7
 							prefix = 7;
+							break;
+						case 6:
+							// Demonic = 8
+							prefix = 8;
 							break;
 					}
 					switch (prefix)
@@ -4323,6 +4326,9 @@ Grants immunity to fire blocks, and temporary immunity to lava";
 							break;
 						case 7:
 							prefix = PrefixID.Mystic;
+							break;
+						case 8:
+							prefix = PrefixID.Demonic;
 							break;
 					}
 				}
