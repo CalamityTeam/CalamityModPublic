@@ -284,7 +284,7 @@ namespace CalamityMod.CalPlayer
 				}
 				if ((player.ZoneCrimson || player.ZoneCorrupt) && player.ZoneRockLayerHeight && Main.hardMode)
 				{
-					if (Main.rand.NextBool(15))
+					if (Main.rand.NextBool(25))
 					{
 						caughtType = ModContent.ItemType<FishofNight>();
 					}
@@ -292,7 +292,7 @@ namespace CalamityMod.CalPlayer
 
 				if (player.ZoneHoly && player.ZoneRockLayerHeight && Main.hardMode)
 				{
-					if (Main.rand.NextBool(15))
+					if (Main.rand.NextBool(25))
 					{
 						caughtType = ModContent.ItemType<FishofLight>();
 					}
@@ -300,13 +300,9 @@ namespace CalamityMod.CalPlayer
 
 				if (player.ZoneSkyHeight && Main.hardMode)
 				{
-					if (Main.rand.NextBool(15))
+					if (Main.rand.NextBool(25))
 					{
-						caughtType = ModContent.ItemType<FishofFlight>();
-					}
-					else if (Main.rand.NextBool(14))
-					{
-						caughtType = ModContent.ItemType<SunbeamFish>();
+						caughtType = Main.rand.NextBool() ? ModContent.ItemType<SunbeamFish>() : ModContent.ItemType<FishofFlight>();
 					}
 				}
 
@@ -320,7 +316,7 @@ namespace CalamityMod.CalPlayer
 
 				if (player.ZoneOverworldHeight && Main.dayTime)
 				{
-					if (Main.rand.NextBool(15))
+					if (Main.rand.NextBool(25))
 					{
 						caughtType = ModContent.ItemType<StuffedFish>();
 					}
@@ -328,7 +324,7 @@ namespace CalamityMod.CalPlayer
 
 				if (player.ZoneRockLayerHeight)
 				{
-					if (Main.rand.NextBool(15))
+					if (Main.rand.NextBool(25))
 					{
 						caughtType = ModContent.ItemType<GlimmeringGemfish>();
 					}
@@ -336,7 +332,7 @@ namespace CalamityMod.CalPlayer
 
 				if (player.ZoneSnow)
 				{
-					if (Main.rand.NextBool(15) && Main.hardMode)
+					if (Main.rand.NextBool(25) && Main.hardMode)
 					{
 						caughtType = ModContent.ItemType<FishofEleum>();
 					}
