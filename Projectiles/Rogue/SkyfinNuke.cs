@@ -35,7 +35,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.rotation = projectile.velocity.ToRotation() + (projectile.spriteDirection == 1 ? 0f : MathHelper.Pi);
 
 			const float turnSpeed = 20f;
-			const float speedMult = projectile.Calamity().stealthStrike ? 15f : 20f;
+			float speedMult = projectile.Calamity().stealthStrike ? 15f : 20f;
 			const float homingRange = 800f;
 			if (!projectile.Calamity().stealthStrike) //normal attack
 			{
