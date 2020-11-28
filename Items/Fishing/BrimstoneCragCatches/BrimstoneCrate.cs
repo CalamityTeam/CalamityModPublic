@@ -1,4 +1,5 @@
 using CalamityMod.Items.Materials;
+using CalamityMod.Items.Potions;
 using CalamityMod.Tiles.Crags;
 using CalamityMod.World;
 using Terraria;
