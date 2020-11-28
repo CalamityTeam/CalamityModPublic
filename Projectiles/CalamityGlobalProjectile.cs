@@ -1767,16 +1767,17 @@ namespace CalamityMod.Projectiles
 
                     if (modPlayer.titanHeartSet && stealthStrike && modPlayer.titanCooldown <= 0 && stealthStrikeHitCount < 5)
                     {
-                        int dmg = (int)(85 + (projectile.damage * 0.05f));
-                        int boom = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ProjectileType<SabatonBoom>(), dmg, projectile.knockBack, projectile.owner, 0f, 0f);
+                        int dmg = (int)(100 + (projectile.damage * 0.01f));
+                        int boom = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ProjectileType<SabatonBoom>(), dmg, projectile.knockBack, projectile.owner, 1f, 0f);
                         Main.projectile[boom].Calamity().forceRogue = true;
-                        Main.PlaySound(SoundID.Item14, projectile.position);
+                        Main.PlaySound(SoundID.Item14, projectile.Center);
                         for (int dustexplode = 0; dustexplode < 360; dustexplode++)
                         {
                             Vector2 dustd = new Vector2(17f, 17f).RotatedBy(MathHelper.ToRadians(dustexplode));
-                            int d = Dust.NewDust(projectile.Center, projectile.width, projectile.height, Main.rand.NextBool(2) ? DustType<AstralBlue>() : DustType<AstralOrange>(), dustd.X, dustd.Y, 100, default, 3f);
+                            int d = Dust.NewDust(projectile.Center, projectile.width, projectile.height, Main.rand.NextBool(2) ? DustType<AstralBlue>() : DustType<AstralOrange>(), dustd.X, dustd.Y, 100, default, 1f);
                             Main.dust[d].noGravity = true;
                             Main.dust[d].position = projectile.Center;
+							Main.dust[d].velocity *= 0.1f;
                         }
                         modPlayer.titanCooldown = 15;
                     }
