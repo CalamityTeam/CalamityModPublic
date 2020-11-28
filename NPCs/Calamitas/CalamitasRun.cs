@@ -156,8 +156,8 @@ namespace CalamityMod.NPCs.Calamitas
         public override void NPCLoot()
         {
             DropHelper.DropItemChance(npc, ModContent.ItemType<CataclysmTrophy>(), 10);
-            DropHelper.DropItemChance(npc, ModContent.ItemType<BrimstoneFlamesprayer>(), Main.expertMode ? 10 : 12);
-            DropHelper.DropItemChance(npc, ModContent.ItemType<BrimstoneFlameblaster>(), Main.expertMode ? 10 : 12);
+            DropHelper.DropItemChance(npc, ModContent.ItemType<BrimstoneFlamesprayer>(), Main.expertMode ? 4 : 5);
+            DropHelper.DropItemChance(npc, ModContent.ItemType<BrimstoneFlameblaster>(), Main.expertMode ? 4 : 5);
         }
 
         public override void HitEffect(int hitDirection, double damage)
