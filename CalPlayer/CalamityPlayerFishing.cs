@@ -132,6 +132,7 @@ namespace CalamityMod.CalPlayer
 						int fishAmt = fishList.Count;
 						int caughtFish = fishList[Main.rand.Next(fishAmt)];
 						caughtType = caughtFish;
+						return;
 					}
 				}
 			}
@@ -534,7 +535,7 @@ namespace CalamityMod.CalPlayer
 					{
 						caughtType = ModContent.ItemType<Bloodfin>();
 					}
-					else if (cragFish <= 10 && cragFish >= 5) // 5%
+					else if (cragFish <= 10 && cragFish >= (Main.hardMode ? 8 : 6)) // 5% (3% hardmode)
 					{
 						caughtType = ModContent.ItemType<DragoonDrizzlefish>();
 					}
@@ -542,7 +543,7 @@ namespace CalamityMod.CalPlayer
 					{
 						caughtType = ModContent.ItemType<CharredLasher>();
 					}
-					else // 32% w/o crate pot, 27% w/ crate pot, add 10% pre-Prov, add another 14% prehardmode
+					else // 32% w/o crate pot, 27% w/ crate pot, add 10% pre-Prov, add another 12% prehardmode
 					{
 						caughtType = ModContent.ItemType<CragBullhead>();
 					}
