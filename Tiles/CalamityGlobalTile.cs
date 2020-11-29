@@ -159,7 +159,7 @@ namespace CalamityMod.Tiles
 				CheckShatterCrystal(i, j - 1);
 			}
 
-			if (Main.LocalPlayer.Calamity().reaverOrb && !fail)
+			if (Main.LocalPlayer.Calamity().reaverExplore && !fail)
 			{
 				Main.LocalPlayer.breath += 20;
 			}

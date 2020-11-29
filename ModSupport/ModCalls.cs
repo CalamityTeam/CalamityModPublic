@@ -656,7 +656,7 @@ namespace CalamityMod
 				case "reaver visage":
 					return mp.reaverSpeed;
 				case "reaver_damage":
-				case "reaver damage":;
+				case "reaver damage":
 				case "reaver_mask":
 				case "reaver mask":
 					return mp.reaverDamage;
@@ -999,7 +999,7 @@ namespace CalamityMod
 					mp.reaverSpeed = enabled;
 					return true;
 				case "reaver_damage":
-				case "reaver damage":;
+				case "reaver damage":
 				case "reaver_mask":
 				case "reaver mask":
 					mp.reaverDamage = enabled;
