@@ -41,6 +41,7 @@ using CalamityMod.Projectiles.Boss;
 using CalamityMod.Projectiles.DraedonsArsenal;
 using CalamityMod.Projectiles.Enemy;
 using CalamityMod.Projectiles.Environment;
+using CalamityMod.Projectiles.Healing;
 using CalamityMod.Projectiles.Melee;
 using CalamityMod.Projectiles.Ranged;
 using CalamityMod.Projectiles.Rogue;
@@ -679,6 +680,9 @@ namespace CalamityMod.CalPlayer
         public bool reaverDoubleTap = false;
         public bool reaverRegen = false;
         public int reaverRegenCooldown = 0;
+        public bool reaverBlast = false;
+        public bool reaverBurst = false;
+        public bool reaverOrb = false;
         public bool flamethrowerBoost = false;
         public bool hoverboardBoost = false; //hoverboard + shroomite visage
         public bool shadeRegen = false;
@@ -693,8 +697,6 @@ namespace CalamityMod.CalPlayer
         public bool titanHeartBoots = false;
         public int titanCooldown = 0;
         public bool umbraphileSet = false;
-        public bool reaverBlast = false;
-        public bool reaverBurst = false;
         public bool fathomSwarmer = false;
         public bool fathomSwarmerVisage = false;
         public bool fathomSwarmerBreastplate = false;
@@ -740,7 +742,6 @@ namespace CalamityMod.CalPlayer
         public bool fearmongerSet = false;
         public int fearmongerRegenFrames = 0;
         public bool daedalusCrystal = false;
-        public bool reaverOrb = false;
         public bool chaosSpirit = false;
         public bool redDevil = false;
         #endregion
@@ -935,7 +936,6 @@ namespace CalamityMod.CalPlayer
         public bool sGod = false;
         public bool vUrchin = false;
         public bool cSpirit = false;
-        public bool rOrb = false;
         public bool dCrystal = false;
         public bool endoHydra = false;
         public bool powerfulRaven = false;
@@ -1673,6 +1673,7 @@ namespace CalamityMod.CalPlayer
             reaverDoubleTap = false;
             reaverBlast = false;
             reaverBurst = false;
+            reaverOrb = false;
 
             ironBoots = false;
             depthCharm = false;
@@ -1949,7 +1950,6 @@ namespace CalamityMod.CalPlayer
             aProbe = false;
             vUrchin = false;
             cSpirit = false;
-            rOrb = false;
             dCrystal = false;
             youngDuke = false;
             sandWaifu = false;
@@ -1965,7 +1965,6 @@ namespace CalamityMod.CalPlayer
             slimeGod = false;
             urchin = false;
             chaosSpirit = false;
-            reaverOrb = false;
             daedalusCrystal = false;
             shellfish = false;
             hCrab = false;
@@ -2326,6 +2325,9 @@ namespace CalamityMod.CalPlayer
             reaverDoubleTap = false;
 			reaverRegen = false;
 			reaverRegenCooldown = 0;
+            reaverBlast = false;
+            reaverBurst = false;
+			reaverOrb = false;
             shadeRegen = false;
             dsSetBonus = false;
             titanHeartSet = false;
@@ -2334,8 +2336,6 @@ namespace CalamityMod.CalPlayer
             titanHeartBoots = false;
 			titanCooldown = 0;
             umbraphileSet = false;
-            reaverBlast = false;
-            reaverBurst = false;
             fathomSwarmer = false;
             fathomSwarmerVisage = false;
             fathomSwarmerBreastplate = false;
@@ -4776,6 +4776,39 @@ namespace CalamityMod.CalPlayer
                     target.AddBuff(BuffID.Venom, 120, false);
                 }
             }
+			if (reaverSpore)
+			{
+				player.lifeRegenTime += 1;
+                if (Main.player[Main.myPlayer].lifeSteal > 0f && target.canGhostHeal && target.type != NPCID.TargetDummy && target.type != NPCType<SuperDummyNPC>() && !player.moonLeech)
+                {
+					float healMult = 0.1f;
+					float heal = damage * healMult;
+
+					if (heal > 50)
+						heal = 50;
+
+					if ((int)heal > 0 && !Main.player[Main.myPlayer].moonLeech)
+					{
+						Main.player[Main.myPlayer].lifeSteal -= heal * 2f;
+						float lowestHealthCheck = 0f;
+						int healTarget = player.whoAmI;
+						for (int i = 0; i < Main.maxPlayers; i++)
+						{
+							Player otherPlayer = Main.player[i];
+							if (otherPlayer.active && !otherPlayer.dead && ((!player.hostile && !otherPlayer.hostile) || player.team == otherPlayer.team))
+							{
+								float playerDist = Vector2.Distance(target.Center, otherPlayer.Center);
+								if (playerDist < 1200f && (otherPlayer.statLifeMax2 - otherPlayer.statLife) > lowestHealthCheck)
+								{
+									lowestHealthCheck = otherPlayer.statLifeMax2 - otherPlayer.statLife;
+									healTarget = i;
+								}
+							}
+						}
+						Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<ReaverHealOrb>(), 0, 0f, player.whoAmI, healTarget, heal);
+					}
+				}
+			}
         }
         #endregion
 
@@ -11263,6 +11296,7 @@ namespace CalamityMod.CalPlayer
             range *= fishAlert ? 3f : 1f;
             range *= abyssalMirror ? 0.65f : 1f;
             range *= eclipseMirror ? 0.3f : 1f;
+            range *= reaverOrb ? 0.9f : 1f;
             return range;
         }
 

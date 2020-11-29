@@ -1284,6 +1284,20 @@ namespace CalamityMod.Projectiles
         }
         #endregion
 
+        #region Grappling Hooks
+        public override void GrapplePullSpeed(Projectile projectile, Player player, ref float speed) 
+        {
+            if (player.Calamity().reaverDoubleTap)
+				speed *= 1.1f;
+        }
+
+        public override void GrappleRetreatSpeed(Projectile projectile, Player player, ref float speed) 
+        {
+            if (player.Calamity().reaverDoubleTap)
+				speed *= 1.1f;
+        }
+        #endregion
+
         #region ModifyHitNPC
         public override void ModifyHitNPC(Projectile projectile, NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
@@ -1559,21 +1573,21 @@ namespace CalamityMod.Projectiles
 
                             SpawnLifeStealProjectile(projectile, player, heal, ProjectileType<AtaxiaHealOrb>(), 1200f, 2f);
                         }
-                        else if (modPlayer.reaverSpore)
-                        {
-                            float healMult = 0.1f;
-                            healMult -= projectile.numHits * 0.05f;
-                            float heal = projectile.damage * healMult;
-
-                            if (heal > 50)
-                                heal = 50;
-
-                            if (!CanSpawnLifeStealProjectile(projectile, healMult, heal))
-                                goto OTHEREFFECTS;
-
-                            SpawnLifeStealProjectile(projectile, player, heal, ProjectileType<ReaverHealOrb>(), 1200f, 2f);
-                        }
                     }
+					if (modPlayer.reaverSpore)
+					{
+						float healMult = 0.1f;
+						healMult -= projectile.numHits * 0.05f;
+						float heal = projectile.damage * healMult;
+
+						if (heal > 50)
+							heal = 50;
+
+						if (!CanSpawnLifeStealProjectile(projectile, healMult, heal))
+							goto OTHEREFFECTS;
+
+						SpawnLifeStealProjectile(projectile, player, heal, ProjectileType<ReaverHealOrb>(), 1200f, 2f);
+					}
                 }
 
                 OTHEREFFECTS:

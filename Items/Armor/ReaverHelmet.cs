@@ -61,9 +61,11 @@ namespace CalamityMod.Items.Armor
             player.setBonus = "Causes nearby treasure to sparkle\n" +
 				"Increased item grab range and 10% increased fishing power\n" +
 				"Mining tiles restores breath while underwater\n" +
+                "Reduces enemy aggression, even in the abyss\n" +
                 "Provides a small amount of light in the abyss";
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.reaverOrb = true;
+            player.aggro -= 200;
 
             Lighting.AddLight((int)player.Center.X / 16, (int)player.Center.Y / 16, 0.3f, 1.5f, 0.3f);
 			if (player.miscCounter % 10 == 0)

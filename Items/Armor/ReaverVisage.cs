@@ -42,10 +42,11 @@ namespace CalamityMod.Items.Armor
             modPlayer.reaverDoubleTap = true;
             player.setBonus = "Grants immunity to fall damage and allows constant jumping\n" +
                 "10% increased flight time and horizontal wing speed\n" +
+				"Hooks fly out and retract 10% faster\n" +
 				"Reduces the cooldown of dashes";
             player.noFallDmg = true;
             player.autoJump = true;
-			if (player.miscCounter % 3 == 2)
+			if (player.miscCounter % 3 == 2 && player.dashDelay > 0)
 				player.dashDelay--;
         }
 

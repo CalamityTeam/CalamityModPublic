@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Armor
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Reaver Mask");
-            Tooltip.SetDefault("10% increased critical strike chance and 5% increased damage");
+            Tooltip.SetDefault("5% increased damage and 10% increased critical strike chance");
         }
 
         public override void SetDefaults()
