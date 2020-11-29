@@ -936,6 +936,7 @@ namespace CalamityMod.CalPlayer
         public bool sGod = false;
         public bool vUrchin = false;
         public bool cSpirit = false;
+        public bool rOrb = false;
         public bool dCrystal = false;
         public bool endoHydra = false;
         public bool powerfulRaven = false;
@@ -1950,6 +1951,7 @@ namespace CalamityMod.CalPlayer
             aProbe = false;
             vUrchin = false;
             cSpirit = false;
+			rOrb = false;
             dCrystal = false;
             youngDuke = false;
             sandWaifu = false;
@@ -4781,11 +4783,13 @@ namespace CalamityMod.CalPlayer
 				player.lifeRegenTime += 1;
                 if (Main.player[Main.myPlayer].lifeSteal > 0f && target.canGhostHeal && target.type != NPCID.TargetDummy && target.type != ModContent.NPCType<SuperDummyNPC>() && !player.moonLeech)
                 {
-					float healMult = 0.1f;
+					float healMult = 0.2f;
 					float heal = damage * healMult;
 
 					if (heal > 50)
 						heal = 50;
+					if (Main.rand.Next(10) > 0)
+						heal = 0;
 
 					if ((int)heal > 0 && !Main.player[Main.myPlayer].moonLeech)
 					{

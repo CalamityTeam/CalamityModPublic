@@ -43,7 +43,7 @@ namespace CalamityMod.Items.Armor
             player.setBonus = "15% increased damage and 5% increased critical strike chance\n" +
 				"20% chance to not consume ammo or rogue weapons\n" +
 				"+80 max mana and 10% increased melee speed\n" +
-				"+1 max minions and +1 max sentry\n" +
+				"+1 max minions and max sentries\n" +
 				"However, damage taken is increased by 10% and healing potions are 10% less effective";
             player.statManaMax2 += 80;
 			player.maxMinions += 1;

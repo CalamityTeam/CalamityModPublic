@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Armor
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Reaver Headgear");
-            Tooltip.SetDefault("+50 health\n" +
+            Tooltip.SetDefault("+50 max life\n" +
 			"Passively regenerates one health point every second");
         }
 

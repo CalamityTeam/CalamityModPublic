@@ -1576,12 +1576,14 @@ namespace CalamityMod.Projectiles
                     }
 					if (modPlayer.reaverSpore)
 					{
-						float healMult = 0.1f;
+						float healMult = 0.2f;
 						healMult -= projectile.numHits * 0.05f;
 						float heal = projectile.damage * healMult;
 
 						if (heal > 50)
 							heal = 50;
+						if (Main.rand.Next(10) > 0)
+							heal = 0;
 
 						if (!CanSpawnLifeStealProjectile(projectile, healMult, heal))
 							goto OTHEREFFECTS;

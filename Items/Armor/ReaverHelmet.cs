@@ -61,13 +61,24 @@ namespace CalamityMod.Items.Armor
             player.setBonus = "Causes nearby treasure to sparkle\n" +
 				"Increased item grab range and 10% increased fishing power\n" +
 				"Mining tiles restores breath while underwater\n" +
+				"Summons a reaver orb to light up the area around you\n" +
                 "Reduces enemy aggression, even in the abyss\n" +
                 "Provides a small amount of light in the abyss";
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.reaverOrb = true;
             player.aggro -= 200;
 
-            Lighting.AddLight((int)player.Center.X / 16, (int)player.Center.Y / 16, 0.3f, 1.5f, 0.3f);
+            if (player.whoAmI == Main.myPlayer)
+            {
+                if (player.FindBuffIndex(ModContent.BuffType<ReaverOrbBuff>()) == -1)
+                {
+                    player.AddBuff(ModContent.BuffType<ReaverOrbBuff>(), 3600, true);
+                }
+                if (player.ownedProjectileCounts[ModContent.ProjectileType<ReaverOrb>()] < 1)
+                {
+                    Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<ReaverOrb>(), 0, 0f, player.whoAmI);
+                }
+            }
 			if (player.miscCounter % 10 == 0)
 			{
 				int searchDist = 17;
