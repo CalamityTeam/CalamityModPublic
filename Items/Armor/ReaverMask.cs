@@ -64,8 +64,8 @@ namespace CalamityMod.Items.Armor
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<DraedonBar>(), 8);
-			recipe.AddIngredient(ItemID.JungleSpores, 6);
+            recipe.AddIngredient(ModContent.ItemType<DraedonBar>(), 6);
+			recipe.AddIngredient(ItemID.JungleSpores, 4);
 			recipe.AddIngredient(ModContent.ItemType<EssenceofCinder>());
 			recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
