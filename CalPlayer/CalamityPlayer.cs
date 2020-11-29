@@ -4779,7 +4779,7 @@ namespace CalamityMod.CalPlayer
 			if (reaverSpore)
 			{
 				player.lifeRegenTime += 1;
-                if (Main.player[Main.myPlayer].lifeSteal > 0f && target.canGhostHeal && target.type != NPCID.TargetDummy && target.type != NPCType<SuperDummyNPC>() && !player.moonLeech)
+                if (Main.player[Main.myPlayer].lifeSteal > 0f && target.canGhostHeal && target.type != NPCID.TargetDummy && target.type != ModContent.NPCType<SuperDummyNPC>() && !player.moonLeech)
                 {
 					float healMult = 0.1f;
 					float heal = damage * healMult;
