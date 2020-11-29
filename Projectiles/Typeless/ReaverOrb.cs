@@ -35,7 +35,7 @@ namespace CalamityMod.Projectiles.Typeless
             bool correctMinion = projectile.type == ModContent.ProjectileType<ReaverOrb>();
             Player player = Main.player[projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
-            if (!modPlayer.reaverOrb)
+            if (!modPlayer.reaverExplore)
             {
                 projectile.active = false;
                 return;

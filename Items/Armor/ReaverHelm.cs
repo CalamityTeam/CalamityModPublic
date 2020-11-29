@@ -42,7 +42,7 @@ namespace CalamityMod.Items.Armor
             player.thorns += 0.33f;
             player.moveSpeed -= 0.2f;
 			player.statDefense += 10;
-            modPlayer.reaverBlast = true;
+            modPlayer.reaverDefense = true;
             player.setBonus = "+10 defense\n" +
 			"20% decreased movement speed and flight time\n" +
 			"Enemy damage is reflected and summons a thorn spike\n" +

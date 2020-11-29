@@ -3509,7 +3509,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                 (modPlayer.holyWrath ? 0.05f : 0f) +
                 (modPlayer.profanedRage ? 0.05f : 0f) +
                 (modPlayer.draconicSurge ? 0.15f : 0f) +
-                (modPlayer.reaverDoubleTap ? 0.1f : 0f) +
+                (modPlayer.reaverSpeed ? 0.1f : 0f) +
                 (modPlayer.etherealExtorter && modPlayer.ZoneAstral ? 0.05f : 0f);
             if (flightSpeedMult > 1.2f)
                 flightSpeedMult = 1.2f;
@@ -3533,7 +3533,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                 (modPlayer.wallOfFleshLore ? 10 : 0) +
                 (modPlayer.planteraLore ? 20 : 0) +
                 (modPlayer.polterghastLore ? 30 : 0) +
-                (modPlayer.reaverOrb ? 20 : 0);
+                (modPlayer.reaverExplore ? 20 : 0);
 
             grabRange += itemGrabRangeBoost;
         }

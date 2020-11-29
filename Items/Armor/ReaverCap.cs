@@ -40,7 +40,7 @@ namespace CalamityMod.Items.Armor
         public override void UpdateArmorSet(Player player)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            modPlayer.reaverSpore = true;
+            modPlayer.reaverHealth = true;
             player.setBonus = "5% increased damage and +3 life regen\n" +
 				"Reduces the life regen lost from damage over time debuffs by 20%\n" +
                 "All attacks have a small chance to steal life and speed up the rate of life regen";

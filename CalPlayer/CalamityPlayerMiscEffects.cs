@@ -3043,7 +3043,7 @@ namespace CalamityMod.CalPlayer
 					player.wingTimeMax = (int)(player.wingTimeMax * 1.05);
 			}
 
-			if (modPlayer.reaverDoubleTap)
+			if (modPlayer.reaverSpeed)
 			{
 				if (player.wingTimeMax > 0)
 					player.wingTimeMax = (int)(player.wingTimeMax * 1.1);
@@ -3148,7 +3148,7 @@ namespace CalamityMod.CalPlayer
 				player.allDamage += 0.1f;
 			}
 
-			if (modPlayer.reaverBlast)
+			if (modPlayer.reaverDefense)
 			{
 				if (player.wingTimeMax > 0)
 					player.wingTimeMax = (int)(player.wingTimeMax * 0.8);

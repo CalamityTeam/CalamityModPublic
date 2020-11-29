@@ -676,13 +676,13 @@ namespace CalamityMod.CalPlayer
         public bool brimflameFrenzy = false;
         public bool brimflameFrenzyCooldown = false;
         public int brimflameFrenzyTimer = 0;
-        public bool reaverSpore = false;
-        public bool reaverDoubleTap = false;
+        public bool reaverHealth = false;
+        public bool reaverSpeed = false;
         public bool reaverRegen = false;
         public int reaverRegenCooldown = 0;
-        public bool reaverBlast = false;
-        public bool reaverBurst = false;
-        public bool reaverOrb = false;
+        public bool reaverDefense = false;
+        public bool reaverDamage = false;
+        public bool reaverExplore = false;
         public bool flamethrowerBoost = false;
         public bool hoverboardBoost = false; //hoverboard + shroomite visage
         public bool shadeRegen = false;
@@ -1669,12 +1669,12 @@ namespace CalamityMod.CalPlayer
             brimflameFrenzy = false;
             brimflameFrenzyCooldown = false;
 
-            reaverSpore = false;
+            reaverHealth = false;
 			reaverRegen = false;
-            reaverDoubleTap = false;
-            reaverBlast = false;
-            reaverBurst = false;
-            reaverOrb = false;
+            reaverSpeed = false;
+            reaverDefense = false;
+            reaverDamage = false;
+            reaverExplore = false;
 
             ironBoots = false;
             depthCharm = false;
@@ -2323,13 +2323,13 @@ namespace CalamityMod.CalPlayer
             brimflameFrenzy = false;
             brimflameFrenzyCooldown = false;
 			brimflameFrenzyTimer = 0;
-            reaverSpore = false;
-            reaverDoubleTap = false;
+            reaverHealth = false;
+            reaverSpeed = false;
 			reaverRegen = false;
 			reaverRegenCooldown = 0;
-            reaverBlast = false;
-            reaverBurst = false;
-			reaverOrb = false;
+            reaverDefense = false;
+            reaverDamage = false;
+			reaverExplore = false;
             shadeRegen = false;
             dsSetBonus = false;
             titanHeartSet = false;
@@ -3578,7 +3578,7 @@ namespace CalamityMod.CalPlayer
             {
                 meleeSpeedMult += 0.12f;
             }
-			if (reaverBurst)
+			if (reaverDamage)
 			{
 				meleeSpeedMult += 0.1f;
 			}
@@ -4383,7 +4383,7 @@ namespace CalamityMod.CalPlayer
 			double healMult = 1D +
 					(coreOfTheBloodGod ? 0.15 : 0) +
 					(bloodPactBoost ? 0.5 : 0) -
-					(reaverBurst ? 0.1 : 0);
+					(reaverDamage ? 0.1 : 0);
 			healValue = (int)(healValue * healMult);
 			if (CalamityWorld.ironHeart)
 				healValue = 0;
@@ -4778,7 +4778,7 @@ namespace CalamityMod.CalPlayer
                     target.AddBuff(BuffID.Venom, 120, false);
                 }
             }
-			if (reaverSpore)
+			if (reaverHealth)
 			{
 				player.lifeRegenTime += 1;
                 if (Main.player[Main.myPlayer].lifeSteal > 0f && target.canGhostHeal && target.type != NPCID.TargetDummy && target.type != ModContent.NPCType<SuperDummyNPC>() && !player.moonLeech)
@@ -7675,7 +7675,7 @@ namespace CalamityMod.CalPlayer
                 ((player.beetleDefense && player.beetleOrbs > 0) ? (0.05 * player.beetleOrbs) : 0D) +
                 (enraged ? 0.25 : 0D) +
                 ((CalamityWorld.defiled && Main.rand.NextBool(4)) ? 0.5 : 0D) +
-                (reaverBurst ? 0.1 : 0D);
+                (reaverDamage ? 0.1 : 0D);
 
 			if (bloodPact && Main.rand.NextBool(4))
 			{
@@ -7838,7 +7838,7 @@ namespace CalamityMod.CalPlayer
                     player.AddBuff(ModContent.BuffType<XerocRage>(), 240);
                     player.AddBuff(ModContent.BuffType<XerocWrath>(), 240);
                 }
-                else if (reaverBlast)
+                else if (reaverDefense)
                 {
                     if (Main.rand.NextBool(4))
                     {
@@ -8192,7 +8192,7 @@ namespace CalamityMod.CalPlayer
                     }
                 }
             }
-            else if (reaverBlast) //Defense and DR Helm
+            else if (reaverDefense) //Defense and DR Helm
             {
                 if (damage > 0)
                 {
@@ -11300,7 +11300,7 @@ namespace CalamityMod.CalPlayer
             range *= fishAlert ? 3f : 1f;
             range *= abyssalMirror ? 0.65f : 1f;
             range *= eclipseMirror ? 0.3f : 1f;
-            range *= reaverOrb ? 0.9f : 1f;
+            range *= reaverExplore ? 0.9f : 1f;
             return range;
         }
 

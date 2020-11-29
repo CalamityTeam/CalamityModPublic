@@ -65,7 +65,7 @@ namespace CalamityMod.Items.Armor
                 "Reduces enemy aggression, even in the abyss\n" +
                 "Provides a small amount of light in the abyss";
             CalamityPlayer modPlayer = player.Calamity();
-            modPlayer.reaverOrb = true;
+            modPlayer.reaverExplore = true;
             player.aggro -= 200;
 
             if (player.whoAmI == Main.myPlayer)

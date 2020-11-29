@@ -39,7 +39,7 @@ namespace CalamityMod.Items.Armor
         public override void UpdateArmorSet(Player player)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            modPlayer.reaverBurst = true;
+            modPlayer.reaverDamage = true;
             player.setBonus = "15% increased damage and 5% increased critical strike chance\n" +
 				"20% chance to not consume ammo or rogue weapons\n" +
 				"+80 max mana and 10% increased melee speed\n" +

@@ -1287,13 +1287,13 @@ namespace CalamityMod.Projectiles
         #region Grappling Hooks
         public override void GrapplePullSpeed(Projectile projectile, Player player, ref float speed) 
         {
-            if (player.Calamity().reaverDoubleTap)
+            if (player.Calamity().reaverSpeed)
 				speed *= 1.1f;
         }
 
         public override void GrappleRetreatSpeed(Projectile projectile, Player player, ref float speed) 
         {
-            if (player.Calamity().reaverDoubleTap)
+            if (player.Calamity().reaverSpeed)
 				speed *= 1.1f;
         }
         #endregion
@@ -1574,7 +1574,7 @@ namespace CalamityMod.Projectiles
                             SpawnLifeStealProjectile(projectile, player, heal, ProjectileType<AtaxiaHealOrb>(), 1200f, 2f);
                         }
                     }
-					if (modPlayer.reaverSpore)
+					if (modPlayer.reaverHealth)
 					{
 						float healMult = 0.2f;
 						healMult -= projectile.numHits * 0.05f;
@@ -1983,7 +1983,7 @@ namespace CalamityMod.Projectiles
                         }
                     }
                 }
-				if (modPlayer.reaverSpore)
+				if (modPlayer.reaverHealth)
 					player.lifeRegenTime += 1;
             }
         }
