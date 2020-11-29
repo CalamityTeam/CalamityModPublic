@@ -43,6 +43,7 @@ namespace CalamityMod.Items.Armor
             player.moveSpeed -= 0.2f;
 			player.statDefense += 10;
             modPlayer.reaverDefense = true;
+            modPlayer.wearingRogueArmor = true;
             player.setBonus = "+10 defense\n" +
 			"20% decreased movement speed and flight time\n" +
 			"Enemy damage is reflected and summons a thorn spike\n" +

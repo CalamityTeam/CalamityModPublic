@@ -50,8 +50,9 @@ namespace CalamityMod.Items.Armor
 			player.maxTurrets += 1;
 			modPlayer.throwingAmmoCost *= 0.8f;
 			modPlayer.rangedAmmoCost *= 0.8f;
-            player.Calamity().AllCritBoost(5);
+            modPlayer.AllCritBoost(5);
 			player.allDamage += 0.15f;
+            modPlayer.wearingRogueArmor = true;
         }
 
         public override void UpdateEquip(Player player)

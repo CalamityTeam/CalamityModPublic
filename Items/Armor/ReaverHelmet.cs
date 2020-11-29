@@ -68,6 +68,7 @@ namespace CalamityMod.Items.Armor
                 "Provides a small amount of light in the abyss";
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.reaverExplore = true;
+            modPlayer.wearingRogueArmor = true;
             player.aggro -= 200;
 
             if (player.whoAmI == Main.myPlayer)

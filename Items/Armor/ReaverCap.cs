@@ -41,6 +41,7 @@ namespace CalamityMod.Items.Armor
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.reaverHealth = true;
+            modPlayer.wearingRogueArmor = true;
             player.setBonus = "5% increased damage and +3 life regen\n" +
 				"Reduces the life regen lost from damage over time debuffs by 20%\n" +
                 "All attacks have a small chance to steal life and speed up the rate of life regen";

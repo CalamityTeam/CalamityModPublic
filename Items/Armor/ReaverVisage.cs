@@ -40,6 +40,7 @@ namespace CalamityMod.Items.Armor
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.reaverSpeed = true;
+            modPlayer.wearingRogueArmor = true;
             player.setBonus = "Grants immunity to fall damage and allows constant jumping\n" +
                 "10% increased flight time and horizontal wing speed\n" +
 				"Hooks fly out and retract 10% faster\n" +
