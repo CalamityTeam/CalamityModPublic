@@ -23,7 +23,7 @@ namespace CalamityMod.CalPlayer
 			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
 			double lifeRegenMult = death ? 1.5 : 1D;
 			if (modPlayer.reaverSpore)
-				lifeRegen *= 0.8;
+				lifeRegenMult *= 0.8;
 			int lifeRegenLost = 0;
 
             // Initial Debuffs
