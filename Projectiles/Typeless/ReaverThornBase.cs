@@ -6,6 +6,8 @@ namespace CalamityMod.Projectiles.Typeless
 {
 	public class ReaverThornBase : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Melee/ThornBase";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Thorn");

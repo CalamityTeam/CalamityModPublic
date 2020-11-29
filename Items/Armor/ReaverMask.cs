@@ -13,8 +13,7 @@ namespace CalamityMod.Items.Armor
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Reaver Mask");
-            Tooltip.SetDefault("15% increased magic damage, 12% reduced mana cost, and 5% increased magic critical strike chance\n" +
-                "10% increased movement speed, can move freely through liquids, and +80 max mana");
+            Tooltip.SetDefault("10% increased critical strike chance and 5% increased damage");
         }
 
         public override void SetDefaults()
@@ -23,7 +22,7 @@ namespace CalamityMod.Items.Armor
             item.height = 22;
             item.value = Item.buyPrice(0, 30, 0, 0);
             item.rare = 7;
-            item.defense = 7; //40
+            item.defense = 3; //36
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
@@ -41,19 +40,24 @@ namespace CalamityMod.Items.Armor
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.reaverBurst = true;
-            player.setBonus = "5% increased magic damage\n" +
-                "Your magic projectiles emit a burst of spore gas on enemy hits";
-            player.magicDamage += 0.05f;
+            player.setBonus = "15% increased damage and 5% increased critical strike chance\n" +
+				"20% chance to not consume ammo or rogue weapons\n" +
+				"+80 max mana and 10% increased melee speed\n" +
+				"+1 max minions and +1 max sentry\n" +
+				"However, damage taken is increased by 10% and healing potions are 10% less effective";
+            player.statManaMax2 += 80;
+			player.maxMinions += 1;
+			player.maxTurrets += 1;
+			modPlayer.throwingAmmoCost *= 0.8f;
+			modPlayer.rangedAmmoCost *= 0.8f;
+            player.Calamity().AllCritBoost(5);
+			player.allDamage += 0.15f;
         }
 
         public override void UpdateEquip(Player player)
         {
-            player.ignoreWater = true;
-            player.magicDamage += 0.15f;
-            player.magicCrit += 5;
-            player.manaCost *= 0.88f;
-            player.moveSpeed += 0.1f;
-            player.statManaMax2 += 80;
+            player.Calamity().AllCritBoost(10);
+			player.allDamage += 0.05f;
         }
 
         public override void AddRecipes()

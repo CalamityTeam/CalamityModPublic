@@ -135,6 +135,7 @@ namespace CalamityMod.CalPlayer
 		public bool noLifeRegen = false;
 		public int itemTypeLastReforged = 0;
 		public int reforgeTierSafety = 0;
+		public float rangedAmmoCost = 1f;
         #endregion
 
         #region Tile Entity Trackers
@@ -244,7 +245,6 @@ namespace CalamityMod.CalPlayer
 		public int auralisAuroraCooldown = 0;
 		public int auralisAurora = 0;
 		public int fungalSymbioteTimer = 0;
-		public bool canFireReaverRangedProjectile = false;
 		public bool canFireAtaxiaRangedProjectile = false;
 		public bool canFireAtaxiaRogueProjectile = false;
 		public bool canFireGodSlayerRangedProjectile = false;
@@ -1396,6 +1396,7 @@ namespace CalamityMod.CalPlayer
 			accStealthGenBoost = 0f;
 
 			trueMeleeDamage = 0D;
+			rangedAmmoCost = 1f;
 
             dashMod = 0;
             externalAbyssLight = 0;
@@ -2053,7 +2054,6 @@ namespace CalamityMod.CalPlayer
         #region UpdateDead
         public override void UpdateDead()
         {
-            #region Debuffs
             deathModeBlizzardTime = 0;
             deathModeUnderworldTime = 0;
             gaelRageCooldown = 0;
@@ -2108,7 +2108,9 @@ namespace CalamityMod.CalPlayer
 			roverDriveTimer = 0;
 			resetHeightandWidth = false;
 			noLifeRegen = false;
+			rangedAmmoCost = 1f;
 
+            #region Debuffs
             alcoholPoisoning = false;
             shadowflame = false;
             wDeath = false;
@@ -3574,6 +3576,10 @@ namespace CalamityMod.CalPlayer
             {
                 meleeSpeedMult += 0.12f;
             }
+			if (reaverBurst)
+			{
+				meleeSpeedMult += 0.1f;
+			}
             if (badgeOfBravery)
             {
                 meleeSpeedMult += 0.15f;
@@ -4374,7 +4380,8 @@ namespace CalamityMod.CalPlayer
 		{
 			double healMult = 1D +
 					(coreOfTheBloodGod ? 0.15 : 0) +
-					(bloodPactBoost ? 0.5 : 0);
+					(bloodPactBoost ? 0.5 : 0) -
+					(reaverBurst ? 0.1 : 0);
 			healValue = (int)(healValue * healMult);
 			if (CalamityWorld.ironHeart)
 				healValue = 0;
@@ -7630,7 +7637,8 @@ namespace CalamityMod.CalPlayer
                 (DoGLore ? 0.05 : 0D) +
                 ((player.beetleDefense && player.beetleOrbs > 0) ? (0.05 * player.beetleOrbs) : 0D) +
                 (enraged ? 0.25 : 0D) +
-                ((CalamityWorld.defiled && Main.rand.NextBool(4)) ? 0.5 : 0D);
+                ((CalamityWorld.defiled && Main.rand.NextBool(4)) ? 0.5 : 0D) +
+                (reaverBurst ? 0.1 : 0D);
 
 			if (bloodPact && Main.rand.NextBool(4))
 			{
@@ -7795,7 +7803,10 @@ namespace CalamityMod.CalPlayer
                 }
                 else if (reaverBlast)
                 {
-                    player.AddBuff(ModContent.BuffType<ReaverRage>(), 180);
+                    if (Main.rand.NextBool(4))
+                    {
+						player.AddBuff(ModContent.BuffType<ReaverRage>(), 180);
+					}
                 }
                 if (fBarrier || (sirenBoobs && NPC.downedBoss3))
                 {
@@ -8140,33 +8151,6 @@ namespace CalamityMod.CalPlayer
                             int shard2 = Projectile.NewProjectile(player.Center.X, player.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f) + randomSpeed2, ProjectileID.CrystalShard, sDamage, 1f, player.whoAmI, 0f, 0f);
                             Main.projectile[shard].Calamity().forceTypeless = true;
                             Main.projectile[shard2].Calamity().forceTypeless = true;
-                        }
-                    }
-                }
-            }
-            else if (reaverSpore)
-            {
-                if (damage > 0)
-                {
-                    Main.PlaySound(SoundID.Item, (int)player.position.X, (int)player.position.Y, 1);
-                    float spread = 45f * 0.0174f;
-                    double startAngle = Math.Atan2(player.velocity.X, player.velocity.Y) - spread / 2;
-                    double deltaAngle = spread / 8f;
-                    double offsetAngle;
-                    int rDamage = (int)(58 * player.RogueDamage()); //Reaver rogue helm
-                    if (player.whoAmI == Main.myPlayer)
-                    {
-                        for (int i = 0; i < 4; i++)
-                        {
-                            float xPos = Main.rand.NextBool(2) ? player.Center.X + 100 : player.Center.X - 100;
-                            Vector2 spawnPos = new Vector2(xPos, player.Center.Y + Main.rand.Next(-100, 101));
-                            offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-                            int rspore1 = Projectile.NewProjectile(spawnPos.X, spawnPos.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<ReaverSpore>(), rDamage, 2f, player.whoAmI, 0f, 0f);
-                            Main.projectile[rspore1].usesLocalNPCImmunity = true;
-                            Main.projectile[rspore1].localNPCHitCooldown = 60;
-                            int rspore2 = Projectile.NewProjectile(spawnPos.X, spawnPos.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<ReaverSpore>(), rDamage, 2f, player.whoAmI, 1f, 0f);
-                            Main.projectile[rspore2].usesLocalNPCImmunity = true;
-                            Main.projectile[rspore2].localNPCHitCooldown = 60;
                         }
                     }
                 }

@@ -26,7 +26,7 @@ namespace CalamityMod.Items.Armor
             item.height = 22;
             item.value = Item.buyPrice(0, 30, 0, 0);
             item.rare = 7;
-            item.defense = 3; //36
+            item.defense = 7; //40
         }
 
         public override void ModifyTooltips(List<TooltipLine> list)
@@ -57,6 +57,8 @@ namespace CalamityMod.Items.Armor
         public override void UpdateArmorSet(Player player)
         {
             player.setBonus = "Causes nearby treasure to sparkle\n" +
+				"Increased item grab range and 10% increased fishing power\n" +
+				"Mining tiles restores breath while underwater\n" +
                 "Provides a small amount of light in the abyss";
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.reaverOrb = true;
@@ -101,6 +103,7 @@ namespace CalamityMod.Items.Armor
         {
             player.ignoreWater = true;
 			player.pickSpeed -= 0.1f;
+			player.lavaMax += 420;
         }
 
         public override void AddRecipes()

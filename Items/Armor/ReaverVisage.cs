@@ -13,8 +13,7 @@ namespace CalamityMod.Items.Armor
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Reaver Visage");
-            Tooltip.SetDefault("15% increased ranged damage, 20% decreased ammo usage, and 5% increased ranged critical strike chance\n" +
-                "10% increased movement speed and can move freely through liquids");
+            Tooltip.SetDefault("25% increased movement speed and 20% increased jump speed");
         }
 
         public override void SetDefaults()
@@ -41,18 +40,19 @@ namespace CalamityMod.Items.Armor
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.reaverDoubleTap = true;
-            player.setBonus = "5% increased ranged damage\n" +
-                "While using a ranged weapon you have a 10% chance to fire a powerful rocket";
-            player.rangedDamage += 0.05f;
+            player.setBonus = "Grants immunity to fall damage and allows constant jumping\n" +
+                "10% increased flight time and horizontal wing speed\n" +
+				"Reduces the cooldown of dashes";
+            player.noFallDmg = true;
+            player.autoJump = true;
+			if (player.miscCounter % 3 == 2)
+				player.dashDelay--;
         }
 
         public override void UpdateEquip(Player player)
         {
-            player.ignoreWater = true;
-            player.rangedDamage += 0.15f;
-            player.rangedCrit += 5;
-            player.ammoCost80 = true;
-            player.moveSpeed += 0.1f;
+            player.jumpSpeedBoost += 1f;
+            player.moveSpeed += 0.25f;
         }
 
         public override void AddRecipes()

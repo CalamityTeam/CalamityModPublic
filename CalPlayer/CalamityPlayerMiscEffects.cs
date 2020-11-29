@@ -1029,7 +1029,6 @@ namespace CalamityMod.CalPlayer
 			{
 				modPlayer.canFireGodSlayerRangedProjectile = true;
 				modPlayer.canFireBloodflareRangedProjectile = true;
-				modPlayer.canFireReaverRangedProjectile = true;
 				modPlayer.canFireAtaxiaRogueProjectile = true;
 			}
 			if (modPlayer.reaverRegenCooldown < 60 && modPlayer.reaverRegen)
@@ -3044,6 +3043,12 @@ namespace CalamityMod.CalPlayer
 					player.wingTimeMax = (int)(player.wingTimeMax * 1.05);
 			}
 
+			if (modPlayer.reaverDoubleTap)
+			{
+				if (player.wingTimeMax > 0)
+					player.wingTimeMax = (int)(player.wingTimeMax * 1.1);
+			}
+
 			if (modPlayer.draconicSurge)
 			{
 				if (player.wingTimeMax > 0)
@@ -3141,6 +3146,12 @@ namespace CalamityMod.CalPlayer
 				if (player.wingTimeMax > 0)
 					player.wingTimeMax = (int)(player.wingTimeMax * 0.5);
 				player.allDamage += 0.1f;
+			}
+
+			if (modPlayer.reaverBlast)
+			{
+				if (player.wingTimeMax > 0)
+					player.wingTimeMax = (int)(player.wingTimeMax * 0.8);
 			}
 
 			if (modPlayer.wDeath)
@@ -4070,7 +4081,8 @@ namespace CalamityMod.CalPlayer
 				(player.ammoBox ? 0.8f : 1f) *
 				(player.ammoPotion ? 0.8f : 1f) *
 				(player.ammoCost80 ? 0.8f : 1f) *
-				(player.ammoCost75 ? 0.75f : 1f));
+				(player.ammoCost75 ? 0.75f : 1f) *
+				modPlayer.rangedAmmoCost);
 			modPlayer.ammoReductionRogue = (int)(modPlayer.throwingAmmoCost * 100);
 			modPlayer.defenseStat = player.statDefense;
 			modPlayer.DRStat = (int)(player.endurance * 100f);

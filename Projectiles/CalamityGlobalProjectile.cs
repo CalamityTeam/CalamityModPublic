@@ -1559,11 +1559,11 @@ namespace CalamityMod.Projectiles
 
                             SpawnLifeStealProjectile(projectile, player, heal, ProjectileType<AtaxiaHealOrb>(), 1200f, 2f);
                         }
-                        else if (modPlayer.manaOverloader)
+                        else if (modPlayer.reaverSpore)
                         {
-                            float healMult = 0.2f;
+                            float healMult = 0.1f;
                             healMult -= projectile.numHits * 0.05f;
-                            float heal = projectile.damage * healMult * (player.statMana / (float)player.statManaMax2);
+                            float heal = projectile.damage * healMult;
 
                             if (heal > 50)
                                 heal = 50;
@@ -1571,7 +1571,7 @@ namespace CalamityMod.Projectiles
                             if (!CanSpawnLifeStealProjectile(projectile, healMult, heal))
                                 goto OTHEREFFECTS;
 
-                            SpawnLifeStealProjectile(projectile, player, heal, ProjectileType<ManaOverloaderHealOrb>(), 1200f, 2f);
+                            SpawnLifeStealProjectile(projectile, player, heal, ProjectileType<ReaverHealOrb>(), 1200f, 2f);
                         }
                     }
                 }
@@ -1611,18 +1611,7 @@ namespace CalamityMod.Projectiles
                         projectile.Damage();
                     }
 
-                    if (modPlayer.reaverBurst)
-                    {
-                        int projAmt = Main.rand.Next(1, 3);
-                        for (int i = 0; i < projAmt; i++)
-                        {
-                            Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
-                            int proj = Projectile.NewProjectile(projectile.Center, velocity, ProjectileID.SporeGas + Main.rand.Next(3), CalamityUtils.DamageSoftCap(projectile.damage * 0.15, 25), 0f, projectile.owner, 0f, 0f);
-                            Main.projectile[proj].usesLocalNPCImmunity = true;
-                            Main.projectile[proj].localNPCHitCooldown = 30;
-                        }
-                    }
-                    else if (modPlayer.ataxiaMage && modPlayer.ataxiaDmg <= 0)
+					if (modPlayer.ataxiaMage && modPlayer.ataxiaDmg <= 0)
                     {
                         int projDamage = CalamityUtils.DamageSoftCap(projectile.damage * 0.625, 100);
                         SpawnOrb(projectile, projDamage, ProjectileType<AtaxiaOrb>(), 800f, 20f);
@@ -1978,6 +1967,8 @@ namespace CalamityMod.Projectiles
                         }
                     }
                 }
+				if (modPlayer.reaverSpore)
+					player.lifeRegenTime += 1;
             }
         }
         #endregion

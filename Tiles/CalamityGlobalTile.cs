@@ -158,6 +158,11 @@ namespace CalamityMod.Tiles
 				CheckShatterCrystal(i, j + 1);
 				CheckShatterCrystal(i, j - 1);
 			}
+
+			if (Main.LocalPlayer.Calamity().reaverOrb && !fail)
+			{
+				Main.LocalPlayer.breath += 20;
+			}
 		}
 
 		// LATER -- clean up copied decompiled pot code here

@@ -562,9 +562,11 @@ namespace CalamityMod.CalPlayer
 
 			if ((modPlayer.ZoneAstral || modPlayer.ZoneAbyss || modPlayer.ZoneSulphur) && bait.type == ModContent.ItemType<ArcturusAstroidean>())
 				fishingLevel = (int)(fishingLevel * 1.1f);
-			if (Main.player[Main.myPlayer].ZoneSnow && fishingRod.type == ModContent.ItemType<VerstaltiteFishingRod>())
+			if (player.ZoneSnow && fishingRod.type == ModContent.ItemType<VerstaltiteFishingRod>())
 				fishingLevel = (int)(fishingLevel * 1.1f);
-			if (Main.player[Main.myPlayer].ZoneSkyHeight && fishingRod.type == ModContent.ItemType<HeronRod>())
+			if (player.ZoneSkyHeight && fishingRod.type == ModContent.ItemType<HeronRod>())
+				fishingLevel = (int)(fishingLevel * 1.1f);
+			if (modPlayer.reaverOrb)
 				fishingLevel = (int)(fishingLevel * 1.1f);
 
 			if (bait.type == ModContent.ItemType<BloodwormItem>())

@@ -353,17 +353,6 @@ namespace CalamityMod.Items
                     }
                 }
             }
-            if (modPlayer.reaverDoubleTap && modPlayer.canFireReaverRangedProjectile)
-            {
-                if (item.ranged)
-                {
-					modPlayer.canFireReaverRangedProjectile = false;
-					if (player.whoAmI == Main.myPlayer)
-                    {
-                        Projectile.NewProjectile(position, velocity * 1.25f, ModContent.ProjectileType<MiniRocket>(), CalamityUtils.DamageSoftCap(damage * 1.3, 150), 2f, player.whoAmI);
-                    }
-                }
-            }
             if (modPlayer.victideSet)
             {
                 if ((item.ranged || item.melee || item.magic || item.thrown || rogue || item.summon) && item.rare < ItemRarityID.Yellow && Main.rand.NextBool(10))
@@ -3520,6 +3509,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                 (modPlayer.holyWrath ? 0.05f : 0f) +
                 (modPlayer.profanedRage ? 0.05f : 0f) +
                 (modPlayer.draconicSurge ? 0.15f : 0f) +
+                (modPlayer.reaverDoubleTap ? 0.1f : 0f) +
                 (modPlayer.etherealExtorter && modPlayer.ZoneAstral ? 0.05f : 0f);
             if (flightSpeedMult > 1.2f)
                 flightSpeedMult = 1.2f;
@@ -3542,7 +3532,8 @@ Grants immunity to fire blocks, and temporary immunity to lava";
             int itemGrabRangeBoost = 0 +
                 (modPlayer.wallOfFleshLore ? 10 : 0) +
                 (modPlayer.planteraLore ? 20 : 0) +
-                (modPlayer.polterghastLore ? 30 : 0);
+                (modPlayer.polterghastLore ? 30 : 0) +
+                (modPlayer.reaverOrb ? 20 : 0);
 
             grabRange += itemGrabRangeBoost;
         }
@@ -3582,7 +3573,9 @@ Grants immunity to fire blocks, and temporary immunity to lava";
         }
         #endregion
 
-        #region Consume Additional Ammo
+        #region Ammo
+		public override bool ConsumeAmmo(Item item, Player player) => Main.rand.NextFloat() <= player.Calamity().rangedAmmoCost;
+
         public static bool HasEnoughAmmo(Player player, Item item, int ammoConsumed)
         {
             bool flag = false;
@@ -3648,6 +3641,8 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                 dontConsumeAmmo = true;
             if (player.ammoCost75 && Main.rand.NextBool(4))
                 dontConsumeAmmo = true;
+			if (Main.rand.NextFloat() > player.Calamity().rangedAmmoCost)
+				dontConsumeAmmo = true;
 
             if (!dontConsumeAmmo && itemAmmo.consumable)
             {

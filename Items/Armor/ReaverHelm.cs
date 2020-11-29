@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Armor
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Reaver Helm");
-            Tooltip.SetDefault("10% increased damage reduction but 30% decreased damage");
+            Tooltip.SetDefault("15% increased damage reduction but 30% decreased damage");
         }
 
         public override void SetDefaults()
@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Armor
             item.height = 30;
             item.value = Item.buyPrice(0, 30, 0, 0);
             item.rare = 7;
-            item.defense = 40; //58
+            item.defense = 40; //58 => 68 w/ set bonus
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
@@ -41,17 +41,19 @@ namespace CalamityMod.Items.Armor
             CalamityPlayer modPlayer = player.Calamity();
             player.thorns += 0.33f;
             player.moveSpeed -= 0.2f;
+			player.statDefense += 10;
             modPlayer.reaverBlast = true;
-            player.setBonus = "20% decreased movement speed\n" +
+            player.setBonus = "+10 defense\n" +
+			"20% decreased movement speed and flight time\n" +
 			"Enemy damage is reflected and summons a thorn spike\n" +
-			"Reaver Rage activates when you are damaged";
+			"Reaver Rage has a 25% chance to activate when you are damaged";
 			//Reaver Rage provides 30% damage to offset the helm "bonus", 5 def, and 5% melee speed.
         }
 
         public override void UpdateEquip(Player player)
         {
 			player.allDamage -= 0.3f;
-			player.endurance += 0.1f;
+			player.endurance += 0.15f;
         }
 
         public override void AddRecipes()
