@@ -657,8 +657,8 @@ namespace CalamityMod
 					return mp.reaverSpeed;
 				case "reaver_explore":
 				case "reaver explore":
-				case "reaver_helmet":
-				case "reaver helmet":
+				case "reaver_headgear":
+				case "reaver headgear":
 					return mp.reaverExplore;
 			}
 
@@ -986,8 +986,8 @@ namespace CalamityMod
 					return true;
 				case "reaver_explore":
 				case "reaver explore":
-				case "reaver_helmet":
-				case "reaver helmet":
+				case "reaver_headgear":
+				case "reaver headgear":
 					mp.reaverExplore = enabled;
 					return true;
 			}
