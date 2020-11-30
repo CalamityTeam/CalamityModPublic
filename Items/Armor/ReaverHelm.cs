@@ -24,7 +24,7 @@ namespace CalamityMod.Items.Armor
             item.height = 30;
             item.value = Item.buyPrice(0, 30, 0, 0);
             item.rare = 7;
-            item.defense = 30; //48 => 58 w/ set bonus
+            item.defense = 30; //63 => 73 w/ set bonus (+5 w/ Reaver Rage)
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
