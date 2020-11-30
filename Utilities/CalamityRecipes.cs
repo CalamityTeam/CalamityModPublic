@@ -368,6 +368,42 @@ namespace CalamityMod
             r.AddTile(TileID.Loom);
             r.SetResult(ItemID.Umbrella);
             r.AddRecipe();
+
+            // Living Loom
+            r = GetNewRecipe();
+            r.AddIngredient(ItemID.Loom);
+            r.AddIngredient(ItemID.Vine, 2);
+            r.AddTile(TileID.Sawmill);
+            r.SetResult(ItemID.LivingLoom);
+            r.AddRecipe();
+
+            // Living Wood Wand
+            r = GetNewRecipe();
+            r.AddIngredient(ItemID.Wood, 30);
+            r.AddTile(TileID.LivingLoom);
+            r.SetResult(ItemID.LivingWoodWand);
+            r.AddRecipe();
+
+            // Living Leaf Wand
+            r = GetNewRecipe();
+            r.AddIngredient(ItemID.Wood, 30);
+            r.AddTile(TileID.LivingLoom);
+            r.SetResult(ItemID.LeafWand);
+            r.AddRecipe();
+
+            // Living Mahogany Wand
+            r = GetNewRecipe();
+            r.AddIngredient(ItemID.RichMahogany, 30);
+            r.AddTile(TileID.LivingLoom);
+            r.SetResult(ItemID.LivingMahoganyWand);
+            r.AddRecipe();
+
+            // Living Mahogany Leaf Wand
+            r = GetNewRecipe();
+            r.AddIngredient(ItemID.RichMahogany, 30);
+            r.AddTile(TileID.LivingLoom);
+            r.SetResult(ItemID.LivingMahoganyLeafWand);
+            r.AddRecipe();
         }
         #endregion
 
