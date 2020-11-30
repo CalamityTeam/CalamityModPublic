@@ -10,6 +10,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.NPCs.Providence
 {
+    [AutoloadBossHead]
 	public class ProvSpawnDefense : ModNPC
     {
         public override void SetStaticDefaults()
