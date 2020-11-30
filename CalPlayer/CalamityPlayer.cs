@@ -4758,7 +4758,7 @@ namespace CalamityMod.CalPlayer
             }
             if (vexation)
             {
-				if ((player.armor[0].type == ModContent.ItemType<ReaverHelm>() || player.armor[0].type == ModContent.ItemType<ReaverHelmet>() ||
+				if ((player.armor[0].type == ModContent.ItemType<ReaverHelm>() || player.armor[0].type == ModContent.ItemType<ReaverHeadgear>() ||
 					player.armor[0].type == ModContent.ItemType<ReaverVisage>()) && player.armor[1].type == ModContent.ItemType<ReaverScaleMail>() &&
 					player.armor[2].type == ModContent.ItemType<ReaverCuisses>())
 				{

@@ -13,12 +13,12 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Armor
 {
     [AutoloadEquip(EquipType.Head)]
-    public class ReaverHelmet : ModItem
+    public class ReaverHeadgear : ModItem
     {
 		//Exploration and Mining Helm
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Reaver Helmet");
+            DisplayName.SetDefault("Reaver Headgear");
             Tooltip.SetDefault("10% increased pick speed\n" +
                 "Temporary immunity to lava and can move freely through liquids\n" +
 				"Provides heat protection in Death Mode");
