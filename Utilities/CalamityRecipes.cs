@@ -930,6 +930,8 @@ namespace CalamityMod
 
             RecipeGroup sand = RecipeGroup.recipeGroups[RecipeGroup.recipeGroupIDs["Sand"]];
             sand.ValidItems.Add(ModContent.ItemType<AstralSand>());
+            sand.ValidItems.Add(ModContent.ItemType<EutrophicSand>());
+            sand.ValidItems.Add(ModContent.ItemType<SulphurousSand>());
 
             RecipeGroup wood = RecipeGroup.recipeGroups[RecipeGroup.recipeGroupIDs["Wood"]];
             wood.ValidItems.Add(ModContent.ItemType<Acidwood>()); //Astral Monolith was decidedly not wood-like enough
