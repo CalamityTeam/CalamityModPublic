@@ -11,7 +11,7 @@ namespace CalamityMod.Items.TreasureBags
 {
     public class CeaselessVoidBag : ModItem
     {
-        public override int BossBagNPC => ModContent.NPCType<CeaselessVoid.CeaselessVoid>();
+        public override int BossBagNPC => ModContent.NPCType<CeaselessVoid>();
 
         public override void SetStaticDefaults()
         {

@@ -12,7 +12,7 @@ namespace CalamityMod.Items.TreasureBags
 {
     public class SignusBag : ModItem
     {
-        public override int BossBagNPC => ModContent.NPCType<Signus.Signus>();
+        public override int BossBagNPC => ModContent.NPCType<Signus>();
 
         public override void SetStaticDefaults()
         {
@@ -42,7 +42,7 @@ namespace CalamityMod.Items.TreasureBags
 			DropHelper.DropItemRIV(player, ModContent.ItemType<Cosmilamp>(), ModContent.ItemType<LanternoftheSoul>(), 0.3333f, DropHelper.RareVariantDropRateFloat);
 
             // Equipment
-			DropHelper.DropItem(npc, ModContent.ItemType<SpectralVeil>());
+			DropHelper.DropItem(player, ModContent.ItemType<SpectralVeil>());
 
             // Vanity
 			DropHelper.DropItemChance(player, ModContent.ItemType<SignusMask>(), 7);
