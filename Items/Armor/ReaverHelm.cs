@@ -44,6 +44,7 @@ namespace CalamityMod.Items.Armor
             player.thorns += 0.33f;
             player.moveSpeed -= 0.2f;
 			player.statDefense += 10;
+			player.lifeRegen += 3;
             modPlayer.reaverDefense = true;
             modPlayer.wearingRogueArmor = true;
             player.setBonus = "+10 defense and +3 life regen\n" +
