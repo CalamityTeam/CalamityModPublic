@@ -772,8 +772,7 @@ namespace CalamityMod
 
 				double healMult = 1D +
 						(player.Calamity().coreOfTheBloodGod ? 0.15 : 0) +
-						(player.Calamity().bloodPactBoost ? 0.5 : 0) -
-						(player.Calamity().reaverDamage ? 0.1 : 0);
+						(player.Calamity().bloodPactBoost ? 0.5 : 0);
 				int healAmt = (int)(item.healLife * healMult);
 				if (CalamityWorld.ironHeart)
 					healAmt = 0;

@@ -681,7 +681,6 @@ namespace CalamityMod.CalPlayer
         public bool reaverRegen = false;
         public int reaverRegenCooldown = 0;
         public bool reaverDefense = false;
-        public bool reaverDamage = false;
         public bool reaverExplore = false;
         public bool flamethrowerBoost = false;
         public bool hoverboardBoost = false; //hoverboard + shroomite visage
@@ -1673,7 +1672,6 @@ namespace CalamityMod.CalPlayer
 			reaverRegen = false;
             reaverSpeed = false;
             reaverDefense = false;
-            reaverDamage = false;
             reaverExplore = false;
 
             ironBoots = false;
@@ -2328,7 +2326,6 @@ namespace CalamityMod.CalPlayer
 			reaverRegen = false;
 			reaverRegenCooldown = 0;
             reaverDefense = false;
-            reaverDamage = false;
 			reaverExplore = false;
             shadeRegen = false;
             dsSetBonus = false;
@@ -3578,10 +3575,6 @@ namespace CalamityMod.CalPlayer
             {
                 meleeSpeedMult += 0.12f;
             }
-			if (reaverDamage)
-			{
-				meleeSpeedMult += 0.1f;
-			}
             if (badgeOfBravery)
             {
                 meleeSpeedMult += 0.15f;
@@ -4382,8 +4375,7 @@ namespace CalamityMod.CalPlayer
 		{
 			double healMult = 1D +
 					(coreOfTheBloodGod ? 0.15 : 0) +
-					(bloodPactBoost ? 0.5 : 0) -
-					(reaverDamage ? 0.1 : 0);
+					(bloodPactBoost ? 0.5 : 0);
 			healValue = (int)(healValue * healMult);
 			if (CalamityWorld.ironHeart)
 				healValue = 0;
@@ -7674,8 +7666,7 @@ namespace CalamityMod.CalPlayer
                 (DoGLore ? 0.05 : 0D) +
                 ((player.beetleDefense && player.beetleOrbs > 0) ? (0.05 * player.beetleOrbs) : 0D) +
                 (enraged ? 0.25 : 0D) +
-                ((CalamityWorld.defiled && Main.rand.NextBool(4)) ? 0.5 : 0D) +
-                (reaverDamage ? 0.1 : 0D);
+                ((CalamityWorld.defiled && Main.rand.NextBool(4)) ? 0.5 : 0D);
 
 			if (bloodPact && Main.rand.NextBool(4))
 			{

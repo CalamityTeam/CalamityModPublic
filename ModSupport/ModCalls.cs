@@ -644,7 +644,7 @@ namespace CalamityMod
 				default:
 					break;
 				case "reaver":
-					return mp.reaverDefense || mp.reaverSpeed || mp.reaverDamage || mp.reaverExplore || mp.reaverHealth;
+					return mp.reaverDefense || mp.reaverSpeed || mp.reaverExplore || mp.reaverHealth;
 				case "reaver_defense":
 				case "reaver defense":
 				case "reaver_helm":
@@ -655,11 +655,6 @@ namespace CalamityMod
 				case "reaver_visage":
 				case "reaver visage":
 					return mp.reaverSpeed;
-				case "reaver_damage":
-				case "reaver damage":
-				case "reaver_mask":
-				case "reaver mask":
-					return mp.reaverDamage;
 				case "reaver_explore":
 				case "reaver explore":
 				case "reaver_helmet":
@@ -997,12 +992,6 @@ namespace CalamityMod
 				case "reaver_visage":
 				case "reaver visage":
 					mp.reaverSpeed = enabled;
-					return true;
-				case "reaver_damage":
-				case "reaver damage":
-				case "reaver_mask":
-				case "reaver mask":
-					mp.reaverDamage = enabled;
 					return true;
 				case "reaver_explore":
 				case "reaver explore":
