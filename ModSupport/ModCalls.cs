@@ -644,7 +644,7 @@ namespace CalamityMod
 				default:
 					break;
 				case "reaver":
-					return mp.reaverDefense || mp.reaverSpeed || mp.reaverExplore || mp.reaverHealth;
+					return mp.reaverDefense || mp.reaverSpeed || mp.reaverExplore;
 				case "reaver_defense":
 				case "reaver defense":
 				case "reaver_helm":
@@ -660,15 +660,6 @@ namespace CalamityMod
 				case "reaver_helmet":
 				case "reaver helmet":
 					return mp.reaverExplore;
-				case "reaver_health":
-				case "reaver health":
-				case "reaver_regen":
-				case "reaver regen":
-				case "reaver_headgear":
-				case "reaver headgear":
-				case "reaver_cap":
-				case "reaver cap":
-					return mp.reaverHealth;
 			}
 
 			// Fathom Swarmer
@@ -998,16 +989,6 @@ namespace CalamityMod
 				case "reaver_helmet":
 				case "reaver helmet":
 					mp.reaverExplore = enabled;
-					return true;
-				case "reaver_health":
-				case "reaver health":
-				case "reaver_regen":
-				case "reaver regen":
-				case "reaver_headgear":
-				case "reaver headgear":
-				case "reaver_cap":
-				case "reaver cap":
-					mp.reaverHealth = enabled;
 					return true;
 			}
 

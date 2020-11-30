@@ -1574,7 +1574,7 @@ namespace CalamityMod.Projectiles
                             SpawnLifeStealProjectile(projectile, player, heal, ProjectileType<AtaxiaHealOrb>(), 1200f, 2f);
                         }
                     }
-					if (modPlayer.reaverHealth)
+					if (modPlayer.reaverDefense)
 					{
 						float healMult = 0.2f;
 						healMult -= projectile.numHits * 0.05f;
@@ -1983,7 +1983,7 @@ namespace CalamityMod.Projectiles
                         }
                     }
                 }
-				if (modPlayer.reaverHealth)
+				if (modPlayer.reaverDefense)
 					player.lifeRegenTime += 1;
             }
         }

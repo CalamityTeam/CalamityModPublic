@@ -676,7 +676,6 @@ namespace CalamityMod.CalPlayer
         public bool brimflameFrenzy = false;
         public bool brimflameFrenzyCooldown = false;
         public int brimflameFrenzyTimer = 0;
-        public bool reaverHealth = false;
         public bool reaverSpeed = false;
         public bool reaverRegen = false;
         public int reaverRegenCooldown = 0;
@@ -1668,7 +1667,6 @@ namespace CalamityMod.CalPlayer
             brimflameFrenzy = false;
             brimflameFrenzyCooldown = false;
 
-            reaverHealth = false;
 			reaverRegen = false;
             reaverSpeed = false;
             reaverDefense = false;
@@ -2321,7 +2319,6 @@ namespace CalamityMod.CalPlayer
             brimflameFrenzy = false;
             brimflameFrenzyCooldown = false;
 			brimflameFrenzyTimer = 0;
-            reaverHealth = false;
             reaverSpeed = false;
 			reaverRegen = false;
 			reaverRegenCooldown = 0;
@@ -4770,7 +4767,7 @@ namespace CalamityMod.CalPlayer
                     target.AddBuff(BuffID.Venom, 120, false);
                 }
             }
-			if (reaverHealth)
+			if (reaverDefense)
 			{
 				player.lifeRegenTime += 1;
                 if (Main.player[Main.myPlayer].lifeSteal > 0f && target.canGhostHeal && target.type != NPCID.TargetDummy && target.type != ModContent.NPCType<SuperDummyNPC>() && !player.moonLeech)

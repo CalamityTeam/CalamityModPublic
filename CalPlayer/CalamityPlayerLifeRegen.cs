@@ -22,7 +22,7 @@ namespace CalamityMod.CalPlayer
 
 			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
 			double lifeRegenMult = death ? 1.5 : 1D;
-			if (modPlayer.reaverHealth)
+			if (modPlayer.reaverDefense)
 				lifeRegenMult *= 0.8;
 			int lifeRegenLost = 0;
 
@@ -753,7 +753,7 @@ namespace CalamityMod.CalPlayer
 					player.statLife += 1;
 			}
 
-			if (modPlayer.reaverHealth)
+			if (modPlayer.reaverDefense)
 				player.lifeRegen += 3;
 
 			// Standing still healing bonuses (all exclusive with vanilla Shiny Stone)
