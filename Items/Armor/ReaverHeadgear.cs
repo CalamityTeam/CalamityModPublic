@@ -61,7 +61,7 @@ namespace CalamityMod.Items.Armor
         public override void UpdateArmorSet(Player player)
         {
             player.setBonus = "Causes nearby treasure to sparkle\n" +
-				"Increased item grab range and 10% increased fishing power\n" +
+				"Increased item grab range and 20% increased block/wall placement speed\n" +
 				"Mining tiles restores breath while underwater\n" +
 				"Summons a reaver orb to light up the area around you\n" +
                 "Reduces enemy aggression, even in the abyss\n" +
@@ -69,6 +69,8 @@ namespace CalamityMod.Items.Armor
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.reaverExplore = true;
             modPlayer.wearingRogueArmor = true;
+            player.tileSpeed += 0.2f;
+            player.wallSpeed += 0.2f;
             player.aggro -= 200;
 
             if (player.whoAmI == Main.myPlayer)
