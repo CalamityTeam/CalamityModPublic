@@ -11,6 +11,7 @@ namespace CalamityMod.Projectiles.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Big Nuke");
+            Main.projFrames[projectile.type] = 4;
         }
 
         public override void SetDefaults()
@@ -25,8 +26,21 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void AI()
         {
-            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
-            if (Math.Abs(projectile.velocity.X) >= 8f || Math.Abs(projectile.velocity.Y) >= 8f)
+            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.ToRadians(90);
+
+            //Animation
+            projectile.frameCounter++;
+            if (projectile.frameCounter > 7)
+            {
+                projectile.frame++;
+                projectile.frameCounter = 0;
+            }
+            if (projectile.frame >= Main.projFrames[projectile.type])
+            {
+                projectile.frame = 0;
+            }
+
+            if (projectile.velocity.Length() >= 8f)
             {
                 for (int num246 = 0; num246 < 2; num246++)
                 {
@@ -58,15 +72,11 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void Kill(int timeLeft)
         {
-            projectile.position = projectile.Center;
-            projectile.width = projectile.height = 720;
-            projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
-            projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
+			CalamityGlobalProjectile.ExpandHitboxBy(projectile, 720);
             projectile.maxPenetrate = -1;
             projectile.penetrate = -1;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 10;
-			projectile.damage /= 2;
             projectile.Damage();
             Main.PlaySound(SoundID.Item, (int)projectile.Center.X, (int)projectile.Center.Y, 14);
             for (int num621 = 0; num621 < 90; num621++)

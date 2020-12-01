@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 {
     public class StarSwallowerAcid : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Environment/AcidDrop";
+
         public const float Gravity = 0.25f;
         public override void SetStaticDefaults()
         {

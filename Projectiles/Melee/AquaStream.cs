@@ -5,6 +5,8 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class AquaStream : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Aqua Stream");

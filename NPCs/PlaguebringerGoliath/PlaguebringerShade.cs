@@ -32,7 +32,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 			npc.npcSlots = 8f;
             npc.width = 66;
             npc.height = 66;
-            npc.defense = 30;
+            npc.defense = 24;
 			npc.DR_NERD(0.2f);
             npc.lifeMax = 3000;
             npc.value = Item.buyPrice(0, 1, 50, 0);

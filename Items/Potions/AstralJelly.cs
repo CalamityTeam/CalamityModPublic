@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Potions
             item.consumable = true;
             item.value = Item.buyPrice(0, 4, 50, 0);
             item.buffType = BuffID.MagicPower;
-            item.buffTime = 21600;
+            item.buffTime = CalamityUtils.SecondsToFrames(360f);
         }
 
 		public override bool UseItem(Player player)

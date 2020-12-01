@@ -8,7 +8,7 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class FrostyFlareStealth : ModProjectile
     {
-        public override string Texture => "CalamityMod/Projectiles/Rogue/FrostyFlareProj";
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/FrostyFlare";
 
         public override void SetDefaults()
         {
@@ -42,7 +42,7 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 projectile.velocity.X *= 0.99f;
                 projectile.velocity.Y += 0.25f;
-                projectile.rotation = projectile.velocity.ToRotation();
+				projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
 
                 if (shoot)
                 {

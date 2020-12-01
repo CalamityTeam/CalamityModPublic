@@ -10,6 +10,8 @@ namespace CalamityMod.Projectiles.Melee
 {
 	public class CrystylCrusherRay : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Magic/YharimsCrystalBeam";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Crystyl Crusher Ray");

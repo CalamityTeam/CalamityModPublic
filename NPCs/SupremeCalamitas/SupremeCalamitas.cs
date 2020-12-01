@@ -1,10 +1,11 @@
 using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Dusts;
+using CalamityMod.Events;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Pets;
+using CalamityMod.Items.Placeables.Furniture.Trophies;
 using CalamityMod.Items.Potions;
 using CalamityMod.Items.Tools;
 using CalamityMod.Items.Weapons.Magic;
@@ -21,10 +22,7 @@ using System;
 using System.IO;
 using Terraria;
 using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
-using CalamityMod.Items.Placeables.Furniture.Trophies;
-using CalamityMod.Events;
 
 namespace CalamityMod.NPCs.SupremeCalamitas
 {
@@ -71,9 +69,9 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
         private Rectangle safeBox = default;
 
-        public static float normalDR = 0.7f;
-        public static float deathDR = 0.75f;
-        public static float bossRushDR = 0.6f;
+        public static float normalDR = 0.25f;
+        public static float deathDR = 0.3f;
+        public static float bossRushDR = 0.2f;
         public static float enragedDR = 0.99f;
 
         public override void SetStaticDefaults()
@@ -89,7 +87,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 			npc.npcSlots = 50f;
             npc.width = 120;
             npc.height = 120;
-            npc.defense = 120;
+            npc.defense = 100;
 			npc.DR_NERD(normalDR, normalDR, deathDR, bossRushDR, true);
 			CalamityGlobalNPC global = npc.Calamity();
             global.multDRReductions.Add(BuffID.CursedInferno, 0.9f);
@@ -2055,29 +2053,28 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             DropHelper.DropItem(npc, ModContent.ItemType<CalamitousEssence>(), true, essenceMin, essenceMax);
 
             // Weapons
-
-			// All non-hybrid weapons are listed twice so that the drop rates are actually equal between each unique weapon
+            // Rejoice! Hybrid weapons are no more, so this list is no longer cluttered.
 			DropHelper.DropItemFromSetCondition(npc, true, Main.expertMode,
-				ModContent.ItemType<Animus>(), ModContent.ItemType<Animus>(),
-				ModContent.ItemType<Azathoth>(), ModContent.ItemType<Azathoth>(),
-				ModContent.ItemType<Contagion>(), ModContent.ItemType<Contagion>(),
-				ModContent.ItemType<CrystylCrusher>(), ModContent.ItemType<CrystylCrusher>(),
-				ModContent.ItemType<DraconicDestruction>(), ModContent.ItemType<DraconicDestruction>(),
-				ModContent.ItemType<Earth>(), ModContent.ItemType<Earth>(),
-				ModContent.ItemType<Fabstaff>(), ModContent.ItemType<Fabstaff>(),
-				ModContent.ItemType<RoyalKnivesMelee>(), ModContent.ItemType<RoyalKnives>(), // Illustrious Knives
-				ModContent.ItemType<NanoblackReaperMelee>(), ModContent.ItemType<NanoblackReaperRogue>(),
-				ModContent.ItemType<RedSun>(), ModContent.ItemType<RedSun>(),
-				ModContent.ItemType<ScarletDevil>(), ModContent.ItemType<ScarletDevil>(),
-				ModContent.ItemType<SomaPrime>(), ModContent.ItemType<SomaPrime>(),
-				ModContent.ItemType<BlushieStaff>(), ModContent.ItemType<BlushieStaff>(), // Staff of Blushie
-				ModContent.ItemType<Svantechnical>(), ModContent.ItemType<Svantechnical>(),
-				ModContent.ItemType<Judgement>(), ModContent.ItemType<Judgement>(),
-				ModContent.ItemType<TriactisTruePaladinianMageHammerofMightMelee>(), ModContent.ItemType<TriactisTruePaladinianMageHammerofMight>(),
-				ModContent.ItemType<Megafleet>(), ModContent.ItemType<Megafleet>(), // Voidragon
-				ModContent.ItemType<Endogenesis>(), ModContent.ItemType<Endogenesis>(),
-				ModContent.ItemType<BensUmbrella>(), ModContent.ItemType<BensUmbrella>(), //Temporal Umbrella
-				ModContent.ItemType<PrototypeAndromechaRing>(), ModContent.ItemType<PrototypeAndromechaRing>()
+				ModContent.ItemType<Animus>(),
+				ModContent.ItemType<Azathoth>(),
+				ModContent.ItemType<Contagion>(),
+				ModContent.ItemType<CrystylCrusher>(),
+				ModContent.ItemType<DraconicDestruction>(),
+				ModContent.ItemType<Earth>(),
+                ModContent.ItemType<Endogenesis>(),
+                ModContent.ItemType<Fabstaff>(),
+                ModContent.ItemType<PrototypeAndromechaRing>(), // Flamsteed Ring
+                ModContent.ItemType<RoyalKnivesMelee>(), // Illustrious Knives
+				ModContent.ItemType<NanoblackReaperRogue>(),
+				ModContent.ItemType<RedSun>(),
+				ModContent.ItemType<ScarletDevil>(),
+				ModContent.ItemType<SomaPrime>(),
+				ModContent.ItemType<BlushieStaff>(), // Staff of Blushie
+				ModContent.ItemType<Svantechnical>(),
+                ModContent.ItemType<BensUmbrella>(), // Temporal Umbrella
+                ModContent.ItemType<Judgement>(), // The Dance of Light
+				ModContent.ItemType<TriactisTruePaladinianMageHammerofMightMelee>(),
+				ModContent.ItemType<Megafleet>() // Voidragon
 			);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<Vehemenc>(), Main.expertMode, CalamityWorld.revenge);
 

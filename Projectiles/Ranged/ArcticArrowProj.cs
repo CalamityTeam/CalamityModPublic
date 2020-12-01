@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class ArcticArrowProj : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Ammo/ArcticArrow";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Arctic Arrow");

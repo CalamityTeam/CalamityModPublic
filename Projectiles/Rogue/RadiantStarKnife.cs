@@ -11,6 +11,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class RadiantStarKnife : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/RadiantStar";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Radiant Star");
@@ -30,11 +32,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void AI()
         {
-            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 2.355f;
-            if (projectile.spriteDirection == -1)
-            {
-                projectile.rotation -= MathHelper.PiOver2;
-            }
+            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.ToRadians(45f);
             if (projectile.ai[0] == 1f)
             {
                 float num472 = projectile.Center.X;

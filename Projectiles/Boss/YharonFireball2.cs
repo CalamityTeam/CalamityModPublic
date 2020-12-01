@@ -10,6 +10,8 @@ namespace CalamityMod.Projectiles.Boss
 {
     public class YharonFireball2 : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Boss/YharonFireball";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Dragon Fireball");

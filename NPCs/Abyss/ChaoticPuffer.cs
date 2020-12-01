@@ -32,8 +32,8 @@ namespace CalamityMod.NPCs.Abyss
             npc.lavaImmune = true;
             npc.width = 78;
             npc.height = 70;
-            npc.defense = 25;
-            npc.lifeMax = 7500;
+            npc.defense = 50;
+            npc.lifeMax = 5625;
             npc.aiStyle = -1;
             aiType = -1;
             npc.knockBackResist = 0f;

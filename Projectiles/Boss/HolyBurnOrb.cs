@@ -14,6 +14,8 @@ namespace CalamityMod.Projectiles.Boss
 {
     public class HolyBurnOrb : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/StarProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Holy Orb");
@@ -54,6 +56,7 @@ namespace CalamityMod.Projectiles.Boss
                 int dmgAmt = (int)projectile.ai[1];
                 player.HealEffect(dmgAmt, false);
                 player.statLife += dmgAmt;
+				player.Calamity().adrenaline = player.Calamity().stressPills ? player.Calamity().adrenaline / 2 : 0;
                 if (player.statLife > player.statLifeMax2)
                 {
                     player.statLife = player.statLifeMax2;

@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Potions
             item.UseSound = SoundID.Item3;
             item.consumable = true;
             item.buffType = ModContent.BuffType<ShadowBuff>();
-            item.buffTime = 18000; //5 minutes
+            item.buffTime = CalamityUtils.SecondsToFrames(480f);
             item.value = Item.buyPrice(0, 2, 0, 0);
         }
 

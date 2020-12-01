@@ -5,6 +5,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class CelestialReaperAfterimage : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/CelestialReaper";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Celestial Reaper");

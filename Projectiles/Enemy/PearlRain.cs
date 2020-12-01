@@ -6,6 +6,8 @@ namespace CalamityMod.Projectiles.Enemy
 {
     public class PearlRain : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Enemy/PearlBurst";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Pearl Rain");

@@ -34,15 +34,13 @@ namespace CalamityMod.Items.DifficultyItems
 
         public override bool UseItem(Player player)
         {
+            // This world syncing code should only be run by one entity- the server, to prevent a race condition
+            // with the packets.
+            if (Main.netMode == NetmodeID.MultiplayerClient)
+                return true;
+
             CalamityWorld.demonMode = true;
             CalamityNetcode.SyncWorld();
-            if (Main.netMode == NetmodeID.Server)
-            {
-                var netMessage = mod.GetPacket();
-                netMessage.Write((byte)CalamityModMessageType.DemonTrophyBoolSync);
-                netMessage.Write(CalamityWorld.demonMode);
-                netMessage.Send();
-            }
             return true;
         }
     }

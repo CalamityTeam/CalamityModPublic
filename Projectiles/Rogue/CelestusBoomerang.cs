@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
 	public class CelestusBoomerang : ModProjectile
 	{
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/Celestus";
+
 		private bool initialized = false;
 		private float speed = 25f;
 		public override void SetStaticDefaults()

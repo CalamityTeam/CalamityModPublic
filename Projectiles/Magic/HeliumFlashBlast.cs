@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class HeliumFlashBlast : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         private static int Lifetime = 40;
         private static float ExplosionRadius = 210.0f;
         private static float StartDustQuantity = 36f;

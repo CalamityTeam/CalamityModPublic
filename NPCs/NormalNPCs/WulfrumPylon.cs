@@ -1,3 +1,4 @@
+using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
 using Terraria;
@@ -157,6 +158,7 @@ namespace CalamityMod.NPCs.NormalNPCs
         {
             DropHelper.DropItem(npc, ModContent.ItemType<WulfrumShard>(), 2, 3);
             DropHelper.DropItem(npc, ModContent.ItemType<EnergyCore>());
+            DropHelper.DropItemChance(npc, ModContent.ItemType<WulfrumBattery>(), 0.07f);
         }
     }
 }

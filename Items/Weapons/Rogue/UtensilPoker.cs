@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             item.width = 44;
             item.height = 66;
-            item.damage = 540;
+            item.damage = 480;
             item.Calamity().rogue = true;
             item.knockBack = 8f;
             item.noMelee = true;
@@ -37,7 +37,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.rare = 10;
             item.Calamity().customRarity = CalamityRarity.Turquoise;
             item.shoot = ModContent.ProjectileType<Fork>();
-            item.shootSpeed = 16f;
+            item.shootSpeed = 12f;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

@@ -26,7 +26,8 @@ namespace CalamityMod
 
         public static void AddRecipes()
         {
-            EditTerraBladeRecipe();
+			EditLeatherRecipe();
+			EditTerraBladeRecipe();
             EditFireGauntletRecipe();
             AstralAlternatives();
 
@@ -79,10 +80,9 @@ namespace CalamityMod
 
             // Life Crystal
             r = GetNewRecipe();
-            r.AddIngredient(ItemID.Bone, 5);
-            r.AddIngredient(ItemID.PinkGel);
-            r.AddIngredient(ItemID.HealingPotion);
-            r.AddIngredient(ItemID.Ruby);
+            r.AddIngredient(ItemID.StoneBlock, 5);
+			r.AddIngredient(ItemID.Ruby, 2);
+			r.AddIngredient(ItemID.HealingPotion);
             r.AddTile(TileID.Anvils);
             r.SetResult(ItemID.LifeCrystal);
             r.AddRecipe();
@@ -103,8 +103,18 @@ namespace CalamityMod
             r.AddRecipe();
         }
 
-        // Change Terra Blade's recipe to require 7 Living Shards (forces the Blade to be post-Plantera)
-        private static void EditTerraBladeRecipe()
+		// Change Leather's recipe to require 2 Rotten Chunks/Vertebrae
+		private static void EditLeatherRecipe()
+		{
+			List<Recipe> rec = Main.recipe.ToList();
+			rec.Where(x => x.createItem.type == ItemID.Leather).ToList().ForEach(s =>
+			{
+				s.requiredItem[0].stack = 2;
+			});
+		}
+
+		// Change Terra Blade's recipe to require 7 Living Shards (forces the Blade to be post-Plantera)
+		private static void EditTerraBladeRecipe()
         {
             List<Recipe> rec = Main.recipe.ToList();
             rec.Where(x => x.createItem.type == ItemID.TerraBlade).ToList().ForEach(s =>
@@ -368,7 +378,7 @@ namespace CalamityMod
             // Guide Voodoo Doll
             ModRecipe r = GetNewRecipe();
             r.AddIngredient(ItemID.Leather, 2);
-            r.AddRecipeGroup("FetidBloodletting", 2);
+            r.AddRecipeGroup("EvilPowder", 10);
             r.AddTile(TileID.Hellforge);
             r.SetResult(ItemID.GuideVoodooDoll);
             r.AddRecipe();
@@ -945,12 +955,12 @@ namespace CalamityMod
             });
             RecipeGroup.RegisterGroup("NForEE", group);
 
-            group = new RecipeGroup(() => "Any Evil Essence", new int[]
+            group = new RecipeGroup(() => "Any Evil Powder", new int[]
             {
-                ModContent.ItemType<FetidEssence>(),
-                ModContent.ItemType<BloodlettingEssence>()
+                ItemID.VilePowder,
+                ItemID.ViciousPowder
             });
-            RecipeGroup.RegisterGroup("FetidBloodletting", group);
+            RecipeGroup.RegisterGroup("EvilPowder", group);
 
             group = new RecipeGroup(() => "Shadow Scale or Tissue Sample", new int[]
             {

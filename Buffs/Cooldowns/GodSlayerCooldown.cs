@@ -8,7 +8,7 @@ namespace CalamityMod.Buffs.Cooldowns
         public override void SetDefaults()
         {
             DisplayName.SetDefault("God Slayer Cooldown");
-            Description.SetDefault("Life regen is disabled; godslayer effect is recharging");
+            Description.SetDefault("Life regen is halved; godslayer effect is recharging");
             Main.debuff[Type] = true;
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = true;
@@ -19,7 +19,6 @@ namespace CalamityMod.Buffs.Cooldowns
         public override void Update(Player player, ref int buffIndex)
         {
             player.Calamity().godSlayerCooldown = true;
-			player.Calamity().noLifeRegen = true;
         }
     }
 }

@@ -4,7 +4,7 @@ using CalamityMod.Items.Materials;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
-using CalamityMod.Projectiles.Hybrid;
+using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -33,8 +33,8 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.knockBack = 4f;
             item.UseSound = SoundID.Item1;
             item.height = 20;
-            item.value = Item.buyPrice(0, 48, 0, 0);
-            item.rare = 6;
+            item.value = Item.buyPrice(gold: 48);
+            item.rare = ItemRarityID.LightPurple;
             item.shoot = ModContent.ProjectileType<KelvinCatalystBoomerang>();
             item.shootSpeed = 8f;
             item.Calamity().rogue = true;
@@ -43,8 +43,8 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            int proj = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0f, 1f);
-			Main.projectile[proj].Calamity().stealthStrike = player.Calamity().StealthStrikeAvailable();
+            int proj = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
+            Main.projectile[proj].Calamity().stealthStrike = player.Calamity().StealthStrikeAvailable();
             return false;
         }
 

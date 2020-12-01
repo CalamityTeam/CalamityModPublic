@@ -11,6 +11,8 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class DivineHatchetBoomerang : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Melee/DivineHatchet";
+
         private bool hasHitEnemy = false;
         private static int Lifetime = 300;
         private static int ReboundTime = 100;

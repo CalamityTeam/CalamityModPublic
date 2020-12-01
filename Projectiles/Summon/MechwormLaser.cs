@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class MechwormLaser : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/LaserProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Laser");

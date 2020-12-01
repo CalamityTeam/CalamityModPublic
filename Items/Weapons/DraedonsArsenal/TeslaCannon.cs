@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 {
 	public class TeslaCannon : ModItem
 	{
-		private int BaseDamage = 15000;
+		private int BaseDamage = 16200;
 
 		public override void SetStaticDefaults()
 		{

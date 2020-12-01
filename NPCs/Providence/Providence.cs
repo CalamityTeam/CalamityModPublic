@@ -69,7 +69,7 @@ namespace CalamityMod.NPCs.Providence
         internal bool challenge = Main.expertMode/* && Main.netMode == NetmodeID.SinglePlayer*/; //Used to determine if Profaned Soul Crystal should drop, couldn't figure out mp mems always dropping it so challenge is singleplayer only.
 		internal bool hasTakenDaytimeDamage = false;
 
-		public static float normalDR = 0.35f;
+		public static float normalDR = 0.3f;
         public static float cocoonDR = 0.9f;
 
         public override void SetStaticDefaults()
@@ -89,7 +89,7 @@ namespace CalamityMod.NPCs.Providence
 			npc.DR_NERD(normalDR, null, null, null, true);
 			CalamityGlobalNPC global = npc.Calamity();
             global.flatDRReductions.Add(BuffID.CursedInferno, 0.05f);
-            npc.LifeMaxNERB(440000, 500000, 12500000);
+            npc.LifeMaxNERB(330000, 375000, 12500000); // Old HP - 440000, 500000
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.knockBackResist = 0f;
@@ -272,8 +272,8 @@ namespace CalamityMod.NPCs.Providence
 
 			// Inflict Holy Inferno if target is too far away
 			float baseDistance = 2800f;
-			float shorterFlameCocoonDistance = 1800f;
-			float shorterSpearCocoonDistance = 1400f;
+			float shorterFlameCocoonDistance = CalamityWorld.death ? 2200f : CalamityWorld.revenge ? 2400f : Main.expertMode ? 2600f : baseDistance;
+			float shorterSpearCocoonDistance = CalamityWorld.death ? 1800f : CalamityWorld.revenge ? 2150f : Main.expertMode ? 2500f : baseDistance;
 			float shorterDistance = AIState == (int)Phase.FlameCocoon ? shorterFlameCocoonDistance : shorterSpearCocoonDistance;
 			float maxDistance = (AIState == (int)Phase.FlameCocoon || AIState == (int)Phase.SpearCocoon) ? shorterDistance : baseDistance;
 			if (Vector2.Distance(player.Center, vector) > maxDistance)

@@ -6,6 +6,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class StealthNimbusCloud : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Magic/ShadeNimbusCloud";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Nimbus");

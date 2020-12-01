@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.Ranged
 {
 	public class ImpactRound : ModProjectile
 	{
+        public override string Texture => "CalamityMod/Projectiles/Ranged/AMRShot";
+
 		private bool initialized = false;
 		public override void SetStaticDefaults()
 		{

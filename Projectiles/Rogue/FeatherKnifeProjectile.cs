@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class FeatherKnifeProjectile : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/FeatherKnife";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Knife");

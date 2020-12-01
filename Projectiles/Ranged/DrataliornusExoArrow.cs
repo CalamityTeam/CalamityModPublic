@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class DrataliornusExoArrow : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/LaserProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Drataliornus Arrow");

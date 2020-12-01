@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.Melee
 {
 	public class ExoGladSpears : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Melee/ExoGladius";
+
         private Color currentColor = Color.Black;
 
         internal ref float FlySpeedMultiplier => ref projectile.ai[1];

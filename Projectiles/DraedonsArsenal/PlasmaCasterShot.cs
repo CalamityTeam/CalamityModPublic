@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 {
     public class PlasmaCasterShot : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
 		private int dust1 = 107; //160
 		private int dust2 = 110; //187
 

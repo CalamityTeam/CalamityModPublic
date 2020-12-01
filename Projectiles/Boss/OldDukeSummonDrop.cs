@@ -10,6 +10,8 @@ namespace CalamityMod.Projectiles.Boss
 {
     public class OldDukeSummonDrop : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Environment/AcidDrop";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Acid");

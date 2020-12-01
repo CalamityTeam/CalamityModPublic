@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.Enemy
 {
     public class DraedonLaser : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/LaserProj";
+
         // The DrawBeam method relies on localAI[0] for its calculations. A different parameter won't work.
         public float TrailLength
         {

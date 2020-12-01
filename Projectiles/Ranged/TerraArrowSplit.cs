@@ -7,6 +7,8 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class TerraArrowSplit : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Ammo/TerraArrow";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Arrow");
@@ -28,7 +30,7 @@ namespace CalamityMod.Projectiles.Ranged
         public override void AI()
         {
             projectile.alpha -= 5;
-            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
+            projectile.rotation = projectile.velocity.ToRotation() - MathHelper.PiOver2;
 			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 300f, 20f, 20f);
         }
 

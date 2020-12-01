@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class BrimstoneBolt : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Bolt");

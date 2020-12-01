@@ -3,6 +3,7 @@ using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
 using CalamityMod.Items.Placeables.Banners;
+using CalamityMod.Items.Potions;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.World;
@@ -672,7 +673,7 @@ namespace CalamityMod.NPCs.Abyss
         {
             DropHelper.DropItemCondition(npc, ModContent.ItemType<HalibutCannon>(), CalamityWorld.revenge, CalamityGlobalNPCLoot.halibutCannonBaseDropChance / 100, 1, 1);
             DropHelper.DropItem(npc, ModContent.ItemType<Voidstone>(), 40, 50);
-            DropHelper.DropItem(npc, ModContent.ItemType<CloakingGland>(), 2, 3);
+            DropHelper.DropItem(npc, ModContent.ItemType<AnechoicCoating>(), 2, 3);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<DepthCells>(), CalamityWorld.downedCalamitas, 2, 10, 17);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<DepthCells>(), CalamityWorld.downedCalamitas && Main.expertMode, 2, 4, 5);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<ReaperTooth>(), CalamityWorld.downedPolterghast, 1f, 3, 4);

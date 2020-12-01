@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class EquanimityProj : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/Equanimity";
+
         private bool recall = false;
 
         public override void SetStaticDefaults()

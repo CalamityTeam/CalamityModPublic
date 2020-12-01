@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.Typeless
 {
     public class DarkIce : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Melee/DarkIceZero";
+
         public override void SetDefaults()
         {
             projectile.width = 28;

@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.Enemy
 {
     public class HorsWaterBlast : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Water");

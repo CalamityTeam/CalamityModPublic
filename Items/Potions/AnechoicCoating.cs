@@ -27,19 +27,13 @@ namespace CalamityMod.Items.Potions
             item.UseSound = SoundID.Item3;
             item.consumable = true;
             item.buffType = ModContent.BuffType<AnechoicCoatingBuff>();
-            item.buffTime = 7200;
+            item.buffTime = CalamityUtils.SecondsToFrames(240f);
             item.value = Item.buyPrice(0, 2, 0, 0);
         }
 
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<CloakingGland>());
-            recipe.AddIngredient(ItemID.BottledWater);
-            recipe.AddTile(TileID.AlchemyTable);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-            recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<BloodOrb>(), 10);
             recipe.AddIngredient(ItemID.BottledWater);
             recipe.AddTile(TileID.AlchemyTable);

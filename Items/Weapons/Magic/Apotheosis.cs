@@ -50,7 +50,7 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<SubsumingVortex>());
+            recipe.AddIngredient(ItemID.SpellTome);
             recipe.AddIngredient(ModContent.ItemType<CosmicDischarge>());
             recipe.AddIngredient(ModContent.ItemType<StaffoftheMechworm>(), 2);
             recipe.AddIngredient(ModContent.ItemType<Excelsus>(), 2);

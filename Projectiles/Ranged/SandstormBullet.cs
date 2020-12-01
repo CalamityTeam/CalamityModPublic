@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class SandstormBullet : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Boss/SandBlast";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Sandstorm");

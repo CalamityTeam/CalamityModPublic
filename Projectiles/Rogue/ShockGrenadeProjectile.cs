@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class ShockGrenadeProjectile : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/ShockGrenade";
+
         public static int spriteWidth = 14;
         public static int spriteHeight = 30;
 
@@ -80,7 +82,7 @@ namespace CalamityMod.Projectiles.Rogue
         public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Vector2 origin = new Vector2(spriteWidth / 2, spriteHeight / 2);
-            spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Projectiles/Rogue/ShockGrenadeProjectileGlow"), projectile.Center - Main.screenPosition, null, Color.White, projectile.rotation, origin, 1f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Items/Weapons/Rogue/ShockGrenadeGlow"), projectile.Center - Main.screenPosition, null, Color.White, projectile.rotation, origin, 1f, SpriteEffects.None, 0f);
         }
 
         public override void Kill(int timeLeft)

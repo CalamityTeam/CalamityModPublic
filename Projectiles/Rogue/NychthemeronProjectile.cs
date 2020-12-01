@@ -1,4 +1,3 @@
-
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -9,6 +8,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class NychthemeronProjectile : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/Nychthemeron";
+
         public static int lifetime = 300;
 
         public override void SetStaticDefaults()

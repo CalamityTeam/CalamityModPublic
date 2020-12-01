@@ -7,6 +7,8 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class ChargedBlast3 : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/LaserProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Blast");

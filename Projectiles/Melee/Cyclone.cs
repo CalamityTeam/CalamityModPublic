@@ -10,6 +10,8 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class Cyclone : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/TornadoProj";
+
         public int dustvortex = 0;
         public override void SetStaticDefaults()
         {

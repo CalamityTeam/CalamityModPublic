@@ -7,6 +7,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
 	public class ShroomerangSpore : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Ranged/FungiOrb";
+
 		private bool initialized = false;
         public override void SetStaticDefaults()
         {

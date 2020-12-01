@@ -10,6 +10,8 @@ namespace CalamityMod.Projectiles.Enemy
 {
 	public class CragmawBubble : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Enemy/SulphuricAcidBubble";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Acid Bubble");

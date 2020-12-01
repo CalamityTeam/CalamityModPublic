@@ -10,6 +10,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class TimeBoltKnife : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/TimeBolt";
+
 		private int maxPenetrate = 6;
         private int penetrationAmt = 6;
 		private bool initialized = false;

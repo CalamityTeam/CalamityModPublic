@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
 	public class NastyChollaBol : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/NastyCholla";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Nasty Cholla");

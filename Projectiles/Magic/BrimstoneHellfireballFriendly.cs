@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class BrimstoneHellfireballFriendly : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Boss/BrimstoneHellfireball";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Hellfire");

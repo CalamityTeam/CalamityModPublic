@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 {
     public class PulseTurretShot : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public const int SpiralPrecision = 36;
         public const int SpiralRings = 6;
         public override void SetStaticDefaults()

@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Weapons.Magic
     public class MadAlchemistsCocktailGlove : ModItem
     {
         private int FlaskType = 0;
-        private int BaseDamage = 200;
+        private int BaseDamage = 150;
 
         public override void SetStaticDefaults()
         {
@@ -50,7 +50,7 @@ namespace CalamityMod.Items.Weapons.Magic
             if (player.altFunctionUse == 2)
             {
                 type = ModContent.ProjectileType<MadAlchemistsCocktailAlt>();
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, (int)(damage * 1.5f), knockBack, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, (int)(damage * 1.15f), knockBack, player.whoAmI, 0f, 0f);
             }
             else
             {

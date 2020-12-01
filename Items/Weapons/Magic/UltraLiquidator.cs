@@ -13,15 +13,15 @@ namespace CalamityMod.Items.Weapons.Magic
 		{
 			DisplayName.SetDefault("Ultra Liquidator");
 			Tooltip.SetDefault("Summons liquidation blades that summon more blades on enemy hits\n" +
-							   "The blades inflict ichor, cursed inferno, on fire, and frostburn");
+							   "The blades inflict ichor, cursed inferno, on fire and frostburn");
 			Item.staff[item.type] = true;
 		}
 
 		public override void SetDefaults()
 		{
-			item.damage = 145;
+			item.damage = 150;
 			item.crit = 30;
-			item.knockBack = 7f;
+			item.knockBack = 5f;
 			item.useTime = 3;
 			item.reuseDelay = item.useAnimation = 15;
 			item.mana = 25;

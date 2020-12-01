@@ -10,6 +10,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class NightsGazeProjectile : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/NightsGaze";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Night's Gaze");
@@ -101,7 +103,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-			Texture2D texture = ModContent.GetTexture("CalamityMod/Projectiles/Rogue/NightsGazeProjectileGlow");
+			Texture2D texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Rogue/NightsGazeGlow");
 			Vector2 origin = new Vector2(texture.Width / 2f, texture.Height / 2f);
             spriteBatch.Draw(texture, projectile.Center - Main.screenPosition, null, Color.White, projectile.rotation, origin, 1f, SpriteEffects.None, 0f);
         }

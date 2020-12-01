@@ -456,7 +456,7 @@ namespace CalamityMod
 				target.HitSound != SoundID.NPCHit5 && target.HitSound != SoundID.NPCHit11 && target.HitSound != SoundID.NPCHit30 &&
 				target.HitSound != SoundID.NPCHit34 && target.HitSound != SoundID.NPCHit36 && target.HitSound != SoundID.NPCHit42 &&
 				target.HitSound != SoundID.NPCHit49 && target.HitSound != SoundID.NPCHit52 && target.HitSound != SoundID.NPCHit53 &&
-				target.HitSound != SoundID.NPCHit54 && target.HitSound != null) || target.type == ModContent.NPCType<Providence>() || 
+				target.HitSound != SoundID.NPCHit54 && target.HitSound != null) || target.type == ModContent.NPCType<Providence>() ||
 				target.type == ModContent.NPCType<ScornEater>())
 			{
 				return true;
@@ -1111,7 +1111,7 @@ namespace CalamityMod
 			}
 		}
 
-		public static Projectile ProjectileRain(Vector2 targetPos, float xLimit, float xVariance, float yLimitLower, float yLimitUpper, float projSpeed, int projType, int damage, float knockback, int owner, int forceType = 0, int immunitySetting = 0, int cooldown = 10)
+		public static Projectile ProjectileRain(Vector2 targetPos, float xLimit, float xVariance, float yLimitLower, float yLimitUpper, float projSpeed, int projType, int damage, float knockback, int owner, int forceType = 0, int immunitySetting = 0, int cooldown = 10, int extraUpdates = 0)
 		{
 			float x = targetPos.X + Main.rand.NextFloat(-xLimit, xLimit);
 			if (projType == ModContent.ProjectileType<AstralStarMagic>())
@@ -1126,6 +1126,7 @@ namespace CalamityMod
 			velocity.X *= targetDist;
 			velocity.Y *= targetDist;
 			Projectile proj = Projectile.NewProjectileDirect(source, velocity, projType, damage, knockback, owner, 0f, 0f);
+			proj.extraUpdates += extraUpdates;
 			CalamityGlobalProjectile modProj = proj.Calamity();
 			if (forceType > 0)
 			{
@@ -1947,6 +1948,40 @@ namespace CalamityMod
 		#endregion
 
 		#region Tile Utilities
+
+		public static string GetMapChestName(string baseName, int x, int y)
+		{
+			// Bounds check.
+			if (!WorldGen.InWorld(x, y, 2))
+				return baseName;
+
+			// Tile null check.
+			Tile tile = Main.tile[x, y];
+			if (tile is null)
+				return baseName;
+
+			int left = x;
+			int top = y;
+			if (tile.frameX % 36 != 0)
+				left--;
+			if (tile.frameY != 0)
+				top--;
+
+			int chest = Chest.FindChest(left, top);
+
+			// Valid chest index check.
+			if (chest < 0)
+				return baseName;
+
+			string name = baseName;
+
+			// Concatenate the chest's custom name if it has one.
+			if (!string.IsNullOrEmpty(Main.chest[chest].name))
+				name += $": {Main.chest[chest].name}";
+
+			return name;
+		}
+
 		public static void SafeSquareTileFrame(int x, int y, bool resetFrame = true)
 		{
 			if (Main.tile[x, y] is null)

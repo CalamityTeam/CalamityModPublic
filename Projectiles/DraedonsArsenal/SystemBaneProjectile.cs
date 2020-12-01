@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 {
     public class SystemBaneProjectile : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/DraedonsArsenal/SystemBane";
+
         public SoundEffectInstance ShittyMicrowaveMemeSound = null;
         public float Time
         {

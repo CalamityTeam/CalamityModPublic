@@ -10,6 +10,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class TarragonThrowingDartProjectile : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/TarragonThrowingDart";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Dart");
@@ -32,14 +34,10 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void AI()
         {
-            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 2.355f;
+            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.ToRadians(45f);
             if (Main.rand.NextBool(3))
             {
                 Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, (int)CalamityDusts.SulfurousSeaAcid, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
-            }
-            if (projectile.spriteDirection == -1)
-            {
-                projectile.rotation -= 1.57f;
             }
         }
 

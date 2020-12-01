@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class ShockTeslaAura : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Typeless/TeslaAura";
+
         private const float radius = 98f;
         private const int lifetime = 240;
         private const int framesX = 3;

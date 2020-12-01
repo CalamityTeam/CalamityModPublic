@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
 	public class GacruxianHome : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Fishing/AstralCatches/GacruxianMollusk";
+
         private int stealthTrailTimer = 10;
 
         public override void SetStaticDefaults()

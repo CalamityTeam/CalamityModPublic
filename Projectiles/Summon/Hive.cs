@@ -6,6 +6,7 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class Hive : ModProjectile
     {
+        public override string Texture => "CalamityMod/NPCs/Astral/Hive";
 
         public override void SetStaticDefaults()
         {

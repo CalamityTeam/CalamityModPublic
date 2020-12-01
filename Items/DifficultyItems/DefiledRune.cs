@@ -1,5 +1,5 @@
+using CalamityMod.CalPlayer;
 using CalamityMod.Events;
-using CalamityMod.NPCs.SlimeGod;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -16,7 +16,6 @@ namespace CalamityMod.Items.DifficultyItems
             DisplayName.SetDefault("Defiled Rune");
             Tooltip.SetDefault("Wing flight is disabled and enemies can critically hit you\n" +
                 "Increases most rare item drop chances and enemies drop 50% more cash\n" +
-                "Using this while a boss is alive will instantly kill you and despawn the boss\n" +
                 "Can only be used in revengeance and death mode\n" +
                 "Can be toggled on and off");
         }
@@ -33,27 +32,22 @@ namespace CalamityMod.Items.DifficultyItems
             item.consumable = false;
         }
 
-        public override bool CanUseItem(Player player)
-        {
-            if (BossRushEvent.BossRushActive || !CalamityWorld.revenge)
-            {
-                return false;
-            }
-            return true;
-        }
+        public override bool CanUseItem(Player player) => CalamityWorld.revenge;
 
         public override bool UseItem(Player player)
         {
-            for (int doom = 0; doom < Main.npc.Length; doom++)
-            {
-                if ((Main.npc[doom].active && (Main.npc[doom].boss || Main.npc[doom].type == NPCID.EaterofWorldsHead || Main.npc[doom].type == NPCID.EaterofWorldsTail || Main.npc[doom].type == ModContent.NPCType<SlimeGodRun>() ||
-                    Main.npc[doom].type == ModContent.NPCType<SlimeGodRunSplit>() || Main.npc[doom].type == ModContent.NPCType<SlimeGod>() || Main.npc[doom].type == ModContent.NPCType<SlimeGodSplit>())) || CalamityWorld.DoGSecondStageCountdown > 0)
-                {
-                    player.KillMe(PlayerDeathReason.ByCustomReason(player.name + " tried to change the rules."), 1000.0, 0, false);
-                    Main.npc[doom].active = Main.npc[doom].friendly;
-                    Main.npc[doom].netUpdate = true;
-                }
-            }
+            // This world syncing code should only be run by one entity- the server, to prevent a race condition
+            // with the packets.
+            if (Main.netMode == NetmodeID.MultiplayerClient)
+                return true;
+
+            if (CalamityPlayer.areThereAnyDamnBosses || CalamityWorld.DoGSecondStageCountdown > 0 || BossRushEvent.BossRushActive)
+			{
+                string key = "Mods.CalamityMod.ChangingTheRules";
+                Color messageColor = Color.DarkSeaGreen;
+                CalamityUtils.DisplayLocalizedText(key, messageColor);
+				return true;
+			}
             if (!CalamityWorld.defiled)
             {
                 CalamityWorld.defiled = true;
@@ -69,30 +63,8 @@ namespace CalamityMod.Items.DifficultyItems
                 CalamityUtils.DisplayLocalizedText(key, messageColor);
             }
             CalamityWorld.DoGSecondStageCountdown = 0;
-
             CalamityNetcode.SyncWorld();
 
-            if (Main.netMode == NetmodeID.Server)
-            {
-                var netMessage = mod.GetPacket();
-                netMessage.Write((byte)CalamityModMessageType.DefiledBoolSync);
-                netMessage.Write(CalamityWorld.defiled);
-                netMessage.Send();
-            }
-            if (Main.netMode == NetmodeID.Server)
-            {
-                var netMessage = mod.GetPacket();
-                netMessage.Write((byte)CalamityModMessageType.RevengeanceBoolSync);
-                netMessage.Write(CalamityWorld.revenge);
-                netMessage.Send();
-            }
-            if (Main.netMode == NetmodeID.Server)
-            {
-                var netMessage = mod.GetPacket();
-                netMessage.Write((byte)CalamityModMessageType.DoGCountdownSync);
-                netMessage.Write(CalamityWorld.DoGSecondStageCountdown);
-                netMessage.Send();
-            }
             return true;
         }
 

@@ -30,8 +30,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             npc.npcSlots = 5f;
             npc.width = 120;
             npc.height = 120;
-            npc.defense = 100;
-			npc.DR_NERD(0.7f, 0.7f, 0.75f, 0.6f, true);
+            npc.defense = 80;
+			npc.DR_NERD(0.25f, 0.25f, 0.3f, 0.2f, true);
 			CalamityGlobalNPC global = npc.Calamity();
             global.multDRReductions.Add(BuffID.CursedInferno, 0.9f);
 			npc.LifeMaxNERB(1200000, 1500000);

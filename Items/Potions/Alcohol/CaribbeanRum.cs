@@ -28,7 +28,7 @@ Makes you floaty and reduces defense by 12");
             item.UseSound = SoundID.Item3;
             item.consumable = true;
             item.buffType = ModContent.BuffType<CaribbeanRumBuff>();
-            item.buffTime = 18000; //5 minutes
+            item.buffTime = CalamityUtils.SecondsToFrames(480f);
             item.value = Item.buyPrice(0, 20, 0, 0);
         }
     }

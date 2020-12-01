@@ -10,6 +10,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class IcebreakerHammer : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/Icebreaker";
+
 		private int explosionCount = 0;
 
         public override void SetStaticDefaults()

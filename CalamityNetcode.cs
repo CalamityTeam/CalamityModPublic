@@ -98,31 +98,13 @@ namespace CalamityMod
                     case CalamityModMessageType.DeathModeBlizzardTimeSync:
                         Main.player[reader.ReadInt32()].Calamity().HandleDeathModeBlizzardTime(reader);
                         break;
-                    case CalamityModMessageType.RevengeanceBoolSync:
-                        bool revActive = reader.ReadBoolean();
-                        CalamityWorld.revenge = revActive;
-                        break;
-                    case CalamityModMessageType.DeathBoolSync:
-                        bool deathActive = reader.ReadBoolean();
-                        CalamityWorld.death = deathActive;
-                        break;
-                    case CalamityModMessageType.DefiledBoolSync:
-                        bool defiledActive = reader.ReadBoolean();
-                        CalamityWorld.defiled = defiledActive;
-                        break;
-                    case CalamityModMessageType.IronHeartBoolSync:
-                        bool ironHeartActive = reader.ReadBoolean();
-                        CalamityWorld.ironHeart = ironHeartActive;
-                        break;
-                    case CalamityModMessageType.ArmageddonBoolSync:
-                        bool armaActive = reader.ReadBoolean();
-                        CalamityWorld.armageddon = armaActive;
-                        break;
-                    case CalamityModMessageType.DemonTrophyBoolSync:
-                        bool demonModeBoost = reader.ReadBoolean();
-                        CalamityWorld.demonMode = demonModeBoost;
-                        break;
-                    case CalamityModMessageType.NPCRegenerationSync:
+					case CalamityModMessageType.ItemTypeLastReforgedSync:
+						Main.player[reader.ReadInt32()].Calamity().HandleItemTypeLastReforged(reader);
+						break;
+					case CalamityModMessageType.ReforgeTierSafetySync:
+						Main.player[reader.ReadInt32()].Calamity().HandleReforgeTierSafety(reader);
+						break;
+					case CalamityModMessageType.NPCRegenerationSync:
                         byte npcIndex = reader.ReadByte();
                         Main.npc[npcIndex].lifeRegen = reader.ReadInt32();
                         break;
@@ -281,20 +263,16 @@ namespace CalamityMod
         BossTypeSync,
         DeathCountSync,
 
-        RevengeanceBoolSync,
-        DeathBoolSync,
-        DefiledBoolSync,
-        IronHeartBoolSync,
-        ArmageddonBoolSync,
-        DemonTrophyBoolSync,
-
         NPCRegenerationSync,
 
         DeathModeUnderworldTimeSync,
         DeathModeBlizzardTimeSync,
         DeathBossSpawnCountdownSync,
 
-        AcidRainSync,
+		ItemTypeLastReforgedSync,
+		ReforgeTierSafetySync,
+
+		AcidRainSync,
         AcidRainUIDrawFadeSync,
         AcidRainOldDukeSummonSync,
 		EncounteredOldDukeSync,

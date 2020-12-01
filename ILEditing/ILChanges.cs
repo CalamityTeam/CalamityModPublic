@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using Terraria;
-using Terraria.GameInput;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -22,25 +21,52 @@ namespace CalamityMod.ILEditing
             NPCID.Creeper,
             NPCID.WallofFleshEye,
         };
-        
+
+        // Holds the vanilla game function which spawns town NPCs, wrapped in a delegate for reflection purposes.
+        // This function is (optionally) invoked manually in an IL edit to enable NPCs to spawn at night.
+        private static Action VanillaSpawnTownNPCs;
+
+        private static int labDoorOpen = -1;
+        private static int labDoorClosed = -1;
+        private static int aLabDoorOpen = -1;
+        private static int aLabDoorClosed = -1;
+
         /// <summary>
         /// Loads all IL Editing changes in the mod.
         /// </summary>
-        public static void Initialize()
+        internal static void Load()
         {
-            var spawnTownNPCMethod = typeof(Main).GetMethod("UpdateTime_SpawnTownNPCs", BindingFlags.Static | BindingFlags.NonPublic);
-            cachedUpdateTime_SpawnTownNPCs = Delegate.CreateDelegate(typeof(Action), spawnTownNPCMethod) as Action;
+            // Wrap the vanilla town NPC spawning function in a delegate so that it can be tossed around and called at will.
+            var updateTime = typeof(Main).GetMethod("UpdateTime_SpawnTownNPCs", BindingFlags.Static | BindingFlags.NonPublic);
+            VanillaSpawnTownNPCs = Delegate.CreateDelegate(typeof(Action), updateTime) as Action;
 
-            On.Terraria.NPC.SlimeRainSpawns += PreventBossSlimeRainSpawns;
+            // Cache the four lab door tile types for efficiency.
+            labDoorOpen = ModContent.TileType<LaboratoryDoorOpen>();
+            labDoorClosed = ModContent.TileType<LaboratoryDoorClosed>();
+            aLabDoorOpen = ModContent.TileType<AgedLaboratoryDoorOpen>();
+            aLabDoorClosed = ModContent.TileType<AgedLaboratoryDoorClosed>();
+
             ApplyLifeBytesChanges();
+            ApplyBossZenDuringSlimeRain();
             SlideDungeonOver();
-            AlterTownNPCSpawnRate();
+            BlockLivingTreesNearOcean();
             LabDoorFixes();
-            PreventStupidTreesNearOcean();
+            AlterTownNPCSpawnRate();
+        }
+
+        /// <summary>
+        /// Currently mostly useless, but clears static variables.
+        /// </summary>
+        internal static void Unload()
+        {
+            VanillaSpawnTownNPCs = null;
+            labDoorOpen = labDoorClosed = aLabDoorOpen = aLabDoorClosed = -1;
         }
 
         #region IL Editing Routines
         private static void ApplyLifeBytesChanges() => On.Terraria.Main.InitLifeBytes += BossRushLifeBytes;
+
+        private static void ApplyBossZenDuringSlimeRain() => On.Terraria.NPC.SlimeRainSpawns += PreventBossSlimeRainSpawns;
 
         private static void SlideDungeonOver()
         {
@@ -61,7 +87,7 @@ namespace CalamityMod.ILEditing
             };
         }
 
-        private static void PreventStupidTreesNearOcean()
+        private static void BlockLivingTreesNearOcean()
         {
             IL.Terraria.WorldGen.GrowLivingTree += (il) =>
             {
@@ -74,18 +100,9 @@ namespace CalamityMod.ILEditing
 
         private static void LabDoorFixes()
         {
-            On.Terraria.Player.TileInteractionsUse += Player_TileInteractionsUse;
-            On.Terraria.WorldGen.OpenDoor += LabDoorsOpen;
-            On.Terraria.WorldGen.CloseDoor += LabDoorsClose;
+            On.Terraria.WorldGen.OpenDoor += OpenDoor_LabDoorOverride;
+            On.Terraria.WorldGen.CloseDoor += CloseDoor_LabDoorOverride;
         }
-
-		private static void PreventBossSlimeRainSpawns(On.Terraria.NPC.orig_SlimeRainSpawns orig, int plr)
-		{
-            if (!Main.player[plr].Calamity().bossZen)
-                orig(plr);
-		}
-
-        private static Action cachedUpdateTime_SpawnTownNPCs;
 
         private static void AlterTownNPCSpawnRate()
         {
@@ -100,7 +117,7 @@ namespace CalamityMod.ILEditing
                     // A cached delegate is used here instead of direct reflection for performance reasons
                     // since UpdateTime is called every frame.
                     if (Main.dayTime || CalamityConfig.Instance.CanTownNPCsSpawnAtNight)
-                        cachedUpdateTime_SpawnTownNPCs();
+                        VanillaSpawnTownNPCs();
                 });
 
                 if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchCallOrCallvirt<Main>("UpdateTime_SpawnTownNPCs")))
@@ -122,7 +139,7 @@ namespace CalamityMod.ILEditing
         }
         #endregion
 
-        #region IL Editing Injection Functions
+        #region IL Editing Injected/Hooked Functions
         private static void BossRushLifeBytes(On.Terraria.Main.orig_InitLifeBytes orig)
         {
             orig();
@@ -130,87 +147,96 @@ namespace CalamityMod.ILEditing
                 Main.npcLifeBytes[npcType] = 4;
         }
 
-        private static bool LabDoorsOpen(On.Terraria.WorldGen.orig_OpenDoor orig, int i, int j, int direction)
+        private static void PreventBossSlimeRainSpawns(On.Terraria.NPC.orig_SlimeRainSpawns orig, int plr)
+        {
+            if (!Main.player[plr].Calamity().bossZen)
+                orig(plr);
+        }
+
+        private static bool OpenDoor_LabDoorOverride(On.Terraria.WorldGen.orig_OpenDoor orig, int i, int j, int direction)
         {
             Tile tile = Main.tile[i, j];
-            if (tile.type == ModContent.TileType<AgedLaboratoryDoorOpen>() || tile.type == ModContent.TileType<AgedLaboratoryDoorClosed>() ||
-            tile.type == ModContent.TileType<LaboratoryDoorOpen>() || tile.type == ModContent.TileType<LaboratoryDoorClosed>())
-            {
-                return false;
-            }
-            else
-            {
+            // If the tile is somehow null, that's vanilla's problem, we're outta here
+            if (tile is null)
                 return orig(i, j, direction);
-            }
+
+            // If it's one of the two lab doors, use custom code to open the door and sync tiles in multiplayer.
+            else if (tile.type == labDoorClosed)
+                return OpenLabDoor(tile, i, j, labDoorOpen);
+            else if (tile.type == aLabDoorClosed)
+                return OpenLabDoor(tile, i, j, aLabDoorOpen);
+
+            // If it's anything else, let vanilla and/or TML handle it.
+            return orig(i, j, direction);
         }
 
-        private static bool LabDoorsClose(On.Terraria.WorldGen.orig_CloseDoor orig, int i, int j, bool forced)
+        private static bool CloseDoor_LabDoorOverride(On.Terraria.WorldGen.orig_CloseDoor orig, int i, int j, bool forced)
         {
             Tile tile = Main.tile[i, j];
-            if (tile.type == ModContent.TileType<AgedLaboratoryDoorOpen>() || tile.type == ModContent.TileType<AgedLaboratoryDoorClosed>() ||
-            tile.type == ModContent.TileType<LaboratoryDoorOpen>() || tile.type == ModContent.TileType<LaboratoryDoorClosed>())
-            {
-                return false;
-            }
-            else
-            {
+            // If the tile is somehow null, that's vanilla's problem, we're outta here
+            if (tile is null)
                 return orig(i, j, forced);
-            }
-        }
 
-        private static void Player_TileInteractionsUse(On.Terraria.Player.orig_TileInteractionsUse orig, Player player, int i, int j)
-        {
-            Tile tile = Main.tile[i, j];
-            if (tile.type == ModContent.TileType<AgedLaboratoryDoorOpen>())
-            {
-                DoorSwap(ModContent.TileType<AgedLaboratoryDoorClosed>(), ModContent.TileType<AgedLaboratoryDoorOpen>(), i, j);
-            }
-            else if (tile.type == ModContent.TileType<AgedLaboratoryDoorClosed>())
-            {
-                DoorSwap(ModContent.TileType<AgedLaboratoryDoorOpen>(), ModContent.TileType<AgedLaboratoryDoorClosed>(), i, j);
-            }
-            else if (tile.type == ModContent.TileType<LaboratoryDoorOpen>())
-            {
-                DoorSwap(ModContent.TileType<LaboratoryDoorClosed>(), ModContent.TileType<LaboratoryDoorOpen>(), i, j);
-            }
-            else if (tile.type == ModContent.TileType<LaboratoryDoorClosed>())
-            {
-                DoorSwap(ModContent.TileType<LaboratoryDoorOpen>(), ModContent.TileType<LaboratoryDoorClosed>(), i, j);
-            }
-            else
-            {
-                orig(player, i, j);
-            }
+            // If it's one of the two lab doors, use custom code to open the door and sync tiles in multiplayer.
+            else if (tile.type == labDoorOpen)
+                return CloseLabDoor(tile, i, j, labDoorClosed);
+            else if (tile.type == aLabDoorOpen)
+                return CloseLabDoor(tile, i, j, aLabDoorClosed);
+
+            // If it's anything else, let vanilla and/or TML handle it.
+            return orig(i, j, forced);
         }
         #endregion
 
         #region Helper Functions
-        public static void DoorSwap(int type1, int type2, int i, int j, bool forced = false)
+        private static int FindTopOfDoor(int i, int j, Tile rootTile)
         {
-            if (PlayerInput.Triggers.JustPressed.MouseRight || forced)
+            Tile t = Main.tile[i, j];
+            int topY = j;
+            while(t != null && t.active() && t.type == rootTile.type)
             {
-                ushort type = (ushort)type1;
-                short frameY = 0;
-                for (int dy = -4; dy < 4; dy++)
-                {
-                    if (Main.tile[i, j + dy].frameY > 0 && frameY == 0)
-                        continue;
-                    if (Main.tile[i, j + dy].type == type2)
-                    {
-                        if (Main.tile[i, j + dy] is null)
-                        {
-                            Main.tile[i, j + dy] = new Tile();
-                        }
-                        Main.tile[i, j + dy].type = type;
-                        Main.tile[i, j + dy].frameY = frameY;
-                        frameY += 16;
-                        if ((int)frameY / 16 >= 4)
-                            break;
-                    }
-                }
-
-                Main.PlaySound(SoundID.DoorClosed, i * 16, j * 16, 1, 1f, 0f);
+                // Immediately stop at the top of the world, if you got there somehow.
+                if (topY == 0)
+                    return topY;
+                // Go up one space and re-assign the current tile.
+                --topY;
+                t = Main.tile[i, topY];
             }
+            
+            // The above loop will have gone 1 past the top of the door. Correct for this.
+            return ++topY;
+        }
+
+        private static bool OpenLabDoor(Tile tile, int i, int j, int openID)
+        {
+            int topY = FindTopOfDoor(i, j, tile);
+            return DirectlyTransformLabDoor(i, topY, openID);
+        }
+
+        private static bool CloseLabDoor(Tile tile, int i, int j, int closedID)
+        {
+            int topY = FindTopOfDoor(i, j, tile);
+            return DirectlyTransformLabDoor(i, topY, closedID);
+        }
+
+        private static bool DirectlyTransformLabDoor(int doorX, int doorY, int newDoorID, int wireHitY = -1)
+        {
+            // Transform the door one tile at a time.
+            // If applicable, skip wiring for all door tiles except the one that was hit by this wire event.
+            for (int y = doorY; y < doorY + 4; ++y)
+            {
+                Main.tile[doorX, y].type = (ushort)newDoorID;
+                if (Main.netMode != NetmodeID.MultiplayerClient && Wiring.running && y != wireHitY)
+                    Wiring.SkipWire(doorX, y);
+            }
+
+            // Second pass: TileFrame all those positions, which will sync in multiplayer if applicable
+            for (int y = doorY; y < doorY + 4; ++y)
+                WorldGen.TileFrame(doorX, y);
+
+            // Play the door closing sound (lab doors do not use the door opening sound)
+            Main.PlaySound(SoundID.DoorClosed, doorX * 16, doorY * 16);
+            return true;
         }
         #endregion
     }

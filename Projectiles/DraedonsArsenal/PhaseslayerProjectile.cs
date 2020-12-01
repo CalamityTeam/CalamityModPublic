@@ -13,6 +13,8 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 {
 	public class PhaseslayerProjectile : ModProjectile
 	{
+        public override string Texture => "CalamityMod/Items/Weapons/DraedonsArsenal/Phaseslayer";
+
 		// The "average" or "expected" swing speed which the sword's damage balance is based off of.
 		// This is rotation EVERY FRAME. The "average" swing speed is 360 degrees in one second, aka pi/30 radians per frame.
 		public const float StandardSwingSpeed = MathHelper.Pi / 30f;

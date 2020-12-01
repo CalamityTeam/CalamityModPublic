@@ -133,6 +133,8 @@ namespace CalamityMod.CalPlayer
 		public bool blockAllDashes = false;
 		public bool resetHeightandWidth = false;
 		public bool noLifeRegen = false;
+		public int itemTypeLastReforged = 0;
+		public int reforgeTierSafety = 0;
         #endregion
 
         #region Tile Entity Trackers
@@ -191,7 +193,8 @@ namespace CalamityMod.CalPlayer
         public int armorPenetrationStat = 0;
         public float wingFlightTimeStat = 0f;
 		public float jumpSpeedStat = 0f;
-        public int adrenalineChargeStat = 0;
+        public int adrenalineDamageStat = 0;
+		public int adrenalineDRStat = 0;
         public int rageDamageStat = 0;
         public int moveSpeedStat = 0;
         public int abyssLightLevelStat = 0;
@@ -1127,7 +1130,9 @@ namespace CalamityMod.CalPlayer
                 { "exactRogueLevel", exactRogueLevel },
                 { "deathCount", deathCount },
                 { "deathModeUnderworldTime", deathModeUnderworldTime },
-                { "deathModeBlizzardTime", deathModeBlizzardTime }
+                { "deathModeBlizzardTime", deathModeBlizzardTime },
+				{ "itemTypeLastReforged", itemTypeLastReforged },
+				{ "reforgeTierSafety", reforgeTierSafety }
             };
         }
 
@@ -1192,7 +1197,10 @@ namespace CalamityMod.CalPlayer
             deathModeUnderworldTime = tag.GetInt("deathModeUnderworldTime");
             deathModeBlizzardTime = tag.GetInt("deathModeBlizzardTime");
 
-            meleeLevel = tag.GetInt("meleeLevel");
+			itemTypeLastReforged = tag.GetInt("itemTypeLastReforged");
+			reforgeTierSafety = tag.GetInt("reforgeTierSafety");
+
+			meleeLevel = tag.GetInt("meleeLevel");
             rangedLevel = tag.GetInt("rangedLevel");
             magicLevel = tag.GetInt("magicLevel");
             summonLevel = tag.GetInt("summonLevel");
@@ -1222,7 +1230,10 @@ namespace CalamityMod.CalPlayer
             deathModeUnderworldTime = reader.ReadInt32();
             deathModeBlizzardTime = reader.ReadInt32();
 
-            meleeLevel = reader.ReadInt32();
+			itemTypeLastReforged = reader.ReadInt32();
+			reforgeTierSafety = reader.ReadInt32();
+
+			meleeLevel = reader.ReadInt32();
             rangedLevel = reader.ReadInt32();
             magicLevel = reader.ReadInt32();
             summonLevel = reader.ReadInt32();
@@ -3562,19 +3573,27 @@ namespace CalamityMod.CalPlayer
             {
                 meleeSpeedMult += 0.15f;
             }
-            if (badgeOfBraveryRare)
-            {
+			if (badgeOfBraveryRare)
+			{
 				float maxDistance = 480f; // 30 tile distance
+				float meleeSpeedBoost = 0f;
 				for (int l = 0; l < Main.maxNPCs; l++)
 				{
-					NPC npc = Main.npc[l];
-					if (npc.active && !npc.friendly && (npc.damage > 0 || npc.boss) && !npc.dontTakeDamage && Vector2.Distance(player.Center, npc.Center) <= maxDistance)
+					NPC nPC = Main.npc[l];
+					if (nPC.active && !nPC.friendly && (nPC.damage > 0 || nPC.boss) && !nPC.dontTakeDamage && Vector2.Distance(player.Center, nPC.Center) <= maxDistance)
 					{
-						meleeSpeedMult += MathHelper.Lerp(0f, 0.3f, 1f - (Vector2.Distance(player.Center, npc.Center) / maxDistance));
+						meleeSpeedBoost += MathHelper.Lerp(0f, 0.3f, 1f - (Vector2.Distance(player.Center, nPC.Center) / maxDistance));
+
+						if (meleeSpeedBoost >= 0.3f)
+						{
+							meleeSpeedBoost = 0.3f;
+							break;
+						}
 					}
 				}
-            }
-            if (eGauntlet)
+				meleeSpeedMult += meleeSpeedBoost;
+			}
+			if (eGauntlet)
             {
                 meleeSpeedMult += 0.15f;
             }
@@ -3888,13 +3907,15 @@ namespace CalamityMod.CalPlayer
             }
             if (abyssalDivingSuit && !player.IsUnderwater())
             {
-                runAccMult *= 0.4f;
-                runSpeedMult *= 0.4f;
+				float multiplier = 0.4f + abyssalDivingSuitPlateHits * 0.2f;
+                runAccMult *= multiplier;
+                runSpeedMult *= multiplier;
             }
             if (fabledTortoise)
             {
-                runAccMult *= 0.5f;
-                runSpeedMult *= 0.5f;
+				float multiplier = shellBoost ? 0.8f : 0.5f;
+                runAccMult *= multiplier;
+                runSpeedMult *= multiplier;
             }
             if (ursaSergeant)
             {
@@ -5336,7 +5357,7 @@ namespace CalamityMod.CalPlayer
                 {
                     if (item.melee)
                     {
-                        damageMult += (DHorHoD ? 2.3 : 2.0);
+                        damageMult += DHorHoD ? 3.1 : 2.8;
                     }
                 }
                 else if (rageModeActive)
@@ -5355,8 +5376,12 @@ namespace CalamityMod.CalPlayer
                 {
                     if (item.melee)
                     {
-                        damageMult += 1.5;
-                    }
+						double adrenalineDamageBoost = 0D +
+							(adrenalineBoostOne ? 0.15 : 0D) +
+							(adrenalineBoostTwo ? 0.15 : 0D) +
+							(adrenalineBoostThree ? 0.15 : 0D);
+						damageMult += 2D + adrenalineDamageBoost;
+					}
                 }
             }
             damage = (int)(damage * damageMult);
@@ -5434,7 +5459,7 @@ namespace CalamityMod.CalPlayer
 							ProjectileID.HallowStar,
 							ModContent.ProjectileType<FallenStarProj>()
 						});
-						CalamityUtils.ProjectileRain(target.Center, 400f, 100f, 500f, 800f, 25f, projectileType, (int)(120 * player.AverageDamage()), 5f, player.whoAmI, 6);
+						CalamityUtils.ProjectileRain(target.Center, 400f, 100f, 500f, 800f, 12f, projectileType, (int)(120 * player.AverageDamage()), 5f, player.whoAmI, 6, 0, 10, 2);
                     }
                 }
                 if (bloodflareMelee && item.melee)
@@ -5630,17 +5655,17 @@ namespace CalamityMod.CalPlayer
                 {
                     if (hasClassType)
                     {
-                        damageMult += (DHorHoD ? 2.3 : 2.0);
+                        damageMult += DHorHoD ? 3.1 : 2.8;
                     }
                 }
                 else if (rageModeActive)
                 {
                     if (hasClassType)
                     {
-                        double rageDamageBoost = 0.0 +
-                            (rageBoostOne ? 0.15 : 0.0) +
-                            (rageBoostTwo ? 0.15 : 0.0) +
-                            (rageBoostThree ? 0.15 : 0.0);
+                        double rageDamageBoost = 0D +
+                            (rageBoostOne ? 0.15 : 0D) +
+                            (rageBoostTwo ? 0.15 : 0D) +
+                            (rageBoostThree ? 0.15 : 0D);
                         double rageDamage = (DHorHoD ? 0.65 : 0.5) + rageDamageBoost;
                         damageMult += rageDamage;
                     }
@@ -5649,7 +5674,11 @@ namespace CalamityMod.CalPlayer
                 {
                     if (hasClassType)
                     {
-                        damageMult += 1.5;
+						double adrenalineDamageBoost = 0D +
+							(adrenalineBoostOne ? 0.15 : 0D) +
+							(adrenalineBoostTwo ? 0.15 : 0D) +
+							(adrenalineBoostThree ? 0.15 : 0D);
+						damageMult += 2D + adrenalineDamageBoost;
                     }
                 }
             }
@@ -6166,7 +6195,7 @@ namespace CalamityMod.CalPlayer
 				contactDamageReduction += 0.15;
 
 			if (abyssalDivingSuitPlates)
-				contactDamageReduction += 0.15;
+				contactDamageReduction += 0.15 - abyssalDivingSuitPlateHits * 0.03;
 
 			if (sirenIce)
 				contactDamageReduction += 0.2;
@@ -6191,7 +6220,13 @@ namespace CalamityMod.CalPlayer
 				if (CalamityConfig.Instance.Rippers)
 				{
 					if (adrenaline == adrenalineMax && !adrenalineModeActive)
-						contactDamageReduction += 0.5;
+					{
+						double adrenalineDRBoost = 0D +
+							(adrenalineBoostOne ? 0.05 : 0D) +
+							(adrenalineBoostTwo ? 0.05 : 0D) +
+							(adrenalineBoostThree ? 0.05 : 0D);
+						contactDamageReduction += 0.5 + adrenalineDRBoost;
+					}
 				}
 			}
 
@@ -6455,7 +6490,7 @@ namespace CalamityMod.CalPlayer
 				projectileDamageReduction += 0.15;
 
 			if (abyssalDivingSuitPlates)
-				projectileDamageReduction += 0.15;
+				projectileDamageReduction += 0.15 - abyssalDivingSuitPlateHits * 0.03;
 
 			if (sirenIce)
 				projectileDamageReduction += 0.2;
@@ -6480,7 +6515,13 @@ namespace CalamityMod.CalPlayer
 				if (CalamityConfig.Instance.Rippers)
 				{
 					if (adrenaline == adrenalineMax && !adrenalineModeActive)
-						projectileDamageReduction += 0.5;
+					{
+						double adrenalineDRBoost = 0D +
+							(adrenalineBoostOne ? 0.05 : 0D) +
+							(adrenalineBoostTwo ? 0.05 : 0D) +
+							(adrenalineBoostThree ? 0.05 : 0D);
+						projectileDamageReduction += 0.5 + adrenalineDRBoost;
+					}
 				}
 			}
 
@@ -7184,6 +7225,18 @@ namespace CalamityMod.CalPlayer
 				{
 					player.AddBuff(ModContent.BuffType<Shadowflame>(), 120);
 				}
+				else if (proj.type == ProjectileID.PhantasmalBolt || proj.type == ProjectileID.PhantasmalEye)
+				{
+					player.AddBuff(ModContent.BuffType<Nightwither>(), 180);
+				}
+				else if (proj.type == ProjectileID.PhantasmalSphere)
+				{
+					player.AddBuff(ModContent.BuffType<Nightwither>(), 360);
+				}
+				else if (proj.type == ProjectileID.PhantasmalDeathray)
+				{
+					player.AddBuff(ModContent.BuffType<Nightwither>(), 600);
+				}
 			}
 			if (CalamityLists.projectileDestroyExceptionList.TrueForAll(x => proj.type != x))
 			{
@@ -7675,11 +7728,13 @@ namespace CalamityMod.CalPlayer
                 }
                 if ((gShell || fabledTortoise) && !player.panic)
                 {
-                    player.AddBuff(ModContent.BuffType<ShellBoost>(), 300);
+                    player.AddBuff(ModContent.BuffType<ShellBoost>(), 180);
                 }
                 if (abyssalDivingSuitPlates && damage > 50)
                 {
-                    abyssalDivingSuitPlateHits++;
+					if (abyssalDivingSuitPlateHits < 3)
+						abyssalDivingSuitPlateHits++;
+
                     if (abyssalDivingSuitPlateHits >= 3)
                     {
                         Main.PlaySound(SoundID.NPCKilled, (int)player.position.X, (int)player.position.Y, 14);
@@ -9009,7 +9064,7 @@ namespace CalamityMod.CalPlayer
                 }
                 else if (dashMod == 4) //Asgardian Aegis
                 {
-                    dashDistance = 23.9f;
+                    dashDistance = 22.7f;
                     int direction = 0;
                     bool justDashed = false;
                     if (dashTimeMod > 0)
@@ -9198,7 +9253,7 @@ namespace CalamityMod.CalPlayer
                 }
                 else if (dashMod == 7) //Statis' Belt of Curses
                 {
-                    dashDistance = 21.9f;
+                    dashDistance = 25.4f;
                     int direction = 0;
                     bool justDashed = false;
                     if (dashTimeMod > 0)
@@ -10020,7 +10075,33 @@ namespace CalamityMod.CalPlayer
                 packet.Send(-1, player.whoAmI);
         }
 
-        internal void HandleExactLevels(BinaryReader reader, int levelType)
+		public void ItemTypeLastReforgedPacket(bool server)
+		{
+			ModPacket packet = mod.GetPacket(256);
+			packet.Write((byte)CalamityModMessageType.ItemTypeLastReforgedSync);
+			packet.Write(player.whoAmI);
+			packet.Write(itemTypeLastReforged);
+
+			if (!server)
+				packet.Send();
+			else
+				packet.Send(-1, player.whoAmI);
+		}
+
+		public void ReforgeTierSafetyPacket(bool server)
+		{
+			ModPacket packet = mod.GetPacket(256);
+			packet.Write((byte)CalamityModMessageType.ReforgeTierSafetySync);
+			packet.Write(player.whoAmI);
+			packet.Write(reforgeTierSafety);
+
+			if (!server)
+				packet.Send();
+			else
+				packet.Send(-1, player.whoAmI);
+		}
+
+		internal void HandleExactLevels(BinaryReader reader, int levelType)
         {
             switch (levelType)
             {
@@ -10105,7 +10186,21 @@ namespace CalamityMod.CalPlayer
                 DeathModeBlizzardTimePacket(true);
         }
 
-        public override void OnEnterWorld(Player player)
+		internal void HandleItemTypeLastReforged(BinaryReader reader)
+		{
+			itemTypeLastReforged = reader.ReadInt32();
+			if (Main.netMode == NetmodeID.Server)
+				ItemTypeLastReforgedPacket(true);
+		}
+
+		internal void HandleReforgeTierSafety(BinaryReader reader)
+		{
+			reforgeTierSafety = reader.ReadInt32();
+			if (Main.netMode == NetmodeID.Server)
+				ReforgeTierSafetyPacket(true);
+		}
+
+		public override void OnEnterWorld(Player player)
         {
             if (Main.netMode == NetmodeID.MultiplayerClient)
             {
@@ -10124,6 +10219,7 @@ namespace CalamityMod.CalPlayer
                 DeathPacket(false);
                 DeathModeUnderworldTimePacket(false);
                 DeathModeBlizzardTimePacket(false);
+				ItemTypeLastReforgedPacket(false);
             }
         }
         #endregion

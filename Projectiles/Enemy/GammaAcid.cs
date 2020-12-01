@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.Enemy
 {
     public class GammaAcid : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Enemy/FlakAcid";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Acid");

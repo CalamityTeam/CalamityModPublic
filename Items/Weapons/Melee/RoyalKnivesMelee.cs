@@ -1,5 +1,5 @@
 using CalamityMod.Items.Materials;
-using CalamityMod.Projectiles.Hybrid;
+using CalamityMod.Projectiles.Melee;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using System;
@@ -31,8 +31,8 @@ namespace CalamityMod.Items.Weapons.Melee
             item.UseSound = SoundID.Item39;
             item.autoReuse = true;
             item.height = 20;
-            item.value = Item.buyPrice(5, 0, 0, 0);
-            item.rare = 10;
+            item.value = Item.buyPrice(platinum: 5);
+            item.rare = ItemRarityID.Red;
             item.shoot = ModContent.ProjectileType<IllustriousKnife>();
             item.shootSpeed = 9f;
             item.Calamity().customRarity = CalamityRarity.ItemSpecific;
@@ -93,8 +93,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 num149 *= num80;
                 float x4 = vector2.X;
                 float y4 = vector2.Y;
-                int knife = Projectile.NewProjectile(x4, y4, num148, num149, type, damage, knockBack, player.whoAmI, 0f, 0f);
-				Main.projectile[knife].Calamity().forceMelee = true;
+                Projectile.NewProjectile(x4, y4, num148, num149, type, damage, knockBack, player.whoAmI, 0f, 0f);
             }
             return false;
         }

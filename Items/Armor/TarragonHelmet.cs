@@ -65,7 +65,7 @@ namespace CalamityMod.Items.Armor
             player.setBonus = "Reduces enemy spawn rates\n" +
                 "Increased heart pickup range\n" +
                 "Enemies have a chance to drop extra hearts on death\n" +
-                "After every 25 rogue critical hits you will gain 5 seconds of damage immunity\n" +
+                "After every 25 rogue critical hits you will gain 3 seconds of damage immunity\n" +
                 "This effect can only occur once every 30 seconds\n" +
                 "While under the effects of a debuff you gain 10% increased rogue damage\n" +
                 "Rogue stealth builds while not attacking and slower while moving, up to a max of 115\n" +

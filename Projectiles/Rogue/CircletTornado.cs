@@ -6,6 +6,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
 	public class CircletTornado : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/TornadoProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Tornado");

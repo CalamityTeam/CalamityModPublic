@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Accessories
                                "Nearby enemies receive a variety of debuffs when you are hit\n" +
                                "Brimstone fireballs drop from the sky occasionally\n" +
                                "Summons a fungal clump to fight for you that leaves behind poisonous seawater\n" +
-                               "75% increased movement speed, 10% increase to all damage, and plus 40 defense while submerged in any liquid\n" +
+                               "75% increased movement speed, 10% increase to all damage, and plus 20 defense while submerged in any liquid\n" +
 							   "The above bonuses also apply when passing through the clump's poisonous seawater\n" +
                                "Temporary immunity to lava, greatly reduces lava burn damage, and 15% increased damage while in lava\n" +
                                "You have a damaging aura that envenoms nearby enemies and increased movement in liquids");
@@ -121,7 +121,7 @@ namespace CalamityMod.Items.Accessories
             if (WaterBonuses || player.IsUnderwater())
             {
                 player.allDamage += 0.1f;
-                player.statDefense += 40;
+                player.statDefense += 20;
                 player.moveSpeed += 0.75f;
             }
 
@@ -193,13 +193,13 @@ namespace CalamityMod.Items.Accessories
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<AmalgamatedBrain>());
-            recipe.AddIngredient(ModContent.ItemType<VoidofExtinction>());
-            recipe.AddIngredient(ModContent.ItemType<FungalClump>());
-            recipe.AddIngredient(ModContent.ItemType<LeviathanAmbergris>());
-            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>());
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
+            recipe.AddIngredient(ItemType<AmalgamatedBrain>());
+            recipe.AddIngredient(ItemType<VoidofExtinction>());
+            recipe.AddIngredient(ItemType<FungalClump>());
+            recipe.AddIngredient(ItemType<LeviathanAmbergris>());
+            recipe.AddIngredient(ItemType<CosmiliteBar>(), 5);
+            recipe.AddIngredient(ItemType<AscendantSpiritEssence>());
+            recipe.AddTile(TileType<DraedonsForge>());
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

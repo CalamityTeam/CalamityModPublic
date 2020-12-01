@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class IchorSpearProj : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/IchorSpear";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Spear");

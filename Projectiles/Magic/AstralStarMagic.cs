@@ -11,6 +11,8 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class AstralStarMagic : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Typeless/AstralStar";
+
         private int noTileHitCounter = 120;
 
         public override void SetStaticDefaults()

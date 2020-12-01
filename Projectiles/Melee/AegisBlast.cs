@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class AegisBlast : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Aegis Blast");
@@ -95,7 +97,7 @@ namespace CalamityMod.Projectiles.Melee
 
 		public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
 		{
-			projectile.damage = (int)(projectile.damage * 0.9);
+			projectile.damage = (int)(projectile.damage * 0.95);
 		}
 	}
 }

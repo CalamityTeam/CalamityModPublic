@@ -1,5 +1,6 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Weapons.Ranged;
@@ -557,7 +558,7 @@ namespace CalamityMod.NPCs.Abyss
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.player.Calamity().ZoneAbyssLayer3 && spawnInfo.water && !NPC.AnyNPCs(ModContent.NPCType<ColossalSquid>()))
+            if ((spawnInfo.player.Calamity().ZoneAbyssLayer3 || spawnInfo.player.Calamity().ZoneAbyssLayer4) && spawnInfo.water && !NPC.AnyNPCs(ModContent.NPCType<ColossalSquid>()))
             {
                 return SpawnCondition.CaveJellyfish.Chance * 0.6f;
             }
@@ -577,6 +578,7 @@ namespace CalamityMod.NPCs.Abyss
             DropHelper.DropItemCondition(npc, ModContent.ItemType<DepthCells>(), CalamityWorld.downedCalamitas, 2, 26, 38);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<DepthCells>(), CalamityWorld.downedCalamitas && Main.expertMode, 2, 5, 7);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<CalamarisLament>(), CalamityWorld.downedPolterghast, 3, 1, 1);
+            DropHelper.DropItemChance(npc, ModContent.ItemType<InkBomb>(), 10, 1, 1);
         }
 
         public override void HitEffect(int hitDirection, double damage)

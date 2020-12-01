@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.Summon
 {
 	public class EndoFire : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public bool speedXChoice = false;
         public bool speedYChoice = false;
 

@@ -9,7 +9,7 @@ namespace CalamityMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Deep Diver");
-            Tooltip.SetDefault("15% increased damage, defense, and movement speed when underwater\n" +
+            Tooltip.SetDefault("15% increased damage and movement speed and +15 defense while underwater\n" +
                                 "While underwater you gain the ability to dash great distances");
         }
 
@@ -26,7 +26,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            if (Collision.DrownCollision(player.position, player.width, player.height, player.gravDir))
+            if (player.IsUnderwater())
             {
                 CalamityPlayer modPlayer = player.Calamity();
                 modPlayer.deepDiver = true;

@@ -985,7 +985,7 @@ namespace CalamityMod.NPCs
             }
             else if (npc.type == NPCID.DukeFishron)
             {
-                npc.lifeMax = (int)(npc.lifeMax * 1.85);
+                npc.lifeMax = (int)(npc.lifeMax * 1.95);
                 npc.npcSlots = 20f;
             }
             else if (npc.type == NPCID.Sharkron || npc.type == NPCID.Sharkron2)
@@ -1008,7 +1008,7 @@ namespace CalamityMod.NPCs
             }
             else if (npc.type == NPCID.Plantera)
             {
-                npc.lifeMax = (int)(npc.lifeMax * 2.3);
+                npc.lifeMax = (int)(npc.lifeMax * 2.35);
                 npc.npcSlots = 32f;
             }
             else if (npc.type == NPCID.WallofFlesh || npc.type == NPCID.WallofFleshEye)
@@ -1042,7 +1042,7 @@ namespace CalamityMod.NPCs
 			}
             else if (npc.type == NPCID.QueenBee)
             {
-                npc.lifeMax = (int)(npc.lifeMax * 1.15);
+                npc.lifeMax = (int)(npc.lifeMax * 1.2);
                 npc.npcSlots = 14f;
             }
 			else if ((npc.type == NPCID.Bee || npc.type == NPCID.BeeSmall) && CalamityPlayer.areThereAnyDamnBosses)
@@ -1071,7 +1071,7 @@ namespace CalamityMod.NPCs
 			}
             else if (npc.type == NPCID.EyeofCthulhu)
             {
-                npc.lifeMax = (int)(npc.lifeMax * 1.25);
+                npc.lifeMax = (int)(npc.lifeMax * 1.3);
                 npc.npcSlots = 10f;
             }
 			else if (npc.type == NPCID.KingSlime)
@@ -1103,12 +1103,12 @@ namespace CalamityMod.NPCs
 				}
                 else if (npc.type == NPCID.Retinazer)
                 {
-                    npc.lifeMax = (int)(npc.lifeMax * 1.25);
+                    npc.lifeMax = (int)(npc.lifeMax * 1.3);
                     npc.npcSlots = 10f;
                 }
                 else if (npc.type == NPCID.Spazmatism)
                 {
-                    npc.lifeMax = (int)(npc.lifeMax * 1.3);
+                    npc.lifeMax = (int)(npc.lifeMax * 1.35);
                     npc.npcSlots = 10f;
                 }
             }
@@ -1315,13 +1315,16 @@ namespace CalamityMod.NPCs
         #region Scale Expert Multiplayer Stats
         public override void ScaleExpertStats(NPC npc, int numPlayers, float bossLifeScale)
         {
+            // Do absolutely nothing in single player, or in multiplayer with only one player connected.
             if (Main.netMode == NetmodeID.SinglePlayer || numPlayers <= 1)
-            {
                 return;
-            }
 
-            if (((npc.boss || CalamityLists.bossScaleList.Contains(npc.type)) && npc.type < NPCID.Count) ||
-                (npc.modNPC != null && npc.modNPC.mod.Name.Equals("CalamityMod")))
+            bool countsAsBoss = npc.boss || NPCID.Sets.TechnicallyABoss[npc.type];
+            bool scalesLikeBoss = countsAsBoss || CalamityLists.bossHPScaleList.Contains(npc.type);
+            bool isCalamityNPC = npc.modNPC != null && npc.modNPC.mod == CalamityMod.Instance;
+
+            // All bosses, NPCs that are supposed to scale like bosses, and Calamity NPCs follow these rules.
+            if (scalesLikeBoss || isCalamityNPC)
             {
                 double scalar;
                 switch (numPlayers) // Decrease HP in multiplayer before vanilla scaling
@@ -1451,11 +1454,7 @@ namespace CalamityMod.NPCs
             damage = Main.CalculateDamage((int)damage, effectiveDefense);
 
             // DR applies after vanilla defense.
-            damage = ApplyDR(npc, damage);
-
-            // Add Yellow Candle damage if the NPC isn't supposed to be "near invincible"
-            if (yellowCandle > 0 && DR < 0.99f && npc.takenDamageMultiplier > 0.05f)
-                damage += yellowCandleDamage;
+            damage = ApplyDR(npc, damage, yellowCandleDamage);
 
             // Cancel out vanilla defense math by reversing the calculation vanilla is about to perform.
             // While roundabout, this is safer than returning false to stop vanilla damage calculations entirely.
@@ -1470,7 +1469,7 @@ namespace CalamityMod.NPCs
         /// </summary>
         /// <param name="damage">Incoming damage. Has been modified by Main.DamageVar and boosted by armor penetration, but nothing else.</param>
         /// <returns></returns>
-        private double ApplyDR(NPC npc, double damage)
+        private double ApplyDR(NPC npc, double damage, double yellowCandleDamage)
         {
             if ((DR <= 0f && KillTime == 0) || damage <= 1.0)
                 return damage;
@@ -1482,6 +1481,10 @@ namespace CalamityMod.NPCs
             // DR floor is 0%. Nothing can have negative DR.
             if (effectiveDR <= 0f)
                 effectiveDR = 0f;
+
+			// Add Yellow Candle damage if the NPC isn't supposed to be "near invincible"
+			if (yellowCandle > 0 && DR < 0.99f && npc.takenDamageMultiplier > 0.05f)
+				damage += yellowCandleDamage;
 
 			// Calculate extra DR based on kill time, similar to the Hush boss from The Binding of Isaac
 			if (KillTime > 0 && AITimer < KillTime && !BossRushEvent.BossRushActive)
@@ -3050,6 +3053,10 @@ namespace CalamityMod.NPCs
 				}
 			}
 
+			// Nerfed because these are really overpowered
+			if (projectile.type == ProjectileID.CursedDartFlame)
+				damage /= 2;
+
 			// Expert Mode resists, mostly worms
 			if (Main.expertMode)
 			{
@@ -3125,13 +3132,13 @@ namespace CalamityMod.NPCs
 					{
 						damage = (int)(damage * 0.5);
 					}
-					else if (projectile.type == ProjectileType<VoltageStream>())
-					{
-						damage = (int)(damage * 0.45);
-					}
 					else if (projectile.type == ProjectileType<SulphuricNukesplosion>())
 					{
 						damage = (int)(damage * 0.38);
+					}
+					else if (projectile.type == ProjectileType<VoltageStream>())
+					{
+						damage = (int)(damage * 0.3);
 					}
 					else if (projectile.type == ProjectileType<SeasSearingSpout>())
 					{
@@ -3222,13 +3229,6 @@ namespace CalamityMod.NPCs
 				if (projectile.type == ProjectileType<PurpleButterfly>() || projectile.type == ProjectileType<SakuraBullet>())
 				{
 					damage = (int)(damage * 1.35);
-				}
-			}
-			else if (npc.type == NPCType<Providence.Providence>())
-			{
-				if (projectile.type == ProjectileType<ElementalAxeMinion>())
-				{
-					damage = (int)(damage * 1.5);
 				}
 			}
 		}
@@ -3705,10 +3705,10 @@ namespace CalamityMod.NPCs
 			if (spawnInfo.playerSafe)
 				return;
 
-			if (!Main.hardMode && spawnInfo.player.ZoneUnderworldHeight)
+			if (!Main.hardMode && spawnInfo.player.ZoneUnderworldHeight && !calamityBiomeZone)
 			{
 				if (!NPC.AnyNPCs(NPCID.VoodooDemon))
-					pool[NPCID.VoodooDemon] = SpawnCondition.Underworld.Chance * 1.5f;
+					pool[NPCID.VoodooDemon] = SpawnCondition.Underworld.Chance * 0.75f;
 			}
 		}
         #endregion
@@ -4656,9 +4656,9 @@ namespace CalamityMod.NPCs
 			if (EaterofWorldsIDs.Contains(target.type) || DestroyerIDs.Contains(target.type))
 				return false;
 
-            if (target.damage > 0 && !target.boss && !target.friendly && !target.dontTakeDamage &&
-                target.type != NPCID.MourningWood && target.type != NPCID.Everscream && target.type != NPCID.SantaNK1 &&
-                target.type != NPCType<Reaper>() && target.type != NPCType<Mauler>() && target.type != NPCType<EidolonWyrmHead>() &&
+            if (target.damage > 0 && !target.boss && !target.friendly && !target.dontTakeDamage && target.type != NPCID.Creeper && target.type != NPCType<RavagerClawLeft>() &&
+                target.type != NPCID.MourningWood && target.type != NPCID.Everscream && target.type != NPCID.SantaNK1 && target.type != NPCType<RavagerClawRight>() &&
+				target.type != NPCType<Reaper>() && target.type != NPCType<Mauler>() && target.type != NPCType<EidolonWyrmHead>() && target.type != NPCID.GolemFistLeft && target.type != NPCID.GolemFistRight &&
                 target.type != NPCType<EidolonWyrmHeadHuge>() && target.type != NPCType<ColossalSquid>() && target.type != NPCID.DD2Betsy && !CalamityLists.enemyImmunityList.Contains(target.type) && !AcidRainEvent.AllMinibosses.Contains(target.type))
             {
                 return true;

@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class ShatteredSunKnife : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/ShatteredSun";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Shattered Sun");
@@ -32,11 +34,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void AI()
         {
-            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 2.355f;
-            if (projectile.spriteDirection == -1)
-            {
-                projectile.rotation -= 1.57f;
-            }
+            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.ToRadians(45f);
             projectile.ai[1] += 1f;
             if (projectile.ai[1] < 5f)
             {

@@ -1,6 +1,6 @@
 using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
+using CalamityMod.Items.Potions;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -109,7 +109,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void NPCLoot()
         {
-            DropHelper.DropItemChance(npc, ModContent.ItemType<CloakingGland>(), 2, 1, 1);
+            DropHelper.DropItemChance(npc, ModContent.ItemType<AnechoicCoating>(), 2, 1, 1);
         }
 
         public override void HitEffect(int hitDirection, double damage)

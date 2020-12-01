@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class TurbulanceProjectile : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/Turbulance";
+
     	public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Turbulance");
@@ -32,11 +34,7 @@ namespace CalamityMod.Projectiles.Rogue
 			projectile.ai[0]++;
 			projectile.tileCollide = projectile.ai[0] >= 2f;
 
-            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.ToRadians(135f);
-            if (projectile.spriteDirection == -1)
-            {
-                projectile.rotation -= MathHelper.PiOver2;
-            }
+            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.ToRadians(45f);
 
             if (Main.rand.NextBool(5))
             {

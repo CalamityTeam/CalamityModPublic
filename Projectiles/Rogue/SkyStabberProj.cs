@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
 	public class SkyStabberProj : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/SkyStabber";
+
         private static int Lifetime = 1200;
 
         public override void SetStaticDefaults()

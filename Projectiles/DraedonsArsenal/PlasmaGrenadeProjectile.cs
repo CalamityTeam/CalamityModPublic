@@ -7,14 +7,15 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 {
     public class PlasmaGrenadeProjectile : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/DraedonsArsenal/PlasmaGrenade";
+
+        private static readonly float Gravity = 0.09f;
+        
         public float Time
         {
             get => projectile.ai[0];
             set => projectile.ai[0] = value;
         }
-
-        public const float FallAcceleration = 0.15f;
-        public const float MaxFallSpeed = 12f;
 
         public override void SetStaticDefaults()
         {
@@ -27,7 +28,8 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             projectile.height = 28;
             projectile.friendly = true;
             projectile.penetrate = 1;
-            projectile.timeLeft = 180;
+            projectile.timeLeft = 300;
+            projectile.MaxUpdates = 2;
             projectile.Calamity().rogue = true;
         }
 
@@ -35,29 +37,29 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
         {
             projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
             Vector2 projectileTop = projectile.Center + new Vector2(0f, projectile.height * -0.5f).RotatedBy(projectile.rotation);
-            if (projectile.velocity.Y < MaxFallSpeed && Time > 30f)
-            {
-                projectile.velocity.Y += 0.5f;
-            }
+
+            if (Time > 10f)
+                projectile.velocity.Y += Gravity;
+
             if (!Main.dedServ)
             {
                 Dust dust = Dust.NewDustPerfect(projectileTop, 107);
                 dust.velocity = projectile.rotation.ToRotationVector2().RotatedByRandom(0.35f) * Main.rand.NextFloat(2f, 4f);
-                dust.velocity += projectile.velocity;
+                dust.velocity += projectile.velocity * 0.25f;
                 dust.scale = Main.rand.NextFloat(0.95f, 1.3f);
             }
             Time++;
         }
 
-		public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
-		{
-			damage += target.defense / 4;
-		}
+        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        {
+            damage += target.defense / 4;
+        }
 
         public override void Kill(int timeLeft)
         {
-			Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/PlasmaGrenadeExplosion"), (int)projectile.position.X, (int)projectile.position.Y);
-			if (projectile.Calamity().stealthStrike)
+            Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/PlasmaGrenadeExplosion"), (int)projectile.position.X, (int)projectile.position.Y);
+            if (projectile.Calamity().stealthStrike)
             {
                 if (Main.myPlayer == projectile.owner)
                 {

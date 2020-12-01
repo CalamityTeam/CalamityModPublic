@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
 	public class PhantasmalRuinProj : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/PhantasmalRuin";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Phantasmal Ruin");

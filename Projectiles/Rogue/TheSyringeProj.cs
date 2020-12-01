@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class TheSyringeProj : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/TheSyringe";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Syringe");

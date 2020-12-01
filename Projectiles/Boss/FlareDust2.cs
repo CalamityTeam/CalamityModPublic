@@ -10,6 +10,8 @@ namespace CalamityMod.Projectiles.Boss
 {
     public class FlareDust2 : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Boss/FlareBomb";
+
 		private bool start = true;
 		private Vector2 velocity = Vector2.Zero;
 

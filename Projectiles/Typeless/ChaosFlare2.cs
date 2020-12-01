@@ -7,6 +7,8 @@ namespace CalamityMod.Projectiles.Typeless
 {
 	public class ChaosFlare2 : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Flare");

@@ -1,5 +1,5 @@
 using CalamityMod.Items.Materials;
-using CalamityMod.Projectiles.Hybrid;
+using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -34,8 +34,8 @@ A max of three disks can be active at a time");
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.UseSound = SoundID.Item1;
 
-            item.value = Item.buyPrice(0, 80, 0, 0);
-            item.rare = 8;
+            item.value = Item.buyPrice(gold: 80);
+            item.rare = ItemRarityID.Yellow;
 
             item.Calamity().rogue = true;
             item.shoot = ModContent.ProjectileType<TerraDiskProjectile>();
@@ -44,21 +44,21 @@ A max of three disks can be active at a time");
 
         public override bool CanUseItem(Player player)
         {
-			if (player.ownedProjectileCounts[item.shoot] >= 3)
-			{
-				return false;
-			}
-			else
-			{
-				return true;
-			}
+            if (player.ownedProjectileCounts[item.shoot] >= 3)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
             Main.projectile[proj].Calamity().forceRogue = true;
-			Main.projectile[proj].Calamity().stealthStrike = player.Calamity().StealthStrikeAvailable();
+            Main.projectile[proj].Calamity().stealthStrike = player.Calamity().StealthStrikeAvailable();
             return false;
         }
 

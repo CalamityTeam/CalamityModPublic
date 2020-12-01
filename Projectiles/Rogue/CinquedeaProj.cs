@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
 	public class CinquedeaProj : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/Cinquedea";
+
         internal float gravspin = 0f;
 
         public override void SetStaticDefaults()

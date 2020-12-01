@@ -5,6 +5,8 @@ namespace CalamityMod.Projectiles.Healing
 {
 	public class TerracottaProj : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Terra");

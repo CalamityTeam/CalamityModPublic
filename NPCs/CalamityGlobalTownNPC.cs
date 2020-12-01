@@ -57,6 +57,7 @@ namespace CalamityMod.NPCs
 		private static readonly string[] GoblinTinkererNames =
 		{
 			"Verth",
+			"Gormer", // <@!287651204924833795> (Picasso's Bean#2819)
 		};
 		private const int GuideVanillaNames = 34;
 		private static readonly string[] GuideNames =
@@ -125,6 +126,7 @@ namespace CalamityMod.NPCs
 			"Inorim, son of Ivukey",
 			"Jensen",
 			"Merasmus", // <@!288066987819663360> (Spider pee pee#3328)
+			"Habolo", // <@!163028025494077441> (ChristmasGoat#7810)
 		};
 		#endregion
 
@@ -1278,7 +1280,7 @@ namespace CalamityMod.NPCs
 				SetShopItem(ref shop, ref nextSlot, ItemType<BulbofDoom>(), NPC.downedPlantBoss && CalamityConfig.Instance.SellVanillaSummons, Item.buyPrice(0, 20));
 				SetShopItem(ref shop, ref nextSlot, ItemID.SolarTablet, NPC.downedGolemBoss, Item.buyPrice(0, 25));
 				SetShopItem(ref shop, ref nextSlot, ItemID.LihzahrdPowerCell, NPC.downedGolemBoss && CalamityConfig.Instance.SellVanillaSummons, Item.buyPrice(0, 30));
-				SetShopItem(ref shop, ref nextSlot, ItemType<GypsyPowder>(), NPC.downedGolemBoss, Item.buyPrice(0, 10));
+				SetShopItem(ref shop, ref nextSlot, ItemID.ButterflyDust, NPC.downedGolemBoss, Item.buyPrice(0, 10));
 				SetShopItem(ref shop, ref nextSlot, ItemType<AncientMedallion>(), CalamityWorld.downedScavenger, Item.buyPrice(0, 50));
 				SetShopItem(ref shop, ref nextSlot, ItemType<Abomination>(), CalamityWorld.downedPlaguebringer, Item.buyPrice(0, 50));
 				SetShopItem(ref shop, ref nextSlot, ItemType<BirbPheromones>(), CalamityWorld.downedBumble, Item.buyPrice(5));

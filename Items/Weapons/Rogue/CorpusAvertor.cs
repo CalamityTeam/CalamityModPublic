@@ -1,4 +1,4 @@
-using CalamityMod.Projectiles.Hybrid;
+using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -29,8 +29,8 @@ namespace CalamityMod.Items.Weapons.Rogue
 			item.knockBack = 3f;
 			item.UseSound = SoundID.Item1;
 			item.autoReuse = true;
-			item.value = Item.buyPrice(0, 80, 0, 0);
-			item.rare = 8;
+			item.value = Item.buyPrice(gold: 80);
+			item.rare = ItemRarityID.Yellow;
 			item.Calamity().customRarity = CalamityRarity.Dedicated;
 			item.shoot = ModContent.ProjectileType<CorpusAvertorProj>();
 			item.shootSpeed = 5f;

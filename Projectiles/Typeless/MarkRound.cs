@@ -7,6 +7,8 @@ namespace CalamityMod.Projectiles.Typeless
 {
     public class MarkRound : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/LaserProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Laser");

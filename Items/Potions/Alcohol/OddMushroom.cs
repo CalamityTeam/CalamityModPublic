@@ -26,7 +26,7 @@ namespace CalamityMod.Items.Potions.Alcohol
             item.UseSound = SoundID.Item2;
             item.consumable = true;
             item.buffType = ModContent.BuffType<Trippy>();
-            item.buffTime = 216000;
+            item.buffTime = CalamityUtils.SecondsToFrames(3600f);
             item.value = Item.buyPrice(1, 0, 0, 0);
         }
     }

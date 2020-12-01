@@ -3,6 +3,8 @@ namespace CalamityMod.Projectiles.Magic
 {
 	public class BloodOrb : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Blood Orb");

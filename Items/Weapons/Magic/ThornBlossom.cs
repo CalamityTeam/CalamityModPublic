@@ -41,15 +41,15 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            player.statLife -= 5;
+            player.statLife -= 3;
             if (player.statLife <= 0)
             {
                 player.KillMe(PlayerDeathReason.ByCustomReason(player.name + " was violently pricked by a flower."), 1000.0, 0, false);
             }
             for (int index = 0; index < 3; ++index)
             {
-                float SpeedX = speedX + (float)Main.rand.Next(-120, 121) * 0.05f;
-                float SpeedY = speedY + (float)Main.rand.Next(-120, 121) * 0.05f;
+                float SpeedX = speedX + Main.rand.Next(-120, 121) * 0.05f;
+                float SpeedY = speedY + Main.rand.Next(-120, 121) * 0.05f;
                 Projectile.NewProjectile(position.X, position.Y, SpeedX * 1.5f, SpeedY * 1.5f, ModContent.ProjectileType<NettleRight>(), (int)(damage * 1.5), knockBack, player.whoAmI, 0f, 0f);
             }
             Projectile.NewProjectile(position.X, position.Y, speedX * 0.66f, speedY * 0.66f, type, damage, knockBack, player.whoAmI, 1f, 0f);

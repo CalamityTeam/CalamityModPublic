@@ -6,6 +6,8 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 {
     public class WavePounderProjectile : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/DraedonsArsenal/WavePounder";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Wave Pounder");

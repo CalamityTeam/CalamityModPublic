@@ -11,6 +11,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
 	public class ValedictionBoomerang : ModProjectile
 	{
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/Valediction";
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Valediction");

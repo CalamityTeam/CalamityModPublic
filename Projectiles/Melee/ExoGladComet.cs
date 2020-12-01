@@ -7,6 +7,8 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class ExoGladComet : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Melee/Exocomet";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Comet");

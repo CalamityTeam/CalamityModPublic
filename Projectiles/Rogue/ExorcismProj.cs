@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class ExorcismProj : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/Exorcism";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Exorcism");

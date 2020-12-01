@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
 	public class ApoctolithProj : ModProjectile
 	{
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/Apoctolith";
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Apoctolith");

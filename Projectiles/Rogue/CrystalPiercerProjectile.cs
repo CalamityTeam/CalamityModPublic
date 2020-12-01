@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class CrystalPiercerProjectile : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/CrystalPiercer";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Crystal Piercer");

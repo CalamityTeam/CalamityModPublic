@@ -128,7 +128,7 @@ namespace CalamityMod.CalPlayer
 
 						float baseDistance = 2800f;
 						float shorterFlameCocoonDistance = CalamityWorld.death ? 600f : CalamityWorld.revenge ? 400f : Main.expertMode ? 200f : 0f;
-						float shorterSpearCocoonDistance = CalamityWorld.death ? 1000f : CalamityWorld.revenge ? 400f : Main.expertMode ? 200f : 0f;
+						float shorterSpearCocoonDistance = CalamityWorld.death ? 1000f : CalamityWorld.revenge ? 650f : Main.expertMode ? 300f : 0f;
 						float shorterDistance = aiState == 2f ? shorterFlameCocoonDistance : shorterSpearCocoonDistance;
 
 						bool guardianAlive = false;
@@ -294,20 +294,7 @@ namespace CalamityMod.CalPlayer
 							if ((CalamityPlayer.areThereAnyDamnBosses || CalamityWorld.DoGSecondStageCountdown > 0 || BossRushEvent.BossRushActive) && 
 								!wofAndNotHell)
 							{
-								int numAdrenBoosts =
-									(modPlayer.adrenalineBoostOne ? 1 : 0) +
-									(modPlayer.adrenalineBoostTwo ? 1 : 0) +
-									(modPlayer.adrenalineBoostThree ? 1 : 0);
-
-								int adrenFillSeconds = 3600;
-								switch (numAdrenBoosts)
-								{
-									default: adrenFillSeconds = 45; break; // Early game: 45 seconds
-									case 1: adrenFillSeconds = 35; break; // Slime God: 35 seconds
-									case 2: adrenFillSeconds = 25; break; // Astrum Deus: 25 sceonds
-									case 3: adrenFillSeconds = 20; break; // Polterghast: 20 seconds
-								}
-								adrenalineDiff += modPlayer.adrenalineMax / (60f * adrenFillSeconds);
+								adrenalineDiff += modPlayer.adrenalineMax / (60f * 30);
 							}
 
 							// If you aren't actively in a boss fight, adrenaline rapidly fades away over 2 seconds.
@@ -315,10 +302,9 @@ namespace CalamityMod.CalPlayer
 								adrenalineDiff = -modPlayer.adrenalineMax / 120f;
 						}
 
-						// All positive adrenaline gains are multiplied by 44.44444% during the SCal fight.
-						// This is likely to be changed so that SCal cancels the items directly.
+						// Takes 45 seconds to charge in the SCal fight.
 						if (SCalAlive && adrenalineDiff > 0f)
-							adrenalineDiff *= 4f / 9f;
+							adrenalineDiff *= 0.67f;
 
 						// Apply the adrenaline change and cap adrenaline in both directions.
 						modPlayer.adrenaline += adrenalineDiff;
@@ -1124,7 +1110,7 @@ namespace CalamityMod.CalPlayer
 				{
 					modPlayer.tarraThrowingCrits = 0;
 					if (player.whoAmI == Main.myPlayer)
-						player.AddBuff(ModContent.BuffType<TarragonImmunity>(), 300, false);
+						player.AddBuff(ModContent.BuffType<TarragonImmunity>(), 180, false);
 				}
 
 				for (int l = 0; l < Player.MaxBuffs; l++)
@@ -1350,7 +1336,7 @@ namespace CalamityMod.CalPlayer
 			if (modPlayer.affliction || modPlayer.afflicted)
 			{
 				player.endurance += 0.07f;
-				player.statDefense += 20;
+				player.statDefense += 10;
 				player.allDamage += 0.1f;
 			}
 
@@ -2746,7 +2732,7 @@ namespace CalamityMod.CalPlayer
 				player.minionKB += 1.2f;
 				player.pickSpeed -= 0.15f;
 				if (Main.eclipse || !Main.dayTime)
-					player.statDefense += 30;
+					player.statDefense += 15;
 			}
 
 			if (modPlayer.eGauntlet)
@@ -3274,14 +3260,22 @@ namespace CalamityMod.CalPlayer
 			if (modPlayer.badgeOfBraveryRare)
 			{
 				float maxDistance = 480f; // 30 tile distance
+				float damageBoost = 0f;
 				for (int l = 0; l < Main.maxNPCs; l++)
 				{
-					NPC npc = Main.npc[l];
-					if (npc.active && !npc.friendly && (npc.damage > 0 || npc.boss) && !npc.dontTakeDamage && Vector2.Distance(player.Center, npc.Center) <= maxDistance)
+					NPC nPC = Main.npc[l];
+					if (nPC.active && !nPC.friendly && (nPC.damage > 0 || nPC.boss) && !nPC.dontTakeDamage && Vector2.Distance(player.Center, nPC.Center) <= maxDistance)
 					{
-						player.meleeDamage += MathHelper.Lerp(0f, 0.3f, 1f - (Vector2.Distance(player.Center, npc.Center) / maxDistance));
+						damageBoost += MathHelper.Lerp(0f, 0.3f, 1f - (Vector2.Distance(player.Center, nPC.Center) / maxDistance));
+
+						if (damageBoost >= 0.3f)
+						{
+							damageBoost = 0.3f;
+							break;
+						}
 					}
 				}
+				player.meleeDamage += damageBoost;
 			}
 
 			if (modPlayer.calamitasLore)
@@ -3431,10 +3425,10 @@ namespace CalamityMod.CalPlayer
 					player.allDamage += 0.1f;
 			}
 
-			if (modPlayer.deepDiver)
+			if (modPlayer.deepDiver && player.IsUnderwater())
 			{
 				player.allDamage += 0.15f;
-				player.statDefense += (int)(player.statDefense * 0.15);
+				player.statDefense += 15;
 				player.moveSpeed += 0.15f;
 			}
 
@@ -3944,14 +3938,22 @@ namespace CalamityMod.CalPlayer
 			if (modPlayer.badgeOfBraveryRare)
 			{
 				float maxDistance = 480f; // 30 tile distance
+				float damageBoost = 0f;
 				for (int l = 0; l < Main.maxNPCs; l++)
 				{
-					NPC npc = Main.npc[l];
-					if (npc.active && !npc.friendly && (npc.damage > 0 || npc.boss) && !npc.dontTakeDamage && Vector2.Distance(player.Center, npc.Center) <= maxDistance)
+					NPC nPC = Main.npc[l];
+					if (nPC.active && !nPC.friendly && (nPC.damage > 0 || nPC.boss) && !nPC.dontTakeDamage && Vector2.Distance(player.Center, nPC.Center) <= maxDistance)
 					{
-						damageAdd += MathHelper.Lerp(0f, 0.3f, 1f - (Vector2.Distance(player.Center, npc.Center) / maxDistance));
+						damageBoost += MathHelper.Lerp(0f, 0.3f, 1f - (Vector2.Distance(player.Center, nPC.Center) / maxDistance));
+
+						if (damageBoost >= 0.3f)
+						{
+							damageBoost = 0.3f;
+							break;
+						}
 					}
 				}
+				damageAdd += damageBoost;
 			}
 			modPlayer.trueMeleeDamage += damageAdd;
 
@@ -4089,10 +4091,12 @@ namespace CalamityMod.CalPlayer
 				(player.wereWolf ? 0.2f : 0f) +
 				(player.jumpBoost ? 1.5f : 0f);
 			modPlayer.jumpSpeedStat = trueJumpSpeedBoost * 20f;
-			modPlayer.adrenalineChargeStat = 45 -
-				(modPlayer.adrenalineBoostOne ? 10 : 0) -
-				(modPlayer.adrenalineBoostTwo ? 10 : 0) -
-				(modPlayer.adrenalineBoostThree ? 5 : 0);
+			int adrenalineDamageBoost = 0 +
+				(modPlayer.adrenalineBoostOne ? 15 : 0) +
+				(modPlayer.adrenalineBoostTwo ? 15 : 0) +
+				(modPlayer.adrenalineBoostThree ? 15 : 0);
+			modPlayer.adrenalineDamageStat = 200 + adrenalineDamageBoost;
+			modPlayer.adrenalineDRStat = 50 + (adrenalineDamageBoost / 3);
 			bool DHorHoD = modPlayer.draedonsHeart || modPlayer.heartOfDarkness;
 			int rageDamageBoost = 0 +
 				(modPlayer.rageBoostOne ? 15 : 0) +

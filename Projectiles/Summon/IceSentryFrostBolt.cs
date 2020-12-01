@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class IceSentryFrostBolt : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Magic/FrostBoltProjectile";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Ball");

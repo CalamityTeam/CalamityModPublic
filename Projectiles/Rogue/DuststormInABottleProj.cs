@@ -6,6 +6,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
 	public class DuststormInABottleProj : ModProjectile
 	{
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/DuststormInABottle";
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Duststorm");

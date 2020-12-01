@@ -18,7 +18,6 @@ namespace CalamityMod.Projectiles.Boss
             projectile.width = 30;
             projectile.height = 30;
             projectile.hostile = true;
-            projectile.alpha = 50;
             projectile.penetrate = 1;
             projectile.timeLeft = 300;
         }
@@ -26,7 +25,28 @@ namespace CalamityMod.Projectiles.Boss
         public override void AI()
         {
             projectile.velocity *= 0.99f;
-        }
+
+			if (projectile.localAI[0] == 0f)
+			{
+				projectile.scale += 0.01f;
+				projectile.alpha -= 50;
+				if (projectile.alpha <= 0)
+				{
+					projectile.localAI[0] = 1f;
+					projectile.alpha = 0;
+				}
+			}
+			else
+			{
+				projectile.scale -= 0.01f;
+				projectile.alpha += 50;
+				if (projectile.alpha >= 255)
+				{
+					projectile.localAI[0] = 0f;
+					projectile.alpha = 255;
+				}
+			}
+		}
 
 		public override Color? GetAlpha(Color lightColor)
 		{

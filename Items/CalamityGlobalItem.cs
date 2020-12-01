@@ -29,8 +29,10 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 
@@ -38,28 +40,13 @@ namespace CalamityMod.Items
 {
 	public class CalamityGlobalItem : GlobalItem
     {
-        #region Instances
-        public override bool InstancePerEntity
-        {
-            get
-            {
-                return true;
-            }
-        }
-
-        public override bool CloneNewInstances
-        {
-            get
-            {
-                return true;
-            }
-        }
-        #endregion
+		public override bool InstancePerEntity => true;
+		public override bool CloneNewInstances => true;
 
 		public bool rogue = false;
 		public float StealthGenBonus;
-
 		public int timesUsed = 0;
+		public int reforgeTier = 0;
 
         #region Chargeable Item Variables
         public bool UsesCharge = false;
@@ -98,6 +85,7 @@ namespace CalamityMod.Items
 		{
 			CalamityGlobalItem myClone = (CalamityGlobalItem)base.Clone(item, itemClone);
 			myClone.StealthGenBonus = StealthGenBonus;
+			myClone.Charge = Charge;
 			return myClone;
 		}
 
@@ -127,36 +115,40 @@ namespace CalamityMod.Items
             if (CalamityLists.weaponAutoreuseList?.Contains(item.type) ?? false)
                 item.autoReuse = true;
 
-            if (item.type == ItemID.PsychoKnife || item.type == ItemID.TaxCollectorsStickOfDoom)
-                item.damage *= 4;
-            else if (item.type == ItemID.SpectreStaff)
-                item.damage *= 3;
-            else if (CalamityLists.doubleDamageBuffList?.Contains(item.type) ?? false)
-                item.damage *= 2;
-            else if (item.type == ItemID.RainbowRod)
-                item.damage = (int)(item.damage * 1.75);
-            else if (CalamityLists.sixtySixDamageBuffList?.Contains(item.type) ?? false)
-                item.damage = (int)(item.damage * 1.66);
-            else if (CalamityLists.fiftyDamageBuffList?.Contains(item.type) ?? false)
-                item.damage = (int)(item.damage * 1.5);
-            else if (CalamityLists.thirtyThreeDamageBuffList?.Contains(item.type) ?? false)
-                item.damage = (int)(item.damage * 1.33);
-            else if (CalamityLists.twentyFiveDamageBuffList?.Contains(item.type) ?? false)
-                item.damage = (int)(item.damage * 1.25);
-            else if (CalamityLists.twentyDamageBuffList?.Contains(item.type) ?? false)
-                item.damage = (int)(item.damage * 1.2);
-            else if (CalamityLists.tenDamageBuffList?.Contains(item.type) ?? false)
-                item.damage = (int)(item.damage * 1.1);
-            else if (CalamityLists.tenDamageNerfList?.Contains(item.type) ?? false)
-                item.damage = (int)(item.damage * 0.9);
-            else if (CalamityLists.quarterDamageNerfList?.Contains(item.type) ?? false)
-                item.damage = (int)(item.damage * 0.75);
-            else if (item.type == ItemID.BlizzardStaff)
-                item.damage = (int)(item.damage * 0.7);
-            else if (item.type == ItemID.LaserMachinegun)
-                item.damage = (int)(item.damage * 0.65);
-            else if (item.type == ItemID.StardustDragonStaff)
-                item.damage = (int)(item.damage * 0.5);
+			if (item.type == ItemID.PsychoKnife || item.type == ItemID.TaxCollectorsStickOfDoom)
+				item.damage *= 4;
+			else if (item.type == ItemID.SpectreStaff)
+				item.damage *= 3;
+			else if (CalamityLists.doubleDamageBuffList?.Contains(item.type) ?? false)
+				item.damage *= 2;
+			else if (item.type == ItemID.Terrarian)
+				item.damage = (int)(item.damage * 1.85);
+			else if (item.type == ItemID.RainbowRod)
+				item.damage = (int)(item.damage * 1.75);
+			else if (CalamityLists.sixtySixDamageBuffList?.Contains(item.type) ?? false)
+				item.damage = (int)(item.damage * 1.66);
+			else if (CalamityLists.fiftyDamageBuffList?.Contains(item.type) ?? false)
+				item.damage = (int)(item.damage * 1.5);
+			else if (CalamityLists.thirtyThreeDamageBuffList?.Contains(item.type) ?? false)
+				item.damage = (int)(item.damage * 1.33);
+			else if (CalamityLists.twentyFiveDamageBuffList?.Contains(item.type) ?? false)
+				item.damage = (int)(item.damage * 1.25);
+			else if (CalamityLists.twentyDamageBuffList?.Contains(item.type) ?? false)
+				item.damage = (int)(item.damage * 1.2);
+			else if (CalamityLists.tenDamageBuffList?.Contains(item.type) ?? false)
+				item.damage = (int)(item.damage * 1.1);
+			else if (CalamityLists.tenDamageNerfList?.Contains(item.type) ?? false)
+				item.damage = (int)(item.damage * 0.9);
+			else if (item.type == ItemID.LastPrism)
+				item.damage = (int)(item.damage * 0.8);
+			else if (CalamityLists.quarterDamageNerfList?.Contains(item.type) ?? false)
+				item.damage = (int)(item.damage * 0.75);
+			else if (item.type == ItemID.BlizzardStaff)
+				item.damage = (int)(item.damage * 0.7);
+			else if (item.type == ItemID.LaserMachinegun)
+				item.damage = (int)(item.damage * 0.65);
+			else if (item.type == ItemID.StardustDragonStaff)
+				item.damage = (int)(item.damage * 0.5);
 
             if (item.type == ItemID.BookStaff)
                 item.mana = 10;
@@ -474,7 +466,8 @@ namespace CalamityMod.Items
                 ["rogue"] = rogue,
                 ["timesUsed"] = timesUsed,
                 ["rarity"] = (int)customRarity,
-                ["charge"] = Charge
+                ["charge"] = Charge,
+				["reforgeTier"] = reforgeTier
             };
         }
 
@@ -489,6 +482,8 @@ namespace CalamityMod.Items
                 Charge = tag.GetInt("Charge");
             else
                 Charge = tag.GetFloat("charge");
+
+			reforgeTier = tag.GetInt("reforgeTimer");
         }
 
         public override void LoadLegacy(Item item, BinaryReader reader)
@@ -497,6 +492,7 @@ namespace CalamityMod.Items
             customRarity = (CalamityRarity)reader.ReadInt32();
             timesUsed = reader.ReadInt32();
             Charge = reader.ReadSingle();
+			reforgeTier = reader.ReadInt32();
 
             if (loadVersion == 0)
             {
@@ -518,6 +514,7 @@ namespace CalamityMod.Items
             writer.Write((int)customRarity);
             writer.Write(timesUsed);
             writer.Write(Charge);
+			writer.Write(reforgeTier);
         }
 
         public override void NetReceive(Item item, BinaryReader reader)
@@ -528,6 +525,7 @@ namespace CalamityMod.Items
             customRarity = (CalamityRarity)reader.ReadInt32();
             timesUsed = reader.ReadInt32();
             Charge = reader.ReadSingle();
+			reforgeTier = reader.ReadInt32();
         }
         #endregion
 
@@ -961,7 +959,7 @@ namespace CalamityMod.Items
                 }
             }
 
-            if (item.type == ItemID.MonkStaffT1)
+            if (item.type == ItemID.MonkStaffT1 || CalamityLists.spearAutoreuseList.Contains(item.type))
             {
                 return player.ownedProjectileCounts[item.shoot] <= 0;
             }
@@ -1133,7 +1131,7 @@ namespace CalamityMod.Items
                             tt2.overrideColor = new Color(0, 0, 255);
                         if (item.type == ModContent.ItemType<Judgement>())
                             tt2.overrideColor = Judgement.GetSyncedLightColor();
-                        if (item.type == ModContent.ItemType<NanoblackReaperMelee>() || item.type == ModContent.ItemType<NanoblackReaperRogue>())
+                        if (item.type == ModContent.ItemType<NanoblackReaperRogue>())
                             tt2.overrideColor = new Color(0.34f, 0.34f + 0.66f * Main.DiscoG / 255f, 0.34f + 0.5f * Main.DiscoG / 255f);
                         if (item.type == ModContent.ItemType<ProfanedSoulCrystal>())
                             tt2.overrideColor = CalamityUtils.ColorSwap(new Color(255, 166, 0), new Color(25, 250, 25), 4f); //alternates between emerald green and amber (BanditHueh)
@@ -1157,9 +1155,9 @@ namespace CalamityMod.Items
                             tt2.overrideColor = new Color(254, 253, 235);
                         if (item.type == ModContent.ItemType<Contagion>())
                             tt2.overrideColor = new Color(207, 17, 117);
-                        if (item.type == ModContent.ItemType<TriactisTruePaladinianMageHammerofMightMelee>() || item.type == ModContent.ItemType<TriactisTruePaladinianMageHammerofMight>())
+                        if (item.type == ModContent.ItemType<TriactisTruePaladinianMageHammerofMightMelee>())
                             tt2.overrideColor = new Color(227, 226, 180);
-                        if (item.type == ModContent.ItemType<RoyalKnivesMelee>() || item.type == ModContent.ItemType<RoyalKnives>())
+                        if (item.type == ModContent.ItemType<RoyalKnivesMelee>())
                             tt2.overrideColor = CalamityUtils.ColorSwap(new Color(154, 255, 151), new Color(228, 151, 255), 4f);
                         if (item.type == ModContent.ItemType<DemonshadeHelm>() || item.type == ModContent.ItemType<DemonshadeBreastplate>() || item.type == ModContent.ItemType<DemonshadeGreaves>())
                             tt2.overrideColor = CalamityUtils.ColorSwap(new Color(255, 132, 22), new Color(221, 85, 7), 4f);
@@ -2923,13 +2921,11 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                         break;
 
 					case ItemID.CorruptFishingCrate:
-                        DropHelper.DropItemChance(player, ModContent.ItemType<FetidEssence>(), 4, 5, 8);
                         DropHelper.DropItemChance(player, ModContent.ItemType<EbonianGel>(), 4, 5, 8);
                         DropHelper.DropItemChance(player, ModContent.ItemType<MurkySludge>(), 5, 1, 3);
                         break;
 
 					case ItemID.CrimsonFishingCrate:
-                        DropHelper.DropItemChance(player, ModContent.ItemType<BloodlettingEssence>(), 4, 5, 8);
                         DropHelper.DropItemChance(player, ModContent.ItemType<EbonianGel>(), 4, 5, 8);
                         DropHelper.DropItemChance(player, ModContent.ItemType<MurkySludge>(), 5, 1, 3);
                         break;
@@ -2946,7 +2942,6 @@ Grants immunity to fire blocks, and temporary immunity to lava";
 
 					case ItemID.JungleFishingCrate:
                         DropHelper.DropItemChance(player, ModContent.ItemType<MurkyPaste>(), 5, 1, 3);
-                        DropHelper.DropItemChance(player, ModContent.ItemType<ManeaterBulb>(), 5, 1, 3);
                         DropHelper.DropItemCondition(player, ModContent.ItemType<BeetleJuice>(), Main.hardMode, 0.2f, 1, 3);
                         DropHelper.DropItemCondition(player, ModContent.ItemType<TrapperBulb>(), Main.hardMode, 0.2f, 1, 3);
                         DropHelper.DropItemCondition(player, ItemID.ChlorophyteBar, (CalamityWorld.downedCalamitas || NPC.downedPlantBoss), 0.25f, 5, 10);
@@ -3676,21 +3671,876 @@ Grants immunity to fire blocks, and temporary immunity to lava";
 		}
 		#endregion
 
-        #region Goblin Money Theft (PostReforge)
-        public override void PostReforge(Item item)
-        {
-            if (NPC.AnyNPCs(ModContent.NPCType<THIEF>()))
-            {
-                int value = item.value;
-                ItemLoader.ReforgePrice(item, ref value, ref Main.LocalPlayer.discount);
-                CalamityWorld.MoneyStolenByBandit += value / 5;
-                CalamityWorld.Reforges++;
-            }
-        }
-        #endregion
+		#region Reforging
+		private int NewPrefixType(Item item)
+		{
+			int prefix = -2;
+			if (item.melee)
+			{
+				if (item.knockBack == 0f)
+				{
+					switch (reforgeTier)
+					{
+						case 0:
+							break;
+						case 1:
+							// Keen = 1
+							prefix = 1;
+							break;
+						case 2:
+							// Hurtful = 2
+							prefix = 2;
+							break;
+						case 3:
+							// Zealous = 3
+							prefix = 3;
+							break;
+						case 4:
+						case 5:
+						case 6:
+							// Demonic = 4
+							prefix = 4;
+							break;
+					}
+					switch (prefix)
+					{
+						case -2:
+							break;
+						case 1:
+							prefix = PrefixID.Keen;
+							break;
+						case 2:
+							prefix = PrefixID.Hurtful;
+							break;
+						case 3:
+							prefix = PrefixID.Zealous;
+							break;
+						case 4:
+							prefix = PrefixID.Demonic;
+							break;
+					}
+				}
+				// Yoyos, Flails, Spears, etc.
+				else if (item.channel || item.noMelee)
+				{
+					switch (reforgeTier)
+					{
+						case 0:
+							break;
+						case 1:
+							// Keen = 1, Ruthless = 2
+							prefix = Main.rand.Next(1, 3);
+							break;
+						case 2:
+							// Hurtful = 3, Zealous = 4
+							prefix = Main.rand.Next(3, 5);
+							break;
+						case 3:
+							// Forceful = 5, Strong = 6
+							prefix = Main.rand.Next(5, 7);
+							break;
+						case 4:
+							// Demonic = 7
+							prefix = 7;
+							break;
+						case 5:
+							// Superior = 8
+							prefix = 8;
+							break;
+						case 6:
+							// Godly = 9
+							prefix = 9;
+							break;
+					}
+					switch (prefix)
+					{
+						case -2:
+							break;
+						case 1:
+							prefix = PrefixID.Keen;
+							break;
+						case 2:
+							prefix = PrefixID.Ruthless;
+							break;
+						case 3:
+							prefix = PrefixID.Hurtful;
+							break;
+						case 4:
+							prefix = PrefixID.Zealous;
+							break;
+						case 5:
+							prefix = PrefixID.Forceful;
+							break;
+						case 6:
+							prefix = PrefixID.Strong;
+							break;
+						case 7:
+							prefix = PrefixID.Demonic;
+							break;
+						case 8:
+							prefix = PrefixID.Superior;
+							break;
+						case 9:
+							prefix = PrefixID.Godly;
+							break;
+					}
+				}
+				// All other melee weapons
+				else
+				{
+					switch (reforgeTier)
+					{
+						case 0:
+							break;
+						case 1:
+							// Keen = 1, Ruthless = 2, Nimble = 3, Nasty = 4, Heavy = 5, Light = 6
+							prefix = Main.rand.Next(1, 7);
+							break;
+						case 2:
+							// Hurtful = 7, Zealous = 8, Quick = 9, Pointy = 10, Bulky = 11
+							prefix = Main.rand.Next(7, 12);
+							break;
+						case 3:
+							// Forceful = 12, Strong = 13, Agile = 14, Large = 15, Dangerous = 16, Sharp = 17
+							prefix = Main.rand.Next(12, 18);
+							break;
+						case 4:
+							// Murderous = 18, Massive = 19, Unpleasant = 20, Deadly = 21
+							prefix = Main.rand.Next(18, 22);
+							break;
+						case 5:
+							// Superior = 22, Demonic = 23, Savage = 24
+							prefix = Main.rand.Next(22, 25);
+							break;
+						case 6:
+							// Legendary = 25
+							prefix = 25;
+							break;
+					}
+					switch (prefix)
+					{
+						case -2:
+							break;
+						case 1:
+							prefix = PrefixID.Keen;
+							break;
+						case 2:
+							prefix = PrefixID.Ruthless;
+							break;
+						case 3:
+							prefix = PrefixID.Nimble;
+							break;
+						case 4:
+							prefix = PrefixID.Nasty;
+							break;
+						case 5:
+							prefix = PrefixID.Heavy;
+							break;
+						case 6:
+							prefix = PrefixID.Light;
+							break;
+						case 7:
+							prefix = PrefixID.Hurtful;
+							break;
+						case 8:
+							prefix = PrefixID.Zealous;
+							break;
+						case 9:
+							prefix = PrefixID.Quick;
+							break;
+						case 10:
+							prefix = PrefixID.Pointy;
+							break;
+						case 11:
+							prefix = PrefixID.Bulky;
+							break;
+						case 12:
+							prefix = PrefixID.Forceful;
+							break;
+						case 13:
+							prefix = PrefixID.Strong;
+							break;
+						case 14:
+							prefix = PrefixID.Agile;
+							break;
+						case 15:
+							prefix = PrefixID.Large;
+							break;
+						case 16:
+							prefix = PrefixID.Dangerous;
+							break;
+						case 17:
+							prefix = PrefixID.Sharp;
+							break;
+						case 18:
+							prefix = PrefixID.Murderous;
+							break;
+						case 19:
+							prefix = PrefixID.Massive;
+							break;
+						case 20:
+							prefix = PrefixID.Unpleasant;
+							break;
+						case 21:
+							prefix = PrefixID.Deadly;
+							break;
+						case 22:
+							prefix = PrefixID.Superior;
+							break;
+						case 23:
+							prefix = PrefixID.Demonic;
+							break;
+						case 24:
+							prefix = PrefixID.Savage;
+							break;
+						case 25:
+							prefix = PrefixID.Legendary;
+							break;
+					}
+				}
+			}
+			else if (item.ranged)
+			{
+				if (item.knockBack == 0f)
+				{
+					switch (reforgeTier)
+					{
+						case 0:
+							break;
+						case 1:
+							// Keen = 1, Nimble = 2, Powerful = 3
+							prefix = Main.rand.Next(1, 4);
+							break;
+						case 2:
+							// Hurtful = 4, Zealous = 5, Quick = 6
+							prefix = Main.rand.Next(4, 7);
+							break;
+						case 3:
+							// Agile = 7, Murderous = 8, Sighted = 9
+							prefix = Main.rand.Next(7, 10);
+							break;
+						case 4:
+							// Deadly = 10
+							prefix = 10;
+							break;
+						case 5:
+							// Rapid = 11, Hasty = 12
+							prefix = Main.rand.Next(11, 13);
+							break;
+						case 6:
+							// Demonic = 13
+							prefix = 13;
+							break;
+					}
+					switch (prefix)
+					{
+						case -2:
+							break;
+						case 1:
+							prefix = PrefixID.Keen;
+							break;
+						case 2:
+							prefix = PrefixID.Nimble;
+							break;
+						case 3:
+							prefix = PrefixID.Powerful;
+							break;
+						case 4:
+							prefix = PrefixID.Hurtful;
+							break;
+						case 5:
+							prefix = PrefixID.Zealous;
+							break;
+						case 6:
+							prefix = PrefixID.Quick;
+							break;
+						case 7:
+							prefix = PrefixID.Agile;
+							break;
+						case 8:
+							prefix = PrefixID.Murderous;
+							break;
+						case 9:
+							prefix = PrefixID.Sighted;
+							break;
+						case 10:
+							prefix = PrefixID.Deadly;
+							break;
+						case 11:
+							prefix = PrefixID.Rapid;
+							break;
+						case 12:
+							prefix = PrefixID.Hasty;
+							break;
+						case 13:
+							prefix = PrefixID.Demonic;
+							break;
+					}
+				}
+				// All other ranged weapons
+				else
+				{
+					switch (reforgeTier)
+					{
+						case 0:
+							break;
+						case 1:
+							// Keen = 1, Ruthless = 2, Nimble = 3, Nasty = 4, Powerful = 5
+							prefix = Main.rand.Next(1, 6);
+							break;
+						case 2:
+							// Hurtful = 6, Zealous = 7, Quick = 8
+							prefix = Main.rand.Next(6, 9);
+							break;
+						case 3:
+							// Forceful = 9, Strong = 10, Agile = 11, Sighted = 12, Murderous = 13
+							prefix = Main.rand.Next(9, 14);
+							break;
+						case 4:
+							// Superior = 14, Demonic = 15, Deadly = 16, Intimidating = 17, Unpleasant = 18
+							prefix = Main.rand.Next(14, 19);
+							break;
+						case 5:
+							// Godly = 19, Rapid = 20, Hasty = 21, Deadly2 = 22, Staunch = 23
+							prefix = Main.rand.Next(19, 24);
+							break;
+						case 6:
+							// Unreal = 24
+							prefix = 24;
+							break;
+					}
+					switch (prefix)
+					{
+						case -2:
+							break;
+						case 1:
+							prefix = PrefixID.Keen;
+							break;
+						case 2:
+							prefix = PrefixID.Ruthless;
+							break;
+						case 3:
+							prefix = PrefixID.Nimble;
+							break;
+						case 4:
+							prefix = PrefixID.Nasty;
+							break;
+						case 5:
+							prefix = PrefixID.Powerful;
+							break;
+						case 6:
+							prefix = PrefixID.Hurtful;
+							break;
+						case 7:
+							prefix = PrefixID.Zealous;
+							break;
+						case 8:
+							prefix = PrefixID.Quick;
+							break;
+						case 9:
+							prefix = PrefixID.Forceful;
+							break;
+						case 10:
+							prefix = PrefixID.Strong;
+							break;
+						case 11:
+							prefix = PrefixID.Agile;
+							break;
+						case 12:
+							prefix = PrefixID.Sighted;
+							break;
+						case 13:
+							prefix = PrefixID.Murderous;
+							break;
+						case 14:
+							prefix = PrefixID.Superior;
+							break;
+						case 15:
+							prefix = PrefixID.Demonic;
+							break;
+						case 16:
+							prefix = PrefixID.Deadly;
+							break;
+						case 17:
+							prefix = PrefixID.Intimidating;
+							break;
+						case 18:
+							prefix = PrefixID.Unpleasant;
+							break;
+						case 19:
+							prefix = PrefixID.Godly;
+							break;
+						case 20:
+							prefix = PrefixID.Rapid;
+							break;
+						case 21:
+							prefix = PrefixID.Hasty;
+							break;
+						case 22:
+							prefix = PrefixID.Deadly2;
+							break;
+						case 23:
+							prefix = PrefixID.Staunch;
+							break;
+						case 24:
+							prefix = PrefixID.Unreal;
+							break;
+					}
+				}
+			}
+			else if (item.magic)
+			{
+				if (item.knockBack == 0f)
+				{
+					switch (reforgeTier)
+					{
+						case 0:
+							break;
+						case 1:
+							// Keen = 1, Nimble = 2
+							prefix = Main.rand.Next(1, 3);
+							break;
+						case 2:
+							// Hurtful = 3, Zealous = 4, Quick = 5, Manic = 6
+							prefix = Main.rand.Next(3, 7);
+							break;
+						case 3:
+							// Agile = 7, Murderous = 8, Adept = 9
+							prefix = Main.rand.Next(7, 10);
+							break;
+						case 4:
+							// Deadly = 10
+							prefix = 10;
+							break;
+						case 5:
+							// Mystic = 11
+							prefix = 11;
+							break;
+						case 6:
+							// Demonic = 12
+							prefix = 12;
+							break;
+					}
+					switch (prefix)
+					{
+						case -2:
+							break;
+						case 1:
+							prefix = PrefixID.Keen;
+							break;
+						case 2:
+							prefix = PrefixID.Nimble;
+							break;
+						case 3:
+							prefix = PrefixID.Hurtful;
+							break;
+						case 4:
+							prefix = PrefixID.Zealous;
+							break;
+						case 5:
+							prefix = PrefixID.Quick;
+							break;
+						case 6:
+							prefix = PrefixID.Manic;
+							break;
+						case 7:
+							prefix = PrefixID.Agile;
+							break;
+						case 8:
+							prefix = PrefixID.Murderous;
+							break;
+						case 9:
+							prefix = PrefixID.Adept;
+							break;
+						case 10:
+							prefix = PrefixID.Deadly;
+							break;
+						case 11:
+							prefix = PrefixID.Mystic;
+							break;
+						case 12:
+							prefix = PrefixID.Demonic;
+							break;
+					}
+				}
+				// All other magic weapons
+				else
+				{
+					switch (reforgeTier)
+					{
+						case 0:
+							break;
+						case 1:
+							// Keen = 1, Ruthless = 2, Nimble = 3, Nasty = 4, Furious = 5
+							prefix = Main.rand.Next(1, 6);
+							break;
+						case 2:
+							// Hurtful = 6, Zealous = 7, Quick = 8, Taboo = 9, Manic = 10
+							prefix = Main.rand.Next(6, 11);
+							break;
+						case 3:
+							// Forceful = 11, Strong = 12, Agile = 13, Murderous = 14, Adept = 15, Celestial = 16
+							prefix = Main.rand.Next(11, 17);
+							break;
+						case 4:
+							// Superior = 17, Demonic = 18, Deadly = 19, Mystic = 20
+							prefix = Main.rand.Next(17, 21);
+							break;
+						case 5:
+							// Godly = 21, Masterful = 22
+							prefix = Main.rand.Next(21, 23);
+							break;
+						case 6:
+							// Mythical = 23
+							prefix = 23;
+							break;
+					}
+					switch (prefix)
+					{
+						case -2:
+							break;
+						case 1:
+							prefix = PrefixID.Keen;
+							break;
+						case 2:
+							prefix = PrefixID.Ruthless;
+							break;
+						case 3:
+							prefix = PrefixID.Nimble;
+							break;
+						case 4:
+							prefix = PrefixID.Nasty;
+							break;
+						case 5:
+							prefix = PrefixID.Furious;
+							break;
+						case 6:
+							prefix = PrefixID.Hurtful;
+							break;
+						case 7:
+							prefix = PrefixID.Zealous;
+							break;
+						case 8:
+							prefix = PrefixID.Quick;
+							break;
+						case 9:
+							prefix = PrefixID.Taboo;
+							break;
+						case 10:
+							prefix = PrefixID.Manic;
+							break;
+						case 11:
+							prefix = PrefixID.Forceful;
+							break;
+						case 12:
+							prefix = PrefixID.Strong;
+							break;
+						case 13:
+							prefix = PrefixID.Agile;
+							break;
+						case 14:
+							prefix = PrefixID.Murderous;
+							break;
+						case 15:
+							prefix = PrefixID.Adept;
+							break;
+						case 16:
+							prefix = PrefixID.Celestial;
+							break;
+						case 17:
+							prefix = PrefixID.Superior;
+							break;
+						case 18:
+							prefix = PrefixID.Demonic;
+							break;
+						case 19:
+							prefix = PrefixID.Deadly;
+							break;
+						case 20:
+							prefix = PrefixID.Mystic;
+							break;
+						case 21:
+							prefix = PrefixID.Godly;
+							break;
+						case 22:
+							prefix = PrefixID.Masterful;
+							break;
+						case 23:
+							prefix = PrefixID.Mythical;
+							break;
+					}
+				}
+			}
+			else if (item.summon)
+			{
+				if (item.knockBack == 0f)
+				{
+					switch (reforgeTier)
+					{
+						case 0:
+							break;
+						case 1:
+							// Nimble = 1
+							prefix = 1;
+							break;
+						case 2:
+							// Hurtful = 2, Quick = 3, Manic = 4
+							prefix = Main.rand.Next(2, 5);
+							break;
+						case 3:
+							// Adept = 5
+							prefix = 5;
+							break;
+						case 4:
+							// Deadly = 6
+							prefix = 6;
+							break;
+						case 5:
+						case 6:
+							// Mystic = 7
+							prefix = 7;
+							break;
+					}
+					switch (prefix)
+					{
+						case -2:
+							break;
+						case 1:
+							prefix = PrefixID.Nimble;
+							break;
+						case 2:
+							prefix = PrefixID.Hurtful;
+							break;
+						case 3:
+							prefix = PrefixID.Quick;
+							break;
+						case 4:
+							prefix = PrefixID.Manic;
+							break;
+						case 5:
+							prefix = PrefixID.Adept;
+							break;
+						case 6:
+							prefix = PrefixID.Deadly;
+							break;
+						case 7:
+							prefix = PrefixID.Mystic;
+							break;
+					}
+				}
+				// All other summon weapons
+				else
+				{
+					switch (reforgeTier)
+					{
+						case 0:
+							break;
+						case 1:
+							// Nimble = 1, Furious = 2
+							prefix = Main.rand.Next(1, 3);
+							break;
+						case 2:
+							// Hurtful = 3, Quick = 4, Taboo = 5, Manic = 6
+							prefix = Main.rand.Next(3, 7);
+							break;
+						case 3:
+							// Forceful = 7, Strong = 8, Adept = 9, Celestial = 10
+							prefix = Main.rand.Next(7, 11);
+							break;
+						case 4:
+							// Deadly = 11, Mystic = 12, Superior = 13, Demonic = 14
+							prefix = Main.rand.Next(11, 15);
+							break;
+						case 5:
+							// Masterful = 15, Mythical = 16, Godly = 17
+							prefix = Main.rand.Next(15, 18);
+							break;
+						case 6:
+							// Ruthless = 18
+							prefix = 18;
+							break;
+					}
+					switch (prefix)
+					{
+						case -2:
+							break;
+						case 1:
+							prefix = PrefixID.Nimble;
+							break;
+						case 2:
+							prefix = PrefixID.Furious;
+							break;
+						case 3:
+							prefix = PrefixID.Hurtful;
+							break;
+						case 4:
+							prefix = PrefixID.Quick;
+							break;
+						case 5:
+							prefix = PrefixID.Taboo;
+							break;
+						case 6:
+							prefix = PrefixID.Manic;
+							break;
+						case 7:
+							prefix = PrefixID.Forceful;
+							break;
+						case 8:
+							prefix = PrefixID.Strong;
+							break;
+						case 9:
+							prefix = PrefixID.Adept;
+							break;
+						case 10:
+							prefix = PrefixID.Celestial;
+							break;
+						case 11:
+							prefix = PrefixID.Deadly;
+							break;
+						case 12:
+							prefix = PrefixID.Mystic;
+							break;
+						case 13:
+							prefix = PrefixID.Superior;
+							break;
+						case 14:
+							prefix = PrefixID.Demonic;
+							break;
+						case 15:
+							prefix = PrefixID.Masterful;
+							break;
+						case 16:
+							prefix = PrefixID.Mythical;
+							break;
+						case 17:
+							prefix = PrefixID.Godly;
+							break;
+						case 18:
+							prefix = PrefixID.Ruthless;
+							break;
+					}
+				}
+			}
+			else if (item.Calamity().rogue)
+			{
+				switch (reforgeTier)
+				{
+					case 0:
+						break;
+					case 1:
+						// Radical = 1, Pointy = 2
+						prefix = Main.rand.Next(1, 3);
+						break;
+					case 2:
+						// Sharp = 3, Glorious = 4
+						prefix = Main.rand.Next(3, 5);
+						break;
+					case 3:
+						// Feathered = 5, Sleek = 6, Hefty = 7
+						prefix = Main.rand.Next(5, 8);
+						break;
+					case 4:
+						// Mighty = 8, Serrated = 9
+						prefix = Main.rand.Next(8, 10);
+						break;
+					case 5:
+						// Vicious = 10, Lethal = 11
+						prefix = Main.rand.Next(10, 12);
+						break;
+					case 6:
+						// Flawless = 12
+						prefix = 12;
+						break;
+				}
+				switch (prefix)
+				{
+					case -2:
+						break;
+					case 1:
+						prefix = mod.PrefixType("Radical");
+						break;
+					case 2:
+						prefix = mod.PrefixType("Pointy");
+						break;
+					case 3:
+						prefix = mod.PrefixType("Sharp");
+						break;
+					case 4:
+						prefix = mod.PrefixType("Glorious");
+						break;
+					case 5:
+						prefix = mod.PrefixType("Feathered");
+						break;
+					case 6:
+						prefix = mod.PrefixType("Sleek");
+						break;
+					case 7:
+						prefix = mod.PrefixType("Hefty");
+						break;
+					case 8:
+						prefix = mod.PrefixType("Mighty");
+						break;
+					case 9:
+						prefix = mod.PrefixType("Serrated");
+						break;
+					case 10:
+						prefix = mod.PrefixType("Vicious");
+						break;
+					case 11:
+						prefix = mod.PrefixType("Lethal");
+						break;
+					case 12:
+						prefix = mod.PrefixType("Flawless");
+						break;
+				}
+			}
+			return prefix;
+		}
 
-        #region Money From Rarity
-        public static readonly int Rarity0BuyPrice = Item.buyPrice(0, 0, 50, 0);
+		// Cut price in half because fuck the goblin
+		public override bool ReforgePrice(Item item, ref int reforgePrice, ref bool canApplyDiscount)
+		{
+			reforgePrice /= 2;
+			return true;
+		}
+
+		// Get cash from dickhead goblin fuck
+		public override void PostReforge(Item item)
+		{
+			if (!item.accessory)
+			{
+				CalamityPlayer modPlayer = Main.player[Main.myPlayer].Calamity();
+				if (modPlayer.itemTypeLastReforged != item.type)
+					modPlayer.reforgeTierSafety = 0;
+
+				modPlayer.itemTypeLastReforged = item.type;
+
+				if (modPlayer.reforgeTierSafety > 6)
+					modPlayer.reforgeTierSafety = 0;
+
+				modPlayer.reforgeTierSafety += 1;
+				reforgeTier = modPlayer.reforgeTierSafety;
+
+				bool favorited = item.favorited;
+				item.netDefaults(item.netID);
+				item.Prefix(NewPrefixType(item));
+
+				item.Center = Main.player[Main.myPlayer].Center;
+				item.favorited = favorited;
+			}
+
+			if (NPC.AnyNPCs(ModContent.NPCType<THIEF>()))
+			{
+				int value = item.value;
+				ItemLoader.ReforgePrice(item, ref value, ref Main.LocalPlayer.discount);
+				CalamityWorld.MoneyStolenByBandit += value / 5;
+				CalamityWorld.Reforges++;
+			}
+		}
+		#endregion
+
+		#region Money From Rarity
+		public static readonly int Rarity0BuyPrice = Item.buyPrice(0, 0, 50, 0);
         public static readonly int Rarity1BuyPrice = Item.buyPrice(0, 1, 0, 0);
         public static readonly int Rarity2BuyPrice = Item.buyPrice(0, 2, 0, 0);
         public static readonly int Rarity3BuyPrice = Item.buyPrice(0, 4, 0, 0);

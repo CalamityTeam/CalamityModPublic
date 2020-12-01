@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 40;
+            item.damage = 42;
             item.ranged = true;
             item.width = 64;
             item.height = 32;
@@ -42,13 +42,13 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            float SpeedX = speedX + (float)Main.rand.Next(-25, 26) * 0.05f;
-            float SpeedY = speedY + (float)Main.rand.Next(-25, 26) * 0.05f;
+            float SpeedX = speedX + Main.rand.Next(-25, 26) * 0.05f;
+            float SpeedY = speedY + Main.rand.Next(-25, 26) * 0.05f;
             Projectile.NewProjectile(position.X, position.Y, SpeedX * 0.9f, SpeedY * 0.9f, ProjectileID.BlackBolt, damage, knockBack, player.whoAmI, 0f, 0f);
-            for (int i = 0; i <= 3; i++)
+            for (int i = 0; i < 4; i++)
             {
-                float SpeedNewX = speedX + (float)Main.rand.Next(-45, 46) * 0.05f;
-                float SpeedNewY = speedY + (float)Main.rand.Next(-45, 46) * 0.05f;
+                float SpeedNewX = speedX + Main.rand.Next(-45, 46) * 0.05f;
+                float SpeedNewY = speedY + Main.rand.Next(-45, 46) * 0.05f;
                 Projectile.NewProjectile(position.X, position.Y, SpeedNewX, SpeedNewY, type, (int)(damage * 1.25f), knockBack, player.whoAmI, 0f, 0f);
             }
             return false;

@@ -5,6 +5,8 @@ namespace CalamityMod.Projectiles.Typeless
 {
     public class FabsolDust : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Dust");

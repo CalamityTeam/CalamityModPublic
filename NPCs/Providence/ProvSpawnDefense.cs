@@ -28,7 +28,7 @@ namespace CalamityMod.NPCs.Providence
             npc.height = 80;
             npc.defense = 50;
 			npc.DR_NERD(0.4f);
-            npc.lifeMax = 25000;
+            npc.lifeMax = 18750; // Old HP - 25000
             if (BossRushEvent.BossRushActive)
             {
                 npc.lifeMax = 300000;

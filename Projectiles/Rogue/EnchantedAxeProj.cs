@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class EnchantedAxeProj : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/EnchantedAxe";
+
         private bool recall = false;
         private bool summonAxe = true;
 

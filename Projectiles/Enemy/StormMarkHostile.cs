@@ -7,6 +7,8 @@ namespace CalamityMod.Projectiles.Enemy
 {
     public class StormMarkHostile : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Mark");

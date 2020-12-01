@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class IceBombFriendly : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Boss/IceBomb";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Bomb");

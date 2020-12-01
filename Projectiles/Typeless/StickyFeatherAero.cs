@@ -7,6 +7,8 @@ namespace CalamityMod.Projectiles.Typeless
 {
     public class StickyFeatherAero : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Magic/StickyFeather";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Feather");

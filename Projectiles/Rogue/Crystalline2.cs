@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class Crystalline2 : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/Crystalline";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Crystalline");
@@ -28,11 +30,7 @@ namespace CalamityMod.Projectiles.Rogue
         public override void AI()
         {
             projectile.localAI[0]++;
-            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.ToRadians(135f);
-            if (projectile.spriteDirection == -1)
-            {
-                projectile.rotation -= MathHelper.PiOver2;
-            }
+            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.ToRadians(45f);
             if (projectile.localAI[0] == 10f && projectile.ai[1] == 1f)
             {
                 int numProj = 2;

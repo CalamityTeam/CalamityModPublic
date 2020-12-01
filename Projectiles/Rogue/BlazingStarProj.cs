@@ -10,6 +10,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class BlazingStarProj : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/BlazingStar";
+
         public const int Lifetime = 1540;
         public const int ReboundTime = 40;
 

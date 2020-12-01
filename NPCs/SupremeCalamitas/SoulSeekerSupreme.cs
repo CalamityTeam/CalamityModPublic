@@ -31,8 +31,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             npc.noTileCollide = true;
             npc.canGhostHeal = false;
             npc.damage = 0;
-            npc.defense = 80;
-			npc.DR_NERD(0.35f);
+            npc.defense = 60;
+			npc.DR_NERD(0.25f);
 			npc.LifeMaxNERB(Main.expertMode ? 90000 : 50000, 170000);
             for (int k = 0; k < npc.buffImmune.Length; k++)
             {

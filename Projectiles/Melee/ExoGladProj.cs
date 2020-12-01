@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.Melee
 {
 	public class ExoGladProj : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
 		private float counter = 0f;
 
         public override void SetStaticDefaults()
