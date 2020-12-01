@@ -2556,8 +2556,8 @@ namespace CalamityMod.CalPlayer
 
             ZoneAbyssLayer4 = ZoneAbyss &&
                 point.Y > (Main.rockLayer + y * 0.26);
-
-            ZoneSulphur = (CalamityWorld.sulphurTiles > 30 || (player.ZoneOverworldHeight && sulphurPosX)) && !ZoneAbyss;
+            
+            ZoneSulphur = (CalamityWorld.sulphurTiles >= 300 || (player.ZoneOverworldHeight && sulphurPosX)) && !ZoneAbyss;
 
 			//Overriding 1.4's ass req boosts
 			if (Main.snowTiles > 300)
