@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Armor
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Reaver Headgear");
-            Tooltip.SetDefault("10% increased pick speed\n" +
+            Tooltip.SetDefault("10% increased pick speed and 20% increased block/wall placement speed\n" +
                 "Temporary immunity to lava and can move freely through liquids\n" +
 				"Provides heat protection in Death Mode");
         }
@@ -61,7 +61,7 @@ namespace CalamityMod.Items.Armor
         public override void UpdateArmorSet(Player player)
         {
             player.setBonus = "Causes nearby treasure to sparkle\n" +
-				"Increased item grab range and 20% increased block/wall placement speed\n" +
+				"Increased item grab range and block placement range\n" +
 				"Mining tiles restores breath while underwater\n" +
 				"Summons a reaver orb to light up the area around you\n" +
                 "Reduces enemy aggression, even in the abyss\n" +
@@ -69,8 +69,7 @@ namespace CalamityMod.Items.Armor
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.reaverExplore = true;
             modPlayer.wearingRogueArmor = true;
-            player.tileSpeed += 0.2f;
-            player.wallSpeed += 0.2f;
+            player.blockRange += 2;
             player.aggro -= 200;
 
             if (player.whoAmI == Main.myPlayer)
@@ -123,6 +122,8 @@ namespace CalamityMod.Items.Armor
         {
             player.ignoreWater = true;
 			player.pickSpeed -= 0.1f;
+            player.tileSpeed += 0.2f;
+            player.wallSpeed += 0.2f;
 			player.lavaMax += 420;
         }
 
