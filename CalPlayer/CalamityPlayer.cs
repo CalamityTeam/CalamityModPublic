@@ -7932,8 +7932,19 @@ namespace CalamityMod.CalPlayer
             // Bloodflare Core defense shattering
             if (bloodflareCore)
             {
-                // Shattered defense caps at half of total defense. Every hit adds its damage as shattered defense.
-                bloodflareCoreLostDefense = Math.Min(bloodflareCoreLostDefense + (int)damage, player.statDefense / 2);
+                // Shattered defense has a hard cap equal to half of total defense.
+                // It also has a soft cap determined by a formula so it isn't too powerful at excessively high defense.
+                int shatterDefenseCap = (int)(1.5D * Math.Pow(player.statDefense, 0.91D) - 0.5D * player.statDefense);
+                if (shatterDefenseCap > player.statDefense / 2)
+                    shatterDefenseCap = player.statDefense / 2;
+
+                // Every hit adds its damage as shattered defense.
+                int newLostDefense = Math.Min(bloodflareCoreLostDefense + (int)damage, shatterDefenseCap);
+
+                // Suddenly reducing your base defense stat does not let you suddenly reduce your shattered defense cap.
+                // In other words, you can't ever reduce your lost defense by taking another hit.
+                if (bloodflareCoreLostDefense < newLostDefense)
+                    bloodflareCoreLostDefense = newLostDefense;
 
                 // Play a sound and make dust to signify that defense has been shattered
                 Main.PlaySound(SoundID.DD2_MonkStaffGroundImpact, player.Center);
