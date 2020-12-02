@@ -5004,14 +5004,13 @@ namespace CalamityMod.CalPlayer
                 }
                 if (vexation)
                 {
-                    if ((player.armor[0].type == ModContent.ItemType<ReaverCap>() || player.armor[0].type == ModContent.ItemType<ReaverHelm>() ||
-                        player.armor[0].type == ModContent.ItemType<ReaverHelmet>() || player.armor[0].type == ModContent.ItemType<ReaverMask>() ||
-                        player.armor[0].type == ModContent.ItemType<ReaverVisage>()) &&
-                        player.armor[1].type == ModContent.ItemType<ReaverScaleMail>() && player.armor[2].type == ModContent.ItemType<ReaverCuisses>())
-                    {
-                        target.AddBuff(BuffID.CursedInferno, 90, false);
-                        target.AddBuff(BuffID.Venom, 120, false);
-                    }
+					if ((player.armor[0].type == ModContent.ItemType<ReaverHelm>() || player.armor[0].type == ModContent.ItemType<ReaverHeadgear>() ||
+						player.armor[0].type == ModContent.ItemType<ReaverVisage>()) && player.armor[1].type == ModContent.ItemType<ReaverScaleMail>() &&
+						player.armor[2].type == ModContent.ItemType<ReaverCuisses>())
+					{
+						target.AddBuff(BuffID.CursedInferno, 90, false);
+						target.AddBuff(BuffID.Venom, 120, false);
+					}
                 }
             }
 			proj.Calamity().stealthStrikeHitCount++;
@@ -5139,11 +5138,10 @@ namespace CalamityMod.CalPlayer
             }
             if (vexation)
             {
-                if ((player.armor[0].type == ModContent.ItemType<ReaverCap>() || player.armor[0].type == ModContent.ItemType<ReaverHelm>() ||
-                    player.armor[0].type == ModContent.ItemType<ReaverHelmet>() || player.armor[0].type == ModContent.ItemType<ReaverMask>() ||
-                    player.armor[0].type == ModContent.ItemType<ReaverVisage>()) &&
-                    player.armor[1].type == ModContent.ItemType<ReaverScaleMail>() && player.armor[2].type == ModContent.ItemType<ReaverCuisses>())
-                {
+				if ((player.armor[0].type == ModContent.ItemType<ReaverHelm>() || player.armor[0].type == ModContent.ItemType<ReaverHeadgear>() ||
+					player.armor[0].type == ModContent.ItemType<ReaverVisage>()) && player.armor[1].type == ModContent.ItemType<ReaverScaleMail>() &&
+					player.armor[2].type == ModContent.ItemType<ReaverCuisses>())
+				{
                     target.AddBuff(BuffID.CursedInferno, 90, false);
                     target.AddBuff(BuffID.Venom, 120, false);
                 }
@@ -5346,14 +5344,13 @@ namespace CalamityMod.CalPlayer
                 }
                 if (vexation)
                 {
-                    if ((player.armor[0].type == ModContent.ItemType<ReaverCap>() || player.armor[0].type == ModContent.ItemType<ReaverHelm>() ||
-                        player.armor[0].type == ModContent.ItemType<ReaverHelmet>() || player.armor[0].type == ModContent.ItemType<ReaverMask>() ||
-                        player.armor[0].type == ModContent.ItemType<ReaverVisage>()) &&
-                        player.armor[1].type == ModContent.ItemType<ReaverScaleMail>() && player.armor[2].type == ModContent.ItemType<ReaverCuisses>())
-                    {
-                        target.AddBuff(BuffID.CursedInferno, 90, false);
-                        target.AddBuff(BuffID.Venom, 120, false);
-                    }
+					if ((player.armor[0].type == ModContent.ItemType<ReaverHelm>() || player.armor[0].type == ModContent.ItemType<ReaverHeadgear>() ||
+						player.armor[0].type == ModContent.ItemType<ReaverVisage>()) && player.armor[1].type == ModContent.ItemType<ReaverScaleMail>() &&
+						player.armor[2].type == ModContent.ItemType<ReaverCuisses>())
+					{
+						target.AddBuff(BuffID.CursedInferno, 90, false);
+						target.AddBuff(BuffID.Venom, 120, false);
+					}
                 }
                 if (proj.type == ProjectileID.IchorArrow && player.ActiveItem().type == ModContent.ItemType<RaidersGlory>())
                 {
