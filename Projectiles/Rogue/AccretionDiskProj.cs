@@ -45,8 +45,7 @@ namespace CalamityMod.Projectiles.Rogue
 		private void BoomerangAI()
 		{
             // Boomerang rotation
-			if (projectile.FinalExtraUpdate())
-				projectile.rotation += 0.4f * projectile.direction;
+			projectile.rotation += 0.4f * projectile.direction;
 
             // Boomerang sound
             if (projectile.soundDelay == 0)
@@ -56,7 +55,7 @@ namespace CalamityMod.Projectiles.Rogue
             }
 
             // Returns after some number of frames in the air
-			int timeMult = projectile.Calamity().stealthStrike ? 2 : 1;
+			int timeMult = projectile.Calamity().stealthStrike ? 3 : 1;
             if (projectile.timeLeft < Lifetime * timeMult - ReboundTime * timeMult)
                 projectile.ai[0] = 1f;
 
