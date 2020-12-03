@@ -12,7 +12,8 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Elemental Disk");
-            Tooltip.SetDefault("Throws a disk that has a chance to generate several disks if enemies are near it");
+            Tooltip.SetDefault("Throws a disk that has a chance to generate several disks if enemies are near it\n" +
+			"Stealth strikes fly faster, pierce through enemies, and spawn extra disks more frequently");
         }
 
         public override void SafeSetDefaults()
@@ -38,9 +39,18 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
-            Main.projectile[proj].Calamity().stealthStrike = player.Calamity().StealthStrikeAvailable();
-            return false;
+			if (player.Calamity().StealthStrikeAvailable())
+			{
+				speedX *= 1.3f;
+				speedY *= 1.3f;
+				int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
+				Main.projectile[proj].Calamity().stealthStrike = true;
+				Main.projectile[proj].extraUpdates = 1;
+				Main.projectile[proj].timeLeft *= 2;
+				Main.projectile[proj].localNPCHitCooldown *= 2;
+				return false;
+			}
+            return true;
         }
 
         public override void AddRecipes()
