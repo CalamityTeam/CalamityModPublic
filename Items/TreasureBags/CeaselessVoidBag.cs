@@ -40,7 +40,7 @@ namespace CalamityMod.Items.TreasureBags
 			DropHelper.DropItemChance(player, ModContent.ItemType<MirrorBlade>(), 3);
 
             // Equipment
-            DropHelper.DropItem(player, ModContent.ItemType<ArcanumoftheVoid>());
+            DropHelper.DropItemRIV(player, ModContent.ItemType<ArcanumoftheVoid>(), ModContent.ItemType<TheEvolution>(), 1f, DropHelper.RareVariantDropRateFloat);
 
             // Vanity
 			DropHelper.DropItemChance(player, ModContent.ItemType<CeaselessVoidMask>(), 7);
