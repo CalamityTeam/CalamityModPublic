@@ -162,6 +162,8 @@ namespace CalamityMod.Tiles
 			if (Main.LocalPlayer.Calamity().reaverExplore && !fail)
 			{
 				Main.LocalPlayer.breath += 20;
+				if (Main.LocalPlayer.breath > Main.LocalPlayer.breathMax)
+					Main.LocalPlayer.breath = Main.LocalPlayer.breathMax;
 			}
 		}
 
