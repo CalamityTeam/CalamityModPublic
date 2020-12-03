@@ -10,9 +10,6 @@ namespace CalamityMod.Projectiles.Rogue
 	public class EradicatorProjectile : ModProjectile
 	{
 		public override string Texture => "CalamityMod/Items/Weapons/Rogue/Eradicator";
-		// If you can read this, the string below does not apply because you have the original ;)
-		internal const string HagingText = "If you can read this, you probably decompiled the source and therefore, you suck >:C ~Ben";
-		// Aside, programming stealth strikes is somewhat a bore.  Also, my internet went out at this time. I need to entertain myself.
 		internal float rotationDirection = 1f;
 		internal float rotationAmt = 0f;
 		internal float shootCounter = 0f;
