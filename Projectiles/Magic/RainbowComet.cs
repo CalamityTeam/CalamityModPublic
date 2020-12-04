@@ -8,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Magic
 {
-    public class PartyComet : ModProjectile
+    public class RainbowComet : ModProjectile
     {
         public ref float Time => ref projectile.ai[0];
         public const float FadeinTime = 40f;
@@ -70,7 +70,6 @@ namespace CalamityMod.Projectiles.Magic
                 }
 
                 // And release a bunch of rockets.
-                Vector2 baseDirection = projectile.velocity.SafeNormalize(-Vector2.UnitY).RotatedBy(MathHelper.PiOver2 * Math.Sign(Math.Cos(projectile.velocity.ToRotation())));
                 for (int i = 0; i < (int)RainbowRocket.PartyCannonExplosionType.Count; i++)
                 {
                     Vector2 velocity = -projectile.velocity.SafeNormalize(-Vector2.UnitY);
@@ -92,9 +91,9 @@ namespace CalamityMod.Projectiles.Magic
                     dust.velocity = Vector2.UnitY.RotatedByRandom(MathHelper.TwoPi) * Main.rand.NextFloat(12f, 16f);
                     dust.noGravity = true;
                 }
-            }
 
-            Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LargeWeaponFire").WithVolume(0.45f), projectile.Center);
+                Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LargeWeaponFire").WithVolume(0.45f), projectile.Center);
+            }
         }
     }
 }

@@ -1,4 +1,6 @@
+using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Magic;
+using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using System.Linq;
@@ -55,6 +57,24 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             var tt2 = tooltips.FirstOrDefault(x => x.Name == "Tooltip0" && x.mod == "Terraria");
             tt2.text = $"[" + DiscoHex + "Let the rainbow remind you that together we will always shine...]";
+        }
+
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ItemID.ConfettiCannon);
+            recipe.AddIngredient(ModContent.ItemType<CosmicRainbow>());
+
+            // This is the Celebration. The ItemID name is a bit unclear.
+            // TODO: Replace this with Celebration MK2 in 1.4.
+            recipe.AddIngredient(ItemID.FireworksLauncher);
+            recipe.AddIngredient(ItemID.FlaskofParty, 5);
+            recipe.AddIngredient(ItemID.SoulofLight, 25);
+            recipe.AddIngredient(ItemID.Confetti, 50);
+            recipe.AddIngredient(ModContent.ItemType<ShadowspecBar>(), 5);
+            recipe.AddTile(ModContent.TileType<DraedonsForge>());
+            recipe.SetResult(this);
+            recipe.AddRecipe();
         }
     }
 }

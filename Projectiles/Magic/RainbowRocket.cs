@@ -74,7 +74,7 @@ namespace CalamityMod.Projectiles.Magic
 
         private void DoMovement_IdleSwerveFly()
         {
-            float swerveAngleOffset = MathHelper.Lerp(-SwerveAngleOffsetMax, SwerveAngleOffsetMax, (int)RocketType / ((int)PartyCannonExplosionType.Count));
+            float swerveAngleOffset = MathHelper.Lerp(-SwerveAngleOffsetMax, SwerveAngleOffsetMax, (float)RocketType / ((float)PartyCannonExplosionType.Count));
             projectile.velocity = projectile.velocity.RotatedBy(swerveAngleOffset + SwerveAngle);
         }
 
@@ -136,7 +136,8 @@ namespace CalamityMod.Projectiles.Magic
             if (TrailDrawer is null)
                 TrailDrawer = new PrimitiveTrail(WidthFunction, ColorFunction);
 
-            TrailDrawer.Draw(projectile.oldPos, projectile.Size * 0.5f - Main.screenPosition + projectile.velocity, 65);
+            projectile.oldPos[0] = projectile.position + projectile.velocity.SafeNormalize(Vector2.Zero) * 50f; 
+            TrailDrawer.Draw(projectile.oldPos, projectile.Size * 0.5f - Main.screenPosition + projectile.velocity, 80);
 
             Texture2D rocketTexture = ModContent.GetTexture(Texture);
             spriteBatch.Draw(rocketTexture,

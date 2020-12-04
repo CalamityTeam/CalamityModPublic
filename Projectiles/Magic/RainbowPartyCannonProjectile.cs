@@ -72,7 +72,12 @@ namespace CalamityMod.Projectiles.Magic
 
             Main.PlaySound(heldItem.UseSound, projectile.Center);
             Vector2 spawnPosition = projectile.Center + projectile.velocity * 150f;
-            Projectile.NewProjectile(spawnPosition, projectile.velocity.SafeNormalize(Vector2.Zero) * heldItem.shootSpeed, ModContent.ProjectileType<PartyComet>(), projectile.damage, projectile.knockBack, Owner.whoAmI);
+
+            // Shoot farther back if the cannon is shoved into a bunch of tiles.
+            if (!Collision.CanHitLine(Owner.MountedCenter, 16, 16, spawnPosition, 16, 16))
+                spawnPosition = projectile.Center + projectile.velocity * 50f;
+
+            Projectile.NewProjectile(spawnPosition, projectile.velocity.SafeNormalize(Vector2.Zero) * heldItem.shootSpeed, ModContent.ProjectileType<RainbowComet>(), projectile.damage, projectile.knockBack, Owner.whoAmI);
         }
 
         public void UpdatePlayerVisuals(Vector2 center)
@@ -87,7 +92,7 @@ namespace CalamityMod.Projectiles.Magic
             projectile.rotation = projectile.velocity.ToRotation();
             projectile.direction = projectile.spriteDirection = (Math.Cos(projectile.rotation) > 0).ToDirectionInt();
 
-            // The crystal is a holdout projectile. Change the player's channel and direction values to reflect this.
+            // The cannon is a holdout projectile. Change the player's channel and direction values to reflect this.
             Owner.ChangeDir(projectile.direction);
             Owner.heldProj = projectile.whoAmI;
             Owner.itemTime = 2;
