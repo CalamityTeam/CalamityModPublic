@@ -48,8 +48,14 @@ namespace CalamityMod.NPCs
 					npc.timeLeft *= 20;
 
 				calamityGlobalNPC.newAI[0] = 1f;
+				Main.npc[(int)npc.ai[1]].Calamity().newAI[0] = 1f;
+				Main.npc[(int)npc.ai[2]].Calamity().newAI[0] = 1f;
+
 				npc.damage = npc.defDamage;
 				npc.boss = head;
+				npc.netUpdate = true;
+				Main.npc[(int)npc.ai[1]].netUpdate = true;
+				Main.npc[(int)npc.ai[2]].netUpdate = true;
 			}
 			else
 				npc.damage = 0;
@@ -327,7 +333,8 @@ namespace CalamityMod.NPCs
 				}
 			}
 
-			if (player.dead)
+			float maxDistance = calamityGlobalNPC.newAI[0] == 1f ? 8000f : 4000f;
+			if (player.dead || Vector2.Distance(npc.Center, player.Center) > maxDistance)
 			{
 				calamityGlobalNPC.newAI[1] = 1f;
 				npc.TargetClosest(false);

@@ -797,7 +797,7 @@ namespace CalamityMod
 					if (item.healMana > 0)
 						player.ManaEffect(item.healMana);
 				}
-				if (item.potion)
+				if (item.potion && healAmt > 0) //Don't inflict Potion Sickness if you don't actually heal
 				{
 					int duration = reducedPotionSickness ? 3000 : 3600;
 					if (player.pStone)
@@ -902,7 +902,7 @@ namespace CalamityMod
 		/// </summary>
 		/// <param name="projectile">The projectile you're adding sticky behaviour to</param>
 		/// <param name="timeLeft">Number of seconds you want a projectile to cling to an NPC</param>
-		public static void StickyProjAI (this Projectile projectile, int timeLeft)
+		public static void StickyProjAI (this Projectile projectile, int timeLeft, bool findNewNPC = false)
 		{
 			if (projectile.ai[0] == 1f)
 			{
@@ -951,10 +951,13 @@ namespace CalamityMod
 					killProj = true;
 				}
 
-				//Kill the projectile if needed
+				//Kill the projectile or reset stats if needed
 				if (killProj)
 				{
-					projectile.Kill();
+					if (findNewNPC)
+						projectile.ai[0] = 0f;
+					else
+						projectile.Kill();
 				}
 			}
 		}
@@ -1107,7 +1110,7 @@ namespace CalamityMod
 			}
 		}
 
-		public static Projectile ProjectileRain(Vector2 targetPos, float xLimit, float xVariance, float yLimitLower, float yLimitUpper, float projSpeed, int projType, int damage, float knockback, int owner, int forceType = 0, int immunitySetting = 0, int cooldown = 10)
+		public static Projectile ProjectileRain(Vector2 targetPos, float xLimit, float xVariance, float yLimitLower, float yLimitUpper, float projSpeed, int projType, int damage, float knockback, int owner, int forceType = 0, int immunitySetting = 0, int cooldown = 10, int extraUpdates = 0)
 		{
 			float x = targetPos.X + Main.rand.NextFloat(-xLimit, xLimit);
 			if (projType == ModContent.ProjectileType<AstralStarMagic>())
@@ -1122,6 +1125,7 @@ namespace CalamityMod
 			velocity.X *= targetDist;
 			velocity.Y *= targetDist;
 			Projectile proj = Projectile.NewProjectileDirect(source, velocity, projType, damage, knockback, owner, 0f, 0f);
+			proj.extraUpdates += extraUpdates;
 			CalamityGlobalProjectile modProj = proj.Calamity();
 			if (forceType > 0)
 			{
@@ -1944,6 +1948,40 @@ namespace CalamityMod
 
 		#region Tile Utilities
 		public static bool IsTileSolidGround(this Tile tile) => tile != null && tile.nactive() && (Main.tileSolid[tile.type] || Main.tileSolidTop[tile.type]);
+
+		public static string GetMapChestName(string baseName, int x, int y)
+		{
+			// Bounds check.
+			if (!WorldGen.InWorld(x, y, 2))
+				return baseName;
+
+			// Tile null check.
+			Tile tile = Main.tile[x, y];
+			if (tile is null)
+				return baseName;
+
+			int left = x;
+			int top = y;
+			if (tile.frameX % 36 != 0)
+				left--;
+			if (tile.frameY != 0)
+				top--;
+
+			int chest = Chest.FindChest(left, top);
+
+			// Valid chest index check.
+			if (chest < 0)
+				return baseName;
+
+			string name = baseName;
+
+			// Concatenate the chest's custom name if it has one.
+			if (!string.IsNullOrEmpty(Main.chest[chest].name))
+				name += $": {Main.chest[chest].name}";
+
+			return name;
+		}
+
 		public static void SafeSquareTileFrame(int x, int y, bool resetFrame = true)
 		{
 			if (Main.tile[x, y] is null)

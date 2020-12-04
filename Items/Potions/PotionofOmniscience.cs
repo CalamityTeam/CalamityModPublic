@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Potions
             item.UseSound = SoundID.Item3;
             item.consumable = true;
             item.buffType = ModContent.BuffType<Omniscience>();
-            item.buffTime = 36000;
+            item.buffTime = CalamityUtils.SecondsToFrames(900f);
             item.value = Item.buyPrice(0, 2, 0, 0);
         }
 

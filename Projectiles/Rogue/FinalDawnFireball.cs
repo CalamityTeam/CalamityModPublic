@@ -35,7 +35,7 @@ namespace CalamityMod.Projectiles.Rogue
 			if(!chargeAt.active)
 				projectile.Kill();
 
-			int idx = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width , projectile.height, ModContent.DustType<FinalFlame>(), 0f, 0f, 0, default, 1.0f);
+			int idx = Dust.NewDust(projectile.position, projectile.width , projectile.height, ModContent.DustType<FinalFlame>(), 0f, 0f, 0, default, 1.0f);
 			Main.dust[idx].velocity = projectile.velocity * 0.5f;
 			Main.dust[idx].noGravity = true;
 			Main.dust[idx].noLight = true;

@@ -66,7 +66,7 @@ namespace CalamityMod.Items.Weapons.Rogue
                     p.Calamity().stealthStrike = true;
                     int pID = p.identity;
 
-                    CreateOrbs(position, orbDamage, knockBack, pID, player);
+                    CreateOrbs(position, orbDamage, knockBack, pID, player, true);
                 }
             }
             else
@@ -74,7 +74,7 @@ namespace CalamityMod.Items.Weapons.Rogue
                 int pIndex = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0f, 1f);
                 int pID = Main.projectile[pIndex].identity;
                 
-                CreateOrbs(position, orbDamage, knockBack, pID, player);
+                CreateOrbs(position, orbDamage, knockBack, pID, player, false);
             }
             return false;
         }
@@ -108,7 +108,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             recipe.AddRecipe();
         }
 
-        private static void CreateOrbs(Vector2 position, int damage, float knockBack, int projectileID, Player player)
+        private static void CreateOrbs(Vector2 position, int damage, float knockBack, int projectileID, Player player, bool stealth)
         {
             float rotationOffset = 0f;
 
@@ -154,12 +154,15 @@ namespace CalamityMod.Items.Weapons.Rogue
                 rotationOffset += MathHelper.ToRadians(72f);
             }
 
-            int orb1 = Projectile.NewProjectile(position.X, position.Y, 0f, 0f, ModContent.ProjectileType<NychthemeronOrb>(), damage, knockBack, player.whoAmI, orb1Col, projectileID);
-            int orb2 = Projectile.NewProjectile(position.X, position.Y, 0f, 0f, ModContent.ProjectileType<NychthemeronOrb>(), damage, knockBack, player.whoAmI, orb2Col, projectileID);
+			float mult = stealth ? 0.75f : 1f;
+            int orb1 = Projectile.NewProjectile(position, Vector2.Zero, ModContent.ProjectileType<NychthemeronOrb>(), (int)(damage * mult), knockBack, player.whoAmI, orb1Col, projectileID);
+            int orb2 = Projectile.NewProjectile(position, Vector2.Zero, ModContent.ProjectileType<NychthemeronOrb>(), (int)(damage * mult), knockBack, player.whoAmI, orb2Col, projectileID);
             Main.projectile[orb1].localAI[1] = pos;
             Main.projectile[orb2].localAI[1] = pos;
             Main.projectile[orb1].rotation = rotationOffset;
             Main.projectile[orb2].rotation = rotationOffset + MathHelper.ToRadians(180f);
+            Main.projectile[orb1].Calamity().lineColor = stealth ? 1 : 0;
+            Main.projectile[orb2].Calamity().lineColor = stealth ? 1 : 0;
         }
     }
 }

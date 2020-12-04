@@ -644,22 +644,22 @@ namespace CalamityMod
 				default:
 					break;
 				case "reaver":
-					return mp.reaverBlast || mp.reaverDoubleTap || mp.reaverBurst || mp.reaverOrb || mp.reaverSpore;
-				case "reaver_melee":
-				case "reaver melee":
-					return mp.reaverBlast;
-				case "reaver_ranged":
-				case "reaver ranged":
-					return mp.reaverDoubleTap;
-				case "reaver_magic":
-				case "reaver magic":
-					return mp.reaverBurst;
-				case "reaver_summon":
-				case "reaver summon":
-					return mp.reaverOrb;
-				case "reaver_rogue":
-				case "reaver rogue":
-					return mp.reaverSpore;
+					return mp.reaverDefense || mp.reaverSpeed || mp.reaverExplore;
+				case "reaver_defense":
+				case "reaver defense":
+				case "reaver_helm":
+				case "reaver helm":
+					return mp.reaverDefense;
+				case "reaver_speed":
+				case "reaver speed":
+				case "reaver_visage":
+				case "reaver visage":
+					return mp.reaverSpeed;
+				case "reaver_explore":
+				case "reaver explore":
+				case "reaver_headgear":
+				case "reaver headgear":
+					return mp.reaverExplore;
 			}
 
 			// Fathom Swarmer
@@ -972,25 +972,23 @@ namespace CalamityMod
 			{
 				default:
 					break;
-				case "reaver_melee":
-				case "reaver melee":
-					mp.reaverBlast = enabled;
+				case "reaver_defense":
+				case "reaver defense":
+				case "reaver_helm":
+				case "reaver helm":
+					mp.reaverDefense = enabled;
 					return true;
-				case "reaver_ranged":
-				case "reaver ranged":
-					mp.reaverDoubleTap = enabled;
+				case "reaver_speed":
+				case "reaver speed":
+				case "reaver_visage":
+				case "reaver visage":
+					mp.reaverSpeed = enabled;
 					return true;
-				case "reaver_magic":
-				case "reaver magic":
-					mp.reaverBurst = enabled;
-					return true;
-				case "reaver_summon":
-				case "reaver summon":
-					mp.reaverOrb = enabled; // LATER -- remove this when player.reaverOrb actually controls reaver summoner
-					return true;
-				case "reaver_rogue":
-				case "reaver rogue":
-					mp.reaverSpore = enabled;
+				case "reaver_explore":
+				case "reaver explore":
+				case "reaver_headgear":
+				case "reaver headgear":
+					mp.reaverExplore = enabled;
 					return true;
 			}
 

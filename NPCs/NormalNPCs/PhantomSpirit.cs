@@ -24,7 +24,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.width = 16;
             npc.height = 16;
             npc.defense = 10;
-            npc.lifeMax = 1000;
+            npc.lifeMax = 750;
             npc.knockBackResist = 0.1f;
             animationType = NPCID.DungeonSpirit;
             aiType = -1;

@@ -28,7 +28,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.height = 40;
             npc.defense = 18;
 			npc.DR_NERD(0.15f);
-            npc.lifeMax = NPC.downedMoonlord ? 1800 : 135;
+            npc.lifeMax = NPC.downedMoonlord ? 1350 : 135;
             npc.knockBackResist = 0f;
             npc.value = Item.buyPrice(0, 0, 2, 0);
             npc.HitSound = SoundID.NPCHit2;

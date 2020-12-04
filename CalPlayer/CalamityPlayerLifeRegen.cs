@@ -22,6 +22,8 @@ namespace CalamityMod.CalPlayer
 
 			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
 			double lifeRegenMult = death ? 1.5 : 1D;
+			if (modPlayer.reaverDefense)
+				lifeRegenMult *= 0.8;
 			int lifeRegenLost = 0;
 
             // Initial Debuffs
@@ -423,10 +425,11 @@ namespace CalamityMod.CalPlayer
                     lesserEffect = CalamityLists.alcoholList.Contains(hasBuff);
                 }
 
+				int defenseBoost = modPlayer.astralArcanum ? 20 : 15;
                 if (lesserEffect)
                 {
                     player.lifeRegen += 1;
-                    player.statDefense += 20;
+                    player.statDefense += defenseBoost;
                 }
                 else
                 {
@@ -436,7 +439,7 @@ namespace CalamityMod.CalPlayer
                             player.lifeRegenTime = 1800;
 
                         player.lifeRegen += 4;
-                        player.statDefense += 20;
+                        player.statDefense += defenseBoost;
                     }
                     else
                         player.lifeRegen += 2;
@@ -711,6 +714,10 @@ namespace CalamityMod.CalPlayer
             {
                 player.lifeRegen += 2;
             }
+			if (modPlayer.avertorBonus)
+            {
+                player.lifeRegen += 4;
+            }
 
 			if (modPlayer.bloodflareSummon)
 			{
@@ -742,6 +749,13 @@ namespace CalamityMod.CalPlayer
 			}
 			else
 				modPlayer.pinkCandleHealFraction = 0D;
+
+			if (modPlayer.reaverRegen && modPlayer.reaverRegenCooldown >= 60)
+			{
+				modPlayer.reaverRegenCooldown = 0;
+				if (player.statLife != player.statLifeMax2 && !modPlayer.noLifeRegen)
+					player.statLife += 1;
+			}
 
 			// Standing still healing bonuses (all exclusive with vanilla Shiny Stone)
 			if (!player.shinyStone)

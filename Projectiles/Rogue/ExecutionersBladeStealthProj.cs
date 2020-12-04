@@ -25,13 +25,14 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.friendly = true;
             projectile.tileCollide = false;
             projectile.penetrate = 1;
-            projectile.timeLeft = 100;
+            projectile.timeLeft = 200;
             projectile.Calamity().rogue = true;
+			projectile.extraUpdates = 1;
         }
 
         public override void AI()
         {
-            if (projectile.timeLeft >= 75)
+            if (projectile.timeLeft >= 150 && projectile.FinalExtraUpdate())
                 projectile.velocity.Y *= 1.3f;
             projectile.rotation += 0.5f * (float)projectile.direction;
             Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 173, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
@@ -55,10 +56,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void Kill(int timeLeft)
         {
-            projectile.position = projectile.Center;
-            projectile.width = projectile.height = 128;
-            projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
-            projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
+			CalamityGlobalProjectile.ExpandHitboxBy(projectile, 128);
             Main.PlaySound(SoundID.Item74, (int)projectile.position.X, (int)projectile.position.Y);
             for (int num621 = 0; num621 < 3; num621++)
             {

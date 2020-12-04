@@ -432,7 +432,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             DropHelper.DropItemChance(npc, ModContent.ItemType<ProfanedGuardianMask>(), 7);
             DropHelper.DropItemChance(npc, ModContent.ItemType<ProfanedGuardianTrophy>(), 10);
             DropHelper.DropItemChance(npc, ModContent.ItemType<RelicOfDeliverance>(), 4);
-            DropHelper.DropItem(npc, ModContent.ItemType<ProfanedCore>());
+            DropHelper.DropItem(npc, ModContent.ItemType<ProfanedCoreUnlimited>());
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeProfanedGuardians>(), true, !CalamityWorld.downedGuardians);
             DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedGuardians, 5, 2, 1);
 

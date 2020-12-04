@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Potions
             item.UseSound = SoundID.Item3;
             item.consumable = true;
             item.buffType = ModContent.BuffType<ProfanedRageBuff>();
-            item.buffTime = 10800;
+            item.buffTime = CalamityUtils.SecondsToFrames(300f);
             item.value = Item.buyPrice(0, 2, 0, 0);
         }
 

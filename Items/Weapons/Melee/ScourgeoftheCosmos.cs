@@ -1,6 +1,5 @@
 using CalamityMod.Items.Materials;
-using CalamityMod.Items.Weapons.Rogue;
-using CalamityMod.Projectiles.Hybrid;
+using CalamityMod.Projectiles.Melee;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
 using Terraria.ID;
@@ -30,8 +29,8 @@ namespace CalamityMod.Items.Weapons.Melee
             item.UseSound = SoundID.Item109;
             item.autoReuse = true;
             item.height = 20;
-            item.value = Item.buyPrice(2, 50, 0, 0);
-            item.rare = 10;
+            item.value = Item.buyPrice(platinum: 2, gold: 50);
+            item.rare = ItemRarityID.Red;
             item.shoot = ModContent.ProjectileType<ScourgeoftheCosmosProj>();
             item.shootSpeed = 15f;
             item.Calamity().customRarity = CalamityRarity.Violet;
@@ -41,9 +40,9 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.ScourgeoftheCorruptor);
+            recipe.AddIngredient(ModContent.ItemType<Bonebreaker>());
             recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 10);
             recipe.AddIngredient(ModContent.ItemType<DarksunFragment>(), 10);
-            recipe.AddIngredient(ModContent.ItemType<XerocPitchfork>(), 200);
             recipe.AddTile(ModContent.TileType<DraedonsForge>());
             recipe.SetResult(this);
             recipe.AddRecipe();

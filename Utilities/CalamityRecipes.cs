@@ -26,7 +26,8 @@ namespace CalamityMod
 
         public static void AddRecipes()
         {
-            EditTerraBladeRecipe();
+			EditLeatherRecipe();
+			EditTerraBladeRecipe();
             EditFireGauntletRecipe();
             AstralAlternatives();
 
@@ -79,10 +80,9 @@ namespace CalamityMod
 
             // Life Crystal
             r = GetNewRecipe();
-            r.AddIngredient(ItemID.Bone, 5);
-            r.AddIngredient(ItemID.PinkGel);
-            r.AddIngredient(ItemID.HealingPotion);
-            r.AddIngredient(ItemID.Ruby);
+            r.AddIngredient(ItemID.StoneBlock, 5);
+			r.AddIngredient(ItemID.Ruby, 2);
+			r.AddIngredient(ItemID.HealingPotion);
             r.AddTile(TileID.Anvils);
             r.SetResult(ItemID.LifeCrystal);
             r.AddRecipe();
@@ -103,8 +103,18 @@ namespace CalamityMod
             r.AddRecipe();
         }
 
-        // Change Terra Blade's recipe to require 7 Living Shards (forces the Blade to be post-Plantera)
-        private static void EditTerraBladeRecipe()
+		// Change Leather's recipe to require 2 Rotten Chunks/Vertebrae
+		private static void EditLeatherRecipe()
+		{
+			List<Recipe> rec = Main.recipe.ToList();
+			rec.Where(x => x.createItem.type == ItemID.Leather).ToList().ForEach(s =>
+			{
+				s.requiredItem[0].stack = 2;
+			});
+		}
+
+		// Change Terra Blade's recipe to require 7 Living Shards (forces the Blade to be post-Plantera)
+		private static void EditTerraBladeRecipe()
         {
             List<Recipe> rec = Main.recipe.ToList();
             rec.Where(x => x.createItem.type == ItemID.TerraBlade).ToList().ForEach(s =>
@@ -357,6 +367,42 @@ namespace CalamityMod
             r.anyIronBar = true;
             r.AddTile(TileID.Loom);
             r.SetResult(ItemID.Umbrella);
+            r.AddRecipe();
+
+            // Living Loom
+            r = GetNewRecipe();
+            r.AddIngredient(ItemID.Loom);
+            r.AddIngredient(ItemID.Vine, 2);
+            r.AddTile(TileID.Sawmill);
+            r.SetResult(ItemID.LivingLoom);
+            r.AddRecipe();
+
+            // Living Wood Wand
+            r = GetNewRecipe();
+            r.AddIngredient(ItemID.Wood, 30);
+            r.AddTile(TileID.LivingLoom);
+            r.SetResult(ItemID.LivingWoodWand);
+            r.AddRecipe();
+
+            // Living Leaf Wand
+            r = GetNewRecipe();
+            r.AddIngredient(ItemID.Wood, 30);
+            r.AddTile(TileID.LivingLoom);
+            r.SetResult(ItemID.LeafWand);
+            r.AddRecipe();
+
+            // Living Mahogany Wand
+            r = GetNewRecipe();
+            r.AddIngredient(ItemID.RichMahogany, 30);
+            r.AddTile(TileID.LivingLoom);
+            r.SetResult(ItemID.LivingMahoganyWand);
+            r.AddRecipe();
+
+            // Living Mahogany Leaf Wand
+            r = GetNewRecipe();
+            r.AddIngredient(ItemID.RichMahogany, 30);
+            r.AddTile(TileID.LivingLoom);
+            r.SetResult(ItemID.LivingMahoganyLeafWand);
             r.AddRecipe();
         }
         #endregion
@@ -884,6 +930,8 @@ namespace CalamityMod
 
             RecipeGroup sand = RecipeGroup.recipeGroups[RecipeGroup.recipeGroupIDs["Sand"]];
             sand.ValidItems.Add(ModContent.ItemType<AstralSand>());
+            sand.ValidItems.Add(ModContent.ItemType<EutrophicSand>());
+            sand.ValidItems.Add(ModContent.ItemType<SulphurousSand>());
 
             RecipeGroup wood = RecipeGroup.recipeGroups[RecipeGroup.recipeGroupIDs["Wood"]];
             wood.ValidItems.Add(ModContent.ItemType<Acidwood>()); //Astral Monolith was decidedly not wood-like enough

@@ -1,5 +1,5 @@
 using CalamityMod.Items.Materials;
-using CalamityMod.Projectiles.Hybrid;
+using CalamityMod.Projectiles.Melee;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -8,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
-    public class GalaxySmasherMelee : ModItem
+	public class GalaxySmasherMelee : ModItem
     {
         public static int BaseDamage = 480;
         public static float Speed = 18f;
@@ -35,9 +35,9 @@ namespace CalamityMod.Items.Weapons.Melee
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.UseSound = SoundID.Item1;
 
-            item.rare = 10;
+            item.rare = ItemRarityID.Red;
             item.Calamity().customRarity = CalamityRarity.DarkBlue;
-            item.value = Item.buyPrice(1, 80, 0, 0);
+            item.value = Item.buyPrice(platinum: 1, gold: 80);
 
             item.shoot = ModContent.ProjectileType<GalaxySmasherHammer>();
             item.shootSpeed = Speed;

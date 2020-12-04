@@ -35,12 +35,12 @@ namespace CalamityMod.Projectiles.Rogue
 		{
 			Player player = Main.player[projectile.owner];
 
-			if (player.dead || player is null)
+			if (player is null || player.dead)
 				projectile.Kill();
 
             if (projectile.localAI[0] == 0)
             {
-                Main.PlaySound(SoundID.Item71, (int)projectile.position.X, (int)projectile.position.Y);
+                Main.PlaySound(SoundID.Item71, projectile.Center);
                 projectile.localAI[0] = 1;
             }
 
@@ -58,7 +58,7 @@ namespace CalamityMod.Projectiles.Rogue
 					projectile.Kill();
 			}
 
-			int idx = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width , projectile.height, ModContent.DustType<FinalFlame>(), 0f, 0f, 0, default, 0.5f);
+			int idx = Dust.NewDust(projectile.position, projectile.width , projectile.height, ModContent.DustType<FinalFlame>(), 0f, 0f, 0, default, 0.5f);
             Main.dust[idx].velocity *= 0.5f;
             Main.dust[idx].velocity += projectile.velocity * 0.5f;
             Main.dust[idx].noGravity = true;

@@ -37,29 +37,7 @@ namespace CalamityMod.Tiles.FurnitureBotanic
             return true;
         }
 
-        public string MapChestName(string name, int i, int j)
-        {
-            int left = i;
-            int top = j;
-            Tile tile = Main.tile[i, j];
-            if (tile.frameX % 36 != 0)
-            {
-                left--;
-            }
-            if (tile.frameY != 0)
-            {
-                top--;
-            }
-            int chest = Chest.FindChest(left, top);
-            if (Main.chest[chest].name == "")
-            {
-                return name;
-            }
-            else
-            {
-                return name + ": " + Main.chest[chest].name;
-            }
-        }
+        public string MapChestName(string name, int i, int j) => CalamityUtils.GetMapChestName(name, i, j);
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {

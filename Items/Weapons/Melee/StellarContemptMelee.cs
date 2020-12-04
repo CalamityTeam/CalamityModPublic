@@ -1,14 +1,13 @@
-using CalamityMod.Projectiles.Hybrid;
-using Microsoft.Xna.Framework;
+using CalamityMod.Projectiles.Melee;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
-    public class StellarContemptMelee : ModItem
+	public class StellarContemptMelee : ModItem
     {
-        public static int BaseDamage = 250;
+        public static int BaseDamage = 300;
         public static float Speed = 18f;
 
         public override void SetStaticDefaults()
@@ -33,19 +32,12 @@ namespace CalamityMod.Items.Weapons.Melee
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.UseSound = SoundID.Item1;
 
-            item.rare = 10;
+            item.rare = ItemRarityID.Red;
             item.Calamity().customRarity = CalamityRarity.Turquoise;
-            item.value = Item.buyPrice(1, 20, 0, 0);
+            item.value = Item.buyPrice(platinum: 1, gold: 20);
 
             item.shoot = ModContent.ProjectileType<StellarContemptHammer>();
             item.shootSpeed = Speed;
-        }
-
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
-        {
-            int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
-            Main.projectile[proj].Calamity().forceMelee = true;
-            return false;
         }
 
         public override void AddRecipes()

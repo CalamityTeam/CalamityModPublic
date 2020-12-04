@@ -69,7 +69,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod
 {
-    public class CalamityLists
+	public class CalamityLists
     {
         public static IList<string> donatorList;
         public static List<int> trueMeleeProjectileList; // DO NOT, EVER, DELETE THIS LIST, OR I WILL COME FOR YOU :D
@@ -97,6 +97,7 @@ namespace CalamityMod
         public static List<int> twentyDamageBuffList; //20% buff
         public static List<int> tenDamageBuffList; //10% buff
         public static List<int> weaponAutoreuseList;
+		public static List<int> spearAutoreuseList;
         public static List<int> tenDamageNerfList; //10% nerf
         public static List<int> quarterDamageNerfList; //25% nerf
         public static List<int> pumpkinMoonBuffList;
@@ -753,7 +754,6 @@ namespace CalamityMod
                 ModContent.ItemType<FirestormCannon>(),
                 ModContent.ItemType<FlameburstShortsword>(),
                 ModContent.ItemType<FlameScythe>(),
-                ModContent.ItemType<FlameScytheMelee>(),
                 ModContent.ItemType<FlareBolt>(),
                 ModContent.ItemType<FlarewingBow>(),
                 ModContent.ItemType<ForbiddenSun>(),
@@ -806,7 +806,8 @@ namespace CalamityMod
                 ModContent.ItemType<PristineFury>(),
                 ModContent.ItemType<SarosPossession>(),
                 ModContent.ItemType<CinderBlossomStaff>(),
-                ModContent.ItemType<FinalDawn>()
+                ModContent.ItemType<FinalDawn>(),
+				ModContent.ItemType<DragonPow>()
             };
 
             iceWeaponList = new List<int>()
@@ -831,7 +832,6 @@ namespace CalamityMod
                 ModContent.ItemType<GlacialCrusher>(),
                 ModContent.ItemType<TemporalFloeSword>(),
                 ModContent.ItemType<ColdheartIcicle>(),
-                ModContent.ItemType<KelvinCatalystMelee>(),
                 ModContent.ItemType<CosmicDischarge>(),
                 ModContent.ItemType<EffluviumBow>(),
                 ModContent.ItemType<EternalBlizzard>(),
@@ -926,7 +926,6 @@ namespace CalamityMod
                 ModContent.ItemType<LifefruitScythe>(),
                 ModContent.ItemType<ManaRose>(),
                 ModContent.ItemType<MangroveChakram>(),
-                ModContent.ItemType<MangroveChakramMelee>(),
                 ModContent.ItemType<MantisClaws>(),
                 ModContent.ItemType<Mariana>(),
                 ModContent.ItemType<Mistlestorm>(),
@@ -981,7 +980,6 @@ namespace CalamityMod
                 ModContent.ItemType<SeasSearing>(),
                 ModContent.ItemType<YateveoBloom>(),
                 ModContent.ItemType<TerraDisk>(),
-                ModContent.ItemType<TerraDiskMelee>(),
                 ModContent.ItemType<BelladonnaSpiritStaff>(),
                 ModContent.ItemType<TenebreusTides>(),
                 ModContent.ItemType<Greentide>(),
@@ -1029,8 +1027,7 @@ namespace CalamityMod
 				ItemID.MonkStaffT2,
 				ItemID.ProximityMineLauncher,
 				ItemID.FireworksLauncher,
-				ItemID.ShadowbeamStaff,
-				ItemID.Terrarian
+				ItemID.ShadowbeamStaff
             };
 
             sixtySixDamageBuffList = new List<int>()
@@ -1056,7 +1053,8 @@ namespace CalamityMod
                 ItemID.PulseBow,
                 ItemID.PaladinsHammer,
                 ItemID.SolarEruption,
-                ItemID.DayBreak
+                ItemID.DayBreak,
+				ItemID.LunarFlareBook
             };
 
             thirtyThreeDamageBuffList = new List<int>()
@@ -1080,7 +1078,8 @@ namespace CalamityMod
                 ItemID.TheRottedFork,
                 ItemID.VampireKnives,
                 ItemID.Cascade,
-                ItemID.TrueExcalibur
+                ItemID.TrueExcalibur,
+				ItemID.Meowmere
             };
 
             twentyFiveDamageBuffList = new List<int>()
@@ -1114,17 +1113,57 @@ namespace CalamityMod
                 ItemID.VenusMagnum,
                 ItemID.MagicDagger,
                 ItemID.BeamSword,
-                ItemID.MonkStaffT2,
                 ItemID.PaladinsHammer,
                 ItemID.PearlwoodSword,
                 ItemID.PearlwoodBow,
                 ItemID.TaxCollectorsStickOfDoom,
-                ItemID.StylistKilLaKillScissorsIWish
+                ItemID.StylistKilLaKillScissorsIWish,
+				ItemID.AdamantiteGlaive,
+				ItemID.ChlorophytePartisan,
+				ItemID.CobaltNaginata,
+				ItemID.DarkLance,
+				ItemID.MonkStaffT2,
+				ItemID.Gungnir,
+				ItemID.MushroomSpear,
+				ItemID.MythrilHalberd,
+				ItemID.NorthPole,
+				ItemID.ObsidianSwordfish,
+				ItemID.OrichalcumHalberd,
+				ItemID.PalladiumPike,
+				ItemID.Spear,
+				ItemID.Swordfish,
+				ItemID.TheRottedFork,
+				ItemID.TitaniumTrident,
+				ItemID.Trident
+				//ItemID.StormSpear
             };
 
-            tenDamageNerfList = new List<int>()
+			spearAutoreuseList = new List<int>()
+			{
+				ItemID.AdamantiteGlaive,
+				ItemID.ChlorophytePartisan,
+				ItemID.CobaltNaginata,
+				ItemID.DarkLance,
+				ItemID.MonkStaffT2,
+				ItemID.Gungnir,
+				ItemID.MushroomSpear,
+				ItemID.MythrilHalberd,
+				ItemID.NorthPole,
+				ItemID.ObsidianSwordfish,
+				ItemID.OrichalcumHalberd,
+				ItemID.PalladiumPike,
+				ItemID.Spear,
+				ItemID.Swordfish,
+				ItemID.TheRottedFork,
+				ItemID.TitaniumTrident,
+				ItemID.Trident
+				//ItemID.StormSpear
+			};
+
+			tenDamageNerfList = new List<int>()
             {
-                ItemID.Phantasm
+                ItemID.Phantasm,
+				ItemID.StarWrath
             };
 
             quarterDamageNerfList = new List<int>()
@@ -1434,9 +1473,7 @@ namespace CalamityMod
                 ModContent.ItemType<EpidemicShredder>(),
                 ModContent.ItemType<Equanimity>(),
                 ModContent.ItemType<Eradicator>(),
-                ModContent.ItemType<TruePaladinsHammer>(),
                 ModContent.ItemType<FlameScythe>(),
-                ModContent.ItemType<GalaxySmasherRogue>(),
                 ModContent.ItemType<Glaive>(),
                 ModContent.ItemType<GhoulishGouger>(),
                 ModContent.ItemType<Icebreaker>(),
@@ -1445,12 +1482,9 @@ namespace CalamityMod
                 ModContent.ItemType<MangroveChakram>(),
                 ModContent.ItemType<MoltenAmputator>(),
                 ModContent.ItemType<NanoblackReaperRogue>(),
-                ModContent.ItemType<Pwnagehammer>(),
                 ModContent.ItemType<SandDollar>(),
                 ModContent.ItemType<SeashellBoomerang>(),
                 ModContent.ItemType<Shroomerang>(),
-                ModContent.ItemType<StellarContemptRogue>(),
-                ModContent.ItemType<TriactisTruePaladinianMageHammerofMight>(),
                 ModContent.ItemType<Valediction>(),
                 ModContent.ItemType<FrostcrushValari>(),
                 ModContent.ItemType<DefectiveSphere>(),
@@ -1477,12 +1511,12 @@ namespace CalamityMod
                 ModContent.ProjectileType<KylieBoomerang>(),
                 ModContent.ProjectileType<MangroveChakramProjectile>(),
                 ModContent.ProjectileType<MoltenAmputatorProj>(),
-                ModContent.ProjectileType<OPHammer>(),
+                ModContent.ProjectileType<FallenPaladinsHammerProj>(),
                 ModContent.ProjectileType<SandDollarProj>(),
                 ModContent.ProjectileType<SandDollarStealth>(),
                 ModContent.ProjectileType<SeashellBoomerangProjectile>(),
                 ModContent.ProjectileType<ShroomerangProj>(),
-                ModContent.ProjectileType<TriactisOPHammer>(),
+                ModContent.ProjectileType<TriactisHammerProj>(),
                 ModContent.ProjectileType<ValedictionBoomerang>(),
                 ModContent.ProjectileType<GalaxySmasherHammer>(),
                 ModContent.ProjectileType<KelvinCatalystBoomerang>(),
@@ -1511,7 +1545,6 @@ namespace CalamityMod
                 ModContent.ItemType<ProfanedTrident>(),
                 ModContent.ItemType<LuminousStriker>(),
                 ModContent.ItemType<ScarletDevil>(),
-                ModContent.ItemType<ScourgeoftheCosmosThrown>(),
                 ModContent.ItemType<ScourgeoftheDesert>(),
                 ModContent.ItemType<ScourgeoftheSeas>(),
                 ModContent.ItemType<SpearofDestiny>(),
@@ -1578,8 +1611,6 @@ namespace CalamityMod
                 ModContent.ItemType<LunarKunai>(),
                 ModContent.ItemType<GildedDagger>(),
                 ModContent.ItemType<GleamingDagger>(),
-                ModContent.ItemType<EmpyreanKnives>(),
-                ModContent.ItemType<RoyalKnives>(),
                 ModContent.ItemType<InfernalKris>(),
                 ModContent.ItemType<UtensilPoker>(),
                 ModContent.ItemType<ShinobiBlade>(),

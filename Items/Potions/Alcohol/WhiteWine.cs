@@ -30,7 +30,7 @@ Reduces defense by 6 and life regen by 1");
             item.consumable = true;
             item.healMana = 400;
             item.buffType = ModContent.BuffType<WhiteWineBuff>();
-            item.buffTime = 10800; //3 minutes
+            item.buffTime = CalamityUtils.SecondsToFrames(300f);
             item.value = Item.buyPrice(0, 16, 60, 0);
         }
 

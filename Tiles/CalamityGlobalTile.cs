@@ -48,6 +48,12 @@ namespace CalamityMod.Tiles
 			(ushort)ModContent.TileType<Voidstone>()
 		};
 
+		public override void SetDefaults()
+		{
+			Main.tileSpelunker[TileID.LunarOre] = true;
+			Main.tileValue[TileID.LunarOre] = 900;
+		}
+
 		public override bool PreHitWire(int i, int j, int type)
 		{
 			return !BossRushEvent.BossRushActive;
@@ -126,6 +132,7 @@ namespace CalamityMod.Tiles
 		public override void KillTile(int i, int j, int type, ref bool fail, ref bool effectOnly, ref bool noItem)
 		{
 			Tile tile = Main.tile[i, j];
+			Player player = Main.LocalPlayer;
 
 			if (tile is null)
 				return;
@@ -143,7 +150,7 @@ namespace CalamityMod.Tiles
 						NetMessage.SendData(MessageID.TileChange, -1, -1, null, 0, xPos, yPos, 0f, 0, 0, 0);
 				}
 			}
-			
+
 			// CONSIDER -- Lumenyl Crystals and Sea Prism Crystals aren't solid. They shouldn't need to be checked here.
 			if (Main.tileSolid[tile.type] && tile.type != ModContent.TileType<LumenylCrystals>() && tile.type != ModContent.TileType<SeaPrismCrystals>())
 			{
@@ -151,6 +158,13 @@ namespace CalamityMod.Tiles
 				CheckShatterCrystal(i - 1, j);
 				CheckShatterCrystal(i, j + 1);
 				CheckShatterCrystal(i, j - 1);
+			}
+
+			if (player.Calamity().reaverExplore && !fail)
+			{
+				player.breath += 20;
+				if (player.breath > player.breathMax)
+					player.breath = player.breathMax;
 			}
 		}
 

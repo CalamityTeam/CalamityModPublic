@@ -130,36 +130,40 @@ namespace CalamityMod.NPCs.CeaselessVoid
 
         public override void NPCLoot()
         {
-            // Only drop items if fought alone
-            if (CalamityWorld.DoGSecondStageCountdown <= 0)
+            // Only drop items if fought at full strength
+			bool fullStrength = !CalamityWorld.downedSentinel1 || CalamityWorld.DoGSecondStageCountdown <= 0;
+            if (fullStrength)
             {
-                // Materials
-                DropHelper.DropItem(npc, ModContent.ItemType<DarkPlasma>(), true, 2, 3);
+				DropHelper.DropBags(npc);
 
-                // Weapons
-                DropHelper.DropItemChance(npc, ModContent.ItemType<MirrorBlade>(), Main.expertMode ? 3 : 4);
-
-                // Equipment
-				DropHelper.DropItemRIV(npc, ModContent.ItemType<ArcanumoftheVoid>(), ModContent.ItemType<TheEvolution>(), 0.2f, DropHelper.RareVariantDropRateFloat);
-
-                // Vanity
-                DropHelper.DropItemChance(npc, ModContent.ItemType<CeaselessVoidTrophy>(), 10);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<CeaselessVoidMask>(), 7);
-				if (Main.rand.NextBool(20))
+				DropHelper.DropItemChance(npc, ModContent.ItemType<CeaselessVoidTrophy>(), 10);
+				bool lastSentinelKilled = !CalamityWorld.downedSentinel1 && CalamityWorld.downedSentinel2 && CalamityWorld.downedSentinel3;
+				DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeSentinels>(), true, lastSentinelKilled);
+				DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedSentinel1, 5, 2, 1);
+				if (!Main.expertMode)
 				{
-					DropHelper.DropItem(npc, ModContent.ItemType<AncientGodSlayerHelm>());
-					DropHelper.DropItem(npc, ModContent.ItemType<AncientGodSlayerChestplate>());
-					DropHelper.DropItem(npc, ModContent.ItemType<AncientGodSlayerLeggings>());
-				}
+					// Materials
+					DropHelper.DropItem(npc, ModContent.ItemType<DarkPlasma>(), true, 2, 3);
 
-                // Other
-                bool lastSentinelKilled = !CalamityWorld.downedSentinel1 && CalamityWorld.downedSentinel2 && CalamityWorld.downedSentinel3;
-                DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeSentinels>(), true, lastSentinelKilled);
-                DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedSentinel1, 5, 2, 1);
+					// Weapons
+					DropHelper.DropItemChance(npc, ModContent.ItemType<MirrorBlade>(), 4);
+
+					// Equipment
+					DropHelper.DropItemChance(npc, ModContent.ItemType<TheEvolution>(), DropHelper.RareVariantDropRateFloat);
+
+					// Vanity
+					DropHelper.DropItemChance(npc, ModContent.ItemType<CeaselessVoidMask>(), 7);
+					if (Main.rand.NextBool(20))
+					{
+						DropHelper.DropItem(npc, ModContent.ItemType<AncientGodSlayerHelm>());
+						DropHelper.DropItem(npc, ModContent.ItemType<AncientGodSlayerChestplate>());
+						DropHelper.DropItem(npc, ModContent.ItemType<AncientGodSlayerLeggings>());
+					}
+				}
             }
 
             // If DoG's fight is active, set the timer for the remaining two sentinels
-            else if (CalamityWorld.DoGSecondStageCountdown > 14460)
+            if (CalamityWorld.DoGSecondStageCountdown > 14460)
             {
                 CalamityWorld.DoGSecondStageCountdown = 14460;
                 if (Main.netMode == NetmodeID.Server)
@@ -172,7 +176,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
             }
 
 			// Mark Ceaseless Void as dead
-			if (CalamityWorld.DoGSecondStageCountdown <= 0)
+			if (fullStrength)
 			{
 				CalamityWorld.downedSentinel1 = true;
 				CalamityNetcode.SyncWorld();

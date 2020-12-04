@@ -322,8 +322,9 @@ namespace CalamityMod.NPCs
                 if (!NPC.downedMoonlord)
                 {
                     WorldGenerationMethods.SpawnOre(ModContent.TileType<ExodiumOre>(), 12E-05, .01f, .07f);
+					WorldGenerationMethods.SpawnOre(TileID.LunarOre, 12E-05, .65f, .8f);
 
-                    CalamityUtils.DisplayLocalizedText(key, messageColor);
+					CalamityUtils.DisplayLocalizedText(key, messageColor);
                     CalamityUtils.DisplayLocalizedText(key2, messageColor);
                     CalamityUtils.DisplayLocalizedText(key3, messageColor);
                     CalamityUtils.DisplayLocalizedText(key4, messageColor);
@@ -1045,7 +1046,7 @@ namespace CalamityMod.NPCs
                     break;
 
                 case NPCID.SeaSnail:
-                    DropHelper.DropItemChance(npc, ModContent.ItemType<SeaShell>(), Main.expertMode ? 2 : 3);
+                    DropHelper.DropItemChance(npc, ModContent.ItemType<SeaShell>(), Main.expertMode ? 1 : 2);
                     break;
 
                 case NPCID.GreekSkeleton:

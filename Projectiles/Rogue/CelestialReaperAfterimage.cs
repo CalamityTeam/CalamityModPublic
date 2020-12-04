@@ -23,11 +23,12 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.Calamity().rogue = true;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 5;
+			projectile.timeLeft = 180;
         }
         public override void AI()
         {
             projectile.rotation += MathHelper.ToRadians(30f); // Buzzsaw scythe.
-            NPC target = projectile.position.ClosestNPCAt(640f);
+            NPC target = projectile.Center.ClosestNPCAt(640f);
             if (target != null)
             {
                 projectile.velocity = (projectile.velocity * 20f + projectile.DirectionTo(target.Center) * 20f) / 21f;

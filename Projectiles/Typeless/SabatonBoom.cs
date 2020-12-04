@@ -19,6 +19,16 @@ namespace CalamityMod.Projectiles.Typeless
             projectile.localNPCHitCooldown = -1;
         }
 
+		public override void AI()
+		{
+			if (projectile.ai[0] == 1f)
+			{
+				CalamityGlobalProjectile.ExpandHitboxBy(projectile, 100); //Not really an expansion
+				projectile.timeLeft /= 2;
+				projectile.ai[0] = 0f;
+			}
+		}
+
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 300);

@@ -1,5 +1,5 @@
 using CalamityMod.Items.Materials;
-using CalamityMod.Projectiles.Hybrid;
+using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -7,11 +7,12 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class MangroveChakram : RogueWeapon
+	public class MangroveChakram : RogueWeapon
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Mangrove Chakram");
+            Tooltip.SetDefault("Stealth strikes leave a trail of lingering flowers");
         }
 
         public override void SafeSetDefaults()
@@ -27,8 +28,8 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.knockBack = 7.5f;
             item.UseSound = SoundID.Item1;
             item.height = 38;
-            item.value = Item.buyPrice(0, 60, 0, 0);
-            item.rare = 7;
+            item.value = Item.buyPrice(gold: 60);
+            item.rare = ItemRarityID.Lime;
             item.shoot = ModContent.ProjectileType<MangroveChakramProjectile>();
             item.shootSpeed = 16f;
             item.Calamity().rogue = true;
@@ -37,7 +38,6 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
-            Main.projectile[proj].Calamity().forceRogue = true;
 			Main.projectile[proj].Calamity().stealthStrike = player.Calamity().StealthStrikeAvailable();
             return false;
         }

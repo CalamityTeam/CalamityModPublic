@@ -17,8 +17,8 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetDefaults()
         {
-            projectile.width = 750;
-            projectile.height = 750;
+            projectile.width = 752;
+            projectile.height = 752;
             projectile.friendly = true;
             projectile.alpha = 0;
             projectile.penetrate = -1;
@@ -49,25 +49,22 @@ namespace CalamityMod.Projectiles.Rogue
             }
         }
 
-        public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Texture2D texture = Main.projectileTexture[projectile.type];
             spriteBatch.Draw
             (
                 texture,
-                new Vector2
-                (
-                    projectile.position.X - Main.screenPosition.X + projectile.width * 0.5f - 50,
-                    projectile.position.Y - Main.screenPosition.Y + projectile.height - 750 * 0.5f - 50
-                ),
-                new Rectangle(frameX * 752, frameY * 752, 750, 750),
+                projectile.Center - Main.screenPosition,
+                new Rectangle(frameX * 752, frameY * 752, 752, 752),
                 Color.White,
                 projectile.rotation,
-                new Vector2(325, 325),
+				projectile.Size / 2f,
                 projectile.scale,
                 SpriteEffects.None,
                 0f
             );
+			return false;
         }
     }
 }

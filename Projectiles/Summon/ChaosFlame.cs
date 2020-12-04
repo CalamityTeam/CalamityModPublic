@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class ChaosFlame : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Melee/ChaosFlameSmall";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Chaos Flame");

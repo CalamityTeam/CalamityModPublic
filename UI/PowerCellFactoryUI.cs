@@ -137,10 +137,10 @@ namespace CalamityMod.UI
                 return playerHandItem.stack;
             }
 
-            // You can grab cells while holding cells, but your held stack can't go over 999.
+            // You can grab cells while holding cells, but your held stack can't go over the stack limit.
             if (playerHandItem.type == cell.type)
             {
-                int spaceLeft = 999 - playerHandItem.stack;
+                int spaceLeft = playerHandItem.maxStack - playerHandItem.stack;
 
                 // If there's more cells than space left, take as many as possible. Otherwise take all the cells.
                 int cellsToTake = Math.Min(cell.stack, spaceLeft);
