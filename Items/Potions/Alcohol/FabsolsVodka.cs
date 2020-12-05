@@ -43,8 +43,9 @@ namespace CalamityMod.Items.Potions.Alcohol
             recipe.SetResult(this);
             recipe.AddRecipe();
             recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ItemID.CrystalShard);
             recipe.AddIngredient(ModContent.ItemType<BloodOrb>(), 40);
-            recipe.AddIngredient(ItemID.BottledWater);
+            recipe.AddIngredient(ItemID.Ale);
             recipe.AddTile(TileID.AlchemyTable);
             recipe.SetResult(this);
             recipe.AddRecipe();
