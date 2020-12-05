@@ -4915,6 +4915,10 @@ namespace CalamityMod.CalPlayer
                     else if (Main.rand.NextBool(3))
                         target.AddBuff(BuffID.Frostburn, 120);
                     break;
+
+                case ProjectileID.NightBeam:
+                    target.AddBuff(BuffID.CursedInferno, 60);
+                    break;
             }
 
             if (!proj.npcProj && !proj.trap)
@@ -5257,6 +5261,10 @@ namespace CalamityMod.CalPlayer
                         target.AddBuff(BuffID.Frostburn, 240);
                     else if (Main.rand.NextBool(3))
                         target.AddBuff(BuffID.Frostburn, 120);
+                    break;
+
+                case ProjectileID.NightBeam:
+                    target.AddBuff(BuffID.CursedInferno, 60);
                     break;
             }
 
