@@ -10,7 +10,7 @@ namespace CalamityMod.Tiles.FurnitureOccult
     {
         public override void SetDefaults()
         {
-            this.SetUpSink();
+            this.SetUpSink(true);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Otherworldly Sink");
             AddMapEntry(new Color(191, 142, 111), name);

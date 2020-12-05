@@ -10,7 +10,7 @@ namespace CalamityMod.Tiles.FurnitureProfaned
     {
         public override void SetDefaults()
         {
-            this.SetUpClock();
+            this.SetUpClock(true);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Profaned Clock");
             AddMapEntry(new Color(191, 142, 111), name);

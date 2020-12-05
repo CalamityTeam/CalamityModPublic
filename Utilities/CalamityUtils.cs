@@ -3494,8 +3494,6 @@ namespace CalamityMod
 			Main.tileFrameImportant[mt.Type] = true;
 			Main.tileLavaDeath[mt.Type] = false;
 			Main.tileWaterDeath[mt.Type] = false;
-			//TileObjectData.newTile.CopyFrom(TileObjectData.Style3x4);
-			//TileObjectData.newTile.Width = 2;
 			TileObjectData.newTile.LavaDeath = false;
 			TileObjectData.addTile(mt.Type);
 			TileID.Sets.HasOutlines[mt.Type] = true;
