@@ -47,7 +47,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             // Fire the Onyx Shard that is characteristic of the Onyx Blaster
-            // The shard deals 2.5x damage and double knockback
+            // The shard deals triple damage and double knockback
             int shardDamage = (int)(2.5 * damage);
             float shardKB = 2f * knockBack;
             float shardVelocityX = (speedX + (float)Main.rand.Next(-25, 26) * 0.05f) * 0.9f;
@@ -62,8 +62,8 @@ namespace CalamityMod.Items.Weapons.Ranged
                 float randVelMultiplier = Main.rand.NextFloat(0.92f, 1.08f);
                 Vector2 left = baseVelocity.RotatedBy(-randAngle) * randVelMultiplier;
                 Vector2 right = baseVelocity.RotatedBy(randAngle) * randVelMultiplier;
-                Projectile.NewProjectile(position, left, type, damage, knockBack, player.whoAmI, 0f, 0f);
-                Projectile.NewProjectile(position, right, type, damage, knockBack, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(position.X, position.Y, left.X, left.Y, type, damage, knockBack, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(position.X, position.Y, right.X, right.Y, type, damage, knockBack, player.whoAmI, 0f, 0f);
             }
             return false;
         }
