@@ -3027,7 +3027,7 @@ namespace CalamityMod
 		/// </summary>
 		/// <param name="mt">The ModTile which is being initialized.</param>
 		/// <param name="lavaImmune">Whether this tile is supposed to be immune to lava. Defaults to false.</param>
-		internal static void SetUpCandle(this ModTile mt, bool lavaImmune = false)
+		internal static void SetUpCandle(this ModTile mt, bool lavaImmune = false, int offset = -4)
 		{
 			Main.tileLighted[mt.Type] = true;
 			Main.tileFrameImportant[mt.Type] = true;
@@ -3036,7 +3036,7 @@ namespace CalamityMod
 			TileObjectData.newTile.CopyFrom(TileObjectData.StyleOnTable1x1);
 			TileObjectData.newTile.CoordinateHeights = new int[] { 20 };
 			TileObjectData.newTile.LavaDeath = !lavaImmune;
-			TileObjectData.newTile.DrawYOffset = -4;
+			TileObjectData.newTile.DrawYOffset = offset;
 			TileObjectData.addTile(mt.Type);
 
 			// All candles count as light sources.
