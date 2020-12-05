@@ -8,6 +8,7 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class HyperiusSplit : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Ranged/HyperiusBulletProj";
         private Color currentColor = Color.Black;
         
         public override void SetStaticDefaults()

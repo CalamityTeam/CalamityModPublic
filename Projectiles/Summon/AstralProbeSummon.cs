@@ -76,46 +76,12 @@ namespace CalamityMod.Projectiles.Summon
                     projectile.timeLeft = 2;
                 }
             }
-            float range = 1000f;
-            Vector2 targetVec = projectile.position;
-            bool foundTarget = false;
-			int targetIndex = -1;
-            if (player.HasMinionAttackTargetNPC)
-            {
-                NPC npc = Main.npc[player.MinionAttackTargetNPC];
-                if (npc.CanBeChasedBy(projectile, false))
-                {
-                    float npcDist = Vector2.Distance(npc.Center, projectile.Center);
-                    if (!foundTarget && npcDist < range)
-                    {
-                        targetVec = npc.Center;
-                        foundTarget = true;
-						targetIndex = npc.whoAmI;
-                    }
-                }
-            }
-            if (!foundTarget)
-            {
-                for (int num645 = 0; num645 < Main.maxNPCs; num645++)
-                {
-                    NPC npc = Main.npc[num645];
-                    if (npc.CanBeChasedBy(projectile, false))
-                    {
-                        float npcDist = Vector2.Distance(npc.Center, projectile.Center);
-                        if (!foundTarget && npcDist < range)
-                        {
-                            targetVec = npc.Center;
-                            foundTarget = true;
-							targetIndex = num645;
-                        }
-                    }
-                }
-            }
+			NPC target = projectile.Center.MinionHoming(1000f, player, true, true);
             Vector2 vector = player.Center - projectile.Center;
-            if (foundTarget)
+            if (target != null)
             {
-				projectile.spriteDirection = projectile.direction = ((targetVec.X - projectile.Center.X) > 0).ToDirectionInt();
-                projectile.rotation = projectile.rotation.AngleTowards(projectile.AngleTo(targetVec) + (projectile.spriteDirection == 1 ? 0f : MathHelper.Pi), 0.1f);
+				projectile.spriteDirection = projectile.direction = ((target.Center.X - projectile.Center.X) > 0).ToDirectionInt();
+                projectile.rotation = projectile.rotation.AngleTowards(projectile.AngleTo(target.Center) + (projectile.spriteDirection == 1 ? 0f : MathHelper.Pi), 0.1f);
             }
 			else
 			{
@@ -141,16 +107,16 @@ namespace CalamityMod.Projectiles.Summon
             }
 			float speedMult = 6f;
 			int projType = ModContent.ProjectileType<AstralProbeRound>();
-			if (foundTarget && projectile.ai[1] == 0f && targetVec != projectile.position)
+			if (target != null && projectile.ai[1] == 0f)
 			{
 				Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 12, 0.5f, 0f);
 				projectile.ai[1] += 1f;
 				if (Main.myPlayer == projectile.owner)
 				{
-					Vector2 velocity = targetVec - projectile.Center;
+					Vector2 velocity = target.Center - projectile.Center;
 					velocity.Normalize();
 					velocity *= speedMult;
-					Projectile.NewProjectile(projectile.Center, velocity, projType, projectile.damage, 0f, projectile.owner, targetIndex, 0f);
+					Projectile.NewProjectile(projectile.Center, velocity, projType, projectile.damage, 0f, projectile.owner, target.whoAmI, 0f);
 					projectile.netUpdate = true;
 				}
 			}

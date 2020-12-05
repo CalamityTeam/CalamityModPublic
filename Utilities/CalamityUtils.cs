@@ -416,7 +416,7 @@ namespace CalamityMod
 		/// <param name="maxDistanceToCheck">Maximum amount of pixels to check around the origin</param>
 		/// <param name="owner">Owner of the minion</param>
 		/// <param name="ignoreTiles">Whether to ignore tiles when finding a target or not</param>
-		public static NPC MinionHoming(this Vector2 origin, float maxDistanceToCheck, Player owner, bool ignoreTiles = true)
+		public static NPC MinionHoming(this Vector2 origin, float maxDistanceToCheck, Player owner, bool ignoreTiles = true, bool checksRange = false)
 		{
 			if (owner is null || owner.whoAmI < 0 || owner.whoAmI > Main.maxPlayers || owner.MinionAttackTargetNPC < 0 || owner.MinionAttackTargetNPC > Main.maxNPCs)
 				return ClosestNPCAt(origin, maxDistanceToCheck, ignoreTiles);
@@ -424,7 +424,9 @@ namespace CalamityMod
 			bool canHit = true;
 			if (!ignoreTiles)
 				canHit = Collision.CanHit(origin, 1, 1, npc.Center, 1, 1);
-			if (owner.HasMinionAttackTargetNPC && canHit)
+			float extraDistance = (npc.width / 2) + (npc.height / 2);
+			bool distCheck = Vector2.Distance(origin, npc.Center) < (maxDistanceToCheck + extraDistance) || !checksRange;
+			if (owner.HasMinionAttackTargetNPC && canHit && distCheck)
 			{
 				return npc;
 			}

@@ -212,7 +212,7 @@ namespace CalamityMod.Projectiles.Summon
 						Vector2 laserVel = objectivepos - projectile.Center;
 						laserVel.Normalize();
 						laserVel *= scaleFactor3;
-						int laser = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, laserVel.X, laserVel.Y, projType, projectile.damage, 0f, projectile.owner, 0f, 0f);
+						int laser = Projectile.NewProjectile(projectile.Center, laserVel, projType, projectile.damage, 0f, projectile.owner, 0f, 0f);
 						projectile.netUpdate = true;
 					}
 				}
