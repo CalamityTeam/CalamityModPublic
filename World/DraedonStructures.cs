@@ -45,6 +45,20 @@ namespace CalamityMod.World
             {
                 return true;
             }
+            // As well as MoD's special labs.
+            Mod modOfRedemption = ModLoader.GetMod("Redemption");
+            if (modOfRedemption != null)
+            {
+                // Thanks to Hallam to providing these tile names.
+                string[] tilesToAvoid = new string[]
+                {
+                    "LabTileUnsafe",
+                    "OvergrownLabTile"
+                };
+
+                if (tilesToAvoid.Any(tileTypeName => tile.type == modOfRedemption.TileType(tileTypeName)))
+                    return true;
+            }
             return false;
         }
 
