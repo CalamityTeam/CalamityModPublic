@@ -52,8 +52,8 @@ namespace CalamityMod.Items.Weapons.Ranged
             // The shard deals 250% damage and double knockback
             int shardDamage = (int)(2.5f * damage);
             float shardKB = 2f * knockBack;
-            Vector2 offset = new Vector2(Main.rand.Next(-25, 26) * 0.05f, Main.rand.Next(-25, 26) * 0.05f) * 0.9f;
-            Projectile.NewProjectile(position, velocity + offset, ProjectileID.BlackBolt, shardDamage, shardKB, player.whoAmI, 0f, 0f);
+            Projectile shard = Projectile.NewProjectileDirect(position, velocity, ProjectileID.BlackBolt, shardDamage, shardKB, player.whoAmI, 0f, 0f);
+            shard.timeLeft = (int)(shard.timeLeft * 1.4f);
 
             // Fire three symmetric pairs of bullets alongside it
             for (int i = 0; i < 3; i++)

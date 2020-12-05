@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 42;
+            item.damage = 52;
             item.ranged = true;
             item.width = 64;
             item.height = 32;
@@ -50,7 +50,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             float shardKB = 2f * knockBack;
             Vector2 offset = new Vector2(Main.rand.Next(-25, 26) * 0.05f, Main.rand.Next(-25, 26) * 0.05f);
             Projectile shard = Projectile.NewProjectileDirect(position, velocity + offset, ProjectileID.BlackBolt, shardDamage, shardKB, player.whoAmI, 0f, 0f);
-            shard.timeLeft = (int)(shard.timeLeft * 1.4f);
+            shard.timeLeft = (int)(shard.timeLeft * 1.25f);
 
             for (int i = 0; i < 4; i++)
             {
