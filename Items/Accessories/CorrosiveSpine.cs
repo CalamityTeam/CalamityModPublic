@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Accessories
             {
                 if (Main.rand.NextBool(15))
                 {
-					int cloudCount = Main.rand.Next(3,7);
+					int cloudCount = Main.rand.Next(2,5);
                     for (int i = 0; i < cloudCount; i++)
                     {
 						int type = Utils.SelectRandom(Main.rand, new int[]
