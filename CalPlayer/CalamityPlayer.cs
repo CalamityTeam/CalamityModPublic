@@ -3807,13 +3807,13 @@ namespace CalamityMod.CalPlayer
         }
 
         #region Dragon Scale Logic
-        public override void PostBuyItem(NPC vendor, Item[] shopInventory, Item item)
+        /*public override void PostBuyItem(NPC vendor, Item[] shopInventory, Item item)
         {
             if (item.type == ModContent.ItemType<DragonScales>() && !CalamityWorld.dragonScalesBought)
             {
                 CalamityWorld.dragonScalesBought = true;
             }
-        }
+        }*/
         #endregion
 
         #region Shop Restrictions
