@@ -191,6 +191,7 @@ namespace CalamityMod.NPCs.AquaticScourge
 
                 // Equipment
                 DropHelper.DropItemChance(npc, ModContent.ItemType<AeroStone>(), 9);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<CorrosiveSpine>(), 9);
 
                 // Vanity
                 DropHelper.DropItemChance(npc, ModContent.ItemType<AquaticScourgeMask>(), 7);
