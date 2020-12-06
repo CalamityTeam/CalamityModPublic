@@ -35,11 +35,13 @@ namespace CalamityMod.Projectiles.Boss
         public override void SendExtraAI(BinaryWriter writer)
         {
             writer.Write(projectile.localAI[0]);
+            writer.Write(projectile.Calamity().lineColor);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
             projectile.localAI[0] = reader.ReadSingle();
+            projectile.Calamity().lineColor = reader.ReadInt32();
         }
 
         public override void AI()
@@ -120,10 +122,10 @@ namespace CalamityMod.Projectiles.Boss
                 float num623 = (float)projectile.width / 5f;
                 num623 *= 2f;
                 float num624 = (float)(Math.Cos((double)(num622 * -(double)projectile.ai[0])) - 0.5) * num623;
-                projectile.position.X -= num624 * -projectile.direction;
+                projectile.position.X -= num624 * -projectile.direction * (float)projectile.Calamity().lineColor;
                 projectile.ai[0] -= 1f;
                 num624 = (float)(Math.Cos((double)(num622 * -(double)projectile.ai[0])) - 0.5) * num623;
-                projectile.position.X += num624 * -projectile.direction;
+                projectile.position.X += num624 * -projectile.direction * (float)projectile.Calamity().lineColor;
             }
         }
 

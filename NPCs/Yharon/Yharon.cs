@@ -402,8 +402,8 @@ namespace CalamityMod.NPCs.Yharon
                     safeBox.Y = (int)(player.Center.Y - (revenge ? 9000f : 10500f));
                     safeBox.Width = revenge ? 6000 : 7000;
                     safeBox.Height = revenge ? 18000 : 21000;
-                    Projectile.NewProjectile(player.Center.X + (revenge ? 3000f : 3500f), player.Center.Y + 100f, 0f, 0f, ModContent.ProjectileType<SkyFlareRevenge>(), 0, 0f, Main.myPlayer, 0f, 0f);
-                    Projectile.NewProjectile(player.Center.X - (revenge ? 3000f : 3500f), player.Center.Y + 100f, 0f, 0f, ModContent.ProjectileType<SkyFlareRevenge>(), 0, 0f, Main.myPlayer, 0f, 0f);
+                    Projectile.NewProjectile(player.Center.X + (revenge ? 3000f : 3500f), player.Center.Y + 100f, 0f, 0f, ModContent.ProjectileType<SkyFlareRevenge>(), 0, 0f, Main.myPlayer, 1f, 0f);
+                    Projectile.NewProjectile(player.Center.X - (revenge ? 3000f : 3500f), player.Center.Y + 100f, 0f, 0f, ModContent.ProjectileType<SkyFlareRevenge>(), 0, 0f, Main.myPlayer, -1f, 0f);
                 }
 
                 // Force Yharon to send a sync packet so that the arena gets sent immediately
