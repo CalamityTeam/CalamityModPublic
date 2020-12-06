@@ -33,28 +33,18 @@ namespace CalamityMod.Items.Accessories
             {
                 if (Main.rand.NextBool(15))
                 {
-                    for (int i = 0; i < Main.rand.Next(3,7); i++)
+					int cloudCount = Main.rand.Next(3,7);
+                    for (int i = 0; i < cloudCount; i++)
                     {
-                        int type = -1;
-                        switch (Main.rand.Next(3))
-                        {
-                            case 0:
-                                type = ModContent.ProjectileType<Corrocloud1>();
-                                break;
-                            case 1:
-                                type = ModContent.ProjectileType<Corrocloud2>();
-                                break;
-                            case 2:
-                                type = ModContent.ProjectileType<Corrocloud3>();
-                                break;
-                        }
-                        // Should never happen, but just in case-
-                        if (type != -1)
-                        {
-                            float speed = Main.rand.NextFloat(3f, 11f);
-                            Projectile.NewProjectile(player.Center, Vector2.One.RotatedByRandom(MathHelper.TwoPi) * speed,
-                                type, (int)(100 * player.RogueDamage()), 0f, player.whoAmI);
-                        }
+						int type = Utils.SelectRandom(Main.rand, new int[]
+						{
+							ModContent.ProjectileType<Corrocloud1>(),
+							ModContent.ProjectileType<Corrocloud2>(),
+							ModContent.ProjectileType<Corrocloud3>()
+						});
+						float speed = Main.rand.NextFloat(3f, 11f);
+						Projectile.NewProjectile(player.Center, Vector2.One.RotatedByRandom(MathHelper.TwoPi) * speed,
+							type, (int)(100 * player.RogueDamage()), 0f, player.whoAmI);
                     }
                 }
             }
