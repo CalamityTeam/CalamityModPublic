@@ -74,7 +74,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
             }
 
 			// Decrement sound cooldown
-			if (soundCooldown > 0)
+			if (soundCooldown > 0 && projectile.FinalExtraUpdate())
 				soundCooldown--;
 
             // Dust circle appears for all players, even though the aura projectile is only spawned by the owner
@@ -126,7 +126,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
 			if (target.life <= 0 && soundCooldown <= 0)
 			{
 				Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/MicrowaveBeep"), (int)projectile.Center.X, (int)projectile.Center.Y);
-				soundCooldown = 60;
+				soundCooldown = 45;
 			}
         }
 
@@ -136,7 +136,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
 			if (target.statLife <= 0 && soundCooldown <= 0)
 			{
 				Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/MicrowaveBeep"), (int)projectile.Center.X, (int)projectile.Center.Y);
-				soundCooldown = 60;
+				soundCooldown = 45;
 			}
         }
     }
