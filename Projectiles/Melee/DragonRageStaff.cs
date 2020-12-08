@@ -1,3 +1,4 @@
+using CalamityMod.CalPlayer;
 using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -155,6 +156,49 @@ namespace CalamityMod.Projectiles.Melee
             }
 		}
 
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
+            target.AddBuff(BuffID.Daybreak, 360);
+			OnHitEffects(target.Center);
+        }
+
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+			OnHitEffects(target.Center);
+        }
+
+		private void OnHitEffects(Vector2 position)
+		{
+			if (projectile.owner == Main.myPlayer)
+			{
+				CalamityPlayer modPlayer = Main.player[projectile.owner].Calamity();
+				modPlayer.dragonRageHits++;
+				if (modPlayer.dragonRageHits > 10)
+				{
+					SpawnFireballs();
+					modPlayer.dragonRageHits = 0;
+				}
+
+				int proj = Projectile.NewProjectile(position, Vector2.Zero, ModContent.ProjectileType<FuckYou>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
+				Main.projectile[proj].Calamity().forceMelee = true;
+			}
+		}
+
+		private void SpawnFireballs()
+		{
+			// 10 to 15 fireballs
+			int fireballAmt = Main.rand.Next(10, 16);
+			for (int i = 0; i < fireballAmt; i++)
+			{
+				float angleStep = MathHelper.TwoPi / fireballAmt;
+				float speed = 20f;
+				Vector2 velocity = new Vector2(0f, speed);
+				velocity = velocity.RotatedBy(angleStep * i * Main.rand.NextFloat(0.9f, 1.1f));
+
+				Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<DragonRageFireball>(), projectile.damage / 3, projectile.knockBack / 3f, projectile.owner);
+			}
+		}
+
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
 			Player player = Main.player[projectile.owner];
@@ -232,33 +276,6 @@ namespace CalamityMod.Projectiles.Melee
 
 			spriteBatch.Draw(tex, drawPos, new Microsoft.Xna.Framework.Rectangle?(rectangle), lightColor, projectile.rotation, origin, projectile.scale, spriteEffects, 0f);
 			return false;
-		}
-
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-        {
-            target.AddBuff(BuffID.Daybreak, 360);
-			OnHitEffects(target.Center);
-        }
-
-        public override void OnHitPvp(Player target, int damage, bool crit)
-        {
-			OnHitEffects(target.Center);
-        }
-
-		private void OnHitEffects(Vector2 position)
-		{
-			if (projectile.owner == Main.myPlayer)
-			{
-				int proj = Projectile.NewProjectile(position, Vector2.Zero, ModContent.ProjectileType<FuckYou>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
-				Main.projectile[proj].Calamity().forceMelee = true;
-
-				Vector2 velocity = position - projectile.Center;
-				velocity.Normalize();
-				velocity *= 6f;
-				velocity.X += Main.rand.NextFloat(-1.75f, 1.75f);
-				velocity.Y += Main.rand.NextFloat(-1.75f, 1.75f);
-				Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<DragonRageProj>(), (int)(projectile.damage * 0.5), projectile.knockBack * 0.5f, projectile.owner);
-			}
 		}
     }
 }
