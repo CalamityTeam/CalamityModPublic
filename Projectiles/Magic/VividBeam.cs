@@ -1,4 +1,3 @@
-using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -119,8 +118,7 @@ namespace CalamityMod.Projectiles.Magic
 					break;
 
 				case 1f:
-					int boom = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<SupernovaBoom>(), projectile.damage * 2, projectile.knockBack, projectile.owner);
-					Main.projectile[boom].Calamity().forceMagic = true;
+					Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<VividExplosion>(), projectile.damage * 2, projectile.knockBack, projectile.owner);
 					break;
 
 				case 2f:

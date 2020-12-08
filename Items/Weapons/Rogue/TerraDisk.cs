@@ -16,7 +16,8 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             DisplayName.SetDefault("Terra Disk");
             Tooltip.SetDefault(@"Throws a disk that has a chance to generate several disks if enemies are near it
-A max of three disks can be active at a time");
+A max of three disks can be active at a time
+Stealth strikes travel slower and are rapidly orbited by the smaller disks");
         }
 
         public override void SafeSetDefaults()
@@ -43,22 +44,36 @@ A max of three disks can be active at a time");
         }
 
         public override bool CanUseItem(Player player)
-        {
-            if (player.ownedProjectileCounts[item.shoot] >= 3)
-            {
-                return false;
-            }
-            else
-            {
-                return true;
-            }
-        }
+		{
+			//Stealth strikes ignore the proj cap
+			int terraDiskCount = 0;
+			for (int p = 0; p < Main.maxProjectiles; p++)
+			{
+				Projectile proj = Main.projectile[p];
+				if (!proj.active || proj.owner != player.whoAmI)
+					continue;
+				if (proj.type == item.shoot && !proj.Calamity().stealthStrike)
+				{
+					terraDiskCount++;
+				}
+				if (terraDiskCount >= 3)
+					break;
+			}
+			return terraDiskCount < 3;
+		}
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
+			if (player.Calamity().StealthStrikeAvailable())
+			{
+				speedX *= 0.75f;
+				speedY *= 0.75f;
+			}
             int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
-            Main.projectile[proj].Calamity().forceRogue = true;
-            Main.projectile[proj].Calamity().stealthStrike = player.Calamity().StealthStrikeAvailable();
+			if (player.Calamity().StealthStrikeAvailable())
+			{
+				Main.projectile[proj].Calamity().stealthStrike = true;
+			}
             return false;
         }
 

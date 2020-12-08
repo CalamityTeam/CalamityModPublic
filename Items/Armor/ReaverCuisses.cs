@@ -26,10 +26,7 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-            player.meleeCrit += 5;
-            player.magicCrit += 5;
-            player.rangedCrit += 5;
-            player.Calamity().throwingCrit += 5;
+            player.Calamity().AllCritBoost(5);
             player.moveSpeed += 0.12f;
         }
 

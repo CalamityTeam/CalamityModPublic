@@ -353,17 +353,6 @@ namespace CalamityMod.Items
                     }
                 }
             }
-            if (modPlayer.reaverDoubleTap && modPlayer.canFireReaverRangedProjectile)
-            {
-                if (item.ranged)
-                {
-					modPlayer.canFireReaverRangedProjectile = false;
-					if (player.whoAmI == Main.myPlayer)
-                    {
-                        Projectile.NewProjectile(position, velocity * 1.25f, ModContent.ProjectileType<MiniRocket>(), CalamityUtils.DamageSoftCap(damage * 1.3, 150), 2f, player.whoAmI);
-                    }
-                }
-            }
             if (modPlayer.victideSet)
             {
                 if ((item.ranged || item.melee || item.magic || item.thrown || rogue || item.summon) && item.rare < ItemRarityID.Yellow && Main.rand.NextBool(10))
@@ -2912,47 +2901,43 @@ Grants immunity to fire blocks, and temporary immunity to lava";
 				switch (arg)
 				{
 					case ItemID.WoodenCrate:
-                        DropHelper.DropItemChance(player, ModContent.ItemType<WulfrumShard>(), 4, 3, 5);
+                        DropHelper.DropItemChance(player, ModContent.ItemType<WulfrumShard>(), 0.25f, 3, 5);
                         break;
 
 					case ItemID.IronCrate:
-                        DropHelper.DropItemChance(player, ModContent.ItemType<WulfrumShard>(), 4, 5, 8);
-                        DropHelper.DropItemChance(player, ModContent.ItemType<AncientBoneDust>(), 4, 5, 8);
+                        DropHelper.DropItemChance(player, ModContent.ItemType<WulfrumShard>(), 0.25f, 5, 8);
+                        DropHelper.DropItemChance(player, ModContent.ItemType<AncientBoneDust>(), 0.25f, 5, 8);
                         break;
 
 					case ItemID.CorruptFishingCrate:
-                        DropHelper.DropItemChance(player, ModContent.ItemType<EbonianGel>(), 4, 5, 8);
-                        DropHelper.DropItemChance(player, ModContent.ItemType<MurkySludge>(), 5, 1, 3);
-                        break;
-
 					case ItemID.CrimsonFishingCrate:
-                        DropHelper.DropItemChance(player, ModContent.ItemType<EbonianGel>(), 4, 5, 8);
-                        DropHelper.DropItemChance(player, ModContent.ItemType<MurkySludge>(), 5, 1, 3);
+                        DropHelper.DropItemChance(player, ModContent.ItemType<EbonianGel>(), 0.15f, 5, 8);
+                        DropHelper.DropItemChance(player, ModContent.ItemType<MurkySludge>(), 0.15f, 1, 3);
                         break;
 
 					case ItemID.HallowedFishingCrate:
-                        DropHelper.DropItemCondition(player, ModContent.ItemType<UnholyEssence>(), NPC.downedMoonlord, 0.2f, 5, 10);
-                        DropHelper.DropItemCondition(player, (WorldGen.crimson ? ModContent.ItemType<ProfanedRagePotion>() : ModContent.ItemType<HolyWrathPotion>()), CalamityWorld.downedProvidence, 0.2f, 1, 3);
+                        DropHelper.DropItemCondition(player, ModContent.ItemType<UnholyEssence>(), CalamityWorld.downedProvidence, 0.15f, 5, 10);
+                        DropHelper.DropItemCondition(player, (WorldGen.crimson ? ModContent.ItemType<ProfanedRagePotion>() : ModContent.ItemType<HolyWrathPotion>()), CalamityWorld.downedProvidence, 0.1f, 1, 2);
                         break;
 
 					case ItemID.DungeonFishingCrate:
-                        DropHelper.DropItemCondition(player, ItemID.Ectoplasm, NPC.downedPlantBoss, 0.3f, 5, 10);
-                        DropHelper.DropItemCondition(player, ModContent.ItemType<Phantoplasm>(), NPC.downedMoonlord, 0.2f, 5, 10);
+                        DropHelper.DropItemCondition(player, ItemID.Ectoplasm, NPC.downedPlantBoss, 0.1f, 1, 5);
+                        DropHelper.DropItemCondition(player, ModContent.ItemType<Phantoplasm>(), CalamityWorld.downedPolterghast, 0.1f, 1, 5);
                         break;
 
 					case ItemID.JungleFishingCrate:
-                        DropHelper.DropItemChance(player, ModContent.ItemType<MurkyPaste>(), 5, 1, 3);
+                        DropHelper.DropItemChance(player, ModContent.ItemType<MurkyPaste>(), 0.2f, 1, 3);
                         DropHelper.DropItemCondition(player, ModContent.ItemType<BeetleJuice>(), Main.hardMode, 0.2f, 1, 3);
                         DropHelper.DropItemCondition(player, ModContent.ItemType<TrapperBulb>(), Main.hardMode, 0.2f, 1, 3);
-                        DropHelper.DropItemCondition(player, ItemID.ChlorophyteBar, (CalamityWorld.downedCalamitas || NPC.downedPlantBoss), 0.25f, 5, 10);
-                        DropHelper.DropItemCondition(player, ModContent.ItemType<DraedonBar>(), NPC.downedPlantBoss, 0.25f, 5, 10);
+                        DropHelper.DropItemCondition(player, ItemID.ChlorophyteBar, (CalamityWorld.downedCalamitas || NPC.downedPlantBoss), 0.1f, 1, 3);
+                        DropHelper.DropItemCondition(player, ModContent.ItemType<DraedonBar>(), NPC.downedPlantBoss, 0.1f, 1, 3);
                         DropHelper.DropItemCondition(player, ModContent.ItemType<PlagueCellCluster>(), NPC.downedGolemBoss, 0.2f, 3, 6);
-                        DropHelper.DropItemCondition(player, ModContent.ItemType<UeliaceBar>(), CalamityWorld.downedProvidence, 0.25f, 5, 10);
+                        DropHelper.DropItemCondition(player, ModContent.ItemType<UeliaceBar>(), CalamityWorld.downedProvidence, 0.1f, 1, 3);
                         break;
 
 					case ItemID.FloatingIslandFishingCrate:
-                        DropHelper.DropItemCondition(player, ModContent.ItemType<AerialiteBar>(), (CalamityWorld.downedHiveMind || CalamityWorld.downedPerforator), 0.25f, 5, 10);
-                        DropHelper.DropItemCondition(player, ModContent.ItemType<EssenceofCinder>(), Main.hardMode, 0.2f, 5, 15);
+                        DropHelper.DropItemCondition(player, ModContent.ItemType<AerialiteBar>(), (CalamityWorld.downedHiveMind || CalamityWorld.downedPerforator), 0.1f, 1, 3);
+                        DropHelper.DropItemCondition(player, ModContent.ItemType<EssenceofCinder>(), Main.hardMode, 0.2f, 2, 4);
                         DropHelper.DropItemCondition(player, ModContent.ItemType<GalacticaSingularity>(), NPC.downedMoonlord, 0.1f, 1, 3);
                         break;
 				}
@@ -3520,6 +3505,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                 (modPlayer.holyWrath ? 0.05f : 0f) +
                 (modPlayer.profanedRage ? 0.05f : 0f) +
                 (modPlayer.draconicSurge ? 0.15f : 0f) +
+                (modPlayer.reaverSpeed ? 0.1f : 0f) +
                 (modPlayer.etherealExtorter && modPlayer.ZoneAstral ? 0.05f : 0f);
             if (flightSpeedMult > 1.2f)
                 flightSpeedMult = 1.2f;
@@ -3542,7 +3528,8 @@ Grants immunity to fire blocks, and temporary immunity to lava";
             int itemGrabRangeBoost = 0 +
                 (modPlayer.wallOfFleshLore ? 10 : 0) +
                 (modPlayer.planteraLore ? 20 : 0) +
-                (modPlayer.polterghastLore ? 30 : 0);
+                (modPlayer.polterghastLore ? 30 : 0) +
+                (modPlayer.reaverExplore ? 20 : 0);
 
             grabRange += itemGrabRangeBoost;
         }
@@ -3582,7 +3569,9 @@ Grants immunity to fire blocks, and temporary immunity to lava";
         }
         #endregion
 
-        #region Consume Additional Ammo
+        #region Ammo
+		public override bool ConsumeAmmo(Item item, Player player) => Main.rand.NextFloat() <= player.Calamity().rangedAmmoCost;
+
         public static bool HasEnoughAmmo(Player player, Item item, int ammoConsumed)
         {
             bool flag = false;
@@ -3648,6 +3637,8 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                 dontConsumeAmmo = true;
             if (player.ammoCost75 && Main.rand.NextBool(4))
                 dontConsumeAmmo = true;
+			if (Main.rand.NextFloat() > player.Calamity().rangedAmmoCost)
+				dontConsumeAmmo = true;
 
             if (!dontConsumeAmmo && itemAmmo.consumable)
             {
@@ -3813,8 +3804,11 @@ Grants immunity to fire blocks, and temporary immunity to lava";
 							prefix = Main.rand.Next(22, 25);
 							break;
 						case 6:
-							// Legendary = 25
-							prefix = 25;
+							// Legendary = 25, Light = 6 ~We are tool friendly (=
+							if (item.pick > 0 || item.axe > 0 || item.hammer > 0)
+								prefix = Main.rand.NextBool() ? 25 : 6;
+							else
+								prefix = 25;
 							break;
 					}
 					switch (prefix)
@@ -4296,9 +4290,12 @@ Grants immunity to fire blocks, and temporary immunity to lava";
 							prefix = 6;
 							break;
 						case 5:
-						case 6:
 							// Mystic = 7
 							prefix = 7;
+							break;
+						case 6:
+							// Demonic = 8
+							prefix = 8;
 							break;
 					}
 					switch (prefix)
@@ -4325,6 +4322,9 @@ Grants immunity to fire blocks, and temporary immunity to lava";
 							break;
 						case 7:
 							prefix = PrefixID.Mystic;
+							break;
+						case 8:
+							prefix = PrefixID.Demonic;
 							break;
 					}
 				}

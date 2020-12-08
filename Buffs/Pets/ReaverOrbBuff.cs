@@ -1,16 +1,16 @@
 using CalamityMod.CalPlayer;
-using CalamityMod.Projectiles.Summon;
+using CalamityMod.Projectiles.Typeless;
 using Terraria;
 using Terraria.ModLoader;
 
-namespace CalamityMod.Buffs.Summon
+namespace CalamityMod.Buffs.Pets
 {
-    public class ReaverSummonSetBuff : ModBuff
+    public class ReaverOrbBuff : ModBuff
     {
         public override void SetDefaults()
         {
             DisplayName.SetDefault("Reaver Orb");
-            Description.SetDefault("The reaver orb will protect you");
+            Description.SetDefault("The reaver orb will light your way");
             Main.buffNoTimeDisplay[Type] = true;
             Main.buffNoSave[Type] = true;
         }

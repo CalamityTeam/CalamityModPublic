@@ -33,7 +33,7 @@ namespace CalamityMod.Projectiles.Rogue
         {
             Player player = Main.player[projectile.owner];
 
-			if (player.dead || player is null)
+			if (player is null || player.dead)
 				projectile.Kill();
 
             player.direction = projectile.direction;
@@ -49,7 +49,7 @@ namespace CalamityMod.Projectiles.Rogue
                 if (projectile.ai[1] == 5)
                 {
                     projectile.friendly = true;
-                    Main.PlaySound(SoundID.Item71, (int)projectile.position.X, (int)projectile.position.Y);
+                    Main.PlaySound(SoundID.Item71, projectile.Center);
                 }
             }
             if (projectile.ai[1] >= 11)

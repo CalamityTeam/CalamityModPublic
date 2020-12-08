@@ -1284,6 +1284,20 @@ namespace CalamityMod.Projectiles
         }
         #endregion
 
+        #region Grappling Hooks
+        public override void GrapplePullSpeed(Projectile projectile, Player player, ref float speed) 
+        {
+            if (player.Calamity().reaverSpeed)
+				speed *= 1.1f;
+        }
+
+        public override void GrappleRetreatSpeed(Projectile projectile, Player player, ref float speed) 
+        {
+            if (player.Calamity().reaverSpeed)
+				speed *= 1.1f;
+        }
+        #endregion
+
         #region ModifyHitNPC
         public override void ModifyHitNPC(Projectile projectile, NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
@@ -1559,21 +1573,23 @@ namespace CalamityMod.Projectiles
 
                             SpawnLifeStealProjectile(projectile, player, heal, ProjectileType<AtaxiaHealOrb>(), 1200f, 2f);
                         }
-                        else if (modPlayer.manaOverloader)
-                        {
-                            float healMult = 0.2f;
-                            healMult -= projectile.numHits * 0.05f;
-                            float heal = projectile.damage * healMult * (player.statMana / (float)player.statManaMax2);
-
-                            if (heal > 50)
-                                heal = 50;
-
-                            if (!CanSpawnLifeStealProjectile(projectile, healMult, heal))
-                                goto OTHEREFFECTS;
-
-                            SpawnLifeStealProjectile(projectile, player, heal, ProjectileType<ManaOverloaderHealOrb>(), 1200f, 2f);
-                        }
                     }
+					if (modPlayer.reaverDefense)
+					{
+						float healMult = 0.2f;
+						healMult -= projectile.numHits * 0.05f;
+						float heal = projectile.damage * healMult;
+
+						if (heal > 50)
+							heal = 50;
+						if (Main.rand.Next(10) > 0)
+							heal = 0;
+
+						if (!CanSpawnLifeStealProjectile(projectile, healMult, heal))
+							goto OTHEREFFECTS;
+
+						SpawnLifeStealProjectile(projectile, player, heal, ProjectileType<ReaverHealOrb>(), 1200f, 2f);
+					}
                 }
 
                 OTHEREFFECTS:
@@ -1584,11 +1600,6 @@ namespace CalamityMod.Projectiles
                 {
                     int plague = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ProjectileType<PlagueSeeker>(), CalamityUtils.DamageSoftCap(projectile.damage * 0.25, 30), 0f, projectile.owner, 0f, 0f);
                     Main.projectile[plague].Calamity().forceTypeless = true;
-                }
-
-                if (modPlayer.reaverBlast && projectile.melee)
-                {
-                    Projectile.NewProjectile(projectile.Center, Vector2.Zero, ProjectileType<ReaverBlast>(), CalamityUtils.DamageSoftCap(projectile.damage * 0.2, 30), 0f, projectile.owner, 0f, 0f);
                 }
 
                 if (projectile.magic)
@@ -1616,18 +1627,7 @@ namespace CalamityMod.Projectiles
                         projectile.Damage();
                     }
 
-                    if (modPlayer.reaverBurst)
-                    {
-                        int projAmt = Main.rand.Next(1, 3);
-                        for (int i = 0; i < projAmt; i++)
-                        {
-                            Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
-                            int proj = Projectile.NewProjectile(projectile.Center, velocity, ProjectileID.SporeGas + Main.rand.Next(3), CalamityUtils.DamageSoftCap(projectile.damage * 0.15, 25), 0f, projectile.owner, 0f, 0f);
-                            Main.projectile[proj].usesLocalNPCImmunity = true;
-                            Main.projectile[proj].localNPCHitCooldown = 30;
-                        }
-                    }
-                    else if (modPlayer.ataxiaMage && modPlayer.ataxiaDmg <= 0)
+					if (modPlayer.ataxiaMage && modPlayer.ataxiaDmg <= 0)
                     {
                         int projDamage = CalamityUtils.DamageSoftCap(projectile.damage * 0.625, 100);
                         SpawnOrb(projectile, projDamage, ProjectileType<AtaxiaOrb>(), 800f, 20f);
@@ -1767,16 +1767,17 @@ namespace CalamityMod.Projectiles
 
                     if (modPlayer.titanHeartSet && stealthStrike && modPlayer.titanCooldown <= 0 && stealthStrikeHitCount < 5)
                     {
-                        int dmg = (int)(85 + (projectile.damage * 0.05f));
-                        int boom = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ProjectileType<SabatonBoom>(), dmg, projectile.knockBack, projectile.owner, 0f, 0f);
+                        int dmg = (int)(100 + (projectile.damage * 0.01f));
+                        int boom = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ProjectileType<SabatonBoom>(), dmg, projectile.knockBack, projectile.owner, 1f, 0f);
                         Main.projectile[boom].Calamity().forceRogue = true;
-                        Main.PlaySound(SoundID.Item14, projectile.position);
+                        Main.PlaySound(SoundID.Item14, projectile.Center);
                         for (int dustexplode = 0; dustexplode < 360; dustexplode++)
                         {
                             Vector2 dustd = new Vector2(17f, 17f).RotatedBy(MathHelper.ToRadians(dustexplode));
-                            int d = Dust.NewDust(projectile.Center, projectile.width, projectile.height, Main.rand.NextBool(2) ? DustType<AstralBlue>() : DustType<AstralOrange>(), dustd.X, dustd.Y, 100, default, 3f);
+                            int d = Dust.NewDust(projectile.Center, projectile.width, projectile.height, Main.rand.NextBool(2) ? DustType<AstralBlue>() : DustType<AstralOrange>(), dustd.X, dustd.Y, 100, default, 1f);
                             Main.dust[d].noGravity = true;
                             Main.dust[d].position = projectile.Center;
+							Main.dust[d].velocity *= 0.1f;
                         }
                         modPlayer.titanCooldown = 15;
                     }
@@ -1983,6 +1984,8 @@ namespace CalamityMod.Projectiles
                         }
                     }
                 }
+				if (modPlayer.reaverDefense)
+					player.lifeRegenTime += 1;
             }
         }
         #endregion
@@ -2108,6 +2111,8 @@ namespace CalamityMod.Projectiles
             if (projectile.spriteDirection == -1)
                 spriteEffects = SpriteEffects.FlipHorizontally;
 
+			bool failedToDrawAfterimages = false;
+
             if (CalamityConfig.Instance.Afterimages)
             {
                 Vector2 centerOffset = drawCentered ? projectile.Size / 2f : Vector2.Zero;
@@ -2161,12 +2166,13 @@ namespace CalamityMod.Projectiles
                         break;
 
                     default:
+						failedToDrawAfterimages = true;
                         break;
                 }
             }
 
             // Draw the projectile itself. Only do this if no afterimages are drawn because afterimage 0 is the projectile itself.
-            if (!CalamityConfig.Instance.Afterimages || ProjectileID.Sets.TrailCacheLength[projectile.type] <= 0)
+            if (!CalamityConfig.Instance.Afterimages || ProjectileID.Sets.TrailCacheLength[projectile.type] <= 0 || failedToDrawAfterimages)
             {
                 Vector2 startPos = drawCentered ? projectile.Center : projectile.position;
                 Main.spriteBatch.Draw(texture, startPos - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), rectangle, projectile.GetAlpha(lightColor), rotation, origin, scale, spriteEffects, 0f);
@@ -2406,7 +2412,7 @@ namespace CalamityMod.Projectiles
                             {
                                 int projectile2 = Projectile.NewProjectile(value.X, value.Y, velocity.X, velocity.Y, spawnedProjectile, (int)(projectile.damage * damageMult), projectile.knockBack, projectile.owner, 0f, 0f);
 
-                                if (projectile.type == ProjectileType<EradicatorProjectile>() && projectile.Calamity().rogue)
+                                if (projectile.type == ProjectileType<EradicatorProjectile>())
                                     Main.projectile[projectile2].Calamity().forceRogue = true;
                             }
                         }
@@ -2427,6 +2433,9 @@ namespace CalamityMod.Projectiles
                         if (projectile.type == ProjectileType<CnidarianYoyo>() || projectile.type == ProjectileType<GodsGambitYoyo>() ||
                             projectile.type == ProjectileType<ShimmersparkYoyo>() || projectile.type == ProjectileType<VerdantYoyo>())
                             Main.projectile[projectile2].Calamity().forceMelee = true;
+
+						if (projectile.type == ProjectileType<SeashellBoomerangProjectile>())
+							Main.projectile[projectile2].Calamity().forceRogue = true;
                     }
                 }
             }
