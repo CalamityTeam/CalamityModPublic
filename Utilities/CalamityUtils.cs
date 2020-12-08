@@ -975,7 +975,7 @@ namespace CalamityMod
 		public static void ModifyHitNPCSticky(this Projectile projectile, int maxStick, bool constantDamage)
 		{
 			Player player = Main.player[projectile.owner];
-			Rectangle myRect = new Rectangle((int)projectile.position.X, (int)projectile.position.Y, projectile.width, projectile.height);
+			Rectangle myRect = projectile.Hitbox;
 
 			if (projectile.owner == Main.myPlayer)
 			{
@@ -993,7 +993,7 @@ namespace CalamityMod
 							//Solar Crawltipede tail has special collision
 							if (npc.type == NPCID.SolarCrawltipedeTail)
 							{
-								Rectangle rect = npc.getRect();
+								Rectangle rect = npc.Hitbox;
 								int num5 = 8;
 								rect.X -= num5;
 								rect.Y -= num5;
@@ -1003,7 +1003,7 @@ namespace CalamityMod
 							}
 							else
 							{
-								stickingToNPC = projectile.Colliding(myRect, npc.getRect());
+								stickingToNPC = projectile.Colliding(myRect, npc.Hitbox);
 							}
 							if (stickingToNPC)
 							{
