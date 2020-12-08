@@ -399,7 +399,7 @@ namespace CalamityMod.NPCs
                     float hoverSpeed = 4f;
                     float hoverInertia = 2f;
 
-                    if (Main.netMode != NetmodeID.MultiplayerClient && distanceFromSpot < 36f)
+                    if (Main.netMode != NetmodeID.MultiplayerClient && distanceFromSpot < 44f)
                     {
                         ref float attackTimer = ref npc.ai[1];
                         int eggLayTime = 20;
