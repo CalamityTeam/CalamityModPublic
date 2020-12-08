@@ -231,7 +231,7 @@ namespace CalamityMod.NPCs
                     npc.spriteDirection = npc.direction = (npc.velocity.X > 0).ToDirectionInt();
                     npc.rotation = (npc.rotation * 4f + npc.velocity.X * 0.0175f) / 5f;
 
-                    destination = target.Center - npc.Center;
+                    destination = target.Center;
                     destination -= Vector2.UnitY * 12f;
 
                     float xOffset = 600f;
