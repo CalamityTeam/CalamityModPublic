@@ -9823,11 +9823,14 @@ namespace CalamityMod.CalPlayer
 
         private void ProvideStealthStatBonuses()
         {
-            // At full stealth, you get a higher damage bonus than at any partial level of stealth.
-            if (rogueStealth >= rogueStealthMax)
-                throwingDamage += rogueStealth * 0.6666666f;
-            else
-                throwingDamage += rogueStealth * 0.5f;
+            if (!wearingRogueArmor || rogueStealthMax <= 0)
+				return;
+
+			// Stealth provides a damage bonus based on the item's damage and use time as well as the player's moving life regen
+            Item it = player.ActiveItem();
+			float stealthRegenTime = 11.1111111f * stealthGenMoving * stealthAcceleration;
+			float stealthBonus = rogueStealth * 0.1f * it.damage * ((float)Math.Log(it.useTime + 2, 4) / it.useTime) * (float)Math.Log((double)stealthRegenTime, 2.5);
+			throwingDamage += stealthBonus;
 
             // Crit increases based on your stealth value. With certain gear, it's locked at 100% for stealth strikes.
             if (stealthStrikeAlwaysCrits && StealthStrikeAvailable())
@@ -9836,11 +9839,8 @@ namespace CalamityMod.CalPlayer
                 throwingCrit += (int)(rogueStealth * 20f);
 
             // Stealth slightly increases movement speed and decreases aggro.
-            if (wearingRogueArmor && rogueStealthMax > 0)
-            {
-                player.moveSpeed += rogueStealth * 0.05f;
-                player.aggro -= (int)(rogueStealth * 400f);
-            }
+			player.moveSpeed += rogueStealth * 0.05f;
+			player.aggro -= (int)(rogueStealth * 400f);
         }
 
         private float UpdateStealthGenStats()
