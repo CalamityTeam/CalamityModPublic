@@ -9826,7 +9826,9 @@ namespace CalamityMod.CalPlayer
             if (!wearingRogueArmor || rogueStealthMax <= 0)
 				return;
 
-            Item it = player.ActiveItem();
+			// Checking the item you hover over should allow for more accurate readings.
+			// While this is potentially abusable with accessories that work off of rogue boosts like Ink Bomb line, shouldn't you be using a weapon instead?
+            Item it = !Main.HoverItem.IsAir ? Main.HoverItem : player.ActiveItem();
 			// Stealth provides a damage bonus based on the item's damage and use time as well as the player's moving life regen
 			// Lower stealth regen will increase the stealth damage bonus to allow for more freedom in rogue builds while still giving stealth value (e.g. Menacing vs Silent)
 			// This variable is the amount of time it takes for the player to regenerate to full stealth from 0 while moving. It takes 9 seconds without any boosts.
