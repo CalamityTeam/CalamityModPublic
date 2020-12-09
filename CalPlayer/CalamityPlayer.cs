@@ -9828,7 +9828,8 @@ namespace CalamityMod.CalPlayer
 
 			// Stealth provides a damage bonus based on the item's damage and use time as well as the player's moving life regen
             Item it = player.ActiveItem();
-			float stealthRegenTime = 11.1111111f * stealthGenMoving * stealthAcceleration;
+			// This variable is the amount of time it takes for the player to regenerate to full stealth from 0 while moving. It takes 9 seconds without any boosts.
+			float stealthRegenTime = 9f / (stealthGenMoving * stealthAcceleration);
 			float stealthBonus = rogueStealth * 0.1f * it.damage * ((float)Math.Log(it.useTime + 2, 4) / it.useTime) * (float)Math.Log((double)stealthRegenTime, 2.5);
 			throwingDamage += stealthBonus;
 
