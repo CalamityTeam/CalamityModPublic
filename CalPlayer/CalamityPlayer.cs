@@ -9826,8 +9826,9 @@ namespace CalamityMod.CalPlayer
             if (!wearingRogueArmor || rogueStealthMax <= 0)
 				return;
 
-			// Stealth provides a damage bonus based on the item's damage and use time as well as the player's moving life regen
             Item it = player.ActiveItem();
+			// Stealth provides a damage bonus based on the item's damage and use time as well as the player's moving life regen
+			// Lower stealth regen will increase the stealth damage bonus to allow for more freedom in rogue builds while still giving stealth value (e.g. Menacing vs Silent)
 			// This variable is the amount of time it takes for the player to regenerate to full stealth from 0 while moving. It takes 9 seconds without any boosts.
 			float stealthRegenTime = 9f / (stealthGenMoving * stealthAcceleration);
 			float stealthBonus = rogueStealth * 0.1f * it.damage * ((float)Math.Log(it.useTime + 2, 4) / it.useTime) * (float)Math.Log((double)stealthRegenTime, 2.5);
