@@ -27,6 +27,7 @@ namespace CalamityMod.Tiles.FurnitureCosmilite
 			AddMapEntry(new Color(238, 145, 105), name);
             animationFrameHeight = 54;
             adjTiles = new int[] { TileID.Torches };
+			AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTorch);
         }
 
         public override bool CreateDust(int i, int j, ref int type)
