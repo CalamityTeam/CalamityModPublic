@@ -34,8 +34,8 @@ namespace CalamityMod.Projectiles.Summon
             projectile.minion = true;
             projectile.tileCollide = false;
             projectile.extraUpdates = 1;
-            projectile.usesIDStaticNPCImmunity = true;
-            projectile.idStaticNPCHitCooldown = 6;
+            projectile.usesLocalNPCImmunity = true;
+            projectile.localNPCHitCooldown = 6;
         }
 
         public override void AI()
@@ -59,11 +59,11 @@ namespace CalamityMod.Projectiles.Summon
             player.AddBuff(ModContent.BuffType<ElementalAxeBuff>(), 3600);
             if (flag64)
             {
-                if (player.dead)
-                {
-                    modPlayer.eAxe = false;
-                }
-                if (modPlayer.eAxe)
+				if (player.dead)
+				{
+					modPlayer.eAxe = false;
+				}
+				if (modPlayer.eAxe)
                 {
                     projectile.timeLeft = 2;
                 }

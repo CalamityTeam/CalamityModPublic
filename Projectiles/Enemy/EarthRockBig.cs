@@ -15,7 +15,8 @@ namespace CalamityMod.Projectiles.Enemy
 
         public override void SetDefaults()
         {
-            projectile.width = 32;
+			projectile.Calamity().canBreakPlayerDefense = true;
+			projectile.width = 32;
             projectile.height = 32;
             projectile.hostile = true;
             projectile.penetrate = 3;

@@ -26,10 +26,10 @@ namespace CalamityMod.Items.Potions
             item.UseSound = SoundID.Item3;
             item.consumable = true;
             item.potion = true;
-            item.rare = 10;
             item.value = Item.buyPrice(0, 7, 0, 0);
-            item.Calamity().customRarity = CalamityRarity.PureGreen;
-        }
+			item.rare = ItemRarityID.Purple;
+			item.Calamity().customRarity = CalamityRarity.DarkBlue;
+		}
 
         public override void AddRecipes()
         {

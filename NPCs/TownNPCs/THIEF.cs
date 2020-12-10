@@ -327,7 +327,7 @@ namespace CalamityMod.NPCs.TownNPCs
                 shop.item[nextSlot].shopCustomPrice = Item.buyPrice(25, 0, 0, 0);
                 nextSlot++;
             }
-            if (CalamityWorld.buffedEclipse)
+            if (CalamityWorld.downedYharon)
             {
                 shop.item[nextSlot].SetDefaults(ModContent.ItemType<DragonScales>());
                 shop.item[nextSlot].shopCustomPrice = Item.buyPrice(40, 0, 0, 0);

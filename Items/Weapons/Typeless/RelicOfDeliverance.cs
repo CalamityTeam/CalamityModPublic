@@ -29,10 +29,9 @@ namespace CalamityMod.Items.Weapons.Typeless
             item.noMelee = true;
             item.noUseGraphic = true;
             item.channel = true;
-            item.rare = 10;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
-            item.value = CalamityGlobalItem.RarityTurquoiseBuyPrice;
-            item.shoot = ModContent.ProjectileType<RelicOfDeliveranceSpear>();
+			item.value = CalamityGlobalItem.Rarity11BuyPrice;
+			item.rare = ItemRarityID.Purple;
+			item.shoot = ModContent.ProjectileType<RelicOfDeliveranceSpear>();
         }
 
         public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;

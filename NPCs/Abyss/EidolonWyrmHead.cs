@@ -34,7 +34,8 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void SetDefaults()
         {
-            npc.npcSlots = 8f;
+			npc.Calamity().canBreakPlayerDefense = true;
+			npc.npcSlots = 8f;
             npc.damage = 170;
             npc.width = 126; //36
             npc.height = 76; //20

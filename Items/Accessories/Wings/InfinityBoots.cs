@@ -32,9 +32,9 @@ namespace CalamityMod.Items.Accessories.Wings
         {
             item.width = 36;
             item.height = 32;
-            item.value = CalamityGlobalItem.Rarity12BuyPrice;
+			item.value = CalamityGlobalItem.Rarity11BuyPrice;
+			item.rare = ItemRarityID.Purple;
             item.accessory = true;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
         }
 
         public override void ModifyTooltips(List<TooltipLine> list)
@@ -73,7 +73,7 @@ namespace CalamityMod.Items.Accessories.Wings
             CalamityPlayer modPlayer = player.Calamity();
             player.accRunSpeed = 9.25f;
             player.rocketBoots = 3;
-            player.moveSpeed += 0.24f;
+            player.moveSpeed += 0.2f;
             player.iceSkate = true;
             player.waterWalk = true;
             player.fireWalk = true;

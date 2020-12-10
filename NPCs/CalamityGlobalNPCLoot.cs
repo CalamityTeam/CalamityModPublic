@@ -1557,11 +1557,6 @@ namespace CalamityMod.NPCs
 				}
 			}
 
-			if (!CalamityWorld.buffedEclipse)
-			{
-				return;
-			}
-
 			if (eclipse)
 			{
 				switch (npc.type)
@@ -1586,10 +1581,6 @@ namespace CalamityMod.NPCs
 						break;
 					case NPCID.Mothron:
 						DropHelper.DropItem(npc, ModContent.ItemType<DarksunFragment>(), 10, 20);
-
-						// Mark a buffed Mothron as killed
-						CalamityWorld.downedBuffedMothron = true;
-						CalamityNetcode.SyncWorld();
 						break;
 				}
 			}

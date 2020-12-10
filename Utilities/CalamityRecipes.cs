@@ -43,7 +43,7 @@ namespace CalamityMod
 
             // Leather from Vertebrae, for Crimson worlds
             ModRecipe r = GetNewRecipe();
-            r.AddIngredient(ItemID.Vertebrae, 5);
+            r.AddIngredient(ItemID.Vertebrae, 2);
             r.AddTile(TileID.WorkBenches);
             r.SetResult(ItemID.Leather);
             r.AddRecipe();

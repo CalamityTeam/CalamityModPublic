@@ -3,6 +3,7 @@ using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Armor
@@ -13,7 +14,7 @@ namespace CalamityMod.Items.Armor
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Silva Mask");
-            Tooltip.SetDefault("13% increased rogue damage and critical strike chance, 20% increased movement speed");
+            Tooltip.SetDefault("13% increased rogue damage and critical strike chance, 15% increased movement speed");
         }
 
         public override void SetDefaults()
@@ -22,8 +23,9 @@ namespace CalamityMod.Items.Armor
             item.height = 26;
             item.value = Item.buyPrice(0, 90, 0, 0);
             item.defense = 30; //110
-            item.Calamity().customRarity = CalamityRarity.Violet;
-        }
+			item.rare = ItemRarityID.Purple;
+			item.Calamity().customRarity = CalamityRarity.DarkBlue;
+		}
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
@@ -60,13 +62,12 @@ namespace CalamityMod.Items.Armor
         {
             player.Calamity().throwingDamage += 0.13f;
             player.Calamity().throwingCrit += 13;
-            player.moveSpeed += 0.2f;
+            player.moveSpeed += 0.15f;
         }
 
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<DarksunFragment>(), 5);
             recipe.AddIngredient(ModContent.ItemType<EffulgentFeather>(), 5);
             recipe.AddRecipeGroup("AnyGoldBar", 5);
             recipe.AddIngredient(ModContent.ItemType<Tenebris>(), 6);

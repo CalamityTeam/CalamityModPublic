@@ -12,7 +12,8 @@ namespace CalamityMod.Buffs.Summon
             Description.SetDefault("The magic of the ancient ice castle will aid you");
             Main.buffNoTimeDisplay[Type] = true;
             Main.buffNoSave[Type] = true;
-        }
+			//Main.persistentBuff[Type] = true;
+		}
 
         public override void Update(Player player, ref int buffIndex)
         {

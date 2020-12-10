@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Potions.Alcohol
         {
             DisplayName.SetDefault("Tequila Sunrise");
             Tooltip.SetDefault(@"The greatest daytime drink I've ever had
-Boosts damage, damage reduction, and knockback by 7%, crit chance by 3%, and defense by 15 during daytime
+Boosts damage, damage reduction, and knockback by 7%, crit chance by 3%, and defense by 10 during daytime
 Reduces life regen by 1");
         }
 

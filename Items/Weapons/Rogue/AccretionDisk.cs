@@ -29,12 +29,11 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.knockBack = 9f;
             item.UseSound = SoundID.Item1;
             item.height = 38;
-            item.value = Item.buyPrice(platinum: 1, gold: 20);
-            item.rare = ItemRarityID.Red;
-            item.shoot = ModContent.ProjectileType<AccretionDiskProj>();
+			item.value = CalamityGlobalItem.Rarity11BuyPrice;
+			item.rare = ItemRarityID.Purple;
+			item.shoot = ModContent.ProjectileType<AccretionDiskProj>();
             item.shootSpeed = 13f;
             item.Calamity().rogue = true;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

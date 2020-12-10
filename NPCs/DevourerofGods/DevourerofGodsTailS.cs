@@ -95,17 +95,13 @@ namespace CalamityMod.NPCs.DevourerofGods
                 npc.dontTakeDamage = true;
             }
             else
-            {
                 npc.dontTakeDamage = Main.npc[(int)npc.ai[2]].dontTakeDamage;
-            }
+
 			if (Main.npc[(int)npc.ai[2]].dontTakeDamage)
-			{
 				invinceTime = 240;
-			}
+
             if (npc.ai[3] > 0f)
-            {
                 npc.realLife = (int)npc.ai[3];
-            }
 
 			// Target
 			if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)
@@ -113,34 +109,30 @@ namespace CalamityMod.NPCs.DevourerofGods
 
 			Player player = Main.player[npc.target];
 
-			npc.velocity.Length();
+			bool increaseSpeed = Vector2.Distance(player.Center, npc.Center) > CalamityGlobalNPC.CatchUpDistance200Tiles;
+			bool takeLessDamage = Vector2.Distance(player.Center, npc.Center) > CalamityGlobalNPC.CatchUpDistance200Tiles * 0.5f;
+			npc.takenDamageMultiplier = increaseSpeed ? 1f : takeLessDamage ? 1.15f : 1.25f;
+
             if (npc.velocity.X < 0f)
-            {
                 npc.spriteDirection = -1;
-            }
             else if (npc.velocity.X > 0f)
-            {
                 npc.spriteDirection = 1;
-            }
+
             bool flag = false;
             if (npc.ai[1] <= 0f)
-            {
                 flag = true;
-            }
             else if (Main.npc[(int)npc.ai[1]].life <= 0)
-            {
                 flag = true;
-            }
             if (flag)
             {
                 npc.life = 0;
                 npc.HitEffect(0, 10.0);
                 npc.checkDead();
             }
+
             if (CalamityGlobalNPC.DoGHead < 0 || !Main.npc[CalamityGlobalNPC.DoGHead].active)
-            {
                 npc.active = false;
-            }
+
             Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0.2f, 0.05f, 0.2f);
             if (Main.npc[(int)npc.ai[1]].alpha < 128 && !setAlpha)
             {
@@ -152,13 +144,11 @@ namespace CalamityMod.NPCs.DevourerofGods
                 }
             }
             else
-            {
                 npc.alpha = Main.npc[(int)npc.ai[2]].alpha;
-            }
+
             if (player.dead)
-            {
                 npc.TargetClosest(false);
-            }
+
             Vector2 vector18 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
             float num191 = player.position.X + (float)(player.width / 2);
             float num192 = player.position.Y + (float)(player.height / 2);
@@ -188,14 +178,11 @@ namespace CalamityMod.NPCs.DevourerofGods
                 npc.velocity = Vector2.Zero;
                 npc.position.X = npc.position.X + num191;
                 npc.position.Y = npc.position.Y + num192;
+
                 if (num191 < 0f)
-                {
                     npc.spriteDirection = -1;
-                }
                 else if (num191 > 0f)
-                {
                     npc.spriteDirection = 1;
-                }
             }
         }
 

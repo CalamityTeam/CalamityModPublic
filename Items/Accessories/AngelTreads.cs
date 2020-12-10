@@ -52,7 +52,7 @@ namespace CalamityMod.Items.Accessories
             modPlayer.harpyRing = true;
             player.accRunSpeed = 8f;
             player.rocketBoots = 3;
-            player.moveSpeed += 0.16f;
+            player.moveSpeed += 0.12f;
             player.iceSkate = true;
             player.waterWalk = true;
             player.fireWalk = true;

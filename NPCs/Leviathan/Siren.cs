@@ -112,8 +112,11 @@ namespace CalamityMod.NPCs.Leviathan
             // whoAmI variable
             CalamityGlobalNPC.siren = npc.whoAmI;
 
-            // Light
-            Lighting.AddLight((int)(npc.Center.X / 16f), (int)(npc.Center.Y / 16f), 0f, 0.5f, 0.3f);
+			// Set to false so she doesn't do it constantly
+			npc.Calamity().canBreakPlayerDefense = false;
+
+			// Light
+			Lighting.AddLight((int)(npc.Center.X / 16f), (int)(npc.Center.Y / 16f), 0f, 0.5f, 0.3f);
 
 			// Target
 			if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)
@@ -649,6 +652,7 @@ namespace CalamityMod.NPCs.Leviathan
             // Charge
             else if (npc.ai[0] == 4f)
             {
+				npc.Calamity().canBreakPlayerDefense = true;
 				npc.damage = (int)(npc.defDamage * 1.5);
 
 				// Spawn dust

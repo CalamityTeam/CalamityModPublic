@@ -28,13 +28,12 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.noMelee = true;
             item.knockBack = 3.5f;
             item.UseSound = SoundID.Item34;
-            item.value = Item.buyPrice(1, 20, 0, 0);
-            item.rare = 10;
-            item.autoReuse = true;
+			item.value = CalamityGlobalItem.Rarity11BuyPrice;
+			item.rare = ItemRarityID.Purple;
+			item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<TerraFireGreen2>();
             item.shootSpeed = 10f;
             item.useAmmo = AmmoID.Gel;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
         }
 
         public override Vector2? HoldoutOffset()

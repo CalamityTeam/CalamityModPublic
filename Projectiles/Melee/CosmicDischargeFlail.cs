@@ -30,7 +30,9 @@ namespace CalamityMod.Projectiles.Melee
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 4;
 			projectile.coldDamage = true;
+			projectile.extraUpdates = 1;
         }
+
         public override Color SpecialDrawColor => new Color(150, 255, 255);
         public override int ExudeDustType => 67;
         public override int WhipDustType => 187;

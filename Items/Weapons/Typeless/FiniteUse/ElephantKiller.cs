@@ -29,14 +29,13 @@ namespace CalamityMod.Items.Weapons.Typeless.FiniteUse
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 8f;
-            item.value = Item.buyPrice(1, 20, 0, 0);
-            item.rare = 10;
-            item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/Magnum");
+			item.value = CalamityGlobalItem.Rarity11BuyPrice;
+			item.rare = ItemRarityID.Purple;
+			item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/Magnum");
             item.autoReuse = true;
             item.shootSpeed = 12f;
             item.shoot = ModContent.ProjectileType<MagnumRound>();
             item.useAmmo = ModContent.ItemType<MagnumRounds>();
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
             if (CalamityPlayer.areThereAnyDamnBosses)
             {
                 item.Calamity().timesUsed = 3;

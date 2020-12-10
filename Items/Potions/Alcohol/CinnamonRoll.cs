@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Potions.Alcohol
 Boosts mana regeneration rate and all fire-based weapon damage by 15%
 Cursed flame, shadowflame, god slayer inferno, brimstone flame, and frostburn weapons will not receive this benefit
 The weapon must be more fire-related than anything else
-Reduces defense by 12");
+Reduces defense by 10%");
         }
 
         public override void SetDefaults()

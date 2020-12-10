@@ -1,11 +1,11 @@
 using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Dusts;
 using CalamityMod.Events;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
+using CalamityMod.Items.Potions;
 using CalamityMod.Items.TreasureBags;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
@@ -21,7 +21,6 @@ using System;
 using System.IO;
 using Terraria;
 using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.Polterghast
@@ -109,8 +108,11 @@ namespace CalamityMod.NPCs.Polterghast
             // Emit light
             Lighting.AddLight((int)((npc.position.X + (npc.width / 2)) / 16f), (int)((npc.position.Y + (npc.height / 2)) / 16f), 0.1f, 0.5f, 0.5f);
 
-            // whoAmI variable
-            CalamityGlobalNPC.ghostBoss = npc.whoAmI;
+			// Doesn't do it all the time
+			npc.Calamity().canBreakPlayerDefense = false;
+
+			// whoAmI variable
+			CalamityGlobalNPC.ghostBoss = npc.whoAmI;
 
             // Detect clone
             bool cloneAlive = false;
@@ -431,6 +433,8 @@ namespace CalamityMod.NPCs.Polterghast
 				// Charge
 				if (npc.Calamity().newAI[3] == 1f)
 				{
+					npc.Calamity().canBreakPlayerDefense = true;
+
 					if (npc.Calamity().newAI[1] == 0f)
 					{
 						npc.velocity = Vector2.Normalize(player.Center - vector) * chargeVelocity;
@@ -911,7 +915,7 @@ namespace CalamityMod.NPCs.Polterghast
 
         public override void BossLoot(ref string name, ref int potionType)
         {
-            potionType = ItemID.SuperHealingPotion;
+            potionType = ModContent.ItemType<SupremeHealingPotion>();
         }
 
         public override void NPCLoot()

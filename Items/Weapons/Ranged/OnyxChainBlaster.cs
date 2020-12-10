@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 42;
+            item.damage = 52;
             item.ranged = true;
             item.width = 64;
             item.height = 32;
@@ -25,14 +25,13 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 4.5f;
-            item.value = Item.buyPrice(1, 20, 0, 0);
-            item.rare = 10;
-            item.UseSound = SoundID.Item36;
+			item.value = CalamityGlobalItem.Rarity11BuyPrice;
+			item.rare = ItemRarityID.Purple;
+			item.UseSound = SoundID.Item36;
             item.autoReuse = true;
             item.shoot = ProjectileID.BlackBolt;
             item.shootSpeed = 24f;
             item.useAmmo = AmmoID.Bullet;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
         }
 
         public override Vector2? HoldoutOffset()
@@ -42,14 +41,20 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            float SpeedX = speedX + Main.rand.Next(-25, 26) * 0.05f;
-            float SpeedY = speedY + Main.rand.Next(-25, 26) * 0.05f;
-            Projectile.NewProjectile(position.X, position.Y, SpeedX * 0.9f, SpeedY * 0.9f, ProjectileID.BlackBolt, damage, knockBack, player.whoAmI, 0f, 0f);
+            Vector2 velocity = new Vector2(speedX, speedY);
+
+            // Fire the Onyx Shard that is characteristic of the Onyx Blaster
+            // The shard deals 250% damage and double knockback
+            int shardDamage = (int)(2.5f * damage);
+            float shardKB = 2f * knockBack;
+            Vector2 offset = new Vector2(Main.rand.Next(-25, 26) * 0.05f, Main.rand.Next(-25, 26) * 0.05f);
+            Projectile shard = Projectile.NewProjectileDirect(position, velocity + offset, ProjectileID.BlackBolt, shardDamage, shardKB, player.whoAmI, 0f, 0f);
+            shard.timeLeft = (int)(shard.timeLeft * 1.25f);
+
             for (int i = 0; i < 4; i++)
             {
-                float SpeedNewX = speedX + Main.rand.Next(-45, 46) * 0.05f;
-                float SpeedNewY = speedY + Main.rand.Next(-45, 46) * 0.05f;
-                Projectile.NewProjectile(position.X, position.Y, SpeedNewX, SpeedNewY, type, (int)(damage * 1.25f), knockBack, player.whoAmI, 0f, 0f);
+                offset = new Vector2(Main.rand.Next(-45, 46) * 0.05f, Main.rand.Next(-45, 46) * 0.05f);
+                Projectile.NewProjectile(position, velocity + offset, type, damage, knockBack, player.whoAmI, 0f, 0f);
             }
             return false;
         }

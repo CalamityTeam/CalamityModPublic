@@ -29,11 +29,11 @@ namespace CalamityMod.Items.Weapons.Melee
             item.UseSound = SoundID.Item109;
             item.autoReuse = true;
             item.height = 20;
-            item.value = Item.buyPrice(platinum: 2, gold: 50);
-            item.rare = ItemRarityID.Red;
-            item.shoot = ModContent.ProjectileType<ScourgeoftheCosmosProj>();
+			item.value = CalamityGlobalItem.Rarity14BuyPrice;
+			item.rare = ItemRarityID.Purple;
+			item.Calamity().customRarity = CalamityRarity.DarkBlue;
+			item.shoot = ModContent.ProjectileType<ScourgeoftheCosmosProj>();
             item.shootSpeed = 15f;
-            item.Calamity().customRarity = CalamityRarity.Violet;
         }
 
         public override void AddRecipes()

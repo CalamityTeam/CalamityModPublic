@@ -54,7 +54,6 @@ namespace CalamityMod.Items.Weapons.Melee
 
             recipe.AddIngredient(ModContent.ItemType<ElementalShortsword>());
             recipe.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>());
-            recipe.AddIngredient(ModContent.ItemType<DarksunFragment>(), 5);
             recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 5);
             recipe.AddTile(ModContent.TileType<DraedonsForge>());
 

@@ -65,9 +65,9 @@ namespace CalamityMod.Projectiles.Rogue
 			int i;
 			if (projectile.owner == Main.myPlayer)
 			{
-				if (Main.player[projectile.owner].ownedProjectileCounts[ModContent.ProjectileType<PhantasmalSoul>()] < 8)
+				if (Main.player[projectile.owner].ownedProjectileCounts[ModContent.ProjectileType<PhantasmalSoul>()] < 4)
 				{
-					for (i = 0; i < 8; i++)
+					for (i = 0; i < 4; i++)
 					{
 						float ai1 = Main.rand.NextFloat() + 0.5f;
 						float randomSpeed = (float)Main.rand.Next(1, 7);
@@ -91,9 +91,9 @@ namespace CalamityMod.Projectiles.Rogue
 			double deltaAngle = spread / 8f;
 			double offsetAngle;
 			int i;
-			if (projectile.owner == Main.myPlayer && Main.player[projectile.owner].ownedProjectileCounts[ModContent.ProjectileType<PhantasmalSoul>()] < 8)
+			if (projectile.owner == Main.myPlayer && Main.player[projectile.owner].ownedProjectileCounts[ModContent.ProjectileType<PhantasmalSoul>()] < 4)
 			{
-				for (i = 0; i < 8; i++)
+				for (i = 0; i < 4; i++)
 				{
 					float ai1 = Main.rand.NextFloat() + 0.5f;
 					float randomSpeed = (float)Main.rand.Next(1, 7);

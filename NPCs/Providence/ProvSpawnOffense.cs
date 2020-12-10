@@ -25,7 +25,8 @@ namespace CalamityMod.NPCs.Providence
 
         public override void SetDefaults()
         {
-            npc.npcSlots = 1f;
+			npc.Calamity().canBreakPlayerDefense = true;
+			npc.npcSlots = 1f;
             npc.aiStyle = -1;
 			npc.GetNPCDamage();
 			npc.width = 100;
