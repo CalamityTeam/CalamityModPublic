@@ -7777,7 +7777,10 @@ namespace CalamityMod.CalPlayer
         #region Pre Hurt
         public override bool PreHurt(bool pvp, bool quiet, ref int damage, ref int hitDirection, ref bool crit, ref bool customDamage, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
         {
-            if (CalamityWorld.armageddon || SCalLore || (BossRushEvent.BossRushActive && bossRushImmunityFrameCurseTimer > 0))
+			if (HandleDodges())
+				return false;
+
+			if (CalamityWorld.armageddon || SCalLore || (BossRushEvent.BossRushActive && bossRushImmunityFrameCurseTimer > 0))
             {
                 if (areThereAnyDamnBosses || SCalLore || (BossRushEvent.BossRushActive && bossRushImmunityFrameCurseTimer > 0))
                 {
@@ -8861,36 +8864,6 @@ namespace CalamityMod.CalPlayer
 							{
 								player.hurtCooldowns[k] = player.immuneTime;
 							}
-                        }
-                    }
-                }
-            }
-            if (dashMod == 1 && player.dashDelay < 0 && player.whoAmI == Main.myPlayer) //Counter Scarf
-            {
-                Rectangle rectangle = new Rectangle((int)((double)player.position.X + (double)player.velocity.X * 0.5 - 4.0), (int)((double)player.position.Y + (double)player.velocity.Y * 0.5 - 4.0), player.width + 8, player.height + 8);
-                for (int i = 0; i < Main.maxNPCs; i++)
-                {
-					NPC npc = Main.npc[i];
-                    if (npc.active && !npc.dontTakeDamage && !npc.friendly && !npc.townNPC && npc.immune[player.whoAmI] <= 0 && npc.damage > 0)
-                    {
-                        Rectangle rect = npc.getRect();
-                        if (rectangle.Intersects(rect) && (npc.noTileCollide || player.CanHit(npc)))
-                        {
-                            OnDodge();
-                            break;
-                        }
-                    }
-                }
-                for (int i = 0; i < Main.maxProjectiles; i++)
-                {
-					Projectile proj = Main.projectile[i];
-                    if (proj.active && !proj.friendly && proj.hostile && proj.damage > 0)
-                    {
-                        Rectangle rect = proj.getRect();
-                        if (rectangle.Intersects(rect))
-                        {
-                            OnDodge();
-                            break;
                         }
                     }
                 }
