@@ -4070,6 +4070,7 @@ namespace CalamityMod.NPCs
 					if (calamityGlobalNPC.newAI[1] >= newPhaseTimer)
 					{
 						calamityGlobalNPC.newAI[1] = 0f;
+						calamityGlobalNPC.newAI[2] = 1f;
 						calamityGlobalNPC.newAI[3] = 1f;
 						npc.ai[0] = 0f;
 						npc.ai[1] = 0f;

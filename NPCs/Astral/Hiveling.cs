@@ -64,6 +64,18 @@ namespace CalamityMod.NPCs.Astral
             else
             {
                 CalamityGlobalNPC.DoFlyingAI(npc, (CalamityWorld.death ? 4.5f : 3f), (CalamityWorld.death ? 0.075f : 0.05f), 200f);
+				Player myTarget = Main.player[npc.target];
+				Vector2 toTarget = myTarget.Center - npc.Center;
+				if (!myTarget.dead && myTarget.active)
+				{
+					npc.spriteDirection = npc.direction = (toTarget.X > 0).ToDirectionInt();
+				}
+				else
+				{
+					npc.spriteDirection = npc.direction = (npc.velocity.X > 0).ToDirectionInt();
+				}
+				if (npc.spriteDirection == 1)
+					npc.rotation += MathHelper.Pi;
             }
         }
 

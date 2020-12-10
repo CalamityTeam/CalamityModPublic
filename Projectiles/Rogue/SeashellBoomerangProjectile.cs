@@ -1,3 +1,5 @@
+using CalamityMod.Projectiles.Typeless;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -22,6 +24,12 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.timeLeft = 240;
             aiType = ProjectileID.WoodenBoomerang;
 			projectile.Calamity().rogue = true;
+        }
+
+        public override void AI()
+        {
+			if (projectile.Calamity().stealthStrike)
+				CalamityGlobalProjectile.MagnetSphereHitscan(projectile, 300f, 10f, 20f, 5, ModContent.ProjectileType<Seashell>());
         }
     }
 }

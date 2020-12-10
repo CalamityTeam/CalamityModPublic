@@ -103,7 +103,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                 return;
             int totalCirclePoints = 55;
             float generalOpacity = Utils.InverseLerp(0f, 30f, projectile.timeLeft, true) * Utils.InverseLerp(480f, 450f, projectile.timeLeft, true);
-            Texture2D lightningTexture = ModContent.GetTexture("CalamityMod/Projectiles/DraedonsArsenal/SystemBaneLightning");
+            Texture2D lightningTexture = ModContent.GetTexture("CalamityMod/Projectiles/LightningProj");
             for (int i = 0; i < totalCirclePoints; i++)
             {
                 float angle = MathHelper.TwoPi * i / totalCirclePoints;

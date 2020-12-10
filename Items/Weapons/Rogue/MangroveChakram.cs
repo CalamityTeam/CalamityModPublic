@@ -12,6 +12,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Mangrove Chakram");
+            Tooltip.SetDefault("Stealth strikes leave a trail of lingering flowers");
         }
 
         public override void SafeSetDefaults()

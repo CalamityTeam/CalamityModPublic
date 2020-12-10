@@ -57,7 +57,7 @@ namespace CalamityMod.Projectiles.Ranged
 		}
 
 		public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection) => damage += OnHitEffect(Main.player[projectile.owner]);
-		public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit) => damage += OnHitEffect(Main.player[projectile.owner]);
+		public override void ModifyHitPvp(Player target, ref int damage, ref bool crit) => damage += OnHitEffect(Main.player[projectile.owner]);
 
 		// Returns the amount of bonus damage that should be dealt. Boosts life regeneration appropriately as a side effect.
 		private int OnHitEffect(Player owner)

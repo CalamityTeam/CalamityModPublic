@@ -8,7 +8,8 @@ namespace CalamityMod.Items.Weapons.Rogue
 {
     public class StellarKnife : RogueWeapon
     {
-        int knifeCount = 15;
+        int knifeCount = 10;
+        int knifeLimit = 20;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Stellar Knife");
@@ -40,15 +41,25 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            if (player.Calamity().StealthStrikeAvailable() && player.ownedProjectileCounts[ModContent.ProjectileType<StellarKnifeProj>()] < 10)
+            if (player.Calamity().StealthStrikeAvailable() && player.ownedProjectileCounts[item.shoot] < knifeLimit)
             {
+				int knifeAmt = knifeCount;
+				if ((player.ownedProjectileCounts[item.shoot] + knifeCount) >= knifeLimit)
+					knifeAmt = knifeLimit - player.ownedProjectileCounts[item.shoot];
+				if (knifeAmt <= 0)
+				{
+                    int knife = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
+                    Main.projectile[knife].Calamity().stealthStrike = true;
+				}
+
                 int spread = 20;
                 for (int i = 0; i < knifeCount; i++)
                 {
                     speedX *= 0.9f;
                     Vector2 perturbedspeed = new Vector2(speedX, speedY + Main.rand.Next(-3, 4)).RotatedBy(MathHelper.ToRadians(spread));
-                    Projectile.NewProjectile(position, perturbedspeed, type, damage, knockBack, player.whoAmI, 1f, i % 5 == 0 ? 1f : 0f);
-                    spread -= Main.rand.Next(1, 3);
+                    int knife2 = Projectile.NewProjectile(position, perturbedspeed, type, damage, knockBack, player.whoAmI, 1f, i % 5 == 0 ? 1f : 0f);
+                    Main.projectile[knife2].Calamity().stealthStrike = true;
+					spread -= Main.rand.Next(1, 3);
                 }
                 return false;
             }

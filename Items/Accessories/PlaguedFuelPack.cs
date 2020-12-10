@@ -9,10 +9,10 @@ namespace CalamityMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Plagued Fuel Pack");
-            Tooltip.SetDefault("5% increased rogue damage\n" +
-                "15% increased rogue projectile velocity\n" +
+            Tooltip.SetDefault("5% increased rogue damage and 15% increased rogue projectile velocity\n" +
+                "Stealth generates 10% faster\n" +
                 "TOOLTIP LINE HERE" + 
-                "This effect has a 3 second cooldown before it can be used again");
+                "This effect has a 1 second cooldown before it can be used again");
         }
 
         public override void SetDefaults()
@@ -32,6 +32,8 @@ namespace CalamityMod.Items.Accessories
             player.Calamity().throwingDamage += 0.05f;
             player.Calamity().throwingVelocity += 0.15f;
             player.Calamity().plaguedFuelPack = true;
+            player.Calamity().stealthGenStandstill += 0.1f;
+            player.Calamity().stealthGenMoving += 0.1f;
         }
 
         public override void ModifyTooltips(List<TooltipLine> list)

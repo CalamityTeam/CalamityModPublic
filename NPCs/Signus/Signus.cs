@@ -769,33 +769,36 @@ namespace CalamityMod.NPCs.Signus
 
         public override void NPCLoot()
         {
-            // Only drop items if fought alone
-            if (CalamityWorld.DoGSecondStageCountdown <= 0)
+            // Only drop items if fought at full strength
+			bool fullStrength = !CalamityWorld.downedSentinel3 || CalamityWorld.DoGSecondStageCountdown <= 0;
+            if (fullStrength)
             {
-                // Materials
-                DropHelper.DropItem(npc, ModContent.ItemType<TwistingNether>(), true, 2, 3);
+				DropHelper.DropBags(npc);
 
-                // Weapons
-                DropHelper.DropItemChance(npc, ModContent.ItemType<CosmicKunai>(), Main.expertMode ? 3 : 4);
-				DropHelper.DropItemRIV(npc, ModContent.ItemType<Cosmilamp>(), ModContent.ItemType<LanternoftheSoul>(), Main.expertMode ? 0.3333f : 0.25f, DropHelper.RareVariantDropRateFloat);
-
-				//Equipment
-                DropHelper.DropItemCondition(npc, ModContent.ItemType<SpectralVeil>(), CalamityWorld.revenge, 4, 1, 1);
-
-                // Vanity
-                DropHelper.DropItemChance(npc, ModContent.ItemType<SignusTrophy>(), 10);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<SignusMask>(), 7);
-				if (Main.rand.NextBool(20))
+				DropHelper.DropItemChance(npc, ModContent.ItemType<SignusTrophy>(), 10);
+				bool lastSentinelKilled = CalamityWorld.downedSentinel1 && CalamityWorld.downedSentinel2 && !CalamityWorld.downedSentinel3;
+				DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeSentinels>(), true, lastSentinelKilled);
+				DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedSentinel3, 5, 2, 1);
+				if (!Main.expertMode)
 				{
-					DropHelper.DropItem(npc, ModContent.ItemType<AncientGodSlayerHelm>());
-					DropHelper.DropItem(npc, ModContent.ItemType<AncientGodSlayerChestplate>());
-					DropHelper.DropItem(npc, ModContent.ItemType<AncientGodSlayerLeggings>());
-				}
+					// Materials
+					DropHelper.DropItem(npc, ModContent.ItemType<TwistingNether>(), true, 2, 3);
 
-                // Other
-                bool lastSentinelKilled = CalamityWorld.downedSentinel1 && CalamityWorld.downedSentinel2 && !CalamityWorld.downedSentinel3;
-                DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeSentinels>(), true, lastSentinelKilled);
-                DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedSentinel3, 5, 2, 1);
+					// Weapons
+					DropHelper.DropItemChance(npc, ModContent.ItemType<CosmicKunai>(), 4);
+					DropHelper.DropItemRIV(npc, ModContent.ItemType<Cosmilamp>(), ModContent.ItemType<LanternoftheSoul>(), 0.25f, DropHelper.RareVariantDropRateFloat);
+
+					//Equipment (None in Normal)
+
+					// Vanity
+					DropHelper.DropItemChance(npc, ModContent.ItemType<SignusMask>(), 7);
+					if (Main.rand.NextBool(20))
+					{
+						DropHelper.DropItem(npc, ModContent.ItemType<AncientGodSlayerHelm>());
+						DropHelper.DropItem(npc, ModContent.ItemType<AncientGodSlayerChestplate>());
+						DropHelper.DropItem(npc, ModContent.ItemType<AncientGodSlayerLeggings>());
+					}
+				}
             }
 
             // If DoG's fight is active, set the timer precisely for DoG phase 2 to spawn
@@ -816,7 +819,7 @@ namespace CalamityMod.NPCs.Signus
 			}
 
 			// Mark Signus as dead
-			if (CalamityWorld.DoGSecondStageCountdown <= 0)
+			if (fullStrength)
 			{
 				CalamityWorld.downedSentinel3 = true;
 				CalamityNetcode.SyncWorld();

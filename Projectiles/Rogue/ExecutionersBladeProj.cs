@@ -11,19 +11,15 @@ namespace CalamityMod.Projectiles.Rogue
     {
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/ExecutionersBlade";
 
-        private void handleStealth(Vector2 position, int damage, bool crit, float knockback)
+        private void handleStealth(Vector2 position)
         {
             if (Main.myPlayer == projectile.owner)
             {
-                Player player = Main.player[projectile.owner];
-                if (player.ownedProjectileCounts[ModContent.ProjectileType<ExecutionersBladeStealthProj>()] == 0)
-                {
-                    Main.PlaySound(SoundID.Item73, projectile.position);
-                    for (int i = 0; i < 20; i++)
-                    {
-                        Projectile.NewProjectile(new Vector2(position.X + (-600 + i * 60), position.Y - 800), new Vector2(0f, 5f), ModContent.ProjectileType<ExecutionersBladeStealthProj>(), (int)(projectile.damage * 1.2f), projectile.knockBack, player.whoAmI);
-                    }
-                }
+				Main.PlaySound(SoundID.Item73, projectile.Center);
+				for (int i = 0; i < 20; i++)
+				{
+					Projectile.NewProjectile(new Vector2(position.X + (-600 + i * 60), position.Y - 800), new Vector2(0f, 2.5f), ModContent.ProjectileType<ExecutionersBladeStealthProj>(), (int)(projectile.damage * 1.2f), projectile.knockBack, projectile.owner);
+				}
             }
         }
 
@@ -68,7 +64,7 @@ namespace CalamityMod.Projectiles.Rogue
             target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 300);
             if (projectile.Calamity().stealthStrike)
             {
-                handleStealth(target.Center, damage, crit, knockback);
+                handleStealth(target.Center);
             }
         }
 
@@ -77,16 +73,13 @@ namespace CalamityMod.Projectiles.Rogue
             target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 300);
             if (projectile.Calamity().stealthStrike)
             {
-                handleStealth(target.Center, damage, crit, 0f);
+                handleStealth(target.Center);
             }
         }
 
         public override void Kill(int timeLeft)
         {
-            projectile.position = projectile.Center;
-            projectile.width = projectile.height = 128;
-            projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
-            projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
+			CalamityGlobalProjectile.ExpandHitboxBy(projectile, 128);
             Main.PlaySound(SoundID.Item74, (int)projectile.position.X, (int)projectile.position.Y);
             for (int num621 = 0; num621 < 3; num621++)
             {

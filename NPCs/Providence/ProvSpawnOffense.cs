@@ -11,6 +11,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.NPCs.Providence
 {
+    [AutoloadBossHead]
 	public class ProvSpawnOffense : ModNPC
     {
         public int dustTimer = 3;

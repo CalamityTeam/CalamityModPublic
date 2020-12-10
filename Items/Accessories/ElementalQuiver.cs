@@ -31,9 +31,9 @@ namespace CalamityMod.Items.Accessories
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.eQuiver = true;
+			modPlayer.rangedAmmoCost *= 0.8f;
             player.rangedDamage += 0.15f;
             player.rangedCrit += 5;
-            player.ammoCost80 = true;
             player.lifeRegen += 2;
             player.statDefense += 5;
             player.pickSpeed -= 0.15f;

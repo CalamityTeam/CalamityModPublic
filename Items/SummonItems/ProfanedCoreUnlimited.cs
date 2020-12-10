@@ -1,4 +1,3 @@
-using CalamityMod.Items.Materials;
 using CalamityMod.NPCs.Providence;
 using CalamityMod.World;
 using Terraria;
@@ -47,16 +46,6 @@ namespace CalamityMod.Items.SummonItems
 				NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, player.whoAmI, ModContent.NPCType<Providence>());
 
 			return true;
-        }
-
-        public override void AddRecipes()
-        {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<ProfanedCore>());
-            recipe.AddIngredient(ModContent.ItemType<UnholyEssence>(), 50);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
         }
     }
 }

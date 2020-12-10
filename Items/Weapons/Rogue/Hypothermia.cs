@@ -60,7 +60,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 			}
 
 			counter++;
-			if (counter >= 7)
+			if (counter >= item.useAnimation / item.useTime)
 				counter = 0;
             return false;
         }

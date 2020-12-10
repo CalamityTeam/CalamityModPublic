@@ -638,31 +638,35 @@ namespace CalamityMod.NPCs.StormWeaver
 
         public override void NPCLoot()
         {
-            // Only drop items if fought alone
-            if (CalamityWorld.DoGSecondStageCountdown <= 0)
+            // Only drop items if fought at full strength
+			bool fullStrength = !CalamityWorld.downedSentinel2 || CalamityWorld.DoGSecondStageCountdown <= 0;
+            if (fullStrength)
             {
-                // Materials
-                DropHelper.DropItem(npc, ModContent.ItemType<ArmoredShell>(), true, 5, 8);
+				DropHelper.DropBags(npc);
 
-                // Weapons
-                DropHelper.DropItemChance(npc, ModContent.ItemType<TheStorm>(), Main.expertMode ? 3 : 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<StormDragoon>(), Main.expertMode ? 3 : 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Thunderstorm>(), DropHelper.RareVariantDropRateFloat);
-
-                // Vanity
-                DropHelper.DropItemChance(npc, ModContent.ItemType<WeaverTrophy>(), 10);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<StormWeaverMask>(), 7);
-				if (Main.rand.NextBool(20))
+				DropHelper.DropItemChance(npc, ModContent.ItemType<WeaverTrophy>(), 10);
+				bool lastSentinelKilled = CalamityWorld.downedSentinel1 && !CalamityWorld.downedSentinel2 && CalamityWorld.downedSentinel3;
+				DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeSentinels>(), true, lastSentinelKilled);
+				DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedSentinel2, 5, 2, 1);
+				if (!Main.expertMode)
 				{
-					DropHelper.DropItem(npc, ModContent.ItemType<AncientGodSlayerHelm>());
-					DropHelper.DropItem(npc, ModContent.ItemType<AncientGodSlayerChestplate>());
-					DropHelper.DropItem(npc, ModContent.ItemType<AncientGodSlayerLeggings>());
-				}
+					// Materials
+					DropHelper.DropItem(npc, ModContent.ItemType<ArmoredShell>(), true, 5, 8);
 
-                // Other
-                bool lastSentinelKilled = CalamityWorld.downedSentinel1 && !CalamityWorld.downedSentinel2 && CalamityWorld.downedSentinel3;
-                DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeSentinels>(), true, lastSentinelKilled);
-                DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedSentinel2, 5, 2, 1);
+					// Weapons
+					DropHelper.DropItemChance(npc, ModContent.ItemType<TheStorm>(), 4);
+					DropHelper.DropItemChance(npc, ModContent.ItemType<StormDragoon>(), 4);
+					DropHelper.DropItemChance(npc, ModContent.ItemType<Thunderstorm>(), DropHelper.RareVariantDropRateFloat);
+
+					// Vanity
+					DropHelper.DropItemChance(npc, ModContent.ItemType<StormWeaverMask>(), 7);
+					if (Main.rand.NextBool(20))
+					{
+						DropHelper.DropItem(npc, ModContent.ItemType<AncientGodSlayerHelm>());
+						DropHelper.DropItem(npc, ModContent.ItemType<AncientGodSlayerChestplate>());
+						DropHelper.DropItem(npc, ModContent.ItemType<AncientGodSlayerLeggings>());
+					}
+				}
             }
 
             // If DoG's fight is active, set the timer for Signus' phase
@@ -679,7 +683,7 @@ namespace CalamityMod.NPCs.StormWeaver
             }
 
 			// Mark Storm Weaver as dead
-			if (CalamityWorld.DoGSecondStageCountdown <= 0)
+			if (fullStrength)
 			{
 				CalamityWorld.downedSentinel2 = true;
 				CalamityNetcode.SyncWorld();

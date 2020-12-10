@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.autoReuse = true;
             item.height = 44;
             item.maxStack = 1;
-            item.value = Item.buyPrice(0, 16, 0, 0);
+            item.value = CalamityGlobalItem.Rarity13BuyPrice;
             item.shoot = ModContent.ProjectileType<AlphaVirusProjectile>();
             item.shootSpeed = 4f;
 			item.rare = ItemRarityID.Purple;
