@@ -6,6 +6,7 @@ using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Mounts;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
+using CalamityMod.Items.Potions;
 using CalamityMod.Items.TreasureBags;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
@@ -36,7 +37,7 @@ namespace CalamityMod.NPCs.Bumblebirb
 
         public override void SetDefaults()
         {
-            npc.npcSlots = 32f;
+			npc.npcSlots = 32f;
             npc.aiStyle = -1;
             aiType = -1;
 			npc.GetNPCDamage();
@@ -407,7 +408,7 @@ namespace CalamityMod.NPCs.Bumblebirb
 		public override void BossLoot(ref string name, ref int potionType)
         {
             name = "A Dragonfolly";
-            potionType = ItemID.SuperHealingPotion;
+            potionType = ModContent.ItemType<SupremeHealingPotion>();
         }
 
         public override void NPCLoot()

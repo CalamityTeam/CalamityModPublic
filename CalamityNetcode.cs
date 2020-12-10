@@ -104,6 +104,15 @@ namespace CalamityMod
 					case CalamityModMessageType.ReforgeTierSafetySync:
 						Main.player[reader.ReadInt32()].Calamity().HandleReforgeTierSafety(reader);
 						break;
+					/*case CalamityModMessageType.AquaticBoostSync:
+						Main.player[reader.ReadInt32()].Calamity().HandleAquaticBoost(reader);
+						break;*/
+					case CalamityModMessageType.MoveSpeedStatSync:
+						Main.player[reader.ReadInt32()].Calamity().HandleMoveSpeedStat(reader);
+						break;
+					case CalamityModMessageType.DefenseDamageSync:
+						Main.player[reader.ReadInt32()].Calamity().HandleDefenseDamage(reader);
+						break;
 					case CalamityModMessageType.NPCRegenerationSync:
                         byte npcIndex = reader.ReadByte();
                         Main.npc[npcIndex].lifeRegen = reader.ReadInt32();
@@ -251,8 +260,14 @@ namespace CalamityMod
         ExactSummonLevelSync,
         ExactRogueLevelSync,
 
+		MoveSpeedStatSync,
+
+		DefenseDamageSync,
+
         StressSync,
         AdrenalineSync,
+
+		//AquaticBoostSync,
 
         TeleportPlayer,
         BossRushStage,

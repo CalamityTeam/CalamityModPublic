@@ -13,7 +13,6 @@ namespace CalamityMod.Items.Armor
             DisplayName.SetDefault("Empyrean Cloak");
             Tooltip.SetDefault("Armor of the cosmos\n" +
 				"+20 max life\n" +
-                "6% increased movement speed\n" +
                 "7% increased rogue damage and critical strike chance");
         }
 
@@ -29,7 +28,6 @@ namespace CalamityMod.Items.Armor
         public override void UpdateEquip(Player player)
         {
             player.statLifeMax2 += 20;
-            player.moveSpeed += 0.06f;
             player.Calamity().throwingCrit += 7;
             player.Calamity().throwingDamage += 0.07f;
         }

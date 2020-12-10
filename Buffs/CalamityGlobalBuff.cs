@@ -10,7 +10,12 @@ namespace CalamityMod.Buffs
     {
         public override void Update(int type, Player player, ref int buffIndex)
         {
-            if (type == BuffID.Shine)
+			/*if (type == BuffID.HornetMinion || type == BuffID.ImpMinion || type == BuffID.SpiderMinion || type == BuffID.TwinEyesMinion ||
+				type == BuffID.PirateMinion || type == BuffID.SharknadoMinion || type == BuffID.UFOMinion || type == BuffID.StardustMinion ||
+				type == BuffID.StardustGuardianMinion || type == BuffID.StardustDragonMinion)
+				Main.persistentBuff[type] = true;*/
+
+			if (type == BuffID.Shine)
             {
                 player.Calamity().shine = true;
             }

@@ -180,8 +180,6 @@ namespace CalamityMod.World
         public static bool downedPolterghast = false;
         public static bool downedDoG = false;
         public static bool downedBumble = false;
-        public static bool buffedEclipse = false;
-        public static bool downedBuffedMothron = false;
         public static bool downedYharon = false;
         public static bool downedSCal = false;
         public static bool downedGSS = false;
@@ -278,7 +276,6 @@ namespace CalamityMod.World
             downedSentinel2 = false;
             downedSentinel3 = false;
             downedYharon = false;
-            buffedEclipse = false;
             downedSCal = false;
             downedCLAM = false;
             downedCLAMHardMode = false;
@@ -294,7 +291,6 @@ namespace CalamityMod.World
             downedAstrageldon = false;
             downedPolterghast = false;
             downedGSS = false;
-            downedBuffedMothron = false;
             downedBoomerDuke = false;
             downedSecondSentinels = false;
             death = false;
@@ -349,8 +345,6 @@ namespace CalamityMod.World
                 downed.Add("secondSentinels");
             if (downedYharon)
                 downed.Add("yharon");
-            if (buffedEclipse)
-                downed.Add("eclipse");
             if (downedSCal)
                 downed.Add("supremeCalamitas");
             if (downedBumble)
@@ -379,8 +373,6 @@ namespace CalamityMod.World
                 downed.Add("polterghast");
             if (downedGSS)
                 downed.Add("greatSandShark");
-            if (downedBuffedMothron)
-                downed.Add("moth");
             if (downedBoomerDuke)
                 downed.Add("oldDuke");
             if (death)
@@ -515,7 +507,6 @@ namespace CalamityMod.World
             downedSentinel3 = downed.Contains("signus");
             downedSecondSentinels = downed.Contains("secondSentinels");
             downedYharon = downed.Contains("yharon");
-            buffedEclipse = downed.Contains("eclipse");
             downedSCal = downed.Contains("supremeCalamitas");
             downedBumble = downed.Contains("bumblebirb");
             downedCrabulon = downed.Contains("crabulon");
@@ -530,7 +521,6 @@ namespace CalamityMod.World
             spawnedHardBoss = downed.Contains("hardBoss");
             downedPolterghast = downed.Contains("polterghast");
             downedGSS = downed.Contains("greatSandShark");
-            downedBuffedMothron = downed.Contains("moth");
             downedBoomerDuke = downed.Contains("oldDuke");
             death = downed.Contains("death");
             defiled = downed.Contains("defiled");
@@ -653,10 +643,10 @@ namespace CalamityMod.World
                 abyssSide = flags6[0];
                 downedAquaticScourge = flags6[1];
                 downedAstrageldon = flags6[2];
-                buffedEclipse = flags6[3];
+                _ = flags6[3];
                 armageddon = flags6[4];
                 defiled = flags6[5];
-                downedBuffedMothron = flags6[6];
+                _ = flags6[6];
                 ironHeart = flags6[7];
 
                 BitsByte flags7 = reader.ReadByte();
@@ -764,10 +754,10 @@ namespace CalamityMod.World
             flags6[0] = abyssSide;
             flags6[1] = downedAquaticScourge;
             flags6[2] = downedAstrageldon;
-            flags6[3] = buffedEclipse;
+            flags6[3] = false;
             flags6[4] = armageddon;
             flags6[5] = defiled;
-            flags6[6] = downedBuffedMothron;
+            flags6[6] = false;
             flags6[7] = ironHeart;
 
             BitsByte flags7 = new BitsByte();
@@ -885,10 +875,10 @@ namespace CalamityMod.World
             abyssSide = flags6[0];
             downedAquaticScourge = flags6[1];
             downedAstrageldon = flags6[2];
-            buffedEclipse = flags6[3];
+            _ = flags6[3];
             armageddon = flags6[4];
             defiled = flags6[5];
-            downedBuffedMothron = flags6[6];
+            _ = flags6[6];
             ironHeart = flags6[7];
 
             BitsByte flags7 = reader.ReadByte();

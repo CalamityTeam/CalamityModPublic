@@ -1,4 +1,5 @@
 using Terraria;
+using Terraria.ID;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
 
@@ -19,8 +20,7 @@ namespace CalamityMod.Items.Materials
             item.height = 24;
             item.maxStack = 999;
             item.value = Item.buyPrice(0, 6, 50, 0);
-            item.rare = 10;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
-        }
+			item.rare = ItemRarityID.Purple;
+		}
     }
 }

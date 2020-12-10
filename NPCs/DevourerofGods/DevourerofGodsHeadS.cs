@@ -77,6 +77,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 
         public override void SetDefaults()
         {
+			npc.Calamity().canBreakPlayerDefense = true;
 			npc.GetNPCDamage();
 			npc.npcSlots = 5f;
             npc.width = 186;
@@ -182,6 +183,8 @@ namespace CalamityMod.NPCs.DevourerofGods
 			float distanceFromTarget = Vector2.Distance(player.Center, vector);
 			bool increaseSpeed = distanceFromTarget > CalamityGlobalNPC.CatchUpDistance200Tiles;
 			bool increaseSpeedMore = distanceFromTarget > CalamityGlobalNPC.CatchUpDistance350Tiles;
+			bool takeLessDamage = Vector2.Distance(player.Center, vector) > CalamityGlobalNPC.CatchUpDistance200Tiles * 0.5f;
+			npc.takenDamageMultiplier = increaseSpeed ? 1f : takeLessDamage ? 1.15f : 1.25f;
 
 			// Immunity after teleport
 			npc.dontTakeDamage = postTeleportTimer > 0;
@@ -1130,7 +1133,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 
             DropHelper.DropBags(npc);
 
-            DropHelper.DropItem(npc, ModContent.ItemType<SupremeHealingPotion>(), 5, 15);
+            DropHelper.DropItem(npc, ModContent.ItemType<OmegaHealingPotion>(), 5, 15);
             DropHelper.DropItemChance(npc, ModContent.ItemType<DevourerofGodsTrophy>(), 10);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeDevourerofGods>(), true, !CalamityWorld.downedDoG);
             DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedDoG, 6, 3, 2);
@@ -1166,10 +1169,12 @@ namespace CalamityMod.NPCs.DevourerofGods
                 Color messageColor = Color.Cyan;
                 string key2 = "Mods.CalamityMod.DoGBossText2";
                 Color messageColor2 = Color.Orange;
+				string key3 = "Mods.CalamityMod.DargonBossText";
 
-                CalamityUtils.DisplayLocalizedText(key, messageColor);
+				CalamityUtils.DisplayLocalizedText(key, messageColor);
                 CalamityUtils.DisplayLocalizedText(key2, messageColor2);
-            }
+				CalamityUtils.DisplayLocalizedText(key3, messageColor2);
+			}
 
             // Mark DoG as dead
             CalamityWorld.downedDoG = true;

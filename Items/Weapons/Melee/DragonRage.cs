@@ -32,9 +32,9 @@ namespace CalamityMod.Items.Weapons.Melee
             item.noUseGraphic = true;
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.UseSound = SoundID.DD2_SkyDragonsFurySwing;
-            item.value = Item.buyPrice(1, 80, 0, 0);
-            item.rare = 10;
-            item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            item.value = CalamityGlobalItem.Rarity15BuyPrice;
+            item.rare = ItemRarityID.Purple;
+            item.Calamity().customRarity = CalamityRarity.Violet;
         }
     }
 }

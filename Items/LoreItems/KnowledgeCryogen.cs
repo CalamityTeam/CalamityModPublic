@@ -14,7 +14,7 @@ namespace CalamityMod.Items.LoreItems
             DisplayName.SetDefault("Cryogen");
             Tooltip.SetDefault("The archmage's prison.\n" +
                 "I am unsure if it has grown weaker over the decades of imprisonment.\n" +
-                "Favorite this item to gain a frost dash that freezes enemies, at the cost of slightly reduced defense due to your brittle body.");
+                "Favorite this item to gain a frost dash that freezes enemies, at the cost of 15% reduced defense due to your brittle body.");
         }
 
         public override void SetDefaults()

@@ -32,6 +32,7 @@ namespace CalamityMod.Projectiles.Summon
             projectile.timeLeft *= 5;
             projectile.minion = true;
             projectile.tileCollide = false;
+			projectile.extraUpdates = 1;
         }
 
         public override void AI()
@@ -72,11 +73,11 @@ namespace CalamityMod.Projectiles.Summon
             player.AddBuff(ModContent.BuffType<TacticalPlagueEngineBuff>(), 3600);
             if (isCorrectProjectile)
             {
-                if (player.dead)
-                {
-                    modPlayer.plagueEngine = false;
-                }
-                if (modPlayer.plagueEngine)
+				if (player.dead)
+				{
+					modPlayer.plagueEngine = false;
+				}
+				if (modPlayer.plagueEngine)
                 {
                     projectile.timeLeft = 2;
                 }

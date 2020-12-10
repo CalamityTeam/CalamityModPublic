@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
 
@@ -18,10 +19,9 @@ namespace CalamityMod.Items.Materials
             item.width = 12;
             item.height = 12;
             item.maxStack = 999;
-            item.rare = 10;
             item.value = Item.sellPrice(gold: 1);
-            item.Calamity().customRarity = CalamityRarity.PureGreen;
-        }
+			item.rare = ItemRarityID.Purple;
+		}
 
         public override Color? GetAlpha(Color lightColor) => new Color(200, 200, 200, 0);
     }

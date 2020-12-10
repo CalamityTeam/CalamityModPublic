@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Accessories
         {
             DisplayName.SetDefault("Abyssal Diving Suit");
             Tooltip.SetDefault("Transforms the holder into an armored diver\n" +
-                "Increases movement speed while underwater and moves slowly outside of water\n" +
+                "Increases max movement speed and acceleration while underwater but you move slowly outside of water\n" +
                 "The suits' armored plates reduce damage taken by 15%\n" +
                 "The plates will only take damage if the damage taken is over 50\n" +
                 "After the suit has taken too much damage its armored plates will take 3 minutes to regenerate\n" +
@@ -33,8 +33,8 @@ namespace CalamityMod.Items.Accessories
             item.width = 18;
             item.height = 18;
             item.accessory = true;
-            item.value = CalamityGlobalItem.Rarity12BuyPrice;
-            item.rare = 10;
+			item.value = CalamityGlobalItem.Rarity11BuyPrice;
+			item.rare = ItemRarityID.Purple;
 			item.Calamity().postMoonLordRarity = 12;
         }
 
