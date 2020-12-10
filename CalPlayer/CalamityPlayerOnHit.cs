@@ -512,16 +512,6 @@ namespace CalamityMod.CalPlayer
             {
                 modPlayer.tarraThrowingCrits++;
             }
-			if (modPlayer.electricianGlove && modProj.stealthStrike && modProj.stealthStrikeHitCount < 5)
-			{
-				for (int s = 0; s < 3; s++)
-				{
-					Vector2 velocity = CalamityUtils.RandomVelocity(50f, 30f, 60f);
-					int spark = Projectile.NewProjectile(position, velocity, ProjectileType<Spark>(), CalamityUtils.DamageSoftCap(proj.damage * 0.1, 30), 0f, player.whoAmI);
-					Main.projectile[spark].Calamity().forceRogue = true;
-					Main.projectile[spark].localNPCHitCooldown = -1;
-				}
-			}
 			if (modPlayer.xerocSet && modPlayer.xerocDmg <= 0 && player.ownedProjectileCounts[ProjectileType<XerocFire>()] < 3 && player.ownedProjectileCounts[ProjectileType<XerocBlast>()] < 3)
 			{
 				switch (Main.rand.Next(5))
@@ -711,6 +701,16 @@ namespace CalamityMod.CalPlayer
                     modPlayer.raiderStack++;
                     modPlayer.raiderCooldown = 30;
                 }
+				if (modPlayer.electricianGlove && modProj.stealthStrike && modProj.stealthStrikeHitCount < 5)
+				{
+					for (int s = 0; s < 3; s++)
+					{
+						Vector2 velocity = CalamityUtils.RandomVelocity(50f, 30f, 60f);
+						int spark = Projectile.NewProjectile(position, velocity, ProjectileType<Spark>(), CalamityUtils.DamageSoftCap(proj.damage * 0.1, 30), 0f, player.whoAmI);
+						Main.projectile[spark].Calamity().forceRogue = true;
+						Main.projectile[spark].localNPCHitCooldown = -1;
+					}
+				}
 			}
 			modProj.stealthStrikeHitCount++;
 		}
