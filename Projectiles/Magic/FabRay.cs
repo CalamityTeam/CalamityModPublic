@@ -38,7 +38,8 @@ namespace CalamityMod.Projectiles.Magic
             projectile.ai[0] += 1f;
             projectile.Opacity = Utils.InverseLerp(0f, 10f * projectile.MaxUpdates, projectile.timeLeft, true);
 
-            if (projectile.owner == Main.myPlayer && projectile.ai[0] % 12f == 0f)
+            int shootRate = projectile.npcProj ? 40 : 12;
+            if (projectile.owner == Main.myPlayer && projectile.ai[0] % shootRate == 0f)
             {
                 NPC potentialTarget = projectile.Center.ClosestNPCAt(180f, false);
                 if (potentialTarget != null)
