@@ -307,7 +307,7 @@ namespace CalamityMod.Projectiles.Magic
                 float currentFade = Utils.InverseLerp(0f, 8f, Time, true) * Utils.InverseLerp(60f, 52f, Time, true);
                 currentFade *= (1f + 0.2f * (float)Math.Cos(Main.GlobalTime % 30f * MathHelper.Pi * 3f)) * 0.8f;
 
-                Texture2D texture = ModContent.GetTexture("CalamityMod/Projectiles/Boss/DoGTeleportRift");
+                Texture2D texture = ModContent.GetTexture("CalamityMod/Projectiles/StarProj");
                 Vector2 drawPos = PortalPosition - Main.screenPosition;
                 baseColor = new Color(150, 100, 255, 255) * projectile.Opacity;
                 baseColor *= 0.5f;
