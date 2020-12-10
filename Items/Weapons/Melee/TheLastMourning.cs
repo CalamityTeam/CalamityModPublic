@@ -1,3 +1,4 @@
+using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
@@ -41,76 +42,14 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            int logicCheckScreenHeight = Main.LogicCheckScreenHeight;
-            int logicCheckScreenWidth = Main.LogicCheckScreenWidth;
-            int num = Main.rand.Next(100, 300);
-            int num2 = Main.rand.Next(100, 300);
-            switch (Main.rand.Next(4))
-            {
-                case 0:
-                    num -= logicCheckScreenWidth / 2 + num;
-                    break;
-                case 1:
-                    num += logicCheckScreenWidth / 2 - num;
-                    break;
-                case 2:
-                    num2 -= logicCheckScreenHeight / 2 + num2;
-                    break;
-                case 3:
-                    num2 += logicCheckScreenHeight / 2 - num2;
-                    break;
-                default:
-                    break;
-            }
-            num += (int)player.position.X;
-            num2 += (int)player.position.Y;
-            float speed = 8f;
-            Vector2 vector = new Vector2((float)num, (float)num2);
-            float num3 = target.position.X - vector.X;
-            float num4 = target.position.Y - vector.Y;
-            float num5 = (float)Math.Sqrt((double)(num3 * num3 + num4 * num4));
-            num5 = speed / num5;
-            num3 *= num5;
-            num4 *= num5;
-            Projectile.NewProjectile((float)num, (float)num2, num3, num4, ModContent.ProjectileType<MourningSkull>(), (int)(item.damage * (player.allDamage + player.meleeDamage - 1f) * 1.5f), knockback, player.whoAmI, (float)target.whoAmI, 0f);
-            CalamityGlobalItem.HorsemansBladeOnHit(player, target.whoAmI, (int)(item.damage * (player.allDamage + player.meleeDamage - 1f) * 1.5f), knockback, true);
+            CalamityPlayerOnHit.HorsemansBladeOnHit(player, target.whoAmI, (int)(item.damage * player.MeleeDamage() * 1.5f), knockback, 0, ModContent.ProjectileType<MourningSkull>());
+            CalamityPlayerOnHit.HorsemansBladeOnHit(player, target.whoAmI, (int)(item.damage * player.MeleeDamage() * 1.5f), knockback, 1);
         }
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
-            int logicCheckScreenHeight = Main.LogicCheckScreenHeight;
-            int logicCheckScreenWidth = Main.LogicCheckScreenWidth;
-            int num = Main.rand.Next(100, 300);
-            int num2 = Main.rand.Next(100, 300);
-            switch (Main.rand.Next(4))
-            {
-                case 0:
-                    num -= logicCheckScreenWidth / 2 + num;
-                    break;
-                case 1:
-                    num += logicCheckScreenWidth / 2 - num;
-                    break;
-                case 2:
-                    num2 -= logicCheckScreenHeight / 2 + num2;
-                    break;
-                case 3:
-                    num2 += logicCheckScreenHeight / 2 - num2;
-                    break;
-                default:
-                    break;
-            }
-            num += (int)player.position.X;
-            num2 += (int)player.position.Y;
-            float speed = 8f;
-            Vector2 vector = new Vector2((float)num, (float)num2);
-            float num3 = target.position.X - vector.X;
-            float num4 = target.position.Y - vector.Y;
-            float num5 = (float)Math.Sqrt((double)(num3 * num3 + num4 * num4));
-            num5 = speed / num5;
-            num3 *= num5;
-            num4 *= num5;
-            Projectile.NewProjectile((float)num, (float)num2, num3, num4, ModContent.ProjectileType<MourningSkull>(), (int)(item.damage * (player.allDamage + player.meleeDamage - 1f) * 1.5f), item.knockBack, player.whoAmI, (float)target.whoAmI, 0f);
-            CalamityGlobalItem.HorsemansBladeOnHit(player, target.whoAmI, (int)(item.damage * (player.allDamage + player.meleeDamage - 1f) * 1.5f), item.knockBack, true);
+            CalamityPlayerOnHit.HorsemansBladeOnHit(player, -1, (int)(item.damage * player.MeleeDamage() * 1.5f), item.knockBack, 0, ModContent.ProjectileType<MourningSkull>());
+            CalamityPlayerOnHit.HorsemansBladeOnHit(player, -1, (int)(item.damage * player.MeleeDamage() * 1.5f), item.knockBack, 1);
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)

@@ -3535,40 +3535,6 @@ Grants immunity to fire blocks, and temporary immunity to lava";
         }
         #endregion
 
-        #region The Horseman's Blade
-        public static void HorsemansBladeOnHit(Player player, int targetIdx, int damage, float knockback, bool hasExtraUpdates)
-        {
-            int x = Main.rand.Next(100, 300);
-            int y = Main.rand.Next(100, 300);
-
-            // Pick a random side: left or right
-            if (Main.rand.NextBool(2))
-                x -= Main.LogicCheckScreenWidth / 2 + x;
-            else
-                x += Main.LogicCheckScreenWidth / 2 - x;
-
-            // Pick a random side: top or bottom
-            if (Main.rand.NextBool(2))
-                y -= Main.LogicCheckScreenHeight / 2 + y;
-            else
-                y += Main.LogicCheckScreenHeight / 2 - y;
-
-            x += (int)player.position.X;
-            y += (int)player.position.Y;
-            float speed = 8f;
-            Vector2 vector = new Vector2((float)x, (float)y);
-            float dx = Main.npc[targetIdx].position.X - vector.X;
-            float dy = Main.npc[targetIdx].position.Y - vector.Y;
-            float dist = (float)Math.Sqrt(dx * dx + dy * dy);
-            dist = speed / dist;
-            dx *= dist;
-            dy *= dist;
-            int projectile = Projectile.NewProjectile(x, y, dx, dy, ProjectileID.FlamingJack, damage, knockback, player.whoAmI, targetIdx, 0f);
-            if (hasExtraUpdates)
-                Main.projectile[projectile].extraUpdates += 1;
-        }
-        #endregion
-
         #region Ammo
 		public override bool ConsumeAmmo(Item item, Player player) => Main.rand.NextFloat() <= player.Calamity().rangedAmmoCost;
 

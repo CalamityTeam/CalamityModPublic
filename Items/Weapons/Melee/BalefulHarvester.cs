@@ -1,3 +1,4 @@
+using CalamityMod.CalPlayer;
 using CalamityMod.Projectiles.Melee;
 using Terraria;
 using Terraria.ID;
@@ -46,13 +47,13 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            CalamityGlobalItem.HorsemansBladeOnHit(player, target.whoAmI, (int)(item.damage * (player.allDamage + player.meleeDamage - 1f) * 1.5f), knockback, false);
+            CalamityPlayerOnHit.HorsemansBladeOnHit(player, target.whoAmI, (int)(item.damage * player.MeleeDamage() * 1.5f), knockback);
             target.AddBuff(BuffID.OnFire, 300);
         }
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
-            CalamityGlobalItem.HorsemansBladeOnHit(player, target.whoAmI, (int)(item.damage * (player.allDamage + player.meleeDamage - 1f) * 1.5f), item.knockBack, false);
+            CalamityPlayerOnHit.HorsemansBladeOnHit(player, -1, (int)(item.damage * player.MeleeDamage() * 1.5f), item.knockBack);
             target.AddBuff(BuffID.OnFire, 300);
         }
     }
