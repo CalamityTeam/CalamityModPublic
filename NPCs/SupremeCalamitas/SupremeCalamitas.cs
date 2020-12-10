@@ -203,7 +203,9 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
             lootTimer++;
 
-            bool wormAlive = false;
+			npc.Calamity().canBreakPlayerDefense = false;
+
+			bool wormAlive = false;
             if (CalamityGlobalNPC.SCalWorm != -1)
             {
                 wormAlive = Main.npc[CalamityGlobalNPC.SCalWorm].active;
@@ -1266,6 +1268,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 					}
 					else if (npc.ai[1] == 2f)
 					{
+						npc.Calamity().canBreakPlayerDefense = true;
+
 						npc.ai[2] += 1f;
 						if (npc.ai[2] >= 25f)
 						{
@@ -1809,6 +1813,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 					}
 					else if (npc.ai[1] == 2f)
 					{
+						npc.Calamity().canBreakPlayerDefense = true;
+
 						npc.ai[2] += 1f;
 						if (npc.ai[2] >= 25f)
 						{

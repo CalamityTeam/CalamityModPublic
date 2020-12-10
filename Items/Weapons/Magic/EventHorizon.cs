@@ -33,11 +33,11 @@ namespace CalamityMod.Items.Weapons.Magic
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.autoReuse = true;
 
-            item.rare = 10;
-            item.Calamity().customRarity = CalamityRarity.Violet;
-            item.value = Item.buyPrice(2, 50, 0, 0);
+			item.value = CalamityGlobalItem.Rarity14BuyPrice;
+			item.rare = ItemRarityID.Purple;
+			item.Calamity().customRarity = CalamityRarity.DarkBlue;
 
-            item.UseSound = SoundID.Item84;
+			item.UseSound = SoundID.Item84;
             item.shoot = ModContent.ProjectileType<EventHorizonStar>();
             item.shootSpeed = 25f;
         }

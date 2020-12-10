@@ -30,7 +30,8 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void SetDefaults()
         {
-            npc.npcSlots = 6f;
+			npc.Calamity().canBreakPlayerDefense = true;
+			npc.npcSlots = 6f;
             npc.noGravity = true;
             npc.lavaImmune = true;
             npc.damage = 160;

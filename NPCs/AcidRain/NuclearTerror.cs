@@ -39,7 +39,9 @@ namespace CalamityMod.NPCs.AcidRain
 
         public override void SetDefaults()
         {
-            npc.width = 176;
+			npc.Calamity().canBreakPlayerDefense = true;
+
+			npc.width = 176;
             npc.height = 138;
             npc.aiStyle = aiType = -1;
 

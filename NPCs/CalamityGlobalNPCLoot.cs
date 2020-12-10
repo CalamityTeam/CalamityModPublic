@@ -1429,7 +1429,7 @@ namespace CalamityMod.NPCs
                 case NPCID.Reaper:
                 case NPCID.Psycho:
                     DropHelper.DropItemCondition(npc, ModContent.ItemType<SolarVeil>(), CalamityWorld.downedCalamitas || NPC.downedPlantBoss, Main.expertMode ? 0.75f : 0.5f, 1, 4);
-                    DropHelper.DropItemCondition(npc, ModContent.ItemType<DarksunFragment>(), CalamityWorld.buffedEclipse, Main.expertMode ? 0.06f : 0.04f, 1, 1);
+                    DropHelper.DropItemCondition(npc, ModContent.ItemType<DarksunFragment>(), CalamityWorld.downedDoG, Main.expertMode ? 0.06f : 0.04f, 1, 1);
                     break;
 
 				//other solar eclipse creatures
@@ -1445,7 +1445,7 @@ namespace CalamityMod.NPCs
                 case NPCID.DeadlySphere:
                 case NPCID.DrManFly:
                 case NPCID.Nailhead:
-                    DropHelper.DropItemCondition(npc, ModContent.ItemType<DarksunFragment>(), CalamityWorld.buffedEclipse, Main.expertMode ? 0.06f : 0.04f, 1, 1);
+                    DropHelper.DropItemCondition(npc, ModContent.ItemType<DarksunFragment>(), CalamityWorld.downedDoG, Main.expertMode ? 0.06f : 0.04f, 1, 1);
                     break;
 
                 case NPCID.MartianOfficer:
@@ -1575,19 +1575,8 @@ namespace CalamityMod.NPCs
 				}
 			}
 
-			if (!CalamityWorld.buffedEclipse)
-			{
-				return;
-			}
-
 			if (npc.type == NPCID.Mothron)
-			{
 				DropHelper.DropItem(npc, ModContent.ItemType<DarksunFragment>(), 10, 20);
-
-				// Mark a buffed Mothron as killed (allowing access to Yharon P2)
-				CalamityWorld.downedBuffedMothron = true;
-				CalamityNetcode.SyncWorld();
-			}
 		}
         #endregion
     }

@@ -22,7 +22,9 @@ namespace CalamityMod.Items.Accessories
 				"Debuffs affected: Darkness, Blackout, Confused, Slow, Weak, Broken Armor,\n" +
 				"Armor Crunch, War Cleave, Chilled, Ichor and Obstructed\n" +
                 "Receiving a hit causes you to only lose half of your max adrenaline rather than all of it\n" +
-                "Standing still regenerates your life quickly and boosts your defense by 25");
+				"Reduces the amount of defense stat damage you take by 50%\n" +
+                "Standing still regenerates your life quickly, reduces your damage by 50% and boosts your defense by 75%\n" +
+				"Nanomachines, son");
             Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(5, 7));
         }
 

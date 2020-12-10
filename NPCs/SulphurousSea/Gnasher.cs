@@ -16,7 +16,8 @@ namespace CalamityMod.NPCs.SulphurousSea
 
         public override void SetDefaults()
         {
-            npc.damage = 25;
+			npc.Calamity().canBreakPlayerDefense = true;
+			npc.damage = 25;
             npc.width = 50;
             npc.height = 36;
             npc.defense = 30;

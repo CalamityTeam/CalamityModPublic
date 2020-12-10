@@ -48,6 +48,7 @@ namespace CalamityMod.Projectiles.Rogue
             }
             else if (divider == 0)
                 projectile.damage = originDamage;
+
             projectile.frameCounter++;
             if (projectile.frameCounter > 6)
             {

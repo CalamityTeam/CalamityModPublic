@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.ID;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
 
@@ -22,9 +23,9 @@ namespace CalamityMod.Items.Materials
             item.width = 28;
             item.height = 32;
             item.maxStack = 999;
-            item.rare = 10;
+			item.rare = ItemRarityID.Purple;
             item.value = Item.sellPrice(gold: 12);
-            item.Calamity().customRarity = CalamityRarity.Violet;
+            item.Calamity().customRarity = CalamityRarity.DarkBlue;
         }
 
 		public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)

@@ -143,8 +143,7 @@ namespace CalamityMod.Items.Weapons.Melee
             r.AddIngredient(ItemID.BrokenHeroSword);
 			r.AddIngredient(ModContent.ItemType<AuricBar>(), 4);
             r.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 12);
-            r.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 4);
-            r.AddIngredient(ModContent.ItemType<DarksunFragment>(), 15);
+            r.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 6);
             r.AddTile(ModContent.TileType<DraedonsForge>());
             r.SetResult(this);
             r.AddRecipe();

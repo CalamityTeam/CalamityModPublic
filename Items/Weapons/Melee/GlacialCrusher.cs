@@ -21,7 +21,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetDefaults()
         {
             item.width = 60;
-            item.damage = 59;
+            item.damage = 65;
             item.melee = true;
             item.useAnimation = 27;
             item.useTime = 27;
@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.value = Item.buyPrice(0, 36, 0, 0);
             item.rare = 5;
             item.shoot = ModContent.ProjectileType<Iceberg>();
-            item.shootSpeed = 3f;
+            item.shootSpeed = 5f;
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)

@@ -54,7 +54,8 @@ namespace CalamityMod.Items.Materials
             recipe.AddIngredient(ModContent.ItemType<Phantoplasm>(), 5);
             recipe.AddIngredient(ModContent.ItemType<NightmareFuel>(), 5);
             recipe.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 5);
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
+			recipe.AddIngredient(ModContent.ItemType<DarksunFragment>(), 5);
+			recipe.AddTile(ModContent.TileType<DraedonsForge>());
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

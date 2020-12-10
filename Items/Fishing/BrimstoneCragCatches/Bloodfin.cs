@@ -29,9 +29,9 @@ The life regen boost is stronger if below 75% health
             item.maxStack = 999;
             item.useTurn = true;
             item.value = Item.sellPrice(gold: 5);
-            item.rare = 10;
-            item.Calamity().customRarity = CalamityRarity.PureGreen;
-            item.useAnimation = 17;
+			item.rare = ItemRarityID.Purple;
+			item.Calamity().customRarity = CalamityRarity.Turquoise;
+			item.useAnimation = 17;
             item.useTime = 17;
             item.useStyle = ItemUseStyleID.EatingUsing;
             item.UseSound = SoundID.Item3;

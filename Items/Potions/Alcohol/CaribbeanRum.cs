@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Potions.Alcohol
             DisplayName.SetDefault("Caribbean Rum");
             Tooltip.SetDefault(@"Why is the rum gone?
 Boosts life regen by 2 and movement speed and wing flight time by 20%
-Makes you floaty and reduces defense by 12");
+Makes you floaty and reduces defense by 10%");
         }
 
         public override void SetDefaults()

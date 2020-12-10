@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Armor
         {
             DisplayName.SetDefault("Plague Reaper Striders");
             Tooltip.SetDefault("3% increased critical strike chance\n" +
-                "20% increased movement speed");
+                "15% increased movement speed");
         }
 
         public override void SetDefaults()
@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Armor
         public override void UpdateEquip(Player player)
         {
             player.rangedCrit += 3;
-            player.moveSpeed += 0.2f;
+            player.moveSpeed += 0.15f;
         }
 
         public override void AddRecipes()
