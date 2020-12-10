@@ -959,10 +959,8 @@ namespace CalamityMod.CalPlayer
 				modPlayer.spectralVeilImmunity--;
 			if (modPlayer.jetPackCooldown > 0)
 				modPlayer.jetPackCooldown--;
-			if (modPlayer.plaguedFuelPackDash > 0)
-				modPlayer.plaguedFuelPackDash--;
-			if (modPlayer.blunderBoosterDash > 0)
-				modPlayer.blunderBoosterDash--;
+			if (modPlayer.jetPackDash > 0)
+				modPlayer.jetPackDash--;
 			if (modPlayer.theBeeCooldown > 0)
 				modPlayer.theBeeCooldown--;
 			if (modPlayer.jellyDmg > 0f)
@@ -1029,9 +1027,12 @@ namespace CalamityMod.CalPlayer
 			{
 				modPlayer.canFireGodSlayerRangedProjectile = true;
 				modPlayer.canFireBloodflareRangedProjectile = true;
-				modPlayer.canFireReaverRangedProjectile = true;
 				modPlayer.canFireAtaxiaRogueProjectile = true;
 			}
+			if (modPlayer.reaverRegenCooldown < 60 && modPlayer.reaverRegen)
+				modPlayer.reaverRegenCooldown++;
+			else
+				modPlayer.reaverRegenCooldown = 0;
 			if (modPlayer.roverDrive)
 			{
 				if (modPlayer.roverDriveTimer < CalamityUtils.SecondsToFrames(30f))
@@ -1201,6 +1202,9 @@ namespace CalamityMod.CalPlayer
 
 			if (modPlayer.kamiBoost)
 				player.allDamage += 0.15f;
+
+			if (modPlayer.avertorBonus)
+				player.allDamage += 0.1f;
 
 			if (modPlayer.roverDriveTimer < 616)
 			{
@@ -1778,53 +1782,52 @@ namespace CalamityMod.CalPlayer
 				}
 			}
 
-			// Plagued Fuel Pack effects
-			if (modPlayer.plaguedFuelPackDash > 0 && player.whoAmI == Main.myPlayer)
+			// Plagued Fuel Pack and Blunder Booster effects
+			if (modPlayer.jetPackDash > 0 && player.whoAmI == Main.myPlayer)
 			{
-				int velocityMult = modPlayer.plaguedFuelPackDash > 1 ? 25 : 5;
-				player.velocity = new Vector2(modPlayer.plaguedFuelPackDirection, -1) * velocityMult;
+				int velocityAmt = modPlayer.blunderBooster ? 35 : 25;
+				int velocityMult = modPlayer.jetPackDash > 1 ? velocityAmt : 5;
+				player.velocity = new Vector2(modPlayer.jetPackDirection, -1) * velocityMult;
 
-				int numClouds = Main.rand.Next(2, 10);
-				for (int i = 0; i < numClouds; i++)
+				if (modPlayer.blunderBooster)
 				{
-					Vector2 cloudVelocity = new Vector2(Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(-1, 1));
-					cloudVelocity.Normalize();
-					cloudVelocity *= Main.rand.NextFloat(0f, 1f);
-					int projectile = Projectile.NewProjectile(player.Center, cloudVelocity, ModContent.ProjectileType<PlaguedFuelPackCloud>(), (int)(20 * player.RogueDamage()), 0, player.whoAmI, 0, 0);
-					Main.projectile[projectile].timeLeft = Main.rand.Next(180, 240);
+					int lightningCount = Main.rand.Next(2, 7);
+					for (int i = 0; i < lightningCount; i++)
+					{
+						Vector2 lightningVel = new Vector2(Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(-1, 1));
+						lightningVel.Normalize();
+						lightningVel *= Main.rand.NextFloat(1f, 2f);
+						int projectile = Projectile.NewProjectile(player.Center, lightningVel, ModContent.ProjectileType<BlunderBoosterLightning>(), (int)(30 * player.RogueDamage()), 0, player.whoAmI, Main.rand.Next(2), 0f);
+						Main.projectile[projectile].timeLeft = Main.rand.Next(180, 240);
+					}
+
+					for (int i = 0; i < 3; i++)
+					{
+						int dust = Dust.NewDust(player.Center, 1, 1, 60, player.velocity.X * -0.1f, player.velocity.Y * -0.1f, 100, default, 3.5f);
+						Main.dust[dust].noGravity = true;
+						Main.dust[dust].velocity *= 1.2f;
+						Main.dust[dust].velocity.Y -= 0.15f;
+					}
 				}
-
-				for (int i = 0; i < 3; i++)
+				else if (modPlayer.plaguedFuelPack)
 				{
-					int dust = Dust.NewDust(player.Center, 1, 1, 89, player.velocity.X * -0.1f, player.velocity.Y * -0.1f, 100, default, 3.5f);
-					Main.dust[dust].noGravity = true;
-					Main.dust[dust].velocity *= 1.2f;
-					Main.dust[dust].velocity.Y -= 0.15f;
-				}
-			}
+					int numClouds = Main.rand.Next(2, 10);
+					for (int i = 0; i < numClouds; i++)
+					{
+						Vector2 cloudVelocity = new Vector2(Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(-1, 1));
+						cloudVelocity.Normalize();
+						cloudVelocity *= Main.rand.NextFloat(0f, 1f);
+						int projectile = Projectile.NewProjectile(player.Center, cloudVelocity, ModContent.ProjectileType<PlaguedFuelPackCloud>(), (int)(20 * player.RogueDamage()), 0, player.whoAmI, 0, 0);
+						Main.projectile[projectile].timeLeft = Main.rand.Next(180, 240);
+					}
 
-			// Blunder Booster effects
-			if (modPlayer.blunderBoosterDash > 0 && player.whoAmI == Main.myPlayer)
-			{
-				int velocityMult = modPlayer.blunderBoosterDash > 1 ? 35 : 5;
-				player.velocity = new Vector2(modPlayer.blunderBoosterDirection, -1) * velocityMult;
-
-				int lightningCount = Main.rand.Next(2, 7);
-				for (int i = 0; i < lightningCount; i++)
-				{
-					Vector2 lightningVel = new Vector2(Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(-1, 1));
-					lightningVel.Normalize();
-					lightningVel *= Main.rand.NextFloat(1f, 2f);
-					int projectile = Projectile.NewProjectile(player.Center, lightningVel, ModContent.ProjectileType<BlunderBoosterLightning>(), (int)(30 * player.RogueDamage()), 0, player.whoAmI, Main.rand.Next(2), 0f);
-					Main.projectile[projectile].timeLeft = Main.rand.Next(180, 240);
-				}
-
-				for (int i = 0; i < 3; i++)
-				{
-					int dust = Dust.NewDust(player.Center, 1, 1, 60, player.velocity.X * -0.1f, player.velocity.Y * -0.1f, 100, default, 3.5f);
-					Main.dust[dust].noGravity = true;
-					Main.dust[dust].velocity *= 1.2f;
-					Main.dust[dust].velocity.Y -= 0.15f;
+					for (int i = 0; i < 3; i++)
+					{
+						int dust = Dust.NewDust(player.Center, 1, 1, 89, player.velocity.X * -0.1f, player.velocity.Y * -0.1f, 100, default, 3.5f);
+						Main.dust[dust].noGravity = true;
+						Main.dust[dust].velocity *= 1.2f;
+						Main.dust[dust].velocity.Y -= 0.15f;
+					}
 				}
 			}
 
@@ -2575,8 +2578,8 @@ namespace CalamityMod.CalPlayer
 
 			if (modPlayer.rRage)
 			{
-				player.allDamage += 0.05f;
-				player.moveSpeed += 0.05f;
+				player.allDamage += 0.3f;
+				player.statDefense += 5;
 			}
 
 			if (modPlayer.xRage)
@@ -4102,7 +4105,22 @@ namespace CalamityMod.CalPlayer
 
 				// Actually apply the defense reduction
 				player.statDefense -= lostDef;
-			} 
+			}
+
+			if (modPlayer.spectralVeilImmunity > 0)
+			{
+				int numDust = 2;
+				for (int i = 0; i < numDust; i++)
+				{
+					int dustIndex = Dust.NewDust(player.position, player.width, player.height, 21, 0f, 0f);
+					Dust dust = Main.dust[dustIndex];
+					dust.position.X += Main.rand.Next(-5, 6);
+					dust.position.Y += Main.rand.Next(-5, 6);
+					dust.velocity *= 0.2f;
+					dust.noGravity = true;
+					dust.noLight = true;
+				}
+			}
 		}
 		#endregion
 
@@ -4181,7 +4199,8 @@ namespace CalamityMod.CalPlayer
 				(player.ammoBox ? 0.8f : 1f) *
 				(player.ammoPotion ? 0.8f : 1f) *
 				(player.ammoCost80 ? 0.8f : 1f) *
-				(player.ammoCost75 ? 0.75f : 1f));
+				(player.ammoCost75 ? 0.75f : 1f) *
+				modPlayer.rangedAmmoCost);
 			modPlayer.ammoReductionRogue = (int)(modPlayer.throwingAmmoCost * 100);
 			modPlayer.defenseStat = player.statDefense;
 			modPlayer.DRStat = (int)(player.endurance * 100f);
