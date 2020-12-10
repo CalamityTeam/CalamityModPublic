@@ -60,7 +60,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 		{
 			DisplayName.SetDefault("Phaseslayer");
 			ProjectileID.Sets.TrailingMode[projectile.type] = 2;
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 14;
+			ProjectileID.Sets.TrailCacheLength[projectile.type] = 13;
 		}
 
 		public override void SetDefaults()
@@ -276,12 +276,16 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 		internal PrimitiveTrail TrailDrawer;
 		internal Color ColorFunction(float completionRatio)
 		{
+			float averageRotation = projectile.oldRot.Take(20).Average(angle => MathHelper.WrapAngle(angle) + MathHelper.Pi);
+			float deltaAngle = Math.Abs(averageRotation - (MathHelper.WrapAngle(projectile.rotation) + MathHelper.Pi));
 			float opacity = projectile.Opacity;
 			opacity *= Utils.InverseLerp(StandardSwingSpeed * 0.7f, StandardSwingSpeed, AngularDamageFactor, true);
+			opacity *= (float)Math.Pow(Utils.InverseLerp(1f, 0.45f, completionRatio, true), 4D);
+			opacity *= (float)Math.Pow(Utils.InverseLerp(0.9f, 1.1f, deltaAngle, true), 2D);
 
 			float rotationAdjusted = MathHelper.WrapAngle(projectile.rotation) + MathHelper.Pi;
 			float oldRotationAdjusted = MathHelper.WrapAngle(projectile.oldRot[1]) + MathHelper.Pi;
-			float deltaAngle = Math.Abs(rotationAdjusted - oldRotationAdjusted);
+			deltaAngle = Math.Abs(rotationAdjusted - oldRotationAdjusted);
 
 			if (deltaAngle < 0.04f)
 				opacity = 0f;
@@ -310,12 +314,23 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
 			Player player = Main.player[projectile.owner];
 			List<Vector2> positions = new List<Vector2>();
+
+			float swingAngularDirection = Math.Sign(projectile.rotation - projectile.oldRot[1]);
+			projectile.oldRot[0] += swingAngularDirection * 0.1f;
 			for (int i = 0; i < projectile.oldPos.Length; i++)
 			{
 				if (projectile.oldPos[i] == Vector2.Zero)
 					continue;
-				positions.Add(projectile.position + projectile.oldRot[i].ToRotationVector2() * (IsSmall ? 90f : 132f) * projectile.scale);
+
+				// Skip over any very points going in the wrong direction, to prevent "nets" from the primitive.
+				if (i > 1 && Math.Sign(projectile.oldRot[i - 1] - projectile.oldRot[i]) != swingAngularDirection)
+					continue;
+
+				Vector2 position = projectile.position + projectile.oldRot[i].ToRotationVector2() * (IsSmall ? 90f : 132f) * projectile.scale;
+
+				positions.Add(position);
 			}
+			projectile.oldRot[0] -= swingAngularDirection * 0.1f;
 
 			TrailDrawer.Draw(positions, projectile.Size * 0.5f - Main.screenPosition, 50);
 			spriteBatch.Draw(bladeTexture, projectile.Center + bladeOffset - Main.screenPosition, frame, Color.White, projectile.rotation + MathHelper.PiOver2, origin, projectile.scale, SpriteEffects.None, 0f);
