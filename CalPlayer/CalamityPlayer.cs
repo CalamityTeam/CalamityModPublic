@@ -3834,26 +3834,7 @@ namespace CalamityMod.CalPlayer
             }
         }
 
-        #region Dragon Scale Logic
-        /*public override void PostBuyItem(NPC vendor, Item[] shopInventory, Item item)
-        {
-            if (item.type == ModContent.ItemType<DragonScales>() && !CalamityWorld.dragonScalesBought)
-            {
-                CalamityWorld.dragonScalesBought = true;
-            }
-        }*/
-        #endregion
-
         #region Shop Restrictions
-
-        public override bool CanBuyItem(NPC vendor, Item[] shopInventory, Item item)
-        {
-            if (item.type == ModContent.ItemType<DragonScales>())
-            {
-                return !CalamityWorld.dragonScalesBought;
-            }
-            return base.CanBuyItem(vendor, shopInventory, item);
-        }
 
         public override bool CanSellItem(NPC vendor, Item[] shopInventory, Item item)
         {
@@ -4090,9 +4071,7 @@ namespace CalamityMod.CalPlayer
 			}
 			NetMessage.SendData(MessageID.Dodge, -1, -1, null, player.whoAmI, 1f, 0f, 0f, 0, 0, 0);
 		}
-		#endregion
 
-		#region Rogue Mirrors
 		public void AbyssMirrorEvade()
         {
             if (player.whoAmI == Main.myPlayer && abyssalMirror && !abyssalMirrorCooldown && !eclipseMirror)
