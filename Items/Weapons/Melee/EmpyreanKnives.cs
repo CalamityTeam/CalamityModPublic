@@ -31,11 +31,11 @@ namespace CalamityMod.Items.Weapons.Melee
             item.UseSound = SoundID.Item39;
             item.autoReuse = true;
             item.height = 20;
-            item.value = Item.buyPrice(platinum: 2, gold: 50);
-            item.rare = ItemRarityID.Red;
-            item.shoot = ModContent.ProjectileType<EmpyreanKnife>();
+			item.value = CalamityGlobalItem.Rarity14BuyPrice;
+			item.rare = ItemRarityID.Purple;
+			item.Calamity().customRarity = CalamityRarity.DarkBlue;
+			item.shoot = ModContent.ProjectileType<EmpyreanKnife>();
             item.shootSpeed = 15f;
-            item.Calamity().customRarity = CalamityRarity.Violet;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

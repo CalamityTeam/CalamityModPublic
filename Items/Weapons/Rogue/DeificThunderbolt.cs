@@ -30,12 +30,12 @@ Stealth strikes summon more lightning and travel faster");
             item.noMelee = true;
             item.noUseGraphic = true;
 
-            item.value = Item.buyPrice(1, 40, 0, 0);
             item.useTime = 21;
             item.useAnimation = 21;
-            item.rare = 10;
-            item.Calamity().customRarity = CalamityRarity.PureGreen; //13
-            item.Calamity().rogue = true;
+			item.value = CalamityGlobalItem.Rarity12BuyPrice;
+			item.rare = ItemRarityID.Purple;
+			item.Calamity().customRarity = CalamityRarity.Turquoise;
+			item.Calamity().rogue = true;
 
             item.autoReuse = true;
             item.shootSpeed = 13.69f;

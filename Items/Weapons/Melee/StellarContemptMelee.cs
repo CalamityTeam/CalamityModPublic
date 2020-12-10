@@ -32,11 +32,10 @@ namespace CalamityMod.Items.Weapons.Melee
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.UseSound = SoundID.Item1;
 
-            item.rare = ItemRarityID.Red;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
-            item.value = Item.buyPrice(platinum: 1, gold: 20);
+			item.value = CalamityGlobalItem.Rarity11BuyPrice;
+			item.rare = ItemRarityID.Purple;
 
-            item.shoot = ModContent.ProjectileType<StellarContemptHammer>();
+			item.shoot = ModContent.ProjectileType<StellarContemptHammer>();
             item.shootSpeed = Speed;
         }
 

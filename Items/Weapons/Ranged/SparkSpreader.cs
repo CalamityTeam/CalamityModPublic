@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Spark Spreader");
-			Tooltip.SetDefault("20% chance to not consume gel");
+			Tooltip.SetDefault("70% chance to not consume gel");
 		}
 
 		public override void SetDefaults()
@@ -37,7 +37,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
 		public override Vector2? HoldoutOffset() => new Vector2(-4, 0);
 
-		public override bool ConsumeAmmo(Player player) => Main.rand.Next(100) >= 20;
+		public override bool ConsumeAmmo(Player player) => Main.rand.Next(100) >= 70;
 
 		public override void AddRecipes()
 		{

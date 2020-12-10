@@ -15,7 +15,7 @@ namespace CalamityMod.Items.LoreItems
                 "These creatures did not belong in this world, it's best to be rid of them.\n" +
                 "Favorite this item to gain invisibility and rogue bonuses at night.\n" +
 				"However, your defense is reduced while above 50% life due to you feeling softer.\n" +
-				"Your max acceleration is reduced while below 50% life due to you feeling heavier.");
+				"Your movement speed is reduced while below 50% life due to you feeling heavier.");
         }
 
         public override void SetDefaults()

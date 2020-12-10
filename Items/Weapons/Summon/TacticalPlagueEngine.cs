@@ -27,14 +27,13 @@ namespace CalamityMod.Items.Weapons.Summon
             item.useStyle = ItemUseStyleID.HoldingUp;
             item.noMelee = true;
             item.knockBack = 0.5f;
-            item.value = Item.buyPrice(1, 20, 0, 0);
-            item.rare = 1;
-            item.UseSound = SoundID.Item14;
+			item.value = CalamityGlobalItem.Rarity11BuyPrice;
+			item.rare = ItemRarityID.Purple;
+			item.UseSound = SoundID.Item14;
             item.autoReuse = true;
             item.summon = true;
             item.shoot = ModContent.ProjectileType<TacticalPlagueEngineSummon>();
             item.shootSpeed = 16f;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

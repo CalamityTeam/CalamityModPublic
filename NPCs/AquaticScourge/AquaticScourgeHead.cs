@@ -35,7 +35,8 @@ namespace CalamityMod.NPCs.AquaticScourge
         {
             npc.npcSlots = 16f;
 			npc.GetNPCDamage();
-            npc.width = 90;
+			npc.Calamity().canBreakPlayerDefense = true;
+			npc.width = 90;
             npc.height = 90;
             npc.defense = 10;
 			npc.DR_NERD(0.05f);

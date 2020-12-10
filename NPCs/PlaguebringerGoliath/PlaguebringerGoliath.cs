@@ -132,6 +132,9 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 			// Percent life remaining
 			float lifeRatio = npc.life / (float)npc.lifeMax;
 
+			// So she doesn't do it constantly
+			npc.Calamity().canBreakPlayerDefense = false;
+
 			// Mode variables
 			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
 			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
@@ -310,7 +313,9 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                 {
                     npc.TargetClosest(true);
 
-                    float playerLocation = vectorCenter.X - player.Center.X;
+					npc.Calamity().canBreakPlayerDefense = true;
+
+					float playerLocation = vectorCenter.X - player.Center.X;
 
 					float num620 = 20f;
 					num620 += 20f * enrageScale;

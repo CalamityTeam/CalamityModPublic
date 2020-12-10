@@ -39,10 +39,10 @@ namespace CalamityMod.Items.Weapons.Melee
             item.shoot = ModContent.ProjectileType<LaceratorYoyo>();
             item.shootSpeed = 16f;
 
-            item.rare = 10;
-            item.Calamity().customRarity = CalamityRarity.PureGreen;
-            item.value = Item.buyPrice(platinum: 1, gold: 40);
-        }
+			item.value = CalamityGlobalItem.Rarity12BuyPrice;
+			item.rare = ItemRarityID.Purple;
+			item.Calamity().customRarity = CalamityRarity.Turquoise;
+		}
 
         public override void AddRecipes()
         {

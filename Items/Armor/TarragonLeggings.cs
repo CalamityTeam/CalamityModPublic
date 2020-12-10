@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Armor
         {
             DisplayName.SetDefault("Tarragon Leggings");
             Tooltip.SetDefault("Leggings of a fabled explorer\n" +
-				"20% increased movement speed; 35% increase when below half health\n" +
+				"15% increased movement speed\n" +
                 "6% increased damage and critical strike chance");
         }
 
@@ -27,11 +27,7 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-            player.moveSpeed += 0.20f;
-            if (player.statLife <= (int)((double)player.statLifeMax2 * 0.5))
-            {
-                player.moveSpeed += 0.15f;
-            }
+            player.moveSpeed += 0.15f;
             player.allDamage += 0.06f;
             player.Calamity().AllCritBoost(6);
         }

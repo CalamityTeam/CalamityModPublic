@@ -9,7 +9,7 @@ namespace CalamityMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Deep Diver");
-            Tooltip.SetDefault("15% increased damage and movement speed and +15 defense while underwater\n" +
+            Tooltip.SetDefault("15% increased damage, movement speed and +15 defense while underwater\n" +
                                 "While underwater you gain the ability to dash great distances");
         }
 

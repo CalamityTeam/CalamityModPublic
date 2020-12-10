@@ -3,9 +3,7 @@ using CalamityMod.Events;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.DifficultyItems
 {
@@ -23,7 +21,7 @@ namespace CalamityMod.Items.DifficultyItems
                 "Nerfs the effectiveness of life steal.\n" +
                 "Makes the abyss more treacherous to navigate.\n" +
                 "Nurse no longer heals while a boss is alive.\n" +
-                "Increases damage done by several debuffs.\n" +
+                "Increases damage done by 50% for several debuffs and all alcohols that reduce life regen.\n" +
                 "Effect can be toggled on and off.\n" +
                 "Effect will only work if Revengeance Mode is active.");
         }

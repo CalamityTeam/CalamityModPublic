@@ -52,12 +52,17 @@ namespace CalamityMod.CalPlayer
 
 			if (npcCheck)
 			{
+				if (item.melee && modPlayer.aBulwarkRare)
+				{
+					for (int n = 0; n < 3; n++)
+						CalamityUtils.ProjectileRain(player.Center, 400f, 100f, 500f, 800f, 29f, ProjectileType<AstralStar>(), (int)(320 * player.AverageDamage()), 5f, player.whoAmI);
+				}
 				if (modPlayer.unstablePrism && crit)
 				{
 					for (int s = 0; s < 3; s++)
 					{
 						Vector2 velocity = CalamityUtils.RandomVelocity(50f, 30f, 60f);
-						Projectile.NewProjectile(position, velocity, ModContent.ProjectileType<UnstableSpark>(), CalamityUtils.DamageSoftCap(damage * 0.15, 30), 0f, player.whoAmI);
+						Projectile.NewProjectile(position, velocity, ProjectileType<UnstableSpark>(), CalamityUtils.DamageSoftCap(damage * 0.15, 30), 0f, player.whoAmI);
 					}
 				}
                 if (modPlayer.astralStarRain && crit && modPlayer.astralStarRainCooldown <= 0)
@@ -67,9 +72,9 @@ namespace CalamityMod.CalPlayer
                     {
 						int projectileType = Utils.SelectRandom(Main.rand, new int[]
 						{
-							ModContent.ProjectileType<AstralStar>(),
+							ProjectileType<AstralStar>(),
 							ProjectileID.HallowStar,
-							ModContent.ProjectileType<FallenStarProj>()
+							ProjectileType<FallenStarProj>()
 						});
 						CalamityUtils.ProjectileRain(position, 400f, 100f, 500f, 800f, 12f, projectileType, (int)(120 * player.AverageDamage()), 5f, player.whoAmI, 6, 0, 10, 2);
                     }
@@ -156,7 +161,7 @@ namespace CalamityMod.CalPlayer
                     for (int s = 0; s < 3; s++)
                     {
 						Vector2 velocity = CalamityUtils.RandomVelocity(50f, 30f, 60f);
-                        Projectile.NewProjectile(position, velocity, ModContent.ProjectileType<UnstableSpark>(), CalamityUtils.DamageSoftCap(proj.damage * 0.15, 30), 0f, player.whoAmI);
+                        Projectile.NewProjectile(position, velocity, ProjectileType<UnstableSpark>(), CalamityUtils.DamageSoftCap(proj.damage * 0.15, 30), 0f, player.whoAmI);
                     }
                 }
                 if (modPlayer.astralStarRain && crit && modPlayer.astralStarRainCooldown <= 0)
@@ -166,9 +171,9 @@ namespace CalamityMod.CalPlayer
                     {
 						int projectileType = Utils.SelectRandom(Main.rand, new int[]
 						{
-							ModContent.ProjectileType<AstralStar>(),
+							ProjectileType<AstralStar>(),
 							ProjectileID.HallowStar,
-							ModContent.ProjectileType<FallenStarProj>()
+							ProjectileType<FallenStarProj>()
 						});
 						CalamityUtils.ProjectileRain(position, 400f, 100f, 500f, 800f, 25f, projectileType, (int)(120 * player.AverageDamage()), 5f, player.whoAmI, 6);
                     }
@@ -206,6 +211,11 @@ namespace CalamityMod.CalPlayer
 
 					if (player.wingTime > player.wingTimeMax)
 						player.wingTime = player.wingTimeMax;
+				}
+				if (modPlayer.aBulwarkRare)
+				{
+					for (int n = 0; n < 3; n++)
+						CalamityUtils.ProjectileRain(player.Center, 400f, 100f, 500f, 800f, 29f, ProjectileType<AstralStar>(), (int)(320 * player.AverageDamage()), 5f, player.whoAmI);
 				}
             }
 
@@ -285,7 +295,7 @@ namespace CalamityMod.CalPlayer
                         Main.projectile[FUCKYOU].netUpdate = true;
                     }
                 }
-                if (proj.type == ModContent.ProjectileType<PolarStar>())
+                if (proj.type == ProjectileType<PolarStar>())
                 {
                     modPlayer.polarisBoostCounter += 1;
                 }
@@ -1367,7 +1377,7 @@ namespace CalamityMod.CalPlayer
 
 			if (modPlayer.reaverDefense)
 			{
-                if (Main.player[Main.myPlayer].lifeSteal > 0f && target.canGhostHeal && target.type != NPCID.TargetDummy && target.type != ModContent.NPCType<SuperDummyNPC>() && !player.moonLeech)
+                if (Main.player[Main.myPlayer].lifeSteal > 0f && target.canGhostHeal && target.type != NPCID.TargetDummy && target.type != NPCType<SuperDummyNPC>() && !player.moonLeech)
                 {
 					float healMult = 0.2f;
 					float heal = damage * healMult;
@@ -1395,7 +1405,7 @@ namespace CalamityMod.CalPlayer
 								}
 							}
 						}
-						Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<ReaverHealOrb>(), 0, 0f, player.whoAmI, healTarget, heal);
+						Projectile.NewProjectile(target.Center, Vector2.Zero, ProjectileType<ReaverHealOrb>(), 0, 0f, player.whoAmI, healTarget, heal);
 					}
 				}
 			}

@@ -13,7 +13,8 @@ namespace CalamityMod.Buffs.Summon
             Description.SetDefault("Howl protects you, Calcifer lights your way, Turnip-Head stalks you");
             Main.buffNoTimeDisplay[Type] = true;
             Main.buffNoSave[Type] = true;
-        }
+			//Main.persistentBuff[Type] = true;
+		}
 
         public override void Update(Player player, ref int buffIndex)
         {

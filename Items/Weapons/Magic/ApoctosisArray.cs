@@ -30,11 +30,10 @@ namespace CalamityMod.Items.Weapons.Magic
 			item.autoReuse = true;
 			item.noMelee = true;
 			item.height = 34;
-			item.value = Item.buyPrice(1, 20, 0, 0);
-			item.rare = 10;
+			item.value = CalamityGlobalItem.Rarity11BuyPrice;
+			item.rare = ItemRarityID.Purple;
 			item.shoot = ModContent.ProjectileType<IonBlast>();
 			item.shootSpeed = 8f;
-			item.Calamity().customRarity = CalamityRarity.Turquoise;
 		}
 
 		public override Vector2? HoldoutOffset()

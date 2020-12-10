@@ -13,7 +13,6 @@ namespace CalamityMod.Items.Armor
         {
             DisplayName.SetDefault("God Slayer Chestplate");
             Tooltip.SetDefault("+60 max life\n" +
-                       "15% increased movement speed\n" +
                        "Enemies take damage when they hit you\n" +
                        "Attacks have a 2% chance to do no damage to you\n" +
                        "11% increased damage and 6% increased critical strike chance");
@@ -34,7 +33,6 @@ namespace CalamityMod.Items.Armor
             modPlayer.godSlayerReflect = true;
             player.thorns += 0.5f;
             player.statLifeMax2 += 60;
-            player.moveSpeed += 0.15f;
             player.allDamage += 0.11f;
             modPlayer.AllCritBoost(6);
         }

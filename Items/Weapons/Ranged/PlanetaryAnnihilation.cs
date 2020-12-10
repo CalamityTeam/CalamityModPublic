@@ -28,14 +28,13 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 5.5f;
-            item.value = Item.buyPrice(1, 20, 0, 0);
-            item.rare = 10;
-            item.UseSound = SoundID.Item75;
+			item.value = CalamityGlobalItem.Rarity11BuyPrice;
+			item.rare = ItemRarityID.Purple;
+			item.UseSound = SoundID.Item75;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<PlanetaryAnnihilationProj>();
             item.shootSpeed = 12f;
             item.useAmmo = AmmoID.Arrow;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
         }
 
         public override Vector2? HoldoutOffset()

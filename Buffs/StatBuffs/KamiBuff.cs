@@ -10,7 +10,7 @@ namespace CalamityMod.Buffs.StatBuffs
         public override void SetDefaults()
         {
             DisplayName.SetDefault("Kami Injection");
-            Description.SetDefault("Increased movement speed and damage");
+            Description.SetDefault("Increased max movement speed, acceleration and damage");
             Main.debuff[Type] = false;
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = true;

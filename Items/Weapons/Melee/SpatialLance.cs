@@ -30,11 +30,10 @@ namespace CalamityMod.Items.Weapons.Melee
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             item.height = 88;
-            item.value = Item.buyPrice(1, 20, 0, 0);
-            item.rare = 10;
-            item.shoot = ModContent.ProjectileType<SpatialLanceProjectile>();
+			item.value = CalamityGlobalItem.Rarity11BuyPrice;
+			item.rare = ItemRarityID.Purple;
+			item.shoot = ModContent.ProjectileType<SpatialLanceProjectile>();
             item.shootSpeed = 12f;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
         }
 
 		public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;
