@@ -40,7 +40,7 @@ namespace CalamityMod.Items.Accessories
                 {
                     if (player.whoAmI == Main.myPlayer)
                     {
-                        int projectile1 = Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, ModContent.ProjectileType<DragonDust>(), (int)(350 * player.AverageDamage()), 5f, player.whoAmI, 0f, 0f);
+                        int projectile1 = Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<DragonDust>(), (int)(350 * player.AverageDamage()), 5f, player.whoAmI, 0f, 0f);
                         Main.projectile[projectile1].timeLeft = 60;
                     }
                     dragonTimer = 60;
