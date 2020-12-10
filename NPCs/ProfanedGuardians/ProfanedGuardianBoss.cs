@@ -35,7 +35,8 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 
         public override void SetDefaults()
         {
-            npc.npcSlots = 20f;
+			npc.Calamity().canBreakPlayerDefense = true;
+			npc.npcSlots = 20f;
             npc.aiStyle = -1;
 			npc.GetNPCDamage();
 			npc.width = 100;
@@ -423,7 +424,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
         public override void BossLoot(ref string name, ref int potionType)
         {
             name = "A Profaned Guardian";
-            potionType = ItemID.GreaterHealingPotion;
+            potionType = ItemID.SuperHealingPotion;
         }
 
         public override void NPCLoot()

@@ -1,12 +1,12 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Dusts;
+using CalamityMod.Items.Potions;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using Terraria;
 using Terraria.DataStructures;
@@ -48,6 +48,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 
         public override void SetDefaults()
         {
+			npc.Calamity().canBreakPlayerDefense = true;
 			npc.GetNPCDamage();
 			npc.npcSlots = 5f;
             npc.width = 104;
@@ -139,6 +140,8 @@ namespace CalamityMod.NPCs.DevourerofGods
 
 			bool increaseSpeed = Vector2.Distance(player.Center, vector) > CalamityGlobalNPC.CatchUpDistance200Tiles;
 			bool increaseSpeedMore = Vector2.Distance(player.Center, vector) > CalamityGlobalNPC.CatchUpDistance350Tiles;
+			bool takeLessDamage = Vector2.Distance(player.Center, vector) > CalamityGlobalNPC.CatchUpDistance200Tiles * 0.5f;
+			npc.takenDamageMultiplier = increaseSpeed ? 1f : takeLessDamage ? 1.15f : 1.25f;
 
 			// Spawn Guardians
 			if (phase3)
@@ -857,7 +860,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 
 		public override void BossLoot(ref string name, ref int potionType)
         {
-            potionType = ItemID.None;
+            potionType = ModContent.ItemType<SupremeHealingPotion>();
         }
 
         // DoG phase 1 does not drop loot, but starts the sentinel phase of the fight.

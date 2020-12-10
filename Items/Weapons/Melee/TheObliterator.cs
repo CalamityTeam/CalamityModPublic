@@ -37,9 +37,9 @@ namespace CalamityMod.Items.Weapons.Melee
             item.shoot = ModContent.ProjectileType<ObliteratorYoyo>();
             item.shootSpeed = 16f;
 
-            item.rare = 10;
-            item.Calamity().customRarity = CalamityRarity.PureGreen;
-            item.value = Item.buyPrice(platinum: 1, gold: 40);
-        }
+			item.value = CalamityGlobalItem.Rarity14BuyPrice;
+			item.rare = ItemRarityID.Purple;
+			item.Calamity().customRarity = CalamityRarity.DarkBlue;
+		}
     }
 }

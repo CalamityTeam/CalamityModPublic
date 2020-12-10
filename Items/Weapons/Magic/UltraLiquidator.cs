@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
 		public override void SetDefaults()
 		{
-			item.damage = 150;
+			item.damage = 120;
 			item.crit = 30;
 			item.knockBack = 5f;
 			item.useTime = 3;
@@ -34,9 +34,8 @@ namespace CalamityMod.Items.Weapons.Magic
 			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.noMelee = true;
 			item.UseSound = SoundID.Item9;
-			item.value = Item.buyPrice(1, 20, 0, 0);
-			item.rare = 10;
-			item.Calamity().customRarity = CalamityRarity.Turquoise;
+			item.value = CalamityGlobalItem.Rarity11BuyPrice;
+			item.rare = ItemRarityID.Purple;
 		}
 
 		public override Vector2? HoldoutOrigin() => new Vector2(15, 15);

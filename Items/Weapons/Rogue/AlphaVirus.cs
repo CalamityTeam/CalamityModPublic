@@ -33,9 +33,9 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.value = Item.buyPrice(0, 16, 0, 0);
             item.shoot = ModContent.ProjectileType<AlphaVirusProjectile>();
             item.shootSpeed = 4f;
-            item.rare = 10;
-            item.Calamity().customRarity = CalamityRarity.PureGreen;
-            item.Calamity().rogue = true;
+			item.rare = ItemRarityID.Purple;
+			item.Calamity().customRarity = CalamityRarity.Turquoise;
+			item.Calamity().rogue = true;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

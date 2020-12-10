@@ -9,6 +9,7 @@ using CalamityMod.Items.Dyes;
 using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
+using CalamityMod.Items.Potions;
 using CalamityMod.Items.SummonItems;
 using CalamityMod.Items.TreasureBags;
 using CalamityMod.Items.Weapons.Magic;
@@ -457,7 +458,6 @@ namespace CalamityMod.NPCs.Providence
                 // Change X direction of movement
                 if (flightPath == 0)
                 {
-                    npc.TargetClosest(true);
                     if (vector.X < player.Center.X)
                     {
                         flightPath = 1;
@@ -469,9 +469,6 @@ namespace CalamityMod.NPCs.Providence
                         calamityGlobalNPC.newAI[0] = 0f;
                     }
                 }
-
-                // Get a target
-                npc.TargetClosest(true);
 
                 // Increase speed over time if flying in same direction for too long
                 if (revenge)
@@ -586,10 +583,6 @@ namespace CalamityMod.NPCs.Providence
 								break;
 							case 6:
 								phase = (useLaser || nightTime) ? (int)Phase.Laser : (int)Phase.HolyBomb;
-								if (useLaser || nightTime)
-								{
-									npc.TargetClosest(false);
-								}
 								break;
 							case 7:
 								phase = (useLaser || nightTime) ? (int)Phase.HolyBomb : (int)Phase.MoltenBlobs;
@@ -608,10 +601,6 @@ namespace CalamityMod.NPCs.Providence
 								break;
 							case 12:
 								phase = (useLaser || nightTime) ? (int)Phase.Laser : (int)Phase.HolyBomb;
-								if (useLaser || nightTime)
-								{
-									npc.TargetClosest(false);
-								}
 								break;
 							case 13:
 								phase = (int)Phase.SpearCocoon;
@@ -632,10 +621,6 @@ namespace CalamityMod.NPCs.Providence
 								break;
 							case 1:
 								phase = useLaser ? (int)Phase.Laser : (int)Phase.HolyFire;
-								if (useLaser)
-								{
-									npc.TargetClosest(false);
-								}
 								break;
 							case 2:
 								phase = (int)Phase.HolyBomb;
@@ -666,10 +651,6 @@ namespace CalamityMod.NPCs.Providence
 								break;
 							case 11:
 								phase = useLaser ? (int)Phase.Laser : (int)Phase.HolyBlast;
-								if (useLaser)
-								{
-									npc.TargetClosest(false);
-								}
 								break;
 							case 12:
 								phase = (int)Phase.HolyFire;
@@ -684,9 +665,6 @@ namespace CalamityMod.NPCs.Providence
 								break;
 						}
 					}
-
-					// Pick a target
-					npc.TargetClosest(true);
 
 					// If too far from target, set phase to 0
 					if (Math.Abs(vector.X - player.Center.X) > 5600f)
@@ -814,7 +792,10 @@ namespace CalamityMod.NPCs.Providence
 
 					npc.ai[1] += 1f;
 					if (npc.ai[1] >= phaseTime)
+					{
 						AIState = (int)Phase.PhaseChange;
+						npc.TargetClosest(true);
+					}
 
 					break;
 
@@ -856,13 +837,14 @@ namespace CalamityMod.NPCs.Providence
 
 					npc.ai[1] += 1f;
 					if (npc.ai[1] >= phaseTime)
+					{
 						AIState = (int)Phase.PhaseChange;
+						npc.TargetClosest(true);
+					}
 
 					break;
 
 				case (int)Phase.FlameCocoon:
-
-					npc.TargetClosest(true);
 
 					if (!targetDead)
 					{
@@ -933,8 +915,24 @@ namespace CalamityMod.NPCs.Providence
 
 									Projectile.NewProjectile(fireFrom, vector2, projectileType, 0, 0f, Main.myPlayer, 0f, dmgAmt);
 								}
+							}
+						}
 
-								Vector2 velocity2 = Vector2.Normalize(player.Center - fireFrom) * cocoonProjVelocity;
+						// Fire a flame towards every player, with a limit of 10
+						if (npc.ai[3] % 60f == 0f && expertMode)
+						{
+							List<int> targets = new List<int>();
+							for (int p = 0; p < Main.maxPlayers; p++)
+							{
+								if (Main.player[p].active && !Main.player[p].dead)
+									targets.Add(p);
+
+								if (targets.Count > 9)
+									break;
+							}
+							foreach (int t in targets)
+							{
+								Vector2 velocity2 = Vector2.Normalize(Main.player[t].Center - fireFrom) * cocoonProjVelocity;
 								int type = ModContent.ProjectileType<HolyBurnOrb>();
 								Projectile.NewProjectile(fireFrom, velocity2, type, 0, 0f, Main.myPlayer, 0f, nightTime ? -300 : npc.GetProjectileDamageNoScaling(type));
 							}
@@ -996,6 +994,7 @@ namespace CalamityMod.NPCs.Providence
 						text = false;
 						AIState = (int)Phase.PhaseChange;
 						npc.localAI[2] = attackDelayAfterCocoon;
+						npc.TargetClosest(true);
 					}
 
 					break;
@@ -1050,7 +1049,10 @@ namespace CalamityMod.NPCs.Providence
 
 					npc.ai[1] += 1f;
 					if (npc.ai[1] >= phaseTime)
+					{
 						AIState = (int)Phase.PhaseChange;
+						npc.TargetClosest(true);
+					}
 
 					break;
 
@@ -1092,13 +1094,14 @@ namespace CalamityMod.NPCs.Providence
 
 					npc.ai[1] += 1f;
 					if (npc.ai[1] >= phaseTime)
+					{
 						AIState = (int)Phase.PhaseChange;
+						npc.TargetClosest(true);
+					}
 
 					break;
 
 				case (int)Phase.SpearCocoon:
-
-					npc.TargetClosest(true);
 
 					if (!targetDead)
 					{
@@ -1157,13 +1160,12 @@ namespace CalamityMod.NPCs.Providence
 					{
 						AIState = (int)Phase.PhaseChange;
 						npc.localAI[2] = attackDelayAfterCocoon;
+						npc.TargetClosest(true);
 					}
 
 					break;
 
 				case (int)Phase.Crystal:
-
-					npc.TargetClosest(true);
 
 					if (!targetDead)
 						npc.velocity *= 0.9f;
@@ -1180,7 +1182,10 @@ namespace CalamityMod.NPCs.Providence
 						}
 
 						if (npc.ai[1] >= crystalPhaseTime + nightCrystalTime || !nightTime)
+						{
 							AIState = (int)Phase.PhaseChange;
+							npc.TargetClosest(true);
+						}
 					}
 
 					break;
@@ -1226,8 +1231,6 @@ namespace CalamityMod.NPCs.Providence
 
 							if (Main.netMode != NetmodeID.MultiplayerClient)
 							{
-								npc.TargetClosest(false);
-
 								Vector2 velocity = player.Center - vector;
 								velocity.Normalize();
 
@@ -1260,7 +1263,10 @@ namespace CalamityMod.NPCs.Providence
 
 					npc.ai[1] += 1f;
 					if (npc.ai[1] >= (revenge ? 235f : 315f))
+					{
 						AIState = (int)Phase.PhaseChange;
+						npc.TargetClosest(true);
+					}
 
 					break;
 			}
@@ -1394,7 +1400,7 @@ namespace CalamityMod.NPCs.Providence
 
         public override void BossLoot(ref string name, ref int potionType)
         {
-            potionType = ItemID.SuperHealingPotion;
+            potionType = ModContent.ItemType<SupremeHealingPotion>();
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

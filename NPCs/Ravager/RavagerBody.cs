@@ -35,7 +35,8 @@ namespace CalamityMod.NPCs.Ravager
 
         public override void SetDefaults()
         {
-            npc.lavaImmune = true;
+			npc.Calamity().canBreakPlayerDefense = true;
+			npc.lavaImmune = true;
 			npc.noGravity = true;
             npc.npcSlots = 20f;
             npc.aiStyle = -1;

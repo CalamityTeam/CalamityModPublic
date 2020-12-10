@@ -236,18 +236,6 @@ namespace CalamityMod
 				case "the devourer of gods":
 					return CalamityWorld.downedDoG;
 
-				case "darksun":
-				case "darksuneclipse":
-				case "darksun eclipse":
-				case "buffedeclipse":
-				case "buffed eclipse":
-				case "mothron":
-				case "darksunmothron":
-				case "darksun mothron":
-				case "buffedmothron":
-				case "buffed mothron":
-					return CalamityWorld.downedBuffedMothron;
-
 				case "yharon":
 				case "jungledragonyharon":
 				case "jungle dragon yharon":

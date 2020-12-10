@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Armor
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Bloodflare Cuisses");
-            Tooltip.SetDefault("30% increased movement speed, 10% increased damage and 7% increased critical strike chance");
+            Tooltip.SetDefault("17% increased movement speed, 10% increased damage and 7% increased critical strike chance");
         }
 
         public override void SetDefaults()
@@ -25,7 +25,7 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-            player.moveSpeed += 0.3f;
+            player.moveSpeed += 0.17f;
             player.allDamage += 0.1f;
             player.Calamity().AllCritBoost(7);
         }

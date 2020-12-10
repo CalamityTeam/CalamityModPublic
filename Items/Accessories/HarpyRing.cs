@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Harpy Ring");
-            Tooltip.SetDefault("20% increased movement speed\n" +
+            Tooltip.SetDefault("15% increased movement speed\n" +
                 "Boosts your maximum flight time by 25%");
         }
 

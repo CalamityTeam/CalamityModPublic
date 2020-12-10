@@ -14,7 +14,7 @@ namespace CalamityMod.Items.LoreItems
             DisplayName.SetDefault("The Slime God");
             Tooltip.SetDefault("It is a travesty, one of the most threatening biological terrors ever created.\n" +
                 "If this creature were allowed to combine every slime on the planet it would become nearly unstoppable.\n" +
-                "Favorite this item to become slimed and able to slide around on tiles, at the cost of reduced defense.\n" +
+                "Favorite this item to become slimed and able to slide around on tiles, at the cost of 10% reduced defense.\n" +
                 "This effect does not work with mounts.");
         }
 

@@ -4,6 +4,7 @@ using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
+using CalamityMod.Items.Potions;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -26,15 +27,15 @@ namespace CalamityMod.NPCs.CeaselessVoid
 
         public override void SetDefaults()
         {
+			npc.Calamity().canBreakPlayerDefense = true;
 			npc.GetNPCDamage();
 			npc.npcSlots = 36f;
             npc.width = 100;
             npc.height = 100;
-            npc.defense = 0;
+            npc.defense = 80;
             CalamityGlobalNPC global = npc.Calamity();
-            global.DR = 0.999999f;
-            //global.unbreakableDR = true;
-            npc.lifeMax = 200;
+            global.DR = 0.5f;
+            npc.lifeMax = 25000;
             Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
             if (calamityModMusic != null)
                 music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/ScourgeofTheUniverse");
@@ -181,7 +182,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
 
         public override void BossLoot(ref string name, ref int potionType)
         {
-            potionType = ItemID.SuperHealingPotion;
+            potionType = ModContent.ItemType<SupremeHealingPotion>();
         }
 
         public override void HitEffect(int hitDirection, double damage)

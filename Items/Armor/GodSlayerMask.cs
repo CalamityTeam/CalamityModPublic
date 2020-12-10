@@ -56,7 +56,7 @@ namespace CalamityMod.Items.Armor
         {
             player.Calamity().throwingDamage += 0.14f;
             player.Calamity().throwingCrit += 14;
-            player.moveSpeed += 0.18f;
+            player.moveSpeed += 0.1f;
         }
 
         public override void AddRecipes()

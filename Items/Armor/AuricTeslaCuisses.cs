@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Armor
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Auric Tesla Cuisses");
-            Tooltip.SetDefault("50% increased movement speed\n" +
+            Tooltip.SetDefault("20% increased movement speed\n" +
                 "12% increased damage and 5% increased critical strike chance\n" +
                 "Magic carpet effect");
         }
@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-            player.moveSpeed += 0.5f;
+            player.moveSpeed += 0.2f;
             player.carpet = true;
             player.allDamage += 0.12f;
             player.Calamity().AllCritBoost(5);

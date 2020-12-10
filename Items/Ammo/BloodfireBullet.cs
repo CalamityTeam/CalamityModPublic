@@ -24,8 +24,8 @@ namespace CalamityMod.Items.Ammo
 			item.consumable = true;
 			item.knockBack = 4.5f;
 			item.value = Item.sellPrice(copper: 80);
-			item.rare = ItemRarityID.Red;
-			item.Calamity().customRarity = CalamityRarity.PureGreen;
+			item.rare = ItemRarityID.Purple;
+			item.Calamity().customRarity = CalamityRarity.Turquoise;
 			item.shoot = ModContent.ProjectileType<BloodfireBulletProj>();
 			item.shootSpeed = 4.8f;
 			item.ammo = ItemID.MusketBall;

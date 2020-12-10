@@ -36,9 +36,9 @@ namespace CalamityMod.Items.Weapons.Typeless
 			item.noMelee = true;
 			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LaserCannon");
-			item.value = Item.buyPrice(1, 40, 0, 0);
-			item.rare = 10;
-			item.Calamity().customRarity = CalamityRarity.PureGreen;
+			item.value = CalamityGlobalItem.Rarity12BuyPrice;
+			item.rare = ItemRarityID.Purple;
+			item.Calamity().customRarity = CalamityRarity.Turquoise;
 		}
 
 		public override Vector2? HoldoutOffset() => new Vector2(-10, 0);

@@ -25,9 +25,8 @@ namespace CalamityMod.Items.SummonItems
             item.useTime = 45;
             item.useStyle = ItemUseStyleID.HoldingUp;
             item.consumable = true;
-            item.rare = 10;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
-        }
+			item.rare = ItemRarityID.Purple;
+		}
 
         public override bool CanUseItem(Player player)
         {

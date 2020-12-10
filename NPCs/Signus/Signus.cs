@@ -7,6 +7,7 @@ using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
+using CalamityMod.Items.Potions;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.Projectiles.Boss;
@@ -110,6 +111,8 @@ namespace CalamityMod.NPCs.Signus
 			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
 			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
             bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
+
+			npc.Calamity().canBreakPlayerDefense = false;
 
 			Vector2 vectorCenter = npc.Center;
 
@@ -582,7 +585,9 @@ namespace CalamityMod.NPCs.Signus
                 }
                 else if (npc.Calamity().newAI[0] == 2f) // Charging
                 {
-                    if (Main.netMode != NetmodeID.MultiplayerClient)
+					npc.Calamity().canBreakPlayerDefense = true;
+
+					if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
 						npc.ai[2] += 1f;
                         if (phase2 && npc.ai[2] % 3f == 0f)
@@ -759,7 +764,7 @@ namespace CalamityMod.NPCs.Signus
 
         public override void BossLoot(ref string name, ref int potionType)
         {
-            potionType = ItemID.SuperHealingPotion;
+            potionType = ModContent.ItemType<SupremeHealingPotion>();
         }
 
         public override void NPCLoot()

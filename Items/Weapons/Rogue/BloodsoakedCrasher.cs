@@ -33,9 +33,9 @@ namespace CalamityMod.Items.Weapons.Rogue
 			item.noUseGraphic = true;
 			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.UseSound = SoundID.Item1;
-			item.value = Item.buyPrice(1, 40, 0, 0);
-			item.rare = 10;
-			item.Calamity().customRarity = CalamityRarity.PureGreen;
+			item.value = CalamityGlobalItem.Rarity12BuyPrice;
+			item.rare = ItemRarityID.Purple;
+			item.Calamity().customRarity = CalamityRarity.Turquoise;
 		}
 
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

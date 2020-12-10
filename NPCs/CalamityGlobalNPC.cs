@@ -79,6 +79,11 @@ namespace CalamityMod.NPCs
         public Dictionary<int, float> flatDRReductions = new Dictionary<int, float>();
         public Dictionary<int, float> multDRReductions = new Dictionary<int, float>();
 
+		/// <summary>
+		/// Allows hostile NPCs to deal damage to the player's defense stat, used mostly for hard-hitting bosses.
+		/// </summary>
+		public bool canBreakPlayerDefense = false;
+
 		// Distance values for when bosses increase velocity to catch up to their target
 		public const float CatchUpDistance200Tiles = 3200f;
 		public const float CatchUpDistance350Tiles = 5600f;
@@ -1003,6 +1008,7 @@ namespace CalamityMod.NPCs
             }
             else if (npc.type == NPCID.GolemHeadFree)
             {
+				npc.width = npc.height = 100;
                 npc.lifeMax = (int)(npc.lifeMax * 1.7);
                 npc.dontTakeDamage = false;
             }
@@ -1123,10 +1129,86 @@ namespace CalamityMod.NPCs
         #region Other Stat Changes
         private void OtherStatChanges(NPC npc)
         {
+			switch (npc.type)
+			{
+				case NPCID.EyeofCthulhu:
+				case NPCID.EaterofSouls:
+				case NPCID.Corruptor:
+				case NPCID.DevourerHead:
+				case NPCID.WalkingAntlion:
+				case NPCID.Crawdad:
+				case NPCID.Crawdad2: // chomp
+				case NPCID.DungeonGuardian:
+				case NPCID.ManEater:
+				case NPCID.AngryTrapper:
+				case NPCID.Snatcher:
+				case NPCID.SpikeBall:
+				case NPCID.TombCrawlerHead: // lol
+				case NPCID.DesertBeast: // don't ask me why basilisks are called this
+				case NPCID.BoneLee:
+				case NPCID.Paladin:
+				case NPCID.BigMimicCorruption:
+				case NPCID.BigMimicCrimson:
+				case NPCID.BigMimicHallow:
+				case NPCID.DiggerHead:
+				case NPCID.SeekerHead:
+				case NPCID.DuneSplicerHead:
+				case NPCID.SolarCrawltipedeHead: // everybody hates this enemy lol, but they're not that bad
+				case NPCID.Mimic:
+				case NPCID.SandShark:
+				case NPCID.SandsharkCorrupt:
+				case NPCID.SandsharkCrimson:
+				case NPCID.SandsharkHallow:
+				case NPCID.GoblinWarrior:
+				case NPCID.Butcher:
+				case NPCID.DeadlySphere:
+				case NPCID.Mothron:
+				case NPCID.Reaper:
+				case NPCID.Psycho:
+				case NPCID.PresentMimic:
+				case NPCID.Yeti:
+				case NPCID.NebulaBeast:
+				case NPCID.SolarCorite: // pain
+				case NPCID.StardustWormHead:
+				case NPCID.EaterofWorldsHead:
+				case NPCID.SkeletronHead:
+				case NPCID.WallofFlesh:
+				case NPCID.TheHungry:
+				case NPCID.TheHungryII:
+				case NPCID.Spazmatism:
+				case NPCID.TheDestroyer:
+				case NPCID.SkeletronPrime:
+				case NPCID.PrimeVice:
+				case NPCID.PrimeSaw:
+				case NPCID.Plantera:
+				case NPCID.PlanterasTentacle:
+				case NPCID.Golem:
+				case NPCID.GolemFistLeft:
+				case NPCID.GolemFistRight:
+				case NPCID.CultistDragonHead:
+				case NPCID.AncientLight:
+				case NPCID.DD2OgreT2:
+				case NPCID.DD2OgreT3:
+				case NPCID.DD2Betsy:
+				case NPCID.PumpkingBlade:
+				case NPCID.SantaNK1:
+				case NPCID.DukeFishron:
+					canBreakPlayerDefense = true;
+					break;
+
+				default:
+					break;
+			}
+
             // Fix Sharkron hitboxes
             if (npc.type == NPCID.Sharkron || npc.type == NPCID.Sharkron2)
             {
                 npc.width = npc.height = 36;
+
+				// Don't do damage for 42 frames after spawning in
+				npc.damage = npc.defDamage;
+				if (npc.alpha > 0)
+					npc.damage = 0;
             }
 
             if (npc.type == NPCID.CultistBoss)
@@ -1165,26 +1247,25 @@ namespace CalamityMod.NPCs
                 if (CalamityLists.pumpkinMoonBuffList.Contains(npc.type))
                 {
                     npc.lifeMax = (int)(npc.lifeMax * 7.5);
-                    npc.damage += 100;
+                    npc.damage += 30;
                     npc.life = npc.lifeMax;
                     npc.defDamage = npc.damage;
                 }
                 else if (CalamityLists.frostMoonBuffList.Contains(npc.type))
                 {
-                    npc.lifeMax = (int)(npc.lifeMax * 6.0);
-                    npc.damage += 100;
+                    npc.lifeMax = (int)(npc.lifeMax * 6D);
+                    npc.damage += 30;
                     npc.life = npc.lifeMax;
                     npc.defDamage = npc.damage;
                 }
-            }
-
-            if (CalamityLists.eclipseBuffList.Contains(npc.type) && CalamityWorld.buffedEclipse)
-            {
-                npc.lifeMax = (int)(npc.lifeMax * 32.5);
-                npc.damage += 150;
-                npc.life = npc.lifeMax;
-                npc.defDamage = npc.damage;
-            }
+				else if (CalamityLists.eclipseBuffList.Contains(npc.type))
+				{
+					npc.lifeMax = (int)(npc.lifeMax * 10D);
+					npc.damage += 30;
+					npc.life = npc.lifeMax;
+					npc.defDamage = npc.damage;
+				}
+			}
 
             if (NPC.downedMoonlord)
             {
@@ -1368,12 +1449,7 @@ namespace CalamityMod.NPCs
         {
             if (!npc.boss && !npc.friendly && !npc.dontTakeDamage)
             {
-                if (CalamityWorld.downedDoG && (Main.pumpkinMoon || Main.snowMoon))
-                {
-                    cooldownSlot = 1;
-                }
-
-                if (CalamityWorld.buffedEclipse && Main.eclipse)
+                if (CalamityWorld.downedDoG && (Main.pumpkinMoon || Main.snowMoon || Main.eclipse))
                 {
                     cooldownSlot = 1;
                 }
@@ -1753,7 +1829,7 @@ namespace CalamityMod.NPCs
                         break;
 
                     case NPCID.Mothron:
-                        if (CalamityWorld.buffedEclipse)
+                        if (CalamityWorld.downedDoG)
                         {
                             return CalamityGlobalAI.BuffedMothronAI(npc);
                         }
@@ -3497,6 +3573,12 @@ namespace CalamityMod.NPCs
             }
 
 			// Boosts
+			if (CalamityWorld.downedDoG && (Main.pumpkinMoon || Main.snowMoon || Main.eclipse))
+			{
+				spawnRate = (int)(spawnRate * 0.75);
+				maxSpawns = (int)(maxSpawns * 2f);
+			}
+
 			if (player.Calamity().clamity)
 			{
 				spawnRate = (int)(spawnRate * 0.02);
@@ -4290,8 +4372,24 @@ namespace CalamityMod.NPCs
         {
             if (CalamityWorld.revenge || BossRushEvent.BossRushActive)
             {
+				if (npc.type == NPCID.GolemHeadFree)
+				{
+					Texture2D npcTexture = Main.npcTexture[npc.type];
+					int frameHeight = npcTexture.Height / Main.npcFrameCount[npc.type];
+
+					SpriteEffects spriteEffects = SpriteEffects.None;
+					if (npc.spriteDirection == 1)
+						spriteEffects = SpriteEffects.FlipHorizontally;
+
+					if (npc.localAI[0] == 1f)
+						npc.frame.Y = frameHeight;
+					else
+						npc.frame.Y = 0;
+
+					spriteBatch.Draw(npcTexture, npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame, npc.GetAlpha(drawColor), npc.rotation, npc.frame.Size() / 2, npc.scale, spriteEffects, 0);
+				}
                 // His afterimages I can't get to work, so fuck it
-                if (npc.type == NPCID.SkeletronPrime)
+                else if (npc.type == NPCID.SkeletronPrime)
                 {
                     Texture2D npcTexture = Main.npcTexture[npc.type];
                     int frameHeight = npcTexture.Height / Main.npcFrameCount[npc.type];
@@ -4308,9 +4406,7 @@ namespace CalamityMod.NPCs
                             newAI[3] = newAI[3] + frameHeight;
 
                             if (newAI[3] / frameHeight >= 2f)
-                            {
                                 newAI[3] = 0f;
-                            }
                         }
                     }
 

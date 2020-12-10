@@ -101,7 +101,8 @@ namespace CalamityMod.NPCs.Astral
 
         public override void SetDefaults()
         {
-            npc.lavaImmune = true;
+			npc.Calamity().canBreakPlayerDefense = true;
+			npc.lavaImmune = true;
             npc.width = 78;
             npc.height = 88;
             npc.damage = 70;

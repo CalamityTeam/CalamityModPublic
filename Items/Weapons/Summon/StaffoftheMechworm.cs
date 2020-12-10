@@ -28,14 +28,14 @@ namespace CalamityMod.Items.Weapons.Summon
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.noMelee = true;
             item.knockBack = 2f;
-            item.value = Item.buyPrice(platinum: 1, gold: 40);
-            item.rare = ItemRarityID.Red;
-            item.UseSound = SoundID.Item113;
+			item.value = CalamityGlobalItem.Rarity14BuyPrice;
+			item.rare = ItemRarityID.Purple;
+			item.Calamity().customRarity = CalamityRarity.DarkBlue;
+			item.UseSound = SoundID.Item113;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<MechwormHead>();
             item.shootSpeed = 10f;
             item.summon = true;
-            item.Calamity().customRarity = CalamityRarity.PureGreen;
         }
 
         public override bool CanUseItem(Player player)

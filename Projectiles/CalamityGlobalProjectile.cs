@@ -52,9 +52,14 @@ namespace CalamityMod.Projectiles
         public int spawnedPlayerMinionProjectileDamageValue = 0;
         public int defDamage = 0;
 
-        // Rogue Stuff
-        public bool stealthStrike = false; //Update all existing rogue weapons with this
-        public bool momentumCapacitatorBoost = false; //Constant acceleration
+		/// <summary>
+		/// Allows hostile Projectiles to deal damage to the player's defense stat, used mostly for hard-hitting bosses.
+		/// </summary>
+		public bool canBreakPlayerDefense = false;
+
+		// Rogue Stuff
+		public bool stealthStrike = false; // Update all existing rogue weapons with this
+        public bool momentumCapacitatorBoost = false; // Constant acceleration
 
         // Iron Heart
         public int ironHeartDamage = 0;
@@ -62,7 +67,7 @@ namespace CalamityMod.Projectiles
         // Counters and Timers
         public int stealthStrikeHitCount = 0;
 
-        public int lineColor = 0; //Note: Although this was intended for fishing line colors, I use this as an AI variable a lot because vanilla only has 4 that sometimes are already in use.  ~Ben
+        public int lineColor = 0; // Note: Although this was intended for fishing line colors, I use this as an AI variable a lot because vanilla only has 4 that sometimes are already in use.  ~Ben
         public bool extorterBoost = false;
 
         // Organic/Inorganic Boosts
@@ -110,6 +115,26 @@ namespace CalamityMod.Projectiles
                     projectile.usesIDStaticNPCImmunity = true;
                     projectile.idStaticNPCHitCooldown = 12;
                     break;
+
+				case ProjectileID.SniperBullet:
+				case ProjectileID.RuneBlast:
+				case ProjectileID.UnholyTridentHostile:
+				case ProjectileID.JavelinHostile:
+				case ProjectileID.FrostWave:
+				case ProjectileID.FlamingScythe:
+				case ProjectileID.SaucerDeathray:
+				case ProjectileID.SaucerMissile:
+				case ProjectileID.CannonballHostile:
+				case ProjectileID.PaladinsHammerHostile:
+				case ProjectileID.Spike:
+				case ProjectileID.ThornBall:
+				case ProjectileID.BombSkeletronPrime:
+				case ProjectileID.Sharknado:
+				case ProjectileID.Cthulunado:
+				case ProjectileID.PhantasmalDeathray:
+					canBreakPlayerDefense = true;
+					break;
+
                 default:
                     break;
             }
@@ -129,7 +154,36 @@ namespace CalamityMod.Projectiles
         #region PreAI
         public override bool PreAI(Projectile projectile)
         {
-            if (projectile.type == ProjectileID.Starfury)
+			/*switch (projectile.type)
+			{
+				case ProjectileID.Hornet:
+				case ProjectileID.FlyingImp:
+				case ProjectileID.Tempest:
+				case ProjectileID.UFOMinion:
+				case ProjectileID.StardustCellMinion:
+				case ProjectileID.StardustDragon1:
+				case ProjectileID.StardustDragon2:
+				case ProjectileID.StardustDragon3:
+				case ProjectileID.StardustDragon4:
+				case ProjectileID.Retanimini:
+				case ProjectileID.Spazmamini:
+				case ProjectileID.DeadlySphere:
+				case ProjectileID.OneEyedPirate:
+				case ProjectileID.SoulscourgePirate:
+				case ProjectileID.PirateCaptain:
+				case ProjectileID.DangerousSpider:
+				case ProjectileID.JumperSpider:
+				case ProjectileID.VenomSpider:
+					projectile.timeLeft = 18000;
+					if (Main.player[projectile.owner].dead)
+					{
+						projectile.velocity = Vector2.Zero;
+						return false;
+					}
+					break;
+			}*/
+
+			if (projectile.type == ProjectileID.Starfury)
             {
                 if (projectile.timeLeft > 45)
                     projectile.timeLeft = 45;
@@ -809,16 +863,11 @@ namespace CalamityMod.Projectiles
                         projectile.damage = defDamage + 30;
                 }
             }
-
-            if (CalamityWorld.downedDoG && (Main.pumpkinMoon || Main.snowMoon))
+			
+            if (CalamityWorld.downedDoG && (Main.pumpkinMoon || Main.snowMoon || Main.eclipse))
             {
                 if (CalamityLists.eventProjectileBuffList.Contains(projectile.type))
-                    projectile.damage = defDamage + 35;
-            }
-            else if (CalamityWorld.buffedEclipse && Main.eclipse)
-            {
-                if (CalamityLists.eventProjectileBuffList.Contains(projectile.type))
-                    projectile.damage = defDamage + 50;
+                    projectile.damage = defDamage + 15;
             }
 
             // Iron Heart damage variable will scale with projectile.damage
@@ -2047,7 +2096,32 @@ namespace CalamityMod.Projectiles
 
         public override bool PreDraw(Projectile projectile, SpriteBatch spriteBatch, Color lightColor)
         {
-            if (Main.player[Main.myPlayer].Calamity().trippy)
+			/*switch (projectile.type)
+			{
+				case ProjectileID.Hornet:
+				case ProjectileID.FlyingImp:
+				case ProjectileID.Tempest:
+				case ProjectileID.UFOMinion:
+				case ProjectileID.StardustCellMinion:
+				case ProjectileID.StardustDragon1:
+				case ProjectileID.StardustDragon2:
+				case ProjectileID.StardustDragon3:
+				case ProjectileID.StardustDragon4:
+				case ProjectileID.Retanimini:
+				case ProjectileID.Spazmamini:
+				case ProjectileID.DeadlySphere:
+				case ProjectileID.OneEyedPirate:
+				case ProjectileID.SoulscourgePirate:
+				case ProjectileID.PirateCaptain:
+				case ProjectileID.DangerousSpider:
+				case ProjectileID.JumperSpider:
+				case ProjectileID.VenomSpider:
+					if (Main.player[projectile.owner].dead)
+						return false;
+					break;
+			}*/
+
+			if (Main.player[Main.myPlayer].Calamity().trippy)
             {
                 Texture2D texture = Main.projectileTexture[projectile.type];
                 SpriteEffects spriteEffects = SpriteEffects.None;

@@ -2112,7 +2112,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                             "Acceleration multiplier: 1\n" +
                             "Average vertical speed\n" +
                             "Flight time: 140\n" +
-                            "30% increased movement speed\n" +
+                            "20% increased movement speed\n" +
 							"Most attacks have a chance to fire a feather on swing if Harpy Ring or Angel Treads are equipped";
                     }
                 }
@@ -2128,7 +2128,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                             "Acceleration multiplier: 1\n" +
                             "Average vertical speed\n" +
                             "Flight time: 140\n" +
-                            "15% increased movement speed, 12% increased ranged damage,\n" +
+                            "10% increased movement speed, 12% increased ranged damage,\n" +
                             "16% increased ranged critical strike chance\n" +
                             "and +30 defense while wearing the Necro Armor";
                     }
@@ -2213,7 +2213,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                             "Flight time: 100\n" +
                             "Gills effect and you can move freely through liquids\n" +
                             "You fall faster while submerged in liquid\n" +
-                            "20% increased movement speed and 36% increased jump speed";
+                            "15% increased movement speed and 36% increased jump speed";
                     }
                 }
             }
@@ -2770,100 +2770,126 @@ Grants immunity to fire blocks, and temporary immunity to lava";
             }
             if (item.accessory)
             {
-                if (item.prefix == PrefixID.Precise)
+				if (item.prefix == PrefixID.Brisk)
+				{
+					foreach (TooltipLine line2 in tooltips)
+					{
+						if (line2.mod == "Terraria" && line2.Name == "PrefixAccMoveSpeed")
+							line2.text = "+2% movement speed";
+					}
+				}
+				if (item.prefix == PrefixID.Fleeting)
+				{
+					foreach (TooltipLine line2 in tooltips)
+					{
+						if (line2.mod == "Terraria" && line2.Name == "PrefixAccMoveSpeed")
+							line2.text = "+4% movement speed";
+					}
+				}
+				if (item.prefix == PrefixID.Hasty2)
+				{
+					foreach (TooltipLine line2 in tooltips)
+					{
+						if (line2.mod == "Terraria" && line2.Name == "PrefixAccMoveSpeed")
+							line2.text = "+6% movement speed";
+					}
+				}
+				if (item.prefix == PrefixID.Quick2)
+				{
+					foreach (TooltipLine line2 in tooltips)
+					{
+						if (line2.mod == "Terraria" && line2.Name == "PrefixAccMoveSpeed")
+							line2.text = "+8% movement speed";
+					}
+				}
+				if (item.prefix == PrefixID.Precise || item.prefix == PrefixID.Lucky)
                 {
                     foreach (TooltipLine line2 in tooltips)
                     {
                         if (line2.mod == "Terraria" && line2.Name == "PrefixAccCritChance")
-                        {
-                            line2.text = "+1% critical strike chance";
-                        }
-                    }
-                }
-                if (item.prefix == PrefixID.Lucky)
-                {
-                    foreach (TooltipLine line2 in tooltips)
-                    {
-                        if (line2.mod == "Terraria" && line2.Name == "PrefixAccCritChance")
-                        {
-                            line2.text = "+3% critical strike chance";
-                        }
+                            line2.text += "\n+1 armor penetration";
                     }
                 }
                 if (item.prefix == PrefixID.Hard)
                 {
 					string defenseBoost = "+1 defense\n";
-					if (NPC.downedMoonlord)
-					{
+					if (CalamityWorld.downedDoG)
+						defenseBoost = "+4 defense\n";
+					else if (CalamityWorld.downedProvidence || CalamityWorld.downedPolterghast)
 						defenseBoost = "+3 defense\n";
-					}
-					else if (Main.hardMode)
-					{
+					else if (NPC.downedGolemBoss || NPC.downedMoonlord)
 						defenseBoost = "+2 defense\n";
-					}
+
                     foreach (TooltipLine line2 in tooltips)
                     {
                         if (line2.mod == "Terraria" && line2.Name == "PrefixAccDefense")
-                        {
                             line2.text = defenseBoost + "+0.25% damage reduction";
-                        }
                     }
                 }
                 if (item.prefix == PrefixID.Guarding)
                 {
 					string defenseBoost = "+2 defense\n";
-					if (NPC.downedMoonlord)
-					{
+					if (CalamityWorld.downedDoG)
+						defenseBoost = "+8 defense\n";
+					else if (CalamityWorld.downedPolterghast)
+						defenseBoost = "+7 defense\n";
+					else if (CalamityWorld.downedProvidence)
+						defenseBoost = "+6 defense\n";
+					else if (NPC.downedMoonlord)
+						defenseBoost = "+5 defense\n";
+					else if (NPC.downedGolemBoss)
 						defenseBoost = "+4 defense\n";
-					}
 					else if (Main.hardMode)
-					{
 						defenseBoost = "+3 defense\n";
-					}
+
 					foreach (TooltipLine line2 in tooltips)
                     {
                         if (line2.mod == "Terraria" && line2.Name == "PrefixAccDefense")
-                        {
                             line2.text = defenseBoost + "+0.5% damage reduction";
-                        }
                     }
                 }
                 if (item.prefix == PrefixID.Armored)
                 {
 					string defenseBoost = "+3 defense\n";
-					if (NPC.downedMoonlord)
-					{
+					if (CalamityWorld.downedDoG)
+						defenseBoost = "+12 defense\n";
+					else if (CalamityWorld.downedPolterghast)
+						defenseBoost = "+10 defense\n";
+					else if (CalamityWorld.downedProvidence)
+						defenseBoost = "+9 defense\n";
+					else if (NPC.downedMoonlord)
+						defenseBoost = "+7 defense\n";
+					else if (NPC.downedGolemBoss)
 						defenseBoost = "+6 defense\n";
-					}
 					else if (Main.hardMode)
-					{
 						defenseBoost = "+4 defense\n";
-					}
+
 					foreach (TooltipLine line2 in tooltips)
                     {
                         if (line2.mod == "Terraria" && line2.Name == "PrefixAccDefense")
-                        {
                             line2.text = defenseBoost + "+0.75% damage reduction";
-                        }
                     }
                 }
                 if (item.prefix == PrefixID.Warding)
                 {
 					string defenseBoost = "+4 defense\n";
-					if (NPC.downedMoonlord)
-					{
+					if (CalamityWorld.downedDoG)
+						defenseBoost = "+16 defense\n";
+					else if (CalamityWorld.downedPolterghast)
+						defenseBoost = "+14 defense\n";
+					else if (CalamityWorld.downedProvidence)
+						defenseBoost = "+12 defense\n";
+					else if (NPC.downedMoonlord)
+						defenseBoost = "+10 defense\n";
+					else if (NPC.downedGolemBoss)
 						defenseBoost = "+8 defense\n";
-					}
 					else if (Main.hardMode)
-					{
 						defenseBoost = "+6 defense\n";
-					}
+
 					foreach (TooltipLine line2 in tooltips)
                     {
                         if (line2.mod == "Terraria" && line2.Name == "PrefixAccDefense")
-                        {
                             line2.text = defenseBoost + "+1% damage reduction";
-                        }
                     }
                 }
             }
@@ -3212,7 +3238,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
             }
             else if (item.type == ItemID.FinWings) // Boosted water abilities, faster fall in water
             {
-                player.moveSpeed += 0.2f;
+                player.moveSpeed += 0.15f;
                 player.jumpSpeedBoost += 1.8f;
                 player.gills = true;
                 player.ignoreWater = true;
@@ -3256,7 +3282,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
             else if (item.type == ItemID.HarpyWings)
             {
 				modPlayer.harpyWingBoost = true;
-                player.moveSpeed += 0.3f;
+                player.moveSpeed += 0.2f;
                 player.noFallDmg = true;
             }
             else if (item.type == ItemID.BoneWings) // Bonus to ranged and defense stats while wearing necro armor
@@ -3265,7 +3291,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                 if ((player.head == ArmorIDs.Head.NecroHelmet || player.head == ArmorIDs.Head.AncientNecroHelmet) &&
                     player.body == ArmorIDs.Body.NecroBreastplate && player.legs == ArmorIDs.Legs.NecroGreaves)
                 {
-                    player.moveSpeed += 0.15f;
+                    player.moveSpeed += 0.1f;
                     player.rangedDamage += 0.12f;
                     player.rangedCrit += 16;
                     player.statDefense += 30;
@@ -3465,16 +3491,26 @@ Grants immunity to fire blocks, and temporary immunity to lava";
 			// Hard / Guarding / Armored / Warding give 0.25% / 0.5% / 0.75% / 1% DR
 			if (item.prefix == PrefixID.Hard)
 			{
-				if (NPC.downedMoonlord)
+				if (CalamityWorld.downedDoG)
+					player.statDefense += 3;
+				else if (CalamityWorld.downedProvidence || CalamityWorld.downedPolterghast)
 					player.statDefense += 2;
-				else if (Main.hardMode)
+				else if (NPC.downedGolemBoss || NPC.downedMoonlord)
 					player.statDefense += 1;
 
 				player.endurance += 0.0025f;
 			}
 			if (item.prefix == PrefixID.Guarding)
 			{
-				if (NPC.downedMoonlord)
+				if (CalamityWorld.downedDoG)
+					player.statDefense += 6;
+				else if (CalamityWorld.downedPolterghast)
+					player.statDefense += 5;
+				else if (CalamityWorld.downedProvidence)
+					player.statDefense += 4;
+				else if (NPC.downedMoonlord)
+					player.statDefense += 3;
+				else if (NPC.downedGolemBoss)
 					player.statDefense += 2;
 				else if (Main.hardMode)
 					player.statDefense += 1;
@@ -3483,7 +3519,15 @@ Grants immunity to fire blocks, and temporary immunity to lava";
 			}
 			if (item.prefix == PrefixID.Armored)
 			{
-				if (NPC.downedMoonlord)
+				if (CalamityWorld.downedDoG)
+					player.statDefense += 9;
+				else if (CalamityWorld.downedPolterghast)
+					player.statDefense += 7;
+				else if (CalamityWorld.downedProvidence)
+					player.statDefense += 6;
+				else if (NPC.downedMoonlord)
+					player.statDefense += 4;
+				else if (NPC.downedGolemBoss)
 					player.statDefense += 3;
 				else if (Main.hardMode)
 					player.statDefense += 1;
@@ -3492,7 +3536,15 @@ Grants immunity to fire blocks, and temporary immunity to lava";
 			}
 			if (item.prefix == PrefixID.Warding)
 			{
-				if (NPC.downedMoonlord)
+				if (CalamityWorld.downedDoG)
+					player.statDefense += 12;
+				else if (CalamityWorld.downedPolterghast)
+					player.statDefense += 10;
+				else if (CalamityWorld.downedProvidence)
+					player.statDefense += 8;
+				else if (NPC.downedMoonlord)
+					player.statDefense += 6;
+				else if (NPC.downedGolemBoss)
 					player.statDefense += 4;
 				else if (Main.hardMode)
 					player.statDefense += 2;
@@ -3500,36 +3552,41 @@ Grants immunity to fire blocks, and temporary immunity to lava";
 				player.endurance += 0.01f;
 			}
 
-            // Precise only gives 1% crit and Lucky only gives 3% crit
-            if ((item.prefix == PrefixID.Precise) || (item.prefix == PrefixID.Lucky))
-            {
-                player.meleeCrit -= 1;
-                player.rangedCrit -= 1;
-                player.magicCrit -= 1;
-                player.thrownCrit -= 1;
-            }
-        }
+            if (item.prefix == PrefixID.Precise || item.prefix == PrefixID.Lucky)
+				player.armorPenetration += 1;
+
+			if (item.prefix == PrefixID.Brisk)
+				player.moveSpeed += 0.01f;
+			if (item.prefix == PrefixID.Fleeting)
+				player.moveSpeed += 0.02f;
+			if (item.prefix == PrefixID.Hasty2)
+				player.moveSpeed += 0.03f;
+			if (item.prefix == PrefixID.Quick2)
+				player.moveSpeed += 0.04f;
+		}
         #endregion
 
         #region WingChanges
         public override void HorizontalWingSpeeds(Item item, Player player, ref float speed, ref float acceleration)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            float flightSpeedMult = 1f +
+			float flightSpeedMult = 1f +
                 (modPlayer.soaring ? 0.1f : 0f) +
                 (modPlayer.holyWrath ? 0.05f : 0f) +
                 (modPlayer.profanedRage ? 0.05f : 0f) +
-                (modPlayer.draconicSurge ? 0.15f : 0f) +
-                (modPlayer.etherealExtorter && modPlayer.ZoneAstral ? 0.05f : 0f);
-            if (flightSpeedMult > 1.2f)
-                flightSpeedMult = 1.2f;
+                (modPlayer.draconicSurge ? 0.1f : 0f) +
+                (modPlayer.etherealExtorter && modPlayer.ZoneAstral ? 0.05f : 0f) +
+				modPlayer.moveSpeedStat * 0.005f; // let's try it
+            if (flightSpeedMult > 1.5f)
+                flightSpeedMult = 1.5f;
 
             speed *= flightSpeedMult;
 
             float flightAccMult = 1f +
-                (modPlayer.draconicSurge ? 0.15f : 0f);
-            if (flightAccMult > 1.2f)
-                flightAccMult = 1.2f;
+                (modPlayer.draconicSurge ? 0.1f : 0f) +
+				modPlayer.moveSpeedStat * 0.005f;
+            if (flightAccMult > 1.5f)
+                flightAccMult = 1.5f;
 
             acceleration *= flightAccMult;
         }
@@ -4551,7 +4608,8 @@ Grants immunity to fire blocks, and temporary immunity to lava";
         public static readonly int Rarity8BuyPrice = Item.buyPrice(0, 80, 0, 0);
         public static readonly int Rarity9BuyPrice = Item.buyPrice(0, 95, 0, 0);
         public static readonly int Rarity10BuyPrice = Item.buyPrice(1, 0, 0, 0);
-        public static readonly int RarityTurquoiseBuyPrice = Item.buyPrice(1, 20, 0, 0);
+		public static readonly int Rarity11BuyPrice = Item.buyPrice(1, 10, 0, 0);
+		public static readonly int RarityTurquoiseBuyPrice = Item.buyPrice(1, 20, 0, 0);
         public static readonly int RarityPureGreenBuyPrice = Item.buyPrice(1, 40, 0, 0);
         public static readonly int RarityDarkBlueBuyPrice = Item.buyPrice(1, 80, 0, 0);
         public static readonly int RarityVioletBuyPrice = Item.buyPrice(2, 50, 0, 0);
@@ -4590,6 +4648,8 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                     return Rarity9BuyPrice;
                 case 10:
                     return Rarity10BuyPrice;
+				case 11:
+					return Rarity11BuyPrice;
                 case (int)CalamityRarity.Turquoise:
                     return RarityTurquoiseBuyPrice;
                 case (int)CalamityRarity.PureGreen:

@@ -70,12 +70,11 @@ namespace CalamityMod.Items.Materials
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<BarofLife>());
-            recipe.AddIngredient(ModContent.ItemType<AuricOre>(), 20);
+            recipe.AddIngredient(ModContent.ItemType<AuricOre>(), 10);
             recipe.AddIngredient(ModContent.ItemType<UnholyEssence>(), 2);
             recipe.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>());
             recipe.AddIngredient(ModContent.ItemType<CoreofCalamity>());
             recipe.AddIngredient(ModContent.ItemType<GalacticaSingularity>());
-            recipe.AddIngredient(ModContent.ItemType<DarksunFragment>());
             recipe.AddIngredient(ModContent.ItemType<HellcasterFragment>());
             recipe.AddTile(ModContent.TileType<DraedonsForge>());
             recipe.SetResult(this, 2);
