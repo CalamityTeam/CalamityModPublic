@@ -15,7 +15,7 @@ namespace CalamityMod.Projectiles.Magic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Ray");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 72;
+            ProjectileID.Sets.TrailCacheLength[projectile.type] = 54;
             ProjectileID.Sets.TrailingMode[projectile.type] = 2;
         }
 

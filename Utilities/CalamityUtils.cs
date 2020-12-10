@@ -374,13 +374,16 @@ namespace CalamityMod
 					{
 						float extraDistance = (Main.npc[index].width / 2) + (Main.npc[index].height / 2);
 
-						if (Vector2.Distance(origin, Main.npc[index].Center) < (distance + extraDistance) && (Collision.CanHitLine(origin, 1, 1, Main.npc[index].Center, 1, 1) || ignoreTiles))
+						if (!Main.npc[index].WithinRange(origin, distance + extraDistance) ||
+							!(Collision.CanHitLine(origin, 1, 1, Main.npc[index].Center, 1, 1) || ignoreTiles))
 						{
-							if (Main.npc[index].boss || Main.npc[index].type == NPCID.WallofFleshEye)
-								bossFound = true;
-							distance = Vector2.Distance(origin, Main.npc[index].Center);
-							closestTarget = Main.npc[index];
+							continue;
 						}
+
+						if (Main.npc[index].boss || Main.npc[index].type == NPCID.WallofFleshEye)
+							bossFound = true;
+						distance = Vector2.Distance(origin, Main.npc[index].Center);
+						closestTarget = Main.npc[index];
 					}
 				}
 			}
