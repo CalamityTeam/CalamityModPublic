@@ -104,7 +104,13 @@ namespace CalamityMod.Items.Accessories
 					if (player.whoAmI == Main.myPlayer)
 					{
 						int type = Main.rand.NextBool(2) ? ProjectileType<AuraRain>() : ProjectileType<StandingFire>();
-						Projectile rain = CalamityUtils.ProjectileRain(player.Center, 400f, 100f, 500f, 800f, 22f, type, (int)(ProjectileDamage * player.AverageDamage()), 5f, player.whoAmI, 6, 1);
+						Projectile rain = CalamityUtils.ProjectileRain(player.Center, 400f, 100f, 500f, 800f, 22f, type, (int)(ProjectileDamage * player.AverageDamage()), 5f, player.whoAmI);
+						if (rain.whoAmI.WithinBounds(Main.maxProjectiles))
+						{
+							rain.Calamity().forceTypeless = true;
+							rain.usesLocalNPCImmunity = true;
+							rain.localNPCHitCooldown = 10;
+						}
 						if (type == ProjectileType<AuraRain>())
 						{
 							rain.tileCollide = false;

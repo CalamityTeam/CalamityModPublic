@@ -40,8 +40,9 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             if (player.Calamity().StealthStrikeAvailable())
             {
-                int boomer = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI, 0f, 0f);
-                Main.projectile[boomer].Calamity().stealthStrike = true;
+                int boomer = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
+				if (boomer.WithinBounds(Main.maxProjectiles))
+					Main.projectile[boomer].Calamity().stealthStrike = true;
                 return false;
             }
             return true;

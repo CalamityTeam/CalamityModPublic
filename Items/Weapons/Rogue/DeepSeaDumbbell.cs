@@ -43,10 +43,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.Calamity().customRarity = CalamityRarity.Dedicated;
         }
 
-        public override bool AltFunctionUse(Player player)
-        {
-            return true;
-        }
+        public override bool AltFunctionUse(Player player) => true;
 
         public override bool CanUseItem(Player player)
         {
@@ -107,7 +104,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             }
 
             int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI, 0f, 0f);
-            if (player.Calamity().StealthStrikeAvailable())
+            if (player.Calamity().StealthStrikeAvailable() && proj.WithinBounds(Main.maxProjectiles))
             {
                 Main.projectile[proj].Calamity().stealthStrike = true;
                 flexBonusDamageMult = 0f;

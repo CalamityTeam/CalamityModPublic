@@ -76,7 +76,9 @@ namespace CalamityMod.CalPlayer
 							ProjectileID.HallowStar,
 							ProjectileType<FallenStarProj>()
 						});
-						CalamityUtils.ProjectileRain(position, 400f, 100f, 500f, 800f, 12f, projectileType, (int)(120 * player.AverageDamage()), 5f, player.whoAmI, 6, 0, 10, 2);
+						Projectile star = CalamityUtils.ProjectileRain(position, 400f, 100f, 500f, 800f, 12f, projectileType, (int)(120 * player.AverageDamage()), 5f, player.whoAmI);
+						if (star.whoAmI.WithinBounds(Main.maxProjectiles))
+							star.Calamity().forceTypeless = true;
                     }
                 }
 			}
@@ -146,7 +148,8 @@ namespace CalamityMod.CalPlayer
 			if (modPlayer.alchFlask && player.ownedProjectileCounts[ProjectileType<PlagueSeeker>()] < 6 && hasClass)
 			{
 				int plague = Projectile.NewProjectile(proj.Center, Vector2.Zero, ProjectileType<PlagueSeeker>(), CalamityUtils.DamageSoftCap(proj.damage * 0.25, 30), 0f, proj.owner);
-				Main.projectile[plague].Calamity().forceTypeless = true;
+				if (plague.WithinBounds(Main.maxProjectiles))
+					Main.projectile[plague].Calamity().forceTypeless = true;
 			}
 			if (modPlayer.theBee && player.statLife >= player.statLifeMax2)
 			{
@@ -175,7 +178,9 @@ namespace CalamityMod.CalPlayer
 							ProjectileID.HallowStar,
 							ProjectileType<FallenStarProj>()
 						});
-						CalamityUtils.ProjectileRain(position, 400f, 100f, 500f, 800f, 25f, projectileType, (int)(120 * player.AverageDamage()), 5f, player.whoAmI, 6);
+						Projectile star = CalamityUtils.ProjectileRain(position, 400f, 100f, 500f, 800f, 25f, projectileType, (int)(120 * player.AverageDamage()), 5f, player.whoAmI);
+						if (star.whoAmI.WithinBounds(Main.maxProjectiles))
+							star.Calamity().forceTypeless = true;
                     }
                 }
 			}
@@ -291,8 +296,11 @@ namespace CalamityMod.CalPlayer
                     {
 						Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
                         int FUCKYOU = Projectile.NewProjectile(position, velocity, ProjectileID.Leaf, CalamityUtils.DamageSoftCap(proj.damage * 0.25, 60), 0f, player.whoAmI);
-                        Main.projectile[FUCKYOU].Calamity().forceTypeless = true;
-                        Main.projectile[FUCKYOU].netUpdate = true;
+						if (FUCKYOU.WithinBounds(Main.maxProjectiles))
+						{
+							Main.projectile[FUCKYOU].Calamity().forceTypeless = true;
+							Main.projectile[FUCKYOU].netUpdate = true;
+						}
                     }
                 }
                 if (proj.type == ProjectileType<PolarStar>())
@@ -333,8 +341,11 @@ namespace CalamityMod.CalPlayer
                     {
 						Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
                         int fire = Projectile.NewProjectile(position, velocity, ProjectileID.BallofFire, CalamityUtils.DamageSoftCap(proj.damage * 0.5, 120), 0f, player.whoAmI);
-                        Main.projectile[fire].Calamity().forceTypeless = true;
-                        Main.projectile[fire].netUpdate = true;
+						if (fire.WithinBounds(Main.maxProjectiles))
+						{
+							Main.projectile[fire].Calamity().forceTypeless = true;
+							Main.projectile[fire].netUpdate = true;
+						}
                     }
                 }
 			}
@@ -504,9 +515,12 @@ namespace CalamityMod.CalPlayer
 					}
 				}
 				int projectileIndex = Projectile.NewProjectile(projTileX * 16 + 8, projTileY * 16 - 24, 0f, 0f, ProjectileType<InfernadoFriendly>(), 420, 15f, Main.myPlayer, 16f, 16f);
-				Main.projectile[projectileIndex].Calamity().forceRogue = true;
-				Main.projectile[projectileIndex].netUpdate = true;
-				Main.projectile[projectileIndex].localNPCHitCooldown = 1;
+				if (projectileIndex.WithinBounds(Main.maxProjectiles))
+				{
+					Main.projectile[projectileIndex].Calamity().forceRogue = true;
+					Main.projectile[projectileIndex].netUpdate = true;
+					Main.projectile[projectileIndex].localNPCHitCooldown = 1;
+				}
 			}
             if (modPlayer.tarraThrowing && !modPlayer.tarragonImmunity && !modPlayer.tarragonImmunityCooldown && modPlayer.tarraThrowingCrits < 25 && crit)
             {
@@ -557,7 +571,8 @@ namespace CalamityMod.CalPlayer
 					Vector2 velocity = new Vector2(speedX, speedY);
 					int dmg = (int)(15 + (proj.damage * 0.05f));
 					int feather = Projectile.NewProjectile(source, velocity, ProjectileType<StickyFeather>(), dmg, 3f, proj.owner);
-					Main.projectile[feather].Calamity().forceRogue = true;
+					if (feather.WithinBounds(Main.maxProjectiles))
+						Main.projectile[feather].Calamity().forceRogue = true;
 					modPlayer.featherCrownCooldown = 15;
 				}
 			}
@@ -570,7 +585,8 @@ namespace CalamityMod.CalPlayer
 					Vector2 velocity = (position - source) / 10f;
 					int dmg = (int)(150 + (proj.damage * 0.05f));
 					int flare = Projectile.NewProjectile(source, velocity, ProjectileID.LunarFlare, dmg, 3, proj.owner);
-					Main.projectile[flare].Calamity().forceRogue = true;
+					if (flare.WithinBounds(Main.maxProjectiles))
+						Main.projectile[flare].Calamity().forceRogue = true;
 					modPlayer.moonCrownCooldown = 15;
 				}
 			}
@@ -583,7 +599,8 @@ namespace CalamityMod.CalPlayer
 					Vector2 velocity = (position - source) / 40f;
 					int dmg = (int)(1000 + (proj.damage * 0.05f));
 					int flare = Projectile.NewProjectile(source, velocity, ProjectileType<NanoFlare>(),dmg, 3f, proj.owner);
-					Main.projectile[flare].Calamity().rogue = true;
+					if (flare.WithinBounds(Main.maxProjectiles))
+						Main.projectile[flare].Calamity().rogue = true;
 					modPlayer.nanoFlareCooldown = 15;
 				}
 			}
@@ -606,7 +623,8 @@ namespace CalamityMod.CalPlayer
 			{
 				int dmg = (int)(100 + (proj.damage * 0.01f));
 				int boom = Projectile.NewProjectile(proj.Center, Vector2.Zero, ProjectileType<SabatonBoom>(), dmg, proj.knockBack, proj.owner, 1f, 0f);
-				Main.projectile[boom].Calamity().forceRogue = true;
+				if (boom.WithinBounds(Main.maxProjectiles))
+					Main.projectile[boom].Calamity().forceRogue = true;
 				Main.PlaySound(SoundID.Item14, proj.Center);
 				for (int dustexplode = 0; dustexplode < 360; dustexplode++)
 				{
@@ -679,8 +697,11 @@ namespace CalamityMod.CalPlayer
 				{
 					int spiritDamage = CalamityUtils.DamageSoftCap(proj.damage * 0.2, 60);
 					Projectile ghost = CalamityGlobalProjectile.SpawnOrb(proj, spiritDamage, ProjectileID.SpectreWrath, 800f, 4f);
-					ghost.Calamity().forceRogue = true;
-					ghost.penetrate = 1;
+					if (ghost.whoAmI.WithinBounds(Main.maxProjectiles))
+					{
+						ghost.Calamity().forceRogue = true;
+						ghost.penetrate = 1;
+					}
 					modPlayer.shadowPotCooldown = 30;
 				}
 				if (CalamityLists.flaskBombProjList.Contains(proj.type))
@@ -707,8 +728,11 @@ namespace CalamityMod.CalPlayer
 					{
 						Vector2 velocity = CalamityUtils.RandomVelocity(50f, 30f, 60f);
 						int spark = Projectile.NewProjectile(position, velocity, ProjectileType<Spark>(), CalamityUtils.DamageSoftCap(proj.damage * 0.1, 30), 0f, player.whoAmI);
-						Main.projectile[spark].Calamity().forceRogue = true;
-						Main.projectile[spark].localNPCHitCooldown = -1;
+						if (spark.WithinBounds(Main.maxProjectiles))
+						{
+							Main.projectile[spark].Calamity().forceRogue = true;
+							Main.projectile[spark].localNPCHitCooldown = -1;
+						}
 					}
 				}
 			}

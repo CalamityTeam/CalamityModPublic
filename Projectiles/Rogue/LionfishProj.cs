@@ -71,7 +71,8 @@ namespace CalamityMod.Projectiles.Rogue
 						vector63 *= (float)Main.rand.Next(45, 65) * 0.1f;
 						vector63 = vector63.RotatedBy((Main.rand.NextDouble() - 0.5) * 1.5707963705062866, default);
 						int spike = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, vector63.X, vector63.Y, ModContent.ProjectileType<UrchinSpikeFugu>(), (int)(projectile.damage * 0.5), projectile.knockBack * 0.5f, projectile.owner, -10f, 0f);
-						Main.projectile[spike].Calamity().forceRogue = true;
+						if (spike.WithinBounds(Main.maxProjectiles))
+							Main.projectile[spike].Calamity().forceRogue = true;
 					}
 				}
             }

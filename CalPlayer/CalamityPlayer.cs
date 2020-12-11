@@ -3213,7 +3213,8 @@ namespace CalamityMod.CalPlayer
 					if (sulphurBubbleCooldown <= 0)
 					{
 						int bubble = Projectile.NewProjectile(new Vector2(player.position.X, player.position.Y + (player.gravDir == -1f ? 20 : -20)), Vector2.Zero, ModContent.ProjectileType<SulphuricAcidBubbleFriendly>(), (int)(20f * player.RogueDamage()), 0f, player.whoAmI, 1f, 0f);
-						Main.projectile[bubble].Calamity().forceRogue = true;
+						if (bubble.WithinBounds(Main.maxProjectiles))
+							Main.projectile[bubble].Calamity().forceRogue = true;
 						sulphurBubbleCooldown = 20;
 					}
 				}
@@ -6785,7 +6786,8 @@ namespace CalamityMod.CalPlayer
                     float speedX4 = num78 + (float)Main.rand.Next(-30, 31) * 0.02f;
                     float speedY5 = num79 + (float)Main.rand.Next(-30, 31) * 0.02f;
                     int p = Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, type, CalamityUtils.DamageSoftCap(damage * 0.15, 75), knockBack * 0.5f, player.whoAmI);
-                    Main.projectile[p].Calamity().forceRogue = true; //in case melee/rogue variants bug out
+					if (p.WithinBounds(Main.maxProjectiles))
+						Main.projectile[p].Calamity().forceRogue = true; //in case melee/rogue variants bug out
 					if (item.type == ModContent.ItemType<FinalDawn>())
 					{
 						Main.projectile[p].ai[1] = 1f;
@@ -7438,7 +7440,13 @@ namespace CalamityMod.CalPlayer
                 {
                     for (int n = 0; n < 3; n++)
                     {
-						CalamityUtils.ProjectileRain(player.Center, 400f, 100f, 500f, 800f, 29f, ProjectileID.HallowStar, (int)(130 * player.AverageDamage()), 4f, player.whoAmI, 6, 1, 5);
+						Projectile star = CalamityUtils.ProjectileRain(player.Center, 400f, 100f, 500f, 800f, 29f, ProjectileID.HallowStar, (int)(130 * player.AverageDamage()), 4f, player.whoAmI);
+						if (star.whoAmI.WithinBounds(Main.maxProjectiles))
+						{
+							star.Calamity().forceTypeless = true;
+							star.usesLocalNPCImmunity = true;
+							star.localNPCHitCooldown = 5;
+						}
                     }
 
                     /*int num = 1;
@@ -7459,7 +7467,13 @@ namespace CalamityMod.CalPlayer
                 {
                     for (int n = 0; n < 3; n++)
                     {
-						CalamityUtils.ProjectileRain(player.Center, 400f, 100f, 500f, 800f, 29f, ProjectileID.HallowStar, (int)(150 * player.AverageDamage()), 4f, player.whoAmI, 6, 1, 5);
+						Projectile star = CalamityUtils.ProjectileRain(player.Center, 400f, 100f, 500f, 800f, 29f, ProjectileID.HallowStar, (int)(150 * player.AverageDamage()), 4f, player.whoAmI);
+						if (star.whoAmI.WithinBounds(Main.maxProjectiles))
+						{
+							star.Calamity().forceTypeless = true;
+							star.usesLocalNPCImmunity = true;
+							star.localNPCHitCooldown = 5;
+						}
                     }
                     int num = 1;
                     if (Main.rand.NextBool(3))
@@ -7520,10 +7534,16 @@ namespace CalamityMod.CalPlayer
                             offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
                             int spark1 = Projectile.NewProjectile(player.Center.X, player.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<Spark>(), (int)(sDamage * player.AverageDamage()), 1.25f, player.whoAmI, 0f, 0f);
                             int spark2 = Projectile.NewProjectile(player.Center.X, player.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<Spark>(), (int)(sDamage * player.AverageDamage()), 1.25f, player.whoAmI, 0f, 0f);
-                            Main.projectile[spark1].timeLeft = 120;
-                            Main.projectile[spark2].timeLeft = 120;
-                            Main.projectile[spark1].Calamity().forceTypeless = true;
-                            Main.projectile[spark2].Calamity().forceTypeless = true;
+							if (spark1.WithinBounds(Main.maxProjectiles))
+							{
+								Main.projectile[spark1].timeLeft = 120;
+								Main.projectile[spark1].Calamity().forceTypeless = true;
+							}
+							if (spark2.WithinBounds(Main.maxProjectiles))
+							{
+								Main.projectile[spark2].timeLeft = 120;
+								Main.projectile[spark2].Calamity().forceTypeless = true;
+							}
                         }
                     }
                 }
@@ -7588,8 +7608,10 @@ namespace CalamityMod.CalPlayer
                             offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
                             int shard = Projectile.NewProjectile(player.Center.X, player.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f) + randomSpeed, ProjectileID.CrystalShard, sDamage, 1f, player.whoAmI, 0f, 0f);
                             int shard2 = Projectile.NewProjectile(player.Center.X, player.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f) + randomSpeed2, ProjectileID.CrystalShard, sDamage, 1f, player.whoAmI, 0f, 0f);
-                            Main.projectile[shard].Calamity().forceTypeless = true;
-                            Main.projectile[shard2].Calamity().forceTypeless = true;
+							if (shard.WithinBounds(Main.maxProjectiles))
+								Main.projectile[shard].Calamity().forceTypeless = true;
+							if (shard2.WithinBounds(Main.maxProjectiles))
+								Main.projectile[shard2].Calamity().forceTypeless = true;
                         }
                     }
                 }
@@ -7642,11 +7664,23 @@ namespace CalamityMod.CalPlayer
                 {
                     for (int l = 0; l < 2; l++)
                     {
-						CalamityUtils.ProjectileRain(player.Center, 400f, 100f, 500f, 800f, 22f, ProjectileID.ShadowBeamFriendly, (int)(3000 * player.AverageDamage()), 7f, player.whoAmI, 6, 1);
+						Projectile beam = CalamityUtils.ProjectileRain(player.Center, 400f, 100f, 500f, 800f, 22f, ProjectileID.ShadowBeamFriendly, (int)(3000 * player.AverageDamage()), 7f, player.whoAmI);
+						if (beam.whoAmI.WithinBounds(Main.maxProjectiles))
+						{
+							beam.Calamity().forceTypeless = true;
+							beam.usesLocalNPCImmunity = true;
+							beam.localNPCHitCooldown = 10;
+						}
                     }
                     for (int l = 0; l < 5; l++)
                     {
-						CalamityUtils.ProjectileRain(player.Center, 400f, 100f, 500f, 800f, 22f, ProjectileID.DemonScythe, (int)(5000 * player.AverageDamage()), 7f, player.whoAmI, 6, 1);
+						Projectile scythe = CalamityUtils.ProjectileRain(player.Center, 400f, 100f, 500f, 800f, 22f, ProjectileID.DemonScythe, (int)(5000 * player.AverageDamage()), 7f, player.whoAmI);
+						if (scythe.whoAmI.WithinBounds(Main.maxProjectiles))
+						{
+							scythe.Calamity().forceTypeless = true;
+							scythe.usesLocalNPCImmunity = true;
+							scythe.localNPCHitCooldown = 10;
+						}
                     }
                 }
             }
@@ -8203,9 +8237,12 @@ namespace CalamityMod.CalPlayer
 					if (statisTimer % 5 == 0)
 					{
 						int scythe = Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<CosmicScythe>(), (int)(500 * player.AverageDamage()), 5f, player.whoAmI);
-						Main.projectile[scythe].Calamity().forceTypeless = true;
-						Main.projectile[scythe].usesIDStaticNPCImmunity = true;
-						Main.projectile[scythe].idStaticNPCHitCooldown = 10;
+						if (scythe.WithinBounds(Main.maxProjectiles))
+						{
+							Main.projectile[scythe].Calamity().forceTypeless = true;
+							Main.projectile[scythe].usesIDStaticNPCImmunity = true;
+							Main.projectile[scythe].idStaticNPCHitCooldown = 10;
+						}
 					}
                 }
                 else if (dashMod == 8) //Plaguebringer armor

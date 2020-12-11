@@ -387,7 +387,7 @@ namespace CalamityMod.Projectiles.Summon
                                                                            8f,
                                                                            projectile.owner,
                                                                            projectile.whoAmI);
-                    if (player.HeldItem != null)
+                    if (player.HeldItem != null && deathLaser.whoAmI.WithinBounds(Main.maxProjectiles))
                     {
                         if (player.HeldItem.magic)
                         {

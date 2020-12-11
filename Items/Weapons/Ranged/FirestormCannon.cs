@@ -35,27 +35,11 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.useAmmo = AmmoID.Flare;
         }
 
-        public override Vector2? HoldoutOffset()
-        {
-            return new Vector2(-10, 0);
-        }
+        public override Vector2? HoldoutOffset() => new Vector2(-10, 0);
 
-        public override bool ConsumeAmmo(Player player)
-        {
-            if (Main.rand.Next(0, 100) < 70)
-                return false;
-            return true;
-        }
+        public override bool ConsumeAmmo(Player player) => Main.rand.Next(100) >= 70;
 
-        public override bool AltFunctionUse(Player player)
-        {
-            return true;
-        }
-
-        public override bool CanUseItem(Player player)
-        {
-            return base.CanUseItem(player);
-        }
+        public override bool AltFunctionUse(Player player) => true;
 
 		public override float UseTimeMultiplier	(Player player)
 		{
@@ -73,10 +57,13 @@ namespace CalamityMod.Items.Weapons.Ranged
                 {
                     float SpeedX = speedX + (float)Main.rand.Next(-50, 51) * 0.05f;
                     float SpeedY = speedY + (float)Main.rand.Next(-50, 51) * 0.05f;
-                    int flare = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, (int)((double)damage * 1.4), knockBack, player.whoAmI, 0.0f, 0.0f);
-                    Main.projectile[flare].penetrate = 1;
-                    Main.projectile[flare].timeLeft = 600;
-                    Main.projectile[flare].Calamity().forceRanged = true;
+                    int flare = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, (int)((double)damage * 1.4), knockBack, player.whoAmI);
+					if (flare.WithinBounds(Main.maxProjectiles))
+					{
+						Main.projectile[flare].penetrate = 1;
+						Main.projectile[flare].timeLeft = 600;
+						Main.projectile[flare].Calamity().forceRanged = true;
+					}
                 }
                 return false;
             }
@@ -87,10 +74,13 @@ namespace CalamityMod.Items.Weapons.Ranged
                 {
                     float SpeedX = speedX + (float)Main.rand.Next(-40, 41) * 0.05f;
                     float SpeedY = speedY + (float)Main.rand.Next(-40, 41) * 0.05f;
-                    int projectile = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, 0.0f, 0.0f);
-                    Main.projectile[projectile].Calamity().forceRanged = true;
-                    Main.projectile[projectile].timeLeft = 200;
-                    Main.projectile[projectile].penetrate = 3;
+                    int flare = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI);
+					if (flare.WithinBounds(Main.maxProjectiles))
+					{
+						Main.projectile[flare].Calamity().forceRanged = true;
+						Main.projectile[flare].timeLeft = 200;
+						Main.projectile[flare].penetrate = 3;
+					}
                 }
                 return false;
             }

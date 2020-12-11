@@ -46,7 +46,8 @@ namespace CalamityMod.Items.Weapons.Rogue
             {
                 initialVelocity *= 2f;
                 int p = Projectile.NewProjectile(position, initialVelocity, ModContent.ProjectileType<BouncingEyeballProjectileStealthStrike>(), damage, knockBack, player.whoAmI);
-                Main.projectile[p].Calamity().stealthStrike = true;
+				if (p.WithinBounds(Main.maxProjectiles))
+					Main.projectile[p].Calamity().stealthStrike = true;
             }
             else
             {

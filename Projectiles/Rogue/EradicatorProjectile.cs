@@ -57,11 +57,14 @@ namespace CalamityMod.Projectiles.Rogue
 				shootCounter = 0f;
 				Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
 				Projectile laser = Projectile.NewProjectileDirect(projectile.Center, velocity, ModContent.ProjectileType<NebulaShot>(), projectile.damage, 0f, projectile.owner);
-				laser.Calamity().forceRogue = true;
-				laser.aiStyle = Main.rand.NextBool() ? 1 : -1;
-				laser.penetrate = -1;
-				laser.usesLocalNPCImmunity = true;
-				laser.localNPCHitCooldown = 20;
+				if (laser.whoAmI.WithinBounds(Main.maxProjectiles))
+				{
+					laser.Calamity().forceRogue = true;
+					laser.aiStyle = Main.rand.NextBool() ? 1 : -1;
+					laser.penetrate = -1;
+					laser.usesLocalNPCImmunity = true;
+					laser.localNPCHitCooldown = 20;
+				}
 			}
 
 			projectile.StickyProjAI(6, true);

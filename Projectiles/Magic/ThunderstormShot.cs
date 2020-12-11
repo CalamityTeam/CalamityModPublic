@@ -52,7 +52,7 @@ namespace CalamityMod.Projectiles.Magic
             Main.PlaySound(SoundID.Item125, projectile.Center);
             for (int n = 0; n < 5; n++)
             {
-				CalamityUtils.ProjectileRain(projectile.Center, 200f, 100f, 1500f, 1500f, 29f, ModContent.ProjectileType<ThunderstormShotSplit>(), projectile.damage, projectile.knockBack, projectile.owner, projectile.owner);
+				CalamityUtils.ProjectileRain(projectile.Center, 200f, 100f, 1500f, 1500f, 29f, ModContent.ProjectileType<ThunderstormShotSplit>(), projectile.damage, projectile.knockBack, projectile.owner);
             }
 			CalamityGlobalProjectile.ExpandHitboxBy(projectile, 36);
             int num226 = 36;

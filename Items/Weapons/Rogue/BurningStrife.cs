@@ -45,8 +45,8 @@ namespace CalamityMod.Items.Weapons.Rogue
 			{
 				speedMult = 1.25f;
 			}
-            int proj = Projectile.NewProjectile(position, new Vector2(speedX * speedMult, speedY * speedMult), ModContent.ProjectileType<BurningStrifeProj>(), damage, knockBack, player.whoAmI);
-            if (player.Calamity().StealthStrikeAvailable())
+            int proj = Projectile.NewProjectile(position, new Vector2(speedX * speedMult, speedY * speedMult), type, damage, knockBack, player.whoAmI);
+            if (player.Calamity().StealthStrikeAvailable() && proj.WithinBounds(Main.maxProjectiles))
             {
                 Main.projectile[proj].Calamity().stealthStrike = true;
                 Main.projectile[proj].penetrate = 5;            

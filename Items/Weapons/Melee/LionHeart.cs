@@ -79,14 +79,16 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-			int explosion = Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<PlanarRipperExplosion>(), (int)(item.damage * player.MeleeDamage()), knockback, player.whoAmI, 0f, 0f);
-			Main.projectile[explosion].Calamity().forceMelee = true;
+			int explosion = Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<PlanarRipperExplosion>(), (int)(item.damage * player.MeleeDamage()), knockback, player.whoAmI);
+			if (explosion.WithinBounds(Main.maxProjectiles))
+				Main.projectile[explosion].Calamity().forceMelee = true;
         }
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
-			int explosion = Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<PlanarRipperExplosion>(), (int)(item.damage * player.MeleeDamage()), item.knockBack, player.whoAmI, 0f, 0f);
-			Main.projectile[explosion].Calamity().forceMelee = true;
+			int explosion = Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<PlanarRipperExplosion>(), (int)(item.damage * player.MeleeDamage()), item.knockBack, player.whoAmI);
+			if (explosion.WithinBounds(Main.maxProjectiles))
+				Main.projectile[explosion].Calamity().forceMelee = true;
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)

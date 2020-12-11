@@ -106,20 +106,22 @@ namespace CalamityMod.Projectiles.Melee
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
 			target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 300);
-			if (projectile.owner == Main.myPlayer)
-			{
-				int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<FuckYou>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
-				Main.projectile[proj].Calamity().forceMelee = true;
-			}
+			OnHitEffect();
 		}
 
 		public override void OnHitPvp(Player target, int damage, bool crit)
 		{
 			target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 300);
+			OnHitEffect();
+		}
+
+		private void OnHitEffect()
+		{
 			if (projectile.owner == Main.myPlayer)
 			{
-				int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<FuckYou>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
-				Main.projectile[proj].Calamity().forceMelee = true;
+				int proj = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<FuckYou>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
+				if (proj.WithinBounds(Main.maxProjectiles))
+					Main.projectile[proj].Calamity().forceMelee = true;
 			}
 		}
 

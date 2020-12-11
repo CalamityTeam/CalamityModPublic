@@ -63,7 +63,8 @@ namespace CalamityMod.Items.Weapons.Rogue
                     float spread = 2;
                     int pIndex = Projectile.NewProjectile(position.X, position.Y, speedX + Main.rand.NextFloat(-spread, spread), speedY + Main.rand.NextFloat(-spread, spread), type, damage, knockBack, player.whoAmI, 0f, 1f);
                     Projectile p = Main.projectile[pIndex];
-                    p.Calamity().stealthStrike = true;
+					if (pIndex.WithinBounds(Main.maxProjectiles))
+						p.Calamity().stealthStrike = true;
                     int pID = p.identity;
 
                     CreateOrbs(position, orbDamage, knockBack, pID, player, true);
@@ -157,12 +158,18 @@ namespace CalamityMod.Items.Weapons.Rogue
 			float mult = stealth ? 0.75f : 1f;
             int orb1 = Projectile.NewProjectile(position, Vector2.Zero, ModContent.ProjectileType<NychthemeronOrb>(), (int)(damage * mult), knockBack, player.whoAmI, orb1Col, projectileID);
             int orb2 = Projectile.NewProjectile(position, Vector2.Zero, ModContent.ProjectileType<NychthemeronOrb>(), (int)(damage * mult), knockBack, player.whoAmI, orb2Col, projectileID);
-            Main.projectile[orb1].localAI[1] = pos;
-            Main.projectile[orb2].localAI[1] = pos;
-            Main.projectile[orb1].rotation = rotationOffset;
-            Main.projectile[orb2].rotation = rotationOffset + MathHelper.ToRadians(180f);
-            Main.projectile[orb1].Calamity().lineColor = stealth ? 1 : 0;
-            Main.projectile[orb2].Calamity().lineColor = stealth ? 1 : 0;
+			if (orb1.WithinBounds(Main.maxProjectiles))
+			{
+				Main.projectile[orb1].localAI[1] = pos;
+				Main.projectile[orb1].rotation = rotationOffset;
+				Main.projectile[orb1].Calamity().lineColor = stealth ? 1 : 0;
+			}
+			if (orb2.WithinBounds(Main.maxProjectiles))
+			{
+				Main.projectile[orb2].localAI[1] = pos;
+				Main.projectile[orb2].rotation = rotationOffset + MathHelper.ToRadians(180f);
+				Main.projectile[orb2].Calamity().lineColor = stealth ? 1 : 0;
+			}
         }
     }
 }

@@ -1137,8 +1137,9 @@ namespace CalamityMod.Projectiles
                                 for (int i = 0; i < 2; i++)
                                 {
                                     Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
-                                    int shard = Projectile.NewProjectile(projectile.Center, velocity, ProjectileID.CrystalShard, CalamityUtils.DamageSoftCap(projectile.damage * 0.25, 30), 0f, projectile.owner, 0f, 0f);
-                                    Main.projectile[shard].Calamity().forceTypeless = true;
+                                    int shard = Projectile.NewProjectile(projectile.Center, velocity, ProjectileID.CrystalShard, CalamityUtils.DamageSoftCap(projectile.damage * 0.25, 30), 0f, projectile.owner);
+									if (shard.WithinBounds(Main.maxProjectiles))
+										Main.projectile[shard].Calamity().forceTypeless = true;
                                 }
                             }
                         }
@@ -1830,7 +1831,8 @@ namespace CalamityMod.Projectiles
                                 int projectile2 = Projectile.NewProjectile(value.X, value.Y, velocity.X, velocity.Y, spawnedProjectile, (int)(projectile.damage * damageMult), projectile.knockBack, projectile.owner, 0f, 0f);
 
                                 if (projectile.type == ProjectileType<EradicatorProjectile>())
-                                    Main.projectile[projectile2].Calamity().forceRogue = true;
+									if (projectile2.WithinBounds(Main.maxProjectiles))
+										Main.projectile[projectile2].Calamity().forceRogue = true;
                             }
                         }
 
@@ -1849,10 +1851,12 @@ namespace CalamityMod.Projectiles
 
                         if (projectile.type == ProjectileType<CnidarianYoyo>() || projectile.type == ProjectileType<GodsGambitYoyo>() ||
                             projectile.type == ProjectileType<ShimmersparkYoyo>() || projectile.type == ProjectileType<VerdantYoyo>())
-                            Main.projectile[projectile2].Calamity().forceMelee = true;
+							if (projectile2.WithinBounds(Main.maxProjectiles))
+								Main.projectile[projectile2].Calamity().forceMelee = true;
 
 						if (projectile.type == ProjectileType<SeashellBoomerangProjectile>())
-							Main.projectile[projectile2].Calamity().forceRogue = true;
+							if (projectile2.WithinBounds(Main.maxProjectiles))
+								Main.projectile[projectile2].Calamity().forceRogue = true;
                     }
                 }
             }

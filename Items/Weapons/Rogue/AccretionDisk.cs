@@ -43,9 +43,12 @@ namespace CalamityMod.Items.Weapons.Rogue
 				speedX *= 0.7f;
 				speedY *= 0.7f;
 				int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
-				Main.projectile[proj].Calamity().stealthStrike = true;
-				Main.projectile[proj].timeLeft *= 3;
-				Main.projectile[proj].localNPCHitCooldown *= 2;
+				if (proj.WithinBounds(Main.maxProjectiles))
+				{
+					Main.projectile[proj].Calamity().stealthStrike = true;
+					Main.projectile[proj].timeLeft *= 3;
+					Main.projectile[proj].localNPCHitCooldown *= 2;
+				}
 				return false;
 			}
             return true;

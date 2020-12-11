@@ -138,10 +138,13 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             if (Main.myPlayer != projectile.owner)
                 return;
             Projectile field = Projectile.NewProjectileDirect(projectile.Center, Vector2.Zero, ProjectileID.Electrosphere, projectile.damage, projectile.knockBack, projectile.owner);
-            field.Calamity().forceMelee = true;
-            field.usesLocalNPCImmunity = true;
-            field.localNPCHitCooldown = 3;
-            field.timeLeft = 12;
+			if (field.whoAmI.WithinBounds(Main.maxProjectiles))
+			{
+				field.Calamity().forceMelee = true;
+				field.usesLocalNPCImmunity = true;
+				field.localNPCHitCooldown = 3;
+				field.timeLeft = 12;
+			}
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)

@@ -42,10 +42,13 @@ Stealth strikes erupt into thorns on enemy hits");
         {
             if (player.Calamity().StealthStrikeAvailable()) //setting the stealth strike
             {
-                int stealth = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI, 0f, 0f);
-                Main.projectile[stealth].Calamity().stealthStrike = true;
-                Main.projectile[stealth].usesLocalNPCImmunity = true;
-                Main.projectile[stealth].usesIDStaticNPCImmunity = false;
+                int stealth = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
+				if (stealth.WithinBounds(Main.maxProjectiles))
+				{
+					Main.projectile[stealth].Calamity().stealthStrike = true;
+					Main.projectile[stealth].usesLocalNPCImmunity = true;
+					Main.projectile[stealth].usesIDStaticNPCImmunity = false;
+				}
                 return false;
             }
             return true;

@@ -50,9 +50,12 @@ namespace CalamityMod.Projectiles.Environment
 					int damage = NPC.downedMoonlord ? 80 : NPC.downedPlantBoss ? 40 : Main.hardMode ? 20 : 10;
 
 					int proj = Projectile.NewProjectile(fireFrom, velocity, ProjectileID.CultistBossLightningOrbArc, damage, 0f, projectile.owner, ai0.ToRotation(), ai);
-					Main.projectile[proj].extraUpdates += 11;
-					Main.projectile[proj].friendly = true;
-					Main.projectile[proj].Calamity().lineColor = 1;
+					if (proj.WithinBounds(Main.maxProjectiles))
+					{
+						Main.projectile[proj].extraUpdates += 11;
+						Main.projectile[proj].friendly = true;
+						Main.projectile[proj].Calamity().lineColor = 1;
+					}
 				}
 			}
 			else if (projectile.velocity.Y == 0f)

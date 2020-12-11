@@ -111,15 +111,16 @@ namespace CalamityMod.Projectiles.Magic
             if (target.life <= 0)
             {
 				Player player = Main.player[projectile.owner];
-				int shardDamage = (int)((SparklingEmpress.BaseDamage / 5) * player.MagicDamage());
+				int shardDamage = projectile.damage / 5;
 				int shardAmt = Main.rand.Next(2, 4);
                 if (projectile.owner == Main.myPlayer)
                 {
 					for (int s = 0; s < shardAmt; s++)
 					{
 						Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
-						int shard = Projectile.NewProjectile(target.Center, velocity, ModContent.ProjectileType<AquashardSplit>(), shardDamage, 0f, projectile.owner, 0f, 0f);
-						Main.projectile[shard].Calamity().forceMagic = true;
+						int shard = Projectile.NewProjectile(target.Center, velocity, ModContent.ProjectileType<AquashardSplit>(), shardDamage, 0f, projectile.owner);
+						if (shard.WithinBounds(Main.maxProjectiles))
+							Main.projectile[shard].Calamity().forceMagic = true;
 					}
 				}
             }
