@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Accessories
             Tooltip.SetDefault("Only a living dragon holds true treasure\n" +
 							   "Rogue projectiles create slow fireballs as they travel\n" +
                                "Stealth strikes create infernados on death\n" +
-                               "After Yharon is dead, you gain 10% movement speed and acceleration");
+                               "After Yharon is dead, you gain 10% max run speed and acceleration");
         }
 
         public override void SetDefaults()

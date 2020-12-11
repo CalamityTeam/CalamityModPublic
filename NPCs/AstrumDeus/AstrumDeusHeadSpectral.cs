@@ -34,6 +34,7 @@ namespace CalamityMod.NPCs.AstrumDeus
 
         public override void SetDefaults()
         {
+			npc.Calamity().canBreakPlayerDefense = true;
 			npc.GetNPCDamage();
 			npc.npcSlots = 5f;
             npc.width = 56;

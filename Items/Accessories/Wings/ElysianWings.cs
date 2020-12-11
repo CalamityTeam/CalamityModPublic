@@ -2,6 +2,7 @@ using CalamityMod.CalPlayer;
 using CalamityMod.World;
 using System.Collections.Generic;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories.Wings
@@ -17,7 +18,7 @@ namespace CalamityMod.Items.Accessories.Wings
                 "Acceleration multiplier: 2.7\n" +
                 "Great vertical speed\n" +
                 "Flight time: 200\n" +
-				"Temporary immunity to lava and 40% increased movement speed");
+				"Temporary immunity to lava and 30% increased movement speed");
         }
 
         public override void SetDefaults()
@@ -25,7 +26,7 @@ namespace CalamityMod.Items.Accessories.Wings
             item.width = 36;
             item.height = 32;
             item.value = CalamityGlobalItem.Rarity12BuyPrice;
-            item.rare = 10;
+			item.rare = ItemRarityID.Purple;
             item.Calamity().customRarity = CalamityRarity.Turquoise;
             item.accessory = true;
         }
@@ -38,7 +39,7 @@ namespace CalamityMod.Items.Accessories.Wings
 				{
 					if (line2.mod == "Terraria" && line2.Name == "Tooltip5")
 					{
-						line2.text = "Temporary immunity to lava and 40% increased movement speed\n" +
+						line2.text = "Temporary immunity to lava and 30% increased movement speed\n" +
 						"Provides heat protection in Death Mode";
 					}
 				}
@@ -48,7 +49,7 @@ namespace CalamityMod.Items.Accessories.Wings
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            player.moveSpeed += 0.4f;
+            player.moveSpeed += 0.3f;
             player.lavaMax += 240;
             player.wingTimeMax = 200;
             player.noFallDmg = true;

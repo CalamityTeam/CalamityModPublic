@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Armor
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.shadowSpeed = true;
-            player.moveSpeed += 1f;
+            player.moveSpeed += 0.3f;
         }
 
         public override void AddRecipes()

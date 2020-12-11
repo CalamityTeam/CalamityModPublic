@@ -33,9 +33,9 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 1f;
-            item.value = CalamityGlobalItem.Rarity12BuyPrice;
-            item.rare = 10;
-            item.Calamity().customRarity = CalamityRarity.Dedicated;
+			item.value = CalamityGlobalItem.Rarity11BuyPrice;
+			item.rare = ItemRarityID.Purple;
+			item.Calamity().customRarity = CalamityRarity.Dedicated;
             item.UseSound = SoundID.Item11;
             item.autoReuse = true;
             item.shoot = ProjectileID.Bullet;

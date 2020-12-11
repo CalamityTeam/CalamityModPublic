@@ -30,15 +30,14 @@ namespace CalamityMod.Items.Weapons.Typeless
         {
             item.width = 40;
             item.height = 34;
-            item.rare = 10;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
             item.useAnimation = item.useTime = 28;
             item.useStyle = ItemUseStyleID.HoldingUp;
             item.UseSound = SoundID.Item45;
             item.autoReuse = true;
             item.noMelee = true;
-            item.value = CalamityGlobalItem.RarityTurquoiseBuyPrice;
-            item.shoot = ModContent.ProjectileType<ArtifactOfResilienceBulwark>();
+			item.value = CalamityGlobalItem.Rarity11BuyPrice;
+			item.rare = ItemRarityID.Purple;
+			item.shoot = ModContent.ProjectileType<ArtifactOfResilienceBulwark>();
             item.shootSpeed = 0f;
         }
         public override bool CanUseItem(Player player) => !player.HasBuff(ModContent.BuffType<ResilienceCooldown>());

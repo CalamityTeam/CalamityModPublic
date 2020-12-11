@@ -31,7 +31,8 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void SetDefaults()
         {
-            npc.damage = 135;
+			npc.Calamity().canBreakPlayerDefense = true;
+			npc.damage = 135;
             npc.width = 66; //36
             npc.height = 86; //20
             npc.defense = 10;

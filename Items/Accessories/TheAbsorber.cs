@@ -12,12 +12,11 @@ namespace CalamityMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("The Absorber");
-            Tooltip.SetDefault("12% increased movement speed\n" +
+            Tooltip.SetDefault("6% increased movement speed\n" +
                 "24% increased jump speed\n" +
                 "+20 max life and mana\n" +
                 "Standing still boosts life and mana regen\n" +
-                "Increased defense and damage reduction when submerged in liquid\n" +
-                "Increased movement speed when submerged in liquid\n" +
+                "Increased defense, movement speed and damage reduction while submerged in liquid\n" +
                 "Enemies take damage when they hit you\n" +
                 "Taking a hit will make you move very fast for a short time\n" +
                 "You emit a mushroom spore and spark explosion when you are hit\n" +

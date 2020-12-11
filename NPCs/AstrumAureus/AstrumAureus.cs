@@ -43,6 +43,7 @@ namespace CalamityMod.NPCs.AstrumAureus
 			npc.noGravity = true;
             npc.npcSlots = 15f;
 			npc.GetNPCDamage();
+			npc.Calamity().canBreakPlayerDefense = true;
 			npc.width = 400;
             npc.height = 280;
             npc.defense = 40;

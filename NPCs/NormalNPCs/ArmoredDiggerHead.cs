@@ -20,7 +20,8 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void SetDefaults()
         {
-            npc.damage = 90;
+			npc.Calamity().canBreakPlayerDefense = true;
+			npc.damage = 90;
             npc.npcSlots = 10f;
             npc.width = 54;
             npc.height = 54;

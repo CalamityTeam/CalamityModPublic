@@ -27,11 +27,11 @@ namespace CalamityMod.Items.SummonItems
             item.useAnimation = 45;
             item.useTime = 45;
             item.useStyle = ItemUseStyleID.HoldingUp;
-            item.rare = 9;
             item.UseSound = SoundID.Item44;
             item.consumable = false;
-            item.Calamity().customRarity = CalamityRarity.PureGreen;
-        }
+			item.rare = ItemRarityID.Purple;
+			item.Calamity().customRarity = CalamityRarity.Turquoise;
+		}
 
         public override bool CanUseItem(Player player)
         {

@@ -28,8 +28,7 @@ namespace CalamityMod.Items.PermanentBoosters
 			item.useStyle = ItemUseStyleID.HoldingUp;
 			item.UseSound = SoundID.Item122;
 			item.consumable = true;
-			item.rare = 10;
-			item.Calamity().customRarity = CalamityRarity.Turquoise;
+			item.rare = ItemRarityID.Purple;
 		}
 
 		public override bool CanUseItem(Player player) => !player.Calamity().rageBoostThree;

@@ -16,7 +16,8 @@ namespace CalamityMod.NPCs.Cryogen
 
         public override void SetDefaults()
         {
-            npc.aiStyle = -1;
+			npc.Calamity().canBreakPlayerDefense = true;
+			npc.aiStyle = -1;
             aiType = -1;
             npc.canGhostHeal = false;
             npc.noTileCollide = true;

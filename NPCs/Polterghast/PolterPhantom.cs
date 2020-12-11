@@ -85,6 +85,9 @@ namespace CalamityMod.NPCs.Polterghast
         {
             CalamityGlobalNPC.ghostBossClone = npc.whoAmI;
 
+			// Don't do it all the time
+			npc.Calamity().canBreakPlayerDefense = false;
+
 			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
 
             if (CalamityGlobalNPC.ghostBoss < 0 || !Main.npc[CalamityGlobalNPC.ghostBoss].active)
@@ -266,6 +269,8 @@ namespace CalamityMod.NPCs.Polterghast
 				// Charge
 				if (npc.Calamity().newAI[3] == 1f)
 				{
+					npc.Calamity().canBreakPlayerDefense = true;
+
 					npc.Opacity += 0.06f;
 					if (npc.Opacity > 0.8f)
 						npc.Opacity = 0.8f;

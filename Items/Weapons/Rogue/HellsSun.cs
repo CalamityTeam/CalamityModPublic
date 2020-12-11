@@ -36,10 +36,9 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.useAnimation = 15;
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.knockBack = knockBack;
-            item.value = Item.buyPrice(0, 12, 0, 0);
-            item.rare = 10;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;;
-            item.UseSound = SoundID.Item1;
+			item.value = CalamityGlobalItem.Rarity11BuyPrice;
+			item.rare = ItemRarityID.Purple;
+			item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             item.maxStack = 10;
 

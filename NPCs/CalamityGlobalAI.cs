@@ -10615,7 +10615,9 @@ namespace CalamityMod.NPCs
             // Despawn
             if (player.dead || Vector2.Distance(player.Center, vector) > 5600f)
             {
-                npc.velocity.Y -= 0.4f;
+				npc.TargetClosest(true);
+
+				npc.velocity.Y -= 0.4f;
 
                 if (npc.timeLeft > 10)
                     npc.timeLeft = 10;
@@ -10907,7 +10909,8 @@ namespace CalamityMod.NPCs
                     npc.ai[1] = 0f;
                     npc.ai[2] = 0f;
                     npc.ai[3] += 2f;
-                    npc.netUpdate = true;
+					npc.TargetClosest(true);
+					npc.netUpdate = true;
                 }
             }
 
@@ -10952,7 +10955,8 @@ namespace CalamityMod.NPCs
                     npc.ai[0] = 0f;
                     npc.ai[1] = 0f;
                     npc.ai[2] = 0f;
-                    npc.netUpdate = true;
+					npc.TargetClosest(true);
+					npc.netUpdate = true;
                 }
             }
 
@@ -10988,7 +10992,8 @@ namespace CalamityMod.NPCs
                     npc.ai[0] = 0f;
                     npc.ai[1] = 0f;
                     npc.ai[2] = 0f;
-                    npc.netUpdate = true;
+					npc.TargetClosest(true);
+					npc.netUpdate = true;
                 }
             }
 
@@ -11010,7 +11015,8 @@ namespace CalamityMod.NPCs
                     npc.ai[1] = 0f;
                     npc.ai[2] = 0f;
                     npc.ai[3] = 0f;
-                    npc.netUpdate = true;
+					npc.TargetClosest(true);
+					npc.netUpdate = true;
                 }
             }
 
@@ -11159,7 +11165,8 @@ namespace CalamityMod.NPCs
                     npc.ai[1] = 0f;
                     npc.ai[2] = 0f;
                     npc.ai[3] += 2f;
-                    npc.netUpdate = true;
+					npc.TargetClosest(true);
+					npc.netUpdate = true;
                 }
             }
 
@@ -11201,7 +11208,8 @@ namespace CalamityMod.NPCs
                     npc.ai[0] = 5f;
                     npc.ai[1] = 0f;
                     npc.ai[2] = 0f;
-                    npc.netUpdate = true;
+					npc.TargetClosest(true);
+					npc.netUpdate = true;
                 }
             }
 
@@ -11225,7 +11233,8 @@ namespace CalamityMod.NPCs
                     npc.ai[0] = 5f;
                     npc.ai[1] = 0f;
                     npc.ai[2] = 0f;
-                    npc.netUpdate = true;
+					npc.TargetClosest(true);
+					npc.netUpdate = true;
                 }
             }
 
@@ -11267,7 +11276,8 @@ namespace CalamityMod.NPCs
                     npc.ai[1] = 0f;
                     npc.ai[2] = 0f;
                     npc.ai[3] = 0f;
-                    npc.netUpdate = true;
+					npc.TargetClosest(true);
+					npc.netUpdate = true;
                 }
             }
 
@@ -11430,7 +11440,8 @@ namespace CalamityMod.NPCs
 					if (!phase4 || !death)
 						npc.ai[3] += 1f;
 
-                    npc.netUpdate = true;
+					npc.TargetClosest(true);
+					npc.netUpdate = true;
                 }
             }
 

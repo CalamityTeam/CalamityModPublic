@@ -759,7 +759,7 @@ namespace CalamityMod.NPCs
 					break;
 
 				case NPCID.Dryad:
-					if (Main.rand.NextBool(5) && CalamityWorld.buffedEclipse && Main.eclipse)
+					if (Main.rand.NextBool(5) && CalamityWorld.downedDoG && Main.eclipse)
 					{
 						chat = "There's a dark solar energy emanating from the moths that appear during this time. Ah, the moths as you progress further get more powerful...hmm...what power was Yharon holding back?";
 					}

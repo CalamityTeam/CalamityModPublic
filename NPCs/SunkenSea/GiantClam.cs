@@ -37,7 +37,8 @@ namespace CalamityMod.NPCs.SunkenSea
 
         public override void SetDefaults()
         {
-            npc.lavaImmune = true;
+			npc.Calamity().canBreakPlayerDefense = true;
+			npc.lavaImmune = true;
             npc.npcSlots = 5f;
             npc.damage = 50;
             npc.width = 160;
