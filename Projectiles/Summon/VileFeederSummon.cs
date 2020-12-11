@@ -4,6 +4,7 @@ using CalamityMod.Items.Weapons.Summon;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -36,6 +37,16 @@ namespace CalamityMod.Projectiles.Summon
 			projectile.timeLeft *= 5;
 			projectile.minion = true;
 		}
+
+        public override void SendExtraAI(BinaryWriter writer)
+        {
+            writer.Write(projectile.Calamity().lineColor);
+        }
+
+        public override void ReceiveExtraAI(BinaryReader reader)
+        {
+            projectile.Calamity().lineColor = reader.ReadInt32();
+        }
 
 		public override void AI()
 		{
