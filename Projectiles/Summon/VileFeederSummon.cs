@@ -128,7 +128,7 @@ namespace CalamityMod.Projectiles.Summon
 				{
 					breakAway = true;
 				}
-				else if (npcIndex < 0 || npcIndex >= Main.maxNPCs)
+				else if (!npcIndex.WithinBounds(Main.maxNPCs))
 				{
 					breakAway = true;
 				}
