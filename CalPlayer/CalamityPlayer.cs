@@ -1122,7 +1122,7 @@ namespace CalamityMod.CalPlayer
                 { "boost", boost },
                 { "stress", rage },
                 { "adrenaline", adrenaline },
-                { "aquaticBoostPower", (double)aquaticBoost },
+                { "aquaticBoostPower", aquaticBoost },
                 { "sCalDeathCount", sCalDeathCount },
                 { "sCalKillCount", sCalKillCount },
                 { "meleeLevel", meleeLevel },
@@ -1194,7 +1194,7 @@ namespace CalamityMod.CalPlayer
             rage = tag.GetFloat("stress");
             adrenaline = tag.GetFloat("adrenaline");
             if (tag.ContainsKey("aquaticBoostPower"))
-    			aquaticBoost = (float)tag.GetAsDouble("aquaticBoostPower");
+    			aquaticBoost = tag.GetFloat("aquaticBoostPower");
             sCalDeathCount = tag.GetInt("sCalDeathCount");
             sCalKillCount = tag.GetInt("sCalKillCount");
             deathCount = tag.GetInt("deathCount");
