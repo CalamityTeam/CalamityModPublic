@@ -1187,8 +1187,8 @@ namespace CalamityMod.CalPlayer
 			newAmidiasInventory = boost.Contains("newAmidiasInventory");
 			newBanditInventory = boost.Contains("newBanditInventory");
 
-			rage = tag.GetAsInt("stress");
-            adrenaline = tag.GetAsInt("adrenaline");
+			rage = tag.GetFloat("stress");
+            adrenaline = tag.GetFloat("adrenaline");
 			//aquaticBoost = tag.GetAsInt("aquaticBoost");
 			sCalDeathCount = tag.GetInt("sCalDeathCount");
             sCalKillCount = tag.GetInt("sCalKillCount");
