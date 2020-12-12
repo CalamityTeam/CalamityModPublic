@@ -43,7 +43,8 @@ namespace CalamityMod.Projectiles.Rogue
             Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0.25f / 255f, (255 - projectile.alpha) * 0.25f / 255f, (255 - projectile.alpha) * 0.25f / 255f);
             projectile.spriteDirection = projectile.direction = (projectile.velocity.X > 0).ToDirectionInt();
             projectile.rotation = projectile.velocity.ToRotation() + (projectile.spriteDirection == 1 ? 0f : MathHelper.Pi);
-			//CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 400f, 6f, 20f);
+			if (projectile.ai[0] != 1f)
+				CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 400f, 6f, 20f);
         }
 
         public override void Kill(int timeLeft)

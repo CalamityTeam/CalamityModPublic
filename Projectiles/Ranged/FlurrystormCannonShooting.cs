@@ -134,10 +134,13 @@ namespace CalamityMod.Projectiles.Ranged
 					snowballVel.X += Main.rand.NextFloat(-2.25f, 2.25f);
 					snowballVel.Y += Main.rand.NextFloat(-2.25f, 2.25f);
 					int snowball = Projectile.NewProjectile(sourceS, snowballVel, projType, dmg, kBack, projectile.owner);
-					Main.projectile[snowball].noDropItem = true;
-					Main.projectile[snowball].Calamity().forceRanged = true;
-					Main.projectile[snowball].thrown = false;
-					Main.projectile[snowball].extraUpdates += Main.rand.Next(0,2);
+					if (snowball.WithinBounds(Main.maxProjectiles))
+					{
+						Main.projectile[snowball].noDropItem = true;
+						Main.projectile[snowball].Calamity().forceRanged = true;
+						Main.projectile[snowball].thrown = false;
+						Main.projectile[snowball].extraUpdates += Main.rand.Next(0,2);
+					}
 
 					if (Main.rand.NextBool(5)) //ice chunk
 					{

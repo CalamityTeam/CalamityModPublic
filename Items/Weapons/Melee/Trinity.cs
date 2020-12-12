@@ -35,26 +35,19 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            switch (Main.rand.Next(3))
-            {
-                case 0:
-                    type = ProjectileID.RubyBolt;
-                    break;
-                case 1:
-                    type = ProjectileID.SapphireBolt;
-                    break;
-                case 2:
-                    type = ProjectileID.AmethystBolt;
-                    break;
-                default:
-                    break;
-            }
+			type = Utils.SelectRandom(Main.rand, new int[]
+			{
+				ProjectileID.RubyBolt,
+				ProjectileID.SapphireBolt,
+				ProjectileID.AmethystBolt
+			});
             for (int projectiles = 0; projectiles <= 3; projectiles++)
             {
                 float SpeedX = speedX + (float)Main.rand.Next(-30, 31) * 0.05f;
                 float SpeedY = speedY + (float)Main.rand.Next(-30, 31) * 0.05f;
-                int proj = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, (int)((double)damage * 0.6), knockBack, Main.myPlayer, 0f, 0f);
-                Main.projectile[proj].Calamity().forceMelee = true;
+                int proj = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, (int)(damage * 0.6), knockBack, Main.myPlayer, 0f, 0f);
+				if (proj.WithinBounds(Main.maxProjectiles))
+					Main.projectile[proj].Calamity().forceMelee = true;
             }
             return false;
         }

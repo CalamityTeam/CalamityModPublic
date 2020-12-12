@@ -40,11 +40,14 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
 			if (player.Calamity().StealthStrikeAvailable())
 			{
-				int gemstone = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI, 0f, 0f);
-				Main.projectile[gemstone].Calamity().stealthStrike = true;
-				Main.projectile[gemstone].usesLocalNPCImmunity = true;
-				Main.projectile[gemstone].timeLeft = 900;
-				Main.projectile[gemstone].penetrate = -1;
+				int gemstone = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
+				if (gemstone.WithinBounds(Main.maxProjectiles))
+				{
+					Main.projectile[gemstone].Calamity().stealthStrike = true;
+					Main.projectile[gemstone].usesLocalNPCImmunity = true;
+					Main.projectile[gemstone].timeLeft = 900;
+					Main.projectile[gemstone].penetrate = -1;
+				}
 				return false;
 			}
 			return true;

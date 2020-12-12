@@ -64,10 +64,13 @@ namespace CalamityMod.Projectiles.Rogue
 						for (int num252 = 0; num252 < shardCount; num252++)
 						{
 							Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
-							int shard = Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<AquashardSplit>(), projectile.damage / 2, 0f, projectile.owner, 0f, 0f);
-							Main.projectile[shard].Calamity().forceRogue = true;
-							Main.projectile[shard].usesLocalNPCImmunity = true;
-							Main.projectile[shard].localNPCHitCooldown = 10;
+							int shard = Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<AquashardSplit>(), projectile.damage / 2, 0f, projectile.owner);
+							if (shard.WithinBounds(Main.maxProjectiles))
+							{
+								Main.projectile[shard].Calamity().forceRogue = true;
+								Main.projectile[shard].usesLocalNPCImmunity = true;
+								Main.projectile[shard].localNPCHitCooldown = 10;
+							}
 						}
 						for (int i = 0; i < numProj + 1; i++)
 						{
@@ -99,9 +102,12 @@ namespace CalamityMod.Projectiles.Rogue
 				for (int s = 0; s < shardCount; s++)
 				{
 					Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
-					int shard = Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<AquashardSplit>(), projectile.damage / 2, 0f, projectile.owner, 0f, 0f);
-					Main.projectile[shard].Calamity().forceRogue = true;
-					Main.projectile[shard].penetrate = 1;
+					int shard = Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<AquashardSplit>(), projectile.damage / 2, 0f, projectile.owner);
+					if (shard.WithinBounds(Main.maxProjectiles))
+					{
+						Main.projectile[shard].Calamity().forceRogue = true;
+						Main.projectile[shard].penetrate = 1;
+					}
 				}
 			}
         }

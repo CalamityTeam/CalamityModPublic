@@ -67,7 +67,8 @@ namespace CalamityMod.Projectiles.Ranged
                 int blastDamage = (int)(projectile.damage * 0.85f);
                 float scale = 0.85f + Main.rand.NextFloat() * 1.15f;
                 int boom = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<FuckYou>(), blastDamage, projectile.knockBack, projectile.owner, 0f, scale);
-                Main.projectile[boom].Calamity().forceRanged = true;
+				if (boom.WithinBounds(Main.maxProjectiles))
+					Main.projectile[boom].Calamity().forceRanged = true;
             }
             for (int k = 0; k < 4; k++)
             {

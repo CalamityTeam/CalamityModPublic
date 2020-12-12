@@ -43,8 +43,9 @@ namespace CalamityMod.Items.Weapons.Rogue
             {
 				int projType = (i != 0 || player.Calamity().StealthStrikeAvailable()) ? type : ModContent.ProjectileType<IchorSpearProj>();
                 Vector2 perturbedSpeed = new Vector2(speedX, speedY).RotatedBy(MathHelper.ToRadians(i));
-                int spear = Projectile.NewProjectile(position.X, position.Y, perturbedSpeed.X, perturbedSpeed.Y, projType, damage, knockBack, player.whoAmI, 0f, 0f);
-				Main.projectile[spear].Calamity().stealthStrike = player.Calamity().StealthStrikeAvailable();
+                int spear = Projectile.NewProjectile(position, perturbedSpeed, projType, damage, knockBack, player.whoAmI);
+				if (spear.WithinBounds(Main.maxProjectiles))
+					Main.projectile[spear].Calamity().stealthStrike = player.Calamity().StealthStrikeAvailable();
             }
             return false;
         }

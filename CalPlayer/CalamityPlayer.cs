@@ -3223,7 +3223,8 @@ namespace CalamityMod.CalPlayer
 					if (sulphurBubbleCooldown <= 0)
 					{
 						int bubble = Projectile.NewProjectile(new Vector2(player.position.X, player.position.Y + (player.gravDir == -1f ? 20 : -20)), Vector2.Zero, ModContent.ProjectileType<SulphuricAcidBubbleFriendly>(), (int)(20f * player.RogueDamage()), 0f, player.whoAmI, 1f, 0f);
-						Main.projectile[bubble].Calamity().forceRogue = true;
+						if (bubble.WithinBounds(Main.maxProjectiles))
+							Main.projectile[bubble].Calamity().forceRogue = true;
 						sulphurBubbleCooldown = 20;
 					}
 				}
@@ -4738,26 +4739,9 @@ namespace CalamityMod.CalPlayer
         #region On Hit NPC
         public override void OnHitNPC(Item item, NPC target, int damage, float knockback, bool crit)
         {
-			if (desertProwler && item.ranged && crit) //for obscure stuff like marnite bayonet
-			{
-				if (player.ownedProjectileCounts[ModContent.ProjectileType<DesertMark>()] < 1 && player.ownedProjectileCounts[ModContent.ProjectileType<DesertTornado>()] < 1)
-				{
-					if (Main.rand.NextBool(15))
-					{
-						if (player.whoAmI == Main.myPlayer)
-						{
-							Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<DesertMark>(), CalamityUtils.DamageSoftCap(item.damage * player.RangedDamage(), 50), knockback, player.whoAmI, 0f, 0f);
-						}
-					}
-				}
-			}
-            if (!item.melee && player.meleeEnchant == 7)
-                Projectile.NewProjectile(target.Center, target.velocity, ProjectileID.ConfettiMelee, 0, 0f, player.whoAmI, 0f, 0f);
+			if (player.whoAmI != Main.myPlayer)
+				return;
 
-            if (omegaBlueChestplate)
-                target.AddBuff(ModContent.BuffType<CrushDepth>(), 240);
-            if (sulfurSet)
-                target.AddBuff(BuffID.Poisoned, 120);
             switch (item.type)
             {
                 case ItemID.IceSickle:
@@ -4773,148 +4757,18 @@ namespace CalamityMod.CalPlayer
                     break;
             }
 
-            if (item.melee) //prevents Deep Sea Dumbell from snagging true melee debuff memes
-            {
-				titanBoost = 600;
-                if (eGauntlet)
-                {
-					int duration = 90;
-                    target.AddBuff(BuffID.CursedInferno, duration / 2, false);
-                    target.AddBuff(BuffID.Frostburn, duration, false);
-                    target.AddBuff(BuffID.Ichor, duration, false);
-                    target.AddBuff(BuffID.Venom, duration, false);
-                    target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), duration, false);
-                    target.AddBuff(ModContent.BuffType<AbyssalFlames>(), duration, false);
-                    target.AddBuff(ModContent.BuffType<HolyFlames>(), duration, false);
-                    target.AddBuff(ModContent.BuffType<Plague>(), duration, false);
-                    target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), duration, false);
-                    if (Main.rand.NextBool(5))
-                    {
-                        target.AddBuff(ModContent.BuffType<GlacialState>(), duration, false);
-                    }
-                }
-                if (cryogenSoul || frostFlare)
-                {
-					CalamityUtils.Inflict246DebuffsNPC(target, BuffID.Frostburn);
-                }
-                if (yInsignia)
-                {
-					CalamityUtils.Inflict246DebuffsNPC(target, ModContent.BuffType<HolyFlames>());
-                }
-                if (ataxiaFire)
-                {
-					CalamityUtils.Inflict246DebuffsNPC(target, BuffID.OnFire, 4f);
-                }
-				if (aWeapon)
-				{
-					CalamityUtils.Inflict246DebuffsNPC(target, ModContent.BuffType<AbyssalFlames>());
-				}
-            }
-            if (abyssalAmulet)
-            {
-				CalamityUtils.Inflict246DebuffsNPC(target, ModContent.BuffType<CrushDepth>());
-            }
-            if (dsSetBonus)
-            {
-				CalamityUtils.Inflict246DebuffsNPC(target, ModContent.BuffType<DemonFlames>());
-            }
-            if (alchFlask)
-            {
-				CalamityUtils.Inflict246DebuffsNPC(target, ModContent.BuffType<Plague>());
-            }
-            if (armorCrumbling || armorShattering)
-            {
-                if (item.melee || item.Calamity().rogue)
-                {
-					CalamityUtils.Inflict246DebuffsNPC(target, ModContent.BuffType<ArmorCrunch>());
-                }
-            }
-            if (item.Calamity().rogue)
-            {
-				switch (player.meleeEnchant)
-				{
-					case 1:
-						target.AddBuff(BuffID.Venom, 60 * Main.rand.Next(5, 10), false);
-						break;
-					case 2:
-						target.AddBuff(BuffID.CursedInferno, 60 * Main.rand.Next(3, 7), false);
-						break;
-					case 3:
-						target.AddBuff(BuffID.OnFire, 60 * Main.rand.Next(3, 7), false);
-						break;
-					case 5:
-						target.AddBuff(BuffID.Ichor, 60 * Main.rand.Next(10, 20), false);
-						break;
-					case 6:
-						target.AddBuff(BuffID.Confused, 60 * Main.rand.Next(1, 4), false);
-						break;
-					case 8:
-						target.AddBuff(BuffID.Poisoned, 60 * Main.rand.Next(5, 10), false);
-						break;
-					case 4:
-						target.AddBuff(BuffID.Midas, 120, false);
-						break;
-				}
-				if (titanHeartMask)
-				{
-					target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 60 * Main.rand.Next(1,6), false); // 1 to 5 seconds
-				}
-            }
-            if (holyWrath)
-            {
-                target.AddBuff(ModContent.BuffType<HolyFlames>(), 600, false);
-            }
-            if (vexation)
-            {
-				if ((player.armor[0].type == ModContent.ItemType<ReaverHelm>() || player.armor[0].type == ModContent.ItemType<ReaverHeadgear>() ||
-					player.armor[0].type == ModContent.ItemType<ReaverVisage>()) && player.armor[1].type == ModContent.ItemType<ReaverScaleMail>() &&
-					player.armor[2].type == ModContent.ItemType<ReaverCuisses>())
-				{
-                    target.AddBuff(BuffID.CursedInferno, 90, false);
-                    target.AddBuff(BuffID.Venom, 120, false);
-                }
-            }
-			if (reaverDefense)
-			{
-				player.lifeRegenTime += 1;
-				if (Main.player[Main.myPlayer].lifeSteal > 0f && target.canGhostHeal && target.type != NPCID.TargetDummy && target.type != ModContent.NPCType<SuperDummyNPC>() && !player.moonLeech)
-				{
-					float healMult = 0.2f;
-					float heal = damage * healMult;
-
-					if (heal > 50)
-						heal = 50;
-					if (Main.rand.Next(10) > 0)
-						heal = 0;
-
-					if ((int)heal > 0 && !Main.player[Main.myPlayer].moonLeech)
-					{
-						Main.player[Main.myPlayer].lifeSteal -= heal * 2f;
-						float lowestHealthCheck = 0f;
-						int healTarget = player.whoAmI;
-						for (int i = 0; i < Main.maxPlayers; i++)
-						{
-							Player otherPlayer = Main.player[i];
-							if (otherPlayer.active && !otherPlayer.dead && ((!player.hostile && !otherPlayer.hostile) || player.team == otherPlayer.team))
-							{
-								float playerDist = Vector2.Distance(target.Center, otherPlayer.Center);
-								if (playerDist < 1200f && (otherPlayer.statLifeMax2 - otherPlayer.statLife) > lowestHealthCheck)
-								{
-									lowestHealthCheck = otherPlayer.statLifeMax2 - otherPlayer.statLife;
-									healTarget = i;
-								}
-							}
-						}
-						Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<ReaverHealOrb>(), 0, 0f, player.whoAmI, healTarget, heal);
-					}
-				}
-			}
-		}
+			CalamityPlayerOnHit.ItemLifesteal(player, mod, target, item, damage);
+			CalamityPlayerOnHit.ItemOnHit(player, mod, item, damage, target.Center, crit, (target.damage > 5 || target.boss) && !target.SpawnedFromStatue);
+			CalamityPlayerOnHit.NPCDebuffs(player, mod, target, item.melee, item.ranged, item.magic, item.summon, item.Calamity().rogue, false);
+        }
         #endregion
 
         #region On Hit NPC With Proj
         public override void OnHitNPCWithProj(Projectile proj, NPC target, int damage, float knockback, bool crit)
         {
+			if (player.whoAmI != Main.myPlayer)
+				return;
+
             switch (proj.type)
             {
                 case ProjectileID.BoneArrow:
@@ -4960,199 +4814,35 @@ namespace CalamityMod.CalPlayer
                     break;
             }
 
-            if (!proj.npcProj && !proj.trap)
+			if (ProjectileID.Sets.StardustDragon[proj.type])
+			{
+				target.immune[proj.owner] = 10;
+			}
+
+            if (!proj.npcProj && !proj.trap && proj.friendly)
             {
-				if (desertProwler && proj.ranged && crit)
-				{
-					if (player.ownedProjectileCounts[ModContent.ProjectileType<DesertMark>()] < 1 && player.ownedProjectileCounts[ModContent.ProjectileType<DesertTornado>()] < 1)
-					{
-						if (Main.rand.NextBool(15))
-						{
-							if (player.whoAmI == Main.myPlayer)
-							{
-								Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<DesertMark>(), CalamityUtils.DamageSoftCap(proj.damage, 50), proj.knockBack, player.whoAmI, 0f, 0f);
-							}
-						}
-					}
-				}
-
-				if (proj.Calamity().trueMelee)
-					titanBoost = 600;
-
-                if (sulfurSet && proj.friendly && !target.friendly)
-                    target.AddBuff(BuffID.Poisoned, 120);
-
-                if (omegaBlueChestplate && proj.friendly && !target.friendly)
-                    target.AddBuff(ModContent.BuffType<CrushDepth>(), 240);
-
-                if (proj.melee && silvaMelee && Main.rand.NextBool(4))
-                    target.AddBuff(ModContent.BuffType<SilvaStun>(), 20);
-
-                if (abyssalAmulet)
-                {
-					CalamityUtils.Inflict246DebuffsNPC(target, ModContent.BuffType<CrushDepth>());
-                }
-                if (dsSetBonus)
-                {
-					CalamityUtils.Inflict246DebuffsNPC(target, ModContent.BuffType<DemonFlames>());
-                }
                 if ((plaguebringerCarapace || uberBees) && CalamityLists.friendlyBeeList.Contains(proj.type))
                 {
                     target.AddBuff(ModContent.BuffType<Plague>(), 360);
                 }
-                else if (alchFlask)
-                {
-					CalamityUtils.Inflict246DebuffsNPC(target, ModContent.BuffType<Plague>());
-                }
-                if (proj.melee)
-                {
-                    if (eGauntlet)
-                    {
-						int duration = 90;
-                        target.AddBuff(BuffID.CursedInferno, duration / 2, false);
-                        target.AddBuff(BuffID.Frostburn, duration, false);
-                        target.AddBuff(BuffID.Ichor, duration, false);
-                        target.AddBuff(BuffID.Venom, duration, false);
-                        target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), duration, false);
-                        target.AddBuff(ModContent.BuffType<AbyssalFlames>(), duration, false);
-                        target.AddBuff(ModContent.BuffType<HolyFlames>(), duration, false);
-                        target.AddBuff(ModContent.BuffType<Plague>(), duration, false);
-                        target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), duration, false);
-                        if (Main.rand.NextBool(5))
-                        {
-                            target.AddBuff(ModContent.BuffType<GlacialState>(), duration, false);
-                        }
-                    }
-                    if (aWeapon)
-                    {
-						CalamityUtils.Inflict246DebuffsNPC(target, ModContent.BuffType<AbyssalFlames>());
-                    }
-                    if (cryogenSoul || frostFlare)
-                    {
-						CalamityUtils.Inflict246DebuffsNPC(target, BuffID.Frostburn);
-                    }
-                    if (yInsignia)
-                    {
-						CalamityUtils.Inflict246DebuffsNPC(target, ModContent.BuffType<HolyFlames>());
-                    }
-                    if (ataxiaFire)
-                    {
-						CalamityUtils.Inflict246DebuffsNPC(target, BuffID.OnFire, 4f);
-                    }
-                }
-                if (armorCrumbling || armorShattering)
-                {
-                    if (proj.melee || proj.Calamity().rogue)
-                    {
-						CalamityUtils.Inflict246DebuffsNPC(target, ModContent.BuffType<ArmorCrunch>());
-                    }
-                }
-                if (perforatorLore)
-                {
-                    target.AddBuff(BuffID.Ichor, 90);
-                }
-                if (hiveMindLore)
-                {
-                    target.AddBuff(BuffID.CursedInferno, 90);
-                }
-                if (holyWrath)
-                {
-                    target.AddBuff(ModContent.BuffType<HolyFlames>(), 600, false);
-                }
-                else if (providenceLore)
-                {
-                    target.AddBuff(ModContent.BuffType<HolyFlames>(), 420, false);
-                }
-                if (proj.Calamity().rogue)
-                {
-					switch (player.meleeEnchant)
-					{
-						case 1:
-							target.AddBuff(BuffID.Venom, 60 * Main.rand.Next(5, 10), false);
-							break;
-						case 2:
-							target.AddBuff(BuffID.CursedInferno, 60 * Main.rand.Next(3, 7), false);
-							break;
-						case 3:
-							target.AddBuff(BuffID.OnFire, 60 * Main.rand.Next(3, 7), false);
-							break;
-						case 5:
-							target.AddBuff(BuffID.Ichor, 60 * Main.rand.Next(10, 20), false);
-							break;
-						case 6:
-							target.AddBuff(BuffID.Confused, 60 * Main.rand.Next(1, 4), false);
-							break;
-						case 8:
-							target.AddBuff(BuffID.Poisoned, 60 * Main.rand.Next(5, 10), false);
-							break;
-						case 4:
-							target.AddBuff(BuffID.Midas, 120, false);
-							break;
-					}
-                    if (etherealExtorter)
-                    {
-                        if (ZoneSunkenSea)
-                        {
-                            target.AddBuff(ModContent.BuffType<TemporalSadness>(), 60, false);
-                        }
-                        if (ZoneSulphur)
-                        {
-                            target.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), 120, false);
-                            target.AddBuff(ModContent.BuffType<Irradiated>(), 300, false);
-                        }
-                        if (Main.moonPhase == 6) //first quarter
-                        {
-                            target.AddBuff(BuffID.Midas, 120, false);
-                        }
-                        if (ZoneCalamity && CalamityLists.fireWeaponList.Contains(player.ActiveItem().type))
-                        {
-                            target.AddBuff(ModContent.BuffType<AbyssalFlames>(), 240, false);
-                        }
-                    }
-					if (titanHeartMask)
-					{
-						target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 60 * Main.rand.Next(1,6), false); // 1 to 5 seconds
-					}
-                }
-                if (vexation)
-                {
-					if ((player.armor[0].type == ModContent.ItemType<ReaverHelm>() || player.armor[0].type == ModContent.ItemType<ReaverHeadgear>() ||
-						player.armor[0].type == ModContent.ItemType<ReaverVisage>()) && player.armor[1].type == ModContent.ItemType<ReaverScaleMail>() &&
-						player.armor[2].type == ModContent.ItemType<ReaverCuisses>())
-					{
-                        target.AddBuff(BuffID.CursedInferno, 90, false);
-                        target.AddBuff(BuffID.Venom, 120, false);
-                    }
-                }
+				if (proj.type == ProjectileID.IchorArrow && player.ActiveItem().type == ModContent.ItemType<RaidersGlory>())
+				{
+					target.AddBuff(BuffID.Midas, 300, false);
+				}
+
+				CalamityPlayerOnHit.ProjLifesteal(player, mod, target, proj, damage, crit);
+				CalamityPlayerOnHit.ProjOnHit(player, mod, proj, target.Center, crit, (target.damage > 5 || target.boss) && !target.SpawnedFromStatue);
+				CalamityPlayerOnHit.NPCDebuffs(player, mod, target, proj.melee, proj.ranged, proj.magic, proj.IsSummon(), proj.Calamity().rogue, true);
             }
-			proj.Calamity().stealthStrikeHitCount++;
         }
         #endregion
 
         #region PvP
         public override void OnHitPvp(Item item, Player target, int damage, bool crit)
         {
-			if (desertProwler && item.ranged && crit) //for obscure stuff like Marnite Bayonet
-			{
-				if (player.ownedProjectileCounts[ModContent.ProjectileType<DesertMark>()] < 1 && player.ownedProjectileCounts[ModContent.ProjectileType<DesertTornado>()] < 1)
-				{
-					if (Main.rand.NextBool(15))
-					{
-						if (player.whoAmI == Main.myPlayer)
-						{
-							Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<DesertMark>(), CalamityUtils.DamageSoftCap(item.damage * player.RangedDamage(), 50), item.knockBack, player.whoAmI, 0f, 0f);
-						}
-					}
-				}
-			}
+			if (player.whoAmI != Main.myPlayer)
+				return;
 
-            if (!item.melee && player.meleeEnchant == 7)
-                Projectile.NewProjectile(target.Center, target.velocity, ProjectileID.ConfettiMelee, 0, 0f, player.whoAmI, 0f, 0f);
-
-            if (omegaBlueChestplate)
-                target.AddBuff(ModContent.BuffType<CrushDepth>(), 240);
-            if (sulfurSet)
-                target.AddBuff(BuffID.Poisoned, 120);
             switch (item.type)
             {
                 case ItemID.IceSickle:
@@ -5167,101 +4857,15 @@ namespace CalamityMod.CalPlayer
                         target.AddBuff(BuffID.Frostburn, 120);
                     break;
             }
-
-            if (item.melee)
-            {
-				titanBoost = 600;
-                if (eGauntlet)
-                {
-					int duration = 90;
-                    target.AddBuff(BuffID.CursedInferno, duration / 2, false);
-                    target.AddBuff(BuffID.Frostburn, duration, false);
-                    target.AddBuff(BuffID.Ichor, duration, false);
-                    target.AddBuff(BuffID.Venom, duration, false);
-                    target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), duration, false);
-                    target.AddBuff(ModContent.BuffType<AbyssalFlames>(), duration, false);
-                    target.AddBuff(ModContent.BuffType<HolyFlames>(), duration, false);
-                    target.AddBuff(ModContent.BuffType<Plague>(), duration, false);
-                    target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), duration, false);
-                    if (Main.rand.NextBool(5))
-                    {
-                        target.AddBuff(ModContent.BuffType<GlacialState>(), duration, false);
-                    }
-                }
-                if (aWeapon)
-                {
-					CalamityUtils.Inflict246DebuffsPvp(target, ModContent.BuffType<AbyssalFlames>());
-                }
-                if (cryogenSoul || frostFlare)
-                {
-					CalamityUtils.Inflict246DebuffsPvp(target, BuffID.Frostburn);
-                }
-                if (yInsignia)
-                {
-					CalamityUtils.Inflict246DebuffsPvp(target, ModContent.BuffType<HolyFlames>());
-                }
-                if (ataxiaFire)
-                {
-					CalamityUtils.Inflict246DebuffsPvp(target, BuffID.OnFire, 4f);
-                }
-            }
-            if (alchFlask)
-            {
-				CalamityUtils.Inflict246DebuffsPvp(target, ModContent.BuffType<Plague>());
-            }
-			if (abyssalAmulet)
-			{
-				CalamityUtils.Inflict246DebuffsPvp(target, ModContent.BuffType<CrushDepth>());
-			}
-            if (item.Calamity().rogue)
-            {
-				switch (player.meleeEnchant)
-				{
-					case 1:
-						target.AddBuff(BuffID.Venom, 60 * Main.rand.Next(5, 10), false);
-						break;
-					case 2:
-						target.AddBuff(BuffID.CursedInferno, 60 * Main.rand.Next(3, 7), false);
-						break;
-					case 3:
-						target.AddBuff(BuffID.OnFire, 60 * Main.rand.Next(3, 7), false);
-						break;
-					case 5:
-						target.AddBuff(BuffID.Ichor, 60 * Main.rand.Next(10, 20), false);
-						break;
-					case 6:
-						target.AddBuff(BuffID.Confused, 60 * Main.rand.Next(1, 4), false);
-						break;
-					case 8:
-						target.AddBuff(BuffID.Poisoned, 60 * Main.rand.Next(5, 10), false);
-						break;
-					/*case 4:
-						target.AddBuff(BuffID.Midas, 120, false);
-						break;*/
-				}
-				if (titanHeartMask)
-				{
-					target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 60 * Main.rand.Next(1,6), false); // 1 to 5 seconds
-				}
-            }
-            if (holyWrath)
-            {
-                target.AddBuff(ModContent.BuffType<HolyFlames>(), 600, false);
-            }
-            if (vexation)
-            {
-				if ((player.armor[0].type == ModContent.ItemType<ReaverHelm>() || player.armor[0].type == ModContent.ItemType<ReaverHeadgear>() ||
-					player.armor[0].type == ModContent.ItemType<ReaverVisage>()) && player.armor[1].type == ModContent.ItemType<ReaverScaleMail>() &&
-					player.armor[2].type == ModContent.ItemType<ReaverCuisses>())
-				{
-                    target.AddBuff(BuffID.CursedInferno, 90, false);
-                    target.AddBuff(BuffID.Venom, 120, false);
-                }
-            }
+			CalamityPlayerOnHit.ItemOnHit(player, mod, item, damage, target.Center, crit, true);
+			CalamityPlayerOnHit.PvpDebuffs(player, mod, target, item.melee, item.ranged, item.magic, item.summon, item.Calamity().rogue, false);
         }
 
         public override void OnHitPvpWithProj(Projectile proj, Player target, int damage, bool crit)
         {
+			if (player.whoAmI != Main.myPlayer)
+				return;
+
             switch (proj.type)
             {
                 case ProjectileID.BoneArrow:
@@ -5307,171 +4911,14 @@ namespace CalamityMod.CalPlayer
                     break;
             }
 
-            if (!proj.npcProj && !proj.trap)
+            if (!proj.npcProj && !proj.trap && proj.friendly)
             {
-				if (desertProwler && proj.ranged && crit)
-				{
-					if (player.ownedProjectileCounts[ModContent.ProjectileType<DesertMark>()] < 1 && player.ownedProjectileCounts[ModContent.ProjectileType<DesertTornado>()] < 1)
-					{
-						if (Main.rand.NextBool(15))
-						{
-							if (player.whoAmI == Main.myPlayer)
-							{
-								Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<DesertMark>(), CalamityUtils.DamageSoftCap(proj.damage, 50), proj.knockBack, player.whoAmI, 0f, 0f);
-							}
-						}
-					}
-				}
-
-				if (proj.Calamity().trueMelee)
-					titanBoost = 600;
-
-                if (sulfurSet && proj.friendly)
-                    target.AddBuff(BuffID.Poisoned, 120);
-
-                if (omegaBlueChestplate && proj.friendly)
-                    target.AddBuff(ModContent.BuffType<CrushDepth>(), 240);
-
-                if (proj.melee && silvaMelee && Main.rand.NextBool(4))
-                    target.AddBuff(ModContent.BuffType<SilvaStun>(), 20);
-
-
-                if (abyssalAmulet)
-                {
-					CalamityUtils.Inflict246DebuffsPvp(target, ModContent.BuffType<CrushDepth>());
-                }
                 if ((plaguebringerCarapace || uberBees) && CalamityLists.friendlyBeeList.Contains(proj.type))
                 {
                     target.AddBuff(ModContent.BuffType<Plague>(), 360);
                 }
-                else if (alchFlask)
-                {
-					CalamityUtils.Inflict246DebuffsPvp(target, ModContent.BuffType<Plague>());
-                }
-                if (proj.melee)
-                {
-                    if (eGauntlet)
-                    {
-						int duration = 90;
-                        target.AddBuff(BuffID.CursedInferno, duration / 2, false);
-                        target.AddBuff(BuffID.Frostburn, duration, false);
-                        target.AddBuff(BuffID.Ichor, duration, false);
-                        target.AddBuff(BuffID.Venom, duration, false);
-                        target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), duration, false);
-                        target.AddBuff(ModContent.BuffType<AbyssalFlames>(), duration, false);
-                        target.AddBuff(ModContent.BuffType<HolyFlames>(), duration, false);
-                        target.AddBuff(ModContent.BuffType<Plague>(), duration, false);
-                        target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), duration, false);
-                        if (Main.rand.NextBool(5))
-                        {
-                            target.AddBuff(ModContent.BuffType<GlacialState>(), duration, false);
-                        }
-                    }
-                    if (aWeapon)
-                    {
-						CalamityUtils.Inflict246DebuffsPvp(target, ModContent.BuffType<AbyssalFlames>());
-                    }
-                    if (cryogenSoul || frostFlare)
-                    {
-						CalamityUtils.Inflict246DebuffsPvp(target, BuffID.Frostburn);
-                    }
-                    if (yInsignia)
-                    {
-						CalamityUtils.Inflict246DebuffsPvp(target, ModContent.BuffType<HolyFlames>());
-                    }
-                    if (ataxiaFire)
-                    {
-						CalamityUtils.Inflict246DebuffsPvp(target, BuffID.OnFire, 4f);
-                    }
-                }
-                if (armorCrumbling || armorShattering)
-                {
-                    if (proj.melee || proj.Calamity().rogue)
-                    {
-						CalamityUtils.Inflict246DebuffsPvp(target, ModContent.BuffType<ArmorCrunch>());
-                    }
-                }
-                if (perforatorLore)
-                {
-                    target.AddBuff(BuffID.Ichor, 90);
-                }
-                if (hiveMindLore)
-                {
-                    target.AddBuff(BuffID.CursedInferno, 90);
-                }
-                if (holyWrath)
-                {
-                    target.AddBuff(ModContent.BuffType<HolyFlames>(), 600, false);
-                }
-                else if (providenceLore)
-                {
-                    target.AddBuff(ModContent.BuffType<HolyFlames>(), 420, false);
-                }
-                if (proj.Calamity().rogue)
-                {
-					switch (player.meleeEnchant)
-					{
-						case 1:
-							target.AddBuff(BuffID.Venom, 60 * Main.rand.Next(5, 10), false);
-							break;
-						case 2:
-							target.AddBuff(BuffID.CursedInferno, 60 * Main.rand.Next(3, 7), false);
-							break;
-						case 3:
-							target.AddBuff(BuffID.OnFire, 60 * Main.rand.Next(3, 7), false);
-							break;
-						case 5:
-							target.AddBuff(BuffID.Ichor, 60 * Main.rand.Next(10, 20), false);
-							break;
-						case 6:
-							target.AddBuff(BuffID.Confused, 60 * Main.rand.Next(1, 4), false);
-							break;
-						case 8:
-							target.AddBuff(BuffID.Poisoned, 60 * Main.rand.Next(5, 10), false);
-							break;
-						/*case 4:
-							target.AddBuff(BuffID.Midas, 120, false);
-							break;*/
-					}
-                    if (etherealExtorter)
-                    {
-                        if (ZoneSunkenSea)
-                        {
-                            target.AddBuff(ModContent.BuffType<TemporalSadness>(), 60, false);
-                        }
-                        if (ZoneSulphur)
-                        {
-                            target.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), 120, false);
-                            target.AddBuff(ModContent.BuffType<Irradiated>(), 300, false);
-                        }
-                        /*if (Main.moonPhase == 6) //first quarter
-                        {
-                            target.AddBuff(BuffID.Midas, 120, false);
-                        }*/
-                        if (ZoneCalamity && CalamityLists.fireWeaponList.Contains(player.ActiveItem().type))
-                        {
-                            target.AddBuff(ModContent.BuffType<AbyssalFlames>(), 240, false);
-                        }
-                    }
-					if (titanHeartMask)
-					{
-						target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 60 * Main.rand.Next(1,6), false); // 1 to 5 seconds
-					}
-                }
-                if (vexation)
-                {
-					if ((player.armor[0].type == ModContent.ItemType<ReaverHelm>() || player.armor[0].type == ModContent.ItemType<ReaverHeadgear>() ||
-						player.armor[0].type == ModContent.ItemType<ReaverVisage>()) && player.armor[1].type == ModContent.ItemType<ReaverScaleMail>() &&
-						player.armor[2].type == ModContent.ItemType<ReaverCuisses>())
-					{
-                        target.AddBuff(BuffID.CursedInferno, 90, false);
-                        target.AddBuff(BuffID.Venom, 120, false);
-                    }
-                }
-                if (proj.type == ProjectileID.IchorArrow && player.ActiveItem().type == ModContent.ItemType<RaidersGlory>())
-                {
-                    target.AddBuff(BuffID.Midas, 300, false);
-                }
+				CalamityPlayerOnHit.ProjOnHit(player, mod, proj, target.Center, crit, true);
+				CalamityPlayerOnHit.PvpDebuffs(player, mod, target, proj.melee, proj.ranged, proj.magic, proj.IsSummon(), proj.Calamity().rogue, true);
             }
         }
         #endregion
@@ -5565,77 +5012,15 @@ namespace CalamityMod.CalPlayer
 					damage = (int)(damage * 0.5);
 			}
 
-			if ((target.damage > 5 || target.boss) && player.whoAmI == Main.myPlayer && !target.SpawnedFromStatue)
-            {
-				if (item.melee && aBulwarkRare)
+			if ((target.damage > 0 || target.boss) && !target.SpawnedFromStatue && player.whoAmI == Main.myPlayer)
+			{
+				if (CalamityConfig.Instance.Proficiency)
 				{
-					for (int n = 0; n < 3; n++)
-						CalamityUtils.ProjectileRain(player.Center, 400f, 100f, 500f, 800f, 29f, ModContent.ProjectileType<AstralStar>(), (int)(320 * player.AverageDamage()), 5f, player.whoAmI);
-				}
-				if (item.melee && soaring)
-                {
-                    double useTimeMultiplier = 0.85 + (item.useTime * item.useAnimation / 3600D); //28 * 28 = 784 is average so that equals 784 / 3600 = 0.217777 + 1 = 21.7% boost
-                    double wingTimeFraction = player.wingTimeMax / 20D;
-                    double meleeStatMultiplier = player.meleeDamage * (float)(player.meleeCrit / 10D);
-
-                    if (player.wingTime < player.wingTimeMax)
-                        player.wingTime += (int)(useTimeMultiplier * (wingTimeFraction + meleeStatMultiplier));
-
-                    if (player.wingTime > player.wingTimeMax)
-                        player.wingTime = player.wingTimeMax;
-                }
-                if (item.melee && !item.noMelee && !item.noUseGraphic)
-                {
-                    if (ataxiaGeyser)
-                    {
-                        if (player.ownedProjectileCounts[ModContent.ProjectileType<ChaosGeyser>()] < 3)
-                        {
-                            Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<ChaosGeyser>(), CalamityUtils.DamageSoftCap(damage * 0.15, 45), 2f, player.whoAmI, 0f, 0f);
-                        }
-                    }
-				}
-				if (unstablePrism && crit && player.ownedProjectileCounts[ModContent.ProjectileType<UnstableSpark>()] < 50)
-				{
-					for (int s = 0; s < 3; s++)
+					if (gainLevelCooldown <= 0)
 					{
-						Vector2 velocity = CalamityUtils.RandomVelocity(50f, 30f, 60f);
-						Projectile.NewProjectile(target.Center, velocity, ModContent.ProjectileType<UnstableSpark>(), CalamityUtils.DamageSoftCap(damage * 0.15, 30), 0f, player.whoAmI);
-					}
-				}
-                if (astralStarRain && crit && astralStarRainCooldown <= 0)
-                {
-                    astralStarRainCooldown = 60;
-                    for (int n = 0; n < 3; n++)
-                    {
-						int projectileType = Utils.SelectRandom(Main.rand, new int[]
+						gainLevelCooldown = 120;
+						if (meleeLevel <= 12500)
 						{
-							ModContent.ProjectileType<AstralStar>(),
-							ProjectileID.HallowStar,
-							ModContent.ProjectileType<FallenStarProj>()
-						});
-						CalamityUtils.ProjectileRain(target.Center, 400f, 100f, 500f, 800f, 12f, projectileType, (int)(120 * player.AverageDamage()), 5f, player.whoAmI, 6, 0, 10, 2);
-                    }
-                }
-                if (bloodflareMelee && item.melee)
-                {
-                    if (bloodflareMeleeHits < 15 && !bloodflareFrenzy && !bloodFrenzyCooldown)
-                    {
-                        bloodflareMeleeHits++;
-                    }
-                    if (player.whoAmI == Main.myPlayer && target.canGhostHeal)
-                    {
-                        int healAmount = Main.rand.Next(3) + 1;
-                        player.statLife += healAmount;
-                        player.HealEffect(healAmount);
-                    }
-                }
-                if (CalamityConfig.Instance.Proficiency)
-                {
-                    if (gainLevelCooldown <= 0)
-                    {
-                        gainLevelCooldown = 120;
-                        if (item.melee && meleeLevel <= 12500)
-                        {
 							if (!ReduceCooldown((int)ClassType.Melee))
 							{
 								if (!Main.hardMode && meleeLevel >= 1500)
@@ -5649,36 +5034,15 @@ namespace CalamityMod.CalPlayer
 							if (fasterMeleeLevel)
 								gainLevelCooldown /= 2;
 
-                            meleeLevel++;
-                            shootFireworksLevelUpMelee = true;
+							meleeLevel++;
+							shootFireworksLevelUpMelee = true;
 
-                            if (Main.netMode == NetmodeID.MultiplayerClient)
-                                LevelPacket(false, (int)ClassType.Melee);
-                        }
-                    }
-                }
-                if (CalamityWorld.revenge && CalamityConfig.Instance.Rippers)
-                {
-                    if (item.melee)
-                    {
-                        int stressGain = (int)(damage * 0.1);
-                        int stressMaxGain = 10;
-                        if (stressGain < 1)
-                        {
-                            stressGain = 1;
-                        }
-                        if (stressGain > stressMaxGain)
-                        {
-                            stressGain = stressMaxGain;
-                        }
-                        rage += stressGain;
-                        if (rage >= rageMax)
-                        {
-                            rage = rageMax;
-                        }
-                    }
-                }
-            }
+							if (Main.netMode == NetmodeID.MultiplayerClient)
+								LevelPacket(false, (int)ClassType.Melee);
+						}
+					}
+				}
+			}
         }
 
         public override void ModifyHitNPCWithProj(Projectile proj, NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
@@ -5694,25 +5058,6 @@ namespace CalamityMod.CalPlayer
 				damage = 0;*/
 
             Item heldItem = player.ActiveItem();
-
-			if (isTrueMelee && aBulwarkRare)
-			{
-				for (int n = 0; n < 3; n++)
-					CalamityUtils.ProjectileRain(player.Center, 400f, 100f, 500f, 800f, 29f, ModContent.ProjectileType<AstralStar>(), (int)(320 * player.AverageDamage()), 5f, player.whoAmI);
-			}
-
-			if (isTrueMelee && soaring)
-            {
-                double useTimeMultiplier = 0.85 + (heldItem.useTime * heldItem.useAnimation / 3600D); //28 * 28 = 784 is average so that equals 784 / 3600 = 0.217777 + 1 = 21.7% boost
-                double wingTimeFraction = player.wingTimeMax / 20D;
-                double meleeStatMultiplier = player.meleeDamage * (float)(player.meleeCrit / 10D);
-
-                if (player.wingTime < player.wingTimeMax)
-                    player.wingTime += (int)(useTimeMultiplier * (wingTimeFraction + meleeStatMultiplier));
-
-                if (player.wingTime > player.wingTimeMax)
-                    player.wingTime = player.wingTimeMax;
-            }
 
             #region MultiplierBoosts
             double damageMult = 1.0;
@@ -6012,258 +5357,118 @@ namespace CalamityMod.CalPlayer
 
             #endregion
 
-            if (tarraMage && crit && proj.magic)
-            {
-                tarraCrits++;
-            }
-            if (tarraThrowing && !tarragonImmunity && !tarragonImmunityCooldown && tarraThrowingCrits < 25 && crit && proj.Calamity().rogue)
-            {
-                tarraThrowingCrits++;
-            }
-
-            if ((target.damage > 5 || target.boss) && player.whoAmI == Main.myPlayer && !target.SpawnedFromStatue)
-            {
-                if (theBee && player.statLife >= player.statLifeMax2)
-                {
-                    Main.PlaySound(SoundID.Item110, proj.Center);
-                }
-                if (unstablePrism && crit)
-                {
-                    for (int s = 0; s < 3; s++)
-                    {
-						Vector2 velocity = CalamityUtils.RandomVelocity(50f, 30f, 60f);
-                        Projectile.NewProjectile(target.Center, velocity, ModContent.ProjectileType<UnstableSpark>(), CalamityUtils.DamageSoftCap(damage * 0.15, 30), 0f, player.whoAmI);
-                    }
-                }
-                if (electricianGlove && proj.Calamity().stealthStrike && proj.Calamity().rogue && proj.Calamity().stealthStrikeHitCount < 5)
-                {
-                    for (int s = 0; s < 3; s++)
-                    {
-						Vector2 velocity = CalamityUtils.RandomVelocity(50f, 30f, 60f);
-                        int spark = Projectile.NewProjectile(target.Center, velocity, ModContent.ProjectileType<Spark>(), CalamityUtils.DamageSoftCap(damage * 0.1, 30), 0f, player.whoAmI);
-                        Main.projectile[spark].Calamity().forceRogue = true;
-                        Main.projectile[spark].localNPCHitCooldown = -1;
-                    }
-                }
-                if (astralStarRain && crit && astralStarRainCooldown <= 0)
-                {
-                    astralStarRainCooldown = 60;
-                    for (int n = 0; n < 3; n++)
-                    {
-						int projectileType = Utils.SelectRandom(Main.rand, new int[]
+			if ((target.damage > 0 || target.boss) && !target.SpawnedFromStatue && CalamityConfig.Instance.Proficiency)
+			{
+				if (gainLevelCooldown <= 0) //max is 12501 to avoid setting off fireworks forever
+				{
+					gainLevelCooldown = 120; //2 seconds
+					if (proj.melee && meleeLevel <= 12500)
+					{
+						if (!ReduceCooldown((int)ClassType.Melee))
 						{
-							ModContent.ProjectileType<AstralStar>(),
-							ProjectileID.HallowStar,
-							ModContent.ProjectileType<FallenStarProj>()
-						});
-						CalamityUtils.ProjectileRain(target.Center, 400f, 100f, 500f, 800f, 25f, projectileType, (int)(120 * player.AverageDamage()), 5f, player.whoAmI, 6);
-                    }
-                }
-                if (tarraRanged && crit && proj.ranged)
-                {
-                    int leafAmt = Main.rand.Next(2, 4);
-                    for (int l = 0; l < leafAmt; l++)
-                    {
-						Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
-                        int FUCKYOU = Projectile.NewProjectile(target.Center, velocity, ProjectileID.Leaf, CalamityUtils.DamageSoftCap(damage * 0.25, 60), 0f, player.whoAmI);
-                        Main.projectile[FUCKYOU].Calamity().forceTypeless = true;
-                        Main.projectile[FUCKYOU].netUpdate = true;
-                    }
-                }
-                if (bloodflareThrowing && proj.Calamity().rogue && crit && Main.rand.NextBool(2))
-                {
-                    if (target.canGhostHeal)
-                    {
-                        float projHitMult = 0.03f;
-                        projHitMult -= (float)proj.numHits * 0.015f;
-                        if (projHitMult < 0f)
-                        {
-                            projHitMult = 0f;
-                        }
-                        float cooldownMult = proj.damage * projHitMult;
-                        if (cooldownMult < 0f)
-                        {
-                            cooldownMult = 0f;
-                        }
-                        if (player.lifeSteal > 0f)
-                        {
-                            player.statLife += 1;
-                            player.HealEffect(1);
-                            player.lifeSteal -= cooldownMult * 2f;
-                        }
-                    }
-                }
-                if (bloodflareMage && bloodflareMageCooldown <= 0 && crit && proj.magic)
-                {
-                    bloodflareMageCooldown = 120;
-                    for (int i = 0; i < 3; i++)
-                    {
-						Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
-                        int fire = Projectile.NewProjectile(target.Center, velocity, ProjectileID.BallofFire, CalamityUtils.DamageSoftCap(damage * 0.5, 120), 0f, player.whoAmI);
-                        Main.projectile[fire].Calamity().forceTypeless = true;
-                        Main.projectile[fire].netUpdate = true;
-                    }
-                }
-                if (umbraphileSet && proj.Calamity().rogue && (Main.rand.NextBool(4) || (proj.Calamity().stealthStrike && proj.Calamity().stealthStrikeHitCount < 5)) && proj.type != ModContent.ProjectileType<UmbraphileBoom>())
-                {
-                    Projectile.NewProjectile(proj.Center, Vector2.Zero, ModContent.ProjectileType<UmbraphileBoom>(), CalamityUtils.DamageSoftCap(proj.damage * 0.25, 50), 0f, player.whoAmI);
-                }
-                if (bloodflareMelee && isTrueMelee)
-                {
-                    if (bloodflareMeleeHits < 15 && !bloodflareFrenzy && !bloodFrenzyCooldown)
-                    {
-                        bloodflareMeleeHits++;
-                    }
-                    if (player.whoAmI == Main.myPlayer && target.canGhostHeal)
-                    {
-                        int healAmount = Main.rand.Next(3) + 1;
-                        player.statLife += healAmount;
-                        player.HealEffect(healAmount);
-                    }
-                }
-                if (proj.type == ModContent.ProjectileType<PolarStar>())
-                {
-                    polarisBoostCounter += 1;
-                }
-                if (CalamityConfig.Instance.Proficiency)
-                {
-                    if (gainLevelCooldown <= 0) //max is 12501 to avoid setting off fireworks forever
-                    {
-                        gainLevelCooldown = 120; //2 seconds
-                        if (proj.melee && meleeLevel <= 12500)
-                        {
-							if (!ReduceCooldown((int)ClassType.Melee))
-							{
-								if (!Main.hardMode && meleeLevel >= 1500)
-									gainLevelCooldown = 1200; //20 seconds
-								if (!NPC.downedMoonlord && meleeLevel >= 5500)
-									gainLevelCooldown = 2400; //40 seconds
-							}
-							else
-								gainLevelCooldown /= 2;
+							if (!Main.hardMode && meleeLevel >= 1500)
+								gainLevelCooldown = 1200; //20 seconds
+							if (!NPC.downedMoonlord && meleeLevel >= 5500)
+								gainLevelCooldown = 2400; //40 seconds
+						}
+						else
+							gainLevelCooldown /= 2;
 
-							if (fasterMeleeLevel)
-								gainLevelCooldown /= 2;
+						if (fasterMeleeLevel)
+							gainLevelCooldown /= 2;
 
-							meleeLevel++;
-                            shootFireworksLevelUpMelee = true;
+						meleeLevel++;
+						shootFireworksLevelUpMelee = true;
 
-                            if (Main.netMode == NetmodeID.MultiplayerClient)
-                                LevelPacket(false, (int)ClassType.Melee);
-                        }
-                        else if (proj.ranged && rangedLevel <= 12500)
-                        {
-							if (!ReduceCooldown((int)ClassType.Ranged))
-							{
-								if (!Main.hardMode && rangedLevel >= 1500)
-									gainLevelCooldown = 1200; //20 seconds
-								if (!NPC.downedMoonlord && rangedLevel >= 5500)
-									gainLevelCooldown = 2400; //40 seconds
-							}
-							else
-								gainLevelCooldown /= 2;
+						if (Main.netMode == NetmodeID.MultiplayerClient)
+							LevelPacket(false, (int)ClassType.Melee);
+					}
+					else if (proj.ranged && rangedLevel <= 12500)
+					{
+						if (!ReduceCooldown((int)ClassType.Ranged))
+						{
+							if (!Main.hardMode && rangedLevel >= 1500)
+								gainLevelCooldown = 1200; //20 seconds
+							if (!NPC.downedMoonlord && rangedLevel >= 5500)
+								gainLevelCooldown = 2400; //40 seconds
+						}
+						else
+							gainLevelCooldown /= 2;
 
-							if (fasterRangedLevel)
-								gainLevelCooldown /= 2;
+						if (fasterRangedLevel)
+							gainLevelCooldown /= 2;
 
-							rangedLevel++;
-                            shootFireworksLevelUpRanged = true;
+						rangedLevel++;
+						shootFireworksLevelUpRanged = true;
 
-                            if (Main.netMode == NetmodeID.MultiplayerClient)
-                                LevelPacket(false, (int)ClassType.Ranged);
-                        }
-                        else if (proj.magic && magicLevel <= 12500)
-                        {
-							if (!ReduceCooldown((int)ClassType.Magic))
-							{
-								if (!Main.hardMode && magicLevel >= 1500)
-									gainLevelCooldown = 1200; //20 seconds
-								if (!NPC.downedMoonlord && magicLevel >= 5500)
-									gainLevelCooldown = 2400; //40 seconds
-							}
-							else
-								gainLevelCooldown /= 2;
+						if (Main.netMode == NetmodeID.MultiplayerClient)
+							LevelPacket(false, (int)ClassType.Ranged);
+					}
+					else if (proj.magic && magicLevel <= 12500)
+					{
+						if (!ReduceCooldown((int)ClassType.Magic))
+						{
+							if (!Main.hardMode && magicLevel >= 1500)
+								gainLevelCooldown = 1200; //20 seconds
+							if (!NPC.downedMoonlord && magicLevel >= 5500)
+								gainLevelCooldown = 2400; //40 seconds
+						}
+						else
+							gainLevelCooldown /= 2;
 
-							if (fasterMagicLevel)
-								gainLevelCooldown /= 2;
+						if (fasterMagicLevel)
+							gainLevelCooldown /= 2;
 
-							magicLevel++;
-                            shootFireworksLevelUpMagic = true;
+						magicLevel++;
+						shootFireworksLevelUpMagic = true;
 
-                            if (Main.netMode == NetmodeID.MultiplayerClient)
-                                LevelPacket(false, (int)ClassType.Magic);
-                        }
-                        else if (isSummon && summonLevel <= 12500)
-                        {
-							if (!ReduceCooldown((int)ClassType.Summon))
-							{
-								if (!Main.hardMode && summonLevel >= 1500)
-									gainLevelCooldown = 1200; //20 seconds
-								if (!NPC.downedMoonlord && summonLevel >= 5500)
-									gainLevelCooldown = 2400; //40 seconds
-							}
-							else
-								gainLevelCooldown /= 2;
+						if (Main.netMode == NetmodeID.MultiplayerClient)
+							LevelPacket(false, (int)ClassType.Magic);
+					}
+					else if (proj.IsSummon() && summonLevel <= 12500)
+					{
+						if (!ReduceCooldown((int)ClassType.Summon))
+						{
+							if (!Main.hardMode && summonLevel >= 1500)
+								gainLevelCooldown = 1200; //20 seconds
+							if (!NPC.downedMoonlord && summonLevel >= 5500)
+								gainLevelCooldown = 2400; //40 seconds
+						}
+						else
+							gainLevelCooldown /= 2;
 
-							if (fasterSummonLevel)
-								gainLevelCooldown /= 2;
+						if (fasterSummonLevel)
+							gainLevelCooldown /= 2;
 
-							summonLevel++;
-                            shootFireworksLevelUpSummon = true;
+						summonLevel++;
+						shootFireworksLevelUpSummon = true;
 
-                            if (Main.netMode == NetmodeID.MultiplayerClient)
-                                LevelPacket(false, (int)ClassType.Summon);
-                        }
-                        else if (proj.Calamity().rogue && rogueLevel <= 12500)
-                        {
-							if (!ReduceCooldown((int)ClassType.Rogue))
-							{
-								if (!Main.hardMode && rogueLevel >= 1500)
-									gainLevelCooldown = 1200; //20 seconds
-								if (!NPC.downedMoonlord && rogueLevel >= 5500)
-									gainLevelCooldown = 2400; //40 seconds
-							}
-							else
-								gainLevelCooldown /= 2;
+						if (Main.netMode == NetmodeID.MultiplayerClient)
+							LevelPacket(false, (int)ClassType.Summon);
+					}
+					else if (proj.Calamity().rogue && rogueLevel <= 12500)
+					{
+						if (!ReduceCooldown((int)ClassType.Rogue))
+						{
+							if (!Main.hardMode && rogueLevel >= 1500)
+								gainLevelCooldown = 1200; //20 seconds
+							if (!NPC.downedMoonlord && rogueLevel >= 5500)
+								gainLevelCooldown = 2400; //40 seconds
+						}
+						else
+							gainLevelCooldown /= 2;
 
-							if (fasterRogueLevel)
-								gainLevelCooldown /= 2;
+						if (fasterRogueLevel)
+							gainLevelCooldown /= 2;
 
-							rogueLevel++;
-                            shootFireworksLevelUpRogue = true;
+						rogueLevel++;
+						shootFireworksLevelUpRogue = true;
 
-                            if (Main.netMode == NetmodeID.MultiplayerClient)
-                                LevelPacket(false, (int)ClassType.Rogue);
-                        }
-                    }
-                }
-                if (raiderTalisman && raiderStack < 150 && proj.Calamity().rogue && crit && raiderCooldown <= 0)
-                {
-                    raiderStack++;
-                    raiderCooldown = 30;
-                }
-                if (CalamityWorld.revenge && CalamityConfig.Instance.Rippers)
-                {
-                    if (isTrueMelee)
-                    {
-                        int stressGain = (int)(damage * 0.1);
-                        int stressMaxGain = 10;
-                        if (stressGain < 1)
-                        {
-                            stressGain = 1;
-                        }
-                        if (stressGain > stressMaxGain)
-                        {
-                            stressGain = stressMaxGain;
-                        }
-                        rage += stressGain;
-                        if (rage >= rageMax)
-                        {
-                            rage = rageMax;
-                        }
-                    }
-                }
-            }
+						if (Main.netMode == NetmodeID.MultiplayerClient)
+							LevelPacket(false, (int)ClassType.Rogue);
+					}
+				}
+			}
         }
 		#endregion
 
@@ -7591,7 +6796,8 @@ namespace CalamityMod.CalPlayer
                     float speedX4 = num78 + (float)Main.rand.Next(-30, 31) * 0.02f;
                     float speedY5 = num79 + (float)Main.rand.Next(-30, 31) * 0.02f;
                     int p = Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, type, CalamityUtils.DamageSoftCap(damage * 0.15, 75), knockBack * 0.5f, player.whoAmI);
-                    Main.projectile[p].Calamity().forceRogue = true; //in case melee/rogue variants bug out
+					if (p.WithinBounds(Main.maxProjectiles))
+						Main.projectile[p].Calamity().forceRogue = true; //in case melee/rogue variants bug out
 					if (item.type == ModContent.ItemType<FinalDawn>())
 					{
 						Main.projectile[p].ai[1] = 1f;
@@ -8244,7 +7450,13 @@ namespace CalamityMod.CalPlayer
                 {
                     for (int n = 0; n < 3; n++)
                     {
-						CalamityUtils.ProjectileRain(player.Center, 400f, 100f, 500f, 800f, 29f, ProjectileID.HallowStar, (int)(130 * player.AverageDamage()), 4f, player.whoAmI, 6, 1, 5);
+						Projectile star = CalamityUtils.ProjectileRain(player.Center, 400f, 100f, 500f, 800f, 29f, ProjectileID.HallowStar, (int)(130 * player.AverageDamage()), 4f, player.whoAmI);
+						if (star.whoAmI.WithinBounds(Main.maxProjectiles))
+						{
+							star.Calamity().forceTypeless = true;
+							star.usesLocalNPCImmunity = true;
+							star.localNPCHitCooldown = 5;
+						}
                     }
 
                     /*int num = 1;
@@ -8265,7 +7477,13 @@ namespace CalamityMod.CalPlayer
                 {
                     for (int n = 0; n < 3; n++)
                     {
-						CalamityUtils.ProjectileRain(player.Center, 400f, 100f, 500f, 800f, 29f, ProjectileID.HallowStar, (int)(150 * player.AverageDamage()), 4f, player.whoAmI, 6, 1, 5);
+						Projectile star = CalamityUtils.ProjectileRain(player.Center, 400f, 100f, 500f, 800f, 29f, ProjectileID.HallowStar, (int)(150 * player.AverageDamage()), 4f, player.whoAmI);
+						if (star.whoAmI.WithinBounds(Main.maxProjectiles))
+						{
+							star.Calamity().forceTypeless = true;
+							star.usesLocalNPCImmunity = true;
+							star.localNPCHitCooldown = 5;
+						}
                     }
                     int num = 1;
                     if (Main.rand.NextBool(3))
@@ -8326,10 +7544,16 @@ namespace CalamityMod.CalPlayer
                             offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
                             int spark1 = Projectile.NewProjectile(player.Center.X, player.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<Spark>(), (int)(sDamage * player.AverageDamage()), 1.25f, player.whoAmI, 0f, 0f);
                             int spark2 = Projectile.NewProjectile(player.Center.X, player.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<Spark>(), (int)(sDamage * player.AverageDamage()), 1.25f, player.whoAmI, 0f, 0f);
-                            Main.projectile[spark1].timeLeft = 120;
-                            Main.projectile[spark2].timeLeft = 120;
-                            Main.projectile[spark1].Calamity().forceTypeless = true;
-                            Main.projectile[spark2].Calamity().forceTypeless = true;
+							if (spark1.WithinBounds(Main.maxProjectiles))
+							{
+								Main.projectile[spark1].timeLeft = 120;
+								Main.projectile[spark1].Calamity().forceTypeless = true;
+							}
+							if (spark2.WithinBounds(Main.maxProjectiles))
+							{
+								Main.projectile[spark2].timeLeft = 120;
+								Main.projectile[spark2].Calamity().forceTypeless = true;
+							}
                         }
                     }
                 }
@@ -8394,8 +7618,10 @@ namespace CalamityMod.CalPlayer
                             offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
                             int shard = Projectile.NewProjectile(player.Center.X, player.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f) + randomSpeed, ProjectileID.CrystalShard, sDamage, 1f, player.whoAmI, 0f, 0f);
                             int shard2 = Projectile.NewProjectile(player.Center.X, player.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f) + randomSpeed2, ProjectileID.CrystalShard, sDamage, 1f, player.whoAmI, 0f, 0f);
-                            Main.projectile[shard].Calamity().forceTypeless = true;
-                            Main.projectile[shard2].Calamity().forceTypeless = true;
+							if (shard.WithinBounds(Main.maxProjectiles))
+								Main.projectile[shard].Calamity().forceTypeless = true;
+							if (shard2.WithinBounds(Main.maxProjectiles))
+								Main.projectile[shard2].Calamity().forceTypeless = true;
                         }
                     }
                 }
@@ -8448,11 +7674,23 @@ namespace CalamityMod.CalPlayer
                 {
                     for (int l = 0; l < 2; l++)
                     {
-						CalamityUtils.ProjectileRain(player.Center, 400f, 100f, 500f, 800f, 22f, ProjectileID.ShadowBeamFriendly, (int)(3000 * player.AverageDamage()), 7f, player.whoAmI, 6, 1);
+						Projectile beam = CalamityUtils.ProjectileRain(player.Center, 400f, 100f, 500f, 800f, 22f, ProjectileID.ShadowBeamFriendly, (int)(3000 * player.AverageDamage()), 7f, player.whoAmI);
+						if (beam.whoAmI.WithinBounds(Main.maxProjectiles))
+						{
+							beam.Calamity().forceTypeless = true;
+							beam.usesLocalNPCImmunity = true;
+							beam.localNPCHitCooldown = 10;
+						}
                     }
                     for (int l = 0; l < 5; l++)
                     {
-						CalamityUtils.ProjectileRain(player.Center, 400f, 100f, 500f, 800f, 22f, ProjectileID.DemonScythe, (int)(5000 * player.AverageDamage()), 7f, player.whoAmI, 6, 1);
+						Projectile scythe = CalamityUtils.ProjectileRain(player.Center, 400f, 100f, 500f, 800f, 22f, ProjectileID.DemonScythe, (int)(5000 * player.AverageDamage()), 7f, player.whoAmI);
+						if (scythe.whoAmI.WithinBounds(Main.maxProjectiles))
+						{
+							scythe.Calamity().forceTypeless = true;
+							scythe.usesLocalNPCImmunity = true;
+							scythe.localNPCHitCooldown = 10;
+						}
                     }
                 }
             }
@@ -9009,9 +8247,12 @@ namespace CalamityMod.CalPlayer
 					if (statisTimer % 5 == 0)
 					{
 						int scythe = Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<CosmicScythe>(), (int)(500 * player.AverageDamage()), 5f, player.whoAmI);
-						Main.projectile[scythe].Calamity().forceTypeless = true;
-						Main.projectile[scythe].usesIDStaticNPCImmunity = true;
-						Main.projectile[scythe].idStaticNPCHitCooldown = 10;
+						if (scythe.WithinBounds(Main.maxProjectiles))
+						{
+							Main.projectile[scythe].Calamity().forceTypeless = true;
+							Main.projectile[scythe].usesIDStaticNPCImmunity = true;
+							Main.projectile[scythe].idStaticNPCHitCooldown = 10;
+						}
 					}
                 }
                 else if (dashMod == 8) //Plaguebringer armor

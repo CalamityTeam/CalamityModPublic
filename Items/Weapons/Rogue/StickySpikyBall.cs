@@ -44,10 +44,13 @@ Stealth strikes throw seven at once and last a lot longer");
                 for (int i = 0; i < 7; i++)
                 {
                     Vector2 perturbedspeed = new Vector2(speedX + Main.rand.Next(-3,4), speedY + Main.rand.Next(-3,4)).RotatedBy(MathHelper.ToRadians(spread));
-                    int proj = Projectile.NewProjectile(position.X, position.Y, perturbedspeed.X, perturbedspeed.Y, type, damage, knockBack, player.whoAmI, 0f, 0f);
-                    Main.projectile[proj].Calamity().stealthStrike = true;
-                    Main.projectile[proj].timeLeft *= 4;
-                    Main.projectile[proj].localNPCHitCooldown += 15;
+                    int proj = Projectile.NewProjectile(position, perturbedspeed, type, damage, knockBack, player.whoAmI);
+					if (proj.WithinBounds(Main.maxProjectiles))
+					{
+						Main.projectile[proj].Calamity().stealthStrike = true;
+						Main.projectile[proj].timeLeft *= 4;
+						Main.projectile[proj].localNPCHitCooldown += 15;
+					}
                     spread -= Main.rand.Next(1,4);
                 }
                 return false;

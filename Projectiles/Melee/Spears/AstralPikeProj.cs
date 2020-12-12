@@ -49,21 +49,16 @@ namespace CalamityMod.Projectiles.Melee.Spears
             {
                 for (int i = 0; i < 3; i++)
                 {
-                    float xPos = projectile.position.X + 800f * Main.rand.NextBool(2).ToDirectionInt();
-                    Vector2 spawnPosition = new Vector2(xPos, projectile.position.Y - Main.rand.Next(-800, 801));
-                    float speedX = target.position.X - spawnPosition.X;
-                    float speedY = target.position.Y - spawnPosition.Y;
-                    float magnitude = (float)Math.Sqrt(speedX * speedX + speedY * speedY);
-                    magnitude = 10f / xPos;
-                    speedX *= magnitude * 150f;
-                    speedY *= magnitude * 150f;
-                    speedX = MathHelper.Clamp(speedX, -15f, 15f);
-                    speedY = MathHelper.Clamp(speedY, -15f, 15f);
                     if (projectile.owner == Main.myPlayer)
                     {
-                        int proj = Projectile.NewProjectile(spawnPosition.X, spawnPosition.Y, speedX, speedY, ModContent.ProjectileType<AstralStar>(), (int)(projectile.damage * 0.4), 1f, projectile.owner, 3f, 0f);
-                        Main.projectile[proj].Calamity().forceMelee = true;
+						Projectile star = CalamityUtils.ProjectileBarrage(projectile.Center, target.Center, Main.rand.NextBool(), 800f, 800f, 800f, 800f, 10f, ModContent.ProjectileType<AstralStar>(), (int)(projectile.damage * 0.4), 1f, projectile.owner, true);
+						if (star.whoAmI.WithinBounds(Main.maxProjectiles))
+						{
+							star.Calamity().forceMelee = true;
+							star.ai[0] = 3f;
+						}
                     }
+
                 }
             }
         }

@@ -85,7 +85,12 @@ namespace CalamityMod.Items.Accessories
                 {
                     if (player.whoAmI == Main.myPlayer)
                     {
-						CalamityUtils.ProjectileRain(player.Center, 400f, 100f, 500f, 800f, 22f, ModContent.ProjectileType<StandingFire>(), (int)(30 * player.AverageDamage()), 5f, player.whoAmI, 0, 1, 60);
+						Projectile fire = CalamityUtils.ProjectileRain(player.Center, 400f, 100f, 500f, 800f, 22f, ModContent.ProjectileType<StandingFire>(), (int)(30 * player.AverageDamage()), 5f, player.whoAmI);
+						if (fire.whoAmI.WithinBounds(Main.maxProjectiles))
+						{
+							fire.usesLocalNPCImmunity = true;
+							fire.localNPCHitCooldown = 60;
+						}
                     }
                 }
             }

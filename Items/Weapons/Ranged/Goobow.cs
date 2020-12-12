@@ -53,9 +53,12 @@ namespace CalamityMod.Items.Weapons.Ranged
                     offset -= velocity;
                 }
                 int index = Projectile.NewProjectile(source + offset, new Vector2(speedX, speedY) * 0.6f, ProjectileID.SlimeGun, damage / 4, 0f, player.whoAmI);
-                Main.projectile[index].Calamity().forceRanged = true;
-                Main.projectile[index].usesLocalNPCImmunity = true;
-                Main.projectile[index].localNPCHitCooldown = 10;
+				if (index.WithinBounds(Main.maxProjectiles))
+				{
+					Main.projectile[index].Calamity().forceRanged = true;
+					Main.projectile[index].usesLocalNPCImmunity = true;
+					Main.projectile[index].localNPCHitCooldown = 10;
+				}
             }
             return true;
         }

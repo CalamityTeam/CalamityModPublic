@@ -49,7 +49,8 @@ namespace CalamityMod.Items.Weapons.Rogue
             if (player.Calamity().StealthStrikeAvailable() && counter == 0) //setting up the stealth strikes
 			{
                 int stealth = Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<HypothermiaChunk>(), damage, knockBack, player.whoAmI);
-                Main.projectile[stealth].Calamity().stealthStrike = true;
+				if (stealth.WithinBounds(Main.maxProjectiles))
+					Main.projectile[stealth].Calamity().stealthStrike = true;
             }
 			int projAmt = Main.rand.Next(1, 3);
 			for (int index = 0; index < projAmt; ++index)

@@ -41,7 +41,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Vector2 velocity = new Vector2(speedX, speedY);
             float strikeValue = player.Calamity().StealthStrikeAvailable().ToInt(); //0 if false, 1 if true
             int projectileIndex = Projectile.NewProjectile(position, velocity, ModContent.ProjectileType<EpidemicShredderProjectile>(), damage, knockBack, player.whoAmI, ai1: strikeValue);
-            if (player.Calamity().StealthStrikeAvailable())
+            if (player.Calamity().StealthStrikeAvailable() && projectileIndex.WithinBounds(Main.maxProjectiles))
             {
                 Main.projectile[projectileIndex].Calamity().stealthStrike = strikeValue == 1f;
             }

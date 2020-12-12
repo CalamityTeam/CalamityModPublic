@@ -72,14 +72,17 @@ namespace CalamityMod.Items.Weapons.Ranged
                     {
                         type = ModContent.ProjectileType<TyphoonArrow>();
                     }
-                    int proj = Projectile.NewProjectile(source.X + offset.X, source.Y + offset.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
-                    Main.projectile[proj].Calamity().forceRanged = true;
-                    Main.projectile[proj].noDropItem = true;
-                    Main.projectile[proj].arrow = true;
+                    int proj = Projectile.NewProjectile(source.X + offset.X, source.Y + offset.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
+					if (proj.WithinBounds(Main.maxProjectiles))
+					{
+						Main.projectile[proj].Calamity().forceRanged = true;
+						Main.projectile[proj].noDropItem = true;
+						Main.projectile[proj].arrow = true;
+					}
                 }
                 else
                 {
-                    int proj = Projectile.NewProjectile(source.X + offset.X, source.Y + offset.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
+                    int proj = Projectile.NewProjectile(source.X + offset.X, source.Y + offset.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
                     Main.projectile[proj].noDropItem = true;
                 }
             }

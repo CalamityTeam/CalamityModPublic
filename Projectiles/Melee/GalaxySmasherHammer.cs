@@ -141,10 +141,24 @@ namespace CalamityMod.Projectiles.Melee
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
+			// Applies God Slayer Inferno on contact.
+			target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 480);
+			OnHitEffect(target.Center);
+		}
+
+		public override void OnHitPvp(Player target, int damage, bool crit)
+		{
+			// Applies God Slayer Inferno on contact.
+			target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 480);
+			OnHitEffect(target.Center);
+		}
+
+		private void OnHitEffect(Vector2 targetPos)
+		{
 			// Some dust gets produced on impact.
 			int dustSets = Main.rand.Next(5, 8);
 			int dustRadius = 6;
-			Vector2 corner = new Vector2(target.Center.X - dustRadius, target.Center.Y - dustRadius);
+			Vector2 corner = new Vector2(targetPos.X - dustRadius, targetPos.Y - dustRadius);
 			for (int i = 0; i < dustSets; ++i)
 			{
 				// Bigger, flying orb dust
@@ -169,9 +183,6 @@ namespace CalamityMod.Projectiles.Melee
 			// Makes an explosion sound.
 			Main.PlaySound(SoundID.Item14, projectile.position);
 
-			// Applies God Slayer Inferno on contact.
-			target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 480);
-
 			// Three death lasers (aka "Nebula Shots") swarm the target.
 			int laserID = ModContent.ProjectileType<NebulaShot>();
 			int laserDamage = (int)(0.2f * projectile.damage);
@@ -181,7 +192,7 @@ namespace CalamityMod.Projectiles.Melee
 			{
 				float startDist = Main.rand.NextFloat(260f, 270f);
 				Vector2 startDir = Main.rand.NextVector2Unit();
-				Vector2 startPoint = target.Center + startDir * startDist;
+				Vector2 startPoint = targetPos + startDir * startDist;
 
 				float laserSpeed = Main.rand.NextFloat(15f, 18f);
 				Vector2 velocity = startDir * -laserSpeed;
@@ -189,67 +200,12 @@ namespace CalamityMod.Projectiles.Melee
 				if (projectile.owner == Main.myPlayer)
 				{
 					int proj = Projectile.NewProjectile(startPoint, velocity, laserID, laserDamage, laserKB, projectile.owner);
-					Main.projectile[proj].Calamity().forceMelee = true;
-					Main.projectile[proj].tileCollide = false;
-					Main.projectile[proj].timeLeft = 30;
-				}
-			}
-		}
-
-		public override void OnHitPvp(Player target, int damage, bool crit)
-		{
-			// Some dust gets produced on impact.
-			int dustSets = Main.rand.Next(5, 8);
-			int dustRadius = 6;
-			Vector2 corner = new Vector2(target.Center.X - dustRadius, target.Center.Y - dustRadius);
-			for (int i = 0; i < dustSets; ++i)
-			{
-				// Bigger, flying orb dust
-				float scaleOrb = 1.2f + Main.rand.NextFloat(1f);
-				int orb = Dust.NewDust(corner, 2 * dustRadius, 2 * dustRadius, 112);
-				Main.dust[orb].noGravity = true;
-				Main.dust[orb].velocity *= 4f;
-				Main.dust[orb].scale = scaleOrb;
-
-				// Add six sparkles per flying orb
-				for (int j = 0; j < 6; ++j)
-				{
-					float scaleSparkle = 0.8f + Main.rand.NextFloat(1.1f);
-					int sparkle = Dust.NewDust(corner, 2 * dustRadius, 2 * dustRadius, 173);
-					Main.dust[sparkle].noGravity = true;
-					float dustSpeed = Main.rand.NextFloat(10f, 18f);
-					Main.dust[sparkle].velocity = Main.rand.NextVector2Unit() * dustSpeed;
-					Main.dust[sparkle].scale = scaleSparkle;
-				}
-			}
-
-			// Makes an explosion sound.
-			Main.PlaySound(SoundID.Item14, projectile.position);
-
-			// Applies God Slayer Inferno on contact.
-			target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 480);
-
-			// Three death lasers (aka "Nebula Shots") swarm the target.
-			int laserID = ModContent.ProjectileType<NebulaShot>();
-			int laserDamage = (int)(0.2f * projectile.damage);
-			float laserKB = 2.5f;
-			int numLasers = 3;
-			for (int i = 0; i < numLasers; ++i)
-			{
-				float startDist = Main.rand.NextFloat(260f, 270f);
-				Vector2 startDir = Main.rand.NextVector2Unit();
-				Vector2 startPoint = target.Center + startDir * startDist;
-
-				float laserSpeed = Main.rand.NextFloat(15f, 18f);
-				Vector2 velocity = startDir * -laserSpeed;
-
-				// NebulaShot projectile adjusts its own damage type based on ai[0]. So set it to 1f
-				if (projectile.owner == Main.myPlayer)
-				{
-					float damageType = 1f;
-					int proj = Projectile.NewProjectile(startPoint, velocity, laserID, laserDamage, laserKB, projectile.owner, damageType, 0f);
-					Main.projectile[proj].tileCollide = false;
-					Main.projectile[proj].timeLeft = 30;
+					if (proj.WithinBounds(Main.maxProjectiles))
+					{
+						Main.projectile[proj].Calamity().forceMelee = true;
+						Main.projectile[proj].tileCollide = false;
+						Main.projectile[proj].timeLeft = 30;
+					}
 				}
 			}
 		}

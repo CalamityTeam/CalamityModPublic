@@ -45,7 +45,9 @@ Stealth strikes throw three high speed spears");
                 for (int i = 0; i < numProj + 1; i++)
                 {
                     Vector2 perturbedSpeed = new Vector2(speedX - 3f, speedY - 3f).RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (numProj - 1)));
-                    Projectile.NewProjectile(position.X, position.Y, perturbedSpeed.X, perturbedSpeed.Y, ModContent.ProjectileType<DuneHopperProjectile>(), damage, knockBack, player.whoAmI, 0f, 0f);
+                    int stealth = Projectile.NewProjectile(position, perturbedSpeed, ModContent.ProjectileType<DuneHopperProjectile>(), damage, knockBack, player.whoAmI);
+					if (stealth.WithinBounds(Main.maxProjectiles))
+						Main.projectile[stealth].Calamity().stealthStrike = true;
                 }
                 return false;
             }
