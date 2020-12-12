@@ -1230,8 +1230,8 @@ namespace CalamityMod.CalPlayer
         public override void LoadLegacy(BinaryReader reader)
         {
             int loadVersion = reader.ReadInt32();
-            rage = reader.ReadInt32();
-            adrenaline = reader.ReadInt32();
+            rage = reader.ReadSingle();
+            adrenaline = reader.ReadSingle();
 			aquaticBoost = reader.ReadSingle();
 			sCalDeathCount = reader.ReadInt32();
             sCalKillCount = reader.ReadInt32();
