@@ -3157,7 +3157,7 @@ namespace CalamityMod.CalPlayer
 
 			bool mountCheck = true;
 			if (player.mount != null && player.mount.Active)
-				mountCheck = player.mount.BlockExtraJumps;
+				mountCheck = !player.mount.BlockExtraJumps;
 			bool canJump = (!player.doubleJumpCloud || !player.jumpAgainCloud) &&
 			(!player.doubleJumpSandstorm || !player.jumpAgainSandstorm) &&
 			(!player.doubleJumpBlizzard || !player.jumpAgainBlizzard) &&
