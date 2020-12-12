@@ -141,6 +141,7 @@ namespace CalamityMod.NPCs
                                 aiState = (int)MothronAIState.PickSpotToLayEgg;
                         }
                         npc.netUpdate = true;
+                        npc.netSpam = 0;
                     }
                     break;
 
@@ -247,6 +248,7 @@ namespace CalamityMod.NPCs
                         aiState = (int)MothronAIState.ChargePreparation;
                         flySpeedAdditive = 0f;
                         npc.netUpdate = true;
+                        npc.netSpam = 0;
                     }
 
                     flySpeedAdditive += 0.0333333351f;
@@ -269,21 +271,24 @@ namespace CalamityMod.NPCs
                     npc.velocity = (npc.velocity * (chargePreperationInertia - 1f) + chargeVelocity) / chargePreperationInertia;
                     npc.spriteDirection = npc.direction = (npc.velocity.X > 0).ToDirectionInt();
 
-                    aiTimer++;
                     // Redirect for 10 frames. After that time has been spent, immediately charge as usual.
-                    if (Main.netMode != NetmodeID.MultiplayerClient &&
-                        aiTimer > 10f)
+                    if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        npc.velocity = chargeVelocity;
+                        aiTimer++;
+                        if (aiTimer > 10f)
+                        {
+                            npc.velocity = chargeVelocity;
 
-                        if (npc.velocity.X < 0f)
-                            npc.direction = -1;
-                        else
-                            npc.direction = 1;
+                            if (npc.velocity.X < 0f)
+                                npc.direction = -1;
+                            else
+                                npc.direction = 1;
 
-                        aiState = (int)MothronAIState.DoTheFuckingCharge;
-                        chargeDirection = npc.direction;
-                        npc.netUpdate = true;
+                            aiState = (int)MothronAIState.DoTheFuckingCharge;
+                            chargeDirection = npc.direction;
+                            npc.netUpdate = true;
+                            npc.netSpam = 0;
+                        }
                     }
                     break;
 
@@ -320,6 +325,7 @@ namespace CalamityMod.NPCs
                             flySpeedAdditive = 0f;
                             npc.netUpdate = true;
                         }
+                        npc.netSpam = 0;
                     }
                     npc.rotation = (npc.rotation * 4f + npc.velocity.X * 0.0175f) / 5f;
                     break;
@@ -365,6 +371,7 @@ namespace CalamityMod.NPCs
                             }
                         }
                         npc.netUpdate = true;
+                        npc.netSpam = 0;
                     }
                     break;
 
