@@ -1122,6 +1122,7 @@ namespace CalamityMod.CalPlayer
                 { "boost", boost },
                 { "stress", rage },
                 { "adrenaline", adrenaline },
+                { "aquaticBoostPower", aquaticBoost },
                 { "sCalDeathCount", sCalDeathCount },
                 { "sCalKillCount", sCalKillCount },
                 { "meleeLevel", meleeLevel },
@@ -1139,7 +1140,6 @@ namespace CalamityMod.CalPlayer
                 { "deathModeBlizzardTime", deathModeBlizzardTime },
 				{ "itemTypeLastReforged", itemTypeLastReforged },
 				{ "reforgeTierSafety", reforgeTierSafety },
-				//{ "aquaticBoost", aquaticBoost },
 				{ "moveSpeedStat", moveSpeedStat },
 				{ "defenseDamage", defenseDamage }
             };
@@ -1191,10 +1191,11 @@ namespace CalamityMod.CalPlayer
 			newAmidiasInventory = boost.Contains("newAmidiasInventory");
 			newBanditInventory = boost.Contains("newBanditInventory");
 
-			rage = tag.GetFloat("stress");
+            rage = tag.GetFloat("stress");
             adrenaline = tag.GetFloat("adrenaline");
-			//aquaticBoost = tag.GetAsInt("aquaticBoost");
-			sCalDeathCount = tag.GetInt("sCalDeathCount");
+            if (tag.ContainsKey("aquaticBoostPower"))
+    			aquaticBoost = tag.GetFloat("aquaticBoostPower");
+            sCalDeathCount = tag.GetInt("sCalDeathCount");
             sCalKillCount = tag.GetInt("sCalKillCount");
             deathCount = tag.GetInt("deathCount");
 
@@ -1229,9 +1230,9 @@ namespace CalamityMod.CalPlayer
         public override void LoadLegacy(BinaryReader reader)
         {
             int loadVersion = reader.ReadInt32();
-            rage = reader.ReadInt32();
-            adrenaline = reader.ReadInt32();
-			//aquaticBoost = reader.ReadInt32();
+            rage = reader.ReadSingle();
+            adrenaline = reader.ReadSingle();
+			aquaticBoost = reader.ReadSingle();
 			sCalDeathCount = reader.ReadInt32();
             sCalKillCount = reader.ReadInt32();
             deathCount = reader.ReadInt32();
@@ -2598,8 +2599,8 @@ namespace CalamityMod.CalPlayer
 
             ZoneAbyssLayer4 = ZoneAbyss &&
                 point.Y > (Main.rockLayer + y * 0.26);
-
-            ZoneSulphur = (CalamityWorld.sulphurTiles > 30 || (player.ZoneOverworldHeight && sulphurPosX)) && !ZoneAbyss;
+            
+            ZoneSulphur = (CalamityWorld.sulphurTiles >= 300 || (player.ZoneOverworldHeight && sulphurPosX)) && !ZoneAbyss;
 
 			//Overriding 1.4's ass req boosts
 			if (Main.snowTiles > 300)
@@ -10279,7 +10280,7 @@ namespace CalamityMod.CalPlayer
 				packet.Send(-1, player.whoAmI);
 		}
 
-		/*public void AquaticBoostPacket(bool server)
+		public void AquaticBoostPacket(bool server)
 		{
 			ModPacket packet = mod.GetPacket(256);
 			packet.Write((byte)CalamityModMessageType.AquaticBoostSync);
@@ -10290,7 +10291,7 @@ namespace CalamityMod.CalPlayer
 				packet.Send();
 			else
 				packet.Send(-1, player.whoAmI);
-		}*/
+		}
 
 		public void MoveSpeedStatPacket(bool server)
 		{
@@ -10417,12 +10418,12 @@ namespace CalamityMod.CalPlayer
 				ReforgeTierSafetyPacket(true);
 		}
 
-		/*internal void HandleAquaticBoost(BinaryReader reader)
+		internal void HandleAquaticBoost(BinaryReader reader)
 		{
-			aquaticBoost = reader.ReadInt32();
+			aquaticBoost = reader.ReadSingle();
 			if (Main.netMode == NetmodeID.Server)
 				AquaticBoostPacket(true);
-		}*/
+		}
 
 		internal void HandleMoveSpeedStat(BinaryReader reader)
 		{
@@ -10459,7 +10460,7 @@ namespace CalamityMod.CalPlayer
                 DeathModeBlizzardTimePacket(false);
 				ItemTypeLastReforgedPacket(false);
 				ReforgeTierSafetyPacket(false);
-				//AquaticBoostPacket(false);
+				AquaticBoostPacket(false);
 				MoveSpeedStatPacket(false);
 				DefenseDamagePacket(false);
 			}
