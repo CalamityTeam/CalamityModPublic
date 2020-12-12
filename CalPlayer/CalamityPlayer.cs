@@ -3955,8 +3955,7 @@ namespace CalamityMod.CalPlayer
 
 			if (slimeGodLore)
 			{
-				if (!player.iceSkate)
-					player.runSlowdown *= 0.1f;
+				player.runSlowdown *= 0.1f;
 			}
             #endregion
 

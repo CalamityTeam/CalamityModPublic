@@ -35,13 +35,11 @@ namespace CalamityMod.Projectiles.Boss
         public override void SendExtraAI(BinaryWriter writer)
         {
             writer.Write(projectile.localAI[0]);
-            writer.Write(projectile.Calamity().lineColor);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
             projectile.localAI[0] = reader.ReadSingle();
-            projectile.Calamity().lineColor = reader.ReadInt32();
         }
 
         public override void AI()
@@ -57,10 +55,6 @@ namespace CalamityMod.Projectiles.Boss
             float baseWidth = 320f;
             float baseHeight = 88f;
 
-            if (projectile.velocity.X != 0f)
-            {
-                projectile.direction = projectile.spriteDirection = -Math.Sign(projectile.velocity.X);
-            }
             projectile.frameCounter++;
             if (projectile.frameCounter > 2)
             {
@@ -115,17 +109,6 @@ namespace CalamityMod.Projectiles.Boss
                 center.Y -= baseHeight * num618 / 2f;
                 center.Y += 2f;
                 Projectile.NewProjectile(center, projectile.velocity, projectile.type, projectile.damage, projectile.knockBack, projectile.owner, 11f, projectile.ai[1] - 1f);
-            }
-            if (projectile.ai[0] <= 0f)
-            {
-                float num622 = 0.104719758f;
-                float num623 = (float)projectile.width / 5f;
-                num623 *= 2f;
-                float num624 = (float)(Math.Cos((double)(num622 * -(double)projectile.ai[0])) - 0.5) * num623;
-                projectile.position.X -= num624 * -projectile.direction * (float)projectile.Calamity().lineColor;
-                projectile.ai[0] -= 1f;
-                num624 = (float)(Math.Cos((double)(num622 * -(double)projectile.ai[0])) - 0.5) * num623;
-                projectile.position.X += num624 * -projectile.direction * (float)projectile.Calamity().lineColor;
             }
         }
 
