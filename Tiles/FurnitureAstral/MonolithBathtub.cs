@@ -9,7 +9,7 @@ namespace CalamityMod.Tiles.FurnitureAstral
     {
         public override void SetDefaults()
         {
-            this.SetUpBathtub();
+            this.SetUpBathtub(true);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Monolith Bathtub");
             AddMapEntry(new Color(191, 142, 111), name);

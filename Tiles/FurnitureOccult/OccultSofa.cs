@@ -8,7 +8,7 @@ namespace CalamityMod.Tiles.FurnitureOccult
     {
         public override void SetDefaults()
         {
-            this.SetUpSofa();
+            this.SetUpSofa(true);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Otherworldly Sofa");
             AddMapEntry(new Color(191, 142, 111), name);

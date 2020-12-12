@@ -10,7 +10,7 @@ namespace CalamityMod.Tiles.FurnitureSilva
     {
         public override void SetDefaults()
         {
-            this.SetUpCandle();
+            this.SetUpCandle(true);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Silva Candle");
             AddMapEntry(new Color(191, 142, 111), name);

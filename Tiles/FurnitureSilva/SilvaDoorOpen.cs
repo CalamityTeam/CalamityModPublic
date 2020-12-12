@@ -10,7 +10,7 @@ namespace CalamityMod.Tiles.FurnitureSilva
     {
         public override void SetDefaults()
         {
-            this.SetUpDoorOpen();
+            this.SetUpDoorOpen(true);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Silva Door");
             AddMapEntry(new Color(191, 142, 111), name);

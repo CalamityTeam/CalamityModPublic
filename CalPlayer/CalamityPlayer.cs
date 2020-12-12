@@ -3167,7 +3167,7 @@ namespace CalamityMod.CalPlayer
 
 			bool mountCheck = true;
 			if (player.mount != null && player.mount.Active)
-				mountCheck = player.mount.BlockExtraJumps;
+				mountCheck = !player.mount.BlockExtraJumps;
 			bool canJump = (!player.doubleJumpCloud || !player.jumpAgainCloud) &&
 			(!player.doubleJumpSandstorm || !player.jumpAgainSandstorm) &&
 			(!player.doubleJumpBlizzard || !player.jumpAgainBlizzard) &&
@@ -3845,26 +3845,7 @@ namespace CalamityMod.CalPlayer
             }
         }
 
-        #region Dragon Scale Logic
-        public override void PostBuyItem(NPC vendor, Item[] shopInventory, Item item)
-        {
-            if (item.type == ModContent.ItemType<DragonScales>() && !CalamityWorld.dragonScalesBought)
-            {
-                CalamityWorld.dragonScalesBought = true;
-            }
-        }
-        #endregion
-
         #region Shop Restrictions
-
-        public override bool CanBuyItem(NPC vendor, Item[] shopInventory, Item item)
-        {
-            if (item.type == ModContent.ItemType<DragonScales>())
-            {
-                return !CalamityWorld.dragonScalesBought;
-            }
-            return base.CanBuyItem(vendor, shopInventory, item);
-        }
 
         public override bool CanSellItem(NPC vendor, Item[] shopInventory, Item item)
         {
@@ -4107,9 +4088,7 @@ namespace CalamityMod.CalPlayer
 			}
 			NetMessage.SendData(MessageID.Dodge, -1, -1, null, player.whoAmI, 1f, 0f, 0f, 0, 0, 0);
 		}
-		#endregion
 
-		#region Rogue Mirrors
 		public void AbyssMirrorEvade()
         {
             if (player.whoAmI == Main.myPlayer && abyssalMirror && !abyssalMirrorCooldown && !eclipseMirror)
@@ -4340,98 +4319,100 @@ namespace CalamityMod.CalPlayer
 
             //Custom Death Messages
 
-            if (alcoholPoisoning && damage == 10.0 && hitDirection == 0 && damageSource.SourceOtherIndex == 8)
-            {
-                if (Main.rand.Next(2) == 0)
-                    damageSource = PlayerDeathReason.ByCustomReason(player.name + " downed too many shots.");
-                else
-                    damageSource = PlayerDeathReason.ByCustomReason(player.name + "'s liver failed.");
-            }
-            if (vHex && damage == 10.0 && hitDirection == 0 && damageSource.SourceOtherIndex == 8)
-            {
-                damageSource = PlayerDeathReason.ByCustomReason(player.name + " was charred by the brimstone inferno.");
-            }
-            if ((ZoneCalamity && player.lavaWet) && damage == 10.0 && hitDirection == 0 && damageSource.SourceOtherIndex == 8)
-            {
-                damageSource = PlayerDeathReason.ByCustomReason(player.name + "'s soul was released by the lava.");
-            }
-            if (gsInferno && damage == 10.0 && hitDirection == 0 && damageSource.SourceOtherIndex == 8)
-            {
-                damageSource = PlayerDeathReason.ByCustomReason(player.name + "'s soul was extinguished.");
-            }
-            if (sulphurPoison && damage == 10.0 && hitDirection == 0 && damageSource.SourceOtherIndex == 8)
-            {
-                if (Main.rand.NextBool(2))
-                    damageSource = PlayerDeathReason.ByCustomReason(player.name + " was melted by the toxic waste.");
-                else
-                    damageSource = PlayerDeathReason.ByOther(9);
-            }
-            if (lethalLavaBurn && damage == 10.0 && hitDirection == 0 && damageSource.SourceOtherIndex == 8)
-            {
-                damageSource = PlayerDeathReason.ByCustomReason(player.name + " disintegrated into ashes.");
-            }
-            if (hInferno && damage == 10.0 && hitDirection == 0 && damageSource.SourceOtherIndex == 8)
-            {
-                damageSource = PlayerDeathReason.ByCustomReason(player.name + " was turned to ashes by the Profaned Goddess.");
-            }
-            if (hFlames && damage == 10.0 && hitDirection == 0 && damageSource.SourceOtherIndex == 8)
-            {
-                damageSource = PlayerDeathReason.ByCustomReason(player.name + " fell prey to their sins.");
-            }
-            if (waterLeechBleeding && damage == 10.0 && hitDirection == 0 && damageSource.SourceOtherIndex == 8)
-            {
-                damageSource = PlayerDeathReason.ByCustomReason(player.name + " lost too much blood.");
-            }
-            if (shadowflame && damage == 10.0 && hitDirection == 0 && damageSource.SourceOtherIndex == 8)
-            {
-                damageSource = PlayerDeathReason.ByCustomReason(player.name + "'s spirit was turned to ash.");
-            }
-            if (bBlood && damage == 10.0 && hitDirection == 0 && damageSource.SourceOtherIndex == 8)
-            {
-                damageSource = PlayerDeathReason.ByCustomReason(player.name + " became a blood geyser.");
-            }
-            if (cDepth && damage == 10.0 && hitDirection == 0 && damageSource.SourceOtherIndex == 8)
-            {
-                if (Main.rand.NextBool(2))
-                    damageSource = PlayerDeathReason.ByCustomReason(player.name + " was crushed by the pressure.");
-                else
-                    damageSource = PlayerDeathReason.ByCustomReason(player.name + "'s lungs collapsed.");
-            }
-            if ((bFlames || aFlames) && damage == 10.0 && hitDirection == 0 && damageSource.SourceOtherIndex == 8)
-            {
-                damageSource = PlayerDeathReason.ByCustomReason(player.name + " was consumed by the black flames.");
-            }
-            if (pFlames && damage == 10.0 && hitDirection == 0 && damageSource.SourceOtherIndex == 8)
-            {
-                if (Main.rand.NextBool(2))
-                    damageSource = PlayerDeathReason.ByCustomReason(player.name + "'s flesh was melted by the plague.");
-                else
-                    damageSource = PlayerDeathReason.ByCustomReason(player.name + " didn't vaccinate.");
-            }
-            if (astralInfection && damage == 10.0 && hitDirection == 0 && damageSource.SourceOtherIndex == 8)
-            {
-                if (Main.rand.NextBool(2))
-                    damageSource = PlayerDeathReason.ByCustomReason(player.name + "'s infection spread too far.");
-                else
-                    damageSource = PlayerDeathReason.ByCustomReason(player.name + "'s skin was replaced by the astral virus.");
-            }
-            if (nightwither && damage == 10.0 && hitDirection == 0 && damageSource.SourceOtherIndex == 8)
-            {
-                damageSource = PlayerDeathReason.ByCustomReason(player.name + " was incinerated by lunar rays.");
-            }
-            if (vaporfied && damage == 10.0 && hitDirection == 0 && damageSource.SourceOtherIndex == 8)
-            {
-                damageSource = PlayerDeathReason.ByCustomReason(player.name + " vaporized into thin air.");
-            }
-            if (manaOverloader && damage == 10.0 && hitDirection == 0 && damageSource.SourceOtherIndex == 8)
-            {
-                damageSource = PlayerDeathReason.ByCustomReason(player.name + "'s life was completely converted into mana.");
-            }
-            if ((bloodyMary || everclear || evergreenGin || fireball || margarita || moonshine || moscowMule || redWine || screwdriver || starBeamRye || tequila || tequilaSunrise || vodka || whiteWine)
-                && damage == 10.0 && hitDirection == 0 && damageSource.SourceOtherIndex == 8)
-            {
-                damageSource = PlayerDeathReason.ByCustomReason(player.name + " succumbed to alcohol sickness.");
-            }
+			if (damage == 10.0 && hitDirection == 0 && damageSource.SourceOtherIndex == 8)
+			{
+				if (alcoholPoisoning)
+				{
+					if (Main.rand.NextBool())
+						damageSource = PlayerDeathReason.ByCustomReason(player.name + " downed too many shots.");
+					else
+						damageSource = PlayerDeathReason.ByCustomReason(player.name + "'s liver failed.");
+				}
+				if (vHex)
+				{
+					damageSource = PlayerDeathReason.ByCustomReason(player.name + " was charred by the brimstone inferno.");
+				}
+				if (ZoneCalamity && player.lavaWet)
+				{
+					damageSource = PlayerDeathReason.ByCustomReason(player.name + "'s soul was released by the lava.");
+				}
+				if (gsInferno)
+				{
+					damageSource = PlayerDeathReason.ByCustomReason(player.name + "'s soul was extinguished.");
+				}
+				if (sulphurPoison)
+				{
+					if (Main.rand.NextBool(2))
+						damageSource = PlayerDeathReason.ByCustomReason(player.name + " was melted by the toxic waste.");
+					else
+						damageSource = PlayerDeathReason.ByOther(9);
+				}
+				if (lethalLavaBurn)
+				{
+					damageSource = PlayerDeathReason.ByCustomReason(player.name + " disintegrated into ashes.");
+				}
+				if (hInferno)
+				{
+					damageSource = PlayerDeathReason.ByCustomReason(player.name + " was turned to ashes by the Profaned Goddess.");
+				}
+				if (hFlames)
+				{
+					damageSource = PlayerDeathReason.ByCustomReason(player.name + " fell prey to their sins.");
+				}
+				if (waterLeechBleeding)
+				{
+					damageSource = PlayerDeathReason.ByCustomReason(player.name + " lost too much blood.");
+				}
+				if (shadowflame)
+				{
+					damageSource = PlayerDeathReason.ByCustomReason(player.name + "'s spirit was turned to ash.");
+				}
+				if (bBlood)
+				{
+					damageSource = PlayerDeathReason.ByCustomReason(player.name + " became a blood geyser.");
+				}
+				if (cDepth)
+				{
+					if (Main.rand.NextBool())
+						damageSource = PlayerDeathReason.ByCustomReason(player.name + " was crushed by the pressure.");
+					else
+						damageSource = PlayerDeathReason.ByCustomReason(player.name + "'s lungs collapsed.");
+				}
+				if (bFlames || aFlames)
+				{
+					damageSource = PlayerDeathReason.ByCustomReason(player.name + " was consumed by the black flames.");
+				}
+				if (pFlames)
+				{
+					if (Main.rand.NextBool())
+						damageSource = PlayerDeathReason.ByCustomReason(player.name + "'s flesh was melted by the plague.");
+					else
+						damageSource = PlayerDeathReason.ByCustomReason(player.name + " didn't vaccinate.");
+				}
+				if (astralInfection)
+				{
+					if (Main.rand.NextBool())
+						damageSource = PlayerDeathReason.ByCustomReason(player.name + "'s infection spread too far.");
+					else
+						damageSource = PlayerDeathReason.ByCustomReason(player.name + "'s skin was replaced by the astral virus.");
+				}
+				if (nightwither)
+				{
+					damageSource = PlayerDeathReason.ByCustomReason(player.name + " was incinerated by lunar rays.");
+				}
+				if (vaporfied)
+				{
+					damageSource = PlayerDeathReason.ByCustomReason(player.name + " vaporized into thin air.");
+				}
+				if (manaOverloader)
+				{
+					damageSource = PlayerDeathReason.ByCustomReason(player.name + "'s life was completely converted into mana.");
+				}
+				if (bloodyMary || everclear || evergreenGin || fireball || margarita || moonshine || moscowMule || redWine || screwdriver || starBeamRye || tequila || tequilaSunrise || vodka || whiteWine)
+				{
+					damageSource = PlayerDeathReason.ByCustomReason(player.name + " succumbed to alcohol sickness.");
+				}
+			}
             if (profanedCrystalBuffs && !profanedCrystalHide)
             {
                 damageSource = PlayerDeathReason.ByCustomReason(player.name + " was summoned too soon.");
@@ -4973,6 +4954,10 @@ namespace CalamityMod.CalPlayer
                     else if (Main.rand.NextBool(3))
                         target.AddBuff(BuffID.Frostburn, 120);
                     break;
+
+                case ProjectileID.NightBeam:
+                    target.AddBuff(BuffID.CursedInferno, 60);
+                    break;
             }
 
             if (!proj.npcProj && !proj.trap)
@@ -5315,6 +5300,10 @@ namespace CalamityMod.CalPlayer
                         target.AddBuff(BuffID.Frostburn, 240);
                     else if (Main.rand.NextBool(3))
                         target.AddBuff(BuffID.Frostburn, 120);
+                    break;
+
+                case ProjectileID.NightBeam:
+                    target.AddBuff(BuffID.CursedInferno, 60);
                     break;
             }
 

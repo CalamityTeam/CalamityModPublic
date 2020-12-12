@@ -94,11 +94,11 @@ namespace CalamityMod.CalPlayer
 
 					if (lava)
 					{
-						CalamityUtils.AddWithCondition<int>(fishList, ItemID.FlarefinKoi, !modPlayer.ZoneCalamity);
-						CalamityUtils.AddWithCondition<int>(fishList, ItemID.Obsidifish, !modPlayer.ZoneCalamity);
-						CalamityUtils.AddWithCondition<int>(fishList, ModContent.ItemType<CoastalDemonfish>(), modPlayer.ZoneCalamity);
-						CalamityUtils.AddWithCondition<int>(fishList, ModContent.ItemType<Shadowfish>(), modPlayer.ZoneCalamity);
-						CalamityUtils.AddWithCondition<int>(fishList, ModContent.ItemType<BrimstoneFish>(), modPlayer.ZoneCalamity);
+						fishList.AddWithCondition<int>(ItemID.FlarefinKoi, !modPlayer.ZoneCalamity);
+						fishList.AddWithCondition<int>(ItemID.Obsidifish, !modPlayer.ZoneCalamity);
+						fishList.AddWithCondition<int>(ModContent.ItemType<CoastalDemonfish>(), modPlayer.ZoneCalamity);
+						fishList.AddWithCondition<int>(ModContent.ItemType<Shadowfish>(), modPlayer.ZoneCalamity);
+						fishList.AddWithCondition<int>(ModContent.ItemType<BrimstoneFish>(), modPlayer.ZoneCalamity);
 					}
 					else if (water)
 					{
@@ -107,24 +107,24 @@ namespace CalamityMod.CalPlayer
 							fishList.Add(ItemID.ArmoredCavefish);
 							fishList.Add(ItemID.Stinkfish);
 							fishList.Add(ItemID.SpecularFish);
-							CalamityUtils.AddWithCondition<int>(fishList, ItemID.ChaosFish, player.ZoneHoly);
-							CalamityUtils.AddWithCondition<int>(fishList, ItemID.VariegatedLardfish, player.ZoneJungle);
+							fishList.AddWithCondition<int>(ItemID.ChaosFish, player.ZoneHoly);
+							fishList.AddWithCondition<int>(ItemID.VariegatedLardfish, player.ZoneJungle);
 						}
 						if (player.ZoneOverworldHeight || player.ZoneSkyHeight)
 						{
-							CalamityUtils.AddWithCondition<int>(fishList, ItemID.DoubleCod, player.ZoneJungle);
+							fishList.AddWithCondition<int>(ItemID.DoubleCod, player.ZoneJungle);
 						}
-						CalamityUtils.AddWithCondition<int>(fishList, ItemID.FrostMinnow, player.ZoneSnow);
-						CalamityUtils.AddWithCondition<int>(fishList, ItemID.Ebonkoi, player.ZoneCorrupt);
-						CalamityUtils.AddWithCondition<int>(fishList, ItemID.CrimsonTigerfish, player.ZoneCrimson);
-						CalamityUtils.AddWithCondition<int>(fishList, ItemID.Hemopiranha, player.ZoneCrimson);
-						CalamityUtils.AddWithCondition<int>(fishList, ItemID.PrincessFish, player.ZoneHoly);
-						CalamityUtils.AddWithCondition<int>(fishList, ItemID.Prismite, player.ZoneHoly);
-						CalamityUtils.AddWithCondition<int>(fishList, ItemID.Damselfish, player.ZoneSkyHeight);
-						CalamityUtils.AddWithCondition<int>(fishList, ModContent.ItemType<AldebaranAlewife>(), modPlayer.ZoneAstral);
-						CalamityUtils.AddWithCondition<int>(fishList, ModContent.ItemType<CoralskinFoolfish>(), modPlayer.ZoneSunkenSea);
-						CalamityUtils.AddWithCondition<int>(fishList, ModContent.ItemType<SunkenSailfish>(), modPlayer.ZoneSunkenSea);
-						CalamityUtils.AddWithCondition<int>(fishList, ModContent.ItemType<ScarredAngelfish>(), modPlayer.ZoneSunkenSea);
+						fishList.AddWithCondition<int>(ItemID.FrostMinnow, player.ZoneSnow);
+						fishList.AddWithCondition<int>(ItemID.Ebonkoi, player.ZoneCorrupt);
+						fishList.AddWithCondition<int>(ItemID.CrimsonTigerfish, player.ZoneCrimson);
+						fishList.AddWithCondition<int>(ItemID.Hemopiranha, player.ZoneCrimson);
+						fishList.AddWithCondition<int>(ItemID.PrincessFish, player.ZoneHoly);
+						fishList.AddWithCondition<int>(ItemID.Prismite, player.ZoneHoly);
+						fishList.AddWithCondition<int>(ItemID.Damselfish, player.ZoneSkyHeight);
+						fishList.AddWithCondition<int>(ModContent.ItemType<AldebaranAlewife>(), modPlayer.ZoneAstral);
+						fishList.AddWithCondition<int>(ModContent.ItemType<CoralskinFoolfish>(), modPlayer.ZoneSunkenSea);
+						fishList.AddWithCondition<int>(ModContent.ItemType<SunkenSailfish>(), modPlayer.ZoneSunkenSea);
+						fishList.AddWithCondition<int>(ModContent.ItemType<ScarredAngelfish>(), modPlayer.ZoneSunkenSea);
 					}
 
 					if (fishList.Any())
@@ -228,9 +228,9 @@ namespace CalamityMod.CalPlayer
 							{
 								rareItemList.Add(ItemID.ScalyTruffle);
 							}
-							CalamityUtils.AddWithCondition<int>(rareItemList, ItemID.Toxikarp, player.ZoneCorrupt);
-							CalamityUtils.AddWithCondition<int>(rareItemList, ItemID.Bladetongue, player.ZoneCrimson);
-							CalamityUtils.AddWithCondition<int>(rareItemList, ItemID.CrystalSerpent, player.ZoneHoly);
+							rareItemList.AddWithCondition<int>(ItemID.Toxikarp, player.ZoneCorrupt);
+							rareItemList.AddWithCondition<int>(ItemID.Bladetongue, player.ZoneCrimson);
+							rareItemList.AddWithCondition<int>(ItemID.CrystalSerpent, player.ZoneHoly);
 
 							if (rareItemList.Any())
 							{
@@ -247,15 +247,15 @@ namespace CalamityMod.CalPlayer
 						{
 							List<int> biomeCrateList = new List<int>();
 
-							CalamityUtils.AddWithCondition<int>(biomeCrateList, ModContent.ItemType<AstralCrate>(), modPlayer.ZoneAstral);
-							CalamityUtils.AddWithCondition<int>(biomeCrateList, ModContent.ItemType<SunkenCrate>(), modPlayer.ZoneSunkenSea);
-							CalamityUtils.AddWithCondition<int>(biomeCrateList, ModContent.ItemType<AbyssalCrate>(), canSulphurFish);
-							CalamityUtils.AddWithCondition<int>(biomeCrateList, ItemID.CorruptFishingCrate, player.ZoneCorrupt);
-							CalamityUtils.AddWithCondition<int>(biomeCrateList, ItemID.CrimsonFishingCrate, player.ZoneCrimson);
-							CalamityUtils.AddWithCondition<int>(biomeCrateList, ItemID.HallowedFishingCrate, player.ZoneHoly);
-							CalamityUtils.AddWithCondition<int>(biomeCrateList, ItemID.DungeonFishingCrate, player.ZoneDungeon);
-							CalamityUtils.AddWithCondition<int>(biomeCrateList, ItemID.JungleFishingCrate, player.ZoneJungle);
-							CalamityUtils.AddWithCondition<int>(biomeCrateList, ItemID.FloatingIslandFishingCrate, player.ZoneSkyHeight);
+							biomeCrateList.AddWithCondition<int>(ModContent.ItemType<AstralCrate>(), modPlayer.ZoneAstral);
+							biomeCrateList.AddWithCondition<int>(ModContent.ItemType<SunkenCrate>(), modPlayer.ZoneSunkenSea);
+							biomeCrateList.AddWithCondition<int>(ModContent.ItemType<AbyssalCrate>(), canSulphurFish);
+							biomeCrateList.AddWithCondition<int>(ItemID.CorruptFishingCrate, player.ZoneCorrupt);
+							biomeCrateList.AddWithCondition<int>(ItemID.CrimsonFishingCrate, player.ZoneCrimson);
+							biomeCrateList.AddWithCondition<int>(ItemID.HallowedFishingCrate, player.ZoneHoly);
+							biomeCrateList.AddWithCondition<int>(ItemID.DungeonFishingCrate, player.ZoneDungeon);
+							biomeCrateList.AddWithCondition<int>(ItemID.JungleFishingCrate, player.ZoneJungle);
+							biomeCrateList.AddWithCondition<int>(ItemID.FloatingIslandFishingCrate, player.ZoneSkyHeight);
 
 							if (biomeCrateList.Any())
 							{

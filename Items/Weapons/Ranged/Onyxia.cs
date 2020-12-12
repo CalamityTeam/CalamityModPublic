@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 			item.Calamity().customRarity = CalamityRarity.DarkBlue;
 			item.UseSound = SoundID.Item36;
             item.autoReuse = true;
-            item.shoot = ProjectileID.PurificationPowder; // wait why
+            item.shoot = ProjectileID.BlackBolt;
             item.shootSpeed = 28f;
             item.useAmmo = AmmoID.Bullet;
         }

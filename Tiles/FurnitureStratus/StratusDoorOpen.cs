@@ -9,7 +9,7 @@ namespace CalamityMod.Tiles.FurnitureStratus
     {
         public override void SetDefaults()
         {
-            this.SetUpDoorOpen();
+            this.SetUpDoorOpen(true);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Stratus Door");
             AddMapEntry(new Color(191, 142, 111), name);

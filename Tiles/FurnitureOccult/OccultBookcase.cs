@@ -10,7 +10,7 @@ namespace CalamityMod.Tiles.FurnitureOccult
     {
         public override void SetDefaults()
         {
-            this.SetUpBookcase();
+            this.SetUpBookcase(true);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Otherworldly Bookcase");
             AddMapEntry(new Color(191, 142, 111), name);

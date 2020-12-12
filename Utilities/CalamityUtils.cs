@@ -416,7 +416,7 @@ namespace CalamityMod
 		/// <param name="maxDistanceToCheck">Maximum amount of pixels to check around the origin</param>
 		/// <param name="owner">Owner of the minion</param>
 		/// <param name="ignoreTiles">Whether to ignore tiles when finding a target or not</param>
-		public static NPC MinionHoming(this Vector2 origin, float maxDistanceToCheck, Player owner, bool ignoreTiles = true)
+		public static NPC MinionHoming(this Vector2 origin, float maxDistanceToCheck, Player owner, bool ignoreTiles = true, bool checksRange = false)
 		{
 			if (owner is null || owner.whoAmI < 0 || owner.whoAmI > Main.maxPlayers || owner.MinionAttackTargetNPC < 0 || owner.MinionAttackTargetNPC > Main.maxNPCs)
 				return ClosestNPCAt(origin, maxDistanceToCheck, ignoreTiles);
@@ -424,7 +424,9 @@ namespace CalamityMod
 			bool canHit = true;
 			if (!ignoreTiles)
 				canHit = Collision.CanHit(origin, 1, 1, npc.Center, 1, 1);
-			if (owner.HasMinionAttackTargetNPC && canHit)
+			float extraDistance = (npc.width / 2) + (npc.height / 2);
+			bool distCheck = Vector2.Distance(origin, npc.Center) < (maxDistanceToCheck + extraDistance) || !checksRange;
+			if (owner.HasMinionAttackTargetNPC && canHit && distCheck)
 			{
 				return npc;
 			}
@@ -3025,7 +3027,7 @@ namespace CalamityMod
 		/// </summary>
 		/// <param name="mt">The ModTile which is being initialized.</param>
 		/// <param name="lavaImmune">Whether this tile is supposed to be immune to lava. Defaults to false.</param>
-		internal static void SetUpCandle(this ModTile mt, bool lavaImmune = false)
+		internal static void SetUpCandle(this ModTile mt, bool lavaImmune = false, int offset = -4)
 		{
 			Main.tileLighted[mt.Type] = true;
 			Main.tileFrameImportant[mt.Type] = true;
@@ -3034,7 +3036,7 @@ namespace CalamityMod
 			TileObjectData.newTile.CopyFrom(TileObjectData.StyleOnTable1x1);
 			TileObjectData.newTile.CoordinateHeights = new int[] { 20 };
 			TileObjectData.newTile.LavaDeath = !lavaImmune;
-			TileObjectData.newTile.DrawYOffset = -4;
+			TileObjectData.newTile.DrawYOffset = offset;
 			TileObjectData.addTile(mt.Type);
 
 			// All candles count as light sources.
@@ -3492,8 +3494,6 @@ namespace CalamityMod
 			Main.tileFrameImportant[mt.Type] = true;
 			Main.tileLavaDeath[mt.Type] = false;
 			Main.tileWaterDeath[mt.Type] = false;
-			//TileObjectData.newTile.CopyFrom(TileObjectData.Style3x4);
-			//TileObjectData.newTile.Width = 2;
 			TileObjectData.newTile.LavaDeath = false;
 			TileObjectData.addTile(mt.Type);
 			TileID.Sets.HasOutlines[mt.Type] = true;
