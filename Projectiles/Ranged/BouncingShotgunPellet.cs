@@ -4,11 +4,13 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class RealmRavagerBullet : ModProjectile
+    public class BouncingShotgunPellet : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Ranged/RealmRavagerBullet";
+		private int bounce = 2;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Explosive Bullet");
+            DisplayName.SetDefault("Shotgun Pellet");
         }
 
         public override void SetDefaults()
@@ -19,16 +21,34 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.alpha = 255;
             projectile.ranged = true;
             projectile.friendly = true;
-            projectile.ignoreWater = true;
             projectile.aiStyle = 1;
             aiType = ProjectileID.BulletHighVelocity;
-            projectile.penetrate = 1;
-            projectile.timeLeft = 90;
+            projectile.timeLeft = 180;
         }
+
+        public override bool OnTileCollide(Vector2 oldVelocity)
+        {
+			bounce--;
+			if (bounce <= 0)
+				projectile.Kill();
+			else
+			{
+				if (projectile.velocity.X != oldVelocity.X)
+					projectile.velocity.X = -oldVelocity.X;
+				if (projectile.velocity.Y != oldVelocity.Y)
+					projectile.velocity.Y = -oldVelocity.Y;
+                Main.PlaySound(SoundID.Item10, projectile.Center);
+				projectile.damage /= 2;
+			}
+			return false;
+		}
+
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => Main.PlaySound(SoundID.Item10, projectile.Center);
+
+        public override void OnHitPvp(Player target, int damage, bool crit) => Main.PlaySound(SoundID.Item10, projectile.Center);
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(SoundID.Item14, projectile.Center);
 			CalamityGlobalProjectile.ExpandHitboxBy(projectile, 32);
             for (int d = 0; d < 2; d++)
             {
@@ -43,12 +63,6 @@ namespace CalamityMod.Projectiles.Ranged
                 Main.dust[idx].velocity *= 2f;
                 Main.dust[idx].noGravity = true;
             }
-            projectile.maxPenetrate = -1;
-            projectile.penetrate = -1;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
-			projectile.damage /= 2;
-            projectile.Damage();
         }
     }
 }
