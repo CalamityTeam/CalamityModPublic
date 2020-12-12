@@ -136,7 +136,7 @@ namespace CalamityMod.NPCs
                             if (selection == 0 && Collision.CanHit(npc.Center, 1, 1, target.Center, 1, 1))
                                 aiState = (int)MothronAIState.AccelerateTowardsPlayer;
                             else if (selection == 1)
-                                aiState = (int)MothronAIState.ChargePreparation;
+                                aiState = (int)MothronAIState.ChargeRedirect;
                             else if (selection == 2 && NPC.CountNPCS(NPCID.MothronEgg) + NPC.CountNPCS(NPCID.MothronSpawn) < 2)
                                 aiState = (int)MothronAIState.PickSpotToLayEgg;
                         }
@@ -252,7 +252,7 @@ namespace CalamityMod.NPCs
                     flySpeedAdditive += 0.0333333351f;
                     flySpeed = 24f + flySpeedAdditive;
                     flyInertia = 4f;
-                    idealVelocity = npc.DirectionTo(destination);
+                    idealVelocity = npc.DirectionTo(destination) * flySpeed;
                     npc.velocity = (npc.velocity * (flyInertia - 1f) + idealVelocity) / flyInertia;
                     break;
                 case MothronAIState.ChargePreparation:
