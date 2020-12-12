@@ -175,8 +175,8 @@ namespace CalamityMod.UI
         {
 			float uiScale = Main.UIScale;
             Rectangle mouse = new Rectangle((int)Main.MouseScreen.X, (int)Main.MouseScreen.Y, 8, 8);
-            Rectangle rageBar = new Rectangle((int)rageDrawPos.X, (int)rageDrawPos.Y, (int)rageBarSize.X, (int)rageBarSize.Y);
-            Rectangle adrenBar = new Rectangle((int)adrenDrawPos.X, (int)adrenDrawPos.Y, (int)adrenBarSize.X, (int)adrenBarSize.Y);
+			Rectangle rageBar = Utils.CenteredRectangle(rageDrawPos, rageBarSize * uiScale);
+			Rectangle adrenBar = Utils.CenteredRectangle(adrenDrawPos, adrenBarSize * uiScale);
 
             bool rageHover = mouse.Intersects(rageBar);
             bool adrenHover = mouse.Intersects(adrenBar);
