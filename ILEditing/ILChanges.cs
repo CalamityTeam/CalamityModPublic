@@ -101,7 +101,7 @@ namespace CalamityMod.ILEditing
                 cursor.Emit(OpCodes.Ldloc, 6);
                 cursor.EmitDelegate<Func<Vector2, Vector2>>(unclampedValue =>
                 {
-                    unclampedValue.X = MathHelper.Clamp(unclampedValue.X, SulphurousSea.BiomeWidth + 25, Main.maxTilesX - SulphurousSea.BiomeWidth);
+                    unclampedValue.X = MathHelper.Clamp(unclampedValue.X, SulphurousSea.BiomeWidth + 25, Main.maxTilesX - SulphurousSea.BiomeWidth - 25);
                     return unclampedValue;
                 });
                 cursor.Emit(OpCodes.Stloc, 6);
