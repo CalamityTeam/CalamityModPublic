@@ -614,6 +614,8 @@ namespace CalamityMod.CalPlayer
 		public int roverDriveTimer = 0;
 		public int roverFrameCounter = 0;
 		public int roverFrame = 0;
+		public bool angelicAlliance = false;
+		public int angelicActivate = 0;
         #endregion
 
         #region Armor Set
@@ -786,6 +788,8 @@ namespace CalamityMod.CalPlayer
         public bool energyShellCooldown = false;
         public bool prismaticCooldown = false;
         public bool waterLeechBleeding = false;
+		public bool divineBlessCooldown = false;
+		public bool banishingFire = false;
         #endregion
 
         #region Buff
@@ -881,6 +885,7 @@ namespace CalamityMod.CalPlayer
         public bool hallowedRegen = false;
         public bool kamiBoost = false;
 		public bool avertorBonus = false;
+		public bool divineBless = false;
 		#endregion
 
 		#region Minion
@@ -1681,6 +1686,7 @@ namespace CalamityMod.CalPlayer
             noStupidNaturalARSpawns = false;
             burdenBreakerYeet = false;
 			roverDrive = false;
+			angelicAlliance = false;
 
             daedalusReflect = false;
             daedalusSplit = false;
@@ -1836,6 +1842,8 @@ namespace CalamityMod.CalPlayer
 			energyShellCooldown = false;
 			prismaticCooldown = false;
             waterLeechBleeding = false;
+			divineBlessCooldown = false;
+			banishingFire = false;
 
             revivify = false;
             trinketOfChiBuff = false;
@@ -1895,6 +1903,7 @@ namespace CalamityMod.CalPlayer
             polarisBoostThree = false;
             bloodfinBoost = false;
 			bloodPactBoost = false;
+			divineBless = false;
 
             killSpikyBalls = false;
 
@@ -2132,6 +2141,7 @@ namespace CalamityMod.CalPlayer
 			ladHearts = 0;
 			prismaticLasers = 0;
 			roverDriveTimer = 0;
+			angelicActivate = 0;
 			resetHeightandWidth = false;
 			noLifeRegen = false;
 
@@ -2181,6 +2191,8 @@ namespace CalamityMod.CalPlayer
 			energyShellCooldown = false;
 			prismaticCooldown = false;
             waterLeechBleeding = false;
+			divineBlessCooldown = false;
+			banishingFire = false;
             #endregion
 
             #region Rogue
@@ -2311,6 +2323,7 @@ namespace CalamityMod.CalPlayer
 			bloodPactBoost = false;
 			rangedAmmoCost = 1f;
 			avertorBonus = false;
+			divineBless = false;
 			#endregion
 
 			#region Armorbonuses

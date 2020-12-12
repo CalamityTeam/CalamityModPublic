@@ -85,6 +85,7 @@ namespace CalamityMod.NPCs.Cryogen
             npc.buffImmune[ModContent.BuffType<WhisperingDeath>()] = false;
             npc.buffImmune[ModContent.BuffType<SilvaStun>()] = false;
             npc.buffImmune[ModContent.BuffType<SulphuricPoisoning>()] = false;
+            npc.buffImmune[ModContent.BuffType<BanishingFire>()] = false;
             npc.boss = true;
             npc.noGravity = true;
             npc.noTileCollide = true;

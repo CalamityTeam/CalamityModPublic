@@ -145,6 +145,7 @@ namespace CalamityMod.NPCs
         public int relicOfResilienceCooldown = 0;
         public int relicOfResilienceWeakness = 0;
         public int GaussFluxTimer = 0;
+        public int banishingFire = 0;
 
         // whoAmI Variables
         public static int[] bobbitWormBottom = new int[5];
@@ -717,7 +718,7 @@ namespace CalamityMod.NPCs
 			//Oiled debuff makes flame debuffs 25% more effective
 			if (npc.oiled)
 			{
-				int oiledDoT = (bFlames > 0 ? 10 : 0) + (hFlames > 0 ? 13 : 0) + (gsInferno > 0 ? 63 : 0) + (aFlames > 0 ? 32 : 0) + (dFlames > 0 ? 625 : 0);
+				int oiledDoT = (bFlames > 0 ? 10 : 0) + (hFlames > 0 ? 13 : 0) + (gsInferno > 0 ? 63 : 0) + (aFlames > 0 ? 32 : 0) + (dFlames > 0 ? 625 : 0) + (banishingFire > 0 ? 375 : 0);
 				if (oiledDoT > 0)
 				{
 					int lifeRegenValue = oiledDoT * 4 + 12;
@@ -745,6 +746,10 @@ namespace CalamityMod.NPCs
                 ApplyDPSDebuff(electrified, 10, 2, ref npc.lifeRegen, ref damage);
             else
                 ApplyDPSDebuff(electrified, 40, 8, ref npc.lifeRegen, ref damage);
+			if (npc.lifeMax < 1000000)
+				ApplyDPSDebuff(banishingFire, 1500, 300, ref npc.lifeRegen, ref damage);
+			else
+				ApplyDPSDebuff(banishingFire, npc.lifeMax / 25, npc.lifeMax / 125, ref npc.lifeRegen, ref damage);
         }
 
         public void ApplyDPSDebuff(int debuff, int lifeRegenValue, int damageValue, ref int lifeRegen, ref int damage)
@@ -2999,6 +3004,8 @@ namespace CalamityMod.NPCs
                 GaussFluxTimer--;
             if (ladHearts > 0)
 				ladHearts--;
+            if (banishingFire > 0)
+				banishingFire--;
 
             // Bosses and any specific other NPCs are completely immune to having their movement impaired.
             if (npc.boss || CalamityLists.movementImpairImmuneList.Contains(npc.type))

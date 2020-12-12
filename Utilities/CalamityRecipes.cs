@@ -1053,6 +1053,33 @@ namespace CalamityMod
             });
             RecipeGroup.RegisterGroup("SiltGroup", group);
 
+            group = new RecipeGroup(() => "Any Hallowed Helmet", new int[]
+            {
+                ItemID.HallowedHelmet,
+                ItemID.HallowedHeadgear,
+                ItemID.HallowedMask/*,
+				ItemID.HallowedHood,
+                ItemID.AncientHallowedHelmet,
+                ItemID.AncientHallowedHeadgear,
+                ItemID.AncientHallowedMask,
+				ItemID.AncientHallowedHood*/
+            });
+            RecipeGroup.RegisterGroup("AnyHallowedHelmet", group);
+
+            /*group = new RecipeGroup(() => "Any Hallowed Platemail", new int[]
+            {
+                ItemID.HallowedPlateMail,
+                ItemID.AncientHallowedPlateMail
+            });
+            RecipeGroup.RegisterGroup("AnyHallowedPlatemail", group);
+
+            group = new RecipeGroup(() => "Any Hallowed Greaves", new int[]
+            {
+                ItemID.HallowedGreaves,
+                ItemID.AncientHallowedGreaves
+            });
+            RecipeGroup.RegisterGroup("AnyHallowedGreaves", group);*/
+
             group = new RecipeGroup(() => "Any Hardmode Anvil", new int[]
             {
                 ItemID.MythrilAnvil,

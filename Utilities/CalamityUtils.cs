@@ -3558,6 +3558,30 @@ namespace CalamityMod
 			spriteBatch.Draw(glowmaskTexture, item.Center - Main.screenPosition, null, Color.White, rotation, origin, 1f, SpriteEffects.None, 0f);
 		}
 
+		public static void DrawAuroras(Player player, float auroraCount, float opacity, Color color)
+		{
+            float time = Main.GlobalTime % 3f / 3f;
+            Texture2D auroraTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/AuroraTexture");
+            for (int i = 0; i < auroraCount; i++)
+            {
+                float incrementOffsetAngle = MathHelper.TwoPi * i / auroraCount;
+                float xOffset = (float)Math.Sin(time * MathHelper.TwoPi + incrementOffsetAngle * 2f) * 20f;
+                float yOffset = (float)Math.Sin(time * MathHelper.TwoPi + incrementOffsetAngle * 2f + MathHelper.ToRadians(60f)) * 6f;
+                float rotation = (float)Math.Sin(incrementOffsetAngle) * MathHelper.Pi / 12f;
+                Vector2 offset = new Vector2(xOffset, yOffset - 14f);
+                DrawData drawData = new DrawData(auroraTexture,
+                                 player.Top + offset - Main.screenPosition,
+                                 null,
+                                 color * opacity,
+                                 rotation + MathHelper.PiOver2,
+                                 auroraTexture.Size() * 0.5f,
+                                 0.135f,
+                                 SpriteEffects.None,
+                                 1);
+                Main.playerDrawData.Add(drawData);
+            }
+		}
+
 		public static Rectangle GetCurrentFrame(this Item item, ref int frame, ref int frameCounter, int frameDelay, int frameAmt, bool frameCounterUp = true)
 		{
 			if (frameCounter >= frameDelay)

@@ -1053,6 +1053,8 @@ namespace CalamityMod.CalPlayer
 				modPlayer.auralisAurora--;
 			if (modPlayer.auralisAuroraCooldown > 0)
 				modPlayer.auralisAuroraCooldown--;
+			if (modPlayer.angelicActivate > 0)
+				modPlayer.angelicActivate--;
 
 			// Silva invincibility effects
 			if (modPlayer.silvaCountdown > 0 && modPlayer.hasSilvaEffect && modPlayer.silvaSet)
