@@ -347,7 +347,7 @@ namespace CalamityMod.CalPlayer
 					modPlayer.AdrenalinePacket(false);
 					modPlayer.DeathModeUnderworldTimePacket(false);
 					modPlayer.DeathModeBlizzardTimePacket(false);
-					//modPlayer.AquaticBoostPacket(false);
+					modPlayer.AquaticBoostPacket(false);
 					modPlayer.MoveSpeedStatPacket(false);
 					modPlayer.DefenseDamagePacket(false);
 				}

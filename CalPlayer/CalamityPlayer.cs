@@ -1118,6 +1118,7 @@ namespace CalamityMod.CalPlayer
                 { "boost", boost },
                 { "stress", rage },
                 { "adrenaline", adrenaline },
+                { "aquaticBoostPower", (double)aquaticBoost },
                 { "sCalDeathCount", sCalDeathCount },
                 { "sCalKillCount", sCalKillCount },
                 { "meleeLevel", meleeLevel },
@@ -1135,7 +1136,6 @@ namespace CalamityMod.CalPlayer
                 { "deathModeBlizzardTime", deathModeBlizzardTime },
 				{ "itemTypeLastReforged", itemTypeLastReforged },
 				{ "reforgeTierSafety", reforgeTierSafety },
-				//{ "aquaticBoost", aquaticBoost },
 				{ "moveSpeedStat", moveSpeedStat },
 				{ "defenseDamage", defenseDamage }
             };
@@ -1189,7 +1189,8 @@ namespace CalamityMod.CalPlayer
 
 			rage = tag.GetAsInt("stress");
             adrenaline = tag.GetAsInt("adrenaline");
-			//aquaticBoost = tag.GetAsInt("aquaticBoost");
+            if (tag.ContainsKey("aquaticBoostPower"))
+    			aquaticBoost = (float)tag.GetAsDouble("aquaticBoostPower");
 			sCalDeathCount = tag.GetInt("sCalDeathCount");
             sCalKillCount = tag.GetInt("sCalKillCount");
             deathCount = tag.GetInt("deathCount");
@@ -1227,7 +1228,7 @@ namespace CalamityMod.CalPlayer
             int loadVersion = reader.ReadInt32();
             rage = reader.ReadInt32();
             adrenaline = reader.ReadInt32();
-			//aquaticBoost = reader.ReadInt32();
+			aquaticBoost = reader.ReadSingle();
 			sCalDeathCount = reader.ReadInt32();
             sCalKillCount = reader.ReadInt32();
             deathCount = reader.ReadInt32();
@@ -10237,7 +10238,7 @@ namespace CalamityMod.CalPlayer
 				packet.Send(-1, player.whoAmI);
 		}
 
-		/*public void AquaticBoostPacket(bool server)
+		public void AquaticBoostPacket(bool server)
 		{
 			ModPacket packet = mod.GetPacket(256);
 			packet.Write((byte)CalamityModMessageType.AquaticBoostSync);
@@ -10248,7 +10249,7 @@ namespace CalamityMod.CalPlayer
 				packet.Send();
 			else
 				packet.Send(-1, player.whoAmI);
-		}*/
+		}
 
 		public void MoveSpeedStatPacket(bool server)
 		{
@@ -10375,12 +10376,12 @@ namespace CalamityMod.CalPlayer
 				ReforgeTierSafetyPacket(true);
 		}
 
-		/*internal void HandleAquaticBoost(BinaryReader reader)
+		internal void HandleAquaticBoost(BinaryReader reader)
 		{
-			aquaticBoost = reader.ReadInt32();
+			aquaticBoost = reader.ReadSingle();
 			if (Main.netMode == NetmodeID.Server)
 				AquaticBoostPacket(true);
-		}*/
+		}
 
 		internal void HandleMoveSpeedStat(BinaryReader reader)
 		{
@@ -10417,7 +10418,7 @@ namespace CalamityMod.CalPlayer
                 DeathModeBlizzardTimePacket(false);
 				ItemTypeLastReforgedPacket(false);
 				ReforgeTierSafetyPacket(false);
-				//AquaticBoostPacket(false);
+				AquaticBoostPacket(false);
 				MoveSpeedStatPacket(false);
 				DefenseDamagePacket(false);
 			}
