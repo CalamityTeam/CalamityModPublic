@@ -9790,14 +9790,11 @@ namespace CalamityMod.CalPlayer
                 playRogueStealthSound = true;
 
             // Calculate stealth generation and gain stealth accordingly
-            if (wearingRogueArmor)
-            {
-                // 1f is normal speed, anything higher is faster. Default stealth generation is 3 seconds while standing still.
-                float currentStealthGen = UpdateStealthGenStats();
-                rogueStealth += rogueStealthMax * (currentStealthGen / 180f); // 180 frames = 3 seconds
-                if (rogueStealth > rogueStealthMax)
-                    rogueStealth = rogueStealthMax;
-            }
+            // 1f is normal speed, anything higher is faster. Default stealth generation is 3 seconds while standing still.
+            float currentStealthGen = UpdateStealthGenStats();
+            rogueStealth += rogueStealthMax * (currentStealthGen / 180f); // 180 frames = 3 seconds
+            if (rogueStealth > rogueStealthMax)
+                rogueStealth = rogueStealthMax;
 
             ProvideStealthStatBonuses();
 
