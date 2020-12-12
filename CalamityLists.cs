@@ -357,7 +357,8 @@ namespace CalamityMod
                 ModContent.ProjectileType<TyphonsGreedStaff>(),
                 ModContent.ProjectileType<UrchinSpearProjectile>(),
                 ModContent.ProjectileType<YateveoBloomSpear>(),
-                ModContent.ProjectileType<HydraulicVoltCrasherProjectile>()
+                ModContent.ProjectileType<HydraulicVoltCrasherProjectile>(),
+                ModContent.ProjectileType<DragonRageStaff>()
             };
 
             rangedProjectileExceptionList = new List<int>()

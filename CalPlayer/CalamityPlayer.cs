@@ -228,6 +228,7 @@ namespace CalamityMod.CalPlayer
         public int bloodflareHeartTimer = 180;
         public int bloodflareManaTimer = 180;
         public int polarisBoostCounter = 0;
+        public int dragonRageHits = 0;
         public int gaelSwipes = 0;
         public float modStealth = 1f;
 		public float aquaticBoostMax = 10000f;
@@ -284,6 +285,9 @@ namespace CalamityMod.CalPlayer
         #endregion
 
         #region Rogue
+        // If stealth is too weak, increase this number. If stealth is too strong, decrease this number.
+        private static readonly double StealthDamageConstant = 0.5;
+
         public float rogueStealth = 0f;
         public float rogueStealthMax = 0f;
         public float stealthGenStandstill = 1f;
@@ -1187,11 +1191,11 @@ namespace CalamityMod.CalPlayer
 			newAmidiasInventory = boost.Contains("newAmidiasInventory");
 			newBanditInventory = boost.Contains("newBanditInventory");
 
-			rage = tag.GetAsInt("stress");
-            adrenaline = tag.GetAsInt("adrenaline");
+            rage = tag.GetFloat("stress");
+            adrenaline = tag.GetFloat("adrenaline");
             if (tag.ContainsKey("aquaticBoostPower"))
     			aquaticBoost = (float)tag.GetAsDouble("aquaticBoostPower");
-			sCalDeathCount = tag.GetInt("sCalDeathCount");
+            sCalDeathCount = tag.GetInt("sCalDeathCount");
             sCalKillCount = tag.GetInt("sCalKillCount");
             deathCount = tag.GetInt("deathCount");
 
@@ -1418,7 +1422,13 @@ namespace CalamityMod.CalPlayer
 			noLifeRegen = false;
 
             thirdSage = false;
-            if (player.immuneTime <= 0)
+			bool isImmune = false;
+			for (int j = 0; j < player.hurtCooldowns.Length; j++)
+			{
+				if (player.hurtCooldowns[j] > 0)
+					isImmune = true;
+			}
+			if (!isImmune)
                 thirdSageH = false;
 
             perfmini = false;
@@ -2102,6 +2112,7 @@ namespace CalamityMod.CalPlayer
             externalAbyssLight = 0;
             externalColdImmunity = externalHeatImmunity = false;
             polarisBoostCounter = 0;
+			dragonRageHits = 0;
             spectralVeilImmunity = 0;
             jetPackCooldown = 0;
 			jetPackDash = 0;
@@ -2835,9 +2846,7 @@ namespace CalamityMod.CalPlayer
                             player.immuneTime = 120;
                             spectralVeilImmunity = 120;
                             for (int k = 0; k < player.hurtCooldowns.Length; k++)
-                            {
                                 player.hurtCooldowns[k] = player.immuneTime;
-                            }
                         }
                     }
                 }
@@ -3548,8 +3557,9 @@ namespace CalamityMod.CalPlayer
                 player.pickSpeed *= 0.75f;
             }
 
-			// So, let's say you have 8 run speed from boots and 200% movement speed, this means you get 200 * 0.005 = 1 * 8 + 8 = 16
-			player.accRunSpeed += player.accRunSpeed * moveSpeedStat * 0.005f;
+			// Takes the % move speed boost and reduces it to a quarter to get the actual speed increase
+			// 400% move speed boost = 100% run speed boost, so an 8 run speed would become 16 with a 400% move speed stat
+			player.accRunSpeed += player.accRunSpeed * moveSpeedStat * 0.0025f;
 
 			if (player.accRunSpeed < 0f)
 				player.accRunSpeed = 0f;
@@ -4010,7 +4020,13 @@ namespace CalamityMod.CalPlayer
 				return true;
 			}
 			// Mirror cooldowns affect each other
-			if (Main.rand.NextBool(10) && player.immuneTime <= 0 && !eclipseMirrorCooldown && !abyssalMirrorCooldown)
+			bool isImmune = false;
+			for (int j = 0; j < player.hurtCooldowns.Length; j++)
+			{
+				if (player.hurtCooldowns[j] > 0)
+					isImmune = true;
+			}
+			if (Main.rand.NextBool(10) && !isImmune && !eclipseMirrorCooldown && !abyssalMirrorCooldown)
 			{
 				if (eclipseMirror)
 				{
@@ -6531,6 +6547,10 @@ namespace CalamityMod.CalPlayer
 					player.immune = true;
 					player.immuneNoBlink = true;
 					player.immuneTime += 4;
+					for (int j = 0; j < player.hurtCooldowns.Length; j++)
+					{
+						player.hurtCooldowns[j] = player.immuneTime;
+					}
 					damage = 0;
 					return;
 				}
@@ -8158,7 +8178,7 @@ namespace CalamityMod.CalPlayer
             {
 				int iFramesToAdd = 0;
 				if (cTracers && damage > 200)
-					iFramesToAdd += 60;
+					iFramesToAdd += 30;
 				if (godSlayerThrowing && damage > 80)
 					iFramesToAdd += 30;
 				if (statigelSet && damage > 100)
@@ -8167,9 +8187,9 @@ namespace CalamityMod.CalPlayer
 				if (dAmulet)
 				{
 					if (damage == 1)
-						iFramesToAdd += 10;
+						iFramesToAdd += 5;
 					else
-						iFramesToAdd += 20;
+						iFramesToAdd += 10;
 				}
 
 				if (fabsolVodka)
@@ -9770,7 +9790,11 @@ namespace CalamityMod.CalPlayer
                         player.immune = true;
                         player.immuneNoBlink = true;
                         player.immuneTime += PlayerImmuneTime;
-                        num++;
+						for (int j = 0; j < player.hurtCooldowns.Length; j++)
+						{
+							player.hurtCooldowns[j] = player.immuneTime;
+						}
+						num++;
                         break;
                     }
                 }
@@ -9896,14 +9920,11 @@ namespace CalamityMod.CalPlayer
                 playRogueStealthSound = true;
 
             // Calculate stealth generation and gain stealth accordingly
-            if (wearingRogueArmor)
-            {
-                // 1f is normal speed, anything higher is faster. Default stealth generation is 3 seconds while standing still.
-                float currentStealthGen = UpdateStealthGenStats();
-                rogueStealth += rogueStealthMax * (currentStealthGen / 180f); // 180 frames = 3 seconds
-                if (rogueStealth > rogueStealthMax)
-                    rogueStealth = rogueStealthMax;
-            }
+            // 1f is normal speed, anything higher is faster. Default stealth generation is 3 seconds while standing still.
+            float currentStealthGen = UpdateStealthGenStats();
+            rogueStealth += rogueStealthMax * (currentStealthGen / 180f); // 180 frames = 3 seconds
+            if (rogueStealth > rogueStealthMax)
+                rogueStealth = rogueStealthMax;
 
             ProvideStealthStatBonuses();
 
@@ -9932,24 +9953,45 @@ namespace CalamityMod.CalPlayer
 
         private void ProvideStealthStatBonuses()
         {
-            // At full stealth, you get a higher damage bonus than at any partial level of stealth.
-            if (rogueStealth >= rogueStealthMax)
-                throwingDamage += rogueStealth * 0.6666666f;
-            else
-                throwingDamage += rogueStealth * 0.5f;
+            if (!wearingRogueArmor || rogueStealthMax <= 0)
+                return;
 
-            // Crit increases based on your stealth value. With certain gear, it's locked at 100% for stealth strikes.
+            // Hovering over an item will adjust the stealth bonus dynamically so that you see the correct damage for an item you put your cursor on.
+            Item it = !Main.HoverItem.IsAir ? Main.HoverItem : player.ActiveItem();
+
+            // The potential damage bonus from stealth is a complex equation based on the item's use time,
+            // the player's averaged-together stealth generation stats, and max stealth.
+            // Lower stealth generation rate (especially while moving) enables higher maximum stealth damage.
+            // This enables stealth to be conditionally useful -- even powerful -- even without a dedicated stealth build.
+            double averagedStealthGen = 0.8 * stealthGenMoving + 0.2 * stealthGenStandstill;
+            double fakeStealthTime = 9D / averagedStealthGen;
+
+            // Use time  3 = 162% damage ratio
+            // Use time  8 = 200% damage ratio
+            // Use time 13 = 221% damage ratio
+            // Use time 17 = 234% damage ratio
+            // Use time 20 = 242% damage ratio
+            // Use time 30 = 263% damage ratio
+            // Use time 59 = 297% damage ratio
+            double useTimeFactor = 0.75 + 0.75 * Math.Log(it.useTime + 2D, 4D);
+
+            // 9.00 second stealth charge = 433% damage ratio
+            // 6.00 second stealth charge = 330% damage ratio
+            // 4.00 second stealth charge = 252% damage ratio
+            // 2.50 second stealth charge = 184% damage ratio
+            double stealthGenFactor = Math.Max(Math.Pow(fakeStealthTime, 2D / 3D), 1.5);
+
+            double stealthAddedDamage = it.damage * rogueStealth * StealthDamageConstant * useTimeFactor * stealthGenFactor;
+            // TODO -- Store stealth damage elsewhere so that it can't affect rogue on-hits while you stand around with this damage boost.
+            throwingDamage += (float)stealthAddedDamage;
+
+            // Show 100% crit chance if your stealth strikes always crit.
+            // In practice, this is only for visuals because Terraria determines crit status on hit.
             if (stealthStrikeAlwaysCrits && StealthStrikeAvailable())
                 throwingCrit = 100;
-            else
-                throwingCrit += (int)(rogueStealth * 20f);
 
-            // Stealth slightly increases movement speed and decreases aggro.
-            if (wearingRogueArmor && rogueStealthMax > 0)
-            {
-                player.moveSpeed += rogueStealth * 0.05f;
-                player.aggro -= (int)(rogueStealth * 400f);
-            }
+            // Stealth slightly decreases aggro.
+            player.aggro -= (int)(rogueStealth * 300f);
         }
 
         private float UpdateStealthGenStats()

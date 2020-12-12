@@ -241,8 +241,12 @@ namespace CalamityMod.Projectiles.Pets
                     }
                     player.immune = false;
                     player.immuneTime = 0;
+					for (int j = 0; j < player.hurtCooldowns.Length; j++)
+					{
+						player.hurtCooldowns[j] = player.immuneTime;
+					}
 
-                    if (Main.netMode != NetmodeID.MultiplayerClient)
+					if (Main.netMode != NetmodeID.MultiplayerClient)
                         SpawnDoggo();
                 }
                 projectile.netUpdate = true;
