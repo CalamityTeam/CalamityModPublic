@@ -56,22 +56,23 @@ namespace CalamityMod.Projectiles.Boss
         public override void Kill(int timeLeft)
         {
             Main.PlaySound(SoundID.Item20, projectile.position);
-            int num226 = 36;
-            for (int num227 = 0; num227 < num226; num227++)
+            int dustAmt = 36;
+            for (int d = 0; d < dustAmt; d++)
             {
-                Vector2 vector6 = Vector2.Normalize(projectile.velocity) * new Vector2((float)projectile.width / 2f, (float)projectile.height) * 0.75f;
-                vector6 = vector6.RotatedBy((double)((float)(num227 - (num226 / 2 - 1)) * 6.28318548f / (float)num226), default) + projectile.Center;
-                Vector2 vector7 = vector6 - projectile.Center;
-                int num228 = Dust.NewDust(vector6 + vector7, 0, 0, 244, vector7.X * 2f, vector7.Y * 2f, 100, default, 1.4f);
-                Main.dust[num228].noGravity = true;
-                Main.dust[num228].noLight = true;
-                Main.dust[num228].velocity = vector7;
+                Vector2 dustSource = Vector2.Normalize(projectile.velocity) * new Vector2((float)projectile.width / 2f, (float)projectile.height) * 0.75f;
+                dustSource = dustSource.RotatedBy((double)((float)(d - (dustAmt / 2 - 1)) * MathHelper.TwoPi / (float)dustAmt), default) + projectile.Center;
+                Vector2 dustVel = dustSource - projectile.Center;
+                int idx = Dust.NewDust(dustSource + dustVel, 0, 0, 244, dustVel.X * 2f, dustVel.Y * 2f, 100, default, 1.4f);
+                Main.dust[idx].noGravity = true;
+                Main.dust[idx].noLight = true;
+                Main.dust[idx].velocity = dustVel;
             }
             if (projectile.owner == Main.myPlayer)
             {
-                int num235 = 100;
-                int num236 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<InfernadoRevenge>(), num235, 4f, Main.myPlayer, 16f, 50f);
-                Main.projectile[num236].netUpdate = true;
+                int dmg = 100; //damage is irrelevant since the player is instantly killed
+                int nado = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<InfernadoRevenge>(), dmg, 4f, Main.myPlayer, 16f, 50f);
+				Main.projectile[nado].Calamity().lineColor = (int)projectile.ai[0];
+                Main.projectile[nado].netUpdate = true;
             }
         }
 

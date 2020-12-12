@@ -11,7 +11,7 @@ namespace CalamityMod.Tiles.FurnitureProfaned
     {
         public override void SetDefaults()
         {
-            this.SetUpCandle();
+            this.SetUpCandle(true);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Profaned Candle");
             AddMapEntry(new Color(191, 142, 111), name);

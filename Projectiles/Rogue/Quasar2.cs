@@ -91,9 +91,12 @@ namespace CalamityMod.Projectiles.Rogue
 			if (projectile.Calamity().stealthStrike && projectile.owner == Main.myPlayer)
 			{
 				int boomer = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<RadiantExplosion>(), (int)(projectile.damage * 0.5f), projectile.knockBack, projectile.owner, 0f, 1f);
-				Main.projectile[boomer].Calamity().stealthStrike = projectile.Calamity().stealthStrike;
-				Main.projectile[boomer].height = Main.projectile[boomer].width = 280;
-				Main.projectile[boomer].Center = projectile.Center;
+				if (boomer.WithinBounds(Main.maxProjectiles))
+				{
+					Main.projectile[boomer].Calamity().stealthStrike = true;
+					Main.projectile[boomer].height = Main.projectile[boomer].width = 280;
+					Main.projectile[boomer].Center = projectile.Center;
+				}
 			}
         }
     }

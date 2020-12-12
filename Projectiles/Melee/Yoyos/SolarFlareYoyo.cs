@@ -49,8 +49,9 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
             target.AddBuff(ModContent.BuffType<HolyFlames>(), 300);
             if (projectile.owner == Main.myPlayer)
             {
-                int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<HolyExplosionSupreme>(), (int)(projectile.damage * 0.75), projectile.knockBack, projectile.owner, 0f, 0f);
-                Main.projectile[proj].Calamity().forceMelee = true;
+                int proj = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<HolyExplosionSupreme>(), (int)(projectile.damage * 0.75), projectile.knockBack, projectile.owner);
+				if (proj.WithinBounds(Main.maxProjectiles))
+					Main.projectile[proj].Calamity().forceMelee = true;
             }
         }
 

@@ -49,7 +49,8 @@ namespace CalamityMod.Items.Weapons.Rogue
 				if (knifeAmt <= 0)
 				{
                     int knife = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
-                    Main.projectile[knife].Calamity().stealthStrike = true;
+					if (knife.WithinBounds(Main.maxProjectiles))
+						Main.projectile[knife].Calamity().stealthStrike = true;
 				}
 
                 int spread = 20;
@@ -58,7 +59,8 @@ namespace CalamityMod.Items.Weapons.Rogue
                     speedX *= 0.9f;
                     Vector2 perturbedspeed = new Vector2(speedX, speedY + Main.rand.Next(-3, 4)).RotatedBy(MathHelper.ToRadians(spread));
                     int knife2 = Projectile.NewProjectile(position, perturbedspeed, type, damage, knockBack, player.whoAmI, 1f, i % 5 == 0 ? 1f : 0f);
-                    Main.projectile[knife2].Calamity().stealthStrike = true;
+					if (knife2.WithinBounds(Main.maxProjectiles))
+						Main.projectile[knife2].Calamity().stealthStrike = true;
 					spread -= Main.rand.Next(1, 3);
                 }
                 return false;

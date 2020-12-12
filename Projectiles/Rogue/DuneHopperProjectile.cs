@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Rogue
@@ -35,7 +36,7 @@ namespace CalamityMod.Projectiles.Rogue
                     projectile.velocity.Y += 0.4f;
                 }
             }
-            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + MathHelper.ToRadians(45f);
+            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.ToRadians(45f);
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)

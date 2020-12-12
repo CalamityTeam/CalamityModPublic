@@ -147,48 +147,7 @@ namespace CalamityMod.Projectiles.Melee
 			// Do not drop lunar flares on dummies.
 			if (target.type == NPCID.TargetDummy)
 				return;
-
-			// Play the Lunar Flare sound centered on the user, not the target (consistent with Lunar Flare and Stellar Striker)
-			Player user = Main.player[projectile.owner];
-			Main.PlaySound(SoundID.Item88, projectile.position);
-			projectile.netUpdate = true;
-
-			int numFlares = 2;
-			int flareDamage = (int)(0.3f * projectile.damage);
-			float flareKB = 4f;
-			for (int i = 0; i < numFlares; ++i)
-			{
-				float flareSpeed = Main.rand.NextFloat(8f, 11f);
-
-				// Flares never come from straight up, there is always at least an 80 pixel horizontal offset
-				float xDist = Main.rand.NextFloat(80f, 320f) * (Main.rand.NextBool() ? -1f : 1f);
-				float yDist = Main.rand.NextFloat(1200f, 1440f);
-				Vector2 startPoint = target.Center + new Vector2(xDist, -yDist);
-
-				// The flare is somewhat inaccurate based on the size of the target.
-				float xVariance = target.width / 4f;
-				if (xVariance < 8f)
-					xVariance = 8f;
-				float yVariance = target.height / 4f;
-				if (yVariance < 8f)
-					yVariance = 8f;
-				float xOffset = Main.rand.NextFloat(-xVariance, xVariance);
-				float yOffset = Main.rand.NextFloat(-yVariance, yVariance);
-				Vector2 offsetTarget = target.Center + new Vector2(xOffset, yOffset);
-
-				// Finalize the velocity vector and make sure it's going at the right speed.
-				Vector2 velocity = offsetTarget - startPoint;
-				velocity.Normalize();
-				velocity *= flareSpeed;
-
-				float AI1 = Main.rand.Next(3);
-				if (projectile.owner == Main.myPlayer)
-				{
-					int proj = Projectile.NewProjectile(startPoint, velocity, ProjectileID.LunarFlare, flareDamage, flareKB, Main.myPlayer, 0f, AI1);
-					CalamityGlobalProjectile cgp = Main.projectile[proj].Calamity();
-					cgp.forceMelee = true;
-				}
-			}
+			SpawnFlares(target.Center, target.width, target.height);
 		}
 
 		public override void OnHitPvp(Player target, int damage, bool crit)
@@ -211,6 +170,13 @@ namespace CalamityMod.Projectiles.Melee
 			if (!Main.dayTime)
 				target.AddBuff(ModContent.BuffType<Nightwither>(), 480);
 
+			SpawnFlares(target.Center, target.width, target.height);
+		}
+
+		private void SpawnFlares(Vector2 targetPos, int width, int height)
+		{
+			// Play the Lunar Flare sound centered on the user, not the target (consistent with Lunar Flare and Stellar Striker)
+			Player user = Main.player[projectile.owner];
 			Main.PlaySound(SoundID.Item88, projectile.position);
 			projectile.netUpdate = true;
 
@@ -224,18 +190,18 @@ namespace CalamityMod.Projectiles.Melee
 				// Flares never come from straight up, there is always at least an 80 pixel horizontal offset
 				float xDist = Main.rand.NextFloat(80f, 320f) * (Main.rand.NextBool() ? -1f : 1f);
 				float yDist = Main.rand.NextFloat(1200f, 1440f);
-				Vector2 startPoint = target.Center + new Vector2(xDist, -yDist);
+				Vector2 startPoint = targetPos + new Vector2(xDist, -yDist);
 
 				// The flare is somewhat inaccurate based on the size of the target.
-				float xVariance = target.width / 4f;
+				float xVariance = width / 4f;
 				if (xVariance < 8f)
 					xVariance = 8f;
-				float yVariance = target.height / 4f;
+				float yVariance = height / 4f;
 				if (yVariance < 8f)
 					yVariance = 8f;
 				float xOffset = Main.rand.NextFloat(-xVariance, xVariance);
 				float yOffset = Main.rand.NextFloat(-yVariance, yVariance);
-				Vector2 offsetTarget = target.Center + new Vector2(xOffset, yOffset);
+				Vector2 offsetTarget = targetPos + new Vector2(xOffset, yOffset);
 
 				// Finalize the velocity vector and make sure it's going at the right speed.
 				Vector2 velocity = offsetTarget - startPoint;
@@ -246,8 +212,11 @@ namespace CalamityMod.Projectiles.Melee
 				if (projectile.owner == Main.myPlayer)
 				{
 					int proj = Projectile.NewProjectile(startPoint, velocity, ProjectileID.LunarFlare, flareDamage, flareKB, Main.myPlayer, 0f, AI1);
-					CalamityGlobalProjectile cgp = Main.projectile[proj].Calamity();
-					cgp.forceMelee = true;
+					if (proj.WithinBounds(Main.maxProjectiles))
+					{
+						CalamityGlobalProjectile cgp = Main.projectile[proj].Calamity();
+						cgp.forceMelee = true;
+					}
 				}
 			}
 		}

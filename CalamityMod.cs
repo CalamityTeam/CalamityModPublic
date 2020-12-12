@@ -138,9 +138,8 @@ namespace CalamityMod
 
             ILChanges.Load();
             BossRushEvent.Load();
-            
             BossHealthBarManager.Load(this);
-
+            DraedonStructures.Load();
             CalamityLists.LoadLists();
             SetupVanillaDR();
             SetupBossKillTimes();
@@ -267,6 +266,7 @@ namespace CalamityMod
             BossRushEvent.Unload();
             SchematicManager.Unload();
             BossHealthBarManager.Unload();
+            DraedonStructures.Unload();
 
             TileFraming.Unload();
 

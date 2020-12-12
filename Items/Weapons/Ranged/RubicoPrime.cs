@@ -37,7 +37,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.shootSpeed = 12f;
             item.useAmmo = AmmoID.Bullet;
 
-            item.value = CalamityGlobalItem.Rarity15BuyPrice;
+            item.value = CalamityGlobalItem.Rarity14BuyPrice;
             item.rare = 10;
             item.Calamity().customRarity = CalamityRarity.Dedicated;
         }

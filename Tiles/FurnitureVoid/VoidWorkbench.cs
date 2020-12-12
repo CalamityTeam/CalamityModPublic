@@ -9,7 +9,7 @@ namespace CalamityMod.Tiles.FurnitureVoid
     {
         public override void SetDefaults()
         {
-            this.SetUpWorkBench();
+            this.SetUpWorkBench(true);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Void Work Bench");
             AddMapEntry(new Color(191, 142, 111), name);

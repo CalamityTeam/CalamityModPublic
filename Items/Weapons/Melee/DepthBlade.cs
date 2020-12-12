@@ -8,11 +8,13 @@ namespace CalamityMod.Items.Weapons.Melee
 {
     public class DepthBlade : ModItem
     {
+        private static int HammerPower = 50;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Depth Crusher");
             Tooltip.SetDefault("Hitting enemies will inflict the crush depth debuff\n" +
-                "The lower the enemies' defense, the more damage they take from this debuff");
+                "The lower the enemies' defense, the more damage they take from this debuff\n" +
+                "Right click to use without hammering down walls");
         }
 
         public override void SetDefaults()
@@ -30,7 +32,22 @@ namespace CalamityMod.Items.Weapons.Melee
             item.autoReuse = true;
             item.value = Item.buyPrice(0, 2, 0, 0);
             item.rare = 2;
-            item.hammer = 50;
+            item.hammer = HammerPower;
+        }
+
+        public override bool AltFunctionUse(Player player) => true;
+
+        public override bool CanUseItem(Player player)
+        {
+            if (player.altFunctionUse == 2)
+            {
+                item.hammer = 0;
+            }
+            else
+            {
+                item.hammer = HammerPower;
+            }
+            return base.CanUseItem(player);
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)

@@ -10,7 +10,7 @@ namespace CalamityMod.Tiles.FurnitureOccult
     {
         public override void SetDefaults()
         {
-            this.SetUpTable();
+            this.SetUpTable(true);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Otherworldly Table");
             AddMapEntry(new Color(191, 142, 111), name);

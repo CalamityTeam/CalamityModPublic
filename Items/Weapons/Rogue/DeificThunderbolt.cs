@@ -52,7 +52,7 @@ Stealth strikes summon more lightning and travel faster");
 				rainSpeedMult = 1.5f;
 
 			int thunder = Projectile.NewProjectile(position.X, position.Y, speedX * rainSpeedMult * stealthSpeedMult, speedY * rainSpeedMult * stealthSpeedMult, type, damage, knockBack, player.whoAmI, 0f, 0f);
-			if (player.Calamity().StealthStrikeAvailable()) //setting the stealth strike
+			if (player.Calamity().StealthStrikeAvailable() && thunder.WithinBounds(Main.maxProjectiles)) //setting the stealth strike
 			{
 				Main.projectile[thunder].Calamity().stealthStrike = true;
 			}

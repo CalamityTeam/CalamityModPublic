@@ -10,13 +10,8 @@ namespace CalamityMod.Tiles.FurnitureAbyss
     {
         public override void SetDefaults()
         {
-            Main.tileLighted[Type] = true;
-            Main.tileFrameImportant[Type] = true;
-            Main.tileLavaDeath[Type] = true;
-            Main.tileWaterDeath[Type] = false;
-            TileObjectData.newTile.CopyFrom(TileObjectData.StyleOnTable1x1);
-            TileObjectData.newTile.CoordinateHeights = new int[] { 20 };
-            TileObjectData.addTile(Type);
+			this.SetUpCandle(true, 0);
+
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Abyss Candle");
             AddMapEntry(new Color(191, 142, 111), name);

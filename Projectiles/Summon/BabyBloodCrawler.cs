@@ -117,44 +117,22 @@ namespace CalamityMod.Projectiles.Summon
 				immuneTime = 5; //cap to prevent potential insanity
             target.immune[projectile.owner] = immuneTime;
 
-			if (Main.rand.NextBool(2))
-			{
-				for (int n = 0; n < Main.rand.Next(1, 3); n++)
-				{
-					float x = target.position.X + (float)Main.rand.Next(-400, 400);
-					float y = target.position.Y - (float)Main.rand.Next(500, 800);
-					Vector2 vector = new Vector2(x, y);
-					float num13 = target.position.X + (float)(target.width / 2) - vector.X;
-					float num14 = target.position.Y + (float)(target.height / 2) - vector.Y;
-					num13 += (float)Main.rand.Next(-100, 101);
-					int num15 = 29;
-					float num16 = (float)Math.Sqrt((double)(num13 * num13 + num14 * num14));
-					num16 = (float)num15 / num16;
-					num13 *= num16;
-					num14 *= num16;
-					Projectile.NewProjectile(x, y, num13, num14, ModContent.ProjectileType<BloodRain>(), (int)((float)projectile.damage * Main.rand.NextFloat(0.7f, 1f)), projectile.knockBack * Main.rand.NextFloat(0.7f, 1f), projectile.owner, 0f, 0f);
-				}
-			}
-        }
+			OnHitEffects(target.Center);
+		}
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
+			OnHitEffects(target.Center);
+        }
+
+		private void OnHitEffects(Vector2 targetPos)
+		{
 			if (Main.rand.NextBool(2))
 			{
-				for (int n = 0; n < Main.rand.Next(1, 3); n++)
+				int projAmt = Main.rand.Next(1, 3);
+				for (int n = 0; n < projAmt; n++)
 				{
-					float x = target.position.X + (float)Main.rand.Next(-400, 400);
-					float y = target.position.Y - (float)Main.rand.Next(500, 800);
-					Vector2 vector = new Vector2(x, y);
-					float num13 = target.position.X + (float)(target.width / 2) - vector.X;
-					float num14 = target.position.Y + (float)(target.height / 2) - vector.Y;
-					num13 += (float)Main.rand.Next(-100, 101);
-					int num15 = 29;
-					float num16 = (float)Math.Sqrt((double)(num13 * num13 + num14 * num14));
-					num16 = (float)num15 / num16;
-					num13 *= num16;
-					num14 *= num16;
-					Projectile.NewProjectile(x, y, num13, num14, ModContent.ProjectileType<BloodRain>(), (int)((float)projectile.damage * Main.rand.NextFloat(0.7f, 1f)), projectile.knockBack * Main.rand.NextFloat(0.7f, 1f), projectile.owner, 0f, 0f);
+					CalamityUtils.ProjectileRain(targetPos, 400f, 100f, 500f, 800f, 29f, ModContent.ProjectileType<BloodRain>(), (int)(projectile.damage * Main.rand.NextFloat(0.7f, 1f)), projectile.knockBack * Main.rand.NextFloat(0.7f, 1f), projectile.owner);
 				}
 			}
         }
