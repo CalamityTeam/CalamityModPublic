@@ -285,6 +285,9 @@ namespace CalamityMod.CalPlayer
         #endregion
 
         #region Rogue
+        // If stealth is too weak, increase this number. If stealth is too strong, decrease this number.
+        private static readonly double StealthDamageConstant = 0.5;
+
         public float rogueStealth = 0f;
         public float rogueStealthMax = 0f;
         public float stealthGenStandstill = 1f;
@@ -9916,14 +9919,11 @@ namespace CalamityMod.CalPlayer
                 playRogueStealthSound = true;
 
             // Calculate stealth generation and gain stealth accordingly
-            if (wearingRogueArmor)
-            {
-                // 1f is normal speed, anything higher is faster. Default stealth generation is 3 seconds while standing still.
-                float currentStealthGen = UpdateStealthGenStats();
-                rogueStealth += rogueStealthMax * (currentStealthGen / 180f); // 180 frames = 3 seconds
-                if (rogueStealth > rogueStealthMax)
-                    rogueStealth = rogueStealthMax;
-            }
+            // 1f is normal speed, anything higher is faster. Default stealth generation is 3 seconds while standing still.
+            float currentStealthGen = UpdateStealthGenStats();
+            rogueStealth += rogueStealthMax * (currentStealthGen / 180f); // 180 frames = 3 seconds
+            if (rogueStealth > rogueStealthMax)
+                rogueStealth = rogueStealthMax;
 
             ProvideStealthStatBonuses();
 
@@ -9952,24 +9952,45 @@ namespace CalamityMod.CalPlayer
 
         private void ProvideStealthStatBonuses()
         {
-            // At full stealth, you get a higher damage bonus than at any partial level of stealth.
-            if (rogueStealth >= rogueStealthMax)
-                throwingDamage += rogueStealth * 0.6666666f;
-            else
-                throwingDamage += rogueStealth * 0.5f;
+            if (!wearingRogueArmor || rogueStealthMax <= 0)
+                return;
 
-            // Crit increases based on your stealth value. With certain gear, it's locked at 100% for stealth strikes.
+            // Hovering over an item will adjust the stealth bonus dynamically so that you see the correct damage for an item you put your cursor on.
+            Item it = !Main.HoverItem.IsAir ? Main.HoverItem : player.ActiveItem();
+
+            // The potential damage bonus from stealth is a complex equation based on the item's use time,
+            // the player's averaged-together stealth generation stats, and max stealth.
+            // Lower stealth generation rate (especially while moving) enables higher maximum stealth damage.
+            // This enables stealth to be conditionally useful -- even powerful -- even without a dedicated stealth build.
+            double averagedStealthGen = 0.8 * stealthGenMoving + 0.2 * stealthGenStandstill;
+            double fakeStealthTime = 9D / averagedStealthGen;
+
+            // Use time  3 = 162% damage ratio
+            // Use time  8 = 200% damage ratio
+            // Use time 13 = 221% damage ratio
+            // Use time 17 = 234% damage ratio
+            // Use time 20 = 242% damage ratio
+            // Use time 30 = 263% damage ratio
+            // Use time 59 = 297% damage ratio
+            double useTimeFactor = 0.75 + 0.75 * Math.Log(it.useTime + 2D, 4D);
+
+            // 9.00 second stealth charge = 433% damage ratio
+            // 6.00 second stealth charge = 330% damage ratio
+            // 4.00 second stealth charge = 252% damage ratio
+            // 2.50 second stealth charge = 184% damage ratio
+            double stealthGenFactor = Math.Max(Math.Pow(fakeStealthTime, 2D / 3D), 1.5);
+
+            double stealthAddedDamage = it.damage * rogueStealth * StealthDamageConstant * useTimeFactor * stealthGenFactor;
+            // TODO -- Store stealth damage elsewhere so that it can't affect rogue on-hits while you stand around with this damage boost.
+            throwingDamage += (float)stealthAddedDamage;
+
+            // Show 100% crit chance if your stealth strikes always crit.
+            // In practice, this is only for visuals because Terraria determines crit status on hit.
             if (stealthStrikeAlwaysCrits && StealthStrikeAvailable())
                 throwingCrit = 100;
-            else
-                throwingCrit += (int)(rogueStealth * 20f);
 
-            // Stealth slightly increases movement speed and decreases aggro.
-            if (wearingRogueArmor && rogueStealthMax > 0)
-            {
-                player.moveSpeed += rogueStealth * 0.05f;
-                player.aggro -= (int)(rogueStealth * 400f);
-            }
+            // Stealth slightly decreases aggro.
+            player.aggro -= (int)(rogueStealth * 300f);
         }
 
         private float UpdateStealthGenStats()
