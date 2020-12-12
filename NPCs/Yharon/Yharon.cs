@@ -45,8 +45,7 @@ namespace CalamityMod.NPCs.Yharon
         private bool spawnArena = false;
         private int invincibilityCounter = 0;
 
-        public static float Phase1_DR = 0.2f;
-        public static float Phase2_DR = 0.25f;
+        public static float normalDR = 0.22f;
 		public static float ChargeTelegraph_DR = 0.4f;
         public static float EnragedDR = 0.9f;
 
@@ -82,7 +81,7 @@ namespace CalamityMod.NPCs.Yharon
             npc.buffImmune[ModContent.BuffType<DemonFlames>()] = false;
             npc.buffImmune[ModContent.BuffType<Shred>()] = false;
 
-			npc.DR_NERD(Phase1_DR, null, null, null, true);
+			npc.DR_NERD(normalDR, null, null, null, true);
 			CalamityGlobalNPC global = npc.Calamity();
             global.flatDRReductions.Add(BuffID.CursedInferno, 0.05f);
 
@@ -344,8 +343,8 @@ namespace CalamityMod.NPCs.Yharon
                     safeBox.Y = (int)(player.Center.Y - (revenge ? 9000f : 10500f));
                     safeBox.Width = revenge ? 6000 : 7000;
                     safeBox.Height = revenge ? 18000 : 21000;
-                    Projectile.NewProjectile(player.Center.X + (revenge ? 3000f : 3500f), player.Center.Y + 100f, 0f, 0f, ModContent.ProjectileType<SkyFlareRevenge>(), 0, 0f, Main.myPlayer, 0f, 0f);
-                    Projectile.NewProjectile(player.Center.X - (revenge ? 3000f : 3500f), player.Center.Y + 100f, 0f, 0f, ModContent.ProjectileType<SkyFlareRevenge>(), 0, 0f, Main.myPlayer, 0f, 0f);
+                    Projectile.NewProjectile(player.Center.X + (revenge ? 3000f : 3500f), player.Center.Y + 100f, 0f, 0f, ModContent.ProjectileType<SkyFlareRevenge>(), 0, 0f, Main.myPlayer, 1f, 0f);
+                    Projectile.NewProjectile(player.Center.X - (revenge ? 3000f : 3500f), player.Center.Y + 100f, 0f, 0f, ModContent.ProjectileType<SkyFlareRevenge>(), 0, 0f, Main.myPlayer, -1f, 0f);
                 }
 
                 // Force Yharon to send a sync packet so that the arena gets sent immediately
@@ -372,7 +371,7 @@ namespace CalamityMod.NPCs.Yharon
 			// Set DR based on protection boost (aka enrage)
 			bool chargeTelegraph = (npc.ai[0] == 0f || npc.ai[0] == 6f || npc.ai[0] == 13f) && npc.localAI[1] > 0f;
 			bool bulletHell = npc.ai[0] == 8f || npc.ai[0] == 15f;
-			npc.Calamity().DR = protectionBoost ? EnragedDR : ((chargeTelegraph || bulletHell) ? ChargeTelegraph_DR : Phase1_DR);
+			npc.Calamity().DR = protectionBoost ? EnragedDR : ((chargeTelegraph || bulletHell) ? ChargeTelegraph_DR : normalDR);
 
 			if (bulletHell)
 				npc.damage = 0;
@@ -1501,6 +1500,8 @@ namespace CalamityMod.NPCs.Yharon
 
             if (!moveCloser)
             {
+				npc.Calamity().AITimer = 0;
+
                 Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
                 if (calamityModMusic != null)
                     music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/DragonGod");
@@ -1611,7 +1612,7 @@ namespace CalamityMod.NPCs.Yharon
 			// Set DR based on protection boost (aka enrage)
 			bool chargeTelegraph = npc.ai[0] < 2f && npc.localAI[1] > 0f;
 			bool bulletHell = npc.ai[0] == 5f;
-			npc.Calamity().DR = protectionBoost ? EnragedDR : ((chargeTelegraph || bulletHell) ? ChargeTelegraph_DR : Phase2_DR);
+			npc.Calamity().DR = protectionBoost ? EnragedDR : ((chargeTelegraph || bulletHell) ? ChargeTelegraph_DR : normalDR);
 
 			if (bulletHell)
 				npc.damage = 0;

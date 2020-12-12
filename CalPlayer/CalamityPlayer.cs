@@ -228,6 +228,7 @@ namespace CalamityMod.CalPlayer
         public int bloodflareHeartTimer = 180;
         public int bloodflareManaTimer = 180;
         public int polarisBoostCounter = 0;
+        public int dragonRageHits = 0;
         public int gaelSwipes = 0;
         public float modStealth = 1f;
 		public float aquaticBoostMax = 10000f;
@@ -284,6 +285,9 @@ namespace CalamityMod.CalPlayer
         #endregion
 
         #region Rogue
+        // If stealth is too weak, increase this number. If stealth is too strong, decrease this number.
+        private static readonly double StealthDamageConstant = 0.5;
+
         public float rogueStealth = 0f;
         public float rogueStealthMax = 0f;
         public float stealthGenStandstill = 1f;
@@ -1118,6 +1122,7 @@ namespace CalamityMod.CalPlayer
                 { "boost", boost },
                 { "stress", rage },
                 { "adrenaline", adrenaline },
+                { "aquaticBoostPower", aquaticBoost },
                 { "sCalDeathCount", sCalDeathCount },
                 { "sCalKillCount", sCalKillCount },
                 { "meleeLevel", meleeLevel },
@@ -1135,7 +1140,6 @@ namespace CalamityMod.CalPlayer
                 { "deathModeBlizzardTime", deathModeBlizzardTime },
 				{ "itemTypeLastReforged", itemTypeLastReforged },
 				{ "reforgeTierSafety", reforgeTierSafety },
-				//{ "aquaticBoost", aquaticBoost },
 				{ "moveSpeedStat", moveSpeedStat },
 				{ "defenseDamage", defenseDamage }
             };
@@ -1187,10 +1191,11 @@ namespace CalamityMod.CalPlayer
 			newAmidiasInventory = boost.Contains("newAmidiasInventory");
 			newBanditInventory = boost.Contains("newBanditInventory");
 
-			rage = tag.GetAsInt("stress");
-            adrenaline = tag.GetAsInt("adrenaline");
-			//aquaticBoost = tag.GetAsInt("aquaticBoost");
-			sCalDeathCount = tag.GetInt("sCalDeathCount");
+            rage = tag.GetFloat("stress");
+            adrenaline = tag.GetFloat("adrenaline");
+            if (tag.ContainsKey("aquaticBoostPower"))
+    			aquaticBoost = tag.GetFloat("aquaticBoostPower");
+            sCalDeathCount = tag.GetInt("sCalDeathCount");
             sCalKillCount = tag.GetInt("sCalKillCount");
             deathCount = tag.GetInt("deathCount");
 
@@ -1225,9 +1230,9 @@ namespace CalamityMod.CalPlayer
         public override void LoadLegacy(BinaryReader reader)
         {
             int loadVersion = reader.ReadInt32();
-            rage = reader.ReadInt32();
-            adrenaline = reader.ReadInt32();
-			//aquaticBoost = reader.ReadInt32();
+            rage = reader.ReadSingle();
+            adrenaline = reader.ReadSingle();
+			aquaticBoost = reader.ReadSingle();
 			sCalDeathCount = reader.ReadInt32();
             sCalKillCount = reader.ReadInt32();
             deathCount = reader.ReadInt32();
@@ -1417,7 +1422,13 @@ namespace CalamityMod.CalPlayer
 			noLifeRegen = false;
 
             thirdSage = false;
-            if (player.immuneTime <= 0)
+			bool isImmune = false;
+			for (int j = 0; j < player.hurtCooldowns.Length; j++)
+			{
+				if (player.hurtCooldowns[j] > 0)
+					isImmune = true;
+			}
+			if (!isImmune)
                 thirdSageH = false;
 
             perfmini = false;
@@ -2101,6 +2112,7 @@ namespace CalamityMod.CalPlayer
             externalAbyssLight = 0;
             externalColdImmunity = externalHeatImmunity = false;
             polarisBoostCounter = 0;
+			dragonRageHits = 0;
             spectralVeilImmunity = 0;
             jetPackCooldown = 0;
 			jetPackDash = 0;
@@ -2587,8 +2599,8 @@ namespace CalamityMod.CalPlayer
 
             ZoneAbyssLayer4 = ZoneAbyss &&
                 point.Y > (Main.rockLayer + y * 0.26);
-
-            ZoneSulphur = (CalamityWorld.sulphurTiles > 30 || (player.ZoneOverworldHeight && sulphurPosX)) && !ZoneAbyss;
+            
+            ZoneSulphur = (CalamityWorld.sulphurTiles >= 300 || (player.ZoneOverworldHeight && sulphurPosX)) && !ZoneAbyss;
 
 			//Overriding 1.4's ass req boosts
 			if (Main.snowTiles > 300)
@@ -2834,9 +2846,7 @@ namespace CalamityMod.CalPlayer
                             player.immuneTime = 120;
                             spectralVeilImmunity = 120;
                             for (int k = 0; k < player.hurtCooldowns.Length; k++)
-                            {
                                 player.hurtCooldowns[k] = player.immuneTime;
-                            }
                         }
                     }
                 }
@@ -3157,7 +3167,7 @@ namespace CalamityMod.CalPlayer
 
 			bool mountCheck = true;
 			if (player.mount != null && player.mount.Active)
-				mountCheck = player.mount.BlockExtraJumps;
+				mountCheck = !player.mount.BlockExtraJumps;
 			bool canJump = (!player.doubleJumpCloud || !player.jumpAgainCloud) &&
 			(!player.doubleJumpSandstorm || !player.jumpAgainSandstorm) &&
 			(!player.doubleJumpBlizzard || !player.jumpAgainBlizzard) &&
@@ -3548,8 +3558,9 @@ namespace CalamityMod.CalPlayer
                 player.pickSpeed *= 0.75f;
             }
 
-			// So, let's say you have 8 run speed from boots and 200% movement speed, this means you get 200 * 0.005 = 1 * 8 + 8 = 16
-			player.accRunSpeed += player.accRunSpeed * moveSpeedStat * 0.005f;
+			// Takes the % move speed boost and reduces it to a quarter to get the actual speed increase
+			// 400% move speed boost = 100% run speed boost, so an 8 run speed would become 16 with a 400% move speed stat
+			player.accRunSpeed += player.accRunSpeed * moveSpeedStat * 0.0025f;
 
 			if (player.accRunSpeed < 0f)
 				player.accRunSpeed = 0f;
@@ -3835,26 +3846,7 @@ namespace CalamityMod.CalPlayer
             }
         }
 
-        #region Dragon Scale Logic
-        public override void PostBuyItem(NPC vendor, Item[] shopInventory, Item item)
-        {
-            if (item.type == ModContent.ItemType<DragonScales>() && !CalamityWorld.dragonScalesBought)
-            {
-                CalamityWorld.dragonScalesBought = true;
-            }
-        }
-        #endregion
-
         #region Shop Restrictions
-
-        public override bool CanBuyItem(NPC vendor, Item[] shopInventory, Item item)
-        {
-            if (item.type == ModContent.ItemType<DragonScales>())
-            {
-                return !CalamityWorld.dragonScalesBought;
-            }
-            return base.CanBuyItem(vendor, shopInventory, item);
-        }
 
         public override bool CanSellItem(NPC vendor, Item[] shopInventory, Item item)
         {
@@ -4010,7 +4002,13 @@ namespace CalamityMod.CalPlayer
 				return true;
 			}
 			// Mirror cooldowns affect each other
-			if (Main.rand.NextBool(10) && player.immuneTime <= 0 && !eclipseMirrorCooldown && !abyssalMirrorCooldown)
+			bool isImmune = false;
+			for (int j = 0; j < player.hurtCooldowns.Length; j++)
+			{
+				if (player.hurtCooldowns[j] > 0)
+					isImmune = true;
+			}
+			if (Main.rand.NextBool(10) && !isImmune && !eclipseMirrorCooldown && !abyssalMirrorCooldown)
 			{
 				if (eclipseMirror)
 				{
@@ -4091,9 +4089,7 @@ namespace CalamityMod.CalPlayer
 			}
 			NetMessage.SendData(MessageID.Dodge, -1, -1, null, player.whoAmI, 1f, 0f, 0f, 0, 0, 0);
 		}
-		#endregion
 
-		#region Rogue Mirrors
 		public void AbyssMirrorEvade()
         {
             if (player.whoAmI == Main.myPlayer && abyssalMirror && !abyssalMirrorCooldown && !eclipseMirror)
@@ -4324,98 +4320,100 @@ namespace CalamityMod.CalPlayer
 
             //Custom Death Messages
 
-            if (alcoholPoisoning && damage == 10.0 && hitDirection == 0 && damageSource.SourceOtherIndex == 8)
-            {
-                if (Main.rand.Next(2) == 0)
-                    damageSource = PlayerDeathReason.ByCustomReason(player.name + " downed too many shots.");
-                else
-                    damageSource = PlayerDeathReason.ByCustomReason(player.name + "'s liver failed.");
-            }
-            if (vHex && damage == 10.0 && hitDirection == 0 && damageSource.SourceOtherIndex == 8)
-            {
-                damageSource = PlayerDeathReason.ByCustomReason(player.name + " was charred by the brimstone inferno.");
-            }
-            if ((ZoneCalamity && player.lavaWet) && damage == 10.0 && hitDirection == 0 && damageSource.SourceOtherIndex == 8)
-            {
-                damageSource = PlayerDeathReason.ByCustomReason(player.name + "'s soul was released by the lava.");
-            }
-            if (gsInferno && damage == 10.0 && hitDirection == 0 && damageSource.SourceOtherIndex == 8)
-            {
-                damageSource = PlayerDeathReason.ByCustomReason(player.name + "'s soul was extinguished.");
-            }
-            if (sulphurPoison && damage == 10.0 && hitDirection == 0 && damageSource.SourceOtherIndex == 8)
-            {
-                if (Main.rand.NextBool(2))
-                    damageSource = PlayerDeathReason.ByCustomReason(player.name + " was melted by the toxic waste.");
-                else
-                    damageSource = PlayerDeathReason.ByOther(9);
-            }
-            if (lethalLavaBurn && damage == 10.0 && hitDirection == 0 && damageSource.SourceOtherIndex == 8)
-            {
-                damageSource = PlayerDeathReason.ByCustomReason(player.name + " disintegrated into ashes.");
-            }
-            if (hInferno && damage == 10.0 && hitDirection == 0 && damageSource.SourceOtherIndex == 8)
-            {
-                damageSource = PlayerDeathReason.ByCustomReason(player.name + " was turned to ashes by the Profaned Goddess.");
-            }
-            if (hFlames && damage == 10.0 && hitDirection == 0 && damageSource.SourceOtherIndex == 8)
-            {
-                damageSource = PlayerDeathReason.ByCustomReason(player.name + " fell prey to their sins.");
-            }
-            if (waterLeechBleeding && damage == 10.0 && hitDirection == 0 && damageSource.SourceOtherIndex == 8)
-            {
-                damageSource = PlayerDeathReason.ByCustomReason(player.name + " lost too much blood.");
-            }
-            if (shadowflame && damage == 10.0 && hitDirection == 0 && damageSource.SourceOtherIndex == 8)
-            {
-                damageSource = PlayerDeathReason.ByCustomReason(player.name + "'s spirit was turned to ash.");
-            }
-            if (bBlood && damage == 10.0 && hitDirection == 0 && damageSource.SourceOtherIndex == 8)
-            {
-                damageSource = PlayerDeathReason.ByCustomReason(player.name + " became a blood geyser.");
-            }
-            if (cDepth && damage == 10.0 && hitDirection == 0 && damageSource.SourceOtherIndex == 8)
-            {
-                if (Main.rand.NextBool(2))
-                    damageSource = PlayerDeathReason.ByCustomReason(player.name + " was crushed by the pressure.");
-                else
-                    damageSource = PlayerDeathReason.ByCustomReason(player.name + "'s lungs collapsed.");
-            }
-            if ((bFlames || aFlames) && damage == 10.0 && hitDirection == 0 && damageSource.SourceOtherIndex == 8)
-            {
-                damageSource = PlayerDeathReason.ByCustomReason(player.name + " was consumed by the black flames.");
-            }
-            if (pFlames && damage == 10.0 && hitDirection == 0 && damageSource.SourceOtherIndex == 8)
-            {
-                if (Main.rand.NextBool(2))
-                    damageSource = PlayerDeathReason.ByCustomReason(player.name + "'s flesh was melted by the plague.");
-                else
-                    damageSource = PlayerDeathReason.ByCustomReason(player.name + " didn't vaccinate.");
-            }
-            if (astralInfection && damage == 10.0 && hitDirection == 0 && damageSource.SourceOtherIndex == 8)
-            {
-                if (Main.rand.NextBool(2))
-                    damageSource = PlayerDeathReason.ByCustomReason(player.name + "'s infection spread too far.");
-                else
-                    damageSource = PlayerDeathReason.ByCustomReason(player.name + "'s skin was replaced by the astral virus.");
-            }
-            if (nightwither && damage == 10.0 && hitDirection == 0 && damageSource.SourceOtherIndex == 8)
-            {
-                damageSource = PlayerDeathReason.ByCustomReason(player.name + " was incinerated by lunar rays.");
-            }
-            if (vaporfied && damage == 10.0 && hitDirection == 0 && damageSource.SourceOtherIndex == 8)
-            {
-                damageSource = PlayerDeathReason.ByCustomReason(player.name + " vaporized into thin air.");
-            }
-            if (manaOverloader && damage == 10.0 && hitDirection == 0 && damageSource.SourceOtherIndex == 8)
-            {
-                damageSource = PlayerDeathReason.ByCustomReason(player.name + "'s life was completely converted into mana.");
-            }
-            if ((bloodyMary || everclear || evergreenGin || fireball || margarita || moonshine || moscowMule || redWine || screwdriver || starBeamRye || tequila || tequilaSunrise || vodka || whiteWine)
-                && damage == 10.0 && hitDirection == 0 && damageSource.SourceOtherIndex == 8)
-            {
-                damageSource = PlayerDeathReason.ByCustomReason(player.name + " succumbed to alcohol sickness.");
-            }
+			if (damage == 10.0 && hitDirection == 0 && damageSource.SourceOtherIndex == 8)
+			{
+				if (alcoholPoisoning)
+				{
+					if (Main.rand.NextBool())
+						damageSource = PlayerDeathReason.ByCustomReason(player.name + " downed too many shots.");
+					else
+						damageSource = PlayerDeathReason.ByCustomReason(player.name + "'s liver failed.");
+				}
+				if (vHex)
+				{
+					damageSource = PlayerDeathReason.ByCustomReason(player.name + " was charred by the brimstone inferno.");
+				}
+				if (ZoneCalamity && player.lavaWet)
+				{
+					damageSource = PlayerDeathReason.ByCustomReason(player.name + "'s soul was released by the lava.");
+				}
+				if (gsInferno)
+				{
+					damageSource = PlayerDeathReason.ByCustomReason(player.name + "'s soul was extinguished.");
+				}
+				if (sulphurPoison)
+				{
+					if (Main.rand.NextBool(2))
+						damageSource = PlayerDeathReason.ByCustomReason(player.name + " was melted by the toxic waste.");
+					else
+						damageSource = PlayerDeathReason.ByOther(9);
+				}
+				if (lethalLavaBurn)
+				{
+					damageSource = PlayerDeathReason.ByCustomReason(player.name + " disintegrated into ashes.");
+				}
+				if (hInferno)
+				{
+					damageSource = PlayerDeathReason.ByCustomReason(player.name + " was turned to ashes by the Profaned Goddess.");
+				}
+				if (hFlames)
+				{
+					damageSource = PlayerDeathReason.ByCustomReason(player.name + " fell prey to their sins.");
+				}
+				if (waterLeechBleeding)
+				{
+					damageSource = PlayerDeathReason.ByCustomReason(player.name + " lost too much blood.");
+				}
+				if (shadowflame)
+				{
+					damageSource = PlayerDeathReason.ByCustomReason(player.name + "'s spirit was turned to ash.");
+				}
+				if (bBlood)
+				{
+					damageSource = PlayerDeathReason.ByCustomReason(player.name + " became a blood geyser.");
+				}
+				if (cDepth)
+				{
+					if (Main.rand.NextBool())
+						damageSource = PlayerDeathReason.ByCustomReason(player.name + " was crushed by the pressure.");
+					else
+						damageSource = PlayerDeathReason.ByCustomReason(player.name + "'s lungs collapsed.");
+				}
+				if (bFlames || aFlames)
+				{
+					damageSource = PlayerDeathReason.ByCustomReason(player.name + " was consumed by the black flames.");
+				}
+				if (pFlames)
+				{
+					if (Main.rand.NextBool())
+						damageSource = PlayerDeathReason.ByCustomReason(player.name + "'s flesh was melted by the plague.");
+					else
+						damageSource = PlayerDeathReason.ByCustomReason(player.name + " didn't vaccinate.");
+				}
+				if (astralInfection)
+				{
+					if (Main.rand.NextBool())
+						damageSource = PlayerDeathReason.ByCustomReason(player.name + "'s infection spread too far.");
+					else
+						damageSource = PlayerDeathReason.ByCustomReason(player.name + "'s skin was replaced by the astral virus.");
+				}
+				if (nightwither)
+				{
+					damageSource = PlayerDeathReason.ByCustomReason(player.name + " was incinerated by lunar rays.");
+				}
+				if (vaporfied)
+				{
+					damageSource = PlayerDeathReason.ByCustomReason(player.name + " vaporized into thin air.");
+				}
+				if (manaOverloader)
+				{
+					damageSource = PlayerDeathReason.ByCustomReason(player.name + "'s life was completely converted into mana.");
+				}
+				if (bloodyMary || everclear || evergreenGin || fireball || margarita || moonshine || moscowMule || redWine || screwdriver || starBeamRye || tequila || tequilaSunrise || vodka || whiteWine)
+				{
+					damageSource = PlayerDeathReason.ByCustomReason(player.name + " succumbed to alcohol sickness.");
+				}
+			}
             if (profanedCrystalBuffs && !profanedCrystalHide)
             {
                 damageSource = PlayerDeathReason.ByCustomReason(player.name + " was summoned too soon.");
@@ -4810,6 +4808,10 @@ namespace CalamityMod.CalPlayer
                     else if (Main.rand.NextBool(3))
                         target.AddBuff(BuffID.Frostburn, 120);
                     break;
+
+                case ProjectileID.NightBeam:
+                    target.AddBuff(BuffID.CursedInferno, 60);
+                    break;
             }
 
 			if (ProjectileID.Sets.StardustDragon[proj.type])
@@ -4902,6 +4904,10 @@ namespace CalamityMod.CalPlayer
                         target.AddBuff(BuffID.Frostburn, 240);
                     else if (Main.rand.NextBool(3))
                         target.AddBuff(BuffID.Frostburn, 120);
+                    break;
+
+                case ProjectileID.NightBeam:
+                    target.AddBuff(BuffID.CursedInferno, 60);
                     break;
             }
 
@@ -5735,6 +5741,10 @@ namespace CalamityMod.CalPlayer
 					player.immune = true;
 					player.immuneNoBlink = true;
 					player.immuneTime += 4;
+					for (int j = 0; j < player.hurtCooldowns.Length; j++)
+					{
+						player.hurtCooldowns[j] = player.immuneTime;
+					}
 					damage = 0;
 					return;
 				}
@@ -7363,7 +7373,7 @@ namespace CalamityMod.CalPlayer
             {
 				int iFramesToAdd = 0;
 				if (cTracers && damage > 200)
-					iFramesToAdd += 60;
+					iFramesToAdd += 30;
 				if (godSlayerThrowing && damage > 80)
 					iFramesToAdd += 30;
 				if (statigelSet && damage > 100)
@@ -7372,9 +7382,9 @@ namespace CalamityMod.CalPlayer
 				if (dAmulet)
 				{
 					if (damage == 1)
-						iFramesToAdd += 10;
+						iFramesToAdd += 5;
 					else
-						iFramesToAdd += 20;
+						iFramesToAdd += 10;
 				}
 
 				if (fabsolVodka)
@@ -9010,7 +9020,11 @@ namespace CalamityMod.CalPlayer
                         player.immune = true;
                         player.immuneNoBlink = true;
                         player.immuneTime += PlayerImmuneTime;
-                        num++;
+						for (int j = 0; j < player.hurtCooldowns.Length; j++)
+						{
+							player.hurtCooldowns[j] = player.immuneTime;
+						}
+						num++;
                         break;
                     }
                 }
@@ -9136,14 +9150,11 @@ namespace CalamityMod.CalPlayer
                 playRogueStealthSound = true;
 
             // Calculate stealth generation and gain stealth accordingly
-            if (wearingRogueArmor)
-            {
-                // 1f is normal speed, anything higher is faster. Default stealth generation is 3 seconds while standing still.
-                float currentStealthGen = UpdateStealthGenStats();
-                rogueStealth += rogueStealthMax * (currentStealthGen / 180f); // 180 frames = 3 seconds
-                if (rogueStealth > rogueStealthMax)
-                    rogueStealth = rogueStealthMax;
-            }
+            // 1f is normal speed, anything higher is faster. Default stealth generation is 3 seconds while standing still.
+            float currentStealthGen = UpdateStealthGenStats();
+            rogueStealth += rogueStealthMax * (currentStealthGen / 180f); // 180 frames = 3 seconds
+            if (rogueStealth > rogueStealthMax)
+                rogueStealth = rogueStealthMax;
 
             ProvideStealthStatBonuses();
 
@@ -9172,24 +9183,45 @@ namespace CalamityMod.CalPlayer
 
         private void ProvideStealthStatBonuses()
         {
-            // At full stealth, you get a higher damage bonus than at any partial level of stealth.
-            if (rogueStealth >= rogueStealthMax)
-                throwingDamage += rogueStealth * 0.6666666f;
-            else
-                throwingDamage += rogueStealth * 0.5f;
+            if (!wearingRogueArmor || rogueStealthMax <= 0)
+                return;
 
-            // Crit increases based on your stealth value. With certain gear, it's locked at 100% for stealth strikes.
+            // Hovering over an item will adjust the stealth bonus dynamically so that you see the correct damage for an item you put your cursor on.
+            Item it = !Main.HoverItem.IsAir ? Main.HoverItem : player.ActiveItem();
+
+            // The potential damage bonus from stealth is a complex equation based on the item's use time,
+            // the player's averaged-together stealth generation stats, and max stealth.
+            // Lower stealth generation rate (especially while moving) enables higher maximum stealth damage.
+            // This enables stealth to be conditionally useful -- even powerful -- even without a dedicated stealth build.
+            double averagedStealthGen = 0.8 * stealthGenMoving + 0.2 * stealthGenStandstill;
+            double fakeStealthTime = 9D / averagedStealthGen;
+
+            // Use time  3 = 162% damage ratio
+            // Use time  8 = 200% damage ratio
+            // Use time 13 = 221% damage ratio
+            // Use time 17 = 234% damage ratio
+            // Use time 20 = 242% damage ratio
+            // Use time 30 = 263% damage ratio
+            // Use time 59 = 297% damage ratio
+            double useTimeFactor = 0.75 + 0.75 * Math.Log(it.useTime + 2D, 4D);
+
+            // 9.00 second stealth charge = 433% damage ratio
+            // 6.00 second stealth charge = 330% damage ratio
+            // 4.00 second stealth charge = 252% damage ratio
+            // 2.50 second stealth charge = 184% damage ratio
+            double stealthGenFactor = Math.Max(Math.Pow(fakeStealthTime, 2D / 3D), 1.5);
+
+            double stealthAddedDamage = it.damage * rogueStealth * StealthDamageConstant * useTimeFactor * stealthGenFactor;
+            // TODO -- Store stealth damage elsewhere so that it can't affect rogue on-hits while you stand around with this damage boost.
+            throwingDamage += (float)stealthAddedDamage;
+
+            // Show 100% crit chance if your stealth strikes always crit.
+            // In practice, this is only for visuals because Terraria determines crit status on hit.
             if (stealthStrikeAlwaysCrits && StealthStrikeAvailable())
                 throwingCrit = 100;
-            else
-                throwingCrit += (int)(rogueStealth * 20f);
 
-            // Stealth slightly increases movement speed and decreases aggro.
-            if (wearingRogueArmor && rogueStealthMax > 0)
-            {
-                player.moveSpeed += rogueStealth * 0.05f;
-                player.aggro -= (int)(rogueStealth * 400f);
-            }
+            // Stealth slightly decreases aggro.
+            player.aggro -= (int)(rogueStealth * 300f);
         }
 
         private float UpdateStealthGenStats()
@@ -9478,7 +9510,7 @@ namespace CalamityMod.CalPlayer
 				packet.Send(-1, player.whoAmI);
 		}
 
-		/*public void AquaticBoostPacket(bool server)
+		public void AquaticBoostPacket(bool server)
 		{
 			ModPacket packet = mod.GetPacket(256);
 			packet.Write((byte)CalamityModMessageType.AquaticBoostSync);
@@ -9489,7 +9521,7 @@ namespace CalamityMod.CalPlayer
 				packet.Send();
 			else
 				packet.Send(-1, player.whoAmI);
-		}*/
+		}
 
 		public void MoveSpeedStatPacket(bool server)
 		{
@@ -9616,12 +9648,12 @@ namespace CalamityMod.CalPlayer
 				ReforgeTierSafetyPacket(true);
 		}
 
-		/*internal void HandleAquaticBoost(BinaryReader reader)
+		internal void HandleAquaticBoost(BinaryReader reader)
 		{
-			aquaticBoost = reader.ReadInt32();
+			aquaticBoost = reader.ReadSingle();
 			if (Main.netMode == NetmodeID.Server)
 				AquaticBoostPacket(true);
-		}*/
+		}
 
 		internal void HandleMoveSpeedStat(BinaryReader reader)
 		{
@@ -9658,7 +9690,7 @@ namespace CalamityMod.CalPlayer
                 DeathModeBlizzardTimePacket(false);
 				ItemTypeLastReforgedPacket(false);
 				ReforgeTierSafetyPacket(false);
-				//AquaticBoostPacket(false);
+				AquaticBoostPacket(false);
 				MoveSpeedStatPacket(false);
 				DefenseDamagePacket(false);
 			}

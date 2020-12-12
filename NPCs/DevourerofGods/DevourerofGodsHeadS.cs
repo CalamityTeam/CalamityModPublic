@@ -1031,7 +1031,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 				Projectile.NewProjectile(targetVector, Vector2.Zero, ModContent.ProjectileType<DoGTeleportRift>(), 0, 0f, Main.myPlayer, npc.whoAmI);
 			}
 
-			teleportTimer = 180;
+			teleportTimer = BossRushEvent.BossRushActive ? 100 : CalamityWorld.death ? 120 : CalamityWorld.revenge ? 140 : Main.expertMode ? 160 : 180;
 		}
 
 		private void Teleport(Player player, bool death, bool revenge, bool expertMode)

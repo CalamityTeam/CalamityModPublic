@@ -34,20 +34,8 @@ namespace CalamityMod.Projectiles.Melee
 
 		public override void AI()
 		{
-			Projectile parent = Main.projectile[0];
-			bool active = false;
-			for (int i = 0; i < Main.projectile.Length; i++)
-			{
-				Projectile p = Main.projectile[i];
-				if (p.identity == projectile.ai[0] && p.active && p.type == ModContent.ProjectileType<MicrowaveYoyo>())
-				{
-					parent = p;
-					active = true;
-					break;
-				}
-			}
-
-			if (active)
+			Projectile parent = FindParent();
+			if (parent != null && parent.active)
 			{
 				projectile.Center = parent.Center;
 				projectile.timeLeft = 2;
@@ -56,17 +44,42 @@ namespace CalamityMod.Projectiles.Melee
 			{
 				projectile.Kill();
 			}
-
-			if (!parent.active)
-			{
-				projectile.Kill();
-			}
 		}
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 180);
+			if (target.life <= 0 && (FindParent().modProjectile as MicrowaveYoyo).soundCooldown <= 0)
+			{
+				Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/MicrowaveBeep"), (int)projectile.Center.X, (int)projectile.Center.Y);
+				(FindParent().modProjectile as MicrowaveYoyo).soundCooldown = 60;
+			}
         }
+
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+            target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 180);
+			if (target.statLife <= 0 && (FindParent().modProjectile as MicrowaveYoyo).soundCooldown <= 0)
+			{
+				Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/MicrowaveBeep"), (int)projectile.Center.X, (int)projectile.Center.Y);
+				(FindParent().modProjectile as MicrowaveYoyo).soundCooldown = 60;
+			}
+        }
+
+		private Projectile FindParent()
+		{
+			Projectile parent = null;
+			for (int i = 0; i < Main.maxProjectiles; i++)
+			{
+				Projectile p = Main.projectile[i];
+				if (p.identity == projectile.ai[0] && p.active && p.type == ModContent.ProjectileType<MicrowaveYoyo>() && p.owner == projectile.owner)
+				{
+					parent = p;
+					break;
+				}
+			}
+			return parent;
+		}
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {

@@ -267,7 +267,7 @@ namespace CalamityMod
         StressSync,
         AdrenalineSync,
 
-		//AquaticBoostSync,
+		AquaticBoostSync,
 
         TeleportPlayer,
         BossRushStage,

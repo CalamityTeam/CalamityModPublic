@@ -56,7 +56,8 @@ namespace CalamityMod.Items.Accessories
             modPlayer.rampartOfDeities = true;
             modPlayer.fBulwark = true;
             modPlayer.jellyfishNecklace = true;
-        }
+			player.longInvince = true;
+		}
 
         public override void AddRecipes()
         {

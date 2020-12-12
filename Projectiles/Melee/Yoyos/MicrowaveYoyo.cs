@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -14,6 +15,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
         private const float Radius = 100f;
         private SoundEffectInstance mmmmmm = null;
 		private bool spawnedAura = false;
+		public int soundCooldown = 0;
 
         public override void SetStaticDefaults()
         {
@@ -41,6 +43,16 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
             projectile.localNPCHitCooldown = 10;
         }
 
+        public override void SendExtraAI(BinaryWriter writer)
+        {
+            writer.Write(soundCooldown);
+        }
+
+        public override void ReceiveExtraAI(BinaryReader reader)
+        {
+            soundCooldown = reader.ReadInt32();
+        }
+
         public override void AI()
         {
             // Sound is done manually, so that it can loop correctly.
@@ -51,7 +63,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
                 CalamityUtils.ApplySoundStats(ref mmmmmm, projectile.Center);
                 Main.PlaySoundInstance(mmmmmm);
             }
-            else if(!mmmmmm.IsDisposed)
+            else if (!mmmmmm.IsDisposed)
                 CalamityUtils.ApplySoundStats(ref mmmmmm, projectile.Center);
             
             // Spawn invisible but damaging aura projectile
@@ -60,6 +72,10 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
                 Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<MicrowaveAura>(), (int)(projectile.damage * 0.35), projectile.knockBack, projectile.owner, projectile.identity, 0f);
 				spawnedAura = true;
             }
+
+			// Decrement sound cooldown
+			if (soundCooldown > 0 && projectile.FinalExtraUpdate())
+				soundCooldown--;
 
             // Dust circle appears for all players, even though the aura projectile is only spawned by the owner
             int numDust = (int)(0.2f * MathHelper.TwoPi * Radius);
@@ -81,13 +97,13 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
                 Main.dust[dust].scale = 0.1599999999f;
             }
 
-			if ((projectile.position - Main.player[projectile.owner].position).Length() > 3200f) //200 blocks
+			// Delete the projectile if it is farther than 200 blocks away from the player
+			if ((projectile.position - Main.player[projectile.owner].position).Length() > 3200f)
 				projectile.Kill();
         }
 
         public override void Kill(int timeLeft)
         {
-			Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/MicrowaveBeep"), (int)projectile.Center.X, (int)projectile.Center.Y);
             mmmmmm?.Stop();
             mmmmmm?.Dispose();
         }
@@ -107,6 +123,21 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 300);
+			if (target.life <= 0 && soundCooldown <= 0)
+			{
+				Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/MicrowaveBeep"), (int)projectile.Center.X, (int)projectile.Center.Y);
+				soundCooldown = 45;
+			}
+        }
+
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+            target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 300);
+			if (target.statLife <= 0 && soundCooldown <= 0)
+			{
+				Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/MicrowaveBeep"), (int)projectile.Center.X, (int)projectile.Center.Y);
+				soundCooldown = 45;
+			}
         }
     }
 }

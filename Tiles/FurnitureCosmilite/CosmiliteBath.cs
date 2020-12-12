@@ -7,7 +7,7 @@ namespace CalamityMod.Tiles.FurnitureCosmilite
     {
         public override void SetDefaults()
         {
-            this.SetUpBathtub();
+            this.SetUpBathtub(true);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Cosmilite Bathtub");
             AddMapEntry(new Color(191, 142, 111), name);

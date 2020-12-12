@@ -31,6 +31,7 @@ namespace CalamityMod.Items.Accessories
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.dAmulet = true;
             modPlayer.jellyfishNecklace = true;
+			player.longInvince = true;
         }
 
         public override void AddRecipes()

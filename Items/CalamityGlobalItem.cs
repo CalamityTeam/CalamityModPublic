@@ -3570,6 +3570,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
         public override void HorizontalWingSpeeds(Item item, Player player, ref float speed, ref float acceleration)
         {
             CalamityPlayer modPlayer = player.Calamity();
+			float moveSpeedBoost = modPlayer.moveSpeedStat * 0.0025f;
 			float flightSpeedMult = 1f +
                 (modPlayer.soaring ? 0.1f : 0f) +
                 (modPlayer.holyWrath ? 0.05f : 0f) +
@@ -3577,7 +3578,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                 (modPlayer.draconicSurge ? 0.1f : 0f) +
 				(modPlayer.reaverSpeed ? 0.1f : 0f) +
 				(modPlayer.etherealExtorter && modPlayer.ZoneAstral ? 0.05f : 0f) +
-				modPlayer.moveSpeedStat * 0.005f; // let's try it
+				moveSpeedBoost;
             if (flightSpeedMult > 1.5f)
                 flightSpeedMult = 1.5f;
 
@@ -3585,7 +3586,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
 
             float flightAccMult = 1f +
                 (modPlayer.draconicSurge ? 0.1f : 0f) +
-				modPlayer.moveSpeedStat * 0.005f;
+				moveSpeedBoost;
             if (flightAccMult > 1.5f)
                 flightAccMult = 1.5f;
 

@@ -1739,6 +1739,9 @@ namespace CalamityMod.Projectiles
 
         public static void HomeInOnNPC(Projectile projectile, bool ignoreTiles, float distanceRequired, float homingVelocity, float N)
         {
+            if (!projectile.friendly)
+				return;
+
             Vector2 center = projectile.Center;
             float maxDistance = distanceRequired;
             bool homeIn = false;
@@ -1753,18 +1756,13 @@ namespace CalamityMod.Projectiles
                     if (extraDistance < maxDistance && !ignoreTiles)
                         canHit = Collision.CanHit(projectile.Center, 1, 1, Main.npc[i].Center, 1, 1);
 
-                    if (Vector2.Distance(Main.npc[i].Center, projectile.Center) < (maxDistance + extraDistance) && canHit)
+                    if (projectile.WithinRange(Main.npc[i].Center, maxDistance + extraDistance) && canHit)
                     {
                         center = Main.npc[i].Center;
                         homeIn = true;
                         break;
                     }
                 }
-            }
-
-            if (!projectile.friendly)
-            {
-                homeIn = false;
             }
 
             if (homeIn)
@@ -1794,7 +1792,7 @@ namespace CalamityMod.Projectiles
                     if (extraDistance < maxDistance)
                         canHit = Collision.CanHit(projectile.Center, 1, 1, Main.npc[i].Center, 1, 1);
 
-                    if (Vector2.Distance(Main.npc[i].Center, projectile.Center) < (maxDistance + extraDistance) && canHit)
+                    if (projectile.WithinRange(Main.npc[i].Center, maxDistance + extraDistance) && canHit)
                     {
                         if (targetArrayIndex < maxTargets)
                         {
@@ -1817,18 +1815,18 @@ namespace CalamityMod.Projectiles
                 if (projectile.localAI[0] > projectileTimer)
                 {
                     projectile.localAI[0] = 0f;
-                    Vector2 value = projectile.Center + projectile.velocity * 4f;
-                    Vector2 velocity = Vector2.Normalize(Main.npc[randomTarget].Center - value) * homingVelocity;
+                    Vector2 spawnPos = projectile.Center + projectile.velocity * 4f;
+                    Vector2 velocity = Vector2.Normalize(Main.npc[randomTarget].Center - spawnPos) * homingVelocity;
 
                     if (attackMultiple)
                     {
                         for (int i = 0; i < targetArrayIndex; i++)
                         {
-                            velocity = Vector2.Normalize(Main.npc[targetArray[i]].Center - value) * homingVelocity;
+                            velocity = Vector2.Normalize(Main.npc[targetArray[i]].Center - spawnPos) * homingVelocity;
 
                             if (projectile.owner == Main.myPlayer)
                             {
-                                int projectile2 = Projectile.NewProjectile(value.X, value.Y, velocity.X, velocity.Y, spawnedProjectile, (int)(projectile.damage * damageMult), projectile.knockBack, projectile.owner, 0f, 0f);
+                                int projectile2 = Projectile.NewProjectile(spawnPos, velocity, spawnedProjectile, (int)(projectile.damage * damageMult), projectile.knockBack, projectile.owner, 0f, 0f);
 
                                 if (projectile.type == ProjectileType<EradicatorProjectile>())
 									if (projectile2.WithinBounds(Main.maxProjectiles))
@@ -1847,7 +1845,7 @@ namespace CalamityMod.Projectiles
 
                     if (projectile.owner == Main.myPlayer)
                     {
-                        int projectile2 = Projectile.NewProjectile(value.X, value.Y, velocity.X, velocity.Y, spawnedProjectile, (int)(projectile.damage * damageMult), projectile.knockBack, projectile.owner, 0f, 0f);
+                        int projectile2 = Projectile.NewProjectile(spawnPos, velocity, spawnedProjectile, (int)(projectile.damage * damageMult), projectile.knockBack, projectile.owner, 0f, 0f);
 
                         if (projectile.type == ProjectileType<CnidarianYoyo>() || projectile.type == ProjectileType<GodsGambitYoyo>() ||
                             projectile.type == ProjectileType<ShimmersparkYoyo>() || projectile.type == ProjectileType<VerdantYoyo>())

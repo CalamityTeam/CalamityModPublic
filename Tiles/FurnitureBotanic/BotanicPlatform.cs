@@ -10,7 +10,7 @@ namespace CalamityMod.Tiles.FurnitureBotanic
     {
         public override void SetDefaults()
         {
-            this.SetUpPlatform();
+            this.SetUpPlatform(true);
             AddMapEntry(new Color(191, 142, 111));
             drop = ModContent.ItemType<Items.Placeables.FurnitureBotanic.BotanicPlatform>();
             disableSmartCursor = true;

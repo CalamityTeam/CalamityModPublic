@@ -9,7 +9,7 @@ namespace CalamityMod.Tiles.FurnitureStratus
     {
         public override void SetDefaults()
         {
-            this.SetUpCandelabra();
+            this.SetUpCandelabra(true);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Stratus Candelabra");
             AddMapEntry(new Color(191, 142, 111), name);

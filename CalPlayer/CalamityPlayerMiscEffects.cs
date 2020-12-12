@@ -233,8 +233,15 @@ namespace CalamityMod.CalPlayer
 					}
 
 					// Immunity Frames nerf
-					if (player.immuneTime > 120)
-						player.immuneTime = 120;
+					int immuneTimeLimit = 150;
+					if (player.immuneTime > immuneTimeLimit)
+						player.immuneTime = immuneTimeLimit;
+
+					for (int k = 0; k < player.hurtCooldowns.Length; k++)
+					{
+						if (player.hurtCooldowns[k] > immuneTimeLimit)
+							player.hurtCooldowns[k] = immuneTimeLimit;
+					}
 
 					// Adrenaline and Rage
 					if (CalamityConfig.Instance.Rippers)
@@ -347,7 +354,7 @@ namespace CalamityMod.CalPlayer
 					modPlayer.AdrenalinePacket(false);
 					modPlayer.DeathModeUnderworldTimePacket(false);
 					modPlayer.DeathModeBlizzardTimePacket(false);
-					//modPlayer.AquaticBoostPacket(false);
+					modPlayer.AquaticBoostPacket(false);
 					modPlayer.MoveSpeedStatPacket(false);
 					modPlayer.DefenseDamagePacket(false);
 				}
@@ -1105,6 +1112,9 @@ namespace CalamityMod.CalPlayer
 				{
 					player.immune = true;
 					player.immuneTime = 2;
+
+					for (int k = 0; k < player.hurtCooldowns.Length; k++)
+						player.hurtCooldowns[k] = player.immuneTime;
 				}
 
 				if (modPlayer.tarraThrowingCrits >= 25)
@@ -4255,7 +4265,14 @@ namespace CalamityMod.CalPlayer
 					Rectangle rect = npc.getRect();
 					if (rectangle.Intersects(rect) && (npc.noTileCollide || player.CanHit(npc)))
 					{
-						if (Main.rand.NextBool(10) && player.immuneTime <= 0)
+						bool isImmune = false;
+						for (int j = 0; j < player.hurtCooldowns.Length; j++)
+						{
+							if (player.hurtCooldowns[j] > 0)
+								isImmune = true;
+						}
+
+						if (Main.rand.NextBool(10) && !isImmune)
 						{
 							modPlayer.AbyssMirrorEvade();
 							modPlayer.EclipseMirrorEvade();

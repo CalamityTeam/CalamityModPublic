@@ -1,4 +1,6 @@
 using CalamityMod.Tiles.DraedonStructures;
+using CalamityMod.World;
+using Microsoft.Xna.Framework;
 using Mono.Cecil.Cil;
 using MonoMod.Cil;
 using System;
@@ -7,6 +9,7 @@ using System.Reflection;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.World.Generation;
 
 namespace CalamityMod.ILEditing
 {
@@ -48,7 +51,7 @@ namespace CalamityMod.ILEditing
 
             ApplyLifeBytesChanges();
             ApplyBossZenDuringSlimeRain();
-            SlideDungeonOver();
+            PreventDungeonAbyssInteraction();
             BlockLivingTreesNearOcean();
             LabDoorFixes();
             AlterTownNPCSpawnRate();
@@ -68,22 +71,40 @@ namespace CalamityMod.ILEditing
 
         private static void ApplyBossZenDuringSlimeRain() => On.Terraria.NPC.SlimeRainSpawns += PreventBossSlimeRainSpawns;
 
-        private static void SlideDungeonOver()
+        private static void PreventDungeonAbyssInteraction()
         {
-            IL.Terraria.WorldGen.MakeDungeon += (il) =>
+            // Prevent the Dungeon from appearing near the Sulph sea.
+            IL.Terraria.WorldGen.MakeDungeon += il =>
             {
                 var cursor = new ILCursor(il);
-                if (!cursor.TryGotoNext(i => i.MatchStsfld("Terraria.WorldGen", "dMaxY")))
-                {
-                    CalamityMod.Instance.Logger.Warn("Dungeon movement editing code failed.");
-                    return;
-                }
-                cursor.Index++;
+                cursor.GotoNext(MoveType.After, i => i.MatchStsfld<WorldGen>("dungeonY"));
+
                 cursor.EmitDelegate<Action>(() =>
                 {
-                    WorldGen.dungeonX += (WorldGen.dungeonX < Main.maxTilesX / 2).ToDirectionInt() * 450;
-                    WorldGen.dungeonX = Utils.Clamp(WorldGen.dungeonX, 200, Main.maxTilesX - 200);
+                    WorldGen.dungeonX = Utils.Clamp(WorldGen.dungeonX, SulphurousSea.BiomeWidth + 100, Main.maxTilesX - SulphurousSea.BiomeWidth - 100);
+
+                    // Adjust the Y position of the dungeon to accomodate for the X shift.
+                    WorldUtils.Find(new Point(WorldGen.dungeonX, WorldGen.dungeonY), Searches.Chain(new Searches.Down(9001), new Conditions.IsSolid()), out Point result);
+                    WorldGen.dungeonY = result.Y - 10;
                 });
+            };
+
+            // And prevent its halls from getting anywhere near the Abyss.
+            IL.Terraria.WorldGen.DungeonHalls += il =>
+            {
+                var cursor = new ILCursor(il);
+
+                // Forcefully clamp the X position of the new hall end.
+                // This prevents a hall, and as a result, the dungeon, from ever impeding on the Abyss/Sulph Sea.
+                cursor.GotoNext(MoveType.After, i => i.MatchStloc(6));
+
+                cursor.Emit(OpCodes.Ldloc, 6);
+                cursor.EmitDelegate<Func<Vector2, Vector2>>(unclampedValue =>
+                {
+                    unclampedValue.X = MathHelper.Clamp(unclampedValue.X, SulphurousSea.BiomeWidth + 25, Main.maxTilesX - SulphurousSea.BiomeWidth - 25);
+                    return unclampedValue;
+                });
+                cursor.Emit(OpCodes.Stloc, 6);
             };
         }
 

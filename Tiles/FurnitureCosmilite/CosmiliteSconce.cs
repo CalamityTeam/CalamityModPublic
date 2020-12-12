@@ -13,8 +13,9 @@ namespace CalamityMod.Tiles.FurnitureCosmilite
         {
             Main.tileLighted[Type] = true;
             Main.tileFrameImportant[Type] = true;
-            Main.tileLavaDeath[Type] = true;
+            Main.tileLavaDeath[Type] = false;
 
+			TileObjectData.newTile.LavaDeath = false;
             TileObjectData.newTile.Height = 3;
             TileObjectData.newTile.Width = 1;
             TileObjectData.newTile.CoordinateWidth = 16;
@@ -32,6 +33,7 @@ namespace CalamityMod.Tiles.FurnitureCosmilite
             disableSmartCursor = true;
             adjTiles = new int[] { TileID.Torches };
 			TileID.Sets.FramesOnKillWall[Type] = true;
+			AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTorch);
         }
 
         public override bool CreateDust(int i, int j, ref int type)

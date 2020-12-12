@@ -30,13 +30,13 @@ namespace CalamityMod.Items.Weapons.Magic
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 1.5f;
-            item.value = Item.buyPrice(2, 50, 0, 0);
+            item.value = CalamityGlobalItem.Rarity14BuyPrice;
             item.rare = 10;
             item.UseSound = SoundID.Item33;
             item.autoReuse = true;
             item.shootSpeed = 6f;
             item.shoot = ModContent.ProjectileType<ParticleBeamofDoom>();
-            item.Calamity().customRarity = CalamityRarity.Violet;
+            item.Calamity().customRarity = CalamityRarity.DarkBlue;
         }
 
         public override Vector2? HoldoutOffset() => new Vector2(-5, 0);
