@@ -9210,7 +9210,7 @@ namespace CalamityMod.CalPlayer
             // 2.50 second stealth charge = 184% damage ratio
             double stealthGenFactor = Math.Max(Math.Pow(fakeStealthTime, 2D / 3D), 1.5);
 
-            double stealthAddedDamage = it.damage * rogueStealth * StealthDamageConstant * useTimeFactor * stealthGenFactor;
+            double stealthAddedDamage = rogueStealth * StealthDamageConstant * useTimeFactor * stealthGenFactor;
             // TODO -- Store stealth damage elsewhere so that it can't affect rogue on-hits while you stand around with this damage boost.
             throwingDamage += (float)stealthAddedDamage;
 
