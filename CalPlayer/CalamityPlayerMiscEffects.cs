@@ -1306,15 +1306,6 @@ namespace CalamityMod.CalPlayer
 				light[1] += 3f;
 				light[2] += 0f;
 			}
-			if (modPlayer.dAmulet)
-			{
-				if (player.IsUnderwater())
-				{
-					light[0] += 1.35f;
-					light[1] += 0.3f;
-					light[2] += 0.9f;
-				}
-			}
 			if (modPlayer.forbiddenCirclet)
 			{
 				light[0] += 0.8f;
@@ -3192,7 +3183,6 @@ namespace CalamityMod.CalPlayer
 			{
 				player.panic = true;
 				player.pStone = true;
-				player.armorPenetration += modPlayer.rampartOfDeities ? 20 : 10;
 			}
 
 			if (modPlayer.fBulwark)
