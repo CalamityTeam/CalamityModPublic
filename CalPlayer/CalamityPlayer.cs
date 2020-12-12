@@ -1417,7 +1417,13 @@ namespace CalamityMod.CalPlayer
 			noLifeRegen = false;
 
             thirdSage = false;
-            if (player.immuneTime <= 0)
+			bool isImmune = false;
+			for (int j = 0; j < player.hurtCooldowns.Length; j++)
+			{
+				if (player.hurtCooldowns[j] > 0)
+					isImmune = true;
+			}
+			if (!isImmune)
                 thirdSageH = false;
 
             perfmini = false;
@@ -2834,9 +2840,7 @@ namespace CalamityMod.CalPlayer
                             player.immuneTime = 120;
                             spectralVeilImmunity = 120;
                             for (int k = 0; k < player.hurtCooldowns.Length; k++)
-                            {
                                 player.hurtCooldowns[k] = player.immuneTime;
-                            }
                         }
                     }
                 }
@@ -3547,8 +3551,9 @@ namespace CalamityMod.CalPlayer
                 player.pickSpeed *= 0.75f;
             }
 
-			// So, let's say you have 8 run speed from boots and 200% movement speed, this means you get 200 * 0.005 = 1 * 8 + 8 = 16
-			player.accRunSpeed += player.accRunSpeed * moveSpeedStat * 0.005f;
+			// Takes the % move speed boost and reduces it to a quarter to get the actual speed increase
+			// 400% move speed boost = 100% run speed boost, so an 8 run speed would become 16 with a 400% move speed stat
+			player.accRunSpeed += player.accRunSpeed * moveSpeedStat * 0.0025f;
 
 			if (player.accRunSpeed < 0f)
 				player.accRunSpeed = 0f;
@@ -4009,7 +4014,13 @@ namespace CalamityMod.CalPlayer
 				return true;
 			}
 			// Mirror cooldowns affect each other
-			if (Main.rand.NextBool(10) && player.immuneTime <= 0 && !eclipseMirrorCooldown && !abyssalMirrorCooldown)
+			bool isImmune = false;
+			for (int j = 0; j < player.hurtCooldowns.Length; j++)
+			{
+				if (player.hurtCooldowns[j] > 0)
+					isImmune = true;
+			}
+			if (Main.rand.NextBool(10) && !isImmune && !eclipseMirrorCooldown && !abyssalMirrorCooldown)
 			{
 				if (eclipseMirror)
 				{
@@ -6530,6 +6541,10 @@ namespace CalamityMod.CalPlayer
 					player.immune = true;
 					player.immuneNoBlink = true;
 					player.immuneTime += 4;
+					for (int j = 0; j < player.hurtCooldowns.Length; j++)
+					{
+						player.hurtCooldowns[j] = player.immuneTime;
+					}
 					damage = 0;
 					return;
 				}
@@ -8157,7 +8172,7 @@ namespace CalamityMod.CalPlayer
             {
 				int iFramesToAdd = 0;
 				if (cTracers && damage > 200)
-					iFramesToAdd += 60;
+					iFramesToAdd += 30;
 				if (godSlayerThrowing && damage > 80)
 					iFramesToAdd += 30;
 				if (statigelSet && damage > 100)
@@ -8166,9 +8181,9 @@ namespace CalamityMod.CalPlayer
 				if (dAmulet)
 				{
 					if (damage == 1)
-						iFramesToAdd += 10;
+						iFramesToAdd += 5;
 					else
-						iFramesToAdd += 20;
+						iFramesToAdd += 10;
 				}
 
 				if (fabsolVodka)
@@ -9769,7 +9784,11 @@ namespace CalamityMod.CalPlayer
                         player.immune = true;
                         player.immuneNoBlink = true;
                         player.immuneTime += PlayerImmuneTime;
-                        num++;
+						for (int j = 0; j < player.hurtCooldowns.Length; j++)
+						{
+							player.hurtCooldowns[j] = player.immuneTime;
+						}
+						num++;
                         break;
                     }
                 }
