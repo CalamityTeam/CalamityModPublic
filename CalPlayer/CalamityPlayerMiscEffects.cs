@@ -3560,7 +3560,7 @@ namespace CalamityMod.CalPlayer
 					bool enrage = player.statLife <= (int)(player.statLifeMax2 * 0.5);
 					bool notRetro = Lighting.NotRetro;
 					if (!modPlayer.ZoneAbyss) //No abyss memes.
-						Lighting.AddLight(player.Center, enrage ? 6 : offenseBuffs ? 5 : 1, enrage ? 1.2 : offenseBuffs ? 1 : 0.2, 0);
+						Lighting.AddLight(player.Center, enrage ? 60 : offenseBuffs ? 50 : 10, enrage ? 12 : offenseBuffs ? 10 : 2, 0);
 					if (enrage)
 					{
 						bool special = player.name == "Amber" || player.name == "Nincity" || player.name == "IbanPlay" || player.name == "Chen"; //People who either helped create the item or test it.
