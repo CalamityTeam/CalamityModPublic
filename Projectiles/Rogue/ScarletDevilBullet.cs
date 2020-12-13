@@ -70,5 +70,12 @@ namespace CalamityMod.Projectiles.Rogue
         {
             return new Color(250, 250, 250);
         }
+
+        public override bool CanDamage()
+        {
+            if (projectile.Calamity().stealthStrike && projectile.ai[0] < 60f)
+                return false;
+            return base.CanDamage();
+        }
     }
 }

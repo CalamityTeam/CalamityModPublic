@@ -6039,7 +6039,7 @@ namespace CalamityMod.CalPlayer
                         Projectile.NewProjectile(target.Center, velocity, ModContent.ProjectileType<UnstableSpark>(), CalamityUtils.DamageSoftCap(damage * 0.15, 30), 0f, player.whoAmI);
                     }
                 }
-                if (electricianGlove && proj.Calamity().stealthStrike && proj.Calamity().rogue && proj.Calamity().stealthStrikeHitCount < 5)
+                if (electricianGlove && proj.Calamity().stealthStrike && proj.Calamity().rogue && proj.Calamity().stealthStrikeHitCount < 5 && CalamityUtils.CountProjectiles(ModContent.ProjectileType<Spark>()) < 30)
                 {
                     for (int s = 0; s < 3; s++)
                     {
