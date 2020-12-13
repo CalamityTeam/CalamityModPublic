@@ -16,6 +16,34 @@ namespace CalamityMod.World
 {
     public static class DraedonStructures
     {
+        private static int[] otherModTilesToAvoid;
+
+        internal static void Load()
+        {
+            IList<int> avoid = new List<int>(16);
+
+            // Mod of Redemption's labs use modded blocks, but must still be avoided.
+            Mod mor = ModLoader.GetMod("Redemption");
+            if (mor != null)
+            {
+                // Thanks to Hallam to providing these tile names.
+                string[] redemptionAvoidTiles = new string[]
+                {
+                    "LabTileUnsafe",
+                    "OvergrownLabTile"
+                };
+                foreach (string tileName in redemptionAvoidTiles)
+                    avoid.Add(mor.TileType(tileName));
+            }
+
+            otherModTilesToAvoid = avoid.ToArray();
+        }
+
+        internal static void Unload()
+        {
+            otherModTilesToAvoid = null;
+        }
+        
         public static bool ShouldAvoidLocation(Point placementPoint, bool careAboutLava = true)
         {
             Tile tile = CalamityUtils.ParanoidTileRetrieval(placementPoint.X, placementPoint.Y);
@@ -39,13 +67,16 @@ namespace CalamityMod.World
             {
                 return true;
             }
-            // Avoid Thorium's Blood Chamber (where you summon Viscount)
-            if (tile.type == TileID.StoneSlab ||
-                tile.wall == WallID.StoneSlab)
-            {
+
+            //
+            // Below this line: Avoiding other mod worldgen.
+            //
+
+            // Avoid Thorium's Blood Chamber (where you summon Viscount). This is done separately because it uses vanilla tiles.
+            if (tile.type == TileID.StoneSlab || tile.wall == WallID.StoneSlab)
                 return true;
-            }
-            return false;
+            // Avoid all other registered modded tiles to avoid.
+            return otherModTilesToAvoid.Any(id => tile.type == id);
         }
 
         #region Workshop

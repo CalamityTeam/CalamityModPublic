@@ -66,21 +66,24 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 projectileCount += 4; // More shit the closer we are to death
             }
-            for (int i = 0; i < projectileCount; i++)
-            {
-                if (Main.rand.NextBool(3))
-                {
-                    Vector2 shrapnelVelocity = (Vector2.UnitY * Main.rand.NextFloat(-19f, -4f)).RotatedByRandom(MathHelper.ToRadians(30f));
-                    Projectile.NewProjectile(projectile.Center, projectile.velocity + shrapnelVelocity, ModContent.ProjectileType<BarrelShrapnel>(), projectile.damage, 3f, projectile.owner);
-                }
-                else
-                {
-                    Vector2 fireVelocity = (Vector2.UnitY * Main.rand.NextFloat(-19f, -4f)).RotatedByRandom(MathHelper.ToRadians(40f));
-                    Projectile fire = Projectile.NewProjectileDirect(projectile.Center, projectile.velocity + fireVelocity, ModContent.ProjectileType<TotalityFire>(), (int)(projectile.damage * 0.75f), 1f, projectile.owner);
-                    fire.timeLeft = 300;
-                    fire.penetrate = 3;
-                }
-            }
+			if (projectile.owner == Main.myPlayer)
+			{
+				for (int i = 0; i < projectileCount; i++)
+				{
+					if (Main.rand.NextBool(3))
+					{
+						Vector2 shrapnelVelocity = (Vector2.UnitY * Main.rand.NextFloat(-19f, -4f)).RotatedByRandom(MathHelper.ToRadians(30f));
+						Projectile.NewProjectile(projectile.Center, projectile.velocity + shrapnelVelocity, ModContent.ProjectileType<BarrelShrapnel>(), projectile.damage, 3f, projectile.owner);
+					}
+					else
+					{
+						Vector2 fireVelocity = (Vector2.UnitY * Main.rand.NextFloat(-19f, -4f)).RotatedByRandom(MathHelper.ToRadians(40f));
+						Projectile fire = Projectile.NewProjectileDirect(projectile.Center, projectile.velocity + fireVelocity, ModContent.ProjectileType<TotalityFire>(), (int)(projectile.damage * 0.75f), 1f, projectile.owner);
+						fire.timeLeft = 300;
+						fire.penetrate = 3;
+					}
+				}
+			}
             RemainingBounces--;
             BounceEffectCooldown = 15;
             if (RemainingBounces <= 0)

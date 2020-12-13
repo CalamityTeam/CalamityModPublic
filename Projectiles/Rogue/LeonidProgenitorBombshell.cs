@@ -77,41 +77,34 @@ namespace CalamityMod.Projectiles.Rogue
 			if (Main.myPlayer == projectile.owner)
 			{
                 int flash = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<Flash>(), projectile.damage, 0f, projectile.owner, 0f, 1f);
-				Main.projectile[flash].Calamity().forceRogue = true;
-				Main.projectile[flash].usesLocalNPCImmunity = true;
-				Main.projectile[flash].localNPCHitCooldown = 10;
+				if (flash.WithinBounds(Main.maxProjectiles))
+				{
+					Main.projectile[flash].Calamity().forceRogue = true;
+					Main.projectile[flash].usesLocalNPCImmunity = true;
+					Main.projectile[flash].localNPCHitCooldown = 10;
+				}
 
 				Vector2 pos = new Vector2(projectile.Center.X + projectile.width * 0.5f + Main.rand.Next(-201, 201), Main.screenPosition.Y - 600f - Main.rand.Next(50));
 				Vector2 velocity = (projectile.Center - pos) / 40f;
 				int dmg = projectile.damage / 2;
-				int comet = Projectile.NewProjectile(pos, velocity, ModContent.ProjectileType<LeonidCometBig>(), dmg, projectile.knockBack, projectile.owner, 0f, 0.5f + (float)Main.rand.NextDouble() * 0.3f);
+				Projectile.NewProjectile(pos, velocity, ModContent.ProjectileType<LeonidCometBig>(), dmg, projectile.knockBack, projectile.owner, 0f, 0.5f + (float)Main.rand.NextDouble() * 0.3f);
 			}
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 300);
-			if (!projectile.Calamity().stealthStrike || Main.myPlayer != projectile.owner)
-				return;
-
-			Vector2 spinningpoint = new Vector2(0f, 6f);
-			float num1 = MathHelper.ToRadians(45f);
-			int cometAmt = 5;
-			float num3 = -(num1 * 2f) / (cometAmt - 1f);
-			for (int projIndex = 0; projIndex < cometAmt; ++projIndex)
-			{
-				int index2 = Projectile.NewProjectile(projectile.Center, spinningpoint.RotatedBy((double)num1 + (double)num3 * (double)projIndex, new Vector2()), ModContent.ProjectileType<LeonidCometSmall>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, -1f);
-				Projectile proj = Main.projectile[index2];
-				for (int index3 = 0; index3 < projectile.localNPCImmunity.Length; ++index3)
-				{
-					proj.localNPCImmunity[index3] = projectile.localNPCImmunity[index3];
-				}
-			}
-        }
+			StealthStrikeEffect();
+		}
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
             target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 300);
+			StealthStrikeEffect();
+        }
+
+		private void StealthStrikeEffect()
+		{
 			if (!projectile.Calamity().stealthStrike || Main.myPlayer != projectile.owner)
 				return;
 

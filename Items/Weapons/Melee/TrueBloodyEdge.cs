@@ -53,20 +53,19 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            if (target.type == NPCID.TargetDummy || player.moonLeech)
+            if (target.type != NPCID.TargetDummy)
             {
-                return;
-            }
-            int healAmount = Main.rand.Next(6) + 1;
-            if (Main.rand.NextBool(2))
-            {
-                player.statLife += healAmount;
-                player.HealEffect(healAmount);
+				OnHitEffects(player);
             }
         }
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
+			OnHitEffects(player);
+        }
+
+		private void OnHitEffects(Player player)
+		{
 			if (player.moonLeech)
 				return;
             int healAmount = Main.rand.Next(6) + 1;
@@ -75,6 +74,6 @@ namespace CalamityMod.Items.Weapons.Melee
                 player.statLife += healAmount;
                 player.HealEffect(healAmount);
             }
-        }
+		}
     }
 }

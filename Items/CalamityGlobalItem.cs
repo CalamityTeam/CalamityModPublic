@@ -391,7 +391,8 @@ namespace CalamityMod.Items
 							{
 								Vector2 perturbedSpeed = velocity.RotatedBy(MathHelper.ToRadians(i));
 								int rocket = Projectile.NewProjectile(position, perturbedSpeed, ModContent.ProjectileType<MiniRocket>(), CalamityUtils.DamageSoftCap(damage * 0.8, 200), 2f, player.whoAmI);
-								Main.projectile[rocket].Calamity().forceTypeless = true;
+								if (rocket.WithinBounds(Main.maxProjectiles))
+									Main.projectile[rocket].Calamity().forceTypeless = true;
 							}
 						}
                     }
@@ -406,9 +407,12 @@ namespace CalamityMod.Items
 						float spreadX = speedX + Main.rand.NextFloat(-0.75f, 0.75f);
 						float spreadY = speedY + Main.rand.NextFloat(-0.75f, 0.75f);
                         int feather = Projectile.NewProjectile(position, new Vector2(spreadX, spreadY) * 1.25f, ModContent.ProjectileType<TradewindsProjectile>(), CalamityUtils.DamageSoftCap(damage * 0.5, 75), 2f, player.whoAmI);
-						Main.projectile[feather].usesLocalNPCImmunity = true;
-						Main.projectile[feather].localNPCHitCooldown = 10;
-						Main.projectile[feather].Calamity().forceTypeless = true;
+						if (feather.WithinBounds(Main.maxProjectiles))
+						{
+							Main.projectile[feather].usesLocalNPCImmunity = true;
+							Main.projectile[feather].localNPCHitCooldown = 10;
+							Main.projectile[feather].Calamity().forceTypeless = true;
+						}
                     }
                 }
             }
@@ -608,11 +612,13 @@ namespace CalamityMod.Items
                             case 1: //big boomer
                             case 2: //boomer
                                 int proj = Projectile.NewProjectile(player.Center, perturbedspeed, ModContent.ProjectileType<ProfanedCrystalRangedHuges>(), dam, 0f, player.whoAmI, projType == 1 ? 1f : 0f);
-                                Main.projectile[proj].Calamity().forceMinion = true;
+								if (proj.WithinBounds(Main.maxProjectiles))
+									Main.projectile[proj].Calamity().forceMinion = true;
                                 break;
                             case 3: //bab boomer
                                 int proj2 = Projectile.NewProjectile(player.Center, perturbedspeed, ModContent.ProjectileType<ProfanedCrystalRangedSmalls>(), dam, 0f, player.whoAmI, 0f);
-                                Main.projectile[proj2].Calamity().forceMinion = true;
+								if (proj2.WithinBounds(Main.maxProjectiles))
+									Main.projectile[proj2].Calamity().forceMinion = true;
                                 break;
                         }
                         if (projType > 1)
@@ -648,7 +654,8 @@ namespace CalamityMod.Items
                             dam -= sickPenalty;
                         }
                         int proj = Projectile.NewProjectile(player.position, correctedVelocity, ModContent.ProjectileType<ProfanedCrystalMageFireball>(), dam, 1f, player.whoAmI, enrage ? 1f : 0f);
-                        Main.projectile[proj].Calamity().forceMinion = true;
+						if (proj.WithinBounds(Main.maxProjectiles))
+							Main.projectile[proj].Calamity().forceMinion = true;
                         player.Calamity().profanedSoulWeaponUsage = enrage ? 20 : 25;
                     }
                     if (player.Calamity().profanedSoulWeaponUsage > 0)
@@ -667,7 +674,8 @@ namespace CalamityMod.Items
                         {
                             float angle = MathHelper.TwoPi / crystalCount * i;
                             int proj = Projectile.NewProjectile(player.Center, angle.ToRotationVector2() * 8f, ModContent.ProjectileType<ProfanedCrystalRogueShard>(), (int)((shouldNerf ? 300 : 880) * player.MinionDamage()), 1f, player.whoAmI, 0f, 0f);
-                            Main.projectile[proj].Calamity().forceMinion = true;
+							if (proj.WithinBounds(Main.maxProjectiles))
+								Main.projectile[proj].Calamity().forceMinion = true;
                             Main.PlaySound(SoundID.Item20, player.Center);
                         }
                         player.Calamity().profanedSoulWeaponUsage = 0;
@@ -676,7 +684,8 @@ namespace CalamityMod.Items
                     {
                         float angle = MathHelper.TwoPi / (enrage ? 9 : 18) * (player.Calamity().profanedSoulWeaponUsage / (enrage ? 1 : 10));
                         int proj = Projectile.NewProjectile(player.Center, angle.ToRotationVector2() * 8f, ModContent.ProjectileType<ProfanedCrystalRogueShard>(), (int)((shouldNerf ? 400 : 1100) * player.MinionDamage()), 1f, player.whoAmI, 1f, 0f);
-                        Main.projectile[proj].Calamity().forceMinion = true;
+						if (proj.WithinBounds(Main.maxProjectiles))
+							Main.projectile[proj].Calamity().forceMinion = true;
                         Main.PlaySound(SoundID.Item20, player.Center);
                     }
                     player.Calamity().profanedSoulWeaponUsage += enrage ? 1 : 2;
@@ -740,26 +749,29 @@ namespace CalamityMod.Items
                     Projectile blade = Projectile.NewProjectileDirect(robot.Center + (robot.spriteDirection > 0).ToDirectionInt() * robot.width / 2 * Vector2.UnitX, 
                                Vector2.Zero, ModContent.ProjectileType<AndromedaRegislash>(), damage, 15f, player.whoAmI, Projectile.GetByUUID(robot.owner, robot.whoAmI));
 
-                    if (item.Calamity().rogue)
-                    {
-                        blade.Calamity().forceRogue = true;
-                    }
-                    if (item.melee)
-                    {
-                        blade.Calamity().forceMelee = true;
-                    }
-                    if (item.ranged)
-                    {
-                        blade.Calamity().forceRanged = true;
-                    }
-                    if (item.magic)
-                    {
-                        blade.Calamity().forceMagic = true;
-                    }
-                    if (item.summon)
-                    {
-                        blade.Calamity().forceMinion = true;
-                    }
+					if (blade.whoAmI.WithinBounds(Main.maxProjectiles))
+					{
+						if (item.Calamity().rogue)
+						{
+							blade.Calamity().forceRogue = true;
+						}
+						if (item.melee)
+						{
+							blade.Calamity().forceMelee = true;
+						}
+						if (item.ranged)
+						{
+							blade.Calamity().forceRanged = true;
+						}
+						if (item.magic)
+						{
+							blade.Calamity().forceMagic = true;
+						}
+						if (item.summon)
+						{
+							blade.Calamity().forceMinion = true;
+						}
+					}
                 }
 
                 if (!robotModProjectile.TopIconActive &&
@@ -3419,10 +3431,13 @@ Grants immunity to fire blocks, and temporary immunity to lava";
 				{
 					if (player.controlJump && !player.jumpAgainCloud && player.jump == 0 && player.velocity.Y != 0f && !player.mount.Active && !player.mount.Cart)
 					{
-						int p = Projectile.NewProjectile(player.Center.X, player.Center.Y, player.velocity.X * 0f, 2f, ProjectileID.OrnamentFriendly, (int)(100 * player.AverageDamage()), 5f, player.whoAmI);
-						Main.projectile[p].Calamity().forceTypeless = true;
-						Main.projectile[p].Calamity().lineColor = 1;
-						modPlayer.icicleCooldown = 10;
+						int p = Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 2f, ProjectileID.OrnamentFriendly, (int)(100 * player.AverageDamage()), 5f, player.whoAmI);
+						if (p.WithinBounds(Main.maxProjectiles))
+						{
+							Main.projectile[p].Calamity().forceTypeless = true;
+							Main.projectile[p].Calamity().lineColor = 1;
+							modPlayer.icicleCooldown = 10;
+						}
 					}
 				}
             }
@@ -3590,6 +3605,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
         public override void HorizontalWingSpeeds(Item item, Player player, ref float speed, ref float acceleration)
         {
             CalamityPlayer modPlayer = player.Calamity();
+			float moveSpeedBoost = modPlayer.moveSpeedStat * 0.0025f;
 			float flightSpeedMult = 1f +
                 (modPlayer.soaring ? 0.1f : 0f) +
                 (modPlayer.holyWrath ? 0.05f : 0f) +
@@ -3597,7 +3613,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                 (modPlayer.draconicSurge ? 0.1f : 0f) +
 				(modPlayer.reaverSpeed ? 0.1f : 0f) +
 				(modPlayer.etherealExtorter && modPlayer.ZoneAstral ? 0.05f : 0f) +
-				modPlayer.moveSpeedStat * 0.005f; // let's try it
+				moveSpeedBoost;
             if (flightSpeedMult > 1.5f)
                 flightSpeedMult = 1.5f;
 
@@ -3605,7 +3621,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
 
             float flightAccMult = 1f +
                 (modPlayer.draconicSurge ? 0.1f : 0f) +
-				modPlayer.moveSpeedStat * 0.005f;
+				moveSpeedBoost;
             if (flightAccMult > 1.5f)
                 flightAccMult = 1.5f;
 
@@ -3626,40 +3642,6 @@ Grants immunity to fire blocks, and temporary immunity to lava";
             grabRange += itemGrabRangeBoost;
         }
         #endregion
-
-        #region The Horseman's Blade
-        public static void HorsemansBladeOnHit(Player player, int targetIdx, int damage, float knockback, bool hasExtraUpdates)
-        {
-            int x = Main.rand.Next(100, 300);
-            int y = Main.rand.Next(100, 300);
-
-            // Pick a random side: left or right
-            if (Main.rand.NextBool(2))
-                x -= Main.LogicCheckScreenWidth / 2 + x;
-            else
-                x += Main.LogicCheckScreenWidth / 2 - x;
-
-            // Pick a random side: top or bottom
-            if (Main.rand.NextBool(2))
-                y -= Main.LogicCheckScreenHeight / 2 + y;
-            else
-                y += Main.LogicCheckScreenHeight / 2 - y;
-
-            x += (int)player.position.X;
-            y += (int)player.position.Y;
-            float speed = 8f;
-            Vector2 vector = new Vector2((float)x, (float)y);
-            float dx = Main.npc[targetIdx].position.X - vector.X;
-            float dy = Main.npc[targetIdx].position.Y - vector.Y;
-            float dist = (float)Math.Sqrt(dx * dx + dy * dy);
-            dist = speed / dist;
-            dx *= dist;
-            dy *= dist;
-            int projectile = Projectile.NewProjectile(x, y, dx, dy, ProjectileID.FlamingJack, damage, knockback, player.whoAmI, targetIdx, 0f);
-            if (hasExtraUpdates)
-                Main.projectile[projectile].extraUpdates += 1;
-        }
-		#endregion
 
 		#region Ammo
 		public override bool ConsumeAmmo(Item item, Player player) => Main.rand.NextFloat() <= player.Calamity().rangedAmmoCost;

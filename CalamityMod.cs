@@ -138,9 +138,8 @@ namespace CalamityMod
 
             ILChanges.Load();
             BossRushEvent.Load();
-            
             BossHealthBarManager.Load(this);
-
+            DraedonStructures.Load();
             CalamityLists.LoadLists();
             SetupVanillaDR();
             SetupBossKillTimes();
@@ -267,6 +266,7 @@ namespace CalamityMod
             BossRushEvent.Unload();
             SchematicManager.Unload();
             BossHealthBarManager.Unload();
+            DraedonStructures.Unload();
 
             TileFraming.Unload();
 
@@ -508,7 +508,7 @@ namespace CalamityMod
                 { ModContent.NPCType<DevourerofGodsHeadS>(), 9000 },
                 { ModContent.NPCType<DevourerofGodsBodyS>(), 9000 },
                 { ModContent.NPCType<DevourerofGodsTailS>(), 9000 },
-                { ModContent.NPCType<Yharon>(), 10800 },
+                { ModContent.NPCType<Yharon>(), 8100 },
                 { ModContent.NPCType<SupremeCalamitas>(), 18000 }
             };
         }

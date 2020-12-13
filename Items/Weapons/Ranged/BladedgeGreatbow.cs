@@ -64,8 +64,9 @@ namespace CalamityMod.Items.Weapons.Ranged
                 {
                     value9 -= vector7;
                 }
-                int projectile = Projectile.NewProjectile(vector2.X + value9.X, vector2.Y + value9.Y, speedX, speedY, ProjectileID.Leaf, damage / 2, 0f, player.whoAmI, 0f, 0f);
-                Main.projectile[projectile].Calamity().forceRanged = true;
+                int projectile = Projectile.NewProjectile(vector2.X + value9.X, vector2.Y + value9.Y, speedX, speedY, ProjectileID.Leaf, damage / 2, 0f, player.whoAmI);
+				if (projectile.WithinBounds(Main.maxProjectiles))
+					Main.projectile[projectile].Calamity().forceRanged = true;
             }
             return false;
         }

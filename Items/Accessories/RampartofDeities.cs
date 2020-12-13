@@ -15,8 +15,7 @@ namespace CalamityMod.Items.Accessories
             DisplayName.SetDefault("Rampart of Deities");
             Tooltip.SetDefault("Taking damage grants boosted movement speed for a short time\n" +
                 "Causes stars to fall and gives increased immune time when damaged\n" +
-                "Increases armor penetration by 20 and reduces the cooldown of healing potions\n" +
-                "Provides light underwater and provides a small amount of light in the abyss\n" +
+                "Reduces the cooldown of healing potions\n" +
                 "Absorbs 25% of damage done to players on your team\n" +
                 "This effect is only active above 25% life\n" +
                 "Grants immunity to knockback\n" +
@@ -41,7 +40,7 @@ namespace CalamityMod.Items.Accessories
 			{
 				foreach (TooltipLine line2 in list)
 				{
-					if (line2.mod == "Terraria" && line2.Name == "Tooltip9")
+					if (line2.mod == "Terraria" && line2.Name == "Tooltip8")
 					{
 						line2.text = "";
 					}
@@ -55,8 +54,8 @@ namespace CalamityMod.Items.Accessories
             modPlayer.dAmulet = true;
             modPlayer.rampartOfDeities = true;
             modPlayer.fBulwark = true;
-            modPlayer.jellyfishNecklace = true;
-        }
+			player.longInvince = true;
+		}
 
         public override void AddRecipes()
         {

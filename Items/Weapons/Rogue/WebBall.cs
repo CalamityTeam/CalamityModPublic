@@ -40,8 +40,9 @@ Stealth strikes slow enemies down longer");
         {
             if (player.Calamity().StealthStrikeAvailable()) //setting the stealth strike
             {
-				int proj = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, item.damage, item.knockBack, player.whoAmI, 0f, 0f);
-				Main.projectile[proj].Calamity().stealthStrike = true;
+				int proj = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
+				if (proj.WithinBounds(Main.maxProjectiles))
+					Main.projectile[proj].Calamity().stealthStrike = true;
                 return false;
             }
             return true;

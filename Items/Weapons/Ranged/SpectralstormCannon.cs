@@ -49,15 +49,21 @@ namespace CalamityMod.Items.Weapons.Ranged
 			float SpeedX = speedX + (float)Main.rand.Next(-40, 41) * 0.05f;
 			float SpeedY = speedY + (float)Main.rand.Next(-40, 41) * 0.05f;
 			int flare = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI);
-			Main.projectile[flare].timeLeft = 200;
-			Main.projectile[flare].Calamity().forceRanged = true;
+			if (flare.WithinBounds(Main.maxProjectiles))
+			{
+				Main.projectile[flare].timeLeft = 200;
+				Main.projectile[flare].Calamity().forceRanged = true;
+			}
 
 			float SpeedX2 = speedX + (float)Main.rand.Next(-20, 21) * 0.05f;
 			float SpeedY2 = speedY + (float)Main.rand.Next(-20, 21) * 0.05f;
             int soul = Projectile.NewProjectile(position.X, position.Y, SpeedX2, SpeedY2, ModContent.ProjectileType<LostSoulFriendly>(), damage, knockBack, player.whoAmI);
-            Main.projectile[soul].timeLeft = 600;
-            Main.projectile[soul].Calamity().forceRanged = true;
-            Main.projectile[soul].frame = Main.rand.Next(4);
+			if (soul.WithinBounds(Main.maxProjectiles))
+			{
+				Main.projectile[soul].timeLeft = 600;
+				Main.projectile[soul].Calamity().forceRanged = true;
+				Main.projectile[soul].frame = Main.rand.Next(4);
+			}
             return false;
         }
 

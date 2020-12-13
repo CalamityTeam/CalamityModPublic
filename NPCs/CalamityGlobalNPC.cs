@@ -1470,6 +1470,11 @@ namespace CalamityMod.NPCs
         #region Strike NPC
         public override bool StrikeNPC(NPC npc, ref double damage, int defense, ref float knockback, int hitDirection, ref bool crit)
         {
+            // Don't bother tampering with the damage is it is already zero.
+            // Zero damage does not happen in the base game and is always indicative of antibutcher in Calamity.
+            if (damage == 0D)
+                return false;
+
 			// Damage reduction on spawn
 			bool destroyerResist = DestroyerIDs.Contains(npc.type) && (CalamityWorld.revenge || BossRushEvent.BossRushActive);
 			bool eaterofWorldsResist = EaterofWorldsIDs.Contains(npc.type) && BossRushEvent.BossRushActive;
@@ -3326,81 +3331,6 @@ namespace CalamityMod.NPCs
 				damage = (int)MathHelper.Clamp(damage * (float)Math.Pow(0.9, projectile.penetrate), damage * 0.5f, damage);
 		}
 		#endregion
-
-		#region On Hit By Item
-		public override void OnHitByItem(NPC npc, Player player, Item item, int damage, float knockback, bool crit)
-        {
-            if (player.Calamity().bloodflareSet)
-            {
-                if (!npc.SpawnedFromStatue && npc.damage > 0 && (npc.life < npc.lifeMax * 0.5) &&
-                    player.Calamity().bloodflareHeartTimer <= 0)
-                {
-                    player.Calamity().bloodflareHeartTimer = 180;
-                    DropHelper.DropItem(npc, ItemID.Heart);
-                }
-                else if (!npc.SpawnedFromStatue && npc.damage > 0 && (npc.life > npc.lifeMax * 0.5) &&
-                    player.Calamity().bloodflareManaTimer <= 0)
-                {
-                    player.Calamity().bloodflareManaTimer = 180;
-                    DropHelper.DropItem(npc, ItemID.Star);
-                }
-            }
-        }
-        #endregion
-
-        #region On Hit By Projectile
-        public override void OnHitByProjectile(NPC npc, Projectile projectile, int damage, float knockback, bool crit)
-        {
-			Player player = Main.player[projectile.owner];
-			CalamityPlayer modPlayer = player.Calamity();
-
-            bool isSummon = projectile.IsSummon();
-
-            if (modPlayer.sGenerator)
-            {
-                if (isSummon && (npc.damage > 0 || npc.boss))
-                {
-					int buffType = Utils.SelectRandom(Main.rand, new int[]
-					{
-						BuffType<SpiritGeneratorAtkBuff>(),
-						BuffType<SpiritGeneratorRegenBuff>(),
-						BuffType<SpiritGeneratorDefBuff>()
-					});
-                    player.AddBuff(buffType, 120);
-                }
-            }
-
-            if (modPlayer.hallowedRune)
-            {
-                if (isSummon && (npc.damage > 0 || npc.boss))
-                {
-					int buffType = Utils.SelectRandom(Main.rand, new int[]
-					{
-						BuffType<HallowedRuneAtkBuff>(),
-						BuffType<HallowedRuneRegenBuff>(),
-						BuffType<HallowedRuneDefBuff>()
-					});
-                    player.AddBuff(buffType, 120);
-                }
-            }
-
-            if (modPlayer.bloodflareSet)
-            {
-                if (!npc.SpawnedFromStatue && (npc.damage > 0 || npc.boss) && (npc.life < npc.lifeMax * 0.5) &&
-                    modPlayer.bloodflareHeartTimer <= 0)
-                {
-                    modPlayer.bloodflareHeartTimer = 180;
-                    DropHelper.DropItem(npc, ItemID.Heart);
-                }
-                else if (!npc.SpawnedFromStatue && (npc.damage > 0 || npc.boss) && (npc.life > npc.lifeMax * 0.5) &&
-                    modPlayer.bloodflareManaTimer <= 0)
-                {
-                    modPlayer.bloodflareManaTimer = 180;
-                    DropHelper.DropItem(npc, ItemID.Star);
-                }
-            }
-        }
-        #endregion
 
         #region Check Dead
         public override bool CheckDead(NPC npc)

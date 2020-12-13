@@ -29,7 +29,6 @@ namespace CalamityMod.Items.Accessories
             item.accessory = true;
             item.expert = true;
 			item.rare = ItemRarityID.Purple;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
             item.value = CalamityGlobalItem.Rarity12BuyPrice;
         }
 

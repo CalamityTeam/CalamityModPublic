@@ -26,7 +26,7 @@ namespace CalamityMod.Projectiles.Rogue
 			projectile.width = projectile.height = 30;
 			projectile.friendly = true;
 			projectile.penetrate = 10;
-			projectile.timeLeft = 600; //10 seconds and counting
+			projectile.timeLeft = 600; //10 seconds and counting (but not actually because extra updates)
 			projectile.aiStyle = 2;
 			aiType = ProjectileID.ThrowingKnife; //Throwing Knife AI
 			projectile.Calamity().rogue = true;
@@ -106,7 +106,8 @@ namespace CalamityMod.Projectiles.Rogue
 			if (projectile.Calamity().stealthStrike && projectile.owner == Main.myPlayer) //stealth strike attack
 			{
 				int stealth = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<Blood>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
-				Main.projectile[stealth].Calamity().forceRogue = true;
+				if (stealth.WithinBounds(Main.maxProjectiles))
+					Main.projectile[stealth].Calamity().forceRogue = true;
 			}
 
 			Player player = Main.player[projectile.owner];

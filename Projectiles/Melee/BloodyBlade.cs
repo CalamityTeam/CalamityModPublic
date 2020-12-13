@@ -54,5 +54,10 @@ namespace CalamityMod.Projectiles.Melee
             target.immune[projectile.owner] = 9;
             target.AddBuff(BuffID.Ichor, 60);
         }
+
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+            target.AddBuff(BuffID.Ichor, 60);
+        }
     }
 }

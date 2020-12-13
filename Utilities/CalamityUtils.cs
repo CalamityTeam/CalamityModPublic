@@ -57,7 +57,7 @@ namespace CalamityMod
 			CalamityRarity.Developer,
 			CalamityRarity.Rainbow
 		};
-		
+
 		#region Object Extensions
 		public static CalamityPlayer Calamity(this Player player) => player.GetModPlayer<CalamityPlayer>();
 		public static CalamityGlobalNPC Calamity(this NPC npc) => npc.GetGlobalNPC<CalamityGlobalNPC>();
@@ -416,15 +416,17 @@ namespace CalamityMod
 		/// <param name="maxDistanceToCheck">Maximum amount of pixels to check around the origin</param>
 		/// <param name="owner">Owner of the minion</param>
 		/// <param name="ignoreTiles">Whether to ignore tiles when finding a target or not</param>
-		public static NPC MinionHoming(this Vector2 origin, float maxDistanceToCheck, Player owner, bool ignoreTiles = true)
+		public static NPC MinionHoming(this Vector2 origin, float maxDistanceToCheck, Player owner, bool ignoreTiles = true, bool checksRange = false)
 		{
-			if (owner is null || owner.whoAmI < 0 || owner.whoAmI > Main.maxPlayers || owner.MinionAttackTargetNPC < 0 || owner.MinionAttackTargetNPC > Main.maxNPCs)
+			if (owner is null || !owner.whoAmI.WithinBounds(Main.maxPlayers) || !owner.MinionAttackTargetNPC.WithinBounds(Main.maxNPCs))
 				return ClosestNPCAt(origin, maxDistanceToCheck, ignoreTiles);
 			NPC npc = Main.npc[owner.MinionAttackTargetNPC];
 			bool canHit = true;
 			if (!ignoreTiles)
 				canHit = Collision.CanHit(origin, 1, 1, npc.Center, 1, 1);
-			if (owner.HasMinionAttackTargetNPC && canHit)
+			float extraDistance = (npc.width / 2) + (npc.height / 2);
+			bool distCheck = Vector2.Distance(origin, npc.Center) < (maxDistanceToCheck + extraDistance) || !checksRange;
+			if (owner.HasMinionAttackTargetNPC && canHit && distCheck)
 			{
 				return npc;
 			}
@@ -933,7 +935,7 @@ namespace CalamityMod
 				{
 					killProj = true;
 				}
-				else if (npcIndex < 0 || npcIndex >= Main.maxNPCs)
+				else if (!npcIndex.WithinBounds(Main.maxNPCs))
 				{
 					killProj = true;
 				}
@@ -975,7 +977,7 @@ namespace CalamityMod
 		public static void ModifyHitNPCSticky(this Projectile projectile, int maxStick, bool constantDamage)
 		{
 			Player player = Main.player[projectile.owner];
-			Rectangle myRect = new Rectangle((int)projectile.position.X, (int)projectile.position.Y, projectile.width, projectile.height);
+			Rectangle myRect = projectile.Hitbox;
 
 			if (projectile.owner == Main.myPlayer)
 			{
@@ -993,7 +995,7 @@ namespace CalamityMod
 							//Solar Crawltipede tail has special collision
 							if (npc.type == NPCID.SolarCrawltipedeTail)
 							{
-								Rectangle rect = npc.getRect();
+								Rectangle rect = npc.Hitbox;
 								int num5 = 8;
 								rect.X -= num5;
 								rect.Y -= num5;
@@ -1003,7 +1005,7 @@ namespace CalamityMod
 							}
 							else
 							{
-								stickingToNPC = projectile.Colliding(myRect, npc.getRect());
+								stickingToNPC = projectile.Colliding(myRect, npc.Hitbox);
 							}
 							if (stickingToNPC)
 							{
@@ -1114,7 +1116,7 @@ namespace CalamityMod
 			}
 		}
 
-		public static Projectile ProjectileRain(Vector2 targetPos, float xLimit, float xVariance, float yLimitLower, float yLimitUpper, float projSpeed, int projType, int damage, float knockback, int owner, int forceType = 0, int immunitySetting = 0, int cooldown = 10, int extraUpdates = 0)
+		public static Projectile ProjectileRain(Vector2 targetPos, float xLimit, float xVariance, float yLimitLower, float yLimitUpper, float projSpeed, int projType, int damage, float knockback, int owner)
 		{
 			float x = targetPos.X + Main.rand.NextFloat(-xLimit, xLimit);
 			if (projType == ModContent.ProjectileType<AstralStarMagic>())
@@ -1128,50 +1130,7 @@ namespace CalamityMod
 			targetDist = speed / targetDist;
 			velocity.X *= targetDist;
 			velocity.Y *= targetDist;
-			Projectile proj = Projectile.NewProjectileDirect(source, velocity, projType, damage, knockback, owner, 0f, 0f);
-			proj.extraUpdates += extraUpdates;
-			CalamityGlobalProjectile modProj = proj.Calamity();
-			if (forceType > 0)
-			{
-				switch (forceType)
-				{
-					case 1:
-						modProj.forceMelee = true;
-						break;
-					case 2:
-						modProj.forceRanged = true;
-						break;
-					case 3:
-						modProj.forceMagic = true;
-						break;
-					case 4:
-						modProj.forceMinion = true;
-						break;
-					case 5:
-						modProj.forceRogue = true;
-						break;
-					case 6:
-						modProj.forceTypeless = true;
-						break;
-				}
-			}
-			if (immunitySetting > 0)
-			{
-				switch (forceType)
-				{
-					case 1:
-						proj.usesLocalNPCImmunity = true;
-						proj.localNPCHitCooldown = cooldown;
-						proj.usesIDStaticNPCImmunity = false;
-						break;
-					case 2:
-						proj.usesLocalNPCImmunity = false;
-						proj.idStaticNPCHitCooldown = cooldown;
-						proj.usesIDStaticNPCImmunity = true;
-						break;
-				}
-			}
-			return proj;
+			return Projectile.NewProjectileDirect(source, velocity, projType, damage, knockback, owner);
 		}
 
 		public static Projectile ProjectileBarrage(Vector2 originVec, Vector2 targetPos, bool fromRight, float xOffsetMin, float xOffsetMax, float yOffsetMin, float yOffsetMax, float projSpeed, int projType, int damage, float knockback, int owner, bool clamped = false, float inaccuracyOffset = 5f)
@@ -1190,8 +1149,7 @@ namespace CalamityMod
 				velocity.X = MathHelper.Clamp(velocity.X, -15f, 15f);
 				velocity.Y = MathHelper.Clamp(velocity.Y, -15f, 15f);
 			}
-			Projectile proj = Projectile.NewProjectileDirect(spawnPosition, velocity, projType, damage, knockback, owner);
-			return proj;
+			return Projectile.NewProjectileDirect(spawnPosition, velocity, projType, damage, knockback, owner);
 		}
 
 		public static int DamageSoftCap(double dmgInput, int cap)
@@ -3026,7 +2984,7 @@ namespace CalamityMod
 		/// </summary>
 		/// <param name="mt">The ModTile which is being initialized.</param>
 		/// <param name="lavaImmune">Whether this tile is supposed to be immune to lava. Defaults to false.</param>
-		internal static void SetUpCandle(this ModTile mt, bool lavaImmune = false)
+		internal static void SetUpCandle(this ModTile mt, bool lavaImmune = false, int offset = -4)
 		{
 			Main.tileLighted[mt.Type] = true;
 			Main.tileFrameImportant[mt.Type] = true;
@@ -3035,7 +2993,7 @@ namespace CalamityMod
 			TileObjectData.newTile.CopyFrom(TileObjectData.StyleOnTable1x1);
 			TileObjectData.newTile.CoordinateHeights = new int[] { 20 };
 			TileObjectData.newTile.LavaDeath = !lavaImmune;
-			TileObjectData.newTile.DrawYOffset = -4;
+			TileObjectData.newTile.DrawYOffset = offset;
 			TileObjectData.addTile(mt.Type);
 
 			// All candles count as light sources.
@@ -3493,8 +3451,6 @@ namespace CalamityMod
 			Main.tileFrameImportant[mt.Type] = true;
 			Main.tileLavaDeath[mt.Type] = false;
 			Main.tileWaterDeath[mt.Type] = false;
-			//TileObjectData.newTile.CopyFrom(TileObjectData.Style3x4);
-			//TileObjectData.newTile.Width = 2;
 			TileObjectData.newTile.LavaDeath = false;
 			TileObjectData.addTile(mt.Type);
 			TileID.Sets.HasOutlines[mt.Type] = true;
@@ -4113,6 +4069,8 @@ namespace CalamityMod
 				gore.velocity.Y -= 1f;
 			}
 		}
+
+		public static bool WithinBounds(this int index, int cap) => index >= 0 && index < cap;
 
 		// REMOVE THIS IN CALAMITY 1.4, it's a 1.4 Main.cs function
 		public static float GetLerpValue(float from, float to, float t, bool clamped = false)

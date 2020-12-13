@@ -38,7 +38,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void AI()
         {
-            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 0.785f;
+            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver4;
             Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 175, projectile.velocity.X * 0.25f, projectile.velocity.Y * 0.25f, 0, default(Color), 0.85f);
 			if (projectile.timeLeft % 18 == 0)
 			{
@@ -46,11 +46,11 @@ namespace CalamityMod.Projectiles.Rogue
 				{
 					if (projectile.Calamity().stealthStrike)
 					{
-						Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X * 0.25f, projectile.velocity.Y * 0.25f, ModContent.ProjectileType<PhantasmalRuinGhost>(), (int)(projectile.damage * 0.5), projectile.knockBack, projectile.owner, 0f, 0f);
+						Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X * 0.25f, projectile.velocity.Y * 0.25f, ModContent.ProjectileType<PhantasmalRuinGhost>(), (int)(projectile.damage * 0.5), projectile.knockBack, projectile.owner);
 					}
 					else
 					{
-						Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X * 0f, Main.rand.NextFloat(-2,2), ModContent.ProjectileType<LostSoulFriendly>(), (int)(projectile.damage * 0.5), projectile.knockBack, projectile.owner, 0f, 0f);
+						Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, Main.rand.NextFloat(-2,2), ModContent.ProjectileType<LostSoulFriendly>(), (int)(projectile.damage * 0.5), projectile.knockBack, projectile.owner, 1f);
 					}
 				}
 			}
@@ -58,54 +58,34 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
+			OnHitEffects();
+		}
+
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+			OnHitEffects();
+		}
+
+		private void OnHitEffects()
+		{
 			float spread = 45f * 0.0174f;
 			double startAngle = Math.Atan2(projectile.velocity.X, projectile.velocity.Y) - spread / 2;
 			double deltaAngle = spread / 8f;
 			double offsetAngle;
-			int i;
 			if (projectile.owner == Main.myPlayer)
 			{
 				if (Main.player[projectile.owner].ownedProjectileCounts[ModContent.ProjectileType<PhantasmalSoul>()] < 4)
 				{
-					for (i = 0; i < 4; i++)
+					for (int i = 0; i < 4; i++)
 					{
 						float ai1 = Main.rand.NextFloat() + 0.5f;
 						float randomSpeed = (float)Main.rand.Next(1, 7);
 						float randomSpeed2 = (float)Main.rand.Next(1, 7);
 						offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-						int num23 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f) + randomSpeed, ModContent.ProjectileType<PhantasmalSoul>(), (int)((double)projectile.damage * 0.05), 0f, projectile.owner, 1f, ai1);
-						int num24 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f) + randomSpeed2, ModContent.ProjectileType<PhantasmalSoul>(), (int)((double)projectile.damage * 0.05), 0f, projectile.owner, 1f, ai1);
+						int num23 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f) + randomSpeed, ModContent.ProjectileType<PhantasmalSoul>(), (int)(projectile.damage * 0.05), 0f, projectile.owner, 1f, ai1);
+						int num24 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f) + randomSpeed2, ModContent.ProjectileType<PhantasmalSoul>(), (int)(projectile.damage * 0.05), 0f, projectile.owner, 1f, ai1);
 					}
 				}
-				else
-				{
-					damage = (int)(damage * 0.9);
-				}
-			}
-		}
-
-        public override void OnHitPvp(Player target, int damage, bool crit)
-        {
-			float spread = 45f * 0.0174f;
-			double startAngle = Math.Atan2(projectile.velocity.X, projectile.velocity.Y) - spread / 2;
-			double deltaAngle = spread / 8f;
-			double offsetAngle;
-			int i;
-			if (projectile.owner == Main.myPlayer && Main.player[projectile.owner].ownedProjectileCounts[ModContent.ProjectileType<PhantasmalSoul>()] < 4)
-			{
-				for (i = 0; i < 4; i++)
-				{
-					float ai1 = Main.rand.NextFloat() + 0.5f;
-					float randomSpeed = (float)Main.rand.Next(1, 7);
-					float randomSpeed2 = (float)Main.rand.Next(1, 7);
-					offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-					int num23 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f) + randomSpeed, ModContent.ProjectileType<PhantasmalSoul>(), (int)((double)projectile.damage * 0.05), 0f, projectile.owner, 1f, ai1);
-					int num24 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f) + randomSpeed2, ModContent.ProjectileType<PhantasmalSoul>(), (int)((double)projectile.damage * 0.05), 0f, projectile.owner, 1f, ai1);
-				}
-			}
-			else
-			{
-				damage = (int)(damage * 0.9);
 			}
 		}
     }

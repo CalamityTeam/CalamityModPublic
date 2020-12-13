@@ -66,8 +66,9 @@ namespace CalamityMod.Items.Weapons.Rogue
 			modPlayer.killSpikyBalls = false;
             if (modPlayer.StealthStrikeAvailable()) //setting the stealth strike
             {
-                int stealth = Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<SkyStabberProj>(), damage, knockBack, player.whoAmI, 0f, 0f);
-                Main.projectile[stealth].Calamity().stealthStrike = true;
+                int stealth = Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<SkyStabberProj>(), damage, knockBack, player.whoAmI);
+				if (stealth.WithinBounds(Main.maxProjectiles))
+					Main.projectile[stealth].Calamity().stealthStrike = true;
                 return false;
             }
             return true;

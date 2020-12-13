@@ -79,7 +79,8 @@ namespace CalamityMod.Items.Mounts
                 int damage = (int)(180 * player.AverageDamage());
                 float kb = 1f;
                 Projectile birb = Projectile.NewProjectileDirect(pos, vel, ModContent.ProjectileType<Minibirb>(), damage, kb, player.whoAmI);
-                birb.Calamity().forceTypeless = true;
+				if (birb.whoAmI.WithinBounds(Main.maxProjectiles))
+					birb.Calamity().forceTypeless = true;
             }
         }
     }

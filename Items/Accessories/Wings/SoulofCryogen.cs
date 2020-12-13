@@ -84,8 +84,11 @@ namespace CalamityMod.Items.Accessories.Wings
 				if (player.controlJump && !player.jumpAgainCloud && player.jump == 0 && player.velocity.Y != 0f && !player.mount.Active && !player.mount.Cart)
 				{
 					int p = Projectile.NewProjectile(player.Center.X, player.Center.Y, player.velocity.X * 0f, 2f, ModContent.ProjectileType<FrostShardFriendly>(), (int)(25 * player.AverageDamage()), 3f, player.whoAmI, 1f);
-					Main.projectile[p].Calamity().forceTypeless = true;
-					Main.projectile[p].frame = Main.rand.Next(5);
+					if (p.WithinBounds(Main.maxProjectiles))
+					{
+						Main.projectile[p].Calamity().forceTypeless = true;
+						Main.projectile[p].frame = Main.rand.Next(5);
+					}
 					modPlayer.icicleCooldown = 10;
 				}
 			}

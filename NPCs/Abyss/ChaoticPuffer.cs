@@ -51,7 +51,7 @@ namespace CalamityMod.NPCs.Abyss
             npc.velocity.X = npc.velocity.X + (float)npc.direction * 0.03f;
             npc.velocity.Y = npc.velocity.Y + (float)npc.directionY * 0.03f;
 
-            npc.damage = puffedUp ? (Main.expertMode ? 230 : 115) : 0;
+            npc.damage = puffedUp ? (Main.expertMode ? 175 : 100) : 0;
 
 
             if (!puffing || !unpuffing)
@@ -121,7 +121,7 @@ namespace CalamityMod.NPCs.Abyss
             Main.PlaySound(SoundID.NPCDeath14, (int)npc.position.X, (int)npc.position.Y);
             if (Main.netMode != NetmodeID.MultiplayerClient && puffedUp)
             {
-                int damageBoom = 100;
+                int damageBoom = 45;
                 int projectileType = ModContent.ProjectileType<PufferExplosion>();
                 int boom = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 0, 0, projectileType, damageBoom, 0f, Main.myPlayer, 0f, 0f);
             }
@@ -206,7 +206,11 @@ namespace CalamityMod.NPCs.Abyss
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.player.Calamity().ZoneAbyssLayer4 && spawnInfo.water)
+            if (spawnInfo.player.Calamity().ZoneAbyssLayer2 && spawnInfo.water)
+            {
+                return SpawnCondition.CaveJellyfish.Chance * 0.4f;
+            }
+            if (spawnInfo.player.Calamity().ZoneAbyssLayer3 && spawnInfo.water)
             {
                 return SpawnCondition.CaveJellyfish.Chance * 0.6f;
             }

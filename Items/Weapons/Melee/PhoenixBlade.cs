@@ -38,12 +38,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             if (target.life <= 0)
             {
-                int boom = Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<FuckYou>(), (int)(item.damage * (player.allDamage + player.meleeDamage - 1f)), knockback, player.whoAmI, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
-                Main.projectile[boom].Calamity().forceMelee = true;
-                float randomSpeedX = (float)Main.rand.Next(5);
-                float randomSpeedY = (float)Main.rand.Next(3, 7);
-                Projectile.NewProjectile(target.Center.X, target.Center.Y, -randomSpeedX, -randomSpeedY, ModContent.ProjectileType<PhoenixHeal>(), (int)(item.damage * player.MeleeDamage()), knockback, player.whoAmI);
-                Projectile.NewProjectile(target.Center.X, target.Center.Y, randomSpeedX, -randomSpeedY, ModContent.ProjectileType<PhoenixHeal>(), (int)(item.damage * player.MeleeDamage()), knockback, player.whoAmI);
+				OnHitEffects(player, target.Center, knockback);
             }
         }
 
@@ -51,13 +46,19 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             if (target.statLife <= 0)
             {
-                int boom = Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<FuckYou>(), (int)(item.damage * (player.allDamage + player.meleeDamage - 1f)), item.knockBack, player.whoAmI, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
-                Main.projectile[boom].Calamity().forceMelee = true;
-                float randomSpeedX = (float)Main.rand.Next(5);
-                float randomSpeedY = (float)Main.rand.Next(3, 7);
-                Projectile.NewProjectile(target.Center.X, target.Center.Y, -randomSpeedX, -randomSpeedY, ModContent.ProjectileType<PhoenixHeal>(), (int)(item.damage * (player.allDamage + player.meleeDamage - 1f)), item.knockBack, player.whoAmI);
-                Projectile.NewProjectile(target.Center.X, target.Center.Y, randomSpeedX, -randomSpeedY, ModContent.ProjectileType<PhoenixHeal>(), (int)(item.damage * (player.allDamage + player.meleeDamage - 1f)), item.knockBack, player.whoAmI);
-            }
+				OnHitEffects(player, target.Center, item.knockBack);
+			}
+		}
+
+		private void OnHitEffects(Player player, Vector2 targetPos, float kBack)
+		{
+			int boom = Projectile.NewProjectile(targetPos, Vector2.Zero, ModContent.ProjectileType<FuckYou>(), (int)(item.damage * player.MeleeDamage()), kBack, player.whoAmI, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
+			if (boom.WithinBounds(Main.maxProjectiles))
+				Main.projectile[boom].Calamity().forceMelee = true;
+			float randomSpeedX = (float)Main.rand.Next(5);
+			float randomSpeedY = (float)Main.rand.Next(3, 7);
+			Projectile.NewProjectile(targetPos.X, targetPos.Y, -randomSpeedX, -randomSpeedY, ModContent.ProjectileType<PhoenixHeal>(), (int)(item.damage * player.MeleeDamage()), kBack, player.whoAmI);
+			Projectile.NewProjectile(targetPos.X, targetPos.Y, randomSpeedX, -randomSpeedY, ModContent.ProjectileType<PhoenixHeal>(), (int)(item.damage * player.MeleeDamage()), kBack, player.whoAmI);
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)

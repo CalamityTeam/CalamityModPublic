@@ -63,15 +63,17 @@ namespace CalamityMod.NPCs.Perforator
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.playerSafe || NPC.AnyNPCs(ModContent.NPCType<PerforatorCyst>()) || NPC.AnyNPCs(ModContent.NPCType<PerforatorHive>()) || spawnInfo.player.Calamity().crimsonLore)
+			bool crimson = TileID.Sets.Crimson[spawnInfo.spawnTileType] || spawnInfo.spawnTileType == TileID.Crimtane && spawnInfo.player.ZoneCrimson;
+            if (spawnInfo.playerSafe || NPC.AnyNPCs(ModContent.NPCType<PerforatorCyst>()) || NPC.AnyNPCs(ModContent.NPCType<PerforatorHive>()) || spawnInfo.player.Calamity().crimsonLore || !crimson)
             {
                 return 0f;
             }
-            else if (NPC.downedBoss2 && !CalamityWorld.downedPerforator)
+
+            if (NPC.downedBoss2 && !CalamityWorld.downedPerforator)
             {
-                return SpawnCondition.Crimson.Chance * 1.5f;
+                return 1.5f;
             }
-            return SpawnCondition.Crimson.Chance * (Main.hardMode ? 0.05f : 0.5f);
+            return Main.hardMode ? 0.05f : 0.5f;
         }
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)

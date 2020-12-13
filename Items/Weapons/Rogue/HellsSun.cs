@@ -69,10 +69,13 @@ namespace CalamityMod.Items.Weapons.Rogue
 			modPlayer.killSpikyBalls = false;
             if (modPlayer.StealthStrikeAvailable()) //setting the stealth strike
             {
-                int stealth = Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<HellsSunProj>(), (int)(damage * SdamageMult), knockBack, player.whoAmI, 0f, 0f);
-                Main.projectile[stealth].Calamity().stealthStrike = true;
-                Main.projectile[stealth].penetrate = -1;
-                Main.projectile[stealth].timeLeft = 2400;
+                int stealth = Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<HellsSunProj>(), (int)(damage * SdamageMult), knockBack, player.whoAmI);
+				if (stealth.WithinBounds(Main.maxProjectiles))
+				{
+					Main.projectile[stealth].Calamity().stealthStrike = true;
+					Main.projectile[stealth].penetrate = -1;
+					Main.projectile[stealth].timeLeft = 2400;
+				}
                 return false;
             }
             return true;

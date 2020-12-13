@@ -82,10 +82,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void Kill(int timeLeft)
         {
-            projectile.position = projectile.Center;
-            projectile.width = projectile.height = 192;
-            projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
-            projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
+			CalamityGlobalProjectile.ExpandHitboxBy(projectile, 192);
             projectile.maxPenetrate = -1;
             projectile.penetrate = -1;
             projectile.usesLocalNPCImmunity = true;
@@ -122,9 +119,12 @@ namespace CalamityMod.Projectiles.Ranged
                     }
                     velocity.Normalize();
                     velocity *= (float)Main.rand.Next(70, 101) * 0.1f;
-                    int flames = Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<TotalityFire>(), (int)(projectile.damage * 0.33), 0f, projectile.owner, 0f, 0f);
-					Main.projectile[flames].Calamity().forceRanged = true;
-					Main.projectile[flames].penetrate = 3;
+                    int flames = Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<TotalityFire>(), (int)(projectile.damage * 0.33), 0f, projectile.owner);
+					if (flames.WithinBounds(Main.maxProjectiles))
+					{
+						Main.projectile[flames].penetrate = 3;
+						Main.projectile[flames].Calamity().forceRanged = true;
+					}
                 }
             }
         }

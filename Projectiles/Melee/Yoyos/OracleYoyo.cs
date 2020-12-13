@@ -221,8 +221,11 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
                     if (projectile.owner == Main.myPlayer)
                     {
                         Projectile p = Projectile.NewProjectileDirect(target.Center, Vector2.Zero, ModContent.ProjectileType<DirectStrike>(), finalDamage, 0f, projectile.owner, i);
-                        p.melee = true;
-                        p.Calamity().forceMelee = true;
+						if (p.whoAmI.WithinBounds(Main.maxProjectiles))
+						{
+							p.melee = true;
+							p.Calamity().forceMelee = true;
+						}
                     }
                 }
             }

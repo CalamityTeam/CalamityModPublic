@@ -80,15 +80,21 @@ namespace CalamityMod.Items.Weapons.Melee
 
         private void OnHitEffects(Player player)
         {
-            if (!player.immune)
+			bool isImmune = false;
+			for (int j = 0; j < player.hurtCooldowns.Length; j++)
+			{
+				if (player.hurtCooldowns[j] > 0)
+					isImmune = true;
+			}
+			if (!isImmune)
             {
                 player.immune = true;
-                if (player.immuneTime < 10)
-                    player.immuneTime = 10;
-                if (player.hurtCooldowns[0] < 10)
-                    player.hurtCooldowns[0] = 10;
-                if (player.hurtCooldowns[1] < 10)
-                    player.hurtCooldowns[1] = 10;
+                if (player.immuneTime < item.useTime)
+                    player.immuneTime = item.useTime;
+                if (player.hurtCooldowns[0] < item.useTime)
+                    player.hurtCooldowns[0] = item.useTime;
+                if (player.hurtCooldowns[1] < item.useTime)
+                    player.hurtCooldowns[1] = item.useTime;
             }
 
             if (player.whoAmI == Main.myPlayer)

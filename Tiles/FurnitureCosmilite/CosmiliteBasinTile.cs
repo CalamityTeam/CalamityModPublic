@@ -17,15 +17,17 @@ namespace CalamityMod.Tiles.FurnitureCosmilite
 		{
 			Main.tileLighted[Type] = true;
 			Main.tileFrameImportant[Type] = true;
-			Main.tileLavaDeath[Type] = true;
+			Main.tileLavaDeath[Type] = false;
 
 			TileObjectData.newTile.CopyFrom(TileObjectData.Style3x3);
+            TileObjectData.newTile.LavaDeath = false;
 			TileObjectData.addTile(Type);
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Cosmilite Basin");
 			AddMapEntry(new Color(238, 145, 105), name);
             animationFrameHeight = 54;
             adjTiles = new int[] { TileID.Torches };
+			AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTorch);
         }
 
         public override bool CreateDust(int i, int j, ref int type)

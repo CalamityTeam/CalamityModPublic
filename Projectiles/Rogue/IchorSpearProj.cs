@@ -48,11 +48,14 @@ namespace CalamityMod.Projectiles.Rogue
 					if (projectile.owner == Main.myPlayer)
 					{
 						Vector2 velocity = new Vector2(Main.rand.NextFloat(-14f, 14f), Main.rand.NextFloat(-14f, 14f));
-						int ichor = Projectile.NewProjectile(projectile.Center, velocity, Main.rand.NextBool(2) ? ProjectileID.GoldenShowerFriendly : ProjectileID.IchorSplash, (int)(projectile.damage * 0.5), projectile.knockBack * 0.5f, projectile.owner, 0f, 0f);
-            			Main.projectile[ichor].Calamity().forceRogue = true;
-            			Main.projectile[ichor].usesLocalNPCImmunity = true;
-						Main.projectile[ichor].localNPCHitCooldown = 10;
-						Main.projectile[ichor].extraUpdates = 2;
+						int ichor = Projectile.NewProjectile(projectile.Center, velocity, Main.rand.NextBool(2) ? ProjectileID.GoldenShowerFriendly : ProjectileID.IchorSplash, (int)(projectile.damage * 0.5), projectile.knockBack * 0.5f, projectile.owner);
+						if (ichor.WithinBounds(Main.maxProjectiles))
+						{
+							Main.projectile[ichor].Calamity().forceRogue = true;
+							Main.projectile[ichor].usesLocalNPCImmunity = true;
+							Main.projectile[ichor].localNPCHitCooldown = 10;
+							Main.projectile[ichor].extraUpdates = 2;
+						}
 					}
                 }
 			}

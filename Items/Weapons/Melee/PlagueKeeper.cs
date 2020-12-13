@@ -53,9 +53,12 @@ namespace CalamityMod.Items.Weapons.Melee
             for (int i = 0; i < 3; i++)
             {
                 int bee = Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, player.beeType(),
-                    player.beeDamage((int)(item.damage * player.MeleeDamage()) / 3), player.beeKB(0f), player.whoAmI, 0f, 0f);
-                Main.projectile[bee].penetrate = 1;
-                Main.projectile[bee].Calamity().forceMelee = true;
+                    player.beeDamage((int)(item.damage * player.MeleeDamage()) / 3), player.beeKB(0f), player.whoAmI);
+				if (bee.WithinBounds(Main.maxProjectiles))
+				{
+					Main.projectile[bee].penetrate = 1;
+					Main.projectile[bee].Calamity().forceMelee = true;
+				}
             }
         }
 
@@ -65,9 +68,12 @@ namespace CalamityMod.Items.Weapons.Melee
             for (int i = 0; i < 3; i++)
             {
                 int bee = Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, player.beeType(),
-                    player.beeDamage((int)(item.damage * player.MeleeDamage()) / 3), player.beeKB(0f), player.whoAmI, 0f, 0f);
-                Main.projectile[bee].penetrate = 1;
-                Main.projectile[bee].Calamity().forceMelee = true;
+                    player.beeDamage((int)(item.damage * player.MeleeDamage()) / 3), player.beeKB(0f), player.whoAmI);
+				if (bee.WithinBounds(Main.maxProjectiles))
+				{
+					Main.projectile[bee].penetrate = 1;
+					Main.projectile[bee].Calamity().forceMelee = true;
+				}
             }
 		}
     }

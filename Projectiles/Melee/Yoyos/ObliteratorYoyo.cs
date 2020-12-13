@@ -105,7 +105,8 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
                 if (projectile.owner == Main.myPlayer)
                 {
                     int proj = Projectile.NewProjectile(laserSpawnPosition, velocity, ModContent.ProjectileType<NebulaShot>(), laserDamage, laserKB, projectile.owner);
-                    Main.projectile[proj].Calamity().forceMelee = true;
+					if (proj.WithinBounds(Main.maxProjectiles))
+						Main.projectile[proj].Calamity().forceMelee = true;
                 }
             }
         }

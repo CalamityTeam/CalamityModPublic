@@ -52,8 +52,9 @@ namespace CalamityMod.Projectiles.Rogue
                 if (projectile.localAI[0] % 40 == 0 && projectile.ai[0] == 1f)
                 {
                     Vector2 projspeed = new Vector2(Main.rand.NextFloat(-4f, 4f), Main.rand.NextFloat(-4f, 4f));
-                    int proj = Projectile.NewProjectile(projectile.Center, projspeed, ModContent.ProjectileType<SulphuricAcidBubbleFriendly>(), (int)(projdmg * 0.5f), 1f, projectile.owner, 0f, 0f);
-                    Main.projectile[proj].Calamity().forceRogue = true;
+                    int proj = Projectile.NewProjectile(projectile.Center, projspeed, ModContent.ProjectileType<SulphuricAcidBubbleFriendly>(), (int)(projdmg * 0.5f), 1f, projectile.owner);
+					if (proj.WithinBounds(Main.maxProjectiles))
+						Main.projectile[proj].Calamity().forceRogue = true;
                 }
                 return false;
             }

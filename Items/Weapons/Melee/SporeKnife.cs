@@ -53,8 +53,9 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             if (target.life <= 0)
             {
-                int proj = Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, Main.rand.Next(569, 572), (int)(item.damage * (player.allDamage + player.meleeDamage - 1f)), knockback, Main.myPlayer);
-                Main.projectile[proj].Calamity().forceMelee = true;
+                int proj = Projectile.NewProjectile(target.Center, Vector2.Zero, Main.rand.Next(569, 572), (int)(item.damage * player.MeleeDamage()), knockback, Main.myPlayer);
+				if (proj.WithinBounds(Main.maxProjectiles))
+					Main.projectile[proj].Calamity().forceMelee = true;
             }
         }
 
@@ -62,8 +63,9 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             if (target.statLife <= 0)
             {
-                int proj = Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, Main.rand.Next(569, 572), (int)(item.damage * (player.allDamage + player.meleeDamage - 1f)), item.knockBack, Main.myPlayer);
-                Main.projectile[proj].Calamity().forceMelee = true;
+                int proj = Projectile.NewProjectile(target.Center, Vector2.Zero, Main.rand.Next(569, 572), (int)(item.damage * player.MeleeDamage()), item.knockBack, Main.myPlayer);
+				if (proj.WithinBounds(Main.maxProjectiles))
+					Main.projectile[proj].Calamity().forceMelee = true;
             }
         }
     }

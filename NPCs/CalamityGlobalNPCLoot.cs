@@ -1429,23 +1429,6 @@ namespace CalamityMod.NPCs
                 case NPCID.Reaper:
                 case NPCID.Psycho:
                     DropHelper.DropItemCondition(npc, ModContent.ItemType<SolarVeil>(), CalamityWorld.downedCalamitas || NPC.downedPlantBoss, Main.expertMode ? 0.75f : 0.5f, 1, 4);
-                    DropHelper.DropItemCondition(npc, ModContent.ItemType<DarksunFragment>(), CalamityWorld.downedDoG, Main.expertMode ? 0.06f : 0.04f, 1, 1);
-                    break;
-
-				//other solar eclipse creatures
-                case NPCID.Eyezor:
-                case NPCID.Frankenstein:
-                case NPCID.SwampThing:
-                case NPCID.Vampire:
-                case NPCID.VampireBat:
-                case NPCID.CreatureFromTheDeep:
-                case NPCID.Fritz:
-                case NPCID.ThePossessed:
-                case NPCID.Butcher:
-                case NPCID.DeadlySphere:
-                case NPCID.DrManFly:
-                case NPCID.Nailhead:
-                    DropHelper.DropItemCondition(npc, ModContent.ItemType<DarksunFragment>(), CalamityWorld.downedDoG, Main.expertMode ? 0.06f : 0.04f, 1, 1);
                     break;
 
                 case NPCID.MartianOfficer:
@@ -1575,8 +1558,33 @@ namespace CalamityMod.NPCs
 				}
 			}
 
-			if (npc.type == NPCID.Mothron)
-				DropHelper.DropItem(npc, ModContent.ItemType<DarksunFragment>(), 10, 20);
+			if (eclipse)
+			{
+				switch (npc.type)
+				{
+					case NPCID.Reaper:
+					case NPCID.Psycho:
+					case NPCID.Eyezor:
+					case NPCID.Frankenstein:
+					case NPCID.SwampThing:
+					case NPCID.Vampire:
+					case NPCID.VampireBat:
+					case NPCID.CreatureFromTheDeep:
+					case NPCID.Fritz:
+					case NPCID.ThePossessed:
+					case NPCID.Butcher:
+					case NPCID.DeadlySphere:
+					case NPCID.DrManFly:
+						DropHelper.DropItemChance(npc, ModContent.ItemType<DarksunFragment>(), Main.expertMode ? 0.06f : 0.04f);
+						break;
+					case NPCID.Nailhead:
+						DropHelper.DropItem(npc, ModContent.ItemType<DarksunFragment>(), 3, 5);
+						break;
+					case NPCID.Mothron:
+						DropHelper.DropItem(npc, ModContent.ItemType<DarksunFragment>(), 10, 20);
+						break;
+				}
+			}
 		}
         #endregion
     }

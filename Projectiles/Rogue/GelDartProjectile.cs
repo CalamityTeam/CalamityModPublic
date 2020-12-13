@@ -36,10 +36,13 @@ namespace CalamityMod.Projectiles.Rogue
 				if (projectile.timeLeft % 8 == 0)
 				{
 					Vector2 velocity = new Vector2(Main.rand.NextFloat(-7f, 7f), Main.rand.NextFloat(-7f, 7f));
-					int flame = Projectile.NewProjectile(projectile.Center, velocity, ProjectileID.SlimeGun, (int)(projectile.damage * 0.5), projectile.knockBack * 0.5f, projectile.owner, 0f, 0f);
-					Main.projectile[flame].Calamity().forceRogue = true;
-					Main.projectile[flame].usesLocalNPCImmunity = true;
-					Main.projectile[flame].localNPCHitCooldown = 10;
+					int slime = Projectile.NewProjectile(projectile.Center, velocity, ProjectileID.SlimeGun, (int)(projectile.damage * 0.5), projectile.knockBack * 0.5f, projectile.owner);
+					if (slime.WithinBounds(Main.maxProjectiles))
+					{
+						Main.projectile[slime].Calamity().forceRogue = true;
+						Main.projectile[slime].usesLocalNPCImmunity = true;
+						Main.projectile[slime].localNPCHitCooldown = 10;
+					}
                 }
 			}
 		}

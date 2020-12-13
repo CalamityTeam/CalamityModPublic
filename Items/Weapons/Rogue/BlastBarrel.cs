@@ -43,7 +43,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 
             //unitY additive is do it doesn't exploe initially
             int p = Projectile.NewProjectile(position - Vector2.UnitY * 12f, initialVelocity, type, damage, knockBack, player.whoAmI);
-            if (player.Calamity().StealthStrikeAvailable())
+            if (player.Calamity().StealthStrikeAvailable() && p.WithinBounds(Main.maxProjectiles))
                 Main.projectile[p].Calamity().stealthStrike = true;
             return false;
         }

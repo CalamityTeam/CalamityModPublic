@@ -47,7 +47,6 @@ namespace CalamityMod.World
     {
         #region Vars
         public static int DoGSecondStageCountdown = 0;
-        public static bool dragonScalesBought = false;
         private const int saveVersion = 0;
         public static int ArmoredDiggerSpawnCooldown = 0;
         public static int MoneyStolenByBandit = 0;
@@ -297,7 +296,6 @@ namespace CalamityMod.World
             defiled = false;
             armageddon = false;
             ironHeart = false;
-            dragonScalesBought = false;
             rainingAcid = false;
             downedEoCAcidRain = false;
             downedAquaticScourgeAcidRain = false;
@@ -391,8 +389,6 @@ namespace CalamityMod.World
                 downed.Add("clam");
             if (downedCLAMHardMode)
                 downed.Add("clamHardmode");
-            if (dragonScalesBought)
-                downed.Add("scales");
             if (rainingAcid)
                 downed.Add("acidRain");
             if (spawnedBandit)
@@ -530,7 +526,6 @@ namespace CalamityMod.World
             BossRushEvent.BossRushActive = downed.Contains("bossRushActive");
             downedCLAM = downed.Contains("clam");
             downedCLAMHardMode = downed.Contains("clamHardmode");
-            dragonScalesBought = downed.Contains("scales");
             rainingAcid = downed.Contains("acidRain");
 
             spawnedBandit = downed.Contains("bandit");
@@ -653,7 +648,7 @@ namespace CalamityMod.World
                 BossRushEvent.BossRushActive = flags7[0];
                 downedBoomerDuke = flags7[1];
                 downedCLAM = flags7[2];
-                dragonScalesBought = flags7[3];
+                _ = flags7[3];
                 rainingAcid = flags7[4];
                 downedEoCAcidRain = flags7[5];
                 downedAquaticScourgeAcidRain = flags7[6];
@@ -764,7 +759,7 @@ namespace CalamityMod.World
             flags7[0] = BossRushEvent.BossRushActive;
             flags7[1] = downedBoomerDuke;
             flags7[2] = downedCLAM;
-            flags7[3] = dragonScalesBought;
+            flags7[3] = false;
             flags7[4] = rainingAcid;
             flags7[5] = downedEoCAcidRain;
             flags7[6] = downedAquaticScourgeAcidRain;
@@ -885,7 +880,7 @@ namespace CalamityMod.World
             BossRushEvent.BossRushActive = flags7[0];
             downedBoomerDuke = flags7[1];
             downedCLAM = flags7[2];
-            dragonScalesBought = flags7[3];
+            _ = flags7[3];
             rainingAcid = flags7[4];
             downedEoCAcidRain = flags7[5];
             downedAquaticScourgeAcidRain = flags7[6];

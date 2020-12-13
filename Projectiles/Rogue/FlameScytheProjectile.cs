@@ -71,7 +71,8 @@ namespace CalamityMod.Projectiles.Rogue
 			if (projectile.owner == Main.myPlayer)
 			{
 				int proj = Projectile.NewProjectile(position, Vector2.Zero, ModContent.ProjectileType<FuckYou>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
-				Main.projectile[proj].Calamity().forceRogue = true;
+				if (proj.WithinBounds(Main.maxProjectiles))
+					Main.projectile[proj].Calamity().forceRogue = true;
 				if (projectile.Calamity().stealthStrike && projectile.localAI[0] <= 0f)
 				{
 					Point result;

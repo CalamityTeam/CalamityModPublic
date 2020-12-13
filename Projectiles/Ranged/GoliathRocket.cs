@@ -106,10 +106,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void Kill(int timeLeft)
         {
-            projectile.position = projectile.Center;
-            projectile.width = projectile.height = 160;
-            projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
-            projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
+			CalamityGlobalProjectile.ExpandHitboxBy(projectile, 160);
             projectile.maxPenetrate = -1;
             projectile.penetrate = -1;
             projectile.usesLocalNPCImmunity = true;
@@ -131,9 +128,12 @@ namespace CalamityMod.Projectiles.Ranged
                         value20 -= value21 * (float)num517;
                         num518 += projectile.oldVelocity.X / 6f;
                         num519 += projectile.oldVelocity.Y / 6f;
-                        int num520 = Projectile.NewProjectile(value20.X, value20.Y, num518, num519, Main.player[projectile.owner].beeType(), Main.player[projectile.owner].beeDamage(projectile.damage), Main.player[projectile.owner].beeKB(0f), Main.myPlayer, 0f, 0f);
-                        Main.projectile[num520].penetrate = 2;
-                        Main.projectile[num520].Calamity().forceRanged = true;
+                        int bee = Projectile.NewProjectile(value20.X, value20.Y, num518, num519, Main.player[projectile.owner].beeType(), Main.player[projectile.owner].beeDamage(projectile.damage), Main.player[projectile.owner].beeKB(0f), Main.myPlayer);
+						if (bee.WithinBounds(Main.maxProjectiles))
+						{
+							Main.projectile[bee].penetrate = 2;
+							Main.projectile[bee].Calamity().forceRanged = true;
+						}
                     }
                 }
             }

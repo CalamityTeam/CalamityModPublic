@@ -9,7 +9,7 @@ namespace CalamityMod.Tiles.FurnitureStratus
     {
         public override void SetDefaults()
         {
-            this.SetUpPlatform();
+            this.SetUpPlatform(true);
             AddMapEntry(new Color(191, 142, 111));
             drop = ModContent.ItemType<Items.Placeables.FurnitureStratus.StratusPlatform>();
             disableSmartCursor = true;

@@ -68,7 +68,8 @@ namespace CalamityMod.Projectiles.Rogue
                 {
                     Vector2 projspeed = new Vector2(Main.rand.NextFloat(-8f, 8f), Main.rand.NextFloat(-8f, 8f));
 					int shard = Projectile.NewProjectile(projectile.Center, projspeed, ProjectileID.CrystalShard, (int)(projectile.damage * 0.4f), 2f, projectile.owner);
-					Main.projectile[shard].Calamity().forceRogue = true;
+					if (shard.WithinBounds(Main.maxProjectiles))
+						Main.projectile[shard].Calamity().forceRogue = true;
                 }
             }
         }

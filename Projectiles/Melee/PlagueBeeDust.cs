@@ -60,9 +60,12 @@ namespace CalamityMod.Projectiles.Melee
 					{
 						int spawnX = (int)(projectile.width / 2);
 						int spawnY = (int)(projectile.width / 2);
-						int bee = Projectile.NewProjectile(projectile.Center.X + (float)Main.rand.Next(-spawnX, spawnX), projectile.Center.Y + (float)Main.rand.Next(-spawnY, spawnY), projectile.velocity.X, projectile.velocity.Y, player.beeType(), player.beeDamage(projectile.damage / 3), player.beeKB(0f), projectile.owner, 0f, 0f);
-						Main.projectile[bee].penetrate = 1;
-						Main.projectile[bee].Calamity().forceMelee = true;
+						int bee = Projectile.NewProjectile(projectile.Center.X + (float)Main.rand.Next(-spawnX, spawnX), projectile.Center.Y + (float)Main.rand.Next(-spawnY, spawnY), projectile.velocity.X, projectile.velocity.Y, player.beeType(), player.beeDamage(projectile.damage / 3), player.beeKB(0f), projectile.owner);
+						if (bee.WithinBounds(Main.maxProjectiles))
+						{
+							Main.projectile[bee].Calamity().forceMelee = true;
+							Main.projectile[bee].penetrate = 1;
+						}
 					}
 					//Dust
 					int dustType = 89;

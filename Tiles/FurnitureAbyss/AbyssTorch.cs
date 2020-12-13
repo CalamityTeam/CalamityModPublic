@@ -10,7 +10,7 @@ namespace CalamityMod.Tiles.FurnitureAbyss
     {
         public override void SetDefaults()
         {
-            this.SetUpTorch(waterImmune: true);
+            this.SetUpTorch(true, true);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Abyss Torch");
             AddMapEntry(new Color(253, 221, 3), name);

@@ -65,9 +65,12 @@ namespace CalamityMod.Items.Weapons.Magic
 					ProjectileID.TiedEighthNote
 				});
                 int note = Projectile.NewProjectile(position.X, position.Y, speedX * 0.75f, speedY * 0.75f, noteProj, (int)(damage * 0.75), knockBack, player.whoAmI);
-				Main.projectile[note].Calamity().forceMagic = true; //why are these notes also internally ranged
-				Main.projectile[note].usesLocalNPCImmunity = true;
-				Main.projectile[note].localNPCHitCooldown = 10;
+				if (note.WithinBounds(Main.maxProjectiles))
+				{
+					Main.projectile[note].Calamity().forceMagic = true; //why are these notes also internally ranged
+					Main.projectile[note].usesLocalNPCImmunity = true;
+					Main.projectile[note].localNPCHitCooldown = 10;
+				}
             }
             return false;
         }
