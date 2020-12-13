@@ -48,8 +48,6 @@ namespace CalamityMod.Projectiles.Rogue
             }
 
             ShootTimer++;
-            if (ShootTimer == 1f && modPlayer.StealthStrikeAvailable())
-                projectile.Calamity().stealthStrike = true;
 
             if (!projectile.Calamity().stealthStrike && projectile.oldPos.Length != 6)
                 projectile.oldPos = new Vector2[6];

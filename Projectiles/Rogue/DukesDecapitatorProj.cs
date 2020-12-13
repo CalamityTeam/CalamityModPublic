@@ -43,18 +43,13 @@ namespace CalamityMod.Projectiles.Rogue
 				projectile.velocity.Y *= 0.99f;
 			}
 			projectile.ai[0] += 1f;
-			if(projectile.ai[0] == 1f && modPlayer.StealthStrikeAvailable())
-			{
-				stealthBubbles = true;
-                projectile.Calamity().stealthStrike = true;
-			}
 			if (projectile.ai[0] == 5f)
 				projectile.tileCollide = true;
 
         	if ((projectile.ai[0] % 15f) == 0f && rotationAmount > 0)
         	{
 				rotationAmount -= 0.05f;
-				if(stealthBubbles == true && projectile.owner == Main.myPlayer)
+				if (modPlayer.StealthStrikeAvailable() && projectile.owner == Main.myPlayer)
         		{
 					float velocityX = Main.rand.NextFloat(-0.8f, 0.8f);
 					float velocityY = Main.rand.NextFloat(-0.8f, -0.8f);
