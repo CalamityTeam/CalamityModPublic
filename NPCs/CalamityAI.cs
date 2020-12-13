@@ -3681,12 +3681,6 @@ namespace CalamityMod.NPCs
 		{
 			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
-			if (BossRushEvent.BossRushActive)
-			{
-				calamityGlobalNPC.DR = 0.999999f;
-				calamityGlobalNPC.unbreakableDR = true;
-			}
-
 			double lifeRatio = npc.life / (double)npc.lifeMax;
 			int lifePercentage = (int)(100.0 * lifeRatio);
 			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
