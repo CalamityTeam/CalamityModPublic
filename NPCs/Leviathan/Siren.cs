@@ -73,6 +73,7 @@ namespace CalamityMod.NPCs.Leviathan
             npc.buffImmune[ModContent.BuffType<WhisperingDeath>()] = false;
             npc.buffImmune[ModContent.BuffType<SilvaStun>()] = false;
             npc.buffImmune[ModContent.BuffType<SulphuricPoisoning>()] = false;
+            npc.buffImmune[ModContent.BuffType<BanishingFire>()] = false;
             npc.noGravity = true;
             npc.noTileCollide = true;
             npc.HitSound = SoundID.NPCHit1;

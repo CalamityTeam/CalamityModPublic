@@ -70,6 +70,7 @@ namespace CalamityMod.NPCs.Polterghast
             npc.buffImmune[ModContent.BuffType<GodSlayerInferno>()] = false;
             npc.buffImmune[ModContent.BuffType<Nightwither>()] = false;
             npc.buffImmune[ModContent.BuffType<Shred>()] = false;
+            npc.buffImmune[ModContent.BuffType<BanishingFire>()] = false;
             npc.noGravity = true;
             npc.noTileCollide = true;
             npc.netAlways = true;

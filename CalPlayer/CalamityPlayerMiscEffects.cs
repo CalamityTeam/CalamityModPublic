@@ -1053,8 +1053,6 @@ namespace CalamityMod.CalPlayer
 				modPlayer.auralisAurora--;
 			if (modPlayer.auralisAuroraCooldown > 0)
 				modPlayer.auralisAuroraCooldown--;
-			if (modPlayer.angelicActivate > 0)
-				modPlayer.angelicActivate--;
 
 			// Silva invincibility effects
 			if (modPlayer.silvaCountdown > 0 && modPlayer.hasSilvaEffect && modPlayer.silvaSet)
@@ -1900,6 +1898,13 @@ namespace CalamityMod.CalPlayer
 			{
 				modPlayer.prismaticLasers = 1800;
 				player.AddBuff(ModContent.BuffType<PrismaticCooldown>(), CalamityUtils.SecondsToFrames(30f), true);
+			}
+			if (!modPlayer.angelicAlliance && modPlayer.divineBless)
+			{
+				modPlayer.divineBless = false;
+				player.ClearBuff(ModContent.BuffType<DivineBless>());
+				int seconds = CalamityUtils.SecondsToFrames(modPlayer.profanedCrystal ? 90f : 120f);
+				player.AddBuff(ModContent.BuffType<DivineBlessCooldown>(), seconds, false);
 			}
 		}
 		#endregion
@@ -3499,15 +3504,16 @@ namespace CalamityMod.CalPlayer
 
 					bool crystal = modPlayer.profanedCrystal && !modPlayer.profanedCrystalForce;
 					bool summonSet = modPlayer.tarraSummon || modPlayer.bloodflareSummon || modPlayer.godSlayerSummon || modPlayer.silvaSummon || modPlayer.dsSetBonus || modPlayer.omegaBlueSet || modPlayer.fearmongerSet;
+					int guardianAmt = modPlayer.angelicAlliance ? 3 : 1;
 
-					if (player.ownedProjectileCounts[ModContent.ProjectileType<MiniGuardianHealer>()] < 1)
+					if (player.ownedProjectileCounts[ModContent.ProjectileType<MiniGuardianHealer>()] < guardianAmt)
 						Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -6f, ModContent.ProjectileType<MiniGuardianHealer>(), 0, 0f, Main.myPlayer, 0f, 0f);
 
 					if (crystal || player.Calamity().minionSlotStat >= 10)
 					{
 						player.Calamity().gDefense = true;
 
-						if (player.ownedProjectileCounts[ModContent.ProjectileType<MiniGuardianDefense>()] < 1)
+						if (player.ownedProjectileCounts[ModContent.ProjectileType<MiniGuardianDefense>()] < guardianAmt)
 							Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -3f, ModContent.ProjectileType<MiniGuardianDefense>(), 1, 1f, Main.myPlayer, 0f, 0f);
 					}
 
@@ -3515,7 +3521,7 @@ namespace CalamityMod.CalPlayer
 					{
 						player.Calamity().gOffense = true;
 
-						if (player.ownedProjectileCounts[ModContent.ProjectileType<MiniGuardianAttack>()] < 1)
+						if (player.ownedProjectileCounts[ModContent.ProjectileType<MiniGuardianAttack>()] < guardianAmt)
 							Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<MiniGuardianAttack>(), 1, 1f, Main.myPlayer, 0f, 0f);
 					}
 				}
@@ -3554,7 +3560,7 @@ namespace CalamityMod.CalPlayer
 					bool enrage = player.statLife <= (int)(player.statLifeMax2 * 0.5);
 					bool notRetro = Lighting.NotRetro;
 					if (!modPlayer.ZoneAbyss) //No abyss memes.
-						Lighting.AddLight(player.Center, enrage ? 60 : offenseBuffs ? 50 : 10, enrage ? 12 : offenseBuffs ? 10 : 2, 0);
+						Lighting.AddLight(player.Center, enrage ? 6 : offenseBuffs ? 5 : 1, enrage ? 1.2 : offenseBuffs ? 1 : 0.2, 0);
 					if (enrage)
 					{
 						bool special = player.name == "Amber" || player.name == "Nincity" || player.name == "IbanPlay" || player.name == "Chen"; //People who either helped create the item or test it.
@@ -3606,11 +3612,17 @@ namespace CalamityMod.CalPlayer
 				ModContent.ProjectileType<FungalClumpMinion>(),
 				ModContent.ProjectileType<HowlsHeartHowl>(),
 				ModContent.ProjectileType<HowlsHeartCalcifer>(),
-				ModContent.ProjectileType<HowlsHeartTurnipHead>()
+				ModContent.ProjectileType<HowlsHeartTurnipHead>(),
+				ModContent.ProjectileType<MiniGuardianAttack>(),
+				ModContent.ProjectileType<MiniGuardianDefense>(),
+				ModContent.ProjectileType<MiniGuardianHealer>()
 			};
+			int projAmt = 1;
 			for (int i = 0; i < summonDeleteList.Count; i++)
 			{
-				if (player.ownedProjectileCounts[summonDeleteList[i]] > 1)
+				if (i > 9 && modPlayer.angelicAlliance) // PSA donuts
+					projAmt = 3;
+				if (player.ownedProjectileCounts[summonDeleteList[i]] > projAmt)
 				{
 					for (int projIndex = 0; projIndex < Main.maxProjectiles; projIndex++)
 					{
@@ -3765,6 +3777,27 @@ namespace CalamityMod.CalPlayer
 					Main.dust[dusty].noLight = true;
 					Main.dust[dusty].velocity = dustVel;
 				}
+			}
+
+			if (modPlayer.angelicAlliance && Main.myPlayer == player.whoAmI)
+			{
+				for (int l = 0; l < Player.MaxBuffs; l++)
+				{
+					int hasBuff = player.buffType[l];
+					if (hasBuff == ModContent.BuffType<DivineBless>())
+					{
+						modPlayer.angelicActivate = player.buffTime[l];
+					}
+				}
+				if (modPlayer.angelicActivate == 1)
+				{
+					int seconds = CalamityUtils.SecondsToFrames(modPlayer.profanedCrystal ? 90f : 120f);
+					player.AddBuff(ModContent.BuffType<DivineBlessCooldown>(), seconds, false);
+				}
+				if (player.FindBuffIndex(ModContent.BuffType<DivineBless>()) == -1)
+					modPlayer.angelicActivate = -1;
+				if (modPlayer.divineBless)
+					player.allDamage += 0.05f;
 			}
 
 			if (modPlayer.theBee)

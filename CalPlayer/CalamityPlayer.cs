@@ -11,6 +11,7 @@ using CalamityMod.Items.Accessories.Vanity;
 using CalamityMod.Items.Armor;
 using CalamityMod.Items.DifficultyItems;
 using CalamityMod.Items.Dyes;
+using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Mounts;
 using CalamityMod.Items.TreasureBags;
 using CalamityMod.Items.Weapons.Melee;
@@ -615,7 +616,7 @@ namespace CalamityMod.CalPlayer
 		public int roverFrameCounter = 0;
 		public int roverFrame = 0;
 		public bool angelicAlliance = false;
-		public int angelicActivate = 0;
+		public int angelicActivate = -1;
         #endregion
 
         #region Armor Set
@@ -2141,7 +2142,7 @@ namespace CalamityMod.CalPlayer
 			ladHearts = 0;
 			prismaticLasers = 0;
 			roverDriveTimer = 0;
-			angelicActivate = 0;
+			angelicActivate = -1;
 			resetHeightandWidth = false;
 			noLifeRegen = false;
 
@@ -2794,12 +2795,31 @@ namespace CalamityMod.CalPlayer
                     }
                 }
             }
+            if (CalamityMod.AngelicAllianceHotKey.JustPressed && angelicAlliance && Main.myPlayer == player.whoAmI && !divineBless && !divineBlessCooldown)
+            {
+				int seconds = CalamityUtils.SecondsToFrames(profanedCrystal ? 60f : 30f);
+                player.AddBuff(ModContent.BuffType<DivineBless>(), seconds, false);
+                Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<AllianceTriangle>(), 0, 0f, player.whoAmI);
+				Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/AngelicAllianceActivation"), player.Center);
+
+				// Spawn an archangel for every minion you have
+				for (int projIndex = 0; projIndex < Main.maxProjectiles; projIndex++)
+				{
+					Projectile proj = Main.projectile[projIndex];
+					if (proj.minionSlots <= 0f || !proj.IsSummon())
+						continue;
+					if (proj.active && proj.owner == player.whoAmI)
+					{
+						Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<AngelicAllianceArchangel>(), proj.damage / 4, proj.knockBack / 4f, player.whoAmI);
+					}
+				}
+            }
             if (CalamityMod.SandCloakHotkey.JustPressed && sandCloak && Main.myPlayer == player.whoAmI && rogueStealth >= rogueStealthMax * 0.25f &&
                 wearingRogueArmor && rogueStealthMax > 0 && !sandCloakCooldown)
             {
                 player.AddBuff(ModContent.BuffType<SandCloakCooldown>(), 1800, false); //30 seconds
                 rogueStealth -= rogueStealthMax * 0.25f;
-                Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<SandCloakVeil>(), 7, 8, player.whoAmI, 0, 0);
+                Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<SandCloakVeil>(), 7, 8, player.whoAmI);
                 Main.PlaySound(SoundID.Item, player.position, 45);
             }
             if (CalamityMod.SpectralVeilHotKey.JustPressed && spectralVeil && Main.myPlayer == player.whoAmI && rogueStealth >= rogueStealthMax * 0.25f &&
@@ -4369,7 +4389,7 @@ namespace CalamityMod.CalPlayer
 				{
 					damageSource = PlayerDeathReason.ByCustomReason(player.name + " was turned to ashes by the Profaned Goddess.");
 				}
-				if (hFlames)
+				if (hFlames || banishingFire)
 				{
 					damageSource = PlayerDeathReason.ByCustomReason(player.name + " fell prey to their sins.");
 				}
@@ -5106,6 +5126,10 @@ namespace CalamityMod.CalPlayer
             if (providenceLore && hasClassType)
             {
                 damageMult += 0.1;
+            }
+            if (angelicAlliance && heldItem.type == ModContent.ItemType<KnowledgeProvidence>() && !hasClassType)
+            {
+                damageMult += 0.3;
             }
             if (silvaMelee && Main.rand.NextBool(4) && isTrueMelee)
             {

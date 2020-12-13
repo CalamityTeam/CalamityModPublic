@@ -80,6 +80,7 @@ namespace CalamityMod.NPCs.Yharon
             npc.buffImmune[BuffID.CursedInferno] = false;
             npc.buffImmune[ModContent.BuffType<DemonFlames>()] = false;
             npc.buffImmune[ModContent.BuffType<Shred>()] = false;
+            npc.buffImmune[ModContent.BuffType<BanishingFire>()] = false;
 
 			npc.DR_NERD(normalDR, null, null, null, true);
 			CalamityGlobalNPC global = npc.Calamity();

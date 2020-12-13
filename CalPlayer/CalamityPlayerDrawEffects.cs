@@ -5,6 +5,7 @@ using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.Projectiles.Summon;
+using CalamityMod.Projectiles.Typeless;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -472,7 +473,7 @@ namespace CalamityMod.CalPlayer
             int totalMoonlightDyes = drawPlayer.dye.Count(dyeItem => dyeItem.type == ModContent.ItemType<ProfanedMoonlightDye>());
             if (totalMoonlightDyes <= 0)
                 return;
-			CalamityUtils.DrawAuroras(drawPlayer, 5 + (int)MathHelper.Clamp(totalMoonlightDyes, 0f, 4f) * 2, MathHelper.Clamp(totalMoonlightDyes / 3f, 0f, 1f), GetCurrentMoonlightDyeColor(incrementOffsetAngle));
+			CalamityUtils.DrawAuroras(drawPlayer, 5 + (int)MathHelper.Clamp(totalMoonlightDyes, 0f, 4f) * 2, MathHelper.Clamp(totalMoonlightDyes / 3f, 0f, 1f), GetCurrentMoonlightDyeColor(), true);
         });
 
         public static readonly PlayerLayer AuralisAuroraEffects = new PlayerLayer("CalamityMod", "AuralisAurora", PlayerLayer.Body, drawInfo =>
@@ -488,7 +489,7 @@ namespace CalamityMod.CalPlayer
         {
             Player drawPlayer = drawInfo.drawPlayer;
 			CalamityPlayer modPlayer = drawPlayer.Calamity();
-            if (modPlayer.angelicActivate <= 0)
+            if (drawPlayer.ownedProjectileCounts[ModContent.ProjectileType<AllianceTriangle>()] <= 0)
                 return;
 			CalamityUtils.DrawAuroras(drawPlayer, 7, 0.4f, CalamityUtils.ColorSwap(new Color(255, 163, 56), new Color(242, 48, 187), 3f));
         });

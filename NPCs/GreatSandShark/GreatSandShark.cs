@@ -67,6 +67,7 @@ namespace CalamityMod.NPCs.GreatSandShark
             npc.buffImmune[ModContent.BuffType<WarCleave>()] = false;
             npc.buffImmune[ModContent.BuffType<WhisperingDeath>()] = false;
             npc.buffImmune[ModContent.BuffType<SilvaStun>()] = false;
+            npc.buffImmune[ModContent.BuffType<BanishingFire>()] = false;
             npc.behindTiles = true;
             npc.netAlways = true;
             npc.HitSound = SoundID.NPCHit1;

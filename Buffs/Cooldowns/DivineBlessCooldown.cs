@@ -7,7 +7,7 @@ namespace CalamityMod.Buffs.Cooldowns
     {
         public override void SetDefaults()
         {
-            DisplayName.SetDefault("Divine Bless Cooldown");
+            DisplayName.SetDefault("Divine Recharge");
             Description.SetDefault("Your divine powers are recharging");
             Main.debuff[Type] = true;
             Main.pvpBuff[Type] = true;

@@ -1515,8 +1515,7 @@ namespace CalamityMod
 				//Teleport to the player if abnormally far
 				if (playerDist > 2000f)
 				{
-					projectile.position.X = player.Center.X - (float)(projectile.width / 2);
-					projectile.position.Y = player.Center.Y - (float)(projectile.height / 2);
+					projectile.position = player.Center;
 					projectile.netUpdate = true;
 				}
 				//If more than 70 pixels away, move toward the player
@@ -3558,7 +3557,7 @@ namespace CalamityMod
 			spriteBatch.Draw(glowmaskTexture, item.Center - Main.screenPosition, null, Color.White, rotation, origin, 1f, SpriteEffects.None, 0f);
 		}
 
-		public static void DrawAuroras(Player player, float auroraCount, float opacity, Color color)
+		public static void DrawAuroras(Player player, float auroraCount, float opacity, Color color, bool provDye = false)
 		{
             float time = Main.GlobalTime % 3f / 3f;
             Texture2D auroraTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/AuroraTexture");
@@ -3569,6 +3568,11 @@ namespace CalamityMod
                 float yOffset = (float)Math.Sin(time * MathHelper.TwoPi + incrementOffsetAngle * 2f + MathHelper.ToRadians(60f)) * 6f;
                 float rotation = (float)Math.Sin(incrementOffsetAngle) * MathHelper.Pi / 12f;
                 Vector2 offset = new Vector2(xOffset, yOffset - 14f);
+
+				//Profaned Moonlight Dye because it needs to use something inside the loop
+				if (provDye)
+					color = CalamityPlayerDrawEffects.GetCurrentMoonlightDyeColor(incrementOffsetAngle);
+
                 DrawData drawData = new DrawData(auroraTexture,
                                  player.Top + offset - Main.screenPosition,
                                  null,

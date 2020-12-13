@@ -771,7 +771,6 @@ namespace CalamityMod.CalPlayer
 			{
 				player.lifeRegenTime++;
 
-				int lifeRegenTimeMaxBoost2 = 250;
 				int lifeRegenMaxBoost2 = 1;
 				float lifeRegenLifeRegenTimeMaxBoost2 = 4f;
 

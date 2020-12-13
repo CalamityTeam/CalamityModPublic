@@ -83,6 +83,7 @@ namespace CalamityMod.NPCs.Signus
             npc.buffImmune[ModContent.BuffType<WarCleave>()] = false;
             npc.buffImmune[ModContent.BuffType<WhisperingDeath>()] = false;
             npc.buffImmune[ModContent.BuffType<SilvaStun>()] = false;
+            npc.buffImmune[ModContent.BuffType<BanishingFire>()] = false;
             npc.noGravity = true;
             npc.noTileCollide = true;
             npc.netAlways = true;

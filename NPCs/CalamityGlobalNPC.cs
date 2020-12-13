@@ -5,6 +5,7 @@ using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.CalPlayer;
 using CalamityMod.Dusts;
 using CalamityMod.Events;
+using CalamityMod.Items.LoreItems;
 using CalamityMod.NPCs.Abyss;
 using CalamityMod.NPCs.AcidRain;
 using CalamityMod.NPCs.AquaticScourge;
@@ -715,10 +716,26 @@ namespace CalamityMod.NPCs
                 }
             }
 
+			bool allianceBoost = false;
+			if (hFlames > 0)
+			{
+				for (int i = 0; i < Main.maxPlayers; i++)
+				{
+					Player player = Main.player[i];
+					if (player is null || !player.active || player.dead)
+						continue;
+					if (player.ActiveItem().type == ModContent.ItemType<KnowledgeProvidence>() && player.Calamity().angelicAlliance)
+					{
+						allianceBoost = true;
+						break;
+					}
+				}
+			}
+
 			//Oiled debuff makes flame debuffs 25% more effective
 			if (npc.oiled)
 			{
-				int oiledDoT = (bFlames > 0 ? 10 : 0) + (hFlames > 0 ? 13 : 0) + (gsInferno > 0 ? 63 : 0) + (aFlames > 0 ? 32 : 0) + (dFlames > 0 ? 625 : 0) + (banishingFire > 0 ? 375 : 0);
+				int oiledDoT = (bFlames > 0 ? 10 : 0) + (hFlames > 0 ? 13 : 0) + (allianceBoost ? 13 : 0) + (gsInferno > 0 ? 63 : 0) + (aFlames > 0 ? 32 : 0) + (dFlames > 0 ? 625 : 0) + (banishingFire > 0 ? 375 : 0);
 				if (oiledDoT > 0)
 				{
 					int lifeRegenValue = oiledDoT * 4 + 12;
@@ -731,7 +748,7 @@ namespace CalamityMod.NPCs
 
 			ApplyDPSDebuff(vaporfied, 30, 6, ref npc.lifeRegen, ref damage);
             ApplyDPSDebuff(bFlames, 40, 8, ref npc.lifeRegen, ref damage);
-            ApplyDPSDebuff(hFlames, 50, 10, ref npc.lifeRegen, ref damage);
+            ApplyDPSDebuff(hFlames, allianceBoost ? 100 : 50, allianceBoost ? 20 : 10, ref npc.lifeRegen, ref damage);
             ApplyDPSDebuff(pFlames, 100, 20, ref npc.lifeRegen, ref damage);
             ApplyDPSDebuff(gsInferno, 250, 50, ref npc.lifeRegen, ref damage);
             ApplyDPSDebuff(astralInfection, 75, 15, ref npc.lifeRegen, ref damage);
@@ -3840,7 +3857,7 @@ namespace CalamityMod.NPCs
                 }
             }
 
-            if (hFlames > 0)
+            if (hFlames > 0 || banishingFire > 0)
             {
                 if (Main.rand.Next(5) < 4)
                 {

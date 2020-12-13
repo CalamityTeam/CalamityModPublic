@@ -53,6 +53,7 @@ namespace CalamityMod.NPCs.Ravager
             npc.buffImmune[ModContent.BuffType<WarCleave>()] = false;
             npc.buffImmune[ModContent.BuffType<WhisperingDeath>()] = false;
             npc.buffImmune[ModContent.BuffType<SilvaStun>()] = false;
+            npc.buffImmune[ModContent.BuffType<BanishingFire>()] = false;
             npc.noGravity = true;
             npc.canGhostHeal = false;
             npc.alpha = 255;

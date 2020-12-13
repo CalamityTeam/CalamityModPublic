@@ -3,6 +3,7 @@ using CalamityMod.Buffs.StatBuffs;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Dusts;
 using CalamityMod.Items.Armor;
+using CalamityMod.Items.LoreItems;
 using CalamityMod.NPCs.NormalNPCs;
 using CalamityMod.Projectiles;
 using CalamityMod.Projectiles.Healing;
@@ -745,6 +746,14 @@ namespace CalamityMod.CalPlayer
 		public static void NPCDebuffs(Player player, Mod mod, NPC target, bool melee, bool ranged, bool magic, bool summon, bool rogue, bool proj)
 		{
 			CalamityPlayer modPlayer = player.Calamity();
+			if (modPlayer.angelicAlliance && player.ActiveItem().type == ItemType<KnowledgeProfanedGuardians>())
+			{
+				if (Main.rand.NextBool(10) || modPlayer.divineBless)
+				{
+                    target.AddBuff(BuffType<BanishingFire>(), 60, false);
+				}
+			}
+
             if (melee) //prevents Deep Sea Dumbell from snagging true melee debuff memes
             {
                 if (modPlayer.eGauntlet)
@@ -930,6 +939,13 @@ namespace CalamityMod.CalPlayer
 		public static void PvpDebuffs(Player player, Mod mod, Player target, bool melee, bool ranged, bool magic, bool summon, bool rogue, bool proj)
 		{
 			CalamityPlayer modPlayer = player.Calamity();
+			if (modPlayer.angelicAlliance && player.ActiveItem().type == ItemType<KnowledgeProfanedGuardians>())
+			{
+				if (Main.rand.NextBool(10) || modPlayer.divineBless)
+				{
+                    target.AddBuff(BuffType<BanishingFire>(), 60, false);
+				}
+			}
             if (melee)
             {
                 if (modPlayer.eGauntlet)

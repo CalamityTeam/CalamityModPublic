@@ -1,3 +1,4 @@
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
@@ -40,6 +41,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             }
             npc.buffImmune[BuffID.Ichor] = false;
             npc.buffImmune[BuffID.CursedInferno] = false;
+            npc.buffImmune[ModContent.BuffType<BanishingFire>()] = false;
             npc.HitSound = SoundID.NPCHit4;
             npc.DeathSound = SoundID.NPCDeath14;
         }
