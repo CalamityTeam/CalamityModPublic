@@ -49,7 +49,7 @@ namespace CalamityMod.Projectiles.Rogue
         	if ((projectile.ai[0] % 15f) == 0f && rotationAmount > 0)
         	{
 				rotationAmount -= 0.05f;
-				if (modPlayer.StealthStrikeAvailable() && projectile.owner == Main.myPlayer)
+				if (projectile.Calamity().stealthStrike && projectile.owner == Main.myPlayer)
         		{
 					float velocityX = Main.rand.NextFloat(-0.8f, 0.8f);
 					float velocityY = Main.rand.NextFloat(-0.8f, -0.8f);
