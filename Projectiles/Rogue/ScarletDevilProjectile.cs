@@ -82,7 +82,7 @@ namespace CalamityMod.Projectiles.Rogue
             for (int i = 0; i < 40; i++)
             {
                 Vector2 shootVelocity = (MathHelper.TwoPi * i / 40f).ToRotationVector2() * starSpeed;
-                int bullet = Projectile.NewProjectile(projectile.Center + shootVelocity, shootVelocity, ModContent.ProjectileType<ScarletDevilBullet>(), (int)(projectile.damage * 0.02), 0f, projectile.owner);
+                int bullet = Projectile.NewProjectile(projectile.Center + shootVelocity, shootVelocity, ModContent.ProjectileType<ScarletDevilBullet>(), (int)(projectile.damage * 0.01), 0f, projectile.owner);
                 if (Main.projectile.IndexInRange(bullet))
                     Main.projectile[bullet].Calamity().stealthStrike = true;
             }
@@ -103,7 +103,7 @@ namespace CalamityMod.Projectiles.Rogue
                     for (int j = 0; j < pointsOnStarSegment; j++)
                     {
                         Vector2 shootVelocity = Vector2.Lerp(start, end, j / (float)pointsOnStarSegment) * starSpeed;
-                        int bullet = Projectile.NewProjectile(projectile.Center + shootVelocity, shootVelocity, ModContent.ProjectileType<ScarletDevilBullet>(), (int)(projectile.damage * 0.02), 0f, projectile.owner);
+                        int bullet = Projectile.NewProjectile(projectile.Center + shootVelocity, shootVelocity, ModContent.ProjectileType<ScarletDevilBullet>(), (int)(projectile.damage * 0.01), 0f, projectile.owner);
                         if (Main.projectile.IndexInRange(bullet))
                             Main.projectile[bullet].Calamity().stealthStrike = true;
                     }
