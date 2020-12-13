@@ -4151,8 +4151,8 @@ namespace CalamityMod.CalPlayer
 			
 			if (modPlayer.yharonLore && !CalamityWorld.defiled)
 			{
-				if (player.wingTimeMax < int.MaxValue)
-					player.wingTimeMax = int.MaxValue;
+				if (player.wingTimeMax < 2147483647)
+					player.wingTimeMax = 2147483647;
 			}
 
 			// Do not apply reduced aggro if there are any bosses alive and it's singleplayer
