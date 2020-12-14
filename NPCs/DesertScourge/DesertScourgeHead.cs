@@ -48,10 +48,6 @@ namespace CalamityMod.NPCs.DesertScourge
             npc.boss = true;
             npc.value = Item.buyPrice(0, 2, 0, 0);
             npc.alpha = 255;
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
             npc.behindTiles = true;
             npc.noGravity = true;
             npc.noTileCollide = true;

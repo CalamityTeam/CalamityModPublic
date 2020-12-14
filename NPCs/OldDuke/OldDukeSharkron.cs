@@ -41,10 +41,6 @@ namespace CalamityMod.NPCs.OldDuke
 			npc.noGravity = true;
 			npc.dontTakeDamage = true;
 			npc.noTileCollide = true;
-			for (int k = 0; k < npc.buffImmune.Length; k++)
-			{
-				npc.buffImmune[k] = true;
-			}
 		}
 
 		public override void SendExtraAI(BinaryWriter writer)

@@ -31,10 +31,7 @@ namespace CalamityMod.NPCs.AcidRain
 
             npc.knockBackResist = 0f;
             animationType = NPCID.CorruptSlime;
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
+			aiType = NPCID.ToxicSludge;
             npc.value = Item.buyPrice(0, 0, 5, 0);
             npc.alpha = 50;
             npc.lavaImmune = false;
@@ -49,11 +46,13 @@ namespace CalamityMod.NPCs.AcidRain
         public override void SendExtraAI(BinaryWriter writer)
         {
             writer.Write(Falling);
+            writer.Write(npc.aiStyle);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
             Falling = reader.ReadBoolean();
+            npc.aiStyle = reader.ReadInt32();
         }
 
         public override void AI()
@@ -80,7 +79,6 @@ namespace CalamityMod.NPCs.AcidRain
 			else
 			{
 				npc.aiStyle = 1;
-				aiType = NPCID.ToxicSludge;
 			}
         }
 

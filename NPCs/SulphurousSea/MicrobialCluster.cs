@@ -23,10 +23,6 @@ namespace CalamityMod.NPCs.SulphurousSea
             npc.height = 24;
             npc.lifeMax = 5;
             npc.aiStyle = aiType = -1;
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
             npc.noTileCollide = false;
             npc.noGravity = true;
             npc.HitSound = SoundID.NPCHit1;

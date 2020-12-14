@@ -41,7 +41,6 @@ namespace CalamityMod.NPCs.NormalNPCs
             banner = npc.type;
             bannerItem = ModContent.ItemType<AngryDogBanner>();
 			npc.coldDamage = true;
-            npc.buffImmune[BuffID.Confused] = false;
         }
 
         public override void SendExtraAI(BinaryWriter writer)

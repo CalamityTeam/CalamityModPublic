@@ -25,10 +25,6 @@ namespace CalamityMod.NPCs.Ravager
             npc.lifeMax = 100;
             npc.knockBackResist = 0f;
             aiType = -1;
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
             npc.dontTakeDamage = true;
             npc.noGravity = true;
             npc.noTileCollide = true;

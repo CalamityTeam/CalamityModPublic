@@ -46,10 +46,6 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 npc.scale = 1.35f;
             }
             npc.alpha = 255;
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
             npc.chaseable = false;
             npc.behindTiles = true;
             npc.noGravity = true;

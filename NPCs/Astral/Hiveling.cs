@@ -33,7 +33,6 @@ namespace CalamityMod.NPCs.Astral
             npc.knockBackResist = 0.5f;
             npc.noGravity = true;
             npc.value = Item.buyPrice(0, 0, 5, 0);
-            npc.buffImmune[ModContent.BuffType<AstralInfectionDebuff>()] = true;
             if (CalamityWorld.downedAstrageldon)
             {
                 npc.damage = 50;

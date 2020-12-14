@@ -43,8 +43,6 @@ namespace CalamityMod.NPCs.Crabulon
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.aiStyle = -1;
             aiType = -1;
-            npc.buffImmune[ModContent.BuffType<GlacialState>()] = true;
-            npc.buffImmune[ModContent.BuffType<TemporalSadness>()] = true;
             npc.noGravity = false;
             npc.noTileCollide = false;
             Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");

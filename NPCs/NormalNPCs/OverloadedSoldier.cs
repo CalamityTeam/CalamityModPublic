@@ -35,7 +35,6 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.DeathSound = SoundID.NPCDeath2;
             banner = npc.type;
             bannerItem = ModContent.ItemType<OverloadedSoldierBanner>();
-            npc.buffImmune[BuffID.Confused] = false;
         }
 
 		public override void FindFrame(int frameHeight)

@@ -838,6 +838,10 @@ namespace CalamityMod.NPCs
         #region Debuff Immunities
         private void DebuffImmunities(NPC npc)
         {
+			// Check out NPCStats.cs as this function sets the debuff immunities for all enemies in Cal bar the ones described below
+			npc.SetNPCDebuffImmunities();
+
+			// All bosses and several enemies are automatically immune to most of the movement debuffs. Silva Stun and Exo Freeze are excluded, but will not affect a boss if it has the debuff regardless.
 			if (CalamityLists.enemyImmunityList.Contains(npc.type) || npc.boss)
 			{
 				npc.buffImmune[BuffType<GlacialState>()] = true;
@@ -850,6 +854,14 @@ namespace CalamityMod.NPCs
 				npc.buffImmune[BuffID.Slow] = true;
 			}
 
+			// All enemies are automatically immune to the Confused debuff, so we must specifically set them not to be.
+			// Extra note: Clams are not in this list as they initially immune to Confused, but are no longer immune once aggro'd. This is set in their AI().
+			if (CalamityLists.confusionEnemyList.Contains(npc.type))
+			{
+				npc.buffImmune[BuffID.Confused] = false;
+			}
+
+			// Triple checks that several entities are immune to all debuffs
 			if (DestroyerIDs.Contains(npc.type) || npc.type == NPCID.SkeletronHead || (EaterofWorldsIDs.Contains(npc.type) && BossRushEvent.BossRushActive) || npc.type == NPCID.DD2EterniaCrystal || npc.townNPC || npc.type == NPCID.SpikeBall || npc.type == NPCID.BlazingWheel)
 			{
 				for (int k = 0; k < npc.buffImmune.Length; k++)
@@ -866,14 +878,22 @@ namespace CalamityMod.NPCs
 				}
 			}
 
+			// Any enemy not immune to Venom, shouldn't be immune to Sulphuric Poisoning as it is an upgrade
 			if (!npc.buffImmune[BuffID.Venom])
 			{
 				npc.buffImmune[BuffType<SulphuricPoisoning>()] = false;
 			}
 
+			// Most bosses and boss servants are not immune to Kami Flu
             if (YanmeisKnifeSlash.CanRecieveCoolEffectsFrom(npc))
                 npc.buffImmune[BuffType<KamiDebuff>()] = false;
+
+			// Nothing should be immune to Enraged
             npc.buffImmune[BuffType<Enraged>()] = false;
+
+			// Extra Notes:
+			// Shellfish minions set debuff immunity to Shellfish Claps on enemy hits, so most things are technically not immune
+			// The Spiteful Candle sets the debuff immunity of Spite to all nearby enemies in the tile file for an enemy with less than 99% DR
         }
         #endregion
 
@@ -3009,7 +3029,7 @@ namespace CalamityMod.NPCs
                 npc.velocity = Vector2.Clamp(npc.velocity, new Vector2(-KamiDebuff.MaxNPCSpeed), new Vector2(KamiDebuff.MaxNPCSpeed));
             }
 
-			if (!CalamityPlayer.areThereAnyDamnBosses)
+			if (!CalamityPlayer.areThereAnyDamnBosses && !CalamityLists.enemyImmunityList.Contains(npc.type))
 			{
 				if (pearlAura > 0)
 					npc.velocity *= 0.9f;

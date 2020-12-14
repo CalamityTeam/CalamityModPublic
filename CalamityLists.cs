@@ -31,6 +31,7 @@ using CalamityMod.NPCs.Bumblebirb;
 using CalamityMod.NPCs.Calamitas;
 using CalamityMod.NPCs.CeaselessVoid;
 using CalamityMod.NPCs.Crabulon;
+using CalamityMod.NPCs.Crags;
 using CalamityMod.NPCs.Cryogen;
 using CalamityMod.NPCs.DesertScourge;
 using CalamityMod.NPCs.DevourerofGods;
@@ -77,6 +78,7 @@ namespace CalamityMod
         public static List<int> projectileDestroyExceptionList;
         public static List<int> projectileMinionList;
         public static List<int> enemyImmunityList;
+        public static List<int> confusionEnemyList;
         public static List<int> dungeonEnemyBuffList;
         public static List<int> dungeonProjectileBuffList;
         public static List<int> bossHPScaleList;
@@ -538,9 +540,44 @@ namespace CalamityMod
                 ModContent.NPCType<SlimeGod>(),
                 ModContent.NPCType<SlimeGodRun>(),
                 ModContent.NPCType<SlimeGodSplit>(),
-                ModContent.NPCType<SlimeGodRunSplit>(),
-                ModContent.NPCType<CalamitasRun>(),
-                ModContent.NPCType<CalamitasRun2>() //brothers
+                ModContent.NPCType<SlimeGodRunSplit>()
+            };
+
+            confusionEnemyList = new List<int>()
+            {
+                ModContent.NPCType<AeroSlime>(),
+                ModContent.NPCType<AngryDog>(),
+                ModContent.NPCType<AstralachneaGround>(),
+                ModContent.NPCType<AstralachneaWall>(),
+                ModContent.NPCType<BlightedEye>(),
+                ModContent.NPCType<BloomSlime>(),
+                ModContent.NPCType<Bohldohr>(),
+                ModContent.NPCType<CalamityEye>(),
+                ModContent.NPCType<CosmicElemental>(),
+                ModContent.NPCType<CrimulanBlightSlime>(),
+                ModContent.NPCType<Cryon>(),
+                ModContent.NPCType<CryoSlime>(),
+                ModContent.NPCType<CultistAssassin>(),
+                ModContent.NPCType<DespairStone>(),
+                ModContent.NPCType<EbonianBlightSlime>(),
+                ModContent.NPCType<FearlessGoldfishWarrior>(),
+                ModContent.NPCType<HeatSpirit>(),
+                ModContent.NPCType<MantisShrimp>(),
+                ModContent.NPCType<OverloadedSoldier>(),
+                ModContent.NPCType<PerennialSlime>(),
+                ModContent.NPCType<PhantomDebris>(),
+                ModContent.NPCType<Pitbull>(),
+                ModContent.NPCType<SandTortoise>(),
+                ModContent.NPCType<Scryllar>(),
+                ModContent.NPCType<ScryllarRage>(),
+                ModContent.NPCType<SeaUrchin>(),
+                ModContent.NPCType<StellarCulex>(),
+                ModContent.NPCType<StormlionCharger>(),
+                ModContent.NPCType<SuperDummyNPC>(),
+                ModContent.NPCType<SunBat>(),
+                ModContent.NPCType<WulfrumGyrator>(),
+                ModContent.NPCType<WulfrumRover>(),
+                ModContent.NPCType<WulfrumSlime>()
             };
 
             dungeonEnemyBuffList = new List<int>()
@@ -2215,6 +2252,7 @@ namespace CalamityMod
             projectileDestroyExceptionList = null;
             projectileMinionList = null;
             enemyImmunityList = null;
+            confusionEnemyList = null;
             dungeonEnemyBuffList = null;
             dungeonProjectileBuffList = null;
             bossHPScaleList = null;

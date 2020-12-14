@@ -54,10 +54,6 @@ namespace CalamityMod.NPCs.StormWeaver
             npc.HitSound = SoundID.NPCHit13;
             npc.DeathSound = SoundID.NPCDeath13;
             npc.netAlways = true;
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
             npc.dontCountMe = true;
 
 			if (CalamityWorld.death || BossRushEvent.BossRushActive)

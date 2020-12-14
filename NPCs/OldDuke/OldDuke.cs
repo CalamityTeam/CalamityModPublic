@@ -61,10 +61,6 @@ namespace CalamityMod.NPCs.OldDuke
             else
                 music = MusicID.Boss1;
             bossBag = ModContent.ItemType<OldDukeBag>();
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
 		}
 
 		public override void SendExtraAI(BinaryWriter writer)

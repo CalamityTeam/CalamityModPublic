@@ -34,12 +34,6 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             npc.defense = 60;
 			npc.DR_NERD(0.25f);
 			npc.LifeMaxNERB(Main.expertMode ? 90000 : 50000, 170000);
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
-            npc.buffImmune[BuffID.Ichor] = false;
-            npc.buffImmune[BuffID.CursedInferno] = false;
             npc.HitSound = SoundID.NPCHit4;
             npc.DeathSound = SoundID.NPCDeath14;
         }
