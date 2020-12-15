@@ -403,6 +403,7 @@ namespace CalamityMod
 					BuffID.Frostburn,
 					BuffID.Ichor,
 					BuffID.Oiled,
+					BuffID.Poisoned,
 					BuffID.SoulDrain,
 					BuffID.StardustMinionBleed,
 					BuffID.Venom,
