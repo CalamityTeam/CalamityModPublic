@@ -838,7 +838,7 @@ namespace CalamityMod.NPCs
         #region Debuff Immunities
         private void DebuffImmunities(NPC npc)
         {
-			// Check out NPCStats.cs as this function sets the debuff immunities for all enemies in Cal bar the ones described below.
+			// Check out NPCDebuffs.cs as this function sets the debuff immunities for all enemies in Cal bar the ones described below.
 			npc.SetNPCDebuffImmunities();
 
 			// All bosses and several enemies are automatically immune to most of the movement debuffs. Silva Stun and Exo Freeze are excluded, but will not affect a boss if it has the debuff regardless.
