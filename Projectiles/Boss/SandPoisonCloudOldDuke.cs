@@ -4,9 +4,11 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Boss
 {
-    public class SandPoisonCloud : ModProjectile
+    public class SandPoisonCloudOldDuke : ModProjectile
     {
-        public override void SetStaticDefaults()
+		public override string Texture => "CalamityMod/Projectiles/Boss/SandPoisonCloud";
+
+		public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Toxic Cloud");
             Main.projFrames[projectile.type] = 4;
@@ -22,6 +24,7 @@ namespace CalamityMod.Projectiles.Boss
             projectile.tileCollide = false;
             projectile.ignoreWater = true;
             projectile.timeLeft = 1800;
+			cooldownSlot = 1;
         }
 
         public override void AI()

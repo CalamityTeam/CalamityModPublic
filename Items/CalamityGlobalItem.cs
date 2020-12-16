@@ -2023,7 +2023,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                             "Acceleration multiplier: 1\n" +
                             "Average vertical speed\n" +
                             "Flight time: 100\n" +
-                            "+20 max life, +15 defense and +3 life regen";
+                            "+20 max life, +10 defense and +2 life regen";
                     }
                 }
             }
@@ -2038,7 +2038,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                             "Acceleration multiplier: 1\n" +
                             "Average vertical speed\n" +
                             "Flight time: 100\n" +
-                            "10% increased damage and critical strike chance";
+                            "5% increased damage and critical strike chance";
                     }
                 }
             }
@@ -2067,8 +2067,8 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                             "Acceleration multiplier: 1\n" +
                             "Average vertical speed\n" +
                             "Flight time: 130\n" +
-                            "+50 max mana, 5% decreased mana usage,\n" +
-                            "10% increased magic damage and 5% increased magic critical strike chance";
+                            "+20 max mana, 5% decreased mana usage,\n" +
+                            "5% increased magic damage and magic critical strike chance";
                     }
                 }
             }
@@ -2083,7 +2083,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                             "Acceleration multiplier: 1\n" +
                             "Average vertical speed\n" +
                             "Flight time: 130\n" +
-                            "+80 max life";
+                            "+60 max life";
                     }
                 }
             }
@@ -2129,8 +2129,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                             "Acceleration multiplier: 1\n" +
                             "Average vertical speed\n" +
                             "Flight time: 140\n" +
-                            "10% increased movement speed, 12% increased ranged damage,\n" +
-                            "16% increased ranged critical strike chance\n" +
+							"10% increased movement speed, ranged damage and critical strike chance\n" +
                             "and +30 defense while wearing the Necro Armor";
                     }
                 }
@@ -2146,8 +2145,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                             "Acceleration multiplier: 1\n" +
                             "Average vertical speed\n" +
                             "Flight time: 160\n" +
-                            "10% increased melee damage\n" +
-                            "and 5% increased melee critical strike chance";
+							"5% increased melee damage and critical strike chance";
                     }
                 }
             }
@@ -2180,8 +2178,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                             "Average vertical speed\n" +
                             "Flight time: 160\n" +
                             "+10 defense and 5% increased damage reduction while wearing the Spectre Armor and Hood\n" +
-                            "+20 max mana, 5% increased magic damage and critical strike chance,\n" +
-                            "and 5% decreased mana usage while wearing the Spectre Armor and Mask";
+							"5% increased magic damage and critical strike chance while wearing the Spectre Armor and Mask";
                     }
                 }
             }
@@ -2196,8 +2193,8 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                             "Acceleration multiplier: 1\n" +
                             "Average vertical speed\n" +
                             "Flight time: 160\n" +
-                            "+15 defense and 10% increased damage reduction while wearing the Beetle Armor and Shell\n" +
-                            "10% increased melee damage and critical strike chance while wearing the Beetle Armor and Scale Mail";
+                            "+10 defense and 5% increased damage reduction while wearing the Beetle Armor and Shell\n" +
+                            "5% increased melee damage and critical strike chance while wearing the Beetle Armor and Scale Mail";
                     }
                 }
             }
@@ -2259,7 +2256,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                             "Acceleration multiplier: 1\n" +
                             "Average vertical speed\n" +
                             "Flight time: 160\n" +
-                            "+10 defense, 10% increased damage reduction,\n" +
+                            "+5 defense, 5% increased damage reduction,\n" +
 							"and the Dryad's permanent blessing while wearing the Tiki Armor";
                     }
                 }
@@ -2277,7 +2274,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                             "Flight time: 140\n" +
                             "At night or during an eclipse, you will gain the following boosts:\n" +
 							"10% increased movement speed, 20% increased jump speed,\n" +
-                            "+15 defense, 10% increased damage, and 5% increased critical strike chance";
+                            "7% increased damage and 3% increased critical strike chance";
                     }
                 }
             }
@@ -2355,7 +2352,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                             "Acceleration multiplier: 1\n" +
                             "Average vertical speed\n" +
                             "Flight time: 170\n" +
-                            "+50 max life\n" +
+                            "+40 max life\n" +
                             "Ornaments rain down as you fly";
                     }
                 }
@@ -3223,14 +3220,14 @@ Grants immunity to fire blocks, and temporary immunity to lava";
             if (item.type == ItemID.AngelWings) // Boost to max life, defense, and life regen
             {
                 player.statLifeMax2 += 20;
-                player.statDefense += 15;
-                player.lifeRegen += 3;
+                player.statDefense += 10;
+                player.lifeRegen += 2;
                 player.noFallDmg = true;
             }
             else if (item.type == ItemID.DemonWings) // Boost to all damage and crit
             {
-                player.allDamage += 0.1f;
-                modPlayer.AllCritBoost(10);
+                player.allDamage += 0.05f;
+                modPlayer.AllCritBoost(5);
                 player.noFallDmg = true;
             }
             else if (item.type == ItemID.FinWings) // Boosted water abilities, faster fall in water
@@ -3253,15 +3250,15 @@ Grants immunity to fire blocks, and temporary immunity to lava";
             }
             else if (item.type == ItemID.ButterflyWings) // Boost to magic stats
             {
-                player.statManaMax2 += 50;
-                player.magicDamage += 0.1f;
+                player.statManaMax2 += 20;
+                player.magicDamage += 0.05f;
                 player.manaCost *= 0.95f;
                 player.magicCrit += 5;
                 player.noFallDmg = true;
             }
             else if (item.type == ItemID.FairyWings) // Boost to max life
             {
-                player.statLifeMax2 += 80;
+                player.statLifeMax2 += 60;
                 player.noFallDmg = true;
             }
             else if (item.type == ItemID.BatWings) // Stronger at night
@@ -3269,10 +3266,9 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                 player.noFallDmg = true;
                 if (!Main.dayTime || Main.eclipse)
                 {
-					player.jumpSpeedBoost += 1.0f;
-                    player.statDefense += 15;
-                    player.allDamage += 0.1f;
-                    modPlayer.AllCritBoost(5);
+					player.jumpSpeedBoost += 1f;
+                    player.allDamage += 0.07f;
+                    modPlayer.AllCritBoost(3);
                     player.moveSpeed += 0.1f;
                 }
             }
@@ -3289,8 +3285,8 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                     player.body == ArmorIDs.Body.NecroBreastplate && player.legs == ArmorIDs.Legs.NecroGreaves)
                 {
                     player.moveSpeed += 0.1f;
-                    player.rangedDamage += 0.12f;
-                    player.rangedCrit += 16;
+                    player.rangedDamage += 0.1f;
+                    player.rangedCrit += 10;
                     player.statDefense += 30;
                 }
             }
@@ -3315,7 +3311,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
             }
             else if (item.type == ItemID.FlameWings) // Bonus to melee stats
             {
-                player.meleeDamage += 0.1f;
+                player.meleeDamage += 0.05f;
                 player.meleeCrit += 5;
                 player.noFallDmg = true;
             }
@@ -3331,9 +3327,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                     }
                     else if (player.head == ArmorIDs.Head.SpectreMask)
                     {
-                        player.statManaMax2 += 20;
                         player.magicDamage += 0.05f;
-                        player.manaCost *= 0.95f;
                         player.magicCrit += 5;
                     }
                 }
@@ -3345,13 +3339,13 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                 {
                     if (player.body == ArmorIDs.Body.BeetleShell)
                     {
-                        player.statDefense += 15;
-                        player.endurance += 0.1f;
+                        player.statDefense += 10;
+                        player.endurance += 0.05f;
                     }
                     else if (player.body == ArmorIDs.Body.BeetleScaleMail)
                     {
-                        player.meleeDamage += 0.1f;
-                        player.meleeCrit += 10;
+                        player.meleeDamage += 0.05f;
+                        player.meleeCrit += 5;
                     }
                 }
             }
@@ -3383,15 +3377,15 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                 player.noFallDmg = true;
                 if (player.head == ArmorIDs.Head.TikiMask && player.body == ArmorIDs.Body.TikiShirt && player.legs == ArmorIDs.Legs.TikiPants)
                 {
-					player.statDefense += 10;
-                    player.endurance += 0.1f;
+					player.statDefense += 5;
+                    player.endurance += 0.05f;
 					player.AddBuff(BuffID.DryadsWard, 5, true); // Dryad's Blessing
                 }
             }
             else if (item.type == ItemID.FestiveWings) // Drop powerful homing christmas tree bulbs while in flight
             {
                 player.noFallDmg = true;
-                player.statLifeMax2 += 50;
+                player.statLifeMax2 += 40;
 				if (modPlayer.icicleCooldown <= 0)
 				{
 					if (player.controlJump && !player.jumpAgainCloud && player.jump == 0 && player.velocity.Y != 0f && !player.mount.Active && !player.mount.Cart)

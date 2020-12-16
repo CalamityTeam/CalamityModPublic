@@ -927,7 +927,7 @@ namespace CalamityMod.NPCs.Providence
 								if (Main.player[p].active && !Main.player[p].dead)
 									targets.Add(p);
 
-								if (targets.Count > 9)
+								if (targets.Count > 4)
 									break;
 							}
 							foreach (int t in targets)

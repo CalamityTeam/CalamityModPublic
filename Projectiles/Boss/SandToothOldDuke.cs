@@ -5,9 +5,11 @@ using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Boss
 {
-    public class SandTooth : ModProjectile
+    public class SandToothOldDuke : ModProjectile
     {
-        public override void SetStaticDefaults()
+		public override string Texture => "CalamityMod/Projectiles/Boss/SandTooth";
+
+		public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Sand Tooth");
         }
@@ -20,6 +22,7 @@ namespace CalamityMod.Projectiles.Boss
             projectile.ignoreWater = true;
             projectile.penetrate = 1;
             projectile.timeLeft = 450;
+			cooldownSlot = 1;
         }
 
         public override void AI()

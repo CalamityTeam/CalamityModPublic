@@ -580,9 +580,8 @@ namespace CalamityMod.NPCs
                 int projectileCount = 0;
                 for (int j = 0; j < Main.maxProjectiles; j++)
                 {
-                    if (Main.projectile[j].active &&
-                        (Main.projectile[j].type == ProjectileType<BonebreakerProjectile>() &&
-                        Main.projectile[j].ai[0] == 1f && Main.projectile[j].ai[1] == npc.whoAmI))
+                    if (Main.projectile[j].active && Main.projectile[j].type == ProjectileType<BonebreakerProjectile>() &&
+                        Main.projectile[j].ai[0] == 1f && Main.projectile[j].ai[1] == npc.whoAmI)
                     {
                         projectileCount++;
                     }
@@ -604,8 +603,7 @@ namespace CalamityMod.NPCs
                 int projectileCount = 0;
                 for (int j = 0; j < Main.maxProjectiles; j++)
                 {
-                    if (Main.projectile[j].active &&
-                        (Main.projectile[j].type == ProjectileType<Shellfish>()) &&
+                    if (Main.projectile[j].active && Main.projectile[j].type == ProjectileType<Shellfish>() &&
                         Main.projectile[j].ai[0] == 1f && Main.projectile[j].ai[1] == npc.whoAmI)
                     {
                         projectileCount++;
@@ -1004,7 +1002,8 @@ namespace CalamityMod.NPCs
             }
             else if (npc.type == NPCID.GolemHead)
             {
-                npc.lifeMax = (int)(npc.lifeMax * 1.5);
+				npc.width = npc.height = 100;
+				npc.lifeMax = (int)(npc.lifeMax * 1.5);
             }
             else if (npc.type == NPCID.GolemHeadFree)
             {
@@ -3505,8 +3504,8 @@ namespace CalamityMod.NPCs
 			// Boosts
 			if (CalamityWorld.downedDoG && (Main.pumpkinMoon || Main.snowMoon || Main.eclipse))
 			{
-				spawnRate = (int)(spawnRate * 0.75);
-				maxSpawns = (int)(maxSpawns * 2f);
+				spawnRate = (int)(spawnRate * 0.5);
+				maxSpawns = (int)(maxSpawns * 5f);
 			}
 
 			if (player.Calamity().clamity)
@@ -4302,7 +4301,7 @@ namespace CalamityMod.NPCs
         {
             if (CalamityWorld.revenge || BossRushEvent.BossRushActive)
             {
-				if (npc.type == NPCID.GolemHeadFree)
+				if (npc.type == NPCID.GolemHeadFree || npc.type == NPCID.GolemHead)
 				{
 					Texture2D npcTexture = Main.npcTexture[npc.type];
 					int frameHeight = npcTexture.Height / Main.npcFrameCount[npc.type];
@@ -4311,10 +4310,36 @@ namespace CalamityMod.NPCs
 					if (npc.spriteDirection == 1)
 						spriteEffects = SpriteEffects.FlipHorizontally;
 
-					if (npc.localAI[0] == 1f)
-						npc.frame.Y = frameHeight;
+					if (npc.type == NPCID.GolemHead)
+					{
+						if (npc.ai[0] == 0f)
+						{
+							if (npc.localAI[0] == 1f)
+								npc.frame.Y = frameHeight;
+							else
+								npc.frame.Y = 0;
+						}
+						else if (npc.ai[0] == 1f)
+						{
+							if (npc.localAI[0] == 1f)
+								npc.frame.Y = frameHeight;
+							else
+								npc.frame.Y = 0;
+
+							if (npc.localAI[1] == -1f)
+								npc.frame.Y += frameHeight * 4;
+
+							if (npc.localAI[1] == 1f)
+								npc.frame.Y += frameHeight * 2;
+						}
+					}
 					else
-						npc.frame.Y = 0;
+					{
+						if (npc.localAI[0] == 1f)
+							npc.frame.Y = frameHeight;
+						else
+							npc.frame.Y = 0;
+					}
 
 					spriteBatch.Draw(npcTexture, npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame, npc.GetAlpha(drawColor), npc.rotation, npc.frame.Size() / 2, npc.scale, spriteEffects, 0);
 				}

@@ -228,10 +228,10 @@ namespace CalamityMod.NPCs.OldDuke
 				{
 					float velocity = Main.rand.Next(7, 11);
 					Vector2 vector255 = new Vector2(0f, -velocity).RotatedBy(radians * k);
-					int proj = Projectile.NewProjectile(npc.Center, vector255, ModContent.ProjectileType<SandTooth>(), damage, 0f, Main.myPlayer, 0f, 0f);
+					int proj = Projectile.NewProjectile(npc.Center, vector255, ModContent.ProjectileType<SandToothOldDuke>(), damage, 0f, Main.myPlayer, 0f, 0f);
 					Main.projectile[proj].timeLeft = 360;
 				}
-				Projectile.NewProjectile(npc.Center, Vector2.Zero, ModContent.ProjectileType<SandPoisonCloud>(), damage, 0f, Main.myPlayer, 0f, 0f);
+				Projectile.NewProjectile(npc.Center, Vector2.Zero, ModContent.ProjectileType<SandPoisonCloudOldDuke>(), damage, 0f, Main.myPlayer, 0f, 0f);
             }
 
             return true;

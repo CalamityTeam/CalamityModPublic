@@ -183,8 +183,15 @@ namespace CalamityMod.NPCs.DevourerofGods
 			float distanceFromTarget = Vector2.Distance(player.Center, vector);
 			bool increaseSpeed = distanceFromTarget > CalamityGlobalNPC.CatchUpDistance200Tiles;
 			bool increaseSpeedMore = distanceFromTarget > CalamityGlobalNPC.CatchUpDistance350Tiles;
-			bool takeLessDamage = Vector2.Distance(player.Center, vector) > CalamityGlobalNPC.CatchUpDistance200Tiles * 0.5f;
-			npc.takenDamageMultiplier = increaseSpeed ? 1f : takeLessDamage ? 1.15f : 1.25f;
+
+			float takeLessDamageDistance = 1600f;
+			if (distanceFromTarget > takeLessDamageDistance)
+			{
+				float damageTakenScalar = MathHelper.Clamp(1f - ((distanceFromTarget - takeLessDamageDistance) / takeLessDamageDistance), 0f, 1f);
+				npc.takenDamageMultiplier = MathHelper.Lerp(1f, 1.25f, damageTakenScalar);
+			}
+			else
+				npc.takenDamageMultiplier = 1.25f;
 
 			// Immunity after teleport
 			npc.dontTakeDamage = postTeleportTimer > 0;
@@ -380,6 +387,12 @@ namespace CalamityMod.NPCs.DevourerofGods
 									shotSpacing[0] -= spacingVar;
 								}
 
+								if (expertMode)
+								{
+									Projectile.NewProjectile(player.position.X + spawnOffset, targetPosY, -speed, 0f, type, damage, 0f, Main.myPlayer);
+									Projectile.NewProjectile(player.position.X - spawnOffset, targetPosY, speed, 0f, type, damage, 0f, Main.myPlayer);
+								}
+
 								laserWallType = (int)LaserWallType.Offset;
 								break;
 
@@ -391,6 +404,12 @@ namespace CalamityMod.NPCs.DevourerofGods
 									Projectile.NewProjectile(player.position.X + spawnOffset, targetPosY + shotSpacing[0], -speed, 0f, type, damage, 0f, Main.myPlayer);
 									Projectile.NewProjectile(player.position.X - spawnOffset, targetPosY + shotSpacing[0], speed, 0f, type, damage, 0f, Main.myPlayer);
 									shotSpacing[0] -= spacingVar;
+								}
+
+								if (expertMode)
+								{
+									Projectile.NewProjectile(player.position.X, targetPosY + spawnOffset, 0f, -speed, type, damage, 0f, Main.myPlayer);
+									Projectile.NewProjectile(player.position.X, targetPosY - spawnOffset, 0f, speed, type, damage, 0f, Main.myPlayer);
 								}
 
 								laserWallType = revenge ? (int)LaserWallType.MultiLayered : expertMode ? (int)LaserWallType.DiagonalHorizontal : (int)LaserWallType.Normal;
@@ -413,6 +432,9 @@ namespace CalamityMod.NPCs.DevourerofGods
 									shotSpacing[3] -= Main.rand.NextBool(2) ? 180 : 200;
 								}
 
+								Projectile.NewProjectile(player.position.X + spawnOffset, targetPosY, -speed, 0f, type, damage, 0f, Main.myPlayer);
+								Projectile.NewProjectile(player.position.X - spawnOffset, targetPosY, speed, 0f, type, damage, 0f, Main.myPlayer);
+
 								laserWallType = (int)LaserWallType.DiagonalHorizontal;
 								break;
 
@@ -432,6 +454,9 @@ namespace CalamityMod.NPCs.DevourerofGods
 									shotSpacing[0] -= diagonalSpacingVar;
 								}
 
+								Projectile.NewProjectile(player.position.X, targetPosY + spawnOffset, 0f, -speed, type, damage, 0f, Main.myPlayer);
+								Projectile.NewProjectile(player.position.X, targetPosY - spawnOffset, 0f, speed, type, damage, 0f, Main.myPlayer);
+
 								laserWallType = revenge ? (int)LaserWallType.DiagonalVertical : (int)LaserWallType.Normal;
 								break;
 
@@ -450,6 +475,9 @@ namespace CalamityMod.NPCs.DevourerofGods
 
 									shotSpacing[0] -= diagonalSpacingVar;
 								}
+
+								Projectile.NewProjectile(player.position.X + spawnOffset, targetPosY, -speed, 0f, type, damage, 0f, Main.myPlayer);
+								Projectile.NewProjectile(player.position.X - spawnOffset, targetPosY, speed, 0f, type, damage, 0f, Main.myPlayer);
 
 								laserWallType = (int)LaserWallType.Normal;
 								break;
