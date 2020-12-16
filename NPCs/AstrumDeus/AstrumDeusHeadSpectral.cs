@@ -222,6 +222,7 @@ namespace CalamityMod.NPCs.AstrumDeus
                     otherWormHead.Calamity().newAI[0] = 0f;
                     otherWormHead.life = 0;
                     otherWormHead.checkDead();
+                    otherWormHead.netUpdate = true;
                 }
 			} 
 
