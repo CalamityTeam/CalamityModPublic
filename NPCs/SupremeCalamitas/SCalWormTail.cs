@@ -49,10 +49,6 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             npc.HitSound = SoundID.NPCHit4;
             npc.DeathSound = SoundID.NPCDeath14;
             npc.netAlways = true;
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
             npc.dontCountMe = true;
         }
 

@@ -580,9 +580,8 @@ namespace CalamityMod.NPCs
                 int projectileCount = 0;
                 for (int j = 0; j < Main.maxProjectiles; j++)
                 {
-                    if (Main.projectile[j].active &&
-                        (Main.projectile[j].type == ProjectileType<BonebreakerProjectile>() &&
-                        Main.projectile[j].ai[0] == 1f && Main.projectile[j].ai[1] == npc.whoAmI))
+                    if (Main.projectile[j].active && Main.projectile[j].type == ProjectileType<BonebreakerProjectile>() &&
+                        Main.projectile[j].ai[0] == 1f && Main.projectile[j].ai[1] == npc.whoAmI)
                     {
                         projectileCount++;
                     }
@@ -604,8 +603,7 @@ namespace CalamityMod.NPCs
                 int projectileCount = 0;
                 for (int j = 0; j < Main.maxProjectiles; j++)
                 {
-                    if (Main.projectile[j].active &&
-                        (Main.projectile[j].type == ProjectileType<Shellfish>()) &&
+                    if (Main.projectile[j].active && Main.projectile[j].type == ProjectileType<Shellfish>() &&
                         Main.projectile[j].ai[0] == 1f && Main.projectile[j].ai[1] == npc.whoAmI)
                     {
                         projectileCount++;
@@ -838,6 +836,10 @@ namespace CalamityMod.NPCs
         #region Debuff Immunities
         private void DebuffImmunities(NPC npc)
         {
+			// Check out NPCDebuffs.cs as this function sets the debuff immunities for all enemies in Cal bar the ones described below.
+			npc.SetNPCDebuffImmunities();
+
+			// All bosses and several enemies are automatically immune to most of the movement debuffs. Silva Stun and Exo Freeze are excluded, but will not affect a boss if it has the debuff regardless.
 			if (CalamityLists.enemyImmunityList.Contains(npc.type) || npc.boss)
 			{
 				npc.buffImmune[BuffType<GlacialState>()] = true;
@@ -850,6 +852,20 @@ namespace CalamityMod.NPCs
 				npc.buffImmune[BuffID.Slow] = true;
 			}
 
+			// All enemies are automatically immune to the Confused debuff, so we must specifically set them not to be.
+			// Extra note: Clams are not in this list as they initially immune to Confused, but are no longer immune once aggro'd. This is set in their AI().
+			if (CalamityLists.confusionEnemyList.Contains(npc.type))
+			{
+				npc.buffImmune[BuffID.Confused] = false;
+			}
+
+			// Any enemy not immune to Venom shouldn't be immune to Sulphuric Poisoning as it is an upgrade.
+			if (!npc.buffImmune[BuffID.Venom])
+			{
+				npc.buffImmune[BuffType<SulphuricPoisoning>()] = false;
+			}
+
+			// Sets certain vanilla NPCs and all town NPCs to be immune to all debuffs.
 			if (DestroyerIDs.Contains(npc.type) || npc.type == NPCID.SkeletronHead || (EaterofWorldsIDs.Contains(npc.type) && BossRushEvent.BossRushActive) || npc.type == NPCID.DD2EterniaCrystal || npc.townNPC || npc.type == NPCID.SpikeBall || npc.type == NPCID.BlazingWheel)
 			{
 				for (int k = 0; k < npc.buffImmune.Length; k++)
@@ -866,14 +882,16 @@ namespace CalamityMod.NPCs
 				}
 			}
 
-			if (!npc.buffImmune[BuffID.Venom])
-			{
-				npc.buffImmune[BuffType<SulphuricPoisoning>()] = false;
-			}
-
+			// Most bosses and boss servants are not immune to Kami Flu.
             if (YanmeisKnifeSlash.CanRecieveCoolEffectsFrom(npc))
                 npc.buffImmune[BuffType<KamiDebuff>()] = false;
+
+			// Nothing should be immune to Enraged.
             npc.buffImmune[BuffType<Enraged>()] = false;
+
+			// Extra Notes:
+			// Shellfish minions set debuff immunity to Shellfish Claps on enemy hits, so most things are technically not immune.
+			// The Spiteful Candle sets the debuff immunity of Spite to all nearby enemies in the tile file for an enemy with less than 99% DR.
         }
         #endregion
 
@@ -1004,7 +1022,8 @@ namespace CalamityMod.NPCs
             }
             else if (npc.type == NPCID.GolemHead)
             {
-                npc.lifeMax = (int)(npc.lifeMax * 1.5);
+				npc.width = npc.height = 100;
+				npc.lifeMax = (int)(npc.lifeMax * 1.5);
             }
             else if (npc.type == NPCID.GolemHeadFree)
             {
@@ -3009,7 +3028,7 @@ namespace CalamityMod.NPCs
                 npc.velocity = Vector2.Clamp(npc.velocity, new Vector2(-KamiDebuff.MaxNPCSpeed), new Vector2(KamiDebuff.MaxNPCSpeed));
             }
 
-			if (!CalamityPlayer.areThereAnyDamnBosses)
+			if (!CalamityPlayer.areThereAnyDamnBosses && !CalamityLists.enemyImmunityList.Contains(npc.type))
 			{
 				if (pearlAura > 0)
 					npc.velocity *= 0.9f;
@@ -3505,8 +3524,8 @@ namespace CalamityMod.NPCs
 			// Boosts
 			if (CalamityWorld.downedDoG && (Main.pumpkinMoon || Main.snowMoon || Main.eclipse))
 			{
-				spawnRate = (int)(spawnRate * 0.75);
-				maxSpawns = (int)(maxSpawns * 2f);
+				spawnRate = (int)(spawnRate * 0.5);
+				maxSpawns = (int)(maxSpawns * 5f);
 			}
 
 			if (player.Calamity().clamity)
@@ -4302,7 +4321,7 @@ namespace CalamityMod.NPCs
         {
             if (CalamityWorld.revenge || BossRushEvent.BossRushActive)
             {
-				if (npc.type == NPCID.GolemHeadFree)
+				if (npc.type == NPCID.GolemHeadFree || npc.type == NPCID.GolemHead)
 				{
 					Texture2D npcTexture = Main.npcTexture[npc.type];
 					int frameHeight = npcTexture.Height / Main.npcFrameCount[npc.type];
@@ -4311,10 +4330,36 @@ namespace CalamityMod.NPCs
 					if (npc.spriteDirection == 1)
 						spriteEffects = SpriteEffects.FlipHorizontally;
 
-					if (npc.localAI[0] == 1f)
-						npc.frame.Y = frameHeight;
+					if (npc.type == NPCID.GolemHead)
+					{
+						if (npc.ai[0] == 0f)
+						{
+							if (npc.localAI[0] == 1f)
+								npc.frame.Y = frameHeight;
+							else
+								npc.frame.Y = 0;
+						}
+						else if (npc.ai[0] == 1f)
+						{
+							if (npc.localAI[0] == 1f)
+								npc.frame.Y = frameHeight;
+							else
+								npc.frame.Y = 0;
+
+							if (npc.localAI[1] == -1f)
+								npc.frame.Y += frameHeight * 4;
+
+							if (npc.localAI[1] == 1f)
+								npc.frame.Y += frameHeight * 2;
+						}
+					}
 					else
-						npc.frame.Y = 0;
+					{
+						if (npc.localAI[0] == 1f)
+							npc.frame.Y = frameHeight;
+						else
+							npc.frame.Y = 0;
+					}
 
 					spriteBatch.Draw(npcTexture, npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame, npc.GetAlpha(drawColor), npc.rotation, npc.frame.Size() / 2, npc.scale, spriteEffects, 0);
 				}

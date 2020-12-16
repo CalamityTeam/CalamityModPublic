@@ -12,6 +12,7 @@ using CalamityMod.Items.Armor;
 using CalamityMod.Items.DifficultyItems;
 using CalamityMod.Items.Dyes;
 using CalamityMod.Items.Mounts;
+using CalamityMod.Items.Tools;
 using CalamityMod.Items.TreasureBags;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
@@ -41,7 +42,6 @@ using CalamityMod.Projectiles.Boss;
 using CalamityMod.Projectiles.DraedonsArsenal;
 using CalamityMod.Projectiles.Enemy;
 using CalamityMod.Projectiles.Environment;
-using CalamityMod.Projectiles.Healing;
 using CalamityMod.Projectiles.Melee;
 using CalamityMod.Projectiles.Ranged;
 using CalamityMod.Projectiles.Rogue;
@@ -4941,7 +4941,7 @@ namespace CalamityMod.CalPlayer
             {
                 damageMult += 4.0;
             }
-			if (item.melee)
+			if (item.melee && item.type != ModContent.ItemType<UltimusCleaver>() && item.type != ModContent.ItemType<InfernaCutter>())
 			{
                 damageMult += trueMeleeDamage;
 			}
@@ -5505,7 +5505,7 @@ namespace CalamityMod.CalPlayer
 				{
 					int newDamage = damage;
 
-					double defenseStatDamageMult = CalamityWorld.death ? 0.25 : CalamityWorld.revenge ? 0.2 : Main.expertMode ? 0.15 : 0.1;
+					double defenseStatDamageMult = CalamityWorld.death ? 0.15 : CalamityWorld.revenge ? 0.125 : Main.expertMode ? 0.1 : 0.05;
 					if (draedonsHeart)
 						defenseStatDamageMult *= 0.5;
 
@@ -5839,7 +5839,7 @@ namespace CalamityMod.CalPlayer
 				{
 					int newDamage = damage;
 
-					double defenseStatDamageMult = CalamityWorld.death ? 0.25 : CalamityWorld.revenge ? 0.2 : Main.expertMode ? 0.15 : 0.1;
+					double defenseStatDamageMult = CalamityWorld.death ? 0.15 : CalamityWorld.revenge ? 0.125 : Main.expertMode ? 0.1 : 0.05;
 					if (draedonsHeart)
 						defenseStatDamageMult *= 0.5;
 
@@ -9212,7 +9212,8 @@ namespace CalamityMod.CalPlayer
             // Use time 20 = 242% damage ratio
             // Use time 30 = 263% damage ratio
             // Use time 59 = 297% damage ratio
-            double useTimeFactor = 0.75 + 0.75 * Math.Log(it.useTime + 2D, 4D);
+            int realUseTime = Math.Max(it.useTime, it.useAnimation);
+            double useTimeFactor = 0.75 + 0.75 * Math.Log(realUseTime + 2D, 4D);
 
             // 9.00 second stealth charge = 433% damage ratio
             // 6.00 second stealth charge = 330% damage ratio

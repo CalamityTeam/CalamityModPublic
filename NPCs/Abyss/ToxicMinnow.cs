@@ -33,7 +33,6 @@ namespace CalamityMod.NPCs.Abyss
             npc.aiStyle = -1;
             aiType = -1;
             npc.value = Item.buyPrice(0, 0, 5, 0);
-            npc.buffImmune[ModContent.BuffType<CrushDepth>()] = true;
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath1;
             npc.knockBackResist = 0.15f;

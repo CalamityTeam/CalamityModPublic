@@ -52,10 +52,6 @@ namespace CalamityMod.NPCs.CeaselessVoid
             npc.aiStyle = -1;
             aiType = -1;
             npc.knockBackResist = 0f;
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
             npc.noGravity = true;
             npc.noTileCollide = true;
             npc.boss = true;

@@ -35,7 +35,6 @@ namespace CalamityMod.NPCs.SlimeGod
             npc.aiStyle = -1;
             aiType = -1;
             npc.knockBackResist = 0f;
-            npc.buffImmune[ModContent.BuffType<TimeSlow>()] = false;
             animationType = NPCID.KingSlime;
             npc.value = Item.buyPrice(0, 1, 0, 0);
             npc.alpha = 55;

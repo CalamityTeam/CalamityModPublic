@@ -29,10 +29,6 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.height = 80;
             npc.lifeMax = 10000;
             npc.knockBackResist = 0f;
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
             npc.value = Item.buyPrice(0, 1, 0, 0);
             npc.alpha = 50;
             npc.noGravity = true;

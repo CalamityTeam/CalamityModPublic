@@ -34,7 +34,6 @@ namespace CalamityMod.NPCs.Perforator
             aiType = -1;
             npc.knockBackResist = 0f;
             npc.alpha = 255;
-            npc.buffImmune[ModContent.BuffType<TimeSlow>()] = false;
             npc.behindTiles = true;
             npc.noGravity = true;
             npc.noTileCollide = true;

@@ -36,10 +36,6 @@ namespace CalamityMod.NPCs.Abyss
             npc.lifeMax = 4000;
             npc.aiStyle = -1;
             aiType = -1;
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
             npc.knockBackResist = 0f;
             npc.value = Item.buyPrice(0, 0, 10, 0);
             npc.behindTiles = true;

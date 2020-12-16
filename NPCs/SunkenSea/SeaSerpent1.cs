@@ -30,10 +30,6 @@ namespace CalamityMod.NPCs.SunkenSea
             aiType = -1;
             npc.knockBackResist = 0f;
             npc.value = Item.buyPrice(0, 0, 20, 0);
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
             npc.behindTiles = true;
             npc.noGravity = true;
             npc.noTileCollide = true;

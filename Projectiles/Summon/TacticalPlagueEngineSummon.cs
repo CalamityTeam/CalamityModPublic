@@ -146,7 +146,7 @@ namespace CalamityMod.Projectiles.Summon
                 if (projectile.ai[0]++ % 75f == 24f)
                 {
                     int damage = projectile.damage;
-                    if (Main.rand.NextBool(20))
+                    if (projectile.ai[1]++ % 20f == 0f)
                     {
                         int idx = Projectile.NewProjectile(projectile.Center, projectile.DirectionTo(potentialTarget.Center) * 18f, ModContent.ProjectileType<MK2RocketHoming>(),
                             (int)(damage * 1.5), 5f, projectile.owner);

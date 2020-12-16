@@ -39,7 +39,6 @@ namespace CalamityMod.NPCs.Astral
             npc.value = Item.buyPrice(0, 0, 15, 0);
             banner = npc.type;
             bannerItem = ModContent.ItemType<HadarianBanner>();
-            npc.buffImmune[ModContent.BuffType<AstralInfectionDebuff>()] = true;
             if (CalamityWorld.downedAstrageldon)
             {
                 npc.damage = 80;

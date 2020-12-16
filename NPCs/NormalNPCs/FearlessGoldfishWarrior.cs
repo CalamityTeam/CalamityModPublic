@@ -33,7 +33,6 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.DeathSound = SoundID.NPCDeath1;
             banner = npc.type;
             bannerItem = ModContent.ItemType<FearlessGoldfishWarriorBanner>();
-            npc.buffImmune[BuffID.Confused] = false;
         }
 
         public override void AI()

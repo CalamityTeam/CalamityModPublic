@@ -333,7 +333,7 @@ namespace CalamityMod.NPCs
 				}
 			}
 
-			float maxDistance = calamityGlobalNPC.newAI[0] == 1f ? 8000f : 4000f;
+			float maxDistance = calamityGlobalNPC.newAI[0] == 1f ? 12800f : 6400f;
 			if (player.dead || Vector2.Distance(npc.Center, player.Center) > maxDistance)
 			{
 				calamityGlobalNPC.newAI[1] = 1f;

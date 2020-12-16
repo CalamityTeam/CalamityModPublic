@@ -77,7 +77,7 @@ namespace CalamityMod.Items.Accessories
             if (!hideVisual)
             {
 				Vector2 velocity = new Vector2(0f, -1f);
-				int damage = NPC.downedMoonlord ? 150 : 90;
+				int damage = NPC.downedMoonlord ? 110 : 90;
 				float damageMult = CalamityWorld.downedDoG ? 2f : 1f;
 				int elementalDmg = (int)(damage * damageMult * player.MinionDamage());
 				float kBack = 2f + player.minionKB;
