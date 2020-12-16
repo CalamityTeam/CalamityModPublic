@@ -31,7 +31,6 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.noGravity = false;
             banner = npc.type;
             bannerItem = ModContent.ItemType<SandTortoiseBanner>();
-            npc.buffImmune[BuffID.Confused] = false;
         }
 
         public override void HitEffect(int hitDirection, double damage)

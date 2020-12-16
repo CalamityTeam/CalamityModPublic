@@ -35,10 +35,6 @@ namespace CalamityMod.NPCs.OldDuke
 			}
 			npc.alpha = 255;
             npc.knockBackResist = 0f;
-			for (int k = 0; k < npc.buffImmune.Length; k++)
-			{
-				npc.buffImmune[k] = true;
-			}
 			npc.HitSound = SoundID.NPCHit1;
 			npc.DeathSound = SoundID.NPCDeath11;
             npc.noGravity = true;

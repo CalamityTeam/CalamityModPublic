@@ -29,10 +29,6 @@ namespace CalamityMod.NPCs.SulphurousSea
             npc.defense = 25;
             npc.lifeMax = 1000;
             npc.aiStyle = aiType = -1;
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
             npc.value = Item.buyPrice(0, 0, 3, 50);
             npc.HitSound = SoundID.NPCHit42;
             npc.DeathSound = SoundID.NPCDeath5;

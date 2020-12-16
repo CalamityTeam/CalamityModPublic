@@ -31,10 +31,6 @@ namespace CalamityMod.NPCs.Polterghast
 			npc.damage = 0;
 			npc.lifeMax = 1500;
 			npc.dontTakeDamage = true;
-			for (int k = 0; k < npc.buffImmune.Length; k++)
-			{
-				npc.buffImmune[k] = true;
-			}
 			npc.HitSound = SoundID.NPCHit4;
 			npc.DeathSound = SoundID.NPCDeath14;
 		}

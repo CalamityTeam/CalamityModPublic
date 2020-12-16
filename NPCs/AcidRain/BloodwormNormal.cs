@@ -23,10 +23,6 @@ namespace CalamityMod.NPCs.AcidRain
             npc.defense = 0;
             npc.lifeMax = 5;
             npc.knockBackResist = 0f;
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
             npc.lavaImmune = false;
             npc.noGravity = false;
             npc.noTileCollide = false;

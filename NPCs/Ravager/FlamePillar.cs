@@ -27,10 +27,6 @@ namespace CalamityMod.NPCs.Ravager
             npc.aiStyle = -1;
             aiType = -1;
             npc.knockBackResist = 0f;
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
             npc.dontTakeDamage = true;
             npc.HitSound = SoundID.NPCHit4;
             npc.DeathSound = SoundID.NPCDeath14;

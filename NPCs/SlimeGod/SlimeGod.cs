@@ -34,7 +34,6 @@ namespace CalamityMod.NPCs.SlimeGod
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.aiStyle = -1;
             aiType = -1;
-            npc.buffImmune[ModContent.BuffType<TimeSlow>()] = false;
             npc.knockBackResist = 0f;
             animationType = NPCID.KingSlime;
             npc.value = 0f;

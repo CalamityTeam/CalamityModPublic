@@ -30,7 +30,6 @@ namespace CalamityMod.NPCs.Abyss
             npc.lifeMax = 480;
             npc.aiStyle = -1;
             aiType = -1;
-            npc.buffImmune[ModContent.BuffType<CrushDepth>()] = true;
             npc.value = Item.buyPrice(0, 0, 10, 0);
             npc.HitSound = SoundID.NPCHit51;
             npc.DeathSound = SoundID.NPCDeath26;

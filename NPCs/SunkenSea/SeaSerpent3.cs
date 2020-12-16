@@ -23,10 +23,6 @@ namespace CalamityMod.NPCs.SunkenSea
             aiType = -1; //new
             npc.knockBackResist = 0f;
             npc.alpha = 255;
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
             npc.behindTiles = true;
             npc.noGravity = true;
             npc.noTileCollide = true;

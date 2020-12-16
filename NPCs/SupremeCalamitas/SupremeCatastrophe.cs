@@ -42,12 +42,6 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             npc.knockBackResist = 0f;
             npc.noGravity = true;
             npc.noTileCollide = true;
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
-            npc.buffImmune[BuffID.Ichor] = false;
-            npc.buffImmune[BuffID.CursedInferno] = false;
             npc.HitSound = SoundID.NPCHit4;
             npc.DeathSound = SoundID.NPCDeath14;
         }

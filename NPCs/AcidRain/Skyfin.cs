@@ -52,10 +52,6 @@ namespace CalamityMod.NPCs.AcidRain
             }
 
             npc.value = Item.buyPrice(0, 0, 3, 65);
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
             npc.lavaImmune = false;
             npc.noGravity = true;
             npc.HitSound = SoundID.NPCHit1;

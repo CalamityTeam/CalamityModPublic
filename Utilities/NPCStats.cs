@@ -35,14 +35,14 @@ using Terraria.ModLoader;
 
 namespace CalamityMod
 {
-	public static class NPCStats
+	public static partial class NPCStats
 	{
 		private const double ExpertContactVanillaMultiplier = 2D;
 		private const double NormalProjectileVanillaMultiplier = 2D;
 		private const double ExpertProjectileVanillaMultiplier = 4D;
 
 		#region Boss Stats Container Struct
-		internal struct BossStats
+		internal partial struct BossStats
 		{
 			public static SortedDictionary<int, double> ExpertDamageMultiplier;
 			public static SortedDictionary<int, int[]> ContactDamageValues;
@@ -137,9 +137,20 @@ namespace CalamityMod
 		#endregion
 
 		#region Load/Unload
+		internal static void Load()
+		{
+			LoadBossStats();
+			LoadDebuffs();
+		}
+		internal static void Unload()
+		{
+			UnloadBossStats();
+			UnloadDebuffs();
+		}
+
 		// A static function, called exactly once, which initializes the BossStats struct at a predictable time.
 		// This is necessary to ensure this dictionary is populated as early as possible.
-		internal static void Load()
+		internal static void LoadBossStats()
 		{
 			BossStats.ExpertDamageMultiplier = new SortedDictionary<int, double>
 			{
@@ -768,7 +779,7 @@ namespace CalamityMod
 		}
 
 		// Destroys the BossStats struct to save memory because mod assemblies will not be fully unloaded until TML 1.4.
-		internal static void Unload()
+		internal static void UnloadBossStats()
 		{
 			BossStats.ExpertDamageMultiplier = null;
 			BossStats.ContactDamageValues = null;

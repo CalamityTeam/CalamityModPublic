@@ -28,10 +28,6 @@ namespace CalamityMod.NPCs.AcidRain
             npc.lifeMax = 5;
             npc.defense = 5;
 
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
             npc.value = Item.buyPrice(0, 0, 5, 55);
             npc.lavaImmune = true;
             npc.noGravity = false;

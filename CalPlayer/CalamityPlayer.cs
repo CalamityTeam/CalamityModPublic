@@ -3955,8 +3955,7 @@ namespace CalamityMod.CalPlayer
 
 			if (slimeGodLore)
 			{
-				if (!player.iceSkate)
-					player.runSlowdown *= 0.1f;
+				player.runSlowdown *= 0.1f;
 			}
             #endregion
 
@@ -9203,7 +9202,8 @@ namespace CalamityMod.CalPlayer
             // Use time 20 = 242% damage ratio
             // Use time 30 = 263% damage ratio
             // Use time 59 = 297% damage ratio
-            double useTimeFactor = 0.75 + 0.75 * Math.Log(it.useTime + 2D, 4D);
+            int realUseTime = Math.Max(it.useTime, it.useAnimation);
+            double useTimeFactor = 0.75 + 0.75 * Math.Log(realUseTime + 2D, 4D);
 
             // 9.00 second stealth charge = 433% damage ratio
             // 6.00 second stealth charge = 330% damage ratio
@@ -9211,7 +9211,7 @@ namespace CalamityMod.CalPlayer
             // 2.50 second stealth charge = 184% damage ratio
             double stealthGenFactor = Math.Max(Math.Pow(fakeStealthTime, 2D / 3D), 1.5);
 
-            double stealthAddedDamage = it.damage * rogueStealth * StealthDamageConstant * useTimeFactor * stealthGenFactor;
+            double stealthAddedDamage = rogueStealth * StealthDamageConstant * useTimeFactor * stealthGenFactor;
             // TODO -- Store stealth damage elsewhere so that it can't affect rogue on-hits while you stand around with this damage boost.
             throwingDamage += (float)stealthAddedDamage;
 

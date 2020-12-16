@@ -2,7 +2,6 @@ using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Ammo;
 using CalamityMod.Items.Dyes;
 using CalamityMod.Items.Dyes.HairDye;
-using CalamityMod.Items.Materials;
 using CalamityMod.Items.Pets;
 using CalamityMod.Items.Placeables.Furniture.Fountains;
 using CalamityMod.Items.Placeables.Walls;
@@ -34,6 +33,7 @@ namespace CalamityMod.NPCs
 		{
 			"Drifter",
 			"Finchi",
+			"Heniek", // <@!363404700445442050> (Kazurgundu#3791)
 		};
 		private const int ClothierVanillaNames = 25;
 		private static readonly string[] ClothierNames =
@@ -57,7 +57,7 @@ namespace CalamityMod.NPCs
 		private static readonly string[] GoblinTinkererNames =
 		{
 			"Verth",
-			"Gormer", // <@!287651204924833795> (Picasso's Bean#2819)
+			"Gormer", // <@!287651204924833795> (Picasso's Bean#2819 -- RIP)
 		};
 		private const int GuideVanillaNames = 34;
 		private static readonly string[] GuideNames =
@@ -85,7 +85,10 @@ namespace CalamityMod.NPCs
 			"Farsni",
 		};
 		private const int PainterVanillaNames = 18;
-		private static readonly string[] PainterNames = null;
+		private static readonly string[] PainterNames =
+		{
+			"Picasso", // <@!353316526306361347> (SCONICBOOM#2164 -- for the late Picasso's Bean#2819)
+		};
 		private const int PartyGirlVanillaNames = 17;
 		private static readonly string[] PartyGirlNames = null;
 		private const int PirateVanillaNames = 11;
@@ -98,6 +101,7 @@ namespace CalamityMod.NPCs
 		{
 			"Vorbis",
 			"Angel",
+			"Rin", // <@!295171926324805634> (ChaosChaos#5979)
 		};
 		private const int StylistVanillaNames = 20;
 		private static readonly string[] StylistNames =

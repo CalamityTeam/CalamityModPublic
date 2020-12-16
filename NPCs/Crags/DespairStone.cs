@@ -39,7 +39,6 @@ namespace CalamityMod.NPCs.Crags
             }
             banner = npc.type;
             bannerItem = ModContent.ItemType<DespairStoneBanner>();
-			npc.buffImmune[BuffID.Confused] = false;
         }
 
         public override void AI()

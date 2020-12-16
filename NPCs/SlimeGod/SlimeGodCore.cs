@@ -47,8 +47,6 @@ namespace CalamityMod.NPCs.SlimeGod
             NPCID.Sets.TrailingMode[npc.type] = 1;
             npc.aiStyle = -1;
             aiType = -1;
-            npc.buffImmune[ModContent.BuffType<GlacialState>()] = true;
-            npc.buffImmune[ModContent.BuffType<TemporalSadness>()] = true;
             npc.knockBackResist = 0f;
             npc.value = Item.buyPrice(0, 8, 0, 0);
             npc.alpha = 55;
