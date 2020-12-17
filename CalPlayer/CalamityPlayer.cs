@@ -8300,7 +8300,6 @@ namespace CalamityMod.CalPlayer
             }
             else if (dashMod > 0 && !player.mount.Active)
             {
-                float dashDistance;
                 if (dashMod == 1) //Counter and Evasion Scarf
                 {
                     if (DoADash(evasionScarf ? 16.3f : 14.5f))
@@ -8312,7 +8311,7 @@ namespace CalamityMod.CalPlayer
                             dust.position.X += Main.rand.NextFloat(-5f, 5f);
                             dust.position.Y += Main.rand.NextFloat(-5f, 5f);
                             dust.velocity *= 0.2f;
-                            dust.scale *= Main.rand.Next(1f, 1.2f);
+                            dust.scale *= Main.rand.NextFloat(1f, 1.2f);
                             dust.shader = GameShaders.Armor.GetSecondaryShader(player.cShoe, player);
                         }
                     }
@@ -8328,7 +8327,7 @@ namespace CalamityMod.CalPlayer
                             dust.position.X += Main.rand.NextFloat(-5f, 5f);
                             dust.position.Y += Main.rand.NextFloat(-5f, 5f);
                             dust.velocity *= 0.2f;
-                            dust.scale *= Main.rand.Next(1f, 1.2f);
+                            dust.scale *= Main.rand.NextFloat(1f, 1.2f);
                             dust.shader = GameShaders.Armor.GetSecondaryShader(player.ArmorSetDye(), player);
                             dust.noGravity = true;
                             dust.fadeIn = 0.5f;
@@ -8346,7 +8345,7 @@ namespace CalamityMod.CalPlayer
                             dust.position.X += Main.rand.NextFloat(-5f, 5f);
                             dust.position.Y += Main.rand.NextFloat(-5f, 5f);
                             dust.velocity *= 0.2f;
-                            dust.scale *= Main.rand.Next(1f, 1.2f);
+                            dust.scale *= Main.rand.NextFloat(1f, 1.2f);
                             dust.shader = GameShaders.Armor.GetSecondaryShader(player.ArmorSetDye(), player);
                             dust.noGravity = true;
                             dust.fadeIn = 0.5f;
@@ -8364,7 +8363,7 @@ namespace CalamityMod.CalPlayer
                             dust.position.X += Main.rand.NextFloat(-5f, 5f);
                             dust.position.Y += Main.rand.NextFloat(-5f, 5f);
                             dust.velocity *= 0.2f;
-                            dust.scale *= Main.rand.Next(1f, 1.2f);
+                            dust.scale *= Main.rand.NextFloat(1f, 1.2f);
                             dust.shader = GameShaders.Armor.GetSecondaryShader(player.ArmorSetDye(), player);
                             dust.noGravity = true;
                             dust.fadeIn = 0.5f;
@@ -8382,7 +8381,7 @@ namespace CalamityMod.CalPlayer
                             dust.position.X += Main.rand.NextFloat(-5f, 5f);
                             dust.position.Y += Main.rand.NextFloat(-5f, 5f);
                             dust.velocity *= 0.2f;
-                            dust.scale *= Main.rand.Next(1f, 1.2f);
+                            dust.scale *= Main.rand.NextFloat(1f, 1.2f);
                             dust.shader = GameShaders.Armor.GetSecondaryShader(player.ArmorSetDye(), player);
                             dust.noGravity = true;
                             dust.fadeIn = 0.5f;
@@ -8400,7 +8399,7 @@ namespace CalamityMod.CalPlayer
                             dust.position.X += Main.rand.NextFloat(-5f, 5f);
                             dust.position.Y += Main.rand.NextFloat(-5f, 5f);
                             dust.velocity *= 0.2f;
-                            dust.scale *= Main.rand.Next(1f, 1.2f);
+                            dust.scale *= Main.rand.NextFloat(1f, 1.2f);
                             dust.shader = GameShaders.Armor.GetSecondaryShader(player.ArmorSetDye(), player);
                             dust.noGravity = true;
                             dust.fadeIn = 0.5f;
@@ -8418,7 +8417,7 @@ namespace CalamityMod.CalPlayer
                             dust.position.X += Main.rand.NextFloat(-5f, 5f);
                             dust.position.Y += Main.rand.NextFloat(-5f, 5f);
                             dust.velocity *= 0.2f;
-                            dust.scale *= Main.rand.Next(1f, 1.2f);
+                            dust.scale *= Main.rand.NextFloat(1f, 1.2f);
                             dust.shader = GameShaders.Armor.GetSecondaryShader(player.cShoe, player);
                         }
                     }
@@ -8434,7 +8433,7 @@ namespace CalamityMod.CalPlayer
                             dust.position.X += Main.rand.NextFloat(-5f, 5f);
                             dust.position.Y += Main.rand.NextFloat(-5f, 5f);
                             dust.velocity *= 0.2f;
-                            dust.scale *= Main.rand.Next(1f, 1.2f);
+                            dust.scale *= Main.rand.NextFloat(1f, 1.2f);
                             dust.shader = GameShaders.Armor.GetSecondaryShader(player.ArmorSetDye(), player);
                             dust.noGravity = true;
                             dust.fadeIn = 0.5f;

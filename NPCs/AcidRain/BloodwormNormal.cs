@@ -104,7 +104,7 @@ namespace CalamityMod.NPCs.AcidRain
 
 			//Increase bloodworm spawn rate relative to the number of existing bloodworms, parabolic multiplier ranging from 5x spawn rate with 0 blood worms to 1x with 5 or more
 			int bloodwormAmt = NPC.CountNPCS(npc.type);
-			int spawnMult = bloodwormAmt > 5 ? 1f : (float)(0.16 * Math.Pow(5- bloodwormAmt, 2)) + 1f;
+			float spawnMult = bloodwormAmt > 5 ? 1f : (float)(0.16 * Math.Pow(5 - bloodwormAmt, 2)) + 1f;
 			float spawnRate = SpawnCondition.WormCritter.Chance * 2.569f * spawnMult;
 
 			return spawnRate;
