@@ -43,7 +43,6 @@ namespace CalamityMod.Projectiles.Rogue
             {
 				projectile.spriteDirection = projectile.direction = (projectile.velocity.X > 0).ToDirectionInt();
 				projectile.rotation = projectile.velocity.ToRotation() + (projectile.spriteDirection == 1 ? 0f : MathHelper.Pi);
-				projectile.rotation -= projectile.spriteDirection * MathHelper.ToRadians(45f);
                 projectile.ai[1] += 1f;
                 if (projectile.ai[1] >= 45f)
                 {
@@ -86,7 +85,10 @@ namespace CalamityMod.Projectiles.Rogue
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Texture2D tex = Main.projectileTexture[projectile.type];
-            spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, projectile.GetAlpha(lightColor), projectile.rotation, tex.Size() / 2f, projectile.scale, SpriteEffects.None, 0f);
+            SpriteEffects spriteEffects = SpriteEffects.None;
+            if (projectile.spriteDirection == -1)
+                spriteEffects = SpriteEffects.FlipHorizontally;
+            spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, projectile.GetAlpha(lightColor), projectile.rotation, tex.Size() / 2f, projectile.scale, spriteEffects, 0f);
             return false;
         }
 
