@@ -25,7 +25,7 @@ namespace CalamityMod.Items.Materials
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<Bloodstone>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<BloodOrb>(), 2);
+            recipe.AddIngredient(ModContent.ItemType<BloodOrb>());
             recipe.AddIngredient(ModContent.ItemType<Phantoplasm>());
             recipe.AddTile(TileID.AdamantiteForge);
             recipe.SetResult(this, 2);
