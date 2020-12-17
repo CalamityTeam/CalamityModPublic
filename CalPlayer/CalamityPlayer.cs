@@ -7950,8 +7950,8 @@ namespace CalamityMod.CalPlayer
                             if (player.whoAmI == Main.myPlayer)
                             {
                                 player.ApplyDamageToNPC(npc, (int)num, num2, direction, crit);
-                                Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, ModContent.ProjectileType<HolyExplosionSupreme>(), (int)(300 * player.AverageDamage()), 20f, Main.myPlayer, 0f, 0f);
-                                Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, ModContent.ProjectileType<HolyEruption>(), (int)(200 * player.AverageDamage()), 5f, Main.myPlayer, 0f, 0f);
+                                Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<HolyExplosionSupreme>(), (int)(300 * player.AverageDamage()), 20f, Main.myPlayer, 0f, 0f);
+                                Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<HolyEruption>(), (int)(200 * player.AverageDamage()), 5f, Main.myPlayer, 0f, 0f);
                             }
 							if (npc.immune[player.whoAmI] < 6)
 								npc.immune[player.whoAmI] = 6;
@@ -8005,8 +8005,8 @@ namespace CalamityMod.CalPlayer
                             if (player.whoAmI == Main.myPlayer)
                             {
                                 player.ApplyDamageToNPC(npc, (int)num, num2, direction, crit);
-                                Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, ModContent.ProjectileType<HolyExplosionSupreme>(), (int)(210 * player.AverageDamage()), 15f, Main.myPlayer, 0f, 0f);
-                                Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, ModContent.ProjectileType<HolyEruption>(), (int)(140 * player.AverageDamage()), 5f, Main.myPlayer, 0f, 0f);
+                                Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<HolyExplosionSupreme>(), (int)(210 * player.AverageDamage()), 15f, Main.myPlayer, 0f, 0f);
+                                Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<HolyEruption>(), (int)(140 * player.AverageDamage()), 5f, Main.myPlayer, 0f, 0f);
                             }
 							if (npc.immune[player.whoAmI] < 6)
 								npc.immune[player.whoAmI] = 6;
@@ -8059,7 +8059,7 @@ namespace CalamityMod.CalPlayer
                             if (player.whoAmI == Main.myPlayer)
                             {
                                 player.ApplyDamageToNPC(npc, (int)num, num2, direction, crit);
-                                Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, ModContent.ProjectileType<HolyExplosion>(), (int)(60 * player.AverageDamage()), 15f, Main.myPlayer, 0f, 0f);
+                                Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<HolyExplosion>(), (int)(60 * player.AverageDamage()), 15f, Main.myPlayer, 0f, 0f);
                             }
 							if (npc.immune[player.whoAmI] < 6)
 								npc.immune[player.whoAmI] = 6;
@@ -8301,123 +8301,32 @@ namespace CalamityMod.CalPlayer
                 float dashDistance;
                 if (dashMod == 1) //Counter and Evasion Scarf
                 {
-                    dashDistance = evasionScarf ? 16.3f : 14.5f;
-                    int direction = 0;
-                    bool justDashed = false;
-                    if (dashTimeMod > 0)
+                    if (DoADash(evasionScarf ? 16.3f : 14.5f))
                     {
-                        dashTimeMod--;
-                    }
-                    if (dashTimeMod < 0)
-                    {
-                        dashTimeMod++;
-                    }
-                    if (player.controlRight && player.releaseRight)
-                    {
-                        if (dashTimeMod > 0)
+                        for (int d = 0; d < 20; d++)
                         {
-                            direction = 1;
-                            justDashed = true;
-                            dashTimeMod = 0;
-                        }
-                        else
-                        {
-                            dashTimeMod = 15;
-                        }
-                    }
-                    else if (player.controlLeft && player.releaseLeft)
-                    {
-                        if (dashTimeMod < 0)
-                        {
-                            direction = -1;
-                            justDashed = true;
-                            dashTimeMod = 0;
-                        }
-                        else
-                        {
-                            dashTimeMod = -15;
-                        }
-                    }
-                    if (justDashed)
-                    {
-                        player.velocity.X = dashDistance * (float)direction; //eoc dash amount (evasion = asgard's)
-                        Point point = (player.Center + new Vector2((float)(direction * player.width / 2 + 2), player.gravDir * (float)-(float)player.height / 2f + player.gravDir * 2f)).ToTileCoordinates();
-                        Point point2 = (player.Center + new Vector2((float)(direction * player.width / 2 + 2), 0f)).ToTileCoordinates();
-                        if (WorldGen.SolidOrSlopedTile(point.X, point.Y) || WorldGen.SolidOrSlopedTile(point2.X, point2.Y))
-                        {
-                            player.velocity.X = player.velocity.X / 2f;
-                        }
-                        player.dashDelay = -1;
-                        for (int num17 = 0; num17 < 20; num17++)
-                        {
-                            int num18 = Dust.NewDust(player.position, player.width, player.height, 235, 0f, 0f, 100, default, 2f);
-                            Dust dust = Main.dust[num18];
-                            dust.position.X += (float)Main.rand.Next(-5, 6);
-                            dust.position.Y += (float)Main.rand.Next(-5, 6);
+                            int idx = Dust.NewDust(player.position, player.width, player.height, 235, 0f, 0f, 100, default, 2f);
+                            Dust dust = Main.dust[idx];
+                            dust.position.X += Main.rand.NextFloat(-5f, 5f);
+                            dust.position.Y += Main.rand.NextFloat(-5f, 5f);
                             dust.velocity *= 0.2f;
-                            dust.scale *= 1f + (float)Main.rand.Next(20) * 0.01f;
+                            dust.scale *= Main.rand.Next(1f, 1.2f);
                             dust.shader = GameShaders.Armor.GetSecondaryShader(player.cShoe, player);
                         }
-                        return;
                     }
                 }
                 else if (dashMod == 2) //Asgard's Valor
                 {
-                    dashDistance = 16.9f;
-                    int direction = 0;
-                    bool justDashed = false;
-                    if (dashTimeMod > 0)
+                    if (DoADash(16.9f))
                     {
-                        dashTimeMod--;
-                    }
-                    if (dashTimeMod < 0)
-                    {
-                        dashTimeMod++;
-                    }
-                    if (player.controlRight && player.releaseRight)
-                    {
-                        if (dashTimeMod > 0)
+                        for (int d = 0; d < 20; d++)
                         {
-                            direction = 1;
-                            justDashed = true;
-                            dashTimeMod = 0;
-                        }
-                        else
-                        {
-                            dashTimeMod = 15;
-                        }
-                    }
-                    else if (player.controlLeft && player.releaseLeft)
-                    {
-                        if (dashTimeMod < 0)
-                        {
-                            direction = -1;
-                            justDashed = true;
-                            dashTimeMod = 0;
-                        }
-                        else
-                        {
-                            dashTimeMod = -15;
-                        }
-                    }
-                    if (justDashed)
-                    {
-                        player.velocity.X = dashDistance * (float)direction; //tabi dash amount
-                        Point point5 = (player.Center + new Vector2((float)(direction * player.width / 2 + 2), player.gravDir * (float)-(float)player.height / 2f + player.gravDir * 2f)).ToTileCoordinates();
-                        Point point6 = (player.Center + new Vector2((float)(direction * player.width / 2 + 2), 0f)).ToTileCoordinates();
-                        if (WorldGen.SolidOrSlopedTile(point5.X, point5.Y) || WorldGen.SolidOrSlopedTile(point6.X, point6.Y))
-                        {
-                            player.velocity.X = player.velocity.X / 2f;
-                        }
-                        player.dashDelay = -1;
-                        for (int num24 = 0; num24 < 20; num24++)
-                        {
-                            int num25 = Dust.NewDust(player.position, player.width, player.height, 246, 0f, 0f, 100, default, 3f);
-                            Dust dust = Main.dust[num25];
-                            dust.position.X += (float)Main.rand.Next(-5, 6);
-                            dust.position.Y += (float)Main.rand.Next(-5, 6);
+                            int idx = Dust.NewDust(player.position, player.width, player.height, 246, 0f, 0f, 100, default, 3f);
+                            Dust dust = Main.dust[idx];
+                            dust.position.X += Main.rand.NextFloat(-5f, 5f);
+                            dust.position.Y += Main.rand.NextFloat(-5f, 5f);
                             dust.velocity *= 0.2f;
-                            dust.scale *= 1f + (float)Main.rand.Next(20) * 0.01f;
+                            dust.scale *= Main.rand.Next(1f, 1.2f);
                             dust.shader = GameShaders.Armor.GetSecondaryShader(player.ArmorSetDye(), player);
                             dust.noGravity = true;
                             dust.fadeIn = 0.5f;
@@ -8426,61 +8335,16 @@ namespace CalamityMod.CalPlayer
                 }
                 else if (dashMod == 3) //Elysian Aegis
                 {
-                    dashDistance = 21.9f;
-                    int direction = 0;
-                    bool justDashed = false;
-                    if (dashTimeMod > 0)
+                    if (DoADash(21.9f))
                     {
-                        dashTimeMod--;
-                    }
-                    if (dashTimeMod < 0)
-                    {
-                        dashTimeMod++;
-                    }
-                    if (player.controlRight && player.releaseRight)
-                    {
-                        if (dashTimeMod > 0)
+                        for (int d = 0; d < 40; d++)
                         {
-                            direction = 1;
-                            justDashed = true;
-                            dashTimeMod = 0;
-                        }
-                        else
-                        {
-                            dashTimeMod = 15;
-                        }
-                    }
-                    else if (player.controlLeft && player.releaseLeft)
-                    {
-                        if (dashTimeMod < 0)
-                        {
-                            direction = -1;
-                            justDashed = true;
-                            dashTimeMod = 0;
-                        }
-                        else
-                        {
-                            dashTimeMod = -15;
-                        }
-                    }
-                    if (justDashed)
-                    {
-                        player.velocity.X = dashDistance * (float)direction; //solar dash amount
-                        Point point5 = (player.Center + new Vector2((float)(direction * player.width / 2 + 2), player.gravDir * (float)-(float)player.height / 2f + player.gravDir * 2f)).ToTileCoordinates();
-                        Point point6 = (player.Center + new Vector2((float)(direction * player.width / 2 + 2), 0f)).ToTileCoordinates();
-                        if (WorldGen.SolidOrSlopedTile(point5.X, point5.Y) || WorldGen.SolidOrSlopedTile(point6.X, point6.Y))
-                        {
-                            player.velocity.X = player.velocity.X / 2f;
-                        }
-                        player.dashDelay = -1;
-                        for (int num24 = 0; num24 < 40; num24++)
-                        {
-                            int num25 = Dust.NewDust(player.position, player.width, player.height, 244, 0f, 0f, 100, default, 3f);
-                            Dust dust = Main.dust[num25];
-                            dust.position.X += (float)Main.rand.Next(-5, 6);
-                            dust.position.Y += (float)Main.rand.Next(-5, 6);
+                            int idx = Dust.NewDust(player.position, player.width, player.height, 244, 0f, 0f, 100, default, 3f);
+                            Dust dust = Main.dust[idx];
+                            dust.position.X += Main.rand.NextFloat(-5f, 5f);
+                            dust.position.Y += Main.rand.NextFloat(-5f, 5f);
                             dust.velocity *= 0.2f;
-                            dust.scale *= 1f + (float)Main.rand.Next(20) * 0.01f;
+                            dust.scale *= Main.rand.Next(1f, 1.2f);
                             dust.shader = GameShaders.Armor.GetSecondaryShader(player.ArmorSetDye(), player);
                             dust.noGravity = true;
                             dust.fadeIn = 0.5f;
@@ -8489,61 +8353,16 @@ namespace CalamityMod.CalPlayer
                 }
                 else if (dashMod == 4) //Asgardian Aegis
                 {
-                    dashDistance = 22.7f;
-                    int direction = 0;
-                    bool justDashed = false;
-                    if (dashTimeMod > 0)
+                    if (DoADash(22.7f))
                     {
-                        dashTimeMod--;
-                    }
-                    if (dashTimeMod < 0)
-                    {
-                        dashTimeMod++;
-                    }
-                    if (player.controlRight && player.releaseRight)
-                    {
-                        if (dashTimeMod > 0)
+                        for (int d = 0; d < 60; d++)
                         {
-                            direction = 1;
-                            justDashed = true;
-                            dashTimeMod = 0;
-                        }
-                        else
-                        {
-                            dashTimeMod = 15;
-                        }
-                    }
-                    else if (player.controlLeft && player.releaseLeft)
-                    {
-                        if (dashTimeMod < 0)
-                        {
-                            direction = -1;
-                            justDashed = true;
-                            dashTimeMod = 0;
-                        }
-                        else
-                        {
-                            dashTimeMod = -15;
-                        }
-                    }
-                    if (justDashed)
-                    {
-                        player.velocity.X = dashDistance * (float)direction; //slighty more powerful solar dash
-                        Point point5 = (player.Center + new Vector2((float)(direction * player.width / 2 + 2), player.gravDir * (float)-(float)player.height / 2f + player.gravDir * 2f)).ToTileCoordinates();
-                        Point point6 = (player.Center + new Vector2((float)(direction * player.width / 2 + 2), 0f)).ToTileCoordinates();
-                        if (WorldGen.SolidOrSlopedTile(point5.X, point5.Y) || WorldGen.SolidOrSlopedTile(point6.X, point6.Y))
-                        {
-                            player.velocity.X = player.velocity.X / 2f;
-                        }
-                        player.dashDelay = -1;
-                        for (int num24 = 0; num24 < 60; num24++)
-                        {
-                            int num25 = Dust.NewDust(player.position, player.width, player.height, 244, 0f, 0f, 100, default, 3f);
-                            Dust dust = Main.dust[num25];
-                            dust.position.X += (float)Main.rand.Next(-5, 6);
-                            dust.position.Y += (float)Main.rand.Next(-5, 6);
+                            int idx = Dust.NewDust(player.position, player.width, player.height, 244, 0f, 0f, 100, default, 3f);
+                            Dust dust = Main.dust[idx];
+                            dust.position.X += Main.rand.NextFloat(-5f, 5f);
+                            dust.position.Y += Main.rand.NextFloat(-5f, 5f);
                             dust.velocity *= 0.2f;
-                            dust.scale *= 1f + (float)Main.rand.Next(20) * 0.01f;
+                            dust.scale *= Main.rand.Next(1f, 1.2f);
                             dust.shader = GameShaders.Armor.GetSecondaryShader(player.ArmorSetDye(), player);
                             dust.noGravity = true;
                             dust.fadeIn = 0.5f;
@@ -8552,61 +8371,16 @@ namespace CalamityMod.CalPlayer
                 }
                 else if (dashMod == 5) //Deep Diver
                 {
-                    dashDistance = 25.9f;
-                    int direction = 0;
-                    bool justDashed = false;
-                    if (dashTimeMod > 0)
+                    if (DoADash(25.9f))
                     {
-                        dashTimeMod--;
-                    }
-                    if (dashTimeMod < 0)
-                    {
-                        dashTimeMod++;
-                    }
-                    if (player.controlRight && player.releaseRight)
-                    {
-                        if (dashTimeMod > 0)
+                        for (int d = 0; d < 60; d++)
                         {
-                            direction = 1;
-                            justDashed = true;
-                            dashTimeMod = 0;
-                        }
-                        else
-                        {
-                            dashTimeMod = 15;
-                        }
-                    }
-                    else if (player.controlLeft && player.releaseLeft)
-                    {
-                        if (dashTimeMod < 0)
-                        {
-                            direction = -1;
-                            justDashed = true;
-                            dashTimeMod = 0;
-                        }
-                        else
-                        {
-                            dashTimeMod = -15;
-                        }
-                    }
-                    if (justDashed)
-                    {
-                        player.velocity.X = dashDistance * (float)direction;
-                        Point point5 = (player.Center + new Vector2((float)(direction * player.width / 2 + 2), player.gravDir * (float)-(float)player.height / 2f + player.gravDir * 2f)).ToTileCoordinates();
-                        Point point6 = (player.Center + new Vector2((float)(direction * player.width / 2 + 2), 0f)).ToTileCoordinates();
-                        if (WorldGen.SolidOrSlopedTile(point5.X, point5.Y) || WorldGen.SolidOrSlopedTile(point6.X, point6.Y))
-                        {
-                            player.velocity.X = player.velocity.X / 2f;
-                        }
-                        player.dashDelay = -1;
-                        for (int num24 = 0; num24 < 60; num24++)
-                        {
-                            int num25 = Dust.NewDust(player.position, player.width, player.height, 33, 0f, 0f, 100, default, 3f);
-                            Dust dust = Main.dust[num25];
-                            dust.position.X += (float)Main.rand.Next(-5, 6);
-                            dust.position.Y += (float)Main.rand.Next(-5, 6);
+                            int idx = Dust.NewDust(player.position, player.width, player.height, 33, 0f, 0f, 100, default, 3f);
+                            Dust dust = Main.dust[idx];
+                            dust.position.X += Main.rand.NextFloat(-5f, 5f);
+                            dust.position.Y += Main.rand.NextFloat(-5f, 5f);
                             dust.velocity *= 0.2f;
-                            dust.scale *= 1f + (float)Main.rand.Next(20) * 0.01f;
+                            dust.scale *= Main.rand.Next(1f, 1.2f);
                             dust.shader = GameShaders.Armor.GetSecondaryShader(player.ArmorSetDye(), player);
                             dust.noGravity = true;
                             dust.fadeIn = 0.5f;
@@ -8615,61 +8389,16 @@ namespace CalamityMod.CalPlayer
                 }
                 else if (dashMod == 6) //Cryogen Lore
                 {
-                    dashDistance = 15.7f;
-                    int direction = 0;
-                    bool justDashed = false;
-                    if (dashTimeMod > 0)
+                    if (DoADash(15.7f))
                     {
-                        dashTimeMod--;
-                    }
-                    if (dashTimeMod < 0)
-                    {
-                        dashTimeMod++;
-                    }
-                    if (player.controlRight && player.releaseRight)
-                    {
-                        if (dashTimeMod > 0)
+                        for (int d = 0; d < 60; d++)
                         {
-                            direction = 1;
-                            justDashed = true;
-                            dashTimeMod = 0;
-                        }
-                        else
-                        {
-                            dashTimeMod = 15;
-                        }
-                    }
-                    else if (player.controlLeft && player.releaseLeft)
-                    {
-                        if (dashTimeMod < 0)
-                        {
-                            direction = -1;
-                            justDashed = true;
-                            dashTimeMod = 0;
-                        }
-                        else
-                        {
-                            dashTimeMod = -15;
-                        }
-                    }
-                    if (justDashed)
-                    {
-                        player.velocity.X = dashDistance * (float)direction;
-                        Point point5 = (player.Center + new Vector2((float)(direction * player.width / 2 + 2), player.gravDir * (float)-(float)player.height / 2f + player.gravDir * 2f)).ToTileCoordinates();
-                        Point point6 = (player.Center + new Vector2((float)(direction * player.width / 2 + 2), 0f)).ToTileCoordinates();
-                        if (WorldGen.SolidOrSlopedTile(point5.X, point5.Y) || WorldGen.SolidOrSlopedTile(point6.X, point6.Y))
-                        {
-                            player.velocity.X = player.velocity.X / 2f;
-                        }
-                        player.dashDelay = -1;
-                        for (int num24 = 0; num24 < 60; num24++)
-                        {
-                            int num25 = Dust.NewDust(player.position, player.width, player.height, 67, 0f, 0f, 100, default, 1.25f);
-                            Dust dust = Main.dust[num25];
-                            dust.position.X += (float)Main.rand.Next(-5, 6);
-                            dust.position.Y += (float)Main.rand.Next(-5, 6);
+                            int idx = Dust.NewDust(player.position, player.width, player.height, 67, 0f, 0f, 100, default, 1.25f);
+                            Dust dust = Main.dust[idx];
+                            dust.position.X += Main.rand.NextFloat(-5f, 5f);
+                            dust.position.Y += Main.rand.NextFloat(-5f, 5f);
                             dust.velocity *= 0.2f;
-                            dust.scale *= 1f + (float)Main.rand.Next(20) * 0.01f;
+                            dust.scale *= Main.rand.Next(1f, 1.2f);
                             dust.shader = GameShaders.Armor.GetSecondaryShader(player.ArmorSetDye(), player);
                             dust.noGravity = true;
                             dust.fadeIn = 0.5f;
@@ -8678,123 +8407,32 @@ namespace CalamityMod.CalPlayer
                 }
                 else if (dashMod == 7) //Statis' Belt of Curses
                 {
-                    dashDistance = 25.4f;
-                    int direction = 0;
-                    bool justDashed = false;
-                    if (dashTimeMod > 0)
+                    if (DoADash(25.4f))
                     {
-                        dashTimeMod--;
-                    }
-                    if (dashTimeMod < 0)
-                    {
-                        dashTimeMod++;
-                    }
-                    if (player.controlRight && player.releaseRight)
-                    {
-                        if (dashTimeMod > 0)
+                        for (int d = 0; d < 20; d++)
                         {
-                            direction = 1;
-                            justDashed = true;
-                            dashTimeMod = 0;
-                        }
-                        else
-                        {
-                            dashTimeMod = 15;
-                        }
-                    }
-                    else if (player.controlLeft && player.releaseLeft)
-                    {
-                        if (dashTimeMod < 0)
-                        {
-                            direction = -1;
-                            justDashed = true;
-                            dashTimeMod = 0;
-                        }
-                        else
-                        {
-                            dashTimeMod = -15;
-                        }
-                    }
-                    if (justDashed)
-                    {
-                        player.velocity.X = dashDistance * (float)direction; //solar dash amount
-                        Point point = (player.Center + new Vector2((float)(direction * player.width / 2 + 2), player.gravDir * (float)-(float)player.height / 2f + player.gravDir * 2f)).ToTileCoordinates();
-                        Point point2 = (player.Center + new Vector2((float)(direction * player.width / 2 + 2), 0f)).ToTileCoordinates();
-                        if (WorldGen.SolidOrSlopedTile(point.X, point.Y) || WorldGen.SolidOrSlopedTile(point2.X, point2.Y))
-                        {
-                            player.velocity.X = player.velocity.X / 2f;
-                        }
-                        player.dashDelay = -1;
-                        for (int num17 = 0; num17 < 20; num17++)
-                        {
-                            int num18 = Dust.NewDust(player.position, player.width, player.height, 70, 0f, 0f, 100, default, 2f);
-                            Dust dust = Main.dust[num18];
-                            dust.position.X += (float)Main.rand.Next(-5, 6);
-                            dust.position.Y += (float)Main.rand.Next(-5, 6);
+                            int idx = Dust.NewDust(player.position, player.width, player.height, 70, 0f, 0f, 100, default, 2f);
+                            Dust dust = Main.dust[idx];
+                            dust.position.X += Main.rand.NextFloat(-5f, 5f);
+                            dust.position.Y += Main.rand.NextFloat(-5f, 5f);
                             dust.velocity *= 0.2f;
-                            dust.scale *= 1f + (float)Main.rand.Next(20) * 0.01f;
+                            dust.scale *= Main.rand.Next(1f, 1.2f);
                             dust.shader = GameShaders.Armor.GetSecondaryShader(player.cShoe, player);
                         }
-                        return;
                     }
                 }
                 else if (dashMod == 8) //Plaguebringer armor
                 {
-                    dashDistance = 19f;
-                    int direction = 0;
-                    bool justDashed = false;
-                    if (dashTimeMod > 0)
+                    if (DoADash(19f))
                     {
-                        dashTimeMod--;
-                    }
-                    if (dashTimeMod < 0)
-                    {
-                        dashTimeMod++;
-                    }
-                    if (player.controlRight && player.releaseRight)
-                    {
-                        if (dashTimeMod > 0)
+                        for (int d = 0; d < 60; d++)
                         {
-                            direction = 1;
-                            justDashed = true;
-                            dashTimeMod = 0;
-                        }
-                        else
-                        {
-                            dashTimeMod = 15;
-                        }
-                    }
-                    else if (player.controlLeft && player.releaseLeft)
-                    {
-                        if (dashTimeMod < 0)
-                        {
-                            direction = -1;
-                            justDashed = true;
-                            dashTimeMod = 0;
-                        }
-                        else
-                        {
-                            dashTimeMod = -15;
-                        }
-                    }
-                    if (justDashed)
-                    {
-                        player.velocity.X = dashDistance * (float)direction;
-                        Point point5 = (player.Center + new Vector2((float)(direction * player.width / 2 + 2), player.gravDir * (float)-(float)player.height / 2f + player.gravDir * 2f)).ToTileCoordinates();
-                        Point point6 = (player.Center + new Vector2((float)(direction * player.width / 2 + 2), 0f)).ToTileCoordinates();
-                        if (WorldGen.SolidOrSlopedTile(point5.X, point5.Y) || WorldGen.SolidOrSlopedTile(point6.X, point6.Y))
-                        {
-                            player.velocity.X = player.velocity.X / 2f;
-                        }
-                        player.dashDelay = -1;
-                        for (int num24 = 0; num24 < 60; num24++)
-                        {
-                            int num25 = Dust.NewDust(player.position, player.width, player.height, 89, 0f, 0f, 100, default, 1.25f);
-                            Dust dust = Main.dust[num25];
-                            dust.position.X += (float)Main.rand.Next(-5, 6);
-                            dust.position.Y += (float)Main.rand.Next(-5, 6);
+                            int idx = Dust.NewDust(player.position, player.width, player.height, 89, 0f, 0f, 100, default, 1.25f);
+                            Dust dust = Main.dust[idx];
+                            dust.position.X += Main.rand.NextFloat(-5f, 5f);
+                            dust.position.Y += Main.rand.NextFloat(-5f, 5f);
                             dust.velocity *= 0.2f;
-                            dust.scale *= 1f + (float)Main.rand.Next(20) * 0.01f;
+                            dust.scale *= Main.rand.Next(1f, 1.2f);
                             dust.shader = GameShaders.Armor.GetSecondaryShader(player.ArmorSetDye(), player);
                             dust.noGravity = true;
                             dust.fadeIn = 0.5f;
@@ -8803,6 +8441,58 @@ namespace CalamityMod.CalPlayer
                 }
             }
         }
+
+		private bool DoADash(int dashDistance)
+		{
+			bool justDashed = false;
+			int direction = 0;
+			if (dashTimeMod > 0)
+			{
+				dashTimeMod--;
+			}
+			if (dashTimeMod < 0)
+			{
+				dashTimeMod++;
+			}
+			if (player.controlRight && player.releaseRight)
+			{
+				if (dashTimeMod > 0)
+				{
+					direction = 1;
+					justDashed = true;
+					dashTimeMod = 0;
+				}
+				else
+				{
+					dashTimeMod = 15;
+				}
+			}
+			else if (player.controlLeft && player.releaseLeft)
+			{
+				if (dashTimeMod < 0)
+				{
+					direction = -1;
+					justDashed = true;
+					dashTimeMod = 0;
+				}
+				else
+				{
+					dashTimeMod = -15;
+				}
+			}
+			if (justDashed)
+			{
+				player.velocity.X = dashDistance * (float)direction;
+				Point point5 = (player.Center + new Vector2((float)(direction * player.width / 2 + 2), player.gravDir * (float)-(float)player.height / 2f + player.gravDir * 2f)).ToTileCoordinates();
+				Point point6 = (player.Center + new Vector2((float)(direction * player.width / 2 + 2), 0f)).ToTileCoordinates();
+				if (WorldGen.SolidOrSlopedTile(point5.X, point5.Y) || WorldGen.SolidOrSlopedTile(point6.X, point6.Y))
+				{
+					player.velocity.X = player.velocity.X / 2f;
+				}
+				player.dashDelay = -1;
+			}
+			return justDashed;
+		}
 
         public void ModHorizontalMovement()
         {
