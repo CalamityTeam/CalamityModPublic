@@ -1,6 +1,5 @@
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Rogue;
-using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -56,7 +55,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 			recipe.AddIngredient(ModContent.ItemType<NightsGaze>());
 			recipe.AddIngredient(ModContent.ItemType<DarksunFragment>(), 15);
 			recipe.AddIngredient(ModContent.ItemType<CoreofCinder>(), 6);
-			recipe.AddTile(ModContent.TileType<DraedonsForge>());
+            recipe.AddTile(TileID.LunarCraftingStation);
 			recipe.SetResult(this);
 			recipe.AddRecipe();
 		}

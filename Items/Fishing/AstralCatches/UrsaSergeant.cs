@@ -20,8 +20,8 @@ namespace CalamityMod.Items.Fishing.AstralCatches
         {
             item.width = 36;
             item.height = 26;
-            item.value = Item.buyPrice(0, 24, 0, 0);
-            item.rare = 8;
+            item.value = CalamityGlobalItem.Rarity5SellPrice;
+            item.rare = 5;
             item.accessory = true;
         }
 
