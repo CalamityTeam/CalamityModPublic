@@ -413,6 +413,7 @@ namespace CalamityMod.CalPlayer
         public bool yharonLore = false;
         public bool SCalLore = false;
         public bool oceanLore = false;
+        public bool sulphSeaLore = false;
         public bool corruptionLore = false;
         public bool crimsonLore = false;
         public bool underworldLore = false;
@@ -1561,6 +1562,7 @@ namespace CalamityMod.CalPlayer
             yharonLore = false;
             SCalLore = false;
 			oceanLore = false;
+			sulphSeaLore = false;
 			corruptionLore = false;
 			crimsonLore = false;
 			underworldLore = false;

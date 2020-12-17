@@ -1,3 +1,4 @@
+using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
 using Terraria;
@@ -12,7 +13,8 @@ namespace CalamityMod.Items.LoreItems
         {
             DisplayName.SetDefault("Sulphur Sea");
             Tooltip.SetDefault("I remember the serene waves and the clear breeze.\n" +
-                "The bitterness of my youth has long since subsided, but it is far too late. I must never repeat a mistake like this again.");
+                "The bitterness of my youth has long since subsided, but it is far too late. I must never repeat a mistake like this again.\n" +
+                "Favorite this item to prevent the Aquatic Scourge from naturally spawning.");
         }
 
         public override void SetDefaults()
@@ -23,9 +25,13 @@ namespace CalamityMod.Items.LoreItems
             item.consumable = false;
         }
 
-        public override bool CanUseItem(Player player)
+        public override bool CanUseItem(Player player) => false;
+
+        public override void UpdateInventory(Player player)
         {
-            return false;
+            CalamityPlayer modPlayer = player.Calamity();
+			if (item.favorited)
+				modPlayer.sulphSeaLore = true;
         }
 
         public override void AddRecipes()
