@@ -8444,7 +8444,7 @@ namespace CalamityMod.CalPlayer
             }
         }
 
-		private bool DoADash(int dashDistance)
+		private bool DoADash(float dashDistance)
 		{
 			bool justDashed = false;
 			int direction = 0;
