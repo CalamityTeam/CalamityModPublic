@@ -1,3 +1,4 @@
+using CalamityMod.Events;
 using CalamityMod.Items.Materials;
 using CalamityMod.NPCs.Perforator;
 using Terraria;
@@ -28,7 +29,7 @@ namespace CalamityMod.Items.SummonItems
 
         public override bool CanUseItem(Player player)
         {
-            return player.ZoneCrimson && !NPC.AnyNPCs(ModContent.NPCType<PerforatorHive>());
+            return player.ZoneCrimson && !NPC.AnyNPCs(ModContent.NPCType<PerforatorHive>()) && !BossRushEvent.BossRushActive;
         }
 
         public override bool UseItem(Player player)

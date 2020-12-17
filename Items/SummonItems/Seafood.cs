@@ -1,4 +1,5 @@
 using CalamityMod.CalPlayer;
+using CalamityMod.Events;
 using CalamityMod.Items.Placeables;
 using CalamityMod.NPCs.AquaticScourge;
 using Terraria;
@@ -31,7 +32,7 @@ namespace CalamityMod.Items.SummonItems
         public override bool CanUseItem(Player player)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            return modPlayer.ZoneSulphur && !NPC.AnyNPCs(ModContent.NPCType<AquaticScourgeHead>());
+            return modPlayer.ZoneSulphur && !NPC.AnyNPCs(ModContent.NPCType<AquaticScourgeHead>()) && !BossRushEvent.BossRushActive;
         }
 
         public override bool UseItem(Player player)

@@ -1,3 +1,4 @@
+using CalamityMod.Events;
 using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
@@ -38,7 +39,7 @@ namespace CalamityMod.Items.SummonItems
                     canSummon = true;
                 }
             }
-            return canSummon && !NPC.AnyNPCs(NPCID.Golem);
+            return canSummon && !NPC.AnyNPCs(NPCID.Golem) && !BossRushEvent.BossRushActive;
         }
 
         public override bool UseItem(Player player)

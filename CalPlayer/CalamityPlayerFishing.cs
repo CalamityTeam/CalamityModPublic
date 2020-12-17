@@ -1,4 +1,5 @@
 using CalamityMod.Items.Accessories;
+using CalamityMod.Events;
 using CalamityMod.Items.Fishing;
 using CalamityMod.Items.Fishing.AstralCatches;
 using CalamityMod.Items.Fishing.BrimstoneCragCatches;
@@ -49,7 +50,7 @@ namespace CalamityMod.CalPlayer
 				canSulphurFish = true;
 
 			// Old Duke spawn
-			if (canSulphurFish && bait.type == ModContent.ItemType<BloodwormItem>() && water)
+			if (canSulphurFish && bait.type == ModContent.ItemType<BloodwormItem>() && water && !BossRushEvent.BossRushActive)
 			{
 				CalamityGlobalNPC.OldDukeSpawn(player.whoAmI, ModContent.NPCType<OldDuke>(), bait.type);
 			}
