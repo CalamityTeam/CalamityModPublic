@@ -9,8 +9,8 @@ namespace CalamityMod.Items.Weapons.Rogue
 {
 	public class PoisonPack : RogueWeapon
     {
-        private static int damage = 20;
-        private static float knockBack = 1.8f;
+        private static int baseDamage = 20;
+        private static float baseKnockback = 1.8f;
 
         public override void SetStaticDefaults()
         {
@@ -22,8 +22,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void SafeSetDefaults()
         {
-            item.damage = damage;
-            item.crit = 4;
+            item.damage = baseDamage;
             item.Calamity().rogue = true;
             item.noMelee = true;
             item.noUseGraphic = true;
@@ -32,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.useTime = 19;
             item.useAnimation = 19;
             item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = knockBack;
+            item.knockBack = baseKnockback;
             item.value = Item.buyPrice(0, 0, 33, 0);
             item.rare = 1;
             item.UseSound = SoundID.Item1;
@@ -41,6 +40,9 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.shootSpeed = 7f;
             item.shoot = ModContent.ProjectileType<PoisonBol>();
         }
+
+		// Terraria seems to really dislike high crit values in SetDefaults
+		public override void GetWeaponCrit(Player player, ref int crit) => crit += 4;
 
 		public override bool CanUseItem(Player player)
 		{

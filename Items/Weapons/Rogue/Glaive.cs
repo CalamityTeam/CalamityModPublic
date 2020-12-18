@@ -23,7 +23,6 @@ Stealth strikes are super fast and pierce infinitely");
         public override void SafeSetDefaults()
         {
             item.damage = BaseDamage;
-            item.crit = 4;
             item.Calamity().rogue = true;
             item.noMelee = true;
             item.noUseGraphic = true;
@@ -41,6 +40,9 @@ Stealth strikes are super fast and pierce infinitely");
             item.shootSpeed = Speed;
             item.shoot = ModContent.ProjectileType<GlaiveProj>();
         }
+
+		// Terraria seems to really dislike high crit values in SetDefaults
+		public override void GetWeaponCrit(Player player, ref int crit) => crit += 4;
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {

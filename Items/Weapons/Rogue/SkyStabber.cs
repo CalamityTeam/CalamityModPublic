@@ -24,7 +24,6 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SafeSetDefaults()
         {
             item.damage = damage;
-            item.crit = 4;
             item.Calamity().rogue = true;
             item.noMelee = true;
             item.noUseGraphic = true;
@@ -42,6 +41,9 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.shootSpeed = 2f;
             item.shoot = ModContent.ProjectileType<SkyStabberProj>();
         }
+
+		// Terraria seems to really dislike high crit values in SetDefaults
+		public override void GetWeaponCrit(Player player, ref int crit) => crit += 4;
 
 		public override bool CanUseItem(Player player)
 		{

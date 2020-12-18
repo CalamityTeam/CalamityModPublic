@@ -54,7 +54,6 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetDefaults()
         {
             item.damage = 1200;
-            item.crit += 8;
             item.useStyle = 1;
             item.useTime = item.useAnimation = 15;
             item.useTurn = true;
@@ -70,6 +69,9 @@ namespace CalamityMod.Items.Weapons.Melee
             item.rare = 10;
             item.Calamity().customRarity = CalamityRarity.Dedicated;
         }
+
+		// Terraria seems to really dislike high crit values in SetDefaults
+		public override void GetWeaponCrit(Player player, ref int crit) => crit += 8;
 
 		//Cancel out normal melee damage boosts and replace it with the average of melee and ranged damage boosts
 		//all damage boosts should still apply

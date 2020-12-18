@@ -21,7 +21,6 @@ namespace CalamityMod.Items.Weapons.Magic
             item.magic = true;
             item.mana = 6;
             item.width = 28;
-            item.crit = 3;
             item.height = 30;
             item.useTime = 2;
             item.reuseDelay = 5;
@@ -36,6 +35,9 @@ namespace CalamityMod.Items.Weapons.Magic
             item.shoot = ModContent.ProjectileType<ElementTentacle>();
             item.shootSpeed = 30f;
         }
+
+		// Terraria seems to really dislike high crit values in SetDefaults
+		public override void GetWeaponCrit(Player player, ref int crit) => crit += 3;
 
         public override void AddRecipes()
         {

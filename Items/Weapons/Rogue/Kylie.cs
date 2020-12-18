@@ -21,7 +21,6 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.damage = 63;
             item.knockBack = 12;
             item.thrown = true;
-            item.crit = 16;
             item.value = Item.buyPrice(0, 4, 0, 0);
             item.rare = 3;
             item.useTime = 25;
@@ -36,6 +35,9 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.noUseGraphic = true;
             item.Calamity().rogue = true;
         }
+
+		// Terraria seems to really dislike high crit values in SetDefaults
+		public override void GetWeaponCrit(Player player, ref int crit) => crit += 16;
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {

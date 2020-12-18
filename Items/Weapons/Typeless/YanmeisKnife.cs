@@ -23,7 +23,6 @@ namespace CalamityMod.Items.Weapons.Typeless
 			item.height = 44;
 			item.width = 48;
 			item.damage = 8;
-			item.crit += 6;
 			item.noMelee = true;
 			item.noUseGraphic = true;
 			item.useAnimation = item.useTime = 32;
@@ -37,6 +36,9 @@ namespace CalamityMod.Items.Weapons.Typeless
 			item.shootSpeed = 24f;
 			item.Calamity().customRarity = CalamityRarity.Dedicated;
 		}
+
+		// Terraria seems to really dislike high crit values in SetDefaults
+		public override void GetWeaponCrit(Player player, ref int crit) => crit += 6;
 
 		public override bool CanUseItem(Player player)
 		{
