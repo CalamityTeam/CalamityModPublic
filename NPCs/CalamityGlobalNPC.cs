@@ -145,6 +145,8 @@ namespace CalamityMod.NPCs
         public int relicOfResilienceCooldown = 0;
         public int relicOfResilienceWeakness = 0;
         public int GaussFluxTimer = 0;
+        public int sagePoisonTime = 0;
+        public int sagePoisonDamage = 0;
 
         // whoAmI Variables
         public static int[] bobbitWormBottom = new int[5];
@@ -739,6 +741,8 @@ namespace CalamityMod.NPCs
             ApplyDPSDebuff(bBlood, 50, 10, ref npc.lifeRegen, ref damage);
             ApplyDPSDebuff(kamiFlu, 250, 25, ref npc.lifeRegen, ref damage);
             ApplyDPSDebuff(sulphurPoison, 180, 36, ref npc.lifeRegen, ref damage);
+
+            ApplyDPSDebuff(sagePoisonTime, 90, npc.Calamity().sagePoisonDamage, ref npc.lifeRegen, ref damage);
             if (npc.velocity.X == 0)
                 ApplyDPSDebuff(electrified, 10, 2, ref npc.lifeRegen, ref damage);
             else
@@ -805,6 +809,7 @@ namespace CalamityMod.NPCs
                 }
             }
 
+            sagePoisonDamage = 0;
             DebuffImmunities(npc);
 
             if (BossRushEvent.BossRushActive)
@@ -3008,6 +3013,8 @@ namespace CalamityMod.NPCs
 				clamDebuff--;
 			if (sulphurPoison > 0)
 				sulphurPoison--;
+            if (sagePoisonTime > 0)
+                sagePoisonTime--;
             if (kamiFlu > 0)
                 kamiFlu--;
             if (relicOfResilienceCooldown > 0)
@@ -4126,7 +4133,9 @@ namespace CalamityMod.NPCs
 						buffTextureList.Add(GetTexture("CalamityMod/Buffs/DamageOverTime/SnapClamDebuff"));
 					if (sulphurPoison > 0)
 						buffTextureList.Add(GetTexture("CalamityMod/Buffs/DamageOverTime/SulphuricPoisoning"));
-					if (vaporfied > 0)
+                    if (sagePoisonTime > 0)
+                        buffTextureList.Add(GetTexture("CalamityMod/Buffs/DamageOverTime/SagePoison"));
+                    if (vaporfied > 0)
 						buffTextureList.Add(GetTexture("CalamityMod/Buffs/DamageOverTime/Vaporfied"));
 
 					// Stat debuffs

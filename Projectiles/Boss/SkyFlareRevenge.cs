@@ -71,6 +71,7 @@ namespace CalamityMod.Projectiles.Boss
             {
                 int dmg = 100; //damage is irrelevant since the player is instantly killed
                 int nado = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<InfernadoRevenge>(), dmg, 4f, Main.myPlayer, 16f, 50f);
+                Main.projectile[nado].Bottom = projectile.Center;
                 Main.projectile[nado].netUpdate = true;
             }
         }

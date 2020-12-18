@@ -15,6 +15,7 @@ namespace CalamityMod.Effects
         public static Effect PhaseslayerRipShader;
         public static Effect FabstaffRayShader;
         public static Effect ScarletDevilShader;
+        public static Effect BordernadoFireShader;
 
         public static void LoadShaders()
         {
@@ -27,6 +28,7 @@ namespace CalamityMod.Effects
             PhaseslayerRipShader = CalamityMod.Instance.GetEffect("Effects/PhaseslayerRipShader");
             FabstaffRayShader = CalamityMod.Instance.GetEffect("Effects/FabstaffStreak");
             ScarletDevilShader = CalamityMod.Instance.GetEffect("Effects/ScarletDevilStreak");
+            BordernadoFireShader = CalamityMod.Instance.GetEffect("Effects/BordernadoFire");
 
             Filters.Scene["CalamityMod:Astral"] = new Filter(new AstralScreenShaderData(new Ref<Effect>(AstralFogShader), "AstralPass").UseColor(0.18f, 0.08f, 0.24f), EffectPriority.VeryHigh);
 
@@ -38,6 +40,7 @@ namespace CalamityMod.Effects
             GameShaders.Misc["CalamityMod:PhaseslayerRipEffect"] = new MiscShaderData(new Ref<Effect>(PhaseslayerRipShader), "TrailPass");
             GameShaders.Misc["CalamityMod:FabstaffRay"] = new MiscShaderData(new Ref<Effect>(FabstaffRayShader), "TrailPass");
             GameShaders.Misc["CalamityMod:OverpoweredTouhouSpearShader"] = new MiscShaderData(new Ref<Effect>(ScarletDevilShader), "TrailPass");
+            GameShaders.Misc["CalamityMod:Bordernado"] = new MiscShaderData(new Ref<Effect>(BordernadoFireShader), "TrailPass");
         }
     }
 }

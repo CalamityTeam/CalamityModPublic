@@ -976,6 +976,7 @@ namespace CalamityMod.CalPlayer
         public bool witherBlossom = false;
         public bool flowersOfMortality = false;
         public bool viridVanguard = false;
+        public bool sageSpirit = false;
         #endregion
 
         #region Biome
@@ -2033,6 +2034,7 @@ namespace CalamityMod.CalPlayer
             witherBlossom = false;
             flowersOfMortality = false;
             viridVanguard = false;
+            sageSpirit = false;
 
             abyssalDivingSuitPrevious = abyssalDivingSuit;
             abyssalDivingSuit = abyssalDivingSuitHide = abyssalDivingSuitForce = abyssalDivingSuitPower = false;
