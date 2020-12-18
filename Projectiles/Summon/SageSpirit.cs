@@ -1,5 +1,7 @@
 using CalamityMod.Buffs.Summon;
 using Microsoft.Xna.Framework;
+using System;
+using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -38,6 +40,24 @@ namespace CalamityMod.Projectiles.Summon
 			projectile.penetrate = -1;
 			projectile.tileCollide = false;
 			projectile.minion = true;
+		}
+
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(SageSpiritIndex);
+			writer.Write(GeneralTime);
+			writer.WritePackedVector2(PlayerFlyStart);
+			writer.WritePackedVector2(PlayerFlyOffsetAtEnds);
+			writer.WritePackedVector2(PlayerFlyDestination);
+		}
+
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			SageSpiritIndex = reader.ReadSingle();
+			GeneralTime = reader.ReadSingle();
+			PlayerFlyStart = reader.ReadPackedVector2();
+			PlayerFlyOffsetAtEnds = reader.ReadPackedVector2();
+			PlayerFlyDestination = reader.ReadPackedVector2();
 		}
 
 		public override void AI()
@@ -82,6 +102,7 @@ namespace CalamityMod.Projectiles.Summon
 			PlayerFlyTime = 0f;
 			PlayerFlyOffsetAtEnds = Vector2.Zero;
 			PlayerFlyStart = PlayerFlyDestination = -Vector2.One;
+			projectile.netUpdate = true;
 		}
 
 		internal void FlyNearOwner()
@@ -89,7 +110,7 @@ namespace CalamityMod.Projectiles.Summon
 			Vector2 destination = Owner.Center + Vector2.UnitX * Owner.width * 1.6f * Owner.direction;
 
 			int totalSageSpirits = Owner.ownedProjectileCounts[projectile.type];
-			destination += ((float)(SageSpiritIndex * MathHelper.TwoPi) / totalSageSpirits).ToRotationVector2() * 70f;
+			destination += (SageSpiritIndex * MathHelper.TwoPi / totalSageSpirits).ToRotationVector2() * 70f;
 			if (PlayerFlyTime >= 1f)
 			{
 				projectile.Center = PlayerFlyDestination;
@@ -107,9 +128,11 @@ namespace CalamityMod.Projectiles.Summon
 				PlayerFlyStart = projectile.Center;
 				PlayerFlyOffsetAtEnds = Vector2.UnitY * distanceFromDestination;
 				PlayerFlyDestination = destination;
+				projectile.netUpdate = true;
+				return;
 			}
 
-			projectile.position.Y += (float)System.Math.Cos(GeneralTime / 60f * MathHelper.TwoPi + projectile.identity * 1.1f) * 0.5f;
+			projectile.position.Y += (float)Math.Cos(GeneralTime / 60f * MathHelper.TwoPi + projectile.identity * 1.1f) * 0.5f;
 
 			if (distanceFromDestination < 160f && PlayerFlyTime <= 0f)
 				return;
@@ -136,7 +159,7 @@ namespace CalamityMod.Projectiles.Summon
 			int totalSageSpirits = Owner.ownedProjectileCounts[projectile.type];
 			Vector2 destinationOffsetFactor = Vector2.Max(target.Size, new Vector2(160f)) * new Vector2(0.6f, 0.37f);
 			Vector2 destination = target.Center + (AttackTimer / 12f).ToRotationVector2() * destinationOffsetFactor;
-			destination += ((float)(SageSpiritIndex * MathHelper.TwoPi) / totalSageSpirits).ToRotationVector2() * 130f;
+			destination += (SageSpiritIndex * MathHelper.TwoPi / totalSageSpirits).ToRotationVector2() * 130f;
 			projectile.Center = Vector2.Lerp(projectile.Center, destination, 0.1f);
 
 			// Frequently release a bunch of spikes.
