@@ -67,7 +67,7 @@ namespace CalamityMod.CalPlayer
 			CalamityPlayer.areThereAnyDamnEvents = CalamityGlobalNPC.AnyEvents(player);
 
 			// If any boss NPC is active, apply Zen to the player to reduce spawn rate
-			if (CalamityPlayer.areThereAnyDamnBosses)
+			if (CalamityPlayer.areThereAnyDamnBosses && CalamityConfig.Instance.BossZen)
 			{
 				if (player.whoAmI == Main.myPlayer)
 					player.AddBuff(ModContent.BuffType<BossZen>(), 2, false);
