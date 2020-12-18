@@ -6187,7 +6187,7 @@ namespace CalamityMod.CalPlayer
 							case ProjectileID.PinkLaser:
 								if (bannerNPCType == NPCID.Gastropod || bannerNPCType == ModContent.NPCType<AstralProbe>())
 								{
-									reduceDamage = !NPC.AnyNPCs(NPCID.TheDestroyer) && !NPC.AnyNPCs(ModContent.NPCType<LifeSeeker>()) && !NPC.AnyNPCs(ModContent.NPCType<StormWeaverHead>()) && !NPC.AnyNPCs(ModContent.NPCType<StormWeaverHeadNaked>());
+									reduceDamage = !NPC.AnyNPCs(NPCID.TheDestroyer) && !NPC.AnyNPCs(ModContent.NPCType<LifeSeeker>());
 								}
 								break;
 
