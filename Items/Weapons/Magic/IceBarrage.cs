@@ -72,7 +72,7 @@ namespace CalamityMod.Items.Weapons.Magic
             recipe.AddIngredient(ModContent.ItemType<IcicleStaff>());
             recipe.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 23);
             recipe.AddIngredient(ModContent.ItemType<CryoBar>(), 18);
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
+            recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

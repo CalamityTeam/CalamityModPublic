@@ -22,7 +22,6 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             item.damage = 2601;
             item.ranged = true;
-            item.crit += 40;
             item.knockBack = 10f;
             item.useTime = 30;
             item.useAnimation = 300;
@@ -42,13 +41,16 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.Calamity().customRarity = CalamityRarity.Dedicated;
         }
 
+		// Terraria seems to really dislike high crit values in SetDefaults
+		public override void GetWeaponCrit(Player player, ref int crit) => crit += 40;
+
         public override Vector2? HoldoutOffset() => new Vector2(-10, 0);
 
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<PestilentDefiler>());
-            recipe.AddIngredient(ModContent.ItemType<DarksunFragment>(), 10);
+            recipe.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 2);
             recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 5);
             recipe.AddTile(ModContent.TileType<DraedonsForge>());
             recipe.SetResult(this);

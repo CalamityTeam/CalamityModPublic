@@ -80,16 +80,16 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void MeleeEffects(Player player, Rectangle hitbox)
         {
             if (CalamityUtils.CountProjectiles(ModContent.ProjectileType<LightningThing>()) < 3 &&
-                player.statLife <= player.statLifeMax2 * 0.5f)
+                player.statLife <= player.statLifeMax2 * 0.5f &&
+                Main.myPlayer == player.whoAmI)
             {
                 Point origin = (player.Center + Main.rand.Next(-300, 301) * Vector2.UnitX).ToTileCoordinates();
-                Point p;
                 if (WorldUtils.Find(origin, Searches.Chain(new Searches.Down(400), new GenCondition[]
                 {
                     new Conditions.IsSolid()
-                }), out p))
+                }), out Point spawnPosition))
                 {
-                    Projectile.NewProjectile(p.ToWorldCoordinates(8f, 0f), Vector2.Zero, ModContent.ProjectileType<LightningThing>(), 0, 0f, player.whoAmI);
+                    Projectile.NewProjectile(spawnPosition.ToWorldCoordinates(8f, 0f), Vector2.Zero, ModContent.ProjectileType<LightningThing>(), 0, 0f, player.whoAmI);
                 }
             }
             if (player.itemAnimation == (int)(player.itemAnimationMax * 0.5))

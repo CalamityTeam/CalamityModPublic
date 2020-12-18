@@ -1,9 +1,10 @@
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Magic;
+using CalamityMod.Tiles.Furniture.CraftingStations;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
@@ -18,7 +19,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.damage = 90;
+            item.damage = 52;
             item.magic = true;
             item.mana = 25;
             item.width = 78;
@@ -27,7 +28,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.useAnimation = 27;
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
-            item.knockBack = 5f;
+            item.knockBack = 4f;
             item.value = Item.buyPrice(1, 80, 0, 0);
             item.rare = 10;
             item.UseSound = SoundID.Item20;
@@ -37,17 +38,14 @@ namespace CalamityMod.Items.Weapons.Magic
             item.Calamity().customRarity = CalamityRarity.DarkBlue;
         }
 
-        public override Vector2? HoldoutOrigin()
-        {
-            return new Vector2(15, 15);
-        }
+        public override Vector2? HoldoutOrigin() => new Vector2(15, 15);
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             for (int index = 0; index < 4; ++index)
             {
-                float SpeedX = speedX + (float)Main.rand.Next(-50, 51) * 0.05f;
-                float SpeedY = speedY + (float)Main.rand.Next(-50, 51) * 0.05f;
+                float SpeedX = speedX + Main.rand.NextFloat(-2.5f, 2.5f);
+                float SpeedY = speedY + Main.rand.NextFloat(-2.5f, 2.5f);
                 Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, 1f, 0f);
             }
             return false;
@@ -56,7 +54,7 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 10);
+            recipe.AddIngredient(ModContent.ItemType<DarkPlasma>(), 3);
             recipe.AddIngredient(ItemID.SpectreStaff);
             recipe.AddIngredient(ItemID.MagnetSphere);
             recipe.AddTile(TileID.LunarCraftingStation);

@@ -5,7 +5,6 @@ using Terraria.ModLoader;
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Materials;
-using CalamityMod.Tiles.Furniture.CraftingStations;
 using CalamityMod.Projectiles.Melee;
 
 namespace CalamityMod.Items.Weapons.Melee
@@ -53,9 +52,8 @@ namespace CalamityMod.Items.Weapons.Melee
             ModRecipe recipe = new ModRecipe(mod);
 
             recipe.AddIngredient(ModContent.ItemType<ElementalShortsword>());
-            recipe.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>());
             recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 5);
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
+            recipe.AddTile(TileID.LunarCraftingStation);
 
             recipe.SetResult(this);
 	        recipe.AddRecipe();

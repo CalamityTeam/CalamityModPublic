@@ -933,7 +933,7 @@ namespace CalamityMod.NPCs.Polterghast
             {
                 // Materials
                 DropHelper.DropItem(npc, ModContent.ItemType<RuinousSoul>(), 7, 15);
-                DropHelper.DropItem(npc, ModContent.ItemType<Phantoplasm>(), 10, 20);
+                DropHelper.DropItem(npc, ModContent.ItemType<Phantoplasm>(), 30, 40);
 
                 // Vanity
                 DropHelper.DropItemChance(npc, ModContent.ItemType<PolterghastMask>(), 7);

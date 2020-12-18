@@ -33,12 +33,14 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.useAnimation = 15;
             item.useTime = 15;
             item.damage = 50;
-            item.crit += 8;
             item.knockBack = 7f;
             item.shoot = ModContent.ProjectileType<StormfrontRazorProjectile>();
             item.shootSpeed = 7f;
             item.Calamity().rogue = true;
         }
+
+		// Terraria seems to really dislike high crit values in SetDefaults
+		public override void GetWeaponCrit(Player player, ref int crit) => crit += 8;
 
         public override void AddRecipes()
         {

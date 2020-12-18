@@ -38,6 +38,7 @@ namespace CalamityMod.Items.Placeables.Furniture.CraftingStations
             recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 5);
             recipe.AddIngredient(ModContent.ItemType<NightmareFuel>(), 20);
             recipe.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 20);
+            recipe.AddIngredient(ModContent.ItemType<DarksunFragment>(), 20);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

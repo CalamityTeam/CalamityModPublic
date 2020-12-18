@@ -3552,7 +3552,7 @@ namespace CalamityMod.CalPlayer
 					bool enrage = player.statLife <= (int)(player.statLifeMax2 * 0.5);
 					bool notRetro = Lighting.NotRetro;
 					if (!modPlayer.ZoneAbyss) //No abyss memes.
-						Lighting.AddLight(player.Center, enrage ? 60 : offenseBuffs ? 50 : 10, enrage ? 12 : offenseBuffs ? 10 : 2, 0);
+						Lighting.AddLight(player.Center, enrage ? 1.2f : offenseBuffs ? 1f : 0.2f, enrage ? 0.21f : offenseBuffs ? 0.2f : 0.01f, 0);
 					if (enrage)
 					{
 						bool special = player.name == "Amber" || player.name == "Nincity" || player.name == "IbanPlay" || player.name == "Chen"; //People who either helped create the item or test it.
@@ -4151,8 +4151,8 @@ namespace CalamityMod.CalPlayer
 			
 			if (modPlayer.yharonLore && !CalamityWorld.defiled)
 			{
-				if (player.wingTimeMax < int.MaxValue)
-					player.wingTimeMax = int.MaxValue;
+				if (player.wingTimeMax < 2147483647)
+					player.wingTimeMax = 2147483647;
 			}
 
 			// Do not apply reduced aggro if there are any bosses alive and it's singleplayer

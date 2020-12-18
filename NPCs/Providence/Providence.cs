@@ -155,13 +155,18 @@ namespace CalamityMod.NPCs.Providence
             // Rotation
             npc.rotation = npc.velocity.X * 0.004f;
 
-			// Target
-			if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)
-				npc.TargetClosest(true);
+			Vector2 vector = npc.Center;
+
+			// Get a target
+			if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
+				npc.TargetClosest();
+
+			// Despawn safety, make sure to target another player if the current player target is too far away
+			if (Vector2.Distance(Main.player[npc.target].Center, vector) > CalamityGlobalNPC.CatchUpDistance200Tiles)
+				npc.TargetClosest();
 
 			// Target variable and boss center
 			Player player = Main.player[npc.target];
-            Vector2 vector = npc.Center;
 
             // Target's current biome
             bool isHoly = player.ZoneHoly;
@@ -777,7 +782,7 @@ namespace CalamityMod.NPCs.Providence
 					if (npc.ai[1] >= phaseTime)
 					{
 						AIState = (int)Phase.PhaseChange;
-						npc.TargetClosest(true);
+						npc.TargetClosest();
 					}
 
 					break;
@@ -822,7 +827,7 @@ namespace CalamityMod.NPCs.Providence
 					if (npc.ai[1] >= phaseTime)
 					{
 						AIState = (int)Phase.PhaseChange;
-						npc.TargetClosest(true);
+						npc.TargetClosest();
 					}
 
 					break;
@@ -977,7 +982,7 @@ namespace CalamityMod.NPCs.Providence
 						text = false;
 						AIState = (int)Phase.PhaseChange;
 						npc.localAI[2] = attackDelayAfterCocoon;
-						npc.TargetClosest(true);
+						npc.TargetClosest();
 					}
 
 					break;
@@ -1034,7 +1039,7 @@ namespace CalamityMod.NPCs.Providence
 					if (npc.ai[1] >= phaseTime)
 					{
 						AIState = (int)Phase.PhaseChange;
-						npc.TargetClosest(true);
+						npc.TargetClosest();
 					}
 
 					break;
@@ -1079,7 +1084,7 @@ namespace CalamityMod.NPCs.Providence
 					if (npc.ai[1] >= phaseTime)
 					{
 						AIState = (int)Phase.PhaseChange;
-						npc.TargetClosest(true);
+						npc.TargetClosest();
 					}
 
 					break;
@@ -1143,7 +1148,7 @@ namespace CalamityMod.NPCs.Providence
 					{
 						AIState = (int)Phase.PhaseChange;
 						npc.localAI[2] = attackDelayAfterCocoon;
-						npc.TargetClosest(true);
+						npc.TargetClosest();
 					}
 
 					break;
@@ -1167,7 +1172,7 @@ namespace CalamityMod.NPCs.Providence
 						if (npc.ai[1] >= crystalPhaseTime + nightCrystalTime || !nightTime)
 						{
 							AIState = (int)Phase.PhaseChange;
-							npc.TargetClosest(true);
+							npc.TargetClosest();
 						}
 					}
 
@@ -1248,7 +1253,7 @@ namespace CalamityMod.NPCs.Providence
 					if (npc.ai[1] >= (revenge ? 235f : 315f))
 					{
 						AIState = (int)Phase.PhaseChange;
-						npc.TargetClosest(true);
+						npc.TargetClosest();
 					}
 
 					break;

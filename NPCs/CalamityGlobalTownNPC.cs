@@ -134,7 +134,6 @@ namespace CalamityMod.NPCs
 		};
 		#endregion
 
-
 		#region Town NPC Names
 		public static void ResetTownNPCNameBools(NPC npc, Mod mod)
 		{
@@ -1270,6 +1269,7 @@ namespace CalamityMod.NPCs
 				SetShopItem(ref shop, ref nextSlot, ItemID.SpectreStaff, NPC.downedGolemBoss, Item.buyPrice(0, 25));
 				SetShopItem(ref shop, ref nextSlot, ItemID.InfernoFork, NPC.downedGolemBoss, Item.buyPrice(0, 25));
 				SetShopItem(ref shop, ref nextSlot, ItemID.ShadowbeamStaff, NPC.downedGolemBoss, Item.buyPrice(0, 25));
+				SetShopItem(ref shop, ref nextSlot, ItemID.MagnetSphere, NPC.downedGolemBoss, Item.buyPrice(0, 25));
 				SetShopItem(ref shop, ref nextSlot, ItemID.CelestialSigil, NPC.downedMoonlord && CalamityConfig.Instance.SellVanillaSummons, Item.buyPrice(3));
 				SetShopItem(ref shop, ref nextSlot, ItemType<ProfanedShard>(), CalamityWorld.downedGuardians, Item.buyPrice(5));
 			}

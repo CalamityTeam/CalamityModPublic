@@ -1,4 +1,5 @@
 using CalamityMod.Dusts;
+using CalamityMod.Events;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Furniture;
 using CalamityMod.Items.SummonItems;
@@ -56,7 +57,7 @@ namespace CalamityMod.Tiles.Astral
                 !Main.LocalPlayer.HasItem(ModContent.ItemType<Starcore>()))
                 return true;
 
-            if (NPC.AnyNPCs(ModContent.NPCType<AstrumDeusHeadSpectral>()))
+            if (NPC.AnyNPCs(ModContent.NPCType<AstrumDeusHeadSpectral>()) || BossRushEvent.BossRushActive)
                 return true;
 
             if (CalamityUtils.CountProjectiles(ModContent.ProjectileType<DeusRitualDrama>()) > 0)

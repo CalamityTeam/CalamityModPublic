@@ -27,7 +27,6 @@ namespace CalamityMod.Items.Weapons.Melee
             item.useTime = 20;
             item.useTurn = true;
             item.useStyle = ItemUseStyleID.SwingThrow;
-            item.crit += 10;
             item.knockBack = 8.5f;
             item.UseSound = SoundID.Item60;
             item.autoReuse = true;
@@ -37,6 +36,9 @@ namespace CalamityMod.Items.Weapons.Melee
 			item.shoot = ModContent.ProjectileType<EonBeam>();
             item.shootSpeed = 16f;
         }
+
+		// Terraria seems to really dislike high crit values in SetDefaults
+		public override void GetWeaponCrit(Player player, ref int crit) => crit += 10;
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {

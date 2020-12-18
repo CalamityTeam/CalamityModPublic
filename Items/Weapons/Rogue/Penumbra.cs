@@ -1,6 +1,5 @@
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Rogue;
-using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -33,7 +32,6 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.damage = 1600;
             item.useAnimation = 40;
             item.useTime = 40;
-            item.crit = 16;
             item.knockBack = 8f;
             item.shoot = ModContent.ProjectileType<PenumbraBomb>();
             item.shootSpeed = ShootSpeed;
@@ -41,6 +39,9 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.Calamity().customRarity = CalamityRarity.DarkBlue;
             item.Calamity().rogue = true;
         }
+
+		// Terraria seems to really dislike high crit values in SetDefaults
+		public override void GetWeaponCrit(Player player, ref int crit) => crit += 16;
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {    
@@ -73,7 +74,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 6);
             recipe.AddIngredient(ModContent.ItemType<NightmareFuel>(), 24);
             recipe.AddIngredient(ModContent.ItemType<RuinousSoul>(), 6);
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
+            recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

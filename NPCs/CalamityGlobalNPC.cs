@@ -1235,6 +1235,13 @@ namespace CalamityMod.NPCs
 					npc.damage = 0;
             }
 
+			// Make Core hitbox bigger
+			if (npc.type == NPCID.MartianSaucerCore)
+			{
+				npc.width *= 2;
+				npc.height *= 2;
+			}
+
             if (npc.type == NPCID.CultistBoss)
             {
                 npc.lifeMax = (int)(npc.lifeMax * (CalamityWorld.revenge ? 2 : 1.2));
@@ -3758,7 +3765,7 @@ namespace CalamityMod.NPCs
             {
                 if (npc.type == NPCID.SkeletronPrime)
                 {
-                    npc.frameCounter = 0.0;
+                    npc.frameCounter = 0D;
                 }
             }
         }
@@ -4269,7 +4276,7 @@ namespace CalamityMod.NPCs
 
 			if (CalamityWorld.revenge || BossRushEvent.BossRushActive)
             {
-                if (npc.type == NPCID.SkeletronPrime)
+                if (npc.type == NPCID.SkeletronPrime || DestroyerIDs.Contains(npc.type))
                 {
                     return false;
                 }
@@ -4330,50 +4337,8 @@ namespace CalamityMod.NPCs
         {
             if (CalamityWorld.revenge || BossRushEvent.BossRushActive)
             {
-				if (npc.type == NPCID.GolemHeadFree || npc.type == NPCID.GolemHead)
-				{
-					Texture2D npcTexture = Main.npcTexture[npc.type];
-					int frameHeight = npcTexture.Height / Main.npcFrameCount[npc.type];
-
-					SpriteEffects spriteEffects = SpriteEffects.None;
-					if (npc.spriteDirection == 1)
-						spriteEffects = SpriteEffects.FlipHorizontally;
-
-					if (npc.type == NPCID.GolemHead)
-					{
-						if (npc.ai[0] == 0f)
-						{
-							if (npc.localAI[0] == 1f)
-								npc.frame.Y = frameHeight;
-							else
-								npc.frame.Y = 0;
-						}
-						else if (npc.ai[0] == 1f)
-						{
-							if (npc.localAI[0] == 1f)
-								npc.frame.Y = frameHeight;
-							else
-								npc.frame.Y = 0;
-
-							if (npc.localAI[1] == -1f)
-								npc.frame.Y += frameHeight * 4;
-
-							if (npc.localAI[1] == 1f)
-								npc.frame.Y += frameHeight * 2;
-						}
-					}
-					else
-					{
-						if (npc.localAI[0] == 1f)
-							npc.frame.Y = frameHeight;
-						else
-							npc.frame.Y = 0;
-					}
-
-					spriteBatch.Draw(npcTexture, npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame, npc.GetAlpha(drawColor), npc.rotation, npc.frame.Size() / 2, npc.scale, spriteEffects, 0);
-				}
-                // His afterimages I can't get to work, so fuck it
-                else if (npc.type == NPCID.SkeletronPrime)
+				// His afterimages I can't get to work, so fuck it
+				if (npc.type == NPCID.SkeletronPrime)
                 {
                     Texture2D npcTexture = Main.npcTexture[npc.type];
                     int frameHeight = npcTexture.Height / Main.npcFrameCount[npc.type];
@@ -4414,24 +4379,48 @@ namespace CalamityMod.NPCs
                     if (npc.spriteDirection == 1)
                         spriteEffects = SpriteEffects.FlipHorizontally;
 
-                    spriteBatch.Draw(npcTexture, npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame, npc.GetAlpha(drawColor), npc.rotation, npc.frame.Size() / 2, npc.scale, spriteEffects, 0);
+                    spriteBatch.Draw(npcTexture, npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame, npc.GetAlpha(drawColor), npc.rotation, npc.frame.Size() / 2, npc.scale, spriteEffects, 0f);
 
                     spriteBatch.Draw(Main.BoneEyesTexture, npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY),
-                        npc.frame, new Color(200, 200, 200, 0), npc.rotation, npc.frame.Size() / 2, npc.scale, spriteEffects, 0);
+                        npc.frame, new Color(200, 200, 200, 0), npc.rotation, npc.frame.Size() / 2, npc.scale, spriteEffects, 0f);
                 }
 				else if (DestroyerIDs.Contains(npc.type))
 				{
-					if (drawColor != Color.Black && npc.ai[2] == 0f && ((newAI[3] >= 900f && npc.life / (float)npc.lifeMax < 0.5f) || (newAI[1] < 600f && newAI[1] > 60f)))
+					if (drawColor != Color.Black)
 					{
+						Texture2D npcTexture = Main.npcTexture[npc.type];
+						int frameHeight = npcTexture.Height / Main.npcFrameCount[npc.type];
+
 						Vector2 halfSize = npc.frame.Size() / 2;
 						SpriteEffects spriteEffects = SpriteEffects.None;
 						if (npc.spriteDirection == 1)
 							spriteEffects = SpriteEffects.FlipHorizontally;
 
-						for (int i = 0; i < 3; i++)
+						if (npc.type == NPCID.TheDestroyerBody)
 						{
-							spriteBatch.Draw(Main.destTexture[npc.type - NPCID.TheDestroyer], npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame,
-								new Color(0, 0, 255, 0) * (1f - npc.alpha / 255f), npc.rotation, halfSize, npc.scale, spriteEffects, 0f);
+							if (npc.ai[2] == 0f)
+								npc.frame.Y = 0;
+							else
+								npc.frame.Y = frameHeight;
+						}
+
+						// Draw segments
+						spriteBatch.Draw(npcTexture, npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY),
+							npc.frame, npc.GetAlpha(drawColor), npc.rotation, halfSize, npc.scale, spriteEffects, 0f);
+
+						// Draw lights
+						if (npc.ai[2] == 0f)
+						{
+							if ((newAI[3] >= 900f && npc.life / (float)npc.lifeMax < 0.5f) || (newAI[1] < 600f && newAI[1] > 60f))
+							{
+								spriteBatch.Draw(Main.destTexture[npc.type - NPCID.TheDestroyer], npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame,
+									new Color(50, 50, 255, 0) * (1f - npc.alpha / 255f), npc.rotation, halfSize, npc.scale, spriteEffects, 0f);
+							}
+							else
+							{
+								spriteBatch.Draw(Main.destTexture[npc.type - NPCID.TheDestroyer], npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame,
+									new Color(255, 255, 255, 0) * (1f - npc.alpha / 255f), npc.rotation, halfSize, npc.scale, spriteEffects, 0f);
+							}
 						}
 					}
 				}

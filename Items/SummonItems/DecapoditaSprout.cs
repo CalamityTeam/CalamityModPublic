@@ -1,3 +1,4 @@
+using CalamityMod.Events;
 using CalamityMod.NPCs.Crabulon;
 using Terraria;
 using Terraria.ID;
@@ -26,7 +27,7 @@ namespace CalamityMod.Items.SummonItems
 
         public override bool CanUseItem(Player player)
         {
-            return player.ZoneGlowshroom && !NPC.AnyNPCs(ModContent.NPCType<CrabulonIdle>());
+            return player.ZoneGlowshroom && !NPC.AnyNPCs(ModContent.NPCType<CrabulonIdle>()) && !BossRushEvent.BossRushActive;
         }
 
         public override bool UseItem(Player player)

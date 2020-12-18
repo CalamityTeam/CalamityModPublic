@@ -21,7 +21,6 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.ranged = true;
             item.width = 62;
             item.height = 26;
-            item.crit += 6;
             item.useTime = 26;
             item.useAnimation = 26;
             item.useStyle = ItemUseStyleID.HoldingOut;
@@ -35,10 +34,10 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.shootSpeed = 22f;
         }
 
-        public override Vector2? HoldoutOffset()
-        {
-            return new Vector2(-10, 0);
-        }
+		// Terraria seems to really dislike high crit values in SetDefaults
+		public override void GetWeaponCrit(Player player, ref int crit) => crit += 6;
+
+        public override Vector2? HoldoutOffset() => new Vector2(-10, 0);
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
@@ -47,7 +46,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             {
                 float SpeedX = speedX + (float)Main.rand.Next(-40, 41) * 0.05f;
                 float SpeedY = speedY + (float)Main.rand.Next(-40, 41) * 0.05f;
-                int projectile = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, 0.0f, 0.0f);
+                int projectile = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI);
                 Main.projectile[projectile].timeLeft = 200;
             }
             return false;

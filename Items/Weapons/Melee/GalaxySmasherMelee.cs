@@ -1,6 +1,5 @@
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee;
-using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -55,8 +54,7 @@ namespace CalamityMod.Items.Weapons.Melee
             r.SetResult(this);
             r.AddIngredient(ModContent.ItemType<StellarContemptMelee>());
             r.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 5);
-            r.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>());
-            r.AddTile(ModContent.TileType<DraedonsForge>());
+            r.AddTile(TileID.LunarCraftingStation);
             r.AddRecipe();
         }
     }

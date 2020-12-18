@@ -25,10 +25,7 @@ namespace CalamityMod.Items.LoreItems
             item.consumable = false;
         }
 
-        public override bool CanUseItem(Player player)
-        {
-            return false;
-        }
+        public override bool CanUseItem(Player player) => false;
 
         public override void UpdateInventory(Player player)
         {

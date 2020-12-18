@@ -1,6 +1,5 @@
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Magic;
-using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -95,7 +94,7 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             ModRecipe r = new ModRecipe(mod);
             r.SetResult(this);
-            r.AddTile(ModContent.TileType<DraedonsForge>());
+            r.AddTile(TileID.LunarCraftingStation);
             r.AddIngredient(ModContent.ItemType<VenusianTrident>());
             r.AddIngredient(ModContent.ItemType<CalamitasInferno>());
             r.AddIngredient(ModContent.ItemType<ForbiddenSun>());

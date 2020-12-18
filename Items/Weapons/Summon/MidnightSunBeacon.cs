@@ -1,6 +1,5 @@
 using CalamityMod.Projectiles.Summon;
 using CalamityMod.Items.Materials;
-using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -46,9 +45,9 @@ namespace CalamityMod.Items.Weapons.Summon
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.XenoStaff);
             recipe.AddIngredient(ItemID.MoonlordTurretStaff);
-            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 25);
-            recipe.AddIngredient(ModContent.ItemType<DarksunFragment>(), 25);
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
+            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 15);
+            recipe.AddIngredient(ModContent.ItemType<DarksunFragment>(), 15);
+            recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

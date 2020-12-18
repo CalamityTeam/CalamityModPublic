@@ -986,13 +986,6 @@ namespace CalamityMod
             });
             RecipeGroup.RegisterGroup("AnyAdamantiteBar", group);
 
-            group = new RecipeGroup(() => "Nightmare Fuel or Endothermic Energy", new int[]
-            {
-                ModContent.ItemType<NightmareFuel>(),
-                ModContent.ItemType<EndothermicEnergy>()
-            });
-            RecipeGroup.RegisterGroup("NForEE", group);
-
             group = new RecipeGroup(() => "Any Evil Powder", new int[]
             {
                 ItemID.VilePowder,

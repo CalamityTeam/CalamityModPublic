@@ -28,7 +28,6 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetDefaults()
         {
             item.damage = BaseDamage;
-            item.crit += 10;
             item.useAnimation = 14;
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.useTime = 14;
@@ -45,6 +44,9 @@ namespace CalamityMod.Items.Weapons.Melee
             item.shootSpeed = 6f;
             item.Calamity().customRarity = CalamityRarity.Rainbow;
         }
+
+		// Terraria seems to really dislike high crit values in SetDefaults
+		public override void GetWeaponCrit(Player player, ref int crit) => crit += 10;
 
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {

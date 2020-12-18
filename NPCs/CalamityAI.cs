@@ -72,8 +72,12 @@ namespace CalamityMod.NPCs
 				npc.realLife = (int)npc.ai[3];
 
 			// Get a target
-			if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)
-				npc.TargetClosest(true);
+			if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
+				npc.TargetClosest();
+
+			// Despawn safety, make sure to target another player if the current player target is too far away
+			if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > CalamityGlobalNPC.CatchUpDistance200Tiles)
+				npc.TargetClosest();
 
 			Player player = Main.player[npc.target];
 
@@ -151,10 +155,10 @@ namespace CalamityMod.NPCs
 						// Reset and charge at target
 						if (calamityGlobalNPC.newAI[3] >= ai3 + 120f)
 						{
-							npc.TargetClosest(true);
 							calamityGlobalNPC.newAI[3] = 0f;
 							float chargeVelocity = (BossRushEvent.BossRushActive ? 24f : death ? 16f : 12f) + 3f * enrageScale;
 							npc.velocity = Vector2.Normalize(player.Center - npc.Center) * chargeVelocity;
+							npc.TargetClosest();
 						}
 					}
 					else
@@ -257,7 +261,7 @@ namespace CalamityMod.NPCs
 							if (npc.localAI[0] >= Main.rand.Next(700, 10001))
 							{
 								npc.localAI[0] = 0f;
-								npc.TargetClosest(true);
+								npc.TargetClosest();
 								if (Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height))
 								{
 									Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 17);
@@ -284,7 +288,7 @@ namespace CalamityMod.NPCs
 							if (npc.localAI[0] >= Main.rand.Next(700, 10001))
 							{
 								npc.localAI[0] = 0f;
-								npc.TargetClosest(true);
+								npc.TargetClosest();
 								if (Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height))
 								{
 									Vector2 vector104 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + (npc.height / 2));
@@ -578,8 +582,12 @@ namespace CalamityMod.NPCs
 			Vector2 vectorCenter = npc.Center;
 
 			// Get a target
-			if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)
-				npc.TargetClosest(true);
+			if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
+				npc.TargetClosest();
+
+			// Despawn safety, make sure to target another player if the current player target is too far away
+			if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > CalamityGlobalNPC.CatchUpDistance200Tiles)
+				npc.TargetClosest();
 
 			Player player = Main.player[npc.target];
 
@@ -719,7 +727,7 @@ namespace CalamityMod.NPCs
 					npc.localAI[1] += 1f;
 					if (npc.localAI[1] >= (BossRushEvent.BossRushActive ? 90f : death ? 150f : 180f))
 					{
-						npc.TargetClosest(true);
+						npc.TargetClosest();
 						npc.localAI[1] = 0f;
 						int timer = 0;
 						int playerPosX;
@@ -937,7 +945,7 @@ namespace CalamityMod.NPCs
 
 				if (npc.ai[1] >= divisor * 10f)
 				{
-					npc.TargetClosest(true);
+					npc.TargetClosest();
 					npc.ai[0] = -1f;
 					npc.ai[1] = 3f;
 					npc.ai[2] = 0f;
@@ -1013,7 +1021,7 @@ namespace CalamityMod.NPCs
 				npc.ai[1] += 1f;
 				if (npc.ai[1] >= (death ? 240f : 300f))
 				{
-					npc.TargetClosest(true);
+					npc.TargetClosest();
 					npc.ai[0] = -1f;
 					npc.ai[1] = 4f;
 					npc.ai[2] = 0f;
@@ -1050,7 +1058,7 @@ namespace CalamityMod.NPCs
 				npc.ai[1] += 1f;
 				if (npc.ai[1] >= 240f)
 				{
-					npc.TargetClosest(true);
+					npc.TargetClosest();
 					npc.ai[2] += 1f;
 					npc.localAI[0] = 0f;
 					npc.localAI[1] = 0f;
@@ -1253,8 +1261,12 @@ namespace CalamityMod.NPCs
 			}
 
 			// Get a target
-			if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)
-				npc.TargetClosest(true);
+			if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
+				npc.TargetClosest();
+
+			// Despawn safety, make sure to target another player if the current player target is too far away
+			if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > CalamityGlobalNPC.CatchUpDistance200Tiles)
+				npc.TargetClosest();
 
 			// Target variable
 			Player player = Main.player[npc.target];
@@ -1406,7 +1418,7 @@ namespace CalamityMod.NPCs
 				{
 					npc.ai[1] = 1f;
 					npc.ai[2] = 0f;
-					npc.TargetClosest(true);
+					npc.TargetClosest();
 					npc.netUpdate = true;
 				}
 
@@ -1622,7 +1634,7 @@ namespace CalamityMod.NPCs
 				{
 					npc.ai[1] = phase2 && !brotherAlive && lifeRatio < 0.7f && revenge ? 4f : 0f;
 					npc.ai[2] = 0f;
-					npc.TargetClosest(true);
+					npc.TargetClosest();
 					npc.netUpdate = true;
 				}
 			}
@@ -1664,8 +1676,8 @@ namespace CalamityMod.NPCs
 				{
 					npc.ai[3] += 1f;
 					npc.ai[2] = 0f;
-					npc.target = 255;
 					npc.rotation = num803;
+					npc.TargetClosest();
 					npc.netUpdate = true;
 					if (npc.ai[3] >= 2f)
 					{
@@ -1741,7 +1753,7 @@ namespace CalamityMod.NPCs
 				npc.ai[2] += 1f;
 				if (npc.ai[2] >= 45f)
 				{
-					npc.TargetClosest(true);
+					npc.TargetClosest();
 					npc.ai[1] = 2f;
 					npc.ai[2] = 0f;
 					npc.netUpdate = true;
@@ -1768,8 +1780,13 @@ namespace CalamityMod.NPCs
 			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
 			bool provy = CalamityWorld.downedProvidence && !BossRushEvent.BossRushActive;
 
-			if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)
-				npc.TargetClosest(true);
+			// Get a target
+			if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
+				npc.TargetClosest();
+
+			// Despawn safety, make sure to target another player if the current player target is too far away
+			if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > CalamityGlobalNPC.CatchUpDistance200Tiles)
+				npc.TargetClosest();
 
 			Player player = Main.player[npc.target];
 
@@ -1919,7 +1936,7 @@ namespace CalamityMod.NPCs
 				npc.ai[2] += (calamityGlobalNPC.enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive)) ? 2f : 1f;
 				if (npc.ai[2] >= (240f - (death ? 120f * (1f - lifeRatio) : 0f)))
 				{
-					npc.TargetClosest(true);
+					npc.TargetClosest();
 					npc.ai[1] = 1f;
 					npc.ai[2] = 0f;
 					npc.target = 255;
@@ -2027,6 +2044,7 @@ namespace CalamityMod.NPCs
 						npc.ai[2] = 0f;
 						npc.target = 255;
 						npc.rotation = num842;
+						npc.TargetClosest();
 						if (npc.ai[3] >= 3f)
 						{
 							npc.ai[1] = 0f;
@@ -2058,8 +2076,13 @@ namespace CalamityMod.NPCs
 			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
 			bool provy = CalamityWorld.downedProvidence && !BossRushEvent.BossRushActive;
 
-			if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)
-				npc.TargetClosest(true);
+			// Get a target
+			if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
+				npc.TargetClosest();
+
+			// Despawn safety, make sure to target another player if the current player target is too far away
+			if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > CalamityGlobalNPC.CatchUpDistance200Tiles)
+				npc.TargetClosest();
 
 			Player player = Main.player[npc.target];
 
@@ -2209,7 +2232,7 @@ namespace CalamityMod.NPCs
 				npc.ai[2] += (calamityGlobalNPC.enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive)) ? 2f : 1f;
 				if (npc.ai[2] >= (180f - (death ? 90f * (1f - lifeRatio) : 0f)))
 				{
-					npc.TargetClosest(true);
+					npc.TargetClosest();
 					npc.ai[1] = 1f;
 					npc.ai[2] = 0f;
 					npc.target = 255;
@@ -2315,7 +2338,7 @@ namespace CalamityMod.NPCs
 					{
 						npc.ai[3] += 1f;
 						npc.ai[2] = 0f;
-						npc.target = 255;
+						npc.TargetClosest();
 						npc.rotation = num842;
 						if (npc.ai[3] >= 4f)
 						{
@@ -2359,8 +2382,12 @@ namespace CalamityMod.NPCs
 				enrageScale = 0f;
 
 			// Get a target
-			if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)
-				npc.TargetClosest(true);
+			if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
+				npc.TargetClosest();
+
+			// Despawn safety, make sure to target another player if the current player target is too far away
+			if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > CalamityGlobalNPC.CatchUpDistance200Tiles)
+				npc.TargetClosest();
 
 			Player player = Main.player[npc.target];
 
@@ -2512,7 +2539,7 @@ namespace CalamityMod.NPCs
                     npc.noTileCollide = true;
 
 					// Set AI to next phase (Walk) and reset other AI
-					npc.TargetClosest(true);
+					npc.TargetClosest();
 					npc.ai[0] = 2f;
                     npc.ai[1] = 0f;
                     npc.netUpdate = true;
@@ -2593,7 +2620,7 @@ namespace CalamityMod.NPCs
                     npc.noTileCollide = false;
 
 					// Set AI to next phase (Jump) and reset other AI
-					npc.TargetClosest(true);
+					npc.TargetClosest();
 					npc.ai[0] = 3f;
                     npc.ai[1] = 0f;
                     npc.netUpdate = true;
@@ -2671,7 +2698,7 @@ namespace CalamityMod.NPCs
                     Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/LegStomp"), (int)npc.position.X, (int)npc.position.Y);
 
 					// Stomp and jump again, if stomped twice then reset and set AI to next phase (Teleport or Idle)
-					npc.TargetClosest(true);
+					npc.TargetClosest();
 					npc.ai[2] += 1f;
 					float maxStompAmt = death ? 2f : 3f;
                     if (npc.ai[2] >= maxStompAmt)
@@ -2807,7 +2834,7 @@ namespace CalamityMod.NPCs
                             NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y - 25, ModContent.NPCType<AureusSpawn>());
 
 						// Reset localAI and find a teleport destination
-						npc.TargetClosest(true);
+						npc.TargetClosest();
 						npc.localAI[1] = 0f;
                         int num1249 = 0;
                         int num1250;
@@ -2976,13 +3003,17 @@ namespace CalamityMod.NPCs
 				calamityGlobalNPC.newAI[1] += 1f;
 
 			// Get a target
-			if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)
-				npc.TargetClosest(true);
+			if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
+				npc.TargetClosest();
 
 			Player player = Main.player[npc.target];
 
 			bool increaseSpeed = Vector2.Distance(player.Center, npc.Center) > CalamityGlobalNPC.CatchUpDistance200Tiles;
 			bool increaseSpeedMore = Vector2.Distance(player.Center, npc.Center) > CalamityGlobalNPC.CatchUpDistance350Tiles;
+
+			// Despawn safety, make sure to target another player if the current player target is too far away
+			if (increaseSpeedMore && head)
+				npc.TargetClosest();
 
 			// Inflict Extreme Gravity to nearby players
 			if (revenge)
@@ -3174,9 +3205,7 @@ namespace CalamityMod.NPCs
 				}
 				if (!shouldDespawn)
 				{
-					if (npc.ai[1] > 0f)
-						shouldDespawn = false;
-					else if (Main.npc[(int)npc.ai[1]].life > 0)
+					if (Main.npc.IndexInRange((int)npc.ai[1]) && Main.npc[(int)npc.ai[1]].active && Main.npc[(int)npc.ai[1]].life > 0)
 						shouldDespawn = false;
 				}
 				if (shouldDespawn)
@@ -3185,6 +3214,7 @@ namespace CalamityMod.NPCs
 					npc.HitEffect(0, 10.0);
 					npc.checkDead();
 					npc.active = false;
+					npc.netUpdate = true;
 				}
 			}
 
@@ -3385,9 +3415,7 @@ namespace CalamityMod.NPCs
 
 				if (!flag2)
 				{
-					npc.TargetClosest(true);
 					npc.velocity.Y += 0.15f;
-
 					if (npc.velocity.Y > fallSpeed)
 						npc.velocity.Y = fallSpeed;
 
@@ -3566,7 +3594,7 @@ namespace CalamityMod.NPCs
 					{
 						if (npc.localAI[0] % divisor == 0f && npc.ai[0] % 2f == 0f)
 						{
-							npc.TargetClosest(true);
+							npc.TargetClosest();
 							if (Vector2.Distance(player.Center, npc.Center) > 80f)
 							{
 								Main.PlaySound(SoundID.Item12, npc.Center);
@@ -3652,12 +3680,6 @@ namespace CalamityMod.NPCs
 		{
 			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
-			if (BossRushEvent.BossRushActive)
-			{
-				calamityGlobalNPC.DR = 0.999999f;
-				calamityGlobalNPC.unbreakableDR = true;
-			}
-
 			double lifeRatio = npc.life / (double)npc.lifeMax;
 			int lifePercentage = (int)(100.0 * lifeRatio);
 			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
@@ -3668,7 +3690,12 @@ namespace CalamityMod.NPCs
 			Vector2 vector = npc.Center;
 
 			// Get a target
-			npc.TargetClosest(true);
+			if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
+				npc.TargetClosest();
+
+			// Despawn safety, make sure to target another player if the current player target is too far away
+			if (Vector2.Distance(Main.player[npc.target].Center, vector) > CalamityGlobalNPC.CatchUpDistance200Tiles)
+				npc.TargetClosest();
 
 			Player player = Main.player[npc.target];
 
@@ -3812,6 +3839,7 @@ namespace CalamityMod.NPCs
 
 				if (calamityGlobalNPC.newAI[1] >= 600f * projectileFireRateMultiplier)
 				{
+					npc.TargetClosest();
 					calamityGlobalNPC.newAI[1] = 0f;
 					if (Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height))
 					{
@@ -3948,8 +3976,12 @@ namespace CalamityMod.NPCs
 			npc.Calamity().canBreakPlayerDefense = false;
 
 			// Get a target
-			if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)
-				npc.TargetClosest(true);
+			if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
+				npc.TargetClosest();
+
+			// Despawn safety, make sure to target another player if the current player target is too far away
+			if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > CalamityGlobalNPC.CatchUpDistance200Tiles)
+				npc.TargetClosest();
 
 			Player player = Main.player[npc.target];
 
@@ -4167,7 +4199,7 @@ namespace CalamityMod.NPCs
 				value51.Y -= 200f;
 				if (value51.Length() > 2800f)
 				{
-					npc.TargetClosest(true);
+					npc.TargetClosest();
 					npc.ai[0] = 1f;
 					npc.ai[1] = 0f;
 					npc.ai[2] = 0f;
@@ -4203,7 +4235,7 @@ namespace CalamityMod.NPCs
 
 						if (npc.localAI[0] >= (phase3 ? 7 : 9) && canHit)
 						{
-							npc.TargetClosest(true);
+							npc.TargetClosest();
 							npc.ai[0] = 5f;
 							npc.localAI[0] = 0f;
 
@@ -4227,7 +4259,7 @@ namespace CalamityMod.NPCs
 
 							if (num1307 == 0 && canHit && npc.localAI[3] == 0f)
 							{
-								npc.TargetClosest(true);
+								npc.TargetClosest();
 								npc.ai[0] = 2f;
 
 								// Decrease enraged attacks by 1
@@ -4239,7 +4271,7 @@ namespace CalamityMod.NPCs
 							}
 							else if (num1307 == 1)
 							{
-								npc.TargetClosest(true);
+								npc.TargetClosest();
 								npc.ai[0] = 3f;
 
 								// Decrease enraged attacks by 1
@@ -4266,7 +4298,7 @@ namespace CalamityMod.NPCs
 							}
 							else if (NPC.CountNPCS(ModContent.NPCType<Bumblefuck2>()) < maxBirbs && npc.localAI[3] == 0f)
 							{
-								npc.TargetClosest(true);
+								npc.TargetClosest();
 								npc.ai[0] = 4f;
 
 								// Birb will do at least 2 different attacks before entering this phase again
@@ -4310,7 +4342,7 @@ namespace CalamityMod.NPCs
 				Vector2 value52 = player.Center - npc.Center;
 				if (value52.Length() < 800f && !Collision.SolidCollision(npc.position, npc.width, npc.height))
 				{
-					npc.TargetClosest(true);
+					npc.TargetClosest();
 					npc.ai[0] = 0f;
 					npc.ai[1] = 0f;
 					npc.ai[2] = 0f;
@@ -4335,7 +4367,7 @@ namespace CalamityMod.NPCs
 			{
 				if (npc.target < 0 || !player.active || player.dead)
 				{
-					npc.TargetClosest(true);
+					npc.TargetClosest();
 					npc.ai[0] = 0f;
 					npc.ai[1] = 0f;
 					npc.ai[2] = 0f;
@@ -4383,7 +4415,7 @@ namespace CalamityMod.NPCs
 				npc.ai[1] += 1f;
 				if (npc.ai[1] >= 120f || !Collision.CanHit(npc.Center, 1, 1, player.Center, 1, 1))
 				{
-					npc.TargetClosest(true);
+					npc.TargetClosest();
 					npc.ai[0] = 0f;
 					npc.ai[1] = 0f;
 					npc.ai[2] = 0f;
@@ -4481,7 +4513,7 @@ namespace CalamityMod.NPCs
 				{
 					if (!Collision.SolidCollision(npc.position, npc.width, npc.height))
 					{
-						npc.TargetClosest(true);
+						npc.TargetClosest();
 						npc.ai[0] = 0f;
 						npc.ai[1] = 0f;
 						npc.ai[2] = 0f;
@@ -4489,7 +4521,7 @@ namespace CalamityMod.NPCs
 					}
 					else if (Math.Abs(npc.Center.X - player.Center.X) > chargeDistance + 200f)
 					{
-						npc.TargetClosest(true);
+						npc.TargetClosest();
 						npc.ai[0] = 1f;
 						npc.ai[1] = 0f;
 						npc.ai[2] = 0f;
@@ -4567,6 +4599,7 @@ namespace CalamityMod.NPCs
 					npc.ai[0] = 0f;
 					npc.ai[1] = 0f;
 					npc.ai[2] = 0f;
+					npc.TargetClosest();
 				}
 			}
 
@@ -4716,21 +4749,24 @@ namespace CalamityMod.NPCs
 			int num16 = 75;
 
 			Vector2 vector = npc.Center;
-
 			Player player = Main.player[npc.target];
 
 			// Get target
 			if (npc.target < 0 || npc.target == 255 || player.dead || !player.active)
 			{
-				npc.TargetClosest(true);
+				npc.TargetClosest();
 				player = Main.player[npc.target];
 				npc.netUpdate = true;
 			}
 
+			// Despawn safety, make sure to target another player if the current player target is too far away
+			if (Vector2.Distance(player.Center, vector) > CalamityGlobalNPC.CatchUpDistance200Tiles)
+				npc.TargetClosest();
+
 			// Despawn
 			if (player.dead || Vector2.Distance(player.Center, vector) > 8800f)
 			{
-				npc.TargetClosest(true);
+				npc.TargetClosest();
 
 				npc.velocity.Y -= 0.4f;
 
@@ -5064,7 +5100,7 @@ namespace CalamityMod.NPCs
 					npc.ai[1] = 0f;
 					npc.ai[2] = 0f;
 					npc.ai[3] += 2f;
-					npc.TargetClosest(true);
+					npc.TargetClosest();
 					npc.netUpdate = true;
 				}
 			}
@@ -5112,7 +5148,7 @@ namespace CalamityMod.NPCs
 					npc.ai[0] = 0f;
 					npc.ai[1] = 0f;
 					npc.ai[2] = 0f;
-					npc.TargetClosest(true);
+					npc.TargetClosest();
 					npc.netUpdate = true;
 				}
 			}
@@ -5146,7 +5182,7 @@ namespace CalamityMod.NPCs
 					npc.ai[0] = 0f;
 					npc.ai[1] = 0f;
 					npc.ai[2] = 0f;
-					npc.TargetClosest(true);
+					npc.TargetClosest();
 					npc.netUpdate = true;
 				}
 			}
@@ -5182,7 +5218,7 @@ namespace CalamityMod.NPCs
 					npc.ai[1] = 0f;
 					npc.ai[2] = 0f;
 					npc.ai[3] = 0f;
-					npc.TargetClosest(true);
+					npc.TargetClosest();
 					npc.netUpdate = true;
 				}
 			}
@@ -5336,7 +5372,7 @@ namespace CalamityMod.NPCs
 					npc.ai[1] = 0f;
 					npc.ai[2] = 0f;
 					npc.ai[3] += 2f;
-					npc.TargetClosest(true);
+					npc.TargetClosest();
 					npc.netUpdate = true;
 				}
 			}
@@ -5385,7 +5421,7 @@ namespace CalamityMod.NPCs
 					npc.ai[0] = 5f;
 					npc.ai[1] = 0f;
 					npc.ai[2] = 0f;
-					npc.TargetClosest(true);
+					npc.TargetClosest();
 					npc.netUpdate = true;
 				}
 			}
@@ -5435,7 +5471,7 @@ namespace CalamityMod.NPCs
 					npc.ai[0] = 5f;
 					npc.ai[1] = 0f;
 					npc.ai[2] = 0f;
-					npc.TargetClosest(true);
+					npc.TargetClosest();
 					npc.netUpdate = true;
 				}
 			}
@@ -5471,7 +5507,7 @@ namespace CalamityMod.NPCs
 					npc.ai[1] = 0f;
 					npc.ai[2] = 0f;
 					npc.ai[3] = 0f;
-					npc.TargetClosest(true);
+					npc.TargetClosest();
 					npc.netUpdate = true;
 				}
 			}
@@ -5637,7 +5673,7 @@ namespace CalamityMod.NPCs
 					npc.ai[1] = 0f;
 					npc.ai[2] = 0f;
 					npc.ai[3] += 2f;
-					npc.TargetClosest(true);
+					npc.TargetClosest();
 					npc.netUpdate = true;
 				}
 			}
@@ -5753,7 +5789,7 @@ namespace CalamityMod.NPCs
 					npc.ai[0] = 10f;
 					npc.ai[1] = 0f;
 					npc.ai[2] = 0f;
-					npc.TargetClosest(true);
+					npc.TargetClosest();
 					npc.netUpdate = true;
 				}
 			}
@@ -5802,7 +5838,7 @@ namespace CalamityMod.NPCs
 					npc.ai[0] = 10f;
 					npc.ai[1] = 0f;
 					npc.ai[2] = 0f;
-					npc.TargetClosest(true);
+					npc.TargetClosest();
 					npc.netUpdate = true;
 				}
 			}

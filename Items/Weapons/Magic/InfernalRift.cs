@@ -26,7 +26,6 @@ namespace CalamityMod.Items.Weapons.Magic
             item.useAnimation = 16;
             item.useTime = 4;
             item.reuseDelay = item.useAnimation + 6;
-            item.crit = 25;
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 7f;
@@ -38,10 +37,10 @@ namespace CalamityMod.Items.Weapons.Magic
             item.shootSpeed = 16f;
         }
 
-        public override Vector2? HoldoutOrigin()
-        {
-            return new Vector2(15, 15);
-        }
+		// Terraria seems to really dislike high crit values in SetDefaults
+		public override void GetWeaponCrit(Player player, ref int crit) => crit += 25;
+
+        public override Vector2? HoldoutOrigin() => new Vector2(15, 15);
 
         public override void AddRecipes()
         {

@@ -1,3 +1,4 @@
+using CalamityMod.Events;
 using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using CalamityMod.NPCs.BrimstoneElemental;
@@ -32,7 +33,7 @@ namespace CalamityMod.Items.SummonItems
         public override bool CanUseItem(Player player)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            return modPlayer.ZoneCalamity && !NPC.AnyNPCs(ModContent.NPCType<BrimstoneElemental>());
+            return modPlayer.ZoneCalamity && !NPC.AnyNPCs(ModContent.NPCType<BrimstoneElemental>()) && !BossRushEvent.BossRushActive;
         }
 
         public override bool UseItem(Player player)

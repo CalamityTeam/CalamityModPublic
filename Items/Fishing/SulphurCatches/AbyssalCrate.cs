@@ -2,6 +2,7 @@ using CalamityMod.Items.Materials;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Pets;
 using CalamityMod.Items.Potions;
+using CalamityMod.Items.Tools.ClimateChange;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
@@ -82,7 +83,8 @@ namespace CalamityMod.Items.Fishing.SulphurCatches
                 ModContent.ItemType<StrangeOrb>(),
                 ModContent.ItemType<DepthCharm>(),
                 ModContent.ItemType<IronBoots>(),
-                ModContent.ItemType<AnechoicPlating>());
+                ModContent.ItemType<AnechoicPlating>(),
+                ModContent.ItemType<TorrentialTear>());
 
             //Bait
             DropHelper.DropItemChance(player, ItemID.MasterBait, 10, 1, 2);

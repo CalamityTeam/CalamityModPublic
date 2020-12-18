@@ -366,7 +366,7 @@ namespace CalamityMod.CalPlayer
 					Main.dust[explode].velocity *= 2f;
 					Main.dust[explode].noGravity = true;
 				}
-				proj.damage *= 4;
+				proj.damage += CalamityUtils.DamageSoftCap(proj.damage * 2, 720);
 				proj.localNPCHitCooldown = 10;
 				proj.usesLocalNPCImmunity = true;
 				proj.Damage();
