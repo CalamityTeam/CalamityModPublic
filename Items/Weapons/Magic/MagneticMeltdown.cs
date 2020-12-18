@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.damage = 90;
+            item.damage = 52;
             item.magic = true;
             item.mana = 25;
             item.width = 78;
@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.useAnimation = 27;
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
-            item.knockBack = 5f;
+            item.knockBack = 4f;
             item.value = Item.buyPrice(1, 80, 0, 0);
             item.rare = 10;
             item.UseSound = SoundID.Item20;
@@ -54,11 +54,10 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 10);
             recipe.AddIngredient(ModContent.ItemType<DarkPlasma>(), 3);
             recipe.AddIngredient(ItemID.SpectreStaff);
             recipe.AddIngredient(ItemID.MagnetSphere);
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
+            recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }
