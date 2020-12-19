@@ -65,18 +65,16 @@ namespace CalamityMod.Projectiles.Ranged
 			// Adds 2 frames to lifeRegenTime on every hit. This increased value is used for the damage calculation.
 			owner.lifeRegenTime += 2;
 
-			// Deals (1.00 + (0.1 * current lifeRegen))% of current lifeRegenTime as flat bonus damage on hit.
+			// Deals (1.00 + (0.05 * current lifeRegen))% of current lifeRegenTime as flat bonus damage on hit.
 			// For example, at 0 life regen, you get 1% of lifeRegenTime as bonus damage.
 			// At 10 life regen, you get 2%. At 20 life regen, you get 3%.
 			// Negative life regen does not decrease damage.
 			int regenForCalc = owner.lifeRegen > 0 ? owner.lifeRegen : 0;
-			float regenDamageRatio = 0.01f + 0.001f * regenForCalc;
+			float regenDamageRatio = 0.01f + 0.0005f * regenForCalc;
 
 			// For the sake of bonus damage, life regen time caps at 3600, aka 60 seconds. This is its natural cap in vanilla.
 			int regenTimeForCalc = (int)MathHelper.Clamp(owner.lifeRegenTime, 0f, 3600f);
 			int bloodFireBonus = (int)(regenDamageRatio * regenTimeForCalc);
-
-			// Main.NewText("Bloodfire Regen Bonus: " + bloodFireBonus, Color.Red);
 			return bloodFireBonus;
 		}
 
