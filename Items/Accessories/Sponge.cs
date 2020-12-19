@@ -14,7 +14,6 @@ namespace CalamityMod.Items.Accessories
 {
     public class Sponge : ModItem
     {
-
 		public override string Texture => (DateTime.Now.Month == 4 && DateTime.Now.Day == 1) ? "CalamityMod/Items/Accessories/SpongeReal" : "CalamityMod/Items/Accessories/Sponge";
 
         public override void SetStaticDefaults()
@@ -48,6 +47,14 @@ namespace CalamityMod.Items.Accessories
 
         public override void ModifyTooltips(List<TooltipLine> list)
         {
+			bool autoJump = Main.player[Main.myPlayer].autoJump;
+			string jumpAmt = autoJump ? "6" : "24";
+			foreach (TooltipLine line2 in list)
+			{
+				if (line2.mod == "Terraria" && line2.Name == "Tooltip5")
+					line2.text = jumpAmt + "% increased jump speed and 12% increased movement speed";
+			}
+
 			if (CalamityWorld.death)
 			{
 				foreach (TooltipLine line2 in list)

@@ -17,7 +17,6 @@ namespace CalamityMod.Items.Accessories
             Tooltip.SetDefault("Melee attacks and projectiles inflict most debuffs\n" +
                 "15% increased melee speed, damage, and 5% increased melee critical strike chance\n" +
 				"20% increased true melee damage\n" +
-                "Increased invincibility after taking damage\n" +
                 "Temporary immunity to lava\n" +
                 "Increased melee knockback");
         }
