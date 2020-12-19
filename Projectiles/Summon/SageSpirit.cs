@@ -15,6 +15,7 @@ namespace CalamityMod.Projectiles.Summon
 		internal ref float PlayerFlyTime => ref projectile.ai[1];
 		internal ref float SageSpiritIndex => ref projectile.localAI[0];
 		internal ref float GeneralTime => ref projectile.localAI[1];
+		internal bool Initialized = false;
 		internal Vector2 PlayerFlyStart;
 		internal Vector2 PlayerFlyOffsetAtEnds;
 		internal Vector2 PlayerFlyDestination;
@@ -44,6 +45,7 @@ namespace CalamityMod.Projectiles.Summon
 
 		public override void SendExtraAI(BinaryWriter writer)
 		{
+			writer.Write(Initialized);
 			writer.Write(SageSpiritIndex);
 			writer.Write(GeneralTime);
 			writer.WritePackedVector2(PlayerFlyStart);
@@ -53,6 +55,7 @@ namespace CalamityMod.Projectiles.Summon
 
 		public override void ReceiveExtraAI(BinaryReader reader)
 		{
+			Initialized = reader.ReadBoolean();
 			SageSpiritIndex = reader.ReadSingle();
 			GeneralTime = reader.ReadSingle();
 			PlayerFlyStart = reader.ReadPackedVector2();
@@ -64,6 +67,7 @@ namespace CalamityMod.Projectiles.Summon
 		{
 			GeneralTime++;
 			ProvidePlayerMinionBuffs();
+			Initialize();
 			DetermineFrames();
 			NPC potentialTarget = projectile.Center.MinionHoming(750f, Owner);
 			if (potentialTarget is null)
@@ -88,6 +92,19 @@ namespace CalamityMod.Projectiles.Summon
 				Owner.Calamity().sageSpirit = false;
 			if (Owner.Calamity().sageSpirit)
 				projectile.timeLeft = 2;
+		}
+
+		internal void Initialize()
+		{
+			if (Initialized)
+				return;
+
+			Initialized = true;
+			PlayerFlyTime = 1f;
+			PlayerFlyOffsetAtEnds = Vector2.UnitY;
+			PlayerFlyStart = projectile.Center;
+			PlayerFlyDestination = projectile.Center - Vector2.UnitY * 10f;
+			projectile.netUpdate = true;
 		}
 
 		internal void DetermineFrames()
