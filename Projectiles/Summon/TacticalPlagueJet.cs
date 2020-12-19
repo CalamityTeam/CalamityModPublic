@@ -176,8 +176,6 @@ namespace CalamityMod.Projectiles.Summon
 					{
 						int rocket = Projectile.NewProjectile(projectile.Center, projectile.DirectionTo(potentialTarget.Center) * 18f, ModContent.ProjectileType<MK2RocketHoming>(),
 							(int)(dmg * 1.5), kBack * 5f, projectile.owner);
-						if (rocket.WithinBounds(Main.maxProjectiles))
-							Main.projectile[rocket].Calamity().forceMinion = true;
 					}
 
 					// All other shots are bullets, fired from a "fake gun". The bullets are consumed from the player's inventory as per normal.
