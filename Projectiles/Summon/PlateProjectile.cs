@@ -52,7 +52,7 @@ namespace CalamityMod.Projectiles.Summon
                     float SpeedY = -projectile.velocity.Y * Main.rand.Next(40, 70) * 0.01f + Main.rand.Next(-20, 21) * 0.4f;
                     int shard = Projectile.NewProjectile(projectile.Center.X + SpeedX, projectile.Center.Y + SpeedY, SpeedX, SpeedY, ProjectileID.CrystalShard, projectile.damage / 2, 0f, projectile.owner);
 					if (shard.WithinBounds(Main.maxProjectiles))
-						Main.projectile[idx].Calamity().forceMinion = true;
+						Main.projectile[shard].Calamity().forceMinion = true;
                 }
             }
         }
