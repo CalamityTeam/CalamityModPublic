@@ -190,9 +190,7 @@ namespace CalamityMod.Projectiles.Summon
                     }
                     else
                     {
-                        // Tactical Plague Jets only deal 60% damage with Holy Fire Bullets. There was no other way to nerf them.
-                        if (projID == ModContent.ProjectileType<HolyFireBulletProj>())
-                            damage = (int)(damage * 0.6f);
+                        // Fire the selected bullet, nothing special.
                         projIndex = Projectile.NewProjectile(projectile.Center, projectile.DirectionTo(potentialTarget.Center) * shootSpeed, projID,
                             damage, kb, projectile.owner);
                     }
