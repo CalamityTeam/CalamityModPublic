@@ -1,7 +1,7 @@
 using CalamityMod.Buffs.Summon;
-using CalamityMod.Dusts;
-using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.CalPlayer;
+using CalamityMod.Dusts;
+using CalamityMod.Items.Weapons.Summon;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -50,7 +50,7 @@ namespace CalamityMod.Projectiles.Summon
                     Dust dust = Dust.NewDustPerfect(projectile.Center + velocity * 2f, (int)CalamityDusts.Plague, velocity);
                     dust.noGravity = true;
                 }
-                FalseGun = ItemLoader.GetItem(ModContent.ItemType<P90>()).item;
+                FalseGun = GetItem();
                 projectile.localAI[0] = 1f;
             }
             if (projectile.frameCounter++ > 6f)
@@ -82,9 +82,19 @@ namespace CalamityMod.Projectiles.Summon
                     projectile.timeLeft = 2;
                 }
             }
+
+			// Try and find a gun every 2.5 seconds if for some reason there is none
+			if (FalseGun is null)
+			{
+				if (player.miscCounter % 150 == 0)
+				{
+					FalseGun = GetItem();
+				}
+			}
+
             NPC potentialTarget = projectile.Center.MinionHoming(1560f, player);
 
-            if (potentialTarget is null || !player.HasAmmo(FalseGun, false))
+            if (potentialTarget is null || FalseGun is null || !player.HasAmmo(FalseGun, false))
             {
                 float acceleration = 0.1f;
                 Vector2 distanceVector = player.Center - projectile.Center;
@@ -145,23 +155,24 @@ namespace CalamityMod.Projectiles.Summon
 
                 if (projectile.ai[0]++ % 75f == 24f)
                 {
-                    int damage = projectile.damage;
+					int shoot = ProjectileID.Bullet;
+					float shootSpeed = 0f;
+					bool canShoot = true;
+					int dmg = projectile.damage;
+					float kBack = projectile.knockBack * 0.5f;
+
+					player.PickAmmoSummon(FalseGun, ref shoot, ref shootSpeed, ref canShoot, ref dmg, ref kBack);
+
                     if (projectile.ai[1]++ % 20f == 0f)
                     {
                         int idx = Projectile.NewProjectile(projectile.Center, projectile.DirectionTo(potentialTarget.Center) * 18f, ModContent.ProjectileType<MK2RocketHoming>(),
-                            (int)(damage * 1.5), 5f, projectile.owner);
+                            (int)(dmg * 1.5), kBack * 5f, projectile.owner);
 						if (idx.WithinBounds(Main.maxProjectiles))
 							Main.projectile[idx].Calamity().forceMinion = true;
                     }
                     else
                     {
-                        int shoot = 0;
-                        float shootSpeed = 0f;
-                        bool canShoot = true;
-                        float knockBack = projectile.knockBack * 0.5f;
-                        player.PickAmmo(FalseGun, ref shoot, ref shootSpeed, ref canShoot, ref damage, ref knockBack);
-                        int idx = Projectile.NewProjectile(projectile.Center, projectile.DirectionTo(potentialTarget.Center) * shootSpeed, shoot,
-                            damage, knockBack, projectile.owner);
+                        int idx = Projectile.NewProjectile(projectile.Center, projectile.DirectionTo(potentialTarget.Center) * shootSpeed, shoot, dmg, kBack, projectile.owner);
                         // There's airway for a small bug in here, but the potential alterative (that has indeed been appearing), where
                         // the projectile simply cannot exist, is far worse than this. If you have another solution, let me know.
 						if (idx.WithinBounds(Main.maxProjectiles))
@@ -171,6 +182,28 @@ namespace CalamityMod.Projectiles.Summon
 				projectile.MinionAntiClump(0.25f);
             }
         }
+
+		private Item GetItem()
+		{
+			Item item = null;
+			Player player = Main.player[projectile.owner];
+
+			if (!Main.mouseItem.IsAir && Main.mouseItem.type == ModContent.ItemType<TacticalPlagueEngine>())
+				item = Main.mouseItem;
+
+			if (item is null)
+			{
+				for (int index = 0; index < Main.maxInventory - 4; ++index)
+				{
+					if (player.inventory[index].type == ModContent.ItemType<TacticalPlagueEngine>() && player.inventory[index].stack > 0)
+					{
+						item = player.inventory[index];
+						break;
+					}
+				}
+			}
+			return item;
+		}
 
         public override bool CanDamage() => false;
     }
