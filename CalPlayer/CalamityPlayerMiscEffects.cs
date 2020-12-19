@@ -1227,7 +1227,7 @@ namespace CalamityMod.CalPlayer
 			if (modPlayer.absorber)
 			{
 				player.moveSpeed += 0.06f;
-				player.jumpSpeedBoost += 1.2f;
+				player.jumpSpeedBoost += player.autoJump ? 0.3f : 1.2f;
 				player.thorns += 0.5f;
 				player.endurance += 0.05f;
 
@@ -2649,7 +2649,6 @@ namespace CalamityMod.CalPlayer
 
 			if (modPlayer.eGauntlet)
 			{
-				player.longInvince = true;
 				player.kbGlove = true;
 				player.magmaStone = true;
 				player.meleeDamage += 0.15f;
@@ -3269,7 +3268,6 @@ namespace CalamityMod.CalPlayer
 
 			if (modPlayer.yInsignia)
 			{
-				player.longInvince = true;
 				player.meleeDamage += 0.1f;
 				player.lavaMax += 240;
 				if (player.statLife <= (int)(player.statLifeMax2 * 0.5))
