@@ -27,12 +27,12 @@ namespace CalamityMod.Items.Weapons.Summon
             item.useStyle = ItemUseStyleID.HoldingUp;
             item.noMelee = true;
             item.knockBack = 0.5f;
-			item.value = CalamityGlobalItem.Rarity11BuyPrice;
-			item.rare = ItemRarityID.Purple;
-			item.UseSound = SoundID.Item14;
+            item.value = CalamityGlobalItem.Rarity11BuyPrice;
+            item.rare = ItemRarityID.Purple;
+            item.UseSound = SoundID.Item14;
             item.autoReuse = true;
             item.summon = true;
-            item.shoot = ModContent.ProjectileType<TacticalPlagueEngineSummon>();
+            item.shoot = ModContent.ProjectileType<TacticalPlagueJet>();
             item.shootSpeed = 16f;
             item.useAmmo = AmmoID.Bullet;
         }
@@ -93,7 +93,7 @@ namespace CalamityMod.Items.Weapons.Summon
             recipe.AddIngredient(ModContent.ItemType<InfectedRemote>());
             recipe.AddIngredient(ModContent.ItemType<FuelCellBundle>());
             recipe.AddIngredient(ModContent.ItemType<PlagueCellCluster>(), 15);
-			recipe.AddIngredient(ModContent.ItemType<InfectedArmorPlating>(), 8);
+            recipe.AddIngredient(ModContent.ItemType<InfectedArmorPlating>(), 8);
             recipe.AddIngredient(ItemID.LunarBar, 5);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);

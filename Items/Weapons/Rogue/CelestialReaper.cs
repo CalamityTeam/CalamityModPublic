@@ -8,7 +8,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 {
     public class CelestialReaper : RogueWeapon
     {
-        public const int BaseDamage = 120;
+        public const int BaseDamage = 147;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Celestial Reaper");
