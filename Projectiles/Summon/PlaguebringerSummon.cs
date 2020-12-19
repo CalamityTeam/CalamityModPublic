@@ -102,7 +102,8 @@ namespace CalamityMod.Projectiles.Summon
 						if (dealDamage)
 						{
 							Projectile aura = Projectile.NewProjectileDirect(npc.Center, Vector2.Zero, ModContent.ProjectileType<DirectStrike>(), dmg, 0f, projectile.owner, l);
-							aura.Calamity().forceMinion = true;
+							if (aura.whoAmI.WithinBounds(Main.maxProjectiles))
+								aura.Calamity().forceMinion = true;
 						}
 					}
 				}
