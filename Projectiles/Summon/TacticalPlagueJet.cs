@@ -1,13 +1,12 @@
 using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
 using CalamityMod.Dusts;
-using CalamityMod.Items.Weapons.Summon;
+using CalamityMod.Projectiles.Ranged;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Projectiles.Ranged;
 
 namespace CalamityMod.Projectiles.Summon
 {
@@ -38,6 +37,17 @@ namespace CalamityMod.Projectiles.Summon
             projectile.extraUpdates = 1;
         }
 
+        // Defines an Item which is a hacked clone of a P90, edited to be summon class instead of ranged.
+        // The false gun's damage is changed to the appropriate value every time a Tactical Plague Jet wants to fire a bullet.
+        private static void DefineFalseGun()
+        {
+            int p90ID = ModContent.ItemType<Items.Weapons.Ranged.P90>();
+            FalseGun = new Item();
+            FalseGun.SetDefaults(p90ID, true);
+            FalseGun.ranged = false;
+            FalseGun.summon = true;
+        }
+
         public override bool CanDamage() => false;
 
         public override void AI()
@@ -60,9 +70,9 @@ namespace CalamityMod.Projectiles.Summon
                     dust.noGravity = true;
                 }
 
-                // Grab a fake gun, if not defined, with which to fire bullets. This should only need to be defined once.
+                // Construct a fake item to use with vanilla code for the sake of firing bullets.
                 if (FalseGun is null)
-                    FalseGun = ItemLoader.GetItem(ModContent.ItemType<P90>()).item;
+                    DefineFalseGun();
                 projectile.localAI[0] = 1f;
             }
 
@@ -157,37 +167,39 @@ namespace CalamityMod.Projectiles.Summon
 
                 if (projectile.ai[0]++ % 75f == 24f)
                 {
-                    int damage = projectile.damage;
+                    int projID = ProjectileID.Bullet;
+                    float shootSpeed = FalseGun.shootSpeed;
+                    bool canShoot = true;
+                    int damage = FalseGun.damage = projectile.damage;
+                    float kb = projectile.knockBack;
+                    bool shootRocket = ++projectile.ai[1] % 20f == 0f;
+                    // Rockets never consume ammo.
+                    bool dontConsumeAmmo = Main.rand.NextBool() || shootRocket;
+                    int projIndex;
 
-                    // One in every 20 shots is a rocket for 1.5x damage. Rockets never consume ammo.
-                    if (projectile.ai[1]++ % 20f == 0f)
+                    // This function uses the fake gun item (changed to be ranged) with the appropriate base damage as the "firing item".
+                    player.PickAmmo(FalseGun, ref projID, ref shootSpeed, ref canShoot, ref damage, ref kb, dontConsumeAmmo);
+
+                    // One in every 20 shots is a rocket which deals 1.5x total damage and extreme knockback.
+                    if (shootRocket)
                     {
                         int rocketDamage = (int)(damage * 1.5f);
-                        float rocketKB = 5f;
-                        int idx = Projectile.NewProjectile(projectile.Center, projectile.DirectionTo(potentialTarget.Center) * 18f, ModContent.ProjectileType<MK2RocketHoming>(),
+                        float rocketKB = kb + 5f;
+                        projIndex = Projectile.NewProjectile(projectile.Center, projectile.DirectionTo(potentialTarget.Center) * 18f, ModContent.ProjectileType<MK2RocketHoming>(),
                             rocketDamage, rocketKB, projectile.owner);
-                        Main.projectile[idx].Calamity().forceMinion = true;
                     }
-
-                    // All other shots are bullets, fired from a "fake gun". The bullets are consumed from the player's inventory as per normal.
                     else
                     {
-                        int projID = 0;
-                        float shootSpeed = 0f;
-                        bool canShoot = true;
-                        float kb = projectile.knockBack;
-                        player.PickAmmo(FalseGun, ref projID, ref shootSpeed, ref canShoot, ref damage, ref kb);
-
                         // Tactical Plague Jets only deal 60% damage with Holy Fire Bullets. There was no other way to nerf them.
                         if (projID == ModContent.ProjectileType<HolyFireBulletProj>())
-                            damage = (int)(damage * 0.5f);
-
-                        int bullet = Projectile.NewProjectile(projectile.Center, projectile.DirectionTo(potentialTarget.Center) * shootSpeed, projID,
+                            damage = (int)(damage * 0.6f);
+                        projIndex = Projectile.NewProjectile(projectile.Center, projectile.DirectionTo(potentialTarget.Center) * shootSpeed, projID,
                             damage, kb, projectile.owner);
-
-                        if (bullet.WithinBounds(Main.maxProjectiles))
-                            Main.projectile[bullet].Calamity().forceMinion = true;
                     }
+
+                    // Regardless of what was fired, force it to be a summon projectile so that summon accessories work.
+                    if (projIndex.WithinBounds(Main.maxProjectiles))
+                        Main.projectile[projIndex].Calamity().forceMinion = true;
                 }
 
                 // Prevent minion clumping while firing.
@@ -195,5 +207,4 @@ namespace CalamityMod.Projectiles.Summon
             }
         }
     }
->>>>>>> master
 }
