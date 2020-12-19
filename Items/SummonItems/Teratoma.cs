@@ -1,3 +1,4 @@
+using CalamityMod.Events;
 using CalamityMod.Items.Materials;
 using CalamityMod.NPCs.HiveMind;
 using Terraria;
@@ -28,7 +29,7 @@ namespace CalamityMod.Items.SummonItems
 
         public override bool CanUseItem(Player player)
         {
-            return player.ZoneCorrupt && !NPC.AnyNPCs(ModContent.NPCType<HiveMind>()) && !NPC.AnyNPCs(ModContent.NPCType<HiveMindP2>());
+            return player.ZoneCorrupt && !NPC.AnyNPCs(ModContent.NPCType<HiveMind>()) && !NPC.AnyNPCs(ModContent.NPCType<HiveMindP2>()) && !BossRushEvent.BossRushActive;
         }
 
         public override bool UseItem(Player player)

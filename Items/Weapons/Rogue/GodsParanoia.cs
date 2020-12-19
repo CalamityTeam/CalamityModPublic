@@ -4,7 +4,6 @@ using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Rogue;
-using CalamityMod.Tiles.Furniture.CraftingStations;
 using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Items.Weapons.Rogue
@@ -91,8 +90,7 @@ Right click to delete all existing spiky balls");
 
             recipe.AddIngredient(ItemID.SpikyBall, 200);
             recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 2);
-            recipe.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>());
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
+            recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

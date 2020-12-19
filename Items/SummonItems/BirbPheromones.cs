@@ -1,3 +1,4 @@
+using CalamityMod.Events;
 using CalamityMod.NPCs.Bumblebirb;
 using Terraria;
 using Terraria.ID;
@@ -26,7 +27,7 @@ namespace CalamityMod.Items.SummonItems
 
         public override bool CanUseItem(Player player)
         {
-            return player.ZoneJungle && !NPC.AnyNPCs(ModContent.NPCType<Bumblefuck>());
+            return player.ZoneJungle && !NPC.AnyNPCs(ModContent.NPCType<Bumblefuck>()) && !BossRushEvent.BossRushActive;
         }
 
         public override bool UseItem(Player player)

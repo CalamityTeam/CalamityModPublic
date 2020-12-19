@@ -3205,9 +3205,7 @@ namespace CalamityMod.NPCs
 				}
 				if (!shouldDespawn)
 				{
-					if (npc.ai[1] > 0f)
-						shouldDespawn = false;
-					else if (Main.npc[(int)npc.ai[1]].life > 0)
+					if (Main.npc.IndexInRange((int)npc.ai[1]) && Main.npc[(int)npc.ai[1]].active && Main.npc[(int)npc.ai[1]].life > 0)
 						shouldDespawn = false;
 				}
 				if (shouldDespawn)
@@ -3216,6 +3214,7 @@ namespace CalamityMod.NPCs
 					npc.HitEffect(0, 10.0);
 					npc.checkDead();
 					npc.active = false;
+					npc.netUpdate = true;
 				}
 			}
 
@@ -3680,12 +3679,6 @@ namespace CalamityMod.NPCs
 		public static void CeaselessVoidAI(NPC npc, Mod mod)
 		{
 			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
-
-			if (BossRushEvent.BossRushActive)
-			{
-				calamityGlobalNPC.DR = 0.999999f;
-				calamityGlobalNPC.unbreakableDR = true;
-			}
 
 			double lifeRatio = npc.life / (double)npc.lifeMax;
 			int lifePercentage = (int)(100.0 * lifeRatio);

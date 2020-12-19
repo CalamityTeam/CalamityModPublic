@@ -2004,9 +2004,9 @@ namespace CalamityMod.World
                 {
                     num8 = Main.maxTilesX;
                 }
-                if (num9 < 0)
+                if (num9 < Main.maxTilesY - 270)
                 {
-                    num9 = 0;
+                    num9 = Main.maxTilesY - 270;
                 }
                 if (num10 > Main.maxTilesY)
                 {
@@ -2086,6 +2086,8 @@ namespace CalamityMod.World
                 while (!Main.tile[m, num14].active())
                 {
                     num14--;
+                    if (num14 < Main.maxTilesX - WorldGen.genRand.Next(265, 275 + 1))
+                        break;
                 }
                 num14 += WorldGen.genRand.Next(-3, 4);
                 num15 = WorldGen.genRand.Next(4, 8);

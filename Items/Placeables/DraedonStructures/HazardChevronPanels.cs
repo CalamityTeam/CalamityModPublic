@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Placeables.DraedonStructures
             recipe.AddRecipe();
             recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<HazardChevronWall>(), 4);
-            recipe.SetResult(this, 1);
+            recipe.SetResult(this);
             recipe.AddTile(TileID.WorkBenches);
             recipe.AddRecipe();
         }

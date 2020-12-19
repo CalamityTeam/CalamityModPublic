@@ -1,6 +1,7 @@
 using CalamityMod.Buffs.Potions;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.CalPlayer;
+using CalamityMod.Events;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor;
 using CalamityMod.Items.DifficultyItems;
@@ -1030,6 +1031,10 @@ namespace CalamityMod.Items
 					}
 				}
 			}
+            if (item.type == ItemID.SuspiciousLookingEye || item.type == ItemID.WormFood || item.type == ItemID.BloodySpine || item.type == ItemID.SlimeCrown || item.type == ItemID.Abeemination || item.type == ItemID.MechanicalEye || item.type == ItemID.MechanicalWorm || item.type == ItemID.MechanicalSkull || item.type == ItemID.CelestialSigil)
+            {
+                return !BossRushEvent.BossRushActive;
+            }
             return true;
         }
         #endregion
@@ -1197,14 +1202,12 @@ namespace CalamityMod.Items
                         // Uniquely colored legendary weapons and Yharim's Crystal
                         if (item.type == ModContent.ItemType<AegisBlade>() || item.type == ModContent.ItemType<YharimsCrystal>())
                             tt2.overrideColor = new Color(255, Main.DiscoG, 53);
-                        if (item.type == ModContent.ItemType<BlossomFlux>())
+                        if (item.type == ModContent.ItemType<BlossomFlux>() || item.type == ModContent.ItemType<Malachite>())
                             tt2.overrideColor = new Color(Main.DiscoR, 203, 103);
                         if (item.type == ModContent.ItemType<BrinyBaron>() || item.type == ModContent.ItemType<ColdDivinity>())
                             tt2.overrideColor = new Color(53, Main.DiscoG, 255);
                         if (item.type == ModContent.ItemType<CosmicDischarge>())
                             tt2.overrideColor = new Color(150, Main.DiscoG, 255);
-                        if (item.type == ModContent.ItemType<Malachite>())
-                            tt2.overrideColor = new Color(Main.DiscoR, 203, 103);
                         if (item.type == ModContent.ItemType<SeasSearing>())
                             tt2.overrideColor = new Color(60, Main.DiscoG, 190);
                         if (item.type == ModContent.ItemType<SHPC>())

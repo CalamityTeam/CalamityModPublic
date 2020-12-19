@@ -4,7 +4,6 @@ using Terraria;
 using Terraria.ID;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
-using CalamityMod.Tiles.Furniture.CraftingStations;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -45,8 +44,8 @@ namespace CalamityMod.Items.Accessories
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<UeliaceBar>(), 10);
-            recipe.AddIngredient(ModContent.ItemType<DarksunFragment>(), 100);
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
+            recipe.AddIngredient(ModContent.ItemType<DarksunFragment>(), 50);
+            recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

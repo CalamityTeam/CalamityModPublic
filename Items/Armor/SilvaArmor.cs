@@ -1,7 +1,6 @@
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
-using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -41,9 +40,9 @@ namespace CalamityMod.Items.Armor
             recipe.AddIngredient(ModContent.ItemType<EffulgentFeather>(), 10);
             recipe.AddRecipeGroup("AnyGoldBar", 10);
             recipe.AddIngredient(ModContent.ItemType<Tenebris>(), 12);
-            recipe.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 4);
+            recipe.AddIngredient(ModContent.ItemType<DarksunFragment>(), 10);
             recipe.AddIngredient(ModContent.ItemType<LeadCore>());
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
+            recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

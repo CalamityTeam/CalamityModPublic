@@ -1561,26 +1561,30 @@ namespace CalamityMod.NPCs
 			{
 				switch (npc.type)
 				{
-					case NPCID.Reaper:
-					case NPCID.Psycho:
-					case NPCID.Eyezor:
 					case NPCID.Frankenstein:
 					case NPCID.SwampThing:
+					case NPCID.Fritz:
+					case NPCID.CreatureFromTheDeep:
+						DropHelper.DropItemChance(npc, ModContent.ItemType<DarksunFragment>(), 10);
+						break;
+					case NPCID.Reaper:
+					case NPCID.Psycho:
 					case NPCID.Vampire:
 					case NPCID.VampireBat:
-					case NPCID.CreatureFromTheDeep:
-					case NPCID.Fritz:
 					case NPCID.ThePossessed:
 					case NPCID.Butcher:
 					case NPCID.DeadlySphere:
 					case NPCID.DrManFly:
-						DropHelper.DropItemChance(npc, ModContent.ItemType<DarksunFragment>(), Main.expertMode ? 0.06f : 0.04f);
+						DropHelper.DropItemChance(npc, ModContent.ItemType<DarksunFragment>(), 2);
+						break;
+					case NPCID.Eyezor:
+						DropHelper.DropItem(npc, ModContent.ItemType<DarksunFragment>(), 1, 2);
 						break;
 					case NPCID.Nailhead:
 						DropHelper.DropItem(npc, ModContent.ItemType<DarksunFragment>(), 3, 5);
 						break;
 					case NPCID.Mothron:
-						DropHelper.DropItem(npc, ModContent.ItemType<DarksunFragment>(), 10, 20);
+						DropHelper.DropItem(npc, ModContent.ItemType<DarksunFragment>(), 20, 30);
 						break;
 				}
 			}

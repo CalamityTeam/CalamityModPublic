@@ -1,3 +1,4 @@
+using CalamityMod.Events;
 using CalamityMod.Items.Materials;
 using CalamityMod.NPCs.SupremeCalamitas;
 using CalamityMod.Tiles;
@@ -35,7 +36,7 @@ namespace CalamityMod.Items.SummonItems
 
         public override bool CanUseItem(Player player)
         {
-            return !NPC.AnyNPCs(ModContent.NPCType<SupremeCalamitas>()) && CalamityWorld.downedBossAny;
+            return !NPC.AnyNPCs(ModContent.NPCType<SupremeCalamitas>()) && CalamityWorld.downedBossAny && !BossRushEvent.BossRushActive;
         }
 
         public override bool UseItem(Player player)

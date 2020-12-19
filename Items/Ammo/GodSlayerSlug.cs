@@ -36,7 +36,6 @@ namespace CalamityMod.Items.Ammo
             /*
 			ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>());
-            recipe.AddRecipeGroup("NForEE");
             recipe.AddIngredient(ItemID.EmptyBullet, 999);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this, 999);

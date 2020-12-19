@@ -1,6 +1,5 @@
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee;
-using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -104,8 +103,7 @@ namespace CalamityMod.Items.Weapons.Melee
             recipe.AddIngredient(ItemID.VampireKnives);
             recipe.AddIngredient(ModContent.ItemType<MonstrousKnives>());
             recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 10);
-            recipe.AddIngredient(ModContent.ItemType<DarksunFragment>(), 10);
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
+            recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

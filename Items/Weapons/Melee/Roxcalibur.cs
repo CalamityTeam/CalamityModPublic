@@ -29,7 +29,6 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             item.damage = 80;
             item.knockBack = 13;
-            item.crit += 8;
             item.melee = true;
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.UseSound = SoundID.NPCHit42;
@@ -46,6 +45,9 @@ namespace CalamityMod.Items.Weapons.Melee
             item.rare = 5;
             item.Calamity().customRarity = CalamityRarity.Dedicated;
         }
+
+		// Terraria seems to really dislike high crit values in SetDefaults
+		public override void GetWeaponCrit(Player player, ref int crit) => crit += 8;
 
         public override void AddRecipes()
         {

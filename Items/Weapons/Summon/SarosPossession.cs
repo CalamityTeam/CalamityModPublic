@@ -1,6 +1,5 @@
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Summon;
-using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -72,8 +71,8 @@ namespace CalamityMod.Items.Weapons.Summon
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<Sirius>());
-            recipe.AddIngredient(ModContent.ItemType<DarksunFragment>(), 50);
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
+            recipe.AddIngredient(ModContent.ItemType<DarksunFragment>(), 25);
+            recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

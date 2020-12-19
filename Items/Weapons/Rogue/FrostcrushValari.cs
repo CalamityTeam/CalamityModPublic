@@ -24,7 +24,6 @@ Stealth strikes throw three short ranged boomerangs along with a spread of icicl
             item.damage = 100;
             item.knockBack = 12;
             item.thrown = true;
-            item.crit = 16;
             item.value = Item.buyPrice(0, 60, 0, 0);
             item.rare = 7;
             item.useTime = 19;
@@ -40,6 +39,9 @@ Stealth strikes throw three short ranged boomerangs along with a spread of icicl
             item.noUseGraphic = true;
             item.Calamity().rogue = true;
         }
+
+		// Terraria seems to really dislike high crit values in SetDefaults
+		public override void GetWeaponCrit(Player player, ref int crit) => crit += 16;
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {

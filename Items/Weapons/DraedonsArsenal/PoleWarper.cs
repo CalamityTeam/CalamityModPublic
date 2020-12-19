@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 			CalamityGlobalItem modItem = item.Calamity();
 
 			item.shootSpeed = 10f;
-			item.damage = 810;
+			item.damage = 798;
 			item.mana = 12;
 			item.width = 38;
 			item.height = 24;
@@ -85,7 +85,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 25);
 			recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 15);
-			recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 4);
+			recipe.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 2);
 			recipe.AddTile(ModContent.TileType<DraedonsForge>());
 			recipe.SetResult(this);
 			recipe.AddRecipe();

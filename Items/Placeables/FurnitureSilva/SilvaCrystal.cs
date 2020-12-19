@@ -31,9 +31,9 @@ namespace CalamityMod.Items.Placeables.FurnitureSilva
             recipe.AddIngredient(ItemID.CrystalBlock, 200);
             recipe.AddRecipeGroup("AnyGoldBar", 25);
             recipe.AddIngredient(ModContent.ItemType<EffulgentFeather>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>());
+            recipe.AddIngredient(ModContent.ItemType<DarksunFragment>());
             recipe.SetResult(this, 400);
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
+            recipe.AddTile(TileID.LunarCraftingStation);
             recipe.AddRecipe();
             recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<SilvaWall>(), 4);
