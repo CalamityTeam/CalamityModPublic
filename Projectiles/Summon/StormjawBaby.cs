@@ -263,12 +263,15 @@ namespace CalamityMod.Projectiles.Summon
                         {
 							Vector2 sparkS = new Vector2(Main.rand.NextFloat(-5f, 5f), Main.rand.NextFloat(-5f, 5f));
 							int spark = Projectile.NewProjectile(projectile.Center, sparkS, ModContent.ProjectileType<Spark>(), projectile.damage, projectile.knockBack, projectile.owner);
-							Main.projectile[spark].Calamity().forceMinion = true;
-							Main.projectile[spark].timeLeft = 120;
-							Main.projectile[spark].penetrate = 3;
-							Main.projectile[spark].usesIDStaticNPCImmunity = true;
-							Main.projectile[spark].idStaticNPCHitCooldown = 10;
-							Main.projectile[spark].usesLocalNPCImmunity = false;
+							if (spark.WithinBounds(Main.maxProjectiles))
+							{
+								Main.projectile[spark].Calamity().forceMinion = true;
+								Main.projectile[spark].timeLeft = 120;
+								Main.projectile[spark].penetrate = 3;
+								Main.projectile[spark].usesIDStaticNPCImmunity = true;
+								Main.projectile[spark].idStaticNPCHitCooldown = 10;
+								Main.projectile[spark].usesLocalNPCImmunity = false;
+							}
 						}
 						sparkCounter = 0;
 					}
@@ -507,12 +510,15 @@ namespace CalamityMod.Projectiles.Summon
 									{
 										Vector2 sparkS = new Vector2(Main.rand.NextFloat(-5f, 5f), Main.rand.NextFloat(-5f, 5f));
 										int spark = Projectile.NewProjectile(projectile.Center, sparkS, ModContent.ProjectileType<Spark>(), projectile.damage, projectile.knockBack, projectile.owner);
-										Main.projectile[spark].Calamity().forceMinion = true;
-										Main.projectile[spark].timeLeft = 120;
-										Main.projectile[spark].penetrate = 3;
-										Main.projectile[spark].usesIDStaticNPCImmunity = true;
-										Main.projectile[spark].idStaticNPCHitCooldown = 10;
-										Main.projectile[spark].usesLocalNPCImmunity = false;
+										if (spark.WithinBounds(Main.maxProjectiles))
+										{
+											Main.projectile[spark].Calamity().forceMinion = true;
+											Main.projectile[spark].timeLeft = 120;
+											Main.projectile[spark].penetrate = 3;
+											Main.projectile[spark].usesIDStaticNPCImmunity = true;
+											Main.projectile[spark].idStaticNPCHitCooldown = 10;
+											Main.projectile[spark].usesLocalNPCImmunity = false;
+										}
 									}
 									sparkCounter = 0;
 								}

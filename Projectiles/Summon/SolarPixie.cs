@@ -132,7 +132,8 @@ namespace CalamityMod.Projectiles.Summon
 					velocity.Normalize();
 					velocity *= shootSpeed;
                     int beam = Projectile.NewProjectile(source, velocity, ProjectileID.HeatRay, projectile.damage, projectile.knockBack, projectile.owner);
-                    Main.projectile[beam].Calamity().forceMinion = true;
+					if (beam.WithinBounds(Main.maxProjectiles))
+						Main.projectile[beam].Calamity().forceMinion = true;
                     projectile.ai[0] = 50f;
                 }
             }

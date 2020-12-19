@@ -150,7 +150,8 @@ namespace CalamityMod.Projectiles.Summon
                     {
                         int idx = Projectile.NewProjectile(projectile.Center, projectile.DirectionTo(potentialTarget.Center) * 18f, ModContent.ProjectileType<MK2RocketHoming>(),
                             (int)(damage * 1.5), 5f, projectile.owner);
-                        Main.projectile[idx].Calamity().forceMinion = true;
+						if (idx.WithinBounds(Main.maxProjectiles))
+							Main.projectile[idx].Calamity().forceMinion = true;
                     }
                     else
                     {
@@ -163,10 +164,8 @@ namespace CalamityMod.Projectiles.Summon
                             damage, knockBack, projectile.owner);
                         // There's airway for a small bug in here, but the potential alterative (that has indeed been appearing), where
                         // the projectile simply cannot exist, is far worse than this. If you have another solution, let me know.
-                        if (idx >= 0 && idx < Main.projectile.Length)
-                        {
-                            Main.projectile[idx].Calamity().forceMinion = true;
-                        }
+						if (idx.WithinBounds(Main.maxProjectiles))
+							Main.projectile[idx].Calamity().forceMinion = true;
                     }
                 }
 				projectile.MinionAntiClump(0.25f);
