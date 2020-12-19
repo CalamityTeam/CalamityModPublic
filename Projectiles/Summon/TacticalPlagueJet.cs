@@ -177,7 +177,7 @@ namespace CalamityMod.Projectiles.Summon
                     bool dontConsumeAmmo = Main.rand.NextBool() || shootRocket;
                     int projIndex;
 
-                    // This function uses the fake gun item (changed to be ranged) with the appropriate base damage as the "firing item".
+                    // Vanilla function tricked into using a fake gun item with the appropriate base damage as the "firing item".
                     player.PickAmmo(FalseGun, ref projID, ref shootSpeed, ref canShoot, ref damage, ref kb, dontConsumeAmmo);
 
                     // One in every 20 shots is a rocket which deals 1.5x total damage and extreme knockback.

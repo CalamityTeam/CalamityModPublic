@@ -74,8 +74,7 @@ namespace CalamityMod.Projectiles.Ranged
 
 			// For the sake of bonus damage, life regen time caps at 3600, aka 60 seconds. This is its natural cap in vanilla.
 			int regenTimeForCalc = (int)MathHelper.Clamp(owner.lifeRegenTime, 0f, 3600f);
-			int bloodFireBonus = (int)(regenDamageRatio * regenTimeForCalc);
-			return bloodFireBonus;
+			return (int)(regenDamageRatio * regenTimeForCalc);
 		}
 
 		public override void Kill(int timeLeft)

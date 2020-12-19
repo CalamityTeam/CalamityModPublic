@@ -1,5 +1,7 @@
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Summon;
+using Microsoft.Xna.Framework;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -32,6 +34,13 @@ namespace CalamityMod.Items.Weapons.Summon
             item.summon = true;
             item.shoot = ModContent.ProjectileType<TacticalPlagueJet>();
             item.shootSpeed = 16f;
+        }
+
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        {
+            if (player.altFunctionUse != 2)
+                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0f, 1f);
+            return false;
         }
 
         public override void AddRecipes()
