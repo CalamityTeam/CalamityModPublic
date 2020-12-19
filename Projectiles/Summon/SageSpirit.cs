@@ -129,6 +129,7 @@ namespace CalamityMod.Projectiles.Summon
 				PlayerFlyOffsetAtEnds = Vector2.UnitY * distanceFromDestination;
 				PlayerFlyDestination = destination;
 				projectile.netUpdate = true;
+				PlayerFlyTime = 0.01f;
 				return;
 			}
 
