@@ -114,26 +114,25 @@ namespace CalamityMod.Projectiles.Summon
 		{
 			projectile.tileCollide = true;
 
-			bool closeToTarget = projectile.WithinRange(target.Center, 300f);
 			if (SittingOnGround && HopTimer % 20f == 19f)
 			{
-				if (!closeToTarget)
-				{
-					projectile.velocity = projectile.DirectionTo(Owner.Center) * 6f + new Vector2(Math.Sign(projectile.velocity.X) * 2f, -4f);
+				projectile.velocity = projectile.DirectionTo(target.Center) * 6f + new Vector2(Math.Sign(projectile.velocity.X) * 2f, -4f);
 
-					// Don't collide with tiles for 1 frame, to prevent slopes from being a nuisance.
-					projectile.tileCollide = false;
-					projectile.netUpdate = true;
-				}
+				// Don't collide with tiles for 1 frame, to prevent slopes from being a nuisance.
+				projectile.tileCollide = false;
+				projectile.netUpdate = true;
 				// Release a bunch of blood.
-				else if (Main.myPlayer == projectile.owner)
+				if (Main.myPlayer == projectile.owner)
 				{
-					for (int i = 0; i < Main.rand.Next(1, 3 + 1); i++)
+					for (int i = 0; i < Main.rand.Next(1, 4 + 1); i++)
 					{
-						Vector2 shootVelocity = -Vector2.UnitY.RotatedByRandom(0.3f);
+						Vector2 shootVelocity = -Vector2.UnitY.RotatedByRandom(0.3f) * Main.rand.NextFloat(6f, 11f);
 						int blood = Projectile.NewProjectile(projectile.Top, shootVelocity, ModContent.ProjectileType<Blood2>(), projectile.damage, projectile.knockBack, projectile.owner);
 						if (Main.projectile.IndexInRange(blood))
+						{
 							Main.projectile[blood].Calamity().forceMinion = true;
+							Main.projectile[blood].penetrate = 1;
+						}
 					}
 				}
 			}

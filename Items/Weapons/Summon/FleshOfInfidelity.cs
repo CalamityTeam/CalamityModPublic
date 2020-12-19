@@ -1,8 +1,6 @@
 using Terraria.ModLoader;
 using Terraria.ID;
-using Terraria;
 using CalamityMod.Projectiles.Summon;
-using Microsoft.Xna.Framework;
 using TerrariaAudio = Terraria.Audio;
 using CalamityMod.Items.Materials;
 
@@ -27,6 +25,8 @@ namespace CalamityMod.Items.Weapons.Summon
             item.knockBack = 1f;
             item.value = CalamityGlobalItem.Rarity3BuyPrice;
             item.rare = ItemRarityID.Orange;
+
+            // SoundID has no Zombie24 sound instance, so we must create one ourselves.
             item.UseSound = new TerrariaAudio.LegacySoundStyle(SoundID.Zombie, 24, TerrariaAudio.SoundType.Sound);
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<FleshBallMinion>();
