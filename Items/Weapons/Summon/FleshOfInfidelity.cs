@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void SetDefaults()
         {
-            item.damage = 41;
+            item.damage = 31;
             item.mana = 10;
             item.width = item.height = 48;
             item.useTime = item.useAnimation = 30;
@@ -41,7 +41,6 @@ namespace CalamityMod.Items.Weapons.Summon
             recipe.AddIngredient(ModContent.ItemType<StaffOfNecrosteocytes>());
             recipe.AddIngredient(ModContent.ItemType<ScabRipper>());
             recipe.AddIngredient(ItemID.ImpStaff);
-            recipe.AddIngredient(ModContent.ItemType<PurifiedGel>(), 5);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();

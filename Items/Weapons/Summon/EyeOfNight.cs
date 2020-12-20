@@ -48,7 +48,6 @@ namespace CalamityMod.Items.Weapons.Summon
             recipe.AddIngredient(ModContent.ItemType<StaffOfNecrosteocytes>());
             recipe.AddIngredient(ModContent.ItemType<VileFeeder>());
             recipe.AddIngredient(ItemID.ImpStaff);
-            recipe.AddIngredient(ModContent.ItemType<PurifiedGel>(), 5);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();
