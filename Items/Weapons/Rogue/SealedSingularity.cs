@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 
 		public override void SafeSetDefaults()
 		{
-			item.damage = 169;
+			item.damage = 110;
 			item.knockBack = 5f;
 			item.useAnimation = item.useTime = 25;
 			item.useStyle = 1;
@@ -30,8 +30,8 @@ namespace CalamityMod.Items.Weapons.Rogue
 			item.noMelee = item.noUseGraphic = true;
 			item.height = item.width = 34;
 			item.UseSound = SoundID.Item106;
-			item.value = CalamityGlobalItem.Rarity13BuyPrice;
-			item.rare = 10;
+			item.value = CalamityGlobalItem.Rarity12BuyPrice;
+			item.rare = ItemRarityID.Purple;
 			item.Calamity().customRarity = CalamityRarity.Dedicated;
 		}
 
