@@ -58,6 +58,7 @@ namespace CalamityMod.Items.Armor
         public override void UpdateArmorSet(Player player)
         {
             player.setBonus = "5% increased melee damage\n" +
+                "Enemies are more likely to target you\n" +
                 "Inferno effect when below 50% life\n" +
                 "Melee attacks and projectiles cause chaos flames to erupt on enemy hits\n" +
                 "You have a 20% chance to emit a blazing explosion when you are hit";
@@ -65,6 +66,7 @@ namespace CalamityMod.Items.Armor
             modPlayer.ataxiaBlaze = true;
             modPlayer.ataxiaGeyser = true;
             player.meleeDamage += 0.05f;
+            player.aggro += 700;
         }
 
         public override void UpdateEquip(Player player)
