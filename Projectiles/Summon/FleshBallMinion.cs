@@ -1,8 +1,6 @@
 using CalamityMod.Buffs.Summon;
-using CalamityMod.CalPlayer;
 using CalamityMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -42,9 +40,10 @@ namespace CalamityMod.Projectiles.Summon
 		{
 			ProvidePlayerMinionBuffs();
 			DetermineFrames();
-			GenerateIdleVisuals();
+			GenerateVisuals();
 
 			HopTimer++;
+			SufferFromSeparationAnxiety();
 			NPC potentialTarget = projectile.Center.MinionHoming(950f, Owner);
 			if (potentialTarget is null)
 				GoNearOwner();
@@ -81,7 +80,7 @@ namespace CalamityMod.Projectiles.Summon
 				projectile.velocity.Y += Gravity;
 		}
 
-		internal void GenerateIdleVisuals()
+		internal void GenerateVisuals()
 		{
 			// All code within this method is visual. There is no need to waste resources executing it on the server.
 			if (Main.dedServ)
@@ -93,6 +92,16 @@ namespace CalamityMod.Projectiles.Summon
 			Dust blood = Dust.NewDustDirect(projectile.Center + shootOffsetDirection * 10f - new Vector2(4f), 0, 0, DustID.Blood, newColor: Color.Transparent);
 			blood.velocity = shootOffsetDirection.RotatedByRandom(MathHelper.PiOver4) * Main.rand.NextFloat(3f, 4f);
 			blood.noGravity = true;
+		}
+
+		internal void SufferFromSeparationAnxiety()
+		{
+			float teleportPromptDistance = Collision.CanHitLine(projectile.Center, 1, 1, Owner.Center, 1, 1) ? 1900f : 805f;
+			if (Main.myPlayer == projectile.owner && !projectile.WithinRange(Owner.Center, teleportPromptDistance))
+			{
+				projectile.Center = Owner.Center;
+				projectile.netUpdate = true;
+			}
 		}
 
 		internal void GoNearOwner()
@@ -118,9 +127,6 @@ namespace CalamityMod.Projectiles.Summon
 			{
 				projectile.velocity = projectile.DirectionTo(target.Center) * 6f + new Vector2(Math.Sign(projectile.velocity.X) * 2f, -4f);
 
-				// Don't collide with tiles for 1 frame, to prevent slopes from being a nuisance.
-				projectile.tileCollide = false;
-				projectile.netUpdate = true;
 				// Release a bunch of blood.
 				if (Main.myPlayer == projectile.owner)
 				{
@@ -135,6 +141,10 @@ namespace CalamityMod.Projectiles.Summon
 						}
 					}
 				}
+
+				// Don't collide with tiles for 1 frame, to prevent slopes from being a nuisance.
+				projectile.tileCollide = false;
+				projectile.netUpdate = true;
 			}
 		}
 

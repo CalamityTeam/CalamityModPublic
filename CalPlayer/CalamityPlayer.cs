@@ -979,6 +979,7 @@ namespace CalamityMod.CalPlayer
         public bool viridVanguard = false;
         public bool sageSpirit = false;
         public bool fleshBall = false;
+        public bool eyeOfNight = false;
         #endregion
 
         #region Biome
@@ -2039,6 +2040,7 @@ namespace CalamityMod.CalPlayer
             viridVanguard = false;
             sageSpirit = false;
             fleshBall = false;
+            eyeOfNight = false;
 
             abyssalDivingSuitPrevious = abyssalDivingSuit;
             abyssalDivingSuit = abyssalDivingSuitHide = abyssalDivingSuitForce = abyssalDivingSuitPower = false;

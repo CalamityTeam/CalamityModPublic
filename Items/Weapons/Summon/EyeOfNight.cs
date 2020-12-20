@@ -1,24 +1,25 @@
 using Terraria.ModLoader;
 using Terraria.ID;
-using TerrariaAudio = Terraria.Audio;
 using CalamityMod.Projectiles.Summon;
 using CalamityMod.Items.Materials;
+using Terraria;
+using Microsoft.Xna.Framework;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
-    public class FleshOfInfidelity : ModItem
+    public class EyeOfNight : ModItem
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Flesh of Infidelity");
-            Tooltip.SetDefault("Summons a tentacled ball of flesh that splashes blood onto enemies");
+            DisplayName.SetDefault("Eye of Night");
+            Tooltip.SetDefault("Summons a diseased eyeball that attaches to enemies and explodes");
         }
 
         public override void SetDefaults()
         {
-            item.damage = 41;
+            item.damage = 35;
             item.mana = 10;
-            item.width = item.height = 48;
+            item.width = item.height = 36;
             item.useTime = item.useAnimation = 30;
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.noMelee = true;
@@ -26,12 +27,18 @@ namespace CalamityMod.Items.Weapons.Summon
             item.value = CalamityGlobalItem.Rarity3BuyPrice;
             item.rare = ItemRarityID.Orange;
 
-            // SoundID has no Zombie24 sound instance, so we must create one ourselves.
-            item.UseSound = new TerrariaAudio.LegacySoundStyle(SoundID.Zombie, 24, TerrariaAudio.SoundType.Sound);
+            item.UseSound = SoundID.NPCHit1;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<FleshBallMinion>();
+            item.shoot = ModContent.ProjectileType<EyeOfNightSummon>();
             item.shootSpeed = 10f;
             item.summon = true;
+        }
+
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        {
+            if (player.altFunctionUse != 2)
+                Projectile.NewProjectile(Main.MouseWorld, Vector2.UnitY * -3f, type, damage, knockBack, player.whoAmI);
+            return false;
         }
 
         public override void AddRecipes()
@@ -39,7 +46,7 @@ namespace CalamityMod.Items.Weapons.Summon
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<BelladonnaSpiritStaff>());
             recipe.AddIngredient(ModContent.ItemType<StaffOfNecrosteocytes>());
-            recipe.AddIngredient(ModContent.ItemType<ScabRipper>());
+            recipe.AddIngredient(ModContent.ItemType<VileFeeder>());
             recipe.AddIngredient(ItemID.ImpStaff);
             recipe.AddIngredient(ModContent.ItemType<PurifiedGel>(), 5);
             recipe.AddTile(TileID.Anvils);
