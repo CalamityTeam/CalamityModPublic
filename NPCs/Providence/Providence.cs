@@ -1605,7 +1605,11 @@ namespace CalamityMod.NPCs.Providence
 					ModContent.ProjectileType<MiniGuardianDefense>(),
 					ModContent.ProjectileType<MiniGuardianAttack>(),
 					ModContent.ProjectileType<SilvaCrystalExplosion>(),
-					ModContent.ProjectileType<GhostlyMine>()
+					ModContent.ProjectileType<GhostlyMine>(),
+					ModContent.ProjectileType<EnergyOrb>(),
+					ModContent.ProjectileType<IrradiatedAura>(),
+					ModContent.ProjectileType<SummonAstralExplosion>(),
+					ModContent.ProjectileType<ApparatusExplosion>()
 				};
 
 				bool allowedClass = projectile.IsSummon() || (!projectile.melee && !projectile.ranged && !projectile.magic && !projectile.thrown && !projectile.Calamity().rogue);

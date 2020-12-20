@@ -39,11 +39,13 @@ namespace CalamityMod.Items.Armor
         public override void UpdateArmorSet(Player player)
         {
             player.setBonus = "5% increased melee damage\n" +
+                "Enemies are more likely to target you\n" +
                 "You have a 33% chance to reflect projectiles back at enemies\n" +
                 "If you reflect a projectile you are also healed for 1/5 of that projectile's damage";
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.daedalusReflect = true;
             player.meleeDamage += 0.05f;
+            player.aggro += 500;
         }
 
         public override void UpdateEquip(Player player)

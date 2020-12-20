@@ -3017,7 +3017,8 @@ namespace CalamityMod.CalPlayer
 
 			if (modPlayer.tarraSet)
 			{
-				player.calmed = modPlayer.tarraMelee ? false : true;
+				if (!modPlayer.tarraMelee)
+					player.calmed = true;
 				player.lifeMagnet = true;
 			}
 
