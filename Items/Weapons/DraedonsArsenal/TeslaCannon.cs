@@ -38,8 +38,8 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 			item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/TeslaCannonFire");
 			item.noMelee = true;
 
-			item.value = CalamityGlobalItem.RarityVioletBuyPrice;
-			item.rare = ItemRarityID.Red;
+			item.value = CalamityGlobalItem.Rarity14BuyPrice;
+			item.rare = ItemRarityID.Purple;
 			modItem.customRarity = CalamityRarity.DraedonRust;
 
 			item.shoot = ModContent.ProjectileType<TeslaCannonShot>();
