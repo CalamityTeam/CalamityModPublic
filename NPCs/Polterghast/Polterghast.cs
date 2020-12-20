@@ -47,7 +47,7 @@ namespace CalamityMod.NPCs.Polterghast
 			npc.DR_NERD(0.2f, null, null, null, true);
 			CalamityGlobalNPC global = npc.Calamity();
             global.multDRReductions.Add(BuffID.CursedInferno, 0.9f);
-            npc.LifeMaxNERB(412500, 495000, 3250000);
+            npc.LifeMaxNERB(268125, 321750, 3250000);
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.knockBackResist = 0f;
@@ -1016,7 +1016,7 @@ namespace CalamityMod.NPCs.Polterghast
 			if (npc.Calamity().newAI[0] > 300f)
 				color37 = Color.Lerp(color37, lightRed, MathHelper.Clamp((npc.Calamity().newAI[0] - 300f) / 120f, 0f, 1f));
 
-			Color color42 = Color.Lerp(Color.White, Color.Red, 0.5f);
+			Color color42 = Color.Lerp(Color.White, npc.ai[2] >= 300f ? Color.Red : Color.Black, 0.5f);
 
 			if (CalamityConfig.Instance.Afterimages)
 			{

@@ -5112,7 +5112,7 @@ namespace CalamityMod.CalPlayer
                 }
                 if (silvaMelee && proj.melee)
                 {
-                    double multiplier = (double)player.statLife / (double)player.statLifeMax2;
+                    double multiplier = player.statLife / (double)player.statLifeMax2;
                     damageMult += multiplier * 0.2;
                 }
             }

@@ -44,7 +44,7 @@ namespace CalamityMod.NPCs.BrimstoneElemental
             {
                 npc.damage *= 3;
                 npc.defense *= 4;
-                npc.lifeMax *= 8;
+                npc.lifeMax *= 5;
                 npc.value *= 3f;
             }
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;

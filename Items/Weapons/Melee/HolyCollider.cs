@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.width = 94;
 			item.height = 80;
 			item.scale = 1.5f;
-			item.damage = 400;
+			item.damage = 260;
             item.melee = true;
             item.useAnimation = 22;
             item.useStyle = ItemUseStyleID.SwingThrow;
@@ -29,8 +29,9 @@ namespace CalamityMod.Items.Weapons.Melee
             item.knockBack = 7.75f;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
-			item.value = CalamityGlobalItem.Rarity11BuyPrice;
+			item.value = CalamityGlobalItem.Rarity12BuyPrice;
 			item.rare = ItemRarityID.Purple;
+			item.Calamity().customRarity = CalamityRarity.Turquoise;
 			item.shootSpeed = 10f;
         }
 

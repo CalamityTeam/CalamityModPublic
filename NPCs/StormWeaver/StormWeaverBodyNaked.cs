@@ -28,7 +28,7 @@ namespace CalamityMod.NPCs.StormWeaver
             npc.height = 40;
             npc.lifeMax = 100000;
 			bool notDoGFight = CalamityWorld.DoGSecondStageCountdown <= 0 || !CalamityWorld.downedSentinel2;
-			npc.LifeMaxNERB(notDoGFight ? 900000 : 150000, notDoGFight ? 900000 : 150000, 3500000);
+			npc.LifeMaxNERB(notDoGFight ? 585000 : 97500, notDoGFight ? 585000 : 97500, 3500000);
 			Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
             if (calamityModMusic != null)
                 music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/ScourgeofTheUniverse");

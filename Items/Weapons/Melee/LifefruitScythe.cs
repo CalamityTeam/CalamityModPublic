@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetDefaults()
         {
             item.width = 62;
-            item.damage = 250;
+            item.damage = 163;
             item.melee = true;
             item.useAnimation = 18;
             item.useStyle = ItemUseStyleID.SwingThrow;
@@ -28,11 +28,11 @@ namespace CalamityMod.Items.Weapons.Melee
             item.UseSound = SoundID.Item71;
             item.autoReuse = true;
             item.height = 72;
-            item.value = Item.buyPrice(1, 20, 0, 0);
-            item.rare = 10;
-            item.shoot = ModContent.ProjectileType<LifeScythe>();
+			item.value = CalamityGlobalItem.Rarity12BuyPrice;
+			item.rare = ItemRarityID.Purple;
+			item.Calamity().customRarity = CalamityRarity.Turquoise;
+			item.shoot = ModContent.ProjectileType<LifeScythe>();
             item.shootSpeed = 9f;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
         }
 
         public override void AddRecipes()

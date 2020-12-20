@@ -51,7 +51,7 @@ namespace CalamityMod.NPCs.Ravager
             {
                 npc.damage *= 2;
                 npc.defense *= 2;
-                npc.lifeMax *= 7;
+                npc.lifeMax *= 5;
                 npc.value *= 1.5f;
             }
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;

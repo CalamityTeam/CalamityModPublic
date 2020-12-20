@@ -25,9 +25,9 @@ namespace CalamityMod.Items.Accessories
         {
             item.width = 26;
             item.height = 26;
-            item.value = CalamityGlobalItem.Rarity13BuyPrice;
+            item.value = CalamityGlobalItem.Rarity12BuyPrice;
             item.accessory = true;
-            item.Calamity().customRarity = CalamityRarity.PureGreen;
+            item.Calamity().customRarity = CalamityRarity.Turquoise;
         }
 
         public override void ModifyTooltips(List<TooltipLine> list)

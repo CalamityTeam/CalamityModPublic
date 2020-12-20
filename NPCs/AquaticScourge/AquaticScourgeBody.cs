@@ -1,6 +1,7 @@
 using CalamityMod.Events;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System.IO;
 using Terraria;
 using Terraria.ID;
@@ -73,7 +74,29 @@ namespace CalamityMod.NPCs.AquaticScourge
 			CalamityAI.AquaticScourgeAI(npc, mod, false);
 		}
 
-        public override bool? CanBeHitByProjectile(Projectile projectile)
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			SpriteEffects spriteEffects = SpriteEffects.None;
+			if (npc.spriteDirection == 1)
+				spriteEffects = SpriteEffects.FlipHorizontally;
+
+			Texture2D texture2D15 = Main.npcTexture[npc.type];
+			Vector2 vector11 = new Vector2(Main.npcTexture[npc.type].Width / 2, Main.npcTexture[npc.type].Height / 2);
+
+			Vector2 vector43 = npc.Center - Main.screenPosition;
+			vector43 -= new Vector2(texture2D15.Width, texture2D15.Height) * npc.scale / 2f;
+			vector43 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+			Color color = npc.GetAlpha(lightColor);
+
+			if (Main.npc[(int)npc.ai[2]].Calamity().newAI[3] > 480f && (CalamityWorld.revenge || BossRushEvent.BossRushActive))
+				color = Color.Lerp(color, Color.Brown, MathHelper.Clamp((Main.npc[(int)npc.ai[2]].Calamity().newAI[3] - 480f) / 180f, 0f, 1f));
+
+			spriteBatch.Draw(texture2D15, vector43, npc.frame, color, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+
+			return false;
+		}
+
+		public override bool? CanBeHitByProjectile(Projectile projectile)
         {
             if (projectile.minion)
             {

@@ -20,7 +20,7 @@ Stealth strikes summon more lightning and travel faster");
 
         public override void SafeSetDefaults()
         {
-            item.damage = 567;
+            item.damage = 370;
             item.knockBack = 10f;
 
             item.width = 56;

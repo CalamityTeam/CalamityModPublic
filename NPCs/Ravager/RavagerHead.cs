@@ -38,7 +38,7 @@ namespace CalamityMod.NPCs.Ravager
             if (CalamityWorld.downedProvidence && !BossRushEvent.BossRushActive)
             {
                 npc.defense *= 2;
-                npc.lifeMax *= 7;
+                npc.lifeMax *= 5;
             }
             if (BossRushEvent.BossRushActive)
             {

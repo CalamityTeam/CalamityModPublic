@@ -43,7 +43,7 @@ namespace CalamityMod.NPCs.BrimstoneElemental
             npc.DeathSound = SoundID.NPCDeath39;
             if (CalamityWorld.downedProvidence)
             {
-                npc.lifeMax = 40000;
+                npc.lifeMax = 26000;
             }
             if (BossRushEvent.BossRushActive)
             {

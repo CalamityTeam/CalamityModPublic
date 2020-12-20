@@ -45,7 +45,7 @@ namespace CalamityMod.NPCs.Bumblebirb
 			{
 				return 0f;
 			}
-			return SpawnCondition.SurfaceJungle.Chance * 0.09f;
+			return SpawnCondition.SurfaceJungle.Chance * 0.14f;
 		}
 
 		public override void AI()

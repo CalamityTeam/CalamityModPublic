@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetDefaults()
         {
             item.width = 60;
-            item.damage = 241;
+            item.damage = 157;
             item.noMelee = true;
             item.noUseGraphic = true;
             item.autoReuse = true;
@@ -29,11 +29,11 @@ namespace CalamityMod.Items.Weapons.Melee
             item.UseSound = SoundID.Item1;
             item.melee = true;
             item.height = 62;
-            item.value = Item.buyPrice(1, 20, 0, 0);
-            item.rare = 8;
             item.shoot = ModContent.ProjectileType<DivineHatchetBoomerang>();
             item.shootSpeed = 14f;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
+			item.value = CalamityGlobalItem.Rarity12BuyPrice;
+			item.rare = ItemRarityID.Purple;
+			item.Calamity().customRarity = CalamityRarity.Turquoise;
         }
 
         public override void AddRecipes()
