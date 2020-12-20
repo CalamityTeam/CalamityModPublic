@@ -100,8 +100,8 @@ namespace CalamityMod.Items
         #region SetDefaults
         public override void SetDefaults(Item item)
         {
-            if (customRarity.IsPostML() && item.rare != ItemRarityID.Red)
-                item.rare = ItemRarityID.Red;
+            if (customRarity.IsPostML() && item.rare != ItemRarityID.Purple)
+                item.rare = ItemRarityID.Purple;
 
             if (item.maxStack == 99 || item.type == ItemID.Dynamite || item.type == ItemID.StickyDynamite ||
                 item.type == ItemID.BouncyDynamite || item.type == ItemID.StickyBomb || item.type == ItemID.BouncyBomb)

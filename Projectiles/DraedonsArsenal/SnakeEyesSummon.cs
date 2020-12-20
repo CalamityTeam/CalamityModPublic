@@ -203,10 +203,13 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                 {
                     Projectile laser = Projectile.NewProjectileDirect(projectile.Center + Utils.Vector2FromElipse(EyeRotation.ToRotationVector2(), projectile.Size * 0.5f * EyeOutwardness), 
                                                    projectile.DirectionTo(npc.Center) * 4f, ProjectileID.UFOLaser, projectile.damage, projectile.knockBack, projectile.owner);
-                    laser.timeLeft *= 2;
-                    laser.tileCollide = false;
-                    laser.netUpdate = true;
-                    laser.Calamity().forceMinion = true;
+					if (laser.whoAmI.WithinBounds(Main.maxProjectiles))
+					{
+						laser.timeLeft *= 2;
+						laser.tileCollide = false;
+						laser.netUpdate = true;
+						laser.Calamity().forceMinion = true;
+					}
                 }
                 projectile.ai[1]++;
                 OldCenter = projectile.Center;

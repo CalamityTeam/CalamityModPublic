@@ -1,5 +1,5 @@
-using CalamityMod.Projectiles.Summon;
 using CalamityMod.Items.Materials;
+using CalamityMod.Projectiles.Summon;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -13,13 +13,13 @@ namespace CalamityMod.Items.Weapons.Summon
         {
             DisplayName.SetDefault("Tactical Plague Engine");
             Tooltip.SetDefault("Summons a plague jet to pummel your enemies into submission\n" +
-                               "Consumes bullets\n" +
+                               "Jets will fire ammo from your inventory, 66% chance to not consume ammo\n" +
                                "Sometimes shoots a missile instead of a bullet");
         }
 
         public override void SetDefaults()
         {
-            item.damage = 34;
+            item.damage = 52;
             item.mana = 10;
             item.width = 28;
             item.height = 20;
@@ -39,9 +39,7 @@ namespace CalamityMod.Items.Weapons.Summon
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             if (player.altFunctionUse != 2)
-            {
                 Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0f, 1f);
-            }
             return false;
         }
 
