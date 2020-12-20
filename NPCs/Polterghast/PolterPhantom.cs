@@ -406,7 +406,7 @@ namespace CalamityMod.NPCs.Polterghast
 			spriteBatch.Draw(texture2D15, vector43, npc.frame, color, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 
 			Texture2D texture2D16 = ModContent.GetTexture("CalamityMod/NPCs/Polterghast/PolterPhantomGlow");
-			Color color42 = Color.Lerp(Color.White, Main.npc[CalamityGlobalNPC.ghostBoss].ai[2] < 300f ? Color.Red : Color.Black, 0.5f);
+			Color color42 = Color.Lerp(Color.White, (Main.npc[CalamityGlobalNPC.ghostBoss].ai[2] < 300f || Main.npc[CalamityGlobalNPC.ghostBoss].Calamity().newAI[0] > 300f) ? Color.Red : Color.Black, 0.5f);
 
 			if (CalamityConfig.Instance.Afterimages)
 			{
