@@ -1,3 +1,4 @@
+using CalamityMod.Items.DraedonMisc;
 using CalamityMod.Items.Materials;
 using CalamityMod.Tiles.DraedonStructures;
 using Terraria;
@@ -33,9 +34,10 @@ namespace CalamityMod.Items.Placeables.DraedonStructures
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 6);
-            recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 6);
             recipe.AddIngredient(ModContent.ItemType<Items.Placeables.DraedonStructures.LaboratoryPlating>(), 20);
+            recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 3);
+            recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 3);
+            recipe.AddIngredient(ModContent.ItemType<PowerCell>(), 8);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();
