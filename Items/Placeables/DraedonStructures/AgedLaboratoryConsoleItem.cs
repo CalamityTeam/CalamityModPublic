@@ -1,3 +1,4 @@
+using CalamityMod.Items.DraedonMisc;
 using CalamityMod.Items.Materials;
 using CalamityMod.Tiles.DraedonStructures;
 using Terraria.ID;
@@ -28,10 +29,10 @@ namespace CalamityMod.Items.Placeables.DraedonStructures
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.IronBar, 3);
-            recipe.anyIronBar = true;
-            recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 1);
-            recipe.SetResult(this, 1);
+            recipe.AddIngredient(ModContent.ItemType<CalamityMod.Items.Placeables.DraedonStructures.RustedPlating>(), 10);
+            recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>());
+            recipe.AddIngredient(ModContent.ItemType<PowerCell>(), 8);
+            recipe.SetResult(this);
             recipe.AddTile(TileID.Anvils);
             recipe.AddRecipe();
         }
