@@ -32,7 +32,6 @@ namespace CalamityMod.Items.Accessories
             modPlayer.tearMinions = true;
             player.minionKB += 2.5f;
             player.minionDamage += 0.1f;
-            player.maxMinions += 2;
         }
 
         public override void AddRecipes()

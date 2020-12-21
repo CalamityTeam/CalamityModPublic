@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Armor
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Plaguebringer Visor");
-            Tooltip.SetDefault("15% increased minion damage and +2 max minions\n" +
+            Tooltip.SetDefault("15% increased minion damage\n" +
 			"+20 max life");
         }
 
@@ -28,7 +28,6 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-            player.maxMinions += 2;
             player.minionDamage += 0.15f;
             player.statLifeMax2 += 20;
         }
@@ -46,11 +45,13 @@ namespace CalamityMod.Items.Armor
         public override void UpdateArmorSet(Player player)
         {
             player.setBonus = "Grants a plague dash to ram enemies and afflict them with the plague\n" +
-			"Summons a lil' plaguebringer to protect you and empower nearby minions";
+			"Summons a lil' plaguebringer to protect you and empower nearby minions\n" +
+			"+3 max minions";
 
             player.Calamity().plaguebringerPatronSet = true;
 			player.Calamity().dashMod = 8;
-            if (player.whoAmI == Main.myPlayer)
+			player.maxMinions += 3;
+			if (player.whoAmI == Main.myPlayer)
             {
                 if (player.FindBuffIndex(ModContent.BuffType<PlaguebringerSummonBuff>()) == -1)
                 {

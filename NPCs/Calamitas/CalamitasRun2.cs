@@ -35,7 +35,7 @@ namespace CalamityMod.NPCs.Calamitas
             {
                 npc.damage *= 3;
                 npc.defense *= 5;
-                npc.lifeMax *= 2;
+                npc.lifeMax *= 3;
             }
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);

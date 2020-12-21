@@ -933,6 +933,32 @@ namespace CalamityMod.CalPlayer
 			if (attack && canProvideBuffs)
 				player.maxMinions++;
 
+			if (modPlayer.nucleogenesis)
+			{
+				player.maxMinions += 4;
+			}
+			else
+			{
+				if (modPlayer.shadowMinions)
+					player.maxMinions += 3;
+				else if (modPlayer.tearMinions)
+					player.maxMinions += 2;
+
+				if (modPlayer.starTaintedGenerator)
+					player.maxMinions += 2;
+				else
+				{
+					if (modPlayer.starbusterCore)
+						player.maxMinions++;
+
+					if (modPlayer.voltaicJelly)
+						player.maxMinions++;
+
+					if (modPlayer.nuclearRod)
+						player.maxMinions++;
+				}
+			}
+
 			// Cooldowns and timers
 			if (modPlayer.gainRageCooldown > 0)
 				modPlayer.gainRageCooldown--;
@@ -2854,7 +2880,7 @@ namespace CalamityMod.CalPlayer
 
 				if (player.ZoneHoly)
 				{
-					player.maxMinions += 1;
+					player.maxMinions++;
 					player.manaCost *= 0.9f;
 					player.ammoCost75 = true; // 25% chance to not use ranged ammo
 					modPlayer.throwingAmmoCost *= 0.75f; // 25% chance to not consume rogue consumables
@@ -3131,7 +3157,7 @@ namespace CalamityMod.CalPlayer
 			}
 
 			if (modPlayer.calamitasLore)
-				player.maxMinions += 2;
+				player.maxMinions++;
 
 			// The player's true max life value with Calamity adjustments
 			modPlayer.actualMaxLife = player.statLifeMax2;
@@ -4178,7 +4204,7 @@ namespace CalamityMod.CalPlayer
 			}
 
 			if (modPlayer.corrEffigy)
-				player.endurance -= 0.2f;
+				player.endurance -= 0.1f;
 		}
 		#endregion
 

@@ -17,7 +17,6 @@ namespace CalamityMod.Items.Armor
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("God Slayer Horned Helm");
-            Tooltip.SetDefault("+3 max minions");
         }
 
         public override void SetDefaults()
@@ -162,21 +161,17 @@ namespace CalamityMod.Items.Armor
                     }
                 }
             }
-            player.setBonus = "65% increased minion damage\n" +
+            player.setBonus = "65% increased minion damage and +3 max minions\n" +
                 "You will survive fatal damage and will be healed 150 HP if an attack would have killed you\n" +
                 "This effect can only occur once every 45 seconds\n" +
                 "While the cooldown for this effect is active all life regen is halved\n" +
                 "Hitting enemies will summon god slayer phantoms\n" +
                 "Summons a god-eating mechworm to fight for you";
             player.minionDamage += 0.65f;
-        }
+			player.maxMinions += 3;
+		}
 
-        public override void UpdateEquip(Player player)
-        {
-            player.maxMinions += 3;
-        }
-
-        public override void AddRecipes()
+		public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 14);

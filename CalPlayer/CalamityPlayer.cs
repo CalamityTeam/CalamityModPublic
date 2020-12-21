@@ -1379,13 +1379,13 @@ namespace CalamityMod.CalPlayer
 
             // Max health reductions
             if (crimEffigy)
-                player.statLifeMax2 = (int)(player.statLifeMax2 * 0.8);
+                player.statLifeMax2 = (int)(player.statLifeMax2 * 0.9);
             if (regenator)
                 player.statLifeMax2 = (int)(player.statLifeMax2 * 0.5);
             if (skeletronLore)
                 player.statLifeMax2 = (int)(player.statLifeMax2 * 0.9);
             if (calamitasLore)
-                player.statLifeMax2 = (int)(player.statLifeMax2 * 0.75);
+                player.statLifeMax2 = (int)(player.statLifeMax2 * 0.85);
             if (providenceLore)
                 player.statLifeMax2 = (int)(player.statLifeMax2 * 0.8);
 
@@ -3799,7 +3799,7 @@ namespace CalamityMod.CalPlayer
             if (player.ownedProjectileCounts[ModContent.ProjectileType<GiantIbanRobotOfDoom>()] > 0)
                 player.yoraiz0rEye = 0;
 
-			if (blockAllDashes || CalamityConfig.Instance.BossRushDashCurse && BossRushEvent.BossRushActive)
+			if (blockAllDashes || (CalamityConfig.Instance.BossRushDashCurse && BossRushEvent.BossRushActive))
 				DisableAllDashes();
         }
         #endregion
@@ -3825,7 +3825,7 @@ namespace CalamityMod.CalPlayer
             if (player.ownedProjectileCounts[ModContent.ProjectileType<GiantIbanRobotOfDoom>()] > 0)
                 player.yoraiz0rEye = 0;
 
-			if (blockAllDashes || CalamityConfig.Instance.BossRushDashCurse && BossRushEvent.BossRushActive)
+			if (blockAllDashes || (CalamityConfig.Instance.BossRushDashCurse && BossRushEvent.BossRushActive))
 				DisableAllDashes();
         }
 		#endregion
@@ -5643,7 +5643,7 @@ namespace CalamityMod.CalPlayer
 				contactDamageReduction -= 0.1;
 
 			if (corrEffigy)
-				contactDamageReduction -= 0.2;
+				contactDamageReduction -= 0.1;
 
 			if (calamityRing && !voidOfExtinction)
 				contactDamageReduction -= 0.15;
@@ -5975,7 +5975,7 @@ namespace CalamityMod.CalPlayer
 				projectileDamageReduction -= 0.1;
 
 			if (corrEffigy)
-				projectileDamageReduction -= 0.2;
+				projectileDamageReduction -= 0.1;
 
 			if (calamityRing && !voidOfExtinction)
 				projectileDamageReduction -= 0.15;

@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Armor
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Fearmonger Greaves");
-            Tooltip.SetDefault("+2 max minions and 6% increased damage\n" +
+            Tooltip.SetDefault("6% increased damage\n" +
 			"50% increased minion knockback\n" +
 			"10% increased movement speed\n" +
 			"Taking damage makes you move very fast for a short time");
@@ -29,7 +29,6 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-            player.maxMinions += 2;
             player.allDamage += 0.06f;
             player.minionKB += 0.5f;
             player.moveSpeed += 0.1f;

@@ -21,7 +21,7 @@ namespace CalamityMod.Items.Accessories.Wings
                 "Horizontal speed: 10.5\n" +
                 "Acceleration multiplier: 2.75\n" +
                 "Great vertical speed\n" +
-                "Flight time: 140\n" +
+                "Flight time: 160\n" +
                 "36% increased running acceleration\n" +
                 "Greater mobility on ice\n" +
                 "Water and lava walking\n" +
@@ -78,7 +78,7 @@ namespace CalamityMod.Items.Accessories.Wings
             player.waterWalk = true;
             player.fireWalk = true;
             player.lavaMax += 240;
-            player.wingTimeMax = 140;
+            player.wingTimeMax = 160;
             player.noFallDmg = true;
             modPlayer.IBoots = !hideVisual;
             modPlayer.elysianFire = !hideVisual;

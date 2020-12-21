@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Accessories.Wings
 				"Horizontal speed: 9.75\n" +
                 "Acceleration multiplier: 2.7\n" +
                 "Great vertical speed\n" +
-                "Flight time: 200\n" +
+                "Flight time: 240\n" +
 				"Temporary immunity to lava and 15% increased movement speed");
         }
 
@@ -51,7 +51,7 @@ namespace CalamityMod.Items.Accessories.Wings
             CalamityPlayer modPlayer = player.Calamity();
             player.moveSpeed += 0.15f;
             player.lavaMax += 240;
-            player.wingTimeMax = 200;
+            player.wingTimeMax = 240;
             player.noFallDmg = true;
             modPlayer.elysianFire = true;
             if (hideVisual)

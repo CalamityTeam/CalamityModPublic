@@ -15,8 +15,7 @@ namespace CalamityMod.Items.Armor
         {
             DisplayName.SetDefault("Omega Blue Helmet");
             Tooltip.SetDefault(@"You can move freely through liquids
-12% increased damage and 8% increased critical strike chance
-+2 max minions");
+12% increased damage and 8% increased critical strike chance");
         }
 
         public override void SetDefaults()
@@ -35,8 +34,6 @@ namespace CalamityMod.Items.Armor
 
             player.allDamage += 0.12f;
             player.Calamity().AllCritBoost(8);
-
-            player.maxMinions += 2;
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
@@ -55,7 +52,7 @@ namespace CalamityMod.Items.Armor
         {
             string hotkey = CalamityMod.TarraHotKey.TooltipHotkeyString();
             player.setBonus = "Increases armor penetration by 50\n" +
-				"10% increased damage and critical strike chance\n" +
+				"10% increased damage and critical strike chance and +2 max minions\n" +
 				"Short-ranged tentacles heal you by sucking enemy life\n" +
 				"Press " + hotkey + " to activate abyssal madness for 5 seconds\n" +
 				"Abyssal madness increases damage, critical strike chance, and tentacle aggression/range\n" +
@@ -64,8 +61,10 @@ namespace CalamityMod.Items.Armor
             player.armorPenetration += 50;
             player.Calamity().wearingRogueArmor = true;
 
-            //raise rev caps
-            player.Calamity().omegaBlueSet = true;
+			player.maxMinions += 2;
+
+			//raise rev caps
+			player.Calamity().omegaBlueSet = true;
 
 			if (player.Calamity().omegaBlueCooldown == 1) //dust when ready to use again
 			{

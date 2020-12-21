@@ -23,7 +23,6 @@ namespace CalamityMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.maxMinions++;
             player.Calamity().starbusterCore = true;
         }
     }

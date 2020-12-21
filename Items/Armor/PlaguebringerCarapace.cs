@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Armor
         {
             DisplayName.SetDefault("Plaguebringer Carapace");
             Tooltip.SetDefault("Reduces the damage caused to you by the plague\n" +
-			"12% increased minion damage and +1 max minions\n" +
+			"12% increased minion damage\n" +
 			"Friendly bees inflict the plague");
         }
 
@@ -30,7 +30,6 @@ namespace CalamityMod.Items.Armor
         public override void UpdateEquip(Player player)
         {
             player.Calamity().plaguebringerCarapace = true;
-            player.maxMinions += 1;
             player.minionDamage += 0.12f;
             player.Calamity().reducedPlagueDmg = true;
         }
