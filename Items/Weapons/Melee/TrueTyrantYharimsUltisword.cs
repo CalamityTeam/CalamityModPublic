@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetDefaults()
         {
             item.width = 102;
-            item.damage = 185;
+            item.damage = 120;
             item.melee = true;
             item.useAnimation = 18;
             item.useStyle = ItemUseStyleID.SwingThrow;
@@ -32,11 +32,11 @@ namespace CalamityMod.Items.Weapons.Melee
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             item.height = 102;
-            item.value = Item.buyPrice(1, 20, 0, 0);
-            item.rare = 10;
-            item.shoot = ModContent.ProjectileType<BlazingPhantomBlade>();
+			item.value = CalamityGlobalItem.Rarity12BuyPrice;
+			item.rare = ItemRarityID.Purple;
+			item.Calamity().customRarity = CalamityRarity.Turquoise;
+			item.shoot = ModContent.ProjectileType<BlazingPhantomBlade>();
             item.shootSpeed = 12f;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

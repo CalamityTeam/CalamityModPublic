@@ -61,9 +61,11 @@ namespace CalamityMod.Items.Armor
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.tarraSet = true;
             modPlayer.tarraMelee = true;
+            player.aggro += 800;
             string hotkey = CalamityMod.TarraHotKey.TooltipHotkeyString();
             player.setBonus = "Increased heart pickup range\n" +
                 "Enemies have a chance to drop extra hearts on death\n" +
+                "Enemies are more likely to target you\n" +
                 "You have a 25% chance to gain a life regen buff when you take damage\n" +
                 "Press " + hotkey + " to cloak yourself in life energy that heavily reduces enemy contact damage for 10 seconds\n" +
                 "This has a 30 second cooldown";

@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SafeSetDefaults()
         {
             item.width = 60;
-            item.damage = 169;
+            item.damage = 110;
             item.noMelee = true;
             item.noUseGraphic = true;
             item.autoReuse = true;
@@ -28,12 +28,12 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.knockBack = 9f;
             item.UseSound = SoundID.Item1;
             item.height = 60;
-            item.value = Item.buyPrice(1, 20, 0, 0);
-            item.rare = 10;
-            item.shoot = ModContent.ProjectileType<MoltenAmputatorProj>();
+			item.value = CalamityGlobalItem.Rarity12BuyPrice;
+			item.rare = ItemRarityID.Purple;
+			item.Calamity().customRarity = CalamityRarity.Turquoise;
+			item.shoot = ModContent.ProjectileType<MoltenAmputatorProj>();
             item.shootSpeed = 12f;
             item.Calamity().rogue = true;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

@@ -21,7 +21,7 @@ namespace CalamityMod.Items.Tools
             item.width = 62;
             item.height = 62;
 			item.scale = 1.5f;
-            item.damage = 500;
+            item.damage = 325;
             item.melee = true;
             item.useAnimation = 16;
             item.useStyle = ItemUseStyleID.SwingThrow;
@@ -33,10 +33,10 @@ namespace CalamityMod.Items.Tools
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             item.tileBoost += 5;
-            item.value = Item.buyPrice(1, 20, 0, 0);
-            item.rare = 10;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
-        }
+			item.value = CalamityGlobalItem.Rarity12BuyPrice;
+			item.rare = ItemRarityID.Purple;
+			item.Calamity().customRarity = CalamityRarity.Turquoise;
+		}
 
         public override bool AltFunctionUse(Player player) => true;
 

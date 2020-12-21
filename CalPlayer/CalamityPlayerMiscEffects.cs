@@ -67,7 +67,7 @@ namespace CalamityMod.CalPlayer
 			CalamityPlayer.areThereAnyDamnEvents = CalamityGlobalNPC.AnyEvents(player);
 
 			// If any boss NPC is active, apply Zen to the player to reduce spawn rate
-			if (CalamityPlayer.areThereAnyDamnBosses)
+			if (CalamityPlayer.areThereAnyDamnBosses && CalamityConfig.Instance.BossZen)
 			{
 				if (player.whoAmI == Main.myPlayer)
 					player.AddBuff(ModContent.BuffType<BossZen>(), 2, false);
@@ -1227,7 +1227,7 @@ namespace CalamityMod.CalPlayer
 			if (modPlayer.absorber)
 			{
 				player.moveSpeed += 0.06f;
-				player.jumpSpeedBoost += 1.2f;
+				player.jumpSpeedBoost += player.autoJump ? 0.3f : 1.2f;
 				player.thorns += 0.5f;
 				player.endurance += 0.05f;
 
@@ -2649,7 +2649,6 @@ namespace CalamityMod.CalPlayer
 
 			if (modPlayer.eGauntlet)
 			{
-				player.longInvince = true;
 				player.kbGlove = true;
 				player.magmaStone = true;
 				player.meleeDamage += 0.15f;
@@ -3018,7 +3017,8 @@ namespace CalamityMod.CalPlayer
 
 			if (modPlayer.tarraSet)
 			{
-				player.calmed = modPlayer.tarraMelee ? false : true;
+				if (!modPlayer.tarraMelee)
+					player.calmed = true;
 				player.lifeMagnet = true;
 			}
 
@@ -3269,7 +3269,6 @@ namespace CalamityMod.CalPlayer
 
 			if (modPlayer.yInsignia)
 			{
-				player.longInvince = true;
 				player.meleeDamage += 0.1f;
 				player.lavaMax += 240;
 				if (player.statLife <= (int)(player.statLifeMax2 * 0.5))

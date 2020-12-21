@@ -19,18 +19,18 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 52;
+            item.damage = 54;
             item.ranged = true;
             item.width = 58;
             item.height = 102;
-            item.useTime = 23;
-            item.useAnimation = 23;
+            item.useTime = 22;
+            item.useAnimation = 22;
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 5.5f;
-			item.value = CalamityGlobalItem.Rarity11BuyPrice;
-			item.rare = ItemRarityID.Purple;
-			item.UseSound = SoundID.Item75;
+            item.value = CalamityGlobalItem.Rarity11BuyPrice;
+            item.rare = ItemRarityID.Purple;
+            item.UseSound = SoundID.Item75;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<PlanetaryAnnihilationProj>();
             item.shootSpeed = 12f;

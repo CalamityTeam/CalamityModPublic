@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.damage = 183;
+            item.damage = 120;
             item.mana = 40;
             item.magic = true;
             item.width = 48;
@@ -27,13 +27,13 @@ namespace CalamityMod.Items.Weapons.Magic
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 4f;
-            item.value = Item.buyPrice(1, 20, 0, 0);
-            item.rare = 10;
-            item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/PlasmaBlast");
+			item.value = CalamityGlobalItem.Rarity12BuyPrice;
+			item.rare = ItemRarityID.Purple;
+			item.Calamity().customRarity = CalamityRarity.Turquoise;
+			item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/PlasmaBlast");
             item.autoReuse = true;
             item.shootSpeed = 12f;
             item.shoot = ModContent.ProjectileType<PlasmaShot>();
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
         }
 
         public override Vector2? HoldoutOffset() => new Vector2(-10, 0);

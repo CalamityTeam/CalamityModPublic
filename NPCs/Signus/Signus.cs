@@ -48,7 +48,7 @@ namespace CalamityMod.NPCs.Signus
             else
                 music = MusicID.Boss4;
 			bool notDoGFight = CalamityWorld.DoGSecondStageCountdown <= 0 || !CalamityWorld.downedSentinel3;
-			npc.LifeMaxNERB(notDoGFight ? 280000 : 70000, notDoGFight ? 445500 : 109500, 2400000);
+			npc.LifeMaxNERB(notDoGFight ? 182000 : 45500, notDoGFight ? 289575 : 71175, 2400000);
             if (notDoGFight)
             {
                 npc.value = Item.buyPrice(0, 35, 0, 0);

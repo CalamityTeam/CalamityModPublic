@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 
 		public override void SafeSetDefaults()
 		{
-			item.damage = 300;
+			item.damage = 195;
 			item.knockBack = 3f;
 			item.autoReuse = true;
 			item.Calamity().rogue = true;

@@ -712,7 +712,7 @@ namespace CalamityMod.NPCs.Yharon
 			// Enter new phase
             else if (npc.ai[0] == 4f)
             {
-                npc.velocity *= 0.98f;
+                npc.velocity *= 0.9f;
                 npc.velocity.Y = MathHelper.Lerp(npc.velocity.Y, 0f, 0.02f);
 
                 if (npc.ai[2] == newPhaseTimer - 60)
@@ -1031,7 +1031,7 @@ namespace CalamityMod.NPCs.Yharon
 			// Enter new phase
             else if (npc.ai[0] == 10f)
             {
-                npc.velocity *= 0.98f;
+                npc.velocity *= 0.9f;
                 npc.velocity.Y = MathHelper.Lerp(npc.velocity.Y, 0f, 0.02f);
 
                 if (npc.ai[2] == newPhaseTimer - 60)
@@ -1399,7 +1399,7 @@ namespace CalamityMod.NPCs.Yharon
 			// Enter new phase
             else if (npc.ai[0] == 17f)
             {
-				npc.velocity *= 0.98f;
+				npc.velocity *= 0.9f;
 				npc.velocity.Y = MathHelper.Lerp(npc.velocity.Y, 0f, 0.02f);
 
 				if (npc.ai[2] == newPhaseTimer - 60)
@@ -2403,7 +2403,7 @@ namespace CalamityMod.NPCs.Yharon
 			// Enter new phase
             else if (npc.ai[0] == 9f)
             {
-                npc.velocity *= 0.95f;
+                npc.velocity *= 0.9f;
 
                 Vector2 vector = npc.DirectionTo(targetData.Center);
                 npc.spriteDirection = (vector.X > 0f) ? 1 : -1;

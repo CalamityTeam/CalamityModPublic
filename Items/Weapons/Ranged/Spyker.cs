@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 240;
+            item.damage = 156;
             item.ranged = true;
             item.width = 44;
             item.height = 26;
@@ -26,14 +26,14 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 6f;
-            item.value = Item.buyPrice(1, 20, 0, 0);
-            item.rare = 10;
-            item.UseSound = SoundID.Item108;
+			item.value = CalamityGlobalItem.Rarity12BuyPrice;
+			item.rare = ItemRarityID.Purple;
+			item.Calamity().customRarity = CalamityRarity.Turquoise;
+			item.UseSound = SoundID.Item108;
             item.autoReuse = true;
             item.shootSpeed = 9f;
             item.shoot = ModContent.ProjectileType<SpykerProj>();
             item.useAmmo = AmmoID.Bullet;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
         }
 
         public override Vector2? HoldoutOffset()

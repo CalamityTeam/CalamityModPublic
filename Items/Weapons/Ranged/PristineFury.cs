@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Weapons.Ranged
     {
 		public int frameCounter = 0;
 		public int frame = 0;
-        public static int BaseDamage = 140;
+        public static int BaseDamage = 91;
 
         public override void SetStaticDefaults()
         {
@@ -33,9 +33,9 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 5f;
-            item.rare = 10;
-            item.value = Item.buyPrice(1, 20, 0, 0);
-            item.Calamity().customRarity = CalamityRarity.ItemSpecific;
+			item.value = CalamityGlobalItem.Rarity12BuyPrice;
+			item.rare = ItemRarityID.Purple;
+			item.Calamity().customRarity = CalamityRarity.ItemSpecific;
             item.UseSound = SoundID.Item34;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<PristineFire>();

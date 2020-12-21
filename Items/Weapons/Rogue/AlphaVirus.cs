@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SafeSetDefaults()
         {
             item.width = 44;
-            item.damage = 400;
+            item.damage = 260;
             item.noMelee = true;
             item.noUseGraphic = true;
             item.useAnimation = 31;
@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.autoReuse = true;
             item.height = 44;
             item.maxStack = 1;
-            item.value = CalamityGlobalItem.Rarity13BuyPrice;
+            item.value = CalamityGlobalItem.Rarity12BuyPrice;
             item.shoot = ModContent.ProjectileType<AlphaVirusProjectile>();
             item.shootSpeed = 4f;
 			item.rare = ItemRarityID.Purple;

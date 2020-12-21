@@ -98,71 +98,74 @@ namespace CalamityMod.NPCs
 			bool doSpiral = false;
 			if (head && calamityGlobalNPC.newAI[0] == 1f && calamityGlobalNPC.newAI[2] == 1f && revenge)
 			{
-				if (Vector2.Distance(npc.Center, player.Center) > 320f || calamityGlobalNPC.newAI[3] > 0f)
+				float ai3 = 660f;
+				calamityGlobalNPC.newAI[3] += 1f;
+				doSpiral = calamityGlobalNPC.newAI[1] == 0f && calamityGlobalNPC.newAI[3] >= ai3;
+				if (doSpiral)
 				{
-					float ai3 = 660f;
-					calamityGlobalNPC.newAI[3] += 1f;
-					doSpiral = calamityGlobalNPC.newAI[1] == 0f && calamityGlobalNPC.newAI[3] >= ai3;
-					if (doSpiral)
+					// Barf
+					if (calamityGlobalNPC.newAI[3] % 40f == 0f)
 					{
-						// Barf
-						if (calamityGlobalNPC.newAI[3] % 40f == 0f)
+						Main.PlaySound(4, (int)npc.position.X, (int)npc.position.Y, 13);
+
+						if (Main.netMode != NetmodeID.MultiplayerClient)
 						{
-							Main.PlaySound(4, (int)npc.position.X, (int)npc.position.Y, 13);
+							float num742 = BossRushEvent.BossRushActive ? 16f : death ? 10f : 8f;
+							float num743 = player.Center.X - vectorCenter.X;
+							float num744 = player.Center.Y - vectorCenter.Y;
+							float num745 = (float)Math.Sqrt(num743 * num743 + num744 * num744);
 
-							if (Main.netMode != NetmodeID.MultiplayerClient)
+							num745 = num742 / num745;
+							num743 *= num745;
+							num744 *= num745;
+
+							int type = ModContent.ProjectileType<SandBlast>();
+							int damage = npc.GetProjectileDamage(type);
+							int numProj = death ? 5 : 3;
+							int spread = death ? 60 : 36;
+							float rotation = MathHelper.ToRadians(spread);
+							float baseSpeed = (float)Math.Sqrt(num743 * num743 + num744 * num744);
+							double startAngle = Math.Atan2(num743, num744) - rotation / 2;
+							double deltaAngle = rotation / numProj;
+							double offsetAngle;
+
+							for (int i = 0; i < numProj; i++)
 							{
-								float num742 = BossRushEvent.BossRushActive ? 16f : death ? 10f : 8f;
-								float num743 = player.Center.X - vectorCenter.X;
-								float num744 = player.Center.Y - vectorCenter.Y;
-								float num745 = (float)Math.Sqrt(num743 * num743 + num744 * num744);
-
-								num745 = num742 / num745;
-								num743 *= num745;
-								num744 *= num745;
-
-								int type = ModContent.ProjectileType<SandBlast>();
-								int damage = npc.GetProjectileDamage(type);
-								int numProj = death ? 5 : 3;
-								int spread = death ? 60 : 36;
-								float rotation = MathHelper.ToRadians(spread);
-								float baseSpeed = (float)Math.Sqrt(num743 * num743 + num744 * num744);
-								double startAngle = Math.Atan2(num743, num744) - rotation / 2;
-								double deltaAngle = rotation / numProj;
-								double offsetAngle;
-
-								for (int i = 0; i < numProj; i++)
-								{
-									offsetAngle = startAngle + deltaAngle * i;
-									int proj = Projectile.NewProjectile(vectorCenter.X, vectorCenter.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), type, damage, 0f, Main.myPlayer, 0f, 0f);
-									Main.projectile[proj].tileCollide = false;
-								}
+								offsetAngle = startAngle + deltaAngle * i;
+								int proj = Projectile.NewProjectile(vectorCenter.X, vectorCenter.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), type, damage, 0f, Main.myPlayer, 0f, 0f);
+								Main.projectile[proj].tileCollide = false;
 							}
 						}
-
-						// Velocity boost
-						if (calamityGlobalNPC.newAI[3] == ai3)
-						{
-							npc.velocity.Normalize();
-							npc.velocity *= 24f;
-						}
-
-						// Spin velocity
-						float velocity = (float)(Math.PI * 2D) / 120f;
-						npc.velocity = npc.velocity.RotatedBy(-(double)velocity * npc.localAI[1]);
-						npc.rotation = (float)Math.Atan2(npc.velocity.Y, npc.velocity.X) + MathHelper.PiOver2;
-
-						// Reset and charge at target
-						if (calamityGlobalNPC.newAI[3] >= ai3 + 120f)
-						{
-							calamityGlobalNPC.newAI[3] = 0f;
-							float chargeVelocity = (BossRushEvent.BossRushActive ? 24f : death ? 16f : 12f) + 3f * enrageScale;
-							npc.velocity = Vector2.Normalize(player.Center - npc.Center) * chargeVelocity;
-							npc.TargetClosest();
-						}
 					}
-					else
-						npc.localAI[1] = npc.Center.X - player.Center.X < 0 ? 1f : -1f;
+
+					// Velocity boost
+					if (calamityGlobalNPC.newAI[3] == ai3)
+					{
+						npc.velocity.Normalize();
+						npc.velocity *= 24f;
+					}
+
+					// Spin velocity
+					float velocity = (float)(Math.PI * 2D) / 120f;
+					npc.velocity = npc.velocity.RotatedBy(-(double)velocity * npc.localAI[1]);
+					npc.rotation = (float)Math.Atan2(npc.velocity.Y, npc.velocity.X) + MathHelper.PiOver2;
+
+					// Reset and charge at target
+					if (calamityGlobalNPC.newAI[3] >= ai3 + 120f)
+					{
+						// Add 2 seconds to timer so that spinning happens more often if Scourge isn't wet when spin ends
+						calamityGlobalNPC.newAI[3] = npc.wet ? 0f : 120f;
+						float chargeVelocity = (BossRushEvent.BossRushActive ? 24f : death ? 16f : 12f) + 3f * enrageScale;
+						npc.velocity = Vector2.Normalize(player.Center - npc.Center) * chargeVelocity;
+						npc.TargetClosest();
+					}
+				}
+				else
+				{
+					if (npc.wet && calamityGlobalNPC.newAI[3] > 0f)
+						calamityGlobalNPC.newAI[3] -= 2f;
+
+					npc.localAI[1] = npc.Center.X - player.Center.X < 0 ? 1f : -1f;
 				}
 			}
 

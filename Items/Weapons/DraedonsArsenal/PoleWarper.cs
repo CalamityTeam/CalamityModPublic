@@ -31,8 +31,8 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 			item.noMelee = true;
 			item.knockBack = 8f;
 
-			item.value = CalamityGlobalItem.RarityVioletBuyPrice;
-			item.rare = ItemRarityID.Red;
+			item.value = CalamityGlobalItem.Rarity14BuyPrice;
+			item.rare = ItemRarityID.Purple;
 			modItem.customRarity = CalamityRarity.DraedonRust;
 
 			item.UseSound = SoundID.Item15;

@@ -39,7 +39,7 @@ namespace CalamityMod.NPCs.Ravager
             {
                 npc.damage *= 2;
                 npc.defense *= 2;
-                npc.lifeMax *= 7;
+                npc.lifeMax *= 5;
             }
             if (BossRushEvent.BossRushActive)
             {

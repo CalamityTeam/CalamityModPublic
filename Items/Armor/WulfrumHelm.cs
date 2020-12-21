@@ -30,13 +30,15 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateArmorSet(Player player)
         {
-            player.setBonus = "+3 defense\n" +
+            player.setBonus = "Enemies are more likely to target you\n" +
+				"+3 defense\n" +
                 "+5 defense when below 50% life";
             player.statDefense += 3; //11
-            if (player.statLife <= (int)((double)player.statLifeMax2 * 0.5))
+            if (player.statLife <= (int)(player.statLifeMax2 * 0.5))
             {
                 player.statDefense += 5; //16
             }
+            player.aggro += 100;
         }
 
         public override void UpdateEquip(Player player)

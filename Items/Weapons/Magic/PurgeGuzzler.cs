@@ -15,7 +15,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.damage = 80;
+            item.damage = 52;
             item.magic = true;
             item.mana = 12;
             item.width = 58;
@@ -26,12 +26,12 @@ namespace CalamityMod.Items.Weapons.Magic
             item.noMelee = true;
             item.knockBack = 4.5f;
             item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LaserCannon");
-            item.value = Item.buyPrice(1, 20, 0, 0);
-            item.rare = 10;
-            item.autoReuse = true;
+			item.value = CalamityGlobalItem.Rarity12BuyPrice;
+			item.rare = ItemRarityID.Purple;
+			item.Calamity().customRarity = CalamityRarity.Turquoise;
+			item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<HolyLaser>();
             item.shootSpeed = 6f;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
