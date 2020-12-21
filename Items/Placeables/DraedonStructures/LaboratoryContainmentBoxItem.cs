@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Placeables.DraedonStructures
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<CalamityMod.Items.Placeables.DraedonStructures.LaboratoryPlating>(), 10);
+            recipe.AddIngredient(ModContent.ItemType<Items.Placeables.DraedonStructures.LaboratoryPlating>(), 10);
             recipe.AddIngredient(ModContent.ItemType<DubiousPlating>());
             recipe.SetResult(this);
             recipe.AddTile(TileID.Anvils);

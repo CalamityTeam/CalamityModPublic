@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Placeables.DraedonStructures
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<CalamityMod.Items.Placeables.DraedonStructures.RustedPlating>(), 15);
+            recipe.AddIngredient(ModContent.ItemType<Items.Placeables.DraedonStructures.RustedPlating>(), 15);
             recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>());
             recipe.SetResult(this);
             recipe.AddTile(TileID.Anvils);

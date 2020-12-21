@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Placeables.DraedonStructures
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 4);
             recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 4);
-            recipe.AddIngredient(ModContent.ItemType<CalamityMod.Items.Placeables.DraedonStructures.RustedPlating>(), 10);
+            recipe.AddIngredient(ModContent.ItemType<Items.Placeables.DraedonStructures.RustedPlating>(), 10);
             recipe.AddIngredient(ItemID.IronBar, 2);
             recipe.anyIronBar = true;
             recipe.AddTile(TileID.Anvils);

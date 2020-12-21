@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Placeables.DraedonStructures
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<CalamityMod.Items.Placeables.DraedonStructures.RustedPlating>(), 7);
+            recipe.AddIngredient(ModContent.ItemType<Items.Placeables.DraedonStructures.RustedPlating>(), 7);
             recipe.AddIngredient(ModContent.ItemType<DubiousPlating>());
             recipe.AddIngredient(ModContent.ItemType<PowerCell>(), 4);
             recipe.SetResult(this);
