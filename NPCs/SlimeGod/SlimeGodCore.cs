@@ -256,6 +256,7 @@ namespace CalamityMod.NPCs.SlimeGod
 					{
 						npc.ai[2] = 0f;
 						npc.Calamity().newAI[3] = 0f;
+						npc.velocity = Vector2.UnitY * -12f;
 						Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SlimeGodExit"), (int)npc.position.X, (int)npc.position.Y);
 						for (int i = 0; i < 20; i++)
 						{
