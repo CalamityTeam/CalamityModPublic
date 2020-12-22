@@ -28,12 +28,14 @@ namespace CalamityMod.Items.Placeables.DraedonStructures
             item.value = 500;
             item.createTile = ModContent.TileType<AgedSecurityChestTile>();
         }
+
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 4);
             recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 4);
-            recipe.AddIngredient(ItemID.IronBar, 4);
+            recipe.AddIngredient(ModContent.ItemType<Items.Placeables.DraedonStructures.RustedPlating>(), 10);
+            recipe.AddIngredient(ItemID.IronBar, 2);
             recipe.anyIronBar = true;
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
