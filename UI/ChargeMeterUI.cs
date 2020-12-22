@@ -51,7 +51,7 @@ namespace CalamityMod.UI
 					Main.LocalPlayer.mouseInterface = true;
 					float displayedPercent = modItem.ChargeRatio * 100f;
 					string percentString = displayedPercent.ToString("n2");
-					//only way I got this to show up consistently, otherwise it fucked up and showed up anywhere onscreen lol.
+					// Tooltip only goes to one decimal place, but the meter displays two. This doesn't help the player much at all but hey, it's a thing.
 					Main.instance.MouseText("Current Charge: " + percentString + "%", 0, 0, -1, -1, -1, -1);
 				}
 			}
