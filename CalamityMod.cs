@@ -843,6 +843,13 @@ namespace CalamityMod
                     return true;
                 }, InterfaceScaleType.None));
 
+                // Charge meter
+                layers.Insert(mouseIndex, new LegacyGameInterfaceLayer("Charge UI", () =>
+                {
+                    ChargeMeterUI.Draw(Main.spriteBatch, Main.LocalPlayer);
+                    return true;
+                }, InterfaceScaleType.None));
+
                 // Popup GUIs.
                 layers.Insert(mouseIndex, new LegacyGameInterfaceLayer("Popup GUIs", () =>
                 {
