@@ -68,6 +68,8 @@ namespace CalamityMod.NPCs.DevourerofGods
 		private int postTeleportTimer = 0;
 		private int teleportTimer = -1;
 
+		private int preventBullshitHitsAtStartofFinalPhaseTimer = 0;
+
 		private const float alphaGateValue = 669f;
 
 		public override void SetStaticDefaults()
@@ -117,6 +119,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             writer.Write(idleCounter);
             writer.Write(laserWallPhase);
 			writer.Write(postTeleportTimer);
+			writer.Write(preventBullshitHitsAtStartofFinalPhaseTimer);
 			writer.Write(laserWallType);
 			writer.Write(teleportTimer);
             writer.Write(npc.alpha);
@@ -133,6 +136,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             idleCounter = reader.ReadInt32();
             laserWallPhase = reader.ReadInt32();
 			postTeleportTimer = reader.ReadInt32();
+			preventBullshitHitsAtStartofFinalPhaseTimer = reader.ReadInt32();
 			laserWallType = reader.ReadInt32();
 			teleportTimer = reader.ReadInt32();
             npc.alpha = reader.ReadInt32();
@@ -190,7 +194,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 				npc.takenDamageMultiplier = 1.25f;
 
 			// Immunity after teleport
-			npc.dontTakeDamage = postTeleportTimer > 0;
+			npc.dontTakeDamage = postTeleportTimer > 0 || preventBullshitHitsAtStartofFinalPhaseTimer > 0;
 
 			// Teleport
 			if (teleportTimer >= 0)
@@ -260,7 +264,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 				// Set alpha after teleport
 				if (postTeleportTimer > 0)
 				{
-					postTeleportTimer -= 1;
+					postTeleportTimer--;
 					if (postTeleportTimer < 0)
 						postTeleportTimer = 0;
 
@@ -273,6 +277,15 @@ namespace CalamityMod.NPCs.DevourerofGods
 						npc.alpha = 0;
 				}
 
+				// This exists so that DoG doesn't sometimes instantly kill the player when he goes to final phase
+				if (preventBullshitHitsAtStartofFinalPhaseTimer > 0)
+				{
+					preventBullshitHitsAtStartofFinalPhaseTimer--;
+
+					if (npc.alpha < 1)
+						npc.alpha = 1;
+				}
+
 				// Reset laser wall phase
                 if (laserWallPhase > (int)LaserWallPhase.SetUp)
                     laserWallPhase = (int)LaserWallPhase.SetUp;
@@ -281,6 +294,8 @@ namespace CalamityMod.NPCs.DevourerofGods
 				if (!halfLife && phase3)
 				{
 					SpawnTeleportLocation(player);
+
+					preventBullshitHitsAtStartofFinalPhaseTimer = 180;
 
 					// Anger message
 					string key = "Mods.CalamityMod.EdgyBossText11";
@@ -1225,7 +1240,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             if (dist4 < minDist)
                 minDist = dist4;
 
-            return minDist <= 80f && (npc.alpha <= 0 || postTeleportTimer > 0);
+            return minDist <= 80f && (npc.alpha <= 0 || postTeleportTimer > 0) && preventBullshitHitsAtStartofFinalPhaseTimer <= 0;
         }
 
         public override bool StrikeNPC(ref double damage, int defense, ref float knockback, int hitDirection, ref bool crit)
@@ -1300,7 +1315,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             player.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 300, true);
             player.AddBuff(ModContent.BuffType<WhisperingDeath>(), 420, true);
             player.AddBuff(BuffID.Frostburn, 300, true);
-            if ((CalamityWorld.death || BossRushEvent.BossRushActive) && (npc.alpha <= 0 || postTeleportTimer > 0) && !player.Calamity().lol)
+            if ((CalamityWorld.death || BossRushEvent.BossRushActive) && (npc.alpha <= 0 || postTeleportTimer > 0) && !player.Calamity().lol && preventBullshitHitsAtStartofFinalPhaseTimer <= 0)
             {
                 player.KillMe(PlayerDeathReason.ByCustomReason(player.name + "'s essence was consumed by the devourer."), 1000.0, 0, false);
             }
@@ -1316,7 +1331,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 					"Mods.CalamityMod.EdgyBossText7"
 				});
 				Color messageColor = Color.Cyan;
-				Rectangle location = new Microsoft.Xna.Framework.Rectangle((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height);
+				Rectangle location = new Rectangle((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height);
 				CombatText.NewText(location, messageColor, Language.GetTextValue(text), true);
 				player.Calamity().dogTextCooldown = 60;
 			}

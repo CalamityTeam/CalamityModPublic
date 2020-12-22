@@ -739,10 +739,13 @@ namespace CalamityMod.NPCs
             ApplyDPSDebuff(bBlood, 50, 10, ref npc.lifeRegen, ref damage);
             ApplyDPSDebuff(kamiFlu, 250, 25, ref npc.lifeRegen, ref damage);
             ApplyDPSDebuff(sulphurPoison, 180, 36, ref npc.lifeRegen, ref damage);
-            if (npc.velocity.X == 0)
-                ApplyDPSDebuff(electrified, 10, 2, ref npc.lifeRegen, ref damage);
+
+			int electrifiedDamage = CalamityPlayer.areThereAnyDamnBosses ? 5 : 10;
+			int displayedValue = electrifiedDamage / 5;
+			if (npc.velocity.X == 0)
+				ApplyDPSDebuff(electrified, electrifiedDamage, displayedValue, ref npc.lifeRegen, ref damage);
             else
-                ApplyDPSDebuff(electrified, 40, 8, ref npc.lifeRegen, ref damage);
+                ApplyDPSDebuff(electrified, electrifiedDamage * 4, displayedValue * 4, ref npc.lifeRegen, ref damage);
         }
 
         public void ApplyDPSDebuff(int debuff, int lifeRegenValue, int damageValue, ref int lifeRegen, ref int damage)
