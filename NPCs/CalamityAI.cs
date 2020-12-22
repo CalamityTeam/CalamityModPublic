@@ -3952,9 +3952,9 @@ namespace CalamityMod.NPCs
 						calamityGlobalNPC.newAI[0] = npc.life;
 						calamityGlobalNPC.newAI[2] += 1f;
 
-						int glob = death ? 8 : expertMode ? 6 : 4;
-						if (calamityGlobalNPC.newAI[0] <= 0.5f)
-							glob = death ? 16 : expertMode ? 12 : 8;
+						int glob = death ? 6 : revenge ? 5 : expertMode ? 4 : 3;
+						if (lifeRatio <= 0.5f)
+							glob = death ? 7 : revenge ? 6 : expertMode ? 5 : 4;
 
 						glob = (int)(glob * MathHelper.Clamp(tileEnrageMult * 0.85f, 1f, 1.5f));
 

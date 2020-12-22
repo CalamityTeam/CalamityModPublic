@@ -8,7 +8,7 @@ namespace CalamityMod.Buffs.DamageOverTime
         public override void SetDefaults()
         {
             DisplayName.SetDefault("Lethal Lava Burn");
-            Description.SetDefault("Losing life");
+            Description.SetDefault("Losing life, reduced movement speed");
             Main.debuff[Type] = true;
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = true;

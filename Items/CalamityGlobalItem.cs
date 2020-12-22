@@ -1875,7 +1875,37 @@ namespace CalamityMod.Items
 					}
 				}
             }
-            if (item.type == ItemID.GladiatorHelmet)
+			if (item.type == ItemID.StardustBreastplate || item.type == ItemID.StardustLeggings || item.type == ItemID.SpookyBreastplate)
+			{
+				foreach (TooltipLine line2 in tooltips)
+				{
+					if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
+					{
+						line2.text = "Increases your max number of minions by 1";
+					}
+				}
+			}
+			if (item.type == ItemID.StardustHelmet || item.type == ItemID.StardustBreastplate || item.type == ItemID.StardustLeggings)
+			{
+				foreach (TooltipLine line2 in tooltips)
+				{
+					if (line2.mod == "Terraria" && line2.Name == "SetBonus")
+					{
+						line2.text += "\nIncreases your max number of minions by 2";
+					}
+				}
+			}
+			if (item.type == ItemID.SpookyHelmet || item.type == ItemID.SpookyBreastplate || item.type == ItemID.SpookyLeggings)
+			{
+				foreach (TooltipLine line2 in tooltips)
+				{
+					if (line2.mod == "Terraria" && line2.Name == "SetBonus")
+					{
+						line2.text += "\nIncreases your max number of minions by 1";
+					}
+				}
+			}
+			if (item.type == ItemID.GladiatorHelmet)
             {
                 foreach (TooltipLine line2 in tooltips)
                 {
@@ -3175,29 +3205,41 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                 player.spaceGun = false;
                 modPlayer.meteorSet = true;
             }
+			else if (set == "Spooky")
+			{
+				player.maxMinions++;
+			}
+			else if (set == "Stardust")
+			{
+				player.maxMinions += 2;
+			}
         }
         #endregion
 
         #region Equip Changes
         public override void UpdateEquip(Item item, Player player)
         {
-            #region Head
-            if (item.type == ItemID.SpectreHood)
-                player.magicDamage += 0.2f;
-            else if (item.type == ItemID.GladiatorHelmet || item.type == ItemID.ObsidianHelm)
-                player.Calamity().throwingDamage += 0.03f;
+			#region Head
+			if (item.type == ItemID.SpectreHood)
+				player.magicDamage += 0.2f;
+			else if (item.type == ItemID.GladiatorHelmet || item.type == ItemID.ObsidianHelm)
+				player.Calamity().throwingDamage += 0.03f;
             #endregion
 
             #region Body
             if (item.type == ItemID.GladiatorBreastplate || item.type == ItemID.ObsidianShirt)
                 player.Calamity().throwingCrit += 3;
-            #endregion
+			else if (item.type == ItemID.StardustBreastplate || item.type == ItemID.SpookyBreastplate)
+				player.maxMinions--;
+			#endregion
 
-            #region Legs
-            if (item.type == ItemID.GladiatorLeggings || item.type == ItemID.ObsidianPants)
+			#region Legs
+			if (item.type == ItemID.GladiatorLeggings || item.type == ItemID.ObsidianPants)
                 player.Calamity().throwingVelocity += 0.03f;
-            #endregion
-        }
+			else if (item.type == ItemID.StardustLeggings)
+				player.maxMinions--;
+			#endregion
+		}
         #endregion
 
         #region Accessory Changes

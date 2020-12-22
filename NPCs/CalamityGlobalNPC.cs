@@ -1,6 +1,5 @@
 using CalamityMod.Buffs;
 using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Buffs.StatBuffs;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.CalPlayer;
 using CalamityMod.Dusts;
@@ -615,7 +614,7 @@ namespace CalamityMod.NPCs
                     }
                 }
 
-				ApplyDPSDebuff(shellfishVore, projectileCount * 250, projectileCount * 50, ref npc.lifeRegen, ref damage);
+				ApplyDPSDebuff(shellfishVore, projectileCount * 200, projectileCount * 40, ref npc.lifeRegen, ref damage);
             }
 
             if (clamDebuff > 0)
