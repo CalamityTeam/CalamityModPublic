@@ -1881,7 +1881,7 @@ namespace CalamityMod.Items
 				{
 					if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
 					{
-						line2.text = "Increases your max number of minions by 1";
+						line2.text = "Increases your max number of minions";
 					}
 				}
 			}
@@ -1892,16 +1892,6 @@ namespace CalamityMod.Items
 					if (line2.mod == "Terraria" && line2.Name == "SetBonus")
 					{
 						line2.text += "\nIncreases your max number of minions by 2";
-					}
-				}
-			}
-			if (item.type == ItemID.SpookyHelmet || item.type == ItemID.SpookyBreastplate || item.type == ItemID.SpookyLeggings)
-			{
-				foreach (TooltipLine line2 in tooltips)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "SetBonus")
-					{
-						line2.text += "\nIncreases your max number of minions by 1";
 					}
 				}
 			}
@@ -3205,10 +3195,6 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                 player.spaceGun = false;
                 modPlayer.meteorSet = true;
             }
-			else if (set == "Spooky")
-			{
-				player.maxMinions++;
-			}
 			else if (set == "Stardust")
 			{
 				player.maxMinions += 2;
