@@ -59,7 +59,7 @@ namespace CalamityMod.Items.Weapons.Rogue
                 for (int i = 0; i < 2; i++)
                 {
                     Vector2 perturbedspeed = new Vector2(speedX + Main.rand.Next(-2,3), speedY + Main.rand.Next(-2,3)).RotatedBy(MathHelper.ToRadians(spread));
-					int stealth = Projectile.NewProjectile(position.X, position.Y, perturbedspeed.X * 1.5f, perturbedspeed.Y * 1.5f, ModContent.ProjectileType<SandDollarStealth>(), damage, knockBack, player.whoAmI);
+					int stealth = Projectile.NewProjectile(position.X, position.Y, perturbedspeed.X * 1.5f, perturbedspeed.Y * 1.5f, ModContent.ProjectileType<SandDollarStealth>(), Math.Max((int)(damage * 0.75), 1), knockBack, player.whoAmI);
 					if (stealth.WithinBounds(Main.maxProjectiles))
 						Main.projectile[stealth].Calamity().stealthStrike = true;
                     spread -= Main.rand.Next(1,3);
