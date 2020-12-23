@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.width = 40;
             item.height = 38;
             item.melee = true;
-            item.damage = 39;
+            item.damage = 78;
             item.knockBack = 7.5f;
             item.useTime = 20;
             item.useAnimation = 20;

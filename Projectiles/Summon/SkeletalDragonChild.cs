@@ -86,7 +86,7 @@ namespace CalamityMod.Projectiles.Summon
                     }
                     else
                     {
-                        projectile.velocity = (projectile.velocity * 19f + projectile.DirectionTo(mother.Center) * 16f) / 20f;
+                        projectile.velocity = (projectile.velocity * 19f + projectile.DirectionTo(mother.Center) * 18f) / 20f;
                     }
                 }
                 else

@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Weapons.Melee
 			item.rare = ItemRarityID.Purple;
 			item.Calamity().customRarity = CalamityRarity.Turquoise;
 			item.shoot = ModContent.ProjectileType<LifeScythe>();
-            item.shootSpeed = 9f;
+            item.shootSpeed = 12f;
         }
 
         public override void AddRecipes()

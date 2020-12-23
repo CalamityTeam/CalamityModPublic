@@ -105,7 +105,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
 		public override void Kill(int timeLeft)
 		{
-			int height = 60;
+			int height = 90;
 			projectile.position = projectile.Center;
 			projectile.width = projectile.height = height;
 			projectile.Center = projectile.position;

@@ -9,7 +9,7 @@ namespace CalamityMod.Items.Weapons.Melee
 {
     public class DevilsSunrise : ModItem
     {
-        public static int BaseDamage = 360;
+        public static int BaseDamage = 480;
 
         public override void SetStaticDefaults()
         {
