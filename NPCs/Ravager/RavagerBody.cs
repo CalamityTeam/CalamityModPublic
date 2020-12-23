@@ -49,7 +49,7 @@ namespace CalamityMod.NPCs.Ravager
             npc.LifeMaxNERB(42700, 53500, 4600000);
             if (CalamityWorld.downedProvidence && !BossRushEvent.BossRushActive)
             {
-                npc.damage *= 2;
+                npc.damage = (int)(npc.damage * 1.5);
                 npc.defense *= 2;
                 npc.lifeMax *= 5;
                 npc.value *= 1.5f;

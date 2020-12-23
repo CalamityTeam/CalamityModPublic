@@ -37,8 +37,8 @@ namespace CalamityMod.NPCs.Ravager
             npc.DeathSound = SoundID.NPCDeath14;
             if (CalamityWorld.downedProvidence && !BossRushEvent.BossRushActive)
             {
-                npc.damage *= 2;
-                npc.defense *= 2;
+				npc.damage = (int)(npc.damage * 1.5);
+				npc.defense *= 2;
                 npc.lifeMax *= 5;
             }
             if (BossRushEvent.BossRushActive)
