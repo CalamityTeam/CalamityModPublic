@@ -1875,7 +1875,7 @@ namespace CalamityMod.Items
 					}
 				}
             }
-			if (item.type == ItemID.StardustBreastplate || item.type == ItemID.StardustLeggings || item.type == ItemID.SpookyBreastplate)
+			if (item.type == ItemID.StardustBreastplate || item.type == ItemID.StardustLeggings)
 			{
 				foreach (TooltipLine line2 in tooltips)
 				{
@@ -3215,7 +3215,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
             #region Body
             if (item.type == ItemID.GladiatorBreastplate || item.type == ItemID.ObsidianShirt)
                 player.Calamity().throwingCrit += 3;
-			else if (item.type == ItemID.StardustBreastplate || item.type == ItemID.SpookyBreastplate)
+			else if (item.type == ItemID.StardustBreastplate)
 				player.maxMinions--;
 			#endregion
 
