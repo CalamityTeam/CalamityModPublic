@@ -365,6 +365,10 @@ namespace CalamityMod.CalPlayer
 		#region Misc Effects
 		private static void MiscEffects(Player player, CalamityPlayer modPlayer, Mod mod)
 		{
+			// Dust on hand when holding the phosphorescent gauntlet.
+			if (player.ActiveItem().type == ModContent.ItemType<PhosphorescentGauntlet>())
+				PhosphorescentGauntletPunches.GenerateDustOnOwnerHand(player);
+
 			if (modPlayer.stealthUIAlpha > 0f && (modPlayer.rogueStealth <= 0f || modPlayer.rogueStealthMax <= 0f))
 			{
 				modPlayer.stealthUIAlpha -= 0.035f;
