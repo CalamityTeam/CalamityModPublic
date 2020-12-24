@@ -5,6 +5,7 @@ using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
 using CalamityMod.Items.Potions;
+using CalamityMod.Items.TreasureBags;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -56,6 +57,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
             npc.noTileCollide = true;
             npc.boss = true;
             npc.DeathSound = SoundID.NPCDeath14;
+            bossBag = ModContent.ItemType<CeaselessVoidBag>();
         }
 
         public override void FindFrame(int frameHeight)
