@@ -3803,10 +3803,17 @@ namespace CalamityMod
 			return Color.Lerp(currentColor, nextColor, increment * colors.Length % 1f);
 		}
 
-		// TODO: Find some way to speed this up.
+		// Cached for efficiency purposes.
+		internal static readonly FieldInfo UImageField = typeof(MiscShaderData).GetField("_uImage", BindingFlags.NonPublic | BindingFlags.Instance);
+
+		/// <summary>
+		/// Manually sets the texture of a <see cref="MiscShaderData"/> instance, since vanilla's implementation only supports strings that access vanilla textures.
+		/// </summary>
+		/// <param name="shader">The shader to bind the texture to.</param>
+		/// <param name="texture">The texture to bind.</param>
 		public static void SetShaderTexture(this MiscShaderData shader, Texture2D texture)
 		{
-			typeof(MiscShaderData).GetField("_uImage", BindingFlags.NonPublic | BindingFlags.Instance).SetValue(shader, new Ref<Texture2D>(texture));
+			UImageField.SetValue(shader, new Ref<Texture2D>(texture));
 		}
 		#endregion
 
