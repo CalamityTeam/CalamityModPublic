@@ -405,6 +405,9 @@ namespace CalamityMod.NPCs.OldDuke
 
             // Mark Old Duke as dead
             CalamityWorld.downedBoomerDuke = true;
+
+			// Mark first acid rain encounter as true even if he wasn't fought in the acid rain, because it makes sense
+			CalamityWorld.encounteredOldDuke = true;
             CalamityNetcode.SyncWorld();
         }
 

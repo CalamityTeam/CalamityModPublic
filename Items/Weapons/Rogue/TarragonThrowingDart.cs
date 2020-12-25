@@ -19,7 +19,7 @@ Stealth strikes erupt into thorns on enemy hits");
         public override void SafeSetDefaults()
         {
             item.width = 34;
-            item.damage = 247;
+            item.damage = 260;
             item.noMelee = true;
             item.consumable = true;
             item.noUseGraphic = true;

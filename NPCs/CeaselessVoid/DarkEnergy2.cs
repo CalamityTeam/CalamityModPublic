@@ -31,10 +31,10 @@ namespace CalamityMod.NPCs.CeaselessVoid
             npc.width = 80;
             npc.height = 80;
             npc.defense = 50;
-            npc.lifeMax = 4000;
+            npc.lifeMax = 3000;
             if (CalamityWorld.DoGSecondStageCountdown <= 0 || !CalamityWorld.downedSentinel1)
             {
-                npc.lifeMax = 16000;
+                npc.lifeMax = 12000;
             }
             if (BossRushEvent.BossRushActive)
             {

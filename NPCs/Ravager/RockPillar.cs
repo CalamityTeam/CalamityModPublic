@@ -57,8 +57,8 @@ namespace CalamityMod.NPCs.Ravager
             else
             {
                 if (CalamityWorld.downedProvidence && !BossRushEvent.BossRushActive)
-                    npc.damage = npc.defDamage * 2;
-                else
+					npc.damage = (int)(npc.defDamage * 1.5);
+				else
                     npc.damage = npc.defDamage;
             }                
 

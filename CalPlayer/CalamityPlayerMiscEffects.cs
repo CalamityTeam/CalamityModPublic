@@ -937,6 +937,32 @@ namespace CalamityMod.CalPlayer
 			if (attack && canProvideBuffs)
 				player.maxMinions++;
 
+			if (modPlayer.nucleogenesis)
+			{
+				player.maxMinions += 4;
+			}
+			else
+			{
+				if (modPlayer.shadowMinions)
+					player.maxMinions += 3;
+				else if (modPlayer.tearMinions)
+					player.maxMinions += 2;
+
+				if (modPlayer.starTaintedGenerator)
+					player.maxMinions += 2;
+				else
+				{
+					if (modPlayer.starbusterCore)
+						player.maxMinions++;
+
+					if (modPlayer.voltaicJelly)
+						player.maxMinions++;
+
+					if (modPlayer.nuclearRod)
+						player.maxMinions++;
+				}
+			}
+
 			// Cooldowns and timers
 			if (modPlayer.gainRageCooldown > 0)
 				modPlayer.gainRageCooldown--;
@@ -2578,7 +2604,7 @@ namespace CalamityMod.CalPlayer
 				}
 				player.allDamage += 0.05f;
 				player.minionKB += 0.5f;
-				player.moveSpeed += 0.05f;
+				player.moveSpeed -= 0.1f;
 			}
 
 			if (modPlayer.rRage)
@@ -2858,7 +2884,7 @@ namespace CalamityMod.CalPlayer
 
 				if (player.ZoneHoly)
 				{
-					player.maxMinions += 1;
+					player.maxMinions++;
 					player.manaCost *= 0.9f;
 					player.ammoCost75 = true; // 25% chance to not use ranged ammo
 					modPlayer.throwingAmmoCost *= 0.75f; // 25% chance to not consume rogue consumables
@@ -2968,7 +2994,7 @@ namespace CalamityMod.CalPlayer
 				if (player.wingTimeMax < 0)
 					player.wingTimeMax = 0;
 
-				player.wingTimeMax /= 2;
+				player.wingTimeMax = (int)(player.wingTimeMax * 0.75);
 			}
 
 			if (modPlayer.eGravity)
@@ -2979,7 +3005,7 @@ namespace CalamityMod.CalPlayer
 				if (player.wingTimeMax > 400)
 					player.wingTimeMax = 400;
 
-				player.wingTimeMax /= 4;
+				player.wingTimeMax = (int)(player.wingTimeMax * 0.66);
 			}
 
 			if (modPlayer.eGrav)
@@ -2990,7 +3016,7 @@ namespace CalamityMod.CalPlayer
 				if (player.wingTimeMax > 400)
 					player.wingTimeMax = 400;
 
-				player.wingTimeMax /= 2;
+				player.wingTimeMax = (int)(player.wingTimeMax * 0.75);
 			}
 
 			if (modPlayer.bounding)
@@ -3036,11 +3062,24 @@ namespace CalamityMod.CalPlayer
 				player.calmed = true;
 			}
 
+			if (player.poisoned)
+				player.moveSpeed -= 0.1f;
+
+			if (player.venom)
+				player.moveSpeed -= 0.15f;
+
 			if (modPlayer.wDeath)
 			{
 				player.statDefense -= WhisperingDeath.DefenseReduction;
 				player.allDamage -= 0.1f;
+				player.moveSpeed -= 0.1f;
 			}
+
+			if (modPlayer.lethalLavaBurn)
+				player.moveSpeed -= 0.15f;
+
+			if (modPlayer.hInferno)
+				player.moveSpeed -= 0.25f;
 
 			if (modPlayer.aFlames)
 				player.statDefense -= AbyssalFlames.DefenseReduction;
@@ -3049,10 +3088,14 @@ namespace CalamityMod.CalPlayer
 			{
 				player.blackout = true;
 				player.statDefense -= GodSlayerInferno.DefenseReduction;
+				player.moveSpeed -= 0.15f;
 			}
 
 			if (modPlayer.astralInfection)
+			{
 				player.statDefense -= AstralInfectionDebuff.DefenseReduction;
+				player.moveSpeed -= 0.15f;
+			}
 
 			if (modPlayer.pFlames)
 			{
@@ -3099,7 +3142,10 @@ namespace CalamityMod.CalPlayer
 				player.velocity.X *= 0.985f;
 
 			if ((modPlayer.warped || modPlayer.caribbeanRum) && !player.slowFall && !player.mount.Active)
+			{
 				player.velocity.Y *= 1.01f;
+				player.moveSpeed -= 0.1f;
+			}
 
 			if (modPlayer.corrEffigy)
 			{
@@ -3135,7 +3181,7 @@ namespace CalamityMod.CalPlayer
 			}
 
 			if (modPlayer.calamitasLore)
-				player.maxMinions += 2;
+				player.maxMinions++;
 
 			// The player's true max life value with Calamity adjustments
 			modPlayer.actualMaxLife = player.statLifeMax2;
@@ -3686,7 +3732,7 @@ namespace CalamityMod.CalPlayer
 			if (modPlayer.prismaticLasers > 1800 && player.whoAmI == Main.myPlayer)
 			{
 				float shootSpeed = 18f;
-				int dmg = (int)(50 * player.MagicDamage());
+				int dmg = (int)(40 * player.MagicDamage());
 				Vector2 startPos = player.RotatedRelativePoint(player.MountedCenter, true);
 				Vector2 velocity = Main.MouseWorld - startPos;
 				if (player.gravDir == -1f)
@@ -4182,7 +4228,7 @@ namespace CalamityMod.CalPlayer
 			}
 
 			if (modPlayer.corrEffigy)
-				player.endurance -= 0.2f;
+				player.endurance -= 0.1f;
 		}
 		#endregion
 

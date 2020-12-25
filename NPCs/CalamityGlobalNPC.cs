@@ -1,6 +1,5 @@
 using CalamityMod.Buffs;
 using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Buffs.StatBuffs;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.CalPlayer;
 using CalamityMod.Dusts;
@@ -617,7 +616,7 @@ namespace CalamityMod.NPCs
                     }
                 }
 
-				ApplyDPSDebuff(shellfishVore, projectileCount * 250, projectileCount * 50, ref npc.lifeRegen, ref damage);
+				ApplyDPSDebuff(shellfishVore, projectileCount * 200, projectileCount * 40, ref npc.lifeRegen, ref damage);
             }
 
             if (clamDebuff > 0)
@@ -741,12 +740,14 @@ namespace CalamityMod.NPCs
             ApplyDPSDebuff(bBlood, 50, 10, ref npc.lifeRegen, ref damage);
             ApplyDPSDebuff(kamiFlu, 250, 25, ref npc.lifeRegen, ref damage);
             ApplyDPSDebuff(sulphurPoison, 180, 36, ref npc.lifeRegen, ref damage);
-
             ApplyDPSDebuff(sagePoisonTime, 90, npc.Calamity().sagePoisonDamage, ref npc.lifeRegen, ref damage);
-            if (npc.velocity.X == 0)
-                ApplyDPSDebuff(electrified, 10, 2, ref npc.lifeRegen, ref damage);
+
+            int electrifiedDamage = CalamityPlayer.areThereAnyDamnBosses ? 5 : 10;
+			int displayedValue = electrifiedDamage / 5;
+			if (npc.velocity.X == 0)
+				ApplyDPSDebuff(electrified, electrifiedDamage, displayedValue, ref npc.lifeRegen, ref damage);
             else
-                ApplyDPSDebuff(electrified, 40, 8, ref npc.lifeRegen, ref damage);
+                ApplyDPSDebuff(electrified, electrifiedDamage * 4, displayedValue * 4, ref npc.lifeRegen, ref damage);
         }
 
         public void ApplyDPSDebuff(int debuff, int lifeRegenValue, int damageValue, ref int lifeRegen, ref int damage)
@@ -1606,8 +1607,8 @@ namespace CalamityMod.NPCs
 				/*if (Main.masterMode)
 					DRScalar = 5f;*/
 
-                // Boost Providence timed DR during the night
-                if (npc.type == NPCType<Providence.Providence>() && !Main.dayTime)
+				// Boost Providence timed DR during the night and Storm Weaver timed DR
+				if ((npc.type == NPCType<Providence.Providence>() && !Main.dayTime) || StormWeaverIDs.Contains(npc.type))
                     DRScalar = 10f;
 
                 // The limit for how much extra DR the boss can have

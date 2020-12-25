@@ -33,14 +33,14 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateArmorSet(Player player)
         {
-            player.setBonus = "10% increased minion damage and +1 max minion\n" +
+            player.setBonus = "10% increased minion damage and +2 max minions\n" +
                 "Grants the ability to climb walls\n" +
                 "30% increased minion damage while submerged in liquid\n" +
                 "Provides a moderate amount of light and moderately reduces breath loss in the abyss";
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.fathomSwarmer = true;
             player.spikedBoots = 2;
-            player.maxMinions++;
+            player.maxMinions += 2;
             player.minionDamage += 0.1f;
             if (Collision.DrownCollision(player.position, player.width, player.height, player.gravDir))
             {

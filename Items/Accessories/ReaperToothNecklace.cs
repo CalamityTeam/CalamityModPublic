@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Reaper Tooth Necklace");
-            Tooltip.SetDefault("A grisly trophy from the ultimate predator\n" + "12% increased damage\n" + "Increases armor penetration by 100\n");
+            Tooltip.SetDefault("A grisly trophy from the ultimate predator\n" + "12% increased damage\n" + "Increases armor penetration by 45");
         }
 
         public override void SetDefaults()
@@ -21,22 +21,20 @@ namespace CalamityMod.Items.Accessories
             item.height = 50;
             item.accessory = true;
             item.value = CalamityGlobalItem.Rarity13BuyPrice;
-            item.rare = ItemRarityID.Red;
+            item.rare = ItemRarityID.Purple;
             item.Calamity().customRarity = CalamityRarity.PureGreen;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            CalamityPlayer modPlayer = player.Calamity();
             player.allDamage += 0.12f;
-            player.armorPenetration += 100;
+            player.armorPenetration += 45;
         }
 
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.SharkToothNecklace);
-            recipe.AddIngredient(ItemID.AvengerEmblem);
+            recipe.AddIngredient(ModContent.ItemType<SandSharkToothNecklace>());
             recipe.AddIngredient(ModContent.ItemType<ReaperTooth>(), 6);
             recipe.AddIngredient(ModContent.ItemType<Lumenite>(), 15);
             recipe.AddIngredient(ModContent.ItemType<DepthCells>(), 15);

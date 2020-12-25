@@ -98,6 +98,7 @@ namespace CalamityMod.NPCs
 			bool doSpiral = false;
 			if (head && calamityGlobalNPC.newAI[0] == 1f && calamityGlobalNPC.newAI[2] == 1f && revenge)
 			{
+				bool isWet = Collision.WetCollision(npc.position, npc.width, npc.height);
 				float ai3 = 660f;
 				calamityGlobalNPC.newAI[3] += 1f;
 				doSpiral = calamityGlobalNPC.newAI[1] == 0f && calamityGlobalNPC.newAI[3] >= ai3;
@@ -154,7 +155,7 @@ namespace CalamityMod.NPCs
 					if (calamityGlobalNPC.newAI[3] >= ai3 + 120f)
 					{
 						// Add 2 seconds to timer so that spinning happens more often if Scourge isn't wet when spin ends
-						calamityGlobalNPC.newAI[3] = npc.wet ? 0f : 120f;
+						calamityGlobalNPC.newAI[3] = isWet ? 0f : 120f;
 						float chargeVelocity = (BossRushEvent.BossRushActive ? 24f : death ? 16f : 12f) + 3f * enrageScale;
 						npc.velocity = Vector2.Normalize(player.Center - npc.Center) * chargeVelocity;
 						npc.TargetClosest();
@@ -162,7 +163,7 @@ namespace CalamityMod.NPCs
 				}
 				else
 				{
-					if (npc.wet && calamityGlobalNPC.newAI[3] > 0f)
+					if (isWet && calamityGlobalNPC.newAI[3] > 0f)
 						calamityGlobalNPC.newAI[3] -= 2f;
 
 					npc.localAI[1] = npc.Center.X - player.Center.X < 0 ? 1f : -1f;
@@ -3951,9 +3952,9 @@ namespace CalamityMod.NPCs
 						calamityGlobalNPC.newAI[0] = npc.life;
 						calamityGlobalNPC.newAI[2] += 1f;
 
-						int glob = death ? 8 : expertMode ? 6 : 4;
-						if (calamityGlobalNPC.newAI[0] <= 0.5f)
-							glob = death ? 16 : expertMode ? 12 : 8;
+						int glob = death ? 6 : revenge ? 5 : expertMode ? 4 : 3;
+						if (lifeRatio <= 0.5f)
+							glob = death ? 7 : revenge ? 6 : expertMode ? 5 : 4;
 
 						glob = (int)(glob * MathHelper.Clamp(tileEnrageMult * 0.85f, 1f, 1.5f));
 

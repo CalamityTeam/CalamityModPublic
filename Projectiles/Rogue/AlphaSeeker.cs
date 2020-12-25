@@ -25,6 +25,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.penetrate = 1;
             projectile.timeLeft = lifetime;
             projectile.Calamity().rogue = true;
+			projectile.extraUpdates = 1;
         }
 
         public override void AI()

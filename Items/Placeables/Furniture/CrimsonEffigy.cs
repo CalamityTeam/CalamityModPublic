@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Placeables.Furniture
         {
             DisplayName.SetDefault("Crimson Effigy");
             Tooltip.SetDefault("When placed down nearby players have their damage increased by 15% and defense by 10\n" +
-                "Nearby players also suffer a 20% decrease to their maximum health");
+                "Nearby players also suffer a 10% decrease to their maximum health");
         }
 
         public override void SetDefaults()

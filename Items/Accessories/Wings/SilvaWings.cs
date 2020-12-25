@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Accessories.Wings
                 "Horizontal speed: 11\n" +
                 "Acceleration multiplier: 2.8\n" +
                 "Excellent vertical speed\n" +
-                "Flight time: 220\n" +
+                "Flight time: 270\n" +
 				"The Silva revive heals you to half health while wearing the Silva armor");
         }
 
@@ -59,7 +59,7 @@ namespace CalamityMod.Items.Accessories.Wings
                 }
                 Main.dust[num60].shader = GameShaders.Armor.GetSecondaryShader(player.cWings, player);
             }
-            player.wingTimeMax = 220;
+            player.wingTimeMax = 270;
             player.noFallDmg = true;
         }
 

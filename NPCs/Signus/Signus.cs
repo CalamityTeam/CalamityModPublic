@@ -8,6 +8,7 @@ using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
 using CalamityMod.Items.Potions;
+using CalamityMod.Items.TreasureBags;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.Projectiles.Boss;
@@ -48,7 +49,7 @@ namespace CalamityMod.NPCs.Signus
             else
                 music = MusicID.Boss4;
 			bool notDoGFight = CalamityWorld.DoGSecondStageCountdown <= 0 || !CalamityWorld.downedSentinel3;
-			npc.LifeMaxNERB(notDoGFight ? 182000 : 45500, notDoGFight ? 289575 : 71175, 2400000);
+			npc.LifeMaxNERB(notDoGFight ? 224000 : 56000, notDoGFight ? 356400 : 87600, 2400000);
             if (notDoGFight)
             {
                 npc.value = Item.buyPrice(0, 35, 0, 0);
@@ -68,6 +69,7 @@ namespace CalamityMod.NPCs.Signus
             npc.netAlways = true;
             npc.HitSound = SoundID.NPCHit49;
             npc.DeathSound = SoundID.NPCDeath51;
+            bossBag = ModContent.ItemType<SignusBag>();
         }
 
         public override void SendExtraAI(BinaryWriter writer)

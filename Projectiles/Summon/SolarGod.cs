@@ -132,7 +132,7 @@ namespace CalamityMod.Projectiles.Summon
 					velocity.Normalize();
 					velocity *= shootSpeed;
                     Projectile.NewProjectile(source, velocity, ModContent.ProjectileType<SolarBeam>(), projectile.damage, projectile.knockBack, projectile.owner);
-                    projectile.ai[0] = 30f;
+                    projectile.ai[0] = 20f;
                 }
             }
         }

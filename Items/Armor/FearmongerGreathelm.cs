@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Armor
             DisplayName.SetDefault("Fearmonger Greathelm");
             Tooltip.SetDefault("Pure terror radiates from your eyes\n" +
 			"+60 max mana and 10% decreased mana usage\n" +
-			"10% increased minion damage and +2 max minions");
+			"10% increased minion damage");
         }
 
         public override void SetDefaults()
@@ -32,7 +32,6 @@ namespace CalamityMod.Items.Armor
         public override void UpdateEquip(Player player)
         {
             player.statManaMax2 += 60;
-            player.maxMinions += 2;
             player.minionDamage += 0.1f;
             player.manaCost *= 0.9f;
         }
@@ -51,7 +50,7 @@ namespace CalamityMod.Items.Armor
         {
 			if (CalamityWorld.death)
 			{
-				player.setBonus = @"30% increased minion damage
+				player.setBonus = @"30% increased minion damage and +1 max minion
 The minion damage nerf while wielding weaponry is reduced
 Immunity to all forms of frost and flame
 All minion attacks grant colossal life regeneration
@@ -61,7 +60,7 @@ Provides cold protection in Death Mode";
 			}
 			else
 			{
-				player.setBonus = @"30% increased minion damage
+				player.setBonus = @"30% increased minion damage and +1 max minion
 The minion damage nerf while wielding weaponry is reduced
 Immunity to all forms of frost and flame
 All minion attacks grant colossal life regeneration
@@ -75,8 +74,9 @@ This extra damage reduction ignores the soft cap";
             // All-class armors count as rogue sets, but don't grant stealth bonuses
             player.Calamity().wearingRogueArmor = true;
             player.minionDamage += 0.3f;
+			player.maxMinions++;
 
-            int[] immuneDebuffs = {
+			int[] immuneDebuffs = {
                 BuffID.OnFire,
                 BuffID.Frostburn,
                 BuffID.CursedInferno,

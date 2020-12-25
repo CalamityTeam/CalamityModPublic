@@ -18,7 +18,7 @@ Stealth strikes spawn smaller spears to fly along side it");
 
         public override void SafeSetDefaults()
         {
-            item.damage = 150;
+            item.damage = 180;
             item.knockBack = 8f;
 
             item.width = 56;

@@ -59,8 +59,8 @@ namespace CalamityMod.Items.Weapons.Magic
 		{
 			Vector2 playerPos = player.RotatedRelativePoint(player.MountedCenter, true);
 			float speed = item.shootSpeed;
-			float xVec = (float)Main.mouseX + Main.screenPosition.X - playerPos.X;
-			float yVec = (float)Main.mouseY + Main.screenPosition.Y - playerPos.Y;
+			float xVec = Main.mouseX + Main.screenPosition.X - playerPos.X;
+			float yVec = Main.mouseY + Main.screenPosition.Y - playerPos.Y;
 			float f = Main.rand.NextFloat() * MathHelper.TwoPi;
 			float lowerBoundOffset = 20f;
 			float upperBoundOffset = 60f;

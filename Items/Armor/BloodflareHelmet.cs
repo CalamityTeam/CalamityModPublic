@@ -14,8 +14,7 @@ namespace CalamityMod.Items.Armor
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Bloodflare Wyvern Helm");
-            Tooltip.SetDefault("You can move freely through liquids and have temporary immunity to lava\n" +
-                "+3 max minions");
+            Tooltip.SetDefault("You can move freely through liquids and have temporary immunity to lava");
         }
 
         public override void SetDefaults()
@@ -33,9 +32,9 @@ namespace CalamityMod.Items.Armor
 			{
 				foreach (TooltipLine line2 in list)
 				{
-					if (line2.mod == "Terraria" && line2.Name == "Tooltip1")
+					if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
 					{
-						line2.text = "+3 max minions\n" +
+						line2.text = "You can move freely through liquids and have temporary immunity to lava\n" +
 						"Provides heat protection in Death Mode";
 					}
 				}
@@ -57,7 +56,7 @@ namespace CalamityMod.Items.Armor
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.bloodflareSet = true;
             modPlayer.bloodflareSummon = true;
-            player.setBonus = "55% increased minion damage\n" +
+            player.setBonus = "55% increased minion damage and +3 max minions\n" +
                 "Greatly increases life regen\n" +
                 "Enemies below 50% life have a chance to drop hearts when struck\n" +
                 "Enemies above 50% life have a chance to drop mana stars when struck\n" +
@@ -67,13 +66,13 @@ namespace CalamityMod.Items.Armor
                 "At 50% life and below you gain 20 defense and 2 life regen";
             player.crimsonRegen = true;
             player.minionDamage += 0.55f;
-        }
+			player.maxMinions += 3;
+		}
 
-        public override void UpdateEquip(Player player)
+		public override void UpdateEquip(Player player)
         {
             player.lavaMax += 240;
             player.ignoreWater = true;
-            player.maxMinions += 3;
         }
 
         public override void AddRecipes()

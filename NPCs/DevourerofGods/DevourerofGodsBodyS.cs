@@ -173,7 +173,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                 } catch
                 {
                 }
-                npc.rotation = (float)System.Math.Atan2((double)num192, (double)num191) + 1.57f;
+                npc.rotation = (float)System.Math.Atan2((double)num192, (double)num191) + MathHelper.PiOver2;
                 num193 = (float)System.Math.Sqrt((double)(num191 * num191 + num192 * num192));
                 int num194 = npc.width;
                 num193 = (num193 - (float)num194) / num193;

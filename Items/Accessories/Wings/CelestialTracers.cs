@@ -73,7 +73,6 @@ namespace CalamityMod.Items.Accessories.Wings
             }
             CalamityPlayer modPlayer = player.Calamity();
             player.accRunSpeed = 12f;
-            player.rocketBoots = 3;
             player.moveSpeed += 0.3f;
             player.iceSkate = true;
             player.waterWalk = true;
