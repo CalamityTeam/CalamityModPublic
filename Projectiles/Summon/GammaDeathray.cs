@@ -59,8 +59,15 @@ namespace CalamityMod.Projectiles.Summon
             if (!owner.active || owner.type != ModContent.ProjectileType<GammaHead>())
                 projectile.Kill();
 
-            projectile.velocity = projectile.AngleTo(Main.MouseWorld).ToRotationVector2();
-            projectile.rotation = projectile.velocity.ToRotation() - MathHelper.PiOver2;
+            if (Main.myPlayer == projectile.owner)
+            {
+                projectile.velocity = projectile.AngleTo(Main.MouseWorld).ToRotationVector2();
+                projectile.rotation = projectile.velocity.ToRotation() - MathHelper.PiOver2;
+
+                // Since the logic for this can only be run by one client, it must constantly be synced.
+                projectile.netUpdate = true;
+                projectile.netSpam = 0;
+            }
 
             if (owner.active)
             {
