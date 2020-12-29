@@ -1,11 +1,12 @@
 using CalamityMod.CalPlayer;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
+using System.Collections.Generic;
+using System.Text;
 using Terraria;
 using Terraria.ModLoader;
-using CalamityMod.World;
-using Microsoft.Xna.Framework.Input;
-using System.Text;
 
 namespace CalamityMod.UI
 {
@@ -25,9 +26,11 @@ namespace CalamityMod.UI
         public static Vector2 adrenDrawPos = new Vector2(DefaultAdrenPosX, DefaultAdrenPosY);
         private static Vector2? rageDragOffset = null;
         private static Vector2? adrenDragOffset = null;
-        private static Vector2 pearlOneOffset = Vector2.Zero;
-        private static Vector2 pearlTwoOffset = Vector2.Zero;
-        private static Vector2 pearlThreeOffset = Vector2.Zero;
+        private static Vector2 pearlOffsetLeft = Vector2.Zero;
+        private static Vector2 pearlOffsetCenter = Vector2.Zero;
+        private static Vector2 pearlOffsetRight = Vector2.Zero;
+        private static Vector2 PearlOffsetCenterLeft => 0.5f * (pearlOffsetLeft + pearlOffsetCenter);
+        private static Vector2 PearlOffsetCenterRight => 0.5f * (pearlOffsetRight + pearlOffsetCenter);
 
         private static int rageAnimFrame = -1;
         private static int rageAnimTimer = 0;
@@ -57,9 +60,9 @@ namespace CalamityMod.UI
             starlightFuelTex = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/AdrenalineDisplay_StarlightFuelCell");
             ectoheartTex = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/AdrenalineDisplay_Ectoheart");
 
-            pearlOneOffset = new Vector2(rageBorderTex.Width * 0.3333f - 6f, rageBorderTex.Height - 9f);
-            pearlTwoOffset = new Vector2(rageBorderTex.Width * 0.5f - 6f, rageBorderTex.Height - 9f);
-            pearlThreeOffset = new Vector2(rageBorderTex.Width * 0.6667f - 6f, rageBorderTex.Height - 9f);
+            pearlOffsetLeft = new Vector2(rageBorderTex.Width * 0.3333f - 6f, rageBorderTex.Height - 9f);
+            pearlOffsetCenter = new Vector2(rageBorderTex.Width * 0.5f - 6f, rageBorderTex.Height - 9f);
+            pearlOffsetRight = new Vector2(rageBorderTex.Width * 0.6667f - 6f, rageBorderTex.Height - 9f);
 
             Reset();
         }
@@ -72,7 +75,7 @@ namespace CalamityMod.UI
             adrenBarTex = adrenBorderTex = adrenAnimTex = null;
             mushroomPlasmaTex = infernalBloodTex = redLightningTex = null;
             electrolyteGelTex = starlightFuelTex = ectoheartTex = null;
-            pearlOneOffset = pearlTwoOffset = pearlThreeOffset = Vector2.Zero;
+            pearlOffsetLeft = pearlOffsetCenter = pearlOffsetRight = Vector2.Zero;
         }
 
         internal static void Reset()
@@ -149,13 +152,19 @@ namespace CalamityMod.UI
             Rectangle cropRect = new Rectangle(0, 0, deadSpace + (int)(barWidth * rageRatio), rageBarTex.Height);
             spriteBatch.Draw(rageBarTex, rageDrawPos + shakeOffset, cropRect, Color.White, 0f, rageBorderTex.Size() * 0.5f, uiScale, SpriteEffects.None, 0);
 
-            // Draw pearls based off of which Rage upgrades the player has.
+            // Determine which pearls to draw (and their positions) based off of which Rage upgrades the player has.
+            IList<Texture2D> pearls = new List<Texture2D>(3);
             if (modPlayer.rageBoostOne) // Mushroom Plasma Root
-                spriteBatch.Draw(mushroomPlasmaTex, rageDrawPos + shakeOffset + pearlOneOffset, null, Color.White, 0f, rageBorderTex.Size() * 0.5f, uiScale, SpriteEffects.None, 0);
+                pearls.Add(mushroomPlasmaTex);
             if (modPlayer.rageBoostTwo) // Infernal Blood
-                spriteBatch.Draw(infernalBloodTex, rageDrawPos + shakeOffset + pearlTwoOffset, null, Color.White, 0f, rageBorderTex.Size() * 0.5f, uiScale, SpriteEffects.None, 0);
+                pearls.Add(infernalBloodTex);
             if (modPlayer.rageBoostThree) // Red Lightning Container
-                spriteBatch.Draw(redLightningTex, rageDrawPos + shakeOffset + pearlThreeOffset, null, Color.White, 0f, rageBorderTex.Size() * 0.5f, uiScale, SpriteEffects.None, 0);
+                pearls.Add(redLightningTex);
+            IList<Vector2> offsets = GetPearlOffsets(pearls.Count);
+            
+            // Draw pearls at appropriate positions.
+            for (int i = 0; i < pearls.Count; ++i)
+                spriteBatch.Draw(pearls[i], rageDrawPos + shakeOffset + offsets[i], null, Color.White, 0f, rageBorderTex.Size() * 0.5f, uiScale, SpriteEffects.None, 0);
 
             // If the animation is active, draw the animation on top of both the border and the bar.
             if (animationActive)
@@ -206,13 +215,19 @@ namespace CalamityMod.UI
             Rectangle cropRect = new Rectangle(0, 0, deadSpace + (int)(barWidth * adrenRatio), adrenBarTex.Height);
             spriteBatch.Draw(adrenBarTex, adrenDrawPos + shakeOffset, cropRect, Color.White, 0f, adrenBorderTex.Size() * 0.5f, uiScale, SpriteEffects.None, 0);
 
-            // Draw pearls based off of which Adrenaline upgrades the player has.
+            // Determine which pearls to draw (and their positions) based off of which Adrenaline upgrades the player has.
+            IList<Texture2D> pearls = new List<Texture2D>(3);
             if (modPlayer.adrenalineBoostOne) // Electrolyte Gel Pack
-                spriteBatch.Draw(electrolyteGelTex, adrenDrawPos + shakeOffset + pearlOneOffset, null, Color.White, 0f, adrenBorderTex.Size() * 0.5f, uiScale, SpriteEffects.None, 0);
+                pearls.Add(electrolyteGelTex);
             if (modPlayer.adrenalineBoostTwo) // Starlight Fuel Cell
-                spriteBatch.Draw(starlightFuelTex, adrenDrawPos + shakeOffset + pearlTwoOffset, null, Color.White, 0f, adrenBorderTex.Size() * 0.5f, uiScale, SpriteEffects.None, 0);
+                pearls.Add(starlightFuelTex);
             if (modPlayer.adrenalineBoostThree) // Ectoheart
-                spriteBatch.Draw(ectoheartTex, adrenDrawPos + shakeOffset + pearlThreeOffset, null, Color.White, 0f, adrenBorderTex.Size() * 0.5f, uiScale, SpriteEffects.None, 0);
+                pearls.Add(ectoheartTex);
+            IList<Vector2> offsets = GetPearlOffsets(pearls.Count);
+
+            // Draw pearls at appropriate positions.
+            for (int i = 0; i < pearls.Count; ++i)
+                spriteBatch.Draw(pearls[i], adrenDrawPos + shakeOffset + offsets[i], null, Color.White, 0f, adrenBorderTex.Size() * 0.5f, uiScale, SpriteEffects.None, 0);
 
             // If the animation is active, draw the animation on top of both the border and the bar.
             if (animationActive)
@@ -335,6 +350,21 @@ namespace CalamityMod.UI
             float shakeX = Main.rand.NextFloat(-shake, shake);
             float shakeY = Main.rand.NextFloat(-shake, shake);
             return new Vector2(shakeX, shakeY);
+        }
+
+        private static IList<Vector2> GetPearlOffsets(int count)
+        {
+            switch (count)
+            {
+                case 1:
+                    return new List<Vector2>() { pearlOffsetCenter };
+                case 2:
+                    return new List<Vector2>() { PearlOffsetCenterLeft, PearlOffsetCenterRight };
+                case 3:
+                    return new List<Vector2>() { pearlOffsetLeft, pearlOffsetCenter, pearlOffsetRight };
+                default:
+                    return null;
+            }
         }
 
         private static string MakeRipperPercentString(float value, float maxValue)
