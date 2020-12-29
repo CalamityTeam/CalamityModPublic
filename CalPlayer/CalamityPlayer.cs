@@ -345,19 +345,19 @@ namespace CalamityMod.CalPlayer
         #endregion
 
         #region Rage
-        public float rage = 0f;
-        public float rageMax = 10000f;
-        public const int RageDuration = 300;
-        public const float AbsoluteRageThreshold = 0.98f; // 98% or higher for Absolute Rage
         public bool rageModeActive = false;
-        public int gainRageCooldown = 60;
+        public float rage = 0f;
+        public float rageMax = 100f; // 0 to 100% by default
+        public int RageDuration = CalamityUtils.SecondsToFrames(5);
         #endregion
 
         #region Adrenaline
-        public float adrenaline = 0f;
-        public float adrenalineMax = 10000f;
-        public const int AdrenalineDuration = 300;
         public bool adrenalineModeActive = false;
+        public float adrenaline = 0f;
+        public float adrenalineMax = 100f; // 0 to 100% by default
+        public int AdrenalineDuration = CalamityUtils.SecondsToFrames(5);
+        public int AdrenalineChargeTime = CalamityUtils.SecondsToFrames(30);
+        public int AdrenalineFadeTime = CalamityUtils.SecondsToFrames(2);
         #endregion
 
         #region Permanent Buff
@@ -715,7 +715,6 @@ namespace CalamityMod.CalPlayer
         public bool wDeath = false;
         public bool lethalLavaBurn = false;
         public bool aCrunch = false;
-        public bool absoluteRage = false;
         public bool irradiated = false;
         public bool bFlames = false;
         public bool aFlames = false;
@@ -1081,7 +1080,7 @@ namespace CalamityMod.CalPlayer
 			return new TagCompound
             {
                 { "boost", boost },
-                { "stress", rage },
+                { "rage", rage }, // Used to be "stress". Newer saves will never write "stress".
                 { "adrenaline", adrenaline },
                 { "aquaticBoostPower", aquaticBoost },
                 { "sCalDeathCount", sCalDeathCount },
@@ -1152,7 +1151,12 @@ namespace CalamityMod.CalPlayer
 			newAmidiasInventory = boost.Contains("newAmidiasInventory");
 			newBanditInventory = boost.Contains("newBanditInventory");
 
-            rage = tag.GetFloat("stress");
+            // Load rage from "stress" if this is an older save. Otherwise load it from "rage", its new name.
+            if (tag.ContainsKey("stress"))
+                rage = tag.GetFloat("stress");
+            else
+                rage = tag.GetFloat("rage");
+
             adrenaline = tag.GetFloat("adrenaline");
             if (tag.ContainsKey("aquaticBoostPower"))
     			aquaticBoost = tag.GetFloat("aquaticBoostPower");
@@ -1304,8 +1308,6 @@ namespace CalamityMod.CalPlayer
                 player.statLifeMax2 += player.statLifeMax2 / 5 / 20 * 10;
             if (bloodPact)
                 player.statLifeMax2 += player.statLifeMax2 / 5 / 20 * 100;
-            if (absoluteRage)
-                player.statLifeMax2 += player.statLifeMax / 5 / 20 * 5;
             if (affliction || afflicted)
                 player.statLifeMax2 += player.statLifeMax / 5 / 20 * 10;
             if (cadence)
@@ -1716,7 +1718,6 @@ namespace CalamityMod.CalPlayer
             wDeath = false;
             lethalLavaBurn = false;
             aCrunch = false;
-            absoluteRage = false;
             irradiated = false;
             bFlames = false;
             aFlames = false;
@@ -2054,7 +2055,6 @@ namespace CalamityMod.CalPlayer
             wDeath = false;
             lethalLavaBurn = false;
             aCrunch = false;
-            absoluteRage = false;
             irradiated = false;
             bFlames = false;
             aFlames = false;
@@ -5814,29 +5814,6 @@ namespace CalamityMod.CalPlayer
 				if (aBulwarkRareMeleeBoostTimer > 900)
 					aBulwarkRareMeleeBoostTimer = 900;
 			}
-
-			if (player.whoAmI == Main.myPlayer && gainRageCooldown <= 0)
-            {
-                if (CalamityWorld.revenge && CalamityConfig.Instance.Rippers && !npc.SpawnedFromStatue)
-                {
-                    gainRageCooldown = 60;
-                    int stressGain = damage * (profanedRage ? 3 : 2);
-                    int stressMaxGain = 2500;
-                    if (stressGain < 1)
-                    {
-                        stressGain = 1;
-                    }
-                    if (stressGain > stressMaxGain)
-                    {
-                        stressGain = stressMaxGain;
-                    }
-                    rage += stressGain;
-                    if (rage >= rageMax)
-                    {
-                        rage = rageMax;
-                    }
-                }
-            }
 		}
         #endregion
 
@@ -6134,29 +6111,6 @@ namespace CalamityMod.CalPlayer
 					damage = damageMin;
 				}
 			}
-
-			if (player.whoAmI == Main.myPlayer && gainRageCooldown <= 0)
-            {
-                if (CalamityWorld.revenge && CalamityConfig.Instance.Rippers && !CalamityLists.trapProjectileList.Contains(proj.type))
-                {
-                    gainRageCooldown = 60;
-                    int stressGain = damage * (profanedRage ? 3 : 2);
-                    int stressMaxGain = 2500;
-                    if (stressGain < 1)
-                    {
-                        stressGain = 1;
-                    }
-                    if (stressGain > stressMaxGain)
-                    {
-                        stressGain = stressMaxGain;
-                    }
-                    rage += stressGain;
-                    if (rage >= rageMax)
-                    {
-                        rage = rageMax;
-                    }
-                }
-            }
         }
 		#endregion
 
@@ -9175,10 +9129,10 @@ namespace CalamityMod.CalPlayer
                 packet.Send(-1, player.whoAmI);
         }
 
-        public void StressPacket(bool server)
+        public void RagePacket(bool server)
         {
             ModPacket packet = mod.GetPacket(256);
-            packet.Write((byte)CalamityModMessageType.StressSync);
+            packet.Write((byte)CalamityModMessageType.RageSync);
             packet.Write(player.whoAmI);
             packet.Write(rage);
 
@@ -9355,11 +9309,11 @@ namespace CalamityMod.CalPlayer
                 LevelPacket(true, levelType);
         }
 
-        internal void HandleStress(BinaryReader reader)
+        internal void HandleRage(BinaryReader reader)
         {
             rage = reader.ReadInt32();
             if (Main.netMode == NetmodeID.Server)
-                StressPacket(true);
+                RagePacket(true);
         }
 
         internal void HandleAdrenaline(BinaryReader reader)
@@ -9439,7 +9393,7 @@ namespace CalamityMod.CalPlayer
                 LevelPacket(false, 2);
                 LevelPacket(false, 3);
                 LevelPacket(false, 4);
-                StressPacket(false);
+                RagePacket(false);
                 AdrenalinePacket(false);
                 DeathPacket(false);
                 DeathModeUnderworldTimePacket(false);

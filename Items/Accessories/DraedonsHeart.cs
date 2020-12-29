@@ -13,18 +13,15 @@ namespace CalamityMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Draedon's Heart");
-            Tooltip.SetDefault("Gives 10% increased damage while you have the absolute rage buff\n" +
-                "Increases your chance of getting the absolute rage buff\n" +
+            Tooltip.SetDefault("RAGE EFFECTS OF THIS ITEM HAVE BEEN REMOVED\n" +
                 "Boosts your damage by 5% and max movement speed and acceleration by 5%\n" +
-                "Rage mode does more damage\n" +
-                "You gain rage over time\n" +
-				"Converts certain debuffs into buffs and extends their durations\n" +
-				"Debuffs affected: Darkness, Blackout, Confused, Slow, Weak, Broken Armor,\n" +
-				"Armor Crunch, War Cleave, Chilled, Ichor and Obstructed\n" +
+                "Converts certain debuffs into buffs and extends their durations\n" +
+                "Debuffs affected: Darkness, Blackout, Confused, Slow, Weak, Broken Armor,\n" +
+                "Armor Crunch, War Cleave, Chilled, Ichor and Obstructed\n" +
                 "Receiving a hit causes you to only lose half of your max adrenaline rather than all of it\n" +
-				"Reduces the amount of defense stat damage you take by 50%\n" +
+                "Reduces the amount of defense stat damage you take by 50%\n" +
                 "Standing still regenerates your life quickly, reduces your damage by 50% and boosts your defense by 75%\n" +
-				"Nanomachines, son");
+                "Nanomachines, son");
             Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(5, 7));
         }
 
@@ -42,6 +39,7 @@ namespace CalamityMod.Items.Accessories
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.laudanum = true;
             modPlayer.stressPills = true;
+            modPlayer.heartOfDarkness = true;
             modPlayer.draedonsHeart = true;
         }
 

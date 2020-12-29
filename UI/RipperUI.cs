@@ -5,10 +5,11 @@ using Terraria;
 using Terraria.ModLoader;
 using CalamityMod.World;
 using Microsoft.Xna.Framework.Input;
+using System.Text;
 
 namespace CalamityMod.UI
 {
-	public class RipperUI
+    public class RipperUI
     {
         public const float DefaultRagePosX = 500f;
         public const float DefaultRagePosY = 30f;
@@ -98,7 +99,7 @@ namespace CalamityMod.UI
                 }
             }
 
-			float uiScale = Main.UIScale;
+            float uiScale = Main.UIScale;
 
             // Draw the border of the Rage Bar first
             spriteBatch.Draw(borderTex, rageDrawPos + shakeOffset, null, Color.White, 0f, borderTex.Size() * 0.5f, uiScale, SpriteEffects.None, 0);
@@ -147,7 +148,7 @@ namespace CalamityMod.UI
                 }
             }
 
-			float uiScale = Main.UIScale;
+            float uiScale = Main.UIScale;
 
             // Draw the border of the Adrenaline Bar first
             spriteBatch.Draw(borderTex, adrenDrawPos + shakeOffset, null, Color.White, 0f, borderTex.Size() * 0.5f, uiScale, SpriteEffects.None, 0);
@@ -173,10 +174,10 @@ namespace CalamityMod.UI
 
         private static void HandleMouseInteraction(CalamityPlayer modPlayer, Vector2 rageBarSize, Vector2 adrenBarSize)
         {
-			float uiScale = Main.UIScale;
+            float uiScale = Main.UIScale;
             Rectangle mouse = new Rectangle((int)Main.MouseScreen.X, (int)Main.MouseScreen.Y, 8, 8);
-			Rectangle rageBar = Utils.CenteredRectangle(rageDrawPos, rageBarSize * uiScale);
-			Rectangle adrenBar = Utils.CenteredRectangle(adrenDrawPos, adrenBarSize * uiScale);
+            Rectangle rageBar = Utils.CenteredRectangle(rageDrawPos, rageBarSize * uiScale);
+            Rectangle adrenBar = Utils.CenteredRectangle(adrenDrawPos, adrenBarSize * uiScale);
 
             bool rageHover = mouse.Intersects(rageBar);
             bool adrenHover = mouse.Intersects(adrenBar);
@@ -189,7 +190,8 @@ namespace CalamityMod.UI
             {
                 // Add hover text if the mouse is over Rage bar
                 Main.LocalPlayer.mouseInterface = true;
-                Main.instance.MouseText($"Rage: {(int)modPlayer.rage} / {(int)modPlayer.rageMax}");
+                string rageStr = MakeRipperPercentString(modPlayer.rage, modPlayer.rageMax);
+                Main.instance.MouseText($"Rage: {rageStr}");
 
                 // The bar is draggable if enabled in config.
                 if (!CalamityConfig.Instance.MeterPosLock && mouseInput.LeftButton == ButtonState.Pressed)
@@ -203,7 +205,8 @@ namespace CalamityMod.UI
             {
                 // Add hover text if the mouse is over the bar
                 Main.LocalPlayer.mouseInterface = true;
-                Main.instance.MouseText($"Adrenaline: {(int)modPlayer.adrenaline} / {(int)modPlayer.adrenalineMax}");
+                string adrenStr = MakeRipperPercentString(modPlayer.adrenaline, modPlayer.adrenalineMax);
+                Main.instance.MouseText($"Adrenaline: {adrenStr}");
 
                 // The bar is draggable if enabled in config.
                 if (!CalamityConfig.Instance.MeterPosLock && mouseInput.LeftButton == ButtonState.Pressed)
@@ -278,6 +281,21 @@ namespace CalamityMod.UI
             float shakeX = Main.rand.NextFloat(-shake, shake);
             float shakeY = Main.rand.NextFloat(-shake, shake);
             return new Vector2(shakeX, shakeY);
-        } 
+        }
+
+        private static string MakeRipperPercentString(float value, float maxValue)
+        {
+            string topTwoDecimalPlaces = value.ToString("n2");
+            string bottomTwoDecimalPlaces = maxValue.ToString("n2");
+            string percent = (100f * value / maxValue).ToString("0.00");
+            StringBuilder sb = new StringBuilder(32);
+            sb.Append(percent);
+            sb.Append("% (");
+            sb.Append(topTwoDecimalPlaces);
+            sb.Append(" / ");
+            sb.Append(bottomTwoDecimalPlaces);
+            sb.Append(')');
+            return sb.ToString();
+        }
     }
 }

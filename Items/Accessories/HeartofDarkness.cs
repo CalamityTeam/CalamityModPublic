@@ -1,6 +1,7 @@
 using CalamityMod.CalPlayer;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
@@ -10,10 +11,7 @@ namespace CalamityMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Heart of Darkness");
-            Tooltip.SetDefault("Gives 10% increased damage while you have the absolute rage buff\n" +
-                "Increases your chance of getting the absolute rage buff\n" +
-                "Rage mode does more damage\n" +
-                "You gain rage over time\n" +
+            Tooltip.SetDefault("This item currently does nothing\n" +
                 "Revengeance drop");
             Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(6, 4));
         }
@@ -23,7 +21,7 @@ namespace CalamityMod.Items.Accessories
             item.width = 26;
             item.height = 26;
             item.value = CalamityGlobalItem.Rarity3BuyPrice;
-            item.rare = 3;
+            item.rare = ItemRarityID.Orange;
             item.accessory = true;
         }
 

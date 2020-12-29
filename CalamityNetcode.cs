@@ -52,8 +52,8 @@ namespace CalamityMod
                     case CalamityModMessageType.ExactRogueLevelSync:
                         Main.player[reader.ReadInt32()].Calamity().HandleExactLevels(reader, 4);
                         break;
-                    case CalamityModMessageType.StressSync:
-                        Main.player[reader.ReadInt32()].Calamity().HandleStress(reader);
+                    case CalamityModMessageType.RageSync:
+                        Main.player[reader.ReadInt32()].Calamity().HandleRage(reader);
                         break;
                     case CalamityModMessageType.BossRushStage:
                         int stage = reader.ReadInt32();
@@ -264,7 +264,7 @@ namespace CalamityMod
 
 		DefenseDamageSync,
 
-        StressSync,
+        RageSync,
         AdrenalineSync,
 
 		AquaticBoostSync,

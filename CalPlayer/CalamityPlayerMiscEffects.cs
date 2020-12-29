@@ -242,94 +242,7 @@ namespace CalamityMod.CalPlayer
 
 					// Adrenaline and Rage
 					if (CalamityConfig.Instance.Rippers)
-					{
-						// This is how much Rage will be changed by this frame.
-						float rageDiff = 0;
-
-						// If Rage Mode is currently active, you smoothly lose all rage over the duration.
-						if (modPlayer.rageModeActive)
-							rageDiff = -modPlayer.rageMax / CalamityPlayer.RageDuration;
-
-						// Draedon's Heart gives 1 rage per frame. Heart of Darkness gives 0.5 rage per frame.
-						else if (modPlayer.draedonsHeart)
-							rageDiff += 1f;
-						else if (modPlayer.heartOfDarkness)
-							rageDiff += 0.5f;
-
-						// Apply the rage change and cap rage in both directions.
-						modPlayer.rage += rageDiff;
-						if (modPlayer.rage < 0)
-							modPlayer.rage = 0;
-
-						if (modPlayer.rage >= modPlayer.rageMax)
-						{
-							modPlayer.rage = modPlayer.rageMax;
-
-							// Play a sound when the Rage Meter is full
-							if (modPlayer.playFullRageSound)
-							{
-								modPlayer.playFullRageSound = false;
-								Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/FullRage"), (int)player.position.X, (int)player.position.Y);
-							}
-						}
-						else
-							modPlayer.playFullRageSound = true;
-
-						// Randomly-granted Absolute Rage buff when Rage is nearly full
-						if (modPlayer.rage / modPlayer.rageMax >= CalamityPlayer.AbsoluteRageThreshold && !modPlayer.absoluteRage)
-						{
-							int absoluteRageChance = (modPlayer.draedonsHeart || modPlayer.heartOfDarkness) ? 2000 : 10000;
-							if (Main.rand.NextBool(absoluteRageChance))
-								player.AddBuff(ModContent.BuffType<AbsoluteRage>(), 18000);
-						}
-
-						// This is how much Adrenaline will be changed by this frame.
-						float adrenalineDiff = 0;
-						bool SCalAlive = NPC.AnyNPCs(ModContent.NPCType<SupremeCalamitas>());
-						bool wofAndNotHell = Main.wof >= 0 && player.position.Y < (float)((Main.maxTilesY - 200) * 16);
-
-						// If Adrenaline Mode is currently active, you smoothly lose all adrenaline over the duration.
-						if (modPlayer.adrenalineModeActive)
-							adrenalineDiff = -modPlayer.adrenalineMax / CalamityPlayer.AdrenalineDuration;
-
-						else
-						{
-							// If any boss is alive (or you are between DoG phases or Boss Rush is active), you gain adrenaline smoothly.
-							// EXCEPTION: Wall of Flesh is alive and you are not in hell. Then you don't get anything.
-							if ((CalamityPlayer.areThereAnyDamnBosses || CalamityWorld.DoGSecondStageCountdown > 0 || BossRushEvent.BossRushActive) && 
-								!wofAndNotHell)
-							{
-								adrenalineDiff += modPlayer.adrenalineMax / (60f * 30);
-							}
-
-							// If you aren't actively in a boss fight, adrenaline rapidly fades away over 2 seconds.
-							else
-								adrenalineDiff = -modPlayer.adrenalineMax / 120f;
-						}
-
-						// Takes 45 seconds to charge in the SCal fight.
-						if (SCalAlive && adrenalineDiff > 0f)
-							adrenalineDiff *= 0.67f;
-
-						// Apply the adrenaline change and cap adrenaline in both directions.
-						modPlayer.adrenaline += adrenalineDiff;
-						if (modPlayer.adrenaline < 0)
-							modPlayer.adrenaline = 0;
-
-						if (modPlayer.adrenaline >= modPlayer.adrenalineMax)
-						{
-							modPlayer.adrenaline = modPlayer.adrenalineMax;
-
-							// Play a sound when the Adrenaline Meter is full
-							if (modPlayer.playFullAdrenalineSound)
-							{
-								modPlayer.playFullAdrenalineSound = false;
-								Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/FullAdrenaline"), (int)player.position.X, (int)player.position.Y);
-							}
-						}
-						else
-							modPlayer.playFullAdrenalineSound = true;
-					}
+						UpdateRippers(mod, player, modPlayer);
 				}
 			}
 
@@ -347,7 +260,7 @@ namespace CalamityMod.CalPlayer
 				if (modPlayer.packetTimer == 60)
 				{
 					modPlayer.packetTimer = 0;
-					modPlayer.StressPacket(false);
+					modPlayer.RagePacket(false);
 					modPlayer.AdrenalinePacket(false);
 					modPlayer.DeathModeUnderworldTimePacket(false);
 					modPlayer.DeathModeBlizzardTimePacket(false);
@@ -356,6 +269,82 @@ namespace CalamityMod.CalPlayer
 					modPlayer.DefenseDamagePacket(false);
 				}
 			}
+		}
+
+		private static void UpdateRippers(Mod mod, Player player, CalamityPlayer modPlayer)
+		{
+			// This is how much Rage will be changed by this frame.
+			float rageDiff = 0;
+
+			// If Rage Mode is currently active, you smoothly lose all rage over the duration.
+			if (modPlayer.rageModeActive)
+				rageDiff = -modPlayer.rageMax / modPlayer.RageDuration;
+
+			// Apply the rage change and cap rage in both directions.
+			modPlayer.rage += rageDiff;
+			if (modPlayer.rage < 0)
+				modPlayer.rage = 0;
+
+			if (modPlayer.rage >= modPlayer.rageMax)
+			{
+				modPlayer.rage = modPlayer.rageMax;
+
+				// Play a sound when the Rage Meter is full
+				if (modPlayer.playFullRageSound)
+				{
+					modPlayer.playFullRageSound = false;
+					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/FullRage"), (int)player.position.X, (int)player.position.Y);
+				}
+			}
+			else
+				modPlayer.playFullRageSound = true;
+
+			// This is how much Adrenaline will be changed by this frame.
+			float adrenalineDiff = 0;
+			bool SCalAlive = NPC.AnyNPCs(ModContent.NPCType<SupremeCalamitas>());
+			bool wofAndNotHell = Main.wof >= 0 && player.position.Y < (float)((Main.maxTilesY - 200) * 16);
+
+			// If Adrenaline Mode is currently active, you smoothly lose all adrenaline over the duration.
+			if (modPlayer.adrenalineModeActive)
+				adrenalineDiff = -modPlayer.adrenalineMax / modPlayer.AdrenalineDuration;
+
+			else
+			{
+				// If any boss is alive (or you are between DoG phases or Boss Rush is active), you gain adrenaline smoothly.
+				// EXCEPTION: Wall of Flesh is alive and you are not in hell. Then you don't get anything.
+				if ((CalamityPlayer.areThereAnyDamnBosses || CalamityWorld.DoGSecondStageCountdown > 0 || BossRushEvent.BossRushActive) &&
+					!wofAndNotHell)
+				{
+					adrenalineDiff += modPlayer.adrenalineMax / modPlayer.AdrenalineChargeTime;
+				}
+
+				// If you aren't actively in a boss fight, adrenaline rapidly fades away.
+				else
+					adrenalineDiff = -modPlayer.adrenalineMax / modPlayer.AdrenalineFadeTime;
+			}
+
+			// In the SCal fight, adrenaline charges 33% slower (meaning it takes 50% longer to fully charge it).
+			if (SCalAlive && adrenalineDiff > 0f)
+				adrenalineDiff *= 0.67f;
+
+			// Apply the adrenaline change and cap adrenaline in both directions.
+			modPlayer.adrenaline += adrenalineDiff;
+			if (modPlayer.adrenaline < 0)
+				modPlayer.adrenaline = 0;
+
+			if (modPlayer.adrenaline >= modPlayer.adrenalineMax)
+			{
+				modPlayer.adrenaline = modPlayer.adrenalineMax;
+
+				// Play a sound when the Adrenaline Meter is full
+				if (modPlayer.playFullAdrenalineSound)
+				{
+					modPlayer.playFullAdrenalineSound = false;
+					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/FullAdrenaline"), (int)player.position.X, (int)player.position.Y);
+				}
+			}
+			else
+				modPlayer.playFullAdrenalineSound = true;
 		}
 		#endregion
 
@@ -957,8 +946,6 @@ namespace CalamityMod.CalPlayer
 			}
 
 			// Cooldowns and timers
-			if (modPlayer.gainRageCooldown > 0)
-				modPlayer.gainRageCooldown--;
 			if (modPlayer.KameiBladeUseDelay > 0)
 				modPlayer.KameiBladeUseDelay--;
 			if (modPlayer.galileoCooldown > 0)
@@ -1270,18 +1257,6 @@ namespace CalamityMod.CalPlayer
 					player.moveSpeed += modPlayer.absorber ? 0.15f : 0.1f;
 					player.ignoreWater = true;
 				}
-			}
-
-			// Remove Absolute Rage buff if Rage isn't high enough
-			bool rageHighEnough = modPlayer.rage / modPlayer.rageMax >= CalamityPlayer.AbsoluteRageThreshold;
-			if (!rageHighEnough && player.FindBuffIndex(ModContent.BuffType<AbsoluteRage>()) > -1)
-				player.ClearBuff(ModContent.BuffType<AbsoluteRage>());
-
-			// Absolute Rage bonus
-			if (modPlayer.absoluteRage)
-			{
-				if (modPlayer.heartOfDarkness || modPlayer.draedonsHeart)
-					player.allDamage += 0.1f;
 			}
 
 			// Affliction bonus
