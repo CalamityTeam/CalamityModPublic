@@ -217,7 +217,7 @@ namespace CalamityMod
 
             CalamityShaders.LoadShaders();
 
-            RipperUI.Reset();
+            RipperUI.Load();
             AstralArcanumUI.Load(this);
 
             GameShaders.Hair.BindShader(ModContent.ItemType<AdrenalineHairDye>(), new LegacyHairShaderData().UseLegacyMethod((Player player, Color newColor, ref bool lighting) => Color.Lerp(player.hairColor, new Color(0, 255, 171), ((float)player.Calamity().adrenaline / (float)player.Calamity().adrenalineMax))));
@@ -270,7 +270,7 @@ namespace CalamityMod
 
             TileFraming.Unload();
 
-            RipperUI.Reset();
+            RipperUI.Unload();
             AstralArcanumUI.Unload();
 
             if (!Main.dedServ)

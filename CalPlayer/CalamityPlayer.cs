@@ -349,6 +349,8 @@ namespace CalamityMod.CalPlayer
         public float rage = 0f;
         public float rageMax = 100f; // 0 to 100% by default
         public int RageDuration = CalamityUtils.SecondsToFrames(5);
+        public int rageCombatFrames = 0;
+        public static readonly int RageCombatDecayTime = CalamityUtils.SecondsToFrames(4);
         #endregion
 
         #region Adrenaline
