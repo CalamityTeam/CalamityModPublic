@@ -30,8 +30,8 @@ namespace CalamityMod.Items.TreasureBags
         {
             item.maxStack = 999;
             item.consumable = true;
-            item.width = 24;
-            item.height = 24;
+            item.width = 32;
+            item.height = 34;
             item.rare = 9;
             item.expert = true;
         }

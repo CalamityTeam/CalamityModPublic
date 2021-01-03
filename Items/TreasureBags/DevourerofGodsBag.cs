@@ -32,8 +32,8 @@ namespace CalamityMod.Items.TreasureBags
         {
             item.maxStack = 999;
             item.consumable = true;
-            item.width = 24;
-            item.height = 24;
+            item.width = 36;
+            item.height = 34;
             item.rare = 9;
             item.expert = true;
         }
@@ -43,10 +43,7 @@ namespace CalamityMod.Items.TreasureBags
 			item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.GetTexture("CalamityMod/Items/TreasureBags/DevourerofGodsBagGlow"));
         }
 
-        public override bool CanRightClick()
-        {
-            return true;
-        }
+        public override bool CanRightClick() => true;
 
         public override void PostUpdate() => CalamityUtils.ForceItemIntoWorld(item);
 
