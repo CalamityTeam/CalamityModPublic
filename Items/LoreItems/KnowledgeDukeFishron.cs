@@ -12,9 +12,7 @@ namespace CalamityMod.Items.LoreItems
         {
             DisplayName.SetDefault("Duke Fishron");
             Tooltip.SetDefault("The mutant terror of the sea was once the trusted companion of an old king; he tamed it using its favorite treat.\n" +
-                "Long ago, the creature flew in desperation from the raging bloody inferno consuming its home, ultimately finding its way to the ocean.\n" +
-                "Favorite this item for an increase to all damage, crit and movement speed while submerged in liquid.\n" +
-				"However, while not submerged in liquid you will have slightly decreased damage, crit and movement speed due to feeling dried out.");
+                "Long ago, the creature flew in desperation from the raging bloody inferno consuming its home, ultimately finding its way to the ocean.");
         }
 
         public override void SetDefaults()
@@ -29,13 +27,6 @@ namespace CalamityMod.Items.LoreItems
         {
             return false;
         }
-
-		public override void UpdateInventory(Player player)
-		{
-			CalamityPlayer modPlayer = player.Calamity();
-			if (item.favorited)
-				modPlayer.dukeFishronLore = true;
-		}
 
         public override void AddRecipes()
         {

@@ -1082,12 +1082,12 @@ namespace CalamityMod.Projectiles
                                 vector24 -= new Vector2(player.bodyFrame.Width - player.width, player.bodyFrame.Height - 42) / 2f;
                                 Vector2 newCenter = player.RotatedRelativePoint(player.position + vector24, true) + projectile.velocity;
                                 Projectile.NewProjectile(newCenter.X, newCenter.Y, 0f, 0f, ProjectileID.Mushroom,
-                                    CalamityUtils.DamageSoftCap(projectile.damage * 0.25, 100), 0f, projectile.owner, 0f, 0f);
+									(int)(projectile.damage * 0.15), 0f, projectile.owner, 0f, 0f);
                             }
                             else
                             {
                                 Projectile.NewProjectile(projectile.Center, Vector2.Zero, ProjectileID.Mushroom,
-                                    CalamityUtils.DamageSoftCap(projectile.damage * 0.25, 100), 0f, projectile.owner, 0f, 0f);
+                                    (int)(projectile.damage * 0.15), 0f, projectile.owner, 0f, 0f);
                             }
                         }
                     }
@@ -1237,17 +1237,6 @@ namespace CalamityMod.Projectiles
                     {
                         int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 91, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f, 0, default, 0.5f);
                         Main.dust[dust].noGravity = true;
-                    }
-                }
-
-                if (modPlayer.providenceLore && projectile.owner == Main.myPlayer && projectile.damage > 0 &&
-                    (projectile.melee || projectile.ranged || projectile.magic || projectile.thrown || rogue))
-                {
-                    if (Main.rand.NextBool(5))
-                    {
-                        int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, (int)CalamityDusts.ProfanedFire, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f, 0, default, 0.5f);
-                        Main.dust[dust].noGravity = true;
-                        Main.dust[dust].noLight = true;
                     }
                 }
 
@@ -1604,16 +1593,6 @@ namespace CalamityMod.Projectiles
             CalamityPlayer modPlayer = Main.player[projectile.owner].Calamity();
             if (projectile.owner == Main.myPlayer && !projectile.npcProj && !projectile.trap)
             {
-                if (modPlayer.providenceLore && projectile.friendly && projectile.damage > 0 && (projectile.melee || projectile.ranged || projectile.magic || rogue))
-                {
-                    Main.PlaySound(SoundID.Item20, projectile.Center);
-                    for (int dustIndex = 0; dustIndex < 3; dustIndex++)
-                    {
-                        int fire = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, (int)CalamityDusts.ProfanedFire, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f, 0, default, 1f);
-                        Main.dust[fire].noGravity = true;
-                    }
-                }
-
                 if (rogue)
                 {
                     if (modPlayer.etherealExtorter && Main.rand.Next(0, 100) >= 95)

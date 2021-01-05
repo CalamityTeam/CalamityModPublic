@@ -13,8 +13,7 @@ namespace CalamityMod.Items.LoreItems
         {
             DisplayName.SetDefault("Sulphur Sea");
             Tooltip.SetDefault("I remember the serene waves and the clear breeze.\n" +
-                "The bitterness of my youth has long since subsided, but it is far too late. I must never repeat a mistake like this again.\n" +
-                "Favorite this item to prevent the Aquatic Scourge from naturally spawning.");
+                "The bitterness of my youth has long since subsided, but it is far too late. I must never repeat a mistake like this again.");
         }
 
         public override void SetDefaults()
@@ -26,13 +25,6 @@ namespace CalamityMod.Items.LoreItems
         }
 
         public override bool CanUseItem(Player player) => false;
-
-        public override void UpdateInventory(Player player)
-        {
-            CalamityPlayer modPlayer = player.Calamity();
-			if (item.favorited)
-				modPlayer.sulphSeaLore = true;
-        }
 
         public override void AddRecipes()
         {

@@ -13,8 +13,7 @@ namespace CalamityMod.Items.LoreItems
         {
             DisplayName.SetDefault("Calamitas Clone");
             Tooltip.SetDefault("You are indeed stronger than I thought.\n" +
-                "Though the bloody inferno still lingers, observing your progress.\n" +
-                "Favorite this item to gain a boost to your minion slots but at the cost of reduced max health.");
+                "Though the bloody inferno still lingers, observing your progress.");
         }
 
         public override void SetDefaults()
@@ -28,13 +27,6 @@ namespace CalamityMod.Items.LoreItems
         public override bool CanUseItem(Player player)
         {
             return false;
-        }
-
-        public override void UpdateInventory(Player player)
-        {
-            CalamityPlayer modPlayer = player.Calamity();
-			if (item.favorited)
-				modPlayer.calamitasLore = true;
         }
 
         public override void AddRecipes()

@@ -3,7 +3,6 @@ using CalamityMod.Buffs.StatBuffs;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Dusts;
 using CalamityMod.Items.Armor;
-using CalamityMod.NPCs.NormalNPCs;
 using CalamityMod.Projectiles;
 using CalamityMod.Projectiles.Healing;
 using CalamityMod.Projectiles.Melee;
@@ -14,7 +13,6 @@ using CalamityMod.Projectiles.Summon;
 using CalamityMod.Projectiles.Typeless;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
-using System;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
@@ -400,12 +398,13 @@ namespace CalamityMod.CalPlayer
 					player.AddBuff(buffType, 120);
 				}
 			}
+
 			// Fearmonger set's colossal life regeneration
-			if(modPlayer.fearmongerSet)
+			if (modPlayer.fearmongerSet)
 			{
-				modPlayer.fearmongerRegenFrames += 20;
-				if (modPlayer.fearmongerRegenFrames > 180)
-					modPlayer.fearmongerRegenFrames = 180;
+				modPlayer.fearmongerRegenFrames += 10;
+				if (modPlayer.fearmongerRegenFrames > 90)
+					modPlayer.fearmongerRegenFrames = 90;
 			}
 
 			if (modPlayer.godSlayerSummon && modPlayer.godSlayerDmg <= 0)
@@ -899,22 +898,10 @@ namespace CalamityMod.CalPlayer
             {
 				CalamityUtils.Inflict246DebuffsNPC(target, BuffType<Plague>());
             }
-			if (modPlayer.perforatorLore && proj)
-			{
-				target.AddBuff(BuffID.Ichor, 90);
-			}
-			if (modPlayer.hiveMindLore && proj)
-			{
-				target.AddBuff(BuffID.CursedInferno, 90);
-			}
             if (modPlayer.holyWrath)
             {
                 target.AddBuff(BuffType<HolyFlames>(), 600, false);
             }
-			else if (modPlayer.providenceLore && proj)
-			{
-				target.AddBuff(BuffType<HolyFlames>(), 420, false);
-			}
             if (modPlayer.vexation)
             {
 				if ((player.armor[0].type == ItemType<ReaverHelm>() || player.armor[0].type == ItemType<ReaverHeadgear>() ||
@@ -1072,21 +1059,9 @@ namespace CalamityMod.CalPlayer
 			{
 				CalamityUtils.Inflict246DebuffsPvp(target, BuffType<CrushDepth>());
 			}
-			if (modPlayer.perforatorLore && proj)
-			{
-				target.AddBuff(BuffID.Ichor, 90);
-			}
-			if (modPlayer.hiveMindLore && proj)
-			{
-				target.AddBuff(BuffID.CursedInferno, 90);
-			}
 			if (modPlayer.holyWrath)
 			{
 				target.AddBuff(BuffType<HolyFlames>(), 600, false);
-			}
-			else if (modPlayer.providenceLore && proj)
-			{
-				target.AddBuff(BuffType<HolyFlames>(), 420, false);
 			}
             if (modPlayer.vexation)
             {
@@ -1148,7 +1123,7 @@ namespace CalamityMod.CalPlayer
                 }
             }
 
-			if (Main.player[Main.myPlayer].lifeSteal > 0f && target.canGhostHeal && target.type != NPCID.TargetDummy && target.type != NPCType<SuperDummyNPC>() && !player.moonLeech)
+			if (Main.player[Main.myPlayer].lifeSteal > 0f && target.canGhostHeal && !player.moonLeech)
 			{
 				// Increases the degree to which Spectre Healing set contributes to the lifesteal cap
 				if (player.ghostHeal)
@@ -1401,7 +1376,7 @@ namespace CalamityMod.CalPlayer
 
 			if (modPlayer.reaverDefense)
 			{
-                if (Main.player[Main.myPlayer].lifeSteal > 0f && target.canGhostHeal && target.type != NPCID.TargetDummy && target.type != NPCType<SuperDummyNPC>() && !player.moonLeech)
+                if (Main.player[Main.myPlayer].lifeSteal > 0f && target.canGhostHeal && !player.moonLeech)
                 {
 					float healMult = 0.2f;
 					float heal = damage * healMult;

@@ -98,10 +98,6 @@ namespace CalamityMod.Projectiles.Magic
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
 			target.ExoDebuffs();
-            if (target.type == NPCID.TargetDummy)
-            {
-                return;
-            }
             projectile.damage = (int)(projectile.damage * 1.1);
         }
 

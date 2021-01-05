@@ -25,7 +25,6 @@ using CalamityMod.NPCs.Abyss;
 using CalamityMod.NPCs.AquaticScourge;
 using CalamityMod.NPCs.Astral;
 using CalamityMod.NPCs.AstrumAureus;
-using CalamityMod.NPCs.AstrumDeus;
 using CalamityMod.NPCs.BrimstoneElemental;
 using CalamityMod.NPCs.Bumblebirb;
 using CalamityMod.NPCs.Calamitas;
@@ -37,18 +36,13 @@ using CalamityMod.NPCs.DesertScourge;
 using CalamityMod.NPCs.DevourerofGods;
 using CalamityMod.NPCs.GreatSandShark;
 using CalamityMod.NPCs.HiveMind;
-using CalamityMod.NPCs.Leviathan;
 using CalamityMod.NPCs.NormalNPCs;
-using CalamityMod.NPCs.OldDuke;
 using CalamityMod.NPCs.Perforator;
 using CalamityMod.NPCs.PlaguebringerGoliath;
-using CalamityMod.NPCs.Polterghast;
-using CalamityMod.NPCs.ProfanedGuardians;
 using CalamityMod.NPCs.Providence;
 using CalamityMod.NPCs.Ravager;
 using CalamityMod.NPCs.Signus;
 using CalamityMod.NPCs.SlimeGod;
-using CalamityMod.NPCs.StormWeaver;
 using CalamityMod.NPCs.SulphurousSea;
 using CalamityMod.NPCs.SunkenSea;
 using CalamityMod.NPCs.SupremeCalamitas;
@@ -91,7 +85,11 @@ namespace CalamityMod
         public static List<int> iceWeaponList;
         public static List<int> natureWeaponList;
         public static List<int> alcoholList;
-        public static List<int> doubleDamageBuffList; //100% buff
+		public static List<int> twentyUseTimeBuffList; //20% use time buff
+		public static List<int> fiftySizeBuffList; //50% size buff
+		public static List<int> quadrupleDamageBuffList; //300% buff
+		public static List<int> tripleDamageBuffList; //200% buff
+		public static List<int> doubleDamageBuffList; //100% buff
         public static List<int> sixtySixDamageBuffList; //66% buff
         public static List<int> fiftyDamageBuffList; //50% buff
         public static List<int> thirtyThreeDamageBuffList; //33% buff
@@ -1050,6 +1048,110 @@ namespace CalamityMod
                 ModContent.BuffType<WhiteWineBuff>()
             };
 
+			twentyUseTimeBuffList = new List<int>()
+			{
+				ItemID.CobaltSword,
+				ItemID.PalladiumSword,
+				ItemID.MythrilSword,
+				ItemID.OrichalcumSword,
+				ItemID.AdamantiteSword,
+				ItemID.TitaniumSword,
+				ItemID.Excalibur,
+				ItemID.Bladetongue,
+				ItemID.Cutlass,
+				ItemID.TheHorsemansBlade,
+				ItemID.Keybrand,
+				ItemID.AdamantiteGlaive,
+				ItemID.ChlorophytePartisan,
+				ItemID.CobaltNaginata,
+				ItemID.Gungnir,
+				ItemID.MythrilHalberd,
+				ItemID.OrichalcumHalberd,
+				ItemID.PalladiumPike,
+				ItemID.TitaniumTrident,
+				ItemID.MushroomSpear
+			};
+
+			fiftySizeBuffList = new List<int>()
+			{
+				ItemID.BreakerBlade,
+				ItemID.StylistKilLaKillScissorsIWish,
+				ItemID.NightsEdge,
+				ItemID.CobaltSword,
+				ItemID.MythrilSword,
+				ItemID.AdamantiteSword,
+				ItemID.PalladiumSword,
+				ItemID.OrichalcumSword,
+				ItemID.TitaniumSword,
+				ItemID.Excalibur,
+				ItemID.Bladetongue,
+				ItemID.TheHorsemansBlade,
+				ItemID.Keybrand,
+				ItemID.SlapHand,
+				ItemID.PlatinumBroadsword,
+				ItemID.GoldBroadsword,
+				ItemID.LightsBane,
+				ItemID.FalconBlade,
+				ItemID.BeeKeeper,
+				ItemID.ZombieArm,
+				ItemID.BladeofGrass,
+				ItemID.Muramasa,
+				ItemID.FieryGreatsword,
+				ItemID.BluePhasesaber,
+				ItemID.RedPhasesaber,
+				ItemID.GreenPhasesaber,
+				ItemID.WhitePhasesaber,
+				ItemID.YellowPhasesaber,
+				ItemID.PurplePhasesaber,
+				ItemID.BluePhaseblade,
+				ItemID.RedPhaseblade,
+				ItemID.GreenPhaseblade,
+				ItemID.WhitePhaseblade,
+				ItemID.YellowPhaseblade,
+				ItemID.PurplePhaseblade,
+				ItemID.AntlionClaw,
+				ItemID.DyeTradersScimitar,
+				ItemID.BoneSword
+			};
+
+			quadrupleDamageBuffList = new List<int>()
+			{
+				ItemID.SlapHand,
+				ItemID.PsychoKnife,
+				ItemID.TaxCollectorsStickOfDoom
+			};
+
+			tripleDamageBuffList = new List<int>()
+			{
+				ItemID.SpectreStaff,
+				ItemID.Anchor,
+				ItemID.KOCannon,
+				ItemID.GolemFist,
+				ItemID.BreakerBlade,
+				ItemID.StylistKilLaKillScissorsIWish,
+				ItemID.BladeofGrass,
+				ItemID.FieryGreatsword,
+				ItemID.NightsEdge,
+				ItemID.CobaltSword,
+				ItemID.MythrilSword,
+				ItemID.AdamantiteSword,
+				ItemID.PalladiumSword,
+				ItemID.OrichalcumSword,
+				ItemID.TitaniumSword,
+				ItemID.Excalibur,
+				ItemID.Bladetongue,
+				ItemID.TheHorsemansBlade,
+				ItemID.Keybrand,
+				ItemID.AdamantiteGlaive,
+				ItemID.ChlorophytePartisan,
+				ItemID.CobaltNaginata,
+				ItemID.Gungnir,
+				ItemID.MythrilHalberd,
+				ItemID.OrichalcumHalberd,
+				ItemID.PalladiumPike,
+				ItemID.TitaniumTrident
+			};
+
 			doubleDamageBuffList = new List<int>()
 			{
 				ItemID.BallOHurt,
@@ -1058,15 +1160,44 @@ namespace CalamityMod
 				ItemID.Sunfury,
 				ItemID.DaoofPow,
 				ItemID.FlowerPow,
-				ItemID.Anchor,
-				ItemID.KOCannon,
-				ItemID.GolemFist,
-				ItemID.BreakerBlade,
 				ItemID.MonkStaffT2,
 				ItemID.ProximityMineLauncher,
 				ItemID.FireworksLauncher,
-				ItemID.ShadowbeamStaff
-            };
+				ItemID.ShadowbeamStaff,
+				ItemID.PlatinumShortsword,
+				ItemID.PlatinumBroadsword,
+				ItemID.GoldShortsword,
+				ItemID.GoldBroadsword,
+				ItemID.LightsBane,
+				ItemID.BeeKeeper,
+				ItemID.ZombieArm,
+				ItemID.Muramasa,
+				ItemID.Spear,
+				ItemID.Trident,
+				ItemID.TheRottedFork,
+				ItemID.Swordfish,
+				ItemID.DarkLance,
+				ItemID.WoodenBoomerang,
+				ItemID.EnchantedBoomerang,
+				ItemID.IceBoomerang,
+				ItemID.FruitcakeChakram,
+				ItemID.ThornChakram,
+				ItemID.Flamarang,
+				ItemID.Cutlass,
+				ItemID.MushroomSpear,
+				ItemID.BluePhasesaber,
+				ItemID.RedPhasesaber,
+				ItemID.GreenPhasesaber,
+				ItemID.WhitePhasesaber,
+				ItemID.YellowPhasesaber,
+				ItemID.PurplePhasesaber,
+				ItemID.BluePhaseblade,
+				ItemID.RedPhaseblade,
+				ItemID.GreenPhaseblade,
+				ItemID.WhitePhaseblade,
+				ItemID.YellowPhaseblade,
+				ItemID.PurplePhaseblade
+			};
 
             sixtySixDamageBuffList = new List<int>()
             {
@@ -1077,22 +1208,29 @@ namespace CalamityMod
                 ItemID.MonkStaffT1,
                 ItemID.InfernoFork,
                 ItemID.VenomStaff,
-                ItemID.Frostbrand
+                ItemID.Frostbrand,
+				ItemID.BloodButcherer
             };
 
             fiftyDamageBuffList = new List<int>()
             {
-                ItemID.NightsEdge,
                 ItemID.EldMelter,
                 ItemID.Flamethrower,
                 ItemID.MoonlordTurretStaff,
                 ItemID.WaspGun,
-                ItemID.Keybrand,
                 ItemID.PulseBow,
                 ItemID.PaladinsHammer,
                 ItemID.SolarEruption,
                 ItemID.DayBreak,
-				ItemID.LunarFlareBook
+				ItemID.LunarFlareBook,
+				ItemID.SilverShortsword,
+				ItemID.SilverBroadsword,
+				ItemID.TungstenShortsword,
+				ItemID.TungstenBroadsword,
+				ItemID.AntlionClaw,
+				ItemID.Katana,
+				ItemID.FalconBlade,
+				ItemID.Seedler
             };
 
             thirtyThreeDamageBuffList = new List<int>()
@@ -1105,26 +1243,24 @@ namespace CalamityMod
                 ItemID.ClingerStaff,
                 ItemID.ChargedBlasterCannon,
                 ItemID.NettleBurst,
-                ItemID.Excalibur,
                 ItemID.AmberStaff,
-                ItemID.BluePhasesaber,
-                ItemID.RedPhasesaber,
-                ItemID.GreenPhasesaber,
-                ItemID.WhitePhasesaber,
-                ItemID.YellowPhasesaber,
-                ItemID.PurplePhasesaber,
-                ItemID.TheRottedFork,
                 ItemID.VampireKnives,
                 ItemID.Cascade,
                 ItemID.TrueExcalibur,
-				ItemID.Meowmere
+				ItemID.Meowmere,
+				ItemID.DyeTradersScimitar
             };
 
             twentyFiveDamageBuffList = new List<int>()
             {
-                ItemID.Muramasa,
                 ItemID.StakeLauncher,
-                ItemID.BookStaff
+                ItemID.BookStaff,
+				ItemID.IronShortsword,
+				ItemID.IronBroadsword,
+				ItemID.LeadShortsword,
+				ItemID.LeadBroadsword,
+				ItemID.CandyCaneSword,
+				ItemID.BoneSword
             };
 
             twentyDamageBuffList = new List<int>()
@@ -1132,7 +1268,6 @@ namespace CalamityMod
                 ItemID.ChainGuillotines,
                 ItemID.FlowerofFrost,
                 ItemID.PoisonStaff,
-                ItemID.Gungnir,
                 ItemID.TacticalShotgun
             };
 
@@ -1144,7 +1279,25 @@ namespace CalamityMod
 
             weaponAutoreuseList = new List<int>()
             {
-                ItemID.NightsEdge,
+				ItemID.IronShortsword,
+				ItemID.IronBroadsword,
+				ItemID.LeadShortsword,
+				ItemID.LeadBroadsword,
+				ItemID.SilverShortsword,
+				ItemID.SilverBroadsword,
+				ItemID.TungstenShortsword,
+				ItemID.TungstenBroadsword,
+				ItemID.PlatinumShortsword,
+				ItemID.PlatinumBroadsword,
+				ItemID.GoldShortsword,
+				ItemID.GoldBroadsword,
+				ItemID.ZombieArm,
+				ItemID.CandyCaneSword,
+				ItemID.BoneSword,
+				ItemID.LightsBane,
+				ItemID.BloodButcherer,
+				ItemID.DyeTradersScimitar,
+				ItemID.NightsEdge,
                 ItemID.TrueNightsEdge,
                 ItemID.TrueExcalibur,
                 ItemID.PhoenixBlaster,
@@ -1172,7 +1325,13 @@ namespace CalamityMod
 				ItemID.Swordfish,
 				ItemID.TheRottedFork,
 				ItemID.TitaniumTrident,
-				ItemID.Trident
+				ItemID.Trident,
+				ItemID.BluePhaseblade,
+				ItemID.RedPhaseblade,
+				ItemID.GreenPhaseblade,
+				ItemID.WhitePhaseblade,
+				ItemID.YellowPhaseblade,
+				ItemID.PurplePhaseblade
 				//ItemID.StormSpear
             };
 

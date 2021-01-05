@@ -36,7 +36,7 @@ namespace CalamityMod.Items.Armor
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<ReaperTooth>(), 13);
+            recipe.AddIngredient(ModContent.ItemType<ReaperTooth>(), 10);
             recipe.AddIngredient(ModContent.ItemType<Lumenite>(), 6);
             recipe.AddIngredient(ModContent.ItemType<Tenebris>(), 6);
             recipe.AddIngredient(ModContent.ItemType<RuinousSoul>(), 3);

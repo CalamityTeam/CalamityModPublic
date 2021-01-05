@@ -600,11 +600,13 @@ namespace CalamityMod.NPCs
             if (shellfishVore > 0)
             {
                 int projectileCount = 0;
+				int owner = 255;
                 for (int j = 0; j < Main.maxProjectiles; j++)
                 {
                     if (Main.projectile[j].active && Main.projectile[j].type == ProjectileType<Shellfish>() &&
                         Main.projectile[j].ai[0] == 1f && Main.projectile[j].ai[1] == npc.whoAmI)
                     {
+						owner = Main.projectile[j].owner;
                         projectileCount++;
 						if (projectileCount >= 5)
 						{
@@ -614,7 +616,28 @@ namespace CalamityMod.NPCs
                     }
                 }
 
-				ApplyDPSDebuff(shellfishVore, projectileCount * 200, projectileCount * 40, ref npc.lifeRegen, ref damage);
+				Item heldItem = Main.player[owner].ActiveItem();
+				int totalDamage = (int)(150 * Main.player[owner].minionDamage);
+				bool forbidden = Main.player[owner].head == ArmorIDs.Head.AncientBattleArmor && Main.player[owner].body == ArmorIDs.Body.AncientBattleArmor && Main.player[owner].legs == ArmorIDs.Legs.AncientBattleArmor;
+				bool reducedNerf = Main.player[owner].Calamity().fearmongerSet || (forbidden && heldItem.magic);
+
+				double summonNerfMult = reducedNerf ? 0.75 : 0.5;
+				if (!Main.player[owner].Calamity().profanedCrystalBuffs)
+				{
+					if (heldItem.type > ItemID.None)
+					{
+						if (!heldItem.summon &&
+							(heldItem.melee || heldItem.ranged || heldItem.magic || heldItem.Calamity().rogue) &&
+							heldItem.hammer == 0 && heldItem.pick == 0 && heldItem.axe == 0 && heldItem.useStyle != 0 &&
+							!heldItem.accessory && heldItem.ammo == AmmoID.None)
+						{
+							totalDamage = (int)(totalDamage * summonNerfMult);
+						}
+					}
+				}
+
+				int totalDisplayedDamage = totalDamage / 5;
+				ApplyDPSDebuff(shellfishVore, projectileCount * totalDamage, projectileCount * totalDisplayedDamage, ref npc.lifeRegen, ref damage);
             }
 
             if (clamDebuff > 0)
@@ -1747,18 +1770,6 @@ namespace CalamityMod.NPCs
 
             if (DestroyerIDs.Contains(npc.type) || EaterofWorldsIDs.Contains(npc.type))
                 npc.buffImmune[BuffType<Enraged>()] = false;
-
-            if (npc.type == NPCID.Bee || npc.type == NPCID.BeeSmall || npc.type == NPCID.Hornet || npc.type == NPCID.HornetFatty || npc.type == NPCID.HornetHoney ||
-                npc.type == NPCID.HornetLeafy || npc.type == NPCID.HornetSpikey || npc.type == NPCID.HornetStingy || npc.type == NPCID.BigHornetStingy || npc.type == NPCID.LittleHornetStingy ||
-                npc.type == NPCID.BigHornetSpikey || npc.type == NPCID.LittleHornetSpikey || npc.type == NPCID.BigHornetLeafy || npc.type == NPCID.LittleHornetLeafy ||
-                npc.type == NPCID.BigHornetHoney || npc.type == NPCID.LittleHornetHoney || npc.type == NPCID.BigHornetFatty || npc.type == NPCID.LittleHornetFatty)
-            {
-                if (Main.player[npc.target].Calamity().queenBeeLore)
-                {
-                    CalamityGlobalAI.QueenBeeLoreEffect(npc);
-                    return false;
-                }
-            }
 
             if (BossRushEvent.BossRushActive && !npc.friendly && !npc.townNPC)
                 BossRushForceDespawnOtherNPCs(npc, mod);
@@ -3559,11 +3570,6 @@ namespace CalamityMod.NPCs
 				spawnRate = (int)(spawnRate * 0.75);
 			}
 
-			if (player.Calamity().perforatorLore)
-			{
-				spawnRate = (int)(spawnRate * 0.7);
-				maxSpawns = (int)(maxSpawns * 1.8f);
-			}
 			if (Main.waterCandles > 0)
 			{
 				spawnRate = (int)(spawnRate * 0.9);
@@ -3595,11 +3601,6 @@ namespace CalamityMod.NPCs
 			}
 
 			// Reductions
-			if (player.Calamity().hiveMindLore)
-			{
-				spawnRate = (int)(spawnRate * 1.3);
-				maxSpawns = (int)(maxSpawns * 0.6f);
-			}
 			if (Main.peaceCandles > 0)
 			{
 				spawnRate = (int)(spawnRate * 1.1);

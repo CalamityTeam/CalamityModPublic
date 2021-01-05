@@ -13,9 +13,7 @@ namespace CalamityMod.Items.LoreItems
             DisplayName.SetDefault("Moon Lord");
             Tooltip.SetDefault("What a waste.\n" +
                 "Had it been fully restored it would have been a force to behold, but what you fought was an empty shell.\n" +
-                "However, that doesn't diminish the immense potential locked within it, released upon its death.\n" +
-                "Favorite this item to gain an improved Gravity Globe that gives you an increase to all stats while upside down.\n" +
-				"However, while not upside down you have permanent featherfall.");
+                "However, that doesn't diminish the immense potential locked within it, released upon its death.");
         }
 
         public override void SetDefaults()
@@ -29,13 +27,6 @@ namespace CalamityMod.Items.LoreItems
         public override bool CanUseItem(Player player)
         {
             return false;
-        }
-
-        public override void UpdateInventory(Player player)
-        {
-            CalamityPlayer modPlayer = player.Calamity();
-			if (item.favorited)
-				modPlayer.moonLordLore = true;
         }
 
         public override void AddRecipes()

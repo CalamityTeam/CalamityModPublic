@@ -56,9 +56,6 @@ namespace CalamityMod.Projectiles.Rogue
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			if (target.type == NPCID.TargetDummy)
-				return;
-
 			OnHitEffects(damage);
 		}
 

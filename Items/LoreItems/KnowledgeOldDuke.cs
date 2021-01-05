@@ -13,8 +13,7 @@ namespace CalamityMod.Items.LoreItems
         {
             DisplayName.SetDefault("Old Duke");
             Tooltip.SetDefault("Strange, to find out that the mutant terror of the seas was not alone in its unique biology.\n" +
-                "Perhaps I was mistaken to classify the creature from its relation to pigrons alone.\n" +
-                "Favorite this item to convert negative effects from the Acid Rain debuff to positive effects.");
+                "Perhaps I was mistaken to classify the creature from its relation to pigrons alone.");
         }
 
         public override void SetDefaults()
@@ -30,13 +29,6 @@ namespace CalamityMod.Items.LoreItems
         {
             return false;
         }
-
-		public override void UpdateInventory(Player player)
-		{
-			CalamityPlayer modPlayer = player.Calamity();
-			if (item.favorited)
-				modPlayer.boomerDukeLore = true;
-		}
 
         public override void AddRecipes()
         {

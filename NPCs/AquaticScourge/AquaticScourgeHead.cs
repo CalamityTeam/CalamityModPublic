@@ -149,7 +149,7 @@ namespace CalamityMod.NPCs.AquaticScourge
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.playerSafe || spawnInfo.player.Calamity().sulphSeaLore)
+            if (spawnInfo.playerSafe)
             {
                 return 0f;
             }

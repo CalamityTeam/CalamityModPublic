@@ -193,7 +193,7 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            if (projectile.owner == Main.myPlayer && Main.player[projectile.owner].lifeSteal > 0f && target.type != NPCID.TargetDummy && !Main.player[projectile.owner].moonLeech)
+            if (projectile.owner == Main.myPlayer && Main.player[projectile.owner].lifeSteal > 0f && !Main.player[projectile.owner].moonLeech)
             {
                 int healAmount = 10 * damage / projectile.damage; //should always be around max, less if enemy has defense/DR
                 if (healAmount > 0)

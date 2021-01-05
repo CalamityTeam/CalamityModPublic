@@ -13,8 +13,7 @@ namespace CalamityMod.Items.LoreItems
             DisplayName.SetDefault("Plantera");
             Tooltip.SetDefault("Well done, you killed a plant.\n" +
                 "It was used as a vessel to house the spirits of those unfortunate enough to find their way down here.\n" +
-                "I wish you luck in dealing with the fallout.\n" +
-				"Favorite this item to gain increased item grab range.");
+                "I wish you luck in dealing with the fallout.");
         }
 
         public override void SetDefaults()
@@ -28,13 +27,6 @@ namespace CalamityMod.Items.LoreItems
         public override bool CanUseItem(Player player)
         {
             return false;
-        }
-
-        public override void UpdateInventory(Player player)
-        {
-            CalamityPlayer modPlayer = player.Calamity();
-			if (item.favorited)
-				modPlayer.planteraLore = true;
         }
 
         public override void AddRecipes()

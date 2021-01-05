@@ -50,7 +50,7 @@ namespace CalamityMod.Items.Armor
         {
 			if (CalamityWorld.death)
 			{
-				player.setBonus = @"30% increased minion damage and +1 max minion
+				player.setBonus = @"20% increased minion damage and +2 max minions
 The minion damage nerf while wielding weaponry is reduced
 Immunity to all forms of frost and flame
 All minion attacks grant colossal life regeneration
@@ -60,7 +60,7 @@ Provides cold protection in Death Mode";
 			}
 			else
 			{
-				player.setBonus = @"30% increased minion damage and +1 max minion
+				player.setBonus = @"20% increased minion damage and +2 max minions
 The minion damage nerf while wielding weaponry is reduced
 Immunity to all forms of frost and flame
 All minion attacks grant colossal life regeneration
@@ -73,8 +73,8 @@ This extra damage reduction ignores the soft cap";
 
             // All-class armors count as rogue sets, but don't grant stealth bonuses
             player.Calamity().wearingRogueArmor = true;
-            player.minionDamage += 0.3f;
-			player.maxMinions++;
+            player.minionDamage += 0.2f;
+			player.maxMinions += 2;
 
 			int[] immuneDebuffs = {
                 BuffID.OnFire,

@@ -35,10 +35,6 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            if (target.type == NPCID.TargetDummy)
-            {
-                return;
-            }
             if (player.whoAmI == Main.myPlayer)
                 SpawnFlares(player, knockback);
         }

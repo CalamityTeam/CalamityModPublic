@@ -81,7 +81,7 @@ namespace CalamityMod.Items.Weapons.Melee
 					Projectile.NewProjectile(startPos, velocity, ModContent.ProjectileType<Exocomet>(), (int)(item.damage * player.MeleeDamage()), knockback, player.whoAmI, 0f, ai1);
 				}
 			}
-			if (target.type == NPCID.TargetDummy || !target.canGhostHeal || player.moonLeech)
+			if (!target.canGhostHeal || player.moonLeech)
 			{
 				return;
 			}

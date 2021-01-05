@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Accessories.Wings
                 "Acceleration multiplier: 2.7\n" +
                 "Great vertical speed\n" +
                 "Flight time: 240\n" +
-				"Temporary immunity to lava and 15% increased movement speed");
+				"Temporary immunity to lava and 10% increased movement speed");
         }
 
         public override void SetDefaults()
@@ -49,7 +49,7 @@ namespace CalamityMod.Items.Accessories.Wings
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            player.moveSpeed += 0.15f;
+            player.moveSpeed += 0.1f;
             player.lavaMax += 240;
             player.wingTimeMax = 240;
             player.noFallDmg = true;

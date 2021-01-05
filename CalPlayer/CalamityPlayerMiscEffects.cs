@@ -1426,244 +1426,6 @@ namespace CalamityMod.CalPlayer
 			else if (modPlayer.polarisBoostCounter >= 10)
 				modPlayer.polarisBoostTwo = true;
 
-			// Lore bonuses
-			if (modPlayer.kingSlimeLore)
-			{
-				player.moveSpeed += 0.05f;
-				player.jumpSpeedBoost += player.autoJump ? 0.025f : 0.1f;
-			}
-			if (modPlayer.desertScourgeLore)
-			{
-				if (player.ZoneDesert || player.Calamity().ZoneSunkenSea)
-				{
-					player.statDefense += 5;
-					player.allDamage -= 0.025f;
-				}
-			}
-			if (modPlayer.crabulonLore)
-			{
-				if (player.ZoneGlowshroom || player.ZoneDirtLayerHeight || player.ZoneRockLayerHeight)
-				{
-					if (Main.myPlayer == player.whoAmI)
-						player.AddBuff(ModContent.BuffType<Mushy>(), 2);
-
-					player.moveSpeed -= 0.1f;
-				}
-			}
-			if (modPlayer.eaterOfWorldsLore)
-			{
-				int damage = (int)(15 * player.AverageDamage());
-				float knockBack = 1f;
-				if (Main.rand.NextBool(15))
-				{
-					int projCount = 0;
-					for (int i = 0; i < Main.maxProjectiles; i++)
-					{
-						if (Main.projectile[i].active && Main.projectile[i].owner == player.whoAmI && Main.projectile[i].type == ModContent.ProjectileType<TheDeadlyMicrobeProjectile>())
-							projCount++;
-					}
-
-					if (Main.rand.Next(15) >= projCount && projCount < 6)
-					{
-						int loopAmt = 50;
-						int num3 = 24;
-						int num4 = 90;
-
-						for (int j = 0; j < loopAmt; j++)
-						{
-							int sourceVariance = Main.rand.Next(200 - j * 2, 400 + j * 2);
-							Vector2 center = player.Center;
-							center.X += (float)Main.rand.Next(-sourceVariance, sourceVariance + 1);
-							center.Y += (float)Main.rand.Next(-sourceVariance, sourceVariance + 1);
-
-							if (!Collision.SolidCollision(center, num3, num3) && !Collision.WetCollision(center, num3, num3))
-							{
-								center.X += (float)(num3 / 2);
-								center.Y += (float)(num3 / 2);
-
-								if (Collision.CanHit(new Vector2(player.Center.X, player.position.Y), 1, 1, center, 1, 1) || Collision.CanHit(new Vector2(player.Center.X, player.position.Y - 50f), 1, 1, center, 1, 1))
-								{
-									int xSpawn = (int)center.X / 16;
-									int ySpawn = (int)center.Y / 16;
-									bool shouldSpawn = false;
-
-									if (Main.rand.NextBool(3) && Main.tile[xSpawn, ySpawn] != null && Main.tile[xSpawn, ySpawn].wall > 0)
-										shouldSpawn = true;
-									else
-									{
-										center.X -= (float)(num4 / 2);
-										center.Y -= (float)(num4 / 2);
-
-										if (Collision.SolidCollision(center, num4, num4))
-										{
-											center.X += (float)(num4 / 2);
-											center.Y += (float)(num4 / 2);
-											shouldSpawn = true;
-										}
-									}
-
-									if (shouldSpawn)
-									{
-										for (int k = 0; k < Main.maxProjectiles; k++)
-										{
-											if (Main.projectile[k].active && Main.projectile[k].owner == player.whoAmI && Main.projectile[k].type == ModContent.ProjectileType<TheDeadlyMicrobeProjectile>() && (center - Main.projectile[k].Center).Length() < 48f)
-											{
-												shouldSpawn = false;
-												break;
-											}
-										}
-
-										if (shouldSpawn && Main.myPlayer == player.whoAmI)
-											Projectile.NewProjectile(center, Vector2.Zero, ModContent.ProjectileType<TheDeadlyMicrobeProjectile>(), damage, knockBack, player.whoAmI, 0f, 0f);
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-			if (modPlayer.skeletronLore)
-			{
-				player.allDamage += 0.1f;
-				modPlayer.AllCritBoost(5);
-			}
-			if (modPlayer.slimeGodLore)
-			{
-				if (Main.myPlayer == player.whoAmI)
-					player.AddBuff(BuffID.Slimed, 2);
-			}
-			if (modPlayer.destroyerLore)
-			{
-				player.pickSpeed -= 0.05f;
-				player.moveSpeed -= 0.05f;
-			}
-			if (modPlayer.aquaticScourgeLore)
-			{
-				if (player.wellFed)
-				{
-					player.statDefense += 1;
-					player.allDamage += 0.025f;
-					modPlayer.AllCritBoost(1);
-					player.minionKB += 0.25f;
-					player.moveSpeed += 0.05f;
-				}
-				else
-				{
-					player.statDefense -= 1;
-					player.allDamage -= 0.025f;
-					modPlayer.AllCritBoost(-1);
-					player.minionKB -= 0.25f;
-					player.moveSpeed -= 0.05f;
-				}
-			}
-			if (modPlayer.skeletronPrimeLore)
-			{
-				player.armorPenetration += 5;
-				player.moveSpeed -= 0.05f;
-			}
-			if (modPlayer.leviathanAndSirenLore)
-			{
-				if (!player.IsUnderwater())
-				{
-					player.statDefense -= 8;
-					player.endurance -= 0.05f;
-				}
-				if (modPlayer.sirenPet)
-				{
-					player.spelunkerTimer += 1;
-					if (player.spelunkerTimer >= 10)
-					{
-						player.spelunkerTimer = 0;
-						int distance = 30;
-						int i = (int)player.Center.X / 16;
-						int j = (int)player.Center.Y / 16;
-
-						for (int x = i - distance; x <= i + distance; x++)
-						{
-							for (int y = j - distance; y <= j + distance; y++)
-							{
-								Tile tile = Main.tile[x, y];
-								if (Main.rand.NextBool(4))
-								{
-									Vector2 vector = new Vector2((float)(i - x), (float)(j - y));
-									if (vector.Length() < (float)distance && x > 0 && x < Main.maxTilesX - 1 && y > 0 && y < Main.maxTilesY - 1 && tile != null && tile.active())
-									{
-										bool shouldSpawnDust = false;
-										//These checks are for money piles. They share a sheet with other background objects so it checks for frames.
-										if (tile.type == TileID.SmallPiles && tile.frameY == 18)
-										{
-											if (tile.frameX >= 576 && tile.frameX <= 882)
-												shouldSpawnDust = true;
-										}
-										else if (tile.type == TileID.LargePiles && tile.frameX >= 864 && tile.frameX <= 1170)
-											shouldSpawnDust = true;
-
-										if (shouldSpawnDust || Main.tileSpelunker[tile.type] || (Main.tileAlch[tile.type] && tile.type != TileID.ImmatureHerbs))
-										{
-											int sparkle = Dust.NewDust(new Vector2((x * 16f), (y * 16f)), 16, 16, 204, 0f, 0f, 150, default, 0.3f);
-											Main.dust[sparkle].fadeIn = 0.75f;
-											Main.dust[sparkle].velocity *= 0.1f;
-											Main.dust[sparkle].noLight = true;
-										}
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-			if (player.ZoneSkyHeight)
-			{
-				if (modPlayer.astrumDeusLore)
-					player.moveSpeed += 0.2f;
-				if (modPlayer.astrumAureusLore)
-					player.jumpSpeedBoost += 0.5f;
-			}
-			if (modPlayer.golemLore)
-			{
-				if (player.StandingStill() && player.itemAnimation == 0)
-					player.statDefense += 10;
-			}
-			if (modPlayer.dukeFishronLore)
-			{
-				if (player.IsUnderwater())
-				{
-					player.allDamage += 0.05f;
-					modPlayer.AllCritBoost(5);
-					player.moveSpeed += 0.1f;
-				}
-				else
-				{
-					player.allDamage -= 0.02f;
-					modPlayer.AllCritBoost(-2);
-					player.moveSpeed -= 0.04f;
-				}
-			}
-			if (modPlayer.lunaticCultistLore)
-			{
-				player.blind = true;
-				player.endurance += 0.04f;
-				player.statDefense += 4;
-				player.allDamage += 0.04f;
-				modPlayer.AllCritBoost(4);
-				player.minionKB += 0.5f;
-				player.moveSpeed += 0.1f;
-			}
-			if (modPlayer.moonLordLore)
-			{
-				if (player.gravDir == -1f && player.gravControl2)
-				{
-					player.endurance += 0.05f;
-					player.statDefense += 10;
-					player.allDamage += 0.1f;
-					modPlayer.AllCritBoost(10);
-					player.minionKB += 1.5f;
-					player.moveSpeed += 0.15f;
-				}
-				else
-					player.slowFall = true;
-			}
-
 			// Calcium Potion buff
 			if (modPlayer.calcium)
 				player.noFallDmg = true;
@@ -2590,17 +2352,10 @@ namespace CalamityMod.CalPlayer
 
 			if (modPlayer.irradiated)
 			{
-				if (modPlayer.boomerDukeLore)
-				{
-					player.statDefense += 10;
-				}
-				else
-				{
-					player.statDefense -= 10;
-				}
+				player.statDefense -= 10;
+				player.moveSpeed -= 0.1f;
 				player.allDamage += 0.05f;
 				player.minionKB += 0.5f;
-				player.moveSpeed -= 0.1f;
 			}
 
 			if (modPlayer.rRage)
@@ -2646,7 +2401,7 @@ namespace CalamityMod.CalPlayer
 				player.allDamage += 0.06f;
 				modPlayer.AllCritBoost(2);
 				player.minionKB += 1f;
-				player.moveSpeed += 0.1f;
+				player.moveSpeed += 0.06f;
 			}
 
 			if (modPlayer.tScale)
@@ -2757,7 +2512,7 @@ namespace CalamityMod.CalPlayer
 			}
 
 			if (modPlayer.caribbeanRum)
-				player.moveSpeed += 0.2f;
+				player.moveSpeed += 0.1f;
 
 			if (modPlayer.cinnamonRoll)
 			{
@@ -2910,14 +2665,13 @@ namespace CalamityMod.CalPlayer
 				(modPlayer.ZoneAstral ? 0.05 : 0D) +
 				(modPlayer.harpyRing ? 0.2 : 0D) +
 				(modPlayer.blueCandle ? 0.1 : 0D) +
-				(modPlayer.plaguebringerGoliathLore ? 0.2 : 0D) +
 				(modPlayer.soaring ? 0.1 : 0D) +
 				(modPlayer.prismaticGreaves ? 0.1 : 0D) +
 				(modPlayer.plagueReaper ? 0.05 : 0D) +
 				(modPlayer.draconicSurge ? 0.2 : 0D);
 
 			if (modPlayer.harpyRing)
-				player.moveSpeed += 0.15f;
+				player.moveSpeed += 0.1f;
 
 			if (modPlayer.blueCandle)
 				player.moveSpeed += 0.1f;
@@ -2963,23 +2717,12 @@ namespace CalamityMod.CalPlayer
 			{
 				bool offenseBuffs = (Main.dayTime && !player.wet) || player.lavaWet;
 				if (offenseBuffs)
-				{
-					if (!player.Calamity().yharonLore)
-						flightTimeMult += 0.1;
-				}
+					flightTimeMult += 0.1;
 			}
 
 			// Increase wing time
 			if (player.wingTimeMax > 0)
 				player.wingTimeMax = (int)(player.wingTimeMax * flightTimeMult);
-
-			// Reduce wing time
-			if (modPlayer.ravagerLore)
-			{
-				if (player.wingTimeMax > 0)
-					player.wingTimeMax = (int)(player.wingTimeMax * 0.5);
-				player.allDamage += 0.1f;
-			}
 
 			if (modPlayer.vHex)
 			{
@@ -3058,6 +2801,12 @@ namespace CalamityMod.CalPlayer
 				player.calmed = true;
 			}
 
+			if (player.panic)
+				player.moveSpeed -= 0.5f;
+
+			if (player.wellFed)
+				player.moveSpeed -= 0.1f;
+
 			if (player.poisoned)
 				player.moveSpeed -= 0.1f;
 
@@ -3104,7 +2853,7 @@ namespace CalamityMod.CalPlayer
 			{
 				player.blind = true;
 				player.statDefense -= 3;
-				player.moveSpeed += 0.2f;
+				player.moveSpeed += 0.1f;
 				player.meleeDamage += 0.05f;
 				player.rangedDamage -= 0.1f;
 				player.magicDamage -= 0.1f;
@@ -3145,7 +2894,7 @@ namespace CalamityMod.CalPlayer
 
 			if (modPlayer.corrEffigy)
 			{
-				player.moveSpeed += 0.15f;
+				player.moveSpeed += 0.1f;
 				modPlayer.AllCritBoost(10);
 			}
 
@@ -3176,9 +2925,6 @@ namespace CalamityMod.CalPlayer
 				player.meleeDamage += damageBoost;
 			}
 
-			if (modPlayer.calamitasLore)
-				player.maxMinions++;
-
 			// The player's true max life value with Calamity adjustments
 			modPlayer.actualMaxLife = player.statLifeMax2;
 
@@ -3187,21 +2933,6 @@ namespace CalamityMod.CalPlayer
 
 			if (modPlayer.manaOverloader)
 				player.magicDamage += 0.06f;
-
-			if (modPlayer.twinsLore)
-			{
-				if (!Main.dayTime)
-				{
-					player.invis = true;
-					modPlayer.throwingCrit += 5;
-					modPlayer.throwingDamage += 0.05f;
-				}
-
-				if (player.statLife >= (int)(player.statLifeMax2 * 0.5))
-					player.statDefense -= 10;
-				else
-					player.moveSpeed -= 0.05f;
-			}
 
 			if (modPlayer.rBrain)
 			{
@@ -3424,8 +3155,8 @@ namespace CalamityMod.CalPlayer
 				}
 			}
 
-			// Brimstone Elemental lore inferno potion boost
-			if ((modPlayer.brimstoneElementalLore || modPlayer.ataxiaBlaze) && player.inferno)
+			// Inferno potion boost
+			if (modPlayer.ataxiaBlaze && player.inferno)
 			{
 				const int FramesPerHit = 30;
 
@@ -3583,13 +3314,13 @@ namespace CalamityMod.CalPlayer
 					{
 						player.minionDamage += 0.15f;
 						player.minionKB += 0.15f;
-						player.moveSpeed += 0.15f;
+						player.moveSpeed += 0.1f;
 						player.statDefense -= 15;
 						player.ignoreWater = true;
 					}
 					else
 					{
-						player.moveSpeed -= 0.15f;
+						player.moveSpeed -= 0.1f;
 						player.endurance += 0.05f;
 						player.statDefense += 15;
 						player.lifeRegen += 5;
@@ -3728,7 +3459,7 @@ namespace CalamityMod.CalPlayer
 			if (modPlayer.prismaticLasers > 1800 && player.whoAmI == Main.myPlayer)
 			{
 				float shootSpeed = 18f;
-				int dmg = (int)(40 * player.MagicDamage());
+				int dmg = (int)(30 * player.MagicDamage());
 				Vector2 startPos = player.RotatedRelativePoint(player.MountedCenter, true);
 				Vector2 velocity = Main.MouseWorld - startPos;
 				if (player.gravDir == -1f)
@@ -3838,7 +3569,6 @@ namespace CalamityMod.CalPlayer
 			double damageAdd = (modPlayer.dodgeScarf ? 0.15 : 0) +
 					(modPlayer.evasionScarf ? 0.1 : 0) +
 					((modPlayer.aBulwarkRare && modPlayer.aBulwarkRareMeleeBoostTimer > 0) ? 0.5 : 0) +
-					(modPlayer.DoGLore ? 0.25 : 0) +
 					(modPlayer.fungalSymbiote ? 0.15 : 0) +
 					((player.head == ArmorIDs.Head.MoltenHelmet && player.body == ArmorIDs.Body.MoltenBreastplate && player.legs == ArmorIDs.Legs.MoltenGreaves) ? 0.2 : 0) +
 					(player.kbGlove ? 0.1 : 0) +
@@ -4030,24 +3760,6 @@ namespace CalamityMod.CalPlayer
 				player.statDefense = 0;
 
 			// Multiplicative defense reductions
-			if (modPlayer.kingSlimeLore)
-			{
-				if (player.statDefense > 0)
-					player.statDefense -= (int)(player.statDefense * 0.05);
-			}
-
-			if (modPlayer.slimeGodLore)
-			{
-				if (player.statDefense > 0)
-					player.statDefense -= (int)(player.statDefense * 0.1);
-			}
-
-			if (modPlayer.dashMod == 6) // Cryogen lore
-			{
-				if (player.statDefense > 0)
-					player.statDefense -= (int)(player.statDefense * 0.15);
-			}
-
 			if (modPlayer.fabsolVodka)
 			{
 				if (player.statDefense > 0)
@@ -4193,12 +3905,6 @@ namespace CalamityMod.CalPlayer
 			// 10% is converted to 9%, 25% is converted to 20%, 50% is converted to 33%, 75% is converted to 43%, 100% is converted to 50%
 			if (player.endurance > 0f)
 				player.endurance = 1f - (1f / (1f + player.endurance));
-			
-			if (modPlayer.yharonLore && !CalamityWorld.defiled)
-			{
-				if (player.wingTimeMax < 2147483647)
-					player.wingTimeMax = 2147483647;
-			}
 
 			// Do not apply reduced aggro if there are any bosses alive and it's singleplayer
 			if (CalamityPlayer.areThereAnyDamnBosses && Main.netMode == NetmodeID.SinglePlayer)
@@ -4216,15 +3922,10 @@ namespace CalamityMod.CalPlayer
 				player.endurance -= 0.3f;
 
 			if (modPlayer.irradiated)
-			{
-				if (modPlayer.boomerDukeLore)
-					player.endurance += 0.05f;
-				else
-					player.endurance -= 0.1f;
-			}
+				player.endurance -= 0.1f;
 
 			if (modPlayer.corrEffigy)
-				player.endurance -= 0.1f;
+				player.endurance -= 0.05f;
 		}
 		#endregion
 

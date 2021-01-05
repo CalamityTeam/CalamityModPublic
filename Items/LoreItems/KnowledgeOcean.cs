@@ -13,8 +13,7 @@ namespace CalamityMod.Items.LoreItems
         {
             DisplayName.SetDefault("The Ocean");
             Tooltip.SetDefault("Take care to not disturb the deep waters of this world.\n" +
-                "You may awaken something more terrifying than death itself.\n" +
-                "Favorite this item to prevent the mysterious water elemental from spawning.");
+                "You may awaken something more terrifying than death itself.");
         }
 
         public override void SetDefaults()
@@ -26,13 +25,6 @@ namespace CalamityMod.Items.LoreItems
         }
 
         public override bool CanUseItem(Player player) => false;
-
-        public override void UpdateInventory(Player player)
-        {
-            CalamityPlayer modPlayer = player.Calamity();
-			if (item.favorited)
-				modPlayer.oceanLore = true;
-        }
 
         public override void AddRecipes()
         {

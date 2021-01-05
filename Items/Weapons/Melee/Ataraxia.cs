@@ -73,11 +73,6 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             target.AddBuff(BuffID.ShadowFlame, 480);
             target.AddBuff(BuffID.Ichor, 480);
-
-            // Does not summon extra projectiles versus dummies.
-            if (target.type == NPCID.TargetDummy)
-                return;
-
 			OnHitEffects(player, target.Center);
         }
 

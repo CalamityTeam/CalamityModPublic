@@ -91,7 +91,7 @@ namespace CalamityMod.Items.Weapons.Melee
             {
                 target.defense -= 50;
             }
-            if (target.type == NPCID.TargetDummy || !target.canGhostHeal || player.moonLeech)
+            if (!target.canGhostHeal || player.moonLeech)
             {
                 return;
             }

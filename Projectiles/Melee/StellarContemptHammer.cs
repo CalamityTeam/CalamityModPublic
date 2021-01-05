@@ -144,9 +144,6 @@ namespace CalamityMod.Projectiles.Melee
 			if (!Main.dayTime)
 				target.AddBuff(ModContent.BuffType<Nightwither>(), 480);
 
-			// Do not drop lunar flares on dummies.
-			if (target.type == NPCID.TargetDummy)
-				return;
 			SpawnFlares(target.Center, target.width, target.height);
 		}
 
