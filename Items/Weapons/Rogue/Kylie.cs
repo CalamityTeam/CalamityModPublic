@@ -1,6 +1,7 @@
 using CalamityMod.CalPlayer;
 using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -49,7 +50,7 @@ namespace CalamityMod.Items.Weapons.Rogue
                 for (int i = 0; i < 3; i++)
                 {
                     Vector2 perturbedspeed = new Vector2(speedX, speedY).RotatedBy(MathHelper.ToRadians(spread));
-                    int proj = Projectile.NewProjectile(position, perturbedspeed, ModContent.ProjectileType<KylieBoomerang>(), damage, knockBack, player.whoAmI, 0f, 1f);
+                    int proj = Projectile.NewProjectile(position, perturbedspeed, ModContent.ProjectileType<KylieBoomerang>(), Math.Max(damage / 3, 1), knockBack / 3f, player.whoAmI, 0f, 1f);
 					if (proj.WithinBounds(Main.maxProjectiles))
 						Main.projectile[proj].Calamity().stealthStrike = true;
                     spread -= 10;

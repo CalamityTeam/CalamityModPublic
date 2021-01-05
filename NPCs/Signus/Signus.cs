@@ -8,6 +8,7 @@ using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
 using CalamityMod.Items.Potions;
+using CalamityMod.Items.TreasureBags;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.Projectiles.Boss;
@@ -68,6 +69,7 @@ namespace CalamityMod.NPCs.Signus
             npc.netAlways = true;
             npc.HitSound = SoundID.NPCHit49;
             npc.DeathSound = SoundID.NPCDeath51;
+            bossBag = ModContent.ItemType<SignusBag>();
         }
 
         public override void SendExtraAI(BinaryWriter writer)

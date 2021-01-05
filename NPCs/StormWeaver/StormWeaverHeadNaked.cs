@@ -5,6 +5,7 @@ using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
 using CalamityMod.Items.Potions;
+using CalamityMod.Items.TreasureBags;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.World;
@@ -67,6 +68,7 @@ namespace CalamityMod.NPCs.StormWeaver
             npc.HitSound = SoundID.NPCHit13;
             npc.DeathSound = SoundID.NPCDeath13;
             npc.netAlways = true;
+            bossBag = ModContent.ItemType<StormWeaverBag>();
 
 			if (CalamityWorld.death || BossRushEvent.BossRushActive)
 				npc.scale = 1.2f;

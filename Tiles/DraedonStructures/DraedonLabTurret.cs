@@ -80,11 +80,6 @@ namespace CalamityMod.Tiles.DraedonStructures
             if (t.frameX != 36 || t.frameY != 0)
                 return;
 
-            // This is done so that the turret has priority over, say, trees when drawing.
-            // TODO -- this is foul and should never happen ever, is there any way around this
-            spriteBatch.End();
-            spriteBatch.Begin(SpriteSortMode.Texture, BlendState.AlphaBlend, SamplerState.LinearWrap, DepthStencilState.Default, RasterizerState.CullNone);
-
             TEDraedonLabTurret te = CalamityUtils.FindTileEntity<TEDraedonLabTurret>(i, j, Width, Height, SheetSquare);
             if (te is null)
                 return;

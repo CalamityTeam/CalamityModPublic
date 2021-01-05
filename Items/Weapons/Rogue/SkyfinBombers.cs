@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             DisplayName.SetDefault("Skyfin Bombers");
             Tooltip.SetDefault("Fishy bombers inbound!\n" +
 			"Launches a skyfin nuke that homes in on enemies below it\n" +
-			"Stealth strikes throw three skyfin nukes that home in regardless of enemy position");
+			"Stealth strikes rapidly home in regardless of enemy position");
         }
 
         public override void SafeSetDefaults()
@@ -40,13 +40,9 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             if (player.Calamity().StealthStrikeAvailable()) //setting the stealth strike
             {
-				for (int i = -8; i <= 8; i += 8)
-				{
-					Vector2 perturbedSpeed = new Vector2(speedX, speedY).RotatedBy(MathHelper.ToRadians(i));
-					int stealth = Projectile.NewProjectile(position, perturbedSpeed, type, (int)(damage * 0.75), knockBack, player.whoAmI);
-					if (stealth.WithinBounds(Main.maxProjectiles))
-						Main.projectile[stealth].Calamity().stealthStrike = true;
-				}
+				int stealth = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
+				if (stealth.WithinBounds(Main.maxProjectiles))
+					Main.projectile[stealth].Calamity().stealthStrike = true;
                 return false;
             }
             return true;

@@ -65,7 +65,7 @@ namespace CalamityMod
 		[BackgroundColor(192, 54, 64, 192)]
 		[Label("Lock Meter Positions")]
 		[DefaultValue(true)]
-		[Tooltip("Prevents clicking on the Stealth, Rage and Adrenaline Meters.\nThis stops them from being dragged around with the mouse.")]
+		[Tooltip("Prevents clicking on the Stealth, Charge, Rage, and Adrenaline Meters.\nThis stops them from being dragged around with the mouse.")]
 		public bool MeterPosLock { get; set; }
 
 		[Label("Stealth Meter")]
@@ -89,6 +89,28 @@ namespace CalamityMod
 		[DefaultValue(43f)]
 		[Tooltip("The Y position of the Stealth Meter.\nThe meter can be dragged with the mouse if Lock Meter Positions is disabled.")]
 		public float StealthMeterPosY { get; set; }
+
+		[Label("Charge Meter")]
+		[BackgroundColor(192, 54, 64, 192)]
+		[DefaultValue(true)]
+		[Tooltip("Enables the Charge Meter UI, which shows the charge level of the player's currently held Arsenal item.\nThe Charge Meter is always hidden if not holding a chargable arsenal item.")]
+		public bool ChargeMeter { get; set; }
+
+		[Label("Charge Meter X Position")]
+		[BackgroundColor(192, 54, 64, 192)]
+		[SliderColor(224, 165, 56, 128)]
+		[Range(0f, 3840f)]
+		[DefaultValue(950f)]
+		[Tooltip("The X position of the Charge Meter.\nThe meter can be dragged with the mouse if Lock Meter Positions is disabled.")]
+		public float ChargeMeterPosX { get; set; }
+
+		[Label("Charge Meter Y Position")]
+		[BackgroundColor(192, 54, 64, 192)]
+		[SliderColor(224, 165, 56, 128)]
+		[Range(0f, 2160f)]
+		[DefaultValue(43f)]
+		[Tooltip("The Y position of the Charge Meter.\nThe meter can be dragged with the mouse if Lock Meter Positions is disabled.")]
+		public float ChargeMeterPosY { get; set; }
 
 		[Header("General Gameplay Changes")]
 
