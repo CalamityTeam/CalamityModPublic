@@ -40,7 +40,7 @@ No positive life regen");
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<ReaperTooth>(), 16);
+            recipe.AddIngredient(ModContent.ItemType<ReaperTooth>(), 12);
             recipe.AddIngredient(ModContent.ItemType<Lumenite>(), 8);
             recipe.AddIngredient(ModContent.ItemType<Tenebris>(), 8);
             recipe.AddIngredient(ModContent.ItemType<RuinousSoul>(), 4);

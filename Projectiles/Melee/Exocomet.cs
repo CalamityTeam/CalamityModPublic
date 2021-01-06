@@ -91,10 +91,6 @@ namespace CalamityMod.Projectiles.Melee
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
 			target.ExoDebuffs();
-            if (target.type == NPCID.TargetDummy)
-            {
-                return;
-            }
             float healAmt = (float)damage * 0.01f;
             if ((int)healAmt == 0)
             {

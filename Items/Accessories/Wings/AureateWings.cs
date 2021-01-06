@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Accessories.Wings
                 "Acceleration multiplier: 1.5\n" +
                 "Good vertical speed\n" +
                 "Flight time: 80\n" +
-                "15% increased movement speed while wearing the Reaver Armor");
+                "10% increased movement speed while wearing the Reaver Armor");
         }
 
         public override void SetDefaults()
@@ -37,7 +37,7 @@ namespace CalamityMod.Items.Accessories.Wings
                 player.armor[0].type == ModContent.ItemType<ReaverVisage>()) && player.armor[1].type == ModContent.ItemType<ReaverScaleMail>() &&
 				player.armor[2].type == ModContent.ItemType<ReaverCuisses>())
             {
-                player.moveSpeed += 0.15f;
+                player.moveSpeed += 0.1f;
             }
 
             if (player.controlJump && player.wingTime > 0f && !player.jumpAgainCloud && player.jump == 0 && player.velocity.Y != 0f && !hideVisual)

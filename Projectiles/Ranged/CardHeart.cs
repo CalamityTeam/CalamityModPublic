@@ -61,7 +61,7 @@ namespace CalamityMod.Projectiles.Ranged
         {
             target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 360);
             Player player = Main.player[projectile.owner];
-            if (target.type == NPCID.TargetDummy || player.moonLeech)
+            if (player.moonLeech)
             {
                 return;
             }

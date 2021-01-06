@@ -62,8 +62,6 @@ namespace CalamityMod.Projectiles.Melee
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
 			target.AddBuff(ModContent.BuffType<HolyFlames>(), 600);
-			if (target.type == NPCID.TargetDummy)
-				return;
 			float healAmt = damage * 0.015f;
 			if ((int)healAmt == 0)
 				return;

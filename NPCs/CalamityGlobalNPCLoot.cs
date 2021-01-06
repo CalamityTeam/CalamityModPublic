@@ -342,10 +342,6 @@ namespace CalamityMod.NPCs
 				DropHelper.DropItemChance(npc, ModContent.ItemType<VitalJelly>(), Main.expertMode ? 5 : 7);
 				return false;
 			}
-			else if (npc.type == NPCID.VoodooDemon && Main.player[npc.target].Calamity().underworldLore)
-			{
-                NPCLoader.blockLoot.Add(ItemID.GuideVoodooDoll);
-			}
 
             return true;
         }

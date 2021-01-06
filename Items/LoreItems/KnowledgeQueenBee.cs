@@ -11,8 +11,7 @@ namespace CalamityMod.Items.LoreItems
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Queen Bee");
-            Tooltip.SetDefault("As crude as the giant insects are they can prove useful in certain situations...given the ability to control them.\n" +
-                "Favorite this item to make small bees and weak hornets friendly.");
+            Tooltip.SetDefault("As crude as the giant insects are they can prove useful in certain situations...given the ability to control them.");
         }
 
         public override void SetDefaults()
@@ -26,13 +25,6 @@ namespace CalamityMod.Items.LoreItems
         public override bool CanUseItem(Player player)
         {
             return false;
-        }
-
-        public override void UpdateInventory(Player player)
-        {
-            CalamityPlayer modPlayer = player.Calamity();
-			if (item.favorited)
-				modPlayer.queenBeeLore = true;
         }
 
         public override void AddRecipes()

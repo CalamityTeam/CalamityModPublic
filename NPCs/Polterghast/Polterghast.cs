@@ -202,6 +202,9 @@ namespace CalamityMod.NPCs.Polterghast
             else
                 despawnTimer++;
 
+			if (BossRushEvent.BossRushActive)
+				speedBoost = false;
+
             // Despawn
             if (Vector2.Distance(player.Center, vector) > (despawnBoost ? 1500f : 6000f))
 			{
@@ -545,7 +548,7 @@ namespace CalamityMod.NPCs.Polterghast
                 if (Main.netMode != NetmodeID.MultiplayerClient && !charging && !chargePhase)
                 {
                     npc.localAI[1] += expertMode ? 1.5f : 1f;
-                    if (speedBoost || BossRushEvent.BossRushActive)
+                    if (speedBoost)
                         npc.localAI[1] += 3f;
 
                     if (npc.localAI[1] >= 90f * projectileFireRateMultiplier)
@@ -684,7 +687,7 @@ namespace CalamityMod.NPCs.Polterghast
                 if (Main.netMode != NetmodeID.MultiplayerClient && !charging && !chargePhase)
                 {
                     npc.localAI[1] += expertMode ? 1.5f : 1f;
-                    if (speedBoost || BossRushEvent.BossRushActive)
+                    if (speedBoost)
                         npc.localAI[1] += 3f;
 
                     if (npc.localAI[1] >= 150f * projectileFireRateMultiplier)

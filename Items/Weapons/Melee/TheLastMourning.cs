@@ -27,8 +27,8 @@ namespace CalamityMod.Items.Weapons.Melee
             item.melee = true;
             item.damage = BaseDamage;
             item.knockBack = 8.5f;
-            item.useAnimation = 24;
-            item.useTime = 24;
+            item.useAnimation = 20;
+            item.useTime = 20;
             item.autoReuse = true;
             item.useTurn = true;
 
