@@ -4640,6 +4640,8 @@ namespace CalamityMod.CalPlayer
 					break;
 
 				case ItemID.AdamantiteSword:
+					if (CalamityLists.enemyImmunityList.Contains(npc.type) || npc.boss)
+						return;
 					target.velocity *= 0.5f;
 					break;
 
@@ -4732,6 +4734,8 @@ namespace CalamityMod.CalPlayer
 					break;
 
 				case ProjectileID.AdamantiteGlaive:
+					if (CalamityLists.enemyImmunityList.Contains(npc.type) || npc.boss)
+						return;
 					target.velocity *= 0.5f;
 					break;
 
