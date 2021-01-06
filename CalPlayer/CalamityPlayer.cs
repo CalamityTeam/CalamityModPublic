@@ -8336,7 +8336,7 @@ namespace CalamityMod.CalPlayer
                 }
                 else if (dashMod == 3) //Elysian Aegis
                 {
-                    if (DoADash(22f))
+                    if (DoADash(21.5f))
                     {
                         for (int d = 0; d < 40; d++)
                         {
