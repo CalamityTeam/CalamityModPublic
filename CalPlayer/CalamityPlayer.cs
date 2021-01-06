@@ -4640,9 +4640,10 @@ namespace CalamityMod.CalPlayer
 					break;
 
 				case ItemID.AdamantiteSword:
+					float slowDownMult = 0.5f;
 					if (CalamityLists.enemyImmunityList.Contains(npc.type) || npc.boss)
-						return;
-					target.velocity *= 0.5f;
+						slowDownMult = 0.95f;
+					target.velocity *= slowDownMult;
 					break;
 
 				case ItemID.CandyCaneSword:
@@ -4734,9 +4735,10 @@ namespace CalamityMod.CalPlayer
 					break;
 
 				case ProjectileID.AdamantiteGlaive:
+					float slowDownMult = 0.5f;
 					if (CalamityLists.enemyImmunityList.Contains(npc.type) || npc.boss)
-						return;
-					target.velocity *= 0.5f;
+						slowDownMult = 0.95f;
+					target.velocity *= slowDownMult;
 					break;
 
 				case ProjectileID.FruitcakeChakram:
