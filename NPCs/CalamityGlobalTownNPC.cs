@@ -121,7 +121,8 @@ namespace CalamityMod.NPCs
 		private static readonly string[] WitchDoctorNames =
 		{
 			"Sok'ar",
-			"Toxin", // <@!348174404984766465> (Toxin#9598)
+			"Toxin", // <@!348174404984766465> (Toxin#9598),
+			"Mixcoatl", // <@!284775927294984203> (SharZz#7777)
 		};
 		private const int WizardVanillaNames = 22;
 		private static readonly string[] WizardNames =
