@@ -37,6 +37,7 @@ using CalamityMod.NPCs.DevourerofGods;
 using CalamityMod.NPCs.GreatSandShark;
 using CalamityMod.NPCs.HiveMind;
 using CalamityMod.NPCs.NormalNPCs;
+using CalamityMod.NPCs.OldDuke;
 using CalamityMod.NPCs.Perforator;
 using CalamityMod.NPCs.PlaguebringerGoliath;
 using CalamityMod.NPCs.Providence;
@@ -85,6 +86,7 @@ namespace CalamityMod
         public static List<int> iceWeaponList;
         public static List<int> natureWeaponList;
         public static List<int> alcoholList;
+		public static List<int> useTurnList;
 		public static List<int> twentyUseTimeBuffList; //20% use time buff
 		public static List<int> fiftySizeBuffList; //50% size buff
 		public static List<int> quadrupleDamageBuffList; //300% buff
@@ -1047,6 +1049,48 @@ namespace CalamityMod
                 ModContent.BuffType<WhiskeyBuff>(),
                 ModContent.BuffType<WhiteWineBuff>()
             };
+
+			useTurnList = new List<int>()
+			{
+				ItemID.IronBroadsword,
+				ItemID.LeadBroadsword,
+				ItemID.SilverBroadsword,
+				ItemID.TungstenBroadsword,
+				ItemID.PlatinumBroadsword,
+				ItemID.GoldBroadsword,
+				ItemID.CactusSword,
+				ItemID.ZombieArm,
+				ItemID.StylistKilLaKillScissorsIWish,
+				ItemID.DyeTradersScimitar,
+				ItemID.PurpleClubberfish,
+				ItemID.LightsBane,
+				ItemID.BloodButcherer,
+				ItemID.BluePhaseblade,
+				ItemID.RedPhaseblade,
+				ItemID.GreenPhaseblade,
+				ItemID.WhitePhaseblade,
+				ItemID.YellowPhaseblade,
+				ItemID.PurplePhaseblade,
+				ItemID.BladeofGrass,
+				ItemID.FieryGreatsword,
+				ItemID.NightsEdge,
+				ItemID.FalconBlade,
+				ItemID.BreakerBlade,
+				ItemID.SlapHand,
+				ItemID.TaxCollectorsStickOfDoom,
+				ItemID.Bladetongue,
+				ItemID.CobaltSword,
+				ItemID.PalladiumSword,
+				ItemID.MythrilSword,
+				ItemID.OrichalcumSword,
+				ItemID.AdamantiteSword,
+				ItemID.TitaniumSword,
+				ItemID.Excalibur,
+				ItemID.TrueExcalibur,
+				ItemID.TrueNightsEdge,
+				ItemID.TheHorsemansBlade,
+				ItemID.Keybrand
+			};
 
 			twentyUseTimeBuffList = new List<int>()
 			{
@@ -2394,12 +2438,13 @@ namespace CalamityMod
                 CalamityMod.Instance.GetEquipSlot("PopoLeg", EquipType.Legs)
             };
 
-            // Duke Fishron phase 3 becomes way too easy if you can make him stop being invisible with Yanmei's Knife.
+            // Duke Fishron and Old Duke phase 3 becomes way too easy if you can make him stop being invisible with Yanmei's Knife.
             // This is a list so that other NPCs can be added as necessary.
             // IT DOES NOT make them immune to the debuff, just stops them from being recolored.
             kamiDebuffColorImmuneList = new List<int>()
             {
                 NPCID.DukeFishron,
+				ModContent.NPCType<OldDuke>()
             };
         }
 

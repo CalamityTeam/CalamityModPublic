@@ -113,6 +113,9 @@ namespace CalamityMod.Items
             if (item.type >= ItemID.GreenSolution && item.type <= ItemID.RedSolution)
                 item.value = Item.buyPrice(0, 0, 5, 0);
 
+			if (CalamityLists.useTurnList?.Contains(item.type) ?? false)
+				item.useTurn = true;
+
             if (CalamityLists.weaponAutoreuseList?.Contains(item.type) ?? false)
                 item.autoReuse = true;
 

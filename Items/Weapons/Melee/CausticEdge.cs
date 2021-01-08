@@ -16,7 +16,8 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetDefaults()
         {
             item.width = 46;
-            item.damage = 44;
+            item.damage = 98;
+			item.scale = 1.5f;
             item.melee = true;
             item.useTurn = true;
             item.useAnimation = 27;
@@ -35,11 +36,20 @@ namespace CalamityMod.Items.Weapons.Melee
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.BladeofGrass);
             recipe.AddIngredient(ItemID.LavaBucket);
-            recipe.AddIngredient(ItemID.Deathweed, 5);
+			recipe.AddIngredient(ItemID.ShadowScale, 3);
+			recipe.AddIngredient(ItemID.Deathweed, 5);
             recipe.AddTile(TileID.DemonAltar);
             recipe.SetResult(this);
             recipe.AddRecipe();
-        }
+			recipe = new ModRecipe(mod);
+			recipe.AddIngredient(ItemID.BladeofGrass);
+			recipe.AddIngredient(ItemID.LavaBucket);
+			recipe.AddIngredient(ItemID.TissueSample, 3);
+			recipe.AddIngredient(ItemID.Deathweed, 5);
+			recipe.AddTile(TileID.DemonAltar);
+			recipe.SetResult(this);
+			recipe.AddRecipe();
+		}
 
         public override void MeleeEffects(Player player, Rectangle hitbox)
         {
