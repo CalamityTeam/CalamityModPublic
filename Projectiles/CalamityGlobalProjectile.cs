@@ -231,6 +231,61 @@ namespace CalamityMod.Projectiles
                 return false;
             }
 
+            if (projectile.type == ProjectileID.NurseSyringeHeal)
+            {
+                ref float initialSpeed = ref projectile.localAI[1];
+                if (initialSpeed == 0f)
+                    initialSpeed = projectile.velocity.Length();
+
+                bool invalidHealTarget = !Main.npc.IndexInRange((int)projectile.ai[0]) || !Main.npc[(int)projectile.ai[0]].active || !Main.npc[(int)projectile.ai[0]].townNPC;
+                if (invalidHealTarget)
+                {
+                    projectile.Kill();
+                    return false;
+                }
+
+                NPC npcToHeal = Main.npc[(int)projectile.ai[0]];
+
+                // If the needle is not colliding with the target, attempt to move towards it while falling.
+                if (!projectile.WithinRange(npcToHeal.Center, initialSpeed) && !projectile.Hitbox.Intersects(npcToHeal.Hitbox))
+                {
+                    Vector2 flySpeed = projectile.DirectionTo(npcToHeal.Center) * initialSpeed;
+
+                    // Prevent the needle from ever violating its gravity.
+                    if (flySpeed.Y < projectile.velocity.Y)
+                        flySpeed.Y = projectile.velocity.Y;
+
+                    flySpeed.Y++;
+
+                    projectile.velocity = Vector2.Lerp(projectile.velocity, flySpeed, 0.04f);
+                    projectile.rotation += projectile.velocity.X * 0.05f;
+                    return false;
+                }
+
+                // Otherwise, die immediately and heal the target.
+                projectile.Kill();
+
+                int healAmount = npcToHeal.lifeMax - npcToHeal.life;
+                int maxHealAmount = 20;
+
+                // If the target has more than 250 max life, incorporate their total life into the max amount to heal.
+                // This is done so that more powerful NPCs, such as Cirrus, do not take an eternity to receive meaningful healing benefits
+                // from the Nurse.
+                if (npcToHeal.lifeMax > 250)
+                    maxHealAmount = (int)Math.Max(maxHealAmount, npcToHeal.lifeMax * 0.05f);
+
+                if (healAmount > maxHealAmount)
+                    healAmount = maxHealAmount;
+
+                if (healAmount > 0)
+                {
+                    npcToHeal.life += healAmount;
+                    npcToHeal.HealEffect(healAmount, true);
+                    return false;
+                }
+                return false;
+			}
+
             if (CalamityWorld.revenge || BossRushEvent.BossRushActive)
             {
                 if (projectile.type == ProjectileID.EyeLaser && projectile.ai[0] == 1f)
