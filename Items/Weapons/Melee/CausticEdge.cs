@@ -36,19 +36,11 @@ namespace CalamityMod.Items.Weapons.Melee
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.BladeofGrass);
             recipe.AddIngredient(ItemID.LavaBucket);
-			recipe.AddIngredient(ItemID.ShadowScale, 3);
+			recipe.AddRecipeGroup("Boss2Material", 3);
 			recipe.AddIngredient(ItemID.Deathweed, 5);
             recipe.AddTile(TileID.DemonAltar);
             recipe.SetResult(this);
             recipe.AddRecipe();
-			recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ItemID.BladeofGrass);
-			recipe.AddIngredient(ItemID.LavaBucket);
-			recipe.AddIngredient(ItemID.TissueSample, 3);
-			recipe.AddIngredient(ItemID.Deathweed, 5);
-			recipe.AddTile(TileID.DemonAltar);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
 		}
 
         public override void MeleeEffects(Player player, Rectangle hitbox)

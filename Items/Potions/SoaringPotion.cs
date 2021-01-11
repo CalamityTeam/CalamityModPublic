@@ -38,7 +38,6 @@ namespace CalamityMod.Items.Potions
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.BottledWater);
-            recipe.AddIngredient(ItemID.Feather);
             recipe.AddIngredient(ItemID.SoulofFlight);
             recipe.AddIngredient(ModContent.ItemType<SunkenSailfish>());
             recipe.AddTile(TileID.AlchemyTable);

@@ -5850,12 +5850,19 @@ namespace CalamityMod.CalPlayer
 					proj.velocity *= -1f;
 					proj.damage = damage2;
 					proj.penetrate = 1;
-					player.immune = true;
-					player.immuneNoBlink = true;
-					player.immuneTime += 4;
+					bool isImmune = false;
 					for (int j = 0; j < player.hurtCooldowns.Length; j++)
 					{
-						player.hurtCooldowns[j] = player.immuneTime;
+						if (player.hurtCooldowns[j] > 0)
+							isImmune = true;
+					}
+					if (!isImmune)
+					{
+						player.immune = true;
+						player.immuneNoBlink = true;
+						player.immuneTime += 4;
+						for (int j = 0; j < player.hurtCooldowns.Length; j++)
+							player.hurtCooldowns[j] = player.immuneTime;
 					}
 					damage = 0;
 					return;
@@ -8000,12 +8007,19 @@ namespace CalamityMod.CalPlayer
 							if (npc.immune[player.whoAmI] < 6)
 								npc.immune[player.whoAmI] = 6;
                             npc.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 300);
-                            player.immune = true;
-                            player.immuneNoBlink = true;
-							player.immuneTime += 4;
-							for (int k = 0; k < player.hurtCooldowns.Length; k++)
+							bool isImmune = false;
+							for (int j = 0; j < player.hurtCooldowns.Length; j++)
 							{
-								player.hurtCooldowns[k] = player.immuneTime;
+								if (player.hurtCooldowns[j] > 0)
+									isImmune = true;
+							}
+							if (!isImmune)
+							{
+								player.immune = true;
+								player.immuneNoBlink = true;
+								player.immuneTime += 4;
+								for (int k = 0; k < player.hurtCooldowns.Length; k++)
+									player.hurtCooldowns[k] = player.immuneTime;
 							}
                         }
                     }
@@ -8054,12 +8068,19 @@ namespace CalamityMod.CalPlayer
                             }
 							if (npc.immune[player.whoAmI] < 6)
 								npc.immune[player.whoAmI] = 6;
-                            player.immune = true;
-                            player.immuneNoBlink = true;
-							player.immuneTime += 4;
-							for (int k = 0; k < player.hurtCooldowns.Length; k++)
+							bool isImmune = false;
+							for (int j = 0; j < player.hurtCooldowns.Length; j++)
 							{
-								player.hurtCooldowns[k] = player.immuneTime;
+								if (player.hurtCooldowns[j] > 0)
+									isImmune = true;
+							}
+							if (!isImmune)
+							{
+								player.immune = true;
+								player.immuneNoBlink = true;
+								player.immuneTime += 4;
+								for (int k = 0; k < player.hurtCooldowns.Length; k++)
+									player.hurtCooldowns[k] = player.immuneTime;
 							}
                         }
                     }
@@ -8107,12 +8128,19 @@ namespace CalamityMod.CalPlayer
                             }
 							if (npc.immune[player.whoAmI] < 6)
 								npc.immune[player.whoAmI] = 6;
-                            player.immune = true;
-                            player.immuneNoBlink = true;
-							player.immuneTime += 4;
-							for (int k = 0; k < player.hurtCooldowns.Length; k++)
+							bool isImmune = false;
+							for (int j = 0; j < player.hurtCooldowns.Length; j++)
 							{
-								player.hurtCooldowns[k] = player.immuneTime;
+								if (player.hurtCooldowns[j] > 0)
+									isImmune = true;
+							}
+							if (!isImmune)
+							{
+								player.immune = true;
+								player.immuneNoBlink = true;
+								player.immuneTime += 4;
+								for (int k = 0; k < player.hurtCooldowns.Length; k++)
+									player.hurtCooldowns[k] = player.immuneTime;
 							}
                         }
                     }
@@ -8148,12 +8176,19 @@ namespace CalamityMod.CalPlayer
 							if (npc.immune[player.whoAmI] < 6)
 								npc.immune[player.whoAmI] = 6;
                             npc.AddBuff(ModContent.BuffType<Plague>(), 300);
-                            player.immune = true;
-                            player.immuneNoBlink = true;
-							player.immuneTime += 4;
-							for (int k = 0; k < player.hurtCooldowns.Length; k++)
+							bool isImmune = false;
+							for (int j = 0; j < player.hurtCooldowns.Length; j++)
 							{
-								player.hurtCooldowns[k] = player.immuneTime;
+								if (player.hurtCooldowns[j] > 0)
+									isImmune = true;
+							}
+							if (!isImmune)
+							{
+								player.immune = true;
+								player.immuneNoBlink = true;
+								player.immuneTime += 4;
+								for (int k = 0; k < player.hurtCooldowns.Length; k++)
+									player.hurtCooldowns[k] = player.immuneTime;
 							}
                         }
                     }
@@ -8714,12 +8749,19 @@ namespace CalamityMod.CalPlayer
                             player.ApplyDamageToNPC(nPC, (int)Damage, Knockback, direction, false);
                         }
                         nPC.immune[player.whoAmI] = NPCImmuneTime;
-                        player.immune = true;
-                        player.immuneNoBlink = true;
-                        player.immuneTime += PlayerImmuneTime;
+						bool isImmune = false;
 						for (int j = 0; j < player.hurtCooldowns.Length; j++)
 						{
-							player.hurtCooldowns[j] = player.immuneTime;
+							if (player.hurtCooldowns[j] > 0)
+								isImmune = true;
+						}
+						if (!isImmune)
+						{
+							player.immune = true;
+							player.immuneNoBlink = true;
+							player.immuneTime += PlayerImmuneTime;
+							for (int j = 0; j < player.hurtCooldowns.Length; j++)
+								player.hurtCooldowns[j] = player.immuneTime;
 						}
 						num++;
                         break;

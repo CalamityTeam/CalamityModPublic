@@ -22,7 +22,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.height = 36;
             npc.defense = 50;
 			npc.DR_NERD(0.1f);
-            npc.lifeMax = 4500;
+            npc.lifeMax = 6000;
             npc.knockBackResist = 0f;
             aiType = -1;
             npc.value = Item.buyPrice(0, 0, 50, 0);

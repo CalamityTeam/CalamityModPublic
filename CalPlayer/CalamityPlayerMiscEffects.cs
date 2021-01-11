@@ -2398,6 +2398,7 @@ namespace CalamityMod.CalPlayer
 			{
 				player.endurance += 0.06f;
 				player.statDefense += 8;
+				player.pickSpeed -= 0.05f;
 				player.allDamage += 0.06f;
 				modPlayer.AllCritBoost(2);
 				player.minionKB += 1f;
