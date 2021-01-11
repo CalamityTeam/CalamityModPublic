@@ -234,7 +234,7 @@ namespace CalamityMod.Projectiles.Magic
 			}
 			else {
 				// Do we still have enough mana? If not, we kill the projectile because we cannot use it anymore
-				if (Main.time % 10 < 1 && !player.CheckMana(player.ActiveItem().mana, true))
+				if (Main.player[projectile.owner].miscCounter % 10 == 0 && !player.CheckMana(player.ActiveItem().mana, true))
 				{
 					projectile.Kill();
 				}
