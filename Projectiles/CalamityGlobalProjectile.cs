@@ -3,6 +3,7 @@ using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.CalPlayer;
 using CalamityMod.Dusts;
 using CalamityMod.Events;
+using CalamityMod.Items.Accessories;
 using CalamityMod.NPCs.NormalNPCs;
 using CalamityMod.Projectiles.Healing;
 using CalamityMod.Projectiles.Magic;
@@ -20,6 +21,8 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
+
+using NanotechProjectile = CalamityMod.Projectiles.Typeless.Nanotech;
 
 namespace CalamityMod.Projectiles
 {
@@ -1155,9 +1158,9 @@ namespace CalamityMod.Projectiles
                     {
                         if (Main.player[projectile.owner].miscCounter % 30 == 0 && projectile.FinalExtraUpdate())
                         {
-                            if (projectile.owner == Main.myPlayer && player.ownedProjectileCounts[ProjectileType<Nanotech>()] < 25)
+                            if (projectile.owner == Main.myPlayer && player.ownedProjectileCounts[ProjectileType<NanotechProjectile>()] < 25)
                             {
-                                Projectile.NewProjectile(projectile.Center, Vector2.Zero, ProjectileType<Nanotech>(),
+                                Projectile.NewProjectile(projectile.Center, Vector2.Zero, ProjectileType<NanotechProjectile>(),
                                     CalamityUtils.DamageSoftCap(projectile.damage * 0.15, 150), 0f, projectile.owner, 0f, 0f);
                             }
                         }
@@ -1398,6 +1401,9 @@ namespace CalamityMod.Projectiles
         {
             Player player = Main.player[projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
+
+            if (modPlayer.rottenDogTooth && projectile.Calamity().stealthStrike)
+                target.AddBuff(BuffType<ArmorCrunch>(), RottenDogtooth.ArmorCrunchDebuffTime);
 
             // Super dummies have nearly 10 million max HP (which is used in damage calculations).
             // This can very easily cause damage numbers that are unrealistic for the weapon.

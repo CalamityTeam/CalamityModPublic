@@ -1,3 +1,4 @@
+using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.World;
 using Terraria;
@@ -64,6 +65,7 @@ namespace CalamityMod.NPCs.NormalNPCs
         {
             int bandageDropRate = CalamityWorld.defiled ? DropHelper.DefiledDropRateInt : Main.expertMode ? 50 : 100;
             DropHelper.DropItemChance(npc, ItemID.AdhesiveBandage, bandageDropRate, 1, 1);
+            DropHelper.DropItemChance(npc, ModContent.ItemType<RottenDogtooth>(), 8);
         }
     }
 }
