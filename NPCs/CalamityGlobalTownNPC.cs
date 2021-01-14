@@ -5,6 +5,7 @@ using CalamityMod.Items.Dyes.HairDye;
 using CalamityMod.Items.Pets;
 using CalamityMod.Items.Placeables.Furniture.Fountains;
 using CalamityMod.Items.Placeables.Walls;
+using CalamityMod.Items.Potions;
 using CalamityMod.Items.SummonItems;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
@@ -1154,8 +1155,15 @@ namespace CalamityMod.NPCs
 		#region Shop Stuff
 		public static void ShopSetup(int type, Mod mod, ref Chest shop, ref int nextSlot)
 		{
+			int goldCost = NPC.downedMoonlord ? 8 : Main.hardMode ? 4 : 2;
+
 			if (type == NPCID.Merchant)
 			{
+				SetShopItem(ref shop, ref nextSlot, ItemID.WormholePotion, true, Item.buyPrice(0, 0, 25, 0));
+				SetShopItem(ref shop, ref nextSlot, ItemID.ArcheryPotion, NPC.downedBoss1, Item.buyPrice(0, goldCost, 0, 0));
+				SetShopItem(ref shop, ref nextSlot, ItemID.HealingPotion, NPC.downedBoss2);
+				SetShopItem(ref shop, ref nextSlot, ItemID.ManaPotion, NPC.downedBoss2);
+				SetShopItem(ref shop, ref nextSlot, ItemID.TitanPotion, NPC.downedBoss3, Item.buyPrice(0, 2, 0, 0));
 				SetShopItem(ref shop, ref nextSlot, ItemID.Flare, (Main.LocalPlayer.HasItem(ItemType<FirestormCannon>()) || Main.LocalPlayer.HasItem(ItemType<SpectralstormCannon>())) && !Main.LocalPlayer.HasItem(ItemID.FlareGun));
 				SetShopItem(ref shop, ref nextSlot, ItemID.BlueFlare, (Main.LocalPlayer.HasItem(ItemType<FirestormCannon>()) || Main.LocalPlayer.HasItem(ItemType<SpectralstormCannon>())) && !Main.LocalPlayer.HasItem(ItemID.FlareGun));
 				SetShopItem(ref shop, ref nextSlot, ItemID.ApprenticeBait, NPC.downedBoss1);
@@ -1173,8 +1181,21 @@ namespace CalamityMod.NPCs
 				SetShopItem(ref shop, ref nextSlot, ItemType<DefiledFlameDye>(), Main.hardMode && CalamityWorld.defiled, Item.buyPrice(0, 10));
 			}
 
+			if (type == NPCID.Demolitionist)
+			{
+				SetShopItem(ref shop, ref nextSlot, ItemID.MiningPotion, NPC.downedBoss1, Item.buyPrice(0, 1, 0, 0));
+				SetShopItem(ref shop, ref nextSlot, ItemID.IronskinPotion, NPC.downedBoss1, Item.buyPrice(0, 1, 0, 0));
+				SetShopItem(ref shop, ref nextSlot, ItemID.ShinePotion, NPC.downedBoss1, Item.buyPrice(0, 1, 0, 0));
+				SetShopItem(ref shop, ref nextSlot, ItemID.SpelunkerPotion, NPC.downedBoss2, Item.buyPrice(0, 2, 0, 0));
+				SetShopItem(ref shop, ref nextSlot, ItemID.ObsidianSkinPotion, NPC.downedBoss3, Item.buyPrice(0, 2, 0, 0));
+				SetShopItem(ref shop, ref nextSlot, ItemID.EndurancePotion, NPC.downedBoss3, Item.buyPrice(0, goldCost, 0, 0));
+			}
+
 			if (type == NPCID.ArmsDealer)
 			{
+				SetShopItem(ref shop, ref nextSlot, ItemID.AmmoReservationPotion, true, Item.buyPrice(0, 1, 0, 0));
+				SetShopItem(ref shop, ref nextSlot, ItemID.HunterPotion, true, Item.buyPrice(0, 2, 0, 0));
+				SetShopItem(ref shop, ref nextSlot, ItemID.BattlePotion, NPC.downedBoss2, Item.buyPrice(0, 2, 0, 0));
 				SetShopItem(ref shop, ref nextSlot, ItemID.Stake, Main.LocalPlayer.HasItem(ItemType<Impaler>()));
 				SetShopItem(ref shop, ref nextSlot, WorldGen.crimson ? ItemID.Musket : ItemID.TheUndertaker, WorldGen.shadowOrbSmashed || NPC.downedBoss2);
 				SetShopItem(ref shop, ref nextSlot, ItemID.Boomstick, NPC.downedQueenBee, price: Item.buyPrice(0, 20, 0, 0));
@@ -1203,6 +1224,10 @@ namespace CalamityMod.NPCs
 
 			if (type == NPCID.Dryad)
 			{
+				SetShopItem(ref shop, ref nextSlot, ItemID.ThornsPotion, true, Item.buyPrice(0, 1, 0, 0));
+				SetShopItem(ref shop, ref nextSlot, ItemID.FeatherfallPotion, true, Item.buyPrice(0, 1, 0, 0));
+				SetShopItem(ref shop, ref nextSlot, ItemID.RegenerationPotion, NPC.downedBoss2, Item.buyPrice(0, 2, 0, 0));
+				SetShopItem(ref shop, ref nextSlot, ItemID.SwiftnessPotion, NPC.downedBoss2, Item.buyPrice(0, goldCost, 0, 0));
 				SetShopItem(ref shop, ref nextSlot, ItemID.JungleRose, price: Item.buyPrice(0, 2));
 				SetShopItem(ref shop, ref nextSlot, ItemID.NaturesGift, price: Item.buyPrice(0, 10));
 				SetShopItem(ref shop, ref nextSlot, ItemID.SlimeCrown, NPC.downedSlimeKing && CalamityConfig.Instance.SellVanillaSummons, Item.buyPrice(0, 2));
@@ -1222,6 +1247,7 @@ namespace CalamityMod.NPCs
 
 			if (type == NPCID.GoblinTinkerer)
 			{
+				SetShopItem(ref shop, ref nextSlot, ItemID.StinkPotion, true, Item.buyPrice(0, 1, 0, 0));
 				SetShopItem(ref shop, ref nextSlot, ItemType<MeleeLevelMeter>(), price: Item.buyPrice(0, 5));
 				SetShopItem(ref shop, ref nextSlot, ItemType<RangedLevelMeter>(), price: Item.buyPrice(0, 5));
 				SetShopItem(ref shop, ref nextSlot, ItemType<MagicLevelMeter>(), price: Item.buyPrice(0, 5));
@@ -1229,6 +1255,11 @@ namespace CalamityMod.NPCs
 				SetShopItem(ref shop, ref nextSlot, ItemType<RogueLevelMeter>(), price: Item.buyPrice(0, 5));
 				SetShopItem(ref shop, ref nextSlot, ItemType<StatMeter>(), price: Item.buyPrice(1));
 				SetShopItem(ref shop, ref nextSlot, ItemID.GoblinBattleStandard, price: Item.buyPrice(0, 1));
+			}
+
+			if (type == NPCID.Mechanic)
+			{
+				SetShopItem(ref shop, ref nextSlot, ItemID.BuilderPotion, true, Item.buyPrice(0, 1, 0, 0));
 			}
 
 			if (type == NPCID.Clothier)
@@ -1262,6 +1293,9 @@ namespace CalamityMod.NPCs
 
 			if (type == NPCID.Wizard)
 			{
+				SetShopItem(ref shop, ref nextSlot, ItemID.ManaRegenerationPotion, true, Item.buyPrice(0, goldCost, 0, 0));
+				SetShopItem(ref shop, ref nextSlot, ItemID.MagicPowerPotion, true, Item.buyPrice(0, goldCost, 0, 0));
+				SetShopItem(ref shop, ref nextSlot, ItemID.GravitationPotion, true, Item.buyPrice(0, 2, 0, 0));
 				SetShopItem(ref shop, ref nextSlot, ItemType<HowlsHeart>());
 				SetShopItem(ref shop, ref nextSlot, ItemType<CharredIdol>(), CalamityWorld.downedBrimstoneElemental, Item.buyPrice(0, 20));
 				SetShopItem(ref shop, ref nextSlot, ItemType<AstralChunk>(), CalamityWorld.downedAstrageldon, Item.buyPrice(0, 25));
@@ -1276,6 +1310,10 @@ namespace CalamityMod.NPCs
 
 			if (type == NPCID.WitchDoctor)
 			{
+				SetShopItem(ref shop, ref nextSlot, ItemID.CalmingPotion, true, Item.buyPrice(0, 1, 0, 0));
+				SetShopItem(ref shop, ref nextSlot, ItemID.RagePotion, true, Item.buyPrice(0, goldCost, 0, 0));
+				SetShopItem(ref shop, ref nextSlot, ItemID.WrathPotion, true, Item.buyPrice(0, goldCost, 0, 0));
+				SetShopItem(ref shop, ref nextSlot, ItemID.InfernoPotion, true, Item.buyPrice(0, 2, 0, 0));
 				SetShopItem(ref shop, ref nextSlot, ItemType<SunkenSeaFountain>());
 				SetShopItem(ref shop, ref nextSlot, ItemType<SulphurousFountainItem>());
 				SetShopItem(ref shop, ref nextSlot, ItemType<AbyssFountainItem>(), Main.hardMode);
@@ -1290,8 +1328,14 @@ namespace CalamityMod.NPCs
 				SetShopItem(ref shop, ref nextSlot, ItemType<BirbPheromones>(), CalamityWorld.downedBumble, Item.buyPrice(5));
 			}
 
+			if (type == NPCID.PartyGirl)
+			{
+				SetShopItem(ref shop, ref nextSlot, ItemID.GenderChangePotion, true, Item.buyPrice(0, 1, 0, 0));
+			}
+
 			if (type == NPCID.SkeletonMerchant)
 			{
+				SetShopItem(ref shop, ref nextSlot, ItemType<CalciumPotion>(), true, Item.buyPrice(0, 1, 0, 0));
 				SetShopItem(ref shop, ref nextSlot, ItemID.Marrow, Main.hardMode, Item.buyPrice(0, 36));
 			}
 		}

@@ -52,10 +52,6 @@ namespace CalamityMod.Projectiles.Magic
 
 		public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
 		{
-			if (target.type == NPCID.TargetDummy)
-			{
-				return;
-			}
 			projectile.damage = (int)(projectile.damage * 1.1);
 		}
 

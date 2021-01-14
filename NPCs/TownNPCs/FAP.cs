@@ -240,7 +240,20 @@ namespace CalamityMod.NPCs.TownNPCs
 
         public override void SetupShop(Chest shop, ref int nextSlot) //charges 50% extra than the original item value
         {
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<GrapeBeer>());
+			shop.item[nextSlot].SetDefaults(ItemID.HeartreachPotion);
+			shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 2, 0, 0);
+			nextSlot++;
+
+			shop.item[nextSlot].SetDefaults(ItemID.LifeforcePotion);
+			int goldCost = NPC.downedMoonlord ? 8 : 4;
+			shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, goldCost, 0, 0);
+			nextSlot++;
+
+			shop.item[nextSlot].SetDefaults(ItemID.LovePotion);
+			shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 1, 0, 0);
+			nextSlot++;
+
+			shop.item[nextSlot].SetDefaults(ModContent.ItemType<GrapeBeer>());
             shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 1, 0, 0);
             nextSlot++;
 

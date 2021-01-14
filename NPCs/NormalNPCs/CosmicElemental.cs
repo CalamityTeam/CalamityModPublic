@@ -101,10 +101,10 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void NPCLoot()
         {
-			DropHelper.DropItemChance(npc, ItemID.BoneSword, 10);
+			DropHelper.DropItemChance(npc, ItemID.BoneSword, CalamityWorld.defiled ? DropHelper.DefiledDropRateInt : 25);
 			DropHelper.DropItemChance(npc, ItemID.Starfury, CalamityWorld.defiled ? DropHelper.DefiledDropRateInt : 50);
 			DropHelper.DropItemChance(npc, ItemID.EnchantedSword, CalamityWorld.defiled ? DropHelper.DefiledDropRateInt : 100);
-			DropHelper.DropItemChance(npc, ItemID.Arkhalis, CalamityWorld.defiled ? DropHelper.DefiledDropRateInt : 1000);
+			DropHelper.DropItemChance(npc, ItemID.Arkhalis, CalamityWorld.defiled ? DropHelper.DefiledDropRateInt : 200);
         }
     }
 }

@@ -24,9 +24,6 @@ namespace CalamityMod.Items.DifficultyItems
                 "Certain enemies and projectiles deal between 5% and 25% more damage.\n" +
                 "Makes certain enemies immune to life steal and nerfs the effectiveness of life steal.\n" +
                 "Nerfs the effectiveness of the Titanium Armor set bonus.\n" +
-                "Makes life regen scale with your current HP, the higher your HP the lower your life regen (this is not based on max HP).\n" +
-                "Asphalt run speed is reduced by 33%, and the Nurse's healing cost is increased\n" +
-                "Before you have killed your first boss you take 20% less damage from everything.\n" +
                 "Changes ALL boss AIs and some enemy AIs in vanilla and the Calamity Mod.");
         }
 

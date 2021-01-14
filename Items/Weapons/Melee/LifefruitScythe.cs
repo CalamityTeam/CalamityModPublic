@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Lifehunt Scythe");
-            Tooltip.SetDefault("Heals the player on enemy hits and shoots an energy scythe");
+            Tooltip.SetDefault("Heals you on hit and shoots an energy scythe");
         }
 
         public override void SetDefaults()
@@ -54,10 +54,8 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            if (target.type == NPCID.TargetDummy || !target.canGhostHeal || player.moonLeech)
-            {
+            if (!target.canGhostHeal || player.moonLeech)
                 return;
-            }
             player.statLife += 5;
             player.HealEffect(5);
         }

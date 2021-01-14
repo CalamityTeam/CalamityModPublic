@@ -35,7 +35,6 @@ namespace CalamityMod.Items.Potions
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.BottledWater);
-            recipe.AddIngredient(ModContent.ItemType<StormlionMandible>());
             recipe.AddIngredient(ModContent.ItemType<VictoryShard>(), 3);
             recipe.AddTile(TileID.Bottles);
             recipe.SetResult(this);

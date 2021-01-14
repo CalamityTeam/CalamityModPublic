@@ -123,7 +123,7 @@ namespace CalamityMod.Projectiles.Rogue
         {
             CalamityGlobalProjectile.ExpandHitboxBy(projectile, 150);
             Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<ScarletBlast>(), (int)(projectile.damage * 0.0075), 0f, projectile.owner);
-            if (target.type == NPCID.TargetDummy || !projectile.Calamity().stealthStrike)
+            if (!projectile.Calamity().stealthStrike)
                 return;
 
             if (!Main.player[projectile.owner].moonLeech)

@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 6;
+            item.damage = 12;
             item.ranged = true;
             item.width = 60;
             item.height = 28;
@@ -40,16 +40,13 @@ namespace CalamityMod.Items.Weapons.Ranged
             return new Vector2(-14, -1);
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
-        {
-            for (int i = 0; i < 2; ++i)
-            {
-                float SpeedX = speedX + (float)Main.rand.Next(-15, 16) * 0.05f;
-                float SpeedY = speedY + (float)Main.rand.Next(-15, 16) * 0.05f;
-                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
-            }
-            return false;
-        }
+		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		{
+			float SpeedX = speedX + Main.rand.Next(-15, 16) * 0.05f;
+			float SpeedY = speedY + Main.rand.Next(-15, 16) * 0.05f;
+			Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
+			return false;
+		}
 
         public override bool ConsumeAmmo(Player player)
         {

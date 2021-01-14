@@ -71,8 +71,8 @@ namespace CalamityMod.Items.Accessories.Wings
                 Main.dust[num60].shader = GameShaders.Armor.GetSecondaryShader(player.cWings, player);
             }
             CalamityPlayer modPlayer = player.Calamity();
-            player.accRunSpeed = 9.25f;
-            player.moveSpeed += 0.2f;
+            player.accRunSpeed = 8.5f;
+            player.moveSpeed += 0.16f;
             player.iceSkate = true;
             player.waterWalk = true;
             player.fireWalk = true;

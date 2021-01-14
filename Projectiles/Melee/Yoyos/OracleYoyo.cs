@@ -120,10 +120,6 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            // The yoyo does nothing versus normal dummies
-            if (target.type == NPCID.TargetDummy)
-                return;
-
             // Charge up the red lightning aura with every hit
             projectile.localAI[1] += ChargePerHit;
 

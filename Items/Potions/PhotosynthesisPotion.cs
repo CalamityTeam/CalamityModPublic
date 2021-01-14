@@ -36,8 +36,7 @@ namespace CalamityMod.Items.Potions
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.BottledWater);
-            recipe.AddIngredient(ModContent.ItemType<BeetleJuice>(), 2);
-            recipe.AddIngredient(ItemID.Vine);
+            recipe.AddIngredient(ModContent.ItemType<BeetleJuice>());
             recipe.AddIngredient(ModContent.ItemType<TrapperBulb>());
             recipe.AddIngredient(ModContent.ItemType<EssenceofCinder>());
             recipe.AddTile(TileID.AlchemyTable);

@@ -82,7 +82,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(ModContent.BuffType<GlacialState>(), 120);
-            if (target.type == NPCID.TargetDummy || !target.canGhostHeal || player.moonLeech)
+            if (!target.canGhostHeal || player.moonLeech)
             {
                 return;
             }

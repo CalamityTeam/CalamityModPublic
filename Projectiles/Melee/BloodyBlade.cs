@@ -1,3 +1,4 @@
+using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -52,12 +53,14 @@ namespace CalamityMod.Projectiles.Melee
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.immune[projectile.owner] = 9;
-            target.AddBuff(BuffID.Ichor, 60);
+			target.AddBuff(ModContent.BuffType<BurningBlood>(), 60);
+			target.AddBuff(BuffID.Ichor, 60);
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
             target.AddBuff(BuffID.Ichor, 60);
-        }
+			target.AddBuff(ModContent.BuffType<BurningBlood>(), 60);
+		}
     }
 }

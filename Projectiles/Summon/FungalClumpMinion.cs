@@ -247,7 +247,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            if (target.type == NPCID.TargetDummy || !target.canGhostHeal)
+            if (!target.canGhostHeal)
             {
                 return;
             }

@@ -66,7 +66,8 @@ namespace CalamityMod.UI
             ref Item pluggedItem = ref charger.PluggedItem;
             Item powercell = new Item();
             powercell.TurnToAir();
-            if (charger.CellStack > 0)
+
+            if (charger.CellStack > 0 || powercell.maxStack == 0)
             {
                 powercell.SetDefaults(powercellID);
                 powercell.stack = charger.CellStack;

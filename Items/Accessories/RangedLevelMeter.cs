@@ -50,57 +50,57 @@ namespace CalamityMod.Items.Accessories
                     break;
                 case 5:
                     damageGain = 3;
-                    moveSpeed = 2;
+                    moveSpeed = 1;
                     critGain = 1;
                     break;
                 case 6:
                     damageGain = 4;
-                    moveSpeed = 3;
+                    moveSpeed = 1;
                     critGain = 1;
                     break;
                 case 7:
                     damageGain = 4;
-                    moveSpeed = 4;
+                    moveSpeed = 2;
                     critGain = 2;
                     break;
                 case 8:
                     damageGain = 5;
-                    moveSpeed = 5;
+                    moveSpeed = 2;
                     critGain = 2;
                     break;
                 case 9:
                     damageGain = 5;
-                    moveSpeed = 5;
+                    moveSpeed = 2;
                     critGain = 3;
                     break;
                 case 10:
                     damageGain = 6;
-                    moveSpeed = 6;
+                    moveSpeed = 3;
                     critGain = 3;
                     break;
                 case 11:
                     damageGain = 7;
-                    moveSpeed = 7;
+                    moveSpeed = 3;
                     critGain = 4;
                     break;
                 case 12:
                     damageGain = 8;
-                    moveSpeed = 8;
+                    moveSpeed = 4;
                     critGain = 4;
                     break;
                 case 13:
                     damageGain = 9;
-                    moveSpeed = 9;
+                    moveSpeed = 4;
                     critGain = 5;
                     break;
                 case 14:
                     damageGain = 10;
-                    moveSpeed = 10;
+                    moveSpeed = 5;
                     critGain = 5;
                     break;
                 case 15:
                     damageGain = 12;
-                    moveSpeed = 12;
+                    moveSpeed = 6;
                     critGain = 6;
                     break;
             }

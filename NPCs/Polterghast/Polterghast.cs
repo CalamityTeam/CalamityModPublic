@@ -39,7 +39,8 @@ namespace CalamityMod.NPCs.Polterghast
 
         public override void SetDefaults()
         {
-            npc.npcSlots = 50f;
+			npc.Calamity().canBreakPlayerDefense = true;
+			npc.npcSlots = 50f;
 			npc.GetNPCDamage();
 			npc.width = 90;
             npc.height = 120;
@@ -107,9 +108,6 @@ namespace CalamityMod.NPCs.Polterghast
         {
             // Emit light
             Lighting.AddLight((int)((npc.position.X + (npc.width / 2)) / 16f), (int)((npc.position.Y + (npc.height / 2)) / 16f), 0.1f, 0.5f, 0.5f);
-
-			// Doesn't do it all the time
-			npc.Calamity().canBreakPlayerDefense = false;
 
 			// whoAmI variable
 			CalamityGlobalNPC.ghostBoss = npc.whoAmI;
@@ -201,6 +199,9 @@ namespace CalamityMod.NPCs.Polterghast
             }
             else
                 despawnTimer++;
+
+			if (BossRushEvent.BossRushActive)
+				speedBoost = false;
 
             // Despawn
             if (Vector2.Distance(player.Center, vector) > (despawnBoost ? 1500f : 6000f))
@@ -426,8 +427,6 @@ namespace CalamityMod.NPCs.Polterghast
 				// Charge
 				if (npc.Calamity().newAI[3] == 1f)
 				{
-					npc.Calamity().canBreakPlayerDefense = true;
-
 					if (npc.Calamity().newAI[1] == 0f)
 					{
 						npc.velocity = Vector2.Normalize(player.Center - vector) * chargeVelocity;
@@ -545,7 +544,7 @@ namespace CalamityMod.NPCs.Polterghast
                 if (Main.netMode != NetmodeID.MultiplayerClient && !charging && !chargePhase)
                 {
                     npc.localAI[1] += expertMode ? 1.5f : 1f;
-                    if (speedBoost || BossRushEvent.BossRushActive)
+                    if (speedBoost)
                         npc.localAI[1] += 3f;
 
                     if (npc.localAI[1] >= 90f * projectileFireRateMultiplier)
@@ -684,7 +683,7 @@ namespace CalamityMod.NPCs.Polterghast
                 if (Main.netMode != NetmodeID.MultiplayerClient && !charging && !chargePhase)
                 {
                     npc.localAI[1] += expertMode ? 1.5f : 1f;
-                    if (speedBoost || BossRushEvent.BossRushActive)
+                    if (speedBoost)
                         npc.localAI[1] += 3f;
 
                     if (npc.localAI[1] >= 150f * projectileFireRateMultiplier)

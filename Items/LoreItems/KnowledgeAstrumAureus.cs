@@ -13,8 +13,7 @@ namespace CalamityMod.Items.LoreItems
         {
             DisplayName.SetDefault("Astrum Aureus");
             Tooltip.SetDefault("A titanic cyborg infected by a star-borne disease expelled from the belly of an ancient god.\n" +
-                "The destruction of this creature will not prevent the spread of the disease.\n" +
-                "Favorite this item to gain 10% increased jump speed in space.");
+                "The destruction of this creature will not prevent the spread of the disease.");
         }
 
         public override void SetDefaults()
@@ -28,13 +27,6 @@ namespace CalamityMod.Items.LoreItems
         public override bool CanUseItem(Player player)
         {
             return false;
-        }
-
-        public override void UpdateInventory(Player player)
-        {
-            CalamityPlayer modPlayer = player.Calamity();
-			if (item.favorited)
-				modPlayer.astrumAureusLore = true;
         }
 
         public override void AddRecipes()

@@ -33,7 +33,7 @@ namespace CalamityMod.Projectiles.Summon
             projectile.timeLeft *= 5;
             projectile.minion = true;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 5;
+            projectile.localNPCHitCooldown = 10;
             projectile.hide = true;
         }
 

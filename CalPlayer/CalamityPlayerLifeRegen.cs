@@ -144,7 +144,7 @@ namespace CalamityMod.CalPlayer
 				lifeRegenLost += 20;
             }
 
-            if (modPlayer.ZoneSulphur && player.IsUnderwater() && !modPlayer.aquaticScourgeLore && !modPlayer.decayEffigy && !player.lavaWet && !player.honeyWet)
+            if (modPlayer.ZoneSulphur && player.IsUnderwater() && !modPlayer.decayEffigy && !player.lavaWet && !player.honeyWet)
             {
                 player.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), 2, true);
                 modPlayer.pissWaterBoost++;
@@ -727,10 +727,12 @@ namespace CalamityMod.CalPlayer
 
             if (modPlayer.fearmongerSet && modPlayer.fearmongerRegenFrames > 0)
             {
-                player.lifeRegen += 14;
-                player.lifeRegenTime += 7;
-                if (player.lifeRegenTime < 1800)
-                    player.lifeRegenTime = 1800;
+                player.lifeRegen += 7;
+
+				if (player.lifeRegenTime < 1800)
+					player.lifeRegenTime = 1800;
+
+				player.lifeRegenTime += 4;
             }
 
 			if (modPlayer.etherealExtorter && player.ZoneGlowshroom)
@@ -892,38 +894,29 @@ namespace CalamityMod.CalPlayer
 				}
 			}
 
-			if (CalamityWorld.revenge)
+			if (player.statLife < modPlayer.actualMaxLife)
 			{
-				if (player.statLife < modPlayer.actualMaxLife)
-				{
-					bool noLifeRegenCap = (player.shinyStone || modPlayer.draedonsHeart || modPlayer.cFreeze || modPlayer.shadeRegen || modPlayer.photosynthesis || modPlayer.camper) &&
-						player.StandingStill() && player.itemAnimation == 0;
+				bool noLifeRegenCap = (player.shinyStone || modPlayer.draedonsHeart || modPlayer.cFreeze || modPlayer.shadeRegen || modPlayer.photosynthesis || modPlayer.camper) &&
+					player.StandingStill() && player.itemAnimation == 0;
 
-					if (!noLifeRegenCap)
+				if (!noLifeRegenCap)
+				{
+					// Max HP = 400
+					// 350 HP = 1 - 0.875 * 10 = 1.25 = 1
+					// 100 HP = 1 - 0.25 * 10 = 7.5 = 7
+					// 200 HP = 1 - 0.5 * 10 = 5
+					int lifeRegenScale = (int)((1f - (player.statLife / modPlayer.actualMaxLife)) * 10f); // 9 to 0 (1% HP to 100%)
+					if (player.lifeRegen > lifeRegenScale)
 					{
-						// Max HP = 400
-						// 350 HP = 1 - 0.875 * 10 = 1.25 = 1
-						// 100 HP = 1 - 0.25 * 10 = 7.5 = 7
-						// 200 HP = 1 - 0.5 * 10 = 5
-						int lifeRegenScale = (int)((1f - (player.statLife / modPlayer.actualMaxLife)) * 10f); // 9 to 0 (1% HP to 100%)
-						if (player.lifeRegen > lifeRegenScale)
-						{
-							float lifeRegenScalar = 1f + (player.statLife / modPlayer.actualMaxLife); // 1 to 2 (1% HP to 100%)
-							int defLifeRegen = (int)(player.lifeRegen / lifeRegenScalar);
-							player.lifeRegen = defLifeRegen;
-						}
+						float lifeRegenScalar = 1f + (player.statLife / modPlayer.actualMaxLife); // 1 to 2 (1% HP to 100%)
+						int defLifeRegen = (int)(player.lifeRegen / lifeRegenScalar);
+						player.lifeRegen = defLifeRegen;
 					}
 				}
 			}
 
 			if (player.lifeRegen > 0)
 			{
-				if (modPlayer.plaguebringerGoliathLore)
-					player.lifeRegen /= 2;
-
-				if (modPlayer.eaterOfWorldsLore)
-					player.lifeRegen /= 2;
-
 				if (modPlayer.godSlayerCooldown)
 					player.lifeRegen /= 2;
 			}

@@ -155,7 +155,7 @@ namespace CalamityMod.Items.Weapons.Melee
             target.AddBuff(BuffID.Frostburn, 240);
             target.AddBuff(BuffID.OnFire, 240);
             target.AddBuff(BuffID.Ichor, 240);
-            if (target.type == NPCID.TargetDummy || !target.canGhostHeal || player.moonLeech)
+            if (!target.canGhostHeal || player.moonLeech)
             {
                 return;
             }

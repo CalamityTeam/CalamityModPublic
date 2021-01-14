@@ -31,7 +31,7 @@ namespace CalamityMod.Projectiles.Summon
             projectile.tileCollide = false;
             projectile.minion = true;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 5;
+            projectile.localNPCHitCooldown = 10;
             projectile.hide = true;
         }
 

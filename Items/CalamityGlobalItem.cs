@@ -113,12 +113,24 @@ namespace CalamityMod.Items
             if (item.type >= ItemID.GreenSolution && item.type <= ItemID.RedSolution)
                 item.value = Item.buyPrice(0, 0, 5, 0);
 
+			if (CalamityLists.useTurnList?.Contains(item.type) ?? false)
+				item.useTurn = true;
+
             if (CalamityLists.weaponAutoreuseList?.Contains(item.type) ?? false)
                 item.autoReuse = true;
 
-			if (item.type == ItemID.PsychoKnife || item.type == ItemID.TaxCollectorsStickOfDoom)
+			if (CalamityLists.fiftySizeBuffList?.Contains(item.type) ?? false)
+				item.scale = 1.5f;
+
+			if (CalamityLists.twentyUseTimeBuffList?.Contains(item.type) ?? false)
+			{
+				item.useTime = (int)(item.useTime * 0.8);
+				item.useAnimation = item.useTime;
+			}
+
+			if (CalamityLists.quadrupleDamageBuffList?.Contains(item.type) ?? false)
 				item.damage *= 4;
-			else if (item.type == ItemID.SpectreStaff)
+			else if (CalamityLists.tripleDamageBuffList?.Contains(item.type) ?? false)
 				item.damage *= 3;
 			else if (CalamityLists.doubleDamageBuffList?.Contains(item.type) ?? false)
 				item.damage *= 2;
@@ -232,7 +244,7 @@ namespace CalamityMod.Items
                 if (modPlayer.gloveOfRecklessness)
                 {
                     Vector2 rotated = new Vector2(speedX, speedY);
-                    rotated = rotated.RotatedByRandom(MathHelper.ToRadians(10f));
+                    rotated = rotated.RotatedByRandom(MathHelper.ToRadians(6f));
                     speedX = rotated.X;
                     speedY = rotated.Y;
                 }
@@ -1273,9 +1285,9 @@ namespace CalamityMod.Items
 					}
 				}
 			}
-            #endregion
+			#endregion
 
-            /*if (item.ammo == 97)
+			/*if (item.ammo == 97)
             {
                 foreach (TooltipLine line2 in tooltips)
                 {
@@ -1287,6 +1299,103 @@ namespace CalamityMod.Items
                 }
             }*/
 
+			if (item.type == ItemID.CobaltSword || item.type == ItemID.CobaltNaginata)
+			{
+				foreach (TooltipLine line2 in tooltips)
+				{
+					if (line2.mod == "Terraria" && line2.Name == "Knockback")
+						line2.text += "\nDecreases enemy defense by 10% on hit";
+				}
+			}
+			if (item.type == ItemID.PalladiumSword || item.type == ItemID.PalladiumPike)
+			{
+				foreach (TooltipLine line2 in tooltips)
+				{
+					if (line2.mod == "Terraria" && line2.Name == "Knockback")
+						line2.text += "\nIncreases life regen on hit";
+				}
+			}
+			if (item.type == ItemID.MythrilSword || item.type == ItemID.MythrilHalberd)
+			{
+				foreach (TooltipLine line2 in tooltips)
+				{
+					if (line2.mod == "Terraria" && line2.Name == "Knockback")
+						line2.text += "\nDecreases enemy contact damage by 10% on hit";
+				}
+			}
+			if (item.type == ItemID.OrichalcumSword || item.type == ItemID.OrichalcumHalberd)
+			{
+				foreach (TooltipLine line2 in tooltips)
+				{
+					if (line2.mod == "Terraria" && line2.Name == "Knockback")
+						line2.text += "\nIncreases how frequently the Orichalcum set bonus triggers on hit";
+				}
+			}
+			if (item.type == ItemID.AdamantiteSword || item.type == ItemID.AdamantiteGlaive)
+			{
+				foreach (TooltipLine line2 in tooltips)
+				{
+					if (line2.mod == "Terraria" && line2.Name == "Knockback")
+						line2.text += "\nSlows enemies on hit";
+				}
+			}
+			if (item.type == ItemID.TitaniumSword || item.type == ItemID.TitaniumTrident)
+			{
+				foreach (TooltipLine line2 in tooltips)
+				{
+					if (line2.mod == "Terraria" && line2.Name == "Knockback")
+						line2.text += "\nDeals increased damage to enemies with high knockback resistance";
+				}
+			}
+			if (item.type == ItemID.Excalibur || item.type == ItemID.Gungnir || item.type == ItemID.TrueExcalibur)
+			{
+				foreach (TooltipLine line2 in tooltips)
+				{
+					if (line2.mod == "Terraria" && line2.Name == "Knockback")
+						line2.text += "\nInflicts Holy Flames\n" +
+							"Deals double damage to enemies above 75% life";
+				}
+			}
+			if (item.type == ItemID.CandyCaneSword || item.type == ItemID.FruitcakeChakram)
+			{
+				foreach (TooltipLine line2 in tooltips)
+				{
+					if (line2.mod == "Terraria" && line2.Name == "Knockback")
+						line2.text += "\nHeals you on hit";
+				}
+			}
+			if (item.type == ItemID.StylistKilLaKillScissorsIWish || (item.type >= ItemID.BluePhaseblade && item.type <= ItemID.YellowPhaseblade) || (item.type >= ItemID.BluePhasesaber && item.type <= ItemID.YellowPhasesaber))
+			{
+				foreach (TooltipLine line2 in tooltips)
+				{
+					if (line2.mod == "Terraria" && line2.Name == "Knockback")
+						line2.text += "\nIgnores 100% of enemy defense";
+				}
+			}
+			if (item.type == ItemID.AntlionClaw || item.type == ItemID.BoneSword || item.type == ItemID.BreakerBlade)
+			{
+				foreach (TooltipLine line2 in tooltips)
+				{
+					if (line2.mod == "Terraria" && line2.Name == "Knockback")
+						line2.text += "\nIgnores 50% of enemy defense";
+				}
+			}
+			if (item.type == ItemID.LightsBane || item.type == ItemID.NightsEdge || item.type == ItemID.TrueNightsEdge)
+			{
+				foreach (TooltipLine line2 in tooltips)
+				{
+					if (line2.mod == "Terraria" && line2.Name == "Knockback")
+						line2.text += "\nInflicts Shadowflame";
+				}
+			}
+			if (item.type == ItemID.BloodButcherer || item.type == ItemID.TheRottedFork)
+			{
+				foreach (TooltipLine line2 in tooltips)
+				{
+					if (line2.mod == "Terraria" && line2.Name == "Knockback")
+						line2.text += "\nInflicts Burning Blood";
+				}
+			}
 			if (item.type == ItemID.BottledHoney)
 			{
 				foreach (TooltipLine line2 in tooltips)
@@ -3630,7 +3739,8 @@ Grants immunity to fire blocks, and temporary immunity to lava";
         public override void HorizontalWingSpeeds(Item item, Player player, ref float speed, ref float acceleration)
         {
             CalamityPlayer modPlayer = player.Calamity();
-			float moveSpeedBoost = modPlayer.moveSpeedStat * 0.0025f;
+			float moveSpeedBoost = modPlayer.moveSpeedStat * 0.0015f;
+
 			float flightSpeedMult = 1f +
                 (modPlayer.soaring ? 0.1f : 0f) +
                 (modPlayer.holyWrath ? 0.05f : 0f) +
@@ -3639,18 +3749,16 @@ Grants immunity to fire blocks, and temporary immunity to lava";
 				(modPlayer.reaverSpeed ? 0.1f : 0f) +
 				(modPlayer.etherealExtorter && modPlayer.ZoneAstral ? 0.05f : 0f) +
 				moveSpeedBoost;
-            if (flightSpeedMult > 1.5f)
-                flightSpeedMult = 1.5f;
 
+			float flightAccMult = 1f +
+				(modPlayer.draconicSurge ? 0.1f : 0f) +
+				moveSpeedBoost;
+
+			flightSpeedMult = MathHelper.Clamp(flightSpeedMult, 0.5f, 1.5f);
             speed *= flightSpeedMult;
 
-            float flightAccMult = 1f +
-                (modPlayer.draconicSurge ? 0.1f : 0f) +
-				moveSpeedBoost;
-            if (flightAccMult > 1.5f)
-                flightAccMult = 1.5f;
-
-            acceleration *= flightAccMult;
+			flightAccMult = MathHelper.Clamp(flightAccMult, 0.5f, 1.5f);
+			acceleration *= flightAccMult;
         }
         #endregion
 
@@ -3659,10 +3767,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
         {
             CalamityPlayer modPlayer = player.Calamity();
             int itemGrabRangeBoost = 0 +
-                (modPlayer.wallOfFleshLore ? 10 : 0) +
-                (modPlayer.planteraLore ? 20 : 0) +
-				(modPlayer.reaverExplore ? 20 : 0) +
-				(modPlayer.polterghastLore ? 30 : 0);
+				(modPlayer.reaverExplore ? 20 : 0);
 
             grabRange += itemGrabRangeBoost;
         }
