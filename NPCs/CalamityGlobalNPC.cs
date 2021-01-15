@@ -1626,9 +1626,11 @@ namespace CalamityMod.NPCs
 				/*if (Main.masterMode)
 					DRScalar = 5f;*/
 
-				// Boost Providence timed DR during the night and Storm Weaver timed DR
+				// Boost Providence timed DR during the night, Destroyer and Storm Weaver timed DR
 				if ((npc.type == NPCType<Providence.Providence>() && !Main.dayTime) || StormWeaverIDs.Contains(npc.type))
                     DRScalar = 10f;
+				if (DestroyerIDs.Contains(npc.type) || AquaticScourgeIDs.Contains(npc.type))
+					DRScalar = 5f;
 
                 // The limit for how much extra DR the boss can have
                 float extraDRLimit = (1f - DR) * DRScalar;

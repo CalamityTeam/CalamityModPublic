@@ -1015,8 +1015,8 @@ namespace CalamityMod.NPCs
                     DropHelper.DropItemChance(npc, ModContent.ItemType<BloodOrb>(), 2); // 50% chance of 1 orb with Bloodflare
                 }
 
-                // 1/12 chance to get a Blood Orb with or without Bloodflare
-                DropHelper.DropItemChance(npc, ModContent.ItemType<BloodOrb>(), 12);
+                // 20% chance to get a Blood Orb with or without Bloodflare
+                DropHelper.DropItemChance(npc, ModContent.ItemType<BloodOrb>(), 5);
             }
         }
         #endregion
