@@ -32,7 +32,7 @@ Reduces defense by 3% and movement speed by 5%");
             item.healMana = 100;
             item.consumable = true;
             item.potion = true;
-            item.value = Item.buyPrice(0, 0, 65, 0);
+            item.value = Item.buyPrice(0, 0, 20, 0);
         }
 
         public override void OnConsumeItem(Player player)

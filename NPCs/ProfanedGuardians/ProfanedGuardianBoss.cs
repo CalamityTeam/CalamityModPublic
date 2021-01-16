@@ -56,7 +56,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/Guardians");
             else
                 music = MusicID.Boss1;
-            npc.value = Item.buyPrice(0, 25, 0, 0);
+            npc.value = Item.buyPrice(0, 15, 0, 0);
             npc.HitSound = SoundID.NPCHit52;
             npc.DeathSound = SoundID.NPCDeath55;
         }

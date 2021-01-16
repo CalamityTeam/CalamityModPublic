@@ -70,7 +70,7 @@ namespace CalamityMod.NPCs.Yharon
             npc.knockBackResist = 0f;
             npc.aiStyle = -1;
             aiType = -1;
-            npc.value = Item.buyPrice(1, 50, 0, 0);
+            npc.value = Item.buyPrice(1, 0, 0, 0);
             npc.boss = true;
 
             for (int k = 0; k < npc.buffImmune.Length; k++)

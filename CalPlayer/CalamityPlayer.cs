@@ -249,6 +249,7 @@ namespace CalamityMod.CalPlayer
 		public int auralisAuroraCooldown = 0;
 		public int auralisAurora = 0;
 		public int fungalSymbioteTimer = 0;
+		public int aBulwarkRareTimer = 0;
 		public bool canFireAtaxiaRangedProjectile = false;
 		public bool canFireAtaxiaRogueProjectile = false;
 		public bool canFireGodSlayerRangedProjectile = false;
@@ -2009,6 +2010,7 @@ namespace CalamityMod.CalPlayer
 			auralisAuroraCooldown = 0;
 			auralisAurora = 0;
 			fungalSymbioteTimer = 0;
+			aBulwarkRareTimer = 0;
             rage = 0;
             adrenaline = 0;
             raiderStack = 0;

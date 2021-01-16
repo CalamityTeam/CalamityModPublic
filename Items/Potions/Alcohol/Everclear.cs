@@ -29,7 +29,7 @@ Reduces life regen by 10 and defense by 30%");
             item.consumable = true;
             item.buffType = ModContent.BuffType<EverclearBuff>();
             item.buffTime = CalamityUtils.SecondsToFrames(60f);
-            item.value = Item.buyPrice(0, 6, 60, 0);
+            item.value = Item.buyPrice(0, 2, 0, 0);
         }
     }
 }

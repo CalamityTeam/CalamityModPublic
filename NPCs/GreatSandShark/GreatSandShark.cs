@@ -39,7 +39,7 @@ namespace CalamityMod.NPCs.GreatSandShark
             npc.aiStyle = -1;
             aiType = -1;
             npc.knockBackResist = 0f;
-            npc.value = Item.buyPrice(0, 10, 0, 0);
+            npc.value = Item.buyPrice(0, 5, 0, 0);
             NPCID.Sets.TrailCacheLength[npc.type] = 8;
             NPCID.Sets.TrailingMode[npc.type] = 1;
             npc.behindTiles = true;

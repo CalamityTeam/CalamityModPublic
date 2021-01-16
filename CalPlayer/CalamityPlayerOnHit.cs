@@ -50,8 +50,9 @@ namespace CalamityMod.CalPlayer
 
 			if (npcCheck)
 			{
-				if (item.melee && modPlayer.aBulwarkRare)
+				if (item.melee && modPlayer.aBulwarkRare && modPlayer.aBulwarkRareTimer == 0)
 				{
+					modPlayer.aBulwarkRareTimer = 10;
 					for (int n = 0; n < 3; n++)
 						CalamityUtils.ProjectileRain(player.Center, 400f, 100f, 500f, 800f, 29f, ProjectileType<AstralStar>(), (int)(320 * player.AverageDamage()), 5f, player.whoAmI);
 				}

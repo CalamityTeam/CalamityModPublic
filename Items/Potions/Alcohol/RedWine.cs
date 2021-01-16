@@ -29,7 +29,7 @@ Reduces life regen by 1");
             item.healLife = 200;
             item.consumable = true;
             item.potion = true;
-            item.value = Item.buyPrice(0, 2, 0, 0);
+            item.value = Item.buyPrice(0, 0, 65, 0);
         }
 
         public override bool CanUseItem(Player player)

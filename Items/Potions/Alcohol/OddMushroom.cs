@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Potions.Alcohol
             item.consumable = true;
             item.buffType = ModContent.BuffType<Trippy>();
             item.buffTime = CalamityUtils.SecondsToFrames(3600f);
-            item.value = Item.buyPrice(1, 0, 0, 0);
+            item.value = Item.buyPrice(0, 50, 0, 0);
         }
     }
 }

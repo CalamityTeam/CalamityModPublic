@@ -29,7 +29,7 @@ Reduces life regen by 1");
             item.consumable = true;
             item.buffType = ModContent.BuffType<TequilaSunriseBuff>();
             item.buffTime = CalamityUtils.SecondsToFrames(480f);
-            item.value = Item.buyPrice(0, 20, 0, 0);
+            item.value = Item.buyPrice(0, 6, 60, 0);
         }
     }
 }

@@ -30,7 +30,7 @@ Reduces defense by 6% and life regen by 1");
             item.consumable = true;
             item.buffType = ModContent.BuffType<StarBeamRyeBuff>();
             item.buffTime = CalamityUtils.SecondsToFrames(480f);
-            item.value = Item.buyPrice(0, 13, 30, 0);
+            item.value = Item.buyPrice(0, 4, 0, 0);
         }
     }
 }

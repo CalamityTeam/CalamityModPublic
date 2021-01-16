@@ -31,7 +31,7 @@ Reduces life regen by 1");
             item.consumable = true;
             item.buffType = ModContent.BuffType<FireballBuff>();
             item.buffTime = CalamityUtils.SecondsToFrames(480f);
-            item.value = Item.buyPrice(0, 6, 60, 0);
+            item.value = Item.buyPrice(0, 2, 0, 0);
         }
     }
 }

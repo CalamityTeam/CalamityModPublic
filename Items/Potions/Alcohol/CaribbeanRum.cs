@@ -29,7 +29,7 @@ Makes you floaty and reduces defense by 10%");
             item.consumable = true;
             item.buffType = ModContent.BuffType<CaribbeanRumBuff>();
             item.buffTime = CalamityUtils.SecondsToFrames(480f);
-            item.value = Item.buyPrice(0, 20, 0, 0);
+            item.value = Item.buyPrice(0, 5, 30, 0);
         }
     }
 }

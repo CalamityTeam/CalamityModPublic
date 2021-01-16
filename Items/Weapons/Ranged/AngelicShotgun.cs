@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class AngelicShotgun : ModItem
     {
-        private static int BaseDamage = 100;
+        private static int BaseDamage = 96;
         private static float BulletSpeed = 12f;
 
         public override void SetStaticDefaults()

@@ -74,10 +74,11 @@ namespace CalamityMod.Projectiles.Summon
 
             if (target != null)
             {
+				projectile.extraUpdates = 1;
                 projectile.ai[0]++;
 
                 // Arc towards enemy every 60 frames for 30 frames.
-                float modulo = projectile.ai[0] % 150f;
+                float modulo = projectile.ai[0] % 300f;
                 if ((modulo < 30f) ||
                     (modulo >= 90 && modulo < 120f))
                 {
@@ -92,7 +93,7 @@ namespace CalamityMod.Projectiles.Summon
                     }
                     else
                     {
-                        projectile.velocity = (projectile.velocity * 44f + projectile.DirectionTo(player.Center) * 16f) / 45f;
+                        projectile.velocity = (projectile.velocity * 44f + projectile.DirectionTo(player.Center) * 24f) / 45f;
                         projectile.ai[0] += 30 - projectile.ai[0] % 30f;
                     }
                     projectile.ai[1] = 1f;
@@ -111,6 +112,7 @@ namespace CalamityMod.Projectiles.Summon
             }
             else if (projectile.Distance(player.Center) > 175f)
             {
+				projectile.extraUpdates = 0;
                 projectile.ai[1] = 0f;
                 projectile.velocity = (projectile.velocity * 24f + projectile.DirectionTo(player.Center) * 16f) / 25f;
                 if (projectile.Distance(player.Center) > 3250f)

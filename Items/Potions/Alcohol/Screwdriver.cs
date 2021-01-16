@@ -29,7 +29,7 @@ Reduces life regen by 1");
             item.consumable = true;
             item.buffType = ModContent.BuffType<ScrewdriverBuff>();
             item.buffTime = CalamityUtils.SecondsToFrames(480f);
-            item.value = Item.buyPrice(0, 16, 60, 0);
+            item.value = Item.buyPrice(0, 4, 0, 0);
         }
     }
 }

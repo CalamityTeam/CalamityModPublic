@@ -107,7 +107,10 @@ namespace CalamityMod.Projectiles.Rogue
 			{
 				int stealth = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<Blood>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
 				if (stealth.WithinBounds(Main.maxProjectiles))
+				{
 					Main.projectile[stealth].Calamity().forceRogue = true;
+					Main.projectile[stealth].extraUpdates = 1;
+				}
 			}
 
 			Player player = Main.player[projectile.owner];

@@ -31,7 +31,7 @@ Reduces defense by 10%");
             item.consumable = true;
             item.buffType = ModContent.BuffType<CinnamonRollBuff>();
             item.buffTime = CalamityUtils.SecondsToFrames(480f);
-            item.value = Item.buyPrice(0, 16, 60, 0);
+            item.value = Item.buyPrice(0, 5, 30, 0);
         }
     }
 }

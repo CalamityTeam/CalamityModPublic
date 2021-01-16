@@ -4,6 +4,7 @@ using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.CalPlayer;
 using CalamityMod.Dusts;
 using CalamityMod.Events;
+using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.NPCs.Abyss;
 using CalamityMod.NPCs.AcidRain;
 using CalamityMod.NPCs.AquaticScourge;
@@ -1626,10 +1627,10 @@ namespace CalamityMod.NPCs
 				/*if (Main.masterMode)
 					DRScalar = 5f;*/
 
-				// Boost Providence timed DR during the night, Destroyer and Storm Weaver timed DR
+				// Boost Providence timed DR during the night, Destroyer, Aquatic Scourge, Astrum Deus and Storm Weaver timed DR
 				if ((npc.type == NPCType<Providence.Providence>() && !Main.dayTime) || StormWeaverIDs.Contains(npc.type))
                     DRScalar = 10f;
-				if (DestroyerIDs.Contains(npc.type) || AquaticScourgeIDs.Contains(npc.type))
+				if (DestroyerIDs.Contains(npc.type) || AquaticScourgeIDs.Contains(npc.type) || AstrumDeusIDs.Contains(npc.type))
 					DRScalar = 5f;
 
                 // The limit for how much extra DR the boss can have
@@ -3157,10 +3158,26 @@ namespace CalamityMod.NPCs
 				}
 			}
         }
-        #endregion
+		#endregion
 
-        #region Modify Hit By Projectile
-        public override void ModifyHitByProjectile(NPC npc, Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+		#region Modify Hit
+		public override void ModifyHitByItem(NPC npc, Player player, Item item, ref int damage, ref float knockback, ref bool crit)
+		{
+			if (npc.type == NPCType<Polterghast.Polterghast>())
+			{
+				if (item.type == ItemType<GrandDad>())
+					damage = (int)(damage * 0.75);
+			}
+			else if (npc.type == NPCType<Signus.Signus>())
+			{
+				if (item.type == ItemType<GrandDad>())
+					damage = (int)(damage * 0.75);
+			}
+		}
+		#endregion
+
+		#region Modify Hit By Projectile
+		public override void ModifyHitByProjectile(NPC npc, Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
 			Player player = Main.player[projectile.owner];
 			CalamityPlayer modPlayer = player.Calamity();
@@ -3337,6 +3354,22 @@ namespace CalamityMod.NPCs
 				else if (projectile.type == ProjectileID.LunarFlare)
 				{
 					damage = (int)(damage * 0.8);
+				}
+			}
+			else if (npc.type == NPCType<Polterghast.Polterghast>())
+			{
+				if (projectile.type == ProjectileType<LunarKunaiProj>() || projectile.type == ProjectileType<CelestialReaperProjectile>() || projectile.type == ProjectileType<CelestialReaperAfterimage>() ||
+					projectile.type == ProjectileType<Knife>() || projectile.type == ProjectileType<Fork>() || projectile.type == ProjectileType<CarvingFork>() || projectile.type == ProjectileType<ButcherKnife>())
+				{
+					damage = (int)(damage * 0.75);
+				}
+			}
+			else if (npc.type == NPCType<Signus.Signus>())
+			{
+				if (projectile.type == ProjectileType<CelestialReaperProjectile>() || projectile.type == ProjectileType<CelestialReaperAfterimage>() || projectile.type == ProjectileType<Knife>() ||
+					projectile.type == ProjectileType<Fork>() || projectile.type == ProjectileType<CarvingFork>() || projectile.type == ProjectileType<ButcherKnife>())
+				{
+					damage = (int)(damage * 0.75);
 				}
 			}
 			else if (npc.type == NPCID.CultistBoss)

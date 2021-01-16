@@ -1052,6 +1052,8 @@ namespace CalamityMod.CalPlayer
 				modPlayer.bloodflareSoulTimer--;
 			if (modPlayer.fungalSymbioteTimer > 0)
 				modPlayer.fungalSymbioteTimer--;
+			if (modPlayer.aBulwarkRareTimer > 0)
+				modPlayer.aBulwarkRareTimer--;
 			if (player.miscCounter % 20 == 0)
 				modPlayer.canFireAtaxiaRangedProjectile = true;
 			if (player.miscCounter % 100 == 0)

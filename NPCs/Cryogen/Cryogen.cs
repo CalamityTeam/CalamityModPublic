@@ -54,7 +54,7 @@ namespace CalamityMod.NPCs.Cryogen
             npc.aiStyle = -1;
             aiType = -1;
             npc.knockBackResist = 0f;
-            npc.value = Item.buyPrice(0, 12, 0, 0);
+            npc.value = Item.buyPrice(0, 10, 0, 0);
             npc.boss = true;
             npc.noGravity = true;
             npc.noTileCollide = true;
