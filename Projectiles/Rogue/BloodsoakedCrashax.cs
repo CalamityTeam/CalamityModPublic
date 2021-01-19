@@ -105,7 +105,7 @@ namespace CalamityMod.Projectiles.Rogue
 
 			if (projectile.Calamity().stealthStrike && projectile.owner == Main.myPlayer) //stealth strike attack
 			{
-				int stealth = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<Blood>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
+				int stealth = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<Blood>(), projectile.damage, projectile.knockBack, projectile.owner, 1f, 0.85f + Main.rand.NextFloat() * 1.15f);
 				if (stealth.WithinBounds(Main.maxProjectiles))
 				{
 					Main.projectile[stealth].Calamity().forceRogue = true;

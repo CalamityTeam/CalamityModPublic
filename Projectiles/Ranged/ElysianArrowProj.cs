@@ -89,7 +89,7 @@ namespace CalamityMod.Projectiles.Ranged
             num16 *= num18;
             if (projectile.owner == Main.myPlayer)
             {
-                int num19 = Projectile.NewProjectile(x, y, num15, num16, ModContent.ProjectileType<SkyFlareFriendly>(), projectile.damage, 5f, projectile.owner, 0f, 0f);
+                int num19 = Projectile.NewProjectile(x, y, num15, num16, ModContent.ProjectileType<SkyFlareFriendly>(), projectile.damage / 2, 5f, projectile.owner, 0f, 0f);
                 Main.projectile[num19].ai[1] = projectile.position.Y;
             }
         }

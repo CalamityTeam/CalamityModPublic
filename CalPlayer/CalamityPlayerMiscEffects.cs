@@ -97,9 +97,6 @@ namespace CalamityMod.CalPlayer
 			// Limits
 			Limits(player, modPlayer);
 
-			// Endurance reductions
-			EnduranceReductions(player, modPlayer);
-
 			// Stat Meter
 			UpdateStatMeter(player, modPlayer);
 
@@ -3728,6 +3725,9 @@ namespace CalamityMod.CalPlayer
 					player.statDefense += (int)(player.statDefense * 0.75);
 			}
 
+			// Endurance reductions
+			EnduranceReductions(player, modPlayer);
+
 			// Defense stat damage calcs
 			// This was not done to prevent facetanking, but to push players to not just stand completely fucking still taking 1 or 2 damage the entire time
 			if (modPlayer.defenseDamage > 0)
@@ -3741,6 +3741,10 @@ namespace CalamityMod.CalPlayer
 				// Set current max player defense stat as the cap
 				if (modPlayer.defenseDamage > player.statDefense)
 					modPlayer.defenseDamage = player.statDefense;
+
+				// Reduce player DR based on defense stat damage accumulated, this is done before defense is reduced
+				if (player.statDefense > 0 && player.endurance > 0f)
+					player.endurance -= modPlayer.defenseDamage / (float)player.statDefense * player.endurance * 0.5f;
 
 				// Reduce player defense based on defense stat damage accumulated
 				player.statDefense -= modPlayer.defenseDamage;

@@ -3367,7 +3367,7 @@ namespace CalamityMod.NPCs
 			else if (npc.type == NPCType<Signus.Signus>())
 			{
 				if (projectile.type == ProjectileType<CelestialReaperProjectile>() || projectile.type == ProjectileType<CelestialReaperAfterimage>() || projectile.type == ProjectileType<Knife>() ||
-					projectile.type == ProjectileType<Fork>() || projectile.type == ProjectileType<CarvingFork>() || projectile.type == ProjectileType<ButcherKnife>())
+					projectile.type == ProjectileType<Fork>() || projectile.type == ProjectileType<CarvingFork>() || projectile.type == ProjectileType<ButcherKnife>() || projectile.type == ProjectileType<LunarKunaiProj>())
 				{
 					damage = (int)(damage * 0.75);
 				}

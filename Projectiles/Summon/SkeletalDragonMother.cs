@@ -78,7 +78,7 @@ namespace CalamityMod.Projectiles.Summon
                 projectile.ai[0]++;
 
                 // Arc towards enemy every 60 frames for 30 frames.
-                float modulo = projectile.ai[0] % 300f;
+                float modulo = projectile.ai[0] % 150f;
                 if ((modulo < 30f) ||
                     (modulo >= 90 && modulo < 120f))
                 {

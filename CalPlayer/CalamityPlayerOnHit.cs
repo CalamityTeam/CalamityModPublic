@@ -216,8 +216,9 @@ namespace CalamityMod.CalPlayer
 					if (player.wingTime > player.wingTimeMax)
 						player.wingTime = player.wingTimeMax;
 				}
-				if (modPlayer.aBulwarkRare)
+				if (modPlayer.aBulwarkRare && modPlayer.aBulwarkRareTimer == 0)
 				{
+					modPlayer.aBulwarkRareTimer = 10;
 					for (int n = 0; n < 3; n++)
 						CalamityUtils.ProjectileRain(player.Center, 400f, 100f, 500f, 800f, 29f, ProjectileType<AstralStar>(), (int)(320 * player.AverageDamage()), 5f, player.whoAmI);
 				}

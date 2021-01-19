@@ -5770,6 +5770,13 @@ namespace CalamityMod.CalPlayer
 				if (wCleave)
 					contactDamageReduction *= 0.75;
 
+				if (defenseDamage > 0)
+				{
+					// Reduce player DR based on defense stat damage accumulated, this is done before defense is reduced
+					if (defenseStat > 0)
+						contactDamageReduction -= defenseDamage / (double)defenseStat * contactDamageReduction * 0.5;
+				}
+
 				// Scale with base damage reduction
 				if (DRStat > 0)
 					contactDamageReduction *= 1f - (DRStat * 0.01f);
@@ -6102,6 +6109,13 @@ namespace CalamityMod.CalPlayer
 
 				if (wCleave)
 					projectileDamageReduction *= 0.75;
+
+				if (defenseDamage > 0)
+				{
+					// Reduce player DR based on defense stat damage accumulated, this is done before defense is reduced
+					if (defenseStat > 0)
+						projectileDamageReduction -= defenseDamage / (double)defenseStat * projectileDamageReduction * 0.5;
+				}
 
 				// Scale with base damage reduction
 				if (DRStat > 0)

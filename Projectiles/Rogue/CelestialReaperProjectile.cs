@@ -9,6 +9,7 @@ namespace CalamityMod.Projectiles.Rogue
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/CelestialReaper";
 
         public int HomingCooldown = 0;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Celestial Reaper");
@@ -26,6 +27,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.localNPCHitCooldown = 5;
 			projectile.timeLeft = 600;
         }
+
         public override void AI()
         {
             projectile.rotation += MathHelper.ToRadians(30f) / (float)Math.Log(6f - projectile.penetrate + 2f) / 1.4f; // Slow down the more hits the scythe has accumulated.
@@ -67,12 +69,14 @@ namespace CalamityMod.Projectiles.Rogue
             HomingCooldown = 25;
             projectile.velocity *= -0.75f; // Bounce off of the enemy.
         }
+
         public override void Kill(int timeLeft)
         {
-            for (float i = 0f; i < 7f; i += 1f)
+			float totalProjectiles = 4f;
+            for (float i = 0f; i < totalProjectiles; i += 1f)
             {
-                float angle = MathHelper.TwoPi * i / 7f;
-                Projectile.NewProjectile(projectile.Center, angle.ToRotationVector2() * 12f, ModContent.ProjectileType<CelestialReaperAfterimage>(), projectile.damage, 2f, projectile.owner);
+                float angle = MathHelper.TwoPi * i / totalProjectiles;
+                Projectile.NewProjectile(projectile.Center, angle.ToRotationVector2() * 12f, ModContent.ProjectileType<CelestialReaperAfterimage>(), projectile.damage / 4, projectile.knockBack / 4f, projectile.owner);
             }
         }
     }
