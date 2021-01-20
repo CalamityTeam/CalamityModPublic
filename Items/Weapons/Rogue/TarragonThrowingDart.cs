@@ -19,7 +19,7 @@ Stealth strikes erupt into thorns on enemy hits");
         public override void SafeSetDefaults()
         {
             item.width = 34;
-            item.damage = 260;
+            item.damage = 330;
             item.noMelee = true;
             item.consumable = true;
             item.noUseGraphic = true;
@@ -34,7 +34,7 @@ Stealth strikes erupt into thorns on enemy hits");
             item.value = Item.sellPrice(silver: 3);
 			item.rare = ItemRarityID.Purple;
             item.shoot = ModContent.ProjectileType<TarragonThrowingDartProjectile>();
-            item.shootSpeed = 24f;
+            item.shootSpeed = 12f;
             item.Calamity().rogue = true;
             item.Calamity().customRarity = CalamityRarity.Turquoise;
         }
