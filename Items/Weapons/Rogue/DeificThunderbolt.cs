@@ -20,7 +20,7 @@ Stealth strikes summon more lightning and travel faster");
 
         public override void SafeSetDefaults()
         {
-            item.damage = 370;
+            item.damage = 407;
             item.knockBack = 10f;
 
             item.width = 56;
@@ -31,33 +31,33 @@ Stealth strikes summon more lightning and travel faster");
 
             item.useTime = 21;
             item.useAnimation = 21;
-			item.value = CalamityGlobalItem.Rarity12BuyPrice;
-			item.rare = ItemRarityID.Purple;
-			item.Calamity().customRarity = CalamityRarity.Turquoise;
-			item.Calamity().rogue = true;
+            item.value = CalamityGlobalItem.Rarity12BuyPrice;
+            item.rare = ItemRarityID.Purple;
+            item.Calamity().customRarity = CalamityRarity.Turquoise;
+            item.Calamity().rogue = true;
 
             item.autoReuse = true;
             item.shootSpeed = 13.69f;
             item.shoot = ModContent.ProjectileType<DeificThunderboltProj>();
         }
 
-		// Terraria seems to really dislike high crit values in SetDefaults
-		public override void GetWeaponCrit(Player player, ref int crit) => crit += 12;
+        // Terraria seems to really dislike high crit values in SetDefaults
+        public override void GetWeaponCrit(Player player, ref int crit) => crit += 12;
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-			float stealthSpeedMult = 1f;
-			if (player.Calamity().StealthStrikeAvailable())
-				stealthSpeedMult = 1.5f;
-			float rainSpeedMult = 1f;
-			if (Main.raining)
-				rainSpeedMult = 1.5f;
+            float stealthSpeedMult = 1f;
+            if (player.Calamity().StealthStrikeAvailable())
+                stealthSpeedMult = 1.5f;
+            float rainSpeedMult = 1f;
+            if (Main.raining)
+                rainSpeedMult = 1.5f;
 
-			int thunder = Projectile.NewProjectile(position.X, position.Y, speedX * rainSpeedMult * stealthSpeedMult, speedY * rainSpeedMult * stealthSpeedMult, type, damage, knockBack, player.whoAmI, 0f, 0f);
-			if (player.Calamity().StealthStrikeAvailable() && thunder.WithinBounds(Main.maxProjectiles)) //setting the stealth strike
-			{
-				Main.projectile[thunder].Calamity().stealthStrike = true;
-			}
+            int thunder = Projectile.NewProjectile(position.X, position.Y, speedX * rainSpeedMult * stealthSpeedMult, speedY * rainSpeedMult * stealthSpeedMult, type, damage, knockBack, player.whoAmI, 0f, 0f);
+            if (player.Calamity().StealthStrikeAvailable() && thunder.WithinBounds(Main.maxProjectiles)) //setting the stealth strike
+            {
+                Main.projectile[thunder].Calamity().stealthStrike = true;
+            }
             return false;
         }
 
