@@ -287,8 +287,8 @@ namespace CalamityMod.NPCs.Polterghast
 
 			// Scale multiplier based on nearby active tiles
 			float tileEnrageMult = 1f;
-			if (nearbyActiveTiles < 1800)
-				tileEnrageMult += (1800 - nearbyActiveTiles) * 0.0005f; // Ranges from 1f to 1.9f
+			if (nearbyActiveTiles < 1000)
+				tileEnrageMult += (1000 - nearbyActiveTiles) * 0.00075f; // Ranges from 1f to 1.75f
 
 			// Used to inform clone and hooks about number of active tiles nearby
 			npc.ai[3] = tileEnrageMult;
@@ -306,8 +306,8 @@ namespace CalamityMod.NPCs.Polterghast
 
 			// Increase damage of projectiles and contact damage based on number of nearby active tiles
 			int damageIncrease = 0;
-			if (nearbyActiveTiles < 900)
-				damageIncrease += (900 - nearbyActiveTiles) / 45; // Ranges from 0 to 20
+			if (nearbyActiveTiles < 1000)
+				damageIncrease += (1000 - nearbyActiveTiles) / 50; // Ranges from 0 to 20
 
 			// Look at target
 			float num740 = player.Center.X - vector.X;
@@ -416,7 +416,7 @@ namespace CalamityMod.NPCs.Polterghast
 				}
 
 				// Slow down considerably if near player
-				if (!speedUp && nearbyActiveTiles > 1800 && !Collision.SolidCollision(npc.position, npc.width, npc.height) && Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height) && !charging)
+				if (!speedUp && nearbyActiveTiles > 1000 && !Collision.SolidCollision(npc.position, npc.width, npc.height) && Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height) && !charging)
 				{
 					if (npc.velocity.Length() > velocity)
 						npc.velocity *= 0.97f;

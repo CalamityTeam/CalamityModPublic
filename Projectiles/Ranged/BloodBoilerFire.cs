@@ -29,7 +29,7 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.penetrate = -1;
             projectile.extraUpdates = 1;
             projectile.usesIDStaticNPCImmunity = true;
-            projectile.idStaticNPCHitCooldown = 10;
+            projectile.idStaticNPCHitCooldown = 5;
             projectile.timeLeft = 300;
         }
 

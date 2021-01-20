@@ -850,6 +850,7 @@ namespace CalamityMod.NPCs.Providence
 					int chains = 4;
 					float interval = totalFlameProjectiles / chains * divisor;
 					double patternInterval = Math.Floor(npc.ai[3] / interval);
+					int healingStarChance = revenge ? 8 : expertMode ? 6 : 4;
 
 					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
@@ -869,7 +870,7 @@ namespace CalamityMod.NPCs.Providence
 										vector2 *= cocoonProjVelocity;
 
 									int projectileType = ModContent.ProjectileType<HolyBurnOrb>();
-									if (Main.rand.NextBool(4) && !death)
+									if (Main.rand.NextBool(healingStarChance) && !death)
 										projectileType = ModContent.ProjectileType<HolyLight>();
 
 									int dmgAmt = nightTime ? -300 : npc.GetProjectileDamageNoScaling(projectileType);
@@ -896,7 +897,7 @@ namespace CalamityMod.NPCs.Providence
 									Vector2 vector2 = new Vector2(0f, -cocoonProjVelocity).RotatedBy(radians * i);
 
 									int projectileType = ModContent.ProjectileType<HolyBurnOrb>();
-									if (Main.rand.NextBool(4) && !death)
+									if (Main.rand.NextBool(healingStarChance) && !death)
 										projectileType = ModContent.ProjectileType<HolyLight>();
 
 									int dmgAmt = nightTime ? -300 : npc.GetProjectileDamageNoScaling(projectileType);
@@ -906,7 +907,7 @@ namespace CalamityMod.NPCs.Providence
 							}
 						}
 
-						// Fire a flame towards every player, with a limit of 10
+						// Fire a flame towards every player, with a limit of 5
 						if (npc.ai[3] % 60f == 0f && expertMode)
 						{
 							List<int> targets = new List<int>();
