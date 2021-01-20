@@ -1811,7 +1811,7 @@ namespace CalamityMod
                 ModContent.ProjectileType<PalladiumJavelinProjectile>(),
                 ModContent.ProjectileType<PhantasmalRuinProj>(),
                 ModContent.ProjectileType<PhantomLanceProj>(),
-                ModContent.ProjectileType<ProfanedPartisanproj>(),
+                ModContent.ProjectileType<ProfanedPartisanProj>(),
                 ModContent.ProjectileType<ScarletDevilProjectile>(),
                 ModContent.ProjectileType<ScourgeoftheDesertProj>(),
                 ModContent.ProjectileType<ScourgeoftheSeasProjectile>(),
