@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.noUseGraphic = true;
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.knockBack = 6f;
-            item.rare = 10;
+            item.rare = ItemRarityID.Red;
             item.UseSound = SoundID.Item71;
             item.autoReuse = true;
             item.value = Item.buyPrice(platinum: 1); //sell price of 20 gold
