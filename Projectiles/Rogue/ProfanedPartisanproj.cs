@@ -67,7 +67,7 @@ namespace CalamityMod.Projectiles.Rogue
 
             if (Main.rand.NextBool(3))
             {
-                int d = Dust.NewDust(projectile.position, projectile.width, projectile.height, (int)CalamityDusts.ProfanedFire, projectile.velocity.X, projectile.velocity.Y, 100, default(Color), 1.1f);
+                int d = Dust.NewDust(projectile.position, projectile.width, projectile.height, (int)CalamityDusts.ProfanedFire, projectile.velocity.X, projectile.velocity.Y, 100, default, 1.1f);
                 Main.dust[d].position = projectile.Center;
                 Main.dust[d].velocity *= 0.3f;
                 Main.dust[d].velocity += projectile.velocity * 0.85f;
@@ -81,7 +81,7 @@ namespace CalamityMod.Projectiles.Rogue
                 if (projectile.timeLeft % 18 == 0)
                 {
                     int projID = ModContent.ProjectileType<ProfanedPartisanSpear>();
-                    int spearDamage = (int)(projectile.damage * 0.1f);
+                    int spearDamage = (int)(projectile.damage * 0.4f);
                     float spearKB = 1f;
                     Projectile.NewProjectile(spearPosition, spearSpeed, projID, spearDamage, spearKB, projectile.owner);
                 }
