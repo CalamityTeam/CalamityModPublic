@@ -9,10 +9,11 @@ namespace CalamityMod.Projectiles.Rogue
 {
 	public class BloodsoakedCrashax : ModProjectile
 	{
-        public override string Texture => "CalamityMod/Items/Weapons/Rogue/BloodsoakedCrasher";
+		public override string Texture => "CalamityMod/Items/Weapons/Rogue/BloodsoakedCrasher";
 
 		private int bounce = 3; //number of times it bounces
 		private int grind = 0; //used to know when to slow down
+		private const float MaxSpeed = 14f;
 
 		public override void SetStaticDefaults()
 		{
@@ -27,40 +28,38 @@ namespace CalamityMod.Projectiles.Rogue
 			projectile.friendly = true;
 			projectile.penetrate = 10;
 			projectile.timeLeft = 600; //10 seconds and counting (but not actually because extra updates)
-			projectile.aiStyle = 2;
-			aiType = ProjectileID.ThrowingKnife; //Throwing Knife AI
 			projectile.Calamity().rogue = true;
-			projectile.usesIDStaticNPCImmunity = true;
-			projectile.idStaticNPCHitCooldown = 5;
+			projectile.usesLocalNPCImmunity = true;
+			projectile.localNPCHitCooldown = 5;
 			projectile.extraUpdates = 1;
 		}
 
 		public override void AI()
 		{
+			float speed = projectile.velocity.Length();
 			if (grind > 0)
 			{
 				grind--;
-			}
-			if (grind >= 1)
-			{
-				projectile.extraUpdates = 0; //stop, you're touching an enemy
+				// Suddenly stop when on top of enemies.
 				projectile.velocity.X *= 0.75f;
 				projectile.velocity.Y *= 0.75f;
 			}
 			else
 			{
-				projectile.velocity.X *= 1.005f; //you broke up, time to yeet yourself out
-				projectile.velocity.Y *= 1.005f;
-				if (projectile.velocity.X > 16f)
-				{
-					projectile.velocity.X = 16f;
-				}
-				if (projectile.velocity.Y > 16f)
-				{
-					projectile.velocity.Y = 16f;
-				}
-				projectile.extraUpdates = 1;
+				// Gravity
+				projectile.velocity.Y += 0.11f;
+
+				// Cap velocity.
+				speed = projectile.velocity.Length();
+				if (speed > MaxSpeed)
+					projectile.velocity *= MaxSpeed / speed;
 			}
+
+			// Spin constantly, but even faster when grinding or going fast
+			float spinRate = grind > 0 ? 0.28f : 0.09f;
+			if (grind <= 0)
+				spinRate += speed * 0.005f;
+			projectile.rotation += spinRate * projectile.direction;
 		}
 
 		public override bool OnTileCollide(Vector2 oldVelocity)
@@ -98,10 +97,9 @@ namespace CalamityMod.Projectiles.Rogue
 
 		private void OnHitEffects(bool cannotLifesteal)
 		{
-			if (grind < 10)
-			{
-				grind += 5; //THE GRIND NEVER STOPS
-			}
+			grind += 5; //THE GRIND NEVER STOPS
+			if (grind > 15)
+				grind = 15; // except when it's too much
 
 			if (projectile.Calamity().stealthStrike && projectile.owner == Main.myPlayer) //stealth strike attack
 			{
@@ -113,16 +111,12 @@ namespace CalamityMod.Projectiles.Rogue
 				}
 			}
 
-			Player player = Main.player[projectile.owner];
-			if (cannotLifesteal) //canGhostHeal be like lol
-			{
+			if (cannotLifesteal || Main.rand.NextBool(2)) //canGhostHeal be like lol
 				return;
-			}
-			if (Main.rand.NextBool(2))
-			{
-				player.statLife += 1; //Trello said 2 hp per hit. Sounds like a fat balancing problem.
-				player.HealEffect(1);
-			}
+
+			Player player = Main.player[projectile.owner];
+			player.statLife += 1;
+			player.HealEffect(1);
 		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor) //afterimages

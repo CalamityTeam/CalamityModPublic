@@ -7,8 +7,8 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class BloodsoakedCrasher : RogueWeapon //This weapon has been coded by Ben || Termi
-    {
+	public class BloodsoakedCrasher : RogueWeapon //This weapon has been coded by Ben || Termi
+	{
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Bloodsoaked Crasher");
@@ -19,12 +19,12 @@ namespace CalamityMod.Items.Weapons.Rogue
 
 		public override void SafeSetDefaults()
 		{
-			item.damage = 195;
+			item.damage = 245;
 			item.knockBack = 3f;
 			item.autoReuse = true;
 			item.Calamity().rogue = true;
 			item.useAnimation = item.useTime = 18;
-			item.shootSpeed = 15f;
+			item.shootSpeed = 9f;
 			item.shoot = ModContent.ProjectileType<BloodsoakedCrashax>();
 
 			item.width = 66;
@@ -42,13 +42,13 @@ namespace CalamityMod.Items.Weapons.Rogue
 		{
 			int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
 			if (proj.WithinBounds(Main.maxProjectiles))
-				Main.projectile[proj].Calamity().stealthStrike = player.Calamity().StealthStrikeAvailable(); //setting the stealth strike
+				Main.projectile[proj].Calamity().stealthStrike = player.Calamity().StealthStrikeAvailable();
 			return false;
 		}
 
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod); //post-Prov rogue weapon
+			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ModContent.ItemType<CrushsawCrasher>());
 			recipe.AddIngredient(ModContent.ItemType<BloodstoneCore>(), 12);
 			recipe.AddTile(TileID.LunarCraftingStation);
