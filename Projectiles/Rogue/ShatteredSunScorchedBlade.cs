@@ -11,7 +11,6 @@ namespace CalamityMod.Projectiles.Rogue
     public class ShatteredSunScorchedBlade : ModProjectile
     {
         int counter = 0;
-        float multiplier = 1f;
         bool stealthOrigin = false;
 
         public override void SetStaticDefaults()
@@ -53,9 +52,8 @@ namespace CalamityMod.Projectiles.Rogue
             }
             if (counter % 10 == 0)
             {
-                multiplier -= 0.005f;
-                if (multiplier >= 0.5f && !stealthOrigin && projectile.alpha < 200)
-                    projectile.alpha += Main.rand.Next(5, 7);
+                if (!stealthOrigin && projectile.alpha < 200)
+                    projectile.alpha += 6;
             }
             if (counter % 9 == 0 || (counter % 5 == 0 && projectile.Calamity().stealthStrike))
             {
@@ -78,7 +76,7 @@ namespace CalamityMod.Projectiles.Rogue
 
             Lighting.AddLight(projectile.Center, 0.7f, 0.3f, 0f);
 			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 400f, 20f, 20f);
-            float num633 = 700f;
+            float num633;
             Vector2 vector46 = projectile.position;
             bool flag25 = false;
             for (int num645 = 0; num645 < 200; num645++)
@@ -123,13 +121,9 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            if (multiplier < 0.5f)
-                multiplier = 0.5f;
-            damage = stealthOrigin ? damage : (int)((float)damage * multiplier);
             if (projectile.Calamity().stealthStrike)
             {
                 int numProj = 2;
-                float rotation = MathHelper.ToRadians(10);
                 if (projectile.owner == Main.myPlayer)
                 {
                     Player owner = Main.player[projectile.owner];
@@ -140,8 +134,9 @@ namespace CalamityMod.Projectiles.Rogue
                     for (int i = 0; i < numProj; i++)
                     {
                         Vector2 perturbedspeed = new Vector2(correctedVelocity.X, correctedVelocity.Y + Main.rand.Next(-3, 4)).RotatedBy(MathHelper.ToRadians(spread));
-                        
-                        int proj = Projectile.NewProjectile(owner.Center.X, owner.Center.Y - 10, perturbedspeed.X, perturbedspeed.Y, ModContent.ProjectileType<ShatteredSunScorchedBlade>(), (int)((double)projectile.damage * 0.6), 1f, projectile.owner, 1f, projectile.alpha);
+                        int projDamage = (int)(projectile.damage * 0.6f);
+                        float kb = 1f;
+                        int proj = Projectile.NewProjectile(owner.Center.X, owner.Center.Y - 10, perturbedspeed.X, perturbedspeed.Y, projectile.type, projDamage, kb, projectile.owner, 1f, projectile.alpha);
                         spread -= Main.rand.Next(2, 6);
                         Main.projectile[proj].ai[0] = 1f;
                     }
@@ -153,13 +148,9 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-            if (multiplier < 0.5f)
-                multiplier = 0.5f;
-            damage = stealthOrigin ? damage : (int)((double)damage * multiplier);
             if (projectile.Calamity().stealthStrike)
             {
                 int numProj = 2;
-                float rotation = MathHelper.ToRadians(10);
                 if (projectile.owner == Main.myPlayer)
                 {
                     Player owner = Main.player[projectile.owner];
@@ -170,8 +161,9 @@ namespace CalamityMod.Projectiles.Rogue
                     for (int i = 0; i < numProj; i++)
                     {
                         Vector2 perturbedspeed = new Vector2(correctedVelocity.X, correctedVelocity.Y + Main.rand.Next(-3, 4)).RotatedBy(MathHelper.ToRadians(spread));
-                        
-                        int proj = Projectile.NewProjectile(owner.Center.X, owner.Center.Y - 10, perturbedspeed.X, perturbedspeed.Y, ModContent.ProjectileType<ShatteredSunScorchedBlade>(), (int)((double)projectile.damage * 0.55), 1f, projectile.owner, 0f, 0f);
+                        int projDamage = (int)(projectile.damage * 0.6f);
+                        float kb = 1f;
+                        int proj = Projectile.NewProjectile(owner.Center.X, owner.Center.Y - 10, perturbedspeed.X, perturbedspeed.Y, projectile.type, projDamage, kb, projectile.owner, 1f, projectile.alpha);
                         spread -= Main.rand.Next(2, 6);
                         Main.projectile[proj].ai[0] = 1f;
                     }
