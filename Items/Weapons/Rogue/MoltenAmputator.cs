@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SafeSetDefaults()
         {
             item.width = 60;
-            item.damage = 120;
+            item.damage = 144;
             item.noMelee = true;
             item.noUseGraphic = true;
             item.autoReuse = true;
@@ -28,10 +28,10 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.knockBack = 9f;
             item.UseSound = SoundID.Item1;
             item.height = 60;
-			item.value = CalamityGlobalItem.Rarity12BuyPrice;
-			item.rare = ItemRarityID.Purple;
-			item.Calamity().customRarity = CalamityRarity.Turquoise;
-			item.shoot = ModContent.ProjectileType<MoltenAmputatorProj>();
+            item.value = CalamityGlobalItem.Rarity12BuyPrice;
+            item.rare = ItemRarityID.Purple;
+            item.Calamity().customRarity = CalamityRarity.Turquoise;
+            item.shoot = ModContent.ProjectileType<MoltenAmputatorProj>();
             item.shootSpeed = 12f;
             item.Calamity().rogue = true;
         }
@@ -41,8 +41,8 @@ namespace CalamityMod.Items.Weapons.Rogue
             if (player.Calamity().StealthStrikeAvailable())
             {
                 int boomer = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
-				if (boomer.WithinBounds(Main.maxProjectiles))
-					Main.projectile[boomer].Calamity().stealthStrike = true;
+                if (boomer.WithinBounds(Main.maxProjectiles))
+                    Main.projectile[boomer].Calamity().stealthStrike = true;
                 return false;
             }
             return true;

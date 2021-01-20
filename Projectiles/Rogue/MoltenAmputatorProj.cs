@@ -10,11 +10,12 @@ namespace CalamityMod.Projectiles.Rogue
     {
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/MoltenAmputator";
 
-        private int stealthyBlobTimer = 6;
+        // As this projectile uses a vanilla AI, it avoids using vanilla AI variables to prevent collisions.
+        private int stealthBlobTimer = 8;
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Amputator");
+            DisplayName.SetDefault("Molten Amputator");
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
             ProjectileID.Sets.TrailingMode[projectile.type] = 1;
         }
@@ -26,6 +27,8 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.friendly = true;
             projectile.tileCollide = false;
             projectile.penetrate = -1;
+            projectile.usesLocalNPCImmunity = true;
+            projectile.localNPCHitCooldown = 4;
             projectile.aiStyle = 3;
             projectile.timeLeft = 180;
             aiType = ProjectileID.WoodenBoomerang;
@@ -38,7 +41,7 @@ namespace CalamityMod.Projectiles.Rogue
             return false;
         }
 
-        private void fireInTheBlob(int blobCount)
+        private void SpawnBlobs(int blobCount)
         {
             for (int i = 0; i < blobCount; i++)
             {
@@ -57,21 +60,21 @@ namespace CalamityMod.Projectiles.Rogue
         {
             if (projectile.Calamity().stealthStrike)
             {
-                stealthyBlobTimer--;
-                if (stealthyBlobTimer <= 0 && projectile.timeLeft % 2 == 0)
+                stealthBlobTimer--;
+                if (stealthBlobTimer <= 0)
                 {
-                    fireInTheBlob(1);
-                    stealthyBlobTimer = Main.rand.Next(4, 10);
+                    SpawnBlobs(1);
+                    stealthBlobTimer = 8;
                 }
             }
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.immune[projectile.owner] = 4;
             if (projectile.owner == Main.myPlayer)
             {
-                fireInTheBlob(projectile.Calamity().stealthStrike ? Main.rand.Next(3, 5) : Main.rand.Next(1, 3));
+                int blobCount = projectile.Calamity().stealthStrike ? 4 : 2;
+                SpawnBlobs(blobCount);
             }
             Main.PlaySound(SoundID.Item20, projectile.position);
             for (int k = 0; k < 10; k++)
@@ -84,7 +87,8 @@ namespace CalamityMod.Projectiles.Rogue
         {
             if (projectile.owner == Main.myPlayer)
             {
-                fireInTheBlob(projectile.Calamity().stealthStrike ? Main.rand.Next(3, 5) : Main.rand.Next(1, 3));
+                int blobCount = projectile.Calamity().stealthStrike ? 4 : 2;
+                SpawnBlobs(blobCount);
             }
             Main.PlaySound(SoundID.Item20, projectile.position);
             for (int k = 0; k < 10; k++)

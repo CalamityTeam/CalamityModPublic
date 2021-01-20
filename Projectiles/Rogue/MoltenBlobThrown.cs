@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Blob");
+            DisplayName.SetDefault("Molten Blob");
             Main.projFrames[projectile.type] = 2;
         }
 
