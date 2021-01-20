@@ -27,7 +27,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
             projectile.ownerHitCheck = true;
             projectile.hide = true;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 2;
+            projectile.localNPCHitCooldown = 5;
             projectile.alpha = 255;
             //projectile.Calamity().trueMelee = true;
         }

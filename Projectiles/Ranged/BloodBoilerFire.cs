@@ -22,6 +22,7 @@ namespace CalamityMod.Projectiles.Ranged
         {
             projectile.width = 6;
             projectile.height = 6;
+			projectile.scale = 2f;
             projectile.friendly = true;
             projectile.ignoreWater = true;
             projectile.ranged = true;
@@ -29,7 +30,7 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.extraUpdates = 1;
             projectile.usesIDStaticNPCImmunity = true;
             projectile.idStaticNPCHitCooldown = 10;
-            projectile.timeLeft = 240;
+            projectile.timeLeft = 300;
         }
 
         public override void AI()
@@ -40,7 +41,7 @@ namespace CalamityMod.Projectiles.Ranged
 				playedSound = true;
 			}
 
-            if (projectile.scale <= 1.5f)
+            if (projectile.scale <= 3f)
             {
                 projectile.scale *= 1.01f;
             }
