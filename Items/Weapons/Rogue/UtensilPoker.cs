@@ -1,3 +1,4 @@
+using CalamityMod.CalPlayer;
 using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -15,7 +16,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 			Tooltip.SetDefault("Space chickens, that is all.\n" +
 				"Fires random utensils in bursts of three\n" +
 				"Grants Well Fed on enemy hits\n" +
-				"Stealth strikes launch an additional butcher knife");
+				"Stealth strikes replace the first utensil with a powerful butcher knife");
 		}
 
 		public override void SafeSetDefaults()
@@ -41,19 +42,21 @@ namespace CalamityMod.Items.Weapons.Rogue
 
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-			if (player.Calamity().StealthStrikeAvailable() && counter == 0)
+			CalamityPlayer mp = player.Calamity();
+
+			// On a stealth strike, the first projectile is replaced with a butcher knife.
+			if (mp.StealthStrikeAvailable() && counter == 0)
 			{
 				int stealthDamage = (int)(0.7f * damage);
 				int stealth = Projectile.NewProjectile(position.X, position.Y, speedX * 1.2f, speedY * 1.2f, ModContent.ProjectileType<ButcherKnife>(), stealthDamage, knockBack, player.whoAmI);
 				if (stealth.WithinBounds(Main.maxProjectiles))
 					Main.projectile[stealth].Calamity().stealthStrike = true;
 
-				// Set the counter to 3 in this case. This makes the item tick two more times without shooting anything.
-				counter = 3;
+				// This is not strictly necessary but it's good practice with unusual stealth strikes to explicitly call for stealth consumption
+				mp.ConsumeStealthByAttacking();
 			}
-			else if (counter <= 3)
+			else
 			{
-
 				int utensil = item.shoot;
 				double dmgMult = 1D;
 				float kbMult = 1f;
@@ -81,7 +84,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 			}
 
 			counter++;
-			if (counter == 3 || counter == 6)
+			if (counter == 3)
 				counter = 0;
 			return false;
 		}
