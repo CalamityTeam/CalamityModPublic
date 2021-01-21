@@ -8,6 +8,8 @@ namespace CalamityMod.Items.Weapons.Rogue
 {
     public class MoltenAmputator : RogueWeapon
     {
+        public const float Speed = 21f;
+        
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Molten Amputator");
@@ -32,7 +34,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.rare = ItemRarityID.Purple;
             item.Calamity().customRarity = CalamityRarity.Turquoise;
             item.shoot = ModContent.ProjectileType<MoltenAmputatorProj>();
-            item.shootSpeed = 12f;
+            item.shootSpeed = Speed;
             item.Calamity().rogue = true;
         }
 
@@ -40,9 +42,9 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             if (player.Calamity().StealthStrikeAvailable())
             {
-                int boomer = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
-                if (boomer.WithinBounds(Main.maxProjectiles))
-                    Main.projectile[boomer].Calamity().stealthStrike = true;
+                int ss = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
+                if (ss.WithinBounds(Main.maxProjectiles))
+                    Main.projectile[ss].Calamity().stealthStrike = true;
                 return false;
             }
             return true;
