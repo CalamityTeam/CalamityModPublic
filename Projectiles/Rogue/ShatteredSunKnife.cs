@@ -93,7 +93,7 @@ namespace CalamityMod.Projectiles.Rogue
         private void ShatteredExplosion()
         {
             int projID = ModContent.ProjectileType<ShatteredExplosion>();
-            int explosionDamage = (int)(projectile.damage * 0.8f);
+            int explosionDamage = (int)(projectile.damage * 0.45f);
             float explosionKB = 3f;
             Projectile.NewProjectile(projectile.Center, Vector2.Zero, projID, explosionDamage, explosionKB, projectile.owner, 0f, 0f);
             Main.PlaySound(SoundID.Item14, projectile.position);
