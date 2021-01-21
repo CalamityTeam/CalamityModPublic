@@ -3049,15 +3049,8 @@ namespace CalamityMod.CalPlayer
                 // Activating Rage Mode
                 if (rage >= rageMax && CalamityConfig.Instance.Rippers && !rageModeActive)
                 {
-                    // Duration has to be calculated on the spot because it's not updated/stored anywhere helpful
-                    int duration = DefaultRageDuration;
-                    if (rageBoostOne)
-                        duration += RageDurationPerBooster;
-                    if (rageBoostTwo)
-                        duration += RageDurationPerBooster;
-                    if (rageBoostThree)
-                        duration += RageDurationPerBooster;
-                    player.AddBuff(ModContent.BuffType<RageMode>(), duration);
+                    // Rage duration isn't calculated here because the buff keeps itself alive automatically as long as the player has Rage left.
+                    player.AddBuff(ModContent.BuffType<RageMode>(), 2);
 
                     // Moon Lord deathray sound. Should probably be replaced some day
                     Main.PlaySound(SoundID.Zombie, (int)player.position.X, (int)player.position.Y, 104);

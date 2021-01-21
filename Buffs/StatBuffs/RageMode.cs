@@ -14,6 +14,7 @@ namespace CalamityMod.Buffs.StatBuffs
             Main.debuff[Type] = true;
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = false;
+            Main.buffNoTimeDisplay[Type] = true; // Because duration is variable, time is not displayed.
             longerExpertDebuff = false;
             canBeCleared = false;
         }
@@ -21,9 +22,23 @@ namespace CalamityMod.Buffs.StatBuffs
         public override void Update(Player player, ref int buffIndex)
         {
             CalamityPlayer mp = player.Calamity();
-            mp.rageModeActive = true;
-            float rageRatio = MathHelper.Clamp(mp.rage / mp.rageMax, 0f, 1f);
-            player.endurance += MathHelper.Lerp(CalamityPlayer.MinRageDR, CalamityPlayer.MaxRageDR, rageRatio);
+
+            // If the player still has Rage left to burn, the buff stays active indefinitely.
+            if (mp.rage > 0f)
+            {
+                player.buffTime[buffIndex] = 2; // Every frame, give another frame for the buff to live.
+                mp.rageModeActive = true;
+                float rageRatio = MathHelper.Clamp(mp.rage / mp.rageMax, 0f, 1f);
+                player.endurance += MathHelper.Lerp(CalamityPlayer.MinRageDR, CalamityPlayer.MaxRageDR, rageRatio);
+            }
+
+            // Otherwise, Rage Mode ends instantly.
+            else
+            {
+                player.DelBuff(buffIndex--); // TML documentation requires you to decrement buffIndex if deleting the buff during Update.
+                mp.rageModeActive = false;
+                mp.rage = 0f;
+            }
         }
     }
 }
