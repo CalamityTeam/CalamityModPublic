@@ -3362,11 +3362,11 @@ namespace CalamityMod.NPCs
                 if (projectile.type == ProjectileType<LunarKunaiProj>())
                     damage = (int)(damage * 0.7);
 
-                // 20% resist to Utensil Poker
+                // 10% resist to Utensil Poker
                 else if (projectile.type == ProjectileType<Knife>() || projectile.type == ProjectileType<Fork>() ||
                     projectile.type == ProjectileType<CarvingFork>() || projectile.type == ProjectileType<ButcherKnife>())
 				{
-					damage = (int)(damage * 0.8);
+					damage = (int)(damage * 0.9);
 				}
 			}
 			else if (npc.type == NPCType<Signus.Signus>())
