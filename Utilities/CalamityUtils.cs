@@ -142,6 +142,37 @@ namespace CalamityMod
 		}
 
 		/// <summary>
+		/// Applies Rage and Adrenaline to the given damage multiplier. The values controlling the so-called "Rippers" can be found in CalamityPlayer.
+		/// </summary>
+		/// <param name="mp">The CalamityPlayer who may or may not be using Rage or Adrenaline.</param>
+		/// <param name="damageMult">A reference to the current in-use damage multiplier. This will be increased in-place.</param>
+		public static void ApplyRippersToDamage(CalamityPlayer mp, ref double damageMult)
+		{
+			if (mp.rageModeActive && mp.adrenalineModeActive)
+			{
+				// This is always flat +280% damage. It's been this way forever, regardless of boosts.
+				damageMult += CalamityPlayer.AdrenalineDamageBoost + 0.8D;
+			}
+			else if (mp.rageModeActive)
+			{
+				double rageBoost = CalamityPlayer.RageDamageBoost; // other effects forthcoming
+				damageMult += rageBoost;
+			}
+			else if (mp.adrenalineModeActive)
+			{
+				double adrenalineBoost = CalamityPlayer.AdrenalineDamageBoost;
+				if (mp.adrenalineBoostOne)
+					adrenalineBoost += CalamityPlayer.AdrenalineDamagePerBooster;
+				if (mp.adrenalineBoostTwo)
+					adrenalineBoost += CalamityPlayer.AdrenalineDamagePerBooster;
+				if (mp.adrenalineBoostThree)
+					adrenalineBoost += CalamityPlayer.AdrenalineDamagePerBooster;
+
+				damageMult += adrenalineBoost;
+			}
+		}
+
+		/// <summary>
 		/// Inflict typical exo weapon debuffs in pvp.
 		/// </summary>
 		/// <param name="target">The Player attacked.</param>

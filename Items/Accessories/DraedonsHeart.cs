@@ -10,11 +10,16 @@ namespace CalamityMod.Items.Accessories
 {
     public class DraedonsHeart : ModItem
     {
+        // The percentage of a full Rage bar that is gained every second with Draedon's Heart equipped.
+        public const float MinRagePerSecond = 0.015f;
+        public const float MaxRagePerSecond = 0.075f; // 5x rage generation at 0% health, aka +400% rage generation
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Draedon's Heart");
-            Tooltip.SetDefault("RAGE EFFECTS OF THIS ITEM HAVE BEEN REMOVED\n" +
-                "Boosts your damage by 5% and max movement speed and acceleration by 5%\n" +
+            Tooltip.SetDefault("Boosts your damage by 5% and max movement speed and acceleration by 5%\n" +
+                "You generate rage over time and rage does not fade away out of combat\n" +
+                "Passive rage generation increases drastically as health decreases\n" +
                 "Converts certain debuffs into buffs and extends their durations\n" +
                 "Debuffs affected: Darkness, Blackout, Confused, Slow, Weak, Broken Armor,\n" +
                 "Armor Crunch, War Cleave, Chilled, Ichor and Obstructed\n" +

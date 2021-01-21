@@ -6,6 +6,8 @@ using CalamityMod.Buffs.StatBuffs;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Buffs.Summon;
 using CalamityMod.Dusts;
+using CalamityMod.Events;
+using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor;
 using CalamityMod.Items.Fishing.AstralCatches;
 using CalamityMod.Items.Fishing.BrimstoneCragCatches;
@@ -22,8 +24,8 @@ using CalamityMod.NPCs.NormalNPCs;
 using CalamityMod.NPCs.SupremeCalamitas;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.Projectiles.Environment;
-using CalamityMod.Projectiles.Melee;
 using CalamityMod.Projectiles.Magic;
+using CalamityMod.Projectiles.Melee;
 using CalamityMod.Projectiles.Rogue;
 using CalamityMod.Projectiles.Summon;
 using CalamityMod.Projectiles.Typeless;
@@ -39,7 +41,6 @@ using Terraria.GameInput;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Events;
 
 namespace CalamityMod.CalPlayer
 {
@@ -253,7 +254,8 @@ namespace CalamityMod.CalPlayer
 				modPlayer.adrenaline = 0;
 			}
 
-			// Send Rage and Adrenaline info packets during multiplayer
+			// Send info packets during multiplayer
+			// TODO -- this should be moved to its own update step
 			if (player.whoAmI == Main.myPlayer && Main.netMode == NetmodeID.MultiplayerClient)
 			{
 				modPlayer.packetTimer++;
@@ -273,12 +275,43 @@ namespace CalamityMod.CalPlayer
 
 		private static void UpdateRippers(Mod mod, Player player, CalamityPlayer modPlayer)
 		{
+			// Figure out Rage's current duration based on boosts.
+			if (modPlayer.rageBoostOne)
+				modPlayer.RageDuration += CalamityPlayer.RageDurationPerBooster;
+			if (modPlayer.rageBoostTwo)
+				modPlayer.RageDuration += CalamityPlayer.RageDurationPerBooster;
+			if (modPlayer.rageBoostThree)
+				modPlayer.RageDuration += CalamityPlayer.RageDurationPerBooster;
+
+			// Tick down "Rage Combat Frames". When they reach zero, Rage begins fading away.
+			if (modPlayer.rageCombatFrames > 0)
+				--modPlayer.rageCombatFrames;
+
+			// Tick down the Rage gain cooldown.
+			if (modPlayer.rageGainCooldown > 0)
+				--modPlayer.rageGainCooldown;
+			
 			// This is how much Rage will be changed by this frame.
 			float rageDiff = 0;
 
+			// Draedon's Heart provides constant rage generation that scales with missing health.
+			if (modPlayer.draedonsHeart)
+			{
+				float percentMissingHealth = 1f - player.statLife / player.statLifeMax2;
+				float rageGainLerp = MathHelper.Lerp(DraedonsHeart.MinRagePerSecond, DraedonsHeart.MaxRagePerSecond, percentMissingHealth);
+				rageDiff += modPlayer.rageMax * rageGainLerp / 60f;
+			}
+			// Heart of Darkness grants constant rage generation.
+			else if (modPlayer.heartOfDarkness)
+				rageDiff += modPlayer.rageMax * HeartofDarkness.RagePerSecond / 60f;
+
 			// If Rage Mode is currently active, you smoothly lose all rage over the duration.
 			if (modPlayer.rageModeActive)
-				rageDiff = -modPlayer.rageMax / modPlayer.RageDuration;
+				rageDiff -= modPlayer.rageMax / modPlayer.RageDuration;
+
+			// If out of combat and NOT using Heart of Darkness, Rage fades away.
+			else if (!modPlayer.rageModeActive && modPlayer.rageCombatFrames <= 0 && !modPlayer.heartOfDarkness)
+				rageDiff -= modPlayer.rageMax / CalamityPlayer.RageFadeTime;
 
 			// Apply the rage change and cap rage in both directions.
 			modPlayer.rage += rageDiff;
@@ -287,7 +320,9 @@ namespace CalamityMod.CalPlayer
 
 			if (modPlayer.rage >= modPlayer.rageMax)
 			{
-				modPlayer.rage = modPlayer.rageMax;
+				// Rage IS NOT capped while active. It can go above 100%.
+				if (!modPlayer.rageModeActive)
+					modPlayer.rage = modPlayer.rageMax;
 
 				// Play a sound when the Rage Meter is full
 				if (modPlayer.playFullRageSound)

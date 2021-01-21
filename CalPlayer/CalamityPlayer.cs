@@ -348,10 +348,17 @@ namespace CalamityMod.CalPlayer
         public bool rageModeActive = false;
         public float rage = 0f;
         public float rageMax = 100f; // 0 to 100% by default
-        public int RageDuration = CalamityUtils.SecondsToFrames(5);
+        public static readonly int DefaultRageDuration = CalamityUtils.SecondsToFrames(10);
+        public static readonly int RageDurationPerBooster = CalamityUtils.SecondsToFrames(2);
+        public int RageDuration = DefaultRageDuration;
+        public int rageGainCooldown = 0;
+        public static readonly int DefaultRageGainCooldown = 10; // It is pretty hard to have less than 10 iframes for any reason
         public int rageCombatFrames = 0;
         public static readonly int RageCombatDelayTime = CalamityUtils.SecondsToFrames(10);
-        public static readonly int RageDecayTime = CalamityUtils.SecondsToFrames(30);
+        public static readonly int RageFadeTime = CalamityUtils.SecondsToFrames(30);
+        public static readonly double RageDamageBoost = 0.5D; // +50%
+        public static readonly float MinRageDR = 0.1f; // 10% DR
+        public static readonly float MaxRageDR = 0.2f; // 20% DR
         #endregion
 
         #region Adrenaline
@@ -361,6 +368,8 @@ namespace CalamityMod.CalPlayer
         public int AdrenalineDuration = CalamityUtils.SecondsToFrames(5);
         public int AdrenalineChargeTime = CalamityUtils.SecondsToFrames(30);
         public int AdrenalineFadeTime = CalamityUtils.SecondsToFrames(2);
+        public static readonly double AdrenalineDamageBoost = 2.0D; // +200%
+        public static readonly double AdrenalineDamagePerBooster = 0.15D; // +15%
         #endregion
 
         #region Permanent Buff
@@ -1961,6 +1970,7 @@ namespace CalamityMod.CalPlayer
 
             rageModeActive = false;
             adrenalineModeActive = false;
+            RageDuration = DefaultRageDuration;
 
             lastProjectileHit = null;
         }
@@ -2980,8 +2990,11 @@ namespace CalamityMod.CalPlayer
                     elysianGuard = !elysianGuard;
                 }
             }
+
+            // Trigger for pressing the Rage hotkey.
             if (CalamityMod.RageHotKey.JustPressed)
             {
+                // Gael's Greatsword stuff
                 if (gaelRageCooldown == 0 && player.ActiveItem().type == ModContent.ItemType<GaelsGreatsword>() &&
                     rage > 0)
                 {
@@ -3032,9 +3045,24 @@ namespace CalamityMod.CalPlayer
                     }
                     rage = 0;
                 }
-                if (rage == rageMax && CalamityConfig.Instance.Rippers && !rageModeActive)
+                
+                // Activating Rage Mode
+                if (rage >= rageMax && CalamityConfig.Instance.Rippers && !rageModeActive)
                 {
+                    // Duration has to be calculated on the spot because it's not updated/stored anywhere helpful
+                    int duration = DefaultRageDuration;
+                    if (rageBoostOne)
+                        duration += RageDurationPerBooster;
+                    if (rageBoostTwo)
+                        duration += RageDurationPerBooster;
+                    if (rageBoostThree)
+                        duration += RageDurationPerBooster;
+                    player.AddBuff(ModContent.BuffType<RageMode>(), duration);
+
+                    // Moon Lord deathray sound. Should probably be replaced some day
                     Main.PlaySound(SoundID.Zombie, (int)player.position.X, (int)player.position.Y, 104);
+
+                    // TODO -- improve Rage activation visuals
                     for (int num502 = 0; num502 < 64; num502++)
                     {
                         int dust = Dust.NewDust(new Vector2(player.position.X, player.position.Y + 16f), player.width, player.height - 16, (int)CalamityDusts.Brimstone, 0f, 0f, 0, default, 1f);
@@ -3052,14 +3080,20 @@ namespace CalamityMod.CalPlayer
                         Main.dust[num228].noLight = true;
                         Main.dust[num228].velocity = vector7;
                     }
-                    player.AddBuff(ModContent.BuffType<RageMode>(), RageDuration);
                 }
             }
+
+            // Trigger for pressing the Adrenaline hotkey.
             if (CalamityMod.AdrenalineHotKey.JustPressed && CalamityConfig.Instance.Rippers && CalamityWorld.revenge)
             {
                 if (adrenaline == adrenalineMax && !adrenalineModeActive)
                 {
+                    player.AddBuff(ModContent.BuffType<AdrenalineMode>(), AdrenalineDuration);
+
+                    // Moon Lord deathray sound. Should probably be replaced some day
                     Main.PlaySound(SoundID.Zombie, (int)player.position.X, (int)player.position.Y, 104);
+
+                    // TODO -- improve Adrenaline activation visuals
                     for (int num502 = 0; num502 < 64; num502++)
                     {
                         int dust = Dust.NewDust(new Vector2(player.position.X, player.position.Y + 16f), player.width, player.height - 16, 206, 0f, 0f, 0, default, 1f);
@@ -3077,7 +3111,6 @@ namespace CalamityMod.CalPlayer
                         Main.dust[num228].noLight = true;
                         Main.dust[num228].velocity = vector7;
                     }
-                    player.AddBuff(ModContent.BuffType<AdrenalineMode>(), AdrenalineDuration);
                 }
             }
 
@@ -4615,6 +4648,14 @@ namespace CalamityMod.CalPlayer
                 }
             }
         }
+		#endregion
+
+		#region On Hit Anything
+        public override void OnHitAnything(float x, float y, Entity victim)
+		{
+            // Currently only used for Rage combat frames.
+            rageCombatFrames = RageCombatDelayTime;
+        }
         #endregion
 
         #region On Hit NPC
@@ -5045,37 +5086,7 @@ namespace CalamityMod.CalPlayer
             }
             if (CalamityWorld.revenge && CalamityConfig.Instance.Rippers)
             {
-                bool DHorHoD = draedonsHeart || heartOfDarkness;
-                if (rageModeActive && adrenalineModeActive)
-                {
-                    if (item.melee)
-                    {
-                        damageMult += DHorHoD ? 3.1 : 2.8;
-                    }
-                }
-                else if (rageModeActive)
-                {
-                    if (item.melee)
-                    {
-                        double rageDamageBoost = 0.0 +
-                            (rageBoostOne ? 0.15 : 0.0) +
-                            (rageBoostTwo ? 0.15 : 0.0) +
-                            (rageBoostThree ? 0.15 : 0.0);
-                        double rageDamage = (DHorHoD ? 0.65 : 0.5) + rageDamageBoost;
-                        damageMult += rageDamage;
-                    }
-                }
-                else if (adrenalineModeActive)
-                {
-                    if (item.melee)
-                    {
-						double adrenalineDamageBoost = 0D +
-							(adrenalineBoostOne ? 0.15 : 0D) +
-							(adrenalineBoostTwo ? 0.15 : 0D) +
-							(adrenalineBoostThree ? 0.15 : 0D);
-						damageMult += 2D + adrenalineDamageBoost;
-					}
-                }
+                CalamityUtils.ApplyRippersToDamage(this, ref damageMult);
             }
             damage = (int)(damage * damageMult);
 
@@ -5172,11 +5183,6 @@ namespace CalamityMod.CalPlayer
 
             bool isTrueMelee = proj.Calamity().trueMelee;
             bool isSummon = proj.IsSummon();
-            bool hasClassType = proj.melee || proj.ranged || proj.magic || isSummon || proj.Calamity().rogue;
-
-			/*if (isSummon && Main.player[proj.owner].dead)
-				damage = 0;*/
-
             Item heldItem = player.ActiveItem();
 
             #region MultiplierBoosts
@@ -5274,38 +5280,9 @@ namespace CalamityMod.CalPlayer
             }
             if (CalamityWorld.revenge && CalamityConfig.Instance.Rippers)
             {
-                bool DHorHoD = draedonsHeart || heartOfDarkness;
-                if (rageModeActive && adrenalineModeActive)
-                {
-                    if (hasClassType)
-                    {
-                        damageMult += DHorHoD ? 3.1 : 2.8;
-                    }
-                }
-                else if (rageModeActive)
-                {
-                    if (hasClassType)
-                    {
-                        double rageDamageBoost = 0D +
-                            (rageBoostOne ? 0.15 : 0D) +
-                            (rageBoostTwo ? 0.15 : 0D) +
-                            (rageBoostThree ? 0.15 : 0D);
-                        double rageDamage = (DHorHoD ? 0.65 : 0.5) + rageDamageBoost;
-                        damageMult += rageDamage;
-                    }
-                }
-                else if (adrenalineModeActive)
-                {
-                    if (hasClassType)
-                    {
-						double adrenalineDamageBoost = 0D +
-							(adrenalineBoostOne ? 0.15 : 0D) +
-							(adrenalineBoostTwo ? 0.15 : 0D) +
-							(adrenalineBoostThree ? 0.15 : 0D);
-						damageMult += 2D + adrenalineDamageBoost;
-                    }
-                }
+                CalamityUtils.ApplyRippersToDamage(this, ref damageMult);
             }
+
             if ((filthyGlove || electricianGlove) && proj.Calamity().stealthStrike && proj.Calamity().rogue)
             {
                 if (nanotech)
@@ -7080,10 +7057,21 @@ namespace CalamityMod.CalPlayer
         #region Pre Hurt
         public override bool PreHurt(bool pvp, bool quiet, ref int damage, ref int hitDirection, ref bool crit, ref bool customDamage, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
         {
-			if (HandleDodges())
+			#region Ignore Incoming Hits
+			// Lul makes the player completely invincible.
+			if (lol)
+                return false;
+
+            // Unless holding Coldheart Icicle, the Purified Jam makes you completely invincible.
+            if (invincible && player.ActiveItem().type != ModContent.ItemType<ColdheartIcicle>())
+                return false;
+
+            // If any dodges are active which could dodge this hit, the hurting event is canceled (and the dodge is used).
+            if (HandleDodges())
 				return false;
 
-			if (CalamityWorld.armageddon || (BossRushEvent.BossRushActive && bossRushImmunityFrameCurseTimer > 0))
+            // If Armageddon is active or the Boss Rush Immunity Curse is triggered, instantly kill the player.
+            if (CalamityWorld.armageddon || (BossRushEvent.BossRushActive && bossRushImmunityFrameCurseTimer > 0))
             {
                 if (areThereAnyDamnBosses || (BossRushEvent.BossRushActive && bossRushImmunityFrameCurseTimer > 0))
                 {
@@ -7102,15 +7090,20 @@ namespace CalamityMod.CalPlayer
                 }
             }
 
-            if (lol || (invincible && player.ActiveItem().type != ModContent.ItemType<ColdheartIcicle>()))
-            {
-                return false;
-            }
+            // God Slayer Reflect gives a 2% chance to dodge any hit.
+            // This is intentionally after Armageddon so that the 2% random chance doesn't screw up no-hits.
             if (godSlayerReflect && Main.rand.NextBool(50))
-            {
                 return false;
-            }
-            if (hurtSoundTimer == 0) //hurtsounds
+			#endregion
+
+            //
+            // At this point, the player is guaranteed to be hit.
+            // The amount of damage that will be dealt is yet to be determined.
+            //
+
+			#region Custom Hurt Sounds
+			// TODO -- Shouldn't these all not occur in favor of the Iron Heart hurt noise if Iron Heart is on?
+			if (hurtSoundTimer == 0)
             {
                 if ((profanedCrystal || profanedCrystalForce) && !profanedCrystalHide)
                 {
@@ -7143,36 +7136,67 @@ namespace CalamityMod.CalPlayer
 					hurtSoundTimer = 10;
 				}
             }
+            #endregion
 
-            #region MultiplierBoosts
-            double damageMult = 1D +
-                (dArtifact ? 0.15 : 0D) +
-                ((player.beetleDefense && player.beetleOrbs > 0) ? (0.05 * player.beetleOrbs) : 0D) +
-                (enraged ? 0.25 : 0D) +
-                ((CalamityWorld.defiled && Main.rand.NextBool(4)) ? 0.5 : 0D);
+            #region Player Incoming Damage Multiplier (Increases)
+            double damageMult = 1D;
+            if (dArtifact) // Dimensional Soul Artifact increases incoming damage by 15%.
+                damageMult += 0.15;
+            if (enraged) // Demonshade Enrage increases incoming damage by 25%.
+                damageMult += 0.25;
+            if (CalamityWorld.defiled && Main.rand.NextBool(4)) // Defiled gives you a 1/4 chance to be crit, increasing incoming damage by 50%.
+                damageMult += 0.5;
 
-			if (bloodPact && Main.rand.NextBool(4))
+            // Add 5% damage multiplier for each Beetle Shell beetle that is active, thus reducing the DR from 10% to 5% per stack.
+            if (player.beetleDefense && player.beetleOrbs > 0)
+                damageMult += 0.05 * player.beetleOrbs;
+
+            // If inflicted with Cursed Inferno, take 20% more damage.
+            // This is the equivalent to reducing DR by 20%, except it works on you even when you have less than 20% DR.
+            if (player.onFire2)
+                damageMult += 0.2;
+
+            // Blood Pact gives you a 1/4 chance to be crit, increasing the incoming damage by 25%.
+            if (bloodPact && Main.rand.NextBool(4))
 			{
 				player.AddBuff(ModContent.BuffType<BloodyBoost>(), 600);
 				damageMult += 1.25;
 			}
 
-            // Equivalent to reducing the player's DR by 20% because they have Cursed Inferno.
-			if (player.onFire2)
-				damageMult += 0.2;
-
             damage = (int)(damage * damageMult);
             #endregion
 
+            //
+            // At this point, the true, final incoming damage to the player has been calculated.
+            // It has not yet been mitigated by any means.
+            //
+
+            // God Slayer Damage Resistance makes you ignore hits that came in as less than 80.
+            if ((godSlayerDamage && damage <= 80) || damage < 1)
+                damage = 1;
+
+            // Gain rage based on the amount of damage taken. Safety check on iframes to prevent rage buildup spam.
+            // Also set the Rage gain cooldown to prevent bizarre abuse cases.
+            if (!player.immune)
+            {
+                float HPRatio = damage / player.statLifeMax2;
+                rage += rageMax * HPRatio;
+                rageGainCooldown = DefaultRageGainCooldown;
+                // Rage capping is handled in MiscEffects
+            }
+
             if (CalamityWorld.revenge)
             {
+                // Apply custom damage in Revengeance Mode. All this actually does is provide a minimum damage
                 customDamage = true;
 
+                // Revengeance uses the same defense effectiveness as Expert, 75%.
 				double defenseMultiplier = /*Main.masterMode ? 1D :*/ 0.75;
                 double newDamage = damage - (player.statDefense * defenseMultiplier);
-				double bossDamageLimitIncrease = CalamityWorld.death ? 40D : 20D;
+
 				double newDamageLimit = NPC.downedMoonlord ? 20D : (NPC.downedPlantBoss || CalamityWorld.downedCalamitas) ? 15D : Main.hardMode ? 10D : 5D;
-				/*if (areThereAnyDamnBosses && Main.masterMode)
+                /*double bossDamageLimitIncrease = CalamityWorld.death ? 40D : 20D;
+                if (areThereAnyDamnBosses && Main.masterMode)
 					newDamageLimit += bossDamageLimitIncrease;*/
 
                 if (newDamage < newDamageLimit)
@@ -7181,7 +7205,11 @@ namespace CalamityMod.CalPlayer
                 damage = (int)newDamage;
             }
 
-			if (CalamityWorld.ironHeart)
+            // Resilient Candle makes defense 5% more effective, aka 5% of defense is subtracted from all incoming damage.
+            if (purpleCandle)
+                damage = (int)(damage - (player.statDefense * 0.05));
+
+            if (CalamityWorld.ironHeart)
 			{
 				int damageMin = 80 + (player.statLifeMax2 / 10);
 				playSound = false;
@@ -7192,13 +7220,9 @@ namespace CalamityMod.CalPlayer
 					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/IronHeartBigHurt"), (int)player.position.X, (int)player.position.Y);
 			}
 
-			if (purpleCandle)
-				damage = (int)(damage - (player.statDefense * 0.05));
-
-			if ((godSlayerDamage && damage <= 80) || damage < 1)
-                damage = 1;
-
-            #region HealingEffects
+            // TODO -- these should REALLY be moved to Hurt since that occurs immediately before you actually take the damage
+            // This is important because that contains the final damage number (after factoring in DR and other mods)
+            #region Healing When Hit Effects
             if (revivify)
             {
                 int healAmt = damage / 15;
@@ -7227,6 +7251,11 @@ namespace CalamityMod.CalPlayer
         public override void Hurt(bool pvp, bool quiet, double damage, int hitDirection, bool crit)
         {
             modStealth = 1f;
+
+            // Give Rage combat frames because being hurt counts as combat.
+            if (CalamityConfig.Instance.Rippers && CalamityWorld.revenge)
+                rageCombatFrames = RageCombatDelayTime;
+
             if (player.whoAmI == Main.myPlayer)
             {
 				if (CalamityConfig.Instance.Rippers && CalamityWorld.revenge)
@@ -8926,6 +8955,7 @@ namespace CalamityMod.CalPlayer
 
             double stealthAddedDamage = rogueStealth * StealthDamageConstant * useTimeFactor * stealthGenFactor;
             // TODO -- Store stealth damage elsewhere so that it can't affect rogue on-hits while you stand around with this damage boost.
+            // This can be done in TML 1.4 using the new DamageClass system (Stealth becomes its own damage class which is a subclass of Rogue)
             throwingDamage += (float)stealthAddedDamage;
 
             // Show 100% crit chance if your stealth strikes always crit.
