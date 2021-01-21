@@ -77,12 +77,6 @@ namespace CalamityMod.CalPlayer
 		Rogue = 4
 	}
 
-	public enum GaelSwitchPhase
-    {
-        LoseRage = 0,
-        None = 1
-    }
-
     public enum AnimationType
     {
         Idle,
@@ -138,6 +132,7 @@ namespace CalamityMod.CalPlayer
 		public int reforgeTierSafety = 0;
 		public int defenseDamage = 0;
 		public float rangedAmmoCost = 1f;
+        public bool heldGaelsLastFrame = false;
 		#endregion
 
 		#region Tile Entity Trackers
@@ -212,6 +207,8 @@ namespace CalamityMod.CalPlayer
         #endregion
 
         #region Timer and Counter
+        public int gaelSwipes = 0;
+        public int gaelRageAttackCooldown = 0;
         public int bossRushImmunityFrameCurseTimer = 0;
         public int aBulwarkRareMeleeBoostTimer = 0;
         public int nebulaManaNerfCounter = 0;
@@ -220,7 +217,6 @@ namespace CalamityMod.CalPlayer
         public int dashTimeMod;
         public int hInfernoBoost = 0;
         public int pissWaterBoost = 0;
-        public int gaelRageCooldown = 0;
         public int packetTimer = 0;
         public int navyRodAuraTimer = 0;
 		public int brimLoreInfernoTimer = 0;
@@ -229,12 +225,10 @@ namespace CalamityMod.CalPlayer
         public int bloodflareManaTimer = 180;
         public int polarisBoostCounter = 0;
         public int dragonRageHits = 0;
-        public int gaelSwipes = 0;
         public float modStealth = 1f;
 		public float aquaticBoostMax = 10000f;
 		public float aquaticBoost = 0f;
         public float shieldInvinc = 5f;
-        public GaelSwitchPhase gaelSwitchTimer = 0;
         public int galileoCooldown = 0;
         public int soundCooldown = 0;
         public int planarSpeedBoost = 0;
@@ -2010,9 +2004,9 @@ namespace CalamityMod.CalPlayer
 			defenseDamage = 0;
             deathModeBlizzardTime = 0;
             deathModeUnderworldTime = 0;
-            gaelRageCooldown = 0;
+            heldGaelsLastFrame = false;
+            gaelRageAttackCooldown = 0;
             gaelSwipes = 0;
-            gaelSwitchTimer = 0;
             andromedaState = AndromedaPlayerState.Inactive;
             planarSpeedBoost = 0;
             galileoCooldown = 0;
@@ -2025,8 +2019,8 @@ namespace CalamityMod.CalPlayer
 			auralisAurora = 0;
 			fungalSymbioteTimer = 0;
 			aBulwarkRareTimer = 0;
-            rage = 0;
-            adrenaline = 0;
+            rage = 0f;
+            adrenaline = 0f;
             raiderStack = 0;
             raiderCooldown = 0;
             gSabatonFall = 0;
@@ -2994,15 +2988,13 @@ namespace CalamityMod.CalPlayer
             // Trigger for pressing the Rage hotkey.
             if (CalamityMod.RageHotKey.JustPressed)
             {
-                // Gael's Greatsword stuff
-                if (gaelRageCooldown == 0 && player.ActiveItem().type == ModContent.ItemType<GaelsGreatsword>() &&
-                    rage > 0)
+                // Gael's Greatsword replaces Rage Mode with an uber skull attack
+                if (gaelRageAttackCooldown == 0 && player.ActiveItem().type == ModContent.ItemType<GaelsGreatsword>() && rage > 0f)
                 {
                     Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SilvaDispel"), player.Center);
+
                     for (int i = 0; i < 3; i++)
-                    {
                         Dust.NewDust(player.position, 120, 120, 218, 0f, 0f, 100, default, 1.5f);
-                    }
                     for (int i = 0; i < 30; i++)
                     {
                         float angle = MathHelper.TwoPi * i / 30f;
@@ -3014,26 +3006,11 @@ namespace CalamityMod.CalPlayer
                         Main.dust[dustIndex].noGravity = true;
                         Dust.NewDust(player.Center + angle.ToRotationVector2() * 160f, 0, 0, 218, 0f, 0f, 100, default, 1f);
                     }
-                    gaelRageCooldown = 60 * GaelsGreatsword.SkullsplosionCooldownSeconds;
+
                     float rageRatio = rage / rageMax;
-                    int damage = (int)(rageRatio * GaelsGreatsword.MaxRageBoost * GaelsGreatsword.BaseDamage * player.MeleeDamage());
-                    float skullCount = 5f;
-                    float skullSpeed = 5f;
-                    if (CalamityWorld.downedYharon)
-                    {
-                        skullCount = 20f;
-                        skullSpeed = 12f;
-                    }
-                    else if (NPC.downedMoonlord)
-                    {
-                        skullCount = 13f;
-                        skullSpeed = 10f;
-                    }
-                    else if (Main.hardMode)
-                    {
-                        skullCount = 9f;
-                        skullSpeed = 6.8f;
-                    }
+                    int damage = (int)(rageRatio * GaelsGreatsword.SkullsplosionDamageMultiplier * GaelsGreatsword.BaseDamage * player.MeleeDamage());
+                    float skullCount = 20f;
+                    float skullSpeed = 12f;
                     for (float i = 0; i < skullCount; i += 1f)
                     {
                         float angle = MathHelper.TwoPi * i / skullCount;
@@ -3043,7 +3020,10 @@ namespace CalamityMod.CalPlayer
                         Main.projectile[projectileIndex].tileCollide = false;
                         Main.projectile[projectileIndex].localAI[1] = (Main.projectile[projectileIndex].velocity.Y < 0f).ToInt();
                     }
-                    rage = 0;
+
+                    // Remove all rage when the special attack is used, and apply the cooldown.
+                    rage = 0f;
+                    gaelRageAttackCooldown = CalamityUtils.SecondsToFrames(GaelsGreatsword.SkullsplosionCooldownSeconds);
                 }
                 
                 // Activating Rage Mode
@@ -3766,14 +3746,13 @@ namespace CalamityMod.CalPlayer
             CalamityPlayerMiscEffects.CalamityPostUpdateMiscEffects(player, mod);
 
             if (player.ActiveItem().type == ModContent.ItemType<GaelsGreatsword>())
+                heldGaelsLastFrame = true;
+
+            // De-equipping Gael's Greatsword deletes all rage.
+            else if (heldGaelsLastFrame)
             {
-                gaelSwitchTimer = GaelSwitchPhase.LoseRage;
-                rage += (int)MathHelper.Min(5, 10000 - rage);
-            }
-            else if (player.ActiveItem().type != ModContent.ItemType<GaelsGreatsword>() && gaelSwitchTimer == GaelSwitchPhase.LoseRage)
-            {
-                rage = 0;
-                gaelSwitchTimer = GaelSwitchPhase.None;
+                heldGaelsLastFrame = false;
+                rage = 0f;
             }
         }
 
