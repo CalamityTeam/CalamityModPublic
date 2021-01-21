@@ -30,7 +30,7 @@ namespace CalamityMod.Projectiles.Rogue
 			projectile.timeLeft = 600; //10 seconds and counting (but not actually because extra updates)
 			projectile.Calamity().rogue = true;
 			projectile.usesLocalNPCImmunity = true;
-			projectile.localNPCHitCooldown = 5;
+			projectile.localNPCHitCooldown = 8;
 			projectile.extraUpdates = 1;
 		}
 
@@ -103,7 +103,10 @@ namespace CalamityMod.Projectiles.Rogue
 
 			if (projectile.Calamity().stealthStrike && projectile.owner == Main.myPlayer) //stealth strike attack
 			{
-				int stealth = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<Blood>(), projectile.damage, projectile.knockBack, projectile.owner, 1f, 0.85f + Main.rand.NextFloat() * 1.15f);
+				int projID = ModContent.ProjectileType<Blood>();
+				int bloodDamage = (int)(1.25f * projectile.damage);
+				float bloodKB = 1f;
+				int stealth = Projectile.NewProjectile(projectile.Center, Vector2.Zero, projID, bloodDamage, bloodKB, projectile.owner, 1f, 0.85f + Main.rand.NextFloat() * 1.15f);
 				if (stealth.WithinBounds(Main.maxProjectiles))
 				{
 					Main.projectile[stealth].Calamity().forceRogue = true;
