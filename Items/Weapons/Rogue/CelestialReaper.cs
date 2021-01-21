@@ -38,9 +38,13 @@ namespace CalamityMod.Items.Weapons.Rogue
         }
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
+            bool usingStealth = player.Calamity().StealthStrikeAvailable();
+            float strikeValue = usingStealth.ToInt(); //0 if false, 1 if true
+
             Vector2 velocity = new Vector2(speedX, speedY);
-            float strikeValue = player.Calamity().StealthStrikeAvailable().ToInt(); //0 if false, 1 if true
-            int p = Projectile.NewProjectile(position, velocity, ModContent.ProjectileType<CelestialReaperProjectile>(), damage, knockBack, player.whoAmI, strikeValue);
+            // Directly nerf stealth strikes by 10%, but only stealth strikes.
+            int finalDamage = (int)(damage * (usingStealth ? 0.9f : 1.0f));
+            int p = Projectile.NewProjectile(position, velocity, ModContent.ProjectileType<CelestialReaperProjectile>(), finalDamage, knockBack, player.whoAmI, strikeValue);
             if (player.Calamity().StealthStrikeAvailable() && p.WithinBounds(Main.maxProjectiles))
                 Main.projectile[p].Calamity().stealthStrike = true;
             return false;
