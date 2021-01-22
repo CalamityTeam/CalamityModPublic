@@ -23,7 +23,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 		{
 			item.width = 44;
 			item.height = 66;
-			item.damage = 480;
+			item.damage = 333;
 			item.Calamity().rogue = true;
 			item.knockBack = 8f;
 			item.noMelee = true;
@@ -47,7 +47,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 			// On a stealth strike, the first projectile is replaced with a butcher knife.
 			if (mp.StealthStrikeAvailable() && counter == 0)
 			{
-				int stealthDamage = (int)(0.7f * damage);
+				int stealthDamage = damage;
 				int stealth = Projectile.NewProjectile(position.X, position.Y, speedX * 1.2f, speedY * 1.2f, ModContent.ProjectileType<ButcherKnife>(), stealthDamage, knockBack, player.whoAmI);
 				if (stealth.WithinBounds(Main.maxProjectiles))
 					Main.projectile[stealth].Calamity().stealthStrike = true;

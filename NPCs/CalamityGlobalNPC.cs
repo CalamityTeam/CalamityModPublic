@@ -3362,33 +3362,19 @@ namespace CalamityMod.NPCs
                 if (projectile.type == ProjectileType<LunarKunaiProj>())
                     damage = (int)(damage * 0.7);
 
-                // 10% resist to Utensil Poker
-                else if (projectile.type == ProjectileType<Knife>() || projectile.type == ProjectileType<Fork>() ||
-                    projectile.type == ProjectileType<CarvingFork>() || projectile.type == ProjectileType<ButcherKnife>())
-				{
-					damage = (int)(damage * 0.9);
-				}
-
                 // 5% resist to Celestial Reaper
                 else if (projectile.type == ProjectileType<CelestialReaperProjectile>() || projectile.type == ProjectileType<CelestialReaperAfterimage>())
-				{
                     damage = (int)(damage * 0.95);
-				}
 			}
 			else if (npc.type == NPCType<Signus.Signus>())
 			{
-                // 40% resist to Lunar Kunai and Utensil Poker
-                if (projectile.type == ProjectileType<Knife>() || projectile.type == ProjectileType<Fork>() || projectile.type == ProjectileType<CarvingFork>() ||
-					projectile.type == ProjectileType<ButcherKnife>() || projectile.type == ProjectileType<LunarKunaiProj>())
-				{
+                // 40% resist to Lunar Kunai
+                if (projectile.type == ProjectileType<LunarKunaiProj>())
 					damage = (int)(damage * 0.6);
-				}
 
                 // 5% resist to Celestial Reaper
                 else if (projectile.type == ProjectileType<CelestialReaperProjectile>() || projectile.type == ProjectileType<CelestialReaperAfterimage>())
-                {
                     damage = (int)(damage * 0.95);
-                }
             }
 			else if (npc.type == NPCID.CultistBoss)
 			{
