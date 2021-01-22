@@ -7147,11 +7147,10 @@ namespace CalamityMod.CalPlayer
             if ((godSlayerDamage && damage <= 80) || damage < 1)
                 damage = 1;
 
-            // Gain rage based on the amount of damage taken. Safety check on iframes to prevent rage buildup spam.
-            // Also set the Rage gain cooldown to prevent bizarre abuse cases.
-            if (!player.immune)
+            // Gain rage based on the amount of damage taken. Also set the Rage gain cooldown to prevent bizarre abuse cases.
+            if (CalamityWorld.revenge && CalamityConfig.Instance.Rippers && rageGainCooldown == 0)
             {
-                float HPRatio = damage / player.statLifeMax2;
+                float HPRatio = (float)damage / player.statLifeMax2;
                 rage += rageMax * HPRatio;
                 rageGainCooldown = DefaultRageGainCooldown;
                 // Rage capping is handled in MiscEffects
