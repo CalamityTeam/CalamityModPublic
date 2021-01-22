@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Accessories
     {
         // The percentage of a full Rage bar that is gained every second with Draedon's Heart equipped.
         public const float MinRagePerSecond = 0.015f;
-        public const float MaxRagePerSecond = 0.075f; // 5x rage generation at 0% health, aka +400% rage generation
+        public const float MaxRagePerSecond = 0.045f; // 3x rage generation at 0% health, aka +200% rage generation
 
         public override void SetStaticDefaults()
         {
