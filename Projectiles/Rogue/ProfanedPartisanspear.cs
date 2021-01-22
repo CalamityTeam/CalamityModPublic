@@ -6,7 +6,7 @@ using CalamityMod.Buffs.DamageOverTime;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-	public class ProfanedPartisanspear : ModProjectile
+	public class ProfanedPartisanSpear : ModProjectile
     {
 		public int timer = 0;
 

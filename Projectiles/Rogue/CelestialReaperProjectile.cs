@@ -2,9 +2,10 @@ using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ModLoader;
+
 namespace CalamityMod.Projectiles.Rogue
 {
-	public class CelestialReaperProjectile : ModProjectile
+    public class CelestialReaperProjectile : ModProjectile
     {
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/CelestialReaper";
 
@@ -25,7 +26,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.Calamity().rogue = true;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 5;
-			projectile.timeLeft = 600;
+            projectile.timeLeft = 600;
         }
 
         public override void AI()
@@ -43,24 +44,24 @@ namespace CalamityMod.Projectiles.Rogue
                     projectile.velocity = (projectile.velocity * 20f + projectile.DirectionTo(target.Center) * 20f) / 21f;
                 }
             }
+
+            // This code is only run on stealth strikes and periodically spawns damaging afterimages.
             if (projectile.ai[0] == 1f)
             {
-                // Damaging afterimage projectiles.
-                float framesNeeded = 60f;
-                framesNeeded /= 6f - projectile.penetrate + 1f; // The addition of 1 is to prevent division by zero. The more hits, the more afterimages.
+                // Afterimages are spawned three times as fast after at least one hit has occurred.
+                float framesNeeded = projectile.numHits > 0 ? 20f : 60f;
                 if (projectile.timeLeft % (int)framesNeeded == 0f)
                 {
-                    Projectile.NewProjectile(projectile.Center, projectile.velocity, ModContent.ProjectileType<CelestialReaperAfterimage>(), projectile.damage / 4, projectile.knockBack / 4f, projectile.owner);
+                    int projID = ModContent.ProjectileType<CelestialReaperAfterimage>();
+                    int damage = (int)(projectile.damage * 0.25f);
+                    float kb = projectile.knockBack * 0.5f;
+                    Projectile.NewProjectile(projectile.Center, projectile.velocity, projID, damage, kb, projectile.owner);
                 }
             }
         }
 
-        public override bool? CanHitNPC(NPC target)
-		{
-			if (HomingCooldown > 0)
-				return false;
-			return null;
-		}
+        // The explicit (bool?) cast is necessary until C# 9.0. How ugly.
+        public override bool? CanHitNPC(NPC target) => HomingCooldown > 0 ? false : (bool?)null;
 
         public override bool CanHitPvp(Player target) => HomingCooldown <= 0;
 
@@ -72,11 +73,17 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void Kill(int timeLeft)
         {
-			float totalProjectiles = 4f;
-            for (float i = 0f; i < totalProjectiles; i += 1f)
+            bool ss = projectile.Calamity().stealthStrike;
+            int numSplits = 4;
+            int projID = ModContent.ProjectileType<CelestialReaperAfterimage>();
+            int damage = (int)(projectile.damage * (ss ? 0.25f : 0.5f));
+            float kb = projectile.knockBack * 0.5f;
+            float speed = 12f;
+            for (float i = 0; i < numSplits; ++i)
             {
-                float angle = MathHelper.TwoPi * i / totalProjectiles;
-                Projectile.NewProjectile(projectile.Center, angle.ToRotationVector2() * 12f, ModContent.ProjectileType<CelestialReaperAfterimage>(), projectile.damage / 4, projectile.knockBack / 4f, projectile.owner);
+                float angle = MathHelper.TwoPi * i / numSplits;
+                Vector2 velocity = angle.ToRotationVector2() * speed;
+                Projectile.NewProjectile(projectile.Center, velocity, projID, damage, kb, projectile.owner);
             }
         }
     }

@@ -8,41 +8,37 @@ using Terraria.World.Generation;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
-	public class GaelsGreatsword : ModItem
+    public class GaelsGreatsword : ModItem
     {
         //Help, they're forcing me to slave away at Calamity until I die! - Dominic
 
-        //Weapon attribute constants
-
+        // Weapon attribute constants
         public static readonly int BaseDamage = 3900;
-
         public static readonly float TrueMeleeBoost = 2.5f;
-
         public static readonly float GiantSkullDamageMultiplier = 1.5f;
 
-        //Weapon projectile attribute constants
-
+        // Weapon projectile attribute constants
         public static readonly int SearchDistance = 1450;
-
         public static readonly int ImmunityFrames = 2;
-
         public static readonly int SkullsplosionCooldownSeconds = 30;
 
-        //Skull ring attribute constants
+        // Skull ring attribute constants
+        public static readonly float SkullsplosionDamageMultiplier = 1.5f;
 
-        public static readonly float MaxRageBoost = 1.5f;
+        // Rage gain attribute constant
+        public static readonly float RagePerSecond = 0.03f; // 3% rage per second, consistent with what it was prior to rage rework
 
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Gael's Greatsword");
             Tooltip.SetDefault("Hand it over, that thing. Your dark soul.\n" +
-							   "First swing fires homing skulls\n" +
+                               "First swing fires homing skulls\n" +
                                "Second swing fires a giant, powerful skull\n" +
                                "Third swing deals massive damage\n" +
                                "Constantly generates rage when in use\n" +
                                "Swings leave behind exploding blood trails when below 50% health\n" +
                                "Right click to swipe the sword, reflecting projectiles at a 50% chance\n" +
-                               "Activating Rage Mode releases an enormous barrage of skulls");
+                               "Replaces Rage Mode with an enormous barrage of skulls");
         }
         //NOTE: GetWeaponDamage is in the CalamityPlayer file
         public override void SetDefaults()
@@ -70,12 +66,12 @@ namespace CalamityMod.Items.Weapons.Melee
         public override bool AltFunctionUse(Player player) => true;
         public override Vector2? HoldoutOffset() => new Vector2(12, 12);
 
-		public override float UseTimeMultiplier	(Player player)
-		{
-			if (player.altFunctionUse == 2)
-				return (12f/46f);
-			return 1f;
-		}
+        public override float UseTimeMultiplier	(Player player)
+        {
+            if (player.altFunctionUse == 2)
+                return (12f/46f);
+            return 1f;
+        }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)
         {
@@ -170,7 +166,7 @@ namespace CalamityMod.Items.Weapons.Melee
                     break;
                 //Giant, slow, fading skull
                 case 1:
-					int largeSkullDmg = (int)(damage * 1.5f);
+                    int largeSkullDmg = (int)(damage * 1.5f);
                     int projectileIndex = Projectile.NewProjectile(position, new Vector2(speedX,speedY) * 0.5f, type, largeSkullDmg, knockBack, player.whoAmI, ai1:1f);
                     Main.projectile[projectileIndex].scale = 1.75f;
                     break;

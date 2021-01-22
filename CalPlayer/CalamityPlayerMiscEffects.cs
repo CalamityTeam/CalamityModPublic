@@ -6,6 +6,8 @@ using CalamityMod.Buffs.StatBuffs;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Buffs.Summon;
 using CalamityMod.Dusts;
+using CalamityMod.Events;
+using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor;
 using CalamityMod.Items.Fishing.AstralCatches;
 using CalamityMod.Items.Fishing.BrimstoneCragCatches;
@@ -22,8 +24,8 @@ using CalamityMod.NPCs.NormalNPCs;
 using CalamityMod.NPCs.SupremeCalamitas;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.Projectiles.Environment;
-using CalamityMod.Projectiles.Melee;
 using CalamityMod.Projectiles.Magic;
+using CalamityMod.Projectiles.Melee;
 using CalamityMod.Projectiles.Rogue;
 using CalamityMod.Projectiles.Summon;
 using CalamityMod.Projectiles.Typeless;
@@ -39,7 +41,6 @@ using Terraria.GameInput;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Events;
 
 namespace CalamityMod.CalPlayer
 {
@@ -242,94 +243,7 @@ namespace CalamityMod.CalPlayer
 
 					// Adrenaline and Rage
 					if (CalamityConfig.Instance.Rippers)
-					{
-						// This is how much Rage will be changed by this frame.
-						float rageDiff = 0;
-
-						// If Rage Mode is currently active, you smoothly lose all rage over the duration.
-						if (modPlayer.rageModeActive)
-							rageDiff = -modPlayer.rageMax / CalamityPlayer.RageDuration;
-
-						// Draedon's Heart gives 1 rage per frame. Heart of Darkness gives 0.5 rage per frame.
-						else if (modPlayer.draedonsHeart)
-							rageDiff += 1f;
-						else if (modPlayer.heartOfDarkness)
-							rageDiff += 0.5f;
-
-						// Apply the rage change and cap rage in both directions.
-						modPlayer.rage += rageDiff;
-						if (modPlayer.rage < 0)
-							modPlayer.rage = 0;
-
-						if (modPlayer.rage >= modPlayer.rageMax)
-						{
-							modPlayer.rage = modPlayer.rageMax;
-
-							// Play a sound when the Rage Meter is full
-							if (modPlayer.playFullRageSound)
-							{
-								modPlayer.playFullRageSound = false;
-								Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/FullRage"), (int)player.position.X, (int)player.position.Y);
-							}
-						}
-						else
-							modPlayer.playFullRageSound = true;
-
-						// Randomly-granted Absolute Rage buff when Rage is nearly full
-						if (modPlayer.rage / modPlayer.rageMax >= CalamityPlayer.AbsoluteRageThreshold && !modPlayer.absoluteRage)
-						{
-							int absoluteRageChance = (modPlayer.draedonsHeart || modPlayer.heartOfDarkness) ? 2000 : 10000;
-							if (Main.rand.NextBool(absoluteRageChance))
-								player.AddBuff(ModContent.BuffType<AbsoluteRage>(), 18000);
-						}
-
-						// This is how much Adrenaline will be changed by this frame.
-						float adrenalineDiff = 0;
-						bool SCalAlive = NPC.AnyNPCs(ModContent.NPCType<SupremeCalamitas>());
-						bool wofAndNotHell = Main.wof >= 0 && player.position.Y < (float)((Main.maxTilesY - 200) * 16);
-
-						// If Adrenaline Mode is currently active, you smoothly lose all adrenaline over the duration.
-						if (modPlayer.adrenalineModeActive)
-							adrenalineDiff = -modPlayer.adrenalineMax / CalamityPlayer.AdrenalineDuration;
-
-						else
-						{
-							// If any boss is alive (or you are between DoG phases or Boss Rush is active), you gain adrenaline smoothly.
-							// EXCEPTION: Wall of Flesh is alive and you are not in hell. Then you don't get anything.
-							if ((CalamityPlayer.areThereAnyDamnBosses || CalamityWorld.DoGSecondStageCountdown > 0 || BossRushEvent.BossRushActive) && 
-								!wofAndNotHell)
-							{
-								adrenalineDiff += modPlayer.adrenalineMax / (60f * 30);
-							}
-
-							// If you aren't actively in a boss fight, adrenaline rapidly fades away over 2 seconds.
-							else
-								adrenalineDiff = -modPlayer.adrenalineMax / 120f;
-						}
-
-						// Takes 45 seconds to charge in the SCal fight.
-						if (SCalAlive && adrenalineDiff > 0f)
-							adrenalineDiff *= 0.67f;
-
-						// Apply the adrenaline change and cap adrenaline in both directions.
-						modPlayer.adrenaline += adrenalineDiff;
-						if (modPlayer.adrenaline < 0)
-							modPlayer.adrenaline = 0;
-
-						if (modPlayer.adrenaline >= modPlayer.adrenalineMax)
-						{
-							modPlayer.adrenaline = modPlayer.adrenalineMax;
-
-							// Play a sound when the Adrenaline Meter is full
-							if (modPlayer.playFullAdrenalineSound)
-							{
-								modPlayer.playFullAdrenalineSound = false;
-								Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/FullAdrenaline"), (int)player.position.X, (int)player.position.Y);
-							}
-						}
-						else
-							modPlayer.playFullAdrenalineSound = true;
-					}
+						UpdateRippers(mod, player, modPlayer);
 				}
 			}
 
@@ -340,14 +254,15 @@ namespace CalamityMod.CalPlayer
 				modPlayer.adrenaline = 0;
 			}
 
-			// Send Rage and Adrenaline info packets during multiplayer
+			// Send info packets during multiplayer
+			// TODO -- this should be moved to its own update step
 			if (player.whoAmI == Main.myPlayer && Main.netMode == NetmodeID.MultiplayerClient)
 			{
 				modPlayer.packetTimer++;
 				if (modPlayer.packetTimer == 60)
 				{
 					modPlayer.packetTimer = 0;
-					modPlayer.StressPacket(false);
+					modPlayer.RagePacket(false);
 					modPlayer.AdrenalinePacket(false);
 					modPlayer.DeathModeUnderworldTimePacket(false);
 					modPlayer.DeathModeBlizzardTimePacket(false);
@@ -356,6 +271,119 @@ namespace CalamityMod.CalPlayer
 					modPlayer.DefenseDamagePacket(false);
 				}
 			}
+		}
+
+		private static void UpdateRippers(Mod mod, Player player, CalamityPlayer modPlayer)
+		{
+			// Figure out Rage's current duration based on boosts.
+			if (modPlayer.rageBoostOne)
+				modPlayer.RageDuration += CalamityPlayer.RageDurationPerBooster;
+			if (modPlayer.rageBoostTwo)
+				modPlayer.RageDuration += CalamityPlayer.RageDurationPerBooster;
+			if (modPlayer.rageBoostThree)
+				modPlayer.RageDuration += CalamityPlayer.RageDurationPerBooster;
+
+			// Tick down "Rage Combat Frames". When they reach zero, Rage begins fading away.
+			if (modPlayer.rageCombatFrames > 0)
+				--modPlayer.rageCombatFrames;
+
+			// Tick down the Rage gain cooldown.
+			if (modPlayer.rageGainCooldown > 0)
+				--modPlayer.rageGainCooldown;
+			
+			// This is how much Rage will be changed by this frame.
+			float rageDiff = 0;
+
+			// Draedon's Heart provides constant rage generation that scales with missing health.
+			if (modPlayer.draedonsHeart)
+			{
+				float percentMissingHealth = 1f - player.statLife / player.statLifeMax2;
+				float rageGainLerp = MathHelper.Lerp(DraedonsHeart.MinRagePerSecond, DraedonsHeart.MaxRagePerSecond, percentMissingHealth);
+				rageDiff += modPlayer.rageMax * rageGainLerp / 60f;
+			}
+			// Heart of Darkness grants constant rage generation.
+			else if (modPlayer.heartOfDarkness)
+				rageDiff += modPlayer.rageMax * HeartofDarkness.RagePerSecond / 60f;
+
+			// Holding Gael's Greatsword grants constant rage generation.
+			if (modPlayer.heldGaelsLastFrame)
+				rageDiff += modPlayer.rageMax * GaelsGreatsword.RagePerSecond / 60f;
+
+			// If Rage Mode is currently active, you smoothly lose all rage over the duration.
+			if (modPlayer.rageModeActive)
+				rageDiff -= modPlayer.rageMax / modPlayer.RageDuration;
+
+			// If out of combat and NOT using Heart of Darkness, Rage fades away.
+			else if (!modPlayer.rageModeActive && modPlayer.rageCombatFrames <= 0 && !modPlayer.heartOfDarkness)
+				rageDiff -= modPlayer.rageMax / CalamityPlayer.RageFadeTime;
+
+			// Apply the rage change and cap rage in both directions.
+			modPlayer.rage += rageDiff;
+			if (modPlayer.rage < 0)
+				modPlayer.rage = 0;
+
+			if (modPlayer.rage >= modPlayer.rageMax)
+			{
+				// Rage IS NOT capped while active. It can go above 100%.
+				if (!modPlayer.rageModeActive)
+					modPlayer.rage = modPlayer.rageMax;
+
+				// Play a sound when the Rage Meter is full
+				if (modPlayer.playFullRageSound)
+				{
+					modPlayer.playFullRageSound = false;
+					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/FullRage"), (int)player.position.X, (int)player.position.Y);
+				}
+			}
+			else
+				modPlayer.playFullRageSound = true;
+
+			// This is how much Adrenaline will be changed by this frame.
+			float adrenalineDiff = 0;
+			bool SCalAlive = NPC.AnyNPCs(ModContent.NPCType<SupremeCalamitas>());
+			bool wofAndNotHell = Main.wof >= 0 && player.position.Y < (float)((Main.maxTilesY - 200) * 16);
+
+			// If Adrenaline Mode is currently active, you smoothly lose all adrenaline over the duration.
+			if (modPlayer.adrenalineModeActive)
+				adrenalineDiff = -modPlayer.adrenalineMax / modPlayer.AdrenalineDuration;
+
+			else
+			{
+				// If any boss is alive (or you are between DoG phases or Boss Rush is active), you gain adrenaline smoothly.
+				// EXCEPTION: Wall of Flesh is alive and you are not in hell. Then you don't get anything.
+				if ((CalamityPlayer.areThereAnyDamnBosses || CalamityWorld.DoGSecondStageCountdown > 0 || BossRushEvent.BossRushActive) &&
+					!wofAndNotHell)
+				{
+					adrenalineDiff += modPlayer.adrenalineMax / modPlayer.AdrenalineChargeTime;
+				}
+
+				// If you aren't actively in a boss fight, adrenaline rapidly fades away.
+				else
+					adrenalineDiff = -modPlayer.adrenalineMax / modPlayer.AdrenalineFadeTime;
+			}
+
+			// In the SCal fight, adrenaline charges 33% slower (meaning it takes 50% longer to fully charge it).
+			if (SCalAlive && adrenalineDiff > 0f)
+				adrenalineDiff *= 0.67f;
+
+			// Apply the adrenaline change and cap adrenaline in both directions.
+			modPlayer.adrenaline += adrenalineDiff;
+			if (modPlayer.adrenaline < 0)
+				modPlayer.adrenaline = 0;
+
+			if (modPlayer.adrenaline >= modPlayer.adrenalineMax)
+			{
+				modPlayer.adrenaline = modPlayer.adrenalineMax;
+
+				// Play a sound when the Adrenaline Meter is full
+				if (modPlayer.playFullAdrenalineSound)
+				{
+					modPlayer.playFullAdrenalineSound = false;
+					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/FullAdrenaline"), (int)player.position.X, (int)player.position.Y);
+				}
+			}
+			else
+				modPlayer.playFullAdrenalineSound = true;
 		}
 		#endregion
 
@@ -955,8 +983,6 @@ namespace CalamityMod.CalPlayer
 			}
 
 			// Cooldowns and timers
-			if (modPlayer.gainRageCooldown > 0)
-				modPlayer.gainRageCooldown--;
 			if (modPlayer.KameiBladeUseDelay > 0)
 				modPlayer.KameiBladeUseDelay--;
 			if (modPlayer.galileoCooldown > 0)
@@ -1009,8 +1035,8 @@ namespace CalamityMod.CalPlayer
 				modPlayer.aBulwarkRareMeleeBoostTimer--;
 			if (modPlayer.bossRushImmunityFrameCurseTimer > 0)
 				modPlayer.bossRushImmunityFrameCurseTimer--;
-			if (modPlayer.gaelRageCooldown > 0)
-				modPlayer.gaelRageCooldown--;
+			if (modPlayer.gaelRageAttackCooldown > 0)
+				modPlayer.gaelRageAttackCooldown--;
 			if (modPlayer.projRefRareLifeRegenCounter > 0)
 				modPlayer.projRefRareLifeRegenCounter--;
 			if (modPlayer.hurtSoundTimer > 0)
@@ -1268,18 +1294,6 @@ namespace CalamityMod.CalPlayer
 					player.moveSpeed += modPlayer.absorber ? 0.15f : 0.1f;
 					player.ignoreWater = true;
 				}
-			}
-
-			// Remove Absolute Rage buff if Rage isn't high enough
-			bool rageHighEnough = modPlayer.rage / modPlayer.rageMax >= CalamityPlayer.AbsoluteRageThreshold;
-			if (!rageHighEnough && player.FindBuffIndex(ModContent.BuffType<AbsoluteRage>()) > -1)
-				player.ClearBuff(ModContent.BuffType<AbsoluteRage>());
-
-			// Absolute Rage bonus
-			if (modPlayer.absoluteRage)
-			{
-				if (modPlayer.heartOfDarkness || modPlayer.draedonsHeart)
-					player.allDamage += 0.1f;
 			}
 
 			// Affliction bonus
@@ -3908,18 +3922,12 @@ namespace CalamityMod.CalPlayer
 				(player.wereWolf ? 0.2f : 0f) +
 				(player.jumpBoost ? 1.5f : 0f);
 			modPlayer.jumpSpeedStat = trueJumpSpeedBoost * 20f;
-			int adrenalineDamageBoost = 0 +
-				(modPlayer.adrenalineBoostOne ? 15 : 0) +
-				(modPlayer.adrenalineBoostTwo ? 15 : 0) +
-				(modPlayer.adrenalineBoostThree ? 15 : 0);
-			modPlayer.adrenalineDamageStat = 200 + adrenalineDamageBoost;
-			modPlayer.adrenalineDRStat = 50 + (adrenalineDamageBoost / 3);
-			bool DHorHoD = modPlayer.draedonsHeart || modPlayer.heartOfDarkness;
-			int rageDamageBoost = 0 +
-				(modPlayer.rageBoostOne ? 15 : 0) +
-				(modPlayer.rageBoostTwo ? 15 : 0) +
-				(modPlayer.rageBoostThree ? 15 : 0);
-			modPlayer.rageDamageStat = (DHorHoD ? 65 : 50) + rageDamageBoost;
+			modPlayer.adrenalineDamageStat = (int)(100D * modPlayer.GetAdrenalineDamage());
+			int extraAdrenalineDR = 0 +
+				(modPlayer.adrenalineBoostOne ? 5 : 0) +
+				(modPlayer.adrenalineBoostTwo ? 5 : 0) +
+				(modPlayer.adrenalineBoostThree ? 5 : 0);
+			modPlayer.adrenalineDRStat = 50 + extraAdrenalineDR;
 		}
 		#endregion
 

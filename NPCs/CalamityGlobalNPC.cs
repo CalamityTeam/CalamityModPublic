@@ -3358,20 +3358,16 @@ namespace CalamityMod.NPCs
 			}
 			else if (npc.type == NPCType<Polterghast.Polterghast>())
 			{
-				if (projectile.type == ProjectileType<LunarKunaiProj>() || projectile.type == ProjectileType<Knife>() || projectile.type == ProjectileType<Fork>() ||
-					projectile.type == ProjectileType<CarvingFork>() || projectile.type == ProjectileType<ButcherKnife>())
-				{
-					damage = (int)(damage * 0.75);
-				}
+                // 5% resist to Celestial Reaper
+                if (projectile.type == ProjectileType<CelestialReaperProjectile>() || projectile.type == ProjectileType<CelestialReaperAfterimage>())
+                    damage = (int)(damage * 0.95);
 			}
 			else if (npc.type == NPCType<Signus.Signus>())
 			{
-				if (projectile.type == ProjectileType<Knife>() || projectile.type == ProjectileType<Fork>() || projectile.type == ProjectileType<CarvingFork>() ||
-					projectile.type == ProjectileType<ButcherKnife>() || projectile.type == ProjectileType<LunarKunaiProj>())
-				{
-					damage = (int)(damage * 0.6);
-				}
-			}
+                // 5% resist to Celestial Reaper
+                if (projectile.type == ProjectileType<CelestialReaperProjectile>() || projectile.type == ProjectileType<CelestialReaperAfterimage>())
+                    damage = (int)(damage * 0.95);
+            }
 			else if (npc.type == NPCID.CultistBoss)
 			{
 				if (projectile.type == ProjectileType<PurpleButterfly>() || projectile.type == ProjectileType<SakuraBullet>())
