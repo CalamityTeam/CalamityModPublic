@@ -193,7 +193,6 @@ namespace CalamityMod.CalPlayer
 		public float jumpSpeedStat = 0f;
         public int adrenalineDamageStat = 0;
 		public int adrenalineDRStat = 0;
-        public int rageDamageStat = 0;
         public int moveSpeedStat = 0;
         public int abyssLightLevelStat = 0;
         public int abyssBreathLossStat = 0;

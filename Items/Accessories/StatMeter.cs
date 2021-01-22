@@ -79,7 +79,6 @@ namespace CalamityMod.Items.Accessories
 			{
 				sb.Append("Adrenaline Damage Boost: ").Append(modPlayer.adrenalineDamageStat)
 					.Append("% | Adrenaline DR Boost: ").Append(modPlayer.adrenalineDRStat)
-					.Append("% | Rage Damage Boost: ").Append(modPlayer.rageDamageStat)
 					.Append("%\n\n");
 			}
 

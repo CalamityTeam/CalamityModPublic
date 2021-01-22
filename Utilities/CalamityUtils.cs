@@ -142,6 +142,24 @@ namespace CalamityMod
 		}
 
 		/// <summary>
+		/// Returns the damage multiplier Adrenaline Mode provides for the given player.
+		/// </summary>
+		/// <param name="mp"></param>
+		/// <returns></returns>
+		public static double GetAdrenalineDamage(this CalamityPlayer mp)
+		{
+			double adrenalineBoost = CalamityPlayer.AdrenalineDamageBoost;
+			if (mp.adrenalineBoostOne)
+				adrenalineBoost += CalamityPlayer.AdrenalineDamagePerBooster;
+			if (mp.adrenalineBoostTwo)
+				adrenalineBoost += CalamityPlayer.AdrenalineDamagePerBooster;
+			if (mp.adrenalineBoostThree)
+				adrenalineBoost += CalamityPlayer.AdrenalineDamagePerBooster;
+
+			return adrenalineBoost;
+		}
+
+		/// <summary>
 		/// Applies Rage and Adrenaline to the given damage multiplier. The values controlling the so-called "Rippers" can be found in CalamityPlayer.
 		/// </summary>
 		/// <param name="mp">The CalamityPlayer who may or may not be using Rage or Adrenaline.</param>
@@ -159,17 +177,7 @@ namespace CalamityMod
 				damageMult += rageBoost;
 			}
 			else if (mp.adrenalineModeActive)
-			{
-				double adrenalineBoost = CalamityPlayer.AdrenalineDamageBoost;
-				if (mp.adrenalineBoostOne)
-					adrenalineBoost += CalamityPlayer.AdrenalineDamagePerBooster;
-				if (mp.adrenalineBoostTwo)
-					adrenalineBoost += CalamityPlayer.AdrenalineDamagePerBooster;
-				if (mp.adrenalineBoostThree)
-					adrenalineBoost += CalamityPlayer.AdrenalineDamagePerBooster;
-
-				damageMult += adrenalineBoost;
-			}
+				damageMult += mp.GetAdrenalineDamage();
 		}
 
 		/// <summary>

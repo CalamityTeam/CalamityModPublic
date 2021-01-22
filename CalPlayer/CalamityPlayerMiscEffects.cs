@@ -3995,18 +3995,12 @@ namespace CalamityMod.CalPlayer
 				(player.wereWolf ? 0.2f : 0f) +
 				(player.jumpBoost ? 1.5f : 0f);
 			modPlayer.jumpSpeedStat = trueJumpSpeedBoost * 20f;
-			int adrenalineDamageBoost = 0 +
-				(modPlayer.adrenalineBoostOne ? 15 : 0) +
-				(modPlayer.adrenalineBoostTwo ? 15 : 0) +
-				(modPlayer.adrenalineBoostThree ? 15 : 0);
-			modPlayer.adrenalineDamageStat = 200 + adrenalineDamageBoost;
-			modPlayer.adrenalineDRStat = 50 + (adrenalineDamageBoost / 3);
-			bool DHorHoD = modPlayer.draedonsHeart || modPlayer.heartOfDarkness;
-			int rageDamageBoost = 0 +
-				(modPlayer.rageBoostOne ? 15 : 0) +
-				(modPlayer.rageBoostTwo ? 15 : 0) +
-				(modPlayer.rageBoostThree ? 15 : 0);
-			modPlayer.rageDamageStat = (DHorHoD ? 65 : 50) + rageDamageBoost;
+			modPlayer.adrenalineDamageStat = (int)(100D * modPlayer.GetAdrenalineDamage());
+			int extraAdrenalineDR = 0 +
+				(modPlayer.adrenalineBoostOne ? 5 : 0) +
+				(modPlayer.adrenalineBoostTwo ? 5 : 0) +
+				(modPlayer.adrenalineBoostThree ? 5 : 0);
+			modPlayer.adrenalineDRStat = 50 + extraAdrenalineDR;
 		}
 		#endregion
 
