@@ -3358,22 +3358,14 @@ namespace CalamityMod.NPCs
 			}
 			else if (npc.type == NPCType<Polterghast.Polterghast>())
 			{
-                // 30% resist to Lunar Kunai
-                if (projectile.type == ProjectileType<LunarKunaiProj>())
-                    damage = (int)(damage * 0.7);
-
                 // 5% resist to Celestial Reaper
-                else if (projectile.type == ProjectileType<CelestialReaperProjectile>() || projectile.type == ProjectileType<CelestialReaperAfterimage>())
+                if (projectile.type == ProjectileType<CelestialReaperProjectile>() || projectile.type == ProjectileType<CelestialReaperAfterimage>())
                     damage = (int)(damage * 0.95);
 			}
 			else if (npc.type == NPCType<Signus.Signus>())
 			{
-                // 40% resist to Lunar Kunai
-                if (projectile.type == ProjectileType<LunarKunaiProj>())
-					damage = (int)(damage * 0.6);
-
                 // 5% resist to Celestial Reaper
-                else if (projectile.type == ProjectileType<CelestialReaperProjectile>() || projectile.type == ProjectileType<CelestialReaperAfterimage>())
+                if (projectile.type == ProjectileType<CelestialReaperProjectile>() || projectile.type == ProjectileType<CelestialReaperAfterimage>())
                     damage = (int)(damage * 0.95);
             }
 			else if (npc.type == NPCID.CultistBoss)
