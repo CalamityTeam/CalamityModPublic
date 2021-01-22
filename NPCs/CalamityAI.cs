@@ -4243,7 +4243,7 @@ namespace CalamityMod.NPCs
 							if (phase3)
 								num1307 = 1;
 
-							float featherVelocity = 3f + (enrageScale - 1f) * 1.5f;
+							float featherVelocity = 2f + (enrageScale - 1f);
 							int type = ModContent.ProjectileType<RedLightningFeather>();
 							int damage = npc.GetProjectileDamage(type);
 
