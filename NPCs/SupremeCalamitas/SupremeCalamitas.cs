@@ -81,6 +81,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
         public override void SetDefaults()
         {
+			npc.Calamity().canBreakPlayerDefense = true;
 			npc.GetNPCDamage();
 			npc.npcSlots = 50f;
             npc.width = 120;
@@ -194,8 +195,6 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             CalamityGlobalNPC.SCal = npc.whoAmI;
 
             lootTimer++;
-
-			npc.Calamity().canBreakPlayerDefense = false;
 
 			bool wormAlive = false;
             if (CalamityGlobalNPC.SCalWorm != -1)
@@ -1260,8 +1259,6 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 					}
 					else if (npc.ai[1] == 2f)
 					{
-						npc.Calamity().canBreakPlayerDefense = true;
-
 						npc.ai[2] += 1f;
 						if (npc.ai[2] >= 25f)
 						{
@@ -1805,8 +1802,6 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 					}
 					else if (npc.ai[1] == 2f)
 					{
-						npc.Calamity().canBreakPlayerDefense = true;
-
 						npc.ai[2] += 1f;
 						if (npc.ai[2] >= 25f)
 						{

@@ -37,6 +37,7 @@ namespace CalamityMod.NPCs.Bumblebirb
 
         public override void SetDefaults()
         {
+			npc.Calamity().canBreakPlayerDefense = true;
 			npc.npcSlots = 32f;
             npc.aiStyle = -1;
             aiType = -1;

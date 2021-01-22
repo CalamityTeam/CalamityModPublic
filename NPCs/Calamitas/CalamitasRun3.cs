@@ -36,6 +36,7 @@ namespace CalamityMod.NPCs.Calamitas
 
         public override void SetDefaults()
         {
+			npc.Calamity().canBreakPlayerDefense = true;
 			npc.GetNPCDamage();
 			npc.npcSlots = 14f;
             npc.width = 120;

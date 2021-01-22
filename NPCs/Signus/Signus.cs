@@ -38,7 +38,8 @@ namespace CalamityMod.NPCs.Signus
 
         public override void SetDefaults()
         {
-            npc.npcSlots = 32f;
+			npc.Calamity().canBreakPlayerDefense = true;
+			npc.npcSlots = 32f;
 			npc.GetNPCDamage();
 			npc.width = 130;
             npc.height = 130;
@@ -93,8 +94,6 @@ namespace CalamityMod.NPCs.Signus
 			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
 			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
             bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
-
-			npc.Calamity().canBreakPlayerDefense = false;
 
 			Vector2 vectorCenter = npc.Center;
 
@@ -567,8 +566,6 @@ namespace CalamityMod.NPCs.Signus
                 }
                 else if (npc.Calamity().newAI[0] == 2f) // Charging
                 {
-					npc.Calamity().canBreakPlayerDefense = true;
-
 					if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
 						npc.ai[2] += 1f;

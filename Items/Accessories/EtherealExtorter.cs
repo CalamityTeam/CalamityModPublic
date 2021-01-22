@@ -9,9 +9,8 @@ namespace CalamityMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Ethereal Extorter");
-            Tooltip.SetDefault(@"Infuses souls into your weapons and body generating different boosts that vary with the environment
-Rogue projectiles rarely explode into homing souls
-10% increased rogue damage but reduced life regen");
+            Tooltip.SetDefault(@"Rogue projectiles explode into homing souls on death
+10% increased rogue damage and +10 maximum stealth, however, life regen is reduced by 1");
         }
 
         public override void SetDefaults()
@@ -29,8 +28,7 @@ Rogue projectiles rarely explode into homing souls
             modPlayer.etherealExtorter = true;
             modPlayer.throwingDamage += 0.1f;
 			player.lifeRegen -= 1;
-			if (Main.moonPhase == 4) // 4 = New Moon
-				modPlayer.rogueStealthMax += 0.1f;
+			modPlayer.rogueStealthMax += 0.1f;
         }
     }
 }

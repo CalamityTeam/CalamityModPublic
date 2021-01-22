@@ -49,6 +49,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
         public override void SetDefaults()
         {
+			npc.Calamity().canBreakPlayerDefense = true;
 			npc.GetNPCDamage();
 			npc.npcSlots = 64f;
             npc.width = 198;
@@ -131,9 +132,6 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
 			// Percent life remaining
 			float lifeRatio = npc.life / (float)npc.lifeMax;
-
-			// So she doesn't do it constantly
-			npc.Calamity().canBreakPlayerDefense = false;
 
 			// Mode variables
 			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
@@ -312,8 +310,6 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                 if (npc.ai[1] % 2f == 0f)
                 {
                     npc.TargetClosest(true);
-
-					npc.Calamity().canBreakPlayerDefense = true;
 
 					float playerLocation = vectorCenter.X - player.Center.X;
 

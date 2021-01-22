@@ -117,11 +117,22 @@ namespace CalamityMod.Projectiles
                     projectile.idStaticNPCHitCooldown = 12;
                     break;
 
+				case ProjectileID.DD2BetsyFireball:
+				case ProjectileID.DD2BetsyFlameBreath:
+				case ProjectileID.CultistBossIceMist:
+				case ProjectileID.CultistBossFireBallClone:
+				case ProjectileID.CultistBossFireBall:
+				case ProjectileID.CultistBossLightningOrbArc:
+				case ProjectileID.InfernoHostileBlast:
+				case ProjectileID.RocketSkeleton:
+				case ProjectileID.DemonSickle:
+				case ProjectileID.Skull:
 				case ProjectileID.SniperBullet:
 				case ProjectileID.RuneBlast:
 				case ProjectileID.UnholyTridentHostile:
 				case ProjectileID.JavelinHostile:
 				case ProjectileID.FrostWave:
+				case ProjectileID.Present:
 				case ProjectileID.FlamingScythe:
 				case ProjectileID.SaucerDeathray:
 				case ProjectileID.SaucerMissile:
@@ -132,6 +143,7 @@ namespace CalamityMod.Projectiles
 				case ProjectileID.BombSkeletronPrime:
 				case ProjectileID.Sharknado:
 				case ProjectileID.Cthulunado:
+				case ProjectileID.PhantasmalSphere:
 				case ProjectileID.PhantasmalDeathray:
 					canBreakPlayerDefense = true;
 					break;
@@ -1047,20 +1059,6 @@ namespace CalamityMod.Projectiles
             else if (projectile.type == ProjectileID.SoulDrain)
                 projectile.magic = true;
 
-            if (modPlayer.etherealExtorter)
-            {
-                if (CalamityLists.spikyBallProjList.Contains(projectile.type) && !extorterBoost && Main.moonPhase == 2) //third quarter
-                {
-                    projectile.timeLeft += 300;
-                    extorterBoost = true;
-                }
-                if (CalamityLists.javelinProjList.Contains(projectile.type) && !extorterBoost && player.ZoneCrimson)
-                {
-                    projectile.knockBack *= 2;
-                    extorterBoost = true;
-                }
-            }
-
             if (projectile.type == ProjectileID.OrnamentFriendly && lineColor == 1) //spawned by Festive Wings
             {
                 Vector2 center = projectile.Center;
@@ -1168,7 +1166,7 @@ namespace CalamityMod.Projectiles
                         // Summon moon sigils infrequently
                         if (Main.rand.NextBool(300) && projectile.type != ProjectileType<MoonSigil>() && projectile.type != ProjectileType<DragonShit>())
                         {
-                            Projectile.NewProjectile(projectile.Center, Vector2.Zero, ProjectileType<MoonSigil>(), CalamityUtils.DamageSoftCap(projectile.damage * 0.2, 75), 0, projectile.owner);
+                            Projectile.NewProjectile(projectile.Center, Vector2.Zero, ProjectileType<MoonSigil>(), (int)(projectile.damage * 0.2), 0, projectile.owner);
                         }
                     }
                     if (modPlayer.dragonScales && projectile.type != ProjectileType<MoonSigil>() && projectile.type != ProjectileType<DragonShit>())
@@ -1179,7 +1177,7 @@ namespace CalamityMod.Projectiles
                             {
                                 // Spawn a dust that does 1/5th of the original damage
                                 Projectile.NewProjectile(projectile.Center, Vector2.One.RotatedByRandom(MathHelper.TwoPi), ProjectileType<DragonShit>(),
-                                    CalamityUtils.DamageSoftCap(projectile.damage * 0.2, 300), 0f, projectile.owner, 0f, 0f);
+                                    (int)(projectile.damage * 0.2), 0f, projectile.owner, 0f, 0f);
                             }
                         }
                     }
@@ -1651,12 +1649,12 @@ namespace CalamityMod.Projectiles
             {
                 if (rogue)
                 {
-                    if (modPlayer.etherealExtorter && Main.rand.Next(0, 100) >= 95)
+                    if (modPlayer.etherealExtorter && Main.player[projectile.owner].ownedProjectileCounts[ProjectileType<LostSoulFriendly>()] < 10)
                     {
-                        for (int i = 0; i < 3; i++)
+                        for (int i = 0; i < 2; i++)
                         {
                             Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
-                            int soul = Projectile.NewProjectile(projectile.Center, velocity, ProjectileType<LostSoulFriendly>(), CalamityUtils.DamageSoftCap(projectile.damage * 0.33, 50), 0f, projectile.owner, 0f, 0f);
+                            int soul = Projectile.NewProjectile(projectile.Center, velocity, ProjectileType<LostSoulFriendly>(), (int)(projectile.damage * 0.1), 0f, projectile.owner, 0f, 0f);
                             Main.projectile[soul].tileCollide = false;
                         }
                     }

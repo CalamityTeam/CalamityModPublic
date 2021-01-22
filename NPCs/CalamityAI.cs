@@ -1149,8 +1149,6 @@ namespace CalamityMod.NPCs
 		{
 			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
-			npc.Calamity().canBreakPlayerDefense = false;
-
 			// Emit light
 			Lighting.AddLight((int)((npc.position.X + (npc.width / 2)) / 16f), (int)((npc.position.Y + (npc.height / 2)) / 16f), 1f, 0f, 0f);
 
@@ -1660,8 +1658,6 @@ namespace CalamityMod.NPCs
 			}
 			else if (npc.ai[1] == 3f)
 			{
-				npc.Calamity().canBreakPlayerDefense = true;
-
 				npc.ai[2] += 1f;
 
 				float chargeTime = BossRushEvent.BossRushActive ? 56f : (70f - (death ? 6f * (1f - lifeRatio) : 0f));
@@ -1768,8 +1764,6 @@ namespace CalamityMod.NPCs
 		public static void CataclysmAI(NPC npc, Mod mod)
 		{
 			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
-
-			npc.Calamity().canBreakPlayerDefense = false;
 
 			// Percent life remaining
 			float lifeRatio = npc.life / (float)npc.lifeMax;
@@ -2019,8 +2013,6 @@ namespace CalamityMod.NPCs
 
 				if (npc.ai[1] == 2f)
 				{
-					npc.Calamity().canBreakPlayerDefense = true;
-
 					npc.ai[2] += 1f + (death ? 0.5f * (1f - lifeRatio) : 0f);
 					if (expertMode)
 						npc.ai[2] += 0.25f;
@@ -2064,8 +2056,6 @@ namespace CalamityMod.NPCs
 		public static void CatastropheAI(NPC npc, Mod mod)
 		{
 			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
-
-			npc.Calamity().canBreakPlayerDefense = false;
 
 			// Percent life remaining
 			float lifeRatio = npc.life / (float)npc.lifeMax;
@@ -2315,8 +2305,6 @@ namespace CalamityMod.NPCs
 
 				if (npc.ai[1] == 2f)
 				{
-					npc.Calamity().canBreakPlayerDefense = true;
-
 					npc.ai[2] += 1f + (death ? 0.5f * (1f - lifeRatio) : 0f);
 					if (expertMode)
 						npc.ai[2] += 0.25f;
@@ -3977,8 +3965,6 @@ namespace CalamityMod.NPCs
 		{
 			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
-			npc.Calamity().canBreakPlayerDefense = false;
-
 			// Get a target
 			if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
 				npc.TargetClosest();
@@ -4503,8 +4489,6 @@ namespace CalamityMod.NPCs
 			// Charge
 			else if (npc.ai[0] == 3.2f)
 			{
-				npc.Calamity().canBreakPlayerDefense = true;
-
 				npc.collideX = false;
 				npc.collideY = false;
 				npc.noTileCollide = true;
@@ -4648,7 +4632,7 @@ namespace CalamityMod.NPCs
 		{
 			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
-			npc.Calamity().canBreakPlayerDefense = false;
+			npc.Calamity().canBreakPlayerDefense = true;
 
 			// Variables
 			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
@@ -4795,6 +4779,8 @@ namespace CalamityMod.NPCs
 
 			if (calamityGlobalNPC.newAI[1] == 1f)
 			{
+				npc.Calamity().canBreakPlayerDefense = false;
+
 				npc.damage /= 4;
 
 				// Play tired sound
@@ -5081,8 +5067,6 @@ namespace CalamityMod.NPCs
 				// Accelerate
 				npc.velocity *= 1.01f;
 
-				npc.Calamity().canBreakPlayerDefense = true;
-
 				// Spawn dust
 				int num24 = 7;
 				for (int j = 0; j < num24; j++)
@@ -5352,8 +5336,6 @@ namespace CalamityMod.NPCs
 			{
 				// Accelerate
 				npc.velocity *= 1.01f;
-
-				npc.Calamity().canBreakPlayerDefense = true;
 
 				// Spawn dust
 				int num29 = 7;
@@ -5653,8 +5635,6 @@ namespace CalamityMod.NPCs
 			{
 				// Accelerate
 				npc.velocity *= 1.01f;
-
-				npc.Calamity().canBreakPlayerDefense = true;
 
 				// Spawn dust
 				int num34 = 7;

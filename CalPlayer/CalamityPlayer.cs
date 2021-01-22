@@ -3775,7 +3775,6 @@ namespace CalamityMod.CalPlayer
                 (silvaSet ? 0.05f : 0f) +
                 (eTracers ? 0.05f : 0f) +
                 (blueCandle ? 0.05f : 0f) +
-                (etherealExtorter && player.ZoneBeach ? 0.05f : 0f) +
                 (planarSpeedBoost > 0 ? (0.01f * planarSpeedBoost) : 0f) +
                 ((deepDiver && player.IsUnderwater()) ? 0.15f : 0f) +
                 (rogueStealthMax > 0f ? (rogueStealth >= rogueStealthMax ? rogueStealth * 0.05f : rogueStealth * 0.025f) : 0f);
@@ -3792,7 +3791,6 @@ namespace CalamityMod.CalPlayer
 				(cTracers ? 0.1f : 0f) +
                 (silvaSet ? 0.05f : 0f) +
                 (eTracers ? 0.05f : 0f) +
-				(etherealExtorter && player.ZoneBeach ? 0.05f : 0f) +
                 (planarSpeedBoost > 0 ? (0.01f * planarSpeedBoost) : 0f) +
                 ((deepDiver && player.IsUnderwater()) ? 0.15f : 0f) +
                 (rogueStealthMax > 0f ? (rogueStealth >= rogueStealthMax ? rogueStealth * 0.05f : rogueStealth * 0.025f) : 0f);
@@ -4345,11 +4343,6 @@ namespace CalamityMod.CalPlayer
                     item.Calamity().rogue && item.useTime > 3)
                     return 1.1f;
             }
-            if (etherealExtorter)
-            {
-                if (Main.moonPhase == 1 && item.Calamity().rogue && item.useTime > 3) //Waning gibbous
-                    return 1.1f;
-            }
             return 1f;
         }
 		#endregion
@@ -4392,10 +4385,6 @@ namespace CalamityMod.CalPlayer
             if (eskimoSet && CalamityLists.iceWeaponList.Contains(item.type))
             {
                 add += 0.1f;
-            }
-            if (etherealExtorter && player.ZoneDungeon && item.Calamity().rogue && !item.consumable)
-            {
-                add += 0.05f;
             }
 
             if (item.ranged)
@@ -4454,14 +4443,6 @@ namespace CalamityMod.CalPlayer
             if (titanHeartSet && StealthStrikeAvailable() && item.Calamity().rogue)
             {
                 knockback *= 2f;
-            }
-            bool ZoneForest = !ZoneAbyss && !ZoneSulphur && !ZoneAstral && !ZoneCalamity && !ZoneSunkenSea && !player.ZoneSnow && !player.ZoneCorrupt && !player.ZoneCrimson && !player.ZoneHoly && !player.ZoneDesert && !player.ZoneUndergroundDesert && !player.ZoneGlowshroom && !player.ZoneDungeon && !player.ZoneBeach && !player.ZoneMeteor;
-            if (etherealExtorter)
-            {
-                if (player.ZoneOverworldHeight && ZoneForest)
-                {
-                    knockback *= 1.15f;
-                }
             }
         }
         #endregion
@@ -5078,10 +5059,10 @@ namespace CalamityMod.CalPlayer
 
             if (oldDie)
             {
-                float diceMult = Main.rand.NextFloat(0.8824f, 1.1565f);
+                float diceMult = Main.rand.NextFloat(0.9215f, 1.1205f);
                 if (item.Calamity().rogue || wearingRogueArmor)
                 {
-                    float roll2 = Main.rand.NextFloat(0.8824f, 1.1565f);
+                    float roll2 = Main.rand.NextFloat(0.9215f, 1.1205f);
                     diceMult = roll2 > diceMult ? roll2 : diceMult;
                 }
                 damage = (int)(damage * diceMult);
@@ -5207,9 +5188,9 @@ namespace CalamityMod.CalPlayer
                 if (isSummon)
                     damageMult += 0.15;
             }
-            if (silvaMelee && Main.rand.NextBool(4) && isTrueMelee)
+            if (silvaMelee && isTrueMelee)
             {
-                damageMult += 4.0;
+                damageMult += 1.0;
             }
             if (enraged && !CalamityConfig.Instance.BossRushXerocCurse)
             {
@@ -5235,7 +5216,7 @@ namespace CalamityMod.CalPlayer
                 if (randomChance < 15)
                     randomChance = 15;
                 if (Main.rand.NextBool(randomChance))
-                    damageMult += 1.0;
+                    damageMult += 0.5;
             }
             if (silvaCountdown <= 0 && hasSilvaEffect && silvaRanged && proj.ranged)
             {
@@ -5310,41 +5291,15 @@ namespace CalamityMod.CalPlayer
                 else
                     damageMult += 0.1;
             }
-            if (etherealExtorter && proj.Calamity().rogue)
-            {
-                bool ZoneForest = !ZoneAbyss && !ZoneSulphur && !ZoneAstral && !ZoneCalamity && !ZoneSunkenSea && !player.ZoneSnow && !player.ZoneCorrupt && !player.ZoneCrimson && !player.ZoneHoly && !player.ZoneDesert && !player.ZoneUndergroundDesert && !player.ZoneGlowshroom && !player.ZoneDungeon && !player.ZoneBeach && !player.ZoneMeteor;
-                if (Main.moonPhase == 7 && crit) //Waxing Gibbous
-                {
-                    damageMult += 0.05;
-                }
-                if (Main.moonPhase == 5) //Waxing Cresent
-                {
-                    if (proj.penetrate == -1)
-                        damageMult += 0.1;
-                    else if (proj.penetrate >= 5)
-                        damageMult += 0.08;
-                    else if (proj.penetrate == 4)
-                        damageMult += 0.06;
-                    else if (proj.penetrate == 3)
-                        damageMult += 0.03;
-                    else if (proj.penetrate == 2)
-                        damageMult += 0.02;
-                }
-                if (player.ZoneDirtLayerHeight && ZoneForest)
-                {
-                    if (Main.rand.NextBool(20) && !crit) //5% chance to minicrit
-                        damageMult += 0.5;
-                }
-            }
             damage = (int)(damage * damageMult);
 
             if (oldDie)
             {
-                float diceMult = Main.rand.NextFloat(0.8824f, 1.1565f);
-                if (proj.Calamity().rogue || wearingRogueArmor)
+                float diceMult = Main.rand.NextFloat(0.9215f, 1.1205f);
+				if (proj.Calamity().rogue || wearingRogueArmor)
                 {
-                    float roll2 = Main.rand.NextFloat(0.8824f, 1.1565f);
-                    diceMult = roll2 > diceMult ? roll2 : diceMult;
+                    float roll2 = Main.rand.NextFloat(0.9215f, 1.1205f);
+					diceMult = roll2 > diceMult ? roll2 : diceMult;
                 }
                 damage = (int)(damage * diceMult);
             }
@@ -5397,13 +5352,6 @@ namespace CalamityMod.CalPlayer
 					penetrateAmt += 30;
 				else if (filthyGlove || bloodyGlove)
 					penetrateAmt += 10;
-            }
-            if (proj.Calamity().rogue && etherealExtorter)
-            {
-                if (CalamityLists.boomerangProjList.Contains(proj.type) && player.ZoneCorrupt)
-                {
-					penetrateAmt += 6;
-                }
             }
             if (proj.melee && badgeOfBravery)
             {
@@ -6925,7 +6873,7 @@ namespace CalamityMod.CalPlayer
                     num79 *= num80;
                     float speedX4 = num78 + (float)Main.rand.Next(-30, 31) * 0.02f;
                     float speedY5 = num79 + (float)Main.rand.Next(-30, 31) * 0.02f;
-                    int p = Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, type, CalamityUtils.DamageSoftCap(damage * 0.15, 75), knockBack * 0.5f, player.whoAmI);
+                    int p = Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, type, (int)(damage * 0.15), knockBack * 0.5f, player.whoAmI);
 					if (p.WithinBounds(Main.maxProjectiles))
 						Main.projectile[p].Calamity().forceRogue = true; //in case melee/rogue variants bug out
 					if (item.type == ModContent.ItemType<FinalDawn>())
@@ -9019,9 +8967,6 @@ namespace CalamityMod.CalPlayer
                 stealthGenStandstill += 0.1f;
                 stealthGenMoving += 0.1f;
             }
-
-            if (etherealExtorter && Main.moonPhase == 3) // 3 = Waning Crescent
-                stealthGenStandstill += 0.15f;
 
 			//Accessory modifiers can boost these stats
 			stealthGenStandstill += accStealthGenBoost;

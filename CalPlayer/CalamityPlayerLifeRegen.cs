@@ -735,9 +735,6 @@ namespace CalamityMod.CalPlayer
 				player.lifeRegenTime += 4;
             }
 
-			if (modPlayer.etherealExtorter && player.ZoneGlowshroom)
-				player.lifeRegen += 1;
-
 			if (modPlayer.pinkCandle && !modPlayer.noLifeRegen)
 			{
 				// Every frame, add up 1/60th of the healing value (0.4% max HP per second)

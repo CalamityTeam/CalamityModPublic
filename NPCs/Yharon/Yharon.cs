@@ -59,7 +59,8 @@ namespace CalamityMod.NPCs.Yharon
 
         public override void SetDefaults()
         {
-            npc.npcSlots = 50f;
+			npc.Calamity().canBreakPlayerDefense = true;
+			npc.npcSlots = 50f;
 			npc.GetNPCDamage();
 			npc.width = 200;
             npc.height = 200;
@@ -159,9 +160,6 @@ namespace CalamityMod.NPCs.Yharon
         {
 			// Percent life remaining
 			float lifeRatio = npc.life / (float)npc.lifeMax;
-
-			// Don't do it constantly
-			npc.Calamity().canBreakPlayerDefense = false;
 
 			// Stop rain
 			CalamityMod.StopRain();
@@ -619,8 +617,6 @@ namespace CalamityMod.NPCs.Yharon
 			// Charge
             else if (npc.ai[0] == 1f)
             {
-				npc.Calamity().canBreakPlayerDefense = true;
-
 				ChargeDust(7, pie);
 
                 npc.ai[2] += 1f;
@@ -733,8 +729,6 @@ namespace CalamityMod.NPCs.Yharon
 			// Fast charge
             else if (npc.ai[0] == 5f)
             {
-				npc.Calamity().canBreakPlayerDefense = true;
-
 				ChargeDust(14, pie);
 
                 npc.ai[2] += 1f;
@@ -936,8 +930,6 @@ namespace CalamityMod.NPCs.Yharon
 			// Charge
             else if (npc.ai[0] == 7f)
             {
-				npc.Calamity().canBreakPlayerDefense = true;
-
 				ChargeDust(7, pie);
 
                 npc.ai[2] += 1f;
@@ -1052,8 +1044,6 @@ namespace CalamityMod.NPCs.Yharon
 			// Fast charge
             else if (npc.ai[0] == 11f)
             {
-				npc.Calamity().canBreakPlayerDefense = true;
-
 				ChargeDust(14, pie);
 
 				npc.ai[2] += 1f;
@@ -1298,8 +1288,6 @@ namespace CalamityMod.NPCs.Yharon
 			// Charge
             else if (npc.ai[0] == 14f)
             {
-				npc.Calamity().canBreakPlayerDefense = true;
-
 				ChargeDust(7, pie);
 
 				npc.ai[2] += 1f;
@@ -1421,8 +1409,6 @@ namespace CalamityMod.NPCs.Yharon
 			// Fast charge
             else if (npc.ai[0] == 18f)
             {
-				npc.Calamity().canBreakPlayerDefense = true;
-
 				ChargeDust(14, pie);
 
 				npc.ai[2] += 1f;
@@ -2052,8 +2038,6 @@ namespace CalamityMod.NPCs.Yharon
                 if (npc.ai[1] == 1f)
                     Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/YharonRoarShort"), (int)npc.position.X, (int)npc.position.Y);
 
-				npc.Calamity().canBreakPlayerDefense = true;
-
 				ChargeDust(7, pie);
 
 				npc.ai[1] += 1f;
@@ -2347,8 +2331,6 @@ namespace CalamityMod.NPCs.Yharon
             {
                 if (npc.ai[1] == 1f)
                     Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/YharonRoarShort"), (int)npc.position.X, (int)npc.position.Y);
-
-				npc.Calamity().canBreakPlayerDefense = true;
 
 				ChargeDust(14, pie);
 

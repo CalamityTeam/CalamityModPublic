@@ -31,7 +31,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            healAmt *= 1.4f;
+            healAmt *= 1.25f;
             projectile.penetrate--;
             if (projectile.penetrate <= 0)
             {
@@ -58,7 +58,7 @@ namespace CalamityMod.Projectiles.Magic
             {
                 return;
             }
-            healAmt *= 1.4f;
+            healAmt *= 1.25f;
             Player player = Main.player[projectile.owner];
             player.statLife += (int)healAmt;
             player.HealEffect((int)healAmt);
