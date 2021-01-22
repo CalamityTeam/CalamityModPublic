@@ -4951,6 +4951,15 @@ namespace CalamityMod.NPCs
 
 		public static bool BuffedProbeAI(NPC npc, Mod mod)
 		{
+			// 2 seconds of immunity to prevent spawn killing
+			if (npc.Calamity().newAI[1] < 120f)
+			{
+				npc.Calamity().newAI[1] += 1f;
+				npc.dontTakeDamage = true;
+			}
+			else
+				npc.dontTakeDamage = false;
+
 			// Get a target
 			if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
 				npc.TargetClosest();
@@ -5039,7 +5048,9 @@ namespace CalamityMod.NPCs
 			else if (npc.velocity.Y > num5)
 				npc.velocity.Y -= acceleration;
 
-			npc.localAI[0] += 1f;
+			if (npc.Calamity().newAI[1] >= 120f)
+				npc.localAI[0] += 1f;
+
 			if (npc.justHit)
 				npc.localAI[0] = 0f;
 

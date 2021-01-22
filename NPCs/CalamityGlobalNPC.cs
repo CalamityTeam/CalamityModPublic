@@ -1628,9 +1628,9 @@ namespace CalamityMod.NPCs
 					DRScalar = 5f;*/
 
 				// Boost Providence timed DR during the night, Destroyer, Aquatic Scourge, Astrum Deus and Storm Weaver timed DR
-				if ((npc.type == NPCType<Providence.Providence>() && !Main.dayTime) || StormWeaverIDs.Contains(npc.type))
+				if (npc.type == NPCType<Providence.Providence>() && !Main.dayTime)
                     DRScalar = 10f;
-				if (DestroyerIDs.Contains(npc.type) || AquaticScourgeIDs.Contains(npc.type) || AstrumDeusIDs.Contains(npc.type))
+				if ((DestroyerIDs.Contains(npc.type) && !NPC.downedPlantBoss) || (AquaticScourgeIDs.Contains(npc.type) && !NPC.downedPlantBoss) || (AstrumDeusIDs.Contains(npc.type) && !NPC.downedMoonlord) || (StormWeaverIDs.Contains(npc.type) && !CalamityWorld.downedDoG))
 					DRScalar = 5f;
 
                 // The limit for how much extra DR the boss can have
