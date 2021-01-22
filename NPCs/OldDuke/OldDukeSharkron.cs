@@ -23,6 +23,7 @@ namespace CalamityMod.NPCs.OldDuke
 		
 		public override void SetDefaults()
 		{
+			npc.Calamity().canBreakPlayerDefense = true;
 			npc.aiStyle = -1;
 			aiType = -1;
 			npc.width = 44;

@@ -35,6 +35,7 @@ namespace CalamityMod.NPCs.SlimeGod
 
         public override void SetDefaults()
         {
+			npc.Calamity().canBreakPlayerDefense = true;
 			npc.GetNPCDamage();
 			npc.npcSlots = 10f;
             npc.width = 44;

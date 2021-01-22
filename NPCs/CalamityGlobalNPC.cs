@@ -1176,7 +1176,10 @@ namespace CalamityMod.NPCs
         {
 			switch (npc.type)
 			{
+				case NPCID.KingSlime:
 				case NPCID.EyeofCthulhu:
+				case NPCID.BrainofCthulhu:
+				case NPCID.QueenBee:
 				case NPCID.EaterofSouls:
 				case NPCID.Corruptor:
 				case NPCID.DevourerHead:
@@ -1217,11 +1220,15 @@ namespace CalamityMod.NPCs
 				case NPCID.StardustWormHead:
 				case NPCID.EaterofWorldsHead:
 				case NPCID.SkeletronHead:
+				case NPCID.SkeletronHand:
 				case NPCID.WallofFlesh:
 				case NPCID.TheHungry:
 				case NPCID.TheHungryII:
 				case NPCID.Spazmatism:
+				case NPCID.Retinazer:
 				case NPCID.TheDestroyer:
+				case NPCID.TheDestroyerBody:
+				case NPCID.TheDestroyerTail:
 				case NPCID.SkeletronPrime:
 				case NPCID.PrimeVice:
 				case NPCID.PrimeSaw:
@@ -1231,6 +1238,7 @@ namespace CalamityMod.NPCs
 				case NPCID.GolemFistLeft:
 				case NPCID.GolemFistRight:
 				case NPCID.CultistDragonHead:
+				case NPCID.AncientCultistSquidhead:
 				case NPCID.AncientLight:
 				case NPCID.DD2OgreT2:
 				case NPCID.DD2OgreT3:
@@ -1238,6 +1246,8 @@ namespace CalamityMod.NPCs
 				case NPCID.PumpkingBlade:
 				case NPCID.SantaNK1:
 				case NPCID.DukeFishron:
+				case NPCID.Sharkron:
+				case NPCID.Sharkron2:
 					canBreakPlayerDefense = true;
 					break;
 

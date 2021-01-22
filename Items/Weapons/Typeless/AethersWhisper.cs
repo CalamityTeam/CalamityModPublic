@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Weapons.Typeless
 
 		public override void SetDefaults()
 		{
-			item.damage = 650;
+			item.damage = 620;
 			item.knockBack = 5.5f;
 			item.useTime = item.useAnimation = 24;
 			item.shootSpeed = 12f;
