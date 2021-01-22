@@ -73,9 +73,10 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void Kill(int timeLeft)
         {
+            bool ss = projectile.Calamity().stealthStrike;
             int numSplits = 4;
             int projID = ModContent.ProjectileType<CelestialReaperAfterimage>();
-            int damage = (int)(projectile.damage * 0.5f);
+            int damage = (int)(projectile.damage * (ss ? 0.25f : 0.5f));
             float kb = projectile.knockBack * 0.5f;
             float speed = 12f;
             for (float i = 0; i < numSplits; ++i)
