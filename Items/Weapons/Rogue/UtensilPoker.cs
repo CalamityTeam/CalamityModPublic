@@ -51,9 +51,6 @@ namespace CalamityMod.Items.Weapons.Rogue
 				int stealth = Projectile.NewProjectile(position.X, position.Y, speedX * 1.2f, speedY * 1.2f, ModContent.ProjectileType<ButcherKnife>(), stealthDamage, knockBack, player.whoAmI);
 				if (stealth.WithinBounds(Main.maxProjectiles))
 					Main.projectile[stealth].Calamity().stealthStrike = true;
-
-				// This is not strictly necessary but it's good practice with unusual stealth strikes to explicitly call for stealth consumption
-				mp.ConsumeStealthByAttacking();
 			}
 			else
 			{
