@@ -42,7 +42,7 @@ namespace CalamityMod.Items.Accessories
 				"Taking damage gives rage, this effect is not hindered by your defensive stats\n" +
 				"While Rage Mode is active, taking damage gives only half as much rage\n" +
 				"Deal damage with Rage Mode to further empower your wrath\n");
-			Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(5, 5));
+			Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(7, 5));
 		}
 
 		public override void SetDefaults()
@@ -105,8 +105,8 @@ namespace CalamityMod.Items.Accessories
 		// Produces purple light while in the world.
 		public override void PostUpdate()
 		{
-			Vector3 lightColor = Main.essScale * new Vector3(0.1f, 0f, 0.6f);
-			Lighting.AddLight(item.Center, lightColor);
+			float brightness = Main.essScale;
+			Lighting.AddLight(item.Center, 0.92f * brightness, 0.42f * brightness, 0.92f * brightness);
 		}
 
 		internal static void AccumulateRageDamage(Player player, CalamityPlayer mp, long damage)
