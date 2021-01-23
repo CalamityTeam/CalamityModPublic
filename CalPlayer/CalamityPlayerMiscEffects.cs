@@ -465,7 +465,7 @@ namespace CalamityMod.CalPlayer
 			// Nebula Armor nerf
 			if (player.nebulaLevelMana > 0 && player.statMana < player.statManaMax2)
 			{
-				int num = 9;
+				int num = 12;
 				modPlayer.nebulaManaNerfCounter += player.nebulaLevelMana;
 				if (modPlayer.nebulaManaNerfCounter >= num)
 				{
