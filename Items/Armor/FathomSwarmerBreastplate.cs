@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Armor
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Fathom Swarmer Breastplate");
-            Tooltip.SetDefault("12% increased damage reduction\n" +
+            Tooltip.SetDefault("6% increased damage reduction\n" +
 				"6% increased minion damage\n" +
                 "Boosted defense and regen increased while submerged in liquid\n" +
 				"Reduces defense loss within the Abyss");
@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Armor
         public override void UpdateEquip(Player player)
         {
             player.minionDamage += 0.06f;
-            player.endurance += 0.12f;
+            player.endurance += 0.06f;
             if (Collision.DrownCollision(player.position, player.width, player.height, player.gravDir))
             {
                 player.statDefense += 10;

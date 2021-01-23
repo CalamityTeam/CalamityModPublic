@@ -59,10 +59,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.Calamity().customRarity = CalamityRarity.ItemSpecific;
             item.useStyle = ItemUseStyleID.SwingThrow;
         }
-        public override void HoldItem(Player player)
-        {
-            player.endurance += 0.1f; //10% DR boost
-        }
+        
         public override bool AltFunctionUse(Player player) => true;
         public override Vector2? HoldoutOffset() => new Vector2(12, 12);
 

@@ -1289,9 +1289,9 @@ namespace CalamityMod.CalPlayer
 			{
 				if (player.IsUnderwater())
 				{
-					player.statDefense += modPlayer.absorber ? 5 : 3;
+					player.statDefense += 3;
 					player.endurance += 0.05f;
-					player.moveSpeed += modPlayer.absorber ? 0.15f : 0.1f;
+					player.moveSpeed += 0.1f;
 					player.ignoreWater = true;
 				}
 			}
@@ -3685,7 +3685,7 @@ namespace CalamityMod.CalPlayer
 
 				// Reduce player DR based on defense stat damage accumulated, this is done before defense is reduced
 				if (player.statDefense > 0 && player.endurance > 0f)
-					player.endurance -= modPlayer.defenseDamage / (float)player.statDefense * player.endurance * 0.5f;
+					player.endurance -= player.endurance * (modPlayer.defenseDamage / (float)player.statDefense);
 
 				// Reduce player defense based on defense stat damage accumulated
 				player.statDefense -= modPlayer.defenseDamage;
