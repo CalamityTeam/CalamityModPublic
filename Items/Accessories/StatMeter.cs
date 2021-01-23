@@ -77,6 +77,7 @@ namespace CalamityMod.Items.Accessories
 			// Only append rippers stats in Rev+, if rippers are enabled.
 			if (CalamityWorld.revenge && CalamityConfig.Instance.Rippers)
 			{
+				sb.Append("Rage Damage Boost: ").Append(modPlayer.rageDamageStat).Append("%\n");
 				sb.Append("Adrenaline Damage Boost: ").Append(modPlayer.adrenalineDamageStat)
 					.Append("% | Adrenaline DR Boost: ").Append(modPlayer.adrenalineDRStat)
 					.Append("%\n\n");

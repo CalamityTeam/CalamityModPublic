@@ -173,8 +173,7 @@ namespace CalamityMod
 			}
 			else if (mp.rageModeActive)
 			{
-				double rageBoost = CalamityPlayer.RageDamageBoost; // other effects forthcoming
-				damageMult += rageBoost;
+				damageMult += mp.RageDamageBoost;
 			}
 			else if (mp.adrenalineModeActive)
 				damageMult += mp.GetAdrenalineDamage();

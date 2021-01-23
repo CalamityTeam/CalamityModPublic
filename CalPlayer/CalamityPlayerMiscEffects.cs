@@ -294,27 +294,49 @@ namespace CalamityMod.CalPlayer
 			// This is how much Rage will be changed by this frame.
 			float rageDiff = 0;
 
-			// Draedon's Heart provides constant rage generation that scales with missing health.
-			if (modPlayer.draedonsHeart)
+			// If the player equips multiple rage generation accessories they get the max possible effect without stacking any of them.
 			{
-				float percentMissingHealth = 1f - player.statLife / player.statLifeMax2;
-				float rageGainLerp = MathHelper.Lerp(DraedonsHeart.MinRagePerSecond, DraedonsHeart.MaxRagePerSecond, percentMissingHealth);
-				rageDiff += modPlayer.rageMax * rageGainLerp / 60f;
+				float rageGen = 0f;
+
+				// Draedon's Heart provides constant rage generation that scales with missing health.
+				if (modPlayer.draedonsHeart)
+				{
+					float percentMissingHealth = 1f - player.statLife / player.statLifeMax2;
+					float rageGainLerp = MathHelper.Lerp(DraedonsHeart.MinRagePerSecond, DraedonsHeart.MaxRagePerSecond, percentMissingHealth);
+					float dhRageGen = modPlayer.rageMax * rageGainLerp / 60f;
+					if (rageGen < dhRageGen)
+						rageGen = dhRageGen;
+				}
+				// Shattered Community provides constant rage generation (stronger than Heart of Darkness).
+				if (modPlayer.shatteredCommunity)
+				{
+					float scRageGen = modPlayer.rageMax * ShatteredCommunity.RagePerSecond / 60f;
+					if (rageGen < scRageGen)
+						rageGen = scRageGen;
+				}
+				// Heart of Darkness grants constant rage generation.
+				else if (modPlayer.heartOfDarkness)
+				{
+					float hodRageGen = modPlayer.rageMax * HeartofDarkness.RagePerSecond / 60f;
+					if (rageGen < hodRageGen)
+						rageGen = hodRageGen;
+				}
+
+				rageDiff += rageGen;
 			}
-			// Heart of Darkness grants constant rage generation.
-			else if (modPlayer.heartOfDarkness)
-				rageDiff += modPlayer.rageMax * HeartofDarkness.RagePerSecond / 60f;
 
 			// Holding Gael's Greatsword grants constant rage generation.
 			if (modPlayer.heldGaelsLastFrame)
 				rageDiff += modPlayer.rageMax * GaelsGreatsword.RagePerSecond / 60f;
 
+			bool rageFading = modPlayer.rageCombatFrames <= 0 && !modPlayer.heartOfDarkness && !modPlayer.shatteredCommunity;
+
 			// If Rage Mode is currently active, you smoothly lose all rage over the duration.
 			if (modPlayer.rageModeActive)
 				rageDiff -= modPlayer.rageMax / modPlayer.RageDuration;
 
-			// If out of combat and NOT using Heart of Darkness, Rage fades away.
-			else if (!modPlayer.rageModeActive && modPlayer.rageCombatFrames <= 0 && !modPlayer.heartOfDarkness)
+			// If out of combat and NOT using Heart of Darkness or Shattered Community, Rage fades away.
+			else if (!modPlayer.rageModeActive && rageFading)
 				rageDiff -= modPlayer.rageMax / CalamityPlayer.RageFadeTime;
 
 			// Apply the rage change and cap rage in both directions.
@@ -2653,6 +2675,9 @@ namespace CalamityMod.CalPlayer
 				player.moveSpeed += floatTypeBoost;
 				flightTimeMult += floatTypeBoost;
 			}
+			// Shattered Community gives the same wing time boost as normal Community
+			if (modPlayer.shatteredCommunity)
+				flightTimeMult += 0.15f;
 
 			if (modPlayer.profanedCrystalBuffs && modPlayer.gOffense && modPlayer.gDefense)
 			{
@@ -3922,6 +3947,7 @@ namespace CalamityMod.CalPlayer
 				(player.wereWolf ? 0.2f : 0f) +
 				(player.jumpBoost ? 1.5f : 0f);
 			modPlayer.jumpSpeedStat = trueJumpSpeedBoost * 20f;
+			modPlayer.rageDamageStat = (int)(100D * modPlayer.RageDamageBoost);
 			modPlayer.adrenalineDamageStat = (int)(100D * modPlayer.GetAdrenalineDamage());
 			int extraAdrenalineDR = 0 +
 				(modPlayer.adrenalineBoostOne ? 5 : 0) +
