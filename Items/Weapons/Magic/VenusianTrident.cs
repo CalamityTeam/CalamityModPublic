@@ -9,7 +9,7 @@ namespace CalamityMod.Items.Weapons.Magic
 {
     public class VenusianTrident : ModItem
     {
-        public static int BaseDamage = 180;
+        public static int BaseDamage = 135;
 
         public override void SetStaticDefaults()
         {

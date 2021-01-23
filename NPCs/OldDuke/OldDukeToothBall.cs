@@ -28,7 +28,7 @@ namespace CalamityMod.NPCs.OldDuke
 			npc.width = 40;
 			npc.height = 40;
 			npc.defense = 0;
-			npc.lifeMax = 5000;
+			npc.lifeMax = 3750;
 			if (BossRushEvent.BossRushActive)
 			{
 				npc.lifeMax = 75000;

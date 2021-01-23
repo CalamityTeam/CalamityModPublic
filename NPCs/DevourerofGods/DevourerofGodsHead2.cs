@@ -26,11 +26,10 @@ namespace CalamityMod.NPCs.DevourerofGods
         {
 			npc.Calamity().canBreakPlayerDefense = true;
 			npc.GetNPCDamage();
-			npc.npcSlots = 5f;
             npc.width = 64;
             npc.height = 76;
             npc.defense = 40;
-            npc.lifeMax = 100000;
+            npc.lifeMax = 75000;
             npc.aiStyle = -1;
             aiType = -1;
             npc.knockBackResist = 0f;

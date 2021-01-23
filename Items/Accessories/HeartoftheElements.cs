@@ -106,9 +106,7 @@ namespace CalamityMod.Items.Accessories
             if (!hideVisual)
             {
 				Vector2 velocity = new Vector2(0f, -1f);
-				int damage = NPC.downedMoonlord ? 110 : 90;
-				float damageMult = CalamityWorld.downedDoG ? 2f : 1f;
-				int elementalDmg = (int)(damage * damageMult * player.MinionDamage());
+				int elementalDmg = (int)(75 * player.MinionDamage());
 				float kBack = 2f + player.minionKB;
 
 				if (player.ownedProjectileCounts[brimmy] > 1 || player.ownedProjectileCounts[siren] > 1 ||

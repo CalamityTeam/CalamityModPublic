@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Weapons.Melee
 {
     public class TheLastMourning : ModItem
     {
-        public static int BaseDamage = 480;
+        public static int BaseDamage = 360;
 
         public override void SetStaticDefaults()
         {

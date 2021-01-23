@@ -153,7 +153,7 @@ namespace CalamityMod.Items
 			else if (CalamityLists.tenDamageNerfList?.Contains(item.type) ?? false)
 				item.damage = (int)(item.damage * 0.9);
 			else if (item.type == ItemID.LastPrism)
-				item.damage = (int)(item.damage * 0.8);
+				item.damage = (int)(item.damage * 0.75);
 			else if (CalamityLists.quarterDamageNerfList?.Contains(item.type) ?? false)
 				item.damage = (int)(item.damage * 0.75);
 			else if (item.type == ItemID.BlizzardStaff)

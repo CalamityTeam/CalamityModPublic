@@ -24,7 +24,7 @@ namespace CalamityMod.Items.Weapons.Summon
             item.UseSound = SoundID.Item42;
             item.summon = true;
             item.mana = 16;
-            item.damage = 120;
+            item.damage = 90;
             item.knockBack = 3f;
             item.autoReuse = true;
             item.useTime = item.useAnimation = 15;

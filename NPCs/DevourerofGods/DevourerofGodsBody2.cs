@@ -20,14 +20,13 @@ namespace CalamityMod.NPCs.DevourerofGods
         public override void SetDefaults()
         {
 			npc.GetNPCDamage();
-			npc.npcSlots = 5f;
             npc.width = 34;
             npc.height = 34;
             npc.defense = 60;
             CalamityGlobalNPC global = npc.Calamity();
             global.DR = 0.5f;
             global.unbreakableDR = true;
-            npc.lifeMax = 100000;
+            npc.lifeMax = 75000;
             npc.aiStyle = -1;
             aiType = -1;
             npc.knockBackResist = 0f;
