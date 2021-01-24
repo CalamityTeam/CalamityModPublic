@@ -30,7 +30,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             npc.height = 56;
             npc.defense = 70;
             CalamityGlobalNPC global = npc.Calamity();
-            global.DR = 0.97f;
+            global.DR = 0.9f;
             global.unbreakableDR = true;
 			npc.LifeMaxNERB(506250, 562500);
 			double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;

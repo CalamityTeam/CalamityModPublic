@@ -299,11 +299,20 @@ namespace CalamityMod.NPCs.HiveMind
 
         public override void AI()
         {
+			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
+
 			// Target
 			if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)
 				npc.TargetClosest(true);
 
 			Player player = Main.player[npc.target];
+
+			// Percent life remaining
+			float lifeRatio = npc.life / (float)npc.lifeMax;
+
+			// Increase aggression if player is taking a long time to kill the boss
+			if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
+				lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
 
 			float enrageScale = 0f;
 			if ((npc.position.Y / 16f) < Main.worldSurface)
@@ -330,7 +339,7 @@ namespace CalamityMod.NPCs.HiveMind
                     if (nextState == 0)
                     {
 						npc.TargetClosest(true);
-						if (CalamityWorld.revenge && npc.life < npc.lifeMax * 0.66)
+						if (CalamityWorld.revenge && lifeRatio < 0.66f)
                         {
 							if (CalamityWorld.death || BossRushEvent.BossRushActive)
 							{
@@ -339,7 +348,7 @@ namespace CalamityMod.NPCs.HiveMind
 								while (nextState == previousState);
 								previousState = nextState;
 							}
-							else if (npc.life < npc.lifeMax * 0.33)
+							else if (lifeRatio < 0.33f)
 							{
 								do
 									nextState = Main.rand.Next(3, 6);
@@ -428,7 +437,7 @@ namespace CalamityMod.NPCs.HiveMind
                         npc.velocity.Normalize();
                         if (Main.expertMode || BossRushEvent.BossRushActive) //variable velocity in expert and up
                         {
-                            npc.velocity *= driftSpeed + enrageScale + (driftBoost + enrageScale) * (npc.lifeMax - npc.life) / npc.lifeMax;
+                            npc.velocity *= driftSpeed + enrageScale + (driftBoost + enrageScale) * lifeRatio;
                         }
                         else
                         {
@@ -476,7 +485,7 @@ namespace CalamityMod.NPCs.HiveMind
                         npc.alpha = 255;
                         npc.velocity = Vector2.Zero;
                         dashStarted = false;
-                        if (CalamityWorld.revenge && npc.life < npc.lifeMax * 0.66)
+                        if (CalamityWorld.revenge && lifeRatio < 0.66f)
                         {
 							state = nextState;
                             nextState = 0;

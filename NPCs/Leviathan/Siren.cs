@@ -81,6 +81,8 @@ namespace CalamityMod.NPCs.Leviathan
 
 		public override void AI()
         {
+			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
+
             // whoAmI variable
             CalamityGlobalNPC.siren = npc.whoAmI;
 
@@ -114,6 +116,11 @@ namespace CalamityMod.NPCs.Leviathan
 				enrageScale = 0f;
 
 			float lifeRatio = npc.life / (float)npc.lifeMax;
+
+			// Increase aggression if player is taking a long time to kill the boss
+			if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
+				lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
+
 			float bubbleVelocity = BossRushEvent.BossRushActive ? 16f : death ? 9f : revenge ? 7f : expertMode ? 6f : 5f;
 			bubbleVelocity += 4f * enrageScale;
 			if (!leviAlive)

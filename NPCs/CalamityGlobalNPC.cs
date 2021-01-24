@@ -99,6 +99,7 @@ namespace CalamityMod.NPCs
         internal const int maxAIMod = 4;
         public float[] newAI = new float[maxAIMod];
 		public int AITimer = 0;
+		public float killTimeRatio_IncreasedAggression = 0f;
 
         // Town NPC Patreon
         public bool setNewName = true;
@@ -1637,8 +1638,8 @@ namespace CalamityMod.NPCs
 				/*if (Main.masterMode)
 					DRScalar = 5f;*/
 
-				// Boost Providence timed DR during the night, Destroyer, Aquatic Scourge, Astrum Deus and Storm Weaver timed DR
-				if (npc.type == NPCType<Providence.Providence>() && !Main.dayTime)
+				// Boost Providence timed DR during the night, Destroyer, Aquatic Scourge, Astrum Deus, Storm Weaver and DoG body timed DR
+				if ((npc.type == NPCType<Providence.Providence>() && !Main.dayTime) || npc.type == NPCType<DevourerofGodsBody>() || npc.type == NPCType<DevourerofGodsBodyS>())
                     DRScalar = 10f;
 				if ((DestroyerIDs.Contains(npc.type) && !NPC.downedPlantBoss) || (AquaticScourgeIDs.Contains(npc.type) && !NPC.downedPlantBoss) || (AstrumDeusIDs.Contains(npc.type) && !NPC.downedMoonlord) || (StormWeaverIDs.Contains(npc.type) && !CalamityWorld.downedDoG))
 					DRScalar = 5f;
@@ -1770,6 +1771,9 @@ namespace CalamityMod.NPCs
 
 			if (KillTime > 0 && AITimer < KillTime)
 				AITimer++;
+
+			// Increases aggression over time if the fight is taking too long, increased by 1.5x to avoid increasing aggro too quickly
+			killTimeRatio_IncreasedAggression = (1f - (AITimer / (float)KillTime)) * 1.5f;
 
 			if (npc.type == NPCID.TargetDummy || npc.type == NPCType<SuperDummyNPC>())
             {

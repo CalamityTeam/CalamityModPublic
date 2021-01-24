@@ -158,8 +158,14 @@ namespace CalamityMod.NPCs.Yharon
 
         public override void AI()
         {
+			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
+
 			// Percent life remaining
 			float lifeRatio = npc.life / (float)npc.lifeMax;
+
+			// Increase aggression if player is taking a long time to kill the boss
+			if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
+				lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
 
 			// Stop rain
 			CalamityMod.StopRain();
@@ -175,7 +181,7 @@ namespace CalamityMod.NPCs.Yharon
 			// Start phase 2 or not
 			if (startSecondAI)
             {
-                Yharon_AI2(expertMode, revenge, death, pie, lifeRatio, vectorCenter);
+                Yharon_AI2(expertMode, revenge, death, pie, lifeRatio, vectorCenter, calamityGlobalNPC);
                 return;
             }
 
@@ -204,7 +210,7 @@ namespace CalamityMod.NPCs.Yharon
 			else if (phase1Change)
 				npc.dontTakeDamage = phase2Check;
 
-			if (npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))
+			if (calamityGlobalNPC.enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))
             {
 				acceleration = 0.95f;
 				velocity = 15f;
@@ -236,7 +242,7 @@ namespace CalamityMod.NPCs.Yharon
 			bool playFastChargeRoarSound = npc.localAI[1] == fastChargeTelegraphTime * 0.5f;
 			bool doFastCharge = npc.localAI[1] > fastChargeTelegraphTime;
 
-			if (npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))
+			if (calamityGlobalNPC.enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))
             {
                 chargeTime = 30;
                 chargeSpeed = 40f;
@@ -375,7 +381,7 @@ namespace CalamityMod.NPCs.Yharon
 			// Set DR based on protection boost (aka enrage)
 			bool chargeTelegraph = (npc.ai[0] == 0f || npc.ai[0] == 6f || npc.ai[0] == 13f) && npc.localAI[1] > 0f;
 			bool bulletHell = npc.ai[0] == 8f || npc.ai[0] == 15f;
-			npc.Calamity().DR = protectionBoost ? EnragedDR : ((chargeTelegraph || bulletHell) ? ChargeTelegraph_DR : normalDR);
+			calamityGlobalNPC.DR = protectionBoost ? EnragedDR : ((chargeTelegraph || bulletHell) ? ChargeTelegraph_DR : normalDR);
 
 			if (bulletHell)
 				npc.damage = 0;
@@ -1509,7 +1515,7 @@ namespace CalamityMod.NPCs.Yharon
 		}
 
         #region AI2
-        public void Yharon_AI2(bool expertMode, bool revenge, bool death, float pie, float lifeRatio, Vector2 vectorCenter)
+        public void Yharon_AI2(bool expertMode, bool revenge, bool death, float pie, float lifeRatio, Vector2 vectorCenter, CalamityGlobalNPC calamityGlobalNPC)
         {
 			float phase2GateValue = revenge ? 0.8f : expertMode ? 0.7f : 0.5f;
 			bool phase2 = death || lifeRatio <= phase2GateValue;
@@ -1526,7 +1532,7 @@ namespace CalamityMod.NPCs.Yharon
 
             if (!moveCloser)
             {
-				npc.Calamity().AITimer = 0;
+				calamityGlobalNPC.AITimer = 0;
 
                 Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
                 if (calamityModMusic != null)
@@ -1638,7 +1644,7 @@ namespace CalamityMod.NPCs.Yharon
 			// Set DR based on protection boost (aka enrage)
 			bool chargeTelegraph = npc.ai[0] < 2f && npc.localAI[1] > 0f;
 			bool bulletHell = npc.ai[0] == 5f;
-			npc.Calamity().DR = protectionBoost ? EnragedDR : ((chargeTelegraph || bulletHell) ? ChargeTelegraph_DR : normalDR);
+			calamityGlobalNPC.DR = protectionBoost ? EnragedDR : ((chargeTelegraph || bulletHell) ? ChargeTelegraph_DR : normalDR);
 
 			if (bulletHell)
 				npc.damage = 0;
@@ -1683,7 +1689,7 @@ namespace CalamityMod.NPCs.Yharon
 
 			float teleportPhaseTimer = 45f;
 
-			if (npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))
+			if (calamityGlobalNPC.enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))
             {
                 acceleration = 1.2f;
                 velocity = 18f;

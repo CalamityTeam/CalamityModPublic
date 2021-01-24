@@ -3899,7 +3899,7 @@ namespace CalamityMod.CalPlayer
 				(player.ammoCost75 ? 0.75f : 1f) *
 				modPlayer.rangedAmmoCost);
 			modPlayer.ammoReductionRogue = (int)(modPlayer.throwingAmmoCost * 100);
-			modPlayer.defenseStat = player.statDefense;
+			modPlayer.defenseStat = player.statDefense + modPlayer.defenseDamage;
 			modPlayer.DRStat = (int)(player.endurance * 100f);
 			modPlayer.meleeSpeedStat = (int)((1f - player.meleeSpeed) * (100f / player.meleeSpeed));
 			modPlayer.manaCostStat = (int)(player.manaCost * 100f);

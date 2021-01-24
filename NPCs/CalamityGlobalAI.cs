@@ -28,6 +28,8 @@ namespace CalamityMod.NPCs
         #region Buffed King Slime AI
         public static bool BuffedKingSlimeAI(NPC npc, Mod mod)
         {
+			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
+
             // Variables
             float num234 = 1f;
             bool teleporting = false;
@@ -47,8 +49,12 @@ namespace CalamityMod.NPCs
 			// Percent life remaining
 			float lifeRatio = npc.life / (float)npc.lifeMax;
 
-            // Phases based on life percentage
-            bool phase2 = lifeRatio < 0.75f;
+			// Increase aggression if player is taking a long time to kill the boss
+			if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
+				lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
+
+			// Phases based on life percentage
+			bool phase2 = lifeRatio < 0.75f;
 			bool phase3 = lifeRatio < 0.5f;
 
 			// Spawn crystal in phase 2
@@ -495,6 +501,11 @@ namespace CalamityMod.NPCs
 
             // Percent life remaining
             float lifeRatio = npc.life / (float)npc.lifeMax;
+
+			// Increase aggression if player is taking a long time to kill the boss
+			if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
+				lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
+
 			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
 			bool phase2 = lifeRatio < 0.75f;
             bool phase3 = lifeRatio < 0.65f;
@@ -1384,7 +1395,11 @@ namespace CalamityMod.NPCs
             // Percent segments remaining, add two to total for head and tail
             float lifeRatio = segmentCount / (totalSegments + 2);
 
-            // 10 seconds of resistance to prevent spawn killing
+			// Increase aggression if player is taking a long time to kill the boss
+			if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
+				lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
+
+			// 10 seconds of resistance to prevent spawn killing
 			if (calamityGlobalNPC.newAI[1] < 600f && BossRushEvent.BossRushActive)
 				calamityGlobalNPC.newAI[1] += 1f;
 
@@ -1889,6 +1904,8 @@ namespace CalamityMod.NPCs
 		#region Buffed Brain of Cthulhu AI
 		public static bool BuffedBrainofCthulhuAI(NPC npc, bool enraged, Mod mod)
         {
+			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
+
             // whoAmI variable
             NPC.crimsonBoss = npc.whoAmI;
 
@@ -1966,8 +1983,12 @@ namespace CalamityMod.NPCs
                 // Percent life remaining
                 float lifeRatio = npc.life / (float)npc.lifeMax;
 
+				// Increase aggression if player is taking a long time to kill the boss
+				if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
+					lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
+
 				// Phases based on HP
-                bool phase2 = lifeRatio < 0.85f;
+				bool phase2 = lifeRatio < 0.85f;
                 bool phase3 = lifeRatio < 0.7f;
                 bool phase4 = lifeRatio < 0.55f;
                 bool phase5 = lifeRatio < 0.4f;
@@ -2587,6 +2608,10 @@ namespace CalamityMod.NPCs
 			// Percent life remaining
 			float lifeRatio = npc.life / (float)npc.lifeMax;
 
+			// Increase aggression if player is taking a long time to kill the boss
+			if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
+				lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
+
 			// Boost defense as health decreases
 			int statBoost = (int)(10f * (1f - lifeRatio));
 			npc.defense = npc.defDefense + statBoost;
@@ -3194,6 +3219,10 @@ namespace CalamityMod.NPCs
 
             // Percent life remaining
             float lifeRatio = npc.life / (float)npc.lifeMax;
+
+			// Increase aggression if player is taking a long time to kill the boss
+			if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
+				lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
 
 			// Phases
 			bool respawnHands = lifeRatio < 0.33f;
@@ -3900,8 +3929,13 @@ namespace CalamityMod.NPCs
 
             // Percent life remaining
             float lifeRatio = npc.life / (float)npc.lifeMax;
-            // Clamp life ratio to prevent bad velocity math.
-            lifeRatio = MathHelper.Clamp(lifeRatio, 0f, 1f);
+
+			// Increase aggression if player is taking a long time to kill the boss
+			if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
+				lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
+
+			// Clamp life ratio to prevent bad velocity math.
+			lifeRatio = MathHelper.Clamp(lifeRatio, 0f, 1f);
 
             // Phases based on HP
             bool phase2 = lifeRatio < 0.66f;
@@ -4330,6 +4364,10 @@ namespace CalamityMod.NPCs
                 // Percent life remaining
                 float lifeRatio = Main.npc[Main.wof].life / (float)Main.npc[Main.wof].lifeMax;
 
+				// Increase aggression if player is taking a long time to kill the boss
+				if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
+					lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
+
 				bool charging = Main.npc[Main.wof].ai[3] == 1f;
 
 				// Set up enraged laser firing timer
@@ -4413,8 +4451,12 @@ namespace CalamityMod.NPCs
             // Percent life remaining
             float lifeRatio = npc.life / (float)npc.lifeMax;
 
-            // Phases based on life percentage
-            bool phase2 = lifeRatio < 0.85f;
+			// Increase aggression if player is taking a long time to kill the boss
+			if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
+				lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
+
+			// Phases based on life percentage
+			bool phase2 = lifeRatio < 0.85f;
 			bool phase3 = lifeRatio < 0.7f;
 			bool startFlightPhase = lifeRatio < 0.5f;
 			bool phase4 = lifeRatio < 0.25f;
@@ -5467,6 +5509,10 @@ namespace CalamityMod.NPCs
 			// Percent life remaining
 			float lifeRatio = npc.life / (float)npc.lifeMax;
 
+			// Increase aggression if player is taking a long time to kill the boss
+			if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
+				lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
+
 			// Enrage variable if player is floating upside down
 			bool targetFloatingUp = Main.player[npc.target].gravDir == -1f;
 
@@ -6214,6 +6260,10 @@ namespace CalamityMod.NPCs
 
 			// Percent life remaining
 			float lifeRatio = npc.life / (float)npc.lifeMax;
+
+			// Increase aggression if player is taking a long time to kill the boss
+			if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
+				lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
 
 			// Easier to send info to Retinazer
 			CalamityGlobalNPC.fireEye = npc.whoAmI;
@@ -6989,6 +7039,10 @@ namespace CalamityMod.NPCs
 
 			// Percent life remaining
 			float lifeRatio = npc.life / (float)npc.lifeMax;
+
+			// Increase aggression if player is taking a long time to kill the boss
+			if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
+				lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
 
 			// Spawn arms
 			if (npc.ai[0] == 0f && Main.netMode != NetmodeID.MultiplayerClient)
@@ -8773,6 +8827,10 @@ namespace CalamityMod.NPCs
 			// Percent life remaining
 			float lifeRatio = npc.life / (float)npc.lifeMax;
 
+			// Increase aggression if player is taking a long time to kill the boss
+			if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
+				lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
+
 			// Phases based on HP
 			bool phase1phase2 = lifeRatio < 0.75f;
             bool phase2 = lifeRatio <= 0.5f;
@@ -9639,11 +9697,17 @@ namespace CalamityMod.NPCs
         #region Buffed Golem AI
         public static bool BuffedGolemAI(NPC npc, bool enraged, Mod mod)
         {
+			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
+
             // whoAmI variable
             NPC.golemBoss = npc.whoAmI;
 
 			// Percent life remaining
 			float lifeRatio = npc.life / (float)npc.lifeMax;
+
+			// Increase aggression if player is taking a long time to kill the boss
+			if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
+				lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
 
 			// Phases
 			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
@@ -9991,6 +10055,8 @@ namespace CalamityMod.NPCs
 
         public static bool BuffedGolemHeadAI(NPC npc, bool enraged, Mod mod)
         {
+			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
+
             // Don't collide
             npc.noTileCollide = true;
 
@@ -10011,6 +10077,10 @@ namespace CalamityMod.NPCs
 
             // Percent life remaining
             float lifeRatio = npc.life / (float)npc.lifeMax;
+
+			// Increase aggression if player is taking a long time to kill the boss
+			if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
+				lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
 
 			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
 
@@ -10547,6 +10617,10 @@ namespace CalamityMod.NPCs
 
 			// Percent life remaining
 			float lifeRatio = npc.life / (float)npc.lifeMax;
+
+			// Increase aggression if player is taking a long time to kill the boss
+			if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
+				lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
 
 			// Variables
 			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
@@ -11570,6 +11644,10 @@ namespace CalamityMod.NPCs
 
             // Percent life remaining
             float lifeRatio = npc.life / (float)npc.lifeMax;
+
+			// Increase aggression if player is taking a long time to kill the boss
+			if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
+				lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
 
 			// Phases
 			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
