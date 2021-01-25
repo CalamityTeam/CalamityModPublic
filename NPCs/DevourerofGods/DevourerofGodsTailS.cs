@@ -35,7 +35,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             npc.width = 80;
             npc.height = 140;
             npc.defense = 50;
-			npc.LifeMaxNERB(862500, 1012500, 9200000);
+			npc.LifeMaxNERB(747500, 877500, 9200000);
 			double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.takenDamageMultiplier = 1.25f;
@@ -222,7 +222,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 		// Can only hit the target if within certain distance
 		public override bool CanHitPlayer(Player target, ref int cooldownSlot)
         {
-            cooldownSlot = 0;
+            cooldownSlot = 1;
 
             Rectangle targetHitbox = target.Hitbox;
 

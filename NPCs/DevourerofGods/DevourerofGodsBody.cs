@@ -32,7 +32,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             CalamityGlobalNPC global = npc.Calamity();
             global.DR = 0.9f;
             global.unbreakableDR = true;
-			npc.LifeMaxNERB(506250, 562500);
+			npc.LifeMaxNERB(438750, 487500);
 			double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.aiStyle = -1;
@@ -199,7 +199,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 
 		public override bool CanHitPlayer(Player target, ref int cooldownSlot)
         {
-            cooldownSlot = 0;
+            cooldownSlot = 1;
             return true;
         }
 
