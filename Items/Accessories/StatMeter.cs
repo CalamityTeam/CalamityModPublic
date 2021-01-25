@@ -47,7 +47,7 @@ namespace CalamityMod.Items.Accessories
 
 		private string CreateStatMeterTooltip(Player player, CalamityPlayer modPlayer, Item heldItem)
 		{
-			int defense = modPlayer.defenseStat;
+			int defense = modPlayer.defenseStat - modPlayer.defenseDamage;
 			int DR = modPlayer.DRStat;
 			int meleeSpeed = modPlayer.meleeSpeedStat;
 			int manaCost = modPlayer.manaCostStat;
