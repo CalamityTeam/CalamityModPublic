@@ -1177,11 +1177,21 @@ namespace CalamityMod.NPCs
         {
 			switch (npc.type)
 			{
+				case NPCID.ArmedZombie:
+				case NPCID.ArmedZombieCenx:
+				case NPCID.ArmedZombieEskimo:
+				case NPCID.ArmedZombiePincussion:
+				case NPCID.ArmedZombieSlimed:
+				case NPCID.ArmedZombieSwamp:
+				case NPCID.ArmedZombieTwiggy:
 				case NPCID.KingSlime:
 				case NPCID.EyeofCthulhu:
 				case NPCID.BrainofCthulhu:
 				case NPCID.QueenBee:
 				case NPCID.EaterofSouls:
+				case NPCID.Crimera:
+				case NPCID.BigCrimera:
+				case NPCID.LittleCrimera:
 				case NPCID.Corruptor:
 				case NPCID.DevourerHead:
 				case NPCID.WalkingAntlion:
