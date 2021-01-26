@@ -23,7 +23,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             npc.width = 30;
             npc.height = 50;
             npc.defense = 70;
-            npc.lifeMax = 75000;
+            npc.lifeMax = 65000;
             npc.aiStyle = -1;
             aiType = -1;
             npc.knockBackResist = 0f;

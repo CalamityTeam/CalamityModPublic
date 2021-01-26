@@ -891,7 +891,7 @@ namespace CalamityMod.CalPlayer
 					{
 						if (!tentaclesPresent[i])
 						{
-							int damage = (int)(666 * player.AverageDamage());
+							int damage = (int)(500 * player.AverageDamage());
 							Vector2 vel = new Vector2(Main.rand.Next(-13, 14), Main.rand.Next(-13, 14)) * 0.25f;
 							Projectile.NewProjectile(player.Center, vel, ModContent.ProjectileType<OmegaBlueTentacle>(), damage, 8f, Main.myPlayer, Main.rand.Next(120), i);
 						}
@@ -2980,7 +2980,7 @@ namespace CalamityMod.CalPlayer
 					{
 						float ai1 = I * 120;
 						Projectile.NewProjectile(player.Center.X + (float)(Math.Sin(I * 120) * 550), player.Center.Y + (float)(Math.Cos(I * 120) * 550), 0f, 0f,
-							ModContent.ProjectileType<GhostlyMine>(), (int)(5000 * player.MinionDamage()), 1f, player.whoAmI, ai1, 0f);
+							ModContent.ProjectileType<GhostlyMine>(), (int)(3750 * player.MinionDamage()), 1f, player.whoAmI, ai1, 0f);
 					}
 				}
 			}
@@ -3040,7 +3040,7 @@ namespace CalamityMod.CalPlayer
 				// If the timer rolls over, it's time to deal damage. Only run this code for the client which is wearing the armor.
 				if (modPlayer.tarraLifeAuraTimer == 0 && player.whoAmI == Main.myPlayer)
 				{
-					const int BaseDamage = 150;
+					const int BaseDamage = 120;
 					int damage = (int)(BaseDamage * player.MinionDamage());
 					float range = 300f;
 

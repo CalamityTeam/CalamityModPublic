@@ -26,7 +26,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             CalamityGlobalNPC global = npc.Calamity();
             global.DR = 0.5f;
             global.unbreakableDR = true;
-            npc.lifeMax = 75000;
+            npc.lifeMax = 65000;
             npc.aiStyle = -1;
             aiType = -1;
             npc.knockBackResist = 0f;
