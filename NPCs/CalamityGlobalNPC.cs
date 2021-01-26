@@ -1639,9 +1639,11 @@ namespace CalamityMod.NPCs
 					DRScalar = 5f;*/
 
 				// Boost Providence timed DR during the night, Destroyer, Aquatic Scourge, Astrum Deus, Storm Weaver and DoG body timed DR
-				if ((npc.type == NPCType<Providence.Providence>() && !Main.dayTime) || npc.type == NPCType<DevourerofGodsBody>() || npc.type == NPCType<DevourerofGodsBodyS>())
+				if (npc.type == NPCType<Providence.Providence>() && !Main.dayTime)
                     DRScalar = 10f;
-				if ((DestroyerIDs.Contains(npc.type) && !NPC.downedPlantBoss) || (AquaticScourgeIDs.Contains(npc.type) && !NPC.downedPlantBoss) || (AstrumDeusIDs.Contains(npc.type) && !NPC.downedMoonlord) || (StormWeaverIDs.Contains(npc.type) && !CalamityWorld.downedDoG))
+				if ((DestroyerIDs.Contains(npc.type) && !NPC.downedPlantBoss) || (AquaticScourgeIDs.Contains(npc.type) && !NPC.downedPlantBoss) ||
+					(AstrumDeusIDs.Contains(npc.type) && !NPC.downedMoonlord) || (StormWeaverIDs.Contains(npc.type) && !CalamityWorld.downedDoG) ||
+					npc.type == NPCType<DevourerofGodsBody>() || npc.type == NPCType<DevourerofGodsBodyS>())
 					DRScalar = 5f;
 
                 // The limit for how much extra DR the boss can have
@@ -3347,30 +3349,7 @@ namespace CalamityMod.NPCs
 			}
 
 			// Other projectile resists
-			if (npc.type == NPCType<OldDuke.OldDuke>())
-			{
-				if (projectile.type == ProjectileType<CrescentMoonFlail>())
-				{
-					damage = (int)(damage * 0.55);
-				}
-				else if (projectile.type == ProjectileType<CalamariInk>())
-				{
-					damage = (int)(damage * 0.5);
-				}
-				else if (projectile.type == ProjectileType<BloodBombExplosion>() || projectile.type == ProjectileType<CrescentMoonProj>())
-				{
-					damage = (int)(damage * 0.6);
-				}
-				else if (projectile.type == ProjectileType<GhastlySoulLarge>() || projectile.type == ProjectileType<GhastlySoulMedium>() || projectile.type == ProjectileType<GhastlySoulSmall>() || projectile.type == ProjectileType<GhostFire>())
-				{
-					damage = (int)(damage * 0.75);
-				}
-				else if (projectile.type == ProjectileID.LunarFlare)
-				{
-					damage = (int)(damage * 0.8);
-				}
-			}
-			else if (npc.type == NPCType<Polterghast.Polterghast>())
+			if (npc.type == NPCType<Polterghast.Polterghast>())
 			{
                 // 5% resist to Celestial Reaper
                 if (projectile.type == ProjectileType<CelestialReaperProjectile>() || projectile.type == ProjectileType<CelestialReaperAfterimage>())

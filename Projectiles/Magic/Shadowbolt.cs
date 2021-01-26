@@ -24,7 +24,7 @@ namespace CalamityMod.Projectiles.Magic
             projectile.extraUpdates = 100;
             projectile.timeLeft = 300;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 4;
+            projectile.localNPCHitCooldown = 10;
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)

@@ -88,7 +88,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 			npc.LifeMaxNERB(747500, 877500, 9200000);
 			double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
-            npc.takenDamageMultiplier = 1.25f;
+            npc.takenDamageMultiplier = 1.1f;
             npc.aiStyle = -1;
             aiType = -1;
             npc.knockBackResist = 0f;
@@ -192,10 +192,10 @@ namespace CalamityMod.NPCs.DevourerofGods
 			if (distanceFromTarget > takeLessDamageDistance)
 			{
 				float damageTakenScalar = MathHelper.Clamp(1f - ((distanceFromTarget - takeLessDamageDistance) / takeLessDamageDistance), 0f, 1f);
-				npc.takenDamageMultiplier = MathHelper.Lerp(1f, 1.25f, damageTakenScalar);
+				npc.takenDamageMultiplier = MathHelper.Lerp(1f, 1.1f, damageTakenScalar);
 			}
 			else
-				npc.takenDamageMultiplier = 1.25f;
+				npc.takenDamageMultiplier = 1.1f;
 
 			// Immunity after teleport
 			npc.dontTakeDamage = postTeleportTimer > 0 || preventBullshitHitsAtStartofFinalPhaseTimer > 0;

@@ -26,11 +26,7 @@ namespace CalamityMod.Projectiles.Summon
             projectile.ignoreWater = true;
             projectile.alpha = 255;
             projectile.penetrate = -1;
-            projectile.localNPCHitCooldown = 30 -
-                (NPC.downedGolemBoss ? 5 : 0) -
-                (NPC.downedMoonlord ? 5 : 0) -
-                (CalamityWorld.downedDoG ? 4 : 0) -
-                (CalamityWorld.downedYharon ? 3 : 0);
+            projectile.localNPCHitCooldown = 30;
         }
 
         public override void AI()

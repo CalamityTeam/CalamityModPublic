@@ -27,7 +27,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.extraUpdates = 1;
 			projectile.tileCollide = true; // We don't want people getting stuck in walls right
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 5;
+            projectile.localNPCHitCooldown = 10;
         }
         public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
         {

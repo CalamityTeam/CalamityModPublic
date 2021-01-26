@@ -29,7 +29,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.timeLeft = 600;
             projectile.light = 1f;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 3;
+            projectile.localNPCHitCooldown = 10;
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)

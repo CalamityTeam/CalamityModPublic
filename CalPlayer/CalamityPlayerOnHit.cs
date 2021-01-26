@@ -515,12 +515,12 @@ namespace CalamityMod.CalPlayer
 						break;
 					}
 				}
-				int projectileIndex = Projectile.NewProjectile(projTileX * 16 + 8, projTileY * 16 - 24, 0f, 0f, ProjectileType<InfernadoFriendly>(), 420, 15f, Main.myPlayer, 16f, 16f);
+				int projectileIndex = Projectile.NewProjectile(projTileX * 16 + 8, projTileY * 16 - 24, 0f, 0f, ProjectileType<InfernadoFriendly>(), 840, 15f, Main.myPlayer, 16f, 16f);
 				if (projectileIndex.WithinBounds(Main.maxProjectiles))
 				{
 					Main.projectile[projectileIndex].Calamity().forceRogue = true;
 					Main.projectile[projectileIndex].netUpdate = true;
-					Main.projectile[projectileIndex].localNPCHitCooldown = 1;
+					Main.projectile[projectileIndex].localNPCHitCooldown = 10;
 				}
 			}
             if (modPlayer.tarraThrowing && !modPlayer.tarragonImmunity && !modPlayer.tarragonImmunityCooldown && modPlayer.tarraThrowingCrits < 25 && crit)

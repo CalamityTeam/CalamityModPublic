@@ -32,7 +32,7 @@ namespace CalamityMod.Projectiles.Magic
             projectile.timeLeft = Lifetime;
 
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 2;
+            projectile.localNPCHitCooldown = 8;
         }
 
         // localAI[0] = frame counter

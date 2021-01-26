@@ -24,7 +24,7 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.extraUpdates = 5;
             projectile.timeLeft = 600;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 2;
+            projectile.localNPCHitCooldown = 10;
             projectile.arrow = true;
         }
 
