@@ -1774,8 +1774,8 @@ namespace CalamityMod.NPCs
 			if (KillTime > 0 && AITimer < KillTime)
 				AITimer++;
 
-			// Increases aggression over time if the fight is taking too long, increased by 1.5x to avoid increasing aggro too quickly
-			killTimeRatio_IncreasedAggression = (1f - (AITimer / (float)KillTime)) * 1.5f;
+			// Increases aggression over time if the fight is taking too long, increased by 2x to avoid increasing aggro too quickly
+			killTimeRatio_IncreasedAggression = (1f - (AITimer / (float)KillTime)) * 2f;
 
 			if (npc.type == NPCID.TargetDummy || npc.type == NPCType<SuperDummyNPC>())
             {
