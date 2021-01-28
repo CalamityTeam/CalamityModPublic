@@ -127,6 +127,8 @@ namespace CalamityMod.NPCs.Providence
             writer.Write(npc.chaseable);
             writer.Write(npc.canGhostHeal);
 			writer.Write(npc.localAI[2]);
+			for (int i = 0; i < 4; i++)
+				writer.Write(npc.Calamity().newAI[i]);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
@@ -143,7 +145,9 @@ namespace CalamityMod.NPCs.Providence
             npc.chaseable = reader.ReadBoolean();
             npc.canGhostHeal = reader.ReadBoolean();
 			npc.localAI[2] = reader.ReadSingle();
-        }
+			for (int i = 0; i < 4; i++)
+				npc.Calamity().newAI[i] = reader.ReadSingle();
+		}
 
         public override void AI()
         {
@@ -199,6 +203,7 @@ namespace CalamityMod.NPCs.Providence
 				calamityGlobalNPC.newAI[1] = 0f;
 				calamityGlobalNPC.newAI[2] = 0f;
 				calamityGlobalNPC.newAI[3] = 0f;
+				npc.netUpdate = true;
 			}
 
 			// Difficulty bools
@@ -673,6 +678,7 @@ namespace CalamityMod.NPCs.Providence
 					npc.ai[3] = 0f;
 					calamityGlobalNPC.newAI[1] = 0f;
 					calamityGlobalNPC.newAI[2] = 0f;
+					npc.netUpdate = true;
 					break;
 
 				case (int)Phase.HolyBlast:
@@ -885,6 +891,7 @@ namespace CalamityMod.NPCs.Providence
 								// Radial offset
 								npc.ai[2] += 10f;
 							}
+							npc.netUpdate = true;
 						}
 						else
 						{
