@@ -107,7 +107,7 @@ namespace CalamityMod.NPCs.TownNPCs
                 }
             }
 
-            if (CalamityGlobalNPC.AnyBossNPCS())
+            if (CalamityUtils.AnyBossNPCS())
                 return "Nothard/10, if I fight bosses I wanna feel like screaming 'OH YES DADDY!' while I die repeatedly.";
 
             IList<string> dialogue = new List<string>();
