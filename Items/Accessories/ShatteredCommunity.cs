@@ -3,6 +3,7 @@ using CalamityMod.Items.Materials;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using Terraria;
 using Terraria.DataStructures;
@@ -207,6 +208,20 @@ namespace CalamityMod.Items.Accessories
 			everInInventory = tag.GetBool("real");
 			rageLevel = tag.GetInt("level");
 			totalRageDamage = tag.GetLong("totalDamage");
+		}
+
+		public override void NetSend(BinaryWriter writer)
+		{
+			writer.Write(everInInventory);
+			writer.Write(rageLevel);
+			writer.Write(totalRageDamage);
+		}
+
+		public override void NetRecieve(BinaryReader reader)
+		{
+			everInInventory = reader.ReadBoolean();
+			rageLevel = reader.ReadInt32();
+			totalRageDamage = reader.ReadInt64();
 		}
 
 		public override void AddRecipes()
