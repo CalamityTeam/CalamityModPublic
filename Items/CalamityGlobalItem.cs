@@ -1147,6 +1147,8 @@ namespace CalamityMod.Items
                             tt2.overrideColor = Judgement.GetSyncedLightColor();
                         if (item.type == ModContent.ItemType<NanoblackReaperRogue>())
                             tt2.overrideColor = new Color(0.34f, 0.34f + 0.66f * Main.DiscoG / 255f, 0.34f + 0.5f * Main.DiscoG / 255f);
+                        if (item.type == ModContent.ItemType<ShatteredCommunity>())
+                            tt2.overrideColor = ShatteredCommunity.GetRarityColor();
                         if (item.type == ModContent.ItemType<ProfanedSoulCrystal>())
                             tt2.overrideColor = CalamityUtils.ColorSwap(new Color(255, 166, 0), new Color(25, 250, 25), 4f); //alternates between emerald green and amber (BanditHueh)
                         if (item.type == ModContent.ItemType<BensUmbrella>())

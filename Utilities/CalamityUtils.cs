@@ -5,9 +5,14 @@ using CalamityMod.Events;
 using CalamityMod.Items;
 using CalamityMod.Items.Tools.ClimateChange;
 using CalamityMod.NPCs;
+using CalamityMod.NPCs.HiveMind;
+using CalamityMod.NPCs.Leviathan;
 using CalamityMod.NPCs.NormalNPCs;
+using CalamityMod.NPCs.Perforator;
 using CalamityMod.NPCs.Providence;
+using CalamityMod.NPCs.SlimeGod;
 using CalamityMod.Projectiles;
+using CalamityMod.Projectiles.Boss;
 using CalamityMod.Projectiles.Magic;
 using CalamityMod.Projectiles.Summon;
 using CalamityMod.Tiles;
@@ -42,6 +47,7 @@ using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 using Terraria.ObjectData;
 using Terraria.UI.Chat;
+using static Terraria.ModLoader.ModContent;
 
 namespace CalamityMod
 {
@@ -173,8 +179,7 @@ namespace CalamityMod
 			}
 			else if (mp.rageModeActive)
 			{
-				double rageBoost = CalamityPlayer.RageDamageBoost; // other effects forthcoming
-				damageMult += rageBoost;
+				damageMult += mp.RageDamageBoost;
 			}
 			else if (mp.adrenalineModeActive)
 				damageMult += mp.GetAdrenalineDamage();
@@ -188,11 +193,11 @@ namespace CalamityMod
 		/// <returns>Inflicts debuffs if the target isn't immune.</returns>
 		public static void ExoDebuffs(this Player target, float multiplier = 1f)
 		{
-			target.AddBuff(ModContent.BuffType<ExoFreeze>(), (int)(30 * multiplier));
-			target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), (int)(120 * multiplier));
-			target.AddBuff(ModContent.BuffType<GlacialState>(), (int)(120 * multiplier));
-			target.AddBuff(ModContent.BuffType<Plague>(), (int)(120 * multiplier));
-			target.AddBuff(ModContent.BuffType<HolyFlames>(), (int)(120 * multiplier));
+			target.AddBuff(BuffType<ExoFreeze>(), (int)(30 * multiplier));
+			target.AddBuff(BuffType<BrimstoneFlames>(), (int)(120 * multiplier));
+			target.AddBuff(BuffType<GlacialState>(), (int)(120 * multiplier));
+			target.AddBuff(BuffType<Plague>(), (int)(120 * multiplier));
+			target.AddBuff(BuffType<HolyFlames>(), (int)(120 * multiplier));
 			target.AddBuff(BuffID.CursedInferno, (int)(120 * multiplier));
 			target.AddBuff(BuffID.Frostburn, (int)(120 * multiplier));
 			target.AddBuff(BuffID.OnFire, (int)(120 * multiplier));
@@ -246,6 +251,46 @@ namespace CalamityMod
 				npc.Calamity().customDR = true;
 		}
 
+		public static bool IsAnEnemy(this NPC npc)
+		{
+			// Null, inactive, town NPCs, friendlies, statue spawns, "non-enemies" (e.g. butterflies or projectile enemies),
+			// or anything else with no contact damage (exception: Providence and Celestial Pillars) don't count for rage.
+			if (npc is null || !npc.active || npc.townNPC || npc.friendly || npc.SpawnedFromStatue || npc.lifeMax <= 5 || (npc.damage <= 5 && npc.lifeMax <= 2000))
+				return false;
+			// Also explicitly exclude dummies and anything with a ridiculous health pool (dummies from Fargo's for example).
+			if (npc.type == NPCID.TargetDummy || npc.type == NPCType<SuperDummyNPC>() || npc.lifeMax > 100000000)
+				return false;
+			// Finally, exclude boss spawners.
+			if (npc.type == NPCType<LeviathanStart>() || npc.type == NPCType<HiveCyst>() || npc.type == NPCType<PerforatorCyst>())
+				return false;
+
+			// Anything else is considered a valid enemy target.
+			return true;
+		}
+		
+		// This function follows the behavior of Adrenaline.
+		// Vanilla worm segments and Slime God slimes are specifically included.
+		// Martian Saucers are specifically excluded.
+		public static bool IsABoss(this NPC npc)
+		{
+			if (npc is null || !npc.active)
+				return false;
+			if (npc.boss && npc.type != NPCID.MartianSaucerCore)
+				return true;
+			if (npc.type == NPCID.EaterofWorldsBody || npc.type == NPCID.EaterofWorldsHead || npc.type == NPCID.EaterofWorldsTail)
+				return true;
+			return npc.type == NPCType<SlimeGod>() || npc.type == NPCType<SlimeGodRun>() ||
+				npc.type == NPCType<SlimeGodSplit>() || npc.type== NPCType<SlimeGodRunSplit>();
+		}
+
+		public static bool AnyBossNPCS()
+		{
+			for (int i = 0; i < Main.maxNPCs; i++)
+				if (Main.npc[i] != null && Main.npc[i].IsABoss())
+					return true;
+			return FindFirstProjectile(ProjectileType<DeusRitualDrama>()) != -1;
+		}
+
 		/// <summary>
 		/// Get the aggression multiplier used for NPCs in Master Mode Calamity rev+
 		/// Will also be used to modify certain boss size/scale
@@ -257,103 +302,103 @@ namespace CalamityMod
 			/*if (!Main.masterMode)
 				return 1f;*/
 
-			/*if (NPCType == ModContent.NPCType<DesertScourgeHead>())
+			/*if (NPCType == NPCType<DesertScourgeHead>())
 			{
 
 			}
-			else if (NPCType == ModContent.NPCType<CrabulonIdle>())
+			else if (NPCType == NPCType<CrabulonIdle>())
 			{
 
 			}
-			else if (NPCType == ModContent.NPCType<HiveMind>() || NPCType == ModContent.NPCType<HiveMindP2>())
+			else if (NPCType == NPCType<HiveMind>() || NPCType == NPCType<HiveMindP2>())
 			{
 
 			}
-			else if (NPCType == ModContent.NPCType<PerforatorHive>())
+			else if (NPCType == NPCType<PerforatorHive>())
 			{
 
 			}
-			else if (NPCType == ModContent.NPCType<SlimeGodCore>() || NPCType == ModContent.NPCType<SlimeGod>() || NPCType == ModContent.NPCType<SlimeGodRun>() || NPCType == ModContent.NPCType<SlimeGodSplit>() || NPCType == ModContent.NPCType<SlimeGodRunSplit>())
+			else if (NPCType == NPCType<SlimeGodCore>() || NPCType == NPCType<SlimeGod>() || NPCType == NPCType<SlimeGodRun>() || NPCType == NPCType<SlimeGodSplit>() || NPCType == NPCType<SlimeGodRunSplit>())
 			{
 
 			}
-			else if (NPCType == ModContent.NPCType<Cryogen>())
+			else if (NPCType == NPCType<Cryogen>())
 			{
 
 			}
-			else if (NPCType == ModContent.NPCType<AquaticScourgeHead>())
+			else if (NPCType == NPCType<AquaticScourgeHead>())
 			{
 
 			}
-			else if (NPCType == ModContent.NPCType<BrimstoneElemental>())
+			else if (NPCType == NPCType<BrimstoneElemental>())
 			{
 
 			}
-			else if (NPCType == ModContent.NPCType<Calamitas>() || NPCType == ModContent.NPCType<CalamitasRun3>())
+			else if (NPCType == NPCType<Calamitas>() || NPCType == NPCType<CalamitasRun3>())
 			{
 
 			}
-			else if (NPCType == ModContent.NPCType<Leviathan>() || NPCType == ModContent.NPCType<Siren>())
+			else if (NPCType == NPCType<Leviathan>() || NPCType == NPCType<Siren>())
 			{
 
 			}
-			else if (NPCType == ModContent.NPCType<AstrumAureus>())
+			else if (NPCType == NPCType<AstrumAureus>())
 			{
 
 			}
-			else if (NPCType == ModContent.NPCType<AstrumDeusHeadSpectral>())
+			else if (NPCType == NPCType<AstrumDeusHeadSpectral>())
 			{
 
 			}
-			else if (NPCType == ModContent.NPCType<PlaguebringerGoliath>())
+			else if (NPCType == NPCType<PlaguebringerGoliath>())
 			{
 
 			}
-			else if (NPCType == ModContent.NPCType<RavagerBody>())
+			else if (NPCType == NPCType<RavagerBody>())
 			{
 
 			}
-			else if (NPCType == ModContent.NPCType<ProfanedGuardianBoss>())
+			else if (NPCType == NPCType<ProfanedGuardianBoss>())
 			{
 
 			}
-			else if (NPCType == ModContent.NPCType<Bumblefuck>())
+			else if (NPCType == NPCType<Bumblefuck>())
 			{
 
 			}
-			else if (NPCType == ModContent.NPCType<Providence>())
+			else if (NPCType == NPCType<Providence>())
 			{
 
 			}
-			else if (NPCType == ModContent.NPCType<CeaselessVoid>())
+			else if (NPCType == NPCType<CeaselessVoid>())
 			{
 
 			}
-			else if (NPCType == ModContent.NPCType<StormWeaverHead>() || NPCType == ModContent.NPCType<StormWeaverHeadNaked>())
+			else if (NPCType == NPCType<StormWeaverHead>() || NPCType == NPCType<StormWeaverHeadNaked>())
 			{
 
 			}
-			else if (NPCType == ModContent.NPCType<Signus>())
+			else if (NPCType == NPCType<Signus>())
 			{
 
 			}
-			else if (NPCType == ModContent.NPCType<Polterghast>())
+			else if (NPCType == NPCType<Polterghast>())
 			{
 
 			}
-			else if (NPCType == ModContent.NPCType<OldDuke>())
+			else if (NPCType == NPCType<OldDuke>())
 			{
 
 			}
-			else if (NPCType == ModContent.NPCType<DevourerofGodsHead>() || NPCType == ModContent.NPCType<DevourerofGodsHeadS>())
+			else if (NPCType == NPCType<DevourerofGodsHead>() || NPCType == NPCType<DevourerofGodsHeadS>())
 			{
 
 			}
-			else if (NPCType == ModContent.NPCType<Yharon>())
+			else if (NPCType == NPCType<Yharon>())
 			{
 
 			}
-			else if (NPCType == ModContent.NPCType<SupremeCalamitas>())
+			else if (NPCType == NPCType<SupremeCalamitas>())
 			{
 
 			}
@@ -497,8 +542,8 @@ namespace CalamityMod
 				target.HitSound != SoundID.NPCHit5 && target.HitSound != SoundID.NPCHit11 && target.HitSound != SoundID.NPCHit30 &&
 				target.HitSound != SoundID.NPCHit34 && target.HitSound != SoundID.NPCHit36 && target.HitSound != SoundID.NPCHit42 &&
 				target.HitSound != SoundID.NPCHit49 && target.HitSound != SoundID.NPCHit52 && target.HitSound != SoundID.NPCHit53 &&
-				target.HitSound != SoundID.NPCHit54 && target.HitSound != null) || target.type == ModContent.NPCType<Providence>() ||
-				target.type == ModContent.NPCType<ScornEater>())
+				target.HitSound != SoundID.NPCHit54 && target.HitSound != null) || target.type == NPCType<Providence>() ||
+				target.type == NPCType<ScornEater>())
 			{
 				return true;
 			}
@@ -524,8 +569,8 @@ namespace CalamityMod
 				target.HitSound != SoundID.NPCHit43 && target.HitSound != SoundID.NPCHit44 && target.HitSound != SoundID.NPCHit45 &&
 				target.HitSound != SoundID.NPCHit46 && target.HitSound != SoundID.NPCHit47 && target.HitSound != SoundID.NPCHit48 &&
 				target.HitSound != SoundID.NPCHit50 && target.HitSound != SoundID.NPCHit51 && target.HitSound != SoundID.NPCHit55 &&
-				target.HitSound != SoundID.NPCHit56 && target.HitSound != SoundID.NPCHit57 && target.type != ModContent.NPCType<AngryDog>() &&
-				target.type != ModContent.NPCType<Providence>() && target.type != ModContent.NPCType<ScornEater>())
+				target.HitSound != SoundID.NPCHit56 && target.HitSound != SoundID.NPCHit57 && target.type != NPCType<AngryDog>() &&
+				target.type != NPCType<Providence>() && target.type != NPCType<ScornEater>())
 			{
 				return true;
 			}
@@ -571,11 +616,11 @@ namespace CalamityMod
 		{
 			target.AddBuff(BuffID.Ichor, (int)(120 * multiplier));
 			target.AddBuff(BuffID.CursedInferno, (int)(120 * multiplier));
-			target.AddBuff(ModContent.BuffType<ExoFreeze>(), (int)(30 * multiplier));
-			target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), (int)(120 * multiplier));
-			target.AddBuff(ModContent.BuffType<GlacialState>(), (int)(120 * multiplier));
-			target.AddBuff(ModContent.BuffType<Plague>(), (int)(120 * multiplier));
-			target.AddBuff(ModContent.BuffType<HolyFlames>(), (int)(120 * multiplier));
+			target.AddBuff(BuffType<ExoFreeze>(), (int)(30 * multiplier));
+			target.AddBuff(BuffType<BrimstoneFlames>(), (int)(120 * multiplier));
+			target.AddBuff(BuffType<GlacialState>(), (int)(120 * multiplier));
+			target.AddBuff(BuffType<Plague>(), (int)(120 * multiplier));
+			target.AddBuff(BuffType<HolyFlames>(), (int)(120 * multiplier));
 			target.AddBuff(BuffID.Frostburn, (int)(120 * multiplier));
 			target.AddBuff(BuffID.OnFire, (int)(120 * multiplier));
 		}
@@ -1158,7 +1203,7 @@ namespace CalamityMod
 		public static Projectile ProjectileRain(Vector2 targetPos, float xLimit, float xVariance, float yLimitLower, float yLimitUpper, float projSpeed, int projType, int damage, float knockback, int owner)
 		{
 			float x = targetPos.X + Main.rand.NextFloat(-xLimit, xLimit);
-			if (projType == ModContent.ProjectileType<AstralStarMagic>())
+			if (projType == ProjectileType<AstralStarMagic>())
 				x = targetPos.X + xLimit;
 			float y = targetPos.Y - Main.rand.NextFloat(yLimitLower, yLimitUpper);
 			Vector2 source = new Vector2(x, y);
@@ -1435,7 +1480,7 @@ namespace CalamityMod
 			float maxDist = range;
 			Vector2 targetVec = projectile.position;
 			bool foundTarget = false;
-			bool isButterfly = projectile.type == ModContent.ProjectileType<PurpleButterfly>();
+			bool isButterfly = projectile.type == ProjectileType<PurpleButterfly>();
 			//Prioritize the targeted enemy if possible
 			if (player.HasMinionAttackTargetNPC)
 			{
@@ -2205,15 +2250,15 @@ namespace CalamityMod
 			// Snows
 			TileID.SnowBlock,
 			// Calamity Tiles
-			ModContent.TileType<AstralDirt>(),
-			ModContent.TileType<AstralClay>(),
-			ModContent.TileType<AstralStone>(),
-			ModContent.TileType<AstralSand>(),
-			ModContent.TileType<AstralSnow>(),
-			ModContent.TileType<Navystone>(),
-			ModContent.TileType<EutrophicSand>(),
-			ModContent.TileType<AbyssGravel>(),
-			ModContent.TileType<Voidstone>(),
+			TileType<AstralDirt>(),
+			TileType<AstralClay>(),
+			TileType<AstralStone>(),
+			TileType<AstralSand>(),
+			TileType<AstralSnow>(),
+			TileType<Navystone>(),
+			TileType<EutrophicSand>(),
+			TileType<AbyssGravel>(),
+			TileType<Voidstone>(),
 		});
 
 		/// <summary>
@@ -2240,14 +2285,14 @@ namespace CalamityMod
 			TileID.Titanium,
 			TileID.LunarOre,
 			// Calamity Ores
-			ModContent.TileType<AerialiteOre>(),
-			ModContent.TileType<CryonicOre>(),
-			ModContent.TileType<PerennialOre>(),
-			ModContent.TileType<CharredOre>(),
-			ModContent.TileType<ChaoticOre>(),
-			ModContent.TileType<AstralOre>(),
-			ModContent.TileType<UelibloomOre>(),
-			ModContent.TileType<AuricOre>(),
+			TileType<AerialiteOre>(),
+			TileType<CryonicOre>(),
+			TileType<PerennialOre>(),
+			TileType<CharredOre>(),
+			TileType<ChaoticOre>(),
+			TileType<AstralOre>(),
+			TileType<UelibloomOre>(),
+			TileType<AuricOre>(),
 		});
 
 		/// <summary>
@@ -2274,14 +2319,14 @@ namespace CalamityMod
 			TileID.FossilOre,
 			TileID.DesertFossil,
 			// Astral Desert
-			ModContent.TileType<AstralSand>(),
-			ModContent.TileType<HardenedAstralSand>(),
-			ModContent.TileType<AstralSandstone>(),
-			ModContent.TileType<AstralFossil>(),
+			TileType<AstralSand>(),
+			TileType<HardenedAstralSand>(),
+			TileType<AstralSandstone>(),
+			TileType<AstralFossil>(),
 			// Sunken Sea
-			ModContent.TileType<EutrophicSand>(),
-			ModContent.TileType<Navystone>(),
-			ModContent.TileType<SeaPrism>(),
+			TileType<EutrophicSand>(),
+			TileType<Navystone>(),
+			TileType<SeaPrism>(),
 		});
 
 		/// <summary>
@@ -2297,9 +2342,9 @@ namespace CalamityMod
 			TileID.FleshIce,
 			TileID.HallowedIce,
 			// Astral Snow
-			ModContent.TileType<AstralIce>(),
-			ModContent.TileType<AstralSnow>(),
-			ModContent.TileType<AstralSilt>(),
+			TileType<AstralIce>(),
+			TileType<AstralSnow>(),
+			TileType<AstralSilt>(),
 		});
 
 		/// <summary>
@@ -2311,7 +2356,7 @@ namespace CalamityMod
 			TileID.Hellstone,
 			TileID.ObsidianBrick,
 			TileID.HellstoneBrick,
-			ModContent.TileType<BrimstoneSlag>(),
+			TileType<BrimstoneSlag>(),
 		});
 
 		/// <summary>
@@ -2320,14 +2365,14 @@ namespace CalamityMod
 		/// <param name="type">The tile whose merging properties will be set.</param>
 		public static void MergeWithAbyss(int type) => MergeWithSet(type, new int[] {
 			// Sulphurous Sea
-			ModContent.TileType<SulphurousSand>(),
-			ModContent.TileType<SulphurousSandstone>(),
+			TileType<SulphurousSand>(),
+			TileType<SulphurousSandstone>(),
 			// Abyss
-			ModContent.TileType<AbyssGravel>(),
-			ModContent.TileType<Voidstone>(),
-			ModContent.TileType<PlantyMush>(),
-			ModContent.TileType<Tenebris>(),
-			ModContent.TileType<ChaoticOre>(),
+			TileType<AbyssGravel>(),
+			TileType<Voidstone>(),
+			TileType<PlantyMush>(),
+			TileType<Tenebris>(),
+			TileType<ChaoticOre>(),
 		});
 
 		/// <summary>
@@ -2337,18 +2382,18 @@ namespace CalamityMod
 		public static void MergeAstralTiles(int type)
 		{
 			//Astral
-			SetMerge(type, ModContent.TileType<AstralDirt>());
-			SetMerge(type, ModContent.TileType<AstralStone>());
-			SetMerge(type, ModContent.TileType<AstralMonolith>());
-			SetMerge(type, ModContent.TileType<AstralClay>());
+			SetMerge(type, TileType<AstralDirt>());
+			SetMerge(type, TileType<AstralStone>());
+			SetMerge(type, TileType<AstralMonolith>());
+			SetMerge(type, TileType<AstralClay>());
 			//Astral Desert
-			SetMerge(type, ModContent.TileType<AstralSand>());
-			SetMerge(type, ModContent.TileType<HardenedAstralSand>());
-			SetMerge(type, ModContent.TileType<AstralSandstone>());
-			SetMerge(type, ModContent.TileType<AstralFossil>());
+			SetMerge(type, TileType<AstralSand>());
+			SetMerge(type, TileType<HardenedAstralSand>());
+			SetMerge(type, TileType<AstralSandstone>());
+			SetMerge(type, TileType<AstralFossil>());
 			//Astral Snow
-			SetMerge(type, ModContent.TileType<AstralIce>());
-			SetMerge(type, ModContent.TileType<AstralSnow>());
+			SetMerge(type, TileType<AstralIce>());
+			SetMerge(type, TileType<AstralSnow>());
 		}
 
 		/// <summary>
@@ -2361,10 +2406,10 @@ namespace CalamityMod
 			SetMerge(type, TileID.MarbleBlock);
 			SetMerge(type, TileID.GraniteBlock);
 			//Calam
-			SetMerge(type, ModContent.TileType<SmoothNavystone>());
-			SetMerge(type, ModContent.TileType<SmoothBrimstoneSlag>());
-			SetMerge(type, ModContent.TileType<SmoothAbyssGravel>());
-			SetMerge(type, ModContent.TileType<SmoothVoidstone>());
+			SetMerge(type, TileType<SmoothNavystone>());
+			SetMerge(type, TileType<SmoothBrimstoneSlag>());
+			SetMerge(type, TileType<SmoothAbyssGravel>());
+			SetMerge(type, TileType<SmoothVoidstone>());
 		}
 
 		/// <summary>
@@ -2376,14 +2421,14 @@ namespace CalamityMod
 			//Vanilla decor
 			Main.tileBrick[type] = true;
 			//Calam
-			SetMerge(type, ModContent.TileType<CryonicBrick>());
-			SetMerge(type, ModContent.TileType<PerennialBrick>());
-			SetMerge(type, ModContent.TileType<UelibloomBrick>());
-			SetMerge(type, ModContent.TileType<OccultStone>());
-			SetMerge(type, ModContent.TileType<ProfanedSlab>());
-			SetMerge(type, ModContent.TileType<RunicProfanedBrick>());
-			SetMerge(type, ModContent.TileType<AshenSlab>());
-			SetMerge(type, ModContent.TileType<VoidstoneSlab>());
+			SetMerge(type, TileType<CryonicBrick>());
+			SetMerge(type, TileType<PerennialBrick>());
+			SetMerge(type, TileType<UelibloomBrick>());
+			SetMerge(type, TileType<OccultStone>());
+			SetMerge(type, TileType<ProfanedSlab>());
+			SetMerge(type, TileType<RunicProfanedBrick>());
+			SetMerge(type, TileType<AshenSlab>());
+			SetMerge(type, TileType<VoidstoneSlab>());
 		}
 		#endregion
 
@@ -2524,7 +2569,7 @@ namespace CalamityMod
 				player.showItemIconText = Main.chest[chest].name.Length > 0 ? Main.chest[chest].name : chestName;
 				if (player.showItemIconText == chestName)
 				{
-					player.showItemIcon2 = ModContent.ItemType<T>();
+					player.showItemIcon2 = ItemType<T>();
 					player.showItemIconText = "";
 				}
 			}
@@ -2715,7 +2760,7 @@ namespace CalamityMod
 				}
 				if (player.showItemIconText == chestName)
 				{
-					player.showItemIcon2 = ModContent.ItemType<T>();
+					player.showItemIcon2 = ItemType<T>();
 					player.showItemIconText = "";
 				}
 			}
@@ -2757,7 +2802,7 @@ namespace CalamityMod
 				}
 				if (player.showItemIconText == chestName)
 				{
-					player.showItemIcon2 = ModContent.ItemType<T>();
+					player.showItemIcon2 = ItemType<T>();
 					player.showItemIconText = "";
 				}
 			}
@@ -2890,9 +2935,9 @@ namespace CalamityMod
 				player.showItemIconText = Main.chest[chest].name.Length > 0 ? Main.chest[chest].name : chestName;
 				if (player.showItemIconText == chestName)
 				{
-					player.showItemIcon2 = ModContent.ItemType<C>();
+					player.showItemIcon2 = ItemType<C>();
 					if (Main.tile[left, top].frameX / 36 == 1)
-						player.showItemIcon2 = ModContent.ItemType<K>();
+						player.showItemIcon2 = ItemType<K>();
 					player.showItemIconText = "";
 				}
 			}
@@ -3530,7 +3575,7 @@ namespace CalamityMod
 			int left = i - t.frameX % (width * sheetSquare) / sheetSquare;
 			int top = j - t.frameY % (height * sheetSquare) / sheetSquare;
 
-			byte chargerType = ModContent.GetInstance<T>().type;
+			byte chargerType = GetInstance<T>().type;
 			bool exists = TileEntity.ByPosition.TryGetValue(new Point16(left, top), out TileEntity te);
 			return exists && te.type == chargerType ? (T)te : null;
 		}
@@ -3564,11 +3609,11 @@ namespace CalamityMod
 		// Draws the Power Cell item slot in a UI. Used by both the Power Cell Factory and Charging Station.
 		internal static void DrawPowercellSlot(SpriteBatch spriteBatch, Item item, Vector2 drawPosition, float iconScale = 0.7f)
 		{
-			Texture2D slotBackgroundTex = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/PowerCellSlot_Empty");
+			Texture2D slotBackgroundTex = GetTexture("CalamityMod/ExtraTextures/UI/PowerCellSlot_Empty");
 
 			// This check is done twice because the draw order matters. We want to draw the background icon before any text.
 			if (item.stack > 0)
-				slotBackgroundTex = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/PowerCellSlot_Filled");
+				slotBackgroundTex = GetTexture("CalamityMod/ExtraTextures/UI/PowerCellSlot_Filled");
 
 			spriteBatch.Draw(slotBackgroundTex, drawPosition, null, Color.White, 0f, slotBackgroundTex.Size() * 0.5f, iconScale, SpriteEffects.None, 0f);
 			if (item.stack > 0)

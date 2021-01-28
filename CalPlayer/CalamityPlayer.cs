@@ -191,6 +191,7 @@ namespace CalamityMod.CalPlayer
         public int armorPenetrationStat = 0;
         public float wingFlightTimeStat = 0f;
 		public float jumpSpeedStat = 0f;
+        public int rageDamageStat = 0;
         public int adrenalineDamageStat = 0;
 		public int adrenalineDRStat = 0;
         public int moveSpeedStat = 0;
@@ -349,9 +350,8 @@ namespace CalamityMod.CalPlayer
         public int rageCombatFrames = 0;
         public static readonly int RageCombatDelayTime = CalamityUtils.SecondsToFrames(10);
         public static readonly int RageFadeTime = CalamityUtils.SecondsToFrames(30);
-        public static readonly double RageDamageBoost = 0.5D; // +50%
-        public static readonly float MinRageDR = 0.1f; // 10% DR
-        public static readonly float MaxRageDR = 0.2f; // 20% DR
+        public static readonly double DefaultRageDamageBoost = 0.5D; // +50%
+        public double RageDamageBoost = DefaultRageDamageBoost;
         #endregion
 
         #region Adrenaline
@@ -481,6 +481,7 @@ namespace CalamityMod.CalPlayer
         public bool reducedPlagueDmg = false;
 		public bool abaddon = false;
         public bool community = false;
+        public bool shatteredCommunity = false;
         public bool fleshTotem = false;
         public bool fleshTotemCooldown = false;
         public bool bloodPact = false;
@@ -1338,6 +1339,9 @@ namespace CalamityMod.CalPlayer
                 int integerTypeBoost = (int)(floatTypeBoost * 50f);
                 player.statLifeMax2 += player.statLifeMax / 5 / 20 * integerTypeBoost;
             }
+            // Shattered Community gives the same max health boost as normal full-power Community (10%)
+            if (shatteredCommunity)
+                player.statLifeMax2 += (player.statLifeMax / 5 / 10) * 5;
 
             // Max health reductions
             if (crimEffigy)
@@ -1539,6 +1543,7 @@ namespace CalamityMod.CalPlayer
             reducedPlagueDmg = false;
 			abaddon = false;
             community = false;
+            shatteredCommunity = false;
             stressPills = false;
             laudanum = false;
             fleshTotem = false;
@@ -1964,6 +1969,7 @@ namespace CalamityMod.CalPlayer
             rageModeActive = false;
             adrenalineModeActive = false;
             RageDuration = DefaultRageDuration;
+            RageDamageBoost = DefaultRageDamageBoost;
 
             lastProjectileHit = null;
         }
@@ -4699,6 +4705,12 @@ namespace CalamityMod.CalPlayer
 			CalamityPlayerOnHit.ItemLifesteal(player, mod, target, item, damage);
 			CalamityPlayerOnHit.ItemOnHit(player, mod, item, damage, target.Center, crit, (target.damage > 5 || target.boss) && !target.SpawnedFromStatue);
 			CalamityPlayerOnHit.NPCDebuffs(player, mod, target, item.melee, item.ranged, item.magic, item.summon, item.Calamity().rogue, false);
+
+            // Shattered Community tracks all damage dealt with Rage Mode (ignoring dummies).
+            if (target.type == NPCID.TargetDummy || target.type == ModContent.NPCType<SuperDummyNPC>())
+                return;
+            if (rageModeActive && shatteredCommunity)
+                ShatteredCommunity.AccumulateRageDamage(player, this, damage);
         }
         #endregion
 
@@ -4835,6 +4847,12 @@ namespace CalamityMod.CalPlayer
 				CalamityPlayerOnHit.ProjLifesteal(player, mod, target, proj, damage, crit);
 				CalamityPlayerOnHit.ProjOnHit(player, mod, proj, target.Center, crit, (target.damage > 5 || target.boss) && !target.SpawnedFromStatue);
 				CalamityPlayerOnHit.NPCDebuffs(player, mod, target, proj.melee, proj.ranged, proj.magic, proj.IsSummon(), proj.Calamity().rogue, true);
+
+                // Shattered Community tracks all damage dealt with Rage Mode (ignoring dummies).
+                if (target.type == NPCID.TargetDummy || target.type == ModContent.NPCType<SuperDummyNPC>())
+                    return;
+                if (rageModeActive && shatteredCommunity)
+                    ShatteredCommunity.AccumulateRageDamage(player, this, damage);
             }
         }
         #endregion
@@ -7094,11 +7112,14 @@ namespace CalamityMod.CalPlayer
             if ((godSlayerDamage && damage <= 80) || damage < 1)
                 damage = 1;
 
-            // Gain rage based on the amount of damage taken. Also set the Rage gain cooldown to prevent bizarre abuse cases.
-            if (CalamityWorld.revenge && CalamityConfig.Instance.Rippers && rageGainCooldown == 0)
+            // Shattered Community makes the player gain rage based on the amount of damage taken.
+            // Also set the Rage gain cooldown to prevent bizarre abuse cases.
+            if (CalamityWorld.revenge && CalamityConfig.Instance.Rippers && shatteredCommunity && rageGainCooldown == 0)
             {
                 float HPRatio = (float)damage / player.statLifeMax2;
-                rage += rageMax * HPRatio;
+                // Damage to rage conversion is half as effective while Rage Mode is active.
+                float rageConversionRatio = rageModeActive ? 0.4f : 0.8f;
+                rage += rageMax * HPRatio * rageConversionRatio;
                 rageGainCooldown = DefaultRageGainCooldown;
                 // Rage capping is handled in MiscEffects
             }
