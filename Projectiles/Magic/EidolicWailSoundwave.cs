@@ -33,6 +33,12 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void AI()
         {
+			if (projectile.ai[0] == 0f)
+			{
+				if (projectile.velocity.Length() < 16f)
+					projectile.velocity *= 1.02f;
+			}
+
             if (projectile.localAI[0] < 1f)
             {
                 projectile.localAI[0] += 0.005f; //200 to reach full size and max power
@@ -63,14 +69,18 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            damage = (int)((double)damage * (double)projectile.localAI[0]);
+            damage = (int)(damage * projectile.localAI[0]);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(ModContent.BuffType<CrushDepth>(), 600);
-            projectile.velocity *= 0.975f;
-        }
+
+			if (projectile.velocity.Length() > 3f)
+				projectile.velocity *= 0.9f;
+
+			projectile.ai[0] = 1f;
+		}
 
         public override Color? GetAlpha(Color lightColor)
         {

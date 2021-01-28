@@ -19,7 +19,7 @@ Stealth strikes summon ghost clones instead of lost souls");
 
         public override void SafeSetDefaults()
         {
-            item.damage = 1000;
+            item.damage = 900;
             item.knockBack = 8f;
 
             item.width = 102;

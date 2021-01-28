@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Weapons.Magic
 		}
 		public override void SetDefaults()
 		{
-			item.damage = 315;
+			item.damage = 272;
 			item.noMelee = true;
 			item.magic = true;
 			item.width = 22;

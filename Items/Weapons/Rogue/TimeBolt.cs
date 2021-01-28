@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             item.width = 24;
             item.height = 46;
-            item.damage = 540;
+            item.damage = 468;
             item.noMelee = true;
             item.noUseGraphic = true;
             item.useAnimation = 20;

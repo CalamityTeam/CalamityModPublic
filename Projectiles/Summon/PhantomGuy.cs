@@ -32,6 +32,7 @@ namespace CalamityMod.Projectiles.Summon
             projectile.tileCollide = false;
             projectile.timeLeft *= 5;
             projectile.minion = true;
+			projectile.extraUpdates = 1;
         }
 
         public override void AI()
