@@ -356,7 +356,8 @@ namespace CalamityMod.CalPlayer
 
 					// If they're a boss, reduce the boss distance.
 					// Boss distance will always be >= enemy distance, so there's no need to do another check.
-					if (npc.IsABoss())
+					// Worm boss body and tail segments are not counted as bosses for this calculation.
+					if (npc.IsABoss() && !CalamityLists.noRageWormSegmentList.Contains(npc.type))
 						bossDistance = hitboxEdgeDist;
 				}
 			}
@@ -364,8 +365,8 @@ namespace CalamityMod.CalPlayer
 			// Helper function to implement proximity rage formula
 			float ProxRageFromDistance(float dist)
 			{
-				// Adjusted distance with the 160 grace pixels added in
-				float d = dist - minProxRageDistance;
+				// Adjusted distance with the 160 grace pixels added in. If you're closer than that it counts as zero.
+				float d = Math.Max(dist - minProxRageDistance, 0f);
 
 				// The first term is exponential decay which reduces rage gain significantly over distance.
 				// The second term is a linear component which allows a baseline but weak rage generation even at far distances.
