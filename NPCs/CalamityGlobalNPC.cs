@@ -812,23 +812,27 @@ namespace CalamityMod.NPCs
 				KillTime = revKillTime;
 			}
 
-            if (npc.boss && CalamityWorld.revenge)
+            if (npc.boss)
             {
-                if (npc.type != NPCType<HiveMindP2>() && npc.type != NPCType<Leviathan.Leviathan>() && npc.type != NPCType<StormWeaverHeadNaked>() &&
-                    npc.type != NPCType<StormWeaverBodyNaked>() && npc.type != NPCType<StormWeaverTailNaked>() &&
-                    npc.type != NPCType<DevourerofGodsHeadS>() && npc.type != NPCType<DevourerofGodsBodyS>() &&
-                    npc.type != NPCType<DevourerofGodsTailS>() && npc.type != NPCType<CalamitasRun3>() &&
-					((npc.type != NPCType<AstrumDeusHeadSpectral>() && npc.type != NPCType<AstrumDeusBodySpectral>() &&
-					npc.type != NPCType<AstrumDeusTailSpectral>()) && npc.Calamity().newAI[0] != 0f))
-                {
-                    if (Main.netMode != NetmodeID.Server)
-                    {
-                        if (!Main.LocalPlayer.dead && Main.LocalPlayer.active)
-                        {
-                            Main.LocalPlayer.Calamity().adrenaline = 0;
-                        }
-                    }
-                }
+				npc.netAlways = true;
+				if (CalamityWorld.revenge)
+				{
+					if (npc.type != NPCType<HiveMindP2>() && npc.type != NPCType<Leviathan.Leviathan>() && npc.type != NPCType<StormWeaverHeadNaked>() &&
+						npc.type != NPCType<StormWeaverBodyNaked>() && npc.type != NPCType<StormWeaverTailNaked>() &&
+						npc.type != NPCType<DevourerofGodsHeadS>() && npc.type != NPCType<DevourerofGodsBodyS>() &&
+						npc.type != NPCType<DevourerofGodsTailS>() && npc.type != NPCType<CalamitasRun3>() &&
+						npc.type != NPCType<AstrumDeusHeadSpectral>() && npc.type != NPCType<AstrumDeusBodySpectral>() &&
+						npc.type != NPCType<AstrumDeusTailSpectral>() && npc.Calamity().newAI[0] != 0f)
+					{
+						if (Main.netMode != NetmodeID.Server)
+						{
+							if (!Main.LocalPlayer.dead && Main.LocalPlayer.active)
+							{
+								Main.LocalPlayer.Calamity().adrenaline = 0;
+							}
+						}
+					}
+				}
             }
 
             DebuffImmunities(npc);

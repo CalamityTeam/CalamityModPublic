@@ -88,6 +88,10 @@ namespace CalamityMod.Projectiles
 
             switch (projectile.type)
             {
+				case ProjectileID.FlamingJack:
+					projectile.extraUpdates = 1;
+					break;
+
                 case ProjectileID.ShadowBeamHostile:
                     projectile.timeLeft = 60;
                     break;
