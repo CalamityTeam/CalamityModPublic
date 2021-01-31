@@ -13,18 +13,19 @@ namespace CalamityMod.Items.Armor
         {
             DisplayName.SetDefault("Demonshade Breastplate");
             Tooltip.SetDefault("20% increased melee speed, 15% increased damage and critical strike chance\n" +
-                       "Enemies take ungodly damage when they touch you\n" +
-                       "Increased max life and mana by 200\n" +
-                       "Standing still lets you absorb the shadows and boost your life regen");
+                "Enemies take ungodly damage when they touch you\n" +
+                "Increased max life and mana by 200\n" +
+                "Standing still lets you absorb the shadows and boost your life regen");
         }
 
         public override void SetDefaults()
         {
             item.width = 18;
             item.height = 18;
-            item.value = Item.buyPrice(4, 0, 0, 0);
             item.defense = 50;
+            item.value = CalamityGlobalItem.Rarity16BuyPrice;
             item.Calamity().customRarity = CalamityRarity.ItemSpecific;
+            item.Calamity().devItem = true;
         }
 
         public override void UpdateEquip(Player player)

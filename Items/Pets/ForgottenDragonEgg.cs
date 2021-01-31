@@ -19,8 +19,10 @@ namespace CalamityMod.Items.Pets
             item.CloneDefaults(ItemID.ZephyrFish);
             item.shoot = ModContent.ProjectileType<Akato>();
             item.buffType = ModContent.BuffType<AkatoYharonBuff>();
-            item.rare = 10;
-            item.Calamity().postMoonLordRarity = 15;
+
+            item.value = Item.sellPrice(gold: 30);
+            item.Calamity().customRarity = CalamityRarity.Violet;
+            item.Calamity().donorItem = true;
         }
 
         public override void UseStyle(Player player)

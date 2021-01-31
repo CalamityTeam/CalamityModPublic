@@ -15,13 +15,12 @@ namespace CalamityMod.Items.Weapons.Typeless
             DisplayName.SetDefault("Aestheticus");
             Tooltip.SetDefault("Fires crystals that explode and slow enemies down\n" +
                 "This weapon scales with all your damage stats at once");
-		}
+        }
 
         public override void SetDefaults()
         {
             item.width = 58;
             item.damage = 8;
-            item.rare = 3;
             item.useAnimation = 25;
             item.useTime = 25;
             item.useStyle = ItemUseStyleID.SwingThrow;
@@ -29,7 +28,11 @@ namespace CalamityMod.Items.Weapons.Typeless
             item.UseSound = SoundID.Item109;
             item.autoReuse = true;
             item.height = 58;
-            item.value = Item.buyPrice(0, 4, 0, 0);
+
+            item.value = CalamityGlobalItem.Rarity3BuyPrice;
+            item.rare = ItemRarityID.Orange;
+            item.Calamity().donorItem = true;
+
             item.shoot = ModContent.ProjectileType<CursorProj>();
             item.shootSpeed = 5f;
         }
@@ -55,13 +58,13 @@ namespace CalamityMod.Items.Weapons.Typeless
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ItemID.HellstoneBar, 10);
-			recipe.AddIngredient(ItemID.MeteoriteBar, 10);
-			recipe.AddIngredient(ModContent.ItemType<AerialiteBar>(), 5);
+            recipe.AddIngredient(ItemID.HellstoneBar, 10);
+            recipe.AddIngredient(ItemID.MeteoriteBar, 10);
+            recipe.AddIngredient(ModContent.ItemType<AerialiteBar>(), 5);
             recipe.AddIngredient(ItemID.Glass, 20);
             recipe.AddIngredient(ItemID.Gel, 15);
-			recipe.AddIngredient(ItemID.FallenStar, 5);
-			recipe.AddTile(TileID.Anvils);
+            recipe.AddIngredient(ItemID.FallenStar, 5);
+            recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

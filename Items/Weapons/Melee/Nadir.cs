@@ -36,16 +36,16 @@ namespace CalamityMod.Items.Weapons.Melee
             item.UseSound = SoundID.Item1;
 
             item.value = CalamityGlobalItem.Rarity14BuyPrice;
-            item.rare = 10;
-            item.Calamity().postMoonLordRarity = 14;
+            item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            item.Calamity().donorItem = true;
 
             item.shoot = ModContent.ProjectileType<NadirSpear>();
             item.shootSpeed = ShootSpeed;
         }
 
-		public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;
+        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;
 
-		public override void AddRecipes()
+        public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<SpatialLance>());

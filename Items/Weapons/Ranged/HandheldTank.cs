@@ -30,16 +30,16 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.noMelee = true;
 
             item.value = CalamityGlobalItem.Rarity12BuyPrice;
-            item.rare = 10;
-            item.Calamity().postMoonLordRarity = 12;
+            item.Calamity().customRarity = CalamityRarity.Turquoise;
+            item.Calamity().donorItem = true;
 
             item.shoot = ModContent.ProjectileType<HandheldTankShell>();
             item.shootSpeed = 6f;
             item.useAmmo = AmmoID.Rocket;
         }
 
-		// Terraria seems to really dislike high crit values in SetDefaults
-		public override void GetWeaponCrit(Player player, ref int crit) => crit += 15;
+        // Terraria seems to really dislike high crit values in SetDefaults
+        public override void GetWeaponCrit(Player player, ref int crit) => crit += 15;
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {

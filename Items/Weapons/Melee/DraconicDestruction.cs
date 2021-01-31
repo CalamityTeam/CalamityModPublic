@@ -30,11 +30,12 @@ namespace CalamityMod.Items.Weapons.Melee
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             item.height = 94;
-            item.value = Item.buyPrice(5, 0, 0, 0);
-            item.rare = 10;
             item.shoot = ModContent.ProjectileType<DracoBeam>();
             item.shootSpeed = 14f;
+
+            item.value = CalamityGlobalItem.Rarity16BuyPrice;
             item.Calamity().customRarity = CalamityRarity.ItemSpecific;
+            item.Calamity().devItem = true;
         }
 
         public override void AddRecipes()

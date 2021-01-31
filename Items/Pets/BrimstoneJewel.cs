@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Pets
         {
             DisplayName.SetDefault("Brimstone Jewel");
             Tooltip.SetDefault("The ultimate reward for defeating such a beast...\n" +
-			"Who knew she'd be so darn cute!");
+                "Who knew she'd be so darn cute!");
         }
 
         public override void SetDefaults()
@@ -20,7 +20,10 @@ namespace CalamityMod.Items.Pets
             item.CloneDefaults(ItemID.ZephyrFish);
             item.shoot = ModContent.ProjectileType<SCalPet>();
             item.buffType = ModContent.BuffType<SCalPetBuff>();
-            item.Calamity().postMoonLordRarity = 15;
+
+            item.value = Item.sellPrice(gold: 40);
+            item.Calamity().customRarity = CalamityRarity.Violet;
+            item.Calamity().donorItem = true;
         }
 
         public override void UseStyle(Player player)

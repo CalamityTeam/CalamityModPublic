@@ -1,7 +1,5 @@
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Ores;
-using CalamityMod.Tiles.Furniture.CraftingStations;
-using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -22,8 +20,11 @@ namespace CalamityMod.Items.Mounts
             item.useTime = 20;
             item.useAnimation = 20;
             item.useStyle = ItemUseStyleID.HoldingUp;
-            item.Calamity().postMoonLordRarity = 14;
-            item.value = Item.buyPrice(3, 0, 0, 0);
+
+            item.value = CalamityGlobalItem.Rarity14BuyPrice;
+            item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            item.Calamity().donorItem = true;
+
             item.UseSound = SoundID.NPCHit56;
             item.noMelee = true;
             item.mountType = ModContent.MountType<Crysthamyr>();

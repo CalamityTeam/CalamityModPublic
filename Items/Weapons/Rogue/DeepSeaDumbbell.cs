@@ -35,15 +35,16 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.useTurn = false;
             item.height = 24;
             item.value = CalamityGlobalItem.Rarity13BuyPrice;
-            item.rare = 10;
+            item.rare = ItemRarityID.Red;
+            item.Calamity().customRarity = CalamityRarity.PureGreen;
+            item.Calamity().donorItem = true;
             item.shoot = ModContent.ProjectileType<DeepSeaDumbbell1>();
             item.shootSpeed = 20f;
             item.Calamity().rogue = true;
-            item.Calamity().postMoonLordRarity = 13;
         }
 
-		// Terraria seems to really dislike high crit values in SetDefaults
-		public override void GetWeaponCrit(Player player, ref int crit) => crit -= 2;
+        // Terraria seems to really dislike high crit values in SetDefaults
+        public override void GetWeaponCrit(Player player, ref int crit) => crit -= 2;
 
         public override bool AltFunctionUse(Player player) => true;
 
@@ -68,12 +69,12 @@ namespace CalamityMod.Items.Weapons.Rogue
             return base.CanUseItem(player);
         }
 
-		public override float UseTimeMultiplier	(Player player)
-		{
-			if (player.altFunctionUse == 2)
-				return (5f/9f);
-			return 1f;
-		}
+        public override float UseTimeMultiplier	(Player player)
+        {
+            if (player.altFunctionUse == 2)
+                return (5f/9f);
+            return 1f;
+        }
 
         public override void ModifyWeaponDamage(Player player, ref float add, ref float mult, ref float flat)
         {

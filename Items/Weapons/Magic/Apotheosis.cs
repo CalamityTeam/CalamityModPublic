@@ -24,7 +24,7 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             item.damage = 420;
             item.magic = true;
-            item.mana = (int)42.0;
+            item.mana = (int)42.0; // TODO -- is there a reason for this?
             item.width = 30;
             item.height = 34;
             item.useTime = 15;
@@ -33,18 +33,20 @@ namespace CalamityMod.Items.Weapons.Magic
             item.useTurn = false;
             item.noMelee = true;
             item.knockBack = 6.9f;
-            item.value = Item.buyPrice(5, 0, 0, 0);
-            item.rare = 10;
+
+            item.value = CalamityGlobalItem.Rarity16BuyPrice;
+            item.Calamity().customRarity = CalamityRarity.HotPink;
+            item.Calamity().devItem = true;
+
             item.UseSound = SoundID.Item92;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<ApothMark>();
             item.shootSpeed = 15.69f;
-            item.Calamity().customRarity = CalamityRarity.HotPink;
         }
 
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
-			item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.GetTexture("CalamityMod/Items/Weapons/Magic/ApotheosisGlow"));
+            item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.GetTexture("CalamityMod/Items/Weapons/Magic/ApotheosisGlow"));
         }
 
         public override void AddRecipes()

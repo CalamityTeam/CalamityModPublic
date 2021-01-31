@@ -32,13 +32,13 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             DisplayName.SetDefault("Gael's Greatsword");
             Tooltip.SetDefault("Hand it over, that thing. Your dark soul.\n" +
-                               "First swing fires homing skulls\n" +
-                               "Second swing fires a giant, powerful skull\n" +
-                               "Third swing deals massive damage\n" +
-                               "Constantly generates rage when in use\n" +
-                               "Swings leave behind exploding blood trails when below 50% health\n" +
-                               "Right click to swipe the sword, reflecting projectiles at a 50% chance\n" +
-                               "Replaces Rage Mode with an enormous barrage of skulls");
+                "First swing fires homing skulls\n" +
+                "Second swing fires a giant, powerful skull\n" +
+                "Third swing deals massive damage\n" +
+                "Constantly generates rage when in use\n" +
+                "Swings leave behind exploding blood trails when below 50% health\n" +
+                "Right click to swipe the sword, reflecting projectiles at a 50% chance\n" +
+                "Replaces Rage Mode with an enormous barrage of skulls");
         }
         //NOTE: GetWeaponDamage is in the CalamityPlayer file
         public override void SetDefaults()
@@ -52,11 +52,13 @@ namespace CalamityMod.Items.Weapons.Melee
             item.knockBack = 9;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
-            item.value = Item.buyPrice(platinum: 2, gold: 50);
-            item.rare = 10;
+
+            item.value = CalamityGlobalItem.Rarity15BuyPrice;
+            item.Calamity().customRarity = CalamityRarity.ItemSpecific;
+            item.Calamity().devItem = true;
+
             item.shoot = ModContent.ProjectileType<GaelSkull>();
             item.shootSpeed = 15f;
-            item.Calamity().customRarity = CalamityRarity.ItemSpecific;
             item.useStyle = ItemUseStyleID.SwingThrow;
         }
         

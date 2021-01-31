@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             DisplayName.SetDefault("Kelvin Catalyst");
             Tooltip.SetDefault("Throws an icy blade that splits into multiple ice stars on enemy hits\n" +
-			"Stealth strikes will briefly gain sentience and ram nearby enemies before returning to the player");
+            "Stealth strikes will briefly gain sentience and ram nearby enemies before returning to the player");
         }
 
         public override void SafeSetDefaults()
@@ -36,6 +36,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.height = 20;
             item.value = Item.buyPrice(gold: 48);
             item.rare = ItemRarityID.LightPurple;
+            item.Calamity().donorItem = true;
             item.shoot = ModContent.ProjectileType<KelvinCatalystBoomerang>();
             item.shootSpeed = 8f;
             item.Calamity().rogue = true;
@@ -44,8 +45,8 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             int proj = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
-			if (proj.WithinBounds(Main.maxProjectiles))
-				Main.projectile[proj].Calamity().stealthStrike = player.Calamity().StealthStrikeAvailable();
+            if (proj.WithinBounds(Main.maxProjectiles))
+                Main.projectile[proj].Calamity().stealthStrike = player.Calamity().StealthStrikeAvailable();
             return false;
         }
 

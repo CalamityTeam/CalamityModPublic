@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Ammo
         {
             DisplayName.SetDefault("Blood Rune");
             Tooltip.SetDefault("Used with the Ice Barrage \n" +
-                               "Found in some sort of runic landscape");
+                "Found in some sort of runic landscape");
         }
 
         public override void SetDefaults()
@@ -21,11 +21,14 @@ namespace CalamityMod.Items.Ammo
             item.maxStack = 999;
             item.consumable = true;
             item.knockBack = 10f;
-            item.value = Item.buyPrice(0, 1, 0, 0);
-            item.Calamity().postMoonLordRarity = 14;
+
+            item.value = Item.buyPrice(gold: 1);
+            item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            item.Calamity().donorItem = true;
+
             item.shoot = ModContent.ProjectileType<IceBarrageMain>();
             item.shootSpeed = 0f;
-            item.ammo = item.type; // CONSIDER -- Would item.type work here instead of a self reference?
+            item.ammo = item.type;
         }
     }
 }

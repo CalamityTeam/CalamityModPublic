@@ -36,9 +36,9 @@ Fighting 'til the war's won");
             item.UseSound = SoundID.Item38;
             item.useStyle = ItemUseStyleID.HoldingOut;
 
-			item.value = CalamityGlobalItem.Rarity12BuyPrice;
-			item.rare = ItemRarityID.Purple;
-            item.Calamity().postMoonLordRarity = 12;
+            item.value = CalamityGlobalItem.Rarity12BuyPrice;
+            item.Calamity().customRarity = CalamityRarity.Turquoise;
+            item.Calamity().donorItem = true;
 
             item.shootSpeed = BulletSpeed;
             item.shoot = ModContent.ProjectileType<IlluminatedBullet>();
@@ -52,7 +52,7 @@ Fighting 'til the war's won");
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-			int NumBullets = Main.rand.Next(5,8);
+            int NumBullets = Main.rand.Next(5,8);
             Vector2 baseVelocity = new Vector2(speedX, speedY).SafeNormalize(Vector2.Zero) * BulletSpeed;
 
             // Fire a shotgun spread of bullets.

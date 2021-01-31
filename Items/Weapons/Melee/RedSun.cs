@@ -33,11 +33,12 @@ namespace CalamityMod.Items.Weapons.Melee
             item.knockBack = 4;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
-            item.value = Item.buyPrice(5, 0, 0, 0);
-            item.rare = 10;
             item.shoot = ModContent.ProjectileType<RSSolarFlare>();
             item.shootSpeed = 15f;
+
+            item.value = CalamityGlobalItem.Rarity16BuyPrice;
             item.Calamity().customRarity = CalamityRarity.ItemSpecific;
+            item.Calamity().devItem = true;
         }
 
         public override void AddRecipes()

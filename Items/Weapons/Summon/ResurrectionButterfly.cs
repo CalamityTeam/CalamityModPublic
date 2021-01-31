@@ -8,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
-	public class ResurrectionButterfly : ModItem
+    public class ResurrectionButterfly : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -27,8 +27,11 @@ namespace CalamityMod.Items.Weapons.Summon
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.noMelee = true;
             item.knockBack = 1f;
-            item.value = Item.buyPrice(0, 80, 0, 0);
-            item.rare = 8;
+
+            item.value = CalamityGlobalItem.Rarity8BuyPrice;
+            item.rare = ItemRarityID.Yellow;
+            item.Calamity().donorItem = true;
+
             item.UseSound = SoundID.Item44;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<PinkButterfly>();

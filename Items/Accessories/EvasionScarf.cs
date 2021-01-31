@@ -25,7 +25,8 @@ namespace CalamityMod.Items.Accessories
             item.height = 26;
             item.accessory = true;
             item.value = CalamityGlobalItem.Rarity5BuyPrice;
-            item.rare = 5;
+            item.rare = ItemRarityID.Pink;
+            item.Calamity().donorItem = true;
         }
 
         public override bool CanEquipAccessory(Player player, int slot) => !player.Calamity().dodgeScarf;

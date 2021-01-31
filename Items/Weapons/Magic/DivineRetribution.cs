@@ -29,9 +29,11 @@ namespace CalamityMod.Items.Weapons.Magic
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 3.5f;
+
             item.value = CalamityGlobalItem.Rarity12BuyPrice;
-            item.rare = 10;
-            item.Calamity().postMoonLordRarity = 12;
+            item.Calamity().customRarity = CalamityRarity.Turquoise;
+            item.Calamity().donorItem = true;
+
             item.UseSound = SoundID.Item73;
             item.autoReuse = true;
             item.shootSpeed = 19f;

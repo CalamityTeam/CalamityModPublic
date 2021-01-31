@@ -29,13 +29,15 @@ namespace CalamityMod.Items.Weapons.Magic
             item.autoReuse = false;
             item.useTurn = false;
             item.magic = true;
-            item.value = Item.buyPrice(5, 0, 0, 0);
-            item.rare = 10;
+
+            item.value = CalamityGlobalItem.Rarity16BuyPrice;
+            item.Calamity().customRarity = CalamityRarity.ItemSpecific;
+            item.Calamity().devItem = true;
+
             item.UseSound = SoundID.Item1;
             item.shoot = ModContent.ProjectileType<BlushieStaffProj>();
             item.mana = 200;
             item.shootSpeed = 0f;
-            item.Calamity().customRarity = CalamityRarity.ItemSpecific;
         }
 
         public override void AddRecipes()

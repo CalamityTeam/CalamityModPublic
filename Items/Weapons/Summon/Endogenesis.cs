@@ -17,14 +17,14 @@ namespace CalamityMod.Items.Weapons.Summon
         {
             DisplayName.SetDefault("Endogenesis");
             Tooltip.SetDefault("Summons an ascended ice construct to protect you \n" +
-                               "Changes attack modes by resummoning or reusing the staff \n" +
-                               "The first mode makes it shoot sweeping lasers aimed at the enemy \n" +
-                               "The second mode sacrifices its limbs to shoot out homing projectiles \n" +
-                               "The third mode allows it to agressively tackle its enemies \n" +
-                               "The fourth mode makes the limbs function as endothermic flamethrowers \n" +
-                               "Requires 10 minion slots to be summoned \n" +
-                               "There can only be one \n" +
-                               "[c/B0FBFF:Ice puns not included]"); //Icy no problems with that
+                "Changes attack modes by resummoning or reusing the staff \n" +
+                "The first mode makes it shoot sweeping lasers aimed at the enemy \n" +
+                "The second mode sacrifices its limbs to shoot out homing projectiles \n" +
+                "The third mode allows it to agressively tackle its enemies \n" +
+                "The fourth mode makes the limbs function as endothermic flamethrowers \n" +
+                "Requires 10 minion slots to be summoned \n" +
+                "There can only be one \n" +
+                "[c/B0FBFF:Ice puns not included]"); //Icy no problems with that
         }
 
         public override void SetDefaults()
@@ -44,8 +44,9 @@ namespace CalamityMod.Items.Weapons.Summon
             item.shoot = ModContent.ProjectileType<EndoCooperBody>();
             item.shootSpeed = 10f;
 
-            item.value = Item.buyPrice(5, 0, 0, 0);
+            item.value = CalamityGlobalItem.Rarity16BuyPrice;
             item.Calamity().customRarity = CalamityRarity.ItemSpecific;
+            item.Calamity().devItem = true;
         }
 
         public override bool CanUseItem(Player player) => player.maxMinions >= 10f;

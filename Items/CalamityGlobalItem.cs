@@ -30,10 +30,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using Terraria;
 using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 
@@ -46,8 +44,6 @@ namespace CalamityMod.Items
 
 		public bool rogue = false;
 		public float StealthGenBonus;
-		public int timesUsed = 0;
-		public int reforgeTier = 0;
 
         #region Chargeable Item Variables
         public bool UsesCharge = false;
@@ -67,6 +63,12 @@ namespace CalamityMod.Items
 		}
         #endregion
 
+        // Miscellaneous stuff
+        public int timesUsed = 0;
+        public int reforgeTier = 0;
+        public bool donorItem = false;
+        public bool devItem = false;
+
         // Rarity is provided both as the classic int and the new enum.
         public CalamityRarity customRarity = CalamityRarity.NoEffect;
 		public int postMoonLordRarity 
@@ -75,7 +77,7 @@ namespace CalamityMod.Items
 			set => customRarity = (CalamityRarity)value;
 		}
 
-		///See RogueWeapon.cs for rogue modifier shit
+		// See RogueWeapon.cs for rogue modifier shit
 		#region Modifiers
 		public CalamityGlobalItem()
 		{
@@ -100,6 +102,8 @@ namespace CalamityMod.Items
         #region SetDefaults
         public override void SetDefaults(Item item)
         {
+            // TODO -- Remove this in 1.4 with ModRarity.
+            // TODO -- Remove all instances of manually setting the rarity of postML items to Red.
             if (customRarity.IsPostML() && item.rare != ItemRarityID.Purple)
                 item.rare = ItemRarityID.Purple;
 
@@ -3019,47 +3023,50 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                 }
             }
 
-			Mod fargos = ModLoader.GetMod("Fargowiltas");
+            if (item.type < ItemID.Count)
+                return;
+
+            // TODO -- mod references should be kept statically
+            // Adds tooltips to Calamity fountains which match Fargo's fountain tooltips.
+            Mod fargos = ModLoader.GetMod("Fargowiltas");
 			if (fargos != null)
 			{
-				//Fargo's fountain effects
 				if (item.type == ModContent.ItemType<SunkenSeaFountain>())
 				{
-					TooltipLine line = new TooltipLine(mod, "Tooltip0", "Forces surrounding biome state to Sunken Sea upon activation");
+					TooltipLine line = new TooltipLine(mod, "FargoFountain", "Forces surrounding biome state to Sunken Sea upon activation");
 					tooltips.Add(line);
 				}
 				if (item.type == ModContent.ItemType<SulphurousFountainItem>())
 				{
-					TooltipLine line = new TooltipLine(mod, "Tooltip0", "Forces surrounding biome state to Sulphurous Sea upon activation");
+					TooltipLine line = new TooltipLine(mod, "FargoFountain", "Forces surrounding biome state to Sulphurous Sea upon activation");
 					tooltips.Add(line);
 				}
 				if (item.type == ModContent.ItemType<AstralFountainItem>())
 				{
-					TooltipLine line = new TooltipLine(mod, "Tooltip0", "Forces surrounding biome state to Astral upon activation");
+					TooltipLine line = new TooltipLine(mod, "FargoFountain", "Forces surrounding biome state to Astral upon activation");
 					tooltips.Add(line);
 				}
             }
 
-            if (item.type < ItemID.Count)
-                return;
-
+            // Adds a Current Charge tooltip to all items which use charge.
             CalamityGlobalItem modItem = item.Calamity();
             if (modItem?.UsesCharge ?? false)
             {
                 // Convert current charge ratio into a percentage.
                 float displayedPercent = ChargeRatio * 100f;
-                TooltipLine line = new TooltipLine(mod, "Tooltip0", $"Current Charge: {displayedPercent:N1}%");
+                TooltipLine line = new TooltipLine(mod, "CalamityCharge", $"Current Charge: {displayedPercent:N1}%");
                 tooltips.Add(line);
             }
 
-			if (CalamityLists.donorItemList?.Contains(item.type) ?? false)
+			// Adds "Donor Item" and "Developer Item" to donor items and developer items respectively.
+            if (donorItem)
             {
-                TooltipLine line = new TooltipLine(mod, "Tooltip0", CalamityUtils.ColorMessage("- Donor Item -", new Color(139, 0, 0)));
+                TooltipLine line = new TooltipLine(mod, "CalamityDonor", CalamityUtils.ColorMessage("- Donor Item -", new Color(139, 0, 0)));
                 tooltips.Add(line);
             }
-			if (CalamityLists.devItemList?.Contains(item.type) ?? false)
+			if (devItem)
             {
-                TooltipLine line = new TooltipLine(mod, "Tooltip0", CalamityUtils.ColorMessage("- Developer Item -", new Color(255, 0, 255)));
+                TooltipLine line = new TooltipLine(mod, "CalamityDev", CalamityUtils.ColorMessage("- Developer Item -", new Color(255, 0, 255)));
                 tooltips.Add(line);
             }
         }

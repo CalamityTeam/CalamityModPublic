@@ -23,12 +23,13 @@ namespace CalamityMod.Items.Pets
             item.noMelee = true;
             item.width = 28;
             item.height = 36;
-            item.value = Item.sellPrice(0, 7, 0, 0);
             item.shoot = ModContent.ProjectileType<ChibiiDoggo>();
             item.buffType = ModContent.BuffType<ChibiiBuff>();
-            item.rare = 10;
             item.UseSound = new Terraria.Audio.LegacySoundStyle(SoundID.Meowmere, 5);
+
+            item.value = Item.sellPrice(gold: 7);
             item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            item.Calamity().devItem = true;
         }
 
         public override void UseStyle(Player player)

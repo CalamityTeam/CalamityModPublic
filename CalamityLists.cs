@@ -1,28 +1,18 @@
 using CalamityMod.Buffs.Alcohol;
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
-using CalamityMod.Items;
 using CalamityMod.Items.Accessories;
-using CalamityMod.Items.Accessories.Vanity;
 using CalamityMod.Items.Accessories.Wings;
-using CalamityMod.Items.Ammo;
 using CalamityMod.Items.Ammo.FiniteUse;
-using CalamityMod.Items.Armor;
 using CalamityMod.Items.Armor.Vanity;
-using CalamityMod.Items.Critters;
 using CalamityMod.Items.Fishing.AstralCatches;
 using CalamityMod.Items.Fishing.BrimstoneCragCatches;
 using CalamityMod.Items.Fishing.FishingRods;
 using CalamityMod.Items.Fishing.SunkenSeaCatches;
 using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Materials;
-using CalamityMod.Items.Mounts;
-using CalamityMod.Items.Pets;
 using CalamityMod.Items.Placeables;
-using CalamityMod.Items.Placeables.Banners;
-using CalamityMod.Items.Placeables.Furniture;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
-using CalamityMod.Items.Potions;
 using CalamityMod.Items.Tools;
 using CalamityMod.Items.TreasureBags;
 using CalamityMod.Items.Weapons.DraedonsArsenal;
@@ -31,7 +21,6 @@ using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
-using CalamityMod.Items.Weapons.Typeless;
 using CalamityMod.NPCs.Abyss;
 using CalamityMod.NPCs.AquaticScourge;
 using CalamityMod.NPCs.Astral;
@@ -149,8 +138,6 @@ namespace CalamityMod
         public static List<int> flamethrowerList;
         public static List<int> forceItemList;
         public static List<int> livingFireBlockList;
-        public static List<int> donorItemList;
-        public static List<int> devItemList;
 
         public static List<int> zombieList;
         public static List<int> demonEyeList;
@@ -2219,128 +2206,6 @@ namespace CalamityMod
                 TileID.LivingUltrabrightFire
             };
 
-            donorItemList = new List<int>()
-            {
-                ItemType<EvasionScarf>(),
-                ItemType<TimeBolt>(),
-                ItemType<DeepSeaDumbbell>(),
-                ItemType<DodusHandcannon>(),
-                ItemType<TheLastMourning>(),
-                ItemType<LionHeart>(),
-                ItemType<DarkSpark>(),
-                ItemType<SealedSingularity>(),
-                ItemType<AngelicShotgun>(),
-                ItemType<YanmeisKnife>(),
-                ItemType<Plaguenade>(),
-                ItemType<KelvinCatalyst>(),
-                ItemType<CorpusAvertor>(),
-                ItemType<Ultima>(),
-                ItemType<ThePack>(),
-                ItemType<RubicoPrime>(),
-                ItemType<TyrannysEnd>(),
-                ItemType<PrideHuntersPlanarRipper>(),
-                ItemType<MarksmanBow>(),
-                ItemType<HandheldTank>(),
-                ItemType<Roxcalibur>(),
-                ItemType<PrismaticBreaker>(),
-                ItemType<Nadir>(),
-                ItemType<DevilsSunrise>(),
-                ItemType<CosmicShiv>(),
-                ItemType<Ataraxia>(),
-                ItemType<MadAlchemistsCocktailGlove>(),
-                ItemType<IceBarrage>(),
-                ItemType<DivineRetribution>(),
-                ItemType<NormalityRelocator>(),
-                ItemType<GazeOfCrysthamyr>(),
-                ItemType<PlaguebringerVisor>(),
-                ItemType<PlaguebringerCarapace>(),
-                ItemType<PlaguebringerPistons>(),
-                ItemType<ProfanedSoulArtifact>(),
-                ItemType<ResurrectionButterfly>(),
-                ItemType<InfectedRemote>(),
-                ItemType<AbandonedSlimeStaff>(),
-                ItemType<Auralis>(),
-                ItemType<YateveoBloom>(),
-                ItemType<AbyssShocker>(),
-                ItemType<CausticStaff>(),
-                ItemType<LightGodsBrilliance>(),
-                ItemType<FaceMelter>(),
-                ItemType<Aestheticus>(),
-                ItemType<FinalDawn>(),
-                ItemType<Karasawa>(),
-                ItemType<FlurrystormCannon>(),
-                ItemType<AcesHigh>(),
-                ItemType<TenebreusTides>(),
-                ItemType<Oracle>(),
-                ItemType<MonstrousKnives>(),
-                ItemType<DragonPow>(),
-                ItemType<Keelhaul>(),
-                ItemType<Baguette>(),
-                ItemType<PiggyCage>(),
-                ItemType<PiggyBanner>(),
-                ItemType<FearlessGoldfishWarriorBanner>(),
-                ItemType<SparksSummon>(),
-                ItemType<ForgottenDragonEgg>(),
-                ItemType<ChromaticOrb>(),
-                ItemType<BloodyVein>(),
-                ItemType<BrimstoneJewel>(),
-                ItemType<BirdSeed>(),
-                ItemType<PiggyItem>(),
-                ItemType<ApronOfAffection>(),
-                ItemType<PrismaticRegalia>(),
-                ItemType<PrismaticHelmet>(),
-                ItemType<PrismaticGreaves>(),
-                ItemType<ForbiddenCirclet>(),
-                ItemType<BloodRune>(),
-                ItemType<HowlsHeart>()
-			};
-
-            devItemList = new List<int>()
-            {
-                ItemType<CryogenicStaff>(),
-                ItemType<Apotheosis>(),
-                ItemType<Contagion>(),
-                ItemType<DraconicDestruction>(),
-                ItemType<Earth>(),
-                ItemType<Endogenesis>(),
-                ItemType<Eternity>(),
-                ItemType<Fabstaff>(),
-                ItemType<PrototypeAndromechaRing>(),
-                ItemType<GaelsGreatsword>(),
-                ItemType<RoyalKnivesMelee>(),
-                ItemType<NanoblackReaperRogue>(),
-                ItemType<RedSun>(),
-                ItemType<ScarletDevil>(),
-                ItemType<SomaPrime>(),
-                ItemType<BlushieStaff>(),
-                ItemType<Svantechnical>(),
-                ItemType<BensUmbrella>(),
-                ItemType<Judgement>(),
-                ItemType<TriactisTruePaladinianMageHammerofMightMelee>(),
-                ItemType<Megafleet>(),
-                ItemType<CrystylCrusher>(),
-                ItemType<DemonshadeHelm>(),
-                ItemType<DemonshadeBreastplate>(),
-                ItemType<DemonshadeGreaves>(),
-                ItemType<BearEye>(),
-                ItemType<CharredRelic>(),
-                ItemType<CosmicPlushie>(),
-                ItemType<FoxDrive>(),
-                ItemType<JoyfulHeart>(),
-                ItemType<IbarakiBox>(),
-                ItemType<Levi>(),
-                ItemType<PrimroseKeepsake>(),
-                ItemType<RomajedaOrchid>(),
-                ItemType<RotomRemote>(),
-                ItemType<TrashmanTrashcan>(),
-                ItemType<Fabsol>(),
-                ItemType<SquishyBeanMount>(),
-                ItemType<Brimrose>(),
-                ItemType<Popo>(),
-                ItemType<ProfanedSoulCrystal>(),
-                ItemType<ShadowspecBar>()
-			};
-
             zombieList = new List<int>()
             {
                 NPCID.Zombie,
@@ -2695,8 +2560,6 @@ namespace CalamityMod
             flamethrowerList = null;
             forceItemList = null;
             livingFireBlockList = null;
-            donorItemList = null;
-            devItemList = null;
 
             zombieList = null;
             demonEyeList = null;

@@ -35,8 +35,9 @@ namespace CalamityMod.Items.Weapons.Magic
             item.channel = true;
             item.knockBack = 0f;
             item.value = CalamityGlobalItem.Rarity13BuyPrice;
-            item.rare = 10;
-            item.Calamity().postMoonLordRarity = 13;
+            item.rare = ItemRarityID.Red;
+            item.Calamity().customRarity = CalamityRarity.PureGreen;
+            item.Calamity().donorItem = true;
             item.shoot = ModContent.ProjectileType<DarkSparkPrism>();
             item.shootSpeed = 30f;
         }

@@ -1,5 +1,4 @@
 using CalamityMod.Projectiles.Magic;
-using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -11,7 +10,7 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             DisplayName.SetDefault("Keelhaul");
             Tooltip.SetDefault("Summons a geyser upon hitting an enemy\n" +
-                               "Crumple 'em like paper");
+                "Crumple 'em like paper");
         }
 
         public override void SetDefaults()
@@ -29,8 +28,11 @@ namespace CalamityMod.Items.Weapons.Magic
             item.knockBack = 2f;
             item.UseSound = SoundID.Item102;
             item.autoReuse = true;
-            item.rare = 8;
-            item.value = Item.buyPrice(0, 80, 0, 0);
+
+            item.value = CalamityGlobalItem.Rarity8BuyPrice;
+            item.rare = ItemRarityID.Yellow;
+            item.Calamity().donorItem = true;
+
             item.shoot = ModContent.ProjectileType<KeelhaulBubble>();
             item.shootSpeed = 15f;
         }

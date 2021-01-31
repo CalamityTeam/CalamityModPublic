@@ -13,7 +13,6 @@ namespace CalamityMod.Items.Accessories
     //Developer item, dedicatee: Mishiro Usui/Amber Sienna
     public class ProfanedSoulCrystal : ModItem
     {
-
         /**
          * Notes: Drops from providence if the only damage source during the fight is from typeless damage or the profaned soul and the owners of those babs do not have profaned crystal.
          * All projectiles are in ProfanedSoulCrystalProjectiles.cs in the summon projectile directory
@@ -40,8 +39,8 @@ namespace CalamityMod.Items.Accessories
                 "You are no longer affected by burn out when hit\n" +
                 "Provides buffs depending on the time of day\n" +
                 "Provides heat and cold protection in Death Mode\n" +
-				"Thinking back, it was a boring life\n" +
-				"[c/FFBF49:And so we burn it all in the name of purity]");
+                "Thinking back, it was a boring life\n" +
+                "[c/FFBF49:And so we burn it all in the name of purity]");
             Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(8, 4));
         }
 
@@ -49,10 +48,10 @@ namespace CalamityMod.Items.Accessories
         {
             item.width = 50;
             item.height = 50;
-            item.value = CalamityGlobalItem.RarityHotPinkBuyPrice;
             item.accessory = true;
-            item.rare = 10;
+            item.value = CalamityGlobalItem.RarityHotPinkBuyPrice;
             item.Calamity().customRarity = CalamityRarity.ItemSpecific;
+            item.Calamity().devItem = true;
         }
 
         public override bool CanEquipAccessory(Player player, int slot)
@@ -97,19 +96,19 @@ namespace CalamityMod.Items.Accessories
                         line.text = "[c/3a83e4:Transforms Magic attacks into a powerful splitting fireball for " + manaCost + " mana per cast]";
                     }
                 }
-			}
-			if (CalamityWorld.downedSCal)
-			{
-				if (!CalamityWorld.death)
-				{
-					foreach (TooltipLine line in tooltips)
-					{
-						if (line.mod == "Terraria" && line.Name == "Tooltip11")
-						{
-							line.text = "";
-						}
-					}
-				}
+            }
+            if (CalamityWorld.downedSCal)
+            {
+                if (!CalamityWorld.death)
+                {
+                    foreach (TooltipLine line in tooltips)
+                    {
+                        if (line.mod == "Terraria" && line.Name == "Tooltip11")
+                        {
+                            line.text = "";
+                        }
+                    }
+                }
             }
         }
 

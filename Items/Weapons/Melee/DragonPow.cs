@@ -41,9 +41,9 @@ Summons a barrage of petals and waterfalls on enemy hits");
             item.UseSound = mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/YharonRoarShort");
             item.channel = true;
 
-            item.rare = 10;
-            item.Calamity().postMoonLordRarity = 15;
             item.value = CalamityGlobalItem.Rarity15BuyPrice;
+            item.Calamity().customRarity = CalamityRarity.Violet;
+            item.Calamity().donorItem = true;
 
             item.shoot = ModContent.ProjectileType<DragonPowFlail>();
             item.shootSpeed = Speed;
@@ -61,9 +61,9 @@ Summons a barrage of petals and waterfalls on enemy hits");
             r.AddIngredient(ModContent.ItemType<BallOFugu>());
             r.AddIngredient(ModContent.ItemType<Tumbleweed>());
             r.AddIngredient(ModContent.ItemType<UrchinFlail>());
-			r.AddIngredient(ModContent.ItemType<AuricBar>(), 4);
-			r.AddIngredient(ModContent.ItemType<HellcasterFragment>(), 4);
-			r.AddRecipe();
+            r.AddIngredient(ModContent.ItemType<AuricBar>(), 4);
+            r.AddIngredient(ModContent.ItemType<HellcasterFragment>(), 4);
+            r.AddRecipe();
         }
     }
 }

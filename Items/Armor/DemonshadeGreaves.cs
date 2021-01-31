@@ -19,9 +19,11 @@ namespace CalamityMod.Items.Armor
         {
             item.width = 18;
             item.height = 18;
-            item.value = Item.buyPrice(3, 0, 0, 0);
-            item.defense = 50; //15
+            item.defense = 50;
+
+            item.value = CalamityGlobalItem.Rarity16BuyPrice;
             item.Calamity().customRarity = CalamityRarity.ItemSpecific;
+            item.Calamity().devItem = true;
         }
 
         public override void UpdateEquip(Player player)

@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
-	public class MonstrousKnives : ModItem
+    public class MonstrousKnives : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -29,8 +29,11 @@ namespace CalamityMod.Items.Weapons.Melee
             item.UseSound = SoundID.Item39;
             item.autoReuse = true;
             item.height = 20;
-            item.value = Item.buyPrice(0, 2, 0, 0);
-            item.rare = 2;
+
+            item.value = CalamityGlobalItem.Rarity2BuyPrice;
+            item.rare = ItemRarityID.Green;
+            item.Calamity().donorItem = true;
+
             item.shoot = ModContent.ProjectileType<MonstrousKnife>();
             item.shootSpeed = 15f;
         }
@@ -45,8 +48,8 @@ namespace CalamityMod.Items.Weapons.Melee
             {
                 yDist = Main.screenPosition.Y + Main.screenHeight - Main.mouseY - playerPos.Y;
             }
-			Vector2 vector = new Vector2(xDist, yDist);
-			float speedMult = vector.Length();
+            Vector2 vector = new Vector2(xDist, yDist);
+            float speedMult = vector.Length();
             if ((float.IsNaN(xDist) && float.IsNaN(yDist)) || (xDist == 0f && yDist == 0f))
             {
                 xDist = player.direction;
@@ -83,8 +86,8 @@ namespace CalamityMod.Items.Weapons.Melee
                 float spreadMult = 0.05f * i;
                 xVec += Main.rand.NextFloat(-25f, 25f) * spreadMult;
                 yVec += Main.rand.NextFloat(-25f, 25f) * spreadMult;
-				Vector2 directionToShoot = new Vector2(xVec, yVec);
-				speedMult = directionToShoot.Length();
+                Vector2 directionToShoot = new Vector2(xVec, yVec);
+                speedMult = directionToShoot.Length();
                 speedMult = speed / speedMult;
                 xVec *= speedMult;
                 yVec *= speedMult;

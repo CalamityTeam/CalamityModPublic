@@ -32,9 +32,9 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/MechGaussRifle");
             item.noMelee = true;
 
-            item.rare = 10;
-            item.Calamity().postMoonLordRarity = 14;
             item.value = CalamityGlobalItem.Rarity14BuyPrice;
+            item.Calamity().postMoonLordRarity = 14;
+            item.Calamity().donorItem = true;
 
             item.shoot = ModContent.ProjectileType<KarasawaShot>();
             item.shootSpeed = 1f;

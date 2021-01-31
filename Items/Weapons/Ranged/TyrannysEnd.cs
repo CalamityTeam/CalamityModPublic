@@ -35,9 +35,10 @@ namespace CalamityMod.Items.Weapons.Ranged
 			item.useStyle = 5;
 			item.noMelee = true;
 			item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LargeWeaponFire");
+
 			item.value = CalamityGlobalItem.Rarity15BuyPrice;
-			item.rare = 10;
-            item.Calamity().postMoonLordRarity = 15;
+			item.Calamity().customRarity = CalamityRarity.Violet;
+			item.Calamity().donorItem = true;
 		}
 
 		// Terraria seems to really dislike high crit values in SetDefaults

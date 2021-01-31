@@ -15,7 +15,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             DisplayName.SetDefault("Rubico Prime");
             Tooltip.SetDefault("Semi-automatic sniper that fires in 5 second bursts\n" +
                 "Fires impact rounds that have an increased crit multiplier and deal bonus damage to inorganic targets");
-				//would do less to organic targets if like this wasn't meant to be used against yharon lole
+                //would do less to organic targets if like this wasn't meant to be used against yharon lole
         }
 
         public override void SetDefaults()
@@ -37,12 +37,12 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.useAmmo = AmmoID.Bullet;
 
             item.value = CalamityGlobalItem.Rarity14BuyPrice;
-            item.rare = 10;
-            item.Calamity().postMoonLordRarity = 14;
+            item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            item.Calamity().donorItem = true;
         }
 
-		// Terraria seems to really dislike high crit values in SetDefaults
-		public override void GetWeaponCrit(Player player, ref int crit) => crit += 40;
+        // Terraria seems to really dislike high crit values in SetDefaults
+        public override void GetWeaponCrit(Player player, ref int crit) => crit += 40;
 
         public override Vector2? HoldoutOffset() => new Vector2(-10, 0);
 
