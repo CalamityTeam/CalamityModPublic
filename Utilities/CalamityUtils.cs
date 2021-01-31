@@ -3946,6 +3946,14 @@ namespace CalamityMod
 		}
 
 		/// <summary>
+		/// Determines if a list contains an entry of a specific type. Specifically intended to account for derived types.
+		/// </summary>
+		/// <typeparam name="T">The base type of the collection.</typeparam>
+		/// <param name="collection">The collection.</param>
+		/// <param name="type">The type to search for.</param>
+		public static bool ContainsType<T>(this IEnumerable<T> collection, Type type) => collection.Any(entry => entry.GetType() == type.GetType());
+
+		/// <summary>
 		/// Calculates the sound volume and panning for a sound which is played at the specified location in the game world.<br/>
 		/// Note that sound does not play on dedicated servers or during world generation.
 		/// </summary>

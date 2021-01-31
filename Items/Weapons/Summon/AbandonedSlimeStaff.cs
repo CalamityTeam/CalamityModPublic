@@ -81,13 +81,11 @@ namespace CalamityMod.Items.Weapons.Summon
         {
 			CalamityUtils.KillShootProjectiles(true, type, player);
 			float damageMult = ((float)Math.Log(slimeSlots, 8f)) + 1f;
-			float size = ((float)Math.Log(slimeSlots, 10f)) + 1f;
             position = Main.MouseWorld;
             speedX = 0;
             speedY = 0;
             int slime = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, (int)(damage * damageMult), knockBack, player.whoAmI);
-			Main.projectile[slime].Calamity().lineColor = slimeSlots;
-			Main.projectile[slime].scale = size;
+			Main.projectile[slime].minionSlots = slimeSlots;
             return false;
         }
     }
