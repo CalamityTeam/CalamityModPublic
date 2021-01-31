@@ -1758,7 +1758,7 @@ namespace CalamityMod
 						return new ArgumentException("ERROR: All arguments after the calling command to \"ExcludeMinionsFromResurrection\" must be ints.");
 
 					CalamityLists.MinionsToNotResurrectList.AddRange(secondaryArguments.Select(argument => Convert.ToInt32(argument)));
-					break;
+					return null;
 
 				default:
 					return new ArgumentException("ERROR: Invalid method name.");
