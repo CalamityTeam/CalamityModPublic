@@ -812,9 +812,12 @@ namespace CalamityMod.NPCs
 				KillTime = revKillTime;
 			}
 
-            if (npc.boss)
-            {
+			// Fixing more red mistakes
+			if (npc.type == NPCID.WallofFleshEye)
 				npc.netAlways = true;
+
+			if (npc.boss)
+            {
 				if (CalamityWorld.revenge)
 				{
 					if (npc.type != NPCType<HiveMindP2>() && npc.type != NPCType<Leviathan.Leviathan>() && npc.type != NPCType<StormWeaverHeadNaked>() &&
