@@ -28,7 +28,6 @@ namespace CalamityMod.Items.Pets
             item.shoot = ModContent.ProjectileType<PerforaMini>();
             item.buffType = ModContent.BuffType<BloodBound>();
             item.rare = 3;
-            item.Calamity().customRarity = CalamityRarity.Dedicated;
         }
 
         public override void UseStyle(Player player)

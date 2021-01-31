@@ -42,8 +42,8 @@ Summons a barrage of petals and waterfalls on enemy hits");
             item.channel = true;
 
             item.rare = 10;
-            item.Calamity().customRarity = CalamityRarity.Dedicated;
-            item.value = Item.buyPrice(2, 50, 0, 0);
+            item.Calamity().postMoonLordRarity = 15;
+            item.value = CalamityGlobalItem.Rarity15BuyPrice;
 
             item.shoot = ModContent.ProjectileType<DragonPowFlail>();
             item.shootSpeed = Speed;

@@ -24,7 +24,6 @@ namespace CalamityMod.Items.Placeables.Furniture
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
             item.createTile = ModContent.TileType<PiggyCageTile>();
-			item.Calamity().customRarity = CalamityRarity.Dedicated;
         }
 
         public override void AddRecipes()

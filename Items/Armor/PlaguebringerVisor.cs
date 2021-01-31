@@ -23,7 +23,7 @@ namespace CalamityMod.Items.Armor
             item.height = 18;
             item.defense = 7; // 32 total
             item.value = CalamityGlobalItem.Rarity8BuyPrice;
-            item.Calamity().customRarity = CalamityRarity.Dedicated;
+            item.rare = 8;
         }
 
         public override void UpdateEquip(Player player)

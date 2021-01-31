@@ -27,8 +27,7 @@ namespace CalamityMod.Items
             item.width = 38;
             item.height = 38;
             item.value = Item.buyPrice(1, 20, 0, 0);
-            item.rare = 10;
-            item.Calamity().customRarity = CalamityRarity.Dedicated;
+            item.rare = 11;
         }
 
         public override void ModifyTooltips(List<TooltipLine> list)

@@ -29,9 +29,9 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/TankCannon");
             item.noMelee = true;
 
-            item.value = Item.buyPrice(1, 20, 0, 0);
+            item.value = CalamityGlobalItem.Rarity12BuyPrice;
             item.rare = 10;
-            item.Calamity().customRarity = CalamityRarity.Dedicated;
+            item.Calamity().postMoonLordRarity = 12;
 
             item.shoot = ModContent.ProjectileType<HandheldTankShell>();
             item.shootSpeed = 6f;

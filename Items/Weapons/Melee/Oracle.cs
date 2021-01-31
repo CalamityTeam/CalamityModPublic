@@ -47,8 +47,8 @@ namespace CalamityMod.Items.Weapons.Melee
             item.shootSpeed = 16f;
 
             item.rare = 10;
-            item.Calamity().customRarity = CalamityRarity.Dedicated;
-            item.value = Item.buyPrice(platinum: 2, gold: 50);
+            item.Calamity().postMoonLordRarity = 15;
+            item.value = CalamityGlobalItem.Rarity15BuyPrice;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

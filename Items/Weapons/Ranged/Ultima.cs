@@ -31,8 +31,6 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 2f;
-            item.value = CalamityGlobalItem.Rarity14BuyPrice;
-            item.rare = 10;
             item.UseSound = SoundID.Item33;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<UltimaBowProjectile>();
@@ -42,7 +40,9 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.useTurn = false;
             item.autoReuse = true;
             item.noUseGraphic = true;
-            item.Calamity().customRarity = CalamityRarity.Dedicated;
+            item.value = CalamityGlobalItem.Rarity14BuyPrice;
+            item.rare = 10;
+            item.Calamity().postMoonLordRarity = 14;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

@@ -30,7 +30,6 @@ namespace CalamityMod.Items.Weapons.Magic
             item.UseSound = SoundID.Item102;
             item.autoReuse = true;
             item.rare = 8;
-            item.Calamity().customRarity = CalamityRarity.Dedicated;
             item.value = Item.buyPrice(0, 80, 0, 0);
             item.shoot = ModContent.ProjectileType<KeelhaulBubble>();
             item.shootSpeed = 15f;

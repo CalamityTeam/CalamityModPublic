@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Pets
             item.shoot = ModContent.ProjectileType<Akato>();
             item.buffType = ModContent.BuffType<AkatoYharonBuff>();
             item.rare = 10;
-            item.Calamity().customRarity = CalamityRarity.Dedicated;
+            item.Calamity().postMoonLordRarity = 15;
         }
 
         public override void UseStyle(Player player)

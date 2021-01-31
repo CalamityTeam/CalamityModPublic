@@ -32,9 +32,9 @@ namespace CalamityMod.Items.Weapons.Melee
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.UseSound = SoundID.Item1;
 
+            item.value = CalamityGlobalItem.Rarity15BuyPrice;
             item.rare = 10;
-            item.Calamity().customRarity = CalamityRarity.Dedicated;
-            item.value = Item.buyPrice(platinum: 2, gold: 50);
+            item.Calamity().postMoonLordRarity = 15;
 
             item.shoot = ModContent.ProjectileType<AtaraxiaMain>();
             item.shootSpeed = 9f;

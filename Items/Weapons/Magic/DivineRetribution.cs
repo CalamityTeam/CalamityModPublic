@@ -29,13 +29,13 @@ namespace CalamityMod.Items.Weapons.Magic
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 3.5f;
-            item.value = Item.buyPrice(1, 20, 0, 0);
+            item.value = CalamityGlobalItem.Rarity12BuyPrice;
             item.rare = 10;
+            item.Calamity().postMoonLordRarity = 12;
             item.UseSound = SoundID.Item73;
             item.autoReuse = true;
             item.shootSpeed = 19f;
             item.shoot = ModContent.ProjectileType<DivineRetributionSpear>();
-            item.Calamity().customRarity = CalamityRarity.Dedicated;
         }
 
         public override Vector2? HoldoutOrigin()

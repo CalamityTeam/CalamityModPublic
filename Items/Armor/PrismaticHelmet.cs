@@ -23,8 +23,8 @@ namespace CalamityMod.Items.Armor
 			item.width = 18;
 			item.height = 18;
 			item.defense = 18; //71
-			item.value = CalamityGlobalItem.Rarity13BuyPrice;
-			item.Calamity().customRarity = CalamityRarity.Dedicated;
+			item.value = CalamityGlobalItem.Rarity12BuyPrice;
+            item.Calamity().postMoonLordRarity = 12;
 		}
 
 		public override bool IsArmorSet(Item head, Item body, Item legs)

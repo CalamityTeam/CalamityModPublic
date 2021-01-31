@@ -35,9 +35,9 @@ namespace CalamityMod.Items.Weapons.Melee
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.UseSound = SoundID.Item1;
 
+            item.value = CalamityGlobalItem.Rarity14BuyPrice;
             item.rare = 10;
-            item.Calamity().customRarity = CalamityRarity.Dedicated;
-            item.value = Item.buyPrice(1, 80, 0, 0);
+            item.Calamity().postMoonLordRarity = 14;
 
             item.shoot = ModContent.ProjectileType<NadirSpear>();
             item.shootSpeed = ShootSpeed;

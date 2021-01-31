@@ -30,7 +30,6 @@ namespace CalamityMod.Items.Weapons.Summon
 			item.knockBack = 2f;
 			item.summon = true;
             item.value = Item.buyPrice(0, 12, 0, 0);
-            item.Calamity().customRarity = CalamityRarity.Dedicated;
 			item.autoReuse = true;
         }
 

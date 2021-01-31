@@ -36,7 +36,6 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<FlurrystormCannonShooting>();
 			item.useAmmo = AmmoID.Snowball;
-            item.Calamity().customRarity = CalamityRarity.Dedicated;
 			item.shootSpeed = 18f;
         }
 

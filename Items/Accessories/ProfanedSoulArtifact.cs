@@ -27,9 +27,9 @@ namespace CalamityMod.Items.Accessories
             item.width = 32;
             item.height = 40;
 			item.accessory = true;
+            item.value = CalamityGlobalItem.Rarity12BuyPrice;
 			item.rare = ItemRarityID.Purple;
-			item.Calamity().customRarity = CalamityRarity.Dedicated;
-			item.value = CalamityGlobalItem.Rarity12BuyPrice;
+            item.Calamity().postMoonLordRarity = 12;
 		}
 
         public override bool CanEquipAccessory(Player player, int slot)

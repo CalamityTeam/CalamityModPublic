@@ -34,7 +34,6 @@ namespace CalamityMod.Items.Weapons.Rogue
 			item.autoReuse = true;
 			item.value = Item.buyPrice(gold: 80);
 			item.rare = ItemRarityID.Yellow;
-			item.Calamity().customRarity = CalamityRarity.Dedicated;
 			item.shoot = ModContent.ProjectileType<CorpusAvertorProj>();
 			item.shootSpeed = 5f;
 			item.Calamity().rogue = true;

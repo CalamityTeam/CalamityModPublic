@@ -22,12 +22,11 @@ namespace CalamityMod.Items.Mounts
             item.useTime = 20;
             item.useAnimation = 20;
             item.useStyle = ItemUseStyleID.HoldingUp;
-            item.rare = 10;
+            item.Calamity().postMoonLordRarity = 14;
             item.value = Item.buyPrice(3, 0, 0, 0);
             item.UseSound = SoundID.NPCHit56;
             item.noMelee = true;
             item.mountType = ModContent.MountType<Crysthamyr>();
-            item.Calamity().customRarity = CalamityRarity.Dedicated;
         }
 
         public override void AddRecipes()

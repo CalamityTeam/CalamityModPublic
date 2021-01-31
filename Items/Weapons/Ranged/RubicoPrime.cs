@@ -38,7 +38,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
             item.value = CalamityGlobalItem.Rarity14BuyPrice;
             item.rare = 10;
-            item.Calamity().customRarity = CalamityRarity.Dedicated;
+            item.Calamity().postMoonLordRarity = 14;
         }
 
 		// Terraria seems to really dislike high crit values in SetDefaults

@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Ammo
             item.consumable = true;
             item.knockBack = 10f;
             item.value = Item.buyPrice(0, 1, 0, 0);
-            item.Calamity().customRarity = CalamityRarity.Dedicated;
+            item.Calamity().postMoonLordRarity = 14;
             item.shoot = ModContent.ProjectileType<IceBarrageMain>();
             item.shootSpeed = 0f;
             item.ammo = item.type; // CONSIDER -- Would item.type work here instead of a self reference?

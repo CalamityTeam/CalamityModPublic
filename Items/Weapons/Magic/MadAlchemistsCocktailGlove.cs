@@ -32,13 +32,12 @@ namespace CalamityMod.Items.Weapons.Magic
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.noMelee = true;
             item.knockBack = 2f;
-            item.value = Item.buyPrice(1, 80, 0, 0);
-            item.rare = 10;
+            item.value = CalamityGlobalItem.Rarity11BuyPrice;
+            item.rare = 11;
             item.UseSound = SoundID.Item106;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<MadAlchemistsCocktailRed>();
             item.shootSpeed = 12f;
-            item.Calamity().customRarity = CalamityRarity.Dedicated;
         }
 
         public override bool AltFunctionUse(Player player) => true;

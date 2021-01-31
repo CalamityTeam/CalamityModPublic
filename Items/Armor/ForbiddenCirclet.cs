@@ -26,8 +26,6 @@ namespace CalamityMod.Items.Armor
 			//same rarity and sell price as Forbidden Mask
             item.value = Item.buyPrice(0, 25, 0, 0);
             item.rare = 5;
-			//I lied, it's patron dark red
-			item.Calamity().customRarity = CalamityRarity.Dedicated;
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)

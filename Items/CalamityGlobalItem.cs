@@ -1133,9 +1133,6 @@ namespace CalamityMod.Items
                     case CalamityRarity.RareVariant:
                         tt2.overrideColor = new Color(255, 140, 0);
                         break;
-                    case CalamityRarity.Dedicated:
-                        tt2.overrideColor = new Color(139, 0, 0);
-                        break;
 
                     case CalamityRarity.ItemSpecific:
                         // Uniquely colored developer items
@@ -3052,6 +3049,17 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                 // Convert current charge ratio into a percentage.
                 float displayedPercent = ChargeRatio * 100f;
                 TooltipLine line = new TooltipLine(mod, "Tooltip0", $"Current Charge: {displayedPercent:N1}%");
+                tooltips.Add(line);
+            }
+
+			if (CalamityLists.donorItemList?.Contains(item.type) ?? false)
+            {
+                TooltipLine line = new TooltipLine(mod, "Tooltip0", CalamityUtils.ColorMessage("- Donor Item -", new Color(139, 0, 0)));
+                tooltips.Add(line);
+            }
+			if (CalamityLists.devItemList?.Contains(item.type) ?? false)
+            {
+                TooltipLine line = new TooltipLine(mod, "Tooltip0", CalamityUtils.ColorMessage("- Developer Item -", new Color(255, 0, 255)));
                 tooltips.Add(line);
             }
         }

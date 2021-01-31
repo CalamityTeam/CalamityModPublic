@@ -36,7 +36,6 @@ namespace CalamityMod.Items.Weapons.Melee
             item.noUseGraphic = true;
             item.value = CalamityGlobalItem.Rarity9BuyPrice;
             item.rare = 9;
-			item.Calamity().customRarity = CalamityRarity.Dedicated;
         }
 
         public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;

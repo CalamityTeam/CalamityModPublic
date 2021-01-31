@@ -32,9 +32,9 @@ namespace CalamityMod.Items.Weapons.Melee
             item.autoReuse = false;
             item.useStyle = ItemUseStyleID.HoldingOut;
 
+            item.value = CalamityGlobalItem.Rarity12BuyPrice;
             item.rare = 10;
-            item.Calamity().customRarity = CalamityRarity.Dedicated;
-            item.value = Item.buyPrice(1, 40, 0, 0);
+            item.Calamity().postMoonLordRarity = 12;
 
             item.shoot = ModContent.ProjectileType<DevilsSunriseProj>();
             item.shootSpeed = 24f;

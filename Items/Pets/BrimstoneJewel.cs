@@ -20,8 +20,7 @@ namespace CalamityMod.Items.Pets
             item.CloneDefaults(ItemID.ZephyrFish);
             item.shoot = ModContent.ProjectileType<SCalPet>();
             item.buffType = ModContent.BuffType<SCalPetBuff>();
-            item.rare = 10;
-            item.Calamity().customRarity = CalamityRarity.Dedicated;
+            item.Calamity().postMoonLordRarity = 15;
         }
 
         public override void UseStyle(Player player)

@@ -34,7 +34,6 @@ namespace CalamityMod.Items.Weapons.Typeless
 			item.rare = 8;
 			item.shoot = ModContent.ProjectileType<YanmeisKnifeSlash>();
 			item.shootSpeed = 24f;
-			item.Calamity().customRarity = CalamityRarity.Dedicated;
 		}
 
 		// Terraria seems to really dislike high crit values in SetDefaults

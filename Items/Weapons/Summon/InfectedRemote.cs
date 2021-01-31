@@ -37,7 +37,6 @@ namespace CalamityMod.Items.Weapons.Summon
             item.summon = true;
             item.value = Item.buyPrice(0, 80, 0, 0);
             item.rare = 8;
-            item.Calamity().customRarity = CalamityRarity.Dedicated;
         }
 
 		public override void HoldItem(Player player)

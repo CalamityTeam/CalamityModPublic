@@ -32,7 +32,6 @@ namespace CalamityMod.Items.Weapons.Typeless
             item.value = Item.buyPrice(0, 4, 0, 0);
             item.shoot = ModContent.ProjectileType<CursorProj>();
             item.shootSpeed = 5f;
-            item.Calamity().customRarity = CalamityRarity.Dedicated;
         }
 
         // Aestheticus scales off of all damage types simultaneously (meaning it scales 5x from universal damage boosts).

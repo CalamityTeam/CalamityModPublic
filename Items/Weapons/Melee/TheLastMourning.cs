@@ -35,9 +35,9 @@ namespace CalamityMod.Items.Weapons.Melee
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.UseSound = SoundID.Item1;
 
+            item.value = CalamityGlobalItem.Rarity13BuyPrice;
             item.rare = 10;
-            item.Calamity().customRarity = CalamityRarity.Dedicated;
-            item.value = Item.buyPrice(1, 40, 0, 0);
+            item.Calamity().postMoonLordRarity = 13;
         }
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)

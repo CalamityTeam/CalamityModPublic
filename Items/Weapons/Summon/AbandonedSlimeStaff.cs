@@ -39,7 +39,6 @@ namespace CalamityMod.Items.Weapons.Summon
 
             item.value = Item.buyPrice(0, 60, 0, 0);
             item.rare = 7;
-            item.Calamity().customRarity = CalamityRarity.Dedicated; //rarity 21
         }
 
         public override void ModifyTooltips(List<TooltipLine> list)

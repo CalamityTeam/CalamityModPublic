@@ -34,12 +34,12 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.autoReuse = true;
             item.useTurn = false;
             item.height = 24;
-            item.value = Item.buyPrice(1, 40, 0, 0);
+            item.value = CalamityGlobalItem.Rarity13BuyPrice;
             item.rare = 10;
             item.shoot = ModContent.ProjectileType<DeepSeaDumbbell1>();
             item.shootSpeed = 20f;
             item.Calamity().rogue = true;
-            item.Calamity().customRarity = CalamityRarity.Dedicated;
+            item.Calamity().postMoonLordRarity = 13;
         }
 
 		// Terraria seems to really dislike high crit values in SetDefaults

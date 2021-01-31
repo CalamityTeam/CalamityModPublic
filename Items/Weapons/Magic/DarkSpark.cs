@@ -34,11 +34,11 @@ namespace CalamityMod.Items.Weapons.Magic
             item.noUseGraphic = true;
             item.channel = true;
             item.knockBack = 0f;
-            item.value = Item.buyPrice(1, 40, 0, 0);
+            item.value = CalamityGlobalItem.Rarity13BuyPrice;
             item.rare = 10;
+            item.Calamity().postMoonLordRarity = 13;
             item.shoot = ModContent.ProjectileType<DarkSparkPrism>();
             item.shootSpeed = 30f;
-            item.Calamity().customRarity = CalamityRarity.Dedicated;
         }
 
         public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;

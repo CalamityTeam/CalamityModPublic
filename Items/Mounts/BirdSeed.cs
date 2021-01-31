@@ -20,8 +20,7 @@ namespace CalamityMod.Items.Mounts
             item.useAnimation = 20;
             item.useStyle = 1;
             item.value = Item.sellPrice(0, 20, 0, 0);
-            item.rare = 10;
-            item.Calamity().customRarity = CalamityRarity.Dedicated;
+            item.rare = 11;
             item.UseSound = SoundID.NPCHit51;
             item.noMelee = true;
             item.mountType = ModContent.MountType<BUMBLEDOGE>();

@@ -32,7 +32,6 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.useAmmo = AmmoID.Arrow;
             item.value = Item.buyPrice(0, 80, 0, 0);
             item.rare = 8;
-            item.Calamity().customRarity = CalamityRarity.Dedicated;
         }
 
 		// Terraria seems to really dislike high crit values in SetDefaults

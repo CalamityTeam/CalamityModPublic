@@ -36,9 +36,9 @@ Fighting 'til the war's won");
             item.UseSound = SoundID.Item38;
             item.useStyle = ItemUseStyleID.HoldingOut;
 
-            item.rare = 10;
-            item.value = Item.buyPrice(1, 20, 0, 0);
-            item.Calamity().customRarity = CalamityRarity.Dedicated;
+			item.value = CalamityGlobalItem.Rarity12BuyPrice;
+			item.rare = ItemRarityID.Purple;
+            item.Calamity().postMoonLordRarity = 12;
 
             item.shootSpeed = BulletSpeed;
             item.shoot = ModContent.ProjectileType<IlluminatedBullet>();

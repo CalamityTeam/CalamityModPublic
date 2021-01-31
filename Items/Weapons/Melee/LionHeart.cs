@@ -36,7 +36,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
             item.value = CalamityGlobalItem.Rarity13BuyPrice;
             item.rare = 10;
-            item.Calamity().customRarity = CalamityRarity.Dedicated;
+            item.Calamity().postMoonLordRarity = 13;
         }
 
 		public override bool AltFunctionUse(Player player) => true;

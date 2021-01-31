@@ -36,7 +36,6 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.shoot = ModContent.ProjectileType<PlaguenadeProj>();
             item.shootSpeed = 12f;
             item.Calamity().rogue = true;
-            item.Calamity().customRarity = CalamityRarity.Dedicated;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

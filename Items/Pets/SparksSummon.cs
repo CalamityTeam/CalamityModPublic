@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Pets
             item.shoot = ModContent.ProjectileType<Sparks>();
             item.buffType = ModContent.BuffType<SparksBuff>();
             item.value = Item.sellPrice(gold: 1);
-            item.Calamity().customRarity = CalamityRarity.Dedicated;
+            item.rare = 5;
         }
 
         public override void UseStyle(Player player)

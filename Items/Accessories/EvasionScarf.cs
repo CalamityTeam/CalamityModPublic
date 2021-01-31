@@ -26,7 +26,6 @@ namespace CalamityMod.Items.Accessories
             item.accessory = true;
             item.value = CalamityGlobalItem.Rarity5BuyPrice;
             item.rare = 5;
-            item.Calamity().customRarity = CalamityRarity.Dedicated;
         }
 
         public override bool CanEquipAccessory(Player player, int slot) => !player.Calamity().dodgeScarf;
