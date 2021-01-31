@@ -55,32 +55,40 @@ namespace CalamityMod.Items.Weapons.Summon
             if (player.altFunctionUse != 2)
             {
                 player.itemTime = item.useTime;
-                Vector2 source = player.RotatedRelativePoint(player.MountedCenter, true);
-                source.X = Main.mouseX + Main.screenPosition.X;
-                source.Y = Main.mouseY + Main.screenPosition.Y;
 				CalamityUtils.KillShootProjectileMany(player, new int[]
 				{
 					type,
 					ModContent.ProjectileType<EndoCooperLimbs>(),
 					ModContent.ProjectileType<EndoBeam>()
 				});
-                float dmgMult = 1f;
-				if (AttackMode == 0) //lasers
-					dmgMult = 0.65f;
-				if (AttackMode == 1) //icicles
-					dmgMult = 1f;
-				if (AttackMode == 2) //melee
-					dmgMult = 0.95f;
-				if (AttackMode == 3) //flamethrower
-					dmgMult = 0.9f;
-                int body = Projectile.NewProjectile(source, Vector2.Zero, type, (int)(damage * dmgMult), knockBack, player.whoAmI, AttackMode, 0f);
-                int limbs = Projectile.NewProjectile(source, Vector2.Zero, ModContent.ProjectileType<EndoCooperLimbs>(), (int)(damage * dmgMult), knockBack, player.whoAmI, AttackMode, body);
-                Main.projectile[body].ai[1] = limbs;
+
+                SummonEndoCooper(AttackMode, Main.MouseWorld, damage, knockBack, player, out _, out _);
+
                 AttackMode++;
                 if (AttackMode > 3)
                     AttackMode = 0;
             }
             return false;
+        }
+
+        public static void SummonEndoCooper(int attackMode, Vector2 spawnPosition, int damage, float knockBack, Player owner, out int bodyIndex, out int limbsIndex)
+        {
+            bodyIndex = limbsIndex = -1;
+            if (Main.myPlayer != owner.whoAmI)
+                return;
+
+            float dmgMult = 1f;
+            if (attackMode == 0) //lasers
+                dmgMult = 0.65f;
+            if (attackMode == 1) //icicles
+                dmgMult = 1f;
+            if (attackMode == 2) //melee
+                dmgMult = 0.95f;
+            if (attackMode == 3) //flamethrower
+                dmgMult = 0.9f;
+            bodyIndex = Projectile.NewProjectile(spawnPosition, Vector2.Zero, ModContent.ProjectileType<EndoCooperBody>(), (int)(damage * dmgMult), knockBack, owner.whoAmI, attackMode, 0f);
+            limbsIndex = Projectile.NewProjectile(spawnPosition, Vector2.Zero, ModContent.ProjectileType<EndoCooperLimbs>(), (int)(damage * dmgMult), knockBack, owner.whoAmI, attackMode, bodyIndex);
+            Main.projectile[bodyIndex].ai[1] = limbsIndex;
         }
 
         public override void AddRecipes()

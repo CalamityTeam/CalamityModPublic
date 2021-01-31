@@ -72,7 +72,7 @@ namespace CalamityMod.Projectiles.Summon
             Player player = Main.player[projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
 
-            if (projectile.localAI[0] == 0f)
+            if (DeltaPosition == Vector2.Zero)
             {
                 int totalHeads = CalamityUtils.CountProjectiles(projectile.type);
                 DeltaPosition = new Vector2(Main.rand.NextFloat(-42f - 6f * totalHeads, 42f + 6f * totalHeads), -Main.rand.NextFloat(8f, 64f + 7f * totalHeads));

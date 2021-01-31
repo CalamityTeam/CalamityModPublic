@@ -57,9 +57,10 @@ namespace CalamityMod.Projectiles.Summon
 			CalamityPlayer modPlayer = player.Calamity();
 			CalamityGlobalProjectile modProj = projectile.Calamity();
 
-			projectile.minionSlots = modProj.lineColor;
-
 			//hitbox size scaling
+			float scale = (float)Math.Log(projectile.minionSlots, 10f) + 1f;
+			if (projectile.scale != scale)
+				projectile.scale = scale;
 			projectile.width = (int)(64f * projectile.scale);
 			projectile.height = (int)(62f * projectile.scale);
 
@@ -79,6 +80,7 @@ namespace CalamityMod.Projectiles.Summon
 					Main.dust[dusty].noLight = true;
 					Main.dust[dusty].velocity = vector7;
 				}
+
 				dust = true;
 			}
 			if (player.MinionDamage() != modProj.spawnedPlayerMinionDamageValue)

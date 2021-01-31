@@ -165,6 +165,10 @@ namespace CalamityMod
 
         public static List<int> kamiDebuffColorImmuneList;
 
+        public static List<int> MinionsToNotResurrectList;
+        public static List<int> ZeroMinionSlotExceptionList;
+        public static List<int> DontCopyOriginalMinionAIList;
+
         public static void LoadLists()
         {
             donatorList = new List<string>()
@@ -2604,6 +2608,28 @@ namespace CalamityMod
                 NPCID.DukeFishron,
                 NPCType<OldDuke>()
             };
+
+            MinionsToNotResurrectList = new List<int>()
+            {
+                ProjectileID.StardustDragon2,
+                ProjectileID.StardustDragon3,
+                ProjectileID.StardustDragon4,
+                ProjectileType<MechwormBody>(),
+                ProjectileType<MechwormTail>(),
+                ProjectileType<EndoHydraHead>()
+            };
+
+            ZeroMinionSlotExceptionList = new List<int>()
+            {
+                ProjectileID.StardustDragon1,
+                ProjectileType<MechwormHead>(),
+                ProjectileType<EndoHydraBody>()
+            };
+
+            DontCopyOriginalMinionAIList = new List<int>()
+            {
+                ProjectileType<GammaHead>()
+            };
         }
 
         public static void UnloadLists()
@@ -2684,6 +2710,10 @@ namespace CalamityMod
             legOverrideList = null;
 
             kamiDebuffColorImmuneList = null;
+
+            MinionsToNotResurrectList = null;
+            ZeroMinionSlotExceptionList = null;
+            DontCopyOriginalMinionAIList = null;
         }
     }
 }

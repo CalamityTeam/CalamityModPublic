@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SafeSetDefaults()
         {
             item.width = 82;
-            item.damage = 520;
+            item.damage = 480;
             item.noMelee = true;
             item.noUseGraphic = true;
             item.useAnimation = 20;
