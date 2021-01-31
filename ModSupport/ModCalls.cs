@@ -4,6 +4,8 @@ using CalamityMod.Items;
 using CalamityMod.Projectiles;
 using CalamityMod.World;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using Terraria;
 
 namespace CalamityMod
@@ -1748,6 +1750,15 @@ namespace CalamityMod
 						AcidRainEvent.UpdateInvasion(false);
 					}
 					return eventActive;
+
+				case "ExcludeMinionsFromResurrection":
+					// This assumes all arguments after the calling command name are projectile types.
+					IEnumerable<object> secondaryArguments = args.Skip(1);
+					if (secondaryArguments.Any(argument => !(argument is int)))
+						return new ArgumentException("ERROR: All arguments after the calling command to \"ExcludeMinionsFromResurrection\" must be ints.");
+
+					CalamityLists.MinionsToNotResurrectList.AddRange(secondaryArguments.Select(argument => Convert.ToInt32(argument)));
+					break;
 
 				default:
 					return new ArgumentException("ERROR: Invalid method name.");
