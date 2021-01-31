@@ -37,7 +37,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.UseSound = SoundID.Item18;
 
             item.value = CalamityGlobalItem.Rarity16BuyPrice;
-            item.Calamity().customRarity = CalamityRarity.ItemSpecific;
+            item.Calamity().customRarity = CalamityRarity.HotPink;
             item.Calamity().devItem = true;
 
             item.Calamity().rogue = true;

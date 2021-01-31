@@ -40,7 +40,7 @@ namespace CalamityMod.Items.Tools
 			item.shoot = ModContent.ProjectileType<CrystylCrusherRay>();
 
 			item.value = CalamityGlobalItem.Rarity16BuyPrice;
-			item.Calamity().customRarity = CalamityRarity.ItemSpecific;
+			item.Calamity().customRarity = CalamityRarity.HotPink;
 			item.Calamity().devItem = true;
 		}
 

@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.height = 20;
 
             item.value = CalamityGlobalItem.Rarity16BuyPrice;
-            item.Calamity().customRarity = CalamityRarity.ItemSpecific;
+            item.Calamity().customRarity = CalamityRarity.HotPink;
             item.Calamity().devItem = true;
 
             item.shoot = ModContent.ProjectileType<IllustriousKnife>();

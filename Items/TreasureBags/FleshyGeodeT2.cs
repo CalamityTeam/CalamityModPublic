@@ -18,8 +18,7 @@ namespace CalamityMod.Items.TreasureBags
             item.consumable = true;
             item.width = 24;
             item.height = 24;
-            item.rare = 11;
-			item.Calamity().postMoonLordRarity = 12;
+            item.Calamity().customRarity = CalamityRarity.Turquoise;
         }
 
         public override bool CanRightClick() => true;
@@ -33,8 +32,8 @@ namespace CalamityMod.Items.TreasureBags
             int coreMax = !Main.expertMode ? 3 : 4;
             int bloodstoneMin = !Main.expertMode ? 50 : 60;
             int bloodstoneMax = !Main.expertMode ? 60 : 70;
-			int lifeAlloyChance = !Main.expertMode ? 2 : 1;
-			int coreofCalChance = !Main.expertMode ? 3 : 2;
+            int lifeAlloyChance = !Main.expertMode ? 2 : 1;
+            int coreofCalChance = !Main.expertMode ? 3 : 2;
             DropHelper.DropItem(player, ModContent.ItemType<VerstaltiteBar>(), barMin, barMax);
             DropHelper.DropItem(player, ModContent.ItemType<DraedonBar>(), barMin, barMax);
             DropHelper.DropItem(player, ModContent.ItemType<CruptixBar>(), barMin, barMax);

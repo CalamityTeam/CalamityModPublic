@@ -36,7 +36,7 @@ namespace CalamityMod.Items.Weapons.Summon
 			item.noMelee = true;
 			item.UseSound = SoundID.Item68;
 			item.value = CalamityGlobalItem.Rarity16BuyPrice;
-			item.Calamity().customRarity = CalamityRarity.ItemSpecific;
+			item.Calamity().customRarity = CalamityRarity.HotPink;
 			item.Calamity().devItem = true;
 		}
 

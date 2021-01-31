@@ -50,7 +50,7 @@ namespace CalamityMod.Items.Accessories
             item.height = 50;
             item.accessory = true;
             item.value = CalamityGlobalItem.RarityHotPinkBuyPrice;
-            item.Calamity().customRarity = CalamityRarity.ItemSpecific;
+            item.Calamity().customRarity = CalamityRarity.HotPink;
             item.Calamity().devItem = true;
         }
 

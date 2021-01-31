@@ -24,7 +24,7 @@ namespace CalamityMod.Items.Armor
             item.height = 18;
             item.defense = 50;
             item.value = CalamityGlobalItem.Rarity16BuyPrice;
-            item.Calamity().customRarity = CalamityRarity.ItemSpecific;
+            item.Calamity().customRarity = CalamityRarity.HotPink;
             item.Calamity().devItem = true;
         }
 

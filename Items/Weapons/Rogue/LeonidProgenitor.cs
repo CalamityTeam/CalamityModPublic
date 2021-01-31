@@ -37,9 +37,9 @@ namespace CalamityMod.Items.Weapons.Rogue
 			item.noMelee = true;
 			item.noUseGraphic = true;
 			item.UseSound = SoundID.Item61;
+
 			item.value = CalamityGlobalItem.Rarity7BuyPrice;
-			item.rare = 7;
-			item.Calamity().customRarity = CalamityRarity.ItemSpecific;
+			item.rare = ItemRarityID.Lime;
 		}
 
 		public override bool AltFunctionUse(Player player) => true;

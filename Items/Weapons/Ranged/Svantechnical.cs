@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.knockBack = 3.5f;
 
             item.value = CalamityGlobalItem.Rarity16BuyPrice;
-            item.Calamity().customRarity = CalamityRarity.ItemSpecific;
+            item.Calamity().customRarity = CalamityRarity.HotPink;
             item.Calamity().devItem = true;
 
             item.UseSound = SoundID.Item31;

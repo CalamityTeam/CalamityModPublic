@@ -10,7 +10,6 @@ namespace CalamityMod
 
     public enum CalamityRarity
     {
-        ItemSpecific = -1,
         NoEffect = 0,
         Turquoise = 12,
         PureGreen = 13,

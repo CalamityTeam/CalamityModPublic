@@ -27,14 +27,15 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 7.5f;
-            item.value = CalamityGlobalItem.Rarity14BuyPrice;
-            item.Calamity().postMoonLordRarity = 14;
-            item.Calamity().customRarity = CalamityRarity.DarkBlue;
             item.UseSound = SoundID.Item11;
             item.autoReuse = true;
             item.shootSpeed = 24f;
             item.shoot = ModContent.ProjectileType<ThePackMissile>();
             item.useAmmo = AmmoID.Rocket;
+
+            item.value = CalamityGlobalItem.Rarity14BuyPrice;
+            item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            item.Calamity().donorItem = true;
         }
 
         // Terraria seems to really dislike high crit values in SetDefaults

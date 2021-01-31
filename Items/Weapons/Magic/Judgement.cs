@@ -51,7 +51,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.shootSpeed = 14f;
 
             item.value = CalamityGlobalItem.Rarity16BuyPrice;
-            item.Calamity().customRarity = CalamityRarity.ItemSpecific;
+            item.Calamity().customRarity = CalamityRarity.HotPink;
             item.Calamity().devItem = true;
         }
 

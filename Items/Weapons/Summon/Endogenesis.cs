@@ -45,7 +45,7 @@ namespace CalamityMod.Items.Weapons.Summon
             item.shootSpeed = 10f;
 
             item.value = CalamityGlobalItem.Rarity16BuyPrice;
-            item.Calamity().customRarity = CalamityRarity.ItemSpecific;
+            item.Calamity().customRarity = CalamityRarity.HotPink;
             item.Calamity().devItem = true;
         }
 
