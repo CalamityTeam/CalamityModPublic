@@ -29,7 +29,7 @@ namespace CalamityMod.Items.TreasureBags
             item.consumable = true;
             item.width = 24;
             item.height = 24;
-            item.rare = 9;
+            item.rare = ItemRarityID.Cyan;
             item.expert = true;
         }
 

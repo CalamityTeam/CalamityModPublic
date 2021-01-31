@@ -23,7 +23,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.knockBack = 12;
             item.thrown = true;
             item.value = Item.buyPrice(0, 4, 0, 0);
-            item.rare = 3;
+            item.rare = ItemRarityID.Orange;
             item.useTime = 25;
             item.useAnimation = 25;
             item.width = 32;

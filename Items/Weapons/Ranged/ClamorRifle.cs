@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 			item.value = Item.buyPrice(0, 36, 0, 0);
 			item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/PlasmaBolt");
 			item.autoReuse = true;
-			item.rare = 5;
+			item.rare = ItemRarityID.Pink;
 			item.shoot = ModContent.ProjectileType<ClamorRifleProj>();
 			item.shootSpeed = 15f;
 			item.useAmmo = AmmoID.Bullet;

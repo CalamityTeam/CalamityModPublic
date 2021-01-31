@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.autoReuse = true;
             item.height = 36;
             item.maxStack = 1;
-            item.rare = 5;
+            item.rare = ItemRarityID.Pink;
             item.value = Item.buyPrice(0, 4, 0, 0);
             item.shoot = ModContent.ProjectileType<EquanimityProj>();
             item.shootSpeed = 30f;

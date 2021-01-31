@@ -35,7 +35,7 @@ Right click to delete all existing spiky balls");
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.knockBack = knockBack;
             item.value = Item.buyPrice(0, 18, 0, 0);
-            item.rare = 10;
+            item.rare = ItemRarityID.Red;
             item.Calamity().customRarity = CalamityRarity.DarkBlue;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
@@ -50,7 +50,7 @@ Right click to delete all existing spiky balls");
 		{
 			if (player.altFunctionUse == 2)
 			{
-				item.shoot = 0;
+				item.shoot = ProjectileID.None;
 				item.shootSpeed = 0f;
 				return player.ownedProjectileCounts[ModContent.ProjectileType<GodsParanoiaProj>()] > 0;
 			}

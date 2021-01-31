@@ -196,7 +196,7 @@ namespace CalamityMod.Items
             if (item.type == ItemID.GravityGlobe)
 			{
 				item.expert = false;
-				item.rare = 10;
+				item.rare = ItemRarityID.Red;
 			}
             
             if (item.type == ItemID.SuspiciousLookingTentacle)
@@ -209,7 +209,7 @@ namespace CalamityMod.Items
 				item.useTime = 15;
 				item.damage *= 4;
 				item.tileBoost += 1;
-				item.rare = 4;
+				item.rare = ItemRarityID.LightRed;
 			}
             if (item.type == ItemID.PearlwoodBow)
 			{
@@ -217,13 +217,13 @@ namespace CalamityMod.Items
 				item.useTime += 8; //35
 				item.shootSpeed += 3.4f; //10f
 				item.knockBack += 1f; //1f
-				item.rare = 4;
+				item.rare = ItemRarityID.LightRed;
 				item.damage = (int)(item.damage * 2.1);
 			}
             if (item.type == ItemID.PearlwoodSword)
 			{
 				item.damage *= 4;
-				item.rare = 4;
+				item.rare = ItemRarityID.LightRed;
 			}
 			if (item.type == ItemID.StarCannon)
 				item.UseSound = null;

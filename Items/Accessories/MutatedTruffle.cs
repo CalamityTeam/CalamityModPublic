@@ -4,6 +4,8 @@ using CalamityMod.Projectiles.Summon;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
+
 namespace CalamityMod.Items.Accessories
 {
     public class MutatedTruffle : ModItem
@@ -20,7 +22,7 @@ namespace CalamityMod.Items.Accessories
             item.width = 24;
             item.height = 26;
             item.value = CalamityGlobalItem.Rarity13BuyPrice;
-            item.rare = 10;
+            item.rare = ItemRarityID.Red;
             item.expert = true;
             item.accessory = true;
         }

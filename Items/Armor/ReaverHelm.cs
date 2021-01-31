@@ -23,7 +23,7 @@ namespace CalamityMod.Items.Armor
             item.width = 28;
             item.height = 30;
             item.value = Item.buyPrice(0, 30, 0, 0);
-            item.rare = 7;
+            item.rare = ItemRarityID.Lime;
             item.defense = 30; //63 => 73 w/ set bonus (+5 w/ Reaver Rage)
         }
 

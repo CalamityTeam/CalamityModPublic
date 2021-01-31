@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 
 			item.width = 32;
 			item.height = 48;
-			item.useStyle = 1;
+			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.noMelee = true;
 			item.noUseGraphic = true;
 			item.UseSound = SoundID.Item61;

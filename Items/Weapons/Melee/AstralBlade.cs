@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.knockBack = 4f;
             item.value = Item.buyPrice(0, 95, 0, 0);
-            item.rare = 9;
+            item.rare = ItemRarityID.Cyan;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
         }

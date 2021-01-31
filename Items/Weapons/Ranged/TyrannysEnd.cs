@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
 			item.width = 94;
 			item.height = 32;
-			item.useStyle = 5;
+			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.noMelee = true;
 			item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LargeWeaponFire");
 

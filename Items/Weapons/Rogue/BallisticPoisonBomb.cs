@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.autoReuse = true;
             item.height = 38;
             item.value = Item.buyPrice(0, 60, 0, 0);
-            item.rare = 7;
+            item.rare = ItemRarityID.Lime;
             item.shoot = ModContent.ProjectileType<BallisticPoisonBombProj>();
             item.shootSpeed = 12f;
             item.Calamity().rogue = true;

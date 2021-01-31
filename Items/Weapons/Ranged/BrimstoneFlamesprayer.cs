@@ -26,7 +26,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.knockBack = 1.5f;
             item.UseSound = SoundID.Item34;
             item.value = Item.buyPrice(0, 60, 0, 0);
-            item.rare = 7;
+            item.rare = ItemRarityID.Lime;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<BrimstoneFireFriendly>();
             item.shootSpeed = 8.5f;

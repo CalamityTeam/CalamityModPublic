@@ -24,7 +24,7 @@ namespace CalamityMod.Items.Fishing.SunkenSeaCatches
 			item.noMelee = true;
 			item.magic = true;
 			item.channel = true; //Channel so that you can hold the weapon [Important]
-			item.rare = 2;
+			item.rare = ItemRarityID.Green;
 			item.mana = 5;
 			item.width = 42;
 			item.height = 34;

@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.height = 38;
             item.maxStack = 999;
             item.value = 2000;
-            item.rare = 4;
+            item.rare = ItemRarityID.LightRed;
             item.shoot = ModContent.ProjectileType<TitaniumShurikenProjectile>();
             item.shootSpeed = 16f;
             item.Calamity().rogue = true;

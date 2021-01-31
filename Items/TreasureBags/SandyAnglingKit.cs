@@ -19,7 +19,7 @@ namespace CalamityMod.Items.TreasureBags
             item.consumable = true;
             item.width = 24;
             item.height = 24;
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
         }
 
         public override bool CanRightClick() => true;

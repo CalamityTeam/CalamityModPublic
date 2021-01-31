@@ -28,7 +28,7 @@ namespace CalamityMod.Items.DifficultyItems
 
         public override void SetDefaults()
         {
-            item.rare = 11;
+            item.rare = ItemRarityID.Purple;
             item.width = 28;
             item.height = 28;
             item.useAnimation = 45;

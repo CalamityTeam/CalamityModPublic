@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Weapons.Magic
 			item.UseSound = SoundID.Item46;
 			item.noMelee = true;
 			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.rare = 2;
+			item.rare = ItemRarityID.Green;
 			item.value = CalamityGlobalItem.Rarity2BuyPrice;
 		}
 

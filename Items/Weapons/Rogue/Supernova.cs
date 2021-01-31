@@ -32,7 +32,7 @@ Stealth strikes release energy as they fly");
             item.autoReuse = true;
             item.height = 36;
             item.value = Item.buyPrice(platinum: 2, gold: 50);
-            item.rare = 10;
+            item.rare = ItemRarityID.Red;
             item.shoot = ModContent.ProjectileType<SupernovaBomb>();
             item.shootSpeed = 16f;
             item.Calamity().rogue = true;

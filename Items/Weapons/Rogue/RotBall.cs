@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.height = 30;
             item.maxStack = 999;
             item.value = 1000;
-            item.rare = 3;
+            item.rare = ItemRarityID.Orange;
             item.shoot = ModContent.ProjectileType<RotBallProjectile>();
             item.shootSpeed = 16f;
             item.Calamity().rogue = true;

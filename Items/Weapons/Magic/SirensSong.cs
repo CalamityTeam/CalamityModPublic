@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.noMelee = true;
             item.knockBack = 6.5f;
             item.value = Item.buyPrice(0, 60, 0, 0);
-            item.rare = 7;
+            item.rare = ItemRarityID.Lime;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<SirensSongNote>();
             item.shootSpeed = 13f;

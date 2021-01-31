@@ -26,7 +26,7 @@ Stealth strikes throw three short ranged boomerangs along with a spread of icicl
             item.knockBack = 12;
             item.thrown = true;
             item.value = Item.buyPrice(0, 60, 0, 0);
-            item.rare = 7;
+            item.rare = ItemRarityID.Lime;
             item.useTime = 19;
             item.useAnimation = 19;
             item.width = 32;

@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.autoReuse = true;
             item.height = 50;
             item.value = Item.buyPrice(0, 48, 0, 0);
-            item.rare = 6;
+            item.rare = ItemRarityID.LightPurple;
             item.shoot = ModContent.ProjectileType<EonBeam>();
             item.shootSpeed = 12f;
         }

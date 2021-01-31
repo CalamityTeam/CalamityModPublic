@@ -36,7 +36,7 @@ namespace CalamityMod.Items.Weapons.Melee
 			item.knockBack = 6.5f;
 			item.autoReuse = false;
 			item.value = Item.buyPrice(2, 50, 0, 0);
-			item.rare = 10;
+			item.rare = ItemRarityID.Red;
 			item.shoot = ModContent.ProjectileType<MurasamaSlash>();
 			item.shootSpeed = 24f;
 			item.Calamity().customRarity = CalamityRarity.Violet;

@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Fishing
             item.consumable = true;
             item.width = 30;
             item.height = 30;
-            item.rare = 3;
+            item.rare = ItemRarityID.Orange;
             item.value = Item.sellPrice(gold: 1);
         }
 

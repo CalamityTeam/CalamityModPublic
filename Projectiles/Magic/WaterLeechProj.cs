@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Projectiles.Magic
 {
@@ -99,7 +100,7 @@ namespace CalamityMod.Projectiles.Magic
 
 		public override void Kill(int timeLeft)
 		{
-			Main.PlaySound(4, (int)projectile.position.X, (int)projectile.position.Y, 1, 0.5f, 0f);
+			Main.PlaySound(SoundID.NPCKilled, (int)projectile.position.X, (int)projectile.position.Y, 1, 0.5f, 0f);
 			for (int i = 0; i < 5; i++)
 			{
 				int dust = Dust.NewDust(projectile.Center, 1, 1, (int)CalamityDusts.SulfurousSeaAcid, 0, 0, 0, default, 1.5f);

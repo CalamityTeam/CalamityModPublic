@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Fishing.FishingRods
 			item.shootSpeed = 18f;
 			item.shoot = ModContent.ProjectileType<EarlyBloomBobber>();
             item.value = Item.buyPrice(1, 20, 0, 0);
-            item.rare = 10;
+            item.rare = ItemRarityID.Red;
             item.Calamity().customRarity = CalamityRarity.Turquoise;
         }
 

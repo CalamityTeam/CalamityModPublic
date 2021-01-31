@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.autoReuse = true;
             item.useTurn = true;
             item.value = Item.buyPrice(0, 1, 0, 0);
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
         }
 
         public override void AddRecipes()

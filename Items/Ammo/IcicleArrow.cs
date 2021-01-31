@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Ammo
             item.height = 50;
             item.knockBack = 2.5f;
             item.value = Item.buyPrice(0, 0, 0, 80);
-            item.rare = 6;
+            item.rare = ItemRarityID.LightPurple;
             item.shoot = ModContent.ProjectileType<IcicleArrowProj>();
             item.shootSpeed = 1.0f;
             item.ammo = AmmoID.Arrow;

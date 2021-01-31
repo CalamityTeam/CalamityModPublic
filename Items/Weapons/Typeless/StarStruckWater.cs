@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Weapons.Typeless
         {
 			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.shootSpeed = 14f;
-			item.rare = 3;
+			item.rare = ItemRarityID.Orange;
 			item.damage = 20;
 			item.shoot = ModContent.ProjectileType<StarStruckWaterBottle>();
 			item.width = 18;

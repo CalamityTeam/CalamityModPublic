@@ -106,7 +106,7 @@ namespace CalamityMod.Items.Weapons.Melee
             if (player.altFunctionUse == 2)
             {
                 item.UseSound = SoundID.Item1;
-                item.useStyle = 1;
+                item.useStyle = ItemUseStyleID.SwingThrow;
                 item.useTurn = true;
                 item.autoReuse = true;
                 item.noMelee = false;
@@ -115,7 +115,7 @@ namespace CalamityMod.Items.Weapons.Melee
             else
             {
                 item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/CrystylCharge");
-                item.useStyle = 5;
+                item.useStyle = ItemUseStyleID.HoldingOut;
                 item.useTurn = false;
                 item.autoReuse = false;
                 item.noMelee = true;

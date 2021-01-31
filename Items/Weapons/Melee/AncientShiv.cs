@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.useTurn = true;
             item.autoReuse = true;
             item.value = Item.buyPrice(0, 4, 0, 0);
-            item.rare = 3;
+            item.rare = ItemRarityID.Orange;
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)

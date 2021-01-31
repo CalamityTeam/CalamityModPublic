@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.noMelee = true;
             item.knockBack = 3.5f;
             item.value = Item.buyPrice(0, 95, 0, 0);
-            item.rare = 9;
+            item.rare = ItemRarityID.Cyan;
             item.UseSound = SoundID.Item103;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<CosmicTentacle>();

@@ -27,12 +27,12 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.useAnimation = 300;
             item.autoReuse = false;
 
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.width = 82;
             item.height = 28;
 
-            item.shoot = 10;
+            item.shoot = ProjectileID.PurificationPowder;
             item.shootSpeed = 12f;
             item.useAmmo = AmmoID.Bullet;
 

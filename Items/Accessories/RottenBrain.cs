@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -21,7 +22,7 @@ namespace CalamityMod.Items.Accessories
             item.height = 34;
             item.value = CalamityGlobalItem.Rarity3BuyPrice;
             item.expert = true;
-            item.rare = 3;
+            item.rare = ItemRarityID.Orange;
             item.accessory = true;
         }
 

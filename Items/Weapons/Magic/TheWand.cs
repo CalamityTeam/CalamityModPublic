@@ -35,7 +35,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.autoReuse = true;
             item.height = 36;
             item.value = Item.buyPrice(2, 50, 0, 0);
-            item.rare = 10;
+            item.rare = ItemRarityID.Red;
             item.shoot = ModContent.ProjectileType<SparkInfernal>();
             item.shootSpeed = 24f;
             item.Calamity().customRarity = CalamityRarity.Violet;

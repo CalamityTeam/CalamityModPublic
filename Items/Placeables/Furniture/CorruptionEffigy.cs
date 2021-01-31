@@ -25,7 +25,7 @@ namespace CalamityMod.Items.Placeables.Furniture
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
             item.value = Item.buyPrice(0, 9, 0, 0);
-            item.rare = 3;
+            item.rare = ItemRarityID.Orange;
             item.createTile = ModContent.TileType<Tiles.Furniture.CorruptionEffigy>();
         }
     }

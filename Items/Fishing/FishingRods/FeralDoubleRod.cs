@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Fishing.FishingRods
 			item.shootSpeed = 16f;
 			item.shoot = ModContent.ProjectileType<FeralDoubleBobber>();
             item.value = Item.buyPrice(0, 60, 0, 0);
-            item.rare = 7;
+            item.rare = ItemRarityID.Lime;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

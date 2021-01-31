@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.knockBack = 4f;
             item.value = Item.buyPrice(0, 4, 0, 0);
-            item.rare = 4;
+            item.rare = ItemRarityID.LightRed;
             item.UseSound = SoundID.Item1;
             item.maxStack = 3;
 

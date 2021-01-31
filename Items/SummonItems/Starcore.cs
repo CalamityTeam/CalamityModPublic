@@ -19,7 +19,7 @@ namespace CalamityMod.Items.SummonItems
         {
             item.width = 34;
             item.height = 40;
-            item.rare = 9;
+            item.rare = ItemRarityID.Cyan;
         }
 
         public override void AddRecipes()

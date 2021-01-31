@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Weapons.Typeless.FiniteUse
             item.noMelee = true;
             item.knockBack = 8f;
             item.value = Item.buyPrice(0, 2, 0, 0);
-            item.rare = 2;
+            item.rare = ItemRarityID.Green;
             item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/Magnum");
             item.autoReuse = true;
             item.shootSpeed = 12f;

@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.height = 30;
             item.maxStack = 999;
             item.value = Item.buyPrice(0, 0, 5, 0);
-            item.rare = 3;
+            item.rare = ItemRarityID.Orange;
             item.shoot = ModContent.ProjectileType<InfernalKrisProjectile>();
             item.shootSpeed = 15f;
             item.Calamity().rogue = true;

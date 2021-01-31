@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.autoReuse = true;
             item.height = 64;
             item.value = Item.buyPrice(1, 40, 0, 0);
-            item.rare = 10;
+            item.rare = ItemRarityID.Red;
             item.shoot = ModContent.ProjectileType<ReaperProjectile>();
             item.shootSpeed = 20f;
             item.Calamity().rogue = true;

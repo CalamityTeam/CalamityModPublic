@@ -366,7 +366,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                         npc.netUpdate = true;
                         npc.netSpam -= 5;
 
-						Main.PlaySound(15, (int)npc.position.X, (int)npc.position.Y, 0);
+						Main.PlaySound(SoundID.Roar, (int)npc.position.X, (int)npc.position.Y, 0);
                         return;
                     }
 
@@ -567,7 +567,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
                 if (flag103)
                 {
-                    Main.PlaySound(3, (int)npc.position.X, (int)npc.position.Y, 8);
+                    Main.PlaySound(SoundID.NPCHit, (int)npc.position.X, (int)npc.position.Y, 8);
 
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
@@ -652,7 +652,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
                 if (flag103)
                 {
-                    Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 88);
+                    Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 88);
 
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
@@ -717,7 +717,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
 				if (npc.ai[1] % num650 == (num650 - 1) && vectorCenter.Y < player.position.Y)
                 {
-                    Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 42);
+                    Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 42);
 
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
@@ -822,7 +822,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     {
                         if (MissileCountdown == 1)
                         {
-                            Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 116);
+                            Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 116);
 
                             if (Main.netMode != NetmodeID.MultiplayerClient)
                             {

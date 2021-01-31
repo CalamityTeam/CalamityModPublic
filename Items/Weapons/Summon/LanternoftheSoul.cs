@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Weapons.Summon
             item.noMelee = true;
             item.knockBack = 5f;
             item.value = Item.buyPrice(1, 40, 0, 0);
-            item.rare = 10;
+            item.rare = ItemRarityID.Red;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<LanternSoul>();
             item.Calamity().customRarity = CalamityRarity.RareVariant;

@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Weapons.Typeless.FiniteUse
             item.noMelee = true;
             item.knockBack = 10f;
             item.value = Item.buyPrice(0, 80, 0, 0);
-            item.rare = 8;
+            item.rare = ItemRarityID.Yellow;
             item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/Hydra");
             item.autoReuse = true;
             item.shootSpeed = 12f;

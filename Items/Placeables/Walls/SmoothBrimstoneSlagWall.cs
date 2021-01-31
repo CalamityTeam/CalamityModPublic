@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Placeables.Walls
             item.useAnimation = 15;
             item.useTime = 7;
             item.useStyle = ItemUseStyleID.SwingThrow;
-            item.rare = 3;
+            item.rare = ItemRarityID.Orange;
             item.consumable = true;
             item.createWall = ModContent.WallType<WallTiles.SmoothBrimstoneSlagWall>();
         }

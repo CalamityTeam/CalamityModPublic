@@ -26,7 +26,7 @@ namespace CalamityMod.Items.Placeables.Ores
             item.height = 10;
             item.maxStack = 999;
             item.value = Item.sellPrice(gold: 1, silver: 60);
-            item.rare = 10;
+            item.rare = ItemRarityID.Red;
         }
 
         public override void AddRecipes()

@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.UseSound = SoundID.Item9;
             item.value = Item.buyPrice(1, 80, 0, 0);
-            item.rare = 10;
+            item.rare = ItemRarityID.Red;
 
             item.damage = 369;
             item.useAnimation = 21;

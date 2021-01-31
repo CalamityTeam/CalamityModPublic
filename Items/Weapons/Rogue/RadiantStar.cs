@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.autoReuse = true;
             item.height = 48;
             item.value = Item.buyPrice(0, 95, 0, 0);
-            item.rare = 9;
+            item.rare = ItemRarityID.Cyan;
             item.shoot = ModContent.ProjectileType<RadiantStarKnife>();
             item.shootSpeed = 20f;
             item.Calamity().rogue = true;

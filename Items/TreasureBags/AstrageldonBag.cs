@@ -34,7 +34,7 @@ namespace CalamityMod.Items.TreasureBags
             item.width = 24;
             item.height = 24;
             item.expert = true;
-            item.rare = 9;
+            item.rare = ItemRarityID.Cyan;
         }
 
         public override bool CanRightClick() => true;

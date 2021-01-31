@@ -19,7 +19,7 @@ namespace CalamityMod.Items.TreasureBags
             item.consumable = true;
             item.width = 24;
             item.height = 24;
-            item.rare = 2; //Green for thematics
+            item.rare = ItemRarityID.Green; //Green for thematics
         }
 
         public override bool CanRightClick() => true;

@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 			item.height = 30;
 			item.maxStack = 999;
 			item.value = 1100;
-			item.rare = 4;
+			item.rare = ItemRarityID.LightRed;
 			item.shoot = ModContent.ProjectileType<MythrilKnifeProjectile>();
 			item.shootSpeed = 12f;
 			item.Calamity().rogue = true;
