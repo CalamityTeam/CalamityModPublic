@@ -1120,7 +1120,7 @@ namespace CalamityMod.Items
                     case CalamityRarity.Violet:
                         tt2.overrideColor = new Color(108, 45, 199);
                         break;
-                    case CalamityRarity.Developer:
+                    case CalamityRarity.HotPink:
                         tt2.overrideColor = new Color(255, 0, 255);
                         break;
 
@@ -4775,7 +4775,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                     return RarityDarkBlueBuyPrice;
                 case (int)CalamityRarity.Violet:
                     return RarityVioletBuyPrice;
-                case (int)CalamityRarity.Developer:
+                case (int)CalamityRarity.HotPink:
                     return RarityHotPinkBuyPrice;
             }
             return 0;

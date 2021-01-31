@@ -59,7 +59,7 @@ namespace CalamityMod
 			CalamityRarity.PureGreen,
 			CalamityRarity.DarkBlue,
 			CalamityRarity.Violet,
-			CalamityRarity.Developer,
+			CalamityRarity.HotPink,
 			CalamityRarity.Rainbow
 		};
 

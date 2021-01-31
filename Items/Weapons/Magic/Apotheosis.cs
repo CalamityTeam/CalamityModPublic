@@ -39,7 +39,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<ApothMark>();
             item.shootSpeed = 15.69f;
-            item.Calamity().customRarity = CalamityRarity.Developer;
+            item.Calamity().customRarity = CalamityRarity.HotPink;
         }
 
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)

@@ -16,7 +16,7 @@ namespace CalamityMod
         PureGreen = 13,
         DarkBlue = 14,
         Violet = 15,
-        Developer = 16,
+        HotPink = 16,
         Rainbow = 30,
         RareVariant = 31,
         DraedonRust = 33,
