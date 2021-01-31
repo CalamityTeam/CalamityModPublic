@@ -21,7 +21,7 @@ Fires night wyverns and stars from the sky that stick to enemies and tiles and e
 
         public override void SetDefaults()
         {
-            item.damage = 290;
+            item.damage = 270;
             item.magic = true;
             item.mana = 12;
             item.width = 52;

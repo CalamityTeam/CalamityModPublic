@@ -32,7 +32,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             CalamityGlobalNPC global = npc.Calamity();
             global.DR = 0.925f;
             global.unbreakableDR = true;
-			npc.LifeMaxNERB(632500, 742500, 9200000);
+			npc.LifeMaxNERB(517500, 621000, 9200000);
 			double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.aiStyle = -1;
