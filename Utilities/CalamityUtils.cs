@@ -172,16 +172,10 @@ namespace CalamityMod
 		/// <param name="damageMult">A reference to the current in-use damage multiplier. This will be increased in-place.</param>
 		public static void ApplyRippersToDamage(CalamityPlayer mp, ref double damageMult)
 		{
-			if (mp.rageModeActive && mp.adrenalineModeActive)
-			{
-				// This is always flat +280% damage. It's been this way forever, regardless of boosts.
-				damageMult += CalamityPlayer.AdrenalineDamageBoost + 0.8D;
-			}
-			else if (mp.rageModeActive)
-			{
+			// Rage and Adrenaline now stack additively with no special cases.
+			if (mp.rageModeActive)
 				damageMult += mp.RageDamageBoost;
-			}
-			else if (mp.adrenalineModeActive)
+			if (mp.adrenalineModeActive)
 				damageMult += mp.GetAdrenalineDamage();
 		}
 

@@ -333,66 +333,70 @@ namespace CalamityMod.CalPlayer
 			// Regular enemies can give up to 1x proximity rage. Bosses can give up to 3x. Multiple regular enemies don't stack.
 			// Proximity rage is maxed out when within 10 blocks (160 pixels) of the enemy's hitbox.
 			// Its max range is 50 blocks (800 pixels), at which you get zero proximity rage.
-			float bossProxRageMultiplier = 3f;
-			float minProxRageDistance = 160f;
-			float maxProxRageDistance = 800f;
-			float enemyDistance = maxProxRageDistance + 1f;
-			float bossDistance = maxProxRageDistance + 1f;
-
-			for (int i = 0; i < Main.maxNPCs; ++i)
+			// Proximity rage does not generate while Rage Mode is active.
+			if (!modPlayer.rageModeActive)
 			{
-				NPC npc = Main.npc[i];
-				if (npc is null || !npc.IsAnEnemy())
-					continue;
+				float bossProxRageMultiplier = 3f;
+				float minProxRageDistance = 160f;
+				float maxProxRageDistance = 800f;
+				float enemyDistance = maxProxRageDistance + 1f;
+				float bossDistance = maxProxRageDistance + 1f;
 
-				// Take the longer of the two directions for the NPC's hitbox to be generous.
-				float generousHitboxWidth = Math.Max(npc.Hitbox.Width / 2f, npc.Hitbox.Height / 2f);
-				float hitboxEdgeDist = npc.Distance(player.Center) - generousHitboxWidth;
-
-				// If this enemy is closer than the previous, reduce the current minimum proximity distance.
-				if (enemyDistance > hitboxEdgeDist)
+				for (int i = 0; i < Main.maxNPCs; ++i)
 				{
-					enemyDistance = hitboxEdgeDist;
+					NPC npc = Main.npc[i];
+					if (npc is null || !npc.IsAnEnemy())
+						continue;
 
-					// If they're a boss, reduce the boss distance.
-					// Boss distance will always be >= enemy distance, so there's no need to do another check.
-					// Worm boss body and tail segments are not counted as bosses for this calculation.
-					if (npc.IsABoss() && !CalamityLists.noRageWormSegmentList.Contains(npc.type))
-						bossDistance = hitboxEdgeDist;
+					// Take the longer of the two directions for the NPC's hitbox to be generous.
+					float generousHitboxWidth = Math.Max(npc.Hitbox.Width / 2f, npc.Hitbox.Height / 2f);
+					float hitboxEdgeDist = npc.Distance(player.Center) - generousHitboxWidth;
+
+					// If this enemy is closer than the previous, reduce the current minimum proximity distance.
+					if (enemyDistance > hitboxEdgeDist)
+					{
+						enemyDistance = hitboxEdgeDist;
+
+						// If they're a boss, reduce the boss distance.
+						// Boss distance will always be >= enemy distance, so there's no need to do another check.
+						// Worm boss body and tail segments are not counted as bosses for this calculation.
+						if (npc.IsABoss() && !CalamityLists.noRageWormSegmentList.Contains(npc.type))
+							bossDistance = hitboxEdgeDist;
+					}
 				}
-			}
 
-			// Helper function to implement proximity rage formula
-			float ProxRageFromDistance(float dist)
-			{
-				// Adjusted distance with the 160 grace pixels added in. If you're closer than that it counts as zero.
-				float d = Math.Max(dist - minProxRageDistance, 0f);
+				// Helper function to implement proximity rage formula
+				float ProxRageFromDistance(float dist)
+				{
+					// Adjusted distance with the 160 grace pixels added in. If you're closer than that it counts as zero.
+					float d = Math.Max(dist - minProxRageDistance, 0f);
 
-				// The first term is exponential decay which reduces rage gain significantly over distance.
-				// The second term is a linear component which allows a baseline but weak rage generation even at far distances.
-				// This function takes inputs from 0.0 to 640.0 and returns a value from 1.0 to 0.0.
-				float r = 1f / (0.034f * d + 2f) + (590.5f - d) / 1181f;
-				return MathHelper.Clamp(r, 0f, 1f);
-			}
+					// The first term is exponential decay which reduces rage gain significantly over distance.
+					// The second term is a linear component which allows a baseline but weak rage generation even at far distances.
+					// This function takes inputs from 0.0 to 640.0 and returns a value from 1.0 to 0.0.
+					float r = 1f / (0.034f * d + 2f) + (590.5f - d) / 1181f;
+					return MathHelper.Clamp(r, 0f, 1f);
+				}
 
-			// If anything is close enough then provide proximity rage.
-			// You can only get proximity rage from one target at a time. You gain rage from whatever target would give you the most rage.
-			if (enemyDistance <= maxProxRageDistance)
-			{
-				// If the player is close enough to get proximity rage they are also considered to have rage combat frames.
-				// This prevents proximity rage from fading away unless you run away without attacking for some reason.
-				modPlayer.rageCombatFrames = Math.Max(modPlayer.rageCombatFrames, 3);
+				// If anything is close enough then provide proximity rage.
+				// You can only get proximity rage from one target at a time. You gain rage from whatever target would give you the most rage.
+				if (enemyDistance <= maxProxRageDistance)
+				{
+					// If the player is close enough to get proximity rage they are also considered to have rage combat frames.
+					// This prevents proximity rage from fading away unless you run away without attacking for some reason.
+					modPlayer.rageCombatFrames = Math.Max(modPlayer.rageCombatFrames, 3);
 
-				float proxRageFromEnemy = ProxRageFromDistance(enemyDistance);
-				float proxRageFromBoss = 0f;
-				if (bossDistance <= maxProxRageDistance)
-					proxRageFromBoss = bossProxRageMultiplier * ProxRageFromDistance(bossDistance);
+					float proxRageFromEnemy = ProxRageFromDistance(enemyDistance);
+					float proxRageFromBoss = 0f;
+					if (bossDistance <= maxProxRageDistance)
+						proxRageFromBoss = bossProxRageMultiplier * ProxRageFromDistance(bossDistance);
 
-				float finalProxRage = Math.Max(proxRageFromEnemy, proxRageFromBoss);
+					float finalProxRage = Math.Max(proxRageFromEnemy, proxRageFromBoss);
 
-				// 300% proximity rage (max possible from a boss) will fill the Rage meter in 10 seconds.
-				// 100% proximity rage (max possible from an enemy) will fill the Rage meter in 30 seconds.
-				rageDiff += finalProxRage * modPlayer.rageMax / 30f;
+					// 300% proximity rage (max possible from a boss) will fill the Rage meter in 10 seconds.
+					// 100% proximity rage (max possible from an enemy) will fill the Rage meter in 30 seconds.
+					rageDiff += finalProxRage * modPlayer.rageMax / CalamityUtils.SecondsToFrames(30f);
+				}
 			}
 
 			bool rageFading = modPlayer.rageCombatFrames <= 0 && !modPlayer.heartOfDarkness && !modPlayer.shatteredCommunity;
