@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.Items.DifficultyItems
 {
     public class Death : ModItem
@@ -14,9 +15,9 @@ namespace CalamityMod.Items.DifficultyItems
             DisplayName.SetDefault("Death");
             Tooltip.SetDefault("Makes bosses even more EXTREME.\n" +
                 "Allows certain bosses to spawn naturally.\n" +
-				"Certain biomes and events have additional weather effects.\n" +
-				"Lethal lava effects are always enabled.\n" +
-                "Increases enemy damage by 15%.\n" +
+                "Certain biomes and events have additional weather effects.\n" +
+                "Lethal lava effects are always enabled.\n" +
+                "Enemies and bosses buffed by Revengeance Mode are even stronger in this mode.\n" +
                 "Greatly boosts enemy spawn rates during the blood moon.\n" +
                 "Nerfs the effectiveness of life steal.\n" +
                 "Makes the abyss more treacherous to navigate.\n" +
@@ -48,12 +49,12 @@ namespace CalamityMod.Items.DifficultyItems
                 return true;
 
             if (CalamityPlayer.areThereAnyDamnBosses || CalamityWorld.DoGSecondStageCountdown > 0 || BossRushEvent.BossRushActive)
-			{
+            {
                 string key = "Mods.CalamityMod.ChangingTheRules";
                 Color messageColor = Color.Crimson;
                 CalamityUtils.DisplayLocalizedText(key, messageColor);
-				return true;
-			}
+                return true;
+            }
             if (!CalamityWorld.death)
             {
                 CalamityWorld.death = true;
