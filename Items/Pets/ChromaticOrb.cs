@@ -21,7 +21,10 @@ namespace CalamityMod.Items.Pets
             item.CloneDefaults(ItemID.WispinaBottle);
             item.shoot = ModContent.ProjectileType<BendyPet>();
             item.buffType = ModContent.BuffType<BendyBuff>();
-            item.Calamity().customRarity = CalamityRarity.Dedicated;
+
+            item.value = Item.sellPrice(gold: 3);
+            item.rare = ItemRarityID.Cyan;
+            item.Calamity().donorItem = true;
         }
 
         public override void UseStyle(Player player)

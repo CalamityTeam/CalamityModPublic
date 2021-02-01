@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.height = 34;
             item.maxStack = 1;
             item.value = Item.buyPrice(0, 4, 0, 0);
-            item.rare = 2;
+            item.rare = ItemRarityID.Green;
             item.shoot = ModContent.ProjectileType<ShinobiBladeProjectile>();
             item.shootSpeed = 20f;
             item.Calamity().rogue = true;

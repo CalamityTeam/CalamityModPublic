@@ -22,10 +22,13 @@ namespace CalamityMod.Items.Pets
             item.noMelee = true;
             item.width = 30;
             item.height = 30;
-            item.value = Item.sellPrice(1, 0, 0, 0);
+
+            item.value = Item.sellPrice(platinum: 1);
+            item.rare = ItemRarityID.Pink;
+            item.Calamity().devItem = true;
+
             item.shoot = ModContent.ProjectileType<Bear>();
             item.buffType = ModContent.BuffType<BearBuff>();
-            item.rare = 5;
             item.UseSound = new Terraria.Audio.LegacySoundStyle(SoundID.Meowmere, 5);
         }
 

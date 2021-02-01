@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.knockBack = 6f;
             item.autoReuse = true;
             item.value = Item.buyPrice(1, 40, 0, 0);
-            item.rare = 10;
+            item.rare = ItemRarityID.Red;
             item.UseSound = SoundID.Item95;
             item.shoot = ModContent.ProjectileType<SulphuricAcidBubble2>();
             item.shootSpeed = 16f;

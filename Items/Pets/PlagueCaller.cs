@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Pets
             item.CloneDefaults(ItemID.ZephyrFish);
             item.shoot = ModContent.ProjectileType<PlaguebringerBab>();
             item.buffType = ModContent.BuffType<PlaguebringerBabBuff>();
-            item.rare = 7;
+            item.rare = ItemRarityID.Lime;
         }
 
         public override void UseStyle(Player player)

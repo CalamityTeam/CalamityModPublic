@@ -320,7 +320,7 @@ namespace CalamityMod.NPCs.Signus
                 {
                     if (Main.netMode != NetmodeID.MultiplayerClient && revenge)
                     {
-						Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 122);
+						Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 122);
 
 						int num660 = NPC.NewNPC((int)(player.position.X + 750f), (int)player.position.Y, ModContent.NPCType<SignusBomb>(), 0, 0f, 0f, 0f, 0f, 255);
                         if (Main.netMode == NetmodeID.Server)

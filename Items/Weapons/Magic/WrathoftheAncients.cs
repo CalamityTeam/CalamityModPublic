@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.noMelee = true;
             item.knockBack = 6f;
             item.value = Item.buyPrice(0, 80, 0, 0);
-            item.rare = 8;
+            item.rare = ItemRarityID.Yellow;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<GranitePulse>();
             item.shootSpeed = 9f;

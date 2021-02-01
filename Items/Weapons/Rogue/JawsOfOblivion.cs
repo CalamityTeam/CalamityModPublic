@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.height = 40;
             item.maxStack = 1;
             item.value = Item.buyPrice(1, 40, 0, 0);
-            item.rare = 10;
+            item.rare = ItemRarityID.Red;
             item.shoot = ModContent.ProjectileType<JawsProjectile>();
             item.shootSpeed = 25f;
             item.Calamity().customRarity = CalamityRarity.PureGreen;

@@ -32,7 +32,7 @@ Stealth strike throws a volley of knives");
             item.height = 32;
             item.maxStack = 999;
             item.value = 300;
-            item.rare = 3;
+            item.rare = ItemRarityID.Orange;
             item.shoot = ModContent.ProjectileType<FeatherKnifeProjectile>();
             item.shootSpeed = 25f;
             item.Calamity().rogue = true;

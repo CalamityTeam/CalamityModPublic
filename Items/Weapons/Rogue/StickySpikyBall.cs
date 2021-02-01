@@ -30,7 +30,7 @@ Stealth strikes throw seven at once and last a lot longer");
             item.UseSound = SoundID.Item1;
             item.height = 14;
             item.value = Item.buyPrice(0, 0, 1, 0);
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.shoot = ModContent.ProjectileType<StickyBol>();
             item.shootSpeed = 8f;
             item.Calamity().rogue = true;

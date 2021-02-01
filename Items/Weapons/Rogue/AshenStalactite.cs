@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.autoReuse = true;
             item.maxStack = 1;
             item.value = Item.buyPrice(0, 1, 0, 0);
-            item.rare = 3;
+            item.rare = ItemRarityID.Orange;
             item.shoot = ModContent.ProjectileType<AshenStalactiteProj>();
             item.shootSpeed = 15f;
             item.Calamity().rogue = true;

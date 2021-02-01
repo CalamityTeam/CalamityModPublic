@@ -27,18 +27,19 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 2f;
-            item.value = Item.buyPrice(5, 0, 0, 0);
-            item.rare = 10;
             item.UseSound = SoundID.Item40;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<SlashRound>();
             item.shootSpeed = 30f;
             item.useAmmo = AmmoID.Bullet;
-            item.Calamity().customRarity = CalamityRarity.ItemSpecific;
+
+            item.value = CalamityGlobalItem.Rarity16BuyPrice;
+            item.Calamity().customRarity = CalamityRarity.HotPink;
+            item.Calamity().devItem = true;
         }
 
-		// Terraria seems to really dislike high crit values in SetDefaults
-		public override void GetWeaponCrit(Player player, ref int crit) => crit += 40;
+        // Terraria seems to really dislike high crit values in SetDefaults
+        public override void GetWeaponCrit(Player player, ref int crit) => crit += 40;
 
         public override Vector2? HoldoutOffset() => new Vector2(-25, 0);
 

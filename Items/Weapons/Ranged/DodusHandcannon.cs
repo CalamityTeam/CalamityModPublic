@@ -26,9 +26,10 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.noMelee = true;
             item.knockBack = 10f;
 
-            item.value = Item.buyPrice(1, 40, 0, 0);
-            item.rare = 10;
-            item.Calamity().customRarity = CalamityRarity.Dedicated;
+            item.value = CalamityGlobalItem.Rarity13BuyPrice;
+            item.rare = ItemRarityID.Red;
+            item.Calamity().customRarity = CalamityRarity.PureGreen;
+            item.Calamity().donorItem = true;
 
             item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LargeWeaponFire");
 
@@ -37,8 +38,8 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.useAmmo = AmmoID.Bullet;
         }
 
-		// Terraria seems to really dislike high crit values in SetDefaults
-		public override void GetWeaponCrit(Player player, ref int crit) => crit += 16;
+        // Terraria seems to really dislike high crit values in SetDefaults
+        public override void GetWeaponCrit(Player player, ref int crit) => crit += 16;
 
         public override Vector2? HoldoutOffset() => new Vector2(-15, 5);
 

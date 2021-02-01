@@ -30,10 +30,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using Terraria;
 using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 
@@ -46,8 +44,6 @@ namespace CalamityMod.Items
 
 		public bool rogue = false;
 		public float StealthGenBonus;
-		public int timesUsed = 0;
-		public int reforgeTier = 0;
 
         #region Chargeable Item Variables
         public bool UsesCharge = false;
@@ -67,15 +63,14 @@ namespace CalamityMod.Items
 		}
         #endregion
 
-        // Rarity is provided both as the classic int and the new enum.
+        // Miscellaneous stuff
         public CalamityRarity customRarity = CalamityRarity.NoEffect;
-		public int postMoonLordRarity 
-		{
-			get => (int)customRarity;
-			set => customRarity = (CalamityRarity)value;
-		}
+        public int timesUsed = 0;
+        public int reforgeTier = 0;
+        public bool donorItem = false;
+        public bool devItem = false;
 
-		///See RogueWeapon.cs for rogue modifier shit
+		// See RogueWeapon.cs for rogue modifier shit
 		#region Modifiers
 		public CalamityGlobalItem()
 		{
@@ -100,6 +95,8 @@ namespace CalamityMod.Items
         #region SetDefaults
         public override void SetDefaults(Item item)
         {
+            // TODO -- Remove this in 1.4 with ModRarity.
+            // TODO -- Remove all instances of manually setting the rarity of postML items to Red.
             if (customRarity.IsPostML() && item.rare != ItemRarityID.Purple)
                 item.rare = ItemRarityID.Purple;
 
@@ -199,7 +196,7 @@ namespace CalamityMod.Items
             if (item.type == ItemID.GravityGlobe)
 			{
 				item.expert = false;
-				item.rare = 10;
+				item.rare = ItemRarityID.Red;
 			}
             
             if (item.type == ItemID.SuspiciousLookingTentacle)
@@ -212,7 +209,7 @@ namespace CalamityMod.Items
 				item.useTime = 15;
 				item.damage *= 4;
 				item.tileBoost += 1;
-				item.rare = 4;
+				item.rare = ItemRarityID.LightRed;
 			}
             if (item.type == ItemID.PearlwoodBow)
 			{
@@ -220,13 +217,13 @@ namespace CalamityMod.Items
 				item.useTime += 8; //35
 				item.shootSpeed += 3.4f; //10f
 				item.knockBack += 1f; //1f
-				item.rare = 4;
+				item.rare = ItemRarityID.LightRed;
 				item.damage = (int)(item.damage * 2.1);
 			}
             if (item.type == ItemID.PearlwoodSword)
 			{
 				item.damage *= 4;
-				item.rare = 4;
+				item.rare = ItemRarityID.LightRed;
 			}
 			if (item.type == ItemID.StarCannon)
 				item.UseSound = null;
@@ -1078,11 +1075,87 @@ namespace CalamityMod.Items
         #region Modify Tooltips
         public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
         {
-			#region Custom Rarities#
-            TooltipLine tt2 = tooltips.FirstOrDefault(x => x.Name == "ItemName" && x.mod == "Terraria");
-            if (tt2 != null)
+            #region Rarity Coloration
+            TooltipLine nameLine = tooltips.FirstOrDefault(x => x.Name == "ItemName" && x.mod == "Terraria");
+            if (nameLine != null)
             {
-                // The special color in the tooltip were overlapping. Placing everything in here, above other things, was the only solution I could find that worked.
+				#region Standard Post-ML Rarities
+				// TODO -- these should be handled automatically with a separate function and the colors should be tied to the rarity definitions
+				switch (customRarity)
+                {
+                    default:
+                        break;
+                    case CalamityRarity.Turquoise:
+                        nameLine.overrideColor = new Color(0, 255, 200);
+                        break;
+                    case CalamityRarity.PureGreen:
+                        nameLine.overrideColor = new Color(0, 255, 0);
+                        break;
+                    case CalamityRarity.DarkBlue:
+                        nameLine.overrideColor = new Color(43, 96, 222);
+                        break;
+                    case CalamityRarity.Violet:
+                        nameLine.overrideColor = new Color(108, 45, 199);
+                        break;
+                    case CalamityRarity.HotPink:
+                        nameLine.overrideColor = new Color(255, 0, 255);
+                        break;
+
+                    case CalamityRarity.Rainbow:
+                        nameLine.overrideColor = new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB);
+                        break;
+                    case CalamityRarity.DraedonRust:
+                        nameLine.overrideColor = new Color(204, 71, 35);
+                        break;
+                    case CalamityRarity.RareVariant:
+                        nameLine.overrideColor = new Color(255, 140, 0);
+                        break;
+                }
+				#endregion
+
+				#region Uniquely Colored Dev Items
+				if (item.type == ModContent.ItemType<Fabstaff>())
+                    nameLine.overrideColor = new Color(Main.DiscoR, 100, 255);
+                if (item.type == ModContent.ItemType<BlushieStaff>())
+                    nameLine.overrideColor = new Color(0, 0, 255);
+                if (item.type == ModContent.ItemType<Judgement>())
+                    nameLine.overrideColor = Judgement.GetSyncedLightColor();
+                if (item.type == ModContent.ItemType<NanoblackReaperRogue>())
+                    nameLine.overrideColor = new Color(0.34f, 0.34f + 0.66f * Main.DiscoG / 255f, 0.34f + 0.5f * Main.DiscoG / 255f);
+                if (item.type == ModContent.ItemType<ShatteredCommunity>())
+                    nameLine.overrideColor = ShatteredCommunity.GetRarityColor();
+                if (item.type == ModContent.ItemType<ProfanedSoulCrystal>())
+                    nameLine.overrideColor = CalamityUtils.ColorSwap(new Color(255, 166, 0), new Color(25, 250, 25), 4f); //alternates between emerald green and amber (BanditHueh)
+                if (item.type == ModContent.ItemType<BensUmbrella>())
+                    nameLine.overrideColor = CalamityUtils.ColorSwap(new Color(210, 0, 255), new Color(255, 248, 24), 4f);
+                if (item.type == ModContent.ItemType<Endogenesis>())
+                    nameLine.overrideColor = CalamityUtils.ColorSwap(new Color(131, 239, 255), new Color(36, 55, 230), 4f);
+                if (item.type == ModContent.ItemType<DraconicDestruction>())
+                    nameLine.overrideColor = CalamityUtils.ColorSwap(new Color(255, 69, 0), new Color(139, 0, 0), 4f);
+                if (item.type == ModContent.ItemType<ScarletDevil>())
+                    nameLine.overrideColor = CalamityUtils.ColorSwap(new Color(191, 45, 71), new Color(185, 187, 253), 4f);
+                if (item.type == ModContent.ItemType<RedSun>())
+                    nameLine.overrideColor = CalamityUtils.ColorSwap(new Color(204, 86, 80), new Color(237, 69, 141), 4f);
+                if (item.type == ModContent.ItemType<GaelsGreatsword>())
+                    nameLine.overrideColor = new Color(146, 0, 0);
+                if (item.type == ModContent.ItemType<CrystylCrusher>())
+                    nameLine.overrideColor = new Color(129, 29, 149);
+                if (item.type == ModContent.ItemType<Svantechnical>())
+                    nameLine.overrideColor = new Color(220, 20, 60);
+                if (item.type == ModContent.ItemType<SomaPrime>())
+                    nameLine.overrideColor = new Color(254, 253, 235);
+                if (item.type == ModContent.ItemType<Contagion>())
+                    nameLine.overrideColor = new Color(207, 17, 117);
+                if (item.type == ModContent.ItemType<TriactisTruePaladinianMageHammerofMightMelee>())
+                    nameLine.overrideColor = new Color(227, 226, 180);
+                if (item.type == ModContent.ItemType<RoyalKnivesMelee>())
+                    nameLine.overrideColor = CalamityUtils.ColorSwap(new Color(154, 255, 151), new Color(228, 151, 255), 4f);
+                if (item.type == ModContent.ItemType<DemonshadeHelm>() || item.type == ModContent.ItemType<DemonshadeBreastplate>() || item.type == ModContent.ItemType<DemonshadeGreaves>())
+                    nameLine.overrideColor = CalamityUtils.ColorSwap(new Color(255, 132, 22), new Color(221, 85, 7), 4f);
+
+                // TODO -- for cleanliness, ALL color math should either be a one-line ColorSwap or inside the item's own file
+                // The items that currently violate this are all below:
+                // Eternity, Flamsteed Ring, Earth
                 if (item.type == ModContent.ItemType<Eternity>())
                 {
                     List<Color> colorSet = new List<Color>()
@@ -1095,145 +1168,71 @@ namespace CalamityMod.Items
                         new Color(249, 245, 99), // bright yellow
                         new Color(236, 168, 247), // purplish pink
                     };
-                    if (tt2 != null)
+                    if (nameLine != null)
                     {
                         int colorIndex = (int)(Main.GlobalTime / 2 % colorSet.Count);
                         Color currentColor = colorSet[colorIndex];
                         Color nextColor = colorSet[(colorIndex + 1) % colorSet.Count];
-                        tt2.overrideColor = Color.Lerp(currentColor, nextColor, Main.GlobalTime % 2f > 1f ? 1f : Main.GlobalTime % 1f);
+                        nameLine.overrideColor = Color.Lerp(currentColor, nextColor, Main.GlobalTime % 2f > 1f ? 1f : Main.GlobalTime % 1f);
                     }
-                    return;
                 }
-                switch (customRarity)
+                if (item.type == ModContent.ItemType<PrototypeAndromechaRing>())
                 {
-                    default:
-                        break;
-                    case CalamityRarity.Turquoise:
-                        tt2.overrideColor = new Color(0, 255, 200);
-                        break;
-                    case CalamityRarity.PureGreen:
-                        tt2.overrideColor = new Color(0, 255, 0);
-                        break;
-                    case CalamityRarity.DarkBlue:
-                        tt2.overrideColor = new Color(43, 96, 222);
-                        break;
-                    case CalamityRarity.Violet:
-                        tt2.overrideColor = new Color(108, 45, 199);
-                        break;
-                    case CalamityRarity.Developer:
-                        tt2.overrideColor = new Color(255, 0, 255);
-                        break;
-
-                    case CalamityRarity.Rainbow:
-                        tt2.overrideColor = new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB);
-                        break;
-                    case CalamityRarity.DraedonRust:
-                        tt2.overrideColor = new Color(204, 71, 35);
-                        break;
-                    case CalamityRarity.RareVariant:
-                        tt2.overrideColor = new Color(255, 140, 0);
-                        break;
-                    case CalamityRarity.Dedicated:
-                        tt2.overrideColor = new Color(139, 0, 0);
-                        break;
-
-                    case CalamityRarity.ItemSpecific:
-                        // Uniquely colored developer items
-                        if (item.type == ModContent.ItemType<Fabstaff>())
-                            tt2.overrideColor = new Color(Main.DiscoR, 100, 255);
-                        if (item.type == ModContent.ItemType<BlushieStaff>())
-                            tt2.overrideColor = new Color(0, 0, 255);
-                        if (item.type == ModContent.ItemType<Judgement>())
-                            tt2.overrideColor = Judgement.GetSyncedLightColor();
-                        if (item.type == ModContent.ItemType<NanoblackReaperRogue>())
-                            tt2.overrideColor = new Color(0.34f, 0.34f + 0.66f * Main.DiscoG / 255f, 0.34f + 0.5f * Main.DiscoG / 255f);
-                        if (item.type == ModContent.ItemType<ShatteredCommunity>())
-                            tt2.overrideColor = ShatteredCommunity.GetRarityColor();
-                        if (item.type == ModContent.ItemType<ProfanedSoulCrystal>())
-                            tt2.overrideColor = CalamityUtils.ColorSwap(new Color(255, 166, 0), new Color(25, 250, 25), 4f); //alternates between emerald green and amber (BanditHueh)
-                        if (item.type == ModContent.ItemType<BensUmbrella>())
-                            tt2.overrideColor = CalamityUtils.ColorSwap(new Color(210, 0, 255), new Color(255, 248, 24), 4f);
-                        if (item.type == ModContent.ItemType<Endogenesis>())
-                            tt2.overrideColor = CalamityUtils.ColorSwap(new Color(131, 239, 255), new Color(36, 55, 230), 4f);
-                        if (item.type == ModContent.ItemType<DraconicDestruction>())
-                            tt2.overrideColor = CalamityUtils.ColorSwap(new Color(255, 69, 0), new Color(139, 0, 0), 4f);
-                        if (item.type == ModContent.ItemType<ScarletDevil>())
-                            tt2.overrideColor = CalamityUtils.ColorSwap(new Color(191, 45, 71), new Color(185, 187, 253), 4f);
-                        if (item.type == ModContent.ItemType<RedSun>())
-                            tt2.overrideColor = CalamityUtils.ColorSwap(new Color(204, 86, 80), new Color(237, 69, 141), 4f);
-                        if (item.type == ModContent.ItemType<GaelsGreatsword>())
-                            tt2.overrideColor = new Color(146, 0, 0);
-                        if (item.type == ModContent.ItemType<CrystylCrusher>())
-                            tt2.overrideColor = new Color(129, 29, 149);
-                        if (item.type == ModContent.ItemType<Svantechnical>())
-                            tt2.overrideColor = new Color(220, 20, 60);
-                        if (item.type == ModContent.ItemType<SomaPrime>())
-                            tt2.overrideColor = new Color(254, 253, 235);
-                        if (item.type == ModContent.ItemType<Contagion>())
-                            tt2.overrideColor = new Color(207, 17, 117);
-                        if (item.type == ModContent.ItemType<TriactisTruePaladinianMageHammerofMightMelee>())
-                            tt2.overrideColor = new Color(227, 226, 180);
-                        if (item.type == ModContent.ItemType<RoyalKnivesMelee>())
-                            tt2.overrideColor = CalamityUtils.ColorSwap(new Color(154, 255, 151), new Color(228, 151, 255), 4f);
-                        if (item.type == ModContent.ItemType<DemonshadeHelm>() || item.type == ModContent.ItemType<DemonshadeBreastplate>() || item.type == ModContent.ItemType<DemonshadeGreaves>())
-                            tt2.overrideColor = CalamityUtils.ColorSwap(new Color(255, 132, 22), new Color(221, 85, 7), 4f);
-                        if (item.type == ModContent.ItemType<PrototypeAndromechaRing>())
-                        {
-                            if (Main.GlobalTime % 1f < 0.6f)
-                            {
-                                tt2.overrideColor = new Color(89, 229, 255);
-                            }
-                            else if (Main.GlobalTime % 1f < 0.8f)
-                            {
-                                tt2.overrideColor = Color.Lerp(new Color(89, 229, 255), Color.White, (Main.GlobalTime % 1f - 0.6f) / 0.2f);
-                            }
-                            else
-                            {
-                                tt2.overrideColor = Color.Lerp(Color.White, new Color(89, 229, 255), (Main.GlobalTime % 1f - 0.8f) / 0.2f);
-                            }
-                        }
-                        if (item.type == ModContent.ItemType<Earth>())
-						{
-							List<Color> earthColors = new List<Color>()
-							{
-								new Color(255, 99, 146),
-								new Color(255, 228, 94),
-								new Color(127, 200, 248)
-							};
-							if (tt2 != null)
-							{
-								int colorIndex = (int)(Main.GlobalTime / 2 % earthColors.Count);
-								Color currentColor = earthColors[colorIndex];
-								Color nextColor = earthColors[(colorIndex + 1) % earthColors.Count];
-								tt2.overrideColor = Color.Lerp(currentColor, nextColor, Main.GlobalTime % 2f > 1f ? 1f : Main.GlobalTime % 1f);
-							}
-						}
-
-                        // Uniquely colored legendary weapons and Yharim's Crystal
-                        if (item.type == ModContent.ItemType<AegisBlade>() || item.type == ModContent.ItemType<YharimsCrystal>())
-                            tt2.overrideColor = new Color(255, Main.DiscoG, 53);
-                        if (item.type == ModContent.ItemType<BlossomFlux>() || item.type == ModContent.ItemType<Malachite>())
-                            tt2.overrideColor = new Color(Main.DiscoR, 203, 103);
-                        if (item.type == ModContent.ItemType<BrinyBaron>() || item.type == ModContent.ItemType<ColdDivinity>())
-                            tt2.overrideColor = new Color(53, Main.DiscoG, 255);
-                        if (item.type == ModContent.ItemType<CosmicDischarge>())
-                            tt2.overrideColor = new Color(150, Main.DiscoG, 255);
-                        if (item.type == ModContent.ItemType<SeasSearing>())
-                            tt2.overrideColor = new Color(60, Main.DiscoG, 190);
-                        if (item.type == ModContent.ItemType<SHPC>())
-                            tt2.overrideColor = new Color(255, Main.DiscoG, 155);
-                        if (item.type == ModContent.ItemType<Vesuvius>())
-                            tt2.overrideColor = new Color(255, Main.DiscoG, 0);
-                        if (item.type == ModContent.ItemType<PristineFury>())
-							tt2.overrideColor = CalamityUtils.ColorSwap(new Color(255, 168, 53), new Color(255, 249, 0), 2f);
-                        if (item.type == ModContent.ItemType<LeonidProgenitor>())
-							tt2.overrideColor = CalamityUtils.ColorSwap(LeonidProgenitor.blueColor, LeonidProgenitor.purpleColor, 3f);
-                        break;
+                    if (Main.GlobalTime % 1f < 0.6f)
+                    {
+                        nameLine.overrideColor = new Color(89, 229, 255);
+                    }
+                    else if (Main.GlobalTime % 1f < 0.8f)
+                    {
+                        nameLine.overrideColor = Color.Lerp(new Color(89, 229, 255), Color.White, (Main.GlobalTime % 1f - 0.6f) / 0.2f);
+                    }
+                    else
+                    {
+                        nameLine.overrideColor = Color.Lerp(Color.White, new Color(89, 229, 255), (Main.GlobalTime % 1f - 0.8f) / 0.2f);
+                    }
                 }
+                if (item.type == ModContent.ItemType<Earth>())
+                {
+                    List<Color> earthColors = new List<Color>()
+                            {
+                                new Color(255, 99, 146),
+                                new Color(255, 228, 94),
+                                new Color(127, 200, 248)
+                            };
+                    if (nameLine != null)
+                    {
+                        int colorIndex = (int)(Main.GlobalTime / 2 % earthColors.Count);
+                        Color currentColor = earthColors[colorIndex];
+                        Color nextColor = earthColors[(colorIndex + 1) % earthColors.Count];
+                        nameLine.overrideColor = Color.Lerp(currentColor, nextColor, Main.GlobalTime % 2f > 1f ? 1f : Main.GlobalTime % 1f);
+                    }
+                }
+				#endregion
+
+				#region Uniquely Colored Non-Dev Items
+				if (item.type == ModContent.ItemType<AegisBlade>() || item.type == ModContent.ItemType<YharimsCrystal>())
+                    nameLine.overrideColor = new Color(255, Main.DiscoG, 53);
+                if (item.type == ModContent.ItemType<BlossomFlux>() || item.type == ModContent.ItemType<Malachite>())
+                    nameLine.overrideColor = new Color(Main.DiscoR, 203, 103);
+                if (item.type == ModContent.ItemType<BrinyBaron>() || item.type == ModContent.ItemType<ColdDivinity>())
+                    nameLine.overrideColor = new Color(53, Main.DiscoG, 255);
+                if (item.type == ModContent.ItemType<CosmicDischarge>())
+                    nameLine.overrideColor = new Color(150, Main.DiscoG, 255);
+                if (item.type == ModContent.ItemType<SeasSearing>())
+                    nameLine.overrideColor = new Color(60, Main.DiscoG, 190);
+                if (item.type == ModContent.ItemType<SHPC>())
+                    nameLine.overrideColor = new Color(255, Main.DiscoG, 155);
+                if (item.type == ModContent.ItemType<Vesuvius>())
+                    nameLine.overrideColor = new Color(255, Main.DiscoG, 0);
+                if (item.type == ModContent.ItemType<PristineFury>())
+                    nameLine.overrideColor = CalamityUtils.ColorSwap(new Color(255, 168, 53), new Color(255, 249, 0), 2f);
+                if (item.type == ModContent.ItemType<LeonidProgenitor>())
+                    nameLine.overrideColor = CalamityUtils.ColorSwap(LeonidProgenitor.blueColor, LeonidProgenitor.purpleColor, 3f);
+                #endregion
             }
 			#endregion
 
-			#region Accessory Modifier Display
+			#region Stealth Accessory Prefixes Display
 			if (item.accessory)
 			{
 				if (!item.social && item.prefix > 0)
@@ -1251,18 +1250,7 @@ namespace CalamityMod.Items
 			}
 			#endregion
 
-			/*if (item.ammo == 97)
-            {
-                foreach (TooltipLine line2 in tooltips)
-                {
-                    if (line2.mod == "Terraria")
-                    {
-                        if (line2.Name == "Damage")
-                            line2.text = "";
-                    }
-                }
-            }*/
-
+			#region Vanilla Item Tooltip Edits
 			if (item.type == ItemID.CobaltSword || item.type == ItemID.CobaltNaginata)
 			{
 				foreach (TooltipLine line2 in tooltips)
@@ -3021,39 +3009,56 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                     }
                 }
             }
+			#endregion
 
-			Mod fargos = ModLoader.GetMod("Fargowiltas");
+			#region Mod Mechanic Tooltips
+			if (item.type < ItemID.Count)
+                return;
+
+            // TODO -- mod references should be kept statically
+            // Adds tooltips to Calamity fountains which match Fargo's fountain tooltips.
+            Mod fargos = ModLoader.GetMod("Fargowiltas");
 			if (fargos != null)
 			{
-				//Fargo's fountain effects
 				if (item.type == ModContent.ItemType<SunkenSeaFountain>())
 				{
-					TooltipLine line = new TooltipLine(mod, "Tooltip0", "Forces surrounding biome state to Sunken Sea upon activation");
+					TooltipLine line = new TooltipLine(mod, "FargoFountain", "Forces surrounding biome state to Sunken Sea upon activation");
 					tooltips.Add(line);
 				}
 				if (item.type == ModContent.ItemType<SulphurousFountainItem>())
 				{
-					TooltipLine line = new TooltipLine(mod, "Tooltip0", "Forces surrounding biome state to Sulphurous Sea upon activation");
+					TooltipLine line = new TooltipLine(mod, "FargoFountain", "Forces surrounding biome state to Sulphurous Sea upon activation");
 					tooltips.Add(line);
 				}
 				if (item.type == ModContent.ItemType<AstralFountainItem>())
 				{
-					TooltipLine line = new TooltipLine(mod, "Tooltip0", "Forces surrounding biome state to Astral upon activation");
+					TooltipLine line = new TooltipLine(mod, "FargoFountain", "Forces surrounding biome state to Astral upon activation");
 					tooltips.Add(line);
 				}
             }
 
-            if (item.type < ItemID.Count)
-                return;
-
+            // Adds a Current Charge tooltip to all items which use charge.
             CalamityGlobalItem modItem = item.Calamity();
             if (modItem?.UsesCharge ?? false)
             {
                 // Convert current charge ratio into a percentage.
                 float displayedPercent = ChargeRatio * 100f;
-                TooltipLine line = new TooltipLine(mod, "Tooltip0", $"Current Charge: {displayedPercent:N1}%");
+                TooltipLine line = new TooltipLine(mod, "CalamityCharge", $"Current Charge: {displayedPercent:N1}%");
                 tooltips.Add(line);
             }
+
+			// Adds "Donor Item" and "Developer Item" to donor items and developer items respectively.
+            if (donorItem)
+            {
+                TooltipLine line = new TooltipLine(mod, "CalamityDonor", CalamityUtils.ColorMessage("- Donor Item -", new Color(139, 0, 0)));
+                tooltips.Add(line);
+            }
+			if (devItem)
+            {
+                TooltipLine line = new TooltipLine(mod, "CalamityDev", CalamityUtils.ColorMessage("- Developer Item -", new Color(255, 0, 255)));
+                tooltips.Add(line);
+            }
+            #endregion
         }
 		#endregion
 
@@ -4767,7 +4772,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                     return RarityDarkBlueBuyPrice;
                 case (int)CalamityRarity.Violet:
                     return RarityVioletBuyPrice;
-                case (int)CalamityRarity.Developer:
+                case (int)CalamityRarity.HotPink:
                     return RarityHotPinkBuyPrice;
             }
             return 0;

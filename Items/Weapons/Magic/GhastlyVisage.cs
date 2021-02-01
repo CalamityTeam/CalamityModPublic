@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.noMelee = true;
             item.knockBack = 5f;
             item.value = Item.buyPrice(1, 40, 0, 0);
-            item.rare = 10;
+            item.rare = ItemRarityID.Red;
             item.shootSpeed = 9f;
             item.shoot = ModContent.ProjectileType<GhastlyVisageProj>();
             item.Calamity().customRarity = CalamityRarity.PureGreen;

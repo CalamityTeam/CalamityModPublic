@@ -19,7 +19,7 @@ namespace CalamityMod.Items.LoreItems
         {
             item.width = 20;
             item.height = 20;
-            item.rare = 2;
+            item.rare = ItemRarityID.Green;
             item.consumable = false;
         }
 

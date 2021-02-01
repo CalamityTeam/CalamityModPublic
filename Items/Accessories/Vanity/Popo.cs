@@ -2,6 +2,7 @@ using CalamityMod.CalPlayer;
 using CalamityMod.World;
 using System.Collections.Generic;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories.Vanity
@@ -12,7 +13,7 @@ namespace CalamityMod.Items.Accessories.Vanity
         {
             DisplayName.SetDefault("Magic Scarf and Hat");
             Tooltip.SetDefault("Don't let the demons steal your nose\n" +
-				"Transforms the holder into a snowman");
+                "Transforms the holder into a snowman");
         }
 
         public override void SetDefaults()
@@ -21,22 +22,23 @@ namespace CalamityMod.Items.Accessories.Vanity
             item.height = 30;
             item.accessory = true;
             item.value = CalamityGlobalItem.Rarity5BuyPrice;
-            item.rare = 5;
+            item.rare = ItemRarityID.Pink;
+            item.Calamity().devItem = true;
         }
 
         public override void ModifyTooltips(List<TooltipLine> list)
         {
-			if (CalamityWorld.death)
-			{
-				foreach (TooltipLine line2 in list)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "Tooltip1")
-					{
-						line2.text = "Transforms the holder into a snowman\n" +
-						"Provides heat and cold protection in Death Mode";
-					}
-				}
-			}
+            if (CalamityWorld.death)
+            {
+                foreach (TooltipLine line2 in list)
+                {
+                    if (line2.mod == "Terraria" && line2.Name == "Tooltip1")
+                    {
+                        line2.text = "Transforms the holder into a snowman\n" +
+                        "Provides heat and cold protection in Death Mode";
+                    }
+                }
+            }
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

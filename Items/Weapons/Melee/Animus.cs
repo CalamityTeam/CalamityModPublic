@@ -30,8 +30,8 @@ namespace CalamityMod.Items.Weapons.Melee
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             item.value = Item.buyPrice(5, 0, 0, 0);
-            item.rare = 10;
-            item.Calamity().customRarity = CalamityRarity.Developer;
+            item.rare = ItemRarityID.Red;
+            item.Calamity().customRarity = CalamityRarity.HotPink;
         }
 
         public override void AddRecipes()

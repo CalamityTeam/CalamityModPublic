@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.knockBack = 6.75f;
             item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/FlareSound");
             item.value = Item.buyPrice(0, 36, 0, 0);
-            item.rare = 5;
+            item.rare = ItemRarityID.Pink;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<SeethingDischargeBrimstoneBarrage>();
             item.shootSpeed = 6f;

@@ -53,7 +53,8 @@ namespace CalamityMod.Items.Accessories
 			item.accessory = true;
 			item.value = CalamityGlobalItem.RarityHotPinkBuyPrice;
 			item.rare = ItemRarityID.Red;
-			item.Calamity().customRarity = CalamityRarity.ItemSpecific;
+			item.Calamity().customRarity = CalamityRarity.HotPink;
+			item.Calamity().devItem = true;
 		}
 
 		// Not overriding these Clones makes tooltips fail to function correctly due to HoverItem spaghetti.

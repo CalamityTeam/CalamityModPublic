@@ -28,10 +28,10 @@ namespace CalamityMod.Items.Weapons.Rogue
 			item.height = 64;
 			item.useTime = 24;
 			item.useAnimation = 24;
-			item.useStyle = 1;
+			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.knockBack = 10f;
 			item.value = CalamityGlobalItem.Rarity7BuyPrice;
-			item.rare = 7;
+			item.rare = ItemRarityID.Lime;
 			item.UseSound = SoundID.Item1;
 			item.noMelee = true;
 			item.noUseGraphic = true;

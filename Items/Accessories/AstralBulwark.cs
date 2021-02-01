@@ -2,6 +2,8 @@ using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.CalPlayer;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
+
 namespace CalamityMod.Items.Accessories
 {
     public class AstralBulwark : ModItem
@@ -19,7 +21,7 @@ namespace CalamityMod.Items.Accessories
             item.height = 26;
             item.value = CalamityGlobalItem.Rarity9BuyPrice;
             item.expert = true;
-            item.rare = 9;
+            item.rare = ItemRarityID.Cyan;
             item.accessory = true;
         }
 

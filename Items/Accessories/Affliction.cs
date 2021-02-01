@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -23,7 +24,7 @@ namespace CalamityMod.Items.Accessories
             item.value = CalamityGlobalItem.Rarity13BuyPrice;
             item.accessory = true;
             item.expert = true;
-            item.rare = 10;
+            item.rare = ItemRarityID.Red;
         }
 
 		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)

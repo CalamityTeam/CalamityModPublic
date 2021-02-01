@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.height = 18;
             item.maxStack = 10;
             item.value = Item.buyPrice(0, 3, 60, 0);
-            item.rare = 6;
+            item.rare = ItemRarityID.LightPurple;
             item.shoot = ModContent.ProjectileType<NychthemeronProjectile>();
             item.shootSpeed = 6f;
             item.Calamity().rogue = true;
@@ -85,7 +85,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 		{
 			if (player.altFunctionUse == 2)
 			{
-				item.shoot = 0;
+				item.shoot = ProjectileID.None;
 				item.shootSpeed = 0f;
 				return player.ownedProjectileCounts[ModContent.ProjectileType<NychthemeronProjectile>()] > 0;
 			}

@@ -37,7 +37,7 @@ namespace CalamityMod.Items.Weapons.Summon
             item.shootSpeed = 10f;
 
             item.value = Item.buyPrice(1, 40, 0, 0);
-            item.rare = 10;
+            item.rare = ItemRarityID.Red;
             item.Calamity().customRarity = CalamityRarity.PureGreen;
         }
 

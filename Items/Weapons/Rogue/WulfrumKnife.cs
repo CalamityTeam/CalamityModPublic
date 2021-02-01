@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.height = 38;
             item.maxStack = 999;
             item.value = Item.sellPrice(0, 0, 0, 5);
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.shoot = ModContent.ProjectileType<WulfrumKnifeProj>();
             item.shootSpeed = 12f;
             item.Calamity().rogue = true;

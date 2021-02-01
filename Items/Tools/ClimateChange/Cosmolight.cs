@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Tools.ClimateChange
         {
             item.width = 20;
             item.height = 20;
-            item.rare = 5;
+            item.rare = ItemRarityID.Pink;
             item.useAnimation = 20;
             item.useTime = 20;
             item.useStyle = ItemUseStyleID.HoldingUp;

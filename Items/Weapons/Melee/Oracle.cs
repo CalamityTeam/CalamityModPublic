@@ -11,16 +11,17 @@ namespace CalamityMod.Items.Weapons.Melee
     public class Oracle : ModItem
     {
         public const int YoyoBaseDamage = 380;
-		public const int AuraBaseDamage = 120;
-		public const int AuraMaxDamage = 400;
-		
-		public override void SetStaticDefaults()
+        public const int AuraBaseDamage = 120;
+        public const int AuraMaxDamage = 400;
+        
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("The Oracle");
             Tooltip.SetDefault("Gaze into the past, the present, the future... and the circumstances of your inevitable demise\n" +
-			"Emits an aura of red lightning which charges up when hitting enemies\n" +
-			"Fires auric orbs when supercharged\n" +
-			"An exceptionally agile yoyo\n");
+                "Emits an aura of red lightning which charges up when hitting enemies\n" +
+                "Fires auric orbs when supercharged\n" +
+                "An exceptionally agile yoyo\n");
+
             ItemID.Sets.Yoyo[item.type] = true;
             ItemID.Sets.GamepadExtraRange[item.type] = 15;
             ItemID.Sets.GamepadSmartQuickReach[item.type] = true;
@@ -46,9 +47,9 @@ namespace CalamityMod.Items.Weapons.Melee
             item.shoot = ModContent.ProjectileType<OracleYoyo>();
             item.shootSpeed = 16f;
 
-            item.rare = 10;
-            item.Calamity().customRarity = CalamityRarity.Dedicated;
-            item.value = Item.buyPrice(platinum: 2, gold: 50);
+            item.value = CalamityGlobalItem.Rarity15BuyPrice;
+            item.Calamity().customRarity = CalamityRarity.Violet;
+            item.Calamity().donorItem = true;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -68,8 +69,8 @@ namespace CalamityMod.Items.Weapons.Melee
             r.AddIngredient(ModContent.ItemType<Chaotrix>());
             r.AddIngredient(ModContent.ItemType<Quagmire>());
             r.AddIngredient(ModContent.ItemType<Shimmerspark>());
-			r.AddIngredient(ModContent.ItemType<AuricBar>(), 4);
-			r.AddRecipe();
+            r.AddIngredient(ModContent.ItemType<AuricBar>(), 4);
+            r.AddRecipe();
         }
     }
 }

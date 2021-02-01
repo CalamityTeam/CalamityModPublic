@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Armor
             item.width = 18;
             item.height = 18;
             item.value = Item.buyPrice(0, 20, 0, 0);
-            item.rare = 5;
+            item.rare = ItemRarityID.Pink;
             item.defense = 19; //41
         }
 

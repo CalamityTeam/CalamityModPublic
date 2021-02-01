@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Weapons.Typeless
 			item.noUseGraphic = true;
             item.UseSound = SoundID.Item1;
             item.value = Item.buyPrice(0, 0, 40, 0); // Crafted 10 at a time
-            item.rare = 3;
+            item.rare = ItemRarityID.Orange;
         }
 
         public override void UpdateInventory(Player player)

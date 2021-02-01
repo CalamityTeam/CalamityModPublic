@@ -78,6 +78,9 @@ namespace CalamityMod.Projectiles
         public Action<NPC> organicEnemyHitEffect = null;
         public Action<NPC> inorganicEnemyHitEffect = null;
 
+        // Dogshit, hacky workarounds for the summon respawning system
+        public bool RequiresManualResurrection = false;
+
         public bool overridesMinionDamagePrevention = false;
 
         #region SetDefaults
@@ -171,7 +174,16 @@ namespace CalamityMod.Projectiles
         #region PreAI
         public override bool PreAI(Projectile projectile)
         {
-			/*switch (projectile.type)
+            if (RequiresManualResurrection)
+            {
+                // Reactivate the projectile the instant it's created. This is dirty as fuck, but
+                // I can't find the offending Kill call in the frankly enormous codebase that causes this unusual instant-death behavior.
+                projectile.active = true;
+                projectile.timeLeft = 90000;
+                RequiresManualResurrection = false;
+            }
+
+            /*switch (projectile.type)
 			{
 				case ProjectileID.Hornet:
 				case ProjectileID.FlyingImp:
@@ -200,7 +212,7 @@ namespace CalamityMod.Projectiles
 					break;
 			}*/
 
-			if (projectile.type == ProjectileID.Starfury)
+            if (projectile.type == ProjectileID.Starfury)
             {
                 if (projectile.timeLeft > 45)
                     projectile.timeLeft = 45;

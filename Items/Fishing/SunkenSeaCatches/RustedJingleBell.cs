@@ -21,7 +21,7 @@ namespace CalamityMod.Items.Fishing.SunkenSeaCatches
             item.shoot = ModContent.ProjectileType<BabyGhostBell>();
             item.buffType = ModContent.BuffType<BabyGhostBellBuff>();
             item.value = Item.sellPrice(gold: 5);
-            item.rare = 3;
+            item.rare = ItemRarityID.Orange;
         }
 
         public override void UseStyle(Player player)

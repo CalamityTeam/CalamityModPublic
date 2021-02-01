@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Weapons.Summon
             item.noMelee = true;
             item.knockBack = 4.5f;
             item.value = Item.buyPrice(0, 60, 0, 0);
-            item.rare = 7;
+            item.rare = ItemRarityID.Lime;
             item.UseSound = SoundID.Item113;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<DreadmineTurret>();

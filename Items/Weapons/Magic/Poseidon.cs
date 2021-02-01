@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.knockBack = 6f;
             item.value = Item.buyPrice(0, 36, 0, 0);
             item.UseSound = SoundID.Item84;
-            item.rare = 5;
+            item.rare = ItemRarityID.Pink;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<PoseidonTyphoon>();
             item.shootSpeed = 10f;

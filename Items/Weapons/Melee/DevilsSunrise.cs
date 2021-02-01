@@ -32,16 +32,16 @@ namespace CalamityMod.Items.Weapons.Melee
             item.autoReuse = false;
             item.useStyle = ItemUseStyleID.HoldingOut;
 
-            item.rare = 10;
-            item.Calamity().customRarity = CalamityRarity.Dedicated;
-            item.value = Item.buyPrice(1, 40, 0, 0);
+            item.value = CalamityGlobalItem.Rarity12BuyPrice;
+            item.Calamity().customRarity = CalamityRarity.Turquoise;
+            item.Calamity().donorItem = true;
 
             item.shoot = ModContent.ProjectileType<DevilsSunriseProj>();
             item.shootSpeed = 24f;
         }
 
-		// Terraria seems to really dislike high crit values in SetDefaults
-		public override void GetWeaponCrit(Player player, ref int crit) => crit += 10;
+        // Terraria seems to really dislike high crit values in SetDefaults
+        public override void GetWeaponCrit(Player player, ref int crit) => crit += 10;
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {

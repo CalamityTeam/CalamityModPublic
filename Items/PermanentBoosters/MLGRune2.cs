@@ -19,7 +19,7 @@ Consuming it does something that cannot be reversed");
         {
             item.width = 28;
             item.height = 28;
-            item.rare = 10;
+            item.rare = ItemRarityID.Red;
             item.maxStack = 99;
             item.useAnimation = 30;
             item.useTime = 30;

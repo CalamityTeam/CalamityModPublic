@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.UseSound = SoundID.DD2_GhastlyGlaivePierce;
             item.autoReuse = true;
             item.value = Item.buyPrice(0, 12, 0, 0);
-            item.rare = 4;
+            item.rare = ItemRarityID.LightRed;
             item.shoot = ModContent.ProjectileType<SlickCaneProjectile>();
             item.shootSpeed = 22f;
 			item.Calamity().rogue = true;

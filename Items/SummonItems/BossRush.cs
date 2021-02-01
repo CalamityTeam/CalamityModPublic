@@ -21,7 +21,7 @@ namespace CalamityMod.Items.SummonItems
 
         public override void SetDefaults()
         {
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.width = 28;
             item.height = 28;
             item.useAnimation = 45;

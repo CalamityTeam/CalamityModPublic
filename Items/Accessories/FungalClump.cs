@@ -3,6 +3,8 @@ using CalamityMod.CalPlayer;
 using CalamityMod.Projectiles.Summon;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
+
 namespace CalamityMod.Items.Accessories
 {
     public class FungalClump : ModItem
@@ -22,7 +24,7 @@ namespace CalamityMod.Items.Accessories
             item.height = 26;
             item.value = CalamityGlobalItem.Rarity2BuyPrice;
             item.expert = true;
-            item.rare = 2;
+            item.rare = ItemRarityID.Green;
             item.accessory = true;
         }
 

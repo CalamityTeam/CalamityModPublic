@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.autoReuse = true;
             item.height = 108;
             item.value = Item.buyPrice(1, 40, 0, 0);
-            item.rare = 10;
+            item.rare = ItemRarityID.Red;
             item.shoot = ModContent.ProjectileType<BansheeHookProj>();
             item.shootSpeed = 42f;
             item.Calamity().customRarity = CalamityRarity.PureGreen;

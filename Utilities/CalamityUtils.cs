@@ -59,7 +59,7 @@ namespace CalamityMod
 			CalamityRarity.PureGreen,
 			CalamityRarity.DarkBlue,
 			CalamityRarity.Violet,
-			CalamityRarity.Developer,
+			CalamityRarity.HotPink,
 			CalamityRarity.Rainbow
 		};
 
@@ -172,16 +172,10 @@ namespace CalamityMod
 		/// <param name="damageMult">A reference to the current in-use damage multiplier. This will be increased in-place.</param>
 		public static void ApplyRippersToDamage(CalamityPlayer mp, ref double damageMult)
 		{
-			if (mp.rageModeActive && mp.adrenalineModeActive)
-			{
-				// This is always flat +280% damage. It's been this way forever, regardless of boosts.
-				damageMult += CalamityPlayer.AdrenalineDamageBoost + 0.8D;
-			}
-			else if (mp.rageModeActive)
-			{
+			// Rage and Adrenaline now stack additively with no special cases.
+			if (mp.rageModeActive)
 				damageMult += mp.RageDamageBoost;
-			}
-			else if (mp.adrenalineModeActive)
+			if (mp.adrenalineModeActive)
 				damageMult += mp.GetAdrenalineDamage();
 		}
 
@@ -3944,6 +3938,14 @@ namespace CalamityMod
 			}
 			return result.ToString();
 		}
+
+		/// <summary>
+		/// Determines if a list contains an entry of a specific type. Specifically intended to account for derived types.
+		/// </summary>
+		/// <typeparam name="T">The base type of the collection.</typeparam>
+		/// <param name="collection">The collection.</param>
+		/// <param name="type">The type to search for.</param>
+		public static bool ContainsType<T>(this IEnumerable<T> collection, Type type) => collection.Any(entry => entry.GetType() == type.GetType());
 
 		/// <summary>
 		/// Calculates the sound volume and panning for a sound which is played at the specified location in the game world.<br/>

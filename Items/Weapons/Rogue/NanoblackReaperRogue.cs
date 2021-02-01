@@ -36,9 +36,9 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.UseSound = SoundID.Item18;
 
-            item.rare = ItemRarityID.Red;
-            item.Calamity().customRarity = CalamityRarity.ItemSpecific;
-            item.value = Item.buyPrice(platinum: 5);
+            item.value = CalamityGlobalItem.Rarity16BuyPrice;
+            item.Calamity().customRarity = CalamityRarity.HotPink;
+            item.Calamity().devItem = true;
 
             item.Calamity().rogue = true;
             item.shoot = ModContent.ProjectileType<NanoblackMain>();

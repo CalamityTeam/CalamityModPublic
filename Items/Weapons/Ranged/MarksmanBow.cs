@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.height = 110;
             item.useTime = 18;
             item.useAnimation = 18;
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 6f;
             item.UseSound = SoundID.Item5;
@@ -30,9 +30,10 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.shoot = ProjectileID.JestersArrow;
             item.shootSpeed = 10f;
             item.useAmmo = AmmoID.Arrow;
-            item.value = Item.buyPrice(0, 80, 0, 0);
-            item.rare = 8;
-            item.Calamity().customRarity = CalamityRarity.Dedicated;
+
+            item.value = Item.buyPrice(gold: 80); // crafted out of nothing but 31 ectoplasm so it has unique pricing
+            item.rare = ItemRarityID.Yellow;
+            item.Calamity().donorItem = true;
         }
 
 		// Terraria seems to really dislike high crit values in SetDefaults

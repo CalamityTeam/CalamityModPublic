@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.height = 40;
             item.maxStack = 999;
             item.value = 900;
-            item.rare = 4;
+            item.rare = ItemRarityID.LightRed;
             item.shoot = ModContent.ProjectileType<CobaltKunaiProjectile>();
             item.shootSpeed = 12f;
             item.Calamity().rogue = true;

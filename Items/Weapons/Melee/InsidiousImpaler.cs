@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
-	public class InsidiousImpaler : ModItem
+    public class InsidiousImpaler : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -28,13 +28,13 @@ namespace CalamityMod.Items.Weapons.Melee
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             item.height = 70;
-            item.value = Item.buyPrice(1, 40, 0, 0);
-            item.Calamity().postMoonLordRarity = 13;
-			item.rare = 10;
             item.shoot = ModContent.ProjectileType<InsidiousImpalerProj>();
             item.shootSpeed = 5f;
+
+            item.value = CalamityGlobalItem.Rarity13BuyPrice;
+            item.Calamity().customRarity = CalamityRarity.PureGreen;
         }
 
-		public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;
-	}
+        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;
+    }
 }

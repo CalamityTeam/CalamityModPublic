@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.DataStructures;
+using Terraria.ID;
 
 namespace CalamityMod.Items.Materials
 {
@@ -22,7 +23,7 @@ namespace CalamityMod.Items.Materials
             item.width = 38;
             item.height = 36;
             item.maxStack = 999;
-            item.rare = 10;
+            item.rare = ItemRarityID.Red;
             item.value = Item.sellPrice(gold: 2);
             item.Calamity().customRarity = CalamityRarity.DarkBlue;
         }

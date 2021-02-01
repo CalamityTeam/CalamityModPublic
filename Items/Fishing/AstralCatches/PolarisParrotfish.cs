@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Fishing.AstralCatches
             item.noMelee = true;
             item.knockBack = 2.25f;
             item.value = Item.buyPrice(0, 36, 0, 0);
-            item.rare = 5;
+            item.rare = ItemRarityID.Pink;
             item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LaserCannon"); //pew pew
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<PolarStar>();

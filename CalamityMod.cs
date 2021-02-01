@@ -61,6 +61,7 @@ namespace CalamityMod
     public class CalamityMod : Mod
     {
         // CONSIDER -- I have been advised by Jopo that Mods should never contain static variables
+        // TODO -- 1.4 fixes the crit reforge price calculation bug, so GetWeaponCrit everywhere can go.
 
         // Hotkeys
         public static ModHotKey NormalityRelocatorHotKey;

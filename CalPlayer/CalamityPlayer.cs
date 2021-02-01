@@ -937,6 +937,28 @@ namespace CalamityMod.CalPlayer
         public bool plaguebringerPatronSummon = false;
         public bool howlTrio = false;
         public bool mountedScanner = false;
+        public List<DeadMinionProperties> PendingProjectilesToRespawn = new List<DeadMinionProperties>();
+
+        // Due to the way vanilla summons work, the buff must be applied manually for it to properly register, since
+        // the buff is typically created via the minion's item usage, not its idle existence.
+        public static Dictionary<int, int> VanillaMinionBuffRelationship = new Dictionary<int, int>()
+        {
+            [ProjectileID.BabySlime] = BuffID.BabySlime,
+            [ProjectileID.BabyHornet] = BuffID.BabyHornet,
+            [ProjectileID.FlyingImp] = BuffID.ImpMinion,
+            [ProjectileID.VenomSpider] = BuffID.SpiderMinion,
+            [ProjectileID.JumperSpider] = BuffID.SpiderMinion,
+            [ProjectileID.DangerousSpider] = BuffID.SpiderMinion,
+            [ProjectileID.Spazmamini] = BuffID.TwinEyesMinion,
+            [ProjectileID.Retanimini] = BuffID.TwinEyesMinion,
+            [ProjectileID.Raven] = BuffID.Ravens,
+            [ProjectileID.DeadlySphere] = BuffID.DeadlySphere,
+            [ProjectileID.Tempest] = BuffID.SharknadoMinion,
+            [ProjectileID.UFOMinion] = BuffID.UFOMinion,
+            [ProjectileID.StardustCellMinion] = BuffID.StardustMinion,
+            [ProjectileID.StardustDragon1] = BuffID.StardustDragonMinion,
+        };
+
         #endregion
 
         #region Biome
@@ -4040,6 +4062,63 @@ namespace CalamityMod.CalPlayer
         public override bool PreKill(double damage, int hitDirection, bool pvp, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
         {
             PopupGUIManager.SuspendAll();
+
+            // Determine which minions need to be respawned.
+            if (Main.myPlayer == player.whoAmI)
+            {
+                int endoHydraHeadCount = 0;
+                int endoCooperType = ModContent.ProjectileType<EndoCooperBody>();
+                int endoHydraHeadType = ModContent.ProjectileType<EndoHydraHead>();
+                int endoHydraBodyType = ModContent.ProjectileType<EndoHydraBody>();
+                int mechwormHeadType = ModContent.ProjectileType<MechwormHead>();
+
+                // Claim data to cache before respawning as necessary.
+                for (int i = 0; i < Main.maxProjectiles; i++)
+                {
+                    Projectile projectile = Main.projectile[i];
+                    if (projectile.type != endoHydraHeadType || projectile.owner != player.whoAmI || !projectile.active)
+                        continue;
+                    endoHydraHeadCount++;
+                }
+
+                for (int i = 0; i < Main.maxProjectiles; i++)
+                {
+                    Projectile projectile = Main.projectile[i];
+                    if ((projectile.minionSlots <= 0f && !CalamityLists.ZeroMinionSlotExceptionList.Contains(projectile.type)) || !projectile.minion || 
+                        projectile.owner != player.whoAmI || !projectile.active || CalamityLists.MinionsToNotResurrectList.Contains(projectile.type))
+                        continue;
+
+                    DeadMinionProperties deadMinionProperties;
+
+                    // Handle unique edge-cases in terms of summoning logic.
+                    if (projectile.type == mechwormHeadType)
+                        deadMinionProperties = new DeadMechwormProperties(projectile.damage, projectile.knockBack);
+                    else if (projectile.type == ProjectileID.StardustDragon1)
+                        deadMinionProperties = new DeadStardustDragonProperties(projectile.damage, projectile.knockBack);
+                    else if (projectile.type == endoHydraBodyType)
+                        deadMinionProperties = new DeadEndoHydraProperties(endoHydraHeadCount, projectile.damage, projectile.knockBack);
+                    else if (projectile.type == endoCooperType)
+                        deadMinionProperties = new DeadEndoCooperProperties((int)projectile.ai[0], projectile.minionSlots, projectile.damage, projectile.knockBack);
+                    else
+                    {
+                        float[] aiToCopy = projectile.ai;
+
+                        // If blacklisted from copying AI state values, zero out the AI values to feed to the copy.
+                        if (CalamityLists.DontCopyOriginalMinionAIList.Contains(projectile.type))
+                            aiToCopy = new float[aiToCopy.Length];
+                        deadMinionProperties = new DeadMinionProperties(projectile.type, projectile.minionSlots, projectile.damage, projectile.knockBack, aiToCopy);
+                    }
+
+                    // Refuse to add duplicate entries of a certain type if an entry already exists and
+                    // the minion properties signify that it should be unique.
+                    if (deadMinionProperties.DisallowMultipleEntries && PendingProjectilesToRespawn.ContainsType(deadMinionProperties.GetType()))
+                        continue;
+
+                    // Otherwise, cache the minion's data for when the player respawns.
+                    PendingProjectilesToRespawn.Add(deadMinionProperties);
+                }
+            }
+
             if (player.Calamity().andromedaState == AndromedaPlayerState.LargeRobot)
             {
                 if (!Main.dedServ)
@@ -4336,6 +4415,33 @@ namespace CalamityMod.CalPlayer
         public override void OnRespawn(Player player)
         {
             thirdSageH = true;
+
+            // Order the list such that less expensive minions are at the top.
+            // This way cheaper minions will be spawned first, and at the end, the most expensive
+            // ones can be ignored if the player ultimately has insufficient slots.
+            PendingProjectilesToRespawn = PendingProjectilesToRespawn.OrderBy(proj => proj.RequiredMinionSlots).ToList();
+
+            // Resurrect all pending minions as necessary.
+            if (Main.myPlayer == player.whoAmI)
+            {
+                float remainingSlots = player.maxMinions;
+                for (int i = 0; i < PendingProjectilesToRespawn.Count; i++)
+                {
+                    // Stop checking if the player has exhausted all of their base minion slots.
+                    if (remainingSlots - PendingProjectilesToRespawn[i].RequiredMinionSlots < 0f)
+                        break;
+
+                    PendingProjectilesToRespawn[i].SummonCopy(player.whoAmI);
+
+                    
+                    // Apply vanilla buffs as usual to the player.
+                    if (VanillaMinionBuffRelationship.ContainsKey(PendingProjectilesToRespawn[i].Type))
+                        player.AddBuff(VanillaMinionBuffRelationship[PendingProjectilesToRespawn[i].Type], 3600);
+
+                    remainingSlots -= PendingProjectilesToRespawn[i].RequiredMinionSlots;
+                }
+                PendingProjectilesToRespawn.Clear();
+            }
 
             // The player rotation can be off if the player dies at the right time when using Final Dawn.
             player.fullRotation = 0f;

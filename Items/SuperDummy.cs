@@ -26,7 +26,7 @@ namespace CalamityMod.Items
 			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.useTurn = true;
 			item.value = 0;
-			item.rare = 1;
+			item.rare = ItemRarityID.Blue;
 			item.autoReuse = true;
 		}
 
