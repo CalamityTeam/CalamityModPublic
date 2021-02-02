@@ -1458,12 +1458,4 @@ namespace CalamityMod
         public override void MidUpdateTimeWorld() =>  TileEntityTimeHandler.Update();
         #endregion
     }
-
-    public enum Season : byte
-    {
-        Winter,
-        Spring,
-        Summer,
-        Fall
-    }
 }
