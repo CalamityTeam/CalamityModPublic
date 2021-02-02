@@ -284,7 +284,7 @@ namespace CalamityMod
 				TileID.LihzahrdAltar,
 				TileID.DesertFossil
 			};
-			CalamityUtils.AddWithCondition<int>(explosionCheckList, TileID.Hellstone, !Main.hardMode);
+			AddWithCondition<int>(explosionCheckList, TileID.Hellstone, !Main.hardMode);
 
 			for (int i = minTileX; i <= maxTileX; i++)
 			{
@@ -352,6 +352,37 @@ namespace CalamityMod
 					}
 				}
 			}
+		}
+
+		/// <summary>
+		/// Creates an explosion which is visually identical to vanilla's Rocket III and Rocket IV on-hit explosions.
+		/// </summary>
+		/// <param name="projectile">The projectile which is exploding.</param>
+		public static void LargeFieryExplosion(this Projectile projectile)
+		{
+			// Sparks and such
+			Vector2 corner = projectile.position;
+			for (int i = 0; i < 40; i++)
+			{
+				int idx = Dust.NewDust(corner, projectile.width, projectile.height, 31, 0f, 0f, 100, default, 2f);
+				Main.dust[idx].velocity *= 3f;
+				if (Main.rand.NextBool(2))
+				{
+					Main.dust[idx].scale = 0.5f;
+					Main.dust[idx].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
+				}
+			}
+			for (int i = 0; i < 70; i++)
+			{
+				int idx = Dust.NewDust(corner, projectile.width, projectile.height, 6, 0f, 0f, 100, default, 3f);
+				Main.dust[idx].noGravity = true;
+				Main.dust[idx].velocity *= 5f;
+				idx = Dust.NewDust(corner, projectile.width, projectile.height, 6, 0f, 0f, 100, default, 2f);
+				Main.dust[idx].velocity *= 2f;
+			}
+
+			// Smoke, which counts as a Gore
+			ExplosionGores(projectile.Center, 3);
 		}
 	}
 }
