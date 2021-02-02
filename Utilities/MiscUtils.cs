@@ -213,38 +213,6 @@ namespace CalamityMod
 				list.Add(type);
 		}
 
-		public static void Inflict246DebuffsNPC(NPC target, int buff, float timeBase = 2f)
-		{
-			if (Main.rand.NextBool(4))
-			{
-				target.AddBuff(buff, SecondsToFrames(timeBase * 3f), false);
-			}
-			else if (Main.rand.NextBool(2))
-			{
-				target.AddBuff(buff, SecondsToFrames(timeBase * 2f), false);
-			}
-			else
-			{
-				target.AddBuff(buff, SecondsToFrames(timeBase), false);
-			}
-		}
-
-		public static void Inflict246DebuffsPvp(Player target, int buff, float timeBase = 2f)
-		{
-			if (Main.rand.NextBool(4))
-			{
-				target.AddBuff(buff, SecondsToFrames(timeBase * 3f), false);
-			}
-			else if (Main.rand.NextBool(2))
-			{
-				target.AddBuff(buff, SecondsToFrames(timeBase * 2f), false);
-			}
-			else
-			{
-				target.AddBuff(buff, SecondsToFrames(timeBase), false);
-			}
-		}
-
 		public static int SecondsToFrames(int seconds) => seconds * 60;
 		public static int SecondsToFrames(float seconds) => (int)(seconds * 60);
 
@@ -289,38 +257,6 @@ namespace CalamityMod
 
 		public static bool WithinBounds(this int index, int cap) => index >= 0 && index < cap;
 
-		// REMOVE THIS IN CALAMITY 1.4, it's a 1.4 Main.cs function
-		public static float GetLerpValue(float from, float to, float t, bool clamped = false)
-		{
-			if (clamped)
-			{
-				if (from < to)
-				{
-					if (t < from)
-					{
-						return 0f;
-					}
-					if (t > to)
-					{
-						return 1f;
-					}
-				}
-				else
-				{
-					if (t < to)
-					{
-						return 1f;
-					}
-					if (t > from)
-					{
-						return 0f;
-					}
-				}
-			}
-			return (t - from) / (to - from);
-		}
-
-		/// <summary>
 		/// Clamps the distance between vectors via normalization.
 		/// </summary>
 		/// <param name="start">The starting point.</param>
@@ -332,16 +268,6 @@ namespace CalamityMod
 			{
 				end = start + Vector2.Normalize(end - start) * maxDistance;
 			}
-		}
-
-		// REMOVE THIS IN CALAMITY 1.4, it's a 1.4 World.cs function
-		public static Rectangle ClampToWorld(Rectangle tileRectangle)
-		{
-			int num = Math.Max(0, Math.Min(tileRectangle.Left, Main.maxTilesX));
-			int num2 = Math.Max(0, Math.Min(tileRectangle.Top, Main.maxTilesY));
-			int num3 = Math.Max(0, Math.Min(tileRectangle.Right, Main.maxTilesX));
-			int num4 = Math.Max(0, Math.Min(tileRectangle.Bottom, Main.maxTilesY));
-			return new Rectangle(num, num2, num3 - num, num4 - num2);
 		}
 	}
 }
