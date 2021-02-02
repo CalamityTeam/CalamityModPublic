@@ -4,6 +4,7 @@ using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.Potions;
 using CalamityMod.Buffs.StatBuffs;
 using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.DataStructures;
 using CalamityMod.Dusts;
 using CalamityMod.Events;
 using CalamityMod.Items.Accessories;
@@ -68,30 +69,6 @@ using Terraria.ModLoader.IO;
 
 namespace CalamityMod.CalPlayer
 {
-	public enum ClassType
-	{
-		Melee = 0,
-		Ranged = 1,
-		Magic = 2,
-		Summon = 3,
-		Rogue = 4
-	}
-
-    public enum AnimationType
-    {
-        Idle,
-        Jump,
-        Walk
-    }
-
-    public enum AndromedaPlayerState
-    {
-        Inactive,
-        SmallRobot,
-        LargeRobot,
-        SpecialAttack
-    }
-
     public class CalamityPlayer : ModPlayer
     {
         #region Variables

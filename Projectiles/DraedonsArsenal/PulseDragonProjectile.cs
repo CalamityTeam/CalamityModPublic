@@ -1,3 +1,4 @@
+using CalamityMod.DataStructures;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -169,6 +170,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                 bezierPoints.Add(Vector2.Lerp(mountedCenter, projectile.Center, i / 20f) + offset);
             }
             bezierPoints.Add(projectile.Center);
+
             BezierCurve bezierCurve = new BezierCurve(bezierPoints.ToArray());
             int totalChains = (int)(projectile.Distance(mountedCenter) / chainTexture.Height);
             totalChains = (int)MathHelper.Clamp(totalChains, 40f, 1000f);

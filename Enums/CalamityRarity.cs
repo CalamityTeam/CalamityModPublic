@@ -1,13 +1,5 @@
-namespace CalamityMod
+﻿namespace CalamityMod
 {
-    public enum ConvertType
-    {
-        Pure,
-        Corrupt,
-        Crimson,
-        Hallow
-    }
-
     public enum CalamityRarity
     {
         NoEffect = 0,
