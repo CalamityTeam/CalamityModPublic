@@ -3,7 +3,6 @@ using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Ores;
 using CalamityMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -36,14 +35,15 @@ namespace CalamityMod.Items.Weapons.Melee
 			item.autoReuse = true;
 			item.shoot = ModContent.ProjectileType<GalileosMoon>();
 			item.shootSpeed = 14f;
-			item.value = Item.buyPrice(1, 40, 0, 0);
-			item.rare = ItemRarityID.Red;
+
+			item.value = CalamityGlobalItem.Rarity13BuyPrice;
 			item.Calamity().customRarity = CalamityRarity.PureGreen;
 		}
 
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-			Projectile.NewProjectile(position.X, position.Y, item.shootSpeed * player.direction, 0f, type, (int)(damage * 0.5), knockBack, player.whoAmI, 0f, 0f);
+			int moonDamage = (int)(damage * 0.3333f);
+			Projectile.NewProjectile(position.X, position.Y, item.shootSpeed * player.direction, 0f, type, moonDamage, knockBack, player.whoAmI, 0f, 0f);
 			return false;
 		}
 
@@ -81,14 +81,14 @@ namespace CalamityMod.Items.Weapons.Melee
 		}
 
 		private void SpawnMeteor(Player player)
-        {
+		{
 			if (player.whoAmI == Main.myPlayer)
 			{
 				if (player.Calamity().galileoCooldown <= 0)
-                {
-                    int damage = player.GetWeaponDamage(player.ActiveItem()) * 2;
-                    CalamityUtils.ProjectileRain(player.Center, 400f, 100f, 500f, 800f, 25f, ModContent.ProjectileType<GalileosPlanet>(), damage, 15f, player.whoAmI);
-                    player.Calamity().galileoCooldown = 15;
+				{
+					int damage = player.GetWeaponDamage(player.ActiveItem()) * 2;
+					CalamityUtils.ProjectileRain(player.Center, 400f, 100f, 500f, 800f, 25f, ModContent.ProjectileType<GalileosPlanet>(), damage, 15f, player.whoAmI);
+					player.Calamity().galileoCooldown = 15;
 				}
 			}
 		}

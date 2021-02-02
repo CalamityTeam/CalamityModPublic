@@ -28,22 +28,25 @@ namespace CalamityMod.Items.Weapons.Melee
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             item.height = 88;
-            item.value = Item.buyPrice(1, 40, 0, 0);
-            item.rare = ItemRarityID.Red;
             item.shoot = ModContent.ProjectileType<GhastlySoulLarge>();
             item.shootSpeed = 12f;
+
+            item.value = CalamityGlobalItem.Rarity13BuyPrice;
             item.Calamity().customRarity = CalamityRarity.PureGreen;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            int num6 = Main.rand.Next(2, 4);
-            for (int index = 0; index < num6; ++index)
+            int numShots = 3;
+            int projDamage = (int)(damage * 0.5f);
+            for (int i = 0; i < numShots; ++i)
             {
                 float SpeedX = speedX + (float)Main.rand.Next(-40, 41) * 0.05f;
                 float SpeedY = speedY + (float)Main.rand.Next(-40, 41) * 0.05f;
                 float ai1 = Main.rand.NextFloat() + 0.5f;
-                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, Main.rand.Next(type, type + 3), (int)((double)damage * 0.75), knockBack, player.whoAmI, 0.0f, ai1);
+                // TODO -- unchecked type addition math assumes we can guarantee load order
+                // this is extremely unsafe and load order may become non deterministic in 1.4
+                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, Main.rand.Next(type, type + 3), projDamage, knockBack, player.whoAmI, 0.0f, ai1);
             }
             return false;
         }

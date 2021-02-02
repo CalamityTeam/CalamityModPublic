@@ -32,10 +32,10 @@ namespace CalamityMod.Items.Weapons.Melee
             item.knockBack = 9f;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
-            item.value = Item.buyPrice(1, 40, 0, 0);
-            item.rare = ItemRarityID.Red;
             item.shoot = ModContent.ProjectileType<NeptuneOrb>();
             item.shootSpeed = 12f;
+
+            item.value = CalamityGlobalItem.Rarity13BuyPrice;
             item.Calamity().customRarity = CalamityRarity.PureGreen;
         }
 

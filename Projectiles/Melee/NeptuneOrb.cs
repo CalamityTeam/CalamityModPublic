@@ -5,6 +5,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.Projectiles.Melee
 {
     public class NeptuneOrb : ModProjectile
@@ -31,12 +32,10 @@ namespace CalamityMod.Projectiles.Melee
         public override void AI()
         {
             Lighting.AddLight(projectile.Center, 0f, 0f, 1f);
-            if (projectile.timeLeft % 20 == 19)
+            if (projectile.timeLeft % 20 == 19 && projectile.owner == Main.myPlayer)
             {
-                if (projectile.owner == Main.myPlayer)
-                {
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 15f, ModContent.ProjectileType<DepthOrb2>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
-                }
+                int splitDamage = projectile.damage / 2;
+                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 15f, ModContent.ProjectileType<DepthOrb2>(), splitDamage, projectile.knockBack, projectile.owner, 0f, 0f);
             }
             int num458 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 33, 0f, 0f, 100, default, 0.4f);
             Main.dust[num458].noGravity = true;
@@ -46,10 +45,10 @@ namespace CalamityMod.Projectiles.Melee
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-			if (projectile.timeLeft > 295)
-				return false;
+            if (projectile.timeLeft > 295)
+                return false;
 
-			Texture2D tex = Main.projectileTexture[projectile.type];
+            Texture2D tex = Main.projectileTexture[projectile.type];
             spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, projectile.GetAlpha(lightColor), projectile.rotation, tex.Size() / 2f, projectile.scale, SpriteEffects.None, 0f);
             return false;
         }
