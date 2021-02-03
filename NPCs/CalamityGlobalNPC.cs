@@ -1681,7 +1681,7 @@ namespace CalamityMod.NPCs
 			}
 
 			double newDamage = (1f - effectiveDR) * damage;
-            return newDamage < 1.0 ? 1.0 : newDamage;
+            return newDamage < 0.5 ? 0D : newDamage < 1D ? 1D : newDamage;
         }
 
         private float DefaultDRMath(NPC npc, float DR)
