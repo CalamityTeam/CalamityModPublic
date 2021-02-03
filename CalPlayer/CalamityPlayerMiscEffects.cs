@@ -393,9 +393,9 @@ namespace CalamityMod.CalPlayer
 
 					float finalProxRage = Math.Max(proxRageFromEnemy, proxRageFromBoss);
 
-					// 300% proximity rage (max possible from a boss) will fill the Rage meter in 10 seconds.
-					// 100% proximity rage (max possible from an enemy) will fill the Rage meter in 30 seconds.
-					rageDiff += finalProxRage * modPlayer.rageMax / CalamityUtils.SecondsToFrames(30f);
+					// 300% proximity rage (max possible from a boss) will fill the Rage meter in 15 seconds.
+					// 100% proximity rage (max possible from an enemy) will fill the Rage meter in 45 seconds.
+					rageDiff += finalProxRage * modPlayer.rageMax / CalamityUtils.SecondsToFrames(45f);
 				}
 			}
 
