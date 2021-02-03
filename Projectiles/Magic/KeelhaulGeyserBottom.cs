@@ -19,7 +19,7 @@ namespace CalamityMod.Projectiles.Magic
             projectile.ignoreWater = true;
             projectile.magic = true;
             projectile.penetrate = -1;
-            projectile.timeLeft = 360;
+            projectile.timeLeft = 240;
             projectile.alpha = 90;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 20;
