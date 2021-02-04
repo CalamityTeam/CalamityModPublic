@@ -122,7 +122,7 @@ namespace CalamityMod.Items
 			if (CalamityLists.twentyUseTimeBuffList?.Contains(item.type) ?? false)
 			{
 				item.useTime = (int)(item.useTime * 0.8);
-				item.useAnimation = item.useTime;
+				item.useAnimation = (int)(item.useAnimation * 0.8);
 			}
 
 			if (CalamityLists.quadrupleDamageBuffList?.Contains(item.type) ?? false)
