@@ -49,14 +49,15 @@ namespace CalamityMod.Items.Weapons.Ranged
 
             for (int i = 0; i < 3; i++)
             {
+				int randomExtraUpdates = Main.rand.Next(3);
                 float SpeedX = speedX + Main.rand.NextFloat(-10f, 10f) * 0.05f;
                 float SpeedY = speedY + Main.rand.NextFloat(-10f, 10f) * 0.05f;
                 int arrow = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
                 Main.projectile[arrow].noDropItem = true;
-				Main.projectile[arrow].extraUpdates += Main.rand.Next(3); //0 to 2 extra updates
+				Main.projectile[arrow].extraUpdates += randomExtraUpdates; //0 to 2 extra updates
 				if (type == ProjectileID.JestersArrow)
 				{
-					Main.projectile[arrow].localNPCHitCooldown = 10;
+					Main.projectile[arrow].localNPCHitCooldown = 10 * (randomExtraUpdates + 1);
 					Main.projectile[arrow].usesLocalNPCImmunity = true;
 				}
             }
