@@ -31,11 +31,12 @@ Stealth strike throws a volley of knives");
             item.autoReuse = true;
             item.height = 32;
             item.maxStack = 999;
-            item.value = 300;
-            item.rare = ItemRarityID.Orange;
             item.shoot = ModContent.ProjectileType<FeatherKnifeProjectile>();
             item.shootSpeed = 25f;
             item.Calamity().rogue = true;
+
+            item.value = Item.sellPrice(copper: 60);
+            item.rare = ItemRarityID.Orange;
         }
 
         public override void AddRecipes()
@@ -56,8 +57,11 @@ Stealth strike throws a volley of knives");
                 {
                     Vector2 perturbedspeed = new Vector2(speedX + Main.rand.Next(-3, 4), speedY + Main.rand.Next(-3, 4)).RotatedBy(MathHelper.ToRadians(spread));
                     int proj = Projectile.NewProjectile(position, perturbedspeed, type, damage, knockBack, player.whoAmI);
-					if (proj.WithinBounds(Main.maxProjectiles))
-						Main.projectile[proj].Calamity().stealthStrike = true;
+                    if (proj.WithinBounds(Main.maxProjectiles))
+                    {
+                        Main.projectile[proj].Calamity().stealthStrike = true;
+                        Main.projectile[proj].noDropItem = true;
+                    }
                     spread -= Main.rand.Next(2, 6);
                 }
                 return false;

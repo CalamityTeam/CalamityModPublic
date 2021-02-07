@@ -17,15 +17,13 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 96;
+            item.damage = 102;
             item.width = 62;
             item.height = 128;
             item.useTime = 12;
             item.useAnimation = 12;
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.knockBack = 4f;
-            item.value = Item.buyPrice(1, 40, 0, 0);
-            item.rare = ItemRarityID.Red;
             item.UseSound = SoundID.Item5;
             item.noMelee = true;
             item.noUseGraphic = true;
@@ -35,17 +33,19 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.shoot = ModContent.ProjectileType<DaemonsFlameBow>();
             item.shootSpeed = 20f;
             item.useAmmo = AmmoID.Arrow;
+
+            item.value = CalamityGlobalItem.Rarity13BuyPrice;
             item.Calamity().customRarity = CalamityRarity.PureGreen;
         }
 
         public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;
 
-		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
-		{
-			item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.GetTexture("CalamityMod/Items/Weapons/Ranged/DaemonsFlameGlow"));
-		}
+        public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
+        {
+            item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.GetTexture("CalamityMod/Items/Weapons/Ranged/DaemonsFlameGlow"));
+        }
 
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<DaemonsFlameBow>(), damage, knockBack, player.whoAmI);
             return false;

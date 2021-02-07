@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetDefaults()
         {
             item.width = 120;
-            item.damage = 93;
+            item.damage = 108;
             item.noMelee = true;
             item.noUseGraphic = true;
             item.channel = true;
@@ -31,17 +31,17 @@ namespace CalamityMod.Items.Weapons.Melee
             item.UseSound = SoundID.DD2_GhastlyGlaivePierce;
             item.autoReuse = true;
             item.height = 108;
-            item.value = Item.buyPrice(1, 40, 0, 0);
-            item.rare = ItemRarityID.Red;
             item.shoot = ModContent.ProjectileType<BansheeHookProj>();
             item.shootSpeed = 42f;
+
+            item.value = CalamityGlobalItem.Rarity13BuyPrice;
             item.Calamity().customRarity = CalamityRarity.PureGreen;
         }
 
-		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
-		{
-			item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.GetTexture("CalamityMod/Items/Weapons/Melee/BansheeHookGlow"));
-		}
+        public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
+        {
+            item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.GetTexture("CalamityMod/Items/Weapons/Melee/BansheeHookGlow"));
+        }
 
         public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;
 

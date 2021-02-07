@@ -8,7 +8,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 {
     public class DeepSeaDumbbell : RogueWeapon
     {
-        private static int BaseDamage = 540;
+        private static int BaseDamage = 486;
         private static float MeleeFlexMult = 5f;
         private float flexBonusDamageMult = 0f;
 
@@ -23,6 +23,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SafeSetDefaults()
         {
             item.width = 38;
+            item.height = 24;
             item.damage = BaseDamage;
             item.noMelee = true;
             item.noUseGraphic = true;
@@ -33,18 +34,14 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             item.useTurn = false;
-            item.height = 24;
-            item.value = CalamityGlobalItem.Rarity13BuyPrice;
-            item.rare = ItemRarityID.Red;
-            item.Calamity().customRarity = CalamityRarity.PureGreen;
-            item.Calamity().donorItem = true;
             item.shoot = ModContent.ProjectileType<DeepSeaDumbbell1>();
             item.shootSpeed = 20f;
             item.Calamity().rogue = true;
-        }
 
-        // Terraria seems to really dislike high crit values in SetDefaults
-        public override void GetWeaponCrit(Player player, ref int crit) => crit -= 2;
+            item.value = CalamityGlobalItem.Rarity13BuyPrice;
+            item.Calamity().customRarity = CalamityRarity.PureGreen;
+            item.Calamity().donorItem = true;
+        }
 
         public override bool AltFunctionUse(Player player) => true;
 
@@ -69,12 +66,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             return base.CanUseItem(player);
         }
 
-        public override float UseTimeMultiplier	(Player player)
-        {
-            if (player.altFunctionUse == 2)
-                return (5f/9f);
-            return 1f;
-        }
+        public override float UseTimeMultiplier(Player player) => player.altFunctionUse == 2 ? 5f / 9f : 1f;
 
         public override void ModifyWeaponDamage(Player player, ref float add, ref float mult, ref float flat)
         {
@@ -83,7 +75,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             base.ModifyWeaponDamage(player, ref add, ref mult, ref flat);
         }
 
-        // Flexes deal 25x damage if you actually hit with them directly.
+        // Flexes deal massive damage if you actually hit with them directly.
         public override void ModifyHitNPC(Player player, NPC target, ref int damage, ref float knockBack, ref bool crit)
         {
             damage = (int)(damage * MeleeFlexMult);
