@@ -270,16 +270,25 @@ namespace CalamityMod.NPCs
             { NPCID.MoonLordCore, Item.buyPrice(0, 30) }
         };
 
-		/// <summary>
-		/// Lists of enemies that resist piercing to some extent (mostly worms).
-		/// Could prove useful for other things as well.
-		/// </summary>
+		// Lists of enemies that resist piercing to some extent (mostly worms).
+		// Could prove useful for other things as well.
+
 		public static List<int> AstrumDeusIDs = new List<int>
 		{
 			NPCType<AstrumDeusHeadSpectral>(),
 			NPCType<AstrumDeusBodySpectral>(),
 			NPCType<AstrumDeusTailSpectral>()
 		};
+
+        public static List<int> DevourerOfGodsIDs = new List<int>
+        {
+            NPCType<DevourerofGodsHead>(),
+            NPCType<DevourerofGodsBody>(),
+            NPCType<DevourerofGodsTail>(),
+            NPCType<DevourerofGodsHeadS>(),
+            NPCType<DevourerofGodsBodyS>(),
+            NPCType<DevourerofGodsTailS>()
+        };
 
 		public static List<int> CosmicGuardianIDs = new List<int>
 		{
@@ -3252,6 +3261,14 @@ namespace CalamityMod.NPCs
 					{
 						damage = (int)(damage * 0.75);
 					}
+				}
+                else if (DevourerOfGodsIDs.Contains(npc.type))
+				{
+                    // No grenade or global pierce resist here, body DR covers this appropriately
+
+                    // 20% resist to Sealed Singularity and Wave Pounder
+                    if (projectile.type == ProjectileType<SealedSingularityBlackhole>() || projectile.type == ProjectileType<WavePounderBoom>())
+                        damage = (int)(damage * 0.8);
 				}
 				else if (CosmicGuardianIDs.Contains(npc.type) || DarkEnergyIDs.Contains(npc.type))
 				{
