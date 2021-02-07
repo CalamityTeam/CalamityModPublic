@@ -129,11 +129,11 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            int projID = ModContent.ProjectileType<PhantasmalSoul>();
             if (projectile.owner != Main.myPlayer || !projectile.Calamity().stealthStrike)
                 return;
 
             int numSouls = 8;
+            int projID = ModContent.ProjectileType<PhantasmalSoul>();
             int soulDamage = (int)(projectile.damage * 0.75f);
             float soulKB = 0f;
             float speed = 6f;
