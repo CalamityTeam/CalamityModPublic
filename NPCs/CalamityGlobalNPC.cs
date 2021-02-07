@@ -3382,7 +3382,13 @@ namespace CalamityMod.NPCs
 			}
 
 			// Other projectile resists
-			if (npc.type == NPCType<Polterghast.Polterghast>())
+            if (npc.type == NPCType<OldDuke.OldDuke>())
+			{
+                // 5% resist to Time Bolt
+                if (projectile.type == ProjectileType<TimeBoltKnife>())
+                    damage = (int)(damage * 0.95);
+			}
+			else if (npc.type == NPCType<Polterghast.Polterghast>())
 			{
                 // 5% resist to Celestial Reaper
                 if (projectile.type == ProjectileType<CelestialReaperProjectile>() || projectile.type == ProjectileType<CelestialReaperAfterimage>())
