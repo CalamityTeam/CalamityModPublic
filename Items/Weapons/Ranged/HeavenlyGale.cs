@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Heavenly Gale");
-			Tooltip.SetDefault("Fires a barrage of 5 random exo arrows\n" +
+			Tooltip.SetDefault("Converts wooden arrows into barrages of 5 random exo arrows\n" +
 				"Green exo arrows explode into a tornado on death\n" +
 				"Blue exo arrows cause a second group of arrows to fire on enemy hits\n" +
 				"Orange exo arrows cause explosions on death\n" +
@@ -28,8 +28,8 @@ namespace CalamityMod.Items.Weapons.Ranged
 			item.ranged = true;
 			item.width = 44;
 			item.height = 58;
-			item.useTime = 11;
-			item.useAnimation = 22;
+			item.useTime = 15;
+			item.useAnimation = 30;
 			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.noMelee = true;
 			item.knockBack = 4f;
@@ -56,30 +56,40 @@ namespace CalamityMod.Items.Weapons.Ranged
 			for (int i = 0; i < arrowAmt; i++)
 			{
 				float offsetAmt = i - (arrowAmt - 1f) / 2f;
-				Vector2 offset = speed.RotatedBy((double)(piOver10 * offsetAmt), default);
+				Vector2 offset = speed.RotatedBy(piOver10 * offsetAmt);
 				if (!canHit)
-				{
 					offset -= speed;
-				}
-				int arrow = Utils.SelectRandom(Main.rand, new int[]
+
+				if (type == ProjectileID.WoodenArrowFriendly)
 				{
-					ProjectileType<TealExoArrow>(),
-					ProjectileType<OrangeExoArrow>(),
-					ProjectileType<BlueExoArrow>(),
-					ProjectileType<GreenExoArrow>()
-				});
-				if (player.ownedProjectileCounts[ProjectileType<GreenExoArrow>()] + player.ownedProjectileCounts[ProjectileType<ExoTornado>()] > 5)
-				{
-					arrow = Utils.SelectRandom(Main.rand, new int[]
+					int arrow = Utils.SelectRandom(Main.rand, new int[]
 					{
 						ProjectileType<TealExoArrow>(),
 						ProjectileType<OrangeExoArrow>(),
-						ProjectileType<BlueExoArrow>()
+						ProjectileType<BlueExoArrow>(),
+						ProjectileType<GreenExoArrow>()
 					});
+
+					if (player.ownedProjectileCounts[ProjectileType<GreenExoArrow>()] + player.ownedProjectileCounts[ProjectileType<ExoTornado>()] > 5)
+					{
+						arrow = Utils.SelectRandom(Main.rand, new int[]
+						{
+							ProjectileType<TealExoArrow>(),
+							ProjectileType<OrangeExoArrow>(),
+							ProjectileType<BlueExoArrow>()
+						});
+					}
+
+					if (arrow == ProjectileType<TealExoArrow>())
+						dmgMult = 0.5f;
+
+					Projectile.NewProjectile(source.X + offset.X, source.Y + offset.Y, speedX, speedY, arrow, (int)(damage * dmgMult), knockBack, player.whoAmI);
 				}
-				if (arrow == ProjectileType<TealExoArrow>())
-					dmgMult = 0.5f;
-				Projectile.NewProjectile(source.X + offset.X, source.Y + offset.Y, speedX, speedY, arrow, (int)(damage * dmgMult), knockBack, player.whoAmI);
+				else
+				{
+					int proj = Projectile.NewProjectile(source.X + offset.X, source.Y + offset.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
+					Main.projectile[proj].noDropItem = true;
+				}
 			}
 			return false;
 		}

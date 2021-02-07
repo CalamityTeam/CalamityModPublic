@@ -13,12 +13,12 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Phangasm");
-            Tooltip.SetDefault("Fires a spread of arrows and emits phantom arrows on enemy hits");
+            Tooltip.SetDefault("Fires a spread of 6 arrows and emits phantom arrows on enemy hits");
         }
 
         public override void SetDefaults()
         {
-            item.damage = 86;
+            item.damage = 120;
             item.width = 20;
             item.height = 12;
             item.useTime = 12;

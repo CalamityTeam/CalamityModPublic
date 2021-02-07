@@ -15,9 +15,9 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Alluvion");
-            Tooltip.SetDefault("Moderate chance to convert wooden arrows to sharks\n" +
-                       "Low chance to convert wooden arrows to typhoon arrows\n" +
-                        "Fires a torrent of ten arrows at once");
+            Tooltip.SetDefault("Moderate chance to convert wooden arrows into sharks\n" +
+                       "Low chance to convert wooden arrows into typhoon arrows\n" +
+                       "Fires a torrent of six arrows at once");
         }
 
         public override void SetDefaults()
@@ -45,10 +45,10 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             Vector2 source = player.RotatedRelativePoint(player.MountedCenter, true);
             float num117 = MathHelper.Pi * 0.1f;
-            int totalProjectiles = 10;
+            int totalProjectiles = 6;
             Vector2 velocity = new Vector2(speedX, speedY);
             velocity.Normalize();
-            velocity *= 20f;
+            velocity *= 35f;
             bool canHit = Collision.CanHit(source, 0, 0, source + velocity, 0, 0);
             for (int i = 0; i < totalProjectiles; i++)
             {

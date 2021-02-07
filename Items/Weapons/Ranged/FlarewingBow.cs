@@ -12,8 +12,8 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Flarewing Bow");
-            Tooltip.SetDefault("Shoots a spread of arrows\n" +
-                "Wooden arrows are converted to bouncing obsidian bats");
+            Tooltip.SetDefault("Shoots a spread of 5 arrows\n" +
+                "Wooden arrows are converted into bouncing obsidian bats");
         }
 
         public override void SetDefaults()

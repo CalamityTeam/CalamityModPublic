@@ -42,8 +42,8 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            float SpeedX = speedX + (float)Main.rand.Next(-10, 11) * 0.05f;
-            float SpeedY = speedY + (float)Main.rand.Next(-10, 11) * 0.05f;
+            float SpeedX = speedX + Main.rand.Next(-10, 11) * 0.05f;
+            float SpeedY = speedY + Main.rand.Next(-10, 11) * 0.05f;
             Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, 0.0f, 0.0f);
             return false;
         }

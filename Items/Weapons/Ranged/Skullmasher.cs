@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             DisplayName.SetDefault("Skullmasher");
             Tooltip.SetDefault("Sniper shotgun, because why not?\n" +
-                "If you crit the target a second swarm of bullets will fire near the target");
+                "Converts musket balls into high velocity bullets that, on crit, fire a second swarm of bullets");
         }
 
         public override void SetDefaults()
@@ -44,10 +44,14 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             for (int index = 0; index < 5; ++index)
             {
-                float SpeedX = speedX + (float)Main.rand.Next(-15, 16) * 0.05f;
-                float SpeedY = speedY + (float)Main.rand.Next(-15, 16) * 0.05f;
-                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<AMRShot>(), damage, knockBack, player.whoAmI);
-            }
+                float SpeedX = speedX + Main.rand.Next(-15, 16) * 0.05f;
+                float SpeedY = speedY + Main.rand.Next(-15, 16) * 0.05f;
+
+				if (type == ProjectileID.Bullet)
+					Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<AMRShot>(), damage, knockBack, player.whoAmI);
+				else
+					Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
+			}
             return false;
         }
     }

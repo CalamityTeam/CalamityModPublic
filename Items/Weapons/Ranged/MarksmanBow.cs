@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Marksman Bow");
-            Tooltip.SetDefault("Fires three arrows at a time\n" +
+            Tooltip.SetDefault("Fires three arrows at once\n" +
 			"Wooden arrows are converted into Jester's arrows");
         }
 

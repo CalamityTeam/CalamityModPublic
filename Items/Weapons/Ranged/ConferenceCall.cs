@@ -54,7 +54,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             {
                 float SpeedX = speedX + (float)Main.rand.Next(-30, 31) * 0.05f;
                 float SpeedY = speedY + (float)Main.rand.Next(-30, 31) * 0.05f;
-                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI);
             }
             float num72 = item.shootSpeed;
             Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
@@ -97,7 +97,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                 num79 *= num80;
                 float speedX4 = num78 + (float)Main.rand.Next(-30, 31) * 0.02f;
                 float speedY5 = num79 + (float)Main.rand.Next(-30, 31) * 0.02f;
-                Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, type, damage, knockBack, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, type, damage, knockBack, player.whoAmI);
             }
             return false;
         }

@@ -227,7 +227,7 @@ namespace CalamityMod.Projectiles.Summon
                     if (BulletShootCounter % 20f == 14f)
                     {
                         Projectile bullet = Projectile.NewProjectileDirect(projectile.Center,
-                            projectile.DirectionTo(potentialTarget.Center) * 5f,
+                            projectile.DirectionTo(potentialTarget.Center) * 8f,
                             ModContent.ProjectileType<GammaBullet>(), projectile.damage, 2f, projectile.owner);
                         bullet.ai[0] = potentialTarget.whoAmI;
                     }

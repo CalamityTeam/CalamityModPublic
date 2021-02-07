@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Soma Prime");
-            Tooltip.SetDefault("Shoots extremely powerful high velocity rounds that inflict a powerful bleed debuff");
+            Tooltip.SetDefault("Converts musket balls into extremely powerful high velocity rounds that inflict a powerful bleed debuff");
         }
 
         public override void SetDefaults()
@@ -58,10 +58,14 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             for (int i = 0; i < 2; i++)
             {
-                float SpeedX = speedX + (float)Main.rand.Next(-10, 11) * 0.05f;
-                float SpeedY = speedY + (float)Main.rand.Next(-10, 11) * 0.05f;
-                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<SlashRound>(), damage, knockBack, player.whoAmI, 0f, 0f);
-            }
+                float SpeedX = speedX + Main.rand.Next(-10, 11) * 0.05f;
+                float SpeedY = speedY + Main.rand.Next(-10, 11) * 0.05f;
+
+				if (type == ProjectileID.Bullet)
+					Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<SlashRound>(), damage, knockBack, player.whoAmI);
+				else
+					Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
+			}
             return false;
         }
 

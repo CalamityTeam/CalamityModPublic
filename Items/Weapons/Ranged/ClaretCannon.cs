@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Claret Cannon");
-            Tooltip.SetDefault("Fires a string of bloody tears that drain enemy health");
+            Tooltip.SetDefault("Converts musket balls into strings of 3 bloody tears that drain enemy health");
         }
 
         public override void SetDefaults()
@@ -50,8 +50,12 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<ClaretCannonProj>(), damage, knockBack, player.whoAmI, 0.0f, 0.0f);
-            return false;
+			if (type == ProjectileID.Bullet)
+				Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<ClaretCannonProj>(), damage, knockBack, player.whoAmI);
+			else
+				Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
+
+			return false;
         }
     }
 }

@@ -14,8 +14,8 @@ namespace CalamityMod.Items.Weapons.Ranged
             DisplayName.SetDefault("Astreal Defeat");
             Tooltip.SetDefault("Ethereal bow of the tyrant king's mother\n" +
                        "The mother strongly discouraged acts of violence throughout her life\n" +
-                       "Though she kept this bow close to protect her family in times of great disaster\n" +
-					   "Fires Astreal Arrows that emit flames as they travel");
+                       "Though she kept this bow close, to protect her family in times of great disaster\n" +
+					   "Converts wooden arrows into astreal arrows that emit flames as they travel");
         }
 
         public override void SetDefaults()
@@ -47,9 +47,15 @@ namespace CalamityMod.Items.Weapons.Ranged
 				velocity *= 8f;
 			}
 
-			float ai0 = (float)Main.rand.Next(4);
-            Projectile.NewProjectile(position.X, position.Y, velocity.X, velocity.Y, ModContent.ProjectileType<AstrealArrow>(), damage, knockBack, player.whoAmI, ai0, 0f);
-            return false;
+			if (type == ProjectileID.WoodenArrowFriendly)
+			{
+				float ai0 = Main.rand.Next(4);
+				Projectile.NewProjectile(position.X, position.Y, velocity.X, velocity.Y, ModContent.ProjectileType<AstrealArrow>(), damage, knockBack, player.whoAmI, ai0, 0f);
+			}
+			else
+				Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
+
+			return false;
         }
 
         public override void AddRecipes()

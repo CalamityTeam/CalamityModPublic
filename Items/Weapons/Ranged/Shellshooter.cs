@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Shellshooter");
-            Tooltip.SetDefault("Shoots slow, powerful shells");
+            Tooltip.SetDefault("Converts wooden arrows into slow, powerful shells");
         }
 
         public override void SetDefaults()
@@ -39,8 +39,12 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<Shell>(), damage, knockBack, player.whoAmI);
-            return false;
+			if (type == ProjectileID.WoodenArrowFriendly)
+				Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<Shell>(), damage, knockBack, player.whoAmI);
+			else
+				Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
+
+			return false;
         }
     }
 }

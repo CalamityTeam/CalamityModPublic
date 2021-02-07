@@ -12,12 +12,13 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Sandstorm");
-            Tooltip.SetDefault("Fires sand bullets that explode");
+            Tooltip.SetDefault("Fires sand bullets that explode and slow enemies on hit\n" +
+				"50% chance to not consume sand");
         }
 
         public override void SetDefaults()
         {
-            item.damage = 73;
+            item.damage = 80;
             item.ranged = true;
             item.width = 62;
             item.height = 26;
@@ -40,9 +41,16 @@ namespace CalamityMod.Items.Weapons.Ranged
             return new Vector2(-10, 0);
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		public override bool ConsumeAmmo(Player player)
+		{
+			if (Main.rand.Next(0, 100) < 50)
+				return false;
+			return true;
+		}
+
+		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<SandstormBullet>(), damage, knockBack, player.whoAmI, 0f, 0f);
+            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<SandstormBullet>(), damage, knockBack, player.whoAmI);
             return false;
         }
 

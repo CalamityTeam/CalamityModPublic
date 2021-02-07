@@ -103,7 +103,7 @@ namespace CalamityMod.Projectiles.Ranged
                         projectile.netUpdate = true;
                     }
                     projectile.velocity = value19 * 0.55f;
-                    for (int num43 = 0; num43 < 10; num43++)
+                    for (int num43 = 0; num43 < 6; num43++)
                     {
                         Vector2 vector20 = Vector2.Normalize(projectile.velocity) * scaleFactor11 * (0.6f + Main.rand.NextFloat() * 0.8f);
                         if (float.IsNaN(vector20.X) || float.IsNaN(vector20.Y))

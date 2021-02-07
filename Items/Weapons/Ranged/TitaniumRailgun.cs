@@ -31,7 +31,6 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.autoReuse = true;
             item.shootSpeed = 6f;
             item.shoot = ModContent.ProjectileType<TitRail>();
-            item.useAmmo = AmmoID.Bullet;
         }
 
         public override Vector2? HoldoutOffset()
@@ -43,7 +42,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
 			Vector2 velocity = Vector2.Normalize(new Vector2(speedX, speedY));
 			velocity *= item.shootSpeed;
-            Projectile.NewProjectile(position, velocity, ModContent.ProjectileType<TitRail>(), damage, knockBack, player.whoAmI, 0f, 0f);
+            Projectile.NewProjectile(position, velocity, ModContent.ProjectileType<TitRail>(), damage, knockBack, player.whoAmI);
             return false;
         }
 
