@@ -2,6 +2,7 @@ using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -9,25 +10,29 @@ namespace CalamityMod.Items.Weapons.Melee
 {
     public class SoulEdge : ModItem
     {
+        static internal LegacySoundStyle ProjectileDeathSound = null;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Soul Edge");
             Tooltip.SetDefault("Fires the ghastly souls of long-deceased abyss dwellers");
+
+            ProjectileDeathSound = SoundID.NPCDeath39.WithVolume(0.5f);
         }
 
         public override void SetDefaults()
         {
             item.width = 88;
-            item.damage = 219;
+            item.height = 88;
+            item.damage = 174;
             item.melee = true;
-            item.useAnimation = 18;
             item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 18;
+            item.useTime = 23;
+            item.useAnimation = 23;
             item.useTurn = true;
             item.knockBack = 5.5f;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
-            item.height = 88;
             item.shoot = ModContent.ProjectileType<GhastlySoulLarge>();
             item.shootSpeed = 12f;
 
@@ -37,8 +42,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            int numShots = 3;
-            int projDamage = (int)(damage * 0.5f);
+            int numShots = 2;
             for (int i = 0; i < numShots; ++i)
             {
                 float SpeedX = speedX + (float)Main.rand.Next(-40, 41) * 0.05f;
