@@ -10,8 +10,10 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Frostbite Blaster");
-            Tooltip.SetDefault("Fires a spread of icicles");
+            Tooltip.SetDefault("Fires a spread of 6 bullets\n" +
+				"Converts musket balls into icicles");
         }
+
         public override void SetDefaults()
         {
             item.damage = 31;
@@ -33,19 +35,24 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.shoot = ProjectileID.Blizzard;
             item.shootSpeed = 9f;
         }
+
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             Main.PlaySound(SoundID.Item36, position);
-
-            type = ProjectileID.Blizzard;
             for (int i = 0; i < 2; i++)
             {
                 float newSpeedX = speedX + Main.rand.Next(-40, 41) * 0.06f;
                 float newSpeedY = speedY + Main.rand.Next(-40, 41) * 0.06f;
-                int p = Projectile.NewProjectile(position.X, position.Y, newSpeedX, newSpeedY, type, damage, knockBack, player.whoAmI);
-                Main.projectile[p].magic = false;
-                Main.projectile[p].ranged = true;
-            }
+
+				if (type == ProjectileID.Bullet)
+				{
+					int p = Projectile.NewProjectile(position.X, position.Y, newSpeedX, newSpeedY, ProjectileID.Blizzard, damage, knockBack, player.whoAmI);
+					Main.projectile[p].magic = false;
+					Main.projectile[p].ranged = true;
+				}
+				else
+					Projectile.NewProjectile(position.X, position.Y, newSpeedX, newSpeedY, type, damage, knockBack, player.whoAmI);
+			}
             return true;
         }
     }

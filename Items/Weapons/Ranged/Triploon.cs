@@ -18,12 +18,12 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 75;
+            item.damage = 70;
             item.ranged = true;
             item.width = 46;
             item.height = 24;
-            item.useTime = 16;
-            item.useAnimation = 16;
+            item.useTime = 20;
+            item.useAnimation = 20;
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 7.5f;
@@ -52,7 +52,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 			for (int projIndex = 0; projIndex < projCount; projIndex++)
 			{
 				float num120 = projIndex - (projCount - 1f) / 2f;
-				Vector2 offset = velocity.RotatedBy((double)(piOverTen * num120), default);
+				Vector2 offset = velocity.RotatedBy(piOverTen * num120);
 				if (!canHit)
 				{
 					offset -= velocity;

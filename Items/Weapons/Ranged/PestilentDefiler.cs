@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Pestilent Defiler");
-            Tooltip.SetDefault("Fires a plague round that explodes and splits on death");
+            Tooltip.SetDefault("Converts musket balls into plague rounds that explode and split apart on death");
         }
 
         public override void SetDefaults()
@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.rare = ItemRarityID.Yellow;
             item.UseSound = SoundID.Item40;
             item.autoReuse = true;
-            item.shootSpeed = 20f;
+            item.shootSpeed = 12f;
             item.shoot = ModContent.ProjectileType<SicknessRound>();
             item.useAmmo = AmmoID.Bullet;
         }
@@ -41,8 +41,13 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<SicknessRound>(), damage, knockBack, player.whoAmI, 0f, 0f);
-            return false;
+			if (type == ProjectileID.Bullet)
+				Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<SicknessRound>(), damage, knockBack, player.whoAmI);
+			else
+				Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
+
+
+			return false;
         }
     }
 }

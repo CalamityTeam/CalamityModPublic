@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             DisplayName.SetDefault("The Storm");
             Tooltip.SetDefault("Fires a spread of arrows from the sky\n" +
-                "Wooden arrows are converted to lightning bolts");
+                "Converts wooden arrows into lightning bolts");
         }
 
         public override void SetDefaults()

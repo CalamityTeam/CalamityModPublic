@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             DisplayName.SetDefault("Monsoon");
             Tooltip.SetDefault("Fires a spread of 5 arrows\n" +
-                "Wooden arrows have a chance to be converted to typhoon arrows or sharks");
+                "Wooden arrows have a chance to be converted into typhoon arrows or sharks");
         }
 
         public override void SetDefaults()
@@ -48,8 +48,8 @@ namespace CalamityMod.Items.Weapons.Ranged
             bool canHit = Collision.CanHit(source, 0, 0, source + velocity, 0, 0);
             for (int p = 0; p < totalProjectiles; p++)
             {
-                float offsetAmt = (float)p - ((float)totalProjectiles - 1f) / 2f;
-                Vector2 offset = velocity.RotatedBy((double)(piOver10 * offsetAmt), default);
+                float offsetAmt = p - (totalProjectiles - 1f) / 2f;
+                Vector2 offset = velocity.RotatedBy(piOver10 * offsetAmt);
                 if (!canHit)
                 {
                     offset -= velocity;
@@ -64,7 +64,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                     {
                         type = ModContent.ProjectileType<TyphoonArrow>();
                     }
-                    int arrow = Projectile.NewProjectile(source.X + offset.X, source.Y + offset.Y, speedX, speedY, type, (int)(damage * 1.1f), knockBack, player.whoAmI);
+                    int arrow = Projectile.NewProjectile(source.X + offset.X, source.Y + offset.Y, speedX, speedY, type, (int)(damage * 1.1), knockBack, player.whoAmI);
 					if (arrow.WithinBounds(Main.maxProjectiles))
 					{
 						Main.projectile[arrow].Calamity().forceRanged = true;

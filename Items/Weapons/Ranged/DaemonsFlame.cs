@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Daemon's Flame");
-            Tooltip.SetDefault("Shoots daemon flame fireballs as well as regular arrows");
+            Tooltip.SetDefault("Shoots daemon flame fireballs as well as 4 regular arrows");
         }
 
         public override void SetDefaults()
@@ -47,7 +47,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<DaemonsFlameBow>(), damage, knockBack, player.whoAmI, 0f, 0f);
+            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<DaemonsFlameBow>(), damage, knockBack, player.whoAmI);
             return false;
         }
     }

@@ -12,8 +12,8 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Anti-materiel Rifle");
-            Tooltip.SetDefault("Fires a .50 caliber sniper round that rips apart enemy defense and DR\n" +
-                "If you crit the target a second swarm of bullets will fire near the target");
+            Tooltip.SetDefault("Converts musket balls into .50 caliber sniper rounds that rip apart enemy defense and DR\n" +
+                "If you crit the target a second swarm of bullets will fire");
         }
 
         public override void SetDefaults()
@@ -54,8 +54,12 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<AMRShot>(), damage, knockBack, player.whoAmI, 0f, 0f);
-            return false;
+			if (type == ProjectileID.Bullet)
+				Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<AMRShot>(), damage, knockBack, player.whoAmI);
+			else
+				Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
+
+			return false;
         }
     }
 }

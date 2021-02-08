@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Aquashard Shotgun");
-            Tooltip.SetDefault("Shoots aquashards which split upon hitting an enemy");
+            Tooltip.SetDefault("Converts musket balls into aquashards that split upon hitting an enemy");
         }
 
         public override void SetDefaults()
@@ -32,6 +32,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<Aquashard>();
             item.shootSpeed = 22f;
+			item.useAmmo = AmmoID.Bullet;
         }
 
 		// Terraria seems to really dislike high crit values in SetDefaults
@@ -44,11 +45,17 @@ namespace CalamityMod.Items.Weapons.Ranged
             int num6 = Main.rand.Next(2, 4);
             for (int index = 0; index < num6; ++index)
             {
-                float SpeedX = speedX + (float)Main.rand.Next(-40, 41) * 0.05f;
-                float SpeedY = speedY + (float)Main.rand.Next(-40, 41) * 0.05f;
-                int projectile = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI);
-                Main.projectile[projectile].timeLeft = 200;
-            }
+                float SpeedX = speedX + Main.rand.Next(-40, 41) * 0.05f;
+                float SpeedY = speedY + Main.rand.Next(-40, 41) * 0.05f;
+
+				if (type == ProjectileID.Bullet)
+				{
+					int projectile = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<Aquashard>(), damage, knockBack, player.whoAmI);
+					Main.projectile[projectile].timeLeft = 200;
+				}
+				else
+					Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI);
+			}
             return false;
         }
 

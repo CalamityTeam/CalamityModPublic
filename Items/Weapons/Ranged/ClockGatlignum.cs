@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             DisplayName.SetDefault("Clock Gatlignum");
             Tooltip.SetDefault("33% chance to not consume ammo\n" +
-                "Fires a string of high velocity bullets");
+                "Converts musket balls into strings of 3 high velocity bullets");
         }
 
         public override void SetDefaults()
@@ -40,10 +40,15 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            float SpeedX = speedX + (float)Main.rand.Next(-15, 16) * 0.05f;
-            float SpeedY = speedY + (float)Main.rand.Next(-15, 16) * 0.05f;
-            Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ProjectileID.BulletHighVelocity, damage, knockBack, player.whoAmI, 0.0f, 0.0f);
-            return false;
+            float SpeedX = speedX + Main.rand.Next(-15, 16) * 0.05f;
+            float SpeedY = speedY + Main.rand.Next(-15, 16) * 0.05f;
+
+			if (type == ProjectileID.Bullet)
+				Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ProjectileID.BulletHighVelocity, damage, knockBack, player.whoAmI);
+			else
+				Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI);
+
+			return false;
         }
 
         public override bool ConsumeAmmo(Player player)
