@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Rogue
     {
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/PhantasmalRuin";
 
-        private const int FramesPerSubProjectile = 11;
+        private const int FramesPerSubProjectile = 18;
 
         public override void SetStaticDefaults()
         {
