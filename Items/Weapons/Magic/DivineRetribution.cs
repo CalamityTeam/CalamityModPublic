@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.damage = 45;
+            item.damage = 49;
             item.magic = true;
             item.mana = 15;
             item.width = 66;
@@ -40,10 +40,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.shoot = ModContent.ProjectileType<DivineRetributionSpear>();
         }
 
-        public override Vector2? HoldoutOrigin()
-        {
-            return new Vector2(15, 15);
-        }
+        public override Vector2? HoldoutOrigin() => new Vector2(15, 15);
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
@@ -64,12 +61,12 @@ namespace CalamityMod.Items.Weapons.Magic
             {
                 num80 = num72 / num80;
             }
-            int num107 = Main.rand.Next(5, 7);
-            for (int num108 = 0; num108 < num107; num108++)
+            int numProjectiles = 5;
+            for (int i = 0; i < numProjectiles; i++)
             {
                 vector2 = new Vector2(player.position.X + (float)player.width * 0.5f + (float)(Main.rand.Next(51) * -(float)player.direction) + ((float)Main.mouseX + Main.screenPosition.X - /* - */ player.position.X), player.MountedCenter.Y + 600f); //-
                 vector2.X = (vector2.X + player.Center.X) / 2f + (float)Main.rand.Next(-50, 51); //200
-                vector2.Y += (float)(100 * num108); //-=
+                vector2.Y += (float)(100 * i); //-=
                 num78 = (float)Main.mouseX + Main.screenPosition.X - vector2.X; //+ -
                 num79 = (float)Main.mouseY + Main.screenPosition.Y - vector2.Y; //+ -
                 if (num79 < 0f)
@@ -87,7 +84,7 @@ namespace CalamityMod.Items.Weapons.Magic
                 float speedX6 = num78 + (float)Main.rand.Next(-60, 61) * 0.02f;
                 float speedY7 = num79 + (float)Main.rand.Next(-60, 61) * 0.02f;
                 float ai1 = Main.rand.NextFloat() + 0.5f;
-                int bullet2 = Projectile.NewProjectile(vector2.X, vector2.Y, speedX6, -speedY7, type, damage, knockBack, player.whoAmI, 0.0f, ai1);
+                Projectile.NewProjectile(vector2.X, vector2.Y, speedX6, -speedY7, type, damage, knockBack, player.whoAmI, 0.0f, ai1);
             }
             return false;
         }
