@@ -132,6 +132,11 @@ namespace CalamityMod.Projectiles.Rogue
             if (projectile.owner != Main.myPlayer || !projectile.Calamity().stealthStrike)
                 return;
 
+            // Stealth strike on-hit souls can only happen once.
+            // This prevents https://youtu.be/2vAWZhg1dBE
+            if (projectile.numHits > 0)
+                return;
+
             int numSouls = 8;
             int projID = ModContent.ProjectileType<PhantasmalSoul>();
             int soulDamage = (int)(projectile.damage * 0.75f);
