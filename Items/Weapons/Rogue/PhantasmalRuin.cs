@@ -30,7 +30,7 @@ Stealth strikes continuously leave spectral clones in their wake");
             item.useTime = 35;
             item.useAnimation = 35;
             item.autoReuse = true;
-            item.shootSpeed = 10f;
+            item.shootSpeed = 14.5f;
             item.shoot = ModContent.ProjectileType<PhantasmalRuinProj>();
             item.UseSound = SoundID.Item1;
             item.Calamity().rogue = true;

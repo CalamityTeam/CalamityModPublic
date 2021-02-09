@@ -37,6 +37,8 @@ namespace CalamityMod.Projectiles.Rogue
             CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 600f, 18f, 40f);
         }
 
+        public override Color? GetAlpha(Color lightColor) => new Color(100, 200, 255, 100);
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             if (projectile.timeLeft > 239)
