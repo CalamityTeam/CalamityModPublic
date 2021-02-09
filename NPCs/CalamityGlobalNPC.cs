@@ -3265,8 +3265,12 @@ namespace CalamityMod.NPCs
 				{
                     // No grenade or global pierce resist here, body DR covers this appropriately
 
-                    // 20% resist to Sealed Singularity and Wave Pounder
-                    if (projectile.type == ProjectileType<SealedSingularityBlackhole>() || projectile.type == ProjectileType<WavePounderBoom>())
+                    // 50% resist to Sealed Singularity
+                    if (projectile.type == ProjectileType<SealedSingularityBlackhole>())
+                        damage = (int)(damage * 0.5);
+
+                    // 20% resist to Wave Pounder
+                    else if (projectile.type == ProjectileType<WavePounderBoom>())
                         damage = (int)(damage * 0.8);
 				}
 				else if (CosmicGuardianIDs.Contains(npc.type) || DarkEnergyIDs.Contains(npc.type))
