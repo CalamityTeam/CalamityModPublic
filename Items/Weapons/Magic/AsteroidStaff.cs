@@ -18,9 +18,9 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.damage = 165;
+            item.damage = 145;
             item.magic = true;
-            item.mana = 20;
+            item.mana = 18;
             item.width = 50;
             item.height = 50;
             item.useTime = 10;
@@ -28,28 +28,16 @@ namespace CalamityMod.Items.Weapons.Magic
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 6.75f;
-			item.value = CalamityGlobalItem.Rarity11BuyPrice;
-			item.rare = ItemRarityID.Purple;
-			item.UseSound = SoundID.Item88;
+            item.UseSound = SoundID.Item88;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<Asteroid>();
             item.shootSpeed = 20f;
+
+            item.value = CalamityGlobalItem.Rarity11BuyPrice;
+            item.rare = ItemRarityID.Purple;
         }
 
-        public override Vector2? HoldoutOrigin()
-        {
-            return new Vector2(12, 25);
-        }
-
-        public override void AddRecipes()
-        {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.MeteorStaff);
-            recipe.AddIngredient(ItemID.LunarBar, 5);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-        }
+        public override Vector2? HoldoutOrigin() => new Vector2(12, 25);
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
@@ -98,6 +86,16 @@ namespace CalamityMod.Items.Weapons.Magic
                 Projectile.NewProjectile(vector2.X, vector2.Y, num114 * 0.75f, num115 * 0.75f, type, damage, knockBack, player.whoAmI, 0f, 0.5f + (float)Main.rand.NextDouble() * 0.3f);
             }
             return false;
+        }
+
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ItemID.MeteorStaff);
+            recipe.AddIngredient(ItemID.LunarBar, 5);
+            recipe.AddTile(TileID.LunarCraftingStation);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
         }
     }
 }
