@@ -139,15 +139,16 @@ namespace CalamityMod.Projectiles.Rogue
 
             int numSouls = 8;
             int projID = ModContent.ProjectileType<PhantasmalSoul>();
-            int soulDamage = (int)(projectile.damage * 0.75f);
+            int soulDamage = (int)(projectile.damage * 0.85f);
             float soulKB = 0f;
             float speed = 6f;
             Vector2 velocity = Main.rand.NextVector2CircularEdge(speed, speed);
             for (int i = 0; i < numSouls; i += 2)
             {
+                // Each pair of souls has randomized player homing strength
                 float ai1 = Main.rand.NextFloat() + 0.5f;
-                Projectile.NewProjectile(projectile.Center, velocity, projID, soulDamage, soulKB, projectile.owner, 1f, ai1);
-                Projectile.NewProjectile(projectile.Center, -velocity, projID, soulDamage, soulKB, projectile.owner, 1f, ai1);
+                Projectile.NewProjectile(projectile.Center, velocity, projID, soulDamage, soulKB, projectile.owner, 0f, ai1);
+                Projectile.NewProjectile(projectile.Center, -velocity, projID, soulDamage, soulKB, projectile.owner, 0f, ai1);
 
                 // Rotate direction for the next pair of souls.
                 velocity = velocity.RotatedBy(MathHelper.TwoPi / numSouls);

@@ -50,7 +50,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 float ai1 = Main.rand.NextFloat() + 0.5f;
                 // TODO -- unchecked type addition math assumes we can guarantee load order
                 // this is extremely unsafe and load order may become non deterministic in 1.4
-                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, Main.rand.Next(type, type + 3), projDamage, knockBack, player.whoAmI, 0.0f, ai1);
+                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, Main.rand.Next(type, type + 3), damage, knockBack, player.whoAmI, 0.0f, ai1);
             }
             return false;
         }
