@@ -6,6 +6,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.Projectiles.Melee
 {
     public class GhastlySoulMedium : ModProjectile
