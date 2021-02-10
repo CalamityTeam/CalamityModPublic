@@ -72,7 +72,7 @@ namespace CalamityMod.Projectiles.Boss
 
 		public override void Kill(int timeLeft)
         {
-            int num497 = 10;
+            int num497 = 5;
             Main.PlaySound(SoundID.Item27, projectile.position);
             int num3;
             for (int num498 = 0; num498 < num497; num498 = num3 + 1)
