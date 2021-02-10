@@ -1625,10 +1625,17 @@ namespace CalamityMod.NPCs
             // DR applies after vanilla defense.
             damage = ApplyDR(npc, damage, yellowCandleDamage);
 
-            // Cancel out vanilla defense math by reversing the calculation vanilla is about to perform.
-            // While roundabout, this is safer than returning false to stop vanilla damage calculations entirely.
-            // Other mods will probably expect the vanilla code to run and may compensate for it themselves.
-            damage = Main.CalculateDamage((int)damage, -defense);
+			// Inflict 0 damage if it's below 0.5
+			damage = damage < 0.5 ? 0D : damage < 1D ? 1D : damage;
+
+			// Disable vanilla damage method if damage is less than 0.5
+			if (damage == 0D)
+				return false;
+
+			// Cancel out vanilla defense math by reversing the calculation vanilla is about to perform.
+			// While roundabout, this is safer than returning false to stop vanilla damage calculations entirely.
+			// Other mods will probably expect the vanilla code to run and may compensate for it themselves.
+			damage = Main.CalculateDamage((int)damage, -defense);
             return true;
         }
 
@@ -1689,7 +1696,7 @@ namespace CalamityMod.NPCs
 			}
 
 			double newDamage = (1f - effectiveDR) * damage;
-            return newDamage < 0.5 ? 0D : newDamage < 1D ? 1D : newDamage;
+            return newDamage;
         }
 
         private float DefaultDRMath(NPC npc, float DR)
