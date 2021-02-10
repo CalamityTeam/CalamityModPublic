@@ -8,7 +8,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 {
     public class DeepSeaDumbbell : RogueWeapon
     {
-        private static int BaseDamage = 486;
+        private static int BaseDamage = 466;
         private static float MeleeFlexMult = 5f;
         private float flexBonusDamageMult = 0f;
 

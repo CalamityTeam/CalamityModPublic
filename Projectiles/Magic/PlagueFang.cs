@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Fang");
+            DisplayName.SetDefault("Plague Fang");
         }
 
         public override void SetDefaults()
@@ -21,10 +21,10 @@ namespace CalamityMod.Projectiles.Magic
             projectile.friendly = true;
             projectile.magic = true;
             projectile.alpha = 255;
-            projectile.penetrate = 9;
+            projectile.penetrate = 6;
             projectile.timeLeft = 300;
-            projectile.usesIDStaticNPCImmunity = true;
-            projectile.idStaticNPCHitCooldown = 5;
+            projectile.usesLocalNPCImmunity = true;
+            projectile.localNPCHitCooldown = 10;
         }
 
         public override void AI()

@@ -1667,8 +1667,7 @@ namespace CalamityMod.NPCs
 				if (npc.type == NPCType<Providence.Providence>() && !Main.dayTime)
                     DRScalar = 10f;
 				if ((DestroyerIDs.Contains(npc.type) && !NPC.downedPlantBoss) || (AquaticScourgeIDs.Contains(npc.type) && !NPC.downedPlantBoss) ||
-					(AstrumDeusIDs.Contains(npc.type) && !NPC.downedMoonlord) || (StormWeaverIDs.Contains(npc.type) && !CalamityWorld.downedDoG) ||
-					npc.type == NPCType<DevourerofGodsBody>() || npc.type == NPCType<DevourerofGodsBodyS>())
+					(AstrumDeusIDs.Contains(npc.type) && !NPC.downedMoonlord) || (StormWeaverIDs.Contains(npc.type) && !CalamityWorld.downedDoG))
 					DRScalar = 5f;
 
                 // The limit for how much extra DR the boss can have
@@ -3266,8 +3265,12 @@ namespace CalamityMod.NPCs
 				{
                     // No grenade or global pierce resist here, body DR covers this appropriately
 
-                    // 20% resist to Sealed Singularity and Wave Pounder
-                    if (projectile.type == ProjectileType<SealedSingularityBlackhole>() || projectile.type == ProjectileType<WavePounderBoom>())
+                    // 50% resist to Sealed Singularity
+                    if (projectile.type == ProjectileType<SealedSingularityBlackhole>())
+                        damage = (int)(damage * 0.5);
+
+                    // 20% resist to Wave Pounder
+                    else if (projectile.type == ProjectileType<WavePounderBoom>())
                         damage = (int)(damage * 0.8);
 				}
 				else if (CosmicGuardianIDs.Contains(npc.type) || DarkEnergyIDs.Contains(npc.type))
