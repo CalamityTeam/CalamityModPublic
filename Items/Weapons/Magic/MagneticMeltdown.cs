@@ -1,6 +1,5 @@
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Magic;
-using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -13,28 +12,28 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Magnetic Meltdown");
-            Tooltip.SetDefault("Fires a spread of magnetic orbs");
+            Tooltip.SetDefault("Launches a diamond cross of supercharged magnet spheres");
             Item.staff[item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 33;
+            item.damage = 63;
             item.magic = true;
-            item.mana = 25;
+            item.mana = 40;
             item.width = 78;
             item.height = 78;
-            item.useTime = 27;
-            item.useAnimation = 27;
+            item.useTime = 49;
+            item.useAnimation = 49;
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 4f;
-            item.value = CalamityGlobalItem.Rarity12BuyPrice;
-            item.rare = ItemRarityID.Purple;
             item.UseSound = SoundID.Item20;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<MagneticOrb>();
             item.shootSpeed = 12f;
+
+            item.value = CalamityGlobalItem.Rarity12BuyPrice;
             item.Calamity().customRarity = CalamityRarity.Turquoise;
         }
 
@@ -42,12 +41,14 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            for (int index = 0; index < 4; ++index)
-            {
-                float SpeedX = speedX + Main.rand.NextFloat(-2.5f, 2.5f);
-                float SpeedY = speedY + Main.rand.NextFloat(-2.5f, 2.5f);
-                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, 1f, 0f);
-            }
+            Vector2 v = new Vector2(speedX, speedY);
+            float offset = 3f;
+
+            // Fire four orbs at once
+            Projectile.NewProjectile(position, v + offset * Vector2.UnitX, type, damage, knockBack, player.whoAmI, 1f);
+            Projectile.NewProjectile(position, v - offset * Vector2.UnitX, type, damage, knockBack, player.whoAmI, 1f);
+            Projectile.NewProjectile(position, v + offset * Vector2.UnitY, type, damage, knockBack, player.whoAmI, 1f);
+            Projectile.NewProjectile(position, v - offset * Vector2.UnitY, type, damage, knockBack, player.whoAmI, 1f);
             return false;
         }
 
