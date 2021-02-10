@@ -12,14 +12,15 @@ namespace CalamityMod.Items.Weapons.Magic
 		{
 			DisplayName.SetDefault("Ion Blaster");
 			Tooltip.SetDefault("Fires ion blasts that speed up and then explode\n" +
-				"The higher your mana the more damage they will do\n" +
-				"Astral steroids can inhibit the potential of this weapon");
+				"Damage scales with how full your mana is\n" +
+				"Using Astral Injection reduces the effectiveness of the mana boost");
 		}
 
 		public override void SetDefaults()
 		{
+			item.damage = 43;
 			item.width = 44;
-			item.damage = 30;
+			item.height = 28;
 			item.magic = true;
 			item.mana = 6;
 			item.useAnimation = 10;
@@ -29,25 +30,28 @@ namespace CalamityMod.Items.Weapons.Magic
 			item.UseSound = SoundID.Item91;
 			item.autoReuse = true;
 			item.noMelee = true;
-			item.height = 28;
-			item.value = Item.buyPrice(0, 36, 0, 0);
-			item.rare = ItemRarityID.Pink;
 			item.shoot = ModContent.ProjectileType<IonBlast>();
 			item.shootSpeed = 3f;
+
+			item.value = CalamityGlobalItem.Rarity5BuyPrice;
+			item.rare = ItemRarityID.Pink;
 		}
 
-		public override Vector2? HoldoutOffset()
-		{
-			return new Vector2(-5, 0);
-		}
+		public override Vector2? HoldoutOffset() => new Vector2(-5, 0);
 
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-			float manaAmount = (float)player.statMana * 0.01f;
-			float damageMult = manaAmount * 0.75f;
-			float injectionNerf = player.Calamity().astralInjection ? 0.6f : 1f;
-			int projectile = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, (int)(damage * damageMult * injectionNerf), knockBack, player.whoAmI);
-			Main.projectile[projectile].scale = manaAmount;
+			float manaRatio = (float)player.statMana / player.statManaMax2;
+			bool injectionNerf = player.Calamity().astralInjection;
+			if (injectionNerf)
+				manaRatio = MathHelper.Min(manaRatio, 0.65f);
+
+			// 20% to 220% damage. Astral Injection caps it at 150% damage.
+			float damageRatio = 0.2f + 2f * manaRatio;
+			int finalDamage = (int)(damage * damageRatio);
+
+			Projectile proj = Projectile.NewProjectileDirect(position, new Vector2(speedX, speedY), type, finalDamage, knockBack, player.whoAmI);
+			proj.scale = 0.75f + 0.75f * manaRatio;
 			return false;
 		}
 
