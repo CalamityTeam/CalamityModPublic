@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Mad Alchemist's Cocktail Purple");
+            DisplayName.SetDefault("Mad Alchemist's Purple Cocktail");
         }
 
         public override void SetDefaults()
@@ -43,14 +43,17 @@ namespace CalamityMod.Projectiles.Magic
             Main.PlaySound(SoundID.Item107, projectile.position);
             Gore.NewGore(projectile.Center, -projectile.oldVelocity * 0.2f, 704, 1f);
             Gore.NewGore(projectile.Center, -projectile.oldVelocity * 0.2f, 705, 1f);
+
+            int numShrapnel = 4;
+            int shrapnelDamage = projectile.damage / 3;
             if (projectile.owner == Main.myPlayer)
             {
-                for (int num221 = 0; num221 < 4; num221++)
+                for (int i = 0; i < numShrapnel; i++)
                 {
                     Vector2 value17 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
                     value17.Normalize();
                     value17 *= (float)Main.rand.Next(10, 201) * 0.01f;
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value17.X, value17.Y, ModContent.ProjectileType<MadAlchemistsCocktailShrapnel>(), projectile.damage / 3, 0f, projectile.owner, 0f, (float)Main.rand.Next(-45, 1));
+                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value17.X, value17.Y, ModContent.ProjectileType<MadAlchemistsCocktailShrapnel>(), shrapnelDamage, 0f, projectile.owner, 0f, (float)Main.rand.Next(-45, 1));
                 }
             }
         }
