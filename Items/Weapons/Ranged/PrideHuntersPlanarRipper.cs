@@ -15,61 +15,55 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             DisplayName.SetDefault("Prideful Hunter's Planar Ripper");
             Tooltip.SetDefault("Converts musket balls into lightning bolts\n" +
-            "Lightning bolts travel extremely fast and explode on enemy kills\n" +
-            "Every fourth lightning bolt fired will deal 35 percent more damage.\n" +
-            "Additionally, lightning bolt crits grant a stacking speed boost to the player\n" +
-            "This stacks up to 20 percent bonus movement speed and acceleration\n" +
-            "The boost will reset if the player holds a different item");
+                "Lightning bolts travel extremely fast and explode on enemy kills\n" +
+                "Every fourth lightning bolt fired will deal 35 percent more damage.\n" +
+                "Additionally, lightning bolt crits grant a stacking speed boost to the player\n" +
+                "This stacks up to 20 percent bonus movement speed and acceleration\n" +
+                "The boost will reset if the player holds a different item\n" +
+                "33% chance to not consume ammo");
         }
 
         public override void SetDefaults()
         {
-            item.damage = 82;
+            item.damage = 93;
             item.ranged = true;
             item.width = 68;
             item.height = 32;
             item.useTime = 5;
             item.useAnimation = 5;
+            item.autoReuse = true;
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 1f;
 
+            item.UseSound = SoundID.Item11;
+            item.shoot = ProjectileID.Bullet;
+            item.useAmmo = AmmoID.Bullet;
+            item.shootSpeed = 15f;
+
             item.value = CalamityGlobalItem.Rarity11BuyPrice;
             item.rare = ItemRarityID.Purple;
             item.Calamity().donorItem = true;
-
-            item.UseSound = SoundID.Item11;
-            item.autoReuse = true;
-            item.shoot = ProjectileID.Bullet;
-            item.shootSpeed = 15f;
-            item.useAmmo = AmmoID.Bullet;
         }
 
-        public override Vector2? HoldoutOffset()
-        {
-            return new Vector2(-12, -6);
-        }
+        public override Vector2? HoldoutOffset() => new Vector2(-12, -6);
 
-        public override bool ConsumeAmmo(Player player)
-        {
-            if (Main.rand.Next(0, 100) < 33)
-                return false;
-            return true;
-        }
+        public override bool ConsumeAmmo(Player player) => Main.rand.Next(0, 100) >= 33;
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
+            // If using standard musket balls (or Silver Bullets actually), fire the special lightning bolts and have special properties.
             if (type == ProjectileID.Bullet)
             {
+                type = ModContent.ProjectileType<PlanarRipperBolt>();
                 counter++;
-                float damageMult = 1f;
-                if (counter == 4)
-                    damageMult = 1.35f;
 
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<PlanarRipperBolt>(), (int)(damage * damageMult), knockBack, player.whoAmI);
-                if (counter >= 4)
-                counter = 0;
-                return false;
+                // Every 4th shot deals 35% increased damage and resets the counter.
+                if (counter == 4)
+                {
+                    damage = (int)(damage * 1.35f);
+                    counter = 0;
+                }
             }
             return true;
         }
