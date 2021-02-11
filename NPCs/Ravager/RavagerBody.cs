@@ -204,31 +204,6 @@ namespace CalamityMod.NPCs.Ravager
                         rightDustExpr2.velocity.Y -= 4f;
                     }
                 }
-
-				if (!finalPhase)
-				{
-					if (Main.netMode != NetmodeID.MultiplayerClient)
-					{
-						npc.localAI[1] += enrage ? 6f : 1f;
-						if (npc.localAI[1] >= 600f)
-						{
-							npc.localAI[1] = 0f;
-							if (Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height))
-							{
-								float velocity = BossRushEvent.BossRushActive ? 10f : 7f;
-								int totalProjectiles = 8;
-								float radians = MathHelper.TwoPi / totalProjectiles;
-								int type = ProjectileID.EyeBeam;
-								int damage = npc.GetProjectileDamage(type);
-								for (int i = 0; i < totalProjectiles; i++)
-								{
-									Vector2 vector255 = new Vector2(0f, -velocity).RotatedBy(radians * i);
-									Projectile.NewProjectile(npc.Center, vector255, type, damage + (provy ? 30 : 0), 0f, Main.myPlayer, 0f, 0f);
-								}
-							}
-						}
-					}
-				}
             }
 
             if (!rightClawActive)
@@ -252,24 +227,6 @@ namespace CalamityMod.NPCs.Ravager
                         rightDustExpr2.velocity.X += 4f;
                     }
                 }
-
-				if (!finalPhase)
-				{
-					if (Main.netMode != NetmodeID.MultiplayerClient)
-					{
-						npc.localAI[2] += enrage ? 2f : 1f;
-						if (npc.localAI[2] >= 480f)
-						{
-							Main.PlaySound(SoundID.Item20, npc.position);
-							npc.localAI[2] = 0f;
-							Vector2 shootFromVector = new Vector2(npc.Center.X + 80f, npc.Center.Y + 45f);
-							int type = ProjectileID.Fireball;
-							int damage = npc.GetProjectileDamage(type);
-							float velocity = BossRushEvent.BossRushActive ? 18f : 12f;
-							Projectile.NewProjectile(shootFromVector.X, shootFromVector.Y, velocity, 0f, type, damage + (provy ? 30 : 0), 0f, Main.myPlayer, 0f, 0f);
-						}
-					}
-				}
             }
 
             if (!leftClawActive)
@@ -292,24 +249,6 @@ namespace CalamityMod.NPCs.Ravager
                         leftDustExpr2.velocity.X -= 4f;
                     }
                 }
-
-				if (!finalPhase)
-				{
-					if (Main.netMode != NetmodeID.MultiplayerClient)
-					{
-						npc.localAI[3] += enrage ? 2f : 1f;
-						if (npc.localAI[3] >= 480f)
-						{
-							Main.PlaySound(SoundID.Item20, npc.position);
-							npc.localAI[3] = 0f;
-							Vector2 shootFromVector = new Vector2(npc.Center.X - 80f, npc.Center.Y + 45f);
-							int type = ProjectileID.Fireball;
-							int damage = npc.GetProjectileDamage(type);
-							float velocity = BossRushEvent.BossRushActive ? -18f : -12f;
-							Projectile.NewProjectile(shootFromVector.X, shootFromVector.Y, velocity, 0f, type, damage + (provy ? 30 : 0), 0f, Main.myPlayer, 0f, 0f);
-						}
-					}
-				}
             }
 
             if (!rightLegActive)
@@ -332,23 +271,6 @@ namespace CalamityMod.NPCs.Ravager
                         rightDustExpr2.velocity.Y += 1f;
                     }
                 }
-
-				if (!finalPhase)
-				{
-					if (Main.netMode != NetmodeID.MultiplayerClient)
-					{
-						npc.ai[2] += 1f;
-						if (npc.ai[2] >= 300f)
-						{
-							npc.ai[2] = 0f;
-							Vector2 shootFromVector = new Vector2(npc.Center.X + 60f, npc.Center.Y + 60f);
-							int type = ProjectileID.GreekFire1;
-							int damage = npc.GetProjectileDamage(type);
-							int fire = Projectile.NewProjectile(shootFromVector.X, shootFromVector.Y, 0f, 2f, type + Main.rand.Next(3), damage + (provy ? 30 : 0), 0f, Main.myPlayer, 0f, 0f);
-							Main.projectile[fire].timeLeft = 180;
-						}
-					}
-				}
             }
 
             if (!leftLegActive)
@@ -372,23 +294,6 @@ namespace CalamityMod.NPCs.Ravager
                         leftDustExpr2.velocity.Y += 1f;
                     }
                 }
-
-				if (!finalPhase)
-				{
-					if (Main.netMode != NetmodeID.MultiplayerClient)
-					{
-						npc.ai[3] += 1f;
-						if (npc.ai[3] >= 300f)
-						{
-							npc.ai[3] = 0f;
-							Vector2 shootFromVector = new Vector2(npc.Center.X - 60f, npc.Center.Y + 60f);
-							int type = ProjectileID.GreekFire1;
-							int damage = npc.GetProjectileDamage(type);
-							int fire = Projectile.NewProjectile(shootFromVector.X, shootFromVector.Y, 0f, 2f, type + Main.rand.Next(3), damage + (provy ? 30 : 0), 0f, Main.myPlayer, 0f, 0f);
-							Main.projectile[fire].timeLeft = 180;
-						}
-					}
-				}
             }
 
             if (npc.ai[0] == 0f)

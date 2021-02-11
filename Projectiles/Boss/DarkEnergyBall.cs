@@ -50,8 +50,8 @@ namespace CalamityMod.Projectiles.Boss
         public override void AI()
         {
             timeElapsed += 0.02;
-            projectile.velocity.X = (float)(Math.Sin(timeElapsed * (double)(0.5f * projectile.ai[0])) * circleSize);
-            projectile.velocity.Y = (float)(Math.Cos(timeElapsed * (double)(0.5f * projectile.ai[0])) * circleSize);
+            projectile.velocity.X = (float)(Math.Sin(timeElapsed * (0.5f * projectile.ai[0])) * circleSize);
+            projectile.velocity.Y = (float)(Math.Cos(timeElapsed * (0.5f * projectile.ai[0])) * circleSize);
             circleSize += circleGrowth;
             projectile.frameCounter++;
             if (projectile.frameCounter > 4)
@@ -88,10 +88,25 @@ namespace CalamityMod.Projectiles.Boss
 
 		public override void Kill(int timeLeft)
         {
-            for (int k = 0; k < 5; k++)
-            {
-                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 90, 0f, 0f);
-            }
+			for (int num621 = 0; num621 < 5; num621++)
+			{
+				int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 90, 0f, 0f, 100, default, 1.2f);
+				Main.dust[num622].velocity *= 3f;
+				Main.dust[num622].noGravity = true;
+				if (Main.rand.NextBool(2))
+				{
+					Main.dust[num622].scale = 0.5f;
+					Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
+				}
+			}
+			for (int num623 = 0; num623 < 10; num623++)
+			{
+				int num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 90, 0f, 0f, 100, default, 1.7f);
+				Main.dust[num624].noGravity = true;
+				Main.dust[num624].velocity *= 5f;
+				num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 90, 0f, 0f, 100, default, 1f);
+				Main.dust[num624].velocity *= 2f;
+			}
         }
 
         public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)	
