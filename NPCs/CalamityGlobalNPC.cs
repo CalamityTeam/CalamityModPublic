@@ -3276,9 +3276,9 @@ namespace CalamityMod.NPCs
                     if (projectile.type == ProjectileType<SealedSingularityBlackhole>())
                         damage = (int)(damage * 0.5);
 
-                    // 20% resist to Wave Pounder
+                    // 25% resist to Wave Pounder
                     else if (projectile.type == ProjectileType<WavePounderBoom>())
-                        damage = (int)(damage * 0.8);
+                        damage = (int)(damage * 0.75);
 				}
 				else if (CosmicGuardianIDs.Contains(npc.type) || DarkEnergyIDs.Contains(npc.type))
 				{
