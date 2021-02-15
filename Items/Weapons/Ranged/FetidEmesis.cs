@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Fetid Emesis");
-            Tooltip.SetDefault("Has a chance to release rotten chunks instead of bullets.");
+            Tooltip.SetDefault("Has a chance to release rotten chunks instead of bullets");
         }
 
         public override void SetDefaults()
@@ -34,16 +34,13 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.Calamity().customRarity = CalamityRarity.PureGreen;
         }
 
-        public override Vector2? HoldoutOffset()
-        {
-            return new Vector2(-5, 0);
-        }
+        public override Vector2? HoldoutOffset() => new Vector2(-5, 0);
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             if (Main.rand.NextBool(8))
             {
-                Projectile.NewProjectile(position, new Vector2(speedX, speedY) * 0.45f,
+                Projectile.NewProjectile(position, new Vector2(speedX, speedY) * 0.8f,
                     ModContent.ProjectileType<EmesisGore>(), damage, knockBack, player.whoAmI);
                 for (int i = 0; i < 5; i++)
                 {
