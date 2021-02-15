@@ -40,7 +40,7 @@ namespace CalamityMod.NPCs.Abyss
             npc.height = 138; //20
             npc.defense = 700;
             CalamityGlobalNPC global = npc.Calamity();
-            global.DR = 0.999999f;
+            global.DR = 0.95f;
             global.unbreakableDR = true;
             npc.lifeMax = 1000000;
             npc.aiStyle = -1;

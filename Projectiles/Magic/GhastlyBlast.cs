@@ -270,8 +270,8 @@ namespace CalamityMod.Projectiles.Magic
                         Main.projectile[num105].Kill();
                     }
                 }
-                int num106 = Main.rand.Next(5, 9);
-                int num107 = Main.rand.Next(5, 9);
+                int num106 = 5;
+                int num107 = 5;
                 int num108 = Utils.SelectRandom(Main.rand, new int[]
                 {
                     60,
