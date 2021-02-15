@@ -1,3 +1,4 @@
+using CalamityMod.Items.Weapons.Melee;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -30,6 +31,13 @@ namespace CalamityMod.Projectiles.Melee
             projectile.localNPCHitCooldown = 10;
         }
 
+        private void SpawnTerrorBlast()
+        {
+            int projID = ModContent.ProjectileType<TerrorBlast>();
+            int blastDamage = (int)(projectile.damage * TerrorBlade.TerrorBlastMultiplier);
+            Projectile.NewProjectile(projectile.Center, Vector2.Zero, projID, blastDamage, projectile.knockBack, projectile.owner);
+        }
+
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
             projectile.penetrate--;
@@ -41,7 +49,7 @@ namespace CalamityMod.Projectiles.Melee
             {
                 if (projectile.owner == Main.myPlayer)
                 {
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<TerrorBlast>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                    SpawnTerrorBlast();
                 }
                 if (projectile.velocity.X != oldVelocity.X)
                 {
@@ -60,7 +68,7 @@ namespace CalamityMod.Projectiles.Melee
             if (projectile.owner == Main.myPlayer && projectile.localAI[0] == 0f)
             {
                 projectile.localAI[0] = 1f;
-                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<TerrorBlast>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                SpawnTerrorBlast();
             }
         }
 
@@ -95,25 +103,9 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(SoundID.Item60, projectile.position);
-            projectile.position = projectile.Center;
-            projectile.width = projectile.height = 400;
-            projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
-            projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
-            for (int num193 = 0; num193 < 6; num193++)
-            {
-                Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 60, 0f, 0f, 100, default, 1.5f);
-            }
-            for (int num194 = 0; num194 < 60; num194++)
-            {
-                int num195 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 60, 0f, 0f, 0, default, 2.5f);
-                Main.dust[num195].noGravity = true;
-                Main.dust[num195].velocity *= 3f;
-                num195 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 60, 0f, 0f, 100, default, 1.5f);
-                Main.dust[num195].velocity *= 2f;
-                Main.dust[num195].noGravity = true;
-            }
-            projectile.Damage();
+            // If no on-hit explosion was ever generated, spawn it for free when the beam expires.
+            if (projectile.localAI[0] == 0f)
+                SpawnTerrorBlast();
         }
     }
 }
