@@ -71,6 +71,7 @@ namespace CalamityMod.Projectiles.Ranged
 			projectile.position.Y = projectile.position.Y - projectile.height / 2;
 
 			// Allow infinite piercing and ignoring iframes for this one extra hit
+			projectile.maxPenetrate = -1;
 			projectile.penetrate = -1;
 			projectile.usesLocalNPCImmunity = true;
 			projectile.localNPCHitCooldown = -1;
