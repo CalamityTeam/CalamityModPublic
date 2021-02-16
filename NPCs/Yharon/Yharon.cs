@@ -2908,20 +2908,6 @@ namespace CalamityMod.NPCs.Yharon
         }
         #endregion
 
-        #region Strike NPC
-        public override bool StrikeNPC(ref double damage, int defense, ref float knockback, int hitDirection, ref bool crit)
-        {
-			// Safeguard if damage would kill phase 1 before phase 2.
-			if (!startSecondAI && (damage >= npc.life || (crit && damage * 2 >= npc.life)))
-			{
-				float lifeAboveTenPercent = npc.life - npc.lifeMax * 0.1f;
-				damage = MathHelper.Clamp((float)damage, 0f, lifeAboveTenPercent);
-			}
-
-            return true;
-        }
-		#endregion
-
 		#region On Hit Player
 		public override void OnHitPlayer(Player player, int damage, bool crit)
 		{
@@ -2971,7 +2957,7 @@ namespace CalamityMod.NPCs.Yharon
 			{
 				bool doTelegraphFlightAnimation = npc.localAI[1] < fastChargeTelegraphTime * 0.5f || npc.localAI[1] > fastChargeTelegraphTime - (fastChargeTelegraphTime / 6f);
 				bool doTelegraphRoarAnimation = npc.localAI[1] > fastChargeTelegraphTime - fastChargeTelegraphTime * 0.4f && npc.localAI[1] < fastChargeTelegraphTime - fastChargeTelegraphTime * 0.2f;
-				bool phase4 = startSecondAI && npc.life <= npc.lifeMax * ((CalamityWorld.death || BossRushEvent.BossRushActive) ? 0.3f : 0.2f) && (CalamityWorld.revenge || BossRushEvent.BossRushActive);
+				bool phase4 = startSecondAI && npc.life <= npc.lifeMax * ((CalamityWorld.death || BossRushEvent.BossRushActive) ? 0.165f : 0.11f) && (CalamityWorld.revenge || BossRushEvent.BossRushActive);
 				if (doTelegraphFlightAnimation)
 				{
 					npc.frameCounter += phase4 ? 2D : 1D;
