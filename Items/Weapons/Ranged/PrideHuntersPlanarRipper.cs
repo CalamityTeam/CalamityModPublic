@@ -14,10 +14,10 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Prideful Hunter's Planar Ripper");
-            Tooltip.SetDefault("Converts musket balls into lightning bolts\n" +
+            Tooltip.SetDefault("Every fourth shot deals 135% damage\n" +
+                "Converts musket balls into lightning bolts\n" +
                 "Lightning bolts travel extremely fast and explode on enemy kills\n" +
-                "Every fourth lightning bolt fired will deal 35 percent more damage.\n" +
-                "Additionally, lightning bolt crits grant a stacking speed boost to the player\n" +
+                "Lightning bolt crits grant a stacking speed boost to the player\n" +
                 "This stacks up to 20 percent bonus movement speed and acceleration\n" +
                 "The boost will reset if the player holds a different item\n" +
                 "33% chance to not consume ammo");
@@ -25,7 +25,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 93;
+            item.damage = 101;
             item.ranged = true;
             item.width = 68;
             item.height = 32;
@@ -54,17 +54,16 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             // If using standard musket balls (or Silver Bullets actually), fire the special lightning bolts and have special properties.
             if (type == ProjectileID.Bullet)
-            {
                 type = ModContent.ProjectileType<PlanarRipperBolt>();
-                counter++;
 
-                // Every 4th shot deals 35% increased damage and resets the counter.
-                if (counter == 4)
-                {
-                    damage = (int)(damage * 1.35f);
-                    counter = 0;
-                }
+            // Every 4th shot deals 35% increased damage and resets the counter.
+            counter++;
+            if (counter == 4)
+            {
+                damage = (int)(damage * 1.35f);
+                counter = 0;
             }
+
             return true;
         }
 
