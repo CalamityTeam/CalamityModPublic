@@ -18,6 +18,7 @@ namespace CalamityMod.NPCs.HiveMind
 
         public override void SetDefaults()
         {
+			npc.Calamity().canBreakPlayerDefense = true;
 			npc.GetNPCDamage();
 			npc.width = 70;
             npc.height = 70;

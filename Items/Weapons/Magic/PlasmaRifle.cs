@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.damage = 150;
+            item.damage = 160;
             item.mana = 40;
             item.magic = true;
             item.width = 48;
@@ -74,7 +74,7 @@ namespace CalamityMod.Items.Weapons.Magic
             }
             else
             {
-                Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, (int)(damage * 0.8571), knockBack, player.whoAmI);
+                Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, (int)(damage * 0.88), knockBack, player.whoAmI);
             }
             return false;
         }

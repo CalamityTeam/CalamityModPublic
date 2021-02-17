@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.melee = true;
             item.height = 60;
             item.value = Item.buyPrice(0, 36, 0, 0);
-            item.rare = 5;
+            item.rare = ItemRarityID.Pink;
             item.shoot = ModContent.ProjectileType<IcebreakerHammer>();
             item.shootSpeed = 16f;
             item.Calamity().rogue = true;

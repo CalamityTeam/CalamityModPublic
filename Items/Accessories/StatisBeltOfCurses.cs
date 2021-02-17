@@ -7,13 +7,13 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
 {
-	public class StatisBeltOfCurses : ModItem
+    public class StatisBeltOfCurses : ModItem
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Statis' Void Sash");
             Tooltip.SetDefault("24% increased jump speed and allows constant jumping\n" +
-				"Grants immunity to fall damage\n" +
+                "Grants immunity to fall damage\n" +
                 "Can climb walls, dash, and dodge attacks\n" +
                 "Dashes leave homing scythes in your wake");
             Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(8, 3));
@@ -23,9 +23,9 @@ namespace CalamityMod.Items.Accessories
         {
             item.width = 28;
             item.height = 32;
-            item.value = CalamityGlobalItem.Rarity14BuyPrice;
             item.accessory = true;
-            item.Calamity().postMoonLordRarity = 14;
+            item.value = CalamityGlobalItem.Rarity14BuyPrice;
+            item.Calamity().customRarity = CalamityRarity.DarkBlue;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
@@ -35,7 +35,7 @@ namespace CalamityMod.Items.Accessories
             player.jumpSpeedBoost += 1.2f;
             player.noFallDmg = true;
             player.blackBelt = true;
-			modPlayer.dashMod = 7;
+            modPlayer.dashMod = 7;
             player.spikedBoots = 2;
         }
 
@@ -44,7 +44,7 @@ namespace CalamityMod.Items.Accessories
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<StatisNinjaBelt>());
             recipe.AddIngredient(ModContent.ItemType<TwistingNether>(), 10);
-			//This is not a mistake.  Only Nightmare Fuel is intentional for thematics.
+            //This is not a mistake.  Only Nightmare Fuel is intentional for thematics.
             recipe.AddIngredient(ModContent.ItemType<NightmareFuel>(), 10);
             recipe.AddTile(ModContent.TileType<DraedonsForge>());
             recipe.SetResult(this);

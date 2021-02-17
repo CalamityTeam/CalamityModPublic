@@ -2,6 +2,7 @@ using CalamityMod.World;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -23,7 +24,7 @@ You are encased in an ice barrier for 3 seconds when revived");
             item.width = 36;
             item.height = 34;
             item.value = CalamityGlobalItem.Rarity5BuyPrice;
-            item.rare = 5;
+            item.rare = ItemRarityID.Pink;
         }
 
         public override void ModifyTooltips(List<TooltipLine> list)

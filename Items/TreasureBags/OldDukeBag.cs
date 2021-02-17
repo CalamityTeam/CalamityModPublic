@@ -8,6 +8,7 @@ using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.NPCs.OldDuke;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Items.TreasureBags
 {
@@ -28,7 +29,7 @@ namespace CalamityMod.Items.TreasureBags
             item.width = 24;
             item.height = 24;
             item.expert = true;
-            item.rare = 10;
+            item.rare = ItemRarityID.Red;
         }
 
         public override bool CanRightClick()

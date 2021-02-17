@@ -182,6 +182,10 @@ namespace CalamityMod.NPCs.Providence
 			// Percent life remaining
 			float lifeRatio = npc.life / (float)npc.lifeMax;
 
+			// Increase aggression if player is taking a long time to kill the boss
+			if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
+				lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
+
 			// Night bool
 			bool nightTime = !Main.dayTime;
 
@@ -686,7 +690,7 @@ namespace CalamityMod.NPCs.Providence
 							int dustAmt = (int)MathHelper.Lerp(4f, 8f, calamityGlobalNPC.newAI[3] / spawnAnimationTime);
 							for (int m = 0; m < dustAmt; m++)
 							{
-								float fade = MathHelper.Lerp(1.3f, 0.7f, npc.Opacity) * CalamityUtils.GetLerpValue(0f, 120f, calamityGlobalNPC.newAI[3], clamped: true);
+								float fade = MathHelper.Lerp(1.3f, 0.7f, npc.Opacity) * Utils.InverseLerp(0f, 120f, calamityGlobalNPC.newAI[3], clamped: true);
 								Color newColor = Main.hslToRgb(calamityGlobalNPC.newAI[3] / 180f, 1f, 0.5f);
 
 								if (!nightTime)
@@ -850,6 +854,7 @@ namespace CalamityMod.NPCs.Providence
 					int chains = 4;
 					float interval = totalFlameProjectiles / chains * divisor;
 					double patternInterval = Math.Floor(npc.ai[3] / interval);
+					int healingStarChance = revenge ? 8 : expertMode ? 6 : 4;
 
 					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
@@ -869,7 +874,7 @@ namespace CalamityMod.NPCs.Providence
 										vector2 *= cocoonProjVelocity;
 
 									int projectileType = ModContent.ProjectileType<HolyBurnOrb>();
-									if (Main.rand.NextBool(4) && !death)
+									if (Main.rand.NextBool(healingStarChance) && !death)
 										projectileType = ModContent.ProjectileType<HolyLight>();
 
 									int dmgAmt = nightTime ? -300 : npc.GetProjectileDamageNoScaling(projectileType);
@@ -896,7 +901,7 @@ namespace CalamityMod.NPCs.Providence
 									Vector2 vector2 = new Vector2(0f, -cocoonProjVelocity).RotatedBy(radians * i);
 
 									int projectileType = ModContent.ProjectileType<HolyBurnOrb>();
-									if (Main.rand.NextBool(4) && !death)
+									if (Main.rand.NextBool(healingStarChance) && !death)
 										projectileType = ModContent.ProjectileType<HolyLight>();
 
 									int dmgAmt = nightTime ? -300 : npc.GetProjectileDamageNoScaling(projectileType);
@@ -906,7 +911,7 @@ namespace CalamityMod.NPCs.Providence
 							}
 						}
 
-						// Fire a flame towards every player, with a limit of 10
+						// Fire a flame towards every player, with a limit of 5
 						if (npc.ai[3] % 60f == 0f && expertMode)
 						{
 							List<int> targets = new List<int>();

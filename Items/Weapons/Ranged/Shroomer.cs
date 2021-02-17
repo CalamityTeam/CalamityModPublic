@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Shroomer");
-            Tooltip.SetDefault("Has a chance to fire an extremely powerful homing mushroom");
+            Tooltip.SetDefault("Fires bullets and an extremely powerful homing mushroom");
         }
 
         public override void SetDefaults()
@@ -26,7 +26,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.noMelee = true;
             item.knockBack = 9.75f;
             item.value = Item.buyPrice(0, 95, 0, 0);
-            item.rare = 9;
+            item.rare = ItemRarityID.Cyan;
             item.UseSound = SoundID.Item40;
             item.autoReuse = true;
             item.shoot = ProjectileID.Bullet;
@@ -41,10 +41,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            if (Main.rand.NextBool(5))
-            {
-                Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<Shroom>(), (int)(damage * 1.5), knockBack, player.whoAmI);
-            }
+            Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<Shroom>(), (int)(damage * 0.5), knockBack, player.whoAmI);
             return true;
         }
 

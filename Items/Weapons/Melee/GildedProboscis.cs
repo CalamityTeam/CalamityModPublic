@@ -10,14 +10,13 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Gilded Proboscis");
-            Tooltip.SetDefault("Ignores immunity frames\n" +
-                "Heals the player on hit");
+            Tooltip.SetDefault("Heals the player on hit");
         }
 
         public override void SetDefaults()
         {
             item.width = 66;
-            item.damage = 150;
+            item.damage = 400;
             item.melee = true;
             item.noMelee = true;
             item.useTurn = true;

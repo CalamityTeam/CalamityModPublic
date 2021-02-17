@@ -27,14 +27,14 @@ namespace CalamityMod.Items.Weapons.Summon
             item.useStyle = ItemUseStyleID.HoldingUp;
             item.noMelee = true;
             item.knockBack = 6f;
-            item.value = Item.buyPrice(2, 50, 0, 0);
             item.UseSound = SoundID.Item15; //phaseblade sound effect
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<CosmicViperSummon>();
             item.shootSpeed = 10f;
             item.summon = true;
-            item.rare = 10;
-			item.Calamity().postMoonLordRarity = 14;
+
+            item.value = CalamityGlobalItem.Rarity14BuyPrice;
+            item.Calamity().customRarity = CalamityRarity.DarkBlue;
         }
 
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

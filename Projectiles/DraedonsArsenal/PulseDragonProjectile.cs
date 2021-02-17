@@ -1,3 +1,4 @@
+using CalamityMod.DataStructures;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -55,7 +56,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             projectile.timeLeft = Lifetime;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 4;
-            projectile.tileCollide = true;
+            projectile.tileCollide = false;
 			projectile.extraUpdates = 1;
             projectile.Calamity().hasInorganicEnemyHitBoost = true;
             projectile.Calamity().inorganicEnemyHitBoost = 0.003f;
@@ -98,7 +99,6 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                 {
                     projectile.velocity += player.velocity;
                 }
-                projectile.tileCollide = true;
             }
             else
             {
@@ -147,16 +147,6 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 			}
         }
 
-        public override bool OnTileCollide(Vector2 oldVelocity)
-        {
-            Collision.HitTiles(projectile.position, projectile.velocity, projectile.width, projectile.height);
-            projectile.tileCollide = false;
-            projectile.velocity = Vector2.Zero;
-            ReelingBack = true;
-            projectile.netUpdate = true;
-            return false;
-        }
-
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Player player = Main.player[projectile.owner];
@@ -180,6 +170,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                 bezierPoints.Add(Vector2.Lerp(mountedCenter, projectile.Center, i / 20f) + offset);
             }
             bezierPoints.Add(projectile.Center);
+
             BezierCurve bezierCurve = new BezierCurve(bezierPoints.ToArray());
             int totalChains = (int)(projectile.Distance(mountedCenter) / chainTexture.Height);
             totalChains = (int)MathHelper.Clamp(totalChains, 40f, 1000f);

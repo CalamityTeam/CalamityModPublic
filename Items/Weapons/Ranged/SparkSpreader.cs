@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 			item.noMelee = true;
 			item.UseSound = SoundID.Item34;
 			item.value = Item.buyPrice(0, 1, 0, 0);
-			item.rare = 1;
+			item.rare = ItemRarityID.Blue;
 		}
 
 		public override Vector2? HoldoutOffset() => new Vector2(-4, 0);

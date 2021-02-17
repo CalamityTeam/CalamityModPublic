@@ -25,7 +25,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.ignoreWater = true;
             aiType = ProjectileID.DeathSickle;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 3;
+            projectile.localNPCHitCooldown = 8;
         }
 
         public override void AI()

@@ -9,11 +9,9 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class TerrorBeam : ModProjectile
     {
-        private bool hasHitEnemy = false;
-
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Beam");
+            DisplayName.SetDefault("Terror Beam");
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
             ProjectileID.Sets.TrailingMode[projectile.type] = 1;
         }
@@ -29,7 +27,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.timeLeft = 600;
             projectile.light = 1f;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 3;
+            projectile.localNPCHitCooldown = 10;
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
@@ -43,7 +41,7 @@ namespace CalamityMod.Projectiles.Melee
             {
                 if (projectile.owner == Main.myPlayer)
                 {
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<TerrorBoom>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<TerrorBlast>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
                 }
                 if (projectile.velocity.X != oldVelocity.X)
                 {
@@ -59,10 +57,10 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            if (projectile.owner == Main.myPlayer && !hasHitEnemy)
+            if (projectile.owner == Main.myPlayer && projectile.localAI[0] == 0f)
             {
-                hasHitEnemy = true;
-                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<TerrorBoom>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                projectile.localAI[0] = 1f;
+                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<TerrorBlast>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
             }
         }
 
@@ -88,10 +86,10 @@ namespace CalamityMod.Projectiles.Melee
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-			if (projectile.timeLeft > 595)
-				return false;
+            if (projectile.timeLeft > 595)
+                return false;
 
-			CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 2);
+            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 2);
             return false;
         }
 

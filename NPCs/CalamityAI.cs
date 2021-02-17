@@ -63,6 +63,10 @@ namespace CalamityMod.NPCs
 			// Percent life remaining
 			float lifeRatio = npc.life / (float)npc.lifeMax;
 
+			// Increase aggression if player is taking a long time to kill the boss
+			if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
+				lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
+
 			// Homing only works if the boss is hostile
 			if (head)
 				npc.chaseable = calamityGlobalNPC.newAI[0] == 1f;
@@ -107,7 +111,7 @@ namespace CalamityMod.NPCs
 					// Barf
 					if (calamityGlobalNPC.newAI[3] % 40f == 0f)
 					{
-						Main.PlaySound(4, (int)npc.position.X, (int)npc.position.Y, 13);
+						Main.PlaySound(SoundID.NPCKilled, (int)npc.position.X, (int)npc.position.Y, 13);
 
 						if (Main.netMode != NetmodeID.MultiplayerClient)
 						{
@@ -215,7 +219,7 @@ namespace CalamityMod.NPCs
 							{
 								npc.localAI[0] = 0f;
 								npc.netUpdate = true;
-								Main.PlaySound(4, (int)npc.position.X, (int)npc.position.Y, 13);
+								Main.PlaySound(SoundID.NPCKilled, (int)npc.position.X, (int)npc.position.Y, 13);
 
 								if (Main.netMode != NetmodeID.MultiplayerClient)
 								{
@@ -268,7 +272,7 @@ namespace CalamityMod.NPCs
 								npc.TargetClosest();
 								if (Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height))
 								{
-									Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 17);
+									Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 17);
 									Vector2 vector104 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + (npc.height / 2));
 									float num942 = player.position.X + player.width * 0.5f - vector104.X;
 									float num943 = player.position.Y + player.height * 0.5f - vector104.Y;
@@ -637,6 +641,10 @@ namespace CalamityMod.NPCs
 
 			// Percent life remaining
 			float lifeRatio = npc.life / (float)npc.lifeMax;
+
+			// Increase aggression if player is taking a long time to kill the boss
+			if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
+				lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
 
 			// Variables for buffing the AI
 			bool provy = CalamityWorld.downedProvidence && !BossRushEvent.BossRushActive;
@@ -1118,7 +1126,7 @@ namespace CalamityMod.NPCs
 					}
 
 					if (npc.ai[1] % playSoundTimer == 0f)
-						Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 20);
+						Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 20);
 
 					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
@@ -1149,13 +1157,15 @@ namespace CalamityMod.NPCs
 		{
 			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
-			npc.Calamity().canBreakPlayerDefense = false;
-
 			// Emit light
 			Lighting.AddLight((int)((npc.position.X + (npc.width / 2)) / 16f), (int)((npc.position.Y + (npc.height / 2)) / 16f), 1f, 0f, 0f);
 
 			// Percent life remaining
 			float lifeRatio = npc.life / (float)npc.lifeMax;
+
+			// Increase aggression if player is taking a long time to kill the boss
+			if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
+				lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
 
 			// Spawn phase 2 Cal
 			if (lifeRatio <= 0.75f && Main.netMode != NetmodeID.MultiplayerClient && !phase2)
@@ -1188,7 +1198,7 @@ namespace CalamityMod.NPCs
 				{
 					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
-						Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 74);
+						Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 74);
 						int seekerAmt = death ? 10 : 5;
 						int seekerSpread = 360 / seekerAmt;
 						int seekerDistance = death ? 180 : 150;
@@ -1366,7 +1376,7 @@ namespace CalamityMod.NPCs
 
 				// Reduce acceleration if target is holding a true melee weapon
 				Item targetSelectedItem = player.inventory[player.selectedItem];
-				if (targetSelectedItem.melee && (targetSelectedItem.shoot == 0 || CalamityLists.trueMeleeProjectileList.Contains(targetSelectedItem.shoot)))
+				if (targetSelectedItem.melee && (targetSelectedItem.shoot == ProjectileID.None || CalamityLists.trueMeleeProjectileList.Contains(targetSelectedItem.shoot)))
 				{
 					num824 *= 0.5f;
 				}
@@ -1517,7 +1527,7 @@ namespace CalamityMod.NPCs
 
 				// Reduce acceleration if target is holding a true melee weapon
 				Item targetSelectedItem = player.inventory[player.selectedItem];
-				if (targetSelectedItem.melee && (targetSelectedItem.shoot == 0 || CalamityLists.trueMeleeProjectileList.Contains(targetSelectedItem.shoot)))
+				if (targetSelectedItem.melee && (targetSelectedItem.shoot == ProjectileID.None || CalamityLists.trueMeleeProjectileList.Contains(targetSelectedItem.shoot)))
 				{
 					num833 *= 0.5f;
 				}
@@ -1660,8 +1670,6 @@ namespace CalamityMod.NPCs
 			}
 			else if (npc.ai[1] == 3f)
 			{
-				npc.Calamity().canBreakPlayerDefense = true;
-
 				npc.ai[2] += 1f;
 
 				float chargeTime = BossRushEvent.BossRushActive ? 56f : (70f - (death ? 6f * (1f - lifeRatio) : 0f));
@@ -1769,10 +1777,12 @@ namespace CalamityMod.NPCs
 		{
 			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
-			npc.Calamity().canBreakPlayerDefense = false;
-
 			// Percent life remaining
 			float lifeRatio = npc.life / (float)npc.lifeMax;
+
+			// Increase aggression if player is taking a long time to kill the boss
+			if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
+				lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
 
 			// Emit light
 			Lighting.AddLight((int)((npc.position.X + (npc.width / 2)) / 16f), (int)((npc.position.Y + (npc.height / 2)) / 16f), 1f, 0f, 0f);
@@ -1954,7 +1964,7 @@ namespace CalamityMod.NPCs
 					if (npc.localAI[2] > 22f)
 					{
 						npc.localAI[2] = 0f;
-						Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 34);
+						Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 34);
 					}
 
 					if (Main.netMode != NetmodeID.MultiplayerClient)
@@ -1990,7 +2000,7 @@ namespace CalamityMod.NPCs
 			{
 				if (npc.ai[1] == 1f)
 				{
-					Main.PlaySound(15, (int)npc.position.X, (int)npc.position.Y, 0);
+					Main.PlaySound(SoundID.Roar, (int)npc.position.X, (int)npc.position.Y, 0);
 					npc.rotation = num842;
 
 					float num870 = 14f + (death ? 4f * (1f - lifeRatio) : 0f);
@@ -2019,8 +2029,6 @@ namespace CalamityMod.NPCs
 
 				if (npc.ai[1] == 2f)
 				{
-					npc.Calamity().canBreakPlayerDefense = true;
-
 					npc.ai[2] += 1f + (death ? 0.5f * (1f - lifeRatio) : 0f);
 					if (expertMode)
 						npc.ai[2] += 0.25f;
@@ -2065,10 +2073,12 @@ namespace CalamityMod.NPCs
 		{
 			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
-			npc.Calamity().canBreakPlayerDefense = false;
-
 			// Percent life remaining
 			float lifeRatio = npc.life / (float)npc.lifeMax;
+
+			// Increase aggression if player is taking a long time to kill the boss
+			if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
+				lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
 
 			// Emit light
 			Lighting.AddLight((int)((npc.position.X + (npc.width / 2)) / 16f), (int)((npc.position.Y + (npc.height / 2)) / 16f), 1f, 0f, 0f);
@@ -2250,7 +2260,7 @@ namespace CalamityMod.NPCs
 					if (npc.localAI[2] > 36f)
 					{
 						npc.localAI[2] = 0f;
-						Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 34);
+						Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 34);
 					}
 
 					if (Main.netMode != NetmodeID.MultiplayerClient)
@@ -2286,7 +2296,7 @@ namespace CalamityMod.NPCs
 			{
 				if (npc.ai[1] == 1f)
 				{
-					Main.PlaySound(15, (int)npc.position.X, (int)npc.position.Y, 0);
+					Main.PlaySound(SoundID.Roar, (int)npc.position.X, (int)npc.position.Y, 0);
 					npc.rotation = num842;
 
 					float num870 = (NPC.AnyNPCs(ModContent.NPCType<CalamitasRun>()) ? 12f : 16f) + (death ? 4f * (1f - lifeRatio) : 0f);
@@ -2315,8 +2325,6 @@ namespace CalamityMod.NPCs
 
 				if (npc.ai[1] == 2f)
 				{
-					npc.Calamity().canBreakPlayerDefense = true;
-
 					npc.ai[2] += 1f + (death ? 0.5f * (1f - lifeRatio) : 0f);
 					if (expertMode)
 						npc.ai[2] += 0.25f;
@@ -2369,8 +2377,12 @@ namespace CalamityMod.NPCs
 			// Percent life remaining
 			float lifeRatio = npc.life / (float)npc.lifeMax;
 
-            // Variables
-            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
+			// Increase aggression if player is taking a long time to kill the boss
+			if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
+				lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
+
+			// Variables
+			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
             bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
 			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
 
@@ -2449,7 +2461,7 @@ namespace CalamityMod.NPCs
                     if (npc.localAI[0] >= 180f)
                     {
                         npc.localAI[0] = 0f;
-                        Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 33);
+                        Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 33);
 
                         // Fire astral flames while teleporting
                         if ((npc.ai[0] >= 5f && npc.ai[0] != 7) || calamityGlobalNPC.enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))
@@ -2726,7 +2738,7 @@ namespace CalamityMod.NPCs
                     }
 
 					// Fire lasers on stomp
-					Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 33);
+					Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 33);
 					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
 						float num179 = BossRushEvent.BossRushActive ? 24f : death ? 20f : 18.5f;
@@ -2895,7 +2907,7 @@ namespace CalamityMod.NPCs
                 if (npc.soundDelay == 0)
                 {
                     npc.soundDelay = 15;
-                    Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 109);
+                    Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 109);
                 }
 
                 // Emit dust to make the teleport pretty
@@ -2936,7 +2948,7 @@ namespace CalamityMod.NPCs
                 if (npc.soundDelay == 0)
                 {
                     npc.soundDelay = 15;
-                    Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 109);
+                    Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 109);
                 }
 
                 // Emit dust to make the teleport pretty
@@ -3031,6 +3043,10 @@ namespace CalamityMod.NPCs
 
 			// Life
 			float lifeRatio = npc.life / (float)npc.lifeMax;
+
+			// Increase aggression if player is taking a long time to kill the boss
+			if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
+				lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
 
 			// Phases based on life percentage
 			bool halfHealth = lifeRatio < 0.5f;
@@ -3685,6 +3701,11 @@ namespace CalamityMod.NPCs
 			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
 			double lifeRatio = npc.life / (double)npc.lifeMax;
+
+			// Increase aggression if player is taking a long time to kill the boss
+			if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
+				lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
+
 			int lifePercentage = (int)(100.0 * lifeRatio);
 			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
 			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
@@ -3977,8 +3998,6 @@ namespace CalamityMod.NPCs
 		{
 			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
-			npc.Calamity().canBreakPlayerDefense = false;
-
 			// Get a target
 			if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
 				npc.TargetClosest();
@@ -4061,6 +4080,10 @@ namespace CalamityMod.NPCs
 
 			// Percent life remaining
 			float lifeRatio = npc.life / (float)npc.lifeMax;
+
+			// Increase aggression if player is taking a long time to kill the boss
+			if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
+				lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
 
 			// Phases
 			bool phase2 = lifeRatio < (revenge ? 0.75f : 0.5f);
@@ -4257,7 +4280,7 @@ namespace CalamityMod.NPCs
 							if (phase3)
 								num1307 = 1;
 
-							float featherVelocity = 3f + (enrageScale - 1f) * 1.5f;
+							float featherVelocity = 2f + (enrageScale - 1f);
 							int type = ModContent.ProjectileType<RedLightningFeather>();
 							int damage = npc.GetProjectileDamage(type);
 
@@ -4503,8 +4526,6 @@ namespace CalamityMod.NPCs
 			// Charge
 			else if (npc.ai[0] == 3.2f)
 			{
-				npc.Calamity().canBreakPlayerDefense = true;
-
 				npc.collideX = false;
 				npc.collideY = false;
 				npc.noTileCollide = true;
@@ -4648,14 +4669,21 @@ namespace CalamityMod.NPCs
 		{
 			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
-			npc.Calamity().canBreakPlayerDefense = false;
+			npc.Calamity().canBreakPlayerDefense = true;
+
+			// Percent life remaining
+			float lifeRatio = npc.life / (float)npc.lifeMax;
+
+			// Increase aggression if player is taking a long time to kill the boss
+			if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
+				lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
 
 			// Variables
 			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
 			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
 			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
-			bool phase2 = npc.life <= npc.lifeMax * (death ? 0.8 : revenge ? 0.7 : 0.5);
-			bool phase3 = npc.life <= npc.lifeMax * (death ? 0.5 : (revenge ? 0.35 : 0.2)) && expertMode;
+			bool phase2 = lifeRatio <= (death ? 0.8f : revenge ? 0.7f : 0.5f);
+			bool phase3 = lifeRatio <= (death ? 0.5f : (revenge ? 0.35f : 0.2f)) && expertMode;
 			bool phase2AI = npc.ai[0] > 4f;
 			bool phase3AI = npc.ai[0] > 9f;
 			bool charging = npc.ai[3] < 10f;
@@ -4670,10 +4698,12 @@ namespace CalamityMod.NPCs
 			if (phase3AI)
 			{
 				npc.damage = (int)(npc.defDamage * 1.3f);
+				npc.defense = calamityGlobalNPC.newAI[1] == 1f ? 0 : npc.defDefense - 40;
 			}
 			else if (phase2AI)
 			{
 				npc.damage = (int)(npc.defDamage * 1.2f);
+				npc.defense = calamityGlobalNPC.newAI[1] == 1f ? 0 : npc.defDefense - 20;
 			}
 			else
 			{
@@ -4795,6 +4825,8 @@ namespace CalamityMod.NPCs
 
 			if (calamityGlobalNPC.newAI[1] == 1f)
 			{
+				npc.Calamity().canBreakPlayerDefense = false;
+
 				npc.damage /= 4;
 
 				// Play tired sound
@@ -5081,8 +5113,6 @@ namespace CalamityMod.NPCs
 				// Accelerate
 				npc.velocity *= 1.01f;
 
-				npc.Calamity().canBreakPlayerDefense = true;
-
 				// Spawn dust
 				int num24 = 7;
 				for (int j = 0; j < num24; j++)
@@ -5352,8 +5382,6 @@ namespace CalamityMod.NPCs
 			{
 				// Accelerate
 				npc.velocity *= 1.01f;
-
-				npc.Calamity().canBreakPlayerDefense = true;
 
 				// Spawn dust
 				int num29 = 7;
@@ -5653,8 +5681,6 @@ namespace CalamityMod.NPCs
 			{
 				// Accelerate
 				npc.velocity *= 1.01f;
-
-				npc.Calamity().canBreakPlayerDefense = true;
 
 				// Spawn dust
 				int num34 = 7;
@@ -6284,7 +6310,7 @@ namespace CalamityMod.NPCs
 					{
 						if (npc.ai[1] == 180f)
 						{
-							Main.PlaySound(29, (int)npc.position.X, (int)npc.position.Y, 104);
+							Main.PlaySound(SoundID.Zombie, (int)npc.position.X, (int)npc.position.Y, 104);
 							Vector2 laserVelocity2 = new Vector2(npc.localAI[0], npc.localAI[1]);
 							laserVelocity2.Normalize();
 
@@ -6325,7 +6351,7 @@ namespace CalamityMod.NPCs
 					}
 
 					if (npc.ai[1] % playSoundTimer == 0f)
-						Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 20);
+						Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 20);
 
 					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
@@ -6655,7 +6681,7 @@ namespace CalamityMod.NPCs
 					npc.velocity.Y -= bounciness;
 					if (npc.type == ModContent.NPCType<DespairStone>())
 					{
-						Main.PlaySound(2, npc.Center, 14);
+						Main.PlaySound(SoundID.Item, npc.Center, 14);
 						for (int k = 0; k < 10; k++)
 						{
 							Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.Brimstone, 0f, -1f, 0, default, 1f);
@@ -6663,7 +6689,7 @@ namespace CalamityMod.NPCs
 					}
 					if (npc.type == ModContent.NPCType<Bohldohr>())
 					{
-						Main.PlaySound(3, npc.Center, 7);
+						Main.PlaySound(SoundID.NPCHit, npc.Center, 7);
 					}
 					if (DogPhase2)
 					{

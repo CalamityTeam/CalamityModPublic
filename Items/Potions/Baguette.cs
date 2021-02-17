@@ -11,8 +11,8 @@ namespace CalamityMod.Items.Potions
         {
             DisplayName.SetDefault("Baguette");
             Tooltip.SetDefault("Minor improvements to all stats\n" +
-			"Boosts the effects of Red Wine\n" +
-			"[c/FCE391:je suis Monte]");
+            "Boosts the effects of Red Wine\n" +
+            "[c/FCE391:je suis Monte]");
         }
 
         public override void SetDefaults()
@@ -23,19 +23,21 @@ namespace CalamityMod.Items.Potions
             item.maxStack = 30;
             item.useAnimation = 17;
             item.useTime = 17;
-            item.rare = 1;
             item.useStyle = ItemUseStyleID.EatingUsing;
             item.UseSound = SoundID.Item2;
             item.consumable = true;
-            item.value = Item.buyPrice(0, 0, 50, 0);
+
+            item.value = Item.sellPrice(silver: 1);
+            item.rare = ItemRarityID.Blue;
+            item.Calamity().donorItem = true;
+
             item.buffType = ModContent.BuffType<BaguetteBuff>();
             item.buffTime = CalamityUtils.SecondsToFrames(300f);
-            item.Calamity().customRarity = CalamityRarity.Dedicated;
         }
 
         public override void OnConsumeItem(Player player)
         {
-			//5 minutes for both
+            //5 minutes for both
             player.AddBuff(ModContent.BuffType<BaguetteBuff>(), CalamityUtils.SecondsToFrames(300f));
             player.AddBuff(BuffID.WellFed, CalamityUtils.SecondsToFrames(300f));
         }

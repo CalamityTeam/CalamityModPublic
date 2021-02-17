@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             item.value = Item.buyPrice(1, 80, 0, 0);
-            item.rare = 10;
+            item.rare = ItemRarityID.Red;
             item.shoot = ModContent.ProjectileType<Oathblade>();
             item.shootSpeed = 28f;
             item.Calamity().customRarity = CalamityRarity.DarkBlue;

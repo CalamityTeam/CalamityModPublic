@@ -81,6 +81,8 @@ namespace CalamityMod.NPCs.Leviathan
 
 		public override void AI()
         {
+			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
+
             // whoAmI variable
             CalamityGlobalNPC.siren = npc.whoAmI;
 
@@ -114,6 +116,11 @@ namespace CalamityMod.NPCs.Leviathan
 				enrageScale = 0f;
 
 			float lifeRatio = npc.life / (float)npc.lifeMax;
+
+			// Increase aggression if player is taking a long time to kill the boss
+			if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
+				lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
+
 			float bubbleVelocity = BossRushEvent.BossRushActive ? 16f : death ? 9f : revenge ? 7f : expertMode ? 6f : 5f;
 			bubbleVelocity += 4f * enrageScale;
 			if (!leviAlive)
@@ -250,7 +257,7 @@ namespace CalamityMod.NPCs.Leviathan
 
             // Play sound
             if (Main.rand.NextBool(300))
-                Main.PlaySound(29, (int)npc.position.X, (int)npc.position.Y, 35);
+                Main.PlaySound(SoundID.Zombie, (int)npc.position.X, (int)npc.position.Y, 35);
 
             // Time left
             if (npc.timeLeft < 1800)
@@ -424,7 +431,7 @@ namespace CalamityMod.NPCs.Leviathan
 
                 if (Collision.CanHit(vector119, 1, 1, player.position, player.width, player.height) && flag103)
                 {
-                    Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 85);
+                    Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 85);
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         int spawn = NPC.NewNPC((int)vector119.X, (int)vector119.Y, NPCID.DetonatingBubble);

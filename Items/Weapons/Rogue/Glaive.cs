@@ -33,7 +33,7 @@ Stealth strikes are super fast and pierce infinitely");
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.knockBack = Knockback;
             item.value = Item.buyPrice(0, 1, 40, 0);
-            item.rare = 3;
+            item.rare = ItemRarityID.Orange;
             item.UseSound = SoundID.Item1;
             item.maxStack = 3;
 

@@ -21,7 +21,7 @@ Makes you floaty and reduces defense by 10%");
             item.height = 18;
             item.useTurn = true;
             item.maxStack = 30;
-            item.rare = 4;
+            item.rare = ItemRarityID.LightRed;
             item.useAnimation = 17;
             item.useTime = 17;
             item.useStyle = ItemUseStyleID.EatingUsing;
@@ -29,7 +29,7 @@ Makes you floaty and reduces defense by 10%");
             item.consumable = true;
             item.buffType = ModContent.BuffType<CaribbeanRumBuff>();
             item.buffTime = CalamityUtils.SecondsToFrames(480f);
-            item.value = Item.buyPrice(0, 20, 0, 0);
+            item.value = Item.buyPrice(0, 5, 30, 0);
         }
     }
 }

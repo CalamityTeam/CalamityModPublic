@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Materials
             item.height = 36;
             item.maxStack = 999;
             item.value = Item.sellPrice(silver: 40);
-            item.rare = 8;
+            item.rare = ItemRarityID.Yellow;
         }
 
 		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)

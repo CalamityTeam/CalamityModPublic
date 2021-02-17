@@ -27,7 +27,7 @@ Fires spiritual claws that ignore walls and confuse enemies");
             item.noMelee = true;
             item.knockBack = 10f;
             item.value = Item.buyPrice(0, 48, 0, 0);
-            item.rare = 6;
+            item.rare = ItemRarityID.LightPurple;
             item.UseSound = SoundID.Item8;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<ArcticBearPawProj>();

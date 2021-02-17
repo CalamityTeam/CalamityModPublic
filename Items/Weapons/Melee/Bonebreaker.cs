@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.useTurn = true;
             item.autoReuse = true;
             item.value = Item.buyPrice(0, 36, 0, 0);
-            item.rare = 5;
+            item.rare = ItemRarityID.Pink;
             item.shoot = ModContent.ProjectileType<BonebreakerProjectile>();
             item.noMelee = true;
             item.noUseGraphic = true;

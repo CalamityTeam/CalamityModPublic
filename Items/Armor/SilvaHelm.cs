@@ -48,7 +48,7 @@ namespace CalamityMod.Items.Armor
                 "If you get reduced to 1 HP again while this effect is active you will lose 100 max life\n" +
                 "This effect only triggers once per life and if you are reduced to 400 max life the invincibility effect will stop\n" +
                 "Your max life will return to normal if you die\n" +
-                "True melee strikes have a 25% chance to do five times damage\n" +
+                "True melee strikes do double damage\n" +
                 "After the silva invincibility is over you will take 20% less contact damage\n" +
                 "Melee projectiles have a 25% chance to stun enemies for a very brief moment";
         }

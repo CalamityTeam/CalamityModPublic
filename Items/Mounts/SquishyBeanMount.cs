@@ -19,12 +19,14 @@ namespace CalamityMod.Items.Mounts
             item.useTime = 20;
             item.useAnimation = 20;
             item.useStyle = ItemUseStyleID.SwingThrow;
-            item.rare = 9;
-            item.value = Item.buyPrice(1, 0, 0, 0);
             item.expert = true;
             item.UseSound = SoundID.Item3;
             item.noMelee = true;
             item.mountType = ModContent.MountType<SquishyBean>();
+
+            item.value = Item.buyPrice(platinum: 1);
+            item.rare = ItemRarityID.Cyan;
+            item.Calamity().devItem = true;
         }
     }
 }

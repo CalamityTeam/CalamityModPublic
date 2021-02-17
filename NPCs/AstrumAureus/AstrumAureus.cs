@@ -63,7 +63,7 @@ namespace CalamityMod.NPCs.AstrumAureus
             bossBag = ModContent.ItemType<AstrageldonBag>();
             if (NPC.downedMoonlord && CalamityWorld.revenge)
             {
-                npc.value = Item.buyPrice(0, 35, 0, 0);
+                npc.value = Item.buyPrice(0, 25, 0, 0);
             }
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);

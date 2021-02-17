@@ -35,6 +35,7 @@ namespace CalamityMod.NPCs.SlimeGod
 
         public override void SetDefaults()
         {
+			npc.Calamity().canBreakPlayerDefense = true;
 			npc.GetNPCDamage();
 			npc.npcSlots = 10f;
             npc.width = 44;
@@ -85,6 +86,8 @@ namespace CalamityMod.NPCs.SlimeGod
 
 		public override void AI()
         {
+			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
+
             CalamityGlobalNPC.slimeGod = npc.whoAmI;
 
             bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
@@ -93,6 +96,10 @@ namespace CalamityMod.NPCs.SlimeGod
 
 			// Percent life remaining
 			float lifeRatio = npc.life / (float)npc.lifeMax;
+
+			// Increase aggression if player is taking a long time to kill the boss
+			if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
+				lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
 
 			npc.TargetClosest(true);
 			Player player = Main.player[npc.target];
@@ -131,8 +138,8 @@ namespace CalamityMod.NPCs.SlimeGod
 					else
 						Main.npc[CalamityGlobalNPC.slimeGodPurple].localAI[1] = 0f;
 
-					npc.Calamity().newAI[0] = Main.npc[CalamityGlobalNPC.slimeGodPurple].Center.X;
-					npc.Calamity().newAI[1] = Main.npc[CalamityGlobalNPC.slimeGodPurple].Center.Y;
+					calamityGlobalNPC.newAI[0] = Main.npc[CalamityGlobalNPC.slimeGodPurple].Center.X;
+					calamityGlobalNPC.newAI[1] = Main.npc[CalamityGlobalNPC.slimeGodPurple].Center.Y;
 
 					purpleSlimeAlive = true;
 					phase2 = lifeRatio < 0.2f;
@@ -207,22 +214,22 @@ namespace CalamityMod.NPCs.SlimeGod
 			// Hide inside large slime
 			if (!hyperMode && npc.ai[1] < ai1)
 			{
-				if (npc.Calamity().newAI[2] == 0f && npc.life > 0)
+				if (calamityGlobalNPC.newAI[2] == 0f && npc.life > 0)
 				{
-					npc.Calamity().newAI[2] = npc.lifeMax;
+					calamityGlobalNPC.newAI[2] = npc.lifeMax;
 				}
 				if (npc.life > 0)
 				{
 					int num660 = (int)(npc.lifeMax * 0.05);
-					if ((npc.life + num660) < npc.Calamity().newAI[2])
+					if ((npc.life + num660) < calamityGlobalNPC.newAI[2])
 					{
-						npc.Calamity().newAI[2] = npc.life;
-						npc.Calamity().newAI[3] = 1f;
+						calamityGlobalNPC.newAI[2] = npc.life;
+						calamityGlobalNPC.newAI[3] = 1f;
 						Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SlimeGodPossession"), (int)npc.position.X, (int)npc.position.Y);
 					}
 				}
 
-				if (npc.Calamity().newAI[3] == 1f)
+				if (calamityGlobalNPC.newAI[3] == 1f)
 				{
 					npc.dontTakeDamage = true;
 
@@ -238,7 +245,7 @@ namespace CalamityMod.NPCs.SlimeGod
 							buffedSlime = 2;
 					}
 
-					Vector2 purpleSlimeVector = new Vector2(npc.Calamity().newAI[0], npc.Calamity().newAI[1]);
+					Vector2 purpleSlimeVector = new Vector2(calamityGlobalNPC.newAI[0], calamityGlobalNPC.newAI[1]);
 					Vector2 redSlimeVector = new Vector2(npc.localAI[2], npc.localAI[3]);
 					Vector2 goToVector = buffedSlime == 1 ? purpleSlimeVector : redSlimeVector;
 
@@ -255,7 +262,7 @@ namespace CalamityMod.NPCs.SlimeGod
 					if (npc.ai[2] >= 600f || slimeDead)
 					{
 						npc.ai[2] = 0f;
-						npc.Calamity().newAI[3] = 0f;
+						calamityGlobalNPC.newAI[3] = 0f;
 						npc.velocity = Vector2.UnitY * -12f;
 						Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SlimeGodExit"), (int)npc.position.X, (int)npc.position.Y);
 						for (int i = 0; i < 20; i++)
@@ -508,7 +515,7 @@ namespace CalamityMod.NPCs.SlimeGod
             {
                 num1372 = 22f;
             }
-            if (npc.Calamity().enraged > 0 || player.gravDir == -1f || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))
+            if (calamityGlobalNPC.enraged > 0 || player.gravDir == -1f || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))
             {
                 num1372 += 8f;
             }

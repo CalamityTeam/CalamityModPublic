@@ -28,14 +28,14 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 0.15f;
-            item.value = Item.buyPrice(0, 60, 0, 0);
-            item.rare = 7;
             item.UseSound = SoundID.Item5;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<LeafArrow>();
             item.shootSpeed = 10f;
             item.useAmmo = AmmoID.Arrow;
-            item.Calamity().customRarity = CalamityRarity.ItemSpecific;
+
+            item.value = CalamityGlobalItem.Rarity7BuyPrice;
+            item.rare = ItemRarityID.Lime;
         }
 
         public override bool AltFunctionUse(Player player)

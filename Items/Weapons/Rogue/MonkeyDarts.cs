@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.useTime = 20;
             item.useAnimation = 20;
             item.value = Item.buyPrice(0, 0, 4, 0);
-            item.rare = 7;
+            item.rare = ItemRarityID.Lime;
             item.shootSpeed = 8f;
             item.shoot = ModContent.ProjectileType<MonkeyDart>();
             item.autoReuse = true;

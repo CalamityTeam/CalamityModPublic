@@ -9,17 +9,17 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class PrideHuntersPlanarRipper : ModItem
     {
-		private int counter = 0;
+        private int counter = 0;
 
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Prideful Hunter's Planar Ripper");
             Tooltip.SetDefault("Converts musket balls into lightning bolts\n" +
-			"Lightning bolts travel extremely fast and explode on enemy kills\n" +
-			"Every fourth lightning bolt fired will deal 35 percent more damage.\n" +
-			"Additionally, lightning bolt crits grant a stacking speed boost to the player\n" +
-			"This stacks up to 20 percent bonus movement speed and acceleration\n" +
-			"The boost will reset if the player holds a different item");
+            "Lightning bolts travel extremely fast and explode on enemy kills\n" +
+            "Every fourth lightning bolt fired will deal 35 percent more damage.\n" +
+            "Additionally, lightning bolt crits grant a stacking speed boost to the player\n" +
+            "This stacks up to 20 percent bonus movement speed and acceleration\n" +
+            "The boost will reset if the player holds a different item");
         }
 
         public override void SetDefaults()
@@ -33,9 +33,11 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 1f;
-			item.value = CalamityGlobalItem.Rarity11BuyPrice;
-			item.rare = ItemRarityID.Purple;
-			item.Calamity().customRarity = CalamityRarity.Dedicated;
+
+            item.value = CalamityGlobalItem.Rarity11BuyPrice;
+            item.rare = ItemRarityID.Purple;
+            item.Calamity().donorItem = true;
+
             item.UseSound = SoundID.Item11;
             item.autoReuse = true;
             item.shoot = ProjectileID.Bullet;
@@ -59,17 +61,17 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             if (type == ProjectileID.Bullet)
             {
-				counter++;
-				float damageMult = 1f;
-				if (counter == 4)
-					damageMult = 1.35f;
+                counter++;
+                float damageMult = 1f;
+                if (counter == 4)
+                    damageMult = 1.35f;
 
                 Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<PlanarRipperBolt>(), (int)(damage * damageMult), knockBack, player.whoAmI);
-				if (counter >= 4)
+                if (counter >= 4)
                 counter = 0;
-				return false;
+                return false;
             }
-			return true;
+            return true;
         }
 
         public override void AddRecipes()

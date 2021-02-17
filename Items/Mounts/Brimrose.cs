@@ -19,12 +19,14 @@ namespace CalamityMod.Items.Mounts
             item.useTime = 20;
             item.useAnimation = 20;
             item.useStyle = ItemUseStyleID.SwingThrow;
-            item.value = Item.buyPrice(1, 50, 0, 0);
-            item.rare = 9;
             item.expert = true;
             item.UseSound = SoundID.Item3;
             item.noMelee = true;
             item.mountType = ModContent.MountType<PhuppersChair>();
+
+            item.value = Item.buyPrice(platinum: 1, gold: 50);
+            item.Calamity().customRarity = CalamityRarity.Turquoise;
+            item.Calamity().devItem = true;
         }
     }
 }

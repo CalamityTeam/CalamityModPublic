@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.damage = 200;
+            item.damage = 120;
             item.magic = true;
             item.mana = 20;
             item.width = 58;
@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.noMelee = true;
             item.knockBack = 8f;
             item.value = Item.buyPrice(1, 40, 0, 0);
-            item.rare = 10;
+            item.rare = ItemRarityID.Red;
             item.UseSound = SoundID.Item72;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<Shadowbolt>();

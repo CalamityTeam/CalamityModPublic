@@ -27,6 +27,7 @@ namespace CalamityMod.NPCs.Polterghast
 
         public override void SetDefaults()
         {
+			npc.Calamity().canBreakPlayerDefense = true;
 			npc.GetNPCDamage();
 			npc.width = 90;
             npc.height = 120;
@@ -69,9 +70,6 @@ namespace CalamityMod.NPCs.Polterghast
         public override void AI()
         {
             CalamityGlobalNPC.ghostBossClone = npc.whoAmI;
-
-			// Don't do it all the time
-			npc.Calamity().canBreakPlayerDefense = false;
 
 			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
 
@@ -254,8 +252,6 @@ namespace CalamityMod.NPCs.Polterghast
 				// Charge
 				if (npc.Calamity().newAI[3] == 1f)
 				{
-					npc.Calamity().canBreakPlayerDefense = true;
-
 					npc.Opacity += 0.06f;
 					if (npc.Opacity > 0.8f)
 						npc.Opacity = 0.8f;

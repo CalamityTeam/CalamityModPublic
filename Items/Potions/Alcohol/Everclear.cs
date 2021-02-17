@@ -21,7 +21,7 @@ Reduces life regen by 10 and defense by 30%");
             item.height = 18;
             item.useTurn = true;
             item.maxStack = 30;
-            item.rare = 2;
+            item.rare = ItemRarityID.Green;
             item.useAnimation = 17;
             item.useTime = 17;
             item.useStyle = ItemUseStyleID.EatingUsing;
@@ -29,7 +29,7 @@ Reduces life regen by 10 and defense by 30%");
             item.consumable = true;
             item.buffType = ModContent.BuffType<EverclearBuff>();
             item.buffTime = CalamityUtils.SecondsToFrames(60f);
-            item.value = Item.buyPrice(0, 6, 60, 0);
+            item.value = Item.buyPrice(0, 2, 0, 0);
         }
     }
 }

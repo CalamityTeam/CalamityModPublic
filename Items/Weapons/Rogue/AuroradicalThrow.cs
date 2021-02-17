@@ -25,13 +25,13 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.noMelee = true;
             item.noUseGraphic = true;
             item.useAnimation = 30;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.useTime = 30;
             item.knockBack = 6f;
             item.UseSound = SoundID.Item117;
             item.autoReuse = true;
             item.value = Item.buyPrice(0, 60, 0, 0);
-            item.rare = 7;
+            item.rare = ItemRarityID.Lime;
             item.shoot = ModContent.ProjectileType<AuroradicalSplitter>();
             item.shootSpeed = 10f;
             item.Calamity().rogue = true;

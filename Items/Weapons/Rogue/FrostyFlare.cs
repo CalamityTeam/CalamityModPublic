@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.autoReuse = true;
             item.knockBack = 2f;
             item.value = Item.buyPrice(0, 0, 8, 0);
-            item.rare = 6;
+            item.rare = ItemRarityID.LightPurple;
             item.shoot = ModContent.ProjectileType<FrostyFlareProj>();
             item.shootSpeed = 22f;
             item.maxStack = 999;

@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Weapons.Typeless
         {
             item.width = 80;
             item.damage = 9;
-            item.rare = 5;
+            item.rare = ItemRarityID.Pink;
             item.useAnimation = 15;
             item.useTime = 15;
             item.useStyle = ItemUseStyleID.HoldingOut;

@@ -18,9 +18,9 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetDefaults()
         {
             item.width = 94;
-			item.height = 80;
-			item.scale = 1.5f;
-			item.damage = 390;
+            item.height = 80;
+            item.scale = 1.5f;
+            item.damage = 350;
             item.melee = true;
             item.useAnimation = 22;
             item.useStyle = ItemUseStyleID.SwingThrow;
@@ -29,34 +29,15 @@ namespace CalamityMod.Items.Weapons.Melee
             item.knockBack = 7.75f;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
-			item.value = CalamityGlobalItem.Rarity12BuyPrice;
-			item.rare = ItemRarityID.Purple;
-			item.Calamity().customRarity = CalamityRarity.Turquoise;
-			item.shootSpeed = 10f;
+            item.shootSpeed = 10f;
+
+            item.value = CalamityGlobalItem.Rarity12BuyPrice;
+            item.Calamity().customRarity = CalamityRarity.Turquoise;
         }
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            Main.PlaySound(SoundID.Item14, player.position);
-            for (int num621 = 0; num621 < 30; num621++)
-            {
-                int num622 = Dust.NewDust(new Vector2(player.position.X, player.position.Y), player.width, player.height, 244, 0f, 0f, 100, default, 2f);
-                Main.dust[num622].velocity *= 3f;
-                if (Main.rand.NextBool(2))
-                {
-                    Main.dust[num622].scale = 0.5f;
-                    Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
-                }
-            }
-            for (int num623 = 0; num623 < 50; num623++)
-            {
-                int num624 = Dust.NewDust(new Vector2(player.position.X, player.position.Y), player.width, player.height, 244, 0f, 0f, 100, default, 3f);
-                Main.dust[num624].noGravity = true;
-                Main.dust[num624].velocity *= 5f;
-                num624 = Dust.NewDust(new Vector2(player.position.X, player.position.Y), player.width, player.height, 244, 0f, 0f, 100, default, 2f);
-                Main.dust[num624].velocity *= 2f;
-            }
-
+            Main.PlaySound(SoundID.Item14, target.position);
             float spread = 45f * 0.0174f;
             double startAngle = Math.Atan2(item.shootSpeed, item.shootSpeed) - spread / 2;
             double deltaAngle = spread / 8f;
@@ -72,26 +53,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
-            Main.PlaySound(SoundID.Item14, player.position);
-            for (int num621 = 0; num621 < 30; num621++)
-            {
-                int num622 = Dust.NewDust(new Vector2(player.position.X, player.position.Y), player.width, player.height, 244, 0f, 0f, 100, default, 2f);
-                Main.dust[num622].velocity *= 3f;
-                if (Main.rand.NextBool(2))
-                {
-                    Main.dust[num622].scale = 0.5f;
-                    Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
-                }
-            }
-            for (int num623 = 0; num623 < 50; num623++)
-            {
-                int num624 = Dust.NewDust(new Vector2(player.position.X, player.position.Y), player.width, player.height, 244, 0f, 0f, 100, default, 3f);
-                Main.dust[num624].noGravity = true;
-                Main.dust[num624].velocity *= 5f;
-                num624 = Dust.NewDust(new Vector2(player.position.X, player.position.Y), player.width, player.height, 244, 0f, 0f, 100, default, 2f);
-                Main.dust[num624].velocity *= 2f;
-            }
-
+            Main.PlaySound(SoundID.Item14, target.position);
             float spread = 45f * 0.0174f;
             double startAngle = Math.Atan2(item.shootSpeed, item.shootSpeed) - spread / 2;
             double deltaAngle = spread / 8f;

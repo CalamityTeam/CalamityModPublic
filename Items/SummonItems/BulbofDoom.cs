@@ -22,7 +22,7 @@ namespace CalamityMod.Items.SummonItems
             item.useAnimation = 45;
             item.useTime = 45;
             item.useStyle = ItemUseStyleID.HoldingUp;
-            item.rare = 7;
+            item.rare = ItemRarityID.Lime;
             item.consumable = true;
         }
 

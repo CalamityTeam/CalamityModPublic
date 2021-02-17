@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.Graphics.Shaders;
+using Terraria.ID;
 
 namespace CalamityMod.Items.Dyes
 {
@@ -14,7 +15,7 @@ namespace CalamityMod.Items.Dyes
 
 		public override void SafeSetDefaults()
 		{
-            item.rare = 10;
+            item.rare = ItemRarityID.Red;
             item.Calamity().customRarity = CalamityRarity.Turquoise;
             item.value = Item.sellPrice(0, 10, 0, 0);
         }

@@ -31,7 +31,7 @@ Stealth strikes leak tar as they fly");
             item.autoReuse = true;
             item.height = 40;
             item.value = Item.buyPrice(0, 60, 0, 0);
-            item.rare = 7;
+            item.rare = ItemRarityID.Lime;
             item.shoot = ModContent.ProjectileType<TotalityFlask>();
             item.shootSpeed = 12f;
             item.Calamity().rogue = true;

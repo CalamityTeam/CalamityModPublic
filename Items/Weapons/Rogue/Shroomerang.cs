@@ -27,7 +27,7 @@ Stealth strikes grant the Mushy buff to the user on enemy hits and summon homing
             item.knockBack = 1.5f;
             item.UseSound = SoundID.Item1;
             item.height = 50;
-            item.rare = 2;
+            item.rare = ItemRarityID.Green;
             item.value = Item.buyPrice(0, 2, 0, 0);
             item.shoot = ModContent.ProjectileType<ShroomerangProj>();
             item.shootSpeed = 15f;

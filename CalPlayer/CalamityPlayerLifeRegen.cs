@@ -26,7 +26,10 @@ namespace CalamityMod.CalPlayer
 				lifeRegenMult *= 0.8;
 			int lifeRegenLost = 0;
 
-            // Initial Debuffs
+			// Initial Debuffs
+
+			// Get fucked, Nebula Armor
+			player.nebulaLevelLife = 0;
 
 			// Vanilla
 			if (death)
@@ -734,9 +737,6 @@ namespace CalamityMod.CalPlayer
 
 				player.lifeRegenTime += 4;
             }
-
-			if (modPlayer.etherealExtorter && player.ZoneGlowshroom)
-				player.lifeRegen += 1;
 
 			if (modPlayer.pinkCandle && !modPlayer.noLifeRegen)
 			{

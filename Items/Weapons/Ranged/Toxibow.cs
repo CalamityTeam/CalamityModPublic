@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Toxibow");
-            Tooltip.SetDefault("Fires slow arrows that occasionally inflict sulfuric poisoning");
+            Tooltip.SetDefault("Converts wooden arrows into slow arrows that occasionally inflict sulfuric poisoning");
         }
 
         public override void SetDefaults()
@@ -26,7 +26,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.noMelee = true;
             item.knockBack = 3f;
             item.value = Item.buyPrice(0, 1, 0, 0);
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.UseSound = SoundID.Item5;
             item.autoReuse = true;
             item.shoot = ProjectileID.PurificationPowder;
@@ -36,10 +36,14 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<ToxicArrow>(), 
-                damage, 0f, player.whoAmI, 0f, 0f);
-            return false;
+			if (type == ProjectileID.WoodenArrowFriendly)
+				Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<ToxicArrow>(), damage, 0f, player.whoAmI);
+			else
+				Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
+
+			return false;
         }
+
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);

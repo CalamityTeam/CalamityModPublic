@@ -26,7 +26,7 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.penetrate = 1;
             projectile.timeLeft = 600;
             projectile.light = 0.25f;
-            projectile.extraUpdates = 1;
+            projectile.extraUpdates = 2;
             aiType = ProjectileID.Bullet;
         }
 

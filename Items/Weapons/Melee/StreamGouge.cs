@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.autoReuse = true;
             item.height = 100;
             item.value = Item.buyPrice(1, 80, 0, 0);
-            item.rare = 10;
+            item.rare = ItemRarityID.Red;
             item.shoot = ModContent.ProjectileType<StreamGougeProj>();
             item.shootSpeed = 15f;
             item.Calamity().customRarity = CalamityRarity.DarkBlue;

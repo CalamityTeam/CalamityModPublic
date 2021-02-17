@@ -21,7 +21,7 @@ namespace CalamityMod.Items.Placeables.DraedonStructures
             item.autoReuse = true;
             item.useAnimation = 15;
             item.useTime = 14;
-            item.rare = 2;
+            item.rare = ItemRarityID.Green;
             item.Calamity().customRarity = CalamityRarity.DraedonRust;
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;

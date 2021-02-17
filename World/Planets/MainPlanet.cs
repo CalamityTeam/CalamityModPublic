@@ -1,3 +1,4 @@
+using CalamityMod.DataStructures;
 using CalamityMod.Schematics;
 using Microsoft.Xna.Framework;
 using System;

@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.damage = 92;
+            item.damage = 55;
             item.magic = true;
             item.noUseGraphic = true;
             item.channel = true;
@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.noMelee = true;
             item.knockBack = 5f;
             item.value = Item.buyPrice(1, 40, 0, 0);
-            item.rare = 10;
+            item.rare = ItemRarityID.Red;
             item.shootSpeed = 9f;
             item.shoot = ModContent.ProjectileType<GhastlyVisageProj>();
             item.Calamity().customRarity = CalamityRarity.PureGreen;

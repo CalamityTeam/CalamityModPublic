@@ -31,9 +31,9 @@ namespace CalamityMod.Items.Weapons.Melee
             item.height = 102;
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.UseSound = SoundID.Item1;
-            item.value = Item.buyPrice(0, 80, 0, 0);
+
+            item.value = CalamityGlobalItem.Rarity8BuyPrice;
             item.rare = ItemRarityID.Yellow;
-            item.Calamity().customRarity = CalamityRarity.ItemSpecific;
         }
 
         public override bool AltFunctionUse(Player player) => true;

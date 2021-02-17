@@ -4,10 +4,9 @@ using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
+
 namespace CalamityMod.Items.DifficultyItems
 {
     public class Revenge : ModItem
@@ -17,12 +16,12 @@ namespace CalamityMod.Items.DifficultyItems
             DisplayName.SetDefault("Revengeance");
             Tooltip.SetDefault("Enables/disables Revengeance Mode, can only be used in expert mode.\n" +
                 "RAGE TOOLTIP LINE HERE\n" +
-                "You gain rage whenever you take damage or hit an enemy with a true melee weapon.\n" +
+                "You gain Rage when you take damage or by using special items.\n" +
                 "ADRENALINE TOOLTIP LINE HERE\n" +
-                "You gain adrenaline whenever a boss is alive. Getting hit drops adrenaline back to 0.\n" +
+                "You gain Adrenaline whenever a boss is alive. Getting hit drops Adrenaline back to 0.\n" +
                 "All enemies drop 50% more cash and spawn 15% more frequently\n" +
                 "Certain enemies and projectiles deal between 5% and 25% more damage.\n" +
-                "Makes certain enemies immune to life steal and nerfs the effectiveness of life steal.\n" +
+                "Makes certain enemies block life steal and nerfs the effectiveness of life steal.\n" +
                 "Nerfs the effectiveness of the Titanium Armor set bonus.\n" +
                 "Changes ALL boss AIs and some enemy AIs in vanilla and the Calamity Mod.");
         }
@@ -34,7 +33,7 @@ namespace CalamityMod.Items.DifficultyItems
             item.useAnimation = 45;
             item.useTime = 45;
             item.useStyle = ItemUseStyleID.HoldingUp;
-            item.rare = 11;
+            item.rare = ItemRarityID.Purple;
             item.UseSound = SoundID.Item119;
             item.consumable = false;
         }
@@ -47,11 +46,11 @@ namespace CalamityMod.Items.DifficultyItems
             {
                 if (line2.mod == "Terraria" && line2.Name == "Tooltip1")
                 {
-                    line2.text = "Activates rage. When rage is maxed press " + rageKey + " to activate rage mode.";
+                    line2.text = "Enables the Rage mechanic. When Rage is maxed press " + rageKey + " to activate Rage Mode.";
                 }
                 if (line2.mod == "Terraria" && line2.Name == "Tooltip3")
                 {
-                    line2.text = "Activates adrenaline. When adrenaline is maxed press " + adrenKey + " to activate adrenaline mode.";
+                    line2.text = "Enables the Adrenaline mechanic. When Adrenaline is maxed press " + adrenKey + " to activate Adrenaline Mode.";
                 }
             }
         }
@@ -66,12 +65,12 @@ namespace CalamityMod.Items.DifficultyItems
                 return true;
 
             if (CalamityPlayer.areThereAnyDamnBosses || CalamityWorld.DoGSecondStageCountdown > 0 || BossRushEvent.BossRushActive)
-			{
+            {
                 string key = "Mods.CalamityMod.ChangingTheRules";
                 Color messageColor = Color.Crimson;
                 CalamityUtils.DisplayLocalizedText(key, messageColor);
-				return true;
-			}
+                return true;
+            }
             if (!CalamityWorld.revenge)
             {
                 CalamityWorld.revenge = true;

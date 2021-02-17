@@ -26,7 +26,7 @@ namespace CalamityMod.Items.Weapons.Summon
             item.noMelee = true;
             item.knockBack = 0.5f;
             item.value = Item.buyPrice(0, 1, 0, 0);
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.UseSound = SoundID.Item15; //phaseblade sound effect
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<WulfrumDroid>();

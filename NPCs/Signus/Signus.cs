@@ -38,7 +38,8 @@ namespace CalamityMod.NPCs.Signus
 
         public override void SetDefaults()
         {
-            npc.npcSlots = 32f;
+			npc.Calamity().canBreakPlayerDefense = true;
+			npc.npcSlots = 32f;
 			npc.GetNPCDamage();
 			npc.width = 130;
             npc.height = 130;
@@ -88,18 +89,23 @@ namespace CalamityMod.NPCs.Signus
 
         public override void AI()
         {
+			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
+
 			CalamityGlobalNPC.signus = npc.whoAmI;
 
 			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
 			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
             bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
 
-			npc.Calamity().canBreakPlayerDefense = false;
-
 			Vector2 vectorCenter = npc.Center;
 
 			double lifeRatio = npc.life / (double)npc.lifeMax;
-            lifeToAlpha = (int)(100.0 * (1.0 - lifeRatio));
+
+			// Increase aggression if player is taking a long time to kill the boss
+			if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
+				lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
+
+			lifeToAlpha = (int)(100.0 * (1.0 - lifeRatio));
 			int maxCharges = death ? 1 : revenge ? 2 : expertMode ? 3 : 4;
 			int maxTeleports = (death && lifeRatio < 0.9) ? 1 : revenge ? 2 : expertMode ? 3 : 4;
 			float inertia = death ? 10f : revenge ? 11f : expertMode ? 12f : 14f;
@@ -151,8 +157,8 @@ namespace CalamityMod.NPCs.Signus
 						npc.ai[1] = 0f;
 						npc.ai[2] = 0f;
 						npc.ai[3] = 0f;
-						npc.Calamity().newAI[0] = 0f;
-						npc.Calamity().newAI[1] = 0f;
+						calamityGlobalNPC.newAI[0] = 0f;
+						calamityGlobalNPC.newAI[1] = 0f;
 						spawnY = 120;
 						npc.netUpdate = true;
 					}
@@ -193,7 +199,7 @@ namespace CalamityMod.NPCs.Signus
                 if (expertMode)
                     speed += death ? 6f * (float)(1D - lifeRatio) : 4f * (float)(1D - lifeRatio);
 
-                if (npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))
+                if (calamityGlobalNPC.enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))
                     speed += 3f;
 
                 float num795 = player.Center.X - vectorCenter.X;
@@ -314,7 +320,7 @@ namespace CalamityMod.NPCs.Signus
                 {
                     if (Main.netMode != NetmodeID.MultiplayerClient && revenge)
                     {
-						Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 122);
+						Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 122);
 
 						int num660 = NPC.NewNPC((int)(player.position.X + 750f), (int)player.position.Y, ModContent.NPCType<SignusBomb>(), 0, 0f, 0f, 0f, 0f, 255);
                         if (Main.netMode == NetmodeID.Server)
@@ -399,7 +405,7 @@ namespace CalamityMod.NPCs.Signus
 						if (Main.netMode != NetmodeID.MultiplayerClient)
 						{
 							float num1070 = 15f;
-							if (npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))
+							if (calamityGlobalNPC.enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))
 								num1070 += 3f;
 
 							float num1071 = player.Center.X - vectorCenter.X;
@@ -506,7 +512,7 @@ namespace CalamityMod.NPCs.Signus
 
                 npc.spriteDirection = Math.Sign(npc.velocity.X);
 
-                if (npc.Calamity().newAI[0] == 0f) // Line up the charge
+                if (calamityGlobalNPC.newAI[0] == 0f) // Line up the charge
                 {
                     float velocity = revenge ? 16f : expertMode ? 15f : 14f;
 					if (expertMode)
@@ -538,20 +544,20 @@ namespace CalamityMod.NPCs.Signus
                     }
                     else
                     {
-						npc.Calamity().newAI[0] = 1f;
+						calamityGlobalNPC.newAI[0] = 1f;
                         npc.ai[2] = vector126.X;
                         npc.ai[3] = vector126.Y;
                         npc.netUpdate = true;
                     }
                 }
-                else if (npc.Calamity().newAI[0] == 1f) // Pause before charge
+                else if (calamityGlobalNPC.newAI[0] == 1f) // Pause before charge
                 {
 					npc.velocity *= 0.8f;
 
                     npc.ai[1] += 1f;
                     if (npc.ai[1] >= 5f)
                     {
-						npc.Calamity().newAI[0] = 2f;
+						calamityGlobalNPC.newAI[0] = 2f;
 
                         npc.netUpdate = true;
 
@@ -565,10 +571,8 @@ namespace CalamityMod.NPCs.Signus
 						npc.ai[3] = 0f;
 					}
                 }
-                else if (npc.Calamity().newAI[0] == 2f) // Charging
+                else if (calamityGlobalNPC.newAI[0] == 2f) // Charging
                 {
-					npc.Calamity().canBreakPlayerDefense = true;
-
 					if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
 						npc.ai[2] += 1f;
@@ -585,7 +589,7 @@ namespace CalamityMod.NPCs.Signus
 					bool flag65 = vectorCenter.Y + 50f > player.Center.Y;
 					if ((npc.ai[1] >= 90f && flag65) || npc.velocity.Length() < 8f)
                     {
-						npc.Calamity().newAI[0] = 3f;
+						calamityGlobalNPC.newAI[0] = 3f;
                         npc.ai[1] = 30f;
                         npc.ai[2] = 0f;
                         npc.velocity /= 2f;
@@ -601,25 +605,25 @@ namespace CalamityMod.NPCs.Signus
                         npc.velocity = (npc.velocity * (inertia - 1f) + vec2 * (npc.velocity.Length() + 0.111111117f * inertia)) / inertia;
                     }
                 }
-                else if (npc.Calamity().newAI[0] == 3f) // Slow down after charging and reset
+                else if (calamityGlobalNPC.newAI[0] == 3f) // Slow down after charging and reset
                 {
                     npc.ai[1] -= 1f;
                     if (npc.ai[1] <= 0f)
                     {
-						npc.Calamity().newAI[1] += 1f;
-						if (npc.Calamity().newAI[1] >= maxCharges)
+						calamityGlobalNPC.newAI[1] += 1f;
+						if (calamityGlobalNPC.newAI[1] >= maxCharges)
 						{
 							npc.ai[0] = -1f;
 							npc.ai[1] = 4f;
 							npc.ai[2] = 0f;
 							npc.ai[3] = 0f;
-							npc.Calamity().newAI[0] = 0f;
-							npc.Calamity().newAI[1] = 0f;
+							calamityGlobalNPC.newAI[0] = 0f;
+							calamityGlobalNPC.newAI[1] = 0f;
 							npc.netUpdate = true;
 						}
 						else
 						{
-							npc.Calamity().newAI[0] = 0f;
+							calamityGlobalNPC.newAI[0] = 0f;
 							npc.ai[1] = 0f;
 							npc.netUpdate = true;
 						}

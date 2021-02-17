@@ -20,8 +20,7 @@ namespace CalamityMod.Items.LoreItems
         {
             item.width = 20;
             item.height = 20;
-            item.rare = 10;
-            item.Calamity().postMoonLordRarity = 13;
+            item.Calamity().customRarity = CalamityRarity.PureGreen;
             item.consumable = false;
         }
 

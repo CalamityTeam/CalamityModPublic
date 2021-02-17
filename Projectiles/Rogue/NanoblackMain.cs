@@ -36,7 +36,7 @@ namespace CalamityMod.Projectiles.Rogue
 			projectile.extraUpdates = 2;
 			projectile.timeLeft = Lifetime;
 			projectile.usesLocalNPCImmunity = true;
-			projectile.localNPCHitCooldown = 2;
+			projectile.localNPCHitCooldown = 8;
 			projectile.Calamity().rogue = true;
 		}
 

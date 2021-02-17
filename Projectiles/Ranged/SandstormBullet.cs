@@ -76,10 +76,7 @@ namespace CalamityMod.Projectiles.Ranged
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             if (!target.boss)
-            {
-                target.velocity.X *= 0.5f;
-                target.velocity.Y *= 0.5f;
-            }
+                target.velocity *= 0.5f;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

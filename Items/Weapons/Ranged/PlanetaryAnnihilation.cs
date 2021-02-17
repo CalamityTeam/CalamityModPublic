@@ -13,13 +13,13 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Planetary Annihilation");
-            Tooltip.SetDefault("Fires a storm of arrows from the sky\n" +
-                "Wooden arrows are converted to homing energy bolts");
+            Tooltip.SetDefault("Fires a storm of 7 arrows from the sky\n" +
+                "Wooden arrows are converted into homing energy bolts");
         }
 
         public override void SetDefaults()
         {
-            item.damage = 54;
+            item.damage = 53;
             item.ranged = true;
             item.width = 58;
             item.height = 102;

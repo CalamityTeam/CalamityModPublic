@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Reaper Tooth Necklace");
-            Tooltip.SetDefault("A grisly trophy from the ultimate predator\n" + "12% increased damage\n" + "Increases armor penetration by 45");
+            Tooltip.SetDefault("A grisly trophy from the ultimate predator\n" + "12% increased damage\n" + "Increases armor penetration by 30");
         }
 
         public override void SetDefaults()
@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Accessories
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             player.allDamage += 0.12f;
-            player.armorPenetration += 45;
+            player.armorPenetration += 30;
         }
 
         public override void AddRecipes()

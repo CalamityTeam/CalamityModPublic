@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.autoReuse = true;
             item.height = 56;
             item.value = Item.buyPrice(0, 2, 0, 0);
-            item.rare = 2;
+            item.rare = ItemRarityID.Green;
             item.shoot = ModContent.ProjectileType<UrchinSpearProjectile>();
             item.shootSpeed = 4f;
         }

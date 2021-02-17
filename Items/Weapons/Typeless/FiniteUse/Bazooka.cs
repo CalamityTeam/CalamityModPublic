@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Weapons.Typeless.FiniteUse
             item.noMelee = true;
             item.knockBack = 10f;
             item.value = Item.buyPrice(0, 36, 0, 0);
-            item.rare = 5;
+            item.rare = ItemRarityID.Pink;
             item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/BazookaFull");
             item.autoReuse = true;
             item.shootSpeed = 12f;

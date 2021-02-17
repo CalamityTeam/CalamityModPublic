@@ -44,7 +44,7 @@ namespace CalamityMod.Projectiles.Magic
             projectile.tileCollide = false;
             projectile.magic = true;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 4;
+            projectile.localNPCHitCooldown = 8;
         }
 
         // Vanilla Terraria does not sync projectile scale by default.

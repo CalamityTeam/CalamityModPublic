@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Placeables
             item.height = 25;
             item.maxStack = 999;
             item.value = 0;
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.useTurn = true;
             item.autoReuse = true;
             item.useAnimation = 15;

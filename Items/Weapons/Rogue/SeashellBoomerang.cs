@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.UseSound = SoundID.Item1;
             item.height = 34;
             item.value = Item.buyPrice(0, 2, 0, 0);
-            item.rare = 2;
+            item.rare = ItemRarityID.Green;
             item.shoot = ModContent.ProjectileType<SeashellBoomerangProjectile>();
             item.shootSpeed = 11.5f;
             item.Calamity().rogue = true;

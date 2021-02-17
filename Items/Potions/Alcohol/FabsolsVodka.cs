@@ -21,7 +21,7 @@ namespace CalamityMod.Items.Potions.Alcohol
             item.height = 18;
             item.useTurn = true;
             item.maxStack = 30;
-            item.rare = 3;
+            item.rare = ItemRarityID.Orange;
             item.useAnimation = 17;
             item.useTime = 17;
             item.useStyle = ItemUseStyleID.EatingUsing;
@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Potions.Alcohol
             item.consumable = true;
             item.buffType = ModContent.BuffType<FabsolVodkaBuff>();
             item.buffTime = CalamityUtils.SecondsToFrames(900f);
-            item.value = Item.buyPrice(0, 10, 0, 0);
+            item.value = Item.buyPrice(0, 2, 60, 0);
         }
 
         public override void AddRecipes()

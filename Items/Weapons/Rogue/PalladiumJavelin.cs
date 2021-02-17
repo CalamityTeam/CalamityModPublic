@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.shoot = ProjectileID.StarAnise;
             item.maxStack = 999;
             item.value = 1200;
-            item.rare = 4;
+            item.rare = ItemRarityID.LightRed;
             item.shoot = ModContent.ProjectileType<PalladiumJavelinProjectile>();
             item.shootSpeed = 16f;
             item.Calamity().rogue = true;

@@ -81,6 +81,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
         public override void SetDefaults()
         {
+			npc.Calamity().canBreakPlayerDefense = true;
 			npc.GetNPCDamage();
 			npc.npcSlots = 50f;
             npc.width = 120;
@@ -194,8 +195,6 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             CalamityGlobalNPC.SCal = npc.whoAmI;
 
             lootTimer++;
-
-			npc.Calamity().canBreakPlayerDefense = false;
 
 			bool wormAlive = false;
             if (CalamityGlobalNPC.SCalWorm != -1)
@@ -1106,7 +1105,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
 						// Reduce acceleration if target is holding a true melee weapon
 						Item targetSelectedItem = player.inventory[player.selectedItem];
-						if (targetSelectedItem.melee && (targetSelectedItem.shoot == 0 || CalamityLists.trueMeleeProjectileList.Contains(targetSelectedItem.shoot)))
+						if (targetSelectedItem.melee && (targetSelectedItem.shoot == ProjectileID.None || CalamityLists.trueMeleeProjectileList.Contains(targetSelectedItem.shoot)))
 						{
 							num824 *= 0.5f;
 						}
@@ -1260,8 +1259,6 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 					}
 					else if (npc.ai[1] == 2f)
 					{
-						npc.Calamity().canBreakPlayerDefense = true;
-
 						npc.ai[2] += 1f;
 						if (npc.ai[2] >= 25f)
 						{
@@ -1298,7 +1295,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
 						// Reduce acceleration if target is holding a true melee weapon
 						Item targetSelectedItem = player.inventory[player.selectedItem];
-						if (targetSelectedItem.melee && (targetSelectedItem.shoot == 0 || CalamityLists.trueMeleeProjectileList.Contains(targetSelectedItem.shoot)))
+						if (targetSelectedItem.melee && (targetSelectedItem.shoot == ProjectileID.None || CalamityLists.trueMeleeProjectileList.Contains(targetSelectedItem.shoot)))
 						{
 							num413 *= 0.5f;
 						}
@@ -1391,7 +1388,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
 						// Reduce acceleration if target is holding a true melee weapon
 						Item targetSelectedItem = player.HeldItem;
-						if (targetSelectedItem.melee && (targetSelectedItem.shoot == 0 || CalamityLists.trueMeleeProjectileList.Contains(targetSelectedItem.shoot)))
+						if (targetSelectedItem.melee && (targetSelectedItem.shoot == ProjectileID.None || CalamityLists.trueMeleeProjectileList.Contains(targetSelectedItem.shoot)))
 						{
 							num833 *= 0.5f;
 						}
@@ -1655,7 +1652,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
 						// Reduce acceleration if target is holding a true melee weapon
 						Item targetSelectedItem = player.inventory[player.selectedItem];
-						if (targetSelectedItem.melee && (targetSelectedItem.shoot == 0 || CalamityLists.trueMeleeProjectileList.Contains(targetSelectedItem.shoot)))
+						if (targetSelectedItem.melee && (targetSelectedItem.shoot == ProjectileID.None || CalamityLists.trueMeleeProjectileList.Contains(targetSelectedItem.shoot)))
 						{
 							num824 *= 0.5f;
 						}
@@ -1805,8 +1802,6 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 					}
 					else if (npc.ai[1] == 2f)
 					{
-						npc.Calamity().canBreakPlayerDefense = true;
-
 						npc.ai[2] += 1f;
 						if (npc.ai[2] >= 25f)
 						{
@@ -1843,7 +1838,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
 						// Reduce acceleration if target is holding a true melee weapon
 						Item targetSelectedItem = player.inventory[player.selectedItem];
-						if (targetSelectedItem.melee && (targetSelectedItem.shoot == 0 || CalamityLists.trueMeleeProjectileList.Contains(targetSelectedItem.shoot)))
+						if (targetSelectedItem.melee && (targetSelectedItem.shoot == ProjectileID.None || CalamityLists.trueMeleeProjectileList.Contains(targetSelectedItem.shoot)))
 						{
 							num413 *= 0.5f;
 						}
@@ -1936,7 +1931,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
 						// Reduce acceleration if target is holding a true melee weapon
 						Item targetSelectedItem = player.inventory[player.selectedItem];
-						if (targetSelectedItem.melee && (targetSelectedItem.shoot == 0 || CalamityLists.trueMeleeProjectileList.Contains(targetSelectedItem.shoot)))
+						if (targetSelectedItem.melee && (targetSelectedItem.shoot == ProjectileID.None || CalamityLists.trueMeleeProjectileList.Contains(targetSelectedItem.shoot)))
 						{
 							num833 *= 0.5f;
 						}

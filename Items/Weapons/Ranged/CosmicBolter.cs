@@ -13,7 +13,8 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Cosmic Bolter");
-            Tooltip.SetDefault("Fires three sliding energy bolts");
+            Tooltip.SetDefault("Fires three arrows at once\n" +
+				"Converts wooden arrows into sliding energy bolts");
         }
 
         public override void SetDefaults()
@@ -28,7 +29,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.noMelee = true;
             item.knockBack = 2.75f;
             item.value = Item.buyPrice(0, 80, 0, 0);
-            item.rare = 8;
+            item.rare = ItemRarityID.Yellow;
             item.UseSound = SoundID.Item75;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<LunarBolt2>();
@@ -50,10 +51,15 @@ namespace CalamityMod.Items.Weapons.Ranged
                 float offsetAmt = i - (projAmt - 1f) / 2f;
                 Vector2 offset = velocity.RotatedBy(piOver10 * offsetAmt, default);
                 if (!canHit)
-                {
                     offset -= velocity;
-                }
-                Projectile.NewProjectile(source + offset, new Vector2(speedX, speedY), ModContent.ProjectileType<LunarBolt2>(), damage, knockBack, player.whoAmI);
+
+				if (type == ProjectileID.WoodenArrowFriendly)
+					Projectile.NewProjectile(source + offset, new Vector2(speedX, speedY), ModContent.ProjectileType<LunarBolt2>(), damage, knockBack, player.whoAmI);
+				else
+				{
+					int proj = Projectile.NewProjectile(source + offset, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
+					Main.projectile[proj].noDropItem = true;
+				}
 			}
             return false;
         }

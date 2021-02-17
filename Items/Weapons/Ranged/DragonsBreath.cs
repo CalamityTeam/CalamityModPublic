@@ -12,7 +12,8 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             DisplayName.SetDefault("Dragon's Breath");
             Tooltip.SetDefault("80% chance to not consume ammo\n" +
-                "Shoots a spread of exploding fire bullets");
+				"Fires a spread of 8 bullets\n" +
+				"Converts musket balls into exploding dragonfire bullets");
         }
 
         public override void SetDefaults()
@@ -43,11 +44,11 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            for (int i = 0; i < 13; i++)
+            for (int i = 0; i < 8; i++)
             {
                 float SpeedX = speedX + (float)Main.rand.Next(-20, 21) * 0.05f;
                 float SpeedY = speedY + (float)Main.rand.Next(-20, 21) * 0.05f;
-                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<DragonBurst>(), damage, knockBack, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<DragonBurst>(), damage, knockBack, player.whoAmI);
             }
             return false;
         }

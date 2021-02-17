@@ -32,11 +32,11 @@ namespace CalamityMod.Items.Weapons.Melee
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.knockBack = 0.5f;
             item.UseSound = SoundID.Item122;
-            item.value = Item.buyPrice(1, 40, 0, 0);
-            item.rare = 10;
             item.shootSpeed = 24f;
             item.shoot = ModContent.ProjectileType<CosmicDischargeFlail>();
-            item.Calamity().customRarity = CalamityRarity.ItemSpecific;
+
+            item.value = CalamityGlobalItem.Rarity14BuyPrice;
+            item.Calamity().customRarity = CalamityRarity.DarkBlue;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

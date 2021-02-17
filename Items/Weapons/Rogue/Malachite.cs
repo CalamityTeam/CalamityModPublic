@@ -30,12 +30,12 @@ namespace CalamityMod.Items.Weapons.Rogue
 			item.UseSound = SoundID.Item1;
 			item.autoReuse = true;
 			item.height = 58;
-			item.value = Item.buyPrice(0, 80, 0, 0);
-			item.rare = 8;
 			item.shoot = ModContent.ProjectileType<MalachiteProj>();
 			item.shootSpeed = 10f;
 			item.Calamity().rogue = true;
-			item.Calamity().customRarity = CalamityRarity.ItemSpecific;
+
+			item.value = CalamityGlobalItem.Rarity8BuyPrice;
+			item.rare = ItemRarityID.Yellow;
 		}
 
 		public override bool AltFunctionUse(Player player) => true;

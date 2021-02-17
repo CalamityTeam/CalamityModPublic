@@ -26,7 +26,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.melee = true;
             projectile.ignoreWater = true;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 3;
+            projectile.localNPCHitCooldown = 8;
         }
         public override Color SpecialDrawColor => default;
         public override int ExudeDustType => 176;

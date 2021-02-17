@@ -35,7 +35,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.noMelee = true;
             item.knockBack = 7.5f;
             item.value = Item.buyPrice(2, 50, 0, 0);
-            item.rare = 10;
+            item.rare = ItemRarityID.Red;
             item.UseSound = SoundID.Item60;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<VividBeam>();

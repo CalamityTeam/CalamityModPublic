@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("The Enforcer");
-            Tooltip.SetDefault("Fires an essence flame burst and spawns essence flames on enemy hits");
+            Tooltip.SetDefault("Spawns essence flames on hit");
         }
 
         public override void SetDefaults()
@@ -32,8 +32,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.UseSound = SoundID.Item20;
             item.autoReuse = true;
             item.value = Item.buyPrice(1, 80, 0, 0);
-            item.rare = 10;
-            item.shoot = ModContent.ProjectileType<EssenceFireball>();
+            item.rare = ItemRarityID.Red;
             item.shootSpeed = 24f;
             item.Calamity().customRarity = CalamityRarity.DarkBlue;
         }
@@ -47,20 +46,19 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             Main.PlaySound(SoundID.Item73, player.position);
             int i = Main.myPlayer;
-            float num72 = 6f;
-            float num74 = 7f;
+            float num72 = 3f;
             player.itemTime = item.useTime;
             Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
-            float num78 = (float)Main.mouseX + Main.screenPosition.X + vector2.X;
-            float num79 = (float)Main.mouseY + Main.screenPosition.Y + vector2.Y;
+            float num78 = Main.mouseX + Main.screenPosition.X + vector2.X;
+            float num79 = Main.mouseY + Main.screenPosition.Y + vector2.Y;
             if (player.gravDir == -1f)
             {
-                num79 = Main.screenPosition.Y + (float)Main.screenHeight + (float)Main.mouseY + vector2.Y;
+                num79 = Main.screenPosition.Y + Main.screenHeight + Main.mouseY + vector2.Y;
             }
-            float num80 = (float)Math.Sqrt((double)(num78 * num78 + num79 * num79));
+            float num80 = (float)Math.Sqrt(num78 * num78 + num79 * num79);
             if ((float.IsNaN(num78) && float.IsNaN(num79)) || (num78 == 0f && num79 == 0f))
             {
-                num78 = (float)player.direction;
+                num78 = player.direction;
                 num79 = 0f;
                 num80 = num72;
             }
@@ -69,14 +67,14 @@ namespace CalamityMod.Items.Weapons.Melee
                 num80 = num72 / num80;
             }
 
-            int num107 = 2;
+            int num107 = 5;
             for (int num108 = 0; num108 < num107; num108++)
             {
-                vector2 = new Vector2(player.position.X + (float)player.width * 0.5f + (float)(Main.rand.Next(201) * -(float)player.direction) + ((float)Main.mouseX + Main.screenPosition.X - player.position.X), player.MountedCenter.Y);
-                vector2.X = (vector2.X + player.Center.X) / 2f + (float)Main.rand.Next(-200, 201);
-                vector2.Y -= (float)(100 * num108);
-                num78 = (float)Main.mouseX + Main.screenPosition.X - vector2.X;
-                num79 = (float)Main.mouseY + Main.screenPosition.Y - vector2.Y;
+                vector2 = new Vector2(player.position.X + player.width * 0.5f + (Main.rand.Next(401) * -(float)player.direction) + (Main.mouseX + Main.screenPosition.X - player.position.X), player.MountedCenter.Y);
+                vector2.X = (vector2.X + player.Center.X) / 2f + Main.rand.Next(-400, 401);
+                vector2.Y -= 100 * num108;
+                num78 = Main.mouseX + Main.screenPosition.X - vector2.X;
+                num79 = Main.mouseY + Main.screenPosition.Y - vector2.Y;
                 if (num79 < 0f)
                 {
                     num79 *= -1f;
@@ -85,9 +83,9 @@ namespace CalamityMod.Items.Weapons.Melee
                 {
                     num79 = 20f;
                 }
-                num80 = (float)Math.Sqrt((double)(num78 * num78 + num79 * num79));
+                num80 = (float)Math.Sqrt(num78 * num78 + num79 * num79);
                 num80 = num72 / num80;
-                Projectile.NewProjectile(vector2.X, vector2.Y, 0f, 0f, ModContent.ProjectileType<EssenceFlame2>(), (int)(item.damage * (player.allDamage + player.meleeDamage - 1f) * 0.25f), num74, i, 0f, (float)Main.rand.Next(3));
+                Projectile.NewProjectile(vector2.X, vector2.Y, 0f, 0f, ModContent.ProjectileType<EssenceFlame2>(), (int)(item.damage * (player.allDamage + player.meleeDamage - 1f) * 0.25f), 0f, i, 0f, Main.rand.Next(3));
             }
         }
 
@@ -95,20 +93,19 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             Main.PlaySound(SoundID.Item73, player.position);
             int i = Main.myPlayer;
-            float num72 = 6f;
-            float num74 = 7f;
+            float num72 = 3f;
             player.itemTime = item.useTime;
             Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
-            float num78 = (float)Main.mouseX + Main.screenPosition.X + vector2.X;
-            float num79 = (float)Main.mouseY + Main.screenPosition.Y + vector2.Y;
+            float num78 = Main.mouseX + Main.screenPosition.X + vector2.X;
+            float num79 = Main.mouseY + Main.screenPosition.Y + vector2.Y;
             if (player.gravDir == -1f)
             {
-                num79 = Main.screenPosition.Y + (float)Main.screenHeight + (float)Main.mouseY + vector2.Y;
+                num79 = Main.screenPosition.Y + Main.screenHeight + Main.mouseY + vector2.Y;
             }
-            float num80 = (float)Math.Sqrt((double)(num78 * num78 + num79 * num79));
+            float num80 = (float)Math.Sqrt(num78 * num78 + num79 * num79);
             if ((float.IsNaN(num78) && float.IsNaN(num79)) || (num78 == 0f && num79 == 0f))
             {
-                num78 = (float)player.direction;
+                num78 = player.direction;
                 num79 = 0f;
                 num80 = num72;
             }
@@ -117,14 +114,14 @@ namespace CalamityMod.Items.Weapons.Melee
                 num80 = num72 / num80;
             }
 
-            int num107 = 2;
+            int num107 = 5;
             for (int num108 = 0; num108 < num107; num108++)
             {
-                vector2 = new Vector2(player.position.X + (float)player.width * 0.5f + (float)(Main.rand.Next(201) * -(float)player.direction) + ((float)Main.mouseX + Main.screenPosition.X - player.position.X), player.MountedCenter.Y);
-                vector2.X = (vector2.X + player.Center.X) / 2f + (float)Main.rand.Next(-200, 201);
-                vector2.Y -= (float)(100 * num108);
-                num78 = (float)Main.mouseX + Main.screenPosition.X - vector2.X;
-                num79 = (float)Main.mouseY + Main.screenPosition.Y - vector2.Y;
+                vector2 = new Vector2(player.position.X + player.width * 0.5f + (Main.rand.Next(401) * -(float)player.direction) + (Main.mouseX + Main.screenPosition.X - player.position.X), player.MountedCenter.Y);
+                vector2.X = (vector2.X + player.Center.X) / 2f + Main.rand.Next(-400, 401);
+                vector2.Y -= 100 * num108;
+                num78 = Main.mouseX + Main.screenPosition.X - vector2.X;
+                num79 = Main.mouseY + Main.screenPosition.Y - vector2.Y;
                 if (num79 < 0f)
                 {
                     num79 *= -1f;
@@ -133,18 +130,16 @@ namespace CalamityMod.Items.Weapons.Melee
                 {
                     num79 = 20f;
                 }
-                num80 = (float)Math.Sqrt((double)(num78 * num78 + num79 * num79));
+                num80 = (float)Math.Sqrt(num78 * num78 + num79 * num79);
                 num80 = num72 / num80;
-                Projectile.NewProjectile(vector2.X, vector2.Y, 0f, 0f, ModContent.ProjectileType<EssenceFlame2>(), (int)(item.damage * (player.allDamage + player.meleeDamage - 1f) * 0.25f), num74, i, 0f, (float)Main.rand.Next(3));
+                Projectile.NewProjectile(vector2.X, vector2.Y, 0f, 0f, ModContent.ProjectileType<EssenceFlame2>(), (int)(item.damage * (player.allDamage + player.meleeDamage - 1f) * 0.25f), 0f, i, 0f, Main.rand.Next(3));
             }
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)
         {
             if (Main.rand.NextBool(3))
-            {
-                int dust = Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 173);
-            }
+                Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 173);
         }
 
         public override void AddRecipes()

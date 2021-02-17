@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Fishing.AstralCatches
             item.consumable = true;
             item.width = 32;
             item.height = 32;
-            item.rare = 2;
+            item.rare = ItemRarityID.Green;
             item.value = Item.sellPrice(gold: 1);
             item.createTile = ModContent.TileType<AstralCrateTile>();
             item.useTurn = true;

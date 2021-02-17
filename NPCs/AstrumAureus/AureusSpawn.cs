@@ -22,7 +22,8 @@ namespace CalamityMod.NPCs.AstrumAureus
 
         public override void SetDefaults()
         {
-            npc.aiStyle = -1;
+			npc.Calamity().canBreakPlayerDefense = true;
+			npc.aiStyle = -1;
             aiType = -1;
 			npc.GetNPCDamage();
 			npc.width = 90;

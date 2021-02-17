@@ -19,7 +19,8 @@ namespace CalamityMod.NPCs.Leviathan
 
         public override void SetDefaults()
         {
-            npc.aiStyle = -1;
+			npc.Calamity().canBreakPlayerDefense = true;
+			npc.aiStyle = -1;
 			npc.GetNPCDamage();
 			npc.width = 50;
             npc.height = 50;

@@ -32,7 +32,7 @@ Stealth strikes provide a bigger boost after richocheting");
 			item.maxStack = 999;
             item.height = 14;
             item.value = Item.buyPrice(0, 0, 1, 0);
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.shoot = ModContent.ProjectileType<BouncyBol>();
             item.shootSpeed = 8f;
             item.Calamity().rogue = true;

@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.damage = 75;
             item.magic = true;
             item.mana = 14;
-            item.rare = 8;
+            item.rare = ItemRarityID.Yellow;
             item.width = 48;
             item.height = 54;
             item.useTime = 22;

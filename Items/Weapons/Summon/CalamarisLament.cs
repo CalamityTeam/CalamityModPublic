@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void SetDefaults()
         {
-            item.damage = 158;
+            item.damage = 95;
             item.mana = 10;
             item.width = 62;
             item.height = 62;
@@ -25,7 +25,7 @@ namespace CalamityMod.Items.Weapons.Summon
             item.noMelee = true;
             item.knockBack = 2.5f;
             item.value = Item.buyPrice(1, 40, 0, 0);
-            item.rare = 10;
+            item.rare = ItemRarityID.Red;
             item.UseSound = SoundID.Item83;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<CalamariMinion>();

@@ -19,10 +19,10 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             DisplayName.SetDefault("Roxcalibur");
             Tooltip.SetDefault("You couldn’t get it out of the rock, so you just brought the rock instead\n" +
-                               "A hellish entity of flesh holds the key to this weapon’s power\n" +
-                               "Left click to shoot several rock shards\n" +
-                               "Right click to dive downwards and bounce off enemies\n" +
-                               "Diving into blocks creates a shockwave");
+                "A hellish entity of flesh holds the key to this weapon’s power\n" +
+                "Left click to shoot several rock shards\n" +
+                "Right click to dive downwards and bounce off enemies\n" +
+                "Diving into blocks creates a shockwave");
         }
 
         public override void SetDefaults()
@@ -41,13 +41,13 @@ namespace CalamityMod.Items.Weapons.Melee
             item.shoot = ModContent.ProjectileType<Rox1>();
             item.shootSpeed = 10f;
 
-            item.value = Item.buyPrice(0, 36, 0, 0);
-            item.rare = 5;
-            item.Calamity().customRarity = CalamityRarity.Dedicated;
+            item.value = Item.buyPrice(CalamityGlobalItem.Rarity5BuyPrice);
+            item.rare = ItemRarityID.Pink;
+            item.Calamity().donorItem = true;
         }
 
-		// Terraria seems to really dislike high crit values in SetDefaults
-		public override void GetWeaponCrit(Player player, ref int crit) => crit += 8;
+        // Terraria seems to really dislike high crit values in SetDefaults
+        public override void GetWeaponCrit(Player player, ref int crit) => crit += 8;
 
         public override void AddRecipes()
         {
@@ -194,8 +194,8 @@ namespace CalamityMod.Items.Weapons.Melee
                     }
                 }
                 // Makes the player forcefully dive down
-				if (CalamityUtils.CountHookProj() <= 0)
-					player.velocity.Y = player.maxFallSpeed;
+                if (CalamityUtils.CountHookProj() <= 0)
+                    player.velocity.Y = player.maxFallSpeed;
                 //Rotates the sprite of the item on alt fire to have it point downwards
                 player.itemRotation = player.direction * MathHelper.ToRadians(135f);
                 //Dust trail
@@ -260,22 +260,22 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             if (item.useStyle == ItemUseStyleID.HoldingUp)
             {
-				if (player.whoAmI == Main.myPlayer)
-				{
-					//"Well you did refresh the cooldown but like i dont want it to be wasted on an enemy hit so imma ask you for a refund"
-					if (Didrefresh)
-					{
-						Roxcooldown = 600;
-						Didrefresh = false;
-					}
-					//End the alt attack
-					player.itemAnimation = 0;
-					player.itemTime = 0;
-					RoxAlt = false;
-					RoxCanUse = 0;
-					player.velocity.Y = -16f;
-					player.fallStart = (int)(player.position.Y / 16f);
-				}
+                if (player.whoAmI == Main.myPlayer)
+                {
+                    //"Well you did refresh the cooldown but like i dont want it to be wasted on an enemy hit so imma ask you for a refund"
+                    if (Didrefresh)
+                    {
+                        Roxcooldown = 600;
+                        Didrefresh = false;
+                    }
+                    //End the alt attack
+                    player.itemAnimation = 0;
+                    player.itemTime = 0;
+                    RoxAlt = false;
+                    RoxCanUse = 0;
+                    player.velocity.Y = -16f;
+                    player.fallStart = (int)(player.position.Y / 16f);
+                }
             }
         }
 
@@ -283,22 +283,22 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             if (item.useStyle == ItemUseStyleID.HoldingUp)
             {
-				if (player.whoAmI == Main.myPlayer)
-				{
-					//"Well you did refresh the cooldown but like i dont want it to be wasted on a player hit so imma ask you for a refund"
-					if (Didrefresh)
-					{
-						Roxcooldown = 600;
-						Didrefresh = false;
-					}
-					//End the alt attack
-					player.itemAnimation = 0;
-					player.itemTime = 0;
-					RoxAlt = false;
-					RoxCanUse = 0;
-					player.velocity.Y = -16f;
-					player.fallStart = (int)(player.position.Y / 16f);
-				}
+                if (player.whoAmI == Main.myPlayer)
+                {
+                    //"Well you did refresh the cooldown but like i dont want it to be wasted on a player hit so imma ask you for a refund"
+                    if (Didrefresh)
+                    {
+                        Roxcooldown = 600;
+                        Didrefresh = false;
+                    }
+                    //End the alt attack
+                    player.itemAnimation = 0;
+                    player.itemTime = 0;
+                    RoxAlt = false;
+                    RoxCanUse = 0;
+                    player.velocity.Y = -16f;
+                    player.fallStart = (int)(player.position.Y / 16f);
+                }
             }
         }
     }

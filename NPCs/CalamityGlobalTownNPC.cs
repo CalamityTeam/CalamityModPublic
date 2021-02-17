@@ -1179,6 +1179,7 @@ namespace CalamityMod.NPCs
 			if (type == NPCID.DyeTrader)
 			{
 				SetShopItem(ref shop, ref nextSlot, ItemType<DefiledFlameDye>(), Main.hardMode && CalamityWorld.defiled, Item.buyPrice(0, 10));
+				SetShopItem(ref shop, ref nextSlot, ItemID.DyeTradersScimitar, true, Item.buyPrice(0, 15));
 			}
 
 			if (type == NPCID.Demolitionist)
@@ -1209,6 +1210,7 @@ namespace CalamityMod.NPCs
 				SetShopItem(ref shop, ref nextSlot, ItemType<WingTimeHairDye>(), Main.LocalPlayer.wingTimeMax > 0);
 				SetShopItem(ref shop, ref nextSlot, ItemType<AdrenalineHairDye>(), CalamityWorld.revenge && CalamityConfig.Instance.Rippers);
 				SetShopItem(ref shop, ref nextSlot, ItemType<RageHairDye>(), CalamityWorld.revenge && CalamityConfig.Instance.Rippers);
+				SetShopItem(ref shop, ref nextSlot, ItemID.StylistKilLaKillScissorsIWish, true, Item.buyPrice(0, 15));
 			}
 
 			if (type == NPCID.Cyborg)

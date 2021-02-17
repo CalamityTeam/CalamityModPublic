@@ -22,14 +22,15 @@ namespace CalamityMod.Projectiles.Ranged
         {
             projectile.width = 6;
             projectile.height = 6;
+			projectile.scale = 2f;
             projectile.friendly = true;
             projectile.ignoreWater = true;
             projectile.ranged = true;
             projectile.penetrate = -1;
             projectile.extraUpdates = 1;
             projectile.usesIDStaticNPCImmunity = true;
-            projectile.idStaticNPCHitCooldown = 10;
-            projectile.timeLeft = 240;
+            projectile.idStaticNPCHitCooldown = 5;
+            projectile.timeLeft = 300;
         }
 
         public override void AI()
@@ -40,7 +41,7 @@ namespace CalamityMod.Projectiles.Ranged
 				playedSound = true;
 			}
 
-            if (projectile.scale <= 1.5f)
+            if (projectile.scale <= 3f)
             {
                 projectile.scale *= 1.01f;
             }
@@ -98,8 +99,11 @@ namespace CalamityMod.Projectiles.Ranged
 
 			if (projectile.timeLeft == 160)
 				projectile.ai[1] = 1f;
+
 			if (projectile.ai[1] == 1f)
 			{
+				projectile.tileCollide = false;
+
 				projectile.extraUpdates = 2;
 
                 Player player = Main.player[projectile.owner];
@@ -142,17 +146,19 @@ namespace CalamityMod.Projectiles.Ranged
                         projectile.velocity.Y -= 5f;
                 }
 
-                // Delete the projectile if it touches its owner. Has a chance to heal the player again
-                if (Main.myPlayer == projectile.owner)
-                    if (projectile.Hitbox.Intersects(player.Hitbox))
+				// Delete the projectile if it touches its owner. Has a chance to heal the player again
+				if (Main.myPlayer == projectile.owner)
+				{
+					if (projectile.Hitbox.Intersects(player.Hitbox))
 					{
 						if (Main.rand.NextBool(3) && !Main.player[projectile.owner].moonLeech)
 						{
 							player.statLife += 1;
 							player.HealEffect(1);
 						}
-                        projectile.Kill();
+						projectile.Kill();
 					}
+				}
 			}
         }
 

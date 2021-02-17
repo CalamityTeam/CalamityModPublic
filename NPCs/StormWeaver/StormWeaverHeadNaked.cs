@@ -120,7 +120,12 @@ namespace CalamityMod.NPCs.StormWeaver
             }
 
             double lifeRatio = npc.life / (double)npc.lifeMax;
-            int lifePercentage = (int)(100.0 * lifeRatio);
+
+			// Increase aggression if player is taking a long time to kill the boss
+			if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
+				lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
+
+			int lifePercentage = (int)(100.0 * lifeRatio);
 
 			int BoltProjectiles = 2;
             if (lifePercentage < 33 || death)

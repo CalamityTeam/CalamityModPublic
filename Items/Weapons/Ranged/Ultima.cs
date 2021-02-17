@@ -16,9 +16,9 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             DisplayName.SetDefault("Ultima");
             Tooltip.SetDefault("Casts a continuous stream of plasma bolts\n" +
-                               "Over time the bolts are replaced with powerful lasers\n" +
-                               "Bolts power up into solid beams as you continue shooting\n" +
-                               "90% chance to not consume ammo");
+                "Over time the bolts are replaced with powerful lasers\n" +
+                "Bolts power up into solid beams as you continue shooting\n" +
+                "90% chance to not consume ammo");
         }
 
         public override void SetDefaults()
@@ -31,8 +31,6 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 2f;
-            item.value = CalamityGlobalItem.Rarity14BuyPrice;
-            item.rare = 10;
             item.UseSound = SoundID.Item33;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<UltimaBowProjectile>();
@@ -42,7 +40,9 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.useTurn = false;
             item.autoReuse = true;
             item.noUseGraphic = true;
-            item.Calamity().customRarity = CalamityRarity.Dedicated;
+            item.value = CalamityGlobalItem.Rarity14BuyPrice;
+            item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            item.Calamity().donorItem = true;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

@@ -37,7 +37,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.shoot = ModContent.ProjectileType<QuagmireYoyo>();
             item.shootSpeed = 10f;
 
-            item.rare = 7;
+            item.rare = ItemRarityID.Lime;
             item.value = Item.buyPrice(gold: 60);
         }
 
