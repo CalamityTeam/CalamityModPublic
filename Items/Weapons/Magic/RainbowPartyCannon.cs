@@ -42,7 +42,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.knockBack = 3.5f;
             item.value = CalamityGlobalItem.RarityHotPinkBuyPrice;
             item.rare = 10;
-            item.Calamity().customRarity = CalamityRarity.Developer;
+            item.Calamity().customRarity = CalamityRarity.HotPink;
             item.UseSound = SoundID.Item11;
             item.autoReuse = true;
             item.noUseGraphic = true;

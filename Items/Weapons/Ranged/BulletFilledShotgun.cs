@@ -34,8 +34,8 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.UseSound = SoundID.Item38;
             item.value = CalamityGlobalItem.Rarity3BuyPrice;
-            item.rare = 3;
-            item.Calamity().customRarity = CalamityRarity.Dedicated;
+            item.rare = ItemRarityID.Orange;
+            item.Calamity().donorItem = true;
         }
 
         public override Vector2? HoldoutOffset() => new Vector2(-7, 0);
