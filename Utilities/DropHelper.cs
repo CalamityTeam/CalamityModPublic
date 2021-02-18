@@ -53,6 +53,20 @@ namespace CalamityMod
         public const float BagWeaponDropRateFloat = 0.3333333f;
         #endregion
 
+        #region Block Drops
+        /// <summary>
+        /// Adds the specified items to TML's blockLoot list. Items on the list cannot spawn in the world via any means.<br />
+        /// This is used to prevent vanilla loot code from spawning certain items.<br />
+        /// <b>You should only use this function inside NPCLoot or bag opening code.</b> TML will clear the list for you when the loot event is over.
+        /// </summary>
+        /// <param name="itemIDs">The item IDs to prevent from spawning.</param>
+        public static void BlockDrops(params int[] itemIDs)
+        {
+            foreach (int itemID in itemIDs)
+                NPCLoader.blockLoot.Add(itemID);
+        }
+        #endregion
+
         #region Weighted Item Sets
         public const float DefaultWeight = 1f;
         public const float MinisiculeWeight = 1E-6f;
