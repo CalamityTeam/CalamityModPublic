@@ -17,8 +17,8 @@ namespace CalamityMod.Items
 {
 	public class CalamityGlobalItemLoot : GlobalItem
 	{
-		public override bool CloneNewInstances => false;
 		public override bool InstancePerEntity => false;
+		public override bool CloneNewInstances => false;
 
 		// NOTE: this function applies to all right-click-to-open items, even modded ones (despite the name).
 		// This means it applies to boss bags, crates, lockboxes, herb bags, goodie bags, and presents.
@@ -52,14 +52,14 @@ namespace CalamityMod.Items
 					break;
 
 				case ItemID.QueenBeeBossBag:
-					// Drop weapons Calamity style instead of mutually exclusive
+					// Drop weapons Calamity style instead of mutually exclusive.
 					int[] queenBeeWeapons = new int[]
 					{
 						ItemID.BeeKeeper,
 						ItemID.BeesKnees,
 						ItemID.BeeGun,
 					};
-					DropHelper.DropEntireSet(player, 0.33f, queenBeeWeapons);
+					DropHelper.DropEntireSet(player, DropHelper.BagWeaponDropRateFloat, queenBeeWeapons);
 					DropHelper.BlockDrops(queenBeeWeapons);
 
 					DropHelper.DropItem(player, ItemID.Stinger, 8, 12); // Extra stingers
@@ -71,10 +71,31 @@ namespace CalamityMod.Items
 					break;
 
 				case ItemID.WallOfFleshBossBag:
-					DropHelper.DropItemChance(player, ModContent.ItemType<Meowthrower>(), 3);
-					DropHelper.DropItemChance(player, ModContent.ItemType<BlackHawkRemote>(), 3);
-					DropHelper.DropItemChance(player, ModContent.ItemType<BlastBarrel>(), 3);
-					DropHelper.DropItemChance(player, ModContent.ItemType<RogueEmblem>(), 4);
+					// Drop weapons Calamity style instead of mutually exclusive -- this includes Calamity weapons.
+					int[] wofWeapons = new int[]
+					{
+						ItemID.BreakerBlade,
+						ItemID.ClockworkAssaultRifle,
+						ModContent.ItemType<Meowthrower>(),
+						ItemID.LaserRifle,
+						ModContent.ItemType<BlackHawkRemote>(),
+						ModContent.ItemType<BlastBarrel>(),
+					};
+					DropHelper.DropEntireSet(player, DropHelper.BagWeaponDropRateFloat, wofWeapons);
+					DropHelper.BlockDrops(wofWeapons);
+
+					// Drop emblems Calamity style instead of mutually exclusive -- this includes the Rogue Emblem.
+					int[] emblems = new int[]
+					{
+						ItemID.WarriorEmblem,
+						ItemID.RangerEmblem,
+						ItemID.SorcererEmblem,
+						ItemID.SummonerEmblem,
+						ModContent.ItemType<RogueEmblem>(),
+					};
+					DropHelper.DropEntireSet(player, 0.25f, emblems);
+					DropHelper.BlockDrops(emblems);
+
 					DropHelper.DropItemFromSetChance(player, 0.2f, ItemID.CorruptionKey, ItemID.CrimsonKey);
 					DropHelper.DropItemCondition(player, ModContent.ItemType<MLGRune>(), !CalamityWorld.demonMode); // Demon Trophy
 					break;
@@ -85,6 +106,21 @@ namespace CalamityMod.Items
 					break;
 
 				case ItemID.PlanteraBossBag:
+					// Drop weapons Calamity style instead of mutually exclusive.
+					int[] planteraWeapons = new int[]
+					{
+						ItemID.FlowerPow,
+						ItemID.Seedler,
+						ItemID.GrenadeLauncher,
+						ItemID.VenusMagnum,
+						ItemID.LeafBlower,
+						ItemID.NettleBurst,
+						ItemID.WaspGun,
+						ItemID.PygmyStaff
+					};
+					DropHelper.DropEntireSet(player, DropHelper.BagWeaponDropRateFloat, planteraWeapons);
+					DropHelper.BlockDrops(planteraWeapons);
+
 					DropHelper.DropItem(player, ModContent.ItemType<LivingShard>(), 16, 22);
 					float bFluxChance = DropHelper.LegendaryDropRateFloat;
 					DropHelper.DropItemCondition(player, ModContent.ItemType<BlossomFlux>(), CalamityWorld.revenge, bFluxChance);
@@ -92,27 +128,87 @@ namespace CalamityMod.Items
 					break;
 
 				case ItemID.GolemBossBag:
+					// Drop loot Calamity style instead of mutually exclusive.
+					int[] golemItems = new int[]
+					{
+						ItemID.GolemFist,
+						ItemID.PossessedHatchet,
+						ItemID.Stynger,
+						ItemID.HeatRay,
+						ItemID.StaffofEarth,
+						ItemID.EyeoftheGolem,
+						ItemID.SunStone,
+					};
+					DropHelper.DropEntireSet(player, DropHelper.BagWeaponDropRateFloat, golemItems);
+					DropHelper.BlockDrops(golemItems);
+
+					// The Picksaw always drops if the player doesn't have one in their inventory. Otherwise it has a 25% chance.
+					bool playerHasPicksaw = player.InventoryHas(ItemID.Picksaw);
+					DropHelper.DropItemChance(player, ItemID.Picksaw, playerHasPicksaw ? 1.0f : 0.25f);
+
 					float aegisChance = DropHelper.LegendaryDropRateFloat;
 					DropHelper.DropItemCondition(player, ModContent.ItemType<AegisBlade>(), CalamityWorld.revenge, aegisChance);
 					DropHelper.DropItem(player, ModContent.ItemType<EssenceofCinder>(), 8, 13);
 					DropHelper.DropItemChance(player, ModContent.ItemType<LeadWizard>(), DropHelper.RareVariantDropRateInt);
 					break;
 
-				case ItemID.FishronBossBag:
-					float baronChance = DropHelper.LegendaryDropRateFloat;
-					DropHelper.DropItemCondition(player, ModContent.ItemType<BrinyBaron>(), CalamityWorld.revenge, baronChance);
-					DropHelper.DropItemChance(player, ModContent.ItemType<DukesDecapitator>(), 4);
-					break;
-
 				case ItemID.BossBagBetsy:
+					// Drop weapons Calamity style instead of mutually exclusive.
+					int[] betsyWeapons = new int[]
+					{
+						ItemID.DD2SquireBetsySword, // Flying Dragon
+						ItemID.MonkStaffT3, // Sky Dragon's Fury
+						ItemID.DD2BetsyBow, // Aerial Bane
+						ItemID.ApprenticeStaffT3, // Betsy's Wrath
+					};
+					DropHelper.DropEntireSet(player, DropHelper.BagWeaponDropRateFloat, betsyWeapons);
+					DropHelper.BlockDrops(betsyWeapons);
+
 					float vesuviusChance = DropHelper.LegendaryDropRateFloat;
 					DropHelper.DropItemCondition(player, ModContent.ItemType<Vesuvius>(), CalamityWorld.revenge, vesuviusChance);
 					break;
 
+				case ItemID.FishronBossBag:
+					// Drop weapons Calamity style instead of mutually exclusive -- this includes Calamity weapons.
+					int[] dukeWeapons = new int[]
+					{
+						ItemID.Flairon,
+						ItemID.Tsunami,
+						ItemID.BubbleGun,
+						ItemID.RazorbladeTyphoon,
+						ItemID.TempestStaff,
+						ModContent.ItemType<DukesDecapitator>(),
+					};
+					DropHelper.DropEntireSet(player, DropHelper.BagWeaponDropRateFloat, dukeWeapons);
+					DropHelper.BlockDrops(dukeWeapons);
+
+					float baronChance = DropHelper.LegendaryDropRateFloat;
+					DropHelper.DropItemCondition(player, ModContent.ItemType<BrinyBaron>(), CalamityWorld.revenge, baronChance);
+					break;
+
 				case ItemID.MoonLordBossBag:
-					DropHelper.DropItem(player, ItemID.LunarOre, 50);
-					DropHelper.DropItem(player, ModContent.ItemType<MLGRune2>()); // Celestial Onion
-					DropHelper.DropItemChance(player, ModContent.ItemType<UtensilPoker>(), 8);
+					// Drop weapons Calamity style instead of mutually exclusive -- this includes Calamity weapons.
+					int[] moonLordWeapons = new int[]
+					{
+						ItemID.Meowmere,
+						ItemID.StarWrath,
+						ItemID.Terrarian,
+						ItemID.FireworksLauncher, // Celebration
+						// ItemID.CelebrationMK2,
+						ItemID.SDMG,
+						ItemID.LastPrism,
+						ItemID.LunarFlareBook,
+						ItemID.MoonlordTurretStaff, // Lunar Portal Staff
+						ItemID.RainbowCrystalStaff,
+						ModContent.ItemType<UtensilPoker>(),
+					};
+					DropHelper.DropEntireSet(player, DropHelper.BagWeaponDropRateFloat, moonLordWeapons);
+					DropHelper.BlockDrops(moonLordWeapons);
+
+					// The Celestial Onion only drops if the player hasn't used one and doesn't have one in their inventory.
+					int celestialOnion = ModContent.ItemType<MLGRune2>();
+					DropHelper.DropItemCondition(player, celestialOnion, !player.Calamity().extraAccessoryML && !player.InventoryHas(celestialOnion));
+
 					DropHelper.DropItemChance(player, ModContent.ItemType<GrandDad>(), DropHelper.RareVariantDropRateInt);
 					DropHelper.DropItemChance(player, ModContent.ItemType<Infinity>(), DropHelper.RareVariantDropRateInt);
 					break;

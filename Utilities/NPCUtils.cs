@@ -396,6 +396,7 @@ namespace CalamityMod
 		/// <param name="npcIndex">The whoAmI index of the summoned npc.</param>
 		public static void BossAwakenMessage(int npcIndex)
 		{
+			// TODO -- this should use MiscUtils DisplayLocalizedText.
 			string typeName = Main.npc[npcIndex].TypeName;
 			if (Main.netMode == NetmodeID.SinglePlayer)
 			{

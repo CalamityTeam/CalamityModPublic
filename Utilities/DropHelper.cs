@@ -12,6 +12,27 @@ namespace CalamityMod
     public static class DropHelper
     {
         #region Global Drop Chances
+
+        /// <summary>
+        /// Weapons in Normal Mode typically have a 1 in X chance of dropping, where X is this variable.
+        /// </summary>
+        public const int NormalDropRateInt = 4;
+
+        /// <summary>
+        /// Weapons in Normal Mode typically have this chance to drop (decimal number out of 1.0).
+        /// </summary>
+        public const float NormalWeaponDropRateFloat = 0.25f;
+
+        /// <summary>
+        /// Weapons in Expert Mode typically have a 1 in X chance of dropping, where X is this variable.
+        /// </summary>
+        public const int BagWeaponDropRateInt = 3;
+
+        /// <summary>
+        /// Weapons in Expert Mode typically have this chance to drop (decimal number out of 1.0).
+        /// </summary>
+        public const float BagWeaponDropRateFloat = 0.3333333f;
+
         /// <summary>
         /// The Defiled Rune boosts various low drop rates to one in this value.
         /// </summary>
@@ -46,11 +67,6 @@ namespace CalamityMod
         /// Direct weapon drops (straight from the boss in Normal Mode) have this chance to drop (decimal number out of 1.0).
         /// </summary>
         public const float DirectWeaponDropRateFloat = 0.25f;
-
-        /// <summary>
-        /// Bag weapon drops (Expert Mode and higher) have this chance to drop (decimal number out of 1.0).
-        /// </summary>
-        public const float BagWeaponDropRateFloat = 0.3333333f;
         #endregion
 
         #region Block Drops
