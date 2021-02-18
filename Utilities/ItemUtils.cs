@@ -16,20 +16,14 @@ namespace CalamityMod
 			CalamityRarity.PureGreen,
 			CalamityRarity.DarkBlue,
 			CalamityRarity.Violet,
-			CalamityRarity.HotPink,
-			CalamityRarity.Rainbow
+			CalamityRarity.HotPink
 		};
 		public static bool IsPostML(this CalamityRarity calrare)
 		{
-			return calrare != CalamityRarity.NoEffect;
-			// TODO -- separate out whether an item is post-ML from its custom rarity.
-			// This is necessary because there are pre-ML rare variants, legendary weapons and dedicated items.
-			/*
 			for(int i = 0; i < postMLRarities.Length; ++i)
 				if (postMLRarities[i] == calrare)
 					return true;
 			return false;
-			*/
 		}
 
 		/// <summary>
@@ -229,6 +223,43 @@ namespace CalamityMod
 			}
 			return hitbox;
 		}
+
+		// TODO -- this is not very well understood old boffin code. It should probably be inspected thoroughly and re-documented.
+		#region Melee Dust Helper
+		/// <summary>
+		/// Dust helper to spawn dust for an item. Allows you to specify where on the item to spawn the dust, essentially. (ONLY WORKS FOR SWINGING WEAPONS?)
+		/// </summary>
+		/// <param name="player">The player using the item.</param>
+		/// <param name="dustType">The type of dust to use.</param>
+		/// <param name="chancePerFrame">The chance per frame to spawn the dust (0f-1f)</param>
+		/// <param name="minDistance">The minimum distance between the player and the dust</param>
+		/// <param name="maxDistance">The maximum distance between the player and the dust</param>
+		/// <param name="minRandRot">The minimum random rotation offset for the dust</param>
+		/// <param name="maxRandRot">The maximum random rotation offset for the dust</param>
+		/// <param name="minSpeed">The minimum speed that the dust should travel</param>
+		/// <param name="maxSpeed">The maximum speed that the dust should travel</param>
+		public static Dust MeleeDustHelper(Player player, int dustType, float chancePerFrame, float minDistance, float maxDistance, float minRandRot = -0.2f, float maxRandRot = 0.2f, float minSpeed = 0.9f, float maxSpeed = 1.1f)
+		{
+			if (Main.rand.NextFloat(1f) < chancePerFrame)
+			{
+				//Calculate values
+				//distance from player,
+				//the vector offset from the player center
+				//the vector between the pos and the player
+				float distance = Main.rand.NextFloat(minDistance, maxDistance);
+				Vector2 offset = (player.itemRotation - (MathHelper.PiOver4 * player.direction) + Main.rand.NextFloat(minRandRot, maxRandRot)).ToRotationVector2() * distance * player.direction;
+				Vector2 pos = player.Center + offset;
+				Vector2 vec = pos - player.Center;
+				//spawn the dust
+				Dust d = Dust.NewDustPerfect(pos, dustType);
+				//normalise vector and multiply by velocity magnitude
+				vec.Normalize();
+				d.velocity = vec * Main.rand.NextFloat(minSpeed, maxSpeed);
+				return d;
+			}
+			return null;
+		}
+		#endregion
 
 		public static void ConsumeItemViaQuickBuff(Player player, Item item, int buffType, int buffTime, bool reducedPotionSickness)
 		{
