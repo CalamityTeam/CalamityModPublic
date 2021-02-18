@@ -1191,7 +1191,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                 DropHelper.DropItem(npc, ModContent.ItemType<CosmiliteBrick>(), 150, 250);
 
                 // Weapons
-                float w = DropHelper.DirectWeaponDropRateFloat;
+                float w = DropHelper.NormalWeaponDropRateFloat;
                 DropHelper.DropEntireWeightedSet(npc,
                     DropHelper.WeightStack<Excelsus>(w),
                     DropHelper.WeightStack<TheObliterator>(w),

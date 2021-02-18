@@ -78,15 +78,11 @@ namespace CalamityMod.NPCs
             // to iterate through all the bosses twice.
             //
 
-            // TODO -- will this even be necessary once defiled is removed
             // Since Calamity makes it spawn in pre-hardmode, don't want to cause other mods to freak out if they use it as a tier gate (like a new weapon or something)
             if (npc.type == NPCID.GreenJellyfish && !Main.hardMode)
             {
                 DropHelper.DropItem(npc, ItemID.Glowstick, 1, 4);
-                DropHelper.DropItemChance(npc, ItemID.JellyfishNecklace, 0.1f);
-                DropHelper.DropItemChance(npc, ItemID.Megaphone, Main.expertMode ? 0.2f : 0.1f);
-                DropHelper.DropItemCondition(npc, ItemID.JellyfishNecklace, CalamityWorld.defiled, DropHelper.DefiledDropRateFloat);
-                DropHelper.DropItemCondition(npc, ItemID.Megaphone, CalamityWorld.defiled, DropHelper.DefiledDropRateFloat);
+                DropHelper.DropItemChance(npc, ItemID.JellyfishNecklace, 0.01f);
                 DropHelper.DropItemChance(npc, ModContent.ItemType<VitalJelly>(), Main.expertMode ? 5 : 7);
                 return false;
             }
@@ -207,7 +203,7 @@ namespace CalamityMod.NPCs
                 DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeUnderworld>(), true, !Main.hardMode);
                 DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeWallofFlesh>(), true, !Main.hardMode);
                 DropHelper.DropResidentEvilAmmo(npc, Main.hardMode, 3, 1, 0);
-                CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.Merchant, NPCID.ArmsDealer, NPCID.Dryad, NPCID.Painter, NPCID.WitchDoctor, NPCID.Stylist, NPCID.Demolitionist, NPCID.PartyGirl, NPCID.Clothier, NPCID.SkeletonMerchant, ModContent.NPCType<THIEF>() }, Main.hardMode);
+                CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.Merchant, NPCID.ArmsDealer, NPCID.Dryad, NPCID.Painter, NPCID.WitchDoctor, NPCID.Stylist, NPCID.DyeTrader, NPCID.Demolitionist, NPCID.PartyGirl, NPCID.Clothier, NPCID.SkeletonMerchant, ModContent.NPCType<THIEF>() }, Main.hardMode);
 
                 // First kill text (this is not a loot function)
                 if (!Main.hardMode)
@@ -556,8 +552,6 @@ namespace CalamityMod.NPCs
                 }
             }
 
-            if (CalamityWorld.defiled)
-                DefiledLoot(npc);
             if (CalamityWorld.armageddon)
                 ArmageddonLoot(npc);
 
@@ -572,312 +566,6 @@ namespace CalamityMod.NPCs
             CommonLoot(npc);
             TownNPCLoot(npc);
             EventLoot(npc, Main.pumpkinMoon, Main.snowMoon, Main.eclipse);
-        }
-        #endregion
-
-        #region Defiled Loot
-        private void DefiledLoot(NPC npc)
-        {
-            switch (npc.type)
-            {
-                case NPCID.Werewolf:
-                    DropHelper.DropItemChance(npc, ItemID.MoonCharm, DropHelper.DefiledDropRateInt);
-                    DropHelper.DropItemChance(npc, ItemID.AdhesiveBandage, DropHelper.DefiledDropRateInt);
-                    break;
-
-                case NPCID.AnglerFish:
-                    DropHelper.DropItemChance(npc, ItemID.AdhesiveBandage, DropHelper.DefiledDropRateInt);
-                    break;
-
-                case NPCID.DesertBeast:
-                    DropHelper.DropItemChance(npc, ItemID.AncientHorn, DropHelper.DefiledDropRateInt);
-                    break;
-
-                case NPCID.ArmoredSkeleton:
-                case NPCID.HeavySkeleton:
-                    DropHelper.DropItemChance(npc, ItemID.BeamSword, DropHelper.DefiledDropRateInt);
-                    DropHelper.DropItemChance(npc, ItemID.ArmorPolish, DropHelper.DefiledDropRateInt);
-                    break;
-
-                case NPCID.Clown:
-                    DropHelper.DropItemChance(npc, ItemID.Bananarang, DropHelper.DefiledDropRateInt);
-                    break;
-
-                case NPCID.ToxicSludge:
-                    DropHelper.DropItemChance(npc, ItemID.Bezoar, DropHelper.DefiledDropRateInt);
-                    break;
-
-                case NPCID.EyeofCthulhu:
-                    DropHelper.DropItemChance(npc, ItemID.Binoculars, DropHelper.DefiledDropRateInt);
-                    break;
-
-                case NPCID.WanderingEye:
-                    DropHelper.DropItemChance(npc, ItemID.BlackLens, DropHelper.DefiledDropRateInt);
-                    break;
-
-                case NPCID.CorruptSlime:
-                    DropHelper.DropItemChance(npc, ItemID.Blindfold, DropHelper.DefiledDropRateInt);
-                    break;
-
-                // This is all the random skeletons in the hardmode dungeon
-                case NPCID.RustyArmoredBonesAxe:
-                case NPCID.RustyArmoredBonesFlail:
-                case NPCID.RustyArmoredBonesSword:
-                case NPCID.RustyArmoredBonesSwordNoArmor:
-                case NPCID.BlueArmoredBones:
-                case NPCID.BlueArmoredBonesMace:
-                case NPCID.BlueArmoredBonesNoPants:
-                case NPCID.BlueArmoredBonesSword:
-                case NPCID.HellArmoredBones:
-                case NPCID.HellArmoredBonesSpikeShield:
-                case NPCID.HellArmoredBonesMace:
-                case NPCID.HellArmoredBonesSword:
-                    DropHelper.DropItemChance(npc, ItemID.Keybrand, DropHelper.DefiledDropRateInt);
-                    DropHelper.DropItemChance(npc, ItemID.BoneFeather, DropHelper.DefiledDropRateInt);
-                    DropHelper.DropItemChance(npc, ItemID.MagnetSphere, DropHelper.DefiledDropRateInt);
-                    DropHelper.DropItemChance(npc, ItemID.WispinaBottle, DropHelper.DefiledDropRateInt);
-                    break;
-
-                case NPCID.UndeadMiner:
-                    DropHelper.DropItemChance(npc, ItemID.BonePickaxe, DropHelper.DefiledDropRateInt);
-                    break;
-
-                case NPCID.ScutlixRider:
-                    DropHelper.DropItemChance(npc, ItemID.BrainScrambler, DropHelper.DefiledDropRateInt);
-                    break;
-
-                case NPCID.Vampire:
-                    DropHelper.DropItemChance(npc, ItemID.BrokenBatWing, DropHelper.DefiledDropRateInt);
-                    DropHelper.DropItemChance(npc, ItemID.MoonStone, DropHelper.DefiledDropRateInt);
-                    break;
-
-                case NPCID.CaveBat:
-                    DropHelper.DropItemChance(npc, ItemID.ChainKnife, DropHelper.DefiledDropRateInt);
-                    DropHelper.DropItemChance(npc, ItemID.DepthMeter, DropHelper.DefiledDropRateInt);
-                    break;
-
-                case NPCID.DarkCaster:
-                    DropHelper.DropItemChance(npc, ItemID.ClothierVoodooDoll, DropHelper.DefiledDropRateInt);
-                    DropHelper.DropItemChance(npc, ItemID.TallyCounter, DropHelper.DefiledDropRateInt);
-                    break;
-
-                case NPCID.PirateCaptain:
-                    DropHelper.DropItemChance(npc, ItemID.CoinGun, DropHelper.DefiledDropRateInt);
-                    DropHelper.DropItemChance(npc, ItemID.DiscountCard, DropHelper.DefiledDropRateInt);
-                    DropHelper.DropItemChance(npc, ItemID.Cutlass, DropHelper.DefiledDropRateInt);
-                    DropHelper.DropItemChance(npc, ItemID.LuckyCoin, DropHelper.DefiledDropRateInt);
-                    DropHelper.DropItemChance(npc, ItemID.PirateStaff, DropHelper.DefiledDropRateInt);
-                    break;
-
-                case NPCID.Reaper:
-                    DropHelper.DropItemChance(npc, ItemID.DeathSickle, DropHelper.DefiledDropRateInt);
-                    break;
-
-                case NPCID.Demon:
-                case NPCID.VoodooDemon:
-                    DropHelper.DropItemChance(npc, ItemID.DemonScythe, DropHelper.DefiledDropRateInt);
-                    break;
-
-                case NPCID.DesertDjinn:
-                    DropHelper.DropItemChance(npc, ItemID.DjinnLamp, DropHelper.DefiledDropRateInt);
-                    DropHelper.DropItemChance(npc, ItemID.DjinnsCurse, DropHelper.DefiledDropRateInt);
-                    break;
-
-                case NPCID.Shark:
-                    DropHelper.DropItemChance(npc, ItemID.DivingHelmet, DropHelper.DefiledDropRateInt);
-                    break;
-
-                case NPCID.Pixie:
-                case NPCID.Wraith:
-                case NPCID.Mummy:
-                    DropHelper.DropItemChance(npc, ItemID.FastClock, DropHelper.DefiledDropRateInt);
-                    break;
-
-                case NPCID.RedDevil:
-                    DropHelper.DropItemChance(npc, ItemID.FireFeather, DropHelper.DefiledDropRateInt);
-                    DropHelper.DropItemChance(npc, ItemID.UnholyTrident, DropHelper.DefiledDropRateInt);
-                    break;
-
-                case NPCID.IceElemental:
-                case NPCID.IcyMerman:
-                    DropHelper.DropItemChance(npc, ItemID.IceSickle, DropHelper.DefiledDropRateInt);
-                    DropHelper.DropItemChance(npc, ItemID.FrostStaff, DropHelper.DefiledDropRateInt);
-                    break;
-
-                case NPCID.ArmoredViking:
-                    DropHelper.DropItemChance(npc, ItemID.IceSickle, DropHelper.DefiledDropRateInt);
-                    break;
-
-                case NPCID.IceTortoise:
-                    DropHelper.DropItemChance(npc, ItemID.IceSickle, DropHelper.DefiledDropRateInt);
-                    DropHelper.DropItemChance(npc, ItemID.FrozenTurtleShell, DropHelper.DefiledDropRateInt);
-                    break;
-
-                case NPCID.Harpy:
-                    DropHelper.DropItemCondition(npc, ItemID.GiantHarpyFeather, Main.hardMode && !npc.SpawnedFromStatue, DropHelper.DefiledDropRateFloat);
-                    break;
-
-                case NPCID.Piranha:
-                    DropHelper.DropItemChance(npc, ItemID.Hook, DropHelper.DefiledDropRateInt);
-                    break;
-
-                case NPCID.PinkJellyfish:
-                case NPCID.BlueJellyfish:
-                    DropHelper.DropItemChance(npc, ItemID.JellyfishNecklace, DropHelper.DefiledDropRateInt);
-                    break;
-
-                case NPCID.Paladin:
-                    DropHelper.DropItemChance(npc, ItemID.Kraken, DropHelper.DefiledDropRateInt);
-                    DropHelper.DropItemChance(npc, ItemID.PaladinsHammer, DropHelper.DefiledDropRateInt);
-                    break;
-
-                case NPCID.SkeletonArcher:
-                    DropHelper.DropItemChance(npc, ItemID.Marrow, DropHelper.DefiledDropRateInt);
-                    DropHelper.DropItemChance(npc, ItemID.MagicQuiver, DropHelper.DefiledDropRateInt);
-                    break;
-
-                case NPCID.Lavabat:
-                    DropHelper.DropItemChance(npc, ItemID.MagmaStone, DropHelper.DefiledDropRateInt);
-                    break;
-
-                case NPCID.WalkingAntlion:
-                    DropHelper.DropItemChance(npc, ItemID.AntlionClaw, DropHelper.DefiledDropRateInt);
-                    break;
-
-                case NPCID.DarkMummy:
-                    DropHelper.DropItemChance(npc, ItemID.Blindfold, DropHelper.DefiledDropRateInt);
-                    DropHelper.DropItemChance(npc, ItemID.Megaphone, DropHelper.DefiledDropRateInt);
-                    break;
-
-                case NPCID.GreenJellyfish:
-                    DropHelper.DropItemChance(npc, ItemID.Megaphone, DropHelper.DefiledDropRateInt);
-                    DropHelper.DropItemChance(npc, ItemID.JellyfishNecklace, DropHelper.DefiledDropRateInt);
-                    break;
-
-                case NPCID.CursedSkull:
-                    DropHelper.DropItemChance(npc, ItemID.Nazar, DropHelper.DefiledDropRateInt);
-                    break;
-
-                case NPCID.FireImp:
-                    DropHelper.DropItemChance(npc, ItemID.ObsidianRose, DropHelper.DefiledDropRateInt);
-                    DropHelper.DropItemCondition(npc, ItemID.Cascade, NPC.downedBoss3, DropHelper.DefiledDropRateFloat);
-                    break;
-
-                case NPCID.BlackRecluse:
-                case NPCID.BlackRecluseWall:
-                    DropHelper.DropItemChance(npc, ItemID.PoisonStaff, DropHelper.DefiledDropRateInt);
-                    break;
-
-                case NPCID.ChaosElemental:
-                    DropHelper.DropItemChance(npc, ItemID.RodofDiscord, DropHelper.DefiledDropRateInt);
-                    break;
-
-                case NPCID.SnowFlinx:
-                    DropHelper.DropItemChance(npc, ItemID.SnowballLauncher, DropHelper.DefiledDropRateInt);
-                    break;
-
-                case NPCID.Plantera:
-                    DropHelper.DropItemChance(npc, ItemID.TheAxe, DropHelper.DefiledDropRateInt);
-                    break;
-
-                case NPCID.GiantBat:
-                    DropHelper.DropItemChance(npc, ItemID.TrifoldMap, DropHelper.DefiledDropRateInt);
-                    break;
-
-                case NPCID.AngryTrapper:
-                    DropHelper.DropItemChance(npc, ItemID.Uzi, DropHelper.DefiledDropRateInt);
-                    break;
-
-                case NPCID.Corruptor:
-                case NPCID.FloatyGross:
-                    DropHelper.DropItemChance(npc, ItemID.Vitamins, DropHelper.DefiledDropRateInt);
-                    break;
-
-                case NPCID.GiantTortoise:
-                    DropHelper.DropItemCondition(npc, ItemID.Yelets, NPC.downedMechBossAny, DropHelper.DefiledDropRateFloat);
-                    break;
-
-                case NPCID.DeadlySphere:
-                    DropHelper.DropItemChance(npc, ItemID.DeadlySphereStaff, DropHelper.DefiledDropRateInt);
-                    break;
-
-                case NPCID.DrManFly:
-                    DropHelper.DropItemChance(npc, ItemID.ToxicFlask, DropHelper.DefiledDropRateInt);
-                    break;
-
-                case NPCID.CreatureFromTheDeep:
-                    DropHelper.DropItemChance(npc, ItemID.NeptunesShell, DropHelper.DefiledDropRateInt);
-                    break;
-
-                case NPCID.Butcher:
-                    DropHelper.DropItemChance(npc, ItemID.ButchersChainsaw, DropHelper.DefiledDropRateInt);
-                    break;
-
-                case NPCID.Psycho:
-                    DropHelper.DropItemChance(npc, ItemID.PsychoKnife, DropHelper.DefiledDropRateInt);
-                    break;
-
-                case NPCID.Drippler:
-                case NPCID.BloodZombie:
-                    DropHelper.DropItemCondition(npc, ItemID.SharkToothNecklace, !npc.SpawnedFromStatue, DropHelper.DefiledDropRateFloat);
-                    DropHelper.DropItemCondition(npc, ItemID.MoneyTrough, !npc.SpawnedFromStatue, DropHelper.DefiledDropRateFloat);
-                    break;
-
-                case NPCID.GoblinWarrior:
-                    DropHelper.DropItemChance(npc, ItemID.Harpoon, DropHelper.DefiledDropRateInt);
-                    break;
-
-                case NPCID.Pinky:
-                    DropHelper.DropItemChance(npc, ItemID.SlimeStaff, DropHelper.DefiledDropRateInt);
-                    break;
-
-                case NPCID.FlyingSnake:
-                    DropHelper.DropItemChance(npc, ItemID.LizardEgg, DropHelper.DefiledDropRateInt);
-                    break;
-
-                default:
-                    break;
-            }
-
-            // Every type of demon eye counts for Black Lenses
-            if (CalamityLists.demonEyeList.Contains(npc.type))
-            {
-                DropHelper.DropItemChance(npc, ItemID.BlackLens, DropHelper.DefiledDropRateInt);
-            }
-
-            // Every type of Skeleton counts for the Bone Sword
-            if (CalamityLists.skeletonList.Contains(npc.type) && npc.type != NPCID.ArmoredSkeleton && npc.type != NPCID.HeavySkeleton && npc.type != NPCID.SkeletonArcher && npc.type != NPCID.GreekSkeleton)
-            {
-                DropHelper.DropItemChance(npc, ItemID.BoneSword, DropHelper.DefiledDropRateInt);
-            }
-
-            // Every type of Angry Bones counts for the Clothier Voodoo Doll
-            if (CalamityLists.angryBonesList.Contains(npc.type))
-            {
-                DropHelper.DropItemChance(npc, ItemID.ClothierVoodooDoll, DropHelper.DefiledDropRateInt);
-            }
-
-            // Every type of hornet AND moss hornet can drop Bezoar
-            if (CalamityLists.hornetList.Contains(npc.type) || CalamityLists.mossHornetList.Contains(npc.type))
-            {
-                DropHelper.DropItemChance(npc, ItemID.Bezoar, DropHelper.DefiledDropRateInt);
-            }
-
-            // Every type of moss hornet can drop Tattered Bee Wings
-            if (CalamityLists.mossHornetList.Contains(npc.type))
-            {
-                DropHelper.DropItemChance(npc, ItemID.TatteredBeeWing, DropHelper.DefiledDropRateInt);
-            }
-
-            // Because all switch cases must be constant at compile time, modded NPC IDs (which can change) can't be included.
-            if (npc.type == ModContent.NPCType<SunBat>())
-            {
-                DropHelper.DropItemChance(npc, ItemID.HelFire, DropHelper.DefiledDropRateInt);
-            }
-            else if (npc.type == ModContent.NPCType<Cryon>())
-            {
-                DropHelper.DropItemChance(npc, ItemID.Amarok, DropHelper.DefiledDropRateInt);
-            }
         }
         #endregion
 
@@ -1039,33 +727,40 @@ namespace CalamityMod.NPCs
             switch (npc.type)
             {
                 case NPCID.Drippler:
-                    int eyeballDropRate = CalamityWorld.defiled ? DropHelper.DefiledDropRateInt : 300;
-                    DropHelper.DropItemChance(npc, ModContent.ItemType<BouncingEyeball>(), eyeballDropRate, 1, 1);
+                    float bouncingEyeballChance = Main.expertMode ? 0.02f : 0.01f;
+                    DropHelper.DropItemChance(npc, ModContent.ItemType<BouncingEyeball>(), bouncingEyeballChance);
                     break;
 
                 case NPCID.FireImp:
-                    int stalactiteDropRate = CalamityWorld.defiled ? DropHelper.DefiledDropRateInt : Main.expertMode ? 100 : 150;
-                    DropHelper.DropItemChance(npc, ModContent.ItemType<AshenStalactite>(), stalactiteDropRate, 1, 1);
+                    float stalactiteDropRate = Main.expertMode ? 0.08f : 0.05f;
+                    DropHelper.DropItemChance(npc, ModContent.ItemType<AshenStalactite>(), stalactiteDropRate);
                     break;
 
                 case NPCID.PossessedArmor:
-                    int amuletDropRate = CalamityWorld.defiled ? DropHelper.DefiledDropRateInt : Main.expertMode ? 150 : 200;
-                    DropHelper.DropItemChance(npc, ModContent.ItemType<PsychoticAmulet>(), amuletDropRate, 1, 1);
+                    float amuletDropRate = Main.expertMode ? 0.008f : 0.005f;
+                    DropHelper.DropItemChance(npc, ModContent.ItemType<PsychoticAmulet>(), amuletDropRate);
                     break;
 
                 case NPCID.SeaSnail:
-                    DropHelper.DropItemChance(npc, ModContent.ItemType<SeaShell>(), Main.expertMode ? 1 : 2);
+                    DropHelper.DropItem(npc, ModContent.ItemType<SeaShell>());
                     break;
 
                 case NPCID.GreekSkeleton:
-                    int gladiatorDropRate = Main.expertMode ? 15 : 20;
-                    DropHelper.DropItemChance(npc, ItemID.GladiatorHelmet, gladiatorDropRate);
-                    DropHelper.DropItemChance(npc, ItemID.GladiatorBreastplate, gladiatorDropRate);
-                    DropHelper.DropItemChance(npc, ItemID.GladiatorLeggings, gladiatorDropRate);
+                    // Calamity increases the drop chance of the Gladiator's set because it's actually a set
+                    float gladiatorDropRate = Main.expertMode ? 0.12f : 0.08f;
+                    int[] gladiatorArmor = new int[]
+                    {
+                        ItemID.GladiatorHelmet,
+                        ItemID.GladiatorBreastplate,
+                        ItemID.GladiatorLeggings,
+                    };
+                    DropHelper.DropItemFromSetChance(npc, gladiatorDropRate, gladiatorArmor);
+                    DropHelper.BlockDrops(gladiatorArmor);
                     break;
 
                 case NPCID.GiantTortoise:
-                    DropHelper.DropItemRIV(npc, ModContent.ItemType<GiantTortoiseShell>(), ModContent.ItemType<FabledTortoiseShell>(), Main.expertMode ? 0.2f : 0.142857f, 0.005f);
+                    float shellChance = Main.expertMode ? 0.2f : 1f / 7f;
+                    DropHelper.DropItemRIV(npc, ModContent.ItemType<GiantTortoiseShell>(), ModContent.ItemType<FabledTortoiseShell>(), shellChance, 0.005f);
                     break;
 
                 case NPCID.GiantShelly:
@@ -1125,7 +820,7 @@ namespace CalamityMod.NPCs
                     break;
 
                 case NPCID.Harpy:
-                    int glazeDropRate = CalamityWorld.defiled ? DropHelper.DefiledDropRateInt : Main.expertMode ? 60 : 80;
+                    int glazeDropRate = Main.expertMode ? 60 : 80;
                     DropHelper.DropItemCondition(npc, ModContent.ItemType<SkyGlaze>(), NPC.downedBoss1, glazeDropRate, 1, 1);
                     DropHelper.DropItemCondition(npc, ModContent.ItemType<EssenceofCinder>(), Main.hardMode && !npc.SpawnedFromStatue, Main.expertMode ? 2 : 3, 1, 1);
                     break;
@@ -1205,14 +900,13 @@ namespace CalamityMod.NPCs
                     break;
 
                 case NPCID.DeadlySphere:
-                    float defectiveDropRate = CalamityWorld.defiled ? DropHelper.DefiledDropRateFloat : Main.expertMode ? 0.0375f : 0.025f;
-                    DropHelper.DropItemChance(npc, ModContent.ItemType<DefectiveSphere>(), defectiveDropRate); //same as deadly sphere staff
+                    float defectiveDropRate = Main.expertMode ? 0.15f : 0.1f;
+                    DropHelper.DropItemChance(npc, ModContent.ItemType<DefectiveSphere>(), defectiveDropRate);
                     break;
 
                 case NPCID.BloodJelly:
                 case NPCID.FungoFish:
-                    float necklaceDropRate = CalamityWorld.defiled ? DropHelper.DefiledDropRateFloat : 0.01f;
-                    DropHelper.DropItemChance(npc, ItemID.JellyfishNecklace, necklaceDropRate);
+                    DropHelper.DropItemChance(npc, ItemID.JellyfishNecklace, 0.01f);
                     break;
 
                 default:

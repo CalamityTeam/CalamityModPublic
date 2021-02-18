@@ -171,7 +171,7 @@ namespace CalamityMod.NPCs.Calamitas
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<Bloodstone>(), CalamityWorld.downedProvidence, 1f, 30, 40);
 
                 // Weapons
-                float w = DropHelper.DirectWeaponDropRateFloat;
+                float w = DropHelper.NormalWeaponDropRateFloat;
                 DropHelper.DropEntireWeightedSet(npc,
                     DropHelper.WeightStack<TheEyeofCalamitas>(w),
                     DropHelper.WeightStack<Animosity>(w),

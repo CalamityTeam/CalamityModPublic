@@ -386,7 +386,7 @@ namespace CalamityMod.NPCs.OldDuke
 			if (!Main.expertMode)
             {
 				// Weapons
-				float w = DropHelper.DirectWeaponDropRateFloat;
+				float w = DropHelper.NormalWeaponDropRateFloat;
 				DropHelper.DropEntireWeightedSet(npc,
 					DropHelper.WeightStack<InsidiousImpaler>(w),
 					DropHelper.WeightStack<FetidEmesis>(w),

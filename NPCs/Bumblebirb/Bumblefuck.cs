@@ -407,7 +407,7 @@ namespace CalamityMod.NPCs.Bumblebirb
                 DropHelper.DropItemSpray(npc, ModContent.ItemType<EffulgentFeather>(), 11, 17);
 
 				// Weapons
-				float w = DropHelper.DirectWeaponDropRateFloat;
+				float w = DropHelper.NormalWeaponDropRateFloat;
 				DropHelper.DropEntireWeightedSet(npc,
 					DropHelper.WeightStack<GildedProboscis>(w),
 					DropHelper.WeightStack<GoldenEagle>(w),

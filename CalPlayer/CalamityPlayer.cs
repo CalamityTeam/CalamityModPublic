@@ -7135,8 +7135,6 @@ namespace CalamityMod.CalPlayer
                 damageMult += 0.15;
             if (enraged) // Demonshade Enrage increases incoming damage by 25%.
                 damageMult += 0.25;
-            if (CalamityWorld.defiled && Main.rand.NextBool(4)) // Defiled gives you a 1/4 chance to be crit, increasing incoming damage by 50%.
-                damageMult += 0.5;
 
             // Add 5% damage multiplier for each Beetle Shell beetle that is active, thus reducing the DR from 10% to 5% per stack.
             if (player.beetleDefense && player.beetleOrbs > 0)

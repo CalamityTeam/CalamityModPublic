@@ -16,7 +16,7 @@ namespace CalamityMod
         /// <summary>
         /// Weapons in Normal Mode typically have a 1 in X chance of dropping, where X is this variable.
         /// </summary>
-        public const int NormalDropRateInt = 4;
+        public const int NormalWeaponDropRateInt = 4;
 
         /// <summary>
         /// Weapons in Normal Mode typically have this chance to drop (decimal number out of 1.0).
@@ -32,16 +32,6 @@ namespace CalamityMod
         /// Weapons in Expert Mode typically have this chance to drop (decimal number out of 1.0).
         /// </summary>
         public const float BagWeaponDropRateFloat = 0.3333333f;
-
-        /// <summary>
-        /// The Defiled Rune boosts various low drop rates to one in this value.
-        /// </summary>
-        public const int DefiledDropRateInt = 20;
-
-        /// <summary>
-        /// The Defiled Rune boosts various low drop rates to this chance (decimal number out of 1.0).
-        /// </summary>
-        public const float DefiledDropRateFloat = 0.05f;
 
         /// <summary>
         /// Legendary drops have a 1 in X chance of dropping, where X is this variable.
@@ -62,11 +52,6 @@ namespace CalamityMod
         /// Rare Item Variants have this chance to drop (decimal number out of 1.0).
         /// </summary>
         public const float RareVariantDropRateFloat = 0.025f;
-
-        /// <summary>
-        /// Direct weapon drops (straight from the boss in Normal Mode) have this chance to drop (decimal number out of 1.0).
-        /// </summary>
-        public const float DirectWeaponDropRateFloat = 0.25f;
         #endregion
 
         #region Block Drops
@@ -345,15 +330,6 @@ namespace CalamityMod
                     theBoss.DropBossBags();
 
                 bagsDropped += DeathExtraBags;
-            }
-
-            // If Defiled is active, possibly drop extra bags.
-            if (CalamityWorld.defiled)
-            {
-                for (int i = 0; i < DefiledExtraBags; ++i)
-                    theBoss.DropBossBags();
-
-                bagsDropped += DefiledExtraBags;
             }
 
             return bagsDropped;

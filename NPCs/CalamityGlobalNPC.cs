@@ -825,28 +825,6 @@ namespace CalamityMod.NPCs
 			if (npc.type == NPCID.WallofFleshEye)
 				npc.netAlways = true;
 
-			if (npc.boss)
-            {
-				if (CalamityWorld.revenge)
-				{
-					if (npc.type != NPCType<HiveMindP2>() && npc.type != NPCType<Leviathan.Leviathan>() && npc.type != NPCType<StormWeaverHeadNaked>() &&
-						npc.type != NPCType<StormWeaverBodyNaked>() && npc.type != NPCType<StormWeaverTailNaked>() &&
-						npc.type != NPCType<DevourerofGodsHeadS>() && npc.type != NPCType<DevourerofGodsBodyS>() &&
-						npc.type != NPCType<DevourerofGodsTailS>() && npc.type != NPCType<CalamitasRun3>() &&
-						npc.type != NPCType<AstrumDeusHeadSpectral>() && npc.type != NPCType<AstrumDeusBodySpectral>() &&
-						npc.type != NPCType<AstrumDeusTailSpectral>() && npc.Calamity().newAI[0] != 0f)
-					{
-						if (Main.netMode != NetmodeID.Server)
-						{
-							if (!Main.LocalPlayer.dead && Main.LocalPlayer.active)
-							{
-								Main.LocalPlayer.Calamity().adrenaline = 0;
-							}
-						}
-					}
-				}
-            }
-
             DebuffImmunities(npc);
 
             if (BossRushEvent.BossRushActive)
@@ -855,11 +833,6 @@ namespace CalamityMod.NPCs
             }
 
             BossValueChanges(npc);
-
-            if (CalamityWorld.defiled)
-            {
-                npc.value = (int)(npc.value * 1.5);
-            }
 
             if (DraedonMayhem)
             {

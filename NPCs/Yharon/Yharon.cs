@@ -2850,7 +2850,7 @@ namespace CalamityMod.NPCs.Yharon
 			if (!Main.expertMode)
 			{
 				// Weapons
-				float w = DropHelper.DirectWeaponDropRateFloat;
+				float w = DropHelper.NormalWeaponDropRateFloat;
 				DropHelper.DropEntireWeightedSet(npc,
 					DropHelper.WeightStack<DragonRage>(w),
 					DropHelper.WeightStack<TheBurningSky>(w),

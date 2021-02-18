@@ -656,7 +656,7 @@ namespace CalamityMod.NPCs.SlimeGod
                 DropHelper.DropItemSpray(npc, ModContent.ItemType<PurifiedGel>(), 30, 45);
 
 				// Weapons
-				float w = DropHelper.DirectWeaponDropRateFloat;
+				float w = DropHelper.NormalWeaponDropRateFloat;
 				DropHelper.DropEntireWeightedSet(npc,
 					DropHelper.WeightStack<OverloadedBlaster>(w),
 					DropHelper.WeightStack<AbyssalTome>(w),

@@ -552,7 +552,7 @@ namespace CalamityMod.NPCs.DesertScourge
 
                 // Weapons
                 // Set up the base drop set, which includes Scourge of the Desert at its normal drop chance.
-                float w = DropHelper.DirectWeaponDropRateFloat;
+                float w = DropHelper.NormalWeaponDropRateFloat;
                 DropHelper.WeightedItemStack[] weapons =
                 {
                     DropHelper.WeightStack<AquaticDischarge>(w),
