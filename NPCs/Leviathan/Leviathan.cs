@@ -676,7 +676,7 @@ namespace CalamityMod.NPCs.Leviathan
             if (!Main.expertMode)
             {
                 // Weapons
-                float w = DropHelper.DirectWeaponDropRateFloat;
+                float w = DropHelper.NormalWeaponDropRateFloat;
                 DropHelper.DropEntireWeightedSet(npc,
                     DropHelper.WeightStack<Greentide>(w),
                     DropHelper.WeightStack<Leviatitan>(w),

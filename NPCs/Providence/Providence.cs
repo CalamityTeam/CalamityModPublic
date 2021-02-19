@@ -1315,7 +1315,7 @@ namespace CalamityMod.NPCs.Providence
                 DropHelper.DropItemSpray(npc, ModContent.ItemType<DivineGeode>(), 15, 20);
 
 				// Weapons
-				float w = DropHelper.DirectWeaponDropRateFloat;
+				float w = DropHelper.NormalWeaponDropRateFloat;
 				DropHelper.DropEntireWeightedSet(npc,
 					DropHelper.WeightStack<HolyCollider>(w),
 					DropHelper.WeightStack<SolarFlare>(w),

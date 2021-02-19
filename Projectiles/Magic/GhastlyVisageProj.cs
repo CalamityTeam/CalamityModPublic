@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Visage");
+            DisplayName.SetDefault("Ghastly Visage");
             Main.projFrames[projectile.type] = 4;
         }
 

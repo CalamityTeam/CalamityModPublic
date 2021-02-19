@@ -705,7 +705,6 @@ namespace CalamityMod.Items
             }
             return false;
         }
-
         #endregion
 
         #region Andromeda Dev Item Attacks
@@ -3066,145 +3065,6 @@ Grants immunity to fire blocks, and temporary immunity to lava";
         }
 		#endregion
 
-		// NOTE: this function applies to all treasure bags, even modded ones (despite the name).
-		#region Boss Bag Changes
-		public override void OpenVanillaBag(string context, Player player, int arg)
-        {
-			if (context == "crate")
-			{
-				switch (arg)
-				{
-					case ItemID.WoodenCrate:
-						DropHelper.DropItemChance(player, ModContent.ItemType<WulfrumShard>(), 0.25f, 3, 5);
-						break;
-
-					case ItemID.IronCrate:
-						DropHelper.DropItemChance(player, ModContent.ItemType<WulfrumShard>(), 0.25f, 5, 8);
-						DropHelper.DropItemChance(player, ModContent.ItemType<AncientBoneDust>(), 0.25f, 5, 8);
-						break;
-
-					case ItemID.CorruptFishingCrate:
-					case ItemID.CrimsonFishingCrate:
-						DropHelper.DropItemChance(player, ModContent.ItemType<EbonianGel>(), 0.15f, 5, 8);
-						DropHelper.DropItemChance(player, ModContent.ItemType<MurkySludge>(), 0.15f, 1, 3);
-						break;
-
-					case ItemID.HallowedFishingCrate:
-						DropHelper.DropItemCondition(player, ModContent.ItemType<UnholyEssence>(), CalamityWorld.downedProvidence, 0.15f, 5, 10);
-						DropHelper.DropItemCondition(player, (WorldGen.crimson ? ModContent.ItemType<ProfanedRagePotion>() : ModContent.ItemType<HolyWrathPotion>()), CalamityWorld.downedProvidence, 0.1f, 1, 2);
-						break;
-
-					case ItemID.DungeonFishingCrate:
-						DropHelper.DropItemCondition(player, ItemID.Ectoplasm, NPC.downedPlantBoss, 0.1f, 1, 5);
-						DropHelper.DropItemCondition(player, ModContent.ItemType<Phantoplasm>(), CalamityWorld.downedPolterghast, 0.1f, 1, 5);
-						break;
-
-					case ItemID.JungleFishingCrate:
-						DropHelper.DropItemChance(player, ModContent.ItemType<MurkyPaste>(), 0.2f, 1, 3);
-						DropHelper.DropItemCondition(player, ModContent.ItemType<BeetleJuice>(), Main.hardMode, 0.2f, 1, 3);
-						DropHelper.DropItemCondition(player, ModContent.ItemType<TrapperBulb>(), Main.hardMode, 0.2f, 1, 3);
-						DropHelper.DropItemCondition(player, ItemID.ChlorophyteBar, (CalamityWorld.downedCalamitas || NPC.downedPlantBoss), 0.1f, 1, 3);
-						DropHelper.DropItemCondition(player, ModContent.ItemType<DraedonBar>(), NPC.downedPlantBoss, 0.1f, 1, 3);
-						DropHelper.DropItemCondition(player, ModContent.ItemType<PlagueCellCluster>(), NPC.downedGolemBoss, 0.2f, 3, 6);
-						DropHelper.DropItemCondition(player, ModContent.ItemType<UeliaceBar>(), CalamityWorld.downedProvidence, 0.1f, 1, 3);
-						break;
-
-					case ItemID.FloatingIslandFishingCrate:
-						DropHelper.DropItemCondition(player, ModContent.ItemType<AerialiteBar>(), (CalamityWorld.downedHiveMind || CalamityWorld.downedPerforator), 0.1f, 1, 3);
-						DropHelper.DropItemCondition(player, ModContent.ItemType<EssenceofCinder>(), Main.hardMode, 0.2f, 2, 4);
-						DropHelper.DropItemCondition(player, ModContent.ItemType<GalacticaSingularity>(), NPC.downedMoonlord, 0.1f, 1, 3);
-						break;
-				}
-			}
-
-			if (context == "bossBag")
-            {
-                // Give a chance for Laudanum, Stress Pills and Heart of Darkness from every boss bag
-                DropHelper.DropRevBagAccessories(player);
-
-                switch (arg)
-                {
-                    // King Slime
-                    case ItemID.KingSlimeBossBag:
-                        DropHelper.DropItemCondition(player, ModContent.ItemType<CrownJewel>(), CalamityWorld.revenge);
-                        break;
-
-                    // Eye of Cthulhu
-                    case ItemID.EyeOfCthulhuBossBag:
-                        DropHelper.DropItem(player, ModContent.ItemType<VictoryShard>(), 3, 5);
-                        DropHelper.DropItemChance(player, ModContent.ItemType<TeardropCleaver>(), 3);
-                        DropHelper.DropItemCondition(player, ModContent.ItemType<CounterScarf>(), CalamityWorld.revenge);
-                        break;
-
-                    // Queen Bee
-                    case ItemID.QueenBeeBossBag:
-                        DropHelper.DropItem(player, ItemID.Stinger, 8, 12);
-                        DropHelper.DropItem(player, ModContent.ItemType<HardenedHoneycomb>(), 50, 75);
-                        break;
-
-                    // Skeletron
-                    case ItemID.SkeletronBossBag:
-                        DropHelper.DropItemChance(player, ModContent.ItemType<ClothiersWrath>(), DropHelper.RareVariantDropRateInt);
-                        break;
-
-                    // Wall of Flesh
-                    case ItemID.WallOfFleshBossBag:
-                        DropHelper.DropItemChance(player, ModContent.ItemType<Meowthrower>(), 3);
-                        DropHelper.DropItemChance(player, ModContent.ItemType<BlackHawkRemote>(), 3);
-                        DropHelper.DropItemChance(player, ModContent.ItemType<BlastBarrel>(), 3);
-                        DropHelper.DropItemChance(player, ModContent.ItemType<RogueEmblem>(), 4);
-                        DropHelper.DropItemFromSetChance(player, 0.2f, ItemID.CorruptionKey, ItemID.CrimsonKey);
-                        DropHelper.DropItemCondition(player, ModContent.ItemType<MLGRune>(), !CalamityWorld.demonMode); // Demon Trophy
-                        break;
-
-                    // Destroyer
-                    case ItemID.DestroyerBossBag:
-                        float shpcChance = DropHelper.LegendaryDropRateFloat;
-                        DropHelper.DropItemCondition(player, ModContent.ItemType<SHPC>(), CalamityWorld.revenge, shpcChance);
-                        break;
-
-                    // Plantera
-                    case ItemID.PlanteraBossBag:
-                        DropHelper.DropItem(player, ModContent.ItemType<LivingShard>(), 16, 22);
-                        float bFluxChance = DropHelper.LegendaryDropRateFloat;
-                        DropHelper.DropItemCondition(player, ModContent.ItemType<BlossomFlux>(), CalamityWorld.revenge, bFluxChance);
-                        DropHelper.DropItemChance(player, ItemID.JungleKey, 5);
-                        break;
-
-                    // Golem
-                    case ItemID.GolemBossBag:
-                        float aegisChance = DropHelper.LegendaryDropRateFloat;
-                        DropHelper.DropItemCondition(player, ModContent.ItemType<AegisBlade>(), CalamityWorld.revenge, aegisChance);
-                        DropHelper.DropItem(player, ModContent.ItemType<EssenceofCinder>(), 8, 13);
-						DropHelper.DropItemChance(player, ModContent.ItemType<LeadWizard>(), DropHelper.RareVariantDropRateInt);
-                        break;
-
-                    // Duke Fishron
-                    case ItemID.FishronBossBag:
-                        float baronChance = DropHelper.LegendaryDropRateFloat;
-                        DropHelper.DropItemCondition(player, ModContent.ItemType<BrinyBaron>(), CalamityWorld.revenge, baronChance);
-                        DropHelper.DropItemChance(player, ModContent.ItemType<DukesDecapitator>(), 4);
-                        break;
-
-                    // Betsy
-                    case ItemID.BossBagBetsy:
-                        float vesuviusChance = DropHelper.LegendaryDropRateFloat;
-                        DropHelper.DropItemCondition(player, ModContent.ItemType<Vesuvius>(), CalamityWorld.revenge, vesuviusChance);
-                        break;
-
-                    // Moon Lord
-                    case ItemID.MoonLordBossBag:
-                        DropHelper.DropItem(player, ItemID.LunarOre, 50, 50);
-                        DropHelper.DropItem(player, ModContent.ItemType<MLGRune2>()); // Celestial Onion
-                        DropHelper.DropItemChance(player, ModContent.ItemType<UtensilPoker>(), 8);
-                        DropHelper.DropItemChance(player, ModContent.ItemType<GrandDad>(), DropHelper.RareVariantDropRateInt);
-                        DropHelper.DropItemChance(player, ModContent.ItemType<Infinity>(), DropHelper.RareVariantDropRateInt);
-                        break;
-                }
-            }
-        }
-        #endregion
-
         #region Armor Set Changes
         public override string IsArmorSet(Item head, Item body, Item legs)
         {
@@ -4785,40 +4645,6 @@ Grants immunity to fire blocks, and temporary immunity to lava";
         {
             return GetBuyPrice(item.rare);
         }
-        #endregion
-
-        /// <summary>
-        /// Dust helper to spawn dust for an item. Allows you to specify where on the item to spawn the dust, essentially. (ONLY WORKS FOR SWINGING WEAPONS?)
-        /// </summary>
-        /// <param name="player">The player using the item.</param>
-        /// <param name="dustType">The type of dust to use.</param>
-        /// <param name="chancePerFrame">The chance per frame to spawn the dust (0f-1f)</param>
-        /// <param name="minDistance">The minimum distance between the player and the dust</param>
-        /// <param name="maxDistance">The maximum distance between the player and the dust</param>
-        /// <param name="minRandRot">The minimum random rotation offset for the dust</param>
-        /// <param name="maxRandRot">The maximum random rotation offset for the dust</param>
-        /// <param name="minSpeed">The minimum speed that the dust should travel</param>
-        /// <param name="maxSpeed">The maximum speed that the dust should travel</param>
-        public static Dust MeleeDustHelper(Player player, int dustType, float chancePerFrame, float minDistance, float maxDistance, float minRandRot = -0.2f, float maxRandRot = 0.2f, float minSpeed = 0.9f, float maxSpeed = 1.1f)
-        {
-            if (Main.rand.NextFloat(1f) < chancePerFrame)
-            {
-                //Calculate values
-                //distance from player,
-                //the vector offset from the player center
-                //the vector between the pos and the player
-                float distance = Main.rand.NextFloat(minDistance, maxDistance);
-                Vector2 offset = (player.itemRotation - (MathHelper.PiOver4 * player.direction) + Main.rand.NextFloat(minRandRot, maxRandRot)).ToRotationVector2() * distance * player.direction;
-                Vector2 pos = player.Center + offset;
-                Vector2 vec = pos - player.Center;
-                //spawn the dust
-                Dust d = Dust.NewDustPerfect(pos, dustType);
-                //normalise vector and multiply by velocity magnitude
-                vec.Normalize();
-                d.velocity = vec * Main.rand.NextFloat(minSpeed, maxSpeed);
-                return d;
-            }
-            return null;
-        }
+		#endregion
     }
 }

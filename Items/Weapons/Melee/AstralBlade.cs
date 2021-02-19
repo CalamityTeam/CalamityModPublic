@@ -60,7 +60,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             for (int i = 0; i < 3; i++)
             {
-                Dust d = CalamityGlobalItem.MeleeDustHelper(player, Main.rand.NextBool(2) ? ModContent.DustType<AstralOrange>() : ModContent.DustType<AstralBlue>(), 0.7f, 55, 110, -0.07f, 0.07f);
+                Dust d = CalamityUtils.MeleeDustHelper(player, Main.rand.NextBool(2) ? ModContent.DustType<AstralOrange>() : ModContent.DustType<AstralBlue>(), 0.7f, 55, 110, -0.07f, 0.07f);
                 if (d != null)
                 {
                     d.customData = 0.03f;

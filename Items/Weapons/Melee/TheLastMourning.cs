@@ -2,7 +2,6 @@ using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -11,8 +10,6 @@ namespace CalamityMod.Items.Weapons.Melee
 {
     public class TheLastMourning : ModItem
     {
-        public static int BaseDamage = 288;
-
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("The Last Mourning");
@@ -25,7 +22,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.height = 94;
             item.scale = 1.5f;
             item.melee = true;
-            item.damage = BaseDamage;
+            item.damage = 288;
             item.knockBack = 8.5f;
             item.useAnimation = 20;
             item.useTime = 20;
@@ -43,14 +40,16 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            CalamityPlayerOnHit.HorsemansBladeOnHit(player, target.whoAmI, (int)(item.damage * player.MeleeDamage() * 1.5f), knockback, 0, ModContent.ProjectileType<MourningSkull>());
-            CalamityPlayerOnHit.HorsemansBladeOnHit(player, target.whoAmI, (int)(item.damage * player.MeleeDamage() * 1.5f), knockback, 1);
+            int projDamage = (int)(item.damage * player.MeleeDamage());
+            CalamityPlayerOnHit.HorsemansBladeOnHit(player, target.whoAmI, projDamage, knockback, 0, ModContent.ProjectileType<MourningSkull>());
+            CalamityPlayerOnHit.HorsemansBladeOnHit(player, target.whoAmI, projDamage, knockback, 1);
         }
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
-            CalamityPlayerOnHit.HorsemansBladeOnHit(player, -1, (int)(item.damage * player.MeleeDamage() * 1.5f), item.knockBack, 0, ModContent.ProjectileType<MourningSkull>());
-            CalamityPlayerOnHit.HorsemansBladeOnHit(player, -1, (int)(item.damage * player.MeleeDamage() * 1.5f), item.knockBack, 1);
+            int projDamage = (int)(item.damage * player.MeleeDamage());
+            CalamityPlayerOnHit.HorsemansBladeOnHit(player, -1, projDamage, item.knockBack, 0, ModContent.ProjectileType<MourningSkull>());
+            CalamityPlayerOnHit.HorsemansBladeOnHit(player, -1, projDamage, item.knockBack, 1);
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)

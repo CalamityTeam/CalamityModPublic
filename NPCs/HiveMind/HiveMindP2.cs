@@ -760,7 +760,7 @@ namespace CalamityMod.NPCs.HiveMind
                     DropHelper.DropItemSpray(npc, ItemID.CursedFlame, 10, 20);
 
                 // Weapons
-                float w = DropHelper.DirectWeaponDropRateFloat;
+                float w = DropHelper.NormalWeaponDropRateFloat;
                 DropHelper.DropEntireWeightedSet(npc,
                     DropHelper.WeightStack<PerfectDark>(w),
                     DropHelper.WeightStack<LeechingDagger>(w),

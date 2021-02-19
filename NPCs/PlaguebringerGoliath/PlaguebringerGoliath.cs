@@ -1186,7 +1186,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                 DropHelper.DropItemSpray(npc, ItemID.Stinger, 3, 5);
 
                 // Weapons
-                float w = DropHelper.DirectWeaponDropRateFloat;
+                float w = DropHelper.NormalWeaponDropRateFloat;
                 DropHelper.DropEntireWeightedSet(npc,
                     DropHelper.WeightStack<VirulentKatana>(w), // Virulence
                     DropHelper.WeightStack<DiseasedPike>(w),

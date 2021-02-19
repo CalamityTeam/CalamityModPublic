@@ -8,6 +8,8 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class HalibutCannon : ModItem
     {
+        internal const float DropChance = 1E-5f; // 1 in 100,000
+        
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Halibut Cannon");

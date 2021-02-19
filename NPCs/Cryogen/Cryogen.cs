@@ -1046,7 +1046,7 @@ namespace CalamityMod.NPCs.Cryogen
                 DropHelper.DropItem(npc, ItemID.FrostCore);
 
                 // Weapons
-                float w = DropHelper.DirectWeaponDropRateFloat;
+                float w = DropHelper.NormalWeaponDropRateFloat;
                 DropHelper.DropEntireWeightedSet(npc,
                     DropHelper.WeightStack<Avalanche>(w),
                     DropHelper.WeightStack<GlacialCrusher>(w),

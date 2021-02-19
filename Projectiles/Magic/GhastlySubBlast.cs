@@ -8,7 +8,7 @@ namespace CalamityMod.Projectiles.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Blast");
+            DisplayName.SetDefault("Ghast Blast");
         }
 
         public override void SetDefaults()

@@ -249,7 +249,7 @@ namespace CalamityMod.NPCs.AstrumDeus
                 DropHelper.DropItemSpray(npc, ItemID.FallenStar, 80, 150);
 
                 // Weapons
-                float w = DropHelper.DirectWeaponDropRateFloat;
+                float w = DropHelper.NormalWeaponDropRateFloat;
                 DropHelper.DropEntireWeightedSet(npc,
                     DropHelper.WeightStack<TheMicrowave>(w),
                     DropHelper.WeightStack<StarSputter>(w),

@@ -1,17 +1,17 @@
 using CalamityMod.NPCs.AcidRain;
+using CalamityMod.NPCs.OldDuke;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.ID;
-using Terraria.Localization;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Events
 {
-	public enum AcidRainSpawnRequirement
+    public enum AcidRainSpawnRequirement
     {
         Water,
         Land,
@@ -175,6 +175,7 @@ namespace CalamityMod.Events
             UpdateInvasion();
             BroadcastEventText("Mods.CalamityMod.AcidRainStart"); // A toxic downpour falls over the wasteland seas!
         }
+
         /// <summary>
         /// Updates the invasion, checking to see if it has ended.
         /// </summary>
@@ -233,14 +234,63 @@ namespace CalamityMod.Events
                     netMessage.Write(CalamityWorld.triedToSummonOldDuke);
                     netMessage.Send();
                 }
-				if (Main.netMode == NetmodeID.Server)
-				{
-					var netMessage = CalamityMod.Instance.GetPacket();
-					netMessage.Write((byte)CalamityModMessageType.EncounteredOldDukeSync);
-					netMessage.Write(CalamityWorld.encounteredOldDuke);
-					netMessage.Send();
-				}
-			}
+                if (Main.netMode == NetmodeID.Server)
+                {
+                    var netMessage = CalamityMod.Instance.GetPacket();
+                    netMessage.Write((byte)CalamityModMessageType.EncounteredOldDukeSync);
+                    netMessage.Write(CalamityWorld.encounteredOldDuke);
+                    netMessage.Send();
+                }
+            }
+        }
+
+        internal static void OnEnemyKill(NPC npc)
+        {
+            Dictionary<int, AcidRainSpawnData> possibleEnemies = PossibleEnemiesPreHM;
+
+            if (CalamityWorld.downedAquaticScourge)
+                possibleEnemies = PossibleEnemiesAS;
+            if (CalamityWorld.downedPolterghast)
+                possibleEnemies = PossibleEnemiesPolter;
+
+            if (CalamityWorld.rainingAcid)
+            {
+                if (possibleEnemies.Select(enemy => enemy.Key).Contains(npc.type))
+                {
+                    CalamityWorld.acidRainPoints -= possibleEnemies[npc.type].InvasionContributionPoints;
+                    if (CalamityWorld.downedPolterghast)
+                    {
+                        CalamityWorld.acidRainPoints = (int)MathHelper.Max(1, CalamityWorld.acidRainPoints); // Cap at 1. The last point is for Old Duke.
+                    }
+
+                    // UpdateInvasion incorporates a world sync, so this is indeed synced as a result.
+                    Main.rainTime += Main.rand.Next(240, 300 + 1); // Add some time to the rain, so that it doesn't end mid-way.
+                }
+                Dictionary<int, AcidRainSpawnData> possibleMinibosses = CalamityWorld.downedPolterghast ? PossibleMinibossesPolter : PossibleMinibossesAS;
+                if (possibleMinibosses.Select(miniboss => miniboss.Key).Contains(npc.type))
+                {
+                    CalamityWorld.acidRainPoints -= possibleMinibosses[npc.type].InvasionContributionPoints;
+                    if (CalamityWorld.downedPolterghast)
+                    {
+                        CalamityWorld.acidRainPoints = (int)MathHelper.Max(1, CalamityWorld.acidRainPoints); // Cap at 1. The last point is for Old Duke.
+                    }
+
+                    // UpdateInvasion incorporates a world sync, so this is indeed synced as a result.
+                    Main.rainTime += Main.rand.Next(1800, 2100 + 1); // Add some time to the rain, so that it doesn't end mid-way.
+                }
+            }
+
+            CalamityWorld.acidRainPoints = (int)MathHelper.Max(0, CalamityWorld.acidRainPoints); // To prevent negative completion ratios
+
+            if (CalamityWorld.rainingAcid && CalamityWorld.downedPolterghast &&
+                npc.type == ModContent.NPCType<OldDuke>() &&
+                CalamityWorld.acidRainPoints <= 2f)
+            {
+                CalamityWorld.triedToSummonOldDuke = false;
+                CalamityWorld.acidRainPoints = 0;
+            }
+            CalamityWorld.timeSinceAcidRainKill = 0;
+            UpdateInvasion();
         }
     }
 }

@@ -9,7 +9,6 @@ namespace CalamityMod.Items.Weapons.Magic
 {
     public class MadAlchemistsCocktailGlove : ModItem
     {
-        private const int BaseDamage = 146;
         private int flaskIndex = 0;
 
         private static int[] flaskIDs;
@@ -39,7 +38,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.width = 26;
             item.height = 36;
 
-            item.damage = BaseDamage;
+            item.damage = 182;
             item.magic = true;
             item.noUseGraphic = true;
             item.mana = 12;
