@@ -1075,6 +1075,8 @@ namespace CalamityMod.CalPlayer
 			}
 
 			// Cooldowns and timers
+			if (modPlayer.dodgeCooldownTimer > 0)
+				modPlayer.dodgeCooldownTimer--;
 			if (modPlayer.KameiBladeUseDelay > 0)
 				modPlayer.KameiBladeUseDelay--;
 			if (modPlayer.galileoCooldown > 0)

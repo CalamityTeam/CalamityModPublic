@@ -221,6 +221,7 @@ namespace CalamityMod.CalPlayer
 		public int auralisAurora = 0;
 		public int fungalSymbioteTimer = 0;
 		public int aBulwarkRareTimer = 0;
+		public int dodgeCooldownTimer = 0;
 		public bool canFireAtaxiaRangedProjectile = false;
 		public bool canFireAtaxiaRogueProjectile = false;
 		public bool canFireGodSlayerRangedProjectile = false;
@@ -2005,6 +2006,7 @@ namespace CalamityMod.CalPlayer
         public override void UpdateDead()
         {
 			#region Debuffs
+			dodgeCooldownTimer = 0;
 			defenseDamage = 0;
             deathModeBlizzardTime = 0;
             deathModeUnderworldTime = 0;
@@ -3896,7 +3898,7 @@ namespace CalamityMod.CalPlayer
 				if (player.hurtCooldowns[j] > 0)
 					isImmune = true;
 			}
-			if (Main.rand.NextBool(10) && !isImmune && !eclipseMirrorCooldown && !abyssalMirrorCooldown)
+			if (dodgeCooldownTimer == 0 && !isImmune && !eclipseMirrorCooldown && !abyssalMirrorCooldown)
 			{
 				if (eclipseMirror)
 				{
@@ -3982,7 +3984,8 @@ namespace CalamityMod.CalPlayer
         {
             if (player.whoAmI == Main.myPlayer && abyssalMirror && !abyssalMirrorCooldown && !eclipseMirror)
             {
-                player.AddBuff(ModContent.BuffType<AbyssalMirrorCooldown>(), 1200);
+				dodgeCooldownTimer = 4500;
+                player.AddBuff(ModContent.BuffType<AbyssalMirrorCooldown>(), dodgeCooldownTimer);
                 player.immune = true;
                 player.immuneTime = player.longInvince ? 100 : 60;
                 player.noKnockback = true;
@@ -4013,7 +4016,8 @@ namespace CalamityMod.CalPlayer
         {
             if (player.whoAmI == Main.myPlayer && eclipseMirror && !eclipseMirrorCooldown)
             {
-                player.AddBuff(ModContent.BuffType<EclipseMirrorCooldown>(), 1200);
+				dodgeCooldownTimer = 4500;
+                player.AddBuff(ModContent.BuffType<EclipseMirrorCooldown>(), dodgeCooldownTimer);
                 player.immune = true;
                 player.immuneTime = player.longInvince ? 100 : 60;
                 player.noKnockback = true;
@@ -4460,27 +4464,27 @@ namespace CalamityMod.CalPlayer
         {
             if (item.type == ModContent.ItemType<GaelsGreatsword>())
             {
-                add += GaelsGreatsword.BaseDamage / (float)GaelsGreatsword.BaseDamage - 1f;
+                mult += GaelsGreatsword.BaseDamage / (float)GaelsGreatsword.BaseDamage - 1f;
             }
             if (flamethrowerBoost && item.ranged && (item.useAmmo == AmmoID.Gel || CalamityLists.flamethrowerList.Contains(item.type)))
             {
-                add += hoverboardBoost ? 0.35f : 0.25f;
+                mult += hoverboardBoost ? 0.35f : 0.25f;
             }
             if (cinnamonRoll && CalamityLists.fireWeaponList.Contains(item.type))
             {
-                add += 0.15f;
+                mult += 0.15f;
             }
             if (evergreenGin && CalamityLists.natureWeaponList.Contains(item.type))
             {
-                add += 0.15f;
+                mult += 0.15f;
             }
             if (fireball && CalamityLists.fireWeaponList.Contains(item.type))
             {
-                add += 0.1f;
+                mult += 0.1f;
             }
             if (eskimoSet && CalamityLists.iceWeaponList.Contains(item.type))
             {
-                add += 0.1f;
+                mult += 0.1f;
             }
 
             if (item.ranged)
@@ -7078,6 +7082,22 @@ namespace CalamityMod.CalPlayer
         public override bool PreHurt(bool pvp, bool quiet, ref int damage, ref int hitDirection, ref bool crit, ref bool customDamage, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
         {
 			#region Ignore Incoming Hits
+			// If any dodges are active which could dodge this hit, the hurting event is canceled (and the dodge is used).
+			if (HandleDodges())
+				return false;
+
+			// New Black Belt and Master Ninja Gear code.
+			if (dodgeCooldownTimer > 0)
+			{
+				player.blackBelt = false;
+			}
+			else if (player.blackBelt)
+			{
+				dodgeCooldownTimer = 3600;
+				player.NinjaDodge();
+				return false;
+			}
+
 			// Lul makes the player completely invincible.
 			if (lol)
                 return false;
@@ -7086,12 +7106,8 @@ namespace CalamityMod.CalPlayer
             if (invincible && player.ActiveItem().type != ModContent.ItemType<ColdheartIcicle>())
                 return false;
 
-            // If any dodges are active which could dodge this hit, the hurting event is canceled (and the dodge is used).
-            if (HandleDodges())
-				return false;
-
-            // If Armageddon is active or the Boss Rush Immunity Curse is triggered, instantly kill the player.
-            if (CalamityWorld.armageddon || (BossRushEvent.BossRushActive && bossRushImmunityFrameCurseTimer > 0))
+			// If Armageddon is active or the Boss Rush Immunity Curse is triggered, instantly kill the player.
+			if (CalamityWorld.armageddon || (BossRushEvent.BossRushActive && bossRushImmunityFrameCurseTimer > 0))
             {
                 if (areThereAnyDamnBosses || (BossRushEvent.BossRushActive && bossRushImmunityFrameCurseTimer > 0))
                 {
@@ -7109,11 +7125,6 @@ namespace CalamityMod.CalPlayer
                     KillPlayer();
                 }
             }
-
-            // God Slayer Reflect gives a 2% chance to dodge any hit.
-            // This is intentionally after Armageddon so that the 2% random chance doesn't screw up no-hits.
-            if (godSlayerReflect && Main.rand.NextBool(50))
-                return false;
 			#endregion
 
             //

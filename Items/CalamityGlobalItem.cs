@@ -1251,6 +1251,24 @@ namespace CalamityMod.Items
 			#endregion
 
 			#region Vanilla Item Tooltip Edits
+			if (item.type == ItemID.BlackBelt)
+			{
+				foreach (TooltipLine line2 in tooltips)
+				{
+					if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
+						line2.text = "Grants the ability to dodge attacks\n" +
+							"This dodge has a 60s cooldown";
+				}
+			}
+			if (item.type == ItemID.MasterNinjaGear)
+			{
+				foreach (TooltipLine line2 in tooltips)
+				{
+					if (line2.mod == "Terraria" && line2.Name == "Tooltip1")
+						line2.text = "Grants the ability to dodge attacks\n" +
+							"This dodge has a 60s cooldown";
+				}
+			}
 			if (item.type == ItemID.CobaltSword || item.type == ItemID.CobaltNaginata)
 			{
 				foreach (TooltipLine line2 in tooltips)
@@ -1353,9 +1371,7 @@ namespace CalamityMod.Items
 				foreach (TooltipLine line2 in tooltips)
 				{
 					if (line2.mod == "Terraria" && line2.Name == "HealLife")
-					{
 						line2.text += "\nGrants the Honey buff for 2 minutes";
-					}
 				}
 			}
             if (item.type == ItemID.RodofDiscord)
@@ -1363,9 +1379,7 @@ namespace CalamityMod.Items
 				foreach (TooltipLine line2 in tooltips)
 				{
 					if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
-					{
 						line2.text += "\nTeleportation is disabled while Chaos State is active";
-					}
 				}
 			}
 			if (item.type == ItemID.SuperAbsorbantSponge)
@@ -1373,9 +1387,7 @@ namespace CalamityMod.Items
                 foreach (TooltipLine line2 in tooltips)
                 {
                     if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
-                    {
                         line2.text += "\nCannot be used in the Abyss";
-                    }
                 }
             }
             if (item.type == ItemID.EmptyBucket)
@@ -1383,9 +1395,7 @@ namespace CalamityMod.Items
                 foreach (TooltipLine line2 in tooltips)
                 {
                     if (line2.mod == "Terraria" && line2.Name == "Defense")
-                    {
                         line2.text += "\nCannot be used in the Abyss";
-                    }
                 }
             }
             if (item.type == ItemID.CrimsonHeart)
@@ -1393,9 +1403,7 @@ namespace CalamityMod.Items
                 foreach (TooltipLine line2 in tooltips)
                 {
                     if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
-                    {
                         line2.text += "\nProvides a small amount of light in the abyss";
-                    }
                 }
             }
             if (item.type == ItemID.ShadowOrb)
@@ -1403,9 +1411,7 @@ namespace CalamityMod.Items
                 foreach (TooltipLine line2 in tooltips)
                 {
                     if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
-                    {
                         line2.text += "\nProvides a small amount of light in the abyss";
-                    }
                 }
             }
             if (item.type == ItemID.MagicLantern)
@@ -1413,9 +1419,7 @@ namespace CalamityMod.Items
                 foreach (TooltipLine line2 in tooltips)
                 {
                     if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
-                    {
                         line2.text += "\nProvides a small amount of light in the abyss";
-                    }
                 }
             }
             if (item.type == ItemID.ArcticDivingGear)
