@@ -37,6 +37,7 @@ namespace CalamityMod.NPCs.Bumblebirb
 
         public override void SetDefaults()
         {
+			npc.Calamity().canBreakPlayerDefense = true;
 			npc.npcSlots = 32f;
             npc.aiStyle = -1;
             aiType = -1;
@@ -406,7 +407,7 @@ namespace CalamityMod.NPCs.Bumblebirb
                 DropHelper.DropItemSpray(npc, ModContent.ItemType<EffulgentFeather>(), 11, 17);
 
 				// Weapons
-				float w = DropHelper.DirectWeaponDropRateFloat;
+				float w = DropHelper.NormalWeaponDropRateFloat;
 				DropHelper.DropEntireWeightedSet(npc,
 					DropHelper.WeightStack<GildedProboscis>(w),
 					DropHelper.WeightStack<GoldenEagle>(w),

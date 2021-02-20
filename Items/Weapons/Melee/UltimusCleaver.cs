@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.damage = 130;
             item.melee = true;
 			item.useTurn = true;
-            item.rare = 8;
+            item.rare = ItemRarityID.Yellow;
             item.width = 72;
             item.height = 62;
 			item.scale = 1.5f;

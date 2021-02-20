@@ -23,7 +23,7 @@ namespace CalamityMod.Items.Placeables.Furniture.CraftingStations
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
             item.value = 5000000;
-            item.rare = 10;
+            item.rare = ItemRarityID.Red;
             item.createTile = ModContent.TileType<Tiles.Furniture.CraftingStations.DraedonsForge>();
             item.Calamity().customRarity = CalamityRarity.DarkBlue;
         }

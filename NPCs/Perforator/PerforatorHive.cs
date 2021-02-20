@@ -39,7 +39,8 @@ namespace CalamityMod.NPCs.Perforator
 
         public override void SetDefaults()
         {
-            npc.npcSlots = 18f;
+			npc.Calamity().canBreakPlayerDefense = true;
+			npc.npcSlots = 18f;
 			npc.GetNPCDamage();
 			npc.width = 110;
             npc.height = 100;
@@ -379,7 +380,7 @@ namespace CalamityMod.NPCs.Perforator
                     DropHelper.DropItemSpray(npc, ItemID.Ichor, 10, 20);
 
 				// Weapons
-				float w = DropHelper.DirectWeaponDropRateFloat;
+				float w = DropHelper.NormalWeaponDropRateFloat;
 				DropHelper.DropEntireWeightedSet(npc,
 					DropHelper.WeightStack<VeinBurster>(w),
 					DropHelper.WeightStack<BloodyRupture>(w),

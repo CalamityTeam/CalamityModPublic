@@ -4,6 +4,7 @@ using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.CalPlayer;
 using CalamityMod.Dusts;
 using CalamityMod.Events;
+using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.NPCs.Abyss;
 using CalamityMod.NPCs.AcidRain;
 using CalamityMod.NPCs.AquaticScourge;
@@ -35,7 +36,6 @@ using CalamityMod.NPCs.StormWeaver;
 using CalamityMod.NPCs.SulphurousSea;
 using CalamityMod.NPCs.SupremeCalamitas;
 using CalamityMod.NPCs.Yharon;
-using CalamityMod.Projectiles.Boss;
 using CalamityMod.Projectiles.DraedonsArsenal;
 using CalamityMod.Projectiles.Magic;
 using CalamityMod.Projectiles.Melee;
@@ -98,6 +98,7 @@ namespace CalamityMod.NPCs
         internal const int maxAIMod = 4;
         public float[] newAI = new float[maxAIMod];
 		public int AITimer = 0;
+		public float killTimeRatio_IncreasedAggression = 0f;
 
         // Town NPC Patreon
         public bool setNewName = true;
@@ -269,16 +270,25 @@ namespace CalamityMod.NPCs
             { NPCID.MoonLordCore, Item.buyPrice(0, 30) }
         };
 
-		/// <summary>
-		/// Lists of enemies that resist piercing to some extent (mostly worms).
-		/// Could prove useful for other things as well.
-		/// </summary>
+		// Lists of enemies that resist piercing to some extent (mostly worms).
+		// Could prove useful for other things as well.
+
 		public static List<int> AstrumDeusIDs = new List<int>
 		{
 			NPCType<AstrumDeusHeadSpectral>(),
 			NPCType<AstrumDeusBodySpectral>(),
 			NPCType<AstrumDeusTailSpectral>()
 		};
+
+        public static List<int> DevourerOfGodsIDs = new List<int>
+        {
+            NPCType<DevourerofGodsHead>(),
+            NPCType<DevourerofGodsBody>(),
+            NPCType<DevourerofGodsTail>(),
+            NPCType<DevourerofGodsHeadS>(),
+            NPCType<DevourerofGodsBodyS>(),
+            NPCType<DevourerofGodsTailS>()
+        };
 
 		public static List<int> CosmicGuardianIDs = new List<int>
 		{
@@ -811,24 +821,9 @@ namespace CalamityMod.NPCs
 				KillTime = revKillTime;
 			}
 
-            if (npc.boss && CalamityWorld.revenge)
-            {
-                if (npc.type != NPCType<HiveMindP2>() && npc.type != NPCType<Leviathan.Leviathan>() && npc.type != NPCType<StormWeaverHeadNaked>() &&
-                    npc.type != NPCType<StormWeaverBodyNaked>() && npc.type != NPCType<StormWeaverTailNaked>() &&
-                    npc.type != NPCType<DevourerofGodsHeadS>() && npc.type != NPCType<DevourerofGodsBodyS>() &&
-                    npc.type != NPCType<DevourerofGodsTailS>() && npc.type != NPCType<CalamitasRun3>() &&
-					((npc.type != NPCType<AstrumDeusHeadSpectral>() && npc.type != NPCType<AstrumDeusBodySpectral>() &&
-					npc.type != NPCType<AstrumDeusTailSpectral>()) && npc.Calamity().newAI[0] != 0f))
-                {
-                    if (Main.netMode != NetmodeID.Server)
-                    {
-                        if (!Main.LocalPlayer.dead && Main.LocalPlayer.active)
-                        {
-                            Main.LocalPlayer.Calamity().adrenaline = 0;
-                        }
-                    }
-                }
-            }
+			// Fixing more red mistakes
+			if (npc.type == NPCID.WallofFleshEye)
+				npc.netAlways = true;
 
             DebuffImmunities(npc);
 
@@ -838,11 +833,6 @@ namespace CalamityMod.NPCs
             }
 
             BossValueChanges(npc);
-
-            if (CalamityWorld.defiled)
-            {
-                npc.value = (int)(npc.value * 1.5);
-            }
 
             if (DraedonMayhem)
             {
@@ -1175,8 +1165,21 @@ namespace CalamityMod.NPCs
         {
 			switch (npc.type)
 			{
+				case NPCID.ArmedZombie:
+				case NPCID.ArmedZombieCenx:
+				case NPCID.ArmedZombieEskimo:
+				case NPCID.ArmedZombiePincussion:
+				case NPCID.ArmedZombieSlimed:
+				case NPCID.ArmedZombieSwamp:
+				case NPCID.ArmedZombieTwiggy:
+				case NPCID.KingSlime:
 				case NPCID.EyeofCthulhu:
+				case NPCID.BrainofCthulhu:
+				case NPCID.QueenBee:
 				case NPCID.EaterofSouls:
+				case NPCID.Crimera:
+				case NPCID.BigCrimera:
+				case NPCID.LittleCrimera:
 				case NPCID.Corruptor:
 				case NPCID.DevourerHead:
 				case NPCID.WalkingAntlion:
@@ -1216,11 +1219,15 @@ namespace CalamityMod.NPCs
 				case NPCID.StardustWormHead:
 				case NPCID.EaterofWorldsHead:
 				case NPCID.SkeletronHead:
+				case NPCID.SkeletronHand:
 				case NPCID.WallofFlesh:
 				case NPCID.TheHungry:
 				case NPCID.TheHungryII:
 				case NPCID.Spazmatism:
+				case NPCID.Retinazer:
 				case NPCID.TheDestroyer:
+				case NPCID.TheDestroyerBody:
+				case NPCID.TheDestroyerTail:
 				case NPCID.SkeletronPrime:
 				case NPCID.PrimeVice:
 				case NPCID.PrimeSaw:
@@ -1230,6 +1237,7 @@ namespace CalamityMod.NPCs
 				case NPCID.GolemFistLeft:
 				case NPCID.GolemFistRight:
 				case NPCID.CultistDragonHead:
+				case NPCID.AncientCultistSquidhead:
 				case NPCID.AncientLight:
 				case NPCID.DD2OgreT2:
 				case NPCID.DD2OgreT3:
@@ -1237,6 +1245,8 @@ namespace CalamityMod.NPCs
 				case NPCID.PumpkingBlade:
 				case NPCID.SantaNK1:
 				case NPCID.DukeFishron:
+				case NPCID.Sharkron:
+				case NPCID.Sharkron2:
 					canBreakPlayerDefense = true;
 					break;
 
@@ -1589,10 +1599,17 @@ namespace CalamityMod.NPCs
             // DR applies after vanilla defense.
             damage = ApplyDR(npc, damage, yellowCandleDamage);
 
-            // Cancel out vanilla defense math by reversing the calculation vanilla is about to perform.
-            // While roundabout, this is safer than returning false to stop vanilla damage calculations entirely.
-            // Other mods will probably expect the vanilla code to run and may compensate for it themselves.
-            damage = Main.CalculateDamage((int)damage, -defense);
+			// Inflict 0 damage if it's below 0.5
+			damage = damage < 0.5 ? 0D : damage < 1D ? 1D : damage;
+
+			// Disable vanilla damage method if damage is less than 0.5
+			if (damage == 0D)
+				return false;
+
+			// Cancel out vanilla defense math by reversing the calculation vanilla is about to perform.
+			// While roundabout, this is safer than returning false to stop vanilla damage calculations entirely.
+			// Other mods will probably expect the vanilla code to run and may compensate for it themselves.
+			damage = Main.CalculateDamage((int)damage, -defense);
             return true;
         }
 
@@ -1627,9 +1644,12 @@ namespace CalamityMod.NPCs
 				/*if (Main.masterMode)
 					DRScalar = 5f;*/
 
-				// Boost Providence timed DR during the night and Storm Weaver timed DR
-				if ((npc.type == NPCType<Providence.Providence>() && !Main.dayTime) || StormWeaverIDs.Contains(npc.type))
+				// Boost Providence timed DR during the night, Destroyer, Aquatic Scourge, Astrum Deus, Storm Weaver and DoG body timed DR
+				if (npc.type == NPCType<Providence.Providence>() && !Main.dayTime)
                     DRScalar = 10f;
+				if ((DestroyerIDs.Contains(npc.type) && !NPC.downedPlantBoss) || (AquaticScourgeIDs.Contains(npc.type) && !NPC.downedPlantBoss) ||
+					(AstrumDeusIDs.Contains(npc.type) && !NPC.downedMoonlord) || (StormWeaverIDs.Contains(npc.type) && !CalamityWorld.downedDoG))
+					DRScalar = 5f;
 
                 // The limit for how much extra DR the boss can have
                 float extraDRLimit = (1f - DR) * DRScalar;
@@ -1650,7 +1670,7 @@ namespace CalamityMod.NPCs
 			}
 
 			double newDamage = (1f - effectiveDR) * damage;
-            return newDamage < 1.0 ? 1.0 : newDamage;
+            return newDamage;
         }
 
         private float DefaultDRMath(NPC npc, float DR)
@@ -1758,6 +1778,9 @@ namespace CalamityMod.NPCs
 
 			if (KillTime > 0 && AITimer < KillTime)
 				AITimer++;
+
+			// Increases aggression over time if the fight is taking too long, increased by 2x to avoid increasing aggro too quickly
+			killTimeRatio_IncreasedAggression = (1f - (AITimer / (float)KillTime)) * 2f;
 
 			if (npc.type == NPCID.TargetDummy || npc.type == NPCType<SuperDummyNPC>())
             {
@@ -3156,10 +3179,26 @@ namespace CalamityMod.NPCs
 				}
 			}
         }
-        #endregion
+		#endregion
 
-        #region Modify Hit By Projectile
-        public override void ModifyHitByProjectile(NPC npc, Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+		#region Modify Hit
+		public override void ModifyHitByItem(NPC npc, Player player, Item item, ref int damage, ref float knockback, ref bool crit)
+		{
+			if (npc.type == NPCType<Polterghast.Polterghast>())
+			{
+				if (item.type == ItemType<GrandDad>())
+					damage = (int)(damage * 0.75);
+			}
+			else if (npc.type == NPCType<Signus.Signus>())
+			{
+				if (item.type == ItemType<GrandDad>())
+					damage = (int)(damage * 0.75);
+			}
+		}
+		#endregion
+
+		#region Modify Hit By Projectile
+		public override void ModifyHitByProjectile(NPC npc, Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
 			Player player = Main.player[projectile.owner];
 			CalamityPlayer modPlayer = player.Calamity();
@@ -3202,6 +3241,18 @@ namespace CalamityMod.NPCs
 					{
 						damage = (int)(damage * 0.75);
 					}
+				}
+                else if (DevourerOfGodsIDs.Contains(npc.type))
+				{
+                    // No grenade or global pierce resist here, body DR covers this appropriately
+
+                    // 50% resist to Sealed Singularity
+                    if (projectile.type == ProjectileType<SealedSingularityBlackhole>())
+                        damage = (int)(damage * 0.5);
+
+                    // 25% resist to Wave Pounder
+                    else if (projectile.type == ProjectileType<WavePounderBoom>())
+                        damage = (int)(damage * 0.75);
 				}
 				else if (CosmicGuardianIDs.Contains(npc.type) || DarkEnergyIDs.Contains(npc.type))
 				{
@@ -3315,29 +3366,24 @@ namespace CalamityMod.NPCs
 			}
 
 			// Other projectile resists
-			if (npc.type == NPCType<OldDuke.OldDuke>())
+            if (npc.type == NPCType<OldDuke.OldDuke>())
 			{
-				if (projectile.type == ProjectileType<CrescentMoonFlail>())
-				{
-					damage = (int)(damage * 0.55);
-				}
-				else if (projectile.type == ProjectileType<CalamariInk>())
-				{
-					damage = (int)(damage * 0.5);
-				}
-				else if (projectile.type == ProjectileType<BloodBombExplosion>() || projectile.type == ProjectileType<CrescentMoonProj>())
-				{
-					damage = (int)(damage * 0.6);
-				}
-				else if (projectile.type == ProjectileType<GhastlySoulLarge>() || projectile.type == ProjectileType<GhastlySoulMedium>() || projectile.type == ProjectileType<GhastlySoulSmall>() || projectile.type == ProjectileType<GhostFire>())
-				{
-					damage = (int)(damage * 0.75);
-				}
-				else if (projectile.type == ProjectileID.LunarFlare)
-				{
-					damage = (int)(damage * 0.8);
-				}
+                // 5% resist to Time Bolt
+                if (projectile.type == ProjectileType<TimeBoltKnife>())
+                    damage = (int)(damage * 0.95);
 			}
+			else if (npc.type == NPCType<Polterghast.Polterghast>())
+			{
+                // 5% resist to Celestial Reaper
+                if (projectile.type == ProjectileType<CelestialReaperProjectile>() || projectile.type == ProjectileType<CelestialReaperAfterimage>())
+                    damage = (int)(damage * 0.95);
+			}
+			else if (npc.type == NPCType<Signus.Signus>())
+			{
+                // 5% resist to Celestial Reaper
+                if (projectile.type == ProjectileType<CelestialReaperProjectile>() || projectile.type == ProjectileType<CelestialReaperAfterimage>())
+                    damage = (int)(damage * 0.95);
+            }
 			else if (npc.type == NPCID.CultistBoss)
 			{
 				if (projectile.type == ProjectileType<PurpleButterfly>() || projectile.type == ProjectileType<SakuraBullet>())
@@ -4483,22 +4529,6 @@ namespace CalamityMod.NPCs
         public override void SetupTravelShop(int[] shop, ref int nextSlot)
         {
 			CalamityGlobalTownNPC.TravelingMerchantShop(mod, ref shop, ref nextSlot);
-        }
-		#endregion
-
-		#region Any Boss NPCs
-		public static bool AnyBossNPCS()
-        {
-            for (int i = 0; i < Main.maxNPCs; i++)
-            {
-                if (Main.npc[i].active && Main.npc[i].type != NPCID.MartianSaucerCore &&
-                    (Main.npc[i].boss || Main.npc[i].type == NPCID.EaterofWorldsHead || Main.npc[i].type == NPCID.EaterofWorldsTail || Main.npc[i].type == NPCType<SlimeGodRun>() ||
-                    Main.npc[i].type == NPCType<SlimeGodRunSplit>() || Main.npc[i].type == NPCType<SlimeGod.SlimeGod>() || Main.npc[i].type == NPCType<SlimeGodSplit>()))
-                {
-                    return true;
-                }
-            }
-            return CalamityUtils.FindFirstProjectile(ProjectileType<DeusRitualDrama>()) != -1;
         }
 		#endregion
 

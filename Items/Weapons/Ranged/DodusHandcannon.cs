@@ -1,4 +1,5 @@
 using CalamityMod.Items.Materials;
+using CalamityMod.Projectiles.Ranged;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -11,55 +12,43 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Dodu's Handcannon");
-            Tooltip.SetDefault("The power of the nut rests in your hands");
+            Tooltip.SetDefault("The power of the nut rests in your hands\n" +
+                "Fires high explosive peanut shells, literally");
         }
 
         public override void SetDefaults()
         {
             item.width = 70;
             item.height = 42;
-            item.damage = 485;
+            item.damage = 857;
             item.ranged = true;
             item.useTime = 30;
             item.useAnimation = 30;
+            item.autoReuse = true;
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
-            item.knockBack = 10f;
+            item.knockBack = 6f;
 
-            item.value = Item.buyPrice(1, 40, 0, 0);
-            item.rare = 10;
-            item.Calamity().customRarity = CalamityRarity.Dedicated;
+            // Reduce volume to 30% so it stops destroying people's ears.
+            var sound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LargeWeaponFire");
+            item.UseSound = sound.WithVolume(0.3f);
 
-            item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LargeWeaponFire");
-
-            item.shootSpeed = 24f;
-            item.shoot = ProjectileID.BulletHighVelocity;
+            item.shoot = ModContent.ProjectileType<HighExplosivePeanutShell>();
+            item.shootSpeed = 13f;
             item.useAmmo = AmmoID.Bullet;
+
+            item.value = CalamityGlobalItem.Rarity13BuyPrice;
+            item.Calamity().customRarity = CalamityRarity.PureGreen;
+            item.Calamity().donorItem = true;
         }
-
-		// Terraria seems to really dislike high crit values in SetDefaults
-		public override void GetWeaponCrit(Player player, ref int crit) => crit += 16;
-
-        public override Vector2? HoldoutOffset() => new Vector2(-15, 5);
-
-        public override bool CanUseItem(Player player) => CalamityGlobalItem.HasEnoughAmmo(player, item, 5);
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            for (int i = 0; i < 5; i++)
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ProjectileID.BulletHighVelocity, damage, knockBack, player.whoAmI, 0f, 0f);
-
-            // Consume 5 ammo per shot
-            CalamityGlobalItem.ConsumeAdditionalAmmo(player, item, 5);
-
-            return false;
+            type = item.shoot;
+            return true;
         }
 
-        // Disable vanilla ammo consumption
-        public override bool ConsumeAmmo(Player player)
-        {
-            return false;
-        }
+        public override Vector2? HoldoutOffset() => new Vector2(-17, 5);
 
         public override void AddRecipes()
         {

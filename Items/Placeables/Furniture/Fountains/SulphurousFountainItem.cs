@@ -24,7 +24,7 @@ namespace CalamityMod.Items.Placeables.Furniture.Fountains
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
             item.value = Item.buyPrice(0, 4, 0, 0);
-            item.rare = 0;
+            item.rare = ItemRarityID.White;
             item.createTile = ModContent.TileType<SulphurousFountainTile>();
         }
     }

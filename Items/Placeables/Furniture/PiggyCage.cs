@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Placeables.Furniture
 {
-	public class PiggyCage : ModItem
+    public class PiggyCage : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -24,7 +24,8 @@ namespace CalamityMod.Items.Placeables.Furniture
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
             item.createTile = ModContent.TileType<PiggyCageTile>();
-			item.Calamity().customRarity = CalamityRarity.Dedicated;
+
+            item.Calamity().donorItem = true;
         }
 
         public override void AddRecipes()

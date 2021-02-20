@@ -22,7 +22,7 @@ Reduces defense by 6% and life regen by 1");
             item.height = 18;
             item.useTurn = true;
             item.maxStack = 30;
-            item.rare = 3;
+            item.rare = ItemRarityID.Orange;
             item.useAnimation = 17;
             item.useTime = 17;
             item.useStyle = ItemUseStyleID.EatingUsing;
@@ -30,7 +30,7 @@ Reduces defense by 6% and life regen by 1");
             item.consumable = true;
             item.buffType = ModContent.BuffType<StarBeamRyeBuff>();
             item.buffTime = CalamityUtils.SecondsToFrames(480f);
-            item.value = Item.buyPrice(0, 13, 30, 0);
+            item.value = Item.buyPrice(0, 4, 0, 0);
         }
     }
 }

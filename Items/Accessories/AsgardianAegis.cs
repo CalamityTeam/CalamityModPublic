@@ -21,7 +21,7 @@ namespace CalamityMod.Items.Accessories
                 "Can be used to ram enemies\n" +
                 "TOOLTIP LINE HERE\n" +
                 "Activating this buff will reduce your movement speed and increase enemy aggro\n" +
-                "10% damage reduction while submerged in liquid");
+                "+20 defense while submerged in liquid");
         }
 
         public override void SetDefaults()
@@ -71,7 +71,7 @@ namespace CalamityMod.Items.Accessories
             player.buffImmune[ModContent.BuffType<GlacialState>()] = true;
             player.buffImmune[ModContent.BuffType<GodSlayerInferno>()] = true;
             if (Collision.DrownCollision(player.position, player.width, player.height, player.gravDir))
-            { player.endurance += 0.1f; }
+            { player.statDefense += 20; }
         }
 
         public override void AddRecipes()

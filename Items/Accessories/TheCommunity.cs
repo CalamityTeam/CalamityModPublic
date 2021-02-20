@@ -1,6 +1,7 @@
 using CalamityMod.CalPlayer;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
@@ -26,7 +27,7 @@ namespace CalamityMod.Items.Accessories
             item.width = 20;
             item.height = 20;
             item.value = CalamityGlobalItem.Rarity7BuyPrice;
-            item.rare = 7;
+            item.rare = ItemRarityID.Lime;
             item.accessory = true;
             item.Calamity().customRarity = CalamityRarity.Rainbow;
         }
@@ -36,5 +37,8 @@ namespace CalamityMod.Items.Accessories
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.community = true;
         }
-    }
+
+        // Community and Shattered Community are mutually exclusive
+        public override bool CanEquipAccessory(Player player, int slot) => !player.Calamity().shatteredCommunity;
+	}
 }

@@ -24,7 +24,8 @@ namespace CalamityMod.NPCs.SlimeGod
 
         public override void SetDefaults()
         {
-            npc.LifeMaxNERB(875, 1205, 800000);
+			npc.Calamity().canBreakPlayerDefense = true;
+			npc.LifeMaxNERB(875, 1205, 800000);
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
 			npc.GetNPCDamage();
@@ -63,10 +64,10 @@ namespace CalamityMod.NPCs.SlimeGod
 
 		public override void AI()
         {
+			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
+
 			if (CalamityGlobalNPC.slimeGodRed < 0 || !Main.npc[CalamityGlobalNPC.slimeGodRed].active)
-			{
 				CalamityGlobalNPC.slimeGodRed = npc.whoAmI;
-			}
 
             bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
             bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
@@ -74,6 +75,10 @@ namespace CalamityMod.NPCs.SlimeGod
 			Vector2 vector = npc.Center;
 
 			float lifeRatio = npc.life / (float)npc.lifeMax;
+
+			// Increase aggression if player is taking a long time to kill the boss
+			if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
+				lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
 
 			npc.defense = npc.defDefense;
 			npc.damage = npc.defDamage;

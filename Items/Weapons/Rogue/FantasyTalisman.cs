@@ -33,7 +33,7 @@ Stealth strikes release more souls and leave behind souls as they travel");
             item.height = 62;
             item.maxStack = 999;
             item.value = Item.buyPrice(0, 0, 60, 0);
-            item.rare = 7;
+            item.rare = ItemRarityID.Lime;
             item.shoot = ModContent.ProjectileType<FantasyTalismanProj>();
             item.shootSpeed = 18f;
             item.Calamity().rogue = true;

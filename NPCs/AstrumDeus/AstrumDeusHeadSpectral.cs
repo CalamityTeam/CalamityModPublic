@@ -52,7 +52,7 @@ namespace CalamityMod.NPCs.AstrumDeus
                 npc.scale = 1.35f;
             }
             npc.boss = true;
-            npc.value = Item.buyPrice(0, 20, 0, 0);
+            npc.value = Item.buyPrice(0, 25, 0, 0);
             npc.alpha = 255;
             npc.behindTiles = true;
             npc.noGravity = true;
@@ -249,7 +249,7 @@ namespace CalamityMod.NPCs.AstrumDeus
                 DropHelper.DropItemSpray(npc, ItemID.FallenStar, 80, 150);
 
                 // Weapons
-                float w = DropHelper.DirectWeaponDropRateFloat;
+                float w = DropHelper.NormalWeaponDropRateFloat;
                 DropHelper.DropEntireWeightedSet(npc,
                     DropHelper.WeightStack<TheMicrowave>(w),
                     DropHelper.WeightStack<StarSputter>(w),

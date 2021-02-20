@@ -40,7 +40,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.noMelee = true;
             item.noUseGraphic = true;
             item.value = Item.buyPrice(gold: 36);
-            item.rare = 5;
+            item.rare = ItemRarityID.Pink;
             item.shoot = ModContent.ProjectileType<ValkyrieRayStaff>();
             item.shootSpeed = 25f;
         }

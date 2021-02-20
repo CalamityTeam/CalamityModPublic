@@ -50,6 +50,8 @@ namespace CalamityMod.NPCs.Bumblebirb
 
 		public override void AI()
         {
+			npc.damage = CalamityPlayer.areThereAnyDamnBosses ? npc.defDamage : (int)(npc.defDamage * 0.8);
+
             Player player = Main.player[npc.target];
             Vector2 vector = npc.Center;
 

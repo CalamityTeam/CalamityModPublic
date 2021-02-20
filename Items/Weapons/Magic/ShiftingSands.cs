@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Magic
 			item.noMelee = true;
 			item.UseSound = SoundID.Item20;
 			item.value = Item.buyPrice(0, 60, 0, 0);
-			item.rare = 7;
+			item.rare = ItemRarityID.Lime;
 		}
 
 		public override bool CanUseItem(Player player)

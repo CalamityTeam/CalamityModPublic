@@ -23,7 +23,7 @@ namespace CalamityMod.Items.Ammo
             item.consumable = true;
             item.knockBack = 1.25f;
             item.value = 600;
-            item.rare = 3;
+            item.rare = ItemRarityID.Orange;
             item.shoot = ModContent.ProjectileType<FrostsparkBulletProj>();
             item.shootSpeed = 14f;
             item.ammo = AmmoID.Bullet;

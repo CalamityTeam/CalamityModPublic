@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Explosion");
+            DisplayName.SetDefault("Ghastly Explosion");
         }
 
         public override void SetDefaults()
@@ -75,7 +75,7 @@ namespace CalamityMod.Projectiles.Magic
             }
             if (Main.myPlayer == projectile.owner)
             {
-                int num118 = Main.rand.Next(3, 6);
+                int num118 = 3;
                 for (int num119 = 0; num119 < num118; num119 = num3 + 1)
                 {
                     Vector2 vector8 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
@@ -85,7 +85,7 @@ namespace CalamityMod.Projectiles.Magic
                     }
                     vector8.Normalize();
                     vector8 *= (float)Main.rand.Next(70, 101) * 0.1f;
-                    Projectile.NewProjectile(projectile.oldPosition.X + (float)(projectile.width / 2), projectile.oldPosition.Y + (float)(projectile.height / 2), vector8.X, vector8.Y, ModContent.ProjectileType<GhastlyExplosionShard>(), (int)((double)projectile.damage * 0.9), projectile.knockBack * 0.8f, projectile.owner, projectile.ai[0], 0f);
+                    Projectile.NewProjectile(projectile.oldPosition.X + (float)(projectile.width / 2), projectile.oldPosition.Y + (float)(projectile.height / 2), vector8.X, vector8.Y, ModContent.ProjectileType<GhastlyExplosionShard>(), (int)((double)projectile.damage * 0.8), projectile.knockBack * 0.8f, projectile.owner, projectile.ai[0], 0f);
                     num3 = num119;
                 }
             }

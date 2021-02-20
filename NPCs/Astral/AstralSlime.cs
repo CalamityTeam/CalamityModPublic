@@ -83,8 +83,7 @@ namespace CalamityMod.NPCs.Astral
             int oreMin = Main.expertMode ? 11 : 8;
             int oreMax = Main.expertMode ? 16 : 12;
             DropHelper.DropItemCondition(npc, ModContent.ItemType<AstralOre>(), CalamityWorld.downedStarGod, oreMin, oreMax);
-			float slimeStaffDrop = (CalamityWorld.defiled ? DropHelper.DefiledDropRateFloat : 0.03f);
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<AbandonedSlimeStaff>(), CalamityWorld.downedAstrageldon, slimeStaffDrop, 1, 1);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<AbandonedSlimeStaff>(), CalamityWorld.downedAstrageldon, 0.05f, 1, 1);
         }
     }
 }

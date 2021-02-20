@@ -28,11 +28,7 @@ namespace CalamityMod.Projectiles.Typeless
             projectile.timeLeft *= 5;
             projectile.penetrate = -1;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10 -
-                (Main.hardMode ? 2 : 0) -
-                (NPC.downedPlantBoss ? 2 : 0) -
-                (NPC.downedMoonlord ? 2 : 0) -
-                (CalamityWorld.downedDoG ? 2 : 0);
+            projectile.localNPCHitCooldown = 10;
         }
 
         public override void AI()

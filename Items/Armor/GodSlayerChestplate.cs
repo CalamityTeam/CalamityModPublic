@@ -14,7 +14,6 @@ namespace CalamityMod.Items.Armor
             DisplayName.SetDefault("God Slayer Chestplate");
             Tooltip.SetDefault("+60 max life\n" +
                        "Enemies take damage when they hit you\n" +
-                       "Attacks have a 2% chance to do no damage to you\n" +
                        "11% increased damage and 6% increased critical strike chance");
         }
 

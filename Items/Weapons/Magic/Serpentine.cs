@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.knockBack = 3f;
             item.value = Item.buyPrice(0, 36, 0, 0);
             item.UseSound = SoundID.Item20;
-            item.rare = 5;
+            item.rare = ItemRarityID.Pink;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<SerpentineHead>();
             item.shootSpeed = 10f;

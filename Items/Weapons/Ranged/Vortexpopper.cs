@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 22;
+            item.damage = 30;
             item.ranged = true;
             item.width = 46;
             item.height = 22;
@@ -26,7 +26,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.noMelee = true;
             item.knockBack = 3.25f;
             item.value = Item.buyPrice(0, 95, 0, 0);
-            item.rare = 9;
+            item.rare = ItemRarityID.Cyan;
             item.UseSound = SoundID.Item95;
             item.autoReuse = true;
             item.shootSpeed = 50f;
@@ -68,12 +68,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             }
             float ai = new Vector2(num78, num79).ToRotation();
             float num96 = 2.09439516f;
-            int num97 = Main.rand.Next(6, 10);
-            if (Main.rand.NextBool(4))
-            {
-                num97++;
-            }
-            for (int num98 = 0; num98 < num97; num98++)
+            for (int num98 = 0; num98 < 6; num98++)
             {
                 float scaleFactor2 = (float)Main.rand.NextDouble() * 0.2f + 0.05f;
                 Vector2 vector6 = new Vector2(num78, num79).RotatedBy((double)(num96 * (float)Main.rand.NextDouble() - num96 / 2f), default) * scaleFactor2;
@@ -81,8 +76,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                 Main.projectile[num99].localAI[0] = (float)type;
                 Main.projectile[num99].localAI[1] = 12f;
             }
-            int num107 = Main.rand.Next(5, 10);
-            for (int num108 = 0; num108 < num107; num108++)
+            for (int num108 = 0; num108 < 6; num108++)
             {
                 vector2 = new Vector2(player.position.X + (float)player.width * 0.5f + (float)(Main.rand.Next(201) * -(float)player.direction) + ((float)Main.mouseX + Main.screenPosition.X - player.position.X), player.MountedCenter.Y - 600f);
                 vector2.X = (vector2.X + player.Center.X) / 2f + (float)Main.rand.Next(-800, 801);

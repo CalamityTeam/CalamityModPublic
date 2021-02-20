@@ -105,11 +105,11 @@ namespace CalamityMod.Projectiles.Boss
             }
 			Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/ProvidenceHolyBlastImpact"), projectile.Center);
             int dustType = Main.dayTime ? (int)CalamityDusts.ProfanedFire : (int)CalamityDusts.Nightwither;
-            for (int num193 = 0; num193 < 6; num193++)
+            for (int num193 = 0; num193 < 4; num193++)
             {
                 Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, dustType, 0f, 0f, 50, default, 1.5f);
             }
-            for (int num194 = 0; num194 < 60; num194++)
+            for (int num194 = 0; num194 < 40; num194++)
             {
                 int num195 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, dustType, 0f, 0f, 0, default, 2.5f);
                 Main.dust[num195].noGravity = true;

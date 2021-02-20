@@ -140,7 +140,7 @@ namespace CalamityMod.NPCs.Signus
 
         public override bool CanHitPlayer(Player target, ref int cooldownSlot)
         {
-            cooldownSlot = 0;
+            cooldownSlot = 1;
             return npc.alpha == 0;
         }
 

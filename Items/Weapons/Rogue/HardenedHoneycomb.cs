@@ -32,7 +32,7 @@ Stealth strikes can bounce off walls and enemies");
             item.height = 32;
             item.maxStack = 999;
             item.value = 300;
-            item.rare = 3;
+            item.rare = ItemRarityID.Orange;
             item.shoot = ModContent.ProjectileType<Honeycomb>();
             item.shootSpeed = 10f;
             item.Calamity().rogue = true;

@@ -2,6 +2,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
+
 namespace CalamityMod.Projectiles.Rogue
 {
 	public class CraniumSmasherStealth : ModProjectile
@@ -67,7 +69,7 @@ namespace CalamityMod.Projectiles.Rogue
 			projectile.usesLocalNPCImmunity = true;
 			projectile.localNPCHitCooldown = 10;
 			projectile.Damage();
-			Main.PlaySound(2, (int)projectile.Center.X, (int)projectile.Center.Y, 14);
+			Main.PlaySound(SoundID.Item, (int)projectile.Center.X, (int)projectile.Center.Y, 14);
 			CalamityUtils.ExplosionGores(projectile.Center, 3);
 			for (int num194 = 0; num194 < 25; num194++)
 			{

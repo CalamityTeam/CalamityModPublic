@@ -30,7 +30,7 @@ Stealth strikes are faster and explode into 5 bubbles");
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             item.value = Item.buyPrice(0, 2, 0, 0);
-            item.rare = 2;
+            item.rare = ItemRarityID.Green;
             item.shoot = ModContent.ProjectileType<SeafoamBombProj>();
             item.shootSpeed = 8f;
             item.Calamity().rogue = true;

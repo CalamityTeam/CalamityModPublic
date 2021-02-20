@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 			item.autoReuse = true;
 			item.value = Item.buyPrice(gold: 80);
 			item.rare = ItemRarityID.Yellow;
-			item.Calamity().customRarity = CalamityRarity.Dedicated;
+			item.Calamity().donorItem = true;
 			item.shoot = ModContent.ProjectileType<CorpusAvertorProj>();
 			item.shootSpeed = 5f;
 			item.Calamity().rogue = true;
@@ -49,8 +49,8 @@ namespace CalamityMod.Items.Weapons.Rogue
 
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-            if (player.Calamity().StealthStrikeAvailable())
-            {
+			if (player.Calamity().StealthStrikeAvailable())
+			{
 				int dagger = Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<CorpusAvertorStealth>(), damage * 2, knockBack * 2f, player.whoAmI);
 				if (dagger.WithinBounds(Main.maxProjectiles))
 					Main.projectile[dagger].Calamity().stealthStrike = true;

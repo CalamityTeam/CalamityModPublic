@@ -25,7 +25,8 @@ namespace CalamityMod.NPCs.CeaselessVoid
 
         public override void SetDefaults()
         {
-            npc.aiStyle = -1;
+			npc.Calamity().canBreakPlayerDefense = true;
+			npc.aiStyle = -1;
 			npc.GetNPCDamage();
 			npc.dontTakeDamage = true;
             npc.width = 80;

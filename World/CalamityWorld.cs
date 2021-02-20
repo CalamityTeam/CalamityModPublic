@@ -36,7 +36,6 @@ using Terraria;
 using Terraria.GameContent.Events;
 using Terraria.GameContent.Generation;
 using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 using Terraria.World.Generation;
@@ -66,7 +65,6 @@ namespace CalamityMod.World
         public static bool onionMode = false; //Extra accessory from Moon Lord
         public static bool revenge = false; //Revengeance Mode
         public static bool death = false; //Death Mode
-        public static bool defiled = false; //Defiled Mode
         public static bool armageddon = false; //Armageddon Mode
         public static bool ironHeart = false; //Iron Heart Mode
 
@@ -99,7 +97,7 @@ namespace CalamityMod.World
         public static bool startAcidicDownpour = false;
         public static bool forcedRainAlready = false;
         public static bool forcedDownpourWithTear = false;
-		public static bool encounteredOldDuke = false;
+        public static bool encounteredOldDuke = false;
         public static int forceRainTimer = 0;
         public static int timeSinceAcidRainKill = 0;
         public static int timeSinceAcidStarted = 0;
@@ -293,7 +291,6 @@ namespace CalamityMod.World
             downedBoomerDuke = false;
             downedSecondSentinels = false;
             death = false;
-            defiled = false;
             armageddon = false;
             ironHeart = false;
             rainingAcid = false;
@@ -375,8 +372,6 @@ namespace CalamityMod.World
                 downed.Add("oldDuke");
             if (death)
                 downed.Add("death");
-            if (defiled)
-                downed.Add("defiled");
             if (armageddon)
                 downed.Add("armageddon");
             if (ironHeart)
@@ -457,8 +452,8 @@ namespace CalamityMod.World
                 downed.Add("forcedRain");
             if (forcedDownpourWithTear)
                 downed.Add("forcedTear");
-			if (encounteredOldDuke)
-				downed.Add("encounteredOldDuke");
+            if (encounteredOldDuke)
+                downed.Add("encounteredOldDuke");
 
             return new TagCompound
             {
@@ -519,7 +514,6 @@ namespace CalamityMod.World
             downedGSS = downed.Contains("greatSandShark");
             downedBoomerDuke = downed.Contains("oldDuke");
             death = downed.Contains("death");
-            defiled = downed.Contains("defiled");
             armageddon = downed.Contains("armageddon");
             ironHeart = downed.Contains("ironHeart");
             abyssSide = downed.Contains("abyssSide");
@@ -563,7 +557,7 @@ namespace CalamityMod.World
             startAcidicDownpour = downed.Contains("startDownpour");
             forcedRainAlready = downed.Contains("forcedRain");
             forcedDownpourWithTear = downed.Contains("forcedTear");
-			encounteredOldDuke = downed.Contains("encounteredOldDuke");
+            encounteredOldDuke = downed.Contains("encounteredOldDuke");
 
             abyssChasmBottom = tag.GetInt("abyssChasmBottom");
             acidRainPoints = tag.GetInt("acidRainPoints");
@@ -640,7 +634,7 @@ namespace CalamityMod.World
                 downedAstrageldon = flags6[2];
                 _ = flags6[3];
                 armageddon = flags6[4];
-                defiled = flags6[5];
+                _ = flags6[5];
                 _ = flags6[6];
                 ironHeart = flags6[7];
 
@@ -751,7 +745,7 @@ namespace CalamityMod.World
             flags6[2] = downedAstrageldon;
             flags6[3] = false;
             flags6[4] = armageddon;
-            flags6[5] = defiled;
+            flags6[5] = false;
             flags6[6] = false;
             flags6[7] = ironHeart;
 
@@ -872,7 +866,7 @@ namespace CalamityMod.World
             downedAstrageldon = flags6[2];
             _ = flags6[3];
             armageddon = flags6[4];
-            defiled = flags6[5];
+            _ = flags6[5];
             _ = flags6[6];
             ironHeart = flags6[7];
 
@@ -1157,27 +1151,27 @@ namespace CalamityMod.World
                 CalamityNetcode.SyncWorld();
             }
 
-			// Attempt to start the acid rain at the 4:29AM
-			bool moreRain = !downedEoCAcidRain || (!downedAquaticScourgeAcidRain && downedAquaticScourge) || (!downedBoomerDuke && downedPolterghast);
-			if (Main.time == 32399 && !Main.dayTime && Main.rand.NextBool(moreRain ? 3 : 300))
-			{
-				bool noRain = false;
-				for (int playerIndex = 0; playerIndex < Main.maxPlayers; playerIndex++)
-				{
-					if (!Main.player[playerIndex].active)
-						continue;
-					if (Main.player[playerIndex].Calamity().noStupidNaturalARSpawns)
-					{
-						noRain = true;
-						break;
-					}
-				}
-				if (!noRain)
-				{
-					AcidRainEvent.TryStartEvent();
-					CalamityNetcode.SyncWorld();
-				}
-			}
+            // Attempt to start the acid rain at the 4:29AM
+            bool moreRain = !downedEoCAcidRain || (!downedAquaticScourgeAcidRain && downedAquaticScourge) || (!downedBoomerDuke && downedPolterghast);
+            if (Main.time == 32399 && !Main.dayTime && Main.rand.NextBool(moreRain ? 3 : 300))
+            {
+                bool noRain = false;
+                for (int playerIndex = 0; playerIndex < Main.maxPlayers; playerIndex++)
+                {
+                    if (!Main.player[playerIndex].active)
+                        continue;
+                    if (Main.player[playerIndex].Calamity().noStupidNaturalARSpawns)
+                    {
+                        noRain = true;
+                        break;
+                    }
+                }
+                if (!noRain)
+                {
+                    AcidRainEvent.TryStartEvent();
+                    CalamityNetcode.SyncWorld();
+                }
+            }
             if (NPC.downedBoss1 && !downedEoCAcidRain && !forcedRainAlready)
             {
                 for (int playerIndex = 0; playerIndex < Main.maxPlayers; playerIndex++)

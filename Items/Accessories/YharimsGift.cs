@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -26,7 +27,7 @@ namespace CalamityMod.Items.Accessories
             item.value = CalamityGlobalItem.Rarity15BuyPrice;
             item.accessory = true;
             item.expert = true;
-            item.rare = 10;
+            item.rare = ItemRarityID.Red;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

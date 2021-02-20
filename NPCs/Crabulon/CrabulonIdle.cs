@@ -33,7 +33,8 @@ namespace CalamityMod.NPCs.Crabulon
 
         public override void SetDefaults()
         {
-            npc.npcSlots = 14f;
+			npc.Calamity().canBreakPlayerDefense = true;
+			npc.npcSlots = 14f;
 			npc.GetNPCDamage();
 			npc.width = 280;
             npc.height = 160;
@@ -72,6 +73,8 @@ namespace CalamityMod.NPCs.Crabulon
 
         public override void AI()
         {
+			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
+
 			npc.gfxOffY = -16;
 
 			Lighting.AddLight((int)((npc.position.X + (npc.width / 2)) / 16f), (int)((npc.position.Y + (npc.height / 2)) / 16f), 0f, 0.3f, 0.7f);
@@ -84,6 +87,10 @@ namespace CalamityMod.NPCs.Crabulon
 
 			// Percent life remaining
 			float lifeRatio = npc.life / (float)npc.lifeMax;
+
+			// Increase aggression if player is taking a long time to kill the boss
+			if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
+				lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
 
 			// Phases
 			bool phase2 = lifeRatio < 0.66f && expertMode;
@@ -676,7 +683,7 @@ namespace CalamityMod.NPCs.Crabulon
                 DropHelper.DropItem(npc, ItemID.MushroomGrassSeeds, 3, 6);
 
                 // Weapons
-                float w = DropHelper.DirectWeaponDropRateFloat;
+                float w = DropHelper.NormalWeaponDropRateFloat;
                 DropHelper.DropEntireWeightedSet(npc,
                     DropHelper.WeightStack<MycelialClaws>(w),
                     DropHelper.WeightStack<Fungicide>(w),

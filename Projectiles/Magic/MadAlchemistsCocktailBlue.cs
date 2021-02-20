@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Mad Alchemist's Cocktail Blue");
+            DisplayName.SetDefault("Mad Alchemist's Blue Cocktail");
         }
 
         public override void SetDefaults()
@@ -43,15 +43,17 @@ namespace CalamityMod.Projectiles.Magic
             Main.PlaySound(SoundID.Item107, projectile.position);
             Gore.NewGore(projectile.Center, -projectile.oldVelocity * 0.2f, 704, 1f);
             Gore.NewGore(projectile.Center, -projectile.oldVelocity * 0.2f, 705, 1f);
-            int num220 = Main.rand.Next(20, 31);
+
+            int numClouds = 9;
+            int cloudDamage = projectile.damage / 2;
             if (projectile.owner == Main.myPlayer)
             {
-                for (int num221 = 0; num221 < num220; num221++)
+                for (int i = 0; i < numClouds; i++)
                 {
-                    Vector2 value17 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-                    value17.Normalize();
-                    value17 *= (float)Main.rand.Next(10, 201) * 0.01f;
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value17.X, value17.Y, ModContent.ProjectileType<MadAlchemistsCocktailGasCloud>(), projectile.damage / 4, 0f, projectile.owner, 0f, (float)Main.rand.Next(-45, 1));
+                    Vector2 v = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
+                    v.Normalize();
+                    v *= (float)Main.rand.Next(10, 201) * 0.01f;
+                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, v.X, v.Y, ModContent.ProjectileType<MadAlchemistsCocktailGasCloud>(), cloudDamage, 0f, projectile.owner, 0f, (float)Main.rand.Next(-45, 1));
                 }
             }
         }

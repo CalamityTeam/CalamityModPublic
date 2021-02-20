@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Lightning");
+            DisplayName.SetDefault("Deific Thunderbolt");
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 6;
             ProjectileID.Sets.TrailingMode[projectile.type] = 0;
             Main.projFrames[projectile.type] = 8;
@@ -80,7 +80,7 @@ namespace CalamityMod.Projectiles.Rogue
 				{
 					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/LightningStrike"), (int)projectile.position.X, (int)projectile.position.Y);
 				}
-				int amt = stealthStrike ? Main.rand.Next(3, 6) : 1;
+				int amt = stealthStrike ? 5 : 1;
 				float damageMult = stealthStrike ? 0.5f : 1f;
 				for (int n = 0; n < amt; n++)
 				{
@@ -89,15 +89,15 @@ namespace CalamityMod.Projectiles.Rogue
 					Vector2 fireTo = new Vector2(spawnPoint.X + 100f * randomVelocity, spawnPoint.Y + 900);
 					Vector2 ai0 = fireTo - spawnPoint;
 					float ai = (float)Main.rand.Next(100);
-					Vector2 velocity = Vector2.Normalize(ai0.RotatedByRandom(0.78539818525314331)) * 7f;
+					Vector2 velocity = Vector2.Normalize(ai0.RotatedByRandom(0.78539818525314331)) * 9f;
 					int proj = Projectile.NewProjectile(spawnPoint.X, spawnPoint.Y, velocity.X, velocity.Y, ProjectileID.CultistBossLightningOrbArc, (int)(projectile.damage * damageMult), projectile.knockBack, projectile.owner, ai0.ToRotation(), ai);
-					Main.projectile[proj].extraUpdates += 6;
+					Main.projectile[proj].extraUpdates += 9;
 					//Does not force to Rogue because lightning is extremely abusable with Moonstone Crown
 					Main.projectile[proj].friendly = true;
 					Main.projectile[proj].hostile = false;
 					Main.projectile[proj].penetrate = -1;
 					Main.projectile[proj].usesLocalNPCImmunity = true;
-					Main.projectile[proj].localNPCHitCooldown = 2400;
+					Main.projectile[proj].localNPCHitCooldown = -1;
 				}
 			}
         }

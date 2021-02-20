@@ -29,7 +29,7 @@ Stealth strikes gain damage as they damage enemies");
             item.autoReuse = true;
             item.height = 44;
             item.value = Item.buyPrice(0, 2, 0, 0);
-            item.rare = 2;
+            item.rare = ItemRarityID.Green;
             item.shoot = ModContent.ProjectileType<ScourgeoftheDesertProj>();
             item.shootSpeed = 12f;
             item.Calamity().rogue = true;

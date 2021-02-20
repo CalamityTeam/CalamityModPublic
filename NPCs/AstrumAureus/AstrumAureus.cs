@@ -63,7 +63,7 @@ namespace CalamityMod.NPCs.AstrumAureus
             bossBag = ModContent.ItemType<AstrageldonBag>();
             if (NPC.downedMoonlord && CalamityWorld.revenge)
             {
-                npc.value = Item.buyPrice(0, 35, 0, 0);
+                npc.value = Item.buyPrice(0, 25, 0, 0);
             }
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
@@ -334,7 +334,7 @@ namespace CalamityMod.NPCs.AstrumAureus
                 DropHelper.DropItemSpray(npc, ItemID.FallenStar, 25, 40);
 
                 // Weapons
-                float w = DropHelper.DirectWeaponDropRateFloat;
+                float w = DropHelper.NormalWeaponDropRateFloat;
                 DropHelper.DropEntireWeightedSet(npc,
                     DropHelper.WeightStack<Nebulash>(w),
                     DropHelper.WeightStack<AuroraBlazer>(w),

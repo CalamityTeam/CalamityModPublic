@@ -23,7 +23,7 @@ namespace CalamityMod.Items.Potions
             item.height = 18;
             item.useTurn = true;
             item.maxStack = 999;
-            item.rare = 3;
+            item.rare = ItemRarityID.Orange;
             item.useAnimation = 17;
             item.useTime = 17;
             item.useStyle = ItemUseStyleID.EatingUsing;
@@ -38,7 +38,6 @@ namespace CalamityMod.Items.Potions
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.BottledWater);
-            recipe.AddIngredient(ItemID.Feather);
             recipe.AddIngredient(ItemID.SoulofFlight);
             recipe.AddIngredient(ModContent.ItemType<SunkenSailfish>());
             recipe.AddTile(TileID.AlchemyTable);

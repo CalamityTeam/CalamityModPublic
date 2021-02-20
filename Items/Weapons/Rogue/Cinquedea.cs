@@ -21,7 +21,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SafeSetDefaults()
         {
             item.damage = BaseDamage;
-            item.rare = 3;
+            item.rare = ItemRarityID.Orange;
             item.knockBack = Knockback;
             item.autoReuse = true;
             item.useTime = 15;

@@ -35,12 +35,13 @@ namespace CalamityMod.Items.Tools
 			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.knockBack = 9f;
 			item.shootSpeed = 14f;
-			item.value = Item.buyPrice(5, 0, 0, 0);
-			item.rare = 10;
+			item.pick = PickPower;
 			item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/CrystylCharge");
 			item.shoot = ModContent.ProjectileType<CrystylCrusherRay>();
-			item.Calamity().customRarity = CalamityRarity.ItemSpecific;
-			item.pick = PickPower;
+
+			item.value = CalamityGlobalItem.Rarity16BuyPrice;
+			item.Calamity().customRarity = CalamityRarity.HotPink;
+			item.Calamity().devItem = true;
 		}
 
 		public override Vector2? HoldoutOrigin()

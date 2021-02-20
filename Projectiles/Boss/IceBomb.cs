@@ -15,7 +15,8 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetDefaults()
         {
-            projectile.width = 30;
+			projectile.Calamity().canBreakPlayerDefense = true;
+			projectile.width = 30;
             projectile.height = 30;
             projectile.hostile = true;
             projectile.penetrate = 1;
@@ -71,7 +72,7 @@ namespace CalamityMod.Projectiles.Boss
                     Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<IceRain>(), projectile.damage, projectile.knockBack, projectile.owner, 1f, 0f);
                 }
             }
-            for (int k = 0; k < 3; k++)
+            for (int k = 0; k < 10; k++)
             {
                 Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 67, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f);
             }

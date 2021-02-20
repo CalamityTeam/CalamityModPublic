@@ -25,7 +25,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             projectile.friendly = true;
             projectile.magic = true;
             projectile.penetrate = 1;
-            projectile.extraUpdates = 5;
+            projectile.extraUpdates = 6;
             projectile.timeLeft = 600;
         }
 

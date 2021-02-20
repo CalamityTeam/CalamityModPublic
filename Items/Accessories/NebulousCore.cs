@@ -3,6 +3,7 @@ using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -24,7 +25,7 @@ namespace CalamityMod.Items.Accessories
             item.value = CalamityGlobalItem.Rarity14BuyPrice;
             item.accessory = true;
             item.expert = true;
-            item.rare = 10;
+            item.rare = ItemRarityID.Red;
         }
 
         public override void Update(ref float gravity, ref float maxFallSpeed)

@@ -12,15 +12,26 @@ namespace CalamityMod
     public static class DropHelper
     {
         #region Global Drop Chances
-        /// <summary>
-        /// The Defiled Rune boosts various low drop rates to one in this value.
-        /// </summary>
-        public const int DefiledDropRateInt = 20;
 
         /// <summary>
-        /// The Defiled Rune boosts various low drop rates to this chance (decimal number out of 1.0).
+        /// Weapons in Normal Mode typically have a 1 in X chance of dropping, where X is this variable.
         /// </summary>
-        public const float DefiledDropRateFloat = 0.05f;
+        public const int NormalWeaponDropRateInt = 4;
+
+        /// <summary>
+        /// Weapons in Normal Mode typically have this chance to drop (decimal number out of 1.0).
+        /// </summary>
+        public const float NormalWeaponDropRateFloat = 0.25f;
+
+        /// <summary>
+        /// Weapons in Expert Mode typically have a 1 in X chance of dropping, where X is this variable.
+        /// </summary>
+        public const int BagWeaponDropRateInt = 3;
+
+        /// <summary>
+        /// Weapons in Expert Mode typically have this chance to drop (decimal number out of 1.0).
+        /// </summary>
+        public const float BagWeaponDropRateFloat = 0.3333333f;
 
         /// <summary>
         /// Legendary drops have a 1 in X chance of dropping, where X is this variable.
@@ -41,16 +52,20 @@ namespace CalamityMod
         /// Rare Item Variants have this chance to drop (decimal number out of 1.0).
         /// </summary>
         public const float RareVariantDropRateFloat = 0.025f;
+        #endregion
 
+        #region Block Drops
         /// <summary>
-        /// Direct weapon drops (straight from the boss in Normal Mode) have this chance to drop (decimal number out of 1.0).
+        /// Adds the specified items to TML's blockLoot list. Items on the list cannot spawn in the world via any means.<br />
+        /// This is used to prevent vanilla loot code from spawning certain items.<br />
+        /// <b>You should only use this function inside NPCLoot or bag opening code.</b> TML will clear the list for you when the loot event is over.
         /// </summary>
-        public const float DirectWeaponDropRateFloat = 0.25f;
-
-        /// <summary>
-        /// Bag weapon drops (Expert Mode and higher) have this chance to drop (decimal number out of 1.0).
-        /// </summary>
-        public const float BagWeaponDropRateFloat = 0.3333333f;
+        /// <param name="itemIDs">The item IDs to prevent from spawning.</param>
+        public static void BlockDrops(params int[] itemIDs)
+        {
+            foreach (int itemID in itemIDs)
+                NPCLoader.blockLoot.Add(itemID);
+        }
         #endregion
 
         #region Weighted Item Sets
@@ -315,15 +330,6 @@ namespace CalamityMod
                     theBoss.DropBossBags();
 
                 bagsDropped += DeathExtraBags;
-            }
-
-            // If Defiled is active, possibly drop extra bags.
-            if (CalamityWorld.defiled)
-            {
-                for (int i = 0; i < DefiledExtraBags; ++i)
-                    theBoss.DropBossBags();
-
-                bagsDropped += DefiledExtraBags;
             }
 
             return bagsDropped;

@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Accessories.Wings
             item.width = 22;
             item.height = 20;
             item.value = CalamityGlobalItem.Rarity8BuyPrice;
-            item.rare = 8;
+            item.rare = ItemRarityID.Yellow;
             item.accessory = true;
         }
 

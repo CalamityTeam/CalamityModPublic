@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.height = 26;
             item.maxStack = 999;
             item.value = 200;
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.shoot = ModContent.ProjectileType<UrchinStingerProj>();
             item.shootSpeed = 12f;
             item.Calamity().rogue = true;

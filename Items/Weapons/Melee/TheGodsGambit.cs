@@ -39,7 +39,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.shoot = ModContent.ProjectileType<GodsGambitYoyo>();
             item.shootSpeed = 10f;
 
-            item.rare = 4;
+            item.rare = ItemRarityID.LightRed;
             item.value = Item.buyPrice(gold: 12);
         }
 

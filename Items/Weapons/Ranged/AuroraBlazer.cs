@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.noMelee = true;
             item.UseSound = SoundID.Item34;
             item.value = CalamityGlobalItem.Rarity7BuyPrice;
-            item.rare = 7;
+            item.rare = ItemRarityID.Lime;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

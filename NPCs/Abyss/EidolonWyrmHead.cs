@@ -453,8 +453,7 @@ namespace CalamityMod.NPCs.Abyss
 				DropHelper.DropItem(npc, ItemID.BlueLunaticHood);
 				DropHelper.DropItem(npc, ItemID.BlueLunaticRobe);
 			}
-			int chance = CalamityGlobalNPCLoot.halibutCannonBaseDropChance / 100;
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<HalibutCannon>(), CalamityWorld.revenge, chance, 1, 1);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<HalibutCannon>(), CalamityWorld.revenge, HalibutCannon.DropChance * 100f);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<SoulEdge>(), CalamityWorld.downedPolterghast, 3, 1, 1);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<EidolicWail>(), CalamityWorld.downedPolterghast, 3, 1, 1);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<Lumenite>(), CalamityWorld.downedCalamitas, 1, 6, 8);

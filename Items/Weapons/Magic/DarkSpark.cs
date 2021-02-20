@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.damage = 100;
+            item.damage = 60;
             item.magic = true;
             item.mana = 10;
             item.width = 16;
@@ -34,11 +34,12 @@ namespace CalamityMod.Items.Weapons.Magic
             item.noUseGraphic = true;
             item.channel = true;
             item.knockBack = 0f;
-            item.value = Item.buyPrice(1, 40, 0, 0);
-            item.rare = 10;
+            item.value = CalamityGlobalItem.Rarity13BuyPrice;
+            item.rare = ItemRarityID.Red;
+            item.Calamity().customRarity = CalamityRarity.PureGreen;
+            item.Calamity().donorItem = true;
             item.shoot = ModContent.ProjectileType<DarkSparkPrism>();
             item.shootSpeed = 30f;
-            item.Calamity().customRarity = CalamityRarity.Dedicated;
         }
 
         public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;

@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Critters
             item.height = 24;
             item.bait = 20;
             item.makeNPC = (short)ModContent.NPCType<SeaMinnow>();
-            item.rare = 2;
+            item.rare = ItemRarityID.Green;
         }
     }
 }

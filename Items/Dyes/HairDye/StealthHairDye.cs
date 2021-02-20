@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Dyes.HairDye
 			item.height = 26;
 			item.maxStack = 99;
 			item.value = Item.buyPrice(gold: 5);
-			item.rare = 2;
+			item.rare = ItemRarityID.Green;
 			item.UseSound = SoundID.Item3;
 			item.useStyle = ItemUseStyleID.EatingUsing;
 			item.useTurn = true;

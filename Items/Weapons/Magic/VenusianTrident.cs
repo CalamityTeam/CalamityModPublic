@@ -9,7 +9,7 @@ namespace CalamityMod.Items.Weapons.Magic
 {
     public class VenusianTrident : ModItem
     {
-        public static int BaseDamage = 180;
+        public static int BaseDamage = 108;
 
         public override void SetStaticDefaults()
         {
@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.noMelee = true;
             item.knockBack = 9f;
             item.value = Item.buyPrice(1, 40, 0, 0);
-            item.rare = 10;
+            item.rare = ItemRarityID.Red;
             item.UseSound = SoundID.Item45;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<VenusianBolt>();

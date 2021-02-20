@@ -22,13 +22,13 @@ namespace CalamityMod.Items.Critters
             item.maxStack = 999;
             item.consumable = true;
             item.noUseGraphic = true;
-            item.value = Item.buyPrice(0, 50, 0, 0);
-            //item.CloneDefaults(2004); //Lightning Bug item
             item.width = 26;
             item.height = 24;
             item.makeNPC = (short)ModContent.NPCType<Piggy>();
-            item.rare = 1;
-            item.Calamity().customRarity = CalamityRarity.Dedicated;
+
+            item.value = Item.sellPrice(gold: 10);
+            item.rare = ItemRarityID.Blue;
+            item.Calamity().donorItem = true;
         }
     }
 }

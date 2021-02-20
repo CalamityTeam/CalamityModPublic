@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.height = 28;
             item.maxStack = 999;
             item.value = Item.buyPrice(0, 0, 2, 50);
-            item.rare = 4;
+            item.rare = ItemRarityID.LightRed;
             item.shoot = ModContent.ProjectileType<GelDartProjectile>();
             item.shootSpeed = 14f;
             item.Calamity().rogue = true;

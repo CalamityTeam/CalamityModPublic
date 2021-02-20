@@ -40,9 +40,9 @@ namespace CalamityMod.NPCs.OldDuke
             npc.aiStyle = -1;
 			aiType = -1;
 			npc.GetNPCDamage();
-			npc.defense = 100;
+			npc.defense = 90;
 			npc.DR_NERD(0.5f, null, null, null, true);
-			npc.LifeMaxNERB(750000, 1000000, 4000000);
+			npc.LifeMaxNERB(412500, 495000, 4000000);
 			double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
 			npc.lifeMax += (int)(npc.lifeMax * HPBoost);
 			npc.knockBackResist = 0f;
@@ -51,7 +51,7 @@ namespace CalamityMod.NPCs.OldDuke
             npc.npcSlots = 15f;
             npc.HitSound = SoundID.NPCHit14;
             npc.DeathSound = SoundID.NPCDeath20;
-			npc.value = Item.buyPrice(0, 75, 0, 0);
+			npc.value = Item.buyPrice(0, 70, 0, 0);
 			npc.boss = true;
             npc.netAlways = true;
             npc.timeLeft = NPC.activeTime * 30;
@@ -386,7 +386,7 @@ namespace CalamityMod.NPCs.OldDuke
 			if (!Main.expertMode)
             {
 				// Weapons
-				float w = DropHelper.DirectWeaponDropRateFloat;
+				float w = DropHelper.NormalWeaponDropRateFloat;
 				DropHelper.DropEntireWeightedSet(npc,
 					DropHelper.WeightStack<InsidiousImpaler>(w),
 					DropHelper.WeightStack<FetidEmesis>(w),

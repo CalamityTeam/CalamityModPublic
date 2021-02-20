@@ -23,12 +23,13 @@ namespace CalamityMod.Items.Pets
             item.noMelee = true;
             item.width = 24;
             item.height = 48;
-            item.value = Item.buyPrice(0, 4, 0, 0);
             item.UseSound = SoundID.NPCHit9;
             item.shoot = ModContent.ProjectileType<PerforaMini>();
             item.buffType = ModContent.BuffType<BloodBound>();
-            item.rare = 3;
-            item.Calamity().customRarity = CalamityRarity.Dedicated;
+
+            item.value = Item.buyPrice(gold: 4);
+            item.rare = ItemRarityID.Orange;
+            item.Calamity().donorItem = true;
         }
 
         public override void UseStyle(Player player)

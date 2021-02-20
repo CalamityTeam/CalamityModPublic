@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.height = 36;
             item.maxStack = 1;
             item.value = CalamityGlobalItem.Rarity1BuyPrice;
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.shoot = ModContent.ProjectileType<GildedDaggerProj>();
             item.shootSpeed = 15f;
             item.Calamity().rogue = true;

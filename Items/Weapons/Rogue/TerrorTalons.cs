@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.autoReuse = true;
             item.height = 24;
             item.value = Item.buyPrice(0, 48, 0, 0);
-            item.rare = 6;
+            item.rare = ItemRarityID.LightPurple;
             item.shoot = ModContent.ProjectileType<TalonSmallProj>();
             item.shootSpeed = 10.5f;
             item.Calamity().rogue = true;

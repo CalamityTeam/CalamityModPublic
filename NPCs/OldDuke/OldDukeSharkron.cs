@@ -23,13 +23,14 @@ namespace CalamityMod.NPCs.OldDuke
 		
 		public override void SetDefaults()
 		{
+			npc.Calamity().canBreakPlayerDefense = true;
 			npc.aiStyle = -1;
 			aiType = -1;
 			npc.width = 44;
 			npc.height = 44;
 			npc.GetNPCDamage();
 			npc.defense = 100;
-			npc.lifeMax = 8000;
+			npc.lifeMax = 6000;
 			if (BossRushEvent.BossRushActive)
 			{
 				npc.lifeMax = 100000;

@@ -21,7 +21,7 @@ Reduces life regen by 2 and defense by 4%");
             item.height = 18;
             item.useTurn = true;
             item.maxStack = 30;
-            item.rare = 3;
+            item.rare = ItemRarityID.Orange;
             item.useAnimation = 17;
             item.useTime = 17;
             item.useStyle = ItemUseStyleID.EatingUsing;
@@ -29,7 +29,7 @@ Reduces life regen by 2 and defense by 4%");
             item.consumable = true;
             item.buffType = ModContent.BuffType<BloodyMaryBuff>();
             item.buffTime = CalamityUtils.SecondsToFrames(480f);
-            item.value = Item.buyPrice(0, 10, 0, 0);
+            item.value = Item.buyPrice(0, 2, 60, 0);
         }
     }
 }

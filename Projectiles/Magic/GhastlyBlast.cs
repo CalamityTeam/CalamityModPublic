@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Blast");
+            DisplayName.SetDefault("Ghast Blast");
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 8;
             ProjectileID.Sets.TrailingMode[projectile.type] = 0;
         }
@@ -28,7 +28,7 @@ namespace CalamityMod.Projectiles.Magic
             projectile.ignoreWater = true;
             projectile.magic = true;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 4;
+            projectile.localNPCHitCooldown = 8;
         }
 
         public override void AI()
@@ -182,17 +182,17 @@ namespace CalamityMod.Projectiles.Magic
                 }
                 if (flag59 && projectile.localAI[0] >= 60f)
                 {
-                    float num1019 = 24f; //14
-                    int num1020 = 8;
+                    float HomingVelocity = 24f;
+                    int HomingN = 8;
                     Vector2 vector146 = new Vector2(projectile.position.X + (float)projectile.width * 0.5f, projectile.position.Y + (float)projectile.height * 0.5f);
-                    float num1021 = vector145.X - vector146.X;
-                    float num1022 = vector145.Y - vector146.Y;
-                    float num1023 = (float)Math.Sqrt((double)(num1021 * num1021 + num1022 * num1022));
-                    num1023 = num1019 / num1023;
-                    num1021 *= num1023;
-                    num1022 *= num1023;
-                    projectile.velocity.X = (projectile.velocity.X * (float)(num1020 - 1) + num1021) / (float)num1020;
-                    projectile.velocity.Y = (projectile.velocity.Y * (float)(num1020 - 1) + num1022) / (float)num1020;
+                    float dx = vector145.X - vector146.X;
+                    float dy = vector145.Y - vector146.Y;
+                    float dist = (float)Math.Sqrt((double)(dx * dx + dy * dy));
+                    dist = HomingVelocity / dist;
+                    dx *= dist;
+                    dy *= dist;
+                    projectile.velocity.X = (projectile.velocity.X * (float)(HomingN - 1) + dx) / (float)HomingN;
+                    projectile.velocity.Y = (projectile.velocity.Y * (float)(HomingN - 1) + dy) / (float)HomingN;
                 }
             }
             if (projectile.alpha < 150)
@@ -270,8 +270,8 @@ namespace CalamityMod.Projectiles.Magic
                         Main.projectile[num105].Kill();
                     }
                 }
-                int num106 = Main.rand.Next(5, 9);
-                int num107 = Main.rand.Next(5, 9);
+                int num106 = 5;
+                int num107 = 5;
                 int num108 = Utils.SelectRandom(Main.rand, new int[]
                 {
                     60,

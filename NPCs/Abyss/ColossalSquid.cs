@@ -390,7 +390,7 @@ namespace CalamityMod.NPCs.Abyss
                         {
                             damage = 55;
                         }
-                        Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 111);
+                        Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 111);
                         Projectile.NewProjectile(npc.Center.X, npc.Center.Y + 60, 0f, 2f, ModContent.ProjectileType<InkBombHostile>(), damage, 0f, Main.myPlayer, 0f, 0f);
                     }
                     npc.rotation = npc.velocity.X * 0.05f;
@@ -550,7 +550,7 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void NPCLoot()
         {
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<HalibutCannon>(), CalamityWorld.revenge, CalamityGlobalNPCLoot.halibutCannonBaseDropChance / 100, 1, 1);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<HalibutCannon>(), CalamityWorld.revenge, HalibutCannon.DropChance * 100f);
             DropHelper.DropItem(npc, ItemID.BlackInk, 3, 5);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<DepthCells>(), CalamityWorld.downedCalamitas, 2, 26, 38);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<DepthCells>(), CalamityWorld.downedCalamitas && Main.expertMode, 2, 5, 7);

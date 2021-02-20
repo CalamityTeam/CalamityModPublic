@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.UseSound = SoundID.Item92;
             item.shoot = ModContent.ProjectileType<StarfleetMK2Gun>();
             item.value = Item.buyPrice(1, 80, 0, 0);
-            item.rare = 10;
+            item.rare = ItemRarityID.Red;
             item.noMelee = true;
             item.noUseGraphic = true;
             item.ranged = true;

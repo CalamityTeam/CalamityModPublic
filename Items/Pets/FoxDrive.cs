@@ -19,8 +19,11 @@ namespace CalamityMod.Items.Pets
             item.CloneDefaults(ItemID.ZephyrFish);
             item.shoot = ModContent.ProjectileType<FoxPet>();
             item.buffType = ModContent.BuffType<Fox>();
-            item.rare = 9;
             item.expert = true;
+
+            item.value = Item.sellPrice(gold: 30);
+            item.Calamity().customRarity = CalamityRarity.Violet;
+            item.Calamity().devItem = true;
         }
 
         public override void UseStyle(Player player)

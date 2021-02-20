@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Potions
             item.height = 18;
             item.useTurn = true;
             item.maxStack = 999;
-            item.rare = 3;
+            item.rare = ItemRarityID.Orange;
             item.useAnimation = 17;
             item.useTime = 17;
             item.useStyle = ItemUseStyleID.EatingUsing;
@@ -38,8 +38,7 @@ namespace CalamityMod.Items.Potions
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.BottledWater);
             recipe.AddIngredient(ModContent.ItemType<SolarVeil>(), 3);
-            recipe.AddIngredient(ItemID.LunarTabletFragment, 2);
-            recipe.AddIngredient(ModContent.ItemType<EssenceofChaos>());
+            recipe.AddIngredient(ItemID.LunarTabletFragment);
             recipe.AddTile(TileID.AlchemyTable);
             recipe.SetResult(this);
             recipe.AddRecipe();

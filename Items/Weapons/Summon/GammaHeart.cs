@@ -24,14 +24,14 @@ namespace CalamityMod.Items.Weapons.Summon
             item.UseSound = SoundID.Item42;
             item.summon = true;
             item.mana = 16;
-            item.damage = 120;
+            item.damage = 72;
             item.knockBack = 3f;
             item.autoReuse = true;
             item.useTime = item.useAnimation = 15;
             item.shoot = ModContent.ProjectileType<GammaHead>();
             item.shootSpeed = 10f;
             item.value = CalamityGlobalItem.RarityPureGreenBuyPrice;
-            item.rare = 10;
+            item.rare = ItemRarityID.Red;
             item.Calamity().customRarity = CalamityRarity.PureGreen;
         }
 

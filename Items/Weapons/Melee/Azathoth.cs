@@ -40,9 +40,9 @@ namespace CalamityMod.Items.Weapons.Melee
             item.shoot = ModContent.ProjectileType<AzathothYoyo>();
             item.shootSpeed = 16f;
 
-            item.rare = 10;
+            item.rare = ItemRarityID.Red;
             item.autoReuse = true;
-            item.Calamity().customRarity = CalamityRarity.Developer;
+            item.Calamity().customRarity = CalamityRarity.HotPink;
             item.value = Item.buyPrice(platinum: 5);
         }
 

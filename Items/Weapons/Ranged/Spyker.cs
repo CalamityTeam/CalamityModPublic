@@ -12,12 +12,12 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Spyker");
-            Tooltip.SetDefault("Fires spikes that stick to enemies, tiles, and explode into shrapnel");
+            Tooltip.SetDefault("Converts musket balls into spikes that stick to enemies, tiles and explode into shrapnel");
         }
 
         public override void SetDefaults()
         {
-            item.damage = 156;
+            item.damage = 160;
             item.ranged = true;
             item.width = 44;
             item.height = 26;
@@ -43,8 +43,12 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<SpykerProj>(), damage, knockBack, player.whoAmI, 0.0f, 0.0f);
-            return false;
+			if (type == ProjectileID.Bullet)
+				Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<SpykerProj>(), damage, knockBack, player.whoAmI);
+			else
+				Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
+
+			return false;
         }
 
         public override void AddRecipes()

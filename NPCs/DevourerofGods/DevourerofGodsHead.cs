@@ -54,15 +54,15 @@ namespace CalamityMod.NPCs.DevourerofGods
             npc.width = 104;
             npc.height = 104;
             npc.defense = 50;
-			npc.LifeMaxNERB(675000, 750000);
+			npc.LifeMaxNERB(371250, 445500);
 			double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
-            npc.takenDamageMultiplier = 1.25f;
+            npc.takenDamageMultiplier = 1.1f;
             npc.aiStyle = -1;
             aiType = -1;
             npc.knockBackResist = 0f;
             npc.boss = true;
-            npc.value = Item.buyPrice(0, 75, 0, 0);
+            npc.value = Item.buyPrice(0, 40, 0, 0);
             npc.alpha = 255;
             npc.behindTiles = true;
             npc.noGravity = true;
@@ -118,6 +118,10 @@ namespace CalamityMod.NPCs.DevourerofGods
 			// Percent life remaining
 			float lifeRatio = npc.life / (float)npc.lifeMax;
 
+			// Increase aggression if player is taking a long time to kill the boss
+			if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
+				lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
+
 			bool phase2 = lifeRatio < 0.75f;
 			bool phase3 = lifeRatio < 0.2f;
 
@@ -142,10 +146,10 @@ namespace CalamityMod.NPCs.DevourerofGods
 			if (distanceFromTarget > takeLessDamageDistance)
 			{
 				float damageTakenScalar = MathHelper.Clamp(1f - ((distanceFromTarget - takeLessDamageDistance) / takeLessDamageDistance), 0f, 1f);
-				npc.takenDamageMultiplier = MathHelper.Lerp(1f, 1.25f, damageTakenScalar);
+				npc.takenDamageMultiplier = MathHelper.Lerp(1f, 1.1f, damageTakenScalar);
 			}
 			else
-				npc.takenDamageMultiplier = 1.25f;
+				npc.takenDamageMultiplier = 1.1f;
 
 			// Spawn Guardians
 			if (phase3)

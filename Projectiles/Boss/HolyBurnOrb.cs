@@ -72,7 +72,7 @@ namespace CalamityMod.Projectiles.Boss
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
-			float lerpMult = CalamityUtils.GetLerpValue(15f, 30f, projectile.timeLeft, clamped: true) * CalamityUtils.GetLerpValue(240f, 200f, projectile.timeLeft, clamped: true) * (1f + 0.2f * (float)Math.Cos(Main.GlobalTime % 30f / 0.5f * (MathHelper.Pi * 2f) * 3f)) * 0.8f;
+			float lerpMult = Utils.InverseLerp(15f, 30f, projectile.timeLeft, clamped: true) * Utils.InverseLerp(240f, 200f, projectile.timeLeft, clamped: true) * (1f + 0.2f * (float)Math.Cos(Main.GlobalTime % 30f / 0.5f * (MathHelper.Pi * 2f) * 3f)) * 0.8f;
 
 			Texture2D texture = Main.projectileTexture[projectile.type];
 			Vector2 drawPos = projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY);
@@ -108,7 +108,7 @@ namespace CalamityMod.Projectiles.Boss
             Main.PlaySound(SoundID.Item14, projectile.Center);
 			CalamityGlobalProjectile.ExpandHitboxBy(projectile, 50);
 			int dustType = Main.dayTime ? (int)CalamityDusts.ProfanedFire : (int)CalamityDusts.Nightwither;
-			for (int d = 0; d < 10; d++)
+			for (int d = 0; d < 5; d++)
             {
                 int holy = Dust.NewDust(projectile.position, projectile.width, projectile.height, dustType, 0f, 0f, 100, default, 2f);
                 Main.dust[holy].velocity *= 3f;
@@ -118,7 +118,7 @@ namespace CalamityMod.Projectiles.Boss
                     Main.dust[holy].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
                 }
             }
-            for (int d = 0; d < 15; d++)
+            for (int d = 0; d < 8; d++)
             {
                 int fire = Dust.NewDust(projectile.position, projectile.width, projectile.height, dustType, 0f, 0f, 100, default, 3f);
                 Main.dust[fire].noGravity = true;

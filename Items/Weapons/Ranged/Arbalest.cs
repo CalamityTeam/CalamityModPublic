@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Arbalest");
-            Tooltip.SetDefault("Fires volleys of high-speed arrows");
+            Tooltip.SetDefault("Fires volleys of 3 high-speed arrows");
         }
 
         public override void SetDefaults()
@@ -25,7 +25,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.noMelee = true;
             item.knockBack = 4f;
             item.value = Item.buyPrice(0, 36, 0, 0);
-            item.rare = 5;
+            item.rare = ItemRarityID.Pink;
             item.UseSound = SoundID.Item5;
             item.autoReuse = true;
             item.shoot = ProjectileID.PurificationPowder;
@@ -41,8 +41,8 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             for (int i = 0; i < 3; i++)
             {
-                float SpeedX = speedX + (float)Main.rand.Next(-20, 21) * 0.05f;
-                float SpeedY = speedY + (float)Main.rand.Next(-20, 21) * 0.05f;
+                float SpeedX = speedX + Main.rand.Next(-20, 21) * 0.05f;
+                float SpeedY = speedY + Main.rand.Next(-20, 21) * 0.05f;
                 int proj = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
                 Main.projectile[proj].extraUpdates += i;
                 Main.projectile[proj].noDropItem = true;

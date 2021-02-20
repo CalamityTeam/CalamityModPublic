@@ -25,7 +25,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.height = 38;
             item.knockBack = 2;
             item.shootSpeed = 11;
-            item.rare = 2;
+            item.rare = ItemRarityID.Green;
             item.UseSound = SoundID.Item1;
         }
 

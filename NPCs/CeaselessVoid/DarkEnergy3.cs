@@ -26,6 +26,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
 
         public override void SetDefaults()
         {
+			npc.Calamity().canBreakPlayerDefense = true;
 			npc.GetNPCDamage();
 			npc.dontTakeDamage = true;
             npc.width = 80;

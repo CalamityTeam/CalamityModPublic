@@ -1146,7 +1146,7 @@ namespace CalamityMod.CalPlayer
                     fullBright = true;
                 }
             }
-            if (calamityPlayer.mushy || (calamityPlayer.etherealExtorter && player.ZoneGlowshroom))
+            if (calamityPlayer.mushy)
             {
                 if (Main.rand.NextBool(6) && drawInfo.shadow == 0f)
                 {

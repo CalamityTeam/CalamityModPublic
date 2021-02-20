@@ -11,10 +11,10 @@ namespace CalamityMod.Items.Weapons.Rogue
 		{
 			DisplayName.SetDefault("The Final Dawn");
 			Tooltip.SetDefault("We shall ride into the sunrise once more\n" +
-							   "Attack enemies with a giant scythe swing to replenish stealth\n" +
-							   "Press up and attack to throw the scythe \n" +
-							   "Stealth strikes perform a horizontal swing that leaves a lingering fire aura\n" +
-							   "Stealth strikes performed while pressing up fling yourself at the enemy and slice through them, causing homing fireballs to emerge");
+				"Attack enemies with a giant scythe swing to replenish stealth\n" +
+				"Press up and attack to throw the scythe \n" +
+				"Stealth strikes perform a horizontal swing that leaves a lingering fire aura\n" +
+				"Stealth strikes performed while pressing up fling yourself at the enemy and slice through them, causing homing fireballs to emerge");
 		}
 		public override void SafeSetDefaults()
 		{
@@ -26,14 +26,16 @@ namespace CalamityMod.Items.Weapons.Rogue
 			item.useTime = item.useAnimation = 15;
 			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.knockBack = 4;
-			item.rare = 10;
-			item.Calamity().customRarity = CalamityRarity.Dedicated;
-			item.value = CalamityGlobalItem.RarityDarkBlueBuyPrice;
+
+			item.value = CalamityGlobalItem.Rarity15BuyPrice;
+			item.Calamity().customRarity = CalamityRarity.Violet;
+			item.Calamity().donorItem = true;
+
 			item.autoReuse = false;
 			item.shoot = ProjectileType<FinalDawnProjectile>();
 			item.shootSpeed = 1f;
 			item.useTurn = false;
-            item.channel = true;
+			item.channel = true;
 			item.noUseGraphic = true;
 		}
 		public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] +
@@ -41,5 +43,5 @@ namespace CalamityMod.Items.Weapons.Rogue
 			player.ownedProjectileCounts[ProjectileType<FinalDawnHorizontalSlash>()] +
 			player.ownedProjectileCounts[ProjectileType<FinalDawnThrow>()] +
 			player.ownedProjectileCounts[ProjectileType<FinalDawnThrow2>()] <= 0;
-    }
+	}
 }

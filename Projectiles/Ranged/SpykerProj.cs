@@ -66,13 +66,12 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.width = projectile.height = 32;
             projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
             projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
-            int projAmt = Main.rand.Next(3, 6);
             if (projectile.owner == Main.myPlayer)
             {
-                for (int p = 0; p < projAmt; p++)
+                for (int p = 0; p < 3; p++)
                 {
 					Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
-                    Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<NeedlerProj>(), (int)(projectile.damage * 0.65), 0f, projectile.owner, 0f, 0f);
+                    Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<NeedlerProj>(), (int)(projectile.damage * 0.5), 0f, projectile.owner, 0f, 0f);
                 }
             }
             for (int num621 = 0; num621 < 3; num621++)

@@ -36,7 +36,7 @@ Stealth strikes launch all 4 sphere types at once");
             item.UseSound = SoundID.Item15; //phaseblade sound effect
 
             item.value = Item.buyPrice(0, 16, 0, 0);
-            item.rare = 8;
+            item.rare = ItemRarityID.Yellow;
 
             item.Calamity().rogue = true;
             item.shoot = ProjectileType<SphereSpiked>();

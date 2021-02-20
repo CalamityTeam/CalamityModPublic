@@ -25,7 +25,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
             projectile.penetrate = -1;
             projectile.ownerHitCheck = true;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 1;
+            projectile.localNPCHitCooldown = 4;
             //projectile.Calamity().trueMelee = true;
         }
 
@@ -48,11 +48,8 @@ namespace CalamityMod.Projectiles.Melee.Spears
                 return;
 
             Player player = Main.player[projectile.owner];
-			if (Main.rand.NextBool(2))
-			{
-				player.statLife += 1;
-				player.HealEffect(1);
-			}
+			player.statLife += 1;
+			player.HealEffect(1);
         }
     }
 }
