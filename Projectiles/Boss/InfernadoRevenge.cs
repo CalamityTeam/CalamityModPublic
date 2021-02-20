@@ -71,7 +71,7 @@ namespace CalamityMod.Projectiles.Boss
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             if (TornadoDrawer is null)
-                TornadoDrawer = new PrimitiveTrail(_ => projectile.width * 0.5f + 16f, ColorFunction, true, GameShaders.Misc["CalamityMod:Bordernado"]);
+                TornadoDrawer = new PrimitiveTrail(_ => projectile.width * 0.5f + 16f, ColorFunction, specialShader: GameShaders.Misc["CalamityMod:Bordernado"]);
 
             GameShaders.Misc["CalamityMod:Bordernado"].SetShaderTexture(ModContent.GetTexture("Terraria/Misc/Perlin"));
             Vector2[] drawPoints = new Vector2[5];

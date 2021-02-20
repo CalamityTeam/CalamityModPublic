@@ -308,7 +308,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 			Rectangle frame = IsSmall ? bladeTexture.Frame(1, 3, 0, BladeFrameY) : bladeTexture.Frame(3, 7, BladeFrameX, BladeFrameY);
 
 			if (TrailDrawer is null)
-				TrailDrawer = new PrimitiveTrail(WidthFunction, ColorFunction, true, GameShaders.Misc["CalamityMod:PhaseslayerRipEffect"]);
+				TrailDrawer = new PrimitiveTrail(WidthFunction, ColorFunction, specialShader: GameShaders.Misc["CalamityMod:PhaseslayerRipEffect"]);
 
 			GameShaders.Misc["CalamityMod:PhaseslayerRipEffect"].SetShaderTexture(ModContent.GetTexture("CalamityMod/ExtraTextures/SwordSlashTexture"));
 

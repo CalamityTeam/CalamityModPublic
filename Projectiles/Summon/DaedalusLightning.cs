@@ -140,7 +140,7 @@ namespace CalamityMod.Projectiles.Summon
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
 			if (LightningDrawer is null)
-				LightningDrawer = new PrimitiveTrail(WidthFunction, ColorFunction, false);
+				LightningDrawer = new PrimitiveTrail(WidthFunction, ColorFunction, PrimitiveTrail.RigidPointRetreivalFunction);
 
 			LightningDrawer.Draw(projectile.oldPos.Where(oldPos => oldPos != Vector2.Zero), projectile.Size * 0.5f - Main.screenPosition, 300);
 			return false;

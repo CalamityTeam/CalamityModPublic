@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Terraria;
 using Terraria.Graphics.Shaders;
@@ -49,6 +50,7 @@ namespace CalamityMod.Projectiles.Magic
             }
             else
                 projectile.velocity *= 1.004f;
+            projectile.rotation = projectile.velocity.ToRotation();
 		}
 
 		internal Color ColorFunction(float completionRatio)
@@ -68,10 +70,10 @@ namespace CalamityMod.Projectiles.Magic
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             if (TrailDrawer is null)
-                TrailDrawer = new PrimitiveTrail(WidthFunction, ColorFunction, false, GameShaders.Misc["CalamityMod:FabstaffRay"]);
+                TrailDrawer = new PrimitiveTrail(WidthFunction, ColorFunction, PrimitiveTrail.SmoothCatmullRomPointRetreivalFunction, GameShaders.Misc["CalamityMod:FabstaffRay"]);
 
             GameShaders.Misc["CalamityMod:FabstaffRay"].SetShaderTexture(ModContent.GetTexture("CalamityMod/ExtraTextures/FabstaffStreak"));
-            TrailDrawer.Draw(projectile.oldPos, projectile.Size * 0.5f - Main.screenPosition, 8);
+            TrailDrawer.Draw(projectile.oldPos, projectile.Size * 0.5f - Main.screenPosition, 0, projectile.oldRot);
             return false;
         }
 

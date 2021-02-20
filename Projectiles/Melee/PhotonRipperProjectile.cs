@@ -1,5 +1,4 @@
-﻿using CalamityMod.Dusts;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
@@ -8,13 +7,15 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee
 {
-	public class PrismSawProjectile : ModProjectile
+	public class PhotonRipperProjectile : ModProjectile
 	{
 		public Player Owner => Main.player[projectile.owner];
+		public const int CrystalShootRate = 5;
+		public const int ChargeUpTime = 5;
 		public ref float Time => ref projectile.ai[0];
 		public ref float OriginalDamage => ref projectile.ai[1];
-		public float ChargeUpPower => MathHelper.Clamp((float)Math.Pow(Time / 240f, 1.6D), 0f, 1f);
-		public override void SetStaticDefaults() => DisplayName.SetDefault("Verrrrrrrry over the top chainsaw thing");
+		public float ChargeUpPower => MathHelper.Clamp((float)Math.Pow(Time / ChargeUpTime, 1.6D), 0f, 1f);
+		public override void SetStaticDefaults() => DisplayName.SetDefault("An extraordinarily cost inefficient chainsaw"); // Seriously though Draedon this seems a bit over the top lmfao.
 
 		public override void SetDefaults()
 		{
@@ -26,17 +27,18 @@ namespace CalamityMod.Projectiles.Melee
 			projectile.melee = true;
 			projectile.ownerHitCheck = true;
 			projectile.usesIDStaticNPCImmunity = true;
-			projectile.idStaticNPCHitCooldown = 2;
+			projectile.idStaticNPCHitCooldown = 8;
 		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
 			Texture2D texture = Main.projectileTexture[projectile.type];
-			Texture2D glowmaskTexture = ModContent.GetTexture("CalamityMod/Projectiles/Melee/PrismSawGlowmask");
+			Texture2D glowmaskTexture = ModContent.GetTexture("CalamityMod/Projectiles/Melee/PhotonRipperGlowmask");
 			Rectangle glowmaskRectangle = glowmaskTexture.Frame(1, 6, 0, projectile.frame);
 			Vector2 origin = texture.Size() * 0.5f;
 			Vector2 drawPosition = projectile.Center - Main.screenPosition;
 			SpriteEffects direction = projectile.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+
 			spriteBatch.Draw(texture, drawPosition, null, projectile.GetAlpha(lightColor), projectile.rotation, origin, projectile.scale, direction, 0f);
 			spriteBatch.Draw(glowmaskTexture, drawPosition, glowmaskRectangle, Color.White, projectile.rotation, origin, projectile.scale, direction, 0f);
 			return false;
@@ -47,20 +49,23 @@ namespace CalamityMod.Projectiles.Melee
 			PlayChainsawSounds();
 			DetermineDamage();
 
-			Vector2 playerRotatedPoint = Owner.RotatedRelativePoint(Owner.MountedCenter);
+			// Determines the owner's position whilst incorporating their fullRotation field.
+			// It uses vector transformation on a Z rotation matrix based on said rotation under the hood.
+			// This is essentially just the pure mathematical definition of the RotatedBy method.
+			Vector2 playerRotatedPosition = Owner.RotatedRelativePoint(Owner.MountedCenter);
 			if (Main.myPlayer == projectile.owner)
 			{
 				if (Owner.channel && !Owner.noItems && !Owner.CCed)
-					HandleChannelMovement(playerRotatedPoint);
+					HandleChannelMovement(playerRotatedPosition);
 				else
 					projectile.Kill();
 			}
 
-			DetermineVisuals(playerRotatedPoint);
+			DetermineVisuals(playerRotatedPosition);
 			ManipulatePlayerValues();
 			EmitPrettyDust();
 
-			if (Time > 90f && Time % 36f == 35f)
+			if (Time % CrystalShootRate == CrystalShootRate - 1f)
 				ReleasePrismTeeth();
 
 			// Prevent the projectile from dying normally. However, if anything for whatever reason
@@ -74,7 +79,7 @@ namespace CalamityMod.Projectiles.Melee
 		{
 			if (projectile.soundDelay <= 0)
 			{
-				Main.PlaySound(SoundID.Item22, projectile.position);
+				Main.PlaySound(SoundID.Item22, projectile.Center);
 				projectile.soundDelay = (int)MathHelper.Lerp(30f, 12f, ChargeUpPower);
 			}
 		}
@@ -88,32 +93,38 @@ namespace CalamityMod.Projectiles.Melee
 				projectile.netUpdate = true;
 			}
 
-			// And then do time based calculations. This does not execute if the original damage is 0.
+			// And then do time based damage calculations. This does not execute if the original damage is 0.
 			if (OriginalDamage != 0f)
 				projectile.damage = (int)MathHelper.SmoothStep(OriginalDamage * 0.36f, OriginalDamage, ChargeUpPower);
 		}
 
-		public void DetermineVisuals(Vector2 playerRotatedPoint)
+		public void DetermineVisuals(Vector2 playerRotatedPosition)
 		{
-			float velocityAngle = projectile.velocity.ToRotation();
-			projectile.rotation = velocityAngle;
+			float directionAngle = projectile.velocity.ToRotation();
+			projectile.rotation = directionAngle;
 
 			int oldDirection = projectile.spriteDirection;
 			if (oldDirection == -1)
 				projectile.rotation += MathHelper.Pi;
 
-			projectile.direction = projectile.spriteDirection = (Math.Cos(velocityAngle) > 0).ToDirectionInt();
+			projectile.direction = projectile.spriteDirection = (Math.Cos(directionAngle) > 0).ToDirectionInt();
 
+			// If the direction differs from what it originaly was, undo the previous 180 degree turn.
+			// If this is not done, the chainsaw will have 1 frame of rotational "jitter" when the direction changes based on the
+			// original angle. This effect looks very strange in-game.
 			if (projectile.spriteDirection != oldDirection)
 				projectile.rotation -= MathHelper.Pi;
 
-			// Positioning close to the end of the player's arm.
-			projectile.position = playerRotatedPoint - projectile.Size * 0.5f + velocityAngle.ToRotationVector2() * 30f;
+			// Positioning close to the player's arm.
+			projectile.position = playerRotatedPosition - projectile.Size * 0.5f + directionAngle.ToRotationVector2() * 30f;
 
 			// Update the position a tiny bit every frame at random to make it look like the saw is vibrating.
+			// It is reset on the next frame.
 			projectile.position += Main.rand.NextVector2Circular(1.4f, 1.4f);
 
 			// Update glowmask frames.
+			// Smoothstep is essentially like a linear interpolation but instead of being a straight line its
+			// curve is pseudo-logistic, with low increases at the ends of the curve.
 			projectile.frameCounter += (int)MathHelper.SmoothStep(12f, 33f, ChargeUpPower);
 			if (projectile.frameCounter >= 32)
 			{
@@ -122,28 +133,23 @@ namespace CalamityMod.Projectiles.Melee
 			}
 		}
 
-		public void HandleChannelMovement(Vector2 playerRotatedPoint)
+		public void HandleChannelMovement(Vector2 playerRotatedPosition)
 		{
-			float speed = 1f;
-			if (Owner.ActiveItem().shoot == projectile.type)
-				speed = Owner.ActiveItem().shootSpeed * projectile.scale;
+			Vector2 idealAimDirection = (Main.MouseWorld - playerRotatedPosition).SafeNormalize(Vector2.UnitX * Owner.direction);
 
-			Vector2 currentAimDirection = projectile.velocity.SafeNormalize(Vector2.UnitX * Owner.direction);
-			Vector2 idealAimDirection = (Main.MouseWorld - playerRotatedPoint).SafeNormalize(Vector2.UnitX * Owner.direction);
-
-			float angularAimVelocity = 0.16f;
+			float angularAimVelocity = 0.15f;
 			float directionAngularDisparity = projectile.velocity.AngleBetween(idealAimDirection) / MathHelper.Pi;
 
 			// Increase the turn speed if close to the ideal direction, since successive linear interpolations
 			// are asymptotic.
 			angularAimVelocity += MathHelper.Lerp(0f, 0.25f, Utils.InverseLerp(0.28f, 0.08f, directionAngularDisparity, true));
 
-			if (directionAngularDisparity < 0.02f)
-				projectile.velocity = Vector2.Lerp(currentAimDirection, idealAimDirection, angularAimVelocity);
+			if (directionAngularDisparity > 0.02f)
+				projectile.velocity = Vector2.Lerp(projectile.velocity, idealAimDirection, angularAimVelocity);
 			else
 				projectile.velocity = idealAimDirection;
 
-			projectile.velocity = projectile.velocity.SafeNormalize(Vector2.UnitX * Owner.direction) * speed;
+			projectile.velocity = projectile.velocity.SafeNormalize(Vector2.UnitX * Owner.direction);
 		}
 
 		public void ManipulatePlayerValues()
@@ -163,6 +169,9 @@ namespace CalamityMod.Projectiles.Melee
 			for (int i = 0; i < 2; i++)
 			{
 				Vector2 spawnPosition = projectile.Center + projectile.velocity * 35f;
+
+				// Spawn the dust a little bit on the chainsaw. X variance is less than Y variance to ensure that dust does not
+				// spawn too far from the blade.
 				spawnPosition += Main.rand.NextVector2CircularEdge(9f, 35f).RotatedBy(projectile.velocity.ToRotation() + MathHelper.PiOver2);
 
 				Dust rainbowSpark = Dust.NewDustPerfect(spawnPosition, 261);
@@ -175,11 +184,27 @@ namespace CalamityMod.Projectiles.Melee
 
 		public void ReleasePrismTeeth()
 		{
+			// Play the sound that the crystal vile shard uses.
+			// Hopefully this isn't too cancerous to listen to, given the shoot rate of the crystals.
+			Main.PlaySound(SoundID.Item101, projectile.Center);
+
 			if (Main.myPlayer != projectile.owner)
 				return;
 
-			float shootReach = MathHelper.SmoothStep(projectile.width * 1.2f, projectile.width * 2.25f + 20f, ChargeUpPower);
-			Projectile.NewProjectile(Owner.Center, projectile.velocity, ModContent.ProjectileType<PrismTooth>(), projectile.damage / 2, 0f, projectile.owner, 0f, shootReach);
+			float shootReach = MathHelper.SmoothStep(projectile.width * 1.8f, projectile.width * 5.3f + 16f, ChargeUpPower);
+
+			// Incorporate item shoot speed into the range of the crystals.
+			shootReach *= Owner.ActiveItem().shootSpeed;
+
+			float distanceFromMouse = Owner.Distance(Main.MouseWorld);
+
+			// If the distance to the mouse is less than the base reach, reach only to mouse.
+			// This way the player can more directly control the crystals if they want.
+			// This comes with a small constant offset to cancel out other factors.
+			if (distanceFromMouse < shootReach && distanceFromMouse > 40f)
+				shootReach = distanceFromMouse + 32f;
+
+			Projectile.NewProjectile(Owner.Center, projectile.velocity, ModContent.ProjectileType<PrismTooth>(), projectile.damage / 2, 0f, projectile.owner, shootReach, projectile.whoAmI);
 		}
 
 		public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)

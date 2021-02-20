@@ -176,7 +176,7 @@ namespace CalamityMod.Projectiles.Rogue
             else
             {
                 if (TrailDrawer is null)
-                    TrailDrawer = new PrimitiveTrail(WidthFunction, ColorFunction, false, GameShaders.Misc["CalamityMod:OverpoweredTouhouSpearShader"]);
+                    TrailDrawer = new PrimitiveTrail(WidthFunction, ColorFunction, PrimitiveTrail.RigidPointRetreivalFunction, GameShaders.Misc["CalamityMod:OverpoweredTouhouSpearShader"]);
 
                 GameShaders.Misc["CalamityMod:OverpoweredTouhouSpearShader"].SetShaderTexture(ModContent.GetTexture("CalamityMod/ExtraTextures/ScarletDevilStreak"));
                 TrailDrawer.Draw(projectile.oldPos, projectile.Size * 0.5f - Main.screenPosition + projectile.velocity.SafeNormalize(Vector2.Zero) * 86f, 60);

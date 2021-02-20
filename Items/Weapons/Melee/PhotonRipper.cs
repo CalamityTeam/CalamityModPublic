@@ -6,18 +6,22 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
-	public class PrismSaw : ModItem
+	public class PhotonRipper : ModItem
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Prism Saw");
+			DisplayName.SetDefault("Photon Ripper");
+			Tooltip.SetDefault("Unleashes a flurry of prismatic crystals at extremely fast speeds\n" +
+				"");
 		}
 
 		public override void SetDefaults()
 		{
 			item.height = 134;
 			item.width = 54;
-			item.damage = 3781;
+			item.damage = 2581;
+			item.axe = 3330;
+			item.axe /= 5;
 			item.melee = true;
 			item.noMelee = true;
 			item.noUseGraphic = true;
@@ -29,7 +33,7 @@ namespace CalamityMod.Items.Weapons.Melee
 			item.autoReuse = false;
 			item.value = CalamityGlobalItem.RarityVioletBuyPrice;
 			item.rare = ItemRarityID.Red;
-			item.shoot = ModContent.ProjectileType<PrismSawProjectile>();
+			item.shoot = ModContent.ProjectileType<PhotonRipperProjectile>();
 			item.shootSpeed = 1f;
 			item.Calamity().customRarity = CalamityRarity.Violet;
 		}

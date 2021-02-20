@@ -1,8 +1,8 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using System.IO;
 using Terraria;
+using Terraria.GameContent.Achievements;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -12,86 +12,125 @@ namespace CalamityMod.Projectiles.Melee
 	public class PrismTooth : ModProjectile
 	{
 		internal PrimitiveTrail TrailDrawer;
-		public const int Lifetime = 30;
+		public const int Lifetime = 80;
 		public Player Owner => Main.player[projectile.owner];
-		public ref float Time => ref projectile.ai[0];
-		public ref float ShootReach => ref projectile.ai[1];
+		public ref float ShootReach => ref projectile.ai[0];
+		public ref float Time => ref projectile.ai[1];
 		public override void SetStaticDefaults()
-        {
-            DisplayName.SetDefault("Prism Tooth");
+		{
+			DisplayName.SetDefault("Prism Tooth");
 			ProjectileID.Sets.TrailingMode[projectile.type] = 2;
 			ProjectileID.Sets.TrailCacheLength[projectile.type] = 36;
 		}
 
-        public override void SetDefaults()
-        {
-            projectile.width = projectile.height = 35;
+		public override void SetDefaults()
+		{
+			projectile.scale = 0.6f;
+			projectile.width = projectile.height = 40;
 			projectile.friendly = true;
-            projectile.penetrate = 1;
-            projectile.timeLeft = Lifetime;
-            projectile.melee = true;
-        }
-
-        public override void SendExtraAI(BinaryWriter writer) => writer.Write((byte)projectile.direction);
-
-        public override void ReceiveExtraAI(BinaryReader reader) => projectile.direction = reader.ReadByte();
+			projectile.tileCollide = false;
+			projectile.penetrate = -1;
+			projectile.extraUpdates = 5;
+			projectile.usesLocalNPCImmunity = true;
+			projectile.localNPCHitCooldown = 4 * projectile.MaxUpdates;
+			projectile.timeLeft = Lifetime;
+			projectile.melee = true;
+		}
 
 		public override void AI()
 		{
-			// Determine the initial direction of the tooth in terms of its orbit.
-            if (Main.myPlayer == projectile.owner && projectile.spriteDirection == 0)
-			{
-                projectile.spriteDirection = Main.rand.NextBool(2).ToDirectionInt();
-				projectile.netUpdate = true;
-			}
+			projectile.rotation = projectile.velocity.ToRotation() + MathHelper.Pi * Time / Lifetime;
 
-			projectile.rotation = MathHelper.Pi * Time / Lifetime;
-			if (projectile.spriteDirection == -1)
-				projectile.rotation = MathHelper.Pi - projectile.rotation;
-			projectile.rotation += projectile.velocity.ToRotation();
+			Vector2 baseDirection = (MathHelper.TwoPi * Time / Lifetime - MathHelper.PiOver2).ToRotationVector2();
+			baseDirection.X *= 0.25f;
+
+			// Constrain the Y offset into the bounds of 0-1 instead of -1-1. This prevents
+			// the crystal from flying behind the owner. In this context, the Y offset becomes how far away the
+			// crystal is from its own in terms of reach.
+			baseDirection.Y = baseDirection.Y * 0.5f + 0.5f;
+			Vector2 positionOffset = baseDirection * ShootReach;
+
+			// Don't allow the X offset to go too far.
+			// This hard limit turns the squashed circle into bending, semi-rectangular shape.
+			if (Math.Abs(positionOffset.X) > 45f)
+				positionOffset.X = Math.Sign(baseDirection.X) * 45f;
 
 			// In this context, the velocity is simply the initial direction as a unit vector- it does not
 			// actually influence movement in any way.
-			float angle = MathHelper.TwoPi * Time / Lifetime - MathHelper.PiOver2;
-			if (projectile.spriteDirection == -1)
-				angle += MathHelper.Pi;
+			positionOffset = positionOffset.RotatedBy(projectile.velocity.ToRotation() - MathHelper.PiOver2);
 
-			Vector2 baseDirection = angle.ToRotationVector2();
-			baseDirection.X *= 0.25f;
-			baseDirection.Y = baseDirection.Y * 0.5f + 0.5f;
-			baseDirection = baseDirection.RotatedBy(projectile.velocity.ToRotation() - MathHelper.PiOver2);
-
-			projectile.Center = Owner.RotatedRelativePoint(Owner.MountedCenter) + baseDirection * ShootReach;
+			projectile.Center = Owner.RotatedRelativePoint(Owner.MountedCenter) + projectile.velocity * 42f + positionOffset;
 			projectile.Opacity = Utils.InverseLerp(0f, 12f, Time, true) * Utils.InverseLerp(Lifetime, Lifetime - 12f, Time, true);
+
+			// Destroy trees within the range of the past 20 oldPos positions.
+			for (int i = 0; i < 20; i++)
+			{
+				Point pointToCheck = (projectile.oldPos[i] + projectile.Size * 0.5f).ToTileCoordinates();
+				AbsolutelyFuckingAnnihilateTrees(pointToCheck.X, pointToCheck.Y);
+			}
 
 			Time++;
 		}
 
-		public override Color? GetAlpha(Color lightColor)
+		public void AbsolutelyFuckingAnnihilateTrees(int x, int y)
 		{
-            float hue = (projectile.identity % 9f / 9f + projectile.timeLeft / (float)Lifetime) % 1f;
-            return Color.Lerp(lightColor, Main.hslToRgb(hue, 0.95f, 0.55f), 0.35f) * projectile.Opacity;
+			Tile tileAtPosition = CalamityUtils.ParanoidTileRetrieval(x, y);
+
+			// Ignore tiles that are not active and are not breakable by axes.
+			if (!tileAtPosition.active() || !Main.tileAxe[tileAtPosition.type])
+				return;
+
+			// Don't attempt to mine the tile if for whatever reason it's not supposed to be broken.
+			if (!WorldGen.CanKillTile(x, y))
+				return;
+
+			AchievementsHelper.CurrentlyMining = true;
+
+			WorldGen.KillTile(x, y);
+			if (Main.netMode == NetmodeID.MultiplayerClient)
+				NetMessage.SendData(MessageID.TileChange, -1, -1, null, 0, x, y);
+
+			AchievementsHelper.CurrentlyMining = false;
 		}
 
-		internal float WidthFunction(float completionRatio) => 54f;
+		public override Color? GetAlpha(Color lightColor) => Color.White;
+
+		internal float WidthFunction(float completionRatio) => projectile.scale * 24f * (1f - Utils.InverseLerp(0.7f, 1f, completionRatio, true));
 
 		internal Color ColorFunction(float completionRatio)
 		{
-			Color color = Color.Lerp(Color.White, Color.Violet, Utils.InverseLerp(0f, 0.7f, completionRatio, true)) * (1f - Utils.InverseLerp(0f, 0.98f, completionRatio, true));
-			color.A /= 2;
-			return color;
+			float hue = (projectile.identity % 9f / 9f + completionRatio * 0.7f) % 1f;
+			return Color.Lerp(Color.White, Main.hslToRgb(hue, 0.95f, 0.55f), 0.35f) * projectile.Opacity;
 		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
-			if (TrailDrawer is null)
-				TrailDrawer = new PrimitiveTrail(WidthFunction, ColorFunction, false, GameShaders.Misc["CalamityMod:OverpoweredTouhouSpearShader"]);
+			if (Time <= 5f)
+				return true;
 
-			GameShaders.Misc["CalamityMod:OverpoweredTouhouSpearShader"].SetShaderTexture(ModContent.GetTexture("CalamityMod/ExtraTextures/ScarletDevilStreak"));
-			TrailDrawer.Draw(projectile.oldPos, projectile.Size * 0.5f - Main.screenPosition + projectile.velocity.SafeNormalize(Vector2.Zero) * 86f, 60);
+			if (TrailDrawer is null)
+				TrailDrawer = new PrimitiveTrail(WidthFunction, ColorFunction, specialShader: GameShaders.Misc["CalamityMod:PrismCrystal"]);
+
+			// Variable adjustment vector used to prevent the trail for starting somewhat that isn't behind
+			// the crystal. This may appear in small amounts, with offsets of a few pixels, but at the speed
+			// these crystals go, it's probably not something to worry too much about.
+			Vector2 generalOffset = projectile.rotation.ToRotationVector2().RotatedBy(MathHelper.PiOver2) * 15f;
+			generalOffset += projectile.rotation.ToRotationVector2() * -5f * (float)Math.Sin(projectile.rotation);
+
+			// Mess with the oldPos array so that the trail always points towards the crystal.
+			Vector2 oldPosition = projectile.oldPos[1];
+			projectile.oldPos[1] = projectile.oldPos[0] - projectile.rotation.ToRotationVector2() * Vector2.Distance(projectile.oldPos[0], projectile.oldPos[1]);
+
+			// Revert back if the above calculations caused any NaNs.
+			if (projectile.oldPos[1].HasNaNs())
+				projectile.oldPos[1] = oldPosition;
+
+			GameShaders.Misc["CalamityMod:PrismCrystal"].SetShaderTexture(ModContent.GetTexture("CalamityMod/ExtraTextures/ScarletDevilStreak"));
+			TrailDrawer.Draw(projectile.oldPos, projectile.Size * 0.5f + generalOffset - Main.screenPosition, 65);
 			return true;
 		}
 
+		// Prevent the crystals from utilizing velocity. Their movement is entirely dependant on Center setting.
 		public override bool ShouldUpdatePosition() => false;
 	}
 }

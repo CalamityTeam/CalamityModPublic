@@ -38,21 +38,24 @@ namespace CalamityMod
 		public VertexWidthFunction WidthFunction;
 		public VertexColorFunction ColorFunction;
 
-		// NOTE: Beziers can be laggy when a lot of control points are used, since our implementation
-		// uses a recursive Lerp that gets more computationally expensive the more original indices.
-		// n(n - 1)/2 linear interpolations to be precise, where n is the amount of original indices.
-		public bool UsesSmoothening;
 		public BasicEffect BaseEffect;
 		public MiscShaderData SpecialShader;
+		public TrailPointRetrievalFunction TrailPointFunction;
 
-		public PrimitiveTrail(VertexWidthFunction widthFunction, VertexColorFunction colorFunction, bool useSmoothening = true, MiscShaderData specialShader = null)
+		public delegate List<Vector2> TrailPointRetrievalFunction(IEnumerable<Vector2> originalPositions, Vector2 generalOffset, int totalTrailPoints, IEnumerable<float> originalRotations = null);
+
+		public PrimitiveTrail(VertexWidthFunction widthFunction, VertexColorFunction colorFunction, TrailPointRetrievalFunction pointFunction = null, MiscShaderData specialShader = null)
 		{
 			if (widthFunction is null || colorFunction is null)
 				throw new NullReferenceException($"In order to create a primitive trail, a non-null {(widthFunction is null ? "width" : "color")} function must be specified.");
 			WidthFunction = widthFunction;
 			ColorFunction = colorFunction;
 
-			UsesSmoothening = useSmoothening;
+			// Default to bezier smoothening if nothing else is inputted.
+			if (pointFunction is null)
+				pointFunction = SmoothBezierPointRetreivalFunction;
+
+			TrailPointFunction = pointFunction;
 
 			if (specialShader != null)
 				SpecialShader = specialShader;
@@ -90,29 +93,31 @@ namespace CalamityMod
 			BaseEffect.Projection = effectProjection;
 		}
 
-		public List<Vector2> GetTrailPoints(IEnumerable<Vector2> originalPositions, Vector2 generalOffset, int totalTrailPoints)
+		public static List<Vector2> RigidPointRetreivalFunction(IEnumerable<Vector2> originalPositions, Vector2 generalOffset, int totalTrailPoints, IEnumerable<float> originalRotations = null)
 		{
-			// Don't smoothen the points unless explicitly told do so.
-			if (!UsesSmoothening)
-			{
-				List<Vector2> basePoints = originalPositions.Where(originalPosition => originalPosition != Vector2.Zero).ToList();
-				List<Vector2> endPoints = new List<Vector2>();
+			List<Vector2> basePoints = originalPositions.Where(originalPosition => originalPosition != Vector2.Zero).ToList();
+			List<Vector2> endPoints = new List<Vector2>();
 
-				if (basePoints.Count < 3)
-					return endPoints;
-
-				// Remap the original positions across a certain length.
-				for (int i = 0; i < totalTrailPoints; i++)
-				{
-					float completionRatio = i / (float)totalTrailPoints;
-					int currentColorIndex = (int)(completionRatio * (basePoints.Count - 1));
-					Vector2 currentColor = basePoints[currentColorIndex];
-					Vector2 nextColor = basePoints[(currentColorIndex + 1) % basePoints.Count];
-					endPoints.Add(Vector2.Lerp(currentColor, nextColor, completionRatio * (basePoints.Count - 1) % 0.999f) + generalOffset);
-				}
+			if (basePoints.Count < 3)
 				return endPoints;
-			}
 
+			// Remap the original positions across a certain length.
+			for (int i = 0; i < totalTrailPoints; i++)
+			{
+				float completionRatio = i / (float)totalTrailPoints;
+				int currentColorIndex = (int)(completionRatio * (basePoints.Count - 1));
+				Vector2 currentColor = basePoints[currentColorIndex];
+				Vector2 nextColor = basePoints[(currentColorIndex + 1) % basePoints.Count];
+				endPoints.Add(Vector2.Lerp(currentColor, nextColor, completionRatio * (basePoints.Count - 1) % 0.999f) + generalOffset);
+			}
+			return endPoints;
+		}
+
+		// NOTE: Beziers can be laggy when a lot of control points are used, since our implementation
+		// uses a recursive Lerp that gets more computationally expensive the more original indices.
+		// n(n + 1)/2 linear interpolations to be precise, where n is the amount of original indices.
+		public static List<Vector2> SmoothBezierPointRetreivalFunction(IEnumerable<Vector2> originalPositions, Vector2 generalOffset, int totalTrailPoints, IEnumerable<float> originalRotations = null)
+		{
 			List<Vector2> controlPoints = new List<Vector2>();
 			for (int i = 0; i < originalPositions.Count(); i++)
 			{
@@ -124,6 +129,32 @@ namespace CalamityMod
 			}
 			BezierCurve bezierCurve = new BezierCurve(controlPoints.ToArray());
 			return controlPoints.Count <= 1 ? controlPoints : bezierCurve.GetPoints(totalTrailPoints);
+		}
+
+		public static List<Vector2> SmoothCatmullRomPointRetreivalFunction(IEnumerable<Vector2> originalPositions, Vector2 generalOffset, int totalTrailPoints, IEnumerable<float> originalRotations)
+		{
+			List<Vector2> smoothenedPoints = new List<Vector2>();
+			for (int i = 0; i < originalPositions.Count() - 1; i++)
+			{
+				if (originalPositions.ElementAt(i) == Vector2.Zero || originalPositions.ElementAt(i + 1) == Vector2.Zero)
+					continue;
+
+				float currentRotation = MathHelper.WrapAngle(originalRotations.ElementAt(i));
+				float aheadRotation = MathHelper.WrapAngle(originalRotations.ElementAt(i + 1));
+				int pointsToAdd = (int)(Math.Abs(aheadRotation - currentRotation) * 50f / MathHelper.Pi) + 4;
+				if (pointsToAdd > 6)
+				{
+					int v = 7;
+				}
+
+				float segmentLength = Vector2.Distance(originalPositions.ElementAt(i), originalPositions.ElementAt(i + 1));
+				float increment = 1f / (pointsToAdd + 2);
+				Vector2 end = originalPositions.ElementAt(i) + currentRotation.ToRotationVector2() * segmentLength;
+				Vector2 front = originalPositions.ElementAt(i + 1) + aheadRotation.ToRotationVector2() * -segmentLength;
+				for (float j = increment; j < 1f; j += increment)
+					smoothenedPoints.Add(Vector2.CatmullRom(end, originalPositions.ElementAt(i), originalPositions.ElementAt(i + 1), front, j) + generalOffset);
+			}
+			return smoothenedPoints;
 		}
 
 		public VertexPosition2DColor[] GetVerticesFromTrailPoints(List<Vector2> trailPoints)
@@ -181,18 +212,28 @@ namespace CalamityMod
 			return indices;
 		}
 
-		public void Draw(IEnumerable<Vector2> originalPositions, Vector2 generalOffset, int totalTrailPoints)
+		public void Draw(IEnumerable<Vector2> originalPositions, Vector2 generalOffset, int totalTrailPoints, IEnumerable<float> originalRotations = null)
 		{
 			Main.instance.GraphicsDevice.RasterizerState = RasterizerState.CullNone;
-			List<Vector2> trailPoints = GetTrailPoints(originalPositions, generalOffset, totalTrailPoints);
+			List<Vector2> trailPoints = TrailPointFunction(originalPositions, generalOffset, totalTrailPoints, originalRotations);
 
 			// A trail with only one point or less has nothing to connect to, and therefore, can't make a trail.
-			if (originalPositions.Count() <= 1 || trailPoints.Count <= 1)
+			if (originalPositions.Count() <= 2 || trailPoints.Count <= 2)
+				return;
+
+			// If the trail point has any NaN positions, don't draw anything.
+			if (trailPoints.Any(point => point.HasNaNs()))
 				return;
 
 			UpdateBaseEffect(out Matrix projection, out Matrix view);
 			VertexPosition2DColor[] vertices = GetVerticesFromTrailPoints(trailPoints);
+
 			short[] triangleIndices = GetIndicesFromTrailPoints(trailPoints.Count);
+
+			// Don't draw anything if the indicies/vertices are in any way invalid.
+			// If they are, the graphics engine, along with the entire game, will crash.
+			if (triangleIndices.Length % 6 != 0 || vertices.Length % 2 != 0)
+				return;
 
 			if (SpecialShader != null)
 			{
