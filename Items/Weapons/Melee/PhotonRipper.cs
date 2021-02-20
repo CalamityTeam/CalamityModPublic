@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Weapons.Melee
 		{
 			DisplayName.SetDefault("Photon Ripper");
 			Tooltip.SetDefault("Unleashes a flurry of prismatic crystals at extremely fast speeds\n" +
-				"");
+				"These crystals are capable of breaking trees");
 		}
 
 		public override void SetDefaults()
