@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Melee
 	{
 		public Player Owner => Main.player[projectile.owner];
 		public const int CrystalShootRate = 5;
-		public const int ChargeUpTime = 5;
+		public const int ChargeUpTime = 360;
 		public ref float Time => ref projectile.ai[0];
 		public ref float OriginalDamage => ref projectile.ai[1];
 		public float ChargeUpPower => MathHelper.Clamp((float)Math.Pow(Time / ChargeUpTime, 1.6D), 0f, 1f);
