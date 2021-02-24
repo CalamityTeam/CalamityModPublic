@@ -43,7 +43,7 @@ namespace CalamityMod.Projectiles.Melee
 			projectile.timeLeft = Lifetime;
 			projectile.ownerHitCheck = true;
 			projectile.usesLocalNPCImmunity = true;
-			projectile.localNPCHitCooldown = 7;
+			projectile.localNPCHitCooldown = 22;
 		}
 
 		public void DetermineWhipPoints()
@@ -121,6 +121,8 @@ namespace CalamityMod.Projectiles.Melee
 			{
 				// Have acceleration vary based on how much time has passed.
 				Vector2 swingSpeedIncrement = swingDirection * MathHelper.SmoothStep(3.8f, 13f, (float)Math.Pow(CalamityUtils.Convert01To010(Time / Lifetime), 8f));
+				if (SwingDirection == 0f)
+					swingSpeedIncrement *= 0.84f;
 				WhipOutwardness += swingSpeedIncrement;
 			}
 			projectile.Center = playerRotatedPosition;
@@ -146,6 +148,8 @@ namespace CalamityMod.Projectiles.Melee
 
 			if (Main.myPlayer != projectile.owner)
 				return;
+
+			Projectile.NewProjectile(WhipEnd, Vector2.Zero, ModContent.ProjectileType<ThanatosBoom>(), projectile.damage * 2, 0f, projectile.owner);
 
 			// Fire a bunch of rays rays.
 			int rayDamage = (int)(projectile.damage * 1.5);
