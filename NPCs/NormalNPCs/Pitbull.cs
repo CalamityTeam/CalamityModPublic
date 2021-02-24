@@ -63,8 +63,8 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void NPCLoot()
         {
-            int bandageDropRate = CalamityWorld.defiled ? DropHelper.DefiledDropRateInt : Main.expertMode ? 50 : 100;
-            DropHelper.DropItemChance(npc, ItemID.AdhesiveBandage, bandageDropRate, 1, 1);
+            float bandageDropRate = Main.expertMode ? 0.02f : 0.01f;
+            DropHelper.DropItemChance(npc, ItemID.AdhesiveBandage, bandageDropRate);
             DropHelper.DropItemChance(npc, ModContent.ItemType<RottenDogtooth>(), 8);
         }
     }

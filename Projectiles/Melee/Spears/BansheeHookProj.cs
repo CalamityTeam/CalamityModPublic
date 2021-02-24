@@ -1,9 +1,10 @@
+using CalamityMod.Projectiles.BaseProjectiles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ModLoader;
-using CalamityMod.Projectiles.BaseProjectiles;
+
 namespace CalamityMod.Projectiles.Melee.Spears
 {
     public class BansheeHookProj : BaseSpearProjectile
@@ -38,8 +39,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
         {
             Projectile.NewProjectile(projectile.Center + projectile.velocity * 0.5f,
                                      projectile.velocity * 0.8f, ModContent.ProjectileType<BansheeHookScythe>(),
-                                     (int)(projectile.damage * 1.75), 
-                                     projectile.knockBack * 0.85f, projectile.owner, 0f, 0f);
+                                     projectile.damage, projectile.knockBack * 0.85f, projectile.owner, 0f, 0f);
         };
         public override void ExtraBehavior()
         {
@@ -99,15 +99,15 @@ namespace CalamityMod.Projectiles.Melee.Spears
             return false;
         }
 
-		public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
-		{
-			Vector2 drawPosition = projectile.position + new Vector2(projectile.width, projectile.height) / 2f + Vector2.UnitY * projectile.gfxOffY - Main.screenPosition;
-			Texture2D texture = projectile.spriteDirection == -1 ? ModContent.GetTexture("CalamityMod/Projectiles/Melee/Spears/BansheeHookAltGlow") : ModContent.GetTexture("CalamityMod/Projectiles/Melee/Spears/BansheeHookGlow");
-			Vector2 origin = new Vector2(projectile.spriteDirection == 1 ? texture.Width - -8f : -8f, -8f); //-8 -8
-			spriteBatch.Draw(texture, drawPosition, null, Color.White, projectile.rotation, origin, 1f, SpriteEffects.None, 0f);
-		}
+        public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            Vector2 drawPosition = projectile.position + new Vector2(projectile.width, projectile.height) / 2f + Vector2.UnitY * projectile.gfxOffY - Main.screenPosition;
+            Texture2D texture = projectile.spriteDirection == -1 ? ModContent.GetTexture("CalamityMod/Projectiles/Melee/Spears/BansheeHookAltGlow") : ModContent.GetTexture("CalamityMod/Projectiles/Melee/Spears/BansheeHookGlow");
+            Vector2 origin = new Vector2(projectile.spriteDirection == 1 ? texture.Width - -8f : -8f, -8f); //-8 -8
+            spriteBatch.Draw(texture, drawPosition, null, Color.White, projectile.rotation, origin, 1f, SpriteEffects.None, 0f);
+        }
 
-		public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
+        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
             float angle = projectile.rotation - MathHelper.PiOver4 * Math.Sign(projectile.velocity.X) + 
                 (projectile.spriteDirection == -1).ToInt() * MathHelper.Pi;

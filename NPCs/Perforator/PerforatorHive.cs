@@ -380,7 +380,7 @@ namespace CalamityMod.NPCs.Perforator
                     DropHelper.DropItemSpray(npc, ItemID.Ichor, 10, 20);
 
 				// Weapons
-				float w = DropHelper.DirectWeaponDropRateFloat;
+				float w = DropHelper.NormalWeaponDropRateFloat;
 				DropHelper.DropEntireWeightedSet(npc,
 					DropHelper.WeightStack<VeinBurster>(w),
 					DropHelper.WeightStack<BloodyRupture>(w),

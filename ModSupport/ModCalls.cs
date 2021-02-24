@@ -393,13 +393,6 @@ namespace CalamityMod
 				case "boss rush active":
 					return BossRushEvent.BossRushActive;
 
-				case "defiled":
-				case "defiledrune":
-				case "defiled rune":
-				case "defiledmode":
-				case "defiled mode":
-					return CalamityWorld.defiled;
-
 				case "armageddon":
 				case "arma":
 				case "instakill":
@@ -410,9 +403,6 @@ namespace CalamityMod
 
 				case "ironheart":
 				case "iron heart":
-				case "steelsoul":
-				case "steel soul":
-				case "permadeath":
 					return CalamityWorld.ironHeart;
 			}
 		}
@@ -448,13 +438,6 @@ namespace CalamityMod
 				case "bossrushactive":
 				case "boss rush active":
 					return BossRushEvent.BossRushActive = enabled;
-
-				case "defiled":
-				case "defiledrune":
-				case "defiled rune":
-				case "defiledmode":
-				case "defiled mode":
-					return CalamityWorld.defiled = enabled;
 
 				case "armageddon":
 				case "arma":

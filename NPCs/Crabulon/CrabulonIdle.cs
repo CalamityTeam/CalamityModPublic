@@ -683,7 +683,7 @@ namespace CalamityMod.NPCs.Crabulon
                 DropHelper.DropItem(npc, ItemID.MushroomGrassSeeds, 3, 6);
 
                 // Weapons
-                float w = DropHelper.DirectWeaponDropRateFloat;
+                float w = DropHelper.NormalWeaponDropRateFloat;
                 DropHelper.DropEntireWeightedSet(npc,
                     DropHelper.WeightStack<MycelialClaws>(w),
                     DropHelper.WeightStack<Fungicide>(w),

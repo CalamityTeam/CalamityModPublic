@@ -828,29 +828,8 @@ namespace CalamityMod.NPCs
 			if (npc.type == NPCID.WallofFleshEye)
 				npc.netAlways = true;
 
-			if (npc.boss)
-            {
-				if (CalamityWorld.revenge)
-				{
-					if (npc.type != NPCType<HiveMindP2>() && npc.type != NPCType<Leviathan.Leviathan>() && npc.type != NPCType<StormWeaverHeadNaked>() &&
-						npc.type != NPCType<StormWeaverBodyNaked>() && npc.type != NPCType<StormWeaverTailNaked>() &&
-						npc.type != NPCType<DevourerofGodsHeadS>() && npc.type != NPCType<DevourerofGodsBodyS>() &&
-						npc.type != NPCType<DevourerofGodsTailS>() && npc.type != NPCType<CalamitasRun3>() &&
-						npc.type != NPCType<AstrumDeusHeadSpectral>() && npc.type != NPCType<AstrumDeusBodySpectral>() &&
-						npc.type != NPCType<AstrumDeusTailSpectral>() && npc.Calamity().newAI[0] != 0f)
-					{
-						if (Main.netMode != NetmodeID.Server)
-						{
-							if (!Main.LocalPlayer.dead && Main.LocalPlayer.active)
-							{
-								Main.LocalPlayer.Calamity().adrenaline = 0;
-							}
-						}
-					}
-				}
-            }
-
             sagePoisonDamage = 0;
+
             DebuffImmunities(npc);
 
             if (BossRushEvent.BossRushActive)
@@ -859,11 +838,6 @@ namespace CalamityMod.NPCs
             }
 
             BossValueChanges(npc);
-
-            if (CalamityWorld.defiled)
-            {
-                npc.value = (int)(npc.value * 1.5);
-            }
 
             if (DraedonMayhem)
             {
@@ -1629,10 +1603,17 @@ namespace CalamityMod.NPCs
             // DR applies after vanilla defense.
             damage = ApplyDR(npc, damage, yellowCandleDamage);
 
-            // Cancel out vanilla defense math by reversing the calculation vanilla is about to perform.
-            // While roundabout, this is safer than returning false to stop vanilla damage calculations entirely.
-            // Other mods will probably expect the vanilla code to run and may compensate for it themselves.
-            damage = Main.CalculateDamage((int)damage, -defense);
+			// Inflict 0 damage if it's below 0.5
+			damage = damage < 0.5 ? 0D : damage < 1D ? 1D : damage;
+
+			// Disable vanilla damage method if damage is less than 0.5
+			if (damage == 0D)
+				return false;
+
+			// Cancel out vanilla defense math by reversing the calculation vanilla is about to perform.
+			// While roundabout, this is safer than returning false to stop vanilla damage calculations entirely.
+			// Other mods will probably expect the vanilla code to run and may compensate for it themselves.
+			damage = Main.CalculateDamage((int)damage, -defense);
             return true;
         }
 
@@ -1671,8 +1652,7 @@ namespace CalamityMod.NPCs
 				if (npc.type == NPCType<Providence.Providence>() && !Main.dayTime)
                     DRScalar = 10f;
 				if ((DestroyerIDs.Contains(npc.type) && !NPC.downedPlantBoss) || (AquaticScourgeIDs.Contains(npc.type) && !NPC.downedPlantBoss) ||
-					(AstrumDeusIDs.Contains(npc.type) && !NPC.downedMoonlord) || (StormWeaverIDs.Contains(npc.type) && !CalamityWorld.downedDoG) ||
-					npc.type == NPCType<DevourerofGodsBody>() || npc.type == NPCType<DevourerofGodsBodyS>())
+					(AstrumDeusIDs.Contains(npc.type) && !NPC.downedMoonlord) || (StormWeaverIDs.Contains(npc.type) && !CalamityWorld.downedDoG))
 					DRScalar = 5f;
 
                 // The limit for how much extra DR the boss can have
@@ -1694,7 +1674,7 @@ namespace CalamityMod.NPCs
 			}
 
 			double newDamage = (1f - effectiveDR) * damage;
-            return newDamage < 0.5 ? 0D : newDamage < 1D ? 1D : newDamage;
+            return newDamage;
         }
 
         private float DefaultDRMath(NPC npc, float DR)
@@ -3272,9 +3252,13 @@ namespace CalamityMod.NPCs
 				{
                     // No grenade or global pierce resist here, body DR covers this appropriately
 
-                    // 20% resist to Sealed Singularity and Wave Pounder
-                    if (projectile.type == ProjectileType<SealedSingularityBlackhole>() || projectile.type == ProjectileType<WavePounderBoom>())
-                        damage = (int)(damage * 0.8);
+                    // 50% resist to Sealed Singularity
+                    if (projectile.type == ProjectileType<SealedSingularityBlackhole>())
+                        damage = (int)(damage * 0.5);
+
+                    // 25% resist to Wave Pounder
+                    else if (projectile.type == ProjectileType<WavePounderBoom>())
+                        damage = (int)(damage * 0.75);
 				}
 				else if (CosmicGuardianIDs.Contains(npc.type) || DarkEnergyIDs.Contains(npc.type))
 				{

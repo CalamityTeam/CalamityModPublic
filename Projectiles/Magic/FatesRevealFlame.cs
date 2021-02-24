@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Fireball");
+            DisplayName.SetDefault("Fate's Reveal");
             Main.projFrames[projectile.type] = 4;
         }
 
@@ -88,7 +88,8 @@ namespace CalamityMod.Projectiles.Magic
                 projectile.position = projectile.Center;
                 projectile.width = projectile.height = 180;
                 projectile.Center = projectile.position;
-                projectile.damage = 800;
+                // Ozzatron 15FEB2021 -- What the actual fuck is this
+                // projectile.damage = 800;
                 for (int num955 = 0; num955 < 10; num955 = num3 + 1)
                 {
                     Dust dust13 = Main.dust[Dust.NewDust(projectile.position, projectile.width, projectile.height, 60, 0f, -2f, 0, default, 1f)];
@@ -133,16 +134,19 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void Kill(int timeLeft)
         {
+            Main.PlaySound(SoundID.Item14, projectile.Center);
+
             projectile.position = projectile.Center;
-            projectile.width = projectile.height = 192;
+            projectile.width = projectile.height = 84;
             projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
             projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
             projectile.maxPenetrate = -1;
             projectile.penetrate = -1;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
+            projectile.localNPCHitCooldown = -1;
             projectile.Damage();
-            Main.PlaySound(SoundID.Item14, projectile.Center);
+
+            // Dust code
             int num3;
             for (int num122 = 0; num122 < 3; num122 = num3 + 1)
             {

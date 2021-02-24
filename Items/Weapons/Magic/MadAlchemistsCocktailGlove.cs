@@ -9,79 +9,70 @@ namespace CalamityMod.Items.Weapons.Magic
 {
     public class MadAlchemistsCocktailGlove : ModItem
     {
-        private int FlaskType = 0;
-        private int BaseDamage = 150;
+        private int flaskIndex = 0;
+
+        private static int[] flaskIDs;
 
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Mad Alchemist's Cocktail Glove");
-            Tooltip.SetDefault("Fires a variety of high-velocity flasks that have various effects\n" +
-                "Right click to throw a flask that inflicts a variety of debuffs");
+            Tooltip.SetDefault("Fires a variety of high-velocity flasks\n" +
+                "Right click to throw a prismatic flask that inflicts many debuffs\n" +
+                "Red flasks explode violently, blue flasks contain poison gas,\n" +
+                "green flasks summon lunar flares and purple flasks explode into homing shrapnel");
+
+            flaskIDs = new int[]
+            {
+                ModContent.ProjectileType<MadAlchemistsCocktailRed>(),
+                ModContent.ProjectileType<MadAlchemistsCocktailBlue>(),
+                ModContent.ProjectileType<MadAlchemistsCocktailGreen>(),
+                ModContent.ProjectileType<MadAlchemistsCocktailPurple>(),
+                ModContent.ProjectileType<MadAlchemistsCocktailAlt>()
+            };
         }
 
+        // Rest in peace Mad Cock, you will not be missed.
+        // Ozzatron 09FEB2021
         public override void SetDefaults()
         {
-            item.damage = BaseDamage;
+            item.width = 26;
+            item.height = 36;
+
+            item.damage = 182;
             item.magic = true;
             item.noUseGraphic = true;
             item.mana = 12;
-            item.width = 26;
-            item.height = 36;
             item.useTime = 15;
             item.useAnimation = 15;
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.noMelee = true;
             item.knockBack = 2f;
 
-            item.value = CalamityGlobalItem.Rarity11BuyPrice;
-            item.rare = ItemRarityID.Purple;
-            item.Calamity().donorItem = true;
-
             item.UseSound = SoundID.Item106;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<MadAlchemistsCocktailRed>();
             item.shootSpeed = 12f;
+
+            item.value = CalamityGlobalItem.Rarity11BuyPrice;
+            item.rare = ItemRarityID.Purple;
+            item.Calamity().donorItem = true;
         }
 
         public override bool AltFunctionUse(Player player) => true;
-
-        public override bool CanUseItem(Player player) => base.CanUseItem(player);
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             if (player.altFunctionUse == 2)
             {
-                type = ModContent.ProjectileType<MadAlchemistsCocktailAlt>();
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, (int)(damage * 1.15f), knockBack, player.whoAmI, 0f, 0f);
-            }
-            else
-            {
-                switch (FlaskType)
-                {
-                    case 0:
-                        type = ModContent.ProjectileType<MadAlchemistsCocktailRed>();
-                        break;
-                    case 1:
-                        type = ModContent.ProjectileType<MadAlchemistsCocktailBlue>();
-                        break;
-                    case 2:
-                        type = ModContent.ProjectileType<MadAlchemistsCocktailGreen>();
-                        break;
-                    case 3:
-                        type = ModContent.ProjectileType<MadAlchemistsCocktailPurple>();
-                        break;
-                    default:
-                        break;
-                }
-
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
-
-                FlaskType++;
-                if (FlaskType > 3)
-                    FlaskType = 0;
+                type = flaskIDs[4];
+                return true;
             }
 
-            return false;
+            // Cycle through the flask types in a circle.
+            type = flaskIDs[flaskIndex++];
+            if (flaskIndex > 3)
+                flaskIndex = 0;
+            return true;
         }
 
         public override void AddRecipes()
@@ -91,10 +82,8 @@ namespace CalamityMod.Items.Weapons.Magic
             recipe.AddIngredient(ItemID.BottledWater, 15);
             recipe.AddIngredient(ItemID.Leather, 5);
             recipe.AddIngredient(ModContent.ItemType<EffulgentFeather>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<CoreofEleum>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<CoreofCinder>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<CoreofChaos>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<CoreofCalamity>());
+            // the recipe previously also used the individual cores for some reason
+            recipe.AddIngredient(ModContent.ItemType<CoreofCalamity>(), 2);
             recipe.AddTile(TileID.AlchemyTable);
             recipe.SetResult(this);
             recipe.AddRecipe();

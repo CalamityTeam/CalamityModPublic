@@ -1175,10 +1175,9 @@ namespace CalamityMod.NPCs
 				SetShopItem(ref shop, ref nextSlot, ItemID.UltrabrightTorch, CalamityWorld.death);
 			}
 
-			// Because of the defiled condition, the dye trader does not receive an alert icon when hardmode starts.
 			if (type == NPCID.DyeTrader)
 			{
-				SetShopItem(ref shop, ref nextSlot, ItemType<DefiledFlameDye>(), Main.hardMode && CalamityWorld.defiled, Item.buyPrice(0, 10));
+				SetShopItem(ref shop, ref nextSlot, ItemType<DefiledFlameDye>(), Main.hardMode, Item.buyPrice(0, 10));
 				SetShopItem(ref shop, ref nextSlot, ItemID.DyeTradersScimitar, true, Item.buyPrice(0, 15));
 			}
 

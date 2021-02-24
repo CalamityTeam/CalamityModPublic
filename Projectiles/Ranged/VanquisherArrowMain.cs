@@ -35,9 +35,7 @@ namespace CalamityMod.Projectiles.Ranged
             if (projectile.timeLeft % 60 == 0)
             {
                 if (projectile.owner == Main.myPlayer)
-                {
-                    Projectile.NewProjectile(projectile.Center, projectile.velocity * 0.25f, ModContent.ProjectileType<VanquisherArrowSplit>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
-                }
+                    Projectile.NewProjectile(projectile.Center, projectile.velocity * 0.25f, ModContent.ProjectileType<VanquisherArrowSplit>(), projectile.damage, projectile.knockBack, projectile.owner);
             }
         }
 

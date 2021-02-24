@@ -12,30 +12,20 @@ using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
-using CalamityMod.NPCs.AstrumDeus;
-using CalamityMod.NPCs.DevourerofGods;
-using CalamityMod.NPCs.Leviathan;
 using CalamityMod.NPCs.NormalNPCs;
-using CalamityMod.NPCs.SlimeGod;
-using CalamityMod.NPCs.StormWeaver;
 using CalamityMod.NPCs.SulphurousSea;
 using CalamityMod.NPCs.TownNPCs;
 using CalamityMod.Tiles.Ores;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
-using System.Collections.Generic;
-using System.Linq;
 using Terraria;
 using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs
 {
-	public class CalamityGlobalNPCLoot : GlobalNPC
+    public class CalamityGlobalNPCLoot : GlobalNPC
     {
-		public static int halibutCannonBaseDropChance = 100000;
-
         #region Instance Per Entity
         public override bool InstancePerEntity => false;
         public override bool CloneNewInstances => false;
@@ -44,44 +34,57 @@ namespace CalamityMod.NPCs
         #region PreNPCLoot
         public override bool PreNPCLoot(NPC npc)
         {
+            // No bosses drop loot in Boss Rush. Progress the event instead.
             if (BossRushEvent.BossRushActive)
             {
-                return BossRushLootCancel(npc, mod);
-            }
-
-            bool abyssLootCancel = AbyssLootCancel(npc, mod);
-            if (abyssLootCancel)
-            {
+                BossRushEvent.OnBossKill(npc, mod);
                 return false;
             }
 
-			if (CalamityWorld.death)
-			{
-				switch (npc.type)
-				{
-					case NPCID.DiggerHead:
-					case NPCID.DiggerBody:
-					case NPCID.DiggerTail:
-						return SplittingWormLoot(npc, mod, 0);
-					case NPCID.SeekerHead:
-					case NPCID.SeekerBody:
-					case NPCID.SeekerTail:
-						return SplittingWormLoot(npc, mod, 1);
-					case NPCID.DuneSplicerHead:
-					case NPCID.DuneSplicerBody:
-					case NPCID.DuneSplicerTail:
-						return SplittingWormLoot(npc, mod, 2);
-					default:
-						break;
-				}
-			}
+            // TODO -- why do we have random enemies dying in the abyss regardless of whether they're underwater
+            // this just causes multiplayer desyncs if anything
+            if (AbyssLootCancel(npc, mod))
+                return false;
 
-            if (CalamityWorld.revenge)
+            if (CalamityWorld.death)
             {
-                if (npc.type == NPCID.Probe || npc.type == NPCID.ServantofCthulhu)
+                switch (npc.type)
                 {
-                    return false;
+                    case NPCID.DiggerHead:
+                    case NPCID.DiggerBody:
+                    case NPCID.DiggerTail:
+                        return SplittingWormLoot(npc, mod, 0);
+                    case NPCID.SeekerHead:
+                    case NPCID.SeekerBody:
+                    case NPCID.SeekerTail:
+                        return SplittingWormLoot(npc, mod, 1);
+                    case NPCID.DuneSplicerHead:
+                    case NPCID.DuneSplicerBody:
+                    case NPCID.DuneSplicerTail:
+                        return SplittingWormLoot(npc, mod, 2);
+                    default:
+                        break;
                 }
+            }
+
+            // Servants of Cthulhu and Probes do not provide free hearts in Rev+.
+            if (CalamityWorld.revenge && (npc.type == NPCID.ServantofCthulhu || npc.type == NPCID.Probe))
+                NPCLoader.blockLoot.Add(ItemID.Heart);
+
+            //
+            // Ozzatron 17FEB2021: A NOTE about PreNPCLoot vs NPCLoot
+            // PreNPCLoot runs before the boss is marked as dead. This means it is required for lore items and Resident Evil ammo.
+            // Because we already have clauses here for every boss, it is more convenient to drop everything here than it is
+            // to iterate through all the bosses twice.
+            //
+
+            // Since Calamity makes it spawn in pre-hardmode, don't want to cause other mods to freak out if they use it as a tier gate (like a new weapon or something)
+            if (npc.type == NPCID.GreenJellyfish && !Main.hardMode)
+            {
+                DropHelper.DropItem(npc, ItemID.Glowstick, 1, 4);
+                DropHelper.DropItemChance(npc, ItemID.JellyfishNecklace, 0.01f);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<VitalJelly>(), Main.expertMode ? 5 : 7);
+                return false;
             }
 
             // Determine whether this NPC is the second Twin killed in a fight, regardless of which Twin it is.
@@ -108,16 +111,17 @@ namespace CalamityMod.NPCs
 
                 DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeKingSlime>(), true, !NPC.downedSlimeKing);
                 DropHelper.DropResidentEvilAmmo(npc, NPC.downedSlimeKing, 2, 0, 0);
-
-				CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.Dryad }, NPC.downedSlimeKing);
-			}
+                CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.Dryad }, NPC.downedSlimeKing);
+            }
             else if (npc.type == NPCID.EyeofCthulhu)
             {
+                DropHelper.DropItemCondition(npc, ModContent.ItemType<VictoryShard>(), !Main.expertMode, 2, 4);
+                DropHelper.DropItemCondition(npc, ModContent.ItemType<TeardropCleaver>(), !Main.expertMode, 5, 1, 1);
+
                 DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeEyeofCthulhu>(), true, !NPC.downedBoss1);
                 DropHelper.DropResidentEvilAmmo(npc, NPC.downedBoss1, 2, 0, 0);
-
-				CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.Merchant, NPCID.Dryad }, NPC.downedBoss1);
-			}
+                CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.Merchant, NPCID.Dryad }, NPC.downedBoss1);
+            }
             else if ((npc.boss && (npc.type == NPCID.EaterofWorldsHead || npc.type == NPCID.EaterofWorldsBody || npc.type == NPCID.EaterofWorldsTail)) || npc.type == NPCID.BrainofCthulhu)
             {
                 DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeCorruption>(), true, !WorldGen.crimson && !NPC.downedBoss2);
@@ -125,93 +129,155 @@ namespace CalamityMod.NPCs
                 DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeCrimson>(), true, WorldGen.crimson && !NPC.downedBoss2);
                 DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeBrainofCthulhu>(), true, WorldGen.crimson && !NPC.downedBoss2);
                 DropHelper.DropResidentEvilAmmo(npc, NPC.downedBoss2, 2, 0, 0);
-
-				CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.Merchant, NPCID.ArmsDealer, NPCID.Dryad }, NPC.downedBoss2);
-			}
+                CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.Merchant, NPCID.ArmsDealer, NPCID.Dryad }, NPC.downedBoss2);
+            }
             else if (npc.type == NPCID.QueenBee)
             {
+                // Drop weapons Calamity style instead of mutually exclusive.
+                if (!Main.expertMode)
+                {
+                    int[] queenBeeWeapons = new int[]
+                    {
+                        ItemID.BeeKeeper,
+                        ItemID.BeesKnees,
+                        ItemID.BeeGun,
+                    };
+                    DropHelper.DropEntireSet(npc, DropHelper.NormalWeaponDropRateFloat, queenBeeWeapons);
+                    DropHelper.BlockDrops(queenBeeWeapons);
+                }
+
+                DropHelper.DropItemCondition(npc, ItemID.Stinger, !Main.expertMode, 5, 10); // Extra stingers
+                DropHelper.DropItemCondition(npc, ModContent.ItemType<HardenedHoneycomb>(), !Main.expertMode, 30, 50);
+
                 DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeQueenBee>(), true, !NPC.downedQueenBee);
                 DropHelper.DropResidentEvilAmmo(npc, NPC.downedQueenBee, 2, 0, 0);
-
-				CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.ArmsDealer, NPCID.Dryad }, NPC.downedQueenBee);
-			}
+                CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.ArmsDealer, NPCID.Dryad }, NPC.downedQueenBee);
+            }
             else if (npc.type == NPCID.SkeletronHead)
             {
                 DropHelper.DropItemCondition(npc, ModContent.ItemType<ClothiersWrath>(), !Main.expertMode, DropHelper.RareVariantDropRateInt, 1, 1);
+
                 DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeSkeletron>(), true, !NPC.downedBoss3);
                 DropHelper.DropResidentEvilAmmo(npc, NPC.downedBoss3, 3, 1, 0);
-
-				CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.Merchant, NPCID.Dryad }, NPC.downedBoss3);
-			}
+                CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.Merchant, NPCID.Dryad }, NPC.downedBoss3);
+            }
             else if (npc.type == NPCID.WallofFlesh)
             {
-                DropHelper.DropItemCondition(npc, ModContent.ItemType<MLGRune>(), !Main.expertMode && !CalamityWorld.demonMode); // Demon Trophy
-                DropHelper.DropItemCondition(npc, ModContent.ItemType<Meowthrower>(), !Main.expertMode, 5, 1, 1);
-                DropHelper.DropItemCondition(npc, ModContent.ItemType<BlackHawkRemote>(), !Main.expertMode, 5, 1, 1);
-                DropHelper.DropItemCondition(npc, ModContent.ItemType<BlastBarrel>(), !Main.expertMode, 5, 1, 1);
-                DropHelper.DropItemCondition(npc, ModContent.ItemType<RogueEmblem>(), !Main.expertMode, 8, 1, 1);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<IbarakiBox>(), !Main.hardMode, Main.hardMode ? 0.1f : 1f); // 100% chance on first kill, 10% chance afterwards
+                if (!Main.expertMode)
+                {
+                    // Drop weapons Calamity style instead of mutually exclusive -- this includes Calamity weapons.
+                    int[] wofWeapons = new int[]
+                    {
+                        ItemID.BreakerBlade,
+                        ItemID.ClockworkAssaultRifle,
+                        ModContent.ItemType<Meowthrower>(),
+                        ItemID.LaserRifle,
+                        ModContent.ItemType<BlackHawkRemote>(),
+                        ModContent.ItemType<BlastBarrel>(),
+                    };
+                    DropHelper.DropEntireSet(npc, DropHelper.NormalWeaponDropRateFloat, wofWeapons);
+                    DropHelper.BlockDrops(wofWeapons);
+
+                    // Drop emblems Calamity style instead of mutually exclusive -- this includes the Rogue Emblem.
+                    int[] emblems = new int[]
+                    {
+                        ItemID.WarriorEmblem,
+                        ItemID.RangerEmblem,
+                        ItemID.SorcererEmblem,
+                        ItemID.SummonerEmblem,
+                        ModContent.ItemType<RogueEmblem>(),
+                    };
+                    DropHelper.DropEntireSet(npc, 0.25f, emblems);
+                    DropHelper.BlockDrops(emblems);
+                }
+
+                // Drop Demon Trophy directly if it hasn't been used yet and Expert Mode is not active.
+                DropHelper.DropItemCondition(npc, ModContent.ItemType<MLGRune>(), !Main.expertMode && !CalamityWorld.demonMode);
+
+                // Drop Hermit's Box directly for EACH player, regardles of Expert or not. 100% chance on first kill, 10% chance afterwards.
+                float hermitBoxChance = Main.hardMode ? 1f : 0.1f;
+                DropHelper.DropItemChance(npc, ModContent.ItemType<IbarakiBox>(), true, hermitBoxChance);
+
                 DropHelper.DropItemFromSetCondition(npc, !Main.expertMode, 0.2f, ItemID.CorruptionKey, ItemID.CrimsonKey);
 
                 DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeUnderworld>(), true, !Main.hardMode);
                 DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeWallofFlesh>(), true, !Main.hardMode);
                 DropHelper.DropResidentEvilAmmo(npc, Main.hardMode, 3, 1, 0);
+                CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.Merchant, NPCID.ArmsDealer, NPCID.Dryad, NPCID.Painter, NPCID.WitchDoctor, NPCID.Stylist, NPCID.DyeTrader, NPCID.Demolitionist, NPCID.PartyGirl, NPCID.Clothier, NPCID.SkeletonMerchant, ModContent.NPCType<THIEF>() }, Main.hardMode);
 
-				CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.Merchant, NPCID.ArmsDealer, NPCID.Dryad, NPCID.Painter, NPCID.WitchDoctor, NPCID.Stylist, NPCID.Demolitionist, NPCID.PartyGirl, NPCID.Clothier, NPCID.SkeletonMerchant, ModContent.NPCType<THIEF>() }, Main.hardMode);
-
-				// First kill text (this is not a loot function)
-				if (!Main.hardMode)
-				{
-					string key2 = "Mods.CalamityMod.UglyBossText";
-					Color messageColor2 = Color.Aquamarine;
+                // First kill text (this is not a loot function)
+                if (!Main.hardMode)
+                {
+                    string key2 = "Mods.CalamityMod.UglyBossText";
+                    Color messageColor2 = Color.Aquamarine;
 
                     CalamityUtils.DisplayLocalizedText(key2, messageColor2);
                 }
             }
             else if (lastTwinStanding)
             {
+                DropHelper.DropItemCondition(npc, ModContent.ItemType<MysteriousCircuitry>(), Main.expertMode, CalamityGlobalNPC.DraedonMayhem, 8, 16);
+                DropHelper.DropItemCondition(npc, ModContent.ItemType<DubiousPlating>(), Main.expertMode, CalamityGlobalNPC.DraedonMayhem, 8, 16);
+
                 DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeTwins>(), true, !NPC.downedMechBoss2);
                 DropHelper.DropResidentEvilAmmo(npc, NPC.downedMechBoss2, 4, 2, 1);
-                DropHelper.DropItemCondition(npc, ModContent.ItemType<MysteriousCircuitry>(), CalamityGlobalNPC.DraedonMayhem, 1f, 8, 16);
-                DropHelper.DropItemCondition(npc, ModContent.ItemType<DubiousPlating>(), CalamityGlobalNPC.DraedonMayhem, 1f, 8, 16);
-
-				CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.DD2Bartender, NPCID.Stylist, NPCID.Truffle, ModContent.NPCType<THIEF>() }, NPC.downedMechBossAny);
-				CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.Stylist, ModContent.NPCType<DILF>(), ModContent.NPCType<FAP>(), ModContent.NPCType<THIEF>() }, !NPC.downedMechBoss1 || NPC.downedMechBoss2 || !NPC.downedMechBoss3);
-				CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.Steampunker }, NPC.downedMechBoss2 || !CalamityConfig.Instance.SellVanillaSummons);
-			}
+                CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.DD2Bartender, NPCID.Stylist, NPCID.Truffle, ModContent.NPCType<THIEF>() }, NPC.downedMechBossAny);
+                CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.Stylist, ModContent.NPCType<DILF>(), ModContent.NPCType<FAP>(), ModContent.NPCType<THIEF>() }, !NPC.downedMechBoss1 || NPC.downedMechBoss2 || !NPC.downedMechBoss3);
+                CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.Steampunker }, NPC.downedMechBoss2 || !CalamityConfig.Instance.SellVanillaSummons);
+            }
             else if (npc.type == NPCID.TheDestroyer)
             {
+                DropHelper.DropItemCondition(npc, ModContent.ItemType<MysteriousCircuitry>(), Main.expertMode, CalamityGlobalNPC.DraedonMayhem, 8, 16);
+                DropHelper.DropItemCondition(npc, ModContent.ItemType<DubiousPlating>(), Main.expertMode, CalamityGlobalNPC.DraedonMayhem, 8, 16);
+
                 DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeDestroyer>(), true, !NPC.downedMechBoss1);
                 DropHelper.DropResidentEvilAmmo(npc, NPC.downedMechBoss1, 4, 2, 1);
-                DropHelper.DropItemCondition(npc, ModContent.ItemType<MysteriousCircuitry>(), CalamityGlobalNPC.DraedonMayhem, 1f, 8, 16);
-                DropHelper.DropItemCondition(npc, ModContent.ItemType<DubiousPlating>(), CalamityGlobalNPC.DraedonMayhem, 1f, 8, 16);
-
-				CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.DD2Bartender, NPCID.Stylist, NPCID.Truffle, ModContent.NPCType<THIEF>() }, NPC.downedMechBossAny);
-				CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.Stylist, ModContent.NPCType<DILF>(), ModContent.NPCType<FAP>(), ModContent.NPCType<THIEF>() }, NPC.downedMechBoss1 || !NPC.downedMechBoss2 || !NPC.downedMechBoss3);
-				CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.Steampunker }, NPC.downedMechBoss1 || !CalamityConfig.Instance.SellVanillaSummons);
-			}
+                CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.DD2Bartender, NPCID.Stylist, NPCID.Truffle, ModContent.NPCType<THIEF>() }, NPC.downedMechBossAny);
+                CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.Stylist, ModContent.NPCType<DILF>(), ModContent.NPCType<FAP>(), ModContent.NPCType<THIEF>() }, NPC.downedMechBoss1 || !NPC.downedMechBoss2 || !NPC.downedMechBoss3);
+                CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.Steampunker }, NPC.downedMechBoss1 || !CalamityConfig.Instance.SellVanillaSummons);
+            }
             else if (npc.type == NPCID.SkeletronPrime)
             {
-                DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeSkeletronPrime>(), true, !NPC.downedMechBoss3);
-                DropHelper.DropItemCondition(npc, ModContent.ItemType<GoldBurdenBreaker>(), true, npc.ai[1] == 2f && CalamityWorld.revenge);
-                DropHelper.DropResidentEvilAmmo(npc, NPC.downedMechBoss3, 4, 2, 1);
-                DropHelper.DropItemCondition(npc, ModContent.ItemType<MysteriousCircuitry>(), CalamityGlobalNPC.DraedonMayhem, 1f, 8, 16);
-                DropHelper.DropItemCondition(npc, ModContent.ItemType<DubiousPlating>(), CalamityGlobalNPC.DraedonMayhem, 1f, 8, 16);
+                DropHelper.DropItemCondition(npc, ModContent.ItemType<MysteriousCircuitry>(), Main.expertMode, CalamityGlobalNPC.DraedonMayhem, 8, 16);
+                DropHelper.DropItemCondition(npc, ModContent.ItemType<DubiousPlating>(), Main.expertMode, CalamityGlobalNPC.DraedonMayhem, 8, 16);
 
-				CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.DD2Bartender, NPCID.Stylist, NPCID.Truffle, ModContent.NPCType<THIEF>() }, NPC.downedMechBossAny);
-				CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.Stylist, ModContent.NPCType<DILF>(), ModContent.NPCType<FAP>(), ModContent.NPCType<THIEF>() }, !NPC.downedMechBoss1 || !NPC.downedMechBoss2 || NPC.downedMechBoss3);
-				CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.Steampunker }, NPC.downedMechBoss3 || !CalamityConfig.Instance.SellVanillaSummons);
+                DropHelper.DropItemCondition(npc, ModContent.ItemType<GoldBurdenBreaker>(), true, npc.ai[1] == 2f && CalamityWorld.revenge);
+
+                DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeSkeletronPrime>(), true, !NPC.downedMechBoss3);
+                DropHelper.DropResidentEvilAmmo(npc, NPC.downedMechBoss3, 4, 2, 1);
+                CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.DD2Bartender, NPCID.Stylist, NPCID.Truffle, ModContent.NPCType<THIEF>() }, NPC.downedMechBossAny);
+                CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.Stylist, ModContent.NPCType<DILF>(), ModContent.NPCType<FAP>(), ModContent.NPCType<THIEF>() }, !NPC.downedMechBoss1 || !NPC.downedMechBoss2 || NPC.downedMechBoss3);
+                CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.Steampunker }, NPC.downedMechBoss3 || !CalamityConfig.Instance.SellVanillaSummons);
             }
             else if (npc.type == NPCID.Plantera)
             {
+                // Drop weapons Calamity style instead of mutually exclusive.
+                if (!Main.expertMode)
+                {
+                    int[] planteraWeapons = new int[]
+                    {
+                        ItemID.FlowerPow,
+                        ItemID.Seedler,
+                        ItemID.GrenadeLauncher,
+                        ItemID.VenusMagnum,
+                        ItemID.LeafBlower,
+                        ItemID.NettleBurst,
+                        ItemID.WaspGun,
+                        ItemID.PygmyStaff
+                    };
+                    DropHelper.DropEntireSet(npc, DropHelper.NormalWeaponDropRateFloat, planteraWeapons);
+                    DropHelper.BlockDrops(planteraWeapons);
+                }
+
+                DropHelper.DropItemCondition(npc, ModContent.ItemType<LivingShard>(), !Main.expertMode, 12, 18);
                 DropHelper.DropItemCondition(npc, ItemID.JungleKey, !Main.expertMode, 5, 1, 1);
+
                 DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgePlantera>(), true, !NPC.downedPlantBoss);
                 DropHelper.DropResidentEvilAmmo(npc, NPC.downedPlantBoss, 4, 2, 1);
+                CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.WitchDoctor, NPCID.Truffle, ModContent.NPCType<FAP>(), ModContent.NPCType<THIEF>() }, NPC.downedPlantBoss);
 
-				CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.WitchDoctor, NPCID.Truffle, ModContent.NPCType<FAP>(), ModContent.NPCType<THIEF>() }, NPC.downedPlantBoss);
-
-				// Spawn Perennial Ore if Plantera has never been killed
-				if (!NPC.downedPlantBoss)
+                // Spawn Perennial Ore if Plantera has never been killed
+                if (!NPC.downedPlantBoss)
                 {
                     string key2 = "Mods.CalamityMod.PlantOreText";
                     Color messageColor2 = Color.GreenYellow;
@@ -224,35 +290,58 @@ namespace CalamityMod.NPCs
                     CalamityUtils.DisplayLocalizedText(key3, messageColor3);
                 }
             }
-			else if (npc.type == NPCID.Pumpking)
-			{
-				CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.Clothier }, NPC.downedHalloweenKing);
-			}
-			else if (npc.type == NPCID.Everscream)
-			{
-				CalamityGlobalTownNPC.SetNewShopVariable(new int[] { ModContent.NPCType<DILF>() }, NPC.downedChristmasTree || !NPC.downedChristmasSantank || !NPC.downedChristmasIceQueen);
-			}
-			else if (npc.type == NPCID.SantaNK1)
-			{
-				CalamityGlobalTownNPC.SetNewShopVariable(new int[] { ModContent.NPCType<DILF>() }, !NPC.downedChristmasTree || NPC.downedChristmasSantank || !NPC.downedChristmasIceQueen);
-			}
-			else if (npc.type == NPCID.IceQueen)
-			{
-				CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.Clothier }, NPC.downedChristmasIceQueen);
-				CalamityGlobalTownNPC.SetNewShopVariable(new int[] { ModContent.NPCType<DILF>() }, !NPC.downedChristmasTree || !NPC.downedChristmasSantank || NPC.downedChristmasIceQueen);
-			}
+
+            // These event enemies set shop variables and since those depend on downed bools they must be done in PreNPCLoot.
+            else if (npc.type == NPCID.Pumpking)
+            {
+                CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.Clothier }, NPC.downedHalloweenKing);
+            }
+            else if (npc.type == NPCID.Everscream)
+            {
+                CalamityGlobalTownNPC.SetNewShopVariable(new int[] { ModContent.NPCType<DILF>() }, NPC.downedChristmasTree || !NPC.downedChristmasSantank || !NPC.downedChristmasIceQueen);
+            }
+            else if (npc.type == NPCID.SantaNK1)
+            {
+                CalamityGlobalTownNPC.SetNewShopVariable(new int[] { ModContent.NPCType<DILF>() }, !NPC.downedChristmasTree || NPC.downedChristmasSantank || !NPC.downedChristmasIceQueen);
+            }
+            else if (npc.type == NPCID.IceQueen)
+            {
+                CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.Clothier }, NPC.downedChristmasIceQueen);
+                CalamityGlobalTownNPC.SetNewShopVariable(new int[] { ModContent.NPCType<DILF>() }, !NPC.downedChristmasTree || !NPC.downedChristmasSantank || NPC.downedChristmasIceQueen);
+            }
+
             else if (npc.type == NPCID.Golem)
             {
+                // Drop loot Calamity style instead of mutually exclusive.
+                if (!Main.expertMode)
+                {
+                    int[] golemItems = new int[]
+                    {
+                        ItemID.GolemFist,
+                        ItemID.PossessedHatchet,
+                        ItemID.Stynger,
+                        ItemID.HeatRay,
+                        ItemID.StaffofEarth,
+                        ItemID.EyeoftheGolem,
+                        ItemID.SunStone,
+                    };
+                    DropHelper.DropEntireSet(npc, DropHelper.NormalWeaponDropRateFloat, golemItems);
+                    DropHelper.BlockDrops(golemItems);
+                }
+
+                // If Golem has never been killed, provide a Picksaw to all players. This only applies in Normal Mode.
+                // The Golem Treasure Bag is guaranteed to provide a Picksaw if one is not yet in the inventory.
+                DropHelper.DropItemCondition(npc, ItemID.Picksaw, true, !Main.expertMode && !NPC.downedGolemBoss);
+
                 DropHelper.DropItemCondition(npc, ModContent.ItemType<EssenceofCinder>(), !Main.expertMode, 5, 10);
-				DropHelper.DropItemCondition(npc, ModContent.ItemType<LeadWizard>(), !Main.expertMode, DropHelper.RareVariantDropRateFloat);
-                DropHelper.DropItemCondition(npc, ItemID.Picksaw, true, !NPC.downedGolemBoss);
+                DropHelper.DropItemCondition(npc, ModContent.ItemType<LeadWizard>(), !Main.expertMode, DropHelper.RareVariantDropRateFloat);
+
                 DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeGolem>(), true, !NPC.downedGolemBoss);
                 DropHelper.DropResidentEvilAmmo(npc, NPC.downedGolemBoss, 4, 2, 1);
+                CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.ArmsDealer, NPCID.Cyborg, NPCID.Steampunker, NPCID.Wizard, NPCID.WitchDoctor, NPCID.DD2Bartender, ModContent.NPCType<FAP>(), ModContent.NPCType<THIEF>() }, NPC.downedGolemBoss);
 
-				CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.ArmsDealer, NPCID.Cyborg, NPCID.Steampunker, NPCID.Wizard, NPCID.WitchDoctor, NPCID.DD2Bartender, ModContent.NPCType<FAP>(), ModContent.NPCType<THIEF>() }, NPC.downedGolemBoss);
-
-				// If Golem has never been killed, send messages about PBG
-				if (!NPC.downedGolemBoss)
+                // If Golem has never been killed, send a message about the Plague.
+                if (!NPC.downedGolemBoss)
                 {
                     string key = "Mods.CalamityMod.BabyBossText";
                     Color messageColor = Color.Lime;
@@ -262,6 +351,20 @@ namespace CalamityMod.NPCs
             }
             else if (npc.type == NPCID.DD2Betsy && !CalamityWorld.downedBetsy)
             {
+                // Drop weapons Calamity style instead of mutually exclusive.
+                if (!Main.expertMode)
+                {
+                    int[] betsyWeapons = new int[]
+                    {
+                        ItemID.DD2SquireBetsySword, // Flying Dragon
+                        ItemID.MonkStaffT3, // Sky Dragon's Fury
+                        ItemID.DD2BetsyBow, // Aerial Bane
+                        ItemID.ApprenticeStaffT3, // Betsy's Wrath
+                    };
+                    DropHelper.DropEntireSet(npc, DropHelper.NormalWeaponDropRateFloat, betsyWeapons);
+                    DropHelper.BlockDrops(betsyWeapons);
+                }
+
                 DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedBetsy, 4, 2, 1);
 
                 // Mark Betsy as dead (Vanilla does not keep track of her)
@@ -270,19 +373,35 @@ namespace CalamityMod.NPCs
             }
             else if (npc.type == NPCID.DukeFishron)
             {
-                DropHelper.DropItemCondition(npc, ModContent.ItemType<DukesDecapitator>(), !Main.expertMode, 5, 1, 1);
+                // Drop weapons Calamity style instead of mutually exclusive -- this includes Calamity weapons.
+                if (!Main.expertMode)
+                {
+                    int[] dukeWeapons = new int[]
+                    {
+                        ItemID.Flairon,
+                        ItemID.Tsunami,
+                        ItemID.BubbleGun,
+                        ItemID.RazorbladeTyphoon,
+                        ItemID.TempestStaff,
+                        ModContent.ItemType<DukesDecapitator>(),
+                    };
+                    DropHelper.DropEntireSet(npc, DropHelper.NormalWeaponDropRateFloat, dukeWeapons);
+                    DropHelper.BlockDrops(dukeWeapons);
+                }
+
                 DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeDukeFishron>(), true, !NPC.downedFishron);
                 DropHelper.DropResidentEvilAmmo(npc, NPC.downedPlantBoss, 4, 2, 1);
-
-				CalamityGlobalTownNPC.SetNewShopVariable(new int[] { ModContent.NPCType<SEAHOE>() }, NPC.downedFishron || !CalamityConfig.Instance.SellVanillaSummons);
-			}
+                CalamityGlobalTownNPC.SetNewShopVariable(new int[] { ModContent.NPCType<SEAHOE>() }, NPC.downedFishron || !CalamityConfig.Instance.SellVanillaSummons);
+            }
             else if (npc.type == NPCID.CultistBoss)
             {
-                DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeLunaticCultist>(), true, !NPC.downedAncientCultist);
-                DropHelper.DropResidentEvilAmmo(npc, NPC.downedAncientCultist, 4, 2, 1);
+                float stardustChance = Main.expertMode ? DropHelper.BagWeaponDropRateFloat : DropHelper.NormalWeaponDropRateFloat;
+                DropHelper.DropItemChance(npc, ModContent.ItemType<StardustStaff>(), stardustChance);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<ThornBlossom>(), DropHelper.RareVariantDropRateInt);
 
-                // Blood Moon lore item
+                DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeLunaticCultist>(), true, !NPC.downedAncientCultist);
                 DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeBloodMoon>(), true, Main.bloodMoon);
+                DropHelper.DropResidentEvilAmmo(npc, NPC.downedAncientCultist, 4, 2, 1);
 
                 // Deus text (this is not a loot function)
                 if (!NPC.downedAncientCultist)
@@ -295,19 +414,42 @@ namespace CalamityMod.NPCs
             }
             else if (npc.type == NPCID.MoonLordCore)
             {
-                DropHelper.DropItemCondition(npc, ItemID.LunarOre, !Main.expertMode, 50, 50);
-                DropHelper.DropItemCondition(npc, ModContent.ItemType<MLGRune2>(), true, !Main.expertMode);
-                DropHelper.DropItemCondition(npc, ItemID.GravityGlobe, !Main.expertMode);
-                DropHelper.DropItemCondition(npc, ModContent.ItemType<UtensilPoker>(), !Main.expertMode, 9, 1, 1);
+                // Drop weapons Calamity style instead of mutually exclusive -- this includes Calamity weapons.
+                if (!Main.expertMode)
+                {
+                    int[] moonLordWeapons = new int[]
+                    {
+                        ItemID.Meowmere,
+                        ItemID.StarWrath,
+                        ItemID.Terrarian,
+                        ItemID.FireworksLauncher, // Celebration
+                        // ItemID.CelebrationMK2,
+                        ItemID.SDMG,
+                        ItemID.LastPrism,
+                        ItemID.LunarFlareBook,
+                        ItemID.MoonlordTurretStaff, // Lunar Portal Staff
+                        ItemID.RainbowCrystalStaff,
+                        ModContent.ItemType<UtensilPoker>(),
+                    };
+                    DropHelper.DropEntireSet(npc, DropHelper.NormalWeaponDropRateFloat, moonLordWeapons);
+                    DropHelper.BlockDrops(moonLordWeapons);
+                }
+
                 DropHelper.DropItemCondition(npc, ModContent.ItemType<GrandDad>(), !Main.expertMode, DropHelper.RareVariantDropRateInt, 1, 1);
                 DropHelper.DropItemCondition(npc, ModContent.ItemType<Infinity>(), !Main.expertMode, DropHelper.RareVariantDropRateInt, 1, 1);
+
+                // Gravity Globe is available to Normal players as well
+                DropHelper.DropItemCondition(npc, ItemID.GravityGlobe, !Main.expertMode);
+
+                // One Celestial Onion is given to each player individually
+                DropHelper.DropItemCondition(npc, ModContent.ItemType<MLGRune2>(), true, !Main.expertMode);
+
                 DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeMoonLord>(), true, !NPC.downedMoonlord);
                 DropHelper.DropResidentEvilAmmo(npc, NPC.downedMoonlord, 5, 2, 1);
+                CalamityGlobalTownNPC.SetNewShopVariable(new int[] { ModContent.NPCType<THIEF>() }, NPC.downedMoonlord);
+                CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.Wizard }, NPC.downedMoonlord || !CalamityConfig.Instance.SellVanillaSummons);
 
-				CalamityGlobalTownNPC.SetNewShopVariable(new int[] { ModContent.NPCType<THIEF>() }, NPC.downedMoonlord);
-				CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.Wizard }, NPC.downedMoonlord || !CalamityConfig.Instance.SellVanillaSummons);
-
-				string key = "Mods.CalamityMod.MoonBossText";
+                string key = "Mods.CalamityMod.MoonBossText";
                 Color messageColor = Color.Orange;
                 string key2 = "Mods.CalamityMod.MoonBossText2";
                 Color messageColor2 = Color.Violet;
@@ -322,117 +464,15 @@ namespace CalamityMod.NPCs
                 if (!NPC.downedMoonlord)
                 {
                     WorldGenerationMethods.SpawnOre(ModContent.TileType<ExodiumOre>(), 12E-05, .01f, .07f);
-					WorldGenerationMethods.SpawnOre(TileID.LunarOre, 12E-05, .65f, .8f);
-
-					CalamityUtils.DisplayLocalizedText(key, messageColor);
-                    CalamityUtils.DisplayLocalizedText(key2, messageColor);
-                    CalamityUtils.DisplayLocalizedText(key3, messageColor);
-                    CalamityUtils.DisplayLocalizedText(key4, messageColor);
-                    CalamityUtils.DisplayLocalizedText(key5, messageColor);
+                    CalamityUtils.DisplayLocalizedText(key, messageColor);
+                    CalamityUtils.DisplayLocalizedText(key2, messageColor2);
+                    CalamityUtils.DisplayLocalizedText(key3, messageColor3);
+                    CalamityUtils.DisplayLocalizedText(key4, messageColor4);
+                    CalamityUtils.DisplayLocalizedText(key5, messageColor5);
                 }
             }
-			//Since Calamity makes it spawn in pre-hardmode, don't want to cause other mods to freak out if they use it as a tier gate (like a new weapon or something)
-			else if (npc.type == NPCID.GreenJellyfish && !Main.hardMode)
-			{
-                DropHelper.DropItem(npc, ItemID.Glowstick, 1, 4);
-                DropHelper.DropItemChance(npc, ItemID.JellyfishNecklace, 0.1f);
-                DropHelper.DropItemChance(npc, ItemID.Megaphone, Main.expertMode ? 0.2f : 0.1f);
-                DropHelper.DropItemCondition(npc, ItemID.JellyfishNecklace, CalamityWorld.defiled, DropHelper.DefiledDropRateFloat);
-                DropHelper.DropItemCondition(npc, ItemID.Megaphone, CalamityWorld.defiled, DropHelper.DefiledDropRateFloat);
-				DropHelper.DropItemChance(npc, ModContent.ItemType<VitalJelly>(), Main.expertMode ? 5 : 7);
-				return false;
-			}
 
             return true;
-        }
-        #endregion
-
-        #region Boss Rush Loot Cancel
-        private bool BossRushLootCancel(NPC npc, Mod mod)
-        {
-            // Eater of Worlds splits in Boss Rush now, so you have to kill every single segment to progress.
-            // Vanilla sets npc.boss to true for the last Eater of Worlds segment to die in NPC.checkDead.
-            // This means we do not need to manually check for other segments ourselves.
-            if (npc.type == NPCID.EaterofWorldsHead || npc.type == NPCID.EaterofWorldsBody || npc.type == NPCID.EaterofWorldsTail)
-            {
-                if (npc.boss)
-				{
-                    BossRushEvent.BossRushStage++;
-                    CalamityUtils.KillAllHostileProjectiles();
-                    CalamityWorld.bossRushHostileProjKillCounter = 3;
-				}
-            }
-            
-            // Anahita and Leviathan manually check for each other (this probably isn't necessary).
-            else if (npc.type == ModContent.NPCType<Siren>() || npc.type == ModContent.NPCType<Leviathan.Leviathan>())
-            {
-                int bossType = (npc.type == ModContent.NPCType<Siren>()) ? ModContent.NPCType<Leviathan.Leviathan>() : ModContent.NPCType<Siren>();
-                if (!NPC.AnyNPCs(bossType))
-                {
-                    BossRushEvent.BossRushStage++;
-                    CalamityUtils.KillAllHostileProjectiles();
-					CalamityWorld.bossRushHostileProjKillCounter = 3;
-                }
-            }
-            
-            // Killing any split Deus head ends the fight instantly. You don't need to kill both.
-            else if (npc.type == ModContent.NPCType<AstrumDeusHeadSpectral>() && npc.Calamity().newAI[0] != 0f)
-            {
-                BossRushEvent.BossRushStage++;
-                CalamityUtils.KillAllHostileProjectiles();
-                CalamityWorld.bossRushHostileProjKillCounter = 3;
-            }
-
-            // All Slime God entities must be killed to progress to the next stage.
-            else if (npc.type == ModContent.NPCType<SlimeGodCore>() || npc.type == ModContent.NPCType<SlimeGodSplit>() || npc.type == ModContent.NPCType<SlimeGodRunSplit>())
-            {
-                if (npc.type == ModContent.NPCType<SlimeGodCore>() && !NPC.AnyNPCs(ModContent.NPCType<SlimeGodSplit>()) && !NPC.AnyNPCs(ModContent.NPCType<SlimeGodRunSplit>()) &&
-                    !NPC.AnyNPCs(ModContent.NPCType<SlimeGod.SlimeGod>()) && !NPC.AnyNPCs(ModContent.NPCType<SlimeGodRun>()))
-                {
-                    BossRushEvent.BossRushStage++;
-                    CalamityUtils.KillAllHostileProjectiles();
-					CalamityWorld.bossRushHostileProjKillCounter = 3;
-                }
-                else if (npc.type == ModContent.NPCType<SlimeGodSplit>() && !NPC.AnyNPCs(ModContent.NPCType<SlimeGodCore>()) && !NPC.AnyNPCs(ModContent.NPCType<SlimeGodRunSplit>()) &&
-                    NPC.CountNPCS(ModContent.NPCType<SlimeGodSplit>()) < 2 && !NPC.AnyNPCs(ModContent.NPCType<SlimeGodRun>()))
-                {
-                    BossRushEvent.BossRushStage++;
-                    CalamityUtils.KillAllHostileProjectiles();
-					CalamityWorld.bossRushHostileProjKillCounter = 3;
-                }
-                else if (npc.type == ModContent.NPCType<SlimeGodRunSplit>() && !NPC.AnyNPCs(ModContent.NPCType<SlimeGodCore>()) && !NPC.AnyNPCs(ModContent.NPCType<SlimeGodSplit>()) &&
-                    NPC.CountNPCS(ModContent.NPCType<SlimeGodRunSplit>()) < 2 && !NPC.AnyNPCs(ModContent.NPCType<SlimeGod.SlimeGod>()))
-                {
-                    BossRushEvent.BossRushStage++;
-                    CalamityUtils.KillAllHostileProjectiles();
-					CalamityWorld.bossRushHostileProjKillCounter = 3;
-                }
-            }
-
-            // This is the generic form of "Are there any remaining NPCs on the boss list for this boss rush stage?" check.
-            else if ((BossRushEvent.Bosses.Any(boss => boss.EntityID == npc.type) && !BossRushEvent.BossIDsAfterDeath.ContainsKey(npc.type)) ||
-                     BossRushEvent.BossIDsAfterDeath.Values.Any(killList => killList.Contains(npc.type)))
-            {
-                BossRushEvent.BossRushStage++;
-                CalamityUtils.KillAllHostileProjectiles();
-                CalamityWorld.bossRushHostileProjKillCounter = 3;
-                if (BossRushEvent.BossDeathEffects.ContainsKey(npc.type))
-                    BossRushEvent.BossDeathEffects[npc.type].Invoke(npc);
-            }
-
-            if (Main.netMode == NetmodeID.Server)
-            {
-                var netMessage = mod.GetPacket();
-                netMessage.Write((byte)CalamityModMessageType.BossRushStage);
-                netMessage.Write(BossRushEvent.BossRushStage);
-                netMessage.Send();
-				var netMessage2 = mod.GetPacket();
-				netMessage2.Write((byte)CalamityModMessageType.BRHostileProjKillSync);
-				netMessage2.Write(CalamityWorld.bossRushHostileProjKillCounter);
-				netMessage2.Send();
-            }
-
-            return false;
         }
         #endregion
 
@@ -468,41 +508,39 @@ namespace CalamityMod.NPCs
 
             return hurtByAbyss;
         }
-		#endregion
+        #endregion
 
-		#region Splitting Worm Loot
-		private bool SplittingWormLoot(NPC npc, Mod mod, int wormType)
-		{
-			switch (wormType)
-			{
-				case 0: return CheckSegments(NPCID.DiggerHead, NPCID.DiggerBody, NPCID.DiggerTail);
-				case 1: return CheckSegments(NPCID.SeekerHead, NPCID.SeekerBody, NPCID.SeekerTail);
-				case 2: return CheckSegments(NPCID.DuneSplicerHead, NPCID.DuneSplicerBody, NPCID.DuneSplicerTail);
-				default:
-					break;
-			}
-
-			bool CheckSegments(int head, int body, int tail)
-			{
-				for (int i = 0; i < Main.maxNPCs; i++)
-				{
-					if (i != npc.whoAmI && Main.npc[i].active && (Main.npc[i].type == head || Main.npc[i].type == body || Main.npc[i].type == tail))
-					{
-						return false;
-					}
-				}
-				return true;
-			}
-
-			return true;
-		}
-		#endregion
-
-		#region NPCLoot
-		public override void NPCLoot(NPC npc)
+        #region Splitting Worm Loot
+        private bool SplittingWormLoot(NPC npc, Mod mod, int wormType)
         {
-            ResetAdrenaline(npc);
+            switch (wormType)
+            {
+                case 0: return CheckSegments(NPCID.DiggerHead, NPCID.DiggerBody, NPCID.DiggerTail);
+                case 1: return CheckSegments(NPCID.SeekerHead, NPCID.SeekerBody, NPCID.SeekerTail);
+                case 2: return CheckSegments(NPCID.DuneSplicerHead, NPCID.DuneSplicerBody, NPCID.DuneSplicerTail);
+                default:
+                    break;
+            }
 
+            bool CheckSegments(int head, int body, int tail)
+            {
+                for (int i = 0; i < Main.maxNPCs; i++)
+                {
+                    if (i != npc.whoAmI && Main.npc[i].active && (Main.npc[i].type == head || Main.npc[i].type == body || Main.npc[i].type == tail))
+                    {
+                        return false;
+                    }
+                }
+                return true;
+            }
+
+            return true;
+        }
+        #endregion
+
+        #region NPCLoot
+        public override void NPCLoot(NPC npc)
+        {
             // LATER -- keeping bosses alive lets draedon mayhem continue even after killing mechs
             // Reset Draedon Mayhem to false if no bosses are alive
             if (CalamityGlobalNPC.DraedonMayhem)
@@ -514,325 +552,20 @@ namespace CalamityMod.NPCs
                 }
             }
 
-            if (CalamityWorld.defiled)
-                DefiledLoot(npc);
             if (CalamityWorld.armageddon)
                 ArmageddonLoot(npc);
 
-            AcidRainProgression(npc);
+            // Miscellaneous on-enemy-kill effects.
             CheckBossSpawn(npc);
+            if (CalamityWorld.rainingAcid)
+                AcidRainEvent.OnEnemyKill(npc);
+
             ArmorSetLoot(npc);
             RareLoot(npc);
             RareVariants(npc);
             CommonLoot(npc);
             TownNPCLoot(npc);
-            EventEnemyLoot(npc, Main.pumpkinMoon, Main.snowMoon, Main.eclipse);
-        }
-        #endregion
-
-        #region Defiled Loot
-        private void DefiledLoot(NPC npc)
-        {
-            switch (npc.type)
-            {
-                case NPCID.Werewolf:
-                    DropHelper.DropItemChance(npc, ItemID.MoonCharm, DropHelper.DefiledDropRateInt);
-                    DropHelper.DropItemChance(npc, ItemID.AdhesiveBandage, DropHelper.DefiledDropRateInt);
-                    break;
-
-                case NPCID.AnglerFish:
-                    DropHelper.DropItemChance(npc, ItemID.AdhesiveBandage, DropHelper.DefiledDropRateInt);
-                    break;
-
-                case NPCID.DesertBeast:
-                    DropHelper.DropItemChance(npc, ItemID.AncientHorn, DropHelper.DefiledDropRateInt);
-                    break;
-
-                case NPCID.ArmoredSkeleton:
-                case NPCID.HeavySkeleton:
-                    DropHelper.DropItemChance(npc, ItemID.BeamSword, DropHelper.DefiledDropRateInt);
-                    DropHelper.DropItemChance(npc, ItemID.ArmorPolish, DropHelper.DefiledDropRateInt);
-                    break;
-
-                case NPCID.Clown:
-                    DropHelper.DropItemChance(npc, ItemID.Bananarang, DropHelper.DefiledDropRateInt);
-                    break;
-
-                case NPCID.ToxicSludge:
-                    DropHelper.DropItemChance(npc, ItemID.Bezoar, DropHelper.DefiledDropRateInt);
-                    break;
-
-                case NPCID.EyeofCthulhu:
-                    DropHelper.DropItemChance(npc, ItemID.Binoculars, DropHelper.DefiledDropRateInt);
-                    break;
-
-                case NPCID.WanderingEye:
-                    DropHelper.DropItemChance(npc, ItemID.BlackLens, DropHelper.DefiledDropRateInt);
-                    break;
-
-                case NPCID.CorruptSlime:
-                    DropHelper.DropItemChance(npc, ItemID.Blindfold, DropHelper.DefiledDropRateInt);
-                    break;
-
-                // This is all the random skeletons in the hardmode dungeon
-                case NPCID.RustyArmoredBonesAxe:
-                case NPCID.RustyArmoredBonesFlail:
-                case NPCID.RustyArmoredBonesSword:
-                case NPCID.RustyArmoredBonesSwordNoArmor:
-                case NPCID.BlueArmoredBones:
-                case NPCID.BlueArmoredBonesMace:
-                case NPCID.BlueArmoredBonesNoPants:
-                case NPCID.BlueArmoredBonesSword:
-                case NPCID.HellArmoredBones:
-                case NPCID.HellArmoredBonesSpikeShield:
-                case NPCID.HellArmoredBonesMace:
-                case NPCID.HellArmoredBonesSword:
-                    DropHelper.DropItemChance(npc, ItemID.Keybrand, DropHelper.DefiledDropRateInt);
-                    DropHelper.DropItemChance(npc, ItemID.BoneFeather, DropHelper.DefiledDropRateInt);
-                    DropHelper.DropItemChance(npc, ItemID.MagnetSphere, DropHelper.DefiledDropRateInt);
-                    DropHelper.DropItemChance(npc, ItemID.WispinaBottle, DropHelper.DefiledDropRateInt);
-                    break;
-
-                case NPCID.UndeadMiner:
-                    DropHelper.DropItemChance(npc, ItemID.BonePickaxe, DropHelper.DefiledDropRateInt);
-                    break;
-
-                case NPCID.ScutlixRider:
-                    DropHelper.DropItemChance(npc, ItemID.BrainScrambler, DropHelper.DefiledDropRateInt);
-                    break;
-
-                case NPCID.Vampire:
-                    DropHelper.DropItemChance(npc, ItemID.BrokenBatWing, DropHelper.DefiledDropRateInt);
-                    DropHelper.DropItemChance(npc, ItemID.MoonStone, DropHelper.DefiledDropRateInt);
-                    break;
-
-                case NPCID.CaveBat:
-                    DropHelper.DropItemChance(npc, ItemID.ChainKnife, DropHelper.DefiledDropRateInt);
-                    DropHelper.DropItemChance(npc, ItemID.DepthMeter, DropHelper.DefiledDropRateInt);
-                    break;
-
-                case NPCID.DarkCaster:
-                    DropHelper.DropItemChance(npc, ItemID.ClothierVoodooDoll, DropHelper.DefiledDropRateInt);
-                    DropHelper.DropItemChance(npc, ItemID.TallyCounter, DropHelper.DefiledDropRateInt);
-                    break;
-
-                case NPCID.PirateCaptain:
-                    DropHelper.DropItemChance(npc, ItemID.CoinGun, DropHelper.DefiledDropRateInt);
-                    DropHelper.DropItemChance(npc, ItemID.DiscountCard, DropHelper.DefiledDropRateInt);
-                    DropHelper.DropItemChance(npc, ItemID.Cutlass, DropHelper.DefiledDropRateInt);
-                    DropHelper.DropItemChance(npc, ItemID.LuckyCoin, DropHelper.DefiledDropRateInt);
-                    DropHelper.DropItemChance(npc, ItemID.PirateStaff, DropHelper.DefiledDropRateInt);
-                    break;
-
-                case NPCID.Reaper:
-                    DropHelper.DropItemChance(npc, ItemID.DeathSickle, DropHelper.DefiledDropRateInt);
-                    break;
-
-                case NPCID.Demon:
-                case NPCID.VoodooDemon:
-                    DropHelper.DropItemChance(npc, ItemID.DemonScythe, DropHelper.DefiledDropRateInt);
-                    break;
-
-                case NPCID.DesertDjinn:
-                    DropHelper.DropItemChance(npc, ItemID.DjinnLamp, DropHelper.DefiledDropRateInt);
-                    DropHelper.DropItemChance(npc, ItemID.DjinnsCurse, DropHelper.DefiledDropRateInt);
-                    break;
-
-                case NPCID.Shark:
-                    DropHelper.DropItemChance(npc, ItemID.DivingHelmet, DropHelper.DefiledDropRateInt);
-                    break;
-
-                case NPCID.Pixie:
-                case NPCID.Wraith:
-                case NPCID.Mummy:
-                    DropHelper.DropItemChance(npc, ItemID.FastClock, DropHelper.DefiledDropRateInt);
-                    break;
-
-                case NPCID.RedDevil:
-                    DropHelper.DropItemChance(npc, ItemID.FireFeather, DropHelper.DefiledDropRateInt);
-                    DropHelper.DropItemChance(npc, ItemID.UnholyTrident, DropHelper.DefiledDropRateInt);
-                    break;
-
-                case NPCID.IceElemental:
-                case NPCID.IcyMerman:
-                    DropHelper.DropItemChance(npc, ItemID.IceSickle, DropHelper.DefiledDropRateInt);
-                    DropHelper.DropItemChance(npc, ItemID.FrostStaff, DropHelper.DefiledDropRateInt);
-                    break;
-
-                case NPCID.ArmoredViking:
-                    DropHelper.DropItemChance(npc, ItemID.IceSickle, DropHelper.DefiledDropRateInt);
-                    break;
-
-                case NPCID.IceTortoise:
-                    DropHelper.DropItemChance(npc, ItemID.IceSickle, DropHelper.DefiledDropRateInt);
-                    DropHelper.DropItemChance(npc, ItemID.FrozenTurtleShell, DropHelper.DefiledDropRateInt);
-                    break;
-
-                case NPCID.Harpy:
-                    DropHelper.DropItemCondition(npc, ItemID.GiantHarpyFeather, Main.hardMode && !npc.SpawnedFromStatue, DropHelper.DefiledDropRateFloat);
-                    break;
-
-                case NPCID.Piranha:
-                    DropHelper.DropItemChance(npc, ItemID.Hook, DropHelper.DefiledDropRateInt);
-                    break;
-
-                case NPCID.PinkJellyfish:
-                case NPCID.BlueJellyfish:
-                    DropHelper.DropItemChance(npc, ItemID.JellyfishNecklace, DropHelper.DefiledDropRateInt);
-                    break;
-
-                case NPCID.Paladin:
-                    DropHelper.DropItemChance(npc, ItemID.Kraken, DropHelper.DefiledDropRateInt);
-                    DropHelper.DropItemChance(npc, ItemID.PaladinsHammer, DropHelper.DefiledDropRateInt);
-                    break;
-
-                case NPCID.SkeletonArcher:
-                    DropHelper.DropItemChance(npc, ItemID.Marrow, DropHelper.DefiledDropRateInt);
-                    DropHelper.DropItemChance(npc, ItemID.MagicQuiver, DropHelper.DefiledDropRateInt);
-                    break;
-
-                case NPCID.Lavabat:
-                    DropHelper.DropItemChance(npc, ItemID.MagmaStone, DropHelper.DefiledDropRateInt);
-                    break;
-
-                case NPCID.WalkingAntlion:
-                    DropHelper.DropItemChance(npc, ItemID.AntlionClaw, DropHelper.DefiledDropRateInt);
-                    break;
-
-                case NPCID.DarkMummy:
-                    DropHelper.DropItemChance(npc, ItemID.Blindfold, DropHelper.DefiledDropRateInt);
-                    DropHelper.DropItemChance(npc, ItemID.Megaphone, DropHelper.DefiledDropRateInt);
-                    break;
-
-                case NPCID.GreenJellyfish:
-                    DropHelper.DropItemChance(npc, ItemID.Megaphone, DropHelper.DefiledDropRateInt);
-                    DropHelper.DropItemChance(npc, ItemID.JellyfishNecklace, DropHelper.DefiledDropRateInt);
-                    break;
-
-                case NPCID.CursedSkull:
-                    DropHelper.DropItemChance(npc, ItemID.Nazar, DropHelper.DefiledDropRateInt);
-                    break;
-
-                case NPCID.FireImp:
-                    DropHelper.DropItemChance(npc, ItemID.ObsidianRose, DropHelper.DefiledDropRateInt);
-                    DropHelper.DropItemCondition(npc, ItemID.Cascade, NPC.downedBoss3, DropHelper.DefiledDropRateFloat);
-                    break;
-
-                case NPCID.BlackRecluse:
-                case NPCID.BlackRecluseWall:
-                    DropHelper.DropItemChance(npc, ItemID.PoisonStaff, DropHelper.DefiledDropRateInt);
-                    break;
-
-                case NPCID.ChaosElemental:
-                    DropHelper.DropItemChance(npc, ItemID.RodofDiscord, DropHelper.DefiledDropRateInt);
-                    break;
-
-                case NPCID.SnowFlinx:
-                    DropHelper.DropItemChance(npc, ItemID.SnowballLauncher, DropHelper.DefiledDropRateInt);
-                    break;
-
-                case NPCID.Plantera:
-                    DropHelper.DropItemChance(npc, ItemID.TheAxe, DropHelper.DefiledDropRateInt);
-                    break;
-
-                case NPCID.GiantBat:
-                    DropHelper.DropItemChance(npc, ItemID.TrifoldMap, DropHelper.DefiledDropRateInt);
-                    break;
-
-                case NPCID.AngryTrapper:
-                    DropHelper.DropItemChance(npc, ItemID.Uzi, DropHelper.DefiledDropRateInt);
-                    break;
-
-                case NPCID.Corruptor:
-                case NPCID.FloatyGross:
-                    DropHelper.DropItemChance(npc, ItemID.Vitamins, DropHelper.DefiledDropRateInt);
-                    break;
-
-                case NPCID.GiantTortoise:
-                    DropHelper.DropItemCondition(npc, ItemID.Yelets, NPC.downedMechBossAny, DropHelper.DefiledDropRateFloat);
-                    break;
-
-                case NPCID.DeadlySphere:
-                    DropHelper.DropItemChance(npc, ItemID.DeadlySphereStaff, DropHelper.DefiledDropRateInt);
-                    break;
-
-                case NPCID.DrManFly:
-                    DropHelper.DropItemChance(npc, ItemID.ToxicFlask, DropHelper.DefiledDropRateInt);
-                    break;
-
-                case NPCID.CreatureFromTheDeep:
-                    DropHelper.DropItemChance(npc, ItemID.NeptunesShell, DropHelper.DefiledDropRateInt);
-                    break;
-
-                case NPCID.Butcher:
-                    DropHelper.DropItemChance(npc, ItemID.ButchersChainsaw, DropHelper.DefiledDropRateInt);
-                    break;
-
-                case NPCID.Psycho:
-                    DropHelper.DropItemChance(npc, ItemID.PsychoKnife, DropHelper.DefiledDropRateInt);
-                    break;
-
-                case NPCID.Drippler:
-                case NPCID.BloodZombie:
-                    DropHelper.DropItemCondition(npc, ItemID.SharkToothNecklace, !npc.SpawnedFromStatue, DropHelper.DefiledDropRateFloat);
-                    DropHelper.DropItemCondition(npc, ItemID.MoneyTrough, !npc.SpawnedFromStatue, DropHelper.DefiledDropRateFloat);
-                    break;
-
-                case NPCID.GoblinWarrior:
-                    DropHelper.DropItemChance(npc, ItemID.Harpoon, DropHelper.DefiledDropRateInt);
-                    break;
-
-                case NPCID.Pinky:
-                    DropHelper.DropItemChance(npc, ItemID.SlimeStaff, DropHelper.DefiledDropRateInt);
-                    break;
-
-                case NPCID.FlyingSnake:
-                    DropHelper.DropItemChance(npc, ItemID.LizardEgg, DropHelper.DefiledDropRateInt);
-                    break;
-
-                default:
-                    break;
-            }
-
-            // Every type of demon eye counts for Black Lenses
-            if (CalamityLists.demonEyeList.Contains(npc.type))
-            {
-                DropHelper.DropItemChance(npc, ItemID.BlackLens, DropHelper.DefiledDropRateInt);
-            }
-
-            // Every type of Skeleton counts for the Bone Sword
-            if (CalamityLists.skeletonList.Contains(npc.type) && npc.type != NPCID.ArmoredSkeleton && npc.type != NPCID.HeavySkeleton && npc.type != NPCID.SkeletonArcher && npc.type != NPCID.GreekSkeleton)
-            {
-                DropHelper.DropItemChance(npc, ItemID.BoneSword, DropHelper.DefiledDropRateInt);
-            }
-
-            // Every type of Angry Bones counts for the Clothier Voodoo Doll
-            if (CalamityLists.angryBonesList.Contains(npc.type))
-            {
-                DropHelper.DropItemChance(npc, ItemID.ClothierVoodooDoll, DropHelper.DefiledDropRateInt);
-            }
-
-            // Every type of hornet AND moss hornet can drop Bezoar
-            if (CalamityLists.hornetList.Contains(npc.type) || CalamityLists.mossHornetList.Contains(npc.type))
-            {
-                DropHelper.DropItemChance(npc, ItemID.Bezoar, DropHelper.DefiledDropRateInt);
-            }
-
-            // Every type of moss hornet can drop Tattered Bee Wings
-            if (CalamityLists.mossHornetList.Contains(npc.type))
-            {
-                DropHelper.DropItemChance(npc, ItemID.TatteredBeeWing, DropHelper.DefiledDropRateInt);
-            }
-
-            // Because all switch cases must be constant at compile time, modded NPC IDs (which can change) can't be included.
-            if (npc.type == ModContent.NPCType<SunBat>())
-            {
-                DropHelper.DropItemChance(npc, ItemID.HelFire, DropHelper.DefiledDropRateInt);
-            }
-            else if (npc.type == ModContent.NPCType<Cryon>())
-            {
-                DropHelper.DropItemChance(npc, ItemID.Amarok, DropHelper.DefiledDropRateInt);
-            }
+            EventLoot(npc, Main.pumpkinMoon, Main.snowMoon, Main.eclipse);
         }
         #endregion
 
@@ -841,38 +574,29 @@ namespace CalamityMod.NPCs
         {
             switch (npc.type)
             {
-                case NPCID.KingSlime:
-                case NPCID.EyeofCthulhu:
                 case NPCID.EaterofWorldsHead:
                 case NPCID.EaterofWorldsBody:
                 case NPCID.EaterofWorldsTail:
                     if (npc.boss) // only drop from the 1 "boss" segment (redcode)
-                    {
                         DropHelper.DropArmageddonBags(npc);
-                    }
-
                     break;
 
-                case NPCID.BrainofCthulhu:
-                case NPCID.QueenBee:
-                case NPCID.SkeletronHead:
-                case NPCID.WallofFlesh:
                 case NPCID.Retinazer: // only drop if spaz is already dead
                     if (!NPC.AnyNPCs(NPCID.Spazmatism))
-                    {
                         DropHelper.DropArmageddonBags(npc);
-                    }
-
                     break;
 
                 case NPCID.Spazmatism: // only drop if ret is already dead
                     if (!NPC.AnyNPCs(NPCID.Retinazer))
-                    {
                         DropHelper.DropArmageddonBags(npc);
-                    }
-
                     break;
 
+                case NPCID.KingSlime:
+                case NPCID.EyeofCthulhu:
+                case NPCID.BrainofCthulhu:
+                case NPCID.QueenBee:
+                case NPCID.SkeletronHead:
+                case NPCID.WallofFlesh:
                 case NPCID.TheDestroyer:
                 case NPCID.SkeletronPrime:
                 case NPCID.Plantera:
@@ -885,30 +609,6 @@ namespace CalamityMod.NPCs
 
                 default:
                     break;
-            }
-        }
-        #endregion
-
-        #region Reset Adrenaline
-        private void ResetAdrenaline(NPC npc)
-        {
-            bool revenge = CalamityWorld.revenge;
-            if (npc.boss && revenge)
-            {
-                if (npc.type != ModContent.NPCType<HiveMind.HiveMind>() && npc.type != ModContent.NPCType<Leviathan.Leviathan>() && npc.type != ModContent.NPCType<Siren>() &&
-                    npc.type != ModContent.NPCType<StormWeaverHead>() && npc.type != ModContent.NPCType<StormWeaverBody>() &&
-                    npc.type != ModContent.NPCType<StormWeaverTail>() && npc.type != ModContent.NPCType<DevourerofGodsHead>() &&
-                    npc.type != ModContent.NPCType<DevourerofGodsBody>() && npc.type != ModContent.NPCType<DevourerofGodsTail>() && 
-					npc.type != ModContent.NPCType<Calamitas.Calamitas>())
-                {
-                    if (Main.netMode != NetmodeID.Server)
-                    {
-                        if (!Main.player[Main.myPlayer].dead && Main.player[Main.myPlayer].active)
-                        {
-                            Main.player[Main.myPlayer].Calamity().adrenaline = 0;
-                        }
-                    }
-                }
             }
         }
         #endregion
@@ -999,7 +699,7 @@ namespace CalamityMod.NPCs
         private void ArmorSetLoot(NPC npc)
         {
             // Tarragon armor set bonus: 20% chance to drop hearts from all valid enemies
-            if (Main.player[(int)Player.FindClosest(npc.position, npc.width, npc.height)].Calamity().tarraSet)
+            if (Main.player[Player.FindClosest(npc.position, npc.width, npc.height)].Calamity().tarraSet)
             {
                 if (!npc.SpawnedFromStatue && (npc.damage > 5 || npc.boss) && npc.lifeMax > 100)
                 {
@@ -1027,33 +727,40 @@ namespace CalamityMod.NPCs
             switch (npc.type)
             {
                 case NPCID.Drippler:
-                    int eyeballDropRate = CalamityWorld.defiled ? DropHelper.DefiledDropRateInt : 300;
-                    DropHelper.DropItemChance(npc, ModContent.ItemType<BouncingEyeball>(), eyeballDropRate, 1, 1);
+                    float bouncingEyeballChance = Main.expertMode ? 0.02f : 0.01f;
+                    DropHelper.DropItemChance(npc, ModContent.ItemType<BouncingEyeball>(), bouncingEyeballChance);
                     break;
 
                 case NPCID.FireImp:
-                    int stalactiteDropRate = CalamityWorld.defiled ? DropHelper.DefiledDropRateInt : Main.expertMode ? 100 : 150;
-                    DropHelper.DropItemChance(npc, ModContent.ItemType<AshenStalactite>(), stalactiteDropRate, 1, 1);
+                    float stalactiteDropRate = Main.expertMode ? 0.08f : 0.05f;
+                    DropHelper.DropItemChance(npc, ModContent.ItemType<AshenStalactite>(), stalactiteDropRate);
                     break;
 
                 case NPCID.PossessedArmor:
-                    int amuletDropRate = CalamityWorld.defiled ? DropHelper.DefiledDropRateInt : Main.expertMode ? 150 : 200;
-                    DropHelper.DropItemChance(npc, ModContent.ItemType<PsychoticAmulet>(), amuletDropRate, 1, 1);
+                    float amuletDropRate = Main.expertMode ? 0.008f : 0.005f;
+                    DropHelper.DropItemChance(npc, ModContent.ItemType<PsychoticAmulet>(), amuletDropRate);
                     break;
 
                 case NPCID.SeaSnail:
-                    DropHelper.DropItemChance(npc, ModContent.ItemType<SeaShell>(), Main.expertMode ? 1 : 2);
+                    DropHelper.DropItem(npc, ModContent.ItemType<SeaShell>());
                     break;
 
                 case NPCID.GreekSkeleton:
-                    int gladiatorDropRate = Main.expertMode ? 15 : 20;
-                    DropHelper.DropItemChance(npc, ItemID.GladiatorHelmet, gladiatorDropRate);
-                    DropHelper.DropItemChance(npc, ItemID.GladiatorBreastplate, gladiatorDropRate);
-                    DropHelper.DropItemChance(npc, ItemID.GladiatorLeggings, gladiatorDropRate);
+                    // Calamity increases the drop chance of the Gladiator's set because it's actually a set
+                    float gladiatorDropRate = Main.expertMode ? 0.12f : 0.08f;
+                    int[] gladiatorArmor = new int[]
+                    {
+                        ItemID.GladiatorHelmet,
+                        ItemID.GladiatorBreastplate,
+                        ItemID.GladiatorLeggings,
+                    };
+                    DropHelper.DropItemFromSetChance(npc, gladiatorDropRate, gladiatorArmor);
+                    DropHelper.BlockDrops(gladiatorArmor);
                     break;
 
                 case NPCID.GiantTortoise:
-					DropHelper.DropItemRIV(npc, ModContent.ItemType<GiantTortoiseShell>(), ModContent.ItemType<FabledTortoiseShell>(), Main.expertMode ? 0.2f : 0.142857f, 0.005f);
+                    float shellChance = Main.expertMode ? 0.2f : 1f / 7f;
+                    DropHelper.DropItemRIV(npc, ModContent.ItemType<GiantTortoiseShell>(), ModContent.ItemType<FabledTortoiseShell>(), shellChance, 0.005f);
                     break;
 
                 case NPCID.GiantShelly:
@@ -1109,11 +816,11 @@ namespace CalamityMod.NPCs
                     break;
 
                 case NPCID.IchorSticker:
-					DropHelper.DropItemRIV(npc, ModContent.ItemType<IchorSpear>(), ModContent.ItemType<SpearofDestiny>(), Main.expertMode ? 0.05f : 0.04f, 0.005f);
+                    DropHelper.DropItemRIV(npc, ModContent.ItemType<IchorSpear>(), ModContent.ItemType<SpearofDestiny>(), Main.expertMode ? 0.05f : 0.04f, 0.005f);
                     break;
 
                 case NPCID.Harpy:
-                    int glazeDropRate = CalamityWorld.defiled ? DropHelper.DefiledDropRateInt : Main.expertMode ? 60 : 80;
+                    int glazeDropRate = Main.expertMode ? 60 : 80;
                     DropHelper.DropItemCondition(npc, ModContent.ItemType<SkyGlaze>(), NPC.downedBoss1, glazeDropRate, 1, 1);
                     DropHelper.DropItemCondition(npc, ModContent.ItemType<EssenceofCinder>(), Main.hardMode && !npc.SpawnedFromStatue, Main.expertMode ? 2 : 3, 1, 1);
                     break;
@@ -1161,7 +868,7 @@ namespace CalamityMod.NPCs
                     break;
 
                 case NPCID.PirateCrossbower:
-					DropHelper.DropItemRIV(npc, ModContent.ItemType<RaidersGlory>(), ModContent.ItemType<Arbalest>(), Main.expertMode ? 0.05f : 0.04f, 0.005f);
+                    DropHelper.DropItemRIV(npc, ModContent.ItemType<RaidersGlory>(), ModContent.ItemType<Arbalest>(), Main.expertMode ? 0.05f : 0.04f, 0.005f);
                     break;
 
                 case NPCID.GoblinSummoner:
@@ -1193,14 +900,13 @@ namespace CalamityMod.NPCs
                     break;
 
                 case NPCID.DeadlySphere:
-                    float defectiveDropRate = CalamityWorld.defiled ? DropHelper.DefiledDropRateFloat : Main.expertMode ? 0.0375f : 0.025f;
-                    DropHelper.DropItemChance(npc, ModContent.ItemType<DefectiveSphere>(), defectiveDropRate); //same as deadly sphere staff
+                    float defectiveDropRate = Main.expertMode ? 0.15f : 0.1f;
+                    DropHelper.DropItemChance(npc, ModContent.ItemType<DefectiveSphere>(), defectiveDropRate);
                     break;
 
                 case NPCID.BloodJelly:
                 case NPCID.FungoFish:
-                    float necklaceDropRate = CalamityWorld.defiled ? DropHelper.DefiledDropRateFloat : 0.01f;
-                    DropHelper.DropItemChance(npc, ItemID.JellyfishNecklace, necklaceDropRate);
+                    DropHelper.DropItemChance(npc, ItemID.JellyfishNecklace, 0.01f);
                     break;
 
                 default:
@@ -1258,57 +964,6 @@ namespace CalamityMod.NPCs
         }
         #endregion
 
-        #region Acid Rain
-        private void AcidRainProgression(NPC npc)
-        {
-            Dictionary<int, AcidRainSpawnData> possibleEnemies = AcidRainEvent.PossibleEnemiesPreHM;
-
-            if (CalamityWorld.downedAquaticScourge)
-                possibleEnemies = AcidRainEvent.PossibleEnemiesAS;
-            if (CalamityWorld.downedPolterghast)
-                possibleEnemies = AcidRainEvent.PossibleEnemiesPolter;
-
-            if (CalamityWorld.rainingAcid)
-            {
-                if (possibleEnemies.Select(enemy => enemy.Key).Contains(npc.type))
-                {
-                    CalamityWorld.acidRainPoints -= possibleEnemies[npc.type].InvasionContributionPoints;
-                    if (CalamityWorld.downedPolterghast)
-                    {
-                        CalamityWorld.acidRainPoints = (int)MathHelper.Max(1, CalamityWorld.acidRainPoints); // Cap at 1. The last point is for Old Duke.
-                    }
-
-                    // UpdateInvasion incorporates a world sync, so this is indeed synced as a result.
-                    Main.rainTime += Main.rand.Next(240, 300 + 1); // Add some time to the rain, so that it doesn't end mid-way.
-                }
-                Dictionary<int, AcidRainSpawnData> possibleMinibosses = CalamityWorld.downedPolterghast ? AcidRainEvent.PossibleMinibossesPolter : AcidRainEvent.PossibleMinibossesAS;
-                if (possibleMinibosses.Select(miniboss => miniboss.Key).Contains(npc.type))
-                {
-                    CalamityWorld.acidRainPoints -= possibleMinibosses[npc.type].InvasionContributionPoints;
-                    if (CalamityWorld.downedPolterghast)
-                    {
-                        CalamityWorld.acidRainPoints = (int)MathHelper.Max(1, CalamityWorld.acidRainPoints); // Cap at 1. The last point is for Old Duke.
-                    }
-
-                    // UpdateInvasion incorporates a world sync, so this is indeed synced as a result.
-                    Main.rainTime += Main.rand.Next(1800, 2100 + 1); // Add some time to the rain, so that it doesn't end mid-way.
-                }
-            }
-
-            CalamityWorld.acidRainPoints = (int)MathHelper.Max(0, CalamityWorld.acidRainPoints); // To prevent negative completion ratios
-
-            if (CalamityWorld.rainingAcid && CalamityWorld.downedPolterghast && 
-                npc.type == ModContent.NPCType<OldDuke.OldDuke>() &&
-                CalamityWorld.acidRainPoints <= 2f)
-            {
-                CalamityWorld.triedToSummonOldDuke = false;
-                CalamityWorld.acidRainPoints = 0;
-            }
-            CalamityWorld.timeSinceAcidRainKill = 0;
-            AcidRainEvent.UpdateInvasion();
-        }
-        #endregion
-
         #region Common Loot
         private void CommonLoot(NPC npc)
         {
@@ -1338,10 +993,6 @@ namespace CalamityMod.NPCs
 
                 case NPCID.IceGolem:
                     DropHelper.DropItem(npc, ModContent.ItemType<EssenceofEleum>(), 1, 2);
-                    break;
-
-                case NPCID.Plantera:
-                    DropHelper.DropItemCondition(npc, ModContent.ItemType<LivingShard>(), !Main.expertMode, 12, 18);
                     break;
 
                 case NPCID.SolarSpearman: //Drakanian
@@ -1383,22 +1034,6 @@ namespace CalamityMod.NPCs
 
                 case NPCID.DungeonGuardian:
                     DropHelper.DropItemCondition(npc, ModContent.ItemType<GoldBurdenBreaker>(), Main.hardMode);
-                    break;
-
-                case NPCID.CultistBoss:
-                    DropHelper.DropItemChance(npc, ModContent.ItemType<StardustStaff>(), Main.expertMode ? 3 : 5);
-                    DropHelper.DropItemChance(npc, ModContent.ItemType<ThornBlossom>(), DropHelper.RareVariantDropRateInt);
-                    break;
-
-                case NPCID.EyeofCthulhu:
-                    DropHelper.DropItemCondition(npc, ModContent.ItemType<VictoryShard>(), !Main.expertMode, 2, 4);
-                    DropHelper.DropItemCondition(npc, ModContent.ItemType<DeathstareRod>(), !Main.expertMode, 5, 1, 1);
-                    DropHelper.DropItemCondition(npc, ModContent.ItemType<TeardropCleaver>(), !Main.expertMode, 5, 1, 1);
-                    break;
-
-                case NPCID.QueenBee:
-                    DropHelper.DropItemCondition(npc, ItemID.Stinger, !Main.expertMode, 5, 10);
-                    DropHelper.DropItemCondition(npc, ModContent.ItemType<HardenedHoneycomb>(), !Main.expertMode, 30, 50);
                     break;
 
                 case NPCID.AngryTrapper:
@@ -1487,105 +1122,105 @@ namespace CalamityMod.NPCs
                     DropHelper.DropItemCondition(npc, ItemID.GoldenFishingRod, Main.hardMode, 12, 1, 1);
             }
         }
-		#endregion
+        #endregion
 
-		#region Boss Loot
-		private void EventEnemyLoot(NPC npc, bool pumpkin, bool frost, bool eclipse)
-		{
-			// Not really loot code, but NPCLoot is the only death hook
-			if (npc.boss && !CalamityWorld.downedBossAny)
-			{
-				CalamityWorld.downedBossAny = true;
-				CalamityNetcode.SyncWorld();
-			}
+        #region Event Loot
+        private void EventLoot(NPC npc, bool pumpkin, bool frost, bool eclipse)
+        {
+            // Not really loot code, but NPCLoot is the only death hook
+            if (npc.boss && !CalamityWorld.downedBossAny)
+            {
+                CalamityWorld.downedBossAny = true;
+                CalamityNetcode.SyncWorld();
+            }
 
-			// Nightmare Fuel, Endothermic Energy and Darksun Fragments
-			if (!CalamityWorld.downedDoG)
-			{
-				return;
-			}
+            // Nightmare Fuel, Endothermic Energy and Darksun Fragments
+            if (!CalamityWorld.downedDoG)
+            {
+                return;
+            }
 
-			if (frost)
-			{
-				switch (npc.type)
-				{
-					case NPCID.Nutcracker:
-					case NPCID.NutcrackerSpinning:
-					case NPCID.ElfCopter:
-					case NPCID.Flocko:
-						DropHelper.DropItemChance(npc, ModContent.ItemType<EndothermicEnergy>(), 2);
-						break;
-					case NPCID.Krampus:
-					case NPCID.Yeti:
-					case NPCID.PresentMimic:
-						DropHelper.DropItemChance(npc, ModContent.ItemType<EndothermicEnergy>(), 2, 1, 2);
-						break;
-					case NPCID.Everscream:
-						DropHelper.DropItem(npc, ModContent.ItemType<EndothermicEnergy>(), 3, 5);
-						break;
-					case NPCID.SantaNK1:
-						DropHelper.DropItem(npc, ModContent.ItemType<EndothermicEnergy>(), 5, 10);
-						break;
-					case NPCID.IceQueen:
-						DropHelper.DropItem(npc, ModContent.ItemType<EndothermicEnergy>(), 10, 20);
-						break;
-				}
-			}
-			else if (pumpkin)
-			{
-				switch (npc.type)
-				{
-					case NPCID.Splinterling:
-						DropHelper.DropItemChance(npc, ModContent.ItemType<NightmareFuel>(), 2);
-						break;
-					case NPCID.Hellhound:
-					case NPCID.Poltergeist:
-						DropHelper.DropItemChance(npc, ModContent.ItemType<NightmareFuel>(), 2, 1, 2);
-						break;
-					case NPCID.HeadlessHorseman:
-						DropHelper.DropItem(npc, ModContent.ItemType<NightmareFuel>(), 3, 5);
-						break;
-					case NPCID.MourningWood:
-						DropHelper.DropItem(npc, ModContent.ItemType<NightmareFuel>(), 5, 10);
-						break;
-					case NPCID.Pumpking:
-						DropHelper.DropItem(npc, ModContent.ItemType<NightmareFuel>(), 10, 20);
-						break;
-				}
-			}
+            if (frost)
+            {
+                switch (npc.type)
+                {
+                    case NPCID.Nutcracker:
+                    case NPCID.NutcrackerSpinning:
+                    case NPCID.ElfCopter:
+                    case NPCID.Flocko:
+                        DropHelper.DropItemChance(npc, ModContent.ItemType<EndothermicEnergy>(), 2);
+                        break;
+                    case NPCID.Krampus:
+                    case NPCID.Yeti:
+                    case NPCID.PresentMimic:
+                        DropHelper.DropItemChance(npc, ModContent.ItemType<EndothermicEnergy>(), 2, 1, 2);
+                        break;
+                    case NPCID.Everscream:
+                        DropHelper.DropItem(npc, ModContent.ItemType<EndothermicEnergy>(), 3, 5);
+                        break;
+                    case NPCID.SantaNK1:
+                        DropHelper.DropItem(npc, ModContent.ItemType<EndothermicEnergy>(), 5, 10);
+                        break;
+                    case NPCID.IceQueen:
+                        DropHelper.DropItem(npc, ModContent.ItemType<EndothermicEnergy>(), 10, 20);
+                        break;
+                }
+            }
+            else if (pumpkin)
+            {
+                switch (npc.type)
+                {
+                    case NPCID.Splinterling:
+                        DropHelper.DropItemChance(npc, ModContent.ItemType<NightmareFuel>(), 2);
+                        break;
+                    case NPCID.Hellhound:
+                    case NPCID.Poltergeist:
+                        DropHelper.DropItemChance(npc, ModContent.ItemType<NightmareFuel>(), 2, 1, 2);
+                        break;
+                    case NPCID.HeadlessHorseman:
+                        DropHelper.DropItem(npc, ModContent.ItemType<NightmareFuel>(), 3, 5);
+                        break;
+                    case NPCID.MourningWood:
+                        DropHelper.DropItem(npc, ModContent.ItemType<NightmareFuel>(), 5, 10);
+                        break;
+                    case NPCID.Pumpking:
+                        DropHelper.DropItem(npc, ModContent.ItemType<NightmareFuel>(), 10, 20);
+                        break;
+                }
+            }
 
-			if (eclipse)
-			{
-				switch (npc.type)
-				{
-					case NPCID.Frankenstein:
-					case NPCID.SwampThing:
-					case NPCID.Fritz:
-					case NPCID.CreatureFromTheDeep:
-						DropHelper.DropItemChance(npc, ModContent.ItemType<DarksunFragment>(), 10);
-						break;
-					case NPCID.Reaper:
-					case NPCID.Psycho:
-					case NPCID.Vampire:
-					case NPCID.VampireBat:
-					case NPCID.ThePossessed:
-					case NPCID.Butcher:
-					case NPCID.DeadlySphere:
-					case NPCID.DrManFly:
-						DropHelper.DropItemChance(npc, ModContent.ItemType<DarksunFragment>(), 2);
-						break;
-					case NPCID.Eyezor:
-						DropHelper.DropItem(npc, ModContent.ItemType<DarksunFragment>(), 1, 2);
-						break;
-					case NPCID.Nailhead:
-						DropHelper.DropItem(npc, ModContent.ItemType<DarksunFragment>(), 3, 5);
-						break;
-					case NPCID.Mothron:
-						DropHelper.DropItem(npc, ModContent.ItemType<DarksunFragment>(), 20, 30);
-						break;
-				}
-			}
-		}
+            if (eclipse)
+            {
+                switch (npc.type)
+                {
+                    case NPCID.Frankenstein:
+                    case NPCID.SwampThing:
+                    case NPCID.Fritz:
+                    case NPCID.CreatureFromTheDeep:
+                        DropHelper.DropItemChance(npc, ModContent.ItemType<DarksunFragment>(), 10);
+                        break;
+                    case NPCID.Reaper:
+                    case NPCID.Psycho:
+                    case NPCID.Vampire:
+                    case NPCID.VampireBat:
+                    case NPCID.ThePossessed:
+                    case NPCID.Butcher:
+                    case NPCID.DeadlySphere:
+                    case NPCID.DrManFly:
+                        DropHelper.DropItemChance(npc, ModContent.ItemType<DarksunFragment>(), 2);
+                        break;
+                    case NPCID.Eyezor:
+                        DropHelper.DropItem(npc, ModContent.ItemType<DarksunFragment>(), 1, 2);
+                        break;
+                    case NPCID.Nailhead:
+                        DropHelper.DropItem(npc, ModContent.ItemType<DarksunFragment>(), 3, 5);
+                        break;
+                    case NPCID.Mothron:
+                        DropHelper.DropItem(npc, ModContent.ItemType<DarksunFragment>(), 20, 30);
+                        break;
+                }
+            }
+        }
         #endregion
     }
 }

@@ -937,7 +937,7 @@ namespace CalamityMod.NPCs.Polterghast
                 DropHelper.DropItemChance(npc, ModContent.ItemType<PolterghastMask>(), 7);
 
                 // Weapons
-                float w = DropHelper.DirectWeaponDropRateFloat;
+                float w = DropHelper.NormalWeaponDropRateFloat;
                 DropHelper.DropEntireWeightedSet(npc,
                     DropHelper.WeightStack<TerrorBlade>(w),
                     DropHelper.WeightStack<BansheeHook>(w),

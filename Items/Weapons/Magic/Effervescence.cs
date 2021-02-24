@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.damage = 50;
+            item.damage = 49;
             item.magic = true;
             item.mana = 17;
             item.width = 56;
@@ -26,9 +26,9 @@ namespace CalamityMod.Items.Weapons.Magic
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 3.75f;
-			item.value = CalamityGlobalItem.Rarity11BuyPrice;
-			item.rare = ItemRarityID.Purple;
-			item.UseSound = SoundID.Item95;
+            item.value = CalamityGlobalItem.Rarity11BuyPrice;
+            item.rare = ItemRarityID.Purple;
+            item.UseSound = SoundID.Item95;
             item.autoReuse = true;
             item.shootSpeed = 13f;
             item.shoot = ModContent.ProjectileType<UberBubble>();

@@ -29,8 +29,8 @@ namespace CalamityMod.Projectiles.Ranged
 
 		public override void AI()
 		{
-			projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
-			projectile.spriteDirection = projectile.direction;
+			projectile.rotation = projectile.velocity.ToRotation();
+			projectile.spriteDirection = 1;
 
 			// Lighting
 			Lighting.AddLight(projectile.Center, 0.75f, 0.65f, 0.08f);
@@ -71,6 +71,7 @@ namespace CalamityMod.Projectiles.Ranged
 			projectile.position.Y = projectile.position.Y - projectile.height / 2;
 
 			// Allow infinite piercing and ignoring iframes for this one extra hit
+			projectile.maxPenetrate = -1;
 			projectile.penetrate = -1;
 			projectile.usesLocalNPCImmunity = true;
 			projectile.localNPCHitCooldown = -1;

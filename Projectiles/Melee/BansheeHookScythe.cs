@@ -15,17 +15,20 @@ namespace CalamityMod.Projectiles.Melee
         {
             projectile.width = 38;
             projectile.height = 38;
+
             projectile.aiStyle = 18;
+            aiType = ProjectileID.DeathSickle;
+
             projectile.alpha = 100;
             projectile.friendly = true;
             projectile.melee = true;
             projectile.tileCollide = false;
-            projectile.penetrate = 5;
-            projectile.timeLeft = 180;
             projectile.ignoreWater = true;
-            aiType = ProjectileID.DeathSickle;
+
+            projectile.penetrate = -1;
+            projectile.timeLeft = 90;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 8;
+            projectile.localNPCHitCooldown = -1;
         }
 
         public override void AI()

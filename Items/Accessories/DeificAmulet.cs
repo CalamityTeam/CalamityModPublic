@@ -40,7 +40,7 @@ namespace CalamityMod.Items.Accessories
             recipe.AddIngredient(ItemID.StarVeil);
             recipe.AddIngredient(ModContent.ItemType<AstralBar>(), 10);
             recipe.AddIngredient(ItemID.MeteoriteBar, 10);
-            recipe.AddTile(TileID.MythrilAnvil);
+            recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

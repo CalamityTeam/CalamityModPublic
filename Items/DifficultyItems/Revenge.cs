@@ -94,13 +94,6 @@ namespace CalamityMod.Items.DifficultyItems
                     messageColor = Color.Crimson;
                     CalamityUtils.DisplayLocalizedText(key, messageColor);
                 }
-                if (CalamityWorld.defiled)
-                {
-                    CalamityWorld.defiled = false;
-                    key = "Mods.CalamityMod.DefiledText2";
-                    messageColor = Color.DarkSeaGreen;
-                    CalamityUtils.DisplayLocalizedText(key, messageColor);
-                }
                 CalamityWorld.DoGSecondStageCountdown = 0;
                 CalamityNetcode.SyncWorld();
             }

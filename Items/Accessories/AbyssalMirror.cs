@@ -14,9 +14,9 @@ namespace CalamityMod.Items.Accessories
             Tooltip.SetDefault("Light does not reach the depths of the ocean\n" +
                 "Significantly reduces enemy aggression, even in the abyss\n" +
                 "Stealth generates 30% faster when standing still and 20% faster while moving\n" +
-                "Grants a slight chance to evade attacks, releasing a cloud of lumenyl fluid which damages and stuns nearby enemies\n" +
+                "Grants the ability to evade attacks, releasing a cloud of lumenyl fluid which damages and stuns nearby enemies\n" +
                 "Evading an attack grants a lot of stealth\n" +
-                "This evade has a 20s cooldown before it can occur again");
+                "This evade has a 75s cooldown before it can occur again");
         }
 
         public override void SetDefaults()

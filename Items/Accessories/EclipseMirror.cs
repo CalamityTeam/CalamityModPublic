@@ -19,9 +19,9 @@ namespace CalamityMod.Items.Accessories
                 "Mobile stealth generation exponentially accelerates while not attacking\n" +
                 "Stealth strikes have a 100% critical hit chance\n" +
                 "Stealth strikes only expend 50% of your max stealth\n" +
-                "Grants a small chance to evade attacks in a blast of darksun light, which inflicts extreme damage in a wide area\n" +
+                "Grants the ability to evade attacks in a blast of darksun light, which inflicts extreme damage in a wide area\n" +
                 "Evading an attack grants full stealth\n" +
-                "This evade has a 20s cooldown before it can occur again");
+                "This evade has a 75s cooldown before it can occur again");
         }
 
         public override void SetDefaults()
