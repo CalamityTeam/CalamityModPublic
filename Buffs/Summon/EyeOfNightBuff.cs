@@ -9,7 +9,7 @@ namespace CalamityMod.Buffs.Summon
     {
         public override void SetDefaults()
         {
-            DisplayName.SetDefault("Eye ofNight");
+            DisplayName.SetDefault("Eye of Night");
             Description.SetDefault("It eerily watches");
             Main.buffNoTimeDisplay[Type] = true;
             Main.buffNoSave[Type] = true;
