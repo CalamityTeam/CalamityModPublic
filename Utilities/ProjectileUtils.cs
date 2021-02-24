@@ -1,6 +1,4 @@
-using CalamityMod.CalPlayer;
 using CalamityMod.Projectiles.Magic;
-using CalamityMod.Projectiles.Summon;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -23,6 +21,11 @@ namespace CalamityMod
 		public static bool FinalExtraUpdate(this Projectile proj) => proj.numUpdates == -1;
 
 		public static bool IsSummon(this Projectile proj) => proj.minion || proj.sentry || CalamityLists.projectileMinionList.Contains(proj.type) || ProjectileID.Sets.MinionShot[proj.type] || ProjectileID.Sets.SentryShot[proj.type];
+
+		public static T ModProjectile<T>(this Projectile projectile) where T : ModProjectile
+		{
+			return projectile.modProjectile as T;
+		}
 
 		public static void KillAllHostileProjectiles()
 		{
