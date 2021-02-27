@@ -20,15 +20,14 @@ namespace CalamityMod.Items.Accessories
                 "Stealth strikes have a 100% critical hit chance\n" +
                 "Stealth strikes only expend 50% of your max stealth\n" +
                 "Grants the ability to evade attacks in a blast of darksun light, which inflicts extreme damage in a wide area\n" +
-                "Evading an attack grants full stealth\n" +
-                "This evade has a 75s cooldown before it can occur again");
+                "Evading an attack grants full stealth but has a 75 second cooldown");
         }
 
         public override void SetDefaults()
         {
             item.width = 38;
             item.height = 38;
-			item.rare = ItemRarityID.Purple;
+            item.rare = ItemRarityID.Purple;
             item.value = CalamityGlobalItem.Rarity14BuyPrice;
             item.Calamity().customRarity = CalamityRarity.DarkBlue;
             item.accessory = true;

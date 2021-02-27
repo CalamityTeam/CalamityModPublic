@@ -3846,20 +3846,23 @@ namespace CalamityMod.CalPlayer
                 SpectralVeil();
                 return true;
             }
-            // Scarf cooldowns affect each other
+
+            // Neither scarf can be used if either is on cooldown
             bool playerDashing = player.pulley || player.grappling[0] == -1 && !player.tongued;
             if (playerDashing && dashMod == 1 && player.dashDelay < 0 && dodgeScarf && !scarfCooldown && !eScarfCooldown)
             {
                 OnDodge();
                 return true;
             }
-            // Mirror cooldowns affect each other
+
+            // Neither mirror can be used if either is on cooldown
             bool isImmune = false;
             for (int j = 0; j < player.hurtCooldowns.Length; j++)
             {
                 if (player.hurtCooldowns[j] > 0)
                     isImmune = true;
             }
+
             if (dodgeCooldownTimer == 0 && !isImmune && !eclipseMirrorCooldown && !abyssalMirrorCooldown)
             {
                 if (eclipseMirror)
@@ -7057,18 +7060,6 @@ namespace CalamityMod.CalPlayer
 			if (HandleDodges())
 				return false;
 
-			// New Black Belt and Master Ninja Gear code.
-			if (dodgeCooldownTimer > 0)
-			{
-				player.blackBelt = false;
-			}
-			else if (player.blackBelt)
-			{
-				dodgeCooldownTimer = 3600;
-				player.NinjaDodge();
-				return false;
-			}
-
 			// Lul makes the player completely invincible.
 			if (lol)
                 return false;
@@ -7096,11 +7087,6 @@ namespace CalamityMod.CalPlayer
                     KillPlayer();
                 }
             }
-
-            // God Slayer Reflect gives a 2% chance to dodge any hit.
-            // This is intentionally after Armageddon so that the 2% random chance doesn't screw up no-hits.
-            if (godSlayerReflect && Main.rand.NextBool(50))
-                return false;
             #endregion
 
             //

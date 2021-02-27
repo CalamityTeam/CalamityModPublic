@@ -4,9 +4,6 @@ using CalamityMod.CalPlayer;
 using CalamityMod.Events;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor;
-using CalamityMod.Items.DifficultyItems;
-using CalamityMod.Items.Materials;
-using CalamityMod.Items.PermanentBoosters;
 using CalamityMod.Items.Placeables.Furniture.Fountains;
 using CalamityMod.Items.Potions;
 using CalamityMod.Items.Tools;
@@ -1256,7 +1253,7 @@ namespace CalamityMod.Items
 				{
 					if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
 						line2.text = "Grants the ability to dodge attacks\n" +
-							"This dodge has a 60s cooldown";
+							"The dodge has a 60 second cooldown";
 				}
 			}
 			if (item.type == ItemID.MasterNinjaGear)
@@ -1265,7 +1262,7 @@ namespace CalamityMod.Items
 				{
 					if (line2.mod == "Terraria" && line2.Name == "Tooltip1")
 						line2.text = "Grants the ability to dodge attacks\n" +
-							"This dodge has a 60s cooldown";
+							"The dodge has a 60 second cooldown";
 				}
 			}
 			if (item.type == ItemID.CobaltSword || item.type == ItemID.CobaltNaginata)
