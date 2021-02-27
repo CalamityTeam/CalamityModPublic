@@ -118,14 +118,6 @@ namespace CalamityMod.Items.Weapons.Melee
                         }
                     }
                 }
-                if (Main.netMode == NetmodeID.Server)
-                {
-                    var netMessage = CalamityMod.Instance.GetPacket();
-                    netMessage.Write((byte)CalamityModMessageType.GaelsGreatswordSwingSync);
-                    netMessage.Write((byte)player.whoAmI);
-                    netMessage.Write(player.Calamity().gaelSwipes);
-                    netMessage.Send();
-                }
             }
         }
         public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)

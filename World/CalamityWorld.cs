@@ -92,7 +92,6 @@ namespace CalamityMod.World
         public static int abyssChasmBottom = 0;
         public static bool rainingAcid;
         public static int acidRainPoints = 0;
-        public static int acidRainExtraDrawTime = 0;
         public static bool triedToSummonOldDuke = false;
         public static bool startAcidicDownpour = false;
         public static bool forcedRainAlready = false;

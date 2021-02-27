@@ -9243,19 +9243,6 @@ namespace CalamityMod.CalPlayer
                 packet.Send(-1, player.whoAmI);
         }
 
-        public void AquaticBoostPacket(bool server)
-        {
-            ModPacket packet = mod.GetPacket(256);
-            packet.Write((byte)CalamityModMessageType.AquaticBoostSync);
-            packet.Write(player.whoAmI);
-            packet.Write(aquaticBoost);
-
-            if (!server)
-                packet.Send();
-            else
-                packet.Send(-1, player.whoAmI);
-        }
-
         public void MoveSpeedStatPacket(bool server)
         {
             ModPacket packet = mod.GetPacket(256);
@@ -9381,13 +9368,6 @@ namespace CalamityMod.CalPlayer
                 ReforgeTierSafetyPacket(true);
         }
 
-        internal void HandleAquaticBoost(BinaryReader reader)
-        {
-            aquaticBoost = reader.ReadSingle();
-            if (Main.netMode == NetmodeID.Server)
-                AquaticBoostPacket(true);
-        }
-
         internal void HandleMoveSpeedStat(BinaryReader reader)
         {
             moveSpeedStat = reader.ReadInt32();
@@ -9421,9 +9401,7 @@ namespace CalamityMod.CalPlayer
                 DeathPacket(false);
                 DeathModeUnderworldTimePacket(false);
                 DeathModeBlizzardTimePacket(false);
-                ItemTypeLastReforgedPacket(false);
                 ReforgeTierSafetyPacket(false);
-                AquaticBoostPacket(false);
                 MoveSpeedStatPacket(false);
                 DefenseDamagePacket(false);
             }
