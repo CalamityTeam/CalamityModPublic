@@ -4711,7 +4711,7 @@ namespace CalamityMod.CalPlayer
 
                 case ItemID.AdamantiteSword:
 					float slowDownMult = 0.5f;
-					if (CalamityLists.enemyImmunityList.Contains(npc.type) || npc.boss)
+					if (CalamityLists.enemyImmunityList.Contains(target.type) || target.boss)
 						slowDownMult = 0.95f;
 					target.velocity *= slowDownMult;
                     break;
@@ -4812,7 +4812,7 @@ namespace CalamityMod.CalPlayer
 
                 case ProjectileID.AdamantiteGlaive:
 					float slowDownMult = 0.5f;
-					if (CalamityLists.enemyImmunityList.Contains(npc.type) || npc.boss)
+					if (CalamityLists.enemyImmunityList.Contains(target.type) || target.boss)
 						slowDownMult = 0.95f;
 					target.velocity *= slowDownMult;
                     break;
