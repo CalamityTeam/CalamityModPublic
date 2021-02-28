@@ -60,9 +60,6 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            if (target.defense > 0)
-                target.defense -= 15;
-
             target.AddBuff(ModContent.BuffType<CrushDepth>(), 600);
         }
 

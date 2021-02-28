@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Weapons.Magic
 		}
 		public override void SetDefaults()
 		{
-			item.damage = 419;
+			item.damage = 251;
 			item.noMelee = true;
 			item.magic = true;
 			item.width = 22;
@@ -30,13 +30,13 @@ namespace CalamityMod.Items.Weapons.Magic
 			item.mana = 30;
 			item.knockBack = 2;
 			item.UseSound = SoundID.Item20;
-			item.rare = 4;
+			item.rare = ItemRarityID.LightRed;
 			item.autoReuse = true;
 			item.useTurn = true;
 			item.noUseGraphic = true;
 			item.holdStyle = 3;
             item.value = Item.buyPrice(1, 40, 0, 0);
-            item.rare = 10;
+            item.rare = ItemRarityID.Red;
             item.Calamity().customRarity = CalamityRarity.PureGreen;
 		}
 

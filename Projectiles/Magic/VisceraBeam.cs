@@ -22,7 +22,7 @@ namespace CalamityMod.Projectiles.Magic
             projectile.height = 4;
             projectile.friendly = true;
             projectile.magic = true;
-            projectile.penetrate = 6;
+            projectile.penetrate = 9;
             projectile.extraUpdates = 100;
             projectile.timeLeft = 300;
             projectile.usesLocalNPCImmunity = true;
@@ -31,7 +31,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            healAmt *= 1.4f;
+            healAmt *= 1.25f;
             projectile.penetrate--;
             if (projectile.penetrate <= 0)
             {
@@ -54,11 +54,11 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            if (target.type == NPCID.TargetDummy || !target.canGhostHeal || Main.player[projectile.owner].moonLeech)
+            if (!target.canGhostHeal || Main.player[projectile.owner].moonLeech)
             {
                 return;
             }
-            healAmt *= 1.4f;
+            healAmt *= 1.25f;
             Player player = Main.player[projectile.owner];
             player.statLife += (int)healAmt;
             player.HealEffect((int)healAmt);

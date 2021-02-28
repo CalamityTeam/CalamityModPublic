@@ -3,7 +3,6 @@ using CalamityMod.Buffs.StatBuffs;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Dusts;
 using CalamityMod.Items.Armor;
-using CalamityMod.Items.LoreItems;
 using CalamityMod.NPCs.NormalNPCs;
 using CalamityMod.Projectiles;
 using CalamityMod.Projectiles.Healing;
@@ -15,7 +14,6 @@ using CalamityMod.Projectiles.Summon;
 using CalamityMod.Projectiles.Typeless;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
-using System;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
@@ -53,17 +51,18 @@ namespace CalamityMod.CalPlayer
 
 			if (npcCheck)
 			{
-				if (item.melee && modPlayer.aBulwarkRare)
+				if (item.melee && modPlayer.aBulwarkRare && modPlayer.aBulwarkRareTimer == 0)
 				{
+					modPlayer.aBulwarkRareTimer = 10;
 					for (int n = 0; n < 3; n++)
 						CalamityUtils.ProjectileRain(player.Center, 400f, 100f, 500f, 800f, 29f, ProjectileType<AstralStar>(), (int)(320 * player.AverageDamage()), 5f, player.whoAmI);
 				}
-				if (modPlayer.unstablePrism && crit)
+				if (modPlayer.unstablePrism && crit && player.ownedProjectileCounts[ProjectileType<UnstableSpark>()] < 10)
 				{
 					for (int s = 0; s < 3; s++)
 					{
 						Vector2 velocity = CalamityUtils.RandomVelocity(50f, 30f, 60f);
-						Projectile.NewProjectile(position, velocity, ProjectileType<UnstableSpark>(), CalamityUtils.DamageSoftCap(damage * 0.15, 30), 0f, player.whoAmI);
+						Projectile.NewProjectile(position, velocity, ProjectileType<UnstableSpark>(), (int)(damage * 0.15), 0f, player.whoAmI);
 					}
 				}
                 if (modPlayer.astralStarRain && crit && modPlayer.astralStarRainCooldown <= 0)
@@ -148,7 +147,7 @@ namespace CalamityMod.CalPlayer
 
 			if (modPlayer.alchFlask && player.ownedProjectileCounts[ProjectileType<PlagueSeeker>()] < 6 && hasClass)
 			{
-				int plague = Projectile.NewProjectile(proj.Center, Vector2.Zero, ProjectileType<PlagueSeeker>(), CalamityUtils.DamageSoftCap(proj.damage * 0.25, 30), 0f, proj.owner);
+				int plague = Projectile.NewProjectile(proj.Center, Vector2.Zero, ProjectileType<PlagueSeeker>(), CalamityUtils.DamageSoftCap(proj.damage * 0.25, 50), 0f, proj.owner);
 				if (plague.WithinBounds(Main.maxProjectiles))
 					Main.projectile[plague].Calamity().forceTypeless = true;
 			}
@@ -160,12 +159,12 @@ namespace CalamityMod.CalPlayer
 				player.lifeRegenTime += 1;
 			if (npcCheck)
 			{
-                if (modPlayer.unstablePrism && crit)
+                if (modPlayer.unstablePrism && crit && player.ownedProjectileCounts[ProjectileType<UnstableSpark>()] < 10)
                 {
                     for (int s = 0; s < 3; s++)
                     {
 						Vector2 velocity = CalamityUtils.RandomVelocity(50f, 30f, 60f);
-                        Projectile.NewProjectile(position, velocity, ProjectileType<UnstableSpark>(), CalamityUtils.DamageSoftCap(proj.damage * 0.15, 30), 0f, player.whoAmI);
+                        Projectile.NewProjectile(position, velocity, ProjectileType<UnstableSpark>(), (int)(proj.damage * 0.15), 0f, player.whoAmI);
                     }
                 }
                 if (modPlayer.astralStarRain && crit && modPlayer.astralStarRainCooldown <= 0)
@@ -218,8 +217,9 @@ namespace CalamityMod.CalPlayer
 					if (player.wingTime > player.wingTimeMax)
 						player.wingTime = player.wingTimeMax;
 				}
-				if (modPlayer.aBulwarkRare)
+				if (modPlayer.aBulwarkRare && modPlayer.aBulwarkRareTimer == 0)
 				{
+					modPlayer.aBulwarkRareTimer = 10;
 					for (int n = 0; n < 3; n++)
 						CalamityUtils.ProjectileRain(player.Center, 400f, 100f, 500f, 800f, 29f, ProjectileType<AstralStar>(), (int)(320 * player.AverageDamage()), 5f, player.whoAmI);
 				}
@@ -367,7 +367,7 @@ namespace CalamityMod.CalPlayer
 					Main.dust[explode].velocity *= 2f;
 					Main.dust[explode].noGravity = true;
 				}
-				proj.damage *= 4;
+				proj.damage += CalamityUtils.DamageSoftCap(proj.damage * 2, 720);
 				proj.localNPCHitCooldown = 10;
 				proj.usesLocalNPCImmunity = true;
 				proj.Damage();
@@ -401,12 +401,13 @@ namespace CalamityMod.CalPlayer
 					player.AddBuff(buffType, 120);
 				}
 			}
+
 			// Fearmonger set's colossal life regeneration
-			if(modPlayer.fearmongerSet)
+			if (modPlayer.fearmongerSet)
 			{
-				modPlayer.fearmongerRegenFrames += 20;
-				if (modPlayer.fearmongerRegenFrames > 180)
-					modPlayer.fearmongerRegenFrames = 180;
+				modPlayer.fearmongerRegenFrames += 10;
+				if (modPlayer.fearmongerRegenFrames > 90)
+					modPlayer.fearmongerRegenFrames = 90;
 			}
 
 			if (modPlayer.godSlayerSummon && modPlayer.godSlayerDmg <= 0)
@@ -515,12 +516,12 @@ namespace CalamityMod.CalPlayer
 						break;
 					}
 				}
-				int projectileIndex = Projectile.NewProjectile(projTileX * 16 + 8, projTileY * 16 - 24, 0f, 0f, ProjectileType<InfernadoFriendly>(), 420, 15f, Main.myPlayer, 16f, 16f);
+				int projectileIndex = Projectile.NewProjectile(projTileX * 16 + 8, projTileY * 16 - 24, 0f, 0f, ProjectileType<InfernadoFriendly>(), 840, 15f, Main.myPlayer, 16f, 16f);
 				if (projectileIndex.WithinBounds(Main.maxProjectiles))
 				{
 					Main.projectile[projectileIndex].Calamity().forceRogue = true;
 					Main.projectile[projectileIndex].netUpdate = true;
-					Main.projectile[projectileIndex].localNPCHitCooldown = 1;
+					Main.projectile[projectileIndex].localNPCHitCooldown = 10;
 				}
 			}
             if (modPlayer.tarraThrowing && !modPlayer.tarragonImmunity && !modPlayer.tarragonImmunityCooldown && modPlayer.tarraThrowingCrits < 25 && crit)
@@ -830,26 +831,6 @@ namespace CalamityMod.CalPlayer
 				{
 					target.AddBuff(BuffType<AstralInfectionDebuff>(), 60 * Main.rand.Next(1,6), false); // 1 to 5 seconds
 				}
-				if (modPlayer.etherealExtorter)
-				{
-					if (modPlayer.ZoneSunkenSea)
-					{
-						target.AddBuff(BuffType<TemporalSadness>(), 60, false);
-					}
-					if (modPlayer.ZoneSulphur)
-					{
-						target.AddBuff(BuffType<SulphuricPoisoning>(), 120, false);
-						target.AddBuff(BuffType<Irradiated>(), 300, false);
-					}
-					if (Main.moonPhase == 6) //first quarter
-					{
-						target.AddBuff(BuffID.Midas, 120, false);
-					}
-					if (modPlayer.ZoneCalamity && CalamityLists.fireWeaponList.Contains(player.ActiveItem().type))
-					{
-						target.AddBuff(BuffType<AbyssalFlames>(), 240, false);
-					}
-				}
 				if (modPlayer.corrosiveSpine)
 				{
 					target.AddBuff(BuffID.Venom, 240);
@@ -908,22 +889,10 @@ namespace CalamityMod.CalPlayer
             {
 				CalamityUtils.Inflict246DebuffsNPC(target, BuffType<Plague>());
             }
-			if (modPlayer.perforatorLore && proj)
-			{
-				target.AddBuff(BuffID.Ichor, 90);
-			}
-			if (modPlayer.hiveMindLore && proj)
-			{
-				target.AddBuff(BuffID.CursedInferno, 90);
-			}
             if (modPlayer.holyWrath)
             {
                 target.AddBuff(BuffType<HolyFlames>(), 600, false);
             }
-			else if (modPlayer.providenceLore && proj)
-			{
-				target.AddBuff(BuffType<HolyFlames>(), 420, false);
-			}
             if (modPlayer.vexation)
             {
 				if ((player.armor[0].type == ItemType<ReaverHelm>() || player.armor[0].type == ItemType<ReaverHeadgear>() ||
@@ -1018,22 +987,6 @@ namespace CalamityMod.CalPlayer
 				{
 					target.AddBuff(BuffType<AstralInfectionDebuff>(), 60 * Main.rand.Next(1,6), false); // 1 to 5 seconds
 				}
-				if (modPlayer.etherealExtorter)
-				{
-					if (modPlayer.ZoneSunkenSea)
-					{
-						target.AddBuff(BuffType<TemporalSadness>(), 60, false);
-					}
-					if (modPlayer.ZoneSulphur)
-					{
-						target.AddBuff(BuffType<SulphuricPoisoning>(), 120, false);
-						target.AddBuff(BuffType<Irradiated>(), 300, false);
-					}
-					if (modPlayer.ZoneCalamity && CalamityLists.fireWeaponList.Contains(player.ActiveItem().type))
-					{
-						target.AddBuff(BuffType<AbyssalFlames>(), 240, false);
-					}
-				}
 				if (modPlayer.corrosiveSpine)
 				{
 					target.AddBuff(BuffID.Venom, 240);
@@ -1088,21 +1041,9 @@ namespace CalamityMod.CalPlayer
 			{
 				CalamityUtils.Inflict246DebuffsPvp(target, BuffType<CrushDepth>());
 			}
-			if (modPlayer.perforatorLore && proj)
-			{
-				target.AddBuff(BuffID.Ichor, 90);
-			}
-			if (modPlayer.hiveMindLore && proj)
-			{
-				target.AddBuff(BuffID.CursedInferno, 90);
-			}
 			if (modPlayer.holyWrath)
 			{
 				target.AddBuff(BuffType<HolyFlames>(), 600, false);
-			}
-			else if (modPlayer.providenceLore && proj)
-			{
-				target.AddBuff(BuffType<HolyFlames>(), 420, false);
 			}
             if (modPlayer.vexation)
             {
@@ -1164,7 +1105,7 @@ namespace CalamityMod.CalPlayer
                 }
             }
 
-			if (Main.player[Main.myPlayer].lifeSteal > 0f && target.canGhostHeal && target.type != NPCID.TargetDummy && target.type != NPCType<SuperDummyNPC>() && !player.moonLeech)
+			if (Main.player[Main.myPlayer].lifeSteal > 0f && target.canGhostHeal && !player.moonLeech)
 			{
 				// Increases the degree to which Spectre Healing set contributes to the lifesteal cap
 				if (player.ghostHeal)
@@ -1417,7 +1358,7 @@ namespace CalamityMod.CalPlayer
 
 			if (modPlayer.reaverDefense)
 			{
-                if (Main.player[Main.myPlayer].lifeSteal > 0f && target.canGhostHeal && target.type != NPCID.TargetDummy && target.type != NPCType<SuperDummyNPC>() && !player.moonLeech)
+                if (Main.player[Main.myPlayer].lifeSteal > 0f && target.canGhostHeal && !player.moonLeech)
                 {
 					float healMult = 0.2f;
 					float heal = damage * healMult;

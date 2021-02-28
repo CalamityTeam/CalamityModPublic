@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 			item.height = 48;
 			item.maxStack = 999;
 			item.value = 10000;
-			item.rare = 9;
+			item.rare = ItemRarityID.Cyan;
 			item.shoot = ModContent.ProjectileType<AntumbraShardProjectile>();
 			item.shootSpeed = 16f;
 			item.Calamity().rogue = true;

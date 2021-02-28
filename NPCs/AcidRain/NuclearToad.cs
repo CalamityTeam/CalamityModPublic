@@ -44,10 +44,6 @@ namespace CalamityMod.NPCs.AcidRain
 
             npc.knockBackResist = 0.7f;
             npc.value = Item.buyPrice(0, 0, 5, 0);
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
             npc.lavaImmune = false;
             npc.noGravity = true;
             npc.noTileCollide = false;

@@ -40,9 +40,9 @@ namespace CalamityMod.NPCs.OldDuke
             npc.aiStyle = -1;
 			aiType = -1;
 			npc.GetNPCDamage();
-			npc.defense = 100;
+			npc.defense = 90;
 			npc.DR_NERD(0.5f, null, null, null, true);
-			npc.LifeMaxNERB(750000, 1000000, 4000000);
+			npc.LifeMaxNERB(412500, 495000, 4000000);
 			double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
 			npc.lifeMax += (int)(npc.lifeMax * HPBoost);
 			npc.knockBackResist = 0f;
@@ -51,7 +51,7 @@ namespace CalamityMod.NPCs.OldDuke
             npc.npcSlots = 15f;
             npc.HitSound = SoundID.NPCHit14;
             npc.DeathSound = SoundID.NPCDeath20;
-			npc.value = Item.buyPrice(0, 75, 0, 0);
+			npc.value = Item.buyPrice(0, 70, 0, 0);
 			npc.boss = true;
             npc.netAlways = true;
             npc.timeLeft = NPC.activeTime * 30;
@@ -61,10 +61,6 @@ namespace CalamityMod.NPCs.OldDuke
             else
                 music = MusicID.Boss1;
             bossBag = ModContent.ItemType<OldDukeBag>();
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
 		}
 
 		public override void SendExtraAI(BinaryWriter writer)
@@ -390,7 +386,7 @@ namespace CalamityMod.NPCs.OldDuke
 			if (!Main.expertMode)
             {
 				// Weapons
-				float w = DropHelper.DirectWeaponDropRateFloat;
+				float w = DropHelper.NormalWeaponDropRateFloat;
 				DropHelper.DropEntireWeightedSet(npc,
 					DropHelper.WeightStack<InsidiousImpaler>(w),
 					DropHelper.WeightStack<FetidEmesis>(w),
@@ -409,6 +405,9 @@ namespace CalamityMod.NPCs.OldDuke
 
             // Mark Old Duke as dead
             CalamityWorld.downedBoomerDuke = true;
+
+			// Mark first acid rain encounter as true even if he wasn't fought in the acid rain, because it makes sense
+			CalamityWorld.encounteredOldDuke = true;
             CalamityNetcode.SyncWorld();
         }
 

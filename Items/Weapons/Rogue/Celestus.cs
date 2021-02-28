@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 			item.noMelee = true;
 			item.noUseGraphic = true;
 			item.value = Item.buyPrice(platinum: 2, gold: 50);
-			item.rare = 10;
+			item.rare = ItemRarityID.Red;
 			item.Calamity().customRarity = CalamityRarity.Violet;
 		}
 

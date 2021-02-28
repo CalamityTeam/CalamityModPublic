@@ -26,11 +26,11 @@ namespace CalamityMod.Items.Accessories
         {
             item.width = 32;
             item.height = 40;
-			item.accessory = true;
-			item.rare = ItemRarityID.Purple;
-			item.Calamity().customRarity = CalamityRarity.Dedicated;
-			item.value = CalamityGlobalItem.Rarity12BuyPrice;
-		}
+            item.accessory = true;
+            item.value = CalamityGlobalItem.Rarity12BuyPrice;
+            item.Calamity().customRarity = CalamityRarity.Turquoise;
+            item.Calamity().donorItem = true;
+        }
 
         public override bool CanEquipAccessory(Player player, int slot)
         {
@@ -46,10 +46,10 @@ namespace CalamityMod.Items.Accessories
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ModContent.ItemType<ExodiumClusterOre>(), 25);
-			recipe.AddIngredient(ModContent.ItemType<Chaosplate>(), 25);
-			recipe.AddIngredient(ModContent.ItemType<DivineGeode>(), 5);
-			recipe.AddTile(TileID.DemonAltar);
+            recipe.AddIngredient(ModContent.ItemType<ExodiumClusterOre>(), 25);
+            recipe.AddIngredient(ModContent.ItemType<Chaosplate>(), 25);
+            recipe.AddIngredient(ModContent.ItemType<DivineGeode>(), 5);
+            recipe.AddTile(TileID.DemonAltar);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

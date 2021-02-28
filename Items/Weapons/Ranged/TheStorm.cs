@@ -13,12 +13,12 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             DisplayName.SetDefault("The Storm");
             Tooltip.SetDefault("Fires a spread of arrows from the sky\n" +
-                "Wooden arrows are converted to lightning bolts");
+                "Converts wooden arrows into lightning bolts");
         }
 
         public override void SetDefaults()
         {
-            item.damage = 44;
+            item.damage = 24;
             item.ranged = true;
             item.width = 34;
             item.height = 50;
@@ -83,8 +83,8 @@ namespace CalamityMod.Items.Weapons.Ranged
                 num80 = num72 / num80;
                 num78 *= num80;
                 num79 *= num80;
-                float speedX4 = num78 + (float)Main.rand.Next(-120, 121) * 0.02f;
-                float speedY5 = num79 + (float)Main.rand.Next(-120, 121) * 0.02f;
+                float speedX4 = num78 + (float)Main.rand.Next(-120, 121) * 0.01f;
+                float speedY5 = num79 + (float)Main.rand.Next(-120, 121) * 0.01f;
                 if (type == ProjectileID.WoodenArrowFriendly)
                 {
                     Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5 * 0.9f, ModContent.ProjectileType<Bolt>(), damage, num74, i, 0f, 0f);

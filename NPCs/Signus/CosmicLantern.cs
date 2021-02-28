@@ -34,10 +34,6 @@ namespace CalamityMod.NPCs.Signus
             npc.chaseable = false;
             npc.canGhostHeal = false;
             npc.noTileCollide = true;
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
             npc.HitSound = SoundID.NPCHit53;
             npc.DeathSound = SoundID.NPCDeath44;
         }
@@ -144,7 +140,7 @@ namespace CalamityMod.NPCs.Signus
 
         public override bool CanHitPlayer(Player target, ref int cooldownSlot)
         {
-            cooldownSlot = 0;
+            cooldownSlot = 1;
             return npc.alpha == 0;
         }
 

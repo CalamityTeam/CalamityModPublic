@@ -1,3 +1,4 @@
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -12,6 +13,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             DisplayName.SetDefault("True Bloody Edge");
             Tooltip.SetDefault("Chance to heal the player on enemy hits\n" +
+				"Inflicts Burning Blood\n" +
                 "Fires a bloody blade");
         }
 
@@ -28,7 +30,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.autoReuse = true;
             item.height = 64;
             item.value = Item.buyPrice(0, 80, 0, 0);
-            item.rare = 8;
+            item.rare = ItemRarityID.Yellow;
             item.shoot = ModContent.ProjectileType<BloodyBlade>();
             item.shootSpeed = 11f;
         }
@@ -53,14 +55,15 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            if (target.type != NPCID.TargetDummy)
-            {
-				OnHitEffects(player);
-            }
+			target.AddBuff(BuffID.Ichor, 60);
+			target.AddBuff(ModContent.BuffType<BurningBlood>(), 60);
+			OnHitEffects(player);
         }
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
+			target.AddBuff(BuffID.Ichor, 60);
+			target.AddBuff(ModContent.BuffType<BurningBlood>(), 60);
 			OnHitEffects(player);
         }
 

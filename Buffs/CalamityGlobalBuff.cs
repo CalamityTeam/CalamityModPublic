@@ -15,7 +15,15 @@ namespace CalamityMod.Buffs
 				type == BuffID.StardustGuardianMinion || type == BuffID.StardustDragonMinion)
 				Main.persistentBuff[type] = true;*/
 
-			if (type == BuffID.Shine)
+			if (type == BuffID.SugarRush)
+			{
+				player.moveSpeed -= 0.1f;
+			}
+			else if (type == BuffID.Swiftness)
+			{
+				player.moveSpeed -= 0.1f;
+			}
+			else if (type == BuffID.Shine)
             {
                 player.Calamity().shine = true;
             }
@@ -29,12 +37,12 @@ namespace CalamityMod.Buffs
             }
             else if (type >= BuffID.NebulaUpDmg1 && type <= BuffID.NebulaUpDmg3)
             {
-                float nebulaDamage = 0.075f * player.nebulaLevelDamage; //7.5% to 22.5%
+                float nebulaDamage = 0.075f * player.nebulaLevelDamage; // 15% to 45% changed to 7.5% to 22.5%
                 player.allDamage -= nebulaDamage;
             }
             else if (type >= BuffID.NebulaUpLife1 && type <= BuffID.NebulaUpLife3)
             {
-                player.lifeRegen -= 5 * player.nebulaLevelLife; //10 to 30 changed to 5 to 15
+                player.lifeRegen -= 5 * player.nebulaLevelLife; // 10 to 30 changed to 5 to 15
             }
             else if (type == BuffID.Warmth)
             {
@@ -76,6 +84,14 @@ namespace CalamityMod.Buffs
 			//Vanilla buffs
             switch (type)
             {
+				case BuffID.Swiftness:
+					tip = "15% increased movement speed";
+					break;
+
+				case BuffID.SugarRush:
+					tip = "10% increased movement speed and 20% increased mining speed";
+					break;
+
                 case BuffID.NebulaUpDmg1:
                     tip = "7.5% increased damage";
                     break;
@@ -123,8 +139,7 @@ namespace CalamityMod.Buffs
                     break;
 
                 case BuffID.CursedInferno:
-					if (CalamityWorld.revenge)
-						tip += ". All damage taken increased by 20%";
+					tip += ". All damage taken increased by 20%";
                     break;
 
                 case BuffID.Warmth:

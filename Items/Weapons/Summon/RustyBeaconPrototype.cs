@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Weapons.Summon
             item.noMelee = true;
             item.knockBack = 0.5f;
             item.value = CalamityGlobalItem.Rarity1BuyPrice;
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.UseSound = SoundID.Item15; // Phaseblade sound effect
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<RustyDrone>();

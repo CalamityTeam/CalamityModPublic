@@ -1,16 +1,18 @@
 using CalamityMod.CalPlayer;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.Items.Accessories
 {
-	public class Laudanum : ModItem
+    public class Laudanum : ModItem
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Laudanum");
             Tooltip.SetDefault("Converts certain debuffs into buffs and extends their durations\n" +
                                "Debuffs affected: Darkness, Blackout, Confused, Slow, Weak, Broken Armor,\n" +
-							   "Armor Crunch, War Cleave, Chilled, Ichor and Obstructed\n" +
+                               "Armor Crunch, War Cleave, Chilled, Ichor and Obstructed\n" +
                                "Revengeance drop");
         }
 
@@ -19,7 +21,7 @@ namespace CalamityMod.Items.Accessories
             item.width = 26;
             item.height = 26;
             item.value = CalamityGlobalItem.Rarity3BuyPrice;
-            item.rare = 3;
+            item.rare = ItemRarityID.Orange;
             item.accessory = true;
         }
 

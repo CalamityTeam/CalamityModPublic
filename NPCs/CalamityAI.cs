@@ -63,6 +63,10 @@ namespace CalamityMod.NPCs
 			// Percent life remaining
 			float lifeRatio = npc.life / (float)npc.lifeMax;
 
+			// Increase aggression if player is taking a long time to kill the boss
+			if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
+				lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
+
 			// Homing only works if the boss is hostile
 			if (head)
 				npc.chaseable = calamityGlobalNPC.newAI[0] == 1f;
@@ -72,8 +76,12 @@ namespace CalamityMod.NPCs
 				npc.realLife = (int)npc.ai[3];
 
 			// Get a target
-			if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)
-				npc.TargetClosest(true);
+			if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
+				npc.TargetClosest();
+
+			// Despawn safety, make sure to target another player if the current player target is too far away
+			if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > CalamityGlobalNPC.CatchUpDistance200Tiles)
+				npc.TargetClosest();
 
 			Player player = Main.player[npc.target];
 
@@ -94,71 +102,75 @@ namespace CalamityMod.NPCs
 			bool doSpiral = false;
 			if (head && calamityGlobalNPC.newAI[0] == 1f && calamityGlobalNPC.newAI[2] == 1f && revenge)
 			{
-				if (Vector2.Distance(npc.Center, player.Center) > 320f || calamityGlobalNPC.newAI[3] > 0f)
+				bool isWet = Collision.WetCollision(npc.position, npc.width, npc.height);
+				float ai3 = 660f;
+				calamityGlobalNPC.newAI[3] += 1f;
+				doSpiral = calamityGlobalNPC.newAI[1] == 0f && calamityGlobalNPC.newAI[3] >= ai3;
+				if (doSpiral)
 				{
-					float ai3 = 660f;
-					calamityGlobalNPC.newAI[3] += 1f;
-					doSpiral = calamityGlobalNPC.newAI[1] == 0f && calamityGlobalNPC.newAI[3] >= ai3;
-					if (doSpiral)
+					// Barf
+					if (calamityGlobalNPC.newAI[3] % 40f == 0f)
 					{
-						// Barf
-						if (calamityGlobalNPC.newAI[3] % 40f == 0f)
+						Main.PlaySound(SoundID.NPCKilled, (int)npc.position.X, (int)npc.position.Y, 13);
+
+						if (Main.netMode != NetmodeID.MultiplayerClient)
 						{
-							Main.PlaySound(4, (int)npc.position.X, (int)npc.position.Y, 13);
+							float num742 = BossRushEvent.BossRushActive ? 16f : death ? 10f : 8f;
+							float num743 = player.Center.X - vectorCenter.X;
+							float num744 = player.Center.Y - vectorCenter.Y;
+							float num745 = (float)Math.Sqrt(num743 * num743 + num744 * num744);
 
-							if (Main.netMode != NetmodeID.MultiplayerClient)
+							num745 = num742 / num745;
+							num743 *= num745;
+							num744 *= num745;
+
+							int type = ModContent.ProjectileType<SandBlast>();
+							int damage = npc.GetProjectileDamage(type);
+							int numProj = death ? 5 : 3;
+							int spread = death ? 60 : 36;
+							float rotation = MathHelper.ToRadians(spread);
+							float baseSpeed = (float)Math.Sqrt(num743 * num743 + num744 * num744);
+							double startAngle = Math.Atan2(num743, num744) - rotation / 2;
+							double deltaAngle = rotation / numProj;
+							double offsetAngle;
+
+							for (int i = 0; i < numProj; i++)
 							{
-								float num742 = BossRushEvent.BossRushActive ? 16f : death ? 10f : 8f;
-								float num743 = player.Center.X - vectorCenter.X;
-								float num744 = player.Center.Y - vectorCenter.Y;
-								float num745 = (float)Math.Sqrt(num743 * num743 + num744 * num744);
-
-								num745 = num742 / num745;
-								num743 *= num745;
-								num744 *= num745;
-
-								int type = ModContent.ProjectileType<SandBlast>();
-								int damage = npc.GetProjectileDamage(type);
-								int numProj = death ? 5 : 3;
-								int spread = death ? 60 : 36;
-								float rotation = MathHelper.ToRadians(spread);
-								float baseSpeed = (float)Math.Sqrt(num743 * num743 + num744 * num744);
-								double startAngle = Math.Atan2(num743, num744) - rotation / 2;
-								double deltaAngle = rotation / numProj;
-								double offsetAngle;
-
-								for (int i = 0; i < numProj; i++)
-								{
-									offsetAngle = startAngle + deltaAngle * i;
-									int proj = Projectile.NewProjectile(vectorCenter.X, vectorCenter.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), type, damage, 0f, Main.myPlayer, 0f, 0f);
-									Main.projectile[proj].tileCollide = false;
-								}
+								offsetAngle = startAngle + deltaAngle * i;
+								int proj = Projectile.NewProjectile(vectorCenter.X, vectorCenter.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), type, damage, 0f, Main.myPlayer, 0f, 0f);
+								Main.projectile[proj].tileCollide = false;
 							}
 						}
-
-						// Velocity boost
-						if (calamityGlobalNPC.newAI[3] == ai3)
-						{
-							npc.velocity.Normalize();
-							npc.velocity *= 24f;
-						}
-
-						// Spin velocity
-						float velocity = (float)(Math.PI * 2D) / 120f;
-						npc.velocity = npc.velocity.RotatedBy(-(double)velocity * npc.localAI[1]);
-						npc.rotation = (float)Math.Atan2(npc.velocity.Y, npc.velocity.X) + MathHelper.PiOver2;
-
-						// Reset and charge at target
-						if (calamityGlobalNPC.newAI[3] >= ai3 + 120f)
-						{
-							npc.TargetClosest(true);
-							calamityGlobalNPC.newAI[3] = 0f;
-							float chargeVelocity = (BossRushEvent.BossRushActive ? 24f : death ? 16f : 12f) + 3f * enrageScale;
-							npc.velocity = Vector2.Normalize(player.Center - npc.Center) * chargeVelocity;
-						}
 					}
-					else
-						npc.localAI[1] = npc.Center.X - player.Center.X < 0 ? 1f : -1f;
+
+					// Velocity boost
+					if (calamityGlobalNPC.newAI[3] == ai3)
+					{
+						npc.velocity.Normalize();
+						npc.velocity *= 24f;
+					}
+
+					// Spin velocity
+					float velocity = (float)(Math.PI * 2D) / 120f;
+					npc.velocity = npc.velocity.RotatedBy(-(double)velocity * npc.localAI[1]);
+					npc.rotation = (float)Math.Atan2(npc.velocity.Y, npc.velocity.X) + MathHelper.PiOver2;
+
+					// Reset and charge at target
+					if (calamityGlobalNPC.newAI[3] >= ai3 + 120f)
+					{
+						// Add 2 seconds to timer so that spinning happens more often if Scourge isn't wet when spin ends
+						calamityGlobalNPC.newAI[3] = isWet ? 0f : 120f;
+						float chargeVelocity = (BossRushEvent.BossRushActive ? 24f : death ? 16f : 12f) + 3f * enrageScale;
+						npc.velocity = Vector2.Normalize(player.Center - npc.Center) * chargeVelocity;
+						npc.TargetClosest();
+					}
+				}
+				else
+				{
+					if (isWet && calamityGlobalNPC.newAI[3] > 0f)
+						calamityGlobalNPC.newAI[3] -= 2f;
+
+					npc.localAI[1] = npc.Center.X - player.Center.X < 0 ? 1f : -1f;
 				}
 			}
 
@@ -207,7 +219,7 @@ namespace CalamityMod.NPCs
 							{
 								npc.localAI[0] = 0f;
 								npc.netUpdate = true;
-								Main.PlaySound(4, (int)npc.position.X, (int)npc.position.Y, 13);
+								Main.PlaySound(SoundID.NPCKilled, (int)npc.position.X, (int)npc.position.Y, 13);
 
 								if (Main.netMode != NetmodeID.MultiplayerClient)
 								{
@@ -257,10 +269,10 @@ namespace CalamityMod.NPCs
 							if (npc.localAI[0] >= Main.rand.Next(700, 10001))
 							{
 								npc.localAI[0] = 0f;
-								npc.TargetClosest(true);
+								npc.TargetClosest();
 								if (Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height))
 								{
-									Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 17);
+									Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 17);
 									Vector2 vector104 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + (npc.height / 2));
 									float num942 = player.position.X + player.width * 0.5f - vector104.X;
 									float num943 = player.position.Y + player.height * 0.5f - vector104.Y;
@@ -284,7 +296,7 @@ namespace CalamityMod.NPCs
 							if (npc.localAI[0] >= Main.rand.Next(700, 10001))
 							{
 								npc.localAI[0] = 0f;
-								npc.TargetClosest(true);
+								npc.TargetClosest();
 								if (Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height))
 								{
 									Vector2 vector104 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + (npc.height / 2));
@@ -333,7 +345,7 @@ namespace CalamityMod.NPCs
 				}
 			}
 
-			float maxDistance = calamityGlobalNPC.newAI[0] == 1f ? 8000f : 4000f;
+			float maxDistance = calamityGlobalNPC.newAI[0] == 1f ? 12800f : 6400f;
 			if (player.dead || Vector2.Distance(npc.Center, player.Center) > maxDistance)
 			{
 				calamityGlobalNPC.newAI[1] = 1f;
@@ -578,8 +590,12 @@ namespace CalamityMod.NPCs
 			Vector2 vectorCenter = npc.Center;
 
 			// Get a target
-			if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)
-				npc.TargetClosest(true);
+			if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
+				npc.TargetClosest();
+
+			// Despawn safety, make sure to target another player if the current player target is too far away
+			if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > CalamityGlobalNPC.CatchUpDistance200Tiles)
+				npc.TargetClosest();
 
 			Player player = Main.player[npc.target];
 
@@ -625,6 +641,10 @@ namespace CalamityMod.NPCs
 
 			// Percent life remaining
 			float lifeRatio = npc.life / (float)npc.lifeMax;
+
+			// Increase aggression if player is taking a long time to kill the boss
+			if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
+				lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
 
 			// Variables for buffing the AI
 			bool provy = CalamityWorld.downedProvidence && !BossRushEvent.BossRushActive;
@@ -719,7 +739,7 @@ namespace CalamityMod.NPCs
 					npc.localAI[1] += 1f;
 					if (npc.localAI[1] >= (BossRushEvent.BossRushActive ? 90f : death ? 150f : 180f))
 					{
-						npc.TargetClosest(true);
+						npc.TargetClosest();
 						npc.localAI[1] = 0f;
 						int timer = 0;
 						int playerPosX;
@@ -937,7 +957,7 @@ namespace CalamityMod.NPCs
 
 				if (npc.ai[1] >= divisor * 10f)
 				{
-					npc.TargetClosest(true);
+					npc.TargetClosest();
 					npc.ai[0] = -1f;
 					npc.ai[1] = 3f;
 					npc.ai[2] = 0f;
@@ -1013,7 +1033,7 @@ namespace CalamityMod.NPCs
 				npc.ai[1] += 1f;
 				if (npc.ai[1] >= (death ? 240f : 300f))
 				{
-					npc.TargetClosest(true);
+					npc.TargetClosest();
 					npc.ai[0] = -1f;
 					npc.ai[1] = 4f;
 					npc.ai[2] = 0f;
@@ -1050,7 +1070,7 @@ namespace CalamityMod.NPCs
 				npc.ai[1] += 1f;
 				if (npc.ai[1] >= 240f)
 				{
-					npc.TargetClosest(true);
+					npc.TargetClosest();
 					npc.ai[2] += 1f;
 					npc.localAI[0] = 0f;
 					npc.localAI[1] = 0f;
@@ -1106,7 +1126,7 @@ namespace CalamityMod.NPCs
 					}
 
 					if (npc.ai[1] % playSoundTimer == 0f)
-						Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 20);
+						Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 20);
 
 					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
@@ -1137,13 +1157,15 @@ namespace CalamityMod.NPCs
 		{
 			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
-			npc.Calamity().canBreakPlayerDefense = false;
-
 			// Emit light
 			Lighting.AddLight((int)((npc.position.X + (npc.width / 2)) / 16f), (int)((npc.position.Y + (npc.height / 2)) / 16f), 1f, 0f, 0f);
 
 			// Percent life remaining
 			float lifeRatio = npc.life / (float)npc.lifeMax;
+
+			// Increase aggression if player is taking a long time to kill the boss
+			if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
+				lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
 
 			// Spawn phase 2 Cal
 			if (lifeRatio <= 0.75f && Main.netMode != NetmodeID.MultiplayerClient && !phase2)
@@ -1176,7 +1198,7 @@ namespace CalamityMod.NPCs
 				{
 					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
-						Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 74);
+						Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 74);
 						int seekerAmt = death ? 10 : 5;
 						int seekerSpread = 360 / seekerAmt;
 						int seekerDistance = death ? 180 : 150;
@@ -1253,8 +1275,12 @@ namespace CalamityMod.NPCs
 			}
 
 			// Get a target
-			if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)
-				npc.TargetClosest(true);
+			if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
+				npc.TargetClosest();
+
+			// Despawn safety, make sure to target another player if the current player target is too far away
+			if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > CalamityGlobalNPC.CatchUpDistance200Tiles)
+				npc.TargetClosest();
 
 			// Target variable
 			Player player = Main.player[npc.target];
@@ -1350,7 +1376,7 @@ namespace CalamityMod.NPCs
 
 				// Reduce acceleration if target is holding a true melee weapon
 				Item targetSelectedItem = player.inventory[player.selectedItem];
-				if (targetSelectedItem.melee && (targetSelectedItem.shoot == 0 || CalamityLists.trueMeleeProjectileList.Contains(targetSelectedItem.shoot)))
+				if (targetSelectedItem.melee && (targetSelectedItem.shoot == ProjectileID.None || CalamityLists.trueMeleeProjectileList.Contains(targetSelectedItem.shoot)))
 				{
 					num824 *= 0.5f;
 				}
@@ -1406,7 +1432,7 @@ namespace CalamityMod.NPCs
 				{
 					npc.ai[1] = 1f;
 					npc.ai[2] = 0f;
-					npc.TargetClosest(true);
+					npc.TargetClosest();
 					npc.netUpdate = true;
 				}
 
@@ -1501,7 +1527,7 @@ namespace CalamityMod.NPCs
 
 				// Reduce acceleration if target is holding a true melee weapon
 				Item targetSelectedItem = player.inventory[player.selectedItem];
-				if (targetSelectedItem.melee && (targetSelectedItem.shoot == 0 || CalamityLists.trueMeleeProjectileList.Contains(targetSelectedItem.shoot)))
+				if (targetSelectedItem.melee && (targetSelectedItem.shoot == ProjectileID.None || CalamityLists.trueMeleeProjectileList.Contains(targetSelectedItem.shoot)))
 				{
 					num833 *= 0.5f;
 				}
@@ -1622,7 +1648,7 @@ namespace CalamityMod.NPCs
 				{
 					npc.ai[1] = phase2 && !brotherAlive && lifeRatio < 0.7f && revenge ? 4f : 0f;
 					npc.ai[2] = 0f;
-					npc.TargetClosest(true);
+					npc.TargetClosest();
 					npc.netUpdate = true;
 				}
 			}
@@ -1644,8 +1670,6 @@ namespace CalamityMod.NPCs
 			}
 			else if (npc.ai[1] == 3f)
 			{
-				npc.Calamity().canBreakPlayerDefense = true;
-
 				npc.ai[2] += 1f;
 
 				float chargeTime = BossRushEvent.BossRushActive ? 56f : (70f - (death ? 6f * (1f - lifeRatio) : 0f));
@@ -1664,8 +1688,8 @@ namespace CalamityMod.NPCs
 				{
 					npc.ai[3] += 1f;
 					npc.ai[2] = 0f;
-					npc.target = 255;
 					npc.rotation = num803;
+					npc.TargetClosest();
 					npc.netUpdate = true;
 					if (npc.ai[3] >= 2f)
 					{
@@ -1741,7 +1765,7 @@ namespace CalamityMod.NPCs
 				npc.ai[2] += 1f;
 				if (npc.ai[2] >= 45f)
 				{
-					npc.TargetClosest(true);
+					npc.TargetClosest();
 					npc.ai[1] = 2f;
 					npc.ai[2] = 0f;
 					npc.netUpdate = true;
@@ -1753,10 +1777,12 @@ namespace CalamityMod.NPCs
 		{
 			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
-			npc.Calamity().canBreakPlayerDefense = false;
-
 			// Percent life remaining
 			float lifeRatio = npc.life / (float)npc.lifeMax;
+
+			// Increase aggression if player is taking a long time to kill the boss
+			if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
+				lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
 
 			// Emit light
 			Lighting.AddLight((int)((npc.position.X + (npc.width / 2)) / 16f), (int)((npc.position.Y + (npc.height / 2)) / 16f), 1f, 0f, 0f);
@@ -1768,8 +1794,13 @@ namespace CalamityMod.NPCs
 			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
 			bool provy = CalamityWorld.downedProvidence && !BossRushEvent.BossRushActive;
 
-			if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)
-				npc.TargetClosest(true);
+			// Get a target
+			if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
+				npc.TargetClosest();
+
+			// Despawn safety, make sure to target another player if the current player target is too far away
+			if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > CalamityGlobalNPC.CatchUpDistance200Tiles)
+				npc.TargetClosest();
 
 			Player player = Main.player[npc.target];
 
@@ -1919,7 +1950,7 @@ namespace CalamityMod.NPCs
 				npc.ai[2] += (calamityGlobalNPC.enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive)) ? 2f : 1f;
 				if (npc.ai[2] >= (240f - (death ? 120f * (1f - lifeRatio) : 0f)))
 				{
-					npc.TargetClosest(true);
+					npc.TargetClosest();
 					npc.ai[1] = 1f;
 					npc.ai[2] = 0f;
 					npc.target = 255;
@@ -1933,7 +1964,7 @@ namespace CalamityMod.NPCs
 					if (npc.localAI[2] > 22f)
 					{
 						npc.localAI[2] = 0f;
-						Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 34);
+						Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 34);
 					}
 
 					if (Main.netMode != NetmodeID.MultiplayerClient)
@@ -1969,7 +2000,7 @@ namespace CalamityMod.NPCs
 			{
 				if (npc.ai[1] == 1f)
 				{
-					Main.PlaySound(15, (int)npc.position.X, (int)npc.position.Y, 0);
+					Main.PlaySound(SoundID.Roar, (int)npc.position.X, (int)npc.position.Y, 0);
 					npc.rotation = num842;
 
 					float num870 = 14f + (death ? 4f * (1f - lifeRatio) : 0f);
@@ -1998,8 +2029,6 @@ namespace CalamityMod.NPCs
 
 				if (npc.ai[1] == 2f)
 				{
-					npc.Calamity().canBreakPlayerDefense = true;
-
 					npc.ai[2] += 1f + (death ? 0.5f * (1f - lifeRatio) : 0f);
 					if (expertMode)
 						npc.ai[2] += 0.25f;
@@ -2027,6 +2056,7 @@ namespace CalamityMod.NPCs
 						npc.ai[2] = 0f;
 						npc.target = 255;
 						npc.rotation = num842;
+						npc.TargetClosest();
 						if (npc.ai[3] >= 3f)
 						{
 							npc.ai[1] = 0f;
@@ -2043,10 +2073,12 @@ namespace CalamityMod.NPCs
 		{
 			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
-			npc.Calamity().canBreakPlayerDefense = false;
-
 			// Percent life remaining
 			float lifeRatio = npc.life / (float)npc.lifeMax;
+
+			// Increase aggression if player is taking a long time to kill the boss
+			if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
+				lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
 
 			// Emit light
 			Lighting.AddLight((int)((npc.position.X + (npc.width / 2)) / 16f), (int)((npc.position.Y + (npc.height / 2)) / 16f), 1f, 0f, 0f);
@@ -2058,8 +2090,13 @@ namespace CalamityMod.NPCs
 			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
 			bool provy = CalamityWorld.downedProvidence && !BossRushEvent.BossRushActive;
 
-			if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)
-				npc.TargetClosest(true);
+			// Get a target
+			if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
+				npc.TargetClosest();
+
+			// Despawn safety, make sure to target another player if the current player target is too far away
+			if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > CalamityGlobalNPC.CatchUpDistance200Tiles)
+				npc.TargetClosest();
 
 			Player player = Main.player[npc.target];
 
@@ -2209,7 +2246,7 @@ namespace CalamityMod.NPCs
 				npc.ai[2] += (calamityGlobalNPC.enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive)) ? 2f : 1f;
 				if (npc.ai[2] >= (180f - (death ? 90f * (1f - lifeRatio) : 0f)))
 				{
-					npc.TargetClosest(true);
+					npc.TargetClosest();
 					npc.ai[1] = 1f;
 					npc.ai[2] = 0f;
 					npc.target = 255;
@@ -2223,7 +2260,7 @@ namespace CalamityMod.NPCs
 					if (npc.localAI[2] > 36f)
 					{
 						npc.localAI[2] = 0f;
-						Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 34);
+						Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 34);
 					}
 
 					if (Main.netMode != NetmodeID.MultiplayerClient)
@@ -2259,7 +2296,7 @@ namespace CalamityMod.NPCs
 			{
 				if (npc.ai[1] == 1f)
 				{
-					Main.PlaySound(15, (int)npc.position.X, (int)npc.position.Y, 0);
+					Main.PlaySound(SoundID.Roar, (int)npc.position.X, (int)npc.position.Y, 0);
 					npc.rotation = num842;
 
 					float num870 = (NPC.AnyNPCs(ModContent.NPCType<CalamitasRun>()) ? 12f : 16f) + (death ? 4f * (1f - lifeRatio) : 0f);
@@ -2288,8 +2325,6 @@ namespace CalamityMod.NPCs
 
 				if (npc.ai[1] == 2f)
 				{
-					npc.Calamity().canBreakPlayerDefense = true;
-
 					npc.ai[2] += 1f + (death ? 0.5f * (1f - lifeRatio) : 0f);
 					if (expertMode)
 						npc.ai[2] += 0.25f;
@@ -2315,7 +2350,7 @@ namespace CalamityMod.NPCs
 					{
 						npc.ai[3] += 1f;
 						npc.ai[2] = 0f;
-						npc.target = 255;
+						npc.TargetClosest();
 						npc.rotation = num842;
 						if (npc.ai[3] >= 4f)
 						{
@@ -2342,8 +2377,12 @@ namespace CalamityMod.NPCs
 			// Percent life remaining
 			float lifeRatio = npc.life / (float)npc.lifeMax;
 
-            // Variables
-            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
+			// Increase aggression if player is taking a long time to kill the boss
+			if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
+				lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
+
+			// Variables
+			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
             bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
 			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
 
@@ -2359,8 +2398,12 @@ namespace CalamityMod.NPCs
 				enrageScale = 0f;
 
 			// Get a target
-			if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)
-				npc.TargetClosest(true);
+			if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
+				npc.TargetClosest();
+
+			// Despawn safety, make sure to target another player if the current player target is too far away
+			if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > CalamityGlobalNPC.CatchUpDistance200Tiles)
+				npc.TargetClosest();
 
 			Player player = Main.player[npc.target];
 
@@ -2418,7 +2461,7 @@ namespace CalamityMod.NPCs
                     if (npc.localAI[0] >= 180f)
                     {
                         npc.localAI[0] = 0f;
-                        Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 33);
+                        Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 33);
 
                         // Fire astral flames while teleporting
                         if ((npc.ai[0] >= 5f && npc.ai[0] != 7) || calamityGlobalNPC.enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))
@@ -2512,7 +2555,7 @@ namespace CalamityMod.NPCs
                     npc.noTileCollide = true;
 
 					// Set AI to next phase (Walk) and reset other AI
-					npc.TargetClosest(true);
+					npc.TargetClosest();
 					npc.ai[0] = 2f;
                     npc.ai[1] = 0f;
                     npc.netUpdate = true;
@@ -2593,7 +2636,7 @@ namespace CalamityMod.NPCs
                     npc.noTileCollide = false;
 
 					// Set AI to next phase (Jump) and reset other AI
-					npc.TargetClosest(true);
+					npc.TargetClosest();
 					npc.ai[0] = 3f;
                     npc.ai[1] = 0f;
                     npc.netUpdate = true;
@@ -2671,7 +2714,7 @@ namespace CalamityMod.NPCs
                     Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/LegStomp"), (int)npc.position.X, (int)npc.position.Y);
 
 					// Stomp and jump again, if stomped twice then reset and set AI to next phase (Teleport or Idle)
-					npc.TargetClosest(true);
+					npc.TargetClosest();
 					npc.ai[2] += 1f;
 					float maxStompAmt = death ? 2f : 3f;
                     if (npc.ai[2] >= maxStompAmt)
@@ -2695,7 +2738,7 @@ namespace CalamityMod.NPCs
                     }
 
 					// Fire lasers on stomp
-					Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 33);
+					Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 33);
 					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
 						float num179 = BossRushEvent.BossRushActive ? 24f : death ? 20f : 18.5f;
@@ -2807,7 +2850,7 @@ namespace CalamityMod.NPCs
                             NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y - 25, ModContent.NPCType<AureusSpawn>());
 
 						// Reset localAI and find a teleport destination
-						npc.TargetClosest(true);
+						npc.TargetClosest();
 						npc.localAI[1] = 0f;
                         int num1249 = 0;
                         int num1250;
@@ -2864,7 +2907,7 @@ namespace CalamityMod.NPCs
                 if (npc.soundDelay == 0)
                 {
                     npc.soundDelay = 15;
-                    Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 109);
+                    Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 109);
                 }
 
                 // Emit dust to make the teleport pretty
@@ -2905,7 +2948,7 @@ namespace CalamityMod.NPCs
                 if (npc.soundDelay == 0)
                 {
                     npc.soundDelay = 15;
-                    Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 109);
+                    Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 109);
                 }
 
                 // Emit dust to make the teleport pretty
@@ -2976,13 +3019,17 @@ namespace CalamityMod.NPCs
 				calamityGlobalNPC.newAI[1] += 1f;
 
 			// Get a target
-			if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)
-				npc.TargetClosest(true);
+			if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
+				npc.TargetClosest();
 
 			Player player = Main.player[npc.target];
 
 			bool increaseSpeed = Vector2.Distance(player.Center, npc.Center) > CalamityGlobalNPC.CatchUpDistance200Tiles;
 			bool increaseSpeedMore = Vector2.Distance(player.Center, npc.Center) > CalamityGlobalNPC.CatchUpDistance350Tiles;
+
+			// Despawn safety, make sure to target another player if the current player target is too far away
+			if (increaseSpeedMore && head)
+				npc.TargetClosest();
 
 			// Inflict Extreme Gravity to nearby players
 			if (revenge)
@@ -2996,6 +3043,10 @@ namespace CalamityMod.NPCs
 
 			// Life
 			float lifeRatio = npc.life / (float)npc.lifeMax;
+
+			// Increase aggression if player is taking a long time to kill the boss
+			if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
+				lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
 
 			// Phases based on life percentage
 			bool halfHealth = lifeRatio < 0.5f;
@@ -3167,16 +3218,17 @@ namespace CalamityMod.NPCs
 			if (npc.type != ModContent.NPCType<AstrumDeusHeadSpectral>())
 			{
 				bool shouldDespawn = true;
+				int headType = ModContent.NPCType<AstrumDeusHeadSpectral>();
 				for (int i = 0; i < Main.maxNPCs; i++)
 				{
-					if (Main.npc[i].active && Main.npc[i].type == ModContent.NPCType<AstrumDeusHeadSpectral>())
-						shouldDespawn = false;
+					if (Main.npc[i].type != headType || !Main.npc[i].active)
+						continue;
+					shouldDespawn = false;
+					break;
 				}
 				if (!shouldDespawn)
 				{
-					if (npc.ai[1] > 0f)
-						shouldDespawn = false;
-					else if (Main.npc[(int)npc.ai[1]].life > 0)
+					if (Main.npc.IndexInRange((int)npc.ai[1]) && Main.npc[(int)npc.ai[1]].active && Main.npc[(int)npc.ai[1]].life > 0)
 						shouldDespawn = false;
 				}
 				if (shouldDespawn)
@@ -3185,6 +3237,7 @@ namespace CalamityMod.NPCs
 					npc.HitEffect(0, 10.0);
 					npc.checkDead();
 					npc.active = false;
+					npc.netUpdate = true;
 				}
 			}
 
@@ -3326,12 +3379,18 @@ namespace CalamityMod.NPCs
 						npc.velocity.Y -= velocity;
 					}
 
+					int headType = ModContent.NPCType<AstrumDeusHeadSpectral>();
+					int bodyType = ModContent.NPCType<AstrumDeusBodySpectral>();
+					int tailType = ModContent.NPCType<AstrumDeusBodySpectral>();
 					if ((double)npc.position.Y < Main.topWorld + 16f)
 					{
 						for (int num957 = 0; num957 < Main.maxNPCs; num957++)
 						{
-							if (Main.npc[num957].type == ModContent.NPCType<AstrumDeusHeadSpectral>() || Main.npc[num957].type == ModContent.NPCType<AstrumDeusBodySpectral>() || Main.npc[num957].type == ModContent.NPCType<AstrumDeusTailSpectral>())
+							if (Main.npc[num957].type == headType || Main.npc[num957].type == bodyType || Main.npc[num957].type == tailType)
+							{
 								Main.npc[num957].active = false;
+								Main.npc[num957].netUpdate = true;
+							}
 						}
 					}
 				}
@@ -3385,9 +3444,7 @@ namespace CalamityMod.NPCs
 
 				if (!flag2)
 				{
-					npc.TargetClosest(true);
 					npc.velocity.Y += 0.15f;
-
 					if (npc.velocity.Y > fallSpeed)
 						npc.velocity.Y = fallSpeed;
 
@@ -3566,7 +3623,7 @@ namespace CalamityMod.NPCs
 					{
 						if (npc.localAI[0] % divisor == 0f && npc.ai[0] % 2f == 0f)
 						{
-							npc.TargetClosest(true);
+							npc.TargetClosest();
 							if (Vector2.Distance(player.Center, npc.Center) > 80f)
 							{
 								Main.PlaySound(SoundID.Item12, npc.Center);
@@ -3652,13 +3709,12 @@ namespace CalamityMod.NPCs
 		{
 			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
-			if (BossRushEvent.BossRushActive)
-			{
-				calamityGlobalNPC.DR = 0.999999f;
-				calamityGlobalNPC.unbreakableDR = true;
-			}
-
 			double lifeRatio = npc.life / (double)npc.lifeMax;
+
+			// Increase aggression if player is taking a long time to kill the boss
+			if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
+				lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
+
 			int lifePercentage = (int)(100.0 * lifeRatio);
 			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
 			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
@@ -3668,7 +3724,12 @@ namespace CalamityMod.NPCs
 			Vector2 vector = npc.Center;
 
 			// Get a target
-			npc.TargetClosest(true);
+			if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
+				npc.TargetClosest();
+
+			// Despawn safety, make sure to target another player if the current player target is too far away
+			if (Vector2.Distance(Main.player[npc.target].Center, vector) > CalamityGlobalNPC.CatchUpDistance200Tiles)
+				npc.TargetClosest();
 
 			Player player = Main.player[npc.target];
 
@@ -3812,6 +3873,7 @@ namespace CalamityMod.NPCs
 
 				if (calamityGlobalNPC.newAI[1] >= 600f * projectileFireRateMultiplier)
 				{
+					npc.TargetClosest();
 					calamityGlobalNPC.newAI[1] = 0f;
 					if (Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height))
 					{
@@ -3920,9 +3982,9 @@ namespace CalamityMod.NPCs
 						calamityGlobalNPC.newAI[0] = npc.life;
 						calamityGlobalNPC.newAI[2] += 1f;
 
-						int glob = death ? 8 : expertMode ? 6 : 4;
-						if (calamityGlobalNPC.newAI[0] <= 0.5f)
-							glob = death ? 16 : expertMode ? 12 : 8;
+						int glob = death ? 6 : revenge ? 5 : expertMode ? 4 : 3;
+						if (lifeRatio <= 0.5f)
+							glob = death ? 7 : revenge ? 6 : expertMode ? 5 : 4;
 
 						glob = (int)(glob * MathHelper.Clamp(tileEnrageMult * 0.85f, 1f, 1.5f));
 
@@ -3945,11 +4007,13 @@ namespace CalamityMod.NPCs
 		{
 			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
-			npc.Calamity().canBreakPlayerDefense = false;
-
 			// Get a target
-			if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)
-				npc.TargetClosest(true);
+			if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
+				npc.TargetClosest();
+
+			// Despawn safety, make sure to target another player if the current player target is too far away
+			if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > CalamityGlobalNPC.CatchUpDistance200Tiles)
+				npc.TargetClosest();
 
 			Player player = Main.player[npc.target];
 
@@ -4025,6 +4089,10 @@ namespace CalamityMod.NPCs
 
 			// Percent life remaining
 			float lifeRatio = npc.life / (float)npc.lifeMax;
+
+			// Increase aggression if player is taking a long time to kill the boss
+			if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
+				lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
 
 			// Phases
 			bool phase2 = lifeRatio < (revenge ? 0.75f : 0.5f);
@@ -4167,7 +4235,7 @@ namespace CalamityMod.NPCs
 				value51.Y -= 200f;
 				if (value51.Length() > 2800f)
 				{
-					npc.TargetClosest(true);
+					npc.TargetClosest();
 					npc.ai[0] = 1f;
 					npc.ai[1] = 0f;
 					npc.ai[2] = 0f;
@@ -4203,7 +4271,7 @@ namespace CalamityMod.NPCs
 
 						if (npc.localAI[0] >= (phase3 ? 7 : 9) && canHit)
 						{
-							npc.TargetClosest(true);
+							npc.TargetClosest();
 							npc.ai[0] = 5f;
 							npc.localAI[0] = 0f;
 
@@ -4221,13 +4289,13 @@ namespace CalamityMod.NPCs
 							if (phase3)
 								num1307 = 1;
 
-							float featherVelocity = 3f + (enrageScale - 1f) * 1.5f;
+							float featherVelocity = 2f + (enrageScale - 1f);
 							int type = ModContent.ProjectileType<RedLightningFeather>();
 							int damage = npc.GetProjectileDamage(type);
 
 							if (num1307 == 0 && canHit && npc.localAI[3] == 0f)
 							{
-								npc.TargetClosest(true);
+								npc.TargetClosest();
 								npc.ai[0] = 2f;
 
 								// Decrease enraged attacks by 1
@@ -4239,7 +4307,7 @@ namespace CalamityMod.NPCs
 							}
 							else if (num1307 == 1)
 							{
-								npc.TargetClosest(true);
+								npc.TargetClosest();
 								npc.ai[0] = 3f;
 
 								// Decrease enraged attacks by 1
@@ -4266,7 +4334,7 @@ namespace CalamityMod.NPCs
 							}
 							else if (NPC.CountNPCS(ModContent.NPCType<Bumblefuck2>()) < maxBirbs && npc.localAI[3] == 0f)
 							{
-								npc.TargetClosest(true);
+								npc.TargetClosest();
 								npc.ai[0] = 4f;
 
 								// Birb will do at least 2 different attacks before entering this phase again
@@ -4310,7 +4378,7 @@ namespace CalamityMod.NPCs
 				Vector2 value52 = player.Center - npc.Center;
 				if (value52.Length() < 800f && !Collision.SolidCollision(npc.position, npc.width, npc.height))
 				{
-					npc.TargetClosest(true);
+					npc.TargetClosest();
 					npc.ai[0] = 0f;
 					npc.ai[1] = 0f;
 					npc.ai[2] = 0f;
@@ -4335,7 +4403,7 @@ namespace CalamityMod.NPCs
 			{
 				if (npc.target < 0 || !player.active || player.dead)
 				{
-					npc.TargetClosest(true);
+					npc.TargetClosest();
 					npc.ai[0] = 0f;
 					npc.ai[1] = 0f;
 					npc.ai[2] = 0f;
@@ -4383,7 +4451,7 @@ namespace CalamityMod.NPCs
 				npc.ai[1] += 1f;
 				if (npc.ai[1] >= 120f || !Collision.CanHit(npc.Center, 1, 1, player.Center, 1, 1))
 				{
-					npc.TargetClosest(true);
+					npc.TargetClosest();
 					npc.ai[0] = 0f;
 					npc.ai[1] = 0f;
 					npc.ai[2] = 0f;
@@ -4467,8 +4535,6 @@ namespace CalamityMod.NPCs
 			// Charge
 			else if (npc.ai[0] == 3.2f)
 			{
-				npc.Calamity().canBreakPlayerDefense = true;
-
 				npc.collideX = false;
 				npc.collideY = false;
 				npc.noTileCollide = true;
@@ -4481,7 +4547,7 @@ namespace CalamityMod.NPCs
 				{
 					if (!Collision.SolidCollision(npc.position, npc.width, npc.height))
 					{
-						npc.TargetClosest(true);
+						npc.TargetClosest();
 						npc.ai[0] = 0f;
 						npc.ai[1] = 0f;
 						npc.ai[2] = 0f;
@@ -4489,7 +4555,7 @@ namespace CalamityMod.NPCs
 					}
 					else if (Math.Abs(npc.Center.X - player.Center.X) > chargeDistance + 200f)
 					{
-						npc.TargetClosest(true);
+						npc.TargetClosest();
 						npc.ai[0] = 1f;
 						npc.ai[1] = 0f;
 						npc.ai[2] = 0f;
@@ -4567,6 +4633,7 @@ namespace CalamityMod.NPCs
 					npc.ai[0] = 0f;
 					npc.ai[1] = 0f;
 					npc.ai[2] = 0f;
+					npc.TargetClosest();
 				}
 			}
 
@@ -4611,14 +4678,21 @@ namespace CalamityMod.NPCs
 		{
 			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
-			npc.Calamity().canBreakPlayerDefense = false;
+			npc.Calamity().canBreakPlayerDefense = true;
+
+			// Percent life remaining
+			float lifeRatio = npc.life / (float)npc.lifeMax;
+
+			// Increase aggression if player is taking a long time to kill the boss
+			if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
+				lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
 
 			// Variables
 			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
 			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
 			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
-			bool phase2 = npc.life <= npc.lifeMax * (death ? 0.8 : revenge ? 0.7 : 0.5);
-			bool phase3 = npc.life <= npc.lifeMax * (death ? 0.5 : (revenge ? 0.35 : 0.2)) && expertMode;
+			bool phase2 = lifeRatio <= (death ? 0.8f : revenge ? 0.7f : 0.5f);
+			bool phase3 = lifeRatio <= (death ? 0.5f : (revenge ? 0.35f : 0.2f)) && expertMode;
 			bool phase2AI = npc.ai[0] > 4f;
 			bool phase3AI = npc.ai[0] > 9f;
 			bool charging = npc.ai[3] < 10f;
@@ -4633,10 +4707,12 @@ namespace CalamityMod.NPCs
 			if (phase3AI)
 			{
 				npc.damage = (int)(npc.defDamage * 1.3f);
+				npc.defense = calamityGlobalNPC.newAI[1] == 1f ? 0 : npc.defDefense - 40;
 			}
 			else if (phase2AI)
 			{
 				npc.damage = (int)(npc.defDamage * 1.2f);
+				npc.defense = calamityGlobalNPC.newAI[1] == 1f ? 0 : npc.defDefense - 20;
 			}
 			else
 			{
@@ -4716,21 +4792,24 @@ namespace CalamityMod.NPCs
 			int num16 = 75;
 
 			Vector2 vector = npc.Center;
-
 			Player player = Main.player[npc.target];
 
 			// Get target
 			if (npc.target < 0 || npc.target == 255 || player.dead || !player.active)
 			{
-				npc.TargetClosest(true);
+				npc.TargetClosest();
 				player = Main.player[npc.target];
 				npc.netUpdate = true;
 			}
 
+			// Despawn safety, make sure to target another player if the current player target is too far away
+			if (Vector2.Distance(player.Center, vector) > CalamityGlobalNPC.CatchUpDistance200Tiles)
+				npc.TargetClosest();
+
 			// Despawn
 			if (player.dead || Vector2.Distance(player.Center, vector) > 8800f)
 			{
-				npc.TargetClosest(true);
+				npc.TargetClosest();
 
 				npc.velocity.Y -= 0.4f;
 
@@ -4755,6 +4834,8 @@ namespace CalamityMod.NPCs
 
 			if (calamityGlobalNPC.newAI[1] == 1f)
 			{
+				npc.Calamity().canBreakPlayerDefense = false;
+
 				npc.damage /= 4;
 
 				// Play tired sound
@@ -5041,8 +5122,6 @@ namespace CalamityMod.NPCs
 				// Accelerate
 				npc.velocity *= 1.01f;
 
-				npc.Calamity().canBreakPlayerDefense = true;
-
 				// Spawn dust
 				int num24 = 7;
 				for (int j = 0; j < num24; j++)
@@ -5064,7 +5143,7 @@ namespace CalamityMod.NPCs
 					npc.ai[1] = 0f;
 					npc.ai[2] = 0f;
 					npc.ai[3] += 2f;
-					npc.TargetClosest(true);
+					npc.TargetClosest();
 					npc.netUpdate = true;
 				}
 			}
@@ -5112,7 +5191,7 @@ namespace CalamityMod.NPCs
 					npc.ai[0] = 0f;
 					npc.ai[1] = 0f;
 					npc.ai[2] = 0f;
-					npc.TargetClosest(true);
+					npc.TargetClosest();
 					npc.netUpdate = true;
 				}
 			}
@@ -5146,7 +5225,7 @@ namespace CalamityMod.NPCs
 					npc.ai[0] = 0f;
 					npc.ai[1] = 0f;
 					npc.ai[2] = 0f;
-					npc.TargetClosest(true);
+					npc.TargetClosest();
 					npc.netUpdate = true;
 				}
 			}
@@ -5182,7 +5261,7 @@ namespace CalamityMod.NPCs
 					npc.ai[1] = 0f;
 					npc.ai[2] = 0f;
 					npc.ai[3] = 0f;
-					npc.TargetClosest(true);
+					npc.TargetClosest();
 					npc.netUpdate = true;
 				}
 			}
@@ -5313,8 +5392,6 @@ namespace CalamityMod.NPCs
 				// Accelerate
 				npc.velocity *= 1.01f;
 
-				npc.Calamity().canBreakPlayerDefense = true;
-
 				// Spawn dust
 				int num29 = 7;
 				for (int k = 0; k < num29; k++)
@@ -5336,7 +5413,7 @@ namespace CalamityMod.NPCs
 					npc.ai[1] = 0f;
 					npc.ai[2] = 0f;
 					npc.ai[3] += 2f;
-					npc.TargetClosest(true);
+					npc.TargetClosest();
 					npc.netUpdate = true;
 				}
 			}
@@ -5385,7 +5462,7 @@ namespace CalamityMod.NPCs
 					npc.ai[0] = 5f;
 					npc.ai[1] = 0f;
 					npc.ai[2] = 0f;
-					npc.TargetClosest(true);
+					npc.TargetClosest();
 					npc.netUpdate = true;
 				}
 			}
@@ -5435,7 +5512,7 @@ namespace CalamityMod.NPCs
 					npc.ai[0] = 5f;
 					npc.ai[1] = 0f;
 					npc.ai[2] = 0f;
-					npc.TargetClosest(true);
+					npc.TargetClosest();
 					npc.netUpdate = true;
 				}
 			}
@@ -5471,7 +5548,7 @@ namespace CalamityMod.NPCs
 					npc.ai[1] = 0f;
 					npc.ai[2] = 0f;
 					npc.ai[3] = 0f;
-					npc.TargetClosest(true);
+					npc.TargetClosest();
 					npc.netUpdate = true;
 				}
 			}
@@ -5614,8 +5691,6 @@ namespace CalamityMod.NPCs
 				// Accelerate
 				npc.velocity *= 1.01f;
 
-				npc.Calamity().canBreakPlayerDefense = true;
-
 				// Spawn dust
 				int num34 = 7;
 				for (int m = 0; m < num34; m++)
@@ -5637,7 +5712,7 @@ namespace CalamityMod.NPCs
 					npc.ai[1] = 0f;
 					npc.ai[2] = 0f;
 					npc.ai[3] += 2f;
-					npc.TargetClosest(true);
+					npc.TargetClosest();
 					npc.netUpdate = true;
 				}
 			}
@@ -5753,7 +5828,7 @@ namespace CalamityMod.NPCs
 					npc.ai[0] = 10f;
 					npc.ai[1] = 0f;
 					npc.ai[2] = 0f;
-					npc.TargetClosest(true);
+					npc.TargetClosest();
 					npc.netUpdate = true;
 				}
 			}
@@ -5802,7 +5877,7 @@ namespace CalamityMod.NPCs
 					npc.ai[0] = 10f;
 					npc.ai[1] = 0f;
 					npc.ai[2] = 0f;
-					npc.TargetClosest(true);
+					npc.TargetClosest();
 					npc.netUpdate = true;
 				}
 			}
@@ -6244,7 +6319,7 @@ namespace CalamityMod.NPCs
 					{
 						if (npc.ai[1] == 180f)
 						{
-							Main.PlaySound(29, (int)npc.position.X, (int)npc.position.Y, 104);
+							Main.PlaySound(SoundID.Zombie, (int)npc.position.X, (int)npc.position.Y, 104);
 							Vector2 laserVelocity2 = new Vector2(npc.localAI[0], npc.localAI[1]);
 							laserVelocity2.Normalize();
 
@@ -6285,7 +6360,7 @@ namespace CalamityMod.NPCs
 					}
 
 					if (npc.ai[1] % playSoundTimer == 0f)
-						Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 20);
+						Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 20);
 
 					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
@@ -6615,7 +6690,7 @@ namespace CalamityMod.NPCs
 					npc.velocity.Y -= bounciness;
 					if (npc.type == ModContent.NPCType<DespairStone>())
 					{
-						Main.PlaySound(2, npc.Center, 14);
+						Main.PlaySound(SoundID.Item, npc.Center, 14);
 						for (int k = 0; k < 10; k++)
 						{
 							Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.Brimstone, 0f, -1f, 0, default, 1f);
@@ -6623,7 +6698,7 @@ namespace CalamityMod.NPCs
 					}
 					if (npc.type == ModContent.NPCType<Bohldohr>())
 					{
-						Main.PlaySound(3, npc.Center, 7);
+						Main.PlaySound(SoundID.NPCHit, npc.Center, 7);
 					}
 					if (DogPhase2)
 					{

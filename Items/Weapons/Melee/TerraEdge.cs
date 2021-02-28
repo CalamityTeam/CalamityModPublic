@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             item.value = Item.buyPrice(0, 80, 0, 0);
-            item.rare = 8;
+            item.rare = ItemRarityID.Yellow;
             item.shoot = ModContent.ProjectileType<TerraEdgeBeam>();
             item.shootSpeed = 12f;
         }
@@ -71,7 +71,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
 			target.AddBuff(BuffID.Ichor, 120);
-			if (target.type == NPCID.TargetDummy || !target.canGhostHeal || player.moonLeech)
+			if (!target.canGhostHeal || player.moonLeech)
             {
                 return;
             }

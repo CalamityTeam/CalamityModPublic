@@ -25,7 +25,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.noUseGraphic = true;
             item.noMelee = true;
             item.UseSound = SoundID.Item1;
-            item.rare = 3;
+            item.rare = ItemRarityID.Orange;
             item.value = Item.buyPrice(0, 4, 0, 0);
 
             item.damage = 30;

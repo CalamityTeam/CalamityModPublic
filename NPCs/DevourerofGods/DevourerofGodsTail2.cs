@@ -20,11 +20,10 @@ namespace CalamityMod.NPCs.DevourerofGods
         public override void SetDefaults()
         {
 			npc.GetNPCDamage();
-			npc.npcSlots = 5f;
             npc.width = 30;
             npc.height = 50;
             npc.defense = 70;
-            npc.lifeMax = 100000;
+            npc.lifeMax = 50000;
             npc.aiStyle = -1;
             aiType = -1;
             npc.knockBackResist = 0f;
@@ -36,10 +35,6 @@ namespace CalamityMod.NPCs.DevourerofGods
             npc.HitSound = SoundID.NPCHit4;
             npc.DeathSound = SoundID.NPCDeath14;
             npc.netAlways = true;
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
             npc.dontCountMe = true;
         }
 

@@ -1,7 +1,6 @@
 using CalamityMod.Projectiles.Summon;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Ores;
-using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -28,14 +27,14 @@ namespace CalamityMod.Items.Weapons.Summon
             item.useStyle = ItemUseStyleID.HoldingUp;
             item.noMelee = true;
             item.knockBack = 6f;
-            item.value = Item.buyPrice(2, 50, 0, 0);
             item.UseSound = SoundID.Item15; //phaseblade sound effect
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<CosmicViperSummon>();
             item.shootSpeed = 10f;
             item.summon = true;
-            item.rare = 10;
-			item.Calamity().postMoonLordRarity = 14;
+
+            item.value = CalamityGlobalItem.Rarity14BuyPrice;
+            item.Calamity().customRarity = CalamityRarity.DarkBlue;
         }
 
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -82,7 +81,7 @@ namespace CalamityMod.Items.Weapons.Summon
             recipe.AddIngredient(ModContent.ItemType<TacticalPlagueEngine>());
             recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 10);
             recipe.AddIngredient(ModContent.ItemType<ExodiumClusterOre>(), 20);
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
+            recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

@@ -39,9 +39,9 @@ namespace CalamityMod.Items.Weapons.Melee
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.UseSound = SoundID.Item1;
 
-            item.rare = 2;
-            item.Calamity().customRarity = CalamityRarity.Dedicated;
-            item.value = Item.buyPrice(0, 2, 0, 0);
+            item.value = CalamityGlobalItem.Rarity2BuyPrice;
+            item.rare = ItemRarityID.Green;
+            item.Calamity().donorItem = true;
 
             item.shoot = ModContent.ProjectileType<YateveoBloomProj>();
             item.shootSpeed = ShootSpeed;
@@ -58,22 +58,22 @@ namespace CalamityMod.Items.Weapons.Melee
             {
                 item.damage = 20;
                 item.channel = false;
-				item.autoReuse = true;
+                item.autoReuse = true;
                 item.useAnimation = 33;
                 item.useTime = 33;
                 item.shootSpeed = 4.5f;
-				return player.ownedProjectileCounts[item.shoot] <= 0;
-			}
+                return player.ownedProjectileCounts[item.shoot] <= 0;
+            }
             else
             {
                 item.damage = BaseDamage;
                 item.channel = true;
-				item.autoReuse = false;
+                item.autoReuse = false;
                 item.useAnimation = 22;
                 item.useTime = 22;
                 item.shootSpeed = ShootSpeed;
-				return base.CanUseItem(player);
-			}
+                return base.CanUseItem(player);
+            }
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

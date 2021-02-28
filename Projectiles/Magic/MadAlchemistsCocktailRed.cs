@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Mad Alchemist's Cocktail Red");
+            DisplayName.SetDefault("Mad Alchemist's Red Cocktail");
         }
 
         public override void SetDefaults()
@@ -40,25 +40,30 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void Kill(int timeLeft)
         {
-            int height = 480;
+            Main.PlaySound(SoundID.Item20, projectile.Center);
+            Main.PlaySound(SoundID.Item107, projectile.Center);
+            Gore.NewGore(projectile.Center, -projectile.oldVelocity * 0.2f, 704, 1f);
+            Gore.NewGore(projectile.Center, -projectile.oldVelocity * 0.2f, 705, 1f);
+
+            // This previously had a width of 480 pixels and did triple damage.
+            // It now has a width of 110 pixels and deals 1/2 damage.
+            int blastWidth = 110;
+            projectile.position = projectile.Center;
+            projectile.width = projectile.height = blastWidth;
+            projectile.Center = projectile.position;
+            projectile.maxPenetrate = -1;
+            projectile.penetrate = -1;
+            projectile.usesLocalNPCImmunity = true;
+            projectile.localNPCHitCooldown = -1;
+            projectile.damage /= 2;
+            projectile.Damage();
+
+            // I don't even know what this dust code does
             float num50 = 3f;
             float num51 = 2.4f;
             float num52 = 3.8f;
             Vector2 value3 = (0f - 1.57079637f).ToRotationVector2();
             Vector2 value4 = value3 * projectile.velocity.Length() * (float)projectile.MaxUpdates;
-            Main.PlaySound(SoundID.Item, (int)projectile.Center.X, (int)projectile.Center.Y, 20, 2f, 0f);
-            Main.PlaySound(SoundID.Item107, projectile.position);
-            Gore.NewGore(projectile.Center, -projectile.oldVelocity * 0.2f, 704, 1f);
-            Gore.NewGore(projectile.Center, -projectile.oldVelocity * 0.2f, 705, 1f);
-            projectile.position = projectile.Center;
-            projectile.width = projectile.height = height;
-            projectile.Center = projectile.position;
-            projectile.maxPenetrate = -1;
-            projectile.penetrate = -1;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
-            projectile.damage *= 3;
-            projectile.Damage();
             int num3;
             for (int num53 = 0; num53 < 60; num53 = num3 + 1)
             {

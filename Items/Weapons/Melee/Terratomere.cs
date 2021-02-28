@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.autoReuse = true;
             item.height = 64;
             item.value = Item.buyPrice(1, 0, 0, 0);
-            item.rare = 10;
+            item.rare = ItemRarityID.Red;
             item.shoot = ModContent.ProjectileType<TerratomereProjectile>();
             item.shootSpeed = 20f;
         }
@@ -82,7 +82,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(ModContent.BuffType<GlacialState>(), 120);
-            if (target.type == NPCID.TargetDummy || !target.canGhostHeal || player.moonLeech)
+            if (!target.canGhostHeal || player.moonLeech)
             {
                 return;
             }

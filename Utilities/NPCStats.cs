@@ -35,14 +35,14 @@ using Terraria.ModLoader;
 
 namespace CalamityMod
 {
-	public static class NPCStats
+	public static partial class NPCStats
 	{
 		private const double ExpertContactVanillaMultiplier = 2D;
 		private const double NormalProjectileVanillaMultiplier = 2D;
 		private const double ExpertProjectileVanillaMultiplier = 4D;
 
 		#region Boss Stats Container Struct
-		internal struct BossStats
+		internal partial struct BossStats
 		{
 			public static SortedDictionary<int, double> ExpertDamageMultiplier;
 			public static SortedDictionary<int, int[]> ContactDamageValues;
@@ -137,9 +137,20 @@ namespace CalamityMod
 		#endregion
 
 		#region Load/Unload
+		internal static void Load()
+		{
+			LoadBossStats();
+			LoadDebuffs();
+		}
+		internal static void Unload()
+		{
+			UnloadBossStats();
+			UnloadDebuffs();
+		}
+
 		// A static function, called exactly once, which initializes the BossStats struct at a predictable time.
 		// This is necessary to ensure this dictionary is populated as early as possible.
-		internal static void Load()
+		internal static void LoadBossStats()
 		{
 			BossStats.ExpertDamageMultiplier = new SortedDictionary<int, double>
 			{
@@ -663,9 +674,6 @@ namespace CalamityMod
 				{ new Tuple<int, int>(NPCID.DukeFishron, ProjectileID.Sharknado), new int[] { 80, 100, 116, 124, 174 } }, // 150 in non-rev master mode
 				{ new Tuple<int, int>(NPCID.DukeFishron, ProjectileID.Cthulunado), new int[] { 160, 200, 232, 248, 348 } }, // 300 in non-rev master mode
 
-				{ new Tuple<int, int>(ModContent.NPCType<RavagerBody>(), ProjectileID.EyeBeam), new int[] { 90, 144, 172, 188, 258 } },
-				{ new Tuple<int, int>(ModContent.NPCType<RavagerBody>(), ProjectileID.Fireball), new int[] { 80, 136, 160, 180, 240 } },
-				{ new Tuple<int, int>(ModContent.NPCType<RavagerBody>(), ProjectileID.GreekFire1), new int[] { 70, 128, 148, 172, 222 } },
 				{ new Tuple<int, int>(ModContent.NPCType<RavagerHead>(), ModContent.ProjectileType<ScavengerNuke>()), new int[] { 120, 180, 208, 224, 312 } },
 				{ new Tuple<int, int>(ModContent.NPCType<RavagerHead2>(), ModContent.ProjectileType<ScavengerLaser>()), new int[] { 80, 136, 160, 180, 240 } },
 				{ new Tuple<int, int>(ModContent.NPCType<RavagerHead2>(), ModContent.ProjectileType<ScavengerNuke>()), new int[] { 120, 180, 208, 224, 312 } },
@@ -734,8 +742,8 @@ namespace CalamityMod
 
 				{ new Tuple<int, int>(ModContent.NPCType<OldDuke>(), ModContent.ProjectileType<OldDukeGore>()), new int[] { 140, 220, 244, 256, 366 } },
 				{ new Tuple<int, int>(ModContent.NPCType<OldDuke>(), ModContent.ProjectileType<OldDukeVortex>()), new int[] { 280, 400, 440, 464, 660 } },
-				{ new Tuple<int, int>(ModContent.NPCType<OldDukeToothBall>(), ModContent.ProjectileType<SandTooth>()), new int[] { 140, 220, 264, 292, 396 } },
-				{ new Tuple<int, int>(ModContent.NPCType<OldDukeToothBall>(), ModContent.ProjectileType<SandPoisonCloud>()), new int[] { 140, 220, 252, 272, 378 } },
+				{ new Tuple<int, int>(ModContent.NPCType<OldDukeToothBall>(), ModContent.ProjectileType<SandToothOldDuke>()), new int[] { 140, 220, 264, 292, 396 } },
+				{ new Tuple<int, int>(ModContent.NPCType<OldDukeToothBall>(), ModContent.ProjectileType<SandPoisonCloudOldDuke>()), new int[] { 140, 220, 252, 272, 378 } },
 				{ new Tuple<int, int>(ModContent.NPCType<OldDukeSharkron>(), ModContent.ProjectileType<OldDukeGore>()), new int[] { 140, 220, 244, 256, 366 } },
 
 				{ new Tuple<int, int>(ModContent.NPCType<DevourerofGodsHead>(), ModContent.ProjectileType<DoGDeath>()), new int[] { 160, 276, 304, 320, 456 } },
@@ -768,7 +776,7 @@ namespace CalamityMod
 		}
 
 		// Destroys the BossStats struct to save memory because mod assemblies will not be fully unloaded until TML 1.4.
-		internal static void Unload()
+		internal static void UnloadBossStats()
 		{
 			BossStats.ExpertDamageMultiplier = null;
 			BossStats.ContactDamageValues = null;

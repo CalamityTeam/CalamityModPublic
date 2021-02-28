@@ -1,11 +1,9 @@
 using CalamityMod.Buffs.Potions;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.CalPlayer;
+using CalamityMod.Events;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor;
-using CalamityMod.Items.DifficultyItems;
-using CalamityMod.Items.Materials;
-using CalamityMod.Items.PermanentBoosters;
 using CalamityMod.Items.Placeables.Furniture.Fountains;
 using CalamityMod.Items.Potions;
 using CalamityMod.Items.Tools;
@@ -29,10 +27,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using Terraria;
 using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 
@@ -45,8 +41,6 @@ namespace CalamityMod.Items
 
 		public bool rogue = false;
 		public float StealthGenBonus;
-		public int timesUsed = 0;
-		public int reforgeTier = 0;
 
         #region Chargeable Item Variables
         public bool UsesCharge = false;
@@ -66,15 +60,14 @@ namespace CalamityMod.Items
 		}
         #endregion
 
-        // Rarity is provided both as the classic int and the new enum.
+        // Miscellaneous stuff
         public CalamityRarity customRarity = CalamityRarity.NoEffect;
-		public int postMoonLordRarity 
-		{
-			get => (int)customRarity;
-			set => customRarity = (CalamityRarity)value;
-		}
+        public int timesUsed = 0;
+        public int reforgeTier = 0;
+        public bool donorItem = false;
+        public bool devItem = false;
 
-		///See RogueWeapon.cs for rogue modifier shit
+		// See RogueWeapon.cs for rogue modifier shit
 		#region Modifiers
 		public CalamityGlobalItem()
 		{
@@ -99,8 +92,10 @@ namespace CalamityMod.Items
         #region SetDefaults
         public override void SetDefaults(Item item)
         {
-            if (customRarity.IsPostML() && item.rare != ItemRarityID.Red)
-                item.rare = ItemRarityID.Red;
+            // TODO -- Remove this in 1.4 with ModRarity.
+            // TODO -- Remove all instances of manually setting the rarity of postML items to Red.
+            if (customRarity.IsPostML() && item.rare != ItemRarityID.Purple)
+                item.rare = ItemRarityID.Purple;
 
             if (item.maxStack == 99 || item.type == ItemID.Dynamite || item.type == ItemID.StickyDynamite ||
                 item.type == ItemID.BouncyDynamite || item.type == ItemID.StickyBomb || item.type == ItemID.BouncyBomb)
@@ -112,12 +107,24 @@ namespace CalamityMod.Items
             if (item.type >= ItemID.GreenSolution && item.type <= ItemID.RedSolution)
                 item.value = Item.buyPrice(0, 0, 5, 0);
 
+			if (CalamityLists.useTurnList?.Contains(item.type) ?? false)
+				item.useTurn = true;
+
             if (CalamityLists.weaponAutoreuseList?.Contains(item.type) ?? false)
                 item.autoReuse = true;
 
-			if (item.type == ItemID.PsychoKnife || item.type == ItemID.TaxCollectorsStickOfDoom)
+			if (CalamityLists.fiftySizeBuffList?.Contains(item.type) ?? false)
+				item.scale = 1.5f;
+
+			if (CalamityLists.twentyUseTimeBuffList?.Contains(item.type) ?? false)
+			{
+				item.useTime = (int)(item.useTime * 0.8);
+				item.useAnimation = (int)(item.useAnimation * 0.8);
+			}
+
+			if (CalamityLists.quadrupleDamageBuffList?.Contains(item.type) ?? false)
 				item.damage *= 4;
-			else if (item.type == ItemID.SpectreStaff)
+			else if (CalamityLists.tripleDamageBuffList?.Contains(item.type) ?? false)
 				item.damage *= 3;
 			else if (CalamityLists.doubleDamageBuffList?.Contains(item.type) ?? false)
 				item.damage *= 2;
@@ -140,7 +147,7 @@ namespace CalamityMod.Items
 			else if (CalamityLists.tenDamageNerfList?.Contains(item.type) ?? false)
 				item.damage = (int)(item.damage * 0.9);
 			else if (item.type == ItemID.LastPrism)
-				item.damage = (int)(item.damage * 0.8);
+				item.damage = (int)(item.damage * 0.75);
 			else if (CalamityLists.quarterDamageNerfList?.Contains(item.type) ?? false)
 				item.damage = (int)(item.damage * 0.75);
 			else if (item.type == ItemID.BlizzardStaff)
@@ -186,7 +193,7 @@ namespace CalamityMod.Items
             if (item.type == ItemID.GravityGlobe)
 			{
 				item.expert = false;
-				item.rare = 10;
+				item.rare = ItemRarityID.Red;
 			}
             
             if (item.type == ItemID.SuspiciousLookingTentacle)
@@ -199,7 +206,7 @@ namespace CalamityMod.Items
 				item.useTime = 15;
 				item.damage *= 4;
 				item.tileBoost += 1;
-				item.rare = 4;
+				item.rare = ItemRarityID.LightRed;
 			}
             if (item.type == ItemID.PearlwoodBow)
 			{
@@ -207,13 +214,13 @@ namespace CalamityMod.Items
 				item.useTime += 8; //35
 				item.shootSpeed += 3.4f; //10f
 				item.knockBack += 1f; //1f
-				item.rare = 4;
+				item.rare = ItemRarityID.LightRed;
 				item.damage = (int)(item.damage * 2.1);
 			}
             if (item.type == ItemID.PearlwoodSword)
 			{
 				item.damage *= 4;
-				item.rare = 4;
+				item.rare = ItemRarityID.LightRed;
 			}
 			if (item.type == ItemID.StarCannon)
 				item.UseSound = null;
@@ -231,7 +238,7 @@ namespace CalamityMod.Items
                 if (modPlayer.gloveOfRecklessness)
                 {
                     Vector2 rotated = new Vector2(speedX, speedY);
-                    rotated = rotated.RotatedByRandom(MathHelper.ToRadians(10f));
+                    rotated = rotated.RotatedByRandom(MathHelper.ToRadians(6f));
                     speedX = rotated.X;
                     speedY = rotated.Y;
                 }
@@ -254,16 +261,16 @@ namespace CalamityMod.Items
                 if (player.whoAmI == Main.myPlayer)
                 {
                     if (item.melee)
-                        Projectile.NewProjectile(position, velocity * 0.5f, ModContent.ProjectileType<LuxorsGiftMelee>(), CalamityUtils.DamageSoftCap(newDamage * 0.6, 60), 0f, player.whoAmI);
+                        Projectile.NewProjectile(position, velocity * 0.5f, ModContent.ProjectileType<LuxorsGiftMelee>(), (int)(newDamage * 0.25), 0f, player.whoAmI);
 
                     else if (rogue)
-                        Projectile.NewProjectile(position, velocity, ModContent.ProjectileType<LuxorsGiftRogue>(), CalamityUtils.DamageSoftCap(newDamage * 0.5, 50), 0f, player.whoAmI);
+                        Projectile.NewProjectile(position, velocity, ModContent.ProjectileType<LuxorsGiftRogue>(), (int)(newDamage * 0.2), 0f, player.whoAmI);
 
                     else if (item.ranged)
-                        Projectile.NewProjectile(position, velocity * 1.5f, ModContent.ProjectileType<LuxorsGiftRanged>(), CalamityUtils.DamageSoftCap(newDamage * 0.4, 40), 0f, player.whoAmI);
+                        Projectile.NewProjectile(position, velocity * 1.5f, ModContent.ProjectileType<LuxorsGiftRanged>(), (int)(newDamage * 0.15), 0f, player.whoAmI);
 
                     else if (item.magic)
-                        Projectile.NewProjectile(position, velocity, ModContent.ProjectileType<LuxorsGiftMagic>(), CalamityUtils.DamageSoftCap(newDamage * 0.8, 80), 0f, player.whoAmI);
+                        Projectile.NewProjectile(position, velocity, ModContent.ProjectileType<LuxorsGiftMagic>(), (int)(newDamage * 0.3), 0f, player.whoAmI);
 
                     else if (item.summon && player.ownedProjectileCounts[ModContent.ProjectileType<LuxorsGiftSummon>()] < 1)
                         Projectile.NewProjectile(position, Vector2.Zero, ModContent.ProjectileType<LuxorsGiftSummon>(), damage, 0f, player.whoAmI);
@@ -276,7 +283,7 @@ namespace CalamityMod.Items
 					modPlayer.canFireBloodflareMageProjectile = false;
 					if (player.whoAmI == Main.myPlayer)
                     {
-                        Projectile.NewProjectile(position, velocity, ModContent.ProjectileType<GhostlyBolt>(), CalamityUtils.DamageSoftCap(damage * 1.3, 250), 1f, player.whoAmI);
+                        Projectile.NewProjectile(position, velocity, ModContent.ProjectileType<GhostlyBolt>(), CalamityUtils.DamageSoftCap(damage * 1.3, 190), 1f, player.whoAmI);
                     }
                 }
             }
@@ -287,7 +294,7 @@ namespace CalamityMod.Items
 					modPlayer.canFireBloodflareRangedProjectile = false;
 					if (player.whoAmI == Main.myPlayer)
                     {
-                        Projectile.NewProjectile(position, velocity, ModContent.ProjectileType<BloodBomb>(), CalamityUtils.DamageSoftCap(damage * 0.8, 150), 2f, player.whoAmI);
+                        Projectile.NewProjectile(position, velocity, ModContent.ProjectileType<BloodBomb>(), CalamityUtils.DamageSoftCap(damage * 0.8, 115), 2f, player.whoAmI);
                     }
                 }
             }
@@ -306,7 +313,7 @@ namespace CalamityMod.Items
                         num84 = item.shootSpeed / num84;
                         hardar *= num84;
                         hordor *= num84;
-                        Projectile.NewProjectile(position, new Vector2(hardar, hordor), ProjectileID.Leaf, CalamityUtils.DamageSoftCap(damage * 0.2, 50), knockBack, player.whoAmI);
+                        Projectile.NewProjectile(position, new Vector2(hardar, hordor), ProjectileID.Leaf, CalamityUtils.DamageSoftCap(damage * 0.2, 40), knockBack, player.whoAmI);
                     }
                 }
             }
@@ -328,7 +335,7 @@ namespace CalamityMod.Items
 					modPlayer.canFireGodSlayerRangedProjectile = false;
 					if (player.whoAmI == Main.myPlayer)
                     {
-                        Projectile.NewProjectile(position, velocity * 1.25f, ModContent.ProjectileType<GodSlayerShrapnelRound>(), CalamityUtils.DamageSoftCap(damage, 200), 2f, player.whoAmI);
+                        Projectile.NewProjectile(position, velocity * 1.25f, ModContent.ProjectileType<GodSlayerShrapnelRound>(), CalamityUtils.DamageSoftCap(damage, 150), 2f, player.whoAmI);
                     }
                 }
             }
@@ -375,13 +382,13 @@ namespace CalamityMod.Items
 
                     if (player.whoAmI == Main.myPlayer)
                     {
-                        Projectile.NewProjectile(position, velocity * 1.25f, ModContent.ProjectileType<Minibirb>(), CalamityUtils.DamageSoftCap(newDamage, 1000), 2f, player.whoAmI);
+                        Projectile.NewProjectile(position, velocity * 1.25f, ModContent.ProjectileType<Minibirb>(), newDamage, 2f, player.whoAmI);
                     }
                 }
             }
             if (modPlayer.prismaticRegalia)
             {
-                if (item.magic && Main.rand.Next(0, 100) >= 95)
+                if (item.magic && Main.rand.Next(0, 100) >= 80)
                 {
                     if (player.whoAmI == Main.myPlayer)
                     {
@@ -390,7 +397,7 @@ namespace CalamityMod.Items
 							if (i != 0)
 							{
 								Vector2 perturbedSpeed = velocity.RotatedBy(MathHelper.ToRadians(i));
-								int rocket = Projectile.NewProjectile(position, perturbedSpeed, ModContent.ProjectileType<MiniRocket>(), CalamityUtils.DamageSoftCap(damage * 0.8, 200), 2f, player.whoAmI);
+								int rocket = Projectile.NewProjectile(position, perturbedSpeed, ModContent.ProjectileType<MiniRocket>(), (int)(damage * 0.25), 2f, player.whoAmI);
 								if (rocket.WithinBounds(Main.maxProjectiles))
 									Main.projectile[rocket].Calamity().forceTypeless = true;
 							}
@@ -581,7 +588,7 @@ namespace CalamityMod.Items
                             {
                                 Vector2 perturbedspeed = new Vector2(correctedVelocity.X, correctedVelocity.Y + Main.rand.Next(-3, 4)).RotatedBy(MathHelper.ToRadians(spread));
 
-                                Projectile.NewProjectile(player.Center.X, player.Center.Y - 10, perturbedspeed.X, perturbedspeed.Y, ModContent.ProjectileType<ProfanedCrystalMeleeSpear>(), (int)((shouldNerf ? 1000 : 1750) * player.MinionDamage()), 1f, player.whoAmI, Main.rand.NextBool(player.Calamity().profanedSoulWeaponUsage == 4 ? 5 : 7) ? 1f : 0f);
+                                Projectile.NewProjectile(player.Center.X, player.Center.Y - 10, perturbedspeed.X, perturbedspeed.Y, ModContent.ProjectileType<ProfanedCrystalMeleeSpear>(), (int)((shouldNerf ? 750 : 1350) * player.MinionDamage()), 1f, player.whoAmI, Main.rand.NextBool(player.Calamity().profanedSoulWeaponUsage == 4 ? 5 : 7) ? 1f : 0f);
                                 spread -= Main.rand.Next(2, 4);
                                 Main.PlaySound(SoundID.Item20, player.Center);
                             }
@@ -589,7 +596,7 @@ namespace CalamityMod.Items
                         }
                         else
                         {
-                            Projectile.NewProjectile(player.Center, correctedVelocity * 6.9f, ModContent.ProjectileType<ProfanedCrystalMeleeSpear>(), (int)((shouldNerf ? 500 : 1250) * player.MinionDamage()), 1f, player.whoAmI, Main.rand.NextBool(player.Calamity().profanedSoulWeaponUsage == 4 ? 5 : 7) ? 1f : 0f, 1f);
+                            Projectile.NewProjectile(player.Center, correctedVelocity * 6.9f, ModContent.ProjectileType<ProfanedCrystalMeleeSpear>(), (int)((shouldNerf ? 375 : 950) * player.MinionDamage()), 1f, player.whoAmI, Main.rand.NextBool(player.Calamity().profanedSoulWeaponUsage == 4 ? 5 : 7) ? 1f : 0f, 1f);
                             Main.PlaySound(SoundID.Item20, player.Center);
                         }
 
@@ -606,7 +613,7 @@ namespace CalamityMod.Items
                         bool isSmallBoomer = Main.rand.NextDouble() <= (enrage ? 0.2 : 0.3); // 20% chance if enraged, else 30% This is intentional due to literally doubling the amount of projectiles fired.
                         bool isThiccBoomer = isSmallBoomer && Main.rand.NextDouble() <= 0.05; // 5%
                         int projType = isSmallBoomer ? isThiccBoomer ? 1 : 2 : 3;
-                        int dam = (int)((shouldNerf ? 500 : 1000) * player.MinionDamage());
+                        int dam = (int)((shouldNerf ? 375 : 650) * player.MinionDamage());
                         switch (projType)
                         {
                             case 1: //big boomer
@@ -647,7 +654,7 @@ namespace CalamityMod.Items
                         player.statMana -= manaCost;
                         correctedVelocity *= 25f;
                         Main.PlaySound(SoundID.Item20, player.Center);
-                        int dam = (int)((shouldNerf ? 1800 : 4500) * player.MinionDamage());
+                        int dam = (int)((shouldNerf ? 1350 : 3375) * player.MinionDamage());
                         if (player.HasBuff(BuffID.ManaSickness))
                         {
                             int sickPenalty = (int)(dam * (0.05f * ((player.buffTime[player.FindBuffIndex(BuffID.ManaSickness)] + 60) / 60)));
@@ -673,7 +680,7 @@ namespace CalamityMod.Items
                         for (float i = 0; i < crystalCount; i++)
                         {
                             float angle = MathHelper.TwoPi / crystalCount * i;
-                            int proj = Projectile.NewProjectile(player.Center, angle.ToRotationVector2() * 8f, ModContent.ProjectileType<ProfanedCrystalRogueShard>(), (int)((shouldNerf ? 300 : 880) * player.MinionDamage()), 1f, player.whoAmI, 0f, 0f);
+                            int proj = Projectile.NewProjectile(player.Center, angle.ToRotationVector2() * 8f, ModContent.ProjectileType<ProfanedCrystalRogueShard>(), (int)((shouldNerf ? 225 : 660) * player.MinionDamage()), 1f, player.whoAmI, 0f, 0f);
 							if (proj.WithinBounds(Main.maxProjectiles))
 								Main.projectile[proj].Calamity().forceMinion = true;
                             Main.PlaySound(SoundID.Item20, player.Center);
@@ -683,7 +690,7 @@ namespace CalamityMod.Items
                     else if (player.Calamity().profanedSoulWeaponUsage % (enrage ? 5 : 10) == 0)
                     {
                         float angle = MathHelper.TwoPi / (enrage ? 9 : 18) * (player.Calamity().profanedSoulWeaponUsage / (enrage ? 1 : 10));
-                        int proj = Projectile.NewProjectile(player.Center, angle.ToRotationVector2() * 8f, ModContent.ProjectileType<ProfanedCrystalRogueShard>(), (int)((shouldNerf ? 400 : 1100) * player.MinionDamage()), 1f, player.whoAmI, 1f, 0f);
+                        int proj = Projectile.NewProjectile(player.Center, angle.ToRotationVector2() * 8f, ModContent.ProjectileType<ProfanedCrystalRogueShard>(), (int)((shouldNerf ? 300 : 825) * player.MinionDamage()), 1f, player.whoAmI, 1f, 0f);
 						if (proj.WithinBounds(Main.maxProjectiles))
 							Main.projectile[proj].Calamity().forceMinion = true;
                         Main.PlaySound(SoundID.Item20, player.Center);
@@ -695,7 +702,6 @@ namespace CalamityMod.Items
             }
             return false;
         }
-
         #endregion
 
         #region Andromeda Dev Item Attacks
@@ -984,10 +990,6 @@ namespace CalamityMod.Items
             {
                 return false;
             }
-            if ((item.type == ItemID.ShinePotion || item.type == ItemID.NightOwlPotion) && (modPlayer.etherealExtorter && modPlayer.ZoneAbyss))
-            {
-                return false;
-            }
             if ((item.type == ItemID.SuperAbsorbantSponge || item.type == ItemID.EmptyBucket) && modPlayer.ZoneAbyss)
             {
                 return false;
@@ -1030,6 +1032,10 @@ namespace CalamityMod.Items
 					}
 				}
 			}
+            if (item.type == ItemID.SuspiciousLookingEye || item.type == ItemID.WormFood || item.type == ItemID.BloodySpine || item.type == ItemID.SlimeCrown || item.type == ItemID.Abeemination || item.type == ItemID.MechanicalEye || item.type == ItemID.MechanicalWorm || item.type == ItemID.MechanicalSkull || item.type == ItemID.CelestialSigil)
+            {
+                return !BossRushEvent.BossRushActive;
+            }
             return true;
         }
         #endregion
@@ -1065,11 +1071,87 @@ namespace CalamityMod.Items
         #region Modify Tooltips
         public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
         {
-			#region Custom Rarities#
-            TooltipLine tt2 = tooltips.FirstOrDefault(x => x.Name == "ItemName" && x.mod == "Terraria");
-            if (tt2 != null)
+            #region Rarity Coloration
+            TooltipLine nameLine = tooltips.FirstOrDefault(x => x.Name == "ItemName" && x.mod == "Terraria");
+            if (nameLine != null)
             {
-                // The special color in the tooltip were overlapping. Placing everything in here, above other things, was the only solution I could find that worked.
+				#region Standard Post-ML Rarities
+				// TODO -- these should be handled automatically with a separate function and the colors should be tied to the rarity definitions
+				switch (customRarity)
+                {
+                    default:
+                        break;
+                    case CalamityRarity.Turquoise:
+                        nameLine.overrideColor = new Color(0, 255, 200);
+                        break;
+                    case CalamityRarity.PureGreen:
+                        nameLine.overrideColor = new Color(0, 255, 0);
+                        break;
+                    case CalamityRarity.DarkBlue:
+                        nameLine.overrideColor = new Color(43, 96, 222);
+                        break;
+                    case CalamityRarity.Violet:
+                        nameLine.overrideColor = new Color(108, 45, 199);
+                        break;
+                    case CalamityRarity.HotPink:
+                        nameLine.overrideColor = new Color(255, 0, 255);
+                        break;
+
+                    case CalamityRarity.Rainbow:
+                        nameLine.overrideColor = new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB);
+                        break;
+                    case CalamityRarity.DraedonRust:
+                        nameLine.overrideColor = new Color(204, 71, 35);
+                        break;
+                    case CalamityRarity.RareVariant:
+                        nameLine.overrideColor = new Color(255, 140, 0);
+                        break;
+                }
+				#endregion
+
+				#region Uniquely Colored Dev Items
+				if (item.type == ModContent.ItemType<Fabstaff>())
+                    nameLine.overrideColor = new Color(Main.DiscoR, 100, 255);
+                if (item.type == ModContent.ItemType<BlushieStaff>())
+                    nameLine.overrideColor = new Color(0, 0, 255);
+                if (item.type == ModContent.ItemType<Judgement>())
+                    nameLine.overrideColor = Judgement.GetSyncedLightColor();
+                if (item.type == ModContent.ItemType<NanoblackReaperRogue>())
+                    nameLine.overrideColor = new Color(0.34f, 0.34f + 0.66f * Main.DiscoG / 255f, 0.34f + 0.5f * Main.DiscoG / 255f);
+                if (item.type == ModContent.ItemType<ShatteredCommunity>())
+                    nameLine.overrideColor = ShatteredCommunity.GetRarityColor();
+                if (item.type == ModContent.ItemType<ProfanedSoulCrystal>())
+                    nameLine.overrideColor = CalamityUtils.ColorSwap(new Color(255, 166, 0), new Color(25, 250, 25), 4f); //alternates between emerald green and amber (BanditHueh)
+                if (item.type == ModContent.ItemType<BensUmbrella>())
+                    nameLine.overrideColor = CalamityUtils.ColorSwap(new Color(210, 0, 255), new Color(255, 248, 24), 4f);
+                if (item.type == ModContent.ItemType<Endogenesis>())
+                    nameLine.overrideColor = CalamityUtils.ColorSwap(new Color(131, 239, 255), new Color(36, 55, 230), 4f);
+                if (item.type == ModContent.ItemType<DraconicDestruction>())
+                    nameLine.overrideColor = CalamityUtils.ColorSwap(new Color(255, 69, 0), new Color(139, 0, 0), 4f);
+                if (item.type == ModContent.ItemType<ScarletDevil>())
+                    nameLine.overrideColor = CalamityUtils.ColorSwap(new Color(191, 45, 71), new Color(185, 187, 253), 4f);
+                if (item.type == ModContent.ItemType<RedSun>())
+                    nameLine.overrideColor = CalamityUtils.ColorSwap(new Color(204, 86, 80), new Color(237, 69, 141), 4f);
+                if (item.type == ModContent.ItemType<GaelsGreatsword>())
+                    nameLine.overrideColor = new Color(146, 0, 0);
+                if (item.type == ModContent.ItemType<CrystylCrusher>())
+                    nameLine.overrideColor = new Color(129, 29, 149);
+                if (item.type == ModContent.ItemType<Svantechnical>())
+                    nameLine.overrideColor = new Color(220, 20, 60);
+                if (item.type == ModContent.ItemType<SomaPrime>())
+                    nameLine.overrideColor = new Color(254, 253, 235);
+                if (item.type == ModContent.ItemType<Contagion>())
+                    nameLine.overrideColor = new Color(207, 17, 117);
+                if (item.type == ModContent.ItemType<TriactisTruePaladinianMageHammerofMightMelee>())
+                    nameLine.overrideColor = new Color(227, 226, 180);
+                if (item.type == ModContent.ItemType<RoyalKnivesMelee>())
+                    nameLine.overrideColor = CalamityUtils.ColorSwap(new Color(154, 255, 151), new Color(228, 151, 255), 4f);
+                if (item.type == ModContent.ItemType<DemonshadeHelm>() || item.type == ModContent.ItemType<DemonshadeBreastplate>() || item.type == ModContent.ItemType<DemonshadeGreaves>())
+                    nameLine.overrideColor = CalamityUtils.ColorSwap(new Color(255, 132, 22), new Color(221, 85, 7), 4f);
+
+                // TODO -- for cleanliness, ALL color math should either be a one-line ColorSwap or inside the item's own file
+                // The items that currently violate this are all below:
+                // Eternity, Flamsteed Ring, Earth
                 if (item.type == ModContent.ItemType<Eternity>())
                 {
                     List<Color> colorSet = new List<Color>()
@@ -1082,145 +1164,71 @@ namespace CalamityMod.Items
                         new Color(249, 245, 99), // bright yellow
                         new Color(236, 168, 247), // purplish pink
                     };
-                    if (tt2 != null)
+                    if (nameLine != null)
                     {
                         int colorIndex = (int)(Main.GlobalTime / 2 % colorSet.Count);
                         Color currentColor = colorSet[colorIndex];
                         Color nextColor = colorSet[(colorIndex + 1) % colorSet.Count];
-                        tt2.overrideColor = Color.Lerp(currentColor, nextColor, Main.GlobalTime % 2f > 1f ? 1f : Main.GlobalTime % 1f);
+                        nameLine.overrideColor = Color.Lerp(currentColor, nextColor, Main.GlobalTime % 2f > 1f ? 1f : Main.GlobalTime % 1f);
                     }
-                    return;
                 }
-                switch (customRarity)
+                if (item.type == ModContent.ItemType<PrototypeAndromechaRing>())
                 {
-                    default:
-                        break;
-                    case CalamityRarity.Turquoise:
-                        tt2.overrideColor = new Color(0, 255, 200);
-                        break;
-                    case CalamityRarity.PureGreen:
-                        tt2.overrideColor = new Color(0, 255, 0);
-                        break;
-                    case CalamityRarity.DarkBlue:
-                        tt2.overrideColor = new Color(43, 96, 222);
-                        break;
-                    case CalamityRarity.Violet:
-                        tt2.overrideColor = new Color(108, 45, 199);
-                        break;
-                    case CalamityRarity.Developer:
-                        tt2.overrideColor = new Color(255, 0, 255);
-                        break;
-
-                    case CalamityRarity.Rainbow:
-                        tt2.overrideColor = new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB);
-                        break;
-                    case CalamityRarity.DraedonRust:
-                        tt2.overrideColor = new Color(204, 71, 35);
-                        break;
-                    case CalamityRarity.RareVariant:
-                        tt2.overrideColor = new Color(255, 140, 0);
-                        break;
-                    case CalamityRarity.Dedicated:
-                        tt2.overrideColor = new Color(139, 0, 0);
-                        break;
-
-                    case CalamityRarity.ItemSpecific:
-                        // Uniquely colored developer items
-                        if (item.type == ModContent.ItemType<Fabstaff>())
-                            tt2.overrideColor = new Color(Main.DiscoR, 100, 255);
-                        if (item.type == ModContent.ItemType<BlushieStaff>())
-                            tt2.overrideColor = new Color(0, 0, 255);
-                        if (item.type == ModContent.ItemType<Judgement>())
-                            tt2.overrideColor = Judgement.GetSyncedLightColor();
-                        if (item.type == ModContent.ItemType<NanoblackReaperRogue>())
-                            tt2.overrideColor = new Color(0.34f, 0.34f + 0.66f * Main.DiscoG / 255f, 0.34f + 0.5f * Main.DiscoG / 255f);
-                        if (item.type == ModContent.ItemType<ProfanedSoulCrystal>())
-                            tt2.overrideColor = CalamityUtils.ColorSwap(new Color(255, 166, 0), new Color(25, 250, 25), 4f); //alternates between emerald green and amber (BanditHueh)
-                        if (item.type == ModContent.ItemType<BensUmbrella>())
-                            tt2.overrideColor = CalamityUtils.ColorSwap(new Color(210, 0, 255), new Color(255, 248, 24), 4f);
-                        if (item.type == ModContent.ItemType<Endogenesis>())
-                            tt2.overrideColor = CalamityUtils.ColorSwap(new Color(131, 239, 255), new Color(36, 55, 230), 4f);
-                        if (item.type == ModContent.ItemType<DraconicDestruction>())
-                            tt2.overrideColor = CalamityUtils.ColorSwap(new Color(255, 69, 0), new Color(139, 0, 0), 4f);
-                        if (item.type == ModContent.ItemType<ScarletDevil>())
-                            tt2.overrideColor = CalamityUtils.ColorSwap(new Color(191, 45, 71), new Color(185, 187, 253), 4f);
-                        if (item.type == ModContent.ItemType<RedSun>())
-                            tt2.overrideColor = CalamityUtils.ColorSwap(new Color(204, 86, 80), new Color(237, 69, 141), 4f);
-                        if (item.type == ModContent.ItemType<GaelsGreatsword>())
-                            tt2.overrideColor = new Color(146, 0, 0);
-                        if (item.type == ModContent.ItemType<CrystylCrusher>())
-                            tt2.overrideColor = new Color(129, 29, 149);
-                        if (item.type == ModContent.ItemType<Svantechnical>())
-                            tt2.overrideColor = new Color(220, 20, 60);
-                        if (item.type == ModContent.ItemType<SomaPrime>())
-                            tt2.overrideColor = new Color(254, 253, 235);
-                        if (item.type == ModContent.ItemType<Contagion>())
-                            tt2.overrideColor = new Color(207, 17, 117);
-                        if (item.type == ModContent.ItemType<TriactisTruePaladinianMageHammerofMightMelee>())
-                            tt2.overrideColor = new Color(227, 226, 180);
-                        if (item.type == ModContent.ItemType<RoyalKnivesMelee>())
-                            tt2.overrideColor = CalamityUtils.ColorSwap(new Color(154, 255, 151), new Color(228, 151, 255), 4f);
-                        if (item.type == ModContent.ItemType<DemonshadeHelm>() || item.type == ModContent.ItemType<DemonshadeBreastplate>() || item.type == ModContent.ItemType<DemonshadeGreaves>())
-                            tt2.overrideColor = CalamityUtils.ColorSwap(new Color(255, 132, 22), new Color(221, 85, 7), 4f);
-                        if (item.type == ModContent.ItemType<PrototypeAndromechaRing>())
-                        {
-                            if (Main.GlobalTime % 1f < 0.6f)
-                            {
-                                tt2.overrideColor = new Color(89, 229, 255);
-                            }
-                            else if (Main.GlobalTime % 1f < 0.8f)
-                            {
-                                tt2.overrideColor = Color.Lerp(new Color(89, 229, 255), Color.White, (Main.GlobalTime % 1f - 0.6f) / 0.2f);
-                            }
-                            else
-                            {
-                                tt2.overrideColor = Color.Lerp(Color.White, new Color(89, 229, 255), (Main.GlobalTime % 1f - 0.8f) / 0.2f);
-                            }
-                        }
-                        if (item.type == ModContent.ItemType<Earth>())
-						{
-							List<Color> earthColors = new List<Color>()
-							{
-								new Color(255, 99, 146),
-								new Color(255, 228, 94),
-								new Color(127, 200, 248)
-							};
-							if (tt2 != null)
-							{
-								int colorIndex = (int)(Main.GlobalTime / 2 % earthColors.Count);
-								Color currentColor = earthColors[colorIndex];
-								Color nextColor = earthColors[(colorIndex + 1) % earthColors.Count];
-								tt2.overrideColor = Color.Lerp(currentColor, nextColor, Main.GlobalTime % 2f > 1f ? 1f : Main.GlobalTime % 1f);
-							}
-						}
-
-                        // Uniquely colored legendary weapons and Yharim's Crystal
-                        if (item.type == ModContent.ItemType<AegisBlade>() || item.type == ModContent.ItemType<YharimsCrystal>())
-                            tt2.overrideColor = new Color(255, Main.DiscoG, 53);
-                        if (item.type == ModContent.ItemType<BlossomFlux>())
-                            tt2.overrideColor = new Color(Main.DiscoR, 203, 103);
-                        if (item.type == ModContent.ItemType<BrinyBaron>() || item.type == ModContent.ItemType<ColdDivinity>())
-                            tt2.overrideColor = new Color(53, Main.DiscoG, 255);
-                        if (item.type == ModContent.ItemType<CosmicDischarge>())
-                            tt2.overrideColor = new Color(150, Main.DiscoG, 255);
-                        if (item.type == ModContent.ItemType<Malachite>())
-                            tt2.overrideColor = new Color(Main.DiscoR, 203, 103);
-                        if (item.type == ModContent.ItemType<SeasSearing>())
-                            tt2.overrideColor = new Color(60, Main.DiscoG, 190);
-                        if (item.type == ModContent.ItemType<SHPC>())
-                            tt2.overrideColor = new Color(255, Main.DiscoG, 155);
-                        if (item.type == ModContent.ItemType<Vesuvius>())
-                            tt2.overrideColor = new Color(255, Main.DiscoG, 0);
-                        if (item.type == ModContent.ItemType<PristineFury>())
-							tt2.overrideColor = CalamityUtils.ColorSwap(new Color(255, 168, 53), new Color(255, 249, 0), 2f);
-                        if (item.type == ModContent.ItemType<LeonidProgenitor>())
-							tt2.overrideColor = CalamityUtils.ColorSwap(LeonidProgenitor.blueColor, LeonidProgenitor.purpleColor, 3f);
-                        break;
+                    if (Main.GlobalTime % 1f < 0.6f)
+                    {
+                        nameLine.overrideColor = new Color(89, 229, 255);
+                    }
+                    else if (Main.GlobalTime % 1f < 0.8f)
+                    {
+                        nameLine.overrideColor = Color.Lerp(new Color(89, 229, 255), Color.White, (Main.GlobalTime % 1f - 0.6f) / 0.2f);
+                    }
+                    else
+                    {
+                        nameLine.overrideColor = Color.Lerp(Color.White, new Color(89, 229, 255), (Main.GlobalTime % 1f - 0.8f) / 0.2f);
+                    }
                 }
+                if (item.type == ModContent.ItemType<Earth>())
+                {
+                    List<Color> earthColors = new List<Color>()
+                            {
+                                new Color(255, 99, 146),
+                                new Color(255, 228, 94),
+                                new Color(127, 200, 248)
+                            };
+                    if (nameLine != null)
+                    {
+                        int colorIndex = (int)(Main.GlobalTime / 2 % earthColors.Count);
+                        Color currentColor = earthColors[colorIndex];
+                        Color nextColor = earthColors[(colorIndex + 1) % earthColors.Count];
+                        nameLine.overrideColor = Color.Lerp(currentColor, nextColor, Main.GlobalTime % 2f > 1f ? 1f : Main.GlobalTime % 1f);
+                    }
+                }
+				#endregion
+
+				#region Uniquely Colored Non-Dev Items
+				if (item.type == ModContent.ItemType<AegisBlade>() || item.type == ModContent.ItemType<YharimsCrystal>())
+                    nameLine.overrideColor = new Color(255, Main.DiscoG, 53);
+                if (item.type == ModContent.ItemType<BlossomFlux>() || item.type == ModContent.ItemType<Malachite>())
+                    nameLine.overrideColor = new Color(Main.DiscoR, 203, 103);
+                if (item.type == ModContent.ItemType<BrinyBaron>() || item.type == ModContent.ItemType<ColdDivinity>())
+                    nameLine.overrideColor = new Color(53, Main.DiscoG, 255);
+                if (item.type == ModContent.ItemType<CosmicDischarge>())
+                    nameLine.overrideColor = new Color(150, Main.DiscoG, 255);
+                if (item.type == ModContent.ItemType<SeasSearing>())
+                    nameLine.overrideColor = new Color(60, Main.DiscoG, 190);
+                if (item.type == ModContent.ItemType<SHPC>())
+                    nameLine.overrideColor = new Color(255, Main.DiscoG, 155);
+                if (item.type == ModContent.ItemType<Vesuvius>())
+                    nameLine.overrideColor = new Color(255, Main.DiscoG, 0);
+                if (item.type == ModContent.ItemType<PristineFury>())
+                    nameLine.overrideColor = CalamityUtils.ColorSwap(new Color(255, 168, 53), new Color(255, 249, 0), 2f);
+                if (item.type == ModContent.ItemType<LeonidProgenitor>())
+                    nameLine.overrideColor = CalamityUtils.ColorSwap(LeonidProgenitor.blueColor, LeonidProgenitor.purpleColor, 3f);
+                #endregion
             }
 			#endregion
 
-			#region Accessory Modifier Display
+			#region Stealth Accessory Prefixes Display
 			if (item.accessory)
 			{
 				if (!item.social && item.prefix > 0)
@@ -1236,28 +1244,130 @@ namespace CalamityMod.Items
 					}
 				}
 			}
-            #endregion
+			#endregion
 
-            /*if (item.ammo == 97)
-            {
-                foreach (TooltipLine line2 in tooltips)
-                {
-                    if (line2.mod == "Terraria")
-                    {
-                        if (line2.Name == "Damage")
-                            line2.text = "";
-                    }
-                }
-            }*/
-
+			#region Vanilla Item Tooltip Edits
+			if (item.type == ItemID.BlackBelt)
+			{
+				foreach (TooltipLine line2 in tooltips)
+				{
+					if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
+						line2.text = "Grants the ability to dodge attacks\n" +
+							"The dodge has a 60 second cooldown";
+				}
+			}
+			if (item.type == ItemID.MasterNinjaGear)
+			{
+				foreach (TooltipLine line2 in tooltips)
+				{
+					if (line2.mod == "Terraria" && line2.Name == "Tooltip1")
+						line2.text = "Grants the ability to dodge attacks\n" +
+							"The dodge has a 60 second cooldown";
+				}
+			}
+			if (item.type == ItemID.CobaltSword || item.type == ItemID.CobaltNaginata)
+			{
+				foreach (TooltipLine line2 in tooltips)
+				{
+					if (line2.mod == "Terraria" && line2.Name == "Knockback")
+						line2.text += "\nDecreases enemy defense by 10% on hit";
+				}
+			}
+			if (item.type == ItemID.PalladiumSword || item.type == ItemID.PalladiumPike)
+			{
+				foreach (TooltipLine line2 in tooltips)
+				{
+					if (line2.mod == "Terraria" && line2.Name == "Knockback")
+						line2.text += "\nIncreases life regen on hit";
+				}
+			}
+			if (item.type == ItemID.MythrilSword || item.type == ItemID.MythrilHalberd)
+			{
+				foreach (TooltipLine line2 in tooltips)
+				{
+					if (line2.mod == "Terraria" && line2.Name == "Knockback")
+						line2.text += "\nDecreases enemy contact damage by 10% on hit";
+				}
+			}
+			if (item.type == ItemID.OrichalcumSword || item.type == ItemID.OrichalcumHalberd)
+			{
+				foreach (TooltipLine line2 in tooltips)
+				{
+					if (line2.mod == "Terraria" && line2.Name == "Knockback")
+						line2.text += "\nIncreases how frequently the Orichalcum set bonus triggers on hit";
+				}
+			}
+			if (item.type == ItemID.AdamantiteSword || item.type == ItemID.AdamantiteGlaive)
+			{
+				foreach (TooltipLine line2 in tooltips)
+				{
+					if (line2.mod == "Terraria" && line2.Name == "Knockback")
+						line2.text += "\nSlows enemies on hit";
+				}
+			}
+			if (item.type == ItemID.TitaniumSword || item.type == ItemID.TitaniumTrident)
+			{
+				foreach (TooltipLine line2 in tooltips)
+				{
+					if (line2.mod == "Terraria" && line2.Name == "Knockback")
+						line2.text += "\nDeals increased damage to enemies with high knockback resistance";
+				}
+			}
+			if (item.type == ItemID.Excalibur || item.type == ItemID.Gungnir || item.type == ItemID.TrueExcalibur)
+			{
+				foreach (TooltipLine line2 in tooltips)
+				{
+					if (line2.mod == "Terraria" && line2.Name == "Knockback")
+						line2.text += "\nInflicts Holy Flames\n" +
+							"Deals double damage to enemies above 75% life";
+				}
+			}
+			if (item.type == ItemID.CandyCaneSword || item.type == ItemID.FruitcakeChakram)
+			{
+				foreach (TooltipLine line2 in tooltips)
+				{
+					if (line2.mod == "Terraria" && line2.Name == "Knockback")
+						line2.text += "\nHeals you on hit";
+				}
+			}
+			if (item.type == ItemID.StylistKilLaKillScissorsIWish || (item.type >= ItemID.BluePhaseblade && item.type <= ItemID.YellowPhaseblade) || (item.type >= ItemID.BluePhasesaber && item.type <= ItemID.YellowPhasesaber))
+			{
+				foreach (TooltipLine line2 in tooltips)
+				{
+					if (line2.mod == "Terraria" && line2.Name == "Knockback")
+						line2.text += "\nIgnores 100% of enemy defense";
+				}
+			}
+			if (item.type == ItemID.AntlionClaw || item.type == ItemID.BoneSword || item.type == ItemID.BreakerBlade)
+			{
+				foreach (TooltipLine line2 in tooltips)
+				{
+					if (line2.mod == "Terraria" && line2.Name == "Knockback")
+						line2.text += "\nIgnores 50% of enemy defense";
+				}
+			}
+			if (item.type == ItemID.LightsBane || item.type == ItemID.NightsEdge || item.type == ItemID.TrueNightsEdge)
+			{
+				foreach (TooltipLine line2 in tooltips)
+				{
+					if (line2.mod == "Terraria" && line2.Name == "Knockback")
+						line2.text += "\nInflicts Shadowflame";
+				}
+			}
+			if (item.type == ItemID.BloodButcherer || item.type == ItemID.TheRottedFork)
+			{
+				foreach (TooltipLine line2 in tooltips)
+				{
+					if (line2.mod == "Terraria" && line2.Name == "Knockback")
+						line2.text += "\nInflicts Burning Blood";
+				}
+			}
 			if (item.type == ItemID.BottledHoney)
 			{
 				foreach (TooltipLine line2 in tooltips)
 				{
 					if (line2.mod == "Terraria" && line2.Name == "HealLife")
-					{
 						line2.text += "\nGrants the Honey buff for 2 minutes";
-					}
 				}
 			}
             if (item.type == ItemID.RodofDiscord)
@@ -1265,9 +1375,7 @@ namespace CalamityMod.Items
 				foreach (TooltipLine line2 in tooltips)
 				{
 					if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
-					{
 						line2.text += "\nTeleportation is disabled while Chaos State is active";
-					}
 				}
 			}
 			if (item.type == ItemID.SuperAbsorbantSponge)
@@ -1275,9 +1383,7 @@ namespace CalamityMod.Items
                 foreach (TooltipLine line2 in tooltips)
                 {
                     if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
-                    {
                         line2.text += "\nCannot be used in the Abyss";
-                    }
                 }
             }
             if (item.type == ItemID.EmptyBucket)
@@ -1285,9 +1391,7 @@ namespace CalamityMod.Items
                 foreach (TooltipLine line2 in tooltips)
                 {
                     if (line2.mod == "Terraria" && line2.Name == "Defense")
-                    {
                         line2.text += "\nCannot be used in the Abyss";
-                    }
                 }
             }
             if (item.type == ItemID.CrimsonHeart)
@@ -1295,9 +1399,7 @@ namespace CalamityMod.Items
                 foreach (TooltipLine line2 in tooltips)
                 {
                     if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
-                    {
                         line2.text += "\nProvides a small amount of light in the abyss";
-                    }
                 }
             }
             if (item.type == ItemID.ShadowOrb)
@@ -1305,9 +1407,7 @@ namespace CalamityMod.Items
                 foreach (TooltipLine line2 in tooltips)
                 {
                     if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
-                    {
                         line2.text += "\nProvides a small amount of light in the abyss";
-                    }
                 }
             }
             if (item.type == ItemID.MagicLantern)
@@ -1315,9 +1415,7 @@ namespace CalamityMod.Items
                 foreach (TooltipLine line2 in tooltips)
                 {
                     if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
-                    {
                         line2.text += "\nProvides a small amount of light in the abyss";
-                    }
                 }
             }
             if (item.type == ItemID.ArcticDivingGear)
@@ -1872,7 +1970,27 @@ namespace CalamityMod.Items
 					}
 				}
             }
-            if (item.type == ItemID.GladiatorHelmet)
+			if (item.type == ItemID.StardustBreastplate || item.type == ItemID.StardustLeggings)
+			{
+				foreach (TooltipLine line2 in tooltips)
+				{
+					if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
+					{
+						line2.text = "Increases your max number of minions";
+					}
+				}
+			}
+			if (item.type == ItemID.StardustHelmet || item.type == ItemID.StardustBreastplate || item.type == ItemID.StardustLeggings)
+			{
+				foreach (TooltipLine line2 in tooltips)
+				{
+					if (line2.mod == "Terraria" && line2.Name == "SetBonus")
+					{
+						line2.text += "\nIncreases your max number of minions by 2";
+					}
+				}
+			}
+			if (item.type == ItemID.GladiatorHelmet)
             {
                 foreach (TooltipLine line2 in tooltips)
                 {
@@ -2023,7 +2141,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                             "Acceleration multiplier: 1\n" +
                             "Average vertical speed\n" +
                             "Flight time: 100\n" +
-                            "+20 max life, +15 defense and +3 life regen";
+                            "+20 max life, +10 defense and +2 life regen";
                     }
                 }
             }
@@ -2038,7 +2156,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                             "Acceleration multiplier: 1\n" +
                             "Average vertical speed\n" +
                             "Flight time: 100\n" +
-                            "10% increased damage and critical strike chance";
+                            "5% increased damage and critical strike chance";
                     }
                 }
             }
@@ -2067,8 +2185,8 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                             "Acceleration multiplier: 1\n" +
                             "Average vertical speed\n" +
                             "Flight time: 130\n" +
-                            "+50 max mana, 5% decreased mana usage,\n" +
-                            "10% increased magic damage and 5% increased magic critical strike chance";
+                            "+20 max mana, 5% decreased mana usage,\n" +
+                            "5% increased magic damage and magic critical strike chance";
                     }
                 }
             }
@@ -2083,7 +2201,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                             "Acceleration multiplier: 1\n" +
                             "Average vertical speed\n" +
                             "Flight time: 130\n" +
-                            "+80 max life";
+                            "+60 max life";
                     }
                 }
             }
@@ -2129,8 +2247,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                             "Acceleration multiplier: 1\n" +
                             "Average vertical speed\n" +
                             "Flight time: 140\n" +
-                            "10% increased movement speed, 12% increased ranged damage,\n" +
-                            "16% increased ranged critical strike chance\n" +
+							"10% increased movement speed, ranged damage and critical strike chance\n" +
                             "and +30 defense while wearing the Necro Armor";
                     }
                 }
@@ -2146,8 +2263,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                             "Acceleration multiplier: 1\n" +
                             "Average vertical speed\n" +
                             "Flight time: 160\n" +
-                            "10% increased melee damage\n" +
-                            "and 5% increased melee critical strike chance";
+							"5% increased melee damage and critical strike chance";
                     }
                 }
             }
@@ -2180,8 +2296,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                             "Average vertical speed\n" +
                             "Flight time: 160\n" +
                             "+10 defense and 5% increased damage reduction while wearing the Spectre Armor and Hood\n" +
-                            "+20 max mana, 5% increased magic damage and critical strike chance,\n" +
-                            "and 5% decreased mana usage while wearing the Spectre Armor and Mask";
+							"5% increased magic damage and critical strike chance while wearing the Spectre Armor and Mask";
                     }
                 }
             }
@@ -2196,8 +2311,8 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                             "Acceleration multiplier: 1\n" +
                             "Average vertical speed\n" +
                             "Flight time: 160\n" +
-                            "+15 defense and 10% increased damage reduction while wearing the Beetle Armor and Shell\n" +
-                            "10% increased melee damage and critical strike chance while wearing the Beetle Armor and Scale Mail";
+                            "+10 defense and 5% increased damage reduction while wearing the Beetle Armor and Shell\n" +
+                            "5% increased melee damage and critical strike chance while wearing the Beetle Armor and Scale Mail";
                     }
                 }
             }
@@ -2259,7 +2374,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                             "Acceleration multiplier: 1\n" +
                             "Average vertical speed\n" +
                             "Flight time: 160\n" +
-                            "+10 defense, 10% increased damage reduction,\n" +
+                            "+5 defense, 5% increased damage reduction,\n" +
 							"and the Dryad's permanent blessing while wearing the Tiki Armor";
                     }
                 }
@@ -2277,7 +2392,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                             "Flight time: 140\n" +
                             "At night or during an eclipse, you will gain the following boosts:\n" +
 							"10% increased movement speed, 20% increased jump speed,\n" +
-                            "+15 defense, 10% increased damage, and 5% increased critical strike chance";
+                            "7% increased damage and 3% increased critical strike chance";
                     }
                 }
             }
@@ -2355,7 +2470,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                             "Acceleration multiplier: 1\n" +
                             "Average vertical speed\n" +
                             "Flight time: 170\n" +
-                            "+50 max life\n" +
+                            "+40 max life\n" +
                             "Ornaments rain down as you fly";
                     }
                 }
@@ -2894,180 +3009,58 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                     }
                 }
             }
+			#endregion
 
-			Mod fargos = ModLoader.GetMod("Fargowiltas");
+			#region Mod Mechanic Tooltips
+			if (item.type < ItemID.Count)
+                return;
+
+            // TODO -- mod references should be kept statically
+            // Adds tooltips to Calamity fountains which match Fargo's fountain tooltips.
+            Mod fargos = ModLoader.GetMod("Fargowiltas");
 			if (fargos != null)
 			{
-				//Fargo's fountain effects
 				if (item.type == ModContent.ItemType<SunkenSeaFountain>())
 				{
-					TooltipLine line = new TooltipLine(mod, "Tooltip0", "Forces surrounding biome state to Sunken Sea upon activation");
+					TooltipLine line = new TooltipLine(mod, "FargoFountain", "Forces surrounding biome state to Sunken Sea upon activation");
 					tooltips.Add(line);
 				}
 				if (item.type == ModContent.ItemType<SulphurousFountainItem>())
 				{
-					TooltipLine line = new TooltipLine(mod, "Tooltip0", "Forces surrounding biome state to Sulphurous Sea upon activation");
+					TooltipLine line = new TooltipLine(mod, "FargoFountain", "Forces surrounding biome state to Sulphurous Sea upon activation");
 					tooltips.Add(line);
 				}
 				if (item.type == ModContent.ItemType<AstralFountainItem>())
 				{
-					TooltipLine line = new TooltipLine(mod, "Tooltip0", "Forces surrounding biome state to Astral upon activation");
+					TooltipLine line = new TooltipLine(mod, "FargoFountain", "Forces surrounding biome state to Astral upon activation");
 					tooltips.Add(line);
 				}
             }
 
-            if (item.type < ItemID.Count)
-                return;
-
+            // Adds a Current Charge tooltip to all items which use charge.
             CalamityGlobalItem modItem = item.Calamity();
             if (modItem?.UsesCharge ?? false)
             {
                 // Convert current charge ratio into a percentage.
                 float displayedPercent = ChargeRatio * 100f;
-                TooltipLine line = new TooltipLine(mod, "Tooltip0", $"Current Charge: {displayedPercent:N1}%");
+                TooltipLine line = new TooltipLine(mod, "CalamityCharge", $"Current Charge: {displayedPercent:N1}%");
                 tooltips.Add(line);
             }
+
+			// Adds "Donor Item" and "Developer Item" to donor items and developer items respectively.
+            if (donorItem)
+            {
+                TooltipLine line = new TooltipLine(mod, "CalamityDonor", CalamityUtils.ColorMessage("- Donor Item -", new Color(139, 0, 0)));
+                tooltips.Add(line);
+            }
+			if (devItem)
+            {
+                TooltipLine line = new TooltipLine(mod, "CalamityDev", CalamityUtils.ColorMessage("- Developer Item -", new Color(255, 0, 255)));
+                tooltips.Add(line);
+            }
+            #endregion
         }
 		#endregion
-
-		// NOTE: this function applies to all treasure bags, even modded ones (despite the name).
-		#region Boss Bag Changes
-		public override void OpenVanillaBag(string context, Player player, int arg)
-        {
-			if (context == "crate")
-			{
-				switch (arg)
-				{
-					case ItemID.WoodenCrate:
-						DropHelper.DropItemChance(player, ModContent.ItemType<WulfrumShard>(), 0.25f, 3, 5);
-						break;
-
-					case ItemID.IronCrate:
-						DropHelper.DropItemChance(player, ModContent.ItemType<WulfrumShard>(), 0.25f, 5, 8);
-						DropHelper.DropItemChance(player, ModContent.ItemType<AncientBoneDust>(), 0.25f, 5, 8);
-						break;
-
-					case ItemID.CorruptFishingCrate:
-					case ItemID.CrimsonFishingCrate:
-						DropHelper.DropItemChance(player, ModContent.ItemType<EbonianGel>(), 0.15f, 5, 8);
-						DropHelper.DropItemChance(player, ModContent.ItemType<MurkySludge>(), 0.15f, 1, 3);
-						break;
-
-					case ItemID.HallowedFishingCrate:
-						DropHelper.DropItemCondition(player, ModContent.ItemType<UnholyEssence>(), CalamityWorld.downedProvidence, 0.15f, 5, 10);
-						DropHelper.DropItemCondition(player, (WorldGen.crimson ? ModContent.ItemType<ProfanedRagePotion>() : ModContent.ItemType<HolyWrathPotion>()), CalamityWorld.downedProvidence, 0.1f, 1, 2);
-						break;
-
-					case ItemID.DungeonFishingCrate:
-						DropHelper.DropItemCondition(player, ItemID.Ectoplasm, NPC.downedPlantBoss, 0.1f, 1, 5);
-						DropHelper.DropItemCondition(player, ModContent.ItemType<Phantoplasm>(), CalamityWorld.downedPolterghast, 0.1f, 1, 5);
-						break;
-
-					case ItemID.JungleFishingCrate:
-						DropHelper.DropItemChance(player, ModContent.ItemType<MurkyPaste>(), 0.2f, 1, 3);
-						DropHelper.DropItemCondition(player, ModContent.ItemType<BeetleJuice>(), Main.hardMode, 0.2f, 1, 3);
-						DropHelper.DropItemCondition(player, ModContent.ItemType<TrapperBulb>(), Main.hardMode, 0.2f, 1, 3);
-						DropHelper.DropItemCondition(player, ItemID.ChlorophyteBar, (CalamityWorld.downedCalamitas || NPC.downedPlantBoss), 0.1f, 1, 3);
-						DropHelper.DropItemCondition(player, ModContent.ItemType<DraedonBar>(), NPC.downedPlantBoss, 0.1f, 1, 3);
-						DropHelper.DropItemCondition(player, ModContent.ItemType<PlagueCellCluster>(), NPC.downedGolemBoss, 0.2f, 3, 6);
-						DropHelper.DropItemCondition(player, ModContent.ItemType<UeliaceBar>(), CalamityWorld.downedProvidence, 0.1f, 1, 3);
-						break;
-
-					case ItemID.FloatingIslandFishingCrate:
-						DropHelper.DropItemCondition(player, ModContent.ItemType<AerialiteBar>(), (CalamityWorld.downedHiveMind || CalamityWorld.downedPerforator), 0.1f, 1, 3);
-						DropHelper.DropItemCondition(player, ModContent.ItemType<EssenceofCinder>(), Main.hardMode, 0.2f, 2, 4);
-						DropHelper.DropItemCondition(player, ModContent.ItemType<GalacticaSingularity>(), NPC.downedMoonlord, 0.1f, 1, 3);
-						break;
-				}
-			}
-
-			if (context == "bossBag")
-            {
-                // Give a chance for Laudanum, Stress Pills and Heart of Darkness from every boss bag
-                DropHelper.DropRevBagAccessories(player);
-
-                switch (arg)
-                {
-                    // King Slime
-                    case ItemID.KingSlimeBossBag:
-                        DropHelper.DropItemCondition(player, ModContent.ItemType<CrownJewel>(), CalamityWorld.revenge);
-                        break;
-
-                    // Eye of Cthulhu
-                    case ItemID.EyeOfCthulhuBossBag:
-                        DropHelper.DropItem(player, ModContent.ItemType<VictoryShard>(), 3, 5);
-                        DropHelper.DropItemChance(player, ModContent.ItemType<TeardropCleaver>(), 3);
-                        DropHelper.DropItemCondition(player, ModContent.ItemType<CounterScarf>(), CalamityWorld.revenge);
-                        break;
-
-                    // Queen Bee
-                    case ItemID.QueenBeeBossBag:
-                        DropHelper.DropItem(player, ItemID.Stinger, 8, 12);
-                        DropHelper.DropItem(player, ModContent.ItemType<HardenedHoneycomb>(), 50, 75);
-                        break;
-
-                    // Skeletron
-                    case ItemID.SkeletronBossBag:
-                        DropHelper.DropItemChance(player, ModContent.ItemType<ClothiersWrath>(), DropHelper.RareVariantDropRateInt);
-                        break;
-
-                    // Wall of Flesh
-                    case ItemID.WallOfFleshBossBag:
-                        DropHelper.DropItemChance(player, ModContent.ItemType<Meowthrower>(), 3);
-                        DropHelper.DropItemChance(player, ModContent.ItemType<BlackHawkRemote>(), 3);
-                        DropHelper.DropItemChance(player, ModContent.ItemType<BlastBarrel>(), 3);
-                        DropHelper.DropItemChance(player, ModContent.ItemType<RogueEmblem>(), 4);
-                        DropHelper.DropItemFromSetChance(player, 0.2f, ItemID.CorruptionKey, ItemID.CrimsonKey);
-                        DropHelper.DropItemCondition(player, ModContent.ItemType<MLGRune>(), !CalamityWorld.demonMode); // Demon Trophy
-                        break;
-
-                    // Destroyer
-                    case ItemID.DestroyerBossBag:
-                        float shpcChance = DropHelper.LegendaryDropRateFloat;
-                        DropHelper.DropItemCondition(player, ModContent.ItemType<SHPC>(), CalamityWorld.revenge, shpcChance);
-                        break;
-
-                    // Plantera
-                    case ItemID.PlanteraBossBag:
-                        DropHelper.DropItem(player, ModContent.ItemType<LivingShard>(), 16, 22);
-                        float bFluxChance = DropHelper.LegendaryDropRateFloat;
-                        DropHelper.DropItemCondition(player, ModContent.ItemType<BlossomFlux>(), CalamityWorld.revenge, bFluxChance);
-                        DropHelper.DropItemChance(player, ItemID.JungleKey, 5);
-                        break;
-
-                    // Golem
-                    case ItemID.GolemBossBag:
-                        float aegisChance = DropHelper.LegendaryDropRateFloat;
-                        DropHelper.DropItemCondition(player, ModContent.ItemType<AegisBlade>(), CalamityWorld.revenge, aegisChance);
-                        DropHelper.DropItem(player, ModContent.ItemType<EssenceofCinder>(), 8, 13);
-						DropHelper.DropItemChance(player, ModContent.ItemType<LeadWizard>(), DropHelper.RareVariantDropRateInt);
-                        break;
-
-                    // Duke Fishron
-                    case ItemID.FishronBossBag:
-                        float baronChance = DropHelper.LegendaryDropRateFloat;
-                        DropHelper.DropItemCondition(player, ModContent.ItemType<BrinyBaron>(), CalamityWorld.revenge, baronChance);
-                        DropHelper.DropItemChance(player, ModContent.ItemType<DukesDecapitator>(), 4);
-                        break;
-
-                    // Betsy
-                    case ItemID.BossBagBetsy:
-                        float vesuviusChance = DropHelper.LegendaryDropRateFloat;
-                        DropHelper.DropItemCondition(player, ModContent.ItemType<Vesuvius>(), CalamityWorld.revenge, vesuviusChance);
-                        break;
-
-                    // Moon Lord
-                    case ItemID.MoonLordBossBag:
-                        DropHelper.DropItem(player, ItemID.LunarOre, 50, 50);
-                        DropHelper.DropItem(player, ModContent.ItemType<MLGRune2>()); // Celestial Onion
-                        DropHelper.DropItemChance(player, ModContent.ItemType<UtensilPoker>(), 8);
-                        DropHelper.DropItemChance(player, ModContent.ItemType<GrandDad>(), DropHelper.RareVariantDropRateInt);
-                        DropHelper.DropItemChance(player, ModContent.ItemType<Infinity>(), DropHelper.RareVariantDropRateInt);
-                        break;
-                }
-            }
-        }
-        #endregion
 
         #region Armor Set Changes
         public override string IsArmorSet(Item head, Item body, Item legs)
@@ -3175,29 +3168,37 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                 player.spaceGun = false;
                 modPlayer.meteorSet = true;
             }
+			else if (set == "Stardust")
+			{
+				player.maxMinions += 2;
+			}
         }
         #endregion
 
         #region Equip Changes
         public override void UpdateEquip(Item item, Player player)
         {
-            #region Head
-            if (item.type == ItemID.SpectreHood)
-                player.magicDamage += 0.2f;
-            else if (item.type == ItemID.GladiatorHelmet || item.type == ItemID.ObsidianHelm)
-                player.Calamity().throwingDamage += 0.03f;
+			#region Head
+			if (item.type == ItemID.SpectreHood)
+				player.magicDamage += 0.2f;
+			else if (item.type == ItemID.GladiatorHelmet || item.type == ItemID.ObsidianHelm)
+				player.Calamity().throwingDamage += 0.03f;
             #endregion
 
             #region Body
             if (item.type == ItemID.GladiatorBreastplate || item.type == ItemID.ObsidianShirt)
                 player.Calamity().throwingCrit += 3;
-            #endregion
+			else if (item.type == ItemID.StardustBreastplate)
+				player.maxMinions--;
+			#endregion
 
-            #region Legs
-            if (item.type == ItemID.GladiatorLeggings || item.type == ItemID.ObsidianPants)
+			#region Legs
+			if (item.type == ItemID.GladiatorLeggings || item.type == ItemID.ObsidianPants)
                 player.Calamity().throwingVelocity += 0.03f;
-            #endregion
-        }
+			else if (item.type == ItemID.StardustLeggings)
+				player.maxMinions--;
+			#endregion
+		}
         #endregion
 
         #region Accessory Changes
@@ -3223,14 +3224,14 @@ Grants immunity to fire blocks, and temporary immunity to lava";
             if (item.type == ItemID.AngelWings) // Boost to max life, defense, and life regen
             {
                 player.statLifeMax2 += 20;
-                player.statDefense += 15;
-                player.lifeRegen += 3;
+                player.statDefense += 10;
+                player.lifeRegen += 2;
                 player.noFallDmg = true;
             }
             else if (item.type == ItemID.DemonWings) // Boost to all damage and crit
             {
-                player.allDamage += 0.1f;
-                modPlayer.AllCritBoost(10);
+                player.allDamage += 0.05f;
+                modPlayer.AllCritBoost(5);
                 player.noFallDmg = true;
             }
             else if (item.type == ItemID.FinWings) // Boosted water abilities, faster fall in water
@@ -3253,15 +3254,15 @@ Grants immunity to fire blocks, and temporary immunity to lava";
             }
             else if (item.type == ItemID.ButterflyWings) // Boost to magic stats
             {
-                player.statManaMax2 += 50;
-                player.magicDamage += 0.1f;
+                player.statManaMax2 += 20;
+                player.magicDamage += 0.05f;
                 player.manaCost *= 0.95f;
                 player.magicCrit += 5;
                 player.noFallDmg = true;
             }
             else if (item.type == ItemID.FairyWings) // Boost to max life
             {
-                player.statLifeMax2 += 80;
+                player.statLifeMax2 += 60;
                 player.noFallDmg = true;
             }
             else if (item.type == ItemID.BatWings) // Stronger at night
@@ -3269,10 +3270,9 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                 player.noFallDmg = true;
                 if (!Main.dayTime || Main.eclipse)
                 {
-					player.jumpSpeedBoost += 1.0f;
-                    player.statDefense += 15;
-                    player.allDamage += 0.1f;
-                    modPlayer.AllCritBoost(5);
+					player.jumpSpeedBoost += 1f;
+                    player.allDamage += 0.07f;
+                    modPlayer.AllCritBoost(3);
                     player.moveSpeed += 0.1f;
                 }
             }
@@ -3289,8 +3289,8 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                     player.body == ArmorIDs.Body.NecroBreastplate && player.legs == ArmorIDs.Legs.NecroGreaves)
                 {
                     player.moveSpeed += 0.1f;
-                    player.rangedDamage += 0.12f;
-                    player.rangedCrit += 16;
+                    player.rangedDamage += 0.1f;
+                    player.rangedCrit += 10;
                     player.statDefense += 30;
                 }
             }
@@ -3315,7 +3315,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
             }
             else if (item.type == ItemID.FlameWings) // Bonus to melee stats
             {
-                player.meleeDamage += 0.1f;
+                player.meleeDamage += 0.05f;
                 player.meleeCrit += 5;
                 player.noFallDmg = true;
             }
@@ -3331,9 +3331,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                     }
                     else if (player.head == ArmorIDs.Head.SpectreMask)
                     {
-                        player.statManaMax2 += 20;
                         player.magicDamage += 0.05f;
-                        player.manaCost *= 0.95f;
                         player.magicCrit += 5;
                     }
                 }
@@ -3345,13 +3343,13 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                 {
                     if (player.body == ArmorIDs.Body.BeetleShell)
                     {
-                        player.statDefense += 15;
-                        player.endurance += 0.1f;
+                        player.statDefense += 10;
+                        player.endurance += 0.05f;
                     }
                     else if (player.body == ArmorIDs.Body.BeetleScaleMail)
                     {
-                        player.meleeDamage += 0.1f;
-                        player.meleeCrit += 10;
+                        player.meleeDamage += 0.05f;
+                        player.meleeCrit += 5;
                     }
                 }
             }
@@ -3383,15 +3381,15 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                 player.noFallDmg = true;
                 if (player.head == ArmorIDs.Head.TikiMask && player.body == ArmorIDs.Body.TikiShirt && player.legs == ArmorIDs.Legs.TikiPants)
                 {
-					player.statDefense += 10;
-                    player.endurance += 0.1f;
+					player.statDefense += 5;
+                    player.endurance += 0.05f;
 					player.AddBuff(BuffID.DryadsWard, 5, true); // Dryad's Blessing
                 }
             }
             else if (item.type == ItemID.FestiveWings) // Drop powerful homing christmas tree bulbs while in flight
             {
                 player.noFallDmg = true;
-                player.statLifeMax2 += 50;
+                player.statLifeMax2 += 40;
 				if (modPlayer.icicleCooldown <= 0)
 				{
 					if (player.controlJump && !player.jumpAgainCloud && player.jump == 0 && player.velocity.Y != 0f && !player.mount.Active && !player.mount.Cart)
@@ -3570,27 +3568,25 @@ Grants immunity to fire blocks, and temporary immunity to lava";
         public override void HorizontalWingSpeeds(Item item, Player player, ref float speed, ref float acceleration)
         {
             CalamityPlayer modPlayer = player.Calamity();
-			float moveSpeedBoost = modPlayer.moveSpeedStat * 0.0025f;
+			float moveSpeedBoost = modPlayer.moveSpeedStat * 0.0015f;
+
 			float flightSpeedMult = 1f +
                 (modPlayer.soaring ? 0.1f : 0f) +
                 (modPlayer.holyWrath ? 0.05f : 0f) +
                 (modPlayer.profanedRage ? 0.05f : 0f) +
                 (modPlayer.draconicSurge ? 0.1f : 0f) +
 				(modPlayer.reaverSpeed ? 0.1f : 0f) +
-				(modPlayer.etherealExtorter && modPlayer.ZoneAstral ? 0.05f : 0f) +
 				moveSpeedBoost;
-            if (flightSpeedMult > 1.5f)
-                flightSpeedMult = 1.5f;
 
+			float flightAccMult = 1f +
+				(modPlayer.draconicSurge ? 0.1f : 0f) +
+				moveSpeedBoost;
+
+			flightSpeedMult = MathHelper.Clamp(flightSpeedMult, 0.5f, 1.5f);
             speed *= flightSpeedMult;
 
-            float flightAccMult = 1f +
-                (modPlayer.draconicSurge ? 0.1f : 0f) +
-				moveSpeedBoost;
-            if (flightAccMult > 1.5f)
-                flightAccMult = 1.5f;
-
-            acceleration *= flightAccMult;
+			flightAccMult = MathHelper.Clamp(flightAccMult, 0.5f, 1.5f);
+			acceleration *= flightAccMult;
         }
         #endregion
 
@@ -3599,10 +3595,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
         {
             CalamityPlayer modPlayer = player.Calamity();
             int itemGrabRangeBoost = 0 +
-                (modPlayer.wallOfFleshLore ? 10 : 0) +
-                (modPlayer.planteraLore ? 20 : 0) +
-				(modPlayer.reaverExplore ? 20 : 0) +
-				(modPlayer.polterghastLore ? 30 : 0);
+				(modPlayer.reaverExplore ? 20 : 0);
 
             grabRange += itemGrabRangeBoost;
         }
@@ -4640,7 +4633,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                     return RarityDarkBlueBuyPrice;
                 case (int)CalamityRarity.Violet:
                     return RarityVioletBuyPrice;
-                case (int)CalamityRarity.Developer:
+                case (int)CalamityRarity.HotPink:
                     return RarityHotPinkBuyPrice;
             }
             return 0;
@@ -4649,40 +4642,6 @@ Grants immunity to fire blocks, and temporary immunity to lava";
         {
             return GetBuyPrice(item.rare);
         }
-        #endregion
-
-        /// <summary>
-        /// Dust helper to spawn dust for an item. Allows you to specify where on the item to spawn the dust, essentially. (ONLY WORKS FOR SWINGING WEAPONS?)
-        /// </summary>
-        /// <param name="player">The player using the item.</param>
-        /// <param name="dustType">The type of dust to use.</param>
-        /// <param name="chancePerFrame">The chance per frame to spawn the dust (0f-1f)</param>
-        /// <param name="minDistance">The minimum distance between the player and the dust</param>
-        /// <param name="maxDistance">The maximum distance between the player and the dust</param>
-        /// <param name="minRandRot">The minimum random rotation offset for the dust</param>
-        /// <param name="maxRandRot">The maximum random rotation offset for the dust</param>
-        /// <param name="minSpeed">The minimum speed that the dust should travel</param>
-        /// <param name="maxSpeed">The maximum speed that the dust should travel</param>
-        public static Dust MeleeDustHelper(Player player, int dustType, float chancePerFrame, float minDistance, float maxDistance, float minRandRot = -0.2f, float maxRandRot = 0.2f, float minSpeed = 0.9f, float maxSpeed = 1.1f)
-        {
-            if (Main.rand.NextFloat(1f) < chancePerFrame)
-            {
-                //Calculate values
-                //distance from player,
-                //the vector offset from the player center
-                //the vector between the pos and the player
-                float distance = Main.rand.NextFloat(minDistance, maxDistance);
-                Vector2 offset = (player.itemRotation - (MathHelper.PiOver4 * player.direction) + Main.rand.NextFloat(minRandRot, maxRandRot)).ToRotationVector2() * distance * player.direction;
-                Vector2 pos = player.Center + offset;
-                Vector2 vec = pos - player.Center;
-                //spawn the dust
-                Dust d = Dust.NewDustPerfect(pos, dustType);
-                //normalise vector and multiply by velocity magnitude
-                vec.Normalize();
-                d.velocity = vec * Main.rand.NextFloat(minSpeed, maxSpeed);
-                return d;
-            }
-            return null;
-        }
+		#endregion
     }
 }

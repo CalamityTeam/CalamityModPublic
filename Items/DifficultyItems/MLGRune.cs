@@ -19,7 +19,7 @@ namespace CalamityMod.Items.DifficultyItems
             item.width = 28;
             item.height = 28;
             item.maxStack = 99;
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.useAnimation = 45;
             item.useTime = 45;
             item.useStyle = ItemUseStyleID.HoldingUp;

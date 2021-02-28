@@ -99,23 +99,6 @@ namespace CalamityMod.NPCs.Providence
             npc.value = Item.buyPrice(0, 50, 0, 0);
             npc.boss = true;
 			npc.Opacity = 0f;
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
-            npc.buffImmune[BuffID.Ichor] = false;
-            npc.buffImmune[BuffID.CursedInferno] = false;
-            npc.buffImmune[BuffID.StardustMinionBleed] = false;
-            npc.buffImmune[BuffID.BetsysCurse] = false;
-            npc.buffImmune[ModContent.BuffType<AstralInfectionDebuff>()] = false;
-            npc.buffImmune[ModContent.BuffType<AbyssalFlames>()] = false;
-            npc.buffImmune[ModContent.BuffType<ArmorCrunch>()] = false;
-            npc.buffImmune[ModContent.BuffType<DemonFlames>()] = false;
-            npc.buffImmune[ModContent.BuffType<GodSlayerInferno>()] = false;
-            npc.buffImmune[ModContent.BuffType<Shred>()] = false;
-            npc.buffImmune[ModContent.BuffType<WarCleave>()] = false;
-            npc.buffImmune[ModContent.BuffType<WhisperingDeath>()] = false;
-            npc.buffImmune[ModContent.BuffType<SilvaStun>()] = false;
             npc.noGravity = true;
             npc.noTileCollide = true;
             npc.netAlways = true;
@@ -144,6 +127,8 @@ namespace CalamityMod.NPCs.Providence
             writer.Write(npc.chaseable);
             writer.Write(npc.canGhostHeal);
 			writer.Write(npc.localAI[2]);
+			for (int i = 0; i < 4; i++)
+				writer.Write(npc.Calamity().newAI[i]);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
@@ -160,7 +145,9 @@ namespace CalamityMod.NPCs.Providence
             npc.chaseable = reader.ReadBoolean();
             npc.canGhostHeal = reader.ReadBoolean();
 			npc.localAI[2] = reader.ReadSingle();
-        }
+			for (int i = 0; i < 4; i++)
+				npc.Calamity().newAI[i] = reader.ReadSingle();
+		}
 
         public override void AI()
         {
@@ -172,13 +159,18 @@ namespace CalamityMod.NPCs.Providence
             // Rotation
             npc.rotation = npc.velocity.X * 0.004f;
 
-			// Target
-			if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)
-				npc.TargetClosest(true);
+			Vector2 vector = npc.Center;
+
+			// Get a target
+			if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
+				npc.TargetClosest();
+
+			// Despawn safety, make sure to target another player if the current player target is too far away
+			if (Vector2.Distance(Main.player[npc.target].Center, vector) > CalamityGlobalNPC.CatchUpDistance200Tiles)
+				npc.TargetClosest();
 
 			// Target variable and boss center
 			Player player = Main.player[npc.target];
-            Vector2 vector = npc.Center;
 
             // Target's current biome
             bool isHoly = player.ZoneHoly;
@@ -194,6 +186,10 @@ namespace CalamityMod.NPCs.Providence
 			// Percent life remaining
 			float lifeRatio = npc.life / (float)npc.lifeMax;
 
+			// Increase aggression if player is taking a long time to kill the boss
+			if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
+				lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
+
 			// Night bool
 			bool nightTime = !Main.dayTime;
 
@@ -207,6 +203,7 @@ namespace CalamityMod.NPCs.Providence
 				calamityGlobalNPC.newAI[1] = 0f;
 				calamityGlobalNPC.newAI[2] = 0f;
 				calamityGlobalNPC.newAI[3] = 0f;
+				npc.netUpdate = true;
 			}
 
 			// Difficulty bools
@@ -681,6 +678,7 @@ namespace CalamityMod.NPCs.Providence
 					npc.ai[3] = 0f;
 					calamityGlobalNPC.newAI[1] = 0f;
 					calamityGlobalNPC.newAI[2] = 0f;
+					npc.netUpdate = true;
 					break;
 
 				case (int)Phase.HolyBlast:
@@ -698,7 +696,7 @@ namespace CalamityMod.NPCs.Providence
 							int dustAmt = (int)MathHelper.Lerp(4f, 8f, calamityGlobalNPC.newAI[3] / spawnAnimationTime);
 							for (int m = 0; m < dustAmt; m++)
 							{
-								float fade = MathHelper.Lerp(1.3f, 0.7f, npc.Opacity) * CalamityUtils.GetLerpValue(0f, 120f, calamityGlobalNPC.newAI[3], clamped: true);
+								float fade = MathHelper.Lerp(1.3f, 0.7f, npc.Opacity) * Utils.InverseLerp(0f, 120f, calamityGlobalNPC.newAI[3], clamped: true);
 								Color newColor = Main.hslToRgb(calamityGlobalNPC.newAI[3] / 180f, 1f, 0.5f);
 
 								if (!nightTime)
@@ -794,7 +792,7 @@ namespace CalamityMod.NPCs.Providence
 					if (npc.ai[1] >= phaseTime)
 					{
 						AIState = (int)Phase.PhaseChange;
-						npc.TargetClosest(true);
+						npc.TargetClosest();
 					}
 
 					break;
@@ -839,7 +837,7 @@ namespace CalamityMod.NPCs.Providence
 					if (npc.ai[1] >= phaseTime)
 					{
 						AIState = (int)Phase.PhaseChange;
-						npc.TargetClosest(true);
+						npc.TargetClosest();
 					}
 
 					break;
@@ -862,6 +860,7 @@ namespace CalamityMod.NPCs.Providence
 					int chains = 4;
 					float interval = totalFlameProjectiles / chains * divisor;
 					double patternInterval = Math.Floor(npc.ai[3] / interval);
+					int healingStarChance = revenge ? 8 : expertMode ? 6 : 4;
 
 					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
@@ -881,7 +880,7 @@ namespace CalamityMod.NPCs.Providence
 										vector2 *= cocoonProjVelocity;
 
 									int projectileType = ModContent.ProjectileType<HolyBurnOrb>();
-									if (Main.rand.NextBool(4) && !death)
+									if (Main.rand.NextBool(healingStarChance) && !death)
 										projectileType = ModContent.ProjectileType<HolyLight>();
 
 									int dmgAmt = nightTime ? -300 : npc.GetProjectileDamageNoScaling(projectileType);
@@ -892,6 +891,7 @@ namespace CalamityMod.NPCs.Providence
 								// Radial offset
 								npc.ai[2] += 10f;
 							}
+							npc.netUpdate = true;
 						}
 						else
 						{
@@ -908,7 +908,7 @@ namespace CalamityMod.NPCs.Providence
 									Vector2 vector2 = new Vector2(0f, -cocoonProjVelocity).RotatedBy(radians * i);
 
 									int projectileType = ModContent.ProjectileType<HolyBurnOrb>();
-									if (Main.rand.NextBool(4) && !death)
+									if (Main.rand.NextBool(healingStarChance) && !death)
 										projectileType = ModContent.ProjectileType<HolyLight>();
 
 									int dmgAmt = nightTime ? -300 : npc.GetProjectileDamageNoScaling(projectileType);
@@ -918,7 +918,7 @@ namespace CalamityMod.NPCs.Providence
 							}
 						}
 
-						// Fire a flame towards every player, with a limit of 10
+						// Fire a flame towards every player, with a limit of 5
 						if (npc.ai[3] % 60f == 0f && expertMode)
 						{
 							List<int> targets = new List<int>();
@@ -927,7 +927,7 @@ namespace CalamityMod.NPCs.Providence
 								if (Main.player[p].active && !Main.player[p].dead)
 									targets.Add(p);
 
-								if (targets.Count > 9)
+								if (targets.Count > 4)
 									break;
 							}
 							foreach (int t in targets)
@@ -994,7 +994,7 @@ namespace CalamityMod.NPCs.Providence
 						text = false;
 						AIState = (int)Phase.PhaseChange;
 						npc.localAI[2] = attackDelayAfterCocoon;
-						npc.TargetClosest(true);
+						npc.TargetClosest();
 					}
 
 					break;
@@ -1051,7 +1051,7 @@ namespace CalamityMod.NPCs.Providence
 					if (npc.ai[1] >= phaseTime)
 					{
 						AIState = (int)Phase.PhaseChange;
-						npc.TargetClosest(true);
+						npc.TargetClosest();
 					}
 
 					break;
@@ -1096,7 +1096,7 @@ namespace CalamityMod.NPCs.Providence
 					if (npc.ai[1] >= phaseTime)
 					{
 						AIState = (int)Phase.PhaseChange;
-						npc.TargetClosest(true);
+						npc.TargetClosest();
 					}
 
 					break;
@@ -1160,7 +1160,7 @@ namespace CalamityMod.NPCs.Providence
 					{
 						AIState = (int)Phase.PhaseChange;
 						npc.localAI[2] = attackDelayAfterCocoon;
-						npc.TargetClosest(true);
+						npc.TargetClosest();
 					}
 
 					break;
@@ -1184,7 +1184,7 @@ namespace CalamityMod.NPCs.Providence
 						if (npc.ai[1] >= crystalPhaseTime + nightCrystalTime || !nightTime)
 						{
 							AIState = (int)Phase.PhaseChange;
-							npc.TargetClosest(true);
+							npc.TargetClosest();
 						}
 					}
 
@@ -1265,7 +1265,7 @@ namespace CalamityMod.NPCs.Providence
 					if (npc.ai[1] >= (revenge ? 235f : 315f))
 					{
 						AIState = (int)Phase.PhaseChange;
-						npc.TargetClosest(true);
+						npc.TargetClosest();
 					}
 
 					break;
@@ -1322,7 +1322,7 @@ namespace CalamityMod.NPCs.Providence
                 DropHelper.DropItemSpray(npc, ModContent.ItemType<DivineGeode>(), 15, 20);
 
 				// Weapons
-				float w = DropHelper.DirectWeaponDropRateFloat;
+				float w = DropHelper.NormalWeaponDropRateFloat;
 				DropHelper.DropEntireWeightedSet(npc,
 					DropHelper.WeightStack<HolyCollider>(w),
 					DropHelper.WeightStack<SolarFlare>(w),
@@ -1617,7 +1617,11 @@ namespace CalamityMod.NPCs.Providence
 					ModContent.ProjectileType<MiniGuardianDefense>(),
 					ModContent.ProjectileType<MiniGuardianAttack>(),
 					ModContent.ProjectileType<SilvaCrystalExplosion>(),
-					ModContent.ProjectileType<GhostlyMine>()
+					ModContent.ProjectileType<GhostlyMine>(),
+					ModContent.ProjectileType<EnergyOrb>(),
+					ModContent.ProjectileType<IrradiatedAura>(),
+					ModContent.ProjectileType<SummonAstralExplosion>(),
+					ModContent.ProjectileType<ApparatusExplosion>()
 				};
 
 				bool allowedClass = projectile.IsSummon() || (!projectile.melee && !projectile.ranged && !projectile.magic && !projectile.thrown && !projectile.Calamity().rogue);

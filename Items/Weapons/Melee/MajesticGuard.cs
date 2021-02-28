@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             item.value = Item.buyPrice(0, 36, 0, 0);
-            item.rare = 5;
+            item.rare = ItemRarityID.Pink;
         }
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
@@ -37,7 +37,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 target.defense -= 10;
 
             // Healing effect does not trigger versus dummies
-            if (target.type == NPCID.TargetDummy || player.moonLeech)
+            if (player.moonLeech)
                 return;
 
             if (target.defense <= 0 && target.canGhostHeal)

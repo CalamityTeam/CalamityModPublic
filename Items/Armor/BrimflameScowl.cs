@@ -27,11 +27,11 @@ namespace CalamityMod.Items.Armor
             item.width = 18;
             item.height = 18;
             item.value = Item.buyPrice(0, 60, 0, 0);
-            item.rare = 7;
+            item.rare = ItemRarityID.Lime;
             item.defense = 7; //41
         }
 
-        private void updateFrenzy(Player player)
+        private void UpdateFrenzy(Player player)
         {
             CalamityPlayer modPlayer = player.Calamity();
             if (!frenzy)
@@ -63,7 +63,7 @@ namespace CalamityMod.Items.Armor
             player.buffImmune[ModContent.BuffType<BrimstoneFlames>()] = true;
             player.buffImmune[BuffID.OnFire] = true;
             player.buffImmune[BuffID.Frostburn] = true;
-            updateFrenzy(player);
+            UpdateFrenzy(player);
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)

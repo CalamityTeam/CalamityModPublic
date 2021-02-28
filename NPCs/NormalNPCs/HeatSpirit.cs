@@ -30,7 +30,6 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.DeathSound = SoundID.NPCDeath55;
             banner = npc.type;
             bannerItem = ModContent.ItemType<HeatSpiritBanner>();
-            npc.buffImmune[BuffID.Confused] = false;
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)

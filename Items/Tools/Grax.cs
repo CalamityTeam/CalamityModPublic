@@ -3,6 +3,7 @@ using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.Items.Tools
 {
     public class Grax : ModItem
@@ -20,8 +21,8 @@ namespace CalamityMod.Items.Tools
         {
             item.width = 62;
             item.height = 62;
-			item.scale = 1.5f;
-            item.damage = 500;
+            item.scale = 1.5f;
+            item.damage = 472;
             item.melee = true;
             item.useAnimation = 16;
             item.useStyle = ItemUseStyleID.SwingThrow;
@@ -33,8 +34,8 @@ namespace CalamityMod.Items.Tools
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             item.tileBoost += 5;
-            item.value = Item.buyPrice(1, 20, 0, 0);
-            item.rare = 10;
+            item.value = CalamityGlobalItem.Rarity12BuyPrice;
+            item.rare = ItemRarityID.Purple;
             item.Calamity().customRarity = CalamityRarity.Turquoise;
         }
 

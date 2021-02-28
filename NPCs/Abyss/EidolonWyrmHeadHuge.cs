@@ -40,15 +40,11 @@ namespace CalamityMod.NPCs.Abyss
             npc.height = 138; //20
             npc.defense = 700;
             CalamityGlobalNPC global = npc.Calamity();
-            global.DR = 0.999999f;
+            global.DR = 0.95f;
             global.unbreakableDR = true;
             npc.lifeMax = 1000000;
             npc.aiStyle = -1;
             aiType = -1;
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
             npc.knockBackResist = 0f;
             npc.value = Item.buyPrice(10, 0, 0, 0);
             npc.behindTiles = true;

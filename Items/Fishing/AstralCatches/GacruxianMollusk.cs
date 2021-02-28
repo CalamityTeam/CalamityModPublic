@@ -23,7 +23,7 @@ namespace CalamityMod.Items.Fishing.AstralCatches
         public override void SafeSetDefaults()
         {
             item.damage = BaseDamage;
-            item.rare = 5;
+            item.rare = ItemRarityID.Pink;
             item.knockBack = Knockback;
             item.autoReuse = true;
             item.useTime = 26;

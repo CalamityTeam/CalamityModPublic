@@ -12,7 +12,8 @@ namespace CalamityMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Statis' Curse");
-            Tooltip.SetDefault("Increased max minions by 3 and 10% increased minion damage\n" +
+            Tooltip.SetDefault("Increases max minions by 3, does not stack with downgrades\n" +
+				"10% increased minion damage\n" +
                 "Increased minion knockback\n" +
                 "Grants shadowflame powers to all minions\n" +
                 "Minions make enemies cry on hit");
@@ -24,7 +25,7 @@ namespace CalamityMod.Items.Accessories
             item.width = 28;
             item.height = 32;
             item.value = CalamityGlobalItem.Rarity10BuyPrice;
-            item.rare = 10;
+            item.rare = ItemRarityID.Red;
             item.accessory = true;
         }
 
@@ -35,7 +36,6 @@ namespace CalamityMod.Items.Accessories
             modPlayer.tearMinions = true;
             player.minionKB += 2.75f;
             player.minionDamage += 0.1f;
-            player.maxMinions += 3;
         }
 
         public override void AddRecipes()

@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.height = 62;
             item.maxStack = 999;
             item.value = 2500;
-            item.rare = 5;
+            item.rare = ItemRarityID.Pink;
             item.shoot = ModContent.ProjectileType<CrystalPiercerProjectile>();
             item.shootSpeed = 20f;
             item.Calamity().rogue = true;

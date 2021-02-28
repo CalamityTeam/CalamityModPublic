@@ -21,7 +21,7 @@ namespace CalamityMod.Items.Ammo
             item.height = 16;
             item.knockBack = 2f;
             item.value = Item.buyPrice(0, 0, 0, 80);
-            item.rare = 6;
+            item.rare = ItemRarityID.LightPurple;
             item.shoot = ModContent.ProjectileType<IcyBulletProj>();
             item.shootSpeed = 5f;
             item.ammo = AmmoID.Bullet;

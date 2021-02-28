@@ -24,10 +24,6 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.height = 22;
             npc.lifeMax = 999;
             npc.knockBackResist = 0f;
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
             npc.noGravity = true;
             npc.noTileCollide = true;
             npc.dontTakeDamage = true;

@@ -17,8 +17,8 @@ namespace CalamityMod.Items.Accessories.Wings
 				"Horizontal speed: 9.75\n" +
                 "Acceleration multiplier: 2.7\n" +
                 "Great vertical speed\n" +
-                "Flight time: 200\n" +
-				"Temporary immunity to lava and 30% increased movement speed");
+                "Flight time: 240\n" +
+				"Temporary immunity to lava and 10% increased movement speed");
         }
 
         public override void SetDefaults()
@@ -39,7 +39,7 @@ namespace CalamityMod.Items.Accessories.Wings
 				{
 					if (line2.mod == "Terraria" && line2.Name == "Tooltip5")
 					{
-						line2.text = "Temporary immunity to lava and 30% increased movement speed\n" +
+						line2.text = "Temporary immunity to lava and 15% increased movement speed\n" +
 						"Provides heat protection in Death Mode";
 					}
 				}
@@ -49,9 +49,9 @@ namespace CalamityMod.Items.Accessories.Wings
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            player.moveSpeed += 0.3f;
+            player.moveSpeed += 0.1f;
             player.lavaMax += 240;
-            player.wingTimeMax = 200;
+            player.wingTimeMax = 240;
             player.noFallDmg = true;
             modPlayer.elysianFire = true;
             if (hideVisual)

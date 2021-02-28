@@ -3,6 +3,7 @@ using CalamityMod.Projectiles.Rogue;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
 using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -24,9 +25,8 @@ Stealth strikes throw three short ranged boomerangs along with a spread of icicl
             item.damage = 100;
             item.knockBack = 12;
             item.thrown = true;
-            item.crit = 16;
             item.value = Item.buyPrice(0, 60, 0, 0);
-            item.rare = 7;
+            item.rare = ItemRarityID.Lime;
             item.useTime = 19;
             item.useAnimation = 19;
             item.width = 32;
@@ -41,6 +41,9 @@ Stealth strikes throw three short ranged boomerangs along with a spread of icicl
             item.Calamity().rogue = true;
         }
 
+		// Terraria seems to really dislike high crit values in SetDefaults
+		public override void GetWeaponCrit(Player player, ref int crit) => crit += 16;
+
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             CalamityPlayer modPlayer = Main.player[Main.myPlayer].Calamity();
@@ -51,7 +54,7 @@ Stealth strikes throw three short ranged boomerangs along with a spread of icicl
                 for (int i = 0; i < 3; i++)
                 {
                     Vector2 perturbedspeed = new Vector2(speedX, speedY).RotatedBy(MathHelper.ToRadians(spread));
-                    int proj = Projectile.NewProjectile(position, perturbedspeed, type, damage, knockBack, player.whoAmI, 0f, 1f);
+                    int proj = Projectile.NewProjectile(position, perturbedspeed, type, Math.Max(damage / 3, 1), knockBack / 3f, player.whoAmI, 0f, 1f);
 					if (proj.WithinBounds(Main.maxProjectiles))
 						Main.projectile[proj].Calamity().stealthStrike = true;
                     spread -= 10;
@@ -61,7 +64,7 @@ Stealth strikes throw three short ranged boomerangs along with a spread of icicl
                 for (int i = 0; i < icicleAmt; i++)
                 {
                     Vector2 perturbedspeed = new Vector2(speedX + Main.rand.Next(-3,4), speedY + Main.rand.Next(-3,4)).RotatedBy(MathHelper.ToRadians(spread2));
-                    Projectile.NewProjectile(position, perturbedspeed, (Main.rand.NextBool(2) ? ModContent.ProjectileType<Valaricicle>() : ModContent.ProjectileType<Valaricicle2>()), damage / 2, 0f, player.whoAmI, 0f, 0f);
+                    Projectile.NewProjectile(position, perturbedspeed, (Main.rand.NextBool(2) ? ModContent.ProjectileType<Valaricicle>() : ModContent.ProjectileType<Valaricicle2>()), Math.Max(damage / 3, 1), 0f, player.whoAmI, 0f, 0f);
                     spread2 -= Main.rand.Next(1,4);
                 }
                 return false;

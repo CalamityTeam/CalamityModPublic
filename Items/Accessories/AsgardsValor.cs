@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Accessories
             DisplayName.SetDefault("Asgard's Valor");
             Tooltip.SetDefault("Grants immunity to fire blocks and knockback\n" +
 				"Immune to most debuffs and reduces the damage caused by the Brimstone Flames debuff\n" +
-                "10% damage reduction while submerged in liquid\n" +
+                "+16 defense while submerged in liquid\n" +
                 "+20 max life\n" +
                 "Grants a holy dash which can be used to ram enemies");
         }
@@ -26,7 +26,7 @@ namespace CalamityMod.Items.Accessories
             item.width = 38;
             item.height = 44;
             item.value = CalamityGlobalItem.Rarity7BuyPrice;
-            item.rare = 7;
+            item.rare = ItemRarityID.Lime;
             item.defense = 8;
             item.accessory = true;
         }
@@ -51,7 +51,7 @@ namespace CalamityMod.Items.Accessories
             player.buffImmune[BuffID.Darkness] = true;
             player.statLifeMax2 += 20;
             if (Collision.DrownCollision(player.position, player.width, player.height, player.gravDir))
-            { player.endurance += 0.1f; }
+            { player.statDefense += 16; }
         }
 
         public override void AddRecipes()

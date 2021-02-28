@@ -28,10 +28,6 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             npc.canGhostHeal = false;
             npc.HitSound = SoundID.NPCHit13;
             npc.DeathSound = SoundID.NPCDeath1;
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
         }
 
         public override void AI()

@@ -21,14 +21,14 @@ namespace CalamityMod.Items.Potions
             item.height = 36;
             item.useTurn = true;
             item.maxStack = 999;
-            item.rare = 3;
+            item.rare = ItemRarityID.Orange;
             item.useAnimation = 17;
             item.useTime = 17;
             item.useStyle = ItemUseStyleID.EatingUsing;
             item.UseSound = SoundID.Item3;
             item.consumable = true;
 			item.buffType = ModContent.BuffType<Revivify>();
-			item.buffTime = CalamityUtils.SecondsToFrames(120f);
+			item.buffTime = CalamityUtils.SecondsToFrames(180f);
 			item.value = Item.buyPrice(0, 2, 0, 0);
         }
 

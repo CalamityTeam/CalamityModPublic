@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Fishing
 
         public override void SetDefaults()
         {
-            item.rare = 2;
+            item.rare = ItemRarityID.Green;
             item.width = 30;
             item.height = 26;
             item.useAnimation = 30;

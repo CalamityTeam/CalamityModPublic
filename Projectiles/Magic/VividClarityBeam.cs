@@ -24,7 +24,7 @@ namespace CalamityMod.Projectiles.Magic
             projectile.extraUpdates = 100;
             projectile.timeLeft = 300;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 2;
+            projectile.localNPCHitCooldown = 10;
         }
 
         public override void AI()
@@ -98,10 +98,6 @@ namespace CalamityMod.Projectiles.Magic
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
 			target.ExoDebuffs();
-            if (target.type == NPCID.TargetDummy)
-            {
-                return;
-            }
             projectile.damage = (int)(projectile.damage * 1.1);
         }
 

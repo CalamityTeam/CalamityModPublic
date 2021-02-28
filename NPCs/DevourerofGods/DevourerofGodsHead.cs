@@ -54,25 +54,21 @@ namespace CalamityMod.NPCs.DevourerofGods
             npc.width = 104;
             npc.height = 104;
             npc.defense = 50;
-			npc.LifeMaxNERB(675000, 750000);
+			npc.LifeMaxNERB(371250, 445500);
 			double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
-            npc.takenDamageMultiplier = 1.25f;
+            npc.takenDamageMultiplier = 1.1f;
             npc.aiStyle = -1;
             aiType = -1;
             npc.knockBackResist = 0f;
             npc.boss = true;
-            npc.value = Item.buyPrice(0, 75, 0, 0);
+            npc.value = Item.buyPrice(0, 40, 0, 0);
             npc.alpha = 255;
             npc.behindTiles = true;
             npc.noGravity = true;
             npc.noTileCollide = true;
 			npc.DeathSound = SoundID.NPCDeath14;
             npc.netAlways = true;
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
             Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
             if (calamityModMusic != null)
                 music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/ScourgeofTheUniverse");
@@ -122,6 +118,10 @@ namespace CalamityMod.NPCs.DevourerofGods
 			// Percent life remaining
 			float lifeRatio = npc.life / (float)npc.lifeMax;
 
+			// Increase aggression if player is taking a long time to kill the boss
+			if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
+				lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
+
 			bool phase2 = lifeRatio < 0.75f;
 			bool phase3 = lifeRatio < 0.2f;
 
@@ -138,10 +138,18 @@ namespace CalamityMod.NPCs.DevourerofGods
 
 			Player player = Main.player[npc.target];
 
-			bool increaseSpeed = Vector2.Distance(player.Center, vector) > CalamityGlobalNPC.CatchUpDistance200Tiles;
-			bool increaseSpeedMore = Vector2.Distance(player.Center, vector) > CalamityGlobalNPC.CatchUpDistance350Tiles;
-			bool takeLessDamage = Vector2.Distance(player.Center, vector) > CalamityGlobalNPC.CatchUpDistance200Tiles * 0.5f;
-			npc.takenDamageMultiplier = increaseSpeed ? 1f : takeLessDamage ? 1.15f : 1.25f;
+			float distanceFromTarget = Vector2.Distance(player.Center, vector);
+			bool increaseSpeed = distanceFromTarget > CalamityGlobalNPC.CatchUpDistance200Tiles;
+			bool increaseSpeedMore = distanceFromTarget > CalamityGlobalNPC.CatchUpDistance350Tiles;
+
+			float takeLessDamageDistance = 1600f;
+			if (distanceFromTarget > takeLessDamageDistance)
+			{
+				float damageTakenScalar = MathHelper.Clamp(1f - ((distanceFromTarget - takeLessDamageDistance) / takeLessDamageDistance), 0f, 1f);
+				npc.takenDamageMultiplier = MathHelper.Lerp(1f, 1.1f, damageTakenScalar);
+			}
+			else
+				npc.takenDamageMultiplier = 1.1f;
 
 			// Spawn Guardians
 			if (phase3)
@@ -256,10 +264,13 @@ namespace CalamityMod.NPCs.DevourerofGods
 									start = new Vector2(player.position.X + spawnOffset, player.position.Y + shotSpacing);
 									aim.Y += laserWallSpacingOffset * (x - 3);
 									velocity = Vector2.Normalize(aim - start) * speed;
-									Projectile.NewProjectile(start, velocity, type, damage, 0f, Main.myPlayer, 0f, 0f);
+									Projectile.NewProjectile(start, velocity, type, damage, 0f, Main.myPlayer);
 
 									shotSpacing -= spacingVar;
 								}
+
+								if (expertMode)
+									Projectile.NewProjectile(player.position.X + spawnOffset, player.position.Y, -speed, 0f, type, damage, 0f, Main.myPlayer);
 
 								laserWallType = (int)LaserWallType.DiagonalLeft;
 								break;
@@ -271,10 +282,13 @@ namespace CalamityMod.NPCs.DevourerofGods
 									start = new Vector2(player.position.X - spawnOffset, player.position.Y + shotSpacing);
 									aim.Y += laserWallSpacingOffset * (x - 3);
 									velocity = Vector2.Normalize(aim - start) * speed;
-									Projectile.NewProjectile(start, velocity, type, damage, 0f, Main.myPlayer, 0f, 0f);
+									Projectile.NewProjectile(start, velocity, type, damage, 0f, Main.myPlayer);
 
 									shotSpacing -= spacingVar;
 								}
+
+								if (expertMode)
+									Projectile.NewProjectile(player.position.X - spawnOffset, player.position.Y, speed, 0f, type, damage, 0f, Main.myPlayer);
 
 								laserWallType = expertMode ? (int)LaserWallType.DiagonalHorizontal : (int)LaserWallType.DiagonalRight;
 								break;
@@ -286,13 +300,19 @@ namespace CalamityMod.NPCs.DevourerofGods
 									start = new Vector2(player.position.X + spawnOffset, player.position.Y + shotSpacing);
 									aim.Y += laserWallSpacingOffset * (x - 3);
 									velocity = Vector2.Normalize(aim - start) * speed;
-									Projectile.NewProjectile(start, velocity, type, damage, 0f, Main.myPlayer, 0f, 0f);
+									Projectile.NewProjectile(start, velocity, type, damage, 0f, Main.myPlayer);
 
 									start = new Vector2(player.position.X - spawnOffset, player.position.Y + shotSpacing);
 									velocity = Vector2.Normalize(aim - start) * speed;
-									Projectile.NewProjectile(start, velocity, type, damage, 0f, Main.myPlayer, 0f, 0f);
+									Projectile.NewProjectile(start, velocity, type, damage, 0f, Main.myPlayer);
 
 									shotSpacing -= spacingVar;
+								}
+
+								if (expertMode)
+								{
+									Projectile.NewProjectile(player.position.X + spawnOffset, player.position.Y, -speed, 0f, type, damage, 0f, Main.myPlayer);
+									Projectile.NewProjectile(player.position.X - spawnOffset, player.position.Y, speed, 0f, type, damage, 0f, Main.myPlayer);
 								}
 
 								laserWallType = revenge ? (int)LaserWallType.DiagonalCross : (int)LaserWallType.DiagonalRight;
@@ -305,22 +325,28 @@ namespace CalamityMod.NPCs.DevourerofGods
 									start = new Vector2(player.position.X + spawnOffset, player.position.Y + shotSpacing);
 									aim.Y += laserWallSpacingOffset * (x - 3);
 									velocity = Vector2.Normalize(aim - start) * speed;
-									Projectile.NewProjectile(start, velocity, type, damage, 0f, Main.myPlayer, 0f, 0f);
+									Projectile.NewProjectile(start, velocity, type, damage, 0f, Main.myPlayer);
 
 									start = new Vector2(player.position.X - spawnOffset, player.position.Y + shotSpacing);
 									velocity = Vector2.Normalize(aim - start) * speed;
-									Projectile.NewProjectile(start, velocity, type, damage, 0f, Main.myPlayer, 0f, 0f);
+									Projectile.NewProjectile(start, velocity, type, damage, 0f, Main.myPlayer);
 
 									start = new Vector2(player.position.X + shotSpacing, player.position.Y + spawnOffset);
 									aimClone.X += laserWallSpacingOffset * (x - 3);
 									velocity = Vector2.Normalize(aimClone - start) * speed;
-									Projectile.NewProjectile(start, velocity, type, damage, 0f, Main.myPlayer, 0f, 0f);
+									Projectile.NewProjectile(start, velocity, type, damage, 0f, Main.myPlayer);
 
 									start = new Vector2(player.position.X + shotSpacing, player.position.Y - spawnOffset);
 									velocity = Vector2.Normalize(aimClone - start) * speed;
-									Projectile.NewProjectile(start, velocity, type, damage, 0f, Main.myPlayer, 0f, 0f);
+									Projectile.NewProjectile(start, velocity, type, damage, 0f, Main.myPlayer);
 
 									shotSpacing -= spacingVar;
+								}
+
+								if (expertMode)
+								{
+									Projectile.NewProjectile(player.position.X + spawnOffset, player.position.Y, -speed, 0f, type, damage, 0f, Main.myPlayer);
+									Projectile.NewProjectile(player.position.X - spawnOffset, player.position.Y, speed, 0f, type, damage, 0f, Main.myPlayer);
 								}
 
 								laserWallType = (int)LaserWallType.DiagonalRight;
@@ -456,8 +482,8 @@ namespace CalamityMod.NPCs.DevourerofGods
 
 				if (expertMode)
 				{
-					num188 += Vector2.Distance(player.Center, npc.Center) * 0.005f * (1f - lifeRatio);
-					num189 += Vector2.Distance(player.Center, npc.Center) * 0.0001f * (1f - lifeRatio);
+					num188 += distanceFromTarget * 0.005f * (1f - lifeRatio);
+					num189 += distanceFromTarget * 0.0001f * (1f - lifeRatio);
 				}
 
                 float num48 = num188 * 1.3f;
@@ -588,8 +614,8 @@ namespace CalamityMod.NPCs.DevourerofGods
 					fallSpeed += 3.5f * (1f - lifeRatio);
 					speed += 0.08f * (1f - lifeRatio);
 					turnSpeed += 0.12f * (1f - lifeRatio);
-					speed += Vector2.Distance(player.Center, npc.Center) * 0.00005f * (1f - lifeRatio);
-					turnSpeed += Vector2.Distance(player.Center, npc.Center) * 0.00005f * (1f - lifeRatio);
+					speed += distanceFromTarget * 0.00005f * (1f - lifeRatio);
+					turnSpeed += distanceFromTarget * 0.00005f * (1f - lifeRatio);
 				}
 
                 // Enrage

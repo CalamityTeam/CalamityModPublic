@@ -1,3 +1,4 @@
+using CalamityMod.Events;
 using CalamityMod.Items.Materials;
 using CalamityMod.NPCs.Polterghast;
 using CalamityMod.World;
@@ -38,7 +39,7 @@ namespace CalamityMod.Items.SummonItems
 
 		public override bool CanUseItem(Player player)
         {
-            return player.ZoneDungeon && !NPC.AnyNPCs(ModContent.NPCType<Polterghast>()) && CalamityWorld.downedBossAny;
+            return player.ZoneDungeon && !NPC.AnyNPCs(ModContent.NPCType<Polterghast>()) && CalamityWorld.downedBossAny && !BossRushEvent.BossRushActive;
         }
 
         public override bool UseItem(Player player)

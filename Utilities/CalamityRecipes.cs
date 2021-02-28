@@ -986,13 +986,6 @@ namespace CalamityMod
             });
             RecipeGroup.RegisterGroup("AnyAdamantiteBar", group);
 
-            group = new RecipeGroup(() => "Nightmare Fuel or Endothermic Energy", new int[]
-            {
-                ModContent.ItemType<NightmareFuel>(),
-                ModContent.ItemType<EndothermicEnergy>()
-            });
-            RecipeGroup.RegisterGroup("NForEE", group);
-
             group = new RecipeGroup(() => "Any Evil Powder", new int[]
             {
                 ItemID.VilePowder,
@@ -1172,6 +1165,16 @@ namespace CalamityMod
                 ItemID.BetsyWings,
                 ItemID.ArkhalisWings,
                 ItemID.LeinforsWings,
+				ItemID.BejeweledValkyrieWing,
+				/*
+				ItemID.GhostarsWings,
+				ItemID.GroxTheGreatWings,
+				ItemID.FoodBarbarianWings,
+				ItemID.SafemanWings,
+				ItemID.CreativeWings,
+				ItemID.RainbowWings,
+				ItemID.LongRainbowTrailWings,
+				*/
                 ModContent.ItemType<SkylineWings>(),
                 ModContent.ItemType<StarlightWings>(),
                 ModContent.ItemType<AureateWings>(),

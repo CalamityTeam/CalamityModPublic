@@ -21,10 +21,11 @@ namespace CalamityMod.NPCs.Signus
 
         public override void SetDefaults()
         {
+			npc.Calamity().canBreakPlayerDefense = true;
 			npc.GetNPCDamage();
 			npc.width = 30;
             npc.height = 30;
-            npc.lifeMax = 6000;
+            npc.lifeMax = 4800;
             npc.aiStyle = -1;
             aiType = -1;
             npc.knockBackResist = 0f;
@@ -189,7 +190,7 @@ namespace CalamityMod.NPCs.Signus
 
 		public override bool CheckDead()
         {
-            Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 14);
+            Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 14);
             npc.position.X = npc.position.X + (npc.width / 2);
             npc.position.Y = npc.position.Y + (npc.height / 2);
             npc.damage = npc.defDamage;

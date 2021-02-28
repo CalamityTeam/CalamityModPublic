@@ -14,16 +14,17 @@ namespace CalamityMod.Items.Armor
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Demonshade Helm");
-            Tooltip.SetDefault("30% increased damage and 15% increased critical strike chance, +10 max minions");
+            Tooltip.SetDefault("30% increased damage and 15% increased critical strike chance");
         }
 
         public override void SetDefaults()
         {
             item.width = 18;
             item.height = 18;
-            item.value = Item.buyPrice(5, 0, 0, 0);
-            item.defense = 50; //15
-            item.Calamity().customRarity = CalamityRarity.ItemSpecific;
+            item.defense = 50;
+            item.value = CalamityGlobalItem.Rarity16BuyPrice;
+            item.Calamity().customRarity = CalamityRarity.HotPink;
+            item.Calamity().devItem = true;
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
@@ -40,7 +41,7 @@ namespace CalamityMod.Items.Armor
         public override void UpdateArmorSet(Player player)
         {
             string hotkey = CalamityMod.TarraHotKey.TooltipHotkeyString();
-            player.setBonus = "100% increased minion damage\n" +
+            player.setBonus = "100% increased minion damage and +10 max minions\n" +
                 "All attacks inflict the demon flame debuff\n" +
                 "Shadowbeams and demon scythes will fire down when you are hit\n" +
                 "A friendly red devil follows you around\n" +
@@ -58,16 +59,16 @@ namespace CalamityMod.Items.Armor
                 }
                 if (player.ownedProjectileCounts[ModContent.ProjectileType<DemonshadeRedDevil>()] < 1)
                 {
-					int damage = (int)(10000 * player.AverageDamage());
+                    int damage = (int)(10000 * player.AverageDamage());
                     Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<DemonshadeRedDevil>(), damage, 0f, Main.myPlayer, 0f, 0f);
                 }
             }
             player.minionDamage += 1f;
+            player.maxMinions += 10;
         }
 
         public override void UpdateEquip(Player player)
         {
-            player.maxMinions += 10;
             player.allDamage += 0.3f;
             player.Calamity().AllCritBoost(15);
         }

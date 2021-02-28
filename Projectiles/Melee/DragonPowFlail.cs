@@ -146,10 +146,6 @@ namespace CalamityMod.Projectiles.Melee
             projectile.ai[0] = 1f;
             projectile.netUpdate = true;
 
-            // No petals or waterfalls when hitting dummies.
-            if (target.type == NPCID.TargetDummy)
-                return;
-
             PetalStorm(target.Center);
             Waterfalls(target.Center);
         }

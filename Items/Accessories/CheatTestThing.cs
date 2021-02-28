@@ -16,8 +16,8 @@ namespace CalamityMod.Items.Accessories
         {
             item.width = 26;
             item.height = 26;
-            item.value = CalamityGlobalItem.Rarity16BuyPrice;
-            item.Calamity().postMoonLordRarity = 16;
+            item.value = 0; // lul intentionally has zero value
+            item.Calamity().customRarity = CalamityRarity.HotPink;
             item.accessory = true;
         }
 

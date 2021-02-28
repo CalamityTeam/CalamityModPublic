@@ -14,13 +14,13 @@ namespace CalamityMod.Items.Weapons.Ranged
             DisplayName.SetDefault("Astreal Defeat");
             Tooltip.SetDefault("Ethereal bow of the tyrant king's mother\n" +
                        "The mother strongly discouraged acts of violence throughout her life\n" +
-                       "Though she kept this bow close to protect her family in times of great disaster\n" +
-					   "Fires Astreal Arrows that emit flames as they travel");
+                       "Though she kept this bow close, to protect her family in times of great disaster\n" +
+					   "Converts wooden arrows into astreal arrows that emit flames as they travel");
         }
 
         public override void SetDefaults()
         {
-            item.damage = 140;
+            item.damage = 139;
             item.ranged = true;
             item.width = 40;
             item.height = 78;
@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.noMelee = true;
             item.knockBack = 5.5f;
             item.value = Item.buyPrice(1, 20, 0, 0);
-            item.rare = 10;
+            item.rare = ItemRarityID.Red;
             item.UseSound = SoundID.Item102;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<AstrealArrow>();
@@ -47,9 +47,15 @@ namespace CalamityMod.Items.Weapons.Ranged
 				velocity *= 8f;
 			}
 
-			float ai0 = (float)Main.rand.Next(4);
-            Projectile.NewProjectile(position.X, position.Y, velocity.X, velocity.Y, ModContent.ProjectileType<AstrealArrow>(), damage, knockBack, player.whoAmI, ai0, 0f);
-            return false;
+			if (type == ProjectileID.WoodenArrowFriendly)
+			{
+				float ai0 = Main.rand.Next(4);
+				Projectile.NewProjectile(position.X, position.Y, velocity.X, velocity.Y, ModContent.ProjectileType<AstrealArrow>(), damage, knockBack, player.whoAmI, ai0, 0f);
+			}
+			else
+				Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
+
+			return false;
         }
 
         public override void AddRecipes()

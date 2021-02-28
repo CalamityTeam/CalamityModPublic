@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Armor
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Daedalus Mask");
-            Tooltip.SetDefault("5% increased minion damage and +2 max minions");
+            Tooltip.SetDefault("5% increased minion damage");
         }
 
         public override void SetDefaults()
@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Armor
             item.width = 18;
             item.height = 18;
             item.value = Item.buyPrice(0, 25, 0, 0);
-            item.rare = 5;
+            item.rare = ItemRarityID.Pink;
             item.defense = 3; //33
         }
 
@@ -39,7 +39,7 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateArmorSet(Player player)
         {
-            player.setBonus = "20% increased minion damage\n" +
+            player.setBonus = "20% increased minion damage and +2 max minions\n" +
                 "A daedalus crystal floats above you to protect you";
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.daedalusCrystal = true;
@@ -55,12 +55,12 @@ namespace CalamityMod.Items.Armor
                 }
             }
             player.minionDamage += 0.2f;
-        }
+			player.maxMinions += 2;
+		}
 
-        public override void UpdateEquip(Player player)
+		public override void UpdateEquip(Player player)
         {
             player.minionDamage += 0.05f;
-            player.maxMinions += 2;
         }
 
         public override void AddRecipes()

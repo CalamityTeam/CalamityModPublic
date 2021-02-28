@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Soma Prime");
-            Tooltip.SetDefault("Shoots extremely powerful high velocity rounds that inflict a powerful bleed debuff");
+            Tooltip.SetDefault("Converts musket balls into extremely powerful high velocity rounds that inflict a powerful bleed debuff");
         }
 
         public override void SetDefaults()
@@ -22,26 +22,26 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.ranged = true;
             item.width = 94;
             item.height = 34;
-            item.crit += 40;
             item.useTime = 2;
             item.useAnimation = 2;
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 2f;
-            item.value = Item.buyPrice(5, 0, 0, 0);
-            item.rare = 10;
             item.UseSound = SoundID.Item40;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<SlashRound>();
             item.shootSpeed = 30f;
             item.useAmmo = AmmoID.Bullet;
-            item.Calamity().customRarity = CalamityRarity.ItemSpecific;
+
+            item.value = CalamityGlobalItem.Rarity16BuyPrice;
+            item.Calamity().customRarity = CalamityRarity.HotPink;
+            item.Calamity().devItem = true;
         }
 
-        public override Vector2? HoldoutOffset()
-        {
-            return new Vector2(-25, 0);
-        }
+        // Terraria seems to really dislike high crit values in SetDefaults
+        public override void GetWeaponCrit(Player player, ref int crit) => crit += 40;
+
+        public override Vector2? HoldoutOffset() => new Vector2(-25, 0);
 
         public override void AddRecipes()
         {
@@ -58,10 +58,14 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             for (int i = 0; i < 2; i++)
             {
-                float SpeedX = speedX + (float)Main.rand.Next(-10, 11) * 0.05f;
-                float SpeedY = speedY + (float)Main.rand.Next(-10, 11) * 0.05f;
-                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<SlashRound>(), damage, knockBack, player.whoAmI, 0f, 0f);
-            }
+                float SpeedX = speedX + Main.rand.Next(-10, 11) * 0.05f;
+                float SpeedY = speedY + Main.rand.Next(-10, 11) * 0.05f;
+
+				if (type == ProjectileID.Bullet)
+					Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<SlashRound>(), damage, knockBack, player.whoAmI);
+				else
+					Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
+			}
             return false;
         }
 

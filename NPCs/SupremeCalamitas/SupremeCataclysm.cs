@@ -41,13 +41,6 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             npc.aiStyle = -1;
             aiType = -1;
             npc.knockBackResist = 0f;
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
-            npc.buffImmune[BuffID.Ichor] = false;
-            npc.buffImmune[BuffID.CursedInferno] = false;
-            npc.buffImmune[ModContent.BuffType<BanishingFire>()] = false;
             npc.noGravity = true;
             npc.noTileCollide = true;
             npc.HitSound = SoundID.NPCHit4;
@@ -88,7 +81,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
 			// Reduce acceleration if target is holding a true melee weapon
 			Item targetSelectedItem = Main.player[npc.target].inventory[Main.player[npc.target].selectedItem];
-			if (targetSelectedItem.melee && (targetSelectedItem.shoot == 0 || CalamityLists.trueMeleeProjectileList.Contains(targetSelectedItem.shoot)))
+			if (targetSelectedItem.melee && (targetSelectedItem.shoot == ProjectileID.None || CalamityLists.trueMeleeProjectileList.Contains(targetSelectedItem.shoot)))
 			{
 				num677 *= 0.5f;
 			}

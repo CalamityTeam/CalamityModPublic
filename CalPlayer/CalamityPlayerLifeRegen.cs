@@ -29,6 +29,9 @@ namespace CalamityMod.CalPlayer
 
             // Initial Debuffs
 
+			// Get fucked, Nebula Armor
+			player.nebulaLevelLife = 0;
+
 			// Vanilla
 			if (death)
 			{
@@ -145,7 +148,7 @@ namespace CalamityMod.CalPlayer
 				lifeRegenLost += 20;
             }
 
-            if (modPlayer.ZoneSulphur && player.IsUnderwater() && !modPlayer.aquaticScourgeLore && !modPlayer.decayEffigy)
+            if (modPlayer.ZoneSulphur && player.IsUnderwater() && !modPlayer.decayEffigy && !player.lavaWet && !player.honeyWet)
             {
                 player.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), 2, true);
                 modPlayer.pissWaterBoost++;
@@ -737,14 +740,13 @@ namespace CalamityMod.CalPlayer
 
             if (modPlayer.fearmongerSet && modPlayer.fearmongerRegenFrames > 0)
             {
-                player.lifeRegen += 14;
-                player.lifeRegenTime += 7;
+                player.lifeRegen += 7;
+
                 if (player.lifeRegenTime < 1800)
                     player.lifeRegenTime = 1800;
-            }
 
-			if (modPlayer.etherealExtorter && player.ZoneGlowshroom)
-				player.lifeRegen += 1;
+				player.lifeRegenTime += 4;
+            }
 
 			if (modPlayer.pinkCandle && !modPlayer.noLifeRegen)
 			{
@@ -937,8 +939,6 @@ namespace CalamityMod.CalPlayer
 				}
 			}
 
-			if (CalamityWorld.revenge)
-			{
 				if (player.statLife < modPlayer.actualMaxLife)
 				{
 					bool noLifeRegenCap = (player.shinyStone || modPlayer.draedonsHeart || modPlayer.cFreeze || modPlayer.shadeRegen || modPlayer.photosynthesis || modPlayer.camper) &&
@@ -959,16 +959,9 @@ namespace CalamityMod.CalPlayer
 						}
 					}
 				}
-			}
 
 			if (player.lifeRegen > 0)
 			{
-				if (modPlayer.plaguebringerGoliathLore)
-					player.lifeRegen /= 2;
-
-				if (modPlayer.eaterOfWorldsLore)
-					player.lifeRegen /= 2;
-
 				if (modPlayer.godSlayerCooldown)
 					player.lifeRegen /= 2;
 			}

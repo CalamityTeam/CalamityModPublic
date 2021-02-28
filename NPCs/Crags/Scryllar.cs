@@ -41,7 +41,6 @@ namespace CalamityMod.NPCs.Crags
             }
             banner = npc.type;
             bannerItem = ModContent.ItemType<ScryllarBanner>();
-			npc.buffImmune[BuffID.Confused] = false;
         }
 
         public override void AI()
@@ -256,7 +255,8 @@ namespace CalamityMod.NPCs.Crags
         {
             DropHelper.DropItemCondition(npc, ModContent.ItemType<Bloodstone>(), CalamityWorld.downedProvidence, 2, 1, 1);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<EssenceofChaos>(), Main.hardMode, 3, 1, 1);
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<GaelsGreatsword>(), CalamityWorld.downedYharon, CalamityWorld.defiled ? 0.05f : 0.02f);
+            float gaelsChance = Main.expertMode ? 0.03f : 0.02f;
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<GaelsGreatsword>(), CalamityWorld.downedYharon, gaelsChance);
         }
 
         public override void HitEffect(int hitDirection, double damage)

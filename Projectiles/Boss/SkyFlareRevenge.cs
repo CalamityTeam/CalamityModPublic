@@ -70,8 +70,7 @@ namespace CalamityMod.Projectiles.Boss
             if (projectile.owner == Main.myPlayer)
             {
                 int dmg = 100; //damage is irrelevant since the player is instantly killed
-                int nado = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<InfernadoRevenge>(), dmg, 4f, Main.myPlayer, 16f, 50f);
-				Main.projectile[nado].Calamity().lineColor = (int)projectile.ai[0];
+                int nado = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<InfernadoRevenge>(), dmg, 4f, Main.myPlayer, 16f, 50f);
                 Main.projectile[nado].netUpdate = true;
             }
         }

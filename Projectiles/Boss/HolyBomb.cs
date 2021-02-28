@@ -100,11 +100,11 @@ namespace CalamityMod.Projectiles.Boss
             projectile.position.X = projectile.position.X - (projectile.width / 2);
             projectile.position.Y = projectile.position.Y - (projectile.height / 2);
 			int dustType = Main.dayTime ? (int)CalamityDusts.ProfanedFire : (int)CalamityDusts.Nightwither;
-			for (int num193 = 0; num193 < 3; num193++)
+			for (int num193 = 0; num193 < 2; num193++)
             {
                 Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, dustType, 0f, 0f, 50, default, 1.5f);
             }
-            for (int num194 = 0; num194 < 30; num194++)
+            for (int num194 = 0; num194 < 20; num194++)
             {
                 int num195 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, dustType, 0f, 0f, 0, default, 2.5f);
                 Main.dust[num195].noGravity = true;

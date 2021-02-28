@@ -34,8 +34,6 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.noTileCollide = false;
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath1;
-            npc.buffImmune[BuffID.OnFire] = true;
-            npc.buffImmune[BuffID.Confused] = false;
             banner = npc.type;
             bannerItem = ModContent.ItemType<CrimulanBlightSlimeBanner>();
         }

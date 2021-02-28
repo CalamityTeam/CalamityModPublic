@@ -4,7 +4,6 @@ using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Rogue;
-using CalamityMod.Tiles.Furniture.CraftingStations;
 using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Items.Weapons.Rogue
@@ -36,7 +35,7 @@ Right click to delete all existing spiky balls");
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.knockBack = knockBack;
             item.value = Item.buyPrice(0, 18, 0, 0);
-            item.rare = 10;
+            item.rare = ItemRarityID.Red;
             item.Calamity().customRarity = CalamityRarity.DarkBlue;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
@@ -51,7 +50,7 @@ Right click to delete all existing spiky balls");
 		{
 			if (player.altFunctionUse == 2)
 			{
-				item.shoot = 0;
+				item.shoot = ProjectileID.None;
 				item.shootSpeed = 0f;
 				return player.ownedProjectileCounts[ModContent.ProjectileType<GodsParanoiaProj>()] > 0;
 			}
@@ -91,8 +90,7 @@ Right click to delete all existing spiky balls");
 
             recipe.AddIngredient(ItemID.SpikyBall, 200);
             recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 2);
-            recipe.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>());
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
+            recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

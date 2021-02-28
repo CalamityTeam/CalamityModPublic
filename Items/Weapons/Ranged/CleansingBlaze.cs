@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.knockBack = 4f;
             item.UseSound = SoundID.Item34;
             item.value = Item.buyPrice(1, 80, 0, 0);
-            item.rare = 10;
+            item.rare = ItemRarityID.Red;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<EssenceFire>();
             item.shootSpeed = 14f;
@@ -70,7 +70,6 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 12);
-            recipe.AddRecipeGroup("NForEE", 6);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();

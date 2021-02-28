@@ -66,7 +66,7 @@ namespace CalamityMod.UI
         {
             //Don't do anything if not open
             bool forceOpenAndTeleport = BossRushEvent.BossRushStage < BossRushEvent.Bosses.Count - 1 && BossRushEvent.CurrentlyFoughtBoss == NPCID.WallofFlesh &&
-                                        !NPCs.CalamityGlobalNPC.AnyBossNPCS() && !Main.player[Main.myPlayer].ZoneUnderworldHeight;
+                !CalamityUtils.AnyBossNPCS() && !Main.player[Main.myPlayer].ZoneUnderworldHeight;
             if (forceOpenAndTeleport)
             {
                 Open = true;

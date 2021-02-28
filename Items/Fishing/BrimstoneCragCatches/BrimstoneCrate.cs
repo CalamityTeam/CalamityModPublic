@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Fishing.BrimstoneCragCatches
             item.consumable = true;
             item.width = 32;
             item.height = 32;
-            item.rare = 2;
+            item.rare = ItemRarityID.Green;
             item.value = Item.sellPrice(gold: 1);
             item.createTile = ModContent.TileType<BrimstoneCrateTile>();
             item.useTurn = true;

@@ -16,46 +16,45 @@ namespace CalamityMod.Items.Weapons.Melee
     public class PrismaticBreaker : ModItem
     {
         private int alpha = 50;
-		public Color[] colors = new Color[]
-		{
-			new Color(255, 0, 0, 50), //Red
-			new Color(255, 128, 0, 50), //Orange
-			new Color(255, 255, 0, 50), //Yellow
-			new Color(128, 255, 0, 50), //Lime
-			new Color(0, 255, 0, 50), //Green
-			new Color(0, 255, 128, 50), //Turquoise
-			new Color(0, 255, 255, 50), //Cyan
-			new Color(0, 128, 255, 50), //Light Blue
-			new Color(0, 0, 255, 50), //Blue
-			new Color(128, 0, 255, 50), //Purple
-			new Color(255, 0, 255, 50), //Fuschia
-			new Color(255, 0, 128, 50) //Hot Pink
-		};
-		List<Color> colorSet = new List<Color>()
-		{
-			new Color(255, 0, 0, 50), //Red
-			new Color(255, 255, 0, 50), //Yellow
-			new Color(0, 255, 0, 50), //Green
-			new Color(0, 255, 255, 50), //Cyan
-			new Color(0, 0, 255, 50), //Blue
-			new Color(255, 0, 255, 50), //Fuschia
-		};
+        public Color[] colors = new Color[]
+        {
+            new Color(255, 0, 0, 50), //Red
+            new Color(255, 128, 0, 50), //Orange
+            new Color(255, 255, 0, 50), //Yellow
+            new Color(128, 255, 0, 50), //Lime
+            new Color(0, 255, 0, 50), //Green
+            new Color(0, 255, 128, 50), //Turquoise
+            new Color(0, 255, 255, 50), //Cyan
+            new Color(0, 128, 255, 50), //Light Blue
+            new Color(0, 0, 255, 50), //Blue
+            new Color(128, 0, 255, 50), //Purple
+            new Color(255, 0, 255, 50), //Fuschia
+            new Color(255, 0, 128, 50) //Hot Pink
+        };
+        List<Color> colorSet = new List<Color>()
+        {
+            new Color(255, 0, 0, 50), //Red
+            new Color(255, 255, 0, 50), //Yellow
+            new Color(0, 255, 0, 50), //Green
+            new Color(0, 255, 255, 50), //Cyan
+            new Color(0, 0, 255, 50), //Blue
+            new Color(255, 0, 255, 50), //Fuschia
+        };
 
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Prismatic Breaker");
             Tooltip.SetDefault("Seems to belong to a certain magical girl. Radiates with intense cosmic energy.\n" +
                 "Fire to charge for a powerful rainbow laser\n" +
-				"Right click to instead swing the sword and fire rainbow colored waves\n" +
-				"The sword is boosted by both melee and ranged damage");
-			Item.staff[item.type] = true;
+                "Right click to instead swing the sword and fire rainbow colored waves\n" +
+                "The sword is boosted by both melee and ranged damage");
+            Item.staff[item.type] = true;
         }
 
         public override void SetDefaults()
         {
             item.damage = 1200;
-            item.crit += 8;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.useTime = item.useAnimation = 15;
             item.useTurn = true;
             item.melee = true;
@@ -67,62 +66,65 @@ namespace CalamityMod.Items.Weapons.Melee
             item.shoot = ModContent.ProjectileType<PrismaticBeam>();
             item.shootSpeed = 14f;
             item.value = CalamityGlobalItem.Rarity14BuyPrice;
-            item.rare = 10;
-            item.Calamity().customRarity = CalamityRarity.Dedicated;
+            item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            item.Calamity().donorItem = true;
         }
 
-		//Cancel out normal melee damage boosts and replace it with the average of melee and ranged damage boosts
-		//all damage boosts should still apply
+        // Terraria seems to really dislike high crit values in SetDefaults
+        public override void GetWeaponCrit(Player player, ref int crit) => crit += 8;
+
+        //Cancel out normal melee damage boosts and replace it with the average of melee and ranged damage boosts
+        //all damage boosts should still apply
         public override void ModifyWeaponDamage(Player player, ref float add, ref float mult, ref float flat)
         {
-			float damageMult = (player.meleeDamage + player.rangedDamage - 2f) / 2f;
+            float damageMult = (player.meleeDamage + player.rangedDamage - 2f) / 2f;
             add += damageMult - player.meleeDamage + 1f;
-		}
+        }
 
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
-			item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.GetTexture("CalamityMod/Items/Weapons/Melee/PrismaticBreakerGlow"));
+            item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.GetTexture("CalamityMod/Items/Weapons/Melee/PrismaticBreakerGlow"));
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             if (player.altFunctionUse == 2)
             {
-				Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<PrismaticWave>(), (int)(damage * 1), knockBack, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<PrismaticWave>(), (int)(damage * 1), knockBack, player.whoAmI, 0f, 0f);
             }
-			else
-			{
+            else
+            {
                 Projectile.NewProjectile(position.X, position.Y, speedX * 0.5f, speedY * 0.5f, type, damage, knockBack, player.whoAmI, 0f, 0f);
-			}
+            }
             return false;
         }
 
-		public override bool AltFunctionUse(Player player) => true;
+        public override bool AltFunctionUse(Player player) => true;
 
-		public override bool CanUseItem(Player player)
-		{
-			if (player.altFunctionUse == 2)
-			{
-				item.UseSound = SoundID.Item1;
-				item.useStyle = 1;
-				item.useTurn = true;
-				item.autoReuse = true;
-				item.noMelee = false;
-				item.channel = false;
-			}
-			else
-			{
-				item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/CrystylCharge");
-				item.useStyle = 5;
-				item.useTurn = false;
-				item.autoReuse = false;
-				item.noMelee = true;
-				item.channel = true;
-			}
-			return base.CanUseItem(player);
-		}
+        public override bool CanUseItem(Player player)
+        {
+            if (player.altFunctionUse == 2)
+            {
+                item.UseSound = SoundID.Item1;
+                item.useStyle = ItemUseStyleID.SwingThrow;
+                item.useTurn = true;
+                item.autoReuse = true;
+                item.noMelee = false;
+                item.channel = false;
+            }
+            else
+            {
+                item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/CrystylCharge");
+                item.useStyle = ItemUseStyleID.HoldingOut;
+                item.useTurn = false;
+                item.autoReuse = false;
+                item.noMelee = true;
+                item.channel = true;
+            }
+            return base.CanUseItem(player);
+        }
 
-		public override void MeleeEffects(Player player, Rectangle hitbox)
+        public override void MeleeEffects(Player player, Rectangle hitbox)
         {
             if (Main.rand.NextBool(4))
             {

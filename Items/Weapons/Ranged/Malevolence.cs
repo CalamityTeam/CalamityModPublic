@@ -11,7 +11,8 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Malevolence");
-            Tooltip.SetDefault("Fires two plague arrows that explode into bees on death");
+            Tooltip.SetDefault("Fires two arrows at once\n" +
+				"Converts wooden arrows into plague arrows that explode into bees on death");
         }
 
         public override void SetDefaults()
@@ -26,7 +27,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.noMelee = true;
             item.knockBack = 3f;
             item.value = Item.buyPrice(0, 80, 0, 0);
-            item.rare = 8;
+            item.rare = ItemRarityID.Yellow;
             item.UseSound = SoundID.Item97;
             item.autoReuse = true;
             item.shootSpeed = 12f;
@@ -38,10 +39,17 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             for (int i = 0; i < 2; i++)
             {
-                float SpeedX = speedX + (float)Main.rand.Next(-20, 21) * 0.05f;
-                float SpeedY = speedY + (float)Main.rand.Next(-20, 21) * 0.05f;
-                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<PlagueArrow>(), damage, knockBack, player.whoAmI, 0f, 0f);
-            }
+                float SpeedX = speedX + Main.rand.Next(-20, 21) * 0.05f;
+                float SpeedY = speedY + Main.rand.Next(-20, 21) * 0.05f;
+
+				if (type == ProjectileID.WoodenArrowFriendly)
+					Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<PlagueArrow>(), damage, knockBack, player.whoAmI);
+				else
+				{
+					int proj = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI);
+					Main.projectile[proj].noDropItem = true;
+				}
+			}
             return false;
         }
     }

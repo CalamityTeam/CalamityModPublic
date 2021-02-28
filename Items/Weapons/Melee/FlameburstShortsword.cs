@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Flameburst Shortsword");
-            Tooltip.SetDefault("Enemies explode on hit when below half life");
+            Tooltip.SetDefault("Enemies explode on hit");
         }
 
         public override void SetDefaults()
@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.useTurn = true;
             item.autoReuse = true;
             item.value = Item.buyPrice(0, 4, 0, 0);
-            item.rare = 3;
+            item.rare = ItemRarityID.Orange;
         }
 
         public override void AddRecipes()
@@ -44,29 +44,21 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void MeleeEffects(Player player, Rectangle hitbox)
         {
             if (Main.rand.NextBool(5))
-            {
-                int dust = Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 6);
-            }
+                Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 6);
         }
 
-        public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
-        {
-            if (target.life <= (target.lifeMax * 0.5f))
-            {
-                int boom = Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<FuckYou>(), (int)(item.damage * player.MeleeDamage()), knockback, player.whoAmI, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
-				if (boom.WithinBounds(Main.maxProjectiles))
-					Main.projectile[boom].Calamity().forceMelee = true;
-            }
-        }
+		public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
+		{
+			int boom = Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<FuckYou>(), (int)(item.damage * 0.75f * player.MeleeDamage()), knockback, player.whoAmI, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
+			if (boom.WithinBounds(Main.maxProjectiles))
+				Main.projectile[boom].Calamity().forceMelee = true;
+		}
 
-        public override void OnHitPvp(Player player, Player target, int damage, bool crit)
-        {
-            if (target.statLife <= (target.statLifeMax2 * 0.5f))
-            {
-                int boom = Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<FuckYou>(), (int)(item.damage * player.MeleeDamage()), item.knockBack, player.whoAmI, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
-				if (boom.WithinBounds(Main.maxProjectiles))
-					Main.projectile[boom].Calamity().forceMelee = true;
-            }
-        }
+		public override void OnHitPvp(Player player, Player target, int damage, bool crit)
+		{
+			int boom = Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<FuckYou>(), (int)(item.damage * 0.75f * player.MeleeDamage()), item.knockBack, player.whoAmI, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
+			if (boom.WithinBounds(Main.maxProjectiles))
+				Main.projectile[boom].Calamity().forceMelee = true;
+		}
     }
 }

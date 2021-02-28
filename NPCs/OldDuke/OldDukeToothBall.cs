@@ -28,17 +28,13 @@ namespace CalamityMod.NPCs.OldDuke
 			npc.width = 40;
 			npc.height = 40;
 			npc.defense = 0;
-			npc.lifeMax = 5000;
+			npc.lifeMax = 3750;
 			if (BossRushEvent.BossRushActive)
 			{
 				npc.lifeMax = 75000;
 			}
 			npc.alpha = 255;
             npc.knockBackResist = 0f;
-			for (int k = 0; k < npc.buffImmune.Length; k++)
-			{
-				npc.buffImmune[k] = true;
-			}
 			npc.HitSound = SoundID.NPCHit1;
 			npc.DeathSound = SoundID.NPCDeath11;
             npc.noGravity = true;
@@ -228,10 +224,10 @@ namespace CalamityMod.NPCs.OldDuke
 				{
 					float velocity = Main.rand.Next(7, 11);
 					Vector2 vector255 = new Vector2(0f, -velocity).RotatedBy(radians * k);
-					int proj = Projectile.NewProjectile(npc.Center, vector255, ModContent.ProjectileType<SandTooth>(), damage, 0f, Main.myPlayer, 0f, 0f);
+					int proj = Projectile.NewProjectile(npc.Center, vector255, ModContent.ProjectileType<SandToothOldDuke>(), damage, 0f, Main.myPlayer, 0f, 0f);
 					Main.projectile[proj].timeLeft = 360;
 				}
-				Projectile.NewProjectile(npc.Center, Vector2.Zero, ModContent.ProjectileType<SandPoisonCloud>(), damage, 0f, Main.myPlayer, 0f, 0f);
+				Projectile.NewProjectile(npc.Center, Vector2.Zero, ModContent.ProjectileType<SandPoisonCloudOldDuke>(), damage, 0f, Main.myPlayer, 0f, 0f);
             }
 
             return true;

@@ -24,10 +24,6 @@ namespace CalamityMod.NPCs.AquaticScourge
             npc.LifeMaxNERB(Main.hardMode ? 200 : 30);
             npc.aiStyle = -1;
             aiType = -1;
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
             npc.value = Item.buyPrice(0, 0, 0, 60);
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath1;

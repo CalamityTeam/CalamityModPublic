@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Accessories
             item.width = 36;
             item.height = 32;
             item.value = CalamityGlobalItem.Rarity6BuyPrice;
-            item.rare = 6;
+            item.rare = ItemRarityID.LightPurple;
             item.accessory = true;
         }
 
@@ -50,7 +50,7 @@ namespace CalamityMod.Items.Accessories
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.harpyRing = true;
-            player.accRunSpeed = 8f;
+            player.accRunSpeed = 7.5f;
             player.rocketBoots = 3;
             player.moveSpeed += 0.12f;
             player.iceSkate = true;

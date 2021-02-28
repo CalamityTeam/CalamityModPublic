@@ -31,7 +31,7 @@ namespace CalamityMod.Projectiles.Rogue
 			projectile.timeLeft = 180;
 			aiType = ProjectileID.WoodenBoomerang;
 			projectile.usesLocalNPCImmunity = true;
-			projectile.localNPCHitCooldown = 3;
+			projectile.localNPCHitCooldown = 10;
 			projectile.Calamity().rogue = true;
 		}
 

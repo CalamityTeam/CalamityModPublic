@@ -16,7 +16,7 @@ namespace CalamityMod.Items
             DisplayName.SetDefault("Normality Relocator");
             Tooltip.SetDefault("I'll be there in the blink of an eye\n" +
                 "This line is modified below\n" +
-				"Teleportation is disabled while Chaos State is active\n" +
+                "Teleportation is disabled while Chaos State is active\n" +
                 "Boosts fall speed by 10%\n" +
                 "Works while in the inventory");
             Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(6, 7));
@@ -26,9 +26,9 @@ namespace CalamityMod.Items
         {
             item.width = 38;
             item.height = 38;
-            item.value = Item.buyPrice(1, 20, 0, 0);
-            item.rare = 10;
-            item.Calamity().customRarity = CalamityRarity.Dedicated;
+            item.value = CalamityGlobalItem.Rarity11BuyPrice;
+            item.rare = ItemRarityID.Purple;
+            item.Calamity().donorItem = true;
         }
 
         public override void ModifyTooltips(List<TooltipLine> list)
@@ -42,7 +42,6 @@ namespace CalamityMod.Items
                 }
             }
         }
-
 
         public override void UpdateInventory(Player player)
         {

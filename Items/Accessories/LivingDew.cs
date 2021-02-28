@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Accessories
             item.width = 20;
             item.height = 20;
             item.value = CalamityGlobalItem.Rarity3BuyPrice;
-            item.rare = 3;
+            item.rare = ItemRarityID.Orange;
             item.accessory = true;
         }
 
@@ -39,7 +39,6 @@ namespace CalamityMod.Items.Accessories
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.Vine, 2);
             recipe.AddIngredient(ModContent.ItemType<MurkyPaste>(), 5);
-            recipe.AddIngredient(ItemID.BeeWax, 10);
             recipe.AddIngredient(ItemID.Bezoar);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);

@@ -18,15 +18,15 @@ namespace CalamityMod.Items.Weapons.Summon
         {
             DisplayName.SetDefault("Flamsteed Ring");
             Tooltip.SetDefault("Summons a colossal controllable mech\n" +
-			"Right click to display the mech's control panel\n" +
-			"The panel has 3 configurations, selected using the brackets on the edges of the UI\n" +
-			"Each bracket powers 2 out of 3 possible functions, represented by the circular icons.\n" +
-			"The bottom left icon miniaturizes the mech to the size of a player, but weakens its weapons.\n" +
-			"The bottom right icon is a powerful jet booster which greatly enhances movement.\n" +
-			"The top icon is the mech's weaponry. It must be powered in order to attack.\n" +
-			"Click the top icon to switch between Regicide, an enormous energy blade, and a powerful Gauss rifle.\n" +
-			"Exiting the mount while a boss is alive will temporarily hinder your movement\n" +
-			CalamityUtils.ColorMessage("Now, make them pay.", new Color(135, 206, 235)));
+                "Right click to display the mech's control panel\n" +
+                "The panel has 3 configurations, selected using the brackets on the edges of the UI\n" +
+                "Each bracket powers 2 out of 3 possible functions, represented by the circular icons.\n" +
+                "The bottom left icon miniaturizes the mech to the size of a player, but weakens its weapons.\n" +
+                "The bottom right icon is a powerful jet booster which greatly enhances movement.\n" +
+                "The top icon is the mech's weaponry. It must be powered in order to attack.\n" +
+                "Click the top icon to switch between Regicide, an enormous energy blade, and a powerful Gauss rifle.\n" +
+                "Exiting the mount while a boss is alive will temporarily hinder your movement\n" +
+            CalamityUtils.ColorMessage("Now, make them pay.", new Color(135, 206, 235)));
         }
 
         public override void SetDefaults()
@@ -38,9 +38,11 @@ namespace CalamityMod.Items.Weapons.Summon
             item.useTime = item.useAnimation = 10;
             item.noMelee = true;
             item.knockBack = 1f;
+
             item.value = CalamityGlobalItem.RarityHotPinkBuyPrice;
-            item.Calamity().customRarity = CalamityRarity.ItemSpecific;
-            item.rare = 10;
+            item.Calamity().customRarity = CalamityRarity.HotPink;
+            item.Calamity().devItem = true;
+
             item.UseSound = SoundID.Item117;
             item.shoot = ModContent.ProjectileType<GiantIbanRobotOfDoom>();
             item.shootSpeed = 10f;

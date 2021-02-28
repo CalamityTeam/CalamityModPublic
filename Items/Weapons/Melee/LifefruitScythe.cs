@@ -12,13 +12,13 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Lifehunt Scythe");
-            Tooltip.SetDefault("Heals the player on enemy hits and shoots an energy scythe");
+            Tooltip.SetDefault("Heals you on hit and shoots an energy scythe");
         }
 
         public override void SetDefaults()
         {
             item.width = 62;
-            item.damage = 250;
+            item.damage = 163;
             item.melee = true;
             item.useAnimation = 18;
             item.useStyle = ItemUseStyleID.SwingThrow;
@@ -28,11 +28,11 @@ namespace CalamityMod.Items.Weapons.Melee
             item.UseSound = SoundID.Item71;
             item.autoReuse = true;
             item.height = 72;
-            item.value = Item.buyPrice(1, 20, 0, 0);
-            item.rare = 10;
-            item.shoot = ModContent.ProjectileType<LifeScythe>();
-            item.shootSpeed = 9f;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
+			item.value = CalamityGlobalItem.Rarity12BuyPrice;
+			item.rare = ItemRarityID.Purple;
+			item.Calamity().customRarity = CalamityRarity.Turquoise;
+			item.shoot = ModContent.ProjectileType<LifeScythe>();
+            item.shootSpeed = 12f;
         }
 
         public override void AddRecipes()
@@ -54,10 +54,8 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            if (target.type == NPCID.TargetDummy || !target.canGhostHeal || player.moonLeech)
-            {
+            if (!target.canGhostHeal || player.moonLeech)
                 return;
-            }
             player.statLife += 5;
             player.HealEffect(5);
         }

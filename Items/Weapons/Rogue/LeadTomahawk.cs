@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.height = 36;
             item.maxStack = 999;
             item.value = Item.buyPrice(0, 0, 1, 0);
-            item.rare = 0;
+            item.rare = ItemRarityID.White;
             item.shoot = ModContent.ProjectileType<LeadTomahawkProj>();
             item.shootSpeed = 12f;
             item.Calamity().rogue = true;

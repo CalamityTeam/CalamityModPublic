@@ -17,7 +17,6 @@ namespace CalamityMod.Items.Armor
         {
             DisplayName.SetDefault("Hydrothermic Helmet");
             Tooltip.SetDefault("5% increased minion damage and increased minion knockback\n" +
-                "+2 max minions\n" +
                 "Temporary immunity to lava and immunity to fire damage");
         }
 
@@ -26,7 +25,7 @@ namespace CalamityMod.Items.Armor
             item.width = 18;
             item.height = 18;
             item.value = Item.buyPrice(0, 30, 0, 0);
-            item.rare = 8;
+            item.rare = ItemRarityID.Yellow;
             item.defense = 6; //40
         }
 
@@ -58,7 +57,7 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateArmorSet(Player player)
         {
-            player.setBonus = "40% increased minion damage\n" +
+            player.setBonus = "40% increased minion damage and +2 max minions\n" +
                 "Inferno effect when below 50% life\n" +
                 "Summons a hydrothermic vent to protect you\n" +
                 "You have a 20% chance to emit a blazing explosion when you are hit";
@@ -77,13 +76,13 @@ namespace CalamityMod.Items.Armor
                 }
             }
             player.minionDamage += 0.4f;
-        }
+			player.maxMinions += 2;
+		}
 
-        public override void UpdateEquip(Player player)
+		public override void UpdateEquip(Player player)
         {
             player.minionDamage += 0.05f;
             player.minionKB += 1.5f;
-            player.maxMinions += 2;
             player.lavaMax += 240;
             player.buffImmune[BuffID.OnFire] = true;
         }

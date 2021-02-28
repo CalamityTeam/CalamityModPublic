@@ -5,6 +5,7 @@ using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
 using CalamityMod.Items.Potions;
+using CalamityMod.Items.TreasureBags;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.World;
@@ -40,7 +41,7 @@ namespace CalamityMod.NPCs.StormWeaver
             npc.width = 74;
             npc.height = 74;
 			bool notDoGFight = CalamityWorld.DoGSecondStageCountdown <= 0 || !CalamityWorld.downedSentinel2;
-			npc.LifeMaxNERB(notDoGFight ? 900000 : 150000, notDoGFight ? 900000 : 150000, 3500000);
+			npc.LifeMaxNERB(notDoGFight ? 585000 : 97500, notDoGFight ? 585000 : 97500, 3500000);
 			Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
             if (calamityModMusic != null)
                 music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/ScourgeofTheUniverse");
@@ -67,10 +68,7 @@ namespace CalamityMod.NPCs.StormWeaver
             npc.HitSound = SoundID.NPCHit13;
             npc.DeathSound = SoundID.NPCDeath13;
             npc.netAlways = true;
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
+            bossBag = ModContent.ItemType<StormWeaverBag>();
 
 			if (CalamityWorld.death || BossRushEvent.BossRushActive)
 				npc.scale = 1.2f;
@@ -122,7 +120,12 @@ namespace CalamityMod.NPCs.StormWeaver
             }
 
             double lifeRatio = npc.life / (double)npc.lifeMax;
-            int lifePercentage = (int)(100.0 * lifeRatio);
+
+			// Increase aggression if player is taking a long time to kill the boss
+			if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
+				lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
+
+			int lifePercentage = (int)(100.0 * lifeRatio);
 
 			int BoltProjectiles = 2;
             if (lifePercentage < 33 || death)

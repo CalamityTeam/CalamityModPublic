@@ -26,15 +26,16 @@ namespace CalamityMod.NPCs.CeaselessVoid
 
         public override void SetDefaults()
         {
+			npc.Calamity().canBreakPlayerDefense = true;
 			npc.GetNPCDamage();
 			npc.dontTakeDamage = true;
             npc.width = 80;
             npc.height = 80;
             npc.defense = 50;
-            npc.lifeMax = 6000;
+            npc.lifeMax = 3000;
             if (CalamityWorld.DoGSecondStageCountdown <= 0 || !CalamityWorld.downedSentinel1)
             {
-                npc.lifeMax = 24000;
+                npc.lifeMax = 12000;
             }
             if (BossRushEvent.BossRushActive)
             {
@@ -48,10 +49,6 @@ namespace CalamityMod.NPCs.CeaselessVoid
             npc.noGravity = true;
             npc.noTileCollide = true;
             npc.canGhostHeal = false;
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
             npc.HitSound = SoundID.NPCHit53;
             npc.DeathSound = SoundID.NPCDeath44;
         }

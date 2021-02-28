@@ -27,7 +27,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.alpha = 255;
             projectile.tileCollide = false;
             projectile.ignoreWater = true;
-            projectile.extraUpdates = 1;
+            projectile.extraUpdates = 2;
         }
 
         public override void AI()

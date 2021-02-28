@@ -3,7 +3,6 @@ using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
 using CalamityMod.Projectiles.Summon;
-using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -16,7 +15,6 @@ namespace CalamityMod.Items.Armor
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Silva Horned Hood");
-            Tooltip.SetDefault("+5 max minions");
         }
 
         public override void SetDefaults()
@@ -44,7 +42,7 @@ namespace CalamityMod.Items.Armor
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.silvaSet = true;
             modPlayer.silvaSummon = true;
-            player.setBonus = "75% increased minion damage\n" +
+            player.setBonus = "75% increased minion damage and +5 max minions\n" +
                 "All projectiles spawn healing leaf orbs on enemy hits\n" +
                 "Max run speed and acceleration boosted by 5%\n" +
                 "If you are reduced to 1 HP you will not die from any further damage for 10 seconds\n" +
@@ -65,12 +63,8 @@ namespace CalamityMod.Items.Armor
                 }
             }
             player.minionDamage += 0.75f;
-        }
-
-        public override void UpdateEquip(Player player)
-        {
-            player.maxMinions += 5;
-        }
+			player.maxMinions += 5;
+		}
 
         public override void AddRecipes()
         {
@@ -78,8 +72,8 @@ namespace CalamityMod.Items.Armor
             recipe.AddIngredient(ModContent.ItemType<EffulgentFeather>(), 5);
             recipe.AddRecipeGroup("AnyGoldBar", 5);
             recipe.AddIngredient(ModContent.ItemType<Tenebris>(), 6);
-            recipe.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 2);
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
+            recipe.AddIngredient(ModContent.ItemType<DarksunFragment>(), 5);
+            recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

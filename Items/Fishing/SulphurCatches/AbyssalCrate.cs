@@ -2,6 +2,7 @@ using CalamityMod.Items.Materials;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Pets;
 using CalamityMod.Items.Potions;
+using CalamityMod.Items.Tools.ClimateChange;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
@@ -29,7 +30,7 @@ namespace CalamityMod.Items.Fishing.SulphurCatches
             item.consumable = true;
             item.width = 32;
             item.height = 32;
-            item.rare = 2;
+            item.rare = ItemRarityID.Green;
             item.value = Item.sellPrice(gold: 1);
             item.createTile = ModContent.TileType<AbyssalCrateTile>();
             item.useTurn = true;
@@ -82,7 +83,8 @@ namespace CalamityMod.Items.Fishing.SulphurCatches
                 ModContent.ItemType<StrangeOrb>(),
                 ModContent.ItemType<DepthCharm>(),
                 ModContent.ItemType<IronBoots>(),
-                ModContent.ItemType<AnechoicPlating>());
+                ModContent.ItemType<AnechoicPlating>(),
+                ModContent.ItemType<TorrentialTear>());
 
             //Bait
             DropHelper.DropItemChance(player, ItemID.MasterBait, 10, 1, 2);

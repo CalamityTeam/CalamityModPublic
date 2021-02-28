@@ -27,6 +27,7 @@ namespace CalamityMod.NPCs.Polterghast
 
         public override void SetDefaults()
         {
+			npc.Calamity().canBreakPlayerDefense = true;
 			npc.GetNPCDamage();
 			npc.width = 90;
             npc.height = 120;
@@ -37,21 +38,6 @@ namespace CalamityMod.NPCs.Polterghast
             npc.aiStyle = -1;
             aiType = -1;
             npc.Opacity = 0f;
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
-            npc.buffImmune[BuffID.Ichor] = false;
-            npc.buffImmune[BuffID.CursedInferno] = false;
-            npc.buffImmune[BuffID.Daybreak] = false;
-			npc.buffImmune[BuffID.StardustMinionBleed] = false;
-			npc.buffImmune[BuffID.BetsysCurse] = false;
-			npc.buffImmune[BuffID.Oiled] = false;
-            npc.buffImmune[ModContent.BuffType<AbyssalFlames>()] = false;
-            npc.buffImmune[ModContent.BuffType<DemonFlames>()] = false;
-            npc.buffImmune[ModContent.BuffType<GodSlayerInferno>()] = false;
-            npc.buffImmune[ModContent.BuffType<Nightwither>()] = false;
-            npc.buffImmune[ModContent.BuffType<Shred>()] = false;
             npc.noGravity = true;
             npc.noTileCollide = true;
             npc.netAlways = true;
@@ -84,9 +70,6 @@ namespace CalamityMod.NPCs.Polterghast
         public override void AI()
         {
             CalamityGlobalNPC.ghostBossClone = npc.whoAmI;
-
-			// Don't do it all the time
-			npc.Calamity().canBreakPlayerDefense = false;
 
 			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
 
@@ -269,8 +252,6 @@ namespace CalamityMod.NPCs.Polterghast
 				// Charge
 				if (npc.Calamity().newAI[3] == 1f)
 				{
-					npc.Calamity().canBreakPlayerDefense = true;
-
 					npc.Opacity += 0.06f;
 					if (npc.Opacity > 0.8f)
 						npc.Opacity = 0.8f;
@@ -421,7 +402,7 @@ namespace CalamityMod.NPCs.Polterghast
 			spriteBatch.Draw(texture2D15, vector43, npc.frame, color, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 
 			Texture2D texture2D16 = ModContent.GetTexture("CalamityMod/NPCs/Polterghast/PolterPhantomGlow");
-			Color color42 = Color.Lerp(Color.White, Color.Red, 0.5f);
+			Color color42 = Color.Lerp(Color.White, (Main.npc[CalamityGlobalNPC.ghostBoss].ai[2] < 300f || Main.npc[CalamityGlobalNPC.ghostBoss].Calamity().newAI[0] > 300f) ? Color.Red : Color.Black, 0.5f);
 
 			if (CalamityConfig.Instance.Afterimages)
 			{

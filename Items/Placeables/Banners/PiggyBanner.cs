@@ -17,9 +17,11 @@ namespace CalamityMod.Items.Placeables.Banners
             item.useTime = 10;
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
-            item.rare = 1;
-            item.Calamity().customRarity = CalamityRarity.Dedicated;
-            item.value = Item.buyPrice(0, 0, 10, 0);
+
+            item.value = Item.buyPrice(silver: 10);
+            item.rare = ItemRarityID.Blue;
+            item.Calamity().donorItem = true;
+
             item.createTile = ModContent.TileType<MonsterBanner>();
             item.placeStyle = 108;
         }

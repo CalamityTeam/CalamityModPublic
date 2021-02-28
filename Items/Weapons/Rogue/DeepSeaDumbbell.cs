@@ -8,39 +8,38 @@ namespace CalamityMod.Items.Weapons.Rogue
 {
     public class DeepSeaDumbbell : RogueWeapon
     {
-        private static int BaseDamage = 900;
-        private static float MeleeFlexMult = 25f;
-        private float flexBonusDamageMult = 0f;
+        private const float FlexMultMax = 5f;
+        private float flexMult = 1f;
 
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Deep Sea Dumbbell");
             Tooltip.SetDefault("Throws a dumbbell that bounces and flings weights with each bounce\n" +
-                "Right click to flex with it, increasing the power of your next throw with a stealth strike\n" +
-                "Can boost the projectile damage up to 7.5 times its original damage");
+                "Right click to flex, increasing the damage of your next attack up to 5 times damage\n" +
+                "Flexes can hit enemies directly");
         }
 
         public override void SafeSetDefaults()
         {
             item.width = 38;
-            item.damage = BaseDamage;
-            item.crit -= 2;
+            item.height = 24;
+            item.damage = 466;
             item.noMelee = true;
             item.noUseGraphic = true;
-            item.useAnimation = 25;
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.useTime = 25;
-            item.knockBack = 16f;
+            item.useAnimation = 25;
+            item.knockBack = 8f;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             item.useTurn = false;
-            item.height = 24;
-            item.value = Item.buyPrice(1, 40, 0, 0);
-            item.rare = 10;
             item.shoot = ModContent.ProjectileType<DeepSeaDumbbell1>();
             item.shootSpeed = 20f;
             item.Calamity().rogue = true;
-            item.Calamity().customRarity = CalamityRarity.Dedicated;
+
+            item.value = CalamityGlobalItem.Rarity13BuyPrice;
+            item.Calamity().customRarity = CalamityRarity.PureGreen;
+            item.Calamity().donorItem = true;
         }
 
         public override bool AltFunctionUse(Player player) => true;
@@ -66,49 +65,33 @@ namespace CalamityMod.Items.Weapons.Rogue
             return base.CanUseItem(player);
         }
 
-		public override float UseTimeMultiplier	(Player player)
-		{
-			if (player.altFunctionUse == 2)
-				return (5f/9f);
-			return 1f;
-		}
+        public override float UseTimeMultiplier(Player player) => player.altFunctionUse == 2 ? 5f / 9f : 1f;
 
         public override void ModifyWeaponDamage(Player player, ref float add, ref float mult, ref float flat)
         {
-            if (player.Calamity().StealthStrikeAvailable() && player.altFunctionUse != 2)
-                mult += flexBonusDamageMult;
-            base.ModifyWeaponDamage(player, ref add, ref mult, ref flat);
+            mult += flexMult - 1f;
         }
 
-        // Flexes deal 25x damage if you actually hit with them directly.
-        public override void ModifyHitNPC(Player player, NPC target, ref int damage, ref float knockBack, ref bool crit)
-        {
-            damage = (int)(damage * MeleeFlexMult);
-        }
-
-        public override void ModifyHitPvp(Player player, Player target, ref int damage, ref bool crit)
-        {
-            damage = (int)(damage * MeleeFlexMult);
-        }
+        // Reset flex multiplier on direct hits.
+        public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit) => flexMult = 1f;
+        public override void OnHitPvp(Player player, Player target, int damage, bool crit) => flexMult = 1f;
 
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            // Alt fire doesn't actually shoot anything. It flexes, increasing the damage of the next stealth strike
+            // Alt fire doesn't actually shoot anything. It flexes, increasing the damage of the next attack.
             if (player.altFunctionUse == 2)
             {
-                flexBonusDamageMult += 1f;
-                if (flexBonusDamageMult > 6.5f)
-                    flexBonusDamageMult = 6.5f;
+                flexMult = MathHelper.Clamp(flexMult + 1f, 1f, FlexMultMax);
                 return false;
             }
 
             int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI, 0f, 0f);
             if (player.Calamity().StealthStrikeAvailable() && proj.WithinBounds(Main.maxProjectiles))
-            {
                 Main.projectile[proj].Calamity().stealthStrike = true;
-                flexBonusDamageMult = 0f;
-            }
+
+            // Reset flex damage on any throw, stealth strike or not.
+            flexMult = 1f;
             return false;
         }
     }

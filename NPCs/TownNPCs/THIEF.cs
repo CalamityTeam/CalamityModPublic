@@ -259,7 +259,16 @@ namespace CalamityMod.NPCs.TownNPCs
             nextSlot++;
             shop.item[nextSlot].SetDefaults(ItemID.TigerClimbingGear);
             nextSlot++;
-            if (CalamityWorld.downedSlimeGod)
+			shop.item[nextSlot].SetDefaults(ItemID.InvisibilityPotion);
+			shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 1, 0, 0);
+			nextSlot++;
+			shop.item[nextSlot].SetDefaults(ItemID.NightOwlPotion);
+			shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 1, 0, 0);
+			nextSlot++;
+			shop.item[nextSlot].SetDefaults(ItemID.TrapsightPotion);
+			shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 1, 0, 0);
+			nextSlot++;
+			if (CalamityWorld.downedSlimeGod)
             {
                 shop.item[nextSlot].SetDefaults(ModContent.ItemType<GelDart>());
                 nextSlot++;

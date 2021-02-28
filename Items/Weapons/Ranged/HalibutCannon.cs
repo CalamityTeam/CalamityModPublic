@@ -8,6 +8,8 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class HalibutCannon : ModItem
     {
+        internal const float DropChance = 1E-5f; // 1 in 100,000
+        
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Halibut Cannon");
@@ -25,7 +27,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.useTime = 10;
             item.useAnimation = 20;
             item.useStyle = ItemUseStyleID.HoldingOut;
-            item.rare = 10;
+            item.rare = ItemRarityID.Red;
             item.noMelee = true;
             item.knockBack = 1f;
             item.value = Item.buyPrice(1, 0, 0, 0);

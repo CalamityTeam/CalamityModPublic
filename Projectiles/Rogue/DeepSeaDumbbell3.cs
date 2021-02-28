@@ -74,9 +74,6 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            if (target.defense > 0)
-                target.defense -= 15;
-
             target.AddBuff(ModContent.BuffType<CrushDepth>(), 600);
 
             Main.PlaySound(SoundID.NPCKilled, (int)projectile.position.X, (int)projectile.position.Y, 43, 0.35f, 0f);

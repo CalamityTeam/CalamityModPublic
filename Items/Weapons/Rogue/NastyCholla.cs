@@ -34,7 +34,7 @@ Stealth strikes throw five at once");
             item.UseSound = SoundID.Item1;
             item.height = 18;
             item.value = Item.buyPrice(0, 0, 0, 50);
-            item.rare = 0;
+            item.rare = ItemRarityID.White;
             item.shoot = ModContent.ProjectileType<NastyChollaBol>();
             item.shootSpeed = 8f;
             item.Calamity().rogue = true;

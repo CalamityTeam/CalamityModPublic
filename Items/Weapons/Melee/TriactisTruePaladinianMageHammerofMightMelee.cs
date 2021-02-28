@@ -29,11 +29,12 @@ namespace CalamityMod.Items.Weapons.Melee
             item.UseSound = SoundID.Item1;
             item.melee = true;
             item.height = 160;
-            item.shootSpeed = 25f;
-            item.value = Item.buyPrice(platinum: 5);
-            item.rare = ItemRarityID.Red;
-            item.Calamity().customRarity = CalamityRarity.ItemSpecific;
             item.shoot = ModContent.ProjectileType<TriactisHammerProj>();
+            item.shootSpeed = 25f;
+
+            item.value = CalamityGlobalItem.Rarity16BuyPrice;
+            item.Calamity().customRarity = CalamityRarity.HotPink;
+            item.Calamity().devItem = true;
         }
 
         public override void AddRecipes()

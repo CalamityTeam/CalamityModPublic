@@ -34,8 +34,6 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.value = Item.buyPrice(0, 1, 50, 0);
             npc.HitSound = SoundID.NPCHit23;
             npc.DeathSound = SoundID.NPCDeath39;
-            npc.buffImmune[20] = true;
-            npc.buffImmune[44] = true;
             npc.noGravity = true;
             npc.noTileCollide = true;
             npc.rarity = 2;

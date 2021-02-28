@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 {
 	public class Phaseslayer : ModItem
 	{
-		public const int Damage = 10200;
+		public const int Damage = 8999;
 		// When below this percentage of charge, the sword is small instead of big.
 		public const float SizeChargeThreshold = 0.25f;
 		// The small sword barely affects damage on its own because damage is already dropping significantly at low charge.
@@ -45,8 +45,8 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 
 			item.noUseGraphic = true;
 
-			item.value = CalamityGlobalItem.RarityVioletBuyPrice;
-			item.rare = ItemRarityID.Red;
+			item.value = CalamityGlobalItem.Rarity14BuyPrice;
+			item.rare = ItemRarityID.Purple;
 			modItem.customRarity = CalamityRarity.DraedonRust;
 
 			item.UseSound = SoundID.Item1;
@@ -74,7 +74,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 15);
 			recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 25);
-			recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 4);
+			recipe.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 2);
 			recipe.AddTile(ModContent.TileType<DraedonsForge>());
 			recipe.SetResult(this);
 			recipe.AddRecipe();

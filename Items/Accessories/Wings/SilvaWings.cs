@@ -6,7 +6,6 @@ using Terraria.ModLoader;
 using CalamityMod.Items.Armor;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
-using CalamityMod.Tiles.Furniture.CraftingStations;
 
 namespace CalamityMod.Items.Accessories.Wings
 {
@@ -20,7 +19,7 @@ namespace CalamityMod.Items.Accessories.Wings
                 "Horizontal speed: 11\n" +
                 "Acceleration multiplier: 2.8\n" +
                 "Excellent vertical speed\n" +
-                "Flight time: 220\n" +
+                "Flight time: 270\n" +
 				"The Silva revive heals you to half health while wearing the Silva armor");
         }
 
@@ -60,7 +59,7 @@ namespace CalamityMod.Items.Accessories.Wings
                 }
                 Main.dust[num60].shader = GameShaders.Armor.GetSecondaryShader(player.cWings, player);
             }
-            player.wingTimeMax = 220;
+            player.wingTimeMax = 270;
             player.noFallDmg = true;
         }
 
@@ -85,8 +84,8 @@ namespace CalamityMod.Items.Accessories.Wings
             recipe.AddIngredient(ModContent.ItemType<EffulgentFeather>(), 15);
             recipe.AddRecipeGroup("AnyGoldBar", 3);
             recipe.AddIngredient(ModContent.ItemType<Tenebris>(), 3);
-            recipe.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 3);
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
+            recipe.AddIngredient(ModContent.ItemType<DarksunFragment>(), 5);
+            recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

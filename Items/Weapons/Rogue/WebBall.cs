@@ -30,7 +30,7 @@ Stealth strikes slow enemies down longer");
             item.UseSound = SoundID.Item1;
             item.height = 18;
             item.value = Item.buyPrice(0, 0, 0, 30);
-            item.rare = 0;
+            item.rare = ItemRarityID.White;
             item.shoot = ModContent.ProjectileType<WebBallBol>();
             item.shootSpeed = 6.5f;
             item.Calamity().rogue = true;

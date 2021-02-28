@@ -1,3 +1,4 @@
+using CalamityMod.Events;
 using CalamityMod.Items.Materials;
 using CalamityMod.NPCs.CeaselessVoid;
 using CalamityMod.NPCs.Signus;
@@ -37,7 +38,7 @@ namespace CalamityMod.Items.SummonItems
         {
             return (player.ZoneSkyHeight || player.ZoneUnderworldHeight || player.ZoneDungeon) &&
                 !NPC.AnyNPCs(ModContent.NPCType<StormWeaverHead>()) && !NPC.AnyNPCs(ModContent.NPCType<StormWeaverHeadNaked>()) && !NPC.AnyNPCs(ModContent.NPCType<CeaselessVoid>()) && !NPC.AnyNPCs(ModContent.NPCType<Signus>()) &&
-				CalamityWorld.DoGSecondStageCountdown <= 0;
+				CalamityWorld.DoGSecondStageCountdown <= 0 && !BossRushEvent.BossRushActive;
         }
 
         public override bool UseItem(Player player)
@@ -48,7 +49,12 @@ namespace CalamityMod.Items.SummonItems
 				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<CeaselessVoid>());
-					for (int num662 = 0; num662 < 2; num662++)
+
+					bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
+					bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
+					bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+					int glob = death ? 5 : revenge ? 4 : expertMode ? 3 : 2;
+					for (int i = 0; i < glob; i++)
 					{
 						NPC.NewNPC((int)player.Center.X - 200, (int)player.Center.Y - 200, ModContent.NPCType<DarkEnergy>());
 						NPC.NewNPC((int)player.Center.X + 200, (int)player.Center.Y - 200, ModContent.NPCType<DarkEnergy2>());

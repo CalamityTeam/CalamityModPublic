@@ -1,4 +1,3 @@
-using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
@@ -11,9 +10,10 @@ namespace CalamityMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Statis' Ninja Belt");
-            Tooltip.SetDefault("8% increased jump speed and allows constant jumping\n" +
-				"Increased fall damage resistance by 35 blocks\n" +
-                "Can climb walls, dash, and dodge attacks");
+            Tooltip.SetDefault("12% increased jump speed and allows constant jumping\n" +
+                "Increased fall damage resistance by 35 blocks\n" +
+                "Can climb walls, dash, and dodge attacks\n" +
+                "The dodge has a 60 second cooldown");
         }
 
         public override void SetDefaults()
@@ -21,18 +21,17 @@ namespace CalamityMod.Items.Accessories
             item.width = 28;
             item.height = 32;
             item.value = CalamityGlobalItem.Rarity7BuyPrice;
-            item.rare = 7;
+            item.rare = ItemRarityID.Lime;
             item.accessory = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            CalamityPlayer modPlayer = player.Calamity();
             player.autoJump = true;
-            player.jumpSpeedBoost += 0.4f;
+            player.jumpSpeedBoost += 0.6f;
             player.extraFall += 35;
             player.blackBelt = true;
-			player.dash = 1;
+            player.dash = 1;
             player.spikedBoots = 2;
         }
 

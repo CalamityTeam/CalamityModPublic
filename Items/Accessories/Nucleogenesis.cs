@@ -11,7 +11,8 @@ namespace CalamityMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Nucleogenesis");
-            Tooltip.SetDefault("Increased max minions by 4 and 15% increased minion damage\n" +
+            Tooltip.SetDefault("Increases max minions by 4, does not stack with downgrades\n" +
+				"15% increased minion damage\n" +
                 "Increased minion knockback\n" +
                 "Minions inflict a variety of debuffs\n" +
                 "Minions spawn damaging sparks on enemy hits"); //subject to change to be "cooler"
@@ -36,7 +37,6 @@ namespace CalamityMod.Items.Accessories
             modPlayer.starTaintedGenerator = true; //astral infection and irradiated
             player.minionKB += 3f;
             player.minionDamage += 0.15f;
-            player.maxMinions += 4;
         }
 
         public override void AddRecipes()

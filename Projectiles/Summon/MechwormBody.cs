@@ -31,7 +31,7 @@ namespace CalamityMod.Projectiles.Summon
             projectile.tileCollide = false;
             projectile.minion = true;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 5;
+            projectile.localNPCHitCooldown = 10;
             projectile.hide = true;
         }
 
@@ -66,7 +66,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile segmentAhead = Main.projectile.Take(Main.maxProjectiles).FirstOrDefault(proj => SameIdentity(proj, projectile.owner, (int)projectile.ai[0]));
 
             // Ensure that the segment ahead actually exists. If it doesn't, kill this segment.
-            if (segmentAhead is null || !Main.projectile.IndexInRange(segmentAhead.whoAmI) || segmentAhead.type != bodyProjType && segmentAhead.type != headProjType)
+            if (segmentAhead is null || !Main.projectile.IndexInRange(segmentAhead.whoAmI) || (segmentAhead.type != bodyProjType && segmentAhead.type != headProjType))
             {
                 projectile.Kill();
                 return;

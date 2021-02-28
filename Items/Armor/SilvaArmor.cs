@@ -1,7 +1,7 @@
+using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
-using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -15,7 +15,8 @@ namespace CalamityMod.Items.Armor
         {
             DisplayName.SetDefault("Silva Armor");
             Tooltip.SetDefault("+80 max life\n" +
-                       "12% increased damage and 8% increased critical strike chance");
+                       "12% increased damage and 8% increased critical strike chance\n" +
+					   "Grants immunity to the irradiated debuff");
         }
 
         public override void SetDefaults()
@@ -33,6 +34,7 @@ namespace CalamityMod.Items.Armor
             player.statLifeMax2 += 80;
             player.allDamage += 0.12f;
             player.Calamity().AllCritBoost(8);
+            player.buffImmune[ModContent.BuffType<Irradiated>()] = true;
         }
 
         public override void AddRecipes()
@@ -41,9 +43,9 @@ namespace CalamityMod.Items.Armor
             recipe.AddIngredient(ModContent.ItemType<EffulgentFeather>(), 10);
             recipe.AddRecipeGroup("AnyGoldBar", 10);
             recipe.AddIngredient(ModContent.ItemType<Tenebris>(), 12);
-            recipe.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 4);
+            recipe.AddIngredient(ModContent.ItemType<DarksunFragment>(), 10);
             recipe.AddIngredient(ModContent.ItemType<LeadCore>());
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
+            recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

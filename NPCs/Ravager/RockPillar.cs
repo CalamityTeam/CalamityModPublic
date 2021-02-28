@@ -24,15 +24,11 @@ namespace CalamityMod.NPCs.Ravager
 			npc.defense = 50;
 			npc.DR_NERD(0.3f);
 			npc.chaseable = false;
-			npc.lifeMax = CalamityWorld.downedProvidence ? 35000 : 5000;
+			npc.lifeMax = CalamityWorld.downedProvidence ? 22750 : 5000;
             npc.alpha = 255;
             npc.aiStyle = -1;
             aiType = -1;
             npc.knockBackResist = 0f;
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
 			npc.HitSound = SoundID.NPCHit41;
 			npc.DeathSound = SoundID.NPCDeath14;
 		}
@@ -61,8 +57,8 @@ namespace CalamityMod.NPCs.Ravager
             else
             {
                 if (CalamityWorld.downedProvidence && !BossRushEvent.BossRushActive)
-                    npc.damage = npc.defDamage * 2;
-                else
+					npc.damage = (int)(npc.defDamage * 1.5);
+				else
                     npc.damage = npc.defDamage;
             }                
 

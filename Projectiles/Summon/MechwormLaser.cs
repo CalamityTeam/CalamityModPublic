@@ -30,7 +30,7 @@ namespace CalamityMod.Projectiles.Summon
             projectile.minionSlots = 0;
             projectile.tileCollide = false;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 5;
+            projectile.localNPCHitCooldown = 30;
         }
 
         public override void AI()

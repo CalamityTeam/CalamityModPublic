@@ -1,6 +1,7 @@
 ﻿using Terraria;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
+using Terraria.ID;
 
 namespace CalamityMod.Projectiles.Rogue
 {
@@ -37,7 +38,7 @@ namespace CalamityMod.Projectiles.Rogue
 
 		void SpawnExplosionDust()
 		{
-			Main.PlaySound(2, (int)projectile.Center.X, (int)projectile.Center.Y, 14);
+			Main.PlaySound(SoundID.Item, (int)projectile.Center.X, (int)projectile.Center.Y, 14);
 			CalamityUtils.ExplosionGores(projectile.Center, 3);
 			for (int num194 = 0; num194 < 25; num194++)
 			{

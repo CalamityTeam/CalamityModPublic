@@ -12,28 +12,20 @@ namespace CalamityMod.Items.LoreItems
         {
             DisplayName.SetDefault("The Underworld");
             Tooltip.SetDefault("These obsidian and hellstone towers were once home to thousands of...'people'.\n" +
-                "Unfortunately for them, they were twisted by their inner demons until they were beyond saving.\n" +
-                "Favorite this item to prevent voodoo demons from dropping voodoo dolls.");
+                "Unfortunately for them, they were twisted by their inner demons until they were beyond saving.");
         }
 
         public override void SetDefaults()
         {
             item.width = 20;
             item.height = 20;
-            item.rare = 4;
+            item.rare = ItemRarityID.LightRed;
             item.consumable = false;
         }
 
         public override bool CanUseItem(Player player)
         {
             return false;
-        }
-
-        public override void UpdateInventory(Player player)
-        {
-            CalamityPlayer modPlayer = player.Calamity();
-			if (item.favorited)
-				modPlayer.underworldLore = true;
         }
 
         public override void AddRecipes()

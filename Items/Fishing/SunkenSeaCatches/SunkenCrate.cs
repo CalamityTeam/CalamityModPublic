@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Fishing.SunkenSeaCatches
             item.consumable = true;
             item.width = 32;
             item.height = 32;
-            item.rare = 2;
+            item.rare = ItemRarityID.Green;
             item.value = Item.sellPrice(gold: 1);
             item.createTile = ModContent.TileType<SunkenCrateTile>();
             item.useTurn = true;
@@ -47,10 +47,10 @@ namespace CalamityMod.Items.Fishing.SunkenSeaCatches
 			DropHelper.DropItem(player, ModContent.ItemType<Items.Placeables.EutrophicSand>(), 10, 30);
 			DropHelper.DropItemCondition(player, ModContent.ItemType<PrismShard>(), CalamityWorld.downedDesertScourge, 5, 10);
 			DropHelper.DropItemCondition(player, ModContent.ItemType<Items.Placeables.SeaPrism>(), CalamityWorld.downedDesertScourge, 0.2f, 2, 5);
-			DropHelper.DropItemCondition(player, ModContent.ItemType<MolluskHusk>(), CalamityWorld.downedCLAMHardMode && NPC.downedMechBossAny, 0.15f, 2, 5);
+			DropHelper.DropItemCondition(player, ModContent.ItemType<MolluskHusk>(), CalamityWorld.downedCLAMHardMode, 0.12f, 2, 5);
 
             // Weapons
-            DropHelper.DropItemFromSetCondition(player, CalamityWorld.downedCLAMHardMode && NPC.downedMechBossAny, 0.1f,
+            DropHelper.DropItemFromSetCondition(player, CalamityWorld.downedCLAMHardMode, 0.07f,
                 ModContent.ItemType<ShellfishStaff>(),
                 ModContent.ItemType<ClamCrusher>(),
                 ModContent.ItemType<Poseidon>(),

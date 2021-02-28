@@ -24,9 +24,8 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.useTime = item.useAnimation = 40;
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.knockBack = 5f;
-            item.crit = 20;
             item.value = Item.buyPrice(0, 0, 0, 50);
-            item.rare = 0;
+            item.rare = ItemRarityID.White;
             item.maxStack = 999;
             item.UseSound = SoundID.Item1;
             item.consumable = true;
@@ -34,6 +33,10 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.noUseGraphic = true;
             item.Calamity().rogue = true;
         }
+
+		// Terraria seems to really dislike high crit values in SetDefaults
+		public override void GetWeaponCrit(Player player, ref int crit) => crit += 20;
+
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             //Check if stealth is full

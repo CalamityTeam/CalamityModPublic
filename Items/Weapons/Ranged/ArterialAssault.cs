@@ -13,13 +13,13 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Arterial Assault");
-            Tooltip.SetDefault("Fires a chain of arrows from the sky\n" +
-                "Wooden arrows are converted to homing bloodfire arrows");
+            Tooltip.SetDefault("Fires a chain of 5 arrows from the sky\n" +
+                "Wooden arrows are converted into homing bloodfire arrows");
         }
 
         public override void SetDefaults()
         {
-            item.damage = 200;
+            item.damage = 125;
             item.ranged = true;
             item.width = 44;
             item.height = 100;
@@ -96,7 +96,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             }
             else
             {
-                int num121 = Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, type, damage, knockBack, player.whoAmI, 0f, 0f);
+                int num121 = Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, type, damage, knockBack, player.whoAmI);
                 Main.projectile[num121].noDropItem = true;
             }
             return false;

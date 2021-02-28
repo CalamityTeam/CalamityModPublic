@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Accessories
 		{
 			DisplayName.SetDefault("The Amalgam");
 			Tooltip.SetDefault("Extends the duration of potion buffs by 100% and potion buffs remain active even after you die\n" +
-							"15% increased damage and movement speed\n" +
+							"15% increased damage and 10% increased movement speed\n" +
 							"Shade and brimstone fire rain down when you are hit\n" +
 							"Nearby enemies receive a variety of debuffs when you are hit\n" +
 							"Brimstone fireballs drop from the sky occasionally\n" +
@@ -45,7 +45,7 @@ namespace CalamityMod.Items.Accessories
 			item.height = 34;
 			item.value = CalamityGlobalItem.Rarity14BuyPrice;
 			item.expert = true;
-			item.rare = 9;
+			item.rare = ItemRarityID.Cyan;
 			item.accessory = true;
 			item.defense = 10;
 		}
@@ -78,7 +78,7 @@ namespace CalamityMod.Items.Accessories
 			player.ignoreWater = true;
 			player.lavaRose = true;
 			player.allDamage += 0.15f;
-			player.moveSpeed += 0.15f;
+			player.moveSpeed += 0.1f;
 			player.lavaMax += 240;
 
 			//emit light

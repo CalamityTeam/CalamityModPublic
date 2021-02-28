@@ -1,7 +1,6 @@
 using CalamityMod.Items.Ammo;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Magic;
-using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -15,22 +14,24 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             DisplayName.SetDefault("Ice Barrage");
             Tooltip.SetDefault("Oh dear, you are dead!\n" +
-							   "Casts a deadly and powerful ice spell in the location of the cursor\n" +
-							   "This ice spell locks itself to the position of nearby enemies\n" +
-                               "Consumes 2 Blood Runes every time it's used");
+                "Casts a deadly and powerful ice spell in the location of the cursor\n" +
+                "This ice spell locks itself to the position of nearby enemies\n" +
+                "Consumes 2 Blood Runes every time it's used");
         }
 
         public override void SetDefaults()
         {
             item.width = 60;
             item.height = 60;
-            item.Calamity().customRarity = CalamityRarity.Dedicated;
-            item.value = Item.buyPrice(1, 80, 0, 0);
             item.useStyle = ItemUseStyleID.HoldingUp;
             item.magic = true;
             item.mana = 180;
             item.noMelee = true;
             item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/IceBarrageCast");
+
+            item.value = CalamityGlobalItem.Rarity14BuyPrice;
+            item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            item.Calamity().donorItem = true;
 
             item.damage = 5800;
             item.knockBack = 6f;
@@ -72,7 +73,7 @@ namespace CalamityMod.Items.Weapons.Magic
             recipe.AddIngredient(ModContent.ItemType<IcicleStaff>());
             recipe.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 23);
             recipe.AddIngredient(ModContent.ItemType<CryoBar>(), 18);
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
+            recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

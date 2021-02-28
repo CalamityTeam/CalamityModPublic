@@ -52,12 +52,8 @@ namespace CalamityMod.NPCs.AstrumDeus
                 npc.scale = 1.35f;
             }
             npc.boss = true;
-            npc.value = Item.buyPrice(0, 20, 0, 0);
+            npc.value = Item.buyPrice(0, 25, 0, 0);
             npc.alpha = 255;
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
             npc.behindTiles = true;
             npc.noGravity = true;
             npc.noTileCollide = true;
@@ -226,6 +222,7 @@ namespace CalamityMod.NPCs.AstrumDeus
                     otherWormHead.Calamity().newAI[0] = 0f;
                     otherWormHead.life = 0;
                     otherWormHead.checkDead();
+                    otherWormHead.netUpdate = true;
                 }
 			} 
 
@@ -252,7 +249,7 @@ namespace CalamityMod.NPCs.AstrumDeus
                 DropHelper.DropItemSpray(npc, ItemID.FallenStar, 80, 150);
 
                 // Weapons
-                float w = DropHelper.DirectWeaponDropRateFloat;
+                float w = DropHelper.NormalWeaponDropRateFloat;
                 DropHelper.DropEntireWeightedSet(npc,
                     DropHelper.WeightStack<TheMicrowave>(w),
                     DropHelper.WeightStack<StarSputter>(w),

@@ -35,7 +35,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.autoReuse = true;
             item.height = 114;
             item.value = Item.buyPrice(2, 50, 0, 0);
-            item.rare = 10;
+            item.rare = ItemRarityID.Red;
             item.shoot = ModContent.ProjectileType<Exobeam>();
             item.shootSpeed = 19f;
             item.Calamity().customRarity = CalamityRarity.Violet;
@@ -81,7 +81,7 @@ namespace CalamityMod.Items.Weapons.Melee
 					Projectile.NewProjectile(startPos, velocity, ModContent.ProjectileType<Exocomet>(), (int)(item.damage * player.MeleeDamage()), knockback, player.whoAmI, 0f, ai1);
 				}
 			}
-			if (target.type == NPCID.TargetDummy || !target.canGhostHeal || player.moonLeech)
+			if (!target.canGhostHeal || player.moonLeech)
 			{
 				return;
 			}

@@ -30,10 +30,10 @@ namespace CalamityMod.Items.Weapons.Melee
             item.knockBack = 4.25f;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
-            item.rare = 7;
-            item.value = Item.buyPrice(0, 60, 0, 0);
             item.shootSpeed = 14f;
-            item.Calamity().customRarity = CalamityRarity.ItemSpecific;
+
+            item.value = CalamityGlobalItem.Rarity7BuyPrice;
+            item.rare = ItemRarityID.Lime;
         }
 
         public override bool AltFunctionUse(Player player)

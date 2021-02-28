@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Items.Accessories.Wings
 {
@@ -32,7 +33,7 @@ namespace CalamityMod.Items.Accessories.Wings
             item.height = 26;
             item.value = CalamityGlobalItem.Rarity5BuyPrice;
             item.expert = true;
-            item.rare = 5;
+            item.rare = ItemRarityID.Pink;
             item.accessory = true;
         }
 

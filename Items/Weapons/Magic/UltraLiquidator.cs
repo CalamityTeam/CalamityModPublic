@@ -20,7 +20,6 @@ namespace CalamityMod.Items.Weapons.Magic
 		public override void SetDefaults()
 		{
 			item.damage = 120;
-			item.crit = 30;
 			item.knockBack = 5f;
 			item.useTime = 3;
 			item.reuseDelay = item.useAnimation = 15;
@@ -37,6 +36,9 @@ namespace CalamityMod.Items.Weapons.Magic
 			item.value = CalamityGlobalItem.Rarity11BuyPrice;
 			item.rare = ItemRarityID.Purple;
 		}
+
+		// Terraria seems to really dislike high crit values in SetDefaults
+		public override void GetWeaponCrit(Player player, ref int crit) => crit += 30;
 
 		public override Vector2? HoldoutOrigin() => new Vector2(15, 15);
 
@@ -57,8 +59,8 @@ namespace CalamityMod.Items.Weapons.Magic
 		{
 			Vector2 playerPos = player.RotatedRelativePoint(player.MountedCenter, true);
 			float speed = item.shootSpeed;
-			float xVec = (float)Main.mouseX + Main.screenPosition.X - playerPos.X;
-			float yVec = (float)Main.mouseY + Main.screenPosition.Y - playerPos.Y;
+			float xVec = Main.mouseX + Main.screenPosition.X - playerPos.X;
+			float yVec = Main.mouseY + Main.screenPosition.Y - playerPos.Y;
 			float f = Main.rand.NextFloat() * MathHelper.TwoPi;
 			float lowerBoundOffset = 20f;
 			float upperBoundOffset = 60f;

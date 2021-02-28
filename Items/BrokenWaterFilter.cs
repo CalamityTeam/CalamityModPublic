@@ -17,7 +17,7 @@ namespace CalamityMod.Items
             item.width = 32;
             item.height = 34;
             item.value = CalamityGlobalItem.Rarity1BuyPrice;
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
         }
         public override void UpdateInventory(Player player)
         {

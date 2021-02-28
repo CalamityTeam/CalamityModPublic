@@ -23,11 +23,13 @@ namespace CalamityMod.Items.Pets
             item.noMelee = true;
             item.width = 30;
             item.height = 30;
-            item.value = Item.buyPrice(gold: 40);
             item.shoot = ModContent.ProjectileType<KendraPet>();
             item.buffType = ModContent.BuffType<Kendra>();
-            item.rare = ItemRarityID.Pink;
             item.UseSound = SoundID.Item44;
+
+            item.value = Item.buyPrice(gold: 40);
+            item.rare = ItemRarityID.Pink;
+            item.Calamity().devItem = true;
         }
 
         public override void UseStyle(Player player)

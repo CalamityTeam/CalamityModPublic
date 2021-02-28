@@ -15,7 +15,7 @@ namespace CalamityMod.Items.Mounts
             mountData.spawnDust = 234;
             mountData.spawnDustNoGravity = true;
             mountData.buff = ModContent.BuffType<AlicornBuff>();
-            mountData.heightBoost = 34;
+            mountData.heightBoost = 35;
             mountData.fallDamage = 0f; //0.5
             mountData.runSpeed = 7f; //12
             mountData.dashSpeed = 21f; //8
@@ -47,7 +47,7 @@ namespace CalamityMod.Items.Mounts
             mountData.standingFrameDelay = 12;
             mountData.standingFrameStart = 0;
             mountData.runningFrameCount = 8; //7
-            mountData.runningFrameDelay = 36; //36
+            mountData.runningFrameDelay = 42; //36
             mountData.runningFrameStart = 1; //9
             mountData.flyingFrameCount = 6; //0
             mountData.flyingFrameDelay = 4; //0
@@ -55,9 +55,9 @@ namespace CalamityMod.Items.Mounts
             mountData.inAirFrameCount = 1; //1
             mountData.inAirFrameDelay = 12; //12
             mountData.inAirFrameStart = 10; //10
-            mountData.idleFrameCount = 5; //4
+            mountData.idleFrameCount = 1; //4
             mountData.idleFrameDelay = 12; //12
-            mountData.idleFrameStart = 0;
+            mountData.idleFrameStart = 5;
             mountData.idleFrameLoop = true;
             mountData.swimFrameCount = mountData.inAirFrameCount;
             mountData.swimFrameDelay = mountData.inAirFrameDelay;

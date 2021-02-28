@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.noMelee = true;
             item.knockBack = 1.5f;
             item.value = CalamityGlobalItem.Rarity14BuyPrice;
-            item.rare = 10;
+            item.rare = ItemRarityID.Red;
             item.UseSound = SoundID.Item33;
             item.autoReuse = true;
             item.shootSpeed = 6f;
@@ -79,7 +79,7 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<GalacticaSingularity>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<DarksunFragment>(), 15);
+            recipe.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 3);
             recipe.AddIngredient(ModContent.ItemType<Wingman>(), 2);
             recipe.AddIngredient(ModContent.ItemType<Genisis>());
             recipe.AddTile(ModContent.TileType<DraedonsForge>());

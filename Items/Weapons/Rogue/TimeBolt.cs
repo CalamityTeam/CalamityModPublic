@@ -13,14 +13,14 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             DisplayName.SetDefault("Time Bolt");
             Tooltip.SetDefault("There should be no boundary to human endeavor.\n" +
-			"Stealth strikes can hit more enemies and create a larger time field");
+            "Stealth strikes can hit more enemies and create a larger time field");
         }
 
         public override void SafeSetDefaults()
         {
             item.width = 24;
             item.height = 46;
-            item.damage = 720;
+            item.damage = 432;
             item.noMelee = true;
             item.noUseGraphic = true;
             item.useAnimation = 20;
@@ -29,9 +29,10 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.knockBack = 4f;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
-            item.value = Item.buyPrice(1, 40, 0, 0);
-            item.rare = 10;
-            item.Calamity().customRarity = CalamityRarity.Dedicated;
+            item.value = CalamityGlobalItem.Rarity13BuyPrice;
+            item.rare = ItemRarityID.Red;
+            item.Calamity().customRarity = CalamityRarity.PureGreen;
+            item.Calamity().donorItem = true;
             item.shoot = ModContent.ProjectileType<TimeBoltKnife>();
             item.shootSpeed = 16f;
             item.Calamity().rogue = true;
@@ -40,11 +41,11 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             int proj = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
-			if (player.Calamity().StealthStrikeAvailable() && proj.WithinBounds(Main.maxProjectiles))
-			{
-				Main.projectile[proj].Calamity().stealthStrike = true;
-				Main.projectile[proj].penetrate = 11;
-			}
+            if (player.Calamity().StealthStrikeAvailable() && proj.WithinBounds(Main.maxProjectiles))
+            {
+                Main.projectile[proj].Calamity().stealthStrike = true;
+                Main.projectile[proj].penetrate = 11;
+            }
             return false;
         }
 

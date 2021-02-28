@@ -22,10 +22,13 @@ namespace CalamityMod.Items.Pets
             item.noMelee = true;
             item.width = 30;
             item.height = 30;
-            item.value = Item.sellPrice(0, 1, 0, 0);
+
+            item.value = Item.sellPrice(gold: 1);
+            item.rare = ItemRarityID.Pink;
+            item.Calamity().devItem = true;
+
             item.shoot = ModContent.ProjectileType<LadShark>();
             item.buffType = ModContent.BuffType<LadBuff>();
-            item.rare = 5;
             item.UseSound = SoundID.Item2;
         }
 

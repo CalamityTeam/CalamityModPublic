@@ -25,7 +25,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.useTurn = true;
             item.knockBack = 3f;
             item.value = Item.buyPrice(0, 36, 0, 0);
-            item.rare = 5;
+            item.rare = ItemRarityID.Pink;
         }
 
         public override void ModifyHitPvp(Player player, Player target, ref int damage, ref bool crit)

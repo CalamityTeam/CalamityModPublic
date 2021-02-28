@@ -68,6 +68,8 @@ namespace CalamityMod.NPCs.DevourerofGods
 		private int postTeleportTimer = 0;
 		private int teleportTimer = -1;
 
+		private int preventBullshitHitsAtStartofFinalPhaseTimer = 0;
+
 		private const float alphaGateValue = 669f;
 
 		public override void SetStaticDefaults()
@@ -83,25 +85,21 @@ namespace CalamityMod.NPCs.DevourerofGods
             npc.width = 186;
             npc.height = 186;
             npc.defense = 50;
-            npc.LifeMaxNERB(1150000, 1350000, 9200000);
-            double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
+			npc.LifeMaxNERB(517500, 621000, 9200000);
+			double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
-            npc.takenDamageMultiplier = 1.25f;
+            npc.takenDamageMultiplier = 1.1f;
             npc.aiStyle = -1;
             aiType = -1;
             npc.knockBackResist = 0f;
             npc.boss = true;
-            npc.value = Item.buyPrice(1, 0, 0, 0);
+            npc.value = Item.buyPrice(0, 80, 0, 0);
             npc.alpha = 255;
             npc.behindTiles = true;
             npc.noGravity = true;
             npc.noTileCollide = true;
 			npc.DeathSound = SoundID.NPCDeath14;
             npc.netAlways = true;
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
             Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
             if (calamityModMusic != null)
                 music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/UniversalCollapse");
@@ -121,6 +119,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             writer.Write(idleCounter);
             writer.Write(laserWallPhase);
 			writer.Write(postTeleportTimer);
+			writer.Write(preventBullshitHitsAtStartofFinalPhaseTimer);
 			writer.Write(laserWallType);
 			writer.Write(teleportTimer);
             writer.Write(npc.alpha);
@@ -137,6 +136,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             idleCounter = reader.ReadInt32();
             laserWallPhase = reader.ReadInt32();
 			postTeleportTimer = reader.ReadInt32();
+			preventBullshitHitsAtStartofFinalPhaseTimer = reader.ReadInt32();
 			laserWallType = reader.ReadInt32();
 			teleportTimer = reader.ReadInt32();
             npc.alpha = reader.ReadInt32();
@@ -157,8 +157,12 @@ namespace CalamityMod.NPCs.DevourerofGods
             // Percent life remaining
             float lifeRatio = npc.life / (float)npc.lifeMax;
 
-            // Variables
-            Vector2 vector = npc.Center;
+			// Increase aggression if player is taking a long time to kill the boss
+			if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
+				lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
+
+			// Variables
+			Vector2 vector = npc.Center;
             bool flies = npc.ai[2] == 0f;
             bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
 			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
@@ -183,11 +187,18 @@ namespace CalamityMod.NPCs.DevourerofGods
 			float distanceFromTarget = Vector2.Distance(player.Center, vector);
 			bool increaseSpeed = distanceFromTarget > CalamityGlobalNPC.CatchUpDistance200Tiles;
 			bool increaseSpeedMore = distanceFromTarget > CalamityGlobalNPC.CatchUpDistance350Tiles;
-			bool takeLessDamage = Vector2.Distance(player.Center, vector) > CalamityGlobalNPC.CatchUpDistance200Tiles * 0.5f;
-			npc.takenDamageMultiplier = increaseSpeed ? 1f : takeLessDamage ? 1.15f : 1.25f;
+
+			float takeLessDamageDistance = 1600f;
+			if (distanceFromTarget > takeLessDamageDistance)
+			{
+				float damageTakenScalar = MathHelper.Clamp(1f - ((distanceFromTarget - takeLessDamageDistance) / takeLessDamageDistance), 0f, 1f);
+				npc.takenDamageMultiplier = MathHelper.Lerp(1f, 1.1f, damageTakenScalar);
+			}
+			else
+				npc.takenDamageMultiplier = 1.1f;
 
 			// Immunity after teleport
-			npc.dontTakeDamage = postTeleportTimer > 0;
+			npc.dontTakeDamage = postTeleportTimer > 0 || preventBullshitHitsAtStartofFinalPhaseTimer > 0;
 
 			// Teleport
 			if (teleportTimer >= 0)
@@ -257,7 +268,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 				// Set alpha after teleport
 				if (postTeleportTimer > 0)
 				{
-					postTeleportTimer -= 1;
+					postTeleportTimer--;
 					if (postTeleportTimer < 0)
 						postTeleportTimer = 0;
 
@@ -270,6 +281,15 @@ namespace CalamityMod.NPCs.DevourerofGods
 						npc.alpha = 0;
 				}
 
+				// This exists so that DoG doesn't sometimes instantly kill the player when he goes to final phase
+				if (preventBullshitHitsAtStartofFinalPhaseTimer > 0)
+				{
+					preventBullshitHitsAtStartofFinalPhaseTimer--;
+
+					if (npc.alpha < 1)
+						npc.alpha = 1;
+				}
+
 				// Reset laser wall phase
                 if (laserWallPhase > (int)LaserWallPhase.SetUp)
                     laserWallPhase = (int)LaserWallPhase.SetUp;
@@ -278,6 +298,8 @@ namespace CalamityMod.NPCs.DevourerofGods
 				if (!halfLife && phase3)
 				{
 					SpawnTeleportLocation(player);
+
+					preventBullshitHitsAtStartofFinalPhaseTimer = 180;
 
 					// Anger message
 					string key = "Mods.CalamityMod.EdgyBossText11";
@@ -380,6 +402,12 @@ namespace CalamityMod.NPCs.DevourerofGods
 									shotSpacing[0] -= spacingVar;
 								}
 
+								if (expertMode)
+								{
+									Projectile.NewProjectile(player.position.X + spawnOffset, targetPosY, -speed, 0f, type, damage, 0f, Main.myPlayer);
+									Projectile.NewProjectile(player.position.X - spawnOffset, targetPosY, speed, 0f, type, damage, 0f, Main.myPlayer);
+								}
+
 								laserWallType = (int)LaserWallType.Offset;
 								break;
 
@@ -391,6 +419,12 @@ namespace CalamityMod.NPCs.DevourerofGods
 									Projectile.NewProjectile(player.position.X + spawnOffset, targetPosY + shotSpacing[0], -speed, 0f, type, damage, 0f, Main.myPlayer);
 									Projectile.NewProjectile(player.position.X - spawnOffset, targetPosY + shotSpacing[0], speed, 0f, type, damage, 0f, Main.myPlayer);
 									shotSpacing[0] -= spacingVar;
+								}
+
+								if (expertMode)
+								{
+									Projectile.NewProjectile(player.position.X, targetPosY + spawnOffset, 0f, -speed, type, damage, 0f, Main.myPlayer);
+									Projectile.NewProjectile(player.position.X, targetPosY - spawnOffset, 0f, speed, type, damage, 0f, Main.myPlayer);
 								}
 
 								laserWallType = revenge ? (int)LaserWallType.MultiLayered : expertMode ? (int)LaserWallType.DiagonalHorizontal : (int)LaserWallType.Normal;
@@ -413,6 +447,9 @@ namespace CalamityMod.NPCs.DevourerofGods
 									shotSpacing[3] -= Main.rand.NextBool(2) ? 180 : 200;
 								}
 
+								Projectile.NewProjectile(player.position.X + spawnOffset, targetPosY, -speed, 0f, type, damage, 0f, Main.myPlayer);
+								Projectile.NewProjectile(player.position.X - spawnOffset, targetPosY, speed, 0f, type, damage, 0f, Main.myPlayer);
+
 								laserWallType = (int)LaserWallType.DiagonalHorizontal;
 								break;
 
@@ -432,6 +469,9 @@ namespace CalamityMod.NPCs.DevourerofGods
 									shotSpacing[0] -= diagonalSpacingVar;
 								}
 
+								Projectile.NewProjectile(player.position.X, targetPosY + spawnOffset, 0f, -speed, type, damage, 0f, Main.myPlayer);
+								Projectile.NewProjectile(player.position.X, targetPosY - spawnOffset, 0f, speed, type, damage, 0f, Main.myPlayer);
+
 								laserWallType = revenge ? (int)LaserWallType.DiagonalVertical : (int)LaserWallType.Normal;
 								break;
 
@@ -450,6 +490,9 @@ namespace CalamityMod.NPCs.DevourerofGods
 
 									shotSpacing[0] -= diagonalSpacingVar;
 								}
+
+								Projectile.NewProjectile(player.position.X + spawnOffset, targetPosY, -speed, 0f, type, damage, 0f, Main.myPlayer);
+								Projectile.NewProjectile(player.position.X - spawnOffset, targetPosY, speed, 0f, type, damage, 0f, Main.myPlayer);
 
 								laserWallType = (int)LaserWallType.Normal;
 								break;
@@ -1148,7 +1191,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                 DropHelper.DropItem(npc, ModContent.ItemType<CosmiliteBrick>(), 150, 250);
 
                 // Weapons
-                float w = DropHelper.DirectWeaponDropRateFloat;
+                float w = DropHelper.NormalWeaponDropRateFloat;
                 DropHelper.DropEntireWeightedSet(npc,
                     DropHelper.WeightStack<Excelsus>(w),
                     DropHelper.WeightStack<TheObliterator>(w),
@@ -1201,7 +1244,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             if (dist4 < minDist)
                 minDist = dist4;
 
-            return minDist <= 80f && (npc.alpha <= 0 || postTeleportTimer > 0);
+            return minDist <= 80f && (npc.alpha <= 0 || postTeleportTimer > 0) && preventBullshitHitsAtStartofFinalPhaseTimer <= 0;
         }
 
         public override bool StrikeNPC(ref double damage, int defense, ref float knockback, int hitDirection, ref bool crit)
@@ -1276,7 +1319,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             player.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 300, true);
             player.AddBuff(ModContent.BuffType<WhisperingDeath>(), 420, true);
             player.AddBuff(BuffID.Frostburn, 300, true);
-            if ((CalamityWorld.death || BossRushEvent.BossRushActive) && (npc.alpha <= 0 || postTeleportTimer > 0) && !player.Calamity().lol)
+            if ((CalamityWorld.death || BossRushEvent.BossRushActive) && (npc.alpha <= 0 || postTeleportTimer > 0) && !player.Calamity().lol && preventBullshitHitsAtStartofFinalPhaseTimer <= 0)
             {
                 player.KillMe(PlayerDeathReason.ByCustomReason(player.name + "'s essence was consumed by the devourer."), 1000.0, 0, false);
             }
@@ -1292,7 +1335,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 					"Mods.CalamityMod.EdgyBossText7"
 				});
 				Color messageColor = Color.Cyan;
-				Rectangle location = new Microsoft.Xna.Framework.Rectangle((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height);
+				Rectangle location = new Rectangle((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height);
 				CombatText.NewText(location, messageColor, Language.GetTextValue(text), true);
 				player.Calamity().dogTextCooldown = 60;
 			}

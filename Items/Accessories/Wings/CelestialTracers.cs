@@ -21,7 +21,7 @@ namespace CalamityMod.Items.Accessories.Wings
                 "Horizontal speed: 12\n" +
                 "Acceleration multiplier: 3\n" +
                 "Excellent vertical speed\n" +
-                "Flight time: 280\n" +
+                "Flight time: 250\n" +
                 "50% increased running acceleration\n" +
                 "Greater mobility on ice\n" +
                 "Water and lava walking\n" +
@@ -72,14 +72,13 @@ namespace CalamityMod.Items.Accessories.Wings
                 Main.dust[num60].shader = GameShaders.Armor.GetSecondaryShader(player.cWings, player);
             }
             CalamityPlayer modPlayer = player.Calamity();
-            player.accRunSpeed = 12f;
-            player.rocketBoots = 3;
-            player.moveSpeed += 0.3f;
+            player.accRunSpeed = 10f;
+            player.moveSpeed += 0.24f;
             player.iceSkate = true;
             player.waterWalk = true;
             player.fireWalk = true;
             player.lavaMax += 240;
-            player.wingTimeMax = 280;
+            player.wingTimeMax = 250;
             player.noFallDmg = true;
             modPlayer.IBoots = !hideVisual;
             modPlayer.elysianFire = !hideVisual;

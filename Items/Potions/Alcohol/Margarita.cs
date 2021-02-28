@@ -28,7 +28,7 @@ Reduces defense by 6% and life regen by 1
             item.height = 18;
             item.useTurn = true;
             item.maxStack = 30;
-            item.rare = 5;
+            item.rare = ItemRarityID.Pink;
             item.useAnimation = 17;
             item.useTime = 17;
             item.useStyle = ItemUseStyleID.EatingUsing;
@@ -37,7 +37,7 @@ Reduces defense by 6% and life regen by 1
             item.potion = true;
             item.healLife = 200;
             item.healMana = 200;
-            item.value = Item.buyPrice(0, 23, 30, 0);
+            item.value = Item.buyPrice(0, 5, 30, 0);
         }
 
         public override void OnConsumeItem(Player player)

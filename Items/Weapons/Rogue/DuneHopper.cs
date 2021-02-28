@@ -1,5 +1,6 @@
 using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -29,7 +30,7 @@ Stealth strikes throw three high speed spears");
             item.autoReuse = true;
             item.height = 44;
             item.value = Item.buyPrice(0, 2, 0, 0);
-            item.rare = 2;
+            item.rare = ItemRarityID.Green;
             item.shoot = ModContent.ProjectileType<DuneHopperProjectile>();
             item.shootSpeed = 12f;
             item.Calamity().rogue = true;
@@ -45,7 +46,7 @@ Stealth strikes throw three high speed spears");
                 for (int i = 0; i < numProj + 1; i++)
                 {
                     Vector2 perturbedSpeed = new Vector2(speedX - 3f, speedY - 3f).RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (numProj - 1)));
-                    int stealth = Projectile.NewProjectile(position, perturbedSpeed, ModContent.ProjectileType<DuneHopperProjectile>(), damage, knockBack, player.whoAmI);
+                    int stealth = Projectile.NewProjectile(position, perturbedSpeed, ModContent.ProjectileType<DuneHopperProjectile>(), Math.Max(damage / 3, 1), knockBack, player.whoAmI);
 					if (stealth.WithinBounds(Main.maxProjectiles))
 						Main.projectile[stealth].Calamity().stealthStrike = true;
                 }

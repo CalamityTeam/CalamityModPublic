@@ -2,7 +2,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace CalamityMod.Items.Tools
+namespace CalamityMod.Items.DifficultyItems
 {
 	public class BallAndChain : ModItem
 	{
@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Tools
 		{
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ItemID.IronBar, 10);
-            recipe.anyIronBar = true;
+			recipe.anyIronBar = true;
 			recipe.AddIngredient(ItemID.Chain);
 			recipe.AddTile(TileID.Anvils);
 			recipe.SetResult(this);

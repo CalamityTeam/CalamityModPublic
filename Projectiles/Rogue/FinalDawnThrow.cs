@@ -29,7 +29,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.extraUpdates = 2;
 			projectile.tileCollide = false;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 5;
+            projectile.localNPCHitCooldown = 10;
         }
 		public override void AI()
 		{

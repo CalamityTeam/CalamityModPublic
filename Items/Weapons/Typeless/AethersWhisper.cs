@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Weapons.Typeless
 
 		public override void SetDefaults()
 		{
-			item.damage = 1150;
+			item.damage = 560;
 			item.knockBack = 5.5f;
 			item.useTime = item.useAnimation = 24;
 			item.shootSpeed = 12f;
@@ -36,8 +36,8 @@ namespace CalamityMod.Items.Weapons.Typeless
 			item.noMelee = true;
 			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LaserCannon");
+
 			item.value = CalamityGlobalItem.Rarity12BuyPrice;
-			item.rare = ItemRarityID.Purple;
 			item.Calamity().customRarity = CalamityRarity.Turquoise;
 		}
 

@@ -19,7 +19,6 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             item.width = 52;
             item.damage = 80; //50
-            item.crit += 12;
             item.noMelee = true;
             item.noUseGraphic = true;
             item.useAnimation = 12;
@@ -30,12 +29,15 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.autoReuse = true;
             item.height = 48;
             item.value = Item.buyPrice(0, 95, 0, 0);
-            item.rare = 9;
+            item.rare = ItemRarityID.Cyan;
             item.shoot = ModContent.ProjectileType<QuasarKnife>();
             item.shootSpeed = 20f;
             item.Calamity().rogue = true;
             item.Calamity().customRarity = CalamityRarity.RareVariant;
         }
+
+		// Terraria seems to really dislike high crit values in SetDefaults
+		public override void GetWeaponCrit(Player player, ref int crit) => crit += 12;
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {

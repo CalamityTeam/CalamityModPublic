@@ -86,7 +86,7 @@ namespace CalamityMod.Projectiles.Ranged
             {
                 Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<Shockblast>(), projectile.damage, 0f, projectile.owner, 0f, 0f);
             }
-            if (target.type == NPCID.TargetDummy || Main.player[projectile.owner].moonLeech)
+            if (Main.player[projectile.owner].moonLeech)
             {
                 return;
             }

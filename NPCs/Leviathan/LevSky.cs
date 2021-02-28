@@ -36,8 +36,8 @@ namespace CalamityMod.NPCs.Leviathan
 
 				float spawnAnimationTimer = 180f;
 				float intensityScalar = 1f;
-				if (Main.npc[CalamityGlobalNPC.leviathan].Calamity().newAI[3] < spawnAnimationTimer)
-					intensityScalar = MathHelper.Lerp(0f, intensityScalar, Main.npc[CalamityGlobalNPC.leviathan].Calamity().newAI[3] / spawnAnimationTimer);
+				if (Main.npc[LevIndex].Calamity().newAI[3] < spawnAnimationTimer)
+					intensityScalar = MathHelper.Lerp(0f, intensityScalar, Main.npc[LevIndex].Calamity().newAI[3] / spawnAnimationTimer);
 
 				return (1f - Utils.SmoothStep(3000f, 6000f, x)) * intensityScalar;
             }

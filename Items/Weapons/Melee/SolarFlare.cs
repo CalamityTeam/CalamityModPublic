@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.width = 40;
             item.height = 38;
             item.melee = true;
-            item.damage = 60;
+            item.damage = 74;
             item.knockBack = 7.5f;
             item.useTime = 20;
             item.useAnimation = 20;
@@ -37,9 +37,9 @@ namespace CalamityMod.Items.Weapons.Melee
             item.shoot = ModContent.ProjectileType<SolarFlareYoyo>();
             item.shootSpeed = 16f;
 
-            item.rare = 10;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
-            item.value = Item.buyPrice(platinum: 1, gold: 20);
-        }
+			item.value = CalamityGlobalItem.Rarity12BuyPrice;
+			item.rare = ItemRarityID.Purple;
+			item.Calamity().customRarity = CalamityRarity.Turquoise;
+		}
     }
 }

@@ -78,6 +78,9 @@ namespace CalamityMod.Projectiles
         public Action<NPC> organicEnemyHitEffect = null;
         public Action<NPC> inorganicEnemyHitEffect = null;
 
+        // Dogshit, hacky workarounds for the summon respawning system
+        public bool RequiresManualResurrection = false;
+
         public bool overridesMinionDamagePrevention = false;
 
         #region SetDefaults
@@ -88,6 +91,10 @@ namespace CalamityMod.Projectiles
 
             switch (projectile.type)
             {
+				case ProjectileID.FlamingJack:
+					projectile.extraUpdates = 1;
+					break;
+
                 case ProjectileID.ShadowBeamHostile:
                     projectile.timeLeft = 60;
                     break;
@@ -106,6 +113,7 @@ namespace CalamityMod.Projectiles
 
                 case ProjectileID.Retanimini:
                 case ProjectileID.MiniRetinaLaser:
+				case ProjectileID.FlowerPetal:
                     projectile.localNPCHitCooldown = 10;
                     projectile.usesLocalNPCImmunity = true;
                     projectile.usesIDStaticNPCImmunity = false;
@@ -116,11 +124,22 @@ namespace CalamityMod.Projectiles
                     projectile.idStaticNPCHitCooldown = 12;
                     break;
 
+				case ProjectileID.DD2BetsyFireball:
+				case ProjectileID.DD2BetsyFlameBreath:
+				case ProjectileID.CultistBossIceMist:
+				case ProjectileID.CultistBossFireBallClone:
+				case ProjectileID.CultistBossFireBall:
+				case ProjectileID.CultistBossLightningOrbArc:
+				case ProjectileID.InfernoHostileBlast:
+				case ProjectileID.RocketSkeleton:
+				case ProjectileID.DemonSickle:
+				case ProjectileID.Skull:
 				case ProjectileID.SniperBullet:
 				case ProjectileID.RuneBlast:
 				case ProjectileID.UnholyTridentHostile:
 				case ProjectileID.JavelinHostile:
 				case ProjectileID.FrostWave:
+				case ProjectileID.Present:
 				case ProjectileID.FlamingScythe:
 				case ProjectileID.SaucerDeathray:
 				case ProjectileID.SaucerMissile:
@@ -131,6 +150,7 @@ namespace CalamityMod.Projectiles
 				case ProjectileID.BombSkeletronPrime:
 				case ProjectileID.Sharknado:
 				case ProjectileID.Cthulunado:
+				case ProjectileID.PhantasmalSphere:
 				case ProjectileID.PhantasmalDeathray:
 					canBreakPlayerDefense = true;
 					break;
@@ -154,7 +174,16 @@ namespace CalamityMod.Projectiles
         #region PreAI
         public override bool PreAI(Projectile projectile)
         {
-			/*switch (projectile.type)
+            if (RequiresManualResurrection)
+            {
+                // Reactivate the projectile the instant it's created. This is dirty as fuck, but
+                // I can't find the offending Kill call in the frankly enormous codebase that causes this unusual instant-death behavior.
+                projectile.active = true;
+                projectile.timeLeft = 90000;
+                RequiresManualResurrection = false;
+            }
+
+            /*switch (projectile.type)
 			{
 				case ProjectileID.Hornet:
 				case ProjectileID.FlyingImp:
@@ -183,7 +212,7 @@ namespace CalamityMod.Projectiles
 					break;
 			}*/
 
-			if (projectile.type == ProjectileID.Starfury)
+            if (projectile.type == ProjectileID.Starfury)
             {
                 if (projectile.timeLeft > 45)
                     projectile.timeLeft = 45;
@@ -229,6 +258,61 @@ namespace CalamityMod.Projectiles
                 }
                 return false;
             }
+
+            if (projectile.type == ProjectileID.NurseSyringeHeal)
+            {
+                ref float initialSpeed = ref projectile.localAI[1];
+                if (initialSpeed == 0f)
+                    initialSpeed = projectile.velocity.Length();
+
+                bool invalidHealTarget = !Main.npc.IndexInRange((int)projectile.ai[0]) || !Main.npc[(int)projectile.ai[0]].active || !Main.npc[(int)projectile.ai[0]].townNPC;
+                if (invalidHealTarget)
+                {
+                    projectile.Kill();
+                    return false;
+                }
+
+                NPC npcToHeal = Main.npc[(int)projectile.ai[0]];
+
+                // If the needle is not colliding with the target, attempt to move towards it while falling.
+                if (!projectile.WithinRange(npcToHeal.Center, initialSpeed) && !projectile.Hitbox.Intersects(npcToHeal.Hitbox))
+                {
+                    Vector2 flySpeed = projectile.DirectionTo(npcToHeal.Center) * initialSpeed;
+
+                    // Prevent the needle from ever violating its gravity.
+                    if (flySpeed.Y < projectile.velocity.Y)
+                        flySpeed.Y = projectile.velocity.Y;
+
+                    flySpeed.Y++;
+
+                    projectile.velocity = Vector2.Lerp(projectile.velocity, flySpeed, 0.04f);
+                    projectile.rotation += projectile.velocity.X * 0.05f;
+                    return false;
+                }
+
+                // Otherwise, die immediately and heal the target.
+                projectile.Kill();
+
+                int healAmount = npcToHeal.lifeMax - npcToHeal.life;
+                int maxHealAmount = 20;
+
+                // If the target has more than 250 max life, incorporate their total life into the max amount to heal.
+                // This is done so that more powerful NPCs, such as Cirrus, do not take an eternity to receive meaningful healing benefits
+                // from the Nurse.
+                if (npcToHeal.lifeMax > 250)
+                    maxHealAmount = (int)Math.Max(maxHealAmount, npcToHeal.lifeMax * 0.05f);
+
+                if (healAmount > maxHealAmount)
+                    healAmount = maxHealAmount;
+
+                if (healAmount > 0)
+                {
+                    npcToHeal.life += healAmount;
+                    npcToHeal.HealEffect(healAmount, true);
+                    return false;
+                }
+                return false;
+			}
 
             if (CalamityWorld.revenge || BossRushEvent.BossRushActive)
             {
@@ -991,20 +1075,6 @@ namespace CalamityMod.Projectiles
             else if (projectile.type == ProjectileID.SoulDrain)
                 projectile.magic = true;
 
-            if (modPlayer.etherealExtorter)
-            {
-                if (CalamityLists.spikyBallProjList.Contains(projectile.type) && !extorterBoost && Main.moonPhase == 2) //third quarter
-                {
-                    projectile.timeLeft += 300;
-                    extorterBoost = true;
-                }
-                if (CalamityLists.javelinProjList.Contains(projectile.type) && !extorterBoost && player.ZoneCrimson)
-                {
-                    projectile.knockBack *= 2;
-                    extorterBoost = true;
-                }
-            }
-
             if (projectile.type == ProjectileID.OrnamentFriendly && lineColor == 1) //spawned by Festive Wings
             {
                 Vector2 center = projectile.Center;
@@ -1082,12 +1152,12 @@ namespace CalamityMod.Projectiles
                                 vector24 -= new Vector2(player.bodyFrame.Width - player.width, player.bodyFrame.Height - 42) / 2f;
                                 Vector2 newCenter = player.RotatedRelativePoint(player.position + vector24, true) + projectile.velocity;
                                 Projectile.NewProjectile(newCenter.X, newCenter.Y, 0f, 0f, ProjectileID.Mushroom,
-                                    CalamityUtils.DamageSoftCap(projectile.damage * 0.25, 100), 0f, projectile.owner, 0f, 0f);
+									(int)(projectile.damage * 0.15), 0f, projectile.owner, 0f, 0f);
                             }
                             else
                             {
                                 Projectile.NewProjectile(projectile.Center, Vector2.Zero, ProjectileID.Mushroom,
-                                    CalamityUtils.DamageSoftCap(projectile.damage * 0.25, 100), 0f, projectile.owner, 0f, 0f);
+                                    (int)(projectile.damage * 0.15), 0f, projectile.owner, 0f, 0f);
                             }
                         }
                     }
@@ -1112,7 +1182,7 @@ namespace CalamityMod.Projectiles
                         // Summon moon sigils infrequently
                         if (Main.rand.NextBool(300) && projectile.type != ProjectileType<MoonSigil>() && projectile.type != ProjectileType<DragonShit>())
                         {
-                            Projectile.NewProjectile(projectile.Center, Vector2.Zero, ProjectileType<MoonSigil>(), CalamityUtils.DamageSoftCap(projectile.damage * 0.2, 75), 0, projectile.owner);
+                            Projectile.NewProjectile(projectile.Center, Vector2.Zero, ProjectileType<MoonSigil>(), (int)(projectile.damage * 0.2), 0, projectile.owner);
                         }
                     }
                     if (modPlayer.dragonScales && projectile.type != ProjectileType<MoonSigil>() && projectile.type != ProjectileType<DragonShit>())
@@ -1123,7 +1193,7 @@ namespace CalamityMod.Projectiles
                             {
                                 // Spawn a dust that does 1/5th of the original damage
                                 Projectile.NewProjectile(projectile.Center, Vector2.One.RotatedByRandom(MathHelper.TwoPi), ProjectileType<DragonShit>(),
-                                    CalamityUtils.DamageSoftCap(projectile.damage * 0.2, 300), 0f, projectile.owner, 0f, 0f);
+                                    (int)(projectile.damage * 0.2), 0f, projectile.owner, 0f, 0f);
                             }
                         }
                     }
@@ -1237,17 +1307,6 @@ namespace CalamityMod.Projectiles
                     {
                         int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 91, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f, 0, default, 0.5f);
                         Main.dust[dust].noGravity = true;
-                    }
-                }
-
-                if (modPlayer.providenceLore && projectile.owner == Main.myPlayer && projectile.damage > 0 &&
-                    (projectile.melee || projectile.ranged || projectile.magic || projectile.thrown || rogue))
-                {
-                    if (Main.rand.NextBool(5))
-                    {
-                        int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, (int)CalamityDusts.ProfanedFire, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f, 0, default, 0.5f);
-                        Main.dust[dust].noGravity = true;
-                        Main.dust[dust].noLight = true;
                     }
                 }
 
@@ -1604,24 +1663,14 @@ namespace CalamityMod.Projectiles
             CalamityPlayer modPlayer = Main.player[projectile.owner].Calamity();
             if (projectile.owner == Main.myPlayer && !projectile.npcProj && !projectile.trap)
             {
-                if (modPlayer.providenceLore && projectile.friendly && projectile.damage > 0 && (projectile.melee || projectile.ranged || projectile.magic || rogue))
-                {
-                    Main.PlaySound(SoundID.Item20, projectile.Center);
-                    for (int dustIndex = 0; dustIndex < 3; dustIndex++)
-                    {
-                        int fire = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, (int)CalamityDusts.ProfanedFire, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f, 0, default, 1f);
-                        Main.dust[fire].noGravity = true;
-                    }
-                }
-
                 if (rogue)
                 {
-                    if (modPlayer.etherealExtorter && Main.rand.Next(0, 100) >= 95)
+                    if (modPlayer.etherealExtorter && Main.player[projectile.owner].ownedProjectileCounts[ProjectileType<LostSoulFriendly>()] < 10)
                     {
-                        for (int i = 0; i < 3; i++)
+                        for (int i = 0; i < 2; i++)
                         {
                             Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
-                            int soul = Projectile.NewProjectile(projectile.Center, velocity, ProjectileType<LostSoulFriendly>(), CalamityUtils.DamageSoftCap(projectile.damage * 0.33, 50), 0f, projectile.owner, 0f, 0f);
+                            int soul = Projectile.NewProjectile(projectile.Center, velocity, ProjectileType<LostSoulFriendly>(), (int)(projectile.damage * 0.1), 0f, projectile.owner, 0f, 0f);
                             Main.projectile[soul].tileCollide = false;
                         }
                     }

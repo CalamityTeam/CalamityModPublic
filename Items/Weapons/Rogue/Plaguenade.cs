@@ -12,8 +12,8 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Plaguenade");
-            Tooltip.SetDefault("Releases a swarm of angry plague bees\n" +
-			"Stealth strikes spawn more bees and generate a larger explosion");
+            Tooltip.SetDefault("Releases a swarm of angry plague bees\n" + 
+                "Stealth strikes spawn more bees and generate a larger explosion");
         }
 
         public override void SafeSetDefaults()
@@ -31,12 +31,12 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             item.height = 28;
-            item.value = Item.buyPrice(0, 1, 0, 0);
-            item.rare = 8;
+            item.value = Item.buyPrice(gold: 1);
+            item.rare = ItemRarityID.Yellow;
+            item.Calamity().donorItem = true;
             item.shoot = ModContent.ProjectileType<PlaguenadeProj>();
             item.shootSpeed = 12f;
             item.Calamity().rogue = true;
-            item.Calamity().customRarity = CalamityRarity.Dedicated;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -44,9 +44,9 @@ namespace CalamityMod.Items.Weapons.Rogue
             if (player.Calamity().StealthStrikeAvailable())
             {
                 int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI, 0f, 0f);
-				if (proj.WithinBounds(Main.maxProjectiles))
-					Main.projectile[proj].Calamity().stealthStrike = true;
-				return false;
+                if (proj.WithinBounds(Main.maxProjectiles))
+                    Main.projectile[proj].Calamity().stealthStrike = true;
+                return false;
             }
             return true;
         }

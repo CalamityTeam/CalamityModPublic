@@ -16,8 +16,8 @@ namespace CalamityMod.Items.Pets
 		{
 			DisplayName.SetDefault("Triboluminescent Etomer");
 			Tooltip.SetDefault("Summons an electric troublemaker\n" +
-			"A little note is attached:\n" +
-			"Thank you, Aloe! Very much appreciated from Ben");
+				"A little note is attached:\n" +
+				"Thank you, Aloe! Very much appreciated from Ben");
 		}
 
 		public override void SetDefaults()
@@ -32,8 +32,10 @@ namespace CalamityMod.Items.Pets
 			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.noMelee = true;
 			item.UseSound = SoundID.Item113;
-			item.value = Item.buyPrice(0, 4, 0, 0);
-			item.rare = 3;
+
+			item.value = Item.buyPrice(gold: 4);
+			item.rare = ItemRarityID.Orange;
+			item.Calamity().devItem = true;
 		}
 
 		public override void UseStyle(Player player)

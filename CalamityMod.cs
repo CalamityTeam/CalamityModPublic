@@ -61,6 +61,7 @@ namespace CalamityMod
     public class CalamityMod : Mod
     {
         // CONSIDER -- I have been advised by Jopo that Mods should never contain static variables
+        // TODO -- 1.4 fixes the crit reforge price calculation bug, so GetWeaponCrit everywhere can go.
 
         // Hotkeys
         public static ModHotKey NormalityRelocatorHotKey;
@@ -219,7 +220,7 @@ namespace CalamityMod
 
             CalamityShaders.LoadShaders();
 
-            RipperUI.Reset();
+            RipperUI.Load();
             AstralArcanumUI.Load(this);
 
             GameShaders.Hair.BindShader(ModContent.ItemType<AdrenalineHairDye>(), new LegacyHairShaderData().UseLegacyMethod((Player player, Color newColor, ref bool lighting) => Color.Lerp(player.hairColor, new Color(0, 255, 171), ((float)player.Calamity().adrenaline / (float)player.Calamity().adrenalineMax))));
@@ -273,7 +274,7 @@ namespace CalamityMod
 
             TileFraming.Unload();
 
-            RipperUI.Reset();
+            RipperUI.Unload();
             AstralArcanumUI.Unload();
 
             if (!Main.dedServ)
@@ -843,6 +844,13 @@ namespace CalamityMod
                 layers.Insert(mouseIndex, new LegacyGameInterfaceLayer("Stealth UI", () =>
                 {
                     StealthUI.Draw(Main.spriteBatch, Main.LocalPlayer);
+                    return true;
+                }, InterfaceScaleType.None));
+
+                // Charge meter
+                layers.Insert(mouseIndex, new LegacyGameInterfaceLayer("Charge UI", () =>
+                {
+                    ChargeMeterUI.Draw(Main.spriteBatch, Main.LocalPlayer);
                     return true;
                 }, InterfaceScaleType.None));
 
@@ -1452,13 +1460,5 @@ namespace CalamityMod
         #region Tile Entity Time Handler
         public override void MidUpdateTimeWorld() =>  TileEntityTimeHandler.Update();
         #endregion
-    }
-
-    public enum Season : byte
-    {
-        Winter,
-        Spring,
-        Summer,
-        Fall
     }
 }

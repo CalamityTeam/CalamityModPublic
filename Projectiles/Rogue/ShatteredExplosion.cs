@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Explosion");
+            DisplayName.SetDefault("Shattered Sun Blast");
         }
 
         public override void SetDefaults()

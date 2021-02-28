@@ -4,6 +4,8 @@ using CalamityMod.Projectiles.Typeless;
 using CalamityMod.World;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
+
 namespace CalamityMod.Items.Accessories
 {
     public class GladiatorsLocket : ModItem
@@ -19,7 +21,7 @@ namespace CalamityMod.Items.Accessories
             item.width = 42;
             item.height = 36;
             item.value = CalamityGlobalItem.Rarity3BuyPrice;
-            item.rare = 3;
+            item.rare = ItemRarityID.Orange;
             item.defense = 5;
             item.accessory = true;
         }

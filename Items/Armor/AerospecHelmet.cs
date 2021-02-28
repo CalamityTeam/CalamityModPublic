@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Armor
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Aerospec Helmet");
-            Tooltip.SetDefault("5% increased movement speed and +1 max minion");
+            Tooltip.SetDefault("5% increased movement speed");
         }
 
         public override void SetDefaults()
@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Armor
             item.width = 18;
             item.height = 18;
             item.value = Item.buyPrice(0, 5, 0, 0);
-            item.rare = 3;
+            item.rare = ItemRarityID.Orange;
             item.defense = 2; //13
         }
 
@@ -38,7 +38,7 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateArmorSet(Player player)
         {
-            player.setBonus = "16% increased minion damage\n" +
+            player.setBonus = "16% increased minion damage and +1 max minion\n" +
                 "Summons a valkyrie to protect you\n" +
                 "Taking over 25 damage in one hit will cause a spread of homing feathers to fall\n" +
                 "Allows you to fall more quickly and disables fall damage";
@@ -58,12 +58,12 @@ namespace CalamityMod.Items.Armor
                 }
             }
             player.minionDamage += 0.16f;
-        }
+			player.maxMinions++;
+		}
 
-        public override void UpdateEquip(Player player)
+		public override void UpdateEquip(Player player)
         {
             player.moveSpeed += 0.05f;
-            player.maxMinions++;
         }
 
         public override void AddRecipes()

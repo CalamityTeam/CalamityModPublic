@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Mad Alchemist's Cocktail Green");
+            DisplayName.SetDefault("Mad Alchemist's Green Cocktail");
         }
 
         public override void SetDefaults()
@@ -44,7 +44,7 @@ namespace CalamityMod.Projectiles.Magic
             Main.PlaySound(SoundID.Item88, projectile.position);
             Gore.NewGore(projectile.Center, -projectile.oldVelocity * 0.2f, 704, 1f);
             Gore.NewGore(projectile.Center, -projectile.oldVelocity * 0.2f, 705, 1f);
-            for (int num118 = 0; num118 < 3; num118++)
+            for (int i = 0; i < 3; i++)
             {
                 float x = projectile.position.X + (float)Main.rand.Next(-100, 100);
                 float y = projectile.position.Y - (float)Main.rand.Next(500, 600);

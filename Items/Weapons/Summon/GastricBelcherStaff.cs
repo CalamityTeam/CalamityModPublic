@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Weapons.Summon
             item.noMelee = true;
             item.knockBack = 1f;
             item.value = CalamityGlobalItem.Rarity7BuyPrice;
-            item.rare = 7;
+            item.rare = ItemRarityID.Lime;
             item.UseSound = SoundID.Item76;
             item.shoot = ModContent.ProjectileType<GastricBelcher>();
             item.shootSpeed = 10f;

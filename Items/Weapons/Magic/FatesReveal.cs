@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.damage = 60;
+            item.damage = 50;
             item.magic = true;
             item.mana = 20;
             item.width = 80;
@@ -29,26 +29,21 @@ namespace CalamityMod.Items.Weapons.Magic
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 5.5f;
-            item.value = Item.buyPrice(1, 40, 0, 0);
-            item.rare = 10;
             item.UseSound = SoundID.Item20;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<FatesRevealFlame>();
             item.shootSpeed = 1f;
+
+            item.value = CalamityGlobalItem.Rarity13BuyPrice;
             item.Calamity().customRarity = CalamityRarity.PureGreen;
         }
 
-        /*public override Vector2? HoldoutOrigin()
+        public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
-            return new Vector2(15, 15);
-        }*/
+            item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.GetTexture("CalamityMod/Items/Weapons/Magic/FatesRevealGlow"));
+        }
 
-		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
-		{
-			item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.GetTexture("CalamityMod/Items/Weapons/Magic/FatesRevealGlow"));
-		}
-
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             Vector2 vector = player.RotatedRelativePoint(player.MountedCenter, true);
             float num78 = (float)Main.mouseX + Main.screenPosition.X - vector.X;
@@ -69,11 +64,12 @@ namespace CalamityMod.Items.Weapons.Magic
                 num80 = item.shootSpeed / num80;
             }
             vector += new Vector2(num78, num79);
-            int num107 = 5;
-            for (int num108 = 0; num108 < num107; num108++)
+
+            int numProjectiles = 5;
+            for (int i = 0; i < numProjectiles; i++)
             {
                 vector.X += (float)Main.rand.Next(-100, 101);
-                vector.Y += (float)(Main.rand.Next(-25, 26) * num108);
+                vector.Y += (float)(Main.rand.Next(-25, 26) * i);
                 float spawnX = vector.X;
                 float spawnY = vector.Y;
                 Projectile.NewProjectile(spawnX, spawnY, 0f, 0f, type, damage, knockBack, player.whoAmI, 0f, (float)Main.rand.Next(3));

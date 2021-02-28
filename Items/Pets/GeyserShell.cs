@@ -25,7 +25,7 @@ namespace CalamityMod.Items.Pets
             item.value = Item.sellPrice(0, 1, 50, 0);
             item.shoot = ModContent.ProjectileType<FlakPet>();
             item.buffType = ModContent.BuffType<FlakPetBuff>();
-            item.rare = 6;
+            item.rare = ItemRarityID.LightPurple;
             item.UseSound = SoundID.Item2;
         }
 

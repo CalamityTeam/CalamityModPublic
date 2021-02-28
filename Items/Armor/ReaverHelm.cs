@@ -23,7 +23,7 @@ namespace CalamityMod.Items.Armor
             item.width = 28;
             item.height = 30;
             item.value = Item.buyPrice(0, 30, 0, 0);
-            item.rare = 7;
+            item.rare = ItemRarityID.Lime;
             item.defense = 30; //63 => 73 w/ set bonus (+5 w/ Reaver Rage)
         }
 
@@ -45,9 +45,11 @@ namespace CalamityMod.Items.Armor
             player.moveSpeed -= 0.2f;
 			player.statDefense += 10;
 			player.lifeRegen += 3;
+            player.aggro += 600;
             modPlayer.reaverDefense = true;
             modPlayer.wearingRogueArmor = true;
             player.setBonus = "+10 defense and +3 life regen\n" +
+			"Enemies are more likely to target you\n" +
 			"Reduces the life regen lost from damage over time debuffs by 20%\n" +
 			"All attacks have a small chance to steal life and speed up the rate of life regen\n" +
 			"20% decreased movement speed and flight time\n" +

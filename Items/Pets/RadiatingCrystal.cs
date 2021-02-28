@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Pets
             item.shoot = ModContent.ProjectileType<RadiatorPet>();
             item.buffType = ModContent.BuffType<RadiatorBuff>();
             item.value = Item.sellPrice(silver: 20);
-            item.rare = 3;
+            item.rare = ItemRarityID.Orange;
         }
 
         public override void UseStyle(Player player)

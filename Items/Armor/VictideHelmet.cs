@@ -14,8 +14,7 @@ namespace CalamityMod.Items.Armor
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Victide Helmet");
-            Tooltip.SetDefault("9% increased minion damage\n" +
-                "+1 max minion");
+            Tooltip.SetDefault("9% increased minion damage");
         }
 
         public override void SetDefaults()
@@ -23,7 +22,7 @@ namespace CalamityMod.Items.Armor
             item.width = 18;
             item.height = 18;
             item.value = Item.buyPrice(0, 1, 50, 0);
-            item.rare = 2;
+            item.rare = ItemRarityID.Green;
             item.defense = 1; //8
         }
 
@@ -38,11 +37,13 @@ namespace CalamityMod.Items.Armor
                 "Summons a sea urchin to protect you\n" +
                 "When using any weapon you have a 10% chance to throw a returning seashell projectile\n" +
                 "This seashell does true damage and does not benefit from any damage class\n" +
-                "Provides increased underwater mobility and slightly reduces breath loss in the abyss";
+                "Provides increased underwater mobility and slightly reduces breath loss in the abyss\n" +
+				"+1 max minion";
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.victideSet = true;
             modPlayer.urchin = true;
-            if (player.whoAmI == Main.myPlayer)
+			player.maxMinions++;
+			if (player.whoAmI == Main.myPlayer)
             {
                 if (player.FindBuffIndex(ModContent.BuffType<VictideSummonSetBuff>()) == -1)
                 {
@@ -64,7 +65,6 @@ namespace CalamityMod.Items.Armor
         public override void UpdateEquip(Player player)
         {
             player.minionDamage += 0.09f;
-            player.maxMinions++;
         }
 
         public override void AddRecipes()

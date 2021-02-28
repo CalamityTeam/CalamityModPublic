@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void SetDefaults()
         {
-            item.damage = 75;
+            item.damage = 45;
             item.mana = 10;
             item.width = 66;
             item.height = 70;
@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Weapons.Summon
             item.noMelee = true;
             item.knockBack = 1f;
             item.value = Item.buyPrice(1, 40, 0, 0);
-            item.rare = 10;
+            item.rare = ItemRarityID.Red;
             item.UseSound = SoundID.Item82;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<PhantomGuy>();

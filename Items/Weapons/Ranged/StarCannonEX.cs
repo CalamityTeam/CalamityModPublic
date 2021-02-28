@@ -26,7 +26,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.useTime = 10;
             item.useAnimation = 10;
             item.useStyle = ItemUseStyleID.HoldingOut;
-            item.rare = 7;
+            item.rare = ItemRarityID.Lime;
             item.noMelee = true;
             item.knockBack = 8f;
             item.value = Item.buyPrice(0, 60, 0, 0);
