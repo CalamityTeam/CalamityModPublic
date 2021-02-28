@@ -906,7 +906,6 @@ namespace CalamityMod.CalPlayer
         public bool brimseeker = false;
         public bool necrosteocytesDudes = false;
         public bool gammaHead = false;
-        public List<int> GammaCanisters = new List<int>();
         public bool rustyDrone = false;
         public bool tundraFlameBlossom = false;
         public bool starSwallowerPetFroge = false;
