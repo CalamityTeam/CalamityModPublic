@@ -69,7 +69,7 @@ using Terraria.ModLoader.IO;
 
 namespace CalamityMod.CalPlayer
 {
-    public class CalamityPlayer : ModPlayer
+    public partial class CalamityPlayer : ModPlayer
     {
         #region Variables
 
@@ -222,7 +222,11 @@ namespace CalamityMod.CalPlayer
         public int auralisAurora = 0;
         public int fungalSymbioteTimer = 0;
         public int aBulwarkRareTimer = 0;
-		public int dodgeCooldownTimer = 0;
+
+        public const int BeltDodgeCooldown = 3600;
+        public const int MirrorDodgeCooldown = 4500;
+        public int dodgeCooldownTimer = 0;
+
 		public bool canFireAtaxiaRangedProjectile = false;
         public bool canFireAtaxiaRogueProjectile = false;
         public bool canFireGodSlayerRangedProjectile = false;
@@ -3949,7 +3953,7 @@ namespace CalamityMod.CalPlayer
         {
             if (player.whoAmI == Main.myPlayer && abyssalMirror && !abyssalMirrorCooldown && !eclipseMirror)
             {
-				dodgeCooldownTimer = 4500;
+                dodgeCooldownTimer = MirrorDodgeCooldown;
 				player.AddBuff(ModContent.BuffType<AbyssalMirrorCooldown>(), dodgeCooldownTimer);
                 player.immune = true;
                 player.immuneTime = player.longInvince ? 100 : 60;
@@ -3986,7 +3990,7 @@ namespace CalamityMod.CalPlayer
         {
             if (player.whoAmI == Main.myPlayer && eclipseMirror && !eclipseMirrorCooldown)
             {
-				dodgeCooldownTimer = 4500;
+                dodgeCooldownTimer = MirrorDodgeCooldown;
 				player.AddBuff(ModContent.BuffType<EclipseMirrorCooldown>(), dodgeCooldownTimer);
                 player.immune = true;
                 player.immuneTime = player.longInvince ? 100 : 60;

@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.CalPlayer
 {
-    public partial class CalamityPlayer
+    public partial class CalamityPlayer : ModPlayer
     {
         #region Standard Syncs
         internal const int GlobalSyncPacketTimer = 15;
@@ -34,7 +34,6 @@ namespace CalamityMod.CalPlayer
             SyncLevel(false, 2);
             SyncLevel(false, 3);
             SyncLevel(false, 4);
-            SyncRage(false);
         }
         #endregion
 
