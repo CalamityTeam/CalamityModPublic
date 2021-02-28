@@ -4710,7 +4710,10 @@ namespace CalamityMod.CalPlayer
                     break;
 
                 case ItemID.AdamantiteSword:
-                    target.velocity *= 0.5f;
+					float slowDownMult = 0.5f;
+					if (CalamityLists.enemyImmunityList.Contains(npc.type) || npc.boss)
+						slowDownMult = 0.95f;
+					target.velocity *= slowDownMult;
                     break;
 
                 case ItemID.CandyCaneSword:
@@ -4808,7 +4811,10 @@ namespace CalamityMod.CalPlayer
                     break;
 
                 case ProjectileID.AdamantiteGlaive:
-                    target.velocity *= 0.5f;
+					float slowDownMult = 0.5f;
+					if (CalamityLists.enemyImmunityList.Contains(npc.type) || npc.boss)
+						slowDownMult = 0.95f;
+					target.velocity *= slowDownMult;
                     break;
 
                 case ProjectileID.FruitcakeChakram:
@@ -8405,7 +8411,7 @@ namespace CalamityMod.CalPlayer
                 }
                 else if (dashMod == 3) //Elysian Aegis
                 {
-                    if (DoADash(21.9f))
+                    if (DoADash(21.5f))
                     {
                         for (int d = 0; d < 40; d++)
                         {
@@ -8423,7 +8429,7 @@ namespace CalamityMod.CalPlayer
                 }
                 else if (dashMod == 4) //Asgardian Aegis
                 {
-                    if (DoADash(22.7f))
+                    if (DoADash(23.3f))
                     {
                         for (int d = 0; d < 60; d++)
                         {

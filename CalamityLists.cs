@@ -548,7 +548,8 @@ namespace CalamityMod
                 NPCType<SlimeGod>(),
                 NPCType<SlimeGodRun>(),
                 NPCType<SlimeGodSplit>(),
-                NPCType<SlimeGodRunSplit>()
+                NPCType<SlimeGodRunSplit>(),
+                NPCType<BobbitWormHead>()
             };
 
             confusionEnemyList = new List<int>()
