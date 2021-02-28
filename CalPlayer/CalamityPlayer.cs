@@ -3970,10 +3970,15 @@ namespace CalamityMod.CalPlayer
                     Main.projectile[lumenyl].frame = Main.rand.Next(0, 4);
                 }
 
+                // TODO -- Calamity dodges should probably not send a vanilla dodge packet considering that causes Tabi dust
                 if (player.whoAmI == Main.myPlayer)
                 {
                     NetMessage.SendData(MessageID.Dodge, -1, -1, null, player.whoAmI, 1f, 0f, 0f, 0, 0, 0);
                 }
+
+                // Send a Calamity dodge cooldown packet.
+                if (Main.netMode == NetmodeID.MultiplayerClient && player.whoAmI == Main.myPlayer)
+                    SyncDodgeCooldown(false);
             }
         }
 
@@ -3996,10 +4001,15 @@ namespace CalamityMod.CalPlayer
                 Main.PlaySound(SoundID.Item68, player.Center);
                 Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<EclipseMirrorBurst>(), (int)(5500 * player.RogueDamage()), 0, player.whoAmI);
 
+                // TODO -- Calamity dodges should probably not send a vanilla dodge packet considering that causes Tabi dust
                 if (player.whoAmI == Main.myPlayer)
                 {
                     NetMessage.SendData(MessageID.Dodge, -1, -1, null, player.whoAmI, 1f, 0f, 0f, 0, 0, 0);
                 }
+
+                // Send a Calamity dodge cooldown packet.
+                if (Main.netMode == NetmodeID.MultiplayerClient && player.whoAmI == Main.myPlayer)
+                    SyncDodgeCooldown(false);
             }
         }
         #endregion
@@ -4350,7 +4360,7 @@ namespace CalamityMod.CalPlayer
             deathCount++;
             if (player.whoAmI == Main.myPlayer && Main.netMode == NetmodeID.MultiplayerClient)
             {
-                DeathPacket(false);
+                SyncDeathCount(false);
             }
 
             return true;
@@ -5191,7 +5201,7 @@ namespace CalamityMod.CalPlayer
                             shootFireworksLevelUpMelee = true;
 
                             if (Main.netMode == NetmodeID.MultiplayerClient)
-                                LevelPacket(false, (int)ClassType.Melee);
+                                SyncLevel(false, (int)ClassType.Melee);
                         }
                     }
                 }
@@ -5470,7 +5480,7 @@ namespace CalamityMod.CalPlayer
                         shootFireworksLevelUpMelee = true;
 
                         if (Main.netMode == NetmodeID.MultiplayerClient)
-                            LevelPacket(false, (int)ClassType.Melee);
+                            SyncLevel(false, (int)ClassType.Melee);
                     }
                     else if (proj.ranged && rangedLevel <= 12500)
                     {
@@ -5491,7 +5501,7 @@ namespace CalamityMod.CalPlayer
                         shootFireworksLevelUpRanged = true;
 
                         if (Main.netMode == NetmodeID.MultiplayerClient)
-                            LevelPacket(false, (int)ClassType.Ranged);
+                            SyncLevel(false, (int)ClassType.Ranged);
                     }
                     else if (proj.magic && magicLevel <= 12500)
                     {
@@ -5512,7 +5522,7 @@ namespace CalamityMod.CalPlayer
                         shootFireworksLevelUpMagic = true;
 
                         if (Main.netMode == NetmodeID.MultiplayerClient)
-                            LevelPacket(false, (int)ClassType.Magic);
+                            SyncLevel(false, (int)ClassType.Magic);
                     }
                     else if (proj.IsSummon() && summonLevel <= 12500)
                     {
@@ -5533,7 +5543,7 @@ namespace CalamityMod.CalPlayer
                         shootFireworksLevelUpSummon = true;
 
                         if (Main.netMode == NetmodeID.MultiplayerClient)
-                            LevelPacket(false, (int)ClassType.Summon);
+                            SyncLevel(false, (int)ClassType.Summon);
                     }
                     else if (proj.Calamity().rogue && rogueLevel <= 12500)
                     {
@@ -5554,7 +5564,7 @@ namespace CalamityMod.CalPlayer
                         shootFireworksLevelUpRogue = true;
 
                         if (Main.netMode == NetmodeID.MultiplayerClient)
-                            LevelPacket(false, (int)ClassType.Rogue);
+                            SyncLevel(false, (int)ClassType.Rogue);
                     }
                 }
             }
@@ -7805,7 +7815,7 @@ namespace CalamityMod.CalPlayer
             deathCount++;
             if (player.whoAmI == Main.myPlayer && Main.netMode == NetmodeID.MultiplayerClient)
             {
-                DeathPacket(false);
+                SyncDeathCount(false);
             }
             player.lastDeathPostion = player.Center;
             player.lastDeathTime = DateTime.Now;
@@ -9075,339 +9085,6 @@ namespace CalamityMod.CalPlayer
         }
         #endregion
 
-        #region Packet Stuff
-        private void ExactLevelPacket(bool server, int levelType)
-        {
-            ModPacket packet = mod.GetPacket(256);
-            switch (levelType)
-            {
-                case 0:
-                    packet.Write((byte)CalamityModMessageType.ExactMeleeLevelSync);
-                    packet.Write(player.whoAmI);
-                    packet.Write(exactMeleeLevel);
-                    break;
-                case 1:
-                    packet.Write((byte)CalamityModMessageType.ExactRangedLevelSync);
-                    packet.Write(player.whoAmI);
-                    packet.Write(exactRangedLevel);
-                    break;
-                case 2:
-                    packet.Write((byte)CalamityModMessageType.ExactMagicLevelSync);
-                    packet.Write(player.whoAmI);
-                    packet.Write(exactMagicLevel);
-                    break;
-                case 3:
-                    packet.Write((byte)CalamityModMessageType.ExactSummonLevelSync);
-                    packet.Write(player.whoAmI);
-                    packet.Write(exactSummonLevel);
-                    break;
-                case 4:
-                    packet.Write((byte)CalamityModMessageType.ExactRogueLevelSync);
-                    packet.Write(player.whoAmI);
-                    packet.Write(exactRogueLevel);
-                    break;
-            }
-
-            if (!server)
-                packet.Send();
-            else
-                packet.Send(-1, player.whoAmI);
-        }
-
-        private void LevelPacket(bool server, int levelType)
-        {
-            ModPacket packet = mod.GetPacket(256);
-            switch (levelType)
-            {
-                case 0:
-                    packet.Write((byte)CalamityModMessageType.MeleeLevelSync);
-                    packet.Write(player.whoAmI);
-                    packet.Write(meleeLevel);
-                    break;
-                case 1:
-                    packet.Write((byte)CalamityModMessageType.RangedLevelSync);
-                    packet.Write(player.whoAmI);
-                    packet.Write(rangedLevel);
-                    break;
-                case 2:
-                    packet.Write((byte)CalamityModMessageType.MagicLevelSync);
-                    packet.Write(player.whoAmI);
-                    packet.Write(magicLevel);
-                    break;
-                case 3:
-                    packet.Write((byte)CalamityModMessageType.SummonLevelSync);
-                    packet.Write(player.whoAmI);
-                    packet.Write(summonLevel);
-                    break;
-                case 4:
-                    packet.Write((byte)CalamityModMessageType.RogueLevelSync);
-                    packet.Write(player.whoAmI);
-                    packet.Write(rogueLevel);
-                    break;
-            }
-
-            if (!server)
-                packet.Send();
-            else
-                packet.Send(-1, player.whoAmI);
-        }
-
-        public void RagePacket(bool server)
-        {
-            ModPacket packet = mod.GetPacket(256);
-            packet.Write((byte)CalamityModMessageType.RageSync);
-            packet.Write(player.whoAmI);
-            packet.Write(rage);
-
-            if (!server)
-                packet.Send();
-            else
-                packet.Send(-1, player.whoAmI);
-        }
-
-        public void AdrenalinePacket(bool server)
-        {
-            ModPacket packet = mod.GetPacket(256);
-            packet.Write((byte)CalamityModMessageType.AdrenalineSync);
-            packet.Write(player.whoAmI);
-            packet.Write(adrenaline);
-
-            if (!server)
-                packet.Send();
-            else
-                packet.Send(-1, player.whoAmI);
-        }
-
-        private void DeathPacket(bool server)
-        {
-            ModPacket packet = mod.GetPacket(256);
-            packet.Write((byte)CalamityModMessageType.DeathCountSync);
-            packet.Write(player.whoAmI);
-            packet.Write(deathCount);
-
-            if (!server)
-                packet.Send();
-            else
-                packet.Send(-1, player.whoAmI);
-        }
-
-        public void DeathModeUnderworldTimePacket(bool server)
-        {
-            ModPacket packet = mod.GetPacket(256);
-            packet.Write((byte)CalamityModMessageType.DeathModeUnderworldTimeSync);
-            packet.Write(player.whoAmI);
-            packet.Write(deathModeUnderworldTime);
-
-            if (!server)
-                packet.Send();
-            else
-                packet.Send(-1, player.whoAmI);
-        }
-
-        public void DeathModeBlizzardTimePacket(bool server)
-        {
-            ModPacket packet = mod.GetPacket(256);
-            packet.Write((byte)CalamityModMessageType.DeathModeBlizzardTimeSync);
-            packet.Write(player.whoAmI);
-            packet.Write(deathModeBlizzardTime);
-
-            if (!server)
-                packet.Send();
-            else
-                packet.Send(-1, player.whoAmI);
-        }
-
-        public void ItemTypeLastReforgedPacket(bool server)
-        {
-            ModPacket packet = mod.GetPacket(256);
-            packet.Write((byte)CalamityModMessageType.ItemTypeLastReforgedSync);
-            packet.Write(player.whoAmI);
-            packet.Write(itemTypeLastReforged);
-
-            if (!server)
-                packet.Send();
-            else
-                packet.Send(-1, player.whoAmI);
-        }
-
-        public void ReforgeTierSafetyPacket(bool server)
-        {
-            ModPacket packet = mod.GetPacket(256);
-            packet.Write((byte)CalamityModMessageType.ReforgeTierSafetySync);
-            packet.Write(player.whoAmI);
-            packet.Write(reforgeTierSafety);
-
-            if (!server)
-                packet.Send();
-            else
-                packet.Send(-1, player.whoAmI);
-        }
-
-        public void MoveSpeedStatPacket(bool server)
-        {
-            ModPacket packet = mod.GetPacket(256);
-            packet.Write((byte)CalamityModMessageType.MoveSpeedStatSync);
-            packet.Write(player.whoAmI);
-            packet.Write(moveSpeedStat);
-
-            if (!server)
-                packet.Send();
-            else
-                packet.Send(-1, player.whoAmI);
-        }
-
-        public void DefenseDamagePacket(bool server)
-        {
-            ModPacket packet = mod.GetPacket(256);
-            packet.Write((byte)CalamityModMessageType.DefenseDamageSync);
-            packet.Write(player.whoAmI);
-            packet.Write(defenseDamage);
-
-            if (!server)
-                packet.Send();
-            else
-                packet.Send(-1, player.whoAmI);
-        }
-
-        internal void HandleExactLevels(BinaryReader reader, int levelType)
-        {
-            switch (levelType)
-            {
-                case 0:
-                    exactMeleeLevel = reader.ReadInt32();
-                    break;
-                case 1:
-                    exactRangedLevel = reader.ReadInt32();
-                    break;
-                case 2:
-                    exactMagicLevel = reader.ReadInt32();
-                    break;
-                case 3:
-                    exactSummonLevel = reader.ReadInt32();
-                    break;
-                case 4:
-                    exactRogueLevel = reader.ReadInt32();
-                    break;
-            }
-
-            if (Main.netMode == NetmodeID.Server)
-                ExactLevelPacket(true, levelType);
-        }
-
-        internal void HandleLevels(BinaryReader reader, int levelType)
-        {
-            switch (levelType)
-            {
-                case 0:
-                    meleeLevel = reader.ReadInt32();
-                    break;
-                case 1:
-                    rangedLevel = reader.ReadInt32();
-                    break;
-                case 2:
-                    magicLevel = reader.ReadInt32();
-                    break;
-                case 3:
-                    summonLevel = reader.ReadInt32();
-                    break;
-                case 4:
-                    rogueLevel = reader.ReadInt32();
-                    break;
-            }
-
-            if (Main.netMode == NetmodeID.Server)
-                LevelPacket(true, levelType);
-        }
-
-        internal void HandleRage(BinaryReader reader)
-        {
-            rage = reader.ReadInt32();
-            if (Main.netMode == NetmodeID.Server)
-                RagePacket(true);
-        }
-
-        internal void HandleAdrenaline(BinaryReader reader)
-        {
-            adrenaline = reader.ReadInt32();
-            if (Main.netMode == NetmodeID.Server)
-                AdrenalinePacket(true);
-        }
-
-        internal void HandleDeathCount(BinaryReader reader)
-        {
-            deathCount = reader.ReadInt32();
-            if (Main.netMode == NetmodeID.Server)
-                DeathPacket(true);
-        }
-
-        internal void HandleDeathModeUnderworldTime(BinaryReader reader)
-        {
-            deathModeUnderworldTime = reader.ReadInt32();
-            if (Main.netMode == NetmodeID.Server)
-                DeathModeUnderworldTimePacket(true);
-        }
-
-        internal void HandleDeathModeBlizzardTime(BinaryReader reader)
-        {
-            deathModeBlizzardTime = reader.ReadInt32();
-            if (Main.netMode == NetmodeID.Server)
-                DeathModeBlizzardTimePacket(true);
-        }
-
-        internal void HandleItemTypeLastReforged(BinaryReader reader)
-        {
-            itemTypeLastReforged = reader.ReadInt32();
-            if (Main.netMode == NetmodeID.Server)
-                ItemTypeLastReforgedPacket(true);
-        }
-
-        internal void HandleReforgeTierSafety(BinaryReader reader)
-        {
-            reforgeTierSafety = reader.ReadInt32();
-            if (Main.netMode == NetmodeID.Server)
-                ReforgeTierSafetyPacket(true);
-        }
-
-        internal void HandleMoveSpeedStat(BinaryReader reader)
-        {
-            moveSpeedStat = reader.ReadInt32();
-            if (Main.netMode == NetmodeID.Server)
-                MoveSpeedStatPacket(true);
-        }
-
-        internal void HandleDefenseDamage(BinaryReader reader)
-        {
-            defenseDamage = reader.ReadInt32();
-            if (Main.netMode == NetmodeID.Server)
-                DefenseDamagePacket(true);
-        }
-
-        public override void OnEnterWorld(Player player)
-        {
-            if (Main.netMode == NetmodeID.MultiplayerClient)
-            {
-                ExactLevelPacket(false, 0);
-                ExactLevelPacket(false, 1);
-                ExactLevelPacket(false, 2);
-                ExactLevelPacket(false, 3);
-                ExactLevelPacket(false, 4);
-                LevelPacket(false, 0);
-                LevelPacket(false, 1);
-                LevelPacket(false, 2);
-                LevelPacket(false, 3);
-                LevelPacket(false, 4);
-                RagePacket(false);
-                AdrenalinePacket(false);
-                DeathPacket(false);
-                DeathModeUnderworldTimePacket(false);
-                DeathModeBlizzardTimePacket(false);
-                ReforgeTierSafetyPacket(false);
-                MoveSpeedStatPacket(false);
-                DefenseDamagePacket(false);
-            }
-        }
-        #endregion
-
         #region Proficiency Stuff
         private bool ReduceCooldown(int classType)
         {
@@ -9874,7 +9551,7 @@ namespace CalamityMod.CalPlayer
             }
             if (Main.netMode == NetmodeID.MultiplayerClient)
             {
-                ExactLevelPacket(false, levelUpType);
+                SyncExactLevel(false, levelUpType);
             }
         }
 
@@ -10436,6 +10113,13 @@ namespace CalamityMod.CalPlayer
         #endregion
 
         #region Misc Stuff
+
+        // Triggers effects that must occur when the player enters the world. This sends a bunch of packets in multiplayer.
+        public override void OnEnterWorld(Player player)
+        {
+            if (Main.netMode == NetmodeID.MultiplayerClient)
+                EnterWorldSync();
+        }
 
         /// <summary>
         /// Returns the range at which an abyss enemy can detect the player
