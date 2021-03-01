@@ -254,7 +254,7 @@ namespace CalamityMod
                 "Vroomy Has -3,000 IQ",
                 "The Goliath",
                 "DaPyRo",
-                "Termi",
+                "Takeru",
                 "Circuit-Jay",
                 "Commmander Frostbite",
                 "cytokat",
