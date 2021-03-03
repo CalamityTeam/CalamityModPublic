@@ -2532,9 +2532,6 @@ namespace CalamityMod.CalPlayer
 				player.lavaMax += 240;
 			}
 
-			if (modPlayer.eQuiver)
-				player.magicQuiver = true;
-
 			if (modPlayer.bloodPactBoost)
 			{
 				player.allDamage += 0.05f;

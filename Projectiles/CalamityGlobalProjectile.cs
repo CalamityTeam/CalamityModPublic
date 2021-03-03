@@ -1160,26 +1160,6 @@ namespace CalamityMod.Projectiles
 
             if (!projectile.npcProj && !projectile.trap && projectile.friendly && projectile.damage > 0)
             {
-                if (modPlayer.eQuiver && projectile.ranged && CalamityLists.rangedProjectileExceptionList.TrueForAll(x => projectile.type != x))
-                {
-                    if (Main.player[projectile.owner].miscCounter % 60 == 0 && projectile.FinalExtraUpdate())
-                    {
-                        float spread = 180f * 0.0174f;
-                        double startAngle = Math.Atan2(projectile.velocity.X, projectile.velocity.Y) - spread / 2;
-                        if (projectile.owner == Main.myPlayer && player.ownedProjectileCounts[projectile.type] < 50)
-                        {
-                            int projectile1 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(startAngle) * 8f), (float)(Math.Cos(startAngle) * 8f), projectile.type, (int)(projectile.damage * 0.15), projectile.knockBack, projectile.owner, 0f, 0f);
-                            int projectile2 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(startAngle) * 8f), (float)(-Math.Cos(startAngle) * 8f), projectile.type, (int)(projectile.damage * 0.15), projectile.knockBack, projectile.owner, 0f, 0f);
-                            Main.projectile[projectile1].ranged = false;
-                            Main.projectile[projectile2].ranged = false;
-                            Main.projectile[projectile1].timeLeft = 60;
-                            Main.projectile[projectile2].timeLeft = 60;
-                            Main.projectile[projectile1].noDropItem = true;
-                            Main.projectile[projectile2].noDropItem = true;
-                        }
-                    }
-                }
-
                 if (modPlayer.fungalSymbiote && trueMelee)
                 {
                     if (Main.player[projectile.owner].miscCounter % 6 == 0 && projectile.FinalExtraUpdate())
