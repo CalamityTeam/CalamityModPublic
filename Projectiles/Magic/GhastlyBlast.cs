@@ -9,6 +9,10 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class GhastlyBlast : ModProjectile
     {
+        private const float DriftVelocity = 10f;
+        private const float FramesBeforeSlowing = 8f;
+        private const float MaximumWaitFrames = 360f;
+        
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Ghast Blast");
@@ -23,30 +27,35 @@ namespace CalamityMod.Projectiles.Magic
             projectile.friendly = true;
             projectile.alpha = 255;
             projectile.penetrate = 6;
-            projectile.extraUpdates = 1;
+            projectile.extraUpdates = 2;
             projectile.tileCollide = false;
             projectile.ignoreWater = true;
             projectile.magic = true;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 8;
+            projectile.localNPCHitCooldown = 12;
         }
 
         public override void AI()
         {
             projectile.ai[0] += 1f;
-            int num1013 = 0;
-            if (projectile.velocity.Length() <= 8f) //4
-            {
-                num1013 = 1;
-            }
+            bool goingSlow = projectile.velocity.Length() <= DriftVelocity;
+            bool currentlyHoming = projectile.ai[1] > 0f;
+
+            // Rapidly fade in when the projectile starts existing
             projectile.alpha -= 15;
             if (projectile.alpha < 0)
             {
                 projectile.alpha = 0;
             }
-            if (num1013 == 0)
+
+            // Moving faster than drift velocity, but not homing.
+            // This way, when the projectile speeds back up upon homing, it doesn't suddenly lose its homing again.
+            if (!goingSlow && !currentlyHoming)
             {
+                // Spin at a certain rate
                 projectile.rotation -= 0.104719758f;
+
+                // Dust, randomly
                 if (Main.rand.NextBool(3))
                 {
                     if (Main.rand.NextBool(2))
@@ -72,9 +81,11 @@ namespace CalamityMod.Projectiles.Magic
                         dust29.customData = projectile;
                     }
                 }
-                if (projectile.ai[0] >= 30f)
+
+                // Grow and slow down 
+                if (projectile.ai[0] >= FramesBeforeSlowing * projectile.MaxUpdates)
                 {
-                    projectile.velocity *= 0.98f;
+                    projectile.velocity *= 0.977f;
                     projectile.scale += 0.00744680827f;
                     if (projectile.scale > 1.2f)
                     {
@@ -82,16 +93,23 @@ namespace CalamityMod.Projectiles.Magic
                     }
                     projectile.rotation -= 0.0174532924f;
                 }
-                if (projectile.velocity.Length() < 8.2f) //4.1
+
+                // Set velocity to the drift velocity exactly after slowing down enough and reset the time counter.
+                float speed = projectile.velocity.Length();
+                if (speed < 1.02f * DriftVelocity)
                 {
-                    projectile.velocity.Normalize();
-                    projectile.velocity *= 4f;
+                    projectile.velocity *= DriftVelocity / speed;
                     projectile.ai[0] = 0f;
                 }
             }
-            else if (num1013 == 1)
+
+            // Either moving at or below drift velocity, or currently homing. Either case runs this AI path.
+            else
             {
+                // Spin at the exact same rate anyway
                 projectile.rotation -= 0.104719758f;
+
+                // Excessively complicated dust
                 int num3;
                 for (int num1014 = 0; num1014 < 1; num1014 = num3 + 1)
                 {
@@ -127,11 +145,16 @@ namespace CalamityMod.Projectiles.Magic
                     }
                     num3 = num1014;
                 }
+
+                // Every so many frames, spawn a sub blast.
                 if (projectile.ai[0] % 30f == 0f && projectile.ai[0] < 241f && Main.myPlayer == projectile.owner)
                 {
                     Vector2 vector144 = Vector2.UnitY.RotatedByRandom(6.2831854820251465) * 12f;
                     Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, vector144.X, vector144.Y, ModContent.ProjectileType<GhastlySubBlast>(), projectile.damage, 0f, projectile.owner, 0f, (float)projectile.whoAmI);
                 }
+
+                // Undocumented, unrefactored homing. Will not home through walls.
+                // Apparently has two different homing distances.
                 Vector2 vector145 = projectile.Center;
                 float num1015 = 800f;
                 bool flag59 = false;
@@ -195,11 +218,14 @@ namespace CalamityMod.Projectiles.Magic
                     projectile.velocity.Y = (projectile.velocity.Y * (float)(HomingN - 1) + dy) / (float)HomingN;
                 }
             }
+
+            // If the projectile is solid enough, add light.
             if (projectile.alpha < 150)
             {
                 Lighting.AddLight(projectile.Center, 0.9f, 0f, 0.1f);
             }
-            if (projectile.ai[0] >= 600f)
+
+            if (projectile.ai[0] >= MaximumWaitFrames * projectile.MaxUpdates)
             {
                 projectile.Kill();
             }
