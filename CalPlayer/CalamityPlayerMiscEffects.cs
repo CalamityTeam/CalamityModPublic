@@ -109,6 +109,17 @@ namespace CalamityMod.CalPlayer
 
 			// Potions (Quick Buff && Potion Sickness)
 			HandlePotions(player, modPlayer);
+
+			// Regularly sync player stats during multiplayer
+			if (player.whoAmI == Main.myPlayer && Main.netMode == NetmodeID.MultiplayerClient)
+			{
+				modPlayer.packetTimer++;
+				if (modPlayer.packetTimer == CalamityPlayer.GlobalSyncPacketTimer)
+				{
+					modPlayer.packetTimer = 0;
+					modPlayer.StandardSync();
+				}
+			}
 		}
 		#endregion
 
@@ -252,24 +263,6 @@ namespace CalamityMod.CalPlayer
 			{
 				modPlayer.rage = 0;
 				modPlayer.adrenaline = 0;
-			}
-
-			// Send info packets during multiplayer
-			// TODO -- this should be moved to its own update step
-			if (player.whoAmI == Main.myPlayer && Main.netMode == NetmodeID.MultiplayerClient)
-			{
-				modPlayer.packetTimer++;
-				if (modPlayer.packetTimer == 60)
-				{
-					modPlayer.packetTimer = 0;
-					modPlayer.RagePacket(false);
-					modPlayer.AdrenalinePacket(false);
-					modPlayer.DeathModeUnderworldTimePacket(false);
-					modPlayer.DeathModeBlizzardTimePacket(false);
-					modPlayer.AquaticBoostPacket(false);
-					modPlayer.MoveSpeedStatPacket(false);
-					modPlayer.DefenseDamagePacket(false);
-				}
 			}
 		}
 
@@ -1077,8 +1070,6 @@ namespace CalamityMod.CalPlayer
 			// Cooldowns and timers
 			if (modPlayer.dodgeCooldownTimer > 0)
 				modPlayer.dodgeCooldownTimer--;
-			if (modPlayer.reflectCooldownTimer > 0)
-				modPlayer.reflectCooldownTimer--;
 			if (modPlayer.KameiBladeUseDelay > 0)
 				modPlayer.KameiBladeUseDelay--;
 			if (modPlayer.galileoCooldown > 0)

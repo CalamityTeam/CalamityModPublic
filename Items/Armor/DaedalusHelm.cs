@@ -41,8 +41,8 @@ namespace CalamityMod.Items.Armor
             player.setBonus = "5% increased melee damage\n" +
                 "Enemies are more likely to target you\n" +
                 "You reflect projectiles back at enemies\n" +
-				"Reflected projectiles deal 50% less damage to you\n" +
-				"This reflection has a 60 second cooldown and does not work while a non-dash dodge is on cooldown\n" +
+                "Reflected projectiles deal 50% less damage to you\n" +
+                "This reflect has a 60 second cooldown which is shared with all other dodges and reflects\n" +
                 "If you reflect a projectile you are also healed for 1/5 of that projectile's damage";
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.daedalusReflect = true;
@@ -62,9 +62,9 @@ namespace CalamityMod.Items.Armor
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<VerstaltiteBar>(), 8);
-			recipe.AddIngredient(ItemID.CrystalShard, 6);
-			recipe.AddIngredient(ModContent.ItemType<EssenceofEleum>());
-			recipe.AddTile(TileID.MythrilAnvil);
+            recipe.AddIngredient(ItemID.CrystalShard, 6);
+            recipe.AddIngredient(ModContent.ItemType<EssenceofEleum>());
+            recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

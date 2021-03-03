@@ -15,7 +15,7 @@ namespace CalamityMod.Items.Accessories
             DisplayName.SetDefault("Elysian Aegis");
             Tooltip.SetDefault("Blessed by the Profaned Flame\n" +
 							   "Grants immunity to fire blocks, knockback, and Holy Flames\n" +
-                               "+40 max life and increased life regen\n" +
+                               "+30 max life\n" +
                                "Grants a supreme holy flame dash\n" +
                                "Can be used to ram enemies\n" +
                                "TOOLTIP LINE HERE\n" +
@@ -53,8 +53,7 @@ namespace CalamityMod.Items.Accessories
             player.buffImmune[ModContent.BuffType<HolyFlames>()] = true;
             player.noKnockback = true;
             player.fireWalk = true;
-            player.lifeRegen += 2;
-            player.statLifeMax2 += 40;
+            player.statLifeMax2 += 30;
         }
     }
 }

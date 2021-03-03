@@ -3218,10 +3218,13 @@ namespace CalamityMod.NPCs
 			if (npc.type != ModContent.NPCType<AstrumDeusHeadSpectral>())
 			{
 				bool shouldDespawn = true;
+				int headType = ModContent.NPCType<AstrumDeusHeadSpectral>();
 				for (int i = 0; i < Main.maxNPCs; i++)
 				{
-					if (Main.npc[i].active && Main.npc[i].type == ModContent.NPCType<AstrumDeusHeadSpectral>())
-						shouldDespawn = false;
+					if (Main.npc[i].type != headType || !Main.npc[i].active)
+						continue;
+					shouldDespawn = false;
+					break;
 				}
 				if (!shouldDespawn)
 				{
@@ -3376,12 +3379,18 @@ namespace CalamityMod.NPCs
 						npc.velocity.Y -= velocity;
 					}
 
+					int headType = ModContent.NPCType<AstrumDeusHeadSpectral>();
+					int bodyType = ModContent.NPCType<AstrumDeusBodySpectral>();
+					int tailType = ModContent.NPCType<AstrumDeusBodySpectral>();
 					if ((double)npc.position.Y < Main.topWorld + 16f)
 					{
 						for (int num957 = 0; num957 < Main.maxNPCs; num957++)
 						{
-							if (Main.npc[num957].type == ModContent.NPCType<AstrumDeusHeadSpectral>() || Main.npc[num957].type == ModContent.NPCType<AstrumDeusBodySpectral>() || Main.npc[num957].type == ModContent.NPCType<AstrumDeusTailSpectral>())
+							if (Main.npc[num957].type == headType || Main.npc[num957].type == bodyType || Main.npc[num957].type == tailType)
+							{
 								Main.npc[num957].active = false;
+								Main.npc[num957].netUpdate = true;
+							}
 						}
 					}
 				}

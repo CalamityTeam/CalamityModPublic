@@ -254,7 +254,7 @@ namespace CalamityMod
                 "Vroomy Has -3,000 IQ",
                 "The Goliath",
                 "DaPyRo",
-                "Termi",
+                "Takeru",
                 "Circuit-Jay",
                 "Commmander Frostbite",
                 "cytokat",
@@ -548,7 +548,8 @@ namespace CalamityMod
                 NPCType<SlimeGod>(),
                 NPCType<SlimeGodRun>(),
                 NPCType<SlimeGodSplit>(),
-                NPCType<SlimeGodRunSplit>()
+                NPCType<SlimeGodRunSplit>(),
+                NPCType<BobbitWormHead>()
             };
 
             confusionEnemyList = new List<int>()

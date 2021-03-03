@@ -66,7 +66,7 @@ namespace CalamityMod.Projectiles.Rogue
 
 		private void OnHitEffect(Vector2 targetPos)
 		{
-			if (Main.myPlayer != projectile.owner)
+			if (Main.myPlayer != projectile.owner || !projectile.Calamity().stealthStrike)
 				return;
 
 			for (int i = 0; i < 2; i++)

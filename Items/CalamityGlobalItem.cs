@@ -1261,8 +1261,9 @@ namespace CalamityMod.Items
 				{
 					if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
 						line2.text = "Grants the ability to dodge attacks\n" +
-							"This dodge has a 60 second cooldown and does not work while a reflection effect is on cooldown";
-				}
+							"The dodge has a 60 second cooldown which is shared with all other dodges and reflects";
+
+                }
 			}
 			if (item.type == ItemID.MasterNinjaGear)
 			{
@@ -1270,8 +1271,8 @@ namespace CalamityMod.Items
 				{
 					if (line2.mod == "Terraria" && line2.Name == "Tooltip1")
 						line2.text = "Grants the ability to dodge attacks\n" +
-							"This dodge has a 60 second cooldown and does not work while a reflection effect is on cooldown";
-				}
+                            "The dodge has a 60 second cooldown which is shared with all other dodges and reflects";
+                }
 			}
 			if (item.type == ItemID.CobaltSword || item.type == ItemID.CobaltNaginata)
 			{

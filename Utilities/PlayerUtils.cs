@@ -4,7 +4,7 @@ using CalamityMod.CalPlayer;
 using System.Linq;
 using Terraria;
 using Terraria.ID;
-
+using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
 
 namespace CalamityMod
@@ -151,6 +151,25 @@ namespace CalamityMod
 			target.AddBuff(BuffID.Frostburn, (int)(120 * multiplier));
 			target.AddBuff(BuffID.OnFire, (int)(120 * multiplier));
 			target.AddBuff(BuffID.Ichor, (int)(120 * multiplier));
+		}
+
+		/// <summary>
+		/// Makes the given player send the given packet to all appropriate receivers.<br />
+		/// If server is false, the packet is sent only to the multiplayer host.<br />
+		/// If server is true, the packet is sent to all clients except the player it pertains to.
+		/// </summary>
+		/// <param name="player">The player to whom the packet's data pertains.</param>
+		/// <param name="packet">The packet to send with certain parameters.</param>
+		/// <param name="server">True if a dedicated server is broadcasting information to all players.</param>
+		public static void SendPacket(this Player player, ModPacket packet, bool server)
+		{
+			// Client: Send the packet only to the host.
+			if (!server)
+				packet.Send();
+
+			// Server: Send the packet to every OTHER client.
+			else
+				packet.Send(-1, player.whoAmI);
 		}
 	}
 }
