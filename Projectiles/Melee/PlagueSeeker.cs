@@ -21,6 +21,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.penetrate = 1;
             projectile.melee = true;
             projectile.timeLeft = 180;
+			projectile.extraUpdates = 1;
         }
 
         public override void AI()
@@ -36,12 +37,15 @@ namespace CalamityMod.Projectiles.Melee
                 }
             }
 
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 400f, 18f, 20f);
+			if (projectile.timeLeft < 120)
+				CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 400f, 12f, 20f);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(ModContent.BuffType<Plague>(), 180);
         }
-    }
+
+		public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 120;
+	}
 }

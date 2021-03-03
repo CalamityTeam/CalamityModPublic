@@ -1,3 +1,4 @@
+using CalamityMod.CalPlayer;
 using CalamityMod.Tiles.DraedonStructures;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -9,6 +10,7 @@ using System.Reflection;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Utilities;
 using Terraria.World.Generation;
 
 namespace CalamityMod.ILEditing
@@ -50,6 +52,7 @@ namespace CalamityMod.ILEditing
             aLabDoorClosed = ModContent.TileType<AgedLaboratoryDoorClosed>();
 
             ApplyLifeBytesChanges();
+            RemoveRNGFromBlackBelt();
             ApplyBossZenDuringSlimeRain();
             PreventDungeonAbyssInteraction();
             BlockLivingTreesNearOcean();
@@ -68,6 +71,47 @@ namespace CalamityMod.ILEditing
 
         #region IL Editing Routines
         private static void ApplyLifeBytesChanges() => On.Terraria.Main.InitLifeBytes += BossRushLifeBytes;
+
+        private static void RemoveRNGFromBlackBelt()
+        {
+            // Change the random chance of the Black Belt to 100%, but don't let it work if Calamity's cooldown is active.
+            IL.Terraria.Player.Hurt += (il) =>
+            {
+                var cursor = new ILCursor(il);
+                cursor.GotoNext(MoveType.Before, i => i.MatchLdcI4(10)); // 1 in 10 Main.rand call for Black Belt activation
+                cursor.Remove();
+                cursor.Emit(OpCodes.Ldc_I4_1); // Replace with Main.rand.Next(1), aka 100% chance
+
+                // Move forwards past the Main.rand.Next call now that it has been edited
+                cursor.GotoNext(MoveType.After, i => i.MatchCallvirt<UnifiedRandom>("Next"));
+
+                // Load the player itself onto the stack so that it becomes an argument for the following delegate.
+                cursor.Emit(OpCodes.Ldarg_0);
+
+                // Emit a delegate which places the player's Calamity dodge cooldown onto the stack.
+                cursor.EmitDelegate<Func<Player, int>>((Player p) => p.Calamity().dodgeCooldownTimer);
+
+                // Bitwise OR the "RNG result" (always zero) with the dodge cooldown. This will only return zero if both values were zero.
+                // The code path which calls NinjaDodge can ONLY occur if the result of this operation is zero,
+                // because it is now the value checked by the immediately following branch-if-true.
+                cursor.Emit(OpCodes.Or);
+
+                // Move forwards past the NinjaDodge call. We need to set the dodge cooldown here.
+                cursor.GotoNext(MoveType.After, i => i.MatchCall<Player>("NinjaDodge"));
+
+                // Load the player itself onto the stack so that it becomes an argument for the following delegate.
+                cursor.Emit(OpCodes.Ldarg_0);
+
+                // Emit a delegate which sets the player's Calamity dodge cooldown and sends a sync packet appropriately.
+                cursor.EmitDelegate<Action<Player>>((Player p) =>
+                {
+                    CalamityPlayer calPlayer = p.Calamity();
+                    calPlayer.dodgeCooldownTimer = CalamityPlayer.BeltDodgeCooldown;
+                    if (Main.netMode == NetmodeID.MultiplayerClient)
+                        calPlayer.SyncDodgeCooldown(false);
+                });
+            };
+        }
 
         private static void ApplyBossZenDuringSlimeRain() => On.Terraria.NPC.SlimeRainSpawns += PreventBossSlimeRainSpawns;
 

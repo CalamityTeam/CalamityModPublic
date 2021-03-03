@@ -109,6 +109,17 @@ namespace CalamityMod.CalPlayer
 
 			// Potions (Quick Buff && Potion Sickness)
 			HandlePotions(player, modPlayer);
+
+			// Regularly sync player stats during multiplayer
+			if (player.whoAmI == Main.myPlayer && Main.netMode == NetmodeID.MultiplayerClient)
+			{
+				modPlayer.packetTimer++;
+				if (modPlayer.packetTimer == CalamityPlayer.GlobalSyncPacketTimer)
+				{
+					modPlayer.packetTimer = 0;
+					modPlayer.StandardSync();
+				}
+			}
 		}
 		#endregion
 
@@ -252,24 +263,6 @@ namespace CalamityMod.CalPlayer
 			{
 				modPlayer.rage = 0;
 				modPlayer.adrenaline = 0;
-			}
-
-			// Send info packets during multiplayer
-			// TODO -- this should be moved to its own update step
-			if (player.whoAmI == Main.myPlayer && Main.netMode == NetmodeID.MultiplayerClient)
-			{
-				modPlayer.packetTimer++;
-				if (modPlayer.packetTimer == 60)
-				{
-					modPlayer.packetTimer = 0;
-					modPlayer.RagePacket(false);
-					modPlayer.AdrenalinePacket(false);
-					modPlayer.DeathModeUnderworldTimePacket(false);
-					modPlayer.DeathModeBlizzardTimePacket(false);
-					modPlayer.AquaticBoostPacket(false);
-					modPlayer.MoveSpeedStatPacket(false);
-					modPlayer.DefenseDamagePacket(false);
-				}
 			}
 		}
 
@@ -1125,10 +1118,6 @@ namespace CalamityMod.CalPlayer
 				modPlayer.xerocDmg -= 2f;
 			if (modPlayer.xerocDmg < 0f)
 				modPlayer.xerocDmg = 0f;
-			if (modPlayer.godSlayerDmg > 0f)
-				modPlayer.godSlayerDmg -= 2.5f;
-			if (modPlayer.godSlayerDmg < 0f)
-				modPlayer.godSlayerDmg = 0f;
 			if (modPlayer.aBulwarkRareMeleeBoostTimer > 0)
 				modPlayer.aBulwarkRareMeleeBoostTimer--;
 			if (modPlayer.bossRushImmunityFrameCurseTimer > 0)
@@ -3274,12 +3263,6 @@ namespace CalamityMod.CalPlayer
 				}
 			}
 
-			if (modPlayer.auricSet && modPlayer.silvaMelee)
-			{
-				double multiplier = player.statLife / (double)player.statLifeMax2;
-				player.meleeDamage += (float)(multiplier * 0.2); //ranges from 1.2 times to 1 times
-			}
-
 			if (modPlayer.dArtifact)
 				player.allDamage += 0.25f;
 
@@ -3314,7 +3297,7 @@ namespace CalamityMod.CalPlayer
 						player.AddBuff(ModContent.BuffType<ProfanedBabs>(), 3600, true);
 
 					bool crystal = modPlayer.profanedCrystal && !modPlayer.profanedCrystalForce;
-					bool summonSet = modPlayer.tarraSummon || modPlayer.bloodflareSummon || modPlayer.godSlayerSummon || modPlayer.silvaSummon || modPlayer.dsSetBonus || modPlayer.omegaBlueSet || modPlayer.fearmongerSet;
+					bool summonSet = modPlayer.tarraSummon || modPlayer.bloodflareSummon || modPlayer.silvaSummon || modPlayer.dsSetBonus || modPlayer.omegaBlueSet || modPlayer.fearmongerSet;
 
 					if (player.ownedProjectileCounts[ModContent.ProjectileType<MiniGuardianHealer>()] < 1)
 						Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -6f, ModContent.ProjectileType<MiniGuardianHealer>(), 0, 0f, Main.myPlayer, 0f, 0f);

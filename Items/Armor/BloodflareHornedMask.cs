@@ -61,7 +61,7 @@ namespace CalamityMod.Items.Armor
                 "Enemies below 50% life have a chance to drop hearts when struck\n" +
                 "Enemies above 50% life have a chance to drop mana stars when struck\n" +
                 "Enemies killed during a Blood Moon have a much higher chance to drop Blood Orbs\n" +
-                "Magic weapons will sometimes fire ghostly bolts\n" +
+                "Magic weapons fire ghostly bolts every 1.67 seconds\n" +
                 "Magic critical strikes cause flame explosions every 2 seconds";
             player.crimsonRegen = true;
         }

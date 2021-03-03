@@ -1,28 +1,30 @@
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Armor.Vanity
 {
     [AutoloadEquip(EquipType.Head)]
-    public class AncientGodSlayerHelm : ModItem
+    public class SilvaHelm : ModItem
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Ancient God Slayer Helm");
+            DisplayName.SetDefault("Silva Helm");
         }
 
         public override void SetDefaults()
         {
-            item.width = 28;
+            item.width = 24;
             item.height = 20;
-            item.Calamity().customRarity = (CalamityRarity)14;
-            item.value = Item.buyPrice(0, 75, 0, 0);
+            item.value = Item.buyPrice(0, 90, 0, 0);
             item.vanity = true;
-        }
+			item.rare = ItemRarityID.Purple;
+			item.Calamity().customRarity = CalamityRarity.DarkBlue;
+		}
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
-            return body.type == ModContent.ItemType<AncientGodSlayerChestplate>() && legs.type == ModContent.ItemType<AncientGodSlayerLeggings>();
+            return body.type == ModContent.ItemType<SilvaArmor>() && legs.type == ModContent.ItemType<SilvaLeggings>();
         }
 
         public override void ArmorSetShadows(Player player)

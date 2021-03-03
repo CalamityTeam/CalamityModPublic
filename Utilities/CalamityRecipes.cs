@@ -7,6 +7,7 @@ using CalamityMod.Items.Fishing.BrimstoneCragCatches;
 using CalamityMod.Items.Fishing.SunkenSeaCatches;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
+using CalamityMod.Items.Placeables.Ores;
 using CalamityMod.Items.Potions;
 using CalamityMod.Items.Weapons.Melee;
 using System.Collections.Generic;
@@ -63,8 +64,15 @@ namespace CalamityMod
             r.SetResult(ItemID.FallenStar);
             r.AddRecipe();
 
-            // Ectoplasm from Ectoblood
-            r = GetNewRecipe();
+			// Hallowed Bars
+			r = GetNewRecipe();
+			r.AddIngredient(ModContent.ItemType<HallowedOre>(), 4);
+			r.AddTile(TileID.AdamantiteForge);
+			r.SetResult(ItemID.HallowedBar);
+			r.AddRecipe();
+
+			// Ectoplasm from Ectoblood
+			r = GetNewRecipe();
             r.AddIngredient(ModContent.ItemType<Ectoblood>(), 3);
             r.AddTile(TileID.MythrilAnvil);
             r.SetResult(ItemID.Ectoplasm);
@@ -1101,51 +1109,61 @@ namespace CalamityMod
 
             group = new RecipeGroup(() => "Any Wings", new int[]
             {
-                ItemID.DemonWings,
-                ItemID.AngelWings,
-                ItemID.RedsWings,
-                ItemID.ButterflyWings,
-                ItemID.FairyWings,
-                ItemID.HarpyWings,
-                ItemID.BoneWings,
-                ItemID.FlameWings,
-                ItemID.FrozenWings,
-                ItemID.GhostWings,
-                ItemID.SteampunkWings,
-                ItemID.LeafWings,
-                ItemID.BatWings,
-                ItemID.BeeWings,
-                ItemID.DTownsWings,
-                ItemID.WillsWings,
-                ItemID.CrownosWings,
-                ItemID.CenxsWings,
-                ItemID.TatteredFairyWings,
-                ItemID.SpookyWings,
-                ItemID.Hoverboard,
-                ItemID.FestiveWings,
-                ItemID.BeetleWings,
-                ItemID.FinWings,
-                ItemID.FishronWings,
-                ItemID.MothronWings,
-                ItemID.WingsSolar,
-                ItemID.WingsVortex,
-                ItemID.WingsNebula,
-                ItemID.WingsStardust,
-                ItemID.Yoraiz0rWings,
-                ItemID.JimsWings,
-                ItemID.SkiphsWings,
-                ItemID.LokisWings,
-                ItemID.BetsyWings,
-                ItemID.ArkhalisWings,
-                ItemID.LeinforsWings,
-                ModContent.ItemType<SkylineWings>(),
-                ModContent.ItemType<StarlightWings>(),
-                ModContent.ItemType<AureateWings>(),
-                ModContent.ItemType<DiscordianWings>(),
-                ModContent.ItemType<TarragonWings>(),
-                ModContent.ItemType<XerocWings>(),
-                ModContent.ItemType<HadarianWings>(),
-                ModContent.ItemType<SilvaWings>()
+				ItemID.DemonWings,
+				ItemID.AngelWings,
+				ItemID.RedsWings,
+				ItemID.ButterflyWings,
+				ItemID.FairyWings,
+				ItemID.HarpyWings,
+				ItemID.BoneWings,
+				ItemID.FlameWings,
+				ItemID.FrozenWings,
+				ItemID.GhostWings,
+				ItemID.SteampunkWings,
+				ItemID.LeafWings,
+				ItemID.BatWings,
+				ItemID.BeeWings,
+				ItemID.DTownsWings,
+				ItemID.WillsWings,
+				ItemID.CrownosWings,
+				ItemID.CenxsWings,
+				ItemID.TatteredFairyWings,
+				ItemID.SpookyWings,
+				ItemID.Hoverboard,
+				ItemID.FestiveWings,
+				ItemID.BeetleWings,
+				ItemID.FinWings,
+				ItemID.FishronWings,
+				ItemID.MothronWings,
+				ItemID.WingsSolar,
+				ItemID.WingsVortex,
+				ItemID.WingsNebula,
+				ItemID.WingsStardust,
+				ItemID.Yoraiz0rWings,
+				ItemID.JimsWings,
+				ItemID.SkiphsWings,
+				ItemID.LokisWings,
+				ItemID.BetsyWings,
+				ItemID.ArkhalisWings,
+				ItemID.LeinforsWings,
+				ItemID.BejeweledValkyrieWing,
+				/*
+				ItemID.GhostarsWings,
+				ItemID.GroxTheGreatWings,
+				ItemID.FoodBarbarianWings,
+				ItemID.SafemanWings,
+				ItemID.CreativeWings,
+				ItemID.RainbowWings,
+				ItemID.LongRainbowTrailWings,
+				*/
+				ModContent.ItemType<SkylineWings>(),
+				ModContent.ItemType<StarlightWings>(),
+				ModContent.ItemType<AureateWings>(),
+				ModContent.ItemType<DiscordianWings>(),
+				ModContent.ItemType<TarragonWings>(),
+				ModContent.ItemType<XerocWings>(),
+				ModContent.ItemType<HadarianWings>(),
+				ModContent.ItemType<SilvaWings>()
             });
             RecipeGroup.RegisterGroup("WingsGroup", group);
         }

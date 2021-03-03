@@ -4,6 +4,7 @@ using CalamityMod.Events;
 using CalamityMod.NPCs.HiveMind;
 using CalamityMod.NPCs.Leviathan;
 using CalamityMod.NPCs.NormalNPCs;
+using CalamityMod.NPCs.OldDuke;
 using CalamityMod.NPCs.Perforator;
 using CalamityMod.NPCs.Providence;
 using CalamityMod.NPCs.SlimeGod;
@@ -13,6 +14,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
+using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
 
 namespace CalamityMod
@@ -96,11 +98,22 @@ namespace CalamityMod
 				npc.type == NPCType<SlimeGodSplit>() || npc.type == NPCType<SlimeGodRunSplit>();
 		}
 
-		public static bool AnyBossNPCS()
+		public static bool AnyBossNPCS(bool checkForMechs = false)
 		{
 			for (int i = 0; i < Main.maxNPCs; i++)
-				if (Main.npc[i] != null && Main.npc[i].IsABoss())
-					return true;
+			{
+				if (Main.npc[i] != null)
+				{
+					NPC npc = Main.npc[i];
+					if (npc.IsABoss())
+					{
+						// Added due to the new mech boss ore progression, return true if any mech is alive and checkForMechs is true, reduces mech boss projectile damage if true
+						if (checkForMechs)
+							return npc.type == NPCID.TheDestroyer || npc.type == NPCID.SkeletronPrime || npc.type == NPCID.Spazmatism || npc.type == NPCID.Retinazer;
+						return true;
+					}
+				}
+			}
 			return FindFirstProjectile(ProjectileType<DeusRitualDrama>()) != -1;
 		}
 
@@ -440,6 +453,38 @@ namespace CalamityMod
 			target.AddBuff(BuffType<HolyFlames>(), (int)(120 * multiplier));
 			target.AddBuff(BuffID.Frostburn, (int)(120 * multiplier));
 			target.AddBuff(BuffID.OnFire, (int)(120 * multiplier));
+		}
+
+		/// <summary>
+		/// Spawns Old Duke on a player. Only works server side, and only works if the player owns a fishing bobber.<br />
+		/// Old Duke will spawn above the fishing bobber if one is found.
+		/// </summary>
+		/// <param name="playerIndex">The index of the player who will spawn Old Duke.</param>
+		internal static void SpawnOldDuke(int playerIndex)
+		{
+			if (Main.netMode != NetmodeID.Server)
+				return;
+
+			Player player = Main.player[playerIndex];
+			if (!player.active || player.dead)
+				return;
+
+			Projectile projectile = null;
+			for (int i = 0; i < Main.maxProjectiles; i++)
+			{
+				projectile = Main.projectile[i];
+				if (Main.projectile[i].active && Main.projectile[i].bobber && Main.projectile[i].owner == playerIndex)
+				{
+					projectile = Main.projectile[i];
+					break;
+				}
+			}
+
+			if (projectile is null)
+				return;
+
+			int oldDuke = NPC.NewNPC((int)projectile.Center.X, (int)projectile.Center.Y + 100, NPCType<OldDuke>());
+			BossAwakenMessage(oldDuke);
 		}
 	}
 }

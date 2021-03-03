@@ -21,9 +21,9 @@ namespace CalamityMod.Items.Accessories
 		public const int FireProjectiles = 2;
 		public const float FireAngleSpread = 120;
 		public int counter = 0;
-		public const int ProjectileDamage = 2000;
-		public const int FungalClumpDamage = 1000;
-		public const int AuraDamage = 300;
+		public const int ProjectileDamage = 1000;
+		public const int FungalClumpDamage = 500;
+		public const int AuraDamage = 150;
 
 		public override void SetStaticDefaults()
 		{

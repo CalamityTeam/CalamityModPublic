@@ -1,3 +1,4 @@
+using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.CalPlayer;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Materials;
@@ -16,7 +17,6 @@ namespace CalamityMod.Items.Armor
         {
             DisplayName.SetDefault("Auric Tesla Body Armor");
             Tooltip.SetDefault("+100 max life\n" +
-                       "Attacks have a 2% chance to do no damage to you\n" +
                        "8% increased damage and 5% increased critical strike chance\n" +
                        "You will freeze enemies near you when you are struck");
         }
@@ -49,7 +49,7 @@ namespace CalamityMod.Items.Armor
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.fBarrier = true;
-            modPlayer.godSlayerReflect = true;
+            player.buffImmune[ModContent.BuffType<Irradiated>()] = true;
             player.statLifeMax2 += 100;
             player.allDamage += 0.08f;
             modPlayer.AllCritBoost(5);

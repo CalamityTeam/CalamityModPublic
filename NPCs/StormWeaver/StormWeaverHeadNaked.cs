@@ -668,6 +668,8 @@ namespace CalamityMod.NPCs.StormWeaver
 						DropHelper.DropItem(npc, ModContent.ItemType<AncientGodSlayerHelm>());
 						DropHelper.DropItem(npc, ModContent.ItemType<AncientGodSlayerChestplate>());
 						DropHelper.DropItem(npc, ModContent.ItemType<AncientGodSlayerLeggings>());
+						DropHelper.DropItem(npc, ModContent.ItemType<GodSlayerHornedHelm>());
+						DropHelper.DropItem(npc, ModContent.ItemType<GodSlayerVisage>());
 					}
 				}
             }

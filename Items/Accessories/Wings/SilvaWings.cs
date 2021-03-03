@@ -35,9 +35,7 @@ namespace CalamityMod.Items.Accessories.Wings
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            if ((player.armor[0].type == ModContent.ItemType<SilvaHelm>() || player.armor[0].type == ModContent.ItemType<SilvaHelmet>() ||
-                player.armor[0].type == ModContent.ItemType<SilvaHornedHelm>() || player.armor[0].type == ModContent.ItemType<SilvaMask>() ||
-                player.armor[0].type == ModContent.ItemType<SilvaMaskedCap>()) &&
+            if ((player.armor[0].type == ModContent.ItemType<SilvaHelmet>() || player.armor[0].type == ModContent.ItemType<SilvaMaskedCap>()) &&
                 player.armor[1].type == ModContent.ItemType<SilvaArmor>() && player.armor[2].type == ModContent.ItemType<SilvaLeggings>())
             {
                 player.Calamity().silvaWings = true;

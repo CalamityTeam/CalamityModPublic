@@ -354,6 +354,15 @@ namespace CalamityMod.NPCs
 			NPCID.TheDestroyerTail
 		};
 
+		public static List<int> SkeletronPrimeIDs = new List<int>
+		{
+			NPCID.SkeletronPrime,
+			NPCID.PrimeCannon,
+			NPCID.PrimeLaser,
+			NPCID.PrimeSaw,
+			NPCID.PrimeVice
+		};
+
 		public static List<int> DarkEnergyIDs = new List<int>
 		{
 			NPCType<DarkEnergy>(),
@@ -1277,7 +1286,27 @@ namespace CalamityMod.NPCs
 				npc.height *= 2;
 			}
 
-            if (npc.type == NPCID.CultistBoss)
+			// Reduce mech boss HP and damage depending on the new ore progression changes
+			if (!NPC.downedMechBossAny)
+			{
+				if (DestroyerIDs.Contains(npc.type) || npc.type == NPCID.Probe || SkeletronPrimeIDs.Contains(npc.type) || npc.type == NPCID.Spazmatism || npc.type == NPCID.Retinazer)
+				{
+					npc.lifeMax = (int)(npc.lifeMax * 0.8);
+					npc.damage = (int)(npc.damage * 0.8);
+					npc.defDamage = npc.damage;
+				}
+			}
+			else if ((!NPC.downedMechBoss1 && !NPC.downedMechBoss2) || (!NPC.downedMechBoss2 && !NPC.downedMechBoss3) || (!NPC.downedMechBoss3 && !NPC.downedMechBoss1))
+			{
+				if (DestroyerIDs.Contains(npc.type) || npc.type == NPCID.Probe || SkeletronPrimeIDs.Contains(npc.type) || npc.type == NPCID.Spazmatism || npc.type == NPCID.Retinazer)
+				{
+					npc.lifeMax = (int)(npc.lifeMax * 0.9);
+					npc.damage = (int)(npc.damage * 0.9);
+					npc.defDamage = npc.damage;
+				}
+			}
+
+			if (npc.type == NPCID.CultistBoss)
             {
                 npc.lifeMax = (int)(npc.lifeMax * (CalamityWorld.revenge ? 2 : 1.2));
                 npc.npcSlots = 20f;
@@ -1591,7 +1620,8 @@ namespace CalamityMod.NPCs
                     (wCleave > 0 ? WarCleave.DefenseReduction : 0) -
                     (gState > 0 ? GlacialState.DefenseReduction : 0) -
                     (aCrunch > 0 ? ArmorCrunch.DefenseReduction : 0) -
-                    (marked > 0 && DR <= 0f ? MarkedforDeath.DefenseReduction : 0);
+                    (marked > 0 && DR <= 0f ? MarkedforDeath.DefenseReduction : 0) -
+					Main.LocalPlayer.armorPenetration;
 
             // Defense can never be negative and has a minimum value of zero.
             if (effectiveDefense < 0)
@@ -3235,7 +3265,7 @@ namespace CalamityMod.NPCs
 					{
 						damage = (int)(damage * 0.25);
 					}
-					else if (projectile.type == ProjectileType<RainbowBoom>() || projectile.type == ProjectileType<RainBolt>() || projectile.type == ProjectileID.DD2BetsyArrow || projectile.type == ProjectileType<ForbiddenSunProjectile>() || projectile.type == ProjectileType<ForbiddenSunburst>() || projectile.type == ProjectileType<Tornado>())
+					else if (projectile.type == ProjectileType<RainbowBoom>() || projectile.type == ProjectileType<RainBolt>() || projectile.type == ProjectileID.DD2BetsyArrow || projectile.type == ProjectileType<ForbiddenSunProjectile>() || projectile.type == ProjectileType<ForbiddenSunburst>() || projectile.type == ProjectileType<Tornado>() || projectile.type == ProjectileType<TenebreusTidesWaterSpear>() || projectile.type == ProjectileType<TenebreusTidesWaterSword>())
 					{
 						damage = (int)(damage * 0.5);
 					}

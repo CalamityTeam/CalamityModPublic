@@ -1,3 +1,4 @@
+using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
@@ -14,7 +15,8 @@ namespace CalamityMod.Items.Armor
         {
             DisplayName.SetDefault("Silva Armor");
             Tooltip.SetDefault("+80 max life\n" +
-                       "12% increased damage and 8% increased critical strike chance");
+                       "12% increased damage and 8% increased critical strike chance\n" +
+					   "Grants immunity to the irradiated debuff");
         }
 
         public override void SetDefaults()
@@ -32,6 +34,7 @@ namespace CalamityMod.Items.Armor
             player.statLifeMax2 += 80;
             player.allDamage += 0.12f;
             player.Calamity().AllCritBoost(8);
+            player.buffImmune[ModContent.BuffType<Irradiated>()] = true;
         }
 
         public override void AddRecipes()

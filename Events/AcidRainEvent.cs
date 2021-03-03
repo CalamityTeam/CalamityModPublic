@@ -189,7 +189,6 @@ namespace CalamityMod.Events
                 {
                     CalamityWorld.rainingAcid = false;
                     BroadcastEventText("Mods.CalamityMod.AcidRainEnd"); // The sulphuric skies begin to clear...
-                    CalamityWorld.acidRainExtraDrawTime = 40;
 
                     // Turn off the rain from the event
                     Main.numCloudsTemp = Main.rand.Next(5, 20 + 1);
@@ -218,13 +217,6 @@ namespace CalamityMod.Events
                     netMessage.Write(CalamityWorld.rainingAcid);
                     netMessage.Write(CalamityWorld.acidRainPoints);
                     netMessage.Write(CalamityWorld.timeSinceAcidRainKill);
-                    netMessage.Send();
-                }
-                if (Main.netMode == NetmodeID.Server)
-                {
-                    var netMessage = CalamityMod.Instance.GetPacket();
-                    netMessage.Write((byte)CalamityModMessageType.AcidRainUIDrawFadeSync);
-                    netMessage.Write(CalamityWorld.acidRainExtraDrawTime);
                     netMessage.Send();
                 }
                 if (Main.netMode == NetmodeID.Server)

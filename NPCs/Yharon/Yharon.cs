@@ -280,7 +280,7 @@ namespace CalamityMod.NPCs.Yharon
 
             int newPhaseTimer = 180;
 
-			float flareDustPhaseScalar = death ? 80f : 100f;
+			float flareDustPhaseScalar = death ? 48f : 60f;
 			phase2GateValue -= ai2GateValue; // 0.35, 70% HP = 0.7 - 0.55 = 0.15, 0.35 - 0.15 = 0.2 / 0.35 = 0.57, 60% HP = 0.6 - 0.55 = 0.05, 0.35 - 0.05 = 0.3 / 0.35 = 0.85, 80% HP = 0.8 - 0.55 = 0.25, 0.35 - 0.25 = 0.1 / 0.35 = 0.28
 			int flareDustPhaseTimerReduction = revenge ? (int)(flareDustPhaseScalar * ((phase2GateValue - (lifeRatio - ai2GateValue)) / phase2GateValue)) : 0;
 			int flareDustPhaseTimer = (death ? 240 : 300) - flareDustPhaseTimerReduction;
@@ -965,9 +965,8 @@ namespace CalamityMod.NPCs.Yharon
 					if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
 						SpawnDetonatingFlares(flareDustBulletHellSpawn, player, maxFlareCount, new int[] { ModContent.NPCType<DetonatingFlare2>() });
-						float maxRingReduction = 20f - (int)(10f * (phase2GateValue - lifeRatio));
-						int ringReduction = (int)MathHelper.Lerp(0f, maxRingReduction, npc.ai[2] / flareDustPhaseTimer);
-						int totalProjectiles = 38 - ringReduction; // 36 for first ring, 18 for last ring
+						int ringReduction = (int)MathHelper.Lerp(0f, 14f, npc.ai[2] / flareDustPhaseTimer);
+						int totalProjectiles = 38 - ringReduction; // 36 for first ring, 22 for last ring
 						DoFlareDustBulletHell(0, flareDustSpawnDivisor, npc.GetProjectileDamage(ModContent.ProjectileType<FlareDust>()), totalProjectiles, 0f, 0f, false);
 
 						// Fire a flame towards every player, with a limit of 10
@@ -1519,7 +1518,8 @@ namespace CalamityMod.NPCs.Yharon
         {
 			float phase2GateValue = revenge ? 0.44f : expertMode ? 0.385f : 0.275f;
 			bool phase2 = death || lifeRatio <= phase2GateValue;
-            bool phase3 = lifeRatio <= (death ? 0.358f : revenge ? 0.275f : expertMode ? 0.22f : 0.138f);
+			float phase3GateValue = death ? 0.358f : revenge ? 0.275f : expertMode ? 0.22f : 0.138f;
+			bool phase3 = lifeRatio <= phase3GateValue;
 			float phase4GateValue = death ? 0.165f : 0.11f;
 			bool phase4 = lifeRatio <= phase4GateValue && revenge;
 
@@ -1532,8 +1532,6 @@ namespace CalamityMod.NPCs.Yharon
 
             if (!moveCloser)
             {
-				calamityGlobalNPC.AITimer = 0;
-
                 Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
                 if (calamityModMusic != null)
                     music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/DragonGod");
@@ -2200,9 +2198,8 @@ namespace CalamityMod.NPCs.Yharon
 					{
 						if (npc.ai[1] % flareDustSpawnDivisor == 0f)
 						{
-							float maxRingReduction = 18f - (int)(9f * (ai2GateValue - lifeRatio));
-							int ringReduction = (int)MathHelper.Lerp(0f, maxRingReduction, npc.ai[1] / spinPhaseTimer);
-							int totalProjectiles = (secondPhasePhase == 2 ? 42 : 38) - ringReduction; // 36 for first ring, 18 for last ring
+							int ringReduction = (int)MathHelper.Lerp(0f, 12f, npc.ai[1] / spinPhaseTimer);
+							int totalProjectiles = (secondPhasePhase == 2 ? 42 : 38) - ringReduction; // 36 for first ring, 24 for last ring
 							DoFlareDustBulletHell(0, spinPhaseTimer, npc.GetProjectileDamage(ModContent.ProjectileType<FlareDust>()), totalProjectiles, 0f, 0f, true);
 
 							// Fire a flame towards every player, with a limit of 10
