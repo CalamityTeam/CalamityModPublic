@@ -110,24 +110,6 @@ namespace CalamityMod.CalPlayer
 							modPlayer.bloodflareMeleeHits++;
 						}
 					}
-					if (CalamityWorld.revenge && CalamityConfig.Instance.Rippers)
-					{
-						int stressGain = (int)(damage * 0.1);
-						int stressMaxGain = 10;
-						if (stressGain < 1)
-						{
-							stressGain = 1;
-						}
-						if (stressGain > stressMaxGain)
-						{
-							stressGain = stressMaxGain;
-						}
-						modPlayer.rage += stressGain;
-						if (modPlayer.rage >= modPlayer.rageMax)
-						{
-							modPlayer.rage = modPlayer.rageMax;
-						}
-					}
 				}
 			}
 		}
@@ -237,27 +219,6 @@ namespace CalamityMod.CalPlayer
                         modPlayer.bloodflareMeleeHits++;
                     }
                 }
-				if (CalamityWorld.revenge && CalamityConfig.Instance.Rippers)
-				{
-					if (modProj.trueMelee)
-					{
-						int stressGain = (int)(proj.damage * 0.1);
-						int stressMaxGain = 10;
-						if (stressGain < 1)
-						{
-							stressGain = 1;
-						}
-						if (stressGain > stressMaxGain)
-						{
-							stressGain = stressMaxGain;
-						}
-						modPlayer.rage += stressGain;
-						if (modPlayer.rage >= modPlayer.rageMax)
-						{
-							modPlayer.rage = modPlayer.rageMax;
-						}
-					}
-				}
 			}
 		}
 		#endregion
