@@ -30,10 +30,6 @@ namespace CalamityMod
 		/// <param name="nanFallback">The direction to fall back to if the calculations result in any NaNs. If nothing is specified, a clamp is performed to prevent any chance of NaNs at all.</param>
 		public static Vector2 GetProjectilePhysicsFiringVelocity(Vector2 shootingPosition, Vector2 destination, float gravity, float shootSpeed, Vector2? nanFallback = null)
 		{
-			// Reset the NaN fallback to its default.
-			if (nanFallback is null)
-				nanFallback = Vector2.UnitY;
-
 			// Ensure that the gravity has the right sign for Terraria's coordinate system.
 			gravity = -Math.Abs(gravity);
 
