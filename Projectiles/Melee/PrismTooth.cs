@@ -109,7 +109,7 @@ namespace CalamityMod.Projectiles.Melee
 				return true;
 
 			if (TrailDrawer is null)
-				TrailDrawer = new PrimitiveTrail(WidthFunction, ColorFunction, specialShader: GameShaders.Misc["CalamityMod:PrismCrystal"]);
+				TrailDrawer = new PrimitiveTrail(WidthFunction, ColorFunction, specialShader: GameShaders.Misc["CalamityMod:PrismaticStreak"]);
 
 			// Variable adjustment vector used to prevent the trail for starting somewhat that isn't behind
 			// the crystal. This may appear in small amounts, with offsets of a few pixels, but at the speed
@@ -125,7 +125,7 @@ namespace CalamityMod.Projectiles.Melee
 			if (projectile.oldPos[1].HasNaNs())
 				projectile.oldPos[1] = oldPosition;
 
-			GameShaders.Misc["CalamityMod:PrismCrystal"].SetShaderTexture(ModContent.GetTexture("CalamityMod/ExtraTextures/ScarletDevilStreak"));
+			GameShaders.Misc["CalamityMod:PrismaticStreak"].SetShaderTexture(ModContent.GetTexture("CalamityMod/ExtraTextures/ScarletDevilStreak"));
 			TrailDrawer.Draw(projectile.oldPos, projectile.Size * 0.5f + generalOffset - Main.screenPosition, 65);
 			return true;
 		}

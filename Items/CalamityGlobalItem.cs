@@ -70,9 +70,21 @@ namespace CalamityMod.Items
         public bool donorItem = false;
         public bool devItem = false;
 
-		// See RogueWeapon.cs for rogue modifier shit
-		#region Modifiers
-		public CalamityGlobalItem()
+        public static readonly Color[] ExoPalette = new Color[]
+        {
+            new Color(250, 255, 112),
+            new Color(211, 235, 108),
+            new Color(166, 240, 105),
+            new Color(105, 240, 220),
+            new Color(64, 130, 145),
+            new Color(145, 96, 145),
+            new Color(242, 112, 73),
+            new Color(199, 62, 62),
+        };
+
+        // See RogueWeapon.cs for rogue modifier shit
+        #region Modifiers
+        public CalamityGlobalItem()
 		{
 			StealthGenBonus = 1f;
 		}

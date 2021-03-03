@@ -43,7 +43,7 @@ namespace CalamityMod.Effects
             GameShaders.Misc["CalamityMod:FabstaffRay"] = new MiscShaderData(new Ref<Effect>(FabstaffRayShader), "TrailPass");
             GameShaders.Misc["CalamityMod:OverpoweredTouhouSpearShader"] = new MiscShaderData(new Ref<Effect>(ScarletDevilShader), "TrailPass");
             GameShaders.Misc["CalamityMod:Bordernado"] = new MiscShaderData(new Ref<Effect>(BordernadoFireShader), "TrailPass");
-            GameShaders.Misc["CalamityMod:PrismCrystal"] = new MiscShaderData(new Ref<Effect>(PrismCrystalShader), "TrailPass");
+            GameShaders.Misc["CalamityMod:PrismaticStreak"] = new MiscShaderData(new Ref<Effect>(PrismCrystalShader), "TrailPass");
         }
     }
 }

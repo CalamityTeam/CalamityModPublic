@@ -1,3 +1,4 @@
+using CalamityMod.Items;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -8,21 +9,10 @@ namespace CalamityMod.Projectiles.Melee
     public class PrismRay : ModProjectile
     {
         public Vector2 StartingPosition;
-        public Color RayColor => CalamityUtils.MulticolorLerp(RayHue, ExoPalette);
+        public Color RayColor => CalamityUtils.MulticolorLerp(RayHue, CalamityGlobalItem.ExoPalette);
         public Color HueDownscaledRayColor => RayColor * 0.66f;
         public ref float RayHue => ref projectile.ai[0];
         public ref float Time => ref projectile.localAI[1];
-        public static readonly Color[] ExoPalette = new Color[]
-        {
-            new Color(250, 255, 112),
-            new Color(211, 235, 108),
-            new Color(166, 240, 105),
-            new Color(105, 240, 220),
-            new Color(64, 130, 145),
-            new Color(145, 96, 145),
-            new Color(242, 112, 73),
-            new Color(199, 62, 62),
-        };
         public const int Lifetime = 30;
         public override string Texture => "CalamityMod/Projectiles/StarProj";
 

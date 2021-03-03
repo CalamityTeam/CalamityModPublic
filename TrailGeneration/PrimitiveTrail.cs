@@ -142,10 +142,6 @@ namespace CalamityMod
 				float currentRotation = MathHelper.WrapAngle(originalRotations.ElementAt(i));
 				float aheadRotation = MathHelper.WrapAngle(originalRotations.ElementAt(i + 1));
 				int pointsToAdd = (int)(Math.Abs(aheadRotation - currentRotation) * 50f / MathHelper.Pi) + 4;
-				if (pointsToAdd > 6)
-				{
-					int v = 7;
-				}
 
 				float segmentLength = Vector2.Distance(originalPositions.ElementAt(i), originalPositions.ElementAt(i + 1));
 				float increment = 1f / (pointsToAdd + 2);
