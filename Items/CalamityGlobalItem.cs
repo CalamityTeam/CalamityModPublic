@@ -4,9 +4,6 @@ using CalamityMod.CalPlayer;
 using CalamityMod.Events;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor;
-using CalamityMod.Items.DifficultyItems;
-using CalamityMod.Items.Materials;
-using CalamityMod.Items.PermanentBoosters;
 using CalamityMod.Items.Placeables.Furniture.Fountains;
 using CalamityMod.Items.Potions;
 using CalamityMod.Items.Tools;
@@ -375,7 +372,7 @@ namespace CalamityMod.Items
             }
             if (modPlayer.dynamoStemCells)
             {
-                if (item.ranged && Main.rand.Next(0, 100) >= 80)
+                if (item.ranged && Main.rand.NextBool(20))
                 {
 					double damageMult = item.useTime / 30D;
 					if (damageMult < 0.35)
@@ -391,7 +388,7 @@ namespace CalamityMod.Items
             }
             if (modPlayer.prismaticRegalia)
             {
-                if (item.magic && Main.rand.Next(0, 100) >= 80)
+                if (item.magic && Main.rand.NextBool(20))
                 {
                     if (player.whoAmI == Main.myPlayer)
                     {
@@ -410,13 +407,13 @@ namespace CalamityMod.Items
             }
             if (modPlayer.harpyWingBoost && modPlayer.harpyRing)
             {
-                if (Main.rand.NextBool(5))
-                {
+				if (Main.rand.NextBool(5))
+				{
                     if (player.whoAmI == Main.myPlayer)
                     {
 						float spreadX = speedX + Main.rand.NextFloat(-0.75f, 0.75f);
 						float spreadY = speedY + Main.rand.NextFloat(-0.75f, 0.75f);
-                        int feather = Projectile.NewProjectile(position, new Vector2(spreadX, spreadY) * 1.25f, ModContent.ProjectileType<TradewindsProjectile>(), CalamityUtils.DamageSoftCap(damage * 0.5, 75), 2f, player.whoAmI);
+                        int feather = Projectile.NewProjectile(position, new Vector2(spreadX, spreadY) * 1.25f, ModContent.ProjectileType<TradewindsProjectile>(), (int)(damage * 0.3), 2f, player.whoAmI);
 						if (feather.WithinBounds(Main.maxProjectiles))
 						{
 							Main.projectile[feather].usesLocalNPCImmunity = true;
@@ -591,7 +588,7 @@ namespace CalamityMod.Items
                             {
                                 Vector2 perturbedspeed = new Vector2(correctedVelocity.X, correctedVelocity.Y + Main.rand.Next(-3, 4)).RotatedBy(MathHelper.ToRadians(spread));
 
-                                Projectile.NewProjectile(player.Center.X, player.Center.Y - 10, perturbedspeed.X, perturbedspeed.Y, ModContent.ProjectileType<ProfanedCrystalMeleeSpear>(), (int)((shouldNerf ? 750 : 1350) * player.MinionDamage()), 1f, player.whoAmI, Main.rand.NextBool(player.Calamity().profanedSoulWeaponUsage == 4 ? 5 : 7) ? 1f : 0f);
+                                Projectile.NewProjectile(player.Center.X, player.Center.Y - 10, perturbedspeed.X, perturbedspeed.Y, ModContent.ProjectileType<ProfanedCrystalMeleeSpear>(), (int)((shouldNerf ? 350 : 700) * player.MinionDamage()), 1f, player.whoAmI, Main.rand.NextBool(player.Calamity().profanedSoulWeaponUsage == 4 ? 5 : 7) ? 1f : 0f);
                                 spread -= Main.rand.Next(2, 4);
                                 Main.PlaySound(SoundID.Item20, player.Center);
                             }
@@ -599,7 +596,7 @@ namespace CalamityMod.Items
                         }
                         else
                         {
-                            Projectile.NewProjectile(player.Center, correctedVelocity * 6.9f, ModContent.ProjectileType<ProfanedCrystalMeleeSpear>(), (int)((shouldNerf ? 375 : 950) * player.MinionDamage()), 1f, player.whoAmI, Main.rand.NextBool(player.Calamity().profanedSoulWeaponUsage == 4 ? 5 : 7) ? 1f : 0f, 1f);
+                            Projectile.NewProjectile(player.Center, correctedVelocity * 6.9f, ModContent.ProjectileType<ProfanedCrystalMeleeSpear>(), (int)((shouldNerf ? 250 : 500) * player.MinionDamage()), 1f, player.whoAmI, Main.rand.NextBool(player.Calamity().profanedSoulWeaponUsage == 4 ? 5 : 7) ? 1f : 0f, 1f);
                             Main.PlaySound(SoundID.Item20, player.Center);
                         }
 
@@ -616,7 +613,7 @@ namespace CalamityMod.Items
                         bool isSmallBoomer = Main.rand.NextDouble() <= (enrage ? 0.2 : 0.3); // 20% chance if enraged, else 30% This is intentional due to literally doubling the amount of projectiles fired.
                         bool isThiccBoomer = isSmallBoomer && Main.rand.NextDouble() <= 0.05; // 5%
                         int projType = isSmallBoomer ? isThiccBoomer ? 1 : 2 : 3;
-                        int dam = (int)((shouldNerf ? 375 : 650) * player.MinionDamage());
+                        int dam = (int)((shouldNerf ? 200 : 400) * player.MinionDamage());
                         switch (projType)
                         {
                             case 1: //big boomer
@@ -657,7 +654,7 @@ namespace CalamityMod.Items
                         player.statMana -= manaCost;
                         correctedVelocity *= 25f;
                         Main.PlaySound(SoundID.Item20, player.Center);
-                        int dam = (int)((shouldNerf ? 1350 : 3375) * player.MinionDamage());
+                        int dam = (int)((shouldNerf ? 900 : 1800) * player.MinionDamage());
                         if (player.HasBuff(BuffID.ManaSickness))
                         {
                             int sickPenalty = (int)(dam * (0.05f * ((player.buffTime[player.FindBuffIndex(BuffID.ManaSickness)] + 60) / 60)));
@@ -683,7 +680,7 @@ namespace CalamityMod.Items
                         for (float i = 0; i < crystalCount; i++)
                         {
                             float angle = MathHelper.TwoPi / crystalCount * i;
-                            int proj = Projectile.NewProjectile(player.Center, angle.ToRotationVector2() * 8f, ModContent.ProjectileType<ProfanedCrystalRogueShard>(), (int)((shouldNerf ? 225 : 660) * player.MinionDamage()), 1f, player.whoAmI, 0f, 0f);
+                            int proj = Projectile.NewProjectile(player.Center, angle.ToRotationVector2() * 8f, ModContent.ProjectileType<ProfanedCrystalRogueShard>(), (int)((shouldNerf ? 175 : 350) * player.MinionDamage()), 1f, player.whoAmI, 0f, 0f);
 							if (proj.WithinBounds(Main.maxProjectiles))
 								Main.projectile[proj].Calamity().forceMinion = true;
                             Main.PlaySound(SoundID.Item20, player.Center);
@@ -693,7 +690,7 @@ namespace CalamityMod.Items
                     else if (player.Calamity().profanedSoulWeaponUsage % (enrage ? 5 : 10) == 0)
                     {
                         float angle = MathHelper.TwoPi / (enrage ? 9 : 18) * (player.Calamity().profanedSoulWeaponUsage / (enrage ? 1 : 10));
-                        int proj = Projectile.NewProjectile(player.Center, angle.ToRotationVector2() * 8f, ModContent.ProjectileType<ProfanedCrystalRogueShard>(), (int)((shouldNerf ? 300 : 825) * player.MinionDamage()), 1f, player.whoAmI, 1f, 0f);
+                        int proj = Projectile.NewProjectile(player.Center, angle.ToRotationVector2() * 8f, ModContent.ProjectileType<ProfanedCrystalRogueShard>(), (int)((shouldNerf ? 220 : 440) * player.MinionDamage()), 1f, player.whoAmI, 1f, 0f);
 						if (proj.WithinBounds(Main.maxProjectiles))
 							Main.projectile[proj].Calamity().forceMinion = true;
                         Main.PlaySound(SoundID.Item20, player.Center);
@@ -1250,13 +1247,21 @@ namespace CalamityMod.Items
 			#endregion
 
 			#region Vanilla Item Tooltip Edits
+			if (item.type == ItemID.Pwnhammer || item.type == ItemID.Hammush)
+			{
+				foreach (TooltipLine line2 in tooltips)
+				{
+					if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
+						line2.text = "";
+				}
+			}
 			if (item.type == ItemID.BlackBelt)
 			{
 				foreach (TooltipLine line2 in tooltips)
 				{
 					if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
 						line2.text = "Grants the ability to dodge attacks\n" +
-							"This dodge has a 60s cooldown";
+							"This dodge has a 60 second cooldown and does not work while a reflection effect is on cooldown";
 				}
 			}
 			if (item.type == ItemID.MasterNinjaGear)
@@ -1265,7 +1270,7 @@ namespace CalamityMod.Items
 				{
 					if (line2.mod == "Terraria" && line2.Name == "Tooltip1")
 						line2.text = "Grants the ability to dodge attacks\n" +
-							"This dodge has a 60s cooldown";
+							"This dodge has a 60 second cooldown and does not work while a reflection effect is on cooldown";
 				}
 			}
 			if (item.type == ItemID.CobaltSword || item.type == ItemID.CobaltNaginata)

@@ -120,7 +120,6 @@ namespace CalamityMod.Projectiles.Boss
 					Projectile.NewProjectile(fireFrom.X, fireFrom.Y, velocity.X, velocity.Y, ModContent.ProjectileType<RedLightning>(), damage, 0f, projectile.owner, ai0.ToRotation(), ai);
 				}
 			}
-			damage = 1;
 		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

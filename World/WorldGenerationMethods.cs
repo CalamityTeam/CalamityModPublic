@@ -269,12 +269,19 @@ namespace CalamityMod.World
                             WorldGen.OreRunner(tilesX, tilesY, WorldGen.genRand.Next(3, 8), WorldGen.genRand.Next(3, 8), (ushort)type);
                         }
                     }
-                    else
+					else if (type == ModContent.TileType<HallowedOre>())
+					{
+						if (Main.tile[tilesX, tilesY].type == TileID.Pearlstone || Main.tile[tilesX, tilesY].type == TileID.HallowHardenedSand || Main.tile[tilesX, tilesY].type == TileID.HallowSandstone || Main.tile[tilesX, tilesY].type == TileID.HallowedIce)
+						{
+							WorldGen.OreRunner(tilesX, tilesY, WorldGen.genRand.Next(3, 8), WorldGen.genRand.Next(3, 8), (ushort)type);
+						}
+					}
+					else
                     {
                         WorldGen.OreRunner(tilesX, tilesY, WorldGen.genRand.Next(3, 8), WorldGen.genRand.Next(3, 8), (ushort)type);
                     }
                 }
-            }
+			}
         }
         #endregion
 

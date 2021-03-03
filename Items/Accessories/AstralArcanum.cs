@@ -13,12 +13,13 @@ namespace CalamityMod.Items.Accessories
         {
             DisplayName.SetDefault("Astral Arcanum");
             Tooltip.SetDefault("Taking damage drops astral stars from the sky\n" +
-                               "Provides immunity to the astral infection debuff\n" +
-                               "You have a 5% chance to reflect projectiles when they hit you\n" +
-                               "If this effect triggers you get healed for the projectile's damage\n" +
-                               "Boosts life regen even while under the effects of a damaging debuff\n" +
-                               "While under the effects of a damaging debuff you will gain 20 defense\n" +
-                               "TOOLTIP LINE HERE");
+                            "Provides immunity to the astral infection debuff\n" +
+                            "You reflect projectiles when they hit you\n" +
+							"Reflected projectiles deal 5 times damage to enemies and no damage to you\n" +
+							"This reflection effect has a 90 second cooldown\n" +
+                            "Boosts life regen even while under the effects of a damaging debuff\n" +
+                            "While under the effects of a damaging debuff you will gain 20 defense\n" +
+                            "TOOLTIP LINE HERE");
         }
 
         public override void SetDefaults()

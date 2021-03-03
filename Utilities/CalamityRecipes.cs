@@ -7,6 +7,7 @@ using CalamityMod.Items.Fishing.BrimstoneCragCatches;
 using CalamityMod.Items.Fishing.SunkenSeaCatches;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
+using CalamityMod.Items.Placeables.Ores;
 using CalamityMod.Items.Potions;
 using CalamityMod.Items.Weapons.Melee;
 using System.Collections.Generic;
@@ -63,8 +64,15 @@ namespace CalamityMod
             r.SetResult(ItemID.FallenStar);
             r.AddRecipe();
 
-            // Ectoplasm from Ectoblood
-            r = GetNewRecipe();
+			// Hallowed Bars
+			r = GetNewRecipe();
+			r.AddIngredient(ModContent.ItemType<HallowedOre>(), 4);
+			r.AddTile(TileID.AdamantiteForge);
+			r.SetResult(ItemID.HallowedBar);
+			r.AddRecipe();
+
+			// Ectoplasm from Ectoblood
+			r = GetNewRecipe();
             r.AddIngredient(ModContent.ItemType<Ectoblood>(), 3);
             r.AddTile(TileID.MythrilAnvil);
             r.SetResult(ItemID.Ectoplasm);

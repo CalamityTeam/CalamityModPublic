@@ -64,7 +64,7 @@ namespace CalamityMod.Items.Armor
                 "Enemies killed during a Blood Moon have a much higher chance to drop Blood Orbs\n" +
                 "Press " + hotkey + " to unleash the lost souls of polterghast to destroy your enemies\n" +
                 "This effect has a 30 second cooldown\n" +
-                "Ranged weapons have a chance to fire bloodsplosion orbs";
+                "Ranged weapons fire bloodsplosion orbs every 2.5 seconds";
             player.crimsonRegen = true;
 
 			if (modPlayer.bloodflareSoulTimer == 1) //sound when ready to use again

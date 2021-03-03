@@ -22,7 +22,6 @@ using System;
 using System.IO;
 using Terraria;
 using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 namespace CalamityMod.NPCs.PlaguebringerGoliath
 {
@@ -1028,7 +1027,28 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
         public override bool CheckActive() => canDespawn;
 
-        public override void HitEffect(int hitDirection, double damage)
+		// Can only hit the target if within certain distance
+		public override bool CanHitPlayer(Player target, ref int cooldownSlot)
+		{
+			Rectangle targetHitbox = target.Hitbox;
+
+			float dist1 = Vector2.Distance(npc.Center, targetHitbox.TopLeft());
+			float dist2 = Vector2.Distance(npc.Center, targetHitbox.TopRight());
+			float dist3 = Vector2.Distance(npc.Center, targetHitbox.BottomLeft());
+			float dist4 = Vector2.Distance(npc.Center, targetHitbox.BottomRight());
+
+			float minDist = dist1;
+			if (dist2 < minDist)
+				minDist = dist2;
+			if (dist3 < minDist)
+				minDist = dist3;
+			if (dist4 < minDist)
+				minDist = dist4;
+
+			return minDist <= 100f;
+		}
+
+		public override void HitEffect(int hitDirection, double damage)
         {
             for (int k = 0; k < 2; k++)
             {

@@ -61,7 +61,7 @@ namespace CalamityMod.Items.Armor
                 "Enemies are more likely to target you\n" +
                 "Inferno effect when below 50% life\n" +
                 "Melee attacks and projectiles cause chaos flames to erupt on enemy hits\n" +
-                "You have a 20% chance to emit a blazing explosion when you are hit";
+                "You emit a blazing explosion when you are hit";
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.ataxiaBlaze = true;
             modPlayer.ataxiaGeyser = true;

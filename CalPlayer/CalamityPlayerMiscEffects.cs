@@ -1077,6 +1077,8 @@ namespace CalamityMod.CalPlayer
 			// Cooldowns and timers
 			if (modPlayer.dodgeCooldownTimer > 0)
 				modPlayer.dodgeCooldownTimer--;
+			if (modPlayer.reflectCooldownTimer > 0)
+				modPlayer.reflectCooldownTimer--;
 			if (modPlayer.KameiBladeUseDelay > 0)
 				modPlayer.KameiBladeUseDelay--;
 			if (modPlayer.galileoCooldown > 0)
@@ -1121,10 +1123,6 @@ namespace CalamityMod.CalPlayer
 				modPlayer.xerocDmg -= 2f;
 			if (modPlayer.xerocDmg < 0f)
 				modPlayer.xerocDmg = 0f;
-			if (modPlayer.godSlayerDmg > 0f)
-				modPlayer.godSlayerDmg -= 2.5f;
-			if (modPlayer.godSlayerDmg < 0f)
-				modPlayer.godSlayerDmg = 0f;
 			if (modPlayer.aBulwarkRareMeleeBoostTimer > 0)
 				modPlayer.aBulwarkRareMeleeBoostTimer--;
 			if (modPlayer.bossRushImmunityFrameCurseTimer > 0)
@@ -3270,12 +3268,6 @@ namespace CalamityMod.CalPlayer
 				}
 			}
 
-			if (modPlayer.auricSet && modPlayer.silvaMelee)
-			{
-				double multiplier = player.statLife / (double)player.statLifeMax2;
-				player.meleeDamage += (float)(multiplier * 0.2); //ranges from 1.2 times to 1 times
-			}
-
 			if (modPlayer.dArtifact)
 				player.allDamage += 0.25f;
 
@@ -3310,7 +3302,7 @@ namespace CalamityMod.CalPlayer
 						player.AddBuff(ModContent.BuffType<ProfanedBabs>(), 3600, true);
 
 					bool crystal = modPlayer.profanedCrystal && !modPlayer.profanedCrystalForce;
-					bool summonSet = modPlayer.tarraSummon || modPlayer.bloodflareSummon || modPlayer.godSlayerSummon || modPlayer.silvaSummon || modPlayer.dsSetBonus || modPlayer.omegaBlueSet || modPlayer.fearmongerSet;
+					bool summonSet = modPlayer.tarraSummon || modPlayer.bloodflareSummon || modPlayer.silvaSummon || modPlayer.dsSetBonus || modPlayer.omegaBlueSet || modPlayer.fearmongerSet;
 
 					if (player.ownedProjectileCounts[ModContent.ProjectileType<MiniGuardianHealer>()] < 1)
 						Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -6f, ModContent.ProjectileType<MiniGuardianHealer>(), 0, 0f, Main.myPlayer, 0f, 0f);

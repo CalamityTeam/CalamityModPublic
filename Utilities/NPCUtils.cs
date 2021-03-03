@@ -96,11 +96,22 @@ namespace CalamityMod
 				npc.type == NPCType<SlimeGodSplit>() || npc.type == NPCType<SlimeGodRunSplit>();
 		}
 
-		public static bool AnyBossNPCS()
+		public static bool AnyBossNPCS(bool checkForMechs = false)
 		{
 			for (int i = 0; i < Main.maxNPCs; i++)
-				if (Main.npc[i] != null && Main.npc[i].IsABoss())
-					return true;
+			{
+				if (Main.npc[i] != null)
+				{
+					NPC npc = Main.npc[i];
+					if (npc.IsABoss())
+					{
+						// Added due to the new mech boss ore progression, return true if any mech is alive and checkForMechs is true, reduces mech boss projectile damage if true
+						if (checkForMechs)
+							return npc.type == NPCID.TheDestroyer || npc.type == NPCID.SkeletronPrime || npc.type == NPCID.Spazmatism || npc.type == NPCID.Retinazer;
+						return true;
+					}
+				}
+			}
 			return FindFirstProjectile(ProjectileType<DeusRitualDrama>()) != -1;
 		}
 

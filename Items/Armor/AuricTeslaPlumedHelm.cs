@@ -38,7 +38,7 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateArmorSet(Player player)
         {
-            player.setBonus = "Rogue Tarragon, Bloodflare, God Slayer, and Silva armor effects\n" +
+            player.setBonus = "Rogue Tarragon, Bloodflare and God Slayer armor effects\n" +
                 "All projectiles spawn healing auric orbs on enemy hits\n" +
                 "Max run speed and acceleration boosted by 10%\n" +
                 "Rogue weapon critical strikes will do 1.25 times damage while you are above 50% HP\n" +
@@ -53,8 +53,6 @@ namespace CalamityMod.Items.Armor
             modPlayer.bloodflareThrowing = true;
             modPlayer.godSlayer = true;
             modPlayer.godSlayerThrowing = true;
-            modPlayer.silvaSet = true;
-            modPlayer.silvaThrowing = true;
             modPlayer.auricSet = true;
             modPlayer.rogueStealthMax += 1.3f;
             modPlayer.wearingRogueArmor = true;
@@ -81,7 +79,6 @@ namespace CalamityMod.Items.Armor
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<SilvaMask>());
             recipe.AddIngredient(ModContent.ItemType<GodSlayerMask>());
             recipe.AddIngredient(ModContent.ItemType<BloodflareHelm>());
             recipe.AddIngredient(ModContent.ItemType<TarragonHelmet>());

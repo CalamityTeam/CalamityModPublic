@@ -40,7 +40,9 @@ namespace CalamityMod.Items.Armor
         {
             player.setBonus = "5% increased melee damage\n" +
                 "Enemies are more likely to target you\n" +
-                "You have a 33% chance to reflect projectiles back at enemies\n" +
+                "You reflect projectiles back at enemies\n" +
+				"Reflected projectiles deal 50% less damage to you\n" +
+				"This reflection has a 60 second cooldown and does not work while a non-dash dodge is on cooldown\n" +
                 "If you reflect a projectile you are also healed for 1/5 of that projectile's damage";
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.daedalusReflect = true;

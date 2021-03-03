@@ -29,7 +29,6 @@ namespace CalamityMod.Items.Armor
         public override void UpdateEquip(Player player)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            modPlayer.godSlayerReflect = true;
             player.thorns += 0.5f;
             player.statLifeMax2 += 60;
             player.allDamage += 0.11f;

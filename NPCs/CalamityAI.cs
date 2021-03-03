@@ -3763,12 +3763,12 @@ namespace CalamityMod.NPCs
 				npc.timeLeft = 1800;
 
 			// Detect active tiles around Void
-			int radius = 20; // 20 tile radius
+			int radius = 30; // 30 tile radius
 			int diameter = radius * 2;
 			int npcCenterX = (int)(npc.Center.X / 16f);
 			int npcCenterY = (int)(npc.Center.Y / 16f);
 			Rectangle area = new Rectangle(npcCenterX - radius, npcCenterY - radius, diameter, diameter);
-			int nearbyActiveTiles = 0; // 0 to 1600
+			int nearbyActiveTiles = 0; // 0 to 3600
 			for (int x = area.Left; x < area.Right; x++)
 			{
 				for (int y = area.Top; y < area.Bottom; y++)
@@ -3783,21 +3783,21 @@ namespace CalamityMod.NPCs
 
 			// Scale multiplier based on nearby active tiles
 			float tileEnrageMult = 1f;
-			if (nearbyActiveTiles < 800)
-				tileEnrageMult += (800 - nearbyActiveTiles) * 0.00075f; // Ranges from 1f to 1.6f
+			if (nearbyActiveTiles < 1000)
+				tileEnrageMult += (1000 - nearbyActiveTiles) * 0.00075f; // Ranges from 1f to 1.75f
 
 			npc.ai[1] = tileEnrageMult;
 
 			// Increase projectile fire rate based on number of nearby active tiles
-			float projectileFireRateMultiplier = MathHelper.Lerp(1f, 4f, 1f - ((tileEnrageMult - 1f) / 0.8f));
+			float projectileFireRateMultiplier = MathHelper.Lerp(1f, 4f, 1f - ((tileEnrageMult - 1f) / 0.75f));
 
 			// Decrease projectile time left based on number of nearby active tiles
-			int baseProjectileTimeLeft = (int)(333.4f * tileEnrageMult);
+			int baseProjectileTimeLeft = (int)(300f * tileEnrageMult);
 
 			// Increase damage of projectiles and contact damage based on number of nearby active tiles
 			int damageIncrease = 0;
-			if (nearbyActiveTiles < 400)
-				damageIncrease += (400 - nearbyActiveTiles) / 40; // Ranges from 0 to 10
+			if (nearbyActiveTiles < 500)
+				damageIncrease += (500 - nearbyActiveTiles) / 50; // Ranges from 0 to 10
 
 			npc.damage = npc.defDamage + damageIncrease * 4;
 
@@ -3805,7 +3805,7 @@ namespace CalamityMod.NPCs
 			{
 				float num472 = npc.Center.X;
 				float num473 = npc.Center.Y;
-				float num474 = (death ? (float)(300D * (1D - lifeRatio)) : (float)(250D * (1D - lifeRatio))) * tileEnrageMult;
+				float num474 = (death ? (float)(280D * (1D - lifeRatio)) : (float)(230D * (1D - lifeRatio))) * tileEnrageMult;
 				if (!player.ZoneDungeon)
 					num474 *= 1.25f;
 
@@ -3974,10 +3974,10 @@ namespace CalamityMod.NPCs
 						calamityGlobalNPC.newAI[2] += 1f;
 
 						int glob = death ? 6 : revenge ? 5 : expertMode ? 4 : 3;
-						if (lifeRatio <= 0.5f)
+						if (lifeRatio <= 0.7f)
 							glob = death ? 7 : revenge ? 6 : expertMode ? 5 : 4;
-
-						glob = (int)(glob * MathHelper.Clamp(tileEnrageMult * 0.85f, 1f, 1.5f));
+						if (lifeRatio <= 0.4f)
+							glob = death ? 8 : revenge ? 7 : expertMode ? 6 : 5;
 
 						for (int num662 = 0; num662 < glob; num662++)
 						{

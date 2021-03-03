@@ -509,7 +509,7 @@ namespace CalamityMod
                 { ModContent.NPCType<DevourerofGodsHeadS>(), 9000 },
                 { ModContent.NPCType<DevourerofGodsBodyS>(), 9000 },
                 { ModContent.NPCType<DevourerofGodsTailS>(), 9000 },
-                { ModContent.NPCType<Yharon>(), 8100 },
+                { ModContent.NPCType<Yharon>(), 15300 },
                 { ModContent.NPCType<SupremeCalamitas>(), 18000 }
             };
         }

@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Accessories
                 "Stealth generates 30% faster when standing still and 20% faster while moving\n" +
                 "Grants the ability to evade attacks, releasing a cloud of lumenyl fluid which damages and stuns nearby enemies\n" +
                 "Evading an attack grants a lot of stealth\n" +
-                "This evade has a 75s cooldown before it can occur again");
+				"This evade has a 75 second cooldown and does not work while a reflection effect is on cooldown");
         }
 
         public override void SetDefaults()

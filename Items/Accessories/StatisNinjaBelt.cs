@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Accessories
             Tooltip.SetDefault("12% increased jump speed and allows constant jumping\n" +
 				"Increased fall damage resistance by 35 blocks\n" +
                 "Can climb walls, dash, and dodge attacks\n" +
-				"The dodge has a 60s cooldown");
+				"The dodge has a 60 second cooldown and does not work while a reflection effect is on cooldown");
         }
 
         public override void SetDefaults()

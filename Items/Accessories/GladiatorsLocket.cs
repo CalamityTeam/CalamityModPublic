@@ -46,9 +46,8 @@ namespace CalamityMod.Items.Accessories
                 {
                     player.AddBuff(ModContent.BuffType<GladiatorSwords>(), 3600, true);
                 }
-				int damage = NPC.downedPlantBoss ? 100 : Main.hardMode ? 50 : 20;
-                float damageMult = CalamityWorld.downedDoG ? 3f : NPC.downedMoonlord ? 2f : 1f;
-				int swordDmg = (int)(damage * damageMult * player.AverageDamage());
+				int damage = Main.hardMode ? 50 : 20;
+				int swordDmg = (int)(damage * player.AverageDamage());
                 if (player.ownedProjectileCounts[ModContent.ProjectileType<GladiatorSword>()] < 1)
                 {
                     Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, ModContent.ProjectileType<GladiatorSword>(), swordDmg, 6f, Main.myPlayer, 0f, 0f);

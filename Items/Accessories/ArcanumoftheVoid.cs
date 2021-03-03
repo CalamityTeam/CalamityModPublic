@@ -10,8 +10,9 @@ namespace CalamityMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Arcanum of the Void");
-            Tooltip.SetDefault("You have a 5% chance to reflect projectiles when they hit you\n" +
-                               "If this effect triggers you get healed for the projectile's damage");
+            Tooltip.SetDefault("You reflect projectiles when they hit you\n" +
+                            "Reflected projectiles deal 5 times damage to enemies and no damage to you\n" +
+							"This effect has a 90 second cooldown and does not work while a non-dash dodge is on cooldown");
         }
 
         public override void SetDefaults()

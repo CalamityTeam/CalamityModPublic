@@ -59,7 +59,7 @@ namespace CalamityMod.Items.Armor
                 }
                 if (player.ownedProjectileCounts[ModContent.ProjectileType<SilvaCrystal>()] < 1)
                 {
-                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<SilvaCrystal>(), (int)(1500f * player.MinionDamage()), 0f, Main.myPlayer, -20f, 0f);
+                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<SilvaCrystal>(), (int)(600f * player.MinionDamage()), 0f, Main.myPlayer, -20f, 0f);
                 }
             }
             player.minionDamage += 0.75f;

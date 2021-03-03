@@ -58,7 +58,7 @@ namespace CalamityMod.Items.Armor
             player.setBonus = "5% increased magic damage and 15% reduced mana usage\n" +
                 "Inferno effect when below 50% life\n" +
                 "Magic attacks summon damaging and healing flare orbs on hit\n" +
-                "You have a 20% chance to emit a blazing explosion when you are hit";
+                "You emit a blazing explosion when you are hit";
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.ataxiaBlaze = true;
             modPlayer.ataxiaMage = true;

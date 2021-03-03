@@ -107,7 +107,12 @@ namespace CalamityMod.Localization
 
                 new [] { "CryogenBossText", "Cryogen is derping out!" },
 
-                new [] { "BloodMoonText", "The Blood Moon is rising..." },
+				new [] { "HardmodeOreTier1Text", "Your world has been blessed with Cobalt and Palladium!" },
+				new [] { "HardmodeOreTier2Text", "Your world has been blessed with Mythril and Orichalcum!" },
+				new [] { "HardmodeOreTier3Text", "Your world has been blessed with Adamantite and Titanium!" },
+				new [] { "HardmodeOreTier4Text", "The hallow has been blessed with consecrated stone!" },
+
+				new [] { "BloodMoonText", "The Blood Moon is rising..." },
 
                 new [] { "DargonBossText", "The dark sun awaits." },
                 new [] { "DargonBossText2", "My dragon deems you an unworthy opponent. You must acquire the power of the dark sun to witness his true power." },

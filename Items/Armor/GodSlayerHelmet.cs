@@ -43,7 +43,7 @@ namespace CalamityMod.Items.Armor
                 "This effect can only occur once every 45 seconds\n" +
                 "While the cooldown for this effect is active all life regen is halved\n" +
                 "Your ranged critical hits have a chance to critically hit, causing 3 times the damage\n" +
-                "You have a chance to fire a god killer shrapnel round while firing ranged weapons";
+                "You fire a god killer shrapnel round while firing ranged weapons every 2.5 seconds";
         }
 
         public override void UpdateEquip(Player player)

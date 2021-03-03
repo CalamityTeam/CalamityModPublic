@@ -4,6 +4,7 @@ using CalamityMod.CalPlayer;
 using CalamityMod.Dusts;
 using CalamityMod.Events;
 using CalamityMod.NPCs.NormalNPCs;
+using CalamityMod.Projectiles.Boss;
 using CalamityMod.Projectiles.Healing;
 using CalamityMod.Projectiles.Magic;
 using CalamityMod.Projectiles.Melee;
@@ -83,8 +84,26 @@ namespace CalamityMod.Projectiles
 
         public bool overridesMinionDamagePrevention = false;
 
-        #region SetDefaults
-        public override void SetDefaults(Projectile projectile)
+		public static List<int> MechBossProjectileIDs = new List<int>
+		{
+			ProjectileID.DeathLaser,
+			ProjectileID.PinkLaser,
+			ProjectileID.BombSkeletronPrime,
+			ProjectileID.CursedFlameHostile,
+			ProjectileID.EyeFire,
+			ProjectileID.EyeLaser,
+			ProjectileID.Skull,
+			ProjectileID.SaucerMissile,
+			ProjectileID.RocketSkeleton,
+			ProjectileType<DestroyerCursedLaser>(),
+			ProjectileType<DestroyerElectricLaser>(),
+			ProjectileType<ShadowflameFireball>(),
+			ProjectileType<Shadowflamethrower>(),
+			ProjectileType<ScavengerLaser>()
+		};
+
+		#region SetDefaults
+		public override void SetDefaults(Projectile projectile)
         {
             if (CalamityLists.trueMeleeProjectileList.Contains(projectile.type))
                 trueMelee = true;
@@ -341,7 +360,18 @@ namespace CalamityMod.Projectiles
 
                 else if (projectile.type == ProjectileID.DeathLaser && projectile.ai[0] == 1f)
                 {
-                    projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + MathHelper.PiOver2;
+					if (defDamage == 0)
+					{
+						// Reduce mech boss projectile damage depending on the new ore progression changes
+						if (!NPC.downedMechBossAny)
+							projectile.damage = (int)(projectile.damage * 0.8);
+						else if ((!NPC.downedMechBoss1 && !NPC.downedMechBoss2) || (!NPC.downedMechBoss2 && !NPC.downedMechBoss3) || (!NPC.downedMechBoss3 && !NPC.downedMechBoss1))
+							projectile.damage = (int)(projectile.damage * 0.9);
+
+						defDamage = projectile.damage;
+					}
+
+					projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + MathHelper.PiOver2;
 
                     Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0.75f / 255f, 0f, 0f);
 
@@ -930,8 +960,28 @@ namespace CalamityMod.Projectiles
             Player player = Main.player[projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
 
-            if (defDamage == 0)
-                defDamage = projectile.damage;
+			if (defDamage == 0)
+			{
+				// Reduce mech boss projectile damage depending on the new ore progression changes
+				if (!NPC.downedMechBossAny)
+				{
+					if (MechBossProjectileIDs.Contains(projectile.type))
+					{
+						if (CalamityUtils.AnyBossNPCS(true))
+							projectile.damage = (int)(projectile.damage * 0.8);
+					}
+				}
+				else if ((!NPC.downedMechBoss1 && !NPC.downedMechBoss2) || (!NPC.downedMechBoss2 && !NPC.downedMechBoss3) || (!NPC.downedMechBoss3 && !NPC.downedMechBoss1))
+				{
+					if (MechBossProjectileIDs.Contains(projectile.type))
+					{
+						if (CalamityUtils.AnyBossNPCS(true))
+							projectile.damage = (int)(projectile.damage * 0.9);
+					}
+				}
+
+				defDamage = projectile.damage;
+			}
 
             if (NPC.downedMoonlord)
             {
@@ -1118,8 +1168,8 @@ namespace CalamityMod.Projectiles
                         double startAngle = Math.Atan2(projectile.velocity.X, projectile.velocity.Y) - spread / 2;
                         if (projectile.owner == Main.myPlayer && player.ownedProjectileCounts[projectile.type] < 50)
                         {
-                            int projectile1 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(startAngle) * 8f), (float)(Math.Cos(startAngle) * 8f), projectile.type, CalamityUtils.DamageSoftCap(projectile.damage * 0.15, 150), projectile.knockBack, projectile.owner, 0f, 0f);
-                            int projectile2 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(startAngle) * 8f), (float)(-Math.Cos(startAngle) * 8f), projectile.type, CalamityUtils.DamageSoftCap(projectile.damage * 0.15, 150), projectile.knockBack, projectile.owner, 0f, 0f);
+                            int projectile1 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(startAngle) * 8f), (float)(Math.Cos(startAngle) * 8f), projectile.type, (int)(projectile.damage * 0.15), projectile.knockBack, projectile.owner, 0f, 0f);
+                            int projectile2 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(startAngle) * 8f), (float)(-Math.Cos(startAngle) * 8f), projectile.type, (int)(projectile.damage * 0.15), projectile.knockBack, projectile.owner, 0f, 0f);
                             Main.projectile[projectile1].ranged = false;
                             Main.projectile[projectile2].ranged = false;
                             Main.projectile[projectile1].timeLeft = 60;
@@ -1171,8 +1221,7 @@ namespace CalamityMod.Projectiles
                         {
                             if (projectile.owner == Main.myPlayer && player.ownedProjectileCounts[ProjectileType<Nanotech>()] < 25)
                             {
-                                Projectile.NewProjectile(projectile.Center, Vector2.Zero, ProjectileType<Nanotech>(),
-                                    CalamityUtils.DamageSoftCap(projectile.damage * 0.15, 150), 0f, projectile.owner, 0f, 0f);
+                                Projectile.NewProjectile(projectile.Center, Vector2.Zero, ProjectileType<Nanotech>(), (int)(projectile.damage * 0.15), 0f, projectile.owner, 0f, 0f);
                             }
                         }
                     }
@@ -1676,11 +1725,7 @@ namespace CalamityMod.Projectiles
                     }
                     if (modPlayer.scuttlersJewel && CalamityLists.javelinProjList.Contains(projectile.type) && Main.rand.NextBool(3))
                     {
-                        double dmgMult = 1D;
-                        if (projectile.type == ProjectileType<SpearofDestinyProjectile>())
-                            dmgMult = 0.5;
-
-                        int spike = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ProjectileType<JewelSpike>(), CalamityUtils.DamageSoftCap(projectile.damage * 0.5 * dmgMult, 50), projectile.knockBack, projectile.owner);
+                        int spike = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ProjectileType<JewelSpike>(), (int)(projectile.damage * 0.35), projectile.knockBack, projectile.owner);
                         Main.projectile[spike].frame = 4;
                     }
                 }
