@@ -7233,8 +7233,15 @@ namespace CalamityMod.CalPlayer
             if (CalamityWorld.revenge && CalamityConfig.Instance.Rippers && shatteredCommunity && rageGainCooldown == 0)
             {
                 float HPRatio = (float)damage / player.statLifeMax2;
+                float rageConversionRatio = 0.8f;
+
                 // Damage to rage conversion is half as effective while Rage Mode is active.
-                float rageConversionRatio = rageModeActive ? 0.4f : 0.8f;
+                if (rageModeActive)
+                    rageConversionRatio *= 0.5f;
+                // If Rage is over 100%, damage to rage conversion scales down asymptotically based on how full Rage is.
+                if (rage >= rageMax)
+                    rageConversionRatio *= 3f / (3f + rage / rageMax);
+
                 rage += rageMax * HPRatio * rageConversionRatio;
                 rageGainCooldown = DefaultRageGainCooldown;
                 // Rage capping is handled in MiscEffects
