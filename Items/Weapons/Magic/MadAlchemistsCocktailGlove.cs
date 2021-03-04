@@ -51,7 +51,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.UseSound = SoundID.Item106;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<MadAlchemistsCocktailRed>();
-            item.shootSpeed = 12f;
+            item.shootSpeed = 19f;
 
             item.value = CalamityGlobalItem.Rarity11BuyPrice;
             item.rare = ItemRarityID.Purple;

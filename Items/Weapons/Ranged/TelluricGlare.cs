@@ -8,20 +8,20 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class TelluricGlare : ModItem
     {
+        public const int RayCount = 4;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Telluric Glare");
-            Tooltip.SetDefault("Converts wooden arrows into extremely fast energy arrows");
+            Tooltip.SetDefault($"Fires a burst of {RayCount} solar rays outward");
         }
 
         public override void SetDefaults()
         {
-            item.damage = 60;
+            item.damage = 150;
             item.ranged = true;
             item.width = 54;
             item.height = 92;
-            item.useTime = 15;
-            item.useAnimation = 15;
+            item.useTime = item.useAnimation = 16;
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 4f;
@@ -31,18 +31,27 @@ namespace CalamityMod.Items.Weapons.Ranged
 			item.UseSound = SoundID.Item5;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<TelluricGlareProj>();
-            item.shootSpeed = 12f;
+            item.shootSpeed = 18f;
             item.useAmmo = AmmoID.Arrow;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-			if (type == ProjectileID.WoodenArrowFriendly)
-				Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<TelluricGlareProj>(), damage, knockBack, player.whoAmI);
-			else
-				Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
+            Vector2 velocity = new Vector2(speedX, speedY).SafeNormalize(Vector2.UnitX * player.direction) * 30f;
+            bool willHitTiles = Collision.CanHit(position, 0, 0, position + velocity, 0, 0);
+            for (int i = 0; i < RayCount; i++)
+            {
+                Vector2 offset = velocity.RotatedBy(MathHelper.Pi * (i - (RayCount - 1f) / 2f) * 0.18f, default);
+                
+                // Go back if the spawn position and offset spawn position have an obstacle to prevent arrows from appearing
+                // behind walls the player cannot access.
+                if (!willHitTiles)
+                    offset -= velocity;
 
-			return false;
+                Projectile.NewProjectile(position + offset, new Vector2(speedX, speedY), item.shoot, damage, knockBack, player.whoAmI);
+            }
+
+            return false;
         }
     }
 }

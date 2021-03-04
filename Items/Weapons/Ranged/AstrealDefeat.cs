@@ -7,15 +7,15 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
-	public class AstrealDefeat : ModItem
+    public class AstrealDefeat : ModItem
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Astreal Defeat");
             Tooltip.SetDefault("Ethereal bow of the tyrant king's mother\n" +
-                       "The mother strongly discouraged acts of violence throughout her life\n" +
-                       "Though she kept this bow close, to protect her family in times of great disaster\n" +
-					   "Converts wooden arrows into astreal arrows that emit flames as they travel");
+                "The mother strongly discouraged acts of violence throughout her life\n" +
+                "Though she kept this bow close, to protect her family in times of great disaster\n" +
+                "All arrows are converted to Astreal Arrows that emit flames as they travel");
         }
 
         public override void SetDefaults()
@@ -40,22 +40,18 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-			Vector2 velocity = new Vector2(speedX, speedY);
-			if (velocity.Length() > 8f)
-			{
-				velocity.Normalize();
-				velocity *= 8f;
-			}
+            Vector2 velocity = new Vector2(speedX, speedY);
+            float speed = velocity.Length();
+            if (speed > 8f)
+                velocity *= 8f / speed;
 
-			if (type == ProjectileID.WoodenArrowFriendly)
-			{
-				float ai0 = Main.rand.Next(4);
-				Projectile.NewProjectile(position.X, position.Y, velocity.X, velocity.Y, ModContent.ProjectileType<AstrealArrow>(), damage, knockBack, player.whoAmI, ai0, 0f);
-			}
-			else
-				Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
+            // Always fires Astreal Arrows, regardless of ammo chosen.
+            // Normally we like to allow bows to fire normal arrows but this weapon is incredibly overpowered when that is allowed.
+            type = ModContent.ProjectileType<AstrealArrow>();
+            float aiVar = Main.rand.Next(4);
 
-			return false;
+            Projectile.NewProjectile(position, velocity, type, damage, knockBack, player.whoAmI, aiVar);
+            return false;
         }
 
         public override void AddRecipes()

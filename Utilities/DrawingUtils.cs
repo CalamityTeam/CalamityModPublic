@@ -1,8 +1,10 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.Reflection;
 using System.Text;
 using Terraria;
+using Terraria.Graphics.Shaders;
 
 namespace CalamityMod
 {
@@ -258,6 +260,16 @@ namespace CalamityMod
 			Color nextColor = colors[(currentColorIndex + 1) % colors.Length];
 			return Color.Lerp(currentColor, nextColor, increment * colors.Length % 1f);
 		}
+
+		// Cached for efficiency purposes.
+		internal static readonly FieldInfo UImageField = typeof(MiscShaderData).GetField("_uImage", BindingFlags.NonPublic | BindingFlags.Instance);
+
+		/// <summary>
+		/// Manually sets the texture of a <see cref="MiscShaderData"/> instance, since vanilla's implementation only supports strings that access vanilla textures.
+		/// </summary>
+		/// <param name="shader">The shader to bind the texture to.</param>
+		/// <param name="texture">The texture to bind.</param>
+		public static void SetShaderTexture(this MiscShaderData shader, Texture2D texture) => UImageField.SetValue(shader, new Ref<Texture2D>(texture));
 
 		public static void EnterShaderRegion(this SpriteBatch spriteBatch)
 		{

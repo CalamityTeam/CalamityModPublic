@@ -11,8 +11,7 @@ namespace CalamityMod.Items.Weapons.Summon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Gamma Heart");
-            Tooltip.SetDefault("Summons radioactive heads that are bound by your body\n" +
-                               "If the entity already exists, using this item again will cause it to gain more heads");
+            Tooltip.SetDefault("Summons radioactive heads that are bound by your body");
         }
 
         public override void SetDefaults()
@@ -38,9 +37,7 @@ namespace CalamityMod.Items.Weapons.Summon
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             if (player.altFunctionUse != 2)
-            {
                 Projectile.NewProjectileDirect(player.Center, Vector2.Zero, type, damage, knockBack, player.whoAmI);
-            }
             return false;
         }
     }
