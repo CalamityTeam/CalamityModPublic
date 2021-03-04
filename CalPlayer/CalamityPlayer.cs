@@ -4392,7 +4392,6 @@ namespace CalamityMod.CalPlayer
         }
         #endregion
 
-		// Currently not used due to god slayer and silva armor changes
         #region Use Time Mult
         public override float UseTimeMultiplier(Item item)
         {

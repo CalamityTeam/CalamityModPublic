@@ -537,6 +537,10 @@ namespace CalamityMod.CalPlayer
 				(modPlayer.cShard ? 50 : 0) +
 				(modPlayer.starBeamRye ? 50 : 0);
 
+			// Shield of Cthulhu immunity frame nerf, nerfed from 10 to 6
+			if (player.eocDash > 6 && player.dashDelay > 0)
+				player.eocDash = 6;
+
 			// Life Steal nerf
 			// Reduces normal mode life steal recovery rate from 0.6/s to 0.5/s
 			// Reduces expert mode life steal recovery rate from 0.5/s to 0.35/s
