@@ -47,7 +47,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
             // Always fires Astreal Arrows, regardless of ammo chosen.
             // Normally we like to allow bows to fire normal arrows but this weapon is incredibly overpowered when that is allowed.
-            type = ModContent.ProjectileType<AstrealArrow>();
+            type = item.shoot;
             float aiVar = Main.rand.Next(4);
 
             Projectile.NewProjectile(position, velocity, type, damage, knockBack, player.whoAmI, aiVar);
