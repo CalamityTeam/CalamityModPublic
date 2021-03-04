@@ -24,11 +24,11 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.height = 70;
             projectile.friendly = true;
             projectile.tileCollide = false;
-            projectile.penetrate = 12;
+            projectile.penetrate = 30;
             projectile.timeLeft = 1080;
             projectile.extraUpdates = 3;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 40; // can't hit too fast, but can hit many many times
+            projectile.localNPCHitCooldown = 32; // can't hit too fast, but can hit many many times
             projectile.Calamity().rogue = true;
         }
 
