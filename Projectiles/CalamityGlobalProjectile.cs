@@ -1195,7 +1195,7 @@ namespace CalamityMod.Projectiles
 
                 if (rogue)
                 {
-                    if (modPlayer.nanotech && rogue && projectile.type != ProjectileType<MoonSigil>() && projectile.type != ProjectileType<DragonShit>())
+                    if (modPlayer.nanotech && projectile.type != ProjectileType<MoonSigil>() && projectile.type != ProjectileType<DragonShit>())
                     {
                         if (Main.player[projectile.owner].miscCounter % 30 == 0 && projectile.FinalExtraUpdate())
                         {
@@ -1206,13 +1206,15 @@ namespace CalamityMod.Projectiles
                         }
                     }
                     // Moon Crown gets overridden by Nanotech
-                    else if (modPlayer.moonCrown)
+                    else if (modPlayer.moonCrown && projectile.type != ProjectileType<MoonSigil>() && projectile.type != ProjectileType<DragonShit>())
                     {
-                        // Summon moon sigils infrequently
-                        if (Main.rand.NextBool(300) && projectile.type != ProjectileType<MoonSigil>() && projectile.type != ProjectileType<DragonShit>())
-                        {
-                            Projectile.NewProjectile(projectile.Center, Vector2.Zero, ProjectileType<MoonSigil>(), (int)(projectile.damage * 0.2), 0, projectile.owner);
-                        }
+						if (Main.player[projectile.owner].miscCounter % 300 == 0 && projectile.FinalExtraUpdate())
+						{
+							if (projectile.owner == Main.myPlayer && player.ownedProjectileCounts[ProjectileType<MoonSigil>()] < 15)
+							{
+								Projectile.NewProjectile(projectile.Center, Vector2.Zero, ProjectileType<MoonSigil>(), (int)(projectile.damage * 0.2), 0, projectile.owner);
+							}
+						}
                     }
                     if (modPlayer.dragonScales && projectile.type != ProjectileType<MoonSigil>() && projectile.type != ProjectileType<DragonShit>())
                     {
