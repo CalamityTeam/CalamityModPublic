@@ -114,6 +114,16 @@ namespace CalamityMod
 
 		[Header("General Gameplay Changes")]
 
+		[Label("Early Hardmode Progression Rework")]
+		[BackgroundColor(192, 54, 64, 192)]
+		[DefaultValue(true)]
+		[Tooltip("Demon Altars no longer spawn ores and crimson/corruption blocks when broken.\n" +
+			"Wall of Flesh spawns Cobalt and Palladium ore on first kill.\n" +
+			"The first mech boss you fight has 20% less HP and damage and spawns Mythril and Orichalcum ore on first kill.\n" +
+			"The second mech boss you fight has 10% less HP and damage and spawns Adamantite and Titanium ore on first kill.\n" +
+			"The third mech boss spawns Hallowed Ore on first kill")]
+		public bool EarlyHardmodeProgressionRework { get; set; }
+
 		[Label("Lethal Lava")]
 		[BackgroundColor(192, 54, 64, 192)]
 		[DefaultValue(true)]

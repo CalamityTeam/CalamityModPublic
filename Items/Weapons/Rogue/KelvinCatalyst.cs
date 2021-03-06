@@ -55,7 +55,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<IceStar>(), 200);
             recipe.AddIngredient(ItemID.FrozenKey);
-            recipe.AddIngredient(ModContent.ItemType<CryoBar>(), 20);
+            recipe.AddIngredient(ModContent.ItemType<VerstaltiteBar>(), 20);
             recipe.AddIngredient(ModContent.ItemType<EssenceofEleum>(), 10);
             recipe.AddIngredient(ModContent.ItemType<Avalanche>(), 2);
             recipe.AddIngredient(ModContent.ItemType<BittercoldStaff>(), 2);
