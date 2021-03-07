@@ -6,14 +6,17 @@ using CalamityMod.NPCs.NormalNPCs;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
+using ReLogic.Utilities;
 using System;
 using System.Collections.Generic;
 using Terraria;
+using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.Enums;
 using Terraria.GameContent;
 using Terraria.GameContent.Events;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs
@@ -25570,8 +25573,195 @@ namespace CalamityMod.NPCs
             }
             return false;
         }
-        #endregion
+		#endregion
 
-        #endregion
+		#endregion
+
+		#region DD2 Event AIs
+        public static int DD2EventEnemySpawnRate
+        {
+            get
+            {
+                int enemySpawnRateSpeedup = 0;
+                if (Main.npc.IndexInRange(CalamityGlobalNPC.DD2CrystalIndex) && Main.npc[CalamityGlobalNPC.DD2CrystalIndex].active)
+                    enemySpawnRateSpeedup = (int)Main.npc[CalamityGlobalNPC.DD2CrystalIndex].ai[2];
+                return Utils.Clamp(DD2Event.LaneSpawnRate - enemySpawnRateSpeedup, 15, DD2Event.LaneSpawnRate);
+            }
+        }
+
+        public static void DD2PortalAI(NPC npc)
+        {
+            // Idly emit light if the portal has completely faded in.
+            if (npc.alpha == 0)
+                Lighting.AddLight(npc.Center, 0.5f, 0.1f, 0.3f);
+
+            ref float enemySpawnTimer = ref npc.ai[0];
+            ref float fadeOutTimer = ref npc.ai[2];
+            ref float fadeInTimer = ref npc.localAI[0];
+            ref float idlePlaySoundId = ref npc.localAI[3];
+            if (npc.ai[1] == 0f)
+            {
+                // Play the portal opening sound at the moment of the portal's creation.
+                if (fadeInTimer == 0f)
+                {
+                    Main.PlayTrackedSound(SoundID.DD2_EtherianPortalOpen, npc.Center);
+                    idlePlaySoundId = SlotId.Invalid.ToFloat();
+                }
+
+                if (fadeInTimer > 150f && Main.GetActiveSound(SlotId.FromFloat(idlePlaySoundId)) == null)
+                    idlePlaySoundId = Main.PlayTrackedSound(SoundID.DD2_EtherianPortalIdleLoop, npc.Center).ToFloat();
+
+                if (!DD2Event.EnemySpawningIsOnHold)
+                    enemySpawnTimer++;
+
+                if (enemySpawnTimer >= DD2EventEnemySpawnRate)
+                {
+                    if (enemySpawnTimer >= DD2EventEnemySpawnRate * 3)
+                        enemySpawnTimer = 0f;
+
+                    if (Main.netMode != NetmodeID.MultiplayerClient && (int)enemySpawnTimer % DD2EventEnemySpawnRate == 0)
+                    {
+                        DD2Event.SpawnMonsterFromGate(npc.Bottom);
+
+                        // If enemy spawning is on hold, add 1 to the spawn timer to ensure that the above
+                        // modulo doesn't get activated every single frame due to no other change above.
+                        if (DD2Event.EnemySpawningIsOnHold)
+                            enemySpawnTimer++;
+                    }
+                    npc.netUpdate = true;
+                }
+
+                fadeInTimer++;
+
+                // Begin to fade out of existence if the crystal is gone and the portal is done doing fade-in effects.
+                if (Main.netMode != NetmodeID.MultiplayerClient && !NPC.AnyNPCs(NPCID.DD2EterniaCrystal) && fadeInTimer >= 180f)
+                {
+                    npc.ai[1] = 1f;
+                    enemySpawnTimer = 0f;
+                    npc.dontTakeDamage = true;
+                    npc.netUpdate = true;
+                }
+            }
+
+            // Fade-out effects.
+            else if (npc.ai[1] == 1f)
+            {
+                fadeOutTimer++;
+                npc.scale = MathHelper.Lerp(1f, 0.05f, Utils.InverseLerp(500f, 600f, fadeOutTimer, true));
+
+                // Reset the idle play sound if it didn't get activated before for some reason.
+                if (Main.GetActiveSound(SlotId.FromFloat(idlePlaySoundId)) == null)
+                    idlePlaySoundId = Main.PlayTrackedSound(SoundID.DD2_EtherianPortalIdleLoop, npc.Center).ToFloat();
+
+                ActiveSound activeSound = Main.GetActiveSound(SlotId.FromFloat(idlePlaySoundId));
+                if (activeSound != null)
+                    activeSound.Volume = npc.scale;
+
+                // Kill the portal after enough time has passed.
+                if (fadeOutTimer >= 550f)
+                {
+                    npc.dontTakeDamage = false;
+                    npc.life = 0;
+                    npc.checkDead();
+                    npc.netUpdate = true;
+                    if (activeSound != null)
+                    {
+                        activeSound.Stop();
+                        return;
+                    }
+                }
+            }
+        }
+
+        public static void DD2CrystalExtraAI(NPC npc)
+        {
+            CalamityGlobalNPC.DD2CrystalIndex = npc.whoAmI;
+
+            ref float initialClickDelay = ref npc.localAI[3];
+            ref float enemySpawnRateSpeedup = ref npc.ai[2];
+            ref float animationCountdown = ref npc.ai[3];
+
+            if (animationCountdown > 0f)
+                animationCountdown--;
+
+            // This is done to ensure that the initial click on the pedestal is not registered as a click to the crystal itself.
+            initialClickDelay++;
+
+            bool clickingOnCrystal = Main.mouseRight && Main.mouseRightRelease && CalamityUtils.MouseHitbox.Intersects(npc.Hitbox) && initialClickDelay > 25f;
+
+            // Reset the spawn rate speed-up after the wave is over.
+            if (Main.netMode != NetmodeID.MultiplayerClient && DD2Event.TimeLeftBetweenWaves > 1 && enemySpawnRateSpeedup != 0f)
+            {
+                enemySpawnRateSpeedup = 0f;
+                npc.netUpdate = true;
+            }
+
+            if (clickingOnCrystal && npc.WithinRange(Main.LocalPlayer.Center, 285f))
+            {
+                bool changeOccured = false;
+
+                // If the event is waiting for time to pass and a player clicks on the crystal skip the wait.
+                if (DD2Event.TimeLeftBetweenWaves > 1)
+                {
+                    DD2Event.TimeLeftBetweenWaves = 1;
+                    if (Main.netMode == NetmodeID.Server)
+                        NetMessage.SendData(MessageID.CrystalInvasionSendWaitTime, -1, -1, null, DD2Event.TimeLeftBetweenWaves);
+                    changeOccured = true;
+                }
+
+                // Otherwise speed up the portal spawn rate for this wave.
+                else
+                {
+                    if (Main.netMode != NetmodeID.MultiplayerClient)
+                    {
+                        int oldSpawnRate = DD2EventEnemySpawnRate;
+                        enemySpawnRateSpeedup += 8f;
+
+                        // Release a circle of dust if a change was made to show that changes are indeed being done
+                        // since the animation might be ongoing when this action is performed.
+                        if (!Main.dedServ && oldSpawnRate != DD2EventEnemySpawnRate)
+                        {
+                            for (int i = 0; i < 55; i++)
+                            {
+                                for (float speed = 6f; speed < 13f; speed += 4f)
+                                {
+                                    Vector2 shootDirection = (MathHelper.TwoPi * i / 55f).ToRotationVector2() * new Vector2(1f, 0.6f);
+                                    Dust etherealLight = Dust.NewDustPerfect(npc.Center - Vector2.UnitY * 20f + shootDirection * 12f, 264);
+                                    etherealLight.velocity = shootDirection * speed;
+                                    etherealLight.fadeIn = 0f;
+                                    etherealLight.scale = 2.3f;
+                                    etherealLight.noGravity = true;
+                                    etherealLight.noLight = true;
+                                }
+                            }
+                            changeOccured = true;
+                        }
+                        npc.netUpdate = true;
+                    }
+                }
+
+                // Play an animation to accompany the change.
+                if (changeOccured)
+                {
+                    if (animationCountdown <= 0f)
+                        animationCountdown = 120f;
+                    Main.PlaySound(SoundID.DD2_DarkMageHealImpact);
+                }
+
+                // As well as some indicator text.
+                if (changeOccured)
+                {
+                    bool dramaticText = DD2EventEnemySpawnRate <= 25;
+                    Color textColor = dramaticText ? Color.DeepPink : Color.Pink;
+                    string[] potentialTexts = new string[]
+                    {
+                        "The invasion hastens!",
+                        "The ethereal invaders march ever-faster!"
+                    };
+                    CombatText.NewText(npc.Hitbox, textColor, Main.rand.Next(potentialTexts), dramaticText);
+                }
+            }
+        }
+        #endregion DD2 Event AIs
     }
 }
