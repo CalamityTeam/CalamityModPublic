@@ -2106,6 +2106,9 @@ Grants immunity to fire blocks, and temporary immunity to lava";
 					}
 				}
             }
+            if (item.type == ItemID.DD2ElderCrystal)
+                tooltips.FirstOrDefault(line => line.mod == "Terraria" && line.Name == "Tooltip0").text += "\nOnce placed you can right click the crystal to skip waves or increase the spawn rate of the invaders";
+
             if (item.type == ItemID.MagicQuiver)
             {
                 foreach (TooltipLine line2 in tooltips)
@@ -2890,6 +2893,19 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                             "Reach: 37.5\n" +
                             "Launch Velocity: 16\n" +
 							"Pull Velocity: 24";
+                    }
+                }
+            }
+            if (item.type == ItemID.StaticHook)
+            {
+                foreach (TooltipLine line2 in tooltips)
+                {
+                    if (line2.mod == "Terraria" && line2.Name == "Equipable")
+                    {
+                        line2.text = "Equipable\n" +
+                            "Reach: 37.5\n" +
+                            "Launch Velocity: 16\n" +
+                            "Pull Velocity: 24";
                     }
                 }
             }
