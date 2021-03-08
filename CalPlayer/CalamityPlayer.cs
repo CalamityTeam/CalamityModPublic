@@ -5135,7 +5135,7 @@ namespace CalamityMod.CalPlayer
             }
             if (item.type == ItemID.TitaniumSword)
             {
-                int knockbackAdd = (int)(damage * 0.25 * (1f - target.knockBackResist));
+                int knockbackAdd = (int)(damage * 0.15 * (1f - target.knockBackResist));
                 damage += knockbackAdd;
             }
             if (item.type == ItemID.AntlionClaw || item.type == ItemID.BoneSword || item.type == ItemID.BreakerBlade)

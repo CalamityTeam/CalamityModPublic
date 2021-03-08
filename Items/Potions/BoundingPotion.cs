@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Potions
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Bounding Potion");
-            Tooltip.SetDefault("Grants 10% increased jump speed, 25 extra blocks of fall damage resistance, and increased jump height");
+            Tooltip.SetDefault("Grants 5% increased jump speed, 25 extra blocks of fall damage resistance, and increased jump height");
         }
 
         public override void SetDefaults()

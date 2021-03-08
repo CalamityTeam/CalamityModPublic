@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Weapons.Summon
                 "Consumes all of the remaining minion slots on use\n" +
                 "Must be used from the hotbar\n" +
                 "Increased power and size based on the number of minion slots used\n" +
-                "Holding this weapon grants 20% increased jump speed");
+                "Holding this weapon grants 10% increased jump speed");
         }
 
         public override void SetDefaults()
@@ -45,7 +45,7 @@ namespace CalamityMod.Items.Weapons.Summon
         public override void ModifyTooltips(List<TooltipLine> list)
         {
             bool autoJump = Main.player[Main.myPlayer].autoJump;
-            string jumpAmt = autoJump ? "5" : "20";
+            string jumpAmt = autoJump ? "2.5" : "10";
             foreach (TooltipLine line2 in list)
             {
                 if (line2.mod == "Terraria" && line2.Name == "Tooltip4")
@@ -58,7 +58,7 @@ namespace CalamityMod.Items.Weapons.Summon
         public override void HoldItem(Player player)
         {
             //same boost as Aero Stone
-            player.jumpSpeedBoost += player.autoJump ? 0.25f : 1f;
+            player.jumpSpeedBoost += player.autoJump ? 0.125f : 0.5f;
 
             double minionCount = 0;
             for (int j = 0; j < Main.projectile.Length; j++)

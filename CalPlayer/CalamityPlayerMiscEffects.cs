@@ -53,6 +53,14 @@ namespace CalamityMod.CalPlayer
 
 			// No category
 
+			// Give the player some jump speed boost at base while wings or balloons are equipped
+			if (player.wingsLogic > 0 || player.jumpBoost)
+				player.jumpSpeedBoost += 1.2f;
+
+			// Reduce balloon jump boosts because they'd be too powerful when stacked with wings
+			if (player.jumpBoost)
+				player.jumpSpeedBoost -= 0.75f;
+
 			// Decrease the counter on Fearmonger set turbo regeneration
 			if (modPlayer.fearmongerRegenFrames > 0)
 				modPlayer.fearmongerRegenFrames--;
@@ -1363,7 +1371,7 @@ namespace CalamityMod.CalPlayer
 			if (modPlayer.absorber)
 			{
 				player.moveSpeed += 0.06f;
-				player.jumpSpeedBoost += player.autoJump ? 0.3f : 1.2f;
+				player.jumpSpeedBoost += player.autoJump ? 0.15f : 0.6f;
 				player.thorns += 0.5f;
 				player.endurance += 0.05f;
 
@@ -2788,7 +2796,7 @@ namespace CalamityMod.CalPlayer
 
 			if (modPlayer.bounding)
 			{
-				player.jumpSpeedBoost += 0.5f;
+				player.jumpSpeedBoost += 0.25f;
 				Player.jumpHeight += 10;
 				player.extraFall += 25;
 			}
@@ -4001,7 +4009,7 @@ namespace CalamityMod.CalPlayer
 			modPlayer.wingFlightTimeStat = player.wingTimeMax / 60f;
 			float trueJumpSpeedBoost = player.jumpSpeedBoost + 
 				(player.wereWolf ? 0.2f : 0f) +
-				(player.jumpBoost ? 1.5f : 0f);
+				(player.jumpBoost ? 0.75f : 0f);
 			modPlayer.jumpSpeedStat = trueJumpSpeedBoost * 20f;
 			modPlayer.rageDamageStat = (int)(100D * modPlayer.RageDamageBoost);
 			modPlayer.adrenalineDamageStat = (int)(100D * modPlayer.GetAdrenalineDamage());

@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Statis' Ninja Belt");
-            Tooltip.SetDefault("12% increased jump speed and allows constant jumping\n" +
+            Tooltip.SetDefault("6% increased jump speed and allows constant jumping\n" +
                 "Increased fall damage resistance by 35 blocks\n" +
                 "Can climb walls, dash, and dodge attacks\n" +
                 "The dodge has a 60 second cooldown\n" +
@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Accessories
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             player.autoJump = true;
-            player.jumpSpeedBoost += 0.6f;
+            player.jumpSpeedBoost += 0.3f;
             player.extraFall += 35;
             player.blackBelt = true;
             player.dash = 1;
