@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Ammo
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.MusketBall, 150);
-            recipe.AddIngredient(ModContent.ItemType<CryoBar>());
+            recipe.AddIngredient(ModContent.ItemType<VerstaltiteBar>());
             recipe.AddTile(TileID.IceMachine);
             recipe.SetResult(this, 150);
             recipe.AddRecipe();

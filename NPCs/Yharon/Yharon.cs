@@ -48,7 +48,6 @@ namespace CalamityMod.NPCs.Yharon
 		private const float ai2GateValue = 0.55f;
 
 		public static float normalDR = 0.22f;
-		public static float ChargeTelegraph_DR = 0.4f;
         public static float EnragedDR = 0.9f;
 
         public override void SetStaticDefaults()
@@ -381,7 +380,7 @@ namespace CalamityMod.NPCs.Yharon
 			// Set DR based on protection boost (aka enrage)
 			bool chargeTelegraph = (npc.ai[0] == 0f || npc.ai[0] == 6f || npc.ai[0] == 13f) && npc.localAI[1] > 0f;
 			bool bulletHell = npc.ai[0] == 8f || npc.ai[0] == 15f;
-			calamityGlobalNPC.DR = protectionBoost ? EnragedDR : ((chargeTelegraph || bulletHell) ? ChargeTelegraph_DR : normalDR);
+			calamityGlobalNPC.DR = protectionBoost ? EnragedDR : normalDR;
 
 			if (bulletHell)
 				npc.damage = 0;
@@ -1620,7 +1619,7 @@ namespace CalamityMod.NPCs.Yharon
 			// Set DR based on protection boost (aka enrage)
 			bool chargeTelegraph = npc.ai[0] < 2f && npc.localAI[1] > 0f;
 			bool bulletHell = npc.ai[0] == 5f;
-			calamityGlobalNPC.DR = protectionBoost ? EnragedDR : ((chargeTelegraph || bulletHell) ? ChargeTelegraph_DR : normalDR);
+			calamityGlobalNPC.DR = protectionBoost ? EnragedDR : normalDR;
 
 			if (bulletHell)
 				npc.damage = 0;

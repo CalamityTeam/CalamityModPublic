@@ -1670,9 +1670,6 @@ namespace CalamityMod.NPCs
 			{
                 float DRScalar = !GetDownedBossVariable(npc.type) || CalamityConfig.Instance.FullPowerReactiveBossDR ? 1.5f : 1f;
 
-				/*if (Main.masterMode)
-					DRScalar = 5f;*/
-
 				// Boost Providence timed DR during the night, Destroyer, Aquatic Scourge, Astrum Deus, Storm Weaver and DoG body timed DR
 				if (npc.type == NPCType<Providence.Providence>() && !Main.dayTime)
                     DRScalar = 10f;

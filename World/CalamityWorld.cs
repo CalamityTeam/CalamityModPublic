@@ -1606,19 +1606,6 @@ namespace CalamityMod.World
                 }
             }
 
-            if (Main.dayTime && Main.hardMode)
-            {
-                if (player.townNPCs >= 2f)
-                {
-                    if (Main.rand.NextBool(2000))
-                    {
-                        int steamGril = NPC.FindFirstNPC(NPCID.Steampunker);
-                        if (steamGril == -1 && Main.netMode != NetmodeID.MultiplayerClient)
-                            NPC.SpawnOnPlayer(closestPlayer, NPCID.Steampunker); //Steampunker has awoken!
-                    }
-                }
-            }
-
             if (modPlayer.ZoneAbyss)
             {
                 if (player.chaosState)

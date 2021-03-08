@@ -46,7 +46,6 @@ namespace CalamityMod.Items.TreasureBags
             player.TryGettingDevArmor();
 
             // Materials
-            DropHelper.DropItem(player, ModContent.ItemType<CryoBar>(), 20, 40);
             DropHelper.DropItem(player, ModContent.ItemType<EssenceofEleum>(), 5, 9);
             DropHelper.DropItem(player, ItemID.FrostCore);
 

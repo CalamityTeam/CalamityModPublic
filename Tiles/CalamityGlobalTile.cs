@@ -573,9 +573,6 @@ namespace CalamityMod.Tiles
 
 		public override bool CanKillTile(int i, int j, int type, ref bool blockDamaged)
 		{
-			if (type == TileID.DemonAltar)
-				return false;
-
 			int[] invincibleTiles = new int[]
 			{
 				ModContent.TileType<DraedonLabTurret>(),
