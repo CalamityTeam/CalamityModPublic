@@ -94,6 +94,7 @@ namespace CalamityMod.NPCs.AcidRain
                 Player closestTargetToTop = Main.player[Player.FindClosest(npc.Top, 0, 0)];
                 if (Math.Abs(closestTargetToTop.Center.X - npc.Center.X) < 320f && closestTargetToTop.Center.Y - npc.Top.Y < -60f && AcidShootTimer >= Main.rand.Next(90, 135))
                     ShootFlakAcidAtTarget(closestTargetToTop);
+                npc.velocity.X *= 0.97f;
             }
             else
             {
