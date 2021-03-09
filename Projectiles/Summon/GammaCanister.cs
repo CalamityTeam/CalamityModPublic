@@ -46,7 +46,7 @@ namespace CalamityMod.Projectiles.Summon
             if (Main.myPlayer != projectile.owner)
                 return;
 
-            for (int i = 0; i < 12; i++)
+            for (int i = 0; i < 6; i++)
             {
                 Vector2 shootVelocity = (MathHelper.TwoPi * i / 12f).ToRotationVector2() * Main.rand.NextFloat(6f, 17f);
                 Projectile.NewProjectile(projectile.Center + shootVelocity * 2f, shootVelocity, ModContent.ProjectileType<HomingGammaBullet>(), projectile.damage / 2, projectile.knockBack * 0.4f, projectile.owner);
