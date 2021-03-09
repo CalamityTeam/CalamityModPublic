@@ -50,6 +50,8 @@ namespace CalamityMod.Projectiles
         // Damage Adjusters
         private bool setDamageValues = true;
         public float spawnedPlayerMinionDamageValue = 1f;
+        public float ResistDamagePenaltyHarshness = 1f;
+        public float ResistDamagePenaltyMinCapFactor = 0.5f;
         public int spawnedPlayerMinionProjectileDamageValue = 0;
         public int defDamage = 0;
 

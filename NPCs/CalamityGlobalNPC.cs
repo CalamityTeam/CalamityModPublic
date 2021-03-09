@@ -3449,10 +3449,13 @@ namespace CalamityMod.NPCs
 			if (projectile.IsSummon() || projectile.aiStyle == 99)
 				return;
 
-			if (projectile.penetrate == -1)
-				damage = (int)(damage * 0.5);
-			else if (projectile.penetrate > 1)
-				damage = (int)MathHelper.Clamp(damage * (float)Math.Pow(0.9, projectile.penetrate), damage * 0.5f, damage);
+            if (projectile.penetrate == -1)
+                damage = (int)(damage * 0.5);
+            else if (projectile.penetrate > 1) 
+            {
+                float newBaseDamage = damage * (float)Math.Pow(0.9, projectile.penetrate) / projectile.Calamity().ResistDamagePenaltyHarshness;
+                damage = (int)MathHelper.Clamp(newBaseDamage, damage * projectile.Calamity().ResistDamagePenaltyMinCapFactor, damage);
+            }
 		}
 		#endregion
 
