@@ -145,7 +145,7 @@ namespace CalamityMod.Projectiles.Magic
             if (flag15 && Main.myPlayer == projectile.owner)
             {
                 int num42 = ModContent.ProjectileType<GhastlyBlast>();
-                float coreVelocity = 13f;
+                float coreVelocity = 11.5f;
                 int weaponDamage2 = player.GetWeaponDamage(player.ActiveItem());
                 float weaponKnockback2 = player.ActiveItem().knockBack;
                 if (flag16)
