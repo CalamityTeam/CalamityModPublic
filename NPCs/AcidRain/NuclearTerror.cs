@@ -190,7 +190,7 @@ namespace CalamityMod.NPCs.AcidRain
                             npc.netUpdate = true;
                         }
 
-                        // Otherwise walk towards the target f they're not super close.
+                        // Otherwise walk towards the target if they're not super close.
                         else if (Math.Abs(Target.Center.X - npc.Center.X) > 125f)
                         {
                             npc.velocity.X += Math.Sign(npc.DirectionTo(Target.Center).X) * 3f;
