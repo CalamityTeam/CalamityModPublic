@@ -10,10 +10,19 @@ using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.NPCs.AcidRain
 {
     public class FlakCrab : ModNPC
     {
+        public Player Target => Main.player[npc.target];
+        public ref float ChasabilityTimer => ref npc.ai[0];
+        public ref float AcidShootTimer => ref npc.ai[1];
+        public ref float HopTimer => ref npc.ai[2];
+        public ref float HopCounter => ref npc.ai[3];
+        public ref float FleeCountdownTimer => ref npc.localAI[0];
+        public ref float TotalHits => ref npc.localAI[1];
+        public const int TotalHitsNeededToDoDamage = 10;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Flak Crab");
@@ -32,7 +41,7 @@ namespace CalamityMod.NPCs.AcidRain
 
             if (CalamityWorld.downedPolterghast)
             {
-                npc.lifeMax = 7500;
+                npc.lifeMax = 4125;
 				npc.DR_NERD(0.2f);
             }
 
@@ -49,78 +58,68 @@ namespace CalamityMod.NPCs.AcidRain
 
         public override void SendExtraAI(BinaryWriter writer)
         {
-            writer.Write(npc.localAI[0]);
-            writer.Write(npc.localAI[1]);
+            writer.Write(FleeCountdownTimer);
+            writer.Write(TotalHits);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
-            npc.localAI[0] = reader.ReadSingle();
-            npc.localAI[1] = reader.ReadSingle();
+            FleeCountdownTimer = reader.ReadSingle();
+            TotalHits = reader.ReadSingle();
         }
 
         public override void AI()
         {
-			// Enables expert scaling, if damage is 0 in set defaults expert scaling will not happen
+			// Enables expert scaling, if damage is 0 in set defaults expert scaling will not happen.
 			npc.damage = 0;
 
-            Player closest = Main.player[Player.FindClosest(npc.Top, 0, 0)];
-            npc.ai[0]++;
-            npc.defense = npc.localAI[1] < 10f ? 999999 : 20;
+            ChasabilityTimer++;
+            npc.defense = TotalHits < TotalHitsNeededToDoDamage ? 999999 : 20;
 
             if (npc.justHit)
             {
-                npc.localAI[0] = 240;
+                FleeCountdownTimer = 240;
                 npc.netUpdate = true;
             }
-            if (npc.localAI[0] == 0f || npc.localAI[1] < 10f)
+
+            if (FleeCountdownTimer == 0f || TotalHits < TotalHitsNeededToDoDamage)
             {
-                if (npc.ai[0] < 300f)
+                if (ChasabilityTimer < 300f)
                 {
                     npc.chaseable = false;
                     npc.knockBackResist = 0f;
                 }
-                if (Math.Abs(closest.Center.X - npc.Center.X) < 320f &&
-                    closest.Center.Y - npc.Top.Y < -60f &&
-                    npc.ai[1]++ >= Main.rand.Next(90, 135))
-                {
-                    if (Main.netMode != NetmodeID.MultiplayerClient)
-                    {
-                        float speed = CalamityWorld.downedPolterghast ? 29f : 17f;
-                        speed *= Main.rand.NextFloat(0.8f, 1.2f);
-                        int damage = Main.expertMode ? CalamityWorld.downedPolterghast ? 32 : 18 : CalamityWorld.downedPolterghast ? 42 : 23;
-                        Projectile.NewProjectile(npc.Top + Vector2.UnitY * 6f, npc.DirectionTo(closest.Center).RotatedByRandom(0.25f) * speed,
-                            ModContent.ProjectileType<FlakAcid>(), damage, 2f);
-                        npc.ai[1] = 0;
-                    }
-                }
+
+                AcidShootTimer++;
+                Player closestTargetToTop = Main.player[Player.FindClosest(npc.Top, 0, 0)];
+                if (Math.Abs(closestTargetToTop.Center.X - npc.Center.X) < 320f && closestTargetToTop.Center.Y - npc.Top.Y < -60f && AcidShootTimer >= Main.rand.Next(90, 135))
+                    ShootFlakAcidAtTarget(closestTargetToTop);
             }
             else
             {
-                npc.localAI[0]--;
-                npc.chaseable = true;
+                FleeCountdownTimer--;
                 if (npc.velocity.Y == 0f)
                 {
+                    HopTimer++;
                     npc.knockBackResist = 0.6f;
                     npc.TargetClosest(true);
                     npc.velocity.X *= 0.85f;
-                    npc.ai[2]++;
-                    float hopRate = 10f + 15f * (npc.life / (float)npc.lifeMax);
+
+                    float hopRate = MathHelper.Lerp(25f, 10f, 1f - npc.life / (float)npc.lifeMax);
                     float lungeForwardSpeed = 10f;
                     float jumpSpeed = 9f;
-                    if (Collision.CanHit(npc.Center, 1, 1, Main.player[npc.target].Center, 1, 1))
-                    {
+                    if (Collision.CanHit(npc.Center, 1, 1, Target.Center, 1, 1))
                         lungeForwardSpeed *= 1.5f;
-                    }
-                    if (npc.ai[2] > hopRate)
+
+                    if (Main.netMode != NetmodeID.MultiplayerClient && HopTimer > hopRate)
                     {
-                        npc.ai[3] += 1f;
-                        if (npc.ai[3] >= 3f)
-                        {
-                            npc.ai[3] = 0f;
+                        HopCounter++;
+
+                        // Make a bigger leap every 3 hops.
+                        if (HopCounter % 3f == 2f)
                             lungeForwardSpeed *= 1.5f;
-                        }
-                        npc.ai[2] = 0f;
+
+                        HopTimer = 0f;
                         npc.velocity.Y -= jumpSpeed;
                         npc.velocity.X = lungeForwardSpeed * -npc.direction;
                         npc.netUpdate = true;
@@ -131,17 +130,34 @@ namespace CalamityMod.NPCs.AcidRain
                     npc.knockBackResist = 0.2f;
                     npc.velocity.X *= 0.995f;
                 }
-            }
-            if (npc.ai[0] >= 300f && !npc.chaseable)
-            {
                 npc.chaseable = true;
             }
+
+            if (ChasabilityTimer >= 300f && !npc.chaseable)
+                npc.chaseable = true;
+        }
+
+        public void ShootFlakAcidAtTarget(Player closestTargetToTop)
+        {
+            if (Main.netMode == NetmodeID.MultiplayerClient)
+                return;
+
+            float speed = CalamityWorld.downedPolterghast ? 29f : 17f;
+            speed *= Main.rand.NextFloat(0.8f, 1.2f);
+
+            int damage = Main.expertMode ? CalamityWorld.downedPolterghast ? 32 : 18 : CalamityWorld.downedPolterghast ? 42 : 23;
+            Vector2 spawnPosition = npc.Top + Vector2.UnitY * 6f;
+            Vector2 shootVelocity = (closestTargetToTop.Center - spawnPosition).SafeNormalize(Vector2.UnitY).RotatedByRandom(0.25f) * speed;
+            Projectile.NewProjectile(spawnPosition, shootVelocity, ModContent.ProjectileType<FlakAcid>(), damage, 2f);
+
+            AcidShootTimer = 0;
+            npc.netUpdate = true;
         }
 
         public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)
         {
-            // Don't draw the bar if in stealth mode
-            if (npc.localAI[0] == 0f || npc.localAI[1] < 10f)
+            // Don't draw the bar if in stealth mode.
+            if (FleeCountdownTimer == 0f || TotalHits < TotalHitsNeededToDoDamage)
                 return false;
             return null;
         }
@@ -154,12 +170,13 @@ namespace CalamityMod.NPCs.AcidRain
 
         public override void FindFrame(int frameHeight)
         {
-            if (npc.localAI[1] < 10f)
+            if (TotalHits < TotalHitsNeededToDoDamage)
             {
                 npc.frame.Y = 0;
                 return;
             }
-            if (npc.localAI[0] > 0f)
+
+            if (FleeCountdownTimer > 0f)
             {
                 if (npc.frameCounter++ % 6 == 5)
                 {
@@ -169,13 +186,11 @@ namespace CalamityMod.NPCs.AcidRain
                 {
                     npc.frame.Y = frameHeight * 3; // Frames 1 and 2 are for transitioning. Frame 0 is sitting still, and the rest are walking frames
                 }
-                if (npc.localAI[0] <= 8)
+                if (FleeCountdownTimer <= 8)
                     npc.frame.Y = frameHeight;
             }
             else
-            {
                 npc.frame.Y = 0;
-            }
         }
 
         public override void HitEffect(int hitDirection, double damage)
@@ -194,7 +209,9 @@ namespace CalamityMod.NPCs.AcidRain
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/FlakCrab2"), 1f);
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/FlakCrab3"), 1f);
             }
-            npc.localAI[1]++;
+
+            TotalHits++;
+            npc.netUpdate = true;
         }
     }
 }
