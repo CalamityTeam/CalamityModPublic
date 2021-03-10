@@ -968,7 +968,7 @@ namespace CalamityMod.NPCs.Yharon
 						int totalProjectiles = 38 - ringReduction; // 36 for first ring, 22 for last ring
 						DoFlareDustBulletHell(0, flareDustSpawnDivisor, npc.GetProjectileDamage(ModContent.ProjectileType<FlareDust>()), totalProjectiles, 0f, 0f, false);
 
-						// Fire a flame towards every player, with a limit of 10
+						// Fire a flame towards every player, with a limit of 5
 						if (expertMode)
 						{
 							List<int> targets = new List<int>();
@@ -982,7 +982,7 @@ namespace CalamityMod.NPCs.Yharon
 							}
 							foreach (int t in targets)
 							{
-								Vector2 velocity2 = Vector2.Normalize(Main.player[t].Center - flareDustBulletHellSpawn) * 12f;
+								Vector2 velocity2 = Vector2.Normalize(Main.player[t].Center + Main.player[t].velocity * 20f - flareDustBulletHellSpawn) * 12f;
 								int type = ModContent.ProjectileType<FlareDust>();
 								Projectile.NewProjectile(flareDustBulletHellSpawn, velocity2, type, npc.GetProjectileDamage(ModContent.ProjectileType<FlareDust>()), 0f, Main.myPlayer, 2f, 0f);
 							}
@@ -1330,8 +1330,8 @@ namespace CalamityMod.NPCs.Yharon
 					{
 						DoFlareDustBulletHell(1, flareDustPhaseTimer, npc.GetProjectileDamage(ModContent.ProjectileType<FlareDust>()), 8, 12f, 3.6f, false);
 
-						// Fire a flame towards every player, with a limit of 10
-						if (expertMode)
+						// Fire a flame towards every player, with a limit of 5
+						if (expertMode && npc.ai[2] % (flareDustSpawnDivisor3 * 2) == 0f)
 						{
 							List<int> targets = new List<int>();
 							for (int p = 0; p < Main.maxPlayers; p++)
@@ -1344,7 +1344,7 @@ namespace CalamityMod.NPCs.Yharon
 							}
 							foreach (int t in targets)
 							{
-								Vector2 velocity2 = Vector2.Normalize(Main.player[t].Center - flareDustBulletHellSpawn) * 12f;
+								Vector2 velocity2 = Vector2.Normalize(Main.player[t].Center + Main.player[t].velocity * 20f - flareDustBulletHellSpawn) * 12f;
 								int type = ModContent.ProjectileType<FlareDust>();
 								Projectile.NewProjectile(flareDustBulletHellSpawn, velocity2, type, npc.GetProjectileDamage(ModContent.ProjectileType<FlareDust>()), 0f, Main.myPlayer, 2f, 0f);
 							}
@@ -1998,7 +1998,7 @@ namespace CalamityMod.NPCs.Yharon
                         }
                         case 7: //fast charge
                         {
-                            Vector2 vector = npc.DirectionTo(targetData.Center);
+                            Vector2 vector = secondPhasePhase == 4 ? Vector2.Normalize(targetData.Center + targetData.velocity * 20f - vectorCenter) : npc.DirectionTo(targetData.Center);
                             npc.spriteDirection = (vector.X > 0f) ? 1 : -1;
                             npc.rotation = vector.ToRotation();
 
@@ -2173,7 +2173,7 @@ namespace CalamityMod.NPCs.Yharon
 							DoFlareDustBulletHell(1, spinPhaseTimer, npc.GetProjectileDamage(ModContent.ProjectileType<FlareDust>()), totalProjectiles, projectileVelocity, radialOffset, true);
 
 							// Fire a flame towards every player, with a limit of 10
-							if (expertMode)
+							if (expertMode && npc.ai[2] % (flareDustSpawnDivisor2 * 2) == 0f)
 							{
 								List<int> targets = new List<int>();
 								for (int p = 0; p < Main.maxPlayers; p++)
@@ -2186,7 +2186,7 @@ namespace CalamityMod.NPCs.Yharon
 								}
 								foreach (int t in targets)
 								{
-									Vector2 velocity2 = Vector2.Normalize(Main.player[t].Center - flareDustBulletHellSpawn) * 12f;
+									Vector2 velocity2 = Vector2.Normalize(Main.player[t].Center + Main.player[t].velocity * 20f - flareDustBulletHellSpawn) * 12f;
 									int type = ModContent.ProjectileType<FlareDust>();
 									Projectile.NewProjectile(flareDustBulletHellSpawn, velocity2, type, npc.GetProjectileDamage(ModContent.ProjectileType<FlareDust>()), 0f, Main.myPlayer, 2f, 0f);
 								}
@@ -2215,7 +2215,7 @@ namespace CalamityMod.NPCs.Yharon
 								}
 								foreach (int t in targets)
 								{
-									Vector2 velocity2 = Vector2.Normalize(Main.player[t].Center - flareDustBulletHellSpawn) * 12f;
+									Vector2 velocity2 = Vector2.Normalize(Main.player[t].Center + Main.player[t].velocity * 20f - flareDustBulletHellSpawn) * 12f;
 									int type = ModContent.ProjectileType<FlareDust>();
 									Projectile.NewProjectile(flareDustBulletHellSpawn, velocity2, type, npc.GetProjectileDamage(ModContent.ProjectileType<FlareDust>()), 0f, Main.myPlayer, 2f, 0f);
 								}
