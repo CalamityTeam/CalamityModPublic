@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Weapons.Ranged
     {
         public int frameCounter = 0;
         public int frame = 0;
-        public static int BaseDamage = 89;
+        public static int BaseDamage = 96;
 
         public override void SetStaticDefaults()
         {

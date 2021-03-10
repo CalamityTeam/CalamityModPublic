@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Accessories
         {
             DisplayName.SetDefault("Grand Gelatin");
             Tooltip.SetDefault("10% increased movement speed\n" +
-                "24% increased jump speed\n" +
+                "12% increased jump speed\n" +
                 "+20 max life and mana\n" +
                 "Standing still boosts life and mana regen");
         }
@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Accessories
         public override void ModifyTooltips(List<TooltipLine> list)
         {
             bool autoJump = Main.player[Main.myPlayer].autoJump;
-			string jumpAmt = autoJump ? "6" : "24";
+			string jumpAmt = autoJump ? "3" : "12";
             foreach (TooltipLine line2 in list)
             {
                 if (line2.mod == "Terraria" && line2.Name == "Tooltip1")
@@ -40,7 +40,7 @@ namespace CalamityMod.Items.Accessories
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             player.moveSpeed += 0.1f;
-            player.jumpSpeedBoost += player.autoJump ? 0.3f : 1.2f;
+            player.jumpSpeedBoost += player.autoJump ? 0.15f : 0.6f;
 			player.statLifeMax2 += 20;
             player.statManaMax2 += 20;
             if (Math.Abs(player.velocity.X) < 0.05f && Math.Abs(player.velocity.Y) < 0.05f && player.itemAnimation == 0)

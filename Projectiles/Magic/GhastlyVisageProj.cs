@@ -145,7 +145,7 @@ namespace CalamityMod.Projectiles.Magic
             if (flag15 && Main.myPlayer == projectile.owner)
             {
                 int num42 = ModContent.ProjectileType<GhastlyBlast>();
-                float scaleFactor11 = 6f;
+                float coreVelocity = 11.5f;
                 int weaponDamage2 = player.GetWeaponDamage(player.ActiveItem());
                 float weaponKnockback2 = player.ActiveItem().knockBack;
                 if (flag16)
@@ -169,7 +169,7 @@ namespace CalamityMod.Projectiles.Magic
                         projectile.netUpdate = true;
                     }
                     projectile.velocity = value19 * 0.55f;
-                    Vector2 vector20 = Vector2.Normalize(projectile.velocity) * scaleFactor11 * (0.6f + Main.rand.NextFloat() * 0.8f);
+                    Vector2 vector20 = Vector2.Normalize(projectile.velocity) * coreVelocity;
                     if (float.IsNaN(vector20.X) || float.IsNaN(vector20.Y))
                     {
                         vector20 = -Vector2.UnitY;

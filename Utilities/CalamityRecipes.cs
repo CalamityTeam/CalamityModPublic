@@ -30,6 +30,8 @@ namespace CalamityMod
 			EditLeatherRecipe();
 			EditTerraBladeRecipe();
             EditFireGauntletRecipe();
+			EditMechBossSummonRecipes();
+			EditWingRecipes();
             AstralAlternatives();
 
             AddPotionRecipes();
@@ -165,8 +167,26 @@ namespace CalamityMod
             });
         }
 
-        #region Astral Alternatives
-        private static void AstralAlternatives()
+		private static void EditMechBossSummonRecipes()
+		{
+			List<Recipe> rec = Main.recipe.ToList();
+			rec.Where(x => x.createItem.type == ItemID.MechanicalWorm || x.createItem.type == ItemID.MechanicalEye || x.createItem.type == ItemID.MechanicalSkull).ToList().ForEach(s =>
+			{
+				s.requiredTile[0] = TileID.Anvils;
+			});
+		}
+
+		private static void EditWingRecipes()
+		{
+			List<Recipe> rec = Main.recipe.ToList();
+			rec.Where(x => x.createItem.type == ItemID.AngelWings || x.createItem.type == ItemID.DemonWings).ToList().ForEach(s =>
+			{
+				s.requiredTile[0] = TileID.Anvils;
+			});
+		}
+
+		#region Astral Alternatives
+		private static void AstralAlternatives()
         {
             //Bowl
             ModRecipe r = GetNewRecipe();
@@ -866,7 +886,7 @@ namespace CalamityMod
             r.AddIngredient(ItemID.SoulofMight, 10);
             r.AddIngredient(ItemID.SoulofLight, 5);
             r.AddIngredient(ItemID.SoulofNight, 5);
-            r.AddIngredient(ModContent.ItemType<CryoBar>(), 3);
+            r.AddIngredient(ModContent.ItemType<VerstaltiteBar>(), 3);
             r.AddTile(TileID.MythrilAnvil);
             r.SetResult(ItemID.CelestialMagnet);
             r.AddRecipe();
@@ -887,30 +907,6 @@ namespace CalamityMod
             r.AddIngredient(ItemID.SoulofLight, 8);
             r.AddTile(TileID.CrystalBall);
             r.SetResult(ItemID.MagicQuiver);
-            r.AddRecipe();
-
-            // Frost Helmet w/ Frigid Bars
-            r = GetNewRecipe();
-            r.AddIngredient(ModContent.ItemType<CryoBar>(), 6);
-            r.AddIngredient(ItemID.FrostCore);
-            r.AddTile(TileID.IceMachine);
-            r.SetResult(ItemID.FrostHelmet);
-            r.AddRecipe();
-
-            // Frost Breastplate w/ Frigid Bars
-            r = GetNewRecipe();
-            r.AddIngredient(ModContent.ItemType<CryoBar>(), 10);
-            r.AddIngredient(ItemID.FrostCore);
-            r.AddTile(TileID.IceMachine);
-            r.SetResult(ItemID.FrostBreastplate);
-            r.AddRecipe();
-
-            // Frost Leggings w/ Frigid Bars
-            r = GetNewRecipe();
-            r.AddIngredient(ModContent.ItemType<CryoBar>(), 8);
-            r.AddIngredient(ItemID.FrostCore);
-            r.AddTile(TileID.IceMachine);
-            r.SetResult(ItemID.FrostLeggings);
             r.AddRecipe();
 
             // Terra Blade w/ True Bloody Edge

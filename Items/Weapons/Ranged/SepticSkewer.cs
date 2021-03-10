@@ -1,23 +1,22 @@
 using CalamityMod.Projectiles.Ranged;
 using Microsoft.Xna.Framework;
-using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
-	public class SepticSkewer : ModItem
+    public class SepticSkewer : ModItem
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Septic Skewer");
             Tooltip.SetDefault("Launches a spiky harpoon infested with toxins\n" +
-				"Releases bacteria when returning to the player");
+                "Releases bacteria when returning to the player");
         }
 
         public override void SetDefaults()
         {
-            item.damage = 300;
+            item.damage = 272;
             item.ranged = true;
             item.width = 46;
             item.height = 24;
@@ -35,9 +34,6 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.Calamity().customRarity = CalamityRarity.PureGreen;
         }
 
-        public override Vector2? HoldoutOffset()
-        {
-            return new Vector2(-10, 0);
-        }
+        public override Vector2? HoldoutOffset() => new Vector2(-10, 0);
     }
 }

@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Armor
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Reaver Visage");
-            Tooltip.SetDefault("20% increased jump speed and 25% increased movement speed");
+            Tooltip.SetDefault("10% increased jump speed and 25% increased movement speed");
         }
 
         public override void SetDefaults()
@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Armor
 		public override void ModifyTooltips(List<TooltipLine> list)
 		{
 			bool autoJump = Main.player[Main.myPlayer].autoJump;
-			string jumpAmt = autoJump ? "5" : "20";
+			string jumpAmt = autoJump ? "2.5" : "10";
 			foreach (TooltipLine line2 in list)
 			{
 				if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
@@ -65,7 +65,7 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-            player.jumpSpeedBoost += player.autoJump ? 0.25f : 1f;
+            player.jumpSpeedBoost += player.autoJump ? 0.125f : 0.5f;
             player.moveSpeed += 0.25f;
         }
 

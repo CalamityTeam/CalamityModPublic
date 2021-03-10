@@ -52,6 +52,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Terraria;
 using Terraria.GameContent.Events;
+using Terraria.Graphics.Effects;
 using Terraria.ID;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
@@ -150,6 +151,7 @@ namespace CalamityMod.NPCs
 
         // whoAmI Variables
         public static int[] bobbitWormBottom = new int[5];
+        public static int DD2CrystalIndex = -1;
         public static int hiveMind = -1;
         public static int perfHive = -1;
         public static int slimeGodPurple = -1;
@@ -478,6 +480,7 @@ namespace CalamityMod.NPCs
 			for (int i = 0; i < bobbitWormBottom.Length; i++)
 				ResetSavedIndex(ref bobbitWormBottom[i], NPCType<BobbitWormSegment>());
 
+            ResetSavedIndex(ref DD2CrystalIndex, NPCID.DD2EterniaCrystal);
             ResetSavedIndex(ref hiveMind, NPCType<HiveMind.HiveMind>());
             ResetSavedIndex(ref perfHive, NPCType<PerforatorHive>());
             ResetSavedIndex(ref slimeGodPurple, NPCType<SlimeGod.SlimeGod>(), NPCType<SlimeGodSplit>());
@@ -1675,9 +1678,6 @@ namespace CalamityMod.NPCs
 			{
                 float DRScalar = !GetDownedBossVariable(npc.type) || CalamityConfig.Instance.FullPowerReactiveBossDR ? 1.5f : 1f;
 
-				/*if (Main.masterMode)
-					DRScalar = 5f;*/
-
 				// Boost Providence timed DR during the night, Destroyer, Aquatic Scourge, Astrum Deus, Storm Weaver and DoG body timed DR
 				if (npc.type == NPCType<Providence.Providence>() && !Main.dayTime)
                     DRScalar = 10f;
@@ -2554,6 +2554,12 @@ namespace CalamityMod.NPCs
 					return CalamityGlobalAI.BuffedSporeAI(npc, mod);
 			}
 
+            if (npc.type == NPCID.DD2LanePortal)
+            {
+                CalamityGlobalAI.DD2PortalAI(npc);
+                return false;
+            }                
+
             return true;
         }
         #endregion
@@ -3125,6 +3131,9 @@ namespace CalamityMod.NPCs
                 else if (slowed > 0 || tesla > 0)
                     npc.velocity *= 0.9f;
             }
+
+            if (npc.type == NPCID.DD2EterniaCrystal)
+                CalamityGlobalAI.DD2CrystalExtraAI(npc);
         }
         #endregion
 
@@ -3404,9 +3413,9 @@ namespace CalamityMod.NPCs
 			// Other projectile resists
             if (npc.type == NPCType<OldDuke.OldDuke>())
 			{
-                // 5% resist to Time Bolt
+                // 10% resist to Time Bolt
                 if (projectile.type == ProjectileType<TimeBoltKnife>())
-                    damage = (int)(damage * 0.95);
+                    damage = (int)(damage * 0.9);
 			}
 			else if (npc.type == NPCType<Polterghast.Polterghast>())
 			{
@@ -3447,10 +3456,13 @@ namespace CalamityMod.NPCs
 			if (projectile.IsSummon() || projectile.aiStyle == 99)
 				return;
 
-			if (projectile.penetrate == -1)
-				damage = (int)(damage * 0.5);
-			else if (projectile.penetrate > 1)
-				damage = (int)MathHelper.Clamp(damage * (float)Math.Pow(0.9, projectile.penetrate), damage * 0.5f, damage);
+            if (projectile.penetrate == -1)
+                damage = (int)(damage * 0.5);
+            else if (projectile.penetrate > 1) 
+            {
+                float newBaseDamage = damage * (float)Math.Pow(0.9, projectile.penetrate) / projectile.Calamity().ResistDamagePenaltyHarshness;
+                damage = (int)MathHelper.Clamp(newBaseDamage, damage * projectile.Calamity().ResistDamagePenaltyMinCapFactor, damage);
+            }
 		}
 		#endregion
 
@@ -4407,6 +4419,31 @@ namespace CalamityMod.NPCs
                     position9.Y -= npc.height / 2;
 
                     Main.spriteBatch.Draw(Main.npcTexture[npc.type], new Vector2(position9.X - Main.screenPosition.X + npc.width / 2 - Main.npcTexture[npc.type].Width * npc.scale / 2f + vector11.X * npc.scale, position9.Y - Main.screenPosition.Y + npc.height - Main.npcTexture[npc.type].Height * npc.scale / Main.npcFrameCount[npc.type] + 4f + vector11.Y * npc.scale + num66 + npc.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(npc.frame), alpha15, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+                }
+            }
+
+            // Draw a pillar of light and fade the background as an animation when skipping things in the DD2 event.
+            if (npc.type == NPCID.DD2EterniaCrystal)
+            {
+                float animationTime = 120f - npc.ai[3];
+                animationTime /= 120f;
+
+                if (!Main.dedServ)
+                {
+                    if (!Filters.Scene["CrystalDestructionColor"].IsActive())
+                        Filters.Scene.Activate("CrystalDestructionColor");
+
+                    Filters.Scene["CrystalDestructionColor"].GetShader().UseIntensity((float)Math.Sin(animationTime * MathHelper.Pi) * 0.4f);
+                }
+
+                Vector2 drawPosition = npc.Center - Main.screenPosition + Vector2.UnitY * 60f;
+                for (int i = 0; i < 4; i++)
+                {
+                    float intensity = MathHelper.Clamp(animationTime * 2f - i / 3f, 0f, 1f);
+                    Vector2 origin = new Vector2(Main.magicPixel.Width / 2f, Main.magicPixel.Height);
+                    Vector2 scale = new Vector2((float)Math.Sqrt(intensity) * 50f, intensity * 4f);
+                    Color beamColor = new Color(0.4f, 0.17f, 0.4f, 0f) * (intensity * (1f - MathHelper.Clamp((animationTime - 0.8f) / 0.2f, 0f, 1f))) * 0.5f;
+                    spriteBatch.Draw(Main.magicPixel, drawPosition, null, beamColor, 0f, origin, scale, SpriteEffects.None, 0f);
                 }
             }
             return true;

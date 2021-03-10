@@ -908,7 +908,6 @@ namespace CalamityMod.CalPlayer
         public bool brimseeker = false;
         public bool necrosteocytesDudes = false;
         public bool gammaHead = false;
-        public List<int> GammaCanisters = new List<int>();
         public bool rustyDrone = false;
         public bool tundraFlameBlossom = false;
         public bool starSwallowerPetFroge = false;
@@ -4414,7 +4413,6 @@ namespace CalamityMod.CalPlayer
         }
         #endregion
 
-		// Currently not used due to god slayer and silva armor changes
         #region Use Time Mult
         public override float UseTimeMultiplier(Item item)
         {
@@ -5159,7 +5157,7 @@ namespace CalamityMod.CalPlayer
             }
             if (item.type == ItemID.TitaniumSword)
             {
-                int knockbackAdd = (int)(damage * 0.25 * (1f - target.knockBackResist));
+                int knockbackAdd = (int)(damage * 0.15 * (1f - target.knockBackResist));
                 damage += knockbackAdd;
             }
             if (item.type == ItemID.AntlionClaw || item.type == ItemID.BoneSword || item.type == ItemID.BreakerBlade)
@@ -6935,7 +6933,7 @@ namespace CalamityMod.CalPlayer
                     num79 *= num80;
                     float speedX4 = num78 + (float)Main.rand.Next(-30, 31) * 0.02f;
                     float speedY5 = num79 + (float)Main.rand.Next(-30, 31) * 0.02f;
-                    int p = Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, type, (int)(damage * 0.15), knockBack * 0.5f, player.whoAmI);
+                    int p = Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, type, (int)(damage * 0.065), knockBack * 0.5f, player.whoAmI);
                     if (p.WithinBounds(Main.maxProjectiles))
                         Main.projectile[p].Calamity().forceRogue = true; //in case melee/rogue variants bug out
                     if (item.type == ModContent.ItemType<FinalDawn>())
@@ -7258,8 +7256,15 @@ namespace CalamityMod.CalPlayer
             if (CalamityWorld.revenge && CalamityConfig.Instance.Rippers && shatteredCommunity && rageGainCooldown == 0)
             {
                 float HPRatio = (float)damage / player.statLifeMax2;
+                float rageConversionRatio = 0.8f;
+
                 // Damage to rage conversion is half as effective while Rage Mode is active.
-                float rageConversionRatio = rageModeActive ? 0.4f : 0.8f;
+                if (rageModeActive)
+                    rageConversionRatio *= 0.5f;
+                // If Rage is over 100%, damage to rage conversion scales down asymptotically based on how full Rage is.
+                if (rage >= rageMax)
+                    rageConversionRatio *= 3f / (3f + rage / rageMax);
+
                 rage += rageMax * HPRatio * rageConversionRatio;
                 rageGainCooldown = DefaultRageGainCooldown;
                 // Rage capping is handled in MiscEffects

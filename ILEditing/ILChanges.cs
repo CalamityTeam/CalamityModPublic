@@ -36,10 +36,10 @@ namespace CalamityMod.ILEditing
         private static int aLabDoorOpen = -1;
         private static int aLabDoorClosed = -1;
 
-        /// <summary>
-        /// Loads all IL Editing changes in the mod.
-        /// </summary>
-        internal static void Load()
+		/// <summary>
+		/// Loads all IL Editing changes in the mod.
+		/// </summary>
+		internal static void Load()
         {
             // Wrap the vanilla town NPC spawning function in a delegate so that it can be tossed around and called at will.
             var updateTime = typeof(Main).GetMethod("UpdateTime_SpawnTownNPCs", BindingFlags.Static | BindingFlags.NonPublic);
@@ -58,6 +58,7 @@ namespace CalamityMod.ILEditing
             BlockLivingTreesNearOcean();
             LabDoorFixes();
             AlterTownNPCSpawnRate();
+			DisableDemonAltarGeneration();
         }
 
         /// <summary>
@@ -202,10 +203,19 @@ namespace CalamityMod.ILEditing
                 Main.worldRate = oldWorldRate;
             };
         }
-        #endregion
 
-        #region IL Editing Injected/Hooked Functions
-        private static void BossRushLifeBytes(On.Terraria.Main.orig_InitLifeBytes orig)
+		private static void DisableDemonAltarGeneration()
+		{
+			IL.Terraria.WorldGen.SmashAltar += (il) =>
+			{
+				var cursor = new ILCursor(il);
+				cursor.Emit(OpCodes.Ret);
+			};
+		}
+		#endregion
+
+		#region IL Editing Injected/Hooked Functions
+		private static void BossRushLifeBytes(On.Terraria.Main.orig_InitLifeBytes orig)
         {
             orig();
             foreach (int npcType in NeedsFourLifeBytes)

@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Statis' Void Sash");
-            Tooltip.SetDefault("24% increased jump speed and allows constant jumping\n" +
+            Tooltip.SetDefault("12% increased jump speed and allows constant jumping\n" +
                 "Grants immunity to fall damage\n" +
                 "Can climb walls, dash, and dodge attacks\n" +
                 "The dodge has a 60 second cooldown\n" +
@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Accessories
         {
             CalamityPlayer modPlayer = player.Calamity();
             player.autoJump = true;
-            player.jumpSpeedBoost += 1.2f;
+            player.jumpSpeedBoost += 0.6f;
             player.noFallDmg = true;
             player.blackBelt = true;
             modPlayer.dashMod = 7;

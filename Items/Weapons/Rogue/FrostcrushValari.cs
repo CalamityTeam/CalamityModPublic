@@ -76,7 +76,7 @@ Stealth strikes throw three short ranged boomerangs along with a spread of icicl
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<Kylie>());
-            recipe.AddIngredient(ModContent.ItemType<CryoBar>(), 6);
+            recipe.AddIngredient(ModContent.ItemType<VerstaltiteBar>(), 6);
             recipe.AddIngredient(ModContent.ItemType<Voidstone>(), 40);
             recipe.AddIngredient(ModContent.ItemType<CoreofEleum>(), 5);
             recipe.AddTile(TileID.MythrilAnvil);

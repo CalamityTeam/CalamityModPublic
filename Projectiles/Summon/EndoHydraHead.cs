@@ -169,6 +169,7 @@ namespace CalamityMod.Projectiles.Summon
             projectile.MinionAntiClump(0.15f);
             AdjustOldVelocityArray();
         }
+
         public void AdjustOldVelocityArray()
         {
             for (int i = OldVelocities.Length - 1; i > 0; i--)
@@ -177,6 +178,7 @@ namespace CalamityMod.Projectiles.Summon
             }
             OldVelocities[0] = projectile.velocity;
         }
+
         public override void Kill(int timeLeft)
         {
             for (int i = 0; i < 10; i++)

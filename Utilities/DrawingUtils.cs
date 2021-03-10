@@ -269,10 +269,7 @@ namespace CalamityMod
 		/// </summary>
 		/// <param name="shader">The shader to bind the texture to.</param>
 		/// <param name="texture">The texture to bind.</param>
-		public static void SetShaderTexture(this MiscShaderData shader, Texture2D texture)
-		{
-			UImageField.SetValue(shader, new Ref<Texture2D>(texture));
-		}
+		public static void SetShaderTexture(this MiscShaderData shader, Texture2D texture) => UImageField.SetValue(shader, new Ref<Texture2D>(texture));
 
 		public static void EnterShaderRegion(this SpriteBatch spriteBatch)
 		{

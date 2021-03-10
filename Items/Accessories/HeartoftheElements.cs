@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Accessories
             DisplayName.SetDefault("Heart of the Elements");
             Tooltip.SetDefault("The heart of the world\n" +
                 "Increases max life by 20, life regen by 1 and all damage by 5%\n" +
-                "Increases jump speed by 24%\n" +
+                "Increases jump speed by 12%\n" +
 				"Increases damage reduction and movement speed by 5%\n" +
                 "Increases max mana by 50 and reduces mana usage by 5%\n" +
                 "You grow flowers on the grass beneath you, chance to grow very random dye plants on grassless dirt\n" +
@@ -52,7 +52,7 @@ namespace CalamityMod.Items.Accessories
 			string lifeAmt = hideVisual ? "25" : "20";
 			string lifeRegenAmt = hideVisual ? "2" : "1";
 			string damageAmt = hideVisual ? "7" : "5";
-			string jumpAmt = hideVisual ? (autoJump ? "6" : "24") : (autoJump ? "5" : "20");
+			string jumpAmt = hideVisual ? (autoJump ? "3" : "12") : (autoJump ? "2.5" : "10");
 			string damageReductionAndMoveSpeedAmt = hideVisual ? "6" : "5";
 			string manaAmt = hideVisual ? "60" : "50";
 			string manaUsageAmt = hideVisual ? "7" : "5";
@@ -91,7 +91,7 @@ namespace CalamityMod.Items.Accessories
 			player.lifeRegen += hideVisual ? 2 : 1;
 			player.statLifeMax2 += hideVisual ? 25 : 20;
 			player.moveSpeed += hideVisual ? 0.06f : 0.05f;
-			player.jumpSpeedBoost += hideVisual ? (player.autoJump ? 0.3f : 1.2f) : (player.autoJump ? 0.25f : 1f);
+			player.jumpSpeedBoost += hideVisual ? (player.autoJump ? 0.15f : 0.6f) : (player.autoJump ? 0.125f : 0.5f);
 			player.endurance += hideVisual ? 0.06f : 0.05f;
 			player.statManaMax2 += hideVisual ? 60 : 50;
 			player.manaCost *= hideVisual ? 0.93f : 0.95f;

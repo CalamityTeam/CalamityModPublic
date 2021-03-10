@@ -1264,7 +1264,7 @@ namespace CalamityMod.Items
 				foreach (TooltipLine line2 in tooltips)
 				{
 					if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
-						line2.text = "";
+						line2.text += "\nDemon Altars no longer spawn ores when destroyed";
 				}
 			}
 			if (item.type == ItemID.BlackBelt)
@@ -2118,6 +2118,9 @@ Grants immunity to fire blocks, and temporary immunity to lava";
 					}
 				}
             }
+            if (item.type == ItemID.DD2ElderCrystal)
+                tooltips.FirstOrDefault(line => line.mod == "Terraria" && line.Name == "Tooltip0").text += "\nOnce placed you can right click the crystal to skip waves or increase the spawn rate of the invaders";
+
             if (item.type == ItemID.MagicQuiver)
             {
                 foreach (TooltipLine line2 in tooltips)
@@ -2350,7 +2353,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                             "Flight time: 100\n" +
                             "Gills effect and you can move freely through liquids\n" +
                             "You fall faster while submerged in liquid\n" +
-                            "15% increased movement speed and 36% increased jump speed";
+                            "15% increased movement speed and 18% increased jump speed";
                     }
                 }
             }
@@ -2412,7 +2415,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                             "Average vertical speed\n" +
                             "Flight time: 140\n" +
                             "At night or during an eclipse, you will gain the following boosts:\n" +
-							"10% increased movement speed, 20% increased jump speed,\n" +
+							"10% increased movement speed, 10% increased jump speed,\n" +
                             "7% increased damage and 3% increased critical strike chance";
                     }
                 }
@@ -2508,7 +2511,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                             "Average vertical speed\n" +
                             "Flight time: 160\n" +
                             "+5 defense, 5% increased damage,\n" +
-                            "10% increased movement speed and 24% increased jump speed";
+                            "10% increased movement speed and 12% increased jump speed";
                     }
                 }
             }
@@ -2905,6 +2908,19 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                     }
                 }
             }
+            if (item.type == ItemID.StaticHook)
+            {
+                foreach (TooltipLine line2 in tooltips)
+                {
+                    if (line2.mod == "Terraria" && line2.Name == "Equipable")
+                    {
+                        line2.text = "Equipable\n" +
+                            "Reach: 37.5\n" +
+                            "Launch Velocity: 16\n" +
+                            "Pull Velocity: 24";
+                    }
+                }
+            }
             if (item.accessory)
             {
 				if (item.prefix == PrefixID.Brisk)
@@ -3236,6 +3252,9 @@ Grants immunity to fire blocks, and temporary immunity to lava";
 				}
 			}
 
+			if (item.type == ItemID.FrogLeg)
+				player.jumpSpeedBoost -= 1.2f;
+
             if (item.type == ItemID.FireGauntlet)
             {
                 player.meleeDamage += 0.04f;
@@ -3258,7 +3277,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
             else if (item.type == ItemID.FinWings) // Boosted water abilities, faster fall in water
             {
                 player.moveSpeed += 0.15f;
-                player.jumpSpeedBoost += 1.8f;
+                player.jumpSpeedBoost += 0.9f;
                 player.gills = true;
                 player.ignoreWater = true;
                 player.noFallDmg = true;
@@ -3291,7 +3310,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                 player.noFallDmg = true;
                 if (!Main.dayTime || Main.eclipse)
                 {
-					player.jumpSpeedBoost += 1f;
+					player.jumpSpeedBoost += 0.5f;
                     player.allDamage += 0.07f;
                     modPlayer.AllCritBoost(3);
                     player.moveSpeed += 0.1f;
@@ -3320,7 +3339,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                 player.statDefense += 5;
                 player.allDamage += 0.05f;
                 player.moveSpeed += 0.1f;
-                player.jumpSpeedBoost += 1.2f;
+                player.jumpSpeedBoost += 0.6f;
                 player.noFallDmg = true;
             }
             else if (item.type == ItemID.FrozenWings) // Bonus to melee and ranged stats while wearing frost armor

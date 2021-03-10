@@ -53,6 +53,8 @@ namespace CalamityMod.Projectiles
         // Damage Adjusters
         private bool setDamageValues = true;
         public float spawnedPlayerMinionDamageValue = 1f;
+        public float ResistDamagePenaltyHarshness = 1f;
+        public float ResistDamagePenaltyMinCapFactor = 0.5f;
         public int spawnedPlayerMinionProjectileDamageValue = 0;
         public int defDamage = 0;
 
@@ -1163,26 +1165,6 @@ namespace CalamityMod.Projectiles
 
             if (!projectile.npcProj && !projectile.trap && projectile.friendly && projectile.damage > 0)
             {
-                if (modPlayer.eQuiver && projectile.ranged && CalamityLists.rangedProjectileExceptionList.TrueForAll(x => projectile.type != x))
-                {
-                    if (Main.player[projectile.owner].miscCounter % 60 == 0 && projectile.FinalExtraUpdate())
-                    {
-                        float spread = 180f * 0.0174f;
-                        double startAngle = Math.Atan2(projectile.velocity.X, projectile.velocity.Y) - spread / 2;
-                        if (projectile.owner == Main.myPlayer && player.ownedProjectileCounts[projectile.type] < 50)
-                        {
-                            int projectile1 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(startAngle) * 8f), (float)(Math.Cos(startAngle) * 8f), projectile.type, (int)(projectile.damage * 0.15), projectile.knockBack, projectile.owner, 0f, 0f);
-                            int projectile2 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(startAngle) * 8f), (float)(-Math.Cos(startAngle) * 8f), projectile.type, (int)(projectile.damage * 0.15), projectile.knockBack, projectile.owner, 0f, 0f);
-                            Main.projectile[projectile1].ranged = false;
-                            Main.projectile[projectile2].ranged = false;
-                            Main.projectile[projectile1].timeLeft = 60;
-                            Main.projectile[projectile2].timeLeft = 60;
-                            Main.projectile[projectile1].noDropItem = true;
-                            Main.projectile[projectile2].noDropItem = true;
-                        }
-                    }
-                }
-
                 if (modPlayer.fungalSymbiote && trueMelee)
                 {
                     if (Main.player[projectile.owner].miscCounter % 6 == 0 && projectile.FinalExtraUpdate())
@@ -1218,24 +1200,26 @@ namespace CalamityMod.Projectiles
 
                 if (rogue)
                 {
-                    if (modPlayer.nanotech && rogue && projectile.type != ProjectileType<MoonSigil>() && projectile.type != ProjectileType<DragonShit>())
+                    if (modPlayer.nanotech && projectile.type != ProjectileType<MoonSigil>() && projectile.type != ProjectileType<DragonShit>())
                     {
                         if (Main.player[projectile.owner].miscCounter % 30 == 0 && projectile.FinalExtraUpdate())
                         {
                             if (projectile.owner == Main.myPlayer && player.ownedProjectileCounts[ProjectileType<NanotechProjectile>()] < 25)
                             {
-                                Projectile.NewProjectile(projectile.Center, Vector2.Zero, ProjectileType<NanotechProjectile>(), (int)(projectile.damage * 0.15), 0f, projectile.owner, 0f, 0f);
+                                Projectile.NewProjectile(projectile.Center, Vector2.Zero, ProjectileType<NanotechProjectile>(), (int)(projectile.damage * 0.7), 0f, projectile.owner, 0f, 0f);
                             }
                         }
                     }
                     // Moon Crown gets overridden by Nanotech
-                    else if (modPlayer.moonCrown)
+                    else if (modPlayer.moonCrown && projectile.type != ProjectileType<MoonSigil>() && projectile.type != ProjectileType<DragonShit>())
                     {
-                        // Summon moon sigils infrequently
-                        if (Main.rand.NextBool(300) && projectile.type != ProjectileType<MoonSigil>() && projectile.type != ProjectileType<DragonShit>())
-                        {
-                            Projectile.NewProjectile(projectile.Center, Vector2.Zero, ProjectileType<MoonSigil>(), (int)(projectile.damage * 0.2), 0, projectile.owner);
-                        }
+						if (Main.player[projectile.owner].miscCounter % 300 == 0 && projectile.FinalExtraUpdate())
+						{
+							if (projectile.owner == Main.myPlayer && player.ownedProjectileCounts[ProjectileType<MoonSigil>()] < 15)
+							{
+								Projectile.NewProjectile(projectile.Center, Vector2.Zero, ProjectileType<MoonSigil>(), (int)(projectile.damage * 0.2), 0, projectile.owner);
+							}
+						}
                     }
                     if (modPlayer.dragonScales && projectile.type != ProjectileType<MoonSigil>() && projectile.type != ProjectileType<DragonShit>())
                     {

@@ -2,7 +2,6 @@ using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Projectiles.Magic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -11,7 +10,7 @@ namespace CalamityMod.Projectiles.Rogue
 {
 	public class ValedictionBoomerang : ModProjectile
 	{
-        public override string Texture => "CalamityMod/Items/Weapons/Rogue/Valediction";
+		public override string Texture => "CalamityMod/Items/Weapons/Rogue/Valediction";
 
 		public override void SetStaticDefaults()
 		{
@@ -133,7 +132,8 @@ namespace CalamityMod.Projectiles.Rogue
 		private void OnHitEffects()
 		{
 			int typhoonAmt = 3;
-			if (projectile.owner == Main.myPlayer && projectile.Calamity().stealthStrike)
+			int typhoonDamage = (int)(projectile.damage * 1.6f);
+			if (projectile.owner == Main.myPlayer && projectile.numHits < 1 && projectile.Calamity().stealthStrike)
 			{
 				Main.PlaySound(SoundID.Item84, projectile.position);
 				for (int typhoonCount = 0; typhoonCount < typhoonAmt; typhoonCount++)
@@ -145,7 +145,7 @@ namespace CalamityMod.Projectiles.Rogue
 					}
 					velocity.Normalize();
 					velocity *= (float)Main.rand.Next(70, 101) * 0.1f;
-					Projectile typhoon = Projectile.NewProjectileDirect(projectile.Center, velocity, ModContent.ProjectileType<NuclearFuryProjectile>(), projectile.damage / 2, 0f, projectile.owner);
+					Projectile typhoon = Projectile.NewProjectileDirect(projectile.Center, velocity, ModContent.ProjectileType<NuclearFuryProjectile>(), typhoonDamage, 0f, projectile.owner);
 					if (typhoon.whoAmI.WithinBounds(Main.maxProjectiles))
 					{
 						typhoon.Calamity().forceRogue = true;
