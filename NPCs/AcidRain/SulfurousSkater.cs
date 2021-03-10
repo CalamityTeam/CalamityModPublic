@@ -18,6 +18,8 @@ namespace CalamityMod.NPCs.AcidRain
     public class SulfurousSkater : ModNPC
     {
         public bool Flying = false;
+        public Player Target => Main.player[npc.target];
+        public ref float JumpTimer => ref npc.ai[0];
 
         public override void SetStaticDefaults()
         {
@@ -27,15 +29,9 @@ namespace CalamityMod.NPCs.AcidRain
             NPCID.Sets.TrailCacheLength[npc.type] = 6;
         }
 
-        public override void SendExtraAI(BinaryWriter writer)
-        {
-            writer.Write(Flying);
-        }
+        public override void SendExtraAI(BinaryWriter writer) => writer.Write(Flying);
 
-        public override void ReceiveExtraAI(BinaryReader reader)
-        {
-            Flying = reader.ReadBoolean();
-        }
+        public override void ReceiveExtraAI(BinaryReader reader) => Flying = reader.ReadBoolean();
 
         public override void SetDefaults()
         {
@@ -49,7 +45,7 @@ namespace CalamityMod.NPCs.AcidRain
             if (CalamityWorld.downedPolterghast)
             {
                 npc.damage = 85;
-                npc.lifeMax = 7000;
+                npc.lifeMax = 3850;
                 npc.defense = 15;
             }
 
@@ -69,102 +65,119 @@ namespace CalamityMod.NPCs.AcidRain
         public override void AI()
         {
             npc.TargetClosest(false);
-            Player player = Main.player[npc.target];
             if (!Flying)
+                JumpToDestination();
+            else
+                DoFlyMovement();
+        }
+
+        public void JumpToDestination()
+        {
+            npc.knockBackResist = 0.8f;
+            npc.DR_NERD(0.35f);
+            npc.noGravity = false;
+            Projectile closestBubble = SearchForNearestBubble(out float distanceToBubbele);
+
+            Vector2 destination = Target.Center;
+
+            // Jump towards any nearby bubbles if they exist.
+            if (closestBubble != null)
+                destination = closestBubble.Center;
+
+            // Stay on water instead of falling into it
+            if (npc.wet && npc.velocity.Y >= 0f)
+                npc.velocity.Y = -3f;
+
+            // If close to the bubble, try to fall onto it.
+            if (closestBubble != null && distanceToBubbele < 200f)
             {
-				npc.knockBackResist = 0.8f;
-                npc.DR_NERD(0.35f);
-                npc.noGravity = false;
-                float minimumDistance = float.PositiveInfinity;
-                Projectile closestBubble = null;
-                for (int i = 0; i < Main.npc.Length; i++)
-                {
-                    if (Main.projectile[i].type == ModContent.ProjectileType<SulphuricAcidBubble>() && Main.projectile[i].active)
-                    {
-                        if (Math.Abs(npc.Center.X - Main.projectile[i].Center.X) < minimumDistance &&
-                            Collision.CanHit(npc.position, npc.width, npc.height, Main.projectile[i].position, Main.projectile[i].width, Main.projectile[i].height) &&
-                            Main.projectile[i].Center.Y > npc.Bottom.Y)
-                        {
-                            minimumDistance = npc.Distance(Main.projectile[i].Center);
-                            closestBubble = Main.projectile[i];
-                        }
-                    }
-                }
-                if (minimumDistance >= 2400f)
-                {
-                    closestBubble = null;
-                }
+                npc.velocity.Y += 0.2f;
 
-                Vector2 destination = player.Center;
-
-                if (closestBubble != null)
+                if (closestBubble.Hitbox.Intersects(npc.Hitbox))
                 {
-                    destination = closestBubble.Center;
-                }
-                // Stay on water instead of falling into it
-                if (npc.wet)
-                {
-                    if (npc.velocity.Y >= 0f)
-                    {
-                        npc.velocity.Y = -3f;
-                    }
-                }
-
-                if (closestBubble != null && minimumDistance < 200f)
-                {
-                    npc.velocity.Y += 0.2f;
-
-                    if (closestBubble.Hitbox.Intersects(npc.Hitbox))
-                    {
-                        Flying = true;
-                        closestBubble.Kill();
-                        npc.netSpam = 0;
-                        npc.netUpdate = true;
-                    }
-                }
-                if (npc.velocity.Y == 0f || npc.wet)
-                {
-                    npc.TargetClosest(false);
-                    npc.velocity.X *= 0.85f;
-                    npc.ai[1]++;
-                    float lungeForwardSpeed = 15f;
-                    float jumpSpeed = 4f;
-                    if (Collision.CanHit(npc.Center, 1, 1, Main.player[npc.target].Center, 1, 1))
-                    {
-                        lungeForwardSpeed *= 1.2f;
-                    }
-                    if (npc.ai[1] >= 17)
-                    {
-                        npc.ai[1] = 0f;
-                        npc.velocity.Y -= jumpSpeed;
-                        npc.velocity.X = lungeForwardSpeed * (npc.Center.X - destination.X < 0).ToDirectionInt();
-                        npc.spriteDirection = (npc.Center.X - destination.X > 0).ToDirectionInt();
-                        npc.netSpam = 0;
-                        npc.netUpdate = true;
-                    }
-                }
-                else
-                {
-                    npc.knockBackResist = 0f;
+                    Flying = true;
+                    npc.netSpam = 0;
+                    npc.netUpdate = true;
+                    closestBubble.Kill();
                 }
             }
-            else
+
+            // Wait for a small amount of time and jump if there is little motion.
+            if (npc.velocity.Y == 0f || npc.wet)
             {
-				npc.knockBackResist = 0.5f;
-                npc.DR_NERD(0f);
-                float speed = CalamityWorld.downedPolterghast ? 17f : 14f;
-                float inertia = CalamityWorld.downedPolterghast ? 20f : 24.5f;
-                if (npc.Distance(player.Center) < 200f)
-                    inertia *= 0.667f;
-                npc.velocity = (npc.velocity * inertia + npc.DirectionTo(player.Center) * speed) / (inertia + 1f);
-                npc.spriteDirection = (npc.velocity.X < 0).ToDirectionInt();
-                if (npc.Distance(player.Center) < player.Size.Length())
+                npc.TargetClosest(false);
+
+                // Rapidly zero out horizontal movement.
+                npc.velocity.X *= 0.85f;
+
+                JumpTimer++;
+                float lungeForwardSpeed = 15f;
+                float jumpSpeed = 4f;
+                if (Collision.CanHit(npc.Center, 1, 1, Target.Center, 1, 1))
+                    lungeForwardSpeed *= 1.2f;
+
+                // Jump after a short amount of time.
+                if (JumpTimer >= 17)
                 {
-                    Flying = false;
+                    JumpTimer = 0f;
+                    npc.velocity.Y -= jumpSpeed;
+                    npc.velocity.X = lungeForwardSpeed * (npc.Center.X - destination.X < 0).ToDirectionInt();
+                    npc.spriteDirection = (npc.Center.X - destination.X > 0).ToDirectionInt();
                     npc.netSpam = 0;
                     npc.netUpdate = true;
                 }
             }
+            else
+                npc.knockBackResist = 0f;
+        }
+        
+        public void DoFlyMovement()
+        {
+            npc.knockBackResist = 0.5f;
+            npc.DR_NERD(0f);
+
+            float flySpeed = CalamityWorld.downedPolterghast ? 17f : 14f;
+            float flyInertia = CalamityWorld.downedPolterghast ? 20f : 24.5f;
+
+            // Fly more sharply if close to the target.
+            if (npc.WithinRange(Target.Center, 200f))
+                flyInertia *= 0.667f;
+            npc.velocity = (npc.velocity * flyInertia + npc.DirectionTo(Target.Center) * flySpeed) / (flyInertia + 1f);
+            npc.spriteDirection = (npc.velocity.X < 0).ToDirectionInt();
+
+            // Have the bubble pop and stop flying if within the circular hitbox area of the player.
+            if (npc.WithinRange(Target.Center, Target.Size.Length()))
+            {
+                Flying = false;
+                npc.netSpam = 0;
+                npc.netUpdate = true;
+            }
+        }
+
+        public Projectile SearchForNearestBubble(out float distanceToBubble)
+        {
+            int bubbleType = ModContent.ProjectileType<SulphuricAcidBubble>();
+            float minimumDistance = 2400f;
+            Projectile closestBubble = null;
+
+            for (int i = 0; i < Main.maxProjectiles; i++)
+            {
+                if (Main.projectile[i].type != bubbleType || !Main.projectile[i].active)
+                    continue;
+
+                if (Math.Abs(npc.Center.X - Main.projectile[i].Center.X) >= minimumDistance ||
+                    Main.projectile[i].Center.Y <= npc.Bottom.Y ||
+                    !Collision.CanHit(npc.position, npc.width, npc.height, Main.projectile[i].position, Main.projectile[i].width, Main.projectile[i].height))
+                {
+                    continue;
+                }
+
+                minimumDistance = npc.Distance(Main.projectile[i].Center);
+                closestBubble = Main.projectile[i];
+            }
+
+            distanceToBubble = minimumDistance;
+            return closestBubble;
         }
 
         public override void FindFrame(int frameHeight)
@@ -179,9 +192,7 @@ namespace CalamityMod.NPCs.AcidRain
                     npc.frameCounter = 0;
                     npc.frame.Y += frameHeight;
                     if (npc.frame.Y >= Main.npcFrameCount[npc.type] * frameHeight)
-                    {
                         npc.frame.Y = frameHeight;
-                    }
                 }
             }
         }
@@ -212,9 +223,6 @@ namespace CalamityMod.NPCs.AcidRain
             DropHelper.DropItemChance(npc, ModContent.ItemType<SulphurousGrabber>(), 20);
         }
 
-        public override void OnHitPlayer(Player target, int damage, bool crit)
-        {
-            target.AddBuff(ModContent.BuffType<Irradiated>(), 120);
-        }
+        public override void OnHitPlayer(Player target, int damage, bool crit) => target.AddBuff(ModContent.BuffType<Irradiated>(), 120);
     }
 }

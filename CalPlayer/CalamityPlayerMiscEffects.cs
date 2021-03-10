@@ -988,7 +988,7 @@ namespace CalamityMod.CalPlayer
 					{
 						if (!tentaclesPresent[i])
 						{
-							int damage = (int)(500 * player.AverageDamage());
+							int damage = (int)(390 * player.AverageDamage());
 							Vector2 vel = new Vector2(Main.rand.Next(-13, 14), Main.rand.Next(-13, 14)) * 0.25f;
 							Projectile.NewProjectile(player.Center, vel, ModContent.ProjectileType<OmegaBlueTentacle>(), damage, 8f, Main.myPlayer, Main.rand.Next(120), i);
 						}

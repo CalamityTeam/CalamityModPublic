@@ -50,6 +50,8 @@ namespace CalamityMod.Projectiles
         // Damage Adjusters
         private bool setDamageValues = true;
         public float spawnedPlayerMinionDamageValue = 1f;
+        public float ResistDamagePenaltyHarshness = 1f;
+        public float ResistDamagePenaltyMinCapFactor = 0.5f;
         public int spawnedPlayerMinionProjectileDamageValue = 0;
         public int defDamage = 0;
 
@@ -1201,7 +1203,7 @@ namespace CalamityMod.Projectiles
                         {
                             if (projectile.owner == Main.myPlayer && player.ownedProjectileCounts[ProjectileType<Nanotech>()] < 25)
                             {
-                                Projectile.NewProjectile(projectile.Center, Vector2.Zero, ProjectileType<Nanotech>(), (int)(projectile.damage * 0.15), 0f, projectile.owner, 0f, 0f);
+                                Projectile.NewProjectile(projectile.Center, Vector2.Zero, ProjectileType<Nanotech>(), (int)(projectile.damage * 0.07), 0f, projectile.owner, 0f, 0f);
                             }
                         }
                     }

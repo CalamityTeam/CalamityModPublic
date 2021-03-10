@@ -34,7 +34,7 @@ namespace CalamityMod.Projectiles.Summon
             projectile.alpha = Utils.Clamp(projectile.alpha - 35, 0, 255);
             projectile.rotation = projectile.velocity.ToRotation();
 
-            NPC potentialTarget = projectile.Center.MinionHoming(700f, Main.player[projectile.owner]);
+            NPC potentialTarget = projectile.Center.MinionHoming(1000f, Main.player[projectile.owner]);
             if (potentialTarget != null && !projectile.WithinRange(potentialTarget.Center, 100f) && projectile.timeLeft < 290)
                 projectile.velocity = (projectile.velocity * 6f + projectile.DirectionTo(potentialTarget.Center) * 15f) / 7f;
         }

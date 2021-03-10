@@ -1,5 +1,6 @@
 using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
+using CalamityMod.NPCs.DevourerofGods;
 using CalamityMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -22,7 +23,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.height = 94;
             item.scale = 1.5f;
             item.melee = true;
-            item.damage = 288;
+            item.damage = 360;
             item.knockBack = 8.5f;
             item.useAnimation = 20;
             item.useTime = 20;
@@ -41,8 +42,14 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
             int projDamage = (int)(item.damage * player.MeleeDamage());
-            CalamityPlayerOnHit.HorsemansBladeOnHit(player, target.whoAmI, projDamage, knockback, 0, ModContent.ProjectileType<MourningSkull>());
-            CalamityPlayerOnHit.HorsemansBladeOnHit(player, target.whoAmI, projDamage, knockback, 1);
+            bool isDoGSegment = target.type == ModContent.NPCType<DevourerofGodsBody>() || 
+                target.type == ModContent.NPCType<DevourerofGodsBody2>() || 
+                target.type == ModContent.NPCType<DevourerofGodsBodyS>();
+            if (!isDoGSegment || Main.rand.NextBool(3))
+            {
+                CalamityPlayerOnHit.HorsemansBladeOnHit(player, target.whoAmI, projDamage, knockback, 0, ModContent.ProjectileType<MourningSkull>());
+                CalamityPlayerOnHit.HorsemansBladeOnHit(player, target.whoAmI, projDamage, knockback, 1);
+            }
         }
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
