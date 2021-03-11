@@ -2687,7 +2687,7 @@ namespace CalamityMod.CalPlayer
 
                             int duration = chaosStateDuration;
                             if (areThereAnyDamnBosses || areThereAnyDamnEvents)
-                                duration = chaosStateDurationBoss;
+                                duration = (int)(chaosStateDurationBoss * 1.5);
                             if (eScarfCooldown)
                                 duration = (int)(duration * 1.5);
                             else if (scarfCooldown)
