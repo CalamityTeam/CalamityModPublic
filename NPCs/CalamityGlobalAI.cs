@@ -16,7 +16,6 @@ using Terraria.Enums;
 using Terraria.GameContent;
 using Terraria.GameContent.Events;
 using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs
@@ -653,8 +652,8 @@ namespace CalamityMod.NPCs
                         npc.ai[1] = 1f;
                         npc.ai[2] = 0f;
                         npc.ai[3] = 0f;
-                        npc.target = Main.maxPlayers;
-                        npc.netUpdate = true;
+						npc.TargetClosest();
+						npc.netUpdate = true;
                     }
                     else if (num16 < 500f)
                     {
@@ -745,14 +744,14 @@ namespace CalamityMod.NPCs
                     {
                         npc.ai[3] += 1f;
                         npc.ai[2] = 0f;
-                        npc.target = Main.maxPlayers;
-                        npc.rotation = num8;
+						npc.TargetClosest();
+						npc.rotation = num8;
 
                         if (npc.ai[3] >= 3f)
                         {
                             npc.ai[1] = 0f;
                             npc.ai[3] = 0f;
-                        }
+						}
                         else
                             npc.ai[1] = 1f;
                     }
@@ -764,7 +763,8 @@ namespace CalamityMod.NPCs
                     npc.ai[1] = 0f;
                     npc.ai[2] = 0f;
                     npc.ai[3] = 0f;
-                    npc.netUpdate = true;
+					npc.TargetClosest();
+					npc.netUpdate = true;
 
                     if (npc.netSpam > 10)
                         npc.netSpam = 10;
@@ -947,8 +947,8 @@ namespace CalamityMod.NPCs
                         if (phase4)
                             npc.ai[1] = 3f;
 
-                        npc.target = Main.maxPlayers;
-                        npc.netUpdate = true;
+						npc.TargetClosest();
+						npc.netUpdate = true;
                     }
                 }
 
@@ -1007,8 +1007,8 @@ namespace CalamityMod.NPCs
                     {
                         npc.ai[3] += 1f;
                         npc.ai[2] = 0f;
-                        npc.target = Main.maxPlayers;
-                        npc.rotation = num8;
+						npc.TargetClosest();
+						npc.rotation = num8;
 
                         if (npc.ai[3] >= 3f)
                         {
@@ -1019,7 +1019,7 @@ namespace CalamityMod.NPCs
                                 npc.ai[1] = 3f;
                                 npc.ai[3] += Main.rand.Next(1, 4);
                             }
-                            npc.netUpdate = true;
+							npc.netUpdate = true;
 
                             if (npc.netSpam > 10)
                                 npc.netSpam = 10;
@@ -1157,7 +1157,7 @@ namespace CalamityMod.NPCs
                         {
                             npc.ai[1] = 0f;
                             npc.ai[3] = 0f;
-                        }
+						}
                         else
                             npc.ai[1] = 3f;
                     }
@@ -3595,7 +3595,8 @@ namespace CalamityMod.NPCs
                     npc.ai[2] = 0f;
                     npc.ai[1] = 0f;
                     calamityGlobalNPC.newAI[1] = 0f;
-                }
+					npc.TargetClosest();
+				}
 
                 npc.rotation += npc.direction * 0.3f;
                 Vector2 vector20 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
@@ -4401,7 +4402,8 @@ namespace CalamityMod.NPCs
                     {
                         npc.localAI[2] = 1f;
                         npc.localAI[1] = 0f;
-                    }
+						npc.TargetClosest();
+					}
                 }
                 else if (npc.localAI[1] > 45f && (canHit || fireAcceleratingLasers) && !charging)
                 {
@@ -4469,7 +4471,10 @@ namespace CalamityMod.NPCs
 			float newAISet = phase5 ? 900f : phase4 ? 450f : 0f;
 			calamityGlobalNPC.newAI[3] += 1f;
 			if (calamityGlobalNPC.newAI[3] >= 1800f)
+			{
 				calamityGlobalNPC.newAI[3] = newAISet;
+				npc.TargetClosest();
+			}
 
             // Set worm variable for worms
             if (npc.ai[3] > 0f)
@@ -9996,8 +10001,6 @@ namespace CalamityMod.NPCs
                 }
                 else
                 {
-                    npc.TargetClosest();
-
 					// Fall through
 					if (!Main.player[npc.target].dead)
 					{
