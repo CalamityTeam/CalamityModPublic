@@ -5251,15 +5251,6 @@ namespace CalamityMod.CalPlayer
             {
                 damageMult += 1.25;
             }
-            if (godSlayerRanged && crit && proj.ranged)
-            {
-                // 100 min to 15 max with cap (prevents crit hyperscaling)
-                int randomChance = 100 - player.rangedCrit;
-                if (randomChance < 15)
-                    randomChance = 15;
-                if (Main.rand.NextBool(randomChance))
-                    damageMult += 0.5;
-            }
             if (silvaCountdown <= 0 && hasSilvaEffect && silvaMage && proj.magic)
             {
                 damageMult += 0.1;
@@ -5281,7 +5272,7 @@ namespace CalamityMod.CalPlayer
             {
                 if (proj.magic)
                 {
-                    damageMult += 0.5;
+                    damageMult += 0.3;
                 }
             }
             if (CalamityWorld.revenge && CalamityConfig.Instance.Rippers)
@@ -5318,7 +5309,7 @@ namespace CalamityMod.CalPlayer
             }
             if (proj.type == ProjectileID.TitaniumTrident)
             {
-                int knockbackAdd = (int)(damage * 0.25 * (1f - target.knockBackResist));
+                int knockbackAdd = (int)(damage * 0.15 * (1f - target.knockBackResist));
                 damage += knockbackAdd;
             }
             if (proj.type == ModContent.ProjectileType<AcidBulletProj>())
