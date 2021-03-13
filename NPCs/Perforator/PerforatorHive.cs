@@ -77,7 +77,14 @@ namespace CalamityMod.NPCs.Perforator
 		{
 			CalamityGlobalNPC.perfHive = npc.whoAmI;
 
-			npc.TargetClosest(true);
+			// Get a target
+			if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
+				npc.TargetClosest();
+
+			// Despawn safety, make sure to target another player if the current player target is too far away
+			if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > CalamityGlobalNPC.CatchUpDistance200Tiles)
+				npc.TargetClosest();
+
 			Player player = Main.player[npc.target];
 
 			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
@@ -251,6 +258,7 @@ namespace CalamityMod.NPCs.Perforator
 							wormType = ModContent.NPCType<PerforatorHeadLarge>();
 						}
 						NPC.NewNPC((int)npc.Center.X, (int)(npc.Center.Y + 800f), wormType, 1);
+						npc.TargetClosest();
 					}
 				}
 			}

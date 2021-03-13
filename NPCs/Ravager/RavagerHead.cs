@@ -95,8 +95,16 @@ namespace CalamityMod.NPCs.Ravager
             if (npc.ai[1] >= (death ? 420f : 480f))
             {
                 Main.PlaySound(SoundID.Item62, npc.position);
-                npc.TargetClosest(true);
-                npc.ai[1] = 0f;
+
+				// Get a target
+				if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
+					npc.TargetClosest();
+
+				// Despawn safety, make sure to target another player if the current player target is too far away
+				if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > CalamityGlobalNPC.CatchUpDistance200Tiles)
+					npc.TargetClosest();
+
+				npc.ai[1] = 0f;
 				int type = ModContent.ProjectileType<ScavengerNuke>();
 				int damage = npc.GetProjectileDamage(type);
 				if (Main.netMode != NetmodeID.MultiplayerClient)

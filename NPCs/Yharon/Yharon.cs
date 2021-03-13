@@ -301,18 +301,22 @@ namespace CalamityMod.NPCs.Yharon
 			int spawnPhaseTimer = 75;
 
 			// Target
-			if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)
+			if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
             {
-                npc.TargetClosest(true);
+                npc.TargetClosest();
                 npc.netUpdate = true;
             }
+
+			// Despawn safety, make sure to target another player if the current player target is too far away
+			if (Vector2.Distance(Main.player[npc.target].Center, vectorCenter) > CalamityGlobalNPC.CatchUpDistance200Tiles)
+				npc.TargetClosest();
 
 			Player player = Main.player[npc.target];
 
 			// Despawn
 			if (player.dead || !player.active)
             {
-				npc.TargetClosest(true);
+				npc.TargetClosest();
 				player = Main.player[npc.target];
 				if (player.dead || !player.active)
 				{
@@ -631,7 +635,8 @@ namespace CalamityMod.NPCs.Yharon
                     npc.ai[1] = 0f;
                     npc.ai[2] = 0f;
                     npc.ai[3] += 2f;
-                    npc.netUpdate = true;
+					npc.TargetClosest();
+					npc.netUpdate = true;
                 }
             }
 
@@ -681,7 +686,8 @@ namespace CalamityMod.NPCs.Yharon
                     npc.ai[0] = 0f;
                     npc.ai[1] = 0f;
                     npc.ai[2] = 0f;
-                    npc.netUpdate = true;
+					npc.TargetClosest();
+					npc.netUpdate = true;
                 }
             }
 
@@ -706,7 +712,8 @@ namespace CalamityMod.NPCs.Yharon
                     npc.ai[0] = 0f;
                     npc.ai[1] = 0f;
                     npc.ai[2] = 0f;
-                    npc.netUpdate = true;
+					npc.TargetClosest();
+					npc.netUpdate = true;
                 }
             }
 
@@ -727,6 +734,7 @@ namespace CalamityMod.NPCs.Yharon
                     npc.ai[2] = 0f;
                     npc.ai[3] = 0f;
 					npc.localAI[1] = 0f;
+					npc.TargetClosest();
 					npc.netUpdate = true;
                 }
             }
@@ -743,7 +751,8 @@ namespace CalamityMod.NPCs.Yharon
                     npc.ai[1] = 0f;
                     npc.ai[2] = 0f;
                     npc.ai[3] += 2f;
-                    npc.netUpdate = true;
+					npc.TargetClosest();
+					npc.netUpdate = true;
                 }
             }
             #endregion
@@ -944,7 +953,8 @@ namespace CalamityMod.NPCs.Yharon
                     npc.ai[1] = 0f;
                     npc.ai[2] = 0f;
                     npc.ai[3] += 2f;
-                    npc.netUpdate = true;
+					npc.TargetClosest();
+					npc.netUpdate = true;
                 }
             }
 
@@ -998,7 +1008,8 @@ namespace CalamityMod.NPCs.Yharon
 					npc.ai[0] = 6f;
                     npc.ai[1] = 0f;
                     npc.ai[2] = increasedIdleTimeAfterBulletHell;
-                    npc.netUpdate = true;
+					npc.TargetClosest();
+					npc.netUpdate = true;
                 }
             }
 
@@ -1020,7 +1031,8 @@ namespace CalamityMod.NPCs.Yharon
                     npc.ai[0] = 6f;
                     npc.ai[1] = 0f;
                     npc.ai[2] = 0f;
-                    npc.netUpdate = true;
+					npc.TargetClosest();
+					npc.netUpdate = true;
                 }
             }
 
@@ -1041,6 +1053,7 @@ namespace CalamityMod.NPCs.Yharon
                     npc.ai[2] = 0f;
                     npc.ai[3] = 0f;
 					npc.localAI[1] = 0f;
+					npc.TargetClosest();
 					npc.netUpdate = true;
                 }
             }
@@ -1057,7 +1070,8 @@ namespace CalamityMod.NPCs.Yharon
                     npc.ai[1] = 0f;
                     npc.ai[2] = 0f;
                     npc.ai[3] += 2f;
-                    npc.netUpdate = true;
+					npc.TargetClosest();
+					npc.netUpdate = true;
                 }
             }
 
@@ -1091,7 +1105,8 @@ namespace CalamityMod.NPCs.Yharon
                     npc.ai[1] = 0f;
                     npc.ai[2] = 0f;
                     npc.ai[3] += 2f;
-                    npc.netUpdate = true;
+					npc.TargetClosest();
+					npc.netUpdate = true;
                 }
             }
             #endregion
@@ -1301,7 +1316,8 @@ namespace CalamityMod.NPCs.Yharon
                     npc.ai[1] = 0f;
                     npc.ai[2] = 0f;
                     npc.ai[3] += 2f;
-                    npc.netUpdate = true;
+					npc.TargetClosest();
+					npc.netUpdate = true;
                 }
             }
 
@@ -1361,6 +1377,7 @@ namespace CalamityMod.NPCs.Yharon
 					npc.ai[1] = 0f;
 					npc.ai[2] = 0f;
 					npc.localAI[2] = 0f;
+					npc.TargetClosest();
 					npc.netUpdate = true;
 				}
             }
@@ -1384,7 +1401,8 @@ namespace CalamityMod.NPCs.Yharon
                     npc.ai[1] = 0f;
                     npc.ai[2] = 0f;
                     npc.ai[3] += 3f;
-                    npc.netUpdate = true;
+					npc.TargetClosest();
+					npc.netUpdate = true;
                 }
             }
 
@@ -1406,6 +1424,7 @@ namespace CalamityMod.NPCs.Yharon
 					npc.ai[2] = 0f;
 					npc.ai[3] = 0f;
 					npc.localAI[1] = 0f;
+					npc.TargetClosest();
 					npc.netUpdate = true;
 				}
             }
@@ -1422,7 +1441,8 @@ namespace CalamityMod.NPCs.Yharon
                     npc.ai[1] = 0f;
                     npc.ai[2] = 0f;
                     npc.ai[3] += 2f;
-                    npc.netUpdate = true;
+					npc.TargetClosest();
+					npc.netUpdate = true;
                 }
             }
 
@@ -1456,6 +1476,7 @@ namespace CalamityMod.NPCs.Yharon
 					npc.ai[1] = 0f;
 					npc.ai[2] = 0f;
 					npc.ai[3] += 1f;
+					npc.TargetClosest();
 					npc.netUpdate = true;
 				}
             }
@@ -1506,6 +1527,7 @@ namespace CalamityMod.NPCs.Yharon
 					npc.ai[0] = 13f;
 					npc.ai[1] = 0f;
 					npc.ai[2] = 0f;
+					npc.TargetClosest();
 					npc.netUpdate = true;
 				}
 			}
@@ -1576,9 +1598,13 @@ namespace CalamityMod.NPCs.Yharon
 			// Acquire target and determine enrage state
 			if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)
 			{
-				npc.TargetClosest(true);
+				npc.TargetClosest();
 				npc.netUpdate = true;
 			}
+
+			// Despawn safety, make sure to target another player if the current player target is too far away
+			if (Vector2.Distance(Main.player[npc.target].Center, vectorCenter) > CalamityGlobalNPC.CatchUpDistance200Tiles)
+				npc.TargetClosest();
 
 			Player targetData = Main.player[npc.target];
 
@@ -1586,7 +1612,7 @@ namespace CalamityMod.NPCs.Yharon
 			bool targetDead = false;
 			if (targetData.dead || !targetData.active)
 			{
-				npc.TargetClosest(true);
+				npc.TargetClosest();
 				targetData = Main.player[npc.target];
 				if (targetData.dead || !targetData.active)
 				{
@@ -2027,6 +2053,7 @@ namespace CalamityMod.NPCs.Yharon
                     npc.ai[0] = 1f;
                     npc.ai[1] = 0f;
                     npc.ai[2] = 0f;
+					npc.TargetClosest();
                 }
             }
 
@@ -2081,7 +2108,8 @@ namespace CalamityMod.NPCs.Yharon
                     npc.ai[0] = 1f;
                     npc.ai[1] = 0f;
                     npc.ai[2] = 0f;
-                }
+					npc.TargetClosest();
+				}
             }
 
 			// Splitting fireball breath
@@ -2141,7 +2169,8 @@ namespace CalamityMod.NPCs.Yharon
                     npc.ai[0] = 1f;
                     npc.ai[1] = 0f;
                     npc.ai[2] = 0f;
-                }
+					npc.TargetClosest();
+				}
             }
 
 			// Fireball spin
@@ -2236,6 +2265,7 @@ namespace CalamityMod.NPCs.Yharon
                     npc.ai[1] = increasedIdleTimeAfterBulletHell;
                     npc.ai[2] = 0f;
 					npc.localAI[2] = 0f;
+					npc.TargetClosest();
 					npc.velocity /= 2f;
                 }
             }
@@ -2303,7 +2333,8 @@ namespace CalamityMod.NPCs.Yharon
                     npc.ai[0] = 1f;
                     npc.ai[1] = 0f;
                     npc.ai[2] = 0f;
-                }
+					npc.TargetClosest();
+				}
             }
 
 			// Fast charge
@@ -2320,7 +2351,8 @@ namespace CalamityMod.NPCs.Yharon
                     npc.ai[0] = 1f;
                     npc.ai[1] = 0f;
                     npc.ai[2] = 0f;
-                }
+					npc.TargetClosest();
+				}
             }
 
 			// Teleport
@@ -2406,7 +2438,8 @@ namespace CalamityMod.NPCs.Yharon
                     npc.ai[1] = 0f;
                     npc.ai[2] = 0f;
                     npc.ai[3] = 0f;
-                    npc.netUpdate = true;
+					npc.TargetClosest();
+					npc.netUpdate = true;
                 }
             }
 

@@ -146,10 +146,15 @@ namespace CalamityMod.NPCs.Leviathan
             if (Main.rand.NextBool(600) && !spawnAnimation)
                 Main.PlaySound(SoundID.Zombie, (int)npc.Center.X, (int)npc.Center.Y, (sirenAlive && !death) ? soundChoice : soundChoiceRage);
 
-            if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)
-                npc.TargetClosest(true);
+			// Get a target
+			if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
+				npc.TargetClosest();
 
-            Player player = Main.player[npc.target];
+			// Despawn safety, make sure to target another player if the current player target is too far away
+			if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > CalamityGlobalNPC.CatchUpDistance200Tiles)
+				npc.TargetClosest();
+
+			Player player = Main.player[npc.target];
 
             bool notOcean = player.position.Y < 800f || player.position.Y > Main.worldSurface * 16.0 || (player.position.X > 6400f && player.position.X < (Main.maxTilesX * 16 - 6400));
 
@@ -221,8 +226,6 @@ namespace CalamityMod.NPCs.Leviathan
 
 				if (npc.ai[0] == 0f)
                 {
-                    npc.TargetClosest(true);
-
                     float num412 = (sirenAlive && !phase4) ? 3.5f : 7f;
                     float num413 = (sirenAlive && !phase4) ? 0.1f : 0.2f;
 					num412 += 4f * enrageScale;
@@ -295,7 +298,7 @@ namespace CalamityMod.NPCs.Leviathan
                         npc.ai[0] = 1f;
                         npc.ai[1] = 0f;
                         npc.ai[2] = 0f;
-                        npc.target = 255;
+						npc.TargetClosest();
                         npc.netUpdate = true;
                     }
                     else
@@ -352,8 +355,6 @@ namespace CalamityMod.NPCs.Leviathan
                 }
                 else if (npc.ai[0] == 1f)
                 {
-                    npc.TargetClosest(true);
-
                     Vector2 vector119 = new Vector2(npc.Center.X, npc.position.Y + npc.height * 0.8f);
                     Vector2 vector120 = npc.Center;
                     float num1058 = player.Center.X - vector120.X;
@@ -455,6 +456,7 @@ namespace CalamityMod.NPCs.Leviathan
                         npc.ai[0] = (((phase2 || phase3) && !sirenAlive) || phase4) ? 2f : 0f;
                         npc.ai[1] = 0f;
                         npc.ai[2] = 0f;
+						npc.TargetClosest();
                         npc.netUpdate = true;
                     }
                 }
@@ -467,6 +469,7 @@ namespace CalamityMod.NPCs.Leviathan
                         npc.ai[0] = 0f;
                         npc.ai[1] = 0f;
                         npc.ai[2] = 0f;
+						npc.TargetClosest();
                         npc.netUpdate = true;
                         return;
                     }
@@ -489,8 +492,6 @@ namespace CalamityMod.NPCs.Leviathan
                             Main.dust[num25].velocity /= 4f;
                             Main.dust[num25].velocity -= npc.velocity;
                         }
-
-                        npc.TargetClosest(true);
 
                         if (Math.Abs(npc.position.Y + (npc.height / 2) - (player.position.Y + (player.height / 2))) < 20f)
                         {
@@ -586,8 +587,6 @@ namespace CalamityMod.NPCs.Leviathan
                         if (npc.ai[2] != 1f)
                             return;
 
-                        npc.TargetClosest(true);
-
                         npc.spriteDirection = npc.direction;
 
                         npc.velocity *= 0.9f;
@@ -604,6 +603,7 @@ namespace CalamityMod.NPCs.Leviathan
                         {
                             npc.ai[2] = 0f;
                             npc.ai[1] += 1f;
+							npc.TargetClosest();
                         }
                     }
                 }

@@ -144,12 +144,15 @@ namespace CalamityMod.NPCs.StormWeaver
                 npc.realLife = (int)npc.ai[3];
             }
 
-            if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead)
-            {
-                npc.TargetClosest(true);
-            }
+			// Get a target
+			if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
+				npc.TargetClosest();
 
-            if (npc.alpha != 0)
+			// Despawn safety, make sure to target another player if the current player target is too far away
+			if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > CalamityGlobalNPC.CatchUpDistance200Tiles)
+				npc.TargetClosest();
+
+			if (npc.alpha != 0)
             {
                 for (int num934 = 0; num934 < 2; num934++)
                 {
@@ -198,7 +201,6 @@ namespace CalamityMod.NPCs.StormWeaver
 					if (npc.localAI[0] >= 450f)
 					{
 						npc.localAI[0] = 0f;
-						npc.TargetClosest(true);
 						npc.netUpdate = true;
 
 						int random = Main.rand.Next(250, 501);
@@ -276,11 +278,6 @@ namespace CalamityMod.NPCs.StormWeaver
                 npc.spriteDirection = 1;
             }
 
-            if (Main.player[npc.target].dead)
-            {
-                npc.TargetClosest(false);
-            }
-
             Vector2 vector18 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
             float num191 = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2);
             float num192 = Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2);
@@ -295,6 +292,7 @@ namespace CalamityMod.NPCs.StormWeaver
 
 				if (calamityGlobalNPC.newAI[0] >= 500f)
 				{
+					npc.TargetClosest();
 					npc.localAI[1] = 0f;
 					calamityGlobalNPC.newAI[0] = 0f;
 				}

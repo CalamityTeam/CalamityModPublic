@@ -151,7 +151,15 @@ namespace CalamityMod.NPCs.Polterghast
 
 			// Only get a new target while not charging
 			if (!chargePhase)
-				npc.TargetClosest(true);
+			{
+				// Get a target
+				if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
+					npc.TargetClosest();
+
+				// Despawn safety, make sure to target another player if the current player target is too far away
+				if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > CalamityGlobalNPC.CatchUpDistance200Tiles)
+					npc.TargetClosest();
+			}
 
 			Player player = Main.player[npc.target];
 			bool speedUp = Vector2.Distance(player.Center, vector) > speedUpDistance; // 30 or 40 tile distance
@@ -465,7 +473,7 @@ namespace CalamityMod.NPCs.Polterghast
 							else
 							{
 								// Get a new target and charge again
-								npc.TargetClosest(true);
+								npc.TargetClosest();
 							}
 						}
 					}

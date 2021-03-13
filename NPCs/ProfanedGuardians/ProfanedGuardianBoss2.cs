@@ -75,8 +75,16 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 
         public override void AI()
         {
-			npc.TargetClosest(false);
+			// Get a target
+			if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
+				npc.TargetClosest();
+
+			// Despawn safety, make sure to target another player if the current player target is too far away
+			if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > CalamityGlobalNPC.CatchUpDistance200Tiles)
+				npc.TargetClosest();
+
 			Player player = Main.player[npc.target];
+
 			if (npc.timeLeft < 1800)
 				npc.timeLeft = 1800;
 
@@ -151,7 +159,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 }
                 if (Main.netMode != NetmodeID.MultiplayerClient && ((expertMode && Main.rand.NextBool(50)) || Main.rand.NextBool(100)))
                 {
-                    npc.TargetClosest(true);
+                    npc.TargetClosest();
                     vector96 = new Vector2(npc.Center.X, npc.Center.Y);
                     num784 = player.Center.X - vector96.X;
                     num785 = player.Center.Y - vector96.Y;
@@ -184,7 +192,6 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 if (npc.localAI[0] >= 420f)
                 {
                     npc.localAI[0] = 0f;
-                    npc.TargetClosest(true);
                     if (Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height))
                     {
                         Main.PlaySound(SoundID.Item20, npc.position);

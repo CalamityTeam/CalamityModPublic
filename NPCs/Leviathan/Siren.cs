@@ -92,9 +92,13 @@ namespace CalamityMod.NPCs.Leviathan
 			// Light
 			Lighting.AddLight((int)(npc.Center.X / 16f), (int)(npc.Center.Y / 16f), 0f, 0.5f, 0.3f);
 
-			// Target
-			if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)
-				npc.TargetClosest(true);
+			// Get a target
+			if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
+				npc.TargetClosest();
+
+			// Despawn safety, make sure to target another player if the current player target is too far away
+			if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > CalamityGlobalNPC.CatchUpDistance200Tiles)
+				npc.TargetClosest();
 
 			// Check for Leviathan
 			bool leviAlive = false;
@@ -329,6 +333,7 @@ namespace CalamityMod.NPCs.Leviathan
                 else
                     ChargeRotation(player, vector);
 
+				npc.TargetClosest();
                 npc.ai[1] = 0f;
                 npc.ai[2] = 0f;
             }
@@ -336,7 +341,6 @@ namespace CalamityMod.NPCs.Leviathan
             // Get in position for bubble spawn
             else if (npc.ai[0] == 0f)
             {
-                npc.TargetClosest(true);
                 npc.rotation = npc.velocity.X * 0.02f;
                 npc.spriteDirection = npc.direction;
 
@@ -400,8 +404,6 @@ namespace CalamityMod.NPCs.Leviathan
             else if (npc.ai[0] == 1f)
             {
                 npc.rotation = npc.velocity.X * 0.02f;
-                npc.TargetClosest(true);
-
                 Vector2 vector119 = new Vector2(npc.position.X + (npc.width / 2) + (15 * npc.direction), npc.position.Y + 30);
                 Vector2 vector120 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
                 float num1058 = player.position.X + (player.width / 2) - vector120.X;

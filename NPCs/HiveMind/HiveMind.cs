@@ -63,8 +63,15 @@ namespace CalamityMod.NPCs.HiveMind
 
         public override void AI()
         {
-            npc.TargetClosest(true);
-            Player player = Main.player[npc.target];
+			// Get a target
+			if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
+				npc.TargetClosest();
+
+			// Despawn safety, make sure to target another player if the current player target is too far away
+			if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > CalamityGlobalNPC.CatchUpDistance200Tiles)
+				npc.TargetClosest();
+
+			Player player = Main.player[npc.target];
 			if (!player.active || player.dead)
 			{
 				npc.TargetClosest(false);
@@ -265,6 +272,7 @@ namespace CalamityMod.NPCs.HiveMind
                 }
                 else
                 {
+					npc.TargetClosest();
                     npc.dontTakeDamage = true;
                     npc.damage = 0;
                 }

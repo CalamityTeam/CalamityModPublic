@@ -9,7 +9,6 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
@@ -132,9 +131,13 @@ namespace CalamityMod.NPCs.DevourerofGods
             if (npc.ai[3] > 0f)
                 npc.realLife = (int)npc.ai[3];
 
-			// Target
-			if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)
-				npc.TargetClosest(true);
+			// Get a target
+			if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
+				npc.TargetClosest();
+
+			// Despawn safety, make sure to target another player if the current player target is too far away
+			if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > CalamityGlobalNPC.CatchUpDistance200Tiles)
+				npc.TargetClosest();
 
 			Player player = Main.player[npc.target];
 
@@ -163,6 +166,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                     Color messageColor = Color.Cyan;
                     CalamityUtils.DisplayLocalizedText(key, messageColor);
 
+					npc.TargetClosest();
                     halfLife = true;
                 }
                 if (spawnDoGCountdown > 0)
@@ -590,6 +594,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                 {
                     npc.ai[2] = 1f;
 					calamityGlobalNPC.newAI[2] = 0f;
+					npc.TargetClosest();
                     npc.netUpdate = true;
                 }
             }
@@ -699,8 +704,6 @@ namespace CalamityMod.NPCs.DevourerofGods
 
                 if (!flies)
                 {
-                    npc.TargetClosest(true);
-
                     npc.velocity.Y += turnSpeed;
                     if (npc.velocity.Y > fallSpeed)
                         npc.velocity.Y = fallSpeed;
@@ -852,6 +855,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                 {
                     npc.ai[2] = 0f;
 					calamityGlobalNPC.newAI[2] = 0f;
+					npc.TargetClosest();
                     npc.netUpdate = true;
                 }
             }

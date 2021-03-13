@@ -1,8 +1,6 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Buffs.StatDebuffs;
+﻿using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Dusts;
 using CalamityMod.Events;
-using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Materials;
@@ -117,8 +115,12 @@ namespace CalamityMod.NPCs.Signus
 			npc.damage = npc.defDamage;
 
 			// Get a target
-			if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)
-				npc.TargetClosest(true);
+			if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
+				npc.TargetClosest();
+
+			// Despawn safety, make sure to target another player if the current player target is too far away
+			if (Vector2.Distance(Main.player[npc.target].Center, vectorCenter) > CalamityGlobalNPC.CatchUpDistance200Tiles)
+				npc.TargetClosest();
 
 			Player player = Main.player[npc.target];
 
@@ -239,7 +241,7 @@ namespace CalamityMod.NPCs.Signus
                     {
                         npc.localAI[1] = 0f;
 
-                        npc.TargetClosest(true);
+                        npc.TargetClosest();
 
                         int num1249 = 0;
                         int num1250;
@@ -473,6 +475,7 @@ namespace CalamityMod.NPCs.Signus
 					npc.ai[1] = 3f;
                     npc.ai[2] = 0f;
                     npc.ai[3] = 0f;
+					npc.TargetClosest();
                     npc.netUpdate = true;
                 }
             }
@@ -497,8 +500,6 @@ namespace CalamityMod.NPCs.Signus
                         spawnY = 120;
                     }
                 }
-
-                npc.TargetClosest(false);
 
                 npc.rotation = npc.velocity.ToRotation();
 
@@ -610,6 +611,7 @@ namespace CalamityMod.NPCs.Signus
                     npc.ai[1] -= 1f;
                     if (npc.ai[1] <= 0f)
                     {
+						npc.TargetClosest();
 						calamityGlobalNPC.newAI[1] += 1f;
 						if (calamityGlobalNPC.newAI[1] >= maxCharges)
 						{
@@ -617,17 +619,15 @@ namespace CalamityMod.NPCs.Signus
 							npc.ai[1] = 4f;
 							npc.ai[2] = 0f;
 							npc.ai[3] = 0f;
-							calamityGlobalNPC.newAI[0] = 0f;
 							calamityGlobalNPC.newAI[1] = 0f;
-							npc.netUpdate = true;
 						}
 						else
 						{
-							calamityGlobalNPC.newAI[0] = 0f;
 							npc.ai[1] = 0f;
-							npc.netUpdate = true;
 						}
-                    }
+						calamityGlobalNPC.newAI[0] = 0f;
+						npc.netUpdate = true;
+					}
                     npc.velocity *= 0.97f;
                 }
             }

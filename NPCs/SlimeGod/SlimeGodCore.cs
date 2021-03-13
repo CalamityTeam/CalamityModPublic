@@ -101,10 +101,18 @@ namespace CalamityMod.NPCs.SlimeGod
 			if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
 				lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
 
-			npc.TargetClosest(true);
+			Vector2 vectorCenter = npc.Center;
+
+			// Get a target
+			if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
+				npc.TargetClosest();
+
+			// Despawn safety, make sure to target another player if the current player target is too far away
+			if (Vector2.Distance(Main.player[npc.target].Center, vectorCenter) > CalamityGlobalNPC.CatchUpDistance200Tiles)
+				npc.TargetClosest();
+
 			Player player = Main.player[npc.target];
 
-			Vector2 vectorCenter = npc.Center;
 			if (Main.netMode != NetmodeID.MultiplayerClient && !slimesSpawned)
 			{
 				slimesSpawned = true;
@@ -261,6 +269,7 @@ namespace CalamityMod.NPCs.SlimeGod
 					npc.ai[2] += 1f;
 					if (npc.ai[2] >= 600f || slimeDead)
 					{
+						npc.TargetClosest();
 						npc.ai[2] = 0f;
 						calamityGlobalNPC.newAI[3] = 0f;
 						npc.velocity = Vector2.UnitY * -12f;
@@ -373,6 +382,7 @@ namespace CalamityMod.NPCs.SlimeGod
 								npc.localAI[1] = 0f;
 								float chargeVelocity = death ? 12f : 9f;
 								npc.velocity = Vector2.Normalize(player.Center - vectorCenter) * chargeVelocity;
+								npc.TargetClosest();
 								return;
 							}
 
