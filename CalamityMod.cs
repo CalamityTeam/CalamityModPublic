@@ -119,6 +119,8 @@ namespace CalamityMod
             rainOriginal = Main.rainTexture;
             manaOriginal = Main.manaTexture;
             carpetOriginal = Main.flyingCarpetTexture;
+            Mount.mounts[Mount.Unicorn].dashSpeed *= CalamityPlayer.UnicornSpeedNerfPower;
+            Mount.mounts[Mount.Unicorn].runSpeed *= CalamityPlayer.UnicornSpeedNerfPower;
 
             NormalityRelocatorHotKey = RegisterHotKey("Normality Relocator", "Z");
             RageHotKey = RegisterHotKey("Rage Mode", "V");
@@ -282,6 +284,8 @@ namespace CalamityMod
                 Main.manaTexture = manaOriginal;
                 Main.flyingCarpetTexture = carpetOriginal;
             }
+            Mount.mounts[Mount.Unicorn].dashSpeed /= CalamityPlayer.UnicornSpeedNerfPower;
+            Mount.mounts[Mount.Unicorn].runSpeed /= CalamityPlayer.UnicornSpeedNerfPower;
 
             heartOriginal2 = null;
             heartOriginal = null;
