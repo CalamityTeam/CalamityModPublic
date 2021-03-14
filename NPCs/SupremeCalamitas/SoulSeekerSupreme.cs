@@ -61,8 +61,16 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 npc.ai[1] = npc.ai[0];
                 start = false;
             }
-            npc.TargetClosest(true);
-            Vector2 direction = Main.player[npc.target].Center - npc.Center;
+
+			// Get a target
+			if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
+				npc.TargetClosest();
+
+			// Despawn safety, make sure to target another player if the current player target is too far away
+			if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > CalamityGlobalNPC.CatchUpDistance200Tiles)
+				npc.TargetClosest();
+
+			Vector2 direction = Main.player[npc.target].Center - npc.Center;
             direction.Normalize();
             direction *= 9f;
             npc.rotation = direction.ToRotation();
