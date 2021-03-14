@@ -26,7 +26,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 
             item.width = 22;
             item.height = 28;
-            item.damage = 14200;
+            item.damage = 5680;
             item.noMelee = true;
             item.noUseGraphic = true;
             item.consumable = true;

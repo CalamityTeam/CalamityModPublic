@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetDefaults()
         {
             item.width = 100;
-            item.damage = 350;
+            item.damage = 140;
             item.melee = true;
             item.noMelee = true;
             item.useTurn = true;

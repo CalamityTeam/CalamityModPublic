@@ -49,7 +49,7 @@ namespace CalamityMod.Projectiles.Magic
                 }
             }
 
-			if (projectile.timeLeft % 2 == projectile.ai[0])
+			if (projectile.timeLeft % 4 == projectile.ai[0])
 				CalamityGlobalProjectile.MagnetSphereHitscan(projectile, 400f, 8f, 4f, 2, ModContent.ProjectileType<ClimaxBeam>(), 1D, true);
         }
 

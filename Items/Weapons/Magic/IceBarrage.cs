@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.Calamity().customRarity = CalamityRarity.DarkBlue;
             item.Calamity().donorItem = true;
 
-            item.damage = 5800;
+            item.damage = 2320;
             item.knockBack = 6f;
             item.useTime = 300;
             item.useAnimation = 300;

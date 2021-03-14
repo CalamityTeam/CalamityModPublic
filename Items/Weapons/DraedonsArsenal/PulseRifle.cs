@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 {
 	public class PulseRifle : ModItem
 	{
-		private int BaseDamage = 8900;
+		private int BaseDamage = 3560;
 
 		public override void SetStaticDefaults()
 		{

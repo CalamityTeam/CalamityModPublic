@@ -41,7 +41,7 @@ namespace CalamityMod.Items.Weapons.Melee
             {
 				float SpeedX = speedX + Main.rand.Next(-40, 41) * 0.05f;
 				float SpeedY = speedY + Main.rand.Next(-40, 41) * 0.05f;
-				Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<OmegaBiomeOrb>(), damage, knockBack, player.whoAmI, 0f, 0f);
+				Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI);
             }
             return false;
         }

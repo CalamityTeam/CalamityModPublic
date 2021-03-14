@@ -76,12 +76,8 @@ namespace CalamityMod.Projectiles.Melee
                     for (i = 0; i < 1; i++)
                     {
                         offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-                        int projectile1 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 6f), (float)(Math.Cos(offsetAngle) * 6f), ModContent.ProjectileType<WhiteOrbBlah>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
-                        int projectile2 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 6f), (float)(-Math.Cos(offsetAngle) * 6f), ModContent.ProjectileType<WhiteOrbBlah>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
-                        Main.projectile[projectile1].velocity.X *= 0.1f;
-                        Main.projectile[projectile1].velocity.Y *= 0.1f;
-                        Main.projectile[projectile2].velocity.X *= 0.1f;
-                        Main.projectile[projectile2].velocity.Y *= 0.1f;
+                        Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 0.6f), (float)(Math.Cos(offsetAngle) * 0.6f), ModContent.ProjectileType<WhiteOrbBlah>(), projectile.damage, projectile.knockBack, projectile.owner);
+                        Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 0.6f), (float)(-Math.Cos(offsetAngle) * 0.6f), ModContent.ProjectileType<WhiteOrbBlah>(), projectile.damage, projectile.knockBack, projectile.owner);
                     }
                 }
                 whiteLightTimer = 5;
