@@ -92,8 +92,12 @@ namespace CalamityMod.NPCs.Cryogen
             Lighting.AddLight((int)((npc.position.X + (npc.width / 2)) / 16f), (int)((npc.position.Y + (npc.height / 2)) / 16f), 0f, 1f, 1f);
 
 			// Get a target
-			if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)
-				npc.TargetClosest(true);
+			if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
+				npc.TargetClosest();
+
+			// Despawn safety, make sure to target another player if the current player target is too far away
+			if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > CalamityGlobalNPC.CatchUpDistance200Tiles)
+				npc.TargetClosest();
 
 			Player player = Main.player[npc.target];
 
@@ -222,7 +226,7 @@ namespace CalamityMod.NPCs.Cryogen
                     if (npc.localAI[0] >= 120f)
                     {
                         npc.localAI[0] = 0f;
-                        npc.netUpdate = true;
+						npc.TargetClosest();
                         if (Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height))
                         {
 							int totalProjectiles = 16;
@@ -257,7 +261,7 @@ namespace CalamityMod.NPCs.Cryogen
 
                 if (phase2)
                 {
-					npc.TargetClosest(true);
+					npc.TargetClosest();
 					npc.ai[0] = 1f;
                     npc.localAI[0] = 0f;
                     npc.netUpdate = true;
@@ -271,6 +275,7 @@ namespace CalamityMod.NPCs.Cryogen
                     if (npc.localAI[0] >= 120f)
                     {
                         npc.localAI[0] = 0f;
+						npc.TargetClosest();
                         if (Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height))
                         {
 							int totalProjectiles = 12;
@@ -341,7 +346,7 @@ namespace CalamityMod.NPCs.Cryogen
 
 				if (phase3)
                 {
-					npc.TargetClosest(true);
+					npc.TargetClosest();
 					npc.ai[0] = 2f;
                     npc.localAI[0] = 0f;
                     iceShard = 0;
@@ -356,7 +361,7 @@ namespace CalamityMod.NPCs.Cryogen
                     if (npc.localAI[0] >= 120f)
                     {
                         npc.localAI[0] = 0f;
-                        npc.netUpdate = true;
+						npc.TargetClosest();
                         if (Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height))
                         {
                             if (Main.rand.NextBool(2))
@@ -424,7 +429,7 @@ namespace CalamityMod.NPCs.Cryogen
 
 				if (phase4)
                 {
-					npc.TargetClosest(true);
+					npc.TargetClosest();
 					npc.ai[0] = 3f;
                     npc.localAI[0] = 0f;
                     npc.netUpdate = true;
@@ -438,6 +443,7 @@ namespace CalamityMod.NPCs.Cryogen
                     if (npc.localAI[0] >= 120f)
                     {
                         npc.localAI[0] = 0f;
+						npc.TargetClosest();
                         if (Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height))
                         {
                             float num179 = revenge ? 9f : 7f;
@@ -526,7 +532,7 @@ namespace CalamityMod.NPCs.Cryogen
 
 				if (phase5)
                 {
-					npc.TargetClosest(true);
+					npc.TargetClosest();
 					npc.ai[0] = 4f;
                     npc.localAI[0] = 0f;
                     iceShard = 0;
@@ -579,7 +585,7 @@ namespace CalamityMod.NPCs.Cryogen
                         npc.localAI[2] += 1f;
                         if (npc.localAI[2] >= (BossRushEvent.BossRushActive ? 90f : 180f))
                         {
-							npc.TargetClosest(true);
+							npc.TargetClosest();
 							npc.localAI[2] = 0f;
                             int num1249 = 0;
                             int num1250;
@@ -681,7 +687,7 @@ namespace CalamityMod.NPCs.Cryogen
                     Gore.NewGore(npc.position, npc.velocity * randomSpread, mod.GetGoreSlot("Gores/CryoGore2"), 1f);
                     Gore.NewGore(npc.position, npc.velocity * randomSpread, mod.GetGoreSlot("Gores/CryoGore3"), 1f);
 
-					npc.TargetClosest(true);
+					npc.TargetClosest();
 					npc.ai[0] = 5f;
                     npc.ai[1] = 0f;
                     npc.localAI[0] = 0f;
@@ -717,9 +723,9 @@ namespace CalamityMod.NPCs.Cryogen
 					if (npc.ai[1] <= 0f)
 					{
 						npc.ai[3] += 1f;
+						npc.TargetClosest();
 						if (npc.ai[3] > 2f)
 						{
-							npc.TargetClosest(true);
 							npc.damage = 0;
 							npc.defense = 0;
 							npc.ai[0] = 6f;
@@ -830,7 +836,7 @@ namespace CalamityMod.NPCs.Cryogen
 				npc.ai[1] += 1f;
 				if (npc.ai[1] >= 180f)
 				{
-					npc.TargetClosest(true);
+					npc.TargetClosest();
 					npc.ai[0] = 5f;
 					npc.ai[1] = 60f;
 					time = 0;

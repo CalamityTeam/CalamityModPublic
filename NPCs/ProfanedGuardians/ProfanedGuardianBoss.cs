@@ -105,9 +105,17 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 NPC.NewNPC((int)vectorCenter.X, (int)vectorCenter.Y, ModContent.NPCType<ProfanedGuardianBoss2>());
                 NPC.NewNPC((int)vectorCenter.X, (int)vectorCenter.Y, ModContent.NPCType<ProfanedGuardianBoss3>());
             }
-            
-            npc.TargetClosest(false);
+
+			// Get a target
+			if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
+				npc.TargetClosest();
+
+			// Despawn safety, make sure to target another player if the current player target is too far away
+			if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > CalamityGlobalNPC.CatchUpDistance200Tiles)
+				npc.TargetClosest();
+
 			Player player = Main.player[npc.target];
+
 			if (!Main.dayTime || !player.active || player.dead)
             {
                 npc.TargetClosest(false);
@@ -339,6 +347,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 {
                     npc.ai[0] = 0f;
                     npc.ai[1] = 0f;
+					npc.TargetClosest();
                     npc.netUpdate = true;
                 }
                 npc.velocity *= 0.98f;

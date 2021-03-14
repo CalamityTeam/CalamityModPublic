@@ -48,7 +48,7 @@ namespace CalamityMod.NPCs.Polterghast
 			npc.DR_NERD(0.2f, null, null, null, true);
 			CalamityGlobalNPC global = npc.Calamity();
             global.multDRReductions.Add(BuffID.CursedInferno, 0.9f);
-            npc.LifeMaxNERB(325000, 390000, 3250000);
+            npc.LifeMaxNERB(350000, 420000, 3250000);
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.knockBackResist = 0f;
@@ -151,7 +151,15 @@ namespace CalamityMod.NPCs.Polterghast
 
 			// Only get a new target while not charging
 			if (!chargePhase)
-				npc.TargetClosest(true);
+			{
+				// Get a target
+				if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
+					npc.TargetClosest();
+
+				// Despawn safety, make sure to target another player if the current player target is too far away
+				if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > CalamityGlobalNPC.CatchUpDistance200Tiles)
+					npc.TargetClosest();
+			}
 
 			Player player = Main.player[npc.target];
 			bool speedUp = Vector2.Distance(player.Center, vector) > speedUpDistance; // 30 or 40 tile distance
@@ -465,7 +473,7 @@ namespace CalamityMod.NPCs.Polterghast
 							else
 							{
 								// Get a new target and charge again
-								npc.TargetClosest(true);
+								npc.TargetClosest();
 							}
 						}
 					}

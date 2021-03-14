@@ -42,7 +42,6 @@ namespace CalamityMod.Items.Armor
             player.setBonus = "You will survive fatal damage and will be healed 150 HP if an attack would have killed you\n" +
                 "This effect can only occur once every 45 seconds\n" +
                 "While the cooldown for this effect is active all life regen is halved\n" +
-                "Your ranged critical hits have a chance to critically hit, causing 3 times the damage\n" +
                 "You fire a god killer shrapnel round while firing ranged weapons every 2.5 seconds";
         }
 

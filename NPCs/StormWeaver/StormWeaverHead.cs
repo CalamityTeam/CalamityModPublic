@@ -104,12 +104,16 @@ namespace CalamityMod.NPCs.StormWeaver
             {
                 npc.realLife = (int)npc.ai[3];
             }
-            if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead)
-            {
-                npc.TargetClosest(true);
-            }
-            npc.velocity.Length();
-            if (npc.alpha != 0)
+
+			// Get a target
+			if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
+				npc.TargetClosest();
+
+			// Despawn safety, make sure to target another player if the current player target is too far away
+			if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > CalamityGlobalNPC.CatchUpDistance200Tiles)
+				npc.TargetClosest();
+
+			if (npc.alpha != 0)
             {
                 for (int num934 = 0; num934 < 2; num934++)
                 {
@@ -123,6 +127,7 @@ namespace CalamityMod.NPCs.StormWeaver
             {
                 npc.alpha = 0;
             }
+
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
                 if (!tail && npc.ai[0] == 0f)
@@ -156,7 +161,7 @@ namespace CalamityMod.NPCs.StormWeaver
 					if (npc.localAI[0] >= 360f)
 					{
 						npc.localAI[0] = 0f;
-						npc.TargetClosest(true);
+						npc.TargetClosest();
 						npc.netUpdate = true;
 						float xPos = Main.rand.NextBool(2) ? Main.player[npc.target].position.X + 500f : Main.player[npc.target].position.X - 500f;
 						Vector2 spawnPos = new Vector2(xPos, Main.player[npc.target].position.Y + Main.rand.Next(-500, 501));
@@ -258,10 +263,6 @@ namespace CalamityMod.NPCs.StormWeaver
             else if (npc.velocity.X > 0f)
             {
                 npc.spriteDirection = 1;
-            }
-            if (Main.player[npc.target].dead)
-            {
-                npc.TargetClosest(false);
             }
             float num188 = speed;
             float num189 = turnSpeed;

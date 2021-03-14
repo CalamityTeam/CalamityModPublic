@@ -133,7 +133,7 @@ namespace CalamityMod.NPCs.GreatSandShark
 
                 if (npc.target < 0 || npc.target == 255 || player.dead || !player.active)
                 {
-                    npc.TargetClosest(true);
+                    npc.TargetClosest();
                     player = Main.player[npc.target];
                     npc.netUpdate = true;
                 }
@@ -273,7 +273,7 @@ namespace CalamityMod.NPCs.GreatSandShark
             {
                 resetAI = false;
                 if (npc.direction == 0)
-                    npc.TargetClosest(true);
+                    npc.TargetClosest();
 
                 Point point15 = npc.Center.ToTileCoordinates();
                 Tile tileSafely = Framing.GetTileSafely(point15);
@@ -346,7 +346,7 @@ namespace CalamityMod.NPCs.GreatSandShark
 
                     if (flag122)
                     {
-                        npc.TargetClosest(true);
+                        npc.TargetClosest();
                         npc.velocity.X += npc.direction * 0.15f;
                         npc.velocity.Y += npc.directionY * 0.15f;
                         float velocityX = 8f;
@@ -453,7 +453,7 @@ namespace CalamityMod.NPCs.GreatSandShark
                     if (npc.velocity.Y == 0f)
                     {
                         if (flag122)
-                            npc.TargetClosest(true);
+                            npc.TargetClosest();
 
                         float num1538 = 1f;
                         npc.velocity.X += npc.direction * 0.1f;

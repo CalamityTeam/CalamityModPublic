@@ -99,6 +99,7 @@ namespace CalamityMod.NPCs
         internal const int maxAIMod = 4;
         public float[] newAI = new float[maxAIMod];
 		public int AITimer = 0;
+		public int AIIncreasedAggressionTimer = 0;
 		public float killTimeRatio_IncreasedAggression = 0f;
 
         // Town NPC Patreon
@@ -1810,11 +1811,18 @@ namespace CalamityMod.NPCs
 					maxVelocity = npc.velocity.Length();
 			}
 
-			if (KillTime > 0 && AITimer < KillTime)
-				AITimer++;
+			if (KillTime > 0)
+			{
+				if (AITimer < KillTime)
+					AITimer++;
 
-			// Increases aggression over time if the fight is taking too long, increased by 2x to avoid increasing aggro too quickly
-			killTimeRatio_IncreasedAggression = (1f - (AITimer / (float)KillTime)) * 2f;
+				// Separate timer for aggression to avoid entering later phases too quickly
+				if (AIIncreasedAggressionTimer < (int)(KillTime * 1.25))
+					AIIncreasedAggressionTimer++;
+			}
+
+			// Increases aggression over time if the fight is taking too long
+			killTimeRatio_IncreasedAggression = 1f - (AIIncreasedAggressionTimer / (float)KillTime);
 
 			if (npc.type == NPCID.TargetDummy || npc.type == NPCType<SuperDummyNPC>())
             {

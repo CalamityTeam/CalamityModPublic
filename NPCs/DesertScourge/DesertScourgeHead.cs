@@ -89,8 +89,13 @@ namespace CalamityMod.NPCs.DesertScourge
 			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
 			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
 
-			if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)
-				npc.TargetClosest(true);
+			// Get a target
+			if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
+				npc.TargetClosest();
+
+			// Despawn safety, make sure to target another player if the current player target is too far away
+			if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > CalamityGlobalNPC.CatchUpDistance200Tiles)
+				npc.TargetClosest();
 
 			Player player = Main.player[npc.target];
 
@@ -303,6 +308,7 @@ namespace CalamityMod.NPCs.DesertScourge
 			// Quickly fall back down once above target
 			if (lungeUpward && npc.Center.Y <= player.Center.Y - 420f)
 			{
+				npc.TargetClosest();
 				npc.Calamity().newAI[1] = 2f;
 				playRoarSound = false;
 			}
@@ -328,8 +334,6 @@ namespace CalamityMod.NPCs.DesertScourge
 
 			if (!flag94)
             {
-                npc.TargetClosest(true);
-
                 npc.velocity.Y += turnSpeed * 0.75f;
                 if (npc.velocity.Y > num188)
                     npc.velocity.Y = num188;

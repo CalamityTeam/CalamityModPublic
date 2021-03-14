@@ -301,9 +301,13 @@ namespace CalamityMod.NPCs.HiveMind
         {
 			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
-			// Target
-			if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)
-				npc.TargetClosest(true);
+			// Get a target
+			if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
+				npc.TargetClosest();
+
+			// Despawn safety, make sure to target another player if the current player target is too far away
+			if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > CalamityGlobalNPC.CatchUpDistance200Tiles)
+				npc.TargetClosest();
 
 			Player player = Main.player[npc.target];
 
@@ -338,7 +342,7 @@ namespace CalamityMod.NPCs.HiveMind
                         npc.alpha -= 3;
                     if (nextState == 0)
                     {
-						npc.TargetClosest(true);
+						npc.TargetClosest();
 						if (CalamityWorld.revenge && lifeRatio < 0.66f)
                         {
 							if (CalamityWorld.death || BossRushEvent.BossRushActive)

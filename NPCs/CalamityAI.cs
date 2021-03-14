@@ -2482,7 +2482,7 @@ namespace CalamityMod.NPCs
                         }
 
                         // Fire astral lasers while walking
-                        else if (npc.ai[0] == 2f)
+                        else if (npc.ai[0] == 2f && phase2)
                         {
                             float num179 = BossRushEvent.BossRushActive ? 24f : death ? 20f : 18.5f;
 							int maxProjectiles = death ? 6 : 4;
@@ -2719,7 +2719,7 @@ namespace CalamityMod.NPCs
 					float maxStompAmt = death ? 2f : 3f;
                     if (npc.ai[2] >= maxStompAmt)
                     {
-                        npc.ai[0] = (phase2 || revenge) ? 5f : 1f;
+                        npc.ai[0] = phase3 ? 5f : 1f;
                         npc.ai[2] = 0f;
                     }
                     else

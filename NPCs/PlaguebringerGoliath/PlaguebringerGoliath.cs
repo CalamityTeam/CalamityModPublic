@@ -178,9 +178,13 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                 npc.defense = npc.defDefense + (int)(20f * (1f - lifeRatio));
             }
 
-            // Target
-            if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)
-                npc.TargetClosest(true);
+			// Get a target
+			if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
+				npc.TargetClosest();
+
+			// Despawn safety, make sure to target another player if the current player target is too far away
+			if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > CalamityGlobalNPC.CatchUpDistance200Tiles)
+				npc.TargetClosest();
 
 			Player player = Main.player[npc.target];
 
@@ -274,6 +278,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     npc.ai[0] = num596;
                     npc.ai[1] = 0f;
                     npc.ai[2] = 0f;
+					npc.TargetClosest();
                     npc.netUpdate = true;
 
                     // Prevent netUpdate from being blocked by the spam counter.
@@ -314,8 +319,6 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                 // Charge
                 if (npc.ai[1] % 2f == 0f)
                 {
-                    npc.TargetClosest(true);
-
 					float playerLocation = vectorCenter.X - player.Center.X;
 
 					float num620 = 20f;
@@ -468,8 +471,6 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 						return;
                     }
 
-                    npc.TargetClosest(true);
-
                     npc.spriteDirection = npc.direction;
 
 					npc.rotation = npc.velocity.X * 0.02f;
@@ -507,8 +508,6 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             // Move closer if too far away
             else if (npc.ai[0] == 2f)
             {
-                npc.TargetClosest(true);
-
                 float playerLocation = vectorCenter.X - player.Center.X;
                 npc.direction = playerLocation < 0 ? 1 : -1;
                 npc.spriteDirection = npc.direction;
@@ -540,9 +539,6 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             else if (npc.ai[0] == 1f)
             {
                 charging = false;
-
-                npc.TargetClosest(true);
-
                 Vector2 vector119 = new Vector2(npc.direction == 1 ? npc.getRect().BottomLeft().X : npc.getRect().BottomRight().X, npc.getRect().Bottom().Y + 20f);
                 vector119.X += npc.direction * 120;
                 float num1058 = player.position.X + (player.width / 2) - vectorCenter.X;
@@ -622,9 +618,6 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             else if (npc.ai[0] == 5f)
             {
                 charging = false;
-
-                npc.TargetClosest(true);
-
                 Vector2 vector119 = new Vector2(npc.direction == 1 ? npc.getRect().BottomLeft().X : npc.getRect().BottomRight().X, npc.getRect().Bottom().Y + 20f);
                 vector119.X += npc.direction * 120;
                 float num1058 = player.position.X + (player.width / 2) - vectorCenter.X;
@@ -810,8 +803,6 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                 // Charge
                 if (npc.ai[1] % 2f == 0f)
                 {
-                    npc.TargetClosest(true);
-
                     float playerLocation = vectorCenter.X - player.Center.X;
 
 					float num620 = 20f;
@@ -942,8 +933,6 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
 						return;
                     }
-
-                    npc.TargetClosest(true);
 
                     npc.spriteDirection = npc.direction;
 

@@ -2709,7 +2709,7 @@ namespace CalamityMod.CalPlayer
 
                             int duration = chaosStateDuration;
                             if (areThereAnyDamnBosses || areThereAnyDamnEvents)
-                                duration = chaosStateDurationBoss;
+                                duration = (int)(chaosStateDurationBoss * 1.5);
                             if (eScarfCooldown)
                                 duration = (int)(duration * 1.5);
                             else if (scarfCooldown)
@@ -5246,7 +5246,9 @@ namespace CalamityMod.CalPlayer
             }
             if (isTrueMelee)
             {
-                damageMult += trueMeleeDamage;
+				// Add more true melee damage to the true melee projectile that scales with melee speed
+				// This is done because melee speed does nothing to melee weapons that are purely projectiles
+                damageMult += trueMeleeDamage + ((1f - player.meleeSpeed) * (100f / player.meleeSpeed) / 100f);
             }
             if (screwdriver)
             {
@@ -5271,15 +5273,6 @@ namespace CalamityMod.CalPlayer
             {
                 damageMult += 1.25;
             }
-            if (godSlayerRanged && crit && proj.ranged)
-            {
-                // 100 min to 15 max with cap (prevents crit hyperscaling)
-                int randomChance = 100 - player.rangedCrit;
-                if (randomChance < 15)
-                    randomChance = 15;
-                if (Main.rand.NextBool(randomChance))
-                    damageMult += 0.5;
-            }
             if (silvaCountdown <= 0 && hasSilvaEffect && silvaMage && proj.magic)
             {
                 damageMult += 0.1;
@@ -5301,7 +5294,7 @@ namespace CalamityMod.CalPlayer
             {
                 if (proj.magic)
                 {
-                    damageMult += 0.5;
+                    damageMult += 0.3;
                 }
             }
             if (CalamityWorld.revenge && CalamityConfig.Instance.Rippers)
@@ -5338,7 +5331,7 @@ namespace CalamityMod.CalPlayer
             }
             if (proj.type == ProjectileID.TitaniumTrident)
             {
-                int knockbackAdd = (int)(damage * 0.25 * (1f - target.knockBackResist));
+                int knockbackAdd = (int)(damage * 0.15 * (1f - target.knockBackResist));
                 damage += knockbackAdd;
             }
             if (proj.type == ModContent.ProjectileType<AcidBulletProj>())

@@ -98,8 +98,13 @@ namespace CalamityMod.NPCs.Perforator
 
 			npc.realLife = -1;
 
-			if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)
-				npc.TargetClosest(true);
+			// Get a target
+			if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
+				npc.TargetClosest();
+
+			// Despawn safety, make sure to target another player if the current player target is too far away
+			if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > CalamityGlobalNPC.CatchUpDistance200Tiles)
+				npc.TargetClosest();
 
 			Player player = Main.player[npc.target];
 
@@ -249,8 +254,6 @@ namespace CalamityMod.NPCs.Perforator
 
 			if (!flag2)
 			{
-				npc.TargetClosest(true);
-
 				npc.velocity.Y += 0.11f;
 				if (npc.velocity.Y > num37)
 					npc.velocity.Y = num37;

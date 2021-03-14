@@ -93,14 +93,18 @@ namespace CalamityMod.NPCs.SlimeGod
 			npc.noGravity = false;
 
 			// Get a target
-			if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)
-				npc.TargetClosest(true);
+			if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
+				npc.TargetClosest();
+
+			// Despawn safety, make sure to target another player if the current player target is too far away
+			if (Vector2.Distance(Main.player[npc.target].Center, vector) > CalamityGlobalNPC.CatchUpDistance200Tiles)
+				npc.TargetClosest();
 
 			Player player = Main.player[npc.target];
 
 			if (npc.ai[0] != 6f && (player.dead || !player.active))
 			{
-				npc.TargetClosest(true);
+				npc.TargetClosest();
 				player = Main.player[npc.target];
 				if (player.dead || !player.active)
 				{
@@ -207,7 +211,6 @@ namespace CalamityMod.NPCs.SlimeGod
 
             if (npc.ai[0] == 0f)
             {
-                npc.TargetClosest(true);
                 npc.ai[0] = 1f;
                 npc.ai[1] = 0f;
             }
@@ -222,7 +225,7 @@ namespace CalamityMod.NPCs.SlimeGod
                 }
                 if (npc.velocity.Y == 0f)
                 {
-                    npc.TargetClosest(true);
+                    npc.TargetClosest();
                     npc.velocity.X *= 0.8f;
                     npc.ai[1] += 1f;
                     float num1879 = 35f;
@@ -312,7 +315,7 @@ namespace CalamityMod.NPCs.SlimeGod
                     npc.direction = 1;
                 }
                 npc.spriteDirection = npc.direction;
-                npc.TargetClosest(true);
+                npc.TargetClosest();
                 Vector2 center40 = player.Center;
                 center40.Y -= 350f;
                 Vector2 vector272 = center40 - vector;
@@ -414,7 +417,7 @@ namespace CalamityMod.NPCs.SlimeGod
                 {
                     if (npc.velocity.Y == 0f)
                     {
-                        npc.TargetClosest(true);
+                        npc.TargetClosest();
                         npc.velocity.X *= 0.8f;
                         npc.ai[1] += 1f;
                         if (npc.ai[1] > 5f)

@@ -119,10 +119,13 @@ namespace CalamityMod.NPCs.Perforator
                 npc.realLife = (int)npc.ai[3];
             }
 
-			if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)
-			{
-				npc.TargetClosest(true);
-			}
+			// Get a target
+			if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
+				npc.TargetClosest();
+
+			// Despawn safety, make sure to target another player if the current player target is too far away
+			if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > CalamityGlobalNPC.CatchUpDistance200Tiles)
+				npc.TargetClosest();
 
 			Player player = Main.player[npc.target];
 
@@ -276,7 +279,10 @@ namespace CalamityMod.NPCs.Perforator
 
 			// Quickly fall back down once above target
 			if (lungeUpward && npc.Center.Y <= player.Center.Y - 420f)
+			{
+				npc.TargetClosest();
 				npc.Calamity().newAI[1] = 2f;
+			}
 
 			// Quickly fall and reset variables once at target's Y position
 			if (quickFall)
@@ -298,7 +304,6 @@ namespace CalamityMod.NPCs.Perforator
 
 			if (!flag94)
             {
-                npc.TargetClosest(true);
                 npc.velocity.Y = npc.velocity.Y + (turnSpeed * 0.5f);
                 if (npc.velocity.Y > num188)
                 {

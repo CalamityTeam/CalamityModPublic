@@ -50,8 +50,12 @@ namespace CalamityMod.NPCs.Ravager
                 npc.timeLeft = 1800;
 
 			// Get a target
-			if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)
-				npc.TargetClosest(true);
+			if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
+				npc.TargetClosest();
+
+			// Despawn safety, make sure to target another player if the current player target is too far away
+			if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > CalamityGlobalNPC.CatchUpDistance200Tiles)
+				npc.TargetClosest();
 
 			// Target variable
 			Player player = Main.player[npc.target];
@@ -122,8 +126,8 @@ namespace CalamityMod.NPCs.Ravager
 				}
             }
 
-			float num823 = 18f;
-			float num824 = 0.2f;
+			float num823 = 22f;
+			float num824 = 0.3f;
 			if (death)
 			{
 				num823 += 4f;

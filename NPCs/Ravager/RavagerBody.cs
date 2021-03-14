@@ -128,7 +128,7 @@ namespace CalamityMod.NPCs.Ravager
 
             if (npc.target >= 0 && Main.player[npc.target].dead)
             {
-                npc.TargetClosest(true);
+                npc.TargetClosest();
                 if (Main.player[npc.target].dead)
                     npc.noTileCollide = true;
             }
@@ -327,7 +327,7 @@ namespace CalamityMod.NPCs.Ravager
                         npc.ai[1] = -20f;
                     else if (npc.ai[1] == -1f)
                     {
-                        npc.TargetClosest(true);
+                        npc.TargetClosest();
 
 						bool shouldFall = player.position.Y >= npc.Bottom.Y;
 						float velocityXBoost = death ? 6f * (1f - lifeRatio) : 4f * (1f - lifeRatio);
@@ -428,6 +428,7 @@ namespace CalamityMod.NPCs.Ravager
 
 					calamityGlobalNPC.newAI[1] = 0f;
 					calamityGlobalNPC.newAI[3] = 0f;
+					npc.TargetClosest();
 
 					for (int stompDustArea = (int)npc.position.X - 30; stompDustArea < (int)npc.position.X + npc.width + 60; stompDustArea += 30)
                     {
@@ -443,8 +444,6 @@ namespace CalamityMod.NPCs.Ravager
                 }
                 else
                 {
-					npc.TargetClosest(true);
-
 					// Fall through
 					if (!player.dead && expertMode)
 					{
