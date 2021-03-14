@@ -66,7 +66,7 @@ namespace CalamityMod.NPCs.Signus
 				npc.TargetClosest();
 
 			// Despawn safety, make sure to target another player if the current player target is too far away
-			if (Vector2.Distance(Main.player[npc.target].Center, vectorCenter) > CalamityGlobalNPC.CatchUpDistance200Tiles)
+			if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > CalamityGlobalNPC.CatchUpDistance200Tiles)
 				npc.TargetClosest();
 
 			Player player = Main.player[npc.target];
