@@ -93,7 +93,7 @@ namespace CalamityMod.Items.Accessories.Wings
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<AstralBar>(), 8);
-            recipe.AddIngredient(ModContent.ItemType<HadarianMembrane>(), 10);
+            recipe.AddIngredient(ModContent.ItemType<HadarianMembrane>(), 8);
             recipe.AddIngredient(ItemID.SoulofFlight, 20);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);

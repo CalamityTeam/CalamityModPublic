@@ -202,7 +202,7 @@ namespace CalamityMod.NPCs.Astral
         {
             DropHelper.DropItem(npc, ModContent.ItemType<Stardust>(), 2, 3);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<Stardust>(), Main.expertMode);
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<HadarianMembrane>(), CalamityWorld.downedAstrageldon, 2, 1, 2);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<HadarianMembrane>(), CalamityWorld.downedAstrageldon, 2, 2, 3);
         }
     }
 }

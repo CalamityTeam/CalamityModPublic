@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Accessories
             if (!Main.dayTime)
             {
                 Lighting.AddLight((int)(player.position.X + (float)(player.width / 2)) / 16, (int)(player.position.Y + (float)(player.height / 2)) / 16, 1f, 1f, 0.6f);
-                player.lifeRegen += 1;
+                player.lifeRegen += 4;
             }
         }
 

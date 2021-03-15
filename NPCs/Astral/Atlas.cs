@@ -616,11 +616,11 @@ namespace CalamityMod.NPCs.Astral
             }
             else if (spawnInfo.player.InAstral(1) && NPC.downedAncientCultist && !CalamityWorld.downedStarGod)
             {
-                return 0.18f;
+                return 0.27f;
             }
             else if (spawnInfo.player.InAstral(1))
             {
-                return 0.06f;
+                return 0.09f;
             }
             return 0f;
         }
