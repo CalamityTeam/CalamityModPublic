@@ -39,7 +39,7 @@ namespace CalamityMod.Projectiles.Melee
         public override void AI()
         {
             DelegateMethods.v3_1 = RayColor.ToVector3() * 0.5f;
-            Utils.PlotTileLine(StartingPosition, projectile.Center, 8f, new Utils.PerLinePoint(DelegateMethods.CastLight));
+            Utils.PlotTileLine(StartingPosition, projectile.Center, 8f, DelegateMethods.CastLight);
             if (projectile.localAI[0] == 0f)
             {
                 projectile.direction = Main.rand.NextBool(2).ToDirectionInt();
