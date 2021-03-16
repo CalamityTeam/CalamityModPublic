@@ -1812,12 +1812,13 @@ namespace CalamityMod.NPCs
 					AITimer++;
 
 				// Separate timer for aggression to avoid entering later phases too quickly
-				if (AIIncreasedAggressionTimer < (int)(KillTime * 1.25))
+				int aggressionTimerCap = (int)(KillTime * 1.35);
+				if (AIIncreasedAggressionTimer < aggressionTimerCap)
 					AIIncreasedAggressionTimer++;
-			}
 
-			// Increases aggression over time if the fight is taking too long
-			killTimeRatio_IncreasedAggression = 1f - (AIIncreasedAggressionTimer / (float)KillTime);
+				// Increases aggression over time if the fight is taking too long
+				killTimeRatio_IncreasedAggression = 1f - (AIIncreasedAggressionTimer / (float)aggressionTimerCap);
+			}
 
 			if (npc.type == NPCID.TargetDummy || npc.type == NPCType<SuperDummyNPC>())
             {
