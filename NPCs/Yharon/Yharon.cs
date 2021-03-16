@@ -2024,7 +2024,7 @@ namespace CalamityMod.NPCs.Yharon
                         }
                         case 7: //fast charge
                         {
-                            Vector2 vector = secondPhasePhase == 4 ? Vector2.Normalize(targetData.Center - vectorCenter) : npc.DirectionTo(targetData.Center);
+                            Vector2 vector = npc.DirectionTo(targetData.Center);
                             npc.spriteDirection = (vector.X > 0f) ? 1 : -1;
                             npc.rotation = vector.ToRotation();
 
