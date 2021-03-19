@@ -7,13 +7,13 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class PrismJavelinDuplicate : ModProjectile
+    public class TheAtomSplitterDuplicate : ModProjectile
     {
         public ref float Time => ref projectile.ai[0];
         public ref float Lifetime => ref projectile.ai[1];
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Prism Javelin");
+            DisplayName.SetDefault("Atom Splitter");
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 6;
             ProjectileID.Sets.TrailingMode[projectile.type] = 2;
         }

@@ -9,14 +9,14 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class PrismJavelinProjectile : ModProjectile
+    public class TheAtomSplitterProjectile : ModProjectile
     {
-        public int Time;
         public ref float HitTargetIndex => ref projectile.ai[0];
+        public ref float Time => ref projectile.ai[1];
 
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/PrismJavelin";
 
-        public override void SetStaticDefaults() => DisplayName.SetDefault("Prism Javelin");
+        public override void SetStaticDefaults() => DisplayName.SetDefault("Atom Splitter");
 
         public override void SetDefaults()
         {
@@ -32,8 +32,6 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SendExtraAI(BinaryWriter writer)
         {
-            writer.Write(Time);
-
             // timeLeft is not synced by default. However, it is changed during an operation that is only
             // performed from one client's perspective, therefore it must be synced in this context.
             writer.Write(projectile.timeLeft);
@@ -43,7 +41,6 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
-            Time = reader.ReadInt32();
             projectile.timeLeft = reader.ReadInt32();
             projectile.alpha = reader.ReadByte();
             projectile.scale = reader.ReadSingle();
@@ -109,7 +106,7 @@ namespace CalamityMod.Projectiles.Rogue
 
             Vector2 spawnPosition = target.Center + Main.rand.NextVector2CircularEdge(baseOutwardness, baseOutwardness) * Main.rand.NextFloat(0.9f, 1.15f);
             Vector2 shootVelocity = (target.Center - spawnPosition).SafeNormalize(Vector2.UnitY) * Main.rand.NextFloat(12f, 14f);
-            Projectile.NewProjectile(spawnPosition, shootVelocity, ModContent.ProjectileType<PrismJavelinDuplicate>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, baseOutwardness / 9f);
+            Projectile.NewProjectile(spawnPosition, shootVelocity, ModContent.ProjectileType<TheAtomSplitterDuplicate>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, baseOutwardness / 9f);
         }
 
         public void FireExtraDuplicatesAtTarget(NPC target)
@@ -121,7 +118,7 @@ namespace CalamityMod.Projectiles.Rogue
             spawnPosition.X += Main.rand.NextFloatDirection() * target.width * 0.45f;
 
             Vector2 shootVelocity = Vector2.UnitY * (target.Center.Y - spawnPosition.Y > 0f).ToDirectionInt() * Main.rand.NextFloat(14f, 16.5f);
-            Projectile.NewProjectile(spawnPosition, shootVelocity, ModContent.ProjectileType<PrismJavelinDuplicate>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 24f);
+            Projectile.NewProjectile(spawnPosition, shootVelocity, ModContent.ProjectileType<TheAtomSplitterDuplicate>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 24f);
         }
 
         public void ReleaseHitDust(Vector2 spawnPosition)

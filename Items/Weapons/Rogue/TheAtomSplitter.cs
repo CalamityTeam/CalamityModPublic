@@ -6,11 +6,11 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-	public class PrismJavelin : RogueWeapon
+	public class TheAtomSplitter : RogueWeapon
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Prism Javelin");
+			DisplayName.SetDefault("The Atom Splitter");
 			Tooltip.SetDefault("Fires a javelin that releases energy duplicates at enemies it hits\n" +
 				"Stealth strikes release duplicates much more quickly");
 		}
@@ -24,7 +24,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 			item.Calamity().rogue = true;
 			item.autoReuse = true;
 			item.shootSpeed = 24f;
-			item.shoot = ModContent.ProjectileType<PrismJavelinProjectile>();
+			item.shoot = ModContent.ProjectileType<TheAtomSplitterProjectile>();
 
 			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.UseSound = SoundID.Item1;
