@@ -6,11 +6,11 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-	public class PrismShuriken : RogueWeapon
+	public class RefractionRotor : RogueWeapon
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Prism Shuriken");
+			DisplayName.SetDefault("Refraction Rotor");
 			Tooltip.SetDefault("Fires a large prismatic razorblade\n" +
 				"After hitting something, the blade dies moments later\n" +
 				"The blade explodes into rockets on death\n" +
@@ -26,7 +26,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 			item.Calamity().rogue = true;
 			item.autoReuse = true;
 			item.shootSpeed = 18f;
-			item.shoot = ModContent.ProjectileType<PrismShurikenProjectile>();
+			item.shoot = ModContent.ProjectileType<RefractionRotorProjectile>();
 
 			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.UseSound = SoundID.Item1;

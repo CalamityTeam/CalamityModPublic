@@ -7,12 +7,10 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class PrismShurikenProjectile : ModProjectile
+    public class RefractionRotorProjectile : ModProjectile
     {
-        public ref float BaseDamage => ref projectile.ai[0];
-        public ref float AccumulatedHits => ref projectile.ai[1];
         public const int EnergyShotCount = 6;
-        public override string Texture => "CalamityMod/Items/Weapons/Rogue/PrismShuriken";
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/RefractionRotor";
 
         public override void SetStaticDefaults()
         {
@@ -108,7 +106,7 @@ namespace CalamityMod.Projectiles.Rogue
 
 		public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
-            Texture2D glowmask = ModContent.GetTexture("CalamityMod/Projectiles/Rogue/PrismShurikenGlowmask");
+            Texture2D glowmask = ModContent.GetTexture("CalamityMod/Projectiles/Rogue/RefractionRotorGlowmask");
             Vector2 drawPosition = projectile.Center - Main.screenPosition + Vector2.UnitY * projectile.gfxOffY;
             Vector2 origin = glowmask.Size() * 0.5f;
             spriteBatch.Draw(glowmask, drawPosition, null, projectile.GetAlpha(Color.White), projectile.rotation, origin, projectile.scale, SpriteEffects.None, 0f);
