@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Rogue
         public ref float HitTargetIndex => ref projectile.ai[0];
         public ref float Time => ref projectile.ai[1];
 
-        public override string Texture => "CalamityMod/Items/Weapons/Rogue/PrismJavelin";
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/TheAtomSplitter";
 
         public override void SetStaticDefaults() => DisplayName.SetDefault("Atom Splitter");
 
