@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.rare = ItemRarityID.Cyan;
             item.Calamity().donorItem = true;
 
-            item.width = item.height = 72;
+            item.width = item.height = 68;
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.UseSound = SoundID.Item1;
             item.noMelee = true;
