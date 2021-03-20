@@ -18,7 +18,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Soul Seeker");
-			NPCID.Sets.TrailingMode[npc.type] = 1;
+            Main.npcFrameCount[npc.type] = 8;
+            NPCID.Sets.TrailingMode[npc.type] = 1;
 		}
 
         public override void SetDefaults()
@@ -46,6 +47,15 @@ namespace CalamityMod.NPCs.SupremeCalamitas
         public override void ReceiveExtraAI(BinaryReader reader)
         {
             timer = reader.ReadInt32();
+        }
+
+        public override void FindFrame(int frameHeight)
+        {
+            npc.frameCounter++;
+            if (npc.frameCounter % 5 == 4)
+                npc.frame.Y += frameHeight;
+            if (npc.frame.Y / frameHeight >= Main.npcFrameCount[npc.type])
+                npc.frame.Y = 0;
         }
 
         public override bool PreAI()
@@ -151,6 +161,9 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 2f);
                     Main.dust[num624].velocity *= 2f;
                 }
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/SoulSeekerSupremeGores/SupremeSoulSeeker"), npc.scale);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/SoulSeekerSupremeGores/SupremeSoulSeeker2"), npc.scale);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/SoulSeekerSupremeGores/SupremeSoulSeeker3"), npc.scale);
             }
         }
 
