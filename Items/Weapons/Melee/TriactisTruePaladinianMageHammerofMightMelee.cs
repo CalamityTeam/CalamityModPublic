@@ -18,6 +18,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetDefaults()
         {
             item.width = 160;
+            item.height = 160;
             item.damage = 10000;
             item.noMelee = true;
             item.noUseGraphic = true;
@@ -28,7 +29,6 @@ namespace CalamityMod.Items.Weapons.Melee
             item.knockBack = 50f;
             item.UseSound = SoundID.Item1;
             item.melee = true;
-            item.height = 160;
             item.shoot = ModContent.ProjectileType<TriactisHammerProj>();
             item.shootSpeed = 25f;
 
