@@ -44,8 +44,11 @@ namespace CalamityMod.Items
 					NPC npc = Main.npc[i];
 					if (npc.type == ModContent.NPCType<SuperDummyNPC>() && npc.active)
 					{
-                        npc.active = false;
-                        npc.netUpdate = true;
+						if (player.whoAmI == Main.myPlayer)
+						{
+							npc.active = false;
+							npc.netUpdate = true;
+						}
                         Main.PlaySound(SoundID.NPCDeath2, npc.Center);
 					}
 				}
