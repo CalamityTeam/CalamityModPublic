@@ -539,7 +539,7 @@ namespace CalamityMod.Tiles
 								}
 							}
 						}
-						if (shootFlames && Main.netMode != NetmodeID.MultiplayerClient)
+						if (shootFlames)
 						{
 							float ai0 = 0f;
 							if (type == ModContent.TileType<BrimstoneSlag>() || type == ModContent.TileType<CharredOre>())

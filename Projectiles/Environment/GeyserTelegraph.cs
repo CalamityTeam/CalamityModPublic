@@ -26,7 +26,7 @@ namespace CalamityMod.Projectiles.Environment
 
         public override void AI()
         {
-			if (!initialized)
+			if (!initialized && Main.myPlayer != projectile.owner)
 			{
 				int projectileType = ModContent.ProjectileType<SmokeTelegraph>();
 				float randomVelocity = Main.rand.NextFloat() + 0.5f;
@@ -38,6 +38,9 @@ namespace CalamityMod.Projectiles.Environment
 
 		public override void Kill(int timeLeft)
 		{
+			if (Main.myPlayer != projectile.owner)
+				return;
+
 			int projectileType = ProjectileID.GeyserTrap;
 			if (projectile.ai[0] == 1f)
 			{
