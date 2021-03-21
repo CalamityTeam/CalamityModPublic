@@ -1,4 +1,5 @@
 using CalamityMod.CalPlayer;
+using CalamityMod.DataStructures;
 using CalamityMod.Events;
 using CalamityMod.NPCs;
 using CalamityMod.NPCs.Abyss;
@@ -1485,17 +1486,12 @@ namespace CalamityMod.World
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
                     if (DoGSecondStageCountdown == 21540)
-                    {
-                        NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<CeaselessVoid>());
-                    }
+                        CalamityUtils.SpawnBossBetter(player.Center, ModContent.NPCType<CeaselessVoid>(), new OffscreenBossSpawnContext());
                     if (DoGSecondStageCountdown == 14340)
-                    {
-                        NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<StormWeaverHead>());
-                    }
+                        CalamityUtils.SpawnBossBetter(player.Center, ModContent.NPCType<StormWeaverHead>(), new OffscreenBossSpawnContext());
                     if (DoGSecondStageCountdown == 7140)
-                    {
-                        NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<Signus>());
-                    }
+                        CalamityUtils.SpawnBossBetter(player.Center, ModContent.NPCType<Signus>(), new OffscreenBossSpawnContext());
+
                     if (DoGSecondStageCountdown <= 60)
                     {
                         int freeNPCSlots = Main.maxNPCs - Main.npc.Take(Main.maxNPCs).Where(npc => npc.active).Count();

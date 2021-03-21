@@ -8,11 +8,10 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class T1000Proj : ModProjectile
     {
-        public override string Texture => "CalamityMod/Items/Weapons/Magic/T1000";
-
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("T1000");
+            Main.projFrames[projectile.type] = 8;
         }
 
         public override void SetDefaults()
@@ -62,6 +61,7 @@ namespace CalamityMod.Projectiles.Magic
                     {
                         Main.PlaySound(SoundID.Item91, projectile.position);
                     }
+                    projectile.frame = (projectile.frame + 1) % Main.projFrames[projectile.type];
                 }
                 if (projectile.ai[1] == 1f && projectile.ai[0] != 1f)
                 {
@@ -83,26 +83,17 @@ namespace CalamityMod.Projectiles.Magic
                     if (flag2)
                     {
                         float speed = player.ActiveItem().shootSpeed * projectile.scale;
-                        Vector2 spawnPos = playerPos;
-                        Vector2 direction = Main.screenPosition + new Vector2((float)Main.mouseX, (float)Main.mouseY) - spawnPos;
-                        if (player.gravDir == -1f)
-                        {
-                            direction.Y = (float)(Main.screenHeight - Main.mouseY) + Main.screenPosition.Y - spawnPos.Y;
-                        }
-                        Vector2 velocity = Vector2.Normalize(direction);
-                        if (float.IsNaN(velocity.X) || float.IsNaN(velocity.Y))
-                        {
-                            velocity = -Vector2.UnitY;
-                        }
-                        velocity *= speed;
+                        Vector2 spawnPos = playerPos + projectile.velocity * 0.75f;
+                        Vector2 velocity = (Main.MouseWorld - projectile.Center).SafeNormalize(-Vector2.UnitY) * speed;
+                        if (projectile.WithinRange(Main.MouseWorld, 50f))
+                            velocity = projectile.velocity;
                         if (velocity.X != projectile.velocity.X || velocity.Y != projectile.velocity.Y)
-                        {
                             projectile.netUpdate = true;
-                        }
+
                         projectile.velocity = velocity;
                         int projType = ModContent.ProjectileType<T1000Laser>();
                         float velocityMult = 14f;
-                        float randNum = 7f;
+                        float randNum = 4f;
                         for (int j = 0; j < 4; j++)
                         {
 							spawnPos += new Vector2(Main.rand.NextFloat(-randNum, randNum), Main.rand.NextFloat(-randNum, randNum));
@@ -121,18 +112,15 @@ namespace CalamityMod.Projectiles.Magic
                     }
                 }
             }
-            projectile.rotation = projectile.velocity.ToRotation();
-            Vector2 displayOffset = new Vector2(15f, -3f * projectile.direction).RotatedBy(projectile.rotation);
-            projectile.Center = player.RotatedRelativePoint(player.MountedCenter, true) + displayOffset;
-            if (projectile.spriteDirection == -1)
-                projectile.rotation += MathHelper.Pi;
+            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
+            projectile.Center = player.RotatedRelativePoint(player.MountedCenter, true) + projectile.velocity.SafeNormalize(Vector2.UnitX * player.direction) * 6f;
             projectile.spriteDirection = projectile.direction;
             projectile.timeLeft = 2;
             player.ChangeDir(projectile.direction);
             player.heldProj = projectile.whoAmI;
             player.itemTime = 2;
             player.itemAnimation = 2;
-            player.itemRotation = (float)Math.Atan2((double)(projectile.velocity.Y * (float)projectile.direction), (double)(projectile.velocity.X * (float)projectile.direction));
+            player.itemRotation = (projectile.velocity * projectile.direction).ToRotation();
         }
 
         public override bool CanDamage() => false;

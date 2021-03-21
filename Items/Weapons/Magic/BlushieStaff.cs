@@ -1,7 +1,6 @@
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Magic;
 using CalamityMod.Tiles.Furniture.CraftingStations;
-using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -17,8 +16,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.width = 38;
-            item.height = 38;
+            item.width = item.height = 48;
             item.useStyle = ItemUseStyleID.HoldingUp;
             item.useAnimation = 30;
             item.useTime = 30;
