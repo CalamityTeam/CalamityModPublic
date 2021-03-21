@@ -428,7 +428,11 @@ namespace CalamityMod.NPCs
 			NPCID.PirateCrossbower,
 			NPCID.PirateDeadeye,
 			NPCID.PirateCaptain,
+			NPCID.SnowmanGangsta,
+			NPCID.SnowBalla,
 			NPCID.DrManFly,
+			NPCID.Eyezor,
+			NPCID.Nailhead,
 			NPCID.MartianWalker,
 			NPCID.MartianTurret,
 			NPCID.ElfCopter,
@@ -444,7 +448,160 @@ namespace CalamityMod.NPCs
 			NPCID.CultistBoss,
 			NPCID.GolemHeadFree,
 			NPCID.MoonLordFreeEye,
+			//NPCID.BloodSquid,
 			NPCID.PlanterasHook
+		};
+
+		// Reduce contact damage by 25%
+		public static List<int> HardmodeNPCNerfList = new List<int>
+		{
+			NPCID.AnglerFish,
+			NPCID.AngryTrapper,
+			NPCID.Arapaima,
+			NPCID.BlackRecluse,
+			NPCID.BlackRecluseWall,
+			NPCID.BloodJelly,
+			NPCID.FungoFish,
+			NPCID.GreenJellyfish,
+			NPCID.Clinger,
+			NPCID.ArmoredSkeleton,
+			NPCID.ArmoredViking,
+			NPCID.Mummy,
+			NPCID.DarkMummy,
+			NPCID.LightMummy,
+			NPCID.BloodFeeder,
+			NPCID.DesertBeast,
+			NPCID.ChaosElemental,
+			//NPCID.BloodMummy,
+			NPCID.CorruptSlime,
+			NPCID.Slimeling,
+			NPCID.Corruptor,
+			NPCID.Crimslime,
+			NPCID.BigCrimslime,
+			NPCID.LittleCrimslime,
+			NPCID.CrimsonAxe,
+			NPCID.CursedHammer,
+			NPCID.Derpling,
+			NPCID.Herpling,
+			NPCID.DiggerHead,
+			NPCID.DiggerBody,
+			NPCID.DiggerTail,
+			NPCID.DesertGhoul,
+			NPCID.DesertGhoulCorruption,
+			NPCID.DesertGhoulCrimson,
+			NPCID.DesertGhoulHallow,
+			NPCID.DuneSplicerHead,
+			NPCID.DuneSplicerBody,
+			NPCID.DuneSplicerTail,
+			NPCID.EnchantedSword,
+			NPCID.FloatyGross,
+			NPCID.GiantBat,
+			NPCID.GiantFlyingFox,
+			NPCID.GiantFungiBulb,
+			NPCID.FungiSpore,
+			NPCID.GiantTortoise,
+			NPCID.IceTortoise,
+			NPCID.HoppinJack,
+			NPCID.Mimic,
+			NPCID.IchorSticker,
+			NPCID.IcyMerman,
+			NPCID.IlluminantBat,
+			NPCID.IlluminantSlime,
+			NPCID.JungleCreeper,
+			NPCID.JungleCreeperWall,
+			NPCID.DesertLamiaDark,
+			NPCID.DesertLamiaLight,
+			NPCID.BigMossHornet,
+			NPCID.GiantMossHornet,
+			NPCID.LittleMossHornet,
+			NPCID.MossHornet,
+			NPCID.TinyMossHornet,
+			NPCID.Moth,
+			NPCID.PigronCorruption,
+			NPCID.PigronCrimson,
+			NPCID.PigronHallow,
+			NPCID.Pixie,
+			NPCID.PossessedArmor,
+			//NPCID.RockGolem,
+			NPCID.DesertScorpionWalk,
+			NPCID.DesertScorpionWall,
+			NPCID.Slimer,
+			NPCID.Slimer2,
+			NPCID.ToxicSludge,
+			NPCID.Unicorn,
+			NPCID.WanderingEye,
+			NPCID.Werewolf,
+			NPCID.Wolf,
+			NPCID.SeekerHead,
+			NPCID.SeekerBody,
+			NPCID.SeekerTail,
+			NPCID.Wraith,
+			NPCID.ChatteringTeethBomb,
+			NPCID.Clown,
+			NPCID.AngryNimbus,
+			NPCID.IceGolem,
+			NPCID.RainbowSlime,
+			NPCID.SandShark,
+			NPCID.SandsharkCorrupt,
+			NPCID.SandsharkCrimson,
+			NPCID.SandsharkHallow,
+			NPCID.ShadowFlameApparition,
+			NPCID.Parrot,
+			NPCID.PirateCorsair,
+			NPCID.PirateDeckhand,
+			//NPCID.PiratesCurse,
+			NPCID.BlueArmoredBonesMace,
+			NPCID.BlueArmoredBonesSword,
+			NPCID.BoneLee,
+			NPCID.DungeonSpirit,
+			NPCID.FlyingSnake,
+			NPCID.HellArmoredBones,
+			NPCID.HellArmoredBonesSpikeShield,
+			NPCID.HellArmoredBonesSword,
+			NPCID.MisterStabby,
+			NPCID.SnowBalla,
+			NPCID.SnowmanGangsta,
+			NPCID.Butcher,
+			NPCID.CreatureFromTheDeep,
+			NPCID.DeadlySphere,
+			NPCID.Frankenstein,
+			NPCID.Fritz,
+			NPCID.Psycho,
+			NPCID.Reaper,
+			NPCID.SwampThing,
+			NPCID.ThePossessed,
+			NPCID.Vampire,
+			NPCID.VampireBat,
+			NPCID.HeadlessHorseman,
+			NPCID.Hellhound,
+			NPCID.Poltergeist,
+			NPCID.Scarecrow1,
+			NPCID.Scarecrow2,
+			NPCID.Scarecrow3,
+			NPCID.Scarecrow4,
+			NPCID.Scarecrow5,
+			NPCID.Scarecrow6,
+			NPCID.Scarecrow7,
+			NPCID.Scarecrow8,
+			NPCID.Scarecrow9,
+			NPCID.Scarecrow10,
+			NPCID.Splinterling,
+			NPCID.Flocko,
+			NPCID.GingerbreadMan,
+			NPCID.Krampus,
+			NPCID.Nutcracker,
+			NPCID.NutcrackerSpinning,
+			NPCID.PresentMimic,
+			NPCID.Yeti,
+			NPCID.ZombieElf,
+			NPCID.ZombieElfBeard,
+			NPCID.ZombieElfGirl
+			//NPCID.BloodEelHead,
+			//NPCID.BloodEelBody,
+			//NPCID.BloodEelTail,
+			//NPCID.HemogoblinShark,
+			//NPCID.WanderingEyeFish,
+			//NPCID.ZombieMerman,
 		};
 		#endregion
 
@@ -1269,14 +1426,7 @@ namespace CalamityMod.NPCs
 
             // Fix Sharkron hitboxes
             if (npc.type == NPCID.Sharkron || npc.type == NPCID.Sharkron2)
-            {
                 npc.width = npc.height = 36;
-
-				// Don't do damage for 42 frames after spawning in
-				npc.damage = npc.defDamage;
-				if (npc.alpha > 0)
-					npc.damage = 0;
-            }
 
 			// Make Core hitbox bigger
 			if (npc.type == NPCID.MartianSaucerCore)
@@ -1315,7 +1465,7 @@ namespace CalamityMod.NPCs
 				npc.lifeMax = (int)(npc.lifeMax * 0.1);
 			}
 
-            if (npc.type >= NPCID.TombCrawlerHead && npc.type <= NPCID.TombCrawlerTail && !Main.hardMode)
+			if (npc.type >= NPCID.TombCrawlerHead && npc.type <= NPCID.TombCrawlerTail && !Main.hardMode)
             {
                 npc.lifeMax = (int)(npc.lifeMax * 0.6);
             }
@@ -1328,15 +1478,13 @@ namespace CalamityMod.NPCs
 				npc.defDefense = npc.defense;
 			}
 
-            if (Main.bloodMoon && NPC.downedMoonlord && !npc.boss && !npc.friendly && !npc.dontTakeDamage && npc.lifeMax <= 2000 && npc.damage > 0)
-            {
-                npc.lifeMax = (int)(npc.lifeMax * 3.5);
-                npc.damage += 100;
-                npc.life = npc.lifeMax;
-                npc.defDamage = npc.damage;
-            }
+			if (Main.hardMode && HardmodeNPCNerfList.Contains(npc.type))
+			{
+				npc.damage = (int)(npc.damage * 0.75);
+				npc.defDamage = npc.damage;
+			}
 
-            if (CalamityWorld.downedDoG)
+			if (CalamityWorld.downedDoG)
             {
                 if (CalamityLists.pumpkinMoonBuffList.Contains(npc.type))
                 {
@@ -1366,7 +1514,7 @@ namespace CalamityMod.NPCs
                 if (CalamityLists.dungeonEnemyBuffList.Contains(npc.type))
                 {
                     npc.lifeMax = (int)(npc.lifeMax * 2.5);
-                    npc.damage += 90;
+                    npc.damage += 30;
                     npc.life = npc.lifeMax;
                     npc.defDamage = npc.damage;
                 }
@@ -1830,7 +1978,11 @@ namespace CalamityMod.NPCs
 			if (ZeroContactDamageNPCList.Contains(npc.type))
 				npc.damage = npc.defDamage = 0;
 
-            if (DestroyerIDs.Contains(npc.type) || EaterofWorldsIDs.Contains(npc.type))
+			// Don't do damage for 42 frames after spawning in
+			if (npc.type == NPCID.Sharkron || npc.type == NPCID.Sharkron2)
+				npc.damage = npc.alpha > 0 ? 0 : npc.defDamage;
+
+			if (DestroyerIDs.Contains(npc.type) || EaterofWorldsIDs.Contains(npc.type))
                 npc.buffImmune[BuffType<Enraged>()] = false;
 
             if (BossRushEvent.BossRushActive && !npc.friendly && !npc.townNPC)
@@ -2996,19 +3148,6 @@ namespace CalamityMod.NPCs
         #region AI
         public override void AI(NPC npc)
         {
-            if (!CalamityWorld.spawnedHardBoss)
-            {
-                if (npc.type == NPCID.TheDestroyer || npc.type == NPCID.Spazmatism || npc.type == NPCID.Retinazer || npc.type == NPCID.SkeletronPrime ||
-                    npc.type == NPCID.Plantera || npc.type == NPCType<Cryogen.Cryogen>() || npc.type == NPCType<AquaticScourgeHead>() ||
-                    npc.type == NPCType<BrimstoneElemental.BrimstoneElemental>() || npc.type == NPCType<AstrumAureus.AstrumAureus>() || npc.type == NPCType<AstrumDeusHeadSpectral>() ||
-                    npc.type == NPCType<Calamitas.Calamitas>() || npc.type == NPCType<Siren>() || npc.type == NPCType<PlaguebringerGoliath.PlaguebringerGoliath>() ||
-                    npc.type == NPCType<RavagerBody>() || npc.type == NPCID.DukeFishron || npc.type == NPCID.CultistBoss || npc.type == NPCID.Golem)
-                {
-                    CalamityWorld.spawnedHardBoss = true;
-                    CalamityNetcode.SyncWorld();
-                }
-            }
-
             if (CalamityWorld.revenge || BossRushEvent.BossRushActive)
             {
                 bool configBossRushBoost = CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive;

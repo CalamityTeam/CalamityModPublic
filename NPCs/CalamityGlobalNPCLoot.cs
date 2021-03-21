@@ -1214,13 +1214,6 @@ namespace CalamityMod.NPCs
         #region Event Loot
         private void EventLoot(NPC npc, bool pumpkin, bool frost, bool eclipse)
         {
-            // Not really loot code, but NPCLoot is the only death hook
-            if (npc.boss && !CalamityWorld.downedBossAny)
-            {
-                CalamityWorld.downedBossAny = true;
-                CalamityNetcode.SyncWorld();
-            }
-
             // Nightmare Fuel, Endothermic Energy and Darksun Fragments
             if (!CalamityWorld.downedDoG)
             {

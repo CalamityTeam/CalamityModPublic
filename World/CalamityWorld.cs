@@ -150,13 +150,11 @@ namespace CalamityMod.World
         public static bool wizardName = false;
 
         #region Downed Bools
-        public static bool downedBossAny = false; //Any boss
         public static bool downedDesertScourge = false;
         public static bool downedCrabulon = false;
         public static bool downedHiveMind = false;
         public static bool downedPerforator = false;
         public static bool downedSlimeGod = false;
-        public static bool spawnedHardBoss = false; //Hardmode boss spawned
         public static bool downedCryogen = false;
         public static bool downedAquaticScourge = false;
         public static bool downedBrimstoneElemental = false;
@@ -278,8 +276,6 @@ namespace CalamityMod.World
             downedBumble = false;
             downedCrabulon = false;
             downedBetsy = false;
-            downedBossAny = false;
-            spawnedHardBoss = false;
             demonMode = false;
             onionMode = false;
             revenge = false;
@@ -349,8 +345,6 @@ namespace CalamityMod.World
                 downed.Add("betsy");
             if (downedScavenger)
                 downed.Add("scavenger");
-            if (downedBossAny)
-                downed.Add("anyBoss");
             if (demonMode)
                 downed.Add("demonMode");
             if (onionMode)
@@ -361,8 +355,6 @@ namespace CalamityMod.World
                 downed.Add("starGod");
             if (downedAstrageldon)
                 downed.Add("astrageldon");
-            if (spawnedHardBoss)
-                downed.Add("hardBoss");
             if (downedPolterghast)
                 downed.Add("polterghast");
             if (downedGSS)
@@ -502,13 +494,11 @@ namespace CalamityMod.World
             downedCrabulon = downed.Contains("crabulon");
             downedBetsy = downed.Contains("betsy");
             downedScavenger = downed.Contains("scavenger");
-            downedBossAny = downed.Contains("anyBoss");
             demonMode = downed.Contains("demonMode");
             onionMode = downed.Contains("onionMode");
             revenge = downed.Contains("revenge");
             downedStarGod = downed.Contains("starGod");
             downedAstrageldon = downed.Contains("astrageldon");
-            spawnedHardBoss = downed.Contains("hardBoss");
             downedPolterghast = downed.Contains("polterghast");
             downedGSS = downed.Contains("greatSandShark");
             downedBoomerDuke = downed.Contains("oldDuke");
@@ -612,7 +602,7 @@ namespace CalamityMod.World
                 _ = flags4[1];
                 _ = flags4[2];
                 _ = flags4[3];
-                downedBossAny = flags4[4];
+                _ = flags4[4];
                 demonMode = flags4[5];
                 onionMode = flags4[6];
                 revenge = flags4[7];
@@ -622,7 +612,7 @@ namespace CalamityMod.World
                 spawnedBandit = flags5[1];
                 spawnedCirrus = flags5[2];
                 startAcidicDownpour = flags5[3];
-                spawnedHardBoss = flags5[4];
+                _ = flags5[4];
                 downedPolterghast = flags5[5];
                 death = flags5[6];
                 downedGSS = flags5[7];
@@ -723,7 +713,7 @@ namespace CalamityMod.World
             flags4[1] = false;
             flags4[2] = false;
             flags4[3] = false;
-            flags4[4] = downedBossAny;
+            flags4[4] = false;
             flags4[5] = demonMode;
             flags4[6] = onionMode;
             flags4[7] = revenge;
@@ -733,7 +723,7 @@ namespace CalamityMod.World
             flags5[1] = spawnedBandit;
             flags5[2] = spawnedCirrus;
             flags5[3] = startAcidicDownpour;
-            flags5[4] = spawnedHardBoss;
+            flags5[4] = false;
             flags5[5] = downedPolterghast;
             flags5[6] = death;
             flags5[7] = downedGSS;
@@ -844,7 +834,7 @@ namespace CalamityMod.World
             _ = flags4[1];
             _ = flags4[2];
             _ = flags4[3];
-            downedBossAny = flags4[4];
+            _ = flags4[4];
             demonMode = flags4[5];
             onionMode = flags4[6];
             revenge = flags4[7];
@@ -854,7 +844,7 @@ namespace CalamityMod.World
             spawnedBandit = flags5[1];
             spawnedCirrus = flags5[2];
             startAcidicDownpour = flags5[3];
-            spawnedHardBoss = flags5[4];
+            _ = flags5[4];
             downedPolterghast = flags5[5];
             death = flags5[6];
             downedGSS = flags5[7];

@@ -36,7 +36,7 @@ namespace CalamityMod.Items.SummonItems
 
         public override bool CanUseItem(Player player)
         {
-            return !NPC.AnyNPCs(ModContent.NPCType<SupremeCalamitas>()) && CalamityWorld.downedBossAny && !BossRushEvent.BossRushActive;
+            return !NPC.AnyNPCs(ModContent.NPCType<SupremeCalamitas>()) && !BossRushEvent.BossRushActive;
         }
 
         public override bool UseItem(Player player)

@@ -5670,9 +5670,6 @@ namespace CalamityMod.CalPlayer
                 theBeeCooldown = 600;
             }
 
-            if (!CalamityWorld.downedBossAny)
-                contactDamageReduction += 0.2;
-
             if (CalamityWorld.revenge)
             {
                 if (CalamityConfig.Instance.Rippers)
@@ -5947,10 +5944,6 @@ namespace CalamityMod.CalPlayer
                     damage = (int)(damage * 0.65);
             }
 
-            // Reduce the bullshit damage Ichor Stickers do
-            if (proj.type == ProjectileID.GoldenShowerHostile)
-                damage = (int)(damage * 0.35);
-
             if (CalamityWorld.revenge)
             {
                 double damageMultiplier = 1D;
@@ -6079,12 +6072,6 @@ namespace CalamityMod.CalPlayer
                     projectileDamageReduction += 0.25;
             }
 
-            if (Main.hardMode && Main.expertMode && !CalamityWorld.spawnedHardBoss && proj.active && !proj.friendly && proj.hostile && damage > 0)
-            {
-                if (CalamityLists.hardModeNerfList.Contains(proj.type))
-                    projectileDamageReduction += 0.25;
-            }
-
             if (trinketOfChiBuff)
                 projectileDamageReduction += 0.15;
 
@@ -6110,9 +6097,6 @@ namespace CalamityMod.CalPlayer
                 projectileDamageReduction += 0.5;
                 theBeeCooldown = 600;
             }
-
-            if (!CalamityWorld.downedBossAny)
-                projectileDamageReduction += 0.2;
 
             if (CalamityWorld.revenge)
             {
