@@ -600,9 +600,8 @@ namespace CalamityMod.NPCs
                 case NPCID.DuneSplicerTail:
                     return SplittingWormLoot(npc, mod, 2);
                 default:
-                    break;
+                    return true;
             }
-            return true;
         }
 
         internal static bool SplittingWormLoot(NPC npc, Mod mod, int wormType)
