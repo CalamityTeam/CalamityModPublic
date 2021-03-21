@@ -1,4 +1,5 @@
 using CalamityMod.CalPlayer;
+using CalamityMod.NPCs;
 using CalamityMod.Tiles.DraedonStructures;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -60,6 +61,7 @@ namespace CalamityMod.ILEditing
             LabDoorFixes();
             AlterTownNPCSpawnRate();
 			DisableDemonAltarGeneration();
+            FixSplittingWormBannerDrops();
         }
 
         /// <summary>
@@ -225,10 +227,42 @@ namespace CalamityMod.ILEditing
 				cursor.Emit(OpCodes.Ret);
 			};
 		}
-		#endregion
 
-		#region IL Editing Injected/Hooked Functions
-		private static void BossRushLifeBytes(On.Terraria.Main.orig_InitLifeBytes orig)
+        private static void FixSplittingWormBannerDrops()
+        {
+            IL.Terraria.NPC.NPCLoot += (il) =>
+            {
+                var cursor = new ILCursor(il);
+
+                // Locate the area after all the banner logic by using a nearby constant type.
+                cursor.GotoNext(MoveType.Before, i => i.MatchLdcI4(23));
+                cursor.GotoPrev(MoveType.Before, i => i.MatchLdarg(0));
+
+                ILLabel afterBannerLogic = cursor.DefineLabel();
+
+                // Set this area after as a place to return to later.
+                cursor.MarkLabel(afterBannerLogic);
+
+                // Go to the beginning of the banner drop logic.
+                cursor.Goto(0);
+                cursor.GotoNext(MoveType.Before, i => i.MatchLdsfld<NPC>("killCount"));
+
+                // Load the NPC caller onto the stack.
+                cursor.Emit(OpCodes.Ldarg_0);
+                cursor.EmitDelegate<Func<NPC, bool>>(npc => CalamityGlobalNPCLoot.SplittingWormLootBlockWrapper(npc, CalamityMod.Instance));
+
+                // Emit 0 (false) onto the stack.
+                cursor.Emit(OpCodes.Ldc_I4_0);
+
+                // If the block is equal to false (indicating the drop logic should stop), skip all the ahead banner drop logic.
+                cursor.Emit(OpCodes.Beq, afterBannerLogic);
+            };
+        }
+
+        #endregion
+
+        #region IL Editing Injected/Hooked Functions
+        private static void BossRushLifeBytes(On.Terraria.Main.orig_InitLifeBytes orig)
         {
             orig();
             foreach (int npcType in NeedsFourLifeBytes)
