@@ -52,6 +52,7 @@ namespace CalamityMod.ILEditing
             aLabDoorClosed = ModContent.TileType<AgedLaboratoryDoorClosed>();
 
             ApplyLifeBytesChanges();
+			RemoveExpertHardmodeScaling();
             RemoveRNGFromBlackBelt();
             ApplyBossZenDuringSlimeRain();
             PreventDungeonAbyssInteraction();
@@ -72,6 +73,18 @@ namespace CalamityMod.ILEditing
 
         #region IL Editing Routines
         private static void ApplyLifeBytesChanges() => On.Terraria.Main.InitLifeBytes += BossRushLifeBytes;
+
+		private static void RemoveExpertHardmodeScaling()
+		{
+			// Completely disable the weak enemy scaling that occurs when Hardmode is active in Expert Mode.
+			IL.Terraria.NPC.scaleStats += (il) =>
+			{
+				var cursor = new ILCursor(il);
+				cursor.GotoNext(MoveType.Before, i => i.MatchLdcI4(1000)); // The less than 1000 HP check in order for the scaling to take place.
+				cursor.Remove();
+				cursor.Emit(OpCodes.Ldc_I4_M1); // Replace the 1000 with -1, no NPC can have less than -1 HP on spawn, so it fails to run.
+			};
+		}
 
         private static void RemoveRNGFromBlackBelt()
         {
