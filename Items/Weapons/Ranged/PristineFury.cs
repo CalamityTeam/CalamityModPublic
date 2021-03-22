@@ -77,6 +77,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             }
             else
             {
+                damage = (int)(damage * 0.94);
                 Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<PristineFire>(), damage, knockBack, player.whoAmI);
             }
             return false;
