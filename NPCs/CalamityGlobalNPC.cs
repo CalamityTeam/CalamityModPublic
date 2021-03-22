@@ -184,6 +184,10 @@ namespace CalamityMod.NPCs
         public static int SCalCatastrophe = -1;
         public static int SCal = -1;
         public static int SCalWorm = -1;
+		public static int draedonExoMechWorm = -1;
+		public static int draedonExoMechTwinRed = -1;
+		public static int draedonExoMechTwinGreen = -1;
+		public static int draedonExoMechPrime = -1;
 
         // Collections
         public static SortedDictionary<int, int> BossRushHPChanges = new SortedDictionary<int, int>
@@ -671,7 +675,12 @@ namespace CalamityMod.NPCs
             ResetSavedIndex(ref SCal, NPCType<SupremeCalamitas.SupremeCalamitas>());
             ResetSavedIndex(ref SCalWorm, NPCType<SCalWormHead>());
 
-            CalamityGlobalTownNPC.ResetTownNPCNameBools(npc, mod);
+			/*ResetSavedIndex(ref draedonExoMechWorm, NPCType<ExoWormHead>());
+			ResetSavedIndex(ref draedonExoMechTwinRed, NPCType<ExoTwinRed>());
+			ResetSavedIndex(ref draedonExoMechTwinGreen, NPCType<ExoTwinGreen>());
+			ResetSavedIndex(ref draedonExoMechPrime, NPCType<ExoPrime>());*/
+
+			CalamityGlobalTownNPC.ResetTownNPCNameBools(npc, mod);
         }
         #endregion
 
