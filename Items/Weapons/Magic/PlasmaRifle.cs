@@ -70,12 +70,11 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             if (player.altFunctionUse == 2)
             {
+                damage = (int)(damage * 1.15);
                 Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<PlasmaBolt>(), damage, knockBack, player.whoAmI);
             }
             else
-            {
                 Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, (int)(damage * 0.88), knockBack, player.whoAmI);
-            }
             return false;
         }
 
