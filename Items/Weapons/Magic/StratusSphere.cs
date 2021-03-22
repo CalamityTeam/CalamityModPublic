@@ -12,8 +12,7 @@ namespace CalamityMod.Items.Weapons.Magic
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Stratus Sphere");
-			Tooltip.SetDefault("Fires an energy orb containing the essence of our stratosphere\n" +
-			"Up to six of these can be active at a time");
+			Tooltip.SetDefault("Fires an energy orb containing the essence of our stratosphere");
 		}
 		public override void SetDefaults()
 		{
@@ -39,18 +38,6 @@ namespace CalamityMod.Items.Weapons.Magic
             item.rare = ItemRarityID.Red;
             item.Calamity().customRarity = CalamityRarity.PureGreen;
 		}
-
-        public override bool CanUseItem(Player player)
-        {
-			if (player.ownedProjectileCounts[item.shoot] >= 6)
-			{
-				return false;
-			}
-			else
-			{
-				return true;
-			}
-        }
 
         public override void AddRecipes()
 		{
