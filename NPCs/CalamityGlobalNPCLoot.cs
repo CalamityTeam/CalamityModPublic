@@ -500,8 +500,37 @@ namespace CalamityMod.NPCs
                     CalamityUtils.DisplayLocalizedText(key5, messageColor5);
                 }
             }
+			else if (npc.type == NPCID.RedDevil)
+			{
+				DropHelper.DropItemChance(npc, ItemID.FireFeather, 0.1f);
+			}
+			else if (npc.type == NPCID.Vampire || npc.type == NPCID.VampireBat)
+			{
+				DropHelper.DropItemChance(npc, ItemID.MoonStone, 0.15f);
+			}
+			else if (npc.type == NPCID.Werewolf)
+			{
+				DropHelper.DropItemChance(npc, ItemID.MoonCharm, 0.05f);
+			}
+			else if (npc.type == NPCID.Mimic)
+			{
+				float w = DropHelper.BagWeaponDropRateFloat;
+				DropHelper.DropEntireWeightedSet(npc,
+					DropHelper.WeightStack(ItemID.StarCloak, w),
+					DropHelper.WeightStack(ItemID.CrossNecklace, w),
+					DropHelper.WeightStack(ItemID.TitanGlove, w),
+					DropHelper.WeightStack(ItemID.DualHook, w),
+					DropHelper.WeightStack(ItemID.MagicDagger, w),
+					DropHelper.WeightStack(ItemID.Compass, w),
+					DropHelper.WeightStack(ItemID.PhilosophersStone, w)
+				);
+			}
+			else if (npc.type == NPCID.Moth)
+			{
+				DropHelper.DropItem(npc, ItemID.ButterflyDust);
+			}
 
-            return true;
+			return true;
         }
 		#endregion
 
@@ -1095,7 +1124,7 @@ namespace CalamityMod.NPCs
                     break;
 
                 case NPCID.AngryTrapper:
-                    DropHelper.DropItemChance(npc, ModContent.ItemType<TrapperBulb>(), Main.expertMode ? 4 : 5);
+                    DropHelper.DropItemChance(npc, ModContent.ItemType<TrapperBulb>(), Main.expertMode ? 2 : 3);
                     break;
 
                 case NPCID.MotherSlime:
@@ -1103,16 +1132,16 @@ namespace CalamityMod.NPCs
                 case NPCID.Crimslime:
                 case NPCID.BigCrimslime:
                 case NPCID.LittleCrimslime:
-                    DropHelper.DropItemChance(npc, ModContent.ItemType<MurkySludge>(), Main.expertMode ? 3 : 4);
+                    DropHelper.DropItemChance(npc, ModContent.ItemType<MurkySludge>(), Main.expertMode ? 2 : 3);
                     break;
 
                 case NPCID.Derpling:
-                    DropHelper.DropItemChance(npc, ModContent.ItemType<BeetleJuice>(), Main.expertMode ? 4 : 5);
+                    DropHelper.DropItemChance(npc, ModContent.ItemType<BeetleJuice>(), Main.expertMode ? 3 : 4);
                     break;
 
                 case NPCID.SpikedJungleSlime:
                 case NPCID.Arapaima:
-                    DropHelper.DropItemChance(npc, ModContent.ItemType<MurkyPaste>(), Main.expertMode ? 4 : 5);
+                    DropHelper.DropItemChance(npc, ModContent.ItemType<MurkyPaste>(), Main.expertMode ? 3 : 4);
                     break;
 
                 case NPCID.Reaper:
@@ -1185,13 +1214,6 @@ namespace CalamityMod.NPCs
         #region Event Loot
         private void EventLoot(NPC npc, bool pumpkin, bool frost, bool eclipse)
         {
-            // Not really loot code, but NPCLoot is the only death hook
-            if (npc.boss && !CalamityWorld.downedBossAny)
-            {
-                CalamityWorld.downedBossAny = true;
-                CalamityNetcode.SyncWorld();
-            }
-
             // Nightmare Fuel, Endothermic Energy and Darksun Fragments
             if (!CalamityWorld.downedDoG)
             {

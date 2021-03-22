@@ -240,8 +240,12 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 			Vector2 vectorCenter = npc.Center;
 
 			// Get a target
-			if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)
-				npc.TargetClosest(true);
+			if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
+				npc.TargetClosest();
+
+			// Despawn safety, make sure to target another player if the current player target is too far away
+			if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > CalamityGlobalNPC.CatchUpDistance200Tiles)
+				npc.TargetClosest();
 
 			Player player = Main.player[npc.target];
 
@@ -1151,7 +1155,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 						if (npc.ai[2] >= 300f)
 						{
 							npc.ai[1] = -1f;
-							npc.TargetClosest(true);
+							npc.TargetClosest();
 							npc.netUpdate = true;
 						}
 
@@ -1279,7 +1283,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 						{
 							npc.ai[3] += 1f;
 							npc.ai[2] = 0f;
-							npc.target = 255;
+							npc.TargetClosest();
 							npc.rotation = num803;
 
 							if (npc.ai[3] >= 2f)
@@ -1344,9 +1348,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 						npc.ai[2] += 1f;
 						if (npc.ai[2] >= 480f)
 						{
-							npc.TargetClosest(true);
 							npc.ai[1] = -1f;
-							npc.target = 255;
+							npc.TargetClosest();
 							npc.netUpdate = true;
 						}
 						else
@@ -1458,7 +1461,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 						if (npc.ai[2] >= 300f)
 						{
 							npc.ai[1] = -1f;
-							npc.TargetClosest(true);
+							npc.TargetClosest();
 							npc.netUpdate = true;
 						}
 					}
@@ -1470,6 +1473,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     npc.ai[1] = 0f;
                     npc.ai[2] = 0f;
                     npc.ai[3] = 0f;
+					npc.TargetClosest();
                     npc.netUpdate = true;
                 }
             }
@@ -1699,7 +1703,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 						if (npc.ai[2] >= 240f)
 						{
 							npc.ai[1] = -1f;
-							npc.TargetClosest(true);
+							npc.TargetClosest();
 							npc.netUpdate = true;
 						}
 
@@ -1822,7 +1826,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 						{
 							npc.ai[3] += 1f;
 							npc.ai[2] = 0f;
-							npc.target = 255;
+							npc.TargetClosest();
 							npc.rotation = num803;
 
 							if (npc.ai[3] >= 1f)
@@ -1887,9 +1891,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 						npc.ai[2] += 1f;
 						if (npc.ai[2] >= 300f)
 						{
-							npc.TargetClosest(true);
 							npc.ai[1] = -1f;
-							npc.target = 255;
+							npc.TargetClosest();
 							npc.netUpdate = true;
 						}
 						else
@@ -2001,7 +2004,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 						if (npc.ai[2] >= 240f)
 						{
 							npc.ai[1] = -1f;
-							npc.TargetClosest(true);
+							npc.TargetClosest();
 							npc.netUpdate = true;
 						}
 					}

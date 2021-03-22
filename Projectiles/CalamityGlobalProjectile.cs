@@ -965,8 +965,17 @@ namespace CalamityMod.Projectiles
             Player player = Main.player[projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
 
-			if (defDamage == 0)
+			if (defDamage == 0 && projectile.hostile)
 			{
+				// Reduce Nail damage from Nailheads because they're stupid
+				if (projectile.type == ProjectileID.Nail && Main.expertMode)
+					projectile.damage /= 2;
+
+				if ((CalamityLists.hardModeNerfList.Contains(projectile.type) && Main.hardMode && !CalamityPlayer.areThereAnyDamnBosses && !Main.snowMoon) || projectile.type == ProjectileID.JavelinHostile)
+				{
+					projectile.damage = (int)(projectile.damage * 0.65);
+				}
+
 				// Reduce mech boss projectile damage depending on the new ore progression changes
 				if (!NPC.downedMechBossAny)
 				{

@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -63,6 +64,11 @@ namespace CalamityMod.Tiles.FurnitureStratus
         {
             CalamityUtils.RightClickBreak(i, j);
             return true;
+        }
+
+        public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
+        {
+            CalamityUtils.DrawFlameEffect(ModContent.GetTexture("CalamityMod/Tiles/FurnitureStratus/StratusCandleFlame"), i, j, 0, -7);
         }
     }
 }

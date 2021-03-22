@@ -695,16 +695,17 @@ namespace CalamityMod
 
             hardModeNerfList = new List<int>()
             {
-                ProjectileID.WebSpit,
                 ProjectileID.PinkLaser,
                 ProjectileID.FrostBlastHostile,
-                ProjectileID.RuneBlast,
                 ProjectileID.GoldenShowerHostile,
                 ProjectileID.RainNimbus,
-                ProjectileID.Stinger,
                 ProjectileID.FlamingArrow,
                 ProjectileID.BulletDeadeye,
-                ProjectileID.CannonballHostile
+                ProjectileID.CannonballHostile,
+				ProjectileID.UnholyTridentHostile,
+				ProjectileID.FrostBeam,
+				ProjectileID.CursedFlameHostile,
+				ProjectileID.Stinger
             };
 
             debuffList = new List<int>()

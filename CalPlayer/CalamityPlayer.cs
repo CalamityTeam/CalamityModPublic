@@ -296,6 +296,7 @@ namespace CalamityMod.CalPlayer
         public bool crysthamyr = false;
         public AndromedaPlayerState andromedaState;
         public int andromedaCripple;
+        public const float UnicornSpeedNerfPower = 0.8f;
         #endregion
 
         #region Pet
@@ -2904,7 +2905,7 @@ namespace CalamityMod.CalPlayer
                 }
                 if (dsSetBonus)
                 {
-                    Main.PlaySound(SoundID.Zombie, (int)player.position.X, (int)player.position.Y, 104);
+                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/DemonshadeEnrage"), player.Center);
                     for (int num502 = 0; num502 < 36; num502++)
                     {
                         int dust = Dust.NewDust(new Vector2(player.position.X, player.position.Y + 16f), player.width, player.height - 16, (int)CalamityDusts.Brimstone, 0f, 0f, 0, default, 1f);
@@ -5691,9 +5692,6 @@ namespace CalamityMod.CalPlayer
                 theBeeCooldown = 600;
             }
 
-            if (!CalamityWorld.downedBossAny)
-                contactDamageReduction += 0.2;
-
             if (CalamityWorld.revenge)
             {
                 if (CalamityConfig.Instance.Rippers)
@@ -5968,10 +5966,6 @@ namespace CalamityMod.CalPlayer
                     damage = (int)(damage * 0.65);
             }
 
-            // Reduce the bullshit damage Ichor Stickers do
-            if (proj.type == ProjectileID.GoldenShowerHostile)
-                damage = (int)(damage * 0.35);
-
             if (CalamityWorld.revenge)
             {
                 double damageMultiplier = 1D;
@@ -6100,12 +6094,6 @@ namespace CalamityMod.CalPlayer
                     projectileDamageReduction += 0.25;
             }
 
-            if (Main.hardMode && Main.expertMode && !CalamityWorld.spawnedHardBoss && proj.active && !proj.friendly && proj.hostile && damage > 0)
-            {
-                if (CalamityLists.hardModeNerfList.Contains(proj.type))
-                    projectileDamageReduction += 0.25;
-            }
-
             if (trinketOfChiBuff)
                 projectileDamageReduction += 0.15;
 
@@ -6131,9 +6119,6 @@ namespace CalamityMod.CalPlayer
                 projectileDamageReduction += 0.5;
                 theBeeCooldown = 600;
             }
-
-            if (!CalamityWorld.downedBossAny)
-                projectileDamageReduction += 0.2;
 
             if (CalamityWorld.revenge)
             {

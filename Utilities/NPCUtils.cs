@@ -1,5 +1,6 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.DataStructures;
 using CalamityMod.Events;
 using CalamityMod.NPCs.HiveMind;
 using CalamityMod.NPCs.Leviathan;
@@ -453,6 +454,39 @@ namespace CalamityMod
 			target.AddBuff(BuffType<HolyFlames>(), (int)(120 * multiplier));
 			target.AddBuff(BuffID.Frostburn, (int)(120 * multiplier));
 			target.AddBuff(BuffID.OnFire, (int)(120 * multiplier));
+		}
+
+		/// <summary>
+		/// Summons a boss near a particular area depending on a specific spawn context.
+		/// </summary>
+		/// <param name="relativeSpawnPosition">The relative spawn position.</param>
+		/// <param name="bossType">The NPC type ID of the boss to spawn.</param>
+		/// <param name="spawnContext">The context in which the direct spawn position is decided.</param>
+		/// <param name="ai0">The optional 1st ai parameter for the boss.</param>
+		/// <param name="ai1">The optional 2nd ai parameter for the boss.</param>
+		/// <param name="ai2">The optional 3rd ai parameter for the boss.</param>
+		/// <param name="ai3">The optional 4th ai parameter for the boss.</param>
+		public static NPC SpawnBossBetter(Vector2 relativeSpawnPosition, int bossType, BaseBossSpawnContext spawnContext = null, float ai0 = 0f, float ai1 = 0f, float ai2 = 0f, float ai3 = 0f)
+		{
+			// Don't spawn entities client-side.
+			if (Main.netMode == NetmodeID.MultiplayerClient)
+				return null;
+
+			// Fall back to an exact spawn position if nothing else is inputted.
+			if (spawnContext is null)
+				spawnContext = new ExactPositionBossSpawnContext();
+
+			Vector2 spawnPosition = spawnContext.DetermineSpawnPosition(relativeSpawnPosition);
+			int bossIndex = NPC.NewNPC((int)spawnPosition.X, (int)spawnPosition.Y, bossType, 0, ai0, ai1, ai2, ai3);
+
+			// Broadcast a spawn message to indicate the summoning of the boss if it was successfully spawned.
+			if (Main.npc.IndexInRange(bossIndex))
+			{
+				BossAwakenMessage(bossIndex);
+				return Main.npc[bossIndex];
+			}
+			else
+				return null;
 		}
 
 		/// <summary>

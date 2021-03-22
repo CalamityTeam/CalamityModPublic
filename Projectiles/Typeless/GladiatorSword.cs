@@ -19,8 +19,7 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override void SetDefaults()
         {
-            projectile.width = 22;
-            projectile.height = 22;
+            projectile.width = projectile.height = 22;
             projectile.ignoreWater = true;
             projectile.timeLeft = 18000;
             projectile.tileCollide = false;

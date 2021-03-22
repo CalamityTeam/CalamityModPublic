@@ -74,8 +74,16 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 npc.netUpdate = true;
                 return;
             }
-            npc.TargetClosest(true);
-            float num676 = 60f;
+
+			// Get a target
+			if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
+				npc.TargetClosest();
+
+			// Despawn safety, make sure to target another player if the current player target is too far away
+			if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > CalamityGlobalNPC.CatchUpDistance200Tiles)
+				npc.TargetClosest();
+
+			float num676 = 60f;
             float num677 = 1.5f;
 
 			// Reduce acceleration if target is holding a true melee weapon

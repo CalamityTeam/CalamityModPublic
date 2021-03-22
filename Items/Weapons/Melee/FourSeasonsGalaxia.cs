@@ -15,7 +15,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Galaxia");
-            Tooltip.SetDefault("Fires homing projectiles that inflict different debuffs depending on what biome you're in\n" +
+            Tooltip.SetDefault("Fires a spread of homing projectiles that inflict different debuffs depending on what biome you're in\n" +
                 "Upon hitting an enemy you are granted a buff based on what biome you're in\n" +
                 "Projectiles also change based on moon events");
         }
@@ -23,13 +23,13 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetDefaults()
         {
             item.width = 70;
-            item.damage = 385;
+            item.damage = 120;
             item.melee = true;
-            item.useAnimation = 17;
-            item.useTime = 17;
+            item.useAnimation = 18;
+            item.useTime = 18;
             item.useTurn = true;
             item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 9;
+            item.knockBack = 9f;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             item.height = 70;
@@ -40,7 +40,18 @@ namespace CalamityMod.Items.Weapons.Melee
             item.Calamity().customRarity = CalamityRarity.DarkBlue;
         }
 
-        public override void AddRecipes()
+		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		{
+			for (int projectiles = 0; projectiles < 3; projectiles++)
+			{
+				float SpeedX = speedX + Main.rand.Next(-40, 41) * 0.05f;
+				float SpeedY = speedY + Main.rand.Next(-40, 41) * 0.05f;
+				Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI);
+			}
+			return false;
+		}
+
+		public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<OmegaBiomeBlade>());

@@ -93,7 +93,7 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
             if (projectile.owner == Main.myPlayer)
             {
-                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<ChickenExplosion>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<ChickenExplosion>(), projectile.damage, projectile.knockBack, projectile.owner);
             }
             Main.PlaySound(SoundID.Item14, (int)projectile.Center.X, (int)projectile.Center.Y);
             for (int num621 = 0; num621 < 40; num621++)
