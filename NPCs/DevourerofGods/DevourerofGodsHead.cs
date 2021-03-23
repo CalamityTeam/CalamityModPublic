@@ -375,12 +375,17 @@ namespace CalamityMod.NPCs.DevourerofGods
                 if ((double)npc.position.Y < Main.topWorld + 16f)
                     npc.velocity.Y -= 3f;
 
+                int bodyType = ModContent.NPCType<DevourerofGodsBody>();
+                int tailType = ModContent.NPCType<DevourerofGodsTail>();
                 if ((double)npc.position.Y < Main.topWorld + 16f)
                 {
-                    for (int a = 0; a < 200; a++)
+                    for (int a = 0; a < Main.maxNPCs; a++)
                     {
-                        if (Main.npc[a].type == ModContent.NPCType<DevourerofGodsHead>() || Main.npc[a].type == ModContent.NPCType<DevourerofGodsBody>() || Main.npc[a].type == ModContent.NPCType<DevourerofGodsTail>())
-                            Main.npc[a].active = false;
+                        if (Main.npc[a].type != npc.type && Main.npc[a].type != bodyType && Main.npc[a].type != tailType)
+                            continue;
+
+                        Main.npc[a].active = false;
+                        Main.npc[a].netUpdate = true;
                     }
                 }
             }

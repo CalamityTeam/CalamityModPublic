@@ -15,6 +15,7 @@ using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.NPCs.TownNPCs;
 using CalamityMod.Projectiles.Boss;
+using CalamityMod.Projectiles.Rogue;
 using CalamityMod.Tiles.Ores;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -2941,6 +2942,14 @@ namespace CalamityMod.NPCs.Yharon
 		public override void OnHitPlayer(Player player, int damage, bool crit)
 		{
 			player.AddBuff(ModContent.BuffType<LethalLavaBurn>(), 420, true);
+		}
+		#endregion
+
+		#region Projectile Resists
+		public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+		{
+            if (projectile.type == ModContent.ProjectileType<ReaperProjectile>())
+                damage = (int)(damage * 0.95);
 		}
 		#endregion
 

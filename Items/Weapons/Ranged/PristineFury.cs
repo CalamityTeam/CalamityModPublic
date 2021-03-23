@@ -67,6 +67,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             if (player.altFunctionUse == 2)
             {
                 int flameAmt = 3;
+                damage = (int)(damage * 1.2);
                 for (int index = 0; index < flameAmt; ++index)
                 {
                     float SpeedX = speedX + Main.rand.NextFloat(-1.25f, 1.25f);
@@ -76,6 +77,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             }
             else
             {
+                damage = (int)(damage * 0.94);
                 Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<PristineFire>(), damage, knockBack, player.whoAmI);
             }
             return false;

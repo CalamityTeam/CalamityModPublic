@@ -46,29 +46,11 @@ namespace CalamityMod.NPCs
             if (AbyssLootCancel(npc, mod))
                 return false;
 
-            if (CalamityWorld.death)
-            {
-                switch (npc.type)
-                {
-                    case NPCID.DiggerHead:
-                    case NPCID.DiggerBody:
-                    case NPCID.DiggerTail:
-                        return SplittingWormLoot(npc, mod, 0);
-                    case NPCID.SeekerHead:
-                    case NPCID.SeekerBody:
-                    case NPCID.SeekerTail:
-                        return SplittingWormLoot(npc, mod, 1);
-                    case NPCID.DuneSplicerHead:
-                    case NPCID.DuneSplicerBody:
-                    case NPCID.DuneSplicerTail:
-                        return SplittingWormLoot(npc, mod, 2);
-                    default:
-                        break;
-                }
-            }
+            if (CalamityWorld.death && !SplittingWormLootBlockWrapper(npc, mod))
+                return false;
 
             // Servants of Cthulhu and Probes do not provide free hearts in Rev+.
-            if (CalamityWorld.revenge && (npc.type == NPCID.ServantofCthulhu || npc.type == NPCID.Probe))
+                if (CalamityWorld.revenge && (npc.type == NPCID.ServantofCthulhu || npc.type == NPCID.Probe))
                 NPCLoader.blockLoot.Add(ItemID.Heart);
 
             //
@@ -599,7 +581,31 @@ namespace CalamityMod.NPCs
         #endregion
 
         #region Splitting Worm Loot
-        private bool SplittingWormLoot(NPC npc, Mod mod, int wormType)
+        internal static bool SplittingWormLootBlockWrapper(NPC npc, Mod mod)
+        {
+            if (!CalamityWorld.death)
+                return true;
+
+            switch (npc.type)
+            {
+                case NPCID.DiggerHead:
+                case NPCID.DiggerBody:
+                case NPCID.DiggerTail:
+                    return SplittingWormLoot(npc, mod, 0);
+                case NPCID.SeekerHead:
+                case NPCID.SeekerBody:
+                case NPCID.SeekerTail:
+                    return SplittingWormLoot(npc, mod, 1);
+                case NPCID.DuneSplicerHead:
+                case NPCID.DuneSplicerBody:
+                case NPCID.DuneSplicerTail:
+                    return SplittingWormLoot(npc, mod, 2);
+                default:
+                    return true;
+            }
+        }
+
+        internal static bool SplittingWormLoot(NPC npc, Mod mod, int wormType)
         {
             switch (wormType)
             {

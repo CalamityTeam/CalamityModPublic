@@ -32,7 +32,7 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.idStaticNPCHitCooldown = 5;
             projectile.timeLeft = 300;
             projectile.Calamity().ResistDamagePenaltyMinCapFactor = 0.33f;
-            projectile.Calamity().ResistDamagePenaltyHarshness = 1.55f;
+            projectile.Calamity().ResistDamagePenaltyHarshness = 1.625f;
         }
 
         public override void AI()
