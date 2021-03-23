@@ -17,8 +17,9 @@ namespace CalamityMod.NPCs.Polterghast
 	public class PolterPhantom : ModNPC
     {
         private int despawnTimer = 600;
+		private bool reachedChargingPoint = false;
 
-        public override void SetStaticDefaults()
+		public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Polterghast");
             Main.npcFrameCount[npc.type] = 4;
@@ -50,6 +51,7 @@ namespace CalamityMod.NPCs.Polterghast
         public override void SendExtraAI(BinaryWriter writer)
         {
             writer.Write(despawnTimer);
+			writer.Write(reachedChargingPoint);
 			CalamityGlobalNPC cgn = npc.Calamity();
 			writer.Write(cgn.newAI[0]);
 			writer.Write(cgn.newAI[1]);
@@ -60,6 +62,7 @@ namespace CalamityMod.NPCs.Polterghast
         public override void ReceiveExtraAI(BinaryReader reader)
         {
             despawnTimer = reader.ReadInt32();
+			reachedChargingPoint = reader.ReadBoolean();
 			CalamityGlobalNPC cgn = npc.Calamity();
 			cgn.newAI[0] = reader.ReadSingle();
 			cgn.newAI[1] = reader.ReadSingle();
@@ -252,6 +255,8 @@ namespace CalamityMod.NPCs.Polterghast
 				// Charge
 				if (npc.Calamity().newAI[3] == 1f)
 				{
+					reachedChargingPoint = false;
+
 					npc.Opacity += 0.06f;
 					if (npc.Opacity > 0.8f)
 						npc.Opacity = 0.8f;
@@ -313,6 +318,13 @@ namespace CalamityMod.NPCs.Polterghast
 					// Do not deal damage during movement to avoid cheap bullshit hits
 					npc.damage = 0;
 
+					// Greatly increase velocity and acceleration in order to stick to a position once one is found
+					if (reachedChargingPoint)
+					{
+						chargeAcceleration *= 4f;
+						chargeVelocity *= 2f;
+					}
+
 					// Charge location
 					Vector2 chargeVector = new Vector2(npc.Calamity().newAI[1], npc.Calamity().newAI[2]);
 					Vector2 chargeLocationVelocity = Vector2.Normalize(chargeVector - vector) * chargeVelocity;
@@ -334,7 +346,11 @@ namespace CalamityMod.NPCs.Polterghast
 					}
 
 					if (Vector2.Distance(vector, chargeVector) <= chargeDistanceGateValue)
-						npc.velocity *= 0.8f;
+					{
+						reachedChargingPoint = true;
+
+						npc.velocity *= 0.25f;
+					}
 					else
 					{
 						if (Vector2.Distance(vector, chargeVector) > 1200f)

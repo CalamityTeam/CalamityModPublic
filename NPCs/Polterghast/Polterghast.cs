@@ -29,6 +29,8 @@ namespace CalamityMod.NPCs.Polterghast
     public class Polterghast : ModNPC
     {
         private int despawnTimer = 600;
+		private int chargeTelegraphTimer = 15;
+		private bool reachedChargingPoint = false;
 
         public override void SetStaticDefaults()
         {
@@ -87,6 +89,8 @@ namespace CalamityMod.NPCs.Polterghast
         public override void SendExtraAI(BinaryWriter writer)
         {
             writer.Write(despawnTimer);
+			writer.Write(chargeTelegraphTimer);
+			writer.Write(reachedChargingPoint);
 			CalamityGlobalNPC cgn = npc.Calamity();
 			writer.Write(cgn.newAI[0]);
 			writer.Write(cgn.newAI[1]);
@@ -97,6 +101,8 @@ namespace CalamityMod.NPCs.Polterghast
         public override void ReceiveExtraAI(BinaryReader reader)
         {
             despawnTimer = reader.ReadInt32();
+			chargeTelegraphTimer = reader.ReadInt32();
+			reachedChargingPoint = reader.ReadBoolean();
 			CalamityGlobalNPC cgn = npc.Calamity();
 			cgn.newAI[0] = reader.ReadSingle();
 			cgn.newAI[1] = reader.ReadSingle();
@@ -441,6 +447,8 @@ namespace CalamityMod.NPCs.Polterghast
 				// Charge
 				if (calamityGlobalNPC.newAI[3] == 1f)
 				{
+					reachedChargingPoint = false;
+
 					if (calamityGlobalNPC.newAI[1] == 0f)
 					{
 						npc.velocity = Vector2.Normalize(player.Center - vector) * chargeVelocity;
@@ -459,6 +467,7 @@ namespace CalamityMod.NPCs.Polterghast
 						// Reset and either go back to normal or charge again
 						if (calamityGlobalNPC.newAI[2] >= totalChargeTime)
 						{
+							chargeTelegraphTimer = 15;
 							calamityGlobalNPC.newAI[1] = 0f;
 							calamityGlobalNPC.newAI[2] = 0f;
 							calamityGlobalNPC.newAI[3] = 0f;
@@ -493,6 +502,13 @@ namespace CalamityMod.NPCs.Polterghast
 					else
 						calamityGlobalNPC.newAI[2] = player.Center.Y - chargeDistance;
 
+					// Greatly increase velocity and acceleration in order to stick to a position once one is found
+					if (reachedChargingPoint)
+					{
+						chargeAcceleration *= 4f;
+						chargeVelocity *= 2f;
+					}
+
 					// Line up a charge
 					Vector2 chargeVector = new Vector2(calamityGlobalNPC.newAI[1], calamityGlobalNPC.newAI[2]);
 					Vector2 chargeLocationVelocity = Vector2.Normalize(chargeVector - vector) * chargeVelocity;
@@ -504,10 +520,19 @@ namespace CalamityMod.NPCs.Polterghast
 
 					if (Vector2.Distance(vector, chargeVector) <= chargeDistanceGateValue)
 					{
-						npc.velocity *= 0.8f;
+						reachedChargingPoint = true;
+
+						npc.velocity *= 0.25f;
 
 						if (clonePositionCheck)
 						{
+							// Pause before actually charging
+							if (chargeTelegraphTimer > 0)
+							{
+								chargeTelegraphTimer--;
+								return;
+							}
+
 							npc.velocity = Vector2.Zero;
 							calamityGlobalNPC.newAI[1] = 0f;
 							calamityGlobalNPC.newAI[2] = 0f;

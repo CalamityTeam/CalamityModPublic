@@ -155,6 +155,7 @@ namespace CalamityMod.NPCs
             }
             else if (npc.type == NPCID.SkeletronHead)
             {
+				DropHelper.DropItemSpray(npc, ItemID.Bone, 70, 100, 5);
                 DropHelper.DropItemCondition(npc, ModContent.ItemType<ClothiersWrath>(), !Main.expertMode, DropHelper.RareVariantDropRateInt, 1, 1);
 
                 DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeSkeletron>(), true, !NPC.downedBoss3);

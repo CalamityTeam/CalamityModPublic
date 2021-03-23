@@ -1038,6 +1038,7 @@ namespace CalamityMod.NPCs
 					npc.ai[1] = 4f;
 					npc.ai[2] = 0f;
 					npc.ai[3] = 0f;
+					npc.localAI[0] = 0f;
 					npc.netUpdate = true;
 				}
 			}

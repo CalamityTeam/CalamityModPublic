@@ -86,6 +86,31 @@ namespace CalamityMod.ILEditing
 			};
 		}
 
+		private static void IncreaseaChlorophyteSpreadChance()
+		{
+			// Change the Chlorophyte spawn rate.
+			IL.Terraria.WorldGen.hardUpdateWorld += (il) =>
+			{
+				var cursor = new ILCursor(il);
+				cursor.GotoNext(MoveType.Before, i => i.MatchLdcI4(300)); // 1 in 300 genRand call used to generate Chlorophyte in mud tiles near jungle grass.
+				cursor.Remove();
+				cursor.Emit(OpCodes.Ldc_I4, 150); // Increase the chance to 1 in 150.
+			};
+
+			// Change the Chlorophyte spawn limits.
+			IL.Terraria.WorldGen.Chlorophyte += (il) =>
+			{
+				var cursor = new ILCursor(il);
+				cursor.GotoNext(MoveType.Before, i => i.MatchLdcI4(40)); // Find the 40 Chlorophyte tile limit. This limit is checked within a 71x71-tile square, with the reference tile as the center.
+				cursor.Remove();
+				cursor.Emit(OpCodes.Ldc_I4, 60); // Increase the limit to 60.
+
+				cursor.GotoNext(MoveType.Before, i => i.MatchLdcI4(130)); // Find the 130 Chlorophyte tile limit. This limit is checked within a 171x171-tile square, with the reference tile as the center.
+				cursor.Remove();
+				cursor.Emit(OpCodes.Ldc_I4, 200); // Increase the limit to 200.
+			};
+		}
+
         private static void RemoveRNGFromBlackBelt()
         {
             // Change the random chance of the Black Belt to 100%, but don't let it work if Calamity's cooldown is active.

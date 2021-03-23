@@ -161,7 +161,20 @@ namespace CalamityMod.NPCs.Ravager
                     num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, DustID.Iron, 0f, 0f, 100, default, 2f);
                     Main.dust[num624].velocity *= 2f;
                 }
-            }
+
+				float y = npc.height / 6f;
+				float randomVelocityScale = 0.25f;
+				for (int i = 0; i < 2; i++)
+				{
+					Vector2 randomVelocity = npc.velocity * Main.rand.NextFloat() * randomVelocityScale;
+					Gore.NewGore(npc.position, npc.velocity + randomVelocity, mod.GetGoreSlot("Gores/ScavengerGores/RockPillar"), 1f);
+					Gore.NewGore(npc.position + Vector2.UnitY * y, npc.velocity + randomVelocity, mod.GetGoreSlot("Gores/ScavengerGores/RockPillar2"), 1f);
+					Gore.NewGore(npc.position + Vector2.UnitY * y * 2f, npc.velocity + randomVelocity, mod.GetGoreSlot("Gores/ScavengerGores/RockPillar3"), 1f);
+					Gore.NewGore(npc.position + Vector2.UnitY * y * 3f, npc.velocity + randomVelocity, mod.GetGoreSlot("Gores/ScavengerGores/RockPillar4"), 1f);
+					Gore.NewGore(npc.position + Vector2.UnitY * y * 4f, npc.velocity + randomVelocity, mod.GetGoreSlot("Gores/ScavengerGores/RockPillar5"), 1f);
+					Gore.NewGore(npc.position + Vector2.UnitY * y * 5f, npc.velocity + randomVelocity, mod.GetGoreSlot("Gores/ScavengerGores/RockPillar6"), 1f);
+				}
+			}
 			else
 			{
 				for (int num621 = 0; num621 < 2; num621++)

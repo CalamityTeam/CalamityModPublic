@@ -3448,6 +3448,10 @@ namespace CalamityMod.NPCs
                     // 25% resist to Wave Pounder
                     else if (projectile.type == ProjectileType<WavePounderBoom>())
                         damage = (int)(damage * 0.75);
+
+					// 15% resist to Dark Spark
+					else if (projectile.type == ProjectileType<DarkSparkBeam>())
+						damage = (int)(damage * 0.85);
 				}
 				else if (CosmicGuardianIDs.Contains(npc.type) || DarkEnergyIDs.Contains(npc.type))
 				{

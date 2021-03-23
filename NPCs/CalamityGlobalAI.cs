@@ -5279,6 +5279,7 @@ namespace CalamityMod.NPCs
 					// Reduce acceleration if target is holding a true melee weapon
 					if (targetSelectedItem.melee && (targetSelectedItem.shoot == ProjectileID.None || CalamityLists.trueMeleeProjectileList.Contains(targetSelectedItem.shoot)))
 					{
+						num421 *= 0.75f;
 						num422 *= 0.5f;
 					}
 					Vector2 vector39 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
@@ -5389,6 +5390,7 @@ namespace CalamityMod.NPCs
 				// Reduce acceleration if target is holding a true melee weapon
 				if (targetSelectedItem.melee && (targetSelectedItem.shoot == ProjectileID.None || CalamityLists.trueMeleeProjectileList.Contains(targetSelectedItem.shoot)))
 				{
+					num430 *= 0.75f;
 					num431 *= 0.5f;
 				}
 				Vector2 vector40 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
@@ -5848,6 +5850,7 @@ namespace CalamityMod.NPCs
 					Item targetSelectedItem = Main.player[npc.target].inventory[Main.player[npc.target].selectedItem];
 					if (targetSelectedItem.melee && (targetSelectedItem.shoot == ProjectileID.None || CalamityLists.trueMeleeProjectileList.Contains(targetSelectedItem.shoot)))
 					{
+						num399 *= 0.75f;
 						num400 *= 0.5f;
 					}
 
@@ -5963,6 +5966,7 @@ namespace CalamityMod.NPCs
 						Item targetSelectedItem = Main.player[npc.target].inventory[Main.player[npc.target].selectedItem];
 						if (targetSelectedItem.melee && (targetSelectedItem.shoot == ProjectileID.None || CalamityLists.trueMeleeProjectileList.Contains(targetSelectedItem.shoot)))
 						{
+							num409 *= 0.75f;
 							num410 *= 0.5f;
 						}
 
@@ -7283,7 +7287,14 @@ namespace CalamityMod.NPCs
                     acceleration += 0.025f;
                 }
 
-                if (npc.position.Y > Main.player[npc.target].position.Y - 350f)
+				// Reduce acceleration if target is holding a true melee weapon
+				Item targetSelectedItem = Main.player[npc.target].inventory[Main.player[npc.target].selectedItem];
+				if (targetSelectedItem.melee && (targetSelectedItem.shoot == ProjectileID.None || CalamityLists.trueMeleeProjectileList.Contains(targetSelectedItem.shoot)))
+				{
+					acceleration *= 0.5f;
+				}
+
+				if (npc.position.Y > Main.player[npc.target].position.Y - 350f)
                 {
                     if (npc.velocity.Y > 0f)
                         npc.velocity.Y *= 0.98f;

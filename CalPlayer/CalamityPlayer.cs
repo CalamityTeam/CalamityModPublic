@@ -5568,7 +5568,9 @@ namespace CalamityMod.CalPlayer
                     int damageToDefense = (int)(newDamage * defenseStatDamageMult);
                     defenseDamage += damageToDefense;
 
-                    string text = (-damageToDefense).ToString();
+					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/DefenseDamage"), (int)player.position.X, (int)player.position.Y);
+
+					string text = (-damageToDefense).ToString();
                     Color messageColor = Color.LightGray;
                     Rectangle location = new Rectangle((int)player.position.X, (int)player.position.Y - 16, player.width, player.height);
                     CombatText.NewText(location, messageColor, Language.GetTextValue(text));
@@ -6001,7 +6003,9 @@ namespace CalamityMod.CalPlayer
                     int damageToDefense = (int)(newDamage * defenseStatDamageMult);
                     defenseDamage += damageToDefense;
 
-                    string text = (-damageToDefense).ToString();
+					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/DefenseDamage"), (int)player.position.X, (int)player.position.Y);
+
+					string text = (-damageToDefense).ToString();
                     Color messageColor = Color.LightGray; // Light Gray text because it's visible and defense icon is gray in the UI
                     Rectangle location = new Rectangle((int)player.position.X, (int)player.position.Y - 16, player.width, player.height);
                     CombatText.NewText(location, messageColor, Language.GetTextValue(text));
