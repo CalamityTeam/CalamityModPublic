@@ -5557,7 +5557,7 @@ namespace CalamityMod.CalPlayer
                     if (player.hurtCooldowns[i] > 0)
                         isImmune = true;
                 }
-                if (!isImmune)
+                if (!isImmune && !invincible && !lol)
                 {
                     int newDamage = damage;
 
@@ -5568,7 +5568,8 @@ namespace CalamityMod.CalPlayer
                     int damageToDefense = (int)(newDamage * defenseStatDamageMult);
                     defenseDamage += damageToDefense;
 
-					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/DefenseDamage"), (int)player.position.X, (int)player.position.Y);
+					if (hurtSoundTimer == 0)
+						Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/DefenseDamage"), (int)player.position.X, (int)player.position.Y);
 
 					string text = (-damageToDefense).ToString();
                     Color messageColor = Color.LightGray;
@@ -5992,7 +5993,7 @@ namespace CalamityMod.CalPlayer
                     if (player.hurtCooldowns[i] > 0)
                         isImmune = true;
                 }
-                if (!isImmune)
+                if (!isImmune && !invincible && !lol)
                 {
                     int newDamage = damage;
 
@@ -6003,7 +6004,8 @@ namespace CalamityMod.CalPlayer
                     int damageToDefense = (int)(newDamage * defenseStatDamageMult);
                     defenseDamage += damageToDefense;
 
-					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/DefenseDamage"), (int)player.position.X, (int)player.position.Y);
+					if (hurtSoundTimer == 0)
+						Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/DefenseDamage"), (int)player.position.X, (int)player.position.Y);
 
 					string text = (-damageToDefense).ToString();
                     Color messageColor = Color.LightGray; // Light Gray text because it's visible and defense icon is gray in the UI
