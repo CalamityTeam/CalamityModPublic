@@ -1414,11 +1414,14 @@ namespace CalamityMod
             tenDamageNerfList = new List<int>()
             {
                 ItemID.Phantasm,
-                ItemID.StarWrath
+                ItemID.StarWrath,
+				ItemID.SnowmanCannon
             };
 
             quarterDamageNerfList = new List<int>()
             {
+				ItemID.LastPrism,
+				ItemID.DemonScythe,
                 ItemID.Razorpine,
                 ItemID.DaedalusStormbow,
                 ItemID.PhoenixBlaster,

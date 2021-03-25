@@ -12,7 +12,8 @@ namespace CalamityMod.Items.Accessories
         {
             DisplayName.SetDefault("Badge of Bravery");
             Tooltip.SetDefault("15% increased melee speed\n" +
-							   "Wearing Tarragon armor increases melee damage, crit, and armor penetration");
+							   "Increases melee damage and melee crit by 5%\n" +
+							   "+5 armor penetration");
         }
 
         public override void SetDefaults()

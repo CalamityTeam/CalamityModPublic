@@ -966,8 +966,6 @@ namespace CalamityMod.CalPlayer
 					player.maxFallSpeed = 15f;
 				if (modPlayer.gSabatonFall > 0 && !player.wet)
 					player.maxFallSpeed = 20f;
-				if (modPlayer.normalityRelocator)
-					player.maxFallSpeed *= 1.1f;
 			}
 
 			// Omega Blue Armor bonus
@@ -3590,14 +3588,8 @@ namespace CalamityMod.CalPlayer
 
 			if (modPlayer.badgeOfBravery)
 			{
-				if ((player.armor[0].type == ModContent.ItemType<TarragonHelmet>() || player.armor[0].type == ModContent.ItemType<TarragonHelm>() ||
-					player.armor[0].type == ModContent.ItemType<TarragonHornedHelm>() || player.armor[0].type == ModContent.ItemType<TarragonMask>() ||
-					player.armor[0].type == ModContent.ItemType<TarragonVisage>()) &&
-					player.armor[1].type == ModContent.ItemType<TarragonBreastplate>() && player.armor[2].type == ModContent.ItemType<TarragonLeggings>())
-				{
-					player.meleeDamage += 0.1f;
-					player.meleeCrit += 5;
-				}
+				player.meleeDamage += 0.05f;
+				player.meleeCrit += 5;
 			}
 
 			if (CalamityConfig.Instance.Proficiency)

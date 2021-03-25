@@ -5157,18 +5157,12 @@ namespace CalamityMod.CalPlayer
                 int defenseAdd = (int)(target.defense * 0.5);
                 damage += defenseAdd;
             }
-            if (item.melee && badgeOfBravery)
-            {
-                if ((player.armor[0].type == ModContent.ItemType<TarragonHelmet>() || player.armor[0].type == ModContent.ItemType<TarragonHelm>() ||
-                    player.armor[0].type == ModContent.ItemType<TarragonHornedHelm>() || player.armor[0].type == ModContent.ItemType<TarragonMask>() ||
-                    player.armor[0].type == ModContent.ItemType<TarragonVisage>()) &&
-                    player.armor[1].type == ModContent.ItemType<TarragonBreastplate>() && player.armor[2].type == ModContent.ItemType<TarragonLeggings>())
-                {
-                    int penetratableDefense = Math.Max(target.defense - player.armorPenetration, 0);
-                    int penetratedDefense = Math.Min(penetratableDefense, 10);
-                    damage += (int)(0.5f * penetratedDefense);
-                }
-            }
+			if (item.melee && badgeOfBravery)
+			{
+				int penetratableDefense = Math.Max(target.defense - player.armorPenetration, 0);
+				int penetratedDefense = Math.Min(penetratableDefense, 5);
+				damage += (int)(0.5f * penetratedDefense);
+			}
             #endregion
 
             if (draedonsHeart)
@@ -5358,16 +5352,10 @@ namespace CalamityMod.CalPlayer
                 else if (filthyGlove || bloodyGlove)
                     penetrateAmt += 10;
             }
-            if (proj.melee && badgeOfBravery)
-            {
-                if ((player.armor[0].type == ModContent.ItemType<TarragonHelmet>() || player.armor[0].type == ModContent.ItemType<TarragonHelm>() ||
-                    player.armor[0].type == ModContent.ItemType<TarragonHornedHelm>() || player.armor[0].type == ModContent.ItemType<TarragonMask>() ||
-                    player.armor[0].type == ModContent.ItemType<TarragonVisage>()) &&
-                    player.armor[1].type == ModContent.ItemType<TarragonBreastplate>() && player.armor[2].type == ModContent.ItemType<TarragonLeggings>())
-                {
-                    penetrateAmt += 10;
-                }
-            }
+			if (proj.melee && badgeOfBravery)
+			{
+				penetrateAmt += 5;
+			}
             int penetratableDefense = Math.Max(target.defense - player.armorPenetration, 0); //if find how much defense we can penetrate
             int penetratedDefense = Math.Min(penetratableDefense, penetrateAmt); //if we have more penetrate than enemy defense, use enemy defense
             damage += (int)(0.5f * penetratedDefense);
