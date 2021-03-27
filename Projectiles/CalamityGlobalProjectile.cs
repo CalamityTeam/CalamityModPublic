@@ -1827,38 +1827,30 @@ namespace CalamityMod.Projectiles
         public static void HomeInOnNPC(Projectile projectile, bool ignoreTiles, float distanceRequired, float homingVelocity, float N)
         {
             if (!projectile.friendly)
-				return;
+                return;
 
-            Vector2 center = projectile.Center;
+            Vector2 destination = projectile.Center;
             float maxDistance = distanceRequired;
-            bool homeIn = false;
+            bool locatedTarget = false;
 
             for (int i = 0; i < Main.maxNPCs; i++)
             {
-                if (Main.npc[i].CanBeChasedBy(projectile, false))
+                float extraDistance = (Main.npc[i].width / 2) + (Main.npc[i].height / 2);
+                if (!Main.npc[i].CanBeChasedBy(projectile, false) || !projectile.WithinRange(Main.npc[i].Center, maxDistance + extraDistance))
+                    continue;
+
+                if (ignoreTiles || Collision.CanHit(projectile.Center, 1, 1, Main.npc[i].Center, 1, 1))
                 {
-                    float extraDistance = (Main.npc[i].width / 2) + (Main.npc[i].height / 2);
-
-                    bool canHit = true;
-                    if (extraDistance < maxDistance && !ignoreTiles)
-                        canHit = Collision.CanHit(projectile.Center, 1, 1, Main.npc[i].Center, 1, 1);
-
-                    if (projectile.WithinRange(Main.npc[i].Center, maxDistance + extraDistance) && canHit)
-                    {
-                        center = Main.npc[i].Center;
-                        homeIn = true;
-                        break;
-                    }
+                    destination = Main.npc[i].Center;
+                    locatedTarget = true;
+                    break;
                 }
             }
 
-            if (homeIn)
+            if (locatedTarget)
             {
-                Vector2 homeInVector = projectile.DirectionTo(center);
-                if (homeInVector.HasNaNs())
-                    homeInVector = Vector2.UnitY;
-
-                projectile.velocity = (projectile.velocity * N + homeInVector * homingVelocity) / (N + 1f);
+                Vector2 homeDirection = (destination - projectile.Center).SafeNormalize(Vector2.UnitY);
+                projectile.velocity = (projectile.velocity * N + homeDirection * homingVelocity) / (N + 1f);
             }
         }
 
