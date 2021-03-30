@@ -1,6 +1,6 @@
+using CalamityMod.Events;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
-using System;
 using System.IO;
 using Terraria;
 using Terraria.ID;
@@ -59,7 +59,7 @@ namespace CalamityMod.Projectiles.Boss
 				if (projectile.owner == Main.myPlayer)
 				{
 					float speed = 3f;
-					if (CalamityWorld.death)
+					if (CalamityWorld.death || BossRushEvent.BossRushActive || CalamityWorld.malice)
 					{
 						speed = 5f;
 					}

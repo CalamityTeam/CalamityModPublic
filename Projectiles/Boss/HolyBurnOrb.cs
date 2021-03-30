@@ -75,7 +75,7 @@ namespace CalamityMod.Projectiles.Boss
 
             Texture2D texture = Main.projectileTexture[projectile.type];
             Vector2 drawPos = projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY);
-            Color baseColor = Main.dayTime ? new Color(255, 200, 100, 255) : new Color(100, 200, 255, 255);
+            Color baseColor = (Main.dayTime && !CalamityWorld.malice) ? new Color(255, 200, 100, 255) : new Color(100, 200, 255, 255);
             baseColor *= 0.5f;
             baseColor.A = 0;
             Color colorA = baseColor;
@@ -109,7 +109,7 @@ namespace CalamityMod.Projectiles.Boss
         {
             Main.PlaySound(SoundID.Item14, projectile.Center);
             CalamityGlobalProjectile.ExpandHitboxBy(projectile, 50);
-            int dustType = Main.dayTime ? (int)CalamityDusts.ProfanedFire : (int)CalamityDusts.Nightwither;
+            int dustType = (Main.dayTime && !CalamityWorld.malice) ? (int)CalamityDusts.ProfanedFire : (int)CalamityDusts.Nightwither;
             for (int d = 0; d < 5; d++)
             {
                 int holy = Dust.NewDust(projectile.position, projectile.width, projectile.height, dustType, 0f, 0f, 100, default, 2f);
@@ -132,7 +132,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-            int buffType = Main.dayTime ? ModContent.BuffType<HolyFlames>() : ModContent.BuffType<Nightwither>();
+            int buffType = (Main.dayTime && !CalamityWorld.malice) ? ModContent.BuffType<HolyFlames>() : ModContent.BuffType<Nightwither>();
             target.AddBuff(buffType, 60);
         }
     }
