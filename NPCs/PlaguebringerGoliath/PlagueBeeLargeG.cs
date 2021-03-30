@@ -80,7 +80,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             float num1259 = Main.player[npc.target].Center.Y - vector145.Y;
             float num1260 = (float)Math.Sqrt((double)(num1258 * num1258 + num1259 * num1259));
             float num1261 = revenge ? 22f : 20f;
-            if (BossRushEvent.BossRushActive)
+            if (BossRushEvent.BossRushActive || CalamityWorld.malice)
                 num1261 = 30f;
 
             num1260 = num1261 / num1260;

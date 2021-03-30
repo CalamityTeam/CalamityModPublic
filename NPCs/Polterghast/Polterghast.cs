@@ -134,11 +134,12 @@ namespace CalamityMod.NPCs.Polterghast
 
 			// Variables
 			Vector2 vector = npc.Center;
-            bool speedBoost = false;
+			bool malice = CalamityWorld.malice;
+			bool speedBoost = malice;
             bool despawnBoost = false;
-			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
-			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
+			bool death = CalamityWorld.death || BossRushEvent.BossRushActive || malice;
+			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive || malice;
+            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive || malice;
             bool phase2 = lifeRatio < (death ? 0.9f : revenge ? 0.8f : expertMode ? 0.65f : 0.5f);
             bool phase3 = lifeRatio < (death ? 0.6f : revenge ? 0.5f : expertMode ? 0.35f : 0.2f);
             bool phase4 = lifeRatio < (death ? 0.45f : revenge ? 0.35f : expertMode ? 0.2f : 0.1f);
@@ -321,7 +322,7 @@ namespace CalamityMod.NPCs.Polterghast
 			int baseProjectileAmt = (int)(4f * tileEnrageMult);
 			int baseProjectileSpread = (int)(45f * tileEnrageMult);
 			float baseProjectileVelocity = (BossRushEvent.BossRushActive ? 7f : 5f) * tileEnrageMult;
-			if (speedBoost || calamityGlobalNPC.enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))
+			if (speedBoost || calamityGlobalNPC.enraged > 0)
 				baseProjectileVelocity *= 2f;
 
 			// Increase damage of projectiles and contact damage based on number of nearby active tiles
@@ -607,7 +608,7 @@ namespace CalamityMod.NPCs.Polterghast
                             }
 
 							int damage = npc.GetProjectileDamage(type) + damageIncrease;
-                            if (speedBoost || calamityGlobalNPC.enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))
+                            if (speedBoost || calamityGlobalNPC.enraged > 0)
                                 damage *= 2;
 
 							Vector2 vector93 = vector;
@@ -637,7 +638,7 @@ namespace CalamityMod.NPCs.Polterghast
                         {
 							int type = ModContent.ProjectileType<PhantomBlast>();
 							int damage = npc.GetProjectileDamage(type) + damageIncrease;
-							if (speedBoost || calamityGlobalNPC.enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))
+							if (speedBoost || calamityGlobalNPC.enraged > 0)
 								damage *= 2;
 
 							Vector2 vector93 = vector;
@@ -713,7 +714,7 @@ namespace CalamityMod.NPCs.Polterghast
                 npc.damage = (int)(npc.defDamage * 1.2f) + damageIncrease * 4;
                 npc.defense = (int)(npc.defDefense * 0.8f);
 
-                if (speedBoost || calamityGlobalNPC.enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))
+                if (speedBoost || calamityGlobalNPC.enraged > 0)
                 {
                     npc.defense *= 2;
                     npc.damage *= 2;
@@ -746,7 +747,7 @@ namespace CalamityMod.NPCs.Polterghast
 							}
 
 							int damage = npc.GetProjectileDamage(type) + damageIncrease;
-							if (speedBoost || calamityGlobalNPC.enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))
+							if (speedBoost || calamityGlobalNPC.enraged > 0)
 								damage *= 2;
 
 							Vector2 vector93 = vector;
@@ -777,7 +778,7 @@ namespace CalamityMod.NPCs.Polterghast
                         {
 							int type = ModContent.ProjectileType<PhantomBlast2>();
 							int damage = npc.GetProjectileDamage(type) + damageIncrease;
-							if (speedBoost || calamityGlobalNPC.enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))
+							if (speedBoost || calamityGlobalNPC.enraged > 0)
 								damage *= 2;
 
 							Vector2 vector93 = vector;
@@ -871,7 +872,7 @@ namespace CalamityMod.NPCs.Polterghast
                 npc.damage = (int)(npc.defDamage * 1.4f) + damageIncrease * 4;
                 npc.defense = (int)(npc.defDefense * 0.5f);
 
-                if (speedBoost || calamityGlobalNPC.enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))
+                if (speedBoost || calamityGlobalNPC.enraged > 0)
                 {
                     npc.defense *= 2;
                     npc.damage *= 2;
@@ -903,7 +904,7 @@ namespace CalamityMod.NPCs.Polterghast
 
 						int type = Main.rand.NextBool(2) ? ModContent.ProjectileType<PhantomShot2>() : ModContent.ProjectileType<PhantomShot>();
 						int damage = npc.GetProjectileDamage(type) + damageIncrease;
-						if (speedBoost || calamityGlobalNPC.enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))
+						if (speedBoost || calamityGlobalNPC.enraged > 0)
 							damage *= 2;
 
 						for (int i = 0; i < numProj; i++)
@@ -953,7 +954,10 @@ namespace CalamityMod.NPCs.Polterghast
         {
             DropHelper.DropBags(npc);
 
-            DropHelper.DropItemChance(npc, ModContent.ItemType<PolterghastTrophy>(), 10);
+			// Legendary drop for Polterghast
+			DropHelper.DropItemCondition(npc, ModContent.ItemType<PearlGod>(), true, CalamityWorld.malice);
+
+			DropHelper.DropItemChance(npc, ModContent.ItemType<PolterghastTrophy>(), 10);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgePolterghast>(), true, !CalamityWorld.downedPolterghast);
             DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedPolterghast, 6, 3, 2);
 

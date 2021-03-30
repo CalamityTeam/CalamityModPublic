@@ -147,9 +147,10 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 
 			bool isHoly = player.ZoneHoly;
 			bool isHell = player.ZoneUnderworldHeight;
-			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
-			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+			bool malice = CalamityWorld.malice;
+			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive || malice;
+			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive || malice;
+			bool death = CalamityWorld.death || BossRushEvent.BossRushActive || malice;
 
             // Become immune over time if target isn't in hell or hallow
             if (!isHoly && !isHell && !BossRushEvent.BossRushActive)
@@ -233,6 +234,9 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                             break;
                     }
 
+					if (malice)
+						totalProjectiles *= 2;
+
 					float radians = MathHelper.TwoPi / totalProjectiles;
 					for (int i = 0; i < totalProjectiles; i++)
 					{
@@ -247,7 +251,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             }
             if (npc.ai[0] == 0f)
             {
-                float scaleFactor6 = death ? 16f : 14f;
+                float scaleFactor6 = malice ? 20f : death ? 17f : revenge ? 16f : expertMode ? 15f : 14f;
                 Vector2 center5 = player.Center;
                 Vector2 vector126 = center5 - vectorCenter;
                 Vector2 vector127 = vector126 - Vector2.UnitY * 300f;
@@ -297,7 +301,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                     npc.netUpdate = true;
                     Vector2 velocity = new Vector2(npc.ai[2], npc.ai[3]);
                     velocity.Normalize();
-                    velocity *= 10f;
+                    velocity *= malice ? 15f : death ? 13f : revenge ? 12f : expertMode ? 11f : 10f;
                     npc.velocity = velocity;
                 }
             }

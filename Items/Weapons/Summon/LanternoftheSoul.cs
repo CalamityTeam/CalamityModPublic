@@ -12,7 +12,8 @@ namespace CalamityMod.Items.Weapons.Summon
         {
             DisplayName.SetDefault("Guidelight of Oblivion");
             Tooltip.SetDefault("Shadows dream of endless fire, flames devour and embers swoop\n" +
-			"Summons a lantern turret to fight for you");
+			"Summons a lantern turret to fight for you\n" +
+			"Rare Item Variant");
         }
 
         public override void SetDefaults()

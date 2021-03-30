@@ -394,7 +394,10 @@ namespace CalamityMod.NPCs.Bumblebirb
         {
             DropHelper.DropBags(npc);
 
-            DropHelper.DropItemChance(npc, ModContent.ItemType<BumblebirbTrophy>(), 10);
+			// Legendary drop for Dragonfolly
+			DropHelper.DropItemCondition(npc, ModContent.ItemType<Swordsplosion>(), true, CalamityWorld.malice);
+
+			DropHelper.DropItemChance(npc, ModContent.ItemType<BumblebirbTrophy>(), 10);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeBumblebirb>(), true, !CalamityWorld.downedBumble);
             DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedBumble, 5, 2, 1);
 
@@ -413,8 +416,6 @@ namespace CalamityMod.NPCs.Bumblebirb
 					DropHelper.WeightStack<GoldenEagle>(w),
 					DropHelper.WeightStack<RougeSlash>(w)
 				);
-
-				DropHelper.DropItemChance(npc, ModContent.ItemType<Swordsplosion>(), DropHelper.RareVariantDropRateInt);
 
                 // Equipment
                 DropHelper.DropItemChance(npc, ModContent.ItemType<BirdSeed>(), 4);

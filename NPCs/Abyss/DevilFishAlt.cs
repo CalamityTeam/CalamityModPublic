@@ -305,7 +305,6 @@ namespace CalamityMod.NPCs.Abyss
             DropHelper.DropItemCondition(npc, ModContent.ItemType<DepthCells>(), CalamityWorld.downedCalamitas, 0.5f, 1, 2);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<DepthCells>(), CalamityWorld.downedCalamitas && Main.expertMode, 0.5f);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<ChaoticOre>(), NPC.downedGolemBoss, 1f, 3, 9);
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<Hellborn>(), NPC.downedGolemBoss, 200, 1, 1);
         }
 
         public override void HitEffect(int hitDirection, double damage)

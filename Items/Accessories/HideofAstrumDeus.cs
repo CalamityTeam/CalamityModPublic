@@ -15,7 +15,8 @@ namespace CalamityMod.Items.Accessories
 								"Taking damage boosts true melee damage by 50%\n" +
                                 "Boost duration is based on the amount of damage you took, the higher the damage the longer the boost\n" +
                                 "Provides immunity to the astral infection, cursed inferno, on fire, and frostburn debuffs\n" +
-                                "Enemies take damage when they hit you and are inflicted with the astral infection debuff");
+                                "Enemies take damage when they hit you and are inflicted with the astral infection debuff\n" +
+								"Rare Item Variant");
         }
 
         public override void SetDefaults()

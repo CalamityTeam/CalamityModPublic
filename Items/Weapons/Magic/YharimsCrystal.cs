@@ -10,7 +10,8 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Yharim's Crystal");
-            Tooltip.SetDefault("Fires draconic beams of total annihilation");
+            Tooltip.SetDefault("Fires draconic beams of total annihilation\n" +
+				"Legendary");
         }
 
         public override void SetDefaults()

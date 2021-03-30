@@ -1425,7 +1425,6 @@ namespace CalamityMod
                 ItemID.Razorpine,
                 ItemID.DaedalusStormbow,
                 ItemID.PhoenixBlaster,
-                ItemID.DD2BetsyBow,
                 ItemID.InfluxWaver,
                 ItemID.Xenopopper,
                 ItemID.ElectrosphereLauncher,

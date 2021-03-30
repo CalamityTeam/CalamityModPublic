@@ -16,7 +16,8 @@ namespace CalamityMod.Items.Weapons.Ranged
             Tooltip.SetDefault("Bad PC\n" +
                 "Fires a barrage of energy bolts that split and bounce\n" +
                 "Right click to fire a barrage of normal bullets\n" +
-                "They say infinity is neverending, yet you hold it in your hands");
+                "They say infinity is neverending, yet you hold it in your hands\n" +
+				"Rare Item Variant");
         }
 
         public override void SetDefaults()

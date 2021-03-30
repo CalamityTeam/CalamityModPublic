@@ -11,11 +11,10 @@ namespace CalamityMod.Items.Weapons.Rogue
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Malachite");
-			Tooltip.SetDefault("Legendary Drop\n" +
-				"Throws a stream of kunai that stick to enemies and explode\n" +
+			Tooltip.SetDefault("Throws a stream of kunai that stick to enemies and explode\n" +
 				"Right click to throw a single kunai that pierces, after piercing an enemy it emits a massive explosion on the next enemy hit\n" +
 				"Stealth strikes fire three kunai that home in, stick to enemies, and explode\n" +
-				"Revengeance drop");
+				"Legendary");
 		}
 
 		public override void SafeSetDefaults()

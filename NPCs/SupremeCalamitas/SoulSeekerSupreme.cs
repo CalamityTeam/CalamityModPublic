@@ -1,5 +1,6 @@
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.Dusts;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -85,7 +86,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             direction *= 9f;
             npc.rotation = direction.ToRotation();
             timer++;
-            if (timer > 180)
+			int timerLimit = CalamityWorld.malice ? 120 : 180;
+            if (timer > timerLimit)
             {
 				for (int i = 0; i < Main.maxNPCs; i++)
 				{
@@ -113,7 +115,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 return false;
             }
             Player player = Main.player[npc.target];
-            double deg = (double)npc.ai[1];
+            double deg = npc.ai[1];
             double rad = deg * (Math.PI / 180);
             double dist = 300;
             npc.position.X = parent.Center.X - (int)(Math.Cos(rad) * dist) - npc.width / 2;

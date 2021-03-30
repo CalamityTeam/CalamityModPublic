@@ -1997,12 +1997,12 @@ namespace CalamityMod.NPCs
             if (BossRushEvent.BossRushActive && !npc.friendly && !npc.townNPC)
                 BossRushForceDespawnOtherNPCs(npc, mod);
 
-			if (CalamityWorld.revenge || BossRushEvent.BossRushActive)
+			if (CalamityWorld.revenge || BossRushEvent.BossRushActive || CalamityWorld.malice)
             {
 				switch (npc.type)
                 {
                     case NPCID.KingSlime:
-                        return CalamityGlobalAI.BuffedKingSlimeAI(npc, mod);
+                        return CalamityGlobalAI.BuffedKingSlimeAI(npc, enraged > 0, mod);
 
                     case NPCID.EyeofCthulhu:
                         return CalamityGlobalAI.BuffedEyeofCthulhuAI(npc, enraged > 0, mod);
@@ -2010,7 +2010,7 @@ namespace CalamityMod.NPCs
                     case NPCID.EaterofWorldsHead:
                     case NPCID.EaterofWorldsBody:
                     case NPCID.EaterofWorldsTail:
-                        return CalamityGlobalAI.BuffedEaterofWorldsAI(npc, mod);
+                        return CalamityGlobalAI.BuffedEaterofWorldsAI(npc, enraged > 0, mod);
 
                     case NPCID.BrainofCthulhu:
                         return CalamityGlobalAI.BuffedBrainofCthulhuAI(npc, enraged > 0, mod);
@@ -3159,12 +3159,10 @@ namespace CalamityMod.NPCs
         {
             if (CalamityWorld.revenge || BossRushEvent.BossRushActive)
             {
-                bool configBossRushBoost = CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive;
-
                 switch (npc.type)
                 {
                     case NPCID.DungeonGuardian:
-                        CalamityGlobalAI.RevengeanceDungeonGuardianAI(npc, configBossRushBoost, enraged > 0);
+                        CalamityGlobalAI.RevengeanceDungeonGuardianAI(npc);
                         break;
 
                     default:
@@ -4308,42 +4306,28 @@ namespace CalamityMod.NPCs
 			}
 
             if (gState > 0 || eFreeze > 0)
-            {
                 drawColor = Color.Cyan;
-            }
 
             if (marked > 0 || sulphurPoison > 0 || vaporfied > 0)
-            {
                 drawColor = Color.Fuchsia;
-            }
 
             if (pearlAura > 0)
-            {
                 drawColor = Color.White;
-            }
 
             if (timeSlow > 0 || tesla > 0)
-            {
                 drawColor = Color.Aquamarine;
-            }
         }
 
         public override Color? GetAlpha(NPC npc, Color drawColor)
         {
             if (Main.LocalPlayer.Calamity().trippy)
-            {
                 return new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB, npc.alpha);
-            }
 
-            if (enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))
-            {
+            if (enraged > 0)
                 return new Color(200, 50, 50, npc.alpha);
-            }
 
             if (npc.Calamity().kamiFlu > 0 && !CalamityLists.kamiDebuffColorImmuneList.Contains(npc.type))
-            {
                 return new Color(51, 197, 108, npc.alpha);
-            }
 
             return null;
         }

@@ -311,12 +311,6 @@ namespace CalamityMod
 		[Tooltip("During the Boss Rush, being hit twice within three seconds will cause instant death.\nThis effect ignores revives.")]
 		public bool BossRushImmunityFrameCurse { get; set; }
 
-		[Label("Xeroc Curse")]
-		[BackgroundColor(192, 54, 64, 192)]
-		[DefaultValue(false)]
-		[Tooltip("Permanently enrages every boss in the Boss Rush.\nThis enrage is equivalent to that provided by Demonshade armor.")]
-		public bool BossRushXerocCurse { get; set; }
-
 		public override bool AcceptClientChanges(ModConfig pendingConfig, int whoAmI, ref string message) => true;
 	}
 }

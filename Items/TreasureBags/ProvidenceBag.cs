@@ -59,11 +59,7 @@ namespace CalamityMod.Items.TreasureBags
                 DropHelper.WeightStack<MoltenAmputator>(w)
             );
 
-            float pristineFuryChance = DropHelper.LegendaryDropRateFloat;
-            DropHelper.DropItemCondition(player, ModContent.ItemType<PristineFury>(), CalamityWorld.revenge, pristineFuryChance);
-
             // Equipment
-            DropHelper.DropItemChance(player, ModContent.ItemType<SamuraiBadge>(), DropHelper.RareVariantDropRateInt);
             DropHelper.DropItem(player, ModContent.ItemType<BlazingCore>());
 
             // Vanity

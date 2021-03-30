@@ -12,13 +12,12 @@ namespace CalamityMod.Items.Accessories
         {
             DisplayName.SetDefault("The Community");
             Tooltip.SetDefault("The heart of (most of) the Terraria community\n" +
-                "Legendary Accessory\n" +
                 "Starts off with weak buffs to all of your stats\n" +
                 "The stat buffs become more powerful as you progress\n" +
                 "Reduces the DoT effects of harmful debuffs inflicted on you\n" +
                 "Boosts your maximum flight time by 15%\n" +
                 "Thank you to all of my supporters that made this mod a reality\n" +
-                "Revengeance drop");
+                "Legendary");
             Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(5, 10));
         }
 

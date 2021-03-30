@@ -3789,10 +3789,6 @@ namespace CalamityMod.CalPlayer
                 runAccMult *= 0.5f;
                 runSpeedMult *= 0.5f;
             }
-            if (player.powerrun)
-            {
-                runSpeedMult *= 0.6f;
-            }
             if ((player.slippy || player.slippy2) && player.iceSkate)
             {
                 runAccMult *= 0.6f;
@@ -5114,7 +5110,7 @@ namespace CalamityMod.CalPlayer
             {
                 damageMult += trueMeleeDamage;
             }
-            if (enraged && !CalamityConfig.Instance.BossRushXerocCurse)
+            if (enraged)
             {
                 damageMult += 1.25;
             }
@@ -5250,7 +5246,7 @@ namespace CalamityMod.CalPlayer
 			{
 				damageMult += 0.15;
 			}
-			if (enraged && !CalamityConfig.Instance.BossRushXerocCurse)
+			if (enraged)
             {
                 damageMult += 1.25;
             }
@@ -5400,9 +5396,6 @@ namespace CalamityMod.CalPlayer
                 {
                     case ProjectileID.CrystalShard:
                         damage = (int)(damage * 0.6);
-                        break;
-                    case ProjectileID.ChlorophyteBullet:
-                        damage = (int)(damage * 0.8);
                         break;
                     case ProjectileID.HallowStar:
                         damage = (int)(damage * 0.7);
@@ -8393,7 +8386,7 @@ namespace CalamityMod.CalPlayer
             {
                 if (dashMod == 1) //Counter and Evasion Scarf
                 {
-                    if (DoADash(evasionScarf ? 16.3f : 14.5f))
+                    if (DoADash(evasionScarf ? 16.3f : 15f))
                     {
                         for (int d = 0; d < 20; d++)
                         {

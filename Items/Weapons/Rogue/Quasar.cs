@@ -12,7 +12,8 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             DisplayName.SetDefault("Quasar");
             Tooltip.SetDefault("Succ\n" +
-			"Stealth strikes spawn more explosions");
+			"Stealth strikes spawn more explosions\n" +
+			"Rare Item Variant");
         }
 
         public override void SafeSetDefaults()

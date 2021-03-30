@@ -56,7 +56,6 @@ namespace CalamityMod.NPCs.Providence
         public override void AI()
         {
             CalamityGlobalNPC.holyBossDefender = npc.whoAmI;
-            bool expertMode = Main.expertMode;
             Vector2 vectorCenter = npc.Center;
             Player player = Main.player[npc.target];
             npc.TargetClosest(false);

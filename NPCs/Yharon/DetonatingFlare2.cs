@@ -42,7 +42,7 @@ namespace CalamityMod.NPCs.Yharon
         public override void AI()
         {
             npc.alpha -= 3;
-            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
+            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive || CalamityWorld.malice;
             if (npc.localAI[3] == 0f)
             {
                 switch (Main.rand.Next(6))

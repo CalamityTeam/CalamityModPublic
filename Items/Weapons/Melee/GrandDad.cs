@@ -13,7 +13,8 @@ namespace CalamityMod.Items.Weapons.Melee
             DisplayName.SetDefault("Grand Dad");
             Tooltip.SetDefault("Lowers enemy defense to 0 when they are struck\n" +
                         "Yeets enemies across space and time\n" +
-                        "7");
+                        "7\n" +
+						"Rare Item Variant");
         }
 
         public override void SetDefaults()

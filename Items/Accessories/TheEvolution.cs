@@ -13,7 +13,8 @@ namespace CalamityMod.Items.Accessories
                                 "Reflected projectiles deal 10 times damage to enemies and no damage to you\n" +
                                 "This reflect has a 120 second cooldown which is shared with all other dodges and reflects\n" +
                                 "If this effect triggers you get a health regeneration boost for 5 seconds\n" +
-                                "If the same enemy projectile type hits you again you will resist its damage by 15%");
+                                "If the same enemy projectile type hits you again you will resist its damage by 15%\n" +
+								"Rare Item Variant");
         }
 
         public override void SetDefaults()

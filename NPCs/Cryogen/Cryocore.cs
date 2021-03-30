@@ -49,10 +49,10 @@ namespace CalamityMod.NPCs.Cryogen
         public override void AI()
         {
             Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0.02f, 0.5f, 0.5f);
-            npc.TargetClosest(true);
+            npc.TargetClosest();
             bool revenge = CalamityWorld.revenge;
             float speed = revenge ? 12f : 11f;
-            if (BossRushEvent.BossRushActive)
+            if (BossRushEvent.BossRushActive || CalamityWorld.malice)
                 speed = 24f;
             Vector2 vector167 = new Vector2(npc.Center.X + (float)(npc.direction * 20), npc.Center.Y + 6f);
             float num1373 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - vector167.X;

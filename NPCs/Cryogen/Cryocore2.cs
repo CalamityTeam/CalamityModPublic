@@ -52,7 +52,7 @@ namespace CalamityMod.NPCs.Cryogen
             npc.TargetClosest(true);
             bool revenge = CalamityWorld.revenge;
             float speed = revenge ? 14f : 12f;
-            if (BossRushEvent.BossRushActive)
+            if (BossRushEvent.BossRushActive || CalamityWorld.malice)
                 speed = 28f;
             Vector2 vector167 = new Vector2(npc.Center.X + (float)(npc.direction * 20), npc.Center.Y + 6f);
             float num1373 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - vector167.X;

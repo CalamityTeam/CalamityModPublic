@@ -69,9 +69,10 @@ namespace CalamityMod.NPCs.SlimeGod
 			if (CalamityGlobalNPC.slimeGodRed < 0 || !Main.npc[CalamityGlobalNPC.slimeGodRed].active)
 				CalamityGlobalNPC.slimeGodRed = npc.whoAmI;
 
-            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
-            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-			bool death = CalamityWorld.death || BossRushEvent.BossRushActive || npc.localAI[1] == 1f;
+			bool malice = CalamityWorld.malice;
+			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive || malice;
+            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive || malice;
+			bool death = CalamityWorld.death || BossRushEvent.BossRushActive || npc.localAI[1] == 1f || malice;
 			Vector2 vector = npc.Center;
 
 			float lifeRatio = npc.life / (float)npc.lifeMax;
@@ -128,7 +129,7 @@ namespace CalamityMod.NPCs.SlimeGod
                     flag100 = true;
                 }
             }
-            if (CalamityGlobalNPC.slimeGod < 0 || !Main.npc[CalamityGlobalNPC.slimeGod].active)
+            if (CalamityGlobalNPC.slimeGod < 0 || !Main.npc[CalamityGlobalNPC.slimeGod].active || malice)
             {
 				npc.localAI[1] = 0f;
 				hyperMode = true;

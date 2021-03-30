@@ -191,7 +191,8 @@ namespace CalamityMod.NPCs.Providence
 				lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
 
 			// Night bool
-			bool nightTime = !Main.dayTime;
+			bool malice = CalamityWorld.malice;
+			bool nightTime = !Main.dayTime || malice;
 
 			// Play enrage animation if night starts
 			if (nightTime && calamityGlobalNPC.newAI[3] == spawnAnimationTime)
@@ -210,7 +211,7 @@ namespace CalamityMod.NPCs.Providence
 			bool death = CalamityWorld.death || BossRushEvent.BossRushActive || nightTime;
 			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive || nightTime;
 			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive || nightTime;
-			bool enraged = npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive);
+			bool enraged = npc.Calamity().enraged > 0;
 
 			// Increase all projectile damage at night
 			int projectileDamageMult = 1;
@@ -1295,7 +1296,12 @@ namespace CalamityMod.NPCs.Providence
         public override void NPCLoot()
         {
             DropHelper.DropBags(npc);
-            DropHelper.DropItemChance(npc, ModContent.ItemType<ProvidenceTrophy>(), 10);
+
+			// Legendary drop for Providence
+			DropHelper.DropItemCondition(npc, ModContent.ItemType<PristineFury>(), true, CalamityWorld.malice);
+			DropHelper.DropItemCondition(npc, ModContent.ItemType<SamuraiBadge>(), true, CalamityWorld.malice);
+
+			DropHelper.DropItemChance(npc, ModContent.ItemType<ProvidenceTrophy>(), 10);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeProvidence>(), true, !CalamityWorld.downedProvidence);
             DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedProvidence, 5, 2, 1);
 
@@ -1332,9 +1338,6 @@ namespace CalamityMod.NPCs.Providence
 					DropHelper.WeightStack<DazzlingStabberStaff>(w),
 					DropHelper.WeightStack<MoltenAmputator>(w)
 				);
-
-				// Equipment
-				DropHelper.DropItemChance(npc, ModContent.ItemType<SamuraiBadge>(), 40);
 
                 // Vanity
                 DropHelper.DropItemChance(npc, ModContent.ItemType<ProvidenceMask>(), 7);
@@ -1405,7 +1408,8 @@ namespace CalamityMod.NPCs.Providence
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-			bool nightTime = !Main.dayTime;
+			bool malice = CalamityWorld.malice;
+			bool nightTime = !Main.dayTime || malice;
 
 			string baseTextureString = "CalamityMod/NPCs/Providence/";
 			string baseGlowTextureString = baseTextureString + "Glowmasks/";

@@ -55,7 +55,7 @@ namespace CalamityMod.NPCs.AquaticScourge
             npc.netAlways = true;
             bossBag = ModContent.ItemType<AquaticScourgeBag>();
 
-			if (CalamityWorld.death || BossRushEvent.BossRushActive)
+			if (CalamityWorld.death || BossRushEvent.BossRushActive || CalamityWorld.malice)
 				npc.scale = 1.2f;
 			else if (CalamityWorld.revenge)
 				npc.scale = 1.15f;
@@ -181,7 +181,11 @@ namespace CalamityMod.NPCs.AquaticScourge
         {
             DropHelper.DropBags(npc);
 
-            DropHelper.DropItem(npc, ItemID.GreaterHealingPotion, 8, 14);
+			// Legendary drops for Aquatic Scourge
+			DropHelper.DropItemCondition(npc, ModContent.ItemType<SeasSearing>(), true, CalamityWorld.malice);
+			DropHelper.DropItemCondition(npc, ModContent.ItemType<DeepDiver>(), true, CalamityWorld.malice);
+
+			DropHelper.DropItem(npc, ItemID.GreaterHealingPotion, 8, 14);
 			DropHelper.DropItemChance(npc, ModContent.ItemType<AquaticScourgeTrophy>(), 10);
 			DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeAquaticScourge>(), true, !CalamityWorld.downedAquaticScourge);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeSulphurSea>(), true, !CalamityWorld.downedAquaticScourge);

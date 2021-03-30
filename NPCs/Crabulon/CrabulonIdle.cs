@@ -1,6 +1,7 @@
 using CalamityMod.Buffs.StatBuffs;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Events;
+using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
@@ -78,10 +79,11 @@ namespace CalamityMod.NPCs.Crabulon
 			npc.gfxOffY = -16;
 
 			Lighting.AddLight((int)((npc.position.X + (npc.width / 2)) / 16f), (int)((npc.position.Y + (npc.height / 2)) / 16f), 0f, 0.3f, 0.7f);
-			
-			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
-			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
+
+			bool malice = CalamityWorld.malice;
+			bool death = CalamityWorld.death || BossRushEvent.BossRushActive || malice;
+			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive || malice;
+            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive || malice;
 
 			npc.spriteDirection = npc.direction;
 
@@ -138,9 +140,9 @@ namespace CalamityMod.NPCs.Crabulon
 				npc.timeLeft = 1800;
 
 			float enrageScale = 0f;
-			if ((npc.position.Y / 16f) < Main.worldSurface)
+			if ((npc.position.Y / 16f) < Main.worldSurface || malice)
 				enrageScale += 1f;
-			if (!player.ZoneGlowshroom)
+			if (!player.ZoneGlowshroom || malice)
 				enrageScale += 1f;
 
 			if (BossRushEvent.BossRushActive)
@@ -260,7 +262,7 @@ namespace CalamityMod.NPCs.Crabulon
 					num823 += 2f * (1f - lifeRatio);
                 if (BossRushEvent.BossRushActive)
                     num823 = 12f;
-                if (npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))
+                if (npc.Calamity().enraged > 0)
                     num823 = 16f;
 				num823 += 2f * enrageScale;
 
@@ -550,7 +552,7 @@ namespace CalamityMod.NPCs.Crabulon
                         {
                             num626 += 1f;
                         }
-                        if (npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))
+                        if (npc.Calamity().enraged > 0)
                         {
                             num626 += 3f;
                         }
@@ -673,7 +675,10 @@ namespace CalamityMod.NPCs.Crabulon
         {
             DropHelper.DropBags(npc);
 
-            DropHelper.DropItemChance(npc, ModContent.ItemType<CrabulonTrophy>(), 10);
+			// Legendary drop for Crabulon
+			DropHelper.DropItemCondition(npc, ModContent.ItemType<TheTransformer>(), true, CalamityWorld.malice);
+
+			DropHelper.DropItemChance(npc, ModContent.ItemType<CrabulonTrophy>(), 10);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeCrabulon>(), true, !CalamityWorld.downedCrabulon);
             DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedCrabulon, 2, 0, 0);
 

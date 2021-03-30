@@ -11,6 +11,7 @@ using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
+using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.NPCs.TownNPCs;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.Tiles.Ores;
@@ -1040,7 +1041,11 @@ namespace CalamityMod.NPCs.Cryogen
         {
             DropHelper.DropBags(npc);
 
-            DropHelper.DropItemChance(npc, ModContent.ItemType<CryogenTrophy>(), 10);
+			// Legendar drop for Cryogen
+			DropHelper.DropItemCondition(npc, ModContent.ItemType<ColdDivinity>(), true, CalamityWorld.malice);
+			DropHelper.DropItemCondition(npc, ModContent.ItemType<Cryophobia>(), true, CalamityWorld.malice);
+
+			DropHelper.DropItemChance(npc, ModContent.ItemType<CryogenTrophy>(), 10);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeCryogen>(), true, !CalamityWorld.downedCryogen);
             DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedCryogen, 4, 2, 1);
 
@@ -1063,7 +1068,6 @@ namespace CalamityMod.NPCs.Cryogen
 
                 // Equipment
                 DropHelper.DropItemChance(npc, ModContent.ItemType<CryoStone>(), 10);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Regenator>(), DropHelper.RareVariantDropRateInt);
 
                 // Vanity
                 DropHelper.DropItemChance(npc, ModContent.ItemType<CryogenMask>(), 7);

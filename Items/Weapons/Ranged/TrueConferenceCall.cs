@@ -11,7 +11,8 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Conference Call");
-            Tooltip.SetDefault("@everyone");
+            Tooltip.SetDefault("@everyone\n" +
+				"Rare Item Variant");
         }
 
         public override void SetDefaults()
@@ -25,8 +26,8 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 4.5f;
-            item.value = Item.buyPrice(0, 80, 0, 0);
-            item.rare = ItemRarityID.Yellow;
+            item.value = Item.buyPrice(0, 95, 0, 0);
+            item.rare = ItemRarityID.Cyan;
             item.UseSound = SoundID.Item38;
             item.autoReuse = true;
             item.shootSpeed = 18f;

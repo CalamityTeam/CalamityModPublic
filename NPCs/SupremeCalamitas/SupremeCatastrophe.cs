@@ -1,6 +1,7 @@
 using CalamityMod.Dusts;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.Projectiles.Summon;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -67,7 +68,6 @@ namespace CalamityMod.NPCs.SupremeCalamitas
         public override void AI()
         {
             CalamityGlobalNPC.SCalCatastrophe = npc.whoAmI;
-            bool expertMode = Main.expertMode;
             if (CalamityGlobalNPC.SCal < 0 || !Main.npc[CalamityGlobalNPC.SCal].active)
             {
                 npc.active = false;
@@ -155,7 +155,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             if (npc.localAI[0] >= 120f)
             {
                 npc.ai[1] += 1f;
-				if (deadBrother)
+				if (deadBrother || CalamityWorld.malice)
 				{
 					npc.ai[1] += 1f;
 				}
@@ -171,7 +171,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     }
                 }
                 npc.ai[2] += 1f;
-                if (deadBrother)
+                if (deadBrother || CalamityWorld.malice)
                 {
                     npc.ai[2] += 2f;
                 }

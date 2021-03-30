@@ -12,7 +12,8 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Void Vortex");
-            Tooltip.SetDefault("Fires a circular spread of magnetic orbs around the mouse cursor");
+            Tooltip.SetDefault("Fires a circular spread of magnetic orbs around the mouse cursor\n" +
+				"Rare Item Variant");
             Item.staff[item.type] = true;
         }
 

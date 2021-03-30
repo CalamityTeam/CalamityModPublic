@@ -91,9 +91,10 @@ namespace CalamityMod.NPCs.Signus
 
 			CalamityGlobalNPC.signus = npc.whoAmI;
 
-			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
-			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
+			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
+			bool death = CalamityWorld.death || malice;
+			bool revenge = CalamityWorld.revenge || malice;
+            bool expertMode = Main.expertMode || malice;
 
 			Vector2 vectorCenter = npc.Center;
 
@@ -106,8 +107,8 @@ namespace CalamityMod.NPCs.Signus
 			lifeToAlpha = (int)(100.0 * (1.0 - lifeRatio));
 			int maxCharges = death ? 1 : revenge ? 2 : expertMode ? 3 : 4;
 			int maxTeleports = (death && lifeRatio < 0.9) ? 1 : revenge ? 2 : expertMode ? 3 : 4;
-			float inertia = death ? 10f : revenge ? 11f : expertMode ? 12f : 14f;
-			float chargeVelocity = death ? 14f : revenge ? 13f : expertMode ? 12f : 10f;
+			float inertia = malice ? 9f : death ? 10f : revenge ? 11f : expertMode ? 12f : 14f;
+			float chargeVelocity = malice ? 15f : death ? 14f : revenge ? 13f : expertMode ? 12f : 10f;
 			bool phase2 = lifeRatio < 0.75f && expertMode;
             bool phase3 = lifeRatio < 0.5f;
 			bool phase4 = lifeRatio < 0.33f;
@@ -197,11 +198,11 @@ namespace CalamityMod.NPCs.Signus
                 if (phase3 || revenge)
                     npc.knockBackResist = 0f;
 
-                float speed = expertMode ? 14f : 12f;
+                float speed = malice ? 16f : revenge ? 15f : expertMode ? 14f : 12f;
                 if (expertMode)
                     speed += death ? 6f * (float)(1D - lifeRatio) : 4f * (float)(1D - lifeRatio);
 
-                if (calamityGlobalNPC.enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))
+                if (calamityGlobalNPC.enraged > 0)
                     speed += 3f;
 
                 float num795 = player.Center.X - vectorCenter.X;
@@ -232,7 +233,7 @@ namespace CalamityMod.NPCs.Signus
             {
 				if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
-                    npc.localAI[1] += 1f;
+                    npc.localAI[1] += malice ? 2f : 1f;
 
 					if (expertMode)
 						npc.localAI[1] += death ? 3f * (float)(1D - lifeRatio) : 2f * (float)(1D - lifeRatio);
@@ -292,7 +293,7 @@ namespace CalamityMod.NPCs.Signus
                     Main.dust[dust].fadeIn = 1f;
                 }
 
-                npc.alpha += 2;
+                npc.alpha += malice ? 3 : 2;
 				if (expertMode)
 					npc.alpha += death ? (int)Math.Round(4.5D * (1D - lifeRatio)) : (int)Math.Round(3D * (1D - lifeRatio));
 
@@ -324,11 +325,11 @@ namespace CalamityMod.NPCs.Signus
                     {
 						Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 122);
 
-						int num660 = NPC.NewNPC((int)(player.position.X + 750f), (int)player.position.Y, ModContent.NPCType<SignusBomb>(), 0, 0f, 0f, 0f, 0f, 255);
+						int num660 = NPC.NewNPC((int)(player.position.X + 750f), (int)player.position.Y, ModContent.NPCType<SignusBomb>());
                         if (Main.netMode == NetmodeID.Server)
                             NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, num660, 0f, 0f, 0f, 0, 0, 0);
 
-                        int num661 = NPC.NewNPC((int)(player.position.X - 750f), (int)player.position.Y, ModContent.NPCType<SignusBomb>(), 0, 0f, 0f, 0f, 0f, 255);
+                        int num661 = NPC.NewNPC((int)(player.position.X - 750f), (int)player.position.Y, ModContent.NPCType<SignusBomb>());
                         if (Main.netMode == NetmodeID.Server)
                             NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, num661, 0f, 0f, 0f, 0, 0, 0);
 
@@ -390,7 +391,7 @@ namespace CalamityMod.NPCs.Signus
 				npc.direction = playerLocation < 0f ? 1 : -1;
 				npc.spriteDirection = npc.direction;
 
-				float divisor = expertMode ? (death ? 12f : revenge ? 15f : 20f) - (float)Math.Ceiling(5D * (1D - lifeRatio)) : 20f;
+				float divisor = expertMode ? (malice ? 10f : death ? 12f : revenge ? 15f : 20f) - (float)Math.Ceiling(5D * (1D - lifeRatio)) : 20f;
 				float scytheBarrageTime = divisor * 3f;
 				float scytheBarrageCooldown = divisor * 3f;
 
@@ -407,7 +408,7 @@ namespace CalamityMod.NPCs.Signus
 						if (Main.netMode != NetmodeID.MultiplayerClient)
 						{
 							float num1070 = 15f;
-							if (calamityGlobalNPC.enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))
+							if (calamityGlobalNPC.enraged > 0)
 								num1070 += 3f;
 
 							float num1071 = player.Center.X - vectorCenter.X;
@@ -423,8 +424,8 @@ namespace CalamityMod.NPCs.Signus
 					}
                 }
 
-				float maxVelocityY = death ? 2.5f : 3f;
-				float maxVelocityX = death ? 7f : 8f;
+				float maxVelocityY = malice ? 2f : death ? 2.5f : 3f;
+				float maxVelocityX = malice ? 6f : death ? 7f : 8f;
 
                 if (npc.position.Y > player.position.Y - 200f)
                 {
@@ -487,11 +488,11 @@ namespace CalamityMod.NPCs.Signus
                     {
                         for (int x = 0; x < 5; x++)
                         {
-                            int num660 = NPC.NewNPC((int)(player.position.X + spawnX), (int)(player.position.Y + spawnY), ModContent.NPCType<CosmicLantern>(), 0, 0f, 0f, 0f, 0f, 255);
+                            int num660 = NPC.NewNPC((int)(player.position.X + spawnX), (int)(player.position.Y + spawnY), ModContent.NPCType<CosmicLantern>());
                             if (Main.netMode == NetmodeID.Server)
                                 NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, num660, 0f, 0f, 0f, 0, 0, 0);
 
-                            int num661 = NPC.NewNPC((int)(player.position.X - spawnX), (int)(player.position.Y + spawnY), ModContent.NPCType<CosmicLantern>(), 0, 0f, 0f, 0f, 0f, 255);
+                            int num661 = NPC.NewNPC((int)(player.position.X - spawnX), (int)(player.position.Y + spawnY), ModContent.NPCType<CosmicLantern>());
                             if (Main.netMode == NetmodeID.Server)
                                 NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, num661, 0f, 0f, 0f, 0, 0, 0);
 
@@ -515,7 +516,7 @@ namespace CalamityMod.NPCs.Signus
 
                 if (calamityGlobalNPC.newAI[0] == 0f) // Line up the charge
                 {
-                    float velocity = revenge ? 16f : expertMode ? 15f : 14f;
+                    float velocity = malice ? 18f : revenge ? 16f : expertMode ? 15f : 14f;
 					if (expertMode)
 						velocity += death ? 6f * (float)(1D - lifeRatio) : 4f * (float)(1D - lifeRatio);
 
@@ -582,7 +583,7 @@ namespace CalamityMod.NPCs.Signus
                             Main.PlaySound(SoundID.Item73, npc.position);
 							int type = ModContent.ProjectileType<EssenceDust>();
 							int damage = npc.GetProjectileDamage(type);
-							int projectile = Projectile.NewProjectile(vectorCenter, Vector2.Zero, type, damage, 0f, Main.myPlayer, 0f, 0f);
+							int projectile = Projectile.NewProjectile(vectorCenter, Vector2.Zero, type, damage, 0f, Main.myPlayer);
                         }
                     }
 
@@ -761,6 +762,9 @@ namespace CalamityMod.NPCs.Signus
             {
 				DropHelper.DropBags(npc);
 
+				// Legendary drop for Signus
+				DropHelper.DropItemCondition(npc, ModContent.ItemType<LanternoftheSoul>(), true, CalamityWorld.malice);
+
 				DropHelper.DropItemChance(npc, ModContent.ItemType<SignusTrophy>(), 10);
 				bool lastSentinelKilled = CalamityWorld.downedSentinel1 && CalamityWorld.downedSentinel2 && !CalamityWorld.downedSentinel3;
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeSentinels>(), true, lastSentinelKilled);
@@ -772,7 +776,7 @@ namespace CalamityMod.NPCs.Signus
 
 					// Weapons
 					DropHelper.DropItemChance(npc, ModContent.ItemType<CosmicKunai>(), 4);
-					DropHelper.DropItemRIV(npc, ModContent.ItemType<Cosmilamp>(), ModContent.ItemType<LanternoftheSoul>(), 0.25f, DropHelper.RareVariantDropRateFloat);
+					DropHelper.DropItemChance(npc, ModContent.ItemType<Cosmilamp>(), 4);
 
 					//Equipment (None in Normal)
 

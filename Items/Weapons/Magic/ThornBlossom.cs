@@ -12,13 +12,14 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Thorn Blossom");
-            Tooltip.SetDefault("Every rose has its thorn");
+            Tooltip.SetDefault("Every rose has its thorn\n" +
+				"Rare Item Variant");
             Item.staff[item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 45;
+            item.damage = 35;
             item.magic = true;
             item.mana = 10;
             item.width = 66;
@@ -28,9 +29,9 @@ namespace CalamityMod.Items.Weapons.Magic
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 2f;
-            item.value = Item.buyPrice(0, 95, 0, 0);
-            item.rare = ItemRarityID.Cyan;
-            item.UseSound = SoundID.Item109;
+			item.value = CalamityGlobalItem.Rarity7BuyPrice;
+			item.rare = ItemRarityID.Lime;
+			item.UseSound = SoundID.Item109;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<BeamingBolt>();
             item.shootSpeed = 20f;

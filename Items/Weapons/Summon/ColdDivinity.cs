@@ -14,13 +14,12 @@ namespace CalamityMod.Items.Weapons.Summon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Cold Divinity");
-            Tooltip.SetDefault("Legendary Drop\n" +
-                "Summons the power of the ancient ice castle\n" +
+            Tooltip.SetDefault("Summons the power of the ancient ice castle\n" +
                 "For each minion slot used, you will gain an additional orbiting shield spike\n" +
                 "These spikes accelerate rapidly towards a nearby enemy to inflict heavy damage\n" +
                 "They take some time to regenerate after launching themselves at the target, however\n" +
                 "On right click, summons a duplicate ring around the targeted enemy, which slowly converges before exploding\n" +
-                "Revengeance Drop");
+                "Legendary");
         }
 
         public override void SetDefaults()

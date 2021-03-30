@@ -53,7 +53,13 @@ namespace CalamityMod.ILEditing
             aLabDoorClosed = ModContent.TileType<AgedLaboratoryDoorClosed>();
 
             ApplyLifeBytesChanges();
+			AdjustChlorophyteBullets();
+			RemoveAerialBaneDamageBoost();
+			AdjustDamageVariance();
 			RemoveExpertHardmodeScaling();
+			IncreaseaChlorophyteSpreadChance();
+			ReduceTileBoostedRunSpeeds();
+			ReduceWingHoverVelocities();
             RemoveRNGFromBlackBelt();
             ApplyBossZenDuringSlimeRain();
             PreventDungeonAbyssInteraction();
@@ -75,6 +81,51 @@ namespace CalamityMod.ILEditing
 
         #region IL Editing Routines
         private static void ApplyLifeBytesChanges() => On.Terraria.Main.InitLifeBytes += BossRushLifeBytes;
+
+		private static void AdjustChlorophyteBullets()
+		{
+			// Reduce dust from 10 to 5 and homing range.
+			IL.Terraria.Projectile.AI_001 += (il) =>
+			{
+				var cursor = new ILCursor(il);
+				cursor.GotoNext(MoveType.Before, i => i.MatchLdcI4(207)); // The ID of Chlorophyte Bullets.
+				cursor.GotoNext(MoveType.Before, i => i.MatchLdcI4(10)); // The number of dust spawned by the bullet.
+				cursor.Remove();
+				cursor.Emit(OpCodes.Ldc_I4, 5); // Decrease dust to 5.
+
+				cursor.GotoNext(MoveType.Before, i => i.MatchLdcR4(300f)); // The 300 unit distance required to home in.
+				cursor.Remove();
+				cursor.Emit(OpCodes.Ldc_R4, 150f); // Reduce homing range by 50%.
+			};
+		}
+
+		private static void RemoveAerialBaneDamageBoost()
+		{
+			IL.Terraria.Projectile.Damage += (il) =>
+			{
+				var cursor = new ILCursor(il);
+				cursor.GotoNext(MoveType.Before, i => i.MatchLdcI4(710)); // The ID of Aerial Bane projectiles.
+				cursor.GotoNext(MoveType.Before, i => i.MatchLdcR4(1.5f)); // The damage multiplier.
+				cursor.Remove();
+				cursor.Emit(OpCodes.Ldc_R4, 1f); // Multiplying by 1 means no damage bonus.
+			};
+		}
+
+		private static void AdjustDamageVariance()
+		{
+			// Change the damage variance from +-15% to +-5%.
+			IL.Terraria.Main.DamageVar += (il) =>
+			{
+				var cursor = new ILCursor(il);
+				cursor.GotoNext(MoveType.Before, i => i.MatchLdcI4(-15)); // The -15% lower bound of the variance.
+				cursor.Remove();
+				cursor.Emit(OpCodes.Ldc_I4, -5); // Increase to -5%.
+
+				cursor.GotoNext(MoveType.Before, i => i.MatchLdcI4(16)); // The +15% upper bound of the variance.
+				cursor.Remove();
+				cursor.Emit(OpCodes.Ldc_I4, 6); // Decrease to +5%.
+			};
+		}
 
 		private static void RemoveExpertHardmodeScaling()
 		{
@@ -113,17 +164,54 @@ namespace CalamityMod.ILEditing
 			};
 		}
 
-        private static void RemoveRNGFromBlackBelt()
+		private static void ReduceTileBoostedRunSpeeds()
+		{
+			// Reduce the run speed boost while running on Asphalt.
+			IL.Terraria.Player.Update += (il) =>
+			{
+				var cursor = new ILCursor(il);
+				cursor.GotoNext(MoveType.Before, i => i.MatchLdcR4(3.5f)); // The max run speed multiplier for Asphalt.
+				cursor.Remove();
+				cursor.Emit(OpCodes.Ldc_R4, 1.75f); // Reduce by 50% to get 1.75.
+			};
+		}
+
+		private static void ReduceWingHoverVelocities()
+		{
+			// Reduce wing hover horizontal velocities. Hoverboard is fine because both stats are at 10.
+			IL.Terraria.Player.Update += (il) =>
+			{
+				var cursor = new ILCursor(il);
+				cursor.GotoNext(MoveType.Before, i => i.MatchLdcR4(6.25f)); // The accRunSpeed variable is set to this specific value before hover adjustments occur.
+				cursor.GotoNext(MoveType.Before, i => i.MatchLdcR4(12f)); // The accRunSpeed for Vortex Booster and Nebula Mantle.
+				cursor.Remove();
+				cursor.Emit(OpCodes.Ldc_R4, 10.8f); // Reduce by 10%.
+
+				cursor.GotoNext(MoveType.Before, i => i.MatchLdcR4(12f)); // The runAcceleration for Vortex Booster and Nebula Mantle.
+				cursor.Remove();
+				cursor.Emit(OpCodes.Ldc_R4, 10.8f); // Reduce by 10%.
+
+				cursor.GotoNext(MoveType.Before, i => i.MatchLdcR4(12f)); // The accRunSpeed for Betsy Wings.
+				cursor.Remove();
+				cursor.Emit(OpCodes.Ldc_R4, 10.8f); // Reduce by 10%.
+
+				cursor.GotoNext(MoveType.Before, i => i.MatchLdcR4(12f)); // The runAcceleration for Betsy Wings.
+				cursor.Remove();
+				cursor.Emit(OpCodes.Ldc_R4, 10.8f); // Reduce by 10%.
+			};
+		}
+
+		private static void RemoveRNGFromBlackBelt()
         {
             // Change the random chance of the Black Belt to 100%, but don't let it work if Calamity's cooldown is active.
             IL.Terraria.Player.Hurt += (il) =>
             {
                 var cursor = new ILCursor(il);
-                cursor.GotoNext(MoveType.Before, i => i.MatchLdcI4(10)); // 1 in 10 Main.rand call for Black Belt activation
+                cursor.GotoNext(MoveType.Before, i => i.MatchLdcI4(10)); // 1 in 10 Main.rand call for Black Belt activation.
                 cursor.Remove();
-                cursor.Emit(OpCodes.Ldc_I4_1); // Replace with Main.rand.Next(1), aka 100% chance
+                cursor.Emit(OpCodes.Ldc_I4_1); // Replace with Main.rand.Next(1), aka 100% chance.
 
-                // Move forwards past the Main.rand.Next call now that it has been edited
+                // Move forwards past the Main.rand.Next call now that it has been edited.
                 cursor.GotoNext(MoveType.After, i => i.MatchCallvirt<UnifiedRandom>("Next"));
 
                 // Load the player itself onto the stack so that it becomes an argument for the following delegate.

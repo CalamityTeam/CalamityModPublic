@@ -91,18 +91,13 @@ namespace CalamityMod.NPCs.Yharon
             npc.noGravity = true;
             npc.noTileCollide = true;
             npc.netAlways = true;
+
             Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
             if (calamityModMusic != null)
                 music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/YHARON");
             else
-                music = MusicID.Boss1;
-            if (BossRushEvent.BossRushActive)
-            {
-                if (calamityModMusic != null)
-                    music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/YHARON");
-                else
-                    music = MusicID.Boss3;
-            }
+                music = MusicID.Boss3;
+
             npc.HitSound = SoundID.NPCHit56;
             npc.DeathSound = SoundID.NPCDeath60;
             bossBag = ModContent.ItemType<YharonBag>();
@@ -170,9 +165,10 @@ namespace CalamityMod.NPCs.Yharon
 			CalamityMod.StopRain();
 
 			// Variables
-			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
-			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+			bool malice = CalamityWorld.malice;
+			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive || malice;
+			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive || malice;
+			bool death = CalamityWorld.death || BossRushEvent.BossRushActive || malice;
 			float pie = (float)Math.PI;
 
 			Vector2 vectorCenter = npc.Center;
@@ -180,7 +176,7 @@ namespace CalamityMod.NPCs.Yharon
 			// Start phase 2 or not
 			if (startSecondAI)
             {
-                Yharon_AI2(expertMode, revenge, death, pie, lifeRatio, vectorCenter, calamityGlobalNPC);
+                Yharon_AI2(expertMode, revenge, death, malice, pie, lifeRatio, vectorCenter, calamityGlobalNPC);
                 return;
             }
 
@@ -209,7 +205,7 @@ namespace CalamityMod.NPCs.Yharon
 			else if (phase1Change)
 				npc.dontTakeDamage = phase2Check;
 
-			if (calamityGlobalNPC.enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))
+			if (calamityGlobalNPC.enraged > 0)
             {
 				acceleration = 0.95f;
 				velocity = 15f;
@@ -237,11 +233,11 @@ namespace CalamityMod.NPCs.Yharon
 			float reduceSpeedChargeDistance = 540f;
             int chargeTime = expertMode ? 40 : 45;
             float chargeSpeed = expertMode ? 28f : 26f;
-			float fastChargeVelocityMultiplier = 1.5f;
+			float fastChargeVelocityMultiplier = malice ? 2f : 1.5f;
 			bool playFastChargeRoarSound = npc.localAI[1] == fastChargeTelegraphTime * 0.5f;
 			bool doFastCharge = npc.localAI[1] > fastChargeTelegraphTime;
 
-			if (calamityGlobalNPC.enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))
+			if (calamityGlobalNPC.enraged > 0)
             {
                 chargeTime = 30;
                 chargeSpeed = 40f;
@@ -261,8 +257,8 @@ namespace CalamityMod.NPCs.Yharon
 
 			if (revenge)
 			{
-				int chargeTimeDecrease = death ? 4 : 2;
-				float velocityMult = death ? 1.1f : 1.05f;
+				int chargeTimeDecrease = malice ? 6 : death ? 4 : 2;
+				float velocityMult = malice ? 1.15f : death ? 1.1f : 1.05f;
 				phaseSwitchTimer -= chargeTimeDecrease;
 				acceleration *= velocityMult;
 				velocity *= velocityMult;
@@ -271,10 +267,10 @@ namespace CalamityMod.NPCs.Yharon
 			}
 
 			float reduceSpeedFlareBombDistance = 570f;
-            int flareBombPhaseTimer = death ? 40 : 60;
+            int flareBombPhaseTimer = malice ? 30 : death ? 40 : 60;
             int flareBombSpawnDivisor = flareBombPhaseTimer / 20;
-            float flareBombPhaseAcceleration = death ? 0.92f : 0.8f;
-            float flareBombPhaseVelocity = death ? 14f : 12f;
+            float flareBombPhaseAcceleration = malice ? 1f : death ? 0.92f : 0.8f;
+            float flareBombPhaseVelocity = malice ? 16f : death ? 14f : 12f;
 
             int fireTornadoPhaseTimer = 90;
 
@@ -353,12 +349,12 @@ namespace CalamityMod.NPCs.Yharon
                 enraged = false;
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
-                    safeBox.X = (int)(player.Center.X - (revenge ? 3000f : 3500f));
-                    safeBox.Y = (int)(player.Center.Y - (revenge ? 9000f : 10500f));
-                    safeBox.Width = revenge ? 6000 : 7000;
-                    safeBox.Height = revenge ? 18000 : 21000;
-                    Projectile.NewProjectile(player.Center.X + (revenge ? 3000f : 3500f), player.Center.Y + 100f, 0f, 0f, ModContent.ProjectileType<SkyFlareRevenge>(), 0, 0f, Main.myPlayer);
-                    Projectile.NewProjectile(player.Center.X - (revenge ? 3000f : 3500f), player.Center.Y + 100f, 0f, 0f, ModContent.ProjectileType<SkyFlareRevenge>(), 0, 0f, Main.myPlayer);
+                    safeBox.X = (int)(player.Center.X - (malice ? 2500f : revenge ? 3000f : 3500f));
+                    safeBox.Y = (int)(player.Center.Y - 10500f);
+                    safeBox.Width = malice ? 5000 : revenge ? 6000 : 7000;
+                    safeBox.Height = 21000;
+                    Projectile.NewProjectile(player.Center.X + (malice ? 2500f : revenge ? 3000f : 3500f), player.Center.Y + 100f, 0f, 0f, ModContent.ProjectileType<SkyFlareRevenge>(), 0, 0f, Main.myPlayer);
+                    Projectile.NewProjectile(player.Center.X - (malice ? 2500f : revenge ? 3000f : 3500f), player.Center.Y + 100f, 0f, 0f, ModContent.ProjectileType<SkyFlareRevenge>(), 0, 0f, Main.myPlayer);
                 }
 
                 // Force Yharon to send a sync packet so that the arena gets sent immediately
@@ -1536,7 +1532,7 @@ namespace CalamityMod.NPCs.Yharon
 		}
 
         #region AI2
-        public void Yharon_AI2(bool expertMode, bool revenge, bool death, float pie, float lifeRatio, Vector2 vectorCenter, CalamityGlobalNPC calamityGlobalNPC)
+        public void Yharon_AI2(bool expertMode, bool revenge, bool death, bool malice, float pie, float lifeRatio, Vector2 vectorCenter, CalamityGlobalNPC calamityGlobalNPC)
         {
 			float phase2GateValue = revenge ? 0.44f : expertMode ? 0.385f : 0.275f;
 			bool phase2 = death || lifeRatio <= phase2GateValue;
@@ -1652,13 +1648,13 @@ namespace CalamityMod.NPCs.Yharon
 				npc.damage = 0;
 
 			float reduceSpeedChargeDistance = 500f;
-			float phaseSwitchTimer = expertMode ? 30f : 32f;
+			float phaseSwitchTimer = malice ? 28f : expertMode ? 30f : 32f;
 			float acceleration = expertMode ? 0.92f : 0.9f;
             float velocity = expertMode ? 14.5f : 14f;
 			float chargeTime = expertMode ? 32f : 35f;
             float chargeSpeed = expertMode ? 32f : 30f;
 
-			float fastChargeVelocityMultiplier = 1.5f;
+			float fastChargeVelocityMultiplier = malice ? 2f : 1.5f;
 			fastChargeTelegraphTime = protectionBoost ? 60 : (100 - secondPhasePhase * 10);
 			bool playFastChargeRoarSound = npc.localAI[1] == fastChargeTelegraphTime * 0.5f;
 			bool doFastChargeTelegraph = npc.localAI[1] <= fastChargeTelegraphTime;
@@ -1685,13 +1681,13 @@ namespace CalamityMod.NPCs.Yharon
 			int flareDustSpawnDivisor2 = spinPhaseTimer / 20 + (secondPhasePhase == 4 ? spinPhaseTimer / 60 : 0);
 			float increasedIdleTimeAfterBulletHell = -120f;
 
-			float flareSpawnDecelerationTimer = death ? 75f : 90f;
+			float flareSpawnDecelerationTimer = malice ? 60f : death ? 75f : 90f;
 			int flareSpawnPhaseTimerReduction = revenge ? (int)(flareSpawnDecelerationTimer * (ai2GateValue - lifeRatio)) : 0;
-			float flareSpawnPhaseTimer = (death ? 150f : 180f) - flareSpawnPhaseTimerReduction;
+			float flareSpawnPhaseTimer = (malice ? 120f : death ? 150f : 180f) - flareSpawnPhaseTimerReduction;
 
 			float teleportPhaseTimer = 45f;
 
-			if (calamityGlobalNPC.enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))
+			if (calamityGlobalNPC.enraged > 0)
             {
                 acceleration = 1.2f;
                 velocity = 18f;
@@ -1700,8 +1696,8 @@ namespace CalamityMod.NPCs.Yharon
             }
 			else if (revenge)
 			{
-				float chargeTimeDecrease = death ? 4f : 2f;
-				float velocityMult = death ? 1.1f : 1.05f;
+				float chargeTimeDecrease = malice ? 6f : death ? 4f : 2f;
+				float velocityMult = malice ? 1.15f : death ? 1.1f : 1.05f;
 				acceleration *= velocityMult;
 				velocity *= velocityMult;
 				chargeTime -= chargeTimeDecrease;
@@ -2876,6 +2872,10 @@ namespace CalamityMod.NPCs.Yharon
 			// Bags occur in either phase 1 or 2, as they don't contain phase 2 only drops
 			DropHelper.DropBags(npc);
 
+			// Legendary drops for Yharon
+			DropHelper.DropItemCondition(npc, ModContent.ItemType<YharimsCrystal>(), true, CalamityWorld.malice);
+			DropHelper.DropItemCondition(npc, ModContent.ItemType<VoidVortex>(), true, CalamityWorld.malice);
+
 			// Phase 1 drops: Contained in the bag, so they only drop directly on Normal
 			if (!Main.expertMode)
 			{
@@ -2904,10 +2904,6 @@ namespace CalamityMod.NPCs.Yharon
 
 			// Equipment
 			DropHelper.DropItem(npc, ModContent.ItemType<DrewsWings>(), Main.expertMode);
-
-			// Weapons
-			DropHelper.DropItemChance(npc, ModContent.ItemType<VoidVortex>(), Main.expertMode, DropHelper.RareVariantDropRateInt);
-			DropHelper.DropItemChance(npc, ModContent.ItemType<YharimsCrystal>(), Main.expertMode, 100); //not affected by defiled and not a leggie
 
 			// Vanity
 			DropHelper.DropItemChance(npc, ModContent.ItemType<YharonTrophy>(), 10);

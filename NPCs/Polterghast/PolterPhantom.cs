@@ -74,9 +74,12 @@ namespace CalamityMod.NPCs.Polterghast
         {
             CalamityGlobalNPC.ghostBossClone = npc.whoAmI;
 
-			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+			bool malice = CalamityWorld.malice;
+			bool death = CalamityWorld.death || BossRushEvent.BossRushActive || malice;
+			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive || malice;
+			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive || malice;
 
-            if (CalamityGlobalNPC.ghostBoss < 0 || !Main.npc[CalamityGlobalNPC.ghostBoss].active)
+			if (CalamityGlobalNPC.ghostBoss < 0 || !Main.npc[CalamityGlobalNPC.ghostBoss].active)
             {
                 npc.active = false;
                 npc.netUpdate = true;
@@ -99,10 +102,8 @@ namespace CalamityMod.NPCs.Polterghast
 			float chargeAcceleration = 0.6f;
 			float chargeDistance = 480f;
 
-			bool speedBoost1 = false;
+			bool speedBoost = malice;
             bool despawnBoost = false;
-            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
 
             if (npc.timeLeft < 1500)
                 npc.timeLeft = 1500;
@@ -122,14 +123,17 @@ namespace CalamityMod.NPCs.Polterghast
 					npc.Calamity().newAI[3] = 0f;
 				}
 
-                speedBoost1 = true;
+                speedBoost = true;
 				velocity += 8f;
 				acceleration = 0.15f;
             }
             else
                 despawnTimer++;
 
-            if (Main.npc[CalamityGlobalNPC.ghostBoss].ai[2] < 300f)
+			if (BossRushEvent.BossRushActive)
+				speedBoost = false;
+
+			if (Main.npc[CalamityGlobalNPC.ghostBoss].ai[2] < 300f)
             {
 				velocity = 21f;
 				acceleration = 0.13f;
@@ -148,7 +152,7 @@ namespace CalamityMod.NPCs.Polterghast
 			npc.rotation = (float)Math.Atan2(num741, num740) + MathHelper.PiOver2;
 
 			npc.damage = npc.defDamage;
-			if (speedBoost1)
+			if (speedBoost)
 				npc.damage *= 2;
 
 			if (!chargePhase)
@@ -184,7 +188,7 @@ namespace CalamityMod.NPCs.Polterghast
 
 				float num738 = (float)Math.Sqrt(num736 * num736 + num737 * num737);
 				float maxDistanceFromHooks = expertMode ? 650f : 500f;
-				if (speedBoost1)
+				if (speedBoost)
 					maxDistanceFromHooks += 500f;
 				if (death)
 					maxDistanceFromHooks += maxDistanceFromHooks * 0.1f * (1f - lifeRatio);

@@ -14,7 +14,8 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Swordsplosion");
-            Tooltip.SetDefault("Sword swarm");
+            Tooltip.SetDefault("Sword swarm\n" +
+				"Rare Item Variant");
         }
 
         public override void SetDefaults()

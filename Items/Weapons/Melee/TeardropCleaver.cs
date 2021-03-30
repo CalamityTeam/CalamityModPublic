@@ -10,19 +10,20 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Teardrop Cleaver");
-            Tooltip.SetDefault("Makes your enemies cry");
+            Tooltip.SetDefault("Makes your enemies cry\n" +
+				"Legendary");
         }
 
         public override void SetDefaults()
         {
             item.width = 56;
-            item.damage = 18;
+            item.damage = 30;
             item.melee = true;
             item.useAnimation = 24;
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.useTime = 24;
             item.useTurn = true;
-            item.knockBack = 4.5f;
+            item.knockBack = 5.5f;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             item.height = 66;

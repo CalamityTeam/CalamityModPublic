@@ -54,7 +54,7 @@ namespace CalamityMod.NPCs.DesertScourge
             }
 			if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)
 			{
-				npc.TargetClosest(true);
+				npc.TargetClosest();
 			}
 			Player player = Main.player[npc.target];
 			npc.velocity.Length();
@@ -193,7 +193,6 @@ namespace CalamityMod.NPCs.DesertScourge
             float num193 = (float)System.Math.Sqrt((double)(num191 * num191 + num192 * num192));
             if (!flag94)
             {
-                npc.TargetClosest(true);
                 npc.velocity.Y = npc.velocity.Y + (turnSpeed * 0.75f);
                 if (npc.velocity.Y > num188)
                 {

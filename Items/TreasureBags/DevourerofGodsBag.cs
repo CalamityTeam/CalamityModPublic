@@ -67,11 +67,6 @@ namespace CalamityMod.Items.TreasureBags
                 DropHelper.WeightStack<Eradicator>(w)
             );
 
-            DropHelper.DropItemChance(player, ModContent.ItemType<Skullmasher>(), DropHelper.RareVariantDropRateInt);
-            DropHelper.DropItemChance(player, ModContent.ItemType<Norfleet>(), DropHelper.RareVariantDropRateInt);
-            float dischargeChance = DropHelper.LegendaryDropRateFloat;
-            DropHelper.DropItemCondition(player, ModContent.ItemType<CosmicDischarge>(), CalamityWorld.revenge, dischargeChance);
-
             // Equipment
             DropHelper.DropItem(player, ModContent.ItemType<NebulousCore>());
             bool vodka = player.Calamity().fabsolVodka;

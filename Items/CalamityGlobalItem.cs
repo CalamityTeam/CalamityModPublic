@@ -994,7 +994,7 @@ namespace CalamityMod.Items
             }
             if (item.type == ItemID.MagicMirror || item.type == ItemID.IceMirror || item.type == ItemID.CellPhone || item.type == ItemID.RecallPotion)
             {
-                return !NPC.AnyNPCs(ModContent.NPCType<SupremeCalamitas>());
+                return !CalamityPlayer.areThereAnyDamnBosses;
             }
             if (item.type == ItemID.RodofDiscord)
             {
@@ -1204,7 +1204,7 @@ namespace CalamityMod.Items
 				#endregion
 
 				#region Uniquely Colored Non-Dev Items
-				if (item.type == ModContent.ItemType<AegisBlade>() || item.type == ModContent.ItemType<YharimsCrystal>())
+				if (item.type == ModContent.ItemType<AegisBlade>() || item.type == ModContent.ItemType<YharimsCrystal>() || item.type == ModContent.ItemType<CrownJewel>())
                     nameLine.overrideColor = new Color(255, Main.DiscoG, 53);
                 if (item.type == ModContent.ItemType<BlossomFlux>() || item.type == ModContent.ItemType<Malachite>())
                     nameLine.overrideColor = new Color(Main.DiscoR, 203, 103);
@@ -1214,10 +1214,10 @@ namespace CalamityMod.Items
                     nameLine.overrideColor = new Color(150, Main.DiscoG, 255);
                 if (item.type == ModContent.ItemType<SeasSearing>())
                     nameLine.overrideColor = new Color(60, Main.DiscoG, 190);
-                if (item.type == ModContent.ItemType<SHPC>())
+                if (item.type == ModContent.ItemType<SHPC>() || item.type == ModContent.ItemType<TeardropCleaver>())
                     nameLine.overrideColor = new Color(255, Main.DiscoG, 155);
-                if (item.type == ModContent.ItemType<Vesuvius>())
-                    nameLine.overrideColor = new Color(255, Main.DiscoG, 0);
+                if (item.type == ModContent.ItemType<Vesuvius>() || item.type == ModContent.ItemType<GoldBurdenBreaker>())
+					nameLine.overrideColor = new Color(255, Main.DiscoG, 0);
                 if (item.type == ModContent.ItemType<PristineFury>())
                     nameLine.overrideColor = CalamityUtils.ColorSwap(new Color(255, 168, 53), new Color(255, 249, 0), 2f);
                 if (item.type == ModContent.ItemType<LeonidProgenitor>())

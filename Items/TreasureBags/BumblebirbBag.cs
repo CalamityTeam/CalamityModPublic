@@ -51,8 +51,6 @@ namespace CalamityMod.Items.TreasureBags
                 DropHelper.WeightStack<RougeSlash>(w)
             );
 
-            DropHelper.DropItemChance(player, ModContent.ItemType<Swordsplosion>(), DropHelper.RareVariantDropRateInt);
-
             // Equipment
             DropHelper.DropItem(player, ModContent.ItemType<DynamoStemCells>());
             DropHelper.DropItemChance(player, ModContent.ItemType<BirdSeed>(), 3);

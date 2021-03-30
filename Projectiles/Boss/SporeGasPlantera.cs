@@ -64,7 +64,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override bool CanHitPlayer(Player target)
 		{
-            if (projectile.ai[1] > 1800f)
+            if (projectile.ai[1] > 1800f || projectile.ai[1] < 120f)
             {
                 return false;
             }

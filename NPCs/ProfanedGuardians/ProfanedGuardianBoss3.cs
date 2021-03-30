@@ -88,7 +88,8 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 			if (npc.timeLeft < 1800)
 				npc.timeLeft = 1800;
 
-			bool expertMode = Main.expertMode;
+			bool malice = CalamityWorld.malice;
+			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive || malice;
 			bool isHoly = player.ZoneHoly;
 			bool isHell = player.ZoneUnderworldHeight;
 

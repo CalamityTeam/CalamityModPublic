@@ -107,13 +107,14 @@ namespace CalamityMod.NPCs.Leviathan
 
 			// Variables
 			Player player = Main.player[npc.target];
-			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
-			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
+			bool malice = CalamityWorld.malice;
+			bool death = CalamityWorld.death || BossRushEvent.BossRushActive || malice;
+			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive || malice;
+            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive || malice;
 			bool notOcean = player.position.Y < 800f || player.position.Y > Main.worldSurface * 16.0 || (player.position.X > 6400f && player.position.X < (Main.maxTilesX * 16 - 6400));
 
 			float enrageScale = 0f;
-			if (notOcean)
+			if (notOcean || malice)
 				enrageScale += 2f;
 
 			if (BossRushEvent.BossRushActive)

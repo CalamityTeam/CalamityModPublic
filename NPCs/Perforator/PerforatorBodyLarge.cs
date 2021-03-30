@@ -41,7 +41,7 @@ namespace CalamityMod.NPCs.Perforator
             npc.netAlways = true;
             npc.dontCountMe = true;
 
-			if (CalamityWorld.death || BossRushEvent.BossRushActive)
+			if (CalamityWorld.death || BossRushEvent.BossRushActive || CalamityWorld.malice)
 				npc.scale = 1.25f;
 			else if (CalamityWorld.revenge)
 				npc.scale = 1.15f;

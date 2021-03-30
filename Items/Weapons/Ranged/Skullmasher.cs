@@ -11,7 +11,8 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             DisplayName.SetDefault("Skullmasher");
             Tooltip.SetDefault("Sniper shotgun, because why not?\n" +
-                "Converts musket balls into high velocity bullets that, on crit, fire a second swarm of bullets");
+                "Converts musket balls into high velocity bullets that, on crit, fire a second swarm of bullets\n" +
+				"Rare Item Variant");
         }
 
         public override void SetDefaults()

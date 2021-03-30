@@ -10,7 +10,8 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Clothier's Wrath");
-        }
+			Tooltip.SetDefault("Rare Item Variant");
+		}
 
         public override void SetDefaults()
         {
