@@ -10,7 +10,8 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Thunderstorm");
-            Tooltip.SetDefault("Make it rain");
+            Tooltip.SetDefault("Make it rain\n" +
+				"Rare Item Variant");
         }
 
         public override void SetDefaults()

@@ -43,7 +43,7 @@ namespace CalamityMod.NPCs.Perforator
             npc.DeathSound = SoundID.NPCDeath1;
             npc.netAlways = true;
 
-			if (CalamityWorld.death || BossRushEvent.BossRushActive)
+			if (CalamityWorld.death || BossRushEvent.BossRushActive || CalamityWorld.malice)
 				npc.scale = 1.25f;
 			else if (CalamityWorld.revenge)
 				npc.scale = 1.15f;
@@ -55,14 +55,15 @@ namespace CalamityMod.NPCs.Perforator
         {
 			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
-            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
-			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+			bool malice = CalamityWorld.malice;
+			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive || malice;
+			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive || malice;
+			bool death = CalamityWorld.death || BossRushEvent.BossRushActive || malice;
 
 			float enrageScale = 0f;
-			if ((npc.position.Y / 16f) < Main.worldSurface)
+			if ((npc.position.Y / 16f) < Main.worldSurface || malice)
 				enrageScale += 1f;
-			if (!Main.player[npc.target].ZoneCrimson)
+			if (!Main.player[npc.target].ZoneCrimson || malice)
 				enrageScale += 1f;
 
 			if (BossRushEvent.BossRushActive)
@@ -86,7 +87,7 @@ namespace CalamityMod.NPCs.Perforator
 				turnSpeed += accelerationScale * (1f - lifeRatio);
 			}
 
-			if (npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))
+			if (npc.Calamity().enraged > 0)
 			{
 				speed *= 1.25f;
 				turnSpeed *= 1.25f;

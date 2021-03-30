@@ -1,5 +1,6 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
+using CalamityMod.Events;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -42,7 +43,7 @@ namespace CalamityMod.Projectiles.Boss
             if (projectile.frame >= 5)
                 projectile.frame = 0;
 
-            bool revenge = CalamityWorld.revenge;
+            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive || CalamityWorld.malice;
 
             Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0.9f / 255f, 0f, 0f);
 

@@ -61,7 +61,7 @@ namespace CalamityMod.NPCs.DesertScourge
             else
                 music = MusicID.Boss1;
 
-			if (CalamityWorld.death || BossRushEvent.BossRushActive)
+			if (CalamityWorld.death || BossRushEvent.BossRushActive || CalamityWorld.malice)
 				npc.scale = 1.25f;
 			else if (CalamityWorld.revenge)
 				npc.scale = 1.15f;
@@ -85,9 +85,10 @@ namespace CalamityMod.NPCs.DesertScourge
         {
 			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
-            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
-			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+			bool malice = CalamityWorld.malice;
+			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive || malice;
+			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive || malice;
+			bool death = CalamityWorld.death || BossRushEvent.BossRushActive || malice;
 
 			// Get a target
 			if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
@@ -100,7 +101,7 @@ namespace CalamityMod.NPCs.DesertScourge
 			Player player = Main.player[npc.target];
 
 			float enrageScale = 0f;
-			if (!player.ZoneDesert)
+			if (!player.ZoneDesert || malice)
 				enrageScale += 2f;
 
 			if (BossRushEvent.BossRushActive)
@@ -142,7 +143,7 @@ namespace CalamityMod.NPCs.DesertScourge
 				turnSpeed *= 2f;
 			}
 
-			if (npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))
+			if (npc.Calamity().enraged > 0)
 			{
 				speed *= 1.25f;
 				turnSpeed *= 1.25f;
@@ -227,7 +228,7 @@ namespace CalamityMod.NPCs.DesertScourge
 			if (!flag94)
 			{
 				Rectangle rectangle12 = new Rectangle((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height);
-				int num954 = (npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive)) ? 500 : 1000;
+				int num954 = (npc.Calamity().enraged > 0) ? 500 : 1000;
 				if (enrageScale > 0f)
 					num954 = 200;
 				if (BossRushEvent.BossRushActive)
@@ -538,7 +539,10 @@ namespace CalamityMod.NPCs.DesertScourge
         {
             DropHelper.DropBags(npc);
 
-            DropHelper.DropItem(npc, ItemID.LesserHealingPotion, 8, 14);
+			// Legendary drop for Desert Scourge
+			DropHelper.DropItemCondition(npc, ModContent.ItemType<DuneHopper>(), true, CalamityWorld.malice);
+
+			DropHelper.DropItem(npc, ItemID.LesserHealingPotion, 8, 14);
             DropHelper.DropItemChance(npc, ModContent.ItemType<DesertScourgeTrophy>(), 10);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeDesertScourge>(), true, !CalamityWorld.downedDesertScourge);
             DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedDesertScourge, 2, 0, 0);
@@ -565,18 +569,11 @@ namespace CalamityMod.NPCs.DesertScourge
                     DropHelper.WeightStack<SeaboundStaff>(w),
                     DropHelper.WeightStack<ScourgeoftheDesert>(w),
                 };
-
-                // If the RIV roll for Dune Hopper succeeds, REPLACE Scourge of the Desert with a guaranteed Dune Hopper.
-                float duneHopperChance = DropHelper.RareVariantDropRateFloat;
-                if (Main.rand.NextFloat() < duneHopperChance)
-                    weapons[4] = DropHelper.WeightStack<DuneHopper>();
-
                 DropHelper.DropEntireWeightedSet(npc, weapons);
 
                 // Equipment
                 DropHelper.DropItemChance(npc, ModContent.ItemType<AeroStone>(), 10);
                 DropHelper.DropItemChance(npc, ModContent.ItemType<SandCloak>(), 10);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<DeepDiver>(), DropHelper.RareVariantDropRateInt);
 
                 // Vanity
                 DropHelper.DropItemChance(npc, ModContent.ItemType<DesertScourgeMask>(), 7);

@@ -3550,9 +3550,17 @@ namespace CalamityMod.CalPlayer
                 for (int l = 0; l < Main.maxNPCs; l++)
                 {
                     NPC nPC = Main.npc[l];
-                    if (nPC.active && !nPC.friendly && (nPC.damage > 0 || nPC.boss) && !nPC.dontTakeDamage && Vector2.Distance(player.Center, nPC.Center) <= maxDistance)
+
+					// Take the longer of the two directions for the NPC's hitbox to be generous.
+					float generousHitboxWidth = Math.Max(nPC.Hitbox.Width / 2f, nPC.Hitbox.Height / 2f);
+					float hitboxEdgeDist = nPC.Distance(player.Center) - generousHitboxWidth;
+
+					if (hitboxEdgeDist < 0)
+						hitboxEdgeDist = 0;
+
+					if (nPC.active && !nPC.friendly && (nPC.damage > 0 || nPC.boss) && !nPC.dontTakeDamage && hitboxEdgeDist < maxDistance)
                     {
-                        meleeSpeedBoost += MathHelper.Lerp(0f, 0.3f, 1f - (Vector2.Distance(player.Center, nPC.Center) / maxDistance));
+                        meleeSpeedBoost += MathHelper.Lerp(0f, 0.3f, 1f - (hitboxEdgeDist / maxDistance));
 
                         if (meleeSpeedBoost >= 0.3f)
                         {
@@ -3804,10 +3812,6 @@ namespace CalamityMod.CalPlayer
             {
                 runAccMult *= 0.5f;
                 runSpeedMult *= 0.5f;
-            }
-            if (player.powerrun)
-            {
-                runSpeedMult *= 0.6f;
             }
             if ((player.slippy || player.slippy2) && player.iceSkate)
             {
@@ -5130,7 +5134,7 @@ namespace CalamityMod.CalPlayer
             {
                 damageMult += trueMeleeDamage;
             }
-            if (enraged && !CalamityConfig.Instance.BossRushXerocCurse)
+            if (enraged)
             {
                 damageMult += 1.25;
             }
@@ -5173,18 +5177,12 @@ namespace CalamityMod.CalPlayer
                 int defenseAdd = (int)(target.defense * 0.5);
                 damage += defenseAdd;
             }
-            if (item.melee && badgeOfBravery)
-            {
-                if ((player.armor[0].type == ModContent.ItemType<TarragonHelmet>() || player.armor[0].type == ModContent.ItemType<TarragonHelm>() ||
-                    player.armor[0].type == ModContent.ItemType<TarragonHornedHelm>() || player.armor[0].type == ModContent.ItemType<TarragonMask>() ||
-                    player.armor[0].type == ModContent.ItemType<TarragonVisage>()) &&
-                    player.armor[1].type == ModContent.ItemType<TarragonBreastplate>() && player.armor[2].type == ModContent.ItemType<TarragonLeggings>())
-                {
-                    int penetratableDefense = Math.Max(target.defense - player.armorPenetration, 0);
-                    int penetratedDefense = Math.Min(penetratableDefense, 10);
-                    damage += (int)(0.5f * penetratedDefense);
-                }
-            }
+			if (item.melee && badgeOfBravery)
+			{
+				int penetratableDefense = Math.Max(target.defense - player.armorPenetration, 0);
+				int penetratedDefense = Math.Min(penetratableDefense, 5);
+				damage += (int)(0.5f * penetratedDefense);
+			}
             #endregion
 
             if (draedonsHeart)
@@ -5272,7 +5270,7 @@ namespace CalamityMod.CalPlayer
 			{
 				damageMult += 0.15;
 			}
-			if (enraged && !CalamityConfig.Instance.BossRushXerocCurse)
+			if (enraged)
             {
                 damageMult += 1.25;
             }
@@ -5374,16 +5372,10 @@ namespace CalamityMod.CalPlayer
                 else if (filthyGlove || bloodyGlove)
                     penetrateAmt += 10;
             }
-            if (proj.melee && badgeOfBravery)
-            {
-                if ((player.armor[0].type == ModContent.ItemType<TarragonHelmet>() || player.armor[0].type == ModContent.ItemType<TarragonHelm>() ||
-                    player.armor[0].type == ModContent.ItemType<TarragonHornedHelm>() || player.armor[0].type == ModContent.ItemType<TarragonMask>() ||
-                    player.armor[0].type == ModContent.ItemType<TarragonVisage>()) &&
-                    player.armor[1].type == ModContent.ItemType<TarragonBreastplate>() && player.armor[2].type == ModContent.ItemType<TarragonLeggings>())
-                {
-                    penetrateAmt += 10;
-                }
-            }
+			if (proj.melee && badgeOfBravery)
+			{
+				penetrateAmt += 5;
+			}
             int penetratableDefense = Math.Max(target.defense - player.armorPenetration, 0); //if find how much defense we can penetrate
             int penetratedDefense = Math.Min(penetratableDefense, penetrateAmt); //if we have more penetrate than enemy defense, use enemy defense
             damage += (int)(0.5f * penetratedDefense);
@@ -5428,9 +5420,6 @@ namespace CalamityMod.CalPlayer
                 {
                     case ProjectileID.CrystalShard:
                         damage = (int)(damage * 0.6);
-                        break;
-                    case ProjectileID.ChlorophyteBullet:
-                        damage = (int)(damage * 0.8);
                         break;
                     case ProjectileID.HallowStar:
                         damage = (int)(damage * 0.7);
@@ -5581,7 +5570,7 @@ namespace CalamityMod.CalPlayer
                     if (player.hurtCooldowns[i] > 0)
                         isImmune = true;
                 }
-                if (!isImmune)
+                if (!isImmune && !invincible && !lol)
                 {
                     int newDamage = damage;
 
@@ -5592,7 +5581,10 @@ namespace CalamityMod.CalPlayer
                     int damageToDefense = (int)(newDamage * defenseStatDamageMult);
                     defenseDamage += damageToDefense;
 
-                    string text = (-damageToDefense).ToString();
+					if (hurtSoundTimer == 0)
+						Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/DefenseDamage"), (int)player.position.X, (int)player.position.Y);
+
+					string text = (-damageToDefense).ToString();
                     Color messageColor = Color.LightGray;
                     Rectangle location = new Rectangle((int)player.position.X, (int)player.position.Y - 16, player.width, player.height);
                     CombatText.NewText(location, messageColor, Language.GetTextValue(text));
@@ -6014,7 +6006,7 @@ namespace CalamityMod.CalPlayer
                     if (player.hurtCooldowns[i] > 0)
                         isImmune = true;
                 }
-                if (!isImmune)
+                if (!isImmune && !invincible && !lol)
                 {
                     int newDamage = damage;
 
@@ -6025,7 +6017,10 @@ namespace CalamityMod.CalPlayer
                     int damageToDefense = (int)(newDamage * defenseStatDamageMult);
                     defenseDamage += damageToDefense;
 
-                    string text = (-damageToDefense).ToString();
+					if (hurtSoundTimer == 0)
+						Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/DefenseDamage"), (int)player.position.X, (int)player.position.Y);
+
+					string text = (-damageToDefense).ToString();
                     Color messageColor = Color.LightGray; // Light Gray text because it's visible and defense icon is gray in the UI
                     Rectangle location = new Rectangle((int)player.position.X, (int)player.position.Y - 16, player.width, player.height);
                     CombatText.NewText(location, messageColor, Language.GetTextValue(text));
@@ -6923,7 +6918,7 @@ namespace CalamityMod.CalPlayer
                     if (StealthStrikeAvailable())
                     {
                         int knifeCount = 15;
-                        int knifeDamage = (int)(120 * player.RogueDamage());
+                        int knifeDamage = (int)(85 * player.RogueDamage());
                         float angleStep = MathHelper.TwoPi / knifeCount;
                         float speed = 15f;
 
@@ -8418,7 +8413,7 @@ namespace CalamityMod.CalPlayer
             {
                 if (dashMod == 1) //Counter and Evasion Scarf
                 {
-                    if (DoADash(evasionScarf ? 16.3f : 14.5f))
+                    if (DoADash(evasionScarf ? 16.3f : 15f))
                     {
                         for (int d = 0; d < 20; d++)
                         {

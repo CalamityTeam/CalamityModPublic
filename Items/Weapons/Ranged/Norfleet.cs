@@ -11,7 +11,8 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Norfleet");
-        }
+			Tooltip.SetDefault("Rare Item Variant");
+		}
 
         public override void SetDefaults()
         {

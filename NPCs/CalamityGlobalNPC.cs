@@ -186,6 +186,10 @@ namespace CalamityMod.NPCs
         public static int SCalCatastrophe = -1;
         public static int SCal = -1;
         public static int SCalWorm = -1;
+		public static int draedonExoMechWorm = -1;
+		public static int draedonExoMechTwinRed = -1;
+		public static int draedonExoMechTwinGreen = -1;
+		public static int draedonExoMechPrime = -1;
 
         // Collections
         public static SortedDictionary<int, int> BossRushHPChanges = new SortedDictionary<int, int>
@@ -673,7 +677,12 @@ namespace CalamityMod.NPCs
             ResetSavedIndex(ref SCal, NPCType<SupremeCalamitas.SupremeCalamitas>());
             ResetSavedIndex(ref SCalWorm, NPCType<SCalWormHead>());
 
-            CalamityGlobalTownNPC.ResetTownNPCNameBools(npc, mod);
+			/*ResetSavedIndex(ref draedonExoMechWorm, NPCType<ExoWormHead>());
+			ResetSavedIndex(ref draedonExoMechTwinRed, NPCType<ExoTwinRed>());
+			ResetSavedIndex(ref draedonExoMechTwinGreen, NPCType<ExoTwinGreen>());
+			ResetSavedIndex(ref draedonExoMechPrime, NPCType<ExoPrime>());*/
+
+			CalamityGlobalTownNPC.ResetTownNPCNameBools(npc, mod);
         }
         #endregion
 
@@ -1993,12 +2002,12 @@ namespace CalamityMod.NPCs
             if (BossRushEvent.BossRushActive && !npc.friendly && !npc.townNPC)
                 BossRushForceDespawnOtherNPCs(npc, mod);
 
-			if (CalamityWorld.revenge || BossRushEvent.BossRushActive)
+			if (CalamityWorld.revenge || BossRushEvent.BossRushActive || CalamityWorld.malice)
             {
 				switch (npc.type)
                 {
                     case NPCID.KingSlime:
-                        return CalamityGlobalAI.BuffedKingSlimeAI(npc, mod);
+                        return CalamityGlobalAI.BuffedKingSlimeAI(npc, enraged > 0, mod);
 
                     case NPCID.EyeofCthulhu:
                         return CalamityGlobalAI.BuffedEyeofCthulhuAI(npc, enraged > 0, mod);
@@ -2006,7 +2015,7 @@ namespace CalamityMod.NPCs
                     case NPCID.EaterofWorldsHead:
                     case NPCID.EaterofWorldsBody:
                     case NPCID.EaterofWorldsTail:
-                        return CalamityGlobalAI.BuffedEaterofWorldsAI(npc, mod);
+                        return CalamityGlobalAI.BuffedEaterofWorldsAI(npc, enraged > 0, mod);
 
                     case NPCID.BrainofCthulhu:
                         return CalamityGlobalAI.BuffedBrainofCthulhuAI(npc, enraged > 0, mod);
@@ -3155,12 +3164,10 @@ namespace CalamityMod.NPCs
         {
             if (CalamityWorld.revenge || BossRushEvent.BossRushActive)
             {
-                bool configBossRushBoost = CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive;
-
                 switch (npc.type)
                 {
                     case NPCID.DungeonGuardian:
-                        CalamityGlobalAI.RevengeanceDungeonGuardianAI(npc, configBossRushBoost, enraged > 0);
+                        CalamityGlobalAI.RevengeanceDungeonGuardianAI(npc);
                         break;
 
                     default:
@@ -3446,6 +3453,10 @@ namespace CalamityMod.NPCs
                     // 25% resist to Wave Pounder
                     else if (projectile.type == ProjectileType<WavePounderBoom>())
                         damage = (int)(damage * 0.75);
+
+					// 15% resist to Dark Spark
+					else if (projectile.type == ProjectileType<DarkSparkBeam>())
+						damage = (int)(damage * 0.85);
 				}
 				else if (CosmicGuardianIDs.Contains(npc.type) || DarkEnergyIDs.Contains(npc.type))
 				{
@@ -4302,42 +4313,28 @@ namespace CalamityMod.NPCs
 			}
 
             if (gState > 0 || eFreeze > 0)
-            {
                 drawColor = Color.Cyan;
-            }
 
             if (marked > 0 || sulphurPoison > 0 || vaporfied > 0)
-            {
                 drawColor = Color.Fuchsia;
-            }
 
             if (pearlAura > 0)
-            {
                 drawColor = Color.White;
-            }
 
             if (timeSlow > 0 || tesla > 0)
-            {
                 drawColor = Color.Aquamarine;
-            }
         }
 
         public override Color? GetAlpha(NPC npc, Color drawColor)
         {
             if (Main.LocalPlayer.Calamity().trippy)
-            {
                 return new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB, npc.alpha);
-            }
 
-            if (enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))
-            {
+            if (enraged > 0)
                 return new Color(200, 50, 50, npc.alpha);
-            }
 
             if (npc.Calamity().kamiFlu > 0 && !CalamityLists.kamiDebuffColorImmuneList.Contains(npc.type))
-            {
                 return new Color(51, 197, 108, npc.alpha);
-            }
 
             return null;
         }

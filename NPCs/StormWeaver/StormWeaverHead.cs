@@ -84,9 +84,10 @@ namespace CalamityMod.NPCs.StormWeaver
 
         public override void AI()
         {
-			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
-			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+			bool malice = CalamityWorld.malice;
+			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive || malice;
+			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive || malice;
+			bool death = CalamityWorld.death || BossRushEvent.BossRushActive || malice;
 			if (npc.defense < 99999 && (CalamityWorld.DoGSecondStageCountdown <= 0 || !CalamityWorld.downedSentinel2))
             {
                 npc.defense = 99999;
@@ -173,7 +174,7 @@ namespace CalamityMod.NPCs.StormWeaver
 
                 if (BoltCountdown == 0)
                 {
-                    BoltCountdown = 600;
+                    BoltCountdown = malice ? 480 : 600;
                 }
                 if (BoltCountdown > 0)
                 {
@@ -181,7 +182,7 @@ namespace CalamityMod.NPCs.StormWeaver
                     if (BoltCountdown == 0)
                     {
                         int speed2 = revenge ? 8 : 7;
-                        if (npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))
+                        if (npc.Calamity().enraged > 0)
                         {
                             speed2 += 1;
                         }
@@ -309,8 +310,8 @@ namespace CalamityMod.NPCs.StormWeaver
             }
             else
             {
-                num188 = revenge ? 11f : 10f;
-                num189 = revenge ? 0.31f : 0.28f;
+                num188 = malice ? 13f : revenge ? 11f : 10f;
+                num189 = malice ? 0.38f : revenge ? 0.31f : 0.28f;
             }
             float num48 = num188 * 1.3f;
             float num49 = num188 * 0.7f;

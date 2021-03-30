@@ -14,17 +14,17 @@ namespace CalamityMod.Items.Accessories
             Tooltip.SetDefault("The good time\n" +
 				"Go fast\n" +
 				"WARNING: May have disastrous results\n" +
-				"Increases horizontal movement speed beyond comprehension");
+				"Increases horizontal movement speed beyond comprehension\n" +
+				"Legendary");
         }
 
         public override void SetDefaults()
         {
             item.width = 28;
             item.height = 28;
-            item.value = CalamityGlobalItem.Rarity12BuyPrice;
-            item.rare = ItemRarityID.Purple;
+            item.value = CalamityGlobalItem.Rarity5BuyPrice;
+            item.rare = ItemRarityID.Pink;
             item.accessory = true;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

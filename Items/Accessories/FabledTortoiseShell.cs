@@ -12,7 +12,8 @@ namespace CalamityMod.Items.Accessories
             DisplayName.SetDefault("Fabled Tortoise Shell");
             Tooltip.SetDefault("50% reduced movement speed\n" +
                                 "Enemies take damage when they hit you\n" +
-                                "You move faster and lose 18 defense for 3 seconds if you take damage");
+                                "You move faster and lose 18 defense for 3 seconds if you take damage\n" +
+								"Rare Item Variant");
         }
 
         public override void SetDefaults()

@@ -1,5 +1,7 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
+using CalamityMod.Events;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.IO;
@@ -31,7 +33,7 @@ namespace CalamityMod.NPCs.AstrumDeus
             aiType = -1;
             npc.knockBackResist = 0f;
             npc.scale = 1.2f;
-            if (Main.expertMode)
+            if (Main.expertMode || BossRushEvent.BossRushActive || CalamityWorld.malice)
             {
                 npc.scale = 1.35f;
             }

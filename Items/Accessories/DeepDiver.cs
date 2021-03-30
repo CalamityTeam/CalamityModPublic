@@ -11,16 +11,17 @@ namespace CalamityMod.Items.Accessories
         {
             DisplayName.SetDefault("Deep Diver");
             Tooltip.SetDefault("15% increased damage, movement speed and +15 defense while underwater\n" +
-                                "While underwater you gain the ability to dash great distances");
+                                "While underwater you gain the ability to dash great distances\n" +
+								"Rare Item Variant");
         }
 
         public override void SetDefaults()
         {
             item.width = 24;
             item.height = 28;
-            item.value = CalamityGlobalItem.Rarity2BuyPrice;
-            item.rare = ItemRarityID.Green;
-            item.defense = 2;
+			item.value = CalamityGlobalItem.Rarity5BuyPrice;
+			item.rare = ItemRarityID.Pink;
+			item.defense = 2;
             item.accessory = true;
             item.Calamity().customRarity = CalamityRarity.RareVariant;
         }

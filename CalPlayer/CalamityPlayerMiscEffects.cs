@@ -970,8 +970,6 @@ namespace CalamityMod.CalPlayer
 					player.maxFallSpeed = 15f;
 				if (modPlayer.gSabatonFall > 0 && !player.wet)
 					player.maxFallSpeed = 20f;
-				if (modPlayer.normalityRelocator)
-					player.maxFallSpeed *= 1.1f;
 			}
 
 			// Omega Blue Armor bonus
@@ -2951,9 +2949,17 @@ namespace CalamityMod.CalPlayer
 				for (int l = 0; l < Main.maxNPCs; l++)
 				{
 					NPC nPC = Main.npc[l];
-					if (nPC.active && !nPC.friendly && (nPC.damage > 0 || nPC.boss) && !nPC.dontTakeDamage && Vector2.Distance(player.Center, nPC.Center) <= maxDistance)
+
+					// Take the longer of the two directions for the NPC's hitbox to be generous.
+					float generousHitboxWidth = Math.Max(nPC.Hitbox.Width / 2f, nPC.Hitbox.Height / 2f);
+					float hitboxEdgeDist = nPC.Distance(player.Center) - generousHitboxWidth;
+
+					if (hitboxEdgeDist < 0)
+						hitboxEdgeDist = 0;
+
+					if (nPC.active && !nPC.friendly && (nPC.damage > 0 || nPC.boss) && !nPC.dontTakeDamage && hitboxEdgeDist < maxDistance)
 					{
-						damageBoost += MathHelper.Lerp(0f, 0.3f, 1f - (Vector2.Distance(player.Center, nPC.Center) / maxDistance));
+						damageBoost += MathHelper.Lerp(0f, 0.3f, 1f - (hitboxEdgeDist / maxDistance));
 
 						if (damageBoost >= 0.3f)
 						{
@@ -3586,14 +3592,8 @@ namespace CalamityMod.CalPlayer
 
 			if (modPlayer.badgeOfBravery)
 			{
-				if ((player.armor[0].type == ModContent.ItemType<TarragonHelmet>() || player.armor[0].type == ModContent.ItemType<TarragonHelm>() ||
-					player.armor[0].type == ModContent.ItemType<TarragonHornedHelm>() || player.armor[0].type == ModContent.ItemType<TarragonMask>() ||
-					player.armor[0].type == ModContent.ItemType<TarragonVisage>()) &&
-					player.armor[1].type == ModContent.ItemType<TarragonBreastplate>() && player.armor[2].type == ModContent.ItemType<TarragonLeggings>())
-				{
-					player.meleeDamage += 0.1f;
-					player.meleeCrit += 5;
-				}
+				player.meleeDamage += 0.05f;
+				player.meleeCrit += 5;
 			}
 
 			if (CalamityConfig.Instance.Proficiency)
@@ -3615,9 +3615,17 @@ namespace CalamityMod.CalPlayer
 				for (int l = 0; l < Main.maxNPCs; l++)
 				{
 					NPC nPC = Main.npc[l];
-					if (nPC.active && !nPC.friendly && (nPC.damage > 0 || nPC.boss) && !nPC.dontTakeDamage && Vector2.Distance(player.Center, nPC.Center) <= maxDistance)
+
+					// Take the longer of the two directions for the NPC's hitbox to be generous.
+					float generousHitboxWidth = Math.Max(nPC.Hitbox.Width / 2f, nPC.Hitbox.Height / 2f);
+					float hitboxEdgeDist = nPC.Distance(player.Center) - generousHitboxWidth;
+
+					if (hitboxEdgeDist < 0)
+						hitboxEdgeDist = 0;
+
+					if (nPC.active && !nPC.friendly && (nPC.damage > 0 || nPC.boss) && !nPC.dontTakeDamage && hitboxEdgeDist < maxDistance)
 					{
-						damageBoost += MathHelper.Lerp(0f, 0.3f, 1f - (Vector2.Distance(player.Center, nPC.Center) / maxDistance));
+						damageBoost += MathHelper.Lerp(0f, 0.3f, 1f - (hitboxEdgeDist / maxDistance));
 
 						if (damageBoost >= 0.3f)
 						{

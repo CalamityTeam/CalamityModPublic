@@ -1,5 +1,5 @@
 using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.NPCs;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -124,7 +124,7 @@ namespace CalamityMod.Projectiles.Boss
 			int blue = projectile.ai[0] != 0f ? 0 : 125;
 			Color baseColor = new Color(255, green, blue, 255);
 
-			if (!Main.dayTime)
+			if (!Main.dayTime || CalamityWorld.malice)
 			{
 				int red = projectile.ai[0] != 0f ? 100 : 175;
 				green = projectile.ai[0] != 0f ? 255 : 175;
@@ -172,7 +172,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-			int buffType = Main.dayTime ? ModContent.BuffType<HolyFlames>() : ModContent.BuffType<Nightwither>();
+			int buffType = (Main.dayTime && !CalamityWorld.malice) ? ModContent.BuffType<HolyFlames>() : ModContent.BuffType<Nightwither>();
 			target.AddBuff(buffType, 120);
 		}
 

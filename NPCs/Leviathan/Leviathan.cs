@@ -89,9 +89,10 @@ namespace CalamityMod.NPCs.Leviathan
 
             CalamityGlobalNPC.leviathan = npc.whoAmI;
 
-			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
-            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
+			bool malice = CalamityWorld.malice;
+			bool death = CalamityWorld.death || BossRushEvent.BossRushActive || malice;
+            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive || malice;
+            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive || malice;
             Vector2 vector = npc.Center;
 
 			// Is in spawning animation
@@ -159,7 +160,7 @@ namespace CalamityMod.NPCs.Leviathan
             bool notOcean = player.position.Y < 800f || player.position.Y > Main.worldSurface * 16.0 || (player.position.X > 6400f && player.position.X < (Main.maxTilesX * 16 - 6400));
 
 			float enrageScale = 0f;
-			if (notOcean)
+			if (notOcean || malice)
 				enrageScale += 2f;
 
 			if (BossRushEvent.BossRushActive)
@@ -328,7 +329,7 @@ namespace CalamityMod.NPCs.Leviathan
 
 								speed += 8f * enrageScale;
 
-                                if (npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))
+                                if (npc.Calamity().enraged > 0)
                                     speed = 22f;
 
 								if (!sirenAlive || phase4)
@@ -504,7 +505,7 @@ namespace CalamityMod.NPCs.Leviathan
 							if (revenge && (!sirenAlive || phase4))
 								num1044 += death ? 9f * (1f - lifeRatio) : 6f * (1f - lifeRatio);
 
-                            if (npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))
+                            if (npc.Calamity().enraged > 0)
                                 num1044 += 4f;
 
                             if (BossRushEvent.BossRushActive)
@@ -533,7 +534,7 @@ namespace CalamityMod.NPCs.Leviathan
 							num1049 += death ? 0.15f * (1f - lifeRatio) : 0.1f * (1f - lifeRatio);
 						}
 
-                        if (npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))
+                        if (npc.Calamity().enraged > 0)
                         {
                             num1048 += 3f;
                             num1049 += 0.2f;
@@ -668,7 +669,10 @@ namespace CalamityMod.NPCs.Leviathan
         {
             DropHelper.DropBags(npc);
 
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeOcean>(), true, !CalamityWorld.downedLeviathan);
+			// Legendary drop for Leviathan and Anahita
+			DropHelper.DropItemCondition(npc, ModContent.ItemType<TheCommunity>(), true, CalamityWorld.malice);
+
+			DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeOcean>(), true, !CalamityWorld.downedLeviathan);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeLeviathanandSiren>(), true, !CalamityWorld.downedLeviathan);
             DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedLeviathan, 4, 2, 1);
 

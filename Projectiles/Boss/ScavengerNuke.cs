@@ -30,7 +30,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void AI()
         {
-            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
+            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive || CalamityWorld.malice;
 
             if (projectile.timeLeft < 180)
                 projectile.tileCollide = true;

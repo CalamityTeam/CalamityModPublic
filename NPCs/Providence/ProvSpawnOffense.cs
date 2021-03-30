@@ -59,8 +59,7 @@ namespace CalamityMod.NPCs.Providence
         public override void AI()
         {
             CalamityGlobalNPC.holyBossAttacker = npc.whoAmI;
-            bool fireDust = (double)npc.life <= (double)npc.lifeMax * 0.5;
-            bool expertMode = Main.expertMode;
+            bool fireDust = npc.life <= npc.lifeMax * 0.5;
             Vector2 vectorCenter = npc.Center;
 			npc.TargetClosest(false);
 			Player player = Main.player[npc.target];

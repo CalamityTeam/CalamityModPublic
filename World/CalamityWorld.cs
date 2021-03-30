@@ -68,6 +68,7 @@ namespace CalamityMod.World
         public static bool death = false; //Death Mode
         public static bool armageddon = false; //Armageddon Mode
         public static bool ironHeart = false; //Iron Heart Mode
+		public static bool malice = false; // Malice Mode, enrages all bosses and makes them drop good shit
 
         // New Temple Altar
         public static int newAltarX = 0;
@@ -289,6 +290,7 @@ namespace CalamityMod.World
             death = false;
             armageddon = false;
             ironHeart = false;
+			malice = false;
             rainingAcid = false;
             downedEoCAcidRain = false;
             downedAquaticScourgeAcidRain = false;
@@ -368,6 +370,8 @@ namespace CalamityMod.World
                 downed.Add("armageddon");
             if (ironHeart)
                 downed.Add("ironHeart");
+			if (malice)
+				downed.Add("malice");
             if (abyssSide)
                 downed.Add("abyssSide");
             if (BossRushEvent.BossRushActive)
@@ -506,6 +510,7 @@ namespace CalamityMod.World
             death = downed.Contains("death");
             armageddon = downed.Contains("armageddon");
             ironHeart = downed.Contains("ironHeart");
+			malice = downed.Contains("malice");
             abyssSide = downed.Contains("abyssSide");
             BossRushEvent.BossRushActive = downed.Contains("bossRushActive");
             downedCLAM = downed.Contains("clam");
@@ -667,6 +672,9 @@ namespace CalamityMod.World
                 _ = flags10[5];
                 _ = flags10[6];
                 _ = flags10[7];
+
+				BitsByte flags11 = reader.ReadByte();
+				malice = flags11[0];
             }
             else
             {
@@ -779,6 +787,9 @@ namespace CalamityMod.World
             flags10[6] = false;
             flags10[7] = false;
 
+			BitsByte flags11 = new BitsByte();
+			flags11[0] = malice;
+
             writer.Write(flags);
             writer.Write(flags2);
             writer.Write(flags3);
@@ -789,6 +800,7 @@ namespace CalamityMod.World
             writer.Write(flags8);
             writer.Write(flags9);
             writer.Write(flags10);
+			writer.Write(flags11);
             writer.Write(abyssChasmBottom);
             writer.Write(acidRainPoints);
             writer.Write(Reforges);

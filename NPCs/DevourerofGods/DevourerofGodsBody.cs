@@ -75,8 +75,6 @@ namespace CalamityMod.NPCs.DevourerofGods
 
         public override void AI()
         {
-            bool expertMode = Main.expertMode;
-
             Lighting.AddLight((int)((npc.position.X + (npc.width / 2)) / 16f), (int)((npc.position.Y + (npc.height / 2)) / 16f), 0f, 0.2f, 0.25f);
 
             if (invinceTime > 0)

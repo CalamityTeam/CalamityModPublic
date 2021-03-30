@@ -11,7 +11,8 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             DisplayName.SetDefault("Lead Wizard");
             Tooltip.SetDefault("Something's not right...\n" +
-                "33% chance to not consume ammo");
+                "33% chance to not consume ammo\n" +
+				"Rare Item Variant");
         }
 
         public override void SetDefaults()

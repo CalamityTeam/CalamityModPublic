@@ -12,14 +12,15 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             DisplayName.SetDefault("Eye of Magnus");
             Tooltip.SetDefault("Fires powerful beams\n" +
-                "Heals mana and health on hit");
+                "Heals mana and health on hit\n" +
+				"Rare Item Variant");
         }
 
         public override void SetDefaults()
         {
             item.width = 80;
-            item.damage = 55;
-            item.rare = ItemRarityID.Pink;
+            item.damage = 80;
+            item.rare = ItemRarityID.Cyan;
             item.useAnimation = 20;
             item.useTime = 20;
             item.useStyle = ItemUseStyleID.HoldingOut;
@@ -30,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.autoReuse = true;
             item.noMelee = true;
             item.height = 50;
-            item.value = Item.buyPrice(0, 36, 0, 0);
+            item.value = Item.buyPrice(0, 95, 0, 0);
             item.shoot = ModContent.ProjectileType<MagnusBeam>();
             item.shootSpeed = 12f;
             item.Calamity().customRarity = CalamityRarity.RareVariant;

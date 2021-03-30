@@ -98,9 +98,10 @@ namespace CalamityMod.NPCs.StormWeaver
         {
 			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
-			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
-			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
+			bool malice = CalamityWorld.malice;
+			bool death = CalamityWorld.death || BossRushEvent.BossRushActive || malice;
+			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive || malice;
+            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive || malice;
 
             if (invinceTime > 0)
             {
@@ -197,7 +198,7 @@ namespace CalamityMod.NPCs.StormWeaver
 
 				if (expertMode)
 				{
-					npc.localAI[0] += 1f;
+					npc.localAI[0] += malice ? 1.5f : 1f;
 					if (npc.localAI[0] >= 450f)
 					{
 						npc.localAI[0] = 0f;
@@ -211,7 +212,7 @@ namespace CalamityMod.NPCs.StormWeaver
 
 						int type = ProjectileID.CultistBossLightningOrb;
 						int damage = npc.GetProjectileDamage(type);
-						Projectile.NewProjectile(spawnPos, Vector2.Zero, type, damage, 0f, Main.myPlayer, 0f, 0f);
+						Projectile.NewProjectile(spawnPos, Vector2.Zero, type, damage, 0f, Main.myPlayer);
 					}
 				}
             }
@@ -281,8 +282,8 @@ namespace CalamityMod.NPCs.StormWeaver
             Vector2 vector18 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
             float num191 = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2);
             float num192 = Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2);
-            float num188 = revenge ? 13f : 12f;
-            float num189 = revenge ? 0.31f : 0.28f;
+            float num188 = malice ? 15f : revenge ? 13f : 12f;
+            float num189 = malice ? 0.36f : revenge ? 0.31f : 0.28f;
 
 			calamityGlobalNPC.newAI[0] += 1f;
 			if (calamityGlobalNPC.newAI[0] >= 400f)
@@ -340,7 +341,7 @@ namespace CalamityMod.NPCs.StormWeaver
 				}
 			}
 			else if (revenge)
-				calamityGlobalNPC.newAI[0] += death ? 2f : 2f * (float)(1D - lifeRatio);
+				calamityGlobalNPC.newAI[0] += malice ? 4f : death ? 2f : 2f * (float)(1D - lifeRatio);
 
             float num48 = num188 * 1.3f;
             float num49 = num188 * 0.7f;
@@ -367,7 +368,7 @@ namespace CalamityMod.NPCs.StormWeaver
 				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					int speed2 = revenge ? 8 : 7;
-					if (npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))
+					if (npc.Calamity().enraged > 0)
 					{
 						speed2 += 1;
 					}
@@ -645,6 +646,9 @@ namespace CalamityMod.NPCs.StormWeaver
             {
 				DropHelper.DropBags(npc);
 
+				// Legendary drop for Storm Weaver
+				DropHelper.DropItemCondition(npc, ModContent.ItemType<Thunderstorm>(), true, CalamityWorld.malice);
+
 				DropHelper.DropItemChance(npc, ModContent.ItemType<WeaverTrophy>(), 10);
 				bool lastSentinelKilled = CalamityWorld.downedSentinel1 && !CalamityWorld.downedSentinel2 && CalamityWorld.downedSentinel3;
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeSentinels>(), true, lastSentinelKilled);
@@ -657,7 +661,6 @@ namespace CalamityMod.NPCs.StormWeaver
 					// Weapons
 					DropHelper.DropItemChance(npc, ModContent.ItemType<TheStorm>(), 4);
 					DropHelper.DropItemChance(npc, ModContent.ItemType<StormDragoon>(), 4);
-					DropHelper.DropItemChance(npc, ModContent.ItemType<Thunderstorm>(), DropHelper.RareVariantDropRateFloat);
 
 					// Vanity
 					DropHelper.DropItemChance(npc, ModContent.ItemType<StormWeaverMask>(), 7);

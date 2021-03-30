@@ -11,7 +11,8 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Evil Smasher");
-            Tooltip.SetDefault("EViL! sMaSH eVIl! SmAsh...ER!");
+            Tooltip.SetDefault("EViL! sMaSH eVIl! SmAsh...ER!\n" +
+				"Rare Item Variant");
         }
 
         public override void SetDefaults()
@@ -27,8 +28,8 @@ namespace CalamityMod.Items.Weapons.Melee
             item.knockBack = 8f;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
-            item.value = Item.buyPrice(0, 36, 0, 0);
-            item.rare = ItemRarityID.Pink;
+            item.value = CalamityGlobalItem.Rarity4BuyPrice;
+            item.rare = ItemRarityID.LightRed;
             item.Calamity().customRarity = CalamityRarity.RareVariant;
         }
 

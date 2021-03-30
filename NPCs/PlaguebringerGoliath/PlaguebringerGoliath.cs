@@ -139,9 +139,10 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 				lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
 
 			// Mode variables
-			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
-			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
+			bool malice = CalamityWorld.malice;
+			bool death = CalamityWorld.death || BossRushEvent.BossRushActive || malice;
+			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive || malice;
+            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive || malice;
 
             // Light
             Lighting.AddLight((int)((npc.position.X + (npc.width / 2)) / 16f), (int)((npc.position.Y + (npc.height / 2)) / 16f), 0.3f, 0.7f, 0f);
@@ -193,7 +194,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
 			// Enrage
 			float enrageScale = death ? 0.25f : 0f;
-			if (!player.ZoneJungle)
+			if (!player.ZoneJungle || malice)
 				enrageScale += 1f;
 
 			if (enrageScale > 1f)
@@ -296,7 +297,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 					num1044 += 2f;
 				if (lifeRatio < 0.33f)
 					num1044 += 2f;
-				if (calamityGlobalNPC.enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))
+				if (calamityGlobalNPC.enraged > 0)
 					num1044 += 2f;
 
 				num1044 += 4f * enrageScale;
@@ -387,7 +388,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                         num1048 += 1f;
                         num1049 += 0.05f;
                     }
-                    if (calamityGlobalNPC.enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))
+                    if (calamityGlobalNPC.enraged > 0)
                     {
                         num1048 += 2f;
                         num1049 += 0.1f;
@@ -434,7 +435,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     npc.spriteDirection = npc.direction;
 
                     int num1050 = revenge ? 525 : 550;
-                    if (calamityGlobalNPC.enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))
+                    if (calamityGlobalNPC.enraged > 0)
                         num1050 = 300;
                     else if (BossRushEvent.BossRushActive)
                         num1050 = 400;
@@ -704,7 +705,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                 vector121.X += npc.direction * 120;
 
 				npc.ai[1] += 1f;
-				int num650 = (calamityGlobalNPC.enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive)) ? 10 : ((lifeRatio < 0.1f) ? 20 : ((lifeRatio < 0.5f) ? 25 : 30));
+				int num650 = (calamityGlobalNPC.enraged > 0) ? 10 : ((lifeRatio < 0.1f) ? 20 : ((lifeRatio < 0.5f) ? 25 : 30));
 				num650 -= (int)Math.Ceiling(5f * enrageScale);
 
 				if (npc.ai[1] % num650 == (num650 - 1) && vectorCenter.Y < player.position.Y)
@@ -716,7 +717,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                         float projectileSpeed = revenge ? 6.5f : 6f;
 						projectileSpeed += 5f * enrageScale;
 
-						if (calamityGlobalNPC.enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))
+						if (calamityGlobalNPC.enraged > 0)
                             projectileSpeed += 10f;
 
 						if (BossRushEvent.BossRushActive)
@@ -1180,7 +1181,10 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
         {
             DropHelper.DropBags(npc);
 
-            DropHelper.DropItemChance(npc, ModContent.ItemType<PlaguebringerGoliathTrophy>(), 10);
+			// Legendary drop for PBG
+			DropHelper.DropItemCondition(npc, ModContent.ItemType<Malachite>(), true, CalamityWorld.malice);
+
+			DropHelper.DropItemChance(npc, ModContent.ItemType<PlaguebringerGoliathTrophy>(), 10);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgePlaguebringerGoliath>(), true, !CalamityWorld.downedPlaguebringer);
             DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedPlaguebringer, 4, 2, 1);
 

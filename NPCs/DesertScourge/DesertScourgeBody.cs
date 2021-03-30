@@ -46,7 +46,7 @@ namespace CalamityMod.NPCs.DesertScourge
             npc.netAlways = true;
             npc.dontCountMe = true;
 
-			if (CalamityWorld.death || BossRushEvent.BossRushActive)
+			if (CalamityWorld.death || BossRushEvent.BossRushActive || CalamityWorld.malice)
 				npc.scale = 1.25f;
 			else if (CalamityWorld.revenge)
 				npc.scale = 1.15f;
@@ -67,8 +67,9 @@ namespace CalamityMod.NPCs.DesertScourge
 			}
 
 			Player player = Main.player[npc.target];
-			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+			bool malice = CalamityWorld.malice;
+			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive || malice;
+			bool death = CalamityWorld.death || BossRushEvent.BossRushActive || malice;
 			float burrowTimeGateValue = death ? 420f : 540f;
 			bool burrow = Main.npc[(int)npc.ai[2]].Calamity().newAI[0] >= burrowTimeGateValue;
 
@@ -89,7 +90,7 @@ namespace CalamityMod.NPCs.DesertScourge
             if (Main.netMode != NetmodeID.MultiplayerClient && revenge && !burrow)
             {
                 npc.localAI[0] += (float)Main.rand.Next(4);
-                if (npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))
+                if (npc.Calamity().enraged > 0)
                 {
                     npc.localAI[0] += 4f;
                 }

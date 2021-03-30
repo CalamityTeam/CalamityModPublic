@@ -376,7 +376,10 @@ namespace CalamityMod.NPCs.OldDuke
         {
             DropHelper.DropBags(npc);
 
-            DropHelper.DropItemChance(npc, ModContent.ItemType<OldDukeTrophy>(), 10);
+			// Legendary drop for Old Duke
+			DropHelper.DropItemCondition(npc, ModContent.ItemType<TheReaper>(), true, CalamityWorld.malice);
+
+			DropHelper.DropItemChance(npc, ModContent.ItemType<OldDukeTrophy>(), 10);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeOldDuke>(), true, !CalamityWorld.downedBoomerDuke);
             DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedBoomerDuke, 6, 3, 2);
 

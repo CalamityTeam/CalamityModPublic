@@ -10,6 +10,7 @@ using CalamityMod.Items.Placeables.Furniture.Trophies;
 using CalamityMod.Items.TreasureBags;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
+using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -152,7 +153,11 @@ namespace CalamityMod.NPCs.BrimstoneElemental
         {
             DropHelper.DropBags(npc);
 
-            DropHelper.DropItemChance(npc, ModContent.ItemType<BrimstoneElementalTrophy>(), 10);
+			// Legendary drop for Brimstone Elemental
+			DropHelper.DropItemCondition(npc, ModContent.ItemType<Hellborn>(), true, CalamityWorld.malice);
+			DropHelper.DropItemCondition(npc, ModContent.ItemType<FabledTortoiseShell>(), true, CalamityWorld.malice);
+
+			DropHelper.DropItemChance(npc, ModContent.ItemType<BrimstoneElementalTrophy>(), 10);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeBrimstoneCrag>(), true, !CalamityWorld.downedBrimstoneElemental);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeBrimstoneElemental>(), true, !CalamityWorld.downedBrimstoneElemental);
             DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedBrimstoneElemental, 4, 2, 1);

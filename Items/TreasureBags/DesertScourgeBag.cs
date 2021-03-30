@@ -57,19 +57,12 @@ namespace CalamityMod.Items.TreasureBags
                 DropHelper.WeightStack<SeaboundStaff>(w),
                 DropHelper.WeightStack<ScourgeoftheDesert>(w),
             };
-
-            // If the RIV roll for Dune Hopper succeeds, REPLACE Scourge of the Desert with a guaranteed Dune Hopper.
-            float duneHopperChance = DropHelper.RareVariantDropRateFloat;
-            if (Main.rand.NextFloat() < duneHopperChance)
-                weapons[4] = DropHelper.WeightStack<DuneHopper>();
-
             DropHelper.DropEntireWeightedSet(player, weapons);
 
             // Equipment
             DropHelper.DropItem(player, ModContent.ItemType<OceanCrest>());
             DropHelper.DropItemChance(player, ModContent.ItemType<AeroStone>(), 9);
             DropHelper.DropItemChance(player, ModContent.ItemType<SandCloak>(), 9);
-            DropHelper.DropItemChance(player, ModContent.ItemType<DeepDiver>(), DropHelper.RareVariantDropRateInt);
 
             // Vanity
             DropHelper.DropItemChance(player, ModContent.ItemType<DesertScourgeMask>(), 7);

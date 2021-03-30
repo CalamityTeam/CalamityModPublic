@@ -13,8 +13,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             DisplayName.SetDefault("Nullification Pistol");
             Tooltip.SetDefault("Is it nullable or not? Let's find out!\n" +
-                "Fires a fast null bullet that distorts NPC stats\n" +
-                "Uses your life as ammo");
+                "Fires a fast null bullet that distorts NPC stats");
         }
 
         public override void SetDefaults()
@@ -43,16 +42,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            player.statLife -= 5;
-            if (Main.myPlayer == player.whoAmI)
-            {
-                player.HealEffect(-5, true);
-            }
-            if (player.statLife <= 0)
-            {
-                player.KillMe(PlayerDeathReason.ByCustomReason(player.Male ? player.name + " was vaporized by the imbuement of his life." : player.name + " was vaporized by the imbuement of her life."), 1000.0, 0, false);
-            }
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<NullShot>(), damage, knockBack, player.whoAmI, 0.0f, 0.0f);
+            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<NullShot>(), damage, knockBack, player.whoAmI);
             return false;
         }
     }

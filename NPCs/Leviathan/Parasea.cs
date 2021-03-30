@@ -40,9 +40,9 @@ namespace CalamityMod.NPCs.Leviathan
 
         public override void AI()
         {
-            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
+            bool revenge = CalamityWorld.revenge;
             float speed = revenge ? 16f : 13f;
-            if (BossRushEvent.BossRushActive)
+            if (BossRushEvent.BossRushActive || CalamityWorld.malice)
                 speed = 24f;
             CalamityAI.DungeonSpiritAI(npc, mod, speed, MathHelper.Pi);
         }

@@ -138,7 +138,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
 
 		public override void AI()
         {
-            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
+            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive || CalamityWorld.malice;
             if (invinceTime > 0)
             {
 				npc.damage = 0;

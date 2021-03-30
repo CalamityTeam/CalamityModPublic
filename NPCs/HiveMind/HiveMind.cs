@@ -113,15 +113,16 @@ namespace CalamityMod.NPCs.HiveMind
             npc.noGravity = false;
             npc.noTileCollide = false;
 
-            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
-            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+			bool malice = CalamityWorld.malice;
+			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive || malice;
+            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive || malice;
+			bool death = CalamityWorld.death || BossRushEvent.BossRushActive || malice;
 			CalamityGlobalNPC.hiveMind = npc.whoAmI;
 
 			float enrageScale = 0f;
-			if ((npc.position.Y / 16f) < Main.worldSurface)
+			if ((npc.position.Y / 16f) < Main.worldSurface || malice)
 				enrageScale += 1f;
-			if (!player.ZoneCorrupt)
+			if (!player.ZoneCorrupt || malice)
 				enrageScale += 1f;
 
 			if (BossRushEvent.BossRushActive)
@@ -178,7 +179,7 @@ namespace CalamityMod.NPCs.HiveMind
                             int x = (int)(npc.position.X + Main.rand.Next(npc.width - 32));
                             int y = (int)(npc.position.Y + Main.rand.Next(npc.height - 32));
                             int type = ModContent.NPCType<HiveBlob>();
-                            if (NPC.CountNPCS(ModContent.NPCType<DankCreeper>()) < maxDankSpawns || npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))
+                            if (NPC.CountNPCS(ModContent.NPCType<DankCreeper>()) < maxDankSpawns || npc.Calamity().enraged > 0)
                             {
                                 type = ModContent.NPCType<DankCreeper>();
                             }

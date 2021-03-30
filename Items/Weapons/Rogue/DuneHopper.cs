@@ -13,7 +13,8 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             DisplayName.SetDefault("Dune Hopper");
             Tooltip.SetDefault(@"Throws a spear that bounces a lot
-Stealth strikes throw three high speed spears");
+Stealth strikes throw three high speed spears
+Rare Item Variant");
         }
 
         public override void SafeSetDefaults()

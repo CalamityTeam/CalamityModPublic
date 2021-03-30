@@ -43,7 +43,7 @@ namespace CalamityMod.NPCs.Ravager
                 return;
             }
 
-			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+			bool death = CalamityWorld.death || BossRushEvent.BossRushActive || CalamityWorld.malice;
 			bool provy = CalamityWorld.downedProvidence && !BossRushEvent.BossRushActive;
 
             if (npc.timeLeft < 1800)

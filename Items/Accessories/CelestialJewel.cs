@@ -47,7 +47,7 @@ namespace CalamityMod.Items.Accessories
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<CrownJewel>());
+			recipe.AddIngredient(ModContent.ItemType<CrownJewel>());
             recipe.AddIngredient(ModContent.ItemType<AstralJelly>(), 20);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);

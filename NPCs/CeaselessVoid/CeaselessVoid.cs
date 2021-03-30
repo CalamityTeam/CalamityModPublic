@@ -135,6 +135,9 @@ namespace CalamityMod.NPCs.CeaselessVoid
             {
 				DropHelper.DropBags(npc);
 
+				// Legendary drop for Ceaseless Void
+				DropHelper.DropItemCondition(npc, ModContent.ItemType<TheEvolution>(), true, CalamityWorld.malice);
+
 				DropHelper.DropItemChance(npc, ModContent.ItemType<CeaselessVoidTrophy>(), 10);
 				bool lastSentinelKilled = !CalamityWorld.downedSentinel1 && CalamityWorld.downedSentinel2 && CalamityWorld.downedSentinel3;
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeSentinels>(), true, lastSentinelKilled);
@@ -148,7 +151,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
 					DropHelper.DropItemChance(npc, ModContent.ItemType<MirrorBlade>(), 4);
 
 					// Equipment
-					DropHelper.DropItemChance(npc, ModContent.ItemType<TheEvolution>(), DropHelper.RareVariantDropRateFloat);
+					DropHelper.DropItemChance(npc, ModContent.ItemType<ArcanumoftheVoid>(), 2);
 
 					// Vanity
 					DropHelper.DropItemChance(npc, ModContent.ItemType<CeaselessVoidMask>(), 7);

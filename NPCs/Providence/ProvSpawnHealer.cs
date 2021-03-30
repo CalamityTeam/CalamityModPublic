@@ -53,99 +53,63 @@ namespace CalamityMod.NPCs.Providence
             npc.frame.Y = frame * frameHeight;
         }
 
-        public override void AI()
-        {
-            CalamityGlobalNPC.holyBossHealer = npc.whoAmI;
-            bool expertMode = Main.expertMode;
-            Vector2 vectorCenter = npc.Center;
-            Player player = Main.player[npc.target];
-            npc.TargetClosest(false);
-            if (CalamityGlobalNPC.holyBoss < 0 || !Main.npc[CalamityGlobalNPC.holyBoss].active)
-            {
-                npc.active = false;
-                npc.netUpdate = true;
-                return;
-            }
-            npc.dontTakeDamage = Main.npc[CalamityGlobalNPC.holyBoss].dontTakeDamage;
+		public override void AI()
+		{
+			CalamityGlobalNPC.holyBossHealer = npc.whoAmI;
+			bool expertMode = Main.expertMode;
+			Vector2 vectorCenter = npc.Center;
+			Player player = Main.player[npc.target];
+			npc.TargetClosest(false);
+			if (CalamityGlobalNPC.holyBoss < 0 || !Main.npc[CalamityGlobalNPC.holyBoss].active)
+			{
+				npc.active = false;
+				npc.netUpdate = true;
+				return;
+			}
+			npc.dontTakeDamage = Main.npc[CalamityGlobalNPC.holyBoss].dontTakeDamage;
 
-            if (Math.Sign(npc.velocity.X) != 0)
-            {
-                npc.spriteDirection = -Math.Sign(npc.velocity.X);
-            }
-            npc.spriteDirection = Math.Sign(npc.velocity.X);
-            int num1009 = (npc.ai[0] == 0f) ? 1 : 2;
-            int num1010 = (npc.ai[0] == 0f) ? 60 : 80;
-            for (int num1011 = 0; num1011 < 2; num1011++)
-            {
-                if (Main.rand.Next(3) < num1009)
-                {
-                    int dustType = Main.rand.Next(2);
-                    if (dustType == 0)
-                    {
-                        dustType = (int)CalamityDusts.ProfanedFire;
-                    }
-                    else
-                    {
-                        dustType = 107;
-                    }
-                    int num1012 = Dust.NewDust(npc.Center - new Vector2((float)num1010), num1010 * 2, num1010 * 2, dustType, npc.velocity.X * 0.5f, npc.velocity.Y * 0.5f, 90, default, 0.5f);
-                    Main.dust[num1012].noGravity = true;
-                    Main.dust[num1012].velocity *= 0.2f;
-                    Main.dust[num1012].fadeIn = 1f;
-                }
-            }
-            if (npc.ai[0] == 0f)
-            {
-                Vector2 vector96 = new Vector2(npc.Center.X, npc.Center.Y);
-                float num784 = Main.npc[CalamityGlobalNPC.holyBoss].Center.X - vector96.X;
-                float num785 = Main.npc[CalamityGlobalNPC.holyBoss].Center.Y - vector96.Y;
-                float num786 = (float)Math.Sqrt((double)(num784 * num784 + num785 * num785));
-                if (num786 > 360f)
-                {
-                    num786 = 8f / num786; //8f
-                    num784 *= num786;
-                    num785 *= num786;
-                    npc.velocity.X = (npc.velocity.X * 15f + num784) / 16f;
-                    npc.velocity.Y = (npc.velocity.Y * 15f + num785) / 16f;
-                    return;
-                }
-                if (Math.Abs(npc.velocity.X) + Math.Abs(npc.velocity.Y) < 8f) //8f
-                {
-                    npc.velocity *= 1.05f; //1.05f
-                }
-                if (Main.netMode != NetmodeID.MultiplayerClient && ((expertMode && Main.rand.NextBool(2000)) || Main.rand.NextBool(1000)))
-                {
-                    npc.TargetClosest(true);
-                    vector96 = new Vector2(npc.Center.X, npc.Center.Y);
-                    num784 = player.Center.X - vector96.X;
-                    num785 = player.Center.Y - vector96.Y;
-                    num786 = (float)Math.Sqrt((double)(num784 * num784 + num785 * num785));
-                    num786 = 24f / num786; //8f
-                    npc.velocity.X = num784 * num786;
-                    npc.velocity.Y = num785 * num786;
-                    npc.ai[0] = 1f;
-                    npc.netUpdate = true;
-                }
-            }
-            else
-            {
-                if (expertMode)
-                {
-                    Vector2 value4 = player.Center - npc.Center;
-                    value4.Normalize();
-                    value4 *= 9f; //9f
-                    npc.velocity = (npc.velocity * 99f + value4) / 99f; //100
-                }
-                Vector2 vector97 = new Vector2(npc.Center.X, npc.Center.Y);
-                float num787 = Main.npc[CalamityGlobalNPC.holyBoss].Center.X - vector97.X;
-                float num788 = Main.npc[CalamityGlobalNPC.holyBoss].Center.Y - vector97.Y;
-                float num789 = (float)Math.Sqrt((double)(num787 * num787 + num788 * num788));
-                if (num789 > 700f || npc.justHit)
-                {
-                    npc.ai[0] = 0f;
-                }
-            }
-        }
+			if (Math.Sign(npc.velocity.X) != 0)
+			{
+				npc.spriteDirection = -Math.Sign(npc.velocity.X);
+			}
+			npc.spriteDirection = Math.Sign(npc.velocity.X);
+			for (int num1011 = 0; num1011 < 2; num1011++)
+			{
+				if (Main.rand.Next(3) < 1)
+				{
+					int dustType = Main.rand.Next(2);
+					if (dustType == 0)
+					{
+						dustType = (int)CalamityDusts.ProfanedFire;
+					}
+					else
+					{
+						dustType = 107;
+					}
+					int num1012 = Dust.NewDust(npc.Center - new Vector2(60f), 120, 120, dustType, npc.velocity.X * 0.5f, npc.velocity.Y * 0.5f, 90, default, 0.5f);
+					Main.dust[num1012].noGravity = true;
+					Main.dust[num1012].velocity *= 0.2f;
+					Main.dust[num1012].fadeIn = 1f;
+				}
+			}
+			Vector2 vector96 = new Vector2(npc.Center.X, npc.Center.Y);
+			float num784 = Main.npc[CalamityGlobalNPC.holyBoss].Center.X - vector96.X;
+			float num785 = Main.npc[CalamityGlobalNPC.holyBoss].Center.Y - vector96.Y;
+			float num786 = (float)Math.Sqrt((double)(num784 * num784 + num785 * num785));
+			if (num786 > 360f)
+			{
+				num786 = 8f / num786; //8f
+				num784 *= num786;
+				num785 *= num786;
+				npc.velocity.X = (npc.velocity.X * 15f + num784) / 16f;
+				npc.velocity.Y = (npc.velocity.Y * 15f + num785) / 16f;
+				return;
+			}
+			if (Math.Abs(npc.velocity.X) + Math.Abs(npc.velocity.Y) < 8f) //8f
+			{
+				npc.velocity *= 1.05f; //1.05f
+			}
+		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{

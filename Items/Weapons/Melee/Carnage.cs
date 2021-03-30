@@ -11,7 +11,8 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Carnage");
-            Tooltip.SetDefault("Enemies explode into homing blood on death");
+            Tooltip.SetDefault("Enemies explode into homing blood on death\n" +
+				"Rare Item Variant");
         }
 
         public override void SetDefaults()

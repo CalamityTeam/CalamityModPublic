@@ -17,7 +17,6 @@ namespace CalamityMod.Items
             Tooltip.SetDefault("I'll be there in the blink of an eye\n" +
                 "This line is modified below\n" +
                 "Teleportation is disabled while Chaos State is active\n" +
-                "Boosts fall speed by 10%\n" +
                 "Works while in the inventory");
             Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(6, 7));
         }

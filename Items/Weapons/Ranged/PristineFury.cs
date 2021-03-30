@@ -16,10 +16,9 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Pristine Fury");
-            Tooltip.SetDefault("Legendary Drop\n" +
-                "Fires an intense helix of flames that explode into a column of fire\n" +
+            Tooltip.SetDefault("Fires an intense helix of flames that explode into a column of fire\n" +
                 "Right click to fire a short ranged cloud of lingering flames\n" +
-                "Revengeance drop");
+                "Legendary");
         }
 
         public override void SetDefaults()
@@ -67,6 +66,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             if (player.altFunctionUse == 2)
             {
                 int flameAmt = 3;
+                damage = (int)(damage * 1.2);
                 for (int index = 0; index < flameAmt; ++index)
                 {
                     float SpeedX = speedX + Main.rand.NextFloat(-1.25f, 1.25f);
@@ -76,6 +76,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             }
             else
             {
+                damage = (int)(damage * 0.94);
                 Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<PristineFire>(), damage, knockBack, player.whoAmI);
             }
             return false;

@@ -110,9 +110,10 @@ namespace CalamityMod.NPCs.DevourerofGods
             // Variables
             Vector2 vector = npc.Center;
             bool flies = npc.ai[2] == 0f;
-			bool expertMode = Main.expertMode;
-			bool revenge = CalamityWorld.revenge;
-			bool death = CalamityWorld.death;
+			bool malice = CalamityWorld.malice;
+			bool expertMode = Main.expertMode || malice;
+			bool revenge = CalamityWorld.revenge || malice;
+			bool death = CalamityWorld.death || malice;
 
 			// Percent life remaining
 			float lifeRatio = npc.life / (float)npc.lifeMax;
@@ -245,7 +246,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 				{
 					float speed = 12f;
 					float spawnOffset = 1500f;
-					float divisor = death ? 360f : 480f;
+					float divisor = malice ? 240f : death ? 360f : 480f;
 
 					if (calamityGlobalNPC.newAI[1] % divisor == 0f)
 					{
@@ -375,12 +376,17 @@ namespace CalamityMod.NPCs.DevourerofGods
                 if ((double)npc.position.Y < Main.topWorld + 16f)
                     npc.velocity.Y -= 3f;
 
+                int bodyType = ModContent.NPCType<DevourerofGodsBody>();
+                int tailType = ModContent.NPCType<DevourerofGodsTail>();
                 if ((double)npc.position.Y < Main.topWorld + 16f)
                 {
-                    for (int a = 0; a < 200; a++)
+                    for (int a = 0; a < Main.maxNPCs; a++)
                     {
-                        if (Main.npc[a].type == ModContent.NPCType<DevourerofGodsHead>() || Main.npc[a].type == ModContent.NPCType<DevourerofGodsBody>() || Main.npc[a].type == ModContent.NPCType<DevourerofGodsTail>())
-                            Main.npc[a].active = false;
+                        if (Main.npc[a].type != npc.type && Main.npc[a].type != bodyType && Main.npc[a].type != tailType)
+                            continue;
+
+                        Main.npc[a].active = false;
+                        Main.npc[a].netUpdate = true;
                     }
                 }
             }
@@ -420,10 +426,10 @@ namespace CalamityMod.NPCs.DevourerofGods
 				float phaseChangeRate = 1f + (expertMode ? 9f * (1f - lifeRatio) : 0f);
 				calamityGlobalNPC.newAI[2] += phaseChangeRate;
 
-				float speed = death ? 16.5f : 15f;
-				float turnSpeed = death ? 0.33f : 0.3f;
-				float homingSpeed = death ? 22.5f : 18f;
-				float homingTurnSpeed = death ? 0.405f : 0.33f;
+				float speed = malice ? 18f : death ? 16.5f : 15f;
+				float turnSpeed = malice ? 0.36f : death ? 0.33f : 0.3f;
+				float homingSpeed = malice ? 27f : death ? 22.5f : 18f;
+				float homingTurnSpeed = malice ? 0.48f : death ? 0.405f : 0.33f;
 
 				if (expertMode)
 				{
@@ -610,9 +616,9 @@ namespace CalamityMod.NPCs.DevourerofGods
 
 				calamityGlobalNPC.newAI[2] += 1f;
 
-                float fallSpeed = death ? 17.75f : 16f;
-                float speed = death ? 0.22f : 0.18f;
-                float turnSpeed = death ? 0.18f : 0.12f;
+                float fallSpeed = malice ? 19.5f : death ? 17.75f : 16f;
+                float speed = malice ? 0.26f : death ? 0.22f : 0.18f;
+                float turnSpeed = malice ? 0.24f : death ? 0.18f : 0.12f;
 
 				if (expertMode)
 				{
@@ -733,8 +739,8 @@ namespace CalamityMod.NPCs.DevourerofGods
                 else
                 {
 
-					double maximumSpeed1 = death ? 0.44 : 0.4;
-					double maximumSpeed2 = death ? 1.08 : 1D;
+					double maximumSpeed1 = malice ? 0.48 : death ? 0.44 : 0.4;
+					double maximumSpeed2 = malice ? 1.16 : death ? 1.08 : 1D;
 
 					if (increaseSpeedMore)
 					{

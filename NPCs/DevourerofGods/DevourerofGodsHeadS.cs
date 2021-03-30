@@ -164,9 +164,10 @@ namespace CalamityMod.NPCs.DevourerofGods
 			// Variables
 			Vector2 vector = npc.Center;
             bool flies = npc.ai[2] == 0f;
-            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
-			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+			bool malice = CalamityWorld.malice;
+			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive || malice;
+			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive || malice;
+			bool death = CalamityWorld.death || BossRushEvent.BossRushActive || malice;
             bool phase2 = lifeRatio < 0.75f;
             bool phase3 = lifeRatio < 0.3f;
             bool breathFireMore = lifeRatio < 0.15f;
@@ -376,11 +377,11 @@ namespace CalamityMod.NPCs.DevourerofGods
                     calamityGlobalNPC.newAI[0] = 0f;
 
                 // Laser walls
-                if (!phase3 && (laserWallPhase == (int)LaserWallPhase.FireLaserWalls || calamityGlobalNPC.enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive)))
+                if (!phase3 && (laserWallPhase == (int)LaserWallPhase.FireLaserWalls || calamityGlobalNPC.enraged > 0))
                 {
                     float speed = 12f;
                     float spawnOffset = 1500f;
-                    float divisor = 120f;
+                    float divisor = malice ? 100f : 120f;
 
 					if (calamityGlobalNPC.newAI[1] % divisor == 0f)
 					{
@@ -528,7 +529,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             if (!NPC.AnyNPCs(ModContent.NPCType<DevourerofGodsTailS>()))
                 npc.active = false;
 
-            float fallSpeed = death ? 17.75f : 16f;
+            float fallSpeed = malice ? 19.5f : death ? 17.75f : 16f;
 
 			if (expertMode)
 				fallSpeed += 3.5f * (1f - lifeRatio);
@@ -595,10 +596,10 @@ namespace CalamityMod.NPCs.DevourerofGods
 
                 npc.localAI[1] = 0f;
 
-				float speed = death ? 16.5f : 15f;
-                float turnSpeed = death ? 0.33f : 0.3f;
-                float homingSpeed = death ? 30f : 24f;
-                float homingTurnSpeed = death ? 0.405f : 0.33f;
+				float speed = malice ? 18f : death ? 16.5f : 15f;
+                float turnSpeed = malice ? 0.36f : death ? 0.33f : 0.3f;
+                float homingSpeed = malice ? 36f : death ? 30f : 24f;
+                float homingTurnSpeed = malice ? 0.48f : death ? 0.405f : 0.33f;
 
 				if (expertMode)
 				{
@@ -808,7 +809,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 
 				calamityGlobalNPC.newAI[2] += 1f;
 
-                float turnSpeed = death ? 0.24f : 0.18f;
+                float turnSpeed = malice ? 0.3f : death ? 0.24f : 0.18f;
 
 				if (expertMode)
 				{
@@ -934,8 +935,8 @@ namespace CalamityMod.NPCs.DevourerofGods
                 }
                 else
                 {
-                    double maximumSpeed1 = death ? 0.46 : 0.4;
-                    double maximumSpeed2 = death ? 1.125 : 1D;
+                    double maximumSpeed1 = malice ? 0.52 : death ? 0.46 : 0.4;
+                    double maximumSpeed2 = malice ? 1.25 : death ? 1.125 : 1D;
 
 					if (increaseSpeedMore)
 					{
@@ -1181,7 +1182,12 @@ namespace CalamityMod.NPCs.DevourerofGods
 
             DropHelper.DropBags(npc);
 
-            DropHelper.DropItem(npc, ModContent.ItemType<OmegaHealingPotion>(), 5, 15);
+			// Legendary drops for DoG
+			DropHelper.DropItemCondition(npc, ModContent.ItemType<CosmicDischarge>(), true, CalamityWorld.malice);
+			DropHelper.DropItemCondition(npc, ModContent.ItemType<Norfleet>(), true, CalamityWorld.malice);
+			DropHelper.DropItemCondition(npc, ModContent.ItemType<Skullmasher>(), true, CalamityWorld.malice);
+
+			DropHelper.DropItem(npc, ModContent.ItemType<OmegaHealingPotion>(), 5, 15);
             DropHelper.DropItemChance(npc, ModContent.ItemType<DevourerofGodsTrophy>(), 10);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeDevourerofGods>(), true, !CalamityWorld.downedDoG);
             DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedDoG, 6, 3, 2);

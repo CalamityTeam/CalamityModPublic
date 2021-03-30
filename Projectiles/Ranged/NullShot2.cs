@@ -63,11 +63,11 @@ namespace CalamityMod.Projectiles.Ranged
                 }
                 else if (nullBuff == 2)
                 {
-                    target.damage += 500;
+                    target.damage += 20;
                 }
                 else if (nullBuff == 3)
                 {
-                    target.damage -= 500;
+                    target.damage -= 20;
                 }
                 else if (nullBuff == 4)
                 {
@@ -79,15 +79,15 @@ namespace CalamityMod.Projectiles.Ranged
                 }
                 else if (nullBuff == 6)
                 {
-                    target.defense += 20;
+                    target.defense += 10;
                 }
                 else if (nullBuff == 7)
                 {
-                    target.defense -= 20;
+                    target.defense -= 10;
                 }
                 else if (nullBuff == 8)
                 {
-                    target.velocity.Y = -30f;
+                    target.velocity.Y = Main.rand.NextBool(2) ? 30f : -30f;
                 }
                 else
                 {

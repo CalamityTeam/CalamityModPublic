@@ -320,7 +320,10 @@ namespace CalamityMod.NPCs.AstrumAureus
         {
             DropHelper.DropBags(npc);
 
-            DropHelper.DropItemChance(npc, ModContent.ItemType<AstrageldonTrophy>(), 10);
+			// Legendary drop for Astrum Aureus
+			DropHelper.DropItemCondition(npc, ModContent.ItemType<LeonidProgenitor>(), true, CalamityWorld.malice);
+
+			DropHelper.DropItemChance(npc, ModContent.ItemType<AstrageldonTrophy>(), 10);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeAstrumAureus>(), true, !CalamityWorld.downedAstrageldon);
             DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedAstrageldon, 4, 2, 1);
 

@@ -8,7 +8,7 @@ namespace CalamityMod.Items.Weapons.Melee
 {
     public class MirrorBlade : ModItem
     {
-        private int baseDamage = 192;
+        private int baseDamage = 180;
 
         public override void SetStaticDefaults()
         {

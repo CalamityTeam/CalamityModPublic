@@ -109,7 +109,6 @@ namespace CalamityMod.NPCs.DevourerofGods
 
 			Player player = Main.player[npc.target];
 
-			npc.velocity.Length();
             if (npc.velocity.X < 0f)
             {
                 npc.spriteDirection = -1;

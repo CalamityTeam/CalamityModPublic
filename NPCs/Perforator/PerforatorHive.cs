@@ -87,14 +87,15 @@ namespace CalamityMod.NPCs.Perforator
 
 			Player player = Main.player[npc.target];
 
-			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
-			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+			bool malice = CalamityWorld.malice;
+			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive || malice;
+			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive || malice;
+			bool death = CalamityWorld.death || BossRushEvent.BossRushActive || malice;
 
 			float enrageScale = 0f;
-			if ((npc.position.Y / 16f) < Main.worldSurface)
+			if ((npc.position.Y / 16f) < Main.worldSurface || malice)
 				enrageScale += 1f;
-			if (!Main.player[npc.target].ZoneCrimson)
+			if (!Main.player[npc.target].ZoneCrimson || malice)
 				enrageScale += 1f;
 
 			if (BossRushEvent.BossRushActive)
@@ -371,7 +372,10 @@ namespace CalamityMod.NPCs.Perforator
         {
             DropHelper.DropBags(npc);
 
-            DropHelper.DropItemChance(npc, ModContent.ItemType<PerforatorTrophy>(), 10);
+			// Legendary drop for Evil boss tier 2
+			DropHelper.DropItemCondition(npc, ModContent.ItemType<Carnage>(), true, CalamityWorld.malice);
+
+			DropHelper.DropItemChance(npc, ModContent.ItemType<PerforatorTrophy>(), 10);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgePerforators>(), true, !CalamityWorld.downedPerforator);
             DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedPerforator, 2, 0, 0);
 

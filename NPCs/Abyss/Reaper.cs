@@ -658,7 +658,7 @@ namespace CalamityMod.NPCs.Abyss
             DropHelper.DropItemCondition(npc, ModContent.ItemType<DeepSeaDumbbell>(), CalamityWorld.downedPolterghast, 3, 1, 1);
 			if (CalamityWorld.downedPolterghast)
 			{
-				DropHelper.DropItemRIV(npc, ModContent.ItemType<Valediction>(), ModContent.ItemType<TheReaper>(), 0.3333f, 0.01f);
+				DropHelper.DropItemChance(npc, ModContent.ItemType<Valediction>(), 3);
 			}
         }
 

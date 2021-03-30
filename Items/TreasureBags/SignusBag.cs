@@ -39,7 +39,7 @@ namespace CalamityMod.Items.TreasureBags
 
             // Weapons
 			DropHelper.DropItemChance(player, ModContent.ItemType<CosmicKunai>(), 3);
-			DropHelper.DropItemRIV(player, ModContent.ItemType<Cosmilamp>(), ModContent.ItemType<LanternoftheSoul>(), 0.3333f, DropHelper.RareVariantDropRateFloat);
+			DropHelper.DropItemChance(player, ModContent.ItemType<Cosmilamp>(), 3);
 
             // Equipment
 			DropHelper.DropItem(player, ModContent.ItemType<SpectralVeil>());

@@ -12,7 +12,8 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             DisplayName.SetDefault("The Reaper");
             Tooltip.SetDefault("Slice 'n dice\n" +
-                "Stealth strikes throw four at once");
+                "Stealth strikes throw four at once\n" +
+				"Rare Item Variant");
         }
 
         public override void SafeSetDefaults()

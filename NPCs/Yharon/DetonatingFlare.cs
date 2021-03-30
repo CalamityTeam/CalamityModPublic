@@ -42,11 +42,11 @@ namespace CalamityMod.NPCs.Yharon
 
         public override void AI()
         {
-            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
+            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive || CalamityWorld.malice;
             npc.alpha -= 3;
             if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead)
             {
-                npc.TargetClosest(true);
+                npc.TargetClosest();
             }
             if (npc.localAI[1] == 0f)
             {

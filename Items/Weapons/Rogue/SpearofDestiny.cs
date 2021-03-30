@@ -12,13 +12,14 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             DisplayName.SetDefault("Spear of Destiny");
             Tooltip.SetDefault("Throws three spears with the outer two having homing capabilities\n" +
-			"Stealth strikes cause all three spears to home in, ignore tiles, and pierce more");
+			"Stealth strikes cause all three spears to home in, ignore tiles, and pierce more\n" +
+			"Rare Item Variant");
         }
 
         public override void SafeSetDefaults()
         {
             item.width = 52;
-            item.damage = 25;
+            item.damage = 32;
             item.noMelee = true;
             item.noUseGraphic = true;
             item.useAnimation = 20;

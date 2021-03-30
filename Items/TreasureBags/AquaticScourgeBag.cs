@@ -63,9 +63,6 @@ namespace CalamityMod.Items.TreasureBags
                 DropHelper.WeightStack<ScourgeoftheSeas>(w)
             );
 
-            float searingChance = DropHelper.LegendaryDropRateFloat;
-            DropHelper.DropItemCondition(player, ModContent.ItemType<SeasSearing>(), CalamityWorld.revenge, searingChance);
-
             // Equipment
             DropHelper.DropItem(player, ModContent.ItemType<AquaticEmblem>());
             DropHelper.DropItemChance(player, ModContent.ItemType<AeroStone>(), 8);

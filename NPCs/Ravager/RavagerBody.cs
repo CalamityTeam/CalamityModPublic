@@ -95,9 +95,10 @@ namespace CalamityMod.NPCs.Ravager
 			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
             bool provy = CalamityWorld.downedProvidence && !BossRushEvent.BossRushActive;
-            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
-			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+			bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
+			bool expertMode = Main.expertMode || malice;
+			bool revenge = CalamityWorld.revenge || malice;
+			bool death = CalamityWorld.death || malice;
 
 			// Percent life remaining
 			float lifeRatio = npc.life / (float)npc.lifeMax;
@@ -171,17 +172,27 @@ namespace CalamityMod.NPCs.Ravager
             if (player.position.Y + (player.height / 2) > npc.position.Y + (npc.height / 2) + 10f)
                 enrage = true;
 
-            if (immunePhase)
-                npc.dontTakeDamage = true;
-            else
-            {
-                npc.dontTakeDamage = false;
-                if (Main.netMode != NetmodeID.Server)
-                {
-                    if (!Main.player[Main.myPlayer].dead && Main.player[Main.myPlayer].active && revenge)
-                        Main.player[Main.myPlayer].AddBuff(ModContent.BuffType<WeakPetrification>(), 2);
-                }
-            }
+			if (immunePhase)
+			{
+				npc.dontTakeDamage = true;
+				if (malice)
+				{
+					if (Main.netMode != NetmodeID.Server)
+					{
+						if (!Main.player[Main.myPlayer].dead && Main.player[Main.myPlayer].active && revenge)
+							Main.player[Main.myPlayer].AddBuff(ModContent.BuffType<WeakPetrification>(), 2);
+					}
+				}
+			}
+			else
+			{
+				npc.dontTakeDamage = false;
+				if (Main.netMode != NetmodeID.Server)
+				{
+					if (!Main.player[Main.myPlayer].dead && Main.player[Main.myPlayer].active && revenge)
+						Main.player[Main.myPlayer].AddBuff(ModContent.BuffType<WeakPetrification>(), 2);
+				}
+			}
 
             if (!headActive)
             {
@@ -315,11 +326,11 @@ namespace CalamityMod.NPCs.Ravager
 								npc.ai[1] += 1f;
 						}
 
-						if ((!rightClawActive && !leftClawActive) || calamityGlobalNPC.enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))
+						if ((!rightClawActive && !leftClawActive) || calamityGlobalNPC.enraged > 0)
                             npc.ai[1] += 1f;
-                        if (!headActive || calamityGlobalNPC.enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))
+                        if (!headActive || calamityGlobalNPC.enraged > 0)
                             npc.ai[1] += 1f;
-                        if ((!rightLegActive && !leftLegActive) || calamityGlobalNPC.enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))
+                        if ((!rightLegActive && !leftLegActive) || calamityGlobalNPC.enraged > 0)
                             npc.ai[1] += 1f;
                     }
 
@@ -331,7 +342,7 @@ namespace CalamityMod.NPCs.Ravager
 
 						bool shouldFall = player.position.Y >= npc.Bottom.Y;
 						float velocityXBoost = death ? 6f * (1f - lifeRatio) : 4f * (1f - lifeRatio);
-						float velocityX = ((enrage || calamityGlobalNPC.enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive)) ? 8f : 4f) + velocityXBoost;
+						float velocityX = ((enrage || calamityGlobalNPC.enraged > 0) ? 8f : 4f) + velocityXBoost;
 						velocityY = -16f;
 
 						float distanceBelowTarget = npc.position.Y - (player.position.Y + 80f);
@@ -490,7 +501,7 @@ namespace CalamityMod.NPCs.Ravager
 
 						if (npc.ai[0] == 2f)
 						{
-							float stopBeforeFallTime = 30f;
+							float stopBeforeFallTime = malice ? 25f : 30f;
 							if (expertMode)
 								stopBeforeFallTime -= death ? 15f * (1f - lifeRatio) : 10f * (1f - lifeRatio);
 
@@ -502,7 +513,7 @@ namespace CalamityMod.NPCs.Ravager
 							else
 							{
 								float fallSpeedBoost = death ? 1.8f * (1f - lifeRatio) : 1.2f * (1f - lifeRatio);
-								float fallSpeed = 1.2f + fallSpeedBoost;
+								float fallSpeed = (malice ? 1.8f : 1.2f) + fallSpeedBoost;
 
 								if (calamityGlobalNPC.newAI[1] > 1f)
 									fallSpeed *= calamityGlobalNPC.newAI[1];
@@ -519,7 +530,7 @@ namespace CalamityMod.NPCs.Ravager
 							if (npc.Bottom.Y < player.position.Y)
 							{
 								float fallSpeedBoost = death ? 0.9f * (1f - lifeRatio) : 0.6f * (1f - lifeRatio);
-								float fallSpeed = 0.6f + fallSpeedBoost;
+								float fallSpeed = (malice ? 0.9f : 0.6f) + fallSpeedBoost;
 
 								if (calamityGlobalNPC.newAI[1] > 1f)
 									fallSpeed *= calamityGlobalNPC.newAI[1];
@@ -530,13 +541,13 @@ namespace CalamityMod.NPCs.Ravager
                     }
                     else
                     {
-						float velocityMult = 1.8f;
+						float velocityMult = malice ? 2f : 1.8f;
 						float velocityXChange = 0.2f + Math.Abs(npc.Center.X - player.Center.X) * 0.001f;
 
 						float velocityXBoost = death ? 6f * (1f - lifeRatio) : 4f * (1f - lifeRatio);
 						float velocityX = 8f + velocityXBoost + Math.Abs(npc.Center.X - player.Center.X) * 0.001f;
 
-						if (calamityGlobalNPC.enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))
+						if (calamityGlobalNPC.enraged > 0)
 							velocityX += 3f;
 						if (!rightClawActive)
 							velocityX += 1f;
@@ -691,7 +702,10 @@ namespace CalamityMod.NPCs.Ravager
         {
             DropHelper.DropBags(npc);
 
-            DropHelper.DropItemChance(npc, ModContent.ItemType<RavagerTrophy>(), 10);
+			// Legendary drop for Ravager
+			DropHelper.DropItemCondition(npc, ModContent.ItemType<Vesuvius>(), true, CalamityWorld.malice);
+
+			DropHelper.DropItemChance(npc, ModContent.ItemType<RavagerTrophy>(), 10);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeRavager>(), true, !CalamityWorld.downedScavenger);
             DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedScavenger, 4, 2, 1);
 

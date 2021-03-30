@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Accessories
                 "After a successful dodge you must wait 15 seconds before you can dodge again\n" +
                 "This cooldown will be twice as long if you have Chaos State\n" +
                 "While on cooldown, Chaos State will last twice as long\n" +
-                "Revengeance drop");
+				"Rare Item Variant");
         }
 
         public override void SetDefaults()
@@ -27,7 +27,8 @@ namespace CalamityMod.Items.Accessories
             item.value = CalamityGlobalItem.Rarity2BuyPrice;
             item.rare = ItemRarityID.Green;
             item.accessory = true;
-        }
+			item.Calamity().customRarity = CalamityRarity.RareVariant;
+		}
 
         public override bool CanEquipAccessory(Player player, int slot) => !player.Calamity().dodgeScarf;
 

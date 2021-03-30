@@ -78,7 +78,7 @@ namespace CalamityMod.NPCs.Signus
 
 			bool revenge = CalamityWorld.revenge;
 			float playerDistNormMult = revenge ? 24f : 22f;
-			if (BossRushEvent.BossRushActive)
+			if (BossRushEvent.BossRushActive || CalamityWorld.malice)
 				playerDistNormMult = 30f;
             CalamityAI.DungeonSpiritAI(npc, mod, playerDistNormMult, 0f, true);
         }

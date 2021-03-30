@@ -76,7 +76,7 @@ namespace CalamityMod.NPCs.AstrumAureus
                 }
             }
 
-            npc.TargetClosest(true);
+            npc.TargetClosest();
 
 			// Percent life remaining
 			float lifeRatio = npc.life / (float)npc.lifeMax;

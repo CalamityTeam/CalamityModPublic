@@ -43,7 +43,7 @@ namespace CalamityMod.NPCs.Ravager
         public override void AI()
         {
             bool provy = CalamityWorld.downedProvidence;
-			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+			bool death = CalamityWorld.death || BossRushEvent.BossRushActive || CalamityWorld.malice;
 
 			if (CalamityGlobalNPC.scavenger < 0 || !Main.npc[CalamityGlobalNPC.scavenger].active)
             {

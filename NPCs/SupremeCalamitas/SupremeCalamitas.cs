@@ -222,10 +222,11 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
             CalamityMod.StopRain();
 
-            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
-			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
-			bool enraged = npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive);
+			bool malice = CalamityWorld.malice;
+            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive || malice;
+			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive || malice;
+			bool death = CalamityWorld.death || BossRushEvent.BossRushActive || malice;
+			bool enraged = npc.Calamity().enraged > 0;
 
 			// Projectile damage values
 			int bulletHellblastDamage = npc.GetProjectileDamage(ModContent.ProjectileType<BrimstoneHellblast2>());
@@ -339,17 +340,17 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             }
             #endregion
             #region Enrage and DR
-            if (!player.Hitbox.Intersects(safeBox))
+            if (!player.Hitbox.Intersects(safeBox) || malice)
             {
-                if (uDieLul < 3f)
+                if (uDieLul < 1.5f)
                 {
                     uDieLul *= 1.01f;
                 }
-                else if (uDieLul > 3f)
+                else if (uDieLul > 1.5f)
                 {
-                    uDieLul = 3f;
+                    uDieLul = 1.5f;
                 }
-                protectionBoost = true;
+                protectionBoost = !malice;
             }
             else
             {

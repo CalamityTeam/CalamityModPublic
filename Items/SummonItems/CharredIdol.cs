@@ -50,9 +50,10 @@ namespace CalamityMod.Items.SummonItems
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.SoulofNight, 5);
+            recipe.AddIngredient(ItemID.SoulofNight, 3);
             recipe.AddIngredient(ModContent.ItemType<EssenceofChaos>(), 5);
-            recipe.AddTile(TileID.MythrilAnvil);
+			recipe.AddIngredient(ModContent.ItemType<UnholyCore>());
+			recipe.AddTile(TileID.AdamantiteForge);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

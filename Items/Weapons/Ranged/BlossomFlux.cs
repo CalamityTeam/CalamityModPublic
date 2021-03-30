@@ -11,10 +11,9 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Blossom Flux");
-            Tooltip.SetDefault("Legendary Drop\n" +
-                "Fires a stream of leaves\n" +
+            Tooltip.SetDefault("Fires a stream of leaves\n" +
                 "Right click to fire a spore orb that explodes into a cloud of spore gas\n" +
-                "Revengeance drop");
+                "Legendary");
         }
 
         public override void SetDefaults()

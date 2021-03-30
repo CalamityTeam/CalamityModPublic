@@ -11,10 +11,9 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("SHPC");
-            Tooltip.SetDefault("Legendary Drop\n" +
-                "Fires plasma orbs that linger and emit massive explosions\n" +
+            Tooltip.SetDefault("Fires plasma orbs that linger and emit massive explosions\n" +
                 "Right click to fire powerful energy beams\n" +
-                "Revengeance drop");
+                "Legendary");
         }
 
         public override void SetDefaults()

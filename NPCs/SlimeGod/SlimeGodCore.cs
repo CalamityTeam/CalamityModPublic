@@ -90,9 +90,10 @@ namespace CalamityMod.NPCs.SlimeGod
 
             CalamityGlobalNPC.slimeGod = npc.whoAmI;
 
-            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
-            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+			bool malice = CalamityWorld.malice;
+			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive || malice;
+            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive || malice;
+			bool death = CalamityWorld.death || BossRushEvent.BossRushActive || malice;
 
 			// Percent life remaining
 			float lifeRatio = npc.life / (float)npc.lifeMax;
@@ -217,7 +218,7 @@ namespace CalamityMod.NPCs.SlimeGod
             else if (npc.timeLeft < 1800)
                 npc.timeLeft = 1800;
 
-			float ai1 = hyperMode ? 270f : 360f;
+			float ai1 = malice ? 210f : hyperMode ? 270f : 360f;
 
 			// Hide inside large slime
 			if (!hyperMode && npc.ai[1] < ai1)
@@ -259,6 +260,10 @@ namespace CalamityMod.NPCs.SlimeGod
 
 					Vector2 goToPosition = goToVector - vectorCenter;
 					npc.velocity = Vector2.Normalize(goToPosition) * 24f;
+
+					// Reduce velocity to 0 to avoid spastic movement when inside big slime.
+					if (Vector2.Distance(npc.Center, goToVector) < 24f)
+						npc.velocity = Vector2.Zero;
 
 					bool slimeDead = false;
 					if (goToVector == purpleSlimeVector)
@@ -380,7 +385,7 @@ namespace CalamityMod.NPCs.SlimeGod
 								npc.ai[3] = 0f;
 								npc.localAI[0] = 0f;
 								npc.localAI[1] = 0f;
-								float chargeVelocity = death ? 12f : 9f;
+								float chargeVelocity = BossRushEvent.BossRushActive ? 18f : death ? 12f : 9f;
 								npc.velocity = Vector2.Normalize(player.Center - vectorCenter) * chargeVelocity;
 								npc.TargetClosest();
 								return;
@@ -388,7 +393,8 @@ namespace CalamityMod.NPCs.SlimeGod
 
 							if (Main.netMode != NetmodeID.MultiplayerClient)
 							{
-								if (npc.ai[1] % 15f == 0f && Vector2.Distance(player.Center, vectorCenter) > 160f)
+								float divisor = malice ? 10f : 15f;
+								if (npc.ai[1] % divisor == 0f && Vector2.Distance(player.Center, vectorCenter) > 160f)
 								{
 									if (expertMode && Main.rand.NextBool(2))
 									{
@@ -525,11 +531,11 @@ namespace CalamityMod.NPCs.SlimeGod
             {
                 num1372 = 22f;
             }
-            if (calamityGlobalNPC.enraged > 0 || player.gravDir == -1f || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))
+            if (calamityGlobalNPC.enraged > 0 || player.gravDir == -1f)
             {
                 num1372 += 8f;
             }
-			if (hyperMode)
+			if (hyperMode || malice)
 			{
 				num1372 *= 1.25f;
 			}

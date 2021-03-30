@@ -10,12 +10,13 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Arbalest");
-            Tooltip.SetDefault("Fires volleys of 3 high-speed arrows");
+            Tooltip.SetDefault("Fires volleys of 3 high-speed arrows\n" +
+				"Rare Item Variant");
         }
 
         public override void SetDefaults()
         {
-            item.damage = 25;
+            item.damage = 32;
             item.ranged = true;
             item.width = 58;
             item.height = 22;
