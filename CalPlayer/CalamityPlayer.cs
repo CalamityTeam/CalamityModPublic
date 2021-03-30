@@ -926,6 +926,7 @@ namespace CalamityMod.CalPlayer
         public bool sageSpirit = false;
         public bool fleshBall = false;
         public bool eyeOfNight = false;
+        public bool soulSeeker = false;
 
         public List<DeadMinionProperties> PendingProjectilesToRespawn = new List<DeadMinionProperties>();
 
@@ -1963,6 +1964,7 @@ namespace CalamityMod.CalPlayer
             sageSpirit = false;
             fleshBall = false;
             eyeOfNight = false;
+            soulSeeker = false;
 
             abyssalDivingSuitPrevious = abyssalDivingSuit;
             abyssalDivingSuit = abyssalDivingSuitHide = abyssalDivingSuitForce = abyssalDivingSuitPower = false;

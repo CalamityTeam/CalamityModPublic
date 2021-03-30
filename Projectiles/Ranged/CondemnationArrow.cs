@@ -52,7 +52,8 @@ namespace CalamityMod.Projectiles.Ranged
         {
             Color c1 = new Color(226, 40, 40, 0);
             Color c2 = new Color(205, 0, 194, 0);
-            return Color.Lerp(c1, c2, (float)Math.Cos(projectile.identity * 1.41f + Main.GlobalTime * 8f) * 0.5f + 0.5f) * projectile.Opacity;
+            Color fadeColor = Color.Lerp(c1, c2, (float)Math.Cos(projectile.identity * 1.41f + Main.GlobalTime * 8f) * 0.5f + 0.5f);
+            return Color.Lerp(lightColor, fadeColor, 0.5f) * projectile.Opacity;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
