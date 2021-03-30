@@ -329,7 +329,7 @@ namespace CalamityMod.NPCs.Leviathan
 
 								speed += 8f * enrageScale;
 
-                                if (npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))
+                                if (npc.Calamity().enraged > 0)
                                     speed = 22f;
 
 								if (!sirenAlive || phase4)
@@ -505,7 +505,7 @@ namespace CalamityMod.NPCs.Leviathan
 							if (revenge && (!sirenAlive || phase4))
 								num1044 += death ? 9f * (1f - lifeRatio) : 6f * (1f - lifeRatio);
 
-                            if (npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))
+                            if (npc.Calamity().enraged > 0)
                                 num1044 += 4f;
 
                             if (BossRushEvent.BossRushActive)
@@ -534,7 +534,7 @@ namespace CalamityMod.NPCs.Leviathan
 							num1049 += death ? 0.15f * (1f - lifeRatio) : 0.1f * (1f - lifeRatio);
 						}
 
-                        if (npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))
+                        if (npc.Calamity().enraged > 0)
                         {
                             num1048 += 3f;
                             num1049 += 0.2f;

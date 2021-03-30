@@ -87,7 +87,7 @@ namespace CalamityMod.NPCs.Perforator
 				turnSpeed += accelerationScale * (1f - lifeRatio);
 			}
 
-			if (npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))
+			if (npc.Calamity().enraged > 0)
 			{
 				speed *= 1.25f;
 				turnSpeed *= 1.25f;
