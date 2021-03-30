@@ -466,11 +466,11 @@ namespace CalamityMod.CalPlayer
                         if (player.lifeRegenTime < 1800)
                             player.lifeRegenTime = 1800;
 
-                        player.lifeRegen += 2;
+                        player.lifeRegen += 4;
                         player.statDefense += 10;
                     }
                     else
-                        player.lifeRegen += 1;
+                        player.lifeRegen += 2;
                 }
             }
 
