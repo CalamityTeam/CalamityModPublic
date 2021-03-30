@@ -42,7 +42,7 @@ namespace CalamityMod.Projectiles.Magic
                 return;
             }
 
-            if (AttackTimer >= Main.rand.Next(20, 28) - (int)MathHelper.Lerp(0f, 11f, Utils.InverseLerp(0f, 120f, Time, true)))
+            if (AttackTimer >= Main.rand.Next(20, 28) - (int)MathHelper.Lerp(0f, 16f, Utils.InverseLerp(0f, 120f, Time, true)))
                 ReleaseThings();
 
             // Switch frames at a linearly increasing rate to make it look like the player is flipping pages quickly.
@@ -65,16 +65,28 @@ namespace CalamityMod.Projectiles.Magic
             if (Main.myPlayer != projectile.owner)
                 return;
 
+            // If the owner has sufficient mana, consume it.
+            // Otherwise, delete the book and don't bother summoning anything.
+            if (!Owner.CheckMana(Owner.ActiveItem().mana, true, false))
+            {
+                projectile.Kill();
+                return;
+            }
             WeightedRandom<int> typeDecider = new WeightedRandom<int>();
 
             typeDecider.Add(ModContent.ProjectileType<RedirectingFire>(), 1.5f);
 
             // Make souls appear more frequently (aka with a higher weight) the more "intense" the shots should be.
-            typeDecider.Add(ModContent.ProjectileType<RedirectingSoul>(), ShootIntensity);
+            typeDecider.Add(ModContent.ProjectileType<RedirectingLostSoul>(), ShootIntensity * 0.75f);
+            typeDecider.Add(ModContent.ProjectileType<RedirectingVengefulSoul>(), ShootIntensity * 0.4f);
+            typeDecider.Add(ModContent.ProjectileType<RedirectingGildedSoul>(), ShootIntensity * 0.2f);
 
             Vector2 spawnPosition = projectile.Top + Main.rand.NextVector2CircularEdge(4f, 4f);
             Vector2 shootVelocity = -Vector2.UnitY.RotatedBy(Main.rand.NextFloat(-0.13f, 0.23f) * Owner.direction) * Owner.gravDir;
             shootVelocity *= Main.rand.NextFloat(5f, 8);
+
+            if (Owner.velocity.Y < 0f)
+                shootVelocity.Y += Owner.velocity.Y;
 
             Projectile.NewProjectile(spawnPosition, shootVelocity, typeDecider.Get(), projectile.damage, projectile.knockBack, projectile.owner, ShootIntensity);
 

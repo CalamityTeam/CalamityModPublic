@@ -82,6 +82,8 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void Kill(int timeLeft)
         {
+            // Emit some fire sounds.
+            Main.PlaySound(SoundID.Item34, projectile.Center);
             if (Main.dedServ)
                 return;
 
