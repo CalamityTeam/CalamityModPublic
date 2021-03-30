@@ -15,7 +15,8 @@ namespace CalamityMod.Projectiles.Summon
         {
             DisplayName.SetDefault("Soul Seeker");
             Main.projFrames[projectile.type] = 5;
-            ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
+			ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
+			ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
         }
 
         public override void SetDefaults()
@@ -119,8 +120,10 @@ namespace CalamityMod.Projectiles.Summon
 				projectile.velocity *= 0.9f;
 				if (Time % 16f == 15f)
 				{
+					float shootSpeed = 14f;
 					Vector2 eyePosition = projectile.Center + new Vector2(projectile.spriteDirection * 22f, -12f);
-					Vector2 shootVelocity = (target.Center - eyePosition).SafeNormalize(Vector2.UnitX * projectile.spriteDirection) * 14f;
+					Vector2 aheadAim = (target.Center - eyePosition) / target.velocity.Length() / shootSpeed;
+					Vector2 shootVelocity = (target.Center + aheadAim - eyePosition).SafeNormalize(Vector2.UnitX * projectile.spriteDirection) * shootSpeed;
 					projectile.spriteDirection = (shootVelocity.X > 0f).ToDirectionInt();
 					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{

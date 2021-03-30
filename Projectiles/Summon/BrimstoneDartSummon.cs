@@ -1,4 +1,5 @@
 using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -27,7 +28,7 @@ namespace CalamityMod.Projectiles.Summon
             projectile.tileCollide = false;
 			projectile.minion = true;
 			projectile.minionSlots = 0f;
-            projectile.penetrate = -1;
+            projectile.penetrate = 1;
             projectile.timeLeft = 120;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 8;
@@ -52,6 +53,21 @@ namespace CalamityMod.Projectiles.Summon
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 180);
+        }
+
+        public override void Kill(int timeLeft)
+        {
+            if (Main.dedServ)
+                return;
+
+            for (int i = 0; i < 15; i++)
+            {
+                Dust brimstone = Dust.NewDustPerfect(projectile.Center, 267);
+                brimstone.velocity = projectile.velocity.RotatedByRandom(0.26f) * Main.rand.NextFloat(0.3f, 0.8f);
+                brimstone.scale = Main.rand.NextFloat(1.5f, 1.85f);
+                brimstone.color = Color.DarkRed;
+                brimstone.noGravity = true;
+            }
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

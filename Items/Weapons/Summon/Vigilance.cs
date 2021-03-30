@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
-    public class SeekerSummon : ModItem
+    public class Vigilance : ModItem
     {
         public override void SetStaticDefaults()
         {
