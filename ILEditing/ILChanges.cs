@@ -166,13 +166,21 @@ namespace CalamityMod.ILEditing
 
 		private static void ReduceTileBoostedRunSpeeds()
 		{
-			// Reduce the run speed boost while running on Asphalt.
+			// Reduce the run speed boost while running on Asphalt, Frozen Slime Blocks and Ice Blocks.
 			IL.Terraria.Player.Update += (il) =>
 			{
 				var cursor = new ILCursor(il);
 				cursor.GotoNext(MoveType.Before, i => i.MatchLdcR4(3.5f)); // The max run speed multiplier for Asphalt.
 				cursor.Remove();
-				cursor.Emit(OpCodes.Ldc_R4, 1.75f); // Reduce by 50% to get 1.75.
+				cursor.Emit(OpCodes.Ldc_R4, 1.75f); // Reduce by 1.75.
+
+				cursor.GotoNext(MoveType.Before, i => i.MatchLdcR4(1.25f)); // The max run speed multiplier for Frozen Slime Blocks.
+				cursor.Remove();
+				cursor.Emit(OpCodes.Ldc_R4, 1.1f); // Reduce by 0.15.
+
+				cursor.GotoNext(MoveType.Before, i => i.MatchLdcR4(1.25f)); // The max run speed multiplier for Ice Blocks.
+				cursor.Remove();
+				cursor.Emit(OpCodes.Ldc_R4, 1.1f); // Reduce by 0.15.
 			};
 		}
 
