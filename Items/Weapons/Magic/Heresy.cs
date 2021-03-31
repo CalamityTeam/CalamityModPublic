@@ -6,12 +6,13 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
-    public class SCalBook : ModItem
+    public class Heresy : ModItem
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Some Edgy Word idk");
-            Tooltip.SetDefault("yes");
+            DisplayName.SetDefault("Heresy");
+            Tooltip.SetDefault("Releases fire and souls upward from a held book\n" +
+                "As the book is held the power of both increases");
             Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(6, 6));
         }
 
@@ -33,7 +34,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
             item.autoReuse = true;
             item.noUseGraphic = true;
-            item.shoot = ModContent.ProjectileType<SCalBookProj>();
+            item.shoot = ModContent.ProjectileType<HeresyProj>();
             item.channel = true;
             item.shootSpeed = 0f;
         }

@@ -8,7 +8,7 @@ using Terraria.Utilities;
 
 namespace CalamityMod.Projectiles.Magic
 {
-	public class SCalBookProj : ModProjectile
+	public class HeresyProj : ModProjectile
     {
         public Player Owner => Main.player[projectile.owner];
         public float ShootIntensity => MathHelper.SmoothStep(0f, 1f, Utils.InverseLerp(0f, 275f, Time, true));
@@ -16,7 +16,7 @@ namespace CalamityMod.Projectiles.Magic
         public ref float AttackTimer => ref projectile.ai[1];
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Eternity");
+            DisplayName.SetDefault("Heresy");
             Main.projFrames[projectile.type] = 8;
         }
 
