@@ -64,6 +64,7 @@ namespace CalamityMod.Items.Weapons.Magic
             recipe.AddIngredient(ModContent.ItemType<SlitheringEels>());
             recipe.AddIngredient(ModContent.ItemType<GammaFusillade>());
             recipe.AddIngredient(ModContent.ItemType<PrimordialAncient>());
+            recipe.AddIngredient(ModContent.ItemType<Heresy>());
             recipe.AddIngredient(ModContent.ItemType<DarkPlasma>(), 20);
             recipe.AddIngredient(ModContent.ItemType<ShadowspecBar>(), 10);
             recipe.AddIngredient(ItemID.UnicornHorn, 5);
