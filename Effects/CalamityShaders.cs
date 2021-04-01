@@ -10,6 +10,7 @@ namespace CalamityMod.Effects
     {
         public static Effect AstralFogShader;
         public static Effect LightShader;
+        public static Effect SCalMouseShader;
         public static Effect TentacleShader;
         public static Effect LightDistortionShader;
         public static Effect PhaseslayerRipShader;
@@ -25,6 +26,7 @@ namespace CalamityMod.Effects
             AstralFogShader = CalamityMod.Instance.GetEffect("Effects/CustomShader");
             LightShader = CalamityMod.Instance.GetEffect("Effects/LightBurstShader");
             TentacleShader = CalamityMod.Instance.GetEffect("Effects/TentacleShader");
+            SCalMouseShader = CalamityMod.Instance.GetEffect("Effects/SCalMouseShader");
             LightDistortionShader = CalamityMod.Instance.GetEffect("Effects/DistortionShader");
             PhaseslayerRipShader = CalamityMod.Instance.GetEffect("Effects/PhaseslayerRipShader");
             ScarletDevilShader = CalamityMod.Instance.GetEffect("Effects/ScarletDevilStreak");
@@ -37,6 +39,7 @@ namespace CalamityMod.Effects
             Filters.Scene["CalamityMod:LightBurst"] = new Filter(new ScreenShaderData(new Ref<Effect>(LightShader), "BurstPass"), EffectPriority.VeryHigh);
             Filters.Scene["CalamityMod:LightBurst"].Load();
 
+            GameShaders.Misc["CalamityMod:FireMouse"] = new MiscShaderData(new Ref<Effect>(SCalMouseShader), "DyePass");
             GameShaders.Misc["CalamityMod:SubsumingTentacle"] = new MiscShaderData(new Ref<Effect>(TentacleShader), "BurstPass");
             GameShaders.Misc["CalamityMod:LightDistortion"] = new MiscShaderData(new Ref<Effect>(LightDistortionShader), "DistortionPass");
             GameShaders.Misc["CalamityMod:PhaseslayerRipEffect"] = new MiscShaderData(new Ref<Effect>(PhaseslayerRipShader), "TrailPass");

@@ -82,6 +82,10 @@ namespace CalamityMod.CalPlayer
 					player.AddBuff(ModContent.BuffType<BossZen>(), 2, false);
 			}
 
+			// Hurt the nearest NPC to the mouse if using the burning mouse.
+			if (modPlayer.blazingMouseDamageEffects)
+				HandleBlazingMouseEffects(player, modPlayer);
+
 			// Revengeance effects
 			RevengeanceModeMiscEffects(player, modPlayer, mod);
 
@@ -481,8 +485,52 @@ namespace CalamityMod.CalPlayer
 		#endregion
 
 		#region Misc Effects
+
+		private static void HandleBlazingMouseEffects(Player player, CalamityPlayer modPlayer)
+		{
+			Rectangle auraRectangle = Utils.CenteredRectangle(Main.MouseWorld, new Vector2(35f, 62f));
+			modPlayer.blazingMouseAuraFade = MathHelper.Clamp(modPlayer.blazingMouseAuraFade - 0.025f, 0.25f, 1f);
+			for (int i = 0; i < Main.maxNPCs; i++)
+			{
+				if (!Main.npc[i].CanBeChasedBy() || !Main.npc[i].Hitbox.Intersects(auraRectangle) || !Main.rand.NextBool(2))
+					continue;
+
+				harmNPC(Main.npc[i]);
+				modPlayer.blazingMouseAuraFade = MathHelper.Clamp(modPlayer.blazingMouseAuraFade + 0.15f, 0.25f, 1f);
+			}
+
+			void harmNPC(NPC npc)
+			{
+				int damage = (int)(player.AverageDamage() * Main.rand.Next(1950, 2050));
+				npc.StrikeNPC(damage, 0f, 0);
+
+				player.addDPS(damage);
+				npc.AddBuff(ModContent.BuffType<VulnerabilityHex>(), 900);
+
+				for (int i = 0; i < 4; i++)
+				{
+					Dust fire = Dust.NewDustDirect(npc.position, npc.width, npc.height, 267);
+					fire.velocity = Vector2.UnitY * -Main.rand.NextFloat(2f, 3.45f);
+					fire.scale = 1f + fire.velocity.Length() / 6f;
+					fire.color = Color.Lerp(Color.Orange, Color.Red, Main.rand.NextFloat(0.85f));
+					fire.noGravity = true;
+				}
+			}
+		}
+
 		private static void MiscEffects(Player player, CalamityPlayer modPlayer, Mod mod)
 		{
+			// Do a vanity/social slot check for SCal's expert drop since alternatives to get this working are a pain in the ass to create.
+			int blazingMouseItem = ModContent.ItemType<Calamity>();
+			for (int i = 13; i < 18 + player.extraAccessorySlots; i++)
+			{
+				if (player.armor[i].type == blazingMouseItem)
+				{
+					modPlayer.ableToDrawBlazingMouse = true;
+					break;
+				}
+			}
+
 			// Dust on hand when holding the phosphorescent gauntlet.
 			if (player.ActiveItem().type == ModContent.ItemType<PhosphorescentGauntlet>())
 				PhosphorescentGauntletPunches.GenerateDustOnOwnerHand(player);

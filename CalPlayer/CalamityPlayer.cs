@@ -111,6 +111,9 @@ namespace CalamityMod.CalPlayer
         public int defenseDamage = 0;
         public float rangedAmmoCost = 1f;
         public bool heldGaelsLastFrame = false;
+        public bool blazingMouseDamageEffects = false;
+        public bool ableToDrawBlazingMouse = false;
+        public float blazingMouseAuraFade = 0f;
         #endregion
 
         #region Tile Entity Trackers
@@ -927,6 +930,7 @@ namespace CalamityMod.CalPlayer
         public bool fleshBall = false;
         public bool eyeOfNight = false;
         public bool soulSeeker = false;
+        public bool perditionBeacon = false;
 
         public List<DeadMinionProperties> PendingProjectilesToRespawn = new List<DeadMinionProperties>();
 
@@ -1496,6 +1500,8 @@ namespace CalamityMod.CalPlayer
 
             noWings = false;
             blockAllDashes = false;
+            blazingMouseDamageEffects = false;
+            ableToDrawBlazingMouse = false;
 
             luxorsGift = false;
             fungalSymbiote = false;
@@ -1965,6 +1971,7 @@ namespace CalamityMod.CalPlayer
             fleshBall = false;
             eyeOfNight = false;
             soulSeeker = false;
+            perditionBeacon = false;
 
             abyssalDivingSuitPrevious = abyssalDivingSuit;
             abyssalDivingSuit = abyssalDivingSuitHide = abyssalDivingSuitForce = abyssalDivingSuitPower = false;
@@ -5581,8 +5588,11 @@ namespace CalamityMod.CalPlayer
                     int damageToDefense = (int)(newDamage * defenseStatDamageMult);
                     defenseDamage += damageToDefense;
 
-					if (hurtSoundTimer == 0)
-						Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/DefenseDamage"), (int)player.position.X, (int)player.position.Y);
+                    if (hurtSoundTimer == 0)
+                    {
+                        Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/DefenseDamage"), (int)player.position.X, (int)player.position.Y);
+                        hurtSoundTimer = 30;
+                    }
 
 					string text = (-damageToDefense).ToString();
                     Color messageColor = Color.LightGray;
@@ -6017,8 +6027,11 @@ namespace CalamityMod.CalPlayer
                     int damageToDefense = (int)(newDamage * defenseStatDamageMult);
                     defenseDamage += damageToDefense;
 
-					if (hurtSoundTimer == 0)
-						Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/DefenseDamage"), (int)player.position.X, (int)player.position.Y);
+                    if (hurtSoundTimer == 0)
+                    {
+                        Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/DefenseDamage"), (int)player.position.X, (int)player.position.Y);
+                        hurtSoundTimer = 30;
+                    }
 
 					string text = (-damageToDefense).ToString();
                     Color messageColor = Color.LightGray; // Light Gray text because it's visible and defense icon is gray in the UI

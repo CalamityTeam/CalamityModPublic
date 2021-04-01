@@ -4,6 +4,8 @@ using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.CalPlayer;
 using CalamityMod.Dusts;
 using CalamityMod.Events;
+using CalamityMod.Items;
+using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.NPCs.Abyss;
 using CalamityMod.NPCs.AcidRain;
@@ -149,6 +151,7 @@ namespace CalamityMod.NPCs
         public int GaussFluxTimer = 0;
         public int sagePoisonTime = 0;
         public int sagePoisonDamage = 0;
+        public int vulnerabilityHex = 0;
 
         // whoAmI Variables
         public static int[] bobbitWormBottom = new int[5];
@@ -951,6 +954,7 @@ namespace CalamityMod.NPCs
             ApplyDPSDebuff(dFlames, 2500, 500, ref npc.lifeRegen, ref damage);
             ApplyDPSDebuff(bBlood, 50, 10, ref npc.lifeRegen, ref damage);
             ApplyDPSDebuff(kamiFlu, 250, 25, ref npc.lifeRegen, ref damage);
+            ApplyDPSDebuff(vulnerabilityHex, 44440, 4444, ref npc.lifeRegen, ref damage);
             ApplyDPSDebuff(sulphurPoison, 180, 36, ref npc.lifeRegen, ref damage);
             ApplyDPSDebuff(sagePoisonTime, 90, npc.Calamity().sagePoisonDamage, ref npc.lifeRegen, ref damage);
 
@@ -1088,9 +1092,9 @@ namespace CalamityMod.NPCs
 			// Nothing should be immune to Enraged.
             npc.buffImmune[BuffType<Enraged>()] = false;
 
-			// Extra Notes:
-			// Shellfish minions set debuff immunity to Shellfish Claps on enemy hits, so most things are technically not immune.
-			// The Spiteful Candle sets the debuff immunity of Spite to all nearby enemies in the tile file for an enemy with less than 99% DR.
+            // Extra Notes:
+            // Shellfish minions set debuff immunity to Shellfish Claps on enemy hits, so most things are technically not immune.
+            // The Spiteful Candle sets the debuff immunity of Spite to all nearby enemies in the tile file for an enemy with less than 99% DR.
         }
         #endregion
 
@@ -3259,17 +3263,19 @@ namespace CalamityMod.NPCs
                 GaussFluxTimer--;
             if (ladHearts > 0)
 				ladHearts--;
+            if (vulnerabilityHex > 0)
+                vulnerabilityHex--;
 
             // Bosses and any specific other NPCs are completely immune to having their movement impaired.
             if (npc.boss || CalamityLists.movementImpairImmuneList.Contains(npc.type))
                 return;
 
             if (kamiFlu > 0)
-            {
                 npc.velocity = Vector2.Clamp(npc.velocity, new Vector2(-KamiDebuff.MaxNPCSpeed), new Vector2(KamiDebuff.MaxNPCSpeed));
-            }
+            if (vulnerabilityHex > 0)
+                npc.velocity = Vector2.Clamp(npc.velocity, new Vector2(-Calamity.MaxNPCSpeed), new Vector2(Calamity.MaxNPCSpeed, 10f));
 
-			if (!CalamityPlayer.areThereAnyDamnBosses && !CalamityLists.enemyImmunityList.Contains(npc.type))
+            if (!CalamityPlayer.areThereAnyDamnBosses && !CalamityLists.enemyImmunityList.Contains(npc.type))
 			{
 				if (pearlAura > 0)
 					npc.velocity *= 0.9f;
