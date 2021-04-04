@@ -94,7 +94,7 @@ namespace CalamityMod.Projectiles.Summon
 
 			projectile.MinionAntiClump();
 
-            float detectRange = 700f;
+            float detectRange = 1100f;
             Vector2 targetVec = projectile.position;
             bool foundTarget = false;
 			int targetIndex = -1;
