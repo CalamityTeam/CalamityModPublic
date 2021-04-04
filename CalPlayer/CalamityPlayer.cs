@@ -5563,8 +5563,11 @@ namespace CalamityMod.CalPlayer
                     int damageToDefense = (int)(newDamage * defenseStatDamageMult);
                     defenseDamage += damageToDefense;
 
-					if (hurtSoundTimer == 0)
-						Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/DefenseDamage"), (int)player.position.X, (int)player.position.Y);
+                    if (hurtSoundTimer == 0)
+                    {
+                        Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/DefenseDamage"), (int)player.position.X, (int)player.position.Y);
+                        hurtSoundTimer = 30;
+                    }
 
 					string text = (-damageToDefense).ToString();
                     Color messageColor = Color.LightGray;
@@ -6007,8 +6010,11 @@ namespace CalamityMod.CalPlayer
                     int damageToDefense = (int)(newDamage * defenseStatDamageMult);
                     defenseDamage += damageToDefense;
 
-					if (hurtSoundTimer == 0)
-						Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/DefenseDamage"), (int)player.position.X, (int)player.position.Y);
+                    if (hurtSoundTimer == 0)
+                    {
+                        Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/DefenseDamage"), (int)player.position.X, (int)player.position.Y);
+                        hurtSoundTimer = 30;
+                    }
 
 					string text = (-damageToDefense).ToString();
                     Color messageColor = Color.LightGray; // Light Gray text because it's visible and defense icon is gray in the UI
