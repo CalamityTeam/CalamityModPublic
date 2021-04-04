@@ -231,6 +231,7 @@ namespace CalamityMod.Events
                                 player.ClearBuff(ModContent.BuffType<ExtremeGravity>());
                         }
                     }
+                    Main.PlaySound(CalamityMod.Instance.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SupremeCalamitasSpawn"), Main.player[ClosestPlayerToWorldCenter].Center);
                     NPC.SpawnOnPlayer(ClosestPlayerToWorldCenter, type);
                 }),
                 new Boss(ModContent.NPCType<Yharon>(), TimeChangeContext.Day),

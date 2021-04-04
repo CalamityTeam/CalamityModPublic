@@ -64,8 +64,8 @@ namespace CalamityMod.Items.SummonItems
                 }
             }
 
-            Main.PlaySound(SoundID.Roar, player.position, 0);
-			if (Main.netMode != NetmodeID.MultiplayerClient)
+            Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SupremeCalamitasSpawn"), (int)player.position.X, (int)player.position.Y);
+            if (Main.netMode != NetmodeID.MultiplayerClient)
 				NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<SupremeCalamitas>());
 			else
 				NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, player.whoAmI, ModContent.NPCType<SupremeCalamitas>());

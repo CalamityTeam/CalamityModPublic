@@ -21,6 +21,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
 using Terraria;
+using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -29,6 +30,18 @@ namespace CalamityMod.NPCs.SupremeCalamitas
     [AutoloadBossHead]
     public class SupremeCalamitas : ModNPC
     {
+        internal enum FrameAnimationType
+        {
+            // The numbering of these values correspond to the horizontal frame on the sprite. If this enumeration or the sprite itself
+            // are updated, these numbers will need to be too.
+            UpwardDraft = 0,
+            FasterUpwardDraft = 1,
+            Casting = 2,
+            MagicPunch = 3,
+            OutwardHandCast = 4,
+            Count = 7
+        }
+
         private float bossLife;
         private float uDieLul = 1f;
         private float passedVar = 0f;
@@ -52,6 +65,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
         private bool willCharge = false;
         private bool canFireSplitingFireball = true;
         private bool spawnArena = false;
+        private bool enteredBrothersPhase = false;
+        private bool hasSummonedBrothers = false;
 
         private int giveUpCounter = 1200;
         private int lootTimer = 0; //900 * 5 = 4500
@@ -66,11 +81,28 @@ namespace CalamityMod.NPCs.SupremeCalamitas
         private int spawnYAdd = 0;
         private int bulletHellCounter = 0;
         private int bulletHellCounter2 = 0;
+        private int attackCastDelay = 0;
+        private int hitTimer = 0;
 
+        private float shieldOpacity = 1f;
+        private float shieldRotation = 0f;
+        private float forcefieldOpacity = 1f;
+        private FrameAnimationType FrameType
+        {
+            get => (FrameAnimationType)(int)npc.localAI[2];
+            set => npc.localAI[2] = (int)value;
+        }
+        private ref float FrameChangeSpeed => ref npc.localAI[3];
+
+        private Vector2 cataclysmSpawnPosition;
+        private Vector2 catastropheSpawnPosition;
         private Rectangle safeBox = default;
 
         public static float normalDR = 0.25f;
         public static float enragedDR = 0.99f;
+
+        private const int brothersSpawnCastTime = 150;
+        private const float forcefieldScale = 3f;
 
         public override void SetStaticDefaults()
         {
@@ -84,14 +116,18 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 			npc.Calamity().canBreakPlayerDefense = true;
 			npc.GetNPCDamage();
 			npc.npcSlots = 50f;
-            npc.width = 120;
-            npc.height = 120;
+            npc.width = npc.height = 44;
             npc.defense = 100;
 			npc.DR_NERD(normalDR, null, null, null, true);
 			CalamityGlobalNPC global = npc.Calamity();
             global.multDRReductions.Add(BuffID.CursedInferno, 0.9f);
             npc.value = Item.buyPrice(10, 0, 0, 0);
 			npc.LifeMaxNERB(5000000, 5500000, 2100000);
+
+            // NOTE: This line is here temporarily so that new features can be tested more efficiently. If it is for some reason
+            // still here at PR time, remove it.
+            npc.lifeMax /= 20;
+
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.aiStyle = -1;
@@ -132,6 +168,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             writer.Write(willCharge);
             writer.Write(canFireSplitingFireball);
             writer.Write(spawnArena);
+            writer.Write(hasSummonedBrothers);
+            writer.Write(enteredBrothersPhase);
             writer.Write(npc.dontTakeDamage);
             writer.Write(npc.chaseable);
 
@@ -148,6 +186,10 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             writer.Write(spawnYAdd);
             writer.Write(bulletHellCounter);
             writer.Write(bulletHellCounter2);
+            writer.Write(hitTimer);
+            writer.Write(attackCastDelay);
+
+            writer.Write(shieldRotation);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
@@ -171,6 +213,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             willCharge = reader.ReadBoolean();
             canFireSplitingFireball = reader.ReadBoolean();
             spawnArena = reader.ReadBoolean();
+            hasSummonedBrothers = reader.ReadBoolean();
+            enteredBrothersPhase = reader.ReadBoolean();
             npc.dontTakeDamage = reader.ReadBoolean();
             npc.chaseable = reader.ReadBoolean();
 
@@ -187,10 +231,20 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             spawnYAdd = reader.ReadInt32();
             bulletHellCounter = reader.ReadInt32();
             bulletHellCounter2 = reader.ReadInt32();
+            hitTimer = reader.ReadInt32();
+            attackCastDelay = reader.ReadInt32();
+
+            shieldRotation = reader.ReadSingle();
         }
 
         public override void AI()
         {
+            #region Resets
+
+            // Use an ordinary upward draft by default.
+            FrameType = FrameAnimationType.UpwardDraft;
+            FrameChangeSpeed = 0.15f;
+            #endregion
             #region StartUp
             CalamityGlobalNPC.SCal = npc.whoAmI;
 
@@ -288,6 +342,33 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 }
                 startText = true;
             }
+            #endregion
+            #region Directioning
+
+            bool currentlyCharging = npc.ai[1] == 2f;
+            if (!currentlyCharging && Math.Abs(player.Center.X - npc.Center.X) > 16f)
+                npc.spriteDirection = (player.Center.X < npc.Center.X).ToDirectionInt();
+            #endregion
+            #region Forcefield and Shield Logic
+
+            if (hitTimer > 0)
+                hitTimer--;
+
+            // Summon a shield if the next attack will be a charge.
+            if (willCharge || npc.ai[1] == 2f)
+            {
+                if (npc.ai[1] != 2f)
+                {
+                    float idealRotation = npc.AngleTo(player.Center);
+                    shieldRotation = shieldRotation.AngleLerp(idealRotation, 0.125f);
+                    shieldRotation = shieldRotation.AngleTowards(idealRotation, 0.18f);
+                }
+                shieldOpacity = MathHelper.Lerp(shieldOpacity, 1f, 0.08f);
+            }
+            // Make the shield disappear if it is no longer relevant.
+            else
+                shieldOpacity = MathHelper.Lerp(shieldOpacity, 0f, 0.08f);
+
             #endregion
             #region ArenaCreation
             if (!spawnArena)
@@ -389,10 +470,6 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 {
 					canDespawn = true;
 
-					float num740 = player.Center.X - vectorCenter.X;
-					float num741 = player.Center.Y - vectorCenter.Y;
-					npc.rotation = (float)Math.Atan2(num741, num740) - MathHelper.PiOver2;
-
 					if (npc.velocity.Y > 3f)
 						npc.velocity.Y = 3f;
 					npc.velocity.Y -= 0.2f;
@@ -405,9 +482,122 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             }
             else
                 canDespawn = false;
-            #endregion
-            #region FirstAttack
-            if (bulletHellCounter2 < 900)
+			#endregion
+			#region Cast Charge Countdown
+            if (attackCastDelay > 0)
+            {
+                attackCastDelay--;
+                npc.velocity *= 0.94f;
+                npc.dontTakeDamage = true;
+
+                // Make a magic effect over time.
+
+                for (int i = 0; i < (attackCastDelay == 0 ? 16 : 1); i++)
+                {
+                    Vector2 dustSpawnPosition = npc.Bottom;
+                    float horizontalSpawnOffset = npc.width * Main.rand.NextFloat(0.42f, 0.5f);
+                    if (Main.rand.NextBool(2))
+                        horizontalSpawnOffset *= -1f;
+                    dustSpawnPosition.X += horizontalSpawnOffset;
+
+                    Dust magic = Dust.NewDustPerfect(dustSpawnPosition, 267);
+                    magic.color = Color.Lerp(Color.Red, Color.Orange, Main.rand.NextFloat(0.8f));
+                    magic.noGravity = true;
+                    magic.velocity = Vector2.UnitY * -Main.rand.NextFloat(5f, 9f);
+                    magic.scale = 1f + npc.velocity.Y * 0.35f;
+                }
+
+                if (enteredBrothersPhase && !hasSummonedBrothers)
+                {
+                    Vector2 leftOfCircle = npc.Bottom - Vector2.UnitX * npc.width * 0.45f;
+                    Vector2 rightOfCircle = npc.Bottom + Vector2.UnitX * npc.width * 0.45f;
+
+                    if (Main.netMode != NetmodeID.MultiplayerClient && catastropheSpawnPosition == Vector2.Zero)
+                    {
+                        catastropheSpawnPosition = npc.Center - Vector2.UnitX * 500f;
+                        cataclysmSpawnPosition = npc.Center + Vector2.UnitX * 500f;
+                        npc.netUpdate = true;
+                    }
+
+                    // Draw some magic dust much like the sandstorm elemental cast that approaches where the brothers will spawn.
+                    if (attackCastDelay < brothersSpawnCastTime - 45f && attackCastDelay >= 60f)
+                    {
+                        float castCompletion = Utils.InverseLerp(brothersSpawnCastTime - 45f, 60f, attackCastDelay);
+
+                        Vector2 leftDustPosition = Vector2.CatmullRom(leftOfCircle + Vector2.UnitY * 1000f, leftOfCircle, catastropheSpawnPosition, catastropheSpawnPosition + Vector2.UnitY * 1000f, castCompletion);
+                        Vector2 rightDustPosition = Vector2.CatmullRom(rightOfCircle + Vector2.UnitY * 1000f, rightOfCircle, cataclysmSpawnPosition, cataclysmSpawnPosition + Vector2.UnitY * 1000f, castCompletion);
+
+                        Dust castMagicDust = Dust.NewDustPerfect(leftDustPosition, 267);
+                        castMagicDust.scale = 1.67f;
+                        castMagicDust.velocity = Main.rand.NextVector2CircularEdge(0.2f, 0.2f);
+                        castMagicDust.color = Color.Red;
+                        castMagicDust.noGravity = true;
+
+                        castMagicDust = Dust.CloneDust(castMagicDust);
+                        castMagicDust.position = rightDustPosition;
+                    }
+
+                    if (attackCastDelay < 60f)
+                    {
+                        float burnPower = Utils.InverseLerp(60f, 20f, attackCastDelay);
+                        if (attackCastDelay == 0f)
+                            burnPower = 4f;
+
+                        for (int i = 0; i < MathHelper.Lerp(5, 25, burnPower); i++)
+                        {
+                            Dust fire = Dust.NewDustPerfect(catastropheSpawnPosition + Main.rand.NextVector2Circular(60f, 60f), 264);
+                            fire.velocity = Vector2.UnitY * -Main.rand.NextFloat(2f, 4f);
+                            if (attackCastDelay == 0)
+                            {
+                                fire.velocity += Main.rand.NextVector2Circular(4f, 4f);
+                                fire.fadeIn = 1.6f;
+                            }
+                            fire.noGravity = true;
+                            fire.noLight = true;
+                            fire.color = Color.OrangeRed;
+                            fire.scale = 1.4f + fire.velocity.Y * 0.16f;
+
+                            fire = Dust.NewDustPerfect(cataclysmSpawnPosition + Main.rand.NextVector2Circular(60f, 60f), 264);
+                            fire.velocity = Vector2.UnitY * -Main.rand.NextFloat(2f, 4f);
+                            if (attackCastDelay == 0)
+                            {
+                                fire.velocity += Main.rand.NextVector2Circular(4f, 4f);
+                                fire.fadeIn = 1.6f;
+                            }
+                            fire.noGravity = true;
+                            fire.noLight = true;
+                            fire.color = Color.OrangeRed;
+                            fire.scale = 1.4f + fire.velocity.Y * 0.16f;
+                        }
+                    }
+
+                    if (attackCastDelay == 0)
+                    {
+                        string key = "Mods.CalamityMod.SupremeBossText6";
+                        Color messageColor = Color.Orange;
+                        CalamityUtils.DisplayLocalizedText(key, messageColor);
+
+                        if (Main.netMode != NetmodeID.MultiplayerClient)
+                        {
+                            CalamityUtils.SpawnBossBetter(catastropheSpawnPosition, ModContent.NPCType<SupremeCatastrophe>());
+                            CalamityUtils.SpawnBossBetter(cataclysmSpawnPosition, ModContent.NPCType<SupremeCataclysm>());
+                        }
+                        hasSummonedBrothers = true;
+                    }
+                }
+
+                if (attackCastDelay == 0)
+                {
+                    npc.dontTakeDamage = false;
+                    npc.netUpdate = true;
+                }
+
+                FrameType = FrameAnimationType.Casting;
+                return;
+            }
+			#endregion
+			#region FirstAttack
+			if (bulletHellCounter2 < 900)
             {
                 despawnProj = true;
                 bulletHellCounter2 += 1;
@@ -417,10 +607,6 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
 				if (!canDespawn)
 					npc.velocity *= 0.95f;
-
-                float num740 = player.Center.X - vectorCenter.X;
-                float num741 = player.Center.Y - vectorCenter.Y;
-                npc.rotation = (float)Math.Atan2(num741, num740) - MathHelper.PiOver2;
 
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
@@ -488,10 +674,6 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 				if (!canDespawn)
 					npc.velocity *= 0.95f;
 
-                float num740 = player.Center.X - vectorCenter.X;
-                float num741 = player.Center.Y - vectorCenter.Y;
-                npc.rotation = (float)Math.Atan2(num741, num740) - MathHelper.PiOver2;
-
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
                     if (bulletHellCounter2 < 1200)
@@ -551,10 +733,6 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 				if (!canDespawn)
 					npc.velocity *= 0.95f;
 
-                float num740 = player.Center.X - vectorCenter.X;
-                float num741 = player.Center.Y - vectorCenter.Y;
-                npc.rotation = (float)Math.Atan2(num741, num740) - MathHelper.PiOver2;
-
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
                     if (bulletHellCounter2 % 180 == 0) //blasts from top
@@ -609,10 +787,6 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
 				if (!canDespawn)
 					npc.velocity *= 0.95f;
-
-                float num740 = player.Center.X - vectorCenter.X;
-                float num741 = player.Center.Y - vectorCenter.Y;
-                npc.rotation = (float)Math.Atan2(num741, num740) - MathHelper.PiOver2;
 
                 if (Main.netMode != NetmodeID.MultiplayerClient) //more clustered attack
                 {
@@ -675,10 +849,6 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
 				if (!canDespawn)
 					npc.velocity *= 0.95f;
-
-                float num740 = player.Center.X - vectorCenter.X;
-                float num741 = player.Center.Y - vectorCenter.Y;
-                npc.rotation = (float)Math.Atan2(num741, num740) - MathHelper.PiOver2;
 
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
@@ -743,10 +913,6 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
 					if (!canDespawn)
 						npc.velocity.X *= 0.98f;
-
-                    float num = player.Center.X - vectorCenter.X;
-                    float num1 = player.Center.Y - vectorCenter.Y;
-                    npc.rotation = (float)Math.Atan2(num1, num) - MathHelper.PiOver2;
 
                     if (CalamityWorld.downedSCal) //after first time you kill her
                     {
@@ -921,58 +1087,14 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             }
             if (npc.life > 0)
             {
-                if (Main.netMode != NetmodeID.MultiplayerClient)
+                if (npc.life < npc.lifeMax * 0.45f && !enteredBrothersPhase)
                 {
-                    int num660 = (int)(npc.lifeMax * 0.55);
-                    if ((npc.life + num660) < bossLife)
-                    {
-                        bossLife = npc.life;
-                        NPC.SpawnOnPlayer(npc.FindClosestPlayer(), ModContent.NPCType<SupremeCataclysm>());
-                        NPC.SpawnOnPlayer(npc.FindClosestPlayer(), ModContent.NPCType<SupremeCatastrophe>());
-                        string key = "Mods.CalamityMod.SupremeBossText6";
-                        Color messageColor = Color.Orange;
-                        CalamityUtils.DisplayLocalizedText(key, messageColor);
-                    }
+                    enteredBrothersPhase = true;
+                    attackCastDelay = brothersSpawnCastTime;
+                    npc.netUpdate = true;
                 }
             }
 
-            #endregion
-            #region TargetandRotation
-            float num801 = npc.position.X + (npc.width / 2) - player.position.X - (player.width / 2);
-            float num802 = npc.position.Y + npc.height - 59f - player.position.Y - (player.height / 2);
-            float num803 = (float)Math.Atan2(num802, num801) + MathHelper.PiOver2;
-
-            if (num803 < 0f)
-                num803 += MathHelper.TwoPi;
-            else if (num803 > MathHelper.TwoPi)
-                num803 -= MathHelper.TwoPi;
-
-            float num804 = 0.1f;
-			if (npc.rotation < num803)
-			{
-				if ((num803 - npc.rotation) > MathHelper.Pi)
-					npc.rotation -= num804;
-				else
-					npc.rotation += num804;
-			}
-			else if (npc.rotation > num803)
-			{
-				if ((npc.rotation - num803) > MathHelper.Pi)
-					npc.rotation += num804;
-				else
-					npc.rotation -= num804;
-			}
-
-            if (npc.rotation > num803 - num804 && npc.rotation < num803 + num804)
-                npc.rotation = num803;
-
-            if (npc.rotation < 0f)
-                npc.rotation += MathHelper.TwoPi;
-            else if (npc.rotation > MathHelper.TwoPi)
-                npc.rotation -= MathHelper.TwoPi;
-
-            if (npc.rotation > num803 - num804 && npc.rotation < num803 + num804)
-                npc.rotation = num803;
             #endregion
             #region FirstStage
             if (npc.ai[0] == 0f)
@@ -993,10 +1115,6 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
 						if (!canDespawn)
 							npc.velocity *= 0.95f;
-
-                        float num740 = player.Center.X - vectorCenter.X;
-                        float num741 = player.Center.Y - vectorCenter.Y;
-                        npc.rotation = (float)Math.Atan2(num741, num740) - MathHelper.PiOver2;
                         return;
                     }
                     else
@@ -1163,7 +1281,6 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 						vector82 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
 						num825 = player.position.X + (player.width / 2) - vector82.X;
 						num826 = player.position.Y + (player.height / 2) - vector82.Y;
-						npc.rotation = (float)Math.Atan2(num826, num825) - MathHelper.PiOver2;
 
 						if (Main.netMode != NetmodeID.MultiplayerClient)
 						{
@@ -1231,10 +1348,11 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 								}
 							}
 						}
+
+                        FrameType = FrameAnimationType.FasterUpwardDraft;
 					}
 					else if (npc.ai[1] == 1f)
 					{
-						npc.rotation = num803;
 						float num383 = wormAlive ? 26f : 30f;
 						if (npc.life < npc.lifeMax * 0.95)
 							num383 += 1f;
@@ -1257,7 +1375,10 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 						{
 							npc.velocity.X = num384 * num386;
 							npc.velocity.Y = num385 * num386;
-							Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SCalSounds/SCalDash"), npc.Center);
+                            shieldRotation = npc.velocity.ToRotation();
+                            npc.netUpdate = true;
+
+                            Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SCalSounds/SCalDash"), npc.Center);
 						}
 
 						npc.ai[1] = 2f;
@@ -1265,6 +1386,9 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 					else if (npc.ai[1] == 2f)
 					{
 						npc.ai[2] += 1f;
+
+                        if (Math.Abs(npc.velocity.X) > 0.15f)
+                            npc.spriteDirection = (npc.velocity.X < 0f).ToDirectionInt();
 						if (npc.ai[2] >= 25f)
 						{
 							if (!canDespawn)
@@ -1277,22 +1401,30 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 									npc.velocity.Y = 0f;
 							}
 						}
-						else
-							npc.rotation = (float)Math.Atan2(npc.velocity.Y, npc.velocity.X) - MathHelper.PiOver2;
 
-						if (npc.ai[2] >= 70f)
+                        bool willChargeAgain = npc.ai[3] + 1 < 2;
+
+                        if (npc.ai[2] >= 70f)
 						{
 							npc.ai[3] += 1f;
 							npc.ai[2] = 0f;
 							npc.TargetClosest();
-							npc.rotation = num803;
 
-							if (npc.ai[3] >= 2f)
+							if (!willChargeAgain)
 								npc.ai[1] = -1f;
 							else
 								npc.ai[1] = 1f;
-						}
-					}
+                        }
+
+                        if (willChargeAgain && npc.ai[2] > 50f)
+                        {
+                            float idealRotation = npc.AngleTo(player.Center);
+                            shieldRotation = shieldRotation.AngleLerp(idealRotation, 0.125f);
+                            shieldRotation = shieldRotation.AngleTowards(idealRotation, 0.18f);
+                        }
+
+                        FrameType = FrameAnimationType.FasterUpwardDraft;
+                    }
 					else if (npc.ai[1] == 3f)
 					{
 						float num412 = 32f;
@@ -1309,7 +1441,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 						if (npc.position.X + (npc.width / 2) < player.position.X + player.width)
 							num414 = -1;
 
-						Vector2 vector40 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
+                        Vector2 handPosition = npc.Center + new Vector2(npc.spriteDirection * -18f, 2f);
+                        Vector2 vector40 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
 						float num415 = player.position.X + (player.width / 2) + (num414 * 600) - vector40.X;
 						float num416 = player.position.Y + (player.height / 2) - vector40.Y;
 						float num417 = (float)Math.Sqrt(num415 * num415 + num416 * num416);
@@ -1366,6 +1499,18 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 								num416 = player.position.Y + (player.height / 2) - vector40.Y;
 								Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SCalSounds/BrimstoneHellblastSound"), npc.Center);
 
+                                // Release a burst of magic dust along with a brimstone hellblast skull.
+                                for (int i = 0; i < 25; i++)
+                                {
+                                    Dust brimstoneMagic = Dust.NewDustPerfect(handPosition, 264);
+                                    brimstoneMagic.velocity = npc.DirectionTo(player.Center).RotatedByRandom(0.31f) * Main.rand.NextFloat(3f, 5f) + npc.velocity;
+                                    brimstoneMagic.scale = Main.rand.NextFloat(1.25f, 1.35f);
+                                    brimstoneMagic.noGravity = true;
+                                    brimstoneMagic.color = Color.OrangeRed;
+                                    brimstoneMagic.fadeIn = 1.5f;
+                                    brimstoneMagic.noLight = true;
+                                }
+
 								if (Main.netMode != NetmodeID.MultiplayerClient)
 								{
 									float num418 = 10f * uDieLul;
@@ -1374,13 +1519,24 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 									num417 = num418 / num417;
 									num415 *= num417;
 									num416 *= num417;
-									vector40.X += num415 * 4f;
-									vector40.Y += num416 * 4f;
+									vector40.X += num415 * 2f;
+									vector40.Y += num416 * 2f;
 									Projectile.NewProjectile(vector40.X, vector40.Y, num415, num416, num420, hellblastDamage, 0f, Main.myPlayer, 0f, 0f);
 								}
 							}
-						}
-					}
+                        }
+
+                        if (Main.rand.NextBool(2))
+                        {
+                            Dust brimstoneMagic = Dust.NewDustPerfect(handPosition, 264);
+                            brimstoneMagic.velocity = Vector2.UnitY.RotatedByRandom(0.14f) * Main.rand.NextFloat(-3.5f, -3f) + npc.velocity;
+                            brimstoneMagic.scale = Main.rand.NextFloat(1.25f, 1.35f);
+                            brimstoneMagic.noGravity = true;
+                            brimstoneMagic.noLight = true;
+                        }
+
+                        FrameType = FrameAnimationType.OutwardHandCast;
+                    }
 					else if (npc.ai[1] == 4f)
 					{
 						int num831 = 1;
@@ -1437,15 +1593,35 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 						vector83 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
 						num834 = player.position.X + (player.width / 2) - vector83.X;
 						num835 = player.position.Y + (player.height / 2) - vector83.Y;
-						npc.rotation = (float)Math.Atan2(num835, num834) - MathHelper.PiOver2;
 
-						if (Main.netMode != NetmodeID.MultiplayerClient)
-						{
-							npc.localAI[1] += wormAlive ? 0.5f : 1f;
-							if (npc.localAI[1] > 140f)
+                        int shootRate = wormAlive ? 280 : 140;
+                        npc.localAI[1]++;
+                        if (npc.ai[2] > 40f && (npc.localAI[1] > shootRate - 35 || npc.localAI[1] <= 15f))
+                        {
+                            FrameChangeSpeed = 0f;
+                            FrameType = FrameAnimationType.MagicPunch;
+                        }
+
+                        if (npc.localAI[1] > shootRate)
+                        {
+                            Vector2 handPosition = npc.Center + new Vector2(npc.spriteDirection * -22f, 2f);
+
+                            // Release a burst of magic dust when punching.
+                            for (int i = 0; i < 25; i++)
+                            {
+                                Dust brimstoneMagic = Dust.NewDustPerfect(handPosition, 264);
+                                brimstoneMagic.velocity = npc.DirectionTo(player.Center).RotatedByRandom(0.24f) * Main.rand.NextFloat(5f, 7f) + npc.velocity;
+                                brimstoneMagic.scale = Main.rand.NextFloat(1.25f, 1.35f);
+                                brimstoneMagic.noGravity = true;
+                                brimstoneMagic.color = Color.OrangeRed;
+                                brimstoneMagic.fadeIn = 1.5f;
+                                brimstoneMagic.noLight = true;
+                            }
+                            npc.localAI[1] = 0f;
+
+                            if (Main.netMode != NetmodeID.MultiplayerClient)
 							{
 								Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SCalSounds/BrimstoneBigShoot"), npc.Center);
-								npc.localAI[1] = 0f;
 								float num837 = 5f * uDieLul;
 								int num839 = ModContent.ProjectileType<BrimstoneFireblast>();
 								num836 = (float)Math.Sqrt(num834 * num834 + num835 * num835);
@@ -1464,9 +1640,9 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 							npc.ai[1] = -1f;
 							npc.TargetClosest();
 							npc.netUpdate = true;
-						}
-					}
-				}
+                        }
+                    }
+                }
 
                 if (npc.life < npc.lifeMax * 0.4)
                 {
@@ -1497,8 +1673,6 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     if (npc.ai[2] < 0f)
                         npc.ai[2] = 0f;
                 }
-
-                npc.rotation += npc.ai[2];
 
                 npc.ai[1] += 1f;
                 if (npc.ai[1] == 100f)
@@ -1711,7 +1885,6 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 						vector82 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
 						num825 = player.position.X + (player.width / 2) - vector82.X;
 						num826 = player.position.Y + (player.height / 2) - vector82.Y;
-						npc.rotation = (float)Math.Atan2(num826, num825) - MathHelper.PiOver2;
 
 						if (Main.netMode != NetmodeID.MultiplayerClient)
 						{
@@ -1782,7 +1955,6 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 					}
 					else if (npc.ai[1] == 1f)
 					{
-						npc.rotation = num803;
 						float num383 = wormAlive ? 31f : 35f;
 						if (npc.life < npc.lifeMax * 0.3)
 							num383 += 1f;
@@ -1801,7 +1973,9 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 						{
 							npc.velocity.X = num384 * num386;
 							npc.velocity.Y = num385 * num386;
-						}
+                            shieldRotation = npc.velocity.ToRotation();
+                            npc.netUpdate = true;
+                        }
 
 						npc.ai[1] = 2f;
 					}
@@ -1820,22 +1994,31 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 									npc.velocity.Y = 0f;
 							}
 						}
-						else
-							npc.rotation = (float)Math.Atan2(npc.velocity.Y, npc.velocity.X) - MathHelper.PiOver2;
 
-						if (npc.ai[2] >= 70f)
-						{
-							npc.ai[3] += 1f;
-							npc.ai[2] = 0f;
-							npc.TargetClosest();
-							npc.rotation = num803;
 
-							if (npc.ai[3] >= 1f)
-								npc.ai[1] = -1f;
-							else
-								npc.ai[1] = 1f;
-						}
-					}
+                        bool willChargeAgain = npc.ai[3] + 1 < 1;
+
+                        if (npc.ai[2] >= 70f)
+                        {
+                            npc.ai[3] += 1f;
+                            npc.ai[2] = 0f;
+                            npc.TargetClosest();
+
+                            if (!willChargeAgain)
+                                npc.ai[1] = -1f;
+                            else
+                                npc.ai[1] = 1f;
+                        }
+
+                        if (willChargeAgain && npc.ai[2] > 50f)
+                        {
+                            float idealRotation = npc.AngleTo(player.Center);
+                            shieldRotation = shieldRotation.AngleLerp(idealRotation, 0.125f);
+                            shieldRotation = shieldRotation.AngleTowards(idealRotation, 0.18f);
+                        }
+
+                        FrameType = FrameAnimationType.FasterUpwardDraft;
+                    }
 					else if (npc.ai[1] == 3f)
 					{
 						float num412 = 32f;
@@ -1852,7 +2035,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 						if (npc.position.X + (npc.width / 2) < player.position.X + player.width)
 							num414 = -1;
 
-						Vector2 vector40 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
+                        Vector2 handPosition = npc.Center + new Vector2(npc.spriteDirection * -18f, 2f);
+                        Vector2 vector40 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
 						float num415 = player.position.X + (player.width / 2) + (num414 * 600) - vector40.X;
 						float num416 = player.position.Y + (player.height / 2) - vector40.Y;
 						float num417 = (float)Math.Sqrt(num415 * num415 + num416 * num416);
@@ -1909,7 +2093,19 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 								num416 = player.position.Y + (player.height / 2) - vector40.Y;
 								Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SCalSounds/BrimstoneHellblastSound"), npc.Center);
 
-								if (Main.netMode != NetmodeID.MultiplayerClient)
+                                // Release a burst of magic dust along with a brimstone hellblast skull.
+                                for (int i = 0; i < 25; i++)
+                                {
+                                    Dust brimstoneMagic = Dust.NewDustPerfect(handPosition, 264);
+                                    brimstoneMagic.velocity = npc.DirectionTo(player.Center).RotatedByRandom(0.31f) * Main.rand.NextFloat(3f, 5f) + npc.velocity;
+                                    brimstoneMagic.scale = Main.rand.NextFloat(1.25f, 1.35f);
+                                    brimstoneMagic.noGravity = true;
+                                    brimstoneMagic.color = Color.OrangeRed;
+                                    brimstoneMagic.fadeIn = 1.5f;
+                                    brimstoneMagic.noLight = true;
+                                }
+
+                                if (Main.netMode != NetmodeID.MultiplayerClient)
 								{
 									float num418 = 10f * uDieLul;
 									int num420 = ModContent.ProjectileType<BrimstoneHellblast>();
@@ -1922,8 +2118,19 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 									Projectile.NewProjectile(vector40.X, vector40.Y, num415, num416, num420, hellblastDamage, 0f, Main.myPlayer, 0f, 0f);
 								}
 							}
-						}
-					}
+                        }
+
+                        if (Main.rand.NextBool(2))
+                        {
+                            Dust brimstoneMagic = Dust.NewDustPerfect(handPosition, 264);
+                            brimstoneMagic.velocity = Vector2.UnitY.RotatedByRandom(0.14f) * Main.rand.NextFloat(-3.5f, -3f) + npc.velocity;
+                            brimstoneMagic.scale = Main.rand.NextFloat(1.25f, 1.35f);
+                            brimstoneMagic.noGravity = true;
+                            brimstoneMagic.noLight = true;
+                        }
+
+                        FrameType = FrameAnimationType.OutwardHandCast;
+                    }
 					else if (npc.ai[1] == 4f)
 					{
 						int num831 = 1;
@@ -1980,35 +2187,56 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 						vector83 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
 						num834 = player.position.X + (player.width / 2) - vector83.X;
 						num835 = player.position.Y + (player.height / 2) - vector83.Y;
-						npc.rotation = (float)Math.Atan2(num835, num834) - MathHelper.PiOver2;
 
-						if (Main.netMode != NetmodeID.MultiplayerClient)
-						{
-							npc.localAI[1] += wormAlive ? 0.5f : 1f;
-							if (npc.localAI[1] > 100f)
-							{
-								Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SCalSounds/BrimstoneBigShoot"), npc.Center);
-								npc.localAI[1] = 0f;
-								float num837 = 5f * uDieLul;
-								int num839 = ModContent.ProjectileType<BrimstoneFireblast>();
-								num836 = (float)Math.Sqrt(num834 * num834 + num835 * num835);
-								num836 = num837 / num836;
-								num834 *= num836;
-								num835 *= num836;
-								vector83.X += num834 * 8f;
-								vector83.Y += num835 * 8f;
-								int shot = Projectile.NewProjectile(vector83.X, vector83.Y, num834, num835, num839, fireblastDamage, 0f, Main.myPlayer, 0f, 0f);
-							}
-						}
+                        int shootRate = wormAlive ? 200 : 100;
+                        npc.localAI[1]++;
+                        if (npc.ai[2] > 40f && (npc.localAI[1] > shootRate - 35 || npc.localAI[1] <= 15f))
+                        {
+                            FrameChangeSpeed = 0f;
+                            FrameType = FrameAnimationType.MagicPunch;
+                        }
 
-						npc.ai[2] += 1f;
+                        if (npc.localAI[1] > shootRate)
+                        {
+                            Vector2 handPosition = npc.Center + new Vector2(npc.spriteDirection * -22f, 2f);
+
+                            // Release a burst of magic dust when punching.
+                            for (int i = 0; i < 25; i++)
+                            {
+                                Dust brimstoneMagic = Dust.NewDustPerfect(handPosition, 264);
+                                brimstoneMagic.velocity = npc.DirectionTo(player.Center).RotatedByRandom(0.24f) * Main.rand.NextFloat(5f, 7f) + npc.velocity;
+                                brimstoneMagic.scale = Main.rand.NextFloat(1.25f, 1.35f);
+                                brimstoneMagic.noGravity = true;
+                                brimstoneMagic.color = Color.OrangeRed;
+                                brimstoneMagic.fadeIn = 1.5f;
+                                brimstoneMagic.noLight = true;
+                            }
+                            npc.localAI[1] = 0f;
+
+                            if (Main.netMode != NetmodeID.MultiplayerClient)
+                            {
+                                Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SCalSounds/BrimstoneBigShoot"), npc.Center);
+                                npc.localAI[1] = 0f;
+                                float num837 = 5f * uDieLul;
+                                int num839 = ModContent.ProjectileType<BrimstoneFireblast>();
+                                num836 = (float)Math.Sqrt(num834 * num834 + num835 * num835);
+                                num836 = num837 / num836;
+                                num834 *= num836;
+                                num835 *= num836;
+                                vector83.X += num834 * 8f;
+                                vector83.Y += num835 * 8f;
+                                Projectile.NewProjectile(vector83.X, vector83.Y, num834, num835, num839, fireblastDamage, 0f, Main.myPlayer, 0f, 0f);
+                            }
+                        }
+
+                        npc.ai[2] += 1f;
 						if (npc.ai[2] >= 240f)
 						{
 							npc.ai[1] = -1f;
 							npc.TargetClosest();
 							npc.netUpdate = true;
-						}
-					}
+                        }
+                    }
 				}
             }
             #endregion
@@ -2154,21 +2382,46 @@ namespace CalamityMod.NPCs.SupremeCalamitas
         public override bool CanHitPlayer(Player target, ref int cooldownSlot)
         {
             cooldownSlot = 1;
-            return true;
+
+            Vector2 shieldCenter = npc.Center + shieldRotation.ToRotationVector2() * 38f;
+            Vector2 shieldTop = shieldCenter - (shieldRotation + MathHelper.PiOver2).ToRotationVector2() * 61f;
+            Vector2 shieldBottom = shieldCenter - (shieldRotation + MathHelper.PiOver2).ToRotationVector2() * 61f;
+
+            float _ = 0f;
+            bool collidingWithShield = Collision.CheckAABBvLineCollision(target.TopLeft, target.Size, shieldTop, shieldBottom, 64f, ref _) && shieldOpacity > 0.55f;
+            return collidingWithShield || npc.Hitbox.Intersects(target.Hitbox);
         }
 
         public override void FindFrame(int frameHeight)
         {
-            npc.frameCounter += 0.15f;
-            npc.frameCounter %= Main.npcFrameCount[npc.type];
-            int frame = (int)npc.frameCounter;
-            npc.frame.Y = frame * frameHeight;
+            bool wormAlive = false;
+            if (CalamityGlobalNPC.SCalWorm != -1)
+                wormAlive = Main.npc[CalamityGlobalNPC.SCalWorm].active;
+            int shootRate = wormAlive ? 280 : 140;
+            if (npc.ai[0] >= 3f)
+                shootRate = wormAlive ? 200 : 100;
+
+            // Special punch logic for the blast attack.
+            if ((npc.localAI[1] > shootRate - 35 || npc.localAI[1] <= 15f))
+            {
+                if (npc.localAI[1] > shootRate - 35)
+                    npc.frame.Y = (int)MathHelper.Lerp(0, 3, Utils.InverseLerp(shootRate - 35, shootRate, npc.localAI[1], true));
+                else
+                    npc.frame.Y = (int)MathHelper.Lerp(3, 5, Utils.InverseLerp(0f, 15f, npc.localAI[1], true));
+            }
+            else
+            {
+                npc.frameCounter += FrameChangeSpeed;
+                npc.frameCounter %= Main.npcFrameCount[npc.type];
+                int frame = (int)npc.frameCounter;
+                npc.frame.Y = frame;
+            }
         }
 
 		public override Color? GetAlpha(Color drawColor)
 		{
 			if (willCharge)
-				return new Color(0, 0, 0, npc.alpha);
+				return drawColor * npc.Opacity * 0.65f;
 			return null;
 		}
 
@@ -2178,13 +2431,39 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 			if (npc.spriteDirection == 1)
 				spriteEffects = SpriteEffects.FlipHorizontally;
 
-			Texture2D texture2D15 = npc.ai[0] > 1f ? ModContent.GetTexture("CalamityMod/NPCs/SupremeCalamitas/SupremeCalamitas2") : Main.npcTexture[npc.type];
-			Vector2 vector11 = new Vector2(Main.npcTexture[npc.type].Width / 2, Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type] / 2);
+			Texture2D texture2D15 = Main.npcTexture[npc.type];
+
+            Vector2 vector11 = new Vector2(texture2D15.Width / (int)FrameAnimationType.Count / 2f, texture2D15.Height / Main.npcFrameCount[npc.type] / 2f);
 			Color color36 = Color.White;
 			float amount9 = 0.5f;
 			int num153 = 7;
 
-			if (CalamityConfig.Instance.Afterimages)
+            Rectangle frame = texture2D15.Frame((int)FrameAnimationType.Count, 6, (int)FrameType, npc.frame.Y);
+
+            int frameHeight = texture2D15.Height / Main.npcFrameCount[npc.type];
+            Vector2 drawOffset = Vector2.UnitX * (npc.spriteDirection < 0).ToInt() * 5f;
+            switch (FrameType)
+            {
+                case FrameAnimationType.UpwardDraft:
+                    frame = new Rectangle(0, npc.frame.Y * frameHeight, 34, 48);
+                    break;
+                case FrameAnimationType.FasterUpwardDraft:
+                    frame = new Rectangle(36, npc.frame.Y * frameHeight, 30, 48);
+                    break;
+                case FrameAnimationType.Casting:
+                    frame = new Rectangle(72, npc.frame.Y * frameHeight, 44, 48);
+                    break;
+                case FrameAnimationType.MagicPunch:
+                    frame = new Rectangle(116, npc.frame.Y * frameHeight, 48, 48);
+                    drawOffset -= Vector2.UnitX * npc.spriteDirection * -8f;
+                    break;
+                case FrameAnimationType.OutwardHandCast:
+                    frame = new Rectangle(180, npc.frame.Y * frameHeight, 36, 48);
+                    break;
+            }
+            frame.Y += npc.frame.Y;
+
+            if (CalamityConfig.Instance.Afterimages)
 			{
 				for (int num155 = 1; num155 < num153; num155 += 2)
 				{
@@ -2193,41 +2472,60 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 					color38 = npc.GetAlpha(color38);
 					color38 *= (num153 - num155) / 15f;
 					Vector2 vector41 = npc.oldPos[num155] + new Vector2(npc.width, npc.height) / 2f - Main.screenPosition;
-					vector41 -= new Vector2(texture2D15.Width, texture2D15.Height / Main.npcFrameCount[npc.type]) * npc.scale / 2f;
+					vector41 -= new Vector2(texture2D15.Width / (int)FrameAnimationType.Count, texture2D15.Height / Main.npcFrameCount[npc.type]) * npc.scale / 2f;
 					vector41 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
-					spriteBatch.Draw(texture2D15, vector41, npc.frame, color38, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+					spriteBatch.Draw(texture2D15, vector41 + drawOffset, frame, color38, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 				}
 			}
 
 			Vector2 vector43 = npc.Center - Main.screenPosition;
-			vector43 -= new Vector2(texture2D15.Width, texture2D15.Height / Main.npcFrameCount[npc.type]) * npc.scale / 2f;
+			vector43 -= new Vector2(texture2D15.Width / (int)FrameAnimationType.Count, texture2D15.Height / Main.npcFrameCount[npc.type]) * npc.scale / 2f;
 			vector43 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
-			spriteBatch.Draw(texture2D15, vector43, npc.frame, npc.GetAlpha(lightColor), npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+			spriteBatch.Draw(texture2D15, vector43 + drawOffset, frame, npc.GetAlpha(lightColor), npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 
-			texture2D15 = npc.ai[0] > 1f ? ModContent.GetTexture("CalamityMod/NPCs/SupremeCalamitas/SupremeCalamitas2Glow") : ModContent.GetTexture("CalamityMod/NPCs/SupremeCalamitas/SupremeCalamitasGlow");
-			Color color37 = Color.Lerp(Color.White, Color.Red, 0.5f);
-
-			if (CalamityConfig.Instance.Afterimages)
-			{
-				for (int num163 = 1; num163 < num153; num163++)
-				{
-					Color color41 = color37;
-					color41 = Color.Lerp(color41, color36, amount9);
-					color41 *= (num153 - num163) / 15f;
-					Vector2 vector44 = npc.oldPos[num163] + new Vector2(npc.width, npc.height) / 2f - Main.screenPosition;
-					vector44 -= new Vector2(texture2D15.Width, texture2D15.Height / Main.npcFrameCount[npc.type]) * npc.scale / 2f;
-					vector44 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
-					spriteBatch.Draw(texture2D15, vector44, npc.frame, color41, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
-				}
-			}
-
-			spriteBatch.Draw(texture2D15, vector43, npc.frame, color37, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
-
+            DrawForcefield(spriteBatch);
+            DrawShield(spriteBatch);
 			return false;
 		}
 
+        public void DrawForcefield(SpriteBatch spriteBatch)
+        {
+            spriteBatch.EnterShaderRegion();
+
+            float intensity = hitTimer / 35f;
+            if (npc.dontTakeDamage && attackCastDelay <= 0)
+                intensity = 0.75f + Math.Abs((float)Math.Cos(Main.GlobalTime * 1.7f)) * 0.1f;
+
+            Texture2D forcefieldTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/CalamitasShield");
+            GameShaders.Misc["CalamityMod:SupremeShield"].UseImage("Images/Misc/Perlin");
+            GameShaders.Misc["CalamityMod:SupremeShield"].UseSecondaryColor(Color.Red * 1.4f);
+            GameShaders.Misc["CalamityMod:SupremeShield"].UseColor(Color.DarkViolet);
+            GameShaders.Misc["CalamityMod:SupremeShield"].UseSaturation(intensity);
+            GameShaders.Misc["CalamityMod:SupremeShield"].Apply();
+
+            spriteBatch.Draw(forcefieldTexture, npc.Center - Main.screenPosition, null, Color.White * forcefieldOpacity, 0f, forcefieldTexture.Size() * 0.5f, forcefieldScale, SpriteEffects.None, 0f);
+
+            spriteBatch.ExitShaderRegion();
+        }
+
+        public void DrawShield(SpriteBatch spriteBatch)
+        {
+            Color shieldColor = Color.White * shieldOpacity;
+            Texture2D shieldTexture = ModContent.GetTexture("CalamityMod/NPCs/SupremeCalamitas/SupremeShield");
+            Vector2 drawPosition = npc.Center + shieldRotation.ToRotationVector2() * 38f - Main.screenPosition;
+            SpriteEffects direction = Math.Cos(shieldRotation) > 0 ? SpriteEffects.None : SpriteEffects.FlipVertically;
+
+            spriteBatch.Draw(shieldTexture, drawPosition, null, shieldColor, shieldRotation, shieldTexture.Size() * 0.5f, 1f, direction, 0f);
+        }
+
         public override void HitEffect(int hitDirection, double damage)
         {
+            if (Main.netMode != NetmodeID.MultiplayerClient)
+            {
+                hitTimer = 35;
+                npc.netUpdate = true;
+            }
+
             for (int k = 0; k < 5; k++)
             {
                 Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.Brimstone, hitDirection, -1f, 0, default, 1f);
