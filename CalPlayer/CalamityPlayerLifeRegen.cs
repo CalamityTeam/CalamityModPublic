@@ -671,7 +671,7 @@ namespace CalamityMod.CalPlayer
 
 			if (modPlayer.phantomicHeartRegen <= 720 && modPlayer.phantomicHeartRegen >= 600)
 			{
-				player.lifeRegen += 5; //Boosts the life regen from 3 to 10 for a short time.
+				player.lifeRegen += 5; //Boosts the life regen from 3 to 8 for a short time.
 				if (Main.rand.NextBool(2))
 				{
 					int regen = Dust.NewDust(player.position, player.width, player.height, 5, 0f, 0f, 200, new Color(99, 54, 84), 2f);
