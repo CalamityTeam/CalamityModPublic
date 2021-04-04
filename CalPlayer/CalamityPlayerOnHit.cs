@@ -367,7 +367,7 @@ namespace CalamityMod.CalPlayer
 					}
 					else
 					{
-						if (player.ownedProjectileCounts[ModContent.ProjectileType<PhantomicShield>()] == 0 && modPlayer.phantomicBulwarkCooldown <= 0)
+						if (player.ownedProjectileCounts[ModContent.ProjectileType<PhantomicShield>()] == 0 && modPlayer.phantomicBulwarkCooldown == 0)
 						{
 							Projectile.NewProjectile(player.position, Vector2.Zero, ModContent.ProjectileType<PhantomicShield>(), 0, 0f, player.whoAmI, 0f);
 						}

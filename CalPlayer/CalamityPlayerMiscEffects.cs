@@ -1078,8 +1078,10 @@ namespace CalamityMod.CalPlayer
 			}
 
 			// Cooldowns and timers
-			if (modPlayer.phantomicHeartRegen >= 0 && modPlayer.phantomicHeartRegen < 1000)
+			if (modPlayer.phantomicHeartRegen > 0 && modPlayer.phantomicHeartRegen < 1000)
 				modPlayer.phantomicHeartRegen--;
+			if (modPlayer.phantomicBulwarkCooldown > 0)
+				modPlayer.phantomicBulwarkCooldown--;
 			if (modPlayer.dodgeCooldownTimer > 0)
 				modPlayer.dodgeCooldownTimer--;
 			if (modPlayer.KameiBladeUseDelay > 0)
