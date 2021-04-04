@@ -1,6 +1,7 @@
 using CalamityMod.Buffs.Alcohol;
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Events;
+using CalamityMod.Projectiles.Healing;
 using CalamityMod.Projectiles.Ranged;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -666,6 +667,22 @@ namespace CalamityMod.CalPlayer
 			{
 				if (Main.eclipse || Main.dayTime)
 					player.lifeRegen += 3;
+			}
+
+			if (modPlayer.phantomicHeartRegen <= 720 && modPlayer.phantomicHeartRegen >= 600)
+			{
+				player.lifeRegen += 5; //Boosts the life regen from 3 to 10 for a short time.
+				if (Main.rand.NextBool(2))
+				{
+					int regen = Dust.NewDust(player.position, player.width, player.height, 5, 0f, 0f, 200, new Color(99, 54, 84), 2f);
+					Main.dust[regen].noGravity = true;
+					Main.dust[regen].fadeIn = 1.3f;
+					Vector2 velocity = CalamityUtils.RandomVelocity(100f, 50f, 100f, 0.04f);
+					Main.dust[regen].velocity = velocity;
+					velocity.Normalize();
+					velocity *= 34f;
+					Main.dust[regen].position = player.Center - velocity;
+				}
 			}
 
 			if (modPlayer.community)
