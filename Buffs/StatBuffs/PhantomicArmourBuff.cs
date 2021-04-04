@@ -10,7 +10,7 @@ namespace CalamityMod.Buffs.StatBuffs
         {
             DisplayName.SetDefault("Phantomic Shield");
             Description.SetDefault("Defense boosted by 8 and damage reduction boosted by 8%\n" +
-                "An ephereal bulwark protects you");
+                "An ephemeral bulwark protects you");
             Main.debuff[Type] = false;
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = true;
