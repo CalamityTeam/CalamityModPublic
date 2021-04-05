@@ -46,7 +46,7 @@ namespace CalamityMod.Projectiles.Rogue
                 Main.dust[num137].noGravity = true;
             }
 
-            projectile.StickyProjAI(15);
+            projectile.StickyProjAI(30);
 
             if (projectile.ai[0] == 1f)
             {

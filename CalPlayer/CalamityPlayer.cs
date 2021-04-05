@@ -559,6 +559,9 @@ namespace CalamityMod.CalPlayer
         public bool starTaintedGenerator = false;
         public bool hallowedRune = false;
         public int hallowedRuneCooldown = 0;
+        public bool phantomicArtifact = false;
+        public int phantomicBulwarkCooldown = 0;
+        public int phantomicHeartRegen = 0; // 0 = can spawn, 720 = regen applied, 600 = regen stops and 10 sec cd before it can spawn again
         public bool silvaWings = false;
         public int icicleCooldown = 0;
         public bool rustyMedal = false;
@@ -1574,6 +1577,7 @@ namespace CalamityMod.CalPlayer
             sRegen = false;
             sPower = false;
             hallowedRune = false;
+            phantomicArtifact = false;
             hallowedDefense = false;
             hallowedRegen = false;
             hallowedPower = false;
@@ -2052,6 +2056,8 @@ namespace CalamityMod.CalPlayer
             icicleCooldown = 0;
             statisTimer = 0;
             hallowedRuneCooldown = 0;
+            phantomicBulwarkCooldown = 0;
+            phantomicHeartRegen = 0;
             sulphurBubbleCooldown = 0;
             ladHearts = 0;
             prismaticLasers = 0;
@@ -5557,8 +5563,11 @@ namespace CalamityMod.CalPlayer
                     int damageToDefense = (int)(newDamage * defenseStatDamageMult);
                     defenseDamage += damageToDefense;
 
-					if (hurtSoundTimer == 0)
-						Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/DefenseDamage"), (int)player.position.X, (int)player.position.Y);
+                    if (hurtSoundTimer == 0)
+                    {
+                        Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/DefenseDamage"), (int)player.position.X, (int)player.position.Y);
+                        hurtSoundTimer = 30;
+                    }
 
 					string text = (-damageToDefense).ToString();
                     Color messageColor = Color.LightGray;
@@ -5916,6 +5925,14 @@ namespace CalamityMod.CalPlayer
 				}
 			}
 
+            if (phantomicArtifact && player.ownedProjectileCounts[ModContent.ProjectileType<PhantomicShield>()] != 0)
+            {
+                Projectile pro = Main.projectile.AsEnumerable().Where(projectile => projectile.friendly && projectile.owner == player.whoAmI && projectile.type == ModContent.ProjectileType<PhantomicShield>()).First();
+                phantomicBulwarkCooldown = 1200; // 20 second cooldown
+                pro.Kill();
+                damage = (int)(damage * 0.8f); //20% damage reduction for a projectile.
+            }
+
             if (auralisAuroraCounter >= 300)
             {
                 damage -= 100;
@@ -5993,8 +6010,11 @@ namespace CalamityMod.CalPlayer
                     int damageToDefense = (int)(newDamage * defenseStatDamageMult);
                     defenseDamage += damageToDefense;
 
-					if (hurtSoundTimer == 0)
-						Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/DefenseDamage"), (int)player.position.X, (int)player.position.Y);
+                    if (hurtSoundTimer == 0)
+                    {
+                        Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/DefenseDamage"), (int)player.position.X, (int)player.position.Y);
+                        hurtSoundTimer = 30;
+                    }
 
 					string text = (-damageToDefense).ToString();
                     Color messageColor = Color.LightGray; // Light Gray text because it's visible and defense icon is gray in the UI

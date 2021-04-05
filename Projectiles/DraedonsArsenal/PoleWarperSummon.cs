@@ -54,7 +54,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                 projectile.localAI[0] = 1f;
             }
             GrantBuffs(player);
-            NPC potentialTarget = projectile.Center.MinionHoming(900f, player);
+            NPC potentialTarget = projectile.Center.MinionHoming(1400f, player);
             if (potentialTarget is null)
             {
                 PlayerMovement(player);
@@ -63,7 +63,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             else
             {
                 NPCMovement(potentialTarget);
-                if (Time % 90f < 60f)
+                if (Time % 60f < 35f)
                 {
                     RepelMovement();
                 }
@@ -136,22 +136,22 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                     }
                 }
             }
-            if (Time % 90f < 40f)
+            if (Time % 60f < 20f)
             {
                 float offsetAngle = AngularOffset * 0.5f + (!North).ToInt() * MathHelper.Pi;
                 Vector2 destination = npc.Center + Vector2.UnitY.RotatedBy(offsetAngle) * 180f;
                 projectile.velocity = (projectile.velocity * 4f + projectile.DirectionTo(destination) * 10f) / 5f;
-                projectile.velocity = projectile.velocity.SafeNormalize(Vector2.UnitY) * 23f;
+                projectile.velocity = projectile.velocity.SafeNormalize(Vector2.UnitY) * 25f;
                 projectile.rotation = projectile.AngleTo(npc.Center) + MathHelper.PiOver2;
             }
-            else if (Time % 90f < 60f)
+            else if (Time % 60f < 35f)
             {
                 projectile.velocity *= 0.96f;
                 projectile.rotation += 0.05f;
             }
-            else if (Time % 90f == 60f)
+            else if (Time % 60f == 35f)
             {
-                projectile.velocity = projectile.DirectionTo(npc.Center) * 26f;
+                projectile.velocity = projectile.DirectionTo(npc.Center) * 29f;
                 projectile.rotation = projectile.AngleTo(npc.Center) + MathHelper.PiOver2;
             }
         }
