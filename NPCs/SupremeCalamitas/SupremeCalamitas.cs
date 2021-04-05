@@ -1960,6 +1960,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 							npc.velocity.Y = num385 * num386;
                             shieldRotation = npc.velocity.ToRotation();
                             npc.netUpdate = true;
+
+                            Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SCalSounds/SCalDash"), npc.Center);
                         }
 
 						npc.ai[1] = 2f;
@@ -2683,7 +2685,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             if (lifeRatio < 0.1f)
                 flickerPower += 0.2f;
             if (lifeRatio < 0.05f)
-                flickerPower += 0.25f;
+                flickerPower += 0.1f;
             float opacity = forcefieldOpacity;
             opacity *= MathHelper.Lerp(1f, 1f - flickerPower, (float)Math.Pow(Math.Cos(Main.GlobalTime * MathHelper.Lerp(3f, 9f, flickerPower)), 24D));
 
