@@ -2719,12 +2719,36 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
         public void DrawShield(SpriteBatch spriteBatch)
         {
-            Color shieldColor = Color.White * shieldOpacity;
-            Texture2D shieldTexture = ModContent.GetTexture("CalamityMod/NPCs/SupremeCalamitas/SupremeShield");
-            Vector2 drawPosition = npc.Center + shieldRotation.ToRotationVector2() * 24f - Main.screenPosition;
-            SpriteEffects direction = Math.Cos(shieldRotation) > 0 ? SpriteEffects.None : SpriteEffects.FlipVertically;
+            float jawRotation = shieldRotation;
+            float jawRotationOffset = 0f;
+            bool attackCloseToBeingOver = npc.ai[2] >= 180f;
+            if (npc.ai[1] == 3f)
+                attackCloseToBeingOver = npc.ai[2] >= 420f;
 
-            spriteBatch.Draw(shieldTexture, drawPosition, null, shieldColor, shieldRotation, shieldTexture.Size() * 0.5f, 1f, direction, 0f);
+            // Have an agape mouth when charging.
+            if (npc.ai[1] == 2f)
+                jawRotationOffset -= 0.71f;
+
+            // And a laugh right before the charge.
+            else if (willCharge && npc.ai[1] != 2f && attackCloseToBeingOver)
+                jawRotationOffset += MathHelper.Lerp(0.04f, -0.82f, (float)Math.Sin(Main.GlobalTime * 17.2f) * 0.5f + 0.5f);
+
+            Color shieldColor = Color.White * shieldOpacity;
+            Texture2D shieldSkullTexture = ModContent.GetTexture("CalamityMod/NPCs/SupremeCalamitas/SupremeShieldTop");
+            Texture2D shieldJawTexture = ModContent.GetTexture("CalamityMod/NPCs/SupremeCalamitas/SupremeShieldBottom");
+            Vector2 drawPosition = npc.Center + shieldRotation.ToRotationVector2() * 24f - Main.screenPosition;
+            Vector2 jawDrawPosition = drawPosition;
+            SpriteEffects direction = Math.Cos(shieldRotation) > 0 ? SpriteEffects.None : SpriteEffects.FlipVertically;
+            if (direction == SpriteEffects.FlipVertically)
+                jawDrawPosition += (shieldRotation - MathHelper.PiOver2).ToRotationVector2() * 42f;
+            else
+            {
+                jawDrawPosition += (shieldRotation + MathHelper.PiOver2).ToRotationVector2() * 42f;
+                jawRotationOffset *= -1f;
+            }
+
+            spriteBatch.Draw(shieldJawTexture, jawDrawPosition, null, shieldColor, jawRotation + jawRotationOffset, shieldJawTexture.Size() * 0.5f, 1f, direction, 0f);
+            spriteBatch.Draw(shieldSkullTexture, drawPosition, null, shieldColor, shieldRotation, shieldSkullTexture.Size() * 0.5f, 1f, direction, 0f);
         }
 
         public override void HitEffect(int hitDirection, double damage)
