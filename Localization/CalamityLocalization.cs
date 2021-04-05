@@ -83,7 +83,7 @@ namespace CalamityMod.Localization
                 new [] { "SCalDesparationText3Rematch", "I trust you will not make the same mistakes he did." },
                 new [] { "SCalDesparationText4Rematch", "Now... even I cannot see what your future holds." },
 
-                new [] { "SCalFunnyCheatText", "To to hell." },
+                new [] { "SCalFunnyCheatText", "Go to hell." },
 
                 new [] { "EdgyBossText", "Don't get cocky, kid!" },
                 new [] { "EdgyBossText2", "You think...you can butcher...ME!?" },
