@@ -5,6 +5,7 @@ using CalamityMod.NPCs.SupremeCalamitas;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.Collections.Generic;
 using System.IO;
 using Terraria;
 using Terraria.ModLoader;
@@ -28,6 +29,7 @@ namespace CalamityMod.Projectiles.Boss
 			projectile.hostile = true;
 			projectile.ignoreWater = true;
 			projectile.tileCollide = false;
+			projectile.hide = true;
 			projectile.penetrate = -1;
 			projectile.timeLeft = 36000;
 			projectile.Opacity = 0f;
@@ -197,6 +199,12 @@ namespace CalamityMod.Projectiles.Boss
 
 			target.AddBuff(ModContent.BuffType<AbyssalFlames>(), 900);
 			target.AddBuff(ModContent.BuffType<VulnerabilityHex>(), 300, true);
+		}
+
+		public override void DrawBehind(int index, List<int> drawCacheProjsBehindNPCsAndTiles, List<int> drawCacheProjsBehindNPCs, List<int> drawCacheProjsBehindProjectiles, List<int> drawCacheProjsOverWiresUI)
+		{
+			drawCacheProjsBehindProjectiles.Add(index);
+			drawCacheProjsBehindNPCs.Add(index);
 		}
 
 		public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)	
