@@ -26,13 +26,16 @@ namespace CalamityMod.Projectiles.Typeless
             projectile.timeLeft = 200;
         }
 
-        public override void AI()
+		public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 170;
+
+		public override void AI()
         {
             Dust fire = Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, 127, 0f, 0f, 100, default, 2f);
             fire.noGravity = true;
             fire.velocity = Vector2.Zero;
 
-            CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 400f, 9f, 20f);
+			if (projectile.timeLeft < 170)
+				CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 200f, 9f, 20f);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

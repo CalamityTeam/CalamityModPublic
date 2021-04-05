@@ -48,7 +48,7 @@ namespace CalamityMod.Projectiles.Magic
                 Main.dust[num102].noGravity = true;
             }
 
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 500f, 8f, 20f);
+			CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 250f, 8f, 20f);
 
             projectile.rotation += 0.3f * (float)projectile.direction;
         }

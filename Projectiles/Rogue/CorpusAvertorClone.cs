@@ -52,7 +52,7 @@ namespace CalamityMod.Projectiles.Rogue
 			}
 			projectile.width = projectile.height = (int)(24f * projectile.scale);
 
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 300f, 16f, 20f);
+			CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 150f, 12f, 20f);
 		}
 
 		public override Color? GetAlpha(Color lightColor)

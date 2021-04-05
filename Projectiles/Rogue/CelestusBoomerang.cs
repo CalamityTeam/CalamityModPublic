@@ -125,7 +125,7 @@ namespace CalamityMod.Projectiles.Rogue
 					}
 					break;
 				case 2f:
-					CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 1000f, speed, 20f);
+					CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 250f, speed, 20f);
 					break;
 				default:
 					break;

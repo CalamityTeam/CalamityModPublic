@@ -26,6 +26,12 @@ namespace CalamityMod.Projectiles.Ranged
         {
             projectile.rotation = projectile.velocity.ToRotation() + MathHelper.ToRadians(90);
 
+			if (projectile.ai[0] == 0f)
+			{
+				Main.PlaySound(SoundID.Item11, (int)projectile.Center.X, (int)projectile.Center.Y);
+				projectile.ai[0] = 1f;
+			}
+
             //Animation
             projectile.frameCounter++;
             if (projectile.frameCounter > 7)
@@ -58,7 +64,7 @@ namespace CalamityMod.Projectiles.Ranged
                     Main.dust[num249].velocity *= 0.05f;
                 }
             }
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 400f, 20f, 20f);
+			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 200f, 12f, 20f);
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)

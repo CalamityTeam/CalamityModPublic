@@ -1250,8 +1250,10 @@ namespace CalamityMod
                 ItemID.GreenPhaseblade,
                 ItemID.WhitePhaseblade,
                 ItemID.YellowPhaseblade,
-                ItemID.PurplePhaseblade
-            };
+                ItemID.PurplePhaseblade,
+				ItemID.RocketLauncher,
+				ItemID.GrenadeLauncher
+			};
 
             sixtySixDamageBuffList = new List<int>()
             {
@@ -1328,8 +1330,9 @@ namespace CalamityMod
             tenDamageBuffList = new List<int>()
             {
                 ItemID.MagnetSphere,
-                ItemID.BatScepter
-            };
+                ItemID.BatScepter,
+				ItemID.ElectrosphereLauncher
+			};
 
             weaponAutoreuseList = new List<int>()
             {
@@ -1414,8 +1417,7 @@ namespace CalamityMod
             tenDamageNerfList = new List<int>()
             {
                 ItemID.Phantasm,
-                ItemID.StarWrath,
-				ItemID.SnowmanCannon
+                ItemID.StarWrath
             };
 
             quarterDamageNerfList = new List<int>()
@@ -1427,9 +1429,10 @@ namespace CalamityMod
                 ItemID.PhoenixBlaster,
                 ItemID.InfluxWaver,
                 ItemID.Xenopopper,
-                ItemID.ElectrosphereLauncher,
-                ItemID.OpticStaff //Note: got local i frames so it should be better
-            };
+                ItemID.OpticStaff, //Note: got local i frames so it should be better
+				ItemID.RocketIII,
+				ItemID.RocketIV
+			};
 
             pumpkinMoonBuffList = new List<int>()
             {

@@ -300,7 +300,6 @@ namespace CalamityMod.NPCs.NormalNPCs
             DropHelper.DropItem(npc, ItemID.Starfish, 1, 3);
             DropHelper.DropItem(npc, ItemID.Seashell, 1, 3);
             DropHelper.DropItem(npc, ModContent.ItemType<VictoryShard>(), 1, 3);
-            DropHelper.DropItemRIV(npc, ModContent.ItemType<AmidiasSpark>(), ModContent.ItemType<TheTransformer>(), 0.25f, 0.01f);
         }
     }
 }

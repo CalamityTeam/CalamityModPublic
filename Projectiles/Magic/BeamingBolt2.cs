@@ -23,7 +23,9 @@ namespace CalamityMod.Projectiles.Magic
             projectile.magic = true;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 90;
+
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Texture2D tex = Main.projectileTexture[projectile.type];
 			if (projectile.ai[0] == 1f)
@@ -44,7 +46,8 @@ namespace CalamityMod.Projectiles.Magic
 			});
 			Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, randomDust, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
 
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 400f, 20f, 20f);
+			if (projectile.timeLeft < 90)
+				CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 200f, 12f, 20f);
         }
 
         public override void Kill(int timeLeft)

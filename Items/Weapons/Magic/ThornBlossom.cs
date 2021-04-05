@@ -12,8 +12,7 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Thorn Blossom");
-            Tooltip.SetDefault("Every rose has its thorn\n" +
-				"Rare Item Variant");
+            Tooltip.SetDefault("Every rose has its thorn");
             Item.staff[item.type] = true;
         }
 
@@ -35,8 +34,8 @@ namespace CalamityMod.Items.Weapons.Magic
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<BeamingBolt>();
             item.shootSpeed = 20f;
-            item.Calamity().customRarity = CalamityRarity.RareVariant;
-        }
+			item.Calamity().challengeDrop = true;
+		}
 
         public override Vector2? HoldoutOrigin() => new Vector2(15, 15);
 

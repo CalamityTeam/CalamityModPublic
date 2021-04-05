@@ -13,8 +13,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             DisplayName.SetDefault("Dune Hopper");
             Tooltip.SetDefault(@"Throws a spear that bounces a lot
-Stealth strikes throw three high speed spears
-Rare Item Variant");
+Stealth strikes throw three high speed spears");
         }
 
         public override void SafeSetDefaults()
@@ -35,8 +34,8 @@ Rare Item Variant");
             item.shoot = ModContent.ProjectileType<DuneHopperProjectile>();
             item.shootSpeed = 12f;
             item.Calamity().rogue = true;
-            item.Calamity().customRarity = CalamityRarity.RareVariant;
-        }
+			item.Calamity().challengeDrop = true;
+		}
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {

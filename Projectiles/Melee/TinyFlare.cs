@@ -25,7 +25,9 @@ namespace CalamityMod.Projectiles.Melee
             projectile.extraUpdates = 1;
         }
 
-        public override void AI()
+		public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 150;
+
+		public override void AI()
         {
             for (int num468 = 0; num468 < 3; num468++)
             {
@@ -34,7 +36,8 @@ namespace CalamityMod.Projectiles.Melee
                 Main.dust[num469].velocity *= 0f;
             }
 
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 400f, 10f, 20f);
+			if (projectile.timeLeft < 150)
+				CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 200f, 10f, 20f);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

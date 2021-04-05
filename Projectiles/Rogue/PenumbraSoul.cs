@@ -61,7 +61,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         private void HomingAI()
         {
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 400f, (Penumbra.ShootSpeed * 1.5f), 35f);
+			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 200f, Penumbra.ShootSpeed * 1.5f, 35f);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

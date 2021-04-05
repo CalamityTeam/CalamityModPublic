@@ -61,7 +61,7 @@ namespace CalamityMod.Projectiles.Typeless
                     projectile.velocity = (projectile.velocity * (num953 - 1f) + vector102 * scaleFactor12) / num953;
                     return;
                 }
-				CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 400f, 15f, 20f);
+				CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 200f, 12f, 20f);
             }
             else
             {

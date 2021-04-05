@@ -53,7 +53,7 @@ namespace CalamityMod.Projectiles.Rogue
 
                 // Initial homing before landing a hit.
                 else
-                    CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 480f, 22.5f, 14f);
+                    CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 250f, 12f, 14f);
             }
 
             // Homing after landing a hit. This homing repeatedly turns on and off.

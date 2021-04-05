@@ -48,7 +48,7 @@ namespace CalamityMod.Projectiles.Magic
             projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X);
 
 			if (projectile.ai[0] == 1f)
-                CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 500f, 8f, 20f);
+                CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 200f, 8f, 20f);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

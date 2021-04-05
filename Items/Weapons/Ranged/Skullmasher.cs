@@ -11,8 +11,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             DisplayName.SetDefault("Skullmasher");
             Tooltip.SetDefault("Sniper shotgun, because why not?\n" +
-                "Converts musket balls into high velocity bullets that, on crit, fire a second swarm of bullets\n" +
-				"Rare Item Variant");
+                "Converts musket balls into high velocity bullets that, on crit, fire a second swarm of bullets");
         }
 
         public override void SetDefaults()
@@ -33,8 +32,8 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.shoot = ProjectileID.PurificationPowder;
             item.shootSpeed = 12f;
             item.useAmmo = AmmoID.Bullet;
-            item.Calamity().customRarity = CalamityRarity.RareVariant;
-        }
+			item.Calamity().challengeDrop = true;
+		}
 
 		// Terraria seems to really dislike high crit values in SetDefaults
 		public override void GetWeaponCrit(Player player, ref int crit) => crit += 5;

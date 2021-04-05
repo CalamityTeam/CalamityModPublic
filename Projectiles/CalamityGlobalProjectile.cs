@@ -55,6 +55,9 @@ namespace CalamityMod.Projectiles
         public int spawnedPlayerMinionProjectileDamageValue = 0;
         public int defDamage = 0;
 
+		// Amount of extra updates that are set in SetDefaults.
+		public int defExtraUpdates = -1;
+
 		/// <summary>
 		/// Allows hostile Projectiles to deal damage to the player's defense stat, used mostly for hard-hitting bosses.
 		/// </summary>
@@ -1829,10 +1832,15 @@ namespace CalamityMod.Projectiles
             if (!projectile.friendly)
                 return;
 
-            Vector2 destination = projectile.Center;
+			// Set amount of extra updates.
+			if (projectile.Calamity().defExtraUpdates == -1)
+				projectile.Calamity().defExtraUpdates = projectile.extraUpdates;
+
+			Vector2 destination = projectile.Center;
             float maxDistance = distanceRequired;
             bool locatedTarget = false;
 
+			// Find a target.
             for (int i = 0; i < Main.maxNPCs; i++)
             {
                 float extraDistance = (Main.npc[i].width / 2) + (Main.npc[i].height / 2);
@@ -1849,9 +1857,18 @@ namespace CalamityMod.Projectiles
 
             if (locatedTarget)
             {
+				// Increase amount of extra updates to greatly increase homing velocity.
+				projectile.extraUpdates = projectile.Calamity().defExtraUpdates + 1;
+
+				// Home in on the target.
                 Vector2 homeDirection = (destination - projectile.Center).SafeNormalize(Vector2.UnitY);
                 projectile.velocity = (projectile.velocity * N + homeDirection * homingVelocity) / (N + 1f);
             }
+			else
+			{
+				// Set amount of extra updates to default amount.
+				projectile.extraUpdates = projectile.Calamity().defExtraUpdates;
+			}
         }
 
         public static void MagnetSphereHitscan(Projectile projectile, float distanceRequired, float homingVelocity, float projectileTimer, int maxTargets, int spawnedProjectile, double damageMult = 1D, bool attackMultiple = false)

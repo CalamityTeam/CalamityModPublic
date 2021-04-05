@@ -10,8 +10,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Teardrop Cleaver");
-            Tooltip.SetDefault("Makes your enemies cry\n" +
-				"Legendary");
+            Tooltip.SetDefault("Makes your enemies cry");
         }
 
         public override void SetDefaults()
@@ -29,7 +28,8 @@ namespace CalamityMod.Items.Weapons.Melee
             item.height = 66;
             item.value = Item.buyPrice(0, 2, 0, 0);
             item.rare = ItemRarityID.Green;
-        }
+			item.Calamity().challengeDrop = true;
+		}
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {

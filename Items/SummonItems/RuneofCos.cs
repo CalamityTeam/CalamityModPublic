@@ -50,9 +50,9 @@ namespace CalamityMod.Items.SummonItems
 				{
 					NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<CeaselessVoid>());
 
-					bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
-					bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-					bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+					bool expertMode = Main.expertMode || CalamityWorld.malice;
+					bool revenge = CalamityWorld.revenge || CalamityWorld.malice;
+					bool death = CalamityWorld.death || CalamityWorld.malice;
 					int glob = death ? 5 : revenge ? 4 : expertMode ? 3 : 2;
 					for (int i = 0; i < glob; i++)
 					{

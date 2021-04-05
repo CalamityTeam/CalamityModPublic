@@ -40,7 +40,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
             {
                 for (int i = 0; i < 2; i++)
                 {
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X * 1.2f, projectile.velocity.Y * 1.2f, ModContent.ProjectileType<Blood2>(), projectile.damage / 2, projectile.knockBack * 0.5f, projectile.owner, 0f, 0f);
+                    Projectile.NewProjectile(projectile.Center, projectile.velocity * 1.2f, ModContent.ProjectileType<Blood2>(), projectile.damage / 2, projectile.knockBack * 0.5f, projectile.owner, 0f, 0f);
                 }
             }
         }

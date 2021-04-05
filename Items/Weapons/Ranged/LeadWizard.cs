@@ -11,8 +11,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             DisplayName.SetDefault("Lead Wizard");
             Tooltip.SetDefault("Something's not right...\n" +
-                "33% chance to not consume ammo\n" +
-				"Rare Item Variant");
+                "33% chance to not consume ammo");
         }
 
         public override void SetDefaults()
@@ -34,8 +33,8 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.shoot = ProjectileID.BulletHighVelocity;
             item.shootSpeed = 20f;
             item.useAmmo = AmmoID.Bullet;
-            item.Calamity().customRarity = CalamityRarity.RareVariant;
-        }
+			item.Calamity().challengeDrop = true;
+		}
 
 		// Terraria seems to really dislike high crit values in SetDefaults
 		public override void GetWeaponCrit(Player player, ref int crit) => crit += 30;

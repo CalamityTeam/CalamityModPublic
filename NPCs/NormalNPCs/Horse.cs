@@ -1,11 +1,9 @@
-using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Tools.ClimateChange;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Projectiles.Enemy;
-using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
 using System.IO;
@@ -16,9 +14,6 @@ namespace CalamityMod.NPCs.NormalNPCs
 {
     public class Horse : ModNPC
     {
-        private int chargetimer = 0;
-        private int basespeed = 1;
-
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Earth Elemental");
@@ -39,6 +34,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             aiType = -1;
             npc.knockBackResist = 0f;
             npc.value = Item.buyPrice(0, 1, 50, 0);
+			npc.dontTakeDamage = true;
             npc.noGravity = true;
             npc.noTileCollide = true;
             npc.HitSound = SoundID.NPCHit4;
@@ -47,22 +43,20 @@ namespace CalamityMod.NPCs.NormalNPCs
             bannerItem = ModContent.ItemType<EarthElementalBanner>();
         }
 
-        public override void SendExtraAI(BinaryWriter writer)
-        {
-            writer.Write(chargetimer);
-            writer.Write(basespeed);
-        }
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(npc.dontTakeDamage);
+		}
 
-        public override void ReceiveExtraAI(BinaryReader reader)
-        {
-            chargetimer = reader.ReadInt32();
-            basespeed = reader.ReadInt32();
-        }
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			npc.dontTakeDamage = reader.ReadBoolean();
+		}
 
-        public override float SpawnChance(NPCSpawnInfo spawnInfo)
+		public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
             if (spawnInfo.playerSafe || !Main.hardMode || spawnInfo.player.Calamity().ZoneAbyss ||
-                spawnInfo.player.Calamity().ZoneSunkenSea || NPC.AnyNPCs(ModContent.NPCType<Horse>()))
+                spawnInfo.player.Calamity().ZoneSunkenSea || NPC.AnyNPCs(npc.type))
             {
                 return 0f;
             }
@@ -71,7 +65,10 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void FindFrame(int frameHeight)
         {
-            npc.frameCounter++;
+			if (npc.ai[0] == 0f)
+				return;
+
+			npc.frameCounter++;
             if (npc.frameCounter >= 8)
             {
                 npc.frame.Y = (npc.frame.Y + frameHeight) % (Main.npcFrameCount[npc.type] * frameHeight);
@@ -81,10 +78,16 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void NPCLoot()
         {
-			DropHelper.DropItemChance(npc, ModContent.ItemType<AridArtifact>(), 3);
-			DropHelper.DropItemChance(npc, ModContent.ItemType<SlagMagnum>(), 4);
-			DropHelper.DropItemChance(npc, ModContent.ItemType<Aftershock>(), 4);
-			DropHelper.DropItemChance(npc, ModContent.ItemType<EarthenPike>(), 4);
+			// Sandstorm item
+			DropHelper.DropItem(npc, ModContent.ItemType<AridArtifact>());
+
+			// Weapons
+			float w = DropHelper.BagWeaponDropRateFloat;
+			DropHelper.DropEntireWeightedSet(npc,
+				DropHelper.WeightStack<SlagMagnum>(w),
+				DropHelper.WeightStack<Aftershock>(w),
+				DropHelper.WeightStack<EarthenPike>(w)
+			);
         }
 
         public override void HitEffect(int hitDirection, double damage)
@@ -126,7 +129,23 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override bool PreAI()
         {
-			npc.TargetClosest(true);
+			// Get a target
+			if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
+				npc.TargetClosest();
+
+			if (Vector2.Distance(npc.Center, Main.player[npc.target].Center) < 480f)
+			{
+				if (npc.ai[0] == 0f)
+				{
+					npc.ai[0] = 1f;
+					npc.dontTakeDamage = false;
+				}
+			}
+			else
+				npc.TargetClosest();
+
+			if (npc.ai[0] == 0f)
+				return false;
 
 			if (Main.player[npc.target].dead || !Main.player[npc.target].active)
 			{
@@ -147,7 +166,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                 {
                     npc.localAI[0] = 0f;
                     Main.PlaySound(SoundID.NPCHit43, npc.Center);
-                    npc.TargetClosest(true);
+                    npc.TargetClosest();
                     if (Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
                     {
                         float num179 = 4f;
@@ -186,19 +205,19 @@ namespace CalamityMod.NPCs.NormalNPCs
 
             Vector2 direction = Main.player[npc.target].Center - npc.Center;
             direction.Normalize();
-            chargetimer += Main.expertMode ? 2 : 1;
-			if (chargetimer >= 600)
+            npc.ai[1] += Main.expertMode ? 2f : 1f;
+			if (npc.ai[1] >= 600f)
 			{
 				direction *= 6f;
 				npc.velocity = direction;
-				chargetimer = 0;
+				npc.ai[1] = 0f;
 			}
 
-            if (Math.Sqrt((npc.velocity.X * npc.velocity.X) + (npc.velocity.Y * npc.velocity.Y)) > basespeed)
+            if (Math.Sqrt((npc.velocity.X * npc.velocity.X) + (npc.velocity.Y * npc.velocity.Y)) > 1)
                 npc.velocity *= 0.985f;
 
-            if (Math.Sqrt((npc.velocity.X * npc.velocity.X) + (npc.velocity.Y * npc.velocity.Y)) <= basespeed * 1.15)
-                npc.velocity = direction * basespeed;
+            if (Math.Sqrt((npc.velocity.X * npc.velocity.X) + (npc.velocity.Y * npc.velocity.Y)) <= 1 * 1.15)
+                npc.velocity = direction * 1;
 
             return false;
         }

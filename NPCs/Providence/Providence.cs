@@ -920,7 +920,8 @@ namespace CalamityMod.NPCs.Providence
 						}
 
 						// Fire a flame towards every player, with a limit of 5
-						if (npc.ai[3] % 60f == 0f && expertMode)
+						// Only fired while the guardians aren't alive or if Providence is at low health
+						if (npc.ai[3] % 60f == 0f && expertMode && normalAttackRate)
 						{
 							List<int> targets = new List<int>();
 							for (int p = 0; p < Main.maxPlayers; p++)
@@ -935,7 +936,8 @@ namespace CalamityMod.NPCs.Providence
 							{
 								Vector2 velocity2 = Vector2.Normalize(Main.player[t].Center - fireFrom) * cocoonProjVelocity;
 								int type = ModContent.ProjectileType<HolyBurnOrb>();
-								Projectile.NewProjectile(fireFrom, velocity2, type, 0, 0f, Main.myPlayer, 0f, nightTime ? -300 : npc.GetProjectileDamageNoScaling(type));
+								int proj = Projectile.NewProjectile(fireFrom, velocity2, type, 0, 0f, Main.myPlayer, 0f, nightTime ? -300 : npc.GetProjectileDamageNoScaling(type));
+								Main.projectile[proj].extraUpdates += 1;
 							}
 						}
 					}
@@ -1298,8 +1300,8 @@ namespace CalamityMod.NPCs.Providence
             DropHelper.DropBags(npc);
 
 			// Legendary drop for Providence
-			DropHelper.DropItemCondition(npc, ModContent.ItemType<PristineFury>(), true, CalamityWorld.malice);
-			DropHelper.DropItemCondition(npc, ModContent.ItemType<SamuraiBadge>(), true, CalamityWorld.malice);
+			DropHelper.DropItemCondition(npc, ModContent.ItemType<PristineFury>(), true, CalamityWorld.malice || !hasTakenDaytimeDamage);
+			DropHelper.DropItemCondition(npc, ModContent.ItemType<SamuraiBadge>(), true, CalamityWorld.malice || !hasTakenDaytimeDamage);
 
 			DropHelper.DropItemChance(npc, ModContent.ItemType<ProvidenceTrophy>(), 10);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeProvidence>(), true, !CalamityWorld.downedProvidence);
@@ -1318,7 +1320,7 @@ namespace CalamityMod.NPCs.Providence
 			DropHelper.DropItemCondition(npc, ModContent.ItemType<ProfanedSoulCrystal>(), true, shouldDrop);
 
 			// Special drop for defeating her at night
-			DropHelper.DropItemCondition(npc, ModContent.ItemType<ProfanedMoonlightDye>(), true, !hasTakenDaytimeDamage, 3, 4);
+			DropHelper.DropItemCondition(npc, ModContent.ItemType<ProfanedMoonlightDye>(), true, CalamityWorld.malice || !hasTakenDaytimeDamage, 3, 4);
 
 			// All other drops are contained in the bag, so they only drop directly on Normal
 			if (!Main.expertMode)

@@ -26,8 +26,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void AI()
         {
-            projectile.velocity.X *= 0.99f;
-            projectile.velocity.Y *= 0.99f;
+            projectile.velocity *= 0.99f;
             if (projectile.localAI[0] == 0f)
             {
                 projectile.scale += 0.005f;
@@ -44,19 +43,20 @@ namespace CalamityMod.Projectiles.Magic
             float num743 = projectile.velocity.ToRotation();
             float num744 = v2.ToRotation();
             double num745 = (double)(num744 - num743);
-            if (num745 > 3.1415926535897931)
+            if (num745 > MathHelper.Pi)
             {
-                num745 -= 6.2831853071795862;
+                num745 -= MathHelper.TwoPi;
             }
-            if (num745 < -3.1415926535897931)
+            if (num745 < -MathHelper.Pi)
             {
-            }
-            projectile.rotation = projectile.velocity.ToRotation() - 1.57079637f;
+				num745 += MathHelper.TwoPi;
+			}
+            projectile.rotation = projectile.velocity.ToRotation() - MathHelper.PiOver2;
             if (Main.myPlayer == projectile.owner && projectile.timeLeft > 120)
             {
                 projectile.timeLeft = 120;
             }
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 150f, 8f, 20f);
+			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 100f, 8f, 20f);
         }
 
         public override void Kill(int timeLeft)

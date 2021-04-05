@@ -49,7 +49,7 @@ namespace CalamityMod.Projectiles.Melee
 
 			projectile.rotation += (Math.Abs(projectile.velocity.X) + Math.Abs(projectile.velocity.Y)) * 0.01f * (float)projectile.direction;
 
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 400f, 12f, 20f);
+			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 200f, 12f, 20f);
         }
 
 		public override Color? GetAlpha(Color lightColor)

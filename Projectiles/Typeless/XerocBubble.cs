@@ -35,7 +35,7 @@ namespace CalamityMod.Projectiles.Typeless
                     Main.dust[num469].velocity *= 0f;
                 }
             }
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 400f, 8f, 20f);
+			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 200f, 8f, 20f);
         }
     }
 }

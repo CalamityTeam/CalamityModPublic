@@ -37,7 +37,7 @@ namespace CalamityMod.Projectiles.Typeless
                     Main.dust[num469].velocity *= 0f;
                 }
             }
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 400f, 10f, 20f);
+			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 200f, 10f, 20f);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

@@ -33,7 +33,7 @@ namespace CalamityMod.Projectiles.Typeless
             {
                 projectile.tileCollide = true;
             }
-            CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 300f, 12f, 20f);
+            CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 150f, 12f, 20f);
         }
 
         public override void Kill(int timeLeft)

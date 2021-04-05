@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Clothier's Wrath");
-			Tooltip.SetDefault("Rare Item Variant");
+			Tooltip.SetDefault("Shoots 3 shadowflame skulls");
 		}
 
         public override void SetDefaults()
@@ -31,8 +31,8 @@ namespace CalamityMod.Items.Weapons.Magic
             item.autoReuse = true;
             item.shoot = ProjectileID.ClothiersCurse;
             item.shootSpeed = 6f;
-            item.Calamity().customRarity = CalamityRarity.RareVariant;
-        }
+			item.Calamity().challengeDrop = true;
+		}
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {

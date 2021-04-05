@@ -66,6 +66,7 @@ namespace CalamityMod.Items
         public int reforgeTier = 0;
         public bool donorItem = false;
         public bool devItem = false;
+		public bool challengeDrop = false;
 
 		// See RogueWeapon.cs for rogue modifier shit
 		#region Modifiers
@@ -1101,9 +1102,6 @@ namespace CalamityMod.Items
                     case CalamityRarity.DraedonRust:
                         nameLine.overrideColor = new Color(204, 71, 35);
                         break;
-                    case CalamityRarity.RareVariant:
-                        nameLine.overrideColor = new Color(255, 140, 0);
-                        break;
                 }
 				#endregion
 
@@ -1204,7 +1202,7 @@ namespace CalamityMod.Items
 				#endregion
 
 				#region Uniquely Colored Non-Dev Items
-				if (item.type == ModContent.ItemType<AegisBlade>() || item.type == ModContent.ItemType<YharimsCrystal>() || item.type == ModContent.ItemType<CrownJewel>())
+				if (item.type == ModContent.ItemType<AegisBlade>() || item.type == ModContent.ItemType<YharimsCrystal>())
                     nameLine.overrideColor = new Color(255, Main.DiscoG, 53);
                 if (item.type == ModContent.ItemType<BlossomFlux>() || item.type == ModContent.ItemType<Malachite>())
                     nameLine.overrideColor = new Color(Main.DiscoR, 203, 103);
@@ -1214,7 +1212,7 @@ namespace CalamityMod.Items
                     nameLine.overrideColor = new Color(150, Main.DiscoG, 255);
                 if (item.type == ModContent.ItemType<SeasSearing>())
                     nameLine.overrideColor = new Color(60, Main.DiscoG, 190);
-                if (item.type == ModContent.ItemType<SHPC>() || item.type == ModContent.ItemType<TeardropCleaver>())
+                if (item.type == ModContent.ItemType<SHPC>())
                     nameLine.overrideColor = new Color(255, Main.DiscoG, 155);
                 if (item.type == ModContent.ItemType<Vesuvius>() || item.type == ModContent.ItemType<GoldBurdenBreaker>())
 					nameLine.overrideColor = new Color(255, Main.DiscoG, 0);
@@ -1245,6 +1243,15 @@ namespace CalamityMod.Items
 			#endregion
 
 			#region Vanilla Item Tooltip Edits
+			if (item.type == ItemID.MagicMirror || item.type == ItemID.IceMirror || item.type == ItemID.CellPhone || item.type == ItemID.RecallPotion)
+			{
+				foreach (TooltipLine line2 in tooltips)
+				{
+					bool editLine = item.type == ItemID.CellPhone ? line2.Name == "Tooltip1" : line2.Name == "Tooltip0";
+					if (line2.mod == "Terraria" && editLine)
+						line2.text += "\nCannot be used while a boss is alive";
+				}
+			}
 			if (item.type == ItemID.Pwnhammer || item.type == ItemID.Hammush)
 			{
 				foreach (TooltipLine line2 in tooltips)
@@ -3081,8 +3088,15 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                 TooltipLine line = new TooltipLine(mod, "CalamityDev", CalamityUtils.ColorMessage("- Developer Item -", new Color(255, 0, 255)));
                 tooltips.Add(line);
             }
-            #endregion
-        }
+
+			// Adds "Challenge Drop" to challenge drops.
+			if (challengeDrop)
+			{
+				TooltipLine line = new TooltipLine(mod, "ChallengeDrop", CalamityUtils.ColorMessage("- Challenge Drop -", new Color(255, 140, 0)));
+				tooltips.Add(line);
+			}
+			#endregion
+		}
 		#endregion
 
         #region Armor Set Changes
