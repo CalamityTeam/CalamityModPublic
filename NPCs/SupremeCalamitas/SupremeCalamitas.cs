@@ -2674,6 +2674,19 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             if (npc.ai[0] >= 3f)
                 intensity *= 0.6f;
 
+            float lifeRatio = npc.life / (float)npc.lifeMax;
+            float flickerPower = 0f;
+            if (lifeRatio < 0.6f)
+                flickerPower += 0.1f;
+            if (lifeRatio < 0.3f)
+                flickerPower += 0.15f;
+            if (lifeRatio < 0.1f)
+                flickerPower += 0.2f;
+            if (lifeRatio < 0.05f)
+                flickerPower += 0.25f;
+            float opacity = forcefieldOpacity;
+            opacity *= MathHelper.Lerp(1f, 1f - flickerPower, (float)Math.Pow(Math.Cos(Main.GlobalTime * MathHelper.Lerp(3f, 9f, flickerPower)), 24D));
+
             // During/prior to a charge the forcefield is always darker than usual and thus its intensity is also higher.
             if (!npc.dontTakeDamage && (willCharge || npc.ai[1] == 2f))
                 intensity = 1.1f;
@@ -2690,16 +2703,16 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 secondaryForcefieldColor = Color.Lerp(secondaryForcefieldColor, Color.Black, 0.7f);
             }
 
-            forcefieldColor *= forcefieldOpacity;
-            secondaryForcefieldColor *= forcefieldOpacity;
+            forcefieldColor *= opacity;
+            secondaryForcefieldColor *= opacity;
 
             GameShaders.Misc["CalamityMod:SupremeShield"].UseSecondaryColor(secondaryForcefieldColor);
             GameShaders.Misc["CalamityMod:SupremeShield"].UseColor(forcefieldColor);
             GameShaders.Misc["CalamityMod:SupremeShield"].UseSaturation(intensity);
-            GameShaders.Misc["CalamityMod:SupremeShield"].UseOpacity(forcefieldOpacity);
+            GameShaders.Misc["CalamityMod:SupremeShield"].UseOpacity(opacity);
             GameShaders.Misc["CalamityMod:SupremeShield"].Apply();
 
-            spriteBatch.Draw(forcefieldTexture, npc.Center - Main.screenPosition, null, Color.White * forcefieldOpacity, 0f, forcefieldTexture.Size() * 0.5f, forcefieldScale * 3f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(forcefieldTexture, npc.Center - Main.screenPosition, null, Color.White * opacity, 0f, forcefieldTexture.Size() * 0.5f, forcefieldScale * 3f, SpriteEffects.None, 0f);
 
             spriteBatch.ExitShaderRegion();
         }
