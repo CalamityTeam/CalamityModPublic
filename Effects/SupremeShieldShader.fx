@@ -34,7 +34,7 @@ float4 PixelFunction(float4 sampleColor : COLOR0, float2 coords : TEXCOORD0) : C
     
     originalAlpha *= lerp(1, 0.56, distanceRatio) * lerp(1, 2.45, min(1, pow(sin(uTime * 3.1), 10) * 0.7 + uSaturation));
     baseColor = float4(lerp(baseColor.rgb, colorToUse, 0.5), 1.0);
-    return baseColor * originalAlpha;
+    return baseColor * originalAlpha * uOpacity;
 }
 
 technique Technique1

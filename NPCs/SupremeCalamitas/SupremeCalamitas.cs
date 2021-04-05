@@ -32,13 +32,15 @@ namespace CalamityMod.NPCs.SupremeCalamitas
     {
         internal enum FrameAnimationType
         {
-            // The numbering of these values correspond to the horizontal frame on the sprite. If this enumeration or the sprite itself
-            // are updated, these numbers will need to be too.
+            // The numbering of these values correspond to a frame on the sprite. If this enumeration or the sprite itself
+            // is updated, these numbers will need to be too.
             UpwardDraft = 0,
             FasterUpwardDraft = 1,
             Casting = 2,
-            MagicPunch = 3,
-            OutwardHandCast = 4,
+            BlastCast = 3,
+            BlastPunchCast = 4,
+            OutwardHandCast = 5,
+            PunchHandCast = 6,
             Count = 7
         }
 
@@ -87,6 +89,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
         private float shieldOpacity = 1f;
         private float shieldRotation = 0f;
         private float forcefieldOpacity = 1f;
+        private float forcefieldScale = 1;
         private FrameAnimationType FrameType
         {
             get => (FrameAnimationType)(int)npc.localAI[2];
@@ -101,13 +104,13 @@ namespace CalamityMod.NPCs.SupremeCalamitas
         public static float normalDR = 0.25f;
         public static float enragedDR = 0.99f;
 
+        private static readonly Color textColor = Color.Orange;
         private const int brothersSpawnCastTime = 150;
-        private const float forcefieldScale = 3f;
 
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Supreme Calamitas");
-            Main.npcFrameCount[npc.type] = 6;
+            Main.npcFrameCount[npc.type] = 21;
 			NPCID.Sets.TrailingMode[npc.type] = 1;
 		}
 
@@ -126,7 +129,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
             // NOTE: This line is here temporarily so that new features can be tested more efficiently. If it is for some reason
             // still here at PR time, remove it.
-            npc.lifeMax /= 20;
+            npc.lifeMax /= 7;
 
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
@@ -139,7 +142,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             npc.canGhostHeal = false;
             npc.noGravity = true;
             npc.noTileCollide = true;
-            npc.HitSound = SoundID.NPCHit4;
+            npc.HitSound = SoundID.NPCHit1;
             Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
             if (calamityModMusic != null)
                 music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/SCG");
@@ -291,8 +294,10 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 			int monsterDamage = npc.GetProjectileDamage(ModContent.ProjectileType<BrimstoneMonster>());
 			int waveDamage = npc.GetProjectileDamage(ModContent.ProjectileType<BrimstoneWave>());
 			int hellblastDamage = npc.GetProjectileDamage(ModContent.ProjectileType<BrimstoneHellblast>());
+            int bodyWidth = 44;
+            int bodyHeight = 42;
 
-			Vector2 vectorCenter = npc.Center;
+            Vector2 vectorCenter = npc.Center;
 
 			// Get a target
 			if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
@@ -306,40 +311,10 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
             if (!startText)
             {
-                if (Main.LocalPlayer.Calamity().sCalKillCount == 4)
-                {
-                    string key = "Mods.CalamityMod.SupremeBossText12"; //kill SCal 4 times
-                    Color messageColor = Color.Orange;
-                    CalamityUtils.DisplayLocalizedText(key, messageColor);
-                }
-                else if (Main.LocalPlayer.Calamity().sCalKillCount == 1)
-                {
-                    string key = "Mods.CalamityMod.SupremeBossText11"; //kill SCal once
-                    Color messageColor = Color.Orange;
-                    CalamityUtils.DisplayLocalizedText(key, messageColor);
-                }
-
-                if (Main.LocalPlayer.Calamity().sCalDeathCount < 51)
-                {
-                    if (Main.LocalPlayer.Calamity().sCalDeathCount == 50)
-                    {
-                        string key = "Mods.CalamityMod.SupremeBossText15"; //die 50 or more times
-                        Color messageColor = Color.Orange;
-                        CalamityUtils.DisplayLocalizedText(key, messageColor);
-                    }
-                    else if (Main.LocalPlayer.Calamity().sCalDeathCount > 19)
-                    {
-                        string key = "Mods.CalamityMod.SupremeBossText14"; //die 20 or more times
-                        Color messageColor = Color.Orange;
-                        CalamityUtils.DisplayLocalizedText(key, messageColor);
-                    }
-                    else if (Main.LocalPlayer.Calamity().sCalDeathCount > 4)
-                    {
-                        string key = "Mods.CalamityMod.SupremeBossText13"; //die 5 or more times
-                        Color messageColor = Color.Orange;
-                        CalamityUtils.DisplayLocalizedText(key, messageColor);
-                    }
-                }
+                string key = "Mods.CalamityMod.SCalSummonText";
+                if (CalamityWorld.downedSCal)
+                    key += "Rematch";
+                CalamityUtils.DisplayLocalizedText(key, textColor);
                 startText = true;
             }
             #endregion
@@ -354,20 +329,59 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             if (hitTimer > 0)
                 hitTimer--;
 
+            Vector2 hitboxSize = new Vector2(forcefieldScale * 216f / 1.4142f);
+            hitboxSize = Vector2.Max(hitboxSize, new Vector2(42, 44));
+            if (npc.Size != hitboxSize)
+                npc.Size = hitboxSize;
+
+            // Make the shield and forcefield fade away in her acceptance phase.
+            if (npc.life <= npc.lifeMax * 0.01)
+            {
+                shieldOpacity = MathHelper.Lerp(shieldOpacity, 0f, 0.08f);
+                forcefieldScale = MathHelper.Lerp(forcefieldScale, 0f, 0.08f);
+            }
+
             // Summon a shield if the next attack will be a charge.
-            if (willCharge || npc.ai[1] == 2f)
+            else if (!npc.dontTakeDamage && (willCharge || npc.ai[1] == 2f))
             {
                 if (npc.ai[1] != 2f)
                 {
                     float idealRotation = npc.AngleTo(player.Center);
-                    shieldRotation = shieldRotation.AngleLerp(idealRotation, 0.125f);
-                    shieldRotation = shieldRotation.AngleTowards(idealRotation, 0.18f);
+                    float angularOffset = Math.Abs(MathHelper.WrapAngle(shieldRotation - idealRotation));
+
+                    if (angularOffset > 0.04f)
+                    {
+                        shieldRotation = shieldRotation.AngleLerp(idealRotation, 0.125f);
+                        shieldRotation = shieldRotation.AngleTowards(idealRotation, 0.18f);
+                    }
                 }
+                else
+                {
+                    // Emit dust off the skull at the position of its eye socket.
+
+                    for (float num6 = 1f; num6 < 16f; num6 += 1f)
+                    {
+                        Dust dust = Dust.NewDustPerfect(npc.Center, 182);
+                        dust.position = Vector2.Lerp(npc.position, npc.oldPosition, num6 / 16f) + npc.Size * 0.5f;
+                        dust.position += shieldRotation.ToRotationVector2() * 42f;
+                        dust.position += (shieldRotation - MathHelper.PiOver2).ToRotationVector2() * (float)Math.Cos(npc.velocity.ToRotation()) * -4f;
+                        dust.noGravity = true;
+                        dust.velocity = npc.velocity;
+                        dust.color = Color.Red;
+                        dust.scale = MathHelper.Lerp(0.6f, 0.85f, 1f - num6 / 16f);
+                    }
+                }
+
+                // Shrink the force-field since it looks strange when charging.
+                forcefieldScale = MathHelper.Lerp(forcefieldScale, 0.45f, 0.08f);
                 shieldOpacity = MathHelper.Lerp(shieldOpacity, 1f, 0.08f);
             }
-            // Make the shield disappear if it is no longer relevant.
+            // Make the shield disappear if it is no longer relevant and regenerate the forcefield.
             else
+            {
                 shieldOpacity = MathHelper.Lerp(shieldOpacity, 0f, 0.08f);
+                forcefieldScale = MathHelper.Lerp(forcefieldScale, 1f, 0.08f);
+            }
 
             #endregion
             #region ArenaCreation
@@ -466,18 +480,29 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             {
                 npc.TargetClosest(false);
                 player = Main.player[npc.target];
+
+                // Slow down and disappear in a burst of fire if should despawn.
                 if (!player.active || player.dead)
                 {
 					canDespawn = true;
 
-					if (npc.velocity.Y > 3f)
-						npc.velocity.Y = 3f;
-					npc.velocity.Y -= 0.2f;
-					if (npc.velocity.Y < -12f)
-						npc.velocity.Y = -12f;
+                    npc.Opacity = MathHelper.Lerp(npc.Opacity, 0f, 0.065f);
+                    npc.velocity = Vector2.Lerp(Vector2.UnitY * -4f, Vector2.Zero, (float)Math.Sin(MathHelper.Pi * npc.Opacity));
+                    forcefieldOpacity = Utils.InverseLerp(0.1f, 0.6f, npc.Opacity, true);
+                    if (npc.alpha >= 230)
+                    {
+                        npc.active = false;
+                        npc.netUpdate = true;
+                    }
 
-					if (npc.timeLeft > 60)
-						npc.timeLeft = 60;
+                    for (int i = 0; i < MathHelper.Lerp(2f, 6f, 1f - npc.Opacity); i++)
+                    {
+                        Dust brimstoneFire = Dust.NewDustPerfect(npc.Center + Main.rand.NextVector2Square(-24f, 24f), DustID.Fire);
+                        brimstoneFire.color = Color.Red;
+                        brimstoneFire.velocity = Vector2.UnitY * -Main.rand.NextFloat(2f, 3.25f);
+                        brimstoneFire.scale = Main.rand.NextFloat(0.95f, 1.15f);
+                        brimstoneFire.noGravity = true;
+                    }
                 }
             }
             else
@@ -495,7 +520,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 for (int i = 0; i < (attackCastDelay == 0 ? 16 : 1); i++)
                 {
                     Vector2 dustSpawnPosition = npc.Bottom;
-                    float horizontalSpawnOffset = npc.width * Main.rand.NextFloat(0.42f, 0.5f);
+                    float horizontalSpawnOffset = bodyWidth * Main.rand.NextFloat(0.42f, 0.5f);
                     if (Main.rand.NextBool(2))
                         horizontalSpawnOffset *= -1f;
                     dustSpawnPosition.X += horizontalSpawnOffset;
@@ -509,8 +534,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
                 if (enteredBrothersPhase && !hasSummonedBrothers)
                 {
-                    Vector2 leftOfCircle = npc.Bottom - Vector2.UnitX * npc.width * 0.45f;
-                    Vector2 rightOfCircle = npc.Bottom + Vector2.UnitX * npc.width * 0.45f;
+                    Vector2 leftOfCircle = npc.Center + Vector2.UnitY * bodyHeight * 0.5f - Vector2.UnitX * bodyWidth * 0.45f;
+                    Vector2 rightOfCircle = npc.Center + Vector2.UnitY * bodyHeight * 0.5f + Vector2.UnitX * bodyWidth * 0.45f;
 
                     if (Main.netMode != NetmodeID.MultiplayerClient && catastropheSpawnPosition == Vector2.Zero)
                     {
@@ -537,6 +562,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                         castMagicDust.position = rightDustPosition;
                     }
 
+                    // Make some magic effects at where the bros will spawn.
                     if (attackCastDelay < 60f)
                     {
                         float burnPower = Utils.InverseLerp(60f, 20f, attackCastDelay);
@@ -571,12 +597,15 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                         }
                     }
 
+                    // And spawn them.
                     if (attackCastDelay == 0)
                     {
-                        string key = "Mods.CalamityMod.SupremeBossText6";
-                        Color messageColor = Color.Orange;
-                        CalamityUtils.DisplayLocalizedText(key, messageColor);
-
+                        string key = "Mods.CalamityMod.SCalBrothersText";
+                        if (CalamityWorld.downedSCal)
+                            key += "Rematch";
+                        CalamityUtils.DisplayLocalizedText(key, textColor);
+                        if (CalamityWorld.downedSCal)
+                            CalamityUtils.DisplayLocalizedText(key + "2", textColor);
                         if (Main.netMode != NetmodeID.MultiplayerClient)
                         {
                             CalamityUtils.SpawnBossBetter(catastropheSpawnPosition, ModContent.NPCType<SupremeCatastrophe>());
@@ -631,13 +660,15 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                         }
                     }
                 }
+                FrameType = FrameAnimationType.Casting;
                 return;
             }
             else if (!startBattle)
             {
-                string key = "Mods.CalamityMod.SupremeBossText3";
-                Color messageColor = Color.Orange;
-                CalamityUtils.DisplayLocalizedText(key, messageColor);
+                string key = "Mods.CalamityMod.SCalStartText";
+                if (CalamityWorld.downedSCal)
+                    key += "Rematch";
+                CalamityUtils.DisplayLocalizedText(key, textColor);
 
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
@@ -710,13 +741,15 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                         }
                     }
                 }
+                FrameType = FrameAnimationType.Casting;
                 return;
             }
             if (!startSecondAttack && (npc.life <= npc.lifeMax * 0.75))
             {
-                string key = "Mods.CalamityMod.SupremeBossText4";
-                Color messageColor = Color.Orange;
-                CalamityUtils.DisplayLocalizedText(key, messageColor);
+                string key = "Mods.CalamityMod.SCalBH2Text";
+                if (CalamityWorld.downedSCal)
+                    key += "Rematch";
+                CalamityUtils.DisplayLocalizedText(key, textColor);
                 startSecondAttack = true;
                 return;
             }
@@ -760,6 +793,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                         }
                     }
                 }
+                FrameType = FrameAnimationType.Casting;
                 return;
             }
             if (!startThirdAttack && (npc.life <= npc.lifeMax * 0.5))
@@ -769,9 +803,12 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/SCL");
                 else
                     music = MusicID.Boss3;
-                string key = "Mods.CalamityMod.SupremeBossText5";
-                Color messageColor = Color.Orange;
-                CalamityUtils.DisplayLocalizedText(key, messageColor);
+                string key = "Mods.CalamityMod.SCalBH3Text";
+                if (CalamityWorld.downedSCal)
+                    key += "Rematch";
+                CalamityUtils.DisplayLocalizedText(key, textColor);
+                if (CalamityWorld.downedSCal)
+                    CalamityUtils.DisplayLocalizedText(key + "2", textColor);
                 startThirdAttack = true;
                 return;
             }
@@ -822,6 +859,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                         }
                     }
                 }
+                FrameType = FrameAnimationType.Casting;
                 return;
             }
             if (!startFourthAttack && (npc.life <= npc.lifeMax * 0.3))
@@ -831,9 +869,10 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/SCE");
                 else
                     music = MusicID.LunarBoss;
-                string key = "Mods.CalamityMod.SupremeBossText7";
-                Color messageColor = Color.Orange;
-                CalamityUtils.DisplayLocalizedText(key, messageColor);
+                string key = "Mods.CalamityMod.SCalBH4Text";
+                if (CalamityWorld.downedSCal)
+                    key += "Rematch";
+                CalamityUtils.DisplayLocalizedText(key, textColor);
                 startFourthAttack = true;
                 return;
             }
@@ -886,13 +925,15 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                         }
                     }
                 }
+                FrameType = FrameAnimationType.Casting;
                 return;
             }
             if (!startFifthAttack && (npc.life <= npc.lifeMax * 0.1))
             {
-                string key = "Mods.CalamityMod.SupremeBossText9";
-                Color messageColor = Color.Orange;
-                CalamityUtils.DisplayLocalizedText(key, messageColor);
+                string key = "Mods.CalamityMod.SCalBH5Text";
+                if (CalamityWorld.downedSCal)
+                    key += "Rematch";
+                CalamityUtils.DisplayLocalizedText(key, textColor);
                 startFifthAttack = true;
                 return;
             }
@@ -907,39 +948,41 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                         music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/SCA");
                     else
                         music = MusicID.Eerie;
-                    npc.noGravity = false;
+
+                    if (npc.velocity.Y < 9f)
+                        npc.velocity.Y += 0.185f;
                     npc.noTileCollide = false;
                     npc.damage = 0;
 
 					if (!canDespawn)
-						npc.velocity.X *= 0.98f;
+						npc.velocity.X *= 0.96f;
 
-                    if (CalamityWorld.downedSCal) //after first time you kill her
+                    if (CalamityWorld.downedSCal)
                     {
-                        if (giveUpCounter == 900)
+                        // TODO: Spawn the town NPC variant of SCal again.
+                        if (giveUpCounter == 720)
                         {
-                            string key = "Mods.CalamityMod.SupremeBossText27";
-                            Color messageColor = Color.Orange;
-                            CalamityUtils.DisplayLocalizedText(key, messageColor);
+                            for (int i = 0; i < 24; i++)
+                            {
+                                Dust brimstoneFire = Dust.NewDustPerfect(npc.Center + Main.rand.NextVector2Square(-24f, 24f), DustID.Fire);
+                                brimstoneFire.color = Color.Red;
+                                brimstoneFire.velocity = Vector2.UnitY * -Main.rand.NextFloat(2f, 3.25f);
+                                brimstoneFire.scale = Main.rand.NextFloat(0.95f, 1.15f);
+                                brimstoneFire.fadeIn = 1.25f;
+                                brimstoneFire.noGravity = true;
+                            }
+
+                            npc.active = false;
+                            npc.netUpdate = true;
+                            NPCLoot();
                         }
-                        giveUpCounter--;
-						bool canBeHit = giveUpCounter < 900;
-                        npc.chaseable = canBeHit;
-                        npc.dontTakeDamage = !canBeHit;
-                        return;
                     }
-                    if (giveUpCounter == 600)
-                    {
-                        string key = "Mods.CalamityMod.SupremeBossText25";
-                        Color messageColor = Color.Orange;
-                        CalamityUtils.DisplayLocalizedText(key, messageColor);
-                    }
-                    if (giveUpCounter == 300)
-                    {
-                        string key = "Mods.CalamityMod.SupremeBossText26";
-                        Color messageColor = Color.Orange;
-                        CalamityUtils.DisplayLocalizedText(key, messageColor);
-                    }
+                    else if (giveUpCounter == 900)
+                        CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.SCalAcceptanceText1", textColor);
+                    else if(giveUpCounter == 600)
+                        CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.SCalAcceptanceText2", textColor);
+                    else if(giveUpCounter == 300)
+                        CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.SCalAcceptanceText3", textColor);
                     if (giveUpCounter <= 0)
                     {
                         npc.chaseable = true;
@@ -963,41 +1006,46 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 						}
 					}
 
-					string key = "Mods.CalamityMod.SupremeBossText24";
-                    Color messageColor = Color.Orange;
-                    CalamityUtils.DisplayLocalizedText(key, messageColor);
+                    string key = "Mods.CalamityMod.SCalDesparationText4";
+                    if (CalamityWorld.downedSCal)
+                        key += "Rematch";
+                    CalamityUtils.DisplayLocalizedText(key, textColor);
                     gettingTired5 = true;
                     return;
                 }
                 else if (!gettingTired4 && (npc.life <= npc.lifeMax * 0.02))
                 {
-                    string key = "Mods.CalamityMod.SupremeBossText23";
-                    Color messageColor = Color.Orange;
-                    CalamityUtils.DisplayLocalizedText(key, messageColor);
+                    string key = "Mods.CalamityMod.SCalDesparationText3";
+                    if (CalamityWorld.downedSCal)
+                        key += "Rematch";
+                    CalamityUtils.DisplayLocalizedText(key, textColor);
                     gettingTired4 = true;
                     return;
                 }
                 else if (!gettingTired3 && (npc.life <= npc.lifeMax * 0.04))
                 {
-                    string key = "Mods.CalamityMod.SupremeBossText22";
-                    Color messageColor = Color.Orange;
-                    CalamityUtils.DisplayLocalizedText(key, messageColor);
+                    string key = "Mods.CalamityMod.SCalDesparationText2";
+                    if (CalamityWorld.downedSCal)
+                        key += "Rematch";
+                    CalamityUtils.DisplayLocalizedText(key, textColor);
                     gettingTired3 = true;
                     return;
                 }
                 else if (!gettingTired2 && (npc.life <= npc.lifeMax * 0.06))
                 {
-                    string key = "Mods.CalamityMod.SupremeBossText21";
-                    Color messageColor = Color.Orange;
-                    CalamityUtils.DisplayLocalizedText(key, messageColor);
+                    string key = "Mods.CalamityMod.SCalDesparationText1";
+                    if (CalamityWorld.downedSCal)
+                        key += "Rematch";
+                    CalamityUtils.DisplayLocalizedText(key, textColor);
                     gettingTired2 = true;
                     return;
                 }
                 else if (!gettingTired && (npc.life <= npc.lifeMax * 0.08))
                 {
-                    string key = "Mods.CalamityMod.SupremeBossText20";
-                    Color messageColor = Color.Orange;
-                    CalamityUtils.DisplayLocalizedText(key, messageColor);
+                    string key = "Mods.CalamityMod.SCalSepulcher2Text";
+                    if (CalamityWorld.downedSCal)
+                        key += "Rematch";
+                    CalamityUtils.DisplayLocalizedText(key, textColor);
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         spawnY += 250;
@@ -1053,9 +1101,10 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             #region TransformSeekerandBrotherTriggers
             if (!halfLife && (npc.life <= npc.lifeMax * 0.4))
             {
-                string key = "Mods.CalamityMod.SupremeBossText";
-                Color messageColor = Color.Orange;
-                CalamityUtils.DisplayLocalizedText(key, messageColor);
+                string key = "Mods.CalamityMod.SCalPhase2Text";
+                if (CalamityWorld.downedSCal)
+                    key += "Rematch";
+                CalamityUtils.DisplayLocalizedText(key, textColor);
                 halfLife = true;
             }
 
@@ -1063,9 +1112,10 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             {
                 if (secondStage == false)
                 {
-                    string key = "Mods.CalamityMod.SupremeBossText8";
-                    Color messageColor = Color.Orange;
-                    CalamityUtils.DisplayLocalizedText(key, messageColor);
+                    string key = "Mods.CalamityMod.SCalSeekerRingText";
+                    if (CalamityWorld.downedSCal)
+                        key += "Rematch";
+                    CalamityUtils.DisplayLocalizedText(key, textColor);
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         Main.PlaySound(SoundID.Item74, npc.position);
@@ -1596,11 +1646,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
                         int shootRate = wormAlive ? 280 : 140;
                         npc.localAI[1]++;
-                        if (npc.ai[2] > 40f && (npc.localAI[1] > shootRate - 35 || npc.localAI[1] <= 15f))
-                        {
-                            FrameChangeSpeed = 0f;
-                            FrameType = FrameAnimationType.MagicPunch;
-                        }
+                        FrameChangeSpeed = 0.175f;
+                        FrameType = FrameAnimationType.BlastCast;
 
                         if (npc.localAI[1] > shootRate)
                         {
@@ -1691,7 +1738,12 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     }
                 }
 
-                Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.Brimstone, Main.rand.Next(-30, 31) * 0.2f, Main.rand.Next(-30, 31) * 0.2f, 0, default, 1f);
+                for (int i = 0; i < 4; i++)
+                {
+                    Dust brimstoneFire = Dust.NewDustPerfect(npc.Center + Main.rand.NextVector2Square(-24f, 24f), (int)CalamityDusts.Brimstone);
+                    brimstoneFire.velocity = Vector2.UnitY * -Main.rand.NextFloat(2.75f, 4.25f);
+                    brimstoneFire.noGravity = true;
+                }
 
 				if (!canDespawn)
 				{
@@ -2129,7 +2181,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                             brimstoneMagic.noLight = true;
                         }
 
-                        FrameType = FrameAnimationType.OutwardHandCast;
+                        FrameChangeSpeed = 0.245f;
+                        FrameType = FrameAnimationType.PunchHandCast;
                     }
 					else if (npc.ai[1] == 4f)
 					{
@@ -2190,10 +2243,10 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
                         int shootRate = wormAlive ? 200 : 100;
                         npc.localAI[1]++;
-                        if (npc.ai[2] > 40f && (npc.localAI[1] > shootRate - 35 || npc.localAI[1] <= 15f))
+                        if (npc.ai[2] > 40f && (npc.localAI[1] > shootRate - 18 || npc.localAI[1] <= 15f))
                         {
                             FrameChangeSpeed = 0f;
-                            FrameType = FrameAnimationType.MagicPunch;
+                            FrameType = FrameAnimationType.BlastPunchCast;
                         }
 
                         if (npc.localAI[1] > shootRate)
@@ -2255,9 +2308,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 			//Does not occur in Boss Rush due to weakened SCal + stronger weapons (rarely occurs with just Cal gear)
             if ((lootTimer < 6000) && !BossRushEvent.BossRushActive)
             {
-                string key = "Mods.CalamityMod.SupremeBossText2";
-                Color messageColor = Color.Orange;
-                CalamityUtils.DisplayLocalizedText(key, messageColor);
+                CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.SCalFunnyCheatText", textColor);
                 return true;
             }
 
@@ -2266,8 +2317,6 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
         public override void NPCLoot()
         {
-            DeathMessage();
-
             // Incrase the player's SCal kill count
             if (Main.player[npc.target].Calamity().sCalKillCount < 5)
                 Main.player[npc.target].Calamity().sCalKillCount++;
@@ -2318,43 +2367,6 @@ namespace CalamityMod.NPCs.SupremeCalamitas
         }
         #endregion
 
-        private void DeathMessage()
-        {
-            Color messageColor = Color.Orange;
-            string key;
-
-            // If the player has never killed SCal before, comment on how many attempts it took
-            if (Main.player[npc.target].Calamity().sCalKillCount == 0)
-            {
-                switch (Main.LocalPlayer.Calamity().sCalDeathCount)
-                {
-                    case 0:
-                        key = "Mods.CalamityMod.SupremeBossText16";
-                        break;
-                    case 1:
-                        key = "Mods.CalamityMod.SupremeBossText17";
-                        break;
-                    case 2:
-                        key = "Mods.CalamityMod.SupremeBossText18";
-                        break;
-                    case 3: // Three deaths exactly rewards Lul
-                        key = "Mods.CalamityMod.SupremeBossText19";
-                        DropHelper.DropItem(npc, ModContent.ItemType<CheatTestThing>());
-                        break;
-                    default: // Four or more deaths: Lul is permanently missed
-                        key = "Mods.CalamityMod.SupremeBossText10";
-                        break;
-                }
-            }
-            else
-            {
-                // If SCal has been killed before, instead comment on her respawning
-                key = "Mods.CalamityMod.SupremeBossText10";
-            }
-
-            CalamityUtils.DisplayLocalizedText(key, messageColor);
-        }
-
         public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
             if (projectile.type == ModContent.ProjectileType<SonOfYharon>())
@@ -2366,6 +2378,19 @@ namespace CalamityMod.NPCs.SupremeCalamitas
         public override bool StrikeNPC(ref double damage, int defense, ref float knockback, int hitDirection, ref bool crit)
         {
             return !CalamityUtils.AntiButcher(npc, ref damage, 0.5f);
+        }
+
+        // Prevent the player from accidentally killing SCal instead of having her disappear in rematches.
+        public override bool CheckDead()
+        {
+            if (!CalamityWorld.downedSCal)
+                return true;
+
+            npc.life = 1;
+            npc.active = true;
+            npc.dontTakeDamage = true;
+            npc.netUpdate = true;
+            return false;
         }
 
         public override bool CheckActive()
@@ -2383,7 +2408,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
         {
             cooldownSlot = 1;
 
-            Vector2 shieldCenter = npc.Center + shieldRotation.ToRotationVector2() * 38f;
+            Vector2 shieldCenter = npc.Center + shieldRotation.ToRotationVector2() * 24f;
             Vector2 shieldTop = shieldCenter - (shieldRotation + MathHelper.PiOver2).ToRotationVector2() * 61f;
             Vector2 shieldBottom = shieldCenter - (shieldRotation + MathHelper.PiOver2).ToRotationVector2() * 61f;
 
@@ -2397,31 +2422,29 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             bool wormAlive = false;
             if (CalamityGlobalNPC.SCalWorm != -1)
                 wormAlive = Main.npc[CalamityGlobalNPC.SCalWorm].active;
-            int shootRate = wormAlive ? 280 : 140;
-            if (npc.ai[0] >= 3f)
-                shootRate = wormAlive ? 200 : 100;
+            int shootRate = wormAlive ? 200 : 100;
 
             // Special punch logic for the blast attack.
-            if ((npc.localAI[1] > shootRate - 35 || npc.localAI[1] <= 15f))
+            if (FrameType == FrameAnimationType.BlastPunchCast && (npc.localAI[1] > shootRate - 18 || npc.localAI[1] <= 15f))
             {
-                if (npc.localAI[1] > shootRate - 35)
-                    npc.frame.Y = (int)MathHelper.Lerp(0, 3, Utils.InverseLerp(shootRate - 35, shootRate, npc.localAI[1], true));
+                if (npc.localAI[1] > shootRate - 18)
+                    npc.frame.Y = (int)MathHelper.Lerp(0, 3, Utils.InverseLerp(shootRate - 18, shootRate, npc.localAI[1], true));
                 else
                     npc.frame.Y = (int)MathHelper.Lerp(3, 5, Utils.InverseLerp(0f, 15f, npc.localAI[1], true));
+                npc.frame.Y += (int)FrameType * 6;
             }
             else
             {
                 npc.frameCounter += FrameChangeSpeed;
-                npc.frameCounter %= Main.npcFrameCount[npc.type];
-                int frame = (int)npc.frameCounter;
-                npc.frame.Y = frame;
+                npc.frameCounter %= 6;
+                npc.frame.Y = (int)npc.frameCounter + (int)FrameType * 6;
             }
         }
 
 		public override Color? GetAlpha(Color drawColor)
 		{
 			if (willCharge)
-				return drawColor * npc.Opacity * 0.65f;
+				return drawColor * npc.Opacity * 0.45f;
 			return null;
 		}
 
@@ -2433,35 +2456,12 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
 			Texture2D texture2D15 = Main.npcTexture[npc.type];
 
-            Vector2 vector11 = new Vector2(texture2D15.Width / (int)FrameAnimationType.Count / 2f, texture2D15.Height / Main.npcFrameCount[npc.type] / 2f);
+            Vector2 vector11 = new Vector2(texture2D15.Width / 2f, texture2D15.Height / Main.npcFrameCount[npc.type] / 2f);
 			Color color36 = Color.White;
 			float amount9 = 0.5f;
 			int num153 = 7;
 
-            Rectangle frame = texture2D15.Frame((int)FrameAnimationType.Count, 6, (int)FrameType, npc.frame.Y);
-
-            int frameHeight = texture2D15.Height / Main.npcFrameCount[npc.type];
-            Vector2 drawOffset = Vector2.UnitX * (npc.spriteDirection < 0).ToInt() * 5f;
-            switch (FrameType)
-            {
-                case FrameAnimationType.UpwardDraft:
-                    frame = new Rectangle(0, npc.frame.Y * frameHeight, 34, 48);
-                    break;
-                case FrameAnimationType.FasterUpwardDraft:
-                    frame = new Rectangle(36, npc.frame.Y * frameHeight, 30, 48);
-                    break;
-                case FrameAnimationType.Casting:
-                    frame = new Rectangle(72, npc.frame.Y * frameHeight, 44, 48);
-                    break;
-                case FrameAnimationType.MagicPunch:
-                    frame = new Rectangle(116, npc.frame.Y * frameHeight, 48, 48);
-                    drawOffset -= Vector2.UnitX * npc.spriteDirection * -8f;
-                    break;
-                case FrameAnimationType.OutwardHandCast:
-                    frame = new Rectangle(180, npc.frame.Y * frameHeight, 36, 48);
-                    break;
-            }
-            frame.Y += npc.frame.Y;
+            Rectangle frame = texture2D15.Frame(2, Main.npcFrameCount[npc.type], npc.frame.Y / Main.npcFrameCount[npc.type], npc.frame.Y % Main.npcFrameCount[npc.type]);
 
             if (CalamityConfig.Instance.Afterimages)
 			{
@@ -2472,16 +2472,33 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 					color38 = npc.GetAlpha(color38);
 					color38 *= (num153 - num155) / 15f;
 					Vector2 vector41 = npc.oldPos[num155] + new Vector2(npc.width, npc.height) / 2f - Main.screenPosition;
-					vector41 -= new Vector2(texture2D15.Width / (int)FrameAnimationType.Count, texture2D15.Height / Main.npcFrameCount[npc.type]) * npc.scale / 2f;
+					vector41 -= new Vector2(texture2D15.Width / 2f, texture2D15.Height / Main.npcFrameCount[npc.type]) * npc.scale / 2f;
 					vector41 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
-					spriteBatch.Draw(texture2D15, vector41 + drawOffset, frame, color38, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+					spriteBatch.Draw(texture2D15, vector41, frame, color38, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 				}
 			}
 
+            bool inPhase2 = npc.ai[0] >= 3f && npc.life > npc.lifeMax * 0.01;
 			Vector2 vector43 = npc.Center - Main.screenPosition;
-			vector43 -= new Vector2(texture2D15.Width / (int)FrameAnimationType.Count, texture2D15.Height / Main.npcFrameCount[npc.type]) * npc.scale / 2f;
+			vector43 -= new Vector2(texture2D15.Width / 2f, texture2D15.Height / Main.npcFrameCount[npc.type]) * npc.scale / 2f;
 			vector43 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
-			spriteBatch.Draw(texture2D15, vector43 + drawOffset, frame, npc.GetAlpha(lightColor), npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+
+            if (inPhase2)
+            {
+                // Make the sprite jitter with rage in phase 2. This does not happen in rematches since it would make little sense logically.
+                if (!CalamityWorld.downedSCal)
+                    vector43 += Main.rand.NextVector2Circular(0.25f, 0.7f);
+
+                // And gain a flaming aura.
+                Color auraColor = npc.GetAlpha(Color.Red) * 0.4f;
+                for (int i = 0; i < 7; i++)
+                {
+                    Vector2 rotationalDrawOffset = (MathHelper.TwoPi * i / 7f + Main.GlobalTime * 4f).ToRotationVector2();
+                    rotationalDrawOffset *= MathHelper.Lerp(3f, 4.25f, (float)Math.Cos(Main.GlobalTime * 4f) * 0.5f + 0.5f);
+                    spriteBatch.Draw(texture2D15, vector43 + rotationalDrawOffset, frame, auraColor, npc.rotation, vector11, npc.scale * 1.1f, spriteEffects, 0f);
+                }
+            }
+            spriteBatch.Draw(texture2D15, vector43, frame, npc.GetAlpha(lightColor), npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 
             DrawForcefield(spriteBatch);
             DrawShield(spriteBatch);
@@ -2493,17 +2510,41 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             spriteBatch.EnterShaderRegion();
 
             float intensity = hitTimer / 35f;
+
+            // Shield intensity is always high during invincibility, except during cast animations, so that she can be more easily seen.
             if (npc.dontTakeDamage && attackCastDelay <= 0)
                 intensity = 0.75f + Math.Abs((float)Math.Cos(Main.GlobalTime * 1.7f)) * 0.1f;
 
+            // Make the forcefield weaker in the second phase as a means of showing desparation.
+            if (npc.ai[0] >= 3f)
+                intensity *= 0.6f;
+
+            // During/prior to a charge the forcefield is always darker than usual and thus its intensity is also higher.
+            if (!npc.dontTakeDamage && (willCharge || npc.ai[1] == 2f))
+                intensity = 1.1f;
+
             Texture2D forcefieldTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/CalamitasShield");
             GameShaders.Misc["CalamityMod:SupremeShield"].UseImage("Images/Misc/Perlin");
-            GameShaders.Misc["CalamityMod:SupremeShield"].UseSecondaryColor(Color.Red * 1.4f);
-            GameShaders.Misc["CalamityMod:SupremeShield"].UseColor(Color.DarkViolet);
+
+            Color forcefieldColor = Color.DarkViolet;
+            Color secondaryForcefieldColor = Color.Red * 1.4f;
+
+            if (!npc.dontTakeDamage && (willCharge || npc.ai[1] == 2f))
+            {
+                forcefieldColor *= 0.25f;
+                secondaryForcefieldColor = Color.Lerp(secondaryForcefieldColor, Color.Black, 0.7f);
+            }
+
+            forcefieldColor *= forcefieldOpacity;
+            secondaryForcefieldColor *= forcefieldOpacity;
+
+            GameShaders.Misc["CalamityMod:SupremeShield"].UseSecondaryColor(secondaryForcefieldColor);
+            GameShaders.Misc["CalamityMod:SupremeShield"].UseColor(forcefieldColor);
             GameShaders.Misc["CalamityMod:SupremeShield"].UseSaturation(intensity);
+            GameShaders.Misc["CalamityMod:SupremeShield"].UseOpacity(forcefieldOpacity);
             GameShaders.Misc["CalamityMod:SupremeShield"].Apply();
 
-            spriteBatch.Draw(forcefieldTexture, npc.Center - Main.screenPosition, null, Color.White * forcefieldOpacity, 0f, forcefieldTexture.Size() * 0.5f, forcefieldScale, SpriteEffects.None, 0f);
+            spriteBatch.Draw(forcefieldTexture, npc.Center - Main.screenPosition, null, Color.White * forcefieldOpacity, 0f, forcefieldTexture.Size() * 0.5f, forcefieldScale * 3f, SpriteEffects.None, 0f);
 
             spriteBatch.ExitShaderRegion();
         }
@@ -2512,7 +2553,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
         {
             Color shieldColor = Color.White * shieldOpacity;
             Texture2D shieldTexture = ModContent.GetTexture("CalamityMod/NPCs/SupremeCalamitas/SupremeShield");
-            Vector2 drawPosition = npc.Center + shieldRotation.ToRotationVector2() * 38f - Main.screenPosition;
+            Vector2 drawPosition = npc.Center + shieldRotation.ToRotationVector2() * 24f - Main.screenPosition;
             SpriteEffects direction = Math.Cos(shieldRotation) > 0 ? SpriteEffects.None : SpriteEffects.FlipVertically;
 
             spriteBatch.Draw(shieldTexture, drawPosition, null, shieldColor, shieldRotation, shieldTexture.Size() * 0.5f, 1f, direction, 0f);
