@@ -456,6 +456,8 @@ namespace CalamityMod
 			target.AddBuff(BuffID.OnFire, (int)(120 * multiplier));
 		}
 
+		public static T ModNPC<T>(this NPC npc) where T : ModNPC => npc.modNPC as T;
+
 		/// <summary>
 		/// Summons a boss near a particular area depending on a specific spawn context.
 		/// </summary>

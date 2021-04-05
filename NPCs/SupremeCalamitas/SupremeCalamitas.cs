@@ -1,4 +1,5 @@
 using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.DataStructures;
 using CalamityMod.Dusts;
 using CalamityMod.Events;
 using CalamityMod.Items.Accessories;
@@ -19,7 +20,9 @@ using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Terraria;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
@@ -53,6 +56,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
         private bool despawnProj = false;
         private bool startText = false;
         private bool startBattle = false; //100%
+        private bool hasSummonedSepulcher1 = false; //100%
         private bool startSecondAttack = false; //80%
         private bool startThirdAttack = false; //60%
         private bool halfLife = false; //40%
@@ -60,6 +64,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
         private bool secondStage = false; //20%
         private bool startFifthAttack = false; //10%
         private bool gettingTired = false; //8%
+        private bool hasSummonedSepulcher2 = false; //8%
         private bool gettingTired2 = false; //6%
         private bool gettingTired3 = false; //4%
         private bool gettingTired4 = false; //2%
@@ -105,6 +110,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
         public static float enragedDR = 0.99f;
 
         private static readonly Color textColor = Color.Orange;
+        private const int sepulcherSpawnCastTime = 75;
         private const int brothersSpawnCastTime = 150;
 
         public override void SetStaticDefaults()
@@ -157,12 +163,14 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             writer.Write(despawnProj);
             writer.Write(startText);
             writer.Write(startBattle);
+            writer.Write(hasSummonedSepulcher1);
             writer.Write(startSecondAttack);
             writer.Write(startThirdAttack);
             writer.Write(startFourthAttack);
             writer.Write(startFifthAttack);
             writer.Write(halfLife);
             writer.Write(secondStage);
+            writer.Write(hasSummonedSepulcher2);
             writer.Write(gettingTired);
             writer.Write(gettingTired2);
             writer.Write(gettingTired3);
@@ -202,12 +210,14 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             despawnProj = reader.ReadBoolean();
             startText = reader.ReadBoolean();
             startBattle = reader.ReadBoolean();
+            hasSummonedSepulcher1 = reader.ReadBoolean();
             startSecondAttack = reader.ReadBoolean();
             startThirdAttack = reader.ReadBoolean();
             startFourthAttack = reader.ReadBoolean();
             startFifthAttack = reader.ReadBoolean();
             halfLife = reader.ReadBoolean();
             secondStage = reader.ReadBoolean();
+            hasSummonedSepulcher2 = reader.ReadBoolean();
             gettingTired = reader.ReadBoolean();
             gettingTired2 = reader.ReadBoolean();
             gettingTired3 = reader.ReadBoolean();
@@ -491,6 +501,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     forcefieldOpacity = Utils.InverseLerp(0.1f, 0.6f, npc.Opacity, true);
                     if (npc.alpha >= 230)
                     {
+                        // TODO: Spawn the town NPC variant of SCal again here if fought in a rematch.
                         npc.active = false;
                         npc.netUpdate = true;
                     }
@@ -516,7 +527,6 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 npc.dontTakeDamage = true;
 
                 // Make a magic effect over time.
-
                 for (int i = 0; i < (attackCastDelay == 0 ? 16 : 1); i++)
                 {
                     Vector2 dustSpawnPosition = npc.Bottom;
@@ -532,88 +542,11 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     magic.scale = 1f + npc.velocity.Y * 0.35f;
                 }
 
+                if ((startBattle && !hasSummonedSepulcher1) || (gettingTired && !hasSummonedSepulcher2))
+                    DoHeartsSpawningCastAnimation(player, death);
+
                 if (enteredBrothersPhase && !hasSummonedBrothers)
-                {
-                    Vector2 leftOfCircle = npc.Center + Vector2.UnitY * bodyHeight * 0.5f - Vector2.UnitX * bodyWidth * 0.45f;
-                    Vector2 rightOfCircle = npc.Center + Vector2.UnitY * bodyHeight * 0.5f + Vector2.UnitX * bodyWidth * 0.45f;
-
-                    if (Main.netMode != NetmodeID.MultiplayerClient && catastropheSpawnPosition == Vector2.Zero)
-                    {
-                        catastropheSpawnPosition = npc.Center - Vector2.UnitX * 500f;
-                        cataclysmSpawnPosition = npc.Center + Vector2.UnitX * 500f;
-                        npc.netUpdate = true;
-                    }
-
-                    // Draw some magic dust much like the sandstorm elemental cast that approaches where the brothers will spawn.
-                    if (attackCastDelay < brothersSpawnCastTime - 45f && attackCastDelay >= 60f)
-                    {
-                        float castCompletion = Utils.InverseLerp(brothersSpawnCastTime - 45f, 60f, attackCastDelay);
-
-                        Vector2 leftDustPosition = Vector2.CatmullRom(leftOfCircle + Vector2.UnitY * 1000f, leftOfCircle, catastropheSpawnPosition, catastropheSpawnPosition + Vector2.UnitY * 1000f, castCompletion);
-                        Vector2 rightDustPosition = Vector2.CatmullRom(rightOfCircle + Vector2.UnitY * 1000f, rightOfCircle, cataclysmSpawnPosition, cataclysmSpawnPosition + Vector2.UnitY * 1000f, castCompletion);
-
-                        Dust castMagicDust = Dust.NewDustPerfect(leftDustPosition, 267);
-                        castMagicDust.scale = 1.67f;
-                        castMagicDust.velocity = Main.rand.NextVector2CircularEdge(0.2f, 0.2f);
-                        castMagicDust.color = Color.Red;
-                        castMagicDust.noGravity = true;
-
-                        castMagicDust = Dust.CloneDust(castMagicDust);
-                        castMagicDust.position = rightDustPosition;
-                    }
-
-                    // Make some magic effects at where the bros will spawn.
-                    if (attackCastDelay < 60f)
-                    {
-                        float burnPower = Utils.InverseLerp(60f, 20f, attackCastDelay);
-                        if (attackCastDelay == 0f)
-                            burnPower = 4f;
-
-                        for (int i = 0; i < MathHelper.Lerp(5, 25, burnPower); i++)
-                        {
-                            Dust fire = Dust.NewDustPerfect(catastropheSpawnPosition + Main.rand.NextVector2Circular(60f, 60f), 264);
-                            fire.velocity = Vector2.UnitY * -Main.rand.NextFloat(2f, 4f);
-                            if (attackCastDelay == 0)
-                            {
-                                fire.velocity += Main.rand.NextVector2Circular(4f, 4f);
-                                fire.fadeIn = 1.6f;
-                            }
-                            fire.noGravity = true;
-                            fire.noLight = true;
-                            fire.color = Color.OrangeRed;
-                            fire.scale = 1.4f + fire.velocity.Y * 0.16f;
-
-                            fire = Dust.NewDustPerfect(cataclysmSpawnPosition + Main.rand.NextVector2Circular(60f, 60f), 264);
-                            fire.velocity = Vector2.UnitY * -Main.rand.NextFloat(2f, 4f);
-                            if (attackCastDelay == 0)
-                            {
-                                fire.velocity += Main.rand.NextVector2Circular(4f, 4f);
-                                fire.fadeIn = 1.6f;
-                            }
-                            fire.noGravity = true;
-                            fire.noLight = true;
-                            fire.color = Color.OrangeRed;
-                            fire.scale = 1.4f + fire.velocity.Y * 0.16f;
-                        }
-                    }
-
-                    // And spawn them.
-                    if (attackCastDelay == 0)
-                    {
-                        string key = "Mods.CalamityMod.SCalBrothersText";
-                        if (CalamityWorld.downedSCal)
-                            key += "Rematch";
-                        CalamityUtils.DisplayLocalizedText(key, textColor);
-                        if (CalamityWorld.downedSCal)
-                            CalamityUtils.DisplayLocalizedText(key + "2", textColor);
-                        if (Main.netMode != NetmodeID.MultiplayerClient)
-                        {
-                            CalamityUtils.SpawnBossBetter(catastropheSpawnPosition, ModContent.NPCType<SupremeCatastrophe>());
-                            CalamityUtils.SpawnBossBetter(cataclysmSpawnPosition, ModContent.NPCType<SupremeCataclysm>());
-                        }
-                        hasSummonedBrothers = true;
-                    }
-                }
+                    DoBrothersSpawningCastAnimation(bodyWidth, bodyHeight);
 
                 if (attackCastDelay == 0)
                 {
@@ -665,31 +598,28 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             }
             else if (!startBattle)
             {
-                string key = "Mods.CalamityMod.SCalStartText";
-                if (CalamityWorld.downedSCal)
-                    key += "Rematch";
-                CalamityUtils.DisplayLocalizedText(key, textColor);
-
-                if (Main.netMode != NetmodeID.MultiplayerClient)
+                attackCastDelay = sepulcherSpawnCastTime;
+                for (int i = 0; i < 40; i++)
                 {
-                    spawnY += 250;
-                    if (death)
-                    {
-                        spawnY -= 50;
-                    }
-                    for (int x = 0; x < 5; x++)
-                    {
-                        NPC.NewNPC(spawnX + 50, spawnY, ModContent.NPCType<SCalWormHeart>(), 0, 0f, 0f, 0f, 0f, 255);
-                        spawnX += spawnXAdd;
-                        NPC.NewNPC(spawnX2 - 50, spawnY, ModContent.NPCType<SCalWormHeart>(), 0, 0f, 0f, 0f, 0f, 255);
-                        spawnX2 -= spawnXAdd;
-                        spawnY += spawnYAdd;
-                    }
-                    spawnX = spawnXReset;
-                    spawnX2 = spawnXReset2;
-                    spawnY = spawnYReset;
-                    NPC.SpawnOnPlayer(npc.FindClosestPlayer(), ModContent.NPCType<SCalWormHead>());
+                    Dust castFire = Dust.NewDustPerfect(npc.Center + Main.rand.NextVector2Square(-70f, 70f), (int)CalamityDusts.Brimstone);
+                    castFire.velocity = Vector2.UnitY.RotatedByRandom(0.08f) * -Main.rand.NextFloat(3f, 4.45f);
+                    castFire.scale = Main.rand.NextFloat(1.35f, 1.6f);
+                    castFire.fadeIn = 1.25f;
+                    castFire.noGravity = true;
                 }
+
+                npc.Center = safeBox.TopRight() + new Vector2(-120f, 620f);
+
+                for (int i = 0; i < 40; i++)
+                {
+                    Dust castFire = Dust.NewDustPerfect(npc.Center + Main.rand.NextVector2Square(-70f, 70f), (int)CalamityDusts.Brimstone);
+                    castFire.velocity = Vector2.UnitY.RotatedByRandom(0.08f) * -Main.rand.NextFloat(3f, 4.45f);
+                    castFire.scale = Main.rand.NextFloat(1.35f, 1.6f);
+                    castFire.fadeIn = 1.25f;
+                    castFire.noGravity = true;
+                }
+
+                Main.PlaySound(SoundID.DD2_DarkMageCastHeal, player.Center);
                 startBattle = true;
             }
             #endregion
@@ -834,6 +764,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                         Projectile.NewProjectile(player.position.X + Main.rand.Next(-1000, 1001), player.position.Y - 1000f, 0f, 10f * uDieLul, ModContent.ProjectileType<BrimstoneFireblast>(), fireblastDamage, 0f, Main.myPlayer, 0f, 0f);
 
 					int divisor = revenge ? 225 : expertMode ? 450 : 675;
+
+                    // TODO: Resprite Brimstone Monsters to be something else.
                     if (bulletHellCounter2 % divisor == 0 && expertMode) //giant homing fireballs
                     {
                         Projectile.NewProjectile(player.position.X + Main.rand.Next(-1000, 1001), player.position.Y - 1000f, 0f, 1f * uDieLul, ModContent.ProjectileType<BrimstoneMonster>(), monsterDamage, 0f, Main.myPlayer, 0f, passedVar);
@@ -959,7 +891,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
                     if (CalamityWorld.downedSCal)
                     {
-                        // TODO: Spawn the town NPC variant of SCal again.
+                        // TODO: Spawn the town NPC variant of SCal again here.
                         if (giveUpCounter == 720)
                         {
                             for (int i = 0; i < 24; i++)
@@ -1042,30 +974,28 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 }
                 else if (!gettingTired && (npc.life <= npc.lifeMax * 0.08))
                 {
-                    string key = "Mods.CalamityMod.SCalSepulcher2Text";
-                    if (CalamityWorld.downedSCal)
-                        key += "Rematch";
-                    CalamityUtils.DisplayLocalizedText(key, textColor);
-                    if (Main.netMode != NetmodeID.MultiplayerClient)
+                    attackCastDelay = sepulcherSpawnCastTime;
+                    for (int i = 0; i < 40; i++)
                     {
-                        spawnY += 250;
-                        if (death)
-                        {
-                            spawnY -= 50;
-                        }
-                        for (int x = 0; x < 5; x++)
-                        {
-                            NPC.NewNPC(spawnX + 50, spawnY, ModContent.NPCType<SCalWormHeart>(), 0, 0f, 0f, 0f, 0f, 255);
-                            spawnX += spawnXAdd;
-                            NPC.NewNPC(spawnX2 - 50, spawnY, ModContent.NPCType<SCalWormHeart>(), 0, 0f, 0f, 0f, 0f, 255);
-                            spawnX2 -= spawnXAdd;
-                            spawnY += spawnYAdd;
-                        }
-                        spawnX = spawnXReset;
-                        spawnX2 = spawnXReset2;
-                        spawnY = spawnYReset;
-                        NPC.SpawnOnPlayer(npc.FindClosestPlayer(), ModContent.NPCType<SCalWormHead>());
+                        Dust castFire = Dust.NewDustPerfect(npc.Center + Main.rand.NextVector2Square(-70f, 70f), (int)CalamityDusts.Brimstone);
+                        castFire.velocity = Vector2.UnitY.RotatedByRandom(0.08f) * -Main.rand.NextFloat(3f, 4.45f);
+                        castFire.scale = Main.rand.NextFloat(1.35f, 1.6f);
+                        castFire.fadeIn = 1.25f;
+                        castFire.noGravity = true;
                     }
+
+                    npc.Center = safeBox.TopRight() + new Vector2(-120f, 620f);
+
+                    for (int i = 0; i < 40; i++)
+                    {
+                        Dust castFire = Dust.NewDustPerfect(npc.Center + Main.rand.NextVector2Square(-70f, 70f), (int)CalamityDusts.Brimstone);
+                        castFire.velocity = Vector2.UnitY.RotatedByRandom(0.08f) * -Main.rand.NextFloat(3f, 4.45f);
+                        castFire.scale = Main.rand.NextFloat(1.35f, 1.6f);
+                        castFire.fadeIn = 1.25f;
+                        castFire.noGravity = true;
+                    }
+
+                    Main.PlaySound(SoundID.DD2_DarkMageCastHeal, player.Center);
                     gettingTired = true;
                     return;
                 }
@@ -1108,9 +1038,10 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 halfLife = true;
             }
 
+            // TODO: Resprite the seekers to be something other than eyeballs.
             if (npc.life <= npc.lifeMax * 0.2)
             {
-                if (secondStage == false)
+                if (!secondStage)
                 {
                     string key = "Mods.CalamityMod.SCalSeekerRingText";
                     if (CalamityWorld.downedSCal)
@@ -1703,6 +1634,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             }
             #endregion
             #region Transition
+
+            // TODO: Add a special flame that encases SCal during the transition phase instead of just dust.
             else if (npc.ai[0] == 1f || npc.ai[0] == 2f)
             {
                 npc.dontTakeDamage = true;
@@ -2295,6 +2228,228 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             #endregion
         }
 
+        public void DoHeartsSpawningCastAnimation(Player target, bool death)
+        {
+            int tempSpawnY = spawnY;
+            tempSpawnY += 250;
+            if (death)
+                tempSpawnY -= 50;
+
+            List<Vector2> heartSpawnPositions = new List<Vector2>();
+            for (int i = 0; i < 5; i++)
+            {
+                heartSpawnPositions.Add(new Vector2(spawnX + spawnXAdd * i + 50, tempSpawnY + spawnYAdd * i));
+                heartSpawnPositions.Add(new Vector2(spawnX2 - spawnXAdd * i - 50, tempSpawnY + spawnYAdd * i));
+            }
+
+            float castCompletion = Utils.InverseLerp(sepulcherSpawnCastTime - 25f, 0f, attackCastDelay, true);
+            Vector2 armPosition = npc.Center + Vector2.UnitX * npc.spriteDirection * -8f;
+
+            // Emit dust at the arm position as a sort of magic effect.
+            Dust magic = Dust.NewDustPerfect(armPosition, 264);
+            magic.velocity = Vector2.UnitY.RotatedByRandom(0.17f) * -Main.rand.NextFloat(2.7f, 4.1f);
+            magic.color = Color.OrangeRed;
+            magic.noLight = true;
+            magic.fadeIn = 0.6f;
+            magic.noGravity = true;
+
+            foreach (Vector2 heartSpawnPosition in heartSpawnPositions)
+            {
+                Vector2 leftDustPosition = Vector2.CatmullRom(armPosition + Vector2.UnitY * 1000f, armPosition, heartSpawnPosition, heartSpawnPosition + Vector2.UnitY * 1000f, castCompletion);
+
+                Dust castMagicDust = Dust.NewDustPerfect(leftDustPosition, 267);
+                castMagicDust.scale = 1.67f;
+                castMagicDust.velocity = Main.rand.NextVector2CircularEdge(0.2f, 0.2f);
+                castMagicDust.fadeIn = 0.67f;
+                castMagicDust.color = Color.Red;
+                castMagicDust.noGravity = true;
+            }
+
+            if (attackCastDelay == 0)
+            {
+                string key = "Mods.CalamityMod.SCalStartText";
+                if (npc.life <= npc.lifeMax * 0.08)
+                    key = "Mods.CalamityMod.SCalSepulcher2Text";
+
+                if (CalamityWorld.downedSCal)
+                    key += "Rematch";
+                CalamityUtils.DisplayLocalizedText(key, textColor);
+                foreach (Vector2 heartSpawnPosition in heartSpawnPositions)
+                {
+                    // Make the hearts appear in a burst of flame.
+                    for (int i = 0; i < 20; i++)
+                    {
+                        Dust castFire = Dust.NewDustPerfect(heartSpawnPosition + Main.rand.NextVector2Square(-30f, 30f), (int)CalamityDusts.Brimstone);
+                        castFire.velocity = Vector2.UnitY.RotatedByRandom(0.08f) * -Main.rand.NextFloat(3f, 4.45f);
+                        castFire.scale = Main.rand.NextFloat(1.35f, 1.6f);
+                        castFire.fadeIn = 1.25f;
+                        castFire.noGravity = true;
+                    }
+                }
+
+                // And play a fire-like sound effect.
+                Main.PlaySound(SoundID.DD2_BetsyWindAttack, target.Center);
+                hasSummonedSepulcher1 = true;
+                hasSummonedSepulcher2 = npc.life <= npc.lifeMax * 0.08;
+
+                // TODO: Resprite brimstone hearts a bit.
+                if (Main.netMode != NetmodeID.MultiplayerClient)
+                {
+                    List<int> hearts = new List<int>();
+                    for (int x = 0; x < 5; x++)
+                    {
+                        hearts.Add(NPC.NewNPC(spawnX + 50, tempSpawnY, ModContent.NPCType<SCalWormHeart>(), 0, 0f, 0f, 0f, 0f, 255));
+                        spawnX += spawnXAdd;
+
+                        hearts.Add(NPC.NewNPC(spawnX2 - 50, tempSpawnY, ModContent.NPCType<SCalWormHeart>(), 0, 0f, 0f, 0f, 0f, 255));
+                        spawnX2 -= spawnXAdd;
+                        tempSpawnY += spawnYAdd;
+                    }
+
+                    ConnectAllBrimstoneHearts(hearts);
+
+                    spawnX = spawnXReset;
+                    spawnX2 = spawnXReset2;
+                    spawnY = spawnYReset;
+                    NPC.SpawnOnPlayer(npc.FindClosestPlayer(), ModContent.NPCType<SCalWormHead>());
+                    npc.netUpdate = true;
+                }
+            }
+        }
+
+        public void DoBrothersSpawningCastAnimation(int bodyWidth, int bodyHeight)
+        {
+            Vector2 leftOfCircle = npc.Center + Vector2.UnitY * bodyHeight * 0.5f - Vector2.UnitX * bodyWidth * 0.45f;
+            Vector2 rightOfCircle = npc.Center + Vector2.UnitY * bodyHeight * 0.5f + Vector2.UnitX * bodyWidth * 0.45f;
+
+            if (Main.netMode != NetmodeID.MultiplayerClient && catastropheSpawnPosition == Vector2.Zero)
+            {
+                catastropheSpawnPosition = npc.Center - Vector2.UnitX * 500f;
+                cataclysmSpawnPosition = npc.Center + Vector2.UnitX * 500f;
+                npc.netUpdate = true;
+            }
+
+            // Draw some magic dust much like the sandstorm elemental cast that approaches where the brothers will spawn.
+            if (attackCastDelay < brothersSpawnCastTime - 45f && attackCastDelay >= 60f)
+            {
+                float castCompletion = Utils.InverseLerp(brothersSpawnCastTime - 45f, 60f, attackCastDelay);
+
+                Vector2 leftDustPosition = Vector2.CatmullRom(leftOfCircle + Vector2.UnitY * 1000f, leftOfCircle, catastropheSpawnPosition, catastropheSpawnPosition + Vector2.UnitY * 1000f, castCompletion);
+                Vector2 rightDustPosition = Vector2.CatmullRom(rightOfCircle + Vector2.UnitY * 1000f, rightOfCircle, cataclysmSpawnPosition, cataclysmSpawnPosition + Vector2.UnitY * 1000f, castCompletion);
+
+                Dust castMagicDust = Dust.NewDustPerfect(leftDustPosition, 267);
+                castMagicDust.scale = 1.67f;
+                castMagicDust.velocity = Main.rand.NextVector2CircularEdge(0.2f, 0.2f);
+                castMagicDust.color = Color.Red;
+                castMagicDust.noGravity = true;
+
+                castMagicDust = Dust.CloneDust(castMagicDust);
+                castMagicDust.position = rightDustPosition;
+            }
+
+            // Make some magic effects at where the bros will spawn.
+            if (attackCastDelay < 60f)
+            {
+                float burnPower = Utils.InverseLerp(60f, 20f, attackCastDelay);
+                if (attackCastDelay == 0f)
+                    burnPower = 4f;
+
+                for (int i = 0; i < MathHelper.Lerp(5, 25, burnPower); i++)
+                {
+                    Dust fire = Dust.NewDustPerfect(catastropheSpawnPosition + Main.rand.NextVector2Circular(60f, 60f), 264);
+                    fire.velocity = Vector2.UnitY * -Main.rand.NextFloat(2f, 4f);
+                    if (attackCastDelay == 0)
+                    {
+                        fire.velocity += Main.rand.NextVector2Circular(4f, 4f);
+                        fire.fadeIn = 1.6f;
+                    }
+                    fire.noGravity = true;
+                    fire.noLight = true;
+                    fire.color = Color.OrangeRed;
+                    fire.scale = 1.4f + fire.velocity.Y * 0.16f;
+
+                    fire = Dust.NewDustPerfect(cataclysmSpawnPosition + Main.rand.NextVector2Circular(60f, 60f), 264);
+                    fire.velocity = Vector2.UnitY * -Main.rand.NextFloat(2f, 4f);
+                    if (attackCastDelay == 0)
+                    {
+                        fire.velocity += Main.rand.NextVector2Circular(4f, 4f);
+                        fire.fadeIn = 1.6f;
+                    }
+                    fire.noGravity = true;
+                    fire.noLight = true;
+                    fire.color = Color.OrangeRed;
+                    fire.scale = 1.4f + fire.velocity.Y * 0.16f;
+                }
+            }
+
+            // And spawn them.
+            if (attackCastDelay == 0)
+            {
+                string key = "Mods.CalamityMod.SCalBrothersText";
+                if (CalamityWorld.downedSCal)
+                    key += "Rematch";
+
+                CalamityUtils.DisplayLocalizedText(key, textColor);
+                if (CalamityWorld.downedSCal)
+                    CalamityUtils.DisplayLocalizedText(key + "2", textColor);
+                if (Main.netMode != NetmodeID.MultiplayerClient)
+                {
+                    CalamityUtils.SpawnBossBetter(catastropheSpawnPosition, ModContent.NPCType<SupremeCatastrophe>());
+                    CalamityUtils.SpawnBossBetter(cataclysmSpawnPosition, ModContent.NPCType<SupremeCataclysm>());
+                }
+                hasSummonedBrothers = true;
+            }
+        }
+
+        public void ConnectAllBrimstoneHearts(List<int> heartIndices)
+        {
+            int heartType = ModContent.NPCType<SCalWormHeart>();
+
+            // Ensure that the hearts go in order based on the arena.
+            IEnumerable<NPC> hearts = heartIndices.Select(i => Main.npc[i]);
+            hearts = hearts.OrderByDescending(heart => Math.Abs(heart.Center.X - safeBox.Left)).ToList();
+
+            int firstHeartIndex = heartIndices.First();
+            int lastHeartIndex = heartIndices.Last();
+
+            heartIndices = heartIndices.OrderByDescending(heart => Math.Abs(Main.npc[heart].Center.X - safeBox.Left)).ToList();
+
+            for (int i = 0; i < hearts.Count(); i++)
+            {
+                NPC heart = hearts.ElementAt(i);
+
+                Vector2 endpoint = safeBox.TopLeft();
+                Vector2 oppositePosition = Vector2.Zero;
+
+                for (int j = 0; j < 2; j++)
+                {
+                    int tries = 0;
+                    do
+                    {
+                        endpoint.X = heart.Center.X + (j == 0).ToDirectionInt() * Main.rand.NextFloat(75f, 250f);
+                        tries++;
+                        if (tries >= 100)
+                            break;
+                    }
+                    while (Math.Abs(endpoint.X - safeBox.Center.X) > safeBox.Width * 0.48f);
+
+                    if (tries >= 100)
+                        endpoint.X = MathHelper.Clamp(endpoint.X, safeBox.Left, safeBox.Right);
+
+                    heart.ModNPC<SCalWormHeart>().ChainEndpoints.Add(endpoint);
+                }
+
+                if (Main.rand.NextBool(2))
+                {
+                    endpoint.X = heart.Center.X + Main.rand.NextBool(2).ToDirectionInt() * Main.rand.NextFloat(45f, 360f);
+                    endpoint.X = MathHelper.Clamp(endpoint.X, safeBox.Left, safeBox.Right);
+                    heart.ModNPC<SCalWormHeart>().ChainEndpoints.Add(endpoint);
+                }
+
+                heart.netUpdate = true;
+            }
+        }
+
         #region Loot
         public override void BossLoot(ref string name, ref int potionType)
         {
@@ -2454,7 +2609,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 			if (npc.spriteDirection == 1)
 				spriteEffects = SpriteEffects.FlipHorizontally;
 
-			Texture2D texture2D15 = Main.npcTexture[npc.type];
+			Texture2D texture2D15 = CalamityWorld.downedSCal ? Main.npcTexture[npc.type] : ModContent.GetTexture("CalamityMod/NPCs/SupremeCalamitas/SupremeCalamitasHooded");
 
             Vector2 vector11 = new Vector2(texture2D15.Width / 2f, texture2D15.Height / Main.npcFrameCount[npc.type] / 2f);
 			Color color36 = Color.White;

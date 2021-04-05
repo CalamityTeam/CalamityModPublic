@@ -214,7 +214,7 @@ namespace CalamityMod
 			List<Vector2> trailPoints = TrailPointFunction(originalPositions, generalOffset, totalTrailPoints, originalRotations);
 
 			// A trail with only one point or less has nothing to connect to, and therefore, can't make a trail.
-			if (originalPositions.Count() <= 2 || trailPoints.Count <= 2)
+			if (trailPoints.Count <= 2)
 				return;
 
 			// If the trail point has any NaN positions, don't draw anything.
