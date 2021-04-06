@@ -33,7 +33,7 @@ namespace CalamityMod.Projectiles.Melee
             Main.dust[rainbow].noGravity = true;
             Main.dust[rainbow].velocity = Vector2.Zero;
 
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 300f, 12f, 20f);
+			CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 300f, 12f, 20f);
         }
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

@@ -23,7 +23,6 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.friendly = true;
             projectile.penetrate = 1;
             projectile.timeLeft = 720;
-            projectile.tileCollide = true;
             projectile.alpha = 0;
             projectile.Calamity().rogue = true;
 			projectile.extraUpdates = 1;

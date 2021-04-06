@@ -23,7 +23,6 @@ namespace CalamityMod.Projectiles.Melee
             projectile.penetrate = 1;
             projectile.alpha = 255;
             projectile.timeLeft = 90;
-            projectile.tileCollide = true;
         }
 
 		public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 75;
@@ -55,7 +54,7 @@ namespace CalamityMod.Projectiles.Melee
 			}
 
 			if (projectile.timeLeft < 75)
-				CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 150f, 9f, 20f);
+				CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 150f, 9f, 20f);
 		}
 
         public override void Kill(int timeLeft)

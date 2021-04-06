@@ -90,7 +90,7 @@ namespace CalamityMod.Projectiles.Rogue
 			else
 			{
 				projectile.rotation += 0.2f * (float)projectile.direction;
-				CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 300f, projectile.Calamity().stealthStrike ? 12f : 7f, 20f);
+				CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 300f, projectile.Calamity().stealthStrike ? 12f : 7f, 20f);
 			}
 
             Player player = Main.player[projectile.owner];

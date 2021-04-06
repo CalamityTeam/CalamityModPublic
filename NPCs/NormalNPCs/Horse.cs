@@ -200,10 +200,11 @@ namespace CalamityMod.NPCs.NormalNPCs
                 }
             }
 
-            if (Math.Abs(npc.velocity.X) > 0.2)
-                npc.spriteDirection = npc.direction;
+			float playerLocation = npc.Center.X - Main.player[npc.target].Center.X;
+			npc.direction = playerLocation < 0 ? 1 : -1;
+			npc.spriteDirection = npc.direction;
 
-            Vector2 direction = Main.player[npc.target].Center - npc.Center;
+			Vector2 direction = Main.player[npc.target].Center - npc.Center;
             direction.Normalize();
             npc.ai[1] += Main.expertMode ? 2f : 1f;
 			if (npc.ai[1] >= 600f)

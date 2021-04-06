@@ -47,7 +47,5 @@ namespace CalamityMod.Projectiles.Melee
         {
             target.AddBuff(ModContent.BuffType<Plague>(), 180);
         }
-
-		public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 120;
 	}
 }

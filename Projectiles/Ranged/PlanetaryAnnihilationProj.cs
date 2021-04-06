@@ -25,7 +25,6 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.ranged = true;
             projectile.penetrate = 1;
             projectile.extraUpdates = 1;
-            projectile.tileCollide = true;
             projectile.timeLeft = 600;
 			projectile.arrow = true;
         }
