@@ -1,16 +1,10 @@
-using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.CalPlayer;
-using CalamityMod.Dusts;
 using CalamityMod.Events;
 using CalamityMod.NPCs.NormalNPCs;
 using CalamityMod.Projectiles.Boss;
-using CalamityMod.Projectiles.Healing;
-using CalamityMod.Projectiles.Magic;
 using CalamityMod.Projectiles.Melee;
 using CalamityMod.Projectiles.Melee.Yoyos;
 using CalamityMod.Projectiles.Rogue;
-using CalamityMod.Projectiles.Summon;
 using CalamityMod.Projectiles.Typeless;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -1215,7 +1209,7 @@ namespace CalamityMod.Projectiles
                         {
                             if (projectile.owner == Main.myPlayer && player.ownedProjectileCounts[ProjectileType<Nanotech>()] < 25)
                             {
-                                Projectile.NewProjectile(projectile.Center, Vector2.Zero, ProjectileType<Nanotech>(), (int)(projectile.damage * 0.1), 0f, projectile.owner, 0f, 0f);
+                                Projectile.NewProjectile(projectile.Center, Vector2.Zero, ProjectileType<Nanotech>(), (int)(projectile.damage * 0.15), 0f, projectile.owner, 0f, 0f);
                             }
                         }
                     }
