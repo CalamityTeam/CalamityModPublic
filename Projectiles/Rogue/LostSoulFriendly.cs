@@ -46,7 +46,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.rotation = projectile.velocity.ToRotation() + (projectile.spriteDirection == 1 ? 0f : MathHelper.Pi);
 
 			if (projectile.ai[0] != 1f && projectile.timeLeft < 210)
-				CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 200f, 12f, 20f);
+				CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 400f, 12f, 20f);
         }
 
         public override void Kill(int timeLeft)

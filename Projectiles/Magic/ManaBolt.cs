@@ -16,7 +16,6 @@ namespace CalamityMod.Projectiles.Magic
             projectile.width = 24;
             projectile.height = 24;
             projectile.friendly = true;
-            projectile.alpha = 0;
             projectile.penetrate = 1;
             projectile.timeLeft = 180;
             projectile.magic = true;
@@ -24,9 +23,8 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void AI()
         {
-            projectile.rotation += (Math.Abs(projectile.velocity.X) + Math.Abs(projectile.velocity.Y)) * 0.01f * (float)projectile.direction;
-            projectile.velocity.X *= 0.985f;
-            projectile.velocity.Y *= 0.985f;
+            projectile.rotation += (Math.Abs(projectile.velocity.X) + Math.Abs(projectile.velocity.Y)) * 0.01f * projectile.direction;
+            projectile.velocity *= 0.985f;
 			int randomDust = Utils.SelectRandom(Main.rand, new int[]
 			{
 				15,
@@ -51,8 +49,8 @@ namespace CalamityMod.Projectiles.Magic
                 for (int i = 0; i < 3; i++)
                 {
                     offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<ManaBoltSmall>(), (int)(projectile.damage * 0.5), projectile.knockBack, projectile.owner, 0f, 0f);
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<ManaBoltSmall2>(), (int)(projectile.damage * 0.5), projectile.knockBack, projectile.owner, 0f, 0f);
+                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<ManaBoltSmall>(), (int)(projectile.damage * 0.5), projectile.knockBack, projectile.owner);
+                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<ManaBoltSmall2>(), (int)(projectile.damage * 0.5), projectile.knockBack, projectile.owner);
                 }
             }
             Main.PlaySound(SoundID.Item10, projectile.position);

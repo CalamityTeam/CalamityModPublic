@@ -99,12 +99,12 @@ namespace CalamityMod.NPCs.NormalNPCs
             if (npc.life <= 0)
             {
                 Main.PlaySound(SoundID.Item14, npc.position);
-                npc.position.X = npc.position.X + (float)(npc.width / 2);
-                npc.position.Y = npc.position.Y + (float)(npc.height / 2);
+                npc.position.X = npc.position.X + (npc.width / 2);
+                npc.position.Y = npc.position.Y + (npc.height / 2);
                 npc.width = 160;
                 npc.height = 160;
-                npc.position.X = npc.position.X - (float)(npc.width / 2);
-                npc.position.Y = npc.position.Y - (float)(npc.height / 2);
+                npc.position.X = npc.position.X - (npc.width / 2);
+                npc.position.Y = npc.position.Y - (npc.height / 2);
                 for (int num621 = 0; num621 < 40; num621++)
                 {
                     int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 31, 0f, 0f, 100, default, 2f);
@@ -112,7 +112,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                     if (Main.rand.NextBool(2))
                     {
                         Main.dust[num622].scale = 0.5f;
-                        Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
+                        Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
                     }
                 }
                 for (int num623 = 0; num623 < 70; num623++)
@@ -170,12 +170,11 @@ namespace CalamityMod.NPCs.NormalNPCs
                     if (Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
                     {
                         float num179 = 4f;
-                        Vector2 value9 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
-                        float num180 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - value9.X;
+                        Vector2 value9 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
+                        float num180 = Main.player[npc.target].position.X + Main.player[npc.target].width * 0.5f - value9.X;
                         float num181 = Math.Abs(num180) * 0.1f;
-                        float num182 = Main.player[npc.target].position.Y + (float)Main.player[npc.target].height * 0.5f - value9.Y - num181;
-                        float num183 = (float)Math.Sqrt((double)(num180 * num180 + num182 * num182));
-                        npc.netUpdate = true;
+                        float num182 = Main.player[npc.target].position.Y + Main.player[npc.target].height * 0.5f - value9.Y - num181;
+                        float num183 = (float)Math.Sqrt(num180 * num180 + num182 * num182);
                         num183 = num179 / num183;
                         num180 *= num183;
                         num182 *= num183;
@@ -186,12 +185,12 @@ namespace CalamityMod.NPCs.NormalNPCs
                         for (int num186 = 0; num186 < 4; num186++)
                         {
                             num185 = Main.rand.NextBool(4) ? ModContent.ProjectileType<EarthRockBig>() : ModContent.ProjectileType<EarthRockSmall>();
-                            num180 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - value9.X;
-                            num182 = Main.player[npc.target].position.Y + (float)Main.player[npc.target].height * 0.5f - value9.Y;
-                            num183 = (float)Math.Sqrt((double)(num180 * num180 + num182 * num182));
+                            num180 = Main.player[npc.target].position.X + Main.player[npc.target].width * 0.5f - value9.X;
+                            num182 = Main.player[npc.target].position.Y + Main.player[npc.target].height * 0.5f - value9.Y;
+                            num183 = (float)Math.Sqrt(num180 * num180 + num182 * num182);
                             num183 = num179 / num183;
-                            num180 += (float)Main.rand.Next(-40, 41);
-                            num182 += (float)Main.rand.Next(-40, 41);
+                            num180 += Main.rand.Next(-40, 41);
+                            num182 += Main.rand.Next(-40, 41);
                             num180 *= num183;
                             num182 *= num183;
                             Projectile.NewProjectile(value9.X, value9.Y, num180, num182, num185, num184, 0f, Main.myPlayer, 0f, 0f);

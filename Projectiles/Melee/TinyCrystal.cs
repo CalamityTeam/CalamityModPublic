@@ -54,7 +54,7 @@ namespace CalamityMod.Projectiles.Melee
 			}
 
 			if (projectile.timeLeft < 75)
-				CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 150f, 9f, 20f);
+				CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 300f, 9f, 20f);
 		}
 
         public override void Kill(int timeLeft)

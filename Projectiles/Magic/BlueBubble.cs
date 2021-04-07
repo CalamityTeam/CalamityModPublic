@@ -22,41 +22,35 @@ namespace CalamityMod.Projectiles.Magic
             projectile.alpha = 255;
             projectile.ignoreWater = true;
             projectile.magic = true;
-        }
+			projectile.timeLeft = 120;
+		}
 
-        public override void AI()
+		public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 90;
+
+		public override void AI()
         {
             projectile.velocity *= 0.99f;
-            if (projectile.localAI[0] == 0f)
-            {
-                projectile.scale += 0.005f;
-            }
+
+            projectile.scale += 0.005f;
+
             if (projectile.alpha > 0)
-            {
                 projectile.alpha -= 30;
-            }
             if (projectile.alpha < 0)
-            {
                 projectile.alpha = 0;
-            }
+
             Vector2 v2 = projectile.ai[0].ToRotationVector2();
             float num743 = projectile.velocity.ToRotation();
             float num744 = v2.ToRotation();
-            double num745 = (double)(num744 - num743);
+            double num745 = num744 - num743;
             if (num745 > MathHelper.Pi)
-            {
                 num745 -= MathHelper.TwoPi;
-            }
             if (num745 < -MathHelper.Pi)
-            {
 				num745 += MathHelper.TwoPi;
-			}
+
             projectile.rotation = projectile.velocity.ToRotation() - MathHelper.PiOver2;
-            if (Main.myPlayer == projectile.owner && projectile.timeLeft > 120)
-            {
-                projectile.timeLeft = 120;
-            }
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 100f, 8f, 20f);
+            
+			if (projectile.timeLeft < 90)
+				CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 300f, 8f, 20f);
         }
 
         public override void Kill(int timeLeft)

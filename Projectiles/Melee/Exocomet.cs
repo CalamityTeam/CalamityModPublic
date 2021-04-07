@@ -65,7 +65,7 @@ namespace CalamityMod.Projectiles.Melee
             Lighting.AddLight(projectile.Center, 0f, 0.5f, 0.5f);
 
 			if (projectile.timeLeft < 240)
-				CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 250f, 12f, 20f);
+				CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 400f, 12f, 20f);
 			else
 			{
 				float num953 = 100f * projectile.ai[1];

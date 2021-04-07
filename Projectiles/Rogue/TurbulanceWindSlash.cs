@@ -28,10 +28,11 @@ namespace CalamityMod.Projectiles.Rogue
 			projectile.timeLeft = 180;
         }
 
-        public override void AI()
+		public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 150;
+
+		public override void AI()
         {
-            projectile.velocity.X *= 0.99f;
-            projectile.velocity.Y *= 0.99f;
+            projectile.velocity *= 0.99f;
             if (projectile.localAI[0] == 0f)
             {
                 projectile.scale += 0.005f;
@@ -60,7 +61,7 @@ namespace CalamityMod.Projectiles.Rogue
 			}
 			if (projectile.ai[1] == 1f)
 			{
-				CalamityGlobalProjectile.HomeInOnNPC(projectile, false, projectile.ai[0] == 1f ? 300f : 150f, 8f, 20f);
+				CalamityGlobalProjectile.HomeInOnNPC(projectile, false, projectile.ai[0] == 1f ? 600f : 300f, 8f, 20f);
 			}
         }
 

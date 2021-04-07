@@ -36,9 +36,8 @@ namespace CalamityMod.Projectiles.Rogue
         public override void AI()
         {
             if (Main.rand.NextBool(8))
-            {
                 Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, Main.rand.Next(2) == 1 ? 107 : 89, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
-            }
+
             projectile.damage += projectile.Calamity().defDamage / 200;
 		}
 

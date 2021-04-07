@@ -39,16 +39,13 @@ namespace CalamityMod.Projectiles.Magic
         {
             projectile.width = (int)(36f * projectile.scale);
 			projectile.height = (int)(36f * projectile.scale);
+
             if (projectile.alpha > 100)
-            {
                 projectile.alpha -= 25;
-            }
 			if (projectile.alpha < 100)
 				projectile.alpha = 100;
-            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X);
 
-			if (projectile.ai[0] == 1f)
-                CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 200f, 8f, 20f);
+            projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
@@ -61,8 +58,8 @@ namespace CalamityMod.Projectiles.Magic
             if (projectile.timeLeft < 85)
             {
                 byte b2 = (byte)(projectile.timeLeft * 3);
-                byte a2 = (byte)(100f * ((float)b2 / 255f));
-                return new Color((int)b2, (int)b2, (int)b2, (int)a2);
+                byte a2 = (byte)(100f * (b2 / 255f));
+                return new Color(b2, b2, b2, a2);
             }
             return new Color(255, 255, 255, 100);
         }
