@@ -12,8 +12,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             DisplayName.SetDefault("Blossom Flux");
             Tooltip.SetDefault("Fires a stream of leaves\n" +
-                "Right click to fire a spore orb that explodes into a cloud of spore gas\n" +
-                "Legendary");
+                "Right click to fire a spore orb that explodes into a cloud of spore gas");
         }
 
         public override void SetDefaults()
@@ -35,7 +34,8 @@ namespace CalamityMod.Items.Weapons.Ranged
 
             item.value = CalamityGlobalItem.Rarity7BuyPrice;
             item.rare = ItemRarityID.Lime;
-        }
+			item.Calamity().challengeDrop = true;
+		}
 
         public override bool AltFunctionUse(Player player)
         {

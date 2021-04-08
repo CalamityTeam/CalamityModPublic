@@ -12,8 +12,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             DisplayName.SetDefault("Aegis Blade");
             Tooltip.SetDefault("Striking an enemy with the blade causes an earthen eruption\n" +
-                "Right click to fire an aegis bolt\n" +
-                "Legendary");
+                "Right click to fire an aegis bolt");
         }
 
         public override void SetDefaults()
@@ -33,7 +32,8 @@ namespace CalamityMod.Items.Weapons.Melee
 
             item.value = CalamityGlobalItem.Rarity7BuyPrice;
             item.rare = ItemRarityID.Lime;
-        }
+			item.Calamity().challengeDrop = true;
+		}
 
         public override bool AltFunctionUse(Player player)
         {

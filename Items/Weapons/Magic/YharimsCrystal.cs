@@ -10,8 +10,7 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Yharim's Crystal");
-            Tooltip.SetDefault("Fires draconic beams of total annihilation\n" +
-				"Legendary");
+            Tooltip.SetDefault("Fires draconic beams of total annihilation");
         }
 
         public override void SetDefaults()
@@ -35,7 +34,8 @@ namespace CalamityMod.Items.Weapons.Magic
 
             item.value = CalamityGlobalItem.Rarity15BuyPrice;
             item.Calamity().customRarity = CalamityRarity.Violet;
-        }
+			item.Calamity().challengeDrop = true;
+		}
 
         public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;
     }

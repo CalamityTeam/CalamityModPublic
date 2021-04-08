@@ -42,6 +42,16 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
+			Vector2 velocity = new Vector2(speedX, speedY);
+            int bulletAmt = 5;
+            for (int index = 0; index < bulletAmt; ++index)
+            {
+                velocity.X += Main.rand.Next(-15, 16) * 0.05f;
+                velocity.Y += Main.rand.Next(-15, 16) * 0.05f;
+                int proj = Projectile.NewProjectile(position, velocity, type, damage, knockBack, player.whoAmI);
+                Main.projectile[proj].extraUpdates += 2;
+            }
+
 			int maxTargets = 12;
 			int[] targets = new int[maxTargets];
 			int targetArrayIndex = 0;
@@ -64,32 +74,10 @@ namespace CalamityMod.Items.Weapons.Ranged
 				}
 			}
 
-			Vector2 velocity = new Vector2(speedX, speedY);
-            int bulletAmt = 5;
-            for (int index = 0; index < bulletAmt; ++index)
-            {
-                velocity.X += Main.rand.Next(-15, 16) * 0.05f;
-                velocity.Y += Main.rand.Next(-15, 16) * 0.05f;
-                int proj = Projectile.NewProjectile(position, velocity, type, damage, knockBack, player.whoAmI);
-                Main.projectile[proj].extraUpdates += 2;
-            }
+			if (targetArrayIndex == 0)
+				return false;
 
-            float num72 = item.shootSpeed;
             Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
-            float num78 = Main.mouseX + Main.screenPosition.X - vector2.X;
-            float num79 = Main.mouseY + Main.screenPosition.Y - vector2.Y;
-            if (player.gravDir == -1f)
-                num79 = Main.screenPosition.Y + Main.screenHeight - Main.mouseY - vector2.Y;
-
-            float num80 = (float)Math.Sqrt(num78 * num78 + num79 * num79);
-            if ((float.IsNaN(num78) && float.IsNaN(num79)) || (num78 == 0f && num79 == 0f))
-            {
-                num78 = player.direction;
-                num79 = 0f;
-                num80 = num72;
-            }
-            else
-                num80 = num72 / num80;
 
             for (int j = 0; j < targetArrayIndex; j++)
             {
@@ -104,6 +92,27 @@ namespace CalamityMod.Items.Weapons.Ranged
 				Main.projectile[proj].tileCollide = false;
 				Main.projectile[proj].timeLeft /= 2;
             }
+
+			if (targetArrayIndex == 12)
+				return false;
+
+			// Fire bullets at the same targets if 
+			for (int k = 0; k < maxTargets - targetArrayIndex; k++)
+			{
+				int randomTarget = Main.rand.Next(targetArrayIndex);
+
+				vector2 = new Vector2(player.position.X + player.width * 0.5f + (Main.rand.Next(201) * -(float)player.direction) + (Main.mouseX + Main.screenPosition.X - player.position.X), player.MountedCenter.Y - 600f);
+				vector2.X = (vector2.X + player.Center.X) / 2f + Main.rand.Next(-200, 201);
+				vector2.Y -= 100 * randomTarget;
+
+				Vector2 velocity2 = Vector2.Normalize(Main.npc[targets[randomTarget]].Center - vector2) * item.shootSpeed;
+
+				int proj = Projectile.NewProjectile(vector2, velocity2, type, damage, knockBack, player.whoAmI);
+				Main.projectile[proj].extraUpdates += 2;
+				Main.projectile[proj].tileCollide = false;
+				Main.projectile[proj].timeLeft /= 2;
+			}
+
             return false;
         }
     }

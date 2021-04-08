@@ -14,8 +14,7 @@ namespace CalamityMod.Items.Accessories
             Tooltip.SetDefault("The good time\n" +
 				"Go fast\n" +
 				"WARNING: May have disastrous results\n" +
-				"Increases horizontal movement speed beyond comprehension\n" +
-				"Legendary");
+				"Increases horizontal movement speed beyond comprehension");
         }
 
         public override void SetDefaults()
@@ -25,7 +24,8 @@ namespace CalamityMod.Items.Accessories
             item.value = CalamityGlobalItem.Rarity5BuyPrice;
             item.rare = ItemRarityID.Pink;
             item.accessory = true;
-        }
+			item.Calamity().challengeDrop = true;
+		}
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {

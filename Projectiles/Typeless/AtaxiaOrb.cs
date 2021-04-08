@@ -35,7 +35,7 @@ namespace CalamityMod.Projectiles.Typeless
             fire.velocity = Vector2.Zero;
 
 			if (projectile.timeLeft < 170)
-				CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 400f, 9f, 20f);
+				CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 600f, 9f, 20f);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

@@ -18,8 +18,7 @@ namespace CalamityMod.Items.Weapons.Summon
                 "For each minion slot used, you will gain an additional orbiting shield spike\n" +
                 "These spikes accelerate rapidly towards a nearby enemy to inflict heavy damage\n" +
                 "They take some time to regenerate after launching themselves at the target, however\n" +
-                "On right click, summons a duplicate ring around the targeted enemy, which slowly converges before exploding\n" +
-                "Legendary");
+                "On right click, summons a duplicate ring around the targeted enemy, which slowly converges before exploding");
         }
 
         public override void SetDefaults()
@@ -40,7 +39,8 @@ namespace CalamityMod.Items.Weapons.Summon
 
             item.value = CalamityGlobalItem.Rarity5BuyPrice;
             item.rare = ItemRarityID.Pink;
-        }
+			item.Calamity().challengeDrop = true;
+		}
 
         public override void ModifyTooltips(List<TooltipLine> list)
         {

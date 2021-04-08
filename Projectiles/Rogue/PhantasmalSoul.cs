@@ -92,7 +92,7 @@ namespace CalamityMod.Projectiles.Rogue
 
                 // Otherwise, if homing on enemies is enabled, they home in on enemies.
                 if (projectile.ai[0] == 1f)
-                    CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 400f, 10f, 20f);
+                    CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 600f, 10f, 20f);
             }
 
             // If the owner is dead these projectiles disappear rapidly.
