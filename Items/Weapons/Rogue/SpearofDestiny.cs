@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             DisplayName.SetDefault("Spear of Destiny");
             Tooltip.SetDefault("Throws three spears with the outer two having homing capabilities\n" +
 			"Stealth strikes cause all three spears to home in, ignore tiles, and pierce more\n" +
-			"Rare Item Variant");
+			"Challenge Drop");
         }
 
         public override void SafeSetDefaults()
@@ -31,10 +31,10 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.height = 52;
             item.value = Item.buyPrice(0, 36, 0, 0);
             item.rare = ItemRarityID.Pink;
-            item.shoot = ModContent.ProjectileType<SpearofDestinyProjectile>();
+			item.Calamity().challengeDrop = true;
+			item.shoot = ModContent.ProjectileType<SpearofDestinyProjectile>();
             item.shootSpeed = 20f;
             item.Calamity().rogue = true;
-            item.Calamity().customRarity = CalamityRarity.RareVariant;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

@@ -11,8 +11,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Carnage");
-            Tooltip.SetDefault("Enemies explode into homing blood on death\n" +
-				"Rare Item Variant");
+            Tooltip.SetDefault("Enemies explode into homing blood on death");
         }
 
         public override void SetDefaults()
@@ -30,8 +29,8 @@ namespace CalamityMod.Items.Weapons.Melee
             item.height = 60;
             item.value = Item.buyPrice(0, 4, 0, 0);
             item.rare = ItemRarityID.Orange;
-            item.Calamity().customRarity = CalamityRarity.RareVariant;
-        }
+			item.Calamity().challengeDrop = true;
+		}
 
         public override void MeleeEffects(Player player, Rectangle hitbox)
         {

@@ -28,7 +28,7 @@ namespace CalamityMod.Projectiles.Rogue
         public override void AI()
         {
             projectile.rotation = projectile.velocity.ToRotation() + MathHelper.ToRadians(45f);
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 300f, 25f, 20f);
+			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 150f, 12f, 20f);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

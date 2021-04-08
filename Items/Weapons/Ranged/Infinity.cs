@@ -16,8 +16,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Tooltip.SetDefault("Bad PC\n" +
                 "Fires a barrage of energy bolts that split and bounce\n" +
                 "Right click to fire a barrage of normal bullets\n" +
-                "They say infinity is neverending, yet you hold it in your hands\n" +
-				"Rare Item Variant");
+                "They say infinity is neverending, yet you hold it in your hands");
         }
 
         public override void SetDefaults()
@@ -39,8 +38,8 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.shoot = ProjectileID.PurificationPowder;
             item.shootSpeed = 12f;
             item.useAmmo = AmmoID.Bullet;
-            item.Calamity().customRarity = CalamityRarity.RareVariant;
-        }
+			item.Calamity().challengeDrop = true;
+		}
 
         public override Vector2? HoldoutOffset()
         {

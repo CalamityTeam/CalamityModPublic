@@ -31,7 +31,9 @@ namespace CalamityMod.Projectiles.Ranged
             aiType = ProjectileID.Bullet;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 90;
+
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, projectile.height * 0.5f);
             for (int k = 0; k < projectile.oldPos.Length; k++)
@@ -61,7 +63,9 @@ namespace CalamityMod.Projectiles.Ranged
 
 			if (speed == 0f)
 				speed = projectile.velocity.Length();
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 400f, speed, 12f);
+
+			if (projectile.timeLeft < 90)
+				CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 300f, speed, 12f);
 		}
     }
 }

@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Penumbra");
-            Tooltip.SetDefault("Throws a shadow bomb that explodes into homing souls \n" +
+            Tooltip.SetDefault("Throws a shadow bomb that explodes into homing souls\n" +
                                "Stealth strikes make the bomb manifest on the cursor and explode into more souls");
         }
 

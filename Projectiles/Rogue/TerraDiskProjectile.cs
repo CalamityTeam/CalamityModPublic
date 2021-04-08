@@ -165,8 +165,7 @@ namespace CalamityMod.Projectiles.Rogue
 
 			if (homeIn)
 			{
-				projectile.localAI[0] += 1f;
-				if (projectile.localAI[0] % 8f == 0f && Main.rand.NextBool(5))
+				if (Main.player[projectile.owner].miscCounter % 50 == 0)
 				{
 					int splitProj = ModContent.ProjectileType<TerraDiskProjectile2>();
 					if (projectile.owner == Main.myPlayer)

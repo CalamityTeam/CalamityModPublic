@@ -1053,7 +1053,6 @@ namespace CalamityMod.NPCs.Cryogen
             {
                 // Materials
                 DropHelper.DropItemSpray(npc, ModContent.ItemType<EssenceofEleum>(), 4, 8);
-                DropHelper.DropItem(npc, ItemID.FrostCore);
 
                 // Weapons
                 float w = DropHelper.NormalWeaponDropRateFloat;

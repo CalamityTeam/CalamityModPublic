@@ -28,16 +28,18 @@ namespace CalamityMod.Projectiles.Melee
 			projectile.extraUpdates = 3;
 		}
 
+		public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 270;
+
 		public override void AI()
 		{
 			if (projectile.alpha > 0)
 				projectile.alpha -= 50;
 			else
-			{
-				projectile.extraUpdates = 0;
-			}
+				projectile.extraUpdates = 1;
+
 			if (projectile.alpha < 0)
 				projectile.alpha = 0;
+
 			projectile.frameCounter++;
 			if (projectile.frameCounter >= 6)
 			{
@@ -46,6 +48,7 @@ namespace CalamityMod.Projectiles.Melee
 			}
 			if (projectile.frame > 1)
 				projectile.frame = 0;
+
 			for (int num369 = 0; num369 < 1; num369++)
 			{
 				int dustType = Main.rand.NextBool(3) ? 56 : 242;
@@ -58,7 +61,9 @@ namespace CalamityMod.Projectiles.Melee
 				dust.velocity *= 0f;
 				dust.scale = 0.5f;
 			}
-			projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) - 1.57f;
+
+			projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) - MathHelper.PiOver2;
+
 			float num373 = projectile.position.X;
 			float num374 = projectile.position.Y;
 			float num375 = 100000f;
@@ -69,7 +74,7 @@ namespace CalamityMod.Projectiles.Melee
 				projectile.ai[0] = 30f;
 				for (int num376 = 0; num376 < Main.maxNPCs; num376++)
 				{
-					if (Main.npc[num376].CanBeChasedBy(projectile, false) && (!Main.npc[num376].wet || projectile.type == 307))
+					if (Main.npc[num376].CanBeChasedBy(projectile, false))
 					{
 						float num377 = Main.npc[num376].position.X + Main.npc[num376].width / 2;
 						float num378 = Main.npc[num376].position.Y + Main.npc[num376].height / 2;
@@ -89,6 +94,7 @@ namespace CalamityMod.Projectiles.Melee
 				num373 = projectile.position.X + projectile.width / 2 + projectile.velocity.X * 100f;
 				num374 = projectile.position.Y + projectile.height / 2 + projectile.velocity.Y * 100f;
 			}
+
 			float num380 = 10f;
 			float num381 = 0.16f;
 			Vector2 vector30 = new Vector2(projectile.position.X + projectile.width * 0.5f, projectile.position.Y + projectile.height * 0.5f);

@@ -156,7 +156,7 @@ namespace CalamityMod.Projectiles.Melee
                 case 4: // Green, home in on enemies
                     color = new Color(0, 255, 0, alpha);
 
-					CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 600f, 6f, 20f);
+					CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 300f, 6f, 20f);
 
                     break;
 

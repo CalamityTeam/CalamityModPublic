@@ -27,11 +27,15 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.aiStyle = 1;
         }
 
-        public override void AI()
+		public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 90;
+
+		public override void AI()
         {
             projectile.alpha -= 5;
             projectile.rotation = projectile.velocity.ToRotation() - MathHelper.PiOver2;
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 300f, 20f, 20f);
+
+			if (projectile.timeLeft < 90)
+				CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 300f, 12f, 20f);
         }
 
         public override void Kill(int timeLeft)

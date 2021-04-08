@@ -86,7 +86,7 @@ namespace CalamityMod.Projectiles.Melee
                 }
             }
 
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 1600f, 35f, 20f);
+			CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 300f, 12f, 20f);
         }
 
         public override Color? GetAlpha(Color lightColor)

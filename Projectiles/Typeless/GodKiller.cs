@@ -70,7 +70,7 @@ namespace CalamityMod.Projectiles.Typeless
                     }
                 }
             }
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 600f, 35f, 20f);
+			CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 300f, 12f, 20f);
         }
 
         public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)

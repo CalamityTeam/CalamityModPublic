@@ -2006,6 +2006,9 @@ namespace CalamityMod.NPCs
             if (BossRushEvent.BossRushActive && !npc.friendly && !npc.townNPC)
                 BossRushForceDespawnOtherNPCs(npc, mod);
 
+			if (NPC.LunarApocalypseIsUp)
+				PillarEventProgressionEdit(npc);
+
 			if (CalamityWorld.revenge || BossRushEvent.BossRushActive || CalamityWorld.malice)
             {
 				switch (npc.type)
@@ -3161,10 +3164,172 @@ namespace CalamityMod.NPCs
                     break;
             }
         }
-        #endregion
+		#endregion
 
-        #region AI
-        public override void AI(NPC npc)
+		#region Pillar Event Progression Edit
+		private void PillarEventProgressionEdit(NPC npc)
+		{
+			// Make pillars a bit more fun by forcing more difficult enemies based on progression.
+			int solarTowerShieldStrength = NPC.ShieldStrengthTowerSolar / 25;
+			switch (solarTowerShieldStrength)
+			{
+				case 4:
+				case 3:
+					// Possible spawns: Drakanian, Drakomire, Drakomire Rider
+					if (npc.type == NPCID.SolarCorite || npc.type == NPCID.SolarCrawltipedeHead || npc.type == NPCID.SolarCrawltipedeBody ||
+						npc.type == NPCID.SolarCrawltipedeTail || npc.type == NPCID.SolarSolenian || npc.type == NPCID.SolarSroller)
+					{
+						npc.active = false;
+						npc.netUpdate = true;
+					}
+					break;
+				case 2:
+					// Possible spawns: Corite, Drakomire Rider, Sroller
+					if (npc.type == NPCID.SolarDrakomire || npc.type == NPCID.SolarCrawltipedeHead || npc.type == NPCID.SolarCrawltipedeBody ||
+						npc.type == NPCID.SolarCrawltipedeTail || npc.type == NPCID.SolarSpearman || npc.type == NPCID.SolarSolenian)
+					{
+						npc.active = false;
+						npc.netUpdate = true;
+					}
+					break;
+				case 1:
+					// Possible spawns: Corite, Selenian, Sroller
+					if (npc.type == NPCID.SolarDrakomire || npc.type == NPCID.SolarCrawltipedeHead || npc.type == NPCID.SolarCrawltipedeBody ||
+						npc.type == NPCID.SolarCrawltipedeTail || npc.type == NPCID.SolarSpearman || npc.type == NPCID.SolarDrakomireRider)
+					{
+						npc.active = false;
+						npc.netUpdate = true;
+					}
+					break;
+				case 0:
+					// Possible spawns: Corite, Selenian, Crawltipede
+					if (npc.type == NPCID.SolarDrakomire || npc.type == NPCID.SolarSpearman || npc.type == NPCID.SolarDrakomireRider || npc.type == NPCID.SolarSroller)
+					{
+						npc.active = false;
+						npc.netUpdate = true;
+					}
+					break;
+			}
+
+			int vortexTowerShieldStrength = NPC.ShieldStrengthTowerVortex / 25;
+			switch (vortexTowerShieldStrength)
+			{
+				case 4:
+				case 3:
+					// Possible spawns: Alien Hornet, Vortexian
+					if (npc.type == NPCID.VortexHornetQueen || npc.type == NPCID.VortexRifleman)
+					{
+						npc.active = false;
+						npc.netUpdate = true;
+					}
+					break;
+				case 2:
+					// Possible spawns: Alien Hornet, Vortexian, Storm Diver
+					if (npc.type == NPCID.VortexHornetQueen)
+					{
+						npc.active = false;
+						npc.netUpdate = true;
+					}
+					break;
+				case 1:
+					// Possible spawns: Alien Hornet, Storm Diver, Alien Queen
+					if (npc.type == NPCID.VortexSoldier)
+					{
+						npc.active = false;
+						npc.netUpdate = true;
+					}
+					break;
+				case 0:
+					// Possible spawns: Alien Hornet, Alien Queen
+					if (npc.type == NPCID.VortexSoldier || npc.type == NPCID.VortexRifleman)
+					{
+						npc.active = false;
+						npc.netUpdate = true;
+					}
+					break;
+			}
+
+			int nebulaTowerShieldStrength = NPC.ShieldStrengthTowerNebula / 25;
+			switch (nebulaTowerShieldStrength)
+			{
+				case 4:
+				case 3:
+					// Possible spawns: Brain Suckler
+					if (npc.type == NPCID.NebulaBeast || npc.type == NPCID.NebulaBrain || npc.type == NPCID.NebulaSoldier)
+					{
+						npc.active = false;
+						npc.netUpdate = true;
+					}
+					break;
+				case 2:
+					// Possible spawns: Brain Suckler, Predictor
+					if (npc.type == NPCID.NebulaBeast || npc.type == NPCID.NebulaBrain)
+					{
+						npc.active = false;
+						npc.netUpdate = true;
+					}
+					break;
+				case 1:
+					// Possible spawns: Brain Suckler, Predictor, Evolution Beast
+					if (npc.type == NPCID.NebulaBrain)
+					{
+						npc.active = false;
+						npc.netUpdate = true;
+					}
+					break;
+				case 0:
+					// Possible spawns: Predictor, Evolution Beast, Nebula Floater
+					if (npc.type == NPCID.NebulaHeadcrab)
+					{
+						npc.active = false;
+						npc.netUpdate = true;
+					}
+					break;
+			}
+
+			int stardustTowerShieldStrength = NPC.ShieldStrengthTowerStardust / 25;
+			switch (stardustTowerShieldStrength)
+			{
+				case 4:
+				case 3:
+					// Possible spawns: Milkyway Weaver, Star Cell
+					if (npc.type == NPCID.StardustSpiderBig || npc.type == NPCID.StardustSoldier || npc.type == NPCID.StardustJellyfishBig)
+					{
+						npc.active = false;
+						npc.netUpdate = true;
+					}
+					break;
+				case 2:
+					// Possible spawns: Milkyway Weaver, Stargazer, Twinkle Popper
+					if (npc.type == NPCID.StardustCellBig || npc.type == NPCID.StardustJellyfishBig)
+					{
+						npc.active = false;
+						npc.netUpdate = true;
+					}
+					break;
+				case 1:
+					// Possible spawns: Stargazer, Twinkle Popper, Flow Invader
+					if (npc.type == NPCID.StardustCellBig || npc.type == NPCID.StardustWormHead || npc.type == NPCID.StardustWormBody || npc.type == NPCID.StardustWormTail)
+					{
+						npc.active = false;
+						npc.netUpdate = true;
+					}
+					break;
+				case 0:
+					// Possible spawns: Twinkle Popper, Flow Invader
+					if (npc.type == NPCID.StardustCellBig || npc.type == NPCID.StardustWormHead || npc.type == NPCID.StardustWormBody ||
+						npc.type == NPCID.StardustWormTail || npc.type == NPCID.StardustSoldier)
+					{
+						npc.active = false;
+						npc.netUpdate = true;
+					}
+					break;
+			}
+		}
+		#endregion
+
+		#region AI
+		public override void AI(NPC npc)
         {
             if (CalamityWorld.revenge || BossRushEvent.BossRushActive)
             {
@@ -3821,14 +3986,13 @@ namespace CalamityMod.NPCs
 			}
 
 			if (CalamityWorld.revenge)
-			{
 				spawnRate = (int)(spawnRate * 0.85);
-			}
 
 			if (CalamityWorld.demonMode)
-			{
 				spawnRate = (int)(spawnRate * 0.75);
-			}
+
+			if (NPC.LunarApocalypseIsUp)
+				spawnRate = (int)(spawnRate * 0.75);
 
 			if (Main.waterCandles > 0)
 			{

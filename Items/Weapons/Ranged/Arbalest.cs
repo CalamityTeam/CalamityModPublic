@@ -10,8 +10,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Arbalest");
-            Tooltip.SetDefault("Fires volleys of 3 high-speed arrows\n" +
-				"Rare Item Variant");
+            Tooltip.SetDefault("Fires volleys of 3 high-speed arrows");
         }
 
         public override void SetDefaults()
@@ -32,8 +31,8 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.shoot = ProjectileID.PurificationPowder;
             item.shootSpeed = 10f;
             item.useAmmo = AmmoID.Arrow;
-            item.Calamity().customRarity = CalamityRarity.RareVariant;
-        }
+			item.Calamity().challengeDrop = true;
+		}
 
 		// Terraria seems to really dislike high crit values in SetDefaults
 		public override void GetWeaponCrit(Player player, ref int crit) => crit += 20;

@@ -40,7 +40,7 @@ namespace CalamityMod.Projectiles.Melee
                 Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 173, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
             }
 
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 600f, 18f, 20f);
+			CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 300f, 12f, 20f);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

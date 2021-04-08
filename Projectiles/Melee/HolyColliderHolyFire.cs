@@ -25,10 +25,12 @@ namespace CalamityMod.Projectiles.Melee
             projectile.melee = true;
             projectile.penetrate = 1;
             projectile.tileCollide = false;
-            projectile.timeLeft = 60;
+            projectile.timeLeft = 90;
         }
 
-        public override void AI()
+		public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 75;
+
+		public override void AI()
         {
             projectile.frameCounter++;
             if (projectile.frameCounter > 6)
@@ -37,26 +39,14 @@ namespace CalamityMod.Projectiles.Melee
                 projectile.frameCounter = 0;
             }
             if (projectile.frame > 3)
-            {
                 projectile.frame = 0;
-            }
+
             if (Math.Abs(projectile.velocity.X) < 7f)
-            {
                 projectile.velocity.X *= 1.05f;
-            }
-            int num103 = (int)Player.FindClosest(projectile.Center, 1, 1);
-            projectile.ai[1] += 1f;
-            if (projectile.ai[1] < 180f && projectile.ai[1] > 60f)
-            {
-                float scaleFactor2 = projectile.velocity.Length();
-                Vector2 vector11 = Main.player[num103].Center - projectile.Center;
-                vector11.Normalize();
-                vector11 *= scaleFactor2;
-                projectile.velocity = (projectile.velocity * 24f + vector11) / 25f;
-                projectile.velocity.Normalize();
-                projectile.velocity *= scaleFactor2;
-            }
-        }
+
+			if (projectile.timeLeft < 75)
+				CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 300f, 12f, 20f);
+		}
 
         public override Color? GetAlpha(Color lightColor)
         {

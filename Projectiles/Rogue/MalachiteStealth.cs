@@ -39,7 +39,7 @@ namespace CalamityMod.Projectiles.Rogue
 			if (projectile.ai[0] == 0f)
 			{
 				projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
-				CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 800f, 10f, 25f);
+				CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 300f, 10f, 25f);
 				projectile.localAI[1] += 1f;
 				if (projectile.localAI[1] > 4f)
 				{

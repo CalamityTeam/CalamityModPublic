@@ -10,8 +10,7 @@ namespace CalamityMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Regenator");
-            Tooltip.SetDefault("Reduces max HP by 50% but greatly improves life regeneration\n" +
-				"Rare Item Variant");
+            Tooltip.SetDefault("Reduces max HP by 50% but greatly improves life regeneration");
         }
 
         public override void SetDefaults()
@@ -22,8 +21,8 @@ namespace CalamityMod.Items.Accessories
             item.rare = ItemRarityID.Lime;
             item.defense = 6;
             item.accessory = true;
-            item.Calamity().customRarity = CalamityRarity.RareVariant;
-        }
+			item.Calamity().challengeDrop = true;
+		}
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {

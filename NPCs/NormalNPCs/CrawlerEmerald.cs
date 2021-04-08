@@ -68,7 +68,7 @@ namespace CalamityMod.NPCs.NormalNPCs
         public override void AI()
         {
             if (!detected)
-                npc.TargetClosest(true);
+                npc.TargetClosest();
             if (((Main.player[npc.target].Center - npc.Center).Length() < 100f && Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position,
                     Main.player[npc.target].width, Main.player[npc.target].height)) || npc.justHit)
                 detected = true;
@@ -83,7 +83,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             {
                 return 0f;
             }
-            return SpawnCondition.Cavern.Chance * 0.0275f;
+            return SpawnCondition.Cavern.Chance * 0.0325f;
         }
 
         public override void HitEffect(int hitDirection, double damage)

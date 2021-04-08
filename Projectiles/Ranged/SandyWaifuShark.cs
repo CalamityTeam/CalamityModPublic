@@ -25,31 +25,15 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.timeLeft = 240;
         }
 
-        public override void AI()
+		public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 210;
+
+		public override void AI()
         {
-            int num103 = (int)Player.FindClosest(projectile.Center, 1, 1);
-            projectile.ai[1] += 1f;
-            if (projectile.ai[1] < 110f && projectile.ai[1] > 30f)
-            {
-                float scaleFactor2 = projectile.velocity.Length();
-                Vector2 vector11 = Main.player[num103].Center - projectile.Center;
-                vector11.Normalize();
-                vector11 *= scaleFactor2;
-                projectile.velocity = (projectile.velocity * 24f + vector11) / 25f;
-                projectile.velocity.Normalize();
-                projectile.velocity *= scaleFactor2;
-            }
-            if (projectile.ai[0] < 0f)
-            {
-                if (projectile.velocity.Length() < 18f)
-                {
-                    projectile.velocity *= 1.05f;
-                }
-            }
             int num192 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 32, 0f, 0f, 0, default, 0.5f);
             Main.dust[num192].noGravity = true;
             Main.dust[num192].velocity *= 0.2f;
             Main.dust[num192].position = (Main.dust[num192].position + projectile.Center) / 2f;
+
             projectile.frameCounter++;
             if (projectile.frameCounter > 6)
             {
@@ -57,20 +41,22 @@ namespace CalamityMod.Projectiles.Ranged
                 projectile.frameCounter = 0;
             }
             if (projectile.frame > 7)
-            {
                 projectile.frame = 0;
-            }
+
             if (projectile.velocity.X < 0f)
             {
                 projectile.spriteDirection = -1;
-                projectile.rotation = (float)Math.Atan2((double)-(double)projectile.velocity.Y, (double)-(double)projectile.velocity.X);
+                projectile.rotation = (float)Math.Atan2(-projectile.velocity.Y, -projectile.velocity.X);
             }
             else
             {
                 projectile.spriteDirection = 1;
-                projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X);
+                projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X);
             }
-        }
+
+			if (projectile.timeLeft < 210)
+				CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 400f, 8f, 20f);
+		}
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {

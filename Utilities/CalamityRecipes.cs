@@ -771,7 +771,20 @@ namespace CalamityMod
             r.AddTile(TileID.Loom);
             r.SetResult(ItemID.EskimoPants);
             r.AddRecipe();
-        }
+
+			// Pharaoh set
+			r = GetNewRecipe();
+			r.AddIngredient(ItemID.AncientCloth, 3);
+			r.AddTile(TileID.Loom);
+			r.SetResult(ItemID.PharaohsMask);
+			r.AddRecipe();
+
+			r = GetNewRecipe();
+			r.AddIngredient(ItemID.AncientCloth, 4);
+			r.AddTile(TileID.Loom);
+			r.SetResult(ItemID.PharaohsRobe);
+			r.AddRecipe();
+		}
         #endregion
 
         #region AnkhShield

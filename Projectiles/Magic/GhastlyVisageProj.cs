@@ -28,13 +28,13 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void AI()
         {
-            Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0.65f / 255f, (255 - projectile.alpha) * 0f / 255f, (255 - projectile.alpha) * 0.1f / 255f);
+            Lighting.AddLight(projectile.Center, 0.65f, 0f, 0.1f);
             Player player = Main.player[projectile.owner];
             float num = 0f;
             Vector2 vector = player.RotatedRelativePoint(player.MountedCenter, true);
             if (projectile.spriteDirection == -1)
             {
-                num = 3.14159274f;
+                num = MathHelper.Pi;
             }
             projectile.frameCounter++;
             if (projectile.frameCounter > 4)

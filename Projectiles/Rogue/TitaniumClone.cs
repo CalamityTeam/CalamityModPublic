@@ -36,7 +36,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.ai[0] += 1f;
             if (projectile.ai[0] > 30f)
             {
-				CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 400f, 15f, 20f);
+				CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 200f, 12f, 20f);
 			}
 		}
 

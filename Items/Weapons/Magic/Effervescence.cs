@@ -40,8 +40,8 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             for (int randomBullets = 0; randomBullets < 4; randomBullets++)
             {
-                float SpeedX = speedX + (float)Main.rand.Next(-25, 26) * 0.05f;
-                float SpeedY = speedY + (float)Main.rand.Next(-25, 26) * 0.05f;
+                float SpeedX = speedX + Main.rand.Next(-25, 26) * 0.05f;
+                float SpeedY = speedY + Main.rand.Next(-25, 26) * 0.05f;
                 Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
             }
             return false;

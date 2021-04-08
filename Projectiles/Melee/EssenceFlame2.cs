@@ -22,14 +22,17 @@ namespace CalamityMod.Projectiles.Melee
             projectile.penetrate = 1;
             projectile.tileCollide = false;
             projectile.melee = true;
-            projectile.timeLeft = 600;
+            projectile.timeLeft = 180;
             projectile.alpha = 255;
             projectile.extraUpdates = 3;
         }
 
-        public override void AI()
+		public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 150;
+
+		public override void AI()
         {
             projectile.alpha -= 5;
+
             projectile.frameCounter++;
             if (projectile.frameCounter > 16)
             {
@@ -37,11 +40,10 @@ namespace CalamityMod.Projectiles.Melee
                 projectile.frameCounter = 0;
             }
             if (projectile.frame > 3)
-            {
                 projectile.frame = 0;
-            }
 
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 600f, 10f, 20f);
+			if (projectile.timeLeft < 150)
+				CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 400f, 10f, 20f);
         }
 
         public override void Kill(int timeLeft)

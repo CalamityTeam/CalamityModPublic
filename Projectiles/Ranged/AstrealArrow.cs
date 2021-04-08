@@ -80,8 +80,8 @@ namespace CalamityMod.Projectiles.Ranged
             if (Main.rand.NextBool(5))
                 Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 173, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
 
-			projectile.ai[1] += (float)Main.rand.Next(3) + 1f;
-            if (projectile.ai[1] >= 180f)
+			projectile.ai[1] += Main.rand.Next(2) + 1;
+            if (projectile.ai[1] >= 135f)
             {
 				projectile.ai[1] = 0f;
 				projectile.netUpdate = true;

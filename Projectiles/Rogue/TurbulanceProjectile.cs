@@ -85,7 +85,7 @@ namespace CalamityMod.Projectiles.Rogue
 				for (int w = 0; w < 4; w++)
 				{
 					Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
-					Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<TurbulanceWindSlash>(), projectile.damage / 3, projectile.knockBack / 3, Main.myPlayer, 0f, (homeIn ? 1f : 0f));
+					Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<TurbulanceWindSlash>(), projectile.damage / 3, projectile.knockBack / 3, Main.myPlayer, 0f, homeIn ? 1f : 0f);
 				}
 			}
 		}
