@@ -55,7 +55,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             item.damage = 662;
             item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = item.useAnimation = 15;
+            item.useTime = item.useAnimation = 13;
             item.useTurn = true;
             item.melee = true;
             item.knockBack = 7f;
@@ -105,7 +105,6 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             if (player.altFunctionUse == 2)
             {
-                item.useTime = item.useAnimation = 13;
                 item.UseSound = SoundID.Item1;
                 item.useStyle = ItemUseStyleID.SwingThrow;
                 item.useTurn = true;
@@ -115,7 +114,6 @@ namespace CalamityMod.Items.Weapons.Melee
             }
             else
             {
-                item.useTime = item.useAnimation = 15;
                 item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/CrystylCharge");
                 item.useStyle = ItemUseStyleID.HoldingOut;
                 item.useTurn = false;

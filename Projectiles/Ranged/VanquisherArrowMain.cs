@@ -32,7 +32,7 @@ namespace CalamityMod.Projectiles.Ranged
         public override void AI()
         {
             projectile.rotation = projectile.velocity.ToRotation() - MathHelper.PiOver2;
-            if (projectile.timeLeft % 30 == 0)
+            if (projectile.timeLeft % 45 == 0)
             {
                 if (projectile.owner == Main.myPlayer && Main.player[projectile.owner].ownedProjectileCounts[ModContent.ProjectileType<VanquisherArrowSplit>()] < 6)
                     Projectile.NewProjectile(projectile.Center, projectile.velocity * 0.25f, ModContent.ProjectileType<VanquisherArrowSplit>(), projectile.damage / 2, projectile.knockBack, projectile.owner);

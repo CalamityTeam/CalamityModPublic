@@ -47,7 +47,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 				if (type == ProjectileID.Bullet)
 					Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<AMRShot>(), damage, knockBack, player.whoAmI);
 				else
-					Projectile.NewProjectile(position, new Vector2(speedX, speedY), (int)(damage * 1.3), damage, knockBack, player.whoAmI);
+					Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, (int)(damage * 1.3), knockBack, player.whoAmI);
 			}
             return false;
         }
