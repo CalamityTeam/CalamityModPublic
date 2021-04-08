@@ -2949,7 +2949,7 @@ namespace CalamityMod.NPCs.Yharon
 		public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
 		{
             if (projectile.type == ModContent.ProjectileType<ReaperProjectile>())
-                damage = (int)(damage * 0.95);
+                damage = (int)(damage * 0.85);
 		}
 		#endregion
 
