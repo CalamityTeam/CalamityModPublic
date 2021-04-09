@@ -14,8 +14,7 @@ namespace CalamityMod.Items.Weapons.Magic
             DisplayName.SetDefault("Vesuvius");
             Tooltip.SetDefault("Asteroids give the Molten buff on enemy hits\n" +
                 "Calls down a swarm of molten asteroids\n" +
-                "Right click to fire a spread of molten asteroids from the staff\n" +
-                "Legendary");
+                "Right click to fire a spread of molten asteroids from the staff");
             Item.staff[item.type] = true;
         }
 
@@ -37,7 +36,8 @@ namespace CalamityMod.Items.Weapons.Magic
 
             item.value = CalamityGlobalItem.Rarity8BuyPrice;
             item.rare = ItemRarityID.Yellow;
-        }
+			item.Calamity().challengeDrop = true;
+		}
 
         public override bool AltFunctionUse(Player player)
         {

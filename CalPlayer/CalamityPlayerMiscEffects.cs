@@ -1390,7 +1390,9 @@ namespace CalamityMod.CalPlayer
 			// Raider Talisman bonus
 			if (modPlayer.raiderTalisman)
 			{
-				float damageMult = modPlayer.nanotech ? 0.1f : 0.15f;
+				// Nanotech use to have an exclusive nerf here, but since they are currently equal, there
+				// is no check to indicate such.
+				float damageMult = 0.15f;
 				modPlayer.throwingDamage += modPlayer.raiderStack / 150f * damageMult;
 			}
 

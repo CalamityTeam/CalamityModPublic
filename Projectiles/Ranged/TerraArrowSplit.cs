@@ -35,7 +35,7 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.rotation = projectile.velocity.ToRotation() - MathHelper.PiOver2;
 
 			if (projectile.timeLeft < 90)
-				CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 300f, 12f, 20f);
+				CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 450f, 12f, 20f);
         }
 
         public override void Kill(int timeLeft)

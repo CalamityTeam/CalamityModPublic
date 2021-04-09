@@ -46,7 +46,7 @@ namespace CalamityMod.Projectiles.Magic
 			Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, randomDust, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
 
 			if (projectile.timeLeft < 90)
-				CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 400f, 12f, 20f);
+				CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 600f, 12f, 20f);
         }
 
         public override void Kill(int timeLeft)

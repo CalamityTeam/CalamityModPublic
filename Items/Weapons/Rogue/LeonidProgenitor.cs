@@ -16,8 +16,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 			DisplayName.SetDefault("Leonid Progenitor");
 			Tooltip.SetDefault("Throws a bombshell that explodes, summoning a meteor to impact the site\n" +
 				"Right click to throw a spread of gravity affected comets that explode, leaving behind a star\n" +
-				"Stealth strikes lob a bombshell that additionally splits into comets on hit\n" +
-				"Legendary");
+				"Stealth strikes lob a bombshell that additionally splits into comets on hit");
 		}
 
 		public override void SafeSetDefaults()
@@ -39,6 +38,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 
 			item.value = CalamityGlobalItem.Rarity7BuyPrice;
 			item.rare = ItemRarityID.Lime;
+			item.Calamity().challengeDrop = true;
 		}
 
 		public override bool AltFunctionUse(Player player) => true;

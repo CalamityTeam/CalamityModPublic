@@ -30,7 +30,7 @@ namespace CalamityMod.Projectiles.Magic
 				Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 229, 0f, 0f, 100, default, 0.6f);
 
 			if (projectile.timeLeft < 60)
-				CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 400f, 12f, 20f);
+				CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 600f, 12f, 20f);
         }
     }
 }

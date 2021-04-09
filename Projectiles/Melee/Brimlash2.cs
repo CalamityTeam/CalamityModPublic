@@ -36,7 +36,7 @@ namespace CalamityMod.Projectiles.Melee
             Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0.5f / 255f, (255 - projectile.alpha) * 0.05f / 255f, (255 - projectile.alpha) * 0.05f / 255f);
 
 			if (projectile.timeLeft < 90)
-				CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 400f, 12f, 15f);
+				CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 600f, 12f, 15f);
 
 			int num458 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 235, 0f, 0f, 100, default, 1f);
 			Main.dust[num458].noGravity = true;

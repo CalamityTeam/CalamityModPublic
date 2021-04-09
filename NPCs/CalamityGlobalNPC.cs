@@ -3175,38 +3175,96 @@ namespace CalamityMod.NPCs
 			{
 				case 4:
 				case 3:
-					// Possible spawns: Drakanian, Drakomire, Drakomire Rider
-					if (npc.type == NPCID.SolarCorite || npc.type == NPCID.SolarCrawltipedeHead || npc.type == NPCID.SolarCrawltipedeBody ||
-						npc.type == NPCID.SolarCrawltipedeTail || npc.type == NPCID.SolarSolenian || npc.type == NPCID.SolarSroller)
+					// Possible spawns: Corite, Drakanian, Drakomire, Drakomire Rider
+					switch (npc.type)
 					{
-						npc.active = false;
-						npc.netUpdate = true;
+						case NPCID.SolarCrawltipedeHead:
+						case NPCID.SolarCrawltipedeBody:
+						case NPCID.SolarCrawltipedeTail:
+						case NPCID.SolarSolenian:
+						case NPCID.SolarSroller:
+							npc.active = false;
+							npc.netUpdate = true;
+							break;
+						case NPCID.SolarCorite:
+							if (NPC.CountNPCS(NPCID.SolarCorite) > 2)
+							{
+								npc.active = false;
+								npc.netUpdate = true;
+							}
+							break;
+						default:
+							break;
 					}
 					break;
 				case 2:
 					// Possible spawns: Corite, Drakomire Rider, Sroller
-					if (npc.type == NPCID.SolarDrakomire || npc.type == NPCID.SolarCrawltipedeHead || npc.type == NPCID.SolarCrawltipedeBody ||
-						npc.type == NPCID.SolarCrawltipedeTail || npc.type == NPCID.SolarSpearman || npc.type == NPCID.SolarSolenian)
+					switch (npc.type)
 					{
-						npc.active = false;
-						npc.netUpdate = true;
+						case NPCID.SolarDrakomire:
+						case NPCID.SolarCrawltipedeHead:
+						case NPCID.SolarCrawltipedeBody:
+						case NPCID.SolarCrawltipedeTail:
+						case NPCID.SolarSpearman:
+						case NPCID.SolarSolenian:
+							npc.active = false;
+							npc.netUpdate = true;
+							break;
+						case NPCID.SolarCorite:
+							if (NPC.CountNPCS(NPCID.SolarCorite) > 3)
+							{
+								npc.active = false;
+								npc.netUpdate = true;
+							}
+							break;
+						default:
+							break;
 					}
 					break;
 				case 1:
 					// Possible spawns: Corite, Selenian, Sroller
-					if (npc.type == NPCID.SolarDrakomire || npc.type == NPCID.SolarCrawltipedeHead || npc.type == NPCID.SolarCrawltipedeBody ||
-						npc.type == NPCID.SolarCrawltipedeTail || npc.type == NPCID.SolarSpearman || npc.type == NPCID.SolarDrakomireRider)
+					switch (npc.type)
 					{
-						npc.active = false;
-						npc.netUpdate = true;
+						case NPCID.SolarDrakomire:
+						case NPCID.SolarCrawltipedeHead:
+						case NPCID.SolarCrawltipedeBody:
+						case NPCID.SolarCrawltipedeTail:
+						case NPCID.SolarSpearman:
+						case NPCID.SolarDrakomireRider:
+							npc.active = false;
+							npc.netUpdate = true;
+							break;
+						case NPCID.SolarCorite:
+							if (NPC.CountNPCS(NPCID.SolarCorite) > 4)
+							{
+								npc.active = false;
+								npc.netUpdate = true;
+							}
+							break;
+						default:
+							break;
 					}
 					break;
 				case 0:
 					// Possible spawns: Corite, Selenian, Crawltipede
-					if (npc.type == NPCID.SolarDrakomire || npc.type == NPCID.SolarSpearman || npc.type == NPCID.SolarDrakomireRider || npc.type == NPCID.SolarSroller)
+					switch (npc.type)
 					{
-						npc.active = false;
-						npc.netUpdate = true;
+						case NPCID.SolarDrakomire:
+						case NPCID.SolarSpearman:
+						case NPCID.SolarDrakomireRider:
+						case NPCID.SolarSroller:
+							npc.active = false;
+							npc.netUpdate = true;
+							break;
+						case NPCID.SolarCorite:
+							if (NPC.CountNPCS(NPCID.SolarCorite) > 5)
+							{
+								npc.active = false;
+								npc.netUpdate = true;
+							}
+							break;
+						default:
+							break;
 					}
 					break;
 			}
@@ -3216,23 +3274,28 @@ namespace CalamityMod.NPCs
 			{
 				case 4:
 				case 3:
-					// Possible spawns: Alien Hornet, Vortexian
-					if (npc.type == NPCID.VortexHornetQueen || npc.type == NPCID.VortexRifleman)
+					// Possible spawns: Alien Larva, Alien Hornet, Alien Queen
+					switch (npc.type)
 					{
-						npc.active = false;
-						npc.netUpdate = true;
+						case NPCID.VortexSoldier:
+						case NPCID.VortexRifleman:
+							npc.active = false;
+							npc.netUpdate = true;
+							break;
+						default:
+							break;
 					}
 					break;
 				case 2:
-					// Possible spawns: Alien Hornet, Vortexian, Storm Diver
-					if (npc.type == NPCID.VortexHornetQueen)
+					// Possible spawns: Alien Larva, Alien Hornet, Alien Queen, Vortexian
+					if (npc.type == NPCID.VortexRifleman)
 					{
 						npc.active = false;
 						npc.netUpdate = true;
 					}
 					break;
 				case 1:
-					// Possible spawns: Alien Hornet, Storm Diver, Alien Queen
+					// Possible spawns: Alien Larva, Alien Hornet, Alien Queen, Storm Diver
 					if (npc.type == NPCID.VortexSoldier)
 					{
 						npc.active = false;
@@ -3240,12 +3303,7 @@ namespace CalamityMod.NPCs
 					}
 					break;
 				case 0:
-					// Possible spawns: Alien Hornet, Alien Queen
-					if (npc.type == NPCID.VortexSoldier || npc.type == NPCID.VortexRifleman)
-					{
-						npc.active = false;
-						npc.netUpdate = true;
-					}
+					// Possible spawns: Alien Larva, Alien Hornet, Alien Queen, Vortexian, Storm Diver
 					break;
 			}
 
@@ -3255,18 +3313,29 @@ namespace CalamityMod.NPCs
 				case 4:
 				case 3:
 					// Possible spawns: Brain Suckler
-					if (npc.type == NPCID.NebulaBeast || npc.type == NPCID.NebulaBrain || npc.type == NPCID.NebulaSoldier)
+					switch (npc.type)
 					{
-						npc.active = false;
-						npc.netUpdate = true;
+						case NPCID.NebulaBeast:
+						case NPCID.NebulaBrain:
+						case NPCID.NebulaSoldier:
+							npc.active = false;
+							npc.netUpdate = true;
+							break;
+						default:
+							break;
 					}
 					break;
 				case 2:
 					// Possible spawns: Brain Suckler, Predictor
-					if (npc.type == NPCID.NebulaBeast || npc.type == NPCID.NebulaBrain)
+					switch (npc.type)
 					{
-						npc.active = false;
-						npc.netUpdate = true;
+						case NPCID.NebulaBeast:
+						case NPCID.NebulaBrain:
+							npc.active = false;
+							npc.netUpdate = true;
+							break;
+						default:
+							break;
 					}
 					break;
 				case 1:
@@ -3293,35 +3362,60 @@ namespace CalamityMod.NPCs
 				case 4:
 				case 3:
 					// Possible spawns: Milkyway Weaver, Star Cell
-					if (npc.type == NPCID.StardustSpiderBig || npc.type == NPCID.StardustSoldier || npc.type == NPCID.StardustJellyfishBig)
+					switch (npc.type)
 					{
-						npc.active = false;
-						npc.netUpdate = true;
+						case NPCID.StardustSpiderBig:
+						case NPCID.StardustSoldier:
+						case NPCID.StardustJellyfishBig:
+							npc.active = false;
+							npc.netUpdate = true;
+							break;
+						default:
+							break;
 					}
 					break;
 				case 2:
 					// Possible spawns: Milkyway Weaver, Stargazer, Twinkle Popper
-					if (npc.type == NPCID.StardustCellBig || npc.type == NPCID.StardustJellyfishBig)
+					switch (npc.type)
 					{
-						npc.active = false;
-						npc.netUpdate = true;
+						case NPCID.StardustCellBig:
+						case NPCID.StardustJellyfishBig:
+							npc.active = false;
+							npc.netUpdate = true;
+							break;
+						default:
+							break;
 					}
 					break;
 				case 1:
 					// Possible spawns: Stargazer, Twinkle Popper, Flow Invader
-					if (npc.type == NPCID.StardustCellBig || npc.type == NPCID.StardustWormHead || npc.type == NPCID.StardustWormBody || npc.type == NPCID.StardustWormTail)
+					switch (npc.type)
 					{
-						npc.active = false;
-						npc.netUpdate = true;
+						case NPCID.StardustCellBig:
+						case NPCID.StardustWormHead:
+						case NPCID.StardustWormBody:
+						case NPCID.StardustWormTail:
+							npc.active = false;
+							npc.netUpdate = true;
+							break;
+						default:
+							break;
 					}
 					break;
 				case 0:
 					// Possible spawns: Twinkle Popper, Flow Invader
-					if (npc.type == NPCID.StardustCellBig || npc.type == NPCID.StardustWormHead || npc.type == NPCID.StardustWormBody ||
-						npc.type == NPCID.StardustWormTail || npc.type == NPCID.StardustSoldier)
+					switch (npc.type)
 					{
-						npc.active = false;
-						npc.netUpdate = true;
+						case NPCID.StardustCellBig:
+						case NPCID.StardustWormHead:
+						case NPCID.StardustWormBody:
+						case NPCID.StardustWormTail:
+						case NPCID.StardustSoldier:
+							npc.active = false;
+							npc.netUpdate = true;
+							break;
+						default:
+							break;
 					}
 					break;
 			}
@@ -3989,9 +4083,6 @@ namespace CalamityMod.NPCs
 				spawnRate = (int)(spawnRate * 0.85);
 
 			if (CalamityWorld.demonMode)
-				spawnRate = (int)(spawnRate * 0.75);
-
-			if (NPC.LunarApocalypseIsUp)
 				spawnRate = (int)(spawnRate * 0.75);
 
 			if (Main.waterCandles > 0)

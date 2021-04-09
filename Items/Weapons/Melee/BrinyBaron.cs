@@ -12,8 +12,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             DisplayName.SetDefault("Briny Baron");
             Tooltip.SetDefault("Striking an enemy with the blade causes a briny typhoon to appear\n" +
-                "Right click to fire a razorwind aqua blade\n" +
-                "Legendary");
+                "Right click to fire a razorwind aqua blade");
         }
 
         public override void SetDefaults()
@@ -34,7 +33,8 @@ namespace CalamityMod.Items.Weapons.Melee
 
             item.value = CalamityGlobalItem.Rarity8BuyPrice;
             item.rare = ItemRarityID.Yellow;
-        }
+			item.Calamity().challengeDrop = true;
+		}
 
         public override bool AltFunctionUse(Player player) => true;
 

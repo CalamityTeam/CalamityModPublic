@@ -67,7 +67,7 @@ namespace CalamityMod.Projectiles.Magic
             }
 
 			if (projectile.timeLeft < 50)
-				CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 400f, 12f, 20f);
+				CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 600f, 12f, 20f);
 		}
 
         public override void Kill(int timeLeft)
