@@ -15,6 +15,7 @@ namespace CalamityMod.Tiles.Ores
             Main.tileBlockLight[Type] = true;
 
             CalamityUtils.MergeWithGeneral(Type);
+            CalamityUtils.MergeWithSet(Type, TileID.LunarOre);
 
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Exodium Ore");
@@ -26,16 +27,12 @@ namespace CalamityMod.Tiles.Ores
             Main.tileSpelunker[Type] = true;
             drop = ModContent.ItemType<ExodiumClusterOre>();
             base.SetDefaults();
+
+            TileID.Sets.ChecksForMerge[Type] = true;
         }
 
-		public override bool CanExplode(int i, int j)
-		{
-			return false;
-		}
+        public override bool CanExplode(int i, int j) => false;
 
-		public override void NumDust(int i, int j, bool fail, ref int num)
-        {
-            num = fail ? 2 : 4;
-        }
+        public override void NumDust(int i, int j, bool fail, ref int num) => num = fail ? 2 : 4;
     }
 }
