@@ -66,6 +66,7 @@ namespace CalamityMod.Items
         public int reforgeTier = 0;
         public bool donorItem = false;
         public bool devItem = false;
+		public bool challengeDrop = false;
 
 		// See RogueWeapon.cs for rogue modifier shit
 		#region Modifiers
@@ -802,6 +803,14 @@ namespace CalamityMod.Items
 			// Give 2 minutes of Honey buff when drinking Bottled Honey.
             if (item.type == ItemID.BottledHoney)
 				player.AddBuff(BuffID.Honey, 7200);
+
+			// Moon Lord instantly spawns when Celestial Sigil is used.
+			if (item.type == ItemID.CelestialSigil)
+			{
+				NPC.MoonLordCountdown = 1;
+				NetMessage.SendData(MessageID.MoonlordCountdown, -1, -1, null, NPC.MoonLordCountdown);
+			}
+
             return base.UseItem(item, player);
         }
 
@@ -1101,9 +1110,6 @@ namespace CalamityMod.Items
                     case CalamityRarity.DraedonRust:
                         nameLine.overrideColor = new Color(204, 71, 35);
                         break;
-                    case CalamityRarity.RareVariant:
-                        nameLine.overrideColor = new Color(255, 140, 0);
-                        break;
                 }
 				#endregion
 
@@ -1202,27 +1208,6 @@ namespace CalamityMod.Items
                     }
                 }
 				#endregion
-
-				#region Uniquely Colored Non-Dev Items
-				if (item.type == ModContent.ItemType<AegisBlade>() || item.type == ModContent.ItemType<YharimsCrystal>() || item.type == ModContent.ItemType<CrownJewel>())
-                    nameLine.overrideColor = new Color(255, Main.DiscoG, 53);
-                if (item.type == ModContent.ItemType<BlossomFlux>() || item.type == ModContent.ItemType<Malachite>())
-                    nameLine.overrideColor = new Color(Main.DiscoR, 203, 103);
-                if (item.type == ModContent.ItemType<BrinyBaron>() || item.type == ModContent.ItemType<ColdDivinity>())
-                    nameLine.overrideColor = new Color(53, Main.DiscoG, 255);
-                if (item.type == ModContent.ItemType<CosmicDischarge>())
-                    nameLine.overrideColor = new Color(150, Main.DiscoG, 255);
-                if (item.type == ModContent.ItemType<SeasSearing>())
-                    nameLine.overrideColor = new Color(60, Main.DiscoG, 190);
-                if (item.type == ModContent.ItemType<SHPC>() || item.type == ModContent.ItemType<TeardropCleaver>())
-                    nameLine.overrideColor = new Color(255, Main.DiscoG, 155);
-                if (item.type == ModContent.ItemType<Vesuvius>() || item.type == ModContent.ItemType<GoldBurdenBreaker>())
-					nameLine.overrideColor = new Color(255, Main.DiscoG, 0);
-                if (item.type == ModContent.ItemType<PristineFury>())
-                    nameLine.overrideColor = CalamityUtils.ColorSwap(new Color(255, 168, 53), new Color(255, 249, 0), 2f);
-                if (item.type == ModContent.ItemType<LeonidProgenitor>())
-                    nameLine.overrideColor = CalamityUtils.ColorSwap(LeonidProgenitor.blueColor, LeonidProgenitor.purpleColor, 3f);
-                #endregion
             }
 			#endregion
 
@@ -1245,6 +1230,15 @@ namespace CalamityMod.Items
 			#endregion
 
 			#region Vanilla Item Tooltip Edits
+			if (item.type == ItemID.MagicMirror || item.type == ItemID.IceMirror || item.type == ItemID.CellPhone || item.type == ItemID.RecallPotion)
+			{
+				foreach (TooltipLine line2 in tooltips)
+				{
+					bool editLine = item.type == ItemID.CellPhone ? line2.Name == "Tooltip1" : line2.Name == "Tooltip0";
+					if (line2.mod == "Terraria" && editLine)
+						line2.text += "\nCannot be used while a boss is alive";
+				}
+			}
 			if (item.type == ItemID.Pwnhammer || item.type == ItemID.Hammush)
 			{
 				foreach (TooltipLine line2 in tooltips)
@@ -3081,8 +3075,44 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                 TooltipLine line = new TooltipLine(mod, "CalamityDev", CalamityUtils.ColorMessage("- Developer Item -", new Color(255, 0, 255)));
                 tooltips.Add(line);
             }
-            #endregion
-        }
+
+			// Adds "Challenge Drop" or "Legendary Challenge Drop" to malice mode drops.
+			if (challengeDrop)
+			{
+				Color lineColor = default;
+				if (item.type == ModContent.ItemType<AegisBlade>() || item.type == ModContent.ItemType<YharimsCrystal>())
+					lineColor = new Color(255, Main.DiscoG, 53);
+				if (item.type == ModContent.ItemType<BlossomFlux>() || item.type == ModContent.ItemType<Malachite>())
+					lineColor = new Color(Main.DiscoR, 203, 103);
+				if (item.type == ModContent.ItemType<BrinyBaron>() || item.type == ModContent.ItemType<ColdDivinity>())
+					lineColor = new Color(53, Main.DiscoG, 255);
+				if (item.type == ModContent.ItemType<CosmicDischarge>())
+					lineColor = new Color(150, Main.DiscoG, 255);
+				if (item.type == ModContent.ItemType<SeasSearing>())
+					lineColor = new Color(60, Main.DiscoG, 190);
+				if (item.type == ModContent.ItemType<SHPC>())
+					lineColor = new Color(255, Main.DiscoG, 155);
+				if (item.type == ModContent.ItemType<Vesuvius>() || item.type == ModContent.ItemType<GoldBurdenBreaker>())
+					lineColor = new Color(255, Main.DiscoG, 0);
+				if (item.type == ModContent.ItemType<PristineFury>())
+					lineColor = CalamityUtils.ColorSwap(new Color(255, 168, 53), new Color(255, 249, 0), 2f);
+				if (item.type == ModContent.ItemType<LeonidProgenitor>())
+					lineColor = CalamityUtils.ColorSwap(LeonidProgenitor.blueColor, LeonidProgenitor.purpleColor, 3f);
+				if (item.type == ModContent.ItemType<TheCommunity>())
+					lineColor = new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB);
+
+				if (lineColor != default)
+				{
+					TooltipLine line = new TooltipLine(mod, "LegendaryChallengeDrop", CalamityUtils.ColorMessage("- Legendary Challenge Drop -", lineColor));
+					tooltips.Add(line);
+					return;
+				}
+
+				TooltipLine line2 = new TooltipLine(mod, "ChallengeDrop", CalamityUtils.ColorMessage("- Challenge Drop -", new Color(255, 140, 0)));
+				tooltips.Add(line2);
+			}
+			#endregion
+		}
 		#endregion
 
         #region Armor Set Changes

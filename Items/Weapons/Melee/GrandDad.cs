@@ -13,8 +13,7 @@ namespace CalamityMod.Items.Weapons.Melee
             DisplayName.SetDefault("Grand Dad");
             Tooltip.SetDefault("Lowers enemy defense to 0 when they are struck\n" +
                         "Yeets enemies across space and time\n" +
-                        "7\n" +
-						"Rare Item Variant");
+                        "7");
         }
 
         public override void SetDefaults()
@@ -32,8 +31,8 @@ namespace CalamityMod.Items.Weapons.Melee
             item.autoReuse = true;
             item.value = Item.buyPrice(1, 0, 0, 0);
             item.rare = ItemRarityID.Red;
-            item.Calamity().customRarity = CalamityRarity.RareVariant;
-        }
+			item.Calamity().challengeDrop = true;
+		}
 
 		public override void UseStyle(Player player)
 		{

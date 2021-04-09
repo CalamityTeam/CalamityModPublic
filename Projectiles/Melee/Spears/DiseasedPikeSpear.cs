@@ -44,7 +44,8 @@ namespace CalamityMod.Projectiles.Melee.Spears
             {
                 for (int i = 0; i < 4; i++)
                 {
-                    Projectile.NewProjectile(projectile.Center, projectile.velocity * 1.5f, ModContent.ProjectileType<PlagueSeeker>(), (int)(projectile.damage * 0.75), projectile.knockBack, projectile.owner, 0f, 0f);
+                    int proj = Projectile.NewProjectile(projectile.Center, projectile.velocity * 1.5f, ModContent.ProjectileType<PlagueSeeker>(), (int)(projectile.damage * 0.75), projectile.knockBack, projectile.owner);
+					Main.projectile[proj].extraUpdates += i;
                 }
             }
         }

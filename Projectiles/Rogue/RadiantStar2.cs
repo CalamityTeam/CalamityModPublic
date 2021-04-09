@@ -71,7 +71,7 @@ namespace CalamityMod.Projectiles.Rogue
             }
             else
             {
-				CalamityGlobalProjectile.HomeInOnNPC(projectile, false, projectile.Calamity().stealthStrike ? 1800f : 600f, 24f, 20f);
+				CalamityGlobalProjectile.HomeInOnNPC(projectile, false, projectile.Calamity().stealthStrike ? 300f : 150f, 12f, 20f);
             }
         }
 

@@ -42,8 +42,7 @@ namespace CalamityMod.Projectiles.Rogue
             }
             if (projectile.ai[0] < 90)
             {
-                projectile.velocity.X *= 0.98f;
-                projectile.velocity.Y *= 0.98f;
+                projectile.velocity *= 0.98f;
             }
             else
             {

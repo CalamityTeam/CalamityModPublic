@@ -17,7 +17,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 			npc.Calamity().canBreakPlayerDefense = true;
 			npc.aiStyle = -1;
             aiType = -1;
-            npc.damage = 150;
+            npc.damage = 80;
             npc.width = 40;
             npc.height = 40;
             npc.defense = 18;
@@ -42,7 +42,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             {
                 return 0f;
             }
-            return SpawnCondition.JungleTemple.Chance * 0.05f;
+            return SpawnCondition.JungleTemple.Chance * 0.1f;
         }
 
         public override void HitEffect(int hitDirection, double damage)

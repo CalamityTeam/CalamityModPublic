@@ -12,8 +12,7 @@ namespace CalamityMod.Items.Weapons.Summon
         {
             DisplayName.SetDefault("Guidelight of Oblivion");
             Tooltip.SetDefault("Shadows dream of endless fire, flames devour and embers swoop\n" +
-			"Summons a lantern turret to fight for you\n" +
-			"Rare Item Variant");
+			"Summons a lantern turret to fight for you");
         }
 
         public override void SetDefaults()
@@ -32,8 +31,8 @@ namespace CalamityMod.Items.Weapons.Summon
             item.rare = ItemRarityID.Red;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<LanternSoul>();
-            item.Calamity().customRarity = CalamityRarity.RareVariant;
-            item.UseSound = SoundID.Item44;
+			item.Calamity().challengeDrop = true;
+			item.UseSound = SoundID.Item44;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

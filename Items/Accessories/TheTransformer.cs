@@ -13,8 +13,7 @@ namespace CalamityMod.Items.Accessories
             Tooltip.SetDefault("Taking damage releases a blast of sparks\n" +
                                 "Sparks do extra damage in Hardmode\n" +
                                 "Immunity to Electrified and you resist all electrical projectile and enemy damage\n" +
-                                "Enemy bullets do half damage to you and are reflected back at the enemy for 800% their original damage\n" +
-								"Rare Item Variant");
+                                "Enemy bullets do half damage to you and are reflected back at the enemy for 800% their original damage");
         }
 
         public override void SetDefaults()
@@ -24,8 +23,8 @@ namespace CalamityMod.Items.Accessories
             item.value = CalamityGlobalItem.Rarity2BuyPrice;
             item.rare = ItemRarityID.Green;
             item.accessory = true;
-            item.Calamity().customRarity = CalamityRarity.RareVariant;
-        }
+			item.Calamity().challengeDrop = true;
+		}
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {

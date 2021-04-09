@@ -16,7 +16,6 @@ namespace CalamityMod.Projectiles.Magic
             projectile.width = 26;
             projectile.height = 26;
             projectile.friendly = true;
-            projectile.alpha = 0;
             projectile.timeLeft = 250;
             projectile.penetrate = 1;
             projectile.magic = true;
@@ -24,9 +23,8 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void AI()
         {
-            projectile.rotation += (Math.Abs(projectile.velocity.X) + Math.Abs(projectile.velocity.Y)) * 0.01f * (float)projectile.direction;
-            projectile.velocity.X *= 0.985f;
-            projectile.velocity.Y *= 0.985f;
+            projectile.rotation += (Math.Abs(projectile.velocity.X) + Math.Abs(projectile.velocity.Y)) * 0.01f * projectile.direction;
+            projectile.velocity *= 0.985f;
             for (int dust = 0; dust < 2; dust++)
             {
 				int randomDust = Utils.SelectRandom(Main.rand, new int[]

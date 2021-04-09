@@ -9,7 +9,6 @@
         Violet = 15,
         HotPink = 16,
         Rainbow = 30,
-        RareVariant = 31,
         DraedonRust = 33,
     }
 }

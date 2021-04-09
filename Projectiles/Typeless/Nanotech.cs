@@ -45,7 +45,7 @@ namespace CalamityMod.Projectiles.Typeless
                     return;
                 }
             }
-            CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 800f, 20f, 20f);
+            CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 200f, 12f, 20f);
         }
 
         public override void Kill(int timeLeft)

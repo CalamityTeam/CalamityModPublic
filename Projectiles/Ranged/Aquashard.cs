@@ -37,7 +37,7 @@ namespace CalamityMod.Projectiles.Ranged
                 for (int i = 0; i < projAmt; i++)
                 {
 					Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
-                    Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<AquashardSplit>(), (int)(projectile.damage * 0.5), 0f, projectile.owner, 0f, 0f);
+                    Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<AquashardSplit>(), (int)(projectile.damage * 0.4), 0f, projectile.owner);
                 }
             }
         }

@@ -12,8 +12,7 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Void Vortex");
-            Tooltip.SetDefault("Fires a circular spread of magnetic orbs around the mouse cursor\n" +
-				"Rare Item Variant");
+            Tooltip.SetDefault("Fires a circular spread of magnetic orbs around the mouse cursor");
             Item.staff[item.type] = true;
         }
 
@@ -35,8 +34,8 @@ namespace CalamityMod.Items.Weapons.Magic
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<Climax2>();
             item.shootSpeed = 12f;
-            item.Calamity().customRarity = CalamityRarity.RareVariant;
-        }
+			item.Calamity().challengeDrop = true;
+		}
 
         public override Vector2? HoldoutOrigin()
         {

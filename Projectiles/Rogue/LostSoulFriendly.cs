@@ -28,7 +28,9 @@ namespace CalamityMod.Projectiles.Rogue
 			projectile.alpha = 150;
         }
 
-        public override void AI()
+		public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 210;
+
+		public override void AI()
         {
             projectile.frameCounter++;
             if (projectile.frameCounter > 8)
@@ -37,14 +39,14 @@ namespace CalamityMod.Projectiles.Rogue
                 projectile.frameCounter = 0;
             }
             if (projectile.frame >= Main.projFrames[projectile.type])
-            {
                 projectile.frame = 0;
-            }
+
             Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0.25f / 255f, (255 - projectile.alpha) * 0.25f / 255f, (255 - projectile.alpha) * 0.25f / 255f);
             projectile.spriteDirection = projectile.direction = (projectile.velocity.X > 0).ToDirectionInt();
             projectile.rotation = projectile.velocity.ToRotation() + (projectile.spriteDirection == 1 ? 0f : MathHelper.Pi);
-			if (projectile.ai[0] != 1f)
-				CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 400f, 6f, 20f);
+
+			if (projectile.ai[0] != 1f && projectile.timeLeft < 210)
+				CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 600f, 12f, 20f);
         }
 
         public override void Kill(int timeLeft)

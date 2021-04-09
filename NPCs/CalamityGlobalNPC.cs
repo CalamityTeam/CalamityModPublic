@@ -1997,6 +1997,9 @@ namespace CalamityMod.NPCs
             if (BossRushEvent.BossRushActive && !npc.friendly && !npc.townNPC)
                 BossRushForceDespawnOtherNPCs(npc, mod);
 
+			if (NPC.LunarApocalypseIsUp)
+				PillarEventProgressionEdit(npc);
+
 			if (CalamityWorld.revenge || BossRushEvent.BossRushActive || CalamityWorld.malice)
             {
 				switch (npc.type)
@@ -3152,10 +3155,266 @@ namespace CalamityMod.NPCs
                     break;
             }
         }
-        #endregion
+		#endregion
 
-        #region AI
-        public override void AI(NPC npc)
+		#region Pillar Event Progression Edit
+		private void PillarEventProgressionEdit(NPC npc)
+		{
+			// Make pillars a bit more fun by forcing more difficult enemies based on progression.
+			int solarTowerShieldStrength = NPC.ShieldStrengthTowerSolar / 25;
+			switch (solarTowerShieldStrength)
+			{
+				case 4:
+				case 3:
+					// Possible spawns: Corite, Drakanian, Drakomire, Drakomire Rider
+					switch (npc.type)
+					{
+						case NPCID.SolarCrawltipedeHead:
+						case NPCID.SolarCrawltipedeBody:
+						case NPCID.SolarCrawltipedeTail:
+						case NPCID.SolarSolenian:
+						case NPCID.SolarSroller:
+							npc.active = false;
+							npc.netUpdate = true;
+							break;
+						case NPCID.SolarCorite:
+							if (NPC.CountNPCS(NPCID.SolarCorite) > 2)
+							{
+								npc.active = false;
+								npc.netUpdate = true;
+							}
+							break;
+						default:
+							break;
+					}
+					break;
+				case 2:
+					// Possible spawns: Corite, Drakomire Rider, Sroller
+					switch (npc.type)
+					{
+						case NPCID.SolarDrakomire:
+						case NPCID.SolarCrawltipedeHead:
+						case NPCID.SolarCrawltipedeBody:
+						case NPCID.SolarCrawltipedeTail:
+						case NPCID.SolarSpearman:
+						case NPCID.SolarSolenian:
+							npc.active = false;
+							npc.netUpdate = true;
+							break;
+						case NPCID.SolarCorite:
+							if (NPC.CountNPCS(NPCID.SolarCorite) > 3)
+							{
+								npc.active = false;
+								npc.netUpdate = true;
+							}
+							break;
+						default:
+							break;
+					}
+					break;
+				case 1:
+					// Possible spawns: Corite, Selenian, Sroller
+					switch (npc.type)
+					{
+						case NPCID.SolarDrakomire:
+						case NPCID.SolarCrawltipedeHead:
+						case NPCID.SolarCrawltipedeBody:
+						case NPCID.SolarCrawltipedeTail:
+						case NPCID.SolarSpearman:
+						case NPCID.SolarDrakomireRider:
+							npc.active = false;
+							npc.netUpdate = true;
+							break;
+						case NPCID.SolarCorite:
+							if (NPC.CountNPCS(NPCID.SolarCorite) > 4)
+							{
+								npc.active = false;
+								npc.netUpdate = true;
+							}
+							break;
+						default:
+							break;
+					}
+					break;
+				case 0:
+					// Possible spawns: Corite, Selenian, Crawltipede
+					switch (npc.type)
+					{
+						case NPCID.SolarDrakomire:
+						case NPCID.SolarSpearman:
+						case NPCID.SolarDrakomireRider:
+						case NPCID.SolarSroller:
+							npc.active = false;
+							npc.netUpdate = true;
+							break;
+						case NPCID.SolarCorite:
+							if (NPC.CountNPCS(NPCID.SolarCorite) > 5)
+							{
+								npc.active = false;
+								npc.netUpdate = true;
+							}
+							break;
+						default:
+							break;
+					}
+					break;
+			}
+
+			int vortexTowerShieldStrength = NPC.ShieldStrengthTowerVortex / 25;
+			switch (vortexTowerShieldStrength)
+			{
+				case 4:
+				case 3:
+					// Possible spawns: Alien Larva, Alien Hornet, Alien Queen
+					switch (npc.type)
+					{
+						case NPCID.VortexSoldier:
+						case NPCID.VortexRifleman:
+							npc.active = false;
+							npc.netUpdate = true;
+							break;
+						default:
+							break;
+					}
+					break;
+				case 2:
+					// Possible spawns: Alien Larva, Alien Hornet, Alien Queen, Vortexian
+					if (npc.type == NPCID.VortexRifleman)
+					{
+						npc.active = false;
+						npc.netUpdate = true;
+					}
+					break;
+				case 1:
+					// Possible spawns: Alien Larva, Alien Hornet, Alien Queen, Storm Diver
+					if (npc.type == NPCID.VortexSoldier)
+					{
+						npc.active = false;
+						npc.netUpdate = true;
+					}
+					break;
+				case 0:
+					// Possible spawns: Alien Larva, Alien Hornet, Alien Queen, Vortexian, Storm Diver
+					break;
+			}
+
+			int nebulaTowerShieldStrength = NPC.ShieldStrengthTowerNebula / 25;
+			switch (nebulaTowerShieldStrength)
+			{
+				case 4:
+				case 3:
+					// Possible spawns: Brain Suckler
+					switch (npc.type)
+					{
+						case NPCID.NebulaBeast:
+						case NPCID.NebulaBrain:
+						case NPCID.NebulaSoldier:
+							npc.active = false;
+							npc.netUpdate = true;
+							break;
+						default:
+							break;
+					}
+					break;
+				case 2:
+					// Possible spawns: Brain Suckler, Predictor
+					switch (npc.type)
+					{
+						case NPCID.NebulaBeast:
+						case NPCID.NebulaBrain:
+							npc.active = false;
+							npc.netUpdate = true;
+							break;
+						default:
+							break;
+					}
+					break;
+				case 1:
+					// Possible spawns: Brain Suckler, Predictor, Evolution Beast
+					if (npc.type == NPCID.NebulaBrain)
+					{
+						npc.active = false;
+						npc.netUpdate = true;
+					}
+					break;
+				case 0:
+					// Possible spawns: Predictor, Evolution Beast, Nebula Floater
+					if (npc.type == NPCID.NebulaHeadcrab)
+					{
+						npc.active = false;
+						npc.netUpdate = true;
+					}
+					break;
+			}
+
+			int stardustTowerShieldStrength = NPC.ShieldStrengthTowerStardust / 25;
+			switch (stardustTowerShieldStrength)
+			{
+				case 4:
+				case 3:
+					// Possible spawns: Milkyway Weaver, Star Cell
+					switch (npc.type)
+					{
+						case NPCID.StardustSpiderBig:
+						case NPCID.StardustSoldier:
+						case NPCID.StardustJellyfishBig:
+							npc.active = false;
+							npc.netUpdate = true;
+							break;
+						default:
+							break;
+					}
+					break;
+				case 2:
+					// Possible spawns: Milkyway Weaver, Stargazer, Twinkle Popper
+					switch (npc.type)
+					{
+						case NPCID.StardustCellBig:
+						case NPCID.StardustJellyfishBig:
+							npc.active = false;
+							npc.netUpdate = true;
+							break;
+						default:
+							break;
+					}
+					break;
+				case 1:
+					// Possible spawns: Stargazer, Twinkle Popper, Flow Invader
+					switch (npc.type)
+					{
+						case NPCID.StardustCellBig:
+						case NPCID.StardustWormHead:
+						case NPCID.StardustWormBody:
+						case NPCID.StardustWormTail:
+							npc.active = false;
+							npc.netUpdate = true;
+							break;
+						default:
+							break;
+					}
+					break;
+				case 0:
+					// Possible spawns: Twinkle Popper, Flow Invader
+					switch (npc.type)
+					{
+						case NPCID.StardustCellBig:
+						case NPCID.StardustWormHead:
+						case NPCID.StardustWormBody:
+						case NPCID.StardustWormTail:
+						case NPCID.StardustSoldier:
+							npc.active = false;
+							npc.netUpdate = true;
+							break;
+						default:
+							break;
+					}
+					break;
+			}
+		}
+		#endregion
+
+		#region AI
+		public override void AI(NPC npc)
         {
             if (CalamityWorld.revenge || BossRushEvent.BossRushActive)
             {
@@ -3808,14 +4067,10 @@ namespace CalamityMod.NPCs
 			}
 
 			if (CalamityWorld.revenge)
-			{
 				spawnRate = (int)(spawnRate * 0.85);
-			}
 
 			if (CalamityWorld.demonMode)
-			{
 				spawnRate = (int)(spawnRate * 0.75);
-			}
 
 			if (Main.waterCandles > 0)
 			{

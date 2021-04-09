@@ -27,8 +27,9 @@ namespace CalamityMod.Projectiles.Magic
         public override void AI()
         {
             Lighting.AddLight(projectile.Center, 0.15f, 0f, 0.15f);
+
             projectile.rotation += projectile.velocity.X * 0.2f;
-            projectile.ai[1] += 1f;
+
             if (Main.rand.NextBool(4))
             {
                 int num300 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 70, 0f, 0f, 0, default, 1f);
@@ -36,11 +37,14 @@ namespace CalamityMod.Projectiles.Magic
                 Main.dust[num300].velocity *= 0.2f;
                 Main.dust[num300].scale *= 0.8f;
             }
+
             projectile.velocity *= 0.99f;
-            if (projectile.ai[1] > 90f)
+
+			projectile.ai[1] += 1f;
+			if (projectile.ai[1] > 90f)
             {
                 projectile.scale -= 0.05f;
-                if ((double)projectile.scale <= 0.2)
+                if (projectile.scale <= 0.2)
                 {
                     projectile.scale = 0.2f;
                     projectile.Kill();
@@ -50,12 +54,21 @@ namespace CalamityMod.Projectiles.Magic
             }
         }
 
-        public override void Kill(int timeLeft)
+		public override bool OnTileCollide(Vector2 oldVelocity)
+		{
+			if (projectile.velocity.X != oldVelocity.X)
+				projectile.velocity.X = -oldVelocity.X;
+
+			if (projectile.velocity.Y != oldVelocity.Y)
+				projectile.velocity.Y = -oldVelocity.Y;
+
+			return false;
+		}
+
+		public override void Kill(int timeLeft)
         {
             for (int k = 0; k < 5; k++)
-            {
                 Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 70, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f);
-            }
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

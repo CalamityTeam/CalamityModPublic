@@ -12,8 +12,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             DisplayName.SetDefault("Hellborn");
             Tooltip.SetDefault("Fires a spread of 3 bullets\n" +
 				"Converts musket balls into explosive rounds\n" +
-                "Enemies that touch the gun while it's being fired take massive damage\n" +
-				"Rare Item Variant");
+                "Enemies that touch the gun while it's being fired take massive damage");
         }
 
         public override void SetDefaults()
@@ -33,8 +32,8 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.shoot = ProjectileID.PurificationPowder;
             item.shootSpeed = 14f;
             item.useAmmo = AmmoID.Bullet;
-            item.Calamity().customRarity = CalamityRarity.RareVariant;
-        }
+			item.Calamity().challengeDrop = true;
+		}
 
         public override Vector2? HoldoutOffset()
         {

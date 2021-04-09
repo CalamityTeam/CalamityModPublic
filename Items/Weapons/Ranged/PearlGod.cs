@@ -11,8 +11,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Pearl God");
-            Tooltip.SetDefault("Your life is mine...\n" +
-				"Rare Item Variant");
+            Tooltip.SetDefault("Your life is mine...");
         }
 
         public override void SetDefaults()
@@ -33,8 +32,8 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.shootSpeed = 24f;
             item.shoot = ModContent.ProjectileType<ShockblastRound>();
             item.useAmmo = AmmoID.Bullet;
-            item.Calamity().customRarity = CalamityRarity.RareVariant;
-        }
+			item.Calamity().challengeDrop = true;
+		}
 
         public override Vector2? HoldoutOffset()
         {

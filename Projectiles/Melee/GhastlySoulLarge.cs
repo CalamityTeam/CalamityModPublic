@@ -68,7 +68,7 @@ namespace CalamityMod.Projectiles.Melee
                     return;
                 }
 
-                CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 600f, 14f, 20f);
+                CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 300f, 12f, 20f);
             }
             else
             {

@@ -13,8 +13,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 			DisplayName.SetDefault("Malachite");
 			Tooltip.SetDefault("Throws a stream of kunai that stick to enemies and explode\n" +
 				"Right click to throw a single kunai that pierces, after piercing an enemy it emits a massive explosion on the next enemy hit\n" +
-				"Stealth strikes fire three kunai that home in, stick to enemies, and explode\n" +
-				"Legendary");
+				"Stealth strikes fire three kunai that home in, stick to enemies, and explode");
 		}
 
 		public override void SafeSetDefaults()
@@ -35,6 +34,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 
 			item.value = CalamityGlobalItem.Rarity8BuyPrice;
 			item.rare = ItemRarityID.Yellow;
+			item.Calamity().challengeDrop = true;
 		}
 
 		public override bool AltFunctionUse(Player player) => true;

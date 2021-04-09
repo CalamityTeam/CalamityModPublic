@@ -17,8 +17,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             DisplayName.SetDefault("Pristine Fury");
             Tooltip.SetDefault("Fires an intense helix of flames that explode into a column of fire\n" +
-                "Right click to fire a short ranged cloud of lingering flames\n" +
-                "Legendary");
+                "Right click to fire a short ranged cloud of lingering flames");
         }
 
         public override void SetDefaults()
@@ -40,7 +39,8 @@ namespace CalamityMod.Items.Weapons.Ranged
 
             item.value = CalamityGlobalItem.Rarity12BuyPrice;
             item.Calamity().customRarity = CalamityRarity.Turquoise;
-        }
+			item.Calamity().challengeDrop = true;
+		}
 
         public override Vector2? HoldoutOffset() => new Vector2(-25, -10);
 

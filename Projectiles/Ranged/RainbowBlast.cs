@@ -44,7 +44,7 @@ namespace CalamityMod.Projectiles.Ranged
                 Main.dust[num469].velocity = dspeed;
             }
 
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 200f, 18f, 20f);
+			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 200f, 12f, 20f);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

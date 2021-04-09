@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 100;
+            item.damage = 130;
             item.knockBack = 15f;
             item.shootSpeed = 16f;
             item.useStyle = ItemUseStyleID.HoldingOut;

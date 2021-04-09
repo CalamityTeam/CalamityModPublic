@@ -38,7 +38,9 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.timeLeft = Lifetime;
         }
 
-        public override void AI()
+		public override bool? CanHitNPC(NPC target) => projectile.timeLeft < Lifetime - NoHomingFrames;
+
+		public override void AI()
         {
             // Handle animation
             projectile.frameCounter++;
@@ -51,7 +53,7 @@ namespace CalamityMod.Projectiles.Rogue
                 projectile.frame = 0;
 
             // Activate homing on enemies after a brief delay
-            if (projectile.timeLeft <= Lifetime - NoHomingFrames)
+            if (projectile.timeLeft < Lifetime - NoHomingFrames)
                 projectile.ai[0] = 1f;
 
             // Occasional dust
@@ -138,7 +140,6 @@ namespace CalamityMod.Projectiles.Rogue
         }
 
         // Cannot deal damage for the first several frames of existence.
-        public override bool? CanHitNPC(NPC target) => projectile.timeLeft >= Lifetime - NoHitFrames ? false : (bool?)null;
         public override bool CanHitPvp(Player target) => projectile.timeLeft < Lifetime - NoHitFrames;
     }
 }

@@ -40,43 +40,41 @@ namespace CalamityMod.NPCs.NormalNPCs
 		{
 			if (Main.netMode != NetmodeID.MultiplayerClient)
 			{
-				npc.localAI[0] += (float)Main.rand.Next(4); //adds to localAI to fire projectiles at random times
-				if (npc.localAI[0] >= (float)Main.rand.Next(100, 120)) //rate at which projectiles are shot
+				npc.localAI[0] += 1f;
+				if (npc.localAI[0] >= 60f)
 				{
 					npc.localAI[0] = 0f;
-					npc.TargetClosest(true);
 					if (Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
 					{
-						float projSpeed = 12f; //speed of projectile
+						float projSpeed = 12f;
 						Vector2 npcPos = npc.Center;
 						float targetX = Main.player[npc.target].Center.X - npcPos.X;
 						float YAdjust = Math.Abs(targetX) * 0.1f;
 						float targetY = Main.player[npc.target].Center.Y - npcPos.Y - YAdjust;
 						Vector2 velocity = new Vector2(targetX, targetY);
 						float targetDist = velocity.Length();
-						npc.netUpdate = true;
 						targetDist = projSpeed / targetDist;
 						velocity.X *= targetDist;
 						velocity.Y *= targetDist;
-						int projDmg = 30; //projectile damage
+						int projDmg = 30;
 						if (Main.expertMode)
 						{
 							projDmg = 22;
 						}
-						int projType = ProjectileID.MartianTurretBolt; //projectile ID
+						int projType = ProjectileID.MartianTurretBolt;
 						if (Main.rand.NextBool(8))
 						{
-							projType = ProjectileID.SaucerLaser; //more powerful projectile ID
+							projType = ProjectileID.SaucerLaser;
 						}
 						npcPos.X += velocity.X;
 						npcPos.Y += velocity.Y;
-						for (int num186 = 0; num186 < 2; num186++) //shoots two projectiles by looping twice
+						for (int num186 = 0; num186 < 2; num186++)
 						{
 							velocity = Main.player[npc.target].Center - npcPos;
 							targetDist = velocity.Length();
 							targetDist = projSpeed / targetDist;
-							velocity.X += (float)Main.rand.Next(-20, 21); //projectile spreadX
-							velocity.Y += (float)Main.rand.Next(-20, 21); //projectile spreadY
+							velocity.X += Main.rand.Next(-20, 21);
+							velocity.Y += Main.rand.Next(-20, 21);
 							velocity.X *= targetDist;
 							velocity.Y *= targetDist;
 							Projectile.NewProjectile(npcPos, velocity, projType, projDmg, 0f, Main.myPlayer, 0f, 0f);
@@ -92,23 +90,16 @@ namespace CalamityMod.NPCs.NormalNPCs
 			Player player8 = Main.player[npc.target];
 			if (npc.target < 0 || npc.target == Main.maxPlayers || player8.dead || !player8.active)
 			{
-				npc.TargetClosest(true);
+				npc.TargetClosest();
 				player8 = Main.player[npc.target];
 				npc.netUpdate = true;
 			}
 			if ((player8.dead || Vector2.Distance(player8.Center, center16) > 3200f) && npc.ai[0] != 1f)
 			{
-				if (npc.ai[0] == 0f)
-				{
-					npc.ai[0] = -1f;
-				}
-				if (npc.ai[0] == 2f)
-				{
-					npc.ai[0] = -2f;
-				}
+				npc.ai[0] = -1f;
 				npc.netUpdate = true;
 			}
-			if (npc.ai[0] == -1f || npc.ai[0] == -2f)
+			if (npc.ai[0] == -1f)
 			{
 				npc.velocity.Y = npc.velocity.Y - 0.4f;
 				if (npc.timeLeft > 10)
@@ -118,14 +109,6 @@ namespace CalamityMod.NPCs.NormalNPCs
 				if (!player8.dead)
 				{
 					npc.timeLeft = 300;
-					if (npc.ai[0] == -2f)
-					{
-						npc.ai[0] = 2f;
-					}
-					if (npc.ai[0] == 0f)
-					{
-						npc.ai[0] = 0f;
-					}
 					npc.ai[1] = 0f;
 					npc.ai[2] = 0f;
 					npc.ai[3] = 0f;
@@ -368,163 +351,6 @@ namespace CalamityMod.NPCs.NormalNPCs
 					npc.velocity *= 0.85f;
 					return;
 				}
-			}
-			else if (npc.ai[0] == 1f)
-			{
-				npc.velocity *= 0.96f;
-				float num1603 = 150f;
-				npc.ai[1] += 1f;
-				if (npc.ai[1] >= num1603)
-				{
-					npc.ai[0] = 2f;
-					npc.ai[1] = 0f;
-					npc.rotation = 0f;
-					npc.netUpdate = true;
-					return;
-				}
-				if (npc.ai[1] < 40f)
-				{
-					npc.rotation = Vector2.UnitY.RotatedBy((double)(npc.ai[1] / 40f * MathHelper.TwoPi), default).Y * 0.2f;
-					return;
-				}
-				if (npc.ai[1] < 80f)
-				{
-					npc.rotation = Vector2.UnitY.RotatedBy((double)(npc.ai[1] / 20f * MathHelper.TwoPi), default).Y * 0.3f;
-					return;
-				}
-				if (npc.ai[1] < 120f)
-				{
-					npc.rotation = Vector2.UnitY.RotatedBy((double)(npc.ai[1] / 10f * MathHelper.TwoPi), default).Y * 0.4f;
-					return;
-				}
-				npc.rotation = (npc.ai[1] - 120f) / 30f * MathHelper.TwoPi;
-				return;
-			}
-			else if (npc.ai[0] == 2f)
-			{
-				float num1605 = 3600f;
-				float num1606 = 120f;
-				float num1607 = 60f;
-				int num1608 = 0;
-				if (npc.ai[3] % num1606 >= num1607)
-				{
-					num1608 = 1;
-				}
-				int num1609 = num1608;
-				num1608 = 0;
-				npc.ai[3] += 1f;
-				if (npc.ai[3] % num1606 >= num1607)
-				{
-					num1608 = 1;
-				}
-				if (num1608 != num1609)
-				{
-					if (num1608 == 1)
-					{
-						npc.ai[2] = (float)((Math.Sign((player8.Center - center16).X) == 1) ? 1 : -1);
-						if (Main.netMode != NetmodeID.MultiplayerClient) //second projectile being shot.  Didn't use this
-						{
-							npc.localAI[0] += (float)Main.rand.Next(4);
-							if (npc.localAI[0] >= (float)Main.rand.Next(50, 100))
-							{
-								npc.localAI[0] = 0f;
-								npc.TargetClosest(true);
-								if (Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
-								{
-									float projSpeed = 11f;
-									Vector2 npcPos = npc.Center;
-									float targetX = Main.player[npc.target].Center.X - npcPos.X;
-									float YAdjust = Math.Abs(targetX) * 0.1f;
-									float targetY = Main.player[npc.target].Center.Y - npcPos.Y - YAdjust;
-									Vector2 velocity = new Vector2(targetX, targetY);
-									float targetDist = velocity.Length();
-									npc.netUpdate = true;
-									targetDist = projSpeed / targetDist;
-									velocity.X *= targetDist;
-									velocity.Y *= targetDist;
-									int projDmg = 50;
-									if (Main.expertMode)
-									{
-										projDmg = 28;
-									}
-									int projType = ProjectileID.SaucerLaser;
-									npcPos.X += velocity.X;
-									npcPos.Y += velocity.Y;
-									for (int num186 = 0; num186 < 2; num186++)
-									{
-										velocity.X = Main.player[npc.target].Center.X - npcPos.X;
-										velocity.Y = Main.player[npc.target].Center.Y - npcPos.Y;
-										targetDist = velocity.Length();
-										targetDist = projSpeed / targetDist;
-										velocity.X += (float)Main.rand.Next(-20, 21);
-										velocity.Y += (float)Main.rand.Next(-20, 21);
-										velocity.X *= targetDist;
-										velocity.Y *= targetDist;
-										Projectile.NewProjectile(npcPos, velocity, projType, projDmg, 0f, Main.myPlayer, 0f, 0f);
-									}
-								}
-							}
-						}
-						Main.PlaySound(SoundID.Item12, npc.position);
-					}
-					npc.netUpdate = true;
-				}
-				if (npc.ai[3] >= num1605)
-				{
-					npc.ai[0] = 2f;
-					npc.ai[1] = 0f;
-					npc.ai[2] = 0f;
-					npc.ai[3] = 0f;
-					npc.netUpdate = true;
-				}
-				else if (num1608 == 0)
-				{
-					Vector2 vector199 = player8.Center + new Vector2(npc.ai[2] * 350f, -250f) - center16;
-					vector199.Normalize();
-					npc.velocity = Vector2.Lerp(npc.velocity, vector199 * 16f, 0.1f);
-				}
-				else
-				{
-					int num1610 = (int)npc.Center.X / 16;
-					int num1611 = (int)(npc.position.Y + (float)npc.height) / 16;
-					int num1612 = 0;
-					bool flag155 = Main.tile[num1610, num1611].nactive() && Main.tileSolid[(int)Main.tile[num1610, num1611].type] && !Main.tileSolidTop[(int)Main.tile[num1610, num1611].type];
-					if (flag155)
-					{
-						num1612 = 1;
-					}
-					else
-					{
-						while (num1612 < 150 && num1611 + num1612 < Main.maxTilesY)
-						{
-							int num1613 = num1611 + num1612;
-							bool flag156 = Main.tile[num1610, num1613].nactive() && Main.tileSolid[(int)Main.tile[num1610, num1613].type] && !Main.tileSolidTop[(int)Main.tile[num1610, num1613].type];
-							if (flag156)
-							{
-								num1612--;
-								break;
-							}
-							num1612++;
-						}
-					}
-					float num1614 = (float)(num1612 * 16);
-					float num1615 = 250f;
-					if (num1614 < num1615)
-					{
-						float num1616 = -4f;
-						if (-num1616 > num1614)
-						{
-							num1616 = -num1614;
-						}
-						npc.velocity.Y = MathHelper.Lerp(npc.velocity.Y, num1616, 0.05f);
-					}
-					else
-					{
-						npc.velocity.Y = npc.velocity.Y * 0.95f;
-					}
-					npc.velocity.X = 8f * npc.ai[2];
-				}
-				npc.rotation = 0f;
 			}
 		}
 

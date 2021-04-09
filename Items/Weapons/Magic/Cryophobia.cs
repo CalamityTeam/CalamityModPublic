@@ -11,8 +11,7 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Cryophobia");
-            Tooltip.SetDefault("Chill\n" +
-				"Rare Item Variant");
+            Tooltip.SetDefault("Chill");
         }
 
         public override void SetDefaults()
@@ -33,8 +32,8 @@ namespace CalamityMod.Items.Weapons.Magic
             item.autoReuse = true;
             item.shootSpeed = 12f;
             item.shoot = ModContent.ProjectileType<CryoBlast>();
-            item.Calamity().customRarity = CalamityRarity.RareVariant;
-        }
+			item.Calamity().challengeDrop = true;
+		}
 
         public override Vector2? HoldoutOffset()
         {

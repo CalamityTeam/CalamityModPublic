@@ -12,8 +12,7 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             DisplayName.SetDefault("SHPC");
             Tooltip.SetDefault("Fires plasma orbs that linger and emit massive explosions\n" +
-                "Right click to fire powerful energy beams\n" +
-                "Legendary");
+                "Right click to fire powerful energy beams");
         }
 
         public override void SetDefaults()
@@ -34,7 +33,8 @@ namespace CalamityMod.Items.Weapons.Magic
 
             item.value = CalamityGlobalItem.Rarity5BuyPrice;
             item.rare = ItemRarityID.Pink;
-        }
+			item.Calamity().challengeDrop = true;
+		}
 
         public override Vector2? HoldoutOffset()
         {
