@@ -13,16 +13,14 @@ namespace CalamityMod.Items.LoreItems
             DisplayName.SetDefault("The Desert Scourge");
             Tooltip.SetDefault("The great sea worm appears to have survived the extreme heat and has even adapted to it.\n" +
                 "What used to be a majestic beast swimming through the water has now become a dried-up and\n" +
-                "gluttonous husk, constantly on a voracious search for its next meal.\n" +
-                "Place in your inventory for an increase to defense while in the desert or sunken sea.\n" +
-				"However, you will deal decreased damage while in these areas due to being a husk of your former self.");
+                "gluttonous husk, constantly on a voracious search for its next meal.");
         }
 
         public override void SetDefaults()
         {
             item.width = 20;
             item.height = 20;
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.consumable = false;
         }
 
@@ -30,11 +28,6 @@ namespace CalamityMod.Items.LoreItems
         {
             return false;
         }
-
-		public override void UpdateInventory(Player player)
-		{
-			player.Calamity().desertScourgeLore = true;
-		}
 
         public override void AddRecipes()
         {

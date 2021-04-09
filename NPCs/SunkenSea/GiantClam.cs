@@ -37,18 +37,18 @@ namespace CalamityMod.NPCs.SunkenSea
 
         public override void SetDefaults()
         {
-            npc.lavaImmune = true;
+			npc.Calamity().canBreakPlayerDefense = true;
+			npc.lavaImmune = true;
             npc.npcSlots = 5f;
             npc.damage = 50;
             npc.width = 160;
             npc.height = 120;
             npc.defense = 9999;
-            npc.Calamity().RevPlusDR(0.3f);
+			npc.DR_NERD(0.3f);
             npc.lifeMax = Main.hardMode ? 7500 : 1250;
-            npc.buffImmune[ModContent.BuffType<TimeSlow>()] = false;
             npc.aiStyle = -1;
             aiType = -1;
-            npc.value = Main.hardMode ? Item.buyPrice(0, 10, 0, 0) : Item.buyPrice(0, 1, 0, 0);
+            npc.value = Main.hardMode ? Item.buyPrice(0, 8, 0, 0) : Item.buyPrice(0, 1, 0, 0);
             npc.HitSound = SoundID.NPCHit4;
             npc.knockBackResist = 0f;
             npc.rarity = 2;
@@ -354,7 +354,7 @@ namespace CalamityMod.NPCs.SunkenSea
         {
             if (spawnInfo.player.Calamity().ZoneSunkenSea && spawnInfo.water && CalamityWorld.downedDesertScourge && !NPC.AnyNPCs(ModContent.NPCType<GiantClam>()))
             {
-                return SpawnCondition.CaveJellyfish.Chance * 0.12f;
+                return SpawnCondition.CaveJellyfish.Chance * 0.24f;
             }
             return 0f;
         }
@@ -427,7 +427,8 @@ namespace CalamityMod.NPCs.SunkenSea
 
             // Mark Giant Clam as dead
             CalamityWorld.downedCLAM = true;
-            CalamityMod.UpdateServerBoolean();
+            CalamityWorld.downedCLAMHardMode = Main.hardMode || CalamityWorld.downedCLAMHardMode;
+            CalamityNetcode.SyncWorld();
         }
     }
 }

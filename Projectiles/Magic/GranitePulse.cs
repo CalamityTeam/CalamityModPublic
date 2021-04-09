@@ -8,7 +8,7 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class GranitePulse : ModProjectile
     {
-        public float count = 0f;
+        public bool initialized = false;
 
         public override void SetStaticDefaults()
         {
@@ -30,7 +30,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void AI()
         {
-            projectile.velocity = new Vector2(0f, (float)Math.Sin((double)(6.28318548f * projectile.ai[0] / 300f)) * 0.5f);
+            projectile.velocity = new Vector2(0f, (float)Math.Sin((double)(MathHelper.TwoPi * projectile.ai[0] / 300f)) * 0.5f);
             projectile.ai[0] += 1f;
             if (projectile.ai[0] >= 300f)
             {
@@ -62,84 +62,75 @@ namespace CalamityMod.Projectiles.Magic
             if (projectile.localAI[0] >= 10f)
             {
                 projectile.localAI[0] = 0f;
-                int num416 = 0;
-                int num417 = 0;
-                float num418 = 0f;
-                int num419 = projectile.type;
-                for (int num420 = 0; num420 < Main.maxProjectiles; num420++)
+                int projCount = 0;
+                int index = 0;
+                float findOldest = 0f;
+                int projType = projectile.type;
+                for (int i = 0; i < Main.maxProjectiles; i++)
                 {
-                    if (Main.projectile[num420].active && Main.projectile[num420].owner == projectile.owner && Main.projectile[num420].type == num419 && Main.projectile[num420].ai[1] < 3600f)
+					Projectile proj = Main.projectile[i];
+                    if (proj.active && proj.owner == projectile.owner && proj.type == projType && proj.ai[1] < 3600f)
                     {
-                        num416++;
-                        if (Main.projectile[num420].ai[1] > num418)
+                        projCount++;
+                        if (proj.ai[1] > findOldest)
                         {
-                            num417 = num420;
-                            num418 = Main.projectile[num420].ai[1];
+                            index = i;
+                            findOldest = proj.ai[1];
                         }
                     }
                 }
-                if (num416 > 1)
+                if (projCount > 1)
                 {
-                    Main.projectile[num417].netUpdate = true;
-                    Main.projectile[num417].ai[1] = 36000f;
+                    Main.projectile[index].netUpdate = true;
+                    Main.projectile[index].ai[1] = 36000f;
                     return;
                 }
             }
-            if (count == 0f)
+            if (!initialized)
             {
-                Main.PlaySound(SoundID.NPCHit53, projectile.position);
-                projectile.position.X = projectile.position.X + (float)(projectile.width / 2);
-                projectile.position.Y = projectile.position.Y + (float)(projectile.height / 2);
-                projectile.width = 20;
-                projectile.height = 20;
-                projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
-                projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
-                for (int num621 = 0; num621 < 5; num621++)
+                Main.PlaySound(SoundID.NPCHit53, projectile.Center);
+                CalamityGlobalProjectile.ExpandHitboxBy(projectile, 20);
+                for (int d = 0; d < 5; d++)
                 {
-                    int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 229, 0f, 0f, 100, default, 0.5f);
-                    Main.dust[num622].velocity *= 3f;
+                    int ecto = Dust.NewDust(projectile.position, projectile.width, projectile.height, 229, 0f, 0f, 100, default, 0.5f);
+                    Main.dust[ecto].velocity *= 3f;
                     if (Main.rand.NextBool(2))
                     {
-                        Main.dust[num622].scale = 0.5f;
-                        Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
+                        Main.dust[ecto].scale = 0.5f;
+                        Main.dust[ecto].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
                     }
                 }
-                for (int num623 = 0; num623 < 10; num623++)
+                for (int d = 0; d < 10; d++)
                 {
-                    int num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 206, 0f, 0f, 100, default, 1f);
-                    Main.dust[num624].noGravity = true;
-                    Main.dust[num624].velocity *= 5f;
-                    num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 206, 0f, 0f, 100, default, 0.5f);
-                    Main.dust[num624].velocity *= 2f;
+                    int ecto = Dust.NewDust(projectile.position, projectile.width, projectile.height, 206, 0f, 0f, 100, default, 1f);
+                    Main.dust[ecto].noGravity = true;
+                    Main.dust[ecto].velocity *= 5f;
+                    ecto = Dust.NewDust(projectile.position, projectile.width, projectile.height, 206, 0f, 0f, 100, default, 0.5f);
+                    Main.dust[ecto].velocity *= 2f;
                 }
-                count += 1f;
+                initialized = true;
             }
-            if (projectile.timeLeft % 50 == 49)
+            if (projectile.timeLeft % 50 == 1 && projectile.alpha <= 0)
             {
-                Main.PlaySound(SoundID.NPCHit53, projectile.position);
-                projectile.position.X = projectile.position.X + (float)(projectile.width / 2);
-                projectile.position.Y = projectile.position.Y + (float)(projectile.height / 2);
-                projectile.width = 20;
-                projectile.height = 20;
-                projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
-                projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
-                for (int num621 = 0; num621 < 5; num621++)
+                Main.PlaySound(SoundID.NPCHit53, projectile.Center);
+                CalamityGlobalProjectile.ExpandHitboxBy(projectile, 20);
+                for (int d = 0; d < 5; d++)
                 {
-                    int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 229, 0f, 0f, 100, default, 0.5f);
-                    Main.dust[num622].velocity *= 3f;
+                    int ecto = Dust.NewDust(projectile.position, projectile.width, projectile.height, 229, 0f, 0f, 100, default, 0.5f);
+                    Main.dust[ecto].velocity *= 3f;
                     if (Main.rand.NextBool(2))
                     {
-                        Main.dust[num622].scale = 0.5f;
-                        Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
+                        Main.dust[ecto].scale = 0.5f;
+                        Main.dust[ecto].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
                     }
                 }
-                for (int num623 = 0; num623 < 10; num623++)
+                for (int d = 0; d < 10; d++)
                 {
-                    int num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 206, 0f, 0f, 100, default, 1f);
-                    Main.dust[num624].noGravity = true;
-                    Main.dust[num624].velocity *= 5f;
-                    num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 206, 0f, 0f, 100, default, 0.5f);
-                    Main.dust[num624].velocity *= 2f;
+                    int ecto = Dust.NewDust(projectile.position, projectile.width, projectile.height, 206, 0f, 0f, 100, default, 1f);
+                    Main.dust[ecto].noGravity = true;
+                    Main.dust[ecto].velocity *= 5f;
+                    ecto = Dust.NewDust(projectile.position, projectile.width, projectile.height, 206, 0f, 0f, 100, default, 0.5f);
+                    Main.dust[ecto].velocity *= 2f;
                 }
                 float spread = 45f * 0.0174f;
                 double startAngle = Math.Atan2(projectile.velocity.X, projectile.velocity.Y) - spread / 2;
@@ -165,8 +156,10 @@ namespace CalamityMod.Projectiles.Magic
 			SpriteEffects spriteEffects = SpriteEffects.None;
 			if (projectile.spriteDirection == -1)
 				spriteEffects = SpriteEffects.FlipHorizontally;
-            Main.spriteBatch.Draw(texture, projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, frameHeight, texture.Width, height)), projectile.GetAlpha(lightColor), projectile.rotation, new Vector2((float)texture.Width / 2f, (float)height / 2f), projectile.scale, spriteEffects, 0f);
+            Main.spriteBatch.Draw(texture, projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, frameHeight, texture.Width, height)), projectile.GetAlpha(lightColor), projectile.rotation, new Vector2(texture.Width / 2f, height / 2f), projectile.scale, spriteEffects, 0f);
             return false;
         }
+
+        public override bool CanDamage() => false;
     }
 }

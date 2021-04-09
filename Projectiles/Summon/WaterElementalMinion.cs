@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Siren Lure");
+            DisplayName.SetDefault("Anahita");
             Main.projFrames[projectile.type] = 6;
             ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
             ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
@@ -21,8 +21,8 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void SetDefaults()
         {
-            projectile.width = 70;
-            projectile.height = 120;
+            projectile.width = 100;
+            projectile.height = 190;
             projectile.netImportant = true;
             projectile.friendly = true;
             projectile.ignoreWater = true;
@@ -71,8 +71,7 @@ namespace CalamityMod.Projectiles.Summon
             if (player.MinionDamage() != projectile.Calamity().spawnedPlayerMinionDamageValue)
             {
                 int damage2 = (int)((float)projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
-                    projectile.Calamity().spawnedPlayerMinionDamageValue *
-                    player.MinionDamage());
+                    projectile.Calamity().spawnedPlayerMinionDamageValue * player.MinionDamage());
                 projectile.damage = damage2;
             }
             Lighting.AddLight(projectile.Center, 0f, 0.25f, 1.5f);
@@ -82,25 +81,28 @@ namespace CalamityMod.Projectiles.Summon
                 projectile.frame++;
                 projectile.frameCounter = 0;
             }
-            if (projectile.frame > 5)
+            if (projectile.frame >= 6)
             {
                 projectile.frame = 0;
             }
-            projectile.position.X = player.Center.X - (float)(projectile.width / 2);
-            projectile.position.Y = player.Center.Y - (float)(projectile.height / 2) + player.gfxOffY - 180f;
+            projectile.Center = player.Center + Vector2.UnitY * (player.gfxOffY - 180f);
             if (player.gravDir == -1f)
             {
-                projectile.position.Y = projectile.position.Y + 360f;
-                projectile.rotation = 3.14f;
+                projectile.position.Y += 360f;
+                projectile.rotation = MathHelper.Pi;
             }
             else
             {
                 projectile.rotation = 0f;
             }
-            projectile.position.X = (float)(int)projectile.position.X;
-            projectile.position.Y = (float)(int)projectile.position.Y;
+            projectile.position.X = (int)projectile.position.X;
+            projectile.position.Y = (int)projectile.position.Y;
             if (projectile.owner == Main.myPlayer)
             {
+				// Prevent firing immediately
+				if (projectile.localAI[0] < 120f)
+					projectile.localAI[0] += 1f;
+
                 if (projectile.ai[0] != 0f)
                 {
                     projectile.ai[0] -= 1f;
@@ -126,7 +128,7 @@ namespace CalamityMod.Projectiles.Summon
                         }
                     }
                 }
-                else
+                if (!flag18)
                 {
                     for (int num512 = 0; num512 < Main.maxNPCs; num512++)
                     {
@@ -145,7 +147,7 @@ namespace CalamityMod.Projectiles.Summon
                         }
                     }
                 }
-                if (flag18)
+                if (flag18 && projectile.localAI[0] >= 120f)
                 {
                     float num516 = num506;
                     float num517 = num507;

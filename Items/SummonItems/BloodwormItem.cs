@@ -1,25 +1,24 @@
-using Terraria;
 using Terraria.ModLoader;
 using CalamityMod.NPCs.AcidRain;
 using Terraria.ID;
 
 namespace CalamityMod.Items.SummonItems
 {
-    public class BloodwormItem : ModItem
+	public class BloodwormItem : ModItem
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Bloodworm");
-        }
+		}
 
         public override void SetDefaults()
         {
             item.width = 28;
             item.height = 28;
             item.maxStack = 20;
-            item.rare = 10;
+            item.rare = ItemRarityID.Red;
             item.Calamity().customRarity = CalamityRarity.PureGreen;
-            item.bait = 69420;
+            item.bait = 4444;
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.autoReuse = true;
             item.useTurn = true;

@@ -1,17 +1,15 @@
-using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class JawsProjectile : ModProjectile
+	public class JawsProjectile : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -39,35 +37,25 @@ namespace CalamityMod.Projectiles.Rogue
                 projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
                 if (projectile.Calamity().stealthStrike)
                 {
-                    int dustToUse = Main.rand.Next(0, 4);
-                    int dustType = 0;
-                    switch (dustToUse)
-                    {
-                        case 0:
-                            dustType = 33;
-                            break;
-                        case 1:
-                            dustType = 101;
-                            break;
-                        case 2:
-                            dustType = 111;
-                            break;
-                        case 3:
-                            dustType = 180;
-                            break;
-                    }
+					int dustType = Utils.SelectRandom(Main.rand, new int[]
+					{
+						33,
+						101,
+						111,
+						180
+					});
 
                     int dust = Dust.NewDust(projectile.Center, 1, 1, dustType, projectile.velocity.X, projectile.velocity.Y, 0, default, 1.5f);
                     Main.dust[dust].noGravity = true;
                 }
             }
             //Sticky Behaviour
-            CalamityUtils.StickyProjAI(projectile, 15);
+            projectile.StickyProjAI(15);
         }
 
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            CalamityUtils.ModifyHitNPCSticky(projectile, 6, false);
+            projectile.ModifyHitNPCSticky(6, false);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
@@ -114,23 +102,13 @@ namespace CalamityMod.Projectiles.Rogue
         {
             for (int i = 0; i < 5; i++)
             {
-                int dustToUse = Main.rand.Next(0, 4);
-                int dustType = 0;
-                switch (dustToUse)
-                {
-                    case 0:
-                        dustType = 33;
-                        break;
-                    case 1:
-                        dustType = 101;
-                        break;
-                    case 2:
-                        dustType = 111;
-                        break;
-                    case 3:
-                        dustType = 180;
-                        break;
-                }
+				int dustType = Utils.SelectRandom(Main.rand, new int[]
+				{
+					33,
+					101,
+					111,
+					180
+				});
 
                 int dust = Dust.NewDust(projectile.Center, 1, 1, dustType, 0, 0, 0, default, 1.5f);
                 Main.dust[dust].noGravity = true;

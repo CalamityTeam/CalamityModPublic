@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Ammo
 
         public override void SetDefaults()
         {
-            item.damage = 20;
+            item.damage = 18;
             item.ranged = true;
             item.width = 22;
             item.height = 36;
@@ -22,10 +22,10 @@ namespace CalamityMod.Items.Ammo
             item.consumable = true;
             item.knockBack = 3f;
             item.value = 2000;
-            item.shoot = ModContent.ProjectileType<ElysianArrowProj>();
+			item.rare = ItemRarityID.Purple;
+			item.shoot = ModContent.ProjectileType<ElysianArrowProj>();
             item.shootSpeed = 10f;
-            item.ammo = 40;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
+            item.ammo = AmmoID.Arrow;
         }
 
         public override void AddRecipes()

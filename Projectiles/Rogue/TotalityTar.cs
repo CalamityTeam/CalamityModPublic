@@ -1,12 +1,12 @@
 using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Buffs.DamageOverTime;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class TotalityTar : ModProjectile
+	public class TotalityTar : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -29,15 +29,15 @@ namespace CalamityMod.Projectiles.Rogue
         {
             if (projectile.velocity.X != projectile.velocity.X)
             {
-                projectile.velocity.X = projectile.velocity.X * -0.1f;
+                projectile.velocity.X *= -0.1f;
             }
             if (projectile.velocity.X != projectile.velocity.X)
             {
-                projectile.velocity.X = projectile.velocity.X * -0.5f;
+                projectile.velocity.X *= -0.5f;
             }
             if (projectile.velocity.Y != projectile.velocity.Y && projectile.velocity.Y > 1f)
             {
-                projectile.velocity.Y = projectile.velocity.Y * -0.5f;
+                projectile.velocity.Y *= -0.5f;
             }
             projectile.ai[0] += 1f;
             if (projectile.ai[0] > 5f)
@@ -45,19 +45,19 @@ namespace CalamityMod.Projectiles.Rogue
                 projectile.ai[0] = 5f;
                 if (projectile.velocity.Y == 0f && projectile.velocity.X != 0f)
                 {
-                    projectile.velocity.X = projectile.velocity.X * 0.97f;
-                    if ((double)projectile.velocity.X > -0.01 && (double)projectile.velocity.X < 0.01)
+                    projectile.velocity.X *= 0.97f;
+                    if (Math.Abs(projectile.velocity.X) < 0.01f)
                     {
                         projectile.velocity.X = 0f;
                         projectile.netUpdate = true;
                     }
                 }
-                projectile.velocity.Y = projectile.velocity.Y + 0.2f;
+                projectile.velocity.Y += 0.2f;
             }
             projectile.rotation += projectile.velocity.X * 0.1f;
-            if ((double)projectile.velocity.Y < 0.25 && (double)projectile.velocity.Y > 0.15)
+            if (projectile.velocity.Y < 0.25f && projectile.velocity.Y > 0.15f)
             {
-                projectile.velocity.X = projectile.velocity.X * 0.8f;
+                projectile.velocity.X *= 0.8f;
             }
             projectile.rotation = -projectile.velocity.X * 0.05f;
             if (projectile.velocity.Y > 16f)
@@ -91,31 +91,25 @@ namespace CalamityMod.Projectiles.Rogue
 			{
 				int index2 = Dust.NewDust(projectile.Center - vector2 / 2f, (int) vector2.X, (int) vector2.Y, 31, 0.0f, 0.0f, 100, new Color(), 1.5f);
 				Dust dust = Main.dust[index2];
-				dust.velocity = dust.velocity * 1.4f;
+				dust.velocity *= 1.4f;
 			}
 			for (int index1 = 0; index1 < 10; ++index1)
 			{
-				int index2 = Dust.NewDust(projectile.Center - vector2 / 2f, (int) vector2.X, (int) vector2.Y, 6, 0.0f, 0.0f, 100, new Color(), 2.5f);
-				Main.dust[index2].noGravity = true;
+				int index2 = Dust.NewDust(projectile.Center - vector2 / 2f, (int) vector2.X, (int) vector2.Y, DustID.Fire, 0.0f, 0.0f, 100, new Color(), 2.5f);
 				Dust dust1 = Main.dust[index2];
-				dust1.velocity = dust1.velocity * 5f;
-				int index3 = Dust.NewDust(projectile.Center - vector2 / 2f, (int) vector2.X, (int) vector2.Y, 6, 0.0f, 0.0f, 100, new Color(), 1.5f);
+				dust1.noGravity = true;
+				dust1.velocity *= 5f;
+				int index3 = Dust.NewDust(projectile.Center - vector2 / 2f, (int) vector2.X, (int) vector2.Y, DustID.Fire, 0.0f, 0.0f, 100, new Color(), 1.5f);
 				Dust dust2 = Main.dust[index3];
-				dust2.velocity = dust2.velocity * 3f;
+				dust2.velocity *= 3f;
 			}
-            int num251 = Main.rand.Next(2, 4);
+            int fireAmt = Main.rand.Next(2, 4);
             if (projectile.owner == Main.myPlayer)
             {
-                for (int num252 = 0; num252 < num251; num252++)
+                for (int f = 0; f < fireAmt; f++)
                 {
-                    Vector2 value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-                    while (value15.X == 0f && value15.Y == 0f)
-                    {
-                        value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-                    }
-                    value15.Normalize();
-                    value15 *= (float)Main.rand.Next(70, 101) * 0.1f;
-                    int fire = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value15.X, value15.Y, ModContent.ProjectileType<TotalityFire>(), projectile.damage, 1f, Main.myPlayer, 0f, 0f);
+					Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
+                    Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<TotalityFire>(), projectile.damage, 1f, Main.myPlayer, 0f, 0f);
                 }
 			}
         }

@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class PlaguenadeProj : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/Plaguenade";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Plaguenade");
@@ -32,14 +34,14 @@ namespace CalamityMod.Projectiles.Rogue
                 projectile.ai[0] = 5f;
                 if (projectile.velocity.Y == 0f && projectile.velocity.X != 0f)
                 {
-                    projectile.velocity.X = projectile.velocity.X * 0.97f;
-                    if ((double)projectile.velocity.X > -0.01 && (double)projectile.velocity.X < 0.01)
+                    projectile.velocity.X *= 0.97f;
+                    if (projectile.velocity.X > -0.01f && projectile.velocity.X < 0.01f)
                     {
                         projectile.velocity.X = 0f;
                         projectile.netUpdate = true;
                     }
                 }
-                projectile.velocity.Y = projectile.velocity.Y + 0.2f;
+                projectile.velocity.Y += 0.2f;
             }
             projectile.rotation += projectile.velocity.X * 0.1f;
             if (projectile.velocity.Y > 16f)
@@ -72,45 +74,47 @@ namespace CalamityMod.Projectiles.Rogue
         {
             if (projectile.owner == Main.myPlayer)
             {
-                for (int num639 = 0; num639 < (projectile.Calamity().stealthStrike ? 28 : 20); num639++)
+				Player player = Main.player[projectile.owner];
+				int projAmt = projectile.Calamity().stealthStrike ? 28 : 20;
+                for (int projIndex = 0; projIndex < projAmt; projIndex++)
                 {
                     float speedX = (float)Main.rand.Next(-35, 36) * 0.02f;
                     float speedY = (float)Main.rand.Next(-35, 36) * 0.02f;
-                    Projectile.NewProjectile(projectile.position.X, projectile.position.Y, speedX, speedY, ModContent.ProjectileType<PlaguenadeBee>(), Main.player[projectile.owner].beeDamage(projectile.damage), Main.player[projectile.owner].beeKB(0f), Main.myPlayer, 0f, 0f);
+                    Projectile.NewProjectile(projectile.position.X, projectile.position.Y, speedX, speedY, ModContent.ProjectileType<PlaguenadeBee>(), player.beeDamage(projectile.damage), player.beeKB(0f), projectile.owner, 0f, 0f);
                 }
+				Main.PlaySound(SoundID.Item14, projectile.position);
+				if (projectile.Calamity().stealthStrike)
+				{
+					projectile.position = projectile.Center;
+					projectile.width = projectile.height = 75;
+				}
+				projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
+				projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
+				projectile.maxPenetrate = -1;
+				projectile.penetrate = -1;
+				projectile.usesLocalNPCImmunity = true;
+				projectile.localNPCHitCooldown = 10;
+				projectile.Damage();
+				for (int i = 0; i < 10; i++)
+				{
+					int smoke = Dust.NewDust(projectile.position, projectile.width, projectile.height, 31, 0f, 0f, 100, default, 2f);
+					Main.dust[smoke].velocity *= 3f;
+					if (Main.rand.NextBool(2))
+					{
+						Main.dust[smoke].scale = 0.5f;
+						Main.dust[smoke].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
+					}
+				}
+				for (int j = 0; j < 15; j++)
+				{
+					int plague = Dust.NewDust(projectile.position, projectile.width, projectile.height, 89, 0f, 0f, 100, default, 3f);
+					Main.dust[plague].noGravity = true;
+					Main.dust[plague].velocity *= 5f;
+					int fire = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Fire, 0f, 0f, 100, default, 2f);
+					Main.dust[fire].velocity *= 2f;
+				}
+				CalamityUtils.ExplosionGores(projectile.Center, 3);
             }
-            Main.PlaySound(SoundID.Item14, projectile.position);
-            if (projectile.Calamity().stealthStrike)
-			{
-				projectile.position = projectile.Center;
-				projectile.width = projectile.height = 75;
-			}
-            projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
-            projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
-            projectile.maxPenetrate = -1;
-            projectile.penetrate = -1;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
-            projectile.Damage();
-            for (int num621 = 0; num621 < 20; num621++)
-            {
-                int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 31, 0f, 0f, 100, default, 2f);
-                Main.dust[num622].velocity *= 3f;
-                if (Main.rand.NextBool(2))
-                {
-                    Main.dust[num622].scale = 0.5f;
-                    Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
-                }
-            }
-            for (int num623 = 0; num623 < 30; num623++)
-            {
-                int num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 89, 0f, 0f, 100, default, 3f);
-                Main.dust[num624].noGravity = true;
-                Main.dust[num624].velocity *= 5f;
-                num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 6, 0f, 0f, 100, default, 2f);
-                Main.dust[num624].velocity *= 2f;
-            }
-			CalamityUtils.ExplosionGores(projectile, 3);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

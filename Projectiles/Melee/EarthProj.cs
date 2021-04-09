@@ -147,7 +147,7 @@ namespace CalamityMod.Projectiles.Melee
         {
             target.AddBuff(BuffID.OnFire, 600);
             target.AddBuff(BuffID.Frostburn, 600);
-            target.AddBuff(BuffID.CursedInferno, 600);
+            target.AddBuff(BuffID.CursedInferno, 300);
         }
     }
 }

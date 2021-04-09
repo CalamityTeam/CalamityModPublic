@@ -20,12 +20,13 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void SetDefaults()
         {
-            npc.damage = 90;
+			npc.Calamity().canBreakPlayerDefense = true;
+			npc.damage = 90;
             npc.npcSlots = 10f;
             npc.width = 54;
             npc.height = 54;
             npc.defense = 15;
-            npc.Calamity().RevPlusDR(0.15f);
+			npc.DR_NERD(0.15f);
             npc.lifeMax = CalamityWorld.death ? 30000 : 20000;
             npc.knockBackResist = 0f;
             npc.aiStyle = -1;
@@ -36,10 +37,6 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.noTileCollide = true;
             npc.HitSound = SoundID.NPCHit4;
             npc.DeathSound = SoundID.NPCDeath14;
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
             npc.netAlways = true;
             banner = npc.type;
             bannerItem = ModContent.ItemType<ArmoredDiggerBanner>();
@@ -399,13 +396,13 @@ namespace CalamityMod.NPCs.NormalNPCs
         {
             for (int k = 0; k < 3; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, 6, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(npc.position, npc.width, npc.height, DustID.Fire, hitDirection, -1f, 0, default, 1f);
             }
             if (npc.life <= 0)
             {
                 for (int k = 0; k < 10; k++)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, 6, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(npc.position, npc.width, npc.height, DustID.Fire, hitDirection, -1f, 0, default, 1f);
                 }
             }
         }
@@ -424,6 +421,8 @@ namespace CalamityMod.NPCs.NormalNPCs
         {
             DropHelper.DropItemChance(npc, ModContent.ItemType<DraedonsRemote>(), 3);
             DropHelper.DropItem(npc, ModContent.ItemType<DemonicBoneAsh>(), 2, 4);
+            DropHelper.DropItem(npc, ModContent.ItemType<MysteriousCircuitry>(), 4, 8);
+            DropHelper.DropItem(npc, ModContent.ItemType<DubiousPlating>(), 4, 8);
         }
     }
 }

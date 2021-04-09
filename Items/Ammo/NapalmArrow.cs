@@ -22,10 +22,10 @@ namespace CalamityMod.Items.Ammo
             item.consumable = true;
             item.knockBack = 1.5f;
             item.value = 1000;
-            item.rare = 3;
+            item.rare = ItemRarityID.Orange;
             item.shoot = ModContent.ProjectileType<NapalmArrowProj>();
             item.shootSpeed = 13f;
-            item.ammo = 40;
+            item.ammo = AmmoID.Arrow;
         }
 
         public override void AddRecipes()

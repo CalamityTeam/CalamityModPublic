@@ -1,7 +1,5 @@
 using CalamityMod.Items.Materials;
-using CalamityMod.Items.Weapons.Rogue;
-using CalamityMod.Projectiles.Hybrid;
-using CalamityMod.Tiles.Furniture.CraftingStations;
+using CalamityMod.Projectiles.Melee;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -18,8 +16,8 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.width = 18;
-            item.damage = 1300;
+            item.width = item.height = 64;
+            item.damage = 478;
             item.melee = true;
             item.noMelee = true;
             item.noUseGraphic = true;
@@ -29,22 +27,20 @@ namespace CalamityMod.Items.Weapons.Melee
             item.knockBack = 5f;
             item.UseSound = SoundID.Item109;
             item.autoReuse = true;
-            item.height = 20;
-            item.value = Item.buyPrice(2, 50, 0, 0);
-            item.rare = 10;
-            item.shoot = ModContent.ProjectileType<ScourgeoftheCosmosProj>();
+			item.value = CalamityGlobalItem.Rarity14BuyPrice;
+			item.rare = ItemRarityID.Purple;
+			item.Calamity().customRarity = CalamityRarity.DarkBlue;
+			item.shoot = ModContent.ProjectileType<ScourgeoftheCosmosProj>();
             item.shootSpeed = 15f;
-            item.Calamity().customRarity = CalamityRarity.Violet;
         }
 
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.ScourgeoftheCorruptor);
+            recipe.AddIngredient(ModContent.ItemType<Bonebreaker>());
             recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 10);
-            recipe.AddIngredient(ModContent.ItemType<DarksunFragment>(), 10);
-            recipe.AddIngredient(ModContent.ItemType<XerocPitchfork>(), 200);
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
+            recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

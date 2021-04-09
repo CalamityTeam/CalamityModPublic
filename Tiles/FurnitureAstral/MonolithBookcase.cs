@@ -11,7 +11,7 @@ namespace CalamityMod.Tiles.FurnitureAstral
     {
         public override void SetDefaults()
         {
-            this.SetUpBookcase(solidTop: false);
+            this.SetUpBookcase(true, false);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Monolith Bookcase");
             AddMapEntry(new Color(191, 142, 111), name);

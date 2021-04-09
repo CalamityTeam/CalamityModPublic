@@ -10,6 +10,7 @@ namespace CalamityMod.Projectiles.Summon
     public class CausticStaffSummon : ModProjectile
     {
         public bool initialized = false;
+		private float debuffToInflict = 0f;
 
         public override void SetStaticDefaults()
         {
@@ -82,22 +83,7 @@ namespace CalamityMod.Projectiles.Summon
             }
 
 			//Anti sticky movement to prevent minions from stacking
-			float antiStickyFloat = 0.05f;
-			for (int index = 0; index < Main.maxProjectiles; ++index)
-			{
-				Projectile proj = Main.projectile[index];
-				if (index != projectile.whoAmI && proj.active && (proj.owner == projectile.owner && proj.type == projectile.type) && (double) Math.Abs(projectile.position.X - proj.position.X) + Math.Abs(projectile.position.Y - proj.position.Y) < projectile.width)
-				{
-					if (projectile.position.X < proj.position.X)
-						projectile.velocity.X -= antiStickyFloat;
-					else
-						projectile.velocity.X += antiStickyFloat;
-					if (projectile.position.Y < proj.position.Y)
-						projectile.velocity.Y -= antiStickyFloat;
-					else
-						projectile.velocity.Y += antiStickyFloat;
-				}
-			}
+			projectile.MinionAntiClump();
 
 			//Set tile collision for only when trying to return to the player
 			projectile.tileCollide = projectile.ai[0] != 1f;
@@ -190,7 +176,12 @@ namespace CalamityMod.Projectiles.Summon
 				for (int index = 0; index < projectile.whoAmI; ++index)
 				{
 					Projectile proj = Main.projectile[index];
-					if (proj.active && proj.owner == projectile.owner && proj.type == projectile.type)
+
+					// Short circuits to make the loop as fast as possible
+					if (!proj.active || proj.owner != projectile.owner || !proj.minion)
+						continue;
+
+					if (proj.type == projectile.type)
 						++minionPosition;
 				}
 				playerPos.X -= 10f * player.direction;
@@ -296,7 +287,10 @@ namespace CalamityMod.Projectiles.Summon
 			float speedMult = 16f;
 			targetVec.Normalize();
 			targetVec *= speedMult;
-			int spike = Projectile.NewProjectile(projectile.Center, targetVec, ModContent.ProjectileType<CausticStaffProjectile>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+			int spike = Projectile.NewProjectile(projectile.Center, targetVec, ModContent.ProjectileType<CausticStaffProjectile>(), projectile.damage, projectile.knockBack, projectile.owner, debuffToInflict, 0f);
+			debuffToInflict++;
+			if (debuffToInflict >= 5f)
+				debuffToInflict = 0f;
 			Main.projectile[spike].netUpdate = true;
 			projectile.netUpdate = true;
 		}

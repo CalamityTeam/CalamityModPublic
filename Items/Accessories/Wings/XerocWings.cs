@@ -13,21 +13,21 @@ namespace CalamityMod.Items.Accessories.Wings
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Xeroc Wings");
-            Tooltip.SetDefault("Highly radioactive\n" +
+            DisplayName.SetDefault("Exodus Wings");
+            Tooltip.SetDefault("Pulsing with an alien heartbeat\n" +
                 "Horizontal speed: 8.5\n" +
                 "Acceleration multiplier: 2\n" +
                 "Good vertical speed\n" +
                 "Flight time: 180\n" +
-                "5% increased rogue damage and critical strike chance while wearing the Xeroc Armor");
+                "5% increased rogue damage and critical strike chance while wearing the Empyrean Armor");
         }
 
         public override void SetDefaults()
         {
             item.width = 22;
             item.height = 20;
-            item.value = Item.buyPrice(0, 39, 99, 99);
-            item.rare = 9;
+            item.value = CalamityGlobalItem.Rarity9BuyPrice;
+            item.rare = ItemRarityID.Cyan;
             item.accessory = true;
         }
 
@@ -41,19 +41,19 @@ namespace CalamityMod.Items.Accessories.Wings
 
             if (player.controlJump && player.wingTime > 0f && !player.jumpAgainCloud && player.jump == 0 && player.velocity.Y != 0f && !hideVisual)
             {
-                int num59 = 4;
+                float xOffset = 4f;
                 if (player.direction == 1)
                 {
-                    num59 = -40;
+                    xOffset = -40f;
                 }
-                int num60 = Dust.NewDust(new Vector2(player.position.X + (float)(player.width / 2) + (float)num59, player.position.Y + (float)(player.height / 2) - 15f), 30, 30, 242, 0f, 0f, 100, default, 2.4f);
-                Main.dust[num60].noGravity = true;
-                Main.dust[num60].velocity *= 0.3f;
+                int index = Dust.NewDust(new Vector2(player.Center.X + xOffset, player.Center.Y - 15f), 30, 30, 62, 0f, 0f, 100, default, 2.4f);
+                Main.dust[index].noGravity = true;
+                Main.dust[index].velocity *= 0.3f;
                 if (Main.rand.NextBool(10))
                 {
-                    Main.dust[num60].fadeIn = 2f;
+                    Main.dust[index].fadeIn = 2f;
                 }
-                Main.dust[num60].shader = GameShaders.Armor.GetSecondaryShader(player.cWings, player);
+                Main.dust[index].shader = GameShaders.Armor.GetSecondaryShader(player.cWings, player);
             }
             player.wingTimeMax = 180;
             player.noFallDmg = true;

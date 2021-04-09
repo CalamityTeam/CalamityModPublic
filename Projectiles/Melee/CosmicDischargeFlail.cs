@@ -4,14 +4,13 @@ using CalamityMod.Buffs.StatDebuffs;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.Enums;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Projectiles.BaseProjectiles;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    public class CosmicDischargeFlail : BaseWhipProjectile
+	public class CosmicDischargeFlail : BaseWhipProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -29,9 +28,11 @@ namespace CalamityMod.Projectiles.Melee
             projectile.melee = true;
             projectile.ignoreWater = true;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 4;
+            projectile.localNPCHitCooldown = 6;
 			projectile.coldDamage = true;
+			projectile.extraUpdates = 1;
         }
+
         public override Color SpecialDrawColor => new Color(150, 255, 255);
         public override int ExudeDustType => 67;
         public override int WhipDustType => 187;

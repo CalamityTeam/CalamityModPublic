@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.width = 50;
+            item.width = item.height = 54;
             item.damage = 70;
             item.melee = true;
             item.useAnimation = 23;
@@ -27,9 +27,8 @@ namespace CalamityMod.Items.Weapons.Melee
             item.knockBack = 5.25f;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
-            item.height = 50;
             item.value = Item.buyPrice(0, 36, 0, 0);
-            item.rare = 5;
+            item.rare = ItemRarityID.Pink;
             item.shoot = ModContent.ProjectileType<CosmicSpiritBomb1>();
             item.shootSpeed = 0.1f;
         }

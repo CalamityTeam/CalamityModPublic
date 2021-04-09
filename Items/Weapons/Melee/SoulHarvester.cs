@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.autoReuse = true;
             item.height = 64;
             item.value = Item.buyPrice(0, 80, 0, 0);
-            item.rare = 8;
+            item.rare = ItemRarityID.Yellow;
             item.shoot = ModContent.ProjectileType<SoulScythe>();
             item.shootSpeed = 18f;
         }
@@ -58,30 +58,27 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(ModContent.BuffType<Plague>(), 300);
-            target.AddBuff(BuffID.CursedInferno, 300);
+            target.AddBuff(BuffID.CursedInferno, 120);
             if (target.life <= (target.lifeMax * 0.15f))
             {
                 Main.PlaySound(SoundID.Item14, target.position);
-
-                // DEFECT -- HiveBombExplosion does not exist.
-                // Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<HiveBombExplosion>(), (int)(item.damage * (player.allDamage + player.meleeDamage - 1f)), knockback, Main.myPlayer);
-
-                for (int num621 = 0; num621 < 30; num621++)
+				player.ApplyDamageToNPC(target, (int)(item.damage * (player.allDamage + player.meleeDamage - 1f)), 0f, 0, false);
+				for (int num621 = 0; num621 < 10; num621++)
                 {
-                    int num622 = Dust.NewDust(new Vector2(player.position.X, player.position.Y), player.width, player.height, 89, 0f, 0f, 100, default, 2f);
+                    int num622 = Dust.NewDust(new Vector2(target.position.X, target.position.Y), target.width, target.height, 89, 0f, 0f, 100, default, 2f);
                     Main.dust[num622].velocity *= 3f;
                     if (Main.rand.NextBool(2))
                     {
                         Main.dust[num622].scale = 0.5f;
-                        Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
+                        Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
                     }
                 }
-                for (int num623 = 0; num623 < 50; num623++)
+                for (int num623 = 0; num623 < 20; num623++)
                 {
-                    int num624 = Dust.NewDust(new Vector2(player.position.X, player.position.Y), player.width, player.height, 89, 0f, 0f, 100, default, 3f);
+                    int num624 = Dust.NewDust(new Vector2(target.position.X, target.position.Y), target.width, target.height, 89, 0f, 0f, 100, default, 3f);
                     Main.dust[num624].noGravity = true;
                     Main.dust[num624].velocity *= 5f;
-                    num624 = Dust.NewDust(new Vector2(player.position.X, player.position.Y), player.width, player.height, 89, 0f, 0f, 100, default, 2f);
+                    num624 = Dust.NewDust(new Vector2(target.position.X, target.position.Y), target.width, target.height, 89, 0f, 0f, 100, default, 2f);
                     Main.dust[num624].velocity *= 2f;
                 }
             }
@@ -90,30 +87,26 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
             target.AddBuff(ModContent.BuffType<Plague>(), 300);
-            target.AddBuff(BuffID.CursedInferno, 300);
+            target.AddBuff(BuffID.CursedInferno, 120);
             if (target.statLife <= (target.statLifeMax * 0.15f))
             {
                 Main.PlaySound(SoundID.Item14, target.position);
-
-                // DEFECT -- HiveBombExplosion does not exist.
-                // Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<HiveBombExplosion>(), (int)(item.damage * (player.allDamage + player.meleeDamage - 1f)), item.knockBack, Main.myPlayer);
-
-                for (int num621 = 0; num621 < 30; num621++)
+				for (int num621 = 0; num621 < 10; num621++)
                 {
-                    int num622 = Dust.NewDust(new Vector2(player.position.X, player.position.Y), player.width, player.height, 89, 0f, 0f, 100, default, 2f);
+                    int num622 = Dust.NewDust(new Vector2(target.position.X, target.position.Y), target.width, target.height, 89, 0f, 0f, 100, default, 2f);
                     Main.dust[num622].velocity *= 3f;
                     if (Main.rand.NextBool(2))
                     {
                         Main.dust[num622].scale = 0.5f;
-                        Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
+                        Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
                     }
                 }
-                for (int num623 = 0; num623 < 50; num623++)
+                for (int num623 = 0; num623 < 20; num623++)
                 {
-                    int num624 = Dust.NewDust(new Vector2(player.position.X, player.position.Y), player.width, player.height, 89, 0f, 0f, 100, default, 3f);
+                    int num624 = Dust.NewDust(new Vector2(target.position.X, target.position.Y), target.width, target.height, 89, 0f, 0f, 100, default, 3f);
                     Main.dust[num624].noGravity = true;
                     Main.dust[num624].velocity *= 5f;
-                    num624 = Dust.NewDust(new Vector2(player.position.X, player.position.Y), player.width, player.height, 89, 0f, 0f, 100, default, 2f);
+                    num624 = Dust.NewDust(new Vector2(target.position.X, target.position.Y), target.width, target.height, 89, 0f, 0f, 100, default, 2f);
                     Main.dust[num624].velocity *= 2f;
                 }
             }

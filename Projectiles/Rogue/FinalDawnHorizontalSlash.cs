@@ -29,6 +29,10 @@ namespace CalamityMod.Projectiles.Rogue
         public override void AI()
         {
 			Player player = Main.player[projectile.owner];
+
+			if (player is null || player.dead)
+				projectile.Kill();
+
             projectile.Center = player.Center;
             player.heldProj = projectile.whoAmI;
             projectile.spriteDirection = (projectile.velocity.X > 0).ToDirectionInt();
@@ -43,7 +47,7 @@ namespace CalamityMod.Projectiles.Rogue
                     projectile.friendly = true;
                     Main.PlaySound(SoundID.Item71, projectile.position);
 
-                    if(projectile.owner == Main.myPlayer)
+                    if (projectile.owner == Main.myPlayer)
                     {
                         Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<FinalDawnFlame>(), projectile.damage / 2, 0f, projectile.owner);
                     }

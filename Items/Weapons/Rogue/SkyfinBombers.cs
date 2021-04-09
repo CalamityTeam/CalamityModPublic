@@ -1,20 +1,19 @@
 using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class SkyfinBombers : RogueWeapon
+	public class SkyfinBombers : RogueWeapon
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Skyfin Bombers");
             Tooltip.SetDefault("Fishy bombers inbound!\n" +
 			"Launches a skyfin nuke that homes in on enemies below it\n" +
-			"Stealth strikes throw three skyfin nukes that home in regardless of enemy position");
+			"Stealth strikes rapidly home in regardless of enemy position");
         }
 
         public override void SafeSetDefaults()
@@ -31,7 +30,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.autoReuse = true;
             item.height = 30;
             item.value = Item.buyPrice(0, 36, 0, 0);
-            item.rare = 5;
+            item.rare = ItemRarityID.Pink;
             item.shoot = ModContent.ProjectileType<SkyfinNuke>();
             item.shootSpeed = 12f;
             item.Calamity().rogue = true;
@@ -41,12 +40,9 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             if (player.Calamity().StealthStrikeAvailable()) //setting the stealth strike
             {
-				for (int i = -8; i <= 8; i += 8)
-				{
-					Vector2 perturbedSpeed = new Vector2(speedX, speedY).RotatedBy(MathHelper.ToRadians(i));
-					int stealth = Projectile.NewProjectile(position.X, position.Y, perturbedSpeed.X, perturbedSpeed.Y, type, damage, 0f, player.whoAmI, 0f, 0f);
+				int stealth = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
+				if (stealth.WithinBounds(Main.maxProjectiles))
 					Main.projectile[stealth].Calamity().stealthStrike = true;
-				}
                 return false;
             }
             return true;

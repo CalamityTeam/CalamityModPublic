@@ -10,6 +10,7 @@ using CalamityMod.NPCs.Yharon;
 using CalamityMod.World;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Items.TreasureBags
 {
@@ -29,7 +30,7 @@ namespace CalamityMod.Items.TreasureBags
             item.consumable = true;
             item.width = 24;
             item.height = 24;
-            item.rare = 9;
+            item.rare = ItemRarityID.Cyan;
             item.expert = true;
         }
 
@@ -42,17 +43,18 @@ namespace CalamityMod.Items.TreasureBags
         {
             player.TryGettingDevArmor();
 
-            // Materials
-
             // Weapons
-            DropHelper.DropItemChance(player, ModContent.ItemType<DragonRage>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<TheBurningSky>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<DragonsBreath>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<ChickenCannon>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<PhoenixFlameBarrage>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<AngryChickenStaff>(), 3); // Yharon Kindle Staff
-            DropHelper.DropItemChance(player, ModContent.ItemType<ProfanedTrident>(), 3); // Infernal Spear
-            DropHelper.DropItemChance(player, ModContent.ItemType<FinalDawn>(), 3);
+            float w = DropHelper.BagWeaponDropRateFloat;
+            DropHelper.DropEntireWeightedSet(player,
+                DropHelper.WeightStack<DragonRage>(w),
+                DropHelper.WeightStack<TheBurningSky>(w),
+                DropHelper.WeightStack<DragonsBreath>(w),
+                DropHelper.WeightStack<ChickenCannon>(w),
+                DropHelper.WeightStack<PhoenixFlameBarrage>(w),
+                DropHelper.WeightStack<AngryChickenStaff>(w), // Yharon Kindle Staff
+                DropHelper.WeightStack<ProfanedTrident>(w), // Infernal Spear
+                DropHelper.WeightStack<FinalDawn>(w)
+            );
 
             // Equipment
             DropHelper.DropItem(player, ModContent.ItemType<YharimsGift>());

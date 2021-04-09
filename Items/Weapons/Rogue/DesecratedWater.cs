@@ -27,7 +27,7 @@ Stealth strikes spawn additional bubbles that inflict Ichor and Cursed Inferno")
             item.noUseGraphic = true;
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.knockBack = 4.5f;
-            item.rare = 6;
+            item.rare = ItemRarityID.LightPurple;
             item.UseSound = SoundID.Item106;
             item.autoReuse = true;
             item.value = Item.buyPrice(gold: 48); //sell price of 9 gold 60 silver
@@ -40,8 +40,9 @@ Stealth strikes spawn additional bubbles that inflict Ichor and Cursed Inferno")
         {
             if (player.Calamity().StealthStrikeAvailable()) //setting the stealth strike
             {
-                int stealth = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI, 0f, 0f);
-                Main.projectile[stealth].Calamity().stealthStrike = true;
+                int stealth = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
+				if (stealth.WithinBounds(Main.maxProjectiles))
+					Main.projectile[stealth].Calamity().stealthStrike = true;
                 return false;
             }
             return true;

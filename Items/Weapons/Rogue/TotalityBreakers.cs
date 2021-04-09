@@ -31,7 +31,7 @@ Stealth strikes leak tar as they fly");
             item.autoReuse = true;
             item.height = 40;
             item.value = Item.buyPrice(0, 60, 0, 0);
-            item.rare = 7;
+            item.rare = ItemRarityID.Lime;
             item.shoot = ModContent.ProjectileType<TotalityFlask>();
             item.shootSpeed = 12f;
             item.Calamity().rogue = true;
@@ -41,8 +41,9 @@ Stealth strikes leak tar as they fly");
         {
             if (player.Calamity().StealthStrikeAvailable()) //setting the stealth strike
             {
-                int stealth = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI, 0f, 0f);
-                Main.projectile[stealth].Calamity().stealthStrike = true;
+                int stealth = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
+				if (stealth.WithinBounds(Main.maxProjectiles))
+					Main.projectile[stealth].Calamity().stealthStrike = true;
                 return false;
             }
             return true;

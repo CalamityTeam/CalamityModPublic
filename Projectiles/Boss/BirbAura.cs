@@ -1,7 +1,3 @@
-using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.NPCs.BrimstoneElemental;
-using CalamityMod.Dusts;
-using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -11,7 +7,7 @@ using Terraria.Enums;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Boss
 {
-    public class BirbAura : ModProjectile
+	public class BirbAura : ModProjectile
     {
 		float timer = 135f;
 		float timeBeforeVanish = 0f;
@@ -56,7 +52,7 @@ namespace CalamityMod.Projectiles.Boss
                 projectile.velocity = -Vector2.UnitY;
 
             Vector2 fireFrom = new Vector2(projectile.ai[0], projectile.ai[1]);
-            projectile.position = fireFrom - new Vector2((float)projectile.width, (float)projectile.height) / 2f;
+            projectile.position = fireFrom - new Vector2(projectile.width, projectile.height) / 2f;
 
             if (projectile.velocity.HasNaNs() || projectile.velocity == Vector2.Zero)
                 projectile.velocity = -Vector2.UnitY;
@@ -75,7 +71,7 @@ namespace CalamityMod.Projectiles.Boss
                 return;
             }
 
-            projectile.scale = (float)Math.Sin((double)(projectile.localAI[0] * Math.PI / timeBeforeVanish)) * 10f * num801;
+            projectile.scale = (float)Math.Sin(projectile.localAI[0] * Math.PI / timeBeforeVanish) * 10f * num801;
             if (projectile.scale > num801)
                 projectile.scale = num801;
 
@@ -84,7 +80,7 @@ namespace CalamityMod.Projectiles.Boss
 			projectile.velocity = num804.ToRotationVector2();
 
 			float num805 = 3f; //3f
-			float num806 = (float)projectile.width;
+			float num806 = projectile.width;
 
 			Vector2 samplingPoint = projectile.Center;
 			if (vector78.HasValue)
@@ -100,13 +96,13 @@ namespace CalamityMod.Projectiles.Boss
 			}
 			num807 /= num805;
 
-			num807 = MathHelper.Clamp(num807, 1800f, 3600f);
+			num807 = MathHelper.Clamp(num807, 3600f, 4800f);
 
 			float amount = 0.5f;
             projectile.localAI[1] = MathHelper.Lerp(projectile.localAI[1], num807, amount);
 
             DelegateMethods.v3_1 = new Vector3(0.9f, 0.3f, 0.3f);
-            Utils.PlotTileLine(projectile.Center, projectile.Center + projectile.velocity * projectile.localAI[1], (float)projectile.width * projectile.scale, new Utils.PerLinePoint(DelegateMethods.CastLight));
+            Utils.PlotTileLine(projectile.Center, projectile.Center + projectile.velocity * projectile.localAI[1], projectile.width * projectile.scale, new Utils.PerLinePoint(DelegateMethods.CastLight));
         }
 
 		public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
@@ -119,12 +115,11 @@ namespace CalamityMod.Projectiles.Boss
 					Vector2 fireFrom = new Vector2(target.Center.X, target.Center.Y - 900f);
 					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/LightningStrike"), (int)target.Center.X, (int)target.Center.Y - 300);
 					Vector2 ai0 = target.Center - fireFrom;
-					float ai = (float)Main.rand.Next(100);
+					float ai = Main.rand.Next(100);
 					Vector2 velocity = Vector2.Normalize(ai0.RotatedByRandom(MathHelper.PiOver4)) * 7f;
 					Projectile.NewProjectile(fireFrom.X, fireFrom.Y, velocity.X, velocity.Y, ModContent.ProjectileType<RedLightning>(), damage, 0f, projectile.owner, ai0.ToRotation(), ai);
 				}
 			}
-			damage = 1;
 		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
@@ -141,22 +136,22 @@ namespace CalamityMod.Projectiles.Boss
 			Vector2 vector = projectile.Center - Main.screenPosition;
 			Rectangle? sourceRectangle2 = null;
 			spriteBatch.Draw(texture2, vector, sourceRectangle2, color44, projectile.rotation, texture2.Size() / 2f, projectile.scale, SpriteEffects.None, 0f);
-			num223 -= (float)(texture2.Height / 2 + texture3.Height) * projectile.scale;
+			num223 -= (texture2.Height / 2 + texture3.Height) * projectile.scale;
 			Vector2 value20 = projectile.Center;
-			value20 += projectile.velocity * projectile.scale * (float)texture2.Height / 2f;
+			value20 += projectile.velocity * projectile.scale * texture2.Height / 2f;
 			if (num223 > 0f)
             {
                 float num224 = 0f;
                 Rectangle rectangle7 = new Rectangle(0, 16 * (projectile.timeLeft / 3 % 5), texture.Width, 16);
                 while (num224 + 1f < num223)
                 {
-                    if (num223 - num224 < (float)rectangle7.Height)
+                    if (num223 - num224 < rectangle7.Height)
                     {
                         rectangle7.Height = (int)(num223 - num224);
                     }
-                    spriteBatch.Draw(texture, value20 - Main.screenPosition, new Rectangle?(rectangle7), color44, projectile.rotation, new Vector2((float)(rectangle7.Width / 2), 0f), projectile.scale, SpriteEffects.None, 0f);
-                    num224 += (float)rectangle7.Height * projectile.scale;
-                    value20 += projectile.velocity * (float)rectangle7.Height * projectile.scale;
+                    spriteBatch.Draw(texture, value20 - Main.screenPosition, new Rectangle?(rectangle7), color44, projectile.rotation, new Vector2(rectangle7.Width / 2, 0f), projectile.scale, SpriteEffects.None, 0f);
+                    num224 += rectangle7.Height * projectile.scale;
+                    value20 += projectile.velocity * rectangle7.Height * projectile.scale;
                     rectangle7.Y += 16;
                     if (rectangle7.Y + rectangle7.Height > texture.Height)
                     {
@@ -174,7 +169,7 @@ namespace CalamityMod.Projectiles.Boss
 		{
 			DelegateMethods.tilecut_0 = TileCuttingContext.AttackProjectile;
 			Vector2 unit = projectile.velocity;
-			Utils.PlotTileLine(projectile.Center, projectile.Center + unit * projectile.localAI[1], (float)projectile.width * projectile.scale, new Utils.PerLinePoint(DelegateMethods.CutTiles));
+			Utils.PlotTileLine(projectile.Center, projectile.Center + unit * projectile.localAI[1], projectile.width * projectile.scale, new Utils.PerLinePoint(DelegateMethods.CutTiles));
 		}
 
 		public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)

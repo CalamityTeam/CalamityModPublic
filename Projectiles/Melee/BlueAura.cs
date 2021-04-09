@@ -5,6 +5,8 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class BlueAura : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Blue Aura");
@@ -14,7 +16,6 @@ namespace CalamityMod.Projectiles.Melee
         {
             projectile.width = 20;
             projectile.height = 20;
-            aiType = 348;
             projectile.friendly = true;
             projectile.melee = true;
             projectile.tileCollide = false;

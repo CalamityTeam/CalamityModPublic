@@ -20,15 +20,14 @@ namespace CalamityMod.Items.Armor
             item.width = 22;
             item.height = 18;
             item.value = Item.buyPrice(0, 18, 0, 0);
-            item.rare = 7;
+            item.rare = ItemRarityID.Lime;
             item.defense = 12;
         }
 
         public override void UpdateEquip(Player player)
         {
             player.moveSpeed += 0.3f;
-			player.Calamity().throwingDamage += 0.12f;
-			player.Calamity().throwingVelocity += 0.12f;
+			player.Calamity().throwingDamage += 0.09f;
 			player.Calamity().throwingCrit += 6;
         }
 

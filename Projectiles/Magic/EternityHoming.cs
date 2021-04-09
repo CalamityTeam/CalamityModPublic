@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class EternityHoming : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Eternity");
@@ -54,9 +56,10 @@ namespace CalamityMod.Projectiles.Magic
             float pulse = (float)Math.Sin(projectile.ai[0]);
             float radius = 10f;
             Vector2 offset = angle.ToRotationVector2() * pulse * radius;
-            Dust dust = Dust.NewDustPerfect(projectile.Center + offset, Eternity.dustID, Vector2.Zero, 0, Eternity.pinkColor);
+            Dust dust = Dust.NewDustPerfect(projectile.Center + offset, Eternity.DustID, Vector2.Zero, 0, Eternity.BlueColor);
             dust.noGravity = true;
-            dust = Dust.NewDustPerfect(projectile.Center - offset, Eternity.dustID, Vector2.Zero, 0, Eternity.blueColor);
+
+            dust = Dust.NewDustPerfect(projectile.Center - offset, Eternity.DustID, Vector2.Zero, 0, Eternity.BlueColor);
             dust.noGravity = true;
         }
     }

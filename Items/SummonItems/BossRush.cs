@@ -1,3 +1,4 @@
+using CalamityMod.Events;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -20,7 +21,7 @@ namespace CalamityMod.Items.SummonItems
 
         public override void SetDefaults()
         {
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.width = 28;
             item.height = 28;
             item.useAnimation = 45;
@@ -34,39 +35,38 @@ namespace CalamityMod.Items.SummonItems
         {
             for (int doom = 0; doom < 200; doom++)
             {
-                if (Main.npc[doom].active && Main.npc[doom].boss)
+                NPC n = Main.npc[doom];
+                if (!n.active)
+                    continue;
+
+                // will also correctly despawn EoW because none of his segments are boss flagged
+                bool shouldDespawn = n.boss || n.type == NPCID.EaterofWorldsHead || n.type == NPCID.EaterofWorldsBody || n.type == NPCID.EaterofWorldsTail;
+                if (shouldDespawn)
                 {
-                    Main.npc[doom].active = false;
-                    Main.npc[doom].netUpdate = true;
+                    n.active = false;
+                    n.netUpdate = true;
                 }
             }
-            if (!CalamityWorld.bossRushActive)
+            if (!BossRushEvent.BossRushActive)
             {
-                CalamityWorld.bossRushStage = 0;
-                CalamityWorld.bossRushActive = true;
+                BossRushEvent.BossRushStage = 0;
+                BossRushEvent.BossRushActive = true;
                 string key = "Mods.CalamityMod.BossRushStartText";
                 Color messageColor = Color.LightCoral;
-                if (Main.netMode == NetmodeID.SinglePlayer)
-                {
-                    Main.NewText(Language.GetTextValue(key), messageColor);
-                }
-                else if (Main.netMode == NetmodeID.Server)
-                {
-                    NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-                }
+                CalamityUtils.DisplayLocalizedText(key, messageColor);
             }
             else
             {
-                CalamityWorld.bossRushStage = 0;
-                CalamityWorld.bossRushActive = false;
+                BossRushEvent.BossRushStage = 0;
+                BossRushEvent.BossRushActive = false;
             }
 
-            CalamityMod.UpdateServerBoolean();
+            CalamityNetcode.SyncWorld();
             if (Main.netMode == NetmodeID.Server)
             {
                 var netMessage = mod.GetPacket();
                 netMessage.Write((byte)CalamityModMessageType.BossRushStage);
-                netMessage.Write(CalamityWorld.bossRushStage);
+                netMessage.Write(BossRushEvent.BossRushStage);
                 netMessage.Send();
             }
             return true;

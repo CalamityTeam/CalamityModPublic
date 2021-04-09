@@ -20,12 +20,16 @@ namespace CalamityMod.NPCs.TownNPCs
 
         public static List<string> PossibleNames = new List<string>()
         {
+			//Patron names
+			"Xplizzy", // <@!98826096237109248> Whitegiraffe #6342
+
+			//Original names
             "Laura", "Mie", "Bonnie",
             "Sarah", "Diane", "Kate",
             "Penelope", "Marisa", "Maribel",
             "Valerie", "Jessica", "Rowan",
             "Jessie", "Jade", "Hearn",
-            "Amber", "Anne", "Indiana",
+            "Amber", "Anne", "Indiana"
         };
 
         public override void SetStaticDefaults()
@@ -71,9 +75,10 @@ namespace CalamityMod.NPCs.TownNPCs
             for (int k = 0; k < Main.maxPlayers; k++)
             {
                 Player player = Main.player[k];
-                if (player.active && player.InventoryHas(ItemID.PlatinumCoin))
+				bool rich = player.InventoryHas(ItemID.PlatinumCoin) || player.PortableStorageHas(ItemID.PlatinumCoin);
+                if (player.active && rich)
                 {
-                    return NPC.downedBoss3;
+                    return NPC.downedBoss3 || CalamityWorld.spawnedBandit;
                 }
             }
             return CalamityWorld.spawnedBandit;
@@ -192,13 +197,13 @@ namespace CalamityMod.NPCs.TownNPCs
         public string Refund()
         {
             int goblinIndex = NPC.FindFirstNPC(NPCID.GoblinTinkerer);
-            if (goblinIndex != -1 && Main.LocalPlayer.Calamity().reforges >= 10)
+            if (goblinIndex != -1 && CalamityWorld.Reforges >= 1)
             {
-                Main.LocalPlayer.Calamity().reforges = 0;
-                Main.LocalPlayer.SellItem((int)Main.LocalPlayer.Calamity().moneyStolenByBandit, 1);
-                Main.LocalPlayer.Calamity().moneyStolenByBandit = 0;
+                CalamityWorld.Reforges = 0;
+                Main.LocalPlayer.SellItem(CalamityWorld.MoneyStolenByBandit, 1);
+                CalamityWorld.MoneyStolenByBandit = 0;
                 NPC goblinFucker = Main.npc[goblinIndex];
-                Main.PlaySound(SoundID.Coins, -1, -1, 1, 1f, 0f); //money dink sound
+                Main.PlaySound(SoundID.Coins, -1, -1, 1, 1f, 0f); // Money dink sound
                 switch (Main.rand.Next(2))
                 {
                     case 0:
@@ -206,8 +211,9 @@ namespace CalamityMod.NPCs.TownNPCs
                     case 1:
                         return "Hey, if government officials can get tax, why can't I? The heck do you mean that these two things are nothing alike?";
                 }
+                CalamityNetcode.SyncWorld();
             }
-            return "Sorry, I got nothing.";
+            return "Sorry, I got nothing. Perhaps you could reforge something and come back later...";
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
@@ -251,7 +257,18 @@ namespace CalamityMod.NPCs.TownNPCs
             shop.item[nextSlot].SetDefaults(ModContent.ItemType<OldDie>());
             shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 40, 0, 0);
             nextSlot++;
-            if (CalamityWorld.downedSlimeGod)
+            shop.item[nextSlot].SetDefaults(ItemID.TigerClimbingGear);
+            nextSlot++;
+			shop.item[nextSlot].SetDefaults(ItemID.InvisibilityPotion);
+			shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 1, 0, 0);
+			nextSlot++;
+			shop.item[nextSlot].SetDefaults(ItemID.NightOwlPotion);
+			shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 1, 0, 0);
+			nextSlot++;
+			shop.item[nextSlot].SetDefaults(ItemID.TrapsightPotion);
+			shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 1, 0, 0);
+			nextSlot++;
+			if (CalamityWorld.downedSlimeGod)
             {
                 shop.item[nextSlot].SetDefaults(ModContent.ItemType<GelDart>());
                 nextSlot++;
@@ -274,7 +291,7 @@ namespace CalamityMod.NPCs.TownNPCs
                 shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 60, 0, 0);
                 nextSlot++;
             }
-            if (NPC.downedMechBoss1 || NPC.downedMechBoss2 || NPC.downedMechBoss3)
+            if (NPC.downedMechBossAny)
 			{
                 shop.item[nextSlot].SetDefaults(ModContent.ItemType<BouncingBetty>());
 				nextSlot++;
@@ -319,7 +336,7 @@ namespace CalamityMod.NPCs.TownNPCs
                 shop.item[nextSlot].shopCustomPrice = Item.buyPrice(25, 0, 0, 0);
                 nextSlot++;
             }
-            if (CalamityWorld.buffedEclipse && !CalamityWorld.dragonScalesBought)
+            if (CalamityWorld.downedYharon)
             {
                 shop.item[nextSlot].SetDefaults(ModContent.ItemType<DragonScales>());
                 shop.item[nextSlot].shopCustomPrice = Item.buyPrice(40, 0, 0, 0);

@@ -16,24 +16,24 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 40;
+            item.damage = 100;
             item.ranged = true;
-            item.width = 50;
-            item.height = 32;
+            item.width = 54;
+            item.height = 38;
             item.useTime = 12;
             item.useAnimation = 12;
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 3f;
-            item.value = Item.buyPrice(0, 80, 0, 0);
-            item.rare = 8;
-            item.UseSound = SoundID.Item41;
+			item.value = CalamityGlobalItem.Rarity13BuyPrice;
+			item.Calamity().customRarity = CalamityRarity.PureGreen;
+			item.UseSound = SoundID.Item41;
             item.autoReuse = true;
             item.shootSpeed = 24f;
             item.shoot = ModContent.ProjectileType<ShockblastRound>();
-            item.useAmmo = 97;
-            item.Calamity().customRarity = CalamityRarity.RareVariant;
-        }
+            item.useAmmo = AmmoID.Bullet;
+			item.Calamity().challengeDrop = true;
+		}
 
         public override Vector2? HoldoutOffset()
         {
@@ -44,11 +44,12 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             for (int index = 0; index < 2; ++index)
             {
-                float speedMult = (float)(index + 1) * 0.15f;
-                Projectile.NewProjectile(position.X, position.Y, speedX * speedMult, speedY * speedMult, ModContent.ProjectileType<FrostsparkBulletProj>(), (int)((double)damage * 0.75), knockBack, player.whoAmI, 0f, 0f);
-            }
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<ShockblastRound>(), damage, knockBack, player.whoAmI, 0f, 0f);
-            return false;
+                int proj = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<FrostsparkBulletProj>(), (int)(damage * 0.75), knockBack, player.whoAmI);
+				Main.projectile[proj].extraUpdates += index;
+			}
+            int proj2 = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<ShockblastRound>(), damage, knockBack, player.whoAmI);
+			Main.projectile[proj2].extraUpdates += 2;
+			return false;
         }
     }
 }

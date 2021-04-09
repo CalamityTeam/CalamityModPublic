@@ -1,10 +1,12 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Events;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Mounts;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
+using CalamityMod.Items.Potions;
 using CalamityMod.Items.TreasureBags;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
@@ -35,43 +37,21 @@ namespace CalamityMod.NPCs.Bumblebirb
 
         public override void SetDefaults()
         {
-            npc.npcSlots = 32f;
+			npc.Calamity().canBreakPlayerDefense = true;
+			npc.npcSlots = 32f;
             npc.aiStyle = -1;
             aiType = -1;
-            npc.damage = 160;
-            npc.width = 130;
+			npc.GetNPCDamage();
+			npc.width = 130;
             npc.height = 100;
             npc.defense = 40;
+			npc.DR_NERD(0.1f, null, null, null, true);
 			CalamityGlobalNPC global = npc.Calamity();
-			global.DR = 0.1f;
-			global.customDR = true;
-			global.multDRReductions.Add(BuffID.Ichor, 0.88f);
 			global.multDRReductions.Add(BuffID.CursedInferno, 0.9f);
-			npc.LifeMaxNERB(227500, 252500, 3000000);
-            double HPBoost = CalamityMod.CalamityConfig.BossHealthPercentageBoost * 0.01;
+			npc.LifeMaxNERB(170625, 189375, 3000000); // Old HP - 227500, 252500
+            double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.knockBackResist = 0f;
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
-            npc.buffImmune[BuffID.Ichor] = false;
-            npc.buffImmune[BuffID.CursedInferno] = false;
-			npc.buffImmune[BuffID.StardustMinionBleed] = false;
-			npc.buffImmune[BuffID.DryadsWardDebuff] = false;
-			npc.buffImmune[BuffID.Oiled] = false;
-			npc.buffImmune[BuffID.Daybreak] = false;
-			npc.buffImmune[BuffID.BetsysCurse] = false;
-            npc.buffImmune[ModContent.BuffType<ExoFreeze>()] = false;
-            npc.buffImmune[ModContent.BuffType<AbyssalFlames>()] = false;
-            npc.buffImmune[ModContent.BuffType<AstralInfectionDebuff>()] = false;
-            npc.buffImmune[ModContent.BuffType<ArmorCrunch>()] = false;
-            npc.buffImmune[ModContent.BuffType<DemonFlames>()] = false;
-            npc.buffImmune[ModContent.BuffType<GodSlayerInferno>()] = false;
-            npc.buffImmune[ModContent.BuffType<Nightwither>()] = false;
-            npc.buffImmune[ModContent.BuffType<Shred>()] = false;
-            npc.buffImmune[ModContent.BuffType<WhisperingDeath>()] = false;
-            npc.buffImmune[ModContent.BuffType<SilvaStun>()] = false;
             npc.boss = true;
             Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
             if (calamityModMusic != null)
@@ -90,12 +70,18 @@ namespace CalamityMod.NPCs.Bumblebirb
 		{
 			writer.Write(npc.dontTakeDamage);
 			writer.Write(npc.localAI[0]);
+			writer.Write(npc.localAI[1]);
+			writer.Write(npc.localAI[2]);
+			writer.Write(npc.localAI[3]);
 		}
 
 		public override void ReceiveExtraAI(BinaryReader reader)
 		{
 			npc.dontTakeDamage = reader.ReadBoolean();
 			npc.localAI[0] = reader.ReadSingle();
+			npc.localAI[1] = reader.ReadSingle();
+			npc.localAI[2] = reader.ReadSingle();
+			npc.localAI[3] = reader.ReadSingle();
 		}
 
 		public override void AI()
@@ -113,25 +99,26 @@ namespace CalamityMod.NPCs.Bumblebirb
         {
 			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
-			bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
-			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
+			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
+			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
 
 			// Percent life remaining
-			float lifeRatio = (float)npc.life / (float)npc.lifeMax;
+			float lifeRatio = npc.life / (float)npc.lifeMax;
 
 			// Phases
 			bool phase2 = lifeRatio < (revenge ? 0.75f : 0.5f) || death;
 			bool phase3 = lifeRatio < (death ? 0.4f : revenge ? 0.25f : 0.1f);
+			bool birbSpawn = npc.ai[0] == 4f && npc.ai[1] > 0f;
 
 			float newPhaseTimer = 180f;
 			bool phaseSwitchPhase = (phase2 && calamityGlobalNPC.newAI[0] < newPhaseTimer && calamityGlobalNPC.newAI[2] != 1f) ||
 				(phase3 && calamityGlobalNPC.newAI[1] < newPhaseTimer && calamityGlobalNPC.newAI[3] != 1f);
 
-			if (phaseSwitchPhase)
+			if (phaseSwitchPhase || birbSpawn)
 			{
-				float frameGateValue = phase3 ? calamityGlobalNPC.newAI[1] : calamityGlobalNPC.newAI[0];
+				float frameGateValue = birbSpawn ? npc.ai[1] : phase3 ? calamityGlobalNPC.newAI[1] : calamityGlobalNPC.newAI[0];
 				int num116 = 180;
-				if (frameGateValue < (float)(num116 - 60) || frameGateValue > (float)(num116 - 20))
+				if (frameGateValue < (num116 - 60) || frameGateValue > (num116 - 20))
 				{
 					npc.frameCounter += 1D;
 					if (npc.frameCounter > 5D)
@@ -147,7 +134,7 @@ namespace CalamityMod.NPCs.Bumblebirb
 				else
 				{
 					npc.frame.Y = frameHeight * 4;
-					if (frameGateValue > (float)(num116 - 50) && frameGateValue < (float)(num116 - 25))
+					if (frameGateValue > (num116 - 50) && frameGateValue < (num116 - 25))
 					{
 						npc.frame.Y = frameHeight * 5;
 					}
@@ -156,7 +143,7 @@ namespace CalamityMod.NPCs.Bumblebirb
 			else if (npc.ai[0] == 5f)
 			{
 				int num115 = 120;
-				if (npc.ai[1] < (float)(num115 - 50) || npc.ai[1] > (float)(num115 - 10))
+				if (npc.ai[1] < (num115 - 50) || npc.ai[1] > (num115 - 10))
 				{
 					npc.frameCounter += 1D;
 					if (npc.frameCounter > 5D)
@@ -172,7 +159,7 @@ namespace CalamityMod.NPCs.Bumblebirb
 				else
 				{
 					npc.frame.Y = frameHeight * 4;
-					if (npc.ai[1] > (float)(num115 - 40) && npc.ai[1] < (float)(num115 - 15))
+					if (npc.ai[1] > (num115 - 40) && npc.ai[1] < (num115 - 15))
 					{
 						npc.frame.Y = frameHeight * 5;
 					}
@@ -197,8 +184,8 @@ namespace CalamityMod.NPCs.Bumblebirb
 		{
 			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
-			bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
-			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
+			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
+			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
 
 			// Percent life remaining
 			float lifeRatio = (float)npc.life / (float)npc.lifeMax;
@@ -259,7 +246,7 @@ namespace CalamityMod.NPCs.Bumblebirb
 				color = lightColor;
 			}
 
-			if (CalamityMod.CalamityConfig.Afterimages)
+			if (CalamityConfig.Instance.Afterimages)
 			{
 				for (int num155 = 1; num155 < num153; num155 += num154)
 				{
@@ -314,7 +301,7 @@ namespace CalamityMod.NPCs.Bumblebirb
 				}
 			}
 
-			if (CalamityMod.CalamityConfig.Afterimages)
+			if (CalamityConfig.Instance.Afterimages)
 			{
 				for (int num160 = 0; num160 < num156; num160++)
 				{
@@ -356,7 +343,7 @@ namespace CalamityMod.NPCs.Bumblebirb
 					color40 *= num161;
 				}
 
-				if (CalamityMod.CalamityConfig.Afterimages)
+				if (CalamityConfig.Instance.Afterimages)
 				{
 					for (int num163 = 1; num163 < num153; num163 += num154)
 					{
@@ -400,30 +387,35 @@ namespace CalamityMod.NPCs.Bumblebirb
 		public override void BossLoot(ref string name, ref int potionType)
         {
             name = "A Dragonfolly";
-            potionType = ItemID.SuperHealingPotion;
+            potionType = ModContent.ItemType<SupremeHealingPotion>();
         }
 
         public override void NPCLoot()
         {
             DropHelper.DropBags(npc);
 
-            DropHelper.DropItemChance(npc, ModContent.ItemType<BumblebirbTrophy>(), 10);
+			// Legendary drop for Dragonfolly
+			DropHelper.DropItemCondition(npc, ModContent.ItemType<Swordsplosion>(), true, CalamityWorld.malice);
+
+			DropHelper.DropItemChance(npc, ModContent.ItemType<BumblebirbTrophy>(), 10);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeBumblebirb>(), true, !CalamityWorld.downedBumble);
             DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedBumble, 5, 2, 1);
 
-			npc.Calamity().SetNewShopVariable(new int[] { NPCID.WitchDoctor }, CalamityWorld.downedBumble);
+			CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.WitchDoctor }, CalamityWorld.downedBumble);
 
 			// All other drops are contained in the bag, so they only drop directly on Normal
 			if (!Main.expertMode)
             {
                 // Materials
-                DropHelper.DropItemSpray(npc, ModContent.ItemType<EffulgentFeather>(), 6, 11);
+                DropHelper.DropItemSpray(npc, ModContent.ItemType<EffulgentFeather>(), 11, 17);
 
-                // Weapons
-                DropHelper.DropItemChance(npc, ModContent.ItemType<GildedProboscis>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<GoldenEagle>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<RougeSlash>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Swordsplosion>(), DropHelper.RareVariantDropRateInt);
+				// Weapons
+				float w = DropHelper.NormalWeaponDropRateFloat;
+				DropHelper.DropEntireWeightedSet(npc,
+					DropHelper.WeightStack<GildedProboscis>(w),
+					DropHelper.WeightStack<GoldenEagle>(w),
+					DropHelper.WeightStack<RougeSlash>(w)
+				);
 
                 // Equipment
                 DropHelper.DropItemChance(npc, ModContent.ItemType<BirdSeed>(), 4);
@@ -434,13 +426,13 @@ namespace CalamityMod.NPCs.Bumblebirb
 
             // Mark The Dragonfolly as dead
             CalamityWorld.downedBumble = true;
-            CalamityMod.UpdateServerBoolean();
+            CalamityNetcode.SyncWorld();
         }
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
             npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);
-            npc.damage = (int)(npc.damage * 0.8f);
+            npc.damage = (int)(npc.damage * npc.GetExpertDamageMultiplier());
         }
 
         public override void HitEffect(int hitDirection, double damage)
@@ -458,7 +450,7 @@ namespace CalamityMod.NPCs.Bumblebirb
                 for (int i = 0; i < 6; i++) // 1 head, 1 wing, 4 legs = 6. one wing due to them being chonky boyes now
                 {
                     string gore = "Gores/Bumble";
-                    float randomSpread = (float)(Main.rand.Next(-200, 200) / 100);
+                    float randomSpread = Main.rand.Next(-200, 201) / 100f;
                     gore += i == 0 ? "Head" : i > 1 ? "Leg" : "Wing";
                     Gore.NewGore(npc.position, npc.velocity * randomSpread, mod.GetGoreSlot(gore), 1f);
                 }

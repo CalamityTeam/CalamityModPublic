@@ -1,14 +1,13 @@
 using CalamityMod.CalPlayer;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Materials;
-using CalamityMod.Items.Placeables.Ores;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Armor
 {
-    [AutoloadEquip(EquipType.Head)]
+	[AutoloadEquip(EquipType.Head)]
     public class AuricTeslaWireHemmedVisage : ModItem
     {
         public override void SetStaticDefaults()
@@ -39,7 +38,7 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateArmorSet(Player player)
         {
-            player.setBonus = "Magic Tarragon, Bloodflare, God Slayer, and Silva armor effects\n" +
+            player.setBonus = "Magic Tarragon, Bloodflare and Silva armor effects\n" +
                 "All projectiles spawn healing auric orbs on enemy hits\n" +
                 "Max run speed and acceleration boosted by 10%";
             CalamityPlayer modPlayer = player.Calamity();
@@ -47,8 +46,6 @@ namespace CalamityMod.Items.Armor
             modPlayer.tarraMage = true;
             modPlayer.bloodflareSet = true;
             modPlayer.bloodflareMage = true;
-            modPlayer.godSlayer = true;
-            modPlayer.godSlayerMage = true;
             modPlayer.silvaSet = true;
             modPlayer.silvaMage = true;
             modPlayer.auricSet = true;
@@ -77,7 +74,6 @@ namespace CalamityMod.Items.Armor
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<SilvaMaskedCap>());
-            recipe.AddIngredient(ModContent.ItemType<GodSlayerVisage>());
             recipe.AddIngredient(ModContent.ItemType<BloodflareHornedMask>());
             recipe.AddIngredient(ModContent.ItemType<TarragonMask>());
 			recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 10);

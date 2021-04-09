@@ -1,3 +1,4 @@
+using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.DraedonsArsenal;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -6,20 +7,22 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.DraedonsArsenal
 {
-    public class PlasmaCaster : ModItem
+	// still awkward that the item called Plasma Rifle is the same class and exact same tier as this item
+	public class PlasmaCaster : ModItem
 	{
-		private int BaseDamage = 2800;
-
+		public const int BaseDamage = 705;
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Plasma Caster");
 			Tooltip.SetDefault("Industrial tool used to fuse metal together with super-heated plasma\n" +
-				"Melts through target defense to deal extra damage to high defense targets\n" +
+				"Deals more damage against enemies with high defenses\n" +
 				"Right click for turbo mode");
 		}
 
 		public override void SetDefaults()
 		{
+			CalamityGlobalItem modItem = item.Calamity();
+
 			item.width = 62;
 			item.height = 30;
 			item.magic = true;
@@ -28,42 +31,38 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 			item.useTime = 45;
 			item.useAnimation = 45;
 			item.autoReuse = true;
+			item.mana = 24;
 
 			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/PlasmaCasterFire");
 			item.noMelee = true;
 
-			item.value = Item.buyPrice(1, 80, 0, 0);
-			item.rare = 10;
-			item.Calamity().customRarity = CalamityRarity.RareVariant;
+			item.value = CalamityGlobalItem.RarityTurquoiseBuyPrice;
+			item.rare = ItemRarityID.Red;
+			modItem.customRarity = CalamityRarity.DraedonRust;
 
 			item.shoot = ModContent.ProjectileType<PlasmaCasterShot>();
-			item.shootSpeed = 1f;
-			item.useAmmo = AmmoID.Bullet;
+			item.shootSpeed = 5f;
+
+			modItem.UsesCharge = true;
+			modItem.MaxCharge = 190f;
+			modItem.ChargePerUse = 0.32f;
+			modItem.ChargePerAltUse = 0.12f; // turbo mode is more energy inefficient
 		}
 
-		public override bool AltFunctionUse(Player player)
-		{
-			return true;
-		}
+		public override bool AltFunctionUse(Player player) => true;
 
-		public override bool CanUseItem(Player player)
+		public override float UseTimeMultiplier	(Player player)
 		{
 			if (player.altFunctionUse == 2)
-			{
-				item.useAnimation = 15;
-				item.useTime = 15;
-				item.damage = BaseDamage / 3;
-				item.knockBack = 3f;
-			}
-			else
-			{
-				item.useAnimation = 45;
-				item.useTime = 45;
-				item.damage = BaseDamage;
-				item.knockBack = 7f;
-			}
-			return base.CanUseItem(player);
+				return 3f;
+			return 1f;
+		}
+
+		public override void ModifyManaCost(Player player, ref float reduce, ref float mult)
+		{
+			if (player.altFunctionUse == 2)
+				mult /= 3f;
 		}
 
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -75,27 +74,19 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 				velocity *= 5f;
 			}
 
-			int ammoConsumed = 20;
-			float SpeedX = velocity.X + (float)Main.rand.Next(-3, 4) * 0.05f;
-			float SpeedY = velocity.Y + (float)Main.rand.Next(-3, 4) * 0.05f;
+			float SpeedX = velocity.X + Main.rand.Next(-3, 4) * 0.05f;
+			float SpeedY = velocity.Y + Main.rand.Next(-3, 4) * 0.05f;
+			float damageMult = 1f;
+			float kbMult = 1f;
 			if (player.altFunctionUse == 2)
 			{
-				ammoConsumed = 5;
-				SpeedX = velocity.X + (float)Main.rand.Next(-15, 16) * 0.05f;
-				SpeedY = velocity.Y + (float)Main.rand.Next(-15, 16) * 0.05f;
+				SpeedX = velocity.X + Main.rand.Next(-15, 16) * 0.05f;
+				SpeedY = velocity.Y + Main.rand.Next(-15, 16) * 0.05f;
+				damageMult = 0.3333f;
+				kbMult = 3f / 7f;
 			}
 
-			Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<PlasmaCasterShot>(), damage, knockBack, player.whoAmI, 0f, 0f);
-
-			// Consume 20 or 5 ammo per shot
-			CalamityGlobalItem.ConsumeAdditionalAmmo(player, item, ammoConsumed);
-
-			return false;
-		}
-
-		// Disable vanilla ammo consumption
-		public override bool ConsumeAmmo(Player player)
-		{
+			Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<PlasmaCasterShot>(), (int)(damage * damageMult), knockBack * kbMult, player.whoAmI, 0f, 0f);
 			return false;
 		}
 
@@ -104,16 +95,16 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 			return new Vector2(-10, 0);
 		}
 
-		/*public override void AddRecipes()
+		public override void AddRecipes()
 		{
-			ModRecipe r = new ModRecipe(mod);
-			r.AddIngredient(null, "CrownJewel");
-			r.AddIngredient(null, "GalacticaSingularity", 5);
-			r.AddIngredient(null, "BarofLife", 10);
-			r.AddIngredient(null, "CosmiliteBar", 15);
-			r.AddTile(TileID.LunarCraftingStation);
-			r.SetResult(this);
-			r.AddRecipe();
-		}*/
+			ModRecipe recipe = new ModRecipe(mod);
+			recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 18);
+			recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 12);
+			recipe.AddIngredient(ModContent.ItemType<UeliaceBar>(), 8);
+			recipe.AddIngredient(ItemID.LunarBar, 4);
+			recipe.AddTile(TileID.LunarCraftingStation);
+			recipe.SetResult(this);
+			recipe.AddRecipe();
+		}
 	}
 }

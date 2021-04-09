@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.shoot = ModContent.ProjectileType<ShortNightBeam>();
             item.shootSpeed = 8f;
             item.value = Item.buyPrice(0, 80, 0, 0);
-            item.rare = 8;
+            item.rare = ItemRarityID.Yellow;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

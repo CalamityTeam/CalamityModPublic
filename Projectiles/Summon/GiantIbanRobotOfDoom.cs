@@ -5,16 +5,13 @@ using CalamityMod.Projectiles.Summon.AndromedaUI;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.GameContent.Events;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System;
-using System.Collections.Generic;
-using CalamityMod.Buffs.Cooldowns;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    public class AndromedaHead : EquipTexture
+	public class AndromedaHead : EquipTexture
     {
         public override bool DrawHead() => false;
     }
@@ -30,6 +27,11 @@ namespace CalamityMod.Projectiles.Summon
                 FrameX = value / 7;
                 FrameY = value % 7;
             }
+        }
+        public float ClickCooldown
+        {
+            get => projectile.ai[0];
+            set => projectile.ai[0] = value;
         }
         public bool LeftBracketActive = false;
         public bool RightBracketActive = true; // This is supposed to be the default bracket, according to Iban. Ask him before changing this.
@@ -48,11 +50,9 @@ namespace CalamityMod.Projectiles.Summon
         /// This cooldown is set in <see cref="CalamityGlobalItem.PerformAndromedaAttacks"/>
         /// </summary>
         public int LaserCooldown = 0;
-        public static Vector2 LightningShootOffset;
-        public const int SpecialLightningBaseDamage = 5600;
-        public const int RegicideBaseDamageSmall = 12650;
-        public const int RegicideBaseDamageLarge = 17800;
         public const int LaserBaseDamage = 21000;
+        public const int RegicideBaseDamageSmall = 9487;
+        public const int RegicideBaseDamageLarge = 26000;
 
         public override void SetStaticDefaults()
         {
@@ -71,7 +71,6 @@ namespace CalamityMod.Projectiles.Summon
             projectile.timeLeft *= 5;
             projectile.tileCollide = false;
             projectile.alpha = 255;
-            projectile.Calamity().rogue = true;
             projectile.usesIDStaticNPCImmunity = true;
             projectile.idStaticNPCHitCooldown = 11;
         }
@@ -111,7 +110,7 @@ namespace CalamityMod.Projectiles.Summon
             if (LaserCooldown > 0)
             {
                 LaserCooldown--;
-                LaserBeam(player);
+                FireLaserBeam(player);
             }
         }
         public void ManipulatePlayerValues(Player player)
@@ -164,9 +163,9 @@ namespace CalamityMod.Projectiles.Summon
         }
         public void RegisterRightClick(Player player)
         {
-            if (Main.mouseRight && projectile.ai[0] <= 0f)
+            if (Main.mouseRight && ClickCooldown <= 0f)
             {
-                projectile.ai[0] = 30f;
+                ClickCooldown = 30f;
                 // Exit the charge mode early.
                 if (RightIconCooldown > RightIconAttackTime)
                 {
@@ -202,9 +201,9 @@ namespace CalamityMod.Projectiles.Summon
                     }
                 }
             }
-            else if (projectile.ai[0] > 0f)
+            else if (ClickCooldown > 0f)
             {
-                projectile.ai[0]--;
+                ClickCooldown--;
             }
         }
         public void SetFrames(Player player)
@@ -345,7 +344,7 @@ namespace CalamityMod.Projectiles.Summon
                 projectile.spriteDirection = (Math.Cos(Main.projectile[laserBeamIndex].velocity.ToRotation()) > 0).ToDirectionInt(); // ai[1] is the blade's starting rotation
             }
         }
-        public void LaserBeam(Player player)
+        public void FireLaserBeam(Player player)
         {
             if (LaserCooldown % (AndromedaDeathRay.TrueTimeLeft - 10) == (AndromedaDeathRay.TrueTimeLeft - 11))
             {
@@ -388,7 +387,7 @@ namespace CalamityMod.Projectiles.Summon
                                                                            8f,
                                                                            projectile.owner,
                                                                            projectile.whoAmI);
-                    if (player.HeldItem != null)
+                    if (player.HeldItem != null && deathLaser.whoAmI.WithinBounds(Main.maxProjectiles))
                     {
                         if (player.HeldItem.magic)
                         {

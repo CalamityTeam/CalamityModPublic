@@ -1,5 +1,9 @@
+using CalamityMod.CalPlayer;
 using CalamityMod.Items.Accessories;
 using CalamityMod.World;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -18,21 +22,34 @@ namespace CalamityMod.NPCs.Leviathan
             npc.aiStyle = -1;
             aiType = -1;
             npc.damage = 0;
-            npc.width = 70; //324
-            npc.height = 70; //216
+            npc.width = 100;
+            npc.height = 100;
             npc.defense = 0;
-            npc.lifeMax = 3000;
+            npc.lifeMax = 1000;
             npc.knockBackResist = 0f;
+			npc.Opacity = 0f;
             npc.noGravity = true;
+			npc.dontTakeDamage = true;
             npc.chaseable = false;
             npc.HitSound = SoundID.NPCHit1;
-            npc.rarity = 2;
+			npc.DeathSound = null;
+			npc.rarity = 2;
             Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
             if (calamityModMusic != null)
                 music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/SirenLure");
         }
 
-        public override void FindFrame(int frameHeight)
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(npc.dontTakeDamage);
+		}
+
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			npc.dontTakeDamage = reader.ReadBoolean();
+		}
+
+		public override void FindFrame(int frameHeight)
         {
             npc.frameCounter += 0.1f;
             npc.frameCounter %= Main.npcFrameCount[npc.type];
@@ -43,25 +60,58 @@ namespace CalamityMod.NPCs.Leviathan
         public override void AI()
         {
             npc.TargetClosest(true);
-            Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0.55f, 0.25f, 0f);
-            for (int num569 = 0; num569 < 200; num569++)
-            {
-                if (Main.npc[num569].active && Main.npc[num569].boss)
-                {
-                    npc.active = false;
-                }
-            }
+
+			float playerLocation = npc.Center.X - Main.player[npc.target].Center.X;
+			npc.direction = playerLocation < 0f ? 1 : -1;
+			npc.spriteDirection = npc.direction;
+
+			if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) < 560f)
+			{
+				if (npc.ai[0] < 90f)
+					npc.ai[0] += 1f;
+			}
+			else if (npc.ai[0] > 0f)
+				npc.ai[0] -= 1f;
+
+			npc.dontTakeDamage = npc.ai[0] != 90f;
+
+			npc.Opacity = MathHelper.Clamp(npc.ai[0] / 90f, 0f, 1f);
+
+			Lighting.AddLight((int)npc.Center.X / 16, (int)npc.Center.Y / 16, 0f, 0f, 0.8f * npc.Opacity);
+
+            if (CalamityPlayer.areThereAnyDamnBosses)
+                npc.active = false;
         }
 
-        public override float SpawnChance(NPCSpawnInfo spawnInfo)
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			SpriteEffects spriteEffects = SpriteEffects.None;
+			if (npc.spriteDirection == 1)
+				spriteEffects = SpriteEffects.FlipHorizontally;
+
+			Texture2D drawTex = Main.npcTexture[npc.type];
+			Vector2 origin = new Vector2(drawTex.Width / 2, drawTex.Height / 2);
+
+			Vector2 drawPos = npc.Center - Main.screenPosition;
+			drawPos -= new Vector2(drawTex.Width, drawTex.Height / Main.npcFrameCount[npc.type]) * npc.scale / 2f;
+			drawPos += origin * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+			spriteBatch.Draw(drawTex, drawPos, npc.frame, npc.GetAlpha(lightColor), npc.rotation, origin, npc.scale, spriteEffects, 0f);
+
+			drawTex = ModContent.GetTexture("CalamityMod/NPCs/Leviathan/LeviathanStartGlow");
+
+			spriteBatch.Draw(drawTex, drawPos, npc.frame, Color.White, npc.rotation, origin, npc.scale, spriteEffects, 0f);
+
+			return false;
+		}
+
+		public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
             if (spawnInfo.playerSafe ||
                 NPC.AnyNPCs(NPCID.DukeFishron) ||
-                NPC.AnyNPCs(ModContent.NPCType<LeviathanStart>()) ||
+                NPC.AnyNPCs(npc.type) ||
                 NPC.AnyNPCs(ModContent.NPCType<Siren>()) ||
                 NPC.AnyNPCs(ModContent.NPCType<Leviathan>()) ||
-                spawnInfo.player.Calamity().ZoneSulphur ||
-                spawnInfo.player.Calamity().oceanLore)
+                spawnInfo.player.Calamity().ZoneSulphur)
             {
                 return 0f;
             }
@@ -76,40 +126,25 @@ namespace CalamityMod.NPCs.Leviathan
             return SpawnCondition.OceanMonster.Chance * 0.4f;
         }
 
-        public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
-        {
-            npc.lifeMax = 3000;
-            npc.damage = 0;
-        }
-
         public override void NPCLoot()
         {
-            if (CalamityWorld.revenge && Main.rand.NextBool(4))
-            {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, Main.rand.NextBool(2) ? ModContent.ItemType<SirensHeart>() : ModContent.ItemType<SirensHeartAlt>());
-            }
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<SirensHeart>(), CalamityWorld.revenge, 0.25f);
         }
 
         public override void HitEffect(int hitDirection, double damage)
         {
-            if (npc.life > 0)
-            {
-                for (int k = 0; k < 5; k++)
-                {
-                    Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
-                }
-            }
-            else
-            {
-                for (int k = 0; k < 20; k++)
-                {
-                    Dust.NewDust(npc.position, npc.width, npc.height, 67, hitDirection, -1f, 0, default, 1f);
-                }
-                if (Main.netMode != NetmodeID.MultiplayerClient)
-                {
-                    NPC.NewNPC((int)npc.Center.X, (int)npc.position.Y + npc.height, ModContent.NPCType<Siren>(), npc.whoAmI, 0f, 0f, 0f, 0f, 255);
-                }
-            }
+			if (npc.life > 0)
+			{
+				for (int k = 0; k < 5; k++)
+				{
+					Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
+				}
+			}
+			else if (Main.netMode != NetmodeID.MultiplayerClient)
+			{
+				int siren = NPC.NewNPC((int)npc.Center.X, (int)npc.position.Y + npc.height, ModContent.NPCType<Siren>(), npc.whoAmI);
+				CalamityUtils.BossAwakenMessage(siren);
+			}
         }
     }
 }

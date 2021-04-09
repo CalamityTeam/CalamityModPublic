@@ -20,7 +20,8 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetDefaults()
         {
-            projectile.width = 50;
+			projectile.Calamity().canBreakPlayerDefense = true;
+			projectile.width = 50;
             projectile.height = 50;
             projectile.hostile = true;
             projectile.ignoreWater = true;
@@ -80,10 +81,7 @@ namespace CalamityMod.Projectiles.Boss
                     projectile.velocity *= scaleFactor2;
                 }
                 else if (Math.Abs(projectile.velocity.X) + Math.Abs(projectile.velocity.Y) < 18f)
-                {
-                    projectile.velocity.X *= 1.01f;
-                    projectile.velocity.Y *= 1.01f;
-                }
+                    projectile.velocity *= 1.01f;
             }
         }
 

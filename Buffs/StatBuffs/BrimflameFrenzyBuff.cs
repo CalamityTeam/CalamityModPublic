@@ -1,12 +1,9 @@
-
-using CalamityMod.Buffs.Cooldowns;
-using CalamityMod.CalPlayer;
 using Terraria;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Buffs.StatBuffs
 {
-    public class BrimflameFrenzyBuff : ModBuff
+	public class BrimflameFrenzyBuff : ModBuff
     {
         public override void SetDefaults()
         {

@@ -70,30 +70,6 @@ namespace CalamityMod.Projectiles.Summon
             float num634 = 1600f; //800
             float num635 = 2400f; //1200
             float num636 = 800f;
-            float num637 = 0.05f;
-            for (int num638 = 0; num638 < Main.maxProjectiles; num638++)
-            {
-                bool flag23 = Main.projectile[num638].type == ModContent.ProjectileType<CosmicEnergySpiral>();
-                if (num638 != projectile.whoAmI && Main.projectile[num638].active && Main.projectile[num638].owner == projectile.owner && flag23 && Math.Abs(projectile.position.X - Main.projectile[num638].position.X) + Math.Abs(projectile.position.Y - Main.projectile[num638].position.Y) < (float)projectile.width)
-                {
-                    if (projectile.position.X < Main.projectile[num638].position.X)
-                    {
-                        projectile.velocity.X = projectile.velocity.X - num637;
-                    }
-                    else
-                    {
-                        projectile.velocity.X = projectile.velocity.X + num637;
-                    }
-                    if (projectile.position.Y < Main.projectile[num638].position.Y)
-                    {
-                        projectile.velocity.Y = projectile.velocity.Y - num637;
-                    }
-                    else
-                    {
-                        projectile.velocity.Y = projectile.velocity.Y + num637;
-                    }
-                }
-            }
             projectile.rotation += projectile.velocity.X * 0.1f;
             Vector2 vector46 = projectile.position;
             bool flag25 = false;
@@ -219,9 +195,9 @@ namespace CalamityMod.Projectiles.Summon
                 float num397 = projectile.position.Y;
                 float num398 = 1200f;
                 bool flag11 = false;
-                for (int num399 = 0; num399 < 200; num399++)
+                for (int num399 = 0; num399 < Main.maxNPCs; num399++)
                 {
-                    if (Main.npc[num399].CanBeChasedBy(projectile, true))
+                    if (Main.npc[num399].CanBeChasedBy(projectile, false))
                     {
                         float num400 = Main.npc[num399].position.X + (float)(Main.npc[num399].width / 2);
                         float num401 = Main.npc[num399].position.Y + (float)(Main.npc[num399].height / 2);
@@ -238,24 +214,17 @@ namespace CalamityMod.Projectiles.Summon
                 if (flag11)
                 {
                     Main.PlaySound(SoundID.Item105, (int)projectile.position.X, (int)projectile.position.Y);
-                    int num251 = Main.rand.Next(5, 8);
-                    for (int num252 = 0; num252 < num251; num252++)
+                    int blastAmt = Main.rand.Next(5, 8);
+                    for (int b = 0; b < blastAmt; b++)
                     {
-                        Vector2 value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-                        while (value15.X == 0f && value15.Y == 0f)
-                        {
-                            value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-                        }
-                        value15.Normalize();
-                        value15 *= (float)Main.rand.Next(70, 101) * 0.1f;
-                        Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value15.X, value15.Y, ModContent.ProjectileType<CosmicBlast>(), (int)((double)projectile.damage * 0.5), 2f, projectile.owner, (float)target, 0f);
+						Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
+                        Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<CosmicBlast>(), (int)(projectile.damage * 0.5), 2f, projectile.owner, (float)target, 0f);
                     }
-                    float num403 = 15f;
-                    Vector2 vector29 = new Vector2(projectile.position.X + (float)projectile.width * 0.5f, projectile.position.Y + (float)projectile.height * 0.5f);
-                    float num404 = num396 - vector29.X;
-                    float num405 = num397 - vector29.Y;
+                    float speed = 15f;
+                    float num404 = num396 - projectile.Center.X;
+                    float num405 = num397 - projectile.Center.Y;
                     float num406 = (float)Math.Sqrt((double)(num404 * num404 + num405 * num405));
-                    num406 = num403 / num406;
+                    num406 = speed / num406;
                     num404 *= num406;
                     num405 *= num406;
                     Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, num404, num405, ModContent.ProjectileType<CosmicBlastBig>(), projectile.damage, 3f, projectile.owner, (float)target, 0f);

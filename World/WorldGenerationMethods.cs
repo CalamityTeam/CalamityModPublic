@@ -11,6 +11,7 @@ using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
+using CalamityMod.Schematics;
 using CalamityMod.Tiles;
 using CalamityMod.Tiles.Abyss;
 using CalamityMod.Tiles.Astral;
@@ -24,6 +25,8 @@ using CalamityMod.Walls;
 using CalamityMod.World.Planets;
 using Microsoft.Xna.Framework;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using Terraria;
 using Terraria.ID;
@@ -139,7 +142,7 @@ namespace CalamityMod.World
                 }
                 PutItemInChest(ref chest, ItemID.GoldCoin, goldCoins);
             }
-            else if (type == ModContent.TileType<RustyChestLocked>())
+            else if (type == ModContent.TileType<RustyChestTile>())
             {
                 // 15-29 torches (in accordence with vanilla)
                 PutItemInChest(ref chest, ItemID.Torch, 15, 29);
@@ -187,985 +190,10 @@ namespace CalamityMod.World
                 PutItemInChest(ref chest, ItemID.GoldCoin, 1, 2);
             }
         }
-		#endregion
+        #endregion
 
-		#region New Temple
-		public static void NewJungleTemple()
-		{
-			bool flag2 = true;
-			while (flag2)
-			{
-				int num = WorldGen.genRand.Next((int)Main.rockLayer, Main.maxTilesY - 500);
-				int num2;
-				if (WorldGen.dungeonX < Main.maxTilesX / 2)
-				{
-					num2 = WorldGen.genRand.Next((int)((double)Main.maxTilesX * 0.6), (int)((double)Main.maxTilesX * 0.85));
-				}
-				else
-				{
-					num2 = WorldGen.genRand.Next((int)((double)Main.maxTilesX * 0.15), (int)((double)Main.maxTilesX * 0.4));
-				}
-				if (Main.tile[num2, num].active() && Main.tile[num2, num].type == 60)
-				{
-					flag2 = false;
-					GenNewTemple(num2, num);
-				}
-			}
-		}
-
-		public static void GenNewTemple(int x, int y)
-		{
-			Rectangle[] array = new Rectangle[200];
-			float num = (float)(Main.maxTilesX / 4200);
-			int num2 = WorldGen.genRand.Next((int)(num * 12f), (int)(num * 16f));
-			int num3 = 1;
-			if (WorldGen.genRand.Next(2) == 0)
-			{
-				num3 = -1;
-			}
-			int num4 = num3;
-			int num5 = x;
-			int num6 = y;
-			int num7 = x;
-			int num8 = y;
-			int num9 = WorldGen.genRand.Next(1, 3);
-			int num10 = 0;
-
-			// Temple room sizes
-			for (int i = 0; i < num2; i++)
-			{
-				num10++;
-				int num11 = num3;
-				int num12 = num7;
-				int num13 = num8;
-				bool flag = true;
-				int num14 = 0;
-				int num15 = 0;
-				int num16 = -10;
-				Rectangle rectangle = new Rectangle(num12 - num14 / 2, num13 - num15 / 2, num14, num15);
-				while (flag)
-				{
-					num12 = num7;
-					num13 = num8;
-					num14 = WorldGen.genRand.Next(30, 46);
-					num15 = WorldGen.genRand.Next(25, 31);
-
-					// Final temple room size
-					if (i == num2 - 1)
-					{
-						num14 = WorldGen.genRand.Next(105, 116);
-						num15 = WorldGen.genRand.Next(90, 106);
-						num13 += WorldGen.genRand.Next(6, 9);
-					}
-
-					if (num10 > num9)
-					{
-						num13 += WorldGen.genRand.Next(num15 + 1, num15 + 3) + num16;
-						num12 += WorldGen.genRand.Next(-2, 3);
-						num11 = num3 * -1;
-					}
-					else
-					{
-						num12 += (WorldGen.genRand.Next(num14 + 1, num14 + 3) + num16) * num11;
-						num13 += WorldGen.genRand.Next(-2, 3);
-					}
-
-					flag = false;
-					rectangle = new Rectangle(num12 - num14 / 2, num13 - num15 / 2, num14, num15);
-					for (int j = 0; j < i; j++)
-					{
-						if (rectangle.Intersects(array[j]))
-						{
-							flag = true;
-						}
-						if (WorldGen.genRand.Next(100) == 0)
-						{
-							num16++;
-						}
-					}
-				}
-				if (num10 > num9)
-				{
-					num9++;
-					num10 = 1;
-				}
-				array[i] = rectangle;
-				num3 = num11;
-				num7 = num12;
-				num8 = num13;
-			}
-
-			for (int k = 0; k < num2; k++)
-			{
-				for (int l = 0; l < 2; l++)
-				{
-					for (int m = 0; m < num2; m++)
-					{
-						for (int n = 0; n < 2; n++)
-						{
-							int num17 = array[k].X;
-							if (l == 1)
-							{
-								num17 += array[k].Width - 1;
-							}
-							int num18 = array[k].Y;
-							int num19 = num18 + array[k].Height;
-							int num20 = array[m].X;
-							if (n == 1)
-							{
-								num20 += array[m].Width - 1;
-							}
-							int y2 = array[m].Y;
-							int num21 = y2 + array[m].Height;
-							while (num17 != num20 || num18 != y2 || num19 != num21)
-							{
-								if (num17 < num20)
-								{
-									num17++;
-								}
-								if (num17 > num20)
-								{
-									num17--;
-								}
-								if (num18 < y2)
-								{
-									num18++;
-								}
-								if (num18 > y2)
-								{
-									num18--;
-								}
-								if (num19 < num21)
-								{
-									num19++;
-								}
-								if (num19 > num21)
-								{
-									num19--;
-								}
-								int num22 = num17;
-								for (int num23 = num18; num23 < num19; num23++)
-								{
-									Main.tile[num22, num23].active(true);
-									Main.tile[num22, num23].type = 226;
-									Main.tile[num22, num23].liquid = 0;
-									Main.tile[num22, num23].slope(0);
-									Main.tile[num22, num23].halfBrick(false);
-								}
-							}
-						}
-					}
-				}
-			}
-
-			for (int num24 = 0; num24 < num2; num24++)
-			{
-				for (int num25 = array[num24].X; num25 < array[num24].X + array[num24].Width; num25++)
-				{
-					for (int num26 = array[num24].Y; num26 < array[num24].Y + array[num24].Height; num26++)
-					{
-						Main.tile[num25, num26].active(true);
-						Main.tile[num25, num26].type = 226;
-						Main.tile[num25, num26].liquid = 0;
-						Main.tile[num25, num26].slope(0);
-						Main.tile[num25, num26].halfBrick(false);
-					}
-				}
-				int num27 = array[num24].X;
-				int num28 = num27 + array[num24].Width;
-				int num29 = array[num24].Y;
-				int num30 = num29 + array[num24].Height;
-				num27 += WorldGen.genRand.Next(4, 7);
-				num28 -= WorldGen.genRand.Next(4, 7);
-				num29 += WorldGen.genRand.Next(4, 7);
-				num30 -= WorldGen.genRand.Next(4, 7);
-				int num31 = num27;
-				int num32 = num28;
-				int num33 = num29;
-				int num34 = num30;
-				int num35 = (num27 + num28) / 2;
-				int num36 = (num29 + num30) / 2;
-				for (int num37 = num27; num37 < num28; num37++)
-				{
-					for (int num38 = num29; num38 < num30; num38++)
-					{
-						if (WorldGen.genRand.Next(20) == 0)
-						{
-							num33 += WorldGen.genRand.Next(-1, 2);
-						}
-						if (WorldGen.genRand.Next(20) == 0)
-						{
-							num34 += WorldGen.genRand.Next(-1, 2);
-						}
-						if (WorldGen.genRand.Next(20) == 0)
-						{
-							num31 += WorldGen.genRand.Next(-1, 2);
-						}
-						if (WorldGen.genRand.Next(20) == 0)
-						{
-							num32 += WorldGen.genRand.Next(-1, 2);
-						}
-						if (num31 < num27)
-						{
-							num31 = num27;
-						}
-						if (num32 > num28)
-						{
-							num32 = num28;
-						}
-						if (num33 < num29)
-						{
-							num33 = num29;
-						}
-						if (num34 > num30)
-						{
-							num34 = num30;
-						}
-						if (num31 > num35)
-						{
-							num31 = num35;
-						}
-						if (num32 < num35)
-						{
-							num32 = num35;
-						}
-						if (num33 > num36)
-						{
-							num33 = num36;
-						}
-						if (num34 < num36)
-						{
-							num34 = num36;
-						}
-						if (num37 >= num31 && (num37 < num32 & num38 >= num33) && num38 <= num34)
-						{
-							Main.tile[num37, num38].active(false);
-							Main.tile[num37, num38].wall = 87;
-						}
-					}
-				}
-				for (int num39 = num30; num39 > num29; num39--)
-				{
-					for (int num40 = num28; num40 > num27; num40--)
-					{
-						if (WorldGen.genRand.Next(20) == 0)
-						{
-							num33 += WorldGen.genRand.Next(-1, 2);
-						}
-						if (WorldGen.genRand.Next(20) == 0)
-						{
-							num34 += WorldGen.genRand.Next(-1, 2);
-						}
-						if (WorldGen.genRand.Next(20) == 0)
-						{
-							num31 += WorldGen.genRand.Next(-1, 2);
-						}
-						if (WorldGen.genRand.Next(20) == 0)
-						{
-							num32 += WorldGen.genRand.Next(-1, 2);
-						}
-						if (num31 < num27)
-						{
-							num31 = num27;
-						}
-						if (num32 > num28)
-						{
-							num32 = num28;
-						}
-						if (num33 < num29)
-						{
-							num33 = num29;
-						}
-						if (num34 > num30)
-						{
-							num34 = num30;
-						}
-						if (num31 > num35)
-						{
-							num31 = num35;
-						}
-						if (num32 < num35)
-						{
-							num32 = num35;
-						}
-						if (num33 > num36)
-						{
-							num33 = num36;
-						}
-						if (num34 < num36)
-						{
-							num34 = num36;
-						}
-						if (num40 >= num31 && (num40 < num32 & num39 >= num33) && num39 <= num34)
-						{
-							Main.tile[num40, num39].active(false);
-							Main.tile[num40, num39].wall = 87;
-						}
-					}
-				}
-			}
-
-			Vector2 vector = new Vector2((float)num5, (float)num6);
-			for (int num41 = 0; num41 < num2; num41++)
-			{
-				Rectangle rectangle2 = array[num41];
-				rectangle2.X += 8;
-				rectangle2.Y += 8;
-				rectangle2.Width -= 16;
-				rectangle2.Height -= 16;
-				bool flag2 = true;
-				while (flag2)
-				{
-					int num42 = WorldGen.genRand.Next(rectangle2.X, rectangle2.X + rectangle2.Width);
-					int num43 = WorldGen.genRand.Next(rectangle2.Y, rectangle2.Y + rectangle2.Height);
-					vector = WorldGen.templePather(vector, num42, num43);
-					if (vector.X == (float)num42 && vector.Y == (float)num43)
-					{
-						flag2 = false;
-					}
-				}
-				if (num41 < num2 - 1)
-				{
-					if (WorldGen.genRand.Next(3) != 0)
-					{
-						int num44 = num41 + 1;
-						if (array[num44].Y >= array[num41].Y + array[num41].Height)
-						{
-							rectangle2.X = array[num44].X;
-							if (array[num44].X < array[num41].X)
-							{
-								rectangle2.X += (int)((double)((float)array[num44].Width) * 0.2);
-							}
-							else
-							{
-								rectangle2.X += (int)((double)((float)array[num44].Width) * 0.8);
-							}
-							rectangle2.Y = array[num44].Y;
-						}
-						else
-						{
-							rectangle2.X = (array[num41].X + array[num41].Width / 2 + (array[num44].X + array[num44].Width / 2)) / 2;
-							rectangle2.Y = (int)((double)array[num44].Y + (double)array[num44].Height * 0.8);
-						}
-						int x2 = rectangle2.X;
-						int y3 = rectangle2.Y;
-						flag2 = true;
-						while (flag2)
-						{
-							int num45 = WorldGen.genRand.Next(x2 - 4, x2 + 5);
-							int num46 = WorldGen.genRand.Next(y3 - 4, y3 + 5);
-							vector = WorldGen.templePather(vector, num45, num46);
-							if (vector.X == (float)num45 && vector.Y == (float)num46)
-							{
-								flag2 = false;
-							}
-						}
-					}
-					else
-					{
-						int num47 = num41 + 1;
-						int num48 = (array[num41].X + array[num41].Width / 2 + (array[num47].X + array[num47].Width / 2)) / 2;
-						int num49 = (array[num41].Y + array[num41].Height / 2 + (array[num47].Y + array[num47].Height / 2)) / 2;
-						flag2 = true;
-						while (flag2)
-						{
-							int num50 = WorldGen.genRand.Next(num48 - 4, num48 + 5);
-							int num51 = WorldGen.genRand.Next(num49 - 4, num49 + 5);
-							vector = WorldGen.templePather(vector, num50, num51);
-							if (vector.X == (float)num50 && vector.Y == (float)num51)
-							{
-								flag2 = false;
-							}
-						}
-					}
-				}
-			}
-			int num52 = Main.maxTilesX - 20;
-			int num53 = 20;
-			int num54 = Main.maxTilesY - 20;
-			int num55 = 20;
-			for (int num56 = 0; num56 < num2; num56++)
-			{
-				if (array[num56].X < num52)
-				{
-					num52 = array[num56].X;
-				}
-				if (array[num56].X + array[num56].Width > num53)
-				{
-					num53 = array[num56].X + array[num56].Width;
-				}
-				if (array[num56].Y < num54)
-				{
-					num54 = array[num56].Y;
-				}
-				if (array[num56].Y + array[num56].Height > num55)
-				{
-					num55 = array[num56].Y + array[num56].Height;
-				}
-			}
-
-			// Create outer temple shape
-			num52 -= 10;
-			num53 += 10;
-			num54 -= 10;
-			num55 += 10;
-			for (int num57 = num52; num57 < num53; num57++)
-			{
-				for (int num58 = num54; num58 < num55; num58++)
-				{
-					WorldGen.outerTempled(num57, num58);
-				}
-			}
-			for (int num59 = num53; num59 >= num52; num59--)
-			{
-				for (int num60 = num54; num60 < num55 / 2; num60++)
-				{
-					WorldGen.outerTempled(num59, num60);
-				}
-			}
-			for (int num61 = num54; num61 < num55; num61++)
-			{
-				for (int num62 = num52; num62 < num53; num62++)
-				{
-					WorldGen.outerTempled(num62, num61);
-				}
-			}
-			for (int num63 = num55; num63 >= num54; num63--)
-			{
-				for (int num64 = num52; num64 < num53; num64++)
-				{
-					WorldGen.outerTempled(num64, num63);
-				}
-			}
-
-			// Definitely does something
-			num3 = -num4;
-			Vector2 vector2 = new Vector2((float)num5, (float)num6);
-			int num65 = 4;
-			bool flag3 = true;
-			int num66 = 0;
-			int num67 = WorldGen.genRand.Next(12, 14);
-			while (flag3)
-			{
-				num66++;
-				if (num66 >= num67)
-				{
-					num66 = 0;
-					vector2.Y -= 1f;
-				}
-				vector2.X += (float)num3;
-				int num68 = (int)vector2.X;
-				flag3 = false;
-				int num69 = (int)vector2.Y - num65;
-				while ((float)num69 < vector2.Y + (float)num65)
-				{
-					if (Main.tile[num68, num69].wall == 87 || (Main.tile[num68, num69].active() && Main.tile[num68, num69].type == 226))
-					{
-						flag3 = true;
-					}
-					if (Main.tile[num68, num69].active() && Main.tile[num68, num69].type == 226)
-					{
-						Main.tile[num68, num69].active(false);
-						Main.tile[num68, num69].wall = 87;
-					}
-					num69++;
-				}
-			}
-
-			// Place bricks and walls
-			int num70 = num5;
-			int num71 = num6;
-			while (!Main.tile[num70, num71].active())
-			{
-				num71++;
-			}
-			num71 -= 4;
-			int num72 = num71;
-			while ((Main.tile[num70, num72].active() && Main.tile[num70, num72].type == 226) || Main.tile[num70, num72].wall == 87)
-			{
-				num72--;
-			}
-			num72 += 2;
-			for (int num73 = num70 - 1; num73 <= num70 + 1; num73++)
-			{
-				for (int num74 = num72; num74 <= num71; num74++)
-				{
-					Main.tile[num73, num74].active(true);
-					Main.tile[num73, num74].type = 226;
-					Main.tile[num73, num74].liquid = 0;
-					Main.tile[num73, num74].slope(0);
-					Main.tile[num73, num74].halfBrick(false);
-				}
-			}
-			for (int num75 = num70 - 4; num75 <= num70 + 4; num75++)
-			{
-				for (int num76 = num71 - 1; num76 < num71 + 3; num76++)
-				{
-					Main.tile[num75, num76].active(false);
-					Main.tile[num75, num76].wall = 87;
-				}
-			}
-			for (int num77 = num70 - 1; num77 <= num70 + 1; num77++)
-			{
-				for (int num78 = num71 - 5; num78 <= num71 + 8; num78++)
-				{
-					Main.tile[num77, num78].active(true);
-					Main.tile[num77, num78].type = 226;
-					Main.tile[num77, num78].liquid = 0;
-					Main.tile[num77, num78].slope(0);
-					Main.tile[num77, num78].halfBrick(false);
-				}
-			}
-			for (int num79 = num70 - 1; num79 <= num70 + 1; num79++)
-			{
-				for (int num80 = num71; num80 < num71 + 3; num80++)
-				{
-					Main.tile[num79, num80].active(false);
-					Main.tile[num79, num80].wall = 87;
-				}
-			}
-
-			// Temple Door
-			WorldGen.PlaceTile(num70, num71, 10, true, false, -1, 11);
-
-			// Clear space in temple
-			for (int num81 = num52; num81 < num53; num81++)
-			{
-				for (int num82 = num54; num82 < num55; num82++)
-				{
-					WorldGen.templeCleaner(num81, num82);
-				}
-			}
-			for (int num83 = num55; num83 >= num54; num83--)
-			{
-				for (int num84 = num53; num84 >= num52; num84--)
-				{
-					WorldGen.templeCleaner(num84, num83);
-				}
-			}
-
-			// Place walls
-			for (int num85 = num52; num85 < num53; num85++)
-			{
-				for (int num86 = num54; num86 < num55; num86++)
-				{
-					bool flag4 = true;
-					for (int num87 = num85 - 1; num87 <= num85 + 1; num87++)
-					{
-						for (int num88 = num86 - 1; num88 <= num86 + 1; num88++)
-						{
-							if ((!Main.tile[num87, num88].active() || Main.tile[num87, num88].type != 226) && Main.tile[num87, num88].wall != 87)
-							{
-								flag4 = false;
-								break;
-							}
-						}
-					}
-					if (flag4)
-					{
-						Main.tile[num85, num86].wall = 87;
-					}
-				}
-			}
-
-			// Lihzahrd Altar
-			int num89 = 0;
-			Rectangle rectangle3;
-			int num90;
-			int num91;
-			while (true)
-			{
-				num89++;
-				rectangle3 = array[num2 - 1];
-				num90 = rectangle3.X + WorldGen.genRand.Next(rectangle3.Width);
-				num91 = rectangle3.Y + WorldGen.genRand.Next(rectangle3.Height);
-				WorldGen.PlaceTile(num90, num91, 237, false, false, -1, 0);
-				if (Main.tile[num90, num91].type == 237)
-				{
-					break;
-				}
-				if (num89 >= 1000)
-				{
-					goto Block_117;
-				}
-			}
-
-			// Set Altar location
-			CalamityWorld.newAltarX = num90 - (int)(Main.tile[num90, num91].frameX / 18);
-			CalamityWorld.newAltarY = num91 - (int)(Main.tile[num90, num91].frameY / 18);
-
-			// If Altar is spawned, continue to temple spike spawn
-			goto IL_1548;
-
-			// Force spawn Altar if previous code fails
-			Block_117:
-			num90 = rectangle3.X + rectangle3.Width / 2;
-			num91 = rectangle3.Y + rectangle3.Height / 2;
-			num90 += WorldGen.genRand.Next(-10, 11);
-			num91 += WorldGen.genRand.Next(-10, 11);
-			while (!Main.tile[num90, num91].active())
-			{
-				num91++;
-			}
-			Main.tile[num90 - 1, num91].active(true);
-			Main.tile[num90 - 1, num91].slope(0);
-			Main.tile[num90 - 1, num91].halfBrick(false);
-			Main.tile[num90 - 1, num91].type = 226;
-			Main.tile[num90, num91].active(true);
-			Main.tile[num90, num91].slope(0);
-			Main.tile[num90, num91].halfBrick(false);
-			Main.tile[num90, num91].type = 226;
-			Main.tile[num90 + 1, num91].active(true);
-			Main.tile[num90 + 1, num91].slope(0);
-			Main.tile[num90 + 1, num91].halfBrick(false);
-			Main.tile[num90 + 1, num91].type = 226;
-			num91 -= 2;
-			num90--;
-			for (int num92 = -1; num92 <= 3; num92++)
-			{
-				for (int num93 = -1; num93 <= 1; num93++)
-				{
-					x = num90 + num92;
-					y = num91 + num93;
-					Main.tile[x, y].active(false);
-				}
-			}
-			for (int num94 = 0; num94 <= 2; num94++)
-			{
-				for (int num95 = 0; num95 <= 1; num95++)
-				{
-					x = num90 + num94;
-					y = num91 + num95;
-					Main.tile[x, y].active(true);
-					Main.tile[x, y].type = 237;
-					Main.tile[x, y].frameX = (short)(num94 * 18);
-					Main.tile[x, y].frameY = (short)(num95 * 18);
-				}
-			}
-
-			// Set Altar location
-			CalamityWorld.newAltarX = num90;
-			CalamityWorld.newAltarY = num91;
-
-			// Skip previous code if first Altar spawn works
-			IL_1548:
-
-			// Create temple spikes
-			float num96 = (float)num2 * 1.3f;
-			int num97 = 0;
-			while (num96 > 0f)
-			{
-				num97++;
-				int num98 = WorldGen.genRand.Next(num2);
-				int num99 = WorldGen.genRand.Next(array[num98].X, array[num98].X + array[num98].Width);
-				int num100 = WorldGen.genRand.Next(array[num98].Y, array[num98].Y + array[num98].Height);
-				if (Main.tile[num99, num100].wall == 87 && !Main.tile[num99, num100].active())
-				{
-					bool flag5 = false;
-					if (WorldGen.genRand.Next(2) == 0)
-					{
-						int num101 = 1;
-						if (WorldGen.genRand.Next(2) == 0)
-						{
-							num101 = -1;
-						}
-						while (!Main.tile[num99, num100].active())
-						{
-							num100 += num101;
-						}
-						num100 -= num101;
-						int num102 = WorldGen.genRand.Next(2);
-						int num103 = WorldGen.genRand.Next(8, 10);
-						bool flag6 = true;
-						for (int num104 = num99 - num103; num104 < num99 + num103; num104++)
-						{
-							for (int num105 = num100 - num103; num105 < num100 + num103; num105++)
-							{
-								if (Main.tile[num104, num105].active() && Main.tile[num104, num105].type == 10)
-								{
-									flag6 = false;
-									break;
-								}
-							}
-						}
-						if (flag6)
-						{
-							for (int num106 = num99 - num103; num106 < num99 + num103; num106++)
-							{
-								for (int num107 = num100 - num103; num107 < num100 + num103; num107++)
-								{
-									if (WorldGen.SolidTile(num106, num107) && Main.tile[num106, num107].type != 232 && !WorldGen.SolidTile(num106, num107 - num101))
-									{
-										Main.tile[num106, num107].type = 232;
-										flag5 = true;
-										if (num102 == 0)
-										{
-											Main.tile[num106, num107 - 1].type = 232;
-											Main.tile[num106, num107 - 1].active(true);
-										}
-										else
-										{
-											Main.tile[num106, num107 + 1].type = 232;
-											Main.tile[num106, num107 + 1].active(true);
-										}
-										num102++;
-										if (num102 > 1)
-										{
-											num102 = 0;
-										}
-									}
-								}
-							}
-						}
-						if (flag5)
-						{
-							num97 = 0;
-							num96 -= 1f;
-						}
-					}
-					else
-					{
-						int num108 = 1;
-						if (WorldGen.genRand.Next(2) == 0)
-						{
-							num108 = -1;
-						}
-						while (!Main.tile[num99, num100].active())
-						{
-							num99 += num108;
-						}
-						num99 -= num108;
-						int num109 = WorldGen.genRand.Next(2);
-						int num110 = WorldGen.genRand.Next(8, 10);
-						bool flag7 = true;
-						for (int num111 = num99 - num110; num111 < num99 + num110; num111++)
-						{
-							for (int num112 = num100 - num110; num112 < num100 + num110; num112++)
-							{
-								if (Main.tile[num111, num112].active() && Main.tile[num111, num112].type == 10)
-								{
-									flag7 = false;
-									break;
-								}
-							}
-						}
-						if (flag7)
-						{
-							for (int num113 = num99 - num110; num113 < num99 + num110; num113++)
-							{
-								for (int num114 = num100 - num110; num114 < num100 + num110; num114++)
-								{
-									if (WorldGen.SolidTile(num113, num114) && Main.tile[num113, num114].type != 232 && !WorldGen.SolidTile(num113 - num108, num114))
-									{
-										Main.tile[num113, num114].type = 232;
-										flag5 = true;
-										if (num109 == 0)
-										{
-											Main.tile[num113 - 1, num114].type = 232;
-											Main.tile[num113 - 1, num114].active(true);
-										}
-										else
-										{
-											Main.tile[num113 + 1, num114].type = 232;
-											Main.tile[num113 + 1, num114].active(true);
-										}
-										num109++;
-										if (num109 > 1)
-										{
-											num109 = 0;
-										}
-									}
-								}
-							}
-						}
-						if (flag5)
-						{
-							num97 = 0;
-							num96 -= 1f;
-						}
-					}
-				}
-				if (num97 > 1000)
-				{
-					num97 = 0;
-					num96 -= 1f;
-				}
-			}
-
-			// Set temple variables for temple chest, chair, table, workbench, etc. locations
-			WorldGen.tLeft = num52;
-			WorldGen.tRight = num53;
-			WorldGen.tTop = num54;
-			WorldGen.tBottom = num55;
-			WorldGen.tRooms = num2;
-		}
-
-		public static void NewJungleTemplePart2()
-		{
-			int minValue = WorldGen.tLeft;
-			int maxValue = WorldGen.tRight;
-			int minValue2 = WorldGen.tTop;
-			int num = WorldGen.tBottom;
-			int num2 = WorldGen.tRooms;
-			float num3 = (float)num2 * 2.1f;
-			int num4 = 0;
-			while (num3 > 0f)
-			{
-				int num5 = WorldGen.genRand.Next(minValue, maxValue);
-				int num6 = WorldGen.genRand.Next(minValue2, num);
-				if (Main.tile[num5, num6].wall == 87 && !Main.tile[num5, num6].active())
-				{
-					if (WorldGen.mayanTrap(num5, num6))
-					{
-						num3 -= 1f;
-						num4 = 0;
-					}
-					else
-					{
-						num4++;
-					}
-				}
-				else
-				{
-					num4++;
-				}
-				if (num4 > 100)
-				{
-					num4 = 0;
-					num3 -= 1f;
-				}
-			}
-			Main.tileSolid[232] = false;
-			float num7 = (float)num2 * 0.4f;
-			int contain = 1293;
-			num4 = 0;
-			while (num7 > 0f)
-			{
-				int num8 = WorldGen.genRand.Next(minValue, maxValue);
-				int num9 = WorldGen.genRand.Next(minValue2, num);
-				if (Main.tile[num8, num9].wall == 87 && !Main.tile[num8, num9].active() && WorldGen.AddBuriedChest(num8, num9, contain, true, 16))
-				{
-					num7 -= 1f;
-					num4 = 0;
-				}
-				num4++;
-				if (num4 > 10000)
-				{
-					break;
-				}
-			}
-			float num10 = (float)num2 * 1.6f;
-			num4 = 0;
-			while (num10 > 0f)
-			{
-				num4++;
-				int num11 = WorldGen.genRand.Next(minValue, maxValue);
-				int num12 = WorldGen.genRand.Next(minValue2, num);
-				if (Main.tile[num11, num12].wall == 87 && !Main.tile[num11, num12].active())
-				{
-					int num13 = num11;
-					int num14 = num12;
-					while (!Main.tile[num13, num14].active())
-					{
-						num14++;
-						if (num14 > num)
-						{
-							break;
-						}
-					}
-					num14--;
-					if (num14 <= num)
-					{
-						WorldGen.PlaceTile(num13, num14, 105, true, false, -1, WorldGen.genRand.Next(43, 46));
-						if (Main.tile[num13, num14].type == 105)
-						{
-							num10 -= 1f;
-						}
-					}
-				}
-			}
-			float num15 = (float)num2 * 1.6f;
-			num4 = 0;
-			while (num15 > 0f)
-			{
-				num4++;
-				int num16 = WorldGen.genRand.Next(minValue, maxValue);
-				int num17 = WorldGen.genRand.Next(minValue2, num);
-				if (Main.tile[num16, num17].wall == 87 && !Main.tile[num16, num17].active())
-				{
-					int num18 = num16;
-					int num19 = num17;
-					while (!Main.tile[num18, num19].active())
-					{
-						num19++;
-						if (num19 > num)
-						{
-							break;
-						}
-					}
-					num19--;
-					if (num19 <= num)
-					{
-						int num20 = WorldGen.genRand.Next(3);
-						if (num20 == 0)
-						{
-							WorldGen.PlaceTile(num18, num19, 18, true, false, -1, 10);
-							if (Main.tile[num18, num19].type == 18)
-							{
-								num15 -= 1f;
-							}
-						}
-						else if (num20 == 1)
-						{
-							WorldGen.PlaceTile(num18, num19, 14, true, false, -1, 9);
-							if (Main.tile[num18, num19].type == 14)
-							{
-								num15 -= 1f;
-							}
-						}
-						else if (num20 == 2)
-						{
-							WorldGen.PlaceTile(num18, num19, 15, true, false, -1, 12);
-							if (Main.tile[num18, num19].type == 15)
-							{
-								num15 -= 1f;
-							}
-						}
-					}
-				}
-				if (num4 > 10000)
-				{
-					break;
-				}
-			}
-			Main.tileSolid[232] = true;
-		}
-
-		public static void NewJungleTempleLihzahrdAltar()
-		{
-			int lAltarX = CalamityWorld.newAltarX;
-			int lAltarY = CalamityWorld.newAltarY;
-			for (int i = 0; i <= 2; i++)
-			{
-				for (int j = 0; j <= 1; j++)
-				{
-					int num = lAltarX + i;
-					int num2 = lAltarY + j;
-					Main.tile[num, num2].active(true);
-					Main.tile[num, num2].type = 237;
-					Main.tile[num, num2].frameX = (short)(i * 18);
-					Main.tile[num, num2].frameY = (short)(j * 18);
-				}
-				Main.tile[i, lAltarY + 2].active(true);
-				Main.tile[i, lAltarY + 2].slope(0);
-				Main.tile[i, lAltarY + 2].halfBrick(false);
-				Main.tile[i, lAltarY + 2].type = 226;
-			}
-		}
-		#endregion
-
-		#region Place Rox Shrine
-		public static void PlaceRoxShrine()
+        #region Place Rox Shrine
+        public static void PlaceRoxShrine()
         {
             while (!CalamityWorld.roxShrinePlaced)
             {
@@ -1204,49 +232,50 @@ namespace CalamityMod.World
         {
             int x = Main.maxTilesX;
             int y = Main.maxTilesY;
-            if (type == ModContent.TileType<ExodiumOre>())
-            {
-                depthLimit = 0.14f;
-                if (y > 1500)
-                { depthLimit = 0.1f; if (y > 2100) { depthLimit = 0.07f; } }
-            }
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
-                for (int k = 0; k < (int)((double)(x * y) * frequency); k++)
+                for (int k = 0; k < (int)(x * y * frequency); k++)
                 {
                     int tilesX = WorldGen.genRand.Next(0, x);
                     int tilesY = WorldGen.genRand.Next((int)(y * depth), (int)(y * depthLimit));
                     if (type == ModContent.TileType<AuricOre>())
                     {
-                        WorldGen.OreRunner(tilesX, tilesY, (double)WorldGen.genRand.Next(12, 18), WorldGen.genRand.Next(12, 18), (ushort)type);
+                        WorldGen.OreRunner(tilesX, tilesY, WorldGen.genRand.Next(6, 12), WorldGen.genRand.Next(6, 12), (ushort)type);
                     }
                     else if (type == ModContent.TileType<UelibloomOre>())
-                    { //mud
-                        if (Main.tile[tilesX, tilesY].type == 59)
+                    {
+                        if (Main.tile[tilesX, tilesY].type == TileID.Mud)
                         {
-                            WorldGen.OreRunner(tilesX, tilesY, (double)WorldGen.genRand.Next(3, 8), WorldGen.genRand.Next(3, 8), (ushort)type);
+                            WorldGen.OreRunner(tilesX, tilesY, WorldGen.genRand.Next(3, 8), WorldGen.genRand.Next(3, 8), (ushort)type);
                         }
                     }
-                    else if (type == ModContent.TileType<PerennialOre>())
-                    { //dirt, stone
-                        if (Main.tile[tilesX, tilesY].type == 0 || Main.tile[tilesX, tilesY].type == 1)
+                    else if (type == ModContent.TileType<PerennialOre>() || type == TileID.LunarOre)
+                    {
+                        if (Main.tile[tilesX, tilesY].type == TileID.Dirt || Main.tile[tilesX, tilesY].type == TileID.Stone)
                         {
-                            WorldGen.OreRunner(tilesX, tilesY, (double)WorldGen.genRand.Next(3, 8), WorldGen.genRand.Next(3, 8), (ushort)type);
+                            WorldGen.OreRunner(tilesX, tilesY, WorldGen.genRand.Next(3, 8), WorldGen.genRand.Next(3, 8), (ushort)type);
                         }
                     }
                     else if (type == ModContent.TileType<CryonicOre>())
-                    { //snow, ice, purple ice, pink ice, red ice, astral snow, astral ice
-                        if (Main.tile[tilesX, tilesY].type == 147 || Main.tile[tilesX, tilesY].type == 161 || Main.tile[tilesX, tilesY].type == 163 || Main.tile[tilesX, tilesY].type == 164 || Main.tile[tilesX, tilesY].type == 200 || Main.tile[tilesX, tilesY].type == ModContent.TileType<AstralSnow>() || Main.tile[tilesX, tilesY].type == ModContent.TileType<AstralIce>())
+                    {
+                        if (Main.tile[tilesX, tilesY].type == TileID.SnowBlock || Main.tile[tilesX, tilesY].type == TileID.IceBlock || Main.tile[tilesX, tilesY].type == TileID.CorruptIce || Main.tile[tilesX, tilesY].type == TileID.HallowedIce || Main.tile[tilesX, tilesY].type == TileID.FleshIce || Main.tile[tilesX, tilesY].type == ModContent.TileType<AstralSnow>() || Main.tile[tilesX, tilesY].type == ModContent.TileType<AstralIce>())
                         {
-                            WorldGen.OreRunner(tilesX, tilesY, (double)WorldGen.genRand.Next(3, 8), WorldGen.genRand.Next(3, 8), (ushort)type);
+                            WorldGen.OreRunner(tilesX, tilesY, WorldGen.genRand.Next(3, 8), WorldGen.genRand.Next(3, 8), (ushort)type);
                         }
                     }
-                    else
+					else if (type == ModContent.TileType<HallowedOre>())
+					{
+						if (Main.tile[tilesX, tilesY].type == TileID.Pearlstone || Main.tile[tilesX, tilesY].type == TileID.HallowHardenedSand || Main.tile[tilesX, tilesY].type == TileID.HallowSandstone || Main.tile[tilesX, tilesY].type == TileID.HallowedIce)
+						{
+							WorldGen.OreRunner(tilesX, tilesY, WorldGen.genRand.Next(3, 8), WorldGen.genRand.Next(3, 8), (ushort)type);
+						}
+					}
+					else
                     {
-                        WorldGen.OreRunner(tilesX, tilesY, (double)WorldGen.genRand.Next(3, 8), WorldGen.genRand.Next(3, 8), (ushort)type);
+                        WorldGen.OreRunner(tilesX, tilesY, WorldGen.genRand.Next(3, 8), WorldGen.genRand.Next(3, 8), (ushort)type);
                     }
                 }
-            }
+			}
         }
         #endregion
 
@@ -1288,8 +317,8 @@ namespace CalamityMod.World
                         Main.tile[x, y].type == ModContent.TileType<HardenedAstralSand>() || Main.tile[x, y].type == ModContent.TileType<AstralIce>() ||
                         Main.tile[x, y].type == ModContent.TileType<AstralDirt>() || Main.tile[x, y].type == ModContent.TileType<AstralStone>() ||
                         Main.tile[x, y].type == ModContent.TileType<AstralGrass>() || Main.tile[x, y].type == ModContent.TileType<AstralSilt>() ||
-						Main.tile[x, y].type == ModContent.TileType<AstralFossil>() || Main.tile[x, y].type == ModContent.TileType<AstralSnow>() ||
-						Main.tile[x, y].type == ModContent.TileType<AstralClay>() || Main.tile[x, y].type == ModContent.TileType<AstralStone>()))
+                        Main.tile[x, y].type == ModContent.TileType<AstralFossil>() || Main.tile[x, y].type == ModContent.TileType<AstralSnow>() ||
+                        Main.tile[x, y].type == ModContent.TileType<AstralClay>() || Main.tile[x, y].type == ModContent.TileType<AstralStone>()))
                     {
                         astralTileCount++;
                         if (astralTileCount > astralTilesAllowed)
@@ -1404,10 +433,7 @@ namespace CalamityMod.World
                             string key = "Mods.CalamityMod.AstralText";
                             Color messageColor = Color.Gold;
 
-                            if (Main.netMode == NetmodeID.SinglePlayer)
-                                Main.NewText(Language.GetTextValue(key), messageColor);
-                            else if (Main.netMode == NetmodeID.Server)
-                                NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
+                            CalamityUtils.DisplayLocalizedText(key, messageColor);
                             break;
                         }
                         break;
@@ -1428,6 +454,11 @@ namespace CalamityMod.World
         {
             UnifiedRandom rand = WorldGen.genRand;
             if (i < 50 || i > Main.maxTilesX - 50)
+            {
+                return false;
+            }
+            // Avoid the dungeon so that the beacon doesn't eat it.
+            if (Math.Abs(i - WorldGen.dungeonX) < 65)
             {
                 return false;
             }
@@ -1598,11 +629,82 @@ namespace CalamityMod.World
                     }
                 }
             }
+
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
                 NetMessage.SendTileSquare(-1, i, j, 40, TileChangeType.None);
                 if (CanAstralBiomeSpawn())
+                {
                     DoAstralConversion(new Point(i, j));
+
+                    // Upward checks go up 180 tiles. If for whatever reason the placement Y position
+                    // would cause this upward movement to go outside of the world, clamp it to prevent index problems.
+                    if (j < 181)
+                        j = 181;
+
+                    int checkWidth = 180;
+                    float averageHeight = 0f;
+                    float lowestHeight = 0f;
+
+                    int xAreaToSpawn = i;
+
+                    Dictionary<int, float> xAreaHeightMap = new Dictionary<int, float>();
+
+                    // Gauge the bumpiness of various potential locations.
+                    // The least bumpy one will be selected as the place to spawn the monolith.
+                    for (int tries = 0; tries < 30; tries++)
+                    {
+                        int x = i + Main.rand.Next(-60, 61);
+
+                        // Don't attempt to add duplicate keys.
+                        if (xAreaHeightMap.ContainsKey(x))
+                            continue;
+
+                        float averageRelativeHeight = 0f;
+                        for (int dx = -30; dx <= 30; dx++)
+                        {
+                            WorldUtils.Find(new Point(x + dx, j - 180), Searches.Chain(new Searches.Down(360), new Conditions.IsSolid()), out Point result);
+                            averageRelativeHeight += Math.Abs(result.Y - j);
+                        }
+                        averageRelativeHeight /= 60f;
+                        xAreaHeightMap.Add(x, averageRelativeHeight);
+                    }
+
+                    i = xAreaHeightMap.OrderBy(x => x.Value).First().Key;
+
+                    for (int x = i - checkWidth / 2; x < i + checkWidth / 2; x++)
+                    {
+                        int y = j - 200;
+                        Tile tileAtPosition = CalamityUtils.ParanoidTileRetrieval(x, y);
+                        while (!Main.tileSolid[tileAtPosition.type] ||
+                            !tileAtPosition.active() ||
+                            TileID.Sets.Platforms[tileAtPosition.type])
+                        {
+                            y++;
+                            if (y > j - 10)
+                                break;
+                            tileAtPosition = CalamityUtils.ParanoidTileRetrieval(x, y);
+                        }
+                        lowestHeight = (int)MathHelper.Max(lowestHeight, y);
+                        averageHeight += y;
+                    }
+                    lowestHeight -= 35f;
+                    averageHeight /= checkWidth;
+                    float height = lowestHeight;
+
+                    // If there's a sudden change between the average and lowest height (which is indicative of holes/chasms), go with the average.
+                    if (Math.Abs(lowestHeight - averageHeight) > 50f)
+                        height = averageHeight;
+
+                    // WorldGen.gen prevents NewItem from working, and thus prevents a bunch of dumb items from being spawned immediately and deleting the WoF/Aureus loot in the process.
+                    WorldGen.gen = true;
+                    // Add the average height of a tree to the Y position to offset trees usually messing with the calculation.
+                    // Then also add 10 blocks because these things seem to always like to appear standing on the floor.
+                    int finalVerticalOffset = 18;
+                    bool _ = true;
+                    SchematicManager.PlaceSchematic<Action<Chest>>("Astral Beacon", new Point(i, (int)height + finalVerticalOffset), SchematicAnchor.Center, ref _);
+                    WorldGen.gen = false;
+                }
             }
             return true;
         }
@@ -1665,7 +767,7 @@ namespace CalamityMod.World
             }
         }
 
-        public static void ConvertToAstral(int x, int y, bool tileframe = true)
+        public static void ConvertToAstral(int x, int y)
         {
             if (WorldGen.InWorld(x, y, 1))
             {
@@ -1677,18 +779,26 @@ namespace CalamityMod.World
                     if (WallID.Sets.Conversion.Grass[wallType])
                     {
                         Main.tile[x, y].wall = (ushort)ModContent.WallType<AstralGrassWall>();
+                        WorldGen.SquareWallFrame(x, y, true);
+                        NetMessage.SendTileSquare(-1, x, y, 1);
                     }
                     else if (WallID.Sets.Conversion.HardenedSand[wallType])
                     {
                         Main.tile[x, y].wall = (ushort)ModContent.WallType<HardenedAstralSandWall>();
+                        WorldGen.SquareWallFrame(x, y, true);
+                        NetMessage.SendTileSquare(-1, x, y, 1);
                     }
                     else if (WallID.Sets.Conversion.Sandstone[wallType])
                     {
                         Main.tile[x, y].wall = (ushort)ModContent.WallType<AstralSandstoneWall>();
+                        WorldGen.SquareWallFrame(x, y, true);
+                        NetMessage.SendTileSquare(-1, x, y, 1);
                     }
                     else if (WallID.Sets.Conversion.Stone[wallType])
                     {
                         Main.tile[x, y].wall = (ushort)ModContent.WallType<AstralStoneWall>();
+                        WorldGen.SquareWallFrame(x, y, true);
+                        NetMessage.SendTileSquare(-1, x, y, 1);
                     }
                     else
                     {
@@ -1702,44 +812,66 @@ namespace CalamityMod.World
                             case WallID.Cave6Unsafe:
                             case WallID.Dirt:
                                 Main.tile[x, y].wall = (ushort)ModContent.WallType<AstralDirtWall>();
+                                WorldGen.SquareWallFrame(x, y, true);
+                                NetMessage.SendTileSquare(-1, x, y, 1);
                                 break;
                             case WallID.SnowWallUnsafe:
                                 Main.tile[x, y].wall = (ushort)ModContent.WallType<AstralSnowWall>();
+                                WorldGen.SquareWallFrame(x, y, true);
+                                NetMessage.SendTileSquare(-1, x, y, 1);
                                 break;
                             case WallID.DesertFossil:
                                 Main.tile[x, y].wall = (ushort)ModContent.WallType<AstralFossilWall>();
+                                WorldGen.SquareWallFrame(x, y, true);
+                                NetMessage.SendTileSquare(-1, x, y, 1);
                                 break;
                             case WallID.IceUnsafe:
                                 Main.tile[x, y].wall = (ushort)ModContent.WallType<AstralIceWall>();
+                                WorldGen.SquareWallFrame(x, y, true);
+                                NetMessage.SendTileSquare(-1, x, y, 1);
                                 break;
                             case WallID.LivingWood:
                                 Main.tile[x, y].wall = (ushort)ModContent.WallType<AstralMonolithWall>();
+                                WorldGen.SquareWallFrame(x, y, true);
+                                NetMessage.SendTileSquare(-1, x, y, 1);
                                 break;
                         }
                     }
                     if (TileID.Sets.Conversion.Grass[type] && !TileID.Sets.GrassSpecial[type])
                     {
                         Main.tile[x, y].type = (ushort)ModContent.TileType<AstralGrass>();
+                        WorldGen.SquareTileFrame(x, y, true);
+                        NetMessage.SendTileSquare(-1, x, y, 1);
                     }
                     else if (TileID.Sets.Conversion.Stone[type] || Main.tileMoss[type])
                     {
                         Main.tile[x, y].type = (ushort)ModContent.TileType<AstralStone>();
+                        WorldGen.SquareTileFrame(x, y, true);
+                        NetMessage.SendTileSquare(-1, x, y, 1);
                     }
                     else if (TileID.Sets.Conversion.Sand[type])
                     {
                         Main.tile[x, y].type = (ushort)ModContent.TileType<AstralSand>();
+                        WorldGen.SquareTileFrame(x, y, true);
+                        NetMessage.SendTileSquare(-1, x, y, 1);
                     }
                     else if (TileID.Sets.Conversion.HardenedSand[type])
                     {
                         Main.tile[x, y].type = (ushort)ModContent.TileType<HardenedAstralSand>();
+                        WorldGen.SquareTileFrame(x, y, true);
+                        NetMessage.SendTileSquare(-1, x, y, 1);
                     }
                     else if (TileID.Sets.Conversion.Sandstone[type])
                     {
                         Main.tile[x, y].type = (ushort)ModContent.TileType<AstralSandstone>();
+                        WorldGen.SquareTileFrame(x, y, true);
+                        NetMessage.SendTileSquare(-1, x, y, 1);
                     }
                     else if (TileID.Sets.Conversion.Ice[type])
                     {
                         Main.tile[x, y].type = (ushort)ModContent.TileType<AstralIce>();
+                        WorldGen.SquareTileFrame(x, y, true);
+                        NetMessage.SendTileSquare(-1, x, y, 1);
                     }
                     else
                     {
@@ -1748,32 +880,47 @@ namespace CalamityMod.World
                         {
                             case TileID.Dirt:
                                 Main.tile[x, y].type = (ushort)ModContent.TileType<AstralDirt>();
+                                WorldGen.SquareTileFrame(x, y, true);
+                                NetMessage.SendTileSquare(-1, x, y, 1);
                                 break;
                             case TileID.SnowBlock:
                                 Main.tile[x, y].type = (ushort)ModContent.TileType<AstralSnow>();
+                                WorldGen.SquareTileFrame(x, y, true);
+                                NetMessage.SendTileSquare(-1, x, y, 1);
                                 break;
                             case TileID.Silt:
                             case TileID.Slush:
                                 Main.tile[x, y].type = (ushort)ModContent.TileType<AstralSilt>();
+                                WorldGen.SquareTileFrame(x, y, true);
+                                NetMessage.SendTileSquare(-1, x, y, 1);
                                 break;
                             case TileID.DesertFossil:
                                 Main.tile[x, y].type = (ushort)ModContent.TileType<AstralFossil>();
+                                WorldGen.SquareTileFrame(x, y, true);
+                                NetMessage.SendTileSquare(-1, x, y, 1);
                                 break;
                             case TileID.ClayBlock:
                                 Main.tile[x, y].type = (ushort)ModContent.TileType<AstralClay>();
+                                WorldGen.SquareTileFrame(x, y, true);
+                                NetMessage.SendTileSquare(-1, x, y, 1);
                                 break;
                             case TileID.Vines:
                                 Main.tile[x, y].type = (ushort)ModContent.TileType<AstralVines>();
+                                WorldGen.SquareTileFrame(x, y, true);
+                                NetMessage.SendTileSquare(-1, x, y, 1);
                                 break;
                             case TileID.LivingWood:
                                 Main.tile[x, y].type = (ushort)ModContent.TileType<AstralMonolith>();
+                                WorldGen.SquareTileFrame(x, y, true);
+                                NetMessage.SendTileSquare(-1, x, y, 1);
                                 break;
                             case TileID.LeafBlock:
+                            case TileID.Sunflower:
                                 WorldGen.KillTile(x, y);
-								if (Main.netMode == NetmodeID.MultiplayerClient)
-								{
-									NetMessage.SendData(MessageID.TileChange, -1, -1, null, 0, x, y);
-								}
+                                if (Main.netMode == NetmodeID.MultiplayerClient)
+                                {
+                                    NetMessage.SendData(MessageID.TileChange, -1, -1, null, 0, x, y);
+                                }
                                 break;
                             case TileID.LargePiles:
                                 if (tile.frameX <= 1170)
@@ -1825,9 +972,17 @@ namespace CalamityMod.World
                                         leftMost--;
                                     }
                                     if (Main.tile[leftMost, y] != null)
+                                    {
                                         Main.tile[leftMost, y].type = newType;
+                                        WorldGen.SquareTileFrame(leftMost, y, true);
+                                        NetMessage.SendTileSquare(-1, leftMost, y, 1);
+                                    }
                                     if (Main.tile[leftMost + 1, y] != null)
+                                    {
                                         Main.tile[leftMost + 1, y].type = newType;
+                                        WorldGen.SquareTileFrame(leftMost + 1, y, true);
+                                        NetMessage.SendTileSquare(-1, leftMost + 1, y, 1);
+                                    }
                                     while (Main.tile[leftMost, y].frameX >= 216)
                                     {
                                         if (Main.tile[leftMost, y] != null)
@@ -1860,6 +1015,8 @@ namespace CalamityMod.World
                                     {
                                         Main.tile[x, y].frameX -= 108;
                                     }
+                                    WorldGen.SquareTileFrame(x, y, true);
+                                    NetMessage.SendTileSquare(-1, x, y, 1);
                                 }
                                 break;
                             case TileID.Stalactite:
@@ -1886,7 +1043,9 @@ namespace CalamityMod.World
 
                                 //Set types
                                 if (Main.tile[x, topMost] != null)
+                                {
                                     Main.tile[x, topMost].type = newType2;
+                                }
                                 if (twoTall)
                                 {
                                     if (Main.tile[x, topMost + 1] != null)
@@ -1903,6 +1062,18 @@ namespace CalamityMod.World
                                         if (Main.tile[x, topMost + 1] != null)
                                             Main.tile[x, topMost + 1].frameX -= 54;
                                     }
+                                }
+
+                                if (Main.tile[x, topMost] != null)
+                                {
+                                    WorldGen.SquareTileFrame(x, topMost, true);
+                                    NetMessage.SendTileSquare(-1, x, topMost, 1);
+                                }
+
+                                if (Main.tile[x, topMost + 1] != null)
+                                {
+                                    WorldGen.SquareTileFrame(x, topMost + 1, true);
+                                    NetMessage.SendTileSquare(-1, x, topMost + 1, 1);
                                 }
 
                                 if (hanging)
@@ -1922,22 +1093,11 @@ namespace CalamityMod.World
                                 }
                         }
                     }
-                    if (tileframe)
-                    {
-                        if (Main.netMode == NetmodeID.SinglePlayer)
-                        {
-                            WorldGen.SquareTileFrame(x, y, true);
-                        }
-                        else if (Main.netMode == NetmodeID.Server)
-                        {
-                            NetMessage.SendTileSquare(-1, x, y, 1);
-                        }
-                    }
                 }
             }
         }
 
-        public static void ConvertFromAstral(int x, int y, ConvertType convert)
+        public static void ConvertFromAstral(int x, int y, ConvertType convert, bool tileframe = true)
         {
             Tile tile = Main.tile[x, y];
             int type = tile.type;
@@ -2159,6 +1319,18 @@ namespace CalamityMod.World
                     }
                 }
                 #endregion
+
+                if (tileframe)
+                {
+                    if (Main.netMode == NetmodeID.SinglePlayer)
+                    {
+                        WorldGen.SquareTileFrame(x, y, true);
+                    }
+                    else if (Main.netMode == NetmodeID.Server)
+                    {
+                        NetMessage.SendTileSquare(-1, x, y, 1);
+                    }
+                }
             }
         }
 
@@ -2278,8 +1450,8 @@ namespace CalamityMod.World
         #region EvilIsland
         public static void EvilIsland(int i, int j)
         {
-            double num = (double)WorldGen.genRand.Next(100, 150); //100 150
-            float num2 = (float)WorldGen.genRand.Next(20, 30); //20 30
+            double num = (double)WorldGen.genRand.Next(100, 150);
+            float num2 = (float)WorldGen.genRand.Next(20, 30);
             int num3 = i;
             int num4 = i;
             int num5 = i;
@@ -2833,9 +2005,9 @@ namespace CalamityMod.World
                 {
                     num8 = Main.maxTilesX;
                 }
-                if (num9 < 0)
+                if (num9 < Main.maxTilesY - 270)
                 {
-                    num9 = 0;
+                    num9 = Main.maxTilesY - 270;
                 }
                 if (num10 > Main.maxTilesY)
                 {
@@ -2915,6 +2087,8 @@ namespace CalamityMod.World
                 while (!Main.tile[m, num14].active())
                 {
                     num14--;
+                    if (num14 < Main.maxTilesX - WorldGen.genRand.Next(265, 275 + 1))
+                        break;
                 }
                 num14 += WorldGen.genRand.Next(-3, 4);
                 num15 = WorldGen.genRand.Next(4, 8);
@@ -3636,256 +2810,6 @@ namespace CalamityMod.World
         }
         #endregion
 
-        #region IceTomb
-        public static bool IceTomb(int i, int j)
-        {
-            ushort num = 161;
-            int arg_36_0 = j - WorldGen.genRand.Next(0, 7);
-            int num2 = WorldGen.genRand.Next(9, 13);
-            int num3 = 1;
-            int num4 = j + WorldGen.genRand.Next(75, 125); //75 125
-            for (int k = arg_36_0; k < num4; k++)
-            {
-                for (int l = i - num3; l < i + num3 - 1; l++)
-                {
-                    Main.tile[l, k].type = num;
-                    Main.tile[l, k].active(true);
-                    Main.tile[l, k].halfBrick(false);
-                    Main.tile[l, k].slope(0);
-                }
-                num3++;
-            }
-            for (int m = i - num3 - 5; m <= i + num3 + 5; m++)
-            {
-                for (int n = j - 1; n <= num4 + 1; n++)
-                {
-                    bool flag = true;
-                    for (int num5 = m - 1; num5 <= m + 1; num5++)
-                    {
-                        for (int num6 = n - 1; num6 <= n + 1; num6++)
-                        {
-                            if (Main.tile[num5, num6].type != num)
-                            {
-                                flag = false;
-                            }
-                        }
-                    }
-                    if (flag)
-                    {
-                        Main.tile[m, n].wall = 71;
-                        WorldGen.SquareWallFrame(m, n, true);
-                    }
-                }
-            }
-            int num7 = 1;
-            if (WorldGen.genRand.Next(2) == 0)
-            {
-                num7 = -1;
-            }
-            int num8 = i - num2 * num7;
-            int num9 = j + num2;
-            int num10 = WorldGen.genRand.Next(5, 8);
-            bool flag2 = true;
-            int num11 = WorldGen.genRand.Next(20, 30);
-            while (flag2)
-            {
-                flag2 = false;
-                bool flag3 = false;
-                for (int num12 = num9; num12 <= num9 + num10; num12++)
-                {
-                    int num13 = num8;
-                    if (Main.tile[num13, num12 - 1].type == 161)
-                    {
-                        flag3 = true;
-                    }
-                    if (Main.tile[num13, num12].type == num)
-                    {
-                        Main.tile[num13, num12 + 1].wall = 71;
-                        Main.tile[num13 + num7, num12].wall = 71;
-                        Main.tile[num13, num12].active(false);
-                        flag2 = true;
-                    }
-                    if (flag3)
-                    {
-                        Main.tile[num13, num12].type = 161;
-                        Main.tile[num13, num12].active(true);
-                        Main.tile[num13, num12].halfBrick(false);
-                        Main.tile[num13, num12].slope(0);
-                    }
-                }
-                num8 -= num7;
-            }
-            num8 = i - num2 * num7;
-            bool flag4 = true;
-            bool flag5 = false;
-            flag2 = true;
-            while (flag2)
-            {
-                for (int num14 = num9; num14 <= num9 + num10; num14++)
-                {
-                    int num15 = num8;
-                    Main.tile[num15, num14].active(false);
-                }
-                num8 += num7;
-                num9++;
-                num11--;
-                if (num9 >= num4 - num10 * 2)
-                {
-                    num11 = 10;
-                }
-                if (num11 <= 0)
-                {
-                    bool flag6 = false;
-                    if (!flag4 && !flag5)
-                    {
-                        flag5 = true;
-                        flag6 = true;
-                        int num16 = WorldGen.genRand.Next(7, 13);
-                        int num17 = WorldGen.genRand.Next(23, 28);
-                        int num18 = num17;
-                        int num19 = num8;
-                        while (num17 > 0)
-                        {
-                            for (int num20 = num9 - num16 + num10; num20 <= num9 + num10; num20++)
-                            {
-                                if (num17 == num18 || num17 == 1)
-                                {
-                                    if (num20 >= num9 - num16 + num10 + 2)
-                                    {
-                                        Main.tile[num8, num20].active(false);
-                                    }
-                                }
-                                else if (num17 == num18 - 1 || num17 == 2 || num17 == num18 - 2 || num17 == 3)
-                                {
-                                    if (num20 >= num9 - num16 + num10 + 1)
-                                    {
-                                        Main.tile[num8, num20].active(false);
-                                    }
-                                }
-                                else
-                                {
-                                    Main.tile[num8, num20].active(false);
-                                }
-                            }
-                            num17--;
-                            num8 += num7;
-                        }
-                        int num21 = num8 - num7;
-                        int num22 = num21;
-                        int num23 = num19;
-                        if (num21 > num19)
-                        {
-                            num22 = num19;
-                            num23 = num21;
-                        }
-                        int specialItem = WorldGen.genRand.Next(3);
-                        if (specialItem == 0)
-                        {
-                            specialItem = ItemID.ArcticDivingGear; //diving gear
-                        }
-                        else if (specialItem == 1)
-                        {
-                            specialItem = ItemID.BlizzardinaBalloon; //balloon
-                        }
-                        else if (specialItem == 2)
-                        {
-                            specialItem = ItemID.FrozenTurtleShell; //shell
-                        }
-                        WorldGen.AddBuriedChest((num22 + num23) / 2, num9, specialItem, false, 22);
-                        int num25 = WorldGen.genRand.Next(1, 10);
-                        for (int num26 = 0; num26 < num25; num26++)
-                        {
-                            int arg_49B_0 = WorldGen.genRand.Next(num22, num23);
-                            int j2 = num9 + num10;
-                            WorldGen.PlaceSmallPile(arg_49B_0, j2, WorldGen.genRand.Next(16, 19), 1, 185);
-                        }
-                        for (int num27 = num22; num27 <= num23; num27++)
-                        {
-                            WorldGen.PlacePot(num27, num9 + num10, 28, WorldGen.genRand.Next(4, 7));
-                        }
-                    }
-                    if (flag4)
-                    {
-                        flag4 = false;
-                        num7 *= -1;
-                        num11 = WorldGen.genRand.Next(15, 20);
-                    }
-                    else if (flag6)
-                    {
-                        num11 = WorldGen.genRand.Next(10, 15);
-                    }
-                    else
-                    {
-                        num7 *= -1;
-                        num11 = WorldGen.genRand.Next(20, 40);
-                    }
-                }
-                if (num9 >= num4 - num10)
-                {
-                    flag2 = false;
-                }
-            }
-            int num28 = WorldGen.genRand.Next(20, 40); //100 200
-            int num29 = WorldGen.genRand.Next(100, 160); //500 800
-            flag2 = true;
-            int num30 = num10;
-            num11 = WorldGen.genRand.Next(10, 50);
-            if (num7 == 1)
-            {
-                num8 -= num30;
-            }
-            int num31 = WorldGen.genRand.Next(5, 10);
-            while (flag2)
-            {
-                num28--;
-                num29--;
-                num11--;
-                for (int num32 = num8 - num31 - WorldGen.genRand.Next(0, 2); num32 <= num8 + num30 + num31 + WorldGen.genRand.Next(0, 2); num32++)
-                {
-                    int num33 = num9;
-                    if (num32 >= num8 && num32 <= num8 + num30)
-                    {
-                        Main.tile[num32, num33].active(false);
-                    }
-                    else
-                    {
-                        Main.tile[num32, num33].type = num;
-                        Main.tile[num32, num33].active(true);
-                        Main.tile[num32, num33].halfBrick(false);
-                        Main.tile[num32, num33].slope(0);
-                    }
-                    if (num32 >= num8 - 1 && num32 <= num8 + 1 + num30)
-                    {
-                        Main.tile[num32, num33].wall = 71;
-                    }
-                }
-                num9++;
-                num8 += num7;
-                if (num28 <= 0)
-                {
-                    flag2 = false;
-                    for (int num34 = num8 + 1; num34 <= num8 + num30 - 1; num34++)
-                    {
-                        if (Main.tile[num34, num9].active())
-                        {
-                            flag2 = true;
-                        }
-                    }
-                }
-                if (num11 < 0)
-                {
-                    num11 = WorldGen.genRand.Next(10, 50);
-                    num7 *= -1;
-                }
-                if (num29 <= 0)
-                {
-                    flag2 = false;
-                }
-            }
-            return true;
-        }
-        #endregion
-
         #region SpecialHut
         // Special Hut: Takes arguments of tile type 1, tile type 2, wall type, hut type (useful if you use this method to generate different huts), and location of the shrine (x and y)
         public static void SpecialHut(ushort tile, ushort tile2, ushort wall, int hutType, int shrineLocationX, int shrineLocationY)
@@ -4006,10 +2930,6 @@ namespace CalamityMod.World
                     chestType = 51;
                     break;
                 case 8:
-                    item = ModContent.ItemType<Murasama>();
-                    chestType = 44;
-                    break;
-                case 9:
                     item = ModContent.ItemType<BossRush>();
                     chestType = 4;
                     break;
@@ -4043,7 +2963,7 @@ namespace CalamityMod.World
         #region ChasmGenerator
         public static void ChasmGenerator(int i, int j, int steps, bool ocean = false)
         {
-            float num = (float)steps; //850 small 1450 medium 2050 large
+            float num = steps; //850 small 1450 medium 2050 large
             if (ocean)
             {
                 int tileYLookup = j;
@@ -4064,19 +2984,19 @@ namespace CalamityMod.World
                 j = tileYLookup;
             }
             Vector2 vector;
-            vector.X = (float)i;
-            vector.Y = (float)j;
+            vector.X = i;
+            vector.Y = j;
             Vector2 vector2;
-            vector2.X = (float)WorldGen.genRand.Next(-1, 2) * 0.1f;
-            vector2.Y = (float)WorldGen.genRand.Next(3, 8) * 0.2f + 0.5f;
+            vector2.X = WorldGen.genRand.Next(-1, 2) * 0.1f;
+            vector2.Y = WorldGen.genRand.Next(3, 8) * 0.2f + 0.5f;
             int num2 = 5;
-            double num3 = (double)(WorldGen.genRand.Next(5, 7) + 20); //start width
+            double num3 = WorldGen.genRand.Next(5, 7) + 20; //start width
             while (num3 > 0.0)
             {
                 if (num > 0f)
                 {
-                    num3 += (double)WorldGen.genRand.Next(2);
-                    num3 -= (double)WorldGen.genRand.Next(2);
+                    num3 += WorldGen.genRand.Next(2);
+                    num3 -= WorldGen.genRand.Next(2);
                     float smallHoleLimit = 790f; //small
                     if (Main.maxTilesY > 1500)
                     { smallHoleLimit = 1360f; if (Main.maxTilesY > 2100) { smallHoleLimit = 1950f; } }
@@ -4093,17 +3013,17 @@ namespace CalamityMod.World
                     }
                     else //dig large hole
                     {
-                        if (num3 < (ocean ? 30.0 : 8.0)) //min width
+                        if (num3 < (ocean ? 45.0 : 8.0)) //min width
                         {
-                            num3 = ocean ? 30.0 : 8.0; //min width
+                            num3 = ocean ? 45.0 : 8.0; //min width
                         }
-                        if (num3 > (ocean ? 35.0 : 20.0)) //max width
+                        if (num3 > (ocean ? 50.0 : 20.0)) //max width
                         {
-                            num3 = ocean ? 35.0 : 20.0; //max width
+                            num3 = ocean ? 50.0 : 20.0; //max width
                         }
-                        if (num == 1f && num3 < (ocean ? 30.0 : 15.0))
+                        if (num == 1f && num3 < (ocean ? 50.0 : 15.0))
                         {
-                            num3 = ocean ? 30.0 : 15.0;
+                            num3 = ocean ? 50.0 : 15.0;
                         }
                     }
                 }
@@ -4111,13 +3031,13 @@ namespace CalamityMod.World
                 {
                     if ((double)vector.Y > CalamityWorld.abyssChasmBottom)
                     {
-                        num3 -= (double)(WorldGen.genRand.Next(5) + 8);
+                        num3 -= WorldGen.genRand.Next(5) + 8;
                     }
                 }
                 if (Main.maxTilesY > 2100)
                 {
                     if (((double)vector.Y > CalamityWorld.abyssChasmBottom && num > 0f && ocean) ||
-                        ((double)vector.Y >= (double)Main.maxTilesY && num > 0f && !ocean))
+                        (vector.Y >= Main.maxTilesY && num > 0f && !ocean))
                     {
                         num = 0f;
                     }
@@ -4125,7 +3045,7 @@ namespace CalamityMod.World
                 else if (Main.maxTilesY > 1500)
                 {
                     if (((double)vector.Y > CalamityWorld.abyssChasmBottom && num > 0f && ocean) ||
-                        ((double)vector.Y > (double)Main.maxTilesY && num > 0f && !ocean))
+                        (vector.Y > Main.maxTilesY && num > 0f && !ocean))
                     {
                         num = 0f;
                     }
@@ -4133,7 +3053,7 @@ namespace CalamityMod.World
                 else
                 {
                     if (((double)vector.Y > CalamityWorld.abyssChasmBottom && num > 0f && ocean) ||
-                        ((double)vector.Y > (double)Main.maxTilesY && num > 0f && !ocean))
+                        (vector.Y > Main.maxTilesY && num > 0f && !ocean))
                     {
                         num = 0f;
                     }
@@ -4143,12 +3063,12 @@ namespace CalamityMod.World
                 int num5;
                 int num6;
                 int num7;
-                if (num > (float)num2)
+                if (num > num2)
                 {
-                    num4 = (int)((double)vector.X - num3 * 0.5);
-                    num5 = (int)((double)vector.X + num3 * 0.5);
-                    num6 = (int)((double)vector.Y - num3 * 0.5);
-                    num7 = (int)((double)vector.Y + num3 * 0.5);
+                    num4 = (int)(vector.X - num3 * 0.5);
+                    num5 = (int)(vector.X + num3 * 0.5);
+                    num6 = (int)(vector.Y - num3 * 0.5);
+                    num7 = (int)(vector.Y + num3 * 0.5);
                     if (num4 < 0)
                     {
                         num4 = 0;
@@ -4169,7 +3089,7 @@ namespace CalamityMod.World
                     {
                         for (int l = num6; l < num7; l++)
                         {
-                            if ((double)(Math.Abs((float)k - vector.X) + Math.Abs((float)l - vector.Y)) < num3 * 0.5 * (1.0 + (double)WorldGen.genRand.Next(-5, 6) * 0.015))
+                            if ((Math.Abs(k - vector.X) + Math.Abs(l - vector.Y)) < num3 * 0.5 * (1.0 + WorldGen.genRand.Next(-5, 6) * 0.015))
                             {
                                 if (ocean)
                                 {
@@ -4187,24 +3107,24 @@ namespace CalamityMod.World
                         }
                     }
                 }
-                if (num <= 2f && (double)vector.Y < (Main.rockLayer + (double)Main.maxTilesY * 0.3))
+                /*if (num <= 2f && vector.Y < (Main.rockLayer + Main.maxTilesY * 0.3))
                 {
                     num = 2f;
-                }
+                }*/
                 vector += vector2;
-                vector2.X += (float)WorldGen.genRand.Next(-1, 2) * 0.01f;
-                if ((double)vector2.X > 0.02)
+                vector2.X += WorldGen.genRand.Next(-1, 2) * 0.01f;
+                if (vector2.X > 0.02)
                 {
                     vector2.X = 0.02f;
                 }
-                if ((double)vector2.X < -0.02)
+                if (vector2.X < -0.02)
                 {
                     vector2.X = -0.02f;
                 }
-                num4 = (int)((double)vector.X - num3 * 1.1);
-                num5 = (int)((double)vector.X + num3 * 1.1);
-                num6 = (int)((double)vector.Y - num3 * 1.1);
-                num7 = (int)((double)vector.Y + num3 * 1.1);
+                num4 = (int)(vector.X - num3 * 1.1);
+                num5 = (int)(vector.X + num3 * 1.1);
+                num6 = (int)(vector.Y - num3 * 1.1);
+                num7 = (int)(vector.Y + num3 * 1.1);
                 if (num4 < 1)
                 {
                     num4 = 1;
@@ -4225,7 +3145,7 @@ namespace CalamityMod.World
                 {
                     for (int n = num6; n < num7; n++)
                     {
-                        if ((double)(Math.Abs((float)m - vector.X) + Math.Abs((float)n - vector.Y)) < num3 * 1.1 * (1.0 + (double)WorldGen.genRand.Next(-5, 6) * 0.015))
+                        if ((Math.Abs(m - vector.X) + Math.Abs(n - vector.Y)) < num3 * 1.1 * (1.0 + WorldGen.genRand.Next(-5, 6) * 0.015))
                         {
                             if (n > j + WorldGen.genRand.Next(7, 16))
                             {
@@ -4252,7 +3172,7 @@ namespace CalamityMod.World
                 {
                     for (int num12 = num6; num12 < num7; num12++)
                     {
-                        if ((double)(Math.Abs((float)num11 - vector.X) + Math.Abs((float)num12 - vector.Y)) < num3 * 1.1 * (1.0 + (double)WorldGen.genRand.Next(-5, 6) * 0.015))
+                        if ((Math.Abs(num11 - vector.X) + Math.Abs(num12 - vector.Y)) < num3 * 1.1 * (1.0 + WorldGen.genRand.Next(-5, 6) * 0.015))
                         {
                             if (ocean)
                             {
@@ -4349,6 +3269,39 @@ namespace CalamityMod.World
         #endregion
 
         #region Planetoids
+
+        public static void GenerateLuminitePlanetoids()
+        {
+            // Don't attempt to generate these things client-side.
+            if (Main.netMode == NetmodeID.MultiplayerClient)
+                return;
+
+            // The worldgen structure map only gets created/regenerated when you generate a world, for some reason.
+            // This means if you simply enter a world and generate this planetoid, the map will not exist yet, and errors will arise.
+            // As a result, a new one is generated as necessary.
+            if (WorldGen.structures is null)
+                WorldGen.structures = new StructureMap();
+
+            int totalPlanetoidsToGenerate = Main.maxTilesX / 4200 + 1;
+            for (int i = 0; i < totalPlanetoidsToGenerate; i++)
+            {
+                for (int tries = 0; tries < 3000; tries++)
+                {
+                    Point planetoidOrigin = new Point(WorldGen.genRand.Next(Main.maxTilesX / 2 - 700, Main.maxTilesX / 2 + 700), WorldGen.genRand.Next(50, 90));
+                    if (WorldGen.genRand.NextBool(2))
+                    {
+                        if (Biomes<LuminitePlanet>.Place(planetoidOrigin, WorldGen.structures))
+                            break;
+                    }
+                    else
+                    {
+                        if (Biomes<LuminitePlanet2>.Place(planetoidOrigin, WorldGen.structures))
+                            break;
+                    }
+                }
+            }
+        }
+
         public static void Planetoids(GenerationProgress progress)
         {
             progress.Message = "Generating Planetoids...";

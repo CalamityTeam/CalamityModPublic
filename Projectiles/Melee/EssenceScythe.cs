@@ -2,13 +2,12 @@ using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Projectiles.Healing;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Melee
 {
-    public class EssenceScythe : ModProjectile
+	public class EssenceScythe : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -29,7 +28,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.penetrate = 10;
             projectile.timeLeft = 300;
             projectile.ignoreWater = true;
-            aiType = 274;
+            aiType = ProjectileID.DeathSickle;
         }
 
         public override void AI()
@@ -41,7 +40,7 @@ namespace CalamityMod.Projectiles.Melee
                 Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 173, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
             }
 
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 600f, 18f, 20f);
+			CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 300f, 12f, 20f);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
@@ -64,7 +63,7 @@ namespace CalamityMod.Projectiles.Melee
             if (projectile.spriteDirection == -1)
                 spriteEffects = SpriteEffects.FlipHorizontally;
 
-            spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Projectiles/Melee/EssenceScytheGlow"), projectile.Center - Main.screenPosition, null, color, projectile.rotation, origin, 1f, spriteEffects, 0f);
+            spriteBatch.Draw(Main.projectileTexture[projectile.type], projectile.Center - Main.screenPosition, null, color, projectile.rotation, origin, 1f, spriteEffects, 0f);
         }
 
         public override Color? GetAlpha(Color lightColor)

@@ -1,15 +1,15 @@
 using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Events;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.NPCs.Signus
 {
-    public class CosmicLantern : ModNPC
+	public class CosmicLantern : ModNPC
     {
         public override void SetStaticDefaults()
         {
@@ -22,8 +22,8 @@ namespace CalamityMod.NPCs.Signus
         {
             npc.aiStyle = -1;
             aiType = -1;
-            npc.damage = 110;
-            npc.width = 25;
+			npc.GetNPCDamage();
+			npc.width = 25;
             npc.height = 25;
             npc.defense = 50;
             npc.lifeMax = 25;
@@ -34,10 +34,6 @@ namespace CalamityMod.NPCs.Signus
             npc.chaseable = false;
             npc.canGhostHeal = false;
             npc.noTileCollide = true;
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
             npc.HitSound = SoundID.NPCHit53;
             npc.DeathSound = SoundID.NPCDeath44;
         }
@@ -82,7 +78,7 @@ namespace CalamityMod.NPCs.Signus
 
 			bool revenge = CalamityWorld.revenge;
 			float playerDistNormMult = revenge ? 24f : 22f;
-			if (CalamityWorld.bossRushActive)
+			if (BossRushEvent.BossRushActive || CalamityWorld.malice)
 				playerDistNormMult = 30f;
             CalamityAI.DungeonSpiritAI(npc, mod, playerDistNormMult, 0f, true);
         }
@@ -99,7 +95,7 @@ namespace CalamityMod.NPCs.Signus
 			float amount9 = 0.5f;
 			int num153 = 5;
 
-			if (CalamityMod.CalamityConfig.Afterimages)
+			if (CalamityConfig.Instance.Afterimages)
 			{
 				for (int num155 = 1; num155 < num153; num155 += 2)
 				{
@@ -122,7 +118,7 @@ namespace CalamityMod.NPCs.Signus
 			texture2D15 = ModContent.GetTexture("CalamityMod/NPCs/Signus/CosmicLanternGlow");
 			Color color37 = Color.Lerp(Color.White, Color.Cyan, 0.5f);
 
-			if (CalamityMod.CalamityConfig.Afterimages)
+			if (CalamityConfig.Instance.Afterimages)
 			{
 				for (int num163 = 1; num163 < num153; num163++)
 				{
@@ -142,17 +138,9 @@ namespace CalamityMod.NPCs.Signus
 			return false;
 		}
 
-		public override void OnHitPlayer(Player player, int damage, bool crit)
-        {
-            if (CalamityWorld.revenge)
-            {
-                player.AddBuff(ModContent.BuffType<MarkedforDeath>(), 180);
-            }
-        }
-
         public override bool CanHitPlayer(Player target, ref int cooldownSlot)
         {
-            cooldownSlot = 0;
+            cooldownSlot = 1;
             return npc.alpha == 0;
         }
 

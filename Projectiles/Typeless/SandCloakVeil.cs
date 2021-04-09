@@ -1,16 +1,12 @@
-using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Dusts;
+using CalamityMod.DataStructures;
 using CalamityMod.NPCs;
-using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Typeless
 {
-    public class SandCloakVeil : ModProjectile
+	public class SandCloakVeil : ModProjectile
     {
         private const float radius = 225f;
         private const int duration = 900;

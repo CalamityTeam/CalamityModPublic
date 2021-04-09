@@ -16,7 +16,7 @@ namespace CalamityMod.Projectiles.Summon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Herring");
-            Main.projFrames[projectile.type] = 4;
+            Main.projFrames[projectile.type] = 8;
             ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
             ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
         }
@@ -74,7 +74,7 @@ namespace CalamityMod.Projectiles.Summon
                 projectile.frame++;
                 projectile.frameCounter = 0;
             }
-            if (projectile.frame > 3)
+            if (projectile.frame >= Main.projFrames[projectile.type])
             {
                 projectile.frame = 0;
             }
@@ -93,7 +93,7 @@ namespace CalamityMod.Projectiles.Summon
                 }
             }
 
-			CalamityGlobalProjectile.ChargingMinionAI(projectile, 600f, 800f, 1200f, 150f, 0, 40f, 8f, -4f, 40f, 7f, false, true);
+			projectile.ChargingMinionAI(600f, 800f, 1200f, 150f, 0, 40f, 8f, 4f, new Vector2(0f, -60f), 40f, 7f, false, true);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

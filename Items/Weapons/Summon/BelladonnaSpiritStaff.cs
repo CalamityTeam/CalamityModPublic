@@ -1,5 +1,4 @@
 using CalamityMod.Projectiles.Summon;
-using CalamityMod.Items.Materials;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -7,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
-    public class BelladonnaSpiritStaff : ModItem
+	public class BelladonnaSpiritStaff : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -26,7 +25,7 @@ namespace CalamityMod.Items.Weapons.Summon
             item.noMelee = true;
             item.knockBack = 1f;
             item.value = Item.buyPrice(0, 1, 0, 0);
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.UseSound = SoundID.Item44;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<BelladonnaSpirit>();

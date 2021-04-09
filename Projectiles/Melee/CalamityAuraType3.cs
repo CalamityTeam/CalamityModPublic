@@ -7,6 +7,8 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class CalamityAuraType3 : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Aura");
@@ -44,7 +46,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(BuffID.Ichor, 180);
+            target.AddBuff(BuffID.Ichor, 120);
         }
 
         public override void Kill(int timeLeft)

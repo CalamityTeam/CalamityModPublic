@@ -8,6 +8,7 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class HyperiusSplit : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Ranged/HyperiusBulletProj";
         private Color currentColor = Color.Black;
         
         public override void SetStaticDefaults()
@@ -50,6 +51,8 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
+			if (projectile.timeLeft == 360)
+				return false;
             CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
             return false;
         }

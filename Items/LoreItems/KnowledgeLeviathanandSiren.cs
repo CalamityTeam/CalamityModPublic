@@ -11,31 +11,22 @@ namespace CalamityMod.Items.LoreItems
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Leviathan and Siren");
+            DisplayName.SetDefault("Leviathan and Anahita");
             Tooltip.SetDefault("An odd pair of creatures; one seeking companionship and the other seeking sustenance.\n" +
-                "Perhaps two genetic misfits outcast from their homes that found comfort in assisting one another.\n" +
-                "Place in your inventory to gain increased max health while wearing the siren heart and treasure detect while wearing the strange orb.\n" +
-                "Allows the young siren pet to move normally while outside of liquids.\n" +
-				"However, if you're not submerged in liquid you will have decreased defense and damage reduction.");
+                "Perhaps two genetic misfits outcast from their homes that found comfort in assisting one another.");
         }
 
         public override void SetDefaults()
         {
             item.width = 20;
             item.height = 20;
-            item.rare = 7;
+            item.rare = ItemRarityID.Lime;
             item.consumable = false;
         }
 
         public override bool CanUseItem(Player player)
         {
             return false;
-        }
-
-        public override void UpdateInventory(Player player)
-        {
-            CalamityPlayer modPlayer = player.Calamity();
-            modPlayer.leviathanAndSirenLore = true;
         }
 
         public override void AddRecipes()

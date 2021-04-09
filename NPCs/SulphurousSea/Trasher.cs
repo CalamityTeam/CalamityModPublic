@@ -1,4 +1,3 @@
-using CalamityMod.Items.Materials;
 using CalamityMod.Items.Pets;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.World;
@@ -11,7 +10,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.SulphurousSea
 {
-    public class Trasher : ModNPC
+	public class Trasher : ModNPC
     {
         private bool hasBeenHit = false;
 
@@ -23,7 +22,8 @@ namespace CalamityMod.NPCs.SulphurousSea
 
         public override void SetDefaults()
         {
-            npc.noGravity = true;
+			npc.Calamity().canBreakPlayerDefense = true;
+			npc.noGravity = true;
             npc.damage = 50;
             npc.width = 150;
             npc.height = 40;
@@ -31,10 +31,6 @@ namespace CalamityMod.NPCs.SulphurousSea
             npc.lifeMax = 200;
             npc.aiStyle = -1;
             aiType = -1;
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
             npc.value = Item.buyPrice(0, 0, 3, 0);
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath5;
@@ -348,13 +344,13 @@ namespace CalamityMod.NPCs.SulphurousSea
         {
             for (int k = 0; k < 5; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
             }
             if (npc.life <= 0)
             {
                 for (int k = 0; k < 25; k++)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
                 }
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Trasher"), 1f);
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Trasher2"), 1f);

@@ -1,20 +1,19 @@
 using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee.Yoyos
 {
-    public class CnidarianYoyo : ModProjectile
+	public class CnidarianYoyo : ModProjectile
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Cnidarian");
             ProjectileID.Sets.YoyosLifeTimeMultiplier[projectile.type] = 7f;
-            ProjectileID.Sets.YoyosMaximumRange[projectile.type] = 190f;
+            ProjectileID.Sets.YoyosMaximumRange[projectile.type] = 240f;
             ProjectileID.Sets.YoyosTopSpeed[projectile.type] = 11f;
         }
 
@@ -27,11 +26,14 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
             projectile.friendly = true;
             projectile.melee = true;
             projectile.penetrate = -1;
-        }
+			projectile.MaxUpdates = 2;
+		}
 
         public override void AI()
         {
-			CalamityGlobalProjectile.MagnetSphereHitscan(projectile, 300f, 6f, 60f, 5, ModContent.ProjectileType<Seashell>(), 0.5);
+			CalamityGlobalProjectile.MagnetSphereHitscan(projectile, 300f, 6f, 180f, 5, ModContent.ProjectileType<Seashell>(), 0.75);
+			if ((projectile.position - Main.player[projectile.owner].position).Length() > 3200f) //200 blocks
+				projectile.Kill();
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

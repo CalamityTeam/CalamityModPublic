@@ -1,13 +1,10 @@
-using CalamityMod.Dusts;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace CalamityMod.NPCs.Astral
 {
-    public class EnchantedNightcrawler : ModNPC
+	public class EnchantedNightcrawler : ModNPC
     {
         public override void SetStaticDefaults()
         {
@@ -41,7 +38,7 @@ namespace CalamityMod.NPCs.Astral
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.player.PillarZone())
+            if (CalamityGlobalNPC.AnyEvents(spawnInfo.player))
             {
                 return 0f;
             }

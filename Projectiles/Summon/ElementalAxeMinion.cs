@@ -34,8 +34,8 @@ namespace CalamityMod.Projectiles.Summon
             projectile.minion = true;
             projectile.tileCollide = false;
             projectile.extraUpdates = 1;
-            projectile.usesIDStaticNPCImmunity = true;
-            projectile.idStaticNPCHitCooldown = 6;
+            projectile.usesLocalNPCImmunity = true;
+            projectile.localNPCHitCooldown = 30;
         }
 
         public override void AI()
@@ -59,18 +59,18 @@ namespace CalamityMod.Projectiles.Summon
             player.AddBuff(ModContent.BuffType<ElementalAxeBuff>(), 3600);
             if (flag64)
             {
-                if (player.dead)
-                {
-                    modPlayer.eAxe = false;
-                }
-                if (modPlayer.eAxe)
+				if (player.dead)
+				{
+					modPlayer.eAxe = false;
+				}
+				if (modPlayer.eAxe)
                 {
                     projectile.timeLeft = 2;
                 }
             }
             projectile.rotation += 0.075f;
 
-			CalamityGlobalProjectile.ChargingMinionAI(projectile, 1600f, 1800f, 2500f, 400f, 1, 30f, 24f, -12f, 30f, 16f, true, true);
+			projectile.ChargingMinionAI(1600f, 1800f, 2500f, 400f, 1, 30f, 24f, 12f, new Vector2(0f, -60f), 30f, 16f, true, true);
         }
 
         public override Color? GetAlpha(Color lightColor)

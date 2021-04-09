@@ -17,6 +17,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             item.width = 60;
             item.height = 64;
+			item.scale = 1.5f;
             item.damage = 158;
             item.melee = true;
             item.useAnimation = 10;
@@ -27,7 +28,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             item.value = Item.buyPrice(0, 80, 0, 0);
-            item.rare = 8;
+            item.rare = ItemRarityID.Yellow;
         }
 
         public override void AddRecipes()

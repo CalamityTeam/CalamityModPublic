@@ -9,9 +9,9 @@ namespace CalamityMod.Tiles.FurniturePlaguedPlate
     {
         public override void SetDefaults()
         {
-            this.SetUpChair();
+            this.SetUpChair(true);
             ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Plagued Plate Chair");
+            name.SetDefault("Plagued Chair");
             AddMapEntry(new Color(191, 142, 111), name);
             disableSmartCursor = true;
             adjTiles = new int[] { TileID.Chairs };

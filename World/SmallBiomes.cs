@@ -1,3 +1,5 @@
+using CalamityMod.World.Planets;
+using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -7,32 +9,26 @@ namespace CalamityMod.World
 {
     public class SmallBiomes : ModWorld
     {
-        public static void PlaceIceTomb()
-        {
-            int x = Main.maxTilesX;
-            int y = Main.maxTilesY;
-
-            for (int k = 0; k < (int)((double)(x * y) * 50E-05); k++)
-            {
-                int tilesX = WorldGen.genRand.Next(0, x);
-                int tilesY = WorldGen.genRand.Next((int)(y * .4f), (int)(y * .5f));
-
-                if (Main.tile[tilesX, tilesY].type == TileID.SnowBlock || Main.tile[tilesX, tilesY].type == TileID.IceBlock)
-                {
-                    WorldGenerationMethods.IceTomb(tilesX, tilesY);
-                    break;
-                }
-            }
-        }
-
         public static void PlaceEvilIsland()
         {
             int x = Main.maxTilesX;
-            int xIslandGen = WorldGen.crimson ?
-                WorldGen.genRand.Next((int)((double)x * 0.15), (int)((double)x * 0.2)) :
-                WorldGen.genRand.Next((int)((double)x * 0.8), (int)((double)x * 0.85));
-            int yIslandGen = WorldGen.genRand.Next(90, 151);
-            yIslandGen = Math.Min(yIslandGen, (int)WorldGen.worldSurfaceLow - 50);
+            int xIslandGen;
+            int yIslandGen;
+            Rectangle potentialArea;
+
+            do
+            {
+                xIslandGen = WorldGen.crimson ?
+                    WorldGen.genRand.Next((int)(x * 0.1), (int)(x * 0.15)) :
+                    WorldGen.genRand.Next((int)(x * 0.85), (int)(x * 0.9));
+                yIslandGen = WorldGen.genRand.Next(90, 151);
+                yIslandGen = Math.Min(yIslandGen, (int)WorldGen.worldSurfaceLow - 50);
+
+                int checkAreaX = 200;
+                int checkAreaY = 200;
+                potentialArea = new Rectangle(xIslandGen + checkAreaX / 2, yIslandGen + checkAreaY / 2, checkAreaX, checkAreaY);
+            }
+            while (!Planetoid.InvalidSkyPlacementArea(potentialArea));
 
             int tileXLookup = xIslandGen;
             if (WorldGen.crimson)
@@ -60,12 +56,13 @@ namespace CalamityMod.World
             int genLimit = x / 2;
             int generateBack = genLimit - 80; //Small = 2020
             int generateForward = genLimit + 80; //Small = 2180
+			double shrineChance = 100E-05;
 
-            for (int k = 0; k < (int)((double)(x * y) * 50E-05); k++) //Surface Shrine
+			for (int k = 0; k < (int)(x * y * shrineChance); k++) //Surface Shrine
             {
-                int tilesX = WorldGen.genRand.Next((int)((double)x * 0.3), generateBack);
-                int tilesX2 = WorldGen.genRand.Next(generateForward, (int)((double)x * 0.7));
-                int tilesY = WorldGen.genRand.Next((int)(y * .3f), (int)(y * .35f));
+                int tilesX = WorldGen.genRand.Next((int)(x * 0.35), generateBack);
+                int tilesX2 = WorldGen.genRand.Next(generateForward, (int)(x * 0.65));
+                int tilesY = WorldGen.genRand.Next((int)(y * 0.3f), (int)(y * 0.35f));
 
                 if (Main.tile[tilesX, tilesY].type == TileID.Dirt || Main.tile[tilesX, tilesY].type == TileID.Stone)
                 {
@@ -79,10 +76,10 @@ namespace CalamityMod.World
                 }
             }
 
-            for (int k = 0; k < (int)((double)(x * y) * 50E-05); k++) //Evil Shrine
+            for (int k = 0; k < (int)(x * y * shrineChance); k++) //Evil Shrine
             {
                 int tilesX = WorldGen.genRand.Next(0, x);
-                int tilesY = WorldGen.genRand.Next((int)(y * .3f), (int)(y * .35f));
+                int tilesY = WorldGen.genRand.Next((int)(y * 0.3f), (int)(y * 0.35f));
 
                 if (Main.tile[tilesX, tilesY].type == (WorldGen.crimson ? TileID.Crimstone : TileID.Ebonstone))
                 {
@@ -93,11 +90,11 @@ namespace CalamityMod.World
                 }
             }
 
-            for (int k = 0; k < (int)((double)(x * y) * 50E-05); k++) //Cavern Shrine
+            for (int k = 0; k < (int)(x * y * shrineChance); k++) //Cavern Shrine
             {
-                int tilesX = WorldGen.genRand.Next((int)((double)x * 0.3), generateBack);
-                int tilesX2 = WorldGen.genRand.Next(generateForward, (int)((double)x * 0.7));
-                int tilesY = WorldGen.genRand.Next((int)(y * .55f), (int)(y * .8f));
+                int tilesX = WorldGen.genRand.Next((int)(x * 0.3), generateBack);
+                int tilesX2 = WorldGen.genRand.Next(generateForward, (int)(x * 0.7));
+                int tilesY = WorldGen.genRand.Next((int)(y * 0.55f), (int)(y * 0.8f));
 
                 if (Main.tile[tilesX, tilesY].type == TileID.Stone)
                 {
@@ -111,10 +108,10 @@ namespace CalamityMod.World
                 }
             }
 
-            for (int k = 0; k < (int)((double)(x * y) * 50E-05); k++) //Ice Shrine
+            for (int k = 0; k < (int)(x * y * shrineChance); k++) //Ice Shrine
             {
                 int tilesX = WorldGen.genRand.Next(0, x);
-                int tilesY = WorldGen.genRand.Next((int)(y * .35f), (int)(y * .5f));
+                int tilesY = WorldGen.genRand.Next((int)(y * 0.35f), (int)(y * 0.5f));
 
                 if (Main.tile[tilesX, tilesY].type == TileID.IceBlock)
                 {
@@ -123,10 +120,10 @@ namespace CalamityMod.World
                 }
             }
 
-            for (int k = 0; k < (int)((double)(x * y) * 50E-05); k++) //Desert Shrine
+            for (int k = 0; k < (int)(x * y * shrineChance); k++) //Desert Shrine
             {
                 int tilesX = WorldGen.genRand.Next(0, x);
-                int tilesY = WorldGen.genRand.Next((int)(y * .35f), (int)(y * .5f));
+                int tilesY = WorldGen.genRand.Next((int)(y * 0.3f), (int)(y * 0.5f));
 
                 if (Main.tile[tilesX, tilesY].type == TileID.DesertFossil)
                 {
@@ -135,10 +132,10 @@ namespace CalamityMod.World
                 }
             }
 
-            for (int k = 0; k < (int)((double)(x * y) * 50E-05); k++) //Mushroom Shrine
+            for (int k = 0; k < (int)(x * y * shrineChance); k++) //Mushroom Shrine
             {
                 int tilesX = WorldGen.genRand.Next(0, x);
-                int tilesY = WorldGen.genRand.Next((int)(y * .35f), (int)(y * .5f));
+                int tilesY = WorldGen.genRand.Next((int)(y * 0.35f), (int)(y * 0.5f));
 
                 if (Main.tile[tilesX, tilesY].type == TileID.MushroomGrass)
                 {
@@ -147,10 +144,10 @@ namespace CalamityMod.World
                 }
             }
 
-            for (int k = 0; k < (int)((double)(x * y) * 50E-05); k++) //Granite Shrine
+            for (int k = 0; k < (int)(x * y * shrineChance); k++) //Granite Shrine
             {
                 int tilesX = WorldGen.genRand.Next(0, x);
-                int tilesY = WorldGen.genRand.Next((int)(y * .35f), (int)(y * .5f));
+                int tilesY = WorldGen.genRand.Next((int)(y * 0.35f), (int)(y * 0.5f));
 
                 if (Main.tile[tilesX, tilesY].type == TileID.Granite)
                 {
@@ -159,10 +156,10 @@ namespace CalamityMod.World
                 }
             }
 
-            for (int k = 0; k < (int)((double)(x * y) * 50E-05); k++) //Marble Shrine
+            for (int k = 0; k < (int)(x * y * shrineChance); k++) //Marble Shrine
             {
                 int tilesX = WorldGen.genRand.Next(0, x);
-                int tilesY = WorldGen.genRand.Next((int)(y * .35f), (int)(y * .5f));
+                int tilesY = WorldGen.genRand.Next((int)(y * 0.35f), (int)(y * 0.5f));
 
                 if (Main.tile[tilesX, tilesY].type == TileID.Marble)
                 {
@@ -170,9 +167,6 @@ namespace CalamityMod.World
                     break;
                 }
             }
-
-            //Murasama Shrine
-            WorldGenerationMethods.SpecialHut(TileID.HellstoneBrick, TileID.Hellstone, WallID.HellstoneBrick, 8, WorldGen.genRand.Next((int)((double)x * 0.97), (int)((double)x * 0.98)), y - 60);
         }
     }
 }

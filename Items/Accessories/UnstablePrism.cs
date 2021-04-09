@@ -1,6 +1,8 @@
 using CalamityMod.CalPlayer;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
+using Terraria.DataStructures;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -10,14 +12,15 @@ namespace CalamityMod.Items.Accessories
         {
             DisplayName.SetDefault("Unstable Prism");
             Tooltip.SetDefault("Three sparks are released on critical hits");
+            Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(7, 5));
         }
 
         public override void SetDefaults()
         {
-            item.width = 22;
-            item.height = 38;
-            item.value = Item.buyPrice(0, 9, 0, 0);
-            item.rare = 3;
+            item.width = 40;
+            item.height = 44;
+            item.value = CalamityGlobalItem.Rarity3BuyPrice;
+            item.rare = ItemRarityID.Orange;
             item.accessory = true;
         }
 

@@ -1,6 +1,5 @@
 using CalamityMod.Tiles.Furniture;
 using CalamityMod.Items.Critters;
-using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -25,7 +24,8 @@ namespace CalamityMod.Items.Placeables.Furniture
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
             item.createTile = ModContent.TileType<PiggyCageTile>();
-			item.Calamity().customRarity = CalamityRarity.Dedicated;
+
+            item.Calamity().donorItem = true;
         }
 
         public override void AddRecipes()

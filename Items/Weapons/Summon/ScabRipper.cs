@@ -1,14 +1,12 @@
 using CalamityMod.Projectiles.Summon;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
-    public class ScabRipper : ModItem
+	public class ScabRipper : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -27,7 +25,7 @@ namespace CalamityMod.Items.Weapons.Summon
             item.noMelee = true;
             item.knockBack = 0.5f;
             item.value = Item.buyPrice(0, 2, 0, 0);
-            item.rare = 2;
+            item.rare = ItemRarityID.Green;
             item.UseSound = SoundID.Item83;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<BabyBloodCrawler>();

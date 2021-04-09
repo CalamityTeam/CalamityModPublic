@@ -7,6 +7,9 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class TerraArrowMain : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Ammo/TerraArrow";
+
+		private bool initialized = false;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Arrow");
@@ -21,48 +24,47 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.arrow = true;
             projectile.penetrate = 1;
             projectile.timeLeft = 600;
-            projectile.aiStyle = 1;
+			projectile.extraUpdates = 1;
         }
 
         public override void AI()
         {
-            projectile.velocity *= 1.005f;
-            if (projectile.velocity.X >= 20f || projectile.velocity.Y >= 20f || projectile.velocity.X <= -20f || projectile.velocity.Y <= -20f)
-            {
-                projectile.Kill();
-            }
-            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
+			if (!initialized)
+			{
+				projectile.velocity *= 0.5f;
+				initialized = true;
+			}
+			if (projectile.FinalExtraUpdate() && initialized)
+			{
+				projectile.velocity *= 1.003f;
+				if (projectile.velocity.Length() >= 22f)
+				{
+					projectile.Kill();
+				}
+			}
+            projectile.rotation = projectile.velocity.ToRotation() - MathHelper.PiOver2;
         }
 
         public override void Kill(int timeLeft)
         {
-            projectile.position = projectile.Center;
-            projectile.width = projectile.height = 32;
-            projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
-            projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
-            Main.PlaySound(SoundID.Item60, projectile.position);
-            for (int num621 = 0; num621 < 3; num621++)
+			CalamityGlobalProjectile.ExpandHitboxBy(projectile, 32);
+            Main.PlaySound(SoundID.Item60, projectile.Center);
+            for (int d = 0; d < 3; d++)
             {
-                int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 107, 0f, 0f, 100, default, 2f);
-                Main.dust[num622].velocity *= 1.2f;
+                int terra = Dust.NewDust(projectile.position, projectile.width, projectile.height, 107, 0f, 0f, 100, default, 2f);
+                Main.dust[terra].velocity *= 1.2f;
                 if (Main.rand.NextBool(2))
                 {
-                    Main.dust[num622].scale = 0.5f;
-                    Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
+                    Main.dust[terra].scale = 0.5f;
+                    Main.dust[terra].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
                 }
             }
             if (projectile.owner == Main.myPlayer)
             {
-                for (int num252 = 0; num252 < 2; num252++)
+                for (int a = 0; a < 2; a++)
                 {
-                    Vector2 value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-                    while (value15.X == 0f && value15.Y == 0f)
-                    {
-                        value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-                    }
-                    value15.Normalize();
-                    value15 *= (float)Main.rand.Next(70, 101) * 0.1f;
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value15.X, value15.Y, ModContent.ProjectileType<TerraArrowSplit>(), (int)((double)projectile.damage * 0.25), 0f, projectile.owner, 0f, 0f);
+					Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
+                    Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<TerraArrowSplit>(), (int)(projectile.damage * 0.25), 0f, projectile.owner, 0f, 0f);
                 }
             }
         }

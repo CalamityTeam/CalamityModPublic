@@ -1,4 +1,3 @@
-using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using System.Collections.Generic;
 using Terraria;
@@ -7,24 +6,24 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
 {
-    public class BlunderBooster : ModItem
+	public class BlunderBooster : ModItem
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Blunder Booster");
             Tooltip.SetDefault("12% increased rogue damage and 15% increased rogue projectile velocity\n" +
+				"Stealth generates 10% faster\n" +
                 "Summons a red lightning aura to surround the player and electrify nearby enemies\n" +
                 "TOOLTIP LINE HERE" + 
-                "This effect has a 3 second cooldown before it can be used again");
+                "This effect has a 1 second cooldown before it can be used again");
         }
 
         public override void SetDefaults()
         {
             item.width = 30;
             item.height = 38;
-            item.value = CalamityGlobalItem.Rarity12BuyPrice;
-            item.rare = 10;
-			item.Calamity().postMoonLordRarity = 12;
+			item.value = CalamityGlobalItem.Rarity11BuyPrice;
+			item.rare = ItemRarityID.Purple;
             item.accessory = true;
         }
 
@@ -36,6 +35,8 @@ namespace CalamityMod.Items.Accessories
             player.Calamity().throwingDamage += 0.12f;
             player.Calamity().throwingVelocity += 0.15f;
             player.Calamity().blunderBooster = true;
+            player.Calamity().stealthGenStandstill += 0.1f;
+            player.Calamity().stealthGenMoving += 0.1f;
         }
 
         public override void ModifyTooltips(List<TooltipLine> list)
@@ -43,7 +44,7 @@ namespace CalamityMod.Items.Accessories
             string hotkey = CalamityMod.PlaguePackHotKey.TooltipHotkeyString();
             foreach (TooltipLine line in list)
             {
-                if (line.mod == "Terraria" && line.Name == "Tooltip2")
+                if (line.mod == "Terraria" && line.Name == "Tooltip3")
                 {
                     line.text = "Press " + hotkey + " to consume 25% of your maximum stealth to perform a swift upwards/diagonal dash which leaves a trail of lightning bolts";
                 }
@@ -55,7 +56,6 @@ namespace CalamityMod.Items.Accessories
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<PlaguedFuelPack>());
             recipe.AddIngredient(ModContent.ItemType<EffulgentFeather>(), 8);
-            recipe.AddIngredient(ModContent.ItemType<UeliaceBar>(), 5);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();

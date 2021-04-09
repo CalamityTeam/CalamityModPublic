@@ -21,7 +21,6 @@ namespace CalamityMod.Items.Weapons.Typeless.FiniteUse
         public override void SetDefaults()
         {
             item.damage = 400;
-            item.crit += 56;
             item.width = 50;
             item.height = 28;
             item.useTime = 21;
@@ -30,7 +29,7 @@ namespace CalamityMod.Items.Weapons.Typeless.FiniteUse
             item.noMelee = true;
             item.knockBack = 8f;
             item.value = Item.buyPrice(0, 48, 0, 0);
-            item.rare = 6;
+            item.rare = ItemRarityID.LightPurple;
             item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/Magnum");
             item.autoReuse = true;
             item.shootSpeed = 12f;
@@ -42,6 +41,9 @@ namespace CalamityMod.Items.Weapons.Typeless.FiniteUse
             }
         }
 
+		// Terraria seems to really dislike high crit values in SetDefaults
+		public override void GetWeaponCrit(Player player, ref int crit) => crit += 56;
+
         public override bool OnPickup(Player player)
         {
             if (CalamityPlayer.areThereAnyDamnBosses)
@@ -51,15 +53,9 @@ namespace CalamityMod.Items.Weapons.Typeless.FiniteUse
             return true;
         }
 
-        public override bool CanUseItem(Player player)
-        {
-            return item.Calamity().timesUsed < 3;
-        }
+        public override bool CanUseItem(Player player) => item.Calamity().timesUsed < 3;
 
-        public override Vector2? HoldoutOffset()
-        {
-            return new Vector2(-5, 0);
-        }
+        public override Vector2? HoldoutOffset() => new Vector2(-5, 0);
 
         public override void UpdateInventory(Player player)
         {
@@ -73,14 +69,15 @@ namespace CalamityMod.Items.Weapons.Typeless.FiniteUse
         {
             if (CalamityPlayer.areThereAnyDamnBosses)
             {
-                for (int i = 0; i < 58; i++)
-                {
-                    if (player.inventory[i].type == item.type)
-                    {
-                        player.inventory[i].Calamity().timesUsed++;
-                    }
-                }
-            }
+				player.HeldItem.Calamity().timesUsed++;
+				for (int i = 0; i < Main.maxInventory; i++)
+				{
+					if (player.inventory[i].type == item.type && player.inventory[i] != player.HeldItem)
+					{
+						player.inventory[i].Calamity().timesUsed++;
+					}
+				}
+			}
             return true;
         }
 

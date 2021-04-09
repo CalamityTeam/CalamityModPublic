@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.Enemy
 {
     public class GammaAcid : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Enemy/FlakAcid";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Acid");
@@ -39,9 +41,7 @@ namespace CalamityMod.Projectiles.Enemy
         }
         public override void Kill(int timeLeft)
         {
-            projectile.position = projectile.Center;
-            projectile.width = projectile.height = 80;
-            projectile.position -= projectile.Size / 2f;
+			CalamityGlobalProjectile.ExpandHitboxBy(projectile, 80);
             projectile.Damage();
             for (int i = 0; i <= 40; i++)
             {
@@ -58,6 +58,8 @@ namespace CalamityMod.Projectiles.Enemy
                 Main.dust[idx].noGravity = true;
             }
         }
+
+        public override Color? GetAlpha(Color lightColor) => new Color(200, 200, 200, 200);
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {

@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.autoReuse = true;
             item.height = 60;
             item.value = Item.buyPrice(0, 80, 0, 0);
-            item.rare = 8;
+            item.rare = ItemRarityID.Yellow;
             item.shoot = ModContent.ProjectileType<TemporalFloeSwordProjectile>();
             item.shootSpeed = 16f;
         }
@@ -46,7 +46,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<CryoBar>(), 15);
+            recipe.AddIngredient(ModContent.ItemType<VerstaltiteBar>(), 15);
             recipe.AddIngredient(ItemID.Ectoplasm, 5);
             recipe.AddTile(TileID.IceMachine);
             recipe.SetResult(this);

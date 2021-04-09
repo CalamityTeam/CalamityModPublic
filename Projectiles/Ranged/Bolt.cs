@@ -26,18 +26,15 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.ranged = true;
             projectile.alpha = 255;
             projectile.penetrate = 1;
+			projectile.timeLeft = 600;
         }
 
         public override void AI()
         {
-            Lighting.AddLight(projectile.Center, 0f, 0.5f, 0.65f);
-            projectile.velocity.X *= 1.015f;
-            projectile.velocity.Y *= 1.015f;
-            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
-            projectile.localAI[0] += 1f;
-            if (projectile.localAI[0] == 30f)
+            projectile.velocity *= 1.015f;
+            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
+            if (projectile.timeLeft % 30 == 0)
             {
-                projectile.localAI[0] = 0f;
                 for (int l = 0; l < 12; l++)
                 {
                     Vector2 vector3 = Vector2.UnitX * (float)-(float)projectile.width / 2f;
@@ -68,6 +65,26 @@ namespace CalamityMod.Projectiles.Ranged
         {
             CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
             return false;
+        }
+
+        public override void Kill(int timeLeft)
+        {
+            projectile.position = projectile.Center;
+            projectile.width = projectile.height = 32;
+            projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
+            projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
+            projectile.maxPenetrate = -1;
+            projectile.penetrate = -1;
+            projectile.usesLocalNPCImmunity = true;
+            projectile.localNPCHitCooldown = 10;
+            projectile.Damage();
+            int num212 = Main.rand.Next(4, 8);
+            for (int num213 = 0; num213 < num212; num213++)
+            {
+                int num214 = Dust.NewDust(projectile.Center - projectile.velocity / 2f, 0, 0, 135, 0f, 0f, 100, default, 2f);
+                Main.dust[num214].velocity *= 2f;
+                Main.dust[num214].noGravity = true;
+            }
         }
     }
 }

@@ -22,8 +22,8 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
         public override void SetDefaults()
         {
             projectile.aiStyle = 99;
-            projectile.width = 16;
-            projectile.height = 16;
+            projectile.width = 24;
+            projectile.height = 24;
             projectile.scale = 1.2f;
             projectile.friendly = true;
             projectile.melee = true;
@@ -31,7 +31,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
             projectile.MaxUpdates = 2;
 
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 2;
+            projectile.localNPCHitCooldown = 6;
         }
 
         public override void AI()
@@ -39,8 +39,10 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
             if (Main.rand.NextBool(6))
             {
                 if (projectile.owner == Main.myPlayer)
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X * 0.35f, projectile.velocity.Y * 0.35f, ModContent.ProjectileType<CosmicOrb>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                    Projectile.NewProjectile(projectile.Center, projectile.velocity * 0.35f, ModContent.ProjectileType<CosmicOrb>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
             }
+			if ((projectile.position - Main.player[projectile.owner].position).Length() > 3200f) //200 blocks
+				projectile.Kill();
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

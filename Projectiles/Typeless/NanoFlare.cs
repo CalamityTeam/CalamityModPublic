@@ -1,12 +1,14 @@
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
 
 namespace CalamityMod.Projectiles.Typeless
 {
     public class NanoFlare : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Nano Flare");
@@ -46,7 +48,7 @@ namespace CalamityMod.Projectiles.Typeless
                 dust.color = Main.hslToRgb((float)(0.40000000596046448 + Main.rand.NextDouble() * 0.20000000298023224), 0.9f, 0.5f);
                 dust.color = Color.Lerp(dust.color, Color.White, 0.3f);
             }
-            Main.PlaySound(SoundID.Item14, projectile.position);
+            Main.PlaySound(SoundID.Item14, projectile.Center);
             projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
             projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
             projectile.width = 60;

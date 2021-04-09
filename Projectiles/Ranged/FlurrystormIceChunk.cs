@@ -1,4 +1,3 @@
-using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -6,7 +5,7 @@ using CalamityMod.Buffs.StatDebuffs;
 
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class FlurrystormIceChunk : ModProjectile
+	public class FlurrystormIceChunk : ModProjectile
     {
         public override void SetStaticDefaults()
         {

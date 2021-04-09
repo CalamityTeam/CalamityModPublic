@@ -1,3 +1,4 @@
+using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -8,6 +9,8 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class ProfanedEnergy : ModProjectile
     {
+        public override string Texture => "CalamityMod/NPCs/NormalNPCs/ImpiousImmolator";
+
         private float count = 0f;
 
         public override void SetStaticDefaults()
@@ -45,24 +48,27 @@ namespace CalamityMod.Projectiles.Summon
             {
                 projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
                 projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = projectile.damage;
-                Main.PlaySound(SoundID.Item20, projectile.position);
-                for (int num621 = 0; num621 < 5; num621++)
+                Main.PlaySound(SoundID.Item20, projectile.Center);
+                for (int i = 0; i < 5; i++)
                 {
-                    int num622 = Dust.NewDust(new Vector2(projectile.Center.X, projectile.Center.Y), projectile.width, projectile.height, 244, 0f, 0f, 100, default, 2f);
-                    Main.dust[num622].velocity *= 3f;
+                    int holy = Dust.NewDust(projectile.Center, projectile.width, projectile.height, (int)CalamityDusts.ProfanedFire, 0f, 0f, 100, default, 2f);
+                    Main.dust[holy].velocity *= 3f;
+                    Main.dust[holy].position = projectile.Center;
                     if (Main.rand.NextBool(2))
                     {
-                        Main.dust[num622].scale = 0.5f;
-                        Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
+                        Main.dust[holy].scale = 0.5f;
+                        Main.dust[holy].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
                     }
                 }
-                for (int num623 = 0; num623 < 10; num623++)
+                for (int j = 0; j < 10; j++)
                 {
-                    int num624 = Dust.NewDust(new Vector2(projectile.Center.X, projectile.Center.Y), projectile.width, projectile.height, 246, 0f, 0f, 100, default, 3f);
-                    Main.dust[num624].noGravity = true;
-                    Main.dust[num624].velocity *= 5f;
-                    num624 = Dust.NewDust(new Vector2(projectile.Center.X, projectile.Center.Y), projectile.width, projectile.height, 246, 0f, 0f, 100, default, 2f);
-                    Main.dust[num624].velocity *= 2f;
+                    int fire = Dust.NewDust(projectile.Center, projectile.width, projectile.height, 246, 0f, 0f, 100, default, 3f);
+                    Main.dust[fire].noGravity = true;
+                    Main.dust[fire].velocity *= 5f;
+                    Main.dust[fire].position = projectile.Center;
+                    fire = Dust.NewDust(projectile.Center, projectile.width, projectile.height, 246, 0f, 0f, 100, default, 2f);
+                    Main.dust[fire].velocity *= 2f;
+                    Main.dust[fire].position = projectile.Center;
                 }
                 count += 1f;
             }
@@ -87,13 +93,13 @@ namespace CalamityMod.Projectiles.Summon
                 int target = 0;
                 if (player.HasMinionAttackTargetNPC)
                 {
-                    NPC npc = Main.npc[Main.player[projectile.owner].MinionAttackTargetNPC];
+                    NPC npc = Main.npc[player.MinionAttackTargetNPC];
                     if (npc.CanBeChasedBy(projectile, false))
                     {
-                        float num539 = npc.position.X + (float)(npc.width / 2);
-                        float num540 = npc.position.Y + (float)(npc.height / 2);
-                        float num541 = Math.Abs(projectile.position.X + (float)(projectile.width / 2) - num539) + Math.Abs(projectile.position.Y + (float)(projectile.height / 2) - num540);
-                        if (num541 < num508 && Collision.CanHit(projectile.position, projectile.width, projectile.height, npc.position, npc.width, npc.height))
+                        float num539 = npc.Center.X;
+                        float num540 = npc.Center.Y;
+                        float num541 = Math.Abs(projectile.Center.X - num539) + Math.Abs(projectile.Center.Y - num540);
+                        if (num541 < num508 && Collision.CanHit(projectile.Center, projectile.width, projectile.height, npc.Center, npc.width, npc.height))
                         {
                             num506 = num539;
                             num507 = num540;
@@ -102,7 +108,7 @@ namespace CalamityMod.Projectiles.Summon
                         }
                     }
                 }
-                else
+                if (!flag18)
                 {
                     for (int num512 = 0; num512 < Main.maxNPCs; num512++)
                     {
@@ -136,25 +142,21 @@ namespace CalamityMod.Projectiles.Summon
                     {
                         projectile.spriteDirection = -1;
                     }
-                    int projectileType = Main.rand.Next(2);
-                    if (projectileType == 0)
-                    {
-                        projectileType = ModContent.ProjectileType<FlameBlast>();
-                    }
-                    else
-                    {
-                        projectileType = ModContent.ProjectileType<FlameBurst>();
-                    }
-                    float num403 = Main.rand.Next(20, 30); //modify the speed the projectile are shot.  Lower number = slower projectile.
+					int projectileType = Utils.SelectRandom(Main.rand, new int[]
+					{
+						ModContent.ProjectileType<FlameBlast>(),
+						ModContent.ProjectileType<FlameBurst>()
+					});
+                    float speed = 25f;
                     Vector2 vector29 = new Vector2(projectile.position.X + (float)projectile.width * 0.5f, projectile.position.Y + (float)projectile.height * 0.5f);
                     float num404 = num516 - vector29.X;
                     float num405 = num517 - vector29.Y;
                     float num406 = (float)Math.Sqrt((double)(num404 * num404 + num405 * num405));
-                    num406 = num403 / num406;
+                    num406 = speed / num406;
                     num404 *= num406;
                     num405 *= num406;
                     Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, num404, num405, projectileType, projectile.damage, projectile.knockBack, projectile.owner, (float)target, 0f);
-                    projectile.ai[0] = 8f;
+                    projectile.ai[0] = 16f;
                 }
             }
         }

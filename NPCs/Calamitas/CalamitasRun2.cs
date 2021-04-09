@@ -1,21 +1,18 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Dusts;
+using CalamityMod.Events;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
 using CalamityMod.Items.Weapons.Rogue;
-using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.ModLoader.Config;
-using CalamityMod;
 namespace CalamityMod.NPCs.Calamitas
 {
-    [AutoloadBossHead]
+	[AutoloadBossHead]
     public class CalamitasRun2 : ModNPC
     {
         public override void SetStaticDefaults()
@@ -27,52 +24,27 @@ namespace CalamityMod.NPCs.Calamitas
 
         public override void SetDefaults()
         {
-            npc.damage = 65;
-            npc.npcSlots = 5f;
+			npc.Calamity().canBreakPlayerDefense = true;
+			npc.GetNPCDamage();
+			npc.npcSlots = 5f;
             npc.width = 120;
             npc.height = 120;
             npc.defense = 10;
-            npc.Calamity().RevPlusDR(0.15f);
-            npc.LifeMaxNERB(7500, 11025, 800000);
-            if (CalamityWorld.downedProvidence && !CalamityWorld.bossRushActive)
+			npc.DR_NERD(0.15f);
+			npc.LifeMaxNERB(7500, 11025, 800000);
+            if (CalamityWorld.downedProvidence && !BossRushEvent.BossRushActive)
             {
                 npc.damage *= 3;
                 npc.defense *= 5;
-                npc.lifeMax *= 3;
+                npc.lifeMax *= 5;
             }
-            double HPBoost = CalamityMod.CalamityConfig.BossHealthPercentageBoost * 0.01;
+            double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.aiStyle = -1;
             aiType = -1;
             npc.knockBackResist = 0f;
             npc.noGravity = true;
             npc.noTileCollide = true;
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
-            npc.buffImmune[BuffID.Ichor] = false;
-            npc.buffImmune[ModContent.BuffType<MarkedforDeath>()] = false;
-			npc.buffImmune[BuffID.Frostburn] = false;
-			npc.buffImmune[BuffID.CursedInferno] = false;
-            npc.buffImmune[BuffID.Daybreak] = false;
-            npc.buffImmune[BuffID.BetsysCurse] = false;
-			npc.buffImmune[BuffID.StardustMinionBleed] = false;
-			npc.buffImmune[BuffID.DryadsWardDebuff] = false;
-			npc.buffImmune[BuffID.Oiled] = false;
-			npc.buffImmune[BuffID.BoneJavelin] = false;
-			npc.buffImmune[ModContent.BuffType<AstralInfectionDebuff>()] = false;
-            npc.buffImmune[ModContent.BuffType<AbyssalFlames>()] = false;
-            npc.buffImmune[ModContent.BuffType<ArmorCrunch>()] = false;
-            npc.buffImmune[ModContent.BuffType<DemonFlames>()] = false;
-            npc.buffImmune[ModContent.BuffType<GodSlayerInferno>()] = false;
-            npc.buffImmune[ModContent.BuffType<HolyFlames>()] = false;
-            npc.buffImmune[ModContent.BuffType<Nightwither>()] = false;
-            npc.buffImmune[ModContent.BuffType<Plague>()] = false;
-            npc.buffImmune[ModContent.BuffType<Shred>()] = false;
-            npc.buffImmune[ModContent.BuffType<WhisperingDeath>()] = false;
-            npc.buffImmune[ModContent.BuffType<SilvaStun>()] = false;
-            npc.buffImmune[ModContent.BuffType<SulphuricPoisoning>()] = false;
             npc.HitSound = SoundID.NPCHit4;
             npc.DeathSound = SoundID.NPCDeath14;
             Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
@@ -107,7 +79,7 @@ namespace CalamityMod.NPCs.Calamitas
 			float amount9 = 0.5f;
 			int num153 = 7;
 
-			if (CalamityMod.CalamityConfig.Afterimages)
+			if (CalamityConfig.Instance.Afterimages)
 			{
 				for (int num155 = 1; num155 < num153; num155 += 2)
 				{
@@ -130,7 +102,7 @@ namespace CalamityMod.NPCs.Calamitas
 			texture2D15 = ModContent.GetTexture("CalamityMod/NPCs/Calamitas/CalamitasRun2Glow");
 			Color color37 = Color.Lerp(Color.White, Color.Red, 0.5f);
 
-			if (CalamityMod.CalamityConfig.Afterimages)
+			if (CalamityConfig.Instance.Afterimages)
 			{
 				for (int num163 = 1; num163 < num153; num163++)
 				{
@@ -157,7 +129,7 @@ namespace CalamityMod.NPCs.Calamitas
 		public override void NPCLoot()
         {
             DropHelper.DropItemChance(npc, ModContent.ItemType<CatastropheTrophy>(), 10);
-            DropHelper.DropItemChance(npc, ModContent.ItemType<CrushsawCrasher>(), Main.expertMode ? 10 : 12);
+            DropHelper.DropItemChance(npc, ModContent.ItemType<CrushsawCrasher>(), Main.expertMode ? 4 : 5);
         }
 
         public override void HitEffect(int hitDirection, double damage)
@@ -202,11 +174,6 @@ namespace CalamityMod.NPCs.Calamitas
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            if (CalamityWorld.revenge)
-            {
-                player.AddBuff(ModContent.BuffType<MarkedforDeath>(), 180);
-                player.AddBuff(ModContent.BuffType<Horror>(), 180, true);
-            }
             player.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 300, true);
         }
     }

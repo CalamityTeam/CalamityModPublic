@@ -26,7 +26,7 @@ namespace CalamityMod.Items.Weapons.Summon
             item.noMelee = true;
             item.knockBack = 3f;
             item.value = CalamityGlobalItem.Rarity5BuyPrice;
-            item.rare = 5;
+            item.rare = ItemRarityID.Pink;
             item.UseSound = SoundID.Item46;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<TundraFlameBlossom>();
@@ -38,14 +38,7 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            for (int x = 0; x < Main.maxProjectiles; x++)
-            {
-                Projectile proj = Main.projectile[x];
-                if (proj.active && proj.owner == player.whoAmI && proj.type == type)
-                {
-                    proj.Kill();
-                }
-            }
+			CalamityUtils.KillShootProjectiles(false, type, player);
             for (int i = 0; i < 3; i++)
             {
                 Projectile blossom = Projectile.NewProjectileDirect(player.Center, Vector2.Zero, type, damage, knockBack, player.whoAmI, 0f, 0f);
@@ -62,7 +55,7 @@ namespace CalamityMod.Items.Weapons.Summon
             recipe.AddIngredient(ItemID.HallowedBar, 5);
             recipe.AddIngredient(ItemID.SoulofLight, 15);
             recipe.AddIngredient(ItemID.SoulofNight, 15);
-            recipe.AddTile(TileID.Anvils);
+            recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

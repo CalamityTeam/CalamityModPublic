@@ -5,6 +5,8 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class FabBolt : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Bolt");
@@ -16,7 +18,7 @@ namespace CalamityMod.Projectiles.Magic
             projectile.height = 4;
             projectile.extraUpdates = 100;
             projectile.friendly = true;
-            projectile.timeLeft = 90;
+            projectile.timeLeft = 45;
             projectile.magic = true;
         }
 
@@ -30,7 +32,7 @@ namespace CalamityMod.Projectiles.Magic
 				Main.dust[num448].position = vector33;
 				Main.dust[num448].noGravity = true;
 				Main.dust[num448].noLight = true;
-				Main.dust[num448].scale = (float)Main.rand.Next(70, 110) * 0.013f;
+				Main.dust[num448].scale = Main.rand.Next(70, 110) * 0.013f;
 				Main.dust[num448].velocity *= 0.1f;
 			}
 		}

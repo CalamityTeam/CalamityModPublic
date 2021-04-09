@@ -1,18 +1,19 @@
+using CalamityMod.Events;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
-using System;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.NPCs.Leviathan
 {
-    public class Parasea : ModNPC
+	public class Parasea : ModNPC
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Parasea");
-            Main.npcFrameCount[npc.type] = 6;
+            Main.npcFrameCount[npc.type] = 4;
         }
 
         public override void SetDefaults()
@@ -22,12 +23,11 @@ namespace CalamityMod.NPCs.Leviathan
             npc.noGravity = true;
             npc.noTileCollide = true;
             npc.canGhostHeal = false;
-            npc.damage = 50;
-            npc.width = 90;
-            npc.height = 20;
+			npc.GetNPCDamage();
+			npc.width = npc.height = 30;
             npc.defense = 8;
             npc.lifeMax = 650;
-            if (CalamityWorld.bossRushActive)
+            if (BossRushEvent.BossRushActive)
             {
                 npc.lifeMax = 50000;
             }
@@ -40,9 +40,9 @@ namespace CalamityMod.NPCs.Leviathan
 
         public override void AI()
         {
-            bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
+            bool revenge = CalamityWorld.revenge;
             float speed = revenge ? 16f : 13f;
-            if (CalamityWorld.bossRushActive)
+            if (BossRushEvent.BossRushActive || CalamityWorld.malice)
                 speed = 24f;
             CalamityAI.DungeonSpiritAI(npc, mod, speed, MathHelper.Pi);
         }
@@ -64,6 +64,18 @@ namespace CalamityMod.NPCs.Leviathan
             npc.frame.Y = frame * frameHeight;
         }
 
+        public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+        {
+            Texture2D texture = Main.npcTexture[npc.type];
+            int height = texture.Height / Main.npcFrameCount[npc.type];
+            int width = texture.Width;
+			SpriteEffects spriteEffects = SpriteEffects.FlipHorizontally;
+			if (npc.spriteDirection == -1)
+				spriteEffects = SpriteEffects.None;
+            Main.spriteBatch.Draw(texture, npc.Center - Main.screenPosition + new Vector2(0f, npc.gfxOffY), npc.frame, npc.GetAlpha(drawColor), npc.rotation, new Vector2((float)width / 2f, (float)height / 2f), npc.scale, spriteEffects, 0f);
+            return false;
+        }
+
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
             player.AddBuff(BuffID.Wet, 60, true);
@@ -73,13 +85,13 @@ namespace CalamityMod.NPCs.Leviathan
         {
             for (int k = 0; k < 3; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
             }
             if (npc.life <= 0)
             {
                 for (int k = 0; k < 10; k++)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
                 }
             }
         }

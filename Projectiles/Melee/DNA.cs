@@ -23,7 +23,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.penetrate = -1;
             projectile.tileCollide = false;
             projectile.melee = true;
-            aiType = 493;
+            aiType = ProjectileID.CrystalVileShardHead;
         }
 
         public override void AI()
@@ -90,7 +90,13 @@ namespace CalamityMod.Projectiles.Melee
         {
             if (Main.myPlayer == projectile.owner && !CalamityPlayer.areThereAnyDamnBosses)
             {
-                if (!Main.player[projectile.owner].immune)
+				bool isImmune = false;
+				for (int j = 0; j < Main.player[projectile.owner].hurtCooldowns.Length; j++)
+				{
+					if (Main.player[projectile.owner].hurtCooldowns[j] > 0)
+						isImmune = true;
+				}
+				if (!isImmune)
                 {
                     Main.player[projectile.owner].immune = true;
                     Main.player[projectile.owner].immuneTime = 5;

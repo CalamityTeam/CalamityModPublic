@@ -1,13 +1,10 @@
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Magic
 {
-    public class EventHorizonBlackhole : ModProjectile
+	public class EventHorizonBlackhole : ModProjectile
     {
 		public int killCounter = 21;
 
@@ -27,7 +24,7 @@ namespace CalamityMod.Projectiles.Magic
             projectile.magic = true;
             projectile.tileCollide = false;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 5;
+            projectile.localNPCHitCooldown = 12;
         }
 
         public override void AI()
@@ -48,7 +45,7 @@ namespace CalamityMod.Projectiles.Magic
 			}
 			else
 			{
-				if (projectile.frame == 0 || projectile.frame == 1 || projectile.frame == 2 || projectile.frame == 3)
+				if (projectile.frame < 4)
 					projectile.frame = 4;
 				if (projectile.frame >= 8)
 					projectile.frame = 4;

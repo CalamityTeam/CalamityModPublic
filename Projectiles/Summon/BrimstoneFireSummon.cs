@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class BrimstoneFireSummon : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Fire");
@@ -25,6 +27,8 @@ namespace CalamityMod.Projectiles.Summon
             projectile.penetrate = 2;
             projectile.extraUpdates = 3;
             projectile.timeLeft = 50;
+            projectile.usesIDStaticNPCImmunity = true;
+            projectile.idStaticNPCHitCooldown = 9;
         }
 
         public override void AI()
@@ -32,42 +36,39 @@ namespace CalamityMod.Projectiles.Summon
             Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0.25f / 255f, (255 - projectile.alpha) * 0.05f / 255f, (255 - projectile.alpha) * 0.05f / 255f);
             if (projectile.ai[0] > 7f)
             {
-                float num296 = 1f;
+                float scalar = 1f;
                 if (projectile.ai[0] == 8f)
                 {
-                    num296 = 0.25f;
+                    scalar = 0.25f;
                 }
                 else if (projectile.ai[0] == 9f)
                 {
-                    num296 = 0.5f;
+                    scalar = 0.5f;
                 }
                 else if (projectile.ai[0] == 10f)
                 {
-                    num296 = 0.75f;
+                    scalar = 0.75f;
                 }
                 projectile.ai[0] += 1f;
-                int num297 = (int)CalamityDusts.Brimstone;
+                int dustType = (int)CalamityDusts.Brimstone;
                 if (Main.rand.NextBool(2))
                 {
-                    for (int num298 = 0; num298 < 1; num298++)
-                    {
-                        int num299 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, num297, projectile.velocity.X * 0.2f, projectile.velocity.Y * 0.2f, 100, default, 1f);
-                        Dust dust = Main.dust[num299];
-                        if (Main.rand.NextBool(3))
-                        {
-                            dust.noGravity = true;
-                            dust.scale *= 3f;
-                            dust.velocity.X *= 2f;
-                            dust.velocity.Y *= 2f;
-                        }
-                        else
-                        {
-                            dust.scale *= 1.5f;
-                        }
-                        dust.velocity.X *= 1.2f;
-                        dust.velocity.Y *= 1.2f;
-                        dust.scale *= num296;
-                    }
+					int brim = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, dustType, projectile.velocity.X * 0.2f, projectile.velocity.Y * 0.2f, 100, default, 1f);
+					Dust dust = Main.dust[brim];
+					if (Main.rand.NextBool(3))
+					{
+						dust.noGravity = true;
+						dust.scale *= 3f;
+						dust.velocity.X *= 2f;
+						dust.velocity.Y *= 2f;
+					}
+					else
+					{
+						dust.scale *= 1.5f;
+					}
+					dust.velocity.X *= 1.2f;
+					dust.velocity.Y *= 1.2f;
+					dust.scale *= scalar;
                 }
             }
             else
@@ -79,7 +80,6 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.immune[projectile.owner] = 9;
             target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
         }
 

@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.height = 22;
             item.maxStack = 999;
             item.value = Item.buyPrice(0, 0, 4, 0);
-            item.rare = 5;
+            item.rare = ItemRarityID.Pink;
             item.shoot = ModContent.ProjectileType<BouncingBettyProjectile>();
             item.shootSpeed = 16f;
             item.Calamity().rogue = true;
@@ -40,7 +40,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             Vector2 velocity = new Vector2(speedX, speedY);
             int projectileIndex = Projectile.NewProjectile(position, velocity, type, damage, knockBack, player.whoAmI);
-            if (player.Calamity().StealthStrikeAvailable())
+            if (player.Calamity().StealthStrikeAvailable() && projectileIndex.WithinBounds(Main.maxProjectiles))
             {
                 Main.projectile[projectileIndex].Calamity().stealthStrike = true;
             }

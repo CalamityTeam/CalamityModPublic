@@ -24,7 +24,7 @@ namespace CalamityMod.Projectiles.Magic
             projectile.tileCollide = false;
             projectile.ignoreWater = true;
             projectile.magic = true;
-            projectile.penetrate = 5;
+            projectile.penetrate = 1;
             projectile.alpha = 255;
             projectile.timeLeft = 300;
         }
@@ -32,36 +32,21 @@ namespace CalamityMod.Projectiles.Magic
         public override void AI()
         {
             Lighting.AddLight(projectile.Center, 0.75f, 0f, 0f);
-            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
-            if (projectile.localAI[0] == 0f)
-            {
-                projectile.scale -= 0.01f;
-                projectile.alpha += 15;
-                if (projectile.alpha >= 250)
-                {
-                    projectile.alpha = 255;
-                    projectile.localAI[0] = 1f;
-                }
-            }
-            else if (projectile.localAI[0] == 1f)
-            {
-                projectile.scale += 0.01f;
-                projectile.alpha -= 15;
-                if (projectile.alpha <= 0)
-                {
-                    projectile.alpha = 0;
-                    projectile.localAI[0] = 0f;
-                }
-            }
-            projectile.localAI[1] += 1f;
+
+            projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + MathHelper.PiOver2;
+
+			if (projectile.alpha > 0)
+				projectile.alpha -= 17;
+
+			projectile.localAI[1] += 1f;
             if (projectile.localAI[1] == 12f)
             {
                 projectile.localAI[1] = 0f;
                 for (int l = 0; l < 12; l++)
                 {
-                    Vector2 vector3 = Vector2.UnitX * (float)-(float)projectile.width / 2f;
-                    vector3 += -Vector2.UnitY.RotatedBy((double)((float)l * 3.14159274f / 6f), default) * new Vector2(8f, 16f);
-                    vector3 = vector3.RotatedBy((double)(projectile.rotation - 1.57079637f), default);
+                    Vector2 vector3 = Vector2.UnitX * -projectile.width / 2f;
+                    vector3 += -Vector2.UnitY.RotatedBy(l * MathHelper.Pi / 6f) * new Vector2(8f, 16f);
+                    vector3 = vector3.RotatedBy(projectile.rotation - MathHelper.PiOver2);
                     int num9 = Dust.NewDust(projectile.Center, 0, 0, 60, 0f, 0f, 160, default, 1f);
                     Main.dust[num9].scale = 1.1f;
                     Main.dust[num9].noGravity = true;

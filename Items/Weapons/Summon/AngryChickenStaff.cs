@@ -12,28 +12,27 @@ namespace CalamityMod.Items.Weapons.Summon
         {
             DisplayName.SetDefault("Yharon's Kindle Staff");
             Tooltip.SetDefault("Summons the Son of Yharon to fight for you\n" +
-                               "The dragon increases your life regen, defense, and movement speed while summoned\n" +
                                "Requires 4 minion slots to use");
         }
 
         public override void SetDefaults()
         {
             item.mana = 50;
-            item.damage = 160;
+            item.damage = 130;
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.width = 32;
             item.height = 32;
             item.useTime = item.useAnimation = 10;
             item.noMelee = true;
             item.knockBack = 7f;
-            item.value = Item.buyPrice(1, 80, 0, 0);
-            item.rare = 10;
-            item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/FlareSound");
+			item.value = CalamityGlobalItem.Rarity15BuyPrice;
+			item.rare = ItemRarityID.Purple;
+			item.Calamity().customRarity = CalamityRarity.Violet;
+			item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/FlareSound");
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<SonOfYharon>();
             item.shootSpeed = 10f;
             item.summon = true;
-            item.Calamity().customRarity = CalamityRarity.DarkBlue;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

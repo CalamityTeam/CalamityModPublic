@@ -1,11 +1,12 @@
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Healing
 {
-    public class GodSlayerHealOrb : ModProjectile
+	public class GodSlayerHealOrb : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("God Slayer Heal Orb");
@@ -24,7 +25,7 @@ namespace CalamityMod.Projectiles.Healing
 
 		public override void AI()
 		{
-			CalamityGlobalProjectile.HealingProjectile(projectile, (int)projectile.ai[1], (int)projectile.ai[0], 6.5f, 15f);
+			projectile.HealingProjectile((int)projectile.ai[1], (int)projectile.ai[0], 6.5f, 15f);
 			int dusty = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 173, 0f, 0f, 100, default, 2f);
 			Dust dust = Main.dust[dusty];
 			dust.noGravity = true;

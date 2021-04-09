@@ -10,6 +10,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class InfernalKrisProjectile : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/InfernalKris";
+
         public static int spinTime = 280;
 
         public override void SetStaticDefaults()

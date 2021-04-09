@@ -1,15 +1,15 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class PristineFire : ModProjectile
+	public class PristineFire : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
 		private int dust1 = (int)CalamityDusts.ProfanedFire;
 		private int dust2 = ModContent.DustType<HolyFireDust>();
 

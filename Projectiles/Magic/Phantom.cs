@@ -1,10 +1,9 @@
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Magic
 {
-    public class Phantom : ModProjectile
+	public class Phantom : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -35,7 +34,7 @@ namespace CalamityMod.Projectiles.Magic
                 Main.dust[num458].noGravity = true;
             }
 
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 800f, 30f, 20f);
+			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 300f, 12f, 20f);
         }
     }
 }

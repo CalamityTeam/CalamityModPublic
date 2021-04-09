@@ -12,8 +12,8 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Flarewing Bow");
-            Tooltip.SetDefault("Shoots a spread of arrows\n" +
-                "Wooden arrows are converted to bouncing obsidian bats");
+            Tooltip.SetDefault("Shoots a spread of 5 arrows\n" +
+                "Wooden arrows are converted into bouncing obsidian bats");
         }
 
         public override void SetDefaults()
@@ -28,12 +28,12 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.noMelee = true;
             item.knockBack = 1.5f;
             item.value = Item.buyPrice(0, 36, 0, 0);
-            item.rare = 5;
+            item.rare = ItemRarityID.Pink;
             item.UseSound = SoundID.Item5;
             item.autoReuse = true;
             item.shoot = ProjectileID.WoodenArrowFriendly;
             item.shootSpeed = 16f;
-            item.useAmmo = 40;
+            item.useAmmo = AmmoID.Arrow;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

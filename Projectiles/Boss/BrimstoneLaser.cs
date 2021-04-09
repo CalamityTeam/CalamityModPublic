@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using System;
 using System.IO;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Boss
 {
@@ -25,7 +26,7 @@ namespace CalamityMod.Projectiles.Boss
             projectile.ignoreWater = true;
             projectile.penetrate = -1;
             projectile.alpha = 120;
-            aiType = 100;
+            aiType = ProjectileID.DeathLaser;
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -68,7 +69,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 180);
+            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
         }
     }
 }

@@ -34,7 +34,7 @@ namespace CalamityMod.Projectiles.Ranged
             if (projectile.localAI[0] == 0f)
             {
                 projectile.scale += 0.05f;
-                if ((double)projectile.scale > 1.2)
+                if (projectile.scale > 1.2f)
                 {
                     projectile.localAI[0] = 1f;
                 }
@@ -42,7 +42,7 @@ namespace CalamityMod.Projectiles.Ranged
             else
             {
                 projectile.scale -= 0.05f;
-                if ((double)projectile.scale < 0.8)
+                if (projectile.scale < 0.8f)
                 {
                     projectile.localAI[0] = 0f;
                 }
@@ -72,29 +72,26 @@ namespace CalamityMod.Projectiles.Ranged
         public override void Kill(int timeLeft)
         {
             Main.PlaySound(SoundID.Item14, projectile.position);
-            for (int num407 = 0; num407 < 25; num407++)
+            for (int d = 0; d < 25; d++)
             {
-                int num408 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 157, 0f, 0f, 0, new Color(Main.DiscoR, 203, 103), 1f);
-                Main.dust[num408].noGravity = true;
-                Main.dust[num408].velocity *= 1.5f;
-                Main.dust[num408].scale = 1.5f;
+                int index = Dust.NewDust(projectile.position, projectile.width, projectile.height, 157, 0f, 0f, 0, new Color(Main.DiscoR, 203, 103), 1f);
+                Main.dust[index].noGravity = true;
+                Main.dust[index].velocity *= 1.5f;
+                Main.dust[index].scale = 1.5f;
             }
-            int num251 = Main.rand.Next(3, 7);
+            int sporeAmt = Main.rand.Next(3, 7);
             if (projectile.owner == Main.myPlayer)
             {
-                for (int num252 = 0; num252 < num251; num252++)
+                for (int s = 0; s < sporeAmt; s++)
                 {
-                    Vector2 value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-                    while (value15.X == 0f && value15.Y == 0f)
-                    {
-                        value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-                    }
-                    value15.Normalize();
-                    value15 *= (float)Main.rand.Next(70, 101) * 0.1f;
-                    int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value15.X, value15.Y, ProjectileID.SporeGas + Main.rand.Next(3), (int)((double)projectile.damage * 0.25), 0f, projectile.owner, 0f, 0f);
-                    Main.projectile[proj].Calamity().forceRanged = true;
-                    Main.projectile[proj].usesLocalNPCImmunity = true;
-                    Main.projectile[proj].localNPCHitCooldown = 30;
+					Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
+                    int proj = Projectile.NewProjectile(projectile.Center, velocity, ProjectileID.SporeGas + Main.rand.Next(3), (int)(projectile.damage * 0.25), 0f, projectile.owner);
+					if (proj.WithinBounds(Main.maxProjectiles))
+					{
+						Main.projectile[proj].Calamity().forceRanged = true;
+						Main.projectile[proj].usesLocalNPCImmunity = true;
+						Main.projectile[proj].localNPCHitCooldown = 30;
+					}
                 }
             }
         }

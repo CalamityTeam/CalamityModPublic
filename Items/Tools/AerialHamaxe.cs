@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Tools
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.knockBack = 7f;
             item.value = Item.buyPrice(0, 4, 0, 0);
-            item.rare = 3;
+            item.rare = ItemRarityID.Orange;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
         }

@@ -1,5 +1,3 @@
-using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Buffs.StatDebuffs;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using Terraria;
@@ -9,6 +7,8 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class ExoFire : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public bool ProducedAcceleration = false;
 
         public override void SetStaticDefaults()
@@ -26,7 +26,7 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.penetrate = -1;
             projectile.extraUpdates = 10;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 5;
+            projectile.localNPCHitCooldown = 10;
             projectile.timeLeft = 180;
         }
 
@@ -96,15 +96,12 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<ExoFreeze>(), 30);
-            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
-            target.AddBuff(ModContent.BuffType<GlacialState>(), 120);
-            target.AddBuff(ModContent.BuffType<Plague>(), 120);
-            target.AddBuff(ModContent.BuffType<HolyFlames>(), 120);
-            target.AddBuff(BuffID.CursedInferno, 120);
-            target.AddBuff(BuffID.Frostburn, 120);
-            target.AddBuff(BuffID.OnFire, 120);
-            target.AddBuff(BuffID.Ichor, 120);
+			target.ExoDebuffs();
+        }
+
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+			target.ExoDebuffs();
         }
     }
 }

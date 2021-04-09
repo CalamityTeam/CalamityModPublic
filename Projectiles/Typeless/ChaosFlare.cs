@@ -1,13 +1,14 @@
 using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Typeless
 {
-    public class ChaosFlare : ModProjectile
+	public class ChaosFlare : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Flare");
@@ -39,7 +40,7 @@ namespace CalamityMod.Projectiles.Typeless
                 Main.dust[num458].velocity *= 0.5f;
                 Main.dust[num458].velocity += projectile.velocity * 0.1f;
             }
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 300f, 15f, 20f);
+			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 150f, 12f, 20f);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

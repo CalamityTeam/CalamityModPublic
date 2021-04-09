@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -7,8 +5,10 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class DukesDecapitatorBubble : ModProjectile
+	public class DukesDecapitatorBubble : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Typeless/CoralBubble";
+
     	public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Bubble");
@@ -68,9 +68,6 @@ namespace CalamityMod.Projectiles.Rogue
         public override void Kill(int timeLeft)
         {
             Main.PlaySound(SoundID.Item54, projectile.position);
-            projectile.position = projectile.Center;
-            projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
-            projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
 			int num190 = Main.rand.Next(5, 9);
 			for (int num191 = 0; num191 < num190; num191++)
 			{

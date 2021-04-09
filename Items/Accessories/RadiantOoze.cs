@@ -17,8 +17,8 @@ namespace CalamityMod.Items.Accessories
         {
             item.width = 20;
             item.height = 20;
-            item.value = Item.buyPrice(0, 6, 0, 0);
-            item.rare = 3;
+            item.value = CalamityGlobalItem.Rarity4BuyPrice;
+            item.rare = ItemRarityID.LightRed;
             item.accessory = true;
         }
 
@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Accessories
             if (!Main.dayTime)
             {
                 Lighting.AddLight((int)(player.position.X + (float)(player.width / 2)) / 16, (int)(player.position.Y + (float)(player.height / 2)) / 16, 1f, 1f, 0.6f);
-                player.lifeRegen += 1;
+                player.lifeRegen += 4;
             }
         }
 

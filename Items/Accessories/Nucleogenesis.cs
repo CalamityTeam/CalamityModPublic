@@ -11,18 +11,18 @@ namespace CalamityMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Nucleogenesis");
-            Tooltip.SetDefault("Increased max minions by 4 and 15% increased minion damage\n" +
+            Tooltip.SetDefault("Increases max minions by 4, does not stack with downgrades\n" +
+				"15% increased minion damage\n" +
                 "Increased minion knockback\n" +
                 "Minions inflict a variety of debuffs\n" +
-                "Minions spawn damaging sparks on enemy hits\n" + //subject to change to be "cooler"
-                "Minion attacks have a chance to instantly kill normal enemies");
-        }
+                "Minions spawn damaging sparks on enemy hits"); //subject to change to be "cooler"
+		}
 
         public override void SetDefaults()
         {
             item.width = 28;
             item.height = 32;
-            item.value = Item.buyPrice(0, 90, 0, 0);
+            item.value = CalamityGlobalItem.Rarity14BuyPrice;
             item.accessory = true;
             item.Calamity().customRarity = CalamityRarity.DarkBlue;
         }
@@ -37,7 +37,6 @@ namespace CalamityMod.Items.Accessories
             modPlayer.starTaintedGenerator = true; //astral infection and irradiated
             player.minionKB += 3f;
             player.minionDamage += 0.15f;
-            player.maxMinions += 4;
         }
 
         public override void AddRecipes()
@@ -45,9 +44,7 @@ namespace CalamityMod.Items.Accessories
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<StarTaintedGenerator>());
             recipe.AddIngredient(ModContent.ItemType<StatisCurse>());
-            recipe.AddIngredient(ModContent.ItemType<Phantoplasm>(), 20);
-            recipe.AddIngredient(ModContent.ItemType<NightmareFuel>(), 20);
-            recipe.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 20);
+            recipe.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 4);
             recipe.AddTile(ModContent.TileType<DraedonsForge>());
             recipe.SetResult(this);
             recipe.AddRecipe();

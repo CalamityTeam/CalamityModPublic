@@ -1,7 +1,6 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -9,9 +8,12 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class ToxicantTwisterTwoPointZero : ModProjectile
+	public class ToxicantTwisterTwoPointZero : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/ToxicantTwister";
+
 		private int lifeTime = 300;
+		private int targetIndex = -1;
 
         public override void SetStaticDefaults()
         {
@@ -24,10 +26,9 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.height = 46;
             projectile.friendly = true;
             projectile.tileCollide = false;
-            projectile.penetrate = 5;
+            projectile.penetrate = -1;
             projectile.timeLeft = lifeTime;
             projectile.Calamity().rogue = true;
-			projectile.extraUpdates = 1;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 12;
         }
@@ -36,7 +37,7 @@ namespace CalamityMod.Projectiles.Rogue
         {
             if (projectile.Calamity().stealthStrike)
             {
-                if (projectile.timeLeft % 50f == 0f)
+                if (projectile.timeLeft % 20 == 0)
                 {
                     for (int i = 0; i < 2; i++)
                     {
@@ -58,10 +59,7 @@ namespace CalamityMod.Projectiles.Rogue
                 Main.PlaySound(SoundID.Item7, projectile.position);
             }
 
-            // Returns after 2.5 seconds in the air
-            if (projectile.timeLeft < lifeTime - 150)
-                projectile.ai[0] = 1f;
-
+			projectile.ai[1]++;
             if (projectile.ai[0] != 0f)
             {
                 float returnSpeed = 30f;
@@ -110,16 +108,41 @@ namespace CalamityMod.Projectiles.Rogue
                     if (projectile.Hitbox.Intersects(owner.Hitbox))
                         projectile.Kill();
             }
+			else if (projectile.ai[1] > 40f)
+			{
+				NPC closestTarget = projectile.Center.ClosestNPCAt(1769f, true, true);
+				if (closestTarget != null)
+				{
+					projectile.extraUpdates = 1;
+					targetIndex = closestTarget.whoAmI;
+					float inertia = 20f;
+					float homingVelocity = projectile.Calamity().stealthStrike ? 30f : 20f;
+					Vector2 homeInVector = projectile.DirectionTo(closestTarget.Center);
+					if (homeInVector.HasNaNs())
+						homeInVector = Vector2.UnitY;
+
+					projectile.velocity = (projectile.velocity * inertia + homeInVector * homingVelocity) / (inertia + 1f);
+				}
+			}
 			else
 			{
-				CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 600f, 20f, 20f);
+                projectile.velocity *= 0.985f;
 			}
         }
 
+        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+		{
+			if (projectile.ai[1] <= 40f && projectile.ai[0] != 1f)
+			{
+				damage /= 3;
+			}
+		}
+
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-			if (projectile.penetrate < 3)
+			if (targetIndex == target.whoAmI)
 				projectile.ai[0] = 1f;
+
             target.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), 180);
             Main.PlaySound(SoundID.Item20, projectile.position);
             for (int k = 0; k < 10; k++)
@@ -132,8 +155,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-			if (projectile.penetrate < 3)
-				projectile.ai[0] = 1f;
+			projectile.ai[0] = 1f;
             target.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), 180);
             Main.PlaySound(SoundID.Item20, projectile.position);
             for (int k = 0; k < 10; k++)

@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Armor
         {
             DisplayName.SetDefault("Sulphurous Leggings");
             Tooltip.SetDefault("Movement speed increased by 10%\n" +
-                "Speed greatly increased while submerged in liquid");
+                "Movement speed increased by 35% while submerged in liquid");
         }
 
         public override void SetDefaults()
@@ -22,17 +22,13 @@ namespace CalamityMod.Items.Armor
             item.width = 18;
             item.height = 18;
             item.value = Item.buyPrice(0, 1, 0, 0);
-            item.defense = 6;
-            item.rare = 2;
+            item.defense = 5;
+            item.rare = ItemRarityID.Green;
         }
 
         public override void UpdateEquip(Player player)
         {
-            player.moveSpeed += 0.10f;
-            if (Collision.DrownCollision(player.position, player.width, player.height, player.gravDir))
-            {
-                player.moveSpeed += 0.6f;
-            }
+            player.moveSpeed += Collision.DrownCollision(player.position, player.width, player.height, player.gravDir) ? 0.35f : 0.1f;
         }
 
         public override void AddRecipes()

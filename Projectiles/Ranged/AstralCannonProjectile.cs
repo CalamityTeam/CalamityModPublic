@@ -10,6 +10,8 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class AstralCannonProjectile : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Boss/AstralFlame";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Astral Crystal");

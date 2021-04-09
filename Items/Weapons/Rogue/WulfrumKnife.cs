@@ -30,8 +30,8 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.autoReuse = true;
             item.height = 38;
             item.maxStack = 999;
-            item.value = Item.buyPrice(0, 0, 1, 0);
-            item.rare = 1;
+            item.value = Item.sellPrice(0, 0, 0, 5);
+            item.rare = ItemRarityID.Blue;
             item.shoot = ModContent.ProjectileType<WulfrumKnifeProj>();
             item.shootSpeed = 12f;
             item.Calamity().rogue = true;
@@ -52,10 +52,13 @@ namespace CalamityMod.Items.Weapons.Rogue
             {
                 int p = Projectile.NewProjectile(position, new Vector2(speedX, speedY) * 1.3f, ModContent.ProjectileType<WulfrumKnifeProj>(), damage, knockBack, player.whoAmI);
                 Projectile proj = Main.projectile[p];
-                proj.Calamity().stealthStrike = true;
-                proj.penetrate = 4;
-                proj.usesLocalNPCImmunity = true;
-                proj.localNPCHitCooldown = 1;
+				if (p.WithinBounds(Main.maxProjectiles))
+				{
+					proj.Calamity().stealthStrike = true;
+					proj.penetrate = 4;
+					proj.usesLocalNPCImmunity = true;
+					proj.localNPCHitCooldown = 1;
+				}
                 return false;
             }
             return true;

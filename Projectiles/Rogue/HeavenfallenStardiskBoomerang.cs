@@ -11,6 +11,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class HeavenfallenStardiskBoomerang : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/HeavenfallenStardisk";
+
         private bool explode = false;
 
         public override void SetStaticDefaults()
@@ -43,21 +45,10 @@ namespace CalamityMod.Projectiles.Rogue
 				{
 					if (Main.rand.NextBool(2))
 					{
-						int spearAmt = Main.rand.Next(1, 4); //1 to 3 energy
-						for (int n = 0; n < spearAmt; n++)
+						int energyAmt = Main.rand.Next(1, 4); //1 to 3 energy
+						for (int n = 0; n < energyAmt; n++)
 						{
-							float x = projectile.position.X + (float)Main.rand.Next(-400, 400);
-							float y = projectile.position.Y - (float)Main.rand.Next(500, 800);
-							Vector2 vector = new Vector2(x, y);
-							float num13 = projectile.position.X + (float)(projectile.width / 2) - vector.X;
-							float num14 = projectile.position.Y + (float)(projectile.height / 2) - vector.Y;
-							num13 += (float)Main.rand.Next(-100, 101);
-							int num15 = 29;
-							float num16 = (float)Math.Sqrt((double)(num13 * num13 + num14 * num14));
-							num16 = (float)num15 / num16;
-							num13 *= num16;
-							num14 *= num16;
-							Projectile.NewProjectile(x, y, num13, num14, ModContent.ProjectileType<HeavenfallenEnergy>(), (int)(projectile.damage * 0.4), projectile.knockBack * 0.4f, projectile.owner, 0f, 0f);
+							CalamityUtils.ProjectileRain(projectile.Center, 400f, 100f, 500f, 800f, 29f, ModContent.ProjectileType<HeavenfallenEnergy>(), (int)(projectile.damage * 0.4), projectile.knockBack * 0.4f, projectile.owner);
 						}
 					}
 				}
@@ -99,12 +90,11 @@ namespace CalamityMod.Projectiles.Rogue
                 if (player.channel)
                 {
                     float num115 = 20f;
-                    Vector2 vector10 = new Vector2(projectile.position.X + (float)projectile.width * 0.5f, projectile.position.Y + (float)projectile.height * 0.5f);
-                    float num116 = (float)Main.mouseX + Main.screenPosition.X - vector10.X;
-                    float num117 = (float)Main.mouseY + Main.screenPosition.Y - vector10.Y;
+                    float num116 = (float)Main.mouseX + Main.screenPosition.X - projectile.Center.X;
+                    float num117 = (float)Main.mouseY + Main.screenPosition.Y - projectile.Center.Y;
                     if (player.gravDir == -1f)
                     {
-                        num117 = Main.screenPosition.Y + (float)Main.screenHeight - (float)Main.mouseY - vector10.Y;
+                        num117 = Main.screenPosition.Y + (float)Main.screenHeight - (float)Main.mouseY - projectile.Center.Y;
                     }
                     float num118 = (float)Math.Sqrt((double)(num116 * num116 + num117 * num117));
                     if (num118 > num115)
@@ -141,7 +131,7 @@ namespace CalamityMod.Projectiles.Rogue
                 {
                     projectile.netUpdate = true;
                     float num127 = 20f;
-                    Vector2 vector11 = new Vector2(projectile.position.X + (float)projectile.width * 0.5f, projectile.position.Y + (float)projectile.height * 0.5f);
+                    Vector2 vector11 = projectile.Center;
                     float num128 = (float)Main.mouseX + Main.screenPosition.X - vector11.X;
                     float num129 = (float)Main.mouseY + Main.screenPosition.Y - vector11.Y;
                     if (player.gravDir == -1f)
@@ -151,9 +141,9 @@ namespace CalamityMod.Projectiles.Rogue
                     float num130 = (float)Math.Sqrt((double)(num128 * num128 + num129 * num129));
                     if (num130 == 0f || projectile.ai[0] < 0f)
                     {
-                        vector11 = new Vector2(player.position.X + (float)(player.width / 2), player.position.Y + (float)(player.height / 2));
-                        num128 = projectile.position.X + (float)projectile.width * 0.5f - vector11.X;
-                        num129 = projectile.position.Y + (float)projectile.height * 0.5f - vector11.Y;
+                        vector11 = player.Center;
+                        num128 = projectile.Center.X - vector11.X;
+                        num129 = projectile.Center.Y - vector11.Y;
                         num130 = (float)Math.Sqrt((double)(num128 * num128 + num129 * num129));
                     }
                     num130 = num127 / num130;
@@ -201,8 +191,7 @@ namespace CalamityMod.Projectiles.Rogue
                     double startAngle = Math.Atan2(projectile.velocity.X, projectile.velocity.Y) - spread / 2;
                     double deltaAngle = spread / 8f;
                     double offsetAngle;
-                    int i;
-                    for (i = 0; i < 4; i++)
+                    for (int i = 0; i < 4; i++)
                     {
                         offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
                         Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 2f), (float)(Math.Cos(offsetAngle) * 2f), ModContent.ProjectileType<HeavenfallenEnergy>(), (int)(projectile.damage * 0.4), projectile.knockBack * 0.4f, projectile.owner, 0f, 0f);

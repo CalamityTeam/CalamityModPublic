@@ -1,6 +1,6 @@
 using CalamityMod.Tiles.Furniture.CraftingStations;
-using Terraria.ModLoader;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Placeables.FurnitureAbyss
 {
@@ -23,6 +23,9 @@ namespace CalamityMod.Items.Placeables.FurnitureAbyss
             item.consumable = true;
             item.value = 0;
             item.createTile = ModContent.TileType<Tiles.FurnitureAbyss.AbyssTable>();
+
+            // This is Ozz's item of choice for placing hostile Lab Turrets for testing. It should not do this normally.
+            // item.createTile = ModContent.TileType<Tiles.DraedonStructures.DraedonLabTurret>();
         }
 
         public override void AddRecipes()

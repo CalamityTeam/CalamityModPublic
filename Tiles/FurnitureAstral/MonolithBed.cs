@@ -11,7 +11,7 @@ namespace CalamityMod.Tiles.FurnitureAstral
     {
         public override void SetDefaults()
         {
-            this.SetUpBed();
+            this.SetUpBed(true);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Monolith Bed");
             AddMapEntry(new Color(191, 142, 111), name);

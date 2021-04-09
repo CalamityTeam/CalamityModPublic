@@ -1,18 +1,16 @@
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Rogue;
-using CalamityMod.Tiles.Furniture.CraftingStations;
 using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class GodsParanoia : RogueWeapon
+	public class GodsParanoia : RogueWeapon
     {
-        private static int damage = 125;
+        private static int damage = 66;
         private static int knockBack = 5;
 
         public override void SetStaticDefaults()
@@ -37,7 +35,7 @@ Right click to delete all existing spiky balls");
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.knockBack = knockBack;
             item.value = Item.buyPrice(0, 18, 0, 0);
-            item.rare = 10;
+            item.rare = ItemRarityID.Red;
             item.Calamity().customRarity = CalamityRarity.DarkBlue;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
@@ -52,7 +50,7 @@ Right click to delete all existing spiky balls");
 		{
 			if (player.altFunctionUse == 2)
 			{
-				item.shoot = 0;
+				item.shoot = ProjectileID.None;
 				item.shootSpeed = 0f;
 				return player.ownedProjectileCounts[ModContent.ProjectileType<GodsParanoiaProj>()] > 0;
 			}
@@ -71,8 +69,9 @@ Right click to delete all existing spiky balls");
 			modPlayer.killSpikyBalls = false;
             if (modPlayer.StealthStrikeAvailable()) //setting the stealth strike
             {
-                int stealth = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI, 0f, 0f);
-                Main.projectile[stealth].Calamity().stealthStrike = true;
+                int stealth = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
+				if (stealth.WithinBounds(Main.maxProjectiles))
+					Main.projectile[stealth].Calamity().stealthStrike = true;
                 return false;
             }
             return true;
@@ -91,9 +90,7 @@ Right click to delete all existing spiky balls");
 
             recipe.AddIngredient(ItemID.SpikyBall, 200);
             recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 2);
-            recipe.AddIngredient(ModContent.ItemType<NightmareFuel>(), 2);
-            recipe.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 2);
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
+            recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

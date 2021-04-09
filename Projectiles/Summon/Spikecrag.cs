@@ -1,11 +1,10 @@
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Summon
 {
-    public class Spikecrag : ModProjectile
+	public class Spikecrag : ModProjectile
     {
 
         public override void SetStaticDefaults()
@@ -29,6 +28,7 @@ namespace CalamityMod.Projectiles.Summon
         public override void AI()
         {
 			Player player = Main.player[projectile.owner];
+
             if (projectile.localAI[0] == 0f)
             {
                 projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
@@ -37,7 +37,7 @@ namespace CalamityMod.Projectiles.Summon
             }
             if (player.MinionDamage() != projectile.Calamity().spawnedPlayerMinionDamageValue)
             {
-                int damage2 = (int)((float)projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
+                int damage2 = (int)(projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
                     projectile.Calamity().spawnedPlayerMinionDamageValue *
                     player.MinionDamage());
                 projectile.damage = damage2;
@@ -53,12 +53,20 @@ namespace CalamityMod.Projectiles.Summon
             {
                 projectile.frame = 0;
             }
-            projectile.velocity.Y += 0.5f;
 
+            projectile.velocity.Y += 0.5f;
             if (projectile.velocity.Y > 10f)
             {
                 projectile.velocity.Y = 10f;
             }
+
+			projectile.StickToTiles(false, false);
+
+			if (projectile.ai[0] > 0f)
+			{
+				projectile.ai[0] -= 1f;
+				return;
+			}
 
 			float maxDistance = 1000f;
 			bool homeIn = false;
@@ -69,19 +77,16 @@ namespace CalamityMod.Projectiles.Summon
 				{
 					float extraDistance = (float)(Main.npc[i].width / 2) + (Main.npc[i].height / 2);
 
-					if (Vector2.Distance(Main.npc[i].Center, projectile.Center) < (maxDistance + extraDistance))
+					if (Vector2.Distance(Main.npc[i].Center, projectile.Center) < (maxDistance + extraDistance) && Collision.CanHit(projectile.Center, projectile.width, projectile.height, Main.npc[i].Center, Main.npc[i].width, Main.npc[i].height))
 					{
 						homeIn = true;
+						break;
 					}
 				}
 			}
-            if (projectile.owner == Main.myPlayer && homeIn)
+
+			if (projectile.owner == Main.myPlayer && homeIn)
             {
-                if (projectile.ai[0] != 0f)
-                {
-                    projectile.ai[0] -= 1f;
-                    return;
-                }
                 projectile.ai[1] += 1f;
                 if ((projectile.ai[1] % 10f) == 0f)
                 {
@@ -90,7 +95,7 @@ namespace CalamityMod.Projectiles.Summon
                     {
                         float velocityX = Main.rand.NextFloat(-10f, 10f);
                         float velocityY = Main.rand.NextFloat(-15f, -8f);
-                        Projectile.NewProjectile(projectile.oldPosition.X + (float)(projectile.width / 2), projectile.oldPosition.Y + (float)(projectile.height / 2), velocityX, velocityY, ModContent.ProjectileType<SpikecragSpike>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                        Projectile.NewProjectile(projectile.oldPosition.X + (projectile.width / 2), projectile.oldPosition.Y + (projectile.height / 2), velocityX, velocityY, ModContent.ProjectileType<SpikecragSpike>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
                     }
                 }
             }

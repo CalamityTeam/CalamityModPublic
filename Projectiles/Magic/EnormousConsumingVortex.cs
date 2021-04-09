@@ -5,6 +5,7 @@ using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.Projectiles.Magic
 {
     public class EnormousConsumingVortex : ModProjectile
@@ -16,13 +17,15 @@ namespace CalamityMod.Projectiles.Magic
         }
         public float IdealScale
         {
-            get => projectile.localAI[0];
-            set => projectile.localAI[0] = value;
+            get => projectile.ai[1];
+            set => projectile.ai[1] = value;
         }
-        public const int TentacleSpawnRate = 30;
+        public const int TentacleSpawnRate = 20;
         public const int PulseInterval = 18;
         public const float PulseHitboxExpandRatio = 2.5f;
         public const float RadialOffsetVarianceFactor = 0.1f;
+        public const float StartingScale = 0.0004f;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Subsuming Vortex");
@@ -36,29 +39,23 @@ namespace CalamityMod.Projectiles.Magic
             projectile.friendly = true;
             projectile.alpha = 255;
             projectile.penetrate = -1;
-            projectile.scale = 0.0004f;
+            projectile.scale = StartingScale;
             projectile.timeLeft = 540;
             projectile.tileCollide = false;
             projectile.magic = true;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 17;
+            projectile.localNPCHitCooldown = 8;
         }
 
-        public override void SendExtraAI(BinaryWriter writer)
-        {
-            writer.Write(IdealScale);
-        }
-
-        public override void ReceiveExtraAI(BinaryReader reader)
-        {
-            IdealScale = reader.ReadSingle();
-        }
+        // Vanilla Terraria does not sync projectile scale by default.
+        public override void SendExtraAI(BinaryWriter writer) => writer.Write(projectile.scale);
+        public override void ReceiveExtraAI(BinaryReader reader) => projectile.scale = reader.ReadSingle();
 
         public override void AI()
         {
             projectile.rotation += MathHelper.ToRadians(8f); // Spin 2 win.
             projectile.alpha = (int)MathHelper.Lerp(255, 0, Utils.InverseLerp(0f, 20f, Time, true)); // Fade in completely after 20 frames.
-            projectile.scale = MathHelper.Lerp(0.0004f, IdealScale, Utils.InverseLerp(0f, 30f, Time, true)); // Expand completely after 30 frames.
+            projectile.scale = MathHelper.Lerp(StartingScale, IdealScale, Utils.InverseLerp(0f, 30f, Time, true)); // Expand completely after 30 frames.
 
             // Determine the ideal scale in the first frame.
             if (IdealScale == 0f)
@@ -68,16 +65,16 @@ namespace CalamityMod.Projectiles.Magic
             }
 
             // Target enemy if possible and idly spawn tentacles.
-            if (Time < 300)
+            if (Time < 150)
             {
                 TargetingMovement();
-                if (Time % TentacleSpawnRate == TentacleSpawnRate - 1 && Main.netMode != NetmodeID.MultiplayerClient)
+                if (Time % TentacleSpawnRate == TentacleSpawnRate - 1 && Main.myPlayer == projectile.owner)
                 {
                     ProduceSubsumingHentai();
                 }
             }
             // Slow down and pulse frequently.
-            else if (Time < 480)
+            else if (Time < 220)
             {
                 projectile.velocity *= 0.96f;
                 if (Time % PulseInterval == 0f)
@@ -85,7 +82,7 @@ namespace CalamityMod.Projectiles.Magic
                     PulseEffect();
                 }
             }
-            else if (Time == 520f)
+            else if (Time >= 240)
             {
                 ExplodeEffect();
                 projectile.Kill();
@@ -95,22 +92,26 @@ namespace CalamityMod.Projectiles.Magic
         }
         public void ProduceSubsumingHentai()
         {
+            int tentacleDamage = (int)(projectile.damage * 0.25f);
             float xStartingAcceleration = Main.rand.NextFloat(0.001f, 0.04f) * Main.rand.NextBool(2).ToDirectionInt();
             float yStartingAcceleration = Main.rand.NextFloat(0.001f, 0.04f) * Main.rand.NextBool(2).ToDirectionInt();
-            Projectile subsumingHentai = Projectile.NewProjectileDirect(projectile.Center,
-                                                                        Vector2.UnitY.RotatedByRandom(MathHelper.TwoPi) * Main.rand.NextFloat(9f, 13f),
-                                                                        ModContent.ProjectileType<SubsumingTentacle>(),
-                                                                        (int)(projectile.damage * 0.6),
-                                                                        projectile.knockBack * 0.6f,
-                                                                        projectile.owner,
-                                                                        xStartingAcceleration,
-                                                                        yStartingAcceleration);
+            Projectile subsumingHentai = Projectile.NewProjectileDirect(
+                projectile.Center,
+                Vector2.UnitY.RotatedByRandom(MathHelper.TwoPi) * Main.rand.NextFloat(9f, 13f),
+                ModContent.ProjectileType<SubsumingTentacle>(),
+                tentacleDamage,
+                projectile.knockBack * 0.5f,
+                projectile.owner,
+                xStartingAcceleration,
+                yStartingAcceleration
+            );
+
             subsumingHentai.tileCollide = false;
         }
         
         public void TargetingMovement()
         {
-            NPC potentialTarget = projectile.Center.ClosestNPCAt(1500f, true);
+            NPC potentialTarget = projectile.Center.ClosestNPCAt(1500f, true, true);
             if (potentialTarget != null)
             {
                 projectile.velocity = (projectile.velocity * 5f + projectile.DirectionTo(potentialTarget.Center) * 7f) / 6f;
@@ -151,9 +152,11 @@ namespace CalamityMod.Projectiles.Magic
                     dust.noGravity = true;
                 }
             }
-            if (Main.netMode != NetmodeID.MultiplayerClient)
+            if (Main.myPlayer == projectile.owner)
             {
-                NPC closestTarget = projectile.Center.ClosestNPCAt(1600f, true);
+                int vortexDamage = (int)(projectile.damage * 0.75f);
+                NPC closestTarget = projectile.Center.ClosestNPCAt(1600f, true, true);
+
                 for (int i = 0; i < 12; i++)
                 {
                     float rotation = Main.rand.NextFloat(MathHelper.TwoPi);
@@ -161,14 +164,15 @@ namespace CalamityMod.Projectiles.Magic
                     if (closestTarget != null)
                         velocity = projectile.DirectionTo(closestTarget.Center).RotatedByRandom(0.4f);
                     velocity *= Main.rand.NextFloat(3f, 5f);
+
                     Projectile.NewProjectileDirect(projectile.Center,
-                                                   velocity,
-                                                   ModContent.ProjectileType<Vortex>(),
-                                                   (int)(projectile.damage * 0.7),
-                                                   projectile.knockBack,
-                                                   projectile.owner,
-                                                   0f,
-                                                   Main.rand.NextFloat(0.5f, 1.8f));
+                        velocity,
+                        ModContent.ProjectileType<Vortex>(),
+                        vortexDamage,
+                        projectile.knockBack,
+                        projectile.owner,
+                        0f,
+                        Main.rand.NextFloat(0.5f, 1.8f));
                 }
             }
         }

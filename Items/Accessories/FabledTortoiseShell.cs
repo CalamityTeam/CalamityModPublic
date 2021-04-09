@@ -1,6 +1,7 @@
 using CalamityMod.CalPlayer;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -11,26 +12,29 @@ namespace CalamityMod.Items.Accessories
             DisplayName.SetDefault("Fabled Tortoise Shell");
             Tooltip.SetDefault("50% reduced movement speed\n" +
                                 "Enemies take damage when they hit you\n" +
-                                "You move quickly for a short time if you take damage");
+                                "You move faster and lose 18 defense for 3 seconds if you take damage");
         }
 
         public override void SetDefaults()
         {
-            item.defense = 35;
+            item.defense = 36;
             item.width = 20;
             item.height = 24;
-            item.value = Item.buyPrice(0, 9, 0, 0);
-            item.rare = 5;
+            item.value = CalamityGlobalItem.Rarity5BuyPrice;
+            item.rare = ItemRarityID.Pink;
             item.accessory = true;
-            item.Calamity().customRarity = CalamityRarity.RareVariant;
-        }
+			item.Calamity().challengeDrop = true;
+		}
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.fabledTortoise = true;
-            player.moveSpeed -= 0.5f;
+			float moveSpeedDecrease = modPlayer.shellBoost ? 0.2f : 0.5f;
+            player.moveSpeed -= moveSpeedDecrease;
             player.thorns += 0.25f;
+			if (modPlayer.shellBoost)
+				player.statDefense -= 18;
         }
     }
 }

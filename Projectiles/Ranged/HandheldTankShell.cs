@@ -92,42 +92,14 @@ namespace CalamityMod.Projectiles.Ranged
             // Transform the projectile's hitbox into a big explosion
             projectile.position = projectile.Center;
             projectile.width = projectile.height = 140;
-            projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
-            projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
+            projectile.position.X = projectile.position.X - projectile.width / 2;
+            projectile.position.Y = projectile.position.Y - projectile.height / 2;
 
-            // Spawn explosion dust (separate method because it's messy)
-            SpawnExplosionDust();
+            // Rocket III type explosion is now a utility for convenience
+            projectile.LargeFieryExplosion();
 
             // Make the explosion cause damage to nearby targets (makes projectile hit twice)
             projectile.Damage();
-        }
-
-        // Dust copied from Rocket III
-        void SpawnExplosionDust()
-        {
-            // Sparks and such
-            Vector2 corner = new Vector2(projectile.position.X, projectile.position.Y);
-            for (int i = 0; i < 40; i++)
-            {
-                int idx = Dust.NewDust(corner, projectile.width, projectile.height, 31, 0f, 0f, 100, default, 2f);
-                Main.dust[idx].velocity *= 3f;
-                if (Main.rand.NextBool(2))
-                {
-                    Main.dust[idx].scale = 0.5f;
-                    Main.dust[idx].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
-                }
-            }
-            for (int i = 0; i < 70; i++)
-            {
-                int idx = Dust.NewDust(corner, projectile.width, projectile.height, 6, 0f, 0f, 100, default, 3f);
-                Main.dust[idx].noGravity = true;
-                Main.dust[idx].velocity *= 5f;
-                idx = Dust.NewDust(corner, projectile.width, projectile.height, 6, 0f, 0f, 100, default, 2f);
-                Main.dust[idx].velocity *= 2f;
-            }
-
-            // Smoke, which counts as a Gore
-			CalamityUtils.ExplosionGores(projectile, 3);
         }
     }
 }

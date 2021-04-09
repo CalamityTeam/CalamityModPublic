@@ -8,7 +8,7 @@ namespace CalamityMod.Tiles.FurnitureSilva
     {
         public override void SetDefaults()
         {
-            this.SetUpBathtub();
+            this.SetUpBathtub(true);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Silva Bathtub");
             AddMapEntry(new Color(191, 142, 111), name);

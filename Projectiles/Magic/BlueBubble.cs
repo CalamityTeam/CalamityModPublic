@@ -1,12 +1,11 @@
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
 
 namespace CalamityMod.Projectiles.Magic
 {
-    public class BlueBubble : ModProjectile
+	public class BlueBubble : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -23,46 +22,40 @@ namespace CalamityMod.Projectiles.Magic
             projectile.alpha = 255;
             projectile.ignoreWater = true;
             projectile.magic = true;
-        }
+			projectile.timeLeft = 120;
+		}
 
-        public override void AI()
+		public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 90;
+
+		public override void AI()
         {
-            projectile.velocity.X *= 0.99f;
-            projectile.velocity.Y *= 0.99f;
-            if (projectile.localAI[0] == 0f)
-            {
-                projectile.scale += 0.005f;
-            }
+            projectile.velocity *= 0.99f;
+
+            projectile.scale += 0.005f;
+
             if (projectile.alpha > 0)
-            {
                 projectile.alpha -= 30;
-            }
             if (projectile.alpha < 0)
-            {
                 projectile.alpha = 0;
-            }
+
             Vector2 v2 = projectile.ai[0].ToRotationVector2();
             float num743 = projectile.velocity.ToRotation();
             float num744 = v2.ToRotation();
-            double num745 = (double)(num744 - num743);
-            if (num745 > 3.1415926535897931)
-            {
-                num745 -= 6.2831853071795862;
-            }
-            if (num745 < -3.1415926535897931)
-            {
-            }
-            projectile.rotation = projectile.velocity.ToRotation() - 1.57079637f;
-            if (Main.myPlayer == projectile.owner && projectile.timeLeft > 120)
-            {
-                projectile.timeLeft = 120;
-            }
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 150f, 8f, 20f);
+            double num745 = num744 - num743;
+            if (num745 > MathHelper.Pi)
+                num745 -= MathHelper.TwoPi;
+            if (num745 < -MathHelper.Pi)
+				num745 += MathHelper.TwoPi;
+
+            projectile.rotation = projectile.velocity.ToRotation() - MathHelper.PiOver2;
+            
+			if (projectile.timeLeft < 90)
+				CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 400f, 8f, 20f);
         }
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 54);
+            Main.PlaySound(SoundID.Item54, projectile.Center);
             int num190 = Main.rand.Next(5, 9);
             for (int num191 = 0; num191 < num190; num191++)
             {

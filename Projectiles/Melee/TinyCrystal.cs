@@ -7,6 +7,8 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class TinyCrystal : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Crystal");
@@ -20,13 +22,14 @@ namespace CalamityMod.Projectiles.Melee
             projectile.melee = true;
             projectile.penetrate = 1;
             projectile.alpha = 255;
-            projectile.timeLeft = 60;
-            projectile.tileCollide = true;
+            projectile.timeLeft = 90;
         }
+
+		public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 75;
 
 		public override void AI()
 		{
-			int dustType = (projectile.ai[0] == 0f ? 56 : 73);
+			int dustType = projectile.ai[0] == 0f ? 56 : 73;
 			for (int num92 = 0; num92 < 2; num92++)
 			{
 				float num93 = projectile.velocity.X / 3f * (float)num92;
@@ -41,6 +44,7 @@ namespace CalamityMod.Projectiles.Melee
 				Dust expr_4815_cp_0 = Main.dust[num96];
 				expr_4815_cp_0.position.Y -= num94;
 			}
+
 			if (Main.rand.NextBool(10))
 			{
 				int num97 = 4;
@@ -48,11 +52,14 @@ namespace CalamityMod.Projectiles.Melee
 				Main.dust[num98].velocity *= 0.25f;
 				Main.dust[num98].velocity += projectile.velocity * 0.5f;
 			}
+
+			if (projectile.timeLeft < 75)
+				CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 450f, 9f, 20f);
 		}
 
         public override void Kill(int timeLeft)
         {
-			int dustType = (projectile.ai[0] == 0f ? 56 : 73);
+			int dustType = projectile.ai[0] == 0f ? 56 : 73;
 			for (int k = 0; k < 5; k++)
             {
                 Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, dustType, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f);
@@ -62,7 +69,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-			int buffType = (projectile.ai[0] == 0f ? BuffID.Frostburn : BuffID.OnFire);
+			int buffType = projectile.ai[0] == 0f ? BuffID.Frostburn : BuffID.OnFire;
 			target.AddBuff(buffType, 120);
 		}
     }

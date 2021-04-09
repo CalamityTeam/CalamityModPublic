@@ -34,7 +34,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void AI()
         {
-            Lighting.AddLight((int)((projectile.position.X + (float)(projectile.width / 2)) / 16f), (int)((projectile.position.Y + (float)(projectile.height / 2)) / 16f), 0f, 0.25f, 0.25f);
+            Lighting.AddLight((int)((projectile.position.X + (projectile.width / 2)) / 16f), (int)((projectile.position.Y + (projectile.height / 2)) / 16f), 0f, 0.25f, 0.25f);
 
 			if (projectile.ai[0] != 2f)
 				projectile.aiStyle = 1;
@@ -47,7 +47,7 @@ namespace CalamityMod.Projectiles.Boss
 			{
 				projectile.velocity.Y += 0.1f;
 
-				projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
+				projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + MathHelper.PiOver2;
 
 				if (projectile.velocity.Y > 6f)
 					projectile.velocity.Y = 6f;
@@ -77,7 +77,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override Color? GetAlpha(Color lightColor)
         {
-            return new Color(200, 200, 200, projectile.alpha);
+            return Main.dayTime ? new Color(50, 50, 255, projectile.alpha) : new Color(255, 255, 255, projectile.alpha);
         }
 
         public override void Kill(int timeLeft)

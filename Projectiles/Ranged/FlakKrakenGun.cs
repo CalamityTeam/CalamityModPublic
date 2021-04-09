@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class FlakKrakenGun : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Ranged/FlakKraken";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Flak Kraken");

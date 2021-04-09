@@ -1,14 +1,12 @@
 using CalamityMod.Buffs.Cooldowns;
 using CalamityMod.Items.Weapons.Melee;
-using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Typeless
 {
-    public class EnergyShell : ModProjectile
+	public class EnergyShell : ModProjectile
     {
 		private bool playedSound = false;
 

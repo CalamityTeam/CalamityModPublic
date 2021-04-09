@@ -15,7 +15,7 @@ namespace CalamityMod.Items.Materials
             item.width = 26;
             item.height = 20;
             item.value = Item.buyPrice(0, 15, 0, 0);
-            item.rare = 5;
+            item.rare = ItemRarityID.Pink;
             item.maxStack = 99;
         }
         public override void AddRecipes()

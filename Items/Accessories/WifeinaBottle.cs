@@ -3,6 +3,8 @@ using CalamityMod.CalPlayer;
 using CalamityMod.Projectiles.Summon;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
+
 namespace CalamityMod.Items.Accessories
 {
     public class WifeinaBottle : ModItem
@@ -17,8 +19,8 @@ namespace CalamityMod.Items.Accessories
         {
             item.width = 20;
             item.height = 26;
-            item.value = Item.buyPrice(0, 15, 0, 0);
-            item.rare = 5;
+            item.value = CalamityGlobalItem.Rarity5BuyPrice;
+            item.rare = ItemRarityID.Pink;
             item.accessory = true;
         }
 

@@ -1,7 +1,4 @@
 using CalamityMod.Items.Placeables.Banners;
-using CalamityMod.Items.Materials;
-using CalamityMod.World;
-using System;
 using System.IO;
 using Terraria;
 using Terraria.ID;
@@ -9,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.SulphurousSea
 {
-    public class Catfish : ModNPC
+	public class Catfish : ModNPC
     {
         public override void SetStaticDefaults()
         {
@@ -27,10 +24,6 @@ namespace CalamityMod.NPCs.SulphurousSea
             npc.lifeMax = 120;
             npc.aiStyle = -1;
             aiType = -1;
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
             npc.value = Item.buyPrice(0, 0, 1, 0);
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath40;
@@ -105,13 +98,13 @@ namespace CalamityMod.NPCs.SulphurousSea
         {
             for (int k = 0; k < 5; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
             }
             if (npc.life <= 0)
             {
                 for (int k = 0; k < 25; k++)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
                 }
             }
         }

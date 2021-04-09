@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Pets
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Strange Orb");
-            Tooltip.SetDefault("Summons a young Siren light pet\n" +
+            Tooltip.SetDefault("Summons a miniature Ocean Spirit light pet\n" +
                 "Provides a large amount of light while underwater");
         }
 

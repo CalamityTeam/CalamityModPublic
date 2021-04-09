@@ -25,13 +25,13 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.noMelee = true;
             item.noUseGraphic = true;
             item.useAnimation = 30;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.useTime = 30;
             item.knockBack = 6f;
             item.UseSound = SoundID.Item117;
             item.autoReuse = true;
             item.value = Item.buyPrice(0, 60, 0, 0);
-            item.rare = 7;
+            item.rare = ItemRarityID.Lime;
             item.shoot = ModContent.ProjectileType<AuroradicalSplitter>();
             item.shootSpeed = 10f;
             item.Calamity().rogue = true;
@@ -39,16 +39,15 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-			int star = Projectile.NewProjectile(player.Center, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI, 0f, 0f);
-			Main.projectile[star].Calamity().stealthStrike = player.Calamity().StealthStrikeAvailable();
+			int star = Projectile.NewProjectile(player.Center, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
+			if (star.WithinBounds(Main.maxProjectiles))
+				Main.projectile[star].Calamity().stealthStrike = player.Calamity().StealthStrikeAvailable();
             return false;
         }
 
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
-			Texture2D glowmask = Main.itemTexture[item.type];
-            Vector2 origin = new Vector2(glowmask.Width / 2f, glowmask.Height / 2f - 2f);
-            spriteBatch.Draw(glowmask, item.Center - Main.screenPosition, null, Color.White, rotation, origin, 1f, SpriteEffects.None, 0f);
+			item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, Main.itemTexture[item.type]);
         }
     }
 }

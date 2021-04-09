@@ -1,4 +1,3 @@
-using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -17,8 +16,8 @@ namespace CalamityMod.Items.Accessories
         {
             item.width = 20;
             item.height = 20;
-            item.value = Item.buyPrice(0, 3, 0, 0);
-            item.rare = 2;
+            item.value = CalamityGlobalItem.Rarity2BuyPrice;
+            item.rare = ItemRarityID.Green;
             item.accessory = true;
         }
 
@@ -34,7 +33,7 @@ namespace CalamityMod.Items.Accessories
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<FetidEssence>(), 3);
+            recipe.AddIngredient(ItemID.VilePowder, 15);
             recipe.AddIngredient(ItemID.RottenChunk, 10);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);

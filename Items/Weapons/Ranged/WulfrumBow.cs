@@ -17,20 +17,20 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             item.damage = 10;
             item.ranged = true;
-            item.width = 34;
-            item.height = 56;
+            item.width = 27;
+            item.height = 38;
             item.useTime = 25;
             item.useAnimation = 25;
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 2.25f;
             item.value = Item.buyPrice(0, 1, 0, 0);
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.UseSound = SoundID.Item5;
             item.autoReuse = false;
             item.shoot = ProjectileID.PurificationPowder;
             item.shootSpeed = 12f;
-            item.useAmmo = 40;
+            item.useAmmo = AmmoID.Arrow;
         }
 
         /*public void OverhaulInit()

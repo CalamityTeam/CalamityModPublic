@@ -9,9 +9,9 @@ namespace CalamityMod.Tiles.FurniturePlaguedPlate
     {
         public override void SetDefaults()
         {
-            this.SetUpDoorClosed();
+            this.SetUpDoorClosed(true);
             ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Plagued Plate Door");
+            name.SetDefault("Plagued Door");
             AddMapEntry(new Color(191, 142, 111), name);
             disableSmartCursor = true;
             adjTiles = new int[] { TileID.ClosedDoor };

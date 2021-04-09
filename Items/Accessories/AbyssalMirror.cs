@@ -14,17 +14,17 @@ namespace CalamityMod.Items.Accessories
             Tooltip.SetDefault("Light does not reach the depths of the ocean\n" +
                 "Significantly reduces enemy aggression, even in the abyss\n" +
                 "Stealth generates 30% faster when standing still and 20% faster while moving\n" +
-                "Grants a slight chance to evade attacks, releasing a cloud of lumenyl fluid which damages and stuns nearby enemies\n" +
-                "Evading an attack grants a lot of stealth\n" +
-                "This evade has a 20s cooldown before it can occur again");
+                "Grants the ability to evade attacks, releasing a cloud of lumenyl fluid which damages and stuns nearby enemies\n" +
+                "Evading an attack grants a lot of stealth but has a 75 second cooldown\n" +
+                "This cooldown is shared with all other dodges and reflects");
         }
 
         public override void SetDefaults()
         {
             item.width = 30;
             item.height = 38;
-            item.value = Item.buyPrice(0, 6, 0, 0);
-            item.rare = 8;
+            item.value = CalamityGlobalItem.Rarity7BuyPrice;
+            item.rare = ItemRarityID.Lime;
             item.accessory = true;
         }
 

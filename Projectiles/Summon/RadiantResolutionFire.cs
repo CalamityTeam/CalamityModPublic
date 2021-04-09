@@ -7,6 +7,8 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class RadiantResolutionFire : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Fire");
@@ -15,15 +17,12 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void SetDefaults()
         {
-            projectile.width = 10;
-            projectile.height = 10;
+            projectile.width = projectile.height = 10;
             projectile.friendly = true;
-            projectile.penetrate = 1;
             projectile.light = 1f;
             projectile.timeLeft = 300;
 			projectile.minion = true;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 4;
+			projectile.tileCollide = false;
         }
 
         public override void AI()
@@ -41,15 +40,13 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void Kill(int timeLeft)
         {
-            projectile.position = projectile.Center;
-            projectile.width = projectile.height = 60;
-            projectile.position -= projectile.Size / 2f;
-            projectile.maxPenetrate = -1;
-            projectile.penetrate = -1;
+			CalamityGlobalProjectile.ExpandHitboxBy(projectile, 60);
+            projectile.maxPenetrate = projectile.penetrate = -1;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 5;
+            projectile.localNPCHitCooldown = 10;
+			projectile.damage /= 3;
             projectile.Damage();
-            Main.PlaySound(SoundID.Item14, projectile.position);
+            Main.PlaySound(SoundID.Item14, projectile.Center);
             for (int i = 0; i < 20; i++)
             {
                 Dust dust = Dust.NewDustPerfect(projectile.Center, (int)CalamityDusts.ProfanedFire);

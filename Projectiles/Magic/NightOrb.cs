@@ -1,11 +1,10 @@
-using Microsoft.Xna.Framework;
-using System;
-using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Magic
 {
-    public class NightOrb : ModProjectile
+	public class NightOrb : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Orb");

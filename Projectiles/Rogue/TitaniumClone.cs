@@ -1,14 +1,14 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
-using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class TitaniumClone : ModProjectile
+	public class TitaniumClone : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/TitaniumShuriken";
+
         private static float RotationIncrement = 0.22f;
         public override void SetStaticDefaults()
         {
@@ -36,7 +36,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.ai[0] += 1f;
             if (projectile.ai[0] > 30f)
             {
-				CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 400f, 15f, 20f);
+				CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 200f, 12f, 20f);
 			}
 		}
 

@@ -17,12 +17,24 @@ namespace CalamityMod.Projectiles.Summon
         {
             Player player = Main.player[projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
-            float baseDamage = (modPlayer.profanedCrystal && !modPlayer.profanedCrystalBuffs) ? 0f : (100f +
-                        (CalamityWorld.downedDoG ? 100f : 0f) +
-                        (CalamityWorld.downedYharon ? 100f : 0f) +
-                        (modPlayer.profanedCrystalBuffs ? 700f : 0f));
+            float baseDamage = (modPlayer.profanedCrystal && !modPlayer.profanedCrystalBuffs) ? 0f : (75f +
+                        (CalamityWorld.downedDoG ? 75f : 0f) +
+                        (CalamityWorld.downedYharon ? 75f : 0f) +
+                        (modPlayer.profanedCrystalBuffs ? 420f : 0f));
             projectile.damage = baseDamage == 0 ? 0 : (int)(baseDamage * player.MinionDamage());
             ai = type;
+            if (baseDamage >= 420f)
+            {
+                projectile.localNPCHitCooldown = 6;
+            }
+            else if (baseDamage == 0)
+            {
+                projectile.localNPCHitCooldown = 69;
+            }
+            else
+            {
+                projectile.localNPCHitCooldown = 9;
+            }
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -53,7 +65,7 @@ namespace CalamityMod.Projectiles.Summon
                     if (projectile.ai[1] == 0f)
                     {
                         float num550 = 24f; //12
-                        Vector2 vector43 = new Vector2(projectile.position.X + (float)projectile.width * 0.5f, projectile.position.Y + (float)projectile.height * 0.5f);
+                        Vector2 vector43 = projectile.Center;
                         float num551 = num535 - vector43.X;
                         float num552 = num536 - vector43.Y;
                         float num553 = (float)Math.Sqrt((double)(num551 * num551 + num552 * num552));
@@ -70,8 +82,8 @@ namespace CalamityMod.Projectiles.Summon
                         num553 = num550 / num553;
                         num551 *= num553;
                         num552 *= num553;
-                        projectile.velocity.X = (projectile.velocity.X * (type == 1 ? 14f : 20f) + num551) / (type == 1 ? 15f : 21f);
-                        projectile.velocity.Y = (projectile.velocity.Y * (type == 1 ? 14f : 20f) + num552) / (type == 1 ? 15f : 21f);
+                        projectile.velocity.X = (projectile.velocity.X * (type == 1 ? 12f : 20f) + num551) / (type == 1 ? 13f : 21f);
+                        projectile.velocity.Y = (projectile.velocity.Y * (type == 1 ? 12f : 20f) + num552) / (type == 1 ? 13f : 21f);
                     }
                     else
                     {
@@ -85,9 +97,9 @@ namespace CalamityMod.Projectiles.Summon
                     float num16 = 0.5f;
                     projectile.tileCollide = false;
                     int num17 = 100;
-                    Vector2 vector3 = new Vector2(projectile.position.X + (float)projectile.width * 0.5f, projectile.position.Y + (float)projectile.height * 0.5f);
-                    float num18 = Main.player[projectile.owner].position.X + (float)(Main.player[projectile.owner].width / 2) - vector3.X;
-                    float num19 = Main.player[projectile.owner].position.Y + (float)(Main.player[projectile.owner].height / 2) - vector3.Y;
+                    Vector2 vector3 = projectile.Center;
+                    float num18 = Main.player[projectile.owner].Center.X - vector3.X;
+                    float num19 = Main.player[projectile.owner].Center.Y - vector3.Y;
                     num19 += (float)Main.rand.Next(-10, 21);
                     num18 += (float)Main.rand.Next(-10, 21);
                     num18 += (float)(60 * -(float)Main.player[projectile.owner].direction);
@@ -191,7 +203,6 @@ namespace CalamityMod.Projectiles.Summon
             projectile.timeLeft = 18000;
             projectile.timeLeft *= 5;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 6;
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 4;
             ProjectileID.Sets.TrailingMode[projectile.type] = 0;
         }
@@ -229,7 +240,7 @@ namespace CalamityMod.Projectiles.Summon
                 projectile.timeLeft = 2;
             }
             if (!modPlayer.pArtifact || (!modPlayer.profanedCrystal && !modPlayer.tarraSummon && !modPlayer.bloodflareSummon &&
-                !modPlayer.godSlayerSummon && !modPlayer.silvaSummon && !modPlayer.dsSetBonus && !modPlayer.omegaBlueSet && !modPlayer.fearmongerSet))
+                !modPlayer.silvaSummon && !modPlayer.dsSetBonus && !modPlayer.omegaBlueSet && !modPlayer.fearmongerSet))
             {
                 modPlayer.gOffense = false;
                 projectile.active = false;
@@ -280,21 +291,23 @@ namespace CalamityMod.Projectiles.Summon
             }
             else
             {
-                if (player.Calamity().profanedCrystalBuffs)
-                    AI(2, num535, num536, player);
-                else
-                    AI(1, num535, num536, player);
+                {
+                    if (player.Calamity().profanedCrystalBuffs)
+                        AI(2, num535, num536, player);
+                    else
+                        AI(1, num535, num536, player);
+                }
             }
-            if ((double)projectile.velocity.X > 0.25)
+            if (projectile.velocity.X > 0.25f)
             {
                 projectile.direction = -1;
             }
-            else if ((double)projectile.velocity.X < -0.25)
+            else if (projectile.velocity.X < -0.25f)
             {
                 projectile.direction = 1;
             }
 
-            if ((double)Math.Abs(projectile.velocity.X) > 0.2)
+            if (Math.Abs(projectile.velocity.X) > 0.2f)
             {
                 projectile.spriteDirection = -projectile.direction;
             }

@@ -1,4 +1,3 @@
-using CalamityMod.Items.Weapons.Rogue;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -8,10 +7,18 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class BlastBarrelProjectile : ModProjectile
+	public class BlastBarrelProjectile : ModProjectile
     {
-        public float cooldown = 0f;
-        public float oldVelocityX = 0f;
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/BlastBarrel";
+
+        public float BounceEffectCooldown = 0f;
+        public float OldVelocityX = 0f;
+        public float RemainingBounces
+        {
+            get => projectile.ai[0];
+            set => projectile.ai[0] = value;
+        }
+        public bool CollideX => projectile.oldPosition.X == projectile.position.X;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Barrel");
@@ -30,74 +37,62 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.localNPCHitCooldown = -1;
             projectile.Calamity().rogue = true;
         }
-        //Jesus christ, why isn't this in the Entity class instead of just NPC???
-        //Negative check is so that it doesn't register a bounce as a collision
-        public bool collideX => projectile.oldPosition.X == projectile.position.X;
         public override void AI()
         {
-            bool stealthS = projectile.Calamity().stealthStrike;
             if (projectile.localAI[0] == 0f)
             {
-                projectile.ai[1] = stealthS.ToInt() == 0 ? 1 : 3;
+                RemainingBounces = projectile.Calamity().stealthStrike ? 3 : 1;
                 projectile.localAI[0] = 1f;
             }
             projectile.rotation += Math.Sign(projectile.velocity.X) * MathHelper.ToRadians(8f);
             if (projectile.velocity.Y < 15f)
-            {
                 projectile.velocity.Y += 0.3f;
-            }
-            if (collideX && cooldown == 0)
+
+            if (CollideX && BounceEffectCooldown == 0)
             {
                 BounceEffects();
-                projectile.velocity.X = -oldVelocityX;
+                projectile.velocity.X = -OldVelocityX;
             }
-            else if (cooldown > 0)
-            {
-                cooldown -= 1f;
-            }
+            else if (BounceEffectCooldown > 0)
+                BounceEffectCooldown--;
+
             if (projectile.velocity.X != 0f)
-            {
-                oldVelocityX = Math.Sign(projectile.velocity.X) * 12f;
-            }
+                OldVelocityX = Math.Sign(projectile.velocity.X) * 12f;
         }
-        public override bool OnTileCollide(Vector2 oldVelocity) => false;
         public void BounceEffects()
         {
-            bool stealthS = projectile.Calamity().stealthStrike;
             int projectileCount = 12;
-            Main.PlaySound(SoundID.Item, projectile.Center, 14);
-            //aka can bounce multiple times
-            if (stealthS)
+            if (projectile.Calamity().stealthStrike)
             {
-                projectileCount += (3 - stealthS.ToInt()) * 2; //more shit the closer we are to death
+                projectileCount += 4; // More shit the closer we are to death
             }
-            for (int i = 0; i < projectileCount; i++)
-            {
-                if (Main.rand.NextBool(3))
-                {
-                    Vector2 shrapnelVelocity = (Vector2.UnitY * (-16f + Main.rand.NextFloat(-3, 12f))).RotatedByRandom((double)MathHelper.ToRadians(30f));
-                    Projectile.NewProjectile(projectile.Center, projectile.velocity + shrapnelVelocity,
-                        ModContent.ProjectileType<BarrelShrapnel>(), projectile.damage, 3f, projectile.owner);
-                }
-                else
-                {
-                    Vector2 fireVelocity = (Vector2.UnitY * (-16f + Main.rand.NextFloat(-3, 12f))).RotatedByRandom((double)MathHelper.ToRadians(40f));
-                    int fireIndex = Projectile.NewProjectile(projectile.Center, projectile.velocity + fireVelocity,
-                        Main.rand.Next(ProjectileID.MolotovFire, ProjectileID.MolotovFire3 + 1),
-                        (int)(projectile.damage * 0.75f), 1f, projectile.owner);
-                    Main.projectile[fireIndex].Calamity().forceRogue = true;
-                    Main.projectile[fireIndex].timeLeft = 300;
-                    Main.projectile[fireIndex].usesLocalNPCImmunity = true;
-                    Main.projectile[fireIndex].localNPCHitCooldown = -1;
-                }
-            }
-            projectile.ai[1]--;
-            cooldown = 15;
-            if (projectile.ai[1] <= 0)
+			if (projectile.owner == Main.myPlayer)
+			{
+				for (int i = 0; i < projectileCount; i++)
+				{
+					if (Main.rand.NextBool(3))
+					{
+						Vector2 shrapnelVelocity = (Vector2.UnitY * Main.rand.NextFloat(-19f, -4f)).RotatedByRandom(MathHelper.ToRadians(30f));
+						Projectile.NewProjectile(projectile.Center, projectile.velocity + shrapnelVelocity, ModContent.ProjectileType<BarrelShrapnel>(), projectile.damage, 3f, projectile.owner);
+					}
+					else
+					{
+						Vector2 fireVelocity = (Vector2.UnitY * Main.rand.NextFloat(-19f, -4f)).RotatedByRandom(MathHelper.ToRadians(40f));
+						Projectile fire = Projectile.NewProjectileDirect(projectile.Center, projectile.velocity + fireVelocity, ModContent.ProjectileType<TotalityFire>(), (int)(projectile.damage * 0.75f), 1f, projectile.owner);
+						fire.timeLeft = 300;
+						fire.penetrate = 3;
+					}
+				}
+			}
+            RemainingBounces--;
+            BounceEffectCooldown = 15;
+            if (RemainingBounces <= 0)
             {
                 projectile.Kill();
             }
+            Main.PlaySound(SoundID.Item14, projectile.Center);
         }
+        public override bool OnTileCollide(Vector2 oldVelocity) => false;
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 2);

@@ -1,17 +1,15 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
-using CalamityMod.Buffs.Potions;
+using CalamityMod.Events;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.ModLoader.Config;
-using CalamityMod;
 namespace CalamityMod.NPCs.Perforator
 {
-    public class PerforatorTailLarge : ModNPC
+	public class PerforatorTailLarge : ModNPC
     {
         public override void SetStaticDefaults()
         {
@@ -20,19 +18,18 @@ namespace CalamityMod.NPCs.Perforator
 
         public override void SetDefaults()
         {
-            npc.damage = 18;
-            npc.npcSlots = 5f;
+			npc.GetNPCDamage();
+			npc.npcSlots = 5f;
             npc.width = 60;
             npc.height = 78;
             npc.defense = 12;
 			npc.LifeMaxNERB(2500, 2700, 800000);
-			double HPBoost = (double)CalamityMod.CalamityConfig.BossHealthPercentageBoost * 0.01;
-            npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
+			double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
+            npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.aiStyle = 6;
             aiType = -1;
             npc.knockBackResist = 0f;
             npc.alpha = 255;
-            npc.buffImmune[ModContent.BuffType<TimeSlow>()] = false;
             npc.behindTiles = true;
             npc.noGravity = true;
             npc.noTileCollide = true;
@@ -41,7 +38,14 @@ namespace CalamityMod.NPCs.Perforator
             npc.DeathSound = SoundID.NPCDeath1;
             npc.netAlways = true;
             npc.dontCountMe = true;
-        }
+
+			if (CalamityWorld.death || BossRushEvent.BossRushActive || CalamityWorld.malice)
+				npc.scale = 1.25f;
+			else if (CalamityWorld.revenge)
+				npc.scale = 1.15f;
+			else if (Main.expertMode)
+				npc.scale = 1.1f;
+		}
 
         public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)
         {
@@ -92,13 +96,13 @@ namespace CalamityMod.NPCs.Perforator
         {
             for (int k = 0; k < 5; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
             }
             if (npc.life <= 0)
             {
                 for (int k = 0; k < 20; k++)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
                 }
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/LargePerf4"), 1f);
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/LargePerf5"), 1f);
@@ -113,12 +117,6 @@ namespace CalamityMod.NPCs.Perforator
         public override bool PreNPCLoot()
         {
             return false;
-        }
-
-        public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
-        {
-            npc.lifeMax = (int)(npc.lifeMax * 0.7f * bossLifeScale);
-            npc.damage = (int)(npc.damage * 0.8f);
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)

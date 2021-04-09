@@ -11,6 +11,8 @@ namespace CalamityMod.Items.Weapons.Ranged
     public class Photoviscerator : ModItem
     {
         public const int CooldownTime = 60 * 7; // 7 second cooldown.
+		public const double AltFireDamageMult = 4.27;
+		
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Photoviscerator");
@@ -21,7 +23,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 230;
+            item.damage = 250;
             item.ranged = true;
             item.width = 84;
             item.height = 30;
@@ -32,7 +34,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.knockBack = 2f;
             item.UseSound = SoundID.Item34;
             item.value = Item.buyPrice(2, 50, 0, 0);
-            item.rare = 10;
+            item.rare = ItemRarityID.Red;
             item.autoReuse = true;
             item.shootSpeed = 6f;
             item.useAmmo = AmmoID.Gel;
@@ -68,14 +70,14 @@ namespace CalamityMod.Items.Weapons.Ranged
             {
                 Vector2 velocity = new Vector2(speedX, speedY);
                 position += velocity.ToRotation().ToRotationVector2() * 80f;
-                Projectile.NewProjectile(position, velocity.SafeNormalize(Vector2.Zero) * 17f, ModContent.ProjectileType<ExoLightBurst>(), damage * 3, knockBack, player.whoAmI);
+                Projectile.NewProjectile(position, velocity.SafeNormalize(Vector2.Zero) * 17f, ModContent.ProjectileType<ExoLightBurst>(), (int)(damage * AltFireDamageMult), knockBack, player.whoAmI);
             }
             else
             {
                 for (int i = 0; i < 2; i++)
                 {
                     Vector2 velocity = new Vector2(speedX, speedY).RotatedByRandom(0.05f);
-                    Projectile.NewProjectile(position, velocity, type, damage / 2, knockBack, player.whoAmI, 0f, 0f);
+                    Projectile.NewProjectile(position, velocity, type, damage, knockBack, player.whoAmI, 0f, 0f);
                 }
                 if (Main.rand.NextBool(8))
                 {

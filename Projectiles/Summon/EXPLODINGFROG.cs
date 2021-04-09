@@ -69,21 +69,21 @@ namespace CalamityMod.Projectiles.Summon
                     {
                         Projectile.NewProjectile(projectile.Center,
                             new Vector2(0f, -Main.rand.NextFloat(6f, 10f)).RotatedByRandom(ExplosionAngleVariance),
-                            ModContent.ProjectileType<FrogGore1>(), projectile.damage, 3f, projectile.owner);
+                            ModContent.ProjectileType<FrogGore1>(), projectile.damage, projectile.knockBack, projectile.owner);
                         Projectile.NewProjectile(projectile.Center,
                             new Vector2(0f, -Main.rand.NextFloat(6f, 10f)).RotatedByRandom(ExplosionAngleVariance),
-                            ModContent.ProjectileType<FrogGore2>(), projectile.damage, 3f, projectile.owner);
+                            ModContent.ProjectileType<FrogGore2>(), projectile.damage, projectile.knockBack, projectile.owner);
                     }
                     // Normally I would do something like mod.ProjectileType($"FrogGore1 + i") in a loop, but I suppose I'll let it go.
                     Projectile.NewProjectile(projectile.Center,
                         new Vector2(0f, -Main.rand.NextFloat(6f, 10f)).RotatedByRandom(ExplosionAngleVariance),
-                        ModContent.ProjectileType<FrogGore3>(), projectile.damage, 3f, projectile.owner);
+                        ModContent.ProjectileType<FrogGore3>(), projectile.damage, projectile.knockBack, projectile.owner);
                     Projectile.NewProjectile(projectile.Center,
                         new Vector2(0f, -Main.rand.NextFloat(6f, 10f)).RotatedByRandom(ExplosionAngleVariance),
-                        ModContent.ProjectileType<FrogGore4>(), projectile.damage, 3f, projectile.owner);
+                        ModContent.ProjectileType<FrogGore4>(), projectile.damage, projectile.knockBack, projectile.owner);
                     Projectile.NewProjectile(projectile.Center,
                         new Vector2(0f, -Main.rand.NextFloat(6f, 10f)).RotatedByRandom(ExplosionAngleVariance),
-                        ModContent.ProjectileType<FrogGore5>(), projectile.damage, 3f, projectile.owner);
+                        ModContent.ProjectileType<FrogGore5>(), projectile.damage, projectile.knockBack, projectile.owner);
                 }
                 // WoF vomit sound.
                 Main.PlaySound(SoundID.NPCKilled, projectile.Center, 13);
@@ -95,6 +95,8 @@ namespace CalamityMod.Projectiles.Summon
             {
                 projectile.velocity.Y = 10f;
             }
+
+			projectile.StickToTiles(false, false);
         }
 
         public override bool CanDamage() => false;

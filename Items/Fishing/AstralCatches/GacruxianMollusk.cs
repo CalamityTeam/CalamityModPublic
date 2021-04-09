@@ -23,7 +23,7 @@ namespace CalamityMod.Items.Fishing.AstralCatches
         public override void SafeSetDefaults()
         {
             item.damage = BaseDamage;
-            item.rare = 5;
+            item.rare = ItemRarityID.Pink;
             item.knockBack = Knockback;
             item.autoReuse = true;
             item.useTime = 26;
@@ -47,7 +47,8 @@ namespace CalamityMod.Items.Fishing.AstralCatches
             if (player.Calamity().StealthStrikeAvailable()) //setting the stealth strike
             {
                 int stealth = Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<GacruxianProj>(), damage, knockBack, player.whoAmI, 0f, 1f);
-                Main.projectile[stealth].Calamity().stealthStrike = true;
+				if (stealth.WithinBounds(Main.maxProjectiles))
+					Main.projectile[stealth].Calamity().stealthStrike = true;
                 return false;
             }
             return true;

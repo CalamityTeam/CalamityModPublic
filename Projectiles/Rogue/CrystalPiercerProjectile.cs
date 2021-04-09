@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class CrystalPiercerProjectile : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/CrystalPiercer";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Crystal Piercer");
@@ -35,11 +37,9 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 173, projectile.velocity.X * 0.1f, projectile.velocity.Y * 0.1f);
             }
-            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 2.355f;
-            if (projectile.spriteDirection == -1)
-            {
-                projectile.rotation -= 1.57f;
-            }
+            projectile.spriteDirection = projectile.direction = (projectile.velocity.X > 0).ToDirectionInt();
+            projectile.rotation = projectile.velocity.ToRotation() + (projectile.spriteDirection == 1 ? 0f : MathHelper.Pi);
+            projectile.rotation += projectile.spriteDirection * MathHelper.ToRadians(45f);
 
 			if (projectile.Calamity().stealthStrike)
 			{

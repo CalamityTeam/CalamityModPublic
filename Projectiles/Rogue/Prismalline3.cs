@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class Prismalline3 : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/Prismalline";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Prismalline");
@@ -25,12 +27,8 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void AI()
         {
-            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 2.355f;
-            if (projectile.spriteDirection == -1)
-            {
-                projectile.rotation -= 1.57f;
-            }
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 300f, 25f, 20f);
+            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.ToRadians(45f);
+			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 150f, 12f, 20f);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
@@ -49,18 +47,15 @@ namespace CalamityMod.Projectiles.Rogue
 			if (projectile.ai[0] == 1f)
 			{
 				int shardCount = Main.rand.Next(1,4);
-				for (int num252 = 0; num252 < shardCount; num252++)
+				for (int s = 0; s < shardCount; s++)
 				{
-					Vector2 value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-					while (value15.X == 0f && value15.Y == 0f)
+					Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
+					int shard = Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<AquashardSplit>(), projectile.damage / 3, 0f, projectile.owner);
+					if (shard.WithinBounds(Main.maxProjectiles))
 					{
-						value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
+						Main.projectile[shard].Calamity().forceRogue = true;
+						Main.projectile[shard].penetrate = 1;
 					}
-					value15.Normalize();
-					value15 *= (float)Main.rand.Next(70, 101) * 0.1f;
-					int shard = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value15.X, value15.Y, ModContent.ProjectileType<AquashardSplit>(), projectile.damage / 3, 0f, projectile.owner, 0f, 0f);
-					Main.projectile[shard].Calamity().forceRogue = true;
-					Main.projectile[shard].penetrate = 1;
 				}
 			}
         }

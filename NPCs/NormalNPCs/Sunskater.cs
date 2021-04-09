@@ -1,6 +1,7 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
+using Microsoft.Xna.Framework;
 using System;
 using System.IO;
 using Terraria;
@@ -100,42 +101,28 @@ namespace CalamityMod.NPCs.NormalNPCs
                     npc.TargetClosest(true);
                     npc.velocity.X = npc.velocity.X + (float)npc.direction * 0.15f;
                     npc.velocity.Y = npc.velocity.Y + (float)npc.directionY * 0.15f;
-                    if (npc.velocity.X > 10f)
-                    {
-                        npc.velocity.X = 10f;
-                    }
-                    if (npc.velocity.X < -10f)
-                    {
-                        npc.velocity.X = -10f;
-                    }
-                    if (npc.velocity.Y > 10f)
-                    {
-                        npc.velocity.Y = 10f;
-                    }
-                    if (npc.velocity.Y < -10f)
-                    {
-                        npc.velocity.Y = -10f;
-                    }
+					npc.velocity.X = MathHelper.Clamp(npc.velocity.X, -10f, 10f);
+					npc.velocity.Y = MathHelper.Clamp(npc.velocity.Y, -10f, 10f);
                 }
                 else
                 {
-                    npc.velocity.X = npc.velocity.X + (float)npc.direction * 0.1f;
+                    npc.velocity.X += (float)npc.direction * 0.1f;
                     if (npc.velocity.X < -2f || npc.velocity.X > 2f)
                     {
-                        npc.velocity.X = npc.velocity.X * 0.95f;
+                        npc.velocity.X *= 0.95f;
                     }
                     if (npc.ai[0] == -1f)
                     {
-                        npc.velocity.Y = npc.velocity.Y - 0.01f;
-                        if ((double)npc.velocity.Y < -0.3)
+                        npc.velocity.Y -= 0.01f;
+                        if (npc.velocity.Y < -0.3f)
                         {
                             npc.ai[0] = 1f;
                         }
                     }
                     else
                     {
-                        npc.velocity.Y = npc.velocity.Y + 0.01f;
-                        if ((double)npc.velocity.Y > 0.3)
+                        npc.velocity.Y += 0.01f;
+                        if (npc.velocity.Y > 0.3f)
                         {
                             npc.ai[0] = -1f;
                         }
@@ -166,17 +153,17 @@ namespace CalamityMod.NPCs.NormalNPCs
                         npc.ai[0] = -1f;
                     }
                 }
-                if ((double)npc.velocity.Y > 0.4 || (double)npc.velocity.Y < -0.4)
+                if (npc.velocity.Y > 0.4f || npc.velocity.Y < -0.4f)
                 {
-                    npc.velocity.Y = npc.velocity.Y * 0.95f;
+                    npc.velocity.Y *= 0.95f;
                 }
             }
             else
             {
                 if (npc.velocity.Y == 0f)
                 {
-                    npc.velocity.X = npc.velocity.X * 0.94f;
-                    if ((double)npc.velocity.X > -0.2 && (double)npc.velocity.X < 0.2)
+                    npc.velocity.X *= 0.94f;
+                    if (npc.velocity.X > -0.2f && npc.velocity.X < 0.2f)
                     {
                         npc.velocity.X = 0f;
                     }
@@ -234,10 +221,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void NPCLoot()
         {
-            if (Main.hardMode && Main.rand.NextBool(3))
-            {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<EssenceofCinder>());
-            }
+			DropHelper.DropItemCondition(npc, ModContent.ItemType<EssenceofCinder>(), Main.hardMode, 3, 1, 1);
         }
 
         public override void HitEffect(int hitDirection, double damage)

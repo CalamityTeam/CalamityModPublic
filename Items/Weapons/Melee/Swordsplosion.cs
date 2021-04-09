@@ -31,11 +31,11 @@ namespace CalamityMod.Items.Weapons.Melee
             item.autoReuse = true;
             item.height = 84;
             item.value = Item.buyPrice(1, 20, 0, 0);
-            item.rare = 10;
+            item.rare = ItemRarityID.Red;
             item.shoot = ModContent.ProjectileType<EonBeam>();
             item.shootSpeed = 16f;
-            item.Calamity().customRarity = CalamityRarity.RareVariant;
-        }
+			item.Calamity().challengeDrop = true;
+		}
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {

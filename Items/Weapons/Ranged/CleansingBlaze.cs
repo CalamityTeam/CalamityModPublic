@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 250;
+            item.damage = 150;
             item.ranged = true;
             item.width = 64;
             item.height = 32;
@@ -29,18 +29,17 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.knockBack = 4f;
             item.UseSound = SoundID.Item34;
             item.value = Item.buyPrice(1, 80, 0, 0);
-            item.rare = 10;
+            item.rare = ItemRarityID.Red;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<EssenceFire>();
             item.shootSpeed = 14f;
-            item.useAmmo = 23;
+            item.useAmmo = AmmoID.Gel;
             item.Calamity().customRarity = CalamityRarity.DarkBlue;
         }
 
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
-            Vector2 origin = new Vector2(32f, 14f);
-            spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Items/Weapons/Ranged/CleansingBlazeGlow"), item.Center - Main.screenPosition, null, Color.White, rotation, origin, 1f, SpriteEffects.None, 0f);
+			item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.GetTexture("CalamityMod/Items/Weapons/Ranged/CleansingBlazeGlow"));
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -71,7 +70,6 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 12);
-            recipe.AddRecipeGroup("NForEE", 6);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();

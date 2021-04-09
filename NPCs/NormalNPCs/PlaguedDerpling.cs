@@ -1,4 +1,5 @@
 using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Dusts;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.World;
@@ -31,12 +32,6 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.value = Item.buyPrice(0, 0, 10, 0);
             npc.HitSound = SoundID.NPCHit22;
             npc.DeathSound = SoundID.NPCDeath25;
-            npc.buffImmune[BuffID.ShadowFlame] = true;
-            npc.buffImmune[BuffID.Venom] = true;
-            npc.buffImmune[BuffID.OnFire] = true;
-            npc.buffImmune[BuffID.Poisoned] = true;
-            npc.buffImmune[ModContent.BuffType<BrimstoneFlames>()] = true;
-            npc.buffImmune[ModContent.BuffType<Plague>()] = true;
             banner = npc.type;
             bannerItem = ModContent.ItemType<VirulingBanner>();
         }
@@ -146,11 +141,10 @@ namespace CalamityMod.NPCs.NormalNPCs
                 npc.netUpdate = true;
             }
             int num13 = Dust.NewDust(new Vector2(npc.position.X - npc.velocity.X, npc.position.Y - npc.velocity.Y), npc.width, npc.height, 46, npc.velocity.X * 0.2f, npc.velocity.Y * 0.2f, 100, default, 2f);
-            Main.dust[num13].noGravity = true;
-            Dust expr_F26_cp_0 = Main.dust[num13];
-            expr_F26_cp_0.velocity.X *= 0.3f;
-            Dust expr_F44_cp_0 = Main.dust[num13];
-            expr_F44_cp_0.velocity.Y *= 0.3f;
+            Dust dust = Main.dust[num13];
+            dust.noGravity = true;
+            dust.velocity.X *= 0.3f;
+            dust.velocity.Y *= 0.3f;
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
@@ -171,13 +165,13 @@ namespace CalamityMod.NPCs.NormalNPCs
         {
             for (int k = 0; k < 5; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, 46, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.Plague, hitDirection, -1f, 0, default, 1f);
             }
             if (npc.life <= 0)
             {
                 for (int k = 0; k < 20; k++)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, 46, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.Plague, hitDirection, -1f, 0, default, 1f);
                 }
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Viruling"), 1f);
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Viruling2"), 1f);
@@ -187,7 +181,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void NPCLoot()
         {
-            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<PlagueCellCluster>(), Main.rand.Next(1, 3));
+			DropHelper.DropItem(npc, ModContent.ItemType<PlagueCellCluster>(), 1, 2);
         }
     }
 }

@@ -1,14 +1,15 @@
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Dusts;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    public class IrradiatedAura : ModProjectile
+	public class IrradiatedAura : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Irradiated Aura");

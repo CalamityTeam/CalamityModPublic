@@ -20,6 +20,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             item.width = 60;
             item.height = 64;
+			item.scale = 1.5f;
             item.damage = 53;
             item.melee = true;
             item.useAnimation = 22;
@@ -30,8 +31,8 @@ namespace CalamityMod.Items.Weapons.Melee
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             item.value = Item.buyPrice(0, 36, 0, 0);
-            item.rare = 5;
-            item.shootSpeed = 6f;
+            item.rare = ItemRarityID.Pink;
+            item.shootSpeed = 8f;
         }
 
         public override bool AltFunctionUse(Player player)
@@ -46,21 +47,20 @@ namespace CalamityMod.Items.Weapons.Melee
                 item.noMelee = true;
                 item.noUseGraphic = true;
                 item.useStyle = ItemUseStyleID.HoldingOut;
-                item.autoReuse = false;
                 item.shoot = ModContent.ProjectileType<FulgurationHalberdProj>();
-            }
+				return player.ownedProjectileCounts[item.shoot] <= 0;
+			}
             else
             {
                 item.noMelee = false;
                 item.noUseGraphic = false;
                 item.useStyle = ItemUseStyleID.SwingThrow;
-                item.autoReuse = true;
                 item.shoot = ProjectileID.None;
-            }
-            return base.CanUseItem(player);
+				return base.CanUseItem(player);
+			}
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<FulgurationHalberdProj>(), damage, knockBack, player.whoAmI, 0f, 0f);
             return false;

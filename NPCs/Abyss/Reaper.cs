@@ -3,6 +3,7 @@ using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
 using CalamityMod.Items.Placeables.Banners;
+using CalamityMod.Items.Potions;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.World;
@@ -29,7 +30,8 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void SetDefaults()
         {
-            npc.npcSlots = 6f;
+			npc.Calamity().canBreakPlayerDefense = true;
+			npc.npcSlots = 6f;
             npc.noGravity = true;
             npc.lavaImmune = true;
             npc.damage = 160;
@@ -39,12 +41,6 @@ namespace CalamityMod.NPCs.Abyss
             npc.lifeMax = 190000;
             npc.aiStyle = -1;
             aiType = -1;
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
-            npc.buffImmune[BuffID.Ichor] = false;
-            npc.buffImmune[BuffID.CursedInferno] = false;
             npc.timeLeft = NPC.activeTime * 30;
             npc.value = Item.buyPrice(0, 25, 0, 0);
             npc.HitSound = SoundID.NPCHit56;
@@ -77,9 +73,9 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void AI()
         {
-            bool phase1 = (double)npc.life > (double)npc.lifeMax * 0.5;
-            bool phase2 = (double)npc.life <= (double)npc.lifeMax * 0.5;
-            bool phase3 = (double)npc.life <= (double)npc.lifeMax * 0.1;
+            bool phase1 = npc.life > npc.lifeMax * 0.5;
+            bool phase2 = npc.life <= npc.lifeMax * 0.5;
+            bool phase3 = npc.life <= npc.lifeMax * 0.1;
             npc.chaseable = hasBeenHit;
             if (npc.soundDelay <= 0)
             {
@@ -108,41 +104,33 @@ namespace CalamityMod.NPCs.Abyss
                     reset2 = true;
                     npc.netUpdate = true;
                 }
+
                 npc.spriteDirection = (npc.direction > 0) ? -1 : 1;
-                int num = 200;
                 if (npc.ai[2] == 0f)
                 {
-                    npc.localAI[0] += 1f;
-                    npc.alpha = num;
                     npc.TargetClosest(true);
-                    if (!Main.player[npc.target].dead && (Main.player[npc.target].Center - npc.Center).Length() < 170f)
+                    if (!Main.player[npc.target].dead && (Main.player[npc.target].Center - npc.Center).Length() < 170f && Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
                     {
                         npc.ai[2] = -16f;
                     }
-                    if (npc.velocity.X != 0f || npc.velocity.Y < 0f || npc.velocity.Y > 2f || npc.justHit || npc.localAI[0] >= 420f)
+                    if (npc.justHit || npc.localAI[0] >= 420f)
                     {
                         npc.ai[2] = -16f;
                     }
                     return;
                 }
+
                 if (npc.ai[2] < 0f)
                 {
-                    if (npc.alpha > 0)
-                    {
-                        npc.alpha -= num / 16;
-                        if (npc.alpha < 0)
-                        {
-                            npc.alpha = 0;
-                        }
-                    }
                     npc.ai[2] += 1f;
                     if (npc.ai[2] == 0f)
                     {
                         npc.ai[2] = 1f;
-                        npc.velocity.X = (float)(npc.direction * 2);
+						npc.velocity.X = npc.direction * 2;
                     }
                     return;
                 }
+
                 if (npc.ai[2] == 1f)
                 {
                     if (npc.direction == 0)
@@ -643,11 +631,6 @@ namespace CalamityMod.NPCs.Abyss
             player.AddBuff(BuffID.Bleeding, 300, true);
             player.AddBuff(BuffID.Rabies, 300, true);
             player.AddBuff(ModContent.BuffType<CrushDepth>(), 300, true);
-            if (CalamityWorld.revenge)
-            {
-                player.AddBuff(ModContent.BuffType<MarkedforDeath>(), 120);
-                player.AddBuff(ModContent.BuffType<Horror>(), 120, true);
-            }
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
@@ -666,16 +649,16 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void NPCLoot()
         {
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<HalibutCannon>(), CalamityWorld.revenge, 10000, 1, 1);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<HalibutCannon>(), CalamityWorld.revenge, HalibutCannon.DropChance * 100f);
             DropHelper.DropItem(npc, ModContent.ItemType<Voidstone>(), 40, 50);
-            DropHelper.DropItem(npc, ModContent.ItemType<CloakingGland>(), 2, 3);
+            DropHelper.DropItem(npc, ModContent.ItemType<AnechoicCoating>(), 2, 3);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<DepthCells>(), CalamityWorld.downedCalamitas, 2, 10, 17);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<DepthCells>(), CalamityWorld.downedCalamitas && Main.expertMode, 2, 4, 5);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<ReaperTooth>(), CalamityWorld.downedPolterghast, 1f, 3, 4);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<DeepSeaDumbbell>(), CalamityWorld.downedPolterghast, 3, 1, 1);
 			if (CalamityWorld.downedPolterghast)
 			{
-				DropHelper.DropItemRIV(npc, ModContent.ItemType<Valediction>(), ModContent.ItemType<TheReaper>(), 0.3333f, 0.01f);
+				DropHelper.DropItemChance(npc, ModContent.ItemType<Valediction>(), 3);
 			}
         }
 
@@ -683,13 +666,13 @@ namespace CalamityMod.NPCs.Abyss
         {
             for (int k = 0; k < 5; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
             }
             if (npc.life <= 0)
             {
                 for (int k = 0; k < 40; k++)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
                 }
             }
         }

@@ -32,7 +32,7 @@ Stealth strikes release energy as they fly");
             item.autoReuse = true;
             item.height = 36;
             item.value = Item.buyPrice(platinum: 2, gold: 50);
-            item.rare = 10;
+            item.rare = ItemRarityID.Red;
             item.shoot = ModContent.ProjectileType<SupernovaBomb>();
             item.shootSpeed = 16f;
             item.Calamity().rogue = true;
@@ -43,8 +43,9 @@ Stealth strikes release energy as they fly");
         {
             if (player.Calamity().StealthStrikeAvailable()) //setting the stealth strike
             {
-                int stealth = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI, 0f, 0f);
-                Main.projectile[stealth].Calamity().stealthStrike = true;
+                int stealth = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
+				if (stealth.WithinBounds(Main.maxProjectiles))
+					Main.projectile[stealth].Calamity().stealthStrike = true;
                 return false;
             }
             return true;

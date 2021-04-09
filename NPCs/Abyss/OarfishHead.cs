@@ -14,6 +14,7 @@ namespace CalamityMod.NPCs.Abyss
 {
     public class OarfishHead : ModNPC
     {
+		private Vector2 patrolSpot = Vector2.Zero;
 		public bool detectsPlayer = false;
 		public const int minLength = 40;
         public const int maxLength = 41;
@@ -35,10 +36,6 @@ namespace CalamityMod.NPCs.Abyss
             npc.lifeMax = 4000;
             npc.aiStyle = -1;
             aiType = -1;
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
             npc.knockBackResist = 0f;
             npc.value = Item.buyPrice(0, 0, 10, 0);
             npc.behindTiles = true;
@@ -53,12 +50,14 @@ namespace CalamityMod.NPCs.Abyss
 
 		public override void SendExtraAI(BinaryWriter writer)
 		{
+			writer.WriteVector2(patrolSpot);
 			writer.Write(detectsPlayer);
 			writer.Write(npc.chaseable);
 		}
 
 		public override void ReceiveExtraAI(BinaryReader reader)
 		{
+			patrolSpot = reader.ReadVector2();
 			detectsPlayer = reader.ReadBoolean();
 			npc.chaseable = reader.ReadBoolean();
 		}
@@ -127,23 +126,29 @@ namespace CalamityMod.NPCs.Abyss
             {
                 npc.active = false;
             }
+
             float num188 = speed;
             float num189 = turnSpeed;
             Vector2 vector18 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
-            float num191 = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2);
-            float num192 = Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2);
-            if (!detectsPlayer)
+
+			if (patrolSpot == Vector2.Zero)
+				patrolSpot = Main.player[npc.target].Center;
+
+			float num191 = detectsPlayer ? Main.player[npc.target].Center.X : patrolSpot.X;
+			float num192 = detectsPlayer ? Main.player[npc.target].Center.Y : patrolSpot.Y;
+
+			if (!detectsPlayer)
             {
-                num192 += 300;
-				if (Math.Abs(npc.Center.X - Main.player[npc.target].Center.X) < 250f)
+				num192 += 300;
+				if (Math.Abs(npc.Center.X - num191) < 250f) //500
 				{
 					if (npc.velocity.X > 0f)
 					{
-						num191 = Main.player[npc.target].Center.X + 300f;
+						num191 += 300f;
 					}
 					else
 					{
-						num191 = Main.player[npc.target].Center.X - 300f;
+						num191 -= 300f;
 					}
 				}
             }
@@ -301,34 +306,22 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void NPCLoot()
         {
-            if (Main.rand.NextBool(1000000) && CalamityWorld.revenge)
-            {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<HalibutCannon>());
-            }
-            if (CalamityWorld.downedCalamitas)
-            {
-                if (Main.rand.NextBool(2))
-                {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<DepthCells>(), Main.rand.Next(3, 6));
-                }
-                if (Main.expertMode && Main.rand.NextBool(2))
-                {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<DepthCells>(), Main.rand.Next(1, 3));
-                }
-            }
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<HalibutCannon>(), CalamityWorld.revenge, HalibutCannon.DropChance);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<DepthCells>(), CalamityWorld.downedCalamitas, 0.5f, 3, 5);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<DepthCells>(), CalamityWorld.downedCalamitas && Main.expertMode, 0.5f, 1, 2);
         }
 
         public override void HitEffect(int hitDirection, double damage)
         {
             for (int k = 0; k < 3; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
             }
             if (npc.life <= 0)
             {
                 for (int k = 0; k < 10; k++)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
                 }
             }
         }
@@ -357,11 +350,6 @@ namespace CalamityMod.NPCs.Abyss
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
             player.AddBuff(BuffID.Bleeding, 180, true);
-            if (CalamityWorld.revenge)
-            {
-                player.AddBuff(ModContent.BuffType<MarkedforDeath>(), 90);
-                player.AddBuff(ModContent.BuffType<Horror>(), 90, true);
-            }
         }
     }
 }

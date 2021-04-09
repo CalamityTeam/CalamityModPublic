@@ -63,7 +63,7 @@ namespace CalamityMod.Projectiles.Summon
             if (Main.rand.NextBool(15))
             {
                 int num = 0;
-                for (int i = 0; i < Main.projectile.Length; i++)
+                for (int i = 0; i < Main.maxProjectiles; i++)
                 {
                     if (Main.projectile[i].active && Main.projectile[i].owner == Main.myPlayer && Main.projectile[i].type == ModContent.ProjectileType<Dreadmine>())
                     {
@@ -108,7 +108,7 @@ namespace CalamityMod.Projectiles.Summon
                                 }
                                 if (flag)
                                 {
-                                    for (int k = 0; k < 1000; k++)
+                                    for (int k = 0; k < Main.maxProjectiles; k++)
                                     {
                                         if (Main.projectile[k].active && Main.projectile[k].owner == Main.myPlayer &&
                                             Main.projectile[k].type == ModContent.ProjectileType<Dreadmine>() && (center - Main.projectile[k].Center).Length() < 48f)

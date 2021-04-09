@@ -3,10 +3,13 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.Projectiles.Rogue
 {
     public class ExorcismProj : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/Exorcism";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Exorcism");
@@ -94,7 +97,7 @@ namespace CalamityMod.Projectiles.Rogue
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
             Collision.HitTiles(projectile.position + projectile.velocity, projectile.velocity, projectile.width, projectile.height);
-            Main.PlaySound(SoundID.Dig, projectile.position);
+            Main.PlaySound(SoundID.Dig, projectile.Center);
             projectile.Kill();
             return true;
         }
@@ -102,7 +105,7 @@ namespace CalamityMod.Projectiles.Rogue
         public override void Kill(int timeLeft)
         {
             //Crystal smash sound
-            Main.PlaySound(SoundID.Item27, projectile.position);
+            Main.PlaySound(SoundID.Item27, projectile.Center);
             // Light burst
             int p = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<ExorcismShockwave>(), (int)(projectile.damage * 0.8f), 0, projectile.owner, projectile.ai[0] - 1f, 0);
             Main.projectile[p].rotation = projectile.rotation;

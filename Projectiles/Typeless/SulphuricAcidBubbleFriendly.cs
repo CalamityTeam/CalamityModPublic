@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.Typeless
 {
     public class SulphuricAcidBubbleFriendly : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Enemy/SulphuricAcidBubble";
+
         private bool fromArmour = false;
         public override void SetStaticDefaults()
         {

@@ -1,4 +1,3 @@
-using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Dusts;
 using CalamityMod.Projectiles.Enemy;
 using CalamityMod.Items.Materials;
@@ -13,7 +12,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.SulphurousSea
 {
-    public class BelchingCoral : ModNPC
+	public class BelchingCoral : ModNPC
     {
         public const float CheckDistance = 480f;
         public override void SetStaticDefaults()
@@ -30,10 +29,6 @@ namespace CalamityMod.NPCs.SulphurousSea
             npc.defense = 25;
             npc.lifeMax = 1000;
             npc.aiStyle = aiType = -1;
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
             npc.value = Item.buyPrice(0, 0, 3, 50);
             npc.HitSound = SoundID.NPCHit42;
             npc.DeathSound = SoundID.NPCDeath5;

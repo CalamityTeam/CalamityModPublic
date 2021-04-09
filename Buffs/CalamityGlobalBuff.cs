@@ -1,8 +1,4 @@
-using CalamityMod.Buffs.StatBuffs;
 using CalamityMod.Buffs.StatDebuffs;
-using CalamityMod.Buffs.Summon;
-using CalamityMod.CalPlayer;
-using CalamityMod.Projectiles.Summon;
 using CalamityMod.World;
 using Terraria;
 using Terraria.ID;
@@ -10,11 +6,24 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Buffs
 {
-    public class CalamityGlobalBuff : GlobalBuff
+	public class CalamityGlobalBuff : GlobalBuff
     {
         public override void Update(int type, Player player, ref int buffIndex)
         {
-            if (type == BuffID.Shine)
+			/*if (type == BuffID.HornetMinion || type == BuffID.ImpMinion || type == BuffID.SpiderMinion || type == BuffID.TwinEyesMinion ||
+				type == BuffID.PirateMinion || type == BuffID.SharknadoMinion || type == BuffID.UFOMinion || type == BuffID.StardustMinion ||
+				type == BuffID.StardustGuardianMinion || type == BuffID.StardustDragonMinion)
+				Main.persistentBuff[type] = true;*/
+
+			if (type == BuffID.SugarRush)
+			{
+				player.moveSpeed -= 0.1f;
+			}
+			else if (type == BuffID.Swiftness)
+			{
+				player.moveSpeed -= 0.1f;
+			}
+			else if (type == BuffID.Shine)
             {
                 player.Calamity().shine = true;
             }
@@ -28,12 +37,12 @@ namespace CalamityMod.Buffs
             }
             else if (type >= BuffID.NebulaUpDmg1 && type <= BuffID.NebulaUpDmg3)
             {
-                float nebulaDamage = 0.075f * (float)player.nebulaLevelDamage; //7.5% to 22.5%
+                float nebulaDamage = 0.075f * player.nebulaLevelDamage; // 15% to 45% changed to 7.5% to 22.5%
                 player.allDamage -= nebulaDamage;
             }
             else if (type >= BuffID.NebulaUpLife1 && type <= BuffID.NebulaUpLife3)
             {
-                player.lifeRegen -= 5 * player.nebulaLevelLife; //10 to 30 changed to 5 to 15
+                player.lifeRegen -= 5 * player.nebulaLevelLife; // 10 to 30 changed to 5 to 15
             }
             else if (type == BuffID.Warmth)
             {
@@ -75,6 +84,14 @@ namespace CalamityMod.Buffs
 			//Vanilla buffs
             switch (type)
             {
+				case BuffID.Swiftness:
+					tip = "15% increased movement speed";
+					break;
+
+				case BuffID.SugarRush:
+					tip = "10% increased movement speed and 20% increased mining speed";
+					break;
+
                 case BuffID.NebulaUpDmg1:
                     tip = "7.5% increased damage";
                     break;
@@ -85,6 +102,18 @@ namespace CalamityMod.Buffs
 
                 case BuffID.NebulaUpDmg3:
                     tip = "22.5% increased damage";
+                    break;
+
+                case BuffID.BeetleEndurance1:
+                    tip = "Damage taken reduced by 10%";
+                    break;
+
+                case BuffID.BeetleEndurance2:
+                    tip = "Damage taken reduced by 20%";
+                    break;
+
+                case BuffID.BeetleEndurance3:
+                    tip = "Damage taken reduced by 30%";
                     break;
 
                 case BuffID.WeaponImbueVenom:
@@ -109,15 +138,8 @@ namespace CalamityMod.Buffs
                     tip = "Rod of Discord teleports are disabled";
                     break;
 
-                case BuffID.Ichor:
-                    tip = "Defense reduced by 20";
-					if (CalamityWorld.revenge)
-						tip += ". All damage taken increased by 25%";
-                    break;
-
                 case BuffID.CursedInferno:
-					if (CalamityWorld.revenge)
-						tip += ". All damage taken increased by 20%";
+					tip += ". All damage taken increased by 20%";
                     break;
 
                 case BuffID.Warmth:

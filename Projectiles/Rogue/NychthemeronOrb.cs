@@ -63,13 +63,15 @@ namespace CalamityMod.Projectiles.Rogue
             }
             else if (projectile.localAI[0] == 1f)
             {
+				if (projectile.timeLeft > 240 && projectile.Calamity().lineColor == 1)
+					projectile.timeLeft = 240;
                 // Follow Enemy
                 float minDist = 999f;
                 int index = 0;
                 for (int i = 0; i < Main.npc.Length; i++)
                 {
                     NPC npc = Main.npc[i];
-                    if (!npc.friendly && !npc.townNPC && npc.active && !npc.dontTakeDamage && npc.chaseable)
+                    if (npc.CanBeChasedBy(projectile, false))
                     {
                         float dist = (projectile.Center - npc.Center).Length();
                         if (dist < minDist)
@@ -112,11 +114,6 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 spriteBatch.Draw(texDark, projectile.Center - Main.screenPosition, null, projectile.GetAlpha(lightColor), projectile.rotation, texDark.Size() / 2f, projectile.scale, SpriteEffects.None, 0f);
             }
-            return false;
-        }
-
-        public override bool OnTileCollide(Vector2 oldVelocity)
-        {
             return false;
         }
     }

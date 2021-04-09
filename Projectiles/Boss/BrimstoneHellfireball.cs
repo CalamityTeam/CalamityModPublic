@@ -19,7 +19,8 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetDefaults()
         {
-            projectile.width = 34;
+			projectile.Calamity().canBreakPlayerDefense = true;
+			projectile.width = 34;
             projectile.height = 34;
             projectile.hostile = true;
             projectile.ignoreWater = true;
@@ -108,7 +109,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 600);
+            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 240);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

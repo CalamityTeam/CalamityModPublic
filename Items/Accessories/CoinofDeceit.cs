@@ -1,3 +1,4 @@
+using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -9,21 +10,23 @@ namespace CalamityMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Coin of Deceit");
-            Tooltip.SetDefault("6% increased rogue crit chance");
+            Tooltip.SetDefault("Stealth strikes only expend 75% of your max stealth\n" +
+			"6% increased rogue crit chance");
         }
 
         public override void SetDefaults()
         {
             item.width = 20;
             item.height = 22;
-            item.value = Item.buyPrice(0, 2, 0, 0);
+            item.value = CalamityGlobalItem.Rarity1BuyPrice;
             item.accessory = true;
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             player.Calamity().throwingCrit += 6;
+            player.Calamity().stealthStrike75Cost = true;
         }
 
         public override void AddRecipes()
@@ -31,6 +34,8 @@ namespace CalamityMod.Items.Accessories
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddRecipeGroup("AnyGoldBar", 4);
             recipe.AddRecipeGroup("AnyCopperBar", 8);
+			// So you make fake coins out of wood, nobody will judge you
+            recipe.AddIngredient(ModContent.ItemType<Acidwood>(), 5);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();

@@ -23,11 +23,11 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.knockBack = 2.25f;
             item.value = Item.buyPrice(0, 2, 0, 0);
-            item.rare = 2;
+            item.rare = ItemRarityID.Green;
             item.UseSound = SoundID.Item41;
             item.autoReuse = true;
             item.shootSpeed = 22f;
-            item.useAmmo = 97;
+            item.useAmmo = AmmoID.Bullet;
             item.shoot = ProjectileID.PurificationPowder;
         }
 

@@ -2,11 +2,10 @@ using Terraria;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class HoneycombFragment : ModProjectile
+	public class HoneycombFragment : ModProjectile
     {
         public override void SetStaticDefaults()
         {

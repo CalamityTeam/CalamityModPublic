@@ -7,6 +7,8 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class IceSentryShard : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Boss/IceRain";
+
         public override void SetDefaults()
         {
             projectile.width = 12;
@@ -22,22 +24,11 @@ namespace CalamityMod.Projectiles.Summon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Frost Shard");
-            Main.projFrames[projectile.type] = 5;
 			ProjectileID.Sets.SentryShot[projectile.type] = true;
         }
 
         public override void AI()
         {
-            projectile.frameCounter++;
-            if (projectile.frameCounter > 4)
-            {
-                projectile.frameCounter = 0;
-                projectile.frame++;
-            }
-
-            if (projectile.frame >= 5)
-                projectile.frame = 0;
-
             projectile.velocity.Y += 0.2f;
             if (projectile.localAI[0] == 0f || projectile.localAI[0] == 2f)
             {

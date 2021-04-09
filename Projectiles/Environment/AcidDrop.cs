@@ -5,12 +5,10 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
-using CalamityMod.Items.SummonItems.Invasion;
-using CalamityMod.World;
 
 namespace CalamityMod.Projectiles.Environment
 {
-    public class AcidDrop : ModProjectile
+	public class AcidDrop : ModProjectile
     {
         public override void SetStaticDefaults()
         {

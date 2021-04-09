@@ -57,6 +57,9 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
 
         public override void AI()
         {
+			if ((projectile.position - Main.player[projectile.owner].position).Length() > 3200f) //200 blocks
+				projectile.Kill();
+
             // Only do stuff once per frame, despite the yoyo's extra updates.
             extraUpdateCounter = (extraUpdateCounter + 1) % UpdatesPerFrame;
             if (extraUpdateCounter != UpdatesPerFrame - 1)
@@ -117,10 +120,6 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            // The yoyo does nothing versus normal dummies
-            if (target.type == NPCID.TargetDummy)
-                return;
-
             // Charge up the red lightning aura with every hit
             projectile.localAI[1] += ChargePerHit;
 
@@ -218,8 +217,11 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
                     if (projectile.owner == Main.myPlayer)
                     {
                         Projectile p = Projectile.NewProjectileDirect(target.Center, Vector2.Zero, ModContent.ProjectileType<DirectStrike>(), finalDamage, 0f, projectile.owner, i);
-                        p.melee = true;
-                        p.Calamity().forceMelee = true;
+						if (p.whoAmI.WithinBounds(Main.maxProjectiles))
+						{
+							p.melee = true;
+							p.Calamity().forceMelee = true;
+						}
                     }
                 }
             }

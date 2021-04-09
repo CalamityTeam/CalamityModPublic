@@ -12,27 +12,20 @@ namespace CalamityMod.Items.LoreItems
         {
             DisplayName.SetDefault("The Crimson");
             Tooltip.SetDefault("This bloody hell, spawned from a formless mass of flesh that fell from the stars eons ago.\n" +
-                "It is now home to many hideous creatures, spawned from the pumping blood and lurching organs deep within.\n" +
-                "Place in your inventory to prevent perforator cysts from spawning.");
+                "It is now home to many hideous creatures, spawned from the pumping blood and lurching organs deep within.");
         }
 
         public override void SetDefaults()
         {
             item.width = 20;
             item.height = 20;
-            item.rare = 2;
+            item.rare = ItemRarityID.Green;
             item.consumable = false;
         }
 
         public override bool CanUseItem(Player player)
         {
             return false;
-        }
-
-        public override void UpdateInventory(Player player)
-        {
-            CalamityPlayer modPlayer = player.Calamity();
-            modPlayer.crimsonLore = true;
         }
 
         public override void AddRecipes()

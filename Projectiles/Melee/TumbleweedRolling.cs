@@ -6,6 +6,8 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class TumbleweedRolling : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Melee/TumbleweedFlail";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Tumbleweed");

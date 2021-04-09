@@ -30,48 +30,44 @@ namespace CalamityMod.Projectiles.Magic
         public override void AI()
         {
             if (projectile.velocity.Length() > 4f)
-            {
                 projectile.velocity *= 0.985f;
-            }
+
             if (projectile.localAI[0] == 0f)
             {
                 projectile.scale += 0.02f;
                 if (projectile.scale >= 1.25f)
-                {
                     projectile.localAI[0] = 1f;
-                }
             }
             else if (projectile.localAI[0] == 1f)
             {
                 projectile.scale -= 0.02f;
                 if (projectile.scale <= 0.75f)
-                {
                     projectile.localAI[0] = 0f;
-                }
             }
+
             if (projectile.ai[1] == 0f)
             {
                 projectile.ai[1] = 1f;
                 Main.harpNote = projectile.ai[0];
                 Main.PlaySound(SoundID.Item26, projectile.position);
             }
-            Lighting.AddLight(projectile.Center, 0f, 1.2f, 0f);
+
+            Lighting.AddLight(projectile.Center, 0f, 0f, 1.2f);
+
             if (projectile.velocity.X > 0f)
-                projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X);
+                projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X);
             else
-                projectile.rotation = (float)Math.Atan2((double)-(double)projectile.velocity.Y, (double)-(double)projectile.velocity.X);
+                projectile.rotation = (float)Math.Atan2(-projectile.velocity.Y, -projectile.velocity.X);
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
             if (projectile.velocity.X != oldVelocity.X)
-            {
                 projectile.velocity.X = -oldVelocity.X;
-            }
+
             if (projectile.velocity.Y != oldVelocity.Y)
-            {
                 projectile.velocity.Y = -oldVelocity.Y;
-            }
+
             return false;
         }
 
@@ -80,8 +76,8 @@ namespace CalamityMod.Projectiles.Magic
             if (projectile.timeLeft < 85)
             {
                 byte b2 = (byte)(projectile.timeLeft * 3);
-                byte a2 = (byte)(50f * ((float)b2 / 255f));
-                return new Color((int)b2, (int)b2, (int)b2, (int)a2);
+                byte a2 = (byte)(50f * (b2 / 255f));
+                return new Color(b2, b2, b2, a2);
             }
             return new Color(255, 255, 255, 50);
         }

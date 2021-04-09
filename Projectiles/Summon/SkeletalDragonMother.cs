@@ -1,14 +1,12 @@
 using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Summon
 {
-    public class SkeletalDragonMother : ModProjectile
+	public class SkeletalDragonMother : ModProjectile
     {
         public const float DistanceToCheck = 1100f;
         public override void SetStaticDefaults()
@@ -76,6 +74,7 @@ namespace CalamityMod.Projectiles.Summon
 
             if (target != null)
             {
+				projectile.extraUpdates = 1;
                 projectile.ai[0]++;
 
                 // Arc towards enemy every 60 frames for 30 frames.
@@ -84,7 +83,7 @@ namespace CalamityMod.Projectiles.Summon
                     (modulo >= 90 && modulo < 120f))
                 {
                     if (projectile.velocity.Length() == 0f)
-                        projectile.velocity = projectile.DirectionTo(target.Center).RotatedByRandom(0.5f) * -7f;
+                        projectile.velocity = projectile.DirectionTo(target.Center).RotatedByRandom(0.5f) * -8f;
                     float angleToTarget = projectile.AngleTo(target.Center);
                     float velocityAngle = projectile.velocity.ToRotation();
                     float resultantAngle = velocityAngle.AngleLerp(angleToTarget, 0.08f);
@@ -94,7 +93,7 @@ namespace CalamityMod.Projectiles.Summon
                     }
                     else
                     {
-                        projectile.velocity = (projectile.velocity * 44f + projectile.DirectionTo(player.Center) * 13f) / 45f;
+                        projectile.velocity = (projectile.velocity * 44f + projectile.DirectionTo(player.Center) * 24f) / 45f;
                         projectile.ai[0] += 30 - projectile.ai[0] % 30f;
                     }
                     projectile.ai[1] = 1f;
@@ -113,8 +112,9 @@ namespace CalamityMod.Projectiles.Summon
             }
             else if (projectile.Distance(player.Center) > 175f)
             {
+				projectile.extraUpdates = 0;
                 projectile.ai[1] = 0f;
-                projectile.velocity = (projectile.velocity * 24f + projectile.DirectionTo(player.Center) * 13f) / 25f;
+                projectile.velocity = (projectile.velocity * 24f + projectile.DirectionTo(player.Center) * 16f) / 25f;
                 if (projectile.Distance(player.Center) > 3250f)
                 {
                     projectile.Center = player.Center;

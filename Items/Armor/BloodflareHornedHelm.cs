@@ -1,5 +1,7 @@
 using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
+using CalamityMod.World;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -13,8 +15,7 @@ namespace CalamityMod.Items.Armor
         {
             DisplayName.SetDefault("Bloodflare Horned Helm");
             Tooltip.SetDefault("You can move freely through liquids and have temporary immunity to lava\n" +
-                "10% increased ranged damage and critical strike chance\n" +
-				"Provides heat protection in Death Mode");
+                "10% increased ranged damage and critical strike chance");
         }
 
         public override void SetDefaults()
@@ -24,6 +25,21 @@ namespace CalamityMod.Items.Armor
             item.value = Item.buyPrice(0, 60, 0, 0);
             item.defense = 34; //85
             item.Calamity().customRarity = CalamityRarity.PureGreen;
+        }
+
+        public override void ModifyTooltips(List<TooltipLine> list)
+        {
+			if (CalamityWorld.death)
+			{
+				foreach (TooltipLine line2 in list)
+				{
+					if (line2.mod == "Terraria" && line2.Name == "Tooltip1")
+					{
+						line2.text = "10% increased ranged damage and critical strike chance\n" +
+						"Provides heat protection in Death Mode";
+					}
+				}
+			}
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
@@ -48,8 +64,13 @@ namespace CalamityMod.Items.Armor
                 "Enemies killed during a Blood Moon have a much higher chance to drop Blood Orbs\n" +
                 "Press " + hotkey + " to unleash the lost souls of polterghast to destroy your enemies\n" +
                 "This effect has a 30 second cooldown\n" +
-                "Ranged weapons have a chance to fire bloodsplosion orbs";
+                "Ranged weapons fire bloodsplosion orbs every 2.5 seconds";
             player.crimsonRegen = true;
+
+			if (modPlayer.bloodflareSoulTimer == 1) //sound when ready to use again
+			{
+				Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/BloodflareRangerRecharge"), player.Center);
+			}
         }
 
         public override void UpdateEquip(Player player)

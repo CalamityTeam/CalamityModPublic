@@ -11,19 +11,19 @@ namespace CalamityMod.NPCs.NormalNPCs
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Sun Bat");
-            Main.npcFrameCount[npc.type] = 6;
+            Main.npcFrameCount[npc.type] = 7;
         }
 
         public override void SetDefaults()
         {
             npc.lavaImmune = true;
             npc.aiStyle = 14;
-            aiType = 151;
+            aiType = NPCID.Lavabat;
             npc.damage = 35;
             npc.width = 26;
             npc.height = 20;
             npc.defense = 10;
-            npc.lifeMax = 120;
+            npc.lifeMax = 200;
             npc.knockBackResist = 0.65f;
             npc.value = Item.buyPrice(0, 0, 5, 0);
             npc.HitSound = SoundID.NPCHit1;
@@ -78,10 +78,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void NPCLoot()
         {
-            if (Main.rand.NextBool(3))
-            {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<EssenceofCinder>());
-            }
+			DropHelper.DropItemChance(npc, ModContent.ItemType<EssenceofCinder>(), 3);
         }
     }
 }

@@ -1,19 +1,19 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
-using CalamityMod.Items.Weapons.Melee;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using Terraria;
 using Terraria.Enums;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Melee
 {
-    public class PrismaticBeam : ModProjectile
+	public class PrismaticBeam : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Magic/YharimsCrystalBeam";
+
 		public Color[] colors = new Color[]
 		{
 			new Color(255, 0, 0, 50), //Red
@@ -167,7 +167,7 @@ namespace CalamityMod.Projectiles.Melee
 			//Play cool sound when fully charged
 			if (playedSound == false)
 			{
-				Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 68);
+				Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 68);
 				playedSound = true;
 			}
 

@@ -1,17 +1,14 @@
+using CalamityMod.Events;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.ModLoader.Config;
-using CalamityMod;
 
 namespace CalamityMod.NPCs.StormWeaver
 {
-    public class StormWeaverBody : ModNPC
+	public class StormWeaverBody : ModNPC
     {
-        private int spawn = 0;
-
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Storm Weaver");
@@ -19,17 +16,17 @@ namespace CalamityMod.NPCs.StormWeaver
 
         public override void SetDefaults()
         {
-            npc.damage = 100;
-            npc.npcSlots = 5f;
+			npc.GetNPCDamage();
+			npc.npcSlots = 5f;
             npc.width = 40;
             npc.height = 40;
             npc.defense = 0;
             CalamityGlobalNPC global = npc.Calamity();
             global.DR = 0.999999f;
             global.unbreakableDR = true;
-			bool notDoGFight = CalamityWorld.DoGSecondStageCountdown <= 0;
-			npc.LifeMaxNERB(notDoGFight ? 100000 : 20000, notDoGFight ? 100000 : 20000, 170000);
-            Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
+			bool notDoGFight = CalamityWorld.DoGSecondStageCountdown <= 0 || !CalamityWorld.downedSentinel2;
+			npc.LifeMaxNERB(notDoGFight ? 65000 : 13000, notDoGFight ? 65000 : 13000, 170000);
+			Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
             if (calamityModMusic != null)
                 music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/ScourgeofTheUniverse");
             else
@@ -41,8 +38,8 @@ namespace CalamityMod.NPCs.StormWeaver
                 else
                     music = MusicID.Boss3;
             }
-            double HPBoost = (double)CalamityMod.CalamityConfig.BossHealthPercentageBoost * 0.01;
-            npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
+            double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
+            npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.aiStyle = -1;
             aiType = -1;
             npc.knockBackResist = 0f;
@@ -56,12 +53,15 @@ namespace CalamityMod.NPCs.StormWeaver
             npc.DeathSound = SoundID.NPCDeath14;
             npc.netAlways = true;
             npc.chaseable = false;
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
             npc.dontCountMe = true;
-        }
+
+			if (CalamityWorld.death || BossRushEvent.BossRushActive)
+				npc.scale = 1.2f;
+			else if (CalamityWorld.revenge)
+				npc.scale = 1.15f;
+			else if (Main.expertMode)
+				npc.scale = 1.1f;
+		}
 
         public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)
         {
@@ -70,7 +70,7 @@ namespace CalamityMod.NPCs.StormWeaver
 
         public override void AI()
         {
-            if (npc.defense < 99999 && CalamityWorld.DoGSecondStageCountdown <= 0)
+            if (npc.defense < 99999 && (CalamityWorld.DoGSecondStageCountdown <= 0 || !CalamityWorld.downedSentinel2))
                 npc.defense = 99999;
             else
                 npc.defense = 0;
@@ -187,7 +187,7 @@ namespace CalamityMod.NPCs.StormWeaver
 
         public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-			if (CalamityMod.projectileDestroyExceptionList.TrueForAll(x => projectile.type != x))
+			if (CalamityLists.projectileDestroyExceptionList.TrueForAll(x => projectile.type != x))
 			{
 				if (projectile.penetrate == -1 && !projectile.minion)
 				{
@@ -233,25 +233,12 @@ namespace CalamityMod.NPCs.StormWeaver
                     Main.dust[num624].velocity *= 2f;
                 }
             }
-            if (NPC.CountNPCS(ModContent.NPCType<StasisProbe>()) < 3)
-            {
-                if (npc.life > 0 && Main.netMode != NetmodeID.MultiplayerClient && spawn == 0 && Main.rand.NextBool(15))
-                {
-                    spawn = 1;
-                    int num660 = NPC.NewNPC((int)(npc.position.X + (float)(npc.width / 2)), (int)(npc.position.Y + (float)npc.height), ModContent.NPCType<StasisProbe>(), 0, 0f, 0f, 0f, 0f, 255);
-                    if (Main.netMode == NetmodeID.Server)
-                    {
-                        NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, num660, 0f, 0f, 0f, 0, 0, 0);
-                    }
-                    npc.netUpdate = true;
-                }
-            }
         }
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
             npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);
-            npc.damage = (int)(npc.damage * 0.85f);
+            npc.damage = (int)(npc.damage * npc.GetExpertDamageMultiplier());
         }
     }
 }

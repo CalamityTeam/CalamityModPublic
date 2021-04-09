@@ -26,67 +26,45 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.penetrate = -1;
             projectile.timeLeft = 600;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 5;
+            projectile.localNPCHitCooldown = 10;
         }
 
         public override void AI()
         {
             projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X);
-            float centerX = projectile.Center.X;
-            float centerY = projectile.Center.Y;
-            float num474 = 2500f;
-            float explode = 200f;
+            Vector2 targetCenter = projectile.Center;
+            float minTargetDistance = 2500f;
             bool homeIn = false;
-            for (int num475 = 0; num475 < 200; num475++)
+            for (int i = 0; i < 200; i++)
             {
-                if (Main.npc[num475].CanBeChasedBy(projectile, false) && Collision.CanHit(projectile.Center, 1, 1, Main.npc[num475].Center, 1, 1))
+                if (Main.npc[i].CanBeChasedBy(projectile, false) && Collision.CanHit(projectile.Center, 1, 1, Main.npc[i].Center, 1, 1))
                 {
-                    float num476 = Main.npc[num475].position.X + (float)(Main.npc[num475].width / 2);
-                    float num477 = Main.npc[num475].position.Y + (float)(Main.npc[num475].height / 2);
-                    float num478 = Math.Abs(projectile.position.X + (float)(projectile.width / 2) - num476) + Math.Abs(projectile.position.Y + (float)(projectile.height / 2) - num477);
-                    if (num478 < explode)
+                    float distanceFromTarget = projectile.Center.ManhattanDistance(Main.npc[i].Center);
+                    if (distanceFromTarget < 200f)
                     {
-                        int numProj = 4;
-                        float rotation = MathHelper.ToRadians(50);
                         if (projectile.owner == Main.myPlayer)
                         {
-                            for (int i = 0; i < numProj + 1; i++)
+                            for (int j = 0; j < 5; j++)
                             {
-                                Vector2 speed = new Vector2((float)Main.rand.Next(-50, 51), (float)Main.rand.Next(-50, 51));
-                                while (speed.X == 0f && speed.Y == 0f)
-                                {
-                                    speed = new Vector2((float)Main.rand.Next(-50, 51), (float)Main.rand.Next(-50, 51));
-                                }
-                                speed.Normalize();
-                                speed *= (float)Main.rand.Next(30, 61) * 0.1f * 2f;
-                                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, speed.X, speed.Y, ModContent.ProjectileType<ThePackMinissile>(), (int)((double)projectile.damage * 0.25), projectile.knockBack, projectile.owner, 0f, 0f);
+                                Vector2 velocity = Main.rand.NextVector2Unit() * Main.rand.NextFloat(6f, 12f);
+                                Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<ThePackMinissile>(), (int)(projectile.damage * 0.25), projectile.knockBack, projectile.owner, 0f, 0f);
                             }
                         }
                         Main.PlaySound(SoundID.Item14, projectile.position);
                         projectile.Kill();
                         return;
                     }
-                    else if (num478 < num474)
+                    else if (distanceFromTarget < minTargetDistance)
                     {
-                        num474 = num478;
-                        centerX = num476;
-                        centerY = num477;
+                        minTargetDistance = distanceFromTarget;
+                        targetCenter = Main.npc[i].Center;
                         homeIn = true;
                     }
                 }
             }
             if (homeIn)
             {
-                float num483 = 30f;
-                Vector2 vector35 = new Vector2(projectile.position.X + (float)projectile.width * 0.5f, projectile.position.Y + (float)projectile.height * 0.5f);
-                float num484 = centerX - vector35.X;
-                float num485 = centerY - vector35.Y;
-                float num486 = (float)Math.Sqrt((double)(num484 * num484 + num485 * num485));
-                num486 = num483 / num486;
-                num484 *= num486;
-                num485 *= num486;
-                projectile.velocity.X = (projectile.velocity.X * 15f + num484) / 16f;
-                projectile.velocity.Y = (projectile.velocity.Y * 15f + num485) / 16f;
+                projectile.velocity = (projectile.velocity * 15f + projectile.DirectionTo(targetCenter) * 30f) / 16f;
                 return;
             }
             projectile.frameCounter++;

@@ -23,8 +23,8 @@ namespace CalamityMod.NPCs.Astral
         public override void SetDefaults()
         {
             npc.damage = 40;
-            npc.width = 44;
-            npc.height = 28;
+            npc.width = 36;
+            npc.height = 31;
             npc.aiStyle = 1;
             npc.defense = 8;
             npc.lifeMax = 200;
@@ -36,7 +36,6 @@ namespace CalamityMod.NPCs.Astral
             animationType = NPCID.BlueSlime;
             banner = npc.type;
             bannerItem = ModContent.ItemType<AstralSlimeBanner>();
-            npc.buffImmune[ModContent.BuffType<AstralInfectionDebuff>()] = true;
             if (CalamityWorld.downedAstrageldon)
             {
                 npc.damage = 65;
@@ -62,7 +61,7 @@ namespace CalamityMod.NPCs.Astral
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.player.PillarZone())
+            if (CalamityGlobalNPC.AnyEvents(spawnInfo.player))
             {
                 return 0f;
             }
@@ -84,8 +83,7 @@ namespace CalamityMod.NPCs.Astral
             int oreMin = Main.expertMode ? 11 : 8;
             int oreMax = Main.expertMode ? 16 : 12;
             DropHelper.DropItemCondition(npc, ModContent.ItemType<AstralOre>(), CalamityWorld.downedStarGod, oreMin, oreMax);
-			float slimeStaffDrop = (CalamityWorld.defiled ? DropHelper.DefiledDropRateFloat : 0.03f);
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<AbandonedSlimeStaff>(), CalamityWorld.downedAstrageldon, slimeStaffDrop, 1, 1);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<AbandonedSlimeStaff>(), CalamityWorld.downedAstrageldon, 0.05f, 1, 1);
         }
     }
 }

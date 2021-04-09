@@ -11,7 +11,8 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Effluvium Bow");
-            Tooltip.SetDefault("Fires two mist arrows at once");
+            Tooltip.SetDefault("Fires two arrows at once\n" +
+				"Converts wooden arrows into mist arrows");
         }
 
         public override void SetDefaults()
@@ -26,22 +27,29 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.noMelee = true;
             item.knockBack = 4f;
             item.value = Item.buyPrice(0, 36, 0, 0);
-            item.rare = 5;
+            item.rare = ItemRarityID.Pink;
             item.UseSound = SoundID.Item5;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<MistArrow>();
             item.shootSpeed = 12f;
-            item.useAmmo = 40;
+            item.useAmmo = AmmoID.Arrow;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             for (int index = 0; index < 2; ++index)
             {
-                float SpeedX = speedX + (float)Main.rand.Next(-30, 31) * 0.05f;
-                float SpeedY = speedY + (float)Main.rand.Next(-30, 31) * 0.05f;
-                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<MistArrow>(), damage, knockBack, player.whoAmI, 0f, 0f);
-            }
+                float SpeedX = speedX + Main.rand.Next(-30, 31) * 0.05f;
+                float SpeedY = speedY + Main.rand.Next(-30, 31) * 0.05f;
+
+				if (type == ProjectileID.WoodenArrowFriendly)
+					Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<MistArrow>(), damage, knockBack, player.whoAmI);
+				else
+				{
+					int proj = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI);
+					Main.projectile[proj].noDropItem = true;
+				}
+			}
             return false;
         }
     }

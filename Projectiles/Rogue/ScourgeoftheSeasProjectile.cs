@@ -10,6 +10,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class ScourgeoftheSeasProjectile : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/ScourgeoftheSeas";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Moist Scourge");
@@ -66,7 +68,7 @@ namespace CalamityMod.Projectiles.Rogue
             Main.PlaySound(SoundID.Item14, projectile.position);
             for (int dustIndex = 0; dustIndex < 8; dustIndex++)
             {
-                int dusty = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 85, 0f, 0f, 100, default, 1f);
+                int dusty = Dust.NewDust(projectile.position, projectile.width, projectile.height, 85, 0f, 0f, 100, default, 1f);
                 Main.dust[dusty].velocity *= 1f;
             }
             if (projectile.owner == Main.myPlayer)
@@ -74,9 +76,7 @@ namespace CalamityMod.Projectiles.Rogue
 				int cloudNumber = Main.rand.Next(2, 6);
 				for (int cloudIndex = 0; cloudIndex < cloudNumber; cloudIndex++)
 				{
-					Vector2 velocity = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-					velocity.Normalize();
-					velocity *= (float)Main.rand.Next(10, 201) * 0.01f;
+					Vector2 velocity = CalamityUtils.RandomVelocity(100f, 10f, 200f, 0.01f);
 					Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<ScourgeVenomCloud>(), (int)(projectile.damage * 0.25), 1f, projectile.owner, 0f, projectile.Calamity().stealthStrike ? 1f : 0f);
 				}
             }

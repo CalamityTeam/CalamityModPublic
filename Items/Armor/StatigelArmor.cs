@@ -1,4 +1,5 @@
 using CalamityMod.Items.Materials;
+using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -19,16 +20,13 @@ namespace CalamityMod.Items.Armor
             item.width = 18;
             item.height = 18;
             item.value = Item.buyPrice(0, 4, 0, 0);
-            item.rare = 4;
+            item.rare = ItemRarityID.LightRed;
             item.defense = 10;
         }
 
         public override void UpdateEquip(Player player)
         {
-            player.meleeCrit += 5;
-            player.magicCrit += 5;
-            player.rangedCrit += 5;
-            player.Calamity().throwingCrit += 5;
+			player.Calamity().AllCritBoost(5);
         }
 
         public override void AddRecipes()
@@ -36,7 +34,7 @@ namespace CalamityMod.Items.Armor
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<PurifiedGel>(), 8);
             recipe.AddIngredient(ItemID.HellstoneBar, 13);
-            recipe.AddTile(TileID.Anvils);
+            recipe.AddTile(ModContent.TileType<StaticRefiner>());
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

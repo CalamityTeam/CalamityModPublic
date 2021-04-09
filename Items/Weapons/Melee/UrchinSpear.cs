@@ -27,15 +27,17 @@ namespace CalamityMod.Items.Weapons.Melee
             item.useTime = 25;
             item.knockBack = 5f;
             item.UseSound = SoundID.Item1;
-            item.autoReuse = false;
+            item.autoReuse = true;
             item.height = 56;
             item.value = Item.buyPrice(0, 2, 0, 0);
-            item.rare = 2;
+            item.rare = ItemRarityID.Green;
             item.shoot = ModContent.ProjectileType<UrchinSpearProjectile>();
             item.shootSpeed = 4f;
         }
 
-        public override void AddRecipes()
+		public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;
+
+		public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<VictideBar>(), 4);

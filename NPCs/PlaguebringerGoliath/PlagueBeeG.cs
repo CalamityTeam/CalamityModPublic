@@ -1,4 +1,6 @@
 using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Dusts;
+using CalamityMod.Events;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -19,44 +21,38 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
         public override void SetDefaults()
         {
-            npc.damage = 60;
-            npc.width = 36;
+			npc.GetNPCDamage();
+			npc.width = 36;
             npc.height = 30;
             npc.defense = 15;
             npc.scale = 0.75f;
             npc.lifeMax = 300;
-            if (CalamityWorld.bossRushActive)
+            if (BossRushEvent.BossRushActive)
             {
                 npc.lifeMax = 50000;
             }
             npc.aiStyle = -1;
             aiType = -1;
-            npc.knockBackResist = CalamityWorld.bossRushActive ? 0f : 0.9f;
-            animationType = 210;
+            npc.knockBackResist = BossRushEvent.BossRushActive ? 0f : 0.9f;
+            animationType = NPCID.Bee;
             npc.HitSound = SoundID.NPCHit4;
             npc.DeathSound = SoundID.NPCDeath14;
             npc.noGravity = true;
             npc.noTileCollide = true;
             npc.canGhostHeal = false;
-            npc.buffImmune[BuffID.ShadowFlame] = true;
-            npc.buffImmune[BuffID.Venom] = true;
-            npc.buffImmune[BuffID.OnFire] = true;
-            npc.buffImmune[BuffID.Poisoned] = true;
-            npc.buffImmune[ModContent.BuffType<BrimstoneFlames>()] = true;
-            npc.buffImmune[ModContent.BuffType<Plague>()] = true;
         }
 
         public override void AI()
         {
-            bool revenge = CalamityWorld.revenge;
+            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive || CalamityWorld.malice;
             Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0.015f, 0.1f, 0f);
             if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead)
             {
-                npc.TargetClosest(true);
+                npc.TargetClosest();
             }
             float num = revenge ? 8f : 7f;
             float num2 = revenge ? 0.2f : 0.15f;
-            if (CalamityWorld.bossRushActive)
+            if (BossRushEvent.BossRushActive || CalamityWorld.malice)
             {
                 num *= 1.5f;
                 num2 *= 1.5f;
@@ -213,7 +209,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 			float amount9 = 0.5f;
 			int num153 = 5;
 
-			if (CalamityMod.CalamityConfig.Afterimages)
+			if (CalamityConfig.Instance.Afterimages)
 			{
 				for (int num155 = 1; num155 < num153; num155 += 2)
 				{
@@ -236,7 +232,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 			texture2D15 = ModContent.GetTexture("CalamityMod/NPCs/NormalNPCs/PlagueBeeGlow");
 			Color color37 = Color.Lerp(Color.White, Color.Red, 0.5f);
 
-			if (CalamityMod.CalamityConfig.Afterimages)
+			if (CalamityConfig.Instance.Afterimages)
 			{
 				for (int num163 = 1; num163 < num153; num163++)
 				{
@@ -269,13 +265,13 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
         {
             for (int k = 0; k < 5; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, 46, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.Plague, hitDirection, -1f, 0, default, 1f);
             }
             if (npc.life <= 0)
             {
                 for (int k = 0; k < 10; k++)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, 46, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.Plague, hitDirection, -1f, 0, default, 1f);
                 }
             }
         }

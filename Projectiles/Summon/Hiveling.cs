@@ -10,6 +10,8 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class Hiveling : ModProjectile
     {
+        public override string Texture => "CalamityMod/NPCs/Astral/Hiveling";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Hiveling");
@@ -32,6 +34,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void AI()
         {
+			Player player = Main.player[projectile.owner];
             projectile.frameCounter++;
             if (projectile.frameCounter > 3)
             {
@@ -42,39 +45,13 @@ namespace CalamityMod.Projectiles.Summon
             {
                 projectile.frame = 0;
             }
-            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 2.355f;
+            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2 + MathHelper.PiOver4;
             projectile.spriteDirection = -projectile.direction;
             projectile.rotation = projectile.velocity.X * 0.05f;
-            float centerX = projectile.Center.X;
-            float centerY = projectile.Center.Y;
-            float num474 = 1200f;
-            bool homeIn = false;
-            int target = (int)projectile.ai[0];
-            if (Main.npc[target].CanBeChasedBy(projectile, false))
-            {
-                float num476 = Main.npc[target].position.X + (float)(Main.npc[target].width / 2);
-                float num477 = Main.npc[target].position.Y + (float)(Main.npc[target].height / 2);
-                float num478 = Math.Abs(projectile.position.X + (float)(projectile.width / 2) - num476) + Math.Abs(projectile.position.Y + (float)(projectile.height / 2) - num477);
-                if (num478 < num474)
-                {
-                    centerX = num476;
-                    centerY = num477;
-                    homeIn = true;
-                }
-            }
-            if (homeIn)
-            {
-                float num483 = 10f;
-                Vector2 vector35 = new Vector2(projectile.position.X + (float)projectile.width * 0.5f, projectile.position.Y + (float)projectile.height * 0.5f);
-                float num484 = centerX - vector35.X;
-                float num485 = centerY - vector35.Y;
-                float num486 = (float)Math.Sqrt((double)(num484 * num484 + num485 * num485));
-                num486 = num483 / num486;
-                num484 *= num486;
-                num485 *= num486;
-                projectile.velocity.X = (projectile.velocity.X * 30f + num484) / 31f;
-                projectile.velocity.Y = (projectile.velocity.Y * 30f + num485) / 31f;
-            }
+
+            NPC potentialTarget = projectile.Center.MinionHoming(1200f, Main.player[projectile.owner]);
+            if (potentialTarget != null)
+                projectile.velocity = (projectile.velocity * 30f + projectile.DirectionTo(potentialTarget.Center) * 10f) / 31f;
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

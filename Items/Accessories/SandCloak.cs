@@ -1,12 +1,11 @@
-using CalamityMod.CalPlayer;
 using System.Collections.Generic;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Items.Accessories
 {
-    public class SandCloak : ModItem
+	public class SandCloak : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -20,8 +19,8 @@ namespace CalamityMod.Items.Accessories
         {
             item.width = 30;
             item.height = 44;
-            item.value = Item.buyPrice(0, 2, 0, 0);
-            item.rare = 2;
+            item.value = CalamityGlobalItem.Rarity2BuyPrice;
+            item.rare = ItemRarityID.Green;
             item.accessory = true;
         }
 

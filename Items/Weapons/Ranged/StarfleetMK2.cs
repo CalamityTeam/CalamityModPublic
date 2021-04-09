@@ -1,6 +1,7 @@
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Ores;
 using CalamityMod.Projectiles.Ranged;
+using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -18,7 +19,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 222;
+            item.damage = 130;
             item.knockBack = 15f;
             item.shootSpeed = 16f;
             item.useStyle = ItemUseStyleID.HoldingOut;
@@ -30,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.UseSound = SoundID.Item92;
             item.shoot = ModContent.ProjectileType<StarfleetMK2Gun>();
             item.value = Item.buyPrice(1, 80, 0, 0);
-            item.rare = 10;
+            item.rare = ItemRarityID.Red;
             item.noMelee = true;
             item.noUseGraphic = true;
             item.ranged = true;
@@ -59,9 +60,10 @@ namespace CalamityMod.Items.Weapons.Ranged
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<Starfleet>());
             recipe.AddIngredient(ModContent.ItemType<StarSputter>());
-            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 10);
+            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>());
             recipe.AddIngredient(ModContent.ItemType<ExodiumClusterOre>(), 15);
-            recipe.AddTile(TileID.LunarCraftingStation);
+            recipe.AddTile(ModContent.TileType<DraedonsForge>());
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

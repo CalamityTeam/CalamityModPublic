@@ -24,12 +24,12 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.noMelee = true;
             item.knockBack = 2f;
             item.value = Item.buyPrice(0, 1, 0, 0);
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.UseSound = SoundID.Item5;
             item.autoReuse = false;
             item.shoot = ProjectileID.PurificationPowder;
             item.shootSpeed = 30f;
-            item.useAmmo = 40;
+            item.useAmmo = AmmoID.Arrow;
         }
 
         /*public void OverhaulInit()

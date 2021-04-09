@@ -1,4 +1,5 @@
 using CalamityMod.Items.Materials;
+using CalamityMod.Tiles.Furniture.CraftingStations;
 using CalamityMod.Projectiles.Melee.Yoyos;
 using Terraria;
 using Terraria.ID;
@@ -11,7 +12,8 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("The God's Gambit");
-            Tooltip.SetDefault("Fires a stream of slime when enemies are near");
+            Tooltip.SetDefault("Fires a stream of slime when enemies are near\n" +
+			"A very agile yoyo");
             ItemID.Sets.Yoyo[item.type] = true;
             ItemID.Sets.GamepadExtraRange[item.type] = 15;
             ItemID.Sets.GamepadSmartQuickReach[item.type] = true;
@@ -22,7 +24,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.width = 40;
             item.height = 26;
             item.melee = true;
-            item.damage = 28;
+            item.damage = 33;
             item.knockBack = 3.5f;
             item.useTime = 21;
             item.useAnimation = 21;
@@ -37,7 +39,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.shoot = ModContent.ProjectileType<GodsGambitYoyo>();
             item.shootSpeed = 10f;
 
-            item.rare = 4;
+            item.rare = ItemRarityID.LightRed;
             item.value = Item.buyPrice(gold: 12);
         }
 
@@ -45,7 +47,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<PurifiedGel>(), 30);
-            recipe.AddTile(TileID.Anvils);
+            recipe.AddTile(ModContent.TileType<StaticRefiner>());
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

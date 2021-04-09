@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class ShroomerangProj : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/Shroomerang";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Shroomerang");

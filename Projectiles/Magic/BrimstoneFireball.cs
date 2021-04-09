@@ -45,7 +45,7 @@ namespace CalamityMod.Projectiles.Magic
                         }
                         velocity.Normalize();
                         velocity *= Main.rand.NextFloat(70f, 100f) * 0.1f;
-                        Projectile.NewProjectile(projectile.oldPosition.X + (float)(projectile.width / 2), projectile.oldPosition.Y + (float)(projectile.height / 2), velocity.X, velocity.Y, ModContent.ProjectileType<BrimstoneHomer>(), projectile.damage, 0f, projectile.owner, 0f, 0f);
+                        Projectile.NewProjectile(projectile.oldPosition.X + (float)(projectile.width / 2), projectile.oldPosition.Y + (float)(projectile.height / 2), velocity.X, velocity.Y, ModContent.ProjectileType<BrimstoneHomer>(), (int)(projectile.damage * 0.85), 0f, projectile.owner, 0f, 0f);
                     }
                 }
             }

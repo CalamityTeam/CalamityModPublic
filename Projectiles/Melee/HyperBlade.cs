@@ -1,13 +1,12 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    public class HyperBlade : ModProjectile
+	public class HyperBlade : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -26,18 +25,19 @@ namespace CalamityMod.Projectiles.Melee
             projectile.tileCollide = false;
             projectile.melee = true;
             projectile.penetrate = 5;
-            projectile.timeLeft = 180;
+            projectile.timeLeft = 300;
             projectile.ignoreWater = true;
             aiType = ProjectileID.DeathSickle;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 4;
+			projectile.extraUpdates = 1;
         }
 
         public override void AI()
         {
             Lighting.AddLight(projectile.Center, 0f, 0.5f, 0f);
 
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 600f, 25f, 20f);
+			CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 300f, 10f, 10f);
         }
 
         public override Color? GetAlpha(Color lightColor)
@@ -60,7 +60,7 @@ namespace CalamityMod.Projectiles.Melee
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(BuffID.Venom, 120);
-            target.AddBuff(BuffID.CursedInferno, 240);
+            target.AddBuff(BuffID.CursedInferno, 120);
         }
     }
 }

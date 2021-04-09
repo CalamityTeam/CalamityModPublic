@@ -1,7 +1,6 @@
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
-using CalamityMod.Projectiles.Magic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -11,7 +10,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    public class EndoCooperBody : ModProjectile
+	public class EndoCooperBody : ModProjectile
     {
         private int AttackMode = 0;
         private int LimbID = 0;
@@ -111,7 +110,6 @@ namespace CalamityMod.Projectiles.Summon
             float longdistance = AttackMode != 2 ? 1300f : 1200f;
             float longestdistance = AttackMode != 2 ? 2600f : 2500f;
             float idledistance = AttackMode != 2 ? 600f : 400f;
-            float SAImovement = 0.05f;
             float chasespeed1 = 30f;
             float chasespeed2 = 18f;
             float firerate = 30f;
@@ -141,32 +139,8 @@ namespace CalamityMod.Projectiles.Summon
 
             if (limbs.type != ModContent.ProjectileType<EndoCooperLimbs>() || !limbs.active)
                 projectile.Kill();
-            
-            for (int num638 = 0; num638 < Main.projectile.Length; num638++)
-            {
-                Projectile proj = Main.projectile[num638];
-                bool flag23 = proj.type == ModContent.ProjectileType<EndoCooperBody>();
-                bool limbsfind = proj.type == ModContent.ProjectileType<EndoCooperBody>();
-                if (num638 != projectile.whoAmI && proj.active && proj.owner == projectile.owner && flag23 && Math.Abs(projectile.position.X - proj.position.X) + Math.Abs(projectile.position.Y - proj.position.Y) < (float)projectile.width)
-                {
-                    if (projectile.position.X < Main.projectile[num638].position.X)
-                    {
-                        projectile.velocity.X -= SAImovement;
-                    }
-                    else
-                    {
-                        projectile.velocity.X += SAImovement;
-                    }
-                    if (projectile.position.Y < Main.projectile[num638].position.Y)
-                    {
-                        projectile.velocity.Y -= SAImovement;
-                    }
-                    else
-                    {
-                        projectile.velocity.Y += SAImovement;
-                    }
-                }
-            }
+
+			projectile.MinionAntiClump();
             bool flag24 = false;
             if (projectile.ai[0] == 2f)
             {
@@ -205,7 +179,7 @@ namespace CalamityMod.Projectiles.Summon
                     }
                 }
             }
-            else
+            if (!gotoenemy)
             {
                 for (int num645 = 0; num645 < Main.maxNPCs; num645++)
                 {

@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class TerraFireGreen2 : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Fire");
@@ -82,7 +84,7 @@ namespace CalamityMod.Projectiles.Ranged
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(ModContent.BuffType<Plague>(), 120);
-            target.AddBuff(BuffID.CursedInferno, 300);
+            target.AddBuff(BuffID.CursedInferno, 120);
             target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
             target.AddBuff(BuffID.OnFire, 300);
             target.AddBuff(ModContent.BuffType<GlacialState>(), 120);

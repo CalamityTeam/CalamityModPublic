@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Critters
             item.height = 24;
             item.bait = 40;
             item.makeNPC = (short)ModContent.NPCType<Twinkler>();
-            item.rare = 2;
+            item.rare = ItemRarityID.Green;
         }
     }
 }

@@ -7,9 +7,9 @@ namespace CalamityMod.Tiles.FurniturePlaguedPlate
     {
         public override void SetDefaults()
         {
-            this.SetUpBathtub();
+            this.SetUpBathtub(true);
             ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Plagued Plate Bathtub");
+            name.SetDefault("Plagued Bathtub");
             AddMapEntry(new Color(191, 142, 111), name);
             animationFrameHeight = 54;
         }

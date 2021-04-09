@@ -9,6 +9,7 @@ namespace CalamityMod.Items.Placeables.Walls
     {
         public override void SetStaticDefaults()
         {
+            DisplayName.SetDefault("Plagued Containment Wall");
         }
 
         public override void SetDefaults()

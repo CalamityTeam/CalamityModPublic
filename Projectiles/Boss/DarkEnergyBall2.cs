@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.Boss
 {
     public class DarkEnergyBall2 : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Boss/DarkEnergyBall";
+
         private bool start = true;
 		private float startingPosX = 0f;
 		private float startingPosY = 0f;
@@ -24,7 +26,8 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetDefaults()
         {
-            projectile.width = 80;
+			projectile.Calamity().canBreakPlayerDefense = true;
+			projectile.width = 80;
             projectile.height = 80;
             projectile.hostile = true;
             projectile.tileCollide = false;
@@ -58,9 +61,7 @@ namespace CalamityMod.Projectiles.Boss
                 projectile.frameCounter = 0;
             }
             if (projectile.frame > 5)
-            {
                 projectile.frame = 0;
-            }
 
 			if (start)
 			{
@@ -69,9 +70,9 @@ namespace CalamityMod.Projectiles.Boss
 				start = false;
 			}
 
-			double deg = (double)projectile.ai[0];
+			double deg = projectile.ai[0];
 			double rad = deg * (Math.PI / 180);
-			distance += (projectile.ai[1] == 1f ? 2D : 1D);
+			distance += projectile.ai[1] == 1f ? 2D : 1D;
 			projectile.position.X = startingPosX - (int)(Math.Cos(rad) * distance) - projectile.width / 2;
 			projectile.position.Y = startingPosY - (int)(Math.Sin(rad) * distance) - projectile.height / 2;
 			projectile.ai[0] += 0.5f;
@@ -93,12 +94,32 @@ namespace CalamityMod.Projectiles.Boss
 			return false;
 		}
 
+		public override void OnHitPlayer(Player target, int damage, bool crit)
+		{
+			target.AddBuff(BuffID.VortexDebuff, 60);
+		}
+
 		public override void Kill(int timeLeft)
         {
-            for (int k = 0; k < 5; k++)
-            {
-                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 90, 0f, 0f);
-            }
-        }
+			for (int num621 = 0; num621 < 5; num621++)
+			{
+				int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 90, 0f, 0f, 100, default, 1.2f);
+				Main.dust[num622].velocity *= 3f;
+				Main.dust[num622].noGravity = true;
+				if (Main.rand.NextBool(2))
+				{
+					Main.dust[num622].scale = 0.5f;
+					Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
+				}
+			}
+			for (int num623 = 0; num623 < 10; num623++)
+			{
+				int num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 90, 0f, 0f, 100, default, 1.7f);
+				Main.dust[num624].noGravity = true;
+				Main.dust[num624].velocity *= 5f;
+				num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 90, 0f, 0f, 100, default, 1f);
+				Main.dust[num624].velocity *= 2f;
+			}
+		}
     }
 }

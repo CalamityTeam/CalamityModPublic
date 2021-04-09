@@ -11,14 +11,15 @@ namespace CalamityMod.Projectiles.Rogue
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Dragon Fireball");
+            Main.projFrames[projectile.type] = 5;
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 20;
             ProjectileID.Sets.TrailingMode[projectile.type] = 2;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 30;
-            projectile.height = 30;
+            projectile.width = 34;
+            projectile.height = 34;
             projectile.friendly = true;
             projectile.alpha = 255;
             projectile.penetrate = 1;
@@ -28,10 +29,22 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.Calamity().rogue = true;
         }
 
-        public override Color? GetAlpha(Color lightColor)
+        public override void AI()
         {
-            return new Color(255, Main.DiscoG, 53, projectile.alpha);
-        }
+            projectile.frameCounter++;
+            if (projectile.frameCounter > 4)
+            {
+                projectile.frame++;
+                projectile.frameCounter = 0;
+            }
+            if (projectile.frame >= Main.projFrames[projectile.type])
+            {
+                projectile.frame = 0;
+            }
+            projectile.rotation += MathHelper.Pi;
+		}
+
+        public override Color? GetAlpha(Color lightColor) => new Color(200, 200, 200, projectile.alpha);
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
@@ -43,7 +56,7 @@ namespace CalamityMod.Projectiles.Rogue
             if (projectile.spriteDirection == -1)
                 spriteEffects = SpriteEffects.FlipHorizontally;
 
-            if (CalamityMod.CalamityConfig.Afterimages)
+            if (CalamityConfig.Instance.Afterimages)
             {
                 for (int i = 0; i < projectile.oldPos.Length; i++)
                 {
@@ -62,22 +75,19 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void Kill(int timeLeft)
         {
-            projectile.position = projectile.Center;
-            projectile.width = projectile.height = 144;
-            projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
-            projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
-            for (int num193 = 0; num193 < 2; num193++)
+			CalamityGlobalProjectile.ExpandHitboxBy(projectile, 144);
+            for (int d = 0; d < 2; d++)
             {
-                Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 55, 0f, 0f, 50, default, 1.5f);
+                Dust.NewDust(projectile.position, projectile.width, projectile.height, 55, 0f, 0f, 50, default, 1.5f);
             }
-            for (int num194 = 0; num194 < 20; num194++)
+            for (int d = 0; d < 20; d++)
             {
-                int num195 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 55, 0f, 0f, 0, default, 2.5f);
-                Main.dust[num195].noGravity = true;
-                Main.dust[num195].velocity *= 3f;
-                num195 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 55, 0f, 0f, 50, default, 1.5f);
-                Main.dust[num195].velocity *= 2f;
-                Main.dust[num195].noGravity = true;
+                int idx = Dust.NewDust(projectile.position, projectile.width, projectile.height, 55, 0f, 0f, 0, default, 2.5f);
+                Main.dust[idx].noGravity = true;
+                Main.dust[idx].velocity *= 3f;
+                idx = Dust.NewDust(projectile.position, projectile.width, projectile.height, 55, 0f, 0f, 50, default, 1.5f);
+                Main.dust[idx].velocity *= 2f;
+                Main.dust[idx].noGravity = true;
             }
         }
     }

@@ -1,11 +1,6 @@
-using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.NPCs.BrimstoneElemental;
-using CalamityMod.Dusts;
-using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using System.IO;
 using Terraria;
 using Terraria.Enums;
 using Terraria.GameContent.Achievements;
@@ -13,8 +8,10 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Melee
 {
-    public class CrystylCrusherRay : ModProjectile
+	public class CrystylCrusherRay : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Magic/YharimsCrystalBeam";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Crystyl Crusher Ray");
@@ -59,7 +56,7 @@ namespace CalamityMod.Projectiles.Melee
 			projectile.hide = true;
 			projectile.timeLeft = 300;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 1;
+            projectile.localNPCHitCooldown = 10;
 		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
@@ -125,7 +122,6 @@ namespace CalamityMod.Projectiles.Melee
 			// First we update player variables that are needed to channel the laser
 			// Then we run our charging laser logic
 			// If we are fully charged, we proceed to update the laser's position
-			// Finally we spawn some effects like dusts and light
 
 			UpdatePlayer(player);
 			ChargeLaser(player);
@@ -136,49 +132,13 @@ namespace CalamityMod.Projectiles.Melee
 			//Play cool sound when fully charged
 			if (playedSound == false)
 			{
-				Main.PlaySound(SoundID.Item68, (int)projectile.position.X, (int)projectile.position.Y);
+				Main.PlaySound(SoundID.Item68, projectile.Center);
 				playedSound = true;
 			}
 
 			SetLaserPosition(player);
-			SpawnDusts(player);
 			CastLights();
 			DestroyTiles();
-		}
-
-		private void SpawnDusts(Player player)
-		{
-			Vector2 unit = projectile.velocity * -1;
-			Vector2 dustPos = player.Center + projectile.velocity * Distance;
-
-			for (int i = 0; i < 2; ++i)
-			{
-				float num1 = projectile.velocity.ToRotation() + (Main.rand.Next(2) == 1 ? -1.0f : 1.0f) * 1.57f;
-				float num2 = (float)(Main.rand.NextDouble() * 0.8f + 1.0f);
-				Vector2 dustVel = new Vector2((float)Math.Cos(num1) * num2, (float)Math.Sin(num1) * num2);
-				Dust dust = Main.dust[Dust.NewDust(dustPos, 0, 0, 173, dustVel.X, dustVel.Y)];
-				dust.noGravity = true;
-				dust.scale = 1.2f;
-				dust = Dust.NewDustDirect(Main.player[projectile.owner].Center, 0, 0, 31,
-					-unit.X * Distance, -unit.Y * Distance);
-				dust.fadeIn = 0f;
-				dust.color = new Color(Main.DiscoR, 0, 255);
-				dust.noGravity = true;
-				dust.scale = 0.88f;
-			}
-
-			if (Main.rand.NextBool(5))
-			{
-				Vector2 offset = projectile.velocity.RotatedBy(1.57f) * ((float)Main.rand.NextDouble() - 0.5f) * projectile.width;
-				Dust dust = Main.dust[Dust.NewDust(dustPos + offset - Vector2.One * 4f, 8, 8, 57, 0.0f, 0.0f, 100, new Color(Main.DiscoR, 0, 255), 1.5f)];
-				dust.velocity *= 0.5f;
-				dust.velocity.Y = -Math.Abs(dust.velocity.Y);
-				unit = dustPos - Main.player[projectile.owner].Center;
-				unit.Normalize();
-				dust = Main.dust[Dust.NewDust(Main.player[projectile.owner].Center + 55 * unit, 8, 8, 58, 0.0f, 0.0f, 100, new Color(Main.DiscoR, 0, 255), 1.5f)];
-				dust.velocity = dust.velocity * 0.5f;
-				dust.velocity.Y = -Math.Abs(dust.velocity.Y);
-			}
 		}
 
 		/*
@@ -289,10 +249,10 @@ namespace CalamityMod.Projectiles.Melee
 			{
 				Vector2 destroyVector = projectile.Center + projectile.velocity * (Distance - MOVE_DISTANCE);
 				int num814 = 3;
-				int num815 = (int)(destroyVector.X / 16f - (float)num814);
-				int num816 = (int)(destroyVector.X / 16f + (float)num814);
-				int num817 = (int)(destroyVector.Y / 16f - (float)num814);
-				int num818 = (int)(destroyVector.Y / 16f + (float)num814);
+				int num815 = (int)(destroyVector.X / 16f - num814);
+				int num816 = (int)(destroyVector.X / 16f + num814);
+				int num817 = (int)(destroyVector.Y / 16f - num814);
+				int num818 = (int)(destroyVector.Y / 16f + num814);
 				if (num815 < 0)
 				{
 					num815 = 0;
@@ -314,10 +274,10 @@ namespace CalamityMod.Projectiles.Melee
 				{
 					for (int num825 = num817; num825 <= num818; num825++)
 					{
-						float num826 = Math.Abs((float)num824 - destroyVector.X / 16f);
-						float num827 = Math.Abs((float)num825 - destroyVector.Y / 16f);
-						double num828 = Math.Sqrt((double)(num826 * num826 + num827 * num827));
-						if (num828 < (double)num814)
+						float num826 = Math.Abs(num824 - destroyVector.X / 16f);
+						float num827 = Math.Abs(num825 - destroyVector.Y / 16f);
+						double num828 = Math.Sqrt(num826 * num826 + num827 * num827);
+						if (num828 < num814)
 						{
 							if (Main.tile[num824, num825] != null && Main.tile[num824, num825].active())
 							{
@@ -325,7 +285,7 @@ namespace CalamityMod.Projectiles.Melee
 								DustExplosion(destroyVector);
 								if (!Main.tile[num824, num825].active() && Main.netMode != NetmodeID.SinglePlayer)
 								{
-									NetMessage.SendData(MessageID.TileChange, -1, -1, null, 0, (float)num824, (float)num825, 0f, 0, 0, 0);
+									NetMessage.SendData(MessageID.TileChange, -1, -1, null, 0, num824, num825, 0f, 0, 0, 0);
 								}
 							}
 						}
@@ -334,7 +294,7 @@ namespace CalamityMod.Projectiles.Melee
 				AchievementsHelper.CurrentlyMining = false;
 				if (Main.netMode != NetmodeID.SinglePlayer)
 				{
-					NetMessage.SendData(MessageID.KillProjectile, -1, -1, null, projectile.identity, (float)projectile.owner, 0f, 0f, 0, 0, 0);
+					NetMessage.SendData(MessageID.KillProjectile, -1, -1, null, projectile.identity, projectile.owner, 0f, 0f, 0, 0, 0);
 				}
 			}
 		}
@@ -359,8 +319,8 @@ namespace CalamityMod.Projectiles.Melee
 					default:
 						break;
 				}
-				Vector2 vector6 = Vector2.Normalize(projectile.velocity) * new Vector2((float)projectile.width / 2f, (float)projectile.height) * 0.75f;
-				vector6 = vector6.RotatedBy((double)((float)(num227 - (num226 / 2 - 1)) * 6.28318548f / (float)num226), default) + vector;
+				Vector2 vector6 = Vector2.Normalize(projectile.velocity) * new Vector2(projectile.width / 2f, projectile.height) * 0.75f;
+				vector6 = vector6.RotatedBy((num227 - (num226 / 2 - 1)) * MathHelper.TwoPi / num226, default) + vector;
 				Vector2 vector7 = vector6 - vector;
 				int num228 = Dust.NewDust(vector6 + vector7, 0, 0, dustType, vector7.X * 0.5f, vector7.Y * 0.5f, 100, new Color(Main.DiscoR, 0, 255), 1f);
 				Main.dust[num228].noGravity = true;

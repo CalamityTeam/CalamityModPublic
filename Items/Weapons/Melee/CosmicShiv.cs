@@ -5,41 +5,42 @@ using Terraria.ModLoader;
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Materials;
-using CalamityMod.Tiles.Furniture.CraftingStations;
 using CalamityMod.Projectiles.Melee;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
-	public class CosmicShiv : ModItem
-	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Cosmic Shiv");
-			Tooltip.SetDefault("Definitely don't underestimate the power of shivs\n" +
-							   "Fires a cosmic beam that homes in on enemies\n" +
-                               "Upon hitting an enemy, a barrage of offscreen objects home in on the enemy as well as raining stars");
-		}
+    public class CosmicShiv : ModItem
+    {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Cosmic Shiv");
+            Tooltip.SetDefault("Definitely don't underestimate the power of shivs\n" +
+                "Fires a cosmic beam that homes in on enemies\n" +
+                "Upon hitting an enemy, a barrage of offscreen objects home in on the enemy as well as raining stars");
+        }
 
-		public override void SetDefaults()
+        public override void SetDefaults()
         {
             item.useStyle = ItemUseStyleID.Stabbing;
-			item.useTurn = false;
-			item.useAnimation = 18;
-			item.useTime = 18;
-			item.width = 44;
-			item.height = 44;
+            item.useTurn = false;
+            item.useAnimation = 18;
+            item.useTime = 18;
+            item.width = 44;
+            item.height = 44;
 
-			item.damage = 666;
+            item.damage = 218;
 
-			item.melee = true;
-			item.knockBack = 9f;
-			item.UseSound = SoundID.Item1;
-			item.useTurn = true;
-			item.autoReuse = true;
-			item.shoot = ModContent.ProjectileType<CosmicShivBall>();
-			item.shootSpeed = 14f;
-			item.value = Item.buyPrice(2, 50, 0, 0); //50 gold
-            item.Calamity().customRarity = CalamityRarity.Dedicated;
+            item.melee = true;
+            item.knockBack = 9f;
+            item.UseSound = SoundID.Item1;
+            item.useTurn = true;
+            item.autoReuse = true;
+            item.shoot = ModContent.ProjectileType<CosmicShivBall>();
+            item.shootSpeed = 14f;
+
+            item.value = CalamityGlobalItem.Rarity14BuyPrice;
+            item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            item.Calamity().donorItem = true;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -48,20 +49,16 @@ namespace CalamityMod.Items.Weapons.Melee
             return false;
         }
 
-		public override void AddRecipes()
+        public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
 
             recipe.AddIngredient(ModContent.ItemType<ElementalShortsword>());
-            recipe.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<NightmareFuel>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<Phantoplasm>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<DarksunFragment>(), 5);
             recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 5);
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
+            recipe.AddTile(TileID.LunarCraftingStation);
 
             recipe.SetResult(this);
-	        recipe.AddRecipe();
+            recipe.AddRecipe();
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)
@@ -100,5 +97,5 @@ namespace CalamityMod.Items.Weapons.Melee
             target.AddBuff(ModContent.BuffType<Plague>(), 420);
             target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 360);
         }
-	}
+    }
 }

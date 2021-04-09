@@ -9,7 +9,7 @@ namespace CalamityMod.Items.Weapons.Melee
 {
     public class Nadir : ModItem
     {
-        public static int BaseDamage = 700;
+        public static int BaseDamage = 280;
         public static float ShootSpeed = 12f;
 
         public override void SetStaticDefaults()
@@ -35,29 +35,22 @@ namespace CalamityMod.Items.Weapons.Melee
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.UseSound = SoundID.Item1;
 
-            item.rare = 10;
-            item.Calamity().customRarity = CalamityRarity.Dedicated;
-            item.value = Item.buyPrice(1, 80, 0, 0);
+            item.value = CalamityGlobalItem.Rarity14BuyPrice;
+            item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            item.Calamity().donorItem = true;
 
             item.shoot = ModContent.ProjectileType<NadirSpear>();
             item.shootSpeed = ShootSpeed;
         }
 
-        public override bool CanUseItem(Player player)
-        {
-            for (int i = 0; i < Main.projectile.Length; ++i)
-                if (Main.projectile[i].active && Main.projectile[i].owner == Main.myPlayer && Main.projectile[i].type == item.shoot)
-                    return false;
-            return true;
-        }
+        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;
 
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<SpatialLance>());
             recipe.AddIngredient(ModContent.ItemType<TwistingNether>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<DarksunFragment>(), 15);
-            recipe.AddIngredient(ModContent.ItemType<Phantoplasm>(), 15);
+            recipe.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 5);
             recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 10);
             recipe.AddTile(ModContent.TileType<DraedonsForge>());
             recipe.SetResult(this);

@@ -1,5 +1,5 @@
 using CalamityMod.Buffs.StatDebuffs;
-using CalamityMod.Buffs.Potions;
+using CalamityMod.Events;
 using CalamityMod.Items.TreasureBags;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
@@ -9,11 +9,9 @@ using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.ModLoader.Config;
-using CalamityMod;
 namespace CalamityMod.NPCs.SlimeGod
 {
-    [AutoloadBossHead]
+	[AutoloadBossHead]
     public class SlimeGodSplit : ModNPC
     {
         private float bossLife;
@@ -26,19 +24,19 @@ namespace CalamityMod.NPCs.SlimeGod
 
         public override void SetDefaults()
         {
-            npc.LifeMaxNERB(1000, 1375, 1100000);
-            double HPBoost = CalamityMod.CalamityConfig.BossHealthPercentageBoost * 0.01;
+			npc.Calamity().canBreakPlayerDefense = true;
+			npc.LifeMaxNERB(1350, 1800, 1100000);
+            double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
-            npc.damage = 40;
-            npc.width = 150;
+			npc.GetNPCDamage();
+			npc.width = 150;
             npc.height = 92;
             npc.scale = 0.8f;
             npc.defense = 8;
             npc.aiStyle = -1;
             aiType = -1;
             npc.knockBackResist = 0f;
-            npc.buffImmune[ModContent.BuffType<TimeSlow>()] = false;
-            animationType = 50;
+            animationType = NPCID.KingSlime;
             npc.value = Item.buyPrice(0, 1, 0, 0);
             npc.alpha = 55;
             npc.lavaImmune = false;
@@ -66,15 +64,22 @@ namespace CalamityMod.NPCs.SlimeGod
 
 		public override void AI()
         {
-			if (CalamityGlobalNPC.slimeGodPurple < 0 || !Main.npc[CalamityGlobalNPC.slimeGodPurple].active)
-			{
-				CalamityGlobalNPC.slimeGodPurple = npc.whoAmI;
-			}
+			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
-            bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
-            bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
-			bool death = CalamityWorld.death || CalamityWorld.bossRushActive || npc.localAI[1] == 1f;
+			if (CalamityGlobalNPC.slimeGodPurple < 0 || !Main.npc[CalamityGlobalNPC.slimeGodPurple].active)
+				CalamityGlobalNPC.slimeGodPurple = npc.whoAmI;
+
+			bool malice = CalamityWorld.malice;
+			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive || malice;
+            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive || malice;
+			bool death = CalamityWorld.death || BossRushEvent.BossRushActive || npc.localAI[1] == 1f || malice;
 			Vector2 vector = npc.Center;
+
+			float lifeRatio = npc.life / (float)npc.lifeMax;
+
+			// Increase aggression if player is taking a long time to kill the boss
+			if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
+				lifeRatio = calamityGlobalNPC.killTimeRatio_IncreasedAggression;
 
 			npc.defense = npc.defDefense;
 			npc.damage = npc.defDamage;
@@ -89,14 +94,18 @@ namespace CalamityMod.NPCs.SlimeGod
 			npc.noGravity = false;
 
 			// Get a target
-			if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)
-				npc.TargetClosest(true);
+			if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
+				npc.TargetClosest();
+
+			// Despawn safety, make sure to target another player if the current player target is too far away
+			if (Vector2.Distance(Main.player[npc.target].Center, vector) > CalamityGlobalNPC.CatchUpDistance200Tiles)
+				npc.TargetClosest();
 
 			Player player = Main.player[npc.target];
 
 			if (npc.ai[0] != 6f && (player.dead || !player.active))
 			{
-				npc.TargetClosest(true);
+				npc.TargetClosest();
 				player = Main.player[npc.target];
 				if (player.dead || !player.active)
 				{
@@ -109,6 +118,8 @@ namespace CalamityMod.NPCs.SlimeGod
 			else if (npc.timeLeft < 1800)
 				npc.timeLeft = 1800;
 
+			float distanceSpeedBoost = Vector2.Distance(player.Center, vector) * 0.005f;
+
 			bool flag100 = false;
             bool hyperMode = npc.localAI[1] == 1f;
             if (CalamityGlobalNPC.slimeGodRed != -1)
@@ -118,7 +129,7 @@ namespace CalamityMod.NPCs.SlimeGod
                     flag100 = true;
                 }
             }
-            if (CalamityGlobalNPC.slimeGod < 0 || !Main.npc[CalamityGlobalNPC.slimeGod].active)
+            if (CalamityGlobalNPC.slimeGod < 0 || !Main.npc[CalamityGlobalNPC.slimeGod].active || malice)
             {
 				npc.localAI[1] = 0f;
 				hyperMode = true;
@@ -136,7 +147,7 @@ namespace CalamityMod.NPCs.SlimeGod
 					npc.localAI[0] = 0f;
 					if (expertMode && Main.rand.NextBool(2))
 					{
-						float num179 = CalamityWorld.bossRushActive ? 12f : 8f;
+						float num179 = BossRushEvent.BossRushActive ? 16f : 8f;
 						Vector2 value9 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
 						float num180 = player.position.X + (float)player.width * 0.5f - value9.X;
 						float num181 = Math.Abs(num180) * 0.1f;
@@ -146,8 +157,8 @@ namespace CalamityMod.NPCs.SlimeGod
 						num183 = num179 / num183;
 						num180 *= num183;
 						num182 *= num183;
-						int num184 = 24;
-						int num185 = ModContent.ProjectileType<AbyssMine>();
+						int type = ModContent.ProjectileType<AbyssMine>();
+						int damage = npc.GetProjectileDamage(type);
 						value9.X += num180;
 						value9.Y += num182;
 						num180 = player.position.X + (float)player.width * 0.5f - value9.X;
@@ -158,11 +169,11 @@ namespace CalamityMod.NPCs.SlimeGod
 						num182 += (float)Main.rand.Next(-30, 31);
 						num180 *= num183;
 						num182 *= num183;
-						Projectile.NewProjectile(value9.X, value9.Y, num180, num182, num185, num184, 0f, Main.myPlayer, 0f, 0f);
+						Projectile.NewProjectile(value9.X, value9.Y, num180, num182, type, damage, 0f, Main.myPlayer, 0f, 0f);
 					}
 					else
 					{
-						float num179 = CalamityWorld.bossRushActive ? 12f : 8f;
+						float num179 = BossRushEvent.BossRushActive ? 16f : 8f;
 						Vector2 value9 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
 						float num180 = player.position.X + (float)player.width * 0.5f - value9.X;
 						float num181 = Math.Abs(num180) * 0.1f;
@@ -172,8 +183,8 @@ namespace CalamityMod.NPCs.SlimeGod
 						num183 = num179 / num183;
 						num180 *= num183;
 						num182 *= num183;
-						int num184 = expertMode ? 17 : 21;
-						int num185 = ModContent.ProjectileType<AbyssBallVolley>();
+						int type = ModContent.ProjectileType<AbyssBallVolley>();
+						int damage = npc.GetProjectileDamage(type);
 						value9.X += num180;
 						value9.Y += num182;
 						for (int num186 = 0; num186 < 2; num186++)
@@ -186,7 +197,7 @@ namespace CalamityMod.NPCs.SlimeGod
 							num182 += (float)Main.rand.Next(-20, 21);
 							num180 *= num183;
 							num182 *= num183;
-							Projectile.NewProjectile(value9.X, value9.Y, num180, num182, num185, num184, 0f, Main.myPlayer, 0f, 0f);
+							Projectile.NewProjectile(value9.X, value9.Y, num180, num182, type, damage, 0f, Main.myPlayer, 0f, 0f);
 						}
 					}
 				}
@@ -194,7 +205,6 @@ namespace CalamityMod.NPCs.SlimeGod
 
             if (npc.ai[0] == 0f)
             {
-                npc.TargetClosest(true);
                 npc.ai[0] = 1f;
                 npc.ai[1] = 0f;
             }
@@ -209,19 +219,19 @@ namespace CalamityMod.NPCs.SlimeGod
                 }
                 if (npc.velocity.Y == 0f)
                 {
-                    npc.TargetClosest(true);
+                    npc.TargetClosest();
                     npc.velocity.X *= 0.8f;
                     npc.ai[1] += flag100 ? 1f : 2f;
                     float num1879 = 40f;
-                    float num1880 = CalamityWorld.bossRushActive ? 16f : 5f;
+                    float num1880 = BossRushEvent.BossRushActive ? 15f : death ? 5.5f : revenge ? 5f : expertMode ? 4.5f : 4f;
 					if (revenge)
 					{
-						float moveBoost = death ? 10f : 10f * (1f - (float)npc.life / (float)npc.lifeMax);
-						float speedBoost = death ? 2f : 2f * (1f - (float)npc.life / (float)npc.lifeMax);
+						float moveBoost = death ? 20f * (1f - lifeRatio) : 10f * (1f - lifeRatio);
+						float speedBoost = death ? 4f * (1f - lifeRatio) : 2f * (1f - lifeRatio);
 						num1879 -= moveBoost;
 						num1880 += speedBoost;
 					}
-					float num1881 = 7f;
+					float num1881 = 5f;
                     if (!Collision.CanHit(vector, 1, 1, player.Center, 1, 1))
                     {
                         num1881 += 2f;
@@ -232,8 +242,8 @@ namespace CalamityMod.NPCs.SlimeGod
                         num1880 *= 0.75f;
                         npc.ai[1] = 0f;
                         npc.velocity.Y -= num1881;
-                        npc.velocity.X = num1880 * (float)npc.direction;
-                    }
+						npc.velocity.X = (num1880 + distanceSpeedBoost) * npc.direction;
+					}
                 }
                 else
                 {
@@ -250,11 +260,12 @@ namespace CalamityMod.NPCs.SlimeGod
                 npc.ai[2] += 1f;
 				if (revenge)
 				{
-					npc.ai[2] += (death ? 0.5f : 0.5f * (1f - (float)npc.life / (float)npc.lifeMax));
+					npc.ai[2] += death ? 1f - lifeRatio : 0.5f * (1f - lifeRatio);
 				}
 				if (npc.ai[2] >= 210f && npc.velocity.Y == 0f && Main.netMode != NetmodeID.MultiplayerClient)
                 {
-					switch (Main.rand.Next(3))
+					int random = Main.rand.Next(2) + (lifeRatio < 0.5f ? 1 : 0);
+					switch (random)
 					{
 						case 0:
 							npc.ai[0] = 2f;
@@ -262,7 +273,7 @@ namespace CalamityMod.NPCs.SlimeGod
 						case 1:
 							npc.ai[0] = 3f;
 							npc.noTileCollide = true;
-							npc.velocity.Y = CalamityWorld.bossRushActive ? -13f : -9f;
+							npc.velocity.Y = BossRushEvent.BossRushActive ? -18f : death ? -10f : revenge ? -9f : expertMode ? -8f : -7f;
 							break;
 						case 2:
 							npc.ai[0] = 5f;
@@ -299,7 +310,7 @@ namespace CalamityMod.NPCs.SlimeGod
                     npc.direction = 1;
                 }
                 npc.spriteDirection = npc.direction;
-                npc.TargetClosest(true);
+                npc.TargetClosest();
                 Vector2 center40 = player.Center;
                 center40.Y -= 350f;
                 Vector2 vector272 = center40 - vector;
@@ -308,7 +319,7 @@ namespace CalamityMod.NPCs.SlimeGod
                     npc.ai[1] += 1f;
                     vector272 = player.Center - vector;
                     vector272.Normalize();
-                    vector272 *= CalamityWorld.bossRushActive ? 13f : 9f;
+                    vector272 *= BossRushEvent.BossRushActive ? 18f : death ? 10f : revenge ? 9f : expertMode ? 8f : 7f;
                     npc.velocity = (npc.velocity * 4f + vector272) / 5f;
                     if (npc.ai[1] > 12f)
                     {
@@ -327,13 +338,13 @@ namespace CalamityMod.NPCs.SlimeGod
                         return;
                     }
                     vector272.Normalize();
-                    vector272 *= CalamityWorld.bossRushActive ? 19f : 13f;
-                    npc.velocity = (npc.velocity * 5f + vector272) / 6f;
+					vector272 *= (BossRushEvent.BossRushActive ? 20f : death ? 12f : revenge ? 11f : expertMode ? 10f : 9f) + distanceSpeedBoost;
+					npc.velocity = (npc.velocity * 5f + vector272) / 6f;
                 }
             }
             else if (npc.ai[0] == 3.1f)
             {
-				bool atTargetPosition = npc.position.Y + (float)npc.height >= player.position.Y;
+				bool atTargetPosition = npc.position.Y + npc.height >= player.position.Y;
 				if (npc.ai[2] == 0f && (atTargetPosition || npc.localAI[1] == 0f) && Collision.CanHit(vector, 1, 1, player.Center, 1, 1) && !Collision.SolidCollision(npc.position, npc.width, npc.height))
                 {
                     npc.ai[2] = 1f;
@@ -359,9 +370,10 @@ namespace CalamityMod.NPCs.SlimeGod
                     npc.noGravity = true;
                 }
                 npc.velocity.Y += 0.2f;
-                if (npc.velocity.Y > 16f)
+				float velocityLimit = BossRushEvent.BossRushActive ? 20f : death ? 15f : revenge ? 14f : expertMode ? 13f : 12f;
+				if (npc.velocity.Y > velocityLimit)
                 {
-                    npc.velocity.Y = 16f;
+                    npc.velocity.Y = velocityLimit;
                 }
             }
             else
@@ -380,19 +392,19 @@ namespace CalamityMod.NPCs.SlimeGod
                     npc.noTileCollide = true;
                     npc.noGravity = true;
                     Vector2 value74 = player.Center - vector;
-                    value74.Y -= 4f;
-                    if (value74.Length() < 200f && !Collision.SolidCollision(npc.position, npc.width, npc.height))
+                    value74.Y -= 40f;
+                    if (value74.Length() < 280f && !Collision.SolidCollision(npc.position, npc.width, npc.height))
                     {
                         npc.ai[0] = 1f;
                         npc.ai[1] = 0f;
                         npc.ai[2] = 0f;
                         npc.ai[3] = 0f;
                     }
-                    if (value74.Length() > 10f)
+                    if (value74.Length() > 50f)
                     {
                         value74.Normalize();
-                        value74 *= CalamityWorld.bossRushActive ? 23f : 15f;
-                    }
+						value74 *= (BossRushEvent.BossRushActive ? 22f : death ? 12f : revenge ? 11f : expertMode ? 10f : 9f) + distanceSpeedBoost;
+					}
                     npc.velocity = (npc.velocity * 4f + value74) / 5f;
                     return;
                 }
@@ -400,58 +412,59 @@ namespace CalamityMod.NPCs.SlimeGod
                 {
                     if (npc.velocity.Y == 0f)
                     {
-                        npc.TargetClosest(true);
+                        npc.TargetClosest();
                         npc.velocity.X *= 0.8f;
                         npc.ai[1] += 1f;
                         if (npc.ai[1] > 5f)
                         {
                             npc.ai[1] = 0f;
-                            npc.velocity.Y -= 4f;
-                            if (player.position.Y + (float)player.height < vector.Y)
-                            {
-                                npc.velocity.Y -= 1.25f;
-                            }
-                            if (player.position.Y + (float)player.height < vector.Y - 40f)
-                            {
-                                npc.velocity.Y -= 1.5f;
-                            }
-                            if (player.position.Y + (float)player.height < vector.Y - 80f)
-                            {
-                                npc.velocity.Y -= 1.75f;
-                            }
-                            if (player.position.Y + (float)player.height < vector.Y - 120f)
-                            {
-                                npc.velocity.Y -= 2f;
-                            }
-                            if (player.position.Y + (float)player.height < vector.Y - 160f)
-                            {
-                                npc.velocity.Y -= 2.25f;
-                            }
-                            if (player.position.Y + (float)player.height < vector.Y - 200f)
-                            {
-                                npc.velocity.Y -= 2.5f;
-                            }
-                            if (!Collision.CanHit(vector, 1, 1, player.Center, 1, 1))
-                            {
-                                npc.velocity.Y -= 2f;
-                            }
-                            npc.velocity.X = (float)((CalamityWorld.bossRushActive ? 23 : 15) * npc.direction);
-                            npc.ai[2] += 1f;
+							npc.velocity.Y -= 3f;
+							if (player.position.Y + player.height < vector.Y)
+							{
+								npc.velocity.Y -= 1.2f;
+							}
+							if (player.position.Y + player.height < vector.Y - 40f)
+							{
+								npc.velocity.Y -= 1.4f;
+							}
+							if (player.position.Y + player.height < vector.Y - 80f)
+							{
+								npc.velocity.Y -= 1.7f;
+							}
+							if (player.position.Y + player.height < vector.Y - 120f)
+							{
+								npc.velocity.Y -= 2f;
+							}
+							if (player.position.Y + player.height < vector.Y - 160f)
+							{
+								npc.velocity.Y -= 2.2f;
+							}
+							if (player.position.Y + player.height < vector.Y - 200f)
+							{
+								npc.velocity.Y -= 2.4f;
+							}
+							if (!Collision.CanHit(vector, 1, 1, player.Center, 1, 1))
+							{
+								npc.velocity.Y -= 2f;
+							}
+							npc.velocity.X = ((BossRushEvent.BossRushActive ? 22f : death ? 12f : revenge ? 11f : expertMode ? 10f : 9f) + distanceSpeedBoost) * npc.direction;
+							npc.ai[2] += 1f;
                         }
                     }
                     else
                     {
                         npc.velocity.X *= 0.98f;
-                        if (npc.direction < 0 && npc.velocity.X > -8f)
+						float velocityLimit = (BossRushEvent.BossRushActive ? 12f : death ? 6.5f : revenge ? 6f : expertMode ? 5.5f : 5f) + distanceSpeedBoost;
+						if (npc.direction < 0 && npc.velocity.X > -velocityLimit)
                         {
-                            npc.velocity.X = -8f;
+                            npc.velocity.X = -velocityLimit;
                         }
-                        if (npc.direction > 0 && npc.velocity.X < 8f)
+                        if (npc.direction > 0 && npc.velocity.X < velocityLimit)
                         {
-                            npc.velocity.X = 8f;
+                            npc.velocity.X = velocityLimit;
                         }
                     }
-                    if (npc.ai[2] >= 3f && npc.velocity.Y == 0f)
+                    if (npc.ai[2] >= 2f && npc.velocity.Y == 0f)
                     {
                         npc.ai[0] = 1f;
                         npc.ai[1] = 0f;
@@ -481,12 +494,12 @@ namespace CalamityMod.NPCs.SlimeGod
             Main.dust[num244].velocity *= 0.5f;
             if (bossLife == 0f && npc.life > 0)
             {
-                bossLife = (float)npc.lifeMax;
+                bossLife = npc.lifeMax;
             }
             float num644 = 1f;
             if (npc.life > 0)
             {
-                float num659 = (float)npc.life / (float)npc.lifeMax;
+                float num659 = lifeRatio;
                 num659 = num659 * 0.5f + 0.75f;
                 num659 *= num644;
                 if (num659 != npc.scale)
@@ -501,7 +514,7 @@ namespace CalamityMod.NPCs.SlimeGod
                 }
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
-                    int num660 = (int)((double)npc.lifeMax * 0.15);
+                    int num660 = (int)((double)npc.lifeMax * 0.2);
 					if ((float)(npc.life + num660) < bossLife)
 					{
 						bossLife = (float)npc.life;
@@ -590,7 +603,6 @@ namespace CalamityMod.NPCs.SlimeGod
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
             npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);
-            npc.damage = (int)(npc.damage * 0.85f);
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)

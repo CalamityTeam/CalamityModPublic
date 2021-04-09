@@ -29,13 +29,14 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.noUseGraphic = true;
             item.channel = true;
             item.knockBack = 5f;
-            item.value = Item.buyPrice(5, 0, 0, 0);
-            item.rare = 10;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<ContagionBow>();
             item.shootSpeed = 20f;
-            item.useAmmo = 40;
-            item.Calamity().customRarity = CalamityRarity.Developer;
+            item.useAmmo = AmmoID.Arrow;
+
+            item.value = CalamityGlobalItem.Rarity16BuyPrice;
+            item.Calamity().customRarity = CalamityRarity.HotPink;
+            item.Calamity().devItem = true;
         }
 
         public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;

@@ -27,9 +27,9 @@ namespace CalamityMod.Items.Placeables.Walls
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Cinderplate>());
+            recipe.AddIngredient(ModContent.ItemType<Plates.Cinderplate>());
             recipe.SetResult(this, 4);
-            recipe.AddTile(18);
+            recipe.AddTile(TileID.WorkBenches);
             recipe.AddRecipe();
         }
     }

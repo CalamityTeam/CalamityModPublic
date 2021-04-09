@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Mad Alchemist's Cocktail");
+            DisplayName.SetDefault("Mad Alchemist's Prismatic Cocktail");
         }
 
         public override void SetDefaults()
@@ -40,37 +40,41 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<CrushDepth>(), 600);
-            target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 600);
-            target.AddBuff(ModContent.BuffType<HolyFlames>(), 600);
-            target.AddBuff(BuffID.Poisoned, 600);
-            target.AddBuff(BuffID.OnFire, 600);
-            target.AddBuff(BuffID.CursedInferno, 600);
-            target.AddBuff(BuffID.Frostburn, 600);
-            target.AddBuff(BuffID.Venom, 600);
-            target.AddBuff(BuffID.ShadowFlame, 600);
+            target.AddBuff(ModContent.BuffType<CrushDepth>(), 300);
+            target.AddBuff(ModContent.BuffType<HolyFlames>(), 300);
+            target.AddBuff(ModContent.BuffType<Nightwither>(), 300);
+            target.AddBuff(BuffID.Poisoned, 300);
+            target.AddBuff(BuffID.OnFire, 300);
+            target.AddBuff(BuffID.CursedInferno, 180);
+            target.AddBuff(BuffID.Frostburn, 300);
+            target.AddBuff(BuffID.Venom, 300);
+            target.AddBuff(BuffID.ShadowFlame, 300);
         }
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(SoundID.Item107, projectile.position);
+            Main.PlaySound(SoundID.Item20, projectile.Center);
+            Main.PlaySound(SoundID.Item107, projectile.Center);
             Gore.NewGore(projectile.Center, -projectile.oldVelocity * 0.2f, 704, 1f);
             Gore.NewGore(projectile.Center, -projectile.oldVelocity * 0.2f, 705, 1f);
-            int height = 120;
-            float num51 = 1.8f;
-            float num52 = 2.5f;
-            Vector2 value3 = (0f - 1.57079637f).ToRotationVector2();
-            Vector2 value4 = value3 * projectile.velocity.Length() * (float)projectile.MaxUpdates;
-            Main.PlaySound(SoundID.Item20, projectile.Center);
+
+            // This previously did double damage. It now does half damage.
+            int blastWidth = 120;
             projectile.position = projectile.Center;
-            projectile.width = projectile.height = height;
+            projectile.width = projectile.height = blastWidth;
             projectile.Center = projectile.position;
             projectile.maxPenetrate = -1;
             projectile.penetrate = -1;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
-            projectile.damage *= 2;
+            projectile.localNPCHitCooldown = -1;
+            projectile.damage /= 2;
             projectile.Damage();
+
+            // I don't even know what this dust code does
+            float num51 = 1.8f;
+            float num52 = 2.5f;
+            Vector2 value3 = (0f - 1.57079637f).ToRotationVector2();
+            Vector2 value4 = value3 * projectile.velocity.Length() * (float)projectile.MaxUpdates;
             int num3;
             for (int num53 = 0; num53 < 40; num53 = num3 + 1)
             {

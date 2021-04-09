@@ -15,8 +15,8 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             DisplayName.SetDefault("Ace's High");
             Tooltip.SetDefault("Fires a string of cards with varying effects based on card type\n" +
-			"Hearts grant lifesteal. Spades pierce and ignore immunity frames.\n" +
-			"Diamonds explode. Clubs split into three.");
+                "Hearts grant lifesteal. Spades pierce and ignore immunity frames.\n" +
+                "Diamonds explode. Clubs split into three.");
         }
 
         public override void SetDefaults()
@@ -31,14 +31,16 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 6f;
-            item.value = Item.buyPrice(2, 50, 0, 0);
-            item.rare = 10;
+
+            item.value = CalamityGlobalItem.Rarity15BuyPrice;
+            item.Calamity().customRarity = CalamityRarity.Violet;
+            item.Calamity().donorItem = true;
+
             item.UseSound = SoundID.Item36;
             item.autoReuse = true;
             item.shootSpeed = 24f;
             item.shoot = ModContent.ProjectileType<CardHeart>();
-            item.useAmmo = 97;
-            item.Calamity().customRarity = CalamityRarity.Dedicated;
+            item.useAmmo = AmmoID.Bullet;
         }
 
         public override Vector2? HoldoutOffset()
@@ -61,13 +63,13 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-			int card = Utils.SelectRandom(Main.rand, new int[]
-			{
-				ModContent.ProjectileType<CardHeart>(),
-				ModContent.ProjectileType<CardSpade>(),
-				ModContent.ProjectileType<CardDiamond>(),
-				ModContent.ProjectileType<CardClub>()
-			});
+            int card = Utils.SelectRandom(Main.rand, new int[]
+            {
+                ModContent.ProjectileType<CardHeart>(),
+                ModContent.ProjectileType<CardSpade>(),
+                ModContent.ProjectileType<CardDiamond>(),
+                ModContent.ProjectileType<CardClub>()
+            });
 
             Projectile.NewProjectile(position.X, position.Y, speedX, speedY, card, damage, knockBack, player.whoAmI, 0f, 0f);
             return false;

@@ -1,15 +1,14 @@
 using CalamityMod.Buffs.DamageOverTime;
-using System;
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class ChargedDartExplosion : ModProjectile
+	public class ChargedDartExplosion : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
     	public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Explosion");

@@ -10,6 +10,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class IcebreakerHammer : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/Icebreaker";
+
 		private int explosionCount = 0;
 
         public override void SetStaticDefaults()
@@ -56,7 +58,8 @@ namespace CalamityMod.Projectiles.Rogue
 					if (explosionCount < 3) //max amount of explosions to prevent worm memes
 					{
 						int ice = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<CosmicIceBurst>(), (int)(projectile.damage * 1.5), projectile.knockBack, projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
-						Main.projectile[ice].Calamity().forceRogue = true;
+						if (ice.WithinBounds(Main.maxProjectiles))
+							Main.projectile[ice].Calamity().forceRogue = true;
 						explosionCount++;
 					}
 
@@ -86,7 +89,8 @@ namespace CalamityMod.Projectiles.Rogue
 				{
 					//no explosion count cap in pvp
 					int ice = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<CosmicIceBurst>(), (int)(projectile.damage * 1.5), projectile.knockBack, projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
-					Main.projectile[ice].Calamity().forceRogue = true;
+					if (ice.WithinBounds(Main.maxProjectiles))
+						Main.projectile[ice].Calamity().forceRogue = true;
 
 					int buffType = ModContent.BuffType<GlacialState>();
 					float radius = 112f; // 7 blocks

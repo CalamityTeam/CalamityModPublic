@@ -15,19 +15,18 @@ namespace CalamityMod.Items.Accessories
         {
             DisplayName.SetDefault("Asgard's Valor");
             Tooltip.SetDefault("Grants immunity to fire blocks and knockback\n" +
-                "Immune to most debuffs including Brimstone Flames, and Glacial State\n" +
-                "10% damage reduction while submerged in liquid\n" +
+				"Immune to most debuffs and reduces the damage caused by the Brimstone Flames debuff\n" +
+                "+16 defense while submerged in liquid\n" +
                 "+20 max life\n" +
-                "Grants a holy dash which can be used to ram enemies\n" +
-                "Toggle visibility of this accessory to enable/disable the dash");
+                "Grants a holy dash which can be used to ram enemies");
         }
 
         public override void SetDefaults()
         {
             item.width = 38;
             item.height = 44;
-            item.value = Item.buyPrice(0, 45, 0, 0);
-            item.rare = 9;
+            item.value = CalamityGlobalItem.Rarity7BuyPrice;
+            item.rare = ItemRarityID.Lime;
             item.defense = 8;
             item.accessory = true;
         }
@@ -35,10 +34,10 @@ namespace CalamityMod.Items.Accessories
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            if (!hideVisual)
-            { modPlayer.dashMod = 2; }
+            modPlayer.dashMod = 2;
             player.noKnockback = true;
             player.fireWalk = true;
+			modPlayer.abaddon = true;
             player.buffImmune[BuffID.Chilled] = true;
             player.buffImmune[BuffID.Frostburn] = true;
             player.buffImmune[BuffID.Weak] = true;
@@ -50,11 +49,9 @@ namespace CalamityMod.Items.Accessories
             player.buffImmune[BuffID.Silenced] = true;
             player.buffImmune[BuffID.Cursed] = true;
             player.buffImmune[BuffID.Darkness] = true;
-            player.buffImmune[ModContent.BuffType<BrimstoneFlames>()] = true;
-            player.buffImmune[ModContent.BuffType<GlacialState>()] = true;
             player.statLifeMax2 += 20;
             if (Collision.DrownCollision(player.position, player.width, player.height, player.gravDir))
-            { player.endurance += 0.1f; }
+            { player.statDefense += 16; }
         }
 
         public override void AddRecipes()

@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetDefaults()
         {
             item.width = 120;
-            item.damage = 155;
+            item.damage = 238;
             item.noMelee = true;
             item.noUseGraphic = true;
             item.channel = true;
@@ -31,30 +31,19 @@ namespace CalamityMod.Items.Weapons.Melee
             item.UseSound = SoundID.DD2_GhastlyGlaivePierce;
             item.autoReuse = true;
             item.height = 108;
-            item.value = Item.buyPrice(1, 40, 0, 0);
-            item.rare = 10;
             item.shoot = ModContent.ProjectileType<BansheeHookProj>();
             item.shootSpeed = 42f;
+
+            item.value = CalamityGlobalItem.Rarity13BuyPrice;
             item.Calamity().customRarity = CalamityRarity.PureGreen;
         }
 
-		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
-		{
-			Vector2 origin = new Vector2(60f, 52f);
-			spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Items/Weapons/Melee/BansheeHookGlow"), item.Center - Main.screenPosition, null, Color.White, rotation, origin, 1f, SpriteEffects.None, 0f);
-		}
-
-		public override bool CanUseItem(Player player)
+        public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
-            for (int i = 0; i < 1000; ++i)
-            {
-                if (Main.projectile[i].active && Main.projectile[i].owner == Main.myPlayer && Main.projectile[i].type == item.shoot)
-                {
-                    return false;
-                }
-            }
-            return true;
+            item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.GetTexture("CalamityMod/Items/Weapons/Melee/BansheeHookGlow"));
         }
+
+        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {

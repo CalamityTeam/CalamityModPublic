@@ -8,6 +8,7 @@ using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.NPCs.OldDuke;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Items.TreasureBags
 {
@@ -28,7 +29,7 @@ namespace CalamityMod.Items.TreasureBags
             item.width = 24;
             item.height = 24;
             item.expert = true;
-            item.rare = 10;
+            item.rare = ItemRarityID.Red;
         }
 
         public override bool CanRightClick()
@@ -43,12 +44,15 @@ namespace CalamityMod.Items.TreasureBags
             player.TryGettingDevArmor();
 
             // Weapons
-            DropHelper.DropItemChance(player, ModContent.ItemType<InsidiousImpaler>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<SepticSkewer>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<FetidEmesis>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<VitriolicViper>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<ToxicantTwister>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<CadaverousCarrion>(), 3);
+            float w = DropHelper.BagWeaponDropRateFloat;
+            DropHelper.DropEntireWeightedSet(player,
+                DropHelper.WeightStack<InsidiousImpaler>(w),
+                DropHelper.WeightStack<FetidEmesis>(w),
+                DropHelper.WeightStack<SepticSkewer>(w),
+                DropHelper.WeightStack<VitriolicViper>(w),
+                DropHelper.WeightStack<CadaverousCarrion>(w),
+                DropHelper.WeightStack<ToxicantTwister>(w)
+            );
 
             // Equipment
             DropHelper.DropItemChance(player, ModContent.ItemType<DukeScales>(), 10);

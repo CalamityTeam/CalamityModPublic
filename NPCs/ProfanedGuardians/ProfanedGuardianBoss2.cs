@@ -1,6 +1,7 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Dusts;
+using CalamityMod.Events;
 using CalamityMod.Items.Weapons.Typeless;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
@@ -26,15 +27,16 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 
         public override void SetDefaults()
         {
-            npc.npcSlots = 3f;
+			npc.Calamity().canBreakPlayerDefense = true;
+			npc.npcSlots = 3f;
             npc.aiStyle = -1;
-            npc.damage = 110;
-            npc.width = 100;
+			npc.GetNPCDamage();
+			npc.width = 100;
             npc.height = 80;
             npc.defense = 50;
-            npc.Calamity().RevPlusDR(0.25f);
-            npc.LifeMaxNERB(40000, 50000, 300000);
-            double HPBoost = CalamityMod.CalamityConfig.BossHealthPercentageBoost * 0.01;
+			npc.DR_NERD(0.4f);
+            npc.LifeMaxNERB(30000, 37500, 300000); // Old HP - 40000, 50000
+            double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.knockBackResist = 0f;
             npc.noGravity = true;
@@ -47,24 +49,6 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/Guardians");
             else
                 music = MusicID.Boss1;
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
-            npc.buffImmune[BuffID.Ichor] = false;
-            npc.buffImmune[BuffID.CursedInferno] = false;
-			npc.buffImmune[BuffID.StardustMinionBleed] = false;
-			npc.buffImmune[BuffID.Oiled] = false;
-            npc.buffImmune[BuffID.BetsysCurse] = false;
-            npc.buffImmune[ModContent.BuffType<AstralInfectionDebuff>()] = false;
-            npc.buffImmune[ModContent.BuffType<AbyssalFlames>()] = false;
-            npc.buffImmune[ModContent.BuffType<ArmorCrunch>()] = false;
-            npc.buffImmune[ModContent.BuffType<DemonFlames>()] = false;
-            npc.buffImmune[ModContent.BuffType<GodSlayerInferno>()] = false;
-            npc.buffImmune[ModContent.BuffType<Nightwither>()] = false;
-            npc.buffImmune[ModContent.BuffType<Shred>()] = false;
-            npc.buffImmune[ModContent.BuffType<WhisperingDeath>()] = false;
-            npc.buffImmune[ModContent.BuffType<SilvaStun>()] = false;
             npc.HitSound = SoundID.NPCHit52;
             npc.DeathSound = SoundID.NPCDeath55;
         }
@@ -91,17 +75,26 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 
         public override void AI()
         {
-			npc.TargetClosest(false);
+			// Get a target
+			if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
+				npc.TargetClosest();
+
+			// Despawn safety, make sure to target another player if the current player target is too far away
+			if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > CalamityGlobalNPC.CatchUpDistance200Tiles)
+				npc.TargetClosest();
+
 			Player player = Main.player[npc.target];
+
 			if (npc.timeLeft < 1800)
 				npc.timeLeft = 1800;
 
-			bool expertMode = Main.expertMode;
+			bool malice = CalamityWorld.malice;
+			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive || malice;
             bool isHoly = player.ZoneHoly;
             bool isHell = player.ZoneUnderworldHeight;
 
             // Become immune over time if target isn't in hell or hallow
-            if (!isHoly && !isHell && !CalamityWorld.bossRushActive)
+            if (!isHoly && !isHell && !BossRushEvent.BossRushActive)
             {
                 if (immuneTimer > 0)
                     immuneTimer--;
@@ -167,7 +160,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 }
                 if (Main.netMode != NetmodeID.MultiplayerClient && ((expertMode && Main.rand.NextBool(50)) || Main.rand.NextBool(100)))
                 {
-                    npc.TargetClosest(true);
+                    npc.TargetClosest();
                     vector96 = new Vector2(npc.Center.X, npc.Center.Y);
                     num784 = player.Center.X - vector96.X;
                     num785 = player.Center.Y - vector96.Y;
@@ -200,7 +193,6 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 if (npc.localAI[0] >= 420f)
                 {
                     npc.localAI[0] = 0f;
-                    npc.TargetClosest(true);
                     if (Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height))
                     {
                         Main.PlaySound(SoundID.Item20, npc.position);
@@ -208,11 +200,12 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 						float velocity = 5f;
 						int totalProjectiles = 6;
 						float radians = MathHelper.TwoPi / totalProjectiles;
-						int damage = expertMode ? 50 : 60;
+						int type = ModContent.ProjectileType<ProfanedSpear>();
+						int damage = npc.GetProjectileDamage(type);
 						for (int i = 0; i < totalProjectiles; i++)
 						{
 							Vector2 vector255 = new Vector2(0f, -velocity).RotatedBy(radians * i);
-							Projectile.NewProjectile(npc.Center, vector255, ModContent.ProjectileType<ProfanedSpear>(), damage, 0f, Main.myPlayer, 0f, 0f);
+							Projectile.NewProjectile(npc.Center, vector255, type, damage, 0f, Main.myPlayer, 0f, 0f);
 						}
                     }
                 }
@@ -231,7 +224,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 			float amount9 = 0.5f;
 			int num153 = 5;
 
-			if (CalamityMod.CalamityConfig.Afterimages)
+			if (CalamityConfig.Instance.Afterimages)
 			{
 				for (int num155 = 1; num155 < num153; num155 += 2)
 				{
@@ -254,7 +247,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 			texture2D15 = ModContent.GetTexture("CalamityMod/NPCs/ProfanedGuardians/ProfanedGuardianBoss2Glow");
 			Color color37 = Color.Lerp(Color.White, Color.Yellow, 0.5f);
 
-			if (CalamityMod.CalamityConfig.Afterimages)
+			if (CalamityConfig.Instance.Afterimages)
 			{
 				for (int num163 = 1; num163 < num153; num163++)
 				{
@@ -291,15 +284,15 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             potionType = ItemID.GreaterHealingPotion;
         }
 
-        public override void OnHitPlayer(Player player, int damage, bool crit)
-        {
-            player.AddBuff(BuffID.OnFire, 600, true);
-        }
+		public override void OnHitPlayer(Player player, int damage, bool crit)
+		{
+			player.AddBuff(ModContent.BuffType<HolyFlames>(), 300, true);
+		}
 
-        public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
+		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
             npc.lifeMax = (int)(npc.lifeMax * 0.7f * bossLifeScale);
-            npc.damage = (int)(npc.damage * 0.8f);
+            npc.damage = (int)(npc.damage * npc.GetExpertDamageMultiplier());
         }
 
         public override void HitEffect(int hitDirection, double damage)

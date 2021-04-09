@@ -4,14 +4,13 @@ using CalamityMod.CalPlayer;
 using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    public class OmegaBiomeOrb : ModProjectile
+	public class OmegaBiomeOrb : ModProjectile
     {
 		private int dustType = 3;
 		Color color = default;
@@ -31,7 +30,7 @@ namespace CalamityMod.Projectiles.Melee
 			aiType = ProjectileID.LightBeam;
 			projectile.friendly = true;
             projectile.penetrate = 1;
-            projectile.timeLeft = 240;
+            projectile.timeLeft = 120;
             projectile.melee = true;
         }
 
@@ -145,7 +144,7 @@ namespace CalamityMod.Projectiles.Melee
 			Main.dust[num458].velocity *= 0.5f;
 			Main.dust[num458].velocity += projectile.velocity * 0.1f;
 
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 400f, 15f, 20f);
+			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 200f, 12f, 20f);
 		}
 
 		public override Color? GetAlpha(Color lightColor)

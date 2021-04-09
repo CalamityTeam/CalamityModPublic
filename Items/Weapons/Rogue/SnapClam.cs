@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class SnapClam : RogueWeapon
+	public class SnapClam : RogueWeapon
     {
         public override void SetStaticDefaults()
         {
@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             item.value = Item.buyPrice(0, 2, 0, 0);
-            item.rare = 2;
+            item.rare = ItemRarityID.Green;
             item.shoot = ModContent.ProjectileType<SnapClamProj>();
             item.shootSpeed = 12f;
             item.Calamity().rogue = true;
@@ -45,8 +45,9 @@ namespace CalamityMod.Items.Weapons.Rogue
                 for (int i = 0; i < 5; i++)
                 {
                     Vector2 perturbedspeed = new Vector2(speedX + Main.rand.Next(-3,4), speedY + Main.rand.Next(-3,4)).RotatedBy(MathHelper.ToRadians(spread));
-                    int proj = Projectile.NewProjectile(position.X, position.Y, perturbedspeed.X, perturbedspeed.Y, ModContent.ProjectileType<SnapClamStealth>(), damage, knockBack, player.whoAmI, 0f, 0f);
-                    Main.projectile[proj].Calamity().stealthStrike = true;
+                    int proj = Projectile.NewProjectile(position, perturbedspeed, ModContent.ProjectileType<SnapClamStealth>(), Math.Max(damage / 5, 1), knockBack / 5f, player.whoAmI);
+					if (proj.WithinBounds(Main.maxProjectiles))
+						Main.projectile[proj].Calamity().stealthStrike = true;
                     spread -= Main.rand.Next(1,3);
                 }
                 return false;

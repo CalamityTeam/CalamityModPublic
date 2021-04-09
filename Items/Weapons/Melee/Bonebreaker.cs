@@ -1,13 +1,12 @@
 using CalamityMod.Projectiles.Melee;
 using CalamityMod.Items.Materials;
-using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
-    public class Bonebreaker : ModItem
+	public class Bonebreaker : ModItem
     {
 		public const int BaseDamage = 60;
 
@@ -31,7 +30,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.useTurn = true;
             item.autoReuse = true;
             item.value = Item.buyPrice(0, 36, 0, 0);
-            item.rare = 5;
+            item.rare = ItemRarityID.Pink;
             item.shoot = ModContent.ProjectileType<BonebreakerProjectile>();
             item.noMelee = true;
             item.noUseGraphic = true;

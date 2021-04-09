@@ -104,36 +104,11 @@ namespace CalamityMod.Projectiles.Summon
 			}
 
 			//Anti sticky movement to prevent overlapping minions
-			float antiStickMvt = 0.05f;
-			for (int projIndex = 0; projIndex < Main.maxProjectiles; projIndex++)
-			{
-				Projectile proj = Main.projectile[projIndex];
-				bool correctMinion = proj.type == ModContent.ProjectileType<GastricBelcher>();
-				if (projIndex != projectile.whoAmI && proj.active && proj.owner == projectile.owner && correctMinion && Math.Abs(projectile.position.X - proj.position.X) + Math.Abs(projectile.position.Y - proj.position.Y) < projectile.width)
-				{
-					if (projectile.position.X < proj.position.X)
-					{
-						projectile.velocity.X -= antiStickMvt;
-					}
-					else
-					{
-						projectile.velocity.X += antiStickMvt;
-					}
-					if (projectile.position.Y < proj.position.Y)
-					{
-						projectile.velocity.Y -= antiStickMvt;
-					}
-					else
-					{
-						projectile.velocity.Y += antiStickMvt;
-					}
-				}
-			}
+			projectile.MinionAntiClump();
 
 			//Find a target
 			float maxDistance = 700f;
 			Vector2 targetVec = projectile.position;
-			Vector2 half = new Vector2(0.5f);
 			bool foundTarget = false;
 			//If targeting something, prioritize that enemy
 			if (player.HasMinionAttackTargetNPC)
@@ -141,34 +116,35 @@ namespace CalamityMod.Projectiles.Summon
 				NPC npc = Main.npc[player.MinionAttackTargetNPC];
 				if (npc.CanBeChasedBy(projectile, false))
 				{
-					//Adding a check on the NPC's size allows it to target big things like Providence
-					Vector2 sizeCheck = npc.position + npc.Size * half;
-					//Check if blocks are in the way
-					bool collisionCheck = Collision.CanHitLine(projectile.position, projectile.width, projectile.height, npc.position, npc.width, npc.height);
-					//Calculate distance between target and the projectile to know if it's too far or not
+					float extraDist = (npc.width / 2) + (npc.height / 2);
 					float targetDist = Vector2.Distance(npc.Center, projectile.Center);
-					if (!foundTarget && targetDist < maxDistance && collisionCheck)
+					bool canHit = true;
+					if (extraDist < maxDistance)
+						canHit = Collision.CanHit(projectile.Center, 1, 1, npc.Center, 1, 1);
+					if (!foundTarget && targetDist < (maxDistance + extraDist) && canHit)
 					{
 						maxDistance = targetDist;
-						targetVec = sizeCheck;
+						targetVec = npc.Center;
 						foundTarget = true;
 					}
 				}
 			}
-			else
+			if (!foundTarget)
 			{
 				for (int npcIndex = 0; npcIndex < Main.maxNPCs; npcIndex++)
 				{
 					NPC npc = Main.npc[npcIndex];
 					if (npc.CanBeChasedBy(projectile, false))
 					{
-						Vector2 sizeCheck = npc.position + npc.Size * half;
-						bool collisionCheck = Collision.CanHitLine(projectile.position, projectile.width, projectile.height, npc.position, npc.width, npc.height);
+						float extraDist = (npc.width / 2) + (npc.height / 2);
 						float targetDist = Vector2.Distance(npc.Center, projectile.Center);
-						if (!foundTarget && targetDist < maxDistance && collisionCheck)
+						bool canHit = true;
+						if (extraDist < maxDistance)
+							canHit = Collision.CanHit(projectile.Center, 1, 1, npc.Center, 1, 1);
+						if (!foundTarget && targetDist < (maxDistance + extraDist) && canHit)
 						{
 							maxDistance = targetDist;
-							targetVec = sizeCheck;
+							targetVec = npc.Center;
 							foundTarget = true;
 						}
 					}

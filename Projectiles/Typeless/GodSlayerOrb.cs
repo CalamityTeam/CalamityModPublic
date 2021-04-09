@@ -1,12 +1,13 @@
 using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Typeless
 {
-    public class GodSlayerOrb : ModProjectile
+	public class GodSlayerOrb : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("God Slayer Orb");
@@ -28,7 +29,7 @@ namespace CalamityMod.Projectiles.Typeless
             int num469 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 173, 0f, 0f, 100, default, 2f);
             Main.dust[num469].noGravity = true;
             Main.dust[num469].velocity *= 0f;
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 600f, 12f, 20f);
+			CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 300f, 12f, 20f);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

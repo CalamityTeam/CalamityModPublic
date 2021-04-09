@@ -1,3 +1,4 @@
+using CalamityMod.Events;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -17,7 +18,7 @@ namespace CalamityMod.Items.SummonItems
             item.width = 20;
             item.height = 20;
             item.maxStack = 20;
-            item.rare = 9;
+            item.rare = ItemRarityID.Cyan;
             item.useAnimation = 45;
             item.useTime = 45;
             item.useStyle = ItemUseStyleID.HoldingUp;
@@ -26,17 +27,22 @@ namespace CalamityMod.Items.SummonItems
 
         public override bool CanUseItem(Player player)
         {
-            return !NPC.AnyNPCs(NPCID.CultistBoss) && !NPC.LunarApocalypseIsUp && !NPC.AnyNPCs(NPCID.CultistTablet);
+            return !NPC.AnyNPCs(NPCID.CultistBoss) && !NPC.LunarApocalypseIsUp && !NPC.AnyNPCs(NPCID.CultistTablet) && !BossRushEvent.BossRushActive;
         }
 
         public override bool UseItem(Player player)
         {
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
-                int num1302 = NPC.NewNPC((int)player.Center.X + 30, (int)player.Center.Y - 90, NPCID.CultistBoss, 0, 0f, 0f, 0f, 0f, 255);
-                Main.npc[num1302].direction = Main.npc[num1302].spriteDirection = Math.Sign(player.Center.X - (float)player.Center.X - 30f);
-            }
-            return true;
+                int npc = NPC.NewNPC((int)player.Center.X + 30, (int)player.Center.Y - 90, NPCID.CultistBoss, 1);
+                Main.npc[npc].direction = Main.npc[npc].spriteDirection = Math.Sign(player.Center.X - player.Center.X - 30f);
+				Main.npc[npc].timeLeft *= 20;
+				CalamityUtils.BossAwakenMessage(npc);
+			}
+			else
+				NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, player.whoAmI, NPCID.CultistBoss);
+
+			return true;
         }
     }
 }

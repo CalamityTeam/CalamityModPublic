@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Ammo
 
         public override void SetDefaults()
         {
-            item.damage = 33;
+            item.damage = 22;
             item.ranged = true;
             item.width = 22;
             item.height = 46;
@@ -29,21 +29,19 @@ namespace CalamityMod.Items.Ammo
             item.value = 2250;
             item.shoot = ModContent.ProjectileType<VanquisherArrowMain>();
             item.shootSpeed = 10f;
-            item.ammo = 40;
+            item.ammo = AmmoID.Arrow;
             item.Calamity().customRarity = CalamityRarity.DarkBlue;
         }
 
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
-            Vector2 origin = new Vector2(11f, 21f);
-            spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Items/Ammo/VanquisherArrowGlow"), item.Center - Main.screenPosition, null, Color.White, rotation, origin, 1f, SpriteEffects.None, 0f);
+			item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.GetTexture("CalamityMod/Items/Ammo/VanquisherArrowGlow"));
         }
 
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>());
-            recipe.AddRecipeGroup("NForEE");
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this, 333);
             recipe.AddRecipe();

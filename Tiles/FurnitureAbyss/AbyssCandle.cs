@@ -1,5 +1,4 @@
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -7,17 +6,12 @@ using Terraria.ObjectData;
 
 namespace CalamityMod.Tiles.FurnitureAbyss
 {
-    public class AbyssCandle : ModTile
+	public class AbyssCandle : ModTile
     {
         public override void SetDefaults()
         {
-            Main.tileLighted[Type] = true;
-            Main.tileFrameImportant[Type] = true;
-            Main.tileLavaDeath[Type] = true;
-            Main.tileWaterDeath[Type] = false;
-            TileObjectData.newTile.CopyFrom(TileObjectData.StyleOnTable1x1);
-            TileObjectData.newTile.CoordinateHeights = new int[] { 20 };
-            TileObjectData.addTile(Type);
+			this.SetUpCandle(true, 0);
+
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Abyss Candle");
             AddMapEntry(new Color(191, 142, 111), name);

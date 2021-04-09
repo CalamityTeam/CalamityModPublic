@@ -2,6 +2,7 @@ using CalamityMod.CalPlayer;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -22,7 +23,7 @@ namespace CalamityMod.Items.Accessories
             item.height = 32;
             item.value = Item.buyPrice(0, 36, 0, 0);
             item.accessory = true;
-            item.rare = 6;
+            item.rare = ItemRarityID.Pink;
         }
 
         public override void ModifyTooltips(List<TooltipLine> list)

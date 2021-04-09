@@ -11,6 +11,7 @@ using CalamityMod.NPCs.Ravager;
 using CalamityMod.World;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Items.TreasureBags
 {
@@ -31,7 +32,7 @@ namespace CalamityMod.Items.TreasureBags
             item.width = 24;
             item.height = 24;
             item.expert = true;
-            item.rare = 9;
+            item.rare = ItemRarityID.Cyan;
         }
 
         public override bool CanRightClick()
@@ -44,27 +45,19 @@ namespace CalamityMod.Items.TreasureBags
             player.TryGettingDevArmor();
 
             // Materials
-            int barMin = CalamityWorld.downedProvidence ? 7 : 2;
-            int barMax = CalamityWorld.downedProvidence ? 12 : 3;
-            int coreMin = CalamityWorld.downedProvidence ? 2 : 1;
-            int coreMax = CalamityWorld.downedProvidence ? 4 : 3;
-            DropHelper.DropItemCondition(player, ModContent.ItemType<Bloodstone>(), CalamityWorld.downedProvidence, 60, 70);
-            DropHelper.DropItem(player, ModContent.ItemType<VerstaltiteBar>(), barMin, barMax);
-            DropHelper.DropItem(player, ModContent.ItemType<DraedonBar>(), barMin, barMax);
-            DropHelper.DropItem(player, ModContent.ItemType<CruptixBar>(), barMin, barMax);
-            DropHelper.DropItem(player, ModContent.ItemType<CoreofCinder>(), coreMin, coreMax);
-            DropHelper.DropItem(player, ModContent.ItemType<CoreofEleum>(), coreMin, coreMax);
-            DropHelper.DropItem(player, ModContent.ItemType<CoreofChaos>(), coreMin, coreMax);
-            DropHelper.DropItemCondition(player, ModContent.ItemType<BarofLife>(), CalamityWorld.downedProvidence);
-            DropHelper.DropItemCondition(player, ModContent.ItemType<CoreofCalamity>(), CalamityWorld.downedProvidence, 0.5f);
+            DropHelper.DropItemCondition(player, ModContent.ItemType<FleshyGeodeT1>(), !CalamityWorld.downedProvidence);
+            DropHelper.DropItemCondition(player, ModContent.ItemType<FleshyGeodeT2>(), CalamityWorld.downedProvidence);
 
             // Weapons
-            DropHelper.DropItemChance(player, ModContent.ItemType<UltimusCleaver>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<RealmRavager>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<Hematemesis>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<SpikecragStaff>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<CraniumSmasher>(), 3);
-            DropHelper.DropItemFromSetChance(player, 0.05f, ModContent.ItemType<CorpusAvertorMelee>(), ModContent.ItemType<CorpusAvertor>());
+            float w = DropHelper.BagWeaponDropRateFloat;
+            DropHelper.DropEntireWeightedSet(player,
+                DropHelper.WeightStack<UltimusCleaver>(w),
+                DropHelper.WeightStack<RealmRavager>(w),
+                DropHelper.WeightStack<Hematemesis>(w),
+                DropHelper.WeightStack<SpikecragStaff>(w),
+                DropHelper.WeightStack<CraniumSmasher>(w)
+            );
+            DropHelper.DropItemChance(player, ModContent.ItemType<CorpusAvertor>(), 0.05f);
 
             // Equipment
             DropHelper.DropItemChance(player, ModContent.ItemType<BloodPact>(), 0.5f);

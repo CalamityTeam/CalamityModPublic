@@ -7,6 +7,8 @@ namespace CalamityMod.Projectiles.Boss
 {
     public class BrimstoneLaserSplit : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Boss/BrimstoneLaser";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Brimstone Homing Laser");
@@ -58,7 +60,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 180);
+            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
         }
     }
 }

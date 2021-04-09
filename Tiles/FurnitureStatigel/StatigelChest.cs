@@ -9,7 +9,7 @@ namespace CalamityMod.Tiles.FurnitureStatigel
     {
         public override void SetDefaults()
         {
-            this.SetUpChest();
+            this.SetUpChest(true);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Statigel Chest");
             AddMapEntry(new Color(191, 142, 111), name, MapChestName);
@@ -30,29 +30,7 @@ namespace CalamityMod.Tiles.FurnitureStatigel
             return true;
         }
 
-        public string MapChestName(string name, int i, int j)
-        {
-            int left = i;
-            int top = j;
-            Tile tile = Main.tile[i, j];
-            if (tile.frameX % 36 != 0)
-            {
-                left--;
-            }
-            if (tile.frameY != 0)
-            {
-                top--;
-            }
-            int chest = Chest.FindChest(left, top);
-            if (Main.chest[chest].name == "")
-            {
-                return name;
-            }
-            else
-            {
-                return name + ": " + Main.chest[chest].name;
-            }
-        }
+        public string MapChestName(string name, int i, int j) => CalamityUtils.GetMapChestName(name, i, j);
 
         public override void NumDust(int i, int j, bool fail, ref int num)
         {

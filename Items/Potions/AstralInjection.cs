@@ -21,14 +21,14 @@ namespace CalamityMod.Items.Potions
             item.height = 18;
             item.useTurn = true;
             item.maxStack = 999;
-            item.rare = 3;
+            item.rare = ItemRarityID.Orange;
             item.useAnimation = 17;
             item.useTime = 17;
             item.useStyle = ItemUseStyleID.EatingUsing;
             item.UseSound = SoundID.Item3;
             item.consumable = true;
             item.buffType = ModContent.BuffType<AstralInjectionBuff>();
-            item.buffTime = 180;
+            item.buffTime = CalamityUtils.SecondsToFrames(5f);
             item.value = Item.buyPrice(0, 2, 0, 0);
         }
 
@@ -60,7 +60,7 @@ namespace CalamityMod.Items.Potions
             recipe.AddIngredient(ModContent.ItemType<BloodOrb>(), 5);
             recipe.AddIngredient(ModContent.ItemType<AstralJelly>());
             recipe.AddTile(TileID.AlchemyTable);
-            recipe.SetResult(this, 4);
+            recipe.SetResult(this, 8);
             recipe.AddRecipe();
         }
     }

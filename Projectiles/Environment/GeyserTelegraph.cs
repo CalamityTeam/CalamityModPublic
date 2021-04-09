@@ -1,12 +1,13 @@
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Environment
 {
-    public class GeyserTelegraph : ModProjectile
+	public class GeyserTelegraph : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
 		private bool initialized = false;
         public override void SetStaticDefaults()
         {
@@ -25,7 +26,7 @@ namespace CalamityMod.Projectiles.Environment
 
         public override void AI()
         {
-			if (!initialized)
+			if (!initialized && Main.myPlayer != projectile.owner)
 			{
 				int projectileType = ModContent.ProjectileType<SmokeTelegraph>();
 				float randomVelocity = Main.rand.NextFloat() + 0.5f;
@@ -37,6 +38,9 @@ namespace CalamityMod.Projectiles.Environment
 
 		public override void Kill(int timeLeft)
 		{
+			if (Main.myPlayer != projectile.owner)
+				return;
+
 			int projectileType = ProjectileID.GeyserTrap;
 			if (projectile.ai[0] == 1f)
 			{

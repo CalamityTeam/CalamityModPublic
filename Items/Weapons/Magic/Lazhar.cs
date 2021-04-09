@@ -27,12 +27,14 @@ namespace CalamityMod.Items.Weapons.Magic
             item.noMelee = true;
             item.knockBack = 5f;
             item.value = Item.buyPrice(0, 95, 0, 0);
-            item.rare = 9;
+            item.rare = ItemRarityID.Cyan;
             item.UseSound = SoundID.Item12;
             item.autoReuse = true;
             item.shootSpeed = 15f;
             item.shoot = ModContent.ProjectileType<SolarBeam2>();
         }
+
+        public override Vector2? HoldoutOffset() => new Vector2(-5, 0);
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {

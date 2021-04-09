@@ -1,14 +1,12 @@
 using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 using CalamityMod.Items.Materials;
 namespace CalamityMod.Items.Fishing.FishingRods
 {
-    public class EarlyBloomRod : ModItem
+	public class EarlyBloomRod : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -19,7 +17,6 @@ namespace CalamityMod.Items.Fishing.FishingRods
 
         public override void SetDefaults()
         {
-			//item.CloneDefaults(2289); //Wooden Fishing Pole
 			item.width = 24;
 			item.height = 28;
 			item.useAnimation = 8;
@@ -30,7 +27,7 @@ namespace CalamityMod.Items.Fishing.FishingRods
 			item.shootSpeed = 18f;
 			item.shoot = ModContent.ProjectileType<EarlyBloomBobber>();
             item.value = Item.buyPrice(1, 20, 0, 0);
-            item.rare = 10;
+            item.rare = ItemRarityID.Red;
             item.Calamity().customRarity = CalamityRarity.Turquoise;
         }
 
@@ -38,9 +35,9 @@ namespace CalamityMod.Items.Fishing.FishingRods
         {
             for (int index = 0; index < 6; ++index)
             {
-                float SpeedX = speedX + (float)Main.rand.Next(-75, 76) * 0.05f;
-                float SpeedY = speedY + (float)Main.rand.Next(-75, 76) * 0.05f;
-                int linecolor = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, 0, 0f, player.whoAmI, 0.0f, 0.0f);
+                float SpeedX = speedX + Main.rand.NextFloat(-3.75f, 3.75f);
+                float SpeedY = speedY + Main.rand.NextFloat(-3.75f, 3.75f);
+                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, 0, 0f, player.whoAmI);
             }
             return false;
         }

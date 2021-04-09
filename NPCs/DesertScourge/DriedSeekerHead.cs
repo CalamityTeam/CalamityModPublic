@@ -1,4 +1,4 @@
-using CalamityMod.World;
+using CalamityMod.Events;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -16,12 +16,12 @@ namespace CalamityMod.NPCs.DesertScourge
 
         public override void SetDefaults()
         {
-            npc.damage = 14;
-            npc.npcSlots = 5f;
+			npc.GetNPCDamage();
+			npc.npcSlots = 5f;
             npc.width = 18;
             npc.height = 18;
             npc.lifeMax = 100;
-            if (CalamityWorld.bossRushActive)
+            if (BossRushEvent.BossRushActive)
             {
                 npc.lifeMax = 50000;
             }
@@ -86,13 +86,13 @@ namespace CalamityMod.NPCs.DesertScourge
         {
             for (int k = 0; k < 3; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
             }
             if (npc.life <= 0)
             {
                 for (int k = 0; k < 10; k++)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
                 }
             }
         }

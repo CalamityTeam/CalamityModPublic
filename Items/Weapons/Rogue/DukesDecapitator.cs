@@ -1,11 +1,6 @@
-using System;
-using System.Collections.Generic;
-using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Items;
 using CalamityMod.Projectiles.Rogue;
 
 namespace CalamityMod.Items.Weapons.Rogue
@@ -34,7 +29,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 			item.knockBack = 2f;
 			item.UseSound = SoundID.Item1;
             item.value = Item.buyPrice(0, 80, 0, 0);
-            item.rare = 8;
+            item.rare = ItemRarityID.Yellow;
             item.shoot = ModContent.ProjectileType<DukesDecapitatorProj>();
 			item.shootSpeed = 15f;
             item.Calamity().rogue = true;

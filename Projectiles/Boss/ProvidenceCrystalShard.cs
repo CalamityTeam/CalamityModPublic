@@ -1,3 +1,4 @@
+using CalamityMod.Events;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
@@ -16,7 +17,8 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetDefaults()
         {
-            projectile.width = 34;
+			projectile.Calamity().canBreakPlayerDefense = true;
+			projectile.width = 34;
             projectile.height = 34;
             projectile.hostile = true;
             projectile.alpha = 255;
@@ -40,7 +42,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void AI()
         {
-			if (!Main.dayTime)
+			if (!Main.dayTime || CalamityWorld.malice)
 				projectile.extraUpdates = 1;
 
 			if (projectile.timeLeft < 300)
@@ -68,7 +70,7 @@ namespace CalamityMod.Projectiles.Boss
             else
             {
                 projectile.velocity.Y *= 1.06f;
-                float fallSpeed = (CalamityWorld.revenge || CalamityWorld.bossRushActive || !Main.dayTime) ? 3.5f : 3f;
+                float fallSpeed = (CalamityWorld.revenge || BossRushEvent.BossRushActive || !Main.dayTime || CalamityWorld.malice) ? 3.5f : 3f;
                 if (projectile.velocity.Y > fallSpeed)
                 {
                     projectile.velocity.Y = fallSpeed;

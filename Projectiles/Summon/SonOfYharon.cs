@@ -26,7 +26,7 @@ namespace CalamityMod.Projectiles.Summon
             projectile.friendly = true;
             projectile.ignoreWater = true;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 1;
+            projectile.localNPCHitCooldown = 20;
             projectile.extraUpdates = 1;
             projectile.minionSlots = 4f;
             projectile.timeLeft = 18000;
@@ -107,7 +107,7 @@ namespace CalamityMod.Projectiles.Summon
 				}
 			}
 
-			CalamityGlobalProjectile.ChargingMinionAI(projectile, 1000f, 2000f, 3000f, 500f, 1, 30f, 8f, -4f, 40f, 8f, true, true);
+			projectile.ChargingMinionAI(1000f, 2000f, 3000f, 500f, 1, 30f, 8f, 4f, new Vector2(0f, -60f), 40f, 8f, true, true);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

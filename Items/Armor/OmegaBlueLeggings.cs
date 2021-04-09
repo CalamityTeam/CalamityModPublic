@@ -11,8 +11,8 @@ namespace CalamityMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Omega Blue Leggings");
-            Tooltip.SetDefault(@"30% increased movement speed
+            DisplayName.SetDefault("Omega Blue Tentacles");
+            Tooltip.SetDefault(@"20% increased movement speed
 12% increased damage and 8% increased critical strike chance");
         }
 
@@ -21,7 +21,7 @@ namespace CalamityMod.Items.Armor
             item.width = 18;
             item.height = 18;
             item.value = Item.sellPrice(0, 35, 25, 0);
-            item.rare = 10;
+            item.rare = ItemRarityID.Red;
             item.defense = 22;
             item.Calamity().customRarity = CalamityRarity.PureGreen;
         }
@@ -30,14 +30,13 @@ namespace CalamityMod.Items.Armor
         {
             player.allDamage += 0.12f;
             player.Calamity().AllCritBoost(8);
-
-            player.moveSpeed += 0.3f;
+            player.moveSpeed += 0.2f;
         }
 
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<ReaperTooth>(), 13);
+            recipe.AddIngredient(ModContent.ItemType<ReaperTooth>(), 10);
             recipe.AddIngredient(ModContent.ItemType<Lumenite>(), 6);
             recipe.AddIngredient(ModContent.ItemType<Tenebris>(), 6);
             recipe.AddIngredient(ModContent.ItemType<RuinousSoul>(), 3);

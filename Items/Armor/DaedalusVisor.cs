@@ -21,7 +21,7 @@ namespace CalamityMod.Items.Armor
             item.width = 18;
             item.height = 18;
             item.value = Item.buyPrice(0, 25, 0, 0);
-            item.rare = 5;
+            item.rare = ItemRarityID.Pink;
             item.defense = 7; //37
         }
 
@@ -47,8 +47,8 @@ namespace CalamityMod.Items.Armor
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.daedalusSplit = true;
             modPlayer.rogueStealthMax += 1.05f;
-            player.Calamity().throwingDamage += 0.05f;
-            player.Calamity().wearingRogueArmor = true;
+            modPlayer.throwingDamage += 0.05f;
+            modPlayer.wearingRogueArmor = true;
         }
 
         public override void UpdateEquip(Player player)

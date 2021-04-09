@@ -29,21 +29,11 @@ namespace CalamityMod.Items.Weapons.Melee
             item.autoReuse = true;
             item.height = 58;
             item.value = Item.buyPrice(0, 80, 0, 0);
-            item.rare = 8;
+            item.rare = ItemRarityID.Yellow;
             item.shoot = ModContent.ProjectileType<DiseasedPikeSpear>();
             item.shootSpeed = 10f;
         }
 
-        public override bool CanUseItem(Player player)
-        {
-            for (int i = 0; i < 1000; ++i)
-            {
-                if (Main.projectile[i].active && Main.projectile[i].owner == Main.myPlayer && Main.projectile[i].type == item.shoot)
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
-    }
+		public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;
+	}
 }

@@ -1,13 +1,10 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using System;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class Valaricicle : ModProjectile
+	public class Valaricicle : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -26,11 +23,16 @@ namespace CalamityMod.Projectiles.Rogue
 			projectile.coldDamage = true;
         }
 
-        public override void AI()
+		public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 150;
+
+		public override void AI()
         {
             projectile.velocity.X *= 0.9995f;
-            projectile.velocity.Y = projectile.velocity.Y + 0.01f;
-        }
+            projectile.velocity.Y += 0.01f;
+
+			if (projectile.timeLeft < 150)
+				CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 600f, 8f, 20f);
+		}
 
         public override void Kill(int timeLeft)
         {

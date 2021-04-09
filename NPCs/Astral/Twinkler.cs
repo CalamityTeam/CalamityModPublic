@@ -1,4 +1,3 @@
-using Microsoft.Xna.Framework;
 using MonoMod.Cil;
 using System;
 using CalamityMod.Dusts;
@@ -6,11 +5,10 @@ using CalamityMod.Items.Critters;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
 
 namespace CalamityMod.NPCs.Astral
 {
-    public class Twinkler : ModNPC
+	public class Twinkler : ModNPC
     {
         public override void SetStaticDefaults()
         {
@@ -29,7 +27,7 @@ namespace CalamityMod.NPCs.Astral
             npc.catchItem = (short)ModContent.ItemType<TwinklerItem>();
             npc.friendly = true; // prevents critter from getting slagged
             //banner = npc.type;
-            //bannerItem = ModContent.ItemType<Items.TwinklerBanner>();
+            //bannerItem = ModContent.ItemType<TwinklerBanner>();
         }
 
         public override bool? CanBeHitByItem(Player player, Item item) => true;
@@ -58,7 +56,7 @@ namespace CalamityMod.NPCs.Astral
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.player.PillarZone())
+            if (CalamityGlobalNPC.AnyEvents(spawnInfo.player))
             {
                 return 0f;
             }

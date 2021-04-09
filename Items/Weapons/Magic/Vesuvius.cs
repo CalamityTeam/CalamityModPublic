@@ -12,11 +12,9 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Vesuvius");
-            Tooltip.SetDefault("Legendary drop\n" +
-                "Asteroids give the Molten buff on enemy hits\n" +
+            Tooltip.SetDefault("Asteroids give the Molten buff on enemy hits\n" +
                 "Calls down a swarm of molten asteroids\n" +
-                "Right click to fire a spread of molten asteroids from the staff\n" +
-                "Revengeance drop");
+                "Right click to fire a spread of molten asteroids from the staff");
             Item.staff[item.type] = true;
         }
 
@@ -26,25 +24,20 @@ namespace CalamityMod.Items.Weapons.Magic
             item.damage = 75;
             item.mana = 6;
             item.magic = true;
-            item.useAnimation = 20;
-            item.useTime = 20;
+            item.useAnimation = item.useTime = 15;
             item.noMelee = true;
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.knockBack = 3f;
             item.UseSound = SoundID.Item88;
             item.autoReuse = true;
             item.height = 62;
-            item.value = Item.buyPrice(0, 80, 0, 0);
-            item.rare = 8;
             item.shootSpeed = 20f;
             item.shoot = ModContent.ProjectileType<AsteroidMolten>();
-            item.Calamity().customRarity = CalamityRarity.ItemSpecific;
-        }
 
-        /*public override Vector2? HoldoutOrigin()
-        {
-            return new Vector2(30, 30);
-        }*/
+            item.value = CalamityGlobalItem.Rarity8BuyPrice;
+            item.rare = ItemRarityID.Yellow;
+			item.Calamity().challengeDrop = true;
+		}
 
         public override bool AltFunctionUse(Player player)
         {
@@ -53,20 +46,21 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override bool CanUseItem(Player player)
         {
-            if (player.altFunctionUse == 2)
-            {
-                item.mana = 9;
-                item.useTime = 20;
-                item.useAnimation = 20;
-            }
-            else
-            {
-                item.mana = 6;
-                item.useTime = 15;
-                item.useAnimation = 15;
-            }
             return base.CanUseItem(player);
         }
+
+		public override void ModifyManaCost(Player player, ref float reduce, ref float mult)
+		{
+			if (player.altFunctionUse == 2)
+				mult *= 1.5f;
+		}
+
+		public override float UseTimeMultiplier	(Player player)
+		{
+			if (player.altFunctionUse != 2)
+				return 1f;
+			return 0.75f;
+		}
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {

@@ -89,30 +89,7 @@ namespace CalamityMod.Projectiles.Summon
                     projectile.timeLeft = 2;
                 }
             }
-            for (int num534 = 0; num534 < Main.maxProjectiles; num534++)
-            {
-                if (num534 != projectile.whoAmI && Main.projectile[num534].active && Main.projectile[num534].owner == projectile.owner &&
-                    Main.projectile[num534].type == ModContent.ProjectileType<BloodClotMinion>() &&
-                    Math.Abs(projectile.position.X - Main.projectile[num534].position.X) + Math.Abs(projectile.position.Y - Main.projectile[num534].position.Y) < (float)projectile.width)
-                {
-                    if (projectile.position.X < Main.projectile[num534].position.X)
-                    {
-                        projectile.velocity.X = projectile.velocity.X - 0.05f;
-                    }
-                    else
-                    {
-                        projectile.velocity.X = projectile.velocity.X + 0.05f;
-                    }
-                    if (projectile.position.Y < Main.projectile[num534].position.Y)
-                    {
-                        projectile.velocity.Y = projectile.velocity.Y - 0.05f;
-                    }
-                    else
-                    {
-                        projectile.velocity.Y = projectile.velocity.Y + 0.05f;
-                    }
-                }
-            }
+			projectile.MinionAntiClump();
             float num535 = projectile.position.X;
             float num536 = projectile.position.Y;
             float num537 = 1300f;
@@ -144,7 +121,7 @@ namespace CalamityMod.Projectiles.Summon
                         }
                     }
                 }
-                else
+                if (!flag19)
                 {
                     for (int num542 = 0; num542 < Main.maxNPCs; num542++)
                     {

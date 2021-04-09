@@ -1,4 +1,3 @@
-using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using System;
@@ -7,7 +6,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Summon
 {
-    public class HowlsHeartHowl : ModProjectile
+	public class HowlsHeartHowl : ModProjectile
     {
         public bool initialized = false;
 
@@ -86,22 +85,6 @@ namespace CalamityMod.Projectiles.Summon
             }
 
 			//Anti sticky movement although there should only be one
-			float antiStickyFloat = 0.05f;
-			for (int index = 0; index < Main.maxProjectiles; ++index)
-			{
-				Projectile proj = Main.projectile[index];
-				if (index != projectile.whoAmI && proj.active && (proj.owner == projectile.owner && proj.type == projectile.type) && (double)Math.Abs(projectile.position.X - proj.position.X) + Math.Abs(projectile.position.Y - proj.position.Y) < projectile.width)
-				{
-					if (projectile.position.X < proj.position.X)
-						projectile.velocity.X -= antiStickyFloat;
-					else
-						projectile.velocity.X += antiStickyFloat;
-					if (projectile.position.Y < proj.position.Y)
-						projectile.velocity.Y -= antiStickyFloat;
-					else
-						projectile.velocity.Y += antiStickyFloat;
-				}
-			}
 
 			//Set tile collision for only when trying to return to the player
 			projectile.tileCollide = projectile.ai[0] != 1f;
@@ -110,6 +93,7 @@ namespace CalamityMod.Projectiles.Summon
 			Vector2 targetPos = projectile.position;
 			float maxRange = 900f;
 			bool foundEnemy = false;
+			int targetIndex = -1;
 			//If the player has targetted an enemy, choose that one
 			NPC target = projectile.OwnerMinionAttackTargetNPC;
 			if (target != null && target.CanBeChasedBy(projectile, false))
@@ -120,6 +104,7 @@ namespace CalamityMod.Projectiles.Summon
 					maxRange = targetDist;
 					targetPos = target.Center;
 					foundEnemy = true;
+					targetIndex = target.whoAmI;
 				}
 			}
 			//else, search through all available NPCs
@@ -136,6 +121,7 @@ namespace CalamityMod.Projectiles.Summon
 							maxRange = targetDist;
 							targetPos = npc.Center;
 							foundEnemy = true;
+							targetIndex = index;
 						}
 					}
 				}
@@ -289,7 +275,7 @@ namespace CalamityMod.Projectiles.Summon
 			targetVec.Normalize();
 			targetVec *= speedMult;
             Main.PlaySound(SoundID.Item20, projectile.position);
-			int fireball = Projectile.NewProjectile(projectile.Center, targetVec, ModContent.ProjectileType<HowlsHeartFireball>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+			int fireball = Projectile.NewProjectile(projectile.Center, targetVec, ModContent.ProjectileType<HowlsHeartFireball>(), projectile.damage, projectile.knockBack, projectile.owner, targetIndex, 0f);
 			Main.projectile[fireball].netUpdate = true;
 			Main.projectile[fireball].frame = Main.rand.Next(4);
 			projectile.netUpdate = true;

@@ -1,4 +1,5 @@
 using CalamityMod.Items.Materials;
+using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -25,7 +26,7 @@ namespace CalamityMod.Items.Tools
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.knockBack = 2.5f;
             item.value = Item.buyPrice(0, 12, 0, 0);
-            item.rare = 4;
+            item.rare = ItemRarityID.LightRed;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             item.useTurn = true;
@@ -37,7 +38,7 @@ namespace CalamityMod.Items.Tools
             recipe.AddIngredient(ModContent.ItemType<PurifiedGel>(), 15);
             recipe.AddIngredient(ItemID.Gel, 30);
             recipe.AddIngredient(ItemID.HellstoneBar, 5);
-            recipe.AddTile(TileID.Anvils);
+            recipe.AddTile(ModContent.TileType<StaticRefiner>());
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

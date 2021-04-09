@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.autoReuse = true;
             item.height = 56;
             item.value = Item.buyPrice(0, 48, 0, 0);
-            item.rare = 6;
+            item.rare = ItemRarityID.LightPurple;
             item.shoot = ModContent.ProjectileType<CalamityAura>();
             item.shootSpeed = 11f;
         }
@@ -73,9 +73,9 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             if (Main.rand.NextBool(3))
             {
-                target.AddBuff(BuffID.Ichor, 120);
+                target.AddBuff(BuffID.Ichor, 60);
                 target.AddBuff(BuffID.OnFire, 300);
-                target.AddBuff(BuffID.Frostburn, 180);
+                target.AddBuff(BuffID.Frostburn, 150);
             }
         }
 
@@ -83,9 +83,9 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             if (Main.rand.NextBool(3))
             {
-                target.AddBuff(BuffID.Ichor, 120);
+                target.AddBuff(BuffID.Ichor, 60);
                 target.AddBuff(BuffID.OnFire, 300);
-                target.AddBuff(BuffID.Frostburn, 180);
+                target.AddBuff(BuffID.Frostburn, 150);
             }
         }
     }

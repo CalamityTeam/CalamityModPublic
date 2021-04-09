@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class WulfrumKnifeProj : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/WulfrumKnife";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Knife");

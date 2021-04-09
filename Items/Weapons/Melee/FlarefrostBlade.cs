@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.width = 66;
+            item.width = 64;
             item.damage = 65;
             item.melee = true;
             item.useAnimation = 24;
@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.autoReuse = true;
             item.height = 66;
             item.value = Item.buyPrice(0, 36, 0, 0);
-            item.rare = 5;
+            item.rare = ItemRarityID.Pink;
             item.shoot = ModContent.ProjectileType<Flarefrost>();
             item.shootSpeed = 11f;
         }
@@ -37,7 +37,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<CryoBar>(), 8);
+            recipe.AddIngredient(ModContent.ItemType<VerstaltiteBar>(), 8);
             recipe.AddIngredient(ItemID.HellstoneBar, 8);
             recipe.AddIngredient(ItemID.HallowedBar, 4);
             recipe.AddTile(TileID.MythrilAnvil);

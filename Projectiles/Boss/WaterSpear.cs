@@ -23,9 +23,10 @@ namespace CalamityMod.Projectiles.Boss
             projectile.height = 14;
             projectile.hostile = true;
             projectile.ignoreWater = true;
+			projectile.tileCollide = false;
             projectile.penetrate = -1;
             projectile.timeLeft = 300;
-            projectile.alpha = 255;
+            projectile.Opacity = 0f;
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -40,58 +41,45 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void AI()
         {
-            projectile.velocity *= 1.005f;
+			if (projectile.velocity.Length() < 10f)
+				projectile.velocity *= 1.01f;
+
             if (projectile.ai[1] == 0f)
             {
-                for (int num621 = 0; num621 < 20; num621++)
+                for (int num621 = 0; num621 < 10; num621++)
                 {
                     int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 33, 0f, 0f, 100, default, 2f);
                     Main.dust[num622].velocity *= 3f;
                     if (Main.rand.NextBool(2))
                     {
                         Main.dust[num622].scale = 0.5f;
-                        Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
+                        Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
                     }
                 }
                 projectile.ai[1] = 1f;
-                Main.PlaySound(SoundID.Item21, projectile.position);
             }
-            if (projectile.localAI[0] == 0f)
-            {
-                projectile.scale -= 0.01f;
-                projectile.alpha += 10;
-                if (projectile.alpha >= 100)
-                {
-                    projectile.alpha = 100;
-                    projectile.localAI[0] = 1f;
-                }
-            }
-            else if (projectile.localAI[0] == 1f)
-            {
-                projectile.scale += 0.01f;
-                projectile.alpha -= 10;
-                if (projectile.alpha <= 0)
-                {
-                    projectile.alpha = 0;
-                    projectile.localAI[0] = 0f;
-                }
-            }
-            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
-            Lighting.AddLight(projectile.Center, 0f, (255 - projectile.alpha) * 0.05f / 255f, (255 - projectile.alpha) * 0.35f / 255f);
+
+			if (projectile.timeLeft < 30)
+				projectile.Opacity = MathHelper.Clamp(projectile.timeLeft / 30f, 0f, 1f);
+			else
+				projectile.Opacity = MathHelper.Clamp(1f - ((projectile.timeLeft - 270) / 30f), 0f, 1f);
+
+			projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + MathHelper.PiOver2;
+            Lighting.AddLight(projectile.Center, 0f, 0f, 0.5f * projectile.Opacity);
         }
 
-        public override Color? GetAlpha(Color lightColor)
-        {
-            return new Color(200, 200, 200, projectile.alpha);
-        }
+		public override bool CanHitPlayer(Player target) => projectile.Opacity == 1f;
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
-        {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
-            return false;
-        }
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			lightColor.R = (byte)(255 * projectile.Opacity);
+			lightColor.G = (byte)(255 * projectile.Opacity);
+			lightColor.B = (byte)(255 * projectile.Opacity);
+			CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+			return false;
+		}
 
-        public override void Kill(int timeLeft)
+		public override void Kill(int timeLeft)
         {
             for (int k = 0; k < 5; k++)
             {
@@ -101,7 +89,10 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-            target.AddBuff(BuffID.Wet, 240);
+			if (projectile.Opacity != 1f)
+				return;
+
+			target.AddBuff(BuffID.Wet, 240);
         }
     }
 }

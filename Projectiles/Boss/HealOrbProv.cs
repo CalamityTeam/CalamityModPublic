@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.Boss
 {
     public class HealOrbProv : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Heal");
@@ -37,8 +39,8 @@ namespace CalamityMod.Projectiles.Boss
             {
                 if (projectile.owner == Main.myPlayer)
                 {
-                    int num492 = -32;
-                    Main.player[num487].HealEffect(num492, false);
+                    int num492 = (int)projectile.ai[1];
+					Main.player[num487].HealEffect(num492, false);
                     Main.player[num487].statLife += num492;
                     if (Main.player[num487].statLife > Main.player[num487].statLifeMax2)
                     {
@@ -61,7 +63,7 @@ namespace CalamityMod.Projectiles.Boss
             {
                 float num498 = projectile.velocity.X * 0.2f * (float)num497;
                 float num499 = -(projectile.velocity.Y * 0.2f) * (float)num497;
-                int num500 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 127, 0f, 0f, 100, default, 1f);
+                int num500 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 127, 0f, 0f, 100, default, 1f);
                 Main.dust[num500].noGravity = true;
                 Main.dust[num500].velocity *= 0f;
                 Dust expr_154F9_cp_0 = Main.dust[num500];

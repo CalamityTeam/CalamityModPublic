@@ -24,16 +24,16 @@ namespace CalamityMod.Items.Ammo
             item.consumable = true;
             item.knockBack = 1.5f;
             item.value = Item.sellPrice(0, 0, 0, 24);
-            item.rare = 3;
+            item.rare = ItemRarityID.Orange;
             item.shoot = ModContent.ProjectileType<ArcticArrowProj>();
             item.shootSpeed = 13f;
-            item.ammo = 40;
+            item.ammo = AmmoID.Arrow;
         }
 
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<CryoBar>());
+            recipe.AddIngredient(ModContent.ItemType<VerstaltiteBar>());
             recipe.AddTile(TileID.IceMachine);
             recipe.SetResult(this, 250);
             recipe.AddRecipe();

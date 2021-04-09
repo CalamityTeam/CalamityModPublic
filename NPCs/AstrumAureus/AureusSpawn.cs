@@ -1,6 +1,6 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
-using CalamityMod.World;
+using CalamityMod.Events;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -22,26 +22,20 @@ namespace CalamityMod.NPCs.AstrumAureus
 
         public override void SetDefaults()
         {
-            npc.aiStyle = -1;
+			npc.Calamity().canBreakPlayerDefense = true;
+			npc.aiStyle = -1;
             aiType = -1;
-            npc.damage = 0;
-            npc.width = 90;
+			npc.GetNPCDamage();
+			npc.width = 90;
             npc.height = 60;
             npc.alpha = 255;
-            npc.defense = 0;
-            CalamityGlobalNPC global = npc.Calamity();
-            global.DR = 0.999999f;
-            global.unbreakableDR = true;
-            npc.lifeMax = Main.expertMode ? 1007 : 1012;
-            if (CalamityWorld.bossRushActive)
+            npc.defense = 10;
+            npc.lifeMax = 3000;
+            if (BossRushEvent.BossRushActive)
             {
-                npc.lifeMax = 1002;
+                npc.lifeMax = 30000;
             }
             npc.knockBackResist = 0f;
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
             npc.noGravity = true;
             npc.noTileCollide = true;
             npc.canGhostHeal = false;
@@ -49,21 +43,26 @@ namespace CalamityMod.NPCs.AstrumAureus
             npc.DeathSound = SoundID.NPCDeath1;
         }
 
-        public override void SendExtraAI(BinaryWriter writer)
-        {
-            writer.Write(npc.dontTakeDamage);
-        }
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(npc.dontTakeDamage);
+		}
 
-        public override void ReceiveExtraAI(BinaryReader reader)
-        {
-            npc.dontTakeDamage = reader.ReadBoolean();
-        }
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			npc.dontTakeDamage = reader.ReadBoolean();
+		}
 
-        public override void AI()
+		public override void AI()
         {
+			npc.damage = 0;
+
             Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0.6f, 0.25f, 0f);
+
             npc.rotation = Math.Abs(npc.velocity.X) * (float)npc.direction * 0.04f;
+
             npc.spriteDirection = npc.direction;
+
             if (npc.alpha > 0)
             {
                 npc.alpha -= 5;
@@ -76,22 +75,33 @@ namespace CalamityMod.NPCs.AstrumAureus
                     num = num245;
                 }
             }
-            npc.TargetClosest(true);
-            if (npc.life <= 1000 || Main.dayTime)
+
+            npc.TargetClosest();
+
+			// Percent life remaining
+			float lifeRatio = npc.life / (float)npc.lifeMax;
+
+			if (lifeRatio <= 0.5f || Main.dayTime)
             {
-                npc.dontTakeDamage = true;
+				npc.ai[1] += 1f;
+				npc.dontTakeDamage = true;
                 Vector2 vector = Main.player[npc.target].Center - npc.Center;
                 Point point15 = npc.Center.ToTileCoordinates();
                 Tile tileSafely = Framing.GetTileSafely(point15);
                 bool flag121 = tileSafely.nactive() && Main.tileSolid[tileSafely.type] && !Main.tileSolidTop[tileSafely.type] && !TileID.Sets.Platforms[tileSafely.type];
-                if (vector.Length() < 60f || flag121)
+				if (npc.ai[1] > 300f)
+				{
+					npc.Calamity().newAI[0] += 1f;
+					npc.scale = MathHelper.Lerp(1f, 2f, npc.Calamity().newAI[0] / 45f);
+				}
+				if (vector.Length() < 60f || flag121 || npc.Calamity().newAI[0] >= 45f)
                 {
-                    npc.dontTakeDamage = false;
+					npc.dontTakeDamage = false;
                     CheckDead();
                     npc.life = 0;
                     return;
                 }
-                float num1372 = CalamityWorld.bossRushActive ? 24f : 18f;
+                float num1372 = BossRushEvent.BossRushActive ? 24f : 18f;
                 Vector2 vector167 = new Vector2(npc.Center.X + (float)(npc.direction * 20), npc.Center.Y + 6f);
                 float num1373 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - vector167.X;
                 float num1374 = Main.player[npc.target].Center.Y - vector167.Y;
@@ -103,17 +113,18 @@ namespace CalamityMod.NPCs.AstrumAureus
                 npc.velocity.Y = (npc.velocity.Y * 50f + num1374) / 51f;
                 return;
             }
-            float num1446 = CalamityWorld.bossRushActive ? 10f : 7f;
+
+            float num1446 = BossRushEvent.BossRushActive ? 10f : 7f;
             int num1447 = 480;
-            float num244;
             if (npc.localAI[1] == 1f)
             {
                 npc.localAI[1] = 0f;
                 if (Main.rand.NextBool(4))
                 {
-                    npc.ai[0] = (float)num1447;
+                    npc.ai[0] = num1447;
                 }
             }
+
             Vector2 value53 = npc.Center + new Vector2((float)(npc.direction * 20), 6f);
             Vector2 vector251 = Main.player[npc.target].Center - value53;
             bool flag104 = Collision.CanHit(npc.Center, 1, 1, Main.player[npc.target].Center, 1, 1);
@@ -132,6 +143,7 @@ namespace CalamityMod.NPCs.AstrumAureus
             {
                 npc.velocity *= 0.98f;
             }
+
             if (npc.ai[2] != 0f && npc.ai[3] != 0f)
             {
                 Main.PlaySound(SoundID.Item8, npc.Center);
@@ -160,11 +172,9 @@ namespace CalamityMod.NPCs.AstrumAureus
                     num = num1451;
                 }
             }
-            float[] var_9_48E3C_cp_0 = npc.ai;
-            int var_9_48E3C_cp_1 = 0;
-            num244 = var_9_48E3C_cp_0[var_9_48E3C_cp_1];
-            var_9_48E3C_cp_0[var_9_48E3C_cp_1] = num244 + 1f;
-            if (npc.ai[0] >= (float)num1447 && Main.netMode != NetmodeID.MultiplayerClient)
+
+			npc.ai[0] += 1f;
+            if (npc.ai[0] >= num1447 && Main.netMode != NetmodeID.MultiplayerClient)
             {
                 npc.ai[0] = 0f;
                 Point point12 = npc.Center.ToTileCoordinates();
@@ -207,8 +217,16 @@ namespace CalamityMod.NPCs.AstrumAureus
             }
         }
 
+		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
+		{
+			npc.lifeMax = (int)(npc.lifeMax * 0.5f * bossLifeScale);
+		}
+
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
+			if (npc.Calamity().newAI[0] >= 45f)
+				return false;
+
 			SpriteEffects spriteEffects = SpriteEffects.None;
 			if (npc.spriteDirection == 1)
 				spriteEffects = SpriteEffects.FlipHorizontally;
@@ -219,7 +237,7 @@ namespace CalamityMod.NPCs.AstrumAureus
 			float amount9 = 0.5f;
 			int num153 = 10;
 
-			if (CalamityMod.CalamityConfig.Afterimages)
+			if (CalamityConfig.Instance.Afterimages)
 			{
 				for (int num155 = 1; num155 < num153; num155 += 2)
 				{
@@ -242,7 +260,7 @@ namespace CalamityMod.NPCs.AstrumAureus
 			texture2D15 = ModContent.GetTexture("CalamityMod/NPCs/AstrumAureus/AureusSpawnGlow");
 			Color color37 = Color.Lerp(Color.White, Color.Yellow, 0.5f);
 
-			if (CalamityMod.CalamityConfig.Afterimages)
+			if (CalamityConfig.Instance.Afterimages)
 			{
 				for (int num163 = 1; num163 < num153; num163++)
 				{
@@ -294,11 +312,11 @@ namespace CalamityMod.NPCs.AstrumAureus
             Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 14);
             npc.position.X = npc.position.X + (float)(npc.width / 2);
             npc.position.Y = npc.position.Y + (float)(npc.height / 2);
-            npc.damage = 150;
-            npc.width = npc.height = 216;
+            npc.damage = npc.defDamage;
+            npc.width = npc.height = 432;
             npc.position.X = npc.position.X - (float)(npc.width / 2);
             npc.position.Y = npc.position.Y - (float)(npc.height / 2);
-            for (int num621 = 0; num621 < 15; num621++)
+            for (int num621 = 0; num621 < 30; num621++)
             {
                 int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, ModContent.DustType<AstralOrange>(), 0f, 0f, 100, default, 1f);
                 Main.dust[num622].velocity *= 3f;
@@ -309,7 +327,7 @@ namespace CalamityMod.NPCs.AstrumAureus
                 }
                 Main.dust[num622].noGravity = true;
             }
-            for (int num623 = 0; num623 < 30; num623++)
+            for (int num623 = 0; num623 < 60; num623++)
             {
                 int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 173, 0f, 0f, 100, default, 2f);
                 Main.dust[num624].noGravity = true;

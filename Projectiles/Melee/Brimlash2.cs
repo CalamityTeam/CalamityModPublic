@@ -1,14 +1,13 @@
 using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    public class Brimlash2 : ModProjectile
+	public class Brimlash2 : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -30,11 +29,14 @@ namespace CalamityMod.Projectiles.Melee
             projectile.timeLeft = 120;
         }
 
-        public override void AI()
+		public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 90;
+
+		public override void AI()
         {
             Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0.5f / 255f, (255 - projectile.alpha) * 0.05f / 255f, (255 - projectile.alpha) * 0.05f / 255f);
 
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 400f, 15f, 20f);
+			if (projectile.timeLeft < 90)
+				CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 600f, 12f, 15f);
 
 			int num458 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 235, 0f, 0f, 100, default, 1f);
 			Main.dust[num458].noGravity = true;

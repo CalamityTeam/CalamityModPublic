@@ -3,12 +3,11 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using System;
 using CalamityMod.Buffs.DamageOverTime;
 
 namespace CalamityMod.Projectiles.Magic
 {
-    public class ClamorNoctusStar : ModProjectile
+	public class ClamorNoctusStar : ModProjectile
     {
         public override void SetStaticDefaults()
         {

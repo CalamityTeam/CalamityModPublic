@@ -1,5 +1,4 @@
 using CalamityMod.Dusts;
-using CalamityMod.Items.Weapons.Rogue;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -8,7 +7,7 @@ using Terraria.World.Generation;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class SpentFuelContainerProjectile : ModProjectile
+	public class SpentFuelContainerProjectile : ModProjectile
     {
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/SpentFuelContainer";
 
@@ -54,7 +53,8 @@ namespace CalamityMod.Projectiles.Rogue
             if (WorldUtils.Find(projectile.Top.ToTileCoordinates(), Searches.Chain((GenSearch)new Searches.Down(80), (GenCondition)new Conditions.IsSolid()), out result))
             {
                 int proj = Projectile.NewProjectile(result.ToVector2() * 16f, Vector2.Zero, ModContent.ProjectileType<SulphuricNukesplosion>(), projectile.damage, 2f, projectile.owner);
-                Main.projectile[proj].Calamity().stealthStrike = projectile.Calamity().stealthStrike;
+				if (proj.WithinBounds(Main.maxProjectiles))
+					Main.projectile[proj].Calamity().stealthStrike = projectile.Calamity().stealthStrike;
             }
         }
     }

@@ -1,15 +1,16 @@
 using CalamityMod.CalPlayer;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Terraria;
-using Terraria.ModLoader;
-using CalamityMod.World;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
+using System.Text;
+using Terraria;
+using Terraria.ModLoader;
 
 namespace CalamityMod.UI
 {
-    public class RipperUI
+    public static class RipperUI
     {
         public const float DefaultRagePosX = 500f;
         public const float DefaultRagePosY = 30f;
@@ -25,18 +26,64 @@ namespace CalamityMod.UI
         public static Vector2 adrenDrawPos = new Vector2(DefaultAdrenPosX, DefaultAdrenPosY);
         private static Vector2? rageDragOffset = null;
         private static Vector2? adrenDragOffset = null;
+        private static Vector2 pearlOffsetLeft = Vector2.Zero;
+        private static Vector2 pearlOffsetCenter = Vector2.Zero;
+        private static Vector2 pearlOffsetRight = Vector2.Zero;
+        private static Vector2 PearlOffsetCenterLeft => 0.5f * (pearlOffsetLeft + pearlOffsetCenter);
+        private static Vector2 PearlOffsetCenterRight => 0.5f * (pearlOffsetRight + pearlOffsetCenter);
 
         private static int rageAnimFrame = -1;
         private static int rageAnimTimer = 0;
         private static int adrenAnimFrame = -1;
         private static int adrenAnimTimer = 0;
 
-        public static void Reset()
-        {
-            bool configExists = CalamityMod.CalamityConfig != null;
+        private static Texture2D rageBarTex, rageBorderTex, rageAnimTex;
+        private static Texture2D mushroomPlasmaTex, infernalBloodTex, redLightningTex;
+        private static Texture2D adrenBarTex, adrenBorderTex, adrenAnimTex;
+        private static Texture2D electrolyteGelTex, starlightFuelTex, ectoheartTex;
 
-            rageDrawPos = configExists ? new Vector2(CalamityMod.CalamityConfig.RageMeterPosX, CalamityMod.CalamityConfig.RageMeterPosY) : Vector2.Zero;
-            adrenDrawPos = configExists ? new Vector2(CalamityMod.CalamityConfig.AdrenalineMeterPosX, CalamityMod.CalamityConfig.AdrenalineMeterPosY) : Vector2.Zero;
+        internal static void Load()
+        {
+            rageBarTex = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/RageBar");
+            rageBorderTex = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/RageBarBorder");
+            rageAnimTex = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/RageFullAnimation");
+
+            adrenBarTex = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/AdrenalineBar");
+            adrenBorderTex = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/AdrenalineBarBorder");
+            adrenAnimTex = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/AdrenalineFullAnimation");
+
+            mushroomPlasmaTex = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/RageDisplay_MushroomPlasmaRoot");
+            infernalBloodTex = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/RageDisplay_InfernalBlood");
+            redLightningTex = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/RageDisplay_RedLightningContainer");
+
+            electrolyteGelTex = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/AdrenalineDisplay_ElectrolyteGelPack");
+            starlightFuelTex = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/AdrenalineDisplay_StarlightFuelCell");
+            ectoheartTex = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/AdrenalineDisplay_Ectoheart");
+
+            pearlOffsetLeft = new Vector2(rageBorderTex.Width * 0.3333f - 6f, rageBorderTex.Height - 9f);
+            pearlOffsetCenter = new Vector2(rageBorderTex.Width * 0.5f - 6f, rageBorderTex.Height - 9f);
+            pearlOffsetRight = new Vector2(rageBorderTex.Width * 0.6667f - 6f, rageBorderTex.Height - 9f);
+
+            Reset();
+        }
+
+        internal static void Unload()
+        {
+            Reset();
+
+            rageBarTex = rageBorderTex = rageAnimTex = null;
+            adrenBarTex = adrenBorderTex = adrenAnimTex = null;
+            mushroomPlasmaTex = infernalBloodTex = redLightningTex = null;
+            electrolyteGelTex = starlightFuelTex = ectoheartTex = null;
+            pearlOffsetLeft = pearlOffsetCenter = pearlOffsetRight = Vector2.Zero;
+        }
+
+        internal static void Reset()
+        {
+            bool configExists = CalamityConfig.Instance != null;
+
+            rageDrawPos = configExists ? new Vector2(CalamityConfig.Instance.RageMeterPosX, CalamityConfig.Instance.RageMeterPosY) : Vector2.Zero;
+            adrenDrawPos = configExists ? new Vector2(CalamityConfig.Instance.AdrenalineMeterPosX, CalamityConfig.Instance.AdrenalineMeterPosY) : Vector2.Zero;
             rageDragOffset = null;
             adrenDragOffset = null;
             rageAnimFrame = -1;
@@ -48,7 +95,7 @@ namespace CalamityMod.UI
         public static void Draw(SpriteBatch spriteBatch, Player player)
         {
             // If Revengeance isn't on, or Rage and Adrenaline are turned off, don't draw anything.
-            if (!CalamityWorld.revenge || !CalamityMod.CalamityConfig.AdrenalineAndRage)
+            if (!CalamityWorld.revenge || !CalamityConfig.Instance.Rippers)
                 return;
 
             // If for some reason either of the bars has been thrown into the corner (likely to 0,0 by default), put them at their default positions
@@ -60,21 +107,15 @@ namespace CalamityMod.UI
             adrenDrawPos.X = (int)adrenDrawPos.X;
             adrenDrawPos.Y = (int)adrenDrawPos.Y;
 
-            // Grab all the textures and the player object and then start drawing
-            Texture2D rageBarTex = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/RageBar");
-            Texture2D rageBorderTex = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/RageBarBorder");
-            Texture2D rageAnimTex = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/RageFullAnimation");
-            Texture2D adrenBarTex = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/AdrenalineBar");
-            Texture2D adrenBorderTex = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/AdrenalineBarBorder");
-            Texture2D adrenAnimTex = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/AdrenalineFullAnimation");
+            // Grab the ModPlayer object and then start drawing
             CalamityPlayer modPlayer = player.Calamity();
-            DrawRage(spriteBatch, modPlayer, rageBarTex, rageBorderTex, rageAnimTex);
-            DrawAdrenaline(spriteBatch, modPlayer, adrenBarTex, adrenBorderTex, adrenAnimTex);
+            DrawRageBar(spriteBatch, modPlayer);
+            DrawAdrenalineBar(spriteBatch, modPlayer);
 
             HandleMouseInteraction(modPlayer, rageBorderTex.Size(), adrenBorderTex.Size());
         }
 
-        private static void DrawRage(SpriteBatch spriteBatch, CalamityPlayer modPlayer, Texture2D barTex, Texture2D borderTex, Texture2D animTex)
+        private static void DrawRageBar(SpriteBatch spriteBatch, CalamityPlayer modPlayer)
         {
             Vector2 shakeOffset = modPlayer.rageModeActive ? GetShakeOffset() : Vector2.Zero;
 
@@ -99,29 +140,45 @@ namespace CalamityMod.UI
                 }
             }
 
+            float uiScale = Main.UIScale;
+
             // Draw the border of the Rage Bar first
-            spriteBatch.Draw(borderTex, rageDrawPos + shakeOffset, Color.White);
+            spriteBatch.Draw(rageBorderTex, rageDrawPos + shakeOffset, null, Color.White, 0f, rageBorderTex.Size() * 0.5f, uiScale, SpriteEffects.None, 0);
 
             // The amount of the bar to draw depends on the player's current Rage level
             // 7 pixels of dead space, 90 pixels of bar, 7 pixels of dead space. Bar is 24 pixels tall
             int deadSpace = 7;
-            int barWidth = barTex.Width - 2 * deadSpace;
-            Rectangle cropRect = new Rectangle(0, 0, deadSpace + (int)(barWidth * rageRatio), barTex.Height);
-            spriteBatch.Draw(barTex, rageDrawPos + shakeOffset, cropRect, Color.White);
+            int barWidth = rageBarTex.Width - 2 * deadSpace;
+            Rectangle cropRect = new Rectangle(0, 0, deadSpace + (int)(barWidth * rageRatio), rageBarTex.Height);
+            spriteBatch.Draw(rageBarTex, rageDrawPos + shakeOffset, cropRect, Color.White, 0f, rageBorderTex.Size() * 0.5f, uiScale, SpriteEffects.None, 0);
+
+            // Determine which pearls to draw (and their positions) based off of which Rage upgrades the player has.
+            IList<Texture2D> pearls = new List<Texture2D>(3);
+            if (modPlayer.rageBoostOne) // Mushroom Plasma Root
+                pearls.Add(mushroomPlasmaTex);
+            if (modPlayer.rageBoostTwo) // Infernal Blood
+                pearls.Add(infernalBloodTex);
+            if (modPlayer.rageBoostThree) // Red Lightning Container
+                pearls.Add(redLightningTex);
+            IList<Vector2> offsets = GetPearlOffsets(pearls.Count);
+            
+            // Draw pearls at appropriate positions.
+            for (int i = 0; i < pearls.Count; ++i)
+                spriteBatch.Draw(pearls[i], rageDrawPos + shakeOffset + offsets[i], null, Color.White, 0f, rageBorderTex.Size() * 0.5f, uiScale, SpriteEffects.None, 0);
 
             // If the animation is active, draw the animation on top of both the border and the bar.
             if (animationActive)
             {
-                float xOffset = (borderTex.Width - animTex.Width) / 2f;
-                int frameHeight = (animTex.Height / RageAnimFrames) - 1;
-                float yOffset = (borderTex.Height - frameHeight) / 2f;
+                float xOffset = (rageBorderTex.Width - rageAnimTex.Width) / 2f;
+                int frameHeight = (rageAnimTex.Height / RageAnimFrames) - 1;
+                float yOffset = (rageBorderTex.Height - frameHeight) / 2f;
                 Vector2 sizeDiffOffset = new Vector2(xOffset, yOffset);
-                Rectangle animCropRect = new Rectangle(0, (frameHeight + 1) * rageAnimFrame, animTex.Width, frameHeight);
-                spriteBatch.Draw(animTex, rageDrawPos + shakeOffset + sizeDiffOffset, animCropRect, Color.White);
+                Rectangle animCropRect = new Rectangle(0, (frameHeight + 1) * rageAnimFrame, rageAnimTex.Width, frameHeight);
+                spriteBatch.Draw(rageAnimTex, rageDrawPos + shakeOffset + sizeDiffOffset, animCropRect, Color.White, 0f, rageBorderTex.Size() * 0.5f, uiScale, SpriteEffects.None, 0);
             }
         }
 
-        private static void DrawAdrenaline(SpriteBatch spriteBatch, CalamityPlayer modPlayer, Texture2D barTex, Texture2D borderTex, Texture2D animTex)
+        private static void DrawAdrenalineBar(SpriteBatch spriteBatch, CalamityPlayer modPlayer)
         {
             Vector2 shakeOffset = modPlayer.adrenalineModeActive ? GetShakeOffset() : Vector2.Zero;
 
@@ -146,33 +203,50 @@ namespace CalamityMod.UI
                 }
             }
 
+            float uiScale = Main.UIScale;
+
             // Draw the border of the Adrenaline Bar first
-            spriteBatch.Draw(borderTex, adrenDrawPos + shakeOffset, Color.White);
+            spriteBatch.Draw(adrenBorderTex, adrenDrawPos + shakeOffset, null, Color.White, 0f, adrenBorderTex.Size() * 0.5f, uiScale, SpriteEffects.None, 0);
 
             // The amount of the bar to draw depends on the player's current Adrenaline level
             // 7 pixels of dead space, 90 pixels of bar, 7 pixels of dead space.
             int deadSpace = 7;
-            int barWidth = barTex.Width - 2 * deadSpace;
-            Rectangle cropRect = new Rectangle(0, 0, deadSpace + (int)(barWidth * adrenRatio), barTex.Height);
-            spriteBatch.Draw(barTex, adrenDrawPos + shakeOffset, cropRect, Color.White);
+            int barWidth = adrenBarTex.Width - 2 * deadSpace;
+            Rectangle cropRect = new Rectangle(0, 0, deadSpace + (int)(barWidth * adrenRatio), adrenBarTex.Height);
+            spriteBatch.Draw(adrenBarTex, adrenDrawPos + shakeOffset, cropRect, Color.White, 0f, adrenBorderTex.Size() * 0.5f, uiScale, SpriteEffects.None, 0);
+
+            // Determine which pearls to draw (and their positions) based off of which Adrenaline upgrades the player has.
+            IList<Texture2D> pearls = new List<Texture2D>(3);
+            if (modPlayer.adrenalineBoostOne) // Electrolyte Gel Pack
+                pearls.Add(electrolyteGelTex);
+            if (modPlayer.adrenalineBoostTwo) // Starlight Fuel Cell
+                pearls.Add(starlightFuelTex);
+            if (modPlayer.adrenalineBoostThree) // Ectoheart
+                pearls.Add(ectoheartTex);
+            IList<Vector2> offsets = GetPearlOffsets(pearls.Count);
+
+            // Draw pearls at appropriate positions.
+            for (int i = 0; i < pearls.Count; ++i)
+                spriteBatch.Draw(pearls[i], adrenDrawPos + shakeOffset + offsets[i], null, Color.White, 0f, adrenBorderTex.Size() * 0.5f, uiScale, SpriteEffects.None, 0);
 
             // If the animation is active, draw the animation on top of both the border and the bar.
             if (animationActive)
             {
-                float xOffset = (borderTex.Width - animTex.Width) / 2f;
-                int frameHeight = (animTex.Height / AdrenAnimFrames) - 1;
-                float yOffset = (borderTex.Height - frameHeight) / 2f;
+                float xOffset = (adrenBorderTex.Width - adrenAnimTex.Width) / 2f;
+                int frameHeight = (adrenAnimTex.Height / AdrenAnimFrames) - 1;
+                float yOffset = (adrenBorderTex.Height - frameHeight) / 2f;
                 Vector2 sizeDiffOffset = new Vector2(xOffset, yOffset);
-                Rectangle animCropRect = new Rectangle(0, (frameHeight + 1) * adrenAnimFrame, animTex.Width, frameHeight);
-                spriteBatch.Draw(animTex, adrenDrawPos + shakeOffset + sizeDiffOffset, animCropRect, Color.White);
+                Rectangle animCropRect = new Rectangle(0, (frameHeight + 1) * adrenAnimFrame, adrenAnimTex.Width, frameHeight);
+                spriteBatch.Draw(adrenAnimTex, adrenDrawPos + shakeOffset + sizeDiffOffset, animCropRect, Color.White, 0f, adrenBorderTex.Size() * 0.5f, uiScale, SpriteEffects.None, 0);
             }
         }
 
         private static void HandleMouseInteraction(CalamityPlayer modPlayer, Vector2 rageBarSize, Vector2 adrenBarSize)
         {
+            float uiScale = Main.UIScale;
             Rectangle mouse = new Rectangle((int)Main.MouseScreen.X, (int)Main.MouseScreen.Y, 8, 8);
-            Rectangle rageBar = new Rectangle((int)rageDrawPos.X, (int)rageDrawPos.Y, (int)rageBarSize.X, (int)rageBarSize.Y);
-            Rectangle adrenBar = new Rectangle((int)adrenDrawPos.X, (int)adrenDrawPos.Y, (int)adrenBarSize.X, (int)adrenBarSize.Y);
+            Rectangle rageBar = Utils.CenteredRectangle(rageDrawPos, rageBarSize * uiScale);
+            Rectangle adrenBar = Utils.CenteredRectangle(adrenDrawPos, adrenBarSize * uiScale);
 
             bool rageHover = mouse.Intersects(rageBar);
             bool adrenHover = mouse.Intersects(adrenBar);
@@ -185,10 +259,11 @@ namespace CalamityMod.UI
             {
                 // Add hover text if the mouse is over Rage bar
                 Main.LocalPlayer.mouseInterface = true;
-                Main.instance.MouseText($"Rage: {(int)modPlayer.rage} / {(int)modPlayer.rageMax}");
+                string rageStr = MakeRipperPercentString(modPlayer.rage, modPlayer.rageMax);
+                Main.instance.MouseText($"Rage: {rageStr}");
 
                 // The bar is draggable if enabled in config.
-                if (!CalamityMod.CalamityConfig.MeterPosLock && mouseInput.LeftButton == ButtonState.Pressed)
+                if (!CalamityConfig.Instance.MeterPosLock && mouseInput.LeftButton == ButtonState.Pressed)
                 {
                     // On the first frame new mouse input comes in, set the offset. Otherwise do nothing.
                     if (rageDragOffset is null)
@@ -199,10 +274,11 @@ namespace CalamityMod.UI
             {
                 // Add hover text if the mouse is over the bar
                 Main.LocalPlayer.mouseInterface = true;
-                Main.instance.MouseText($"Adrenaline: {(int)modPlayer.adrenaline} / {(int)modPlayer.adrenalineMax}");
+                string adrenStr = MakeRipperPercentString(modPlayer.adrenaline, modPlayer.adrenalineMax);
+                Main.instance.MouseText($"Adrenaline: {adrenStr}");
 
                 // The bar is draggable if enabled in config.
-                if (!CalamityMod.CalamityConfig.MeterPosLock && mouseInput.LeftButton == ButtonState.Pressed)
+                if (!CalamityConfig.Instance.MeterPosLock && mouseInput.LeftButton == ButtonState.Pressed)
                 {
                     // On the first frame new mouse input comes in, set the offset. Otherwise do nothing.
                     if (adrenDragOffset is null)
@@ -226,33 +302,33 @@ namespace CalamityMod.UI
                 if (rageDragOffset.HasValue)
                 {
                     rageDragOffset = null;
-                    if (CalamityMod.CalamityConfig.RageMeterPosX != rageDrawPos.X)
+                    if (CalamityConfig.Instance.RageMeterPosX != rageDrawPos.X)
                     {
-                        CalamityMod.CalamityConfig.RageMeterPosX = rageDrawPos.X;
+                        CalamityConfig.Instance.RageMeterPosX = rageDrawPos.X;
                         updateCfg = true;
                     }
-                    if (CalamityMod.CalamityConfig.RageMeterPosY != rageDrawPos.Y)
+                    if (CalamityConfig.Instance.RageMeterPosY != rageDrawPos.Y)
                     {
-                        CalamityMod.CalamityConfig.RageMeterPosY = rageDrawPos.Y;
+                        CalamityConfig.Instance.RageMeterPosY = rageDrawPos.Y;
                         updateCfg = true;
                     }
                 }
                 if (adrenDragOffset.HasValue)
                 {
                     adrenDragOffset = null;
-                    if (CalamityMod.CalamityConfig.AdrenalineMeterPosX != adrenDrawPos.X)
+                    if (CalamityConfig.Instance.AdrenalineMeterPosX != adrenDrawPos.X)
                     {
-                        CalamityMod.CalamityConfig.AdrenalineMeterPosX = adrenDrawPos.X;
+                        CalamityConfig.Instance.AdrenalineMeterPosX = adrenDrawPos.X;
                         updateCfg = true;
                     }
-                    if (CalamityMod.CalamityConfig.AdrenalineMeterPosY != adrenDrawPos.Y)
+                    if (CalamityConfig.Instance.AdrenalineMeterPosY != adrenDrawPos.Y)
                     {
-                        CalamityMod.CalamityConfig.AdrenalineMeterPosY = adrenDrawPos.Y;
+                        CalamityConfig.Instance.AdrenalineMeterPosY = adrenDrawPos.Y;
                         updateCfg = true;
                     }
                 }
                 if (updateCfg)
-                    CalamityMod.SaveConfig(CalamityMod.CalamityConfig);
+                    CalamityMod.SaveConfig(CalamityConfig.Instance);
             }
         }
 
@@ -270,10 +346,40 @@ namespace CalamityMod.UI
 
         private static Vector2 GetShakeOffset()
         {
-            float shake = CalamityMod.CalamityConfig.MeterShake;
+            float shake = CalamityConfig.Instance.MeterShake;
             float shakeX = Main.rand.NextFloat(-shake, shake);
             float shakeY = Main.rand.NextFloat(-shake, shake);
             return new Vector2(shakeX, shakeY);
-        } 
+        }
+
+        private static IList<Vector2> GetPearlOffsets(int count)
+        {
+            switch (count)
+            {
+                case 1:
+                    return new List<Vector2>() { pearlOffsetCenter };
+                case 2:
+                    return new List<Vector2>() { PearlOffsetCenterLeft, PearlOffsetCenterRight };
+                case 3:
+                    return new List<Vector2>() { pearlOffsetLeft, pearlOffsetCenter, pearlOffsetRight };
+                default:
+                    return null;
+            }
+        }
+
+        private static string MakeRipperPercentString(float value, float maxValue)
+        {
+            string topTwoDecimalPlaces = value.ToString("n2");
+            string bottomTwoDecimalPlaces = maxValue.ToString("n2");
+            string percent = (100f * value / maxValue).ToString("0.00");
+            StringBuilder sb = new StringBuilder(32);
+            sb.Append(percent);
+            sb.Append("% (");
+            sb.Append(topTwoDecimalPlaces);
+            sb.Append(" / ");
+            sb.Append(bottomTwoDecimalPlaces);
+            sb.Append(')');
+            return sb.ToString();
+        }
     }
 }

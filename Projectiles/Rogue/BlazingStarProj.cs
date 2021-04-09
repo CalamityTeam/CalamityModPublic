@@ -10,8 +10,10 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class BlazingStarProj : ModProjectile
     {
-        private static int Lifetime = 1540;
-        private static int ReboundTime = 40;
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/BlazingStar";
+
+        public const int Lifetime = 1540;
+        public const int ReboundTime = 40;
 
         public override void SetStaticDefaults()
         {
@@ -33,12 +35,11 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void AI()
         {
-            // ai[1] = 1 means that the projectile is a stealth strike, in which case it pierces infinitely.
-            if (projectile.ai[1] == 1f)
+            if (projectile.Calamity().stealthStrike)
                 projectile.penetrate = projectile.maxPenetrate = -1;
 
             // Boomerang rotation
-            projectile.rotation += 0.4f * (float)projectile.direction;
+            projectile.rotation += 0.4f * projectile.direction;
 
             // Boomerang sound
             if (projectile.soundDelay == 0)
@@ -60,47 +61,49 @@ namespace CalamityMod.Projectiles.Rogue
                 Player owner = Main.player[projectile.owner];
 
                 // Delete the projectile if it's excessively far away.
-                Vector2 playerCenter = owner.Center;
-                float xDist = playerCenter.X - projectile.Center.X;
-                float yDist = playerCenter.Y - projectile.Center.Y;
-                float dist = (float)Math.Sqrt((double)(xDist * xDist + yDist * yDist));
-                if (dist > 3000f)
+                // Relying on the length instead of a second square root call for Normalize is used here for general performance since both the distance
+                // and normalized vector are used in this code.
+                float distanceToPlayer = projectile.Distance(owner.Center);
+                Vector2 velocity = (owner.Center - projectile.Center) / distanceToPlayer * returnSpeed;
+
+                // Kill the projectile is if it's super far from the player.
+                if (distanceToPlayer > 3000f)
                     projectile.Kill();
 
-                dist = returnSpeed / dist;
-                xDist *= dist;
-                yDist *= dist;
-
                 // Home back in on the player.
-                if (projectile.velocity.X < xDist)
+
+                // No, projectiles do not have a SimpleFlyMovement extension method like NPCs do.
+                if (projectile.velocity.X < velocity.X)
                 {
                     projectile.velocity.X = projectile.velocity.X + acceleration;
-                    if (projectile.velocity.X < 0f && xDist > 0f)
+                    if (projectile.velocity.X < 0f && velocity.X > 0f)
                         projectile.velocity.X += acceleration;
                 }
-                else if (projectile.velocity.X > xDist)
+                else if (projectile.velocity.X > velocity.X)
                 {
                     projectile.velocity.X = projectile.velocity.X - acceleration;
-                    if (projectile.velocity.X > 0f && xDist < 0f)
+                    if (projectile.velocity.X > 0f && velocity.X < 0f)
                         projectile.velocity.X -= acceleration;
                 }
-                if (projectile.velocity.Y < yDist)
+                if (projectile.velocity.Y < velocity.Y)
                 {
                     projectile.velocity.Y = projectile.velocity.Y + acceleration;
-                    if (projectile.velocity.Y < 0f && yDist > 0f)
+                    if (projectile.velocity.Y < 0f && velocity.Y > 0f)
                         projectile.velocity.Y += acceleration;
                 }
-                else if (projectile.velocity.Y > yDist)
+                else if (projectile.velocity.Y > velocity.Y)
                 {
                     projectile.velocity.Y = projectile.velocity.Y - acceleration;
-                    if (projectile.velocity.Y > 0f && yDist < 0f)
+                    if (projectile.velocity.Y > 0f && velocity.Y < 0f)
                         projectile.velocity.Y -= acceleration;
                 }
 
                 // Delete the projectile if it touches its owner.
                 if (Main.myPlayer == projectile.owner)
+                {
                     if (projectile.Hitbox.Intersects(owner.Hitbox))
                         projectile.Kill();
+                }
             }
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
@@ -108,7 +111,7 @@ namespace CalamityMod.Projectiles.Rogue
             CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
             return false;
         }
-        // Make it bounce on tiles.
+        // Make the star bounce on tiles.
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
             // Impacts the terrain even though it bounces off.

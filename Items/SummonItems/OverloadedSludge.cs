@@ -1,3 +1,4 @@
+using CalamityMod.Events;
 using CalamityMod.Items.Materials;
 using CalamityMod.NPCs.SlimeGod;
 using Terraria;
@@ -20,7 +21,7 @@ namespace CalamityMod.Items.SummonItems
             item.width = 20;
             item.height = 20;
             item.maxStack = 20;
-            item.rare = 4;
+            item.rare = ItemRarityID.LightRed;
             item.useAnimation = 45;
             item.useTime = 45;
             item.useStyle = ItemUseStyleID.HoldingUp;
@@ -30,16 +31,18 @@ namespace CalamityMod.Items.SummonItems
         public override bool CanUseItem(Player player)
         {
             return !NPC.AnyNPCs(ModContent.NPCType<SlimeGodCore>()) && !NPC.AnyNPCs(ModContent.NPCType<SlimeGod>()) &&
-                !NPC.AnyNPCs(ModContent.NPCType<SlimeGodSplit>()) && !NPC.AnyNPCs(ModContent.NPCType<SlimeGodRun>()) && !NPC.AnyNPCs(ModContent.NPCType<SlimeGodRunSplit>());
+                !NPC.AnyNPCs(ModContent.NPCType<SlimeGodSplit>()) && !NPC.AnyNPCs(ModContent.NPCType<SlimeGodRun>()) && !NPC.AnyNPCs(ModContent.NPCType<SlimeGodRunSplit>()) && !BossRushEvent.BossRushActive;
         }
 
         public override bool UseItem(Player player)
         {
-            NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<SlimeGod>());
-            NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<SlimeGodRun>());
-            NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<SlimeGodCore>());
             Main.PlaySound(SoundID.Roar, player.position, 0);
-            return true;
+			if (Main.netMode != NetmodeID.MultiplayerClient)
+				NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<SlimeGodCore>());
+			else
+				NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, player.whoAmI, ModContent.NPCType<SlimeGodCore>());
+
+			return true;
         }
 
         public override void AddRecipes()

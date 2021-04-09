@@ -1,7 +1,6 @@
 using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -9,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    public class SquirrelSquireMinion : ModProjectile
+	public class SquirrelSquireMinion : ModProjectile
     {
         public float dust = 0f;
 
@@ -46,15 +45,15 @@ namespace CalamityMod.Projectiles.Summon
                 modProj.spawnedPlayerMinionDamageValue = player.MinionDamage();
                 modProj.spawnedPlayerMinionProjectileDamageValue = projectile.damage;
                 int dustAmt = 36;
-                for (int num227 = 0; num227 < dustAmt; num227++)
+                for (int d = 0; d < dustAmt; d++)
                 {
-                    Vector2 vector6 = Vector2.Normalize(projectile.velocity) * new Vector2((float)projectile.width / 2f, (float)projectile.height) * 0.75f;
-                    vector6 = vector6.RotatedBy((double)((float)(num227 - (dustAmt / 2 - 1)) * MathHelper.TwoPi / (float)dustAmt), default) + projectile.Center;
-                    Vector2 vector7 = vector6 - projectile.Center;
-                    int dusty = Dust.NewDust(vector6 + vector7, 0, 0, 7, vector7.X * 1.1f, vector7.Y * 1.1f, 100, default, 1.4f);
+                    Vector2 source = Vector2.Normalize(projectile.velocity) * new Vector2((float)projectile.width / 2f, (float)projectile.height) * 0.75f;
+                    source = source.RotatedBy((double)((float)(d - (dustAmt / 2 - 1)) * MathHelper.TwoPi / (float)dustAmt), default) + projectile.Center;
+                    Vector2 dustVel = source - projectile.Center;
+                    int dusty = Dust.NewDust(source + dustVel, 0, 0, 7, dustVel.X * 1.1f, dustVel.Y * 1.1f, 100, default, 1.4f);
                     Main.dust[dusty].noGravity = true;
                     Main.dust[dusty].noLight = true;
-                    Main.dust[dusty].velocity = vector7;
+                    Main.dust[dusty].velocity = dustVel;
                 }
                 dust += 1f;
             }
@@ -78,41 +77,32 @@ namespace CalamityMod.Projectiles.Summon
                     projectile.timeLeft = 2;
                 }
             }
-			bool flag1 = false;
-			bool flag2 = false;
+			bool leftofPlayer = false;
+			bool rightofPlayer = false;
 			bool flag3 = false;
 			bool flag4 = false;
-			int num1 = 60 + 30 * projectile.minionPos;
 			if (projectile.lavaWet)
 			{
 				projectile.ai[0] = 1f;
 				projectile.ai[1] = 0f;
 			}
-			int num2 = 10;
-			int num3 = 40 * (projectile.minionPos + 1) * player.direction;
-			if (player.position.X + (float) (player.width / 2) < projectile.position.X + (float) (projectile.width / 2) - (float) num2 + (float) num3)
-				flag1 = true;
-			else if (player.position.X + (float) (player.width / 2) > projectile.position.X + (float) (projectile.width / 2) + (float) num2 + (float) num3)
-				flag2 = true;
+			float minionOffset = 40f * (projectile.minionPos + 1f) * player.direction;
+			if (player.Center.X < projectile.Center.X - 10f + minionOffset)
+				leftofPlayer = true;
+			else if (player.Center.X > projectile.Center.X + 10f + minionOffset)
+				rightofPlayer = true;
 
 			if (projectile.ai[1] == 0f)
 			{
-				int conflict1 = 500;
-				conflict1 += 40 * projectile.minionPos;
-				if (projectile.localAI[0] > 0f)
-					conflict1 += 500;
-				Vector2 vector2 = new Vector2(projectile.position.X + (float) projectile.width * 0.5f, projectile.position.Y + (float) projectile.height * 0.5f);
-				float playerX = player.position.X + (float) (player.width / 2) - vector2.X;
-				float playerY = player.position.Y + (float) (player.height / 2) - vector2.Y;
-				float playerDist = (float)Math.Sqrt(playerX * playerX + playerY * playerY);
+				float playerDist = (player.Center - projectile.Center).Length();
 				if (playerDist > 1000f)
 				{
 					projectile.ai[0] = 1f;
 				}
 				if (playerDist > 2000f) //teleport to player if too far
 				{
-					projectile.position.X = player.position.X + (float) (player.width / 2) - (float) (projectile.width / 2);
-					projectile.position.Y = player.position.Y + (float) (player.height / 2) - (float) (projectile.height / 2);
+					projectile.position = player.position;
+					projectile.netUpdate = true;
 				}
 			}
 			if (projectile.ai[0] != 0f) //flying back to the player
@@ -120,19 +110,17 @@ namespace CalamityMod.Projectiles.Summon
 				projectile.tileCollide = false;
 				float npcDetectRange = 800f;
 				bool npcFound = false;
-				int num6 = -1;
-				for (int index = 0; index < Main.npc.Length; ++index)
+				int targetIndex = -1;
+				for (int index = 0; index < Main.maxNPCs; ++index)
 				{
-					NPC npc2 = Main.npc[index];
-					if (npc2.CanBeChasedBy((object) projectile, false))
+					NPC npc = Main.npc[index];
+					if (npc.CanBeChasedBy(projectile, false))
 					{
-						float npcX = npc2.position.X + (float) (npc2.width / 2);
-						float npcY = npc2.position.Y + (float) (npc2.height / 2);
-						float npcDist = (float) Math.Abs(player.position.X + (float) (player.width / 2) - npcX) + (float) Math.Abs(player.position.Y + (float) (player.height / 2) - npcY);
+						float npcDist = Vector2.Distance(npc.Center, player.Center);
 						if (npcDist < npcDetectRange)
 						{
-							if (Collision.CanHit(projectile.position, projectile.width, projectile.height, npc2.position, npc2.width, npc2.height))
-								num6 = index;
+							if (Collision.CanHit(projectile.position, projectile.width, projectile.height, npc.position, npc.width, npc.height))
+								targetIndex = index;
 							npcFound = true;
 							break;
 						}
@@ -140,88 +128,81 @@ namespace CalamityMod.Projectiles.Summon
 				}
 
 				//return to normal if npc found
-				if (npcFound && num6 >= 0)
+				if (npcFound && targetIndex >= 0)
 					projectile.ai[0] = 0f;
 
-				Vector2 vector2 = new Vector2(projectile.position.X + (float) projectile.width * 0.5f, projectile.position.Y + (float) projectile.height * 0.5f);
-				float xDist = player.position.X + (float) (player.width / 2) - vector2.X;
-				xDist -= (float) (40 * player.direction);
+				Vector2 homeBase = player.Center - projectile.Center;
+				homeBase.X -= 40f * player.direction;
 				if (!npcFound)
-					xDist -= (float) (40 * projectile.minionPos * player.direction);
-				float yDist = player.position.Y + (float) (player.height / 2) - vector2.Y;
-				yDist -= 60f;
-				float playerDist2 = (float) Math.Sqrt(xDist * xDist + yDist * yDist);
-				float num11 = 12f;
-				float num12 = playerDist2;
-				float conflict2 = 0.4f;
-				if (num11 < Math.Abs(player.velocity.X) + Math.Abs(player.velocity.Y))
-					num11 = Math.Abs(player.velocity.X) + Math.Abs(player.velocity.Y);
+					homeBase.X -= 40f * projectile.minionPos * player.direction;
+				homeBase.Y -= 60f;
+				float playerDist = homeBase.Length();
+				float speed = playerDist;
+				float acceleration = 0.4f;
 
 				//if close enough to the player and has tile to stand on, return to normal
-				if (playerDist2 < 100f && player.velocity.Y == 0f && (projectile.position.Y + (float) projectile.height <= player.position.Y + (float) player.height && !Collision.SolidCollision(projectile.position, projectile.width, projectile.height)))
+				if (playerDist < 100f && player.velocity.Y == 0f && projectile.Bottom.Y <= player.Bottom.Y && !Collision.SolidCollision(projectile.position, projectile.width, projectile.height))
 				{
 					projectile.ai[0] = 0f;
 					if (projectile.velocity.Y < -6f)
 						projectile.velocity.Y = -6f;
 				}
-				if (playerDist2 > 2000f)
+				if (playerDist > 2000f)
 				{
-					projectile.position.X = player.Center.X - (float)(projectile.width / 2);
-					projectile.position.Y = player.Center.Y - (float)(projectile.height / 2);
+					projectile.position = player.position;
 					projectile.netUpdate = true;
 				}
-				if (playerDist2 < 50f)
+				if (playerDist < 50f)
 				{
 					if (Math.Abs(projectile.velocity.X) > 2f || Math.Abs(projectile.velocity.Y) > 2f)
 					{
 						projectile.velocity *= 0.99f;
 					}
-					conflict2 = 0.01f;
+					acceleration = 0.01f;
 				}
 				else
 				{
-					if (playerDist2 < 100f)
+					if (playerDist < 100f)
 					{
-						conflict2 = 0.1f;
+						acceleration = 0.1f;
 					}
-					if (playerDist2 > 300f)
+					if (playerDist > 300f)
 					{
-						conflict2 = 1f;
+						acceleration = 1f;
 					}
-					playerDist2 = num12 / playerDist2;
-					xDist *= playerDist2;
-					yDist *= playerDist2;
+					playerDist = speed / playerDist;
+					homeBase *= playerDist;
 				}
-				if (projectile.velocity.X < xDist)
+				if (projectile.velocity.X < homeBase.X)
 				{
-					projectile.velocity.X = projectile.velocity.X + conflict2;
-					if (conflict2 > 0.05f && projectile.velocity.X < 0f)
+					projectile.velocity.X += acceleration;
+					if (acceleration > 0.05f && projectile.velocity.X < 0f)
 					{
-						projectile.velocity.X = projectile.velocity.X + conflict2;
-					}
-				}
-				if (projectile.velocity.X > xDist)
-				{
-					projectile.velocity.X = projectile.velocity.X - conflict2;
-					if (conflict2 > 0.05f && projectile.velocity.X > 0f)
-					{
-						projectile.velocity.X = projectile.velocity.X - conflict2;
+						projectile.velocity.X += acceleration;
 					}
 				}
-				if (projectile.velocity.Y < yDist)
+				if (projectile.velocity.X > homeBase.X)
 				{
-					projectile.velocity.Y = projectile.velocity.Y + conflict2;
-					if (conflict2> 0.05f && projectile.velocity.Y < 0f)
+					projectile.velocity.X -= acceleration;
+					if (acceleration > 0.05f && projectile.velocity.X > 0f)
 					{
-						projectile.velocity.Y = projectile.velocity.Y + conflict2 * 2f;
+						projectile.velocity.X -= acceleration;
 					}
 				}
-				if (projectile.velocity.Y > yDist)
+				if (projectile.velocity.Y < homeBase.Y)
 				{
-					projectile.velocity.Y = projectile.velocity.Y - conflict2;
-					if (conflict2 > 0.05f && projectile.velocity.Y > 0f)
+					projectile.velocity.Y += acceleration;
+					if (acceleration > 0.05f && projectile.velocity.Y < 0f)
 					{
-						projectile.velocity.Y = projectile.velocity.Y - conflict2 * 2f;
+						projectile.velocity.Y += acceleration * 2f;
+					}
+				}
+				if (projectile.velocity.Y > homeBase.Y)
+				{
+					projectile.velocity.Y -= acceleration;
+					if (acceleration > 0.05f && projectile.velocity.Y > 0f)
+					{
+						projectile.velocity.Y -= acceleration * 2f;
 					}
 				}
 				if (projectile.frame < 12 || projectile.frame == 16)
@@ -245,13 +226,12 @@ namespace CalamityMod.Projectiles.Summon
 					projectile.spriteDirection = 1;
 				else if (projectile.velocity.X < -0.5f)
 					projectile.spriteDirection = -1;
-				//projectile.rotation = projectile.spriteDirection != 1 ? (float) Math.Atan2((double) projectile.velocity.Y, (double) projectile.velocity.X) + 3.14f : (float) Math.Atan2((double) projectile.velocity.Y, (double) projectile.velocity.X);
 			}
 			else
 			{
-				float conflict3 = (float) (40 * projectile.minionPos);
+				float minionOffset2 = (float)(40 * projectile.minionPos);
 				float attackCooldown = 30f;
-				int num4 = 60;
+				float directionCooldown = 60f;
 				--projectile.localAI[0];
 				if (projectile.localAI[0] < 0f)
 					projectile.localAI[0] = 0f;
@@ -261,150 +241,134 @@ namespace CalamityMod.Projectiles.Summon
 				}
 				else
 				{
-					float num5 = projectile.position.X;
-					float num6 = projectile.position.Y;
-					float num7 = 100000f;
-					float num8 = num7;
-					int num9 = -1;
-					NPC minionAttackTargetNpc = projectile.OwnerMinionAttackTargetNPC;
-					if (minionAttackTargetNpc != null && minionAttackTargetNpc.CanBeChasedBy((object) projectile, false))
+					Vector2 targetPos = projectile.position;
+					float range = 100000f;
+					float maxDist = range;
+					int targetIndex = -1;
+					NPC target = projectile.OwnerMinionAttackTargetNPC;
+					if (target != null && target.CanBeChasedBy(projectile, false))
 					{
-						float num10 = minionAttackTargetNpc.position.X + (float) (minionAttackTargetNpc.width / 2);
-						float num11 = minionAttackTargetNpc.position.Y + (float) (minionAttackTargetNpc.height / 2);
-						float num12 = Math.Abs(projectile.position.X + (float) (projectile.width / 2) - num10) + Math.Abs(projectile.position.Y + (float) (projectile.height / 2) - num11);
-						if (num12 < num7)
+						float npcDist = Vector2.Distance(target.Center, projectile.Center);
+						if (npcDist < range)
 						{
-							if (num9 == -1 && num12 <= num8)
+							if (targetIndex == -1 && npcDist <= maxDist)
 							{
-								num8 = num12;
-								num5 = num10;
-								num6 = num11;
+								maxDist = npcDist;
+								targetPos = target.Center;
 							}
-							if (Collision.CanHit(projectile.position, projectile.width, projectile.height, minionAttackTargetNpc.position, minionAttackTargetNpc.width, minionAttackTargetNpc.height))
+							if (Collision.CanHit(projectile.Center, projectile.width, projectile.height, target.Center, target.width, target.height))
 							{
-								num7 = num12;
-								num5 = num10;
-								num6 = num11;
-								num9 = minionAttackTargetNpc.whoAmI;
+								range = npcDist;
+								targetPos = target.Center;
+								targetIndex = target.whoAmI;
 							}
 						}
 					}
-					if (num9 == -1)
+					if (targetIndex == -1)
 					{
-						for (int index = 0; index < Main.npc.Length; ++index)
+						for (int index = 0; index < Main.maxNPCs; ++index)
 						{
-							if (Main.npc[index].CanBeChasedBy((object) projectile, false))
+							NPC npc = Main.npc[index];
+							if (npc.CanBeChasedBy(projectile, false))
 							{
-								float num10 = Main.npc[index].position.X + (float) (Main.npc[index].width / 2);
-								float num11 = Main.npc[index].position.Y + (float) (Main.npc[index].height / 2);
-								float num12 = Math.Abs(projectile.position.X + (float) (projectile.width / 2) - num10) + Math.Abs(projectile.position.Y + (float) (projectile.height / 2) - num11);
-								if (num12 < num7)
+								float npcDist = Vector2.Distance(npc.Center, projectile.Center);
+								if (npcDist < range)
 								{
-									if (num9 == -1 && num12 <= num8)
+									if (targetIndex == -1 && npcDist <= maxDist)
 									{
-										num8 = num12;
-										num5 = num10;
-										num6 = num11;
+										maxDist = npcDist;
+										targetPos = npc.Center;
 									}
-									if (Collision.CanHit(projectile.position, projectile.width, projectile.height, Main.npc[index].position, Main.npc[index].width, Main.npc[index].height))
+									if (Collision.CanHit(projectile.Center, projectile.width, projectile.height, npc.Center, npc.width, npc.height))
 									{
-										num7 = num12;
-										num5 = num10;
-										num6 = num11;
-										num9 = index;
+										range = npcDist;
+										targetPos = npc.Center;
+										targetIndex = index;
 									}
 								}
 							}
 						}
 					}
-					if (num9 == -1 && num8 < num7)
-						num7 = num8;
+					if (targetIndex == -1 && maxDist < range)
+						range = maxDist;
 					float num13 = 400f;
-					if ((double) projectile.position.Y > Main.worldSurface * 16.0)
+					if ((double)projectile.position.Y > Main.worldSurface * 16D)
 						num13 = 200f;
-					if (num7 < num13 + conflict3 && num9 == -1)
+					if (range < num13 + minionOffset2 && targetIndex == -1)
 					{
-						float num10 = num5 - (projectile.position.X + (float) (projectile.width / 2));
-						if (num10 < -5f)
+						float xDist = targetPos.X - projectile.Center.X;
+						if (xDist < -5f)
 						{
-							flag1 = true;
-							flag2 = false;
+							leftofPlayer = true;
+							rightofPlayer = false;
 						}
-						else if (num10 > 5f)
+						else if (xDist > 5f)
 						{
-							flag2 = true;
-							flag1 = false;
+							rightofPlayer = true;
+							leftofPlayer = false;
 						}
 					}
-					else if (num9 >= 0 && num7 < 800f + conflict3)
+					else if (targetIndex >= 0 && range < 800f + minionOffset2)
 					{
-						projectile.localAI[0] = (float) num4;
-						float num10 = num5 - (projectile.position.X + (float) (projectile.width / 2));
-						if (num10 > 300f || num10 < -300f)
+						projectile.localAI[0] = directionCooldown;
+						float xDist = targetPos.X - projectile.Center.X;
+						if (Math.Abs(xDist) > 300f)
 						{
-							if (num10 < -50f)
+							if (xDist < -50f)
 							{
-								flag1 = true;
-								flag2 = false;
+								leftofPlayer = true;
+								rightofPlayer = false;
 							}
-							else if (num10 > 50f)
+							else if (xDist > 50f)
 							{
-								flag2 = true;
-								flag1 = false;
+								rightofPlayer = true;
+								leftofPlayer = false;
 							}
 						}
 						else if (projectile.owner == Main.myPlayer)
 						{
 							projectile.ai[1] = attackCooldown;
-							double num11 = 12.0;
-							Vector2 vector2 = new Vector2(projectile.position.X + (float) projectile.width * 0.5f, (float) ((double) projectile.position.Y + (double) (projectile.height / 2) - 8.0));
-							float num12 = num5 - vector2.X + (float) Main.rand.Next(-20, 21);
-							float num14 = (float) ((double) (Math.Abs(num12) * 0.1f) * (double) Main.rand.Next(0, 100) * (1.0 / 1000.0));
-							float num15 = num6 - vector2.Y + (float) Main.rand.Next(-20, 21) - num14;
-							double num16 = Math.Sqrt((double) num12 * (double) num12 + (double) num15 * (double) num15);
-							float num17 = (float) (num11 / num16);
-							float SpeedX = num12 * num17;
-							float SpeedY = num15 * num17;
+							float speed = 12f;
+							Vector2 source = projectile.Center - Vector2.UnitY * 8f;
+							Vector2 projVel = targetPos - source;
+							projVel.X += Main.rand.NextFloat(-10f, 10f);
+							projVel.Y += Main.rand.NextFloat(-10f, 10f) - Math.Abs(projVel.X) * Main.rand.NextFloat(0.0001f, 0.01f);
+							projVel.Normalize();
+							projVel *= speed;
 							int damage = projectile.damage;
-							int Type = ModContent.ProjectileType<SquirrelSquireAcorn>();
-							int index = Projectile.NewProjectile(vector2.X, vector2.Y, SpeedX, SpeedY, Type, damage, projectile.knockBack, projectile.owner, 0f, 0f);
-							if (SpeedX < 0f)
-								projectile.direction = -1;
-							if (SpeedX > 0f)
-								projectile.direction = 1;
+							int projType = ModContent.ProjectileType<SquirrelSquireAcorn>();
+							int index = Projectile.NewProjectile(source, projVel, projType, damage, projectile.knockBack, projectile.owner);
+							if (projVel.X < 0f)
+								projectile.direction = projectile.spriteDirection = -1;
+							else if (projVel.X > 0f)
+								projectile.direction = projectile.spriteDirection = 1;
 							projectile.netUpdate = true;
 						}
 					}
 				}
-				Vector2 vector2_1 = Vector2.Zero;
-				bool flag7 = false;
-				if (projectile.ai[1] != 0f)
+				if (projectile.ai[1] != 0f) //If on attack cooldown
 				{
-					flag1 = false;
-					flag2 = false;
+					leftofPlayer = false;
+					rightofPlayer = false;
 				}
 				else if (projectile.localAI[0] == 0f)
-					projectile.direction = player.direction;
-				if (!flag7)
-					projectile.rotation = 0f;
+					projectile.direction = projectile.spriteDirection = player.direction;
 				projectile.tileCollide = true;
-				float num18 = 0.08f;
-				float num19 = 6.5f;
-				num19 = 6f;
-				num18 = 0.2f;
+				float num18 = 0.2f;
+				float num19 = 6f;
 				if (num19 < Math.Abs(player.velocity.X) + Math.Abs(player.velocity.Y))
 				{
 					num19 = Math.Abs(player.velocity.X) + Math.Abs(player.velocity.Y);
 					num18 = 0.3f;
 				}
-				if (flag1)
+				if (leftofPlayer)
 				{
 					if (projectile.velocity.X > -3.5f)
 						projectile.velocity.X -= num18;
 					else
 						projectile.velocity.X -= num18 * 0.25f;
 				}
-				else if (flag2)
+				else if (rightofPlayer)
 				{
 					if (projectile.velocity.X < 3.5f)
 						projectile.velocity.X += num18;
@@ -417,15 +381,15 @@ namespace CalamityMod.Projectiles.Summon
 					if (projectile.velocity.X >= -num18 && projectile.velocity.X <= num18)
 						projectile.velocity.X = 0f;
 				}
-				if (flag1 | flag2)
+				if (leftofPlayer | rightofPlayer)
 				{
-					int conflict4 = (int) ((double) projectile.position.X + (double) (projectile.width / 2)) / 16;
-					int j = (int) ((double) projectile.position.Y + (double) (projectile.height / 2)) / 16;
-					if (flag1)
-						--conflict4;
-					if (flag2)
-						++conflict4;
-					if (WorldGen.SolidTile(conflict4 + (int) projectile.velocity.X, j))
+					int i = (int)projectile.Center.X / 16;
+					int j = (int)projectile.Center.Y / 16;
+					if (leftofPlayer)
+						--i;
+					if (rightofPlayer)
+						++i;
+					if (WorldGen.SolidTile(i + (int)projectile.velocity.X, j))
 						flag4 = true;
 				}
 				if (player.position.Y + player.height - 8f > projectile.position.Y + projectile.height)
@@ -433,74 +397,57 @@ namespace CalamityMod.Projectiles.Summon
 				Collision.StepUp(ref projectile.position, ref projectile.velocity, projectile.width, projectile.height, ref projectile.stepSpeed, ref projectile.gfxOffY, 1, false, 0);
 				if (projectile.velocity.Y == 0f)
 				{
-					if (!flag3 && ((double) projectile.velocity.X < 0.0 || (double) projectile.velocity.X > 0.0))
+					if (!flag3 && (projectile.velocity.X < 0f || projectile.velocity.X > 0f))
 					{
-						int i = (int) ((double) projectile.position.X + (double) (projectile.width / 2)) / 16;
-						int j = (int) ((double) projectile.position.Y + (double) (projectile.height / 2)) / 16 + 1;
-						if (flag1)
+						int i = (int)projectile.Center.X / 16;
+						int j = (int)projectile.Center.Y / 16 + 1;
+						if (leftofPlayer)
 							--i;
-						if (flag2)
+						if (rightofPlayer)
 							++i;
 						WorldGen.SolidTile(i, j);
 					}
 					if (flag4)
 					{
-						int i1 = (int) ((double) projectile.position.X + (double) (projectile.width / 2)) / 16;
-						int j = (int) ((double) projectile.position.Y + (double) projectile.height) / 16 + 1;
-						if (WorldGen.SolidTile(i1, j) || Main.tile[i1, j].halfBrick() || ((int) Main.tile[i1, j].slope() > 0 || projectile.type == 200))
+						int i = (int)projectile.Center.X / 16;
+						int j = (int)projectile.Center.Y / 16 + 1;
+						if (WorldGen.SolidTile(i, j) || Main.tile[i, j].halfBrick() || (int)Main.tile[i, j].slope() > 0)
 						{
-							if (projectile.type == 200)
+							try
 							{
-								projectile.velocity.Y = -3.1f;
-							}
-							else
-							{
-								try
-								{
-									int conflict5 = (int) ((double) projectile.position.X + (double) (projectile.width / 2)) / 16;
-									int conflict7 = (int) ((double) projectile.position.Y + (double) (projectile.height / 2)) / 16;
-									if (flag1)
-										--conflict5;
-									if (flag2)
-										++conflict5;
-									int i2 = conflict5 + (int) projectile.velocity.X;
-									if (!WorldGen.SolidTile(i2, conflict7 - 1) && !WorldGen.SolidTile(i2, conflict7 - 2))
-										projectile.velocity.Y = -5.1f;
-									else if (!WorldGen.SolidTile(i2, conflict7 - 2))
-										projectile.velocity.Y = -7.1f;
-									else if (WorldGen.SolidTile(i2, conflict7 - 5))
-										projectile.velocity.Y = -11.1f;
-									else if (WorldGen.SolidTile(i2, conflict7 - 4))
-										projectile.velocity.Y = -10.1f;
-									else
-										projectile.velocity.Y = -9.1f;
-								}
-								catch
-								{
+								int i2 = (int)projectile.Center.X / 16;
+								int j2 = (int)projectile.Center.Y / 16;
+								if (leftofPlayer)
+									--i2;
+								if (rightofPlayer)
+									++i2;
+								i2 += (int)projectile.velocity.X;
+								if (!WorldGen.SolidTile(i2, j2 - 1) && !WorldGen.SolidTile(i2, j2 - 2))
+									projectile.velocity.Y = -5.1f;
+								else if (!WorldGen.SolidTile(i2, j2 - 2))
+									projectile.velocity.Y = -7.1f;
+								else if (WorldGen.SolidTile(i2, j2 - 5))
+									projectile.velocity.Y = -11.1f;
+								else if (WorldGen.SolidTile(i2, j2 - 4))
+									projectile.velocity.Y = -10.1f;
+								else
 									projectile.velocity.Y = -9.1f;
-								}
+							}
+							catch
+							{
+								projectile.velocity.Y = -9.1f;
 							}
 						}
 					}
-					else if (projectile.type == 266 && flag1 | flag2)
-						projectile.velocity.Y -= 6f;
 				}
 				if (projectile.velocity.X > num19)
 					projectile.velocity.X = num19;
 				if (projectile.velocity.X < -num19)
 					projectile.velocity.X = -num19;
-				if (projectile.velocity.X < 0f)
-					projectile.direction = -1;
-				if (projectile.velocity.X > 0f)
-					projectile.direction = 1;
-				if (projectile.velocity.X > num18 & flag2)
-					projectile.direction = 1;
-				if (projectile.velocity.X < -num18 & flag1)
-					projectile.direction = -1;
-				if (projectile.direction == -1)
-					projectile.spriteDirection = -1;
-				if (projectile.direction == 1)
-					projectile.spriteDirection = 1;
+				if (projectile.velocity.X < -0.05f)
+					projectile.direction = projectile.spriteDirection = -1;
+				if (projectile.velocity.X > 0.05f)
+					projectile.direction = projectile.spriteDirection = 1;
 				if (projectile.ai[1] > 0f)
 				{
 					if (projectile.localAI[1] == 0f)
@@ -536,9 +483,9 @@ namespace CalamityMod.Projectiles.Summon
 							projectile.frame = 0;
 						}
 					}
-					else if (projectile.velocity.X < -0.8f || projectile.velocity.X > 0.8f)
+					else if (Math.Abs(projectile.velocity.X) > 0.8f)
 					{
-						projectile.frameCounter = projectile.frameCounter + (int) Math.Abs(projectile.velocity.X);
+						projectile.frameCounter += (int)Math.Abs(projectile.velocity.X);
 						projectile.frameCounter++;
 						if (projectile.frameCounter > 20)
 						{
@@ -581,10 +528,7 @@ namespace CalamityMod.Projectiles.Summon
 			}
 		}
 
-        public override bool CanDamage()
-        {
-            return false;
-        }
+        public override bool CanDamage() => false;
 
         public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
         {
@@ -592,14 +536,11 @@ namespace CalamityMod.Projectiles.Summon
             return true;
         }
 
-        public override bool OnTileCollide(Vector2 oldVelocity)
-        {
-            return false;
-        }
+        public override bool OnTileCollide(Vector2 oldVelocity) => false;
 
         public override void Kill(int timeLeft)
         {
-			int index = Gore.NewGore(new Vector2(projectile.position.X - (float) (projectile.width / 2), projectile.position.Y - (float) (projectile.height / 2)), new Vector2(0.0f, 0.0f), Main.rand.Next(61, 64), projectile.scale);
+			int index = Gore.NewGore(projectile.Center, Vector2.Zero, Main.rand.Next(61, 64), projectile.scale);
 			Main.gore[index].velocity *= 0.1f;
         }
     }

@@ -111,21 +111,16 @@ namespace CalamityMod.Projectiles.Magic
             if (target.life <= 0)
             {
 				Player player = Main.player[projectile.owner];
-				int shardDamage = (int)((SparklingEmpress.BaseDamage / 5) * (player.allDamage + player.magicDamage - 1f));
-				int num251 = Main.rand.Next(2, 4);
+				int shardDamage = projectile.damage / 5;
+				int shardAmt = Main.rand.Next(2, 4);
                 if (projectile.owner == Main.myPlayer)
                 {
-					for (int num252 = 0; num252 < num251; num252++)
+					for (int s = 0; s < shardAmt; s++)
 					{
-						Vector2 value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-						while (value15.X == 0f && value15.Y == 0f)
-						{
-							value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-						}
-						value15.Normalize();
-						value15 *= (float)Main.rand.Next(70, 101) * 0.1f;
-						int shard = Projectile.NewProjectile(target.Center.X, target.Center.Y, value15.X, value15.Y, ModContent.ProjectileType<AquashardSplit>(), shardDamage, 0f, projectile.owner, 0f, 0f);
-						Main.projectile[shard].Calamity().forceMagic = true;
+						Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
+						int shard = Projectile.NewProjectile(target.Center, velocity, ModContent.ProjectileType<AquashardSplit>(), shardDamage, 0f, projectile.owner);
+						if (shard.WithinBounds(Main.maxProjectiles))
+							Main.projectile[shard].Calamity().forceMagic = true;
 					}
 				}
             }
@@ -239,7 +234,7 @@ namespace CalamityMod.Projectiles.Magic
 			}
 			else {
 				// Do we still have enough mana? If not, we kill the projectile because we cannot use it anymore
-				if (Main.time % 10 < 1 && !player.CheckMana(player.ActiveItem().mana, true))
+				if (Main.player[projectile.owner].miscCounter % 10 == 0 && !player.CheckMana(player.ActiveItem().mana, true))
 				{
 					projectile.Kill();
 				}

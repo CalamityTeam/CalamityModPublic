@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Corroded Caustibow");
-            Tooltip.SetDefault("Shoots slow, powerful shells that trail an irradiated aura");
+            Tooltip.SetDefault("Converts wooden arrows into slow, powerful shells that trail an irradiated aura");
         }
 
         public override void SetDefaults()
@@ -21,25 +21,31 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.ranged = true;
             item.width = 30;
             item.height = 38;
-            item.crit += 20;
             item.useTime = 45;
             item.useAnimation = 45;
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 6f;
             item.value = Item.buyPrice(0, 36, 0, 0);
-            item.rare = 5;
+            item.rare = ItemRarityID.Pink;
             item.UseSound = SoundID.Item5;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<Shell>();
             item.shootSpeed = 5f;
-            item.useAmmo = 40;
+            item.useAmmo = AmmoID.Arrow;
         }
+
+		// Terraria seems to really dislike high crit values in SetDefaults
+		public override void GetWeaponCrit(Player player, ref int crit) => crit += 20;
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<CorrodedShell>(), damage, knockBack, player.whoAmI, 0f, 0f);
-            return false;
+			if (type == ProjectileID.WoodenArrowFriendly)
+				Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<CorrodedShell>(), damage, knockBack, player.whoAmI);
+			else
+				Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
+
+			return false;
         }
 
         public override void AddRecipes()

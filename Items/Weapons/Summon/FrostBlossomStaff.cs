@@ -1,13 +1,12 @@
 using CalamityMod.Projectiles.Summon;
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
-    public class FrostBlossomStaff : ModItem
+	public class FrostBlossomStaff : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -26,7 +25,7 @@ namespace CalamityMod.Items.Weapons.Summon
             item.noMelee = true;
             item.knockBack = 2f;
             item.value = Item.buyPrice(0, 1, 0, 0);
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.UseSound = SoundID.Item28;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<FrostBlossom>();
@@ -36,6 +35,7 @@ namespace CalamityMod.Items.Weapons.Summon
         public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
+			CalamityUtils.KillShootProjectiles(true, type, player);
             Projectile.NewProjectile(player.Center, Vector2.Zero, type, damage, knockBack, player.whoAmI, 0f, 0f);
             return false;
         }

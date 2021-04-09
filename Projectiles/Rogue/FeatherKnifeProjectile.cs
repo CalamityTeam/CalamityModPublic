@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class FeatherKnifeProjectile : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/FeatherKnife";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Knife");
@@ -39,7 +41,8 @@ namespace CalamityMod.Projectiles.Rogue
                 if (projectile.owner == Main.myPlayer)
                 {
                     int proj = Projectile.NewProjectile(projectile.position, new Vector2(projectile.velocity.X / 20, 2), ModContent.ProjectileType<StickyFeatherAero>(), (int)(projectile.damage * 0.4), projectile.knockBack, projectile.owner);
-					Main.projectile[proj].Calamity().forceRogue = true;
+					if (proj.WithinBounds(Main.maxProjectiles))
+						Main.projectile[proj].Calamity().forceRogue = true;
                 }
             }
         }
@@ -47,15 +50,14 @@ namespace CalamityMod.Projectiles.Rogue
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             int proj = Projectile.NewProjectile(projectile.position, new Vector2(projectile.velocity.X / 20, 2), ModContent.ProjectileType<StickyFeatherAero>(), (int)(projectile.damage * 0.69), projectile.knockBack, projectile.owner);
-			Main.projectile[proj].Calamity().forceRogue = true;
+			if (proj.WithinBounds(Main.maxProjectiles))
+				Main.projectile[proj].Calamity().forceRogue = true;
         }
 
         public override void Kill(int timeLeft)
         {
-            if (Main.rand.NextBool(2) && !projectile.Calamity().stealthStrike)
-            {
+            if (Main.rand.NextBool(2) && !projectile.noDropItem)
                 Item.NewItem((int)projectile.position.X, (int)projectile.position.Y, projectile.width, projectile.height, ModContent.ItemType<FeatherKnife>());
-            }
         }
     }
 }

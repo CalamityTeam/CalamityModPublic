@@ -23,6 +23,7 @@ namespace CalamityMod.Projectiles.Magic
             projectile.penetrate = 1;
             projectile.extraUpdates = 2;
             projectile.alpha = 0;
+			projectile.magic = true;
         }
 
         public override void AI()
@@ -203,7 +204,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            if (target.type == NPCID.TargetDummy || !target.canGhostHeal || Main.player[projectile.owner].moonLeech)
+            if (!target.canGhostHeal || Main.player[projectile.owner].moonLeech)
             {
                 return;
             }

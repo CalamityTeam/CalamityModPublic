@@ -11,11 +11,9 @@ namespace CalamityMod.Items.Weapons.Rogue
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Malachite");
-			Tooltip.SetDefault("Legendary Drop\n" +
-				"Throws a stream of kunai that stick to enemies and explode\n" +
+			Tooltip.SetDefault("Throws a stream of kunai that stick to enemies and explode\n" +
 				"Right click to throw a single kunai that pierces, after piercing an enemy it emits a massive explosion on the next enemy hit\n" +
-				"Stealth strikes fire three kunai that home in, stick to enemies, and explode\n" +
-				"Revengeance drop");
+				"Stealth strikes fire three kunai that home in, stick to enemies, and explode");
 		}
 
 		public override void SafeSetDefaults()
@@ -24,19 +22,19 @@ namespace CalamityMod.Items.Weapons.Rogue
 			item.damage = 62;
 			item.noMelee = true;
 			item.noUseGraphic = true;
-			item.useTime = 10;
-			item.useAnimation = 10;
+			item.useTime = item.useAnimation = 10;
 			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.knockBack = 1.25f;
 			item.UseSound = SoundID.Item1;
 			item.autoReuse = true;
 			item.height = 58;
-			item.value = Item.buyPrice(0, 80, 0, 0);
-			item.rare = 8;
 			item.shoot = ModContent.ProjectileType<MalachiteProj>();
 			item.shootSpeed = 10f;
 			item.Calamity().rogue = true;
-			item.Calamity().customRarity = CalamityRarity.ItemSpecific;
+
+			item.value = CalamityGlobalItem.Rarity8BuyPrice;
+			item.rare = ItemRarityID.Yellow;
+			item.Calamity().challengeDrop = true;
 		}
 
 		public override bool AltFunctionUse(Player player) => true;
@@ -45,23 +43,27 @@ namespace CalamityMod.Items.Weapons.Rogue
 		{
 			if (player.Calamity().StealthStrikeAvailable())
 			{
-				item.useTime = item.useAnimation = 10;
 				item.UseSound = SoundID.Item109;
 				item.shoot = ModContent.ProjectileType<MalachiteStealth>();
 			}
 			else if (player.altFunctionUse == 2)
 			{
-				item.useTime = item.useAnimation = 10;
 				item.UseSound = SoundID.Item109;
 				item.shoot = ModContent.ProjectileType<MalachiteBolt>();
 			}
 			else
 			{
-				item.useTime = item.useAnimation = 5;
 				item.UseSound = SoundID.Item1;
 				item.shoot = ModContent.ProjectileType<MalachiteProj>();
 			}
 			return base.CanUseItem(player);
+		}
+
+		public override float UseTimeMultiplier	(Player player)
+		{
+			if (player.Calamity().StealthStrikeAvailable() || player.altFunctionUse == 2)
+				return 1f;
+			return 2f;
 		}
 
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -72,8 +74,9 @@ namespace CalamityMod.Items.Weapons.Rogue
 				for (float i = -6.5f; i <= 6.5f; i += 6.5f)
 				{
 					Vector2 perturbedSpeed = new Vector2(speedX, speedY).RotatedBy(MathHelper.ToRadians(i));
-					int stealth = Projectile.NewProjectile(position, perturbedSpeed, type, damage, knockBack, player.whoAmI, 0f, 0f);
-					Main.projectile[stealth].Calamity().stealthStrike = true;
+					int stealth = Projectile.NewProjectile(position, perturbedSpeed, type, damage, knockBack, player.whoAmI);
+					if (stealth.WithinBounds(Main.maxProjectiles))
+						Main.projectile[stealth].Calamity().stealthStrike = true;
 				}
 				return false;
 			}
@@ -85,7 +88,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 			{
 				dmgMult = 1f;
 			}
-			Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, (int)(damage * dmgMult), knockBack, player.whoAmI, 0f, 0f);
+			Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, (int)(damage * dmgMult), knockBack, player.whoAmI);
 			return false;
 		}
 	}

@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class DepthOrb2 : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Melee/DepthOrb";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Beam");
@@ -31,12 +33,12 @@ namespace CalamityMod.Projectiles.Melee
         {
             Lighting.AddLight(projectile.Center, 0f, 0f, 0.5f);
 
-            int num458 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 33, 0f, 0f, 100, default, 0.4f);
+            int num458 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 33, 0f, 0f, 100, default, 0.4f);
             Main.dust[num458].noGravity = true;
             Main.dust[num458].velocity *= 0.5f;
             Main.dust[num458].velocity += projectile.velocity * 0.1f;
 
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 400f, 18f, 20f);
+			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 200f, 12f, 20f);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
@@ -70,7 +72,7 @@ namespace CalamityMod.Projectiles.Melee
                 num466 = num465 / num466;
                 num463 *= num466;
                 num464 *= num466;
-                int num467 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 33, 0f, 0f, 100, default, 1.2f);
+                int num467 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 33, 0f, 0f, 100, default, 1.2f);
                 Dust dust = Main.dust[num467];
                 dust.noGravity = true;
                 dust.position.X = projectile.Center.X;
@@ -83,7 +85,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.maxPenetrate = -1;
             projectile.penetrate = -1;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 1;
+            projectile.localNPCHitCooldown = 10;
             projectile.Damage();
         }
 

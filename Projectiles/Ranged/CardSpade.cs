@@ -28,7 +28,7 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.aiStyle = 1;
             aiType = ProjectileID.Bullet;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 4;
+            projectile.localNPCHitCooldown = 8;
         }
 
         public override void AI()

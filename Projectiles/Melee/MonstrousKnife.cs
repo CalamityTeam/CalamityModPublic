@@ -54,7 +54,7 @@ namespace CalamityMod.Projectiles.Melee
         {
 			if (Main.myPlayer != projectile.owner)
 				return;
-            if (target.type == NPCID.TargetDummy || target.lifeMax <= 5 || Main.player[projectile.owner].moonLeech)
+            if (target.lifeMax <= 5 || Main.player[projectile.owner].moonLeech)
                 return;
             if (Main.player[projectile.owner].lifeSteal <= 0f)
 				return;

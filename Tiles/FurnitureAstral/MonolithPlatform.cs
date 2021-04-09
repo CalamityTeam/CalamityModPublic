@@ -1,17 +1,16 @@
 using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureAstral
 {
-    public class MonolithPlatform : ModTile
+	public class MonolithPlatform : ModTile
     {
         public override void SetDefaults()
         {
-            this.SetUpPlatform();
+            this.SetUpPlatform(true);
             AddMapEntry(new Color(191, 142, 111));
             drop = ModContent.ItemType<Items.Placeables.FurnitureAstral.MonolithPlatform>();
             disableSmartCursor = true;

@@ -1,10 +1,9 @@
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class ScarletDevilBullet : ModProjectile
+	public class ScarletDevilBullet : ModProjectile
     {
         public override void SetStaticDefaults()
         {

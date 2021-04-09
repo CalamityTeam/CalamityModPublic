@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.autoReuse = true;
             item.maxStack = 1;
             item.value = Item.buyPrice(0, 1, 0, 0);
-            item.rare = 3;
+            item.rare = ItemRarityID.Orange;
             item.shoot = ModContent.ProjectileType<AshenStalactiteProj>();
             item.shootSpeed = 15f;
             item.Calamity().rogue = true;
@@ -45,7 +45,8 @@ namespace CalamityMod.Items.Weapons.Rogue
                 float stealthDamageMult = 1.15f;
                 float stealthKnockbackMult = 2.5f;
                 int p = Projectile.NewProjectile(position.X, position.Y, speedX * stealthSpeedMult, speedY * stealthSpeedMult, stealthType, (int)(damage * stealthDamageMult), (int)(knockBack * stealthKnockbackMult), player.whoAmI, 0f, 1f);
-                Main.projectile[p].Calamity().stealthStrike = true;
+				if (p.WithinBounds(Main.maxProjectiles))
+					Main.projectile[p].Calamity().stealthStrike = true;
                 return false;
             }
             return true;

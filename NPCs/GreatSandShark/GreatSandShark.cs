@@ -26,44 +26,22 @@ namespace CalamityMod.NPCs.GreatSandShark
 
         public override void SetDefaults()
         {
-            npc.noGravity = true;
+			npc.Calamity().canBreakPlayerDefense = true;
+			npc.noGravity = true;
             npc.noTileCollide = true;
             npc.npcSlots = 15f;
             npc.damage = 100;
             npc.width = 300;
             npc.height = 120;
-            npc.defense = 60;
-            npc.Calamity().RevPlusDR(0.25f);
+            npc.defense = 40;
+			npc.DR_NERD(0.25f);
 			npc.LifeMaxNERB(8000, 11000);
             npc.aiStyle = -1;
             aiType = -1;
             npc.knockBackResist = 0f;
-            npc.value = Item.buyPrice(0, 10, 0, 0);
+            npc.value = Item.buyPrice(0, 5, 0, 0);
             NPCID.Sets.TrailCacheLength[npc.type] = 8;
             NPCID.Sets.TrailingMode[npc.type] = 1;
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
-            npc.buffImmune[BuffID.Ichor] = false;
-            npc.buffImmune[ModContent.BuffType<MarkedforDeath>()] = false;
-			npc.buffImmune[BuffID.Frostburn] = false;
-			npc.buffImmune[BuffID.CursedInferno] = false;
-            npc.buffImmune[BuffID.Daybreak] = false;
-			npc.buffImmune[BuffID.StardustMinionBleed] = false;
-			npc.buffImmune[BuffID.DryadsWardDebuff] = false;
-			npc.buffImmune[BuffID.Oiled] = false;
-			npc.buffImmune[ModContent.BuffType<AstralInfectionDebuff>()] = false;
-			npc.buffImmune[ModContent.BuffType<GodSlayerInferno>()] = false;
-            npc.buffImmune[ModContent.BuffType<AbyssalFlames>()] = false;
-            npc.buffImmune[ModContent.BuffType<ArmorCrunch>()] = false;
-            npc.buffImmune[ModContent.BuffType<DemonFlames>()] = false;
-            npc.buffImmune[ModContent.BuffType<HolyFlames>()] = false;
-            npc.buffImmune[ModContent.BuffType<Nightwither>()] = false;
-            npc.buffImmune[ModContent.BuffType<Plague>()] = false;
-            npc.buffImmune[ModContent.BuffType<Shred>()] = false;
-            npc.buffImmune[ModContent.BuffType<WhisperingDeath>()] = false;
-            npc.buffImmune[ModContent.BuffType<SilvaStun>()] = false;
             npc.behindTiles = true;
             npc.netAlways = true;
             npc.HitSound = SoundID.NPCHit1;
@@ -96,19 +74,22 @@ namespace CalamityMod.NPCs.GreatSandShark
             bool expertMode = Main.expertMode;
             bool revenge = CalamityWorld.revenge;
             bool death = CalamityWorld.death;
-            bool lowLife = (double)npc.life <= (double)npc.lifeMax * (expertMode ? 0.75 : 0.5);
-            bool lowerLife = (double)npc.life <= (double)npc.lifeMax * (expertMode ? 0.35 : 0.2);
+            bool lowLife = npc.life <= npc.lifeMax * (expertMode ? 0.75 : 0.5);
+            bool lowerLife = npc.life <= npc.lifeMax * (expertMode ? 0.35 : 0.2);
             bool youMustDie = !Main.player[npc.target].ZoneDesert;
+
 			if (!Terraria.GameContent.Events.Sandstorm.Happening)
 			{
 				CalamityUtils.StartSandstorm();
-				CalamityMod.UpdateServerBoolean();
+				CalamityNetcode.SyncWorld();
 			}
+
             if (npc.soundDelay <= 0)
             {
                 npc.soundDelay = 480;
                 Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/GreatSandSharkRoar"), (int)npc.position.X, (int)npc.position.Y);
             }
+
             if (npc.localAI[3] >= 1f || Vector2.Distance(Main.player[npc.target].Center, npc.Center) > 1000f)
             {
                 if (!resetAI)
@@ -120,6 +101,7 @@ namespace CalamityMod.NPCs.GreatSandShark
                     resetAI = true;
                     npc.netUpdate = true;
                 }
+
                 int num2 = expertMode ? 35 : 50;
                 float num3 = expertMode ? 0.5f : 0.42f;
                 float scaleFactor = expertMode ? 7.5f : 6.7f;
@@ -145,150 +127,127 @@ namespace CalamityMod.NPCs.GreatSandShark
                     num5 *= 1.5f;
                     num4 = 20;
                 }
+
                 Vector2 vector = npc.Center;
                 Player player = Main.player[npc.target];
+
                 if (npc.target < 0 || npc.target == 255 || player.dead || !player.active)
                 {
-                    npc.TargetClosest(true);
+                    npc.TargetClosest();
                     player = Main.player[npc.target];
                     npc.netUpdate = true;
                 }
+
                 if (player.dead || Vector2.Distance(player.Center, vector) > 5600f)
                 {
                     npc.velocity.Y += 0.4f;
                     if (npc.timeLeft > 10)
-                    {
                         npc.timeLeft = 10;
-                    }
+
                     npc.ai[0] = 0f;
                     npc.ai[2] = 0f;
                 }
-                float num17 = (float)Math.Atan2((double)(player.Center.Y - vector.Y), (double)(player.Center.X - vector.X));
+
+                float num17 = (float)Math.Atan2(player.Center.Y - vector.Y, player.Center.X - vector.X);
                 if (npc.spriteDirection == 1)
-                {
-                    num17 += 3.14159274f;
-                }
+                    num17 += MathHelper.Pi;
                 if (num17 < 0f)
-                {
-                    num17 += 6.28318548f;
-                }
-                if (num17 > 6.28318548f)
-                {
-                    num17 -= 6.28318548f;
-                }
+                    num17 += MathHelper.TwoPi;
+                if (num17 > MathHelper.TwoPi)
+                    num17 -= MathHelper.TwoPi;
+
                 float num18 = 0.04f;
                 if (npc.ai[0] == 1f)
-                {
                     num18 = 0f;
-                }
+
                 if (npc.rotation < num17)
                 {
-                    if ((double)(num17 - npc.rotation) > 3.1415926535897931)
-                    {
+                    if ((double)(num17 - npc.rotation) > MathHelper.Pi)
                         npc.rotation -= num18;
-                    }
                     else
-                    {
                         npc.rotation += num18;
-                    }
                 }
                 if (npc.rotation > num17)
                 {
-                    if ((double)(npc.rotation - num17) > 3.1415926535897931)
-                    {
+                    if ((double)(npc.rotation - num17) > MathHelper.Pi)
                         npc.rotation += num18;
-                    }
                     else
-                    {
                         npc.rotation -= num18;
-                    }
                 }
+
                 if (npc.rotation > num17 - num18 && npc.rotation < num17 + num18)
-                {
                     npc.rotation = num17;
-                }
+
                 if (npc.rotation < 0f)
-                {
-                    npc.rotation += 6.28318548f;
-                }
-                if (npc.rotation > 6.28318548f)
-                {
-                    npc.rotation -= 6.28318548f;
-                }
+                    npc.rotation += MathHelper.TwoPi;
+                if (npc.rotation > MathHelper.TwoPi)
+                    npc.rotation -= MathHelper.TwoPi;
+
                 if (npc.rotation > num17 - num18 && npc.rotation < num17 + num18)
-                {
                     npc.rotation = num17;
-                }
+
                 if (npc.ai[0] == 0f && !player.dead)
                 {
                     if (npc.ai[1] == 0f)
-                    {
-                        npc.ai[1] = (float)(300 * Math.Sign((vector - player.Center).X));
-                    }
+                        npc.ai[1] = 300 * Math.Sign((vector - player.Center).X);
+
                     Vector2 vector3 = Vector2.Normalize(player.Center + new Vector2(npc.ai[1], -200f) - vector - npc.velocity) * scaleFactor;
                     if (npc.velocity.X < vector3.X)
                     {
                         npc.velocity.X += num3;
                         if (npc.velocity.X < 0f && vector3.X > 0f)
-                        {
                             npc.velocity.X += num3;
-                        }
                     }
                     else if (npc.velocity.X > vector3.X)
                     {
                         npc.velocity.X -= num3;
                         if (npc.velocity.X > 0f && vector3.X < 0f)
-                        {
                             npc.velocity.X -= num3;
-                        }
                     }
                     if (npc.velocity.Y < vector3.Y)
                     {
                         npc.velocity.Y += num3;
                         if (npc.velocity.Y < 0f && vector3.Y > 0f)
-                        {
                             npc.velocity.Y += num3;
-                        }
                     }
                     else if (npc.velocity.Y > vector3.Y)
                     {
                         npc.velocity.Y -= num3;
                         if (npc.velocity.Y > 0f && vector3.Y < 0f)
-                        {
                             npc.velocity.Y -= num3;
-                        }
                     }
+
                     int num22 = Math.Sign(player.Center.X - vector.X);
                     if (num22 != 0)
                     {
                         if (npc.ai[2] == 0f && num22 != npc.direction)
-                        {
-                            npc.rotation += 3.14159274f;
-                        }
+                            npc.rotation += MathHelper.Pi;
+
                         npc.direction = num22;
                         if (npc.spriteDirection != -npc.direction)
-                        {
-                            npc.rotation += 3.14159274f;
-                        }
+                            npc.rotation += MathHelper.Pi;
+
                         npc.spriteDirection = -npc.direction;
                     }
+
                     npc.ai[2] += 1f;
-                    if (npc.ai[2] >= (float)num2)
+                    if (npc.ai[2] >= num2)
                     {
                         npc.ai[0] = 1f;
                         npc.ai[1] = 0f;
                         npc.ai[2] = 0f;
                         npc.velocity = Vector2.Normalize(player.Center - vector) * num5;
-                        npc.rotation = (float)Math.Atan2((double)npc.velocity.Y, (double)npc.velocity.X);
+                        npc.rotation = (float)Math.Atan2(npc.velocity.Y, npc.velocity.X);
+
                         if (num22 != 0)
                         {
                             npc.direction = num22;
                             if (npc.spriteDirection == 1)
-                            {
-                                npc.rotation += 3.14159274f;
-                            }
+                                npc.rotation += MathHelper.Pi;
+
                             npc.spriteDirection = -npc.direction;
                         }
+
                         npc.netUpdate = true;
                         return;
                     }
@@ -296,13 +255,12 @@ namespace CalamityMod.NPCs.GreatSandShark
                 else if (npc.ai[0] == 1f)
                 {
                     npc.ai[2] += 1f;
-                    if (npc.ai[2] >= (float)num4)
+                    if (npc.ai[2] >= num4)
                     {
                         npc.localAI[3] += 1f;
                         if (npc.localAI[3] >= 2f)
-                        {
                             npc.localAI[3] = 0f;
-                        }
+
                         npc.ai[0] = 0f;
                         npc.ai[1] = 0f;
                         npc.ai[2] = 0f;
@@ -315,40 +273,39 @@ namespace CalamityMod.NPCs.GreatSandShark
             {
                 resetAI = false;
                 if (npc.direction == 0)
-                {
-                    npc.TargetClosest(true);
-                }
+                    npc.TargetClosest();
+
                 Point point15 = npc.Center.ToTileCoordinates();
                 Tile tileSafely = Framing.GetTileSafely(point15);
                 bool flag121 = tileSafely.nactive() || tileSafely.liquid > 0;
                 bool flag122 = false;
                 npc.TargetClosest(false);
+
                 Vector2 vector260 = npc.targetRect.Center.ToVector2();
                 if (Main.player[npc.target].velocity.Y > -0.1f && !Main.player[npc.target].dead && npc.Distance(vector260) > 150f)
-                {
                     flag122 = true;
-                }
+
                 npc.localAI[1] += 1f;
+
                 if (lowLife)
                 {
                     bool spawnFlag = npc.localAI[1] == 150f;
                     if (NPC.CountNPCS(NPCID.SandShark) > 2)
-                    {
                         spawnFlag = false;
-                    }
+
                     if (spawnFlag && Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y + 50, NPCID.SandShark, 0, 0f, 0f, 0f, 0f, 255);
                         Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/GreatSandSharkRoar"), (int)npc.position.X, (int)npc.position.Y);
                     }
                 }
+
                 if (npc.localAI[1] >= 300f)
                 {
                     npc.localAI[1] = 0f;
                     if (npc.localAI[2] > 0f)
-                    {
                         npc.localAI[2] = 0f;
-                    }
+
                     switch (Main.rand.Next(3))
                     {
                         case 0:
@@ -361,21 +318,19 @@ namespace CalamityMod.NPCs.GreatSandShark
                             npc.ai[3] = 2f;
                             break;
                     }
+
                     int random = lowerLife ? 5 : 9;
                     if (lowLife && Main.rand.Next(random) == 0)
-                    {
                         npc.localAI[3] = 1f;
-                    }
+
                     npc.netUpdate = true;
                 }
+
                 if (npc.localAI[0] == -1f && !flag121)
-                {
                     npc.localAI[0] = 20f;
-                }
                 if (npc.localAI[0] > 0f)
-                {
                     npc.localAI[0] -= 1f;
-                }
+
                 if (flag121)
                 {
                     float num1534 = npc.ai[1];
@@ -383,19 +338,17 @@ namespace CalamityMod.NPCs.GreatSandShark
                     point15 = (npc.Center + new Vector2(0f, 24f)).ToTileCoordinates();
                     tileSafely = Framing.GetTileSafely(point15.X, point15.Y - 2);
                     if (tileSafely.nactive())
-                    {
                         flag123 = true;
-                    }
-                    npc.ai[1] = (float)flag123.ToInt();
+
+                    npc.ai[1] = flag123.ToInt();
                     if (npc.ai[2] < 30f)
-                    {
                         npc.ai[2] += 1f;
-                    }
+
                     if (flag122)
                     {
-                        npc.TargetClosest(true);
-                        npc.velocity.X += (float)npc.direction * 0.15f;
-                        npc.velocity.Y += (float)npc.directionY * 0.15f;
+                        npc.TargetClosest();
+                        npc.velocity.X += npc.direction * 0.15f;
+                        npc.velocity.Y += npc.directionY * 0.15f;
                         float velocityX = 8f;
                         float velocityY = 6f;
                         switch ((int)npc.ai[3])
@@ -429,8 +382,7 @@ namespace CalamityMod.NPCs.GreatSandShark
                         point15 = vec4.ToTileCoordinates();
                         tileSafely = Framing.GetTileSafely(point15);
                         bool flag124 = tileSafely.nactive();
-                        if (!flag124 && Math.Sign(npc.velocity.X) == npc.direction && (npc.Distance(vector260) < 600f || youMustDie) &&
-                            (npc.ai[2] >= 30f || npc.ai[2] < 0f))
+                        if (!flag124 && Math.Sign(npc.velocity.X) == npc.direction && (npc.Distance(vector260) < 600f || youMustDie) && (npc.ai[2] >= 30f || npc.ai[2] < 0f))
                         {
                             if (npc.localAI[0] == 0f)
                             {
@@ -444,7 +396,7 @@ namespace CalamityMod.NPCs.GreatSandShark
                                     if (Main.rand.NextBool(2))
                                     {
                                         Main.dust[num622].scale = 0.5f;
-                                        Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
+                                        Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
                                     }
                                 }
                                 for (int num623 = 0; num623 < 50; num623++)
@@ -468,41 +420,32 @@ namespace CalamityMod.NPCs.GreatSandShark
                     else
                     {
                         float num1535 = 6f;
-                        npc.velocity.X += (float)npc.direction * 0.1f;
+                        npc.velocity.X += npc.direction * 0.1f;
                         if (npc.velocity.X < -num1535 || npc.velocity.X > num1535)
-                        {
                             npc.velocity.X *= 0.95f;
-                        }
+
                         if (flag123)
-                        {
                             npc.ai[0] = -1f;
-                        }
                         else
-                        {
                             npc.ai[0] = 1f;
-                        }
+
                         float num1536 = 0.06f;
                         float num1537 = 0.01f;
                         if (npc.ai[0] == -1f)
                         {
                             npc.velocity.Y -= num1537;
                             if (npc.velocity.Y < -num1536)
-                            {
                                 npc.ai[0] = 1f;
-                            }
                         }
                         else
                         {
                             npc.velocity.Y += num1537;
                             if (npc.velocity.Y > num1536)
-                            {
                                 npc.ai[0] = -1f;
-                            }
                         }
+
                         if (npc.velocity.Y > 0.4f || npc.velocity.Y < -0.4f)
-                        {
                             npc.velocity.Y *= 0.95f;
-                        }
                     }
                 }
                 else
@@ -510,16 +453,14 @@ namespace CalamityMod.NPCs.GreatSandShark
                     if (npc.velocity.Y == 0f)
                     {
                         if (flag122)
-                        {
-                            npc.TargetClosest(true);
-                        }
+                            npc.TargetClosest();
+
                         float num1538 = 1f;
-                        npc.velocity.X += (float)npc.direction * 0.1f;
+                        npc.velocity.X += npc.direction * 0.1f;
                         if (npc.velocity.X < -num1538 || npc.velocity.X > num1538)
-                        {
                             npc.velocity.X *= 0.95f;
-                        }
                     }
+
                     if (npc.localAI[2] == 0f)
                     {
                         npc.localAI[2] = 1f;
@@ -551,17 +492,17 @@ namespace CalamityMod.NPCs.GreatSandShark
                             velocityY *= 1.5f;
                         }
                         npc.velocity.Y = -velocityY;
-                        npc.velocity.X = velocityX * (float)npc.direction;
+                        npc.velocity.X = velocityX * npc.direction;
                         npc.netUpdate = true;
                     }
+
                     npc.velocity.Y += 0.4f;
                     if (npc.velocity.Y > 10f)
-                    {
                         npc.velocity.Y = 10f;
-                    }
+
                     npc.ai[0] = 1f;
                 }
-                npc.rotation = npc.velocity.Y * (float)npc.direction * 0.1f;
+                npc.rotation = npc.velocity.Y * npc.direction * 0.1f;
 				npc.rotation = MathHelper.Clamp(npc.rotation, -0.1f, 0.1f);
             }
         }
@@ -597,7 +538,7 @@ namespace CalamityMod.NPCs.GreatSandShark
             int num159 = 1;
             float num160 = 0f;
             int num161 = num159;
-            while (((num158 > 0 && num161 < num157) || (num158 < 0 && num161 > num157)) && CalamityMod.CalamityConfig.Afterimages)
+            while (((num158 > 0 && num161 < num157) || (num158 < 0 && num161 > num157)) && CalamityConfig.Instance.Afterimages)
             {
                 Color color26 = npc.GetAlpha(color25);
                 {
@@ -627,7 +568,7 @@ namespace CalamityMod.NPCs.GreatSandShark
         {
             for (int k = 0; k < 5; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
             }
             if (npc.life <= 0)
             {
@@ -660,7 +601,7 @@ namespace CalamityMod.NPCs.GreatSandShark
 
             // Mark Great Sand Shark as dead
             CalamityWorld.downedGSS = true;
-            CalamityMod.UpdateServerBoolean();
+            CalamityNetcode.SyncWorld();
         }
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)

@@ -1,14 +1,12 @@
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Placeables.Banners;
-using Microsoft.Xna.Framework;
-using System;
 using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.NPCs.NormalNPCs
 {
-    public class CrawlerAmethyst : ModNPC
+	public class CrawlerAmethyst : ModNPC
     {
         private bool detected = false;
 
@@ -70,7 +68,7 @@ namespace CalamityMod.NPCs.NormalNPCs
         public override void AI()
         {
             if (!detected)
-                npc.TargetClosest(true);
+                npc.TargetClosest();
             if (((Main.player[npc.target].Center - npc.Center).Length() < 100f && Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position,
                     Main.player[npc.target].width, Main.player[npc.target].height)) || npc.justHit)
                 detected = true;

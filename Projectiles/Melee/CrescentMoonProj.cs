@@ -1,15 +1,16 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using CalamityMod.Buffs.DamageOverTime;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    public class CrescentMoonProj : ModProjectile
+	public class CrescentMoonProj : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Magic/Crescent";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Crescent Moon");
@@ -32,7 +33,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.localNPCHitCooldown = 10;
 			projectile.extraUpdates = 1;
 			projectile.aiStyle = 18;
-			aiType = 274;
+			aiType = ProjectileID.DeathSickle;
         }
 
         public override void AI()
@@ -47,7 +48,7 @@ namespace CalamityMod.Projectiles.Melee
                 }
             }
 
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 460f, 15f, 20f);
+			CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 250f, 12f, 20f);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

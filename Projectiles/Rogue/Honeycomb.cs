@@ -1,6 +1,5 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -8,8 +7,10 @@ using CalamityMod.Items.Weapons.Rogue;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class Honeycomb : ModProjectile
+	public class Honeycomb : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/HardenedHoneycomb";
+
         private const float radius = 15f;
 
         public override void SetStaticDefaults()
@@ -25,7 +26,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.penetrate = 1;
             projectile.aiStyle = 2;
             projectile.timeLeft = 300;
-            aiType = 48;
+            aiType = ProjectileID.ThrowingKnife;
             projectile.Calamity().rogue = true;
         }
 

@@ -1,10 +1,9 @@
 using CalamityMod.Buffs.StatDebuffs;
-using CalamityMod.CalPlayer;
 using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class AbyssalMirrorProjectile : ModProjectile
+	public class AbyssalMirrorProjectile : ModProjectile
     {
         public override void SetStaticDefaults()
         {

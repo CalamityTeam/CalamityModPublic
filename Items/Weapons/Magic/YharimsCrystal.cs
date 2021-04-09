@@ -29,13 +29,14 @@ namespace CalamityMod.Items.Weapons.Magic
             item.noUseGraphic = true;
             item.channel = true;
             item.knockBack = 0f;
-            item.value = Item.buyPrice(2, 50, 0, 0);
-            item.rare = 10;
             item.shoot = ModContent.ProjectileType<YharimsCrystalPrism>();
             item.shootSpeed = 30f;
-            item.Calamity().customRarity = CalamityRarity.ItemSpecific;
-        }
 
-        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[ModContent.ProjectileType<YharimsCrystalPrism>()] <= 0;
+            item.value = CalamityGlobalItem.Rarity15BuyPrice;
+            item.Calamity().customRarity = CalamityRarity.Violet;
+			item.Calamity().challengeDrop = true;
+		}
+
+        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;
     }
 }

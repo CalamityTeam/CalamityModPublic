@@ -2,11 +2,14 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Rogue
 {
     public class Prismalline2 : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/Prismalline";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Prismalline");
@@ -20,17 +23,13 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.penetrate = 1;
             projectile.aiStyle = 113;
             projectile.timeLeft = 60;
-            aiType = 598;
+            aiType = ProjectileID.BoneJavelin;
             projectile.Calamity().rogue = true;
         }
 
         public override void AI()
         {
-            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 2.355f;
-            if (projectile.spriteDirection == -1)
-            {
-                projectile.rotation -= 1.57f;
-            }
+            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.ToRadians(45f);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

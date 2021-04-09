@@ -17,22 +17,25 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.damage = 20;
+            item.damage = 15;
             item.magic = true;
             item.mana = 9;
-            item.width = 48;
-            item.height = 30;
+            item.width = 42;
+            item.height = 28;
             item.useTime = item.useAnimation = 20;
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 1.5f;
             item.value = Item.buyPrice(0, 1, 0, 0);
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.UseSound = SoundID.Item13;
             item.autoReuse = true;
             item.shootSpeed = 14f;
             item.shoot = ModContent.ProjectileType<AcidGunStream>();
         }
+
+        public override Vector2? HoldoutOffset() => new Vector2(-5, 0);
+
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             for (int i = 0; i < 3; i++)
@@ -42,6 +45,7 @@ namespace CalamityMod.Items.Weapons.Magic
             }
             return false;
         }
+
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);

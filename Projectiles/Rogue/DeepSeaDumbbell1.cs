@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class DeepSeaDumbbell1 : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/DeepSeaDumbbell";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Deep Sea Dumbbell");
@@ -73,9 +75,6 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            if (target.defense > 0)
-                target.defense -= 15;
-
             target.AddBuff(ModContent.BuffType<CrushDepth>(), 600);
 
             Main.PlaySound(SoundID.NPCKilled, (int)projectile.position.X, (int)projectile.position.Y, 43, 0.35f, 0f);

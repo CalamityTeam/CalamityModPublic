@@ -27,12 +27,12 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.noMelee = true;
             item.knockBack = 1.5f;
             item.value = Item.buyPrice(0, 12, 0, 0);
-            item.rare = 4;
+            item.rare = ItemRarityID.LightRed;
             item.UseSound = SoundID.Item9;
             item.autoReuse = true;
             item.shootSpeed = 6.5f;
             item.shoot = ModContent.ProjectileType<SlimeBolt>();
-            item.useAmmo = 23;
+            item.useAmmo = AmmoID.Gel;
         }
 
         public override Vector2? HoldoutOffset()

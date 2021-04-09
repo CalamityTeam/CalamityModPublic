@@ -17,7 +17,7 @@ namespace CalamityMod.Items.SummonItems
             item.width = 20;
             item.height = 20;
             item.maxStack = 20;
-            item.rare = 7;
+            item.rare = ItemRarityID.Lime;
             item.useAnimation = 45;
             item.useTime = 45;
             item.useStyle = ItemUseStyleID.HoldingUp;
@@ -31,9 +31,13 @@ namespace CalamityMod.Items.SummonItems
 
         public override bool UseItem(Player player)
         {
-            NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<GreatSandShark>());
             Main.PlaySound(SoundID.Roar, player.position, 0);
-            return true;
+			if (Main.netMode != NetmodeID.MultiplayerClient)
+				NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<GreatSandShark>());
+			else
+				NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, player.whoAmI, ModContent.NPCType<GreatSandShark>());
+
+			return true;
         }
 
         public override void AddRecipes()

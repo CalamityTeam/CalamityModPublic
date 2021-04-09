@@ -25,11 +25,13 @@ namespace CalamityMod.Items.Pets
             item.noMelee = true;
             item.width = 30;
             item.height = 30;
-            item.value = Item.sellPrice(1, 0, 0, 0);
             item.shoot = ProjectileID.None; // neither kendra nor bear is the direct "shoot"
             item.buffType = ModContent.BuffType<FurtasticDuoBuff>();
-            item.rare = 6;
             item.UseSound = SoundID.Item44;
+
+            item.value = Item.sellPrice(platinum: 1);
+            item.rare = ItemRarityID.Purple;
+            item.Calamity().devItem = true;
         }
 
         public override void UseStyle(Player player)

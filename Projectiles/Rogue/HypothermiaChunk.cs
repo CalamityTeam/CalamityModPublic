@@ -3,11 +3,10 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class HypothermiaChunk : ModProjectile
+	public class HypothermiaChunk : ModProjectile
     {
     	public override void SetStaticDefaults()
 		{
@@ -45,7 +44,7 @@ namespace CalamityMod.Projectiles.Rogue
                 projectile.tileCollide = true;
             }
 
-            if (Main.rand.Next(10) == 0)
+            if (Main.rand.NextBool(10))
             {
                 Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 191, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f, 0, default, 0.8f);
             }
@@ -59,16 +58,10 @@ namespace CalamityMod.Projectiles.Rogue
             }
             if (projectile.owner == Main.myPlayer)
             {
-				for (int num252 = 0; num252 < Main.rand.Next(1,4); num252++)
+				for (int i = 0; i < Main.rand.Next(1,4); i++)
 				{
-					Vector2 value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-					while (value15.X == 0f && value15.Y == 0f)
-					{
-						value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-					}
-					value15.Normalize();
-					value15 *= (float)Main.rand.Next(70, 101) * 0.1f;
-					int shard = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value15.X, value15.Y, ModContent.ProjectileType<HypothermiaShard>(), (int)((float)projectile.damage * 0.33f), projectile.knockBack * 0.75f, Main.myPlayer, Main.rand.Next(0,4), 1f);
+					Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
+					int shard = Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<HypothermiaShard>(), (int)(projectile.damage * 0.33f), projectile.knockBack * 0.75f, Main.myPlayer, Main.rand.Next(4), 1f);
 				}
 			}
         }

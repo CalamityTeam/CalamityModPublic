@@ -1,5 +1,6 @@
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Items.Materials
 {
@@ -16,14 +17,14 @@ namespace CalamityMod.Items.Materials
             item.height = 10;
             item.maxStack = 999;
             item.value = Item.sellPrice(silver: 1, copper: 20);
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
         }
 
         public override void Update(ref float gravity, ref float maxFallSpeed)
         {
-            float num = (float)Main.rand.Next(90, 111) * 0.01f;
+            float num = Main.rand.Next(90, 111) * 0.01f;
             num *= Main.essScale;
-            Lighting.AddLight((int)((item.position.X + (float)(item.width / 2)) / 16f), (int)((item.position.Y + (float)(item.height / 2)) / 16f), 0.75f * num, 0f, 0f);
+            Lighting.AddLight((int)((item.position.X + (item.width / 2)) / 16f), (int)((item.position.Y + (item.height / 2)) / 16f), 0.75f * num, 0f, 0f);
         }
     }
 }

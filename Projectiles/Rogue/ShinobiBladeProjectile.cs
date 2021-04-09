@@ -1,15 +1,16 @@
 using CalamityMod.Projectiles.Healing;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class ShinobiBladeProjectile : ModProjectile
+	public class ShinobiBladeProjectile : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/ShinobiBlade";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Shinobi Blade");

@@ -1,5 +1,3 @@
-using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Buffs.StatDebuffs;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -32,7 +30,8 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void AI()
         {
-            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
+			Player player = Main.player[projectile.owner];
+            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
             projectile.frameCounter++;
             if (projectile.frameCounter > 4)
             {
@@ -51,36 +50,9 @@ namespace CalamityMod.Projectiles.Summon
                 Main.dust[num59].velocity = value3 * 0.66f;
                 Main.dust[num59].position = projectile.Center + value3 * 12f;
             }
-            float num472 = projectile.Center.X;
-            float num473 = projectile.Center.Y;
-            float num474 = 1200f;
-            bool flag17 = false;
-            int target = (int)projectile.ai[0];
-            if (Main.npc[target].CanBeChasedBy(projectile, false))
-            {
-                float num476 = Main.npc[target].position.X + (float)(Main.npc[target].width / 2);
-                float num477 = Main.npc[target].position.Y + (float)(Main.npc[target].height / 2);
-                float num478 = Math.Abs(projectile.position.X + (float)(projectile.width / 2) - num476) + Math.Abs(projectile.position.Y + (float)(projectile.height / 2) - num477);
-                if (num478 < num474)
-                {
-                    num472 = num476;
-                    num473 = num477;
-                    flag17 = true;
-                }
-            }
-            if (flag17)
-            {
-                float num483 = 40f;
-                Vector2 vector35 = new Vector2(projectile.position.X + (float)projectile.width * 0.5f, projectile.position.Y + (float)projectile.height * 0.5f);
-                float num484 = num472 - vector35.X;
-                float num485 = num473 - vector35.Y;
-                float num486 = (float)Math.Sqrt((double)(num484 * num484 + num485 * num485));
-                num486 = num483 / num486;
-                num484 *= num486;
-                num485 *= num486;
-                projectile.velocity.X = (projectile.velocity.X * 20f + num484) / 21f;
-                projectile.velocity.Y = (projectile.velocity.Y * 20f + num485) / 21f;
-            }
+            NPC potentialTarget = projectile.Center.MinionHoming(1200f, Main.player[projectile.owner]);
+            if (potentialTarget != null)
+                projectile.velocity = (projectile.velocity * 20f + projectile.DirectionTo(potentialTarget.Center) * 40f) / 21f;
         }
 
         public override Color? GetAlpha(Color lightColor)
@@ -90,15 +62,12 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<ExoFreeze>(), 30);
-            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
-            target.AddBuff(ModContent.BuffType<GlacialState>(), 120);
-            target.AddBuff(ModContent.BuffType<Plague>(), 120);
-            target.AddBuff(ModContent.BuffType<HolyFlames>(), 120);
-            target.AddBuff(BuffID.CursedInferno, 120);
-            target.AddBuff(BuffID.Frostburn, 120);
-            target.AddBuff(BuffID.OnFire, 120);
-            target.AddBuff(BuffID.Ichor, 120);
+			target.ExoDebuffs();
+        }
+
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+			target.ExoDebuffs();
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

@@ -11,6 +11,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class Quasar2 : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/Quasar";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Quasar");
@@ -30,11 +32,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void AI()
         {
-            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 2.355f;
-            if (projectile.spriteDirection == -1)
-            {
-                projectile.rotation -= 1.57f;
-            }
+            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.ToRadians(45f);
             float num472 = projectile.Center.X;
             float num473 = projectile.Center.Y;
             float num474 = 600f;
@@ -93,9 +91,12 @@ namespace CalamityMod.Projectiles.Rogue
 			if (projectile.Calamity().stealthStrike && projectile.owner == Main.myPlayer)
 			{
 				int boomer = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<RadiantExplosion>(), (int)(projectile.damage * 0.5f), projectile.knockBack, projectile.owner, 0f, 1f);
-				Main.projectile[boomer].Calamity().stealthStrike = projectile.Calamity().stealthStrike;
-				Main.projectile[boomer].height = Main.projectile[boomer].width = 280;
-				Main.projectile[boomer].Center = projectile.Center;
+				if (boomer.WithinBounds(Main.maxProjectiles))
+				{
+					Main.projectile[boomer].Calamity().stealthStrike = true;
+					Main.projectile[boomer].height = Main.projectile[boomer].width = 280;
+					Main.projectile[boomer].Center = projectile.Center;
+				}
 			}
         }
     }

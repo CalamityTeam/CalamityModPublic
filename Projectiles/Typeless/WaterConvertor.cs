@@ -1,10 +1,13 @@
 using CalamityMod.World;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Typeless
 {
     public class WaterConvertor : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetDefaults()
         {
             projectile.penetrate = -1;
@@ -28,7 +31,7 @@ namespace CalamityMod.Projectiles.Typeless
 
         public void ConvertShit(Projectile projectile)
         {
-			if (projectile.owner == Main.myPlayer)
+			if (Main.netMode != NetmodeID.MultiplayerClient)
 			{
 				int x = (int)(projectile.Center.X / 16f);
 				int y = (int)(projectile.Center.Y / 16f);
@@ -55,6 +58,7 @@ namespace CalamityMod.Projectiles.Typeless
 						if (projectile.ai[0] == 4f)
 						{
 							WorldGenerationMethods.ConvertToAstral(i, j);
+							NetMessage.SendTileRange(-1, i, j, 1, 1);
 						}
 					}
 				}

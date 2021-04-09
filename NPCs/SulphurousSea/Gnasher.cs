@@ -1,4 +1,3 @@
-using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.World;
 using Terraria;
@@ -7,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.SulphurousSea
 {
-    public class Gnasher : ModNPC
+	public class Gnasher : ModNPC
     {
         public override void SetStaticDefaults()
         {
@@ -17,11 +16,12 @@ namespace CalamityMod.NPCs.SulphurousSea
 
         public override void SetDefaults()
         {
-            npc.damage = 25;
+			npc.Calamity().canBreakPlayerDefense = true;
+			npc.damage = 25;
             npc.width = 50;
             npc.height = 36;
             npc.defense = 30;
-            npc.Calamity().RevPlusDR(0.15f);
+			npc.DR_NERD(0.15f);
             npc.lifeMax = 35;
             npc.knockBackResist = 0.25f;
             npc.aiStyle = 3;
@@ -29,10 +29,6 @@ namespace CalamityMod.NPCs.SulphurousSea
             npc.value = Item.buyPrice(0, 0, 0, 60);
             npc.HitSound = SoundID.NPCHit50;
             npc.DeathSound = SoundID.NPCDeath54;
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
             banner = npc.type;
             bannerItem = ModContent.ItemType<GnasherBanner>();
         }
@@ -117,13 +113,13 @@ namespace CalamityMod.NPCs.SulphurousSea
         {
             for (int k = 0; k < 3; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
             }
             if (npc.life <= 0)
             {
                 for (int k = 0; k < 15; k++)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
                 }
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Gnasher"), 1f);
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Gnasher2"), 1f);

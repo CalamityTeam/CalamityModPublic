@@ -25,13 +25,13 @@ namespace CalamityMod.Projectiles.Summon
             projectile.timeLeft = 180;
             projectile.minion = true;
             projectile.minionSlots = 0f;
-            projectile.extraUpdates = 2;
+            projectile.extraUpdates = 1;
         }
 
         public override void AI()
         {
             projectile.frameCounter++;
-            if (projectile.frameCounter > 12)
+            if (projectile.frameCounter > 8)
             {
                 projectile.frame++;
                 projectile.frameCounter = 0;
@@ -40,7 +40,7 @@ namespace CalamityMod.Projectiles.Summon
             {
                 projectile.frame = 0;
             }
-            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) - 1.57f;
+            projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) - MathHelper.PiOver2;
 
             Player player = Main.player[projectile.owner];
             int targetIdx = -1;
@@ -60,12 +60,26 @@ namespace CalamityMod.Projectiles.Summon
                     }
                 }
             }
-            else
+			else if (Main.npc[(int)projectile.ai[0]].active && projectile.ai[0] != -1f)
+			{
+                NPC npc = Main.npc[(int)projectile.ai[0]];
+                if (npc.CanBeChasedBy(projectile, false))
+                {
+                    float dist = (projectile.Center - npc.Center).Length();
+                    if (dist < maxHomingRange)
+                    {
+                        targetIdx = (int)projectile.ai[0];
+                        maxHomingRange = dist;
+                        hasHomingTarget = true;
+                    }
+                }
+			}
+            if (!hasHomingTarget)
             {
                 for (int i = 0; i < Main.npc.Length; ++i)
                 {
                     NPC npc = Main.npc[i];
-                    if (npc == null || !npc.active)
+                    if (npc is null || !npc.active)
                         continue;
 
                     if (npc.CanBeChasedBy(projectile, false))
@@ -109,8 +123,8 @@ namespace CalamityMod.Projectiles.Summon
         {
             projectile.position = projectile.Center;
             projectile.width = projectile.height = 48;
-            projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
-            projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
+            projectile.position.X = projectile.position.X - (projectile.width / 2);
+            projectile.position.Y = projectile.position.Y - (projectile.height / 2);
             Main.PlaySound(SoundID.NPCKilled, (int)projectile.Center.X, (int)projectile.Center.Y, 28);
             for (int num621 = 0; num621 < 10; num621++)
             {
@@ -119,7 +133,7 @@ namespace CalamityMod.Projectiles.Summon
                 if (Main.rand.NextBool(2))
                 {
                     Main.dust[num622].scale = 0.5f;
-                    Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
+                    Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
                 }
             }
             for (int num623 = 0; num623 < 15; num623++)

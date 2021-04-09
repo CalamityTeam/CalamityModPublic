@@ -1,4 +1,5 @@
 using CalamityMod.Items.Materials;
+using CalamityMod.Tiles.Furniture.CraftingStations;
 using CalamityMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -18,7 +19,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetDefaults()
         {
             item.width = 62;
-            item.damage = 33;
+            item.damage = 38;
             item.melee = true;
             item.useAnimation = 30;
             item.useTime = 30;
@@ -29,7 +30,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.autoReuse = true;
             item.height = 62;
             item.value = Item.buyPrice(0, 12, 0, 0);
-            item.rare = 4;
+            item.rare = ItemRarityID.LightRed;
             item.shoot = ModContent.ProjectileType<GelWave>();
             item.shootSpeed = 9f;
         }
@@ -40,7 +41,7 @@ namespace CalamityMod.Items.Weapons.Melee
             recipe.AddIngredient(ModContent.ItemType<PurifiedGel>(), 30);
             recipe.AddIngredient(ItemID.Gel, 35);
             recipe.AddIngredient(ItemID.HellstoneBar, 10);
-            recipe.AddTile(TileID.Anvils);
+            recipe.AddTile(ModContent.TileType<StaticRefiner>());
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

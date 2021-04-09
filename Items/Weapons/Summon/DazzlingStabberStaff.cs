@@ -1,6 +1,4 @@
-using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Summon;
-using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -8,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
-    public class DazzlingStabberStaff : ModItem
+	public class DazzlingStabberStaff : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -25,15 +23,15 @@ namespace CalamityMod.Items.Weapons.Summon
             item.UseSound = SoundID.DD2_DarkMageHealImpact;
             item.summon = true;
             item.mana = 12;
-            item.damage = 40;
+            item.damage = 56;
             item.knockBack = 2f;
             item.autoReuse = true;
             item.useTime = item.useAnimation = 15;
             item.shoot = ModContent.ProjectileType<DazzlingStabber>();
             item.shootSpeed = 13f;
 
-            item.value = Item.buyPrice(1, 20, 0, 0);
-            item.rare = 10;
+            item.value = CalamityGlobalItem.Rarity12BuyPrice;
+            item.rare = ItemRarityID.Purple;
             item.Calamity().customRarity = CalamityRarity.Turquoise;
         }
 

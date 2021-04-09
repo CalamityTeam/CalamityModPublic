@@ -28,15 +28,15 @@ Right click to fire two devastating barrages of five empowered fireballs.
             item.knockBack = 1f;
             item.shootSpeed = 18f;
             item.useStyle = ItemUseStyleID.HoldingOut;
-            item.useAnimation = 10;
-            item.useTime = 10;
-            item.reuseDelay = 0;
+            item.useAnimation = 24;
+            item.useTime = 12;
+            item.reuseDelay = 48;
             item.width = 64;
             item.height = 84;
             item.UseSound = SoundID.Item5;
             item.shoot = ModContent.ProjectileType<DrataliornusBow>();
             item.value = Item.buyPrice(platinum: 2, gold: 50);
-            item.rare = 10;
+            item.rare = ItemRarityID.Red;
             item.noMelee = true;
             item.noUseGraphic = true;
             item.ranged = true;
@@ -56,16 +56,10 @@ Right click to fire two devastating barrages of five empowered fireballs.
         {
             if (player.altFunctionUse == 2)
             {
-                item.useAnimation = 24;
-                item.useTime = 12;
-                item.reuseDelay = 48;
                 item.noUseGraphic = false;
             }
             else
             {
-                item.useAnimation = 9;
-                item.useTime = 9;
-                item.reuseDelay = 0;
                 item.noUseGraphic = true;
 				if (player.ownedProjectileCounts[item.shoot] > 0)
 				{
@@ -88,7 +82,7 @@ Right click to fire two devastating barrages of five empowered fireballs.
                 {
                     float num8 = index1 - (num4 - 1) / 2;
                     Vector2 vector2_5 = spinningpoint.RotatedBy(num3 * num8, new Vector2());
-                    Projectile.NewProjectile(position.X + vector2_5.X, position.Y + vector2_5.Y, speedX, speedY, ModContent.ProjectileType<DrataliornusFlame>(), damage, knockBack, player.whoAmI, 1f, 0f);
+                    Projectile.NewProjectile(position.X + vector2_5.X, position.Y + vector2_5.Y, speedX, speedY, ModContent.ProjectileType<DrataliornusFlame>(), (int)(damage * 0.69), knockBack, player.whoAmI, 1f, 0f);
                 }
             }
             else

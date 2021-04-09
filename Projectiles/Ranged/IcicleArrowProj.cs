@@ -7,6 +7,8 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class IcicleArrowProj : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Ammo/IcicleArrow";
+
         public override void SetDefaults()
         {
             projectile.width = 10;
@@ -34,6 +36,7 @@ namespace CalamityMod.Projectiles.Ranged
                 int index2 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 68, projectile.velocity.X, projectile.velocity.Y, 0, default, 1.1f);
                 Main.dust[index2].noGravity = true;
             }
+			projectile.rotation = projectile.velocity.ToRotation() - MathHelper.PiOver2;
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

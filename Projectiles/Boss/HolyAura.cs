@@ -29,42 +29,41 @@ namespace CalamityMod.Projectiles.Boss
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
-			Texture2D value = Main.projectileTexture[projectile.type];
-			Vector2 origin = value.Size() / 2f;
-			float num = Main.GlobalTime % 10f / 10f;
-			Vector2 value2 = projectile.Center - Main.screenPosition;
-			float[] array = new float[15];
-			float[] array2 = new float[15];
-			float[] array3 = new float[15];
-			float[] array4 = new float[15];
-			float num2 = 0.5f;
-			int num3 = 210;
-			num2 = CalamityUtils.GetLerpValue(0f, 60f, projectile.timeLeft, clamped: true) * CalamityUtils.GetLerpValue(num3, num3 - 60, projectile.timeLeft, clamped: true);
-			float amount = CalamityUtils.GetLerpValue(0f, 60f, projectile.timeLeft, clamped: true) * CalamityUtils.GetLerpValue(num3, 90f, projectile.timeLeft, clamped: true);
-			amount = CalamityUtils.GetLerpValue(0.2f, 0.5f, amount, clamped: true);
-			float num4 = 800f / value.Width;
-			float num5 = num4 * 0.8f;
-			float num6 = (num4 - num5) / 15f;
-			float num7 = 30f;
-			float num8 = 300f;
-			Vector2 value3 = new Vector2(6f, 6f);
+			Texture2D texture = Main.projectileTexture[projectile.type];
+			Vector2 origin = texture.Size() / 2f;
+			float time = Main.GlobalTime % 10f / 10f;
+			Vector2 drawPosition = projectile.Center - Main.screenPosition;
+			int drawnAmt = 30;
+			float[] posX = new float[drawnAmt];
+			float[] posY = new float[drawnAmt];
+			float[] hue = new float[drawnAmt];
+			float[] size = new float[drawnAmt];
+			int totalTime = 210;
+			float colorChangeAmt = Utils.InverseLerp(0f, 60f, projectile.timeLeft, true) * Utils.InverseLerp(totalTime, totalTime - 60, projectile.timeLeft, true);
+			float colorChangeAmt2 = Utils.InverseLerp(0f, 60f, projectile.timeLeft, true) * Utils.InverseLerp(totalTime, 90f, projectile.timeLeft, true);
+			colorChangeAmt2 = Utils.InverseLerp(0.2f, 0.5f, colorChangeAmt2, true);
+			float sizeScale = 0.8f;
+			float sizeScalar = (1f - sizeScale) / drawnAmt;
+			float yPosOffset = 60f;
+			float xPosOffset = 400f;
+			Vector2 scale = new Vector2(6f, 6f);
 
-			for (int i = 0; i < 15; i++)
+			for (int i = 0; i < drawnAmt; i++)
 			{
-				float num9 = (float)Math.Sin(num * ((float)Math.PI * 2f) + (float)Math.PI / 2f + i / 2f);
+				float timeScalar = (float)Math.Sin(time * MathHelper.TwoPi + (float)Math.PI / 2f + i / 2f);
 
-				array[i] = num9 * (num8 - i * 3f);
+				posX[i] = timeScalar * (xPosOffset - i * 3f);
 
-				array2[i] = (float)Math.Sin(num * ((float)Math.PI * 2f) * 2f + (float)Math.PI / 3f + i) * num7;
-				array2[i] -= i * 3f;
+				posY[i] = (float)Math.Sin(time * MathHelper.TwoPi * 2f + (float)Math.PI / 3f + i) * yPosOffset;
+				posY[i] -= i * 3f;
 
-				array3[i] = i / 15f * 2f + num;
-				array3[i] = (num9 * 0.5f + 0.5f) * 0.6f + num;
+				hue[i] = i / (float)drawnAmt * 2f + time;
+				hue[i] = (timeScalar * 0.5f + 0.5f) * 0.6f + time;
 
-				array4[i] = num5 + (i + 1) * num6;
-				array4[i] *= 0.3f;
+				size[i] = sizeScale + (i + 1) * sizeScalar;
+				size[i] *= 0.3f;
 
-				Color color = Main.hslToRgb(array3[i] % 1f, 1f, 0.5f) * num2 * amount;
+				Color color = Main.hslToRgb(hue[i] % 1f, 1f, 0.5f) * colorChangeAmt * colorChangeAmt2;
 
 				bool underworld = projectile.ai[0] == 2f;
 				if (Main.dayTime)
@@ -99,9 +98,9 @@ namespace CalamityMod.Projectiles.Boss
 					color.A = (byte)MathHelper.Lerp(0, color.A, amount2);
 				}
 
-				float rotation = (float)Math.PI / 2f + num9 * ((float)Math.PI / 4f) * -0.3f + (float)Math.PI * i;
+				float rotation = MathHelper.PiOver2 + timeScalar * MathHelper.PiOver4 * -0.3f + (float)Math.PI * i;
 
-				spriteBatch.Draw(value, value2 + new Vector2(array[i], array2[i]), null, color, rotation, origin, new Vector2(array4[i], array4[i]) * value3, SpriteEffects.None, 0);
+				spriteBatch.Draw(texture, drawPosition + new Vector2(posX[i], posY[i]), null, color, rotation, origin, new Vector2(size[i], size[i]) * scale, SpriteEffects.None, 0);
 			}
 
 			return false;

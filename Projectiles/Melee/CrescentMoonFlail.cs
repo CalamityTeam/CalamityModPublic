@@ -26,7 +26,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.melee = true;
             projectile.ignoreWater = true;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 3;
+            projectile.localNPCHitCooldown = 8;
         }
         public override Color SpecialDrawColor => default;
         public override int ExudeDustType => 176;
@@ -56,7 +56,8 @@ namespace CalamityMod.Projectiles.Melee
                 }
                 vectorBruh -= new Vector2((float)(player.bodyFrame.Width - player.width), (float)(player.bodyFrame.Height - 42)) / 2f;
                 Vector2 newCenter = player.RotatedRelativePoint(Main.player[projectile.owner].position + vectorBruh, true) + projectile.velocity;
-                Projectile.NewProjectile(newCenter.X, newCenter.Y, 0f, 0f, ModContent.ProjectileType<CrescentMoonProj>(), (int)((double)projectile.damage * 0.4), 0f, projectile.owner, 0f, 0f);
+				int moonDamage = (int)(projectile.damage * 0.18f);
+                Projectile.NewProjectile(newCenter.X, newCenter.Y, 0f, 0f, ModContent.ProjectileType<CrescentMoonProj>(), moonDamage, 0f, projectile.owner, 0f, 0f);
                 moonCounter = 6;
             }
         }

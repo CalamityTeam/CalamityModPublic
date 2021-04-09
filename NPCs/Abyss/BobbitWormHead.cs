@@ -25,18 +25,18 @@ namespace CalamityMod.NPCs.Abyss
         public override void SetDefaults()
         {
             npc.lavaImmune = true;
-            npc.aiStyle = -1;
+			npc.Calamity().canBreakPlayerDefense = true;
+			npc.aiStyle = -1;
             npc.damage = 150;
             npc.width = 80;
             npc.height = 40;
             npc.defense = 50;
-            npc.Calamity().RevPlusDR(0.25f);
-            npc.lifeMax = 10000;
+			npc.DR_NERD(0.25f);
+            npc.lifeMax = 7500;
             npc.knockBackResist = 0f;
             aiType = -1;
             npc.noGravity = true;
             npc.value = Item.buyPrice(0, 0, 50, 0);
-            npc.buffImmune[ModContent.BuffType<CrushDepth>()] = true;
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath1;
             banner = npc.type;
@@ -234,16 +234,11 @@ namespace CalamityMod.NPCs.Abyss
         {
             player.AddBuff(BuffID.Bleeding, 300, true);
             player.AddBuff(ModContent.BuffType<CrushDepth>(), 300, true);
-            if (CalamityWorld.revenge)
-            {
-                player.AddBuff(ModContent.BuffType<MarkedforDeath>(), 300);
-                player.AddBuff(ModContent.BuffType<Horror>(), 120, true);
-            }
         }
 
         public override void NPCLoot()
         {
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<HalibutCannon>(), CalamityWorld.revenge, 1000000, 1, 1);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<HalibutCannon>(), CalamityWorld.revenge, HalibutCannon.DropChance);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<DepthCells>(), CalamityWorld.downedCalamitas, 2, 5, 7);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<DepthCells>(), CalamityWorld.downedCalamitas && Main.expertMode, 2, 2, 3);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<BobbitHook>(), CalamityWorld.downedPolterghast, 3, 1, 1);
@@ -253,13 +248,13 @@ namespace CalamityMod.NPCs.Abyss
         {
             for (int k = 0; k < 5; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
             }
             if (npc.life <= 0)
             {
                 for (int k = 0; k < 20; k++)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
                 }
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/BobbitWorm"), 1f);
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/BobbitWorm2"), 1f);

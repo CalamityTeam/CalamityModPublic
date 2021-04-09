@@ -1,6 +1,5 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
@@ -8,8 +7,10 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class CobaltEnergy : ModProjectile
+	public class CobaltEnergy : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         private bool hasHitEnemy = false;
         private int targetNPC = -1;
         private List<int> previousNPCs = new List<int>() { -1 };
@@ -43,7 +44,7 @@ namespace CalamityMod.Projectiles.Rogue
 
             if (!hasHitEnemy && projectile.timeLeft < 575)
             {
-				CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 350f, 12f, 20f);
+				CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 200f, 12f, 20f);
             }
             else if (hasHitEnemy)
             {
@@ -77,7 +78,7 @@ namespace CalamityMod.Projectiles.Rogue
                 {
                     previousNPCs.Add(i);
                 }
-                if (!npc.friendly && !npc.townNPC && npc.active && !npc.dontTakeDamage && npc.chaseable && npc != target && !hasHitNPC && npc.type != NPCID.TargetDummy)
+                if (npc.CanBeChasedBy(projectile, false) && npc != target && !hasHitNPC)
                 {
                     float dist = (projectile.Center - npc.Center).Length();
                     if (dist < minDist)
@@ -103,7 +104,7 @@ namespace CalamityMod.Projectiles.Rogue
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
             Collision.HitTiles(projectile.position + projectile.velocity, projectile.velocity, projectile.width, projectile.height);
-            Main.PlaySound(0, projectile.position);
+            Main.PlaySound(SoundID.Dig, projectile.position);
             projectile.Kill();
             return false;
         }
@@ -117,7 +118,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void Kill(int timeLeft)
         {
-			Main.PlaySound(0, (int)projectile.position.X, (int)projectile.position.Y, 1, 1f, 0f);
+			Main.PlaySound(SoundID.Dig, (int)projectile.position.X, (int)projectile.position.Y, 1, 1f, 0f);
 			for (int index1 = 0; index1 < 15; ++index1)
 			{
 				int ruby = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 88, projectile.oldVelocity.X, projectile.oldVelocity.Y, 50, new Color(), 1.2f);

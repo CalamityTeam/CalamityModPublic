@@ -1,5 +1,6 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
+using CalamityMod.Items.Weapons.Ranged;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -11,6 +12,8 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class BloodfireArrowProj : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Ammo/BloodfireArrow";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Bloodfire Arrow");
@@ -39,10 +42,9 @@ namespace CalamityMod.Projectiles.Ranged
         public override void AI()
         {
             projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) - MathHelper.ToRadians(90);
-            projectile.localAI[0] += 1f;
-            if (projectile.localAI[0] == 15f)
+
+            if (projectile.timeLeft % 15 == 0)
             {
-                projectile.localAI[0] = 0f;
                 for (int l = 0; l < 12; l++)
                 {
                     Vector2 vector3 = Vector2.UnitX * (float)-(float)projectile.width / 2f;
@@ -56,6 +58,9 @@ namespace CalamityMod.Projectiles.Ranged
                     Main.dust[num9].velocity = Vector2.Normalize(projectile.Center - projectile.velocity * 3f - Main.dust[num9].position) * 1.25f;
                 }
             }
+
+			if (projectile.ai[1] == 80f) //means it's from Arterial Assault's wooden arrow conversion
+				CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 200f, 12f, 20f);
         }
 
         public override void Kill(int timeLeft)
@@ -81,12 +86,17 @@ namespace CalamityMod.Projectiles.Ranged
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 360);
-            if (target.type == NPCID.TargetDummy || !target.canGhostHeal || Main.player[projectile.owner].moonLeech)
+            if (!target.canGhostHeal || Main.player[projectile.owner].moonLeech)
             {
                 return;
             }
             Player player = Main.player[projectile.owner];
-            if (Main.rand.NextBool(3))
+			int chance = 3;
+			if (player.ActiveItem().type == ModContent.ItemType<TheStorm>())
+			{
+				chance = 6;
+			}
+            if (Main.rand.NextBool(chance))
             {
                 player.statLife += 1;
                 player.HealEffect(1);

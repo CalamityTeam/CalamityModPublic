@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void SetDefaults()
         {
-            item.damage = 130;
+            item.damage = 89;
             item.mana = 10;
             item.width = 42;
             item.height = 60;
@@ -26,14 +26,14 @@ namespace CalamityMod.Items.Weapons.Summon
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.noMelee = true;
             item.knockBack = 4f;
-            item.value = Item.buyPrice(1, 40, 0, 0);
-            item.rare = 10;
-            item.UseSound = SoundID.Item44;
+			item.value = CalamityGlobalItem.Rarity12BuyPrice;
+			item.rare = ItemRarityID.Purple;
+			item.Calamity().customRarity = CalamityRarity.Turquoise;
+			item.UseSound = SoundID.Item44;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<CosmilampMinion>();
             item.shootSpeed = 10f;
             item.summon = true;
-            item.Calamity().customRarity = CalamityRarity.PureGreen;
         }
 
         public override bool CanUseItem(Player player) => player.maxMinions >= 2;

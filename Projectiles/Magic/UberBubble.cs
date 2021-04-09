@@ -21,34 +21,28 @@ namespace CalamityMod.Projectiles.Magic
             projectile.alpha = 255;
             projectile.ignoreWater = true;
             projectile.magic = true;
-        }
+			projectile.timeLeft = 30;
+		}
 
         public override void AI()
         {
-            projectile.velocity.X *= 0.975f;
-            projectile.velocity.Y *= 0.975f;
+            projectile.velocity *= 0.975f;
+
             if (projectile.alpha > 0)
-            {
                 projectile.alpha -= 30;
-            }
             if (projectile.alpha < 0)
-            {
                 projectile.alpha = 0;
-            }
+
             Vector2 v2 = projectile.ai[0].ToRotationVector2();
             float num743 = projectile.velocity.ToRotation();
             float num744 = v2.ToRotation();
-            double num745 = (double)(num744 - num743);
-            if (num745 > 3.1415926535897931)
-            {
-                num745 -= 6.2831853071795862;
-            }
-            if (num745 < -3.1415926535897931)
-            {
-            }
-            projectile.rotation = projectile.velocity.ToRotation() - 1.57079637f;
-            if (Main.myPlayer == projectile.owner && projectile.timeLeft > 30)
-                projectile.timeLeft = 30;
+            double num745 = num744 - num743;
+            if (num745 > MathHelper.Pi)
+                num745 -= MathHelper.TwoPi;
+            if (num745 < -MathHelper.Pi)
+				num745 -= -MathHelper.TwoPi;
+
+            projectile.rotation = projectile.velocity.ToRotation() - MathHelper.PiOver2;
         }
 
         public override void Kill(int timeLeft)
@@ -64,10 +58,8 @@ namespace CalamityMod.Projectiles.Magic
             }
             if (projectile.owner == Main.myPlayer)
             {
-                for (int numBubbles = 0; numBubbles <= Main.rand.Next(3, 7); numBubbles++)
-                {
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X * (Main.rand.NextFloat() * 2f), projectile.velocity.Y * (Main.rand.NextFloat() * 2f), ModContent.ProjectileType<BlueBubble>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
-                }
+                for (int numBubbles = 0; numBubbles < 3; numBubbles++)
+                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X * (Main.rand.NextFloat() * 2f), projectile.velocity.Y * (Main.rand.NextFloat() * 2f), ModContent.ProjectileType<BlueBubble>(), projectile.damage, projectile.knockBack, projectile.owner);
             }
         }
     }

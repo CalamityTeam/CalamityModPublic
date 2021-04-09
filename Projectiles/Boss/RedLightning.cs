@@ -1,20 +1,17 @@
-using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.NPCs.BrimstoneElemental;
-using CalamityMod.Dusts;
-using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
 using Terraria;
-using Terraria.Enums;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Utilities;
 namespace CalamityMod.Projectiles.Boss
 {
-    public class RedLightning : ModProjectile
+	public class RedLightning : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/LightningProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Red Lightning");
@@ -24,7 +21,8 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetDefaults()
         {
-            projectile.width = 14;
+			projectile.Calamity().canBreakPlayerDefense = true;
+			projectile.width = 14;
             projectile.height = 14;
             projectile.hostile = true;
             projectile.alpha = 255;
@@ -170,6 +168,11 @@ namespace CalamityMod.Projectiles.Boss
 					projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
 				}
 			}
+		}
+
+		public override void OnHitPlayer(Player target, int damage, bool crit)
+		{
+			target.AddBuff(BuffID.Electrified, 120);
 		}
 
 		public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)

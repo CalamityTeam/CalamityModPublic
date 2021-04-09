@@ -1,4 +1,4 @@
-using CalamityMod.World;
+using CalamityMod.Events;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -17,12 +17,12 @@ namespace CalamityMod.NPCs.SlimeGod
         public override void SetDefaults()
         {
             npc.aiStyle = 14;
-            npc.damage = 40;
-            npc.width = 40;
+			npc.GetNPCDamage();
+			npc.width = 40;
             npc.height = 30;
             npc.defense = 6;
             npc.lifeMax = 180;
-            if (CalamityWorld.bossRushActive)
+            if (BossRushEvent.BossRushActive)
             {
                 npc.lifeMax = 100000;
             }
@@ -35,7 +35,7 @@ namespace CalamityMod.NPCs.SlimeGod
             npc.canGhostHeal = false;
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath1;
-            npc.buffImmune[24] = true;
+            npc.buffImmune[BuffID.OnFire] = true;
         }
 
         public override bool PreNPCLoot()

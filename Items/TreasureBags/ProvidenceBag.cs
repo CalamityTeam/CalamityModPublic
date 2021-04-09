@@ -1,7 +1,6 @@
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.Materials;
-using CalamityMod.Items.SummonItems;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
@@ -11,6 +10,7 @@ using CalamityMod.NPCs.Providence;
 using CalamityMod.World;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Items.TreasureBags
 {
@@ -30,7 +30,7 @@ namespace CalamityMod.Items.TreasureBags
             item.consumable = true;
             item.width = 24;
             item.height = 24;
-            item.rare = 9;
+            item.rare = ItemRarityID.Cyan;
             item.expert = true;
         }
 
@@ -48,18 +48,18 @@ namespace CalamityMod.Items.TreasureBags
             DropHelper.DropItem(player, ModContent.ItemType<DivineGeode>(), 20, 30);
 
             // Weapons
-            DropHelper.DropItemChance(player, ModContent.ItemType<HolyCollider>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<SolarFlare>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<TelluricGlare>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<BlissfulBombardier>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<PurgeGuzzler>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<MoltenAmputator>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<DazzlingStabberStaff>(), 3);
-            float pristineFuryChance = DropHelper.LegendaryDropRateFloat;
-            DropHelper.DropItemCondition(player, ModContent.ItemType<PristineFury>(), CalamityWorld.revenge, pristineFuryChance);
+            float w = DropHelper.BagWeaponDropRateFloat;
+            DropHelper.DropEntireWeightedSet(player,
+                DropHelper.WeightStack<HolyCollider>(w),
+                DropHelper.WeightStack<SolarFlare>(w),
+                DropHelper.WeightStack<TelluricGlare>(w),
+                DropHelper.WeightStack<BlissfulBombardier>(w),
+                DropHelper.WeightStack<PurgeGuzzler>(w),
+                DropHelper.WeightStack<DazzlingStabberStaff>(w),
+                DropHelper.WeightStack<MoltenAmputator>(w)
+            );
 
             // Equipment
-            DropHelper.DropItemChance(player, ModContent.ItemType<SamuraiBadge>(), DropHelper.RareVariantDropRateInt);
             DropHelper.DropItem(player, ModContent.ItemType<BlazingCore>());
 
             // Vanity

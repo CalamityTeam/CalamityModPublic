@@ -1,4 +1,5 @@
 using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Events;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -17,19 +18,19 @@ namespace CalamityMod.NPCs.HiveMind
 
         public override void SetDefaults()
         {
-            npc.damage = 25;
-            npc.width = 70;
+			npc.Calamity().canBreakPlayerDefense = true;
+			npc.GetNPCDamage();
+			npc.width = 70;
             npc.height = 70;
             npc.defense = 6;
-            npc.lifeMax = 45;
-            if (CalamityWorld.bossRushActive)
+            npc.lifeMax = 90;
+            if (BossRushEvent.BossRushActive)
             {
-                npc.lifeMax = 10000;
+                npc.lifeMax = 20000;
             }
             npc.aiStyle = -1;
             aiType = -1;
-            animationType = 10;
-            npc.knockBackResist = CalamityWorld.bossRushActive ? 0f : 0.3f;
+            npc.knockBackResist = BossRushEvent.BossRushActive ? 0f : 0.3f;
             npc.noGravity = true;
             npc.noTileCollide = true;
             npc.canGhostHeal = false;
@@ -39,15 +40,20 @@ namespace CalamityMod.NPCs.HiveMind
 
         public override void AI()
         {
-            npc.TargetClosest(true);
+            npc.TargetClosest();
             bool revenge = CalamityWorld.revenge;
             float speed = revenge ? 12f : 11f;
-            if (CalamityWorld.bossRushActive)
+            if (BossRushEvent.BossRushActive || CalamityWorld.malice)
                 speed = 18f;
-            Vector2 vector167 = new Vector2(npc.Center.X + (float)(npc.direction * 20), npc.Center.Y + 6f);
-            float num1373 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - vector167.X;
+
+			if (npc.ai[1] < 90f)
+				npc.ai[1] += 1f;
+			speed = MathHelper.Lerp(3f, speed, npc.ai[1] / 90f);
+
+            Vector2 vector167 = new Vector2(npc.Center.X + (npc.direction * 20), npc.Center.Y + 6f);
+            float num1373 = Main.player[npc.target].position.X + Main.player[npc.target].width * 0.5f - vector167.X;
             float num1374 = Main.player[npc.target].Center.Y - vector167.Y;
-            float num1375 = (float)Math.Sqrt((double)(num1373 * num1373 + num1374 * num1374));
+            float num1375 = (float)Math.Sqrt(num1373 * num1373 + num1374 * num1374);
             float num1376 = speed / num1375;
             num1373 *= num1376;
             num1374 *= num1376;
@@ -82,14 +88,6 @@ namespace CalamityMod.NPCs.HiveMind
             }
         }
 
-        public override void OnHitPlayer(Player player, int damage, bool crit)
-        {
-            if (CalamityWorld.revenge)
-            {
-                player.AddBuff(ModContent.BuffType<MarkedforDeath>(), 120);
-            }
-        }
-
         public override void HitEffect(int hitDirection, double damage)
         {
             for (int k = 0; k < 5; k++)
@@ -110,9 +108,11 @@ namespace CalamityMod.NPCs.HiveMind
 
         public override void NPCLoot()
         {
-            if (Main.expertMode && Main.netMode != NetmodeID.MultiplayerClient)
+            if ((Main.expertMode || BossRushEvent.BossRushActive || CalamityWorld.malice) && Main.netMode != NetmodeID.MultiplayerClient)
             {
-                Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 0f, 0f, ModContent.ProjectileType<ShadeNimbusHostile>(), 14, 0f, Main.myPlayer, 0f, 0f);
+				int type = ModContent.ProjectileType<ShadeNimbusHostile>();
+				int damage = npc.GetProjectileDamage(type);
+				Projectile.NewProjectile(npc.Center, Vector2.Zero, type, damage, 0f, Main.myPlayer);
             }
         }
     }

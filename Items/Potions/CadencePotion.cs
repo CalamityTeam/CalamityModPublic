@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Potions
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Cadance Potion");
-            Tooltip.SetDefault("Gives the cadance buff which reduces shop prices and enemy aggro\n" +
+            Tooltip.SetDefault("Gives the cadance buff which reduces enemy aggro\n" +
                                "Increases life regen and increases max life by 25%\n" +
                                "Increases heart pickup range\n" +
                                 "While this potion's buff is active, Regeneration Potion and Lifeforce Potion buffs are disabled");
@@ -20,17 +20,17 @@ namespace CalamityMod.Items.Potions
         public override void SetDefaults()
         {
             item.width = 28;
-            item.height = 18;
+            item.height = 38;
             item.useTurn = true;
             item.maxStack = 999;
-            item.rare = 3;
+            item.rare = ItemRarityID.Orange;
             item.useAnimation = 17;
             item.useTime = 17;
             item.useStyle = ItemUseStyleID.EatingUsing;
             item.UseSound = SoundID.Item3;
             item.consumable = true;
             item.buffType = ModContent.BuffType<Cadence>();
-            item.buffTime = 18000;
+            item.buffTime = CalamityUtils.SecondsToFrames(480f);
             item.value = Item.buyPrice(0, 2, 0, 0);
         }
 

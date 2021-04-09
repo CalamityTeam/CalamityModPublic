@@ -2,13 +2,12 @@ using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class RainbowBlast : ModProjectile
+	public class RainbowBlast : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -45,7 +44,7 @@ namespace CalamityMod.Projectiles.Ranged
                 Main.dust[num469].velocity = dspeed;
             }
 
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 200f, 18f, 20f);
+			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 200f, 12f, 20f);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

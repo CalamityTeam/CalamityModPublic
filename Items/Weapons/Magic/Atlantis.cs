@@ -1,4 +1,3 @@
-using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Magic;
 using Terraria;
 using Terraria.ID;
@@ -7,7 +6,7 @@ using Microsoft.Xna.Framework;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
-    public class Atlantis : ModItem
+	public class Atlantis : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -29,7 +28,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.noMelee = true;
             item.knockBack = 5f;
             item.value = Item.buyPrice(0, 60, 0, 0);
-            item.rare = 7;
+            item.rare = ItemRarityID.Lime;
             item.UseSound = SoundID.Item34;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<AtlantisSpear>();

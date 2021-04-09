@@ -24,7 +24,7 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.timeLeft = 300;
             projectile.ranged = true;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 1;
+            projectile.localNPCHitCooldown = 10;
         }
 
         public override void AI()
@@ -56,11 +56,22 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void Kill(int timeLeft)
         {
+            Main.PlaySound(SoundID.Item14, projectile.Center);
+
+            // Massively inflate the projectile's hitbox
             projectile.position = projectile.Center;
             projectile.width = projectile.height = 160;
-            projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
-            projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
-            Main.PlaySound(SoundID.Item14, (int)projectile.position.X, (int)projectile.position.Y);
+            projectile.position.X = projectile.position.X - projectile.width / 2;
+            projectile.position.Y = projectile.position.Y - projectile.height / 2;
+
+            // Allow infinite piercing and completely ignoring iframes for this one last hit
+            projectile.maxPenetrate = -1;
+            projectile.penetrate = -1;
+            projectile.usesLocalNPCImmunity = false;
+            projectile.usesIDStaticNPCImmunity = true;
+            projectile.idStaticNPCHitCooldown = 0;
+            projectile.Damage();
+
             for (int num621 = 0; num621 < 10; num621++)
             {
                 int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 60, 0f, 0f, 100, default, 1.2f);

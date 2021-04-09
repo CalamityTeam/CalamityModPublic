@@ -10,7 +10,7 @@ namespace CalamityMod.Items.PermanentBoosters
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Electrolyte Gel Pack");
-            Tooltip.SetDefault("Permanently makes Adrenaline Mode take 10 less seconds to charge\n" +
+            Tooltip.SetDefault("Permanently increases Adrenaline Mode damage by 15% and damage reduction by 5%\n" +
                 "Revengeance drop");
         }
 
@@ -19,7 +19,7 @@ namespace CalamityMod.Items.PermanentBoosters
             item.width = 20;
             item.height = 20;
             item.useAnimation = 30;
-            item.rare = 4;
+            item.rare = ItemRarityID.LightRed;
             item.useTime = 30;
             item.useStyle = ItemUseStyleID.HoldingUp;
             item.UseSound = SoundID.Item122;

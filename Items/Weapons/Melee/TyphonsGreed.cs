@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.damage = 75;
+            item.damage = 65;
             item.melee = true;
             item.width = 16;
             item.height = 16;
@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.noUseGraphic = true;
             item.knockBack = 5f;
             item.value = Item.buyPrice(0, 60, 0, 0);
-            item.rare = 7;
+            item.rare = ItemRarityID.Lime;
             item.UseSound = SoundID.DD2_SkyDragonsFurySwing;
             item.autoReuse = true;
             item.channel = true;

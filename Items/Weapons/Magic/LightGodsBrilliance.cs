@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.damage = 100;
+            item.damage = 62;
             item.magic = true;
             item.mana = 4;
             item.width = 34;
@@ -27,19 +27,21 @@ namespace CalamityMod.Items.Weapons.Magic
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 3f;
-            item.value = Item.buyPrice(1, 80, 0, 0);
-            item.rare = 10;
+
+            item.value = CalamityGlobalItem.Rarity11BuyPrice;
+            item.rare = ItemRarityID.Purple;
+            item.Calamity().donorItem = true;
+
             item.UseSound = SoundID.Item9;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<LightBead>();
             item.shootSpeed = 25f;
-            item.Calamity().customRarity = CalamityRarity.Dedicated;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            int num6 = Main.rand.Next(2, 5);
-            for (int index = 0; index < num6; ++index)
+            int totalBeads = Main.rand.Next(2, 3 + 1);
+            for (int index = 0; index < totalBeads; index++)
             {
                 float SpeedX = speedX + (float)Main.rand.Next(-50, 51) * 0.05f;
                 float SpeedY = speedY + (float)Main.rand.Next(-50, 51) * 0.05f;
@@ -59,8 +61,7 @@ namespace CalamityMod.Items.Weapons.Magic
             recipe.AddIngredient(ModContent.ItemType<ShadecrystalTome>());
             recipe.AddIngredient(ModContent.ItemType<AbyssalTome>());
             recipe.AddIngredient(ItemID.HolyWater, 10);
-            recipe.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<NightmareFuel>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>());
             recipe.AddIngredient(ItemID.SoulofLight, 30);
             recipe.AddIngredient(ModContent.ItemType<EffulgentFeather>(), 5);
             recipe.AddTile(TileID.Bookcases);

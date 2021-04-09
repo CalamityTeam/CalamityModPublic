@@ -34,16 +34,11 @@ namespace CalamityMod.Projectiles.Summon
             projectile.timeLeft *= 5;
             projectile.minion = true;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 20 -
-                (NPC.downedGolemBoss ? 5 : 0) -
-                (NPC.downedMoonlord ? 5 : 0) -
-                (CalamityWorld.downedDoG ? 4 : 0) -
-                (CalamityWorld.downedYharon ? 3 : 0);
+            projectile.localNPCHitCooldown = 20;
         }
 
         public override void AI()
         {
-            bool flag64 = projectile.type == ModContent.ProjectileType<CloudElementalMinion>();
             Player player = Main.player[projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
             if (!modPlayer.cloudWaifu && !modPlayer.allWaifus)
@@ -51,7 +46,8 @@ namespace CalamityMod.Projectiles.Summon
                 projectile.active = false;
                 return;
             }
-            if (flag64)
+            bool correctMinion = projectile.type == ModContent.ProjectileType<CloudElementalMinion>();
+            if (correctMinion)
             {
                 if (player.dead)
                 {
@@ -67,19 +63,18 @@ namespace CalamityMod.Projectiles.Summon
             {
                 projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
                 projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = projectile.damage;
-                int num501 = 50;
-                for (int num502 = 0; num502 < num501; num502++)
+                int dustAmt = 50;
+                for (int d = 0; d < dustAmt; d++)
                 {
-                    int num503 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y + 16f), projectile.width, projectile.height - 16, 16, 0f, 0f, 0, default, 1f);
-                    Main.dust[num503].velocity *= 2f;
-                    Main.dust[num503].scale *= 1.15f;
+                    int index = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y + 16f), projectile.width, projectile.height - 16, 16, 0f, 0f, 0, default, 1f);
+                    Main.dust[index].velocity *= 2f;
+                    Main.dust[index].scale *= 1.15f;
                 }
             }
             if (player.MinionDamage() != projectile.Calamity().spawnedPlayerMinionDamageValue)
             {
                 int damage2 = (int)((float)projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
-                    projectile.Calamity().spawnedPlayerMinionDamageValue *
-                    player.MinionDamage());
+                    projectile.Calamity().spawnedPlayerMinionDamageValue * player.MinionDamage());
                 projectile.damage = damage2;
             }
             if (Math.Abs(projectile.velocity.X) > 0.2f)
@@ -101,7 +96,7 @@ namespace CalamityMod.Projectiles.Summon
 				projectile.frame = 0;
 			}
 
-			CalamityGlobalProjectile.ChargingMinionAI(projectile, 500f, 800f, 1200f, 400f, 0, 30f, 8f, -4f, 40f, 8f, false, true);
+			projectile.ChargingMinionAI(500f, 800f, 1200f, 400f, 0, 30f, 8f, 4f, new Vector2(500f, -60f), 40f, 8f, false, true, 1);
         }
     }
 }

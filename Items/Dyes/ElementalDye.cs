@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Dyes
 
 		public override void SafeSetDefaults()
 		{
-            item.rare = 10;
+            item.rare = ItemRarityID.Red;
             item.Calamity().customRarity = CalamityRarity.Turquoise;
             item.value = Item.sellPrice(0, 2, 50, 0);
         }
@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Dyes
             recipe.AddIngredient(ItemID.NebulaDye);
             recipe.AddIngredient(ModContent.ItemType<GalacticaSingularity>());
             recipe.AddTile(TileID.DyeVat);
-            recipe.SetResult(this);
+            recipe.SetResult(this, 5);
             recipe.AddRecipe();
         }
     }

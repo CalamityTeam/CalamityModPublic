@@ -1,20 +1,19 @@
 using CalamityMod.CalPlayer;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Materials;
-using CalamityMod.Items.Placeables.Ores;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Armor
 {
-    [AutoloadEquip(EquipType.Head)]
+	[AutoloadEquip(EquipType.Head)]
     public class AuricTeslaPlumedHelm : ModItem
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Auric Tesla Plumed Helm");
-            Tooltip.SetDefault("20% increased rogue damage and critical strike chance, 25% increased movement speed\n" +
+            Tooltip.SetDefault("20% increased rogue damage, critical strike chance and movement speed\n" +
                                "Not moving boosts all damage and critical strike chance");
         }
 
@@ -39,7 +38,7 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateArmorSet(Player player)
         {
-            player.setBonus = "Rogue Tarragon, Bloodflare, God Slayer, and Silva armor effects\n" +
+            player.setBonus = "Rogue Tarragon, Bloodflare and God Slayer armor effects\n" +
                 "All projectiles spawn healing auric orbs on enemy hits\n" +
                 "Max run speed and acceleration boosted by 10%\n" +
                 "Rogue weapon critical strikes will do 1.25 times damage while you are above 50% HP\n" +
@@ -54,8 +53,6 @@ namespace CalamityMod.Items.Armor
             modPlayer.bloodflareThrowing = true;
             modPlayer.godSlayer = true;
             modPlayer.godSlayerThrowing = true;
-            modPlayer.silvaSet = true;
-            modPlayer.silvaThrowing = true;
             modPlayer.auricSet = true;
             modPlayer.rogueStealthMax += 1.3f;
             modPlayer.wearingRogueArmor = true;
@@ -76,13 +73,12 @@ namespace CalamityMod.Items.Armor
             modPlayer.auricBoost = true;
             player.Calamity().throwingDamage += 0.2f;
             player.Calamity().throwingCrit += 20;
-            player.moveSpeed += 0.25f;
+            player.moveSpeed += 0.2f;
         }
 
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<SilvaMask>());
             recipe.AddIngredient(ModContent.ItemType<GodSlayerMask>());
             recipe.AddIngredient(ModContent.ItemType<BloodflareHelm>());
             recipe.AddIngredient(ModContent.ItemType<TarragonHelmet>());

@@ -1,6 +1,7 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Dusts;
+using CalamityMod.Events;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.LoreItems;
@@ -12,22 +13,18 @@ using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.NPCs.TownNPCs;
-using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
-using Terraria.ModLoader.Config;
-using CalamityMod;
 
 namespace CalamityMod.NPCs.Calamitas
 {
-    [AutoloadBossHead]
+	[AutoloadBossHead]
     public class CalamitasRun3 : ModNPC
     {
         public override void SetStaticDefaults()
@@ -39,52 +36,27 @@ namespace CalamityMod.NPCs.Calamitas
 
         public override void SetDefaults()
         {
-            npc.damage = 70;
-            npc.npcSlots = 14f;
+			npc.Calamity().canBreakPlayerDefense = true;
+			npc.GetNPCDamage();
+			npc.npcSlots = 14f;
             npc.width = 120;
             npc.height = 120;
             npc.defense = 25;
             npc.value = Item.buyPrice(0, 15, 0, 0);
-            npc.Calamity().RevPlusDR(0.15f);
-            npc.LifeMaxNERB(28125, 38812, 3900000);
-            if (CalamityWorld.downedProvidence && !CalamityWorld.bossRushActive)
+			npc.DR_NERD(0.15f);
+			npc.LifeMaxNERB(28125, 38812, 3900000);
+            if (CalamityWorld.downedProvidence && !BossRushEvent.BossRushActive)
             {
                 npc.damage *= 3;
                 npc.defense *= 3;
-                npc.lifeMax *= 3;
+                npc.lifeMax *= 2;
                 npc.value *= 2.5f;
             }
-            double HPBoost = CalamityMod.CalamityConfig.BossHealthPercentageBoost * 0.01;
+            double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.aiStyle = -1;
             aiType = -1;
             npc.knockBackResist = 0f;
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
-            npc.buffImmune[BuffID.Ichor] = false;
-            npc.buffImmune[ModContent.BuffType<MarkedforDeath>()] = false;
-			npc.buffImmune[BuffID.Frostburn] = false;
-			npc.buffImmune[BuffID.CursedInferno] = false;
-            npc.buffImmune[BuffID.Daybreak] = false;
-            npc.buffImmune[BuffID.BetsysCurse] = false;
-			npc.buffImmune[BuffID.StardustMinionBleed] = false;
-			npc.buffImmune[BuffID.DryadsWardDebuff] = false;
-			npc.buffImmune[BuffID.Oiled] = false;
-			npc.buffImmune[BuffID.BoneJavelin] = false;
-            npc.buffImmune[ModContent.BuffType<AbyssalFlames>()] = false;
-			npc.buffImmune[ModContent.BuffType<AstralInfectionDebuff>()] = false;
-            npc.buffImmune[ModContent.BuffType<ArmorCrunch>()] = false;
-            npc.buffImmune[ModContent.BuffType<DemonFlames>()] = false;
-            npc.buffImmune[ModContent.BuffType<GodSlayerInferno>()] = false;
-            npc.buffImmune[ModContent.BuffType<HolyFlames>()] = false;
-            npc.buffImmune[ModContent.BuffType<Nightwither>()] = false;
-            npc.buffImmune[ModContent.BuffType<Plague>()] = false;
-            npc.buffImmune[ModContent.BuffType<Shred>()] = false;
-            npc.buffImmune[ModContent.BuffType<WhisperingDeath>()] = false;
-            npc.buffImmune[ModContent.BuffType<SilvaStun>()] = false;
-            npc.buffImmune[ModContent.BuffType<SulphuricPoisoning>()] = false;
             npc.boss = true;
             npc.noGravity = true;
             npc.noTileCollide = true;
@@ -101,11 +73,15 @@ namespace CalamityMod.NPCs.Calamitas
         public override void SendExtraAI(BinaryWriter writer)
         {
 			writer.Write(npc.chaseable);
+            for (int i = 0; i < 2; i++)
+                writer.Write(npc.Calamity().newAI[i]);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
 			npc.chaseable = reader.ReadBoolean();
+            for (int i = 0; i < 2; i++)
+                npc.Calamity().newAI[i] = reader.ReadSingle();
         }
 
         public override void FindFrame(int frameHeight)
@@ -133,7 +109,7 @@ namespace CalamityMod.NPCs.Calamitas
 			float amount9 = 0.5f;
 			int num153 = 7;
 
-			if (CalamityMod.CalamityConfig.Afterimages)
+			if (CalamityConfig.Instance.Afterimages)
 			{
 				for (int num155 = 1; num155 < num153; num155 += 2)
 				{
@@ -156,7 +132,7 @@ namespace CalamityMod.NPCs.Calamitas
 			texture2D15 = ModContent.GetTexture("CalamityMod/NPCs/Calamitas/CalamitasRun3Glow");
 			Color color37 = Color.Lerp(Color.White, Color.Red, 0.5f);
 
-			if (CalamityMod.CalamityConfig.Afterimages)
+			if (CalamityConfig.Instance.Afterimages)
 			{
 				for (int num163 = 1; num163 < num153; num163++)
 				{
@@ -179,12 +155,15 @@ namespace CalamityMod.NPCs.Calamitas
         {
             DropHelper.DropBags(npc);
 
-            DropHelper.DropItem(npc, ItemID.BrokenHeroSword, true);
+			// Legendary drop for Cal Clone
+			DropHelper.DropItemCondition(npc, ModContent.ItemType<Regenator>(), true, CalamityWorld.malice);
+
+			DropHelper.DropItem(npc, ItemID.BrokenHeroSword, true);
             DropHelper.DropItemChance(npc, ModContent.ItemType<CalamitasTrophy>(), 10);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeCalamitasClone>(), !CalamityWorld.downedCalamitas);
             DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedCalamitas, 4, 2, 1);
 
-			npc.Calamity().SetNewShopVariable(new int[] { ModContent.NPCType<THIEF>() }, CalamityWorld.downedCalamitas);
+			CalamityGlobalTownNPC.SetNewShopVariable(new int[] { ModContent.NPCType<THIEF>() }, CalamityWorld.downedCalamitas);
 
 			if (!Main.expertMode)
             {
@@ -195,10 +174,13 @@ namespace CalamityMod.NPCs.Calamitas
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<Bloodstone>(), CalamityWorld.downedProvidence, 1f, 30, 40);
 
                 // Weapons
-                DropHelper.DropItemChance(npc, ModContent.ItemType<TheEyeofCalamitas>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Animosity>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<CalamitasInferno>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<BlightedEyeStaff>(), 4);
+                float w = DropHelper.NormalWeaponDropRateFloat;
+                DropHelper.DropEntireWeightedSet(npc,
+                    DropHelper.WeightStack<TheEyeofCalamitas>(w),
+                    DropHelper.WeightStack<Animosity>(w),
+                    DropHelper.WeightStack<CalamitasInferno>(w),
+                    DropHelper.WeightStack<BlightedEyeStaff>(w)
+                );
 
                 // Equipment
                 DropHelper.DropItemChance(npc, ModContent.ItemType<ChaosStone>(), 10);
@@ -216,15 +198,12 @@ namespace CalamityMod.NPCs.Calamitas
                 if (!Main.player[Main.myPlayer].dead && Main.player[Main.myPlayer].active)
                     Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/WyrmScream"), (int)Main.player[Main.myPlayer].position.X, (int)Main.player[Main.myPlayer].position.Y);
 
-                if (Main.netMode == NetmodeID.SinglePlayer)
-                    Main.NewText(Language.GetTextValue(key), messageColor);
-                else if (Main.netMode == NetmodeID.Server)
-                    NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
+                CalamityUtils.DisplayLocalizedText(key, messageColor);
             }
 
             // Mark Calamitas as dead
             CalamityWorld.downedCalamitas = true;
-            CalamityMod.UpdateServerBoolean();
+            CalamityNetcode.SyncWorld();
         }
 
         public override void BossLoot(ref string name, ref int potionType)
@@ -276,16 +255,12 @@ namespace CalamityMod.NPCs.Calamitas
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
-            npc.damage = (int)(npc.damage * 0.8f);
             npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);
-        }
+			npc.damage = (int)(npc.damage * npc.GetExpertDamageMultiplier());
+		}
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            if (CalamityWorld.revenge)
-            {
-                player.AddBuff(ModContent.BuffType<Horror>(), 180, true);
-            }
             player.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 300, true);
         }
     }

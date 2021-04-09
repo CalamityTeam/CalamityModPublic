@@ -55,7 +55,7 @@ namespace CalamityMod.Projectiles.Melee
 				projectile.rotation += projectile.spriteDirection * MathHelper.ToRadians(45f);
 			}
             //Sticky Behaviour
-            CalamityUtils.StickyProjAI(projectile, 15);
+            projectile.StickyProjAI(15);
 			if (projectile.ai[0] == 2f)
 			{
 				projectile.velocity *= 0f;
@@ -64,7 +64,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            CalamityUtils.ModifyHitNPCSticky(projectile, 20, true);
+            projectile.ModifyHitNPCSticky(20, true);
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)

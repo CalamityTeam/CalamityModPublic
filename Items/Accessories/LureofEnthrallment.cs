@@ -1,28 +1,27 @@
 using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
-using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Summon;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Items.Accessories
 {
-    public class LureofEnthrallment : ModItem
+	public class LureofEnthrallment : ModItem
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Pearl of Enthrallment");
-            Tooltip.SetDefault("Summons a siren to fight for you\n" +
-                "The siren stays above you, shooting water spears, ice mist, and treble clefs at nearby enemies");
+            Tooltip.SetDefault("Summons a water elemental to fight for you\n" +
+                "The elemental stays above you, shooting water spears, ice mist, and treble clefs at nearby enemies");
         }
 
         public override void SetDefaults()
         {
             item.width = 56;
             item.height = 56;
-            item.value = Item.buyPrice(0, 30, 0, 0);
-            item.rare = 7;
+            item.value = CalamityGlobalItem.Rarity7BuyPrice;
+            item.rare = ItemRarityID.Lime;
             item.accessory = true;
         }
 

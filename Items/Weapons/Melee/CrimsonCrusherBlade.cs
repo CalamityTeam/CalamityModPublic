@@ -1,3 +1,4 @@
+using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -16,7 +17,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.damage = 41;
+            item.damage = 38;
             item.melee = true;
             item.width = 70;
             item.height = 80;
@@ -26,7 +27,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.knockBack = 7f;
             item.value = Item.buyPrice(0, 4, 0, 0);
-            item.rare = 3;
+            item.rare = ItemRarityID.Orange;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
         }
@@ -41,16 +42,18 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(BuffID.Ichor, 180);
-            if (target.damage > 0 && crit)
+            target.AddBuff(BuffID.Ichor, 120);
+            if (target.damage > 0 && crit && !CalamityPlayer.areThereAnyDamnBosses)
             {
-                target.damage -= 10;
+                target.damage = target.defDamage - 5;
+				if (target.damage < 1)
+					target.damage = 1;
             }
         }
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
-            target.AddBuff(BuffID.Ichor, 180);
+            target.AddBuff(BuffID.Ichor, 120);
         }
 
         public override void AddRecipes()

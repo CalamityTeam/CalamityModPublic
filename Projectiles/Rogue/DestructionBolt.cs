@@ -39,7 +39,7 @@ namespace CalamityMod.Projectiles.Rogue
 			if (projectile.alpha > 0)
 				projectile.alpha -= 8;
 
-			projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
+			projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + MathHelper.PiOver2;
 
 			float num29 = 5f;
 			float num30 = 300f;
@@ -151,7 +151,7 @@ namespace CalamityMod.Projectiles.Rogue
 			Main.PlaySound(SoundID.Item14, (int)projectile.position.X, (int)projectile.position.Y);
 			for (int num621 = 0; num621 < 20; num621++)
             {
-                int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 31, 0f, 0f, 100, default, 2f);
+                int num622 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 31, 0f, 0f, 100, default, 2f);
                 Main.dust[num622].velocity *= 3f;
                 if (Main.rand.NextBool(2))
                 {
@@ -161,13 +161,13 @@ namespace CalamityMod.Projectiles.Rogue
             }
             for (int num623 = 0; num623 < 45; num623++)
             {
-                int num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, dustType, 0f, 0f, 100, default, 3f);
+                int num624 = Dust.NewDust(projectile.position, projectile.width, projectile.height, dustType, 0f, 0f, 100, default, 3f);
                 Main.dust[num624].noGravity = true;
                 Main.dust[num624].velocity *= 5f;
-                num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, dustType, 0f, 0f, 100, default, 2f);
+                num624 = Dust.NewDust(projectile.position, projectile.width, projectile.height, dustType, 0f, 0f, 100, default, 2f);
                 Main.dust[num624].velocity *= 2f;
             }
-			CalamityUtils.ExplosionGores(projectile, 9);
+			CalamityUtils.ExplosionGores(projectile.Center, 9);
         }
     }
 }

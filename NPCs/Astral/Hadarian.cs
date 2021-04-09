@@ -32,14 +32,13 @@ namespace CalamityMod.NPCs.Astral
             npc.aiStyle = -1;
             npc.damage = 50;
             npc.defense = 8;
-            npc.Calamity().RevPlusDR(0.15f);
+			npc.DR_NERD(0.15f);
             npc.lifeMax = 330;
             npc.DeathSound = mod.GetLegacySoundSlot(SoundType.NPCKilled, "Sounds/NPCKilled/AstralEnemyDeath");
             npc.knockBackResist = 0.75f;
             npc.value = Item.buyPrice(0, 0, 15, 0);
             banner = npc.type;
             bannerItem = ModContent.ItemType<HadarianBanner>();
-            npc.buffImmune[ModContent.BuffType<AstralInfectionDebuff>()] = true;
             if (CalamityWorld.downedAstrageldon)
             {
                 npc.damage = 80;
@@ -183,7 +182,7 @@ namespace CalamityMod.NPCs.Astral
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
             Tile tile = Main.tile[spawnInfo.spawnTileX, spawnInfo.spawnTileY];
-            if (spawnInfo.player.PillarZone())
+            if (CalamityGlobalNPC.AnyEvents(spawnInfo.player))
             {
                 return 0f;
             }
@@ -201,15 +200,9 @@ namespace CalamityMod.NPCs.Astral
 
         public override void NPCLoot()
         {
-            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Stardust>(), Main.rand.Next(2, 4));
-            if (Main.expertMode)
-            {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Stardust>());
-            }
-            if (CalamityWorld.downedAstrageldon && Main.rand.NextBool(2))
-            {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<HadarianMembrane>(), Main.rand.Next(1, 3));
-            }
+            DropHelper.DropItem(npc, ModContent.ItemType<Stardust>(), 2, 3);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<Stardust>(), Main.expertMode);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<HadarianMembrane>(), CalamityWorld.downedAstrageldon, 2, 2, 3);
         }
     }
 }

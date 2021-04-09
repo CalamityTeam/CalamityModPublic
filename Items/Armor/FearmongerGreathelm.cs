@@ -2,6 +2,7 @@ using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Materials;
 using CalamityMod.Tiles.Furniture.CraftingStations;
+using CalamityMod.World;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -16,7 +17,7 @@ namespace CalamityMod.Items.Armor
             DisplayName.SetDefault("Fearmonger Greathelm");
             Tooltip.SetDefault("Pure terror radiates from your eyes\n" +
 			"+60 max mana and 10% decreased mana usage\n" +
-			"10% increased minion damage and +2 max minions");
+			"10% increased minion damage");
         }
 
         public override void SetDefaults()
@@ -30,12 +31,7 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-            // Don't override the Yoraiz0r's Eye effect if the accessory itself is equipped
-            if (player.yoraiz0rEye == 0)
-                player.yoraiz0rEye = 3;
-
             player.statManaMax2 += 60;
-            player.maxMinions += 2;
             player.minionDamage += 0.1f;
             player.manaCost *= 0.9f;
         }
@@ -52,22 +48,35 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateArmorSet(Player player)
         {
-            player.setBonus = @"30% increased minion damage
-Minions deal full damage while wielding weaponry
+			if (CalamityWorld.death)
+			{
+				player.setBonus = @"20% increased minion damage and +2 max minions
+The minion damage nerf while wielding weaponry is reduced
 Immunity to all forms of frost and flame
 All minion attacks grant colossal life regeneration
 15% increased damage reduction during the Pumpkin and Frost Moons
 This extra damage reduction ignores the soft cap
 Provides cold protection in Death Mode";
+			}
+			else
+			{
+				player.setBonus = @"20% increased minion damage and +2 max minions
+The minion damage nerf while wielding weaponry is reduced
+Immunity to all forms of frost and flame
+All minion attacks grant colossal life regeneration
+15% increased damage reduction during the Pumpkin and Frost Moons
+This extra damage reduction ignores the soft cap";
+			}
 
             // This bool encompasses cross-class nerf immunity, colossal life regen on minion attack, and the holiday moon DR
             player.Calamity().fearmongerSet = true;
 
             // All-class armors count as rogue sets, but don't grant stealth bonuses
             player.Calamity().wearingRogueArmor = true;
-            player.minionDamage += 0.3f;
+            player.minionDamage += 0.2f;
+			player.maxMinions += 2;
 
-            int[] immuneDebuffs = {
+			int[] immuneDebuffs = {
                 BuffID.OnFire,
                 BuffID.Frostburn,
                 BuffID.CursedInferno,
@@ -94,9 +103,7 @@ Provides cold protection in Death Mode";
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.SpookyHelmet);
-            recipe.AddIngredient(ModContent.ItemType<Phantoplasm>(), 8);
-            recipe.AddIngredient(ModContent.ItemType<NightmareFuel>(), 8);
-            recipe.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 8);
+            recipe.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 2);
             recipe.AddIngredient(ItemID.SoulofFright, 8);
             recipe.AddTile(ModContent.TileType<DraedonsForge>());
             recipe.SetResult(this);

@@ -1,5 +1,5 @@
+using CalamityMod.Events;
 using CalamityMod.Projectiles.Enemy;
-using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -21,17 +21,17 @@ namespace CalamityMod.NPCs.SlimeGod
         public override void SetDefaults()
         {
             npc.aiStyle = 1;
-            npc.damage = 45;
-            npc.width = 40;
+			npc.GetNPCDamage();
+			npc.width = 40;
             npc.height = 30;
             npc.defense = 6;
             npc.lifeMax = 130;
-            if (CalamityWorld.bossRushActive)
+            if (BossRushEvent.BossRushActive)
             {
                 npc.lifeMax = 120000;
             }
             npc.knockBackResist = 0f;
-            animationType = 81;
+            animationType = NPCID.CorruptSlime;
             npc.alpha = 55;
             npc.lavaImmune = false;
             npc.noGravity = false;
@@ -39,16 +39,17 @@ namespace CalamityMod.NPCs.SlimeGod
             npc.canGhostHeal = false;
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath1;
-            npc.buffImmune[24] = true;
+            npc.buffImmune[BuffID.OnFire] = true;
         }
 
         public override void AI()
         {
             if (spikeTimer > 0f)
-            {
                 spikeTimer -= 1f;
-            }
-            if (!npc.wet)
+
+			int type = ModContent.ProjectileType<CrimsonSpike>();
+			int damage = npc.GetProjectileDamage(type);
+			if (!npc.wet)
             {
                 Vector2 vector3 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
                 float num14 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - vector3.X;
@@ -70,7 +71,7 @@ namespace CalamityMod.NPCs.SlimeGod
                             vector4.Y *= 1f + (float)Main.rand.Next(-50, 51) * 0.005f;
                             vector4.Normalize();
                             vector4 *= 4f + (float)Main.rand.Next(-50, 51) * 0.01f;
-                            Projectile.NewProjectile(vector3.X, vector3.Y, vector4.X, vector4.Y, ModContent.ProjectileType<CrimsonSpike>(), 13, 0f, Main.myPlayer, 0f, 0f);
+                            Projectile.NewProjectile(vector3.X, vector3.Y, vector4.X, vector4.Y, type, damage, 0f, Main.myPlayer, 0f, 0f);
                             spikeTimer = 30f;
                         }
                     }
@@ -90,7 +91,7 @@ namespace CalamityMod.NPCs.SlimeGod
                         num14 *= num16;
                         num15 *= num16;
                         spikeTimer = 50f;
-                        Projectile.NewProjectile(vector3.X, vector3.Y, num14, num15, ModContent.ProjectileType<CrimsonSpike>(), 12, 0f, Main.myPlayer, 0f, 0f);
+                        Projectile.NewProjectile(vector3.X, vector3.Y, num14, num15, type, damage, 0f, Main.myPlayer, 0f, 0f);
                     }
                 }
             }

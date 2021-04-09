@@ -1,13 +1,14 @@
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    public class Flarefrost : ModProjectile
+	public class Flarefrost : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Flarefrost");
@@ -51,12 +52,12 @@ namespace CalamityMod.Projectiles.Melee
                 }
             }
 
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 600f, 14f, 20f);
+			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 250f, 12f, 20f);
         }
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(SoundID.Item27, projectile.position);
+            Main.PlaySound(SoundID.Item27, projectile.Center);
             for (int k = 0; k < 2; k++)
             {
                 Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 67, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f);

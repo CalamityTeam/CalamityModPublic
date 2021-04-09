@@ -7,7 +7,6 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class OldDukeHeadCorpse : ModProjectile
     {
-
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Absolutely Disgusting Shark Puker");
@@ -42,7 +41,7 @@ namespace CalamityMod.Projectiles.Summon
                     player.MinionDamage());
                 projectile.damage = trueDamage;
             }
-            NPC target = projectile.Center.MinionHoming(845f, player);
+            NPC target = projectile.Center.MinionHoming(845f, player, false);
             // No sense in targeting something below this sentry.
             if (target != null)
             {
@@ -72,6 +71,8 @@ namespace CalamityMod.Projectiles.Summon
             {
                 projectile.velocity.Y = 10f;
             }
+
+			projectile.StickToTiles(false, false);
         }
 
         public override bool CanDamage() => false;

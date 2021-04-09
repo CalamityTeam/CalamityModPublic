@@ -1,7 +1,7 @@
+using CalamityMod.Events;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using System.IO;
 using Terraria;
 using Terraria.ID;
@@ -9,7 +9,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Boss
 {
-    public class BigFlare : ModProjectile
+	public class BigFlare : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -111,7 +111,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void Kill(int timeLeft)
         {
-            bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
+            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive || CalamityWorld.malice;
             Main.PlaySound(SoundID.Item, (int)projectile.Center.X, (int)projectile.Center.Y, 20);
             int num226 = 36;
             for (int num227 = 0; num227 < num226; num227++)

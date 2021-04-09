@@ -9,8 +9,8 @@ namespace CalamityMod.Items.Placeables.Furniture
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Corruption Effigy");
-            Tooltip.SetDefault("When placed down nearby players have their movement speed increased by 15% and crit chance by 10%\n" +
-                "Nearby players also suffer a 20% decrease to their damage reduction");
+            Tooltip.SetDefault("When placed down, nearby players have their movement speed and crit chance increased by 10%\n" +
+                "Nearby players also suffer a 5% decrease to their damage reduction");
         }
 
         public override void SetDefaults()
@@ -25,7 +25,7 @@ namespace CalamityMod.Items.Placeables.Furniture
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
             item.value = Item.buyPrice(0, 9, 0, 0);
-            item.rare = 3;
+            item.rare = ItemRarityID.Orange;
             item.createTile = ModContent.TileType<Tiles.Furniture.CorruptionEffigy>();
         }
     }

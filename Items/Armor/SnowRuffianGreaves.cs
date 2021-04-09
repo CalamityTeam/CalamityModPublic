@@ -1,12 +1,10 @@
-using CalamityMod.CalPlayer;
-using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Armor
 {
-    [AutoloadEquip(EquipType.Legs)]
+	[AutoloadEquip(EquipType.Legs)]
     public class SnowRuffianGreaves : ModItem
     {
         public override void SetStaticDefaults()
@@ -20,7 +18,7 @@ namespace CalamityMod.Items.Armor
             item.width = 18;
             item.height = 18;
             item.value = Item.buyPrice(0, 0, 75, 0);
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.defense = 1; //4
         }
 

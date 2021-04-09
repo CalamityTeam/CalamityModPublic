@@ -1,12 +1,11 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Magic
 {
-    public class BrimstoneHomer : ModProjectile
+	public class BrimstoneHomer : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -32,7 +31,7 @@ namespace CalamityMod.Projectiles.Magic
 			int brimstone = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 1f);
 			Main.dust[brimstone].noGravity = true;
 
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 500f, 8f, 20f);
+			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 200f, 8f, 20f);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

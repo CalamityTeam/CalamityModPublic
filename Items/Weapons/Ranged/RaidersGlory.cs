@@ -18,8 +18,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             item.damage = 40;
             item.ranged = true;
-            item.crit += 10;
-            item.width = 58;
+            item.width = 50;
             item.height = 22;
             item.useTime = 20;
             item.useAnimation = 20;
@@ -27,13 +26,16 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.noMelee = true;
             item.knockBack = 2.25f;
             item.value = Item.buyPrice(0, 36, 0, 0);
-            item.rare = 5;
+            item.rare = ItemRarityID.Pink;
             item.UseSound = SoundID.Item5;
             item.autoReuse = true;
             item.shoot = ProjectileID.PurificationPowder;
             item.shootSpeed = 15f;
-            item.useAmmo = 40;
+            item.useAmmo = AmmoID.Arrow;
         }
+
+		// Terraria seems to really dislike high crit values in SetDefaults
+		public override void GetWeaponCrit(Player player, ref int crit) => crit += 10;
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {

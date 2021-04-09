@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Accessories
         {
             item.width = 18;
             item.height = 32;
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.value = CalamityGlobalItem.Rarity1BuyPrice;
             item.accessory = true;
         }
@@ -31,7 +31,6 @@ namespace CalamityMod.Items.Accessories
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<RustyLockpick>(), 1);
             recipe.AddIngredient(ModContent.ItemType<SulfuricScale>(), 20);
             recipe.AddRecipeGroup("IronBar", 10);
             recipe.AddTile(TileID.Anvils);

@@ -1,12 +1,11 @@
 using CalamityMod.CalPlayer;
-using CalamityMod.Projectiles.Summon;
 using CalamityMod.World;
 using Terraria;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Buffs.Summon
 {
-    public class ProfanedBabs : ModBuff //Buff name is reference to how I refer to the guardians as my babs ~Amber
+	public class ProfanedBabs : ModBuff //Buff name is reference to how I refer to the guardians as my babs ~Amber
     {
         public override void SetDefaults()
         {
@@ -14,7 +13,8 @@ namespace CalamityMod.Buffs.Summon
             Description.SetDefault("The healer will heal your wounds!");
             Main.buffNoTimeDisplay[Type] = true;
             Main.buffNoSave[Type] = true;
-        }
+			//Main.persistentBuff[Type] = true;
+		}
 
         public override void Update(Player player, ref int buffIndex)
         {

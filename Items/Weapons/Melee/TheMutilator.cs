@@ -1,3 +1,4 @@
+using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -12,14 +13,15 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             DisplayName.SetDefault("The Mutilator");
             Tooltip.SetDefault("Striking an enemy below 20% life will trigger a bloodsplosion\n" +
-                               "Bloodsplosions cause hearts to drop that can be picked up to heal you");
+                "Bloodsplosions cause hearts to drop that can be picked up to heal you");
         }
 
         public override void SetDefaults()
         {
             item.width = 90;
             item.height = 90;
-            item.damage = 950;
+            item.scale = 1.5f;
+            item.damage = 596;
             item.melee = true;
             item.useAnimation = 18;
             item.useStyle = ItemUseStyleID.SwingThrow;
@@ -28,26 +30,29 @@ namespace CalamityMod.Items.Weapons.Melee
             item.knockBack = 8f;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
-            item.value = Item.buyPrice(1, 40, 0, 0);
-            item.rare = 10;
             item.shootSpeed = 10f;
-            item.Calamity().customRarity = CalamityRarity.PureGreen;
+
+            item.value = CalamityGlobalItem.Rarity12BuyPrice;
+            item.Calamity().customRarity = CalamityRarity.Turquoise;
         }
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
             if (target.life <= (target.lifeMax * 0.2f) && target.canGhostHeal)
             {
-                int heartDrop = Main.rand.Next(1, 3);
-                for (int i = 0; i < heartDrop; i++)
+                if (!CalamityPlayer.areThereAnyDamnBosses || Main.rand.NextBool(2))
                 {
-                    Item.NewItem((int)target.position.X, (int)target.position.Y, target.width, target.height, 58, 1, false, 0, false, false);
+                    int heartDrop = CalamityPlayer.areThereAnyDamnBosses ? 1 : Main.rand.Next(1, 3);
+                    for (int i = 0; i < heartDrop; i++)
+                    {
+                        Item.NewItem((int)target.position.X, (int)target.position.Y, target.width, target.height, 58, 1, false, 0, false, false);
+                    }
                 }
                 Main.PlaySound(SoundID.Item14, target.position);
-                target.position.X += (float)(target.width / 2);
-                target.position.Y += (float)(target.height / 2);
-                target.position.X -= (float)(target.width / 2);
-                target.position.Y -= (float)(target.height / 2);
+                target.position.X += target.width / 2;
+                target.position.Y += target.height / 2;
+                target.position.X -= target.width / 2;
+                target.position.Y -= target.height / 2;
                 for (int num621 = 0; num621 < 30; num621++)
                 {
                     int num622 = Dust.NewDust(new Vector2(target.position.X, target.position.Y), target.width, target.height, 5, 0f, 0f, 100, default, 2f);
@@ -55,7 +60,7 @@ namespace CalamityMod.Items.Weapons.Melee
                     if (Main.rand.NextBool(2))
                     {
                         Main.dust[num622].scale = 0.5f;
-                        Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
+                        Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
                     }
                 }
                 for (int num623 = 0; num623 < 50; num623++)

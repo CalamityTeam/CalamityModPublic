@@ -21,8 +21,8 @@ namespace CalamityMod.NPCs.Crags
             npc.aiStyle = -1;
             aiType = -1;
             npc.damage = 50;
-            npc.width = 80; //324
-            npc.height = 80; //216
+            npc.width = 80;
+            npc.height = 80;
             npc.defense = 18;
             npc.lifeMax = 90;
             npc.alpha = 100;
@@ -35,10 +35,9 @@ namespace CalamityMod.NPCs.Crags
             npc.lavaImmune = true;
             if (CalamityWorld.downedProvidence)
             {
-                npc.damage = 260;
-                npc.defense = 90;
-                npc.lifeMax = 4000;
-                npc.value = Item.buyPrice(0, 0, 50, 0);
+                npc.damage = 90;
+                npc.defense = 30;
+                npc.lifeMax = 2500;
             }
             banner = npc.type;
             bannerItem = ModContent.ItemType<ScryllarBanner>();
@@ -247,14 +246,6 @@ namespace CalamityMod.NPCs.Crags
             }
         }
 
-        public override void OnHitPlayer(Player player, int damage, bool crit)
-        {
-            if (CalamityWorld.revenge)
-            {
-                player.AddBuff(ModContent.BuffType<Horror>(), 180, true);
-            }
-        }
-
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
             return spawnInfo.player.Calamity().ZoneCalamity ? 0.25f : 0f;
@@ -264,7 +255,8 @@ namespace CalamityMod.NPCs.Crags
         {
             DropHelper.DropItemCondition(npc, ModContent.ItemType<Bloodstone>(), CalamityWorld.downedProvidence, 2, 1, 1);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<EssenceofChaos>(), Main.hardMode, 3, 1, 1);
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<GaelsGreatsword>(), CalamityWorld.downedYharon, CalamityWorld.defiled ? 0.05f : 0.02f);
+            float gaelsChance = Main.expertMode ? 0.03f : 0.02f;
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<GaelsGreatsword>(), CalamityWorld.downedYharon, gaelsChance);
         }
 
         public override void HitEffect(int hitDirection, double damage)
@@ -279,6 +271,7 @@ namespace CalamityMod.NPCs.Crags
                 {
                     Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.Brimstone, hitDirection, -1f, 0, default, 1f);
                 }
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/ScryllarGores/Scryllar"), npc.scale);
             }
         }
     }

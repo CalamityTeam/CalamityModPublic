@@ -8,7 +8,7 @@ namespace CalamityMod.Items.Materials
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Meld Bar");
+            DisplayName.SetDefault("Meld Construct");
         }
 
         public override void SetDefaults()
@@ -17,15 +17,14 @@ namespace CalamityMod.Items.Materials
             item.height = 12;
             item.maxStack = 999;
             item.value = Item.sellPrice(gold: 1, silver: 20);
-            item.rare = 9;
+            item.rare = ItemRarityID.Cyan;
         }
 
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.Ectoplasm);
-            recipe.AddIngredient(ItemID.HallowedBar);
             recipe.AddIngredient(ModContent.ItemType<MeldBlob>(), 6);
+            recipe.AddIngredient(ModContent.ItemType<Stardust>(), 3);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this, 3);
             recipe.AddRecipe();

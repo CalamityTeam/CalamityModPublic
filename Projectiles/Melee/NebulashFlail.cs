@@ -2,13 +2,12 @@ using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.Enums;
 using Terraria.ModLoader;
 using CalamityMod.Projectiles.BaseProjectiles;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    public class NebulashFlail : BaseWhipProjectile
+	public class NebulashFlail : BaseWhipProjectile
     {
         public override void SetStaticDefaults()
         {

@@ -1,5 +1,3 @@
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -26,7 +24,7 @@ Pull Velocity: 28");
 			item.shootSpeed = 25f; // how quickly the hook is shot.
 			item.shoot = ProjectileType<BobbitHead>();
             item.value = Item.buyPrice(1, 40, 0, 0);
-            item.rare = 10;
+            item.rare = ItemRarityID.Red;
             item.Calamity().customRarity = (CalamityRarity)13;
 			item.width = 30;
 			item.height = 32;

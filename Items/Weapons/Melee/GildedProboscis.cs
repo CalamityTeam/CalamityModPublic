@@ -10,14 +10,13 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Gilded Proboscis");
-            Tooltip.SetDefault("Ignores immunity frames\n" +
-                "Heals the player on hit");
+            Tooltip.SetDefault("Heals the player on hit");
         }
 
         public override void SetDefaults()
         {
             item.width = 66;
-            item.damage = 160;
+            item.damage = 400;
             item.melee = true;
             item.noMelee = true;
             item.useTurn = true;
@@ -29,23 +28,12 @@ namespace CalamityMod.Items.Weapons.Melee
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             item.height = 66;
-            item.value = Item.buyPrice(1, 20, 0, 0);
-            item.rare = 10;
-            item.shoot = ModContent.ProjectileType<GildedProboscisProj>();
+			item.value = CalamityGlobalItem.Rarity11BuyPrice;
+			item.rare = ItemRarityID.Purple;
+			item.shoot = ModContent.ProjectileType<GildedProboscisProj>();
             item.shootSpeed = 13f;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
         }
 
-        public override bool CanUseItem(Player player)
-        {
-            for (int i = 0; i < Main.maxProjectiles; ++i)
-            {
-                if (Main.projectile[i].active && Main.projectile[i].owner == Main.myPlayer && Main.projectile[i].type == item.shoot)
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
-    }
+		public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;
+	}
 }

@@ -19,18 +19,18 @@ namespace CalamityMod.Items.Dyes
 
 		public override void SafeSetDefaults()
 		{
-            item.rare = 10;
-            item.Calamity().customRarity = CalamityRarity.Developer;
+            item.rare = ItemRarityID.Red;
+            item.Calamity().customRarity = CalamityRarity.HotPink;
             item.value = Item.sellPrice(0, 10, 0, 0);
         }
 
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.BottledWater);
+            recipe.AddIngredient(ItemID.BottledWater, 2);
             recipe.AddIngredient(ModContent.ItemType<ShadowspecBar>());
             recipe.AddTile(TileID.DyeVat);
-            recipe.SetResult(this);
+            recipe.SetResult(this, 2);
             recipe.AddRecipe();
         }
     }

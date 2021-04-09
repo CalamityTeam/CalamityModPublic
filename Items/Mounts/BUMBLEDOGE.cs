@@ -14,17 +14,24 @@ namespace CalamityMod.Items.Mounts
             mountData.spawnDust = 60;
             mountData.spawnDustNoGravity = true;
             mountData.buff = ModContent.BuffType<BumbledogeMount>();
-            mountData.flightTimeMax = 600;
+
+            // previous stats commented for balance.
+            // for run and dash speed, each 1 unit is 5.08mph in-game.
+            mountData.runSpeed = 10f; // 12f
+            mountData.dashSpeed = 14.15f; // 18.5f
+            mountData.acceleration = 0.13f; // 0.2f
+
             mountData.fatigueMax = 0;
+            mountData.flightTimeMax = 600;
             mountData.fallDamage = 0f;
-            mountData.runSpeed = 12f;
-            mountData.heightBoost = 44;
-            mountData.acceleration = 0.2f;
+
             mountData.jumpHeight = 10;
             mountData.jumpSpeed = 4f;
             mountData.blockExtraJumps = false;
-            mountData.totalFrames = 12;
             mountData.constantJump = false;
+
+            mountData.totalFrames = 12;
+            mountData.heightBoost = 44;
             int[] array = new int[mountData.totalFrames];
             for (int i = 0; i < array.Length; i++)
             {
@@ -54,8 +61,6 @@ namespace CalamityMod.Items.Mounts
             mountData.swimFrameCount = mountData.inAirFrameCount;
             mountData.swimFrameDelay = mountData.inAirFrameDelay;
             mountData.swimFrameStart = mountData.inAirFrameStart;
-
-            mountData.dashSpeed = 18.5f;
             mountData.dashingFrameCount = mountData.flyingFrameCount;
             mountData.dashingFrameDelay = 5;
             mountData.dashingFrameStart = mountData.flyingFrameStart;
@@ -67,14 +72,15 @@ namespace CalamityMod.Items.Mounts
         }
         public override void UpdateEffects(Player player)
         {
-            if (Main.rand.NextBool(260) && Main.myPlayer == player.whoAmI)
+            if (Main.myPlayer == player.whoAmI && Main.rand.NextBool(260))
             {
-                Projectile.NewProjectileDirect(player.Center + Main.rand.NextVector2Circular(45f, 45f),
-                                               Main.rand.NextVector2Circular(15f, 15f),
-                                               ModContent.ProjectileType<Minibirb>(),
-                                               (int)(180 * player.AverageDamage()),
-                                               1f,
-                                               player.whoAmI).Calamity().forceTypeless = true;
+                Vector2 pos = player.Center + Main.rand.NextVector2Circular(45f, 45f);
+                Vector2 vel = Main.rand.NextVector2Circular(15f, 15f);
+                int damage = (int)(180 * player.AverageDamage());
+                float kb = 1f;
+                Projectile birb = Projectile.NewProjectileDirect(pos, vel, ModContent.ProjectileType<Minibirb>(), damage, kb, player.whoAmI);
+				if (birb.whoAmI.WithinBounds(Main.maxProjectiles))
+					birb.Calamity().forceTypeless = true;
             }
         }
     }

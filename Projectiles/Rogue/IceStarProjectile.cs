@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class IceStarProjectile : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/IceStar";
+
         private bool initStealth = false;
         private Vector2 initialVelocity;
 

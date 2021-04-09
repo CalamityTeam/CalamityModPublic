@@ -1,5 +1,3 @@
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -25,7 +23,7 @@ Pull Velocity: 14");
 			item.shootSpeed = 18f; // how quickly the hook is shot.
 			item.shoot = ProjectileType<SerpentsBiteHook>();
             item.value = Item.buyPrice(0, 36, 0, 0);
-            item.rare = 5;
+            item.rare = ItemRarityID.Pink;
 			item.width = 30;
 			item.height = 32;
 		}

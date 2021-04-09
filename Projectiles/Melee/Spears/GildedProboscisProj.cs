@@ -25,10 +25,11 @@ namespace CalamityMod.Projectiles.Melee.Spears
             projectile.penetrate = -1;
             projectile.ownerHitCheck = true;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 1;
-            projectile.Calamity().trueMelee = true;
+            projectile.localNPCHitCooldown = 4;
+            //projectile.Calamity().trueMelee = true;
         }
-        // These numbers sure are common, huh?
+
+        // These numbers sure are common, huh? yeah, they are
         public override float InitialSpeed => 3f;
         public override float ReelbackSpeed => 2.4f;
         public override float ForwardSpeed => 0.95f;
@@ -43,12 +44,12 @@ namespace CalamityMod.Projectiles.Melee.Spears
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            if (target.type == NPCID.TargetDummy || !target.canGhostHeal || Main.player[projectile.owner].moonLeech)
+            if (!target.canGhostHeal || Main.player[projectile.owner].moonLeech)
                 return;
 
             Player player = Main.player[projectile.owner];
-            player.statLife += 1;
-            player.HealEffect(1);
+			player.statLife += 1;
+			player.HealEffect(1);
         }
     }
 }

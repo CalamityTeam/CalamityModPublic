@@ -7,6 +7,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class MycorootProj : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/Mycoroot";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Root");

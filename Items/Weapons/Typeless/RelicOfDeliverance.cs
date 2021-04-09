@@ -22,18 +22,19 @@ namespace CalamityMod.Items.Weapons.Typeless
             item.height = 46;
             item.damage = 1350;
             item.useTime = item.useAnimation = 25;
-            item.crit += 16;
             item.reuseDelay = 15;
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.UseSound = SoundID.Item46;
             item.noMelee = true;
             item.noUseGraphic = true;
             item.channel = true;
-            item.rare = 10;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
-            item.value = CalamityGlobalItem.RarityTurquoiseBuyPrice;
-            item.shoot = ModContent.ProjectileType<RelicOfDeliveranceSpear>();
+			item.value = CalamityGlobalItem.Rarity11BuyPrice;
+			item.rare = ItemRarityID.Purple;
+			item.shoot = ModContent.ProjectileType<RelicOfDeliveranceSpear>();
         }
+
+		// Terraria seems to really dislike high crit values in SetDefaults
+		public override void GetWeaponCrit(Player player, ref int crit) => crit += 16;
 
         public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;
     }

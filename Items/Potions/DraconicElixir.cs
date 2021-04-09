@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Potions
             Tooltip.SetDefault("Greatly increases wing flight time and speed and increases defense by 16\n" +
                 "God slayer revival heals you to half HP instead of 150 HP when triggered\n" +
                 "Silva invincibility heals you to half HP when triggered\n" +
-                "If you trigger the above heals you cannot drink this potion again for 60 seconds");
+                "If you trigger the above heals you cannot drink this potion again for 60 seconds and you gain 30 seconds of potion sickness");
         }
 
         public override void SetDefaults()
@@ -23,14 +23,14 @@ namespace CalamityMod.Items.Potions
             item.height = 18;
             item.useTurn = true;
             item.maxStack = 999;
-            item.rare = 3;
+            item.rare = ItemRarityID.Orange;
             item.useAnimation = 17;
             item.useTime = 17;
             item.useStyle = ItemUseStyleID.EatingUsing;
             item.UseSound = SoundID.Item3;
             item.consumable = true;
             item.buffType = ModContent.BuffType<DraconicSurgeBuff>();
-            item.buffTime = 18000;
+            item.buffTime = CalamityUtils.SecondsToFrames(480f);
             item.value = Item.buyPrice(0, 2, 0, 0);
         }
 

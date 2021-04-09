@@ -1,12 +1,13 @@
 using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Melee
 {
-    public class SandFire : ModProjectile
+	public class SandFire : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Fire");
@@ -38,7 +39,7 @@ namespace CalamityMod.Projectiles.Melee
                 }
             }
 
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 400f, 20f, 20f);
+			CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 200f, 12f, 20f);
         }
 
         public override void Kill(int timeLeft)

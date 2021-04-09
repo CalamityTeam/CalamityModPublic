@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Weapons.Typeless.FiniteUse
             item.noMelee = true;
             item.knockBack = 10f;
             item.value = Item.buyPrice(0, 36, 0, 0);
-            item.rare = 5;
+            item.rare = ItemRarityID.Pink;
             item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/BazookaFull");
             item.autoReuse = true;
             item.shootSpeed = 12f;
@@ -72,9 +72,10 @@ namespace CalamityMod.Items.Weapons.Typeless.FiniteUse
         {
             if (CalamityPlayer.areThereAnyDamnBosses)
             {
-                for (int i = 0; i < 58; i++)
+				player.HeldItem.Calamity().timesUsed++;
+				for (int i = 0; i < Main.maxInventory; i++)
                 {
-                    if (player.inventory[i].type == item.type)
+                    if (player.inventory[i].type == item.type && player.inventory[i] != player.HeldItem)
                     {
                         player.inventory[i].Calamity().timesUsed++;
                     }

@@ -1,6 +1,6 @@
-using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
+using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -10,18 +10,23 @@ namespace CalamityMod.Items.Accessories
 {
     public class DraedonsHeart : ModItem
     {
+        // The percentage of a full Rage bar that is gained every second with Draedon's Heart equipped.
+        public const float MinRagePerSecond = 0.015f;
+        public const float MaxRagePerSecond = 0.045f; // 3x rage generation at 0% health, aka +200% rage generation
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Draedon's Heart");
-            Tooltip.SetDefault("Gives 10% increased damage while you have the absolute rage buff\n" +
-                "Increases your chance of getting the absolute rage buff\n" +
-                "Boosts your damage by 5% and max movement speed and acceleration by 5%\n" +
-                "Rage mode does more damage\n" +
-                "You gain rage over time\n" +
-                "The Horror debuff lasts twice as long,\n" +
-                "but it instead grants various buffs to the player\n" +
+            Tooltip.SetDefault("Boosts your damage by 5% and max movement speed and acceleration by 5%\n" +
+                "You generate rage over time and rage does not fade away out of combat\n" +
+                "Passive rage generation increases drastically as health decreases\n" +
+                "Converts certain debuffs into buffs and extends their durations\n" +
+                "Debuffs affected: Darkness, Blackout, Confused, Slow, Weak, Broken Armor,\n" +
+                "Armor Crunch, War Cleave, Chilled, Ichor and Obstructed\n" +
                 "Receiving a hit causes you to only lose half of your max adrenaline rather than all of it\n" +
-                "Standing still regenerates your life quickly and boosts your defense by 25");
+                "Reduces the amount of defense stat damage you take by 50%\n" +
+                "Standing still regenerates your life quickly, reduces your damage by 50% and boosts your defense by 75%\n" +
+                "Nanomachines, son");
             Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(5, 7));
         }
 
@@ -29,7 +34,7 @@ namespace CalamityMod.Items.Accessories
         {
             item.width = 26;
             item.height = 26;
-            item.value = Item.buyPrice(0, 60, 0, 0);
+            item.value = CalamityGlobalItem.Rarity14BuyPrice;
             item.accessory = true;
             item.Calamity().customRarity = CalamityRarity.DarkBlue;
         }
@@ -37,8 +42,9 @@ namespace CalamityMod.Items.Accessories
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             CalamityPlayer modPlayer = player.Calamity();
-			modPlayer.laudanum = true;
-			modPlayer.stressPills = true;
+            modPlayer.laudanum = true;
+            modPlayer.stressPills = true;
+            modPlayer.heartOfDarkness = true;
             modPlayer.draedonsHeart = true;
         }
 
@@ -49,9 +55,9 @@ namespace CalamityMod.Items.Accessories
             recipe.AddIngredient(ModContent.ItemType<StressPills>());
             recipe.AddIngredient(ModContent.ItemType<Laudanum>());
             recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<Phantoplasm>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>());
             recipe.AddIngredient(ItemID.Nanites, 250);
-            recipe.AddTile(TileID.LunarCraftingStation);
+            recipe.AddTile(ModContent.TileType<DraedonsForge>());
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

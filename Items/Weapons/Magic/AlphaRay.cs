@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.damage = 280;
+            item.damage = 112;
             item.magic = true;
             item.mana = 5;
             item.width = 84;
@@ -30,13 +30,13 @@ namespace CalamityMod.Items.Weapons.Magic
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 1.5f;
-            item.value = Item.buyPrice(2, 50, 0, 0);
-            item.rare = 10;
+            item.value = CalamityGlobalItem.Rarity14BuyPrice;
+            item.rare = ItemRarityID.Red;
             item.UseSound = SoundID.Item33;
             item.autoReuse = true;
             item.shootSpeed = 6f;
             item.shoot = ModContent.ProjectileType<ParticleBeamofDoom>();
-            item.Calamity().customRarity = CalamityRarity.Violet;
+            item.Calamity().customRarity = CalamityRarity.DarkBlue;
         }
 
         public override Vector2? HoldoutOffset() => new Vector2(-5, 0);
@@ -47,7 +47,7 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             if (player.altFunctionUse == 2)
             {
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<BigBeamofDeath>(), (int)(damage * 1.75), knockBack, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(position.X, position.Y, speedX * 1.35f, speedY * 1.35f, ModContent.ProjectileType<BigBeamofDeath>(), (int)(damage * 1.75), knockBack, player.whoAmI, 0f, 0f);
             }
             else
             {
@@ -66,8 +66,8 @@ namespace CalamityMod.Items.Weapons.Magic
                     {
                         value9 -= vector7;
                     }
-                    Projectile.NewProjectile(vector2.X + value9.X, vector2.Y + value9.Y, speedX, speedY, type, (int)(damage * 0.8), knockBack, player.whoAmI, 0.0f, 0.0f);
-                    int laser = Projectile.NewProjectile(vector2.X + value9.X, vector2.Y + value9.Y, speedX * 2f, speedY * 2f, ProjectileID.LaserMachinegunLaser, (int)(damage * 0.4), knockBack, player.whoAmI, 0.0f, 0.0f);
+                    Projectile.NewProjectile(vector2.X + value9.X, vector2.Y + value9.Y, speedX * 1.5f, speedY * 1.5f, type, (int)(damage * 0.8), knockBack, player.whoAmI, 0.0f, 0.0f);
+                    int laser = Projectile.NewProjectile(vector2.X + value9.X, vector2.Y + value9.Y, speedX * 2f, speedY * 2f, ProjectileID.LaserMachinegunLaser, (int)(damage * 0.4), knockBack, player.whoAmI, 0f, 0f);
                     Main.projectile[laser].timeLeft = 120;
                     Main.projectile[laser].tileCollide = false;
                 }
@@ -79,7 +79,7 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<GalacticaSingularity>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<DarksunFragment>(), 15);
+            recipe.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 3);
             recipe.AddIngredient(ModContent.ItemType<Wingman>(), 2);
             recipe.AddIngredient(ModContent.ItemType<Genisis>());
             recipe.AddTile(ModContent.TileType<DraedonsForge>());

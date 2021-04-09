@@ -404,6 +404,18 @@ namespace CalamityMod.Tiles
                 case 122:
                     item = "GammaSlimeBanner";
                     break;
+                case 123:
+                    item = "WulfrumGyratorBanner";
+                    break;
+                case 124:
+                    item = "WulfrumHovercraftBanner";
+                    break;
+                case 125:
+                    item = "WulfrumRoverBanner";
+                    break;
+                case 126:
+                    item = "WulfrumPylonBanner";
+                    break;
                 default:
                     return;
             }
@@ -790,6 +802,18 @@ namespace CalamityMod.Tiles
                     break;
                 case 122:
                     type = "GammaSlime";
+                    break;
+                case 123:
+                    type = "WulfrumGyrator";
+                    break;
+                case 124:
+                    type = "WulfrumHovercraft";
+                    break;
+                case 125:
+                    type = "WulfrumRover";
+                    break;
+                case 126:
+                    type = "WulfrumPylon";
                     break;
                 default:
                     return;

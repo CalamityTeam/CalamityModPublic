@@ -10,11 +10,14 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class CosmilampMinion : ModProjectile
     {
+        public override string Texture => "CalamityMod/NPCs/Signus/CosmicLantern";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Cosmilamp");
             ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
             ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
+            Main.projFrames[projectile.type] = 4;
         }
 
         public override void SetDefaults()
@@ -62,7 +65,19 @@ namespace CalamityMod.Projectiles.Summon
                     player.MinionDamage());
                 projectile.damage = damage2;
             }
-            Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0.75f / 255f, (255 - projectile.alpha) * 0f / 255f, (255 - projectile.alpha) * 0f / 255f);
+
+            projectile.frameCounter++;
+            if (projectile.frameCounter >= 4)
+            {
+                projectile.frame++;
+                projectile.frameCounter = 0;
+            }
+            if (projectile.frame >= Main.projFrames[projectile.type])
+            {
+                projectile.frame = 0;
+            }
+
+            Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0.75f / 255f, (255 - projectile.alpha) * 0f / 255f, (255 - projectile.alpha) * 0.75f / 255f);
             float num395 = (float)Main.mouseTextColor / 200f - 0.35f;
             num395 *= 0.2f;
             projectile.scale = num395 + 0.95f;
@@ -83,32 +98,7 @@ namespace CalamityMod.Projectiles.Summon
                     projectile.timeLeft = 2;
                 }
             }
-            int num3;
-            for (int num534 = 0; num534 < Main.maxProjectiles; num534 = num3 + 1)
-            {
-                if (num534 != projectile.whoAmI && Main.projectile[num534].active && Main.projectile[num534].owner == projectile.owner &&
-                    Main.projectile[num534].type == ModContent.ProjectileType<CosmilampMinion>() &&
-                    Math.Abs(projectile.position.X - Main.projectile[num534].position.X) + Math.Abs(projectile.position.Y - Main.projectile[num534].position.Y) < (float)projectile.width)
-                {
-                    if (projectile.position.X < Main.projectile[num534].position.X)
-                    {
-                        projectile.velocity.X = projectile.velocity.X - 0.05f;
-                    }
-                    else
-                    {
-                        projectile.velocity.X = projectile.velocity.X + 0.05f;
-                    }
-                    if (projectile.position.Y < Main.projectile[num534].position.Y)
-                    {
-                        projectile.velocity.Y = projectile.velocity.Y - 0.05f;
-                    }
-                    else
-                    {
-                        projectile.velocity.Y = projectile.velocity.Y + 0.05f;
-                    }
-                }
-                num3 = num534;
-            }
+			projectile.MinionAntiClump();
             float num535 = projectile.position.X;
             float num536 = projectile.position.Y;
             float num537 = 3000f;
@@ -140,9 +130,9 @@ namespace CalamityMod.Projectiles.Summon
                         }
                     }
                 }
-                else
+                if (!flag19)
                 {
-                    for (int num542 = 0; num542 < Main.maxNPCs; num542 = num3 + 1)
+                    for (int num542 = 0; num542 < Main.maxNPCs; num542++)
                     {
                         if (Main.npc[num542].CanBeChasedBy(projectile, false))
                         {
@@ -157,7 +147,6 @@ namespace CalamityMod.Projectiles.Summon
                                 flag19 = true;
                             }
                         }
-                        num3 = num542;
                     }
                 }
             }
@@ -168,9 +157,9 @@ namespace CalamityMod.Projectiles.Summon
                 {
                     num546 = 18f;
                 }
-                Vector2 vector42 = new Vector2(projectile.position.X + (float)projectile.width * 0.5f, projectile.position.Y + (float)projectile.height * 0.5f);
-                float num547 = Main.player[projectile.owner].Center.X - vector42.X;
-                float num548 = Main.player[projectile.owner].Center.Y - vector42.Y - 60f;
+                Vector2 vector42 = projectile.Center;
+                float num547 = player.Center.X - vector42.X;
+                float num548 = player.Center.Y - vector42.Y - 60f;
                 float num549 = (float)Math.Sqrt((double)(num547 * num547 + num548 * num548));
                 if (num549 < 400f && projectile.ai[0] == 1f && !Collision.SolidCollision(projectile.position, projectile.width, projectile.height))
                 {
@@ -240,7 +229,7 @@ namespace CalamityMod.Projectiles.Summon
                     }
                 }
                 projectile.rotation = projectile.velocity.X * 0.05f;
-                if ((double)Math.Abs(projectile.velocity.X) > 0.2)
+                if (Math.Abs(projectile.velocity.X) > 0.2f)
                 {
                     projectile.spriteDirection = -projectile.direction;
                     return;

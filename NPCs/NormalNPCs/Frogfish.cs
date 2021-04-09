@@ -1,15 +1,13 @@
 using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
-using CalamityMod.World;
-using System;
+using CalamityMod.Items.Potions;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.NormalNPCs
 {
-    public class Frogfish : ModNPC
+	public class Frogfish : ModNPC
     {
         public override void SetStaticDefaults()
         {
@@ -27,7 +25,6 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.lifeMax = 80;
             npc.aiStyle = -1;
             aiType = -1;
-            npc.buffImmune[ModContent.BuffType<CrushDepth>()] = true;
             npc.value = Item.buyPrice(0, 0, 0, 80);
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath1;
@@ -111,20 +108,20 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void NPCLoot()
         {
-            DropHelper.DropItemChance(npc, ModContent.ItemType<CloakingGland>(), 2, 1, 1);
+            DropHelper.DropItemChance(npc, ModContent.ItemType<AnechoicCoating>(), 2, 1, 1);
         }
 
         public override void HitEffect(int hitDirection, double damage)
         {
             for (int k = 0; k < 5; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
             }
             if (npc.life <= 0)
             {
                 for (int k = 0; k < 25; k++)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
                 }
             }
         }

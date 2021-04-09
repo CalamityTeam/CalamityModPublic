@@ -8,7 +8,8 @@ namespace CalamityMod.Items.Weapons.Rogue
 {
     public class CelestialReaper : RogueWeapon
     {
-        public const int BaseDamage = 240;
+        public const int BaseDamage = 140;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Celestial Reaper");
@@ -28,7 +29,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.noUseGraphic = true;
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.knockBack = 6f;
-            item.rare = 10;
+            item.rare = ItemRarityID.Red;
             item.UseSound = SoundID.Item71;
             item.autoReuse = true;
             item.value = Item.buyPrice(platinum: 1); //sell price of 20 gold
@@ -36,12 +37,17 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.shootSpeed = 20f;
             item.Calamity().rogue = true;
         }
+
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
+            bool usingStealth = player.Calamity().StealthStrikeAvailable();
+            float strikeValue = usingStealth.ToInt(); //0 if false, 1 if true
+
             Vector2 velocity = new Vector2(speedX, speedY);
-            float strikeValue = player.Calamity().StealthStrikeAvailable().ToInt(); //0 if false, 1 if true
-            int p = Projectile.NewProjectile(position, velocity, ModContent.ProjectileType<CelestialReaperProjectile>(), damage, knockBack, player.whoAmI, strikeValue);
-            if (player.Calamity().StealthStrikeAvailable())
+            // Directly nerf stealth strikes by 10%, but only stealth strikes.
+            int finalDamage = (int)(damage * (usingStealth ? 0.9f : 1.0f));
+            int p = Projectile.NewProjectile(position, velocity, ModContent.ProjectileType<CelestialReaperProjectile>(), finalDamage, knockBack, player.whoAmI, strikeValue);
+            if (player.Calamity().StealthStrikeAvailable() && p.WithinBounds(Main.maxProjectiles))
                 Main.projectile[p].Calamity().stealthStrike = true;
             return false;
         }

@@ -1,13 +1,15 @@
-using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ID;
+
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class CircletTornado : ModProjectile
+	public class CircletTornado : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/TornadoProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Tornado");
@@ -23,7 +25,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.penetrate = -1;
             projectile.timeLeft = 1200;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 20;
+            projectile.localNPCHitCooldown = 30;
         }
 
         public override void AI()
@@ -62,7 +64,7 @@ namespace CalamityMod.Projectiles.Rogue
             if (projectile.soundDelay == 0)
             {
                 projectile.soundDelay = -1;
-                Main.PlaySound(2, projectile.Center, 122);
+                Main.PlaySound(SoundID.Item, projectile.Center, 122);
             }
             projectile.ai[0] += 1f;
             if (projectile.ai[0] >= lifeSpan)

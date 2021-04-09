@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.damage = 24;
+            item.damage = 56;
             item.magic = true;
             item.mana = 18;
             item.width = 56;
@@ -26,14 +26,14 @@ namespace CalamityMod.Items.Weapons.Magic
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 1.5f;
-            item.value = Item.buyPrice(0, 2, 0, 0);
-            item.rare = 2;
-            item.UseSound = SoundID.Item117;
+			item.value = CalamityGlobalItem.Rarity5BuyPrice;
+			item.rare = ItemRarityID.Pink;
+			item.UseSound = SoundID.Item117;
             item.autoReuse = true;
             item.shootSpeed = 12f;
             item.shoot = ModContent.ProjectileType<CryoBlast>();
-            item.Calamity().customRarity = CalamityRarity.RareVariant;
-        }
+			item.Calamity().challengeDrop = true;
+		}
 
         public override Vector2? HoldoutOffset()
         {

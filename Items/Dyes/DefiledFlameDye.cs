@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.Graphics.Shaders;
 using Microsoft.Xna.Framework;
+using Terraria.ID;
 
 namespace CalamityMod.Items.Dyes
 {
@@ -16,7 +17,7 @@ namespace CalamityMod.Items.Dyes
 
 		public override void SafeSetDefaults()
 		{
-            item.rare = 4;
+            item.rare = ItemRarityID.LightRed;
             item.value = CalamityGlobalItem.Rarity4BuyPrice;
         }
     }

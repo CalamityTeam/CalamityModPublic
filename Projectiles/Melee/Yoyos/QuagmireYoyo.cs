@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
         {
             DisplayName.SetDefault("Quagmire");
             ProjectileID.Sets.YoyosLifeTimeMultiplier[projectile.type] = 12f;
-            ProjectileID.Sets.YoyosMaximumRange[projectile.type] = 275f;
+            ProjectileID.Sets.YoyosMaximumRange[projectile.type] = 400f;
             ProjectileID.Sets.YoyosTopSpeed[projectile.type] = 15f;
         }
 
@@ -29,6 +29,8 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
 
         public override void AI()
         {
+			if ((projectile.position - Main.player[projectile.owner].position).Length() > 3200f) //200 blocks
+				projectile.Kill();
             if (Main.rand.NextBool(5))
                 Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 44, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
             if (projectile.owner == Main.myPlayer)
@@ -36,24 +38,33 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
                 int proj;
                 if (Main.rand.NextBool(10))
                 {
-                    proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X * 0.35f, projectile.velocity.Y * 0.35f, ProjectileID.SporeGas, (int)(projectile.damage * 0.5), projectile.knockBack, projectile.owner, 0f, 0f);
-                    Main.projectile[proj].Calamity().forceMelee = true;
-                    Main.projectile[proj].usesLocalNPCImmunity = true;
-                    Main.projectile[proj].localNPCHitCooldown = 30;
+                    proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X * 0.35f, projectile.velocity.Y * 0.35f, ProjectileID.SporeGas, (int)(projectile.damage * 0.5), projectile.knockBack, projectile.owner);
+					if (proj.WithinBounds(Main.maxProjectiles))
+					{
+						Main.projectile[proj].Calamity().forceMelee = true;
+						Main.projectile[proj].usesLocalNPCImmunity = true;
+						Main.projectile[proj].localNPCHitCooldown = 30;
+					}
                 }
                 if (Main.rand.NextBool(30))
                 {
-                    proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X * 0.25f, projectile.velocity.Y * 0.25f, ProjectileID.SporeGas2, (int)(projectile.damage * 0.6), projectile.knockBack, projectile.owner, 0f, 0f);
-                    Main.projectile[proj].Calamity().forceMelee = true;
-                    Main.projectile[proj].usesLocalNPCImmunity = true;
-                    Main.projectile[proj].localNPCHitCooldown = 30;
+                    proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X * 0.25f, projectile.velocity.Y * 0.25f, ProjectileID.SporeGas2, (int)(projectile.damage * 0.6), projectile.knockBack, projectile.owner);
+					if (proj.WithinBounds(Main.maxProjectiles))
+					{
+						Main.projectile[proj].Calamity().forceMelee = true;
+						Main.projectile[proj].usesLocalNPCImmunity = true;
+						Main.projectile[proj].localNPCHitCooldown = 30;
+					}
                 }
                 if (Main.rand.NextBool(50))
                 {
-                    proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X * 0.15f, projectile.velocity.Y * 0.15f, ProjectileID.SporeGas3, (int)(projectile.damage * 0.7), projectile.knockBack, projectile.owner, 0f, 0f);
-                    Main.projectile[proj].Calamity().forceMelee = true;
-                    Main.projectile[proj].usesLocalNPCImmunity = true;
-                    Main.projectile[proj].localNPCHitCooldown = 30;
+                    proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X * 0.15f, projectile.velocity.Y * 0.15f, ProjectileID.SporeGas3, (int)(projectile.damage * 0.7), projectile.knockBack, projectile.owner);
+					if (proj.WithinBounds(Main.maxProjectiles))
+					{
+						Main.projectile[proj].Calamity().forceMelee = true;
+						Main.projectile[proj].usesLocalNPCImmunity = true;
+						Main.projectile[proj].localNPCHitCooldown = 30;
+					}
                 }
             }
         }

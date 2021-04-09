@@ -1,18 +1,17 @@
 using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Events;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.ModLoader.Config;
-using CalamityMod;
 namespace CalamityMod.NPCs.HiveMind
 {
-    [AutoloadBossHead]
+	[AutoloadBossHead]
     public class HiveMind : ModNPC
     {
-        int burrowTimer = 720;
+        int burrowTimer = 420;
 
         public override void SetStaticDefaults()
         {
@@ -23,17 +22,15 @@ namespace CalamityMod.NPCs.HiveMind
         public override void SetDefaults()
         {
             npc.npcSlots = 5f;
-            npc.damage = 20;
-            npc.width = 150;
+			npc.GetNPCDamage();
+			npc.width = 150;
             npc.height = 120;
             npc.defense = 10;
             npc.LifeMaxNERB(1200, 1800, 350000);
-            double HPBoost = CalamityMod.CalamityConfig.BossHealthPercentageBoost * 0.01;
+            double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.aiStyle = -1;
             aiType = -1;
-            npc.buffImmune[ModContent.BuffType<GlacialState>()] = true;
-            npc.buffImmune[ModContent.BuffType<TemporalSadness>()] = true;
             npc.knockBackResist = 0f;
             npc.boss = true;
             npc.value = 0f;
@@ -66,8 +63,15 @@ namespace CalamityMod.NPCs.HiveMind
 
         public override void AI()
         {
-            npc.TargetClosest(true);
-            Player player = Main.player[npc.target];
+			// Get a target
+			if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
+				npc.TargetClosest();
+
+			// Despawn safety, make sure to target another player if the current player target is too far away
+			if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > CalamityGlobalNPC.CatchUpDistance200Tiles)
+				npc.TargetClosest();
+
+			Player player = Main.player[npc.target];
 			if (!player.active || player.dead)
 			{
 				npc.TargetClosest(false);
@@ -108,34 +112,40 @@ namespace CalamityMod.NPCs.HiveMind
 
             npc.noGravity = false;
             npc.noTileCollide = false;
-            bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
-            bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
-            CalamityGlobalNPC.hiveMind = npc.whoAmI;
-            if (Main.netMode != NetmodeID.MultiplayerClient)
+
+			bool malice = CalamityWorld.malice;
+			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive || malice;
+            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive || malice;
+			bool death = CalamityWorld.death || BossRushEvent.BossRushActive || malice;
+			CalamityGlobalNPC.hiveMind = npc.whoAmI;
+
+			float enrageScale = 0f;
+			if ((npc.position.Y / 16f) < Main.worldSurface || malice)
+				enrageScale += 1f;
+			if (!player.ZoneCorrupt || malice)
+				enrageScale += 1f;
+
+			if (BossRushEvent.BossRushActive)
+				enrageScale = 0f;
+
+			if (Main.netMode != NetmodeID.MultiplayerClient)
             {
-                if (revenge)
-                {
-                    npc.localAI[1] += 1f;
-                    if (npc.localAI[1] >= 600f)
-                    {
-                        npc.localAI[1] = 0f;
-                        NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, ModContent.NPCType<HiveBlob>(), npc.whoAmI, 0f, 0f, 0f, 0f, 255);
-                    }
-                }
                 if (npc.localAI[0] == 0f)
                 {
                     npc.localAI[0] = 1f;
-                    for (int num723 = 0; num723 < 5; num723++)
+					int maxBlobs = death ? 15 : revenge ? 7 : expertMode ? 6 : 5;
+                    for (int i = 0; i < maxBlobs; i++)
                     {
-                        NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, ModContent.NPCType<HiveBlob>(), npc.whoAmI, 0f, 0f, 0f, 0f, 255);
+                        NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, ModContent.NPCType<HiveBlob>(), npc.whoAmI);
                     }
                 }
             }
+
             bool flag100 = false;
             int num568 = 0;
             if (expertMode)
             {
-                for (int num569 = 0; num569 < 200; num569++)
+                for (int num569 = 0; num569 < Main.maxNPCs; num569++)
                 {
                     if (Main.npc[num569].active && Main.npc[num569].type == ModContent.NPCType<DankCreeper>())
                     {
@@ -143,42 +153,39 @@ namespace CalamityMod.NPCs.HiveMind
                         num568++;
                     }
                 }
+
                 npc.defense += num568 * 25;
-            }
-            if (expertMode)
-            {
-                if (!flag100)
-                {
-                    npc.defense = 10;
-                }
-            }
+
+				if (!flag100)
+					npc.defense = npc.defDefense;
+			}
+
             if (npc.ai[3] == 0f && npc.life > 0)
             {
-                npc.ai[3] = (float)npc.lifeMax;
+                npc.ai[3] = npc.lifeMax;
             }
             if (npc.life > 0)
             {
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
-                    int num660 = (int)((double)npc.lifeMax * 0.25);
-                    if ((float)(npc.life + num660) < npc.ai[3])
+                    int num660 = (int)(npc.lifeMax * 0.25);
+                    if ((npc.life + num660) < npc.ai[3])
                     {
-                        npc.ai[3] = (float)npc.life;
-                        int num661 = Main.rand.Next(3, 6);
-                        for (int num662 = 0; num662 < num661; num662++)
+                        npc.ai[3] = npc.life;
+						int maxSpawns = death ? 5 : revenge ? 4 : expertMode ? Main.rand.Next(3, 5) : Main.rand.Next(2, 4);
+						int maxDankSpawns = death ? Main.rand.Next(2, 4) : revenge ? 2 : expertMode ? Main.rand.Next(1, 3) : 1;
+						for (int num662 = 0; num662 < maxSpawns; num662++)
                         {
-                            int x = (int)(npc.position.X + (float)Main.rand.Next(npc.width - 32));
-                            int y = (int)(npc.position.Y + (float)Main.rand.Next(npc.height - 32));
-                            int num663 = ModContent.NPCType<HiveBlob>();
-                            if (Main.rand.NextBool(3) || npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive))
+                            int x = (int)(npc.position.X + Main.rand.Next(npc.width - 32));
+                            int y = (int)(npc.position.Y + Main.rand.Next(npc.height - 32));
+                            int type = ModContent.NPCType<HiveBlob>();
+                            if (NPC.CountNPCS(ModContent.NPCType<DankCreeper>()) < maxDankSpawns || npc.Calamity().enraged > 0)
                             {
-                                num663 = ModContent.NPCType<DankCreeper>();
+                                type = ModContent.NPCType<DankCreeper>();
                             }
-                            int num664 = NPC.NewNPC(x, y, num663, 0, 0f, 0f, 0f, 0f, 255);
-                            Main.npc[num664].SetDefaults(num663, -1f);
-                            Main.npc[num664].velocity.X = (float)Main.rand.Next(-15, 16) * 0.1f;
-                            Main.npc[num664].velocity.Y = (float)Main.rand.Next(-30, 1) * 0.1f;
-                            if (Main.netMode == NetmodeID.Server && num664 < 200)
+                            int num664 = NPC.NewNPC(x, y, type);
+                            Main.npc[num664].SetDefaults(type);
+                            if (Main.netMode == NetmodeID.Server && num664 < Main.maxNPCs)
                             {
                                 NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, num664, 0f, 0f, 0f, 0, 0, 0);
                             }
@@ -187,10 +194,11 @@ namespace CalamityMod.NPCs.HiveMind
                     }
                 }
             }
+
             burrowTimer--;
             if (burrowTimer < -120)
             {
-                burrowTimer = 600;
+                burrowTimer = (death ? 180 : revenge ? 300 : expertMode ? 360 : 420) - (int)enrageScale * 60;
                 npc.scale = 1f;
                 npc.alpha = 0;
                 npc.dontTakeDamage = false;
@@ -205,7 +213,7 @@ namespace CalamityMod.NPCs.HiveMind
                 if (Main.rand.NextBool(2))
                 {
                     Main.dust[num622].scale = 0.5f;
-                    Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
+                    Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
                 }
                 for (int i = 0; i < 2; i++)
                 {
@@ -227,7 +235,7 @@ namespace CalamityMod.NPCs.HiveMind
                     int tilePosY = (int)(npc.position.Y + npc.height) / 16 + 1;
                     if (Main.tile[tilePosX, tilePosY] == null)
                         Main.tile[tilePosX, tilePosY] = new Tile();
-                    while (!(Main.tile[tilePosX, tilePosY].nactive() && Main.tileSolid[(int)Main.tile[tilePosX, tilePosY].type]))
+                    while (!(Main.tile[tilePosX, tilePosY].nactive() && Main.tileSolid[Main.tile[tilePosX, tilePosY].type]))
                     {
                         tilePosY++;
                         npc.position.Y += 16;
@@ -246,7 +254,7 @@ namespace CalamityMod.NPCs.HiveMind
                 if (Main.rand.NextBool(2))
                 {
                     Main.dust[num622].scale = 0.5f;
-                    Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
+                    Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
                 }
                 for (int i = 0; i < 2; i++)
                 {
@@ -265,6 +273,7 @@ namespace CalamityMod.NPCs.HiveMind
                 }
                 else
                 {
+					npc.TargetClosest();
                     npc.dontTakeDamage = true;
                     npc.damage = 0;
                 }
@@ -274,7 +283,7 @@ namespace CalamityMod.NPCs.HiveMind
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
             npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);
-            npc.damage = (int)(npc.damage * 0.8f);
+            npc.damage = (int)(npc.damage * npc.GetExpertDamageMultiplier());
         }
 
         public override void HitEffect(int hitDirection, double damage)
@@ -285,19 +294,19 @@ namespace CalamityMod.NPCs.HiveMind
                 {
                     if (Main.rand.NextBool(60) && Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        Vector2 spawnAt = npc.Center + new Vector2(0f, (float)npc.height / 2f);
+                        Vector2 spawnAt = npc.Center + new Vector2(0f, npc.height / 2f);
                         NPC.NewNPC((int)spawnAt.X, (int)spawnAt.Y, NPCID.EaterofSouls);
                     }
                     if (Main.rand.NextBool(150) && Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        Vector2 spawnAt = npc.Center + new Vector2(0f, (float)npc.height / 2f);
+                        Vector2 spawnAt = npc.Center + new Vector2(0f, npc.height / 2f);
                         NPC.NewNPC((int)spawnAt.X, (int)spawnAt.Y, NPCID.DevourerHead);
                     }
                 }
                 int num285 = 0;
-                while ((double)num285 < damage / (double)npc.lifeMax * 100.0)
+                while (num285 < damage / npc.lifeMax * 100.0)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, 14, (float)hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(npc.position, npc.width, npc.height, 14, hitDirection, -1f, 0, default, 1f);
                     num285++;
                 }
             }
@@ -330,14 +339,6 @@ namespace CalamityMod.NPCs.HiveMind
         public override bool PreNPCLoot()
         {
             return false;
-        }
-
-        public override void OnHitPlayer(Player player, int damage, bool crit)
-        {
-            if (CalamityWorld.revenge)
-            {
-                player.AddBuff(ModContent.BuffType<Horror>(), 300, true);
-            }
         }
     }
 }

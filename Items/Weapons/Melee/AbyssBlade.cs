@@ -23,7 +23,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             item.width = 74;
             item.height = 74;
-            item.damage = 110;
+            item.damage = 90;
             item.melee = true;
             item.useAnimation = 26;
             item.useTime = 26;
@@ -33,9 +33,15 @@ namespace CalamityMod.Items.Weapons.Melee
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             item.value = Item.buyPrice(0, 60, 0, 0);
-            item.rare = 7;
+            item.rare = ItemRarityID.Lime;
             item.shoot = ModContent.ProjectileType<DepthOrb>();
             item.shootSpeed = 9f;
+        }
+
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        {
+            Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, (int)(damage * 0.75), knockBack, player.whoAmI);
+            return false;
         }
 
         public override void AddRecipes()
@@ -55,7 +61,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             if (Main.rand.NextBool(3))
             {
-                int dust = Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 33);
+                Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 33);
             }
         }
 

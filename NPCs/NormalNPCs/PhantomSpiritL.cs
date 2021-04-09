@@ -1,4 +1,5 @@
 using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Dusts;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Projectiles.Boss;
@@ -25,8 +26,8 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.width = 32;
             npc.height = 32;
             npc.scale = 1.2f;
-            npc.defense = 40;
-            npc.lifeMax = 9000;
+            npc.defense = 30;
+            npc.lifeMax = 3000;
             npc.knockBackResist = 0f;
             aiType = -1;
             npc.value = Item.buyPrice(0, 0, 60, 0);
@@ -50,7 +51,7 @@ namespace CalamityMod.NPCs.NormalNPCs
         {
             float speed = CalamityWorld.death ? 16f : 12f;
             CalamityAI.DungeonSpiritAI(npc, mod, speed, -MathHelper.PiOver2);
-            int num822 = Dust.NewDust(npc.position, npc.width, npc.height, 60, 0f, 0f, 0, default, 1f);
+            int num822 = Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.Phantoplasm, 0f, 0f, 0, default, 1f);
             Dust dust = Main.dust[num822];
             dust.velocity *= 0.1f;
             dust.scale = 1.3f;
@@ -84,22 +85,14 @@ namespace CalamityMod.NPCs.NormalNPCs
                 }
                 if (Main.netMode != NetmodeID.MultiplayerClient && npc.ai[2] == 20f)
                 {
-                    float num151 = 5f;
-                    int num152 = Main.expertMode ? 53 : 65;
-                    int num153 = ModContent.ProjectileType<PhantomGhostShot>();
-                    num149 = num151 / num149;
+                    float num151 = 10f;
+					int type = ModContent.ProjectileType<PhantomGhostShot>();
+					int damage = npc.GetProjectileDamage(type);
+					num149 = num151 / num149;
                     num147 *= num149;
                     num148 *= num149;
-                    int num154 = Projectile.NewProjectile(vector17.X, vector17.Y, num147, num148, num153, num152, 0f, Main.myPlayer, 0f, 0f);
+                    int num154 = Projectile.NewProjectile(vector17.X, vector17.Y, num147, num148, type, damage, 0f, Main.myPlayer, 0f, 0f);
                 }
-            }
-        }
-
-        public override void OnHitPlayer(Player player, int damage, bool crit)
-        {
-            if (CalamityWorld.revenge)
-            {
-                player.AddBuff(ModContent.BuffType<MarkedforDeath>(), 180);
             }
         }
 
@@ -107,13 +100,13 @@ namespace CalamityMod.NPCs.NormalNPCs
         {
             for (int k = 0; k < 5; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, 60, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.Phantoplasm, hitDirection, -1f, 0, default, 1f);
             }
             if (npc.life <= 0)
             {
                 for (int num288 = 0; num288 < 50; num288++)
                 {
-                    int num289 = Dust.NewDust(npc.position, npc.width, npc.height, 60, npc.velocity.X, npc.velocity.Y, 0, default, 1f);
+                    int num289 = Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.Phantoplasm, npc.velocity.X, npc.velocity.Y, 0, default, 1f);
                     Dust dust = Main.dust[num289];
                     dust.velocity *= 2f;
                     dust.noGravity = true;
@@ -129,7 +122,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void NPCLoot()
         {
-            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Phantoplasm>(), Main.rand.Next(2, 5));
+			DropHelper.DropItem(npc, ModContent.ItemType<Phantoplasm>(), 2, 4);
         }
     }
 }

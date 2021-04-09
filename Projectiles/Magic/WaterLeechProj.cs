@@ -4,13 +4,15 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Projectiles.Magic
 {
 	public class WaterLeechProj : ModProjectile
 	{
+        public override string Texture => "CalamityMod/NPCs/AcidRain/WaterLeech";
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Leech");
@@ -44,12 +46,12 @@ namespace CalamityMod.Projectiles.Magic
 				projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + MathHelper.Pi;
 			}
 			//Sticky Behaviour
-			CalamityUtils.StickyProjAI(projectile, 5);
+			projectile.StickyProjAI(5);
 		}
 
 		public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
 		{
-			CalamityUtils.ModifyHitNPCSticky(projectile, 3, false);
+			projectile.ModifyHitNPCSticky(3, false);
 		}
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
@@ -93,12 +95,12 @@ namespace CalamityMod.Projectiles.Magic
 			if (projectile.spriteDirection == -1)
 				spriteEffects = SpriteEffects.FlipHorizontally;
 
-			spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Projectiles/Magic/WaterLeechProjGlow"), projectile.Center - Main.screenPosition, new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, drawStart, texture.Width, height)), Color.White, projectile.rotation, origin, projectile.scale, spriteEffects, 0f);
+			spriteBatch.Draw(ModContent.GetTexture("CalamityMod/NPCs/AcidRain/WaterLeechGlow"), projectile.Center - Main.screenPosition, new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, drawStart, texture.Width, height)), Color.White, projectile.rotation, origin, projectile.scale, spriteEffects, 0f);
 		}
 
 		public override void Kill(int timeLeft)
 		{
-			Main.PlaySound(4, (int)projectile.position.X, (int)projectile.position.Y, 1, 0.5f, 0f);
+			Main.PlaySound(SoundID.NPCKilled, (int)projectile.position.X, (int)projectile.position.Y, 1, 0.5f, 0f);
 			for (int i = 0; i < 5; i++)
 			{
 				int dust = Dust.NewDust(projectile.Center, 1, 1, (int)CalamityDusts.SulfurousSeaAcid, 0, 0, 0, default, 1.5f);

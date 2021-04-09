@@ -21,8 +21,8 @@ namespace CalamityMod.Items.Accessories
         {
             item.width = 28;
             item.height = 32;
-            item.value = Item.buyPrice(0, 45, 0, 0);
-            item.rare = 9;
+            item.value = CalamityGlobalItem.Rarity7BuyPrice;
+            item.rare = ItemRarityID.Lime;
             item.accessory = true;
         }
 
@@ -32,7 +32,6 @@ namespace CalamityMod.Items.Accessories
             modPlayer.tearMinions = true;
             player.minionKB += 2.5f;
             player.minionDamage += 0.1f;
-            player.maxMinions += 2;
         }
 
         public override void AddRecipes()

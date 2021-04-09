@@ -12,6 +12,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class RadiantExplosion : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         private bool updatedTime = false;
 
         public override void SetStaticDefaults()
@@ -95,68 +97,31 @@ namespace CalamityMod.Projectiles.Rogue
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 120);
-            for (int n = 0; n < 3; n++)
-            {
-                float x = target.position.X + (float)Main.rand.Next(-400, 400);
-                float y = target.position.Y - (float)Main.rand.Next(500, 800);
-                Vector2 vector = new Vector2(x, y);
-                float num13 = target.position.X + (float)(target.width / 2) - vector.X;
-                float num14 = target.position.Y + (float)(target.height / 2) - vector.Y;
-                num13 += (float)Main.rand.Next(-100, 101);
-                int num15 = 25;
-                int projectileType = Main.rand.Next(3);
-                if (projectileType == 0)
-                {
-                    projectileType = ModContent.ProjectileType<AstralStar>();
-                }
-                else if (projectileType == 1)
-                {
-                    projectileType = ProjectileID.HallowStar;
-                }
-                else
-                {
-                    projectileType = ModContent.ProjectileType<FallenStarProj>();
-                }
-                float num16 = (float)Math.Sqrt((double)(num13 * num13 + num14 * num14));
-                num16 = (float)num15 / num16;
-                num13 *= num16;
-                num14 *= num16;
-                int num17 = Projectile.NewProjectile(x, y, num13, num14, projectileType, (int)(projectile.damage * 0.75), 5f, projectile.owner, 2f, 0f);
-                Main.projectile[num17].Calamity().forceRogue = true;
-            }
-        }
+			OnHitEffect(target.Center);
+		}
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
             target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 120);
+			OnHitEffect(target.Center);
+        }
+
+		private void OnHitEffect(Vector2 targetPos)
+		{
             for (int n = 0; n < 3; n++)
             {
-                float x = target.position.X + (float)Main.rand.Next(-400, 400);
-                float y = target.position.Y - (float)Main.rand.Next(500, 800);
-                Vector2 vector = new Vector2(x, y);
-                float num13 = target.position.X + (float)(target.width / 2) - vector.X;
-                float num14 = target.position.Y + (float)(target.height / 2) - vector.Y;
-                num13 += (float)Main.rand.Next(-100, 101);
-                int num15 = 25;
-                int projectileType = Main.rand.Next(3);
-                if (projectileType == 0)
-                {
-                    projectileType = ModContent.ProjectileType<AstralStar>();
-                }
-                else if (projectileType == 1)
-                {
-                    projectileType = ProjectileID.HallowStar;
-                }
-                else
-                {
-                    projectileType = ModContent.ProjectileType<FallenStarProj>();
-                }
-                float num16 = (float)Math.Sqrt((double)(num13 * num13 + num14 * num14));
-                num16 = (float)num15 / num16;
-                num13 *= num16;
-                num14 *= num16;
-                int num17 = Projectile.NewProjectile(x, y, num13, num14, projectileType, (int)(projectile.damage * 0.75), 5f, projectile.owner, 2f, 0f);
-                Main.projectile[num17].Calamity().forceRogue = true;
+				int projType = Utils.SelectRandom(Main.rand, new int[]
+				{
+					ModContent.ProjectileType<AstralStar>(),
+					ProjectileID.HallowStar,
+					ModContent.ProjectileType<FallenStarProj>()
+				});
+				Projectile star = CalamityUtils.ProjectileRain(targetPos, 400f, 100f, 500f, 800f, 25f, projType, (int)(projectile.damage * 0.75), 5f, projectile.owner);
+				if (star.whoAmI.WithinBounds(Main.maxProjectiles))
+				{
+					star.Calamity().forceRogue = true;
+					star.ai[0] = 2f;
+				}
             }
         }
     }

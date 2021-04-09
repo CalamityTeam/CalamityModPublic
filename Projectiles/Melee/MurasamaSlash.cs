@@ -24,6 +24,7 @@ namespace CalamityMod.Projectiles.Melee
 		}
 
 		// A "slash" is only present during 2 specific frames (ones with a slash effect) right before they transition to the next frame.
+		// Note: This bool is unused. Murasama formerly only dealt damage when on these frames, but it created a few issues with player usability.
 		public bool Slashing => CurrentFrame % 7 == 0 && projectile.frameCounter % 3 == 2;
 
 		public override void SetStaticDefaults()
@@ -35,23 +36,27 @@ namespace CalamityMod.Projectiles.Melee
 		{
 			projectile.width = 236;
 			projectile.height = 180;
+			projectile.scale = 2f;
 			projectile.friendly = true;
 			projectile.penetrate = -1;
 			projectile.tileCollide = false;
 			projectile.melee = true;
 			projectile.ownerHitCheck = true;
-			projectile.usesLocalNPCImmunity = true;
-			projectile.localNPCHitCooldown = 0;
-			projectile.Calamity().trueMelee = true;
+			projectile.usesIDStaticNPCImmunity = true;
+			projectile.idStaticNPCHitCooldown = 21;
+			projectile.frameCounter = 0;
+			//projectile.Calamity().trueMelee = true;
 		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
+			if (projectile.frameCounter <= 1)
+				return false;
 			Texture2D texture = Main.projectileTexture[projectile.type];
 			Vector2 origin = texture.Size() / new Vector2(2f, 7f) * 0.5f;
 			Rectangle frame = texture.Frame(2, 7, frameX, frameY);
 			SpriteEffects spriteEffects = projectile.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-			spriteBatch.Draw(texture, projectile.Center - Main.screenPosition, frame, Color.White, projectile.rotation, origin, 1f, spriteEffects, 0f);
+			spriteBatch.Draw(texture, projectile.Center - Main.screenPosition, frame, Color.White, projectile.rotation, origin, projectile.scale, spriteEffects, 0f);
 			return false;
 		}
 
@@ -99,7 +104,8 @@ namespace CalamityMod.Projectiles.Melee
 			projectile.direction = (Math.Cos(velocityAngle) > 0).ToDirectionInt();
 
 			// Positioning close to the end of the player's arm.
-			projectile.position = playerRotatedPoint - projectile.Size * 0.5f + velocityAngle.ToRotationVector2() * 80f;
+			float offset = 80f * projectile.scale;
+			projectile.position = playerRotatedPoint - projectile.Size * 0.5f + velocityAngle.ToRotationVector2() * offset;
 
 			// Sprite and player directioning.
 			projectile.spriteDirection = projectile.direction;
@@ -134,7 +140,6 @@ namespace CalamityMod.Projectiles.Melee
 
 		public override Color? GetAlpha(Color lightColor) => new Color(200, 0, 0, 0);
 
-		// You could possibly mess with the local immunity, but I personally prefer this method since it's actually specific.
-		public override bool CanDamage() => Slashing;
+		//public override bool CanDamage() => Slashing;
 	}
 }

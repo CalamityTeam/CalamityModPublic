@@ -25,7 +25,7 @@ namespace CalamityMod.NPCs.SunkenSea
             npc.width = 116;
             npc.height = 36;
             npc.defense = Main.hardMode ? 15 : 5;
-            npc.Calamity().RevPlusDR(0.05f);
+			npc.DR_NERD(0.05f);
             npc.lifeMax = Main.hardMode ? 500 : 150;
             npc.aiStyle = -1;
             aiType = -1;
@@ -134,11 +134,11 @@ namespace CalamityMod.NPCs.SunkenSea
                 }
 
                 npc.rotation = npc.velocity.Y * Rotation;
-                if ((double)npc.rotation < -0.1)
+                if (npc.rotation < -0.1f)
                 {
                     npc.rotation = -0.1f;
                 }
-                if ((double)npc.rotation > 0.1)
+                if (npc.rotation > 0.1f)
                 {
                     npc.rotation = 0.1f;
                     return;

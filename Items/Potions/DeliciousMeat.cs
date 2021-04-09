@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Potions
             item.width = 32;
             item.height = 30;
             item.value = Item.buyPrice(0, 0, 50, 0);
-            item.rare = 5;
+            item.rare = ItemRarityID.Pink;
             item.maxStack = 30;
             item.consumable = true;
             item.useAnimation = 17;
@@ -25,7 +25,7 @@ namespace CalamityMod.Items.Potions
             item.useStyle = ItemUseStyleID.EatingUsing;
             item.useTurn = true;
             item.buffType = BuffID.WellFed;
-            item.buffTime = 108000;
+            item.buffTime = CalamityUtils.SecondsToFrames(1800f);
         }
     }
 }

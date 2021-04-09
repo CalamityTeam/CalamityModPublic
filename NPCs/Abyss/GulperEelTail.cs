@@ -20,16 +20,12 @@ namespace CalamityMod.NPCs.Abyss
             npc.damage = 65; //70
             npc.width = 54; //28
             npc.height = 76; //28
-            npc.defense = 100;
-            npc.lifeMax = 80000;
+            npc.defense = 50;
+            npc.lifeMax = 60000;
             npc.aiStyle = -1; //new
             aiType = -1; //new
             npc.knockBackResist = 0f;
             npc.alpha = 255;
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
             npc.behindTiles = true;
             npc.noGravity = true;
             npc.noTileCollide = true;
@@ -151,13 +147,13 @@ namespace CalamityMod.NPCs.Abyss
         {
             for (int k = 0; k < 3; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
             }
             if (npc.life <= 0)
             {
                 for (int k = 0; k < 10; k++)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
                 }
                 Gore.NewGore(npc.Center, npc.velocity, mod.GetGoreSlot("Gores/GulperEel4"), 1f);
             }

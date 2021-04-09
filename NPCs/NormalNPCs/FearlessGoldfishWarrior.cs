@@ -22,7 +22,7 @@ namespace CalamityMod.NPCs.NormalNPCs
         {
             npc.aiStyle = -1;
             aiType = -1;
-            npc.damage = Main.hardMode ? 120 : 30;
+            npc.damage = Main.hardMode ? 100 : 30;
             npc.width = 36;
             npc.height = 32;
             npc.defense = Main.hardMode ? 10 : 2;
@@ -426,13 +426,13 @@ namespace CalamityMod.NPCs.NormalNPCs
         {
             for (int k = 0; k < 3; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
             }
             if (npc.life <= 0)
             {
                 for (int k = 0; k < 15; k++)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
                 }
             }
         }
@@ -457,11 +457,8 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void NPCLoot()
         {
-            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.TinHelmet);
-            if (Main.hardMode)
-            {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.MagicDagger);
-            }
+			DropHelper.DropItem(npc, ItemID.TinHelmet);
+			DropHelper.DropItemCondition(npc, ItemID.MagicDagger, Main.hardMode);
         }
     }
 }

@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Dyes
 
 		public override void SafeSetDefaults()
 		{
-            item.rare = 10;
+            item.rare = ItemRarityID.Red;
             item.Calamity().customRarity = CalamityRarity.PureGreen;
             item.value = Item.sellPrice(0, 4, 50, 0);
         }
@@ -28,11 +28,12 @@ namespace CalamityMod.Items.Dyes
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.BottledWater);
+            recipe.AddIngredient(ItemID.BottledWater, 2);
             recipe.AddIngredient(ModContent.ItemType<RuinousSoul>());
             recipe.AddIngredient(ModContent.ItemType<ExodiumClusterOre>());
+            recipe.AddIngredient(ModContent.ItemType<Lumenite>());
             recipe.AddTile(TileID.DyeVat);
-            recipe.SetResult(this);
+            recipe.SetResult(this, 2);
             recipe.AddRecipe();
         }
     }

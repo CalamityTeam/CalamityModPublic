@@ -1,13 +1,12 @@
 using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Magic
 {
-    public class TearsofHeavenProjectile : ModProjectile
+	public class TearsofHeavenProjectile : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -49,7 +48,7 @@ namespace CalamityMod.Projectiles.Magic
                 Main.dust[num102].noGravity = true;
             }
 
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 500f, 8f, 20f);
+			CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 250f, 8f, 20f);
 
             projectile.rotation += 0.3f * (float)projectile.direction;
         }

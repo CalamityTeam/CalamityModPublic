@@ -67,7 +67,8 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(SoundID.Item27, projectile.position);
+			if (projectile.ai[0] != 1f || Main.rand.NextBool(20))
+				Main.PlaySound(SoundID.Item27, projectile.position);
             for (int index1 = 0; index1 < 3; ++index1)
             {
                 int index2 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 76);

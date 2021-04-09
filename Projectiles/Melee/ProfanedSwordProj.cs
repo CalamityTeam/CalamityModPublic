@@ -1,6 +1,5 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
-using CalamityMod.NPCs;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -9,8 +8,10 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Melee
 {
-    public class ProfanedSwordProj : ModProjectile
+	public class ProfanedSwordProj : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Melee/ProfanedSword";
+
 		private int explosionCount = 0;
         public override void SetStaticDefaults()
         {
@@ -31,14 +32,14 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void AI()
         {
-            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 2.355f;
+            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + MathHelper.ToRadians(45f);
             if (Main.rand.NextBool(4))
             {
                 Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, (int)CalamityDusts.Brimstone, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
             }
             if (projectile.spriteDirection == -1)
             {
-                projectile.rotation -= 1.57f;
+                projectile.rotation -= MathHelper.ToRadians(90f);
             }
         }
 
@@ -68,7 +69,7 @@ namespace CalamityMod.Projectiles.Melee
 			{
 				if (explosionCount < 3)
 				{
-					Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<BrimlanceHellfireExplosion>(), (int)(projectile.damage * 0.5), knockback, projectile.owner);
+					Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<BrimstoneSwordExplosion>(), (int)(projectile.damage * 0.5), knockback, projectile.owner);
 					explosionCount++;
 				}
 			}

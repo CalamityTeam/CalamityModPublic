@@ -21,7 +21,7 @@ Reduces life regen by 1");
             item.height = 18;
             item.useTurn = true;
             item.maxStack = 30;
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.useAnimation = 17;
             item.useTime = 17;
             item.useStyle = ItemUseStyleID.EatingUsing;
@@ -29,38 +29,18 @@ Reduces life regen by 1");
             item.healLife = 200;
             item.consumable = true;
             item.potion = true;
-            item.value = Item.buyPrice(0, 2, 0, 0);
+            item.value = Item.buyPrice(0, 0, 65, 0);
         }
 
         public override bool CanUseItem(Player player)
         {
-            return player.FindBuffIndex(BuffID.PotionSickness) == -1;
+			item.healLife = player.Calamity().baguette ? 250 : 200;
+            return base.CanUseItem(player);
         }
 
         public override void OnConsumeItem(Player player)
         {
-            player.statLife += (player.Calamity().baguette ? 250 : 200);
-            if (player.statLife > player.statLifeMax2)
-            {
-                player.statLife = player.statLifeMax2;
-            }
-            if (Main.myPlayer == player.whoAmI)
-            {
-                player.HealEffect((player.Calamity().baguette ? 250 : 200), true);
-            }
             player.AddBuff(ModContent.BuffType<RedWineBuff>(), 900);
-        }
-
-        // Zeroes out the hardcoded healing function from having a healLife value. The item still heals in the UseItem hook.
-        public override void GetHealLife(Player player, bool quickHeal, ref int healValue)
-        {
-            healValue = 0;
-        }
-
-        // Forces the "Restores X life" tooltip to display the actual life restored instead of zero (due to the previous function).
-        public override void ModifyTooltips(List<TooltipLine> tooltips)
-        {
-            tooltips.Find(line => line.Name == "HealLife").text = "Restores " + item.healLife + " life";
         }
     }
 }

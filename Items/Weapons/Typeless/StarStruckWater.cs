@@ -1,13 +1,11 @@
 using CalamityMod.Projectiles.Typeless;
 using CalamityMod.Items.Placeables;
-using Microsoft.Xna.Framework;
-using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Typeless
 {
-    public class StarStruckWater : ModItem
+	public class StarStruckWater : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -19,7 +17,7 @@ namespace CalamityMod.Items.Weapons.Typeless
         {
 			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.shootSpeed = 14f;
-			item.rare = 3;
+			item.rare = ItemRarityID.Orange;
 			item.damage = 20;
 			item.shoot = ModContent.ProjectileType<StarStruckWaterBottle>();
 			item.width = 18;

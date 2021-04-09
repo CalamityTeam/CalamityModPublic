@@ -1,13 +1,12 @@
 using CalamityMod.Projectiles.Magic;
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
-    public class AlulaAustralis : ModItem
+	public class AlulaAustralis : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -25,11 +24,11 @@ namespace CalamityMod.Items.Weapons.Magic
             item.height = 52;
             item.useTime = 17;
             item.useAnimation = 17;
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 3f;
             item.value = Item.buyPrice(0, 60, 0, 0);
-            item.rare = 7;
+            item.rare = ItemRarityID.Lime;
             item.UseSound = SoundID.Item9;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<AuroraAustralis>();

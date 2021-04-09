@@ -9,7 +9,9 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class AcidShrapnel : ModProjectile
     {
-        public bool hitTile = false;
+        public override string Texture => "CalamityMod/Projectiles/Rogue/BarrelShrapnel";
+
+        public bool HitTile = false;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Shrapnel");
@@ -29,20 +31,19 @@ namespace CalamityMod.Projectiles.Rogue
         public override void AI()
         {
             projectile.ai[0] += 1f;
-            if (hitTile)
+            if (HitTile)
             {
                 projectile.velocity.X = 0f;
                 projectile.rotation = MathHelper.Pi;
             }
             else
-            {
                 projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
-            }
+
             projectile.velocity.Y += 0.2f;
         }
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            hitTile = true;
+            HitTile = true;
             return false;
         }
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
@@ -60,7 +61,7 @@ namespace CalamityMod.Projectiles.Rogue
             for (int i = 0; i < 15; i++)
             {
                 Dust dust = Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, (int)CalamityDusts.SulfurousSeaAcid);
-                dust.velocity = Vector2.One.RotatedBy(i / 15f * MathHelper.TwoPi) * 3f * (float)Math.Cos(i / 15f * MathHelper.TwoPi);
+                dust.velocity = Vector2.UnitY.RotatedBy(i / 15f * MathHelper.TwoPi) * 3f * (float)Math.Cos(i / 15f * MathHelper.TwoPi);
                 dust.scale = 2.5f;
                 dust.noGravity = true;
             }

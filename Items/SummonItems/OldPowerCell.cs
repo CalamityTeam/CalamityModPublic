@@ -1,3 +1,4 @@
+using CalamityMod.Events;
 using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
@@ -18,7 +19,7 @@ namespace CalamityMod.Items.SummonItems
             item.width = 28;
             item.height = 18;
             item.maxStack = 20;
-            item.rare = 7;
+            item.rare = ItemRarityID.Lime;
             item.useAnimation = 45;
             item.useTime = 45;
             item.useStyle = ItemUseStyleID.HoldingUp;
@@ -38,14 +39,18 @@ namespace CalamityMod.Items.SummonItems
                     canSummon = true;
                 }
             }
-            return canSummon && !NPC.AnyNPCs(NPCID.Golem);
+            return canSummon && !NPC.AnyNPCs(NPCID.Golem) && !BossRushEvent.BossRushActive;
         }
 
         public override bool UseItem(Player player)
         {
-            NPC.SpawnOnPlayer(player.whoAmI, NPCID.Golem);
             Main.PlaySound(SoundID.Roar, player.position, 0);
-            return true;
+			if (Main.netMode != NetmodeID.MultiplayerClient)
+				NPC.SpawnOnPlayer(player.whoAmI, NPCID.Golem);
+			else
+				NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, player.whoAmI, NPCID.Golem);
+
+			return true;
         }
 
         public override void AddRecipes()

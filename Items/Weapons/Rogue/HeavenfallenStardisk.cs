@@ -21,7 +21,6 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.width = 38;
             item.height = 34;
             item.damage = 115;
-            item.crit += 20;
             item.noMelee = true;
             item.noUseGraphic = true;
             item.useAnimation = 25;
@@ -31,22 +30,26 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             item.value = Item.buyPrice(0, 60, 0, 0);
-            item.rare = 7;
+            item.rare = ItemRarityID.Lime;
             item.shoot = ModContent.ProjectileType<HeavenfallenStardiskBoomerang>();
             item.shootSpeed = 10f;
             item.Calamity().rogue = true;
         }
 
+		// Terraria seems to really dislike high crit values in SetDefaults
+		public override void GetWeaponCrit(Player player, ref int crit) => crit += 20;
+
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             if (player.Calamity().StealthStrikeAvailable())
             {
-                int proj = Projectile.NewProjectile(position.X, position.Y, 0f, -10f, type, damage, knockBack, player.whoAmI, 0f, 0f);
-                Main.projectile[proj].Calamity().stealthStrike = true;
+                int proj = Projectile.NewProjectile(position.X, position.Y, 0f, -10f, type, damage, knockBack, player.whoAmI);
+				if (proj.WithinBounds(Main.maxProjectiles))
+					Main.projectile[proj].Calamity().stealthStrike = true;
             }
 			else
 			{
-				Projectile.NewProjectile(position.X, position.Y, 0f, -10f, type, damage, knockBack, player.whoAmI, 0f, 0f);
+				Projectile.NewProjectile(position.X, position.Y, 0f, -10f, type, damage, knockBack, player.whoAmI);
 			}	
             return false;
         }

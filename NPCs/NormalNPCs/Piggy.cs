@@ -18,15 +18,14 @@ namespace CalamityMod.NPCs.NormalNPCs
         public override void SetDefaults()
         {
             npc.chaseable = false;
-            npc.aiStyle = 26;
             npc.damage = 0;
             npc.width = 26;
             npc.height = 26;
             npc.lifeMax = 2000;
             npc.aiStyle = 7;
-            aiType = 299;
+            aiType = NPCID.Squirrel;
             npc.knockBackResist = 0.99f;
-            npc.value = Item.buyPrice(0, 10, 0, 0);
+            npc.value = Item.buyPrice(0, 2, 0, 0);
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath1;
             banner = npc.type;
@@ -40,7 +39,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             {
                 return 0f;
             }
-            return SpawnCondition.TownCritter.Chance * 0.01f;
+            return SpawnCondition.TownCritter.Chance * 0.005f;
         }
 
         public override void FindFrame(int frameHeight)
@@ -89,13 +88,13 @@ namespace CalamityMod.NPCs.NormalNPCs
         {
             for (int k = 0; k < 5; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
             }
             if (npc.life <= 0)
             {
                 for (int k = 0; k < 15; k++)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
                 }
             }
         }

@@ -12,7 +12,8 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             DisplayName.SetDefault("Dragon's Breath");
             Tooltip.SetDefault("80% chance to not consume ammo\n" +
-                "Shoots a spread of exploding fire bullets");
+				"Fires a spread of 8 bullets\n" +
+				"Converts musket balls into exploding dragonfire bullets");
         }
 
         public override void SetDefaults()
@@ -26,14 +27,14 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 6.5f;
-            item.value = Item.buyPrice(1, 80, 0, 0);
-            item.rare = 10;
-            item.UseSound = SoundID.Item36;
+			item.value = CalamityGlobalItem.Rarity15BuyPrice;
+			item.rare = ItemRarityID.Purple;
+			item.Calamity().customRarity = CalamityRarity.Violet;
+			item.UseSound = SoundID.Item36;
             item.autoReuse = true;
             item.shoot = ProjectileID.PurificationPowder;
             item.shootSpeed = 12f;
-            item.useAmmo = 97;
-            item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            item.useAmmo = AmmoID.Bullet;
         }
 
         public override Vector2? HoldoutOffset()
@@ -43,11 +44,11 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            for (int i = 0; i < 13; i++)
+            for (int i = 0; i < 8; i++)
             {
                 float SpeedX = speedX + (float)Main.rand.Next(-20, 21) * 0.05f;
                 float SpeedY = speedY + (float)Main.rand.Next(-20, 21) * 0.05f;
-                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<DragonBurst>(), damage, knockBack, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<DragonBurst>(), damage, knockBack, player.whoAmI);
             }
             return false;
         }

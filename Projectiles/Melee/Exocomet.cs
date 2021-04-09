@@ -28,9 +28,12 @@ namespace CalamityMod.Projectiles.Melee
             projectile.melee = true;
             projectile.penetrate = 1;
             projectile.alpha = 50;
+			projectile.timeLeft = 360;
         }
 
-        public override void AI()
+		public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 240;
+
+		public override void AI()
         {
             projectile.frameCounter++;
             if (projectile.frameCounter > 5)
@@ -39,24 +42,15 @@ namespace CalamityMod.Projectiles.Melee
                 projectile.frameCounter = 0;
             }
             if (projectile.frame > 4)
-            {
                 projectile.frame = 0;
-            }
-            float num953 = 100f * projectile.ai[1]; //100
-            float scaleFactor12 = 20f * projectile.ai[1]; //5
-            float num954 = 40f;
+
             if (projectile.timeLeft > 30 && projectile.alpha > 0)
-            {
                 projectile.alpha -= 25;
-            }
             if (projectile.timeLeft > 30 && projectile.alpha < 128 && Collision.SolidCollision(projectile.position, projectile.width, projectile.height))
-            {
                 projectile.alpha = 128;
-            }
             if (projectile.alpha < 0)
-            {
                 projectile.alpha = 0;
-            }
+
             if (projectile.alpha < 40)
             {
                 int num309 = Dust.NewDust(new Vector2(projectile.position.X - projectile.velocity.X * 4f + 2f, projectile.position.Y + 2f - projectile.velocity.Y * 4f), 8, 8, 107, projectile.oldVelocity.X, projectile.oldVelocity.Y, 100, new Color(0, 255, 255), 0.5f);
@@ -65,45 +59,52 @@ namespace CalamityMod.Projectiles.Melee
                 Main.dust[num309].velocity *= -0.25f;
                 Main.dust[num309].position -= projectile.velocity * 0.5f;
             }
-            projectile.rotation = projectile.velocity.ToRotation() + 1.57079637f;
+
+            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
+
             Lighting.AddLight(projectile.Center, 0f, 0.5f, 0.5f);
-            if (Main.player[projectile.owner].active && !Main.player[projectile.owner].dead)
-            {
-                if (projectile.Distance(Main.player[projectile.owner].Center) > num954)
-                {
-                    Vector2 vector102 = projectile.DirectionTo(Main.player[projectile.owner].Center);
-                    if (vector102.HasNaNs())
-                    {
-                        vector102 = Vector2.UnitY;
-                    }
-                    projectile.velocity = (projectile.velocity * (num953 - 1f) + vector102 * scaleFactor12) / num953;
-                }
-            }
-            else
-            {
-                if (projectile.timeLeft > 30)
-                {
-                    projectile.timeLeft = 30;
-                }
-            }
+
+			if (projectile.timeLeft < 240)
+				CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 600f, 12f, 20f);
+			else
+			{
+				float num953 = 100f * projectile.ai[1];
+				float scaleFactor12 = 20f * projectile.ai[1];
+				float num954 = 40f;
+				if (Main.player[projectile.owner].active && !Main.player[projectile.owner].dead)
+				{
+					if (projectile.Distance(Main.player[projectile.owner].Center) > num954)
+					{
+						Vector2 vector102 = projectile.DirectionTo(Main.player[projectile.owner].Center);
+						if (vector102.HasNaNs())
+						{
+							vector102 = Vector2.UnitY;
+						}
+						projectile.velocity = (projectile.velocity * (num953 - 1f) + vector102 * scaleFactor12) / num953;
+					}
+				}
+			}
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<ExoFreeze>(), 30);
-            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
-            target.AddBuff(ModContent.BuffType<GlacialState>(), 120);
-            target.AddBuff(ModContent.BuffType<Plague>(), 120);
-            target.AddBuff(ModContent.BuffType<HolyFlames>(), 120);
-            target.AddBuff(BuffID.CursedInferno, 120);
-            target.AddBuff(BuffID.Frostburn, 120);
-            target.AddBuff(BuffID.OnFire, 120);
-            target.AddBuff(BuffID.Ichor, 120);
-            if (target.type == NPCID.TargetDummy)
+			target.ExoDebuffs();
+            float healAmt = damage * 0.01f;
+            if ((int)healAmt == 0)
             {
                 return;
             }
-            float healAmt = (float)damage * 0.01f;
+            if (Main.player[Main.myPlayer].lifeSteal <= 0f)
+            {
+                return;
+            }
+			CalamityGlobalProjectile.SpawnLifeStealProjectile(projectile, Main.player[projectile.owner], healAmt, ModContent.ProjectileType<Exoheal>(), 1200f, 1f);
+        }
+
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+			target.ExoDebuffs();
+            float healAmt = damage * 0.01f;
             if ((int)healAmt == 0)
             {
                 return;

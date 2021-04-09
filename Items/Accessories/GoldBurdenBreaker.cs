@@ -1,6 +1,7 @@
 using CalamityMod.CalPlayer;
 using CalamityMod.Projectiles.Typeless;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
@@ -20,11 +21,11 @@ namespace CalamityMod.Items.Accessories
         {
             item.width = 28;
             item.height = 28;
-            item.value = Item.buyPrice(0, 21, 0, 0);
-            item.rare = 10;
+            item.value = CalamityGlobalItem.Rarity5BuyPrice;
+            item.rare = ItemRarityID.Pink;
             item.accessory = true;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
-        }
+			item.Calamity().challengeDrop = true;
+		}
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {

@@ -20,8 +20,8 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.width = 68;
-            item.damage = 100;
+            item.width = item.height = 72;
+            item.damage = 126;
             item.melee = true;
             item.useAnimation = 25;
             item.useTime = 25;
@@ -30,9 +30,8 @@ namespace CalamityMod.Items.Weapons.Melee
             item.knockBack = 8;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
-            item.height = 68;
             item.value = Item.buyPrice(0, 95, 0, 0);
-            item.rare = 9;
+            item.rare = ItemRarityID.Cyan;
             item.shoot = ModContent.ProjectileType<BrimlashProj>();
             item.shootSpeed = 18f;
         }
@@ -56,30 +55,24 @@ namespace CalamityMod.Items.Weapons.Melee
             }
         }
 
+        public override void ModifyWeaponDamage(Player player, ref float add, ref float mult, ref float flat)
+		{
+			float damageMult = 0f;
+            if (player.Calamity().brimlashBusterBoost)
+				damageMult = 2f;
+			mult += damageMult;
+		}
+
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 300);
-            if (Main.rand.NextBool(3))
-            {
-                item.damage = 378;
-            }
-            else
-            {
-                item.damage = 126;
-            }
+			player.Calamity().brimlashBusterBoost = Main.rand.NextBool(3);
         }
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
             target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 300);
-            if (Main.rand.NextBool(3))
-            {
-                item.damage = 378;
-            }
-            else
-            {
-                item.damage = 126;
-            }
+			player.Calamity().brimlashBusterBoost = Main.rand.NextBool(3);
         }
     }
 }

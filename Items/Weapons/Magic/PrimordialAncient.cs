@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.damage = 305;
+            item.damage = 122;
             item.magic = true;
             item.mana = 20;
             item.width = 36;
@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.noMelee = true;
             item.knockBack = 5;
             item.value = Item.buyPrice(1, 80, 0, 0);
-            item.rare = 10;
+            item.rare = ItemRarityID.Red;
             item.UseSound = SoundID.Item20;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<Ancient>();
@@ -40,9 +40,9 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<PrimordialEarth>());
-            recipe.AddIngredient(ItemID.AncientBattleArmorMaterial, 10);
-            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 10);
-            recipe.AddIngredient(ModContent.ItemType<Phantoplasm>(), 5);
+            recipe.AddIngredient(ItemID.AncientBattleArmorMaterial, 5);
+            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>());
             recipe.AddTile(TileID.Bookcases);
             recipe.SetResult(this);
             recipe.AddRecipe();

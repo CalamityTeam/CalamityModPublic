@@ -25,7 +25,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.timeLeft = 300;
             aiType = ProjectileID.EnchantedBeam;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 5;
+            projectile.localNPCHitCooldown = 10;
         }
 
         public override void AI()

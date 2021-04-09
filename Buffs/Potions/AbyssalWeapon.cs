@@ -8,7 +8,7 @@ namespace CalamityMod.Buffs.Potions
         public override void SetDefaults()
         {
             DisplayName.SetDefault("Abyssal Weapon");
-            Description.SetDefault("Melee weapons inflict abyssal flames, 15% increased movement speed");
+            Description.SetDefault("Melee weapons inflict abyssal flames, 10% increased movement speed");
             Main.debuff[Type] = false;
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = false;

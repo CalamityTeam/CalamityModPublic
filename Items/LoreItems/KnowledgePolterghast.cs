@@ -13,15 +13,14 @@ namespace CalamityMod.Items.LoreItems
         {
             DisplayName.SetDefault("Polterghast");
             Tooltip.SetDefault("A creature born of hatred and anger, formed by countless human souls with all of their energy entirely devoted to consuming others.\n" +
-                "It seems a waste to have had such a potent source of power ravage mindlessly through these empty halls.\n" +
-                "Place in your inventory to gain increased item grab range.");
+                "It seems a waste to have had such a potent source of power ravage mindlessly through these empty halls.");
         }
 
         public override void SetDefaults()
         {
             item.width = 20;
             item.height = 20;
-            item.rare = 10;
+            item.rare = ItemRarityID.Red;
             item.consumable = false;
             item.Calamity().customRarity = CalamityRarity.PureGreen;
         }
@@ -29,12 +28,6 @@ namespace CalamityMod.Items.LoreItems
         public override bool CanUseItem(Player player)
         {
             return false;
-        }
-
-        public override void UpdateInventory(Player player)
-        {
-            CalamityPlayer modPlayer = player.Calamity();
-            modPlayer.polterghastLore = true;
         }
 
         public override void AddRecipes()

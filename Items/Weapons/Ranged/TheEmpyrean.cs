@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Weapons.Ranged
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("The Empyrean");
+            DisplayName.SetDefault("God's Bellows");
             Tooltip.SetDefault("70% chance to not consume gel");
         }
 
@@ -28,11 +28,11 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.knockBack = 3.5f;
             item.UseSound = SoundID.Item34;
             item.value = Item.buyPrice(0, 95, 0, 0);
-            item.rare = 9;
+            item.rare = ItemRarityID.Cyan;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<CosmicFire>();
-            item.shootSpeed = 7.5f;
-            item.useAmmo = 23;
+            item.shootSpeed = 9f;
+            item.useAmmo = AmmoID.Gel;
         }
 
         public override Vector2? HoldoutOffset()

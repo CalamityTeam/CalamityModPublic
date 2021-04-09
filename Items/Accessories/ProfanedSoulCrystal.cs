@@ -13,7 +13,6 @@ namespace CalamityMod.Items.Accessories
     //Developer item, dedicatee: Mishiro Usui/Amber Sienna
     public class ProfanedSoulCrystal : ModItem
     {
-
         /**
          * Notes: Drops from providence if the only damage source during the fight is from typeless damage or the profaned soul and the owners of those babs do not have profaned crystal.
          * All projectiles are in ProfanedSoulCrystalProjectiles.cs in the summon projectile directory
@@ -23,7 +22,7 @@ namespace CalamityMod.Items.Accessories
          * bab spears being fired happens at the bottom of calplayer
          * Animation of legs is postupdate, animation of wings is frameeffects.
          * Projectiles transformed are ONLY affected by alldamage and summon damage bonuses, likewise the weapon's base damage/usetime is NOT taken into account.
-         * You enrage below below or at 50% hp.
+         * You enrage below or at 50% hp.
          */
         public override void SetStaticDefaults()
         {
@@ -49,10 +48,10 @@ namespace CalamityMod.Items.Accessories
         {
             item.width = 50;
             item.height = 50;
-            item.value = Item.buyPrice(5, 0, 0, 0);
             item.accessory = true;
-            item.rare = 10;
-            item.Calamity().customRarity = CalamityRarity.ItemSpecific;
+            item.value = CalamityGlobalItem.RarityHotPinkBuyPrice;
+            item.Calamity().customRarity = CalamityRarity.HotPink;
+            item.Calamity().devItem = true;
         }
 
         public override bool CanEquipAccessory(Player player, int slot)
@@ -85,7 +84,7 @@ namespace CalamityMod.Items.Accessories
                         
                 }
                 
-                tooltips.Insert(index+1, new TooltipLine(CalamityMod.instance, "Tooltip1", "[c/f05a5a:The soul within this crystal has been defiled by the powerful magic of a supreme witch]\nMerchants will reject a defiled soul such as this."));
+                tooltips.Insert(index+1, new TooltipLine(CalamityMod.Instance, "Tooltip1", "[c/f05a5a:The soul within this crystal has been defiled by the powerful magic of a supreme witch]\nMerchants will reject a defiled soul such as this."));
             }
             else if (Main.player[Main.myPlayer].Calamity().profanedCrystalBuffs)
             {
@@ -95,6 +94,19 @@ namespace CalamityMod.Items.Accessories
                     if (line.mod == "Terraria" && line.Name == "Tooltip5")
                     {
                         line.text = "[c/3a83e4:Transforms Magic attacks into a powerful splitting fireball for " + manaCost + " mana per cast]";
+                    }
+                }
+            }
+            if (CalamityWorld.downedSCal)
+            {
+                if (!CalamityWorld.death)
+                {
+                    foreach (TooltipLine line in tooltips)
+                    {
+                        if (line.mod == "Terraria" && line.Name == "Tooltip11")
+                        {
+                            line.text = "";
+                        }
                     }
                 }
             }

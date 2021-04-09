@@ -3,6 +3,7 @@ using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -21,10 +22,10 @@ namespace CalamityMod.Items.Accessories
         {
             item.width = 16;
             item.height = 14;
-            item.value = Item.buyPrice(0, 60, 0, 0);
+            item.value = CalamityGlobalItem.Rarity14BuyPrice;
             item.accessory = true;
             item.expert = true;
-            item.rare = 9;
+            item.rare = ItemRarityID.Red;
         }
 
         public override void Update(ref float gravity, ref float maxFallSpeed)
@@ -39,7 +40,7 @@ namespace CalamityMod.Items.Accessories
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.nCore = true;
             player.allDamage += 0.12f;
-            int damage = (int)(1500 * player.AverageDamage());
+            int damage = (int)(750 * player.AverageDamage());
             float knockBack = 3f;
             if (Main.rand.NextBool(15))
             {

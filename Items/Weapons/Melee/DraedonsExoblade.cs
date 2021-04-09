@@ -1,10 +1,7 @@
-using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -38,7 +35,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.autoReuse = true;
             item.height = 114;
             item.value = Item.buyPrice(2, 50, 0, 0);
-            item.rare = 10;
+            item.rare = ItemRarityID.Red;
             item.shoot = ModContent.ProjectileType<Exobeam>();
             item.shootSpeed = 19f;
             item.Calamity().customRarity = CalamityRarity.Violet;
@@ -65,15 +62,7 @@ namespace CalamityMod.Items.Weapons.Melee
 			{
 				Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<Exoboom>(), (int)(item.damage * player.MeleeDamage()), knockback, Main.myPlayer);
 			}
-			target.AddBuff(ModContent.BuffType<ExoFreeze>(), 30);
-			target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
-			target.AddBuff(ModContent.BuffType<GlacialState>(), 120);
-			target.AddBuff(ModContent.BuffType<Plague>(), 120);
-			target.AddBuff(ModContent.BuffType<HolyFlames>(), 120);
-			target.AddBuff(BuffID.CursedInferno, 120);
-			target.AddBuff(BuffID.Frostburn, 120);
-			target.AddBuff(BuffID.OnFire, 120);
-			target.AddBuff(BuffID.Ichor, 120);
+			target.ExoDebuffs();
 			Main.PlaySound(SoundID.Item88, player.Center);
 			float xPos = player.position.X + 800 * Main.rand.NextBool(2).ToDirectionInt();
 			float yPos = player.position.Y + Main.rand.Next(-800, 801);
@@ -92,7 +81,7 @@ namespace CalamityMod.Items.Weapons.Melee
 					Projectile.NewProjectile(startPos, velocity, ModContent.ProjectileType<Exocomet>(), (int)(item.damage * player.MeleeDamage()), knockback, player.whoAmI, 0f, ai1);
 				}
 			}
-			if (target.type == NPCID.TargetDummy || !target.canGhostHeal || player.moonLeech)
+			if (!target.canGhostHeal || player.moonLeech)
 			{
 				return;
 			}
@@ -107,15 +96,7 @@ namespace CalamityMod.Items.Weapons.Melee
 			{
 				Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<Exoboom>(), (int)(item.damage * player.MeleeDamage()), item.knockBack, Main.myPlayer);
 			}
-			target.AddBuff(ModContent.BuffType<ExoFreeze>(), 30);
-			target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
-			target.AddBuff(ModContent.BuffType<GlacialState>(), 120);
-			target.AddBuff(ModContent.BuffType<Plague>(), 120);
-			target.AddBuff(ModContent.BuffType<HolyFlames>(), 120);
-			target.AddBuff(BuffID.CursedInferno, 120);
-			target.AddBuff(BuffID.Frostburn, 120);
-			target.AddBuff(BuffID.OnFire, 120);
-			target.AddBuff(BuffID.Ichor, 120);
+			target.ExoDebuffs();
 			Main.PlaySound(SoundID.Item88, player.Center);
 			float xPos = player.position.X + 800 * Main.rand.NextBool(2).ToDirectionInt();
 			float yPos = player.position.Y + Main.rand.Next(-800, 801);

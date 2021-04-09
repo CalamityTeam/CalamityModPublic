@@ -1,6 +1,5 @@
 using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
-using CalamityMod.Items.Placeables.Ores;
 using CalamityMod.Projectiles.Summon;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
@@ -11,7 +10,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
-    public class CosmicImmaterializer : ModItem
+	public class CosmicImmaterializer : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -34,7 +33,7 @@ namespace CalamityMod.Items.Weapons.Summon
             item.noMelee = true;
             item.knockBack = 0f;
             item.value = Item.buyPrice(2, 50, 0, 0);
-            item.rare = 10;
+            item.rare = ItemRarityID.Red;
             item.UseSound = SoundID.Item60;
             item.shoot = ModContent.ProjectileType<CosmicEnergySpiral>();
             item.shootSpeed = 10f;
@@ -46,31 +45,10 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
+			CalamityUtils.KillShootProjectiles(true, type, player);
             CalamityPlayer modPlayer = player.Calamity();
-            bool hasSummonerSet = modPlayer.tarraSummon || modPlayer.bloodflareSummon || modPlayer.godSlayerSummon || modPlayer.silvaSummon || modPlayer.dsSetBonus || modPlayer.omegaBlueSet || modPlayer.fearmongerSet; //demonshade included so summoner isn't forced to use auric for BR
-            player.itemTime = item.useTime;
-            Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
-            float num78 = (float)Main.mouseX + Main.screenPosition.X - vector2.X;
-            float num79 = (float)Main.mouseY + Main.screenPosition.Y - vector2.Y;
-            if (player.gravDir == -1f)
-            {
-                num79 = Main.screenPosition.Y + (float)Main.screenHeight - (float)Main.mouseY - vector2.Y;
-            }
-            float num80 = (float)Math.Sqrt((double)(num78 * num78 + num79 * num79));
-            if ((float.IsNaN(num78) && float.IsNaN(num79)) || (num78 == 0f && num79 == 0f))
-            {
-                num78 = (float)player.direction;
-                num80 = item.shootSpeed;
-            }
-            else
-            {
-                num80 = item.shootSpeed / num80;
-            }
-            num78 = 0f;
-            num79 = 0f;
-            vector2.X = (float)Main.mouseX + Main.screenPosition.X;
-            vector2.Y = (float)Main.mouseY + Main.screenPosition.Y;
-            Projectile.NewProjectile(vector2.X, vector2.Y, num78, num79, type, (int)((double)damage * (hasSummonerSet ? 1.0 : 0.66)), knockBack, player.whoAmI, 0f, 0f);
+            bool hasSummonerSet = modPlayer.tarraSummon || modPlayer.bloodflareSummon || modPlayer.silvaSummon || modPlayer.dsSetBonus || modPlayer.omegaBlueSet || modPlayer.fearmongerSet; //demonshade included so summoner isn't forced to use auric for BR
+            Projectile.NewProjectile(Main.MouseWorld, Vector2.Zero, type, (int)(damage * (hasSummonerSet ? 1 : 0.66)), knockBack, player.whoAmI, 0f, 0f);
             return false;
         }
 

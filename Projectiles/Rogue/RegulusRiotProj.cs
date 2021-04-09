@@ -11,6 +11,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class RegulusRiotProj : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/RegulusRiot";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Regulus Riot");
@@ -96,6 +98,7 @@ namespace CalamityMod.Projectiles.Rogue
                                 targetCenter = npcCenter;
                                 homeIn = true;
                                 targetIndex = npcIndex;
+								break;
                             }
                         }
                     }

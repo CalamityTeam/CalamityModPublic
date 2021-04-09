@@ -29,13 +29,13 @@ namespace CalamityMod.Items.Weapons.Magic
             item.noMelee = true;
             item.knockBack = 0f;
             item.value = Item.buyPrice(2, 50, 0, 0);
-            item.rare = 10;
+            item.rare = ItemRarityID.Red;
             item.UseSound = SoundID.Item20;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<Climax2>();
             item.shootSpeed = 12f;
-            item.Calamity().customRarity = CalamityRarity.RareVariant;
-        }
+			item.Calamity().challengeDrop = true;
+		}
 
         public override Vector2? HoldoutOrigin()
         {

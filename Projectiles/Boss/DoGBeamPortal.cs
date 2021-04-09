@@ -1,6 +1,6 @@
+using CalamityMod.Events;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
-using System;
 using System.IO;
 using Terraria;
 using Terraria.ID;
@@ -56,43 +56,39 @@ namespace CalamityMod.Projectiles.Boss
             if (beamTimer <= 0)
             {
                 Main.PlaySound(SoundID.Item33, (int)projectile.position.X, (int)projectile.position.Y);
-                float spread = 30f * 0.0174f;
-                double startAngle = Math.Atan2(projectile.velocity.X, projectile.velocity.Y) - spread / 2;
-                double deltaAngle = spread / 8f;
-                double offsetAngle;
-                int i;
-                if (projectile.owner == Main.myPlayer)
-                {
-                    for (i = 0; i < 4; i++)
-                    {
-                        float speed = 4f;
-                        int seeProjFileforDmg = 0;
-                        if (CalamityWorld.death)
-                        {
-                            speed = 7f;
-                        }
-                        else if (CalamityWorld.revenge)
-                        {
-                            speed = 6f;
-                        }
-                        else if (Main.expertMode)
-                        {
-                            speed = 5f;
-                        }
-                        offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-                        Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(offsetAngle) * speed), (float)(Math.Cos(offsetAngle) * speed), ModContent.ProjectileType<DoGBeam>(), seeProjFileforDmg, projectile.knockBack, projectile.owner, 0f, 0f);
-                        Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * speed), (float)(-Math.Cos(offsetAngle) * speed), ModContent.ProjectileType<DoGBeam>(), seeProjFileforDmg, projectile.knockBack, projectile.owner, 0f, 0f);
-                    }
-                }
+				if (projectile.owner == Main.myPlayer)
+				{
+					float speed = 3f;
+					if (CalamityWorld.death || BossRushEvent.BossRushActive || CalamityWorld.malice)
+					{
+						speed = 5f;
+					}
+					else if (CalamityWorld.revenge)
+					{
+						speed = 4.5f;
+					}
+					else if (Main.expertMode)
+					{
+						speed = 4f;
+					}
+					speed *= projectile.ai[0];
+					int totalProjectiles = 8;
+					float radians = MathHelper.TwoPi / totalProjectiles;
+					for (int i = 0; i < totalProjectiles; i++)
+					{
+						Vector2 vector255 = new Vector2(0f, -speed).RotatedBy(radians * i);
+						Projectile.NewProjectile(projectile.Center, vector255, ModContent.ProjectileType<DoGBeam>(), 0, 0f, projectile.owner, projectile.damage, 0f);
+					}
+				}
                 beamTimer = 180;
             }
-            int num103 = (int)Player.FindClosest(projectile.Center, 1, 1);
+            int num103 = Player.FindClosest(projectile.Center, 1, 1);
             float scaleFactor2 = projectile.velocity.Length();
             Vector2 vector11 = Main.player[num103].Center - projectile.Center;
             if (Vector2.Distance(Main.player[num103].Center, projectile.Center) > 2000f)
             {
-                projectile.position.X = (float)(Main.player[num103].Center.X / 16) * 16f - (float)(projectile.width / 2);
-                projectile.position.Y = (float)(Main.player[num103].Center.Y / 16) * 16f - (float)(projectile.height / 2) - 250f;
+                projectile.position.X = Main.player[num103].Center.X / 16 * 16f - (projectile.width / 2);
+                projectile.position.Y = Main.player[num103].Center.Y / 16 * 16f - (projectile.height / 2) - 250f;
                 projectile.ai[1] = 0f;
                 beamTimer = 90;
             }
@@ -112,7 +108,7 @@ namespace CalamityMod.Projectiles.Boss
                     if (Main.rand.NextBool(2))
                     {
                         Main.dust[num622].scale = 0.5f;
-                        Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
+                        Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
                     }
                 }
                 for (int num623 = 0; num623 < 60; num623++)
@@ -130,11 +126,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override bool CanHitPlayer(Player target)
 		{
-            if (projectile.timeLeft < 85)
-            {
-                return false;
-            }
-            return true;
+            return false;
         }
 
         public override Color? GetAlpha(Color lightColor)
@@ -142,8 +134,8 @@ namespace CalamityMod.Projectiles.Boss
             if (projectile.timeLeft < 85)
             {
                 byte b2 = (byte)(projectile.timeLeft * 3);
-                byte a2 = (byte)(100f * ((float)b2 / 255f));
-                return new Color((int)b2, (int)b2, (int)b2, (int)a2);
+                byte a2 = (byte)(100f * (b2 / 255f));
+                return new Color(b2, b2, b2, a2);
             }
             return new Color(255, 255, 255, 100);
         }

@@ -49,7 +49,7 @@ namespace CalamityMod.Projectiles.Melee
 
 			projectile.rotation += (Math.Abs(projectile.velocity.X) + Math.Abs(projectile.velocity.Y)) * 0.01f * (float)projectile.direction;
 
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 400f, 12f, 20f);
+			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 200f, 12f, 20f);
         }
 
 		public override Color? GetAlpha(Color lightColor)
@@ -94,10 +94,5 @@ namespace CalamityMod.Projectiles.Melee
 				Gore.NewGore(projectile.position, new Vector2(projectile.velocity.X * 0.05f, projectile.velocity.Y * 0.05f), Main.rand.Next(16, 18), 1f);
 			}
 		}
-
-		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-        {
-            target.AddBuff(BuffID.CursedInferno, 180);
-        }
     }
 }

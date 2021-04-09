@@ -14,13 +14,13 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             DisplayName.SetDefault("Deathhail Staff");
             Tooltip.SetDefault("Rain death upon your foes!\n" +
-                "Casts a storm of nebula shots from the sky");
+                "Casts a storm of nebula lasers from the sky");
             Item.staff[item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 180;
+            item.damage = 132;
             item.magic = true;
             item.mana = 12;
             item.width = 80;
@@ -30,13 +30,13 @@ namespace CalamityMod.Items.Weapons.Magic
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 4f;
-            item.value = Item.buyPrice(1, 40, 0, 0);
-            item.rare = 10;
-            item.UseSound = SoundID.Item12;
+			item.value = CalamityGlobalItem.Rarity14BuyPrice;
+			item.rare = ItemRarityID.Purple;
+			item.Calamity().customRarity = CalamityRarity.DarkBlue;
+			item.UseSound = SoundID.Item12;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<MagicNebulaShot>();
             item.shootSpeed = 18f;
-            item.Calamity().customRarity = CalamityRarity.PureGreen;
         }
 
         /*public override Vector2? HoldoutOrigin()
@@ -46,8 +46,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
-            Vector2 origin = new Vector2(40f, 42f);
-            spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Items/Weapons/Magic/DeathhailStaffGlow"), item.Center - Main.screenPosition, null, Color.White, rotation, origin, 1f, SpriteEffects.None, 0f);
+			item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.GetTexture("CalamityMod/Items/Weapons/Magic/DeathhailStaffGlow"));
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -82,7 +81,7 @@ namespace CalamityMod.Items.Weapons.Magic
             int num107 = 2;
             for (int num108 = 0; num108 < num107; num108++)
             {
-                vector2 = new Vector2(player.position.X + (float)player.width * 0.5f + (float)(Main.rand.Next(201) * -(float)player.direction) + ((float)Main.mouseX + Main.screenPosition.X - player.position.X), player.MountedCenter.Y - 600f);
+                vector2 = new Vector2(player.position.X + (float)player.width * 0.5f + (float)(Main.rand.Next(91) * -(float)player.direction) + ((float)Main.mouseX + Main.screenPosition.X - player.position.X), player.MountedCenter.Y - 600f);
                 vector2.X = (vector2.X + player.Center.X) / 2f + (float)Main.rand.Next(-200, 201);
                 vector2.Y -= (float)(100 * num108);
                 num78 = (float)Main.mouseX + Main.screenPosition.X - vector2.X;
@@ -101,7 +100,7 @@ namespace CalamityMod.Items.Weapons.Magic
                 num79 *= num80;
                 float speedX4 = num78 + (float)Main.rand.Next(-50, 51) * 0.02f;
                 float speedY5 = num79 + (float)Main.rand.Next(-50, 51) * 0.02f;
-                Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, type, num73, num74, i, 0f, (float)Main.rand.Next(10));
+                Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, type, num73, num74, i, 0f, 0f);
             }
             return false;
         }

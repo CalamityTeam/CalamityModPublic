@@ -10,6 +10,8 @@ namespace CalamityMod.Projectiles.Rogue
 {   
     public class UrchinStingerProj : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/UrchinStinger";
+
         private int projdmg = 0;
         public override void SetStaticDefaults()
         {
@@ -32,7 +34,7 @@ namespace CalamityMod.Projectiles.Rogue
         {
             if (projectile.Calamity().stealthStrike)
             {
-                CalamityUtils.StickyProjAI(projectile, 15);
+                projectile.StickyProjAI(15);
                 projectile.localAI[1]++;
                 if (projectile.localAI[1] <= 20f && projectile.ai[0] != 1f)
                 {
@@ -50,8 +52,9 @@ namespace CalamityMod.Projectiles.Rogue
                 if (projectile.localAI[0] % 40 == 0 && projectile.ai[0] == 1f)
                 {
                     Vector2 projspeed = new Vector2(Main.rand.NextFloat(-4f, 4f), Main.rand.NextFloat(-4f, 4f));
-                    int proj = Projectile.NewProjectile(projectile.Center, projspeed, ModContent.ProjectileType<SulphuricAcidBubbleFriendly>(), (int)(projdmg * 0.5f), 1f, projectile.owner, 0f, 0f);
-                    Main.projectile[proj].Calamity().forceRogue = true;
+                    int proj = Projectile.NewProjectile(projectile.Center, projspeed, ModContent.ProjectileType<SulphuricAcidBubbleFriendly>(), (int)(projdmg * 0.5f), 1f, projectile.owner);
+					if (proj.WithinBounds(Main.maxProjectiles))
+						Main.projectile[proj].Calamity().forceRogue = true;
                 }
                 return false;
             }
@@ -63,7 +66,7 @@ namespace CalamityMod.Projectiles.Rogue
             if (projectile.Calamity().stealthStrike)
             {
                 projdmg = projectile.damage;
-                CalamityUtils.ModifyHitNPCSticky(projectile,4, false);
+                projectile.ModifyHitNPCSticky(4, false);
             }
         }
 

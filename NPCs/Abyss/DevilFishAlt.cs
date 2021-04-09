@@ -29,14 +29,14 @@ namespace CalamityMod.NPCs.Abyss
         {
             npc.noGravity = true;
             npc.lavaImmune = true;
-            npc.damage = 90;
+			npc.Calamity().canBreakPlayerDefense = true;
+			npc.damage = 90;
             npc.width = 126;
             npc.height = 66;
             npc.defense = 999999;
             npc.lifeMax = 400;
             npc.aiStyle = -1;
             aiType = -1;
-            npc.buffImmune[ModContent.BuffType<CrushDepth>()] = true;
             npc.value = Item.buyPrice(0, 0, 10, 0);
             npc.HitSound = SoundID.NPCHit4;
             npc.DeathSound = SoundID.NPCDeath1;
@@ -283,11 +283,6 @@ namespace CalamityMod.NPCs.Abyss
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
             player.AddBuff(ModContent.BuffType<CrushDepth>(), 180, true);
-            if (CalamityWorld.revenge)
-            {
-                player.AddBuff(ModContent.BuffType<MarkedforDeath>(), 120);
-                player.AddBuff(ModContent.BuffType<Horror>(), 120, true);
-            }
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
@@ -305,25 +300,24 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void NPCLoot()
         {
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<HalibutCannon>(), CalamityWorld.revenge, 1000000, 1, 1);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<HalibutCannon>(), CalamityWorld.revenge, HalibutCannon.DropChance);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<Lumenite>(), CalamityWorld.downedCalamitas, 0.5f);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<DepthCells>(), CalamityWorld.downedCalamitas, 0.5f, 1, 2);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<DepthCells>(), CalamityWorld.downedCalamitas && Main.expertMode, 0.5f);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<ChaoticOre>(), NPC.downedGolemBoss, 1f, 3, 9);
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<Hellborn>(), NPC.downedGolemBoss, 200, 1, 1);
         }
 
         public override void HitEffect(int hitDirection, double damage)
         {
             for (int k = 0; k < 5; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
             }
             if (npc.life <= 0)
             {
                 for (int k = 0; k < 25; k++)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
                 }
             }
 

@@ -1,15 +1,13 @@
-using CalamityMod.Items.Weapons.Rogue;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class LatcherMineProjectile : ModProjectile
+	public class LatcherMineProjectile : ModProjectile
     {
+        private int projdmg = 0;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Latcher Mine");
@@ -116,79 +114,8 @@ namespace CalamityMod.Projectiles.Rogue
         }
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            Rectangle myRect = new Rectangle((int)projectile.position.X, (int)projectile.position.Y, projectile.width, projectile.height);
-            if (projectile.owner == Main.myPlayer)
-            {
-                for (int i = 0; i < Main.npc.Length; i++)
-                {
-                    if (Main.npc[i].active && !Main.npc[i].dontTakeDamage &&
-                        ((projectile.friendly && (!Main.npc[i].friendly || projectile.type == 318 || (Main.npc[i].type == NPCID.Guide && projectile.owner < 255 && Main.player[projectile.owner].killGuide) || (Main.npc[i].type == NPCID.Clothier && projectile.owner < 255 && Main.player[projectile.owner].killClothier))) ||
-                        (projectile.hostile && Main.npc[i].friendly && !Main.npc[i].dontTakeDamageFromHostiles)) && (projectile.owner < 0 || Main.npc[i].immune[projectile.owner] == 0 || projectile.maxPenetrate == 1))
-                    {
-                        if (Main.npc[i].noTileCollide || !projectile.ownerHitCheck || projectile.CanHit(Main.npc[i]))
-                        {
-                            bool colliding;
-                            if (Main.npc[i].type == NPCID.SolarCrawltipedeTail)
-                            {
-                                Rectangle rect = Main.npc[i].getRect();
-                                rect.X -= 8;
-                                rect.Y -= 8;
-                                rect.Width += 16;
-                                rect.Height += 16;
-                                colliding = projectile.Colliding(myRect, rect);
-                            }
-                            else
-                            {
-                                colliding = projectile.Colliding(myRect, Main.npc[i].getRect());
-                            }
-                            if (colliding)
-                            {
-                                if (Main.npc[i].reflectingProjectiles && projectile.CanReflect())
-                                {
-                                    Main.npc[i].ReflectProjectile(projectile.whoAmI);
-                                    return;
-                                }
-                                projectile.ai[0] = 1f;
-                                projectile.ai[1] = (float)i;
-                                projectile.velocity = (Main.npc[i].Center - projectile.Center) * 0.75f;
-                                projectile.netUpdate = true;
-                                projectile.StatusNPC(i);
-                                projectile.damage = 0;
-                                const int maxNumberOfMines = 6;
-                                Point[] otherMinesArray = new Point[maxNumberOfMines];
-                                int otherMinesIndex = 0;
-                                for (int l = 0; l < Main.projectile.Length; l++)
-                                {
-                                    if (l != projectile.whoAmI && Main.projectile[l].active && 
-                                        Main.projectile[l].owner == Main.myPlayer && 
-                                        Main.projectile[l].type == projectile.type && 
-                                        Main.projectile[l].ai[0] == 1f && 
-                                        Main.projectile[l].ai[1] == (float)i)
-                                    {
-                                        otherMinesArray[otherMinesIndex++] = new Point(l, Main.projectile[l].timeLeft);
-                                        if (otherMinesIndex >= otherMinesArray.Length)
-                                        {
-                                            break;
-                                        }
-                                    }
-                                }
-                                if (otherMinesIndex >= otherMinesArray.Length)
-                                {
-                                    int idx = 0;
-                                    for (int m = 1; m < otherMinesArray.Length; m++)
-                                    {
-                                        if (otherMinesArray[m].Y < otherMinesArray[idx].Y)
-                                        {
-                                            idx = m;
-                                        }
-                                    }
-                                    Main.projectile[otherMinesArray[idx].X].Kill();
-                                }
-                            }
-                        }
-                    }
-                }
-            }
+			projdmg = projectile.damage;
+            projectile.ModifyHitNPCSticky(6, false);
         }
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
@@ -202,7 +129,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(SoundID.Dig, projectile.position);
+            Main.PlaySound(SoundID.Dig, projectile.Center);
             projectile.position = projectile.Center;
             projectile.width = projectile.height = (projectile.Calamity().stealthStrike ? 240 : 100);
             projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
@@ -213,18 +140,12 @@ namespace CalamityMod.Projectiles.Rogue
                 if (Main.rand.NextBool(2) && projectile.Calamity().stealthStrike)
                 {
                     Vector2 shrapnelVelocity = (Vector2.UnitY * (-16f + Main.rand.NextFloat(-3, 12f))).RotatedByRandom((double)MathHelper.ToRadians(40f));
-                    Projectile.NewProjectile(projectile.Top, shrapnelVelocity,
-                        ModContent.ProjectileType<BarrelShrapnel>(), projectile.damage, 3f, projectile.owner);
+                    Projectile.NewProjectile(projectile.Top, shrapnelVelocity, ModContent.ProjectileType<BarrelShrapnel>(), projdmg, 3f, projectile.owner);
                 }
                 else
                 {
                     Vector2 fireVelocity = (Vector2.UnitY * (-16f + Main.rand.NextFloat(-3, 12f))).RotatedByRandom((double)MathHelper.ToRadians(40f));
-                    int fireIndex = Projectile.NewProjectile(projectile.Top, fireVelocity,
-                        Main.rand.Next(ProjectileID.MolotovFire, ProjectileID.MolotovFire3 + 1),
-                        projectile.damage / 3, 1f, projectile.owner);
-                    Main.projectile[fireIndex].Calamity().forceRogue = true;
-                    Main.projectile[fireIndex].penetrate = -1;
-                    Main.projectile[fireIndex].usesLocalNPCImmunity = true;
+                    int fireIndex = Projectile.NewProjectile(projectile.Top, fireVelocity, ModContent.ProjectileType<TotalityFire>(), projdmg / 3, 1f, projectile.owner);
                     Main.projectile[fireIndex].localNPCHitCooldown = -2;
                 }
             }

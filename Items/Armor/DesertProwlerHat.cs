@@ -1,16 +1,12 @@
-using CalamityMod.Buffs.Cooldowns;
 using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
-using CalamityMod.Projectiles.Rogue;
-using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Armor
 {
-    [AutoloadEquip(EquipType.Head)]
+	[AutoloadEquip(EquipType.Head)]
     public class DesertProwlerHat : ModItem
     {
         public override void SetStaticDefaults()
@@ -24,7 +20,7 @@ namespace CalamityMod.Items.Armor
             item.width = 18;
             item.height = 18;
             item.value = CalamityGlobalItem.Rarity1BuyPrice;
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.defense = 1; //6
         }
 

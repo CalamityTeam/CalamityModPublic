@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
 	public class FrostyFlareProj : ModProjectile
 	{
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/FrostyFlare";
+
 		public override void SetDefaults()
 		{
 			projectile.width = 10;
@@ -40,7 +42,7 @@ namespace CalamityMod.Projectiles.Rogue
 			{
 				projectile.velocity.X *= 0.99f;
 				projectile.velocity.Y += 0.25f;
-				projectile.rotation = projectile.velocity.ToRotation();
+				projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
 
 				if (shoot)
 				{
@@ -113,10 +115,8 @@ namespace CalamityMod.Projectiles.Rogue
 						break;
 				}
 			}
-			//Main.NewText("found " + flaresFound.ToString());
 			if (flaresFound >= maxFlares && oldestFlare >= 0)
 			{
-				//Main.NewText("killing flare " + oldestFlare.ToString());
 				Main.projectile[oldestFlare].Kill();
 			}
 		}

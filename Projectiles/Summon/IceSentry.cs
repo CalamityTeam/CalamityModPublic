@@ -82,7 +82,6 @@ namespace CalamityMod.Projectiles.Summon
             NPC minionAttackTargetNpc = projectile.OwnerMinionAttackTargetNPC;
             if (minionAttackTargetNpc != null && projectile.ai[0] != minionAttackTargetNpc.whoAmI && minionAttackTargetNpc.CanBeChasedBy(projectile) && Collision.CanHit(projectile.Center, 0, 0, minionAttackTargetNpc.position, minionAttackTargetNpc.width, minionAttackTargetNpc.height))
             {
-                //Main.NewText("targeting special target");
                 projectile.ai[0] = minionAttackTargetNpc.whoAmI;
                 projectile.ai[1] = 0f;
                 projectile.localAI[0] = 0f;
@@ -104,13 +103,11 @@ namespace CalamityMod.Projectiles.Summon
                     float delay = 60f - projectile.ai[1] / 60f * 10f;
                     if (projectile.localAI[0] > delay)
                     {
-                        //Main.NewText("time to attack, delay " + delay.ToString());
                         projectile.localAI[0] = 0f;
 
                         rememberTarget = Collision.CanHit(projectile.Center, 0, 0, npc.position, npc.width, npc.height);
                         if (rememberTarget && projectile.owner == Main.myPlayer)
                         {
-                            //Main.NewText("i attacked");
                             Vector2 speed = npc.Center - projectile.Center;
                             speed.Normalize();
                             speed *= 8f;
@@ -118,14 +115,11 @@ namespace CalamityMod.Projectiles.Summon
                                 speed = speed.RotatedBy(MathHelper.ToRadians(Main.rand.Next(-5, 6))) * 1.5f + npc.velocity / 2f;
                             Projectile.NewProjectile(projectile.Center, speed + npc.velocity / 2f, ModContent.ProjectileType<IceSentryFrostBolt>(), projectile.damage, projectile.knockBack, projectile.owner);
                         }
-
-                        //if (!rememberTarget) Main.NewText("couldn't hit target");
                     }
                 }
 
                 if (!rememberTarget)
                 {
-                    //Main.NewText("forgetting target");
                     projectile.ai[0] = -1f;
                     projectile.ai[1] = 0f;
                     projectile.netUpdate = true;

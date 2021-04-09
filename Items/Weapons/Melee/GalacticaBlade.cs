@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetDefaults()
         {
             item.width = 60;
-            item.damage = 110;
+            item.damage = 84;
             item.melee = true;
             item.useAnimation = 17;
             item.useStyle = ItemUseStyleID.SwingThrow;
@@ -30,11 +30,11 @@ namespace CalamityMod.Items.Weapons.Melee
             item.UseSound = SoundID.Item105;
             item.autoReuse = true;
             item.height = 58;
-            item.value = Item.buyPrice(1, 20, 0, 0);
-            item.rare = 10;
-            item.shoot = ModContent.ProjectileType<GalacticaComet>();
+			item.value = CalamityGlobalItem.Rarity12BuyPrice;
+			item.rare = ItemRarityID.Purple;
+			item.Calamity().customRarity = CalamityRarity.Turquoise;
+			item.shoot = ModContent.ProjectileType<GalacticaComet>();
             item.shootSpeed = 23f;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
         }
 
         public override void AddRecipes()

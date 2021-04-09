@@ -1,13 +1,11 @@
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.World;
-using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.NPCs.NormalNPCs
 {
-    public class Bohldohr : ModNPC
+	public class Bohldohr : ModNPC
     {
         public override void SetStaticDefaults()
         {
@@ -16,9 +14,10 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void SetDefaults()
         {
-            npc.aiStyle = -1;
+			npc.Calamity().canBreakPlayerDefense = true;
+			npc.aiStyle = -1;
             aiType = -1;
-            npc.damage = 150;
+            npc.damage = 80;
             npc.width = 40;
             npc.height = 40;
             npc.defense = 18;
@@ -34,7 +33,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void AI()
         {
-            CalamityAI.UnicornAI(npc, mod, true, 4f, 5f, 0.2f);
+            CalamityAI.UnicornAI(npc, mod, true, CalamityWorld.death ? 6f : 4f, 5f, 0.2f);
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
@@ -43,7 +42,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             {
                 return 0f;
             }
-            return SpawnCondition.JungleTemple.Chance * 0.05f;
+            return SpawnCondition.JungleTemple.Chance * 0.1f;
         }
 
         public override void HitEffect(int hitDirection, double damage)
@@ -66,7 +65,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             if (CalamityWorld.downedSCal)
             {
                 // RIP LORDE
-                // Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<NO>());
+                // DropHelper.DropItem(npc, ModContent.ItemType<NO>());
             }
             DropHelper.DropItem(npc, ItemID.LihzahrdBrick, 10, 30);
             DropHelper.DropItemChance(npc, ItemID.LunarTabletFragment, 7, 1, 3); //solar tablet fragment

@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Spore Knife");
-            Tooltip.SetDefault("Enemies release spore clouds on death");
+            Tooltip.SetDefault("Enemies release spore clouds on hit");
         }
 
         public override void SetDefaults()
@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.useTurn = true;
             item.autoReuse = true;
             item.value = Item.buyPrice(0, 2, 0, 0);
-            item.rare = 2;
+            item.rare = ItemRarityID.Green;
         }
 
         public override void AddRecipes()
@@ -44,27 +44,21 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void MeleeEffects(Player player, Rectangle hitbox)
         {
             if (Main.rand.NextBool(5))
-            {
-                int dust = Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 2);
-            }
+                Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 2);
         }
 
-        public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
-        {
-            if (target.life <= 0)
-            {
-                int proj = Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, Main.rand.Next(569, 572), (int)(item.damage * (player.allDamage + player.meleeDamage - 1f)), knockback, Main.myPlayer);
-                Main.projectile[proj].Calamity().forceMelee = true;
-            }
-        }
+		public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
+		{
+			int proj = Projectile.NewProjectile(target.Center, Vector2.Zero, Main.rand.Next(569, 572), (int)(item.damage * 0.5f * player.MeleeDamage()), knockback, Main.myPlayer);
+			if (proj.WithinBounds(Main.maxProjectiles))
+				Main.projectile[proj].Calamity().forceMelee = true;
+		}
 
-        public override void OnHitPvp(Player player, Player target, int damage, bool crit)
-        {
-            if (target.statLife <= 0)
-            {
-                int proj = Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, Main.rand.Next(569, 572), (int)(item.damage * (player.allDamage + player.meleeDamage - 1f)), item.knockBack, Main.myPlayer);
-                Main.projectile[proj].Calamity().forceMelee = true;
-            }
-        }
+		public override void OnHitPvp(Player player, Player target, int damage, bool crit)
+		{
+			int proj = Projectile.NewProjectile(target.Center, Vector2.Zero, Main.rand.Next(569, 572), (int)(item.damage * 0.5f * player.MeleeDamage()), item.knockBack, Main.myPlayer);
+			if (proj.WithinBounds(Main.maxProjectiles))
+				Main.projectile[proj].Calamity().forceMelee = true;
+		}
     }
 }

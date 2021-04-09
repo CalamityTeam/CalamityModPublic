@@ -1,14 +1,15 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    public class Razorwind : ModProjectile
+	public class Razorwind : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/TornadoProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Razorwind");
@@ -52,7 +53,7 @@ namespace CalamityMod.Projectiles.Melee
                 }
             }
 
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 450f, 15f, 20f);
+			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 250f, 12f, 20f);
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)

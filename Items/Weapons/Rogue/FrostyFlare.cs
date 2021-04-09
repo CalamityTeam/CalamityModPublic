@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.autoReuse = true;
             item.knockBack = 2f;
             item.value = Item.buyPrice(0, 0, 8, 0);
-            item.rare = 6;
+            item.rare = ItemRarityID.LightPurple;
             item.shoot = ModContent.ProjectileType<FrostyFlareProj>();
             item.shootSpeed = 22f;
             item.maxStack = 999;
@@ -44,8 +44,9 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
 			if (player.Calamity().StealthStrikeAvailable())
 			{
-				int gemstone = Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<FrostyFlareStealth>(), damage, knockBack, player.whoAmI, 0f, 0f);
-				Main.projectile[gemstone].Calamity().stealthStrike = true;
+				int flare = Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<FrostyFlareStealth>(), damage, knockBack, player.whoAmI);
+				if (flare.WithinBounds(Main.maxProjectiles))
+					Main.projectile[flare].Calamity().stealthStrike = true;
 				return false;
 			}
 			return true;

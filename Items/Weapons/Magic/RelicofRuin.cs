@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.damage = 26;
+            item.damage = 20;
             item.magic = true;
             item.mana = 16;
             item.width = 28;
@@ -28,25 +28,21 @@ namespace CalamityMod.Items.Weapons.Magic
             item.noMelee = true;
             item.knockBack = 4.25f;
             item.value = Item.buyPrice(0, 36, 0, 0);
-            item.rare = 5;
+            item.rare = ItemRarityID.Pink;
             item.UseSound = SoundID.Item84;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<ForbiddenAxeBlade>();
-            item.shootSpeed = 30f;
+            item.shootSpeed = 5f;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            float spread = 22.5f * 0.0174f;
-            double startAngle = Math.Atan2(speedX, speedY) - spread / 2;
-            double deltaAngle = spread / 8f;
-            double offsetAngle;
-            int i;
-            for (i = 0; i < 8; i++)
+			int totalProjectiles = 12;
+			float radians = MathHelper.TwoPi / totalProjectiles;
+            for (int i = 0; i < totalProjectiles; i++)
             {
-                offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-                Projectile.NewProjectile(position.X, position.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), type, damage, knockBack, Main.myPlayer);
-                Projectile.NewProjectile(position.X, position.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), type, damage, knockBack, Main.myPlayer);
+				Vector2 vector = new Vector2(0f, -item.shootSpeed).RotatedBy(radians * i);
+				Projectile.NewProjectile(position, vector, type, damage, knockBack, Main.myPlayer);
             }
             return false;
         }

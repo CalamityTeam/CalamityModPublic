@@ -11,6 +11,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class ValariBoomerang : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/FrostcrushValari";
+
         //This variable will be used for the stealth strike
         public float ReboundTime = 0f;
         public float timer = 0f;
@@ -94,25 +96,25 @@ namespace CalamityMod.Projectiles.Rogue
                 // Home back in on the player.
                 if (projectile.velocity.X < xDist)
                 {
-                    projectile.velocity.X = projectile.velocity.X + acceleration;
+                    projectile.velocity.X += acceleration;
                     if (projectile.velocity.X < 0f && xDist > 0f)
                         projectile.velocity.X += acceleration;
                 }
                 else if (projectile.velocity.X > xDist)
                 {
-                    projectile.velocity.X = projectile.velocity.X - acceleration;
+                    projectile.velocity.X -= acceleration;
                     if (projectile.velocity.X > 0f && xDist < 0f)
                         projectile.velocity.X -= acceleration;
                 }
                 if (projectile.velocity.Y < yDist)
                 {
-                    projectile.velocity.Y = projectile.velocity.Y + acceleration;
+                    projectile.velocity.Y += acceleration;
                     if (projectile.velocity.Y < 0f && yDist > 0f)
                         projectile.velocity.Y += acceleration;
                 }
                 else if (projectile.velocity.Y > yDist)
                 {
-                    projectile.velocity.Y = projectile.velocity.Y - acceleration;
+                    projectile.velocity.Y -= acceleration;
                     if (projectile.velocity.Y > 0f && yDist < 0f)
                         projectile.velocity.Y -= acceleration;
                 }
@@ -125,27 +127,26 @@ namespace CalamityMod.Projectiles.Rogue
             }
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        private void OnHitEffects()
         {
             //Start homing at player if you hit an enemy
             projectile.ai[0] = 1;
 
-			int num251 = Main.rand.Next(2, 4);
+			int icicleAmt = Main.rand.Next(2, 4);
 			if (projectile.owner == Main.myPlayer)
 			{
-				for (int num252 = 0; num252 < num251; num252++)
+				for (int i = 0; i < icicleAmt; i++)
 				{
-					Vector2 value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-					while (value15.X == 0f && value15.Y == 0f)
-					{
-						value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-					}
-					value15.Normalize();
-					value15 *= (float)Main.rand.Next(70, 101) * 0.1f;
-					int shard = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value15.X, value15.Y, (Main.rand.NextBool(2) ? ModContent.ProjectileType<Valaricicle>() : ModContent.ProjectileType<Valaricicle2>()), projectile.damage / 3, 0f, projectile.owner, 0f, 0f);
+					Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
+					int shard = Projectile.NewProjectile(projectile.Center, velocity, Main.rand.NextBool(2) ? ModContent.ProjectileType<Valaricicle>() : ModContent.ProjectileType<Valaricicle2>(), projectile.damage / 3, 0f, projectile.owner);
 				}
 			}
+		}
 
+
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
+			OnHitEffects();
             target.AddBuff(BuffID.Frostburn, 240);
             target.AddBuff(ModContent.BuffType<CrushDepth>(), 240);
 			if (Main.rand.NextBool(5))
@@ -154,25 +155,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-            //Start homing at player if you hit someone
-            projectile.ai[0] = 1;
-
-			int num251 = Main.rand.Next(2, 4);
-			if (projectile.owner == Main.myPlayer)
-			{
-				for (int num252 = 0; num252 < num251; num252++)
-				{
-					Vector2 value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-					while (value15.X == 0f && value15.Y == 0f)
-					{
-						value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-					}
-					value15.Normalize();
-					value15 *= (float)Main.rand.Next(70, 101) * 0.1f;
-					int shard = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value15.X, value15.Y, (Main.rand.NextBool(2) ? ModContent.ProjectileType<Valaricicle>() : ModContent.ProjectileType<Valaricicle2>()), projectile.damage / 3, 0f, projectile.owner, 0f, 0f);
-				}
-			}
-
+			OnHitEffects();
             target.AddBuff(BuffID.Frostburn, 240);
             target.AddBuff(ModContent.BuffType<CrushDepth>(), 240);
 			if (Main.rand.NextBool(5))

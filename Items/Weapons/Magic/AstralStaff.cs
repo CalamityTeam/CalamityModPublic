@@ -19,7 +19,6 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void SetDefaults()
         {
             item.damage = 270;
-            item.crit += 15;
             item.magic = true;
             item.mana = 26;
             item.width = 86;
@@ -30,17 +29,17 @@ namespace CalamityMod.Items.Weapons.Magic
             item.noMelee = true;
             item.knockBack = 5f;
             item.value = Item.buyPrice(0, 95, 0, 0);
-            item.rare = 9;
+            item.rare = ItemRarityID.Cyan;
             item.UseSound = SoundID.Item105;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<AstralCrystal>();
             item.shootSpeed = 15f;
         }
 
-        public override Vector2? HoldoutOrigin()
-        {
-            return new Vector2(15, 15);
-        }
+		// Terraria seems to really dislike high crit values in SetDefaults
+		public override void GetWeaponCrit(Player player, ref int crit) => crit += 15;
+
+        public override Vector2? HoldoutOrigin() => new Vector2(15, 15);
 
         public override void AddRecipes()
         {

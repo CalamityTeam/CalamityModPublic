@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Armor
 			DisplayName.SetDefault("Prismatic Helmet");
 			Tooltip.SetDefault("8% increased magic damage and 12% increased magic crit\n" +
 				"20% decreased non-magic damage\n" +
-				"Enemies with less than 500 health deal no damage\n" +
+				"Enemies with less than 500 max health deal no contact damage\n" +
 				"This does not occur while a boss is alive");
 		}
 
@@ -23,8 +23,10 @@ namespace CalamityMod.Items.Armor
 			item.width = 18;
 			item.height = 18;
 			item.defense = 18; //71
-			item.value = CalamityGlobalItem.Rarity13BuyPrice;
-			item.Calamity().customRarity = CalamityRarity.Dedicated;
+
+			item.value = CalamityGlobalItem.Rarity12BuyPrice;
+			item.Calamity().customRarity = CalamityRarity.Turquoise;
+			item.Calamity().donorItem = true;
 		}
 
 		public override bool IsArmorSet(Item head, Item body, Item legs)

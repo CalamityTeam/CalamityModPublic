@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Accessories.Wings
                 "Horizontal speed: 9.5\n" +
                 "Acceleration multiplier: 2.5\n" +
                 "Great vertical speed\n" +
-                "Flight time: 210\n" +
+                "Flight time: 250\n" +
                 "+15 defense and +2 life regen while wearing the Tarragon Armor");
         }
 
@@ -28,19 +28,10 @@ namespace CalamityMod.Items.Accessories.Wings
         {
             item.width = 22;
             item.height = 20;
-            item.value = Item.buyPrice(0, 39, 99, 99);
+			item.rare = ItemRarityID.Purple;
+			item.value = CalamityGlobalItem.Rarity12BuyPrice;
+			item.Calamity().customRarity = CalamityRarity.Turquoise;
             item.accessory = true;
-        }
-
-        public override void ModifyTooltips(List<TooltipLine> list)
-        {
-            foreach (TooltipLine line2 in list)
-            {
-                if (line2.mod == "Terraria" && line2.Name == "ItemName")
-                {
-                    line2.overrideColor = new Color(0, 255, 200);
-                }
-            }
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
@@ -70,7 +61,7 @@ namespace CalamityMod.Items.Accessories.Wings
                 }
                 Main.dust[num60].shader = GameShaders.Armor.GetSecondaryShader(player.cWings, player);
             }
-            player.wingTimeMax = 210;
+            player.wingTimeMax = 250;
             player.noFallDmg = true;
         }
 

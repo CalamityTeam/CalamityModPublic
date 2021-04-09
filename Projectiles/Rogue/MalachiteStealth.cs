@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Rogue
 	public class MalachiteStealth : ModProjectile
 	{
 		private const int lifeSpan = 300;
-		public override string Texture => "CalamityMod/Projectiles/Rogue/MalachiteProj";
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/Malachite";
 
 		public override void SetStaticDefaults()
 		{
@@ -38,14 +38,14 @@ namespace CalamityMod.Projectiles.Rogue
 		{
 			if (projectile.ai[0] == 0f)
 			{
-				projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + MathHelper.PiOver2;
-				CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 800f, 10f, 25f);
+				projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
+				CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 300f, 10f, 25f);
 				projectile.localAI[1] += 1f;
 				if (projectile.localAI[1] > 4f)
 				{
 					for (int num468 = 0; num468 < 3; num468++)
 					{
-						int num469 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 107, 0f, 0f, 100, new Color(Main.DiscoR, 203, 103), 0.75f);
+						int num469 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 107, 0f, 0f, 100, new Color(Main.DiscoR, 203, 103), 0.75f);
 						Main.dust[num469].noGravity = true;
 						Main.dust[num469].velocity *= 0f;
 					}
@@ -54,7 +54,7 @@ namespace CalamityMod.Projectiles.Rogue
 			else
 			{
 				int id = (int)projectile.ai[1];
-				if (id >= 0 && id < Main.maxNPCs && Main.npc[id].active && !Main.npc[id].dontTakeDamage)
+				if (id.WithinBounds(Main.maxNPCs) && Main.npc[id].active && !Main.npc[id].dontTakeDamage)
 				{
 					projectile.Center = Main.npc[id].Center - projectile.velocity * 2f;
 					projectile.gfxOffY = Main.npc[id].gfxOffY;
@@ -83,14 +83,11 @@ namespace CalamityMod.Projectiles.Rogue
 		public override void Kill(int timeLeft)
 		{
 			projectile.ai[0] = 2f;
-			projectile.position = projectile.Center;
-			projectile.width = projectile.height = 112;
-			projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
-			projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
+			CalamityGlobalProjectile.ExpandHitboxBy(projectile, 112);
 			Main.PlaySound(SoundID.Item14, projectile.position);
 			for (int i = 0; i < 7; i++)
 			{
-				int dusty = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 107, 0f, 0f, 100, new Color(Main.DiscoR, 203, 103), 1.2f);
+				int dusty = Dust.NewDust(projectile.position, projectile.width, projectile.height, 107, 0f, 0f, 100, new Color(Main.DiscoR, 203, 103), 1.2f);
 				Main.dust[dusty].velocity *= 3f;
 				if (Main.rand.NextBool(2))
 				{
@@ -100,10 +97,10 @@ namespace CalamityMod.Projectiles.Rogue
 			}
 			for (int j = 0; j < 15; j++)
 			{
-				int green = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 107, 0f, 0f, 100, new Color(Main.DiscoR, 203, 103), 1.7f);
+				int green = Dust.NewDust(projectile.position, projectile.width, projectile.height, 107, 0f, 0f, 100, new Color(Main.DiscoR, 203, 103), 1.7f);
 				Main.dust[green].noGravity = true;
 				Main.dust[green].velocity *= 5f;
-				green = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 107, 0f, 0f, 100, new Color(Main.DiscoR, 203, 103), 1f);
+				green = Dust.NewDust(projectile.position, projectile.width, projectile.height, 107, 0f, 0f, 100, new Color(Main.DiscoR, 203, 103), 1f);
 				Main.dust[green].velocity *= 2f;
 			}
 			projectile.usesLocalNPCImmunity = true;
@@ -139,10 +136,8 @@ namespace CalamityMod.Projectiles.Rogue
 						break;
 				}
 			}
-			// Main.NewText("found " + kunaiFound.ToString());
 			if (kunaiFound >= maxKunai && oldestKunai >= 0)
 			{
-				// Main.NewText("killing kunai " + oldestKunai.ToString());
 				Main.projectile[oldestKunai].Kill();
 			}
 		}

@@ -22,15 +22,15 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             item.damage = 75;
             item.melee = true;
-            item.width = 42;
-            item.height = 50;
+            item.width = item.height = 52;
+			item.scale = 1.5f;
             item.useTime = 23;
             item.useAnimation = 23;
             item.useTurn = true;
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.knockBack = 7.5f;
             item.value = Item.buyPrice(0, 36, 0, 0);
-            item.rare = 5;
+            item.rare = ItemRarityID.Pink;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             item.shootSpeed = 20f;

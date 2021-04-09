@@ -23,7 +23,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.alpha = 55;
             projectile.friendly = true;
             projectile.melee = true;
-            projectile.penetrate = 3;
+            projectile.penetrate = 5;
             projectile.timeLeft = 240;
             projectile.ignoreWater = true;
 			projectile.tileCollide = false;
@@ -34,7 +34,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void AI()
         {
-			float num395 = (float)Main.mouseTextColor / 200f - 0.35f;
+			float num395 = Main.mouseTextColor / 200f - 0.35f;
 			num395 *= 0.2f;
 			projectile.scale = num395 + 0.95f;
 

@@ -1,10 +1,12 @@
 using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Items.Weapons.Melee;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.Projectiles.Melee
 {
     public class GhastlySoulLarge : ModProjectile
@@ -66,7 +68,7 @@ namespace CalamityMod.Projectiles.Melee
                     return;
                 }
 
-				CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 600f, 14f, 20f);
+                CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 300f, 12f, 20f);
             }
             else
             {
@@ -79,10 +81,10 @@ namespace CalamityMod.Projectiles.Melee
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-			if (projectile.timeLeft > 595)
-				return false;
+            if (projectile.timeLeft > 595)
+                return false;
 
-			CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
             return false;
         }
 
@@ -113,7 +115,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 10;
             projectile.Damage();
-            Main.PlaySound(SoundID.NPCDeath39, projectile.position);
+            Main.PlaySound(SoulEdge.ProjectileDeathSound, projectile.Center);
             int num226 = 36;
             for (int num227 = 0; num227 < num226; num227++)
             {

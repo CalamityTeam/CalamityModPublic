@@ -1,11 +1,12 @@
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Melee
 {
-    public class Blood : ModProjectile
+	public class Blood : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Blood");
@@ -17,11 +18,13 @@ namespace CalamityMod.Projectiles.Melee
             projectile.height = 4;
             projectile.friendly = true;
             projectile.melee = true;
-            projectile.penetrate = 2;
+            projectile.penetrate = 1;
             projectile.timeLeft = 180;
         }
 
-        public override void AI()
+		public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 150;
+
+		public override void AI()
         {
             projectile.localAI[0] += 1f;
             if (projectile.localAI[0] > 4f)
@@ -34,7 +37,8 @@ namespace CalamityMod.Projectiles.Melee
                 }
             }
 
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 400f, 6f, 20f);
+			if (projectile.timeLeft < 150)
+				CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 600f, 6f, 20f);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
@@ -42,8 +46,9 @@ namespace CalamityMod.Projectiles.Melee
             Player player = Main.player[projectile.owner];
 			if (player.moonLeech)
 				return;
-            player.statLife += 5;
-            player.HealEffect(5);
+			int healAmt = projectile.ai[0] == 1f ? 3 : 5;
+			player.statLife += healAmt;
+            player.HealEffect(healAmt);
         }
     }
 }

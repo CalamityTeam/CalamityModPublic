@@ -1,13 +1,11 @@
 using System;
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class LuminousShard : ModProjectile
+	public class LuminousShard : ModProjectile
     {
 		bool gravity = false;
 
@@ -26,17 +24,21 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.Calamity().rogue = true;
 		}
 
+		public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 90;
+
 		public override void AI()
         {
 			if (projectile.ai[0] == 0f && projectile.velocity.X == 0f && projectile.velocity.Y == -2f)
 				gravity = true;
 
 			projectile.ai[0] = 1f;
-			projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
+			projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + MathHelper.PiOver2;
 
 			if (gravity)
 				projectile.velocity.Y *= 1.05f;
 
+			if (projectile.timeLeft < 90)
+				CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 600f, 10f, 20f);
 		}
 
 		public override void Kill(int timeLeft)

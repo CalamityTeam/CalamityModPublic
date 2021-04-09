@@ -1,3 +1,4 @@
+using CalamityMod.Dusts;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
 using Terraria;
@@ -20,7 +21,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.width = 72;
             npc.height = 36;
             npc.defense = 50;
-            npc.Calamity().RevPlusDR(0.1f);
+			npc.DR_NERD(0.1f);
             npc.lifeMax = 6000;
             npc.knockBackResist = 0f;
             aiType = -1;
@@ -66,20 +67,20 @@ namespace CalamityMod.NPCs.NormalNPCs
         {
             for (int k = 0; k < 5; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, 244, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.ProfanedFire, hitDirection, -1f, 0, default, 1f);
             }
             if (npc.life <= 0)
             {
                 for (int k = 0; k < 50; k++)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, 244, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.ProfanedFire, hitDirection, -1f, 0, default, 1f);
                 }
             }
         }
 
         public override void NPCLoot()
         {
-            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<UnholyEssence>(), Main.rand.Next(2, 5));
+			DropHelper.DropItem(npc, ModContent.ItemType<UnholyEssence>(), 2, 4);
         }
     }
 }

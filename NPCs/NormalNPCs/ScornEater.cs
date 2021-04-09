@@ -1,3 +1,6 @@
+using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Dusts;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.World;
@@ -17,22 +20,17 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void SetDefaults()
         {
-            npc.npcSlots = 3f;
+			npc.Calamity().canBreakPlayerDefense = true;
+			npc.npcSlots = 3f;
             npc.aiStyle = -1;
             npc.damage = 90;
             npc.width = 160;
             npc.height = 160;
             npc.defense = 38;
-            npc.Calamity().RevPlusDR(0.05f);
-            npc.lifeMax = 16000;
+			npc.DR_NERD(0.05f);
+            npc.lifeMax = 12000;
             npc.knockBackResist = 0f;
             aiType = -1;
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
-            npc.buffImmune[BuffID.Ichor] = false;
-            npc.buffImmune[BuffID.CursedInferno] = false;
             npc.lavaImmune = true;
             npc.value = Item.buyPrice(0, 0, 50, 0);
             npc.DeathSound = mod.GetLegacySoundSlot(SoundType.NPCKilled, "Sounds/NPCKilled/ScornDeath");
@@ -170,13 +168,13 @@ namespace CalamityMod.NPCs.NormalNPCs
             }
             for (int k = 0; k < 5; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, 244, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.ProfanedFire, hitDirection, -1f, 0, default, 1f);
             }
             if (npc.life <= 0)
             {
                 for (int k = 0; k < 50; k++)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, 244, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.ProfanedFire, hitDirection, -1f, 0, default, 1f);
                 }
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/ScornEater"), 1f);
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/ScornEater2"), 1f);
@@ -189,7 +187,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void NPCLoot()
         {
-            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<UnholyEssence>(), Main.rand.Next(2, 5));
+			DropHelper.DropItem(npc, ModContent.ItemType<UnholyEssence>(), 2, 4);
         }
     }
 }

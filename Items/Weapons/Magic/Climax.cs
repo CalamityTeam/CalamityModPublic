@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.damage = 80;
+            item.damage = 131;
             item.magic = true;
             item.mana = 30;
             item.width = 78;
@@ -30,8 +30,8 @@ namespace CalamityMod.Items.Weapons.Magic
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 5f;
-            item.value = Item.buyPrice(2, 50, 0, 0);
-            item.rare = 10;
+            item.value = CalamityGlobalItem.Rarity15BuyPrice;
+            item.rare = ItemRarityID.Purple;
             item.UseSound = SoundID.Item20;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<ClimaxProj>();
@@ -69,11 +69,10 @@ namespace CalamityMod.Items.Weapons.Magic
             double startAngle = Math.Atan2(speedX, speedY) - spread / 2;
             double deltaAngle = spread / 8f;
             double offsetAngle;
-            int i;
-            for (i = 0; i < 4; i++)
+            for (int i = 0; i < 4; i++)
             {
                 offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-                Projectile.NewProjectile(vector2.X, vector2.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), type, damage, knockBack, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(vector2.X, vector2.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), type, damage, knockBack, player.whoAmI, 1f, 0f);
                 Projectile.NewProjectile(vector2.X, vector2.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), type, damage, knockBack, player.whoAmI, 0f, 0f);
             }
             return false;
@@ -83,7 +82,7 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<MagneticMeltdown>());
-            recipe.AddIngredient(ModContent.ItemType<DarksunFragment>(), 15);
+            recipe.AddIngredient(ModContent.ItemType<HellcasterFragment>(), 5);
             recipe.AddTile(ModContent.TileType<DraedonsForge>());
             recipe.SetResult(this);
             recipe.AddRecipe();

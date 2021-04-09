@@ -1,5 +1,3 @@
-using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Buffs.StatDebuffs;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -11,6 +9,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class SupernovaBomb : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/Supernova";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Supernova Bomb");
@@ -50,14 +50,14 @@ namespace CalamityMod.Projectiles.Rogue
                 projectile.ai[0] = 10f;
                 if (projectile.velocity.Y == 0f && projectile.velocity.X != 0f)
                 {
-                    projectile.velocity.X = projectile.velocity.X * 0.97f;
-                    if ((double)projectile.velocity.X > -0.01 && (double)projectile.velocity.X < 0.01)
+                    projectile.velocity.X *= 0.97f;
+                    if (Math.Abs(projectile.velocity.X) < 0.01f)
                     {
                         projectile.velocity.X = 0f;
                         projectile.netUpdate = true;
                     }
                 }
-                projectile.velocity.Y = projectile.velocity.Y + 0.2f;
+                projectile.velocity.Y += 0.2f;
             }
 
 			//rotation
@@ -70,7 +70,7 @@ namespace CalamityMod.Projectiles.Rogue
 				{
 					if (projectile.owner == Main.myPlayer)
 					{
-						Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X * 0f, 2f, ModContent.ProjectileType<SupernovaHoming>(), (int)((double)projectile.damage * 0.8), projectile.knockBack, projectile.owner, 0f, 0f);
+						Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X * 0f, 2f, ModContent.ProjectileType<SupernovaHoming>(), (int)(projectile.damage * 0.8), projectile.knockBack, projectile.owner, 0f, 0f);
 					}
 				}
             }
@@ -85,87 +85,64 @@ namespace CalamityMod.Projectiles.Rogue
             Main.PlaySound(SoundID.Item14, projectile.position);
 
             //spawn projectiles
-            int num251 = Main.rand.Next(3, 5);
+            int projAmt = Main.rand.Next(3, 5);
             if (projectile.owner == Main.myPlayer)
             {
-				Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<SupernovaBoom>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
-                for (int num252 = 0; num252 < num251; num252++)
+				Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<SupernovaBoom>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                for (int i = 0; i < projAmt; i++)
                 {
-                    Vector2 value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-                    while (value15.X == 0f && value15.Y == 0f)
-                    {
-                        value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-                    }
-                    value15.Normalize();
-                    value15 *= (float)Main.rand.Next(70, 101) * 0.1f;
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value15.X, value15.Y, ModContent.ProjectileType<SupernovaSpike>(), (int)((double)projectile.damage * 0.6), 0f, projectile.owner, 0f, 0f);
+					Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
+                    Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<SupernovaSpike>(), (int)(projectile.damage * 0.6), 0f, projectile.owner, 0f, 0f);
                 }
-				float spread = 60f * 0.0174f;
+				float spread = MathHelper.Pi / 3f;
 				double startAngle = Math.Atan2(projectile.velocity.X, projectile.velocity.Y) - spread / 2;
 				double deltaAngle = spread / 6f;
 				double offsetAngle;
-				int i;
-				for (i = 0; i < 3; i++)
+				for (int i = 0; i < 3; i++)
 				{
 					offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-					Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 2f), (float)(Math.Cos(offsetAngle) * 2f), ModContent.ProjectileType<SupernovaHoming>(), (int)((double)projectile.damage * 0.5), projectile.knockBack, projectile.owner, 0f, 0f);
-					Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 2f), (float)(-Math.Cos(offsetAngle) * 2f), ModContent.ProjectileType<SupernovaHoming>(), (int)((double)projectile.damage * 0.5), projectile.knockBack, projectile.owner, 0f, 0f);
+					Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 2f), (float)(Math.Cos(offsetAngle) * 2f), ModContent.ProjectileType<SupernovaHoming>(), (int)(projectile.damage * 0.5), projectile.knockBack, projectile.owner, 0f, 0f);
+					Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 2f), (float)(-Math.Cos(offsetAngle) * 2f), ModContent.ProjectileType<SupernovaHoming>(), (int)(projectile.damage * 0.5), projectile.knockBack, projectile.owner, 0f, 0f);
 				}
             }
 
 			//dust effects
-			int num298 = Main.rand.NextBool(2) ? 107 : 234;
+			int dustType = Main.rand.NextBool(2) ? 107 : 234;
 			if (Main.rand.NextBool(4))
 			{
-				num298 = 269;
+				dustType = 269;
 			}
-            for (int num621 = 0; num621 < 5; num621++)
+            for (int d = 0; d < 5; d++)
             {
-                int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, num298, 0f, 0f, 100, default, 2f);
-                Main.dust[num622].velocity *= 3f;
+                int exo = Dust.NewDust(projectile.position, projectile.width, projectile.height, dustType, 0f, 0f, 100, default, 2f);
+                Main.dust[exo].velocity *= 3f;
                 if (Main.rand.NextBool(2))
                 {
-                    Main.dust[num622].scale = 0.5f;
-                    Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
+                    Main.dust[exo].scale = 0.5f;
+                    Main.dust[exo].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
                 }
             }
-            for (int num623 = 0; num623 < 9; num623++)
+            for (int d = 0; d < 9; d++)
             {
-                int num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 6, 0f, 0f, 100, default, 3f);
-                Main.dust[num624].noGravity = true;
-                Main.dust[num624].velocity *= 5f;
-                num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 6, 0f, 0f, 100, default, 2f);
-                Main.dust[num624].velocity *= 2f;
+                int fire = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Fire, 0f, 0f, 100, default, 3f);
+                Main.dust[fire].noGravity = true;
+                Main.dust[fire].velocity *= 5f;
+                fire = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Fire, 0f, 0f, 100, default, 2f);
+                Main.dust[fire].velocity *= 2f;
             }
 
 			//gore cloud effects
-			CalamityUtils.ExplosionGores(projectile, 3);
+			CalamityUtils.ExplosionGores(projectile.Center, 3);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<ExoFreeze>(), 30);
-            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
-            target.AddBuff(ModContent.BuffType<GlacialState>(), 120);
-            target.AddBuff(ModContent.BuffType<Plague>(), 120);
-            target.AddBuff(ModContent.BuffType<HolyFlames>(), 120);
-            target.AddBuff(BuffID.CursedInferno, 120);
-            target.AddBuff(BuffID.Frostburn, 120);
-            target.AddBuff(BuffID.OnFire, 120);
-            target.AddBuff(BuffID.Ichor, 120);
+			target.ExoDebuffs();
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<ExoFreeze>(), 30);
-            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
-            target.AddBuff(ModContent.BuffType<GlacialState>(), 120);
-            target.AddBuff(ModContent.BuffType<Plague>(), 120);
-            target.AddBuff(ModContent.BuffType<HolyFlames>(), 120);
-            target.AddBuff(BuffID.CursedInferno, 120);
-            target.AddBuff(BuffID.Frostburn, 120);
-            target.AddBuff(BuffID.OnFire, 120);
-            target.AddBuff(BuffID.Ichor, 120);
+			target.ExoDebuffs();
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

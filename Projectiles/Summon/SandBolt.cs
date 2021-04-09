@@ -5,6 +5,8 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class SandBolt : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Bolt");

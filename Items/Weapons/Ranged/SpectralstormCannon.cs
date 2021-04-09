@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             DisplayName.SetDefault("Spectralstorm Cannon");
             Tooltip.SetDefault("70% chance to not consume flares\n" +
-                "Fires a storm of ectoplasm and flares");
+                "Fires a storm of lost souls and flares");
         }
 
         public override void SetDefaults()
@@ -27,12 +27,12 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.noMelee = true;
             item.knockBack = 1.5f;
             item.value = Item.buyPrice(0, 95, 0, 0);
-            item.rare = 9;
+            item.rare = ItemRarityID.Cyan;
             item.UseSound = SoundID.Item11;
             item.autoReuse = true;
             item.shoot = ProjectileID.Flare;
             item.shootSpeed = 9.5f;
-            item.useAmmo = 931;
+            item.useAmmo = AmmoID.Flare;
         }
 
         public override Vector2? HoldoutOffset() => new Vector2(-10, 0);
@@ -46,18 +46,24 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            int num6 = Main.rand.Next(1, 2);
-            for (int index = 0; index < num6; ++index)
-            {
-                float SpeedX = speedX + (float)Main.rand.Next(-40, 41) * 0.05f;
-                float SpeedY = speedY + (float)Main.rand.Next(-40, 41) * 0.05f;
-                int projectile = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
-                Main.projectile[projectile].timeLeft = 200;
-                Main.projectile[projectile].Calamity().forceRanged = true;
-            }
-            int proj = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<LostSoulFriendly>(), damage, knockBack, player.whoAmI, 0f, 0f);
-            Main.projectile[proj].timeLeft = 600;
-            Main.projectile[proj].Calamity().forceRanged = true;
+			float SpeedX = speedX + (float)Main.rand.Next(-40, 41) * 0.05f;
+			float SpeedY = speedY + (float)Main.rand.Next(-40, 41) * 0.05f;
+			int flare = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI);
+			if (flare.WithinBounds(Main.maxProjectiles))
+			{
+				Main.projectile[flare].timeLeft = 200;
+				Main.projectile[flare].Calamity().forceRanged = true;
+			}
+
+			float SpeedX2 = speedX + (float)Main.rand.Next(-20, 21) * 0.05f;
+			float SpeedY2 = speedY + (float)Main.rand.Next(-20, 21) * 0.05f;
+            int soul = Projectile.NewProjectile(position.X, position.Y, SpeedX2, SpeedY2, ModContent.ProjectileType<LostSoulFriendly>(), damage, knockBack, player.whoAmI);
+			if (soul.WithinBounds(Main.maxProjectiles))
+			{
+				Main.projectile[soul].timeLeft = 600;
+				Main.projectile[soul].Calamity().forceRanged = true;
+				Main.projectile[soul].frame = Main.rand.Next(4);
+			}
             return false;
         }
 

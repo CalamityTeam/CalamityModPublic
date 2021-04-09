@@ -1,16 +1,15 @@
 using CalamityMod.Dusts.Furniture;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureBotanic
 {
-    public class BotanicSink : ModTile
+	public class BotanicSink : ModTile
     {
         public override void SetDefaults()
         {
-            this.SetUpSink();
+            this.SetUpSink(true);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Botanic Sink");
             AddMapEntry(new Color(191, 142, 111), name);

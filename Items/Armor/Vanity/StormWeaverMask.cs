@@ -1,4 +1,5 @@
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Items.Armor.Vanity
 {
@@ -14,7 +15,7 @@ namespace CalamityMod.Items.Armor.Vanity
         {
             item.width = 28;
             item.height = 20;
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.vanity = true;
         }
 

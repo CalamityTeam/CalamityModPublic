@@ -14,6 +14,8 @@ namespace CalamityMod.Projectiles.Boss
 {
     public class OverlyDramaticDukeSummoner : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Boss/OldDukeVortex";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Old Duke Summoner");
@@ -144,11 +146,15 @@ namespace CalamityMod.Projectiles.Boss
 								}), new Color(175, 75, 255));
 								return;
 							}
+
+							CalamityUtils.BossAwakenMessage(boomer);
+
 							Main.npc[boomer].velocity = Vector2.UnitY * -12f;
 							Main.npc[boomer].alpha = 255;
 							Main.npc[boomer].Calamity().newAI[3] = 1f; // To signal that Old Duke should not deccelerate as it normally would
 							Main.npc[boomer].netUpdate = true;
 							CalamityWorld.triedToSummonOldDuke = true;
+							CalamityWorld.encounteredOldDuke = true;
 							AcidRainEvent.UpdateInvasion(false);
 						}
 					}

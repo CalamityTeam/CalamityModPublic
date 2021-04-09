@@ -1,5 +1,6 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -19,7 +20,8 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetDefaults()
         {
-            projectile.width = 40;
+			projectile.Calamity().canBreakPlayerDefense = true;
+			projectile.width = 40;
             projectile.height = 40;
             projectile.hostile = true;
             projectile.penetrate = 1;
@@ -54,12 +56,12 @@ namespace CalamityMod.Projectiles.Boss
                 projectile.Kill();
             }
 
-			int dustType = Main.dayTime ? (int)CalamityDusts.ProfanedFire : (int)CalamityDusts.Nightwither;
+			int dustType = (Main.dayTime && !CalamityWorld.malice) ? (int)CalamityDusts.ProfanedFire : (int)CalamityDusts.Nightwither;
 			if (projectile.ai[1] == 0f)
             {
-                for (int num621 = 0; num621 < 10; num621++)
+                for (int d = 0; d < 10; d++)
                 {
-                    int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, dustType, 0f, 0f, 100, default, 2f);
+                    int num622 = Dust.NewDust(projectile.position, projectile.width, projectile.height, dustType, 0f, 0f, 100, default, 2f);
                     Main.dust[num622].velocity *= 3f;
                     if (Main.rand.NextBool(2))
                     {
@@ -92,12 +94,12 @@ namespace CalamityMod.Projectiles.Boss
 
 		public override Color? GetAlpha(Color lightColor)
 		{
-			return Main.dayTime ? new Color(250, 150, 0, projectile.alpha) : new Color(0, 150, 250, projectile.alpha);
+			return (Main.dayTime && !CalamityWorld.malice) ? new Color(250, 150, 0, projectile.alpha) : new Color(100, 200, 250, projectile.alpha);
 		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Texture2D texture2D13 = Main.dayTime ? Main.projectileTexture[projectile.type] : ModContent.GetTexture("CalamityMod/Projectiles/Boss/MoltenBlastNight");
+            Texture2D texture2D13 = (Main.dayTime && !CalamityWorld.malice) ? Main.projectileTexture[projectile.type] : ModContent.GetTexture("CalamityMod/Projectiles/Boss/MoltenBlastNight");
 			int num214 = Main.projectileTexture[projectile.type].Height / Main.projFrames[projectile.type];
             int y6 = num214 * projectile.frame;
             Main.spriteBatch.Draw(texture2D13, projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, y6, texture2D13.Width, num214)), projectile.GetAlpha(lightColor), projectile.rotation, new Vector2(texture2D13.Width / 2f, num214 / 2f), projectile.scale, SpriteEffects.None, 0f);
@@ -106,34 +108,28 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void Kill(int timeLeft)
         {
-            int num251 = Main.rand.Next(5, 10);
+            int blobAmt = Main.rand.Next(5, 10);
             if (projectile.owner == Main.myPlayer)
             {
-                for (int num252 = 0; num252 < num251; num252++)
+                for (int b = 0; b < blobAmt; b++)
                 {
-                    Vector2 value15 = new Vector2(Main.rand.Next(-100, 101), Main.rand.Next(-100, 101));
-                    while (value15.X == 0f && value15.Y == 0f)
-                    {
-                        value15 = new Vector2(Main.rand.Next(-100, 101), Main.rand.Next(-100, 101));
-                    }
-                    value15.Normalize();
-                    value15 *= Main.rand.Next(70, 121) * 0.1f; //70 101
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value15.X, value15.Y, ModContent.ProjectileType<MoltenBlob>(), projectile.damage, 0f, projectile.owner, 0f, 0f);
+					Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
+                    Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<MoltenBlob>(), projectile.damage, 0f, projectile.owner, 0f, 0f);
                 }
             }
             Main.PlaySound(SoundID.Item20, projectile.Center);
 
-            int dustType = Main.dayTime ? (int)CalamityDusts.ProfanedFire : (int)CalamityDusts.Nightwither;
-            for (int num193 = 0; num193 < 3; num193++)
+            int dustType = (Main.dayTime && !CalamityWorld.malice) ? (int)CalamityDusts.ProfanedFire : (int)CalamityDusts.Nightwither;
+            for (int num193 = 0; num193 < 2; num193++)
             {
-                Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, dustType, 0f, 0f, 50, default, 1.5f);
+                Dust.NewDust(projectile.position, projectile.width, projectile.height, dustType, 0f, 0f, 50, default, 1.5f);
             }
-            for (int num194 = 0; num194 < 30; num194++)
+            for (int num194 = 0; num194 < 20; num194++)
             {
-                int num195 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, dustType, 0f, 0f, 0, default, 2.5f);
+                int num195 = Dust.NewDust(projectile.position, projectile.width, projectile.height, dustType, 0f, 0f, 0, default, 2.5f);
                 Main.dust[num195].noGravity = true;
                 Main.dust[num195].velocity *= 3f;
-                num195 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, dustType, 0f, 0f, 50, default, 1.5f);
+                num195 = Dust.NewDust(projectile.position, projectile.width, projectile.height, dustType, 0f, 0f, 50, default, 1.5f);
                 Main.dust[num195].velocity *= 2f;
                 Main.dust[num195].noGravity = true;
             }
@@ -141,7 +137,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-			int buffType = Main.dayTime ? ModContent.BuffType<HolyFlames>() : ModContent.BuffType<Nightwither>();
+			int buffType = (Main.dayTime && !CalamityWorld.malice) ? ModContent.BuffType<HolyFlames>() : ModContent.BuffType<Nightwither>();
 			target.AddBuff(buffType, 180);
 		}
 

@@ -1,3 +1,4 @@
+using CalamityMod.Events;
 using CalamityMod.Items.Materials;
 using CalamityMod.NPCs.Calamitas;
 using Terraria;
@@ -20,7 +21,7 @@ namespace CalamityMod.Items.SummonItems
         {
             item.width = 28;
             item.height = 18;
-            item.rare = 6;
+            item.rare = ItemRarityID.LightPurple;
             item.useAnimation = 45;
             item.useTime = 45;
             item.useStyle = ItemUseStyleID.HoldingUp;
@@ -29,14 +30,18 @@ namespace CalamityMod.Items.SummonItems
 
         public override bool CanUseItem(Player player)
         {
-            return !Main.dayTime && !NPC.AnyNPCs(ModContent.NPCType<Calamitas>()) && !NPC.AnyNPCs(ModContent.NPCType<CalamitasRun3>());
+            return !Main.dayTime && !NPC.AnyNPCs(ModContent.NPCType<Calamitas>()) && !NPC.AnyNPCs(ModContent.NPCType<CalamitasRun3>()) && !BossRushEvent.BossRushActive;
         }
 
         public override bool UseItem(Player player)
         {
-            NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<Calamitas>());
             Main.PlaySound(SoundID.Roar, player.position, 0);
-            return true;
+			if (Main.netMode != NetmodeID.MultiplayerClient)
+				NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<Calamitas>());
+			else
+				NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, player.whoAmI, ModContent.NPCType<Calamitas>());
+
+			return true;
         }
 
         public override void AddRecipes()

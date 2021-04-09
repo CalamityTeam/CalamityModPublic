@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class SulphuricAcidBubble2 : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Enemy/SulphuricAcidBubble";
+
         public float counter = 0f;
         public float counter2 = 0f;
         public int killCounter = 0;
@@ -106,12 +108,12 @@ namespace CalamityMod.Projectiles.Ranged
                     projectile.Kill();
                 }
             }
-            CalamityUtils.StickyProjAI(projectile, 15);
+            projectile.StickyProjAI(15);
         }
 
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            CalamityUtils.ModifyHitNPCSticky(projectile, 3, false);
+            projectile.ModifyHitNPCSticky(3, false);
         }
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)

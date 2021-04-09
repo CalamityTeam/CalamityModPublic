@@ -24,8 +24,8 @@ namespace CalamityMod.Items.Placeables.Furniture
             item.useTime = 10;
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
-            item.value = Item.buyPrice(0, 50, 0, 0);
-            item.rare = 6;
+            item.value = Item.buyPrice(0, 25, 0, 0);
+            item.rare = ItemRarityID.LightPurple;
             item.createTile = ModContent.TileType<Tiles.Furniture.PurpleCandle>();
         }
     }

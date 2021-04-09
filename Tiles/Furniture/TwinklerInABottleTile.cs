@@ -3,11 +3,10 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.ObjectData;
 
 namespace CalamityMod.Tiles.Furniture
 {
-    public class TwinklerInABottleTile : ModTile
+	public class TwinklerInABottleTile : ModTile
     {
         public override void SetDefaults()
         {

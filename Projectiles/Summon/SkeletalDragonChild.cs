@@ -1,14 +1,11 @@
-using CalamityMod.Buffs.Summon;
-using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Summon
 {
-    public class SkeletalDragonChild : ModProjectile
+	public class SkeletalDragonChild : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -89,7 +86,7 @@ namespace CalamityMod.Projectiles.Summon
                     }
                     else
                     {
-                        projectile.velocity = (projectile.velocity * 19f + projectile.DirectionTo(mother.Center) * 16f) / 20f;
+                        projectile.velocity = (projectile.velocity * 19f + projectile.DirectionTo(mother.Center) * 18f) / 20f;
                     }
                 }
                 else

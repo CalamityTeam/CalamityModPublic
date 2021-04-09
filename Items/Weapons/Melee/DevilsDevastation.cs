@@ -23,7 +23,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             item.width = 118;
             item.height = 118;
-            item.damage = 520;
+            item.damage = 166;
             item.melee = true;
             item.useAnimation = 20;
             item.useTime = 20;
@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             item.value = Item.buyPrice(1, 80, 0, 0);
-            item.rare = 10;
+            item.rare = ItemRarityID.Red;
             item.shoot = ModContent.ProjectileType<Oathblade>();
             item.shootSpeed = 28f;
             item.Calamity().customRarity = CalamityRarity.DarkBlue;
@@ -108,7 +108,7 @@ namespace CalamityMod.Items.Weapons.Melee
             recipe.AddIngredient(ModContent.ItemType<Devastation>());
             recipe.AddIngredient(ModContent.ItemType<TrueForbiddenOathblade>());
             recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<Phantoplasm>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>());
             recipe.AddTile(ModContent.TileType<DraedonsForge>());
             recipe.SetResult(this);
             recipe.AddRecipe();

@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.autoReuse = true;
             item.height = 50;
             item.value = Item.buyPrice(0, 48, 0, 0);
-            item.rare = 6;
+            item.rare = ItemRarityID.LightPurple;
             item.shoot = ModContent.ProjectileType<EonBeam>();
             item.shootSpeed = 12f;
         }
@@ -49,7 +49,6 @@ namespace CalamityMod.Items.Weapons.Melee
             }
             Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, Main.myPlayer, 1f);
             float num72 = Main.rand.Next(18, 25);
-            damage = Main.rand.Next(40, 60);
             Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
             float num78 = (float)Main.mouseX + Main.screenPosition.X - vector2.X;
             float num79 = (float)Main.mouseY + Main.screenPosition.Y - vector2.Y;
@@ -91,8 +90,9 @@ namespace CalamityMod.Items.Weapons.Melee
                 num79 *= num80;
                 float speedX4 = num78 + (float)Main.rand.Next(-120, 121) * 0.02f;
                 float speedY5 = num79 + (float)Main.rand.Next(-120, 121) * 0.02f;
-                int proj = Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, ProjectileID.HallowStar, damage / 2, knockBack, player.whoAmI, 0f, (float)Main.rand.Next(5));
-                Main.projectile[proj].Calamity().forceMelee = true;
+                int proj = Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, ProjectileID.HallowStar, damage / 3, knockBack, player.whoAmI, 0f, (float)Main.rand.Next(5));
+				if (proj.WithinBounds(Main.maxProjectiles))
+					Main.projectile[proj].Calamity().forceMelee = true;
             }
             return false;
         }

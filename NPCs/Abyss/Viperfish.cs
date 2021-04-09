@@ -6,7 +6,6 @@ using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using System.IO;
 using Terraria;
 using Terraria.ID;
@@ -14,7 +13,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.Abyss
 {
-    public class Viperfish : ModNPC
+	public class Viperfish : ModNPC
     {
         public override void SetStaticDefaults()
         {
@@ -28,11 +27,10 @@ namespace CalamityMod.NPCs.Abyss
             npc.damage = 75;
             npc.width = 72;
             npc.height = 30;
-            npc.defense = 15;
+            npc.defense = 10;
             npc.lifeMax = 320;
             npc.aiStyle = -1;
             aiType = -1;
-            npc.buffImmune[ModContent.BuffType<CrushDepth>()] = true;
             npc.value = Item.buyPrice(0, 0, 5, 0);
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath1;
@@ -100,11 +98,6 @@ namespace CalamityMod.NPCs.Abyss
         {
             player.AddBuff(BuffID.Bleeding, 120, true);
             player.AddBuff(ModContent.BuffType<CrushDepth>(), 120, true);
-            if (CalamityWorld.revenge)
-            {
-                player.AddBuff(ModContent.BuffType<MarkedforDeath>(), 90);
-                player.AddBuff(ModContent.BuffType<Horror>(), 90, true);
-            }
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
@@ -122,38 +115,23 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void NPCLoot()
         {
-            if (Main.rand.NextBool(1000000) && CalamityWorld.revenge)
-            {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<HalibutCannon>());
-            }
-            if (CalamityWorld.downedCalamitas)
-            {
-                if (Main.rand.NextBool(4))
-                {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Lumenite>());
-                }
-                if (Main.rand.NextBool(2))
-                {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<DepthCells>(), Main.rand.Next(1, 3));
-                }
-                if (Main.expertMode && Main.rand.NextBool(2))
-                {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<DepthCells>());
-                }
-            }
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<HalibutCannon>(), CalamityWorld.revenge, HalibutCannon.DropChance);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<Lumenite>(), CalamityWorld.downedCalamitas, 0.25f);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<DepthCells>(), CalamityWorld.downedCalamitas, 0.5f, 1, 2);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<DepthCells>(), CalamityWorld.downedCalamitas && Main.expertMode, 0.5f);
         }
 
         public override void HitEffect(int hitDirection, double damage)
         {
             for (int k = 0; k < 5; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
             }
             if (npc.life <= 0)
             {
                 for (int k = 0; k < 25; k++)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
                 }
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/ViperFish"), 1f);
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/ViperFish2"), 1f);

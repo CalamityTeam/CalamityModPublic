@@ -1,5 +1,6 @@
-using Terraria.ModLoader;
+using CalamityMod.Items.Placeables.Walls;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Placeables
 {
@@ -23,7 +24,16 @@ namespace CalamityMod.Items.Placeables
             item.height = 10;
             item.maxStack = 999;
             item.value = 1000;
-            item.rare = 3;
+            item.rare = ItemRarityID.Orange;
+        }
+
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ModContent.ItemType<BrimstoneSlagWall>(), 4);
+            recipe.AddTile(TileID.WorkBenches);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
         }
     }
 }

@@ -20,14 +20,14 @@ namespace CalamityMod.NPCs.Crags
         public override void SetDefaults()
         {
             npc.aiStyle = 1;
-			aiType = 59;
+			aiType = NPCID.LavaSlime;
             npc.damage = 40;
             npc.width = 40;
             npc.height = 30;
             npc.defense = 10;
             npc.lifeMax = 250;
             npc.knockBackResist = 0f;
-            animationType = 81;
+            animationType = NPCID.CorruptSlime;
             npc.value = Item.buyPrice(0, 0, 5, 0);
             npc.alpha = 50;
             npc.lavaImmune = true;
@@ -37,10 +37,9 @@ namespace CalamityMod.NPCs.Crags
             npc.DeathSound = SoundID.NPCDeath1;
             if (CalamityWorld.downedProvidence)
             {
-                npc.damage = 227;
-                npc.defense = 90;
-                npc.lifeMax = 7500;
-                npc.value = Item.buyPrice(0, 0, 50, 0);
+                npc.damage = 80;
+                npc.defense = 20;
+                npc.lifeMax = 3500;
             }
             banner = npc.type;
             bannerItem = ModContent.ItemType<CharredSlimeBanner>();
@@ -53,14 +52,6 @@ namespace CalamityMod.NPCs.Crags
                 return 0f;
             }
             return spawnInfo.player.Calamity().ZoneCalamity ? 0.08f : 0f;
-        }
-
-        public override void OnHitPlayer(Player player, int damage, bool crit)
-        {
-            if (CalamityWorld.revenge)
-            {
-                player.AddBuff(ModContent.BuffType<Horror>(), 180, true);
-            }
         }
 
         public override void HitEffect(int hitDirection, double damage)

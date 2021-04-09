@@ -134,38 +134,14 @@ namespace CalamityMod.Projectiles.Summon
             {
                 projectile.localAI[0] -= 1f;
             }
-            int num3;
-            for (int num534 = 0; num534 < Main.maxProjectiles; num534 = num3 + 1)
-            {
-                if (num534 != projectile.whoAmI && Main.projectile[num534].active && Main.projectile[num534].owner == projectile.owner &&
-                    Main.projectile[num534].type == ModContent.ProjectileType<CalamariMinion>() &&
-                    Math.Abs(projectile.position.X - Main.projectile[num534].position.X) + Math.Abs(projectile.position.Y - Main.projectile[num534].position.Y) < (float)projectile.width)
-                {
-                    if (projectile.position.X < Main.projectile[num534].position.X)
-                    {
-                        projectile.velocity.X = projectile.velocity.X - 0.05f;
-                    }
-                    else
-                    {
-                        projectile.velocity.X = projectile.velocity.X + 0.05f;
-                    }
-                    if (projectile.position.Y < Main.projectile[num534].position.Y)
-                    {
-                        projectile.velocity.Y = projectile.velocity.Y - 0.05f;
-                    }
-                    else
-                    {
-                        projectile.velocity.Y = projectile.velocity.Y + 0.05f;
-                    }
-                }
-                num3 = num534;
-            }
+			projectile.MinionAntiClump();
             Vector2 vector = projectile.position;
-            float num10 = 3000f; //300
+            float num10 = 3000f;
             bool flag = false;
-            Vector2 center = Main.player[projectile.owner].Center;
+            Vector2 center = player.Center;
             Vector2 value = new Vector2(0.5f);
             value.Y = 0f;
+			int targetIndex = -1;
             if (player.HasMinionAttackTargetNPC)
             {
                 NPC npc = Main.npc[player.MinionAttackTargetNPC];
@@ -173,15 +149,15 @@ namespace CalamityMod.Projectiles.Summon
                 {
                     Vector2 vector2 = npc.position + npc.Size * value;
                     float num12 = Vector2.Distance(vector2, center);
-                    if ((!flag && num12 < num10) && Collision.CanHitLine(projectile.position, projectile.width, projectile.height, npc.position, npc.width, npc.height))
+                    if (!flag && num12 < num10 && Collision.CanHitLine(projectile.position, projectile.width, projectile.height, npc.position, npc.width, npc.height))
                     {
                         vector = vector2;
                         flag = true;
-                        int num11 = npc.whoAmI;
+						targetIndex = npc.whoAmI;
                     }
                 }
             }
-            else
+            if (!flag)
             {
                 for (int k = 0; k < Main.maxNPCs; k++)
                 {
@@ -190,11 +166,12 @@ namespace CalamityMod.Projectiles.Summon
                     {
                         Vector2 vector3 = nPC.position + nPC.Size * value;
                         float num13 = Vector2.Distance(vector3, center);
-                        if ((!flag && num13 < num10) && Collision.CanHitLine(projectile.position, projectile.width, projectile.height, nPC.position, nPC.width, nPC.height))
+                        if (!flag && num13 < num10 && Collision.CanHitLine(projectile.position, projectile.width, projectile.height, nPC.position, nPC.width, nPC.height))
                         {
                             num10 = num13;
                             vector = vector3;
                             flag = true;
+							targetIndex = k;
                         }
                     }
                 }
@@ -204,7 +181,7 @@ namespace CalamityMod.Projectiles.Summon
             {
                 num16 = 4000;
             }
-            if (Vector2.Distance(player.Center, projectile.Center) > (float)num16)
+            if (Vector2.Distance(player.Center, projectile.Center) > num16)
             {
                 projectile.ai[0] = 1f;
                 projectile.netUpdate = true;
@@ -221,11 +198,11 @@ namespace CalamityMod.Projectiles.Summon
                     num18 = 0;
                 }
                 Tile tile = Main.tile[(int)vector4.X / 16, num18];
-                if (tile != null && tile.active() && Main.tileSolid[(int)tile.type] && !Main.tileSolidTop[(int)tile.type])
+                if (tile != null && tile.active() && Main.tileSolid[tile.type] && !Main.tileSolidTop[tile.type])
                 {
                     vector4 += Vector2.UnitY * 16f;
                     tile = Main.tile[(int)vector4.X / 16, (int)vector4.Y / 16];
-                    if (tile != null && tile.active() && Main.tileSolid[(int)tile.type] && !Main.tileSolidTop[(int)tile.type])
+                    if (tile != null && tile.active() && Main.tileSolid[tile.type] && !Main.tileSolidTop[tile.type])
                     {
                         vector4 += Vector2.UnitY * 16f;
                     }
@@ -233,28 +210,28 @@ namespace CalamityMod.Projectiles.Summon
                 vector4 -= projectile.Center;
                 num17 = vector4.Length();
                 vector4.Normalize();
-                if (num17 > 300f && num17 <= 800f && projectile.localAI[0] == 0f)
+                if (num17 > 300f && num17 <= 1600f && projectile.localAI[0] == 0f)
                 {
                     projectile.ai[0] = 2f;
-                    projectile.ai[1] = (float)(int)(num17 / 5f); //10
+                    projectile.ai[1] = (int)(num17 / 10f);
                     projectile.extraUpdates = (int)(projectile.ai[1] * 2f);
-                    projectile.velocity = vector4 * 5f; //10
+                    projectile.velocity = vector4 * 10f;
                     projectile.localAI[0] = 60f;
                     return;
                 }
                 if (num17 > 200f)
                 {
-                    float scaleFactor2 = 9f; //6
+                    float scaleFactor2 = 20f;
                     vector4 *= scaleFactor2;
                     projectile.velocity.X = (projectile.velocity.X * 40f + vector4.X) / 41f;
                     projectile.velocity.Y = (projectile.velocity.Y * 40f + vector4.Y) / 41f;
                 }
                 if (num17 > 70f && num17 < 130f)
                 {
-                    float scaleFactor3 = 14f; //7
+                    float scaleFactor3 = 18f;
                     if (num17 < 100f)
                     {
-                        scaleFactor3 = -6f; //-3
+                        scaleFactor3 = -7.5f;
                     }
                     vector4 *= scaleFactor3;
                     projectile.velocity = (projectile.velocity * 20f + vector4) / 21f;
@@ -270,14 +247,14 @@ namespace CalamityMod.Projectiles.Summon
             }
             else
             {
-                if (!Collision.CanHitLine(projectile.Center, 1, 1, Main.player[projectile.owner].Center, 1, 1))
-                {
-                    projectile.ai[0] = 1f;
-                }
-                float num21 = 6f; //6
+				if (!Collision.CanHitLine(projectile.Center, 1, 1, Main.player[projectile.owner].Center, 1, 1))
+				{
+					projectile.ai[0] = 1f;
+				}
+				float num21 = 12f; //6
                 if (projectile.ai[0] == 1f)
                 {
-                    num21 = 22.5f; //15
+                    num21 = 18f; //15
                 }
                 Vector2 center2 = projectile.Center;
                 Vector2 vector6 = player.Center - center2 + new Vector2(0f, -60f);
@@ -286,15 +263,15 @@ namespace CalamityMod.Projectiles.Summon
                 {
                     num21 = 13.5f; //9
                 }
-                if (num23 < 400f && projectile.ai[0] == 1f)
+                if (num23 < 800f && projectile.ai[0] == 1f)
                 {
                     projectile.ai[0] = 0f;
                     projectile.netUpdate = true;
                 }
-                if (num23 > 3000f)
+                if (num23 > 4000f)
                 {
-                    projectile.position.X = player.Center.X - (float)(projectile.width / 2);
-                    projectile.position.Y = player.Center.Y - (float)(projectile.width / 2);
+                    projectile.position.X = player.Center.X - (projectile.width / 2);
+                    projectile.position.Y = player.Center.Y - (projectile.width / 2);
                 }
                 if (num23 > 70f)
                 {
@@ -316,28 +293,28 @@ namespace CalamityMod.Projectiles.Summon
             if (projectile.ai[1] > 0f)
             {
                 projectile.ai[1] += 1f;
-                if (Main.rand.Next(3) != 0)
+                if (Main.rand.Next(2) != 0)
                 {
                     projectile.ai[1] += 1f;
                 }
             }
-            if (projectile.ai[1] > 15f)
+            if (projectile.ai[1] > 20f)
             {
                 projectile.ai[1] = 0f;
                 projectile.netUpdate = true;
             }
             if (projectile.ai[0] == 0f)
             {
-                float scaleFactor4 = 9f;
+                float scaleFactor4 = 12f;
                 int num28 = ModContent.ProjectileType<CalamariInk>();
                 if (flag)
                 {
-                    if (Math.Abs((vector - projectile.Center).ToRotation() - 1.57079637f) > 0.7853982f)
+                    if (Math.Abs((vector - projectile.Center).ToRotation() - MathHelper.PiOver2) > MathHelper.PiOver4)
                     {
-                        projectile.velocity += Vector2.Normalize(vector - projectile.Center - Vector2.UnitY * 80f); //80
+                        projectile.velocity += Vector2.Normalize(vector - projectile.Center - Vector2.UnitY * 80f);
                         return;
                     }
-                    if ((vector - projectile.Center).Length() <= 400f && projectile.ai[1] == 0f) //400
+                    if ((vector - projectile.Center).Length() <= 600f && projectile.ai[1] == 0f)
                     {
                         projectile.ai[1] += 1f;
                         if (Main.myPlayer == projectile.owner)
@@ -346,7 +323,7 @@ namespace CalamityMod.Projectiles.Summon
                             Vector2 vector7 = vector - projectile.Center;
                             vector7.Normalize();
                             vector7 *= scaleFactor4;
-                            Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y + 20, vector7.X, vector7.Y, num28, projectile.damage, 0f, Main.myPlayer, 0f, 0f);
+                            Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y + 20, vector7.X, vector7.Y, num28, projectile.damage, 0f, Main.myPlayer, targetIndex, 0f);
                             projectile.netUpdate = true;
                         }
                     }

@@ -1,4 +1,3 @@
-using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -7,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class Exorcism : RogueWeapon
+	public class Exorcism : RogueWeapon
     {
         public override void SetStaticDefaults()
         {
@@ -31,8 +30,8 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.autoReuse = true;
             item.height = 42;
             item.maxStack = 1;
-            item.rare = 5;
-            item.value = Item.buyPrice(0, 16, 0, 0);
+            item.value = CalamityGlobalItem.Rarity5BuyPrice;
+            item.rare = ItemRarityID.Pink;
             item.shoot = ModContent.ProjectileType<ExorcismProj>();
             item.shootSpeed = 10f;
             item.Calamity().rogue = true;
@@ -43,7 +42,8 @@ namespace CalamityMod.Items.Weapons.Rogue
             if (player.Calamity().StealthStrikeAvailable())
             {
                 int p = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 2f, damage);
-                Main.projectile[p].Calamity().stealthStrike = true;
+				if (p.WithinBounds(Main.maxProjectiles))
+					Main.projectile[p].Calamity().stealthStrike = true;
             }
             else
             {

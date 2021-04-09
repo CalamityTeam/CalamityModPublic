@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -13,12 +15,17 @@ namespace CalamityMod.Items.Materials
 
         public override void SetDefaults()
         {
-            item.width = 40;
-            item.height = 40;
+            item.width = 36;
+            item.height = 36;
             item.maxStack = 99;
             item.value = Item.sellPrice(gold: 4);
-            item.rare = 8;
+            item.rare = ItemRarityID.Yellow;
         }
+
+		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
+		{
+			item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.GetTexture("CalamityMod/Items/Materials/CoreofCalamityGlow"));
+		}
 
         public override void AddRecipes()
         {

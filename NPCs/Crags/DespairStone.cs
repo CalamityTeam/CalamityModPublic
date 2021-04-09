@@ -3,14 +3,12 @@ using CalamityMod.Dusts;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.World;
-using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.NPCs.Crags
 {
-    public class DespairStone : ModNPC
+	public class DespairStone : ModNPC
     {
         public override void SetStaticDefaults()
         {
@@ -22,10 +20,10 @@ namespace CalamityMod.NPCs.Crags
             npc.aiStyle = -1;
             aiType = -1;
             npc.damage = 40;
-            npc.width = 72; //324
-            npc.height = 72; //216
+            npc.width = 72;
+            npc.height = 72;
             npc.defense = 38;
-            npc.Calamity().RevPlusDR(0.35f);
+			npc.DR_NERD(0.35f);
             npc.lifeMax = 120;
             npc.knockBackResist = 0f;
             npc.value = Item.buyPrice(0, 0, 5, 0);
@@ -35,10 +33,9 @@ namespace CalamityMod.NPCs.Crags
             npc.lavaImmune = true;
             if (CalamityWorld.downedProvidence)
             {
-                npc.damage = 190;
-                npc.defense = 185;
-                npc.lifeMax = 5000;
-                npc.value = Item.buyPrice(0, 0, 50, 0);
+                npc.damage = 80;
+                npc.defense = 50;
+                npc.lifeMax = 3000;
             }
             banner = npc.type;
             bannerItem = ModContent.ItemType<DespairStoneBanner>();
@@ -46,15 +43,7 @@ namespace CalamityMod.NPCs.Crags
 
         public override void AI()
         {
-            CalamityAI.UnicornAI(npc, mod, true, 4f, 5f, 0.2f);
-        }
-
-        public override void OnHitPlayer(Player player, int damage, bool crit)
-        {
-            if (CalamityWorld.revenge)
-            {
-                player.AddBuff(ModContent.BuffType<Horror>(), 180, true);
-            }
+            CalamityAI.UnicornAI(npc, mod, true, CalamityWorld.death ? 6f : 4f, 5f, 0.2f);
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
@@ -80,6 +69,8 @@ namespace CalamityMod.NPCs.Crags
                 {
                     Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.Brimstone, hitDirection, -1f, 0, default, 1f);
                 }
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/DespairStoneGores/DespairStone"), npc.scale);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/DespairStoneGores/DespairStone2"), npc.scale);
             }
         }
     }

@@ -1,5 +1,6 @@
 using CalamityMod.CalPlayer;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
@@ -12,7 +13,7 @@ namespace CalamityMod.Items.Accessories
             Tooltip.SetDefault("Most ocean enemies become friendly and provides waterbreathing\n" +
                 "Being underwater slowly boosts your defense over time but also slows movement speed\n" +
                 "The defense boost and movement speed reduction slowly vanish while outside of water\n" +
-                "Maximum defense boost is 30, maximum movement speed reduction is 5%\n" +
+                "Maximum defense boost is 50, maximum movement speed reduction is 10%\n" +
                 "Provides a small amount of light in the abyss\n" +
                 "Moderately reduces breath loss in the abyss");
         }
@@ -21,8 +22,8 @@ namespace CalamityMod.Items.Accessories
         {
             item.width = 18;
             item.height = 26;
-            item.value = Item.buyPrice(0, 30, 0, 0);
-            item.rare = 9;
+            item.value = CalamityGlobalItem.Rarity5BuyPrice;
+            item.rare = ItemRarityID.Pink;
             item.accessory = true;
             item.expert = true;
         }
@@ -31,11 +32,11 @@ namespace CalamityMod.Items.Accessories
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.aquaticEmblem = true;
-            player.npcTypeNoAggro[65] = true;
-            player.npcTypeNoAggro[220] = true;
-            player.npcTypeNoAggro[64] = true;
-            player.npcTypeNoAggro[67] = true;
-            player.npcTypeNoAggro[221] = true;
+            player.npcTypeNoAggro[NPCID.Shark] = true;
+            player.npcTypeNoAggro[NPCID.SeaSnail] = true;
+            player.npcTypeNoAggro[NPCID.PinkJellyfish] = true;
+            player.npcTypeNoAggro[NPCID.Crab] = true;
+            player.npcTypeNoAggro[NPCID.Squid] = true;
             player.gills = true;
         }
     }

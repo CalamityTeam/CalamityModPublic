@@ -36,17 +36,16 @@ namespace CalamityMod.Projectiles.Magic
                 projectile.frameCounter = 0;
             }
             if (projectile.frame >= Main.projFrames[projectile.type])
-            {
                 projectile.frame = 0;
-            }
+
             if (projectile.timeLeft % 10 == 0)
             {
                 if (projectile.owner == Main.myPlayer)
-                {
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<Phantom>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
-                }
+                    Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<Phantom>(), projectile.damage, projectile.knockBack, projectile.owner);
             }
-            Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0.25f / 255f, (255 - projectile.alpha) * 0.25f / 255f, (255 - projectile.alpha) * 0.25f / 255f);
+
+            Lighting.AddLight(projectile.Center, 0.25f, 0.25f, 0.25f);
+
             for (int num457 = 0; num457 < 3; num457++)
             {
                 int num458 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 175, 0f, 0f, 100, default, 2f);
@@ -54,7 +53,9 @@ namespace CalamityMod.Projectiles.Magic
                 Main.dust[num458].velocity *= 0.5f;
                 Main.dust[num458].velocity += projectile.velocity * 0.1f;
             }
+
             projectile.spriteDirection = projectile.direction = (projectile.velocity.X > 0).ToDirectionInt();
+
             projectile.rotation = projectile.velocity.ToRotation() + (projectile.spriteDirection == 1 ? 0f : MathHelper.Pi);
         }
 
@@ -74,8 +75,8 @@ namespace CalamityMod.Projectiles.Magic
                 for (int i = 0; i < 4; i++)
                 {
                     offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<Phantom>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<Phantom>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<Phantom>(), projectile.damage, projectile.knockBack, projectile.owner);
+                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<Phantom>(), projectile.damage, projectile.knockBack, projectile.owner);
                 }
             }
         }

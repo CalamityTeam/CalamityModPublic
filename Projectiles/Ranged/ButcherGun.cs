@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class ButcherGun : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Ranged/Butcher";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Butcher");
@@ -30,40 +32,42 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.ai[0] += 1f;
             int incrementAmt = 0;
             float spreadMult = 0.15f;
-            if (projectile.ai[0] >= 90f)
+            if (projectile.ai[0] >= 80f)
             {
                 incrementAmt++;
                 spreadMult = 0.13f;
             }
-            if (projectile.ai[0] >= 180f)
+            if (projectile.ai[0] >= 160f)
             {
                 incrementAmt++;
                 spreadMult = 0.11f;
             }
-            if (projectile.ai[0] >= 270f)
+            if (projectile.ai[0] >= 240f)
             {
                 incrementAmt++;
                 spreadMult = 0.09f;
             }
-            if (projectile.ai[0] >= 360f)
+            if (projectile.ai[0] >= 320f)
             {
                 incrementAmt++;
                 spreadMult = 0.07f;
             }
-            if (projectile.ai[0] >= 450f)
+            if (projectile.ai[0] >= 400f)
             {
+                incrementAmt++;
                 spreadMult = 0.05f;
             }
-            if (projectile.ai[0] >= 540f)
+            if (projectile.ai[0] >= 480f)
             {
                 incrementAmt++;
                 spreadMult = 0.04f;
             }
-            if (projectile.ai[0] >= 630f)
+            if (projectile.ai[0] >= 560f)
             {
+                incrementAmt++;
                 spreadMult = 0.03f;
             }
-            if (projectile.ai[0] >= 720f) //8
+            if (projectile.ai[0] >= 640f) //8
             {
                 incrementAmt++;
                 spreadMult = 0.02f;
@@ -100,7 +104,7 @@ namespace CalamityMod.Projectiles.Ranged
                 float kback = player.ActiveItem().knockBack;
                 if (canShoot)
                 {
-                    player.PickAmmo(player.ActiveItem(), ref projType, ref speedMult, ref canShoot, ref damage, ref kback, false);
+                    player.PickAmmo(player.ActiveItem(), ref projType, ref speedMult, ref canShoot, ref damage, ref kback);
                     kback = player.GetWeaponKnockback(player.ActiveItem(), kback);
                     float speed = player.ActiveItem().shootSpeed * projectile.scale;
                     Vector2 targetPos = Main.screenPosition + new Vector2((float)Main.mouseX, (float)Main.mouseY) - source;

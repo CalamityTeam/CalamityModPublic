@@ -1,4 +1,3 @@
-using CalamityMod.World;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -15,14 +14,15 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetDefaults()
         {
-            projectile.width = 32;
+			projectile.Calamity().canBreakPlayerDefense = true;
+			projectile.width = 32;
             projectile.height = 32;
             projectile.hostile = true;
             projectile.alpha = 255;
             projectile.penetrate = -1;
             projectile.tileCollide = false;
             projectile.ignoreWater = true;
-            projectile.timeLeft = (CalamityWorld.death || CalamityWorld.bossRushActive) ? 2100 : 1800;
+            projectile.timeLeft = 1800;
         }
 
         public override void AI()
@@ -36,11 +36,9 @@ namespace CalamityMod.Projectiles.Boss
                 projectile.frameCounter = 0;
             }
             if (projectile.frame > 3)
-            {
                 projectile.frame = 0;
-            }
 
-            projectile.velocity *= 0.99f;
+            projectile.velocity *= 0.995f;
 
             if (projectile.timeLeft < 180)
             {
@@ -59,20 +57,11 @@ namespace CalamityMod.Projectiles.Boss
             {
                 projectile.alpha -= 30;
                 if (projectile.alpha < 30)
-                {
                     projectile.alpha = 30;
-                }
             }
         }
 
-        public override bool CanHitPlayer(Player target)
-		{
-            if (projectile.timeLeft < 180)
-            {
-                return false;
-            }
-            return true;
-        }
+		public override bool CanHitPlayer(Player target) => projectile.timeLeft >= 180;
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {

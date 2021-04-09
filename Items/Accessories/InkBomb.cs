@@ -1,6 +1,7 @@
 using CalamityMod.CalPlayer;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -18,8 +19,8 @@ namespace CalamityMod.Items.Accessories
         {
             item.width = 22;
             item.height = 50;
-            item.value = Item.buyPrice(0, 3, 0, 0);
-            item.rare = 3;
+            item.value = CalamityGlobalItem.Rarity3BuyPrice;
+            item.rare = ItemRarityID.Orange;
             item.accessory = true;
         }
 
@@ -27,10 +28,6 @@ namespace CalamityMod.Items.Accessories
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.inkBomb = true;
-        }
-
-        public override void AddRecipes()
-        {
         }
     }
 }

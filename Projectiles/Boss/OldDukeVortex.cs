@@ -1,6 +1,5 @@
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Dusts;
-using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -10,7 +9,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Boss
 {
-    public class OldDukeVortex : ModProjectile
+	public class OldDukeVortex : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -21,7 +20,8 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetDefaults()
         {
-            projectile.width = 408;
+			projectile.Calamity().canBreakPlayerDefense = true;
+			projectile.width = 408;
             projectile.height = 408;
 			projectile.scale = 0.004f;
 			projectile.hostile = true;

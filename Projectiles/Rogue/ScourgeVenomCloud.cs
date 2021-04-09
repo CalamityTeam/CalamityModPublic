@@ -1,7 +1,8 @@
+using CalamityMod.Buffs.DamageOverTime;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Buffs.DamageOverTime;
 
 namespace CalamityMod.Projectiles.Rogue
 {
@@ -10,7 +11,7 @@ namespace CalamityMod.Projectiles.Rogue
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Venom Cloud");
-            Main.projFrames[projectile.type] = 4;
+            Main.projFrames[projectile.type] = 10;
         }
 
         public override void SetDefaults()
@@ -30,40 +31,36 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void AI()
         {
+            projectile.ai[0] += 1f;
             projectile.frameCounter++;
-            if (projectile.frameCounter > 9)
+            if (projectile.frameCounter > 6)
             {
                 projectile.frame++;
                 projectile.frameCounter = 0;
             }
-            if (projectile.frame > 3)
-            {
-                projectile.frame = 0;
-            }
+			if (projectile.ai[0] < 219f) //255 - frameCounter tick * number of disippation frames
+			{
+				if (projectile.frame >= 4)
+				{
+					projectile.frame = 0;
+				}
+			}
+			else if (projectile.owner == Main.myPlayer && projectile.frame >= Main.projFrames[projectile.type])
+			{
+				projectile.Kill();
+			}
             projectile.velocity *= 0.98f;
-            projectile.ai[0] += 1f;
-            if (projectile.ai[0] >= 120f)
-            {
-                if (projectile.alpha < 255)
-                {
-                    projectile.alpha += 5;
-                    if (projectile.alpha > 255)
-                    {
-                        projectile.alpha = 255;
-                    }
-                }
-                else if (projectile.owner == Main.myPlayer)
-                {
-                    projectile.Kill();
-                }
-            }
-            else if (projectile.alpha > 80)
+            if (projectile.alpha > 110)
             {
                 projectile.alpha -= 30;
-                if (projectile.alpha < 80)
+                if (projectile.alpha < 110)
                 {
-                    projectile.alpha = 80;
+                    projectile.alpha = 110;
                 }
+            }
+            if (Math.Abs(projectile.velocity.X) > 0.1f)
+            {
+                projectile.spriteDirection = -projectile.direction;
             }
         }
 

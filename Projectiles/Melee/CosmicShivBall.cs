@@ -10,6 +10,8 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class CosmicShivBall : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public NPC target = null;
         public const float maxDistanceToTarget = 900f;
         public bool initialized = false;
@@ -31,7 +33,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.tileCollide = false;
             projectile.timeLeft = 220;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 4;
+            projectile.localNPCHitCooldown = 8;
         }
         public override void AI()
         {
@@ -78,15 +80,15 @@ namespace CalamityMod.Projectiles.Melee
                 int directionSign = Main.rand.NextBool(2).ToDirectionInt();
                 Vector2 spawnPos = new Vector2(target.Center.X + directionSign * 650, projectile.Center.Y + Main.rand.Next(-500, 501));
                 Vector2 velocity = Vector2.Normalize(target.Center - spawnPos) * 30f;
-                Projectile.NewProjectile(spawnPos.X, spawnPos.Y, velocity.X, velocity.Y, ModContent.ProjectileType<CosmicShivBlade>(), projectile.damage, 1.4f, projectile.owner);
+                Projectile.NewProjectile(spawnPos.X, spawnPos.Y, velocity.X, velocity.Y, ModContent.ProjectileType<CosmicShivBlade>(), projectile.damage, projectile.knockBack * 0.1f, projectile.owner);
             }
-            int starMax = Main.rand.Next(4, 11); // 4 to 10 stars
+            int starMax = Main.rand.Next(6, 11); // 6 to 10 stars
             for (int i = -starMax / 2; i < starMax / 2; i++)
             {
                 int ySpawnAdditive = Main.rand.Next(-40, 41);
                 Vector2 toSpawn = target.Center - new Vector2(0f, 800f + ySpawnAdditive).RotatedBy(MathHelper.ToRadians(i * 11f / starMax));
                 Vector2 toTarget = Vector2.Normalize(target.Center - toSpawn) * 35f;
-                Projectile.NewProjectile(toSpawn, toTarget, ModContent.ProjectileType<GalaxyStar>(), projectile.damage, projectile.knockBack, projectile.owner);
+                Projectile.NewProjectile(toSpawn, toTarget, ModContent.ProjectileType<GalaxyStar>(), projectile.damage / 2, projectile.knockBack * 0.5f, projectile.owner);
             }
             target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 360);
             target.AddBuff(ModContent.BuffType<GlacialState>(), 360);

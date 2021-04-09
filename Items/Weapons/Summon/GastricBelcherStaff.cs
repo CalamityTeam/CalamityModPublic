@@ -19,16 +19,16 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void SetDefaults()
         {
-            item.damage = 70;
+            item.damage = 60;
             item.mana = 10;
             item.width = 66;
             item.height = 70;
             item.useTime = item.useAnimation = 20;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.noMelee = true;
             item.knockBack = 1f;
             item.value = CalamityGlobalItem.Rarity7BuyPrice;
-            item.rare = 7;
+            item.rare = ItemRarityID.Lime;
             item.UseSound = SoundID.Item76;
             item.shoot = ModContent.ProjectileType<GastricBelcher>();
             item.shootSpeed = 10f;

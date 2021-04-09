@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+using CalamityMod.Events;
 using CalamityMod.NPCs.Providence;
 using CalamityMod.World;
 using Terraria;
@@ -26,33 +26,27 @@ namespace CalamityMod.Items.SummonItems
             item.useTime = 45;
             item.useStyle = ItemUseStyleID.HoldingUp;
             item.consumable = false;
-            item.rare = 10;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
-        }
+			item.rare = ItemRarityID.Purple;
+		}
 
         public override bool CanUseItem(Player player)
         {
-            return !NPC.AnyNPCs(ModContent.NPCType<Providence>()) && (player.ZoneHoly || player.ZoneUnderworldHeight) && CalamityWorld.downedBossAny;
+            return !NPC.AnyNPCs(ModContent.NPCType<Providence>()) && (player.ZoneHoly || player.ZoneUnderworldHeight) && !BossRushEvent.BossRushActive;
         }
 
         public override bool UseItem(Player player)
         {
+			Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/ProvidenceSpawn"), (int)player.position.X, (int)player.position.Y);
 			if (Main.netMode != NetmodeID.MultiplayerClient)
 			{
-				NPC.NewNPC((int)(player.position.X + Main.rand.Next(-500, 501)), (int)(player.position.Y - 250f), ModContent.NPCType<Providence>(), 0, 0f, 0f, 0f, 0f, 255);
-				Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/ProvidenceSpawn"), (int)player.position.X, (int)player.position.Y);
+				int npc = NPC.NewNPC((int)(player.position.X + Main.rand.Next(-500, 501)), (int)(player.position.Y - 250f), ModContent.NPCType<Providence>(), 1);
+				Main.npc[npc].timeLeft *= 20;
+				CalamityUtils.BossAwakenMessage(npc);
 			}
-			return true;
-        }
+			else
+				NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, player.whoAmI, ModContent.NPCType<Providence>());
 
-        public override void AddRecipes()
-        {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<ProfanedCore>());
-            recipe.AddIngredient(ModContent.ItemType<UnholyEssence>(), 50);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+			return true;
         }
     }
 }

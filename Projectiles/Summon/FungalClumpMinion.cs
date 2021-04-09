@@ -95,31 +95,7 @@ namespace CalamityMod.Projectiles.Summon
             }
 
 			//Anti-sticky movement failsafe
-            float SAIMovement = 0.05f;
-            for (int i = 0; i < Main.maxProjectiles; i++)
-            {
-				Projectile proj = Main.projectile[i];
-                bool typeCheck = proj.type == ModContent.ProjectileType<FungalClumpMinion>();
-                if (i != projectile.whoAmI && proj.active && proj.owner == projectile.owner && typeCheck && Math.Abs(projectile.position.X - proj.position.X) + Math.Abs(projectile.position.Y - proj.position.Y) < (float)projectile.width)
-                {
-                    if (projectile.position.X < proj.position.X)
-                    {
-                        projectile.velocity.X -= SAIMovement;
-                    }
-                    else
-                    {
-                        projectile.velocity.X += SAIMovement;
-                    }
-                    if (projectile.position.Y < proj.position.Y)
-                    {
-                        projectile.velocity.Y -= SAIMovement;
-                    }
-                    else
-                    {
-                        projectile.velocity.Y += SAIMovement;
-                    }
-                }
-            }
+			projectile.MinionAntiClump();
 
 			//If summoned by Amalgam, trail poisonous seawater
 			if (Math.Abs(projectile.velocity.X) > 0.1f || Math.Abs(projectile.velocity.Y) > 0.1f)
@@ -166,7 +142,7 @@ namespace CalamityMod.Projectiles.Summon
 					}
 				}
 				//If no npc is specifically targetted, check through the entire array
-				else
+				if (!npcFound)
 				{
 					for (int npcIndex = 0; npcIndex < Main.maxNPCs; npcIndex++)
 					{
@@ -271,7 +247,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            if (target.type == NPCID.TargetDummy || !target.canGhostHeal)
+            if (!target.canGhostHeal)
             {
                 return;
             }
@@ -284,6 +260,8 @@ namespace CalamityMod.Projectiles.Summon
             {
                 return;
             }
+			if (healAmt > 50f)
+				healAmt = 50f;
 			CalamityGlobalProjectile.SpawnLifeStealProjectile(projectile, Main.player[projectile.owner], healAmt, ModContent.ProjectileType<FungalHeal>(), 1200f, 1f);
         }
 

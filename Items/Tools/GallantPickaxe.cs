@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Tools
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Gallant Pickaxe");
+            DisplayName.SetDefault("Genesis Pickaxe");
             Tooltip.SetDefault("Can mine Uelibloom Ore");
         }
 
@@ -18,20 +18,19 @@ namespace CalamityMod.Items.Tools
         {
             item.damage = 80;
             item.melee = true;
-            item.width = 54;
-            item.height = 54;
-            item.useTime = 6;
-            item.useAnimation = 12;
+            item.width = 84;
+            item.height = 80;
+            item.useTime = 7;
+            item.useAnimation = 14;
             item.useTurn = true;
             item.pick = 225;
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.knockBack = 5.5f;
-            item.value = Item.buyPrice(1, 20, 0, 0);
-            item.rare = 10;
+            item.value = Item.buyPrice(1, 0, 0, 0);
+            item.rare = ItemRarityID.Red;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
-            item.tileBoost += 4;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
+            item.tileBoost += 6;
 			item.useTurn = true;
         }
 
@@ -50,13 +49,8 @@ namespace CalamityMod.Items.Tools
         {
             if (Main.rand.NextBool(5))
             {
-                int dust = Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 58);
+                int dust = Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 62);
             }
-        }
-
-        public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
-        {
-            target.AddBuff(BuffID.CursedInferno, 300);
         }
     }
 }

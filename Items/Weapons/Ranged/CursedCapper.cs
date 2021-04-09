@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             item.damage = 35;
             item.ranged = true;
-            item.width = 44;
+            item.width = 52;
             item.height = 32;
             item.useTime = 10;
             item.useAnimation = 10;
@@ -25,12 +25,12 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.noMelee = true;
             item.knockBack = 2.25f;
             item.value = Item.buyPrice(0, 36, 0, 0);
-            item.rare = 5;
+            item.rare = ItemRarityID.Pink;
             item.UseSound = SoundID.Item41;
             item.autoReuse = true;
             item.shootSpeed = 14f;
             item.shoot = ProjectileID.CursedBullet;
-            item.useAmmo = 97;
+            item.useAmmo = AmmoID.Bullet;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

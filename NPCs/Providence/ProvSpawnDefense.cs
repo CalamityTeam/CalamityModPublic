@@ -1,17 +1,17 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
-using CalamityMod.World;
+using CalamityMod.Dusts;
+using CalamityMod.Events;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.ModLoader.Config;
-using CalamityMod;
 namespace CalamityMod.NPCs.Providence
 {
-    public class ProvSpawnDefense : ModNPC
+    [AutoloadBossHead]
+	public class ProvSpawnDefense : ModNPC
     {
         public override void SetStaticDefaults()
         {
@@ -22,41 +22,25 @@ namespace CalamityMod.NPCs.Providence
 
         public override void SetDefaults()
         {
-            npc.npcSlots = 1f;
+			npc.Calamity().canBreakPlayerDefense = true;
+			npc.npcSlots = 1f;
             npc.aiStyle = -1;
-            npc.damage = 100;
-            npc.width = 100;
+			npc.GetNPCDamage();
+			npc.width = 100;
             npc.height = 80;
             npc.defense = 50;
-            npc.Calamity().RevPlusDR(0.4f);
-            npc.lifeMax = 25000;
-            if (CalamityWorld.bossRushActive)
+			npc.DR_NERD(0.4f);
+            npc.lifeMax = 18750; // Old HP - 25000
+            if (BossRushEvent.BossRushActive)
             {
                 npc.lifeMax = 300000;
             }
-            double HPBoost = (double)CalamityMod.CalamityConfig.BossHealthPercentageBoost * 0.01;
-            npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
+            double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
+            npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.knockBackResist = 0f;
             npc.noGravity = true;
             npc.noTileCollide = true;
             aiType = -1;
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
-            npc.buffImmune[BuffID.Ichor] = false;
-            npc.buffImmune[BuffID.CursedInferno] = false;
-            npc.buffImmune[BuffID.StardustMinionBleed] = false;
-            npc.buffImmune[BuffID.BetsysCurse] = false;
-            npc.buffImmune[ModContent.BuffType<AstralInfectionDebuff>()] = false;
-            npc.buffImmune[ModContent.BuffType<AbyssalFlames>()] = false;
-            npc.buffImmune[ModContent.BuffType<ArmorCrunch>()] = false;
-            npc.buffImmune[ModContent.BuffType<DemonFlames>()] = false;
-            npc.buffImmune[ModContent.BuffType<GodSlayerInferno>()] = false;
-            npc.buffImmune[ModContent.BuffType<Nightwither>()] = false;
-            npc.buffImmune[ModContent.BuffType<Shred>()] = false;
-            npc.buffImmune[ModContent.BuffType<WhisperingDeath>()] = false;
-            npc.buffImmune[ModContent.BuffType<SilvaStun>()] = false;
             npc.HitSound = SoundID.NPCHit52;
             npc.DeathSound = SoundID.NPCDeath55;
         }
@@ -72,7 +56,6 @@ namespace CalamityMod.NPCs.Providence
         public override void AI()
         {
             CalamityGlobalNPC.holyBossDefender = npc.whoAmI;
-            bool expertMode = Main.expertMode;
             Vector2 vectorCenter = npc.Center;
             Player player = Main.player[npc.target];
             npc.TargetClosest(false);
@@ -98,7 +81,7 @@ namespace CalamityMod.NPCs.Providence
                     int dustType = Main.rand.Next(2);
                     if (dustType == 0)
                     {
-                        dustType = 244;
+                        dustType = (int)CalamityDusts.ProfanedFire;
                     }
                     else
                     {
@@ -154,7 +137,7 @@ namespace CalamityMod.NPCs.Providence
 			float amount9 = 0.5f;
 			int num153 = 5;
 
-			if (CalamityMod.CalamityConfig.Afterimages)
+			if (CalamityConfig.Instance.Afterimages)
 			{
 				for (int num155 = 1; num155 < num153; num155 += 2)
 				{
@@ -177,7 +160,7 @@ namespace CalamityMod.NPCs.Providence
 			texture2D15 = ModContent.GetTexture("CalamityMod/NPCs/ProfanedGuardians/ProfanedGuardianBoss2Glow");
 			Color color37 = Color.Lerp(Color.White, Color.Yellow, 0.5f);
 
-			if (CalamityMod.CalamityConfig.Afterimages)
+			if (CalamityConfig.Instance.Afterimages)
 			{
 				for (int num163 = 1; num163 < num153; num163++)
 				{
@@ -208,11 +191,16 @@ namespace CalamityMod.NPCs.Providence
             return true;
         }
 
-        public override void HitEffect(int hitDirection, double damage)
+		public override void OnHitPlayer(Player player, int damage, bool crit)
+		{
+			player.AddBuff(ModContent.BuffType<HolyFlames>(), 300, true);
+		}
+
+		public override void HitEffect(int hitDirection, double damage)
         {
             for (int k = 0; k < 3; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, 244, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.ProfanedFire, hitDirection, -1f, 0, default, 1f);
             }
             if (npc.life <= 0)
             {
@@ -221,7 +209,7 @@ namespace CalamityMod.NPCs.Providence
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/ProfanedGuardianBossGores/ProfanedGuardianBossT3"), 1f);
                 for (int k = 0; k < 30; k++)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, 244, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.ProfanedFire, hitDirection, -1f, 0, default, 1f);
                 }
             }
         }

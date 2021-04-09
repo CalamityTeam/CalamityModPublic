@@ -20,7 +20,6 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             item.damage = 120;
             item.ranged = true;
-            item.crit += 14;
             item.width = 40;
             item.height = 26;
             item.useTime = 20;
@@ -29,18 +28,18 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.noMelee = true;
             item.knockBack = 7f;
             item.value = Item.buyPrice(0, 80, 0, 0);
-            item.rare = 8;
+            item.rare = ItemRarityID.Yellow;
             item.UseSound = SoundID.Item5;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<FlamingStake>();
             item.shootSpeed = 10f;
-            item.useAmmo = 1836;
+            item.useAmmo = AmmoID.Stake;
         }
 
-        public override Vector2? HoldoutOffset()
-        {
-            return new Vector2(0, -10);
-        }
+		// Terraria seems to really dislike high crit values in SetDefaults
+		public override void GetWeaponCrit(Player player, ref int crit) => crit += 14;
+
+        public override Vector2? HoldoutOffset() => new Vector2(0, -10);
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
@@ -48,11 +47,11 @@ namespace CalamityMod.Items.Weapons.Ranged
             float SpeedY = speedY + (float)Main.rand.Next(-2, 3) * 0.05f;
             if (Main.rand.NextBool(3))
             {
-                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<ExplodingStake>(), damage, knockBack, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<ExplodingStake>(), damage, knockBack, player.whoAmI);
             }
             else
             {
-                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<FlamingStake>(), damage, knockBack, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<FlamingStake>(), damage, knockBack, player.whoAmI);
             }
             return false;
         }

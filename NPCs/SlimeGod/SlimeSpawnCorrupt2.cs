@@ -1,4 +1,4 @@
-using CalamityMod.World;
+using CalamityMod.Events;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -16,17 +16,17 @@ namespace CalamityMod.NPCs.SlimeGod
         public override void SetDefaults()
         {
             npc.aiStyle = 1;
-            npc.damage = 30;
-            npc.width = 40;
+			npc.GetNPCDamage();
+			npc.width = 40;
             npc.height = 30;
             npc.defense = 4;
             npc.lifeMax = 90;
-            if (CalamityWorld.bossRushActive)
+            if (BossRushEvent.BossRushActive)
             {
                 npc.lifeMax = 50000;
             }
             npc.knockBackResist = 0f;
-            animationType = 81;
+            animationType = NPCID.CorruptSlime;
             npc.alpha = 55;
             npc.lavaImmune = false;
             npc.noGravity = false;
@@ -34,7 +34,7 @@ namespace CalamityMod.NPCs.SlimeGod
             npc.canGhostHeal = false;
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath1;
-            npc.buffImmune[24] = true;
+            npc.buffImmune[BuffID.OnFire] = true;
         }
 
         public override void HitEffect(int hitDirection, double damage)

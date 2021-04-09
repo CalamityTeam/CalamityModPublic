@@ -3,8 +3,8 @@ using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
 using CalamityMod.Projectiles.Summon;
-using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Armor
@@ -15,7 +15,6 @@ namespace CalamityMod.Items.Armor
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Silva Horned Hood");
-            Tooltip.SetDefault("+5 max minions");
         }
 
         public override void SetDefaults()
@@ -24,8 +23,9 @@ namespace CalamityMod.Items.Armor
             item.height = 24;
             item.value = Item.buyPrice(0, 90, 0, 0);
             item.defense = 13; //110
-            item.Calamity().customRarity = CalamityRarity.Violet;
-        }
+			item.rare = ItemRarityID.Purple;
+			item.Calamity().customRarity = CalamityRarity.DarkBlue;
+		}
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
@@ -42,8 +42,7 @@ namespace CalamityMod.Items.Armor
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.silvaSet = true;
             modPlayer.silvaSummon = true;
-            player.setBonus = "75% increased minion damage\n" +
-                "You are immune to almost all debuffs\n" +
+            player.setBonus = "75% increased minion damage and +5 max minions\n" +
                 "All projectiles spawn healing leaf orbs on enemy hits\n" +
                 "Max run speed and acceleration boosted by 5%\n" +
                 "If you are reduced to 1 HP you will not die from any further damage for 10 seconds\n" +
@@ -51,8 +50,7 @@ namespace CalamityMod.Items.Armor
                 "This effect only triggers once per life and if you are reduced to 400 max life the invincibility effect will stop\n" +
                 "Your max life will return to normal if you die\n" +
                 "Summons an ancient leaf prism to blast your enemies with life energy\n" +
-                "After the silva invulnerability time your minions will deal 10% more damage and you will gain +2 max minions\n" +
-				"Provides cold protection in Death Mode";
+                "After the silva invulnerability time your minions will deal 10% more damage";
             if (player.whoAmI == Main.myPlayer)
             {
                 if (player.FindBuffIndex(ModContent.BuffType<SilvaSummonSetBuff>()) == -1)
@@ -61,27 +59,21 @@ namespace CalamityMod.Items.Armor
                 }
                 if (player.ownedProjectileCounts[ModContent.ProjectileType<SilvaCrystal>()] < 1)
                 {
-                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<SilvaCrystal>(), (int)(1500f * player.MinionDamage()), 0f, Main.myPlayer, -20f, 0f);
+                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<SilvaCrystal>(), (int)(600f * player.MinionDamage()), 0f, Main.myPlayer, -20f, 0f);
                 }
             }
             player.minionDamage += 0.75f;
-        }
-
-        public override void UpdateEquip(Player player)
-        {
-            player.maxMinions += 5;
-        }
+			player.maxMinions += 5;
+		}
 
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<DarksunFragment>(), 5);
             recipe.AddIngredient(ModContent.ItemType<EffulgentFeather>(), 5);
             recipe.AddRecipeGroup("AnyGoldBar", 5);
             recipe.AddIngredient(ModContent.ItemType<Tenebris>(), 6);
-            recipe.AddIngredient(ModContent.ItemType<NightmareFuel>(), 14);
-            recipe.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 14);
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
+            recipe.AddIngredient(ModContent.ItemType<DarksunFragment>(), 5);
+            recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

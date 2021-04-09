@@ -15,6 +15,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Items.TreasureBags
 {
@@ -32,22 +33,18 @@ namespace CalamityMod.Items.TreasureBags
         {
             item.maxStack = 999;
             item.consumable = true;
-            item.width = 24;
-            item.height = 24;
-            item.rare = 9;
+            item.width = 36;
+            item.height = 34;
+            item.rare = ItemRarityID.Cyan;
             item.expert = true;
         }
 
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
-            Vector2 origin = new Vector2(18f, 20f); //18, 17
-            spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Items/TreasureBags/DevourerofGodsBagGlow"), item.Center - Main.screenPosition, null, Color.White, rotation, origin, 1f, SpriteEffects.None, 0f);
+			item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.GetTexture("CalamityMod/Items/TreasureBags/DevourerofGodsBagGlow"));
         }
 
-        public override bool CanRightClick()
-        {
-            return true;
-        }
+        public override bool CanRightClick() => true;
 
         public override void PostUpdate() => CalamityUtils.ForceItemIntoWorld(item);
 
@@ -60,19 +57,15 @@ namespace CalamityMod.Items.TreasureBags
             DropHelper.DropItem(player, ModContent.ItemType<CosmiliteBrick>(), 200, 320);
 
             // Weapons
-            DropHelper.DropItemChance(player, ModContent.ItemType<Excelsus>(), 3);
-            float dischargeChance = DropHelper.LegendaryDropRateFloat;
-            DropHelper.DropItemCondition(player, ModContent.ItemType<CosmicDischarge>(), CalamityWorld.revenge, dischargeChance);
-            DropHelper.DropItemChance(player, ModContent.ItemType<TheObliterator>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<Deathwind>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<Skullmasher>(), DropHelper.RareVariantDropRateInt);
-            DropHelper.DropItemChance(player, ModContent.ItemType<Norfleet>(), DropHelper.RareVariantDropRateInt);
-            DropHelper.DropItemChance(player, ModContent.ItemType<DeathhailStaff>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<StaffoftheMechworm>(), 3);
-			if (Main.rand.NextBool(3))
-			{
-				DropHelper.DropItemFromSetChance(player, 1f, ModContent.ItemType<EradicatorMelee>(), ModContent.ItemType<Eradicator>());
-			}
+            float w = DropHelper.BagWeaponDropRateFloat;
+            DropHelper.DropEntireWeightedSet(player,
+                DropHelper.WeightStack<Excelsus>(w),
+                DropHelper.WeightStack<TheObliterator>(w),
+                DropHelper.WeightStack<Deathwind>(w),
+                DropHelper.WeightStack<DeathhailStaff>(w),
+                DropHelper.WeightStack<StaffoftheMechworm>(w),
+                DropHelper.WeightStack<Eradicator>(w)
+            );
 
             // Equipment
             DropHelper.DropItem(player, ModContent.ItemType<NebulousCore>());
@@ -81,7 +74,13 @@ namespace CalamityMod.Items.TreasureBags
 
             // Vanity
             DropHelper.DropItemChance(player, ModContent.ItemType<DevourerofGodsMask>(), 7);
-            DropHelper.DropItemCondition(player, ModContent.ItemType<CosmicPlushie>(), CalamityWorld.death && player.difficulty == 2);
+			if (Main.rand.NextBool(5))
+			{
+				DropHelper.DropItem(player, ModContent.ItemType<SilvaHelm>());
+				DropHelper.DropItem(player, ModContent.ItemType<SilvaHornedHelm>());
+				DropHelper.DropItem(player, ModContent.ItemType<SilvaMask>());
+			}
+			DropHelper.DropItemCondition(player, ModContent.ItemType<CosmicPlushie>(), CalamityWorld.death && player.difficulty == 2);
         }
     }
 }

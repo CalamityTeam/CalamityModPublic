@@ -37,7 +37,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.autoReuse = true;
             item.height = 100;
             item.value = Item.buyPrice(0, 80, 0, 0);
-            item.rare = 8;
+            item.rare = ItemRarityID.Yellow;
         }
 
         public override void AddRecipes()
@@ -63,12 +63,12 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void ModifyWeaponDamage(Player player, ref float add, ref float mult, ref float flat)
         {
             int lifeAmount = player.statLifeMax2 - player.statLife;
-            flat += lifeAmount * 0.1f * player.meleeDamage;
+            flat += lifeAmount * 0.1f * player.MeleeDamage();
         }
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<BrimstoneBoom>(), (int)(item.damage * (player.allDamage + player.meleeDamage - 1f)), knockback, Main.myPlayer);
+            Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<BrimstoneBoom>(), (int)(item.damage * player.MeleeDamage()), knockback, Main.myPlayer);
             target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 300);
 
             if (player.statLife < (player.statLifeMax2 * 0.5f) && Main.rand.NextBool(5))
@@ -85,7 +85,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
-            Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<BrimstoneBoom>(), (int)(item.damage * (player.allDamage + player.meleeDamage - 1f)), item.knockBack, Main.myPlayer);
+            Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<BrimstoneBoom>(), (int)(item.damage * player.MeleeDamage()), item.knockBack, Main.myPlayer);
             target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 300);
         }
     }

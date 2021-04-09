@@ -1,5 +1,4 @@
 using CalamityMod.Buffs.StatDebuffs;
-using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -7,7 +6,7 @@ using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Melee
 {
-    public class ClamCrusherFlail : ModProjectile
+	public class ClamCrusherFlail : ModProjectile
     {
         public int finalDamage;
 
@@ -128,14 +127,8 @@ namespace CalamityMod.Projectiles.Melee
                 Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/ClamImpact"), (int)projectile.position.X, (int)projectile.position.Y);
                 for (int num105 = 0; num105 < 50; num105++)
                 {
-                    Vector2 value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-                    while (value15.X == 0f && value15.Y == 0f)
-                    {
-                        value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-                    }
-                    value15.Normalize();
-                    value15 *= (float)Main.rand.Next(70, 101) * 0.1f;
-                    int waterDust = Dust.NewDust(new Vector2(projectile.Center.X, projectile.Center.Y), projectile.width / 2, projectile.height / 2, 33, value15.X, value15.Y, 0, new Color(0, 142, 255), 1.5f);
+					Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
+                    int waterDust = Dust.NewDust(new Vector2(projectile.Center.X, projectile.Center.Y), projectile.width / 2, projectile.height / 2, 33, velocity.X, velocity.Y, 0, new Color(0, 142, 255), 1.5f);
                     Main.dust[waterDust].velocity *= 2f;
                 }
             }

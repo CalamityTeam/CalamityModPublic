@@ -6,6 +6,8 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class IgneousBladeStrike : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Summon/IgneousBlade";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Blade");

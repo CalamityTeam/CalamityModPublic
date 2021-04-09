@@ -1,7 +1,6 @@
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
-using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Projectiles.Enemy;
 using CalamityMod.World;
@@ -29,20 +28,12 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.width = 80;
             npc.height = 140;
             npc.defense = 18;
-            npc.Calamity().RevPlusDR(0.05f);
+			npc.DR_NERD(0.05f);
             npc.lifeMax = 6000;
-            if (CalamityWorld.downedProvidence)
-            {
-                npc.damage = 190;
-                npc.defense = 60;
-                npc.lifeMax = 30000;
-            }
             npc.knockBackResist = 0.05f;
             npc.value = Item.buyPrice(0, 1, 50, 0);
             npc.HitSound = SoundID.NPCHit23;
             npc.DeathSound = SoundID.NPCDeath39;
-            npc.buffImmune[20] = true;
-            npc.buffImmune[44] = true;
             npc.noGravity = true;
             npc.noTileCollide = true;
             npc.rarity = 2;
@@ -306,26 +297,9 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void NPCLoot()
         {
-            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<EssenceofCinder>(), Main.rand.Next(2, 4));
-            if (Main.rand.NextBool(100) && CalamityWorld.downedProvidence)
-            {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Thunderstorm>());
-            }
-            if (Main.expertMode)
-            {
-                if (Main.rand.NextBool(3))
-                {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<EyeoftheStorm>());
-                }
-            }
-            else if (Main.rand.NextBool(4))
-            {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<EyeoftheStorm>());
-            }
-            if (Main.rand.NextBool(5))
-            {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<StormSaber>());
-            }
+			DropHelper.DropItem(npc, ModContent.ItemType<EssenceofCinder>(), 2, 3);
+			DropHelper.DropItemChance(npc, ModContent.ItemType<EyeoftheStorm>(), Main.expertMode ? 3 : 4);
+			DropHelper.DropItemChance(npc, ModContent.ItemType<StormSaber>(), 5);
         }
     }
 }

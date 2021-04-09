@@ -26,10 +26,6 @@ namespace CalamityMod.NPCs.Abyss
             aiType = -1; //new
             npc.knockBackResist = 0f;
             npc.alpha = 255;
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
             npc.behindTiles = true;
             npc.noGravity = true;
             npc.noTileCollide = true;
@@ -166,8 +162,6 @@ namespace CalamityMod.NPCs.Abyss
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
             player.AddBuff(ModContent.BuffType<CrushDepth>(), 500, true);
-            player.AddBuff(ModContent.BuffType<Horror>(), 200, true);
-            player.AddBuff(ModContent.BuffType<MarkedforDeath>(), 200);
         }
     }
 }

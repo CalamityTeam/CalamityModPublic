@@ -12,13 +12,13 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Deathwind");
-            Tooltip.SetDefault("Fires a spread of arrows\n" +
-                "Wooden arrows are converted to nebula arrows");
+            Tooltip.SetDefault("Fires a spread of 4 arrows\n" +
+                "Wooden arrows are converted into nebula arrows");
         }
 
         public override void SetDefaults()
         {
-            item.damage = 265;
+            item.damage = 275;
             item.ranged = true;
             item.width = 40;
             item.height = 82;
@@ -27,36 +27,34 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 5f;
-            item.value = Item.buyPrice(1, 40, 0, 0);
-            item.rare = 10;
-            item.UseSound = SoundID.Item5;
+			item.value = CalamityGlobalItem.Rarity14BuyPrice;
+			item.rare = ItemRarityID.Purple;
+			item.Calamity().customRarity = CalamityRarity.DarkBlue;
+			item.UseSound = SoundID.Item5;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<DWArrow>();
             item.shootSpeed = 20f;
-            item.useAmmo = 40;
-            item.Calamity().customRarity = CalamityRarity.PureGreen;
+            item.useAmmo = AmmoID.Arrow;
         }
 
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
-            Vector2 origin = new Vector2(20f, 41f);
-            spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Items/Weapons/Ranged/DeathwindGlow"), item.Center - Main.screenPosition, null, Color.White, rotation, origin, 1f, SpriteEffects.None, 0f);
+			item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.GetTexture("CalamityMod/Items/Weapons/Ranged/DeathwindGlow"));
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            int num6 = Main.rand.Next(4, 6);
-            for (int index = 0; index < num6; ++index)
+            for (int index = 0; index < 4; ++index)
             {
-                float SpeedX = speedX + (float)Main.rand.Next(-20, 21) * 0.05f;
-                float SpeedY = speedY + (float)Main.rand.Next(-20, 21) * 0.05f;
+                float SpeedX = speedX + Main.rand.Next(-20, 21) * 0.05f;
+                float SpeedY = speedY + Main.rand.Next(-20, 21) * 0.05f;
                 if (type == ProjectileID.WoodenArrowFriendly)
                 {
                     Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<DWArrow>(), damage, knockBack, player.whoAmI, 0f, 0f);
                 }
                 else
                 {
-                    int num121 = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
+                    int num121 = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, (int)(damage * 0.8), knockBack, player.whoAmI, 0f, 0f);
                     Main.projectile[num121].noDropItem = true;
                 }
             }

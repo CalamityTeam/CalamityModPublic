@@ -1,14 +1,13 @@
-using CalamityMod.ILEditing;
 using CalamityMod.NPCs.AcidRain;
+using CalamityMod.NPCs.OldDuke;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.ID;
-using Terraria.Localization;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Events
 {
@@ -32,8 +31,13 @@ namespace CalamityMod.Events
     }
     public class AcidRainEvent
     {
+        public static int MaxNuclearToadCount = 5; // To prevent the things from spamming. This happens frequently in pre-HM.
+
         // A partially bright pale-ish cyan with a hint of yellow.
+
         public static readonly Color TextColor = new Color(115, 194, 147);
+
+        public const int InvasionNoKillPersistTime = 14400; // How long the invasion persists, in frames, if nothing is killed.
 
         public const float BloodwormSpawnRate = 0.1f;
 
@@ -108,17 +112,7 @@ namespace CalamityMod.Events
         /// Broadcasts some text from a given localization key.
         /// </summary>
         /// <param name="localizationKey">The key to write</param>
-        public static void BroadcastEventText(string localizationKey)
-        {
-            if (Main.netMode == NetmodeID.SinglePlayer)
-            {
-                Main.NewText(Language.GetTextValue(localizationKey), TextColor);
-            }
-            else if (Main.netMode == NetmodeID.Server)
-            {
-                NetMessage.BroadcastChatMessage(NetworkText.FromKey(localizationKey), TextColor);
-            }
-        }
+        public static void BroadcastEventText(string localizationKey) => CalamityUtils.DisplayLocalizedText(localizationKey, TextColor);
         public static int NeededEnemyKills
         {
             get
@@ -140,11 +134,11 @@ namespace CalamityMod.Events
             }
         }
         /// <summary>
-        /// Attempts to start the Acid Rain event. Will fail if there is another invasion going on or the EoC has not been killed yet (unless you're in hardmode).
+        /// Attempts to start the Acid Rain event. Will fail if there is another invasion or boss rush going on. It will also fail if the EoC, WoF, or AS has not been killed yet.
         /// </summary>
         public static void TryStartEvent(bool forceRain = false)
         {
-            if (CalamityWorld.rainingAcid || (!NPC.downedBoss1 && !Main.hardMode) || CalamityWorld.bossRushActive)
+            if (CalamityWorld.rainingAcid || (!NPC.downedBoss1 && !Main.hardMode && !CalamityWorld.downedAquaticScourge) || BossRushEvent.BossRushActive)
                 return;
             int playerCount = 0;
             for (int i = 0; i < Main.player.Length; i++)
@@ -168,20 +162,20 @@ namespace CalamityMod.Events
                     Main.numClouds = Main.numCloudsTemp;
                     Main.windSpeedTemp = 0.72f;
                     Main.windSpeedSet = Main.windSpeedTemp;
-                    Main.weatherCounter = 600;
+                    Main.weatherCounter = 60 * 60 * 10; // 10 minutes of rain. Remember, once the rain goes away, so does the invasion.
+                    Main.rainTime = Main.weatherCounter;
                     Main.maxRaining = 0.89f;
                     CalamityWorld.forcedDownpourWithTear = true;
-                    CalamityMod.UpdateServerBoolean();
+                    CalamityNetcode.SyncWorld();
                 }
-				if (CalamityWorld.startAcidicDownpour)
-				{
-					Main.raining = true;
-				}
                 CalamityWorld.triedToSummonOldDuke = false;
+                CalamityWorld.timeSinceAcidRainKill = 0; // Reset the kill cooldown, just in case.
             }
+
             UpdateInvasion();
             BroadcastEventText("Mods.CalamityMod.AcidRainStart"); // A toxic downpour falls over the wasteland seas!
         }
+
         /// <summary>
         /// Updates the invasion, checking to see if it has ended.
         /// </summary>
@@ -195,7 +189,6 @@ namespace CalamityMod.Events
                 {
                     CalamityWorld.rainingAcid = false;
                     BroadcastEventText("Mods.CalamityMod.AcidRainEnd"); // The sulphuric skies begin to clear...
-                    CalamityWorld.acidRainExtraDrawTime = 40;
 
                     // Turn off the rain from the event
                     Main.numCloudsTemp = Main.rand.Next(5, 20 + 1);
@@ -211,7 +204,7 @@ namespace CalamityMod.Events
                     CalamityWorld.triedToSummonOldDuke = false;
                     CalamityMod.StopRain();
                 }
-                CalamityMod.UpdateServerBoolean();
+                CalamityNetcode.SyncWorld();
 
                 // You will be tempted to turn this into a single if conditional.
                 // Don't do this. Doing so has caused so much misery, with various things being read instead
@@ -219,27 +212,77 @@ namespace CalamityMod.Events
                 // In short, leave this alone.
                 if (Main.netMode == NetmodeID.Server)
                 {
-                    var netMessage = CalamityMod.instance.GetPacket();
+                    var netMessage = CalamityMod.Instance.GetPacket();
                     netMessage.Write((byte)CalamityModMessageType.AcidRainSync);
                     netMessage.Write(CalamityWorld.rainingAcid);
                     netMessage.Write(CalamityWorld.acidRainPoints);
+                    netMessage.Write(CalamityWorld.timeSinceAcidRainKill);
                     netMessage.Send();
                 }
                 if (Main.netMode == NetmodeID.Server)
                 {
-                    var netMessage = CalamityMod.instance.GetPacket();
-                    netMessage.Write((byte)CalamityModMessageType.AcidRainUIDrawFadeSync);
-                    netMessage.Write(CalamityWorld.acidRainExtraDrawTime);
-                    netMessage.Send();
-                }
-                if (Main.netMode == NetmodeID.Server)
-                {
-                    var netMessage = CalamityMod.instance.GetPacket();
+                    var netMessage = CalamityMod.Instance.GetPacket();
                     netMessage.Write((byte)CalamityModMessageType.AcidRainOldDukeSummonSync);
                     netMessage.Write(CalamityWorld.triedToSummonOldDuke);
                     netMessage.Send();
                 }
+                if (Main.netMode == NetmodeID.Server)
+                {
+                    var netMessage = CalamityMod.Instance.GetPacket();
+                    netMessage.Write((byte)CalamityModMessageType.EncounteredOldDukeSync);
+                    netMessage.Write(CalamityWorld.encounteredOldDuke);
+                    netMessage.Send();
+                }
             }
+        }
+
+        internal static void OnEnemyKill(NPC npc)
+        {
+            Dictionary<int, AcidRainSpawnData> possibleEnemies = PossibleEnemiesPreHM;
+
+            if (CalamityWorld.downedAquaticScourge)
+                possibleEnemies = PossibleEnemiesAS;
+            if (CalamityWorld.downedPolterghast)
+                possibleEnemies = PossibleEnemiesPolter;
+
+            if (CalamityWorld.rainingAcid)
+            {
+                if (possibleEnemies.Select(enemy => enemy.Key).Contains(npc.type))
+                {
+                    CalamityWorld.acidRainPoints -= possibleEnemies[npc.type].InvasionContributionPoints;
+                    if (CalamityWorld.downedPolterghast)
+                    {
+                        CalamityWorld.acidRainPoints = (int)MathHelper.Max(1, CalamityWorld.acidRainPoints); // Cap at 1. The last point is for Old Duke.
+                    }
+
+                    // UpdateInvasion incorporates a world sync, so this is indeed synced as a result.
+                    Main.rainTime += Main.rand.Next(240, 300 + 1); // Add some time to the rain, so that it doesn't end mid-way.
+                }
+                Dictionary<int, AcidRainSpawnData> possibleMinibosses = CalamityWorld.downedPolterghast ? PossibleMinibossesPolter : PossibleMinibossesAS;
+                if (possibleMinibosses.Select(miniboss => miniboss.Key).Contains(npc.type))
+                {
+                    CalamityWorld.acidRainPoints -= possibleMinibosses[npc.type].InvasionContributionPoints;
+                    if (CalamityWorld.downedPolterghast)
+                    {
+                        CalamityWorld.acidRainPoints = (int)MathHelper.Max(1, CalamityWorld.acidRainPoints); // Cap at 1. The last point is for Old Duke.
+                    }
+
+                    // UpdateInvasion incorporates a world sync, so this is indeed synced as a result.
+                    Main.rainTime += Main.rand.Next(1800, 2100 + 1); // Add some time to the rain, so that it doesn't end mid-way.
+                }
+            }
+
+            CalamityWorld.acidRainPoints = (int)MathHelper.Max(0, CalamityWorld.acidRainPoints); // To prevent negative completion ratios
+
+            if (CalamityWorld.rainingAcid && CalamityWorld.downedPolterghast &&
+                npc.type == ModContent.NPCType<OldDuke>() &&
+                CalamityWorld.acidRainPoints <= 2f)
+            {
+                CalamityWorld.triedToSummonOldDuke = false;
+                CalamityWorld.acidRainPoints = 0;
+            }
+            CalamityWorld.timeSinceAcidRainKill = 0;
+            UpdateInvasion();
         }
     }
 }

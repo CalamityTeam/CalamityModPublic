@@ -9,9 +9,9 @@ namespace CalamityMod.Tiles.FurniturePlaguedPlate
     {
         public override void SetDefaults()
         {
-            this.SetUpClock();
+            this.SetUpClock(true);
             ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Plagued Plate Clock");
+            name.SetDefault("Plagued Clock");
             AddMapEntry(new Color(191, 142, 111), name);
             adjTiles = new int[] { TileID.GrandfatherClocks };
         }

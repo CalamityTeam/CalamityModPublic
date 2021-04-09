@@ -1,16 +1,12 @@
-using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
-using CalamityMod.Projectiles.Enemy;
-using CalamityMod.World;
-using Microsoft.Xna.Framework;
-using System;
+using CalamityMod.Items.Potions;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.SulphurousSea
 {
-    public class Flounder : ModNPC
+	public class Flounder : ModNPC
     {
         public override void SetStaticDefaults()
         {
@@ -28,10 +24,6 @@ namespace CalamityMod.NPCs.SulphurousSea
             npc.lifeMax = 40;
             npc.aiStyle = -1;
             aiType = -1;
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
             npc.value = Item.buyPrice(0, 0, 0, 80);
             npc.HitSound = SoundID.NPCHit50;
             npc.DeathSound = SoundID.NPCDeath53;
@@ -119,20 +111,20 @@ namespace CalamityMod.NPCs.SulphurousSea
 
         public override void NPCLoot()
         {
-            DropHelper.DropItemChance(npc, ModContent.ItemType<CloakingGland>(), 2, 1, 1);
+            DropHelper.DropItemChance(npc, ModContent.ItemType<AnechoicCoating>(), 2, 1, 1);
         }
 
         public override void HitEffect(int hitDirection, double damage)
         {
             for (int k = 0; k < 3; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
             }
             if (npc.life <= 0)
             {
                 for (int k = 0; k < 15; k++)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
                 }
             }
         }

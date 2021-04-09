@@ -1,5 +1,7 @@
 using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
+using CalamityMod.World;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -15,8 +17,7 @@ namespace CalamityMod.Items.Armor
             Tooltip.SetDefault("12% increased melee damage and 10% increased melee critical strike chance\n" +
                 "12% increased melee and movement speed\n" +
                 "Melee attacks and melee projectiles inflict on fire\n" +
-                "Temporary immunity to lava and immunity to fire damage\n" +
-				"Provides heat protection in Death Mode");
+                "Temporary immunity to lava and immunity to fire damage");
         }
 
         public override void SetDefaults()
@@ -24,8 +25,23 @@ namespace CalamityMod.Items.Armor
             item.width = 18;
             item.height = 18;
             item.value = Item.buyPrice(0, 30, 0, 0);
-            item.rare = 8;
-            item.defense = 25; //67
+            item.rare = ItemRarityID.Yellow;
+            item.defense = 33; //67
+        }
+
+        public override void ModifyTooltips(List<TooltipLine> list)
+        {
+			if (CalamityWorld.death)
+			{
+				foreach (TooltipLine line2 in list)
+				{
+					if (line2.mod == "Terraria" && line2.Name == "Tooltip3")
+					{
+						line2.text = "Temporary immunity to lava and immunity to fire damage\n" +
+						"Provides heat protection in Death Mode";
+					}
+				}
+			}
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
@@ -42,13 +58,15 @@ namespace CalamityMod.Items.Armor
         public override void UpdateArmorSet(Player player)
         {
             player.setBonus = "5% increased melee damage\n" +
+                "Enemies are more likely to target you\n" +
                 "Inferno effect when below 50% life\n" +
                 "Melee attacks and projectiles cause chaos flames to erupt on enemy hits\n" +
-                "You have a 20% chance to emit a blazing explosion when you are hit";
+                "You emit a blazing explosion when you are hit";
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.ataxiaBlaze = true;
             modPlayer.ataxiaGeyser = true;
             player.meleeDamage += 0.05f;
+            player.aggro += 700;
         }
 
         public override void UpdateEquip(Player player)

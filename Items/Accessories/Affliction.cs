@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -13,23 +14,22 @@ namespace CalamityMod.Items.Accessories
         {
             DisplayName.SetDefault("Affliction");
             Tooltip.SetDefault("Gives you and all other players on your team +1 life regen,\n" +
-                               "+10% max life, 7% damage reduction, 20 defense, and 12% increased damage");
+                               "+10% max life, 7% damage reduction, 10 defense, and 10% increased damage");
         }
 
         public override void SetDefaults()
         {
             item.width = 38;
             item.height = 44;
-            item.value = Item.buyPrice(0, 60, 0, 0);
+            item.value = CalamityGlobalItem.Rarity13BuyPrice;
             item.accessory = true;
             item.expert = true;
-            item.rare = 9;
+            item.rare = ItemRarityID.Red;
         }
 
 		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
 		{
-			Vector2 origin = new Vector2(19f, 20f);
-			spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Items/Accessories/Affliction"), item.Center - Main.screenPosition, null, Color.White, rotation, origin, 1f, SpriteEffects.None, 0f);
+			item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.GetTexture("CalamityMod/Items/Accessories/Affliction"));
 		}
 
 		public override void UpdateAccessory(Player player, bool hideVisual)
@@ -38,10 +38,9 @@ namespace CalamityMod.Items.Accessories
             modPlayer.affliction = true;
             if (player.whoAmI != Main.myPlayer && player.miscCounter % 10 == 0)
             {
-                int myPlayer = Main.myPlayer;
-                if (Main.player[myPlayer].team == player.team && player.team != 0)
+                if (Main.LocalPlayer.team == player.team && player.team != 0)
                 {
-                    Main.player[myPlayer].AddBuff(ModContent.BuffType<Afflicted>(), 20, true);
+                    Main.LocalPlayer.AddBuff(ModContent.BuffType<Afflicted>(), 20, true);
                 }
             }
         }

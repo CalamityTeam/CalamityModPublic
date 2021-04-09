@@ -26,7 +26,7 @@ namespace CalamityMod.Items.Weapons.Summon
             item.noMelee = true;
             item.knockBack = 1.15f;
             item.value = Item.buyPrice(0, 2, 0, 0);
-            item.rare = 2;
+            item.rare = ItemRarityID.Green;
             item.UseSound = SoundID.Item44;
             item.shoot = ModContent.ProjectileType<SolarPixie>();
             item.summon = true;
@@ -44,18 +44,8 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            position = Main.MouseWorld;
-            speedX = 0;
-            speedY = 0;
-            for (int x = 0; x < 1000; x++)
-            {
-                Projectile projectile = Main.projectile[x];
-                if (projectile.active && projectile.owner == player.whoAmI && projectile.type == ModContent.ProjectileType<SolarPixie>())
-                {
-                    projectile.Kill();
-                }
-            }
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
+			CalamityUtils.KillShootProjectiles(true, type, player);
+            Projectile.NewProjectile(position, Vector2.Zero, type, damage, knockBack, player.whoAmI);
             return false;
         }
     }

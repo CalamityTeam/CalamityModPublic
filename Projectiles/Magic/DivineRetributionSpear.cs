@@ -61,7 +61,7 @@ namespace CalamityMod.Projectiles.Magic
                     return;
                 }
 
-				CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 600f, 9f, 20f);
+				CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 200f, 9f, 20f);
             }
             else
             {
@@ -87,7 +87,7 @@ namespace CalamityMod.Projectiles.Magic
         public override void Kill(int timeLeft)
         {
             projectile.position = projectile.Center;
-            projectile.width = projectile.height = 64;
+            projectile.width = projectile.height = 96;
             projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
             projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
             projectile.maxPenetrate = -1;

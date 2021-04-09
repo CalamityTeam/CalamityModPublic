@@ -11,6 +11,8 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class ExoLightBomb : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public Vector2 InitialCenter;
         public Vector2 Destination;
         public const float MaxRadius = 90f;

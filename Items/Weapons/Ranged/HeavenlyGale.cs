@@ -5,109 +5,115 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using static Terraria.ModLoader.ModContent;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
-    public class HeavenlyGale : ModItem
-    {
-        public override void SetStaticDefaults()
-        {
-            DisplayName.SetDefault("Heavenly Gale");
-            Tooltip.SetDefault("Fires a barrage of 5 random exo arrows\n" +
-                "Green exo arrows explode into a tornado on death\n" +
-                "Blue exo arrows cause a second group of arrows to fire on enemy hits\n" +
-                "Orange exo arrows cause explosions on death\n" +
-                "Teal exo arrows ignore enemy immunity frames\n" +
-                "66% chance to not consume ammo");
-        }
+	public class HeavenlyGale : ModItem
+	{
+		public override void SetStaticDefaults()
+		{
+			DisplayName.SetDefault("Heavenly Gale");
+			Tooltip.SetDefault("Converts wooden arrows into barrages of 5 random exo arrows\n" +
+				"Green exo arrows explode into a tornado on death\n" +
+				"Blue exo arrows cause a second group of arrows to fire on enemy hits\n" +
+				"Orange exo arrows cause explosions on death\n" +
+				"Teal exo arrows ignore enemy immunity frames\n" +
+				"66% chance to not consume ammo");
+		}
 
-        public override void SetDefaults()
-        {
-            item.damage = 720;
-            item.ranged = true;
-            item.width = 44;
-            item.height = 58;
-            item.useTime = 11;
-            item.useAnimation = 22;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 4f;
-            item.value = Item.buyPrice(2, 50, 0, 0);
-            item.rare = 10;
-            item.UseSound = SoundID.Item5;
-            item.autoReuse = true;
-            item.shoot = ProjectileID.WoodenArrowFriendly;
-            item.shootSpeed = 17f;
-            item.useAmmo = 40;
-            item.Calamity().customRarity = CalamityRarity.Violet;
-        }
+		public override void SetDefaults()
+		{
+			item.damage = 600;
+			item.ranged = true;
+			item.width = 44;
+			item.height = 58;
+			item.useTime = 15;
+			item.useAnimation = 30;
+			item.useStyle = ItemUseStyleID.HoldingOut;
+			item.noMelee = true;
+			item.knockBack = 4f;
+			item.value = Item.buyPrice(2, 50, 0, 0);
+			item.rare = ItemRarityID.Red;
+			item.UseSound = SoundID.Item5;
+			item.autoReuse = true;
+			item.shoot = ProjectileID.WoodenArrowFriendly;
+			item.shootSpeed = 17f;
+			item.useAmmo = AmmoID.Arrow;
+			item.Calamity().customRarity = CalamityRarity.Violet;
+		}
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
-        {
-            Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
-            float dmg = 1f;
-            float num117 = 0.314159274f;
-            int num118 = 5;
-            Vector2 vector7 = new Vector2(speedX, speedY);
-            vector7.Normalize();
-            vector7 *= 40f;
-            bool flag11 = Collision.CanHit(vector2, 0, 0, vector2 + vector7, 0, 0);
-            for (int num119 = 0; num119 < num118; num119++)
-            {
-                float num120 = (float)num119 - ((float)num118 - 1f) / 2f;
-                Vector2 value9 = vector7.RotatedBy((double)(num117 * num120), default);
-                if (!flag11)
-                {
-                    value9 -= vector7;
-                }
-                switch (Main.rand.Next(10))
-                {
-                    case 0:
-                    case 1:
-                    case 2:
-                    case 3:
-                        type = ModContent.ProjectileType<TealExoArrow>();
-                        dmg = 0.16f;
-                        break;
-                    case 4:
-                    case 5:
-                    case 6:
-                        type = ModContent.ProjectileType<OrangeExoArrow>();
-                        break;
-                    case 7:
-                    case 8:
-                        type = ModContent.ProjectileType<BlueExoArrow>();
-                        break;
-                    case 9:
-                        type = ModContent.ProjectileType<GreenExoArrow>();
-                        dmg = 0.7f;
-                        break;
-                }
-                Projectile.NewProjectile(vector2.X + value9.X, vector2.Y + value9.Y, speedX, speedY, type, (int)(damage * dmg), knockBack, player.whoAmI, 0.0f, 0.0f);
-            }
-            return false;
-        }
+		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		{
+			Vector2 source = player.RotatedRelativePoint(player.MountedCenter, true);
+			float dmgMult = 1f;
+			float piOver10 = MathHelper.Pi * 0.1f;
+			int arrowAmt = 5;
+			Vector2 speed = new Vector2(speedX, speedY);
+			speed.Normalize();
+			speed *= 40f;
+			bool canHit = Collision.CanHit(source, 0, 0, source + speed, 0, 0);
+			for (int i = 0; i < arrowAmt; i++)
+			{
+				float offsetAmt = i - (arrowAmt - 1f) / 2f;
+				Vector2 offset = speed.RotatedBy(piOver10 * offsetAmt);
+				if (!canHit)
+					offset -= speed;
 
-        public override bool ConsumeAmmo(Player player)
-        {
-            if (Main.rand.Next(0, 100) < 66)
-                return false;
-            return true;
-        }
+				if (type == ProjectileID.WoodenArrowFriendly)
+				{
+					int arrow = Utils.SelectRandom(Main.rand, new int[]
+					{
+						ProjectileType<TealExoArrow>(),
+						ProjectileType<OrangeExoArrow>(),
+						ProjectileType<BlueExoArrow>(),
+						ProjectileType<GreenExoArrow>()
+					});
 
-        public override void AddRecipes()
-        {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Alluvion>());
-            recipe.AddIngredient(ModContent.ItemType<AstrealDefeat>());
-            recipe.AddIngredient(ModContent.ItemType<ClockworkBow>());
-            recipe.AddIngredient(ModContent.ItemType<Galeforce>());
-            recipe.AddIngredient(ModContent.ItemType<PlanetaryAnnihilation>());
-            recipe.AddIngredient(ModContent.ItemType<TheBallista>());
-			recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 4);
-			recipe.AddTile(ModContent.TileType<DraedonsForge>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-        }
-    }
+					if (player.ownedProjectileCounts[ProjectileType<GreenExoArrow>()] + player.ownedProjectileCounts[ProjectileType<ExoTornado>()] > 5)
+					{
+						arrow = Utils.SelectRandom(Main.rand, new int[]
+						{
+							ProjectileType<TealExoArrow>(),
+							ProjectileType<OrangeExoArrow>(),
+							ProjectileType<BlueExoArrow>()
+						});
+					}
+
+					if (arrow == ProjectileType<TealExoArrow>())
+						dmgMult = 0.5f;
+
+					Projectile.NewProjectile(source.X + offset.X, source.Y + offset.Y, speedX, speedY, arrow, (int)(damage * dmgMult), knockBack, player.whoAmI);
+				}
+				else
+				{
+					int proj = Projectile.NewProjectile(source.X + offset.X, source.Y + offset.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
+					Main.projectile[proj].noDropItem = true;
+				}
+			}
+			return false;
+		}
+
+		public override bool ConsumeAmmo(Player player)
+		{
+			if (Main.rand.Next(0, 100) < 66)
+				return false;
+			return true;
+		}
+
+		public override void AddRecipes()
+		{
+			ModRecipe recipe = new ModRecipe(mod);
+			recipe.AddIngredient(ItemType<Alluvion>());
+			recipe.AddIngredient(ItemType<AstrealDefeat>());
+			recipe.AddIngredient(ItemType<ClockworkBow>());
+			recipe.AddIngredient(ItemType<Galeforce>());
+			recipe.AddIngredient(ItemType<PlanetaryAnnihilation>());
+			recipe.AddIngredient(ItemType<TheBallista>());
+			recipe.AddIngredient(ItemType<AuricBar>(), 4);
+			recipe.AddTile(TileType<DraedonsForge>());
+			recipe.SetResult(this);
+			recipe.AddRecipe();
+		}
+	}
 }

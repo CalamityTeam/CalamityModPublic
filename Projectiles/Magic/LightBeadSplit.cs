@@ -4,6 +4,8 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class LightBeadSplit : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Magic/LightBead";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Light Bead");

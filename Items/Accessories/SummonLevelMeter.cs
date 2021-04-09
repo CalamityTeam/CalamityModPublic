@@ -2,6 +2,7 @@ using CalamityMod.CalPlayer;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -18,7 +19,7 @@ namespace CalamityMod.Items.Accessories
             item.width = 26;
             item.height = 26;
             item.value = Item.buyPrice(0, 6, 0, 0);
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.accessory = true;
         }
 
@@ -54,17 +55,14 @@ namespace CalamityMod.Items.Accessories
                 case 6:
                     damageGain = 4;
                     minionKB = 90;
-                    minionSlots = 1;
                     break;
                 case 7:
                     damageGain = 4;
                     minionKB = 120;
-                    minionSlots = 1;
                     break;
                 case 8:
                     damageGain = 5;
                     minionKB = 150;
-                    minionSlots = 1;
                     break;
                 case 9:
                     damageGain = 6;
@@ -74,32 +72,32 @@ namespace CalamityMod.Items.Accessories
                 case 10:
                     damageGain = 6;
                     minionKB = 180;
-                    minionSlots = 2;
+                    minionSlots = 1;
                     break;
                 case 11:
                     damageGain = 7;
                     minionKB = 210;
-                    minionSlots = 2;
+                    minionSlots = 1;
                     break;
                 case 12:
                     damageGain = 8;
                     minionKB = 240;
-                    minionSlots = 2;
+                    minionSlots = 1;
                     break;
                 case 13:
                     damageGain = 9;
                     minionKB = 270;
-                    minionSlots = 2;
+                    minionSlots = 1;
                     break;
                 case 14:
                     damageGain = 10;
                     minionKB = 300;
-                    minionSlots = 2;
+                    minionSlots = 1;
                     break;
                 case 15:
                     damageGain = 12;
                     minionKB = 300;
-                    minionSlots = 3;
+                    minionSlots = 2;
                     break;
             }
             foreach (TooltipLine line2 in list)

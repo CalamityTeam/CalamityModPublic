@@ -2,7 +2,6 @@ using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Accessories.Vanity;
 using CalamityMod.Items.Ammo;
 using CalamityMod.Items.Materials;
-using CalamityMod.Items.Pets;
 using CalamityMod.Items.Potions;
 using CalamityMod.Items.SummonItems;
 using CalamityMod.Items.Weapons.Magic;
@@ -20,7 +19,7 @@ using Terraria.Localization;
 using Terraria.ModLoader;
 namespace CalamityMod.NPCs.TownNPCs
 {
-    [AutoloadHead]
+	[AutoloadHead]
     public class DILF : ModNPC
     {
         public override void SetStaticDefaults()
@@ -53,19 +52,21 @@ namespace CalamityMod.NPCs.TownNPCs
             animationType = NPCID.Guide;
         }
 
-        public override bool CanTownNPCSpawn(int numTownNPCs, int money)
-        {
-            return CalamityWorld.downedCryogen;
-        }
+		public override void AI()
+		{
+			if (!CalamityWorld.foundHomePermafrost && !npc.homeless)
+			{
+				CalamityWorld.foundHomePermafrost = true;
+			}
+		}
 
-        public override string TownNPCName()
-        {
-            return "Permafrost";
-        }
+        public override bool CanTownNPCSpawn(int numTownNPCs, int money) => CalamityWorld.downedCryogen;
+
+        public override string TownNPCName() => "Permafrost";
 
         public override string GetChat()
         {
-            if (npc.homeless) //not sure how to check if he has ever found a home before (to make this dialogue only run when he first spawns)
+            if (npc.homeless && !CalamityWorld.foundHomePermafrost)
             {
                 if (Main.rand.NextBool(2))
                     return "I deeply appreciate you rescuing me from being trapped within my frozen castle... It's been many, many years...";
@@ -143,7 +144,10 @@ namespace CalamityMod.NPCs.TownNPCs
 
         public override void SetupShop(Chest shop, ref int nextSlot)
         {
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<ColdheartIcicle>());
+			shop.item[nextSlot].SetDefaults(ItemID.WarmthPotion);
+			shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 2, 0, 0);
+			nextSlot++;
+			shop.item[nextSlot].SetDefaults(ModContent.ItemType<ColdheartIcicle>());
             nextSlot++;
             shop.item[nextSlot].SetDefaults(ModContent.ItemType<FrostbiteBlaster>());
             nextSlot++;
@@ -182,7 +186,8 @@ namespace CalamityMod.NPCs.TownNPCs
             shop.item[nextSlot].SetDefaults(ModContent.ItemType<EnchantedMetal>());
             nextSlot++;
             shop.item[nextSlot].SetDefaults(ModContent.ItemType<Popo>());
-            nextSlot++;
+			shop.item[nextSlot].shopCustomPrice = Item.buyPrice(5, 0, 0, 0);
+			nextSlot++;
             shop.item[nextSlot].SetDefaults(ModContent.ItemType<CryoKey>());
             shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 15, 0, 0);
             nextSlot++;

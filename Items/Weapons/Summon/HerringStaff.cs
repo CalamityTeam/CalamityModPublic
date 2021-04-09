@@ -19,14 +19,13 @@ namespace CalamityMod.Items.Weapons.Summon
         {
             item.damage = 20;
             item.mana = 10;
-            item.width = 46;
-            item.height = 46;
+            item.width = item.height = 48;
             item.useTime = item.useAnimation = 30;
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.noMelee = true;
             item.knockBack = 1.25f;
             item.value = Item.buyPrice(0, 4, 0, 0);
-            item.rare = 3;
+            item.rare = ItemRarityID.Orange;
             item.UseSound = SoundID.Item21;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<HerringMinion>();

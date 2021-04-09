@@ -1,6 +1,5 @@
 using CalamityMod.Buffs.Summon;
 using CalamityMod.Projectiles.Summon;
-using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
@@ -14,8 +13,8 @@ namespace CalamityMod.Items.Armor
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Plaguebringer Visor");
-            Tooltip.SetDefault("15% increased minion damage and +2 max minions\n" +
-			"+20 max life");
+            Tooltip.SetDefault("15% increased minion damage\n" +
+            "+20 max life");
         }
 
         public override void SetDefaults()
@@ -24,12 +23,12 @@ namespace CalamityMod.Items.Armor
             item.height = 18;
             item.defense = 7; // 32 total
             item.value = CalamityGlobalItem.Rarity8BuyPrice;
-            item.Calamity().customRarity = CalamityRarity.Dedicated;
+            item.rare = ItemRarityID.Yellow;
+            item.Calamity().donorItem = true;
         }
 
         public override void UpdateEquip(Player player)
         {
-            player.maxMinions += 2;
             player.minionDamage += 0.15f;
             player.statLifeMax2 += 20;
         }
@@ -47,10 +46,12 @@ namespace CalamityMod.Items.Armor
         public override void UpdateArmorSet(Player player)
         {
             player.setBonus = "Grants a plague dash to ram enemies and afflict them with the plague\n" +
-			"Summons a lil' plaguebringer to protect you and empower nearby minions";
+            "Summons a lil' plaguebringer to protect you and empower nearby minions\n" +
+            "+3 max minions";
 
             player.Calamity().plaguebringerPatronSet = true;
-			player.Calamity().dashMod = 8;
+            player.Calamity().dashMod = 8;
+            player.maxMinions += 3;
             if (player.whoAmI == Main.myPlayer)
             {
                 if (player.FindBuffIndex(ModContent.BuffType<PlaguebringerSummonBuff>()) == -1)
@@ -67,15 +68,15 @@ namespace CalamityMod.Items.Armor
             Lighting.AddLight(player.Center, 0f, 0.39f, 0.24f);
         }
 
-		public override void AddRecipes()
-		{
-			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ItemID.BeeHeadgear);
-			recipe.AddIngredient(ModContent.ItemType<PlagueCellCluster>(), 4);
-			recipe.AddIngredient(ModContent.ItemType<InfectedArmorPlating>(), 4);
-			recipe.AddTile(TileID.MythrilAnvil);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
-		}
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ItemID.BeeHeadgear);
+            recipe.AddIngredient(ModContent.ItemType<PlagueCellCluster>(), 4);
+            recipe.AddIngredient(ModContent.ItemType<InfectedArmorPlating>(), 4);
+            recipe.AddTile(TileID.MythrilAnvil);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
+        }
     }
 }

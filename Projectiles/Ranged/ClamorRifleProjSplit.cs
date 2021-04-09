@@ -1,11 +1,12 @@
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class ClamorRifleProjSplit : ModProjectile
+	public class ClamorRifleProjSplit : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Ranged/ClamorRifleProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Energy Bolt");
@@ -18,14 +19,19 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.friendly = true;
             projectile.ignoreWater = true;
             projectile.scale = 0.9f;
+			projectile.timeLeft = 180;
             projectile.penetrate = 1;
             projectile.ranged = true;
         }
 
-        public override void AI()
+		public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 150;
+
+		public override void AI()
         {
             projectile.rotation += 0.15f;
+
             Lighting.AddLight(projectile.Center, new Vector3(44, 191, 232) * (1.3f/255));
+
             for (int num151 = 0; num151 < 2; num151++)
             {
                 int num154 = 14;
@@ -34,7 +40,10 @@ namespace CalamityMod.Projectiles.Ranged
                 Main.dust[num155].velocity *= 0.1f;
                 Main.dust[num155].velocity += projectile.velocity * 0.5f;
             }
-        }
+
+			if (projectile.timeLeft < 150)
+				CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 450f, 12f, 25f);
+		}
 
         /* override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {

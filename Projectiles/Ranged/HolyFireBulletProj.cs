@@ -10,11 +10,14 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class HolyFireBulletProj : ModProjectile
     {
+        private const int Lifetime = 600;
+        private static readonly Color Alpha = new Color(1f, 1f, 1f, 0f);
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Holy Fire Bullet");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 12;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+            ProjectileID.Sets.TrailCacheLength[projectile.type] = 8;
+            ProjectileID.Sets.TrailingMode[projectile.type] = 1;
         }
 
         public override void SetDefaults()
@@ -22,10 +25,9 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.width = 12;
             projectile.height = 12;
             projectile.friendly = true;
-            projectile.extraUpdates = 4;
-            projectile.penetrate = 1;
-            projectile.timeLeft = 600;
             projectile.ranged = true;
+            projectile.extraUpdates = 4;
+            projectile.timeLeft = Lifetime;
         }
 
         public override void AI()
@@ -48,10 +50,7 @@ namespace CalamityMod.Projectiles.Ranged
             }
         }
 
-        public override Color? GetAlpha(Color lightColor)
-        {
-            return new Color(1f, 1f, 1f, 0f);
-        }
+        public override Color? GetAlpha(Color lightColor) => Alpha;
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
@@ -61,13 +60,19 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void Kill(int timeLeft)
         {
+            // Spawn an on-hit explosion which deals 75% of the projectile's damage.
             if (projectile.owner == Main.myPlayer)
             {
-                int blastDamage = (int)(projectile.damage * 0.85f);
+                int blastDamage = (int)(projectile.damage * 0.75);
                 float scale = 0.85f + Main.rand.NextFloat() * 1.15f;
                 int boom = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<FuckYou>(), blastDamage, projectile.knockBack, projectile.owner, 0f, scale);
-                Main.projectile[boom].Calamity().forceRanged = true;
+
+                // Only declare the explosion as ranged class if the bullet itself is ranged class.
+                if (boom.WithinBounds(Main.maxProjectiles) && projectile.ranged)
+                    Main.projectile[boom].Calamity().forceRanged = true;
             }
+
+            // Spawn four shrapnel dust. This deals no damage.
             for (int k = 0; k < 4; k++)
             {
                 float scale = Main.rand.NextFloat(1.4f, 1.8f);

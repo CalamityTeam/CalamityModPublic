@@ -1,4 +1,5 @@
 using CalamityMod.Items.Materials;
+using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -19,7 +20,7 @@ namespace CalamityMod.Items.Armor
             item.width = 18;
             item.height = 18;
             item.value = Item.buyPrice(0, 3, 0, 0);
-            item.rare = 4;
+            item.rare = ItemRarityID.LightRed;
             item.defense = 8;
         }
 
@@ -34,7 +35,7 @@ namespace CalamityMod.Items.Armor
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<PurifiedGel>(), 6);
             recipe.AddIngredient(ItemID.HellstoneBar, 11);
-            recipe.AddTile(TileID.Anvils);
+            recipe.AddTile(ModContent.TileType<StaticRefiner>());
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

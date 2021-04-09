@@ -1,13 +1,12 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    public class BlazingPhantomBlade : ModProjectile
+	public class BlazingPhantomBlade : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -28,14 +27,14 @@ namespace CalamityMod.Projectiles.Melee
             projectile.penetrate = 5;
             projectile.timeLeft = 180;
             projectile.ignoreWater = true;
-            aiType = 274;
+            aiType = ProjectileID.DeathSickle;
         }
 
         public override void AI()
         {
             Lighting.AddLight(projectile.Center, 0.6f, 0f, 0f);
 
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 500f, 8f, 20f);
+			CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 250f, 8f, 20f);
         }
 
         public override Color? GetAlpha(Color lightColor)
@@ -58,9 +57,8 @@ namespace CalamityMod.Projectiles.Melee
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.immune[projectile.owner] = 5;
-            target.AddBuff(BuffID.OnFire, 180);
-            target.AddBuff(BuffID.Venom, 60);
-            target.AddBuff(BuffID.CursedInferno, 120);
+            target.AddBuff(BuffID.OnFire, 120);
+            target.AddBuff(BuffID.Venom, 120);
         }
     }
 }

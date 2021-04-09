@@ -28,7 +28,7 @@ namespace CalamityMod.Projectiles.Summon
             projectile.friendly = true;
             projectile.ignoreWater = true;
             projectile.minionSlots = 0f;
-            projectile.timeLeft = 18000;
+            projectile.timeLeft = 180000;
             projectile.penetrate = -1;
             projectile.tileCollide = false;
             projectile.timeLeft *= 5;
@@ -94,9 +94,9 @@ namespace CalamityMod.Projectiles.Summon
                 }
             }
 
-			CalamityGlobalProjectile.ChargingMinionAI(projectile, 700f, 1000f, 2200f, 150f, 0, 40f, 9f, -4f, 40f, 9f, true, true);
+			projectile.ChargingMinionAI(700f, 1000f, 2200f, 150f, 0, 40f, 9f, 4f, new Vector2(0f, -60f), 40f, 9f, true, true);
 
-            projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
+            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
         }
 
         public override Color? GetAlpha(Color lightColor)

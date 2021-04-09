@@ -27,12 +27,12 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.noMelee = true;
             item.knockBack = 3.5f;
             item.value = Item.buyPrice(0, 60, 0, 0);
-            item.rare = 7;
+            item.rare = ItemRarityID.Lime;
             item.UseSound = SoundID.Item5;
             item.autoReuse = true;
             item.shoot = ProjectileID.PurificationPowder;
             item.shootSpeed = 14f;
-            item.useAmmo = 40;
+            item.useAmmo = AmmoID.Arrow;
         }
 
         public override Vector2? HoldoutOffset()
@@ -64,8 +64,9 @@ namespace CalamityMod.Items.Weapons.Ranged
                 {
                     value9 -= vector7;
                 }
-                int projectile = Projectile.NewProjectile(vector2.X + value9.X, vector2.Y + value9.Y, speedX, speedY, ProjectileID.Leaf, damage / 2, 0f, player.whoAmI, 0f, 0f);
-                Main.projectile[projectile].Calamity().forceRanged = true;
+                int projectile = Projectile.NewProjectile(vector2.X + value9.X, vector2.Y + value9.Y, speedX, speedY, ProjectileID.Leaf, damage / 2, 0f, player.whoAmI);
+				if (projectile.WithinBounds(Main.maxProjectiles))
+					Main.projectile[projectile].Calamity().forceRanged = true;
             }
             return false;
         }

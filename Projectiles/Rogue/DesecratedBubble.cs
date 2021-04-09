@@ -1,11 +1,10 @@
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class DesecratedBubble : ModProjectile
+	public class DesecratedBubble : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -47,7 +46,7 @@ namespace CalamityMod.Projectiles.Rogue
             {
 				if (projectile.ai[1] == 0f)
 				{
-					CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 600f, 8f, 20f);
+					CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 200f, 8f, 20f);
 				}
             }
 		}

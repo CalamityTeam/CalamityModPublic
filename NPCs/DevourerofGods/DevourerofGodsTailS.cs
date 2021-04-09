@@ -1,5 +1,6 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.IO;
@@ -7,12 +8,10 @@ using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
-using Terraria.ModLoader.Config;
-using CalamityMod;
 
 namespace CalamityMod.NPCs.DevourerofGods
 {
-    [AutoloadBossHead]
+	[AutoloadBossHead]
     public class DevourerofGodsTailS : ModNPC
     {
         private int invinceTime = 720;
@@ -30,13 +29,14 @@ namespace CalamityMod.NPCs.DevourerofGods
 
         public override void SetDefaults()
         {
-            npc.damage = 180;
-            npc.npcSlots = 5f;
+			npc.Calamity().canBreakPlayerDefense = true;
+			npc.GetNPCDamage();
+			npc.npcSlots = 5f;
             npc.width = 80;
             npc.height = 140;
             npc.defense = 50;
-            npc.LifeMaxNERB(1150000, 1350000, 9200000);
-            double HPBoost = CalamityMod.CalamityConfig.BossHealthPercentageBoost * 0.01;
+			npc.LifeMaxNERB(517500, 621000, 9200000);
+			double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.takenDamageMultiplier = 1.25f;
             npc.aiStyle = -1;
@@ -50,10 +50,6 @@ namespace CalamityMod.NPCs.DevourerofGods
 			npc.DeathSound = SoundID.NPCDeath14;
             npc.netAlways = true;
             npc.boss = true;
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
             Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
             if (calamityModMusic != null)
                 music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/UniversalCollapse");
@@ -67,6 +63,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             writer.Write(invinceTime);
             writer.Write(setAlpha);
             writer.Write(npc.dontTakeDamage);
+            writer.Write(npc.alpha);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
@@ -74,6 +71,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             invinceTime = reader.ReadInt32();
             setAlpha = reader.ReadBoolean();
             npc.dontTakeDamage = reader.ReadBoolean();
+            npc.alpha = reader.ReadInt32();
         }
 
         public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)
@@ -94,17 +92,13 @@ namespace CalamityMod.NPCs.DevourerofGods
                 npc.dontTakeDamage = true;
             }
             else
-            {
                 npc.dontTakeDamage = Main.npc[(int)npc.ai[2]].dontTakeDamage;
-            }
+
 			if (Main.npc[(int)npc.ai[2]].dontTakeDamage)
-			{
 				invinceTime = 240;
-			}
+
             if (npc.ai[3] > 0f)
-            {
                 npc.realLife = (int)npc.ai[3];
-            }
 
 			// Target
 			if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)
@@ -112,34 +106,36 @@ namespace CalamityMod.NPCs.DevourerofGods
 
 			Player player = Main.player[npc.target];
 
-			npc.velocity.Length();
-            if (npc.velocity.X < 0f)
-            {
+			float distanceFromTarget = Vector2.Distance(player.Center, npc.Center);
+			float takeLessDamageDistance = 1600f;
+			if (distanceFromTarget > takeLessDamageDistance)
+			{
+				float damageTakenScalar = MathHelper.Clamp(1f - ((distanceFromTarget - takeLessDamageDistance) / takeLessDamageDistance), 0f, 1f);
+				npc.takenDamageMultiplier = MathHelper.Lerp(1f, 1.25f, damageTakenScalar);
+			}
+			else
+				npc.takenDamageMultiplier = 1.25f;
+
+			if (npc.velocity.X < 0f)
                 npc.spriteDirection = -1;
-            }
             else if (npc.velocity.X > 0f)
-            {
                 npc.spriteDirection = 1;
-            }
+
             bool flag = false;
             if (npc.ai[1] <= 0f)
-            {
                 flag = true;
-            }
             else if (Main.npc[(int)npc.ai[1]].life <= 0)
-            {
                 flag = true;
-            }
             if (flag)
             {
                 npc.life = 0;
                 npc.HitEffect(0, 10.0);
                 npc.checkDead();
             }
+
             if (CalamityGlobalNPC.DoGHead < 0 || !Main.npc[CalamityGlobalNPC.DoGHead].active)
-            {
                 npc.active = false;
-            }
+
             Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0.2f, 0.05f, 0.2f);
             if (Main.npc[(int)npc.ai[1]].alpha < 128 && !setAlpha)
             {
@@ -151,13 +147,11 @@ namespace CalamityMod.NPCs.DevourerofGods
                 }
             }
             else
-            {
                 npc.alpha = Main.npc[(int)npc.ai[2]].alpha;
-            }
+
             if (player.dead)
-            {
                 npc.TargetClosest(false);
-            }
+
             Vector2 vector18 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
             float num191 = player.position.X + (float)(player.width / 2);
             float num192 = player.position.Y + (float)(player.height / 2);
@@ -178,7 +172,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                 } catch
                 {
                 }
-                npc.rotation = (float)System.Math.Atan2((double)num192, (double)num191) + 1.57f;
+                npc.rotation = (float)System.Math.Atan2((double)num192, (double)num191) + MathHelper.PiOver2;
                 num193 = (float)System.Math.Sqrt((double)(num191 * num191 + num192 * num192));
                 int num194 = npc.width;
                 num193 = (num193 - (float)num194) / num193;
@@ -187,14 +181,11 @@ namespace CalamityMod.NPCs.DevourerofGods
                 npc.velocity = Vector2.Zero;
                 npc.position.X = npc.position.X + num191;
                 npc.position.Y = npc.position.Y + num192;
+
                 if (num191 < 0f)
-                {
                     npc.spriteDirection = -1;
-                }
                 else if (num191 > 0f)
-                {
                     npc.spriteDirection = 1;
-                }
             }
         }
 
@@ -231,7 +222,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 		// Can only hit the target if within certain distance
 		public override bool CanHitPlayer(Player target, ref int cooldownSlot)
         {
-            cooldownSlot = 0;
+            cooldownSlot = 1;
 
             Rectangle targetHitbox = target.Hitbox;
 
@@ -288,7 +279,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                 npc.position.Y = npc.position.Y - (float)(npc.height / 2);
                 for (int num621 = 0; num621 < 10; num621++)
                 {
-                    int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 173, 0f, 0f, 100, default, 2f);
+                    int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, (int)CalamityDusts.PurpleCosmolite, 0f, 0f, 100, default, 2f);
                     Main.dust[num622].velocity *= 3f;
                     if (Main.rand.NextBool(2))
                     {
@@ -298,10 +289,10 @@ namespace CalamityMod.NPCs.DevourerofGods
                 }
                 for (int num623 = 0; num623 < 20; num623++)
                 {
-                    int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 173, 0f, 0f, 100, default, 3f);
+                    int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, (int)CalamityDusts.PurpleCosmolite, 0f, 0f, 100, default, 3f);
                     Main.dust[num624].noGravity = true;
                     Main.dust[num624].velocity *= 5f;
-                    num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 173, 0f, 0f, 100, default, 2f);
+                    num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, (int)CalamityDusts.PurpleCosmolite, 0f, 0f, 100, default, 2f);
                     Main.dust[num624].velocity *= 2f;
                 }
             }
@@ -325,7 +316,7 @@ namespace CalamityMod.NPCs.DevourerofGods
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
             npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);
-            npc.damage = (int)(npc.damage * 0.85f);
+            npc.damage = (int)(npc.damage * npc.GetExpertDamageMultiplier());
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
@@ -334,29 +325,18 @@ namespace CalamityMod.NPCs.DevourerofGods
             player.AddBuff(ModContent.BuffType<WhisperingDeath>(), 240, true);
             player.AddBuff(BuffID.Frostburn, 180, true);
 
-            // TODO: don't talk if the player has iframes
-            if (player.immune || player.immuneTime > 0)
-                return;
-
-            int num = Main.rand.Next(2);
-            string key = "Mods.CalamityMod.EdgyBossText8";
-            if (num == 0)
-            {
-                key = "Mods.CalamityMod.EdgyBossText8";
-            }
-            else if (num == 1)
-            {
-                key = "Mods.CalamityMod.EdgyBossText9";
-            }
-            Color messageColor = Color.Cyan;
-            if (Main.netMode == NetmodeID.SinglePlayer)
-            {
-                Main.NewText(Language.GetTextValue(key), messageColor);
-            }
-            else if (Main.netMode == NetmodeID.Server)
-            {
-                NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-            }
+			if (player.Calamity().dogTextCooldown <= 0)
+			{
+				string text = Utils.SelectRandom(Main.rand, new string[]
+				{
+					"Mods.CalamityMod.EdgyBossText8",
+					"Mods.CalamityMod.EdgyBossText9"
+				});
+				Color messageColor = Color.Cyan;
+				Rectangle location = new Rectangle((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height);
+				CombatText.NewText(location, messageColor, Language.GetTextValue(text), true);
+				player.Calamity().dogTextCooldown = 60;
+			}
         }
     }
 }

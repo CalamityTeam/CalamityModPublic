@@ -28,8 +28,8 @@ namespace CalamityMod.Projectiles.Melee.Spears
             projectile.penetrate = -1;
             projectile.ownerHitCheck = true;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 3;
-            projectile.Calamity().trueMelee = true;
+            projectile.localNPCHitCooldown = 7;
+            //projectile.Calamity().trueMelee = true;
         }
 
         public override float InitialSpeed => 3f;

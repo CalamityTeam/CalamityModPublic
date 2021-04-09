@@ -11,10 +11,8 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Cosmic Discharge");
-            Tooltip.SetDefault("Legendary Drop\n" +
-                "Striking an enemy with the whip causes glacial explosions and grants the player the cosmic freeze buff\n" +
-                "This buff gives the player increased life regen while standing still and freezes enemies near the player\n" +
-                "Revengeance drop");
+            Tooltip.SetDefault("Striking an enemy with the whip causes glacial explosions and grants the player the cosmic freeze buff\n" +
+                "This buff gives the player increased life regen while standing still and freezes enemies near the player");
         }
 
         public override void SetDefaults()
@@ -32,12 +30,13 @@ namespace CalamityMod.Items.Weapons.Melee
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.knockBack = 0.5f;
             item.UseSound = SoundID.Item122;
-            item.value = Item.buyPrice(1, 40, 0, 0);
-            item.rare = 10;
             item.shootSpeed = 24f;
             item.shoot = ModContent.ProjectileType<CosmicDischargeFlail>();
-            item.Calamity().customRarity = CalamityRarity.ItemSpecific;
-        }
+
+            item.value = CalamityGlobalItem.Rarity14BuyPrice;
+            item.Calamity().customRarity = CalamityRarity.DarkBlue;
+			item.Calamity().challengeDrop = true;
+		}
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {

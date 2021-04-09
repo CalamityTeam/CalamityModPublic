@@ -1,7 +1,8 @@
-using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.CalPlayer;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.Items.Accessories
 {
     public class Laudanum : ModItem
@@ -9,8 +10,9 @@ namespace CalamityMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Laudanum");
-            Tooltip.SetDefault("The Horror debuff lasts twice as long,\n" +
-                               "but it instead grants various buffs to the player\n" +
+            Tooltip.SetDefault("Converts certain debuffs into buffs and extends their durations\n" +
+                               "Debuffs affected: Darkness, Blackout, Confused, Slow, Weak, Broken Armor,\n" +
+                               "Armor Crunch, War Cleave, Chilled, Ichor and Obstructed\n" +
                                "Revengeance drop");
         }
 
@@ -18,8 +20,8 @@ namespace CalamityMod.Items.Accessories
         {
             item.width = 26;
             item.height = 26;
-            item.value = Item.buyPrice(0, 9, 0, 0);
-            item.rare = 3;
+            item.value = CalamityGlobalItem.Rarity3BuyPrice;
+            item.rare = ItemRarityID.Orange;
             item.accessory = true;
         }
 

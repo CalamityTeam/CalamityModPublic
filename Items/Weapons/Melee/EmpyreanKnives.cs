@@ -1,7 +1,5 @@
 using CalamityMod.Items.Materials;
-using CalamityMod.Items.Weapons.Ranged;
-using CalamityMod.Projectiles.Hybrid;
-using CalamityMod.Tiles.Furniture.CraftingStations;
+using CalamityMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -21,7 +19,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetDefaults()
         {
             item.width = 18;
-            item.damage = 600;
+            item.damage = 230;
             item.melee = true;
             item.noMelee = true;
             item.noUseGraphic = true;
@@ -32,11 +30,11 @@ namespace CalamityMod.Items.Weapons.Melee
             item.UseSound = SoundID.Item39;
             item.autoReuse = true;
             item.height = 20;
-            item.value = Item.buyPrice(2, 50, 0, 0);
-            item.rare = 10;
-            item.shoot = ModContent.ProjectileType<EmpyreanKnife>();
+			item.value = CalamityGlobalItem.Rarity14BuyPrice;
+			item.rare = ItemRarityID.Purple;
+			item.Calamity().customRarity = CalamityRarity.DarkBlue;
+			item.shoot = ModContent.ProjectileType<EmpyreanKnife>();
             item.shootSpeed = 15f;
-            item.Calamity().customRarity = CalamityRarity.Violet;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -103,10 +101,9 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.VampireKnives);
+            recipe.AddIngredient(ModContent.ItemType<MonstrousKnives>());
             recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 10);
-            recipe.AddIngredient(ModContent.ItemType<DarksunFragment>(), 10);
-            recipe.AddIngredient(ModContent.ItemType<TheEmpyrean>());
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
+            recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

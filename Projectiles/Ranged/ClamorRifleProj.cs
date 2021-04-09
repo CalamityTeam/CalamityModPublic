@@ -1,12 +1,10 @@
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class ClamorRifleProj : ModProjectile
+	public class ClamorRifleProj : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -39,7 +37,7 @@ namespace CalamityMod.Projectiles.Ranged
                     Main.dust[num155].velocity += projectile.velocity * 0.5f;
                 }
             }
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 300f, 18f, 25f);
+			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 150f, 12f, 25f);
         }
 
         /*public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
@@ -51,22 +49,16 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void Kill(int timeLeft)
         {
-            int num251 = Main.rand.Next(2, 3);
+            int bulletAmt = 2;
             if (projectile.owner == Main.myPlayer)
             {
-                for (int num252 = 0; num252 < num251; num252++)
+                for (int b = 0; b < bulletAmt; b++)
                 {
-                    Vector2 value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-                    while (value15.X == 0f && value15.Y == 0f)
-                    {
-                        value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-                    }
-                    value15.Normalize();
-                    value15 *= (float)Main.rand.Next(70, 101) * 0.1f;
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value15.X, value15.Y, ModContent.ProjectileType<ClamorRifleProjSplit>(), (int)(projectile.damage * 0.45), 0f, projectile.owner, 0f, 0f);
+					Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
+                    Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<ClamorRifleProjSplit>(), (int)(projectile.damage * 0.45), 0f, projectile.owner, 0f, 0f);
                 }
             }
-            Main.PlaySound(SoundID.Item118, (int)projectile.position.X, (int)projectile.position.Y);
+            Main.PlaySound(SoundID.Item118, projectile.Center);
         }
     }
 }

@@ -1,15 +1,13 @@
+using CalamityMod.Events;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
-using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.ModLoader.Config;
-using CalamityMod;
 
 namespace CalamityMod.NPCs.DesertScourge
 {
-    public class DesertScourgeTail : ModNPC
+	public class DesertScourgeTail : ModNPC
     {
         public override void SetStaticDefaults()
         {
@@ -18,23 +16,19 @@ namespace CalamityMod.NPCs.DesertScourge
 
         public override void SetDefaults()
         {
-            npc.damage = 12;
-            npc.npcSlots = 5f;
+			npc.GetNPCDamage();
+			npc.npcSlots = 5f;
             npc.width = 32;
             npc.height = 48;
             npc.defense = 9;
-            npc.Calamity().RevPlusDR(0.1f);
+			npc.DR_NERD(0.1f);
             npc.LifeMaxNERB(2300, 2650, 16500000);
-            double HPBoost = CalamityMod.CalamityConfig.BossHealthPercentageBoost * 0.01;
+            double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.aiStyle = 6;
             aiType = -1;
             npc.knockBackResist = 0f;
             npc.alpha = 255;
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
             npc.boss = true;
             Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
             if (calamityModMusic != null)
@@ -49,21 +43,14 @@ namespace CalamityMod.NPCs.DesertScourge
             npc.DeathSound = SoundID.NPCDeath1;
             npc.netAlways = true;
             npc.dontCountMe = true;
-            if (Main.expertMode)
-            {
-                npc.scale = 1.15f;
-            }
-        }
 
-        public override void SendExtraAI(BinaryWriter writer)
-        {
-            writer.Write(npc.dontTakeDamage);
-        }
-
-        public override void ReceiveExtraAI(BinaryReader reader)
-        {
-            npc.dontTakeDamage = reader.ReadBoolean();
-        }
+			if (CalamityWorld.death || BossRushEvent.BossRushActive || CalamityWorld.malice)
+				npc.scale = 1.25f;
+			else if (CalamityWorld.revenge)
+				npc.scale = 1.15f;
+			else if (Main.expertMode)
+				npc.scale = 1.1f;
+		}
 
         public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)
         {
@@ -78,7 +65,6 @@ namespace CalamityMod.NPCs.DesertScourge
 			}
 
 			Player player = Main.player[npc.target];
-            npc.dontTakeDamage = !player.ZoneDesert && !CalamityWorld.bossRushActive;
             if (!Main.npc[(int)npc.ai[1]].active)
             {
                 npc.life = 0;
@@ -99,14 +85,14 @@ namespace CalamityMod.NPCs.DesertScourge
         {
             for (int k = 0; k < 3; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
             }
             if (npc.life <= 0)
             {
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/ScourgeTail"), 1f);
                 for (int k = 0; k < 10; k++)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
                 }
             }
         }
@@ -124,7 +110,6 @@ namespace CalamityMod.NPCs.DesertScourge
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
             npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);
-            npc.damage = (int)(npc.damage * 0.85f);
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)

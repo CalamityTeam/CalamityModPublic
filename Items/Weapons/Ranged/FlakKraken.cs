@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.channel = true;
             item.knockBack = 0f;
             item.value = Item.buyPrice(0, 60, 0, 0);
-            item.rare = 7;
+            item.rare = ItemRarityID.Lime;
             item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LaserCannon");
             item.shoot = ModContent.ProjectileType<FlakKrakenGun>();
             item.shootSpeed = 30f; //30

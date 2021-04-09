@@ -1,4 +1,3 @@
-using CalamityMod.Dusts;
 using CalamityMod.Items.Fishing.SunkenSeaCatches;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -7,7 +6,7 @@ using Terraria.ObjectData;
 
 namespace CalamityMod.Tiles.SunkenSea
 {
-    public class SunkenCrateTile : ModTile
+	public class SunkenCrateTile : ModTile
     {
         public override void SetDefaults()
         {

@@ -1,7 +1,7 @@
 using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
-using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Armor
@@ -43,7 +43,7 @@ namespace CalamityMod.Items.Armor
             modPlayer.wearingRogueArmor = true;
             player.setBonus = "You will survive fatal damage and will be healed 150 HP if an attack would have killed you\n" +
                 "This effect can only occur once every 45 seconds\n" +
-                "While the cooldown for this effect is active you gain a 10% increase to all damage\n" +
+                "While the cooldown for this effect is active all life regen is halved\n" +
                 "While at full HP all of your rogue stats are boosted by 10%\n" +
                 "If you take over 80 damage in one hit you will be given extra immunity frames\n" +
                 "Rogue stealth builds while not attacking and slower while moving, up to a max of 120\n" +
@@ -56,7 +56,7 @@ namespace CalamityMod.Items.Armor
         {
             player.Calamity().throwingDamage += 0.14f;
             player.Calamity().throwingCrit += 14;
-            player.moveSpeed += 0.18f;
+            player.moveSpeed += 0.1f;
         }
 
         public override void AddRecipes()
@@ -65,7 +65,7 @@ namespace CalamityMod.Items.Armor
             recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 14);
             recipe.AddIngredient(ModContent.ItemType<NightmareFuel>(), 8);
             recipe.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 8);
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
+            recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

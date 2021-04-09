@@ -7,6 +7,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class SandDollarStealth : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/SandDollar";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Sand Dollar");
@@ -28,43 +30,28 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-			int coralAmt = Main.rand.Next(1, 4);
-			if (projectile.owner == Main.myPlayer && projectile.Calamity().stealthStrike)
-			{
-				for (int coralCount = 0; coralCount < coralAmt; coralCount++)
-				{
-					Vector2 value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-					while (value15.X == 0f && value15.Y == 0f)
-					{
-						value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-					}
-					value15.Normalize();
-					value15 *= (float)Main.rand.Next(70, 101) * 0.1f;
-					int coral = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value15.X, value15.Y, ModContent.ProjectileType<SmallCoral>(), projectile.damage / 3, 0f, projectile.owner, 0f, 0f);
-					Main.projectile[coral].Calamity().forceRogue = true;
-				}
-			}
-        }
+			OnHitEffects();
+		}
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
+			OnHitEffects();
+		}
+
+		private void OnHitEffects()
+		{
 			int coralAmt = Main.rand.Next(1, 4);
 			if (projectile.owner == Main.myPlayer && projectile.Calamity().stealthStrike)
 			{
 				for (int coralCount = 0; coralCount < coralAmt; coralCount++)
 				{
-					Vector2 value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-					while (value15.X == 0f && value15.Y == 0f)
-					{
-						value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-					}
-					value15.Normalize();
-					value15 *= (float)Main.rand.Next(70, 101) * 0.1f;
-					int coral = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value15.X, value15.Y, ModContent.ProjectileType<SmallCoral>(), projectile.damage / 3, 0f, projectile.owner, 0f, 0f);
-					Main.projectile[coral].Calamity().forceRogue = true;
+					Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
+					int coral = Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<SmallCoral>(), projectile.damage / 3, 0f, projectile.owner);
+					if (coral.WithinBounds(Main.maxProjectiles))
+						Main.projectile[coral].Calamity().forceRogue = true;
 				}
 			}
-		}
+        }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {

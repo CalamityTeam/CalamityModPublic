@@ -1,15 +1,13 @@
-using CalamityMod.Items.Weapons.Rogue;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class LeviathanTooth : ModProjectile
+	public class LeviathanTooth : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -46,12 +44,12 @@ namespace CalamityMod.Projectiles.Rogue
                 }
             }
             //Sticky Behaviour
-            CalamityUtils.StickyProjAI(projectile, 15);
+            projectile.StickyProjAI(15);
         }
 
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            CalamityUtils.ModifyHitNPCSticky(projectile, 6, false);
+            projectile.ModifyHitNPCSticky(6, false);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

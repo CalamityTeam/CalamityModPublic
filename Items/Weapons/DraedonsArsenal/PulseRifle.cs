@@ -1,4 +1,6 @@
+using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.DraedonsArsenal;
+using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -6,21 +8,22 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.DraedonsArsenal
 {
-    public class PulseRifle : ModItem
+	public class PulseRifle : ModItem
 	{
-		private int BaseDamage = 2500;
+		private int BaseDamage = 1420;
 
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Draedon's Pulse Rifle");
-			Tooltip.SetDefault("Draedon's high-efficiency electromagnetic pulse rifle\n" +
-				"Incredibly accurate pulse weapon, crafted and wielded by Draedon to defend against his own creations\n" +
+			DisplayName.SetDefault("Pulse Rifle");
+			Tooltip.SetDefault("Draedon's former pulse rifle, used in emergencies for creations which turned against him.\n" +
 				"When the pulse hits a target it will arc to another nearby target\n" +
 				"Inflicts exceptional damage against inorganic targets");
 		}
 
 		public override void SetDefaults()
 		{
+			CalamityGlobalItem modItem = item.Calamity();
+
 			item.width = 62;
 			item.height = 22;
 			item.ranged = true;
@@ -34,13 +37,16 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 			item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/PulseRifleFire");
 			item.noMelee = true;
 
-			item.value = Item.buyPrice(1, 80, 0, 0);
-			item.rare = 10;
-			item.Calamity().customRarity = CalamityRarity.RareVariant;
+			item.value = CalamityGlobalItem.Rarity14BuyPrice;
+			item.rare = ItemRarityID.Purple;
+			modItem.customRarity = CalamityRarity.DraedonRust;
 
 			item.shoot = ModContent.ProjectileType<PulseRifleShot>();
-			item.shootSpeed = 1f;
-			item.useAmmo = AmmoID.Bullet;
+			item.shootSpeed = 5f;
+
+			modItem.UsesCharge = true;
+			modItem.MaxCharge = 250f;
+			modItem.ChargePerUse = 0.24f;
 		}
 
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -56,34 +62,20 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 			float SpeedY = velocity.Y + (float)Main.rand.Next(-1, 2) * 0.05f;
 
 			Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<PulseRifleShot>(), damage, knockBack, player.whoAmI, 0f, 0f);
-
-			// Consume 6 ammo per shot
-			CalamityGlobalItem.ConsumeAdditionalAmmo(player, item, 6);
-
 			return false;
 		}
 
-		// Disable vanilla ammo consumption
-		public override bool ConsumeAmmo(Player player)
-		{
-			return false;
-		}
+		public override Vector2? HoldoutOffset() => new Vector2(-10, 0);
 
-		public override Vector2? HoldoutOffset()
+		public override void AddRecipes()
 		{
-			return new Vector2(-10, 0);
+			ModRecipe recipe = new ModRecipe(mod);
+			recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 20);
+			recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 20);
+			recipe.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 2);
+			recipe.AddTile(ModContent.TileType<DraedonsForge>());
+			recipe.SetResult(this);
+			recipe.AddRecipe();
 		}
-
-		/*public override void AddRecipes()
-		{
-			ModRecipe r = new ModRecipe(mod);
-			r.AddIngredient(null, "CrownJewel");
-			r.AddIngredient(null, "GalacticaSingularity", 5);
-			r.AddIngredient(null, "BarofLife", 10);
-			r.AddIngredient(null, "CosmiliteBar", 15);
-			r.AddTile(TileID.LunarCraftingStation);
-			r.SetResult(this);
-			r.AddRecipe();
-		}*/
 	}
 }

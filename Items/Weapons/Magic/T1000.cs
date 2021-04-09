@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.damage = 300;
+            item.damage = 150;
             item.magic = true;
             item.mana = 10;
             item.width = 20;
@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.channel = true;
             item.knockBack = 4f;
             item.value = Item.buyPrice(1, 80, 0, 0);
-            item.rare = 10;
+            item.rare = ItemRarityID.Red;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<T1000Proj>();
             item.shootSpeed = 24f;
@@ -44,8 +44,8 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<Purge>());
-            recipe.AddIngredient(ModContent.ItemType<Phantoplasm>(), 5);
             recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>());
             recipe.AddTile(ModContent.TileType<DraedonsForge>());
             recipe.SetResult(this);
             recipe.AddRecipe();

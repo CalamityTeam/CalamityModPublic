@@ -30,10 +30,6 @@ namespace CalamityMod.NPCs.SunkenSea
             aiType = -1;
             npc.knockBackResist = 0f;
             npc.value = Item.buyPrice(0, 0, 20, 0);
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
             npc.behindTiles = true;
             npc.noGravity = true;
             npc.noTileCollide = true;
@@ -272,10 +268,7 @@ namespace CalamityMod.NPCs.SunkenSea
 
         public override void NPCLoot()
         {
-            if (Main.rand.NextBool(4))
-            {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Serpentine>());
-            }
+			DropHelper.DropItemChance(npc, ModContent.ItemType<Serpentine>(), 0.25f);
         }
 
         public override void HitEffect(int hitDirection, double damage)

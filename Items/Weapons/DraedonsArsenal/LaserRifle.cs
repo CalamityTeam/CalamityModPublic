@@ -1,3 +1,4 @@
+using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.DraedonsArsenal;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -6,23 +7,23 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.DraedonsArsenal
 {
-    public class LaserRifle : ModItem
+	public class LaserRifle : ModItem
 	{
-		private int BaseDamage = 200;
-
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Heavy Laser Rifle");
 			Tooltip.SetDefault("Laser weapon used by heavy infantry units in Yharim's army\n" +
-				"Incredibly accurate, but lacks the power to punch through defensive targets");
+							   "Deals less damage against enemies with high defense");
 		}
 
 		public override void SetDefaults()
 		{
+			CalamityGlobalItem modItem = item.Calamity();
+
 			item.width = 84;
 			item.height = 28;
 			item.ranged = true;
-			item.damage = BaseDamage;
+			item.damage = 185;
 			item.knockBack = 4f;
 			item.useTime = 25;
 			item.useAnimation = 25;
@@ -32,13 +33,16 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 			item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LaserRifleFire");
 			item.noMelee = true;
 
-			item.value = Item.buyPrice(1, 80, 0, 0);
-			item.rare = 10;
-			item.Calamity().customRarity = CalamityRarity.RareVariant;
+			item.value = CalamityGlobalItem.RarityTurquoiseBuyPrice;
+			item.rare = ItemRarityID.Red;
+			modItem.customRarity = CalamityRarity.DraedonRust;
 
 			item.shoot = ModContent.ProjectileType<LaserRifleShot>();
-			item.shootSpeed = 1f;
-			item.useAmmo = AmmoID.Bullet;
+			item.shootSpeed = 5f;
+
+			modItem.UsesCharge = true;
+			modItem.MaxCharge = 190f;
+			modItem.ChargePerUse = 0.125f;
 		}
 
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -49,21 +53,12 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 				velocity.Normalize();
 				velocity *= 5f;
 			}
-
-			float SpeedX = velocity.X + (float)Main.rand.Next(-1, 2) * 0.05f;
-			float SpeedY = velocity.Y + (float)Main.rand.Next(-1, 2) * 0.05f;
-
-			Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<LaserRifleShot>(), damage, knockBack, player.whoAmI, 0f, 0f);
-
-			// Consume 4 ammo per shot
-			CalamityGlobalItem.ConsumeAdditionalAmmo(player, item, 4);
-
-			return false;
-		}
-
-		// Disable vanilla ammo consumption
-		public override bool ConsumeAmmo(Player player)
-		{
+			for (int i = 0; i < 2; i++)
+			{
+				float SpeedX = velocity.X + Main.rand.Next(-1, 2) * 0.05f;
+				float SpeedY = velocity.Y + Main.rand.Next(-1, 2) * 0.05f;
+				Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<LaserRifleShot>(), damage, knockBack, player.whoAmI, i, 0f);
+			}
 			return false;
 		}
 
@@ -72,16 +67,16 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 			return new Vector2(-20, 0);
 		}
 
-		/*public override void AddRecipes()
+		public override void AddRecipes()
 		{
-			ModRecipe r = new ModRecipe(mod);
-			r.AddIngredient(null, "CrownJewel");
-			r.AddIngredient(null, "GalacticaSingularity", 5);
-			r.AddIngredient(null, "BarofLife", 10);
-			r.AddIngredient(null, "CosmiliteBar", 15);
-			r.AddTile(TileID.LunarCraftingStation);
-			r.SetResult(this);
-			r.AddRecipe();
-		}*/
+			ModRecipe recipe = new ModRecipe(mod);
+			recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 15);
+			recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 15);
+			recipe.AddIngredient(ModContent.ItemType<UeliaceBar>(), 8);
+			recipe.AddIngredient(ItemID.LunarBar, 4);
+			recipe.AddTile(TileID.LunarCraftingStation);
+			recipe.SetResult(this);
+			recipe.AddRecipe();
+		}
 	}
 }

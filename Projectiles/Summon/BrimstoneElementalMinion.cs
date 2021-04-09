@@ -15,7 +15,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Big Busty Rose");
+            DisplayName.SetDefault("Brimstone Elemental");
             Main.projFrames[projectile.type] = 4;
             ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
             ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
@@ -35,11 +35,7 @@ namespace CalamityMod.Projectiles.Summon
             projectile.timeLeft *= 5;
             projectile.minion = true;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 20 -
-                (NPC.downedGolemBoss ? 5 : 0) -
-                (NPC.downedMoonlord ? 5 : 0) -
-                (CalamityWorld.downedDoG ? 4 : 0) -
-                (CalamityWorld.downedYharon ? 3 : 0);
+            projectile.localNPCHitCooldown = 20;
         }
 
         public override void AI()
@@ -96,36 +92,13 @@ namespace CalamityMod.Projectiles.Summon
             float num = (float)Main.rand.Next(90, 111) * 0.01f;
             num *= Main.essScale;
             Lighting.AddLight(projectile.Center, 1.25f * num, 0f * num, 0.5f * num);
-            if ((double)Math.Abs(projectile.velocity.X) > 0.2)
+            if (Math.Abs(projectile.velocity.X) > 0.2f)
             {
                 projectile.spriteDirection = -projectile.direction;
             }
             float num633 = 700f;
             float num636 = 400f; //150
-            float num637 = 0.05f;
-            for (int num638 = 0; num638 < Main.maxProjectiles; num638++)
-            {
-                bool flag23 = Main.projectile[num638].type == ModContent.ProjectileType<BrimstoneElementalMinion>();
-                if (num638 != projectile.whoAmI && Main.projectile[num638].active && Main.projectile[num638].owner == projectile.owner && flag23 && Math.Abs(projectile.position.X - Main.projectile[num638].position.X) + Math.Abs(projectile.position.Y - Main.projectile[num638].position.Y) < (float)projectile.width)
-                {
-                    if (projectile.position.X < Main.projectile[num638].position.X)
-                    {
-                        projectile.velocity.X = projectile.velocity.X - num637;
-                    }
-                    else
-                    {
-                        projectile.velocity.X = projectile.velocity.X + num637;
-                    }
-                    if (projectile.position.Y < Main.projectile[num638].position.Y)
-                    {
-                        projectile.velocity.Y = projectile.velocity.Y - num637;
-                    }
-                    else
-                    {
-                        projectile.velocity.Y = projectile.velocity.Y + num637;
-                    }
-                }
-            }
+			projectile.MinionAntiClump();
             Vector2 vector46 = projectile.position;
             bool flag25 = false;
             if (projectile.ai[0] != 1f)
@@ -149,7 +122,7 @@ namespace CalamityMod.Projectiles.Summon
                     }
                 }
             }
-            else
+            if (!flag25)
             {
                 for (int num645 = 0; num645 < Main.maxNPCs; num645++)
                 {
@@ -220,11 +193,16 @@ namespace CalamityMod.Projectiles.Summon
                 projectile.ai[1] = 0f;
                 projectile.netUpdate = true;
             }
+
+            // Prevent firing immediately
+            if (projectile.localAI[0] < 120f)
+                projectile.localAI[0] += 1f;
+
             if (projectile.ai[0] == 0f)
             {
                 float scaleFactor3 = 14f;
                 int num658 = ModContent.ProjectileType<BrimstoneFireballMinion>();
-                if (flag25 && projectile.ai[1] == 0f)
+                if (flag25 && projectile.ai[1] == 0f && projectile.localAI[0] >= 120f)
                 {
                     projectile.ai[1] += 1f;
                     if (Main.myPlayer == projectile.owner && Collision.CanHitLine(projectile.position, projectile.width, projectile.height, vector46, 0, 0))

@@ -1,3 +1,4 @@
+using CalamityMod.Events;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -13,7 +14,6 @@ namespace CalamityMod.NPCs.HiveMind
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Hive Blob");
-            //Main.npcFrameCount[npc.type] = 4;
         }
 
         public override void SetDefaults()
@@ -23,12 +23,13 @@ namespace CalamityMod.NPCs.HiveMind
             npc.damage = 0;
             npc.width = 25;
             npc.height = 25;
-            npc.lifeMax = 75;
-            if (CalamityWorld.bossRushActive)
+            npc.lifeMax = 150;
+            if (BossRushEvent.BossRushActive)
             {
                 npc.lifeMax = 13000;
             }
-            aiType = -1;
+			npc.knockBackResist = 0f;
+			aiType = -1;
             npc.noGravity = true;
             npc.noTileCollide = true;
             npc.canGhostHeal = false;
@@ -39,68 +40,49 @@ namespace CalamityMod.NPCs.HiveMind
 
         public override void AI()
         {
-            bool expertMode = Main.expertMode;
-            bool revenge = CalamityWorld.revenge;
-            if (CalamityGlobalNPC.hiveMind < 0 || !Main.npc[CalamityGlobalNPC.hiveMind].active)
-            {
-                npc.active = false;
-                npc.netUpdate = true;
-                return;
-            }
-            int num750 = CalamityGlobalNPC.hiveMind;
-            if (npc.ai[3] > 0f)
-            {
+			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
+			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
+			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+
+			int num750 = CalamityGlobalNPC.hiveMind;
+			if (num750 < 0 || !Main.npc[num750].active)
+			{
+				npc.active = false;
+				npc.netUpdate = true;
+				return;
+			}
+
+			if (npc.ai[3] > 0f)
                 num750 = (int)npc.ai[3] - 1;
-            }
-            if (Main.netMode != NetmodeID.MultiplayerClient)
-            {
-                npc.localAI[0] -= 1f;
-                if (npc.localAI[0] <= 0f)
-                {
-                    npc.localAI[0] = (float)Main.rand.Next(120, 480);
-                    npc.ai[0] = (float)Main.rand.Next(-100, 101);
-                    npc.ai[1] = (float)Main.rand.Next(-100, 101);
-                    npc.netUpdate = true;
-                }
-            }
-            npc.TargetClosest(true);
-            float num751 = 0.01f;
-            float num752 = 300f;
-            if ((double)Main.npc[CalamityGlobalNPC.hiveMind].life < (double)Main.npc[CalamityGlobalNPC.hiveMind].lifeMax * 0.25)
-            {
-                num752 += 30f;
-            }
-            if ((double)Main.npc[CalamityGlobalNPC.hiveMind].life < (double)Main.npc[CalamityGlobalNPC.hiveMind].lifeMax * 0.1)
-            {
-                num752 += 60f;
-            }
-            if (expertMode)
-            {
-                float num753 = 1f - (float)npc.life / (float)npc.lifeMax;
-                num752 += num753 * 100f;
-                num751 += 0.02f;
-            }
-            if (revenge)
-            {
-                num751 += 0.1f;
-            }
-            if (!Main.npc[num750].active)
-            {
-                npc.active = false;
-                return;
-            }
+
+			if (Main.netMode != NetmodeID.MultiplayerClient)
+			{
+				npc.localAI[0] -= 1f;
+				if (npc.localAI[0] <= 0f)
+				{
+					npc.localAI[0] = Main.rand.Next(180, 361);
+					npc.ai[0] = Main.rand.Next(-100, 101);
+					npc.ai[1] = Main.rand.Next(-100, 101);
+					npc.netUpdate = true;
+				}
+			}
+
+			npc.TargetClosest(true);
+
+			float num751 = death ? 0.8f : revenge ? 0.7f : expertMode ? 0.6f : 0.5f;
+			float num752 = 96f;
             Vector2 vector22 = new Vector2(npc.ai[0] * 16f + 8f, npc.ai[1] * 16f + 8f);
-            float num189 = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2) - (float)(npc.width / 2) - vector22.X;
-            float num190 = Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2) - (float)(npc.height / 2) - vector22.Y;
-            float num191 = (float)Math.Sqrt((double)(num189 * num189 + num190 * num190));
-            float num754 = Main.npc[num750].position.X + (float)(Main.npc[num750].width / 2);
-            float num755 = Main.npc[num750].position.Y + (float)(Main.npc[num750].height / 2);
+            float num189 = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2) - (npc.width / 2) - vector22.X;
+            float num190 = Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2) - (npc.height / 2) - vector22.Y;
+            float num191 = (float)Math.Sqrt(num189 * num189 + num190 * num190);
+            float num754 = Main.npc[num750].position.X + (Main.npc[num750].width / 2);
+            float num755 = Main.npc[num750].position.Y + (Main.npc[num750].height / 2);
             Vector2 vector93 = new Vector2(num754, num755);
             float num756 = num754 + npc.ai[0];
             float num757 = num755 + npc.ai[1];
             float num758 = num756 - vector93.X;
             float num759 = num757 - vector93.Y;
-            float num760 = (float)Math.Sqrt((double)(num758 * num758 + num759 * num759));
+            float num760 = (float)Math.Sqrt(num758 * num758 + num759 * num759);
             num760 = num752 / num760;
             num758 *= num760;
             num759 *= num760;
@@ -108,80 +90,60 @@ namespace CalamityMod.NPCs.HiveMind
             {
                 npc.velocity.X = npc.velocity.X + num751;
                 if (npc.velocity.X < 0f && num758 > 0f)
-                {
-                    npc.velocity.X = npc.velocity.X * 0.9f;
-                }
+                    npc.velocity.X = npc.velocity.X * 0.8f;
             }
             else if (npc.position.X > num754 + num758)
             {
                 npc.velocity.X = npc.velocity.X - num751;
                 if (npc.velocity.X > 0f && num758 < 0f)
-                {
-                    npc.velocity.X = npc.velocity.X * 0.9f;
-                }
+                    npc.velocity.X = npc.velocity.X * 0.8f;
             }
             if (npc.position.Y < num755 + num759)
             {
                 npc.velocity.Y = npc.velocity.Y + num751;
                 if (npc.velocity.Y < 0f && num759 > 0f)
-                {
-                    npc.velocity.Y = npc.velocity.Y * 0.9f;
-                }
+                    npc.velocity.Y = npc.velocity.Y * 0.8f;
             }
             else if (npc.position.Y > num755 + num759)
             {
                 npc.velocity.Y = npc.velocity.Y - num751;
                 if (npc.velocity.Y > 0f && num759 < 0f)
-                {
-                    npc.velocity.Y = npc.velocity.Y * 0.9f;
-                }
+                    npc.velocity.Y = npc.velocity.Y * 0.8f;
             }
-            if (npc.velocity.X > 4f)
-            {
-                npc.velocity.X = 4f;
-            }
-            if (npc.velocity.X < -4f)
-            {
-                npc.velocity.X = -4f;
-            }
-            if (npc.velocity.Y > 4f)
-            {
-                npc.velocity.Y = 4f;
-            }
-            if (npc.velocity.Y < -4f)
-            {
-                npc.velocity.Y = -4f;
-            }
-            if (Main.netMode != NetmodeID.MultiplayerClient)
+
+			float velocityLimit = 8f;
+			if (npc.velocity.X > velocityLimit)
+				npc.velocity.X = velocityLimit;
+			if (npc.velocity.X < -velocityLimit)
+				npc.velocity.X = -velocityLimit;
+			if (npc.velocity.Y > velocityLimit)
+				npc.velocity.Y = velocityLimit;
+			if (npc.velocity.Y < -velocityLimit)
+				npc.velocity.Y = -velocityLimit;
+
+			if (Main.netMode != NetmodeID.MultiplayerClient)
             {
                 if (!Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
-                {
                     npc.localAI[1] = 180f;
-                }
+
                 npc.localAI[1] += 1f;
-                if (npc.localAI[1] >= 600f)
+                if (npc.localAI[1] >= 360f && Vector2.Distance(Main.player[npc.target].Center, npc.Center) > 80f)
                 {
                     npc.localAI[1] = 0f;
                     npc.TargetClosest(true);
                     if (Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
                     {
-                        float num941 = revenge ? 6f : 5f; //speed
-                        if (CalamityWorld.death || CalamityWorld.bossRushActive)
-                        {
-                            num941 = 7f;
-                        }
-                        Vector2 vector104 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)(npc.height / 2));
-                        float num942 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - vector104.X;
-                        float num943 = Main.player[npc.target].position.Y + (float)Main.player[npc.target].height * 0.5f - vector104.Y;
-                        float num944 = (float)Math.Sqrt((double)(num942 * num942 + num943 * num943));
+						float num941 = death ? 5f : revenge ? 4.5f : expertMode ? 4f : 3.5f;
+						Vector2 vector104 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + (npc.height / 2));
+                        float num942 = Main.player[npc.target].position.X + Main.player[npc.target].width * 0.5f - vector104.X;
+                        float num943 = Main.player[npc.target].position.Y + Main.player[npc.target].height * 0.5f - vector104.Y;
+                        float num944 = (float)Math.Sqrt(num942 * num942 + num943 * num943);
                         num944 = num941 / num944;
                         num942 *= num944;
                         num943 *= num944;
-                        int num945 = expertMode ? 12 : 15;
-                        int num946 = ModContent.ProjectileType<VileClot>();
-                        vector104.X += num942 * 5f;
-                        vector104.Y += num943 * 5f;
-                        int num947 = Projectile.NewProjectile(vector104.X, vector104.Y, num942, num943, num946, num945, 0f, Main.myPlayer, 0f, 0f);
+						int type = ModContent.ProjectileType<VileClot>();
+						int damage = npc.GetProjectileDamage(type);
+						Projectile.NewProjectile(vector104.X, vector104.Y, num942, num943, type, damage, 0f, Main.myPlayer, 0f, 0f);
                         npc.netUpdate = true;
                     }
                 }
@@ -192,14 +154,6 @@ namespace CalamityMod.NPCs.HiveMind
         {
             return false;
         }
-
-        /*public override void FindFrame(int frameHeight)
-        {
-            npc.frameCounter += 0.1f;
-            npc.frameCounter %= Main.npcFrameCount[npc.type];
-            int frame = (int)npc.frameCounter;
-            npc.frame.Y = frame * frameHeight;
-        }*/
 
         public override void HitEffect(int hitDirection, double damage)
         {

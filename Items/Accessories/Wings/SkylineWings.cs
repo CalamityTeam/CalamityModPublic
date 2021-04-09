@@ -15,16 +15,16 @@ namespace CalamityMod.Items.Accessories.Wings
             Tooltip.SetDefault("Horizontal speed: 6.25\n" +
                 "Acceleration multiplier: 1\n" +
                 "Average vertical speed\n" +
-                "Flight time: 60\n" +
-				"25% increased jump speed while wearing the Aerospec armor");
+                "Flight time: 80\n" +
+				"2.5% increased jump speed while wearing the Aerospec armor");
         }
 
         public override void SetDefaults()
         {
             item.width = 22;
             item.height = 20;
-            item.value = Item.buyPrice(0, 9, 0, 0);
-            item.rare = 3;
+            item.value = CalamityGlobalItem.Rarity3BuyPrice;
+            item.rare = ItemRarityID.Orange;
             item.accessory = true;
         }
 
@@ -35,9 +35,9 @@ namespace CalamityMod.Items.Accessories.Wings
                 player.armor[0].type == ModContent.ItemType<AerospecHelmet>()) &&
                 player.armor[1].type == ModContent.ItemType<AerospecBreastplate>() && player.armor[2].type == ModContent.ItemType<AerospecLeggings>())
             {
-				player.jumpSpeedBoost += 0.25f;
+				player.jumpSpeedBoost += 0.125f;
             }
-            player.wingTimeMax = 60;
+            player.wingTimeMax = 80;
             player.noFallDmg = true;
         }
 

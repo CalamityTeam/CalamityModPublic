@@ -1,4 +1,3 @@
-using CalamityMod.Dusts;
 using CalamityMod.Items.Fishing.BrimstoneCragCatches;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -7,7 +6,7 @@ using Terraria.ObjectData;
 
 namespace CalamityMod.Tiles.Crags
 {
-    public class BrimstoneCrateTile : ModTile
+	public class BrimstoneCrateTile : ModTile
     {
         public override void SetDefaults()
         {

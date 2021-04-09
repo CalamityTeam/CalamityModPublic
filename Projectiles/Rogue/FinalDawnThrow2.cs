@@ -1,13 +1,13 @@
-using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
- 
+
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class FinalDawnThrow2 : ModProjectile
+	public class FinalDawnThrow2 : ModProjectile
     {
         bool HasHitEnemy = false;
         public override void SetStaticDefaults()
@@ -27,7 +27,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.extraUpdates = 1;
 			projectile.tileCollide = true; // We don't want people getting stuck in walls right
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 5;
+            projectile.localNPCHitCooldown = 10;
         }
         public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
         {
@@ -46,7 +46,7 @@ namespace CalamityMod.Projectiles.Rogue
                     Vector2 velocity = Utils.NextVector2Circular(Main.rand, 7.2f, 7.2f);
                     Projectile.NewProjectile(projectile.Center, velocity,
                                              ModContent.ProjectileType<FinalDawnFireball>(),
-                                             (int)(projectile.damage * 0.8), projectile.knockBack, projectile.owner, 0f,
+                                             (int)(projectile.damage * 0.3), projectile.knockBack, projectile.owner, 0f,
                                              target.whoAmI);
                 }
                 HasHitEnemy = true;
@@ -54,12 +54,28 @@ namespace CalamityMod.Projectiles.Rogue
         }
 		public override void AI()
 		{
+			Player player = Main.player[projectile.owner];
+
+			if (player is null || player.dead)
+				projectile.Kill();
+
             if (projectile.localAI[0] == 0)
             {
                 Main.PlaySound(SoundID.Item71, projectile.position);
                 projectile.localAI[0] = 1;
             }
-			Player player = Main.player[projectile.owner];
+
+            // Kill any hooks from the projectile owner.
+            for (int i = 0; i < Main.projectile.Length; i++)
+            {
+                Projectile proj = Main.projectile[i];
+
+                if (!proj.active || proj.owner != player.whoAmI || proj.aiStyle != 7)
+                    continue;
+
+                if (proj.aiStyle == 7)
+                    proj.Kill();
+            }
 
             projectile.spriteDirection = projectile.velocity.X > 0 ? 1 : -1;
             projectile.rotation += 0.25f * projectile.direction;
@@ -68,9 +84,13 @@ namespace CalamityMod.Projectiles.Rogue
             player.fullRotation = projectile.rotation;
             player.direction = projectile.direction;
             player.heldProj = projectile.whoAmI;
-            player.bodyFrame.Y = 1 * player.bodyFrame.Height;
+            player.bodyFrame.Y = player.bodyFrame.Height;
             player.immuneNoBlink = true;
             player.immuneTime = 10;
+			for (int k = 0; k < player.hurtCooldowns.Length; k++)
+			{
+				player.hurtCooldowns[k] = player.immuneTime;
+			}
 
             // This is to make sure the player doesn't get yeeted out of the world, which crashes the game pretty much all of the time
             bool worldEdge = projectile.Center.X < 1000 || projectile.Center.Y < 1000 || projectile.Center.X > Main.maxTilesX * 16 - 1000 || projectile.Center.Y > Main.maxTilesY * 16 - 1000;
@@ -81,7 +101,7 @@ namespace CalamityMod.Projectiles.Rogue
 			    projectile.Kill();
 			}
 
-			int idx = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width , projectile.height, mod.DustType("FinalFlame"), 0f, 0f, 0, default, 2.5f);
+			int idx = Dust.NewDust(projectile.position, projectile.width , projectile.height, ModContent.DustType<FinalFlame>(), 0f, 0f, 0, default, 2.5f);
             Main.dust[idx].velocity = projectile.velocity * -0.5f;
             Main.dust[idx].noGravity = true;
             Main.dust[idx].noLight = false;

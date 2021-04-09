@@ -1,13 +1,12 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class SylvanSlash : ModProjectile
+	public class SylvanSlash : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -20,7 +19,6 @@ namespace CalamityMod.Projectiles.Rogue
         {
             projectile.width = 30;
             projectile.height = 30;
-            aiType = ProjectileID.FrostWave;
             projectile.friendly = true;
             projectile.ignoreWater = true;
             projectile.Calamity().rogue = true;

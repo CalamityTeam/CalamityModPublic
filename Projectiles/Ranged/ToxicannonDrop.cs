@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class ToxicannonDrop : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Environment/AcidDrop";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Acid");
@@ -24,7 +26,7 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.tileCollide = true;
             projectile.ignoreWater = false;
             projectile.timeLeft = 420;
-            projectile.Calamity().rogue = true;
+            projectile.ranged = true;
         }
         public override void AI()
         {

@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class BouncingEyeballProjectile : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/BouncingEyeball";
+
         private int Bounces = 5;
         public override void SetStaticDefaults()
         {
@@ -50,11 +52,8 @@ namespace CalamityMod.Projectiles.Rogue
         }
         public override void AI()
         {
-            //can I just say that the weird inverted world coordinates is fucking insane? thanks
             if (projectile.velocity.Y <= 10f)
-            {
                 projectile.velocity.Y += 0.15f;
-            }
             projectile.rotation += MathHelper.ToRadians(5f) * Sign(projectile.velocity.X);
         }
         public override void Kill(int timeLeft)
@@ -63,7 +62,7 @@ namespace CalamityMod.Projectiles.Rogue
             int dustCount = Main.rand.Next(8, 16);
             for (int index = 0; index < dustCount; index++)
             {
-                Vector2 velocity = Vector2.Normalize(Utils.RandomVector2(Main.rand, -1000f, 1000f)) * Main.rand.NextFloat(4f, 9f) + projectile.velocity / 2f;
+                Vector2 velocity = Main.rand.NextVector2Unit() * Main.rand.NextFloat(4f, 9f) + projectile.velocity / 2f;
                 Dust.NewDust(projectile.Center, 4, 4, DustID.Blood, velocity.X, velocity.Y);
             }
         }

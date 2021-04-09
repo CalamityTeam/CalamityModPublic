@@ -15,7 +15,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.damage = 360;
+            item.damage = 165;
             item.mana = 50;
             item.magic = true;
             item.width = 48;
@@ -26,13 +26,13 @@ namespace CalamityMod.Items.Weapons.Magic
             item.noMelee = true;
             item.knockBack = 2f;
             item.value = Item.buyPrice(1, 20, 0, 0);
-            item.rare = 10;
+            item.rare = ItemRarityID.Red;
             item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/PlasmaBlast");
             item.autoReuse = true;
             item.shootSpeed = 6f;
             item.shoot = ModContent.ProjectileType<ThunderstormShot>();
-            item.Calamity().customRarity = CalamityRarity.RareVariant;
-        }
+			item.Calamity().challengeDrop = true;
+		}
 
         public override Vector2? HoldoutOffset()
         {

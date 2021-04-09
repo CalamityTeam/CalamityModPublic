@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.knockBack = 4.5f;
             item.UseSound = SoundID.Item1;
             item.value = Item.buyPrice(0, 80, 0, 0);
-            item.rare = 8;
+            item.rare = ItemRarityID.Yellow;
             item.shoot = ModContent.ProjectileType<EpidemicShredderProjectile>();
             item.shootSpeed = 18f;
             item.Calamity().rogue = true;
@@ -41,7 +41,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Vector2 velocity = new Vector2(speedX, speedY);
             float strikeValue = player.Calamity().StealthStrikeAvailable().ToInt(); //0 if false, 1 if true
             int projectileIndex = Projectile.NewProjectile(position, velocity, ModContent.ProjectileType<EpidemicShredderProjectile>(), damage, knockBack, player.whoAmI, ai1: strikeValue);
-            if (player.Calamity().StealthStrikeAvailable())
+            if (player.Calamity().StealthStrikeAvailable() && projectileIndex.WithinBounds(Main.maxProjectiles))
             {
                 Main.projectile[projectileIndex].Calamity().stealthStrike = strikeValue == 1f;
             }

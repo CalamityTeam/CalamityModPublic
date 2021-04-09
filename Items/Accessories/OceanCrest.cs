@@ -1,4 +1,5 @@
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
@@ -15,19 +16,19 @@ namespace CalamityMod.Items.Accessories
         {
             item.width = 18;
             item.height = 26;
-            item.value = Item.buyPrice(0, 6, 0, 0);
-            item.rare = 9;
+            item.value = CalamityGlobalItem.Rarity2BuyPrice;
+            item.rare = ItemRarityID.Green;
             item.accessory = true;
             item.expert = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.npcTypeNoAggro[65] = true;
-            player.npcTypeNoAggro[220] = true;
-            player.npcTypeNoAggro[64] = true;
-            player.npcTypeNoAggro[67] = true;
-            player.npcTypeNoAggro[221] = true;
+            player.npcTypeNoAggro[NPCID.Shark] = true;
+            player.npcTypeNoAggro[NPCID.SeaSnail] = true;
+            player.npcTypeNoAggro[NPCID.PinkJellyfish] = true;
+            player.npcTypeNoAggro[NPCID.Crab] = true;
+            player.npcTypeNoAggro[NPCID.Squid] = true;
             player.gills = true;
         }
     }

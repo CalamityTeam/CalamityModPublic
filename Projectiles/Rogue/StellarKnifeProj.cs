@@ -3,6 +3,7 @@ using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -11,6 +12,7 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class StellarKnifeProj : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/StellarKnife";
 
         public override void SetStaticDefaults()
         {
@@ -30,6 +32,16 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.Calamity().rogue = true;
         }
 
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(projectile.localAI[1]);
+		}
+
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			projectile.localAI[1] = reader.ReadSingle();
+		}
+
         public override void AI()
         {
 			//synthesized timeLeft
@@ -40,32 +52,23 @@ namespace CalamityMod.Projectiles.Rogue
             if (projectile.ai[0] == 1f)
             {
                 projectile.ai[0] = 0f;
-                projectile.damage = (int)((double) projectile.damage * (projectile.ai[1] == 1f ? 0.9f : 0.75f));
+                projectile.damage = (int)(projectile.damage * (projectile.ai[1] == 1f ? 0.9f : 0.75f));
                 projectile.ai[1] = 0f;
             }
             projectile.ai[1] += 0.75f;
             if (projectile.ai[1] <= 60f)
             {
-                projectile.rotation += 1f;
+                projectile.rotation -= 1f;
                 projectile.velocity.X *= 0.985f;
                 projectile.velocity.Y *= 0.985f;
             }
             else
             {
-                projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 2.355f;
-                if (projectile.spriteDirection == -1)
-                {
-                    projectile.rotation -= 1.57f;
-                }
-				projectile.localAI[0]++;
+                projectile.rotation = projectile.velocity.ToRotation() + MathHelper.ToRadians(45f);
 
 				Vector2 center = projectile.Center;
 				float maxDistance = 600f;
 				bool homeIn = false;
-
-				if (projectile.localAI[0] >= 20f && !homeIn) //shorten knife lifespan if it hasn't found a target
-					if (projectile.timeLeft >= 60)
-						projectile.timeLeft = 60;
 
 				for (int i = 0; i < Main.maxNPCs; i++)
 				{
@@ -94,6 +97,9 @@ namespace CalamityMod.Projectiles.Rogue
 				}
                 else
                 {
+					//shorten knife lifespan if it hasn't found a target
+					if (projectile.timeLeft > 60)
+						projectile.timeLeft = 60;
                     projectile.velocity.X *= 0.92f;
                     projectile.velocity.Y *= 0.92f;
                 }

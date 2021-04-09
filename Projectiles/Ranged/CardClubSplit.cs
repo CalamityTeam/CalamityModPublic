@@ -1,13 +1,12 @@
 using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class CardClubSplit : ModProjectile
+	public class CardClubSplit : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -44,7 +43,7 @@ namespace CalamityMod.Projectiles.Ranged
 
 			if (projectile.alpha < 128)
 			{
-				CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 800f, 12f, 20f);
+				CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 300f, 12f, 20f);
 			}
         }
 

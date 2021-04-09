@@ -1,4 +1,3 @@
-using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -6,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    public class PlantThornBall : ModProjectile
+	public class PlantThornBall : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -18,7 +17,6 @@ namespace CalamityMod.Projectiles.Summon
         {
             projectile.width = 30;
             projectile.height = 30;
-			projectile.scale = 0.75f;
             projectile.friendly = true;
             projectile.penetrate = 3;
             projectile.timeLeft = 300;
@@ -53,6 +51,15 @@ namespace CalamityMod.Projectiles.Summon
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
 			target.AddBuff(BuffID.Poisoned, 180);
+			if (projectile.ai[1] == 1f)
+				target.AddBuff(BuffID.Venom, 180);
+        }
+
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+			target.AddBuff(BuffID.Poisoned, 180);
+			if (projectile.ai[1] == 1f)
+				target.AddBuff(BuffID.Venom, 180);
         }
     }
 }

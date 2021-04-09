@@ -13,14 +13,15 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             DisplayName.SetDefault("Jaws of Oblivion");
             Tooltip.SetDefault("Throws a tight spread of six venomous reaper fangs that stick in enemies\n" +
-				"Stealth strikes cause the teeth to emit a crushing shockwave on impact\n" +
-				"You're gonna need a bigger boat");
+                "Stealth strikes cause the teeth to emit a crushing shockwave on impact\n" +
+                "You're gonna need a bigger boat");
         }
 
         public override void SafeSetDefaults()
         {
             item.width = 42;
-            item.damage = 195;
+            item.height = 40;
+            item.damage = 159;
             item.noMelee = true;
             item.noUseGraphic = true;
             item.useAnimation = 15;
@@ -29,14 +30,12 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.knockBack = 1f;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
-            item.height = 40;
-            item.maxStack = 1;
-            item.value = Item.buyPrice(1, 40, 0, 0);
-            item.rare = 10;
             item.shoot = ModContent.ProjectileType<JawsProjectile>();
             item.shootSpeed = 25f;
-            item.Calamity().customRarity = CalamityRarity.PureGreen;
             item.Calamity().rogue = true;
+
+            item.value = CalamityGlobalItem.Rarity13BuyPrice;
+            item.Calamity().customRarity = CalamityRarity.PureGreen;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -52,12 +51,13 @@ namespace CalamityMod.Items.Weapons.Rogue
 
                 if (player.Calamity().StealthStrikeAvailable())
                 {
-                    int p = Projectile.NewProjectile(position.X, position.Y, currentDirection.X, currentDirection.Y, type, damage, knockBack, player.whoAmI, 0f, 0f);
-                    Main.projectile[p].Calamity().stealthStrike = true;
+                    int p = Projectile.NewProjectile(position, currentDirection, type, damage, knockBack + 6f, player.whoAmI);
+                    if (p.WithinBounds(Main.maxProjectiles))
+                        Main.projectile[p].Calamity().stealthStrike = true;
                 }
                 else
                 {
-                    int p = Projectile.NewProjectile(position.X, position.Y, currentDirection.X, currentDirection.Y, type, (int)(damage * 1.5f), 10, player.whoAmI, 0f, 0f);
+                    Projectile.NewProjectile(position, currentDirection, type, damage, knockBack, player.whoAmI);
                 }
             }
             return false;
@@ -71,7 +71,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             recipe.AddIngredient(ModContent.ItemType<Lumenite>(), 15);
             recipe.AddIngredient(ModContent.ItemType<RuinousSoul>(), 2);
             recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this, 1);
+            recipe.SetResult(this);
             recipe.AddRecipe();
         }
     }

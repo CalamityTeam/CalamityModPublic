@@ -1,10 +1,9 @@
-using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class SeafoamBombProj : ModProjectile
+	public class SeafoamBombProj : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -39,7 +38,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 10;
             projectile.Damage();
-            Main.PlaySound(SoundID.Item14, projectile.position);
+            Main.PlaySound(SoundID.Item14, projectile.Center);
 
             for (int i = 0; i < (projectile.Calamity().stealthStrike ? 5 : 1); i++)
             {
@@ -48,7 +47,7 @@ namespace CalamityMod.Projectiles.Rogue
                 Projectile.NewProjectile(posX, posY, 0f, 0f, ModContent.ProjectileType<SeafoamBubble>(), (int)((double)projectile.damage * 0.4), 0f, projectile.owner, 0f, 0f);
             }
 
-			CalamityUtils.ExplosionGores(projectile, (projectile.Calamity().stealthStrike ? 6 : 3));
+			CalamityUtils.ExplosionGores(projectile.Center, (projectile.Calamity().stealthStrike ? 6 : 3));
         }
     }
 }

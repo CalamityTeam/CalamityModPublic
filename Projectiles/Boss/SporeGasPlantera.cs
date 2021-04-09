@@ -18,7 +18,8 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetDefaults()
         {
-            projectile.width = 32;
+			projectile.Calamity().canBreakPlayerDefense = true;
+			projectile.width = 32;
             projectile.height = 32;
             projectile.hostile = true;
             projectile.ignoreWater = true;
@@ -39,7 +40,7 @@ namespace CalamityMod.Projectiles.Boss
         public override void AI()
         {
             projectile.ai[1] += 1f;
-            if (projectile.ai[1] > 570f)
+            if (projectile.ai[1] > 1800f)
 			{
                 projectile.localAI[0] += 10f;
 				projectile.damage = 0;
@@ -53,9 +54,9 @@ namespace CalamityMod.Projectiles.Boss
 
             Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0.16f / 255f, (255 - projectile.alpha) * 0.2f / 255f, (255 - projectile.alpha) * 0.04f / 255f);
 
-            projectile.alpha = (int)(100.0 + (double)projectile.localAI[0] * 0.7);
+            projectile.alpha = (int)(100.0 + projectile.localAI[0] * 0.7);
             projectile.rotation += projectile.velocity.X * 0.02f;
-            projectile.rotation += (float)projectile.direction * 0.002f;
+            projectile.rotation += projectile.direction * 0.002f;
 
             if (projectile.velocity.Length() > 0.5f)
                 projectile.velocity *= 0.98f;
@@ -63,14 +64,25 @@ namespace CalamityMod.Projectiles.Boss
 
         public override bool CanHitPlayer(Player target)
 		{
-            if (projectile.ai[1] > 570f)
+            if (projectile.ai[1] > 1800f || projectile.ai[1] < 120f)
             {
                 return false;
             }
             return true;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override Color? GetAlpha(Color lightColor)
+		{
+			if (projectile.ai[1] > 1800f)
+			{
+				byte b2 = (byte)((26f - (projectile.ai[1] - 1800f)) * 10f);
+				byte a2 = (byte)(projectile.alpha * (b2 / 255f));
+				return new Color(b2, b2, b2, a2);
+			}
+			return new Color(255, 255, 255, projectile.alpha);
+		}
+
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             //Changes the texture of the projectile
             Texture2D texture = Main.projectileTexture[projectile.type];

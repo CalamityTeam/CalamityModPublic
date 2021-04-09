@@ -26,6 +26,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.melee = true;
             projectile.tileCollide = false;
             projectile.penetrate = 1;
+			projectile.extraUpdates = 1;
             projectile.timeLeft = 600;
             projectile.ignoreWater = true;
         }

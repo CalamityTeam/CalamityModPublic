@@ -26,12 +26,11 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.noMelee = true;
             item.knockBack = 3f;
             item.value = Item.buyPrice(0, 36, 0, 0);
-            item.rare = 5;
+            item.rare = ItemRarityID.Pink;
             item.UseSound = SoundID.Item72;
             item.autoReuse = true;
             item.shootSpeed = 6f;
             item.shoot = ModContent.ProjectileType<TitRail>();
-            item.useAmmo = 97;
         }
 
         public override Vector2? HoldoutOffset()
@@ -41,7 +40,9 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<TitRail>(), damage, knockBack, player.whoAmI, 0f, 0f);
+			Vector2 velocity = Vector2.Normalize(new Vector2(speedX, speedY));
+			velocity *= item.shootSpeed;
+            Projectile.NewProjectile(position, velocity, ModContent.ProjectileType<TitRail>(), damage, knockBack, player.whoAmI);
             return false;
         }
 

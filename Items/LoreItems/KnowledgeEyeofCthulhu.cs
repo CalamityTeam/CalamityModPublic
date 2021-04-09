@@ -11,30 +11,20 @@ namespace CalamityMod.Items.LoreItems
         {
             DisplayName.SetDefault("The Eye of Cthulhu");
             Tooltip.SetDefault("That eye...how peculiar.\n" +
-                "I sensed it watching you more intensely as you grew stronger.\n" +
-                "Place in your inventory for night vision at night.\n" +
-				"However, your vision is reduced during the day.");
+                "I sensed it watching you more intensely as you grew stronger.");
         }
 
         public override void SetDefaults()
         {
             item.width = 20;
             item.height = 20;
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.consumable = false;
         }
 
         public override bool CanUseItem(Player player)
         {
             return false;
-        }
-
-        public override void UpdateInventory(Player player)
-        {
-			if (!Main.dayTime)
-				player.nightVision = true;
-			else
-				player.blind = true;
         }
 
         public override void AddRecipes()

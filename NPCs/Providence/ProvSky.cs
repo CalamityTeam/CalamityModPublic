@@ -30,18 +30,16 @@ namespace CalamityMod.NPCs.Providence
             {
                 float x = 0f;
                 if (ProvIndex != -1)
-                {
                     x = Vector2.Distance(Main.player[Main.myPlayer].Center, Main.npc[ProvIndex].Center);
-                }
 
 				float spawnAnimationTimer = 180f;
-				float intensityScalar = Main.dayTime ? 0.25f : 0.2f;
-				if (Main.npc[CalamityGlobalNPC.holyBoss].Calamity().newAI[3] < spawnAnimationTimer)
-					intensityScalar = MathHelper.Lerp(0f, intensityScalar, Main.npc[CalamityGlobalNPC.holyBoss].Calamity().newAI[3] / spawnAnimationTimer);
+				float intensityScalar = 0.25f;
+				if (Main.npc[ProvIndex].Calamity().newAI[3] < spawnAnimationTimer)
+					intensityScalar = MathHelper.Lerp(0f, intensityScalar, Main.npc[ProvIndex].Calamity().newAI[3] / spawnAnimationTimer);
 
                 return (1f - Utils.SmoothStep(3000f, 6000f, x)) * intensityScalar;
             }
-            return 0f; //0.5
+            return 0f;
         }
 
         public override Color OnTileColor(Color inColor)

@@ -1,14 +1,11 @@
 using CalamityMod.Projectiles.Typeless;
-using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 using CalamityMod.Items.Materials;
 namespace CalamityMod.Items.Fishing.FishingRods
 {
-    public class WulfrumRod : ModItem
+	public class WulfrumRod : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -18,14 +15,13 @@ namespace CalamityMod.Items.Fishing.FishingRods
 
         public override void SetDefaults()
         {
-			//item.CloneDefaults(2289); //Wooden Fishing Pole
 			item.width = 24;
 			item.height = 28;
 			item.useAnimation = 8;
 			item.useTime = 8;
 			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.UseSound = SoundID.Item1;
-			item.rare = 1;
+			item.rare = ItemRarityID.Blue;
 			item.fishingPole = 10;
 			item.shootSpeed = 10f;
 			item.shoot = ModContent.ProjectileType<WulfrumBobber>();

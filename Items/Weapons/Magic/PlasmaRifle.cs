@@ -18,64 +18,63 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.damage = 460;
+            item.damage = 160;
             item.mana = 40;
             item.magic = true;
             item.width = 48;
             item.height = 22;
-            item.useTime = 40;
-            item.useAnimation = 40;
+            item.useTime = item.useAnimation = 8;
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 4f;
-            item.value = Item.buyPrice(1, 20, 0, 0);
-            item.rare = 10;
-            item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/PlasmaBlast");
+			item.value = CalamityGlobalItem.Rarity12BuyPrice;
+			item.rare = ItemRarityID.Purple;
+			item.Calamity().customRarity = CalamityRarity.Turquoise;
+			item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/PlasmaBlast");
             item.autoReuse = true;
             item.shootSpeed = 12f;
             item.shoot = ModContent.ProjectileType<PlasmaShot>();
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
         }
 
-        public override Vector2? HoldoutOffset()
-        {
-            return new Vector2(-10, 0);
-        }
+        public override Vector2? HoldoutOffset() => new Vector2(-10, 0);
 
-        public override bool AltFunctionUse(Player player)
-        {
-            return true;
-        }
+        public override bool AltFunctionUse(Player player) => true;
 
         public override bool CanUseItem(Player player)
         {
             if (player.altFunctionUse == 2)
             {
-                item.mana = 5;
-                item.useTime = 8;
-                item.useAnimation = 8;
                 item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/PlasmaBolt");
             }
             else
             {
-                item.mana = 40;
-                item.useTime = 40;
-                item.useAnimation = 40;
                 item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/PlasmaBlast");
             }
             return base.CanUseItem(player);
         }
 
+		public override void ModifyManaCost(Player player, ref float reduce, ref float mult)
+		{
+			if (player.altFunctionUse == 2)
+				mult *= 0.25f;
+		}
+
+		public override float UseTimeMultiplier	(Player player)
+		{
+			if (player.altFunctionUse == 2)
+				return 1f;
+			return 0.2f;
+		}
+
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             if (player.altFunctionUse == 2)
             {
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<PlasmaBolt>(), damage, knockBack, player.whoAmI, 0f, 0f);
+                damage = (int)(damage * 1.15);
+                Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<PlasmaBolt>(), damage, knockBack, player.whoAmI);
             }
             else
-            {
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<PlasmaShot>(), (int)(damage * 0.75f), knockBack, player.whoAmI, 0f, 0f);
-            }
+                Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, (int)(damage * 0.88), knockBack, player.whoAmI);
             return false;
         }
 

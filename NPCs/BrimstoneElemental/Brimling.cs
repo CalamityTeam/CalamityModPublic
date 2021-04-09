@@ -1,5 +1,7 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Dusts;
+using CalamityMod.Events;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -15,7 +17,7 @@ namespace CalamityMod.NPCs.BrimstoneElemental
     {
         private bool boostDR = false;
         public static float normalDR = 0.15f;
-        public static float boostedDR = 0.8f;
+        public static float boostedDR = 0.6f;
 
         public override void SetStaticDefaults()
         {
@@ -31,33 +33,9 @@ namespace CalamityMod.NPCs.BrimstoneElemental
             npc.width = 60;
             npc.height = 60;
             npc.defense = 0;
-            npc.Calamity().RevPlusDR(normalDR);
-            npc.lifeMax = 4000;
+			npc.DR_NERD(normalDR);
+            npc.lifeMax = 2000;
             npc.knockBackResist = 0f;
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
-            npc.buffImmune[BuffID.Ichor] = false;
-            npc.buffImmune[ModContent.BuffType<MarkedforDeath>()] = false;
-			npc.buffImmune[BuffID.Frostburn] = false;
-			npc.buffImmune[BuffID.CursedInferno] = false;
-            npc.buffImmune[BuffID.Daybreak] = false;
-			npc.buffImmune[BuffID.BetsysCurse] = false;
-			npc.buffImmune[BuffID.StardustMinionBleed] = false;
-			npc.buffImmune[BuffID.DryadsWardDebuff] = false;
-			npc.buffImmune[BuffID.Oiled] = false;
-            npc.buffImmune[ModContent.BuffType<AbyssalFlames>()] = false;
-			npc.buffImmune[ModContent.BuffType<AstralInfectionDebuff>()] = false;
-            npc.buffImmune[ModContent.BuffType<ArmorCrunch>()] = false;
-            npc.buffImmune[ModContent.BuffType<DemonFlames>()] = false;
-            npc.buffImmune[ModContent.BuffType<GodSlayerInferno>()] = false;
-            npc.buffImmune[ModContent.BuffType<HolyFlames>()] = false;
-            npc.buffImmune[ModContent.BuffType<Nightwither>()] = false;
-            npc.buffImmune[ModContent.BuffType<Plague>()] = false;
-            npc.buffImmune[ModContent.BuffType<Shred>()] = false;
-            npc.buffImmune[ModContent.BuffType<WhisperingDeath>()] = false;
-            npc.buffImmune[ModContent.BuffType<SilvaStun>()] = false;
             npc.noGravity = true;
             npc.noTileCollide = true;
             npc.canGhostHeal = false;
@@ -65,9 +43,9 @@ namespace CalamityMod.NPCs.BrimstoneElemental
             npc.DeathSound = SoundID.NPCDeath39;
             if (CalamityWorld.downedProvidence)
             {
-                npc.lifeMax = 40000;
+                npc.lifeMax = 26000;
             }
-            if (CalamityWorld.bossRushActive)
+            if (BossRushEvent.BossRushActive)
             {
                 npc.lifeMax = 100000;
             }
@@ -94,8 +72,9 @@ namespace CalamityMod.NPCs.BrimstoneElemental
                 npc.netUpdate = true;
                 return;
             }
-            bool goIntoShell = (double)npc.life <= (double)npc.lifeMax * 0.1;
-            bool provy = CalamityWorld.downedProvidence && !CalamityWorld.bossRushActive;
+
+            bool goIntoShell = npc.life <= npc.lifeMax * 0.25;
+            bool provy = CalamityWorld.downedProvidence && !BossRushEvent.BossRushActive;
             if (goIntoShell || Main.npc[CalamityGlobalNPC.brimstoneElemental].ai[0] == 4f)
             {
                 boostDR = true;
@@ -108,9 +87,9 @@ namespace CalamityMod.NPCs.BrimstoneElemental
             }
 
             // Set DR based on boost status
-            npc.Calamity().DR = boostDR ? boostedDR : CalamityWorld.revenge ? normalDR : 0f;
+            npc.Calamity().DR = boostDR ? boostedDR : normalDR;
 
-            float num1446 = goIntoShell ? 1f : (CalamityWorld.bossRushActive ? 12f : 6f);
+            float num1446 = goIntoShell ? 1f : (BossRushEvent.BossRushActive ? 12f : 6f);
             int num1447 = 480;
             if (npc.localAI[1] == 1f)
             {
@@ -127,12 +106,12 @@ namespace CalamityMod.NPCs.BrimstoneElemental
             Vector2 vector251 = Main.player[npc.target].Center - value53;
             bool flag104 = Collision.CanHit(npc.Center, 1, 1, Main.player[npc.target].Center, 1, 1);
             npc.localAI[0] += 1f;
-            if (Main.netMode != NetmodeID.MultiplayerClient && npc.localAI[0] >= 300f && Main.npc[CalamityGlobalNPC.brimstoneElemental].ai[0] != 4f)
+            if (Main.netMode != NetmodeID.MultiplayerClient && npc.localAI[0] >= 360f && Main.npc[CalamityGlobalNPC.brimstoneElemental].ai[0] != 4f)
             {
                 npc.localAI[0] = 0f;
                 if (Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
                 {
-                    float speed = CalamityWorld.bossRushActive ? 7.5f : 5f;
+                    float speed = BossRushEvent.BossRushActive ? 7.5f : 5f;
                     Vector2 vector = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)(npc.height / 2));
                     float num6 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - vector.X + (float)Main.rand.Next(-10, 11);
                     float num7 = Main.player[npc.target].position.Y + (float)Main.player[npc.target].height * 0.5f - vector.Y + (float)Main.rand.Next(-10, 11);
@@ -140,8 +119,9 @@ namespace CalamityMod.NPCs.BrimstoneElemental
                     num8 = speed / num8;
                     num6 *= num8;
                     num7 *= num8;
-                    int projectileDamage = Main.expertMode ? 28 : 35;
-                    Projectile.NewProjectile(npc.Center.X, npc.Center.Y, num6, num7, ModContent.ProjectileType<BrimstoneHellfireball>(), projectileDamage + (provy ? 30 : 0), 0f, Main.myPlayer, 0f, 0f);
+					int type = ModContent.ProjectileType<BrimstoneHellfireball>();
+					int damage = npc.GetProjectileDamage(type);
+					Projectile.NewProjectile(npc.Center.X, npc.Center.Y, num6, num7, type, damage + (provy ? 30 : 0), 0f, Main.myPlayer, 0f, 0f);
                 }
             }
             if (vector251.Length() > 400f || !flag104)
@@ -271,13 +251,13 @@ namespace CalamityMod.NPCs.BrimstoneElemental
         {
             for (int k = 0; k < 5; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, 235, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.Brimstone, hitDirection, -1f, 0, default, 1f);
             }
             if (npc.life <= 0)
             {
                 for (int k = 0; k < 20; k++)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, 235, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.Brimstone, hitDirection, -1f, 0, default, 1f);
                 }
             }
         }

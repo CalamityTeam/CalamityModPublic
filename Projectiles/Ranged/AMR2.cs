@@ -1,8 +1,11 @@
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Ranged
 {
     public class AMR2 : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Ranged/AMRShot";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("AMR");
@@ -21,7 +24,7 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.ranged = true;
             projectile.ignoreWater = true;
             projectile.aiStyle = 1;
-            aiType = 242;
+            aiType = ProjectileID.BulletHighVelocity;
             projectile.penetrate = 1;
             projectile.timeLeft = 600;
         }

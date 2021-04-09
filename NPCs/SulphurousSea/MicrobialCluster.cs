@@ -1,19 +1,12 @@
-using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Dusts;
-using CalamityMod.Projectiles.Enemy;
-using CalamityMod.Items.Materials;
-using CalamityMod.Items.Placeables.Banners;
-using CalamityMod.Items.Weapons.Magic;
-using CalamityMod.World;
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.SulphurousSea
 {
-    public class MicrobialCluster : ModNPC
+	public class MicrobialCluster : ModNPC
     {
         public const int ChargeRate = 120;
         public const int SlowdownTime = 45;
@@ -30,10 +23,6 @@ namespace CalamityMod.NPCs.SulphurousSea
             npc.height = 24;
             npc.lifeMax = 5;
             npc.aiStyle = aiType = -1;
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
             npc.noTileCollide = false;
             npc.noGravity = true;
             npc.HitSound = SoundID.NPCHit1;

@@ -10,21 +10,21 @@ namespace CalamityMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Abaddon");
-            Tooltip.SetDefault("Makes you immune to Brimstone Flames");
+            Tooltip.SetDefault("Reduces the damage caused by the Brimstone Flames debuff");
         }
 
         public override void SetDefaults()
         {
             item.width = 26;
             item.height = 26;
-            item.value = Item.buyPrice(0, 15, 0, 0);
-            item.rare = ItemRarityID.Lime;
+            item.value = CalamityGlobalItem.Rarity5BuyPrice;
+            item.rare = ItemRarityID.Pink;
             item.accessory = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.buffImmune[ModContent.BuffType<BrimstoneFlames>()] = true;
+			player.Calamity().abaddon = true;
         }
     }
 }

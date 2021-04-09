@@ -18,17 +18,17 @@ namespace CalamityMod.Items.Weapons.Ranged
         }
         public override void SetDefaults()
         {
-            item.damage = 31;
+            item.damage = 50;
             item.ranged = true;
             item.width = 88;
             item.height = 28;
-            item.useTime = item.useAnimation = 13;
+            item.useTime = item.useAnimation = 16;
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.useTurn = false;
             item.noMelee = true;
             item.knockBack = 7f;
             item.value = Item.buyPrice(0, 36, 0, 0);
-            item.rare = 5;
+            item.rare = ItemRarityID.Pink;
             item.UseSound = SoundID.Item109;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<ToxicannonShot>();

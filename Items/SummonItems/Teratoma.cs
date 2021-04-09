@@ -1,3 +1,4 @@
+using CalamityMod.Events;
 using CalamityMod.Items.Materials;
 using CalamityMod.NPCs.HiveMind;
 using Terraria;
@@ -19,7 +20,7 @@ namespace CalamityMod.Items.SummonItems
             item.width = 28;
             item.height = 18;
             item.maxStack = 20;
-            item.rare = 3;
+            item.rare = ItemRarityID.Orange;
             item.useAnimation = 45;
             item.useTime = 45;
             item.useStyle = ItemUseStyleID.HoldingUp;
@@ -28,17 +29,22 @@ namespace CalamityMod.Items.SummonItems
 
         public override bool CanUseItem(Player player)
         {
-            return player.ZoneCorrupt && !NPC.AnyNPCs(ModContent.NPCType<HiveMind>()) && !NPC.AnyNPCs(ModContent.NPCType<HiveMindP2>());
+            return player.ZoneCorrupt && !NPC.AnyNPCs(ModContent.NPCType<HiveMind>()) && !NPC.AnyNPCs(ModContent.NPCType<HiveMindP2>()) && !BossRushEvent.BossRushActive;
         }
 
         public override bool UseItem(Player player)
         {
-            if (Main.netMode != NetmodeID.MultiplayerClient)
+			Main.PlaySound(SoundID.Roar, player.position, 0);
+			if (Main.netMode != NetmodeID.MultiplayerClient)
             {
-                int num = NPC.NewNPC((int)(player.position.X + (float)Main.rand.Next(-100, 100)), (int)(player.position.Y - 150f), ModContent.NPCType<HiveMind>(), 0, 0f, 0f, 0f, 0f, 255);
-                Main.PlaySound(SoundID.Roar, player.position, 0);
+                int npc = NPC.NewNPC((int)(player.position.X + Main.rand.Next(-100, 100)), (int)(player.position.Y - 150f), ModContent.NPCType<HiveMind>(), 1);
+				Main.npc[npc].timeLeft *= 20;
+				CalamityUtils.BossAwakenMessage(npc);
             }
-            return true;
+			else
+				NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, player.whoAmI, ModContent.NPCType<HiveMind>());
+
+			return true;
         }
 
         public override void AddRecipes()

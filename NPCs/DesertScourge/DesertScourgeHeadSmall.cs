@@ -1,3 +1,4 @@
+using CalamityMod.Events;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -9,8 +10,8 @@ namespace CalamityMod.NPCs.DesertScourge
     public class DesertScourgeHeadSmall : ModNPC
     {
         public bool flies = false;
-        public float speed = CalamityWorld.bossRushActive ? 20f : 12.5f;
-        public float turnSpeed = CalamityWorld.bossRushActive ? 0.2f : 0.125f;
+        public float speed = BossRushEvent.BossRushActive ? 20f : 12.5f;
+        public float turnSpeed = BossRushEvent.BossRushActive ? 0.2f : 0.125f;
         public int minLength = 12;
         public int maxLength = 13;
         bool TailSpawned = false;
@@ -22,13 +23,14 @@ namespace CalamityMod.NPCs.DesertScourge
 
         public override void SetDefaults()
         {
-            npc.damage = 18;
-            npc.npcSlots = 2f;
+			npc.Calamity().canBreakPlayerDefense = true;
+			npc.GetNPCDamage();
+			npc.npcSlots = 2f;
             npc.width = 60;
             npc.height = 60;
             npc.defense = 0;
             npc.lifeMax = 800;
-            if (CalamityWorld.bossRushActive)
+            if (BossRushEvent.BossRushActive)
             {
                 npc.lifeMax = 350000;
             }
@@ -52,7 +54,7 @@ namespace CalamityMod.NPCs.DesertScourge
             }
 			if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)
 			{
-				npc.TargetClosest(true);
+				npc.TargetClosest();
 			}
 			Player player = Main.player[npc.target];
 			npc.velocity.Length();
@@ -130,7 +132,7 @@ namespace CalamityMod.NPCs.DesertScourge
                 npc.localAI[1] = 1f;
                 Rectangle rectangle12 = new Rectangle((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height);
                 int num954 = CalamityWorld.death ? 300 : 1000;
-                if (CalamityWorld.bossRushActive)
+                if (BossRushEvent.BossRushActive)
                     num954 = 150;
 
                 bool flag95 = true;
@@ -191,7 +193,6 @@ namespace CalamityMod.NPCs.DesertScourge
             float num193 = (float)System.Math.Sqrt((double)(num191 * num191 + num192 * num192));
             if (!flag94)
             {
-                npc.TargetClosest(true);
                 npc.velocity.Y = npc.velocity.Y + (turnSpeed * 0.75f);
                 if (npc.velocity.Y > num188)
                 {
@@ -384,7 +385,7 @@ namespace CalamityMod.NPCs.DesertScourge
         {
             for (int k = 0; k < 3; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
             }
             if (npc.life <= 0)
             {
@@ -392,7 +393,7 @@ namespace CalamityMod.NPCs.DesertScourge
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/ScourgeHead2"), 0.65f);
                 for (int k = 0; k < 10; k++)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
                 }
             }
         }

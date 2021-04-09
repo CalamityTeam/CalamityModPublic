@@ -1,15 +1,16 @@
 using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
-using CalamityMod.Items.Placeables.Ores;
 using CalamityMod.Tiles.Furniture.CraftingStations;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.Graphics.Shaders;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories.Wings
 {
-    [AutoloadEquip(EquipType.Wings)]
+	[AutoloadEquip(EquipType.Wings)]
     public class CelestialTracers : ModItem
     {
         public override void SetStaticDefaults()
@@ -20,22 +21,36 @@ namespace CalamityMod.Items.Accessories.Wings
                 "Horizontal speed: 12\n" +
                 "Acceleration multiplier: 3\n" +
                 "Excellent vertical speed\n" +
-                "Flight time: 280\n" +
+                "Flight time: 250\n" +
                 "50% increased running acceleration\n" +
                 "Greater mobility on ice\n" +
                 "Water and lava walking\n" +
                 "Temporary immunity to lava\n" +
-                "Being hit for over 200 damage will make you immune for an extended period of time\n" +
-				"Provides heat protection in Death Mode");
+                "Being hit for over 200 damage will make you immune for an extended period of time");
         }
 
         public override void SetDefaults()
         {
             item.width = 36;
             item.height = 32;
-            item.value = Item.buyPrice(1, 20, 0, 0);
+            item.value = CalamityGlobalItem.Rarity15BuyPrice;
             item.accessory = true;
             item.Calamity().customRarity = CalamityRarity.Violet;
+        }
+
+        public override void ModifyTooltips(List<TooltipLine> list)
+        {
+			if (CalamityWorld.death)
+			{
+				foreach (TooltipLine line2 in list)
+				{
+					if (line2.mod == "Terraria" && line2.Name == "Tooltip10")
+					{
+						line2.text = "Being hit for over 200 damage will make you immune for an extended period of time\n" +
+						"Provides heat protection in Death Mode";
+					}
+				}
+			}
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
@@ -57,14 +72,13 @@ namespace CalamityMod.Items.Accessories.Wings
                 Main.dust[num60].shader = GameShaders.Armor.GetSecondaryShader(player.cWings, player);
             }
             CalamityPlayer modPlayer = player.Calamity();
-            player.accRunSpeed = 12f;
-            player.rocketBoots = 3;
-            player.moveSpeed += 0.5f;
+            player.accRunSpeed = 10f;
+            player.moveSpeed += 0.24f;
             player.iceSkate = true;
             player.waterWalk = true;
             player.fireWalk = true;
             player.lavaMax += 240;
-            player.wingTimeMax = 280;
+            player.wingTimeMax = 250;
             player.noFallDmg = true;
             modPlayer.IBoots = !hideVisual;
             modPlayer.elysianFire = !hideVisual;

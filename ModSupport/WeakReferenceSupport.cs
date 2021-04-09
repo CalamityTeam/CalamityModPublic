@@ -11,6 +11,7 @@ using CalamityMod.Items.Mounts;
 using CalamityMod.Items.PermanentBoosters;
 using CalamityMod.Items.Pets;
 using CalamityMod.Items.Placeables;
+using CalamityMod.Items.Placeables.Furniture;
 using CalamityMod.Items.Placeables.Furniture.CraftingStations;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
 using CalamityMod.Items.Placeables.FurnitureCosmilite;
@@ -21,6 +22,7 @@ using CalamityMod.Items.SummonItems.Invasion;
 using CalamityMod.Items.Tools;
 using CalamityMod.Items.Tools.ClimateChange;
 using CalamityMod.Items.TreasureBags;
+using CalamityMod.Items.Weapons.DraedonsArsenal;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
@@ -56,6 +58,7 @@ using CalamityMod.NPCs.SunkenSea;
 using CalamityMod.NPCs.SupremeCalamitas;
 using CalamityMod.NPCs.TownNPCs;
 using CalamityMod.NPCs.Yharon;
+using CalamityMod.Projectiles.DraedonsArsenal;
 using CalamityMod.Projectiles.Summon;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -71,6 +74,40 @@ using static Terraria.ModLoader.ModContent;
 
 namespace CalamityMod
 {
+	internal class Downed
+	{
+		public static readonly Func<bool> DownedDesertScourge = () => CalamityWorld.downedDesertScourge;
+		public static readonly Func<bool> DownedGiantClam = () => CalamityWorld.downedCLAM;
+		public static readonly Func<bool> DownedCrabulon = () => CalamityWorld.downedCrabulon;
+		public static readonly Func<bool> DownedHiveMind = () => CalamityWorld.downedHiveMind;
+		public static readonly Func<bool> DownedPerfs = () => CalamityWorld.downedPerforator;
+		public static readonly Func<bool> DownedSlimeGod = () => CalamityWorld.downedSlimeGod;
+		public static readonly Func<bool> DownedCryogen = () => CalamityWorld.downedCryogen;
+		public static readonly Func<bool> DownedBrimstoneElemental = () => CalamityWorld.downedBrimstoneElemental;
+		public static readonly Func<bool> DownedAquaticScourge = () => CalamityWorld.downedAquaticScourge;
+		public static readonly Func<bool> DownedCalamitas = () => CalamityWorld.downedCalamitas;
+		public static readonly Func<bool> DownedGSS = () => CalamityWorld.downedGSS;
+		public static readonly Func<bool> DownedLeviathan = () => CalamityWorld.downedLeviathan;
+		public static readonly Func<bool> DownedAureus = () => CalamityWorld.downedAstrageldon;
+		public static readonly Func<bool> DownedPBG = () => CalamityWorld.downedPlaguebringer;
+		public static readonly Func<bool> DownedRavager = () => CalamityWorld.downedScavenger;
+		public static readonly Func<bool> DownedDeus = () => CalamityWorld.downedStarGod;
+		public static readonly Func<bool> DownedGuardians = () => CalamityWorld.downedGuardians;
+		public static readonly Func<bool> DownedBirb = () => CalamityWorld.downedBumble;
+		public static readonly Func<bool> DownedProvidence = () => CalamityWorld.downedProvidence;
+		public static readonly Func<bool> DownedCeaselessVoid = () => CalamityWorld.downedSentinel1;
+		public static readonly Func<bool> DownedStormWeaver = () => CalamityWorld.downedSentinel2;
+		public static readonly Func<bool> DownedSignus = () => CalamityWorld.downedSentinel3;
+		public static readonly Func<bool> DownedPolterghast = () => CalamityWorld.downedPolterghast;
+		public static readonly Func<bool> DownedBoomerDuke = () => CalamityWorld.downedBoomerDuke;
+		public static readonly Func<bool> DownedDoG = () => CalamityWorld.downedDoG;
+		public static readonly Func<bool> DownedYharon = () => CalamityWorld.downedYharon;
+		public static readonly Func<bool> DownedSCal = () => CalamityWorld.downedSCal;
+
+		public static readonly Func<bool> DownedAcidRainInitial = () => CalamityWorld.downedEoCAcidRain;
+		public static readonly Func<bool> DownedAcidRainHardmode = () => CalamityWorld.downedAquaticScourgeAcidRain;
+	}
+
 	internal class WeakReferenceSupport
 	{
 		private static readonly Dictionary<string, float> BossDifficulty = new Dictionary<string, float>
@@ -82,8 +119,8 @@ namespace CalamityMod
 			{ "Perforators", 3.51f },
 			{ "SlimeGod", 5.5f },
 			{ "Cryogen", 6.5f },
-			{ "BrimstoneElemental", 7.5f },
-			{ "AquaticScourge", 8.5f },
+			{ "AquaticScourge", 7.5f },
+			{ "BrimstoneElemental", 8.5f },
 			{ "Calamitas", 9.7f },
 			{ "GreatSandShark", 10.09f },
 			{ "Leviathan", 10.5f },
@@ -111,7 +148,7 @@ namespace CalamityMod
 		private static readonly Dictionary<string, float> InvasionDifficulty = new Dictionary<string, float>
 		{
 			{ "Acid Rain Initial", 2.4f },
-			{ "Acid Rain Aquatic Scourge", 8.51f },
+			{ "Acid Rain Aquatic Scourge", 7.51f },
 			{ "Acid Rain Polterghast", 16.49f }
 		};
 
@@ -212,7 +249,7 @@ namespace CalamityMod
 				BossDifficulty.TryGetValue("DesertScourge", out float order);
 				List<int> segments = new List<int>() { NPCType<DesertScourgeHead>(), NPCType<DesertScourgeBody>(), NPCType<DesertScourgeTail>() };
 				int summon = ItemType<DriedSeafood>();
-				List<int> loot = new List<int>() { ItemType<DesertScourgeBag>(), ItemID.SandBlock, ItemType<VictoryShard>(), ItemID.Coral, ItemID.Seashell, ItemID.Starfish, ItemType<AquaticDischarge>(), ItemType<Barinade>(), ItemType<StormSpray>(), ItemType<SeaboundStaff>(), ItemType<ScourgeoftheDesert>(), ItemType<DuneHopper>(), ItemType<AeroStone>(), ItemType<SandCloak>(), ItemType<DeepDiver>(), ItemType<OceanCrest>(), ItemID.AnglerTackleBag, ItemID.HighTestFishingLine, ItemID.TackleBox, ItemID.AnglerEarring, ItemID.FishermansGuide, ItemID.WeatherRadio, ItemID.Sextant, ItemID.AnglerHat, ItemID.AnglerVest, ItemID.AnglerPants, ItemID.FishingPotion, ItemID.SonarPotion, ItemID.CratePotion, ItemID.GoldenBugNet, ItemID.LesserHealingPotion };
+				List<int> loot = new List<int>() { ItemType<DesertScourgeBag>(), ItemID.SandBlock, ItemType<VictoryShard>(), ItemID.Coral, ItemID.Seashell, ItemID.Starfish, ItemType<AquaticDischarge>(), ItemType<Barinade>(), ItemType<StormSpray>(), ItemType<SeaboundStaff>(), ItemType<ScourgeoftheDesert>(), ItemType<DuneHopper>(), ItemType<AeroStone>(), ItemType<SandCloak>(), ItemType<DeepDiver>(), ItemType<OceanCrest>(),  ItemType<SandyAnglingKit>(), ItemID.LesserHealingPotion };
 				List<int> collection = new List<int>() { ItemType<DesertScourgeTrophy>(), ItemType<DesertScourgeMask>(), ItemType<KnowledgeDesertScourge>() };
 				string instructions = $"Use a [i:{summon}] in the Desert Biome";
 				string despawn = CalamityUtils.ColorMessage("The scourge of the desert delved back into the sand.", new Color(0xEE, 0xE8, 0xAA));
@@ -272,9 +309,9 @@ namespace CalamityMod
 				List<int> bosses = new List<int>() { NPCType<SlimeGodCore>(), NPCType<SlimeGod>(), NPCType<SlimeGodRun>() };
 				int summon = ItemType<OverloadedSludge>();
 				List<int> loot = new List<int>() { ItemType<SlimeGodBag>(), ItemID.Gel, ItemType<PurifiedGel>(), ItemType<OverloadedBlaster>(), ItemType<AbyssalTome>(), ItemType<EldritchTome>(), ItemType<CorroslimeStaff>(), ItemType<CrimslimeStaff>(), ItemType<GelDart>(), ItemType<ManaOverloader>(), ItemType<ElectrolyteGelPack>(), ItemType<PurifiedJam>(), ItemID.HealingPotion };
-				List<int> collection = new List<int>() { ItemType<SlimeGodTrophy>(), ItemType<SlimeGodMask>(), ItemType<SlimeGodMask2>(), ItemType<KnowledgeSlimeGod>(), ItemType<StaticRefiner>() };
+				List<int> collection = new List<int>() { ItemType<SlimeGodTrophy>(), ItemType<SlimeGodMask>(), ItemType<SlimeGodMask2>(), ItemType<KnowledgeSlimeGod>() };
 				string instructions = $"Use an [i:{summon}]";
-				string despawn = CalamityUtils.ColorMessage("The gelatinous monstrosity achieved vengeance for its breathren.", new Color(0xBA, 0x55, 0x33));
+				string despawn = CalamityUtils.ColorMessage("The gelatinous monstrosity achieved vengeance for its brethren.", new Color(0xBA, 0x55, 0x33));
 				AddBoss(bossChecklist, calamity, "Slime God", order, bosses, DownedSlimeGod, summon, loot, collection, instructions, despawn);
 			}
 
@@ -283,12 +320,25 @@ namespace CalamityMod
 				BossDifficulty.TryGetValue("Cryogen", out float order);
 				int type = NPCType<Cryogen>();
 				int summon = ItemType<CryoKey>();
-				List<int> loot = new List<int>() { ItemType<CryogenBag>(), ItemType<CryoBar>(), ItemType<EssenceofEleum>(), ItemID.FrostCore, ItemType<Avalanche>(), ItemType<GlacialCrusher>(), ItemType<EffluviumBow>(), ItemType<BittercoldStaff>(), ItemType<SnowstormStaff>(), ItemType<Icebreaker>(), ItemType<IceStar>(), ItemType<ColdDivinity>(), ItemType<CryoStone>(), ItemType<Regenator>(), ItemType<SoulofCryogen>(), ItemType<FrostFlare>(), ItemID.FrozenKey, ItemID.GreaterHealingPotion };
+				List<int> loot = new List<int>() { ItemType<CryogenBag>(), ItemType<EssenceofEleum>(), ItemID.FrostCore, ItemType<Avalanche>(), ItemType<GlacialCrusher>(), ItemType<EffluviumBow>(), ItemType<BittercoldStaff>(), ItemType<SnowstormStaff>(), ItemType<Icebreaker>(), ItemType<IceStar>(), ItemType<ColdDivinity>(), ItemType<CryoStone>(), ItemType<Regenator>(), ItemType<SoulofCryogen>(), ItemType<FrostFlare>(), ItemID.FrozenKey, ItemID.GreaterHealingPotion };
 				List<int> collection = new List<int>() { ItemType<CryogenTrophy>(), ItemType<CryogenMask>(), ItemType<KnowledgeCryogen>() };
 				string instructions = $"Use a [i:{summon}] in the Snow Biome";
 				string despawn = CalamityUtils.ColorMessage("Cryogen drifts away, carried on a freezing wind.", new Color(0x00, 0xFF, 0xFF));
 				string bossLogTex = "CalamityMod/NPCs/Cryogen/Cryogen_BossChecklist";
 				AddBoss(bossChecklist, calamity, "Cryogen", order, type, DownedCryogen, summon, loot, collection, instructions, despawn, bossLogTex);
+			}
+
+			// Aquatic Scourge
+			{
+				BossDifficulty.TryGetValue("AquaticScourge", out float order);
+				List<int> segments = new List<int>() { NPCType<AquaticScourgeHead>(), NPCType<AquaticScourgeBody>(), NPCType<AquaticScourgeBodyAlt>(), NPCType<AquaticScourgeTail>() };
+				int summon = ItemType<Seafood>();
+				List<int> loot = new List<int>() { ItemType<AquaticScourgeBag>(), ItemType<SulphurousSand>(), ItemType<VictoryShard>(), ItemID.Coral, ItemID.Seashell, ItemID.Starfish, ItemType<SubmarineShocker>(), ItemType<Barinautical>(), ItemType<Downpour>(), ItemType<DeepseaStaff>(), ItemType<ScourgeoftheSeas>(), ItemType<SeasSearing>(), ItemType<AeroStone>(), ItemType<AquaticEmblem>(), ItemType<CorrosiveSpine>(), ItemType<BleachedAnglingKit>(), ItemID.GreaterHealingPotion };
+				List<int> collection = new List<int>() { ItemType<AquaticScourgeTrophy>(), ItemType<AquaticScourgeMask>(), ItemType<KnowledgeAquaticScourge>(), ItemType<KnowledgeSulphurSea>() };
+				string instructions = $"Use a [i:{summon}] in the Sulphuric Sea or wait for it to spawn in the Sulphuric Sea";
+				string despawn = CalamityUtils.ColorMessage("The Aquatic Scourge swam back into the open ocean.", new Color(0xF0, 0xE6, 0x8C));
+				string bossLogTex = "CalamityMod/NPCs/AquaticScourge/AquaticScourge_BossChecklist";
+				AddBoss(bossChecklist, calamity, "Aquatic Scourge", order, segments, DownedAquaticScourge, summon, loot, collection, instructions, despawn, bossLogTex);
 			}
 
 			// Brimstone Elemental
@@ -301,19 +351,6 @@ namespace CalamityMod
 				string instructions = $"Use a [i:{summon}] in the Brimstone Crag";
 				string despawn = CalamityUtils.ColorMessage("Brimstone Elemental withdraws to the ruins of her shrine.", new Color(0xDC, 0x14, 0x3C));
 				AddBoss(bossChecklist, calamity, "Brimstone Elemental", order, type, DownedBrimstoneElemental, summon, loot, collection, instructions, despawn);
-			}
-
-			// Aquatic Scourge
-			{
-				BossDifficulty.TryGetValue("AquaticScourge", out float order);
-				List<int> segments = new List<int>() { NPCType<AquaticScourgeHead>(), NPCType<AquaticScourgeBody>(), NPCType<AquaticScourgeBodyAlt>(), NPCType<AquaticScourgeTail>() };
-				int summon = ItemType<Seafood>();
-				List<int> loot = new List<int>() { ItemType<AquaticScourgeBag>(), ItemType<SulphurousSand>(), ItemType<VictoryShard>(), ItemID.Coral, ItemID.Seashell, ItemID.Starfish, ItemType<SubmarineShocker>(), ItemType<Barinautical>(), ItemType<Downpour>(), ItemType<DeepseaStaff>(), ItemType<ScourgeoftheSeas>(), ItemType<SeasSearing>(), ItemType<AeroStone>(), ItemType<AquaticEmblem>(), ItemType<CorrosiveSpine>(), ItemID.AnglerTackleBag, ItemID.HighTestFishingLine, ItemID.TackleBox, ItemID.AnglerEarring, ItemID.FishermansGuide, ItemID.WeatherRadio, ItemID.Sextant, ItemID.AnglerHat, ItemID.AnglerVest, ItemID.AnglerPants, ItemID.FishingPotion, ItemID.SonarPotion, ItemID.CratePotion, ItemID.GoldenBugNet, ItemID.GreaterHealingPotion };
-				List<int> collection = new List<int>() { ItemType<AquaticScourgeTrophy>(), ItemType<AquaticScourgeMask>(), ItemType<KnowledgeAquaticScourge>(), ItemType<KnowledgeSulphurSea>() };
-				string instructions = $"Use a [i:{summon}] in the Sulphuric Sea or wait for it to spawn in the Sulphuric Sea";
-				string despawn = CalamityUtils.ColorMessage("The Aquatic Scourge swam back into the open ocean.", new Color(0xF0, 0xE6, 0x8C));
-				string bossLogTex = "CalamityMod/NPCs/AquaticScourge/AquaticScourge_BossChecklist";
-				AddBoss(bossChecklist, calamity, "Aquatic Scourge", order, segments, DownedAquaticScourge, summon, loot, collection, instructions, despawn, bossLogTex);
 			}
 
 			// Calamitas
@@ -383,7 +420,7 @@ namespace CalamityMod
 				BossDifficulty.TryGetValue("Ravager", out float order);
 				List<int> segments = new List<int>() { NPCType<RavagerBody>(), NPCType<RavagerClawLeft>(), NPCType<RavagerClawRight>(), NPCType<RavagerHead>(), NPCType<RavagerLegLeft>(), NPCType<RavagerLegRight>() };
 				int summon = ItemType<AncientMedallion>();
-				List<int> loot = new List<int>() { ItemType<RavagerBag>(), ItemType<Bloodstone>(), ItemType<VerstaltiteBar>(), ItemType<DraedonBar>(), ItemType<CruptixBar>(), ItemType<CoreofCinder>(), ItemType<CoreofEleum>(), ItemType<CoreofChaos>(), ItemType<BarofLife>(), ItemType<CoreofCalamity>(), ItemType<UltimusCleaver>(), ItemType<RealmRavager>(), ItemType<Hematemesis>(), ItemType<SpikecragStaff>(), ItemType<CraniumSmasher>(), ItemType<BloodPact>(), ItemType<FleshTotem>(), ItemType<BloodflareCore>(), ItemType<InfernalBlood>(), ItemID.GreaterHealingPotion };
+				List<int> loot = new List<int>() { ItemType<RavagerBag>(), ItemType<FleshyGeodeT1>(), ItemType<FleshyGeodeT2>(), ItemType<UltimusCleaver>(), ItemType<RealmRavager>(), ItemType<Hematemesis>(), ItemType<SpikecragStaff>(), ItemType<CraniumSmasher>(), ItemType<CorpusAvertor>(), ItemType<BloodPact>(), ItemType<FleshTotem>(), ItemType<BloodflareCore>(), ItemType<InfernalBlood>(), ItemID.GreaterHealingPotion };
 				List<int> collection = new List<int>() { ItemType<RavagerTrophy>(), ItemType<RavagerMask>(), ItemType<KnowledgeRavager>() };
 				string instructions = $"Use an [i:{summon}]";
 				string despawn = CalamityUtils.ColorMessage("The automaton of misshapen victims went looking for the true perpetrator.", new Color(0xB2, 0x22, 0x22));
@@ -395,13 +432,16 @@ namespace CalamityMod
 			{
 				BossDifficulty.TryGetValue("AstrumDeus", out float order);
 				List<int> segments = new List<int>() { NPCType<AstrumDeusHeadSpectral>(), NPCType<AstrumDeusBodySpectral>(), NPCType<AstrumDeusTailSpectral>() };
-				int summon = ItemType<Starcore>();
+				int summon1 = ItemType<TitanHeart>();
+				int summon2 = ItemType<Starcore>();
+				int altar = ItemType<AstralBeaconItem>();
+				List<int> summons = new List<int>() { summon1, summon2 };
 				List<int> loot = new List<int>() { ItemType<AstrumDeusBag>(), ItemType<Stardust>(), ItemID.FallenStar, ItemType<TheMicrowave>(), ItemType<StarSputter>(), ItemType<Starfall>(), ItemType<GodspawnHelixStaff>(), ItemType<RegulusRiot>(), ItemType<Quasar>(), ItemType<AstralBulwark>(), ItemType<HideofAstrumDeus>(), ItemID.FragmentSolar, ItemID.FragmentVortex, ItemID.FragmentNebula, ItemID.FragmentStardust, ItemID.GreaterHealingPotion };
-				List<int> collection = new List<int>() { ItemType<AstrumDeusTrophy>(), ItemType<AstrumDeusMask>(), ItemType<KnowledgeAstrumDeus>(), ItemType<KnowledgeAstralInfection>() };
-				string instructions = $"Defeat 3 empowered astral titans or use a [i:{summon}] at Night";
+				List<int> collection = new List<int>() { ItemType<AstrumDeusTrophy>(), ItemType<AstrumDeusMask>(), ItemType<KnowledgeAstrumDeus>(), ItemType<KnowledgeAstralInfection>(), ItemType<ChromaticOrb>() };
+				string instructions = $"Use a [i:{summon1}] or [i:{summon2}] as offering at an [i:{altar}]";
 				string despawn = CalamityUtils.ColorMessage("The infected deity retreats to the heavens.", new Color(0xFF, 0xD7, 0x00));
 				string bossLogTex = "CalamityMod/NPCs/AstrumDeus/AstrumDeus_BossChecklist";
-				AddBoss(bossChecklist, calamity, "Astrum Deus", order, segments, DownedDeus, summon, loot, collection, instructions, despawn, bossLogTex);
+				AddBoss(bossChecklist, calamity, "Astrum Deus", order, segments, DownedDeus, summons, loot, collection, instructions, despawn, bossLogTex);
 			}
 
 			// Profaned Guardians
@@ -409,7 +449,7 @@ namespace CalamityMod
 				BossDifficulty.TryGetValue("ProfanedGuardians", out float order);
 				int type = NPCType<ProfanedGuardianBoss>();
 				int summon = ItemType<ProfanedShard>();
-				List<int> loot = new List<int>() { ItemType<RelicOfResilience>(), ItemType<RelicOfConvergence>(), ItemType<RelicOfDeliverance>(), ItemType<ProfanedCore>(), ItemID.GreaterHealingPotion };
+				List<int> loot = new List<int>() { ItemType<RelicOfResilience>(), ItemType<RelicOfConvergence>(), ItemType<RelicOfDeliverance>(), ItemType<ProfanedCoreUnlimited>(), ItemID.SuperHealingPotion };
 				List<int> collection = new List<int>() { ItemType<ProfanedGuardianTrophy>(), ItemType<ProfanedGuardianMask>(), ItemType<KnowledgeProfanedGuardians>() };
 				string instructions = $"Use a [i:{summon}] in the Hallow or Underworld Biomes";
 				string despawn = CalamityUtils.ColorMessage("The guardians must protect their goddess at all costs.", new Color(0xFF, 0xA5, 0x00));
@@ -422,7 +462,7 @@ namespace CalamityMod
 				BossDifficulty.TryGetValue("Dragonfolly", out float order);
 				int type = NPCType<Bumblefuck>();
 				int summon = ItemType<BirbPheromones>();
-				List<int> loot = new List<int>() { ItemType<BumblebirbBag>(), ItemType<EffulgentFeather>(), ItemType<GildedProboscis>(), ItemType<GoldenEagle>(), ItemType<RougeSlash>(), ItemType<Swordsplosion>(), ItemType<BirdSeed>(), ItemType<DynamoStemCells>(), ItemType<RedLightningContainer>(), ItemID.SuperHealingPotion };
+				List<int> loot = new List<int>() { ItemType<BumblebirbBag>(), ItemType<EffulgentFeather>(), ItemType<GildedProboscis>(), ItemType<GoldenEagle>(), ItemType<RougeSlash>(), ItemType<Swordsplosion>(), ItemType<BirdSeed>(), ItemType<DynamoStemCells>(), ItemType<RedLightningContainer>(), ItemType<SupremeHealingPotion>() };
 				List<int> collection = new List<int>() { ItemType<BumblebirbTrophy>(), ItemType<BumblefuckMask>(), ItemType<KnowledgeBumblebirb>() };
 				string instructions = $"Use [i:{summon}] in the Jungle Biome";
 				string despawn = CalamityUtils.ColorMessage("The failed experiment returns to its reproductive routine.", new Color(0xFF, 0xD7, 0x00));
@@ -432,14 +472,14 @@ namespace CalamityMod
 			// Providence
 			{
 				BossDifficulty.TryGetValue("Providence", out float order);
-				List<int> bosses = new List<int>() { NPCType<Providence>(), NPCType<ProvSpawnOffense>(), NPCType<ProvSpawnDefense>(), NPCType<ProvSpawnHealer>() };
-				List<int> summons = new List<int>() { ItemType<ProfanedCore>(), ItemType<ProfanedCoreUnlimited>() };
-				List<int> loot = new List<int>() { ItemType<ProvidenceBag>(), ItemType<UnholyEssence>(), ItemType<DivineGeode>(), ItemType<HolyCollider>(), ItemType<SolarFlare>(), ItemType<TelluricGlare>(), ItemType<BlissfulBombardier>(), ItemType<PurgeGuzzler>(), ItemType<MoltenAmputator>(), ItemType<DazzlingStabberStaff>(), ItemType<PristineFury>(), ItemType<ElysianWings>(), ItemType<ElysianAegis>(), ItemType<SamuraiBadge>(), ItemType<BlazingCore>(), ItemType<RuneofCos>(), ItemID.SuperHealingPotion };
+				int type = NPCType<Providence>();
+				int summon = ItemType<ProfanedCoreUnlimited>();
+				List<int> loot = new List<int>() { ItemType<ProvidenceBag>(), ItemType<UnholyEssence>(), ItemType<DivineGeode>(), ItemType<HolyCollider>(), ItemType<SolarFlare>(), ItemType<TelluricGlare>(), ItemType<BlissfulBombardier>(), ItemType<PurgeGuzzler>(), ItemType<MoltenAmputator>(), ItemType<DazzlingStabberStaff>(), ItemType<PristineFury>(), ItemType<ElysianWings>(), ItemType<ElysianAegis>(), ItemType<SamuraiBadge>(), ItemType<BlazingCore>(), ItemType<RuneofCos>(), ItemType<SupremeHealingPotion>() };
 				List<int> collection = new List<int>() { ItemType<ProvidenceTrophy>(), ItemType<ProvidenceMask>(), ItemType<KnowledgeProvidence>() };
-				string instructions = $"Use either [i:{ItemType<ProfanedCore>()}] or [i:{ItemType<ProfanedCoreUnlimited>()}] in the Hallow or Underworld Biomes";
+				string instructions = $"Use [i:{summon}] in the Hallow or Underworld Biomes";
 				string despawn = CalamityUtils.ColorMessage("The Profaned Goddess vanishes in a burning blaze.", new Color(0xFF, 0xA5, 0x00));
 				string bossLogTex = "CalamityMod/NPCs/Providence/Providence_BossChecklist";
-				AddBoss(bossChecklist, calamity, "Providence", order, bosses, DownedProvidence, summons, loot, collection, instructions, despawn, bossLogTex);
+				AddBoss(bossChecklist, calamity, "Providence", order, type, DownedProvidence, summon, loot, collection, instructions, despawn, bossLogTex);
 			}
 
 			// Ceaseless Void
@@ -447,7 +487,7 @@ namespace CalamityMod
 				BossDifficulty.TryGetValue("CeaselessVoid", out float order);
 				List<int> bosses = new List<int>() { NPCType<CeaselessVoid>(), NPCType<DarkEnergy>(), NPCType<DarkEnergy2>(), NPCType<DarkEnergy3>() };
 				int summon = ItemType<RuneofCos>();
-				List<int> loot = new List<int>() { ItemType<DarkPlasma>(), ItemType<MirrorBlade>(), ItemType<ArcanumoftheVoid>(), ItemType<TheEvolution>(), ItemID.SuperHealingPotion };
+				List<int> loot = new List<int>() { ItemType<DarkPlasma>(), ItemType<MirrorBlade>(), ItemType<ArcanumoftheVoid>(), ItemType<TheEvolution>(), ItemType<SupremeHealingPotion>() };
 				List<int> collection = new List<int>() { ItemType<CeaselessVoidTrophy>(), ItemType<CeaselessVoidMask>(), ItemType<KnowledgeSentinels>() };
 				string instructions = $"Use a [i:{summon}] in the Dungeon";
 				string despawn = CalamityUtils.ColorMessage("The rift in time and space has moved away from your reach.", new Color(0x4B, 0x00, 0x82));
@@ -459,7 +499,7 @@ namespace CalamityMod
 				BossDifficulty.TryGetValue("StormWeaver", out float order);
 				List<int> segments = new List<int>() { NPCType<StormWeaverHead>(), NPCType<StormWeaverBody>(), NPCType<StormWeaverTail>(), NPCType<StormWeaverHeadNaked>(), NPCType<StormWeaverBodyNaked>(), NPCType<StormWeaverTailNaked>() };
 				int summon = ItemType<RuneofCos>();
-				List<int> loot = new List<int>() { ItemType<ArmoredShell>(), ItemType<TheStorm>(), ItemType<StormDragoon>(), ItemID.SuperHealingPotion };
+				List<int> loot = new List<int>() { ItemType<ArmoredShell>(), ItemType<TheStorm>(), ItemType<StormDragoon>(), ItemType<SupremeHealingPotion>() };
 				List<int> collection = new List<int>() { ItemType<WeaverTrophy>(), ItemType<StormWeaverMask>(), ItemType<KnowledgeSentinels>() };
 				string instructions = $"Use a [i:{summon}] in Space";
 				string despawn = CalamityUtils.ColorMessage("Storm Weaver hid itself once again within the stormfront.", new Color(0xEE, 0x82, 0xEE));
@@ -472,7 +512,7 @@ namespace CalamityMod
 				BossDifficulty.TryGetValue("Signus", out float order);
 				int type = NPCType<Signus>();
 				int summon = ItemType<RuneofCos>();
-				List<int> loot = new List<int>() { ItemType<TwistingNether>(), ItemType<Cosmilamp>(), ItemType<CosmicKunai>(), ItemType<LanternoftheSoul>(), ItemType<SpectralVeil>(), ItemID.SuperHealingPotion };
+				List<int> loot = new List<int>() { ItemType<TwistingNether>(), ItemType<Cosmilamp>(), ItemType<CosmicKunai>(), ItemType<LanternoftheSoul>(), ItemType<SpectralVeil>(), ItemType<SupremeHealingPotion>() };
 				List<int> collection = new List<int>() { ItemType<SignusTrophy>(), ItemType<SignusMask>(), ItemType<KnowledgeSentinels>() };
 				string instructions = $"Use a [i:{summon}] in the Underworld";
 				string despawn = CalamityUtils.ColorMessage("The Devourer's assassin has finished its easy task.", new Color(0xBA, 0x55, 0xD3));
@@ -484,7 +524,7 @@ namespace CalamityMod
 				BossDifficulty.TryGetValue("Polterghast", out float order);
 				List<int> bosses = new List<int>() { NPCType<Polterghast>(), NPCType<PolterPhantom>() };
 				int summon = ItemType<NecroplasmicBeacon>();
-				List<int> loot = new List<int>() { ItemType<PolterghastBag>(), ItemType<RuinousSoul>(), ItemType<Phantoplasm>(), ItemType<TerrorBlade>(), ItemType<BansheeHook>(), ItemType<DaemonsFlame>(), ItemType<FatesReveal>(), ItemType<GhastlyVisage>(), ItemType<EtherealSubjugator>(), ItemType<GhoulishGouger>(), ItemType<Affliction>(), ItemType<Ectoheart>(), ItemID.SuperHealingPotion };
+				List<int> loot = new List<int>() { ItemType<PolterghastBag>(), ItemType<RuinousSoul>(), ItemType<Phantoplasm>(), ItemType<TerrorBlade>(), ItemType<BansheeHook>(), ItemType<DaemonsFlame>(), ItemType<FatesReveal>(), ItemType<GhastlyVisage>(), ItemType<EtherealSubjugator>(), ItemType<GhoulishGouger>(), ItemType<Affliction>(), ItemType<Ectoheart>(), ItemType<SupremeHealingPotion>() };
 				List<int> collection = new List<int>() { ItemType<PolterghastTrophy>(), ItemType<PolterghastMask>(), ItemType<KnowledgePolterghast>() };
 				string instructions = $"Kill 30 phantom spirits or use a [i:{summon}] in the Dungeon";
 				string despawn = CalamityUtils.ColorMessage("The volatile spirits disperse throughout the depths of the dungeon.", new Color(0xB0, 0xE0, 0xE6));
@@ -496,7 +536,7 @@ namespace CalamityMod
 				BossDifficulty.TryGetValue("OldDuke", out float order);
 				List<int> bosses = new List<int>() { NPCType<OldDuke>() };
 				int summon = ItemType<BloodwormItem>();
-				List<int> loot = new List<int>() { ItemType<OldDukeBag>(), ItemType<InsidiousImpaler>(), ItemType<SepticSkewer>(), ItemType<FetidEmesis>(), ItemType<VitriolicViper>(), ItemType<CadaverousCarrion>(), ItemType<ToxicantTwister>(), ItemType<DukeScales>(), ItemType<MutatedTruffle>(), ItemID.SuperHealingPotion };
+				List<int> loot = new List<int>() { ItemType<OldDukeBag>(), ItemType<InsidiousImpaler>(), ItemType<SepticSkewer>(), ItemType<FetidEmesis>(), ItemType<VitriolicViper>(), ItemType<CadaverousCarrion>(), ItemType<ToxicantTwister>(), ItemType<DukeScales>(), ItemType<MutatedTruffle>(), ItemType<SupremeHealingPotion>() };
 				List<int> collection = new List<int>() { ItemType<OldDukeTrophy>(), ItemType<OldDukeMask>(), ItemType<KnowledgeOldDuke>() };
 				string instructions = $"Defeat the Acid Rain event post-Polterghast or fish using a [i:{summon}] in the Sulphurous Sea";
 				string despawn = CalamityUtils.ColorMessage("The old duke disappears amidst the acidic downpour.", new Color(0xF0, 0xE6, 0x8C));
@@ -508,7 +548,7 @@ namespace CalamityMod
 				BossDifficulty.TryGetValue("DevourerOfGods", out float order);
 				int type = NPCType<DevourerofGodsHeadS>();
 				int summon = ItemType<CosmicWorm>();
-				List<int> loot = new List<int>() { ItemType<DevourerofGodsBag>(), ItemType<CosmiliteBar>(), ItemType<CosmiliteBrick>(), ItemType<Excelsus>(), ItemType<EradicatorMelee>(), ItemType<TheObliterator>(), ItemType<Deathwind>(), ItemType<DeathhailStaff>(), ItemType<StaffoftheMechworm>(), ItemType<Eradicator>(), ItemType<Skullmasher>(), ItemType<Norfleet>(), ItemType<CosmicDischarge>(), ItemType<NebulousCore>(), ItemType<Fabsol>(), ItemType<SupremeHealingPotion>() };
+				List<int> loot = new List<int>() { ItemType<DevourerofGodsBag>(), ItemType<CosmiliteBar>(), ItemType<CosmiliteBrick>(), ItemType<Excelsus>(), ItemType<TheObliterator>(), ItemType<Deathwind>(), ItemType<DeathhailStaff>(), ItemType<StaffoftheMechworm>(), ItemType<Eradicator>(), ItemType<Skullmasher>(), ItemType<Norfleet>(), ItemType<CosmicDischarge>(), ItemType<NebulousCore>(), ItemType<Fabsol>(), ItemType<OmegaHealingPotion>() };
 				List<int> collection = new List<int>() { ItemType<DevourerofGodsTrophy>(), ItemType<DevourerofGodsMask>(), ItemType<KnowledgeDevourerofGods>() };
 				string instructions = $"Use a [i:{summon}]";
 				string despawn = CalamityUtils.ColorMessage("The Devourer of Gods has slain everyone and feasted on their essence.", new Color(0x00, 0xFF, 0xFF));
@@ -522,7 +562,7 @@ namespace CalamityMod
 				BossDifficulty.TryGetValue("Yharon", out float order);
 				int type = NPCType<Yharon>();
 				int summon = ItemType<ChickenEgg>();
-				List<int> loot = new List<int>() { ItemType<YharonBag>(), ItemType<HellcasterFragment>(), ItemType<DragonRage>(), ItemType<TheBurningSky>(), ItemType<DragonsBreath>(), ItemType<ChickenCannon>(), ItemType<PhoenixFlameBarrage>(), ItemType<AngryChickenStaff>(), ItemType<ProfanedTrident>(), ItemType<FinalDawn>(), ItemType<VoidVortex>(), ItemType<YharimsCrystal>(), ItemType<YharimsGift>(), ItemType<DrewsWings>(), ItemType<BossRush>(), ItemType<OmegaHealingPotion>() };
+				List<int> loot = new List<int>() { ItemType<YharonBag>(), ItemType<HellcasterFragment>(), ItemType<DragonRage>(), ItemType<TheBurningSky>(), ItemType<DragonsBreath>(), ItemType<ChickenCannon>(), ItemType<PhoenixFlameBarrage>(), ItemType<AngryChickenStaff>(), ItemType<ProfanedTrident>(), ItemType<FinalDawn>(), ItemType<VoidVortex>(), ItemType<YharimsCrystal>(), ItemType<YharimsGift>(), ItemType<DrewsWings>(), /*ItemType<BossRush>(), */ItemType<OmegaHealingPotion>() };
 				List<int> collection = new List<int>() { ItemType<YharonTrophy>(), ItemType<YharonMask>(), ItemType<KnowledgeYharon>(), ItemType<ForgottenDragonEgg>(), ItemType<FoxDrive>() };
 				string instructions = $"Use a [i:{summon}] in the Jungle Biome";
 				// TODO -- this setup code is only run once, so the despawn message can't be changed post-eclipse. Find a way around this.
@@ -536,7 +576,7 @@ namespace CalamityMod
 				BossDifficulty.TryGetValue("SupremeCalamitas", out float order);
 				int type = NPCType<SupremeCalamitas>();
 				int summon = ItemType<EyeofExtinction>();
-				List<int> loot = new List<int>() { ItemType<CalamitousEssence>(), ItemType<Animus>(), ItemType<Azathoth>(), ItemType<Contagion>(), ItemType<CrystylCrusher>(), ItemType<Judgement>(), ItemType<DraconicDestruction>(), ItemType<Earth>(), ItemType<Endogenesis>(), ItemType<Fabstaff>(), ItemType<RoyalKnivesMelee>(), ItemType<RoyalKnives>(), ItemType<NanoblackReaperMelee>(), ItemType<NanoblackReaperRogue>(), ItemType<RedSun>(), ItemType<ScarletDevil>(), ItemType<SomaPrime>(), ItemType<BlushieStaff>(), ItemType<Svantechnical>(), ItemType<BensUmbrella>(), ItemType<TriactisTruePaladinianMageHammerofMightMelee>(), ItemType<TriactisTruePaladinianMageHammerofMight>(), ItemType<Megafleet>(), ItemType<PrototypeAndromechaRing>(), ItemType<Vehemenc>(), ItemType<OmegaHealingPotion>() };
+				List<int> loot = new List<int>() { ItemType<CalamitousEssence>(), ItemType<Animus>(), ItemType<Azathoth>(), ItemType<Contagion>(), ItemType<CrystylCrusher>(), ItemType<Judgement>(), ItemType<DraconicDestruction>(), ItemType<Earth>(), ItemType<Endogenesis>(), ItemType<Fabstaff>(), ItemType<RoyalKnivesMelee>(), ItemType<NanoblackReaperRogue>(), ItemType<RedSun>(), ItemType<ScarletDevil>(), ItemType<SomaPrime>(), ItemType<BlushieStaff>(), ItemType<Svantechnical>(), ItemType<BensUmbrella>(), ItemType<TriactisTruePaladinianMageHammerofMightMelee>(), ItemType<Megafleet>(), ItemType<PrototypeAndromechaRing>(), ItemType<Vehemenc>(), ItemType<OmegaHealingPotion>() };
 				List<int> collection = new List<int>() { ItemType<SupremeCalamitasTrophy>(), ItemType<KnowledgeCalamitas>(), ItemType<BrimstoneJewel>(), ItemType<Levi>() };
 				string instructions = $"Use an [i:{summon}]";
 				string despawn = CalamityUtils.ColorMessage("Please don't waste my time.", new Color(0xFF, 0xA5, 0x00));
@@ -784,8 +824,8 @@ namespace CalamityMod
 			AddToMutantShop("Perforators", "BloodyWormFood", DownedPerfs, Item.buyPrice(gold: 10));
 			AddToMutantShop("SlimeGod", "OverloadedSludge", DownedSlimeGod, Item.buyPrice(gold: 15));
 			AddToMutantShop("Cryogen", "CryoKey", DownedCryogen, Item.buyPrice(gold: 15));
-			AddToMutantShop("BrimstoneElemental", "CharredIdol", DownedBrimstoneElemental, Item.buyPrice(gold: 20));
 			AddToMutantShop("AquaticScourge", "Seafood", DownedAquaticScourge, Item.buyPrice(gold: 20));
+			AddToMutantShop("BrimstoneElemental", "CharredIdol", DownedBrimstoneElemental, Item.buyPrice(gold: 20));
 			AddToMutantShop("AstrumAureus", "AstralChunk", DownedAureus, Item.buyPrice(gold: 25));
 			AddToMutantShop("PlaguebringerGoliath", "Abomination", DownedPBG, Item.buyPrice(gold: 50));
 			AddToMutantShop("Ravager", "AncientMedallion", DownedRavager, Item.buyPrice(gold: 50));
@@ -811,61 +851,71 @@ namespace CalamityMod
 		private static void SummonersAssociationSupport()
 		{
 			Mod sAssociation = ModLoader.GetMod("SummonersAssociation");
-			if(sAssociation != null)
+			if (sAssociation is null)
+				return;
+
+			void RegisterSummon(int summonItem, int summonBuff, int summonProjectile)
 			{
-				sAssociation.Call("AddMinionInfo", ItemType<SquirrelSquireStaff>(), BuffType<SquirrelSquireBuff>(), ProjectileType<SquirrelSquireMinion>());
-				sAssociation.Call("AddMinionInfo", ItemType<WulfrumController>(), BuffType<WulfrumDroidBuff>(), ProjectileType<WulfrumDroid>());
-				sAssociation.Call("AddMinionInfo", ItemType<SunSpiritStaff>(), BuffType<SolarSpirit>(), ProjectileType<SolarPixie>());
-				sAssociation.Call("AddMinionInfo", ItemType<FrostBlossomStaff>(), BuffType<FrostBlossomBuff>(), ProjectileType<FrostBlossom>());
-				sAssociation.Call("AddMinionInfo", ItemType<BelladonnaSpiritStaff>(), BuffType<BelladonnaSpiritBuff>(), ProjectileType<BelladonnaSpirit>());
-				sAssociation.Call("AddMinionInfo", ItemType<StormjawStaff>(), BuffType<StormjawBuff>(), ProjectileType<StormjawBaby>());
-				sAssociation.Call("AddMinionInfo", ItemType<SeaboundStaff>(), BuffType<BrittleStar>(), ProjectileType<BrittleStarMinion>());
-				sAssociation.Call("AddMinionInfo", ItemType<MagicalConch>(), BuffType<HermitCrab>(), ProjectileType<HermitCrabMinion>());
-				sAssociation.Call("AddMinionInfo", ItemType<VileFeeder>(), BuffType<VileFeederBuff>(), ProjectileType<VileFeederSummon>());
-				sAssociation.Call("AddMinionInfo", ItemType<ScabRipper>(), BuffType<ScabRipperBuff>(), ProjectileType<BabyBloodCrawler>());
-				sAssociation.Call("AddMinionInfo", ItemType<CinderBlossomStaff>(), BuffType<CinderBlossomBuff>(), ProjectileType<CinderBlossom>());
-				sAssociation.Call("AddMinionInfo", ItemType<BloodClotStaff>(), BuffType<BloodClot>(), ProjectileType<BloodClotMinion>());
-				sAssociation.Call("AddMinionInfo", ItemType<DankStaff>(), BuffType<DankCreeperBuff>(), ProjectileType<DankCreeperMinion>());
-				sAssociation.Call("AddMinionInfo", ItemType<HerringStaff>(), BuffType<Herring>(), ProjectileType<HerringMinion>());
-				sAssociation.Call("AddMinionInfo", ItemType<CorroslimeStaff>(), BuffType<Corroslime>(), ProjectileType<CorroslimeMinion>());
-				sAssociation.Call("AddMinionInfo", ItemType<CrimslimeStaff>(), BuffType<Crimslime>(), ProjectileType<CrimslimeMinion>());
-				sAssociation.Call("AddMinionInfo", ItemType<BlackHawkRemote>(), BuffType<BlackHawkBuff>(), ProjectileType<BlackHawkSummon>());
-				sAssociation.Call("AddMinionInfo", ItemType<CausticStaff>(), BuffType<CausticStaffBuff>(), ProjectileType<CausticStaffSummon>());
-				sAssociation.Call("AddMinionInfo", ItemType<AncientIceChunk>(), BuffType<IceClasper>(), ProjectileType<IceClasperMinion>());
-				sAssociation.Call("AddMinionInfo", ItemType<ShellfishStaff>(), BuffType<ShellfishBuff>(), ProjectileType<Shellfish>());
-				sAssociation.Call("AddMinionInfo", ItemType<HauntedScroll>(), BuffType<HauntedDishesBuff>(), ProjectileType<HauntedDishes>());
-				sAssociation.Call("AddMinionInfo", ItemType<ForgottenApexWand>(), BuffType<ApexSharkBuff>(), ProjectileType<ApexShark>());
-				sAssociation.Call("AddMinionInfo", ItemType<DeepseaStaff>(), BuffType<AquaticStar>(), ProjectileType<AquaticStarMinion>());
-				sAssociation.Call("AddMinionInfo", ItemType<SunGodStaff>(), BuffType<SolarSpiritGod>(), ProjectileType<SolarGod>());
-				sAssociation.Call("AddMinionInfo", ItemType<TundraFlameBlossomsStaff>(), BuffType<TundraFlameBlossomsBuff>(), ProjectileType<TundraFlameBlossom>());
-				sAssociation.Call("AddMinionInfo", ItemType<DormantBrimseeker>(), BuffType<DormantBrimseekerBuff>(), ProjectileType<DormantBrimseekerBab>());
-				sAssociation.Call("AddMinionInfo", ItemType<IgneousExaltation>(), BuffType<IgneousExaltationBuff>(), ProjectileType<IgneousBlade>());
-				sAssociation.Call("AddMinionInfo", ItemType<BlightedEyeStaff>(), BuffType<CalamitasEyes>(), new List<int>() { ProjectileType<Calamitamini>(), ProjectileType<Cataclymini>(), ProjectileType<Catastromini>()}, new List<float>() {1-(1f/3f), 2f/3f, 2f/3f});
-				//Entropy's Vigil is a bruh moment
-				sAssociation.Call("AddMinionInfo", ItemType<PlantationStaff>(), BuffType<PlantationBuff>(), ProjectileType<PlantSummon>());
-				sAssociation.Call("AddMinionInfo", ItemType<SandSharknadoStaff>(), BuffType<Sandnado>(), ProjectileType<SandnadoMinion>());
-				sAssociation.Call("AddMinionInfo", ItemType<GastricBelcherStaff>(), BuffType<GastricBelcherBuff>(), ProjectileType<GastricBelcher>());
-				sAssociation.Call("AddMinionInfo", ItemType<ResurrectionButterfly>(), BuffType<ResurrectionButterflyBuff>(), new List<int>() { ProjectileType<PinkButterfly>(), ProjectileType<PurpleButterfly>()});
-				sAssociation.Call("AddMinionInfo", ItemType<FuelCellBundle>(), BuffType<FuelCellBundleBuff>(), ProjectileType<PlaguebringerMK2>());
-				sAssociation.Call("AddMinionInfo", ItemType<GodspawnHelixStaff>(), BuffType<AstralProbeBuff>(), ProjectileType<AstralProbeSummon>());
-				sAssociation.Call("AddMinionInfo", ItemType<TacticalPlagueEngine>(), BuffType<TacticalPlagueEngineBuff>(), ProjectileType<TacticalPlagueEngineSummon>());
-				sAssociation.Call("AddMinionInfo", ItemType<ElementalAxe>(), BuffType<ElementalAxeBuff>(), ProjectileType<ElementalAxeMinion>());
-				sAssociation.Call("AddMinionInfo", ItemType<DazzlingStabberStaff>(), BuffType<DazzlingStabberBuff>(), ProjectileType<DazzlingStabber>());
-				sAssociation.Call("AddMinionInfo", ItemType<DragonbloodDisgorger>(), BuffType<BloodDragonsBuff>(), ProjectileType<SkeletalDragonMother>());
-				sAssociation.Call("AddMinionInfo", ItemType<Cosmilamp>(), BuffType<CosmilampBuff>(), ProjectileType<CosmilampMinion>());
-				sAssociation.Call("AddMinionInfo", ItemType<EtherealSubjugator>(), BuffType<Phantom>(), ProjectileType<PhantomGuy>());
-				sAssociation.Call("AddMinionInfo", ItemType<CalamarisLament>(), BuffType<Calamari>(), ProjectileType<CalamariMinion>());
-				sAssociation.Call("AddMinionInfo", ItemType<GammaHeart>(), BuffType<GammaHeadBuff>(), ProjectileType<GammaHead>());
-				sAssociation.Call("AddMinionInfo", ItemType<StaffoftheMechworm>(), BuffType<Mechworm>(), ProjectileType<MechwormBody>(), 1f);
-				sAssociation.Call("AddMinionInfo", ItemType<CorvidHarbringerStaff>(), BuffType<CorvidHarbringerBuff>(), ProjectileType<PowerfulRaven>());
-				sAssociation.Call("AddMinionInfo", ItemType<EndoHydraStaff>(), BuffType<EndoHydraBuff>(), ProjectileType<EndoHydraHead>());
-				sAssociation.Call("AddMinionInfo", ItemType<CosmicViperEngine>(), BuffType<CosmicViperEngineBuff>(), ProjectileType<CosmicViperSummon>());
-				sAssociation.Call("AddMinionInfo", ItemType<AngryChickenStaff>(), BuffType<YharonKindleBuff>(), ProjectileType<SonOfYharon>());
-				sAssociation.Call("AddMinionInfo", ItemType<MidnightSunBeacon>(), BuffType<MidnightSunBuff>(), ProjectileType<MidnightSunUFO>());
-				sAssociation.Call("AddMinionInfo", ItemType<CosmicImmaterializer>(), BuffType<CosmicEnergy>(), ProjectileType<CosmicEnergySpiral>());
-				sAssociation.Call("AddMinionInfo", ItemType<BensUmbrella>(), BuffType<MagicHatBuff>(), ProjectileType<MagicHat>());
-				sAssociation.Call("AddMinionInfo", ItemType<Endogenesis>(), BuffType<EndoCooperBuff>(), ProjectileType<EndoCooperBody>());
+				sAssociation.Call("AddMinionInfo", summonItem, summonBuff, summonProjectile);
 			}
+			RegisterSummon(ItemType<SquirrelSquireStaff>(), BuffType<SquirrelSquireBuff>(), ProjectileType<SquirrelSquireMinion>());
+			RegisterSummon(ItemType<WulfrumController>(), BuffType<WulfrumDroidBuff>(), ProjectileType<WulfrumDroid>());
+			RegisterSummon(ItemType<SunSpiritStaff>(), BuffType<SolarSpirit>(), ProjectileType<SolarPixie>());
+			RegisterSummon(ItemType<FrostBlossomStaff>(), BuffType<FrostBlossomBuff>(), ProjectileType<FrostBlossom>());
+			RegisterSummon(ItemType<BelladonnaSpiritStaff>(), BuffType<BelladonnaSpiritBuff>(), ProjectileType<BelladonnaSpirit>());
+			RegisterSummon(ItemType<StormjawStaff>(), BuffType<StormjawBuff>(), ProjectileType<StormjawBaby>());
+			RegisterSummon(ItemType<RustyBeaconPrototype>(), BuffType<RustyDroneBuff>(), ProjectileType<RustyDrone>());
+			RegisterSummon(ItemType<SeaboundStaff>(), BuffType<BrittleStar>(), ProjectileType<BrittleStarMinion>());
+			RegisterSummon(ItemType<MagicalConch>(), BuffType<HermitCrab>(), ProjectileType<HermitCrabMinion>());
+			RegisterSummon(ItemType<VileFeeder>(), BuffType<VileFeederBuff>(), ProjectileType<VileFeederSummon>());
+			RegisterSummon(ItemType<ScabRipper>(), BuffType<ScabRipperBuff>(), ProjectileType<BabyBloodCrawler>());
+			RegisterSummon(ItemType<CinderBlossomStaff>(), BuffType<CinderBlossomBuff>(), ProjectileType<CinderBlossom>());
+			RegisterSummon(ItemType<BloodClotStaff>(), BuffType<BloodClot>(), ProjectileType<BloodClotMinion>());
+			RegisterSummon(ItemType<DankStaff>(), BuffType<DankCreeperBuff>(), ProjectileType<DankCreeperMinion>());
+			RegisterSummon(ItemType<StarSwallowerContainmentUnit>(), BuffType<StarSwallowerBuff>(), ProjectileType<StarSwallowerSummon>());
+			RegisterSummon(ItemType<HerringStaff>(), BuffType<Herring>(), ProjectileType<HerringMinion>());
+			RegisterSummon(ItemType<CorroslimeStaff>(), BuffType<Corroslime>(), ProjectileType<CorroslimeMinion>());
+			RegisterSummon(ItemType<CrimslimeStaff>(), BuffType<Crimslime>(), ProjectileType<CrimslimeMinion>());
+			RegisterSummon(ItemType<BlackHawkRemote>(), BuffType<BlackHawkBuff>(), ProjectileType<BlackHawkSummon>());
+			RegisterSummon(ItemType<CausticStaff>(), BuffType<CausticStaffBuff>(), ProjectileType<CausticStaffSummon>());
+			RegisterSummon(ItemType<AncientIceChunk>(), BuffType<IceClasper>(), ProjectileType<IceClasperMinion>());
+			RegisterSummon(ItemType<ShellfishStaff>(), BuffType<ShellfishBuff>(), ProjectileType<Shellfish>());
+			RegisterSummon(ItemType<HauntedScroll>(), BuffType<HauntedDishesBuff>(), ProjectileType<HauntedDishes>());
+			RegisterSummon(ItemType<ForgottenApexWand>(), BuffType<ApexSharkBuff>(), ProjectileType<ApexShark>());
+			RegisterSummon(ItemType<MountedScanner>(), BuffType<MountedScannerBuff>(), ProjectileType<MountedScannerSummon>());
+			RegisterSummon(ItemType<DeepseaStaff>(), BuffType<AquaticStar>(), ProjectileType<AquaticStarMinion>());
+			RegisterSummon(ItemType<SunGodStaff>(), BuffType<SolarSpiritGod>(), ProjectileType<SolarGod>());
+			RegisterSummon(ItemType<TundraFlameBlossomsStaff>(), BuffType<TundraFlameBlossomsBuff>(), ProjectileType<TundraFlameBlossom>());
+			RegisterSummon(ItemType<DormantBrimseeker>(), BuffType<DormantBrimseekerBuff>(), ProjectileType<DormantBrimseekerBab>());
+			RegisterSummon(ItemType<IgneousExaltation>(), BuffType<IgneousExaltationBuff>(), ProjectileType<IgneousBlade>());
+			RegisterSummon(ItemType<PlantationStaff>(), BuffType<PlantationBuff>(), ProjectileType<PlantSummon>());
+			RegisterSummon(ItemType<SandSharknadoStaff>(), BuffType<Sandnado>(), ProjectileType<SandnadoMinion>());
+			RegisterSummon(ItemType<GastricBelcherStaff>(), BuffType<GastricBelcherBuff>(), ProjectileType<GastricBelcher>());
+			RegisterSummon(ItemType<FuelCellBundle>(), BuffType<FuelCellBundleBuff>(), ProjectileType<PlaguebringerMK2>());
+			RegisterSummon(ItemType<GodspawnHelixStaff>(), BuffType<AstralProbeBuff>(), ProjectileType<AstralProbeSummon>());
+			RegisterSummon(ItemType<TacticalPlagueEngine>(), BuffType<TacticalPlagueEngineBuff>(), ProjectileType<TacticalPlagueJet>());
+			RegisterSummon(ItemType<ElementalAxe>(), BuffType<ElementalAxeBuff>(), ProjectileType<ElementalAxeMinion>());
+			RegisterSummon(ItemType<SnakeEyes>(), BuffType<SnakeEyesBuff>(), ProjectileType<SnakeEyesSummon>());
+			RegisterSummon(ItemType<DazzlingStabberStaff>(), BuffType<DazzlingStabberBuff>(), ProjectileType<DazzlingStabber>());
+			RegisterSummon(ItemType<DragonbloodDisgorger>(), BuffType<BloodDragonsBuff>(), ProjectileType<SkeletalDragonMother>());
+			RegisterSummon(ItemType<Cosmilamp>(), BuffType<CosmilampBuff>(), ProjectileType<CosmilampMinion>());
+			RegisterSummon(ItemType<EtherealSubjugator>(), BuffType<Phantom>(), ProjectileType<PhantomGuy>());
+			RegisterSummon(ItemType<CalamarisLament>(), BuffType<Calamari>(), ProjectileType<CalamariMinion>());
+			RegisterSummon(ItemType<GammaHeart>(), BuffType<GammaHeadBuff>(), ProjectileType<GammaHead>());
+			RegisterSummon(ItemType<CorvidHarbringerStaff>(), BuffType<CorvidHarbringerBuff>(), ProjectileType<PowerfulRaven>());
+			RegisterSummon(ItemType<EndoHydraStaff>(), BuffType<EndoHydraBuff>(), ProjectileType<EndoHydraHead>());
+			RegisterSummon(ItemType<CosmicViperEngine>(), BuffType<CosmicViperEngineBuff>(), ProjectileType<CosmicViperSummon>());
+			RegisterSummon(ItemType<AngryChickenStaff>(), BuffType<YharonKindleBuff>(), ProjectileType<SonOfYharon>());
+			RegisterSummon(ItemType<MidnightSunBeacon>(), BuffType<MidnightSunBuff>(), ProjectileType<MidnightSunUFO>());
+			RegisterSummon(ItemType<PoleWarper>(), BuffType<PoleWarperBuff>(), ProjectileType<PoleWarperSummon>());
+			RegisterSummon(ItemType<CosmicImmaterializer>(), BuffType<CosmicEnergy>(), ProjectileType<CosmicEnergySpiral>());
+			RegisterSummon(ItemType<BensUmbrella>(), BuffType<MagicHatBuff>(), ProjectileType<MagicHat>());
+			RegisterSummon(ItemType<Endogenesis>(), BuffType<EndoCooperBuff>(), ProjectileType<EndoCooperBody>());
+
+			sAssociation.Call("AddMinionInfo", ItemType<BlightedEyeStaff>(), BuffType<CalamitasEyes>(), new List<int>() { ProjectileType<Calamitamini>(), ProjectileType<Cataclymini>(), ProjectileType<Catastromini>()}, new List<float>() {1-(1f/3f), 2f/3f, 2f/3f});
+			//Entropy's Vigil is a bruh moment
+			sAssociation.Call("AddMinionInfo", ItemType<ResurrectionButterfly>(), BuffType<ResurrectionButterflyBuff>(), new List<int>() { ProjectileType<PinkButterfly>(), ProjectileType<PurpleButterfly>()});
+			sAssociation.Call("AddMinionInfo", ItemType<StaffoftheMechworm>(), BuffType<Mechworm>(), ProjectileType<MechwormBody>(), 1f);
 		}
 	}
 }

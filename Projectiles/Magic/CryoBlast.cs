@@ -1,5 +1,6 @@
 using CalamityMod.Buffs.StatDebuffs;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -11,12 +12,12 @@ namespace CalamityMod.Projectiles.Magic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Blast");
+            Main.projFrames[projectile.type] = 4;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 16;
-            projectile.height = 32;
+            projectile.width = projectile.height = 35;
             projectile.friendly = true;
             projectile.magic = true;
             projectile.penetrate = 4;
@@ -29,25 +30,58 @@ namespace CalamityMod.Projectiles.Magic
             if (projectile.scale <= 3.6f)
             {
                 projectile.scale *= 1.01f;
-                projectile.width = (int)(16f * projectile.scale);
-                projectile.height = (int)(32f * projectile.scale);
+				CalamityGlobalProjectile.ExpandHitboxBy(projectile, (int)(35f * projectile.scale));
             }
-            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
+
+			if (projectile.timeLeft < 53)
+				projectile.alpha += 5;
+
+            projectile.spriteDirection = projectile.direction = (projectile.velocity.X > 0).ToDirectionInt();
+            projectile.rotation = projectile.velocity.ToRotation() + (projectile.spriteDirection == 1 ? 0f : MathHelper.Pi);
+
+            projectile.frameCounter++;
+            if (projectile.frameCounter > 4)
+            {
+                projectile.frame++;
+                projectile.frameCounter = 0;
+            }
+            if (projectile.frame >= Main.projFrames[projectile.type])
+            {
+                projectile.frame = 0;
+            }
+
             Lighting.AddLight(projectile.Center, 0.5f, 0.5f, 0.5f);
+
             projectile.localAI[0] += 1f;
             if (projectile.localAI[0] > 4f)
             {
-                for (int num468 = 0; num468 < 3; num468++)
-                {
-                    int num469 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 66, 0f, 0f, 100, default, projectile.scale);
-                    Main.dust[num469].noGravity = true;
-                    Main.dust[num469].velocity *= 0f;
-                    int num470 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 185, 0f, 0f, 100, default, projectile.scale);
-                    Main.dust[num470].noGravity = true;
-                    Main.dust[num470].velocity *= 0f;
-                }
+				int ice = Dust.NewDust(projectile.position, projectile.width, projectile.height, 66, 0f, 0f, 100, default, projectile.scale * 0.5f);
+				Main.dust[ice].noGravity = true;
+				Main.dust[ice].velocity *= 0f;
+				int snow = Dust.NewDust(projectile.position, projectile.width, projectile.height, 185, 0f, 0f, 100, default, projectile.scale * 0.5f);
+				Main.dust[snow].noGravity = true;
+				Main.dust[snow].velocity *= 0f;
             }
         }
+
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			if (projectile.timeLeft > 599)
+				return false;
+
+			Texture2D texture = Main.projectileTexture[projectile.type];
+			Vector2 drawPos = projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY);
+			int height = texture.Height / Main.projFrames[projectile.type];
+			int frameHeight = height * projectile.frame;
+			Rectangle rectangle = new Rectangle(0, frameHeight, texture.Width, height);
+			Vector2 origin = new Vector2(texture.Width / 2f, height / 2f);
+			SpriteEffects spriteEffects = SpriteEffects.None;
+			if (projectile.spriteDirection == -1)
+				spriteEffects = SpriteEffects.FlipHorizontally;
+
+			spriteBatch.Draw(texture, drawPos, new Microsoft.Xna.Framework.Rectangle?(rectangle), lightColor, projectile.rotation, origin, projectile.scale, spriteEffects, 0f);
+			return false;
+		}
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {

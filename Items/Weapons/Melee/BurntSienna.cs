@@ -17,10 +17,9 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetDefaults()
         {
             item.width = 42;
-            item.damage = 35;
+            item.damage = 28;
             item.melee = true;
-            item.useAnimation = 21;
-            item.useTime = 21;
+            item.useAnimation = item.useTime = 21;
             item.useTurn = true;
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.knockBack = 5.5f;
@@ -28,7 +27,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.autoReuse = true;
             item.height = 54;
             item.value = Item.buyPrice(0, 4, 0, 0);
-            item.rare = 3;
+            item.rare = ItemRarityID.Orange;
             item.shootSpeed = 5f;
         }
 
@@ -36,11 +35,11 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             if (target.life <= 0 && !player.moonLeech)
             {
-                float randomSpeedX = (float)Main.rand.Next(3);
-                float randomSpeedY = (float)Main.rand.Next(3, 5);
-                Projectile.NewProjectile(target.Center.X, target.Center.Y, -randomSpeedX, -randomSpeedY, ModContent.ProjectileType<BurntSiennaProj>(), 0, 0f, player.whoAmI);
-                Projectile.NewProjectile(target.Center.X, target.Center.Y, randomSpeedX, -randomSpeedY, ModContent.ProjectileType<BurntSiennaProj>(), 0, 0f, player.whoAmI);
-                Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, -randomSpeedY, ModContent.ProjectileType<BurntSiennaProj>(), 0, 0f, player.whoAmI);
+                float randomSpeedX = Main.rand.Next(3);
+                float randomSpeedY = Main.rand.Next(3, 5);
+                Projectile.NewProjectile(target.Center.X, target.Center.Y, -randomSpeedX, -randomSpeedY, ModContent.ProjectileType<BurntSiennaProj>(), 0, 0f, player.whoAmI, player.whoAmI);
+                Projectile.NewProjectile(target.Center.X, target.Center.Y, randomSpeedX, -randomSpeedY, ModContent.ProjectileType<BurntSiennaProj>(), 0, 0f, player.whoAmI, player.whoAmI);
+                Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, -randomSpeedY, ModContent.ProjectileType<BurntSiennaProj>(), 0, 0f, player.whoAmI, player.whoAmI);
             }
         }
 
@@ -48,11 +47,11 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             if (target.statLife <= 0 && !player.moonLeech)
             {
-                float randomSpeedX = (float)Main.rand.Next(3);
-                float randomSpeedY = (float)Main.rand.Next(3, 5);
-                Projectile.NewProjectile(target.Center.X, target.Center.Y, -randomSpeedX, -randomSpeedY, ModContent.ProjectileType<BurntSiennaProj>(), 0, 0f, player.whoAmI);
-                Projectile.NewProjectile(target.Center.X, target.Center.Y, randomSpeedX, -randomSpeedY, ModContent.ProjectileType<BurntSiennaProj>(), 0, 0f, player.whoAmI);
-                Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, -randomSpeedY, ModContent.ProjectileType<BurntSiennaProj>(), 0, 0f, player.whoAmI);
+                float randomSpeedX = Main.rand.Next(3);
+                float randomSpeedY = Main.rand.Next(3, 5);
+                Projectile.NewProjectile(target.Center.X, target.Center.Y, -randomSpeedX, -randomSpeedY, ModContent.ProjectileType<BurntSiennaProj>(), 0, 0f, player.whoAmI, player.whoAmI);
+                Projectile.NewProjectile(target.Center.X, target.Center.Y, randomSpeedX, -randomSpeedY, ModContent.ProjectileType<BurntSiennaProj>(), 0, 0f, player.whoAmI, player.whoAmI);
+                Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, -randomSpeedY, ModContent.ProjectileType<BurntSiennaProj>(), 0, 0f, player.whoAmI, player.whoAmI);
             }
         }
 

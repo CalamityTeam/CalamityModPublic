@@ -9,9 +9,11 @@ namespace CalamityMod.Buffs.StatBuffs
         {
             DisplayName.SetDefault("Afflicted");
             Description.SetDefault("Empowered by otherworldly spirits");
+            Main.buffNoTimeDisplay[Type] = true;
             Main.debuff[Type] = false;
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = true;
+			Main.buffNoTimeDisplay[Type] = true;
             longerExpertDebuff = false;
         }
 

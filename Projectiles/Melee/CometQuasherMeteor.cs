@@ -41,12 +41,7 @@ namespace CalamityMod.Projectiles.Melee
         public override void Kill(int timeLeft)
         {
 			Main.PlaySound(SoundID.Item89, projectile.position);
-			projectile.position.X += (float)(projectile.width / 2);
-			projectile.position.Y += (float)(projectile.height / 2);
-			projectile.width = (int)(128f * projectile.scale);
-			projectile.height = (int)(128f * projectile.scale);
-			projectile.position.X -= (float)(projectile.width / 2);
-			projectile.position.Y -= (float)(projectile.height / 2);
+			CalamityGlobalProjectile.ExpandHitboxBy(projectile, (int)(128f * projectile.scale));
 			for (int index = 0; index < 8; ++index)
 				Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 31, 0.0f, 0.0f, 100, new Color(), 1.5f);
 			for (int index1 = 0; index1 < 32; ++index1)

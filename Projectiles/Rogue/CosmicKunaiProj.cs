@@ -1,11 +1,12 @@
-using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class CosmicKunaiProj : ModProjectile
+	public class CosmicKunaiProj : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/CosmicKunai";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Kunai");
@@ -30,7 +31,7 @@ namespace CalamityMod.Projectiles.Rogue
                 projectile.Kill();
             }
             Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0.5f / 255f, (255 - projectile.alpha) * 0f / 255f, (255 - projectile.alpha) * 0.5f / 255f);
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 300f, 28f, 20f);
+			CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 300f, 12f, 20f);
         }
     }
 }

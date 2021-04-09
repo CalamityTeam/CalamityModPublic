@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Barinade");
-            Tooltip.SetDefault("Shoots electric bolt arrows that explode");
+            Tooltip.SetDefault("Converts wooden arrows into electric bolt arrows that explode");
         }
 
         public override void SetDefaults()
@@ -27,12 +27,12 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.noMelee = true;
             item.knockBack = 2f;
             item.value = Item.buyPrice(0, 2, 0, 0);
-            item.rare = 2;
+            item.rare = ItemRarityID.Green;
             item.UseSound = SoundID.Item5;
             item.autoReuse = true;
-            item.shoot = ProjectileID.PurificationPowder;
+            item.shoot = ModContent.ProjectileType<BoltArrow>();
             item.shootSpeed = 14f;
-            item.useAmmo = 40;
+            item.useAmmo = AmmoID.Arrow;
         }
 
         /*public void OverhaulInit()
@@ -42,8 +42,12 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<BoltArrow>(), damage, knockBack, player.whoAmI, 0f, 0f);
-            return false;
+			if (type == ProjectileID.WoodenArrowFriendly)
+				Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<BoltArrow>(), damage, knockBack, player.whoAmI);
+			else
+				Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
+
+			return false;
         }
     }
 }

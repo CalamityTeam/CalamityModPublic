@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -11,7 +12,7 @@ namespace CalamityMod.Items.Accessories
         {
             DisplayName.SetDefault("Grand Gelatin");
             Tooltip.SetDefault("10% increased movement speed\n" +
-                "200% increased jump speed\n" +
+                "12% increased jump speed\n" +
                 "+20 max life and mana\n" +
                 "Standing still boosts life and mana regen");
         }
@@ -20,18 +21,29 @@ namespace CalamityMod.Items.Accessories
         {
             item.width = 20;
             item.height = 24;
-            item.value = Item.buyPrice(0, 15, 0, 0);
-            item.rare = 6;
+            item.value = CalamityGlobalItem.Rarity5BuyPrice;
+            item.rare = ItemRarityID.Pink;
             item.accessory = true;
+        }
+
+        public override void ModifyTooltips(List<TooltipLine> list)
+        {
+            bool autoJump = Main.player[Main.myPlayer].autoJump;
+			string jumpAmt = autoJump ? "3" : "12";
+            foreach (TooltipLine line2 in list)
+            {
+                if (line2.mod == "Terraria" && line2.Name == "Tooltip1")
+                    line2.text = jumpAmt + "% increased jump speed";
+            }
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             player.moveSpeed += 0.1f;
-            player.jumpSpeedBoost += player.autoJump ? 0.5f : 2.0f;
-            player.statLifeMax2 += 20;
+            player.jumpSpeedBoost += player.autoJump ? 0.15f : 0.6f;
+			player.statLifeMax2 += 20;
             player.statManaMax2 += 20;
-            if ((double)Math.Abs(player.velocity.X) < 0.05 && (double)Math.Abs(player.velocity.Y) < 0.05 && player.itemAnimation == 0)
+            if (Math.Abs(player.velocity.X) < 0.05f && Math.Abs(player.velocity.Y) < 0.05f && player.itemAnimation == 0)
             {
                 player.lifeRegen += 2;
                 player.manaRegenBonus += 2;

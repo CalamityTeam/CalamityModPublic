@@ -10,6 +10,8 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class AstralProbeRound : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Ranged/AstralRound";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Blast");
@@ -35,76 +37,22 @@ namespace CalamityMod.Projectiles.Summon
         public override void AI()
         {
             Lighting.AddLight(projectile.Center, 0.3f, 0.5f, 0.1f);
-            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
+            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
             if (Main.rand.NextBool(3))
             {
-                int randomDust = Main.rand.Next(2);
-                if (randomDust == 0)
-                {
-                    randomDust = ModContent.DustType<AstralOrange>();
-                }
-                else
-                {
-                    randomDust = ModContent.DustType<AstralBlue>();
-                }
-                int num137 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), 1, 1, randomDust, 0f, 0f, 0, default, 0.5f);
-                Main.dust[num137].alpha = projectile.alpha;
-                Main.dust[num137].velocity *= 0f;
-                Main.dust[num137].noGravity = true;
-            }
-            float num472 = projectile.Center.X;
-            float num473 = projectile.Center.Y;
-            float num474 = 1200f;
-            bool flag17 = false;
-            if (Main.player[projectile.owner].HasMinionAttackTargetNPC)
-            {
-                NPC npc = Main.npc[Main.player[projectile.owner].MinionAttackTargetNPC];
-                if (npc.CanBeChasedBy(projectile, false) && Collision.CanHit(projectile.Center, 1, 1, npc.Center, 1, 1))
-                {
-					float num476 = npc.position.X + (float)(npc.width / 2);
-					float num477 = npc.position.Y + (float)(npc.height / 2);
-					float num478 = Math.Abs(projectile.position.X + (float)(projectile.width / 2) - num476) + Math.Abs(projectile.position.Y + (float)(projectile.height / 2) - num477);
-					if (num478 < num474)
-					{
-						num474 = num478;
-						num472 = num476;
-						num473 = num477;
-						flag17 = true;
-					}
-				}
-			}
-			else
-			{
-				for (int target = 0; target < Main.npc.Length; target++)
+                int randomDust = Utils.SelectRandom(Main.rand, new int[]
 				{
-					if (Main.npc[target].CanBeChasedBy(projectile, false) && Collision.CanHit(projectile.Center, 1, 1, Main.npc[target].Center, 1, 1))
-					{
-						float num476 = Main.npc[target].position.X + (float)(Main.npc[target].width / 2);
-						float num477 = Main.npc[target].position.Y + (float)(Main.npc[target].height / 2);
-						float num478 = Math.Abs(projectile.position.X + (float)(projectile.width / 2) - num476) + Math.Abs(projectile.position.Y + (float)(projectile.height / 2) - num477);
-						if (num478 < num474)
-						{
-							num474 = num478;
-							num472 = num476;
-							num473 = num477;
-							flag17 = true;
-						}
-					}
-				}
-			}
-            if (flag17)
-            {
-                float num483 = 17f;
-                Vector2 vector35 = new Vector2(projectile.position.X + (float)projectile.width * 0.5f, projectile.position.Y + (float)projectile.height * 0.5f);
-                float num484 = num472 - vector35.X;
-                float num485 = num473 - vector35.Y;
-                float num486 = (float)Math.Sqrt((double)(num484 * num484 + num485 * num485));
-                num486 = num483 / num486;
-                num484 *= num486;
-                num485 *= num486;
-                projectile.velocity.X = (projectile.velocity.X * 20f + num484) / 21f;
-                projectile.velocity.Y = (projectile.velocity.Y * 20f + num485) / 21f;
+					ModContent.DustType<AstralOrange>(),
+					ModContent.DustType<AstralBlue>()
+                });
+                int astral = Dust.NewDust(projectile.position, 1, 1, randomDust, 0f, 0f, 0, default, 0.5f);
+                Main.dust[astral].alpha = projectile.alpha;
+                Main.dust[astral].velocity *= 0f;
+                Main.dust[astral].noGravity = true;
             }
+            NPC potentialTarget = projectile.Center.MinionHoming(1200f, Main.player[projectile.owner]);
+            if (potentialTarget != null)
+                projectile.velocity = (projectile.velocity * 20f + projectile.DirectionTo(potentialTarget.Center) * 17f) / 21f;
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

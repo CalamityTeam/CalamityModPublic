@@ -1,4 +1,3 @@
-using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Summon;
 using Microsoft.Xna.Framework;
@@ -28,9 +27,11 @@ namespace CalamityMod.Items.Weapons.Summon
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.noMelee = true;
             item.knockBack = 1f;
-            item.value = Item.buyPrice(0, 80, 0, 0);
-            item.rare = 8;
-            item.Calamity().customRarity = CalamityRarity.Dedicated;
+
+            item.value = CalamityGlobalItem.Rarity8BuyPrice;
+            item.rare = ItemRarityID.Yellow;
+            item.Calamity().donorItem = true;
+
             item.UseSound = SoundID.Item44;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<PinkButterfly>();
@@ -82,8 +83,6 @@ namespace CalamityMod.Items.Weapons.Summon
             r.AddIngredient(ItemID.Ectoplasm, 20);
             r.AddIngredient(ModContent.ItemType<BarofLife>(), 5);
             r.AddIngredient(ItemID.ButterflyDust, 2);
-            r.AddIngredient(ModContent.ItemType<GypsyPowder>());
-            //r.AddIngredient(ModContent.ItemType<SpiritGenerator>());
             r.AddTile(TileID.Loom);
             r.SetResult(this);
             r.AddRecipe();

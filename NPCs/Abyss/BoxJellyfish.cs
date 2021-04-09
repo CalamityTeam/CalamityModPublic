@@ -29,7 +29,6 @@ namespace CalamityMod.NPCs.Abyss
             npc.alpha = 20;
             npc.aiStyle = -1;
             aiType = -1;
-            npc.buffImmune[ModContent.BuffType<CrushDepth>()] = true;
             npc.value = Item.buyPrice(0, 0, 0, 80);
             npc.HitSound = SoundID.NPCHit25;
             npc.DeathSound = SoundID.NPCDeath28;
@@ -91,17 +90,17 @@ namespace CalamityMod.NPCs.Abyss
             if (flag16)
             {
                 npc.localAI[2] = 1f;
-                npc.rotation = (float)Math.Atan2((double)npc.velocity.Y, (double)npc.velocity.X) + 1.57f;
+                npc.rotation = (float)Math.Atan2(npc.velocity.Y, npc.velocity.X) + 1.57f;
                 npc.velocity *= 0.975f;
                 float num263 = 0.8f;
                 if (npc.velocity.X > -num263 && npc.velocity.X < num263 && npc.velocity.Y > -num263 && npc.velocity.Y < num263)
                 {
                     npc.TargetClosest(true);
                     float num264 = CalamityWorld.death ? 12f : 8f;
-                    Vector2 vector31 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
-                    float num265 = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2) - vector31.X;
-                    float num266 = Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2) - vector31.Y;
-                    float num267 = (float)Math.Sqrt((double)(num265 * num265 + num266 * num266));
+                    Vector2 vector31 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
+                    float num265 = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2) - vector31.X;
+                    float num266 = Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2) - vector31.Y;
+                    float num267 = (float)Math.Sqrt(num265 * num265 + num266 * num266);
                     num267 = num264 / num267;
                     num265 *= num267;
                     num266 *= num267;
@@ -112,7 +111,7 @@ namespace CalamityMod.NPCs.Abyss
             else
             {
                 npc.localAI[2] = 0f;
-                npc.velocity.X = npc.velocity.X + (float)npc.direction * 0.02f;
+                npc.velocity.X = npc.velocity.X + npc.direction * 0.02f;
                 npc.rotation = npc.velocity.X * 0.4f;
                 if (npc.velocity.X < -1f || npc.velocity.X > 1f)
                 {
@@ -134,8 +133,8 @@ namespace CalamityMod.NPCs.Abyss
                         npc.ai[0] = -1f;
                     }
                 }
-                int num268 = (int)(npc.position.X + (float)(npc.width / 2)) / 16;
-                int num269 = (int)(npc.position.Y + (float)(npc.height / 2)) / 16;
+                int num268 = (int)(npc.position.X + (npc.width / 2)) / 16;
+                int num269 = (int)(npc.position.Y + (npc.height / 2)) / 16;
                 if (Main.tile[num268, num269 - 1] == null)
                 {
                     Main.tile[num268, num269 - 1] = new Tile();
@@ -163,7 +162,7 @@ namespace CalamityMod.NPCs.Abyss
                 {
                     npc.ai[0] = 1f;
                 }
-                if ((double)npc.velocity.Y > 1.2 || (double)npc.velocity.Y < -1.2)
+                if (npc.velocity.Y > 1.2 || npc.velocity.Y < -1.2)
                 {
                     npc.velocity.Y = npc.velocity.Y * 0.99f;
                 }
@@ -200,23 +199,22 @@ namespace CalamityMod.NPCs.Abyss
         {
             for (int k = 0; k < 3; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
             }
             if (npc.life <= 0)
             {
                 for (int k = 0; k < 15; k++)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
                 }
             }
         }
 
         public override void NPCLoot()
         {
-			int abyssShockerChance = CalamityWorld.defiled ? DropHelper.DefiledDropRateInt : Main.expertMode ? 40 : 50;
+			int abyssShockerChance = Main.expertMode ? 40 : 50;
             DropHelper.DropItemCondition(npc, ModContent.ItemType<AbyssShocker>(), NPC.downedBoss3, abyssShockerChance, 1, 1);
-			float necklaceDropRate = CalamityWorld.defiled ? DropHelper.DefiledDropRateFloat : 0.01f;
-			DropHelper.DropItemChance(npc, ItemID.JellyfishNecklace, necklaceDropRate);
+			DropHelper.DropItemChance(npc, ItemID.JellyfishNecklace, 0.01f);
 		}
     }
 }

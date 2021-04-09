@@ -1,4 +1,5 @@
 using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Dusts;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Projectiles.Boss;
@@ -28,7 +29,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.defense = 12;
             npc.lifeMax = 350;
             npc.knockBackResist = 0f;
-            animationType = 81;
+            animationType = NPCID.CorruptSlime;
             npc.value = Item.buyPrice(0, 0, 10, 0);
             npc.alpha = 60;
             npc.lavaImmune = false;
@@ -36,12 +37,6 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.noTileCollide = false;
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath1;
-            npc.buffImmune[BuffID.ShadowFlame] = true;
-            npc.buffImmune[BuffID.Venom] = true;
-            npc.buffImmune[BuffID.OnFire] = true;
-            npc.buffImmune[BuffID.Poisoned] = true;
-            npc.buffImmune[ModContent.BuffType<BrimstoneFlames>()] = true;
-            npc.buffImmune[ModContent.BuffType<Plague>()] = true;
             banner = npc.type;
             bannerItem = ModContent.ItemType<PestilentSlimeBanner>();
         }
@@ -52,7 +47,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             {
                 spikeTimer -= 1f;
             }
-            if (!npc.wet && !Main.player[npc.target].Calamity().royalGel)
+            if (!npc.wet && !Main.player[npc.target].npcTypeNoAggro[npc.type])
             {
                 Vector2 vector3 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
                 float num14 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - vector3.X;
@@ -115,13 +110,13 @@ namespace CalamityMod.NPCs.NormalNPCs
         {
             for (int k = 0; k < 5; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, 46, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.Plague, hitDirection, -1f, 0, default, 1f);
             }
             if (npc.life <= 0)
             {
                 for (int k = 0; k < 20; k++)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, 46, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.Plague, hitDirection, -1f, 0, default, 1f);
                 }
             }
         }

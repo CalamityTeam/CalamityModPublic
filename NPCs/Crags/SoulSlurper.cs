@@ -27,10 +27,10 @@ namespace CalamityMod.NPCs.Crags
             aiType = -1;
             npc.npcSlots = 1f;
             npc.damage = 30;
-            npc.width = 60; //324
-            npc.height = 40; //216
-            npc.defense = 40;
-            npc.Calamity().RevPlusDR(0.15f);
+            npc.width = 60;
+            npc.height = 40;
+            npc.defense = 30;
+			npc.DR_NERD(0.15f);
             npc.lifeMax = 60;
             npc.knockBackResist = 0.65f;
             npc.value = Item.buyPrice(0, 0, 5, 0);
@@ -40,10 +40,9 @@ namespace CalamityMod.NPCs.Crags
             npc.DeathSound = SoundID.NPCDeath14;
             if (CalamityWorld.downedProvidence)
             {
-                npc.damage = 170;
-                npc.defense = 200;
-                npc.lifeMax = 3000;
-                npc.value = Item.buyPrice(0, 0, 50, 0);
+                npc.damage = 60;
+                npc.defense = 45;
+                npc.lifeMax = 2000;
             }
             banner = npc.type;
             bannerItem = ModContent.ItemType<SoulSlurperBanner>();
@@ -57,21 +56,22 @@ namespace CalamityMod.NPCs.Crags
         public override void AI()
         {
             bool provy = CalamityWorld.downedProvidence;
-            if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead)
+			Player target = Main.player[npc.target];
+            if (npc.target < 0 || npc.target == 255 || target.dead)
             {
                 npc.TargetClosest(true);
             }
             float num = 5f;
             float num2 = 0.07f;
-            Vector2 vector = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
-            float num4 = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2);
-            float num5 = Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2);
+            Vector2 source = npc.Center;
+            float num4 = target.Center.X;
+            float num5 = target.Center.Y;
             num4 = (float)((int)(num4 / 8f) * 8);
             num5 = (float)((int)(num5 / 8f) * 8);
-            vector.X = (float)((int)(vector.X / 8f) * 8);
-            vector.Y = (float)((int)(vector.Y / 8f) * 8);
-            num4 -= vector.X;
-            num5 -= vector.Y;
+            source.X = (float)((int)(source.X / 8f) * 8);
+            source.Y = (float)((int)(source.Y / 8f) * 8);
+            num4 -= source.X;
+            num5 -= source.Y;
             float num6 = (float)Math.Sqrt((double)(num4 * num4 + num5 * num5));
             float num7 = num6;
             bool flag = false;
@@ -95,45 +95,45 @@ namespace CalamityMod.NPCs.Crags
                 npc.ai[0] += 1f;
                 if (npc.ai[0] > 0f)
                 {
-                    npc.velocity.Y = npc.velocity.Y + 0.023f;
+                    npc.velocity.Y += 0.023f;
                 }
                 else
                 {
-                    npc.velocity.Y = npc.velocity.Y - 0.023f;
+                    npc.velocity.Y -= 0.023f;
                 }
                 if (npc.ai[0] < -100f || npc.ai[0] > 100f)
                 {
-                    npc.velocity.X = npc.velocity.X + 0.023f;
+                    npc.velocity.X += 0.023f;
                 }
                 else
                 {
-                    npc.velocity.X = npc.velocity.X - 0.023f;
+                    npc.velocity.X -= 0.023f;
                 }
                 if (npc.ai[0] > 200f)
                 {
                     npc.ai[0] = -200f;
                 }
             }
-            if (Main.player[npc.target].dead)
+            if (target.dead)
             {
                 num4 = (float)npc.direction * num / 2f;
                 num5 = -num / 2f;
             }
             if (npc.velocity.X < num4)
             {
-                npc.velocity.X = npc.velocity.X + num2;
+                npc.velocity.X += num2;
             }
             else if (npc.velocity.X > num4)
             {
-                npc.velocity.X = npc.velocity.X - num2;
+                npc.velocity.X -= num2;
             }
             if (npc.velocity.Y < num5)
             {
-                npc.velocity.Y = npc.velocity.Y + num2;
+                npc.velocity.Y += num2;
             }
             else if (npc.velocity.Y > num5)
             {
-                npc.velocity.Y = npc.velocity.Y - num2;
+                npc.velocity.Y -= num2;
             }
             npc.localAI[0] += 1f;
             if (npc.justHit)
@@ -143,24 +143,24 @@ namespace CalamityMod.NPCs.Crags
             if (Main.netMode != NetmodeID.MultiplayerClient && npc.localAI[0] >= 120f)
             {
                 npc.localAI[0] = 0f;
-                if (Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
+                if (Collision.CanHit(npc.position, npc.width, npc.height, target.position, target.width, target.height))
                 {
-                    int num8 = 30;
+                    int dmg = 30;
                     if (Main.expertMode)
                     {
-                        num8 = 22;
+                        dmg = 22;
                     }
-                    int num9 = ModContent.ProjectileType<BrimstoneLaser>();
-                    Projectile.NewProjectile(vector.X, vector.Y, num4, num5, num9, num8 + (provy ? 30 : 0), 0f, Main.myPlayer, 0f, 0f);
+                    int projType = ModContent.ProjectileType<BrimstoneLaser>();
+                    Projectile.NewProjectile(source.X, source.Y, num4, num5, projType, dmg + (provy ? 30 : 0), 0f, Main.myPlayer);
                 }
             }
-            int num10 = (int)npc.position.X + npc.width / 2;
-            int num11 = (int)npc.position.Y + npc.height / 2;
+            int num10 = (int)npc.Center.X;
+            int num11 = (int)npc.Center.Y;
             num10 /= 16;
             num11 /= 16;
             if (!WorldGen.SolidTile(num10, num11))
             {
-                Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0.75f, 0f, 0f);
+                Lighting.AddLight((int)npc.Center.X / 16, (int)npc.Center.Y / 16, 0.75f, 0f, 0f);
             }
             if (num4 > 0f)
             {
@@ -170,7 +170,7 @@ namespace CalamityMod.NPCs.Crags
             if (num4 < 0f)
             {
                 npc.spriteDirection = -1;
-                npc.rotation = (float)Math.Atan2((double)num5, (double)num4) + 3.14f;
+                npc.rotation = (float)Math.Atan2((double)num5, (double)num4) + MathHelper.Pi;
             }
             float num12 = 0.7f;
             if (npc.collideX)
@@ -190,11 +190,11 @@ namespace CalamityMod.NPCs.Crags
             {
                 npc.netUpdate = true;
                 npc.velocity.Y = npc.oldVelocity.Y * -num12;
-                if (npc.velocity.Y > 0f && (double)npc.velocity.Y < 1.5)
+                if (npc.velocity.Y > 0f && npc.velocity.Y < 1.5f)
                 {
                     npc.velocity.Y = 2f;
                 }
-                if (npc.velocity.Y < 0f && (double)npc.velocity.Y > -1.5)
+                if (npc.velocity.Y < 0f && npc.velocity.Y > -1.5f)
                 {
                     npc.velocity.Y = -2f;
                 }
@@ -205,12 +205,12 @@ namespace CalamityMod.NPCs.Crags
                 {
                     if (Math.Abs(npc.velocity.X) < 12f)
                     {
-                        npc.velocity.X = npc.velocity.X * 1.05f;
+                        npc.velocity.X *= 1.05f;
                     }
                 }
                 else
                 {
-                    npc.velocity.X = npc.velocity.X * 0.9f;
+                    npc.velocity.X *= 0.9f;
                 }
             }
             if (((npc.velocity.X > 0f && npc.oldVelocity.X < 0f) || (npc.velocity.X < 0f && npc.oldVelocity.X > 0f) || (npc.velocity.Y > 0f && npc.oldVelocity.Y < 0f) || (npc.velocity.Y < 0f && npc.oldVelocity.Y > 0f)) && !npc.justHit)
@@ -225,13 +225,13 @@ namespace CalamityMod.NPCs.Crags
 			if (npc.spriteDirection == 1)
 				spriteEffects = SpriteEffects.FlipHorizontally;
 
-			Texture2D texture2D15 = Main.npcTexture[npc.type];
-			Vector2 vector11 = new Vector2((float)(Main.npcTexture[npc.type].Width / 2), (float)(Main.npcTexture[npc.type].Height / 2));
+			Texture2D texture = Main.npcTexture[npc.type];
+			Vector2 vector11 = new Vector2((float)(texture.Width / 2), (float)(texture.Height / 2));
 			Color color36 = Color.White;
 			float amount9 = 0.5f;
 			int num153 = 5;
 
-			if (CalamityMod.CalamityConfig.Afterimages)
+			if (CalamityConfig.Instance.Afterimages)
 			{
 				for (int num155 = 1; num155 < num153; num155 += 2)
 				{
@@ -240,21 +240,21 @@ namespace CalamityMod.NPCs.Crags
 					color38 = npc.GetAlpha(color38);
 					color38 *= (float)(num153 - num155) / 15f;
 					Vector2 vector41 = npc.oldPos[num155] + new Vector2((float)npc.width, (float)npc.height) / 2f - Main.screenPosition;
-					vector41 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height)) * npc.scale / 2f;
+					vector41 -= new Vector2((float)texture.Width, (float)(texture.Height)) * npc.scale / 2f;
 					vector41 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
-					spriteBatch.Draw(texture2D15, vector41, npc.frame, color38, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+					spriteBatch.Draw(texture, vector41, npc.frame, color38, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 				}
 			}
 
 			Vector2 vector43 = npc.Center - Main.screenPosition;
-			vector43 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height)) * npc.scale / 2f;
+			vector43 -= new Vector2((float)texture.Width, (float)(texture.Height)) * npc.scale / 2f;
 			vector43 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
-			spriteBatch.Draw(texture2D15, vector43, npc.frame, npc.GetAlpha(lightColor), npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+			spriteBatch.Draw(texture, vector43, npc.frame, npc.GetAlpha(lightColor), npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 
-			texture2D15 = ModContent.GetTexture("CalamityMod/NPCs/Calamitas/SoulSeekerGlow");
+			texture = ModContent.GetTexture("CalamityMod/NPCs/Crags/SoulSlurperGlow");
 			Color color37 = Color.Lerp(Color.White, Color.Red, 0.5f);
 
-			if (CalamityMod.CalamityConfig.Afterimages)
+			if (CalamityConfig.Instance.Afterimages)
 			{
 				for (int num163 = 1; num163 < num153; num163++)
 				{
@@ -262,24 +262,16 @@ namespace CalamityMod.NPCs.Crags
 					color41 = Color.Lerp(color41, color36, amount9);
 					color41 *= (float)(num153 - num163) / 15f;
 					Vector2 vector44 = npc.oldPos[num163] + new Vector2((float)npc.width, (float)npc.height) / 2f - Main.screenPosition;
-					vector44 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height)) * npc.scale / 2f;
+					vector44 -= new Vector2((float)texture.Width, (float)(texture.Height)) * npc.scale / 2f;
 					vector44 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
-					spriteBatch.Draw(texture2D15, vector44, npc.frame, color41, npc.rotation, vector11, npc.scale, npc.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0f);
+					spriteBatch.Draw(texture, vector44, npc.frame, color41, npc.rotation, vector11, npc.scale, npc.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0f);
 				}
 			}
 
-			spriteBatch.Draw(texture2D15, vector43, npc.frame, color37, npc.rotation, vector11, npc.scale, npc.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0f);
+			spriteBatch.Draw(texture, vector43, npc.frame, color37, npc.rotation, vector11, npc.scale, npc.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0f);
 
 			return false;
 		}
-
-		public override void OnHitPlayer(Player player, int damage, bool crit)
-        {
-            if (CalamityWorld.revenge)
-            {
-                player.AddBuff(ModContent.BuffType<Horror>(), 180, true);
-            }
-        }
 
         public override void NPCLoot()
         {
@@ -296,10 +288,9 @@ namespace CalamityMod.NPCs.Crags
             }
             if (npc.life <= 0)
             {
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/CalamitasGores/SoulSlurper"), 1f);
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/CalamitasGores/SoulSlurper2"), 1f);
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/CalamitasGores/SoulSlurper3"), 1f);
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/CalamitasGores/SoulSlurper4"), 1f);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/SoulSlurperGores/SoulSlurper"), npc.scale);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/SoulSlurperGores/SoulSlurper2"), npc.scale);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/SoulSlurperGores/SoulSlurper3"), npc.scale);
                 npc.position.X = npc.position.X + (float)(npc.width / 2);
                 npc.position.Y = npc.position.Y + (float)(npc.height / 2);
                 npc.width = 50;

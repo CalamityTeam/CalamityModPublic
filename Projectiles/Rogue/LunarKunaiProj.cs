@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -9,7 +8,7 @@ using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class LunarKunaiProj : ModProjectile
+	public class LunarKunaiProj : ModProjectile
     {
 		bool lunarEnhance = false;
 
@@ -46,7 +45,7 @@ namespace CalamityMod.Projectiles.Rogue
 				projectile.frame = 0;
 
 			projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, (lunarEnhance ? 1000f : 500f), (lunarEnhance ? 35f : 15f), 20f);
+			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, lunarEnhance ? 300f : 150f, lunarEnhance ? 12f : 8f, 20f);
             if (Main.rand.Next(6) == 0 && lunarEnhance)
             	Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 229, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
         }
@@ -55,7 +54,7 @@ namespace CalamityMod.Projectiles.Rogue
         {
 			if (lunarEnhance)
 			{
-				Main.PlaySound(SoundID.Item14, projectile.position);
+				Main.PlaySound(SoundID.Item14, projectile.Center);
 				projectile.position = projectile.Center;
 				projectile.width = projectile.height = 28;
 				projectile.position.X = projectile.position.X - (float)(projectile.width / 2);

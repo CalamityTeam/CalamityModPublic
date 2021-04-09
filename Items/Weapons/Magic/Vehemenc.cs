@@ -3,11 +3,10 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using System;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
-    public class Vehemenc : ModItem
+	public class Vehemenc : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -33,7 +32,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.noMelee = true;
             item.knockBack = 5.75f;
             item.value = Item.buyPrice(1, 0, 0, 0);
-            item.rare = 10;
+            item.rare = ItemRarityID.Red;
             item.UseSound = SoundID.Item73;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<Vehemence>();

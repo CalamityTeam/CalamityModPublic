@@ -1,5 +1,3 @@
-
-using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -31,7 +29,7 @@ namespace CalamityMod.Tiles.Ores
 
         public override bool CanExplode(int i, int j)
         {
-            return CalamityWorld.downedCryogen;
+            return false;
         }
 
         public override void NumDust(int i, int j, bool fail, ref int num)

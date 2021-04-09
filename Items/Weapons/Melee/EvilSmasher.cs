@@ -1,4 +1,5 @@
 using CalamityMod.Projectiles.Melee;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -16,57 +17,58 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetDefaults()
         {
             item.width = 62;
-            item.damage = 55;
+			item.height = 62;
+			item.scale = 2f;
+			item.damage = 55;
             item.melee = true;
-            item.useAnimation = 30;
+            item.useAnimation = item.useTime = 30;
             item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 30;
             item.useTurn = true;
             item.knockBack = 8f;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
-            item.height = 62;
-            item.value = Item.buyPrice(0, 36, 0, 0);
-            item.rare = 5;
-            item.Calamity().customRarity = CalamityRarity.RareVariant;
-        }
+            item.value = CalamityGlobalItem.Rarity4BuyPrice;
+            item.rare = ItemRarityID.LightRed;
+			item.Calamity().challengeDrop = true;
+		}
+
+		public override float UseTimeMultiplier	(Player player)
+		{
+			if (player.Calamity().brimlashBusterBoost)
+				return 2f;
+			return 1f;
+		}
+
+        public override void ModifyWeaponDamage(Player player, ref float add, ref float mult, ref float flat)
+		{
+			float damageMult = 0f;
+            if (player.Calamity().brimlashBusterBoost)
+				damageMult = 0.5f;
+			mult += damageMult;
+		}
+
+        public override void GetWeaponKnockback(Player player, ref float knockback)
+        {
+            if (player.Calamity().brimlashBusterBoost)
+            {
+                knockback *= 1.75f;
+            }
+		}
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<FossilSpike>(), (int)(item.damage * (player.allDamage + player.meleeDamage - 1f)), knockback, Main.myPlayer);
-            if (Main.rand.NextBool(3))
-            {
-                item.damage = 82;
-                item.useAnimation = 15;
-                item.useTime = 15;
-                item.knockBack = 14f;
-            }
-            else
-            {
-                item.damage = 55;
-                item.useAnimation = 30;
-                item.useTime = 30;
-                item.knockBack = 8f;
-            }
+			OnHitEffect(target.Center, player, knockback);
         }
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
-            Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<FossilSpike>(), (int)(item.damage * (player.allDamage + player.meleeDamage - 1f)), item.knockBack, Main.myPlayer);
-            if (Main.rand.NextBool(3))
-            {
-                item.damage = 82;
-                item.useAnimation = 15;
-                item.useTime = 15;
-                item.knockBack = 14f;
-            }
-            else
-            {
-                item.damage = 55;
-                item.useAnimation = 30;
-                item.useTime = 30;
-                item.knockBack = 8f;
-            }
+			OnHitEffect(target.Center, player, item.knockBack);
         }
+
+		private void OnHitEffect(Vector2 targetPos, Player player, float knockback)
+		{
+            Projectile.NewProjectile(targetPos, Vector2.Zero, ModContent.ProjectileType<FossilSpike>(), (int)(item.damage * player.MeleeDamage()), knockback, Main.myPlayer);
+			player.Calamity().brimlashBusterBoost = Main.rand.NextBool(3);
+		}
     }
 }

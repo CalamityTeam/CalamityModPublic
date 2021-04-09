@@ -11,7 +11,8 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Cnidarian");
-            Tooltip.SetDefault("Fires a seashell when enemies are near");
+            Tooltip.SetDefault("Fires a seashell when enemies are near\n" +
+			"A very agile yoyo");
             ItemID.Sets.Yoyo[item.type] = true;
             ItemID.Sets.GamepadExtraRange[item.type] = 15;
             ItemID.Sets.GamepadSmartQuickReach[item.type] = true;
@@ -22,7 +23,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.width = 30;
             item.height = 26;
             item.melee = true;
-            item.damage = 13;
+            item.damage = 18;
             item.knockBack = 3f;
             item.useTime = 25;
             item.useAnimation = 25;
@@ -37,7 +38,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.shoot = ModContent.ProjectileType<CnidarianYoyo>();
             item.shootSpeed = 10f;
 
-            item.rare = 2;
+            item.rare = ItemRarityID.Green;
             item.value = Item.buyPrice(gold: 2);
         }
 

@@ -23,8 +23,9 @@ namespace CalamityMod.Projectiles.Melee.Spears
             projectile.ignoreWater = true;
             projectile.penetrate = -1;
             projectile.ownerHitCheck = true;
-            projectile.Calamity().trueMelee = true;
+            //projectile.Calamity().trueMelee = true;
         }
+
         public override float InitialSpeed => 3f;
         public override float ReelbackSpeed => 1.1f;
         public override float ForwardSpeed => 0.95f;
@@ -39,7 +40,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
                 if (Main.myPlayer == projectile.owner)
                 {
                     Projectile.NewProjectile(projectile.Center.X + projectile.velocity.X, projectile.Center.Y + projectile.velocity.Y,
-                        projectile.velocity.X, projectile.velocity.Y, ModContent.ProjectileType<Feather>(), (int)(projectile.damage * 0.2), 0f, projectile.owner, 0f, 0f);
+                        projectile.velocity.X, projectile.velocity.Y, ModContent.ProjectileType<Feather>(), (int)(projectile.damage * 0.4), 0f, projectile.owner, 0f, 0f);
                 }
             }
         }

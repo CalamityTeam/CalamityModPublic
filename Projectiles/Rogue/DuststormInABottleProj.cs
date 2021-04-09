@@ -6,6 +6,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
 	public class DuststormInABottleProj : ModProjectile
 	{
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/DuststormInABottle";
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Duststorm");
@@ -39,9 +41,7 @@ namespace CalamityMod.Projectiles.Rogue
 			{
 				for (int index = 0; index < cloudAmt; index++)
 				{
-					Vector2 velocity = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-					velocity.Normalize();
-					velocity *= (float)Main.rand.Next(10, 201) * 0.01f;
+					Vector2 velocity = CalamityUtils.RandomVelocity(100f, 10f, 200f, 0.01f);
 					Projectile.NewProjectile(projectile.Center, velocity, projType, projectile.damage, projectile.knockBack * 0.5f, projectile.owner, stealth ? 1f : 0f, (float)Main.rand.Next(-45, 1));
 				}
 			}

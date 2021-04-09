@@ -1,4 +1,5 @@
 using Terraria;
+using Terraria.ID;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
 
@@ -9,7 +10,7 @@ namespace CalamityMod.Items.Materials
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Dark Plasma");
-            Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(7, 8));
+            Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(7, 4));
         }
 
         public override void SetDefaults()
@@ -18,8 +19,9 @@ namespace CalamityMod.Items.Materials
             item.height = 12;
             item.maxStack = 999;
             item.value = Item.buyPrice(0, 7, 0, 0);
-            item.Calamity().customRarity = CalamityRarity.PureGreen;
-        }
+			item.rare = ItemRarityID.Purple;
+			item.Calamity().customRarity = CalamityRarity.Turquoise;
+		}
 
         public override void Update(ref float gravity, ref float maxFallSpeed)
         {

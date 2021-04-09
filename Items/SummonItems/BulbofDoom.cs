@@ -1,3 +1,4 @@
+using CalamityMod.Events;
 using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
@@ -21,20 +22,24 @@ namespace CalamityMod.Items.SummonItems
             item.useAnimation = 45;
             item.useTime = 45;
             item.useStyle = ItemUseStyleID.HoldingUp;
-            item.rare = 7;
+            item.rare = ItemRarityID.Lime;
             item.consumable = true;
         }
 
         public override bool CanUseItem(Player player)
         {
-            return player.ZoneJungle && !NPC.AnyNPCs(NPCID.Plantera);
+            return player.ZoneJungle && !NPC.AnyNPCs(NPCID.Plantera) && !BossRushEvent.BossRushActive;
         }
 
         public override bool UseItem(Player player)
         {
-            NPC.SpawnOnPlayer(player.whoAmI, NPCID.Plantera);
             Main.PlaySound(SoundID.Roar, player.position, 0);
-            return true;
+			if (Main.netMode != NetmodeID.MultiplayerClient)
+				NPC.SpawnOnPlayer(player.whoAmI, NPCID.Plantera);
+			else
+				NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, player.whoAmI, NPCID.Plantera);
+
+			return true;
         }
 
         public override void AddRecipes()
@@ -44,7 +49,7 @@ namespace CalamityMod.Items.SummonItems
             recipe.AddIngredient(ItemID.SoulofNight, 10);
             recipe.AddIngredient(ItemID.SoulofLight, 10);
             recipe.AddIngredient(ModContent.ItemType<MurkyPaste>(), 3);
-            recipe.AddIngredient(ModContent.ItemType<ManeaterBulb>());
+            recipe.AddIngredient(ItemID.Vine);
             recipe.AddIngredient(ModContent.ItemType<TrapperBulb>());
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);

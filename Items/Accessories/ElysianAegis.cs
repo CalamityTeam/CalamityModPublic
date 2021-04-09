@@ -2,6 +2,7 @@ using CalamityMod.CalPlayer;
 using CalamityMod.Buffs.DamageOverTime;
 using System.Collections.Generic;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
@@ -14,20 +15,19 @@ namespace CalamityMod.Items.Accessories
             DisplayName.SetDefault("Elysian Aegis");
             Tooltip.SetDefault("Blessed by the Profaned Flame\n" +
 							   "Grants immunity to fire blocks, knockback, and Holy Flames\n" +
-                               "+40 max life and increased life regen\n" +
+                               "+30 max life\n" +
                                "Grants a supreme holy flame dash\n" +
                                "Can be used to ram enemies\n" +
                                "TOOLTIP LINE HERE\n" +
-                               "Activating this buff will reduce your movement speed and increase enemy aggro\n" +
-                               "Toggle visibility of this accessory to enable/disable the dash");
+                               "Activating this buff will reduce your movement speed and increase enemy aggro");
         }
 
         public override void SetDefaults()
         {
             item.width = 48;
             item.height = 42;
-            item.value = Item.buyPrice(0, 60, 0, 0);
-            item.rare = 10;
+            item.value = CalamityGlobalItem.Rarity12BuyPrice;
+            item.rare = ItemRarityID.Purple;
             item.Calamity().customRarity = CalamityRarity.Turquoise;
             item.defense = 8;
             item.accessory = true;
@@ -40,7 +40,7 @@ namespace CalamityMod.Items.Accessories
             {
                 if (line2.mod == "Terraria" && line2.Name == "Tooltip5")
                 {
-                    line2.text = "Press " + hotkey + " to activate buffs to all damage, crit chance, and defense";
+                    line2.text = "Press " + hotkey + " to activate buffs to all damage, crit chance and defense";
                 }
             }
         }
@@ -48,14 +48,12 @@ namespace CalamityMod.Items.Accessories
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            if (!hideVisual)
-            { modPlayer.dashMod = 3; }
+			modPlayer.dashMod = 3;
             modPlayer.elysianAegis = true;
             player.buffImmune[ModContent.BuffType<HolyFlames>()] = true;
             player.noKnockback = true;
             player.fireWalk = true;
-            player.lifeRegen += 2;
-            player.statLifeMax2 += 40;
+            player.statLifeMax2 += 30;
         }
     }
 }

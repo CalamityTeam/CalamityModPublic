@@ -1,5 +1,7 @@
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.CalPlayer;
+using CalamityMod.Items.Materials;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -24,33 +26,12 @@ namespace CalamityMod.NPCs.Bumblebirb
             npc.npcSlots = 1f;
             npc.aiStyle = -1;
             aiType = -1;
-            npc.damage = 110;
-            npc.width = 120;
+			npc.GetNPCDamage();
+			npc.width = 120;
             npc.height = 80;
             npc.defense = 20;
-            npc.LifeMaxNERB(20000, 25000, 60000);
+            npc.LifeMaxNERB(9000, 11250, 50000); // Old HP - 12000, 15000
             npc.knockBackResist = 0f;
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
-            npc.buffImmune[BuffID.Ichor] = false;
-            npc.buffImmune[BuffID.CursedInferno] = false;
-			npc.buffImmune[BuffID.StardustMinionBleed] = false;
-			npc.buffImmune[BuffID.DryadsWardDebuff] = false;
-			npc.buffImmune[BuffID.Oiled] = false;
-			npc.buffImmune[BuffID.Daybreak] = false;
-			npc.buffImmune[BuffID.BetsysCurse] = false;
-            npc.buffImmune[ModContent.BuffType<ExoFreeze>()] = false;
-            npc.buffImmune[ModContent.BuffType<AbyssalFlames>()] = false;
-            npc.buffImmune[ModContent.BuffType<AstralInfectionDebuff>()] = false;
-            npc.buffImmune[ModContent.BuffType<ArmorCrunch>()] = false;
-            npc.buffImmune[ModContent.BuffType<DemonFlames>()] = false;
-            npc.buffImmune[ModContent.BuffType<GodSlayerInferno>()] = false;
-            npc.buffImmune[ModContent.BuffType<Nightwither>()] = false;
-            npc.buffImmune[ModContent.BuffType<Shred>()] = false;
-            npc.buffImmune[ModContent.BuffType<WhisperingDeath>()] = false;
-            npc.buffImmune[ModContent.BuffType<SilvaStun>()] = false;
             npc.lavaImmune = true;
             npc.noGravity = true;
             npc.canGhostHeal = false;
@@ -58,11 +39,23 @@ namespace CalamityMod.NPCs.Bumblebirb
             npc.DeathSound = SoundID.NPCDeath46;
         }
 
-        public override void AI()
+		public override float SpawnChance(NPCSpawnInfo spawnInfo)
+		{
+			if (spawnInfo.playerSafe || !NPC.downedMoonlord || spawnInfo.player.Calamity().ZoneSunkenSea || NPC.AnyNPCs(npc.type))
+			{
+				return 0f;
+			}
+			return SpawnCondition.SurfaceJungle.Chance * 0.14f;
+		}
+
+		public override void AI()
         {
+			npc.damage = CalamityPlayer.areThereAnyDamnBosses ? npc.defDamage : (int)(npc.defDamage * 0.8);
+
             Player player = Main.player[npc.target];
             Vector2 vector = npc.Center;
-            npc.damage = npc.defDamage;
+
+			bool increasedAggression = CalamityPlayer.areThereAnyDamnBosses;
 
 			float rotationMult = 4f;
 			float rotationAmt = 0.04f;
@@ -82,17 +75,17 @@ namespace CalamityMod.NPCs.Bumblebirb
 
             if (npc.ai[0] == 0f || npc.ai[0] == 1f)
             {
-                for (int num1376 = 0; num1376 < 200; num1376++)
+                for (int i = 0; i < Main.maxNPCs; i++)
                 {
-                    if (num1376 != npc.whoAmI && Main.npc[num1376].active && Main.npc[num1376].type == npc.type)
+                    if (i != npc.whoAmI && Main.npc[i].active && Main.npc[i].type == npc.type)
                     {
-                        Vector2 value42 = Main.npc[num1376].Center - npc.Center;
-                        if (value42.Length() < (float)(npc.width + npc.height))
+                        Vector2 value42 = Main.npc[i].Center - npc.Center;
+                        if (value42.Length() < (npc.width + npc.height))
                         {
                             value42.Normalize();
                             value42 *= -0.1f;
                             npc.velocity += value42;
-                            NPC nPC6 = Main.npc[num1376];
+                            NPC nPC6 = Main.npc[i];
                             nPC6.velocity -= value42;
                         }
                     }
@@ -103,7 +96,7 @@ namespace CalamityMod.NPCs.Bumblebirb
             {
                 npc.TargetClosest(true);
                 Vector2 vector240 = Main.player[npc.target].Center - npc.Center;
-                if (Main.player[npc.target].dead || vector240.Length() > 5600f)
+                if (Main.player[npc.target].dead || vector240.Length() > (increasedAggression ? 5600f : 2800f))
                 {
                     npc.ai[0] = -1f;
                 }
@@ -164,7 +157,7 @@ namespace CalamityMod.NPCs.Bumblebirb
                 }
                 else if (value44.Length() > 400f)
                 {
-                    float scaleFactor20 = 9f + value44.Length() / 100f + npc.ai[1] / 15f;
+                    float scaleFactor20 = (increasedAggression ? 9f : 7f) + value44.Length() / 100f + npc.ai[1] / 15f;
                     float num1377 = 30f;
                     value44.Normalize();
                     value44 *= scaleFactor20;
@@ -179,7 +172,7 @@ namespace CalamityMod.NPCs.Bumblebirb
                     npc.velocity *= 1.05f;
                 }
                 npc.ai[1] += 1f;
-                if (npc.ai[1] >= 90f)
+                if (npc.ai[1] >= (increasedAggression ? 90f : 105f))
                 {
                     npc.ai[1] = 0f;
                     npc.ai[0] = 2f;
@@ -215,7 +208,7 @@ namespace CalamityMod.NPCs.Bumblebirb
                         npc.ai[3] = 0f;
                     }
                     npc.ai[2] += 0.0166666675f;
-                    float scaleFactor21 = 12f + npc.ai[2] + value45.Length() / 150f;
+                    float scaleFactor21 = (increasedAggression ? 12f : 9f) + npc.ai[2] + value45.Length() / 150f;
                     float num1378 = 25f;
                     value45.Normalize();
                     value45 *= scaleFactor21;
@@ -242,7 +235,7 @@ namespace CalamityMod.NPCs.Bumblebirb
                     npc.noTileCollide = true;
                     Vector2 vector242 = Main.player[npc.target].Center - npc.Center;
                     vector242.Y -= 8f;
-                    float scaleFactor22 = 18f;
+                    float scaleFactor22 = increasedAggression ? 18f : 14f;
                     float num1379 = 8f;
                     vector242.Normalize();
                     vector242 *= scaleFactor22;
@@ -274,7 +267,6 @@ namespace CalamityMod.NPCs.Bumblebirb
                 }
                 else if (npc.ai[0] == 2.1f)
                 {
-                    npc.damage = (int)(npc.defDamage * 1.5);
                     if (npc.velocity.X < 0f)
                     {
                         npc.direction = -1;
@@ -288,7 +280,7 @@ namespace CalamityMod.NPCs.Bumblebirb
                     npc.noTileCollide = true;
                     npc.ai[1] += 1f;
                     int num1380 = 30;
-                    if (npc.ai[1] > (float)num1380)
+                    if (npc.ai[1] > num1380)
                     {
                         if (!Collision.SolidCollision(npc.position, npc.width, npc.height))
                         {
@@ -297,7 +289,7 @@ namespace CalamityMod.NPCs.Bumblebirb
                             npc.ai[2] = 0f;
                             return;
                         }
-                        if (npc.ai[1] > (float)(num1380 * 2))
+                        if (npc.ai[1] > (num1380 * 2))
                         {
                             npc.ai[0] = 1f;
                             npc.ai[1] = 0f;
@@ -308,14 +300,16 @@ namespace CalamityMod.NPCs.Bumblebirb
             }
         }
 
-        public override bool PreNPCLoot()
-        {
-            return false;
-        }
+		public override bool PreNPCLoot() => !CalamityPlayer.areThereAnyDamnBosses;
 
-        public override void FindFrame(int frameHeight)
+		public override void NPCLoot()
+		{
+			DropHelper.DropItemSpray(npc, ModContent.ItemType<EffulgentFeather>(), 2, 4);
+		}
+
+		public override void FindFrame(int frameHeight)
         {
-			npc.frameCounter += (npc.ai[0] == 2.1f ? 1.5 : 1D);
+			npc.frameCounter += npc.ai[0] == 2.1f ? 1.5 : 1D;
 			if (npc.frameCounter > 4D) //iban said the time between frames was 5 so using that as a base
 			{
 				npc.frameCounter = 0D;
@@ -334,28 +328,28 @@ namespace CalamityMod.NPCs.Bumblebirb
 				spriteEffects = SpriteEffects.FlipHorizontally;
 
 			Texture2D texture2D15 = Main.npcTexture[npc.type];
-			Vector2 vector11 = new Vector2((float)(Main.npcTexture[npc.type].Width / 2), (float)(Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type] / 2));
+			Vector2 vector11 = new Vector2(Main.npcTexture[npc.type].Width / 2, Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type] / 2);
 			Color color36 = Color.Gold;
 			float amount9 = 0.5f;
 			int num153 = npc.ai[0] == 2.1f ? 7 : 0;
 
-			if (CalamityMod.CalamityConfig.Afterimages)
+			if (CalamityConfig.Instance.Afterimages)
 			{
 				for (int num155 = 1; num155 < num153; num155 += 2)
 				{
 					Color color38 = lightColor;
 					color38 = Color.Lerp(color38, color36, amount9);
 					color38 = npc.GetAlpha(color38);
-					color38 *= (float)(num153 - num155) / 15f;
-					Vector2 vector41 = npc.oldPos[num155] + new Vector2((float)npc.width, (float)npc.height) / 2f - Main.screenPosition;
-					vector41 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f;
+					color38 *= (num153 - num155) / 15f;
+					Vector2 vector41 = npc.oldPos[num155] + new Vector2(npc.width, npc.height) / 2f - Main.screenPosition;
+					vector41 -= new Vector2(texture2D15.Width, texture2D15.Height / Main.npcFrameCount[npc.type]) * npc.scale / 2f;
 					vector41 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
 					spriteBatch.Draw(texture2D15, vector41, npc.frame, color38, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 				}
 			}
 
 			Vector2 vector43 = npc.Center - Main.screenPosition;
-			vector43 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f;
+			vector43 -= new Vector2(texture2D15.Width, texture2D15.Height / Main.npcFrameCount[npc.type]) * npc.scale / 2f;
 			vector43 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
 			spriteBatch.Draw(texture2D15, vector43, npc.frame, npc.GetAlpha(lightColor), npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 

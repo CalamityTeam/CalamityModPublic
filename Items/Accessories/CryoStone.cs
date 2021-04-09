@@ -1,6 +1,7 @@
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -18,8 +19,8 @@ namespace CalamityMod.Items.Accessories
         {
             item.width = 40;
             item.height = 40;
-            item.value = Item.buyPrice(0, 15, 0, 0);
-            item.rare = 5;
+            item.value = CalamityGlobalItem.Rarity5BuyPrice;
+            item.rare = ItemRarityID.Pink;
             item.defense = 6;
             item.accessory = true;
         }

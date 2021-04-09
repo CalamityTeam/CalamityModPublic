@@ -1,5 +1,6 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
+using CalamityMod.Events;
 using CalamityMod.NPCs.Providence;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -20,7 +21,8 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetDefaults()
         {
-            projectile.width = 48;
+			projectile.Calamity().canBreakPlayerDefense = true;
+			projectile.width = 48;
             projectile.height = 48;
             projectile.hostile = true;
             projectile.alpha = 255;
@@ -44,6 +46,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void AI()
         {
+			bool scissorLasers = CalamityWorld.revenge || !Main.dayTime || BossRushEvent.BossRushActive || CalamityWorld.malice;
             Vector2? vector78 = null;
 
             if (projectile.velocity.HasNaNs() || projectile.velocity == Vector2.Zero)
@@ -53,11 +56,11 @@ namespace CalamityMod.Projectiles.Boss
 
             if (Main.npc[(int)projectile.ai[1]].active && Main.npc[(int)projectile.ai[1]].type == ModContent.NPCType<Providence>())
             {
-                Vector2 value21 = new Vector2(27f, 59f);
                 Vector2 fireFrom = new Vector2(Main.npc[(int)projectile.ai[1]].Center.X, Main.npc[(int)projectile.ai[1]].Center.Y + 32f);
-                Vector2 value22 = Utils.Vector2FromElipse(Main.npc[(int)projectile.ai[1]].localAI[0].ToRotationVector2(), value21 * Main.npc[(int)projectile.ai[1]].localAI[1]);
-                projectile.position = fireFrom + value22 - new Vector2(projectile.width, projectile.height) / 2f;
+                projectile.position = fireFrom - new Vector2(projectile.width, projectile.height) / 2f;
             }
+			else
+				projectile.Kill();
 
             if (projectile.velocity.HasNaNs() || projectile.velocity == Vector2.Zero)
             {
@@ -66,13 +69,13 @@ namespace CalamityMod.Projectiles.Boss
 
             float num801 = 1f;
             projectile.localAI[0] += 1f;
-            if (projectile.localAI[0] >= ((CalamityWorld.revenge || CalamityWorld.bossRushActive) ? 100f : 180f))
+            if (projectile.localAI[0] >= (scissorLasers ? 100f : 180f))
             {
                 projectile.Kill();
                 return;
             }
 
-            projectile.scale = (float)Math.Sin(projectile.localAI[0] * 3.14159274f / ((CalamityWorld.revenge || CalamityWorld.bossRushActive) ? 100f : 180f)) * 10f * num801;
+            projectile.scale = (float)Math.Sin(projectile.localAI[0] * MathHelper.Pi / (scissorLasers ? 100f : 180f)) * 10f * num801;
             if (projectile.scale > num801)
             {
                 projectile.scale = num801;
@@ -80,7 +83,7 @@ namespace CalamityMod.Projectiles.Boss
 
             float num804 = projectile.velocity.ToRotation();
             num804 += projectile.ai[0];
-            projectile.rotation = num804 - 1.57079637f;
+            projectile.rotation = num804 - MathHelper.PiOver2;
             projectile.velocity = num804.ToRotationVector2();
 
             float num805 = 3f; //3f
@@ -107,13 +110,13 @@ namespace CalamityMod.Projectiles.Boss
                 num807 = 2400f;
             }
 
-			int dustType = Main.dayTime ? (int)CalamityDusts.ProfanedFire : (int)CalamityDusts.Nightwither;
+			int dustType = (Main.dayTime && !CalamityWorld.malice) ? (int)CalamityDusts.ProfanedFire : (int)CalamityDusts.Nightwither;
 			float amount = 0.5f; //0.5f
             projectile.localAI[1] = MathHelper.Lerp(projectile.localAI[1], num807, amount); //length of laser, linear interpolation
             Vector2 vector79 = projectile.Center + projectile.velocity * (projectile.localAI[1] - 14f);
             for (int num809 = 0; num809 < 2; num809++)
             {
-                float num810 = projectile.velocity.ToRotation() + ((Main.rand.Next(2) == 1) ? -1f : 1f) * 1.57079637f;
+                float num810 = projectile.velocity.ToRotation() + ((Main.rand.Next(2) == 1) ? -1f : 1f) * MathHelper.PiOver2;
                 float num811 = (float)Main.rand.NextDouble() * 2f + 2f;
                 Vector2 vector80 = new Vector2((float)Math.Cos(num810) * num811, (float)Math.Sin(num810) * num811);
                 int num812 = Dust.NewDust(vector79, 0, 0, dustType, vector80.X, vector80.Y, 0, default, 1f);
@@ -123,7 +126,7 @@ namespace CalamityMod.Projectiles.Boss
 
             if (Main.rand.NextBool(5))
             {
-                Vector2 value29 = projectile.velocity.RotatedBy(1.5707963705062866, default) * ((float)Main.rand.NextDouble() - 0.5f) * projectile.width;
+                Vector2 value29 = projectile.velocity.RotatedBy(MathHelper.PiOver2, default) * ((float)Main.rand.NextDouble() - 0.5f) * projectile.width;
                 int num813 = Dust.NewDust(vector79 + value29 - Vector2.One * 4f, 8, 8, dustType, 0f, 0f, 100, default, 1.5f);
                 Dust dust = Main.dust[num813];
                 dust.velocity *= 0.5f;
@@ -140,11 +143,12 @@ namespace CalamityMod.Projectiles.Boss
             {
                 return false;
             }
-            Texture2D texture2D19 = Main.dayTime ? Main.projectileTexture[projectile.type] : ModContent.GetTexture("CalamityMod/Projectiles/Boss/ProvidenceHolyRayNight");
-            Texture2D texture2D20 = Main.dayTime ? ModContent.GetTexture("CalamityMod/ExtraTextures/Lasers/ProvidenceHolyRayMid") : ModContent.GetTexture("CalamityMod/ExtraTextures/Lasers/ProvidenceHolyRayMidNight");
-            Texture2D texture2D21 = Main.dayTime ? ModContent.GetTexture("CalamityMod/ExtraTextures/Lasers/ProvidenceHolyRayEnd") : ModContent.GetTexture("CalamityMod/ExtraTextures/Lasers/ProvidenceHolyRayEndNight");
+			bool dayTime = Main.dayTime && !CalamityWorld.malice;
+			Texture2D texture2D19 = dayTime ? Main.projectileTexture[projectile.type] : ModContent.GetTexture("CalamityMod/Projectiles/Boss/ProvidenceHolyRayNight");
+            Texture2D texture2D20 = dayTime ? ModContent.GetTexture("CalamityMod/ExtraTextures/Lasers/ProvidenceHolyRayMid") : ModContent.GetTexture("CalamityMod/ExtraTextures/Lasers/ProvidenceHolyRayMidNight");
+            Texture2D texture2D21 = dayTime ? ModContent.GetTexture("CalamityMod/ExtraTextures/Lasers/ProvidenceHolyRayEnd") : ModContent.GetTexture("CalamityMod/ExtraTextures/Lasers/ProvidenceHolyRayEndNight");
             float num223 = projectile.localAI[1]; //length of laser
-            Color color44 = Main.dayTime ? new Color(250, 250, 250, 0) : new Color(150, 150, 250, 0) * 0.9f;
+            Color color44 = dayTime ? new Color(250, 250, 250, 0) : new Color(175, 175, 250, 0) * 0.9f;
             Vector2 vector = projectile.Center - Main.screenPosition;
             Rectangle? sourceRectangle2 = null;
             Main.spriteBatch.Draw(texture2D19, vector, sourceRectangle2, color44, projectile.rotation, texture2D19.Size() / 2f, projectile.scale, SpriteEffects.None, 0f);
@@ -200,7 +204,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-			int buffType = Main.dayTime ? ModContent.BuffType<HolyFlames>() : ModContent.BuffType<Nightwither>();
+			int buffType = (Main.dayTime && !CalamityWorld.malice) ? ModContent.BuffType<HolyFlames>() : ModContent.BuffType<Nightwither>();
             target.AddBuff(buffType, 300);
         }
 

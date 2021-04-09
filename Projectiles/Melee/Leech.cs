@@ -1,11 +1,12 @@
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Melee
 {
-    public class Leech : ModProjectile
+	public class Leech : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Leech");
@@ -16,12 +17,14 @@ namespace CalamityMod.Projectiles.Melee
             projectile.width = 4;
             projectile.height = 4;
             projectile.friendly = true;
-            projectile.penetrate = 2;
+            projectile.penetrate = 1;
             projectile.timeLeft = 180;
             projectile.melee = true;
         }
 
-        public override void AI()
+		public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 150;
+
+		public override void AI()
         {
             projectile.localAI[0] += 1f;
             if (projectile.localAI[0] > 4f)
@@ -34,7 +37,8 @@ namespace CalamityMod.Projectiles.Melee
                 }
             }
 
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 400f, 6f, 20f);
+			if (projectile.timeLeft < 150)
+				CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 600f, 6f, 20f);
         }
 
         public override void Kill(int timeLeft)

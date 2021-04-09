@@ -1,13 +1,14 @@
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
 
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class AstrealFlame : ModProjectile
+	public class AstrealFlame : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Healing/EssenceFlame";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Flame");
@@ -25,9 +26,12 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.alpha = 255;
         }
 
-        public override void AI()
+		public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 150;
+
+		public override void AI()
         {
             projectile.alpha -= 5;
+
             projectile.frameCounter++;
             if (projectile.frameCounter > 4)
             {
@@ -35,10 +39,10 @@ namespace CalamityMod.Projectiles.Ranged
                 projectile.frameCounter = 0;
             }
             if (projectile.frame > 3)
-            {
                 projectile.frame = 0;
-            }
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 500f, 16f, 20f);
+
+			if (projectile.timeLeft < 150)
+				CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 600f, 12f, 20f);
         }
 
         public override void Kill(int timeLeft)

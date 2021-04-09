@@ -1,12 +1,13 @@
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Melee
 {
-    public class Whiterain : ModProjectile
+	public class Whiterain : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Rain");
@@ -30,7 +31,7 @@ namespace CalamityMod.Projectiles.Melee
             if (projectile.ai[1] == 0f)
             {
                 projectile.ai[1] = 1f;
-                Main.PlaySound(SoundID.Item125, projectile.position);
+                Main.PlaySound(SoundID.Item125, projectile.Center);
             }
 
             Lighting.AddLight(projectile.Center, 0.2f, 0.2f, 0.2f);
@@ -43,7 +44,7 @@ namespace CalamityMod.Projectiles.Melee
                 Main.dust[num458].velocity += projectile.velocity * 0.1f;
             }
 
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 600f, 12f, 20f);
+			CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 200f, 12f, 20f);
         }
     }
 }

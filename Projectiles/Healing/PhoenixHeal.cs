@@ -1,11 +1,12 @@
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Healing
 {
-    public class PhoenixHeal : ModProjectile
+	public class PhoenixHeal : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Heal");
@@ -25,7 +26,7 @@ namespace CalamityMod.Projectiles.Healing
 		{
 			projectile.velocity.X *= 0.95f;
 			projectile.velocity.Y *= 0.95f;
-			CalamityGlobalProjectile.HealingProjectile(projectile, 10, (int)projectile.ai[0], 6f, 15f, false, 360);
+			projectile.HealingProjectile(10, (int)projectile.ai[0], 6f, 15f, false, 360);
 			float num498 = projectile.velocity.X * 0.2f;
 			float num499 = -(projectile.velocity.Y * 0.2f);
 			int num500 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 244, 0f, 0f, 100, default, 1f);

@@ -9,9 +9,9 @@ namespace CalamityMod.Tiles.FurniturePlaguedPlate
     {
         public override void SetDefaults()
         {
-            this.SetUpLantern();
+            this.SetUpLantern(true);
             ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Plagued Plate Lantern");
+            name.SetDefault("Plagued Lantern");
             AddMapEntry(new Color(191, 142, 111), name);
 
             disableSmartCursor = true;

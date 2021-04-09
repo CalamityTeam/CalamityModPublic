@@ -1,7 +1,6 @@
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Magic;
 using CalamityMod.Tiles.Furniture.CraftingStations;
-using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -17,8 +16,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.width = 38;
-            item.height = 38;
+            item.width = item.height = 48;
             item.useStyle = ItemUseStyleID.HoldingUp;
             item.useAnimation = 30;
             item.useTime = 30;
@@ -29,13 +27,15 @@ namespace CalamityMod.Items.Weapons.Magic
             item.autoReuse = false;
             item.useTurn = false;
             item.magic = true;
-            item.value = Item.buyPrice(5, 0, 0, 0);
-            item.rare = 10;
+
+            item.value = CalamityGlobalItem.Rarity16BuyPrice;
+            item.Calamity().customRarity = CalamityRarity.HotPink;
+            item.Calamity().devItem = true;
+
             item.UseSound = SoundID.Item1;
             item.shoot = ModContent.ProjectileType<BlushieStaffProj>();
             item.mana = 200;
             item.shootSpeed = 0f;
-            item.Calamity().customRarity = CalamityRarity.ItemSpecific;
         }
 
         public override void AddRecipes()

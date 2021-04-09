@@ -1,5 +1,7 @@
 using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -34,7 +36,16 @@ namespace CalamityMod.Projectiles.Summon
                 projectile.alpha = 255 - (int)(255 * projectile.ai[0] / 10f);
             }
             projectile.velocity.Y += 0.2f;
-            projectile.rotation = projectile.velocity.ToRotation();
+            if (projectile.velocity.X < 0f)
+            {
+                projectile.spriteDirection = -1;
+                projectile.rotation = (float)Math.Atan2((double)-(double)projectile.velocity.Y, (double)-(double)projectile.velocity.X);
+            }
+            else
+            {
+                projectile.spriteDirection = 1;
+                projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X);
+            }
             //Homing
             if (projectile.ai[0] > 20f)
                 HomingAI();
@@ -52,7 +63,7 @@ namespace CalamityMod.Projectiles.Summon
                 if (npc.CanBeChasedBy(projectile, false))
                 {
                     float dist = (projectile.Center - npc.Center).Length();
-                    if (dist < maxHomingRange)
+                    if (dist < maxHomingRange && Collision.CanHit(projectile.Center, projectile.width, projectile.height, npc.Center, npc.width, npc.height))
                     {
                         targetIdx = player.MinionAttackTargetNPC;
                         maxHomingRange = dist;
@@ -60,18 +71,18 @@ namespace CalamityMod.Projectiles.Summon
                     }
                 }
             }
-            else
+            if (!hasHomingTarget)
             {
                 for (int i = 0; i < Main.npc.Length; ++i)
                 {
                     NPC npc = Main.npc[i];
-                    if (npc == null || !npc.active)
+                    if (npc is null || !npc.active)
                         continue;
 
                     if (npc.CanBeChasedBy(projectile, false))
                     {
                         float dist = (projectile.Center - npc.Center).Length();
-                        if (dist < maxHomingRange)
+                        if (dist < maxHomingRange && Collision.CanHit(projectile.Center, projectile.width, projectile.height, npc.Center, npc.width, npc.height))
                         {
                             targetIdx = i;
                             maxHomingRange = dist;
@@ -89,6 +100,14 @@ namespace CalamityMod.Projectiles.Summon
                 float homingRatio = 20f;
                 projectile.velocity = (projectile.velocity * homingRatio + homingVector) / (homingRatio + 1f);
             }
+        }
+
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            SpriteEffects spriteEffects = projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+            Texture2D texture = Main.projectileTexture[projectile.type];
+            Main.spriteBatch.Draw(texture, projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, 0, texture.Width, texture.Height)), projectile.GetAlpha(lightColor), projectile.rotation, texture.Size() / 2f, projectile.scale, spriteEffects, 0f);
+            return false;
         }
 
         public override void Kill(int timeLeft)

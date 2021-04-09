@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Xeroc Pitchfork");
+			DisplayName.SetDefault("Shard of Antumbra");
 			Tooltip.SetDefault("Stealth strikes leave homing stars in their wake");
 		}
 
@@ -31,8 +31,8 @@ namespace CalamityMod.Items.Weapons.Rogue
 			item.height = 48;
 			item.maxStack = 999;
 			item.value = 10000;
-			item.rare = 9;
-			item.shoot = ModContent.ProjectileType<XerocPitchforkProjectile>();
+			item.rare = ItemRarityID.Cyan;
+			item.shoot = ModContent.ProjectileType<AntumbraShardProjectile>();
 			item.shootSpeed = 16f;
 			item.Calamity().rogue = true;
 		}
@@ -41,11 +41,11 @@ namespace CalamityMod.Items.Weapons.Rogue
 		{
 			if (player.Calamity().StealthStrikeAvailable())
 			{
-				int stealth = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI, 0f, 0f);
-				Main.projectile[stealth].Calamity().stealthStrike = true;
-				return false;
+				int stealth = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
+				if (stealth.WithinBounds(Main.maxProjectiles))
+					Main.projectile[stealth].Calamity().stealthStrike = true;
 			}
-			return true;
+			return !player.Calamity().StealthStrikeAvailable();
 		}
 
 		public override void AddRecipes()

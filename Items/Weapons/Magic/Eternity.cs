@@ -12,17 +12,18 @@ namespace CalamityMod.Items.Weapons.Magic
 {
     public class Eternity : ModItem
     {
-        public const int BaseDamage = 6969;
+        public const int BaseDamage = 4200;
         public const int ExplosionDamage = 42000;
         public const int MaxHomers = 40;
-        public const int dustID = 16;
-        public static readonly Color blueColor = new Color(34, 34, 160);
-        public static readonly Color pinkColor = new Color(169, 30, 184);
+        public const int DustID = 16;
+        public static readonly Color BlueColor = new Color(34, 34, 160);
+        public static readonly Color PinkColor = new Color(169, 30, 184);
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Eternity");
             Tooltip.SetDefault("Hexes a possible nearby enemy, trapping them in a brilliant display of destruction\n" +
-                               "This line is modified in ModifyTooltips");
+                "This line is modified in ModifyTooltips");
         }
 
         public override void SetDefaults()
@@ -36,13 +37,16 @@ namespace CalamityMod.Items.Weapons.Magic
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 0f;
-            item.value = Item.buyPrice(5, 0, 0, 0);
+
+            item.value = CalamityGlobalItem.Rarity16BuyPrice;
+            item.Calamity().customRarity = CalamityRarity.HotPink;
+            item.Calamity().devItem = true;
+
             item.autoReuse = true;
             item.noUseGraphic = true;
             item.shoot = ModContent.ProjectileType<EternityBook>();
             item.channel = true;
             item.shootSpeed = 0f;
-            item.rare = 10;
         }
         public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;
         public override void ModifyTooltips(List<TooltipLine> tooltips)

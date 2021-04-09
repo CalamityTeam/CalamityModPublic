@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.Typeless
 {
     public class StarStruckWaterBottle : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Typeless/StarStruckWater";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Bottle");
@@ -36,18 +38,18 @@ namespace CalamityMod.Projectiles.Typeless
         {
             if (projectile.owner == Main.myPlayer)
             {
-				Main.PlaySound(SoundID.Shatter, (int) projectile.position.X, (int) projectile.position.Y, 1, 1f, 0.0f);
+				Main.PlaySound(SoundID.Shatter, (int)projectile.position.X, (int)projectile.position.Y, 1, 1f, 0f);
 				for (int index = 0; index < 5; ++index)
-					Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 13, 0f, 0f, 0, new Color(), 1f);
+					Dust.NewDust(projectile.position, projectile.width, projectile.height, 13, 0f, 0f, 0, new Color(), 1f);
 				for (int index1 = 0; index1 < 30; ++index1)
 				{
-					int index2 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, ModContent.DustType<AstralBlue>(), 0f, -2f, 0, new Color(), 1.1f);
+					int index2 = Dust.NewDust(projectile.position, projectile.width, projectile.height, ModContent.DustType<AstralBlue>(), 0f, -2f, 0, new Color(), 1.1f);
 					Dust dust = Main.dust[index2];
 					dust.alpha = 100;
 					dust.velocity.X *= 1.5f;
 					dust.velocity *= 3f;
 				}
-                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<WaterConvertor>(), 0, 0f, projectile.owner, 4f);
+                Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<WaterConvertor>(), 0, 0f, projectile.owner, 4f);
             }
         }
     }

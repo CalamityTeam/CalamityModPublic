@@ -10,6 +10,8 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class ToxicannonShot : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Enemy/FlakAcid";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Cannon Shot");
@@ -49,10 +51,10 @@ namespace CalamityMod.Projectiles.Ranged
         }
         public override void Kill(int timeLeft)
         {
-            projectile.position = projectile.Center;
-            projectile.width = projectile.height = 180;
-            projectile.position -= projectile.Size / 2f;
-            projectile.damage *= 4;
+			CalamityGlobalProjectile.ExpandHitboxBy(projectile, 180);
+            projectile.usesLocalNPCImmunity = true;
+            projectile.localNPCHitCooldown = 10;
+            projectile.damage /= 2;
             projectile.Damage();
             for (int i = 0; i <= 40; i++)
             {

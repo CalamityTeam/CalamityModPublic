@@ -1,12 +1,13 @@
 using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Melee
 {
-    public class PlagueSeeker : ModProjectile
+	public class PlagueSeeker : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Seeker");
@@ -20,9 +21,12 @@ namespace CalamityMod.Projectiles.Melee
             projectile.penetrate = 1;
             projectile.melee = true;
             projectile.timeLeft = 180;
+			projectile.extraUpdates = 1;
         }
 
-        public override void AI()
+		public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 150;
+
+		public override void AI()
         {
             projectile.localAI[0] += 1f;
             if (projectile.localAI[0] > 4f)
@@ -35,12 +39,13 @@ namespace CalamityMod.Projectiles.Melee
                 }
             }
 
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 400f, 18f, 20f);
+			if (projectile.timeLeft < 150)
+				CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 600f, 12f, 20f);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(ModContent.BuffType<Plague>(), 180);
         }
-    }
+	}
 }

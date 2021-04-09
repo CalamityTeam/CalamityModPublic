@@ -8,8 +8,8 @@ namespace CalamityMod.Buffs.StatBuffs
     {
         public override void SetDefaults()
         {
-            DisplayName.SetDefault("Siren");
-            Description.SetDefault("You are a siren now");
+            DisplayName.SetDefault("Water Elemental");
+            Description.SetDefault("You are a water elemental now");
             Main.debuff[Type] = true;
             Main.buffNoSave[Type] = true;
             Main.buffNoTimeDisplay[Type] = true;
@@ -22,17 +22,8 @@ namespace CalamityMod.Buffs.StatBuffs
             if (modPlayer.sirenBoobsPrevious)
             {
                 modPlayer.sirenBoobsPower = true;
-                player.statDefense += 1 +
-                    (NPC.downedBoss3 ? 4 : 0) +
-                    (Main.hardMode ? 5 : 0) +
-                    (NPC.downedMoonlord ? 5 : 0);
-                player.detectCreature = true;
-                player.lifeRegen += 0 +
-                    (NPC.downedBoss3 ? 1 : 0) +
-                    (NPC.downedMoonlord ? 1 : 0);
                 player.ignoreWater = NPC.downedBoss3;
                 player.accFlipper = true;
-                player.discount = Main.hardMode;
                 if (player.breath <= player.breathMax + 2 && !modPlayer.ZoneAbyss && NPC.downedBoss3)
                 {
                     player.breath = player.breathMax + 3;

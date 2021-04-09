@@ -6,6 +6,8 @@ namespace CalamityMod.Projectiles.Typeless
 {
     public class HolyEruption : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Eruption");
@@ -19,7 +21,7 @@ namespace CalamityMod.Projectiles.Typeless
             projectile.penetrate = -1;
             projectile.timeLeft = 360;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 2;
+            projectile.localNPCHitCooldown = 10;
         }
 
         public override void AI()

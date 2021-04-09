@@ -18,18 +18,18 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetDefaults()
         {
             item.width = 42;
-            item.damage = 70;
+            item.damage = 38;
             item.melee = true;
-            item.useAnimation = 24;
-            item.useTime = 24;
+            item.useAnimation = 30;
+            item.useTime = 30;
             item.useTurn = true;
             item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 6f;
+            item.knockBack = 5f;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             item.height = 42;
-            item.value = Item.buyPrice(0, 12, 0, 0);
-            item.rare = 4;
+            item.value = Item.buyPrice(0, 4, 0, 0);
+            item.rare = ItemRarityID.Orange;
             item.shoot = ModContent.ProjectileType<BiomeOrb>();
             item.shootSpeed = 12f;
         }
@@ -47,9 +47,7 @@ namespace CalamityMod.Items.Weapons.Melee
             recipe.AddIngredient(ItemID.Granite, 20);
             recipe.AddIngredient(ItemID.Hellstone, 20);
             recipe.AddIngredient(ItemID.Coral, 20);
-            recipe.AddIngredient(ItemID.PearlstoneBlock, 20);
-            recipe.AddIngredient(ModContent.ItemType<AstralMonolith>(), 20);
-            recipe.AddTile(TileID.MythrilAnvil);
+            recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

@@ -16,7 +16,8 @@ namespace CalamityMod.NPCs.Abyss
 {
     public class GulperEelHead : ModNPC
     {
-        public bool detectsPlayer = false;
+		private Vector2 patrolSpot = Vector2.Zero;
+		public bool detectsPlayer = false;
         public const int minLength = 20;
         public const int maxLength = 21;
         public float speed = 5f; //10
@@ -30,17 +31,14 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void SetDefaults()
         {
-            npc.damage = 135;
+			npc.Calamity().canBreakPlayerDefense = true;
+			npc.damage = 135;
             npc.width = 66; //36
             npc.height = 86; //20
-            npc.defense = 50;
-            npc.lifeMax = 80000;
+            npc.defense = 10;
+            npc.lifeMax = 60000;
             npc.aiStyle = -1;
             aiType = -1;
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
             npc.knockBackResist = 0f;
             npc.value = Item.buyPrice(0, 0, 50, 0);
             npc.behindTiles = true;
@@ -55,13 +53,15 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void SendExtraAI(BinaryWriter writer)
         {
-            writer.Write(detectsPlayer);
+			writer.WriteVector2(patrolSpot);
+			writer.Write(detectsPlayer);
             writer.Write(npc.chaseable);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
-            detectsPlayer = reader.ReadBoolean();
+			patrolSpot = reader.ReadVector2();
+			detectsPlayer = reader.ReadBoolean();
             npc.chaseable = reader.ReadBoolean();
         }
 
@@ -138,23 +138,29 @@ namespace CalamityMod.NPCs.Abyss
             {
                 npc.active = false;
             }
+
             float num188 = speed;
             float num189 = turnSpeed;
             Vector2 vector18 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
-            float num191 = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2);
-            float num192 = Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2);
+
+			if (patrolSpot == Vector2.Zero)
+				patrolSpot = Main.player[npc.target].Center;
+
+			float num191 = detectsPlayer ? Main.player[npc.target].Center.X : patrolSpot.X;
+			float num192 = detectsPlayer ? Main.player[npc.target].Center.Y : patrolSpot.Y;
+
 			if (!detectsPlayer)
 			{
 				num192 += 500;
-				if (Math.Abs(npc.Center.X - Main.player[npc.target].Center.X) < 300f)
+				if (Math.Abs(npc.Center.X - num191) < 300f) //500
 				{
 					if (npc.velocity.X > 0f)
 					{
-						num191 = Main.player[npc.target].Center.X + 400f;
+						num191 += 400f;
 					}
 					else
 					{
-						num191 = Main.player[npc.target].Center.X - 400f;
+						num191 -= 400f;
 					}
 				}
 			}
@@ -329,42 +335,24 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void NPCLoot()
         {
-            if (Main.rand.NextBool(1000000) && CalamityWorld.revenge)
-            {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<HalibutCannon>());
-            }
-            if (CalamityWorld.downedCalamitas)
-            {
-                if (Main.rand.NextBool(2))
-                {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Lumenite>(), Main.rand.Next(2, 4));
-                }
-                if (Main.expertMode && Main.rand.NextBool(2))
-                {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Lumenite>());
-                }
-                if (Main.rand.NextBool(2))
-                {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<DepthCells>(), Main.rand.Next(6, 9));
-                }
-                if (Main.expertMode && Main.rand.NextBool(2))
-                {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<DepthCells>(), Main.rand.Next(2, 4));
-                }
-            }
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<HalibutCannon>(), CalamityWorld.revenge, HalibutCannon.DropChance);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<Lumenite>(), CalamityWorld.downedCalamitas, 0.5f, 2, 3);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<Lumenite>(), CalamityWorld.downedCalamitas && Main.expertMode, 0.5f);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<DepthCells>(), CalamityWorld.downedCalamitas, 0.5f, 6, 8);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<DepthCells>(), CalamityWorld.downedCalamitas && Main.expertMode, 0.5f, 2, 3);
         }
 
         public override void HitEffect(int hitDirection, double damage)
         {
             for (int k = 0; k < 5; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
             }
             if (npc.life <= 0)
             {
                 for (int k = 0; k < 15; k++)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
                 }
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/GulperEel"), 1f);
             }
@@ -395,11 +383,6 @@ namespace CalamityMod.NPCs.Abyss
         {
             player.AddBuff(BuffID.Bleeding, 300, true);
             player.AddBuff(ModContent.BuffType<CrushDepth>(), 300, true);
-            if (CalamityWorld.revenge)
-            {
-                player.AddBuff(ModContent.BuffType<MarkedforDeath>(), 180);
-                player.AddBuff(ModContent.BuffType<Horror>(), 180, true);
-            }
         }
     }
 }

@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class SandTornado : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/TornadoProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Tornado");
@@ -24,11 +26,7 @@ namespace CalamityMod.Projectiles.Summon
             projectile.penetrate = NPC.downedMoonlord ? -1 : 3;
             projectile.timeLeft = 1200;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 20 -
-                (NPC.downedGolemBoss ? 5 : 0) -
-                (NPC.downedMoonlord ? 5 : 0) -
-                (CalamityWorld.downedDoG ? 4 : 0) -
-                (CalamityWorld.downedYharon ? 3 : 0);
+            projectile.localNPCHitCooldown = 20;
         }
 
         public override void AI()

@@ -1,13 +1,10 @@
-using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Projectiles.Typeless;
-using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Items.Accessories
 {
-    public class StarbusterCore : ModItem
+	public class StarbusterCore : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -20,14 +17,13 @@ namespace CalamityMod.Items.Accessories
         {
             item.width = 28;
             item.height = 32;
-            item.value = Item.buyPrice(0, 24, 0, 0);
-            item.rare = 7;
+            item.value = CalamityGlobalItem.Rarity7BuyPrice;
+            item.rare = ItemRarityID.Lime;
             item.accessory = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.maxMinions++;
             player.Calamity().starbusterCore = true;
         }
     }

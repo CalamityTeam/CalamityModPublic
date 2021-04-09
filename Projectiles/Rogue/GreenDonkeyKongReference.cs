@@ -1,4 +1,3 @@
-using CalamityMod.Items.Weapons.Rogue;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -8,8 +7,10 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class GreenDonkeyKongReference : ModProjectile
+	public class GreenDonkeyKongReference : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/AcidicRainBarrel";
+
         public float cooldown = 0f;
         public float oldVelocityX = 0f;
         public override void SetStaticDefaults()
@@ -63,7 +64,7 @@ namespace CalamityMod.Projectiles.Rogue
         {
             bool stealthS = projectile.Calamity().stealthStrike;
             int projectileCount = 8;
-            Main.PlaySound(SoundID.Item14, projectile.position);
+            Main.PlaySound(SoundID.Item14, projectile.Center);
             if (stealthS)
             {
                 projectileCount += 5; //more shit the closer we are to death
@@ -82,10 +83,13 @@ namespace CalamityMod.Projectiles.Rogue
                     int acidIndex = Projectile.NewProjectile(projectile.Center, projectile.velocity + acidVelocity,
                         ModContent.ProjectileType<AcidBarrelDrop>(),
                         (int)(projectile.damage * 0.75f), 1f, projectile.owner);
-                    Main.projectile[acidIndex].Calamity().forceRogue = true;
-                    Main.projectile[acidIndex].timeLeft = 300;
-                    Main.projectile[acidIndex].usesLocalNPCImmunity = true;
-                    Main.projectile[acidIndex].localNPCHitCooldown = -1;
+					if (acidIndex.WithinBounds(Main.maxProjectiles))
+					{
+						Main.projectile[acidIndex].Calamity().forceRogue = true;
+						Main.projectile[acidIndex].timeLeft = 300;
+						Main.projectile[acidIndex].usesLocalNPCImmunity = true;
+						Main.projectile[acidIndex].localNPCHitCooldown = -1;
+					}
                 }
             }
 
@@ -97,8 +101,11 @@ namespace CalamityMod.Projectiles.Rogue
                     int acidIndex = Projectile.NewProjectile(projectile.Center, projectile.velocity + acidVelocity,
                         ModContent.ProjectileType<AcidBarrelDrop>(),
                         (int)(projectile.damage * 0.667f), 1f, projectile.owner);
-                    Main.projectile[acidIndex].Calamity().forceRogue = true;
-                    Main.projectile[acidIndex].timeLeft = 420;
+					if (acidIndex.WithinBounds(Main.maxProjectiles))
+					{
+						Main.projectile[acidIndex].Calamity().forceRogue = true;
+						Main.projectile[acidIndex].timeLeft = 420;
+					}
                 }
             }
 

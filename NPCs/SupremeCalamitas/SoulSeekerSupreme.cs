@@ -7,10 +7,11 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using System.IO;
 
 namespace CalamityMod.NPCs.SupremeCalamitas
 {
-    public class SoulSeekerSupreme : ModNPC
+	public class SoulSeekerSupreme : ModNPC
     {
         private int timer = 0;
         private bool start = true;
@@ -18,7 +19,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Soul Seeker");
-			NPCID.Sets.TrailingMode[npc.type] = 1;
+            Main.npcFrameCount[npc.type] = 8;
+            NPCID.Sets.TrailingMode[npc.type] = 1;
 		}
 
         public override void SetDefaults()
@@ -31,55 +33,89 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             npc.noTileCollide = true;
             npc.canGhostHeal = false;
             npc.damage = 0;
-            npc.defense = 80;
-            npc.Calamity().RevPlusDR(0.35f);
+            npc.defense = 60;
+			npc.DR_NERD(0.25f);
 			npc.LifeMaxNERB(Main.expertMode ? 90000 : 50000, 170000);
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
-            npc.buffImmune[BuffID.Ichor] = false;
-            npc.buffImmune[BuffID.CursedInferno] = false;
             npc.HitSound = SoundID.NPCHit4;
             npc.DeathSound = SoundID.NPCDeath14;
         }
 
+        public override void SendExtraAI(BinaryWriter writer)
+        {
+            writer.Write(timer);
+        }
+
+        public override void ReceiveExtraAI(BinaryReader reader)
+        {
+            timer = reader.ReadInt32();
+        }
+
+        public override void FindFrame(int frameHeight)
+        {
+            npc.frameCounter++;
+            if (npc.frameCounter % 5 == 4)
+                npc.frame.Y += frameHeight;
+            if (npc.frame.Y / frameHeight >= Main.npcFrameCount[npc.type])
+                npc.frame.Y = 0;
+        }
+
         public override bool PreAI()
         {
+            NPC parent = Main.npc[CalamityGlobalNPC.SCal];
             bool expertMode = Main.expertMode;
             if (start)
             {
                 for (int num621 = 0; num621 < 10; num621++)
                 {
-                    int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 2f);
+                    int num622 = Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 2f);
                 }
                 npc.ai[1] = npc.ai[0];
                 start = false;
             }
-            npc.TargetClosest(true);
-            Vector2 direction = Main.player[npc.target].Center - npc.Center;
+
+			// Get a target
+			if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
+				npc.TargetClosest();
+
+			// Despawn safety, make sure to target another player if the current player target is too far away
+			if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > CalamityGlobalNPC.CatchUpDistance200Tiles)
+				npc.TargetClosest();
+
+			Vector2 direction = Main.player[npc.target].Center - npc.Center;
             direction.Normalize();
             direction *= 9f;
             npc.rotation = direction.ToRotation();
             timer++;
-            if (timer > 180)
+			int timerLimit = CalamityWorld.malice ? 120 : 180;
+            if (timer > timerLimit)
             {
+				for (int i = 0; i < Main.maxNPCs; i++)
+				{
+					NPC seeker = Main.npc[i];
+					if (seeker.type == npc.type)
+					{
+						if (seeker == npc)
+							Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SCalSounds/BrimstoneShoot"), parent.Center);
+						break;
+					}
+				}
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
-                    int damage = expertMode ? 150 : 200; //600 500
-                    Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X, direction.Y, ModContent.ProjectileType<BrimstoneBarrage>(), damage, 1f, npc.target);
+					int type = ModContent.ProjectileType<BrimstoneBarrage>();
+					int damage = npc.GetProjectileDamage(type);
+					Projectile.NewProjectile(npc.Center, direction, type, damage, 1f, Main.myPlayer);
                 }
                 timer = 0;
+                npc.netUpdate = true;
             }
-            if (CalamityGlobalNPC.SCal < 0 || !Main.npc[CalamityGlobalNPC.SCal].active)
+            if (CalamityGlobalNPC.SCal < 0 || !parent.active)
             {
                 npc.active = false;
                 npc.netUpdate = true;
                 return false;
             }
             Player player = Main.player[npc.target];
-            NPC parent = Main.npc[NPC.FindFirstNPC(ModContent.NPCType<SupremeCalamitas>())];
-            double deg = (double)npc.ai[1];
+            double deg = npc.ai[1];
             double rad = deg * (Math.PI / 180);
             double dist = 300;
             npc.position.X = parent.Center.X - (int)(Math.Cos(rad) * dist) - npc.width / 2;
@@ -127,6 +163,9 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 2f);
                     Main.dust[num624].velocity *= 2f;
                 }
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/SoulSeekerSupremeGores/SupremeSoulSeeker"), npc.scale);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/SoulSeekerSupremeGores/SupremeSoulSeeker2"), npc.scale);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/SoulSeekerSupremeGores/SupremeSoulSeeker3"), npc.scale);
             }
         }
 
@@ -147,7 +186,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 			float amount9 = 0.5f;
 			int num153 = 5;
 
-			if (CalamityMod.CalamityConfig.Afterimages)
+			if (CalamityConfig.Instance.Afterimages)
 			{
 				for (int num155 = 1; num155 < num153; num155 += 2)
 				{
@@ -170,7 +209,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 			texture2D15 = ModContent.GetTexture("CalamityMod/NPCs/SupremeCalamitas/SoulSeekerSupremeGlow");
 			Color color37 = Color.Lerp(Color.White, Color.Red, 0.5f);
 
-			if (CalamityMod.CalamityConfig.Afterimages)
+			if (CalamityConfig.Instance.Afterimages)
 			{
 				for (int num163 = 1; num163 < num153; num163++)
 				{

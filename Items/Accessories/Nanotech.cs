@@ -3,12 +3,11 @@ using CalamityMod.Items.Materials;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using System.Collections.Generic;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
 {
-    public class Nanotech : ModItem
+	public class Nanotech : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -16,11 +15,10 @@ namespace CalamityMod.Items.Accessories
             Tooltip.SetDefault("Rogue projectiles create nanoblades as they travel\n" +
                 "Stealth strikes summon nanobeams and sparks on enemy hits\n" +
 				"Stealth strikes have +20 armor penetration, deal 5% more damage, and heal for 1 HP\n" +
-                "Rogue weapons have a chance to instantly kill normal enemies\n" +
-                "12% increased rogue damage and 15% increased rogue velocity\n" +
+                "15% increased rogue damage and 15% increased rogue velocity\n" +
                 "Whenever you crit an enemy with a rogue weapon your rogue damage increases\n" +
                 "This effect can stack up to 150 times\n" +
-				"Max rogue damage boost is 10%\n" +
+				"Max rogue damage boost is 15%\n" +
 				"This line is modified below");
         }
 
@@ -28,7 +26,7 @@ namespace CalamityMod.Items.Accessories
         {
             item.width = 28;
             item.height = 32;
-            item.value = Item.buyPrice(0, 90, 0, 0);
+            item.value = CalamityGlobalItem.Rarity14BuyPrice;
             item.accessory = true;
             item.Calamity().customRarity = CalamityRarity.DarkBlue;
         }
@@ -38,7 +36,7 @@ namespace CalamityMod.Items.Accessories
             int critLevel = Main.player[Main.myPlayer].Calamity().raiderStack;
             foreach (TooltipLine line2 in list)
             {
-                if (line2.mod == "Terraria" && line2.Name == "Tooltip8")
+                if (line2.mod == "Terraria" && line2.Name == "Tooltip7")
                 {
                     line2.text = "Rogue Crit Level: " + critLevel;
                 }
@@ -51,7 +49,7 @@ namespace CalamityMod.Items.Accessories
             modPlayer.nanotech = true;
             modPlayer.raiderTalisman = true;
             modPlayer.electricianGlove = true;
-            player.Calamity().throwingDamage += 0.12f;
+            player.Calamity().throwingDamage += 0.15f;
             player.Calamity().throwingVelocity += 0.15f;
         }
 
@@ -62,9 +60,7 @@ namespace CalamityMod.Items.Accessories
             recipe.AddIngredient(ModContent.ItemType<RaidersTalisman>());
             recipe.AddIngredient(ModContent.ItemType<MoonstoneCrown>());
             recipe.AddIngredient(ModContent.ItemType<ElectriciansGlove>());
-            recipe.AddIngredient(ModContent.ItemType<Phantoplasm>(), 20);
-            recipe.AddIngredient(ModContent.ItemType<NightmareFuel>(), 20);
-            recipe.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 20);
+            recipe.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 4);
             recipe.AddTile(ModContent.TileType<DraedonsForge>());
             recipe.SetResult(this);
             recipe.AddRecipe();

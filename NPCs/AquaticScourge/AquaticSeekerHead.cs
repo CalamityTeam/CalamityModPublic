@@ -1,4 +1,5 @@
 using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Events;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -29,16 +30,8 @@ namespace CalamityMod.NPCs.AquaticScourge
             npc.height = 28;
             npc.defense = 5;
             npc.lifeMax = Main.hardMode ? 500 : 60;
-            if (CalamityWorld.bossRushActive)
-            {
-                npc.lifeMax = 60000;
-            }
             npc.aiStyle = -1;
             aiType = -1;
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
             npc.knockBackResist = 0f;
             npc.value = Item.buyPrice(0, 0, 0, 80);
             npc.behindTiles = true;
@@ -272,13 +265,13 @@ namespace CalamityMod.NPCs.AquaticScourge
         {
             for (int k = 0; k < 3; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
             }
             if (npc.life <= 0)
             {
                 for (int k = 0; k < 10; k++)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
                 }
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/AquaticScourgeGores/AquaticSeekerHead"), 1f);
             }
@@ -309,10 +302,6 @@ namespace CalamityMod.NPCs.AquaticScourge
         {
             player.AddBuff(BuffID.Bleeding, 120, true);
             player.AddBuff(BuffID.Venom, 120, true);
-            if (CalamityWorld.revenge)
-            {
-                player.AddBuff(ModContent.BuffType<MarkedforDeath>(), 60);
-            }
         }
     }
 }

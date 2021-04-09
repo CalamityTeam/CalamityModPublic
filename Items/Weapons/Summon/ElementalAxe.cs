@@ -1,5 +1,4 @@
 using CalamityMod.Items.Materials;
-using CalamityMod.Items.Tools;
 using CalamityMod.Projectiles.Summon;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -8,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
-    public class ElementalAxe : ModItem
+	public class ElementalAxe : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -18,7 +17,7 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void SetDefaults()
         {
-            item.damage = 140;
+            item.damage = 50;
             item.summon = true;
             item.mana = 10;
             item.width = 36;
@@ -27,13 +26,12 @@ namespace CalamityMod.Items.Weapons.Summon
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.noMelee = true;
             item.knockBack = 5f;
-            item.value = Item.buyPrice(1, 20, 0, 0);
-            item.rare = 10;
-            item.UseSound = SoundID.Item44;
+			item.value = CalamityGlobalItem.Rarity11BuyPrice;
+			item.rare = ItemRarityID.Purple;
+			item.UseSound = SoundID.Item44;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<ElementalAxeMinion>();
             item.shootSpeed = 10f;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

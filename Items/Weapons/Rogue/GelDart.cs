@@ -1,4 +1,3 @@
-using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -7,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class GelDart : RogueWeapon
+	public class GelDart : RogueWeapon
     {
         public override void SetStaticDefaults()
         {
@@ -33,7 +32,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.height = 28;
             item.maxStack = 999;
             item.value = Item.buyPrice(0, 0, 2, 50);
-            item.rare = 4;
+            item.rare = ItemRarityID.LightRed;
             item.shoot = ModContent.ProjectileType<GelDartProjectile>();
             item.shootSpeed = 14f;
             item.Calamity().rogue = true;
@@ -43,11 +42,14 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             if (player.Calamity().StealthStrikeAvailable()) //setting the stealth strike
             {
-                int stealth = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI, 0f, 0f);
-                Main.projectile[stealth].Calamity().stealthStrike = true;
-                Main.projectile[stealth].usesLocalNPCImmunity = true;
-                Main.projectile[stealth].penetrate = 6;
-                Main.projectile[stealth].aiStyle = -1;
+                int stealth = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
+				if (stealth.WithinBounds(Main.maxProjectiles))
+				{
+					Main.projectile[stealth].Calamity().stealthStrike = true;
+					Main.projectile[stealth].usesLocalNPCImmunity = true;
+					Main.projectile[stealth].penetrate = 6;
+					Main.projectile[stealth].aiStyle = -1;
+				}
                 return false;
             }
             return true;

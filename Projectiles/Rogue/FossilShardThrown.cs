@@ -1,10 +1,13 @@
 using CalamityMod.Buffs.StatDebuffs;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Rogue
 {
     public class FossilShardThrown : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Ranged/FossilShard";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Shard");
@@ -18,7 +21,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.penetrate = 1;
             projectile.aiStyle = 1;
             projectile.timeLeft = 90;
-            aiType = 1;
+            aiType = ProjectileID.WoodenArrowFriendly;
             projectile.Calamity().rogue = true;
         }
 

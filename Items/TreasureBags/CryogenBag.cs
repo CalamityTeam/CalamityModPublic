@@ -32,7 +32,7 @@ namespace CalamityMod.Items.TreasureBags
             item.consumable = true;
             item.width = 24;
             item.height = 24;
-            item.rare = 9;
+            item.rare = ItemRarityID.Cyan;
             item.expert = true;
         }
 
@@ -46,25 +46,23 @@ namespace CalamityMod.Items.TreasureBags
             player.TryGettingDevArmor();
 
             // Materials
-            DropHelper.DropItem(player, ModContent.ItemType<CryoBar>(), 20, 40);
             DropHelper.DropItem(player, ModContent.ItemType<EssenceofEleum>(), 5, 9);
-            DropHelper.DropItem(player, ItemID.FrostCore);
 
             // Weapons
-            DropHelper.DropItemChance(player, ModContent.ItemType<Avalanche>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<GlacialCrusher>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<EffluviumBow>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<BittercoldStaff>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<SnowstormStaff>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<Icebreaker>(), 3);
-            float divinityChance = DropHelper.LegendaryDropRateFloat;
-            DropHelper.DropItemCondition(player, ModContent.ItemType<ColdDivinity>(), CalamityWorld.revenge, divinityChance);
+            float w = DropHelper.BagWeaponDropRateFloat;
+            DropHelper.DropEntireWeightedSet(player,
+                DropHelper.WeightStack<Avalanche>(w),
+                DropHelper.WeightStack<GlacialCrusher>(w),
+                DropHelper.WeightStack<EffluviumBow>(w),
+                DropHelper.WeightStack<BittercoldStaff>(w),
+                DropHelper.WeightStack<SnowstormStaff>(w),
+                DropHelper.WeightStack<Icebreaker>(w)
+            );
 
             // Equipment
             DropHelper.DropItem(player, ModContent.ItemType<SoulofCryogen>());
             DropHelper.DropItemCondition(player, ModContent.ItemType<FrostFlare>(), CalamityWorld.revenge);
             DropHelper.DropItemChance(player, ModContent.ItemType<CryoStone>(), 10);
-            DropHelper.DropItemChance(player, ModContent.ItemType<Regenator>(), DropHelper.RareVariantDropRateInt);
 
             // Vanity
             DropHelper.DropItemChance(player, ModContent.ItemType<CryogenMask>(), 7);

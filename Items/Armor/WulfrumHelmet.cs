@@ -11,8 +11,7 @@ namespace CalamityMod.Items.Armor
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Wulfrum Helmet");
-            Tooltip.SetDefault("6% increased minion damage\n" +
-                               "+1 max minion");
+            Tooltip.SetDefault("6% increased minion damage");
         }
 
         public override void SetDefaults()
@@ -20,7 +19,7 @@ namespace CalamityMod.Items.Armor
             item.width = 18;
             item.height = 18;
             item.value = Item.buyPrice(0, 0, 75, 0);
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
@@ -30,10 +29,11 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateArmorSet(Player player)
         {
-            player.setBonus = "+3 defense\n" +
+            player.setBonus = "+3 defense and +1 max minion\n" +
                 "+5 defense when below 50% life";
             player.statDefense += 3; //8
-            if (player.statLife <= (int)((double)player.statLifeMax2 * 0.5))
+			player.maxMinions++;
+			if (player.statLife <= (int)(player.statLifeMax2 * 0.5))
             {
                 player.statDefense += 5; //13
             }
@@ -42,13 +42,13 @@ namespace CalamityMod.Items.Armor
         public override void UpdateEquip(Player player)
         {
             player.minionDamage += 0.06f;
-            player.maxMinions++;
         }
 
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<WulfrumShard>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<EnergyCore>());
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();

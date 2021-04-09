@@ -5,10 +5,14 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
+
 namespace CalamityMod.Projectiles.Rogue
 {
 	public class ApoctolithProj : ModProjectile
 	{
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/Apoctolith";
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Apoctolith");
@@ -62,7 +66,7 @@ namespace CalamityMod.Projectiles.Rogue
 
 		public override void Kill(int timeLeft)
 		{
-			Main.PlaySound(21, (int)projectile.position.X, (int)projectile.position.Y);
+			Main.PlaySound(SoundID.Tink, (int)projectile.position.X, (int)projectile.position.Y);
 			//Dust on impact
 			int dust_splash = 0;
 			while (dust_splash < 9)

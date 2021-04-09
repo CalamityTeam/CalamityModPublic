@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class LiquidBlade : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Magic/InfernalBlade";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Blade");
@@ -21,7 +23,7 @@ namespace CalamityMod.Projectiles.Magic
             projectile.friendly = true;
             projectile.alpha = 255;
             projectile.penetrate = 1;
-            projectile.extraUpdates = 2;
+            projectile.extraUpdates = 3;
             projectile.ignoreWater = true;
             projectile.tileCollide = true;
             projectile.timeLeft = 180;
@@ -120,39 +122,28 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            float xPos = projectile.ai[0] > 0 ? projectile.position.X + 800 : projectile.position.X - 800;
-            Vector2 vector2 = new Vector2(xPos, projectile.position.Y + Main.rand.Next(-800, 801));
-            float num80 = xPos;
-            float speedX = (float)target.position.X - vector2.X;
-            float speedY = (float)target.position.Y - vector2.Y;
-            float dir = (float)Math.Sqrt((double)(speedX * speedX + speedY * speedY));
-            dir = 10 / num80;
-            speedX *= dir * 150;
-            speedY *= dir * 150;
-            if (speedX > 15f)
-            {
-                speedX = 15f;
-            }
-            if (speedX < -15f)
-            {
-                speedX = -15f;
-            }
-            if (speedY > 15f)
-            {
-                speedY = 15f;
-            }
-            if (speedY < -15f)
-            {
-                speedY = -15f;
-            }
-            if (projectile.owner == Main.myPlayer)
-            {
-                Projectile.NewProjectile(vector2.X, vector2.Y, speedX, speedY, ModContent.ProjectileType<LiquidBlade2>(), (int)((double)projectile.damage * 0.75), 1f, projectile.owner);
-            }
-            target.AddBuff(BuffID.Ichor, 1200);
-            target.AddBuff(BuffID.Frostburn, 1200);
-            target.AddBuff(BuffID.OnFire, 1200);
-            target.AddBuff(BuffID.CursedInferno, 1200);
+			OnHitEffects(target.Center);
+            target.AddBuff(BuffID.Ichor, 240);
+            target.AddBuff(BuffID.Frostburn, 240);
+            target.AddBuff(BuffID.OnFire, 240);
+            target.AddBuff(BuffID.CursedInferno, 120);
+        }
+
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+			OnHitEffects(target.Center);
+            target.AddBuff(BuffID.Ichor, 240);
+            target.AddBuff(BuffID.Frostburn, 240);
+            target.AddBuff(BuffID.OnFire, 240);
+            target.AddBuff(BuffID.CursedInferno, 120);
+        }
+
+		private void OnHitEffects(Vector2 targetPos)
+		{
+			if (projectile.owner == Main.myPlayer)
+			{
+				CalamityUtils.ProjectileBarrage(projectile.Center, targetPos, Main.rand.NextBool(), 800f, 800f, 0f, 800f, 10f, ModContent.ProjectileType<LiquidBlade2>(), (int)(projectile.damage * 0.75), 1f, projectile.owner, true);
+			}
         }
     }
 }

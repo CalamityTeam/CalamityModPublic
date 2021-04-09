@@ -1,5 +1,6 @@
 using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -33,7 +34,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.height = 18;
             item.maxStack = 10;
             item.value = Item.buyPrice(0, 3, 60, 0);
-            item.rare = 6;
+            item.rare = ItemRarityID.LightPurple;
             item.shoot = ModContent.ProjectileType<NychthemeronProjectile>();
             item.shootSpeed = 6f;
             item.Calamity().rogue = true;
@@ -61,12 +62,13 @@ namespace CalamityMod.Items.Weapons.Rogue
                 for (int j = 0; j < item.stack - player.ownedProjectileCounts[ModContent.ProjectileType<NychthemeronProjectile>()]; j++)
                 {
                     float spread = 2;
-                    int pIndex = Projectile.NewProjectile(position.X, position.Y, speedX + Main.rand.NextFloat(-spread, spread), speedY + Main.rand.NextFloat(-spread, spread), type, damage, knockBack, player.whoAmI, 0f, 1f);
+                    int pIndex = Projectile.NewProjectile(position.X, position.Y, speedX + Main.rand.NextFloat(-spread, spread), speedY + Main.rand.NextFloat(-spread, spread), type, Math.Max(damage / 3, 1), knockBack, player.whoAmI, 0f, 1f);
                     Projectile p = Main.projectile[pIndex];
-                    p.Calamity().stealthStrike = true;
+					if (pIndex.WithinBounds(Main.maxProjectiles))
+						p.Calamity().stealthStrike = true;
                     int pID = p.identity;
 
-                    CreateOrbs(position, orbDamage, knockBack, pID, player);
+                    CreateOrbs(position, (int)(orbDamage * 0.75f), knockBack, pID, player, true);
                 }
             }
             else
@@ -74,7 +76,7 @@ namespace CalamityMod.Items.Weapons.Rogue
                 int pIndex = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0f, 1f);
                 int pID = Main.projectile[pIndex].identity;
                 
-                CreateOrbs(position, orbDamage, knockBack, pID, player);
+                CreateOrbs(position, orbDamage, knockBack, pID, player, false);
             }
             return false;
         }
@@ -83,7 +85,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 		{
 			if (player.altFunctionUse == 2)
 			{
-				item.shoot = 0;
+				item.shoot = ProjectileID.None;
 				item.shootSpeed = 0f;
 				return player.ownedProjectileCounts[ModContent.ProjectileType<NychthemeronProjectile>()] > 0;
 			}
@@ -108,7 +110,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             recipe.AddRecipe();
         }
 
-        private static void CreateOrbs(Vector2 position, int damage, float knockBack, int projectileID, Player player)
+        private static void CreateOrbs(Vector2 position, int damage, float knockBack, int projectileID, Player player, bool stealth)
         {
             float rotationOffset = 0f;
 
@@ -154,12 +156,20 @@ namespace CalamityMod.Items.Weapons.Rogue
                 rotationOffset += MathHelper.ToRadians(72f);
             }
 
-            int orb1 = Projectile.NewProjectile(position.X, position.Y, 0f, 0f, ModContent.ProjectileType<NychthemeronOrb>(), damage, knockBack, player.whoAmI, orb1Col, projectileID);
-            int orb2 = Projectile.NewProjectile(position.X, position.Y, 0f, 0f, ModContent.ProjectileType<NychthemeronOrb>(), damage, knockBack, player.whoAmI, orb2Col, projectileID);
-            Main.projectile[orb1].localAI[1] = pos;
-            Main.projectile[orb2].localAI[1] = pos;
-            Main.projectile[orb1].rotation = rotationOffset;
-            Main.projectile[orb2].rotation = rotationOffset + MathHelper.ToRadians(180f);
+            int orb1 = Projectile.NewProjectile(position, Vector2.Zero, ModContent.ProjectileType<NychthemeronOrb>(), damage, knockBack, player.whoAmI, orb1Col, projectileID);
+            int orb2 = Projectile.NewProjectile(position, Vector2.Zero, ModContent.ProjectileType<NychthemeronOrb>(), damage, knockBack, player.whoAmI, orb2Col, projectileID);
+			if (orb1.WithinBounds(Main.maxProjectiles))
+			{
+				Main.projectile[orb1].localAI[1] = pos;
+				Main.projectile[orb1].rotation = rotationOffset;
+				Main.projectile[orb1].Calamity().lineColor = stealth ? 1 : 0;
+			}
+			if (orb2.WithinBounds(Main.maxProjectiles))
+			{
+				Main.projectile[orb2].localAI[1] = pos;
+				Main.projectile[orb2].rotation = rotationOffset + MathHelper.ToRadians(180f);
+				Main.projectile[orb2].Calamity().lineColor = stealth ? 1 : 0;
+			}
         }
     }
 }

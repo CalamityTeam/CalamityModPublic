@@ -1,5 +1,7 @@
 using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
+using CalamityMod.World;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -13,8 +15,7 @@ namespace CalamityMod.Items.Armor
         {
             DisplayName.SetDefault("Bloodflare Hydra Hood");
             Tooltip.SetDefault("You can move freely through liquids and have temporary immunity to lava\n" +
-                "10% increased magic damage and critical strike chance, +100 max mana, and 17% reduced mana usage\n" +
-				"Provides heat protection in Death Mode");
+                "10% increased magic damage and critical strike chance, +100 max mana, and 17% reduced mana usage");
         }
 
         public override void SetDefaults()
@@ -24,6 +25,21 @@ namespace CalamityMod.Items.Armor
             item.value = Item.buyPrice(0, 60, 0, 0);
             item.defense = 22; //85
             item.Calamity().customRarity = CalamityRarity.PureGreen;
+        }
+
+        public override void ModifyTooltips(List<TooltipLine> list)
+        {
+			if (CalamityWorld.death)
+			{
+				foreach (TooltipLine line2 in list)
+				{
+					if (line2.mod == "Terraria" && line2.Name == "Tooltip1")
+					{
+						line2.text = "10% increased magic damage and critical strike chance, +100 max mana, and 17% reduced mana usage\n" +
+						"Provides heat protection in Death Mode";
+					}
+				}
+			}
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
@@ -45,7 +61,7 @@ namespace CalamityMod.Items.Armor
                 "Enemies below 50% life have a chance to drop hearts when struck\n" +
                 "Enemies above 50% life have a chance to drop mana stars when struck\n" +
                 "Enemies killed during a Blood Moon have a much higher chance to drop Blood Orbs\n" +
-                "Magic weapons will sometimes fire ghostly bolts\n" +
+                "Magic weapons fire ghostly bolts every 1.67 seconds\n" +
                 "Magic critical strikes cause flame explosions every 2 seconds";
             player.crimsonRegen = true;
         }

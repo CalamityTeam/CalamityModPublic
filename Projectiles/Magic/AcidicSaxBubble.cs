@@ -109,12 +109,12 @@ namespace CalamityMod.Projectiles.Magic
                     projectile.Kill();
                 }
             }
-            CalamityUtils.StickyProjAI(projectile, 15);
+            projectile.StickyProjAI(15);
         }
 
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            CalamityUtils.ModifyHitNPCSticky(projectile, 3, false);
+            projectile.ModifyHitNPCSticky(3, false);
         }
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)

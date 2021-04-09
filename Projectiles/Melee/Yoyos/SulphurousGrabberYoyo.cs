@@ -1,5 +1,4 @@
 using CalamityMod.Buffs.StatDebuffs;
-using CalamityMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -9,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee.Yoyos
 {
-    public class SulphurousGrabberYoyo : ModProjectile
+	public class SulphurousGrabberYoyo : ModProjectile
     {
 		private int bubbleCounter = 0;
 		private bool bubbleStronk = false;
@@ -20,7 +19,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
         {
             DisplayName.SetDefault("Sulphurous Grabber Yoyo");
             ProjectileID.Sets.YoyosLifeTimeMultiplier[projectile.type] = -1f;
-            ProjectileID.Sets.YoyosMaximumRange[projectile.type] = 300f;
+            ProjectileID.Sets.YoyosMaximumRange[projectile.type] = 350f;
             ProjectileID.Sets.YoyosTopSpeed[projectile.type] = 16f;
 
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 4;
@@ -61,14 +60,12 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
 				if (bubbleStronkCounter >= 240)
 					bubbleStronk = false;
 
-				Rectangle rectangle = new Rectangle((int)((double)projectile.position.X + (double)projectile.velocity.X * 0.5 - 4.0), (int)((double)projectile.position.Y + (double)projectile.velocity.Y * 0.5 - 4.0), projectile.width + 8, projectile.height + 8);
 				for (int i = 0; i < Main.maxProjectiles; i++)
 				{
 					Projectile proj = Main.projectile[i];
 					if (proj.active && proj.type == ModContent.ProjectileType<SulphurousGrabberBubble2>() && proj.ai[0] >= 40f && proj.owner == projectile.owner)
 					{
-						Rectangle rect = proj.getRect();
-						if (rectangle.Intersects(rect))
+						if (projectile.Hitbox.Intersects(proj.Hitbox))
 						{
 							proj.Kill();
 							bubbleStronk = true;
@@ -83,18 +80,21 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
 				bubbleCounter++;
 				if (bubbleCounter >= 60)
 				{
-					int bubbleAmt = 9;
+					int bubbleAmt = 7;
 					for (float i = 0; i < bubbleAmt; i++)
 					{
 						int projType = ModContent.ProjectileType<SulphurousGrabberBubble>();
 						if (Main.rand.NextBool(10))
 							projType = ModContent.ProjectileType<SulphurousGrabberBubble2>();
 						float angle = MathHelper.TwoPi / bubbleAmt * i + (float)Math.Sin(arbitraryTimer / 20f) * MathHelper.PiOver2;
-						Projectile.NewProjectile(projectile.Center, angle.ToRotationVector2() * 8f, projType, projectile.damage / 5, projectile.knockBack / 5, projectile.owner, 0f, 0f);
+						Projectile.NewProjectile(projectile.Center, angle.ToRotationVector2() * 8f, projType, projectile.damage / 4, projectile.knockBack / 4, projectile.owner);
 					}
 					bubbleCounter = 0;
 				}
 			}
+
+			if ((projectile.position - Main.player[projectile.owner].position).Length() > 3200f) //200 blocks
+				projectile.Kill();
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

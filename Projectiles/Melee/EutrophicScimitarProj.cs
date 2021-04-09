@@ -1,12 +1,11 @@
 using CalamityMod.Buffs.StatDebuffs;
-using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Melee
 {
-    public class EutrophicScimitarProj : ModProjectile
+	public class EutrophicScimitarProj : ModProjectile
     {
         public override void SetStaticDefaults()
         {

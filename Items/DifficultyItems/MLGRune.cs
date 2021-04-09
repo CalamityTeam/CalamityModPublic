@@ -16,10 +16,9 @@ namespace CalamityMod.Items.DifficultyItems
 
         public override void SetDefaults()
         {
-            item.width = 28;
-            item.height = 28;
+            item.width = item.height = 54;
             item.maxStack = 99;
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.useAnimation = 45;
             item.useTime = 45;
             item.useStyle = ItemUseStyleID.HoldingUp;
@@ -34,15 +33,13 @@ namespace CalamityMod.Items.DifficultyItems
 
         public override bool UseItem(Player player)
         {
+            // This world syncing code should only be run by one entity- the server, to prevent a race condition
+            // with the packets.
+            if (Main.netMode == NetmodeID.MultiplayerClient)
+                return true;
+
             CalamityWorld.demonMode = true;
-            CalamityMod.UpdateServerBoolean();
-            if (Main.netMode == NetmodeID.Server)
-            {
-                var netMessage = mod.GetPacket();
-                netMessage.Write((byte)CalamityModMessageType.DemonTrophyBoolSync);
-                netMessage.Write(CalamityWorld.demonMode);
-                netMessage.Send();
-            }
+            CalamityNetcode.SyncWorld();
             return true;
         }
     }

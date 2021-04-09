@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.knockBack = 5f;
             item.UseSound = SoundID.Item122;
             item.value = Item.buyPrice(0, 4, 0, 0);
-            item.rare = 3;
+            item.rare = ItemRarityID.Orange;
             item.autoReuse = false;
             item.shoot = ModContent.ProjectileType<StormSurgeTornado>();
             item.shootSpeed = 12f;

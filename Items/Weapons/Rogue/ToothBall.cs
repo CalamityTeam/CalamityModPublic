@@ -23,7 +23,6 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.consumable = true;
             item.noUseGraphic = true;
             item.useAnimation = 13;
-            item.crit = 8;
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.useTime = 13;
             item.knockBack = 2.5f;
@@ -32,19 +31,25 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.height = 30;
             item.maxStack = 999;
             item.value = 1000;
-            item.rare = 3;
+            item.rare = ItemRarityID.Orange;
             item.shoot = ModContent.ProjectileType<ToothBallProjectile>();
             item.shootSpeed = 16f;
             item.Calamity().rogue = true;
         }
 
+		// Terraria seems to really dislike high crit values in SetDefaults
+		public override void GetWeaponCrit(Player player, ref int crit) => crit += 8;
+
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             if (player.Calamity().StealthStrikeAvailable()) //setting the stealth strike
             {
-                int stealth = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI, 0f, 0f);
-                Main.projectile[stealth].Calamity().stealthStrike = true;
-                Main.projectile[stealth].usesLocalNPCImmunity = true;
+                int stealth = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
+				if (stealth.WithinBounds(Main.maxProjectiles))
+				{
+					Main.projectile[stealth].Calamity().stealthStrike = true;
+					Main.projectile[stealth].usesLocalNPCImmunity = true;
+				}
                 return false;
             }
             return true;

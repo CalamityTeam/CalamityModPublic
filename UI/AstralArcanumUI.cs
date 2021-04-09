@@ -1,5 +1,4 @@
-
-using CalamityMod.World;
+using CalamityMod.Events;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -66,12 +65,13 @@ namespace CalamityMod.UI
         public static void UpdateAndDraw(SpriteBatch sb)
         {
             //Don't do anything if not open
-            bool forceOpenAndTeleport = CalamityWorld.bossRushStage == 12 && !NPCs.CalamityGlobalNPC.AnyBossNPCS() && !Main.player[Main.myPlayer].ZoneUnderworldHeight;
+            bool forceOpenAndTeleport = BossRushEvent.BossRushStage < BossRushEvent.Bosses.Count - 1 && BossRushEvent.CurrentlyFoughtBoss == NPCID.WallofFlesh &&
+                !CalamityUtils.AnyBossNPCS() && !Main.player[Main.myPlayer].ZoneUnderworldHeight;
             if (forceOpenAndTeleport)
             {
                 Open = true;
             }
-            else if (CalamityWorld.bossRushActive)
+            else if (BossRushEvent.BossRushActive)
                 Open = false;
             if (!Open)
                 return;

@@ -1,4 +1,5 @@
 using CalamityMod.Items.Materials;
+using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -26,33 +27,38 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.noMelee = true;
             item.knockBack = 3f;
             item.value = Item.buyPrice(0, 12, 0, 0);
-            item.rare = 4;
+            item.rare = ItemRarityID.LightRed;
             item.UseSound = SoundID.Item5;
             item.autoReuse = true;
-            item.shoot = ProjectileID.PurificationPowder;
+            item.shoot = ProjectileID.WoodenArrowFriendly;
             item.shootSpeed = 12f;
-            item.useAmmo = 40;
+            item.useAmmo = AmmoID.Arrow;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
-            float num117 = 0.314159274f;
-            int num118 = 2;
-            Vector2 vector7 = new Vector2(speedX, speedY);
-            vector7.Normalize();
-            vector7 *= 20f;
-            bool flag11 = Collision.CanHit(vector2, 0, 0, vector2 + vector7, 0, 0);
-            for (int num119 = 0; num119 < num118; num119++)
+            Vector2 source = player.RotatedRelativePoint(player.MountedCenter, true);
+            float piOver10 = 0.1f * MathHelper.Pi;
+            int projAmt = 2;
+            Vector2 velocity = new Vector2(speedX, speedY);
+            velocity.Normalize();
+            velocity *= 20f;
+            bool canHit = Collision.CanHit(source, 0, 0, source + velocity, 0, 0);
+            for (int i = 0; i < projAmt; i++)
             {
-                float num120 = (float)num119 - ((float)num118 - 1f) / 2f;
-                Vector2 value9 = vector7.RotatedBy((double)(num117 * num120), default);
-                if (!flag11)
+                float offsetAmt = i - (projAmt - 1f) / 2f;
+                Vector2 offset = velocity.RotatedBy((double)(piOver10 * offsetAmt), default);
+                if (!canHit)
                 {
-                    value9 -= vector7;
+                    offset -= velocity;
                 }
-                int projectile = Projectile.NewProjectile(vector2.X + value9.X, vector2.Y + value9.Y, speedX * 0.6f, speedY * 0.6f, ProjectileID.SlimeGun, damage / 4, 0f, player.whoAmI, 0f, 0f);
-                Main.projectile[projectile].Calamity().forceRanged = true;
+                int index = Projectile.NewProjectile(source + offset, new Vector2(speedX, speedY) * 0.6f, ProjectileID.SlimeGun, damage / 4, 0f, player.whoAmI);
+				if (index.WithinBounds(Main.maxProjectiles))
+				{
+					Main.projectile[index].Calamity().forceRanged = true;
+					Main.projectile[index].usesLocalNPCImmunity = true;
+					Main.projectile[index].localNPCHitCooldown = 10;
+				}
             }
             return true;
         }
@@ -63,7 +69,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             recipe.AddIngredient(ModContent.ItemType<PurifiedGel>(), 18);
             recipe.AddIngredient(ItemID.Gel, 30);
             recipe.AddIngredient(ItemID.HellstoneBar, 5);
-            recipe.AddTile(TileID.Anvils);
+            recipe.AddTile(ModContent.TileType<StaticRefiner>());
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

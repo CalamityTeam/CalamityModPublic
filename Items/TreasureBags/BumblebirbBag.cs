@@ -10,6 +10,7 @@ using CalamityMod.World;
 using Terraria;
 using Terraria.ModLoader;
 using CalamityMod.Items.Armor.Vanity;
+using Terraria.ID;
 
 namespace CalamityMod.Items.TreasureBags
 {
@@ -30,7 +31,7 @@ namespace CalamityMod.Items.TreasureBags
             item.width = 24;
             item.height = 24;
             item.expert = true;
-            item.rare = 9;
+            item.rare = ItemRarityID.Cyan;
         }
 
         public override bool CanRightClick() => true;
@@ -40,13 +41,15 @@ namespace CalamityMod.Items.TreasureBags
             player.TryGettingDevArmor();
 
             // Materials
-            DropHelper.DropItem(player, ModContent.ItemType<EffulgentFeather>(), 9, 14);
+            DropHelper.DropItem(player, ModContent.ItemType<EffulgentFeather>(), 15, 21);
 
             // Weapons
-            DropHelper.DropItemChance(player, ModContent.ItemType<GildedProboscis>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<GoldenEagle>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<RougeSlash>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<Swordsplosion>(), DropHelper.RareVariantDropRateInt);
+            float w = DropHelper.BagWeaponDropRateFloat;
+            DropHelper.DropEntireWeightedSet(player,
+                DropHelper.WeightStack<GildedProboscis>(w),
+                DropHelper.WeightStack<GoldenEagle>(w),
+                DropHelper.WeightStack<RougeSlash>(w)
+            );
 
             // Equipment
             DropHelper.DropItem(player, ModContent.ItemType<DynamoStemCells>());

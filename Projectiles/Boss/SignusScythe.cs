@@ -26,7 +26,7 @@ namespace CalamityMod.Projectiles.Boss
             projectile.hostile = true;
             projectile.tileCollide = false;
             projectile.ignoreWater = true;
-            projectile.timeLeft = 600;
+            projectile.timeLeft = 420;
             projectile.alpha = 100;
             projectile.penetrate = -1;
             cooldownSlot = 1;
@@ -48,52 +48,28 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void AI()
         {
-            projectile.rotation += 0.5f * (float)projectile.direction;
+            projectile.rotation += 0.5f * projectile.direction;
+
             if (projectile.localAI[0] == 0f)
             {
                 projectile.localAI[0] = 1f;
                 Main.PlaySound(SoundID.Item73, projectile.position);
             }
+
             int num469 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 173, 0f, 0f, 100, default, 1f);
             Main.dust[num469].noGravity = true;
             Main.dust[num469].velocity *= 0f;
+
             projectile.ai[0] += 1f;
-            if (projectile.ai[0] > 180f)
+            if (projectile.ai[0] >= 150f)
             {
-                if (projectile.ai[1] > 0f)
+                if (projectile.ai[1] > 0f && projectile.ai[0] < 160f)
                 {
                     int num625 = (int)projectile.ai[1] - 1;
                     if (num625 < Main.maxPlayers)
                     {
                         Vector2 value16 = Main.player[num625].Center - projectile.Center;
-                        if (value16.Length() < 200f || counter > 0)
-                        {
-                            counter--;
-                            if (counter <= 0 && projectile.localAI[0] == 2f)
-                            {
-                                projectile.Kill();
-                                return;
-                            }
-                            if (projectile.localAI[0] < 2f)
-                            {
-                                projectile.localAI[0] = 2f;
-                                float speed = 30f;
-                                Vector2 vector167 = new Vector2(projectile.Center.X + (float)(projectile.direction * 20), projectile.Center.Y + 6f);
-                                float num1373 = Main.player[num625].position.X + (float)Main.player[num625].width * 0.5f - vector167.X;
-                                float num1374 = Main.player[num625].Center.Y - vector167.Y;
-                                float num1375 = (float)Math.Sqrt((double)(num1373 * num1373 + num1374 * num1374));
-                                float num1376 = speed / num1375;
-                                num1373 *= num1376;
-                                num1374 *= num1376;
-                                projectile.velocity.X = (projectile.velocity.X * 50f + num1373) / 51f;
-                                projectile.velocity.Y = (projectile.velocity.Y * 50f + num1374) / 51f;
-                                counter = 90;
-                            }
-                        }
-                        else
-                        {
-                            projectile.velocity = Vector2.Normalize(value16) * 15f;
-                        }
+                        projectile.velocity = Vector2.Normalize(value16) * 22f;
                     }
                 }
             }
@@ -105,8 +81,8 @@ namespace CalamityMod.Projectiles.Boss
             {
                 projectile.localAI[1] += 1f;
                 byte b2 = (byte)(((int)projectile.localAI[1]) * 3);
-                byte a2 = (byte)(projectile.alpha * ((float)b2 / 255f));
-                return new Color((int)b2, (int)b2, (int)b2, (int)a2);
+                byte a2 = (byte)(projectile.alpha * (b2 / 255f));
+                return new Color(b2, b2, b2, a2);
             }
             return new Color(255, 255, 255, projectile.alpha);
         }
@@ -132,7 +108,7 @@ namespace CalamityMod.Projectiles.Boss
                 if (Main.rand.NextBool(2))
                 {
                     Main.dust[num622].scale = 0.5f;
-                    Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
+                    Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
                 }
             }
             for (int num623 = 0; num623 < 10; num623++)

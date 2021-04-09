@@ -31,7 +31,6 @@ namespace CalamityMod.Tiles.FurnitureAshen
 
         public override void AnimateIndividualTile(int type, int i, int j, ref int frameXOffset, ref int frameYOffset)
         {
-            //Main.NewText(GetTileVariant(i, j));
             int uniqueAnimationFrameX = Main.tileFrame[Type] + i;
             int uniqueAnimationFrameY = Main.tileFrame[Type] + j;
             int xPos = i % 2;

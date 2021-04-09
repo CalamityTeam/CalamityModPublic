@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -7,10 +8,14 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class ChaosFlame : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Melee/ChaosFlameSmall";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Chaos Flame");
-            ProjectileID.Sets.MinionShot[projectile.type] = true;
+            Main.projFrames[projectile.type] = 4;
+            ProjectileID.Sets.TrailCacheLength[projectile.type] = 4;
+            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
         }
 
         public override void SetDefaults()
@@ -27,24 +32,42 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void AI()
         {
+            projectile.rotation = projectile.velocity.ToRotation();
+            if (projectile.frameCounter++ % 4 == 0)
+            {
+                projectile.frame++;
+            }
+            if (projectile.frame >= Main.projFrames[projectile.type])
+            {
+                projectile.frame = 0;
+            }
+
             Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0.5f / 255f, (255 - projectile.alpha) * 0.25f / 255f, (255 - projectile.alpha) * 0f / 255f);
             if (projectile.localAI[0] == 0f)
             {
-                Main.PlaySound(SoundID.Item20, (int)projectile.position.X, (int)projectile.position.Y);
+				projectile.scale = 1f - Main.rand.NextFloat() * 0.5f;
                 projectile.localAI[0] += 1f;
             }
-            for (int num457 = 0; num457 < 5; num457++)
+            if (Main.rand.NextBool(4))
             {
-                int num458 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 127, 0f, 0f, 100, default, 1.2f);
-                Main.dust[num458].noGravity = true;
-                Main.dust[num458].velocity *= 0.5f;
-                Main.dust[num458].velocity += projectile.velocity * 0.1f;
+                int flame = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, Main.rand.NextBool(3) ? 16 : 174, 0f, 0f);
+                Main.dust[flame].noGravity = true;
+                Main.dust[flame].velocity *= 0f;
             }
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(BuffID.OnFire, 180);
+        }
+
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+			if (projectile.timeLeft == 300)
+				return false;
+
+            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 2);
+            return false;
         }
     }
 }

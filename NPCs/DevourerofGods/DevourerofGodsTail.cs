@@ -1,18 +1,16 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
-using CalamityMod.World;
+using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
-using Terraria.ModLoader.Config;
-using CalamityMod;
 
 namespace CalamityMod.NPCs.DevourerofGods
 {
-    [AutoloadBossHead]
+	[AutoloadBossHead]
     public class DevourerofGodsTail : ModNPC
     {
         public override void SetStaticDefaults()
@@ -22,14 +20,15 @@ namespace CalamityMod.NPCs.DevourerofGods
 
         public override void SetDefaults()
         {
-            npc.damage = 150;
-            npc.npcSlots = 5f;
+			npc.Calamity().canBreakPlayerDefense = true;
+			npc.GetNPCDamage();
+			npc.npcSlots = 5f;
             npc.width = 66;
             npc.height = 66;
             npc.defense = 50;
-			npc.LifeMaxNERB(675000, 750000);
-			double HPBoost = (double)CalamityMod.CalamityConfig.BossHealthPercentageBoost * 0.01;
-            npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
+			npc.LifeMaxNERB(371250, 445500);
+			double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
+            npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.aiStyle = -1;
             aiType = -1;
             npc.knockBackResist = 0f;
@@ -42,10 +41,6 @@ namespace CalamityMod.NPCs.DevourerofGods
             npc.netAlways = true;
             npc.boss = true;
             npc.takenDamageMultiplier = 1.25f;
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
             Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
             if (calamityModMusic != null)
                 music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/ScourgeofTheUniverse");
@@ -61,7 +56,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 
         public override void AI()
         {
-            Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0.2f, 0.05f, 0.2f);
+            Lighting.AddLight((int)((npc.position.X + (npc.width / 2)) / 16f), (int)((npc.position.Y + (npc.height / 2)) / 16f), 0.2f, 0.05f, 0.2f);
             if (npc.ai[3] > 0f)
             {
                 npc.realLife = (int)npc.ai[3];
@@ -73,30 +68,33 @@ namespace CalamityMod.NPCs.DevourerofGods
 
 			Player player = Main.player[npc.target];
 
-			npc.velocity.Length();
-            if (npc.velocity.X < 0f)
-            {
+			float distanceFromTarget = Vector2.Distance(player.Center, npc.Center);
+			float takeLessDamageDistance = 1600f;
+			if (distanceFromTarget > takeLessDamageDistance)
+			{
+				float damageTakenScalar = MathHelper.Clamp(1f - ((distanceFromTarget - takeLessDamageDistance) / takeLessDamageDistance), 0f, 1f);
+				npc.takenDamageMultiplier = MathHelper.Lerp(1f, 1.25f, damageTakenScalar);
+			}
+			else
+				npc.takenDamageMultiplier = 1.25f;
+
+			if (npc.velocity.X < 0f)
                 npc.spriteDirection = -1;
-            }
             else if (npc.velocity.X > 0f)
-            {
                 npc.spriteDirection = 1;
-            }
+
             bool flag = false;
             if (npc.ai[1] <= 0f)
-            {
                 flag = true;
-            }
             else if (Main.npc[(int)npc.ai[1]].life <= 0)
-            {
                 flag = true;
-            }
             if (flag)
             {
                 npc.life = 0;
                 npc.HitEffect(0, 10.0);
                 npc.checkDead();
             }
+
             if (Main.npc[(int)npc.ai[1]].alpha < 128)
             {
                 if (npc.alpha != 0)
@@ -187,7 +185,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 
 		public override bool CanHitPlayer(Player target, ref int cooldownSlot)
         {
-            cooldownSlot = 0;
+            cooldownSlot = 1;
             return true;
         }
 
@@ -209,7 +207,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                 npc.position.Y = npc.position.Y - (float)(npc.height / 2);
                 for (int num621 = 0; num621 < 10; num621++)
                 {
-                    int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 173, 0f, 0f, 100, default, 2f);
+                    int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, (int)CalamityDusts.PurpleCosmolite, 0f, 0f, 100, default, 2f);
                     Main.dust[num622].velocity *= 3f;
                     if (Main.rand.NextBool(2))
                     {
@@ -219,10 +217,10 @@ namespace CalamityMod.NPCs.DevourerofGods
                 }
                 for (int num623 = 0; num623 < 20; num623++)
                 {
-                    int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 173, 0f, 0f, 100, default, 3f);
+                    int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, (int)CalamityDusts.PurpleCosmolite, 0f, 0f, 100, default, 3f);
                     Main.dust[num624].noGravity = true;
                     Main.dust[num624].velocity *= 5f;
-                    num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 173, 0f, 0f, 100, default, 2f);
+                    num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, (int)CalamityDusts.PurpleCosmolite, 0f, 0f, 100, default, 2f);
                     Main.dust[num624].velocity *= 2f;
                 }
             }
@@ -246,7 +244,7 @@ namespace CalamityMod.NPCs.DevourerofGods
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
             npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);
-            npc.damage = (int)(npc.damage * 0.85f);
+            npc.damage = (int)(npc.damage * npc.GetExpertDamageMultiplier());
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
@@ -255,29 +253,18 @@ namespace CalamityMod.NPCs.DevourerofGods
             player.AddBuff(ModContent.BuffType<WhisperingDeath>(), 240, true);
             player.AddBuff(BuffID.Frostburn, 180, true);
 
-            // TODO: don't talk if the player has iframes
-            if (player.immuneTime > 0 || player.immune)
-                return;
-
-            int num = Main.rand.Next(2);
-            string key = "Mods.CalamityMod.EdgyBossText8";
-            if (num == 0)
-            {
-                key = "Mods.CalamityMod.EdgyBossText8";
-            }
-            else if (num == 1)
-            {
-                key = "Mods.CalamityMod.EdgyBossText9";
-            }
-            Color messageColor = Color.Cyan;
-            if (Main.netMode == NetmodeID.SinglePlayer)
-            {
-                Main.NewText(Language.GetTextValue(key), messageColor);
-            }
-            else if (Main.netMode == NetmodeID.Server)
-            {
-                NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-            }
+			if (player.Calamity().dogTextCooldown <= 0)
+			{
+				string text = Utils.SelectRandom(Main.rand, new string[]
+				{
+					"Mods.CalamityMod.EdgyBossText8",
+					"Mods.CalamityMod.EdgyBossText9"
+				});
+				Color messageColor = Color.Cyan;
+				Rectangle location = new Microsoft.Xna.Framework.Rectangle((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height);
+				CombatText.NewText(location, messageColor, Language.GetTextValue(text), true);
+				player.Calamity().dogTextCooldown = 60;
+			}
         }
     }
 }

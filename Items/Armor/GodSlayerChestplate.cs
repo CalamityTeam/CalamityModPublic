@@ -1,7 +1,7 @@
 using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
-using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Armor
@@ -13,9 +13,7 @@ namespace CalamityMod.Items.Armor
         {
             DisplayName.SetDefault("God Slayer Chestplate");
             Tooltip.SetDefault("+60 max life\n" +
-                       "15% increased movement speed\n" +
                        "Enemies take damage when they hit you\n" +
-                       "Attacks have a 2% chance to do no damage to you\n" +
                        "11% increased damage and 6% increased critical strike chance");
         }
 
@@ -31,10 +29,8 @@ namespace CalamityMod.Items.Armor
         public override void UpdateEquip(Player player)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            modPlayer.godSlayerReflect = true;
             player.thorns += 0.5f;
             player.statLifeMax2 += 60;
-            player.moveSpeed += 0.15f;
             player.allDamage += 0.11f;
             modPlayer.AllCritBoost(6);
         }
@@ -43,9 +39,9 @@ namespace CalamityMod.Items.Armor
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 23);
-            recipe.AddIngredient(ModContent.ItemType<NightmareFuel>(), 11);
-            recipe.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 11);
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
+            recipe.AddIngredient(ModContent.ItemType<NightmareFuel>(), 18);
+            recipe.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 18);
+            recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

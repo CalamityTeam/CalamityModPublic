@@ -10,7 +10,6 @@ using CalamityMod.NPCs.GreatSandShark;
 using CalamityMod.NPCs.NormalNPCs;
 using CalamityMod.NPCs.Perforator;
 using CalamityMod.NPCs.PlaguebringerGoliath;
-using CalamityMod.NPCs.Polterghast;
 using CalamityMod.NPCs.Providence;
 using CalamityMod.NPCs.Ravager;
 using CalamityMod.NPCs.SlimeGod;
@@ -93,6 +92,7 @@ namespace CalamityMod.UI
             }
 
             OneToMany = new Dictionary<int, int[]>();
+
             int[] EoW = new int[] { NPCID.EaterofWorldsHead, NPCID.EaterofWorldsBody, NPCID.EaterofWorldsTail };
             OneToMany[NPCID.EaterofWorldsHead] = EoW;
             OneToMany[NPCID.EaterofWorldsBody] = EoW;
@@ -102,7 +102,12 @@ namespace CalamityMod.UI
             OneToMany[NPCID.BrainofCthulhu] = BoC;
             OneToMany[NPCID.Creeper] = BoC;
 
-            int[] Skele = new int[] { NPCID.SkeletronHead, NPCID.SkeletronHand };
+			int[] PerfWorm = new int[] { ModContent.NPCType<PerforatorHeadMedium>(), ModContent.NPCType<PerforatorBodyMedium>(), ModContent.NPCType<PerforatorTailMedium>() };
+			OneToMany[ModContent.NPCType<PerforatorHeadMedium>()] = PerfWorm;
+			OneToMany[ModContent.NPCType<PerforatorBodyMedium>()] = PerfWorm;
+			OneToMany[ModContent.NPCType<PerforatorTailMedium>()] = PerfWorm;
+
+			int[] Skele = new int[] { NPCID.SkeletronHead, NPCID.SkeletronHand };
             OneToMany[NPCID.SkeletronHead] = Skele;
             OneToMany[NPCID.SkeletronHand] = Skele;
 
@@ -133,10 +138,6 @@ namespace CalamityMod.UI
             OneToMany[NPCID.MoonLordHead] = MoonLord;
             OneToMany[NPCID.MoonLordHand] = MoonLord;
             OneToMany[NPCID.MoonLordCore] = MoonLord;
-
-            int[] StarWorm = new int[] { ModContent.NPCType<AstrumDeusHeadSpectral>(), ModContent.NPCType<AstrumDeusHead>() };
-            OneToMany[ModContent.NPCType<AstrumDeusHeadSpectral>()] = StarWorm;
-            OneToMany[ModContent.NPCType<AstrumDeusHead>()] = StarWorm;
 
             int[] Void = new int[] { ModContent.NPCType<CeaselessVoid>(), ModContent.NPCType<DarkEnergy>(), ModContent.NPCType<DarkEnergy2>(), ModContent.NPCType<DarkEnergy3>() };
             OneToMany[ModContent.NPCType<CeaselessVoid>()] = Void;
@@ -213,7 +214,7 @@ namespace CalamityMod.UI
 
                 //Hardmode
                 NPCID.GoblinSummoner, //2000 HP
-				NPCID.WyvernHead,
+                NPCID.WyvernHead,
                 NPCID.Paladin,
                 NPCID.IceGolem,
                 NPCID.SandElemental,
@@ -273,7 +274,7 @@ namespace CalamityMod.UI
 
         public static void Update()
         {
-            for (int i = 0; i < Main.npc.Length; i++)
+            for (int i = 0; i < Main.maxNPCs; i++)
             {
                 //Is NPC active
                 if (!Main.npc[i].active)
@@ -312,10 +313,6 @@ namespace CalamityMod.UI
                 {
                     AttemptAddBar(i, NPCID.PirateShip);
                 }
-                else if (Main.npc[i].type == ModContent.NPCType<AstrumDeusHeadSpectral>())
-                {
-                    AttemptAddBar(i, ModContent.NPCType<AstrumDeusHeadSpectral>());
-                }
                 else if (Main.npc[i].type == ModContent.NPCType<CalamitasRun3>())
                 {
                     AttemptAddBar(i, ModContent.NPCType<CalamitasRun3>());
@@ -340,27 +337,33 @@ namespace CalamityMod.UI
                 {
                     AttemptAddBar(i);
                 }
-                //If, specifically, they're the eater of worlds head
+
+                // If, specifically, they're the eater of worlds head
                 if (Main.npc[i].type == NPCID.EaterofWorldsHead)
                 {
                     AttemptAddBar(i, NPCID.EaterofWorldsHead);
                 }
-            }
+				// If, specifically, they're the medium perf head
+				if (Main.npc[i].type == ModContent.NPCType<PerforatorHeadMedium>())
+				{
+					AttemptAddBar(i, ModContent.NPCType<PerforatorHeadMedium>());
+				}
+			}
 
             for (int i = 0; i < Bars.Count; i++)
             {
                 BossHPUI ui = Bars[i];
-                //Update the bar
+                // Update the bar
                 ui.Update();
-                //Is the NPC the bar is attached to dead?
+                // Is the NPC the bar is attached to dead?
                 if (ui.IsDead())
                 {
-                    //begin closing anim of the UI
+                    // Begin closing anim of the UI
                     ui.StartClosing();
                 }
                 if (ui.ShouldClose())
                 {
-                    //remove this bar
+                    // Remove this bar
                     Bars.RemoveAt(i);
                     i--;
                 }
@@ -369,7 +372,7 @@ namespace CalamityMod.UI
 
         private static void AttemptAddBar(int index, int type = -1)
         {
-            //Limit the number of bars.
+            // Limit the number of bars.
             if (Bars.Count >= MAX_BARS)
                 return;
 
@@ -383,10 +386,11 @@ namespace CalamityMod.UI
                     hasBar = true;
                     break;
                 }
-                //Sort out the eater of worlds splitting into multiple segments and multiple of them being heads
-                if (type == NPCID.EaterofWorldsHead)
+
+                // Sort out the eater of worlds or medium perf worm splitting into multiple segments and multiple of them being heads
+                if (type == NPCID.EaterofWorldsHead || type == ModContent.NPCType<PerforatorHeadMedium>())
                 {
-                    if (Main.npc[id].type == NPCID.EaterofWorldsHead)
+                    if (Main.npc[id].type == NPCID.EaterofWorldsHead || Main.npc[id].type == ModContent.NPCType<PerforatorHeadMedium>())
                     {
                         hasBar = true;
                     }
@@ -421,7 +425,7 @@ namespace CalamityMod.UI
             }
         }
 
-        //Actual UI handling class
+        // Actual UI handling class
         internal class BossHPUI
         {
             private static readonly Color OrangeColour = new Color(229, 189, 62);
@@ -441,8 +445,7 @@ namespace CalamityMod.UI
                 Skelet,
                 SkeletPrime,
                 MartSaucer,
-                PirShip,
-                Astrum
+                PirShip
             }
 
             enum SpecialType2 : byte
@@ -450,7 +453,8 @@ namespace CalamityMod.UI
                 None,
                 Ceaseless,
                 Ravage,
-                SlimeCore
+                SlimeCore,
+				MediumPerfWorm
             }
 
             private int _npcLocation;
@@ -476,7 +480,7 @@ namespace CalamityMod.UI
             private bool _oneToMany = false;
             private int[] _arrayOfIds;
 
-            //EDITABLE
+            // EDITABLE
             public void SetupForType(int type)
             {
                 if (type == ModContent.NPCType<SlimeGodCore>())
@@ -490,10 +494,6 @@ namespace CalamityMod.UI
                 else if (type == ModContent.NPCType<CeaselessVoid>())
                 {
                     _special2 = SpecialType2.Ceaseless;
-                }
-                else if (type == ModContent.NPCType<AstrumDeusHeadSpectral>())
-                {
-                    _special = SpecialType.Astrum;
                 }
                 else
                 {
@@ -521,7 +521,7 @@ namespace CalamityMod.UI
                 }
             }
 
-            //ANIMATION FIELDS
+            // ANIMATION FIELDS
             private int _openAnimCounter = OpenAnimTime;
             private int _closeAnimCounter;
 
@@ -565,7 +565,7 @@ namespace CalamityMod.UI
 
                 if (_oneToMany)
                 {
-                    for (int i = 0; i < Main.npc.Length; i++)
+                    for (int i = 0; i < Main.maxNPCs; i++)
                     {
                         if (Main.npc[i].active && Main.npc[i].life > 0 && _arrayOfIds.Contains(Main.npc[i].type))
                         {
@@ -589,18 +589,18 @@ namespace CalamityMod.UI
 
                 int currentLife = _npc.life;
 
-                //Calculate current life based all types that are available and considered part of one boss
+                // Calculate current life based all types that are available and considered part of one boss
                 if (_oneToMany)
                 {
                     currentLife = 0;
                     int maxLife = 0;
-                    for (int i = 0; i < Main.npc.Length; i++)
+                    for (int i = 0; i < Main.maxNPCs; i++)
                     {
                         if (Main.npc[i].active && Main.npc[i].life > 0 && _arrayOfIds.Contains(Main.npc[i].type))
                         {
                             if ((Main.npc[i].type == NPCID.MoonLordHead && (Main.npc[i].ai[0] == -2f || Main.npc[i].ai[0] == -3f || Main.npc[i].Calamity().newAI[0] == 1f)) ||
-								(Main.npc[i].type == NPCID.MoonLordHand && (Main.npc[i].ai[0] == -2f || Main.npc[i].Calamity().newAI[0] == 1f)) ||
-								(Main.npc[i].type == NPCID.MoonLordCore && Main.npc[i].ai[0] == 2f))
+                                (Main.npc[i].type == NPCID.MoonLordHand && (Main.npc[i].ai[0] == -2f || Main.npc[i].Calamity().newAI[0] == 1f)) ||
+                                (Main.npc[i].type == NPCID.MoonLordCore && Main.npc[i].ai[0] == 2f))
                                 continue;
 
                             currentLife += Main.npc[i].life;
@@ -613,24 +613,24 @@ namespace CalamityMod.UI
                     }
                 }
 
-                //Damage countdown
+                // Damage countdown
                 if (_damageCountdown > 0)
                 {
                     _damageCountdown--;
                     if (_damageCountdown == 0)
                     {
-                        //This means we need to finish the combo
+                        // This means we need to finish the combo
                         _comboStartHealth = 0;
                         _inCombo = false;
                     }
                 }
-                //If the current life is not eqaul to the previous frame of life (_prevLife != 0 ensures it's not on it's first frame)
+                // If the current life is not eqaul to the previous frame of life (_prevLife != 0 ensures it's not on it's first frame)
                 if (currentLife != _prevLife && _prevLife != 0)
                 {
-                    //If there's no ongoing combo
+                    // If there's no ongoing combo
                     if (!_inCombo)
                     {
-                        //This means we need to start a combo
+                        // This means we need to start a combo
                         _comboStartHealth = _prevLife;
                         _inCombo = true;
                     }
@@ -643,9 +643,9 @@ namespace CalamityMod.UI
                     default:
                         break;
                     case SpecialType.EaterOfWorlds:
-                        //Count the segments of the EoW
+                        // Count the segments of the EoW
                         int count = 0;
-                        for (int i = 0; i < Main.npc.Length; i++)
+                        for (int i = 0; i < Main.maxNPCs; i++)
                         {
                             if (IsEoW(i))
                             {
@@ -675,10 +675,6 @@ namespace CalamityMod.UI
                         int count6 = NPC.CountNPCS(NPCID.PirateShipCannon);
                         _specialData[5] = count6;
                         break;
-                    case SpecialType.Astrum:
-                        int count7 = NPC.CountNPCS(ModContent.NPCType<AstrumDeusHead>());
-                        _specialData[6] = count7;
-                        break;
                 }
 
                 switch (_special2)
@@ -706,12 +702,12 @@ namespace CalamityMod.UI
                             NPC.CountNPCS(ModContent.NPCType<SlimeGodRunSplit>());
                         _specialData2[2] = count3;
                         break;
-                }
+				}
             }
             public void Draw(SpriteBatch sb, int x, int y)
             {
-                //Draw the respective animations.
-                //Easier to separate them, even if it does result in more copy pasted code overall.
+                // Draw the respective animations.
+                // Easier to separate them, even if it does result in more copy pasted code overall.
                 if (_openAnimCounter > 0)
                 {
                     DrawOpenAnim(sb, x, y);
@@ -729,7 +725,7 @@ namespace CalamityMod.UI
 
                 if (_inCombo)
                 {
-                    //DRAW COMBO HEALTH BAR
+                    // DRAW COMBO HEALTH BAR
                     int comboBarWidth = (int)(BarMaxWidth * (_comboStartHealth / _maxHealth)) - mainBarWidth;
                     float alpha = 1f;
                     if (_damageCountdown < 6)
@@ -742,13 +738,13 @@ namespace CalamityMod.UI
                     sb.Draw(BossComboHPBar, new Rectangle(x + mainBarWidth, y + MainBarYOffset, comboBarWidth, 15), Color.White * alpha);
                 }
 
-                //DRAW MAIN HEALTH BAR
+                // DRAW MAIN HEALTH BAR
                 sb.Draw(BossMainHPBar, new Rectangle(x, y + MainBarYOffset, mainBarWidth, 15), Color.White);
 
-                //DRAW WHITE(ISH) LINE
+                // DRAW WHITE(ISH) LINE
                 sb.Draw(BossSeperatorBar, new Rectangle(x, y + SepBarYOffset, BarMaxWidth, 6), new Color(240, 240, 255));
 
-                //DRAW TEXT
+                // DRAW TEXT
                 string percentHealthText = (percentHealth * 100).ToString("N1") + "%";
                 if (_prevLife == _maxHealth)
                     percentHealthText = "100%";
@@ -804,12 +800,6 @@ namespace CalamityMod.UI
                             float countX6 = Math.Max(x, x + mainBarWidth - countSize6.X);
                             DrawBorderStringEightWay(sb, Main.fontItemStack, count6, new Vector2(countX6, y + MainBarYOffset + 17), Color.White, Color.Black * 0.24f, textScale);
                             return;
-                        case SpecialType.Astrum:
-                            string count7 = "(Small Worms left: " + _specialData[6] + ")";
-                            Vector2 countSize7 = Main.fontItemStack.MeasureString(count7) * textScale;
-                            float countX7 = Math.Max(x, x + mainBarWidth - countSize7.X);
-                            DrawBorderStringEightWay(sb, Main.fontItemStack, count7, new Vector2(countX7, y + MainBarYOffset + 17), Color.White, Color.Black * 0.24f, textScale);
-                            return;
                     }
 
                     switch (_special2)
@@ -833,7 +823,7 @@ namespace CalamityMod.UI
                             Vector2 countSize5 = Main.fontItemStack.MeasureString(count5) * textScale;
                             float countX5 = Math.Max(x, x + mainBarWidth - countSize5.X);
                             DrawBorderStringEightWay(sb, Main.fontItemStack, count5, new Vector2(countX5, y + MainBarYOffset + 17), Color.White, Color.Black * 0.24f, textScale);
-							return;
+                            return;
                     }
 
                     string actualLife = "(" + _npc.life + " / " + _npc.lifeMax + ")";
@@ -848,7 +838,7 @@ namespace CalamityMod.UI
                 int mainBarWidth = (int)(BarMaxWidth * MathHelper.SmoothStep(0f, 1f, percentThroughAnim));
 
                 float flickerValue = percentThroughAnim;
-                //FLICKER 3 TIMES, QUICK AND DIRTY METHOD
+                // FLICKER 3 TIMES, QUICK AND DIRTY METHOD
                 if (_openAnimCounter == OpenAnimTime - 4 || _openAnimCounter == OpenAnimTime - 8 || _openAnimCounter == OpenAnimTime - 16)
                 {
                     flickerValue = Main.rand.NextFloat(0.7f, 0.8f);
@@ -858,13 +848,13 @@ namespace CalamityMod.UI
                     flickerValue = Main.rand.NextFloat(0.4f, 0.5f);
                 }
 
-                //DRAW MAIN HEALTH BAR
+                // DRAW MAIN HEALTH BAR
                 sb.Draw(BossMainHPBar, new Rectangle(x, y + MainBarYOffset, mainBarWidth, 15), Color.White * flickerValue);
 
-                //DRAW WHITE(ISH) LINE
+                // DRAW WHITE(ISH) LINE
                 sb.Draw(BossSeperatorBar, new Rectangle(x, y + SepBarYOffset, BarMaxWidth, 6), new Color(240, 240, 255) * flickerValue);
 
-                //DRAW TEXT
+                // DRAW TEXT
                 string percentHealthText = "100%";
                 Vector2 textSize = HPBarFont.MeasureString(percentHealthText);
                 DrawBorderStringEightWay(sb, HPBarFont, percentHealthText, new Vector2(x, y + 22 - textSize.Y), OrangeColour * flickerValue, OrangeBorderColour * 0.25f * flickerValue);
@@ -923,13 +913,6 @@ namespace CalamityMod.UI
                             DrawBorderStringEightWay(sb, Main.fontItemStack, count6, new Vector2(countX6, y + MainBarYOffset + 17), Color.White * flickerValue, Color.Black * 0.24f * flickerValue, textScale);
                             _openAnimCounter--;
                             return;
-                        case SpecialType.Astrum:
-                            string count7 = "(Small Worms left: " + _specialData[6] + ")";
-                            Vector2 countSize7 = Main.fontItemStack.MeasureString(count7) * textScale;
-                            float countX7 = Math.Max(x, x + mainBarWidth - countSize7.X);
-                            DrawBorderStringEightWay(sb, Main.fontItemStack, count7, new Vector2(countX7, y + MainBarYOffset + 17), Color.White * flickerValue, Color.Black * 0.24f * flickerValue, textScale);
-                            _openAnimCounter--;
-                            return;
                     }
 
                     switch (_special2)
@@ -978,13 +961,13 @@ namespace CalamityMod.UI
 
                 int mainBarWidth = (int)(BarMaxWidth * MathHelper.SmoothStep(0f, 1f, reversePercent) * percentHealth);
 
-                //DRAW MAIN HEALTH BAR
+                // DRAW MAIN HEALTH BAR
                 sb.Draw(BossMainHPBar, new Rectangle(x, y + MainBarYOffset, mainBarWidth, 15), Color.White * reversePercent);
 
-                //DRAW WHITE(ISH) LINE
+                // DRAW WHITE(ISH) LINE
                 sb.Draw(BossSeperatorBar, new Rectangle(x, y + SepBarYOffset, BarMaxWidth, 6), new Color(240, 240, 255) * reversePercent);
 
-                //DRAW TEXT
+                // DRAW TEXT
                 string percentHealthText = (percentHealth * 100).ToString("N1") + "%";
                 if (_prevLife <= 0)
                     percentHealthText = "0%";
@@ -1001,7 +984,7 @@ namespace CalamityMod.UI
                 _closeAnimCounter++;
             }
 
-            //UTILS
+            // UTILS
             private void DrawBorderStringEightWay(SpriteBatch sb, DynamicSpriteFont font, string text, Vector2 position, Color main, Color border, float scale = 1f)
             {
                 for (int x = -1; x <= 1; x++)
@@ -1019,6 +1002,7 @@ namespace CalamityMod.UI
                 }
                 DynamicSpriteFontExtensionMethods.DrawString(sb, font, text, position, main, 0f, default, scale, SpriteEffects.None, 0f);
             }
+
             private bool IsEoW(int id)
             {
                 NPC n = Main.npc[id];
@@ -1030,6 +1014,6 @@ namespace CalamityMod.UI
                        n.type == NPCID.EaterofWorldsBody ||
                        n.type == NPCID.EaterofWorldsTail;
             }
-        }
+		}
     }
 }

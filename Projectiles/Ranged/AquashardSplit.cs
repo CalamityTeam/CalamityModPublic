@@ -6,6 +6,8 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class AquashardSplit : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Ranged/Aquashard";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Aquashard");
@@ -17,16 +19,21 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.height = 16;
             projectile.friendly = true;
             projectile.ranged = true;
-            projectile.penetrate = 3;
+            projectile.penetrate = 1;
             projectile.timeLeft = 180;
             projectile.aiStyle = 1;
         }
 
-        public override void AI()
+		public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 150;
+
+		public override void AI()
         {
             projectile.velocity.X *= 0.9995f;
-            projectile.velocity.Y = projectile.velocity.Y + 0.01f;
-        }
+            projectile.velocity.Y += 0.01f;
+
+			if (projectile.timeLeft < 150)
+				CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 450f, 6f, 20f);
+		}
 
         public override void Kill(int timeLeft)
         {

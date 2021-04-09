@@ -16,8 +16,8 @@ namespace CalamityMod.Items.Tools
         {
             item.damage = 5;
             item.melee = true;
-            item.width = 62;
-            item.height = 58;
+            item.width = 30;
+            item.height = 38;
             item.useTime = 26;
             item.useAnimation = 26;
             item.useTurn = true;
@@ -25,7 +25,7 @@ namespace CalamityMod.Items.Tools
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.knockBack = 4.5f;
             item.value = Item.buyPrice(0, 1, 0, 0);
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             item.tileBoost += 1;

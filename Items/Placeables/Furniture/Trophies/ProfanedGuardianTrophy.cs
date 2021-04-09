@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Placeables.Furniture.Trophies
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
             item.value = 50000;
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.createTile = ModContent.TileType<BossTrophy>();
             item.placeStyle = 25;
         }

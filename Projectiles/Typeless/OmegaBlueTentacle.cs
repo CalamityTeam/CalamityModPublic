@@ -39,7 +39,6 @@ namespace CalamityMod.Projectiles.Typeless
                 for (int i = 0; i < 6; i++)
                 {
                     segment[i] = projectile.Center;
-                    //Main.NewText("init segment " + segment[i].X.ToString() + " " + segment[i].Y.ToString());
                 }
             }
             return true;
@@ -194,7 +193,7 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            if (projectile.owner == Main.myPlayer && Main.player[projectile.owner].lifeSteal > 0f && target.type != NPCID.TargetDummy && !Main.player[projectile.owner].moonLeech)
+            if (projectile.owner == Main.myPlayer && Main.player[projectile.owner].lifeSteal > 0f && !Main.player[projectile.owner].moonLeech)
             {
                 int healAmount = 10 * damage / projectile.damage; //should always be around max, less if enemy has defense/DR
                 if (healAmount > 0)
@@ -232,8 +231,8 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Main.spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearClamp/*.PointWrap*/, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
+            spriteBatch.End();
+            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
 
             GameShaders.Armor.ApplySecondary(Main.player[projectile.owner].cBody, Main.player[projectile.owner], new DrawData?());
             projectile.rotation = (projectile.Center - segment[5]).ToRotation();
@@ -245,8 +244,8 @@ namespace CalamityMod.Projectiles.Typeless
             }
             Main.spriteBatch.Draw(texture2D13, projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), texture2D13.Bounds, projectile.GetAlpha(lightColor), projectile.rotation, texture2D13.Bounds.Size() / 2f, projectile.scale, SpriteEffects.None, 0f);
 
-            Main.spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, RasterizerState.CullCounterClockwise, null, Main.GameViewMatrix.ZoomMatrix);
+            spriteBatch.End();
+            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
             return false;
         }
     }

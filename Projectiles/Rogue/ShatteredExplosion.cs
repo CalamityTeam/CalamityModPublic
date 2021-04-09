@@ -6,11 +6,13 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class ShatteredExplosion : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         bool dust = true;
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Explosion");
+            DisplayName.SetDefault("Shattered Sun Blast");
         }
 
         public override void SetDefaults()

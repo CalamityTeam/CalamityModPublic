@@ -1,12 +1,11 @@
 using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Summon
 {
-    public class FlyingOrthocera : ModProjectile
+	public class FlyingOrthocera : ModProjectile
     {
         public const float SearchDistance = 850f;
 

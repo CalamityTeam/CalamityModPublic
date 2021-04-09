@@ -1,6 +1,7 @@
 using CalamityMod.Items.Placeables.FurnitureSilva;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.Items.Placeables.Furniture.CraftingStations
 {
     public class SilvaBasin : ModItem
@@ -31,7 +32,7 @@ namespace CalamityMod.Items.Placeables.Furniture.CraftingStations
             recipe.AddIngredient(ModContent.ItemType<SilvaCrystal>(), 10);
             recipe.AddRecipeGroup("AnyGoldBar", 5);
             recipe.SetResult(this);
-            recipe.AddTile(ModContent.TileType<Tiles.Furniture.CraftingStations.DraedonsForge>());
+            recipe.AddTile(TileID.LunarCraftingStation);
             recipe.AddRecipe();
         }
     }

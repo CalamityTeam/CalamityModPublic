@@ -1,12 +1,13 @@
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Melee
 {
-    public class RainBolt : ModProjectile
+	public class RainBolt : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Bolt");
@@ -19,16 +20,18 @@ namespace CalamityMod.Projectiles.Melee
             projectile.friendly = true;
             projectile.melee = true;
             projectile.penetrate = 1;
-            projectile.timeLeft = 150;
+            projectile.timeLeft = 180;
         }
 
-        public override void AI()
+		public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 150;
+
+		public override void AI()
         {
             projectile.velocity *= 0.95f;
 
             if (projectile.localAI[0] == 0f)
             {
-                Main.PlaySound(SoundID.Item9, projectile.position);
+                Main.PlaySound(SoundID.Item9, projectile.Center);
                 projectile.localAI[0] += 1f;
             }
 
@@ -36,12 +39,13 @@ namespace CalamityMod.Projectiles.Melee
             Main.dust[num469].noGravity = true;
             Main.dust[num469].velocity *= 0f;
 
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 400f, 14f, 20f);
+			if (projectile.timeLeft < 150)
+				CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 600f, 12f, 20f);
         }
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(SoundID.Item60, projectile.position);
+            Main.PlaySound(SoundID.Item60, projectile.Center);
             for (int k = 0; k < 5; k++)
             {
                 int rain = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 66, 0f, 0f, 100, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB));

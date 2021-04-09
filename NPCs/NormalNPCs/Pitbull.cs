@@ -22,7 +22,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.defense = 4;
             npc.lifeMax = 60;
             npc.knockBackResist = 0.3f;
-            animationType = 329;
+            animationType = NPCID.Hellhound;
             aiType = NPCID.Wolf;
             npc.value = Item.buyPrice(0, 0, 2, 0);
             npc.HitSound = SoundID.NPCHit1;
@@ -49,21 +49,21 @@ namespace CalamityMod.NPCs.NormalNPCs
         {
             for (int k = 0; k < 5; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
             }
             if (npc.life <= 0)
             {
                 for (int k = 0; k < 20; k++)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
                 }
             }
         }
 
         public override void NPCLoot()
         {
-            int bandageDropRate = CalamityWorld.defiled ? DropHelper.DefiledDropRateInt : Main.expertMode ? 50 : 100;
-            DropHelper.DropItemChance(npc, ItemID.AdhesiveBandage, bandageDropRate, 1, 1);
+            float bandageDropRate = Main.expertMode ? 0.02f : 0.01f;
+            DropHelper.DropItemChance(npc, ItemID.AdhesiveBandage, bandageDropRate);
         }
     }
 }

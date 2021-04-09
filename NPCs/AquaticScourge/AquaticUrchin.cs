@@ -1,15 +1,14 @@
+using CalamityMod.Events;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.World;
-using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.AquaticScourge
 {
-    public class AquaticUrchin : ModNPC
+	public class AquaticUrchin : ModNPC
     {
         public override void SetStaticDefaults()
         {
@@ -25,15 +24,7 @@ namespace CalamityMod.NPCs.AquaticScourge
             npc.height = 40;
             npc.defense = 10;
             npc.lifeMax = Main.hardMode ? 300 : 50;
-            if (CalamityWorld.bossRushActive)
-            {
-                npc.lifeMax = 50000;
-            }
             npc.knockBackResist = 0.8f;
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
             npc.value = Item.buyPrice(0, 0, 0, 80);
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath15;
@@ -74,13 +65,13 @@ namespace CalamityMod.NPCs.AquaticScourge
         {
             for (int k = 0; k < 5; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
             }
             if (npc.life <= 0)
             {
                 for (int k = 0; k < 20; k++)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
                 }
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/AquaticScourgeGores/AquaticUrchin"), 1f);
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/AquaticScourgeGores/AquaticUrchin2"), 1f);

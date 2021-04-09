@@ -1,4 +1,3 @@
-using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Summon;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -7,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
-    public class SquirrelSquireStaff : ModItem
+	public class SquirrelSquireStaff : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -26,7 +25,7 @@ namespace CalamityMod.Items.Weapons.Summon
             item.noMelee = true;
             item.knockBack = 0.5f;
             item.value = Item.buyPrice(0, 0, 50, 0);
-            item.rare = 0;
+            item.rare = ItemRarityID.White;
             item.UseSound = SoundID.Item44;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<SquirrelSquireMinion>();

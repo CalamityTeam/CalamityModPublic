@@ -23,7 +23,7 @@ namespace CalamityMod.Items.Placeables.Furniture.CraftingStations
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
             item.value = 5000000;
-            item.rare = 10;
+            item.rare = ItemRarityID.Red;
             item.createTile = ModContent.TileType<Tiles.Furniture.CraftingStations.DraedonsForge>();
             item.Calamity().customRarity = CalamityRarity.DarkBlue;
         }
@@ -38,6 +38,7 @@ namespace CalamityMod.Items.Placeables.Furniture.CraftingStations
             recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 5);
             recipe.AddIngredient(ModContent.ItemType<NightmareFuel>(), 20);
             recipe.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 20);
+            recipe.AddIngredient(ModContent.ItemType<DarksunFragment>(), 20);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

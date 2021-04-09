@@ -1,13 +1,10 @@
-using CalamityMod.Items.Weapons.Rogue;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class BouncingBettyProjectile : ModProjectile
+	public class BouncingBettyProjectile : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -23,37 +20,31 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.penetrate = 3;
             projectile.Calamity().rogue = true;
         }
-        //This is definitely not a near copy of the Blast Barrel nosiree :>
         private void Explode()
         {
-            Main.PlaySound(SoundID.Item, projectile.Center, 14);
-            bool stealthS = projectile.Calamity().stealthStrike;
-            Projectile.NewProjectile(projectile.Center, new Vector2(0f, 0f), ModContent.ProjectileType<BettyExplosion>(), projectile.damage, 8f, projectile.owner);
-            if (stealthS)
-            {
-                int projectileCount = 12;
-                for (int i = 0; i < projectileCount; i++)
-                {
-                    if (Main.rand.NextBool(2))
-                    {
-                        Vector2 shrapnelVelocity = (Vector2.UnitY * (-6f + Main.rand.NextFloat(-6f, 2f))).RotatedByRandom((double)MathHelper.ToRadians(30f));
-                        Projectile.NewProjectile(projectile.Center, projectile.velocity + shrapnelVelocity,
-                            ModContent.ProjectileType<BouncingBettyShrapnel>(),(int)(projectile.damage * 0.5f), 3f, projectile.owner);
-                    }
-                    else
-                    {
-                        Vector2 fireVelocity = (Vector2.UnitY * (-6f + Main.rand.NextFloat(-6f, 2f))).RotatedByRandom((double)MathHelper.ToRadians(40f));
-                        int fireIndex = Projectile.NewProjectile(projectile.Center, projectile.velocity + fireVelocity,
-                            Main.rand.Next(ProjectileID.MolotovFire, ProjectileID.MolotovFire3 + 1),
-                            (int)(projectile.damage * 0.6f), 1f, projectile.owner);
-                        Main.projectile[fireIndex].thrown = false;
-                        Main.projectile[fireIndex].Calamity().forceRogue = true;
-                        Main.projectile[fireIndex].penetrate = -1;
-                        Main.projectile[fireIndex].usesLocalNPCImmunity = true;
-                        Main.projectile[fireIndex].localNPCHitCooldown = 9;
-                        Main.projectile[fireIndex].timeLeft = 240;
-                    }
-                }
+            Main.PlaySound(SoundID.Item14, projectile.Center);
+			if (Main.myPlayer == projectile.owner)
+			{
+				Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<BettyExplosion>(), projectile.damage, 8f, projectile.owner);
+				if (projectile.Calamity().stealthStrike)
+				{
+					int projectileCount = 12;
+					for (int i = 0; i < projectileCount; i++)
+					{
+						if (Main.rand.NextBool(2))
+						{
+							Vector2 shrapnelVelocity = (Vector2.UnitY * Main.rand.NextFloat(-12f, -4f)).RotatedByRandom(MathHelper.ToRadians(30f));
+							Projectile.NewProjectile(projectile.Center, projectile.velocity + shrapnelVelocity, ModContent.ProjectileType<BouncingBettyShrapnel>(), (int)(projectile.damage * 0.5f), 3f, projectile.owner);
+						}
+						else
+						{
+							Vector2 fireVelocity = (Vector2.UnitY * Main.rand.NextFloat(-12f, -4f)).RotatedByRandom(MathHelper.ToRadians(40f));
+							Projectile fire = Projectile.NewProjectileDirect(projectile.Center, projectile.velocity + fireVelocity, ModContent.ProjectileType<TotalityFire>(), (int)(projectile.damage * 0.6f), 1f, projectile.owner);
+							fire.localNPCHitCooldown = 9;
+							fire.timeLeft = 240;
+						}
+					}
+				}
             }
         }
         public override void AI()
@@ -81,7 +72,7 @@ namespace CalamityMod.Projectiles.Rogue
         }
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            Main.PlaySound(SoundID.Item, projectile.Center, 14);
+            Main.PlaySound(SoundID.Item14, projectile.Center);
             Explode();
             projectile.velocity *= -1f;
         }

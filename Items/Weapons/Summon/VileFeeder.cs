@@ -1,6 +1,5 @@
 using CalamityMod.Projectiles.Summon;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -8,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
-    public class VileFeeder : ModItem
+	public class VileFeeder : ModItem
     {
         public static int BaseDamage = 9;
 
@@ -29,7 +28,7 @@ namespace CalamityMod.Items.Weapons.Summon
             item.noMelee = true;
             item.knockBack = 0.5f;
             item.value = Item.buyPrice(0, 2, 0, 0);
-            item.rare = 2;
+            item.rare = ItemRarityID.Green;
             item.UseSound = SoundID.Item2;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<VileFeederSummon>();

@@ -1,8 +1,11 @@
+using CalamityMod.Dusts;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
+using CalamityMod.Items.Potions;
+using CalamityMod.Items.TreasureBags;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -25,15 +28,15 @@ namespace CalamityMod.NPCs.CeaselessVoid
 
         public override void SetDefaults()
         {
-            npc.damage = 150;
-            npc.npcSlots = 36f;
+			npc.Calamity().canBreakPlayerDefense = true;
+			npc.GetNPCDamage();
+			npc.npcSlots = 36f;
             npc.width = 100;
             npc.height = 100;
-            npc.defense = 0;
+            npc.defense = 80;
             CalamityGlobalNPC global = npc.Calamity();
-            global.DR = 0.999999f;
-            //global.unbreakableDR = true;
-            npc.lifeMax = 200;
+            global.DR = 0.5f;
+            npc.lifeMax = 25000;
             Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
             if (calamityModMusic != null)
                 music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/ScourgeofTheUniverse");
@@ -50,14 +53,11 @@ namespace CalamityMod.NPCs.CeaselessVoid
             npc.aiStyle = -1;
             aiType = -1;
             npc.knockBackResist = 0f;
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
             npc.noGravity = true;
             npc.noTileCollide = true;
             npc.boss = true;
             npc.DeathSound = SoundID.NPCDeath14;
+            bossBag = ModContent.ItemType<CeaselessVoidBag>();
         }
 
         public override void FindFrame(int frameHeight)
@@ -80,7 +80,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
 			float amount9 = 0.5f;
 			int num153 = 7;
 
-			if (CalamityMod.CalamityConfig.Afterimages)
+			if (CalamityConfig.Instance.Afterimages)
 			{
 				for (int num155 = 1; num155 < num153; num155 += 2)
 				{
@@ -103,7 +103,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
 			texture2D15 = ModContent.GetTexture("CalamityMod/NPCs/CeaselessVoid/CeaselessVoidGlow");
 			Color color37 = Color.Lerp(Color.White, Color.Cyan, 0.5f);
 
-			if (CalamityMod.CalamityConfig.Afterimages)
+			if (CalamityConfig.Instance.Afterimages)
 			{
 				for (int num163 = 1; num163 < num153; num163++)
 				{
@@ -129,36 +129,45 @@ namespace CalamityMod.NPCs.CeaselessVoid
 
         public override void NPCLoot()
         {
-            // Only drop items if fought alone
-            if (CalamityWorld.DoGSecondStageCountdown <= 0)
+            // Only drop items if fought at full strength
+			bool fullStrength = !CalamityWorld.downedSentinel1 || CalamityWorld.DoGSecondStageCountdown <= 0;
+            if (fullStrength)
             {
-                // Materials
-                DropHelper.DropItem(npc, ModContent.ItemType<DarkPlasma>(), true, 2, 3);
+				DropHelper.DropBags(npc);
 
-                // Weapons
-                DropHelper.DropItemChance(npc, ModContent.ItemType<MirrorBlade>(), Main.expertMode ? 3 : 4);
+				// Legendary drop for Ceaseless Void
+				DropHelper.DropItemCondition(npc, ModContent.ItemType<TheEvolution>(), true, CalamityWorld.malice);
 
-                // Equipment
-				DropHelper.DropItemRIV(npc, ModContent.ItemType<ArcanumoftheVoid>(), ModContent.ItemType<TheEvolution>(), 0.2f, DropHelper.RareVariantDropRateFloat);
-
-                // Vanity
-                DropHelper.DropItemChance(npc, ModContent.ItemType<CeaselessVoidTrophy>(), 10);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<CeaselessVoidMask>(), 7);
-				if (Main.rand.NextBool(20))
+				DropHelper.DropItemChance(npc, ModContent.ItemType<CeaselessVoidTrophy>(), 10);
+				bool lastSentinelKilled = !CalamityWorld.downedSentinel1 && CalamityWorld.downedSentinel2 && CalamityWorld.downedSentinel3;
+				DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeSentinels>(), true, lastSentinelKilled);
+				DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedSentinel1, 5, 2, 1);
+				if (!Main.expertMode)
 				{
-					DropHelper.DropItem(npc, ModContent.ItemType<AncientGodSlayerHelm>());
-					DropHelper.DropItem(npc, ModContent.ItemType<AncientGodSlayerChestplate>());
-					DropHelper.DropItem(npc, ModContent.ItemType<AncientGodSlayerLeggings>());
-				}
+					// Materials
+					DropHelper.DropItem(npc, ModContent.ItemType<DarkPlasma>(), true, 2, 3);
 
-                // Other
-                bool lastSentinelKilled = !CalamityWorld.downedSentinel1 && CalamityWorld.downedSentinel2 && CalamityWorld.downedSentinel3;
-                DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeSentinels>(), true, lastSentinelKilled);
-                DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedSentinel1, 5, 2, 1);
+					// Weapons
+					DropHelper.DropItemChance(npc, ModContent.ItemType<MirrorBlade>(), 4);
+
+					// Equipment
+					DropHelper.DropItemChance(npc, ModContent.ItemType<ArcanumoftheVoid>(), 2);
+
+					// Vanity
+					DropHelper.DropItemChance(npc, ModContent.ItemType<CeaselessVoidMask>(), 7);
+					if (Main.rand.NextBool(20))
+					{
+						DropHelper.DropItem(npc, ModContent.ItemType<AncientGodSlayerHelm>());
+						DropHelper.DropItem(npc, ModContent.ItemType<AncientGodSlayerChestplate>());
+						DropHelper.DropItem(npc, ModContent.ItemType<AncientGodSlayerLeggings>());
+						DropHelper.DropItem(npc, ModContent.ItemType<GodSlayerHornedHelm>());
+						DropHelper.DropItem(npc, ModContent.ItemType<GodSlayerVisage>());
+					}
+				}
             }
 
             // If DoG's fight is active, set the timer for the remaining two sentinels
-            else if (CalamityWorld.DoGSecondStageCountdown > 14460)
+            if (CalamityWorld.DoGSecondStageCountdown > 14460)
             {
                 CalamityWorld.DoGSecondStageCountdown = 14460;
                 if (Main.netMode == NetmodeID.Server)
@@ -170,14 +179,17 @@ namespace CalamityMod.NPCs.CeaselessVoid
                 }
             }
 
-            // Mark Ceaseless Void as dead
-            CalamityWorld.downedSentinel1 = true;
-            CalamityMod.UpdateServerBoolean();
+			// Mark Ceaseless Void as dead
+			if (fullStrength)
+			{
+				CalamityWorld.downedSentinel1 = true;
+				CalamityNetcode.SyncWorld();
+			}
         }
 
         public override void BossLoot(ref string name, ref int potionType)
         {
-            potionType = ItemID.SuperHealingPotion;
+            potionType = ModContent.ItemType<SupremeHealingPotion>();
         }
 
         public override void HitEffect(int hitDirection, double damage)
@@ -189,7 +201,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
             }
             for (int k = 0; k < 5; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, 173, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.PurpleCosmolite, hitDirection, -1f, 0, default, 1f);
             }
             if (npc.life <= 0)
             {
@@ -201,7 +213,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
                 npc.position.Y = npc.position.Y - (float)(npc.height / 2);
                 for (int num621 = 0; num621 < 40; num621++)
                 {
-                    int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 173, 0f, 0f, 100, default, 2f);
+                    int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, (int)CalamityDusts.PurpleCosmolite, 0f, 0f, 100, default, 2f);
                     Main.dust[num622].velocity *= 3f;
                     if (Main.rand.NextBool(2))
                     {
@@ -211,10 +223,10 @@ namespace CalamityMod.NPCs.CeaselessVoid
                 }
                 for (int num623 = 0; num623 < 70; num623++)
                 {
-                    int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 173, 0f, 0f, 100, default, 3f);
+                    int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, (int)CalamityDusts.PurpleCosmolite, 0f, 0f, 100, default, 3f);
                     Main.dust[num624].noGravity = true;
                     Main.dust[num624].velocity *= 5f;
-                    num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 173, 0f, 0f, 100, default, 2f);
+                    num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, (int)CalamityDusts.PurpleCosmolite, 0f, 0f, 100, default, 2f);
                     Main.dust[num624].velocity *= 2f;
                 }
                 float randomSpread = (float)(Main.rand.Next(-200, 200) / 100);

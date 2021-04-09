@@ -1,5 +1,3 @@
-using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Buffs.StatDebuffs;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -21,10 +19,8 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void SetDefaults()
         {
-            projectile.width = 22;
-            projectile.height = 22;
+            projectile.width = projectile.height = 22;
             projectile.friendly = true;
-            projectile.penetrate = 1;
             projectile.timeLeft = 300;
             projectile.ranged = true;
             projectile.tileCollide = false;
@@ -42,7 +38,7 @@ namespace CalamityMod.Projectiles.Ranged
                 projectile.frame++;
                 projectile.frameCounter = 0;
             }
-            if (projectile.frame >= 4)
+            if (projectile.frame >= Main.projFrames[projectile.type])
             {
                 projectile.frame = 0;
             }
@@ -51,76 +47,73 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.spriteDirection = projectile.direction = (projectile.velocity.X > 0).ToDirectionInt();
             projectile.rotation = projectile.velocity.ToRotation() + (projectile.spriteDirection == 1 ? 0f : MathHelper.Pi) + MathHelper.ToRadians(90) * projectile.direction;
 
-			int num297 = Main.rand.NextBool(2) ? 107 : 234;
+			int dustType = Main.rand.NextBool(2) ? 107 : 234;
 			if (Main.rand.NextBool(4))
 			{
-				num297 = 269;
+				dustType = 269;
 			}
         	if (projectile.owner == Main.myPlayer && !spawnedAura)
         	{
-            	Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<MagnomalyAura>(), (int)(projectile.damage * 0.5f), projectile.knockBack * 0.5f, projectile.owner, projectile.identity, 0f);
+            	Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<MagnomalyAura>(), (int)(projectile.damage * 0.5f), projectile.knockBack * 0.5f, projectile.owner, projectile.identity, 0f);
 				spawnedAura = true;
 			}
-			float num247 = projectile.velocity.X * 0.5f;
-			float num248 = projectile.velocity.Y * 0.5f;
+			float dustOffsetX = projectile.velocity.X * 0.5f;
+			float dustOffsetY = projectile.velocity.Y * 0.5f;
 			if (Main.rand.NextBool(2))
 			{
-				int num249 = Dust.NewDust(new Vector2(projectile.position.X + 3f + num247, projectile.position.Y + 3f + num248) - projectile.velocity * 0.5f, projectile.width - 8, projectile.height - 8, num297, 0f, 0f, 100, default, 0.5f);
-				Main.dust[num249].scale *= (float)Main.rand.Next(10) * 0.1f;
-				Main.dust[num249].velocity *= 0.2f;
-				Main.dust[num249].noGravity = true;
-				Main.dust[num249].noLight = true;
+				int exo = Dust.NewDust(new Vector2(projectile.position.X + 3f + dustOffsetX, projectile.position.Y + 3f + dustOffsetY) - projectile.velocity * 0.5f, projectile.width - 8, projectile.height - 8, dustType, 0f, 0f, 100, default, 0.5f);
+				Main.dust[exo].scale *= (float)Main.rand.Next(10) * 0.1f;
+				Main.dust[exo].velocity *= 0.2f;
+				Main.dust[exo].noGravity = true;
+				Main.dust[exo].noLight = true;
 			}
 			else
 			{
-				int dust2 = Dust.NewDust(new Vector2(projectile.position.X + 3f + num247, projectile.position.Y + 3f + num248) - projectile.velocity * 0.5f, projectile.width - 8, projectile.height - 8, num297, 0f, 0f, 100, default, 0.25f);
-				Main.dust[dust2].fadeIn = 1f + (float)Main.rand.Next(5) * 0.1f;
-				Main.dust[dust2].velocity *= 0.05f;
-				Main.dust[dust2].noGravity = true;
-				Main.dust[dust2].noLight = true;
+				int exo = Dust.NewDust(new Vector2(projectile.position.X + 3f + dustOffsetX, projectile.position.Y + 3f + dustOffsetY) - projectile.velocity * 0.5f, projectile.width - 8, projectile.height - 8, dustType, 0f, 0f, 100, default, 0.25f);
+				Main.dust[exo].fadeIn = 1f + (float)Main.rand.Next(5) * 0.1f;
+				Main.dust[exo].velocity *= 0.05f;
+				Main.dust[exo].noGravity = true;
+				Main.dust[exo].noLight = true;
 			}
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 600f, 16f, 20f);
+			CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 200f, 12f, 20f);
         }
 
         public override void Kill(int timeLeft)
         {
 			if (projectile.owner == Main.myPlayer)
 			{
-				projectile.position = projectile.Center;
-				projectile.width = projectile.height = 192;
-				projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
-				projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
-				Main.PlaySound(SoundID.Item14, projectile.position);
+				CalamityGlobalProjectile.ExpandHitboxBy(projectile, 192);
+				Main.PlaySound(SoundID.Item14, projectile.Center);
 				//DO NOT REMOVE THIS PROJECTILE
-				Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<MagnomalyExplosion>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+				Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<MagnomalyExplosion>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
 
-				int num298 = Main.rand.NextBool(2) ? 107 : 234;
+				int dustType = Main.rand.NextBool(2) ? 107 : 234;
 				if (Main.rand.NextBool(4))
 				{
-					num298 = 269;
+					dustType = 269;
 				}
-				for (int num621 = 0; num621 < 30; num621++)
+				for (int d = 0; d < 30; d++)
 				{
-					int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, num298, 0f, 0f, 100, default, 1f);
-					Main.dust[num622].velocity *= 3f;
-					Main.dust[num622].noGravity = true;
-					Main.dust[num622].noLight = true;
+					int exo = Dust.NewDust(projectile.position, projectile.width, projectile.height, dustType, 0f, 0f, 100, default, 1f);
+					Main.dust[exo].velocity *= 3f;
+					Main.dust[exo].noGravity = true;
+					Main.dust[exo].noLight = true;
 					if (Main.rand.NextBool(2))
 					{
-						Main.dust[num622].scale = 0.5f;
-						Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
+						Main.dust[exo].scale = 0.5f;
+						Main.dust[exo].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
 					}
 				}
-				for (int num623 = 0; num623 < 40; num623++)
+				for (int d = 0; d < 40; d++)
 				{
-					int num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, num298, 0f, 0f, 100, default, 0.5f);
-					Main.dust[num624].noGravity = true;
-					Main.dust[num624].noLight = true;
-					Main.dust[num624].velocity *= 5f;
-					num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, num298, 0f, 0f, 100, default, 0.75f);
-					Main.dust[num624].velocity *= 2f;
+					int exo = Dust.NewDust(projectile.position, projectile.width, projectile.height, dustType, 0f, 0f, 100, default, 0.5f);
+					Main.dust[exo].noGravity = true;
+					Main.dust[exo].noLight = true;
+					Main.dust[exo].velocity *= 5f;
+					exo = Dust.NewDust(projectile.position, projectile.width, projectile.height, dustType, 0f, 0f, 100, default, 0.75f);
+					Main.dust[exo].velocity *= 2f;
 				}
-				CalamityUtils.ExplosionGores(projectile, 10);
+				CalamityUtils.ExplosionGores(projectile.Center, 9);
 			}
         }
 
@@ -131,6 +124,18 @@ namespace CalamityMod.Projectiles.Ranged
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
+			OnHitEffects();
+			target.ExoDebuffs();
+		}
+
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+			OnHitEffects();
+			target.ExoDebuffs();
+		}
+
+        private void OnHitEffects()
         {
 			if (projectile.owner == Main.myPlayer)
 			{
@@ -145,15 +150,6 @@ namespace CalamityMod.Projectiles.Ranged
 					int proj2 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<MagnomalyBeam>(), projectile.damage / 4, projectile.knockBack / 4, projectile.owner, 0f, 1f);
 				}
 			}
-            target.AddBuff(ModContent.BuffType<ExoFreeze>(), 30);
-            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
-            target.AddBuff(ModContent.BuffType<GlacialState>(), 120);
-            target.AddBuff(ModContent.BuffType<Plague>(), 120);
-            target.AddBuff(ModContent.BuffType<HolyFlames>(), 120);
-            target.AddBuff(BuffID.CursedInferno, 120);
-            target.AddBuff(BuffID.Frostburn, 120);
-            target.AddBuff(BuffID.OnFire, 120);
-            target.AddBuff(BuffID.Ichor, 120);
         }
     }
 }

@@ -7,6 +7,8 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class DormantBrimseekerSummoner : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Summon/DormantBrimseeker";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Dormant Brimseeker");

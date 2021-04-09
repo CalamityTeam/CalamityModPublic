@@ -2,6 +2,8 @@ using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
+using Terraria.DataStructures;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
@@ -11,21 +13,20 @@ namespace CalamityMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Core of the Blood God");
-            Tooltip.SetDefault("5% increased damage reduction\n" +
-                "7% increased damage\n" +
-                "When below 100 defense you gain 15% increased damage\n" +
+            Tooltip.SetDefault("8% increased damage and damage reduction\n" +
+                "Boosts your max HP by 10%\n" +
+                "Healing Potions are 15% more effective\n" +
                 "Halves enemy contact damage\n" +
-                "When you take contact damage this effect has a 20 second cooldown\n" +
-                "Boosts your max HP by 10%");
+                "When you take contact damage this effect has a 20 second cooldown");
+            Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(6, 4));
         }
 
         public override void SetDefaults()
         {
-            item.width = 26;
-            item.height = 26;
-            item.value = Item.buyPrice(0, 90, 0, 0);
+            item.width = item.height = 48;
+            item.value = CalamityGlobalItem.Rarity14BuyPrice;
             item.expert = true;
-            item.rare = 9;
+            item.rare = ItemRarityID.Red;
             item.accessory = true;
         }
 
@@ -42,9 +43,8 @@ namespace CalamityMod.Items.Accessories
             recipe.AddIngredient(ModContent.ItemType<BloodyWormScarf>());
             recipe.AddIngredient(ModContent.ItemType<BloodPact>());
             recipe.AddIngredient(ModContent.ItemType<FleshTotem>());
-            recipe.AddIngredient(ModContent.ItemType<BloodflareCore>());
             recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<Phantoplasm>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>());
             recipe.AddTile(ModContent.TileType<DraedonsForge>());
             recipe.SetResult(this);
             recipe.AddRecipe();

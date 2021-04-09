@@ -1,16 +1,14 @@
-using CalamityMod.Items.Weapons.Rogue;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
 using System.Collections.Generic;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class BouncyBol : ModProjectile
+	public class BouncyBol : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/BouncySpikyBall";
+
         private bool hasHitEnemy = false;
         private int targetNPC = -1;
         private List<int> previousNPCs = new List<int>() { -1 };
@@ -68,7 +66,7 @@ namespace CalamityMod.Projectiles.Rogue
                 {
                     previousNPCs.Add(i);
                 }
-                if (!npc.friendly && !npc.townNPC && npc.active && !npc.dontTakeDamage && npc.chaseable && npc != target && !hasHitNPC)
+                if (npc.CanBeChasedBy(projectile, false) && npc != target && !hasHitNPC)
                 {
                     float dist = (projectile.Center - npc.Center).Length();
                     if (dist < minDist)

@@ -1,10 +1,11 @@
-using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class TarraThornTip : ModProjectile
+	public class TarraThornTip : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Magic/NettleTip";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Thorn");

@@ -1,12 +1,10 @@
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Critters;
 using CalamityMod.Items.Placeables;
-using CalamityMod.Items.Placeables.Ores;
 using CalamityMod.Items.Potions;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
-using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.Tiles.SunkenSea;
 using CalamityMod.World;
@@ -16,7 +14,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Fishing.SunkenSeaCatches
 {
-    public class SunkenCrate : ModItem
+	public class SunkenCrate : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -30,7 +28,7 @@ namespace CalamityMod.Items.Fishing.SunkenSeaCatches
             item.consumable = true;
             item.width = 32;
             item.height = 32;
-            item.rare = 2;
+            item.rare = ItemRarityID.Green;
             item.value = Item.sellPrice(gold: 1);
             item.createTile = ModContent.TileType<SunkenCrateTile>();
             item.useTurn = true;
@@ -47,18 +45,12 @@ namespace CalamityMod.Items.Fishing.SunkenSeaCatches
             //Modded materials
 			DropHelper.DropItem(player, ModContent.ItemType<Items.Placeables.Navystone>(), 10, 30);
 			DropHelper.DropItem(player, ModContent.ItemType<Items.Placeables.EutrophicSand>(), 10, 30);
-            if (CalamityWorld.downedDesertScourge)
-            {
-				DropHelper.DropItem(player, ModContent.ItemType<PrismShard>(), 10, 20);
-				DropHelper.DropItem(player, ModContent.ItemType<Items.Placeables.SeaPrism>(), 5, 10);
-            }
-            if (Main.hardMode)
-            {
-                DropHelper.DropItemChance(player, ModContent.ItemType<MolluskHusk>(), 0.5f, 5, 15);
-            }
+			DropHelper.DropItemCondition(player, ModContent.ItemType<PrismShard>(), CalamityWorld.downedDesertScourge, 5, 10);
+			DropHelper.DropItemCondition(player, ModContent.ItemType<Items.Placeables.SeaPrism>(), CalamityWorld.downedDesertScourge, 0.2f, 2, 5);
+			DropHelper.DropItemCondition(player, ModContent.ItemType<MolluskHusk>(), CalamityWorld.downedCLAMHardMode, 0.12f, 2, 5);
 
             // Weapons
-            DropHelper.DropItemFromSetCondition(player, CalamityWorld.downedCLAM && Main.hardMode,
+            DropHelper.DropItemFromSetCondition(player, CalamityWorld.downedCLAMHardMode, 0.07f,
                 ModContent.ItemType<ShellfishStaff>(),
                 ModContent.ItemType<ClamCrusher>(),
                 ModContent.ItemType<Poseidon>(),
@@ -79,14 +71,29 @@ namespace CalamityMod.Items.Fishing.SunkenSeaCatches
             DropHelper.DropItemChance(player, ItemID.MiningPotion, 10, 1, 3);
             DropHelper.DropItemChance(player, ItemID.HeartreachPotion, 10, 1, 3);
             DropHelper.DropItemChance(player, ItemID.TrapsightPotion, 10, 1, 3); //Dangersense Potion
-            if (Main.hardMode)
-            {
-                DropHelper.DropItem(player, Main.rand.Next(100) >= 49 ? ItemID.GreaterHealingPotion: ItemID.GreaterManaPotion, 5, 10);
-            }
-            else
-            {
-                DropHelper.DropItem(player, Main.rand.Next(100) >= 49 ? ItemID.HealingPotion : ItemID.ManaPotion, 5, 10);
-            }
+			int healingPotID = ItemID.LesserHealingPotion;
+			int manaPotID = ItemID.LesserManaPotion;
+			if (CalamityWorld.downedDoG)
+			{
+				healingPotID = ModContent.ItemType<SupremeHealingPotion>();
+				manaPotID = ModContent.ItemType<SupremeManaPotion>();
+			}
+			else if (CalamityWorld.downedProvidence)
+			{
+				healingPotID = ItemID.SuperHealingPotion;
+				manaPotID = ItemID.SuperManaPotion;
+			}
+			else if (NPC.downedMechBossAny)
+			{
+				healingPotID = ItemID.GreaterHealingPotion;
+				manaPotID = ItemID.GreaterManaPotion;
+			}
+			else if (NPC.downedBoss3)
+			{
+				healingPotID = ItemID.HealingPotion;
+				manaPotID = ItemID.ManaPotion;
+			}
+			DropHelper.DropItemChance(player, Main.rand.Next(100) >= 49 ? healingPotID : manaPotID, 0.25f, 2, 5);
 
             //Money
             DropHelper.DropItem(player, ItemID.SilverCoin, 10, 90);

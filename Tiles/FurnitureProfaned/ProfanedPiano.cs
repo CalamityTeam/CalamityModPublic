@@ -1,6 +1,7 @@
 using CalamityMod.Dusts.Furniture;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 
@@ -12,13 +13,15 @@ namespace CalamityMod.Tiles.FurnitureProfaned
         {
             Main.tileLighted[Type] = true;
             Main.tileFrameImportant[Type] = true;
-            Main.tileLavaDeath[Type] = true;
+            Main.tileLavaDeath[Type] = false;
 
             TileObjectData.newTile.CopyFrom(TileObjectData.Style3x3);
+			TileObjectData.newTile.LavaDeath = false;
             TileObjectData.addTile(Type);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Profaned Piano");
             AddMapEntry(new Color(191, 142, 111), name);
+			AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTable);
         }
 
         public override bool CreateDust(int i, int j, ref int type)

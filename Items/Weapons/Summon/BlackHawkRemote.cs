@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void SetDefaults()
         {
-            item.damage = 36;
+            item.damage = 32;
             item.mana = 10;
             item.width = 46;
             item.height = 28;
@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Weapons.Summon
             item.shoot = ModContent.ProjectileType<BlackHawkSummon>();
             item.shootSpeed = 10f;
             item.summon = true;
-            item.rare = 4;
+            item.rare = ItemRarityID.LightRed;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

@@ -19,6 +19,7 @@ namespace CalamityMod.NPCs.Abyss
 {
     public class EidolonWyrmHead : ModNPC
     {
+		private Vector2 patrolSpot = Vector2.Zero;
         public bool detectsPlayer = false;
         public const int minLength = 40;
         public const int maxLength = 41;
@@ -33,19 +34,16 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void SetDefaults()
         {
-            npc.npcSlots = 8f;
+			npc.Calamity().canBreakPlayerDefense = true;
+			npc.npcSlots = 8f;
             npc.damage = 170;
             npc.width = 126; //36
             npc.height = 76; //20
-            npc.defense = 300;
-            npc.Calamity().RevPlusDR(0.15f);
+            npc.defense = 70;
+			npc.DR_NERD(0.15f);
             npc.lifeMax = 160000;
             npc.aiStyle = -1;
             aiType = -1;
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
             npc.knockBackResist = 0f;
             npc.value = Item.buyPrice(0, 25, 0, 0);
             npc.behindTiles = true;
@@ -61,19 +59,21 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void SendExtraAI(BinaryWriter writer)
         {
+			writer.WriteVector2(patrolSpot);
             writer.Write(detectsPlayer);
             writer.Write(npc.chaseable);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
+			patrolSpot = reader.ReadVector2();
             detectsPlayer = reader.ReadBoolean();
             npc.chaseable = reader.ReadBoolean();
         }
 
         public override void AI()
         {
-            if (npc.justHit || npc.life <= npc.lifeMax * 0.98 || Main.player[npc.target].chaosState)
+            if (npc.justHit || detectsPlayer || Main.player[npc.target].chaosState)
             {
                 detectsPlayer = true;
                 npc.damage = Main.expertMode ? 340 : 170;
@@ -218,40 +218,59 @@ namespace CalamityMod.NPCs.Abyss
             {
                 npc.spriteDirection = 1;
             }
-            if (Main.player[npc.target].dead)
-            {
-                npc.TargetClosest(false);
-            }
-            npc.alpha -= 42;
+			if (Main.player[npc.target].dead)
+			{
+				npc.TargetClosest(false);
+
+				npc.velocity.Y += 3f;
+				if (npc.position.Y > Main.worldSurface * 16.0)
+					npc.velocity.Y += 3f;
+
+				if (npc.position.Y > (Main.maxTilesY - 200) * 16.0)
+				{
+					for (int a = 0; a < Main.maxNPCs; a++)
+					{
+						if (Main.npc[a].type == npc.type || Main.npc[a].type == ModContent.NPCType<EidolonWyrmBodyAlt>() || Main.npc[a].type == ModContent.NPCType<EidolonWyrmBody>() || Main.npc[a].type == ModContent.NPCType<EidolonWyrmTail>())
+							Main.npc[a].active = false;
+					}
+				}
+			}
+			npc.alpha -= 42;
             if (npc.alpha < 0)
             {
                 npc.alpha = 0;
             }
-            if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > 6400f || !NPC.AnyNPCs(ModContent.NPCType<EidolonWyrmTail>()) || !Main.player[npc.target].Calamity().ZoneAbyss)
+            if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > 6400f || !NPC.AnyNPCs(ModContent.NPCType<EidolonWyrmTail>()))
             {
                 npc.active = false;
             }
+
             float num188 = speed;
             float num189 = turnSpeed;
-            Vector2 vector18 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
-            float num191 = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2);
-            float num192 = Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2);
+            Vector2 vector18 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
+
+			if (patrolSpot == Vector2.Zero)
+				patrolSpot = Main.player[npc.target].Center;
+
+			float num191 = detectsPlayer ? Main.player[npc.target].Center.X : patrolSpot.X;
+            float num192 = detectsPlayer ? Main.player[npc.target].Center.Y : patrolSpot.Y;
+
 			if (!detectsPlayer)
 			{
 				num192 += 800;
-				if (Math.Abs(npc.Center.X - Main.player[npc.target].Center.X) < 400f) //500
+				if (Math.Abs(npc.Center.X - num191) < 400f) //500
 				{
 					if (npc.velocity.X > 0f)
 					{
-						num191 = Main.player[npc.target].Center.X + 500f; //600
+						num191 += 500f;
 					}
 					else
 					{
-						num191 = Main.player[npc.target].Center.X - 500f; //600
+						num191 -= 500f;
 					}
 				}
 			}
-            if (detectsPlayer)
+            else
             {
                 num188 = 7.5f;
                 num189 = 0.125f;
@@ -428,39 +447,18 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void NPCLoot()
         {
-            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Voidstone>(), Main.rand.Next(30, 41));
+            DropHelper.DropItem(npc, ModContent.ItemType<Voidstone>(), 30, 40);
 			if (Main.rand.NextBool(10))
 			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.BlueLunaticHood);
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.BlueLunaticRobe);
+				DropHelper.DropItem(npc, ItemID.BlueLunaticHood);
+				DropHelper.DropItem(npc, ItemID.BlueLunaticRobe);
 			}
-            if (Main.rand.NextBool(10000) && CalamityWorld.revenge)
-            {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<HalibutCannon>());
-            }
-            if (CalamityWorld.downedPolterghast)
-            {
-                if (Main.rand.NextBool(3))
-                {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<SoulEdge>());
-                }
-                if (Main.rand.NextBool(3))
-                {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<EidolicWail>());
-                }
-            }
-            if (CalamityWorld.downedCalamitas)
-            {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Lumenite>(), Main.rand.Next(6, 9));
-                if (Main.expertMode && Main.rand.NextBool(2))
-                {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Lumenite>(), Main.rand.Next(2, 4));
-                }
-            }
-            if (NPC.downedPlantBoss)
-            {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Ectoplasm, Main.rand.Next(8, 13));
-            }
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<HalibutCannon>(), CalamityWorld.revenge, HalibutCannon.DropChance * 100f);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<SoulEdge>(), CalamityWorld.downedPolterghast, 3, 1, 1);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<EidolicWail>(), CalamityWorld.downedPolterghast, 3, 1, 1);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<Lumenite>(), CalamityWorld.downedCalamitas, 1, 6, 8);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<Lumenite>(), CalamityWorld.downedCalamitas && Main.expertMode, 2, 2, 3);
+            DropHelper.DropItemCondition(npc, ItemID.Ectoplasm, NPC.downedPlantBoss, 1, 8, 12);
         }
 
         public override void HitEffect(int hitDirection, double damage)
@@ -507,11 +505,6 @@ namespace CalamityMod.NPCs.Abyss
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
             player.AddBuff(ModContent.BuffType<CrushDepth>(), 1200, true);
-            if (CalamityWorld.revenge)
-            {
-                player.AddBuff(ModContent.BuffType<Horror>(), 600, true);
-                player.AddBuff(ModContent.BuffType<MarkedforDeath>(), 600);
-            }
         }
     }
 }
