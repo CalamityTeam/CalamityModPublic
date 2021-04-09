@@ -45,27 +45,17 @@ namespace CalamityMod.NPCs.TownNPCs
 			npc.height = 40;
 			npc.aiStyle = 7;
 			npc.damage = 10;
-			//Has the same amount of life, defense, and dr as SCal
-            npc.Calamity().DR = CalamityWorld.death ? 0.75f : 0.7f;
+
+			// You should not be able to kill SCal under any typical circumstances.
+			npc.Calamity().DR = 0.999999f;
+			npc.Calamity().unbreakableDR = true;
+			npc.lifeMax = 1000000;
+
 			npc.defense = 120;
-			npc.lifeMax = (int)((CalamityWorld.revenge ? 5500000 : 5000000) * (Main.expertMode ? 1.6f : 1f));
 			npc.HitSound = SoundID.NPCHit1;
 			npc.DeathSound = SoundID.NPCDeath6;
 			npc.knockBackResist = 0.8f;
 			animationType = NPCID.Wizard;
-		}
-
-		public override void AI()
-		{
-			//To account for revengeance/death mode switching
-			if (npc.lifeMax != (int)((CalamityWorld.revenge ? 5500000 : 5000000) * (Main.expertMode ? 1.6f : 1f)))
-			{
-				npc.lifeMax = (int)((CalamityWorld.revenge ? 5500000 : 5000000) * (Main.expertMode ? 1.6f : 1f));
-			}
-			if (npc.Calamity().DR != (CalamityWorld.death ? 0.75f : 0.7f))
-			{
-				npc.Calamity().DR = CalamityWorld.death ? 0.75f : 0.7f;
-			}
 		}
 
 		public override bool CanTownNPCSpawn(int numTownNPCs, int money) => CalamityWorld.downedSCal;
@@ -74,6 +64,8 @@ namespace CalamityMod.NPCs.TownNPCs
 
 		public override string GetChat()
 		{
+			// TODO: Give this town NPC unique dialog.
+
 			if (npc.homeless) //not sure how to check if he has ever found a home before (to make this dialogue only run when he first spawns)
 			{
 				if (Main.rand.NextBool(2))
@@ -136,10 +128,7 @@ namespace CalamityMod.NPCs.TownNPCs
 			return dialogue[Main.rand.Next(dialogue.Count)];
 		}
 
-		public override void SetChatButtons(ref string button, ref string button2)
-		{
-			button = Language.GetTextValue("LegacyInterface.28");
-		}
+		public override void SetChatButtons(ref string button, ref string button2) => button = Language.GetTextValue("LegacyInterface.28");
 
 		public override void OnChatButtonClicked(bool firstButton, ref bool shop)
 		{
@@ -152,123 +141,11 @@ namespace CalamityMod.NPCs.TownNPCs
 
 		public override void SetupShop(Chest shop, ref int nextSlot)
 		{
-			//Melee weapons
+			// NOTE: This town NPC is intended to not have an actual shop in the future and will instead have a special system.
+			// This item is only here temporarily.
 			if (Main.LocalPlayer.HasItem(ItemType<Animus>()))
 			{
 				shop.item[nextSlot].SetDefaults(ItemType<Animus>());
-				nextSlot++;
-			}
-			if (Main.LocalPlayer.HasItem(ItemType<Azathoth>()))
-			{
-				shop.item[nextSlot].SetDefaults(ItemType<Azathoth>());
-				nextSlot++;
-			}
-			if (Main.LocalPlayer.HasItem(ItemType<DraconicDestruction>()))
-			{
-				shop.item[nextSlot].SetDefaults(ItemType<DraconicDestruction>());
-				nextSlot++;
-			}
-			if (Main.LocalPlayer.HasItem(ItemType<Earth>()))
-			{
-				shop.item[nextSlot].SetDefaults(ItemType<Earth>());
-				nextSlot++;
-			}
-			if (Main.LocalPlayer.HasItem(ItemType<RedSun>()))
-			{
-				shop.item[nextSlot].SetDefaults(ItemType<RedSun>());
-				nextSlot++;
-			}
-			//Ranged weapons
-			if (Main.LocalPlayer.HasItem(ItemType<Contagion>()))
-			{
-				shop.item[nextSlot].SetDefaults(ItemType<Contagion>());
-				nextSlot++;
-			}
-			if (Main.LocalPlayer.HasItem(ItemType<SomaPrime>()))
-			{
-				shop.item[nextSlot].SetDefaults(ItemType<SomaPrime>());
-				nextSlot++;
-			}
-			if (Main.LocalPlayer.HasItem(ItemType<Svantechnical>()))
-			{
-				shop.item[nextSlot].SetDefaults(ItemType<Svantechnical>());
-				nextSlot++;
-			}
-			if (Main.LocalPlayer.HasItem(ItemType<Megafleet>()))
-			{
-				shop.item[nextSlot].SetDefaults(ItemType<Megafleet>());
-				nextSlot++;
-			}
-			//Magic weapons
-			if (Main.LocalPlayer.HasItem(ItemType<Judgement>()))
-			{
-				shop.item[nextSlot].SetDefaults(ItemType<Judgement>());
-				nextSlot++;
-			}
-			if (Main.LocalPlayer.HasItem(ItemType<Fabstaff>()))
-			{
-				shop.item[nextSlot].SetDefaults(ItemType<Fabstaff>());
-				nextSlot++;
-			}
-			if (Main.LocalPlayer.HasItem(ItemType<BlushieStaff>()))
-			{
-				shop.item[nextSlot].SetDefaults(ItemType<BlushieStaff>());
-				nextSlot++;
-			}
-			//Summon weapons
-			if (Main.LocalPlayer.HasItem(ItemType<Endogenesis>()))
-			{
-				shop.item[nextSlot].SetDefaults(ItemType<Endogenesis>());
-				nextSlot++;
-			}
-			if (Main.LocalPlayer.HasItem(ItemType<BensUmbrella>()))
-			{
-				shop.item[nextSlot].SetDefaults(ItemType<BensUmbrella>());
-				nextSlot++;
-			}
-			//Rogue weapons
-			if (Main.LocalPlayer.HasItem(ItemType<ScarletDevil>()))
-			{
-				shop.item[nextSlot].SetDefaults(ItemType<ScarletDevil>());
-				nextSlot++;
-			}
-			//Hybrid weapons
-			if (Main.LocalPlayer.HasItem(ItemType<RoyalKnivesMelee>()) || Main.LocalPlayer.HasItem(ItemType<RoyalKnives>()))
-			{
-				shop.item[nextSlot].SetDefaults(ItemType<RoyalKnivesMelee>());
-				nextSlot++;
-				shop.item[nextSlot].SetDefaults(ItemType<RoyalKnives>());
-				nextSlot++;
-			}
-			if (Main.LocalPlayer.HasItem(ItemType<NanoblackReaperMelee>()) || Main.LocalPlayer.HasItem(ItemType<NanoblackReaperRogue>()))
-			{
-				shop.item[nextSlot].SetDefaults(ItemType<NanoblackReaperMelee>());
-				nextSlot++;
-				shop.item[nextSlot].SetDefaults(ItemType<NanoblackReaperRogue>());
-				nextSlot++;
-			}
-			if (Main.LocalPlayer.HasItem(ItemType<TriactisTruePaladinianMageHammerofMightMelee>()) || Main.LocalPlayer.HasItem(ItemType<TriactisTruePaladinianMageHammerofMight>()))
-			{
-				shop.item[nextSlot].SetDefaults(ItemType<TriactisTruePaladinianMageHammerofMightMelee>());
-				nextSlot++;
-				shop.item[nextSlot].SetDefaults(ItemType<TriactisTruePaladinianMageHammerofMight>());
-				nextSlot++;
-			}
-			//Accessories
-			if (Main.LocalPlayer.HasItem(ItemType<PrototypeAndromechaRing>()))
-			{
-				shop.item[nextSlot].SetDefaults(ItemType<PrototypeAndromechaRing>());
-				nextSlot++;
-			}
-			if (Main.LocalPlayer.HasItem(ItemType<ProfanedSoulCrystal>()))
-			{
-				shop.item[nextSlot].SetDefaults(ItemType<ProfanedSoulCrystal>());
-				nextSlot++;
-			}
-			//Tools
-			if (Main.LocalPlayer.HasItem(ItemType<CrystylCrusher>()))
-			{
-				shop.item[nextSlot].SetDefaults(ItemType<CrystylCrusher>());
 				nextSlot++;
 			}
 		}
@@ -301,7 +178,7 @@ namespace CalamityMod.NPCs.TownNPCs
 			multiplier = 2f;
 		}
 
-		//Explode into red dust when die
+		// Explode into red dust on death.
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			if (npc.life <= 0)
@@ -310,7 +187,7 @@ namespace CalamityMod.NPCs.TownNPCs
 				npc.width = npc.height = 50;
 				npc.position.X -= npc.width / 2;
 				npc.position.Y -= npc.height / 2;
-				for (int dustIndex = 0; dustIndex < 5; dustIndex++)
+				for (int i = 0; i < 5; i++)
 				{
 					int brimstone = Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 2f);
 					Main.dust[brimstone].velocity *= 3f;
@@ -320,11 +197,13 @@ namespace CalamityMod.NPCs.TownNPCs
 						Main.dust[brimstone].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
 					}
 				}
-				for (int indexDust = 0; indexDust < 10; indexDust++)
+
+				for (int i = 0; i < 10; i++)
 				{
 					int fire = Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 3f);
 					Main.dust[fire].noGravity = true;
 					Main.dust[fire].velocity *= 5f;
+
 					fire = Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 2f);
 					Main.dust[fire].velocity *= 2f;
 				}
