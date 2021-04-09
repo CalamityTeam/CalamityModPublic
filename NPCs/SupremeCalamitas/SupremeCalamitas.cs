@@ -30,7 +30,6 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.SupremeCalamitas
 {
-    [AutoloadBossHead]
     public class SupremeCalamitas : ModNPC
     {
         internal enum FrameAnimationType
@@ -106,12 +105,36 @@ namespace CalamityMod.NPCs.SupremeCalamitas
         private Vector2 catastropheSpawnPosition;
         private Rectangle safeBox = default;
 
+        public static int hoodedHeadIconIndex;
+        public static int hoodedHeadIconP2Index;
+        public static int hoodlessHeadIconIndex;
+        public static int hoodlessHeadIconP2Index;
         public static float normalDR = 0.25f;
         public static float enragedDR = 0.99f;
 
         private static readonly Color textColor = Color.Orange;
         private const int sepulcherSpawnCastTime = 75;
         private const int brothersSpawnCastTime = 150;
+
+        // TODO: This is ridiculous and cumbersome. Change it to be better in 1.4.
+        internal static void LoadHeadIcons()
+        {
+            string hoodedIconPath = "CalamityMod/NPCs/SupremeCalamitas/HoodedHeadIcon";
+            string hoodedIconP2Path = "CalamityMod/NPCs/SupremeCalamitas/HoodedHeadIconP2";
+            string hoodlessIconPath = "CalamityMod/NPCs/SupremeCalamitas/HoodlessHeadIcon";
+            string hoodlessIconP2Path = "CalamityMod/NPCs/SupremeCalamitas/HoodlessHeadIconP2";
+            CalamityMod.Instance.AddBossHeadTexture(hoodedIconPath, -1);
+            hoodedHeadIconIndex = ModContent.GetModBossHeadSlot(hoodedIconPath);
+
+            CalamityMod.Instance.AddBossHeadTexture(hoodedIconP2Path, -1);
+            hoodedHeadIconP2Index = ModContent.GetModBossHeadSlot(hoodedIconP2Path);
+
+            CalamityMod.Instance.AddBossHeadTexture(hoodlessIconPath, -1);
+            hoodlessHeadIconIndex = ModContent.GetModBossHeadSlot(hoodlessIconPath);
+
+            CalamityMod.Instance.AddBossHeadTexture(hoodlessIconP2Path, -1);
+            hoodlessHeadIconP2Index = ModContent.GetModBossHeadSlot(hoodlessIconP2Path);
+        }
 
         public override void SetStaticDefaults()
         {
@@ -154,6 +177,15 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/SCG");
             else
                 music = MusicID.Boss2;
+        }
+
+        public override void BossHeadSlot(ref int index)
+        {
+            bool inPhase2 = npc.ai[0] == 3f;
+            if (!CalamityWorld.downedSCal)
+                index = inPhase2 ? hoodedHeadIconP2Index : hoodedHeadIconIndex;
+            else
+                index = inPhase2 ? hoodlessHeadIconP2Index : hoodlessHeadIconIndex;
         }
 
         public override void SendExtraAI(BinaryWriter writer)
