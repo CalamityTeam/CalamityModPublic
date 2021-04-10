@@ -99,6 +99,38 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             get => (FrameAnimationType)(int)npc.localAI[2];
             set => npc.localAI[2] = (int)value;
         }
+        private bool AttackCloseToBeingOver
+        {
+            get
+            {
+                int attackLength = 0;
+
+                // First phase.
+                if (npc.ai[0] == 0f)
+                {
+                    if (npc.ai[1] == 0f)
+                        attackLength = 300;
+                    if (npc.ai[1] == 2f)
+                        attackLength = 70;
+                    if (npc.ai[1] == 3f)
+                        attackLength = 480;
+                    if (npc.ai[1] == 4f)
+                        attackLength = 300;
+                }
+                else
+                {
+                    if (npc.ai[1] == 0f)
+                        attackLength = 240;
+                    if (npc.ai[1] == 2f)
+                        attackLength = 70;
+                    if (npc.ai[1] == 3f)
+                        attackLength = 300;
+                    if (npc.ai[1] == 4f)
+                        attackLength = 240;
+                }
+                return npc.ai[2] >= attackLength - 30f;
+            }
+        }
         private ref float FrameChangeSpeed => ref npc.localAI[3];
 
         private Vector2 cataclysmSpawnPosition;
@@ -384,7 +416,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             }
 
             // Summon a shield if the next attack will be a charge.
-            else if (!npc.dontTakeDamage && (willCharge || npc.ai[1] == 2f))
+            else if (!npc.dontTakeDamage && ((willCharge && AttackCloseToBeingOver) || npc.ai[1] == 2f))
             {
                 if (npc.ai[1] != 2f)
                 {
@@ -400,7 +432,6 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 else
                 {
                     // Emit dust off the skull at the position of its eye socket.
-
                     for (float num6 = 1f; num6 < 16f; num6 += 1f)
                     {
                         Dust dust = Dust.NewDustPerfect(npc.Center, 182);
@@ -2755,16 +2786,13 @@ namespace CalamityMod.NPCs.SupremeCalamitas
         {
             float jawRotation = shieldRotation;
             float jawRotationOffset = 0f;
-            bool attackCloseToBeingOver = npc.ai[2] >= 180f;
-            if (npc.ai[1] == 3f)
-                attackCloseToBeingOver = npc.ai[2] >= 420f;
 
             // Have an agape mouth when charging.
             if (npc.ai[1] == 2f)
                 jawRotationOffset -= 0.71f;
 
             // And a laugh right before the charge.
-            else if (willCharge && npc.ai[1] != 2f && attackCloseToBeingOver)
+            else if (willCharge && npc.ai[1] != 2f && AttackCloseToBeingOver)
                 jawRotationOffset += MathHelper.Lerp(0.04f, -0.82f, (float)Math.Sin(Main.GlobalTime * 17.2f) * 0.5f + 0.5f);
 
             Color shieldColor = Color.White * shieldOpacity;
