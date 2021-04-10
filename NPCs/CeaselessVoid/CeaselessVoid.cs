@@ -7,6 +7,7 @@ using CalamityMod.Items.Placeables.Furniture.Trophies;
 using CalamityMod.Items.Potions;
 using CalamityMod.Items.TreasureBags;
 using CalamityMod.Items.Weapons.Melee;
+using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -147,11 +148,13 @@ namespace CalamityMod.NPCs.CeaselessVoid
 					// Materials
 					DropHelper.DropItem(npc, ModContent.ItemType<DarkPlasma>(), true, 2, 3);
 
-					// Weapons
-					DropHelper.DropItemChance(npc, ModContent.ItemType<MirrorBlade>(), 4);
+                    // Weapons
+                    float dropChance = DropHelper.NormalWeaponDropRateFloat;
+                    DropHelper.DropItemChance(npc, ModContent.ItemType<MirrorBlade>(), dropChance);
+                    DropHelper.DropItemChance(npc, ModContent.ItemType<VoidConcentrationStaff>(), dropChance);
 
-					// Equipment
-					DropHelper.DropItemChance(npc, ModContent.ItemType<ArcanumoftheVoid>(), 2);
+                    // Equipment
+                    DropHelper.DropItemChance(npc, ModContent.ItemType<ArcanumoftheVoid>(), 2);
 
 					// Vanity
 					DropHelper.DropItemChance(npc, ModContent.ItemType<CeaselessVoidMask>(), 7);

@@ -404,6 +404,25 @@ namespace CalamityMod.CalPlayer
             }
         });
 
+        public static readonly PlayerLayer ConcentratedVoidAura = new PlayerLayer("CalamityMod", "VoidAura", PlayerLayer.Skin, drawInfo =>
+        {
+            Player drawPlayer = drawInfo.drawPlayer;
+            CalamityPlayer modPlayer = drawPlayer.Calamity();
+            if (modPlayer.voidAura || modPlayer.voidAuraDamage)
+            {
+                Texture2D tex = ModContent.GetTexture("CalamityMod/ExtraTextures/VoidConcentrationAura");
+                Vector2 drawPos = drawPlayer.Center - Main.screenPosition + new Vector2(0f, drawPlayer.gfxOffY);
+                drawPos.Y -= 9;
+                SpriteEffects spriteEffects = drawPlayer.direction != -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None; //intentionally inverse due to giving more space for the player model without faffing about with the specific positioning
+                Rectangle frame = tex.Frame(1, 4, 0, modPlayer.voidFrame);
+                Vector2 origin = new Vector2(tex.Width / 2f, tex.Height / 2f / 4f);
+                float scale = 1.75f;
+
+                DrawData data = new DrawData(tex, drawPos, frame, Color.White * 0.4f, 0f, origin, scale, spriteEffects, 0);
+                Main.playerDrawData.Add(data);
+            }
+        });
+
         public static readonly PlayerLayer RoverDriveShield = new PlayerLayer("CalamityMod", "RoverDrive", PlayerLayer.Skin, drawInfo =>
         {
             Player drawPlayer = drawInfo.drawPlayer;
@@ -682,6 +701,7 @@ namespace CalamityMod.CalPlayer
 				list.Insert(drawTheStupidSign, ForbiddenCircletSign);
 			}
             list.Add(ColdDivinityOverlay);
+            list.Add(ConcentratedVoidAura);
             list.Add(RoverDriveShield);
             list.Add(StratusSphereDrawing);
             list.Add(ProfanedMoonlightDyeEffects);

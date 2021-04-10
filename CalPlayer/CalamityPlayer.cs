@@ -571,6 +571,8 @@ namespace CalamityMod.CalPlayer
         public int roverDriveTimer = 0;
         public int roverFrameCounter = 0;
         public int roverFrame = 0;
+        public int voidFrameCounter = 0;
+        public int voidFrame = 0;
         #endregion
 
         #region Armor Set
@@ -898,6 +900,8 @@ namespace CalamityMod.CalPlayer
         public bool plaguebringerMK2 = false;
         public bool igneousExaltation = false;
         public bool coldDivinity = false;
+        public bool voidAura = false;
+        public bool voidAuraDamage = false;
         public bool youngDuke = false;
         public bool virili = false;
         public bool frostBlossom = false;
@@ -1926,6 +1930,8 @@ namespace CalamityMod.CalPlayer
             plaguebringerMK2 = false;
             igneousExaltation = false;
             coldDivinity = false;
+            voidAura = false;
+            voidAuraDamage = false;
             radiantResolution = false;
             virili = false;
             frostBlossom = false;
@@ -3681,6 +3687,14 @@ namespace CalamityMod.CalPlayer
                 roverFrame = roverFrame == frameAmt - 1 ? 0 : roverFrame + 1;
             }
             roverFrameCounter++;
+
+            int frames = 4;
+            if (voidFrameCounter >= 6)
+            {
+                voidFrameCounter = 0;
+                voidFrame = voidFrame == frames - 1 ? 0 : voidFrame + 1;
+            }
+            voidFrameCounter++;
 
             for (int i = 0; i < player.dye.Length; i++)
             {
