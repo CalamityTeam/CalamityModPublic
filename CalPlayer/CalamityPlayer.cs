@@ -155,7 +155,6 @@ namespace CalamityMod.CalPlayer
         #region Stat Meter
         public int[] damageStats = new int[6];
         public int[] critStats = new int[4];
-        public float actualMeleeDamageStat = 0f;
         public int defenseStat = 0;
         public int DRStat = 0;
         public int meleeSpeedStat = 0;
@@ -2529,7 +2528,7 @@ namespace CalamityMod.CalPlayer
             if (Main.snowTiles > 300)
                 player.ZoneSnow = true;
 
-            Mod fargos = ModLoader.GetMod("Fargowiltas");
+            Mod fargos = CalamityMod.Instance.fargos;
             if (fargos != null)
             {
                 //Fargo's fountain effects

@@ -13,6 +13,7 @@ using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -27,7 +28,11 @@ namespace CalamityMod.Items
 			// Apply rarity coloration to the item's name.
 			TooltipLine nameLine = tooltips.FirstOrDefault(x => x.Name == "ItemName" && x.mod == "Terraria");
 			if (nameLine != null)
-				ApplyRarityColors(item, nameLine);
+				ApplyRarityColor(item, nameLine);
+
+			// If the item is melee, add a true melee damage number adjacent to the standard damage number.
+			if (item.melee && item.damage > 0 && Main.LocalPlayer.Calamity().trueMeleeDamage > 0D)
+				TrueMeleeDamageTooltip(item, tooltips);
 
 			// Modify all vanilla tooltips before appending mod mechanics (if any).
 			ModifyVanillaTooltips(item, tooltips);
@@ -40,27 +45,8 @@ namespace CalamityMod.Items
 			if (item.type < ItemID.Count)
 				return;
 
-			// TODO -- mod references should be kept statically
 			// Adds tooltips to Calamity fountains which match Fargo's fountain tooltips.
-			Mod fargos = ModLoader.GetMod("Fargowiltas");
-			if (fargos != null)
-			{
-				if (item.type == ModContent.ItemType<SunkenSeaFountain>())
-				{
-					TooltipLine line = new TooltipLine(mod, "FargoFountain", "Forces surrounding biome state to Sunken Sea upon activation");
-					tooltips.Add(line);
-				}
-				if (item.type == ModContent.ItemType<SulphurousFountainItem>())
-				{
-					TooltipLine line = new TooltipLine(mod, "FargoFountain", "Forces surrounding biome state to Sulphurous Sea upon activation");
-					tooltips.Add(line);
-				}
-				if (item.type == ModContent.ItemType<AstralFountainItem>())
-				{
-					TooltipLine line = new TooltipLine(mod, "FargoFountain", "Forces surrounding biome state to Astral upon activation");
-					tooltips.Add(line);
-				}
-			}
+			FargoFountainTooltip(item, tooltips);
 
 			// Adds a Current Charge tooltip to all items which use charge.
 			CalamityGlobalItem modItem = item.Calamity();
@@ -75,61 +61,31 @@ namespace CalamityMod.Items
 			// Adds "Donor Item" and "Developer Item" to donor items and developer items respectively.
 			if (donorItem)
 			{
-				TooltipLine line = new TooltipLine(mod, "CalamityDonor", CalamityUtils.ColorMessage("- Donor Item -", new Color(139, 0, 0)));
+				TooltipLine line = new TooltipLine(mod, "CalamityDonor", CalamityUtils.ColorMessage("- Donor Item -", CalamityUtils.DonatorItemColor));
 				tooltips.Add(line);
 			}
 			if (devItem)
 			{
-				TooltipLine line = new TooltipLine(mod, "CalamityDev", CalamityUtils.ColorMessage("- Developer Item -", new Color(255, 0, 255)));
+				TooltipLine line = new TooltipLine(mod, "CalamityDev", CalamityUtils.ColorMessage("- Developer Item -", CalamityUtils.HotPinkRarityColor));
 				tooltips.Add(line);
 			}
 
-			// Adds "Challenge Drop" or "Legendary Challenge Drop" to malice mode drops.
+			// Adds "Challenge Drop" or "Legendary Challenge Drop" to Malice Mode drops.
+			// For Legendary Challenge Drops, this tooltip matches their unique rarity color.
 			if (challengeDrop)
-			{
-				Color lineColor = default;
-				if (item.type == ModContent.ItemType<AegisBlade>() || item.type == ModContent.ItemType<YharimsCrystal>())
-					lineColor = new Color(255, Main.DiscoG, 53);
-				if (item.type == ModContent.ItemType<BlossomFlux>() || item.type == ModContent.ItemType<Malachite>())
-					lineColor = new Color(Main.DiscoR, 203, 103);
-				if (item.type == ModContent.ItemType<BrinyBaron>() || item.type == ModContent.ItemType<ColdDivinity>())
-					lineColor = new Color(53, Main.DiscoG, 255);
-				if (item.type == ModContent.ItemType<CosmicDischarge>())
-					lineColor = new Color(150, Main.DiscoG, 255);
-				if (item.type == ModContent.ItemType<SeasSearing>())
-					lineColor = new Color(60, Main.DiscoG, 190);
-				if (item.type == ModContent.ItemType<SHPC>())
-					lineColor = new Color(255, Main.DiscoG, 155);
-				if (item.type == ModContent.ItemType<Vesuvius>() || item.type == ModContent.ItemType<GoldBurdenBreaker>())
-					lineColor = new Color(255, Main.DiscoG, 0);
-				if (item.type == ModContent.ItemType<PristineFury>())
-					lineColor = CalamityUtils.ColorSwap(new Color(255, 168, 53), new Color(255, 249, 0), 2f);
-				if (item.type == ModContent.ItemType<LeonidProgenitor>())
-					lineColor = CalamityUtils.ColorSwap(LeonidProgenitor.blueColor, LeonidProgenitor.purpleColor, 3f);
-				if (item.type == ModContent.ItemType<TheCommunity>())
-					lineColor = new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB);
-
-				if (lineColor != default)
-				{
-					TooltipLine line = new TooltipLine(mod, "LegendaryChallengeDrop", CalamityUtils.ColorMessage("- Legendary Challenge Drop -", lineColor));
-					tooltips.Add(line);
-					return;
-				}
-
-				TooltipLine line2 = new TooltipLine(mod, "ChallengeDrop", CalamityUtils.ColorMessage("- Challenge Drop -", new Color(255, 140, 0)));
-				tooltips.Add(line2);
-			}
+				ChallengeDropTooltip(item, tooltips);
 		}
 		#endregion
 
 		#region Rarity Coloration
-		private void ApplyRarityColors(Item item, TooltipLine nameLine)
+		private void ApplyRarityColor(Item item, TooltipLine nameLine)
 		{
 			// Apply standard post-ML rarities to the item's color first.
 			Color? standardRarityColor = CalamityUtils.GetRarityColor(customRarity);
 			if (standardRarityColor.HasValue)
 				nameLine.overrideColor = standardRarityColor.Value;
 
+			#region Uniquely Colored Developer Items
 			if (item.type == ModContent.ItemType<Fabstaff>())
 				nameLine.overrideColor = new Color(Main.DiscoR, 100, 255);
 			if (item.type == ModContent.ItemType<BlushieStaff>())
@@ -223,6 +179,42 @@ namespace CalamityMod.Items
 					nameLine.overrideColor = Color.Lerp(currentColor, nextColor, Main.GlobalTime % 2f > 1f ? 1f : Main.GlobalTime % 1f);
 				}
 			}
+			#endregion
+		}
+		#endregion
+
+		#region Challenge Drop Tooltip
+		private void ChallengeDropTooltip(Item item, IList<TooltipLine> tooltips)
+		{
+			Color? legendaryColor = null;
+			if (item.type == ModContent.ItemType<AegisBlade>() || item.type == ModContent.ItemType<YharimsCrystal>())
+				legendaryColor = new Color(255, Main.DiscoG, 53);
+			if (item.type == ModContent.ItemType<BlossomFlux>() || item.type == ModContent.ItemType<Malachite>())
+				legendaryColor = new Color(Main.DiscoR, 203, 103);
+			if (item.type == ModContent.ItemType<BrinyBaron>() || item.type == ModContent.ItemType<ColdDivinity>())
+				legendaryColor = new Color(53, Main.DiscoG, 255);
+			if (item.type == ModContent.ItemType<CosmicDischarge>())
+				legendaryColor = new Color(150, Main.DiscoG, 255);
+			if (item.type == ModContent.ItemType<SeasSearing>())
+				legendaryColor = new Color(60, Main.DiscoG, 190);
+			if (item.type == ModContent.ItemType<SHPC>())
+				legendaryColor = new Color(255, Main.DiscoG, 155);
+			if (item.type == ModContent.ItemType<Vesuvius>() || item.type == ModContent.ItemType<GoldBurdenBreaker>())
+				legendaryColor = new Color(255, Main.DiscoG, 0);
+			if (item.type == ModContent.ItemType<PristineFury>())
+				legendaryColor = CalamityUtils.ColorSwap(new Color(255, 168, 53), new Color(255, 249, 0), 2f);
+			if (item.type == ModContent.ItemType<LeonidProgenitor>())
+				legendaryColor = CalamityUtils.ColorSwap(LeonidProgenitor.blueColor, LeonidProgenitor.purpleColor, 3f);
+			if (item.type == ModContent.ItemType<TheCommunity>())
+				legendaryColor = new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB);
+
+			Color lineColor = legendaryColor.GetValueOrDefault(CalamityUtils.ChallengeDropColor);
+			string text = legendaryColor.HasValue ? "- Legendary Challenge Drop -" : "- Challenge Drop";
+			TooltipLine line = new TooltipLine(mod, "CalamityChallengeDrop", text)
+			{
+				overrideColor = lineColor
+			};
+			tooltips.Add(line);
 		}
 		#endregion
 
@@ -250,25 +242,81 @@ namespace CalamityMod.Items
 			void EditTooltipByName(string lineName, Action<TooltipLine> action) => ApplyTooltipEdits(tooltips, LineName(lineName), action);
 			#endregion
 
-			// 1) Mirrors and Recall Potions cannot be used while a boss is alive.
+			// Numerous random tooltip edits which don't fit into another category
+			#region Various Tooltip Edits
+
+			// Mirrors and Recall Potions cannot be used while a boss is alive.
 			if (item.type == ItemID.MagicMirror || item.type == ItemID.IceMirror || item.type == ItemID.CellPhone || item.type == ItemID.RecallPotion)
 				ApplyTooltipEdits(tooltips,
 					(i, l) => l.mod == "Terraria" && l.Name == (i.type == ItemID.CellPhone ? "Tooltip1" : "Tooltip0"),
 					(line) => line.text += "\nCannot be used while a boss is alive");
 
-			// 2) If Early Hardmode Rework is enabled: Remind users that ores will NOT spawn when an altar is smashed.
+			// Rod of Discord cannot be used multiple times to hurt yourself
+			if (item.type == ItemID.RodofDiscord)
+				EditTooltipByNum(0, (line) => line.text += "\nTeleportation is disabled while Chaos State is active");
+
+			// Water removing items cannot be used in the Abyss
+			string noAbyssLine = "\nCannot be used in the Abyss";
+			if (item.type == ItemID.SuperAbsorbantSponge)
+				EditTooltipByNum(0, (line) => line.text += noAbyssLine);
+			if (item.type == ItemID.EmptyBucket)
+				EditTooltipByName("Defense", (line) => line.text += noAbyssLine);
+
+			// If Early Hardmode Rework is enabled: Remind users that ores will NOT spawn when an altar is smashed.
 			if (CalamityConfig.Instance.EarlyHardmodeProgressionRework && (item.type == ItemID.Pwnhammer || item.type == ItemID.Hammush))
 				EditTooltipByNum(0, (line) => line.text += "\nDemon Altars no longer spawn ores when destroyed");
 
-			// 3) Black Belt and Master Ninja Gear have guaranteed dodges on a 60 second cooldown.
+			// Bottled Honey gives the Honey buff
+			if (item.type == ItemID.BottledHoney)
+				EditTooltipByName("HealLife", (line) => line.text += "\nGrants the Honey buff for 2 minutes");
+
+			// Warmth Potion provides debuff immunities and Death Mode cold protection
+			if (item.type == ItemID.WarmthPotion)
+			{
+				string immunityLine = "\nMakes you immune to the Chilled, Frozen, and Glacial State debuffs";
+				if (CalamityWorld.death)
+					immunityLine += "\nProvides cold protection in Death Mode";
+				EditTooltipByNum(0, (line) => line.text += immunityLine);
+			}
+
+			// Hand Warmer provides Death Mode cold protection and has a side bonus with Eskimo armor
+			if (item.type == ItemID.HandWarmer)
+			{
+				string extraLine = "\nProvides a regeneration boost while wearing the Eskimo armor";
+				if (CalamityWorld.death)
+					extraLine += "\nProvides cold protection in Death Mode";
+				EditTooltipByNum(0, (line) => line.text += extraLine);
+			}
+
+			// Invisibility Potion provides various rogue boosts
+			if (item.type == ItemID.InvisibilityPotion)
+				EditTooltipByNum(0, (line) => line.text += "\nBoosts various rogue stats depending on held weapon");
+
+			// Golden Fishing Rod inherently contains High Test Fishing Line
+			if (item.type == ItemID.GoldenFishingRod)
+				EditTooltipByName("NeedsBait", (line) => line.text += "\nIts fishing line will never break");
+
+			// Eternity Crystal notifies the player that they can accelerate the invasion
+			if (item.type == ItemID.DD2ElderCrystal)
+				EditTooltipByNum(0, (line) => line.text += "\nOnce placed you can right click the crystal to skip waves or increase the spawn rate of the invaders");
+
+			// Fix a vanilla mistake in Magic Quiver's tooltip
+			// TODO -- in 1.4 this mistake is already corrected
+			if (item.type == ItemID.MagicQuiver)
+				EditTooltipByNum(0, (line) => line.text = line.text.Replace(" damage", " arrow damage"));
+			#endregion
+
+			// Black Belt and Master Ninja Gear have guaranteed dodges on a 60 second cooldown.
+			#region Dodging Belt Tooltips
 			string beltDodgeLine = "Grants the ability to dodge attacks\n" +
 				$"The dodge has a {CalamityPlayer.BeltDodgeCooldown} second cooldown which is shared with all other dodges and reflects";
 			if (item.type == ItemID.BlackBelt)
 				EditTooltipByNum(0, (line) => line.text = beltDodgeLine);
 			if (item.type == ItemID.MasterNinjaGear)
 				EditTooltipByNum(1, (line) => line.text = beltDodgeLine);
+			#endregion
 
-			// 4) Early Hardmode ore melee weapons have new on-hit effects.
+			// Early Hardmode ore melee weapons have new on-hit effects.
 			#region Early Hardmode Melee Tooltips
 
 			// Cobalt
@@ -300,7 +348,7 @@ namespace CalamityMod.Items
 				EditTooltipByName("Knockback", (line) => line.text += "\nInflicts Holy Flames\nDeals double damage to enemies above 75% life");
 			#endregion
 
-			// 5) Other melee weapon tooltips
+			// Other melee weapon tooltips
 			#region Other Melee Tooltips
 
 			if (item.type == ItemID.CandyCaneSword || item.type == ItemID.FruitcakeChakram)
@@ -320,28 +368,13 @@ namespace CalamityMod.Items
 				EditTooltipByName("Knockback", (line) => line.text += "\nInflicts Burning Blood on hit");
 			#endregion
 
-			// 6) Bottled Honey gives the Honey buff
-			if (item.type == ItemID.BottledHoney)
-				EditTooltipByName("HealLife", (line) => line.text += "\nGrants the Honey buff for 2 minutes");
-
-			// 7) Rod of Discord cannot be used multiple times to hurt yourself
-			if (item.type == ItemID.RodofDiscord)
-				EditTooltipByNum(0, (line) => line.text += "\nTeleportation is disabled while Chaos State is active");
-
-			// 8) Water removing items cannot be used in the Abyss
-			string noAbyssLine = "\nCannot be used in the Abyss";
-			if (item.type == ItemID.SuperAbsorbantSponge)
-				EditTooltipByNum(0, (line) => line.text += noAbyssLine);
-			if (item.type == ItemID.EmptyBucket)
-				EditTooltipByName("Defense", (line) => line.text += noAbyssLine);
-
-			// 9) Light pets, accessories, and other items which boost the player's Abyss light stat
+			// Light pets, accessories, and other items which boost the player's Abyss light stat
 			#region Abyss Light Tooltips
 
 			// +1 to Abyss light level
 			string abyssSmallLightLine = "\nProvides a small amount of light in the abyss";
 
-			if (item.type == ItemID.CrimsonHeart || item.type == ItemID.ShadowOrb || item.type == ItemID.MagicLantern || item.type == ItemID.JellyfishNecklace)
+			if (item.type == ItemID.CrimsonHeart || item.type == ItemID.ShadowOrb || item.type == ItemID.MagicLantern || item.type == ItemID.JellyfishNecklace || item.type == ItemID.MiningHelmet)
 				EditTooltipByNum(0, (line) => line.text += abyssSmallLightLine);
 			if (item.type == ItemID.JellyfishDivingGear)
 				EditTooltipByNum(1, (line) => line.text += abyssSmallLightLine);
@@ -349,11 +382,11 @@ namespace CalamityMod.Items
 			// +2 to Abyss light level
 			string abyssMediumLightLine = "\nProvides a moderate amount of light in the abyss";
 
-			if (item.type == ItemID.FairyBell || item.type == ItemID.DD2PetGhost)
-				EditTooltipByNum(0, (line) => line.text += abyssMediumLightLine);
-
 			if (item.type == ItemID.ShinePotion)
 				EditTooltipByName("BuffTime", (line) => line.text += abyssMediumLightLine);
+
+			if (item.type == ItemID.FairyBell || item.type == ItemID.DD2PetGhost)
+				EditTooltipByNum(0, (line) => line.text += abyssMediumLightLine);
 
 			// +3 to Abyss light level
 			string abyssLargeLightLine = "\nProvides a large amount of light in the abyss";
@@ -362,240 +395,78 @@ namespace CalamityMod.Items
 				EditTooltipByNum(0, (line) => line.text += abyssLargeLightLine);
 			if (item.type == ItemID.SuspiciousLookingTentacle)
 				EditTooltipByNum(1, (line) => line.text += abyssLargeLightLine);
-
-			if (item.type == ItemID.ArcticDivingGear)
-			{
-				foreach (TooltipLine line2 in tooltips)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "Tooltip1")
-					{
-						line2.text += "\nProvides a small amount of light in the abyss\n" +
-							"Moderately reduces breath loss in the abyss";
-					}
-				}
-			}
 			#endregion
 
-			if (item.type == ItemID.GillsPotion)
-			{
-				foreach (TooltipLine line2 in tooltips)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "BuffTime")
-					{
-						line2.text += "\nGreatly reduces breath loss in the abyss";
-					}
-				}
-			}
+			// Accessories and other items which boost the player's ability to breathe in the Abyss
+			#region Abyss Breath Tooltips
+
+			// Moderate breath boost
+			string abyssModerateBreathLine = "\nModerately reduces breath loss in the abyss";
+
 			if (item.type == ItemID.DivingHelmet)
-			{
-				foreach (TooltipLine line2 in tooltips)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
-					{
-						line2.text += "\nModerately reduces breath loss in the abyss";
-					}
-				}
-			}
+				EditTooltipByNum(0, (line) => line.text += abyssModerateBreathLine);
+			if (item.type == ItemID.ArcticDivingGear)
+				EditTooltipByNum(1, (line) => line.text += abyssSmallLightLine + abyssModerateBreathLine);
+
+			// Great breath boost
+			string abyssGreatBreathLine = "\nGreatly reduces breath loss in the abyss";
+
+			if (item.type == ItemID.GillsPotion)
+				EditTooltipByName("BuffTime", (line) => line.text += abyssGreatBreathLine);
+
 			if (item.type == ItemID.NeptunesShell || item.type == ItemID.MoonShell)
-			{
-				foreach (TooltipLine line2 in tooltips)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
-					{
-						line2.text += "\nGreatly reduces breath loss in the abyss";
-					}
-				}
-			}
+				EditTooltipByNum(0, (line) => line.text += abyssGreatBreathLine);
 			if (item.type == ItemID.CelestialShell)
-			{
-				foreach (TooltipLine line2 in tooltips)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "Tooltip1")
-					{
-						line2.text += "\nGreatly reduces breath loss in the abyss";
-					}
-				}
-			}
-			if (item.type == ItemID.WarmthPotion)
-			{
-				if (CalamityWorld.death)
-				{
-					foreach (TooltipLine line2 in tooltips)
-					{
-						if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
-						{
-							line2.text += "\nMakes you immune to the Chilled, Frozen, and Glacial State debuffs\n" +
-								"Provides cold protection in Death Mode";
-						}
-					}
-				}
-				else
-				{
-					foreach (TooltipLine line2 in tooltips)
-					{
-						if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
-						{
-							line2.text += "\nMakes you immune to the Chilled, Frozen, and Glacial State debuffs";
-						}
-					}
-				}
-			}
-			if (item.type == ItemID.FlaskofVenom)
-			{
-				foreach (TooltipLine line2 in tooltips)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
-					{
-						line2.text = "Melee and rogue attacks inflict Venom on enemies";
-					}
-				}
-			}
+				EditTooltipByNum(1, (line) => line.text += abyssModerateBreathLine);
+			#endregion
+
+			// Flasks apply to Rogue weapons
+			#region Rogue Flask Tooltips
 			if (item.type == ItemID.FlaskofCursedFlames)
-			{
-				foreach (TooltipLine line2 in tooltips)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
-					{
-						line2.text = "Melee and rogue attacks inflict enemies with cursed flames";
-					}
-				}
-			}
+				EditTooltipByNum(0, (line) => line.text += "\nRogue attacks inflict enemies with cursed flames");
 			if (item.type == ItemID.FlaskofFire)
-			{
-				foreach (TooltipLine line2 in tooltips)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
-					{
-						line2.text = "Melee and rogue attacks set enemies on fire";
-					}
-				}
-			}
+				EditTooltipByNum(0, (line) => line.text += "\nRogue attacks set enemies on fire");
 			if (item.type == ItemID.FlaskofGold)
-			{
-				foreach (TooltipLine line2 in tooltips)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
-					{
-						line2.text = "Melee and rogue attacks make enemies drop more gold";
-					}
-				}
-			}
+				EditTooltipByNum(0, (line) => line.text += "\nRogue attacks make enemies drop more gold");
 			if (item.type == ItemID.FlaskofIchor)
-			{
-				foreach (TooltipLine line2 in tooltips)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
-					{
-						line2.text = "Melee and rogue attacks decrease enemy defense";
-					}
-				}
-			}
+				EditTooltipByNum(0, (line) => line.text += "\nRogue attacks decrease enemy defense");
 			if (item.type == ItemID.FlaskofNanites)
-			{
-				foreach (TooltipLine line2 in tooltips)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
-					{
-						line2.text = "Melee and rogue attacks confuse enemies";
-					}
-				}
-			}
+				EditTooltipByNum(0, (line) => line.text += "\nRogue attacks confuse enemies");
+			// party flask is unique because it affects ALL projectiles in Calamity, not just "also rogue ones"
 			if (item.type == ItemID.FlaskofParty)
-			{
-				foreach (TooltipLine line2 in tooltips)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
-					{
-						line2.text = "All attacks cause confetti to appear";
-					}
-				}
-			}
+				EditTooltipByNum(0, (line) => line.text = "All attacks cause confetti to appear");
 			if (item.type == ItemID.FlaskofPoison)
-			{
-				foreach (TooltipLine line2 in tooltips)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
-					{
-						line2.text = "Melee and rogue attacks poison enemies";
-					}
-				}
-			}
+				EditTooltipByNum(0, (line) => line.text += "\nRogue attacks poison enemies");
+			if (item.type == ItemID.FlaskofVenom)
+				EditTooltipByNum(0, (line) => line.text += "\nRogue attacks inflict Venom on enemies");
+			#endregion
+
+			// Rebalances to vanilla item stats
+			#region Vanilla Item Rebalance Tooltips
+
+			// Worm Scarf only gives 10% DR instead of 17%
 			if (item.type == ItemID.WormScarf)
-			{
-				foreach (TooltipLine line2 in tooltips)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
-					{
-						line2.text = "Reduces damage taken by 10%";
-					}
-				}
-			}
+				EditTooltipByNum(0, (line) => line.text = line.text = line.text.Replace("17%", "10%"));
+
 			if (item.type == ItemID.TitanGlove)
-			{
-				foreach (TooltipLine line2 in tooltips)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
-					{
-						line2.text += "\n10% increased true melee damage";
-					}
-				}
-			}
-			if (item.type == ItemID.PowerGlove)
-			{
-				foreach (TooltipLine line2 in tooltips)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "Tooltip1")
-					{
-						line2.text += "\n10% increased true melee damage";
-					}
-				}
-			}
-			if (item.type == ItemID.MechanicalGlove)
-			{
-				foreach (TooltipLine line2 in tooltips)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "Tooltip1")
-					{
-						line2.text += "\n10% increased true melee damage";
-					}
-				}
-			}
+				EditTooltipByNum(0, (line) => line.text += "\n10% increased true melee damage");
+			if (item.type == ItemID.PowerGlove || item.type == ItemID.MechanicalGlove)
+				EditTooltipByNum(1, (line) => line.text += "\n10% increased true melee damage");
 			if (item.type == ItemID.FireGauntlet)
 			{
+				string extraLine = "\n10% increased true melee damage";
 				if (CalamityWorld.death)
-				{
-					foreach (TooltipLine line2 in tooltips)
-					{
-						if (line2.mod == "Terraria" && line2.Name == "Tooltip1")
-						{
-							line2.text = "14% increased melee damage and speed\n" +
-								"10% increased true melee damage\n" +
-								"Provides heat and cold protection in Death Mode";
-						}
-					}
-				}
-				else
-				{
-					foreach (TooltipLine line2 in tooltips)
-					{
-						if (line2.mod == "Terraria" && line2.Name == "Tooltip1")
-						{
-							line2.text = "14% increased melee damage and speed\n" +
-								"10% increased true melee damage";
-						}
-					}
-				}
+					extraLine += "\nProvides heat and cold protection in Death Mode";
+				EditTooltipByNum(1, (line) => line.text = line.text.Replace("12%", "14%") + extraLine);
 			}
+
+			// Spectre Hood's lifesteal is heavily nerfed, so it only reduces magic damage by 20% instead of 40%
 			if (item.type == ItemID.SpectreHood)
-			{
-				foreach (TooltipLine line2 in tooltips)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
-					{
-						line2.text = "20% decreased magic damage";
-					}
-				}
-			}
+				EditTooltipByNum(0, (line) => line.text = line.text.Replace("40%", "20%"));
+			#endregion
+
+			// Items which provide immunity to either heat or cold in Death Mode
+			#region Death Mode Environmental Immunity Tooltips
 			if (item.type == ItemID.ObsidianSkinPotion)
 			{
 				string heatImmunity = CalamityWorld.death ? "\nProvides heat protection in Death Mode" : "";
@@ -652,34 +523,16 @@ namespace CalamityMod.Items
 					}
 				}
 			}
-			if (item.type == ItemID.InvisibilityPotion)
-			{
-				foreach (TooltipLine line2 in tooltips)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
-					{
-						line2.text += "\nBoosts certain stats when holding certain types of rogue weapons";
-					}
-				}
-			}
-			if (item.type == ItemID.GoldenFishingRod)
-			{
-				foreach (TooltipLine line2 in tooltips)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "NeedsBait")
-					{
-						line2.text = "Requires bait to catch fish\n" +
-							"The line will never break";
-					}
-				}
-			}
+			#endregion
+
+			// Add mentions of what Calamity ores vanilla pickaxes can mine
+			#region Pickaxe New Ore Tooltips
 			if (item.type == ItemID.Picksaw)
 			{
 				foreach (TooltipLine line2 in tooltips)
 				{
 					if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
 					{
-						// I'm leaving this intentionally ambiguous so that people have to search for Scoria Ore
 						line2.text = "Capable of mining Lihzahrd Bricks and Scoria Ore";
 					}
 				}
@@ -728,22 +581,10 @@ namespace CalamityMod.Items
 					}
 				}
 			}
+			#endregion
 
-			if (Main.player[Main.myPlayer].Calamity().trueMeleeDamage > 0D)
-			{
-				if (item.melee && item.damage > 0)
-				{
-					foreach (TooltipLine line2 in tooltips)
-					{
-						if (line2.mod == "Terraria" && line2.Name == "Damage")
-						{
-							line2.text += " : " + string.Concat((int)(Main.player[Main.myPlayer].Calamity().actualMeleeDamageStat * item.damage *
-								(1D + Main.player[Main.myPlayer].Calamity().trueMeleeDamage) + 5E-06f)) + " true melee damage";
-						}
-					}
-				}
-			}
-
+			// Rebalances and information about vanilla set bonuses
+			#region Vanilla Set Bonus Tooltips
 			if (item.type == ItemID.MeteorHelmet || item.type == ItemID.MeteorSuit || item.type == ItemID.MeteorLeggings)
 			{
 				foreach (TooltipLine line2 in tooltips)
@@ -974,42 +815,10 @@ Grants immunity to fire blocks, and temporary immunity to lava";
 					}
 				}
 			}
-			if (item.type == ItemID.DD2ElderCrystal)
-				tooltips.FirstOrDefault(line => line.mod == "Terraria" && line.Name == "Tooltip0").text += "\nOnce placed you can right click the crystal to skip waves or increase the spawn rate of the invaders";
+			#endregion
 
-			if (item.type == ItemID.MagicQuiver)
-			{
-				foreach (TooltipLine line2 in tooltips)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
-					{
-						line2.text = "Increases arrow damage by 10% and greatly increases arrow speed";
-					}
-				}
-			}
-			if (item.type == ItemID.MiningHelmet)
-			{
-				foreach (TooltipLine line2 in tooltips)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
-					{
-						line2.text = "Provides light when worn\n" +
-							"Provides a small amount of light in the Abyss";
-					}
-				}
-			}
-			if (item.type == ItemID.HandWarmer)
-			{
-				string coldImmunity = CalamityWorld.death ? "\nProvides cold protection in Death Mode" : "";
-				foreach (TooltipLine line2 in tooltips)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
-					{
-						line2.text = "Provides immunity to chilling and freezing effects\n" +
-							"Provides a regeneration boost while wearing the Eskimo armor" + coldImmunity;
-					}
-				}
-			}
+			// Provide the full, raw stats of every vanilla set of wings
+			#region Wing Stat Tooltips
 			if (item.type == ItemID.AngelWings)
 			{
 				foreach (TooltipLine line2 in tooltips)
@@ -1452,6 +1261,9 @@ Grants immunity to fire blocks, and temporary immunity to lava";
 					}
 				}
 			}
+			#endregion
+
+			#region Grappling Hook Stat Tooltips
 			if (item.type == ItemID.GrapplingHook)
 			{
 				foreach (TooltipLine line2 in tooltips)
@@ -1777,6 +1589,9 @@ Grants immunity to fire blocks, and temporary immunity to lava";
 					}
 				}
 			}
+			#endregion
+
+			#region Accessory Prefix Rebalance Tooltips
 			if (item.accessory)
 			{
 				if (item.prefix == PrefixID.Brisk)
@@ -1902,6 +1717,34 @@ Grants immunity to fire blocks, and temporary immunity to lava";
 					}
 				}
 			}
+			#endregion
+		}
+		#endregion
+
+		#region True Melee Damage Tooltip
+		private void TrueMeleeDamageTooltip(Item item, IList<TooltipLine> tooltips)
+		{
+			TooltipLine line = tooltips.FirstOrDefault((l) => l.mod == "Terraria" && l.Name == "Damage");
+
+			// If there somehow isn't a damage tooltip line, do not try to perform any edits.
+			if (line is null)
+				return;
+
+			// Start with the existing line of melee damage.
+			StringBuilder sb = new StringBuilder(64);
+			sb.Append(line.text).Append(" : ");
+
+			Player p = Main.LocalPlayer;
+			float itemCurrentDamage = item.damage * p.MeleeDamage();
+			double trueMeleeBoost = 1D + p.Calamity().trueMeleeDamage;
+			double imprecisionRoundingCorrection = 5E-06D;
+			int damageToDisplay = (int)(itemCurrentDamage * trueMeleeBoost + imprecisionRoundingCorrection);
+			sb.Append(damageToDisplay);
+
+			// These two pieces are split apart for ease of translation
+			sb.Append(' ');
+			sb.Append("true melee damage");
+			line.text = sb.ToString();
 		}
 		#endregion
 
@@ -1919,6 +1762,30 @@ Grants immunity to fire blocks, and temporary immunity to lava";
 					isModifier = true
 				};
 				tooltips.Add(StealthGen);
+			}
+		}
+		#endregion
+
+		#region Fargo Biome Fountain Tooltip
+		private void FargoFountainTooltip(Item item, IList<TooltipLine> tooltips)
+		{
+			if (CalamityMod.Instance.fargos is null)
+				return;
+
+			if (item.type == ModContent.ItemType<SunkenSeaFountain>())
+			{
+				TooltipLine line = new TooltipLine(mod, "FargoFountain", "Forces surrounding biome state to Sunken Sea upon activation");
+				tooltips.Add(line);
+			}
+			if (item.type == ModContent.ItemType<SulphurousFountainItem>())
+			{
+				TooltipLine line = new TooltipLine(mod, "FargoFountain", "Forces surrounding biome state to Sulphurous Sea upon activation");
+				tooltips.Add(line);
+			}
+			if (item.type == ModContent.ItemType<AstralFountainItem>())
+			{
+				TooltipLine line = new TooltipLine(mod, "FargoFountain", "Forces surrounding biome state to Astral upon activation");
+				tooltips.Add(line);
 			}
 		}
 		#endregion
