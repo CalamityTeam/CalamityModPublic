@@ -10,6 +10,22 @@ namespace CalamityMod
 {
 	public static partial class CalamityUtils
 	{
+		#region Item Rarity Utilities
+		internal const int TurquoiseRarityValue = 12;
+		internal static readonly Color TurquoiseRarityColor = new Color(0, 255, 200);
+		internal const int PureGreenRarityValue = 13;
+		internal static readonly Color PureGreenRarityColor = new Color(0, 255, 0);
+		internal const int DarkBlueRarityValue = 14;
+		internal static readonly Color DarkBlueRarityColor = new Color(43, 96, 222);
+		internal const int VioletRarityValue = 15;
+		internal static readonly Color VioletRarityColor = new Color(108, 45, 199);
+		internal const int HotPinkRarityValue = 16;
+		internal static readonly Color HotPinkRarityColor = new Color(255, 0, 255);
+		internal const int RainbowRarityValue = 30;
+		// The rainbow  rarity has an ever-shifting color, not a stored constant
+		internal const int DraedonRustRarityValue = 33;
+		internal static readonly Color DraedonRustRarityColor = new Color(204, 71, 35);
+
 		public static readonly CalamityRarity[] postMLRarities =
 		{
 			CalamityRarity.Turquoise,
@@ -18,6 +34,7 @@ namespace CalamityMod
 			CalamityRarity.Violet,
 			CalamityRarity.HotPink
 		};
+
 		public static bool IsPostML(this CalamityRarity calrare)
 		{
 			for(int i = 0; i < postMLRarities.Length; ++i)
@@ -25,6 +42,31 @@ namespace CalamityMod
 					return true;
 			return false;
 		}
+
+		public static Color? GetRarityColor(CalamityRarity calrare)
+		{
+			switch (calrare)
+			{
+				default:
+					return null;
+				case CalamityRarity.Turquoise:
+					return TurquoiseRarityColor;
+				case CalamityRarity.PureGreen:
+					return PureGreenRarityColor;
+				case CalamityRarity.DarkBlue:
+					return DarkBlueRarityColor;
+				case CalamityRarity.Violet:
+					return VioletRarityColor;
+				case CalamityRarity.HotPink:
+					return HotPinkRarityColor;
+
+				case CalamityRarity.Rainbow:
+					return new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB);
+				case CalamityRarity.DraedonRust:
+					return DraedonRustRarityColor;
+			}
+		}
+		#endregion
 
 		/// <summary>
 		/// Converts the given ModHotKey into a string for insertion into item tooltips.<br></br>
