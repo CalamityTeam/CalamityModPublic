@@ -92,7 +92,7 @@ namespace CalamityMod.NPCs.Yharon
             npc.noTileCollide = true;
             npc.netAlways = true;
 
-            Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
+            Mod calamityModMusic = CalamityMod.Instance.musicMod;
             if (calamityModMusic != null)
                 music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/YHARON");
             else
@@ -1552,7 +1552,7 @@ namespace CalamityMod.NPCs.Yharon
 
             if (!moveCloser)
             {
-                Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
+                Mod calamityModMusic = CalamityMod.Instance.musicMod;
                 if (calamityModMusic != null)
                     music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/DragonGod");
                 else

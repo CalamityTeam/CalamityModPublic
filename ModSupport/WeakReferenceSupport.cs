@@ -225,9 +225,8 @@ namespace CalamityMod
 		/// </summary>
 		private static void BossChecklistSupport()
 		{
-			Mod bossChecklist = ModLoader.GetMod("BossChecklist");
-			Mod calamity = GetInstance<CalamityMod>();
-
+			CalamityMod calamity = GetInstance<CalamityMod>();
+			Mod bossChecklist = calamity.bossChecklist;
 			if (bossChecklist is null)
 				return;
 
@@ -798,12 +797,9 @@ namespace CalamityMod
 
 		private static void FargosSupport()
 		{
-			Mod fargos = ModLoader.GetMod("Fargowiltas");
+			Mod fargos = GetInstance<CalamityMod>().fargos;
 			if (fargos is null)
 				return;
-
-			// Mark Fargo's Mutant Mod as loaded so that Calamity doesn't add ANY boss summons to vanilla NPCs, even for its own bosses
-			GetInstance<CalamityMod>().fargosMutant = true;
 
 			void AddToMutantShop(string bossName, string summonItemName, Func<bool> downed, int price)
 			{
@@ -838,7 +834,7 @@ namespace CalamityMod
 
 		private static void CensusSupport()
 		{
-			Mod censusMod = ModLoader.GetMod("Census");
+			Mod censusMod = GetInstance<CalamityMod>().census;
 			if (censusMod != null)
 			{
 				censusMod.Call("TownNPCCondition", NPCType<SEAHOE>(), "Defeat a Giant Clam after defeating the Desert Scourge");
@@ -850,7 +846,7 @@ namespace CalamityMod
 
 		private static void SummonersAssociationSupport()
 		{
-			Mod sAssociation = ModLoader.GetMod("SummonersAssociation");
+			Mod sAssociation = GetInstance<CalamityMod>().summonersAssociation;
 			if (sAssociation is null)
 				return;
 
