@@ -1326,72 +1326,120 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 						num825 = player.position.X + (player.width / 2) - vector82.X;
 						num826 = player.position.Y + (player.height / 2) - vector82.Y;
 
-						if (Main.netMode != NetmodeID.MultiplayerClient)
-						{
-							npc.localAI[1] += wormAlive ? 0.5f : 1f;
-							if (npc.localAI[1] > 90f)
-							{
-								npc.localAI[1] = 0f;
+                        npc.localAI[1] += wormAlive ? 0.5f : 1f;
+                        if (npc.localAI[1] > 90f)
+                        {
+                            npc.localAI[1] = 0f;
 
-								float num828 = 10f * uDieLul;
-								Vector2 value9 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
-								float num180 = player.position.X + player.width * 0.5f - value9.X;
-								float num181 = Math.Abs(num180) * 0.1f;
-								float num182 = player.position.Y + player.height * 0.5f - value9.Y - num181;
-								float num183 = (float)Math.Sqrt(num180 * num180 + num182 * num182);
+                            float num828 = 10f * uDieLul;
+                            Vector2 value9 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
+                            float num180 = player.position.X + player.width * 0.5f - value9.X;
+                            float num181 = Math.Abs(num180) * 0.1f;
+                            float num182 = player.position.Y + player.height * 0.5f - value9.Y - num181;
+                            float num183 = (float)Math.Sqrt(num180 * num180 + num182 * num182);
 
-								num183 = num828 / num183;
-								num180 *= num183;
-								num182 *= num183;
-								value9.X += num180;
-								value9.Y += num182;
+                            num183 = num828 / num183;
+                            num180 *= num183;
+                            num182 *= num183;
+                            value9.X += num180;
+                            value9.Y += num182;
 
-								int randomShot = Main.rand.Next(6);
-								if (randomShot == 0 && canFireSplitingFireball)
-								{
-									canFireSplitingFireball = false;
-									randomShot = ModContent.ProjectileType<BrimstoneFireblast>();
-									Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SCalSounds/BrimstoneBigShoot"), npc.Center);
-									num827 = (float)Math.Sqrt(num825 * num825 + num826 * num826);
-									num827 = num828 / num827;
-									num825 *= num827;
-									num826 *= num827;
-									vector82.X += num825 * 8f;
-									vector82.Y += num826 * 8f;
-									Projectile.NewProjectile(vector82.X, vector82.Y, num825, num826, randomShot, fireblastDamage, 0f, Main.myPlayer, 0f, 0f);
-								}
-								else if (randomShot == 1 && canFireSplitingFireball)
-								{
-									canFireSplitingFireball = false;
-									randomShot = ModContent.ProjectileType<BrimstoneGigaBlast>();
-									Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SCalSounds/BrimstoneShoot"), npc.Center);
-									num827 = (float)Math.Sqrt(num825 * num825 + num826 * num826);
-									num827 = num828 / num827;
-									num825 *= num827;
-									num826 *= num827;
-									vector82.X += num825 * 8f;
-									vector82.Y += num826 * 8f;
-									Projectile.NewProjectile(vector82.X, vector82.Y, num825, num826, randomShot, gigablastDamage, 0f, Main.myPlayer, 0f, 0f);
-								}
-								else
-								{
-									canFireSplitingFireball = true;
-									randomShot = ModContent.ProjectileType<BrimstoneBarrage>();
-									Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SCalSounds/BrimstoneBigShoot"), npc.Center);
-									for (int num186 = 0; num186 < 8; num186++)
-									{
-										num180 = player.position.X + player.width * 0.5f - value9.X;
-										num182 = player.position.Y + player.height * 0.5f - value9.Y;
-										num183 = (float)Math.Sqrt(num180 * num180 + num182 * num182);
-										float speedBoost = num186 > 3 ? -(num186 - 3) : num186;
-										num183 = (8f + speedBoost) / num183;
-										num180 *= num183;
-										num182 *= num183;
-										Projectile.NewProjectile(value9.X, value9.Y, num180 + speedBoost, num182 + speedBoost, randomShot, barrageDamage, 0f, Main.myPlayer, 0f, 0f);
-									}
-								}
-							}
-						}
+                            int randomShot = Main.rand.Next(6);
+                            if (randomShot == 0 && canFireSplitingFireball)
+                            {
+                                canFireSplitingFireball = false;
+                                randomShot = ModContent.ProjectileType<BrimstoneFireblast>();
+                                Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SCalSounds/BrimstoneBigShoot"), npc.Center);
+                                num827 = (float)Math.Sqrt(num825 * num825 + num826 * num826);
+                                num827 = num828 / num827;
+                                num825 *= num827;
+                                num826 *= num827;
+                                vector82.X += num825 * 8f;
+                                vector82.Y += num826 * 8f;
+
+                                for (int i = 0; i < 15; i++)
+                                {
+                                    Dust magic = Dust.NewDustPerfect(value9, 264);
+                                    magic.velocity = new Vector2(num180, num182).RotatedByRandom(0.36f) * Main.rand.NextFloat(0.9f, 1.1f);
+                                    magic.color = Color.OrangeRed;
+                                    magic.scale = 1.2f;
+                                    magic.fadeIn = 0.6f;
+                                    magic.noLight = true;
+                                    magic.noGravity = true;
+                                }
+
+                                if (Main.netMode != NetmodeID.MultiplayerClient)
+                                {
+                                    Projectile.NewProjectile(vector82.X, vector82.Y, num825, num826, randomShot, fireblastDamage, 0f, Main.myPlayer, 0f, 0f);
+                                    npc.netUpdate = true;
+                                }
+                            }
+                            else if (randomShot == 1 && canFireSplitingFireball)
+                            {
+                                canFireSplitingFireball = false;
+                                randomShot = ModContent.ProjectileType<BrimstoneGigaBlast>();
+                                Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SCalSounds/BrimstoneShoot"), npc.Center);
+                                num827 = (float)Math.Sqrt(num825 * num825 + num826 * num826);
+                                num827 = num828 / num827;
+                                num825 *= num827;
+                                num826 *= num827;
+                                vector82.X += num825 * 8f;
+                                vector82.Y += num826 * 8f;
+
+                                for (int i = 0; i < 20; i++)
+                                {
+                                    Dust magic = Dust.NewDustPerfect(value9, (int)CalamityDusts.Brimstone);
+                                    magic.velocity = new Vector2(num180, num182).RotatedByRandom(0.36f) * Main.rand.NextFloat(0.9f, 1.1f) * 1.3f;
+                                    magic.color = Color.Red;
+                                    magic.scale = 1.425f;
+                                    magic.fadeIn = 0.75f;
+                                    magic.noLight = true;
+                                    magic.noGravity = true;
+                                }
+
+                                if (Main.netMode != NetmodeID.MultiplayerClient)
+                                {
+                                    Projectile.NewProjectile(vector82.X, vector82.Y, num825, num826, randomShot, gigablastDamage, 0f, Main.myPlayer, 0f, 0f);
+                                    npc.netUpdate = true;
+                                }
+                            }
+                            else
+                            {
+                                canFireSplitingFireball = true;
+                                randomShot = ModContent.ProjectileType<BrimstoneBarrage>();
+                                Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SCalSounds/BrimstoneBigShoot"), npc.Center);
+                                for (int num186 = 0; num186 < 8; num186++)
+                                {
+                                    num180 = player.position.X + player.width * 0.5f - value9.X;
+                                    num182 = player.position.Y + player.height * 0.5f - value9.Y;
+                                    num183 = (float)Math.Sqrt(num180 * num180 + num182 * num182);
+                                    float speedBoost = num186 > 3 ? -(num186 - 3) : num186;
+                                    num183 = (8f + speedBoost) / num183;
+                                    num180 *= num183;
+                                    num182 *= num183;
+
+                                    for (int i = 0; i < 7; i++)
+                                    {
+                                        Vector2 magicDustVelocity = new Vector2(num180 + speedBoost, num182 + speedBoost);
+                                        magicDustVelocity *= MathHelper.Lerp(0.3f, 1f, i / 7f);
+
+                                        Dust magic = Dust.NewDustPerfect(value9, 264);
+                                        magic.velocity = magicDustVelocity;
+                                        magic.color = Color.Red;
+                                        magic.scale = MathHelper.Lerp(0.85f, 1.5f, i / 7f);
+                                        magic.fadeIn = 0.67f;
+                                        magic.noLight = true;
+                                        magic.noGravity = true;
+                                    }
+
+                                    if (Main.netMode != NetmodeID.MultiplayerClient)
+                                    {
+                                        Projectile.NewProjectile(value9.X, value9.Y, num180 + speedBoost, num182 + speedBoost, randomShot, barrageDamage, 0f, Main.myPlayer, 0f, 0f);
+                                        npc.netUpdate = true;
+                                    }
+                                }
+                            }
+                        }
 
                         FrameType = FrameAnimationType.FasterUpwardDraft;
 					}
@@ -1934,73 +1982,121 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 						num825 = player.position.X + (player.width / 2) - vector82.X;
 						num826 = player.position.Y + (player.height / 2) - vector82.Y;
 
-						if (Main.netMode != NetmodeID.MultiplayerClient)
-						{
-							npc.localAI[1] += wormAlive ? 0.5f : 1f;
-							if (npc.localAI[1] > 60f)
-							{
-								npc.localAI[1] = 0f;
+                        npc.localAI[1] += wormAlive ? 0.5f : 1f;
+                        if (npc.localAI[1] > 60f)
+                        {
+                            npc.localAI[1] = 0f;
 
-								float num828 = 10f * uDieLul;
-								Vector2 value9 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
-								float num180 = player.position.X + player.width * 0.5f - value9.X;
-								float num181 = Math.Abs(num180) * 0.1f;
-								float num182 = player.position.Y + player.height * 0.5f - value9.Y - num181;
-								float num183 = (float)Math.Sqrt(num180 * num180 + num182 * num182);
+                            float num828 = 10f * uDieLul;
+                            Vector2 value9 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
+                            float num180 = player.position.X + player.width * 0.5f - value9.X;
+                            float num181 = Math.Abs(num180) * 0.1f;
+                            float num182 = player.position.Y + player.height * 0.5f - value9.Y - num181;
+                            float num183 = (float)Math.Sqrt(num180 * num180 + num182 * num182);
 
-								num183 = num828 / num183;
-								num180 *= num183;
-								num182 *= num183;
-								value9.X += num180;
-								value9.Y += num182;
+                            num183 = num828 / num183;
+                            num180 *= num183;
+                            num182 *= num183;
+                            value9.X += num180;
+                            value9.Y += num182;
 
-								int randomShot = Main.rand.Next(6);
-								if (randomShot == 0 && canFireSplitingFireball)
-								{
-									Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SCalSounds/BrimstoneBigShoot"), npc.Center);
-									canFireSplitingFireball = false;
-									randomShot = ModContent.ProjectileType<BrimstoneFireblast>();
-									num827 = (float)Math.Sqrt(num825 * num825 + num826 * num826);
-									num827 = num828 / num827;
-									num825 *= num827;
-									num826 *= num827;
-									vector82.X += num825 * 8f;
-									vector82.Y += num826 * 8f;
-									Projectile.NewProjectile(vector82.X, vector82.Y, num825, num826, randomShot, fireblastDamage, 0f, Main.myPlayer, 0f, 0f);
-								}
-								else if (randomShot == 1 && canFireSplitingFireball)
-								{
-									Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SCalSounds/BrimstoneShoot"), npc.Center);
-									canFireSplitingFireball = false;
-									randomShot = ModContent.ProjectileType<BrimstoneGigaBlast>();
-									num827 = (float)Math.Sqrt(num825 * num825 + num826 * num826);
-									num827 = num828 / num827;
-									num825 *= num827;
-									num826 *= num827;
-									vector82.X += num825 * 8f;
-									vector82.Y += num826 * 8f;
-									Projectile.NewProjectile(vector82.X, vector82.Y, num825, num826, randomShot, gigablastDamage, 0f, Main.myPlayer, 0f, 0f);
-								}
-								else
-								{
-									Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SCalSounds/BrimstoneBigShoot"), npc.Center);
-									canFireSplitingFireball = true;
-									randomShot = ModContent.ProjectileType<BrimstoneBarrage>();
-									for (int num186 = 0; num186 < 8; num186++)
-									{
-										num180 = player.position.X + player.width * 0.5f - value9.X;
-										num182 = player.position.Y + player.height * 0.5f - value9.Y;
-										num183 = (float)Math.Sqrt(num180 * num180 + num182 * num182);
-										float speedBoost = num186 > 3 ? -(num186 - 3) : num186;
-										num183 = (8f + speedBoost) / num183;
-										num180 *= num183;
-										num182 *= num183;
-										Projectile.NewProjectile(value9.X, value9.Y, num180 + speedBoost, num182 + speedBoost, randomShot, barrageDamage, 0f, Main.myPlayer, 0f, 0f);
-									}
-								}
-							}
-						}
-					}
+                            int randomShot = Main.rand.Next(6);
+                            if (randomShot == 0 && canFireSplitingFireball)
+                            {
+                                Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SCalSounds/BrimstoneBigShoot"), npc.Center);
+                                canFireSplitingFireball = false;
+                                randomShot = ModContent.ProjectileType<BrimstoneFireblast>();
+                                num827 = (float)Math.Sqrt(num825 * num825 + num826 * num826);
+                                num827 = num828 / num827;
+                                num825 *= num827;
+                                num826 *= num827;
+                                vector82.X += num825 * 8f;
+                                vector82.Y += num826 * 8f;
+
+                                for (int i = 0; i < 16; i++)
+                                {
+                                    Dust magic = Dust.NewDustPerfect(value9, 264);
+                                    magic.velocity = new Vector2(num180, num182).RotatedByRandom(0.36f) * Main.rand.NextFloat(0.9f, 1.1f) * 1.2f;
+                                    magic.color = Color.OrangeRed;
+                                    magic.scale = 1.3f;
+                                    magic.fadeIn = 0.6f;
+                                    magic.noLight = true;
+                                    magic.noGravity = true;
+                                }
+
+                                if (Main.netMode != NetmodeID.MultiplayerClient)
+                                {
+                                    Projectile.NewProjectile(vector82.X, vector82.Y, num825, num826, randomShot, fireblastDamage, 0f, Main.myPlayer, 0f, 0f);
+                                    npc.netUpdate = true;
+                                }
+                            }
+                            else if (randomShot == 1 && canFireSplitingFireball)
+                            {
+                                Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SCalSounds/BrimstoneShoot"), npc.Center);
+                                canFireSplitingFireball = false;
+                                randomShot = ModContent.ProjectileType<BrimstoneGigaBlast>();
+                                num827 = (float)Math.Sqrt(num825 * num825 + num826 * num826);
+                                num827 = num828 / num827;
+                                num825 *= num827;
+                                num826 *= num827;
+                                vector82.X += num825 * 8f;
+                                vector82.Y += num826 * 8f;
+
+                                for (int i = 0; i < 24; i++)
+                                {
+                                    Dust magic = Dust.NewDustPerfect(value9, (int)CalamityDusts.Brimstone);
+                                    magic.velocity = new Vector2(num180, num182).RotatedByRandom(0.36f) * Main.rand.NextFloat(0.9f, 1.1f) * 1.6f;
+                                    magic.color = Color.Red;
+                                    magic.scale = 1.5f;
+                                    magic.fadeIn = 0.8f;
+                                    magic.noLight = true;
+                                    magic.noGravity = true;
+                                }
+
+                                if (Main.netMode != NetmodeID.MultiplayerClient)
+                                {
+                                    Projectile.NewProjectile(vector82.X, vector82.Y, num825, num826, randomShot, gigablastDamage, 0f, Main.myPlayer, 0f, 0f);
+                                    npc.netUpdate = true;
+                                }
+                            }
+                            else
+                            {
+                                Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SCalSounds/BrimstoneBigShoot"), npc.Center);
+                                canFireSplitingFireball = true;
+                                randomShot = ModContent.ProjectileType<BrimstoneBarrage>();
+                                for (int num186 = 0; num186 < 8; num186++)
+                                {
+                                    num180 = player.position.X + player.width * 0.5f - value9.X;
+                                    num182 = player.position.Y + player.height * 0.5f - value9.Y;
+                                    num183 = (float)Math.Sqrt(num180 * num180 + num182 * num182);
+                                    float speedBoost = num186 > 3 ? -(num186 - 3) : num186;
+                                    num183 = (8f + speedBoost) / num183;
+                                    num180 *= num183;
+                                    num182 *= num183;
+
+                                    for (int i = 0; i < 10; i++)
+                                    {
+                                        Vector2 magicDustVelocity = new Vector2(num180 + speedBoost, num182 + speedBoost);
+                                        magicDustVelocity *= MathHelper.Lerp(0.3f, 1f, i / 10f);
+
+                                        Dust magic = Dust.NewDustPerfect(value9, 264);
+                                        magic.velocity = magicDustVelocity;
+                                        magic.color = Color.Red;
+                                        magic.scale = MathHelper.Lerp(0.975f, 1.7f, i / 10f);
+                                        magic.fadeIn = 0.9f;
+                                        magic.noLight = true;
+                                        magic.noGravity = true;
+                                    }
+
+                                    if (Main.netMode != NetmodeID.MultiplayerClient)
+                                    {
+                                        Projectile.NewProjectile(value9.X, value9.Y, num180 + speedBoost, num182 + speedBoost, randomShot, barrageDamage, 0f, Main.myPlayer, 0f, 0f);
+                                        npc.netUpdate = true;
+                                    }
+                                }
+                            }
+                        }
+                    }
 					else if (npc.ai[1] == 1f)
 					{
 						float num383 = wormAlive ? 31f : 35f;
