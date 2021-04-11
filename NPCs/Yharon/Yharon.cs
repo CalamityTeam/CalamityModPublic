@@ -2949,8 +2949,12 @@ namespace CalamityMod.NPCs.Yharon
 		public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
 		{
             if (projectile.type == ModContent.ProjectileType<ReaperProjectile>())
+                damage = (int)(damage * 0.7);
+            if (projectile.type == ModContent.ProjectileType<TimeBoltKnife>())
                 damage = (int)(damage * 0.85);
-		}
+            if (projectile.type == ModContent.ProjectileType<PhantasmalSoul>() || projectile.type == ModContent.ProjectileType<PhantasmalRuinProj>() || projectile.type == ModContent.ProjectileType<PhantasmalRuinGhost>())
+                damage = (int)(damage * 0.95);
+        }
 		#endregion
 
 		#region HP Bar Cooldown Slot and Stats
