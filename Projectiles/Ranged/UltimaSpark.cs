@@ -51,7 +51,7 @@ namespace CalamityMod.Projectiles.Ranged
             NPC potentialTarget = projectile.Center.ClosestNPCAt(MaxHomingDistance);
             if (potentialTarget != null)
             {
-                projectile.velocity = (projectile.velocity * 8f + projectile.DirectionTo(potentialTarget.Center) * 18f) / 9f;
+                projectile.velocity = (projectile.velocity * 8f + projectile.SafeDirectionTo(potentialTarget.Center) * 18f) / 9f;
                 return;
             }
 

@@ -99,7 +99,7 @@ namespace CalamityMod.Projectiles.Summon
             {
                 if (projectile.Distance(player.Center) > 120f)
                 {
-                    projectile.velocity = (projectile.velocity * PlayerHomingInertia + projectile.DirectionTo(player.Top) * PlayerHomingSpeed) / (PlayerHomingInertia + 1);
+                    projectile.velocity = (projectile.velocity * PlayerHomingInertia + projectile.SafeDirectionTo(player.Top) * PlayerHomingSpeed) / (PlayerHomingInertia + 1);
                 }
                 if (projectile.frame >= 8)
                 {
@@ -110,7 +110,7 @@ namespace CalamityMod.Projectiles.Summon
             {
                 // A bit above the target, and always on the opposite side of the target's sprite direction.
                 Vector2 destination = potentialTarget.Top + Vector2.UnitX * -potentialTarget.spriteDirection * Main.rand.NextFloat(50f, 75f) - Vector2.UnitY * 42f;
-                projectile.velocity = (projectile.velocity * NPCHomingInertia + projectile.DirectionTo(destination) * NPCHomingSpeed) / (NPCHomingInertia + 1);
+                projectile.velocity = (projectile.velocity * NPCHomingInertia + projectile.SafeDirectionTo(destination) * NPCHomingSpeed) / (NPCHomingInertia + 1);
                 if (projectile.frame < 8)
                 {
                     projectile.frame = 8;

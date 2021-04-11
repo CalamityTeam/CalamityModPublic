@@ -201,14 +201,15 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             {
                 if (projectile.ai[1] > 0 && Main.myPlayer == projectile.owner)
                 {
-                    Projectile laser = Projectile.NewProjectileDirect(projectile.Center + Utils.Vector2FromElipse(EyeRotation.ToRotationVector2(), projectile.Size * 0.5f * EyeOutwardness), 
-                                                   projectile.DirectionTo(npc.Center) * 4f, ProjectileID.UFOLaser, projectile.damage, projectile.knockBack, projectile.owner);
-					if (laser.whoAmI.WithinBounds(Main.maxProjectiles))
+                    Vector2 shootPosition = projectile.Center + Utils.Vector2FromElipse(EyeRotation.ToRotationVector2(), projectile.Size * 0.5f * EyeOutwardness);
+                    Vector2 shootVelocity = projectile.SafeDirectionTo(npc.Center, Main.rand.NextVector2Unit()) * 4f;
+                    int laser = Projectile.NewProjectile(shootPosition, shootVelocity, ProjectileID.UFOLaser, projectile.damage, projectile.knockBack, projectile.owner);
+					if (laser.WithinBounds(Main.maxProjectiles))
 					{
-						laser.timeLeft *= 2;
-						laser.tileCollide = false;
-						laser.netUpdate = true;
-						laser.Calamity().forceMinion = true;
+						Main.projectile[laser].timeLeft *= 2;
+                        Main.projectile[laser].tileCollide = false;
+                        Main.projectile[laser].netUpdate = true;
+                        Main.projectile[laser].Calamity().forceMinion = true;
 					}
                 }
                 projectile.ai[1]++;

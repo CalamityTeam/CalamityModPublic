@@ -161,8 +161,7 @@ namespace CalamityMod.Projectiles.Summon
             else
             {
                 projectile.spriteDirection = 1;
-                Vector2 idealVelocity = projectile.DirectionTo(potentialTarget.Center - Vector2.UnitY * 195f) * 17f;
-                projectile.velocity = Vector2.Lerp(projectile.velocity, idealVelocity, 0.035f);
+                projectile.velocity = Vector2.Lerp(projectile.velocity, projectile.SafeDirectionTo(potentialTarget.Center - Vector2.UnitY * 195f) * 17f, 0.035f);
                 projectile.rotation = projectile.rotation.AngleTowards(projectile.AngleTo(potentialTarget.Center), 0.1f);
 
                 if (projectile.ai[0]++ % 75f == 24f)
@@ -185,15 +184,12 @@ namespace CalamityMod.Projectiles.Summon
                     {
                         int rocketDamage = (int)(damage * 1.5f);
                         float rocketKB = kb + 5f;
-                        projIndex = Projectile.NewProjectile(projectile.Center, projectile.DirectionTo(potentialTarget.Center) * 18f, ModContent.ProjectileType<MK2RocketHoming>(),
-                            rocketDamage, rocketKB, projectile.owner);
+                        projIndex = Projectile.NewProjectile(projectile.Center, projectile.SafeDirectionTo(potentialTarget.Center) * 18f, ModContent.ProjectileType<MK2RocketHoming>(), rocketDamage, rocketKB, projectile.owner);
                     }
+
+                    // Fire the selected bullet, nothing special.
                     else
-                    {
-                        // Fire the selected bullet, nothing special.
-                        projIndex = Projectile.NewProjectile(projectile.Center, projectile.DirectionTo(potentialTarget.Center) * shootSpeed, projID,
-                            damage, kb, projectile.owner);
-                    }
+                        projIndex = Projectile.NewProjectile(projectile.Center, projectile.SafeDirectionTo(potentialTarget.Center) * shootSpeed, projID, damage, kb, projectile.owner);
 
                     // Regardless of what was fired, force it to be a summon projectile so that summon accessories work.
                     if (projIndex.WithinBounds(Main.maxProjectiles))

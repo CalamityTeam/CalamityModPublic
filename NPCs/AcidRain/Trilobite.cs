@@ -70,7 +70,7 @@ namespace CalamityMod.NPCs.AcidRain
                 npc.TargetClosest();
                 float lungeSpeed = CalamityWorld.downedPolterghast ? 18.5f : 15f;
 
-                npc.velocity = npc.DirectionTo(Target.Center) * lungeSpeed;
+                npc.velocity = npc.SafeDirectionTo(Target.Center, -Vector2.UnitY) * lungeSpeed;
                 npc.velocity.X *= 1.6f;
                 npc.rotation = npc.velocity.ToRotation() + MathHelper.PiOver2;
                 npc.netUpdate = true;
@@ -97,7 +97,7 @@ namespace CalamityMod.NPCs.AcidRain
                     speedX = 22f;
                     speedY = 11f;
                 }
-                npc.velocity = npc.DirectionTo(Target.Center) * new Vector2(speedX, speedY);
+                npc.velocity = npc.SafeDirectionTo(Target.Center, -Vector2.UnitY) * new Vector2(speedX, speedY);
                 npc.netUpdate = true;
             }
             npc.velocity.Y *= 0.98f;

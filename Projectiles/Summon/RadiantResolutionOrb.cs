@@ -55,9 +55,7 @@ namespace CalamityMod.Projectiles.Summon
             {
                 NPC potentialTarget = projectile.Center.MinionHoming(2000f, player);
                 if (potentialTarget != null)
-                {
-                    projectile.velocity = (projectile.velocity * 7f + projectile.DirectionTo(potentialTarget.Center) * 19f) / 8f;
-                }
+                    projectile.velocity = (projectile.velocity * 7f + projectile.SafeDirectionTo(potentialTarget.Center) * 19f) / 8f;
             }
 		}
     }

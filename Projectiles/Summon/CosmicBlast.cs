@@ -52,7 +52,7 @@ namespace CalamityMod.Projectiles.Summon
             }
             NPC potentialTarget = projectile.Center.MinionHoming(1200f, Main.player[projectile.owner]);
             if (potentialTarget != null)
-                projectile.velocity = (projectile.velocity * 20f + projectile.DirectionTo(potentialTarget.Center) * 40f) / 21f;
+                projectile.velocity = (projectile.velocity * 20f + projectile.SafeDirectionTo(potentialTarget.Center) * 40f) / 21f;
         }
 
         public override Color? GetAlpha(Color lightColor)

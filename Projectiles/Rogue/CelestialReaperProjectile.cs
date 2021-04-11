@@ -40,9 +40,7 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 NPC target = projectile.Center.ClosestNPCAt(640f);
                 if (target != null)
-                {
-                    projectile.velocity = (projectile.velocity * 20f + projectile.DirectionTo(target.Center) * 20f) / 21f;
-                }
+                    projectile.velocity = (projectile.velocity * 20f + projectile.SafeDirectionTo(target.Center) * 20f) / 21f;
             }
 
             // This code is only run on stealth strikes and periodically spawns damaging afterimages.

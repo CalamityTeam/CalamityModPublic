@@ -116,11 +116,8 @@ namespace CalamityMod.Projectiles.Boss
 			{
 				if (projectile.Distance(Main.player[target].Center) > minDist)
 				{
-					Vector2 targetVec = projectile.DirectionTo(Main.player[target].Center);
-					if (targetVec.HasNaNs())
-						targetVec = Vector2.UnitY;
-
-					projectile.velocity = (projectile.velocity * (inertia - 1f) + targetVec * speed) / inertia;
+					Vector2 moveDirection = projectile.SafeDirectionTo(Main.player[target].Center, Vector2.UnitY);
+					projectile.velocity = (projectile.velocity * (inertia - 1f) + moveDirection * speed) / inertia;
 				}
 			}
 			else

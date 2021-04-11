@@ -68,21 +68,15 @@ namespace CalamityMod.Projectiles.Melee
             }
             else if (halfWay)
             {
-                int direction2 = (player.DirectionTo(Main.MouseWorld).X > 0f) ? 1 : -1;
-                if ((float)direction2 != projectile.velocity.X)
+                int expectedDirection = (player.SafeDirectionTo(Main.MouseWorld).X > 0f).ToDirectionInt();
+                if (expectedDirection != projectile.velocity.X)
                 {
-                    player.ChangeDir(direction2);
-                    projectile.velocity = new Vector2(direction2, 0f);
-                    projectile.netUpdate = true;
+                    player.ChangeDir(expectedDirection);
+                    projectile.velocity = Vector2.UnitX * expectedDirection;
                     projectile.rotation -= MathHelper.Pi;
+                    projectile.netUpdate = true;
                 }
             }
-            if ((projectile.ai[0] == 1f || (halfWay && projectile.active)) && projectile.owner == Main.myPlayer)
-            {
-                Vector2 mouse = player.DirectionTo(Main.MouseWorld) * 0f;
-                player.DirectionTo(mouse);
-            }
-
 			SpawnDust(player, direction);
 			PositionAndRotation(player);
 			VisibilityAndLight();
@@ -90,14 +84,15 @@ namespace CalamityMod.Projectiles.Melee
 
 		private void SpawnDust(Player player, int direction)
 		{
-            float num12 = projectile.rotation - MathHelper.PiOver4 * (float)direction;
+            float num12 = projectile.rotation - MathHelper.PiOver4 * direction;
             Vector2 value3 = projectile.Center + (num12 + ((direction == -1) ? MathHelper.Pi : 0f)).ToRotationVector2() * 30f;
             Vector2 vector2 = num12.ToRotationVector2();
-            Vector2 value4 = vector2.RotatedBy((double)(MathHelper.PiOver2 * projectile.spriteDirection), default);
+            Vector2 value4 = vector2.RotatedBy(MathHelper.PiOver2 * projectile.spriteDirection);
+
             if (Main.rand.NextBool(2))
             {
                 Dust dust = Dust.NewDustDirect(value3 - new Vector2(5f), 10, 10, 244, player.velocity.X, player.velocity.Y, 150, default, 1f);
-                dust.velocity = projectile.DirectionTo(dust.position) * 0.1f + dust.velocity * 0.1f;
+                dust.velocity = projectile.SafeDirectionTo(dust.position) * 0.1f + dust.velocity * 0.1f;
             }
             for (int j = 0; j < 4; j++)
             {

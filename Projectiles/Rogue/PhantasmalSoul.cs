@@ -73,7 +73,7 @@ namespace CalamityMod.Projectiles.Rogue
             // Make sure the soul is always facing forwards
             projectile.rotation = projectile.velocity.ToRotation() - MathHelper.PiOver2;
 
-            float playerHomingStrength = 40f * projectile.ai[1]; // ranges from 20 to 60
+            float inertia = 40f * projectile.ai[1]; // ranges from 20 to 60
             float homingSpeed = 8f * projectile.ai[1]; // ranges from 4 to 12
             float playerHomingRange = 900f;
 
@@ -83,10 +83,8 @@ namespace CalamityMod.Projectiles.Rogue
                 // If you are too far away from the projectiles, they home in on you.
                 if (projectile.Distance(Main.player[projectile.owner].Center) > playerHomingRange)
                 {
-                    Vector2 vector102 = projectile.DirectionTo(Main.player[projectile.owner].Center);
-                    if (vector102.HasNaNs())
-                        vector102 = Vector2.UnitY;
-                    projectile.velocity = (projectile.velocity * (playerHomingStrength - 1f) + vector102 * homingSpeed) / playerHomingStrength;
+                    Vector2 moveDirection = projectile.SafeDirectionTo(Main.player[projectile.owner].Center, Vector2.UnitY);
+                    projectile.velocity = (projectile.velocity * (inertia - 1f) + moveDirection * homingSpeed) / inertia;
                     return;
                 }
 

@@ -113,9 +113,7 @@ namespace CalamityMod.Projectiles.Magic
         {
             NPC potentialTarget = projectile.Center.ClosestNPCAt(1500f, true, true);
             if (potentialTarget != null)
-            {
-                projectile.velocity = (projectile.velocity * 5f + projectile.DirectionTo(potentialTarget.Center) * 7f) / 6f;
-            }
+                projectile.velocity = (projectile.velocity * 5f + projectile.SafeDirectionTo(potentialTarget.Center) * 7f) / 6f;
         }
         public void PulseEffect()
         {
@@ -162,7 +160,8 @@ namespace CalamityMod.Projectiles.Magic
                     float rotation = Main.rand.NextFloat(MathHelper.TwoPi);
                     Vector2 velocity = Vector2.UnitY.RotatedBy(rotation);
                     if (closestTarget != null)
-                        velocity = projectile.DirectionTo(closestTarget.Center).RotatedByRandom(0.4f);
+                        velocity = projectile.SafeDirectionTo(closestTarget.Center, -Vector2.UnitY).RotatedByRandom(0.4f);
+
                     velocity *= Main.rand.NextFloat(3f, 5f);
 
                     Projectile.NewProjectileDirect(projectile.Center,

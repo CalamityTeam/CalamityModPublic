@@ -849,7 +849,7 @@ namespace CalamityMod.Items
                         if (Main.projectile[i].active && Main.projectile[i].type == ModContent.ProjectileType<IgneousBlade>() && Main.projectile[i].owner == player.whoAmI && Main.projectile[i].localAI[1] == 0f)
                         {
                             Main.projectile[i].rotation = MathHelper.PiOver2 + MathHelper.PiOver4;
-                            Main.projectile[i].velocity = Main.projectile[i].DirectionTo(Main.MouseWorld) * 22f;
+                            Main.projectile[i].velocity = Main.projectile[i].SafeDirectionTo(Main.MouseWorld, Vector2.UnitY) * 22f;
                             Main.projectile[i].rotation += Main.projectile[i].velocity.ToRotation();
                             Main.projectile[i].ai[0] = 180f;
                             (Main.projectile[i].modProjectile as IgneousBlade).Firing = true;

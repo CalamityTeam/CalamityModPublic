@@ -64,9 +64,10 @@ namespace CalamityMod.Projectiles.Ranged
             }
             if (homeIn)
             {
-                projectile.velocity = (projectile.velocity * 15f + projectile.DirectionTo(targetCenter) * 30f) / 16f;
+                projectile.velocity = (projectile.velocity * 15f + projectile.SafeDirectionTo(targetCenter) * 30f) / 16f;
                 return;
             }
+
             projectile.frameCounter++;
             if (projectile.frameCounter > 3)
             {

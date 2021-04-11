@@ -152,10 +152,13 @@ namespace CalamityMod.Projectiles.Summon
                 {
                     ExitChargeModeEarly(player);
                 }
-                player.velocity = Vector2.Lerp(player.velocity, projectile.DirectionTo(Main.MouseWorld) * RightIconLungeSpeed, 0.225f);
+
+                player.velocity = Vector2.Lerp(player.velocity, projectile.SafeDirectionTo(Main.MouseWorld, Vector2.UnitY) * RightIconLungeSpeed, 0.225f);
                 projectile.rotation = player.velocity.ToRotation() + MathHelper.PiOver2;
             }
-            else projectile.rotation = 0f;
+            else
+                projectile.rotation = 0f;
+
             if (player.mount != null) // Kill any mounts
             {
                 player.mount.Dismount(player);
@@ -439,13 +442,13 @@ namespace CalamityMod.Projectiles.Summon
                             dust.noGravity = true;
                             dust.scale = 1.6f;
                             dust.position = player.Center + outwardness * (MathHelper.TwoPi / 10f * angleInterval).ToRotationVector2().RotatedBy(angle);
-                            dust.velocity = player.DirectionTo(dust.position) * 8f * speedSign;
+                            dust.velocity = player.SafeDirectionTo(dust.position) * 8f * speedSign;
 
                             dust = Dust.NewDustPerfect(projectile.Center, 221);
                             dust.noGravity = true;
                             dust.scale = 1.6f;
                             dust.position = player.Center + outwardness * (MathHelper.TwoPi / 10f * angleInterval).ToRotationVector2().RotatedBy(-angle);
-                            dust.velocity = player.DirectionTo(dust.position) * 8f * speedSign;
+                            dust.velocity = player.SafeDirectionTo(dust.position) * 8f * speedSign;
                         }
                     }
                 }
