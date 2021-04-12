@@ -465,802 +465,295 @@ namespace CalamityMod.Items
 				EditTooltipByNum(0, (line) => line.text = line.text.Replace("40%", "20%"));
 			#endregion
 
-			// Items which provide immunity to either heat or cold in Death Mode
-			#region Death Mode Environmental Immunity Tooltips
+			// Items which provide immunity to either heat or cold in Death Mode, or interact with Lethal Lava
+			#region Lava and Death Mode Environmental Immunity Tooltips
+			string heatProtectionLine = "\nProvides heat protection in Death Mode";
+			string bothProtectionLine = "\nProvides heat and cold protection in Death Mode";
+
 			if (item.type == ItemID.ObsidianSkinPotion)
 			{
-				string heatImmunity = CalamityWorld.death ? "\nProvides heat protection in Death Mode" : "";
-				foreach (TooltipLine line2 in tooltips)
+				// If Lethal Lava is enabled, Obsidian Skin Potions work very differently.
+				if (CalamityConfig.Instance.LethalLava)
 				{
-					if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
-					{
-						line2.text = "Provides immunity to direct damage from touching lava\n" +
-							"Provides temporary immunity to lava burn damage\n" +
-							"Greatly increases lava immunity time regeneration\n" +
-							"Reduces lava burn damage" + heatImmunity;
-					}
+					string lethalLavaReplacement = "Provides immunity to direct damage from touching lava\n"
+						+ "Provides temporary immunity to lava burn damage\n"
+						+ "Greatly increases the speed at which lava immunity recharges\n"
+						+ "Reduces lava burn damage";
+					if (CalamityWorld.death)
+						lethalLavaReplacement += heatProtectionLine;
+					EditTooltipByNum(0, (line) => line.text = lethalLavaReplacement);
 				}
+
+				// Otherwise, changes are only made on Death Mode, where heat immunity is mentioned.
+				else if (CalamityWorld.death)
+					EditTooltipByNum(0, (line) => line.text += heatProtectionLine);
 			}
+
 			if (item.type == ItemID.ObsidianRose)
 			{
-				string heatImmunity = CalamityWorld.death ? "\nProvides heat protection in Death Mode" : "";
-				foreach (TooltipLine line2 in tooltips)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
-					{
-						line2.text = "Reduced direct damage from touching lava\n" +
-							"Greatly reduces lava burn damage" + heatImmunity;
-					}
-				}
+				StringBuilder sb = new StringBuilder(128);
+				// If Lethal Lava is enabled, Obsidian Rose reduces the damage from the debuff.
+				if (CalamityConfig.Instance.LethalLava)
+					sb.Append("\nGreatly reduces lava burn damage");
+				if (CalamityWorld.death)
+					sb.Append(heatProtectionLine);
+				EditTooltipByNum(0, (line) => line.text += sb.ToString());
 			}
-			if (item.type == ItemID.MagmaStone && CalamityWorld.death)
+
+			if (CalamityWorld.death)
 			{
-				foreach (TooltipLine line2 in tooltips)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
-					{
-						line2.text += "\nProvides heat and cold protection in Death Mode";
-					}
-				}
-			}
-			if (item.type == ItemID.LavaCharm && CalamityWorld.death)
-			{
-				foreach (TooltipLine line2 in tooltips)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
-					{
-						line2.text += "\nProvides heat protection in Death Mode";
-					}
-				}
-			}
-			if (item.type == ItemID.LavaWaders && CalamityWorld.death)
-			{
-				foreach (TooltipLine line2 in tooltips)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "Tooltip1")
-					{
-						line2.text += "\nProvides heat protection in Death Mode";
-					}
-				}
+				if (item.type == ItemID.MagmaStone)
+					EditTooltipByNum(0, (line) => line.text += bothProtectionLine);
+				if (item.type == ItemID.LavaCharm)
+					EditTooltipByNum(0, (line) => line.text += heatProtectionLine);
+				if (item.type == ItemID.LavaWaders)
+					EditTooltipByNum(1, (line) => line.text += heatProtectionLine);
+				if (item.type == ItemID.FrostHelmet || item.type == ItemID.FrostBreastplate || item.type == ItemID.FrostLeggings)
+					EditTooltipByName("SetBonus", (line) => line.text += bothProtectionLine);
 			}
 			#endregion
 
 			// Add mentions of what Calamity ores vanilla pickaxes can mine
 			#region Pickaxe New Ore Tooltips
 			if (item.type == ItemID.Picksaw)
-			{
-				foreach (TooltipLine line2 in tooltips)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
-					{
-						line2.text = "Capable of mining Lihzahrd Bricks and Scoria Ore";
-					}
-				}
-			}
-			if (item.type == ItemID.SolarFlarePickaxe)
-			{
-				foreach (TooltipLine line2 in tooltips)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "Material")
-					{
-						line2.text = "Material\n" +
-							"Can mine Uelibloom Ore";
-					}
-				}
-			}
-			if (item.type == ItemID.VortexPickaxe)
-			{
-				foreach (TooltipLine line2 in tooltips)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "Material")
-					{
-						line2.text = "Material\n" +
-							"Can mine Uelibloom Ore";
-					}
-				}
-			}
-			if (item.type == ItemID.NebulaPickaxe)
-			{
-				foreach (TooltipLine line2 in tooltips)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "Material")
-					{
-						line2.text = "Material\n" +
-							"Can mine Uelibloom Ore";
-					}
-				}
-			}
-			if (item.type == ItemID.StardustPickaxe)
-			{
-				foreach (TooltipLine line2 in tooltips)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "Material")
-					{
-						line2.text = "Material\n" +
-							"Can mine Uelibloom Ore";
-					}
-				}
-			}
+				EditTooltipByNum(0, (line) => line.text += "\nCan mine Scoria Ore");
+
+			if (item.type == ItemID.SolarFlarePickaxe || item.type == ItemID.VortexPickaxe || item.type == ItemID.NebulaPickaxe || item.type == ItemID.StardustPickaxe)
+				EditTooltipByName("Material", (line) => line.text += "\nCan mine Uelibloom Ore");
 			#endregion
 
 			// Rebalances and information about vanilla set bonuses
 			#region Vanilla Set Bonus Tooltips
-			if (item.type == ItemID.MeteorHelmet || item.type == ItemID.MeteorSuit || item.type == ItemID.MeteorLeggings)
-			{
-				foreach (TooltipLine line2 in tooltips)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "SetBonus")
-					{
-						line2.text = "Set Bonus: Reduces the mana cost of the Space Gun by 50%";
-					}
-				}
-			}
+
+			string MiningSpeedString(int percent) => $"\n{percent}% increased mining speed";
+
+			// Copper
 			if (item.type == ItemID.CopperHelmet || item.type == ItemID.CopperChainmail || item.type == ItemID.CopperGreaves)
-			{
-				foreach (TooltipLine line2 in tooltips)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "SetBonus")
-					{
-						line2.text = "Set Bonus: +2 defense and 15% increased mining speed";
-					}
-				}
-			}
+				EditTooltipByName("SetBonus", (line) => line.text += MiningSpeedString(15));
+
+			// Tin
 			if (item.type == ItemID.TinHelmet || item.type == ItemID.TinChainmail || item.type == ItemID.TinGreaves)
-			{
-				foreach (TooltipLine line2 in tooltips)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "SetBonus")
-					{
-						line2.text = "Set Bonus: +2 defense and 10% increased mining speed";
-					}
-				}
-			}
+				EditTooltipByName("SetBonus", (line) => line.text += MiningSpeedString(10));
+
+			// Iron
 			if (item.type == ItemID.AncientIronHelmet || item.type == ItemID.IronHelmet || item.type == ItemID.IronChainmail || item.type == ItemID.IronGreaves)
-			{
-				foreach (TooltipLine line2 in tooltips)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "SetBonus")
-					{
-						line2.text = "Set Bonus: +2 defense and 25% increased mining speed";
-					}
-				}
-			}
+				EditTooltipByName("SetBonus", (line) => line.text += MiningSpeedString(25));
+
+			// Lead
 			if (item.type == ItemID.LeadHelmet || item.type == ItemID.LeadChainmail || item.type == ItemID.LeadGreaves)
-			{
-				foreach (TooltipLine line2 in tooltips)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "SetBonus")
-					{
-						line2.text = "Set Bonus: +3 defense and 20% increased mining speed";
-					}
-				}
-			}
+				EditTooltipByName("SetBonus", (line) => line.text += MiningSpeedString(20));
+
+			// Silver
 			if (item.type == ItemID.SilverHelmet || item.type == ItemID.SilverChainmail || item.type == ItemID.SilverGreaves)
-			{
-				foreach (TooltipLine line2 in tooltips)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "SetBonus")
-					{
-						line2.text = "Set Bonus: +3 defense and 35% increased mining speed";
-					}
-				}
-			}
+				EditTooltipByName("SetBonus", (line) => line.text += MiningSpeedString(35));
+
+			// Tungsten
 			if (item.type == ItemID.TungstenHelmet || item.type == ItemID.TungstenChainmail || item.type == ItemID.TungstenGreaves)
-			{
-				foreach (TooltipLine line2 in tooltips)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "SetBonus")
-					{
-						line2.text = "Set Bonus: +3 defense and 30% increased mining speed";
-					}
-				}
-			}
+				EditTooltipByName("SetBonus", (line) => line.text += MiningSpeedString(30));
+
+			// Gold
 			if (item.type == ItemID.AncientGoldHelmet || item.type == ItemID.GoldHelmet || item.type == ItemID.GoldChainmail || item.type == ItemID.GoldGreaves)
-			{
-				foreach (TooltipLine line2 in tooltips)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "SetBonus")
-					{
-						line2.text = "Set Bonus: +3 defense and 45% increased mining speed";
-					}
-				}
-			}
+				EditTooltipByName("SetBonus", (line) => line.text += MiningSpeedString(45));
+
+			// Platinum
 			if (item.type == ItemID.PlatinumHelmet || item.type == ItemID.PlatinumChainmail || item.type == ItemID.PlatinumGreaves)
-			{
-				foreach (TooltipLine line2 in tooltips)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "SetBonus")
-					{
-						line2.text = "Set Bonus: +4 defense and 40% increased mining speed";
-					}
-				}
-			}
-			if (item.type == ItemID.AncientBattleArmorHat || item.type == ItemID.AncientBattleArmorShirt || item.type == ItemID.AncientBattleArmorPants)
-			{
-				if (!Main.player[Main.myPlayer].Calamity().forbiddenCirclet)
-				{
-					foreach (TooltipLine line2 in tooltips)
-					{
-						if (line2.mod == "Terraria" && line2.Name == "SetBonus")
-						{
-							line2.text += "\nThe minion damage nerf is reduced while wielding magic weapons";
-						}
-					}
-				}
-			}
-			if (item.type == ItemID.StardustBreastplate || item.type == ItemID.StardustLeggings)
-			{
-				foreach (TooltipLine line2 in tooltips)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
-					{
-						line2.text = "Increases your max number of minions";
-					}
-				}
-			}
-			if (item.type == ItemID.StardustHelmet || item.type == ItemID.StardustBreastplate || item.type == ItemID.StardustLeggings)
-			{
-				foreach (TooltipLine line2 in tooltips)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "SetBonus")
-					{
-						line2.text += "\nIncreases your max number of minions by 2";
-					}
-				}
-			}
+				EditTooltipByName("SetBonus", (line) => line.text += MiningSpeedString(40));
+
+			// Gladiator
 			if (item.type == ItemID.GladiatorHelmet)
-			{
-				foreach (TooltipLine line2 in tooltips)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "Defense")
-					{
-						line2.text = "3 defense\n" +
-							"3% increased rogue damage";
-					}
-				}
-			}
+				EditTooltipByName("Defense", (line) => line.text += "\n3% increased rogue damage");
 			if (item.type == ItemID.GladiatorBreastplate)
-			{
-				foreach (TooltipLine line2 in tooltips)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "Defense")
-					{
-						line2.text = "5 defense\n" +
-							"3% increased rogue critical strike chance";
-					}
-				}
-			}
+				EditTooltipByName("Defense", (line) => line.text += "\n3% increased rogue critical strike chance");
 			if (item.type == ItemID.GladiatorLeggings)
-			{
-				foreach (TooltipLine line2 in tooltips)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "Defense")
-					{
-						line2.text = "4 defense\n" +
-							"3% increased rogue velocity";
-					}
-				}
-			}
+				EditTooltipByName("Defense", (line) => line.text += "\n3% increased rogue velocity");
+
+			// Obsidian
 			if (item.type == ItemID.ObsidianHelm)
-			{
-				foreach (TooltipLine line2 in tooltips)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "Defense")
-					{
-						line2.text = "4 defense\n" +
-							"3% increased rogue damage";
-					}
-				}
-			}
+				EditTooltipByName("Defense", (line) => line.text += "\n3% increased rogue damage");
 			if (item.type == ItemID.ObsidianShirt)
-			{
-				foreach (TooltipLine line2 in tooltips)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "Defense")
-					{
-						line2.text = "5 defense\n" +
-							"3% increased rogue critical strike chance";
-					}
-				}
-			}
+				EditTooltipByName("Defense", (line) => line.text += "\n3% increased rogue critical strike chance");
 			if (item.type == ItemID.ObsidianPants)
-			{
-				foreach (TooltipLine line2 in tooltips)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "Defense")
-					{
-						line2.text = "4 defense\n" +
-							"3% increased rogue velocity";
-					}
-				}
-			}
+				EditTooltipByName("Defense", (line) => line.text += "\n3% increased rogue velocity");
+
+			// Meteor Armor only makes space gun cost 50% instead of zero mana
+			if (item.type == ItemID.MeteorHelmet || item.type == ItemID.MeteorSuit || item.type == ItemID.MeteorLeggings)
+				EditTooltipByName("SetBonus", (line) => line.text = line.text.Replace("0", "50%"));
+
+			// Molten
 			if (item.type == ItemID.MoltenHelmet || item.type == ItemID.MoltenBreastplate || item.type == ItemID.MoltenGreaves)
 			{
+				string extraLine = "\n20% extra true melee damage\nGrants immunity to fire blocks and temporary immunity to lava";
 				if (CalamityWorld.death)
-				{
-					foreach (TooltipLine line2 in tooltips)
-					{
-						if (line2.mod == "Terraria" && line2.Name == "SetBonus")
-						{
-							line2.text = @"Set Bonus: 17% extra melee damage
-20% extra true melee damage
-Grants immunity to fire blocks, and temporary immunity to lava
-Provides heat and cold protection in Death Mode";
-						}
-					}
-				}
-				else
-				{
-					foreach (TooltipLine line2 in tooltips)
-					{
-						if (line2.mod == "Terraria" && line2.Name == "SetBonus")
-						{
-							line2.text = @"Set Bonus: 17% extra melee damage
-20% extra true melee damage
-Grants immunity to fire blocks, and temporary immunity to lava";
-						}
-					}
-				}
+					extraLine += bothProtectionLine;
+				EditTooltipByName("SetBonus", (line) => line.text += extraLine);
 			}
-			if (item.type == ItemID.FrostHelmet || item.type == ItemID.FrostBreastplate || item.type == ItemID.FrostLeggings)
-			{
-				if (CalamityWorld.death)
-				{
-					foreach (TooltipLine line2 in tooltips)
-					{
-						if (line2.mod == "Terraria" && line2.Name == "SetBonus")
-						{
-							line2.text += "\nProvides heat and cold protection in Death Mode";
-						}
-					}
-				}
-			}
+
+			// Forbidden (UNLESS you are wearing the Circlet, which is Summon/Rogue and does not get this line)
+			if (item.type == ItemID.AncientBattleArmorHat || item.type == ItemID.AncientBattleArmorShirt || item.type == ItemID.AncientBattleArmorPants
+				&& !Main.LocalPlayer.Calamity().forbiddenCirclet)
+				EditTooltipByName("SetBonus", (line) => line.text += "\nThe minion damage nerf is reduced while wielding magic weapons");
+
+			// Stardust
+			// 1) Chest and Legs only give 1 minion slot each instead of 2 each.
+			if (item.type == ItemID.StardustBreastplate || item.type == ItemID.StardustLeggings)
+				EditTooltipByNum(0, (line) => line.text = line.text.Replace('2', '1'));
+			// 2) Set bonus gives 2 minions instead of 0.
+			if (item.type == ItemID.StardustHelmet || item.type == ItemID.StardustBreastplate || item.type == ItemID.StardustLeggings)
+				EditTooltipByName("SetBonus", (line) => line.text += "\nIncreases your max number of minions by 2");
 			#endregion
 
 			// Provide the full, raw stats of every vanilla set of wings
 			#region Wing Stat Tooltips
+
+			// This function produces a "stat sheet" for a pair of wings from the raw stats.
+			// For "vertical speed", 0 = Average, 1 = Good, 2 = Great.
+			string[] vertSpeedStrings = new string[] { "Average vertical speed", "Good vertical speed", "Great vertical speed" };
+			string WingStatsTooltip(float hSpeed, float accelMult, int vertSpeed, int flightTime, string extraTooltip = null)
+			{
+				StringBuilder sb = new StringBuilder(512);
+				sb.Append('\n');
+				sb.Append($"Horizontal speed: {hSpeed:N2}\n");
+				sb.Append($"Acceleration multiplier: {accelMult:N1}\n");
+				sb.Append(vertSpeedStrings[vertSpeed]);
+				sb.Append('\n');
+				sb.Append($"Flight time: {flightTime}");
+				if (extraTooltip != null)
+				{
+					sb.Append('\n');
+					sb.Append(extraTooltip);
+				}
+				return sb.ToString();
+			}
+
 			if (item.type == ItemID.AngelWings)
-			{
-				foreach (TooltipLine line2 in tooltips)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
-					{
-						line2.text = "Allows flight and slow fall\n" +
-							"Horizontal speed: 6.25\n" +
-							"Acceleration multiplier: 1\n" +
-							"Average vertical speed\n" +
-							"Flight time: 100\n" +
-							"+20 max life, +10 defense and +2 life regen";
-					}
-				}
-			}
+				EditTooltipByNum(0, (line) => line.text += WingStatsTooltip(6.25f, 1f, 0, 100,
+					"+20 max life, +10 defense and +2 life regen"));
+
 			if (item.type == ItemID.DemonWings)
-			{
-				foreach (TooltipLine line2 in tooltips)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
-					{
-						line2.text = "Allows flight and slow fall\n" +
-							"Horizontal speed: 6.25\n" +
-							"Acceleration multiplier: 1\n" +
-							"Average vertical speed\n" +
-							"Flight time: 100\n" +
-							"5% increased damage and critical strike chance";
-					}
-				}
-			}
+				EditTooltipByNum(0, (line) => line.text += WingStatsTooltip(6.25f, 1f, 0, 100,
+					"5% increased damage and critical strike chance"));
+
 			if (item.type == ItemID.Jetpack)
-			{
-				foreach (TooltipLine line2 in tooltips)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
-					{
-						line2.text = "Allows flight and slow fall\n" +
-							"Horizontal speed: 6.5\n" +
-							"Acceleration multiplier: 1\n" +
-							"Average vertical speed\n" +
-							"Flight time: 115";
-					}
-				}
-			}
+				EditTooltipByNum(0, (line) => line.text += WingStatsTooltip(6.5f, 1f, 0, 115));
+
 			if (item.type == ItemID.ButterflyWings)
-			{
-				foreach (TooltipLine line2 in tooltips)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
-					{
-						line2.text = "Allows flight and slow fall\n" +
-							"Horizontal speed: 6.75\n" +
-							"Acceleration multiplier: 1\n" +
-							"Average vertical speed\n" +
-							"Flight time: 130\n" +
-							"+20 max mana, 5% decreased mana usage,\n" +
-							"5% increased magic damage and magic critical strike chance";
-					}
-				}
-			}
+				EditTooltipByNum(0, (line) => line.text += WingStatsTooltip(6.75f, 1f, 0, 130,
+					"+20 max mana, 5% decreased mana usage,\n"
+					+ "5% increased magic damage and magic critical strike chance"));
+
 			if (item.type == ItemID.FairyWings)
-			{
-				foreach (TooltipLine line2 in tooltips)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
-					{
-						line2.text = "Allows flight and slow fall\n" +
-							"Horizontal speed: 6.75\n" +
-							"Acceleration multiplier: 1\n" +
-							"Average vertical speed\n" +
-							"Flight time: 130\n" +
-							"+60 max life";
-					}
-				}
-			}
+				EditTooltipByNum(0, (line) => line.text += WingStatsTooltip(6.75f, 1f, 0, 130, "+60 max life"));
+
 			if (item.type == ItemID.BeeWings)
-			{
-				foreach (TooltipLine line2 in tooltips)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
-					{
-						line2.text = "Allows flight and slow fall\n" +
-							"Horizontal speed: 6.75\n" +
-							"Acceleration multiplier: 1\n" +
-							"Average vertical speed\n" +
-							"Flight time: 130\n" +
-							"Honey buff at all times";
-					}
-				}
-			}
+				EditTooltipByNum(0, (line) => line.text += WingStatsTooltip(6.75f, 1f, 0, 130, "Permanently gives the Honey buff"));
+
 			if (item.type == ItemID.HarpyWings)
-			{
-				foreach (TooltipLine line2 in tooltips)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
-					{
-						line2.text = "Allows flight and slow fall\n" +
-							"Horizontal speed: 7\n" +
-							"Acceleration multiplier: 1\n" +
-							"Average vertical speed\n" +
-							"Flight time: 140\n" +
-							"20% increased movement speed\n" +
-							"Most attacks have a chance to fire a feather on swing if Harpy Ring or Angel Treads are equipped";
-					}
-				}
-			}
+				EditTooltipByNum(0, (line) => line.text += WingStatsTooltip(7f, 1f, 0, 140,
+					"20% increased movement speed\n" +
+					"Most attacks have a chance to fire a feather on swing if Harpy Ring or Angel Treads are equipped"));
+
 			if (item.type == ItemID.BoneWings)
-			{
-				foreach (TooltipLine line2 in tooltips)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
-					{
-						line2.text = "Allows flight and slow fall\n" +
-							"Horizontal speed: 7\n" +
-							"Acceleration multiplier: 1\n" +
-							"Average vertical speed\n" +
-							"Flight time: 140\n" +
-							"10% increased movement speed, ranged damage and critical strike chance\n" +
-							"and +30 defense while wearing the Necro Armor";
-					}
-				}
-			}
+				EditTooltipByNum(0, (line) => line.text += WingStatsTooltip(7f, 1f, 0, 140,
+					"10% increased movement speed, ranged damage and critical strike chance\n" +
+					"and +30 defense while wearing the Necro Armor"));
+
 			if (item.type == ItemID.FlameWings)
-			{
-				foreach (TooltipLine line2 in tooltips)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
-					{
-						line2.text = "Allows flight and slow fall\n" +
-							"Horizontal speed: 7.5\n" +
-							"Acceleration multiplier: 1\n" +
-							"Average vertical speed\n" +
-							"Flight time: 160\n" +
-							"5% increased melee damage and critical strike chance";
-					}
-				}
-			}
+				EditTooltipByNum(0, (line) => line.text += WingStatsTooltip(7.5f, 1f, 0, 160,
+					"5% increased melee damage and critical strike chance"));
+
 			if (item.type == ItemID.FrozenWings)
-			{
-				foreach (TooltipLine line2 in tooltips)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
-					{
-						line2.text = "Allows flight and slow fall\n" +
-							"Horizontal speed: 7.5\n" +
-							"Acceleration multiplier: 1\n" +
-							"Average vertical speed\n" +
-							"Flight time: 160\n" +
-							"2% increased melee and ranged damage\n" +
-							"and 1% increased melee and ranged critical strike chance\n" +
-							"while wearing the Frost Armor";
-					}
-				}
-			}
+				EditTooltipByNum(0, (line) => line.text += WingStatsTooltip(7.5f, 1f, 0, 160,
+					"2% increased melee and ranged damage\n" +
+					"and 1% increased melee and ranged critical strike chance\n" +
+					"while wearing the Frost Armor"));
+
 			if (item.type == ItemID.GhostWings)
-			{
-				foreach (TooltipLine line2 in tooltips)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
-					{
-						line2.text = "Allows flight and slow fall\n" +
-							"Horizontal speed: 7.5\n" +
-							"Acceleration multiplier: 1\n" +
-							"Average vertical speed\n" +
-							"Flight time: 160\n" +
-							"+10 defense and 5% increased damage reduction while wearing the Spectre Armor and Hood\n" +
-							"5% increased magic damage and critical strike chance while wearing the Spectre Armor and Mask";
-					}
-				}
-			}
+				EditTooltipByNum(0, (line) => line.text += WingStatsTooltip(7.5f, 1f, 0, 160,
+					"+10 defense and 5% increased damage reduction while wearing the Spectre Hood set\n" +
+					"5% increased magic damage and critical strike chance while wearing the Spectre Mask set"));
+
 			if (item.type == ItemID.BeetleWings)
-			{
-				foreach (TooltipLine line2 in tooltips)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
-					{
-						line2.text = "Allows flight and slow fall\n" +
-							"Horizontal speed: 7.5\n" +
-							"Acceleration multiplier: 1\n" +
-							"Average vertical speed\n" +
-							"Flight time: 160\n" +
-							"+10 defense and 5% increased damage reduction while wearing the Beetle Armor and Shell\n" +
-							"5% increased melee damage and critical strike chance while wearing the Beetle Armor and Scale Mail";
-					}
-				}
-			}
+				EditTooltipByNum(0, (line) => line.text += WingStatsTooltip(7.5f, 1f, 0, 160,
+					"+10 defense and 5% increased damage reduction while wearing the Beetle Shell set\n" +
+					"5% increased melee damage and critical strike chance while wearing the Beetle Scale Mail set"));
+
 			if (item.type == ItemID.FinWings)
-			{
-				foreach (TooltipLine line2 in tooltips)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
-					{
-						line2.text = "Allows flight and slow fall\n" +
-							"Horizontal speed: 0\n" +
-							"Acceleration multiplier: 0\n" +
-							"Average vertical speed\n" +
-							"Flight time: 100\n" +
-							"Gills effect and you can move freely through liquids\n" +
-							"You fall faster while submerged in liquid\n" +
-							"15% increased movement speed and 18% increased jump speed";
-					}
-				}
-			}
+				EditTooltipByNum(0, (line) => line.text += WingStatsTooltip(0f, 0f, 0, 100,
+					"Gills effect and you can move freely through liquids\n" +
+					"You fall faster while submerged in liquid\n" +
+					"15% increased movement speed and 18% increased jump speed"));
+
 			if (item.type == ItemID.FishronWings)
-			{
-				foreach (TooltipLine line2 in tooltips)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
-					{
-						line2.text = "Allows flight and slow fall\n" +
-							"Horizontal speed: 8\n" +
-							"Acceleration multiplier: 2\n" +
-							"Good vertical speed\n" +
-							"Flight time: 180";
-					}
-				}
-			}
+				EditTooltipByNum(0, (line) => line.text += WingStatsTooltip(8f, 2f, 1, 180));
+
 			if (item.type == ItemID.SteampunkWings)
-			{
-				foreach (TooltipLine line2 in tooltips)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
-					{
-						line2.text = "Allows flight and slow fall\n" +
-							"Horizontal speed: 7.75\n" +
-							"Acceleration multiplier: 1\n" +
-							"Average vertical speed\n" +
-							"Flight time: 180\n" +
-							"+8 defense, 10% increased movement speed,\n" +
-							"4% increased damage, and 2% increased critical strike chance";
-					}
-				}
-			}
+				EditTooltipByNum(0, (line) => line.text += WingStatsTooltip(7.75f, 1f, 0, 180,
+					"+8 defense, 10% increased movement speed,\n" +
+					"4% increased damage, and 2% increased critical strike chance"));
+
 			if (item.type == ItemID.LeafWings)
-			{
-				foreach (TooltipLine line2 in tooltips)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
-					{
-						line2.text = "Allows flight and slow fall\n" +
-							"Horizontal speed: 6.75\n" +
-							"Acceleration multiplier: 1\n" +
-							"Average vertical speed\n" +
-							"Flight time: 160\n" +
-							"+5 defense, 5% increased damage reduction,\n" +
-							"and the Dryad's permanent blessing while wearing the Tiki Armor";
-					}
-				}
-			}
+				EditTooltipByNum(0, (line) => line.text += WingStatsTooltip(6.75f, 1f, 0, 160,
+					"+5 defense, 5% increased damage reduction,\n" +
+					"and permanent Dryad's Blessing while wearing the Tiki Armor"));
+
 			if (item.type == ItemID.BatWings)
-			{
-				foreach (TooltipLine line2 in tooltips)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
-					{
-						line2.text = "Allows flight and slow fall\n" +
-							"Horizontal speed: 0\n" +
-							"Acceleration multiplier: 0\n" +
-							"Average vertical speed\n" +
-							"Flight time: 140\n" +
-							"At night or during an eclipse, you will gain the following boosts:\n" +
-							"10% increased movement speed, 10% increased jump speed,\n" +
-							"7% increased damage and 3% increased critical strike chance";
-					}
-				}
-			}
+				EditTooltipByNum(0, (line) => line.text += WingStatsTooltip(0f, 0f, 0, 140,
+					"At night or during an eclipse, you will gain the following boosts:\n"
+					+ "10% increased movement speed, 10% increased jump speed,\n"
+					+ "7% increased damage and 3% increased critical strike chance"));
+
+			// All developer wings have identical stats and no special effects
 			if (item.type == ItemID.Yoraiz0rWings || item.type == ItemID.JimsWings || item.type == ItemID.SkiphsWings ||
 				item.type == ItemID.LokisWings || item.type == ItemID.ArkhalisWings || item.type == ItemID.LeinforsWings ||
 				item.type == ItemID.BejeweledValkyrieWing || item.type == ItemID.RedsWings || item.type == ItemID.DTownsWings ||
 				item.type == ItemID.WillsWings || item.type == ItemID.CrownosWings || item.type == ItemID.CenxsWings)
 			{
-				foreach (TooltipLine line2 in tooltips)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
-					{
-						line2.text = "'Great for impersonating devs!'\n" +
-							"Horizontal speed: 7\n" +
-							"Acceleration multiplier: 1\n" +
-							"Average vertical speed\n" +
-							"Flight time: 150";
-					}
-				}
+				EditTooltipByNum(0, (line) => line.text += WingStatsTooltip(7f, 1f, 0, 150));
 			}
+
 			if (item.type == ItemID.TatteredFairyWings)
-			{
-				foreach (TooltipLine line2 in tooltips)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
-					{
-						line2.text = "Allows flight and slow fall\n" +
-							"Horizontal speed: 7.5\n" +
-							"Acceleration multiplier: 1\n" +
-							"Average vertical speed\n" +
-							"Flight time: 180\n" +
-							"5% increased damage and critical strike chance";
-					}
-				}
-			}
+				EditTooltipByNum(0, (line) => line.text += WingStatsTooltip(7.5f, 1f, 0, 180,
+					"5% increased damage and critical strike chance"));
+
 			if (item.type == ItemID.SpookyWings)
-			{
-				foreach (TooltipLine line2 in tooltips)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
-					{
-						line2.text = "Allows flight and slow fall\n" +
-							"Horizontal speed: 7.5\n" +
-							"Acceleration multiplier: 1\n" +
-							"Average vertical speed\n" +
-							"Flight time: 180\n" +
-							"Increased minion knockback and 5% increased minion damage while wearing the Spooky Armor";
-					}
-				}
-			}
+				EditTooltipByNum(0, (line) => line.text += WingStatsTooltip(7.5f, 1f, 0, 180,
+					"Increased minion knockback and 5% increased minion damage while wearing the Spooky Armor"));
+
 			if (item.type == ItemID.Hoverboard)
-			{
-				foreach (TooltipLine line2 in tooltips)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "Tooltip1")
-					{
-						line2.text = "Hold DOWN and JUMP to hover\n" +
-							"Horizontal speed: 6.25\n" +
-							"Acceleration multiplier: 1\n" +
-							"Average vertical speed\n" +
-							"Flight time: 170\n" +
-							"10% increased damage to bows, guns, rocket launchers, and flamethrowers while wearing the Shroomite Armor\n" +
-							"Boosted weapon type depends on the Shroomite Helmet worn";
-					}
-				}
-			}
+				EditTooltipByNum(0, (line) => line.text += WingStatsTooltip(6.25f, 1f, 0, 170,
+					"10% increased weapon-type damage while wearing the Shroomite Armor\n" +
+					"The weapon type boosted matches which Shroomite helmet is worn"));
+
 			if (item.type == ItemID.FestiveWings)
-			{
-				foreach (TooltipLine line2 in tooltips)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
-					{
-						line2.text = "Allows flight and slow fall\n" +
-							"Horizontal speed: 7.5\n" +
-							"Acceleration multiplier: 1\n" +
-							"Average vertical speed\n" +
-							"Flight time: 170\n" +
-							"+40 max life\n" +
-							"Ornaments rain down as you fly";
-					}
-				}
-			}
+				EditTooltipByNum(0, (line) => line.text += WingStatsTooltip(7.5f, 1f, 0, 170,
+					"+40 max life\nOrnaments rain down as you fly"));
+
 			if (item.type == ItemID.MothronWings)
-			{
-				foreach (TooltipLine line2 in tooltips)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
-					{
-						line2.text = "Allows flight and slow fall\n" +
-							"Horizontal speed: 0\n" +
-							"Acceleration multiplier: 0\n" +
-							"Average vertical speed\n" +
-							"Flight time: 160\n" +
-							"+5 defense, 5% increased damage,\n" +
-							"10% increased movement speed and 12% increased jump speed";
-					}
-				}
-			}
+				EditTooltipByNum(0, (line) => line.text += WingStatsTooltip(0f, 0f, 0, 160,
+					"+5 defense, 5% increased damage,\n" +
+					"10% increased movement speed and 12% increased jump speed"));
+
 			if (item.type == ItemID.WingsSolar)
-			{
-				foreach (TooltipLine line2 in tooltips)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
-					{
-						line2.text = "Allows flight and slow fall\n" +
-							"Horizontal speed: 9\n" +
-							"Acceleration multiplier: 2.5\n" +
-							"Great vertical speed\n" +
-							"Flight time: 180\n" +
-							"7% increased melee damage and 3% increased melee critical strike chance\n" +
-							"while wearing the Solar Flare Armor";
-					}
-				}
-			}
+				EditTooltipByNum(0, (line) => line.text += WingStatsTooltip(9f, 2.5f, 2, 180,
+					"7% increased melee damage and 3% increased melee critical strike chance\n" +
+					"while wearing the Solar Flare Armor"));
+
 			if (item.type == ItemID.WingsStardust)
-			{
-				foreach (TooltipLine line2 in tooltips)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
-					{
-						line2.text = "Allows flight and slow fall\n" +
-							"Horizontal speed: 9\n" +
-							"Acceleration multiplier: 2.5\n" +
-							"Great vertical speed\n" +
-							"Flight time: 180\n" +
-							"+1 max minion and 5% increased minion damage while wearing the Stardust Armor";
-					}
-				}
-			}
+				EditTooltipByNum(0, (line) => line.text += WingStatsTooltip(9f, 2.5f, 2, 180,
+					"+1 max minion and 5% increased minion damage while wearing the Stardust Armor"));
+
 			if (item.type == ItemID.WingsVortex)
-			{
-				foreach (TooltipLine line2 in tooltips)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
-					{
-						line2.text = "Allows flight and slow fall\n" +
-							"Hold DOWN and JUMP to hover\n" +
-							"Horizontal speed: 6.5\n" +
-							"Acceleration multiplier: 1.5\n" +
-							"Good vertical speed\n" +
-							"Flight time: 160\n" +
-							"3% increased ranged damage and 7% increased ranged critical strike chance\n" +
-							"while wearing the Vortex Armor";
-					}
-				}
-			}
+				EditTooltipByNum(0, (line) => line.text += WingStatsTooltip(6.5f, 1.5f, 1, 160,
+					"3% increased ranged damage and 7% increased ranged critical strike chance\n" +
+					"while wearing the Vortex Armor"));
+
 			if (item.type == ItemID.WingsNebula)
-			{
-				foreach (TooltipLine line2 in tooltips)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
-					{
-						line2.text = "Allows flight and slow fall\n" +
-							"Hold DOWN and JUMP to hover\n" +
-							"Horizontal speed: 6.5\n" +
-							"Acceleration multiplier: 1.5\n" +
-							"Good vertical speed\n" +
-							"Flight time: 160\n" +
-							"+20 max mana, 5% increased magic damage and critical strike chance,\n" +
-							"and 5% decreased mana usage while wearing the Nebula Armor";
-					}
-				}
-			}
+				EditTooltipByNum(0, (line) => line.text += WingStatsTooltip(6.5f, 1.5f, 1, 160,
+					"+20 max mana, 5% increased magic damage and critical strike chance,\n" +
+					"and 5% decreased mana usage while wearing the Nebula Armor"));
+
 			if (item.type == ItemID.BetsyWings)
-			{
-				foreach (TooltipLine line2 in tooltips)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "Equipable")
-					{
-						line2.text = "Equipable\n" +
-							"Allows flight and slow fall\n" +
-							"Hold DOWN and JUMP to hover\n" +
-							"Horizontal speed: 6\n" +
-							"Acceleration multiplier: 2.5\n" +
-							"Good vertical speed\n" +
-							"Flight time: 150";
-					}
-				}
-			}
+				EditTooltipByNum(0, (line) => line.text += WingStatsTooltip(6f, 2.5f, 1, 150));
 			#endregion
 
 			#region Grappling Hook Stat Tooltips
