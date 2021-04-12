@@ -756,332 +756,72 @@ namespace CalamityMod.Items
 				EditTooltipByNum(0, (line) => line.text += WingStatsTooltip(6f, 2.5f, 1, 150));
 			#endregion
 
+			// Provide the full, raw stats of every vanilla grappling hook
 			#region Grappling Hook Stat Tooltips
+
+			// This function produces a "stat sheet" for a grappling hook from the raw stats.
+			string HookStatsTooltip(float reach, float launch, float pull)
+			{
+				StringBuilder sb = new StringBuilder(128);
+				sb.Append('\n');
+				sb.Append($"Reach: {reach:N3}\n");
+				sb.Append($"Launch Velocity: {launch:N2}\n");
+				sb.Append($"Pull Velocity: {pull:N2}");
+				return sb.ToString();
+			}
+
+			// This function is shorthand for appending a stat sheet to a grappling hook.
+			void AddGrappleStats(float r, float l, float p) => EditTooltipByName("Equipable", (line) => line.text += HookStatsTooltip(r, l, p));
+
+			// TODO -- Some of these stats are probably wrong, but finding them is so difficult I don't want to do it right now.
 			if (item.type == ItemID.GrapplingHook)
-			{
-				foreach (TooltipLine line2 in tooltips)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "Equipable")
-					{
-						line2.text = "Equipable\n" +
-							"Reach: 18.75\n" +
-							"Launch Velocity: 11.5\n" +
-							"Pull Velocity: 11";
-					}
-				}
-			}
+				AddGrappleStats(18.75f, 11.5f, 11f);
 			if (item.type == ItemID.AmethystHook)
-			{
-				foreach (TooltipLine line2 in tooltips)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "Equipable")
-					{
-						line2.text = "Equipable\n" +
-							"Reach: 18.75\n" +
-							"Launch Velocity: 10\n" +
-							"Pull Velocity: 11";
-					}
-				}
-			}
+				AddGrappleStats(18.75f, 10f, 11f);
 			if (item.type == ItemID.TopazHook)
-			{
-				foreach (TooltipLine line2 in tooltips)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "Equipable")
-					{
-						line2.text = "Equipable\n" +
-							"Reach: 20.625\n" +
-							"Launch Velocity: 10.5\n" +
-							"Pull Velocity: 11.75";
-					}
-				}
-			}
+				AddGrappleStats(20.625f, 10.5f, 11.75f);
 			if (item.type == ItemID.SapphireHook)
-			{
-				foreach (TooltipLine line2 in tooltips)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "Equipable")
-					{
-						line2.text = "Equipable\n" +
-							"Reach: 22.5\n" +
-							"Launch Velocity: 11\n" +
-							"Pull Velocity: 12.5";
-					}
-				}
-			}
+				AddGrappleStats(22.5f, 11f, 12.5f);
 			if (item.type == ItemID.EmeraldHook)
-			{
-				foreach (TooltipLine line2 in tooltips)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "Equipable")
-					{
-						line2.text = "Equipable\n" +
-							"Reach: 24.375\n" +
-							"Launch Velocity: 11.5\n" +
-							"Pull Velocity: 13.25";
-					}
-				}
-			}
+				AddGrappleStats(24.375f, 11.5f, 13.25f);
 			if (item.type == ItemID.RubyHook)
-			{
-				foreach (TooltipLine line2 in tooltips)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "Equipable")
-					{
-						line2.text = "Equipable\n" +
-							"Reach: 26.25\n" +
-							"Launch Velocity: 12\n" +
-							"Pull Velocity: 14";
-					}
-				}
-			}
+				AddGrappleStats(26.25f, 12f, 14f);
 			if (item.type == ItemID.DiamondHook)
-			{
-				foreach (TooltipLine line2 in tooltips)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "Equipable")
-					{
-						line2.text = "Equipable\n" +
-							"Reach: 28.125\n" +
-							"Launch Velocity: 12.5\n" +
-							"Pull Velocity: 14.75";
-					}
-				}
-			}
+				AddGrappleStats(28.125f, 12.5f, 14.75f);
 			if (item.type == ItemID.WebSlinger)
-			{
-				foreach (TooltipLine line2 in tooltips)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "Equipable")
-					{
-						line2.text = "Equipable\n" +
-							"Reach: 15.625\n" +
-							"Launch Velocity: 10\n" +
-							"Pull Velocity: 11";
-					}
-				}
-			}
+				AddGrappleStats(15.625f, 10f, 11f);
 			if (item.type == ItemID.SkeletronHand)
-			{
-				foreach (TooltipLine line2 in tooltips)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "Equipable")
-					{
-						line2.text = "Equipable\n" +
-							"Reach: 21.875\n" +
-							"Launch Velocity: 15\n" +
-							"Pull Velocity: 11";
-					}
-				}
-			}
+				AddGrappleStats(21.875f, 15f, 11f);
 			if (item.type == ItemID.SlimeHook)
-			{
-				foreach (TooltipLine line2 in tooltips)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "Equipable")
-					{
-						line2.text = "Equipable\n" +
-							"Reach: 18.75\n" +
-							"Launch Velocity: 13\n" +
-							"Pull Velocity: 11";
-					}
-				}
-			}
+				AddGrappleStats(18.75f, 13f, 11f);
 			if (item.type == ItemID.FishHook)
-			{
-				foreach (TooltipLine line2 in tooltips)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "Equipable")
-					{
-						line2.text = "Equipable\n" +
-							"Reach: 25\n" +
-							"Launch Velocity: 13\n" +
-							"Pull Velocity: 11";
-					}
-				}
-			}
+				AddGrappleStats(25f, 13f, 11f);
 			if (item.type == ItemID.IvyWhip)
-			{
-				foreach (TooltipLine line2 in tooltips)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "Equipable")
-					{
-						line2.text = "Equipable\n" +
-							"Reach: 25\n" +
-							"Launch Velocity: 13\n" +
-							"Pull Velocity: 15";
-					}
-				}
-			}
-			if (item.type == ItemID.BatHook)
-			{
-				foreach (TooltipLine line2 in tooltips)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "Equipable")
-					{
-						line2.text = "Equipable\n" +
-							"Reach: 31.25\n" +
-							"Launch Velocity: 15.5\n" +
-							"Pull Velocity: 20";
-					}
-				}
-			}
+				AddGrappleStats(25f, 13f, 15f);
+			if (item.type == ItemID.BatHook) // TODO -- This item should be dropped by Vampires in the Eclipse. It is very overpowered.
+				AddGrappleStats(31.25f, 15.5f, 20f);
 			if (item.type == ItemID.CandyCaneHook)
-			{
-				foreach (TooltipLine line2 in tooltips)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "Equipable")
-					{
-						line2.text = "Equipable\n" +
-							"Reach: 25\n" +
-							"Launch Velocity: 11.5\n" +
-							"Pull Velocity: 11";
-					}
-				}
-			}
+				AddGrappleStats(25f, 11.5f, 11f);
 			if (item.type == ItemID.DualHook)
-			{
-				foreach (TooltipLine line2 in tooltips)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "Equipable")
-					{
-						line2.text = "Equipable\n" +
-							"Reach: 27.5\n" +
-							"Launch Velocity: 14\n" +
-							"Pull Velocity: 17";
-					}
-				}
-			}
+				AddGrappleStats(27.5f, 14f, 17f);
 			if (item.type == ItemID.ThornHook)
-			{
-				foreach (TooltipLine line2 in tooltips)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "Equipable")
-					{
-						line2.text = "Equipable\n" +
-							"Reach: 30\n" +
-							"Launch Velocity: 15\n" +
-							"Pull Velocity: 18";
-					}
-				}
-			}
+				AddGrappleStats(30f, 15f, 18f);
 			if (item.type == ItemID.WormHook)
-			{
-				foreach (TooltipLine line2 in tooltips)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "Equipable")
-					{
-						line2.text = "Equipable\n" +
-							"Reach: 30\n" +
-							"Launch Velocity: 15\n" +
-							"Pull Velocity: 18";
-					}
-				}
-			}
+				AddGrappleStats(30f, 15f, 18f);
 			if (item.type == ItemID.TendonHook)
-			{
-				foreach (TooltipLine line2 in tooltips)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "Equipable")
-					{
-						line2.text = "Equipable\n" +
-							"Reach: 30\n" +
-							"Launch Velocity: 15\n" +
-							"Pull Velocity: 18";
-					}
-				}
-			}
+				AddGrappleStats(30f, 15f, 18f);
 			if (item.type == ItemID.IlluminantHook)
-			{
-				foreach (TooltipLine line2 in tooltips)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "Equipable")
-					{
-						line2.text = "Equipable\n" +
-							"Reach: 30\n" +
-							"Launch Velocity: 15\n" +
-							"Pull Velocity: 18";
-					}
-				}
-			}
+				AddGrappleStats(30f, 15f, 18f);
 			if (item.type == ItemID.AntiGravityHook)
-			{
-				foreach (TooltipLine line2 in tooltips)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "Equipable")
-					{
-						line2.text = "Equipable\n" +
-							"Reach: 31.25\n" +
-							"Launch Velocity: 14\n" +
-							"Pull Velocity: 20";
-					}
-				}
-			}
+				AddGrappleStats(31.25f, 14f, 20f);
 			if (item.type == ItemID.SpookyHook)
-			{
-				foreach (TooltipLine line2 in tooltips)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "Equipable")
-					{
-						line2.text = "Equipable\n" +
-							"Reach: 34.375\n" +
-							"Launch Velocity: 15.5\n" +
-							"Pull Velocity: 22";
-					}
-				}
-			}
+				AddGrappleStats(34.375f, 15.5f, 22f);
 			if (item.type == ItemID.ChristmasHook)
-			{
-				foreach (TooltipLine line2 in tooltips)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "Equipable")
-					{
-						line2.text = "Equipable\n" +
-							"Reach: 34.375\n" +
-							"Launch Velocity: 15.5\n" +
-							"Pull Velocity: 17";
-					}
-				}
-			}
+				AddGrappleStats(34.375f, 15.5f, 17f);
 			if (item.type == ItemID.LunarHook)
-			{
-				foreach (TooltipLine line2 in tooltips)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "Equipable")
-					{
-						line2.text = "Equipable\n" +
-							"Reach: 34.375\n" +
-							"Launch Velocity: 16\n" +
-							"Pull Velocity: 24";
-					}
-				}
-			}
+				AddGrappleStats(34.375f, 16f, 24f);
 			if (item.type == ItemID.StaticHook)
-			{
-				foreach (TooltipLine line2 in tooltips)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "Equipable")
-					{
-						line2.text = "Equipable\n" +
-							"Reach: 37.5\n" +
-							"Launch Velocity: 16\n" +
-							"Pull Velocity: 24";
-					}
-				}
-			}
-			if (item.type == ItemID.StaticHook)
-			{
-				foreach (TooltipLine line2 in tooltips)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "Equipable")
-					{
-						line2.text = "Equipable\n" +
-							"Reach: 37.5\n" +
-							"Launch Velocity: 16\n" +
-							"Pull Velocity: 24";
-					}
-				}
-			}
+				AddGrappleStats(37.5f, 16f, 0f);
 			#endregion
 
 			#region Accessory Prefix Rebalance Tooltips
