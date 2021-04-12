@@ -760,68 +760,63 @@ namespace CalamityMod.Items
 			#region Grappling Hook Stat Tooltips
 
 			// This function produces a "stat sheet" for a grappling hook from the raw stats.
-			string HookStatsTooltip(float reach, float launch, float pull)
+			string HookStatsTooltip(float reach, float launch, float reel, float pull)
 			{
 				StringBuilder sb = new StringBuilder(128);
 				sb.Append('\n');
-				sb.Append($"Reach: {reach:N3}\n");
+				sb.Append($"Reach: {reach:N3} tiles\n");
 				sb.Append($"Launch Velocity: {launch:N2}\n");
+				sb.Append($"Reelback Velocity: {reel:N2}\n");
 				sb.Append($"Pull Velocity: {pull:N2}");
 				return sb.ToString();
 			}
 
 			// This function is shorthand for appending a stat sheet to a grappling hook.
-			void AddGrappleStats(float r, float l, float p) => EditTooltipByName("Equipable", (line) => line.text += HookStatsTooltip(r, l, p));
+			void AddGrappleStats(float r, float l, float e, float p) => EditTooltipByName("Equipable", (line) => line.text += HookStatsTooltip(r, l, e, p));
 
-			// TODO -- Some of these stats are probably wrong, but finding them is so difficult I don't want to do it right now.
 			if (item.type == ItemID.GrapplingHook)
-				AddGrappleStats(18.75f, 11.5f, 11f);
+				AddGrappleStats(18.75f, 11.5f, 11f, 11f);
 			if (item.type == ItemID.AmethystHook)
-				AddGrappleStats(18.75f, 10f, 11f);
+				AddGrappleStats(18.75f, 10f, 11f, 11f);
 			if (item.type == ItemID.TopazHook)
-				AddGrappleStats(20.625f, 10.5f, 11.75f);
+				AddGrappleStats(20.625f, 10.5f, 11.75f, 11f);
 			if (item.type == ItemID.SapphireHook)
-				AddGrappleStats(22.5f, 11f, 12.5f);
+				AddGrappleStats(22.5f, 11f, 12.5f, 11f);
 			if (item.type == ItemID.EmeraldHook)
-				AddGrappleStats(24.375f, 11.5f, 13.25f);
+				AddGrappleStats(24.375f, 11.5f, 13.25f, 11f);
 			if (item.type == ItemID.RubyHook)
-				AddGrappleStats(26.25f, 12f, 14f);
+				AddGrappleStats(26.25f, 12f, 14f, 11f);
 			if (item.type == ItemID.DiamondHook)
-				AddGrappleStats(28.125f, 12.5f, 14.75f);
+				AddGrappleStats(28.125f, 12.5f, 14.75f, 11f);
 			if (item.type == ItemID.WebSlinger)
-				AddGrappleStats(15.625f, 10f, 11f);
+				AddGrappleStats(15.625f, 10f, 11f, 11f);
 			if (item.type == ItemID.SkeletronHand)
-				AddGrappleStats(21.875f, 15f, 11f);
+				AddGrappleStats(21.875f, 15f, 11f, 11f);
 			if (item.type == ItemID.SlimeHook)
-				AddGrappleStats(18.75f, 13f, 11f);
+				AddGrappleStats(18.75f, 13f, 11f, 11f);
 			if (item.type == ItemID.FishHook)
-				AddGrappleStats(25f, 13f, 11f);
+				AddGrappleStats(25f, 13f, 11f, 11f);
 			if (item.type == ItemID.IvyWhip)
-				AddGrappleStats(25f, 13f, 15f);
+				AddGrappleStats(25f, 13f, 15f, 11f);
 			if (item.type == ItemID.BatHook) // TODO -- This item should be dropped by Vampires in the Eclipse. It is very overpowered.
-				AddGrappleStats(31.25f, 15.5f, 20f);
+				AddGrappleStats(31.25f, 15.5f, 20f, 16f);
 			if (item.type == ItemID.CandyCaneHook)
-				AddGrappleStats(25f, 11.5f, 11f);
+				AddGrappleStats(25f, 11.5f, 11f, 11f);
 			if (item.type == ItemID.DualHook)
-				AddGrappleStats(27.5f, 14f, 17f);
-			if (item.type == ItemID.ThornHook)
-				AddGrappleStats(30f, 15f, 18f);
-			if (item.type == ItemID.WormHook)
-				AddGrappleStats(30f, 15f, 18f);
-			if (item.type == ItemID.TendonHook)
-				AddGrappleStats(30f, 15f, 18f);
-			if (item.type == ItemID.IlluminantHook)
-				AddGrappleStats(30f, 15f, 18f);
+				AddGrappleStats(27.5f, 14f, 17f, 11f);
+			// these four grapple hooks are all functionally identical
+			if (item.type == ItemID.ThornHook || item.type == ItemID.WormHook || item.type == ItemID.TendonHook || item.type == ItemID.IlluminantHook)
+				AddGrappleStats(30f, 15f, 18f, 11f);
 			if (item.type == ItemID.AntiGravityHook)
-				AddGrappleStats(31.25f, 14f, 20f);
+				AddGrappleStats(31.25f, 14f, 20f, 11f);
 			if (item.type == ItemID.SpookyHook)
-				AddGrappleStats(34.375f, 15.5f, 22f);
+				AddGrappleStats(34.375f, 15.5f, 22f, 11f);
 			if (item.type == ItemID.ChristmasHook)
-				AddGrappleStats(34.375f, 15.5f, 17f);
+				AddGrappleStats(34.375f, 15.5f, 17f, 11f);
 			if (item.type == ItemID.LunarHook)
-				AddGrappleStats(34.375f, 16f, 24f);
+				AddGrappleStats(34.375f, 16f, 24f, 13f);
 			if (item.type == ItemID.StaticHook)
-				AddGrappleStats(37.5f, 16f, 0f);
+				AddGrappleStats(37.5f, 16f, 24f, 0f);
 			#endregion
 
 			#region Accessory Prefix Rebalance Tooltips
