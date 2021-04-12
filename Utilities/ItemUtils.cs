@@ -72,6 +72,62 @@ namespace CalamityMod
 		}
 		#endregion
 
+		// TODO -- This probably isn't the best place to put this but it needs to be somewhere easily accessible.
+		#region Accessory Prefix Stats
+		internal static int GetScalingDefense(int prefixID)
+		{
+			switch (prefixID)
+			{
+				default:
+					return 0;
+				case PrefixID.Hard:
+					return CalamityWorld.downedDoG ? 4 : CalamityWorld.downedProvidence || CalamityWorld.downedPolterghast ? 3 : NPC.downedMoonlord || NPC.downedGolemBoss ? 2 : 1;
+				case PrefixID.Guarding:
+					if (CalamityWorld.downedDoG)
+						return 8;
+					else if (CalamityWorld.downedPolterghast)
+						return 7;
+					else if (CalamityWorld.downedProvidence)
+						return 6;
+					else if (NPC.downedMoonlord)
+						return 5;
+					else if (NPC.downedGolemBoss)
+						return 4;
+					else if (Main.hardMode)
+						return 3;
+					return 2;
+				case PrefixID.Armored:
+					if (CalamityWorld.downedDoG)
+						return 12;
+					else if (CalamityWorld.downedPolterghast)
+						return 10;
+					else if (CalamityWorld.downedProvidence)
+						return 9;
+					else if (NPC.downedMoonlord)
+						return 7;
+					else if (NPC.downedGolemBoss)
+						return 6;
+					else if (Main.hardMode)
+						return 4;
+					return 3;
+				case PrefixID.Warding:
+					if (CalamityWorld.downedDoG)
+						return 16;
+					else if (CalamityWorld.downedPolterghast)
+						return 14;
+					else if (CalamityWorld.downedProvidence)
+						return 12;
+					else if (NPC.downedMoonlord)
+						return 10;
+					else if (NPC.downedGolemBoss)
+						return 8;
+					else if (Main.hardMode)
+						return 6;
+					return 4;
+			}
+		}
+		#endregion
+
 		/// <summary>
 		/// Converts the given ModHotKey into a string for insertion into item tooltips.<br></br>
 		/// This allows the user's actual keybind choices to be shown to them in tooltips.

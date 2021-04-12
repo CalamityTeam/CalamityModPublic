@@ -525,6 +525,7 @@ namespace CalamityMod.Items
 			// Rebalances and information about vanilla set bonuses
 			#region Vanilla Set Bonus Tooltips
 
+			// Turns a number into a string of increased mining speed.
 			string MiningSpeedString(int percent) => $"\n{percent}% increased mining speed";
 
 			// Copper
@@ -602,7 +603,7 @@ namespace CalamityMod.Items
 				EditTooltipByName("SetBonus", (line) => line.text += "\nIncreases your max number of minions by 2");
 			#endregion
 
-			// Provide the full, raw stats of every vanilla set of wings
+			// Provide the full stats of every vanilla set of wings
 			#region Wing Stat Tooltips
 
 			// This function produces a "stat sheet" for a pair of wings from the raw stats.
@@ -625,82 +626,70 @@ namespace CalamityMod.Items
 				return sb.ToString();
 			}
 
+			// This function is shorthand for appending a stat sheet to a pair of wings.
+			void AddWingStats(float h, float a, int v, int f, string s = null) => EditTooltipByNum(0, (line) => line.text += WingStatsTooltip(h, a, v, f, s));
+
 			if (item.type == ItemID.AngelWings)
-				EditTooltipByNum(0, (line) => line.text += WingStatsTooltip(6.25f, 1f, 0, 100,
-					"+20 max life, +10 defense and +2 life regen"));
+				AddWingStats(6.25f, 1f, 0, 100, "+20 max life, +10 defense and +2 life regen");
 
 			if (item.type == ItemID.DemonWings)
-				EditTooltipByNum(0, (line) => line.text += WingStatsTooltip(6.25f, 1f, 0, 100,
-					"5% increased damage and critical strike chance"));
+				AddWingStats(6.25f, 1f, 0, 100, "5% increased damage and critical strike chance");
 
 			if (item.type == ItemID.Jetpack)
-				EditTooltipByNum(0, (line) => line.text += WingStatsTooltip(6.5f, 1f, 0, 115));
+				AddWingStats(6.5f, 1f, 0, 115);
 
 			if (item.type == ItemID.ButterflyWings)
-				EditTooltipByNum(0, (line) => line.text += WingStatsTooltip(6.75f, 1f, 0, 130,
-					"+20 max mana, 5% decreased mana usage,\n"
-					+ "5% increased magic damage and magic critical strike chance"));
+				AddWingStats(6.75f, 1f, 0, 130, "+20 max mana, 5% decreased mana usage,\n" +
+					"5% increased magic damage and magic critical strike chance");
 
 			if (item.type == ItemID.FairyWings)
-				EditTooltipByNum(0, (line) => line.text += WingStatsTooltip(6.75f, 1f, 0, 130, "+60 max life"));
+				AddWingStats(6.75f, 1f, 0, 130, "+60 max life");
 
 			if (item.type == ItemID.BeeWings)
-				EditTooltipByNum(0, (line) => line.text += WingStatsTooltip(6.75f, 1f, 0, 130, "Permanently gives the Honey buff"));
+				AddWingStats(6.75f, 1f, 0, 130, "Permanently gives the Honey buff");
 
 			if (item.type == ItemID.HarpyWings)
-				EditTooltipByNum(0, (line) => line.text += WingStatsTooltip(7f, 1f, 0, 140,
-					"20% increased movement speed\n" +
-					"Most attacks have a chance to fire a feather on swing if Harpy Ring or Angel Treads are equipped"));
+				AddWingStats(7f, 1f, 0, 140, "20% increased movement speed\n" +
+					"With Harpy Ring or Angel Treads equipped, most attacks sometimes launch feathers");
 
 			if (item.type == ItemID.BoneWings)
-				EditTooltipByNum(0, (line) => line.text += WingStatsTooltip(7f, 1f, 0, 140,
-					"10% increased movement speed, ranged damage and critical strike chance\n" +
-					"and +30 defense while wearing the Necro Armor"));
+				AddWingStats(7f, 1f, 0, 140, "10% increased movement speed, ranged damage and critical strike chance\n" +
+					"and +30 defense while wearing the Necro Armor");
 
 			if (item.type == ItemID.FlameWings)
-				EditTooltipByNum(0, (line) => line.text += WingStatsTooltip(7.5f, 1f, 0, 160,
-					"5% increased melee damage and critical strike chance"));
+				AddWingStats(7.5f, 1f, 0, 160, "5% increased melee damage and critical strike chance");
 
 			if (item.type == ItemID.FrozenWings)
-				EditTooltipByNum(0, (line) => line.text += WingStatsTooltip(7.5f, 1f, 0, 160,
-					"2% increased melee and ranged damage\n" +
+				AddWingStats(7.5f, 1f, 0, 160, "2% increased melee and ranged damage\n" +
 					"and 1% increased melee and ranged critical strike chance\n" +
-					"while wearing the Frost Armor"));
+					"while wearing the Frost Armor");
 
 			if (item.type == ItemID.GhostWings)
-				EditTooltipByNum(0, (line) => line.text += WingStatsTooltip(7.5f, 1f, 0, 160,
-					"+10 defense and 5% increased damage reduction while wearing the Spectre Hood set\n" +
-					"5% increased magic damage and critical strike chance while wearing the Spectre Mask set"));
+				AddWingStats(7.5f, 1f, 0, 160, "+10 defense and 5% increased damage reduction while wearing the Spectre Hood set\n" +
+					"5% increased magic damage and critical strike chance while wearing the Spectre Mask set");
 
 			if (item.type == ItemID.BeetleWings)
-				EditTooltipByNum(0, (line) => line.text += WingStatsTooltip(7.5f, 1f, 0, 160,
-					"+10 defense and 5% increased damage reduction while wearing the Beetle Shell set\n" +
-					"5% increased melee damage and critical strike chance while wearing the Beetle Scale Mail set"));
+				AddWingStats(7.5f, 1f, 0, 160, "+10 defense and 5% increased damage reduction while wearing the Beetle Shell set\n" +
+					"5% increased melee damage and critical strike chance while wearing the Beetle Scale Mail set");
 
 			if (item.type == ItemID.FinWings)
-				EditTooltipByNum(0, (line) => line.text += WingStatsTooltip(0f, 0f, 0, 100,
-					"Gills effect and you can move freely through liquids\n" +
+				AddWingStats(0f, 0f, 0, 100, "Gills effect and you can move freely through liquids\n" +
 					"You fall faster while submerged in liquid\n" +
-					"15% increased movement speed and 18% increased jump speed"));
+					"15% increased movement speed and 18% increased jump speed");
 
 			if (item.type == ItemID.FishronWings)
-				EditTooltipByNum(0, (line) => line.text += WingStatsTooltip(8f, 2f, 1, 180));
+				AddWingStats(8f, 2f, 1, 180);
 
 			if (item.type == ItemID.SteampunkWings)
-				EditTooltipByNum(0, (line) => line.text += WingStatsTooltip(7.75f, 1f, 0, 180,
-					"+8 defense, 10% increased movement speed,\n" +
-					"4% increased damage, and 2% increased critical strike chance"));
+				AddWingStats(7.75f, 1f, 0, 180, "+8 defense, 10% increased movement speed,\n" + "4% increased damage, and 2% increased critical strike chance");
 
 			if (item.type == ItemID.LeafWings)
-				EditTooltipByNum(0, (line) => line.text += WingStatsTooltip(6.75f, 1f, 0, 160,
-					"+5 defense, 5% increased damage reduction,\n" +
-					"and permanent Dryad's Blessing while wearing the Tiki Armor"));
+				AddWingStats(6.75f, 1f, 0, 160, "+5 defense, 5% increased damage reduction,\n" + "and permanent Dryad's Blessing while wearing the Tiki Armor");
 
 			if (item.type == ItemID.BatWings)
-				EditTooltipByNum(0, (line) => line.text += WingStatsTooltip(0f, 0f, 0, 140,
-					"At night or during an eclipse, you will gain the following boosts:\n"
-					+ "10% increased movement speed, 10% increased jump speed,\n"
-					+ "7% increased damage and 3% increased critical strike chance"));
+				AddWingStats(0f, 0f, 0, 140, "At night or during an eclipse, you will gain the following boosts:\n" +
+					"10% increased movement speed, 10% increased jump speed,\n" +
+					"7% increased damage and 3% increased critical strike chance");
 
 			// All developer wings have identical stats and no special effects
 			if (item.type == ItemID.Yoraiz0rWings || item.type == ItemID.JimsWings || item.type == ItemID.SkiphsWings ||
@@ -708,55 +697,46 @@ namespace CalamityMod.Items
 				item.type == ItemID.BejeweledValkyrieWing || item.type == ItemID.RedsWings || item.type == ItemID.DTownsWings ||
 				item.type == ItemID.WillsWings || item.type == ItemID.CrownosWings || item.type == ItemID.CenxsWings)
 			{
-				EditTooltipByNum(0, (line) => line.text += WingStatsTooltip(7f, 1f, 0, 150));
+				AddWingStats(7f, 1f, 0, 150);
 			}
 
 			if (item.type == ItemID.TatteredFairyWings)
-				EditTooltipByNum(0, (line) => line.text += WingStatsTooltip(7.5f, 1f, 0, 180,
-					"5% increased damage and critical strike chance"));
+				AddWingStats(7.5f, 1f, 0, 180, "5% increased damage and critical strike chance");
 
 			if (item.type == ItemID.SpookyWings)
-				EditTooltipByNum(0, (line) => line.text += WingStatsTooltip(7.5f, 1f, 0, 180,
-					"Increased minion knockback and 5% increased minion damage while wearing the Spooky Armor"));
+				AddWingStats(7.5f, 1f, 0, 180, "Increased minion knockback and 5% increased minion damage while wearing the Spooky Armor");
 
 			if (item.type == ItemID.Hoverboard)
-				EditTooltipByNum(0, (line) => line.text += WingStatsTooltip(6.25f, 1f, 0, 170,
-					"10% increased weapon-type damage while wearing the Shroomite Armor\n" +
-					"The weapon type boosted matches which Shroomite helmet is worn"));
+				AddWingStats(6.25f, 1f, 0, 170, "10% increased weapon-type damage while wearing the Shroomite Armor\n" +
+					"The weapon type boosted matches which Shroomite helmet is worn");
 
 			if (item.type == ItemID.FestiveWings)
-				EditTooltipByNum(0, (line) => line.text += WingStatsTooltip(7.5f, 1f, 0, 170,
-					"+40 max life\nOrnaments rain down as you fly"));
+				AddWingStats(7.5f, 1f, 0, 170, "+40 max life\nOrnaments rain down as you fly");
 
 			if (item.type == ItemID.MothronWings)
-				EditTooltipByNum(0, (line) => line.text += WingStatsTooltip(0f, 0f, 0, 160,
-					"+5 defense, 5% increased damage,\n" +
-					"10% increased movement speed and 12% increased jump speed"));
+				AddWingStats(0f, 0f, 0, 160, "+5 defense, 5% increased damage,\n" +
+					"10% increased movement speed and 12% increased jump speed");
 
 			if (item.type == ItemID.WingsSolar)
-				EditTooltipByNum(0, (line) => line.text += WingStatsTooltip(9f, 2.5f, 2, 180,
-					"7% increased melee damage and 3% increased melee critical strike chance\n" +
-					"while wearing the Solar Flare Armor"));
+				AddWingStats(9f, 2.5f, 2, 180, "7% increased melee damage and 3% increased melee critical strike chance\n" +
+					"while wearing the Solar Flare Armor");
 
 			if (item.type == ItemID.WingsStardust)
-				EditTooltipByNum(0, (line) => line.text += WingStatsTooltip(9f, 2.5f, 2, 180,
-					"+1 max minion and 5% increased minion damage while wearing the Stardust Armor"));
+				AddWingStats(9f, 2.5f, 2, 180, "+1 max minion and 5% increased minion damage while wearing the Stardust Armor");
 
 			if (item.type == ItemID.WingsVortex)
-				EditTooltipByNum(0, (line) => line.text += WingStatsTooltip(6.5f, 1.5f, 1, 160,
-					"3% increased ranged damage and 7% increased ranged critical strike chance\n" +
-					"while wearing the Vortex Armor"));
+				AddWingStats(6.5f, 1.5f, 1, 160, "3% increased ranged damage and 7% increased ranged critical strike chance\n" +
+					"while wearing the Vortex Armor");
 
 			if (item.type == ItemID.WingsNebula)
-				EditTooltipByNum(0, (line) => line.text += WingStatsTooltip(6.5f, 1.5f, 1, 160,
-					"+20 max mana, 5% increased magic damage and critical strike chance,\n" +
-					"and 5% decreased mana usage while wearing the Nebula Armor"));
+				AddWingStats(6.5f, 1.5f, 1, 160, "+20 max mana, 5% increased magic damage and critical strike chance,\n" +
+					"and 5% decreased mana usage while wearing the Nebula Armor");
 
 			if (item.type == ItemID.BetsyWings)
-				EditTooltipByNum(0, (line) => line.text += WingStatsTooltip(6f, 2.5f, 1, 150));
+				AddWingStats(6f, 2.5f, 1, 150);
 			#endregion
 
-			// Provide the full, raw stats of every vanilla grappling hook
+			// Provide the full stats of every vanilla grappling hook
 			#region Grappling Hook Stat Tooltips
 
 			// This function produces a "stat sheet" for a grappling hook from the raw stats.
@@ -819,131 +799,50 @@ namespace CalamityMod.Items
 				AddGrappleStats(37.5f, 16f, 24f, 0f);
 			#endregion
 
+			// Beyond this point all code only applies to accessories. Skip it all if the item is not an accessory.
+			if (!item.accessory)
+				return;
+
+			// Display the stat changes to vanilla prefixes
 			#region Accessory Prefix Rebalance Tooltips
-			if (item.accessory)
+
+			// Turns a number into a string of increased DR.
+			string DRString(float percent) => $"\n+{percent:N2}% damage reduction";
+
+			switch (item.prefix)
 			{
-				if (item.prefix == PrefixID.Brisk)
-				{
-					foreach (TooltipLine line2 in tooltips)
-					{
-						if (line2.mod == "Terraria" && line2.Name == "PrefixAccMoveSpeed")
-							line2.text = "+2% movement speed";
-					}
-				}
-				if (item.prefix == PrefixID.Fleeting)
-				{
-					foreach (TooltipLine line2 in tooltips)
-					{
-						if (line2.mod == "Terraria" && line2.Name == "PrefixAccMoveSpeed")
-							line2.text = "+4% movement speed";
-					}
-				}
-				if (item.prefix == PrefixID.Hasty2)
-				{
-					foreach (TooltipLine line2 in tooltips)
-					{
-						if (line2.mod == "Terraria" && line2.Name == "PrefixAccMoveSpeed")
-							line2.text = "+6% movement speed";
-					}
-				}
-				if (item.prefix == PrefixID.Quick2)
-				{
-					foreach (TooltipLine line2 in tooltips)
-					{
-						if (line2.mod == "Terraria" && line2.Name == "PrefixAccMoveSpeed")
-							line2.text = "+8% movement speed";
-					}
-				}
-				if (item.prefix == PrefixID.Precise || item.prefix == PrefixID.Lucky)
-				{
-					foreach (TooltipLine line2 in tooltips)
-					{
-						if (line2.mod == "Terraria" && line2.Name == "PrefixAccCritChance")
-							line2.text += "\n+1 armor penetration";
-					}
-				}
-				if (item.prefix == PrefixID.Hard)
-				{
-					string defenseBoost = "+1 defense\n";
-					if (CalamityWorld.downedDoG)
-						defenseBoost = "+4 defense\n";
-					else if (CalamityWorld.downedProvidence || CalamityWorld.downedPolterghast)
-						defenseBoost = "+3 defense\n";
-					else if (NPC.downedGolemBoss || NPC.downedMoonlord)
-						defenseBoost = "+2 defense\n";
-
-					foreach (TooltipLine line2 in tooltips)
-					{
-						if (line2.mod == "Terraria" && line2.Name == "PrefixAccDefense")
-							line2.text = defenseBoost + "+0.25% damage reduction";
-					}
-				}
-				if (item.prefix == PrefixID.Guarding)
-				{
-					string defenseBoost = "+2 defense\n";
-					if (CalamityWorld.downedDoG)
-						defenseBoost = "+8 defense\n";
-					else if (CalamityWorld.downedPolterghast)
-						defenseBoost = "+7 defense\n";
-					else if (CalamityWorld.downedProvidence)
-						defenseBoost = "+6 defense\n";
-					else if (NPC.downedMoonlord)
-						defenseBoost = "+5 defense\n";
-					else if (NPC.downedGolemBoss)
-						defenseBoost = "+4 defense\n";
-					else if (Main.hardMode)
-						defenseBoost = "+3 defense\n";
-
-					foreach (TooltipLine line2 in tooltips)
-					{
-						if (line2.mod == "Terraria" && line2.Name == "PrefixAccDefense")
-							line2.text = defenseBoost + "+0.5% damage reduction";
-					}
-				}
-				if (item.prefix == PrefixID.Armored)
-				{
-					string defenseBoost = "+3 defense\n";
-					if (CalamityWorld.downedDoG)
-						defenseBoost = "+12 defense\n";
-					else if (CalamityWorld.downedPolterghast)
-						defenseBoost = "+10 defense\n";
-					else if (CalamityWorld.downedProvidence)
-						defenseBoost = "+9 defense\n";
-					else if (NPC.downedMoonlord)
-						defenseBoost = "+7 defense\n";
-					else if (NPC.downedGolemBoss)
-						defenseBoost = "+6 defense\n";
-					else if (Main.hardMode)
-						defenseBoost = "+4 defense\n";
-
-					foreach (TooltipLine line2 in tooltips)
-					{
-						if (line2.mod == "Terraria" && line2.Name == "PrefixAccDefense")
-							line2.text = defenseBoost + "+0.75% damage reduction";
-					}
-				}
-				if (item.prefix == PrefixID.Warding)
-				{
-					string defenseBoost = "+4 defense\n";
-					if (CalamityWorld.downedDoG)
-						defenseBoost = "+16 defense\n";
-					else if (CalamityWorld.downedPolterghast)
-						defenseBoost = "+14 defense\n";
-					else if (CalamityWorld.downedProvidence)
-						defenseBoost = "+12 defense\n";
-					else if (NPC.downedMoonlord)
-						defenseBoost = "+10 defense\n";
-					else if (NPC.downedGolemBoss)
-						defenseBoost = "+8 defense\n";
-					else if (Main.hardMode)
-						defenseBoost = "+6 defense\n";
-
-					foreach (TooltipLine line2 in tooltips)
-					{
-						if (line2.mod == "Terraria" && line2.Name == "PrefixAccDefense")
-							line2.text = defenseBoost + "+1% damage reduction";
-					}
-				}
+				case PrefixID.Brisk:
+					EditTooltipByName("PrefixAccMoveSpeed", (line) => line.text = line.text.Replace("1%", "2%"));
+					return;
+				case PrefixID.Fleeting:
+					EditTooltipByName("PrefixAccMoveSpeed", (line) => line.text = line.text.Replace("2%", "4%"));
+					return;
+				case PrefixID.Hasty2: // Hasty2 is the "Hasty" for accessories
+					EditTooltipByName("PrefixAccMoveSpeed", (line) => line.text = line.text.Replace("3%", "6%"));
+					return;
+				case PrefixID.Quick2: // Quick2 is the "Quick" for accessories
+					EditTooltipByName("PrefixAccMoveSpeed", (line) => line.text = line.text.Replace("4%", "8%"));
+					return;
+				case PrefixID.Precise:
+				case PrefixID.Lucky:
+					EditTooltipByName("PrefixAccCritChance", (line) => line.text += "\n+1 armor penetration");
+					return;
+				case PrefixID.Hard:
+					EditTooltipByName("PrefixAccDefense",
+						(line) => line.text = line.text.Replace("1", CalamityUtils.GetScalingDefense(item.prefix).ToString()) + DRString(0.25f));
+					return;
+				case PrefixID.Guarding:
+					EditTooltipByName("PrefixAccDefense",
+						(line) => line.text = line.text.Replace("2", CalamityUtils.GetScalingDefense(item.prefix).ToString()) + DRString(0.5f));
+					return;
+				case PrefixID.Armored:
+					EditTooltipByName("PrefixAccDefense",
+						(line) => line.text = line.text.Replace("3", CalamityUtils.GetScalingDefense(item.prefix).ToString()) + DRString(0.75f));
+					return;
+				case PrefixID.Warding:
+					EditTooltipByName("PrefixAccDefense",
+						(line) => line.text = line.text.Replace("4", CalamityUtils.GetScalingDefense(item.prefix).ToString()) + DRString(1f));
+					return;
 			}
 			#endregion
 		}
