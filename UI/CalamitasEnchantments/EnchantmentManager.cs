@@ -44,19 +44,14 @@ namespace CalamityMod.UI.CalamitasEnchants
 
 		public static void LoadAllEnchantments()
 		{
-			EnchantmentList.Add(new Enchantment("Self-Sacrificial", "Does 10% more damage at the cost of 20% of your max life", item =>
-			{
-				item.damage = (int)(item.damage * 1.2);
-			}, 
-			player =>
-			{
-				player.Calamity().sacrificeEnchant = true;
-			}, item => item.damage > 0));
+			EnchantmentList.Add(new Enchantment("Self-Sacrificial", "Does 10% more damage at the cost of 20% of your max life",
+				item => item.damage = (int)(item.damage * 1.1), 
+				player => player.Calamity().sacrificeEnchant = true, 
+				item => item.damage > 0));
 
-			ClearEnchantment = new Enchantment("Disenchant", string.Empty, item =>
-			{
-				item.Calamity().AppliedEnchantment = null;
-			}, item => item.damage > 0);
+			ClearEnchantment = new Enchantment("Disenchant", string.Empty,
+				item => item.Calamity().AppliedEnchantment = null,
+				item => item.damage > 0);
 		}
 
 		public static void UnloadAllEnchantments() => EnchantmentList = null;
