@@ -104,7 +104,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
             if (bubbleStronk)
             {
 				tex = ModContent.GetTexture("CalamityMod/Projectiles/Melee/Yoyos/SulphurousGrabberYoyoBubble");
-                CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1, tex);
+                CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1, tex);
             }
             return false;
         }
