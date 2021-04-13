@@ -85,7 +85,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 				PulseBurst(4f, 5f);
 		}
 
-		public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 280;
+		public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 280 && target.CanBeChasedBy(projectile);
 
 		public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
 		{

@@ -24,7 +24,7 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.aiStyle = 1;
         }
 
-		public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 150;
+		public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 150 && target.CanBeChasedBy(projectile);
 
 		public override void AI()
         {

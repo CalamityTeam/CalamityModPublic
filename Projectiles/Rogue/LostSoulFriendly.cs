@@ -28,7 +28,7 @@ namespace CalamityMod.Projectiles.Rogue
 			projectile.alpha = 150;
         }
 
-		public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 210;
+		public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 210 && target.CanBeChasedBy(projectile);
 
 		public override void AI()
         {

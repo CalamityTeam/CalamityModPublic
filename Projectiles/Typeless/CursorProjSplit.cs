@@ -201,19 +201,9 @@ namespace CalamityMod.Projectiles.Typeless
             target.AddBuff(ModContent.BuffType<Vaporfied>(), 120);
         }
 
-        public override bool? CanHitNPC(NPC target)
-		{
-			if (projectile.alpha >= 128)
-			{
-				return false;
-			}
-			return null;
-		}
+		public override bool? CanHitNPC(NPC target) => projectile.alpha < 128;
 
-        public override bool CanHitPvp(Player target)
-		{
-			return projectile.alpha < 128;
-		}
+		public override bool CanHitPvp(Player target) => projectile.alpha < 128;
 
 		public override void Kill(int timeLeft)
         {

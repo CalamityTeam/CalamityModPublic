@@ -25,7 +25,7 @@ namespace CalamityMod.Projectiles.Typeless
             projectile.extraUpdates = 2;
         }
 
-		public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 270;
+		public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 270 && target.CanBeChasedBy(projectile);
 
 		public override void AI()
 		{

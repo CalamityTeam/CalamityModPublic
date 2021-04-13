@@ -31,7 +31,7 @@ namespace CalamityMod.Projectiles.Melee
 			projectile.timeLeft = 360;
         }
 
-		public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 240;
+		public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 240 && target.CanBeChasedBy(projectile);
 
 		public override void AI()
         {

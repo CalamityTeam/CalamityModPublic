@@ -22,7 +22,7 @@ namespace CalamityMod.Projectiles.Magic
             projectile.magic = true;
         }
 
-		public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 40;
+		public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 40 && target.CanBeChasedBy(projectile);
 
 		public override void AI()
         {
