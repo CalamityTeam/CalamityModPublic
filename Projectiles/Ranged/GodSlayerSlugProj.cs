@@ -112,7 +112,10 @@ namespace CalamityMod.Projectiles.Ranged
             for (int i = 0; i < ProjectileID.Sets.TrailCacheLength[projectile.type]; ++i)
                 projectile.oldPos[i] = projectile.position;
 
-            // The projectile flies at the mouse vector at its original muzzle velocity.
+            // TODO -- when the bullet warps it should produce a tiny puff of dust
+            // this may require vector math so that the puff of dust is at the back of the bullet
+
+            // TODO -- the bullet should aim itself towards the mouse with about 26px square deviation
             projectile.velocity = mouseVec * projectile.localAI[0];
         }
 
@@ -136,7 +139,8 @@ namespace CalamityMod.Projectiles.Ranged
             CalamityGlobalProjectile.ExpandHitboxBy(projectile, 48);
             projectile.Damage();
 
-            // The bullet's explosion is a fancy triangle pattern.
+            // Create a fancy triangle of dust.
+            // TODO: This is too loose, it needs to be a tight triangular pattern.
             int dustID = 180;
             for (int i = 0; i < 9; ++i)
             {

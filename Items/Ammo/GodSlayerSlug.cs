@@ -11,7 +11,10 @@ namespace CalamityMod.Items.Ammo
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("God Slayer Slug");
-            Tooltip.SetDefault("These bullets aren't finished.");
+            Tooltip.SetDefault("Pierces through unlimited targets\n" +
+                "After striking at least one enemy,\n" +
+                "if the bullet hits a wall or runs out of targets,\n" +
+                "it will warp backwards through space and explode on impact");
         }
 
         public override void SetDefaults()
