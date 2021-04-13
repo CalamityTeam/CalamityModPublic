@@ -204,8 +204,14 @@ namespace CalamityMod.UI.CalamitasEnchants
 			Enchantment? enchantmentToUse = null;
 			for (int i = 0; i < totalEnchantmentsToDisplay; i++)
 			{
+				Color textColor = Color.Orange;
 				Vector2 scale = Vector2.One;
 				Enchantment enchantment = possibleEnchantments.ElementAt(i);
+
+				// Make the text for the disenchantment option white to differentiate it from
+				// everything else.
+				if (enchantment.Equals(EnchantmentManager.ClearEnchantment))
+					textColor = Color.White;
 
 				// Save this enchantment specifically if it's the one that's going to be selected.
 				if (i == SelectedEnchantmentIndex)
@@ -215,7 +221,7 @@ namespace CalamityMod.UI.CalamitasEnchants
 				}
 
 				// Draw all options.
-				ChatManager.DrawColorCodedStringWithShadow(spriteBatch, Main.fontMouseText, enchantment.Name, drawPosition, Color.Orange, 0f, Vector2.Zero, scale);
+				ChatManager.DrawColorCodedStringWithShadow(spriteBatch, Main.fontMouseText, enchantment.Name, drawPosition, textColor, 0f, Vector2.Zero, scale);
 				textAreas.Add(new Rectangle((int)drawPosition.X, (int)drawPosition.Y, 180, 40));
 				drawPosition.Y += 60f;
 			}
