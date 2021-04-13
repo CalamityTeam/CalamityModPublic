@@ -22,6 +22,14 @@ namespace CalamityMod.UI.CalamitasEnchants
 				yield break;
 			}
 
+			// If an enchanted has already been selected, only show it to make space for the description.
+			// It can be unselected to reveal the others again.
+			if (CalamitasEnchantUI.SelectedEnchantment.HasValue)
+			{
+				yield return CalamitasEnchantUI.SelectedEnchantment.Value;
+				yield break;
+			}
+
 			// Otherwise check based on all the requirements for all enchantments.
 			foreach (Enchantment enchantment in EnchantmentList)
 			{
@@ -49,6 +57,12 @@ namespace CalamityMod.UI.CalamitasEnchants
 				player => player.Calamity().sacrificeEnchant = true, 
 				item => item.damage > 0));
 
+			EnchantmentList.Add(new Enchantment("Self-Sacrificial", "Does 10% more damage at the cost of 20% of your max life",
+				item => item.damage = (int)(item.damage * 1.1),
+				player => player.Calamity().sacrificeEnchant = true,
+				item => item.damage > 0));
+
+			// Special disenchantment thing. This is separated from the list on purpose.
 			ClearEnchantment = new Enchantment("Disenchant", string.Empty,
 				item => item.Calamity().AppliedEnchantment = null,
 				item => item.damage > 0);

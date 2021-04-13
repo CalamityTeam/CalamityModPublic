@@ -14,7 +14,7 @@ namespace CalamityMod.UI.CalamitasEnchants
 	public class CalamitasEnchantUI
 	{
 		public static int NPCIndex = -1;
-		public static int SelectedEnchantmentIndex = -1;
+		public static Enchantment? SelectedEnchantment = null;
 		public static float SelectedEnchantmentScaleFactor = 1f;
 		public static Item CurrentlyHeldItem = new Item();
 
@@ -85,12 +85,22 @@ namespace CalamityMod.UI.CalamitasEnchants
 			if (isHoveringOverItemIcon)
 				InteractWithItemSlot();
 
-			Enchantment? enchantmentToUse = DisplayEnchantOptions(spriteBatch, ReforgeUITopLeft + new Vector2(112f, 55f), out List<Rectangle> textAreas);
-			InteractWithTextAreas(textAreas);
+			DisplayEnchantmentOptions(spriteBatch, ReforgeUITopLeft + new Vector2(112f, 55f), 
+				out List<Rectangle> textAreas,
+				out IEnumerable<Enchantment> possibleEnchantments,
+				out Enchantment? enchantmentToUse);
+
+			InteractWithTextAreas(textAreas, possibleEnchantments);
 
 			int cost = 0;
-			if (SelectedEnchantmentIndex != -1)
-				cost = DisplayEnchantCost(spriteBatch);
+			if (SelectedEnchantment.HasValue)
+			{
+				cost = DisplayEnchantmentCost(spriteBatch, out Point costDrawPositionTopLeft);
+				Point descriptionDrawPositionTopLeft = costDrawPositionTopLeft;
+				descriptionDrawPositionTopLeft.Y += 90;
+
+				DisplayEnchantmentDescription(spriteBatch, descriptionDrawPositionTopLeft);
+			}
 
 			if (isHoveringOverReforgeIcon && Main.mouseLeft && Main.mouseLeftRelease)
 				InteractWithReforgeIcon(enchantmentToUse, cost);
@@ -177,31 +187,31 @@ namespace CalamityMod.UI.CalamitasEnchants
 			{
 				// Reset the enchantment variables.
 				SelectedEnchantmentScaleFactor = 1f;
-				SelectedEnchantmentIndex = -1;
+				SelectedEnchantment = null;
 
 				Utils.Swap(ref Main.mouseItem, ref CurrentlyHeldItem);
 				Main.PlaySound(SoundID.Grab);
 			}
 		}
 
-		public static Enchantment? DisplayEnchantOptions(SpriteBatch spriteBatch, Vector2 drawPosition, out List<Rectangle> textAreas)
+		public static void DisplayEnchantmentOptions(SpriteBatch spriteBatch, Vector2 drawPosition, out List<Rectangle> textAreas, out IEnumerable<Enchantment> possibleEnchantments, out Enchantment? enchantmentToUse)
 		{
-			IEnumerable<Enchantment> possibleEnchantments = EnchantmentManager.GetValidEnchantmentsForItem(CurrentlyHeldItem);
+			enchantmentToUse = null;
+			possibleEnchantments = EnchantmentManager.GetValidEnchantmentsForItem(CurrentlyHeldItem);
 
 			// Initialize the areas.
 			textAreas = new List<Rectangle>();
 
-			if (SelectedEnchantmentIndex == -1)
+			if (SelectedEnchantment is null)
 				SelectedEnchantmentScaleFactor = MathHelper.Lerp(SelectedEnchantmentScaleFactor, 1f, 0.15f);
 			else
 				SelectedEnchantmentScaleFactor = MathHelper.Lerp(SelectedEnchantmentScaleFactor, 1.35f, 0.15f);
 
 			// Don't attempt to draw anything if no valid enchantments exist for an item, for whatever reason.
 			if (possibleEnchantments.Count() <= 0)
-				return null;
+				return;
 
 			int totalEnchantmentsToDisplay = Math.Min(possibleEnchantments.Count(), 6);
-			Enchantment? enchantmentToUse = null;
 			for (int i = 0; i < totalEnchantmentsToDisplay; i++)
 			{
 				Color textColor = Color.Orange;
@@ -214,7 +224,7 @@ namespace CalamityMod.UI.CalamitasEnchants
 					textColor = Color.White;
 
 				// Save this enchantment specifically if it's the one that's going to be selected.
-				if (i == SelectedEnchantmentIndex)
+				if (enchantment.Equals(SelectedEnchantment))
 				{
 					scale *= SelectedEnchantmentScaleFactor;
 					enchantmentToUse = enchantment;
@@ -222,39 +232,45 @@ namespace CalamityMod.UI.CalamitasEnchants
 
 				// Draw all options.
 				ChatManager.DrawColorCodedStringWithShadow(spriteBatch, Main.fontMouseText, enchantment.Name, drawPosition, textColor, 0f, Vector2.Zero, scale);
-				textAreas.Add(new Rectangle((int)drawPosition.X, (int)drawPosition.Y, 180, 40));
-				drawPosition.Y += 60f;
+				textAreas.Add(new Rectangle((int)drawPosition.X, (int)drawPosition.Y, 180, 30));
+				drawPosition.Y += 32f;
 			}
-
-			return enchantmentToUse;
 		}
 
-		public static void InteractWithTextAreas(List<Rectangle> textAreas)
+		public static void InteractWithTextAreas(List<Rectangle> textAreas, IEnumerable<Enchantment> possibleEnchantments)
 		{
 			for (int i = 0; i < textAreas.Count; i++)
 			{
 				Rectangle area = textAreas[i];
+				Enchantment enchantmentAtIndex = possibleEnchantments.ElementAt(i);
 				if (Main.mouseLeft && Main.mouseLeftRelease && MouseScreenArea.Intersects(area))
 				{
-					if (SelectedEnchantmentIndex == i)
-						SelectedEnchantmentIndex = -1;
+					if (SelectedEnchantment.Equals(enchantmentAtIndex))
+						SelectedEnchantment = null;
 					else
-						SelectedEnchantmentIndex = i;
+						SelectedEnchantment = enchantmentAtIndex;
 					break;
 				}
 			}
 		}
 
-		public static int DisplayEnchantCost(SpriteBatch spriteBatch)
+		public static int DisplayEnchantmentCost(SpriteBatch spriteBatch, out Point costDrawPositionTopLeft)
 		{
+			costDrawPositionTopLeft = (ReforgeUITopLeft + new Vector2(18f, 34f)).ToPoint();
 			if (CurrentlyHeldItem.IsAir)
 				return 0;
 
 			int cost = CurrentlyHeldItem.value * 4;
-			Point topLeftDrawPosition = (ReforgeUITopLeft + new Vector2(18f, 34f)).ToPoint();
-			ItemSlot.DrawMoney(spriteBatch, "Cost: ", topLeftDrawPosition.X, topLeftDrawPosition.Y, Utils.CoinsSplit(cost));
+			ItemSlot.DrawMoney(spriteBatch, "Cost: ", costDrawPositionTopLeft.X, costDrawPositionTopLeft.Y, Utils.CoinsSplit(cost));
 
 			return cost;
+		}
+
+		public static void DisplayEnchantmentDescription(SpriteBatch spriteBatch, Point descriptionDrawPositionTopLeft)
+		{
+			Vector2 vectorDrawPosition = descriptionDrawPositionTopLeft.ToVector2();
+			Vector2 scale = new Vector2(0.55f, 0.6f);
+			ChatManager.DrawColorCodedStringWithShadow(spriteBatch, Main.fontMouseText, SelectedEnchantment.Value.Description, vectorDrawPosition, Color.Orange, 0f, Vector2.Zero, scale);
 		}
 
 		public static void InteractWithReforgeIcon(Enchantment? enchantmentToUse, int cost)
@@ -294,7 +310,7 @@ namespace CalamityMod.UI.CalamitasEnchants
 
 			// Reset the enchantment variables.
 			SelectedEnchantmentScaleFactor = 1f;
-			SelectedEnchantmentIndex = -1;
+			SelectedEnchantment = null;
 
 			Main.PlaySound(SoundID.DD2_BetsyFlameBreath, Main.LocalPlayer.Center);
 		}
