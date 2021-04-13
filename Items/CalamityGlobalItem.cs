@@ -21,6 +21,7 @@ using CalamityMod.Projectiles.Rogue;
 using CalamityMod.Projectiles.Summon;
 using CalamityMod.Projectiles.Typeless;
 using CalamityMod.UI;
+using CalamityMod.UI.CalamitasEnchants;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
@@ -58,6 +59,10 @@ namespace CalamityMod.Items
 				return float.IsNaN(ratio) || float.IsInfinity(ratio) ? 0f : MathHelper.Clamp(ratio, 0f, 1f);
 			}
 		}
+        #endregion
+
+        #region Enchantment Variables
+        public Enchantment? AppliedEnchantment = null;
         #endregion
 
         // Miscellaneous stuff
@@ -223,6 +228,9 @@ namespace CalamityMod.Items
 			}
 			if (item.type == ItemID.StarCannon)
 				item.UseSound = null;
+
+            if (!item.IsAir && item.Calamity().AppliedEnchantment.HasValue && item.Calamity().AppliedEnchantment.Value.CreationEffect != null)
+                item.Calamity().AppliedEnchantment.Value.CreationEffect(item);
         }
         #endregion
 
@@ -466,7 +474,8 @@ namespace CalamityMod.Items
                 ["timesUsed"] = timesUsed,
                 ["rarity"] = (int)customRarity,
                 ["charge"] = Charge,
-				["reforgeTier"] = reforgeTier
+                ["reforgeTier"] = reforgeTier,
+                ["enchantment"] = AppliedEnchantment.HasValue ? AppliedEnchantment.Value.Name : string.Empty
             };
         }
 
@@ -483,6 +492,10 @@ namespace CalamityMod.Items
                 Charge = tag.GetFloat("charge");
 
 			reforgeTier = tag.GetInt("reforgeTimer");
+
+            Enchantment? savedEnchantment = EnchantmentManager.FindByName(tag.GetString("enchantment"), StringComparison.OrdinalIgnoreCase);
+            if (savedEnchantment.HasValue)
+                AppliedEnchantment = savedEnchantment.Value;
         }
 
         public override void LoadLegacy(Item item, BinaryReader reader)
@@ -514,6 +527,7 @@ namespace CalamityMod.Items
             writer.Write(timesUsed);
             writer.Write(Charge);
 			writer.Write(reforgeTier);
+            writer.Write(AppliedEnchantment.HasValue ? AppliedEnchantment.Value.Name : string.Empty);
         }
 
         public override void NetReceive(Item item, BinaryReader reader)
@@ -525,6 +539,10 @@ namespace CalamityMod.Items
             timesUsed = reader.ReadInt32();
             Charge = reader.ReadSingle();
 			reforgeTier = reader.ReadInt32();
+
+            Enchantment? savedEnchantment = EnchantmentManager.FindByName(reader.ReadString(), StringComparison.OrdinalIgnoreCase);
+            if (savedEnchantment.HasValue)
+                AppliedEnchantment = savedEnchantment.Value;
         }
         #endregion
 
@@ -3111,6 +3129,15 @@ Grants immunity to fire blocks, and temporary immunity to lava";
 				TooltipLine line2 = new TooltipLine(mod, "ChallengeDrop", CalamityUtils.ColorMessage("- Challenge Drop -", new Color(255, 140, 0)));
 				tooltips.Add(line2);
 			}
+
+            // Incorporate the custom prefix and description of custom enchantments.
+            if (!item.IsAir && AppliedEnchantment.HasValue)
+			{
+                tooltips[0].text = $"{AppliedEnchantment.Value.Name} {tooltips[0].text}";
+
+                TooltipLine descriptionLine = new TooltipLine(mod, "Enchantment", CalamityUtils.ColorMessage(AppliedEnchantment.Value.Description, Color.DarkRed));
+                tooltips.Add(descriptionLine);
+            }
 			#endregion
 		}
 		#endregion

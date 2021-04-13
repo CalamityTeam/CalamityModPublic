@@ -91,6 +91,9 @@ namespace CalamityMod.CalPlayer
 			// Misc effects, because I don't know what else to call it
 			MiscEffects(player, modPlayer, mod);
 
+			// Calamitas enchant held effects
+			EnchantHeldItemEffects(player, modPlayer, player.ActiveItem());
+
 			// Max life and mana effects
 			MaxLifeAndManaEffects(player, modPlayer, mod);
 
@@ -2016,6 +2019,19 @@ namespace CalamityMod.CalPlayer
 				modPlayer.abyssBreathCD = 0;
 				modPlayer.abyssDeath = false;
 			}
+		}
+		#endregion
+
+		#region Calamitas Enchantment Held Item Effects
+		public static void EnchantHeldItemEffects(Player player, CalamityPlayer modPlayer, Item heldItem)
+		{
+			if (heldItem.IsAir)
+				return;
+
+			if (!heldItem.Calamity().AppliedEnchantment.HasValue || heldItem.Calamity().AppliedEnchantment.Value.HoldEffect is null)
+				return;
+
+			heldItem.Calamity().AppliedEnchantment.Value.HoldEffect(player);
 		}
 		#endregion
 

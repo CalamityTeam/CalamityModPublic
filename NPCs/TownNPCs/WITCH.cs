@@ -7,6 +7,8 @@ using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.Projectiles.Magic;
+using CalamityMod.UI;
+using CalamityMod.UI.CalamitasEnchants;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -128,25 +130,18 @@ namespace CalamityMod.NPCs.TownNPCs
 			return dialogue[Main.rand.Next(dialogue.Count)];
 		}
 
-		public override void SetChatButtons(ref string button, ref string button2) => button = Language.GetTextValue("LegacyInterface.28");
+		public override void SetChatButtons(ref string button, ref string button2) => button = "Enchant";
 
 		public override void OnChatButtonClicked(bool firstButton, ref bool shop)
 		{
 			if (firstButton)
 			{
+				Main.playerInventory = true;
 				Main.LocalPlayer.Calamity().newCalamitasInventory = false;
-				shop = true;
-			}
-		}
+				CalamitasEnchantUI.NPCIndex = npc.whoAmI;
+				CalamitasEnchantUI.CurrentlyViewing = true;
 
-		public override void SetupShop(Chest shop, ref int nextSlot)
-		{
-			// NOTE: This town NPC is intended to not have an actual shop in the future and will instead have a special system.
-			// This item is only here temporarily.
-			if (Main.LocalPlayer.HasItem(ItemType<Animus>()))
-			{
-				shop.item[nextSlot].SetDefaults(ItemType<Animus>());
-				nextSlot++;
+				shop = false;
 			}
 		}
 

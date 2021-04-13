@@ -993,6 +993,10 @@ namespace CalamityMod.CalPlayer
         public bool omegaBlueTransformationPower;
         #endregion
 
+        #region Calamitas Enchant Effects
+        public bool sacrificeEnchant = false;
+        #endregion Calamitas Enchant Effects
+
         #endregion
 
         #region SavingAndLoading
@@ -1355,6 +1359,8 @@ namespace CalamityMod.CalPlayer
             // Max health reductions
             if (crimEffigy)
                 player.statLifeMax2 = (int)(player.statLifeMax2 * 0.9);
+            if (sacrificeEnchant)
+                player.statLifeMax2 = (int)(player.statLifeMax2 * 0.8);
             if (regenator)
                 player.statLifeMax2 = (int)(player.statLifeMax2 * 0.5);
 
@@ -1975,6 +1981,8 @@ namespace CalamityMod.CalPlayer
             adrenalineModeActive = false;
             RageDuration = DefaultRageDuration;
             RageDamageBoost = DefaultRageDamageBoost;
+
+            sacrificeEnchant = false;
 
             lastProjectileHit = null;
         }
