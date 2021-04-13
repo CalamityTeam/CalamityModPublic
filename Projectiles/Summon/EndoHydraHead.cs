@@ -119,9 +119,7 @@ namespace CalamityMod.Projectiles.Summon
                 if (targetAliveAndInLineOfSight && target.CanBeChasedBy() && Main.myPlayer == projectile.owner)
                 {
                     if (Time % 40f == 24f)
-                    {
-                        Projectile.NewProjectile(projectile.Center, projectile.DirectionTo(target.Center) * 6f, ModContent.ProjectileType<EndoRay>(), projectile.damage, projectile.knockBack, projectile.owner);
-                    }
+                        Projectile.NewProjectile(projectile.Center, projectile.SafeDirectionTo(target.Center) * 6f, ModContent.ProjectileType<EndoRay>(), projectile.damage, projectile.knockBack, projectile.owner);
 
                     if (Time % 40f >= 33f)
                         projectile.frame = Main.projFrames[projectile.type] - 1;
@@ -155,7 +153,7 @@ namespace CalamityMod.Projectiles.Summon
             if (distanceFromTarget > 7f)
             {
                 float speed = MathHelper.Lerp(2f, 17f, Utils.InverseLerp(10f, 70f, distanceFromTarget, true));
-                projectile.velocity = (projectile.velocity * 9f + projectile.DirectionTo(returnPosition) * speed) / 10f;
+                projectile.velocity = (projectile.velocity * 9f + projectile.SafeDirectionTo(returnPosition) * speed) / 10f;
             }
 
             if (projectile.Center.Y > body.Center.Y - 50f)

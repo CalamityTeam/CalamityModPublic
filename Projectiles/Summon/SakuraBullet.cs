@@ -86,11 +86,8 @@ namespace CalamityMod.Projectiles.Summon
 
 			if (homeIn)
 			{
-				Vector2 homeInVector = projectile.DirectionTo(center);
-				if (homeInVector.HasNaNs())
-					homeInVector = Vector2.UnitY;
-
-				projectile.velocity = (projectile.velocity * 20f + homeInVector * 11f) / (21f);
+				Vector2 moveDirection = projectile.SafeDirectionTo(center, Vector2.UnitY);
+				projectile.velocity = (projectile.velocity * 20f + moveDirection * 11f) / (21f);
 			}
 
             int num458 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 73, 0f, 0f, 100, default, 0.6f);

@@ -104,7 +104,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             npc.noGravity = true;
             npc.noTileCollide = true;
             npc.HitSound = SoundID.NPCHit4;
-            Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
+            Mod calamityModMusic = CalamityMod.Instance.musicMod;
             if (calamityModMusic != null)
                 music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/SCG");
             else
@@ -586,7 +586,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             }
             if (!startThirdAttack && (npc.life <= npc.lifeMax * 0.5))
             {
-                Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
+                Mod calamityModMusic = CalamityMod.Instance.musicMod;
                 if (calamityModMusic != null)
                     music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/SCL");
                 else
@@ -652,7 +652,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             }
             if (!startFourthAttack && (npc.life <= npc.lifeMax * 0.3))
             {
-                Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
+                Mod calamityModMusic = CalamityMod.Instance.musicMod;
                 if (calamityModMusic != null)
                     music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/SCE");
                 else
@@ -732,7 +732,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             {
                 if (gettingTired5)
                 {
-                    Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
+                    Mod calamityModMusic = CalamityMod.Instance.musicMod;
                     if (calamityModMusic != null)
                         music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/SCA");
                     else

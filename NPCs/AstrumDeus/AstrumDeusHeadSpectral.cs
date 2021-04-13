@@ -61,7 +61,7 @@ namespace CalamityMod.NPCs.AstrumDeus
             npc.HitSound = SoundID.NPCHit4;
             npc.DeathSound = mod.GetLegacySoundSlot(SoundType.NPCKilled, "Sounds/NPCKilled/AstrumDeusDeath");
             npc.netAlways = true;
-            Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
+            Mod calamityModMusic = CalamityMod.Instance.musicMod;
             if (calamityModMusic != null)
                 music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/AstrumDeus");
             else

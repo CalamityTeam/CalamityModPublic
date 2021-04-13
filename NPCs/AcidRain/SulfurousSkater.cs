@@ -142,7 +142,7 @@ namespace CalamityMod.NPCs.AcidRain
             // Fly more sharply if close to the target.
             if (npc.WithinRange(Target.Center, 200f))
                 flyInertia *= 0.667f;
-            npc.velocity = (npc.velocity * flyInertia + npc.DirectionTo(Target.Center) * flySpeed) / (flyInertia + 1f);
+            npc.velocity = (npc.velocity * flyInertia + npc.SafeDirectionTo(Target.Center, Vector2.UnitY) * flySpeed) / (flyInertia + 1f);
             npc.spriteDirection = (npc.velocity.X < 0).ToDirectionInt();
 
             // Have the bubble pop and stop flying if within the circular hitbox area of the player.

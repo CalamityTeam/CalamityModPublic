@@ -30,7 +30,7 @@ namespace CalamityMod.NPCs.DesertScourge
             npc.knockBackResist = 0f;
             npc.alpha = 255;
             npc.boss = true;
-            Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
+            Mod calamityModMusic = CalamityMod.Instance.musicMod;
             if (calamityModMusic != null)
                 music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/DesertScourge");
             else

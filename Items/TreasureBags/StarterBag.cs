@@ -62,7 +62,7 @@ namespace CalamityMod.Items.TreasureBags
             DropHelper.DropItemCondition(player, ModContent.ItemType<JoyfulHeart>(), player.name == "Aleksh" || player.name == "Shark Lad");
 
             // Music box (if music mod installed)
-            Mod musicMod = ModLoader.GetMod("CalamityModMusic");
+            Mod musicMod = CalamityMod.Instance.musicMod;
             if (musicMod != null)
                 DropHelper.DropItem(player, musicMod.ItemType("CalamityMusicbox"));
         }

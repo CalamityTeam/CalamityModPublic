@@ -118,8 +118,9 @@ namespace CalamityMod.NPCs.NormalNPCs
             {
                 if (npc.direction == 0)
                     npc.direction = 1;
+
                 Vector2 destination = player.Center + new Vector2(300f * npc.direction, -90f);
-                npc.velocity = Vector2.Lerp(npc.velocity, npc.DirectionTo(destination) * 8f, 0.1f);
+                npc.velocity = Vector2.Lerp(npc.velocity, npc.SafeDirectionTo(destination) * 8f, 0.1f);
                 if (npc.Distance(destination) < 40f)
                 {
                     Time++;
@@ -134,13 +135,11 @@ namespace CalamityMod.NPCs.NormalNPCs
             else
             {
                 if (HorizontalChargeTime < 25)
-                {
-                    npc.velocity = Vector2.Lerp(npc.velocity, npc.DirectionTo(player.Center) * 8f, 0.1f);
-                }
+                    npc.velocity = Vector2.Lerp(npc.velocity, npc.SafeDirectionTo(player.Center) * 8f, 0.1f);
+
                 if (Supercharged && Main.netMode != NetmodeID.MultiplayerClient && HorizontalChargeTime % 30f == 29f)
-                {
-                    Projectile.NewProjectile(npc.Center + Vector2.UnitX * 6f * npc.spriteDirection, npc.DirectionTo(player.Center) * 6f, ProjectileID.MartianTurretBolt, 14, 0f);
-                }
+                    Projectile.NewProjectile(npc.Center + Vector2.UnitX * 6f * npc.spriteDirection, npc.SafeDirectionTo(player.Center, Vector2.UnitY) * 6f, ProjectileID.MartianTurretBolt, 14, 0f);
+
                 HorizontalChargeTime++;
                 if (HorizontalChargeTime > TotalHorizontalChargeTime)
                 {

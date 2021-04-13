@@ -95,9 +95,8 @@ namespace CalamityMod.Projectiles.Magic
                     Dust dust13 = Main.dust[Dust.NewDust(projectile.position, projectile.width, projectile.height, 60, 0f, -2f, 0, default, 1f)];
                     dust13.noGravity = true;
                     if (dust13.position != projectile.Center)
-                    {
-                        dust13.velocity = projectile.DirectionTo(dust13.position) * 3f;
-                    }
+                        dust13.velocity = projectile.SafeDirectionTo(dust13.position) * 3f;
+
                     num3 = num955;
                 }
             }
@@ -105,12 +104,8 @@ namespace CalamityMod.Projectiles.Magic
             {
                 if (projectile.Distance(Main.player[projectile.owner].Center) > num950)
                 {
-                    Vector2 vector118 = projectile.DirectionTo(Main.player[projectile.owner].Center);
-                    if (vector118.HasNaNs())
-                    {
-                        vector118 = Vector2.UnitY;
-                    }
-                    projectile.velocity = (projectile.velocity * (num949 - 1f) + vector118 * scaleFactor11) / num949;
+                    Vector2 moveDirection = projectile.SafeDirectionTo(Main.player[projectile.owner].Center, Vector2.UnitY);
+                    projectile.velocity = (projectile.velocity * (num949 - 1f) + moveDirection * scaleFactor11) / num949;
                 }
             }
             else

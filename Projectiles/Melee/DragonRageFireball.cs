@@ -55,12 +55,8 @@ namespace CalamityMod.Projectiles.Melee
 			{
 				float inertia = projectile.ai[0];
 				float speed = projectile.ai[1];
-				Vector2 targetPos = projectile.DirectionTo(target.Center);
-				if (targetPos.HasNaNs())
-				{
-					targetPos = Vector2.UnitY;
-				}
-				projectile.velocity = (projectile.velocity * (inertia - 1f) + targetPos * speed) / inertia;
+				Vector2 moveDirection = projectile.SafeDirectionTo(target.Center, Vector2.UnitY);
+				projectile.velocity = (projectile.velocity * (inertia - 1f) + moveDirection * speed) / inertia;
 			}
         }
 

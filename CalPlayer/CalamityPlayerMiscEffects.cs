@@ -3984,7 +3984,6 @@ namespace CalamityMod.CalPlayer
 		private static void UpdateStatMeter(Player player, CalamityPlayer modPlayer)
 		{
 			float allDamageStat = player.allDamage - 1f;
-			modPlayer.actualMeleeDamageStat = player.meleeDamage + allDamageStat;
 			modPlayer.damageStats[0] = (int)((player.meleeDamage + allDamageStat - 1f) * 100f);
 			modPlayer.damageStats[1] = (int)((player.rangedDamage + allDamageStat - 1f) * 100f);
 			modPlayer.damageStats[2] = (int)((player.magicDamage + allDamageStat - 1f) * 100f);

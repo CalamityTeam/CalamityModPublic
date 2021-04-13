@@ -18,6 +18,7 @@ using CalamityMod.NPCs.TownNPCs;
 using CalamityMod.Tiles.Ores;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
+using System.Threading;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -504,10 +505,15 @@ namespace CalamityMod.NPCs
                 string key5 = "Mods.CalamityMod.FutureOreText";
                 Color messageColor5 = Color.LightGray;
 
-                // Spawn Exodium and send messages about Providence, Bloodstone, Phantoplasm, etc. if ML has not been killed yet
+                // Spawn Exodium planetoids and send messages about Providence, Bloodstone, Phantoplasm, etc. if ML has not been killed yet
                 if (!NPC.downedMoonlord)
                 {
-                    WorldGenerationMethods.SpawnOre(ModContent.TileType<ExodiumOre>(), 12E-05, .01f, .07f);
+                    // Generate luminite planetoids.
+                    // This operation is done on a separate thread to lighten the load on servers so that they
+                    // can focus on more critical operations asychronously and ideally avoid a time-out crash.
+                    // Very few operations in Terraria utilize the pool, so it is highly unlikely that no threads will remain in it.
+                    ThreadPool.QueueUserWorkItem(_ => WorldGenerationMethods.GenerateLuminitePlanetoids());
+
                     CalamityUtils.DisplayLocalizedText(key, messageColor);
                     CalamityUtils.DisplayLocalizedText(key2, messageColor2);
                     CalamityUtils.DisplayLocalizedText(key3, messageColor3);

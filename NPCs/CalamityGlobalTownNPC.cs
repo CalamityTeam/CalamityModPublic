@@ -7,6 +7,7 @@ using CalamityMod.Items.Placeables.Furniture.Fountains;
 using CalamityMod.Items.Placeables.Walls;
 using CalamityMod.Items.Potions;
 using CalamityMod.Items.SummonItems;
+using CalamityMod.Items.SummonItems.Invasion;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
@@ -1217,6 +1218,7 @@ namespace CalamityMod.NPCs
 			if (type == NPCID.Cyborg)
 			{
 				SetShopItem(ref shop, ref nextSlot, ItemID.RocketLauncher, NPC.downedGolemBoss, Item.buyPrice(0, 25));
+				SetShopItem(ref shop, ref nextSlot, ItemType<MartianDistressBeacon>(), NPC.downedGolemBoss, Item.buyPrice(0, 50));
 				SetShopItem(ref shop, ref nextSlot, ItemType<LionHeart>(), CalamityWorld.downedPolterghast);
 			}
 

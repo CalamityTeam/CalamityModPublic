@@ -47,7 +47,7 @@ namespace CalamityMod.NPCs.Crabulon
             aiType = -1;
             npc.noGravity = false;
             npc.noTileCollide = false;
-            Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
+            Mod calamityModMusic = CalamityMod.Instance.musicMod;
             if (calamityModMusic != null)
                 music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/Crabulon");
             else

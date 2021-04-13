@@ -71,7 +71,7 @@ namespace CalamityMod.NPCs.AcidRain
                 if (GammaAcidShootTimer % 30f == 29f)
                 {
                     npc.velocity.Y -= MathHelper.Clamp(Math.Abs(Target.Center.Y - npc.Center.Y) / 16f, 5f, 15f);
-                    npc.velocity.X = npc.DirectionTo(Target.Center).X * 16f;
+                    npc.velocity.X = npc.SafeDirectionTo(Target.Center).X * 16f;
 
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {

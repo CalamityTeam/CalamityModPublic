@@ -108,11 +108,8 @@ namespace CalamityMod.Projectiles.Ranged
 
 				if (homeIn)
 				{
-					Vector2 homeInVector = projectile.DirectionTo(center);
-					if (homeInVector.HasNaNs())
-						homeInVector = Vector2.UnitY;
-
-					projectile.velocity = (projectile.velocity * inertia + homeInVector * speed) / (inertia + 1f);
+					Vector2 moveDirection = projectile.SafeDirectionTo(center, Vector2.UnitY);
+					projectile.velocity = (projectile.velocity * inertia + moveDirection * speed) / (inertia + 1f);
 				}
 				return false;
 			}

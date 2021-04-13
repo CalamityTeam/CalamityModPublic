@@ -4585,7 +4585,7 @@ namespace CalamityMod.NPCs
 				if (npc.ai[1] == 0f)
 				{
 					Vector2 destination2 = player.Center + new Vector2(0f, -200f);
-					Vector2 desiredVelocity2 = npc.DirectionTo(destination2) * 18f;
+					Vector2 desiredVelocity2 = npc.SafeDirectionTo(destination2, -Vector2.UnitY) * 18f;
 					npc.SimpleFlyMovement(desiredVelocity2, 1.5f);
 
 					if (npc.velocity.X < 0f)

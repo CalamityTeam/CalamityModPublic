@@ -88,5 +88,98 @@ namespace CalamityMod.Items.Weapons.Summon
             // Otherwise create one.
             return true;
         }
+
+        // Moved from CalamityGlobalItem since it's just a function called in one place.
+        internal static bool TransformItemUsage(Item item, Player player)
+        {
+            if (player.whoAmI != Main.myPlayer)
+                return false;
+
+            int robotIndex = -1;
+
+            for (int i = 0; i < Main.projectile.Length; i++)
+            {
+                if (Main.projectile[i].active &&
+                    Main.projectile[i].type == ModContent.ProjectileType<GiantIbanRobotOfDoom>() &&
+                    Main.projectile[i].owner == player.whoAmI)
+                {
+                    robotIndex = i;
+                    break;
+                }
+            }
+            if (robotIndex != -1)
+            {
+                Projectile robot = Main.projectile[robotIndex];
+                GiantIbanRobotOfDoom robotModProjectile = ((GiantIbanRobotOfDoom)robot.modProjectile);
+                if (player.ownedProjectileCounts[ModContent.ProjectileType<AndromedaRegislash>()] <= 0 &&
+                    robotModProjectile.TopIconActive &&
+                    (robotModProjectile.RightIconCooldown <= GiantIbanRobotOfDoom.RightIconAttackTime ||
+                     !robotModProjectile.RightIconActive)) // "Melee" attack
+                {
+                    int damage = player.Calamity().andromedaState == AndromedaPlayerState.SmallRobot ? GiantIbanRobotOfDoom.RegicideBaseDamageSmall : GiantIbanRobotOfDoom.RegicideBaseDamageLarge;
+                    if (item.Calamity().rogue)
+                    {
+                        damage = (int)(damage * player.RogueDamage());
+                    }
+                    if (item.melee)
+                    {
+                        damage = (int)(damage * player.MeleeDamage());
+                    }
+                    if (item.ranged)
+                    {
+                        damage = (int)(damage * player.RangedDamage());
+                    }
+                    if (item.magic)
+                    {
+                        damage = (int)(damage * player.MagicDamage());
+                    }
+                    if (item.summon)
+                    {
+                        damage = (int)(damage * player.MinionDamage());
+                    }
+                    Projectile blade = Projectile.NewProjectileDirect(robot.Center + (robot.spriteDirection > 0).ToDirectionInt() * robot.width / 2 * Vector2.UnitX,
+                               Vector2.Zero, ModContent.ProjectileType<AndromedaRegislash>(), damage, 15f, player.whoAmI, Projectile.GetByUUID(robot.owner, robot.whoAmI));
+
+                    if (blade.whoAmI.WithinBounds(Main.maxProjectiles))
+                    {
+                        if (item.Calamity().rogue)
+                        {
+                            blade.Calamity().forceRogue = true;
+                        }
+                        if (item.melee)
+                        {
+                            blade.Calamity().forceMelee = true;
+                        }
+                        if (item.ranged)
+                        {
+                            blade.Calamity().forceRanged = true;
+                        }
+                        if (item.magic)
+                        {
+                            blade.Calamity().forceMagic = true;
+                        }
+                        if (item.summon)
+                        {
+                            blade.Calamity().forceMinion = true;
+                        }
+                    }
+                }
+
+                if (!robotModProjectile.TopIconActive &&
+                    (robotModProjectile.LeftBracketActive || robotModProjectile.RightBracketActive) &&
+                    !robotModProjectile.BottomBracketActive &&
+                    robotModProjectile.LaserCooldown <= 0 &&
+                    (robotModProjectile.RightIconCooldown <= GiantIbanRobotOfDoom.RightIconAttackTime ||
+                     !robotModProjectile.RightIconActive)) // "Ranged" attack
+                {
+                    robotModProjectile.LaserCooldown = AndromedaDeathRay.TrueTimeLeft * 2;
+                    if (player.Calamity().andromedaState == AndromedaPlayerState.SmallRobot)
+                    {
+                        robotModProjectile.LaserCooldown = AndromedaDeathRay.TrueTimeLeft + 1;
+                    }
+                }
+            }
+            return false;
+        }
     }
 }

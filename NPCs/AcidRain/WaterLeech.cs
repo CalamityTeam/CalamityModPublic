@@ -120,7 +120,7 @@ namespace CalamityMod.NPCs.AcidRain
                     swimSpeed *= 1.6f;
                     swimIntertia = 17f;
                 }
-                npc.velocity = (npc.velocity * (swimIntertia - 1f) + npc.DirectionTo(Target.Center) * swimSpeed) / swimIntertia;
+                npc.velocity = (npc.velocity * (swimIntertia - 1f) + npc.SafeDirectionTo(Target.Center, -Vector2.UnitY) * swimSpeed) / swimIntertia;
             }
 
             // Rapidly slow down if the target is not in water.
@@ -157,9 +157,11 @@ namespace CalamityMod.NPCs.AcidRain
                 npc.netUpdate = true;
                 return;
             }
+
             Vector2 destination = (Target.gravDir == 1f ? Target.Top : Target.Bottom) + Target.direction * Vector2.UnitX * 4f;
             float speed = MathHelper.Lerp(7f, 23f, Utils.InverseLerp(10f, ChaseMaxDistance, npc.Distance(destination), true));
-            npc.velocity = npc.DirectionTo(destination) * speed;
+            npc.velocity = npc.SafeDirectionTo(destination) * speed;
+
             if (npc.WithinRange(destination, 45f))
             {
                 Target.AddBuff(BuffID.Bleeding, 180, true);

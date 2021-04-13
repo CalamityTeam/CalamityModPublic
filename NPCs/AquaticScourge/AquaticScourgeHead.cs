@@ -86,7 +86,7 @@ namespace CalamityMod.NPCs.AquaticScourge
         {
 			if (npc.justHit || npc.life <= npc.lifeMax * 0.99 || BossRushEvent.BossRushActive)
 			{
-				Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
+                Mod calamityModMusic = CalamityMod.Instance.musicMod;
 				if (calamityModMusic != null)
 					music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/AquaticScourge");
 				else

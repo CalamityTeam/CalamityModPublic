@@ -16066,9 +16066,10 @@ namespace CalamityMod.NPCs
                     // If there's nothing in the way of the player, swim towards them
                     if (Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].Center, 1, 1))
                     {
-                        npc.velocity = (npc.velocity * 19f + npc.DirectionTo(Main.player[npc.target].Center) * 10f) / 20f;
+                        npc.velocity = (npc.velocity * 19f + npc.SafeDirectionTo(Main.player[npc.target].Center, -Vector2.UnitY) * 10f) / 20f;
                         return false;
                     }
+
                     float velocityMultiplier = 10f;
                     if (npc.velocity.Y > 0f)
                     {
@@ -16503,7 +16504,7 @@ namespace CalamityMod.NPCs
                             for (int j = 0; j < 2; j++)
                             {
                                 // Randomize and normalize. You know the drill
-                                Vector2 dustVelocity = Vector2.One.RotatedByRandom(MathHelper.TwoPi);
+                                Vector2 dustVelocity = Vector2.UnitY.RotatedByRandom(MathHelper.TwoPi);
                                 dustVelocity *= (float)Main.rand.Next(0, 100) * 0.1f;
                                 dustVelocity.Normalize();
                                 dustVelocity *= (float)Main.rand.Next(50, 90) * 0.1f;
@@ -16589,11 +16590,8 @@ namespace CalamityMod.NPCs
                     {
                         npc.ai[2] -= 1f;
                         npc.TargetClosest(true);
-                        Vector2 vectorToPlayer = npc.DirectionTo(Main.player[npc.target].Top + new Vector2(0f, -30f));
-                        if (vectorToPlayer.HasNaNs())
-                        {
-                            vectorToPlayer = Vector2.Normalize(new Vector2((float)npc.spriteDirection, -1f));
-                        }
+                        Vector2 vectorToPlayer = npc.SafeDirectionTo(Main.player[npc.target].Top - Vector2.UnitY * 30f, Vector2.Normalize(new Vector2(npc.spriteDirection, -1f)));
+
                         npc.velocity = vectorToPlayer * velocityMultiplier;
                         npc.netUpdate = true;
                         return false;
@@ -16972,14 +16970,13 @@ namespace CalamityMod.NPCs
                     }
                     Vector2 velocityDelta = -Vector2.One;
                     for (int j = 0; j < i; j++)
-                    {
-                        velocityDelta += npc.DirectionTo(Main.npc[players[j]].Center);
-                    }
+                        velocityDelta += npc.SafeDirectionTo(Main.npc[players[j]].Center);
+
                     velocityDelta.Normalize();
                     for (int j = 0; j < nailCount; j++)
                     {
-                        float velocityMultiplier = (float)Main.rand.Next(8, 13);
-                        Vector2 nailVelocity = Vector2.One.RotatedByRandom(Math.PI * 2.0);
+                        float velocityMultiplier = Main.rand.Next(8, 13);
+                        Vector2 nailVelocity = Vector2.UnitY.RotatedByRandom(Math.PI * 2.0);
                         if (i > 0)
                         {
                             nailVelocity += velocityDelta;
@@ -16989,9 +16986,10 @@ namespace CalamityMod.NPCs
                         if (i > 0)
                         {
                             i--;
-                            nailVelocity = npc.DirectionTo(Main.npc[players[i]].Center) * velocityMultiplier;
+                            nailVelocity = npc.SafeDirectionTo(Main.npc[players[i]].Center, -Vector2.UnitY) * velocityMultiplier;
                         }
-                        Projectile.NewProjectile(npc.Center + Vector2.UnitY * (float)(npc.width / 4), nailVelocity, ProjectileID.Nail, (int)(npc.damage * 0.15), 1f, 255, 0f, 0f);
+
+                        Projectile.NewProjectile(npc.Center + Vector2.UnitY * (npc.width / 4), nailVelocity, ProjectileID.Nail, (int)(npc.damage * 0.15), 1f, 255, 0f, 0f);
                     }
                 }
             }
@@ -17854,21 +17852,19 @@ namespace CalamityMod.NPCs
                 }
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
-                    npc.localAI[2] += 1f;
-                    if (npc.localAI[2] >= (float)(240 + Main.rand.Next(240)) && npc.Distance(Main.player[npc.target].Center) < 600f && Math.Abs(npc.DirectionTo(Main.player[npc.target].Center).Y) < 0.5f && Collision.CanHitLine(npc.Center, 0, 0, Main.player[npc.target].Center, 0, 0))
+                    npc.localAI[2]++;
+                    bool closeToPlayer = npc.Distance(Main.player[npc.target].Center) < 600f && Math.Abs(npc.SafeDirectionTo(Main.player[npc.target].Center).Y) < 0.5f;
+                    if (npc.localAI[2] >= Main.rand.Next(240, 480) && closeToPlayer && Collision.CanHitLine(npc.Center, 0, 0, Main.player[npc.target].Center, 0, 0))
                     {
                         npc.localAI[2] = 0f;
-                        Vector2 spawnPos = npc.Center + new Vector2((float)(npc.direction * 30), 2f);
-                        Vector2 velocity = npc.DirectionTo(Main.player[npc.target].Center) * 9f;
-                        if (velocity.HasNaNs())
-                        {
-                            velocity = new Vector2((float)(npc.direction * 10), 0f);
-                        }
+                        Vector2 spawnPosition = npc.Center + new Vector2(npc.direction * 30f, 2f);
+                        Vector2 baseLaserVelocity = npc.SafeDirectionTo(Main.player[npc.target].Center, Vector2.UnitX * npc.direction) * 9f;
+
                         int damage = Main.expertMode ? 50 : 75;
                         for (int i = 0; i < 4; i++)
                         {
-                            Vector2 vector17 = velocity + Utils.RandomVector2(Main.rand, -0.8f, 0.8f);
-                            Projectile.NewProjectile(spawnPos, vector17, ProjectileID.VortexLaser, damage, 1f, Main.myPlayer, 0f, 0f);
+                            Vector2 randomizedVelocity = baseLaserVelocity + Utils.RandomVector2(Main.rand, -0.8f, 0.8f);
+                            Projectile.NewProjectile(spawnPosition, randomizedVelocity, ProjectileID.VortexLaser, damage, 1f, Main.myPlayer, 0f, 0f);
                         }
                     }
                 }
@@ -18046,7 +18042,7 @@ namespace CalamityMod.NPCs
                         229
                     });
                     Dust dust = Main.dust[Dust.NewDust(npc.Center + new Vector2((float)((npc.spriteDirection == 1) ? 8 : -20), -20f), 8, 8, dustType, npc.velocity.X, npc.velocity.Y, 100, default, 1f)];
-                    dust.velocity = dust.velocity / 4f + npc.DirectionTo(Main.player[npc.target].Top);
+                    dust.velocity = dust.velocity / 4f + npc.SafeDirectionTo(Main.player[npc.target].Top);
                     dust.scale = 1.2f;
                     dust.noLight = true;
                 }
@@ -18112,7 +18108,7 @@ namespace CalamityMod.NPCs
                 if (npc.localAI[0] > (float)Main.rand.Next(120, 240))
                 {
                     npc.localAI[0] = 0f;
-                    Projectile.NewProjectile(npc.Center, npc.DirectionTo(Main.player[npc.target].Center) * 10f, ProjectileID.WebSpit, 18, 0f, Main.myPlayer, 0f, 0f);
+                    Projectile.NewProjectile(npc.Center, npc.SafeDirectionTo(Main.player[npc.target].Center, -Vector2.UnitY) * 10f, ProjectileID.WebSpit, 18, 0f, Main.myPlayer, 0f, 0f);
                 }
             }
             if (npcType == NPCID.IceGolem)
@@ -18133,7 +18129,7 @@ namespace CalamityMod.NPCs
                 if (Main.netMode != NetmodeID.MultiplayerClient && npc.ai[2] >= 90f && npc.velocity.Y == 0f && !Main.player[npc.target].dead && !Main.player[npc.target].frozen && ((npc.direction > 0 && npc.Center.X < Main.player[npc.target].Center.X) || (npc.direction < 0 && npc.Center.X > Main.player[npc.target].Center.X)) && Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
                 {
                     npc.netUpdate = true;
-                    Vector2 velocity = npc.DirectionTo(Main.player[npc.target].Center) * 15;
+                    Vector2 velocity = npc.SafeDirectionTo(Main.player[npc.target].Center, -Vector2.UnitY) * 15;
                     Projectile.NewProjectile(npc.Center - Vector2.UnitY * 28 + velocity * 2f, velocity, ProjectileID.FrostBeam, 32, 0f, Main.myPlayer, 0f, 0f);
                     npc.ai[2] = 0f;
                 }
@@ -21150,11 +21146,12 @@ namespace CalamityMod.NPCs
                     {
                         if (!Collision.SolidCollision(npc.position, npc.width, npc.height) && Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
                         {
-                            float speed = 12f;
                             int damage = 17;
                             int type = ProjectileID.CursedFlameHostile;
-                            int idx = Projectile.NewProjectile(npc.Center, npc.DirectionTo(Main.player[npc.target].Center) * speed, type, damage, 0f, Main.myPlayer, 0f, 0f);
-                            Main.projectile[idx].timeLeft = 180;
+                            Vector2 flameVelocity = npc.SafeDirectionTo(Main.player[npc.target].Center, -Vector2.UnitY) * 12f;
+
+                            int flame = Projectile.NewProjectile(npc.Center, flameVelocity, type, damage, 0f, Main.myPlayer, 0f, 0f);
+                            Main.projectile[flame].timeLeft = 180;
                             npc.localAI[0] = 0f;
                         }
                         else
@@ -21177,7 +21174,8 @@ namespace CalamityMod.NPCs
                             {
                                 absoluteYDistance = 0f;
                             }
-                            Vector2 velocity = npc.DirectionTo(Main.player[npc.target].Center - npc.Center - Vector2.UnitY * absoluteYDistance) * speed;
+
+                            Vector2 velocity = npc.SafeDirectionTo(Main.player[npc.target].Center - npc.Center - Vector2.UnitY * absoluteYDistance, -Vector2.UnitY) * speed;
 
                             int idx = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, NPCID.FungiSpore, 0, 0f, 0f, 0f, 0f, 255);
                             Main.npc[idx].velocity = velocity;
@@ -21424,11 +21422,12 @@ namespace CalamityMod.NPCs
                     {
                         if (Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
                         {
-                            float speed = 6f;
                             int damage = 15;
                             int type = ProjectileID.HarpyFeather;
-                            int idx = Projectile.NewProjectile(npc.Center, npc.DirectionTo(Main.player[npc.target].Center) * speed, type, damage, 0f, Main.myPlayer, 0f, 0f);
-                            Main.projectile[idx].timeLeft = 300;
+                            Vector2 featherVelocity = npc.SafeDirectionTo(Main.player[npc.target].Center) * 6f;
+
+                            int feather = Projectile.NewProjectile(npc.Center, featherVelocity, type, damage, 0f, Main.myPlayer, 0f, 0f);
+                            Main.projectile[feather].timeLeft = 300;
                         }
                     }
                     else if (npc.ai[0] >= 400f + Main.rand.Next(200))
@@ -21443,11 +21442,12 @@ namespace CalamityMod.NPCs
                     {
                         if (Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
                         {
-                            float speed = 0.2f;
                             int damage = 21;
                             int type = ProjectileID.DemonSickle;
-                            int idx = Projectile.NewProjectile(npc.Center, npc.DirectionTo(Main.player[npc.target].Center) * speed, type, damage, 0f, Main.myPlayer, 0f, 0f);
-                            Main.projectile[idx].timeLeft = 300;
+                            Vector2 sickleVelocity = npc.SafeDirectionTo(Main.player[npc.target].Center) * 0.2f;
+
+                            int sickle = Projectile.NewProjectile(npc.Center, sickleVelocity, type, damage, 0f, Main.myPlayer, 0f, 0f);
+                            Main.projectile[sickle].timeLeft = 300;
                         }
                     }
                     else if (npc.ai[0] >= 300f + Main.rand.Next(200))
@@ -21462,16 +21462,16 @@ namespace CalamityMod.NPCs
                     {
                         if (Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
                         {
-                            float speed = 0.2f;
                             Vector2 spawnPosition = npc.Center;
 
-                            Vector2 velocity = npc.DirectionTo(Main.player[npc.target].Center) * speed;
+                            float tridentSpeed = 0.2f;
+                            Vector2 tridentVelocity = npc.SafeDirectionTo(Main.player[npc.target].Center) * tridentSpeed;
+                            spawnPosition += npc.velocity * 5f;
 
                             int damage = 80;
                             int type = ProjectileID.UnholyTridentHostile;
-                            spawnPosition += npc.velocity * 5f;
-                            int idx = Projectile.NewProjectile(spawnPosition + velocity * 100f, velocity, type, damage, 3f, Main.myPlayer, 0f, 0f);
-                            Main.projectile[idx].timeLeft = 300;
+                            int trident = Projectile.NewProjectile(spawnPosition + tridentVelocity * 100f, tridentVelocity, type, damage, 3f, Main.myPlayer, 0f, 0f);
+                            Main.projectile[trident].timeLeft = 300;
                         }
                     }
                     else if (npc.ai[0] >= 250f + Main.rand.Next(200))
@@ -21882,12 +21882,9 @@ namespace CalamityMod.NPCs
                         npc.localAI[0] = 1f;
                     }
                     npc.TargetClosest(true);
-                    float speed = 14f;
-                    if (npc.type == NPCID.GreenJellyfish)
-                    {
-                        speed = 18f;
-                    }
-                    npc.velocity = npc.DirectionTo(Main.player[npc.target].Center) * speed;
+
+                    float lungeSpeed = npc.type == NPCID.GreenJellyfish ? 18f : 14f;
+                    npc.velocity = npc.SafeDirectionTo(Main.player[npc.target].Center, -Vector2.UnitY) * lungeSpeed;
                 }
             }
             // General floating around.
@@ -22821,9 +22818,10 @@ namespace CalamityMod.NPCs
             // Charge
             if (npc.ai[0] == 0f)
             {
-                float speed = 12f;
-                npc.velocity = npc.DirectionTo(Main.player[npc.target].Center) * speed;
+                float chargeSpeed = 12f;
+                npc.velocity = npc.SafeDirectionTo(Main.player[npc.target].Center, -Vector2.UnitY) * chargeSpeed;
                 npc.rotation = npc.velocity.ToRotation() + MathHelper.PiOver4;
+
                 // Slow down
                 npc.ai[0] = 1f;
                 npc.ai[1] = 0f;
@@ -24721,12 +24719,11 @@ namespace CalamityMod.NPCs
             float speed = 6f;
             float acceleration = 0.25f;
 
-            Vector2 idealVelocity = npc.DirectionTo(Main.player[npc.target].Center - 300f * Vector2.UnitY) * speed;
+            Vector2 idealVelocity = npc.SafeDirectionTo(Main.player[npc.target].Center - 300f * Vector2.UnitY) * speed;
             float playerDistance = npc.Distance(Main.player[npc.target].Center);
             if (playerDistance < 20f)
-            {
                 idealVelocity = npc.velocity;
-            }
+
             // Yes, I understand that npc.SimpleFlyMovement exists. However, the "acceleration * 2f" is not a part of that method.
             // It is not identical to what is being achieved here.
             if (npc.velocity.X < idealVelocity.X)

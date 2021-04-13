@@ -158,7 +158,7 @@ namespace CalamityMod
 				}
 				else
 				{
-					center += projectile.DirectionTo(player.MountedCenter) * hookTexture.Height;
+					center += projectile.SafeDirectionTo(player.MountedCenter) * hookTexture.Height;
 					Color tileAtCenterColor = Lighting.GetColor((int)center.X / 16, (int)(center.Y / 16f));
 					Main.spriteBatch.Draw(hookTexture, center - Main.screenPosition,
 						new Rectangle?(new Rectangle(0, 0, hookTexture.Width, hookTexture.Height)),
