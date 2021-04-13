@@ -283,11 +283,9 @@ namespace CalamityMod.UI.CalamitasEnchants
 			// Update the compare item. This is used check comparisons when showing reforge tooltip bonuses.
 			// Updating it with the same bonuses as what was applied to the real item will negate the incorrect numbers,
 			// such as absurd damage boosts.
-			if (Main.cpItem is null || Main.cpItem.netID != CurrentlyHeldItem.netID)
-			{
+			if (Main.cpItem is null)
 				Main.cpItem = new Item();
-				Main.cpItem.netDefaults(CurrentlyHeldItem.netID);
-			}
+			Main.cpItem.SetDefaults(Main.cpItem.type);
 			Main.cpItem.Calamity().AppliedEnchantment = enchantmentToUse.Value;
 			enchantmentToUse.Value.CreationEffect?.Invoke(Main.cpItem);
 
