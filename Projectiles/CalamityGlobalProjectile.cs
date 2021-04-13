@@ -1698,6 +1698,7 @@ namespace CalamityMod.Projectiles
         }
         #endregion
 
+        // TODO -- this entire region needs to go to Projectile Utilities
         #region AI Shortcuts
         public static Projectile SpawnOrb(Projectile projectile, int damage, int projType, float distanceRequired, float speedMult, bool gsPhantom = false)
         {
@@ -1867,7 +1868,6 @@ namespace CalamityMod.Projectiles
                 }
             }
         }
-
         public static void ExpandHitboxBy(Projectile projectile, int width, int height)
         {
             projectile.position = projectile.Center;

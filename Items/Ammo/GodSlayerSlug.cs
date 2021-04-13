@@ -26,21 +26,19 @@ namespace CalamityMod.Items.Ammo
             item.value = Item.buyPrice(silver: 4);
             item.rare = ItemRarityID.Red;
             item.Calamity().customRarity = CalamityRarity.DarkBlue;
-            item.shoot = ModContent.ProjectileType<GodSlayerSlugMain>();
+            item.shoot = ModContent.ProjectileType<GodSlayerSlugProj>();
             item.shootSpeed = 6f;
             item.ammo = ItemID.MusketBall;
         }
 
         public override void AddRecipes()
         {
-            /*
-			ModRecipe recipe = new ModRecipe(mod);
+            ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>());
             recipe.AddIngredient(ItemID.EmptyBullet, 999);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this, 999);
             recipe.AddRecipe();
-			*/
         }
     }
 }
