@@ -497,7 +497,7 @@ namespace CalamityMod.Items
             {
                 BitsByte flags = reader.ReadByte();
                 rogue = flags[0];
-            }
+			}
             else
             {
                 ModContent.GetInstance<CalamityMod>().Logger.Error("Unknown loadVersion: " + loadVersion);
@@ -509,7 +509,7 @@ namespace CalamityMod.Items
             BitsByte flags = new BitsByte();
             flags[0] = rogue;
 
-            writer.Write(flags);
+			writer.Write(flags);
             writer.Write((int)customRarity);
             writer.Write(timesUsed);
             writer.Write(Charge);
@@ -521,7 +521,7 @@ namespace CalamityMod.Items
             BitsByte flags = reader.ReadByte();
             rogue = flags[0];
 
-            customRarity = (CalamityRarity)reader.ReadInt32();
+			customRarity = (CalamityRarity)reader.ReadInt32();
             timesUsed = reader.ReadInt32();
             Charge = reader.ReadSingle();
 			reforgeTier = reader.ReadInt32();
@@ -3754,7 +3754,118 @@ Grants immunity to fire blocks, and temporary immunity to lava";
 		private int NewPrefixType(Item item)
 		{
 			int prefix = -2;
-			if (item.melee)
+			if (item.accessory)
+			{
+				if (Main.player[Main.myPlayer].Calamity().finalTierAccessoryReforge)
+				{
+					// Warding = 18, Menacing = 19, Quick = 20, Violent = 21, Lucky = 22, Silent = 23
+					prefix = Main.rand.Next(18, 24);
+				}
+				else
+				{
+					switch (reforgeTier)
+					{
+						case 0:
+							break;
+						case 1:
+							// Hard = 1, Jagged = 2, Brisk = 3, Wild = 4, Quiet = 5
+							prefix = Main.rand.Next(1, 6);
+							break;
+						case 2:
+							// Guarding = 6, Spiked = 7, Fleeting = 8, Rash = 9, Cloaked = 10
+							prefix = Main.rand.Next(6, 11);
+							break;
+						case 3:
+							// Precise = 11, Arcane = 12
+							prefix = Main.rand.Next(11, 13);
+							break;
+						case 4:
+							// Armored = 13, Angry = 14, Hasty = 15, Intrepid = 16, Camouflaged = 17
+							prefix = Main.rand.Next(13, 18);
+							break;
+						case 5:
+						case 6:
+							// Warding = 18, Menacing = 19, Quick = 20, Violent = 21, Lucky = 22, Silent = 23
+							prefix = Main.rand.Next(18, 24);
+							break;
+					}
+				}
+				switch (prefix)
+				{
+					case -2:
+						break;
+					case 1:
+						prefix = PrefixID.Hard;
+						break;
+					case 2:
+						prefix = PrefixID.Jagged;
+						break;
+					case 3:
+						prefix = PrefixID.Brisk;
+						break;
+					case 4:
+						prefix = PrefixID.Wild;
+						break;
+					case 5:
+						prefix = mod.PrefixType("Quiet");
+						break;
+					case 6:
+						prefix = PrefixID.Guarding;
+						break;
+					case 7:
+						prefix = PrefixID.Spiked;
+						break;
+					case 8:
+						prefix = PrefixID.Fleeting;
+						break;
+					case 9:
+						prefix = PrefixID.Rash;
+						break;
+					case 10:
+						prefix = mod.PrefixType("Cloaked");
+						break;
+					case 11:
+						prefix = PrefixID.Precise;
+						break;
+					case 12:
+						prefix = PrefixID.Arcane;
+						break;
+					case 13:
+						prefix = PrefixID.Armored;
+						break;
+					case 14:
+						prefix = PrefixID.Angry;
+						break;
+					case 15:
+						prefix = PrefixID.Hasty2;
+						break;
+					case 16:
+						prefix = PrefixID.Intrepid;
+						break;
+					case 17:
+						prefix = mod.PrefixType("Camouflaged");
+						break;
+					case 18:
+						prefix = PrefixID.Warding;
+						break;
+					case 19:
+						prefix = PrefixID.Menacing;
+						break;
+					case 20:
+						prefix = PrefixID.Quick2;
+						break;
+					case 21:
+						prefix = PrefixID.Violent;
+						break;
+					case 22:
+						prefix = PrefixID.Lucky;
+						break;
+					case 23:
+						prefix = mod.PrefixType("Silent");
+						break;
+				}
+			}
+			else if (item.melee)
 			{
 				if (item.knockBack == 0f)
 				{
@@ -4595,27 +4706,30 @@ Grants immunity to fire blocks, and temporary immunity to lava";
 		// Get cash from dickhead goblin fuck
 		public override void PostReforge(Item item)
 		{
-			if (!item.accessory)
+			CalamityPlayer modPlayer = Main.player[Main.myPlayer].Calamity();
+			if (modPlayer.itemTypeLastReforged != item.type)
 			{
-				CalamityPlayer modPlayer = Main.player[Main.myPlayer].Calamity();
-				if (modPlayer.itemTypeLastReforged != item.type)
-					modPlayer.reforgeTierSafety = 0;
-
-				modPlayer.itemTypeLastReforged = item.type;
-
-				if (modPlayer.reforgeTierSafety > 6)
-					modPlayer.reforgeTierSafety = 0;
-
-				modPlayer.reforgeTierSafety += 1;
-				reforgeTier = modPlayer.reforgeTierSafety;
-
-				bool favorited = item.favorited;
-				item.netDefaults(item.netID);
-				item.Prefix(NewPrefixType(item));
-
-				item.Center = Main.player[Main.myPlayer].Center;
-				item.favorited = favorited;
+				modPlayer.reforgeTierSafety = 0;
+				modPlayer.finalTierAccessoryReforge = false;
 			}
+
+			modPlayer.itemTypeLastReforged = item.type;
+
+			if (modPlayer.reforgeTierSafety > 6)
+			{
+				modPlayer.reforgeTierSafety = 0;
+				modPlayer.finalTierAccessoryReforge = true;
+			}
+
+			modPlayer.reforgeTierSafety++;
+			reforgeTier = modPlayer.reforgeTierSafety;
+
+			bool favorited = item.favorited;
+			item.netDefaults(item.netID);
+			item.Prefix(NewPrefixType(item));
+
+			item.Center = Main.player[Main.myPlayer].Center;
+			item.favorited = favorited;
 
 			if (NPC.AnyNPCs(ModContent.NPCType<THIEF>()))
 			{

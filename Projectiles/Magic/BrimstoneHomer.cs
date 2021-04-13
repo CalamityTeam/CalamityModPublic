@@ -24,14 +24,17 @@ namespace CalamityMod.Projectiles.Magic
             projectile.timeLeft = 180;
         }
 
-        public override void AI()
+		public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 150;
+
+		public override void AI()
         {
             projectile.rotation += 0.7f * projectile.direction;
 
 			int brimstone = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 1f);
 			Main.dust[brimstone].noGravity = true;
 
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 200f, 8f, 20f);
+			if (projectile.timeLeft < 150)
+				CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, 200f, 8f, 20f);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

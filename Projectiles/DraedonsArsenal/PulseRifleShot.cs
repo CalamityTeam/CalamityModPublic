@@ -85,6 +85,8 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 				PulseBurst(4f, 5f);
 		}
 
+		public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 280;
+
 		public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
 		{
 			if (projectile.ai[1] < 5f && !hasHit && Main.myPlayer == projectile.owner)
@@ -94,14 +96,15 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 				int alreadyTargetedNPCType = 0;
 				if (projectile.ai[1] > 0f)
 					alreadyTargetedNPCType = (int)projectile.ai[0];
+				else
+					alreadyTargetedNPCType = target.whoAmI;
 
 				for (int i = 0; i < Main.maxNPCs; i++)
 				{
 					if (!Main.npc[i].CanBeChasedBy(projectile, false) || !Collision.CanHit(projectile.Center, 1, 1, Main.npc[i].Center, 1, 1))
 						continue;
 
-					if (alreadyTargetedNPCType != Main.npc[i].whoAmI &&
-						projectile.Center.ManhattanDistance(Main.npc[i].Center) < 600f)
+					if (alreadyTargetedNPCType != Main.npc[i].whoAmI && projectile.Center.ManhattanDistance(Main.npc[i].Center) < 600f)
 					{
 						Projectile.NewProjectile(projectile.Center, projectile.DirectionTo(Main.npc[i].Center) * 5f, projectile.type, projectile.damage / 2, 0f, projectile.owner, Main.npc[i].whoAmI, projectile.ai[1] + 1f);
 						break;

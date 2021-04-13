@@ -25,14 +25,19 @@ namespace CalamityMod.Projectiles.Typeless
             projectile.extraUpdates = 2;
         }
 
+		public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 270;
+
 		public override void AI()
 		{
-			Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0.5f / 255f, (255 - projectile.alpha) * 0.25f / 255f, (255 - projectile.alpha) * 0f / 255f);
+			Lighting.AddLight(projectile.Center, 0.5f, 0.25f, 0f);
+
 			int num458 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 127, 0f, 0f, 100, default, 2f);
 			Main.dust[num458].noGravity = true;
 			Main.dust[num458].velocity *= 0.5f;
 			Main.dust[num458].velocity += projectile.velocity * 0.1f;
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 250f, 11f, 20f);
+
+			if (projectile.timeLeft < 270)
+				CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, 250f, 11f, 20f);
 		}
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

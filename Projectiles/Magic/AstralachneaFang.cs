@@ -34,7 +34,7 @@ namespace CalamityMod.Projectiles.Magic
 
 			projectile.rotation = projectile.velocity.ToRotation();
 
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 150f, 12f, 25f);
+			CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, 150f, 12f, 25f);
 		}
 
 		public override void Kill(int timeLeft)

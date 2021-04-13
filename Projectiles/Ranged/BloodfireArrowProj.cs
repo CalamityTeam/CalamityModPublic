@@ -60,7 +60,7 @@ namespace CalamityMod.Projectiles.Ranged
             }
 
 			if (projectile.ai[1] == 80f) //means it's from Arterial Assault's wooden arrow conversion
-				CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 200f, 12f, 20f);
+				CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, 200f, 12f, 20f);
         }
 
         public override void Kill(int timeLeft)

@@ -48,7 +48,7 @@ namespace CalamityMod.Projectiles.Ranged
             }
 
 			if (projectile.timeLeft < 150)
-				CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 450f, 6f, 20f);
+				CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, 450f, 6f, 20f);
 		}
 
         public override void Kill(int timeLeft)

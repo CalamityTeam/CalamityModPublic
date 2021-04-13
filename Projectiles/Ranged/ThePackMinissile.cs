@@ -26,7 +26,7 @@ namespace CalamityMod.Projectiles.Ranged
         public override void AI()
         {
             projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X);
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 300f, 12f, 15f);
+			CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, 300f, 12f, 15f);
             projectile.frameCounter++;
             if (projectile.frameCounter > 3)
             {

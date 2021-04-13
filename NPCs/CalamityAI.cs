@@ -1666,7 +1666,7 @@ namespace CalamityMod.NPCs
 				if (provy)
 					chargeVelocity *= 1.25f;
 
-				Vector2 vector = Vector2.Normalize(player.Center + player.velocity * 10f - npc.Center);
+				Vector2 vector = Vector2.Normalize(player.Center - npc.Center);
 				npc.velocity = vector * chargeVelocity;
 
 				npc.ai[1] = 3f;
@@ -1676,7 +1676,7 @@ namespace CalamityMod.NPCs
 			{
 				npc.ai[2] += 1f;
 
-				float chargeTime = BossRushEvent.BossRushActive ? 56f : (70f - (death ? 6f * (1f - lifeRatio) : 0f));
+				float chargeTime = BossRushEvent.BossRushActive ? 45f : (56f - (death ? 6f * (1f - lifeRatio) : 0f));
 				if (npc.ai[2] >= chargeTime)
 				{
 					npc.velocity *= 0.93f;
@@ -1688,7 +1688,7 @@ namespace CalamityMod.NPCs
 				else
 					npc.rotation = (float)Math.Atan2(npc.velocity.Y, npc.velocity.X) - MathHelper.PiOver2;
 
-				if (npc.ai[2] >= chargeTime + 15f)
+				if (npc.ai[2] >= chargeTime + 12f)
 				{
 					npc.ai[3] += 1f;
 					npc.ai[2] = 0f;
@@ -1706,7 +1706,7 @@ namespace CalamityMod.NPCs
 			}
 			else
 			{
-				int num62 = 500;
+				int num62 = 400;
 				float num63 = (calamityGlobalNPC.enraged > 0) ? 20f : 14f;
 				float num64 = (calamityGlobalNPC.enraged > 0) ? 0.5f : 0.35f;
 
@@ -1767,7 +1767,7 @@ namespace CalamityMod.NPCs
 				}
 
 				npc.ai[2] += 1f;
-				if (npc.ai[2] >= 45f)
+				if (npc.ai[2] >= 36f)
 				{
 					npc.TargetClosest();
 					npc.ai[1] = 2f;
@@ -4902,7 +4902,47 @@ namespace CalamityMod.NPCs
 			}
 
 			// Rotation
-			float num17 = (float)Math.Atan2(player.Center.Y - vector.Y, player.Center.X - vector.X);
+			// Phase switch
+			float rateOfRotation = 0.04f;
+			if (npc.ai[0] == 1f || npc.ai[0] == 6f || npc.ai[0] == 7f || npc.ai[0] == 14f)
+				rateOfRotation = 0f;
+			if (npc.ai[0] == 3f || npc.ai[0] == 4f)
+				rateOfRotation = 0.01f;
+			if (npc.ai[0] == 8f || npc.ai[0] == 13f)
+				rateOfRotation = 0.05f;
+
+			Vector2 playerCenter = player.Center;
+			if (calamityGlobalNPC.newAI[1] != 1f && !player.dead)
+			{
+				// Rotate to show direction of predictive charge
+				Vector2 distanceVector = player.Center + player.velocity * 20f - vector;
+				if (npc.ai[0] == 0f && !phase2)
+				{
+					if (npc.ai[3] < 6f)
+					{
+						rateOfRotation = 0.1f;
+						playerCenter += Vector2.Normalize(distanceVector) * chargeVelocity;
+					}
+				}
+				else if (npc.ai[0] == 5f && !phase3)
+				{
+					if (npc.ai[3] < 4f)
+					{
+						rateOfRotation = 0.1f;
+						playerCenter += Vector2.Normalize(distanceVector) * chargeVelocity;
+					}
+				}
+				else if (npc.ai[0] == 10f)
+				{
+					if (npc.ai[3] < 8f && npc.ai[3] != 1f && npc.ai[3] != 4f)
+					{
+						rateOfRotation = 0.1f;
+						playerCenter += Vector2.Normalize(distanceVector) * chargeVelocity;
+					}
+				}
+			}
+
+			float num17 = (float)Math.Atan2(playerCenter.Y - vector.Y, playerCenter.X - vector.X);
 			if (npc.spriteDirection == 1)
 				num17 += pie;
 			if (num17 < 0f)
@@ -4912,42 +4952,32 @@ namespace CalamityMod.NPCs
 			if (npc.ai[0] == -1f || npc.ai[0] == 3f || npc.ai[0] == 4f)
 				num17 = 0f;
 			if (npc.ai[0] == 8f || npc.ai[0] == 13f)
-			{
 				num17 = pie * 0.1666666667f * npc.spriteDirection;
-			}
-
-			float num18 = 0.04f;
-			if (npc.ai[0] == 1f || npc.ai[0] == 6f || npc.ai[0] == 7f || npc.ai[0] == 14f)
-				num18 = 0f;
-			if (npc.ai[0] == 3f || npc.ai[0] == 4f)
-				num18 = 0.01f;
-			if (npc.ai[0] == 8f || npc.ai[0] == 13f)
-				num18 = 0.05f;
 
 			if (npc.rotation < num17)
 			{
 				if (num17 - npc.rotation > pie)
-					npc.rotation -= num18;
+					npc.rotation -= rateOfRotation;
 				else
-					npc.rotation += num18;
+					npc.rotation += rateOfRotation;
 			}
 			if (npc.rotation > num17)
 			{
 				if (npc.rotation - num17 > pie)
-					npc.rotation += num18;
+					npc.rotation += rateOfRotation;
 				else
-					npc.rotation -= num18;
+					npc.rotation -= rateOfRotation;
 			}
 
 			if ((npc.ai[0] != 8f && npc.ai[0] != 13f) || npc.spriteDirection == 1)
 			{
-				if (npc.rotation > num17 - num18 && npc.rotation < num17 + num18)
+				if (npc.rotation > num17 - rateOfRotation && npc.rotation < num17 + rateOfRotation)
 					npc.rotation = num17;
 				if (npc.rotation < 0f)
 					npc.rotation += MathHelper.TwoPi;
 				if (npc.rotation > MathHelper.TwoPi)
 					npc.rotation -= MathHelper.TwoPi;
-				if (npc.rotation > num17 - num18 && npc.rotation < num17 + num18)
+				if (npc.rotation > num17 - rateOfRotation && npc.rotation < num17 + rateOfRotation)
 					npc.rotation = num17;
 			}
 

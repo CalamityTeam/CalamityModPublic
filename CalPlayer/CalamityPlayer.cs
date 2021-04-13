@@ -108,6 +108,7 @@ namespace CalamityMod.CalPlayer
         public bool noLifeRegen = false;
         public int itemTypeLastReforged = 0;
         public int reforgeTierSafety = 0;
+		public bool finalTierAccessoryReforge = false;
         public int defenseDamage = 0;
         public float rangedAmmoCost = 1f;
         public bool heldGaelsLastFrame = false;
@@ -1062,6 +1063,7 @@ namespace CalamityMod.CalPlayer
             boost.AddWithCondition("bossHPBar", drawBossHPBar);
             boost.AddWithCondition("drawSmallText", shouldDrawSmallText);
             boost.AddWithCondition("fullHPRespawn", healToFull);
+			boost.AddWithCondition("finalTierAccessoryReforge", finalTierAccessoryReforge);
 
             boost.AddWithCondition("newMerchantInventory", newMerchantInventory);
             boost.AddWithCondition("newPainterInventory", newPainterInventory);
@@ -1136,8 +1138,9 @@ namespace CalamityMod.CalPlayer
             drawBossHPBar = boost.Contains("bossHPBar");
             shouldDrawSmallText = boost.Contains("drawSmallText");
             healToFull = boost.Contains("fullHPRespawn");
+			finalTierAccessoryReforge = boost.Contains("finalTierAccessoryReforge");
 
-            newMerchantInventory = boost.Contains("newMerchantInventory");
+			newMerchantInventory = boost.Contains("newMerchantInventory");
             newPainterInventory = boost.Contains("newPainterInventory");
             newDyeTraderInventory = boost.Contains("newDyeTraderInventory");
             newPartyGirlInventory = boost.Contains("newPartyGirlInventory");
@@ -1293,7 +1296,8 @@ namespace CalamityMod.CalPlayer
 
                 BitsByte flags6 = reader.ReadByte();
                 newBanditInventory = flags6[0];
-            }
+				finalTierAccessoryReforge = flags6[1];
+			}
             else
             {
                 ModContent.GetInstance<CalamityMod>().Logger.Error("Unknown loadVersion: " + loadVersion);

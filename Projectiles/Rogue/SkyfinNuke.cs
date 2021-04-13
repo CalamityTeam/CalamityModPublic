@@ -60,7 +60,7 @@ namespace CalamityMod.Projectiles.Rogue
 			else
 			{
 				//More range
-				CalamityGlobalProjectile.HomeInOnNPC(projectile, false, homingRange, speedMult, turnSpeed);
+				CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, homingRange, speedMult, turnSpeed);
 			}
         }
 

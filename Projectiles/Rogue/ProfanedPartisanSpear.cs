@@ -86,7 +86,7 @@ namespace CalamityMod.Projectiles.Rogue
 				projectile.penetrate = 1;
 			if (timer >= 10)
 			{
-				CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 300f, 7f, 20f);
+				CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, 300f, 7f, 20f);
 			}
 		}
 
