@@ -660,8 +660,8 @@ namespace CalamityMod.NPCs
             }
 
             bool hurtByAbyss = npc.wet && npc.damage > 0 && !npc.boss && !npc.friendly && !npc.dontTakeDamage &&
-                (((npc.position.Y / 16f > (Main.rockLayer - Main.maxTilesY * 0.05)) &&
-                abyssPosY && abyssPosX) || CalamityWorld.abyssTiles > 200) && !npc.buffImmune[ModContent.BuffType<CrushDepth>()];
+                (npc.position.Y / 16f > (Main.rockLayer - Main.maxTilesY * 0.05)) &&
+                abyssPosY && abyssPosX && !npc.buffImmune[ModContent.BuffType<CrushDepth>()];
 
             return hurtByAbyss;
         }
