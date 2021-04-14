@@ -228,9 +228,6 @@ namespace CalamityMod.Items
 			}
 			if (item.type == ItemID.StarCannon)
 				item.UseSound = null;
-
-            if (!item.IsAir && item.Calamity().AppliedEnchantment.HasValue && item.Calamity().AppliedEnchantment.Value.CreationEffect != null)
-                item.Calamity().AppliedEnchantment.Value.CreationEffect(item);
         }
         #endregion
 
@@ -495,7 +492,12 @@ namespace CalamityMod.Items
 
             Enchantment? savedEnchantment = EnchantmentManager.FindByName(tag.GetString("enchantment"), StringComparison.OrdinalIgnoreCase);
             if (savedEnchantment.HasValue)
+            {
                 AppliedEnchantment = savedEnchantment.Value;
+                bool hasCreationEffect = AppliedEnchantment.Value.CreationEffect != null;
+                if (hasCreationEffect)
+                    item.Calamity().AppliedEnchantment.Value.CreationEffect(item);
+            }
         }
 
         public override void LoadLegacy(Item item, BinaryReader reader)
@@ -542,7 +544,12 @@ namespace CalamityMod.Items
 
             Enchantment? savedEnchantment = EnchantmentManager.FindByName(reader.ReadString(), StringComparison.OrdinalIgnoreCase);
             if (savedEnchantment.HasValue)
+            {
                 AppliedEnchantment = savedEnchantment.Value;
+                bool hasCreationEffect = AppliedEnchantment.Value.CreationEffect != null;
+                if (hasCreationEffect)
+                    item.Calamity().AppliedEnchantment.Value.CreationEffect(item);
+            }
         }
         #endregion
 

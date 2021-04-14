@@ -71,7 +71,7 @@ namespace CalamityMod.UI.CalamitasEnchants
 
 			Texture2D backgroundTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/CalamitasReforgeBackground");
 			Texture2D pillarTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/CalamitasReforgePillar");
-			Vector2 backgroundScale = MathHelper.Clamp(ResolutionRatio * 1.25f, 0.67f, 1f) * new Vector2(1.3f, 1f);
+			Vector2 backgroundScale = MathHelper.Clamp(ResolutionRatio * 1.25f, 0.67f, 1f) * new Vector2(1.3f, 0.85f);
 
 			// Draw the background.
 			spriteBatch.Draw(backgroundTexture, ReforgeUITopLeft, null, Color.White, 0f, Vector2.Zero, backgroundScale, SpriteEffects.None, 0f);
@@ -85,7 +85,7 @@ namespace CalamityMod.UI.CalamitasEnchants
 			if (isHoveringOverItemIcon)
 				InteractWithItemSlot();
 
-			DisplayEnchantmentOptions(spriteBatch, ReforgeUITopLeft + new Vector2(112f, 55f), 
+			DisplayEnchantmentOptions(spriteBatch, ReforgeUITopLeft + new Vector2(112f, 35f), 
 				out List<Rectangle> textAreas,
 				out IEnumerable<Enchantment> possibleEnchantments,
 				out Enchantment? enchantmentToUse);
@@ -109,7 +109,7 @@ namespace CalamityMod.UI.CalamitasEnchants
 		public static void DrawIcons(SpriteBatch spriteBatch, out bool isHoveringOverItemIcon, out bool isHoveringOverReforgeIcon)
 		{
 			Texture2D itemSlotTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/CalamitasReforgeSlot");
-			Vector2 itemSlotDrawPosition = ReforgeUITopLeft + new Vector2(40f, 65f);
+			Vector2 itemSlotDrawPosition = ReforgeUITopLeft + new Vector2(40f, 45f);
 			Vector2 reforgeIconDrawPosition = itemSlotDrawPosition + Vector2.UnitX * (itemSlotTexture.Width * 0.5f + 24f);
 
 			isHoveringOverReforgeIcon = false;
