@@ -206,23 +206,27 @@ namespace CalamityMod.NPCs
                 if (!Main.hardMode)
                 {
 					// Increase altar count to allow natural mech boss spawning.
-					WorldGen.altarCount++;
+					if (CalamityConfig.Instance.EarlyHardmodeProgressionRework)
+						WorldGen.altarCount++;
 
                     string key2 = "Mods.CalamityMod.UglyBossText";
                     Color messageColor2 = Color.Aquamarine;
 					CalamityUtils.DisplayLocalizedText(key2, messageColor2);
 
-					string key3 = "Mods.CalamityMod.HardmodeOreTier1Text";
-					Color messageColor3 = new Color(50, 255, 130);
-					WorldGenerationMethods.SpawnOre(TileID.Cobalt, 12E-05, .4f, .6f);
-					WorldGenerationMethods.SpawnOre(TileID.Palladium, 12E-05, .4f, .6f);
-					CalamityUtils.DisplayLocalizedText(key3, messageColor3);
+					if (CalamityConfig.Instance.EarlyHardmodeProgressionRework)
+					{
+						string key3 = "Mods.CalamityMod.HardmodeOreTier1Text";
+						Color messageColor3 = new Color(50, 255, 130);
+						WorldGenerationMethods.SpawnOre(TileID.Cobalt, 12E-05, .4f, .6f);
+						WorldGenerationMethods.SpawnOre(TileID.Palladium, 12E-05, .4f, .6f);
+						CalamityUtils.DisplayLocalizedText(key3, messageColor3);
+					}
 				}
             }
             else if (lastTwinStanding)
             {
 				// Only drop hallowed bars after all mechs are down
-				if (!NPC.downedMechBoss1 || !NPC.downedMechBoss2 || !NPC.downedMechBoss3)
+				if ((!NPC.downedMechBoss1 || !NPC.downedMechBoss2 || !NPC.downedMechBoss3) && CalamityConfig.Instance.EarlyHardmodeProgressionRework)
 					DropHelper.BlockDrops(ItemID.HallowedBar);
 
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<MysteriousCircuitry>(), Main.expertMode, CalamityGlobalNPC.DraedonMayhem, 8, 16);
@@ -237,13 +241,13 @@ namespace CalamityMod.NPCs
                 CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.Stylist, ModContent.NPCType<DILF>(), ModContent.NPCType<FAP>(), ModContent.NPCType<THIEF>() }, !NPC.downedMechBoss1 || NPC.downedMechBoss2 || !NPC.downedMechBoss3);
                 CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.Steampunker }, NPC.downedMechBoss2 || !CalamityConfig.Instance.SellVanillaSummons);
 
-				if (!NPC.downedMechBoss2)
+				if (!NPC.downedMechBoss2 && CalamityConfig.Instance.EarlyHardmodeProgressionRework)
 					SpawnMechBossHardmodeOres();
             }
             else if (npc.type == NPCID.TheDestroyer)
             {
 				// Only drop hallowed bars after all mechs are down
-				if (!NPC.downedMechBoss1 || !NPC.downedMechBoss2 || !NPC.downedMechBoss3)
+				if ((!NPC.downedMechBoss1 || !NPC.downedMechBoss2 || !NPC.downedMechBoss3) && CalamityConfig.Instance.EarlyHardmodeProgressionRework)
 					DropHelper.BlockDrops(ItemID.HallowedBar);
 
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<MysteriousCircuitry>(), Main.expertMode, CalamityGlobalNPC.DraedonMayhem, 8, 16);
@@ -258,13 +262,13 @@ namespace CalamityMod.NPCs
                 CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.Stylist, ModContent.NPCType<DILF>(), ModContent.NPCType<FAP>(), ModContent.NPCType<THIEF>() }, NPC.downedMechBoss1 || !NPC.downedMechBoss2 || !NPC.downedMechBoss3);
                 CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.Steampunker }, NPC.downedMechBoss1 || !CalamityConfig.Instance.SellVanillaSummons);
 
-				if (!NPC.downedMechBoss1)
+				if (!NPC.downedMechBoss1 && CalamityConfig.Instance.EarlyHardmodeProgressionRework)
 					SpawnMechBossHardmodeOres();
 			}
             else if (npc.type == NPCID.SkeletronPrime)
             {
 				// Only drop hallowed bars after all mechs are down
-				if (!NPC.downedMechBoss1 || !NPC.downedMechBoss2 || !NPC.downedMechBoss3)
+				if ((!NPC.downedMechBoss1 || !NPC.downedMechBoss2 || !NPC.downedMechBoss3) && CalamityConfig.Instance.EarlyHardmodeProgressionRework)
 					DropHelper.BlockDrops(ItemID.HallowedBar);
 
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<MysteriousCircuitry>(), Main.expertMode, CalamityGlobalNPC.DraedonMayhem, 8, 16);
@@ -280,7 +284,7 @@ namespace CalamityMod.NPCs
                 CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.Stylist, ModContent.NPCType<DILF>(), ModContent.NPCType<FAP>(), ModContent.NPCType<THIEF>() }, !NPC.downedMechBoss1 || !NPC.downedMechBoss2 || NPC.downedMechBoss3);
                 CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.Steampunker }, NPC.downedMechBoss3 || !CalamityConfig.Instance.SellVanillaSummons);
 
-				if (!NPC.downedMechBoss3)
+				if (!NPC.downedMechBoss3 && CalamityConfig.Instance.EarlyHardmodeProgressionRework)
 					SpawnMechBossHardmodeOres();
 			}
             else if (npc.type == NPCID.Plantera)

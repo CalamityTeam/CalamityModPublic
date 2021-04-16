@@ -1445,22 +1445,25 @@ namespace CalamityMod.NPCs
 			}
 
 			// Reduce mech boss HP and damage depending on the new ore progression changes
-			if (!NPC.downedMechBossAny)
+			if (CalamityConfig.Instance.EarlyHardmodeProgressionRework)
 			{
-				if (DestroyerIDs.Contains(npc.type) || npc.type == NPCID.Probe || SkeletronPrimeIDs.Contains(npc.type) || npc.type == NPCID.Spazmatism || npc.type == NPCID.Retinazer)
+				if (!NPC.downedMechBossAny)
 				{
-					npc.lifeMax = (int)(npc.lifeMax * 0.8);
-					npc.damage = (int)(npc.damage * 0.8);
-					npc.defDamage = npc.damage;
+					if (DestroyerIDs.Contains(npc.type) || npc.type == NPCID.Probe || SkeletronPrimeIDs.Contains(npc.type) || npc.type == NPCID.Spazmatism || npc.type == NPCID.Retinazer)
+					{
+						npc.lifeMax = (int)(npc.lifeMax * 0.8);
+						npc.damage = (int)(npc.damage * 0.8);
+						npc.defDamage = npc.damage;
+					}
 				}
-			}
-			else if ((!NPC.downedMechBoss1 && !NPC.downedMechBoss2) || (!NPC.downedMechBoss2 && !NPC.downedMechBoss3) || (!NPC.downedMechBoss3 && !NPC.downedMechBoss1))
-			{
-				if (DestroyerIDs.Contains(npc.type) || npc.type == NPCID.Probe || SkeletronPrimeIDs.Contains(npc.type) || npc.type == NPCID.Spazmatism || npc.type == NPCID.Retinazer)
+				else if ((!NPC.downedMechBoss1 && !NPC.downedMechBoss2) || (!NPC.downedMechBoss2 && !NPC.downedMechBoss3) || (!NPC.downedMechBoss3 && !NPC.downedMechBoss1))
 				{
-					npc.lifeMax = (int)(npc.lifeMax * 0.9);
-					npc.damage = (int)(npc.damage * 0.9);
-					npc.defDamage = npc.damage;
+					if (DestroyerIDs.Contains(npc.type) || npc.type == NPCID.Probe || SkeletronPrimeIDs.Contains(npc.type) || npc.type == NPCID.Spazmatism || npc.type == NPCID.Retinazer)
+					{
+						npc.lifeMax = (int)(npc.lifeMax * 0.9);
+						npc.damage = (int)(npc.damage * 0.9);
+						npc.defDamage = npc.damage;
+					}
 				}
 			}
 
@@ -3923,9 +3926,7 @@ namespace CalamityMod.NPCs
                                     npc2.ai[0] = -1000 * Main.rand.Next(3);
 
                                     if (Main.netMode == NetmodeID.Server && slime < Main.maxNPCs)
-                                    {
                                         NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, slime, 0f, 0f, 0f, 0, 0, 0);
-                                    }
                                 }
                             }
                         }
@@ -3940,9 +3941,7 @@ namespace CalamityMod.NPCs
                     case NPCID.EnchantedSword:
                     case NPCID.CrimsonAxe:
                         if (npc.life <= npc.lifeMax * 0.5)
-                        {
                             npc.justHit = false;
-                        }
 
                         break;
 
@@ -3953,25 +3952,19 @@ namespace CalamityMod.NPCs
                     case NPCID.BlackRecluse:
                     case NPCID.BlackRecluseWall:
                         if (npc.life <= npc.lifeMax * 0.25)
-                        {
                             npc.justHit = false;
-                        }
 
                         break;
 
                     case NPCID.Paladin:
                         if (npc.life <= npc.lifeMax * 0.15)
-                        {
                             npc.justHit = false;
-                        }
 
                         break;
 
                     case NPCID.Clown:
                         if (Main.netMode != NetmodeID.MultiplayerClient && !Main.player[npc.target].dead)
-                        {
                             npc.ai[2] += 29f;
-                        }
 
                         break;
                 }
@@ -3979,9 +3972,7 @@ namespace CalamityMod.NPCs
                 if (npc.type == NPCType<SandTortoise>() || npc.type == NPCType<PlaguedTortoise>())
                 {
                     if (npc.life <= npc.lifeMax * 0.25)
-                    {
                         npc.justHit = false;
-                    }
                 }
             }
         }

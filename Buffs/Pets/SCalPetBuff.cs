@@ -9,7 +9,7 @@ namespace CalamityMod.Buffs.Pets
         public override void SetDefaults()
         {
             DisplayName.SetDefault("Supreme Calamitas");
-            Description.SetDefault("Watching over you with supreme calamitous energy... How adorable");
+            Description.SetDefault("Watching over you with supreme calamitous energy...how adorable");
             Main.buffNoTimeDisplay[Type] = true;
             Main.vanityPet[Type] = true;
         }

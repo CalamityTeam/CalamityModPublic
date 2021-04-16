@@ -108,7 +108,7 @@ namespace CalamityMod
 					NPC npc = Main.npc[i];
 					if (npc.IsABoss())
 					{
-						// Added due to the new mech boss ore progression, return true if any mech is alive and checkForMechs is true, reduces mech boss projectile damage if true
+						// Added due to the new mech boss ore progression, return true if any mech is alive and checkForMechs is true, reduces mech boss projectile damage if true.
 						if (checkForMechs)
 							return npc.type == NPCID.TheDestroyer || npc.type == NPCID.SkeletronPrime || npc.type == NPCID.Spazmatism || npc.type == NPCID.Retinazer;
 						return true;

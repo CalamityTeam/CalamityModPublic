@@ -141,8 +141,10 @@ namespace CalamityMod
             carpetOriginal = Main.flyingCarpetTexture;
             Mount.mounts[Mount.Unicorn].dashSpeed *= CalamityPlayer.UnicornSpeedNerfPower;
             Mount.mounts[Mount.Unicorn].runSpeed *= CalamityPlayer.UnicornSpeedNerfPower;
+			Mount.mounts[Mount.MinecartMech].dashSpeed *= CalamityPlayer.MechanicalCartSpeedNerfPower;
+			Mount.mounts[Mount.MinecartMech].runSpeed *= CalamityPlayer.MechanicalCartSpeedNerfPower;
 
-            NormalityRelocatorHotKey = RegisterHotKey("Normality Relocator", "Z");
+			NormalityRelocatorHotKey = RegisterHotKey("Normality Relocator", "Z");
             RageHotKey = RegisterHotKey("Rage Mode", "V");
             AdrenalineHotKey = RegisterHotKey("Adrenaline Mode", "B");
             AegisHotKey = RegisterHotKey("Elysian Guard", "N");
@@ -316,8 +318,10 @@ namespace CalamityMod
             }
             Mount.mounts[Mount.Unicorn].dashSpeed /= CalamityPlayer.UnicornSpeedNerfPower;
             Mount.mounts[Mount.Unicorn].runSpeed /= CalamityPlayer.UnicornSpeedNerfPower;
+			Mount.mounts[Mount.MinecartMech].dashSpeed /= CalamityPlayer.MechanicalCartSpeedNerfPower;
+			Mount.mounts[Mount.MinecartMech].runSpeed /= CalamityPlayer.MechanicalCartSpeedNerfPower;
 
-            heartOriginal2 = null;
+			heartOriginal2 = null;
             heartOriginal = null;
             rainOriginal = null;
             manaOriginal = null;

@@ -28,18 +28,15 @@ namespace CalamityMod.Items.Mounts
             mountData.blockExtraJumps = false;
             mountData.totalFrames = 15;
             mountData.constantJump = false;
+			int baseYOffset = 24;
             int[] array = new int[mountData.totalFrames];
             for (int l = 0; l < array.Length; l++)
             {
-                array[l] = 30;
+                array[l] = baseYOffset;
             }
-            array[1] = 28;
-            array[3] = 28;
-            array[5] = 28;
-            array[7] = 28;
-            array[12] = 28;
+            array[1] = array[3] = array[5] = array[7] = array[12] = baseYOffset - 2;
             mountData.playerYOffsets = array;
-            mountData.xOffset = 0;
+            mountData.xOffset = -4;
             mountData.bodyFrame = 3;
             mountData.yOffset = 7; //-8
             mountData.playerHeadOffset = 36; //30

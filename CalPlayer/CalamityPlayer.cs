@@ -296,10 +296,11 @@ namespace CalamityMod.CalPlayer
         public AndromedaPlayerState andromedaState;
         public int andromedaCripple;
         public const float UnicornSpeedNerfPower = 0.8f;
-        #endregion
+		public const float MechanicalCartSpeedNerfPower = 0.7f;
+		#endregion
 
-        #region Pet
-        public bool thirdSage = false;
+		#region Pet
+		public bool thirdSage = false;
         public bool thirdSageH = true; // Third sage healing
         public bool perfmini = false;
         public bool akato = false;
@@ -2963,13 +2964,13 @@ namespace CalamityMod.CalPlayer
                 if (prismaticSet && !prismaticCooldown && prismaticLasers <= 0)
                     prismaticLasers = CalamityUtils.SecondsToFrames(35f);
             }
-            if (CalamityMod.AstralArcanumUIHotkey.JustPressed && astralArcanum)
+            if (CalamityMod.AstralArcanumUIHotkey.JustPressed && astralArcanum && !areThereAnyDamnBosses)
             {
                 AstralArcanumUI.Toggle();
             }
             if (CalamityMod.AstralTeleportHotKey.JustPressed)
             {
-                if (celestialJewel)
+                if (celestialJewel && !areThereAnyDamnBosses)
                 {
                     if (Main.netMode == NetmodeID.SinglePlayer)
                     {
@@ -8822,7 +8823,7 @@ namespace CalamityMod.CalPlayer
         #region Nurse Modifications
         public override bool ModifyNurseHeal(NPC nurse, ref int health, ref bool removeDebuffs, ref string chatText)
         {
-            if (CalamityWorld.death && areThereAnyDamnBosses)
+            if ((CalamityWorld.death || CalamityWorld.malice) && areThereAnyDamnBosses)
             {
                 chatText = "Now is not the time!";
                 return false;

@@ -962,10 +962,14 @@ namespace CalamityMod.CalPlayer
 			{
 				if (player.IsUnderwater() && modPlayer.ironBoots)
 					player.maxFallSpeed = 9f;
-				if (modPlayer.aeroSet && !player.wet)
-					player.maxFallSpeed = 15f;
-				if (modPlayer.gSabatonFall > 0 && !player.wet)
-					player.maxFallSpeed = 20f;
+
+				if (!player.wet)
+				{
+					if (modPlayer.aeroSet)
+						player.maxFallSpeed = 15f;
+					if (modPlayer.gSabatonFall > 0 || (player.PortalPhysicsEnabled && CalamityPlayer.areThereAnyDamnBosses))
+						player.maxFallSpeed = 20f;
+				}
 			}
 
 			// Omega Blue Armor bonus

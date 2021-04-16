@@ -362,10 +362,13 @@ namespace CalamityMod.Projectiles
 					if (defDamage == 0)
 					{
 						// Reduce mech boss projectile damage depending on the new ore progression changes
-						if (!NPC.downedMechBossAny)
-							projectile.damage = (int)(projectile.damage * 0.8);
-						else if ((!NPC.downedMechBoss1 && !NPC.downedMechBoss2) || (!NPC.downedMechBoss2 && !NPC.downedMechBoss3) || (!NPC.downedMechBoss3 && !NPC.downedMechBoss1))
-							projectile.damage = (int)(projectile.damage * 0.9);
+						if (CalamityConfig.Instance.EarlyHardmodeProgressionRework)
+						{
+							if (!NPC.downedMechBossAny)
+								projectile.damage = (int)(projectile.damage * 0.8);
+							else if ((!NPC.downedMechBoss1 && !NPC.downedMechBoss2) || (!NPC.downedMechBoss2 && !NPC.downedMechBoss3) || (!NPC.downedMechBoss3 && !NPC.downedMechBoss1))
+								projectile.damage = (int)(projectile.damage * 0.9);
+						}
 
 						defDamage = projectile.damage;
 					}
@@ -971,20 +974,23 @@ namespace CalamityMod.Projectiles
 				}
 
 				// Reduce mech boss projectile damage depending on the new ore progression changes
-				if (!NPC.downedMechBossAny)
+				if (CalamityConfig.Instance.EarlyHardmodeProgressionRework)
 				{
-					if (MechBossProjectileIDs.Contains(projectile.type))
+					if (!NPC.downedMechBossAny)
 					{
-						if (CalamityUtils.AnyBossNPCS(true))
-							projectile.damage = (int)(projectile.damage * 0.8);
+						if (MechBossProjectileIDs.Contains(projectile.type))
+						{
+							if (CalamityUtils.AnyBossNPCS(true))
+								projectile.damage = (int)(projectile.damage * 0.8);
+						}
 					}
-				}
-				else if ((!NPC.downedMechBoss1 && !NPC.downedMechBoss2) || (!NPC.downedMechBoss2 && !NPC.downedMechBoss3) || (!NPC.downedMechBoss3 && !NPC.downedMechBoss1))
-				{
-					if (MechBossProjectileIDs.Contains(projectile.type))
+					else if ((!NPC.downedMechBoss1 && !NPC.downedMechBoss2) || (!NPC.downedMechBoss2 && !NPC.downedMechBoss3) || (!NPC.downedMechBoss3 && !NPC.downedMechBoss1))
 					{
-						if (CalamityUtils.AnyBossNPCS(true))
-							projectile.damage = (int)(projectile.damage * 0.9);
+						if (MechBossProjectileIDs.Contains(projectile.type))
+						{
+							if (CalamityUtils.AnyBossNPCS(true))
+								projectile.damage = (int)(projectile.damage * 0.9);
+						}
 					}
 				}
 
