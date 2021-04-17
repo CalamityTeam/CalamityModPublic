@@ -12,7 +12,7 @@ namespace CalamityMod.UI.CalamitasEnchants
 		public static IEnumerable<Enchantment> GetValidEnchantmentsForItem(Item item)
 		{
 			// Do nothing if the item cannot be enchanted.
-			if (item.IsAir || item.damage <= 0)
+			if (!item.CanBeEnchantedBySomething())
 				yield break;
 
 			// Only give the option to clear if the item already has an enchantment.
@@ -44,10 +44,13 @@ namespace CalamityMod.UI.CalamitasEnchants
 
 		public static void LoadAllEnchantments()
 		{
-			EnchantmentList.Add(new Enchantment("Self-Sacrificial", "Does 10% more damage at the cost of 20% of your max life",
-				item => item.damage = (int)(item.damage * 1.1), 
-				player => player.Calamity().sacrificeEnchant = true, 
-				item => item.damage > 0));
+			EnchantmentList = new List<Enchantment>
+			{
+				new Enchantment("Self-Sacrificial", "Does 10% more damage at the cost of 20% of your max life",
+					item => item.damage = (int)(item.damage * 1.1),
+					player => player.Calamity().sacrificeEnchant = true,
+					item => item.damage > 0)
+			};
 
 			// Special disenchantment thing. This is separated from the list on purpose.
 			ClearEnchantment = new Enchantment("Disenchant", string.Empty,

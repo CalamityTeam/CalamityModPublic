@@ -1,6 +1,8 @@
+using CalamityMod.UI.CalamitasEnchants;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using Terraria;
 using Terraria.ID;
@@ -260,6 +262,12 @@ namespace CalamityMod
 			return null;
 		}
 		#endregion
+
+		/// <summary>
+		/// Determines if an item can be enchanted by any item at all via Calamitas' enchantment system.
+		/// </summary>
+		/// <param name="item">The item to check.</param>
+		public static bool CanBeEnchantedBySomething(this Item item) => EnchantmentManager.EnchantmentList.Any(enchantment => enchantment.ApplyRequirement(item));
 
 		public static void ConsumeItemViaQuickBuff(Player player, Item item, int buffType, int buffTime, bool reducedPotionSickness)
 		{

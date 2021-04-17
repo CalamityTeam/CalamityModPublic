@@ -92,8 +92,11 @@ namespace CalamityMod.UI.CalamitasEnchants
 			Vector2 itemSlotDrawPosition = ReforgeUITopLeft + new Vector2(30f, 50f) * backgroundScale;
 			Vector2 reforgeIconDrawPosition = ReforgeUITopLeft + new Vector2(88f, 60f) * backgroundScale;
 
+			// Prevent the player from say, firing a weapon while the mouse is hovering over the UI.
+			DisableMouseWhenOverUI(backgroundTexture, backgroundScale);
+
 			// Select the enchantment to use.
-			SelectEnchantment(out IEnumerable<Enchantment> possibleEnchantments);
+			IEnumerable<Enchantment> possibleEnchantments = SelectEnchantment();
 
 			// Draw the cost and description.
 			int cost = 0;
@@ -116,20 +119,66 @@ namespace CalamityMod.UI.CalamitasEnchants
 
 			// Draw the enchantment name.
 			if (SelectedEnchantment.HasValue)
-				DrawEnchantmentName(spriteBatch, ReforgeUITopLeft + new Vector2(130f, 64f) * backgroundScale);
+				DrawEnchantmentName(spriteBatch, ReforgeUITopLeft + new Vector2(130f, 66f) * backgroundScale);
 
 			// Handle spending logic.
 			if (isHoveringOverReforgeIcon)
 			{
-				// Prevent the player from say, firing a weapon while the mouse is hovering over the icon.
-				Main.LocalPlayer.mouseInterface = false;
-				Main.blockMouse = true;
-
 				if (Main.mouseLeft && Main.mouseLeftRelease)
 				{
-					InteractWithEnchantIcon(SelectedEnchantment, cost);
-					ReforgeButtonClickCountdown = 8f;
+					InteractWithEnchantIcon(cost);
+					ReforgeButtonClickCountdown = 15f;
 				}
+			}
+		}
+
+		public static void DisableMouseWhenOverUI(Texture2D backgroundTexture, Vector2 backgroundScale)
+		{
+			Rectangle backgroundArea = new Rectangle((int)ReforgeUITopLeft.X, (int)ReforgeUITopLeft.Y, (int)(backgroundTexture.Width * backgroundScale.X), (int)(backgroundTexture.Width * backgroundScale.Y));
+
+			if (MouseScreenArea.Intersects(backgroundArea))
+			{
+				Main.LocalPlayer.mouseInterface = false;
+				Main.blockMouse = true;
+			}
+		}
+
+		public static IEnumerable<Enchantment> SelectEnchantment()
+		{
+			IEnumerable<Enchantment> possibleEnchantments = EnchantmentManager.GetValidEnchantmentsForItem(CurrentlyHeldItem);
+
+			// Select the enchantment based on an index in the possible enchantments.
+			// If no possible enchantments were found, default to null.
+			SelectedEnchantment = null;
+
+			if (possibleEnchantments.Count() > 0)
+				SelectedEnchantment = possibleEnchantments.ElementAt(EnchantIndex);
+
+			return possibleEnchantments;
+		}
+
+		public static int DrawEnchantmentCost(SpriteBatch spriteBatch, Point costDrawPositionTopLeft)
+		{
+			if (CurrentlyHeldItem.IsAir)
+				return 0;
+
+			int cost = CurrentlyHeldItem.value * 4;
+			ItemSlot.DrawMoney(spriteBatch, "Cost: ", costDrawPositionTopLeft.X, costDrawPositionTopLeft.Y, Utils.CoinsSplit(cost));
+
+			return cost;
+		}
+
+		public static void DrawEnchantmentDescription(SpriteBatch spriteBatch, Point descriptionDrawPositionTopLeft)
+		{
+			Vector2 vectorDrawPosition = descriptionDrawPositionTopLeft.ToVector2();
+			Vector2 scale = new Vector2(0.67f, 0.7f);
+			foreach (string line in Utils.WordwrapString(SelectedEnchantment.Value.Description, Main.fontMouseText, 400, 10, out _))
+			{
+				if (string.IsNullOrEmpty(line))
+					continue;
+
+				ChatManager.DrawColorCodedStringWithShadow(spriteBatch, Main.fontMouseText, line, vectorDrawPosition, Color.Orange, 0f, Vector2.Zero, scale);
+				vectorDrawPosition.Y += 16;
 			}
 		}
 
@@ -204,27 +253,12 @@ namespace CalamityMod.UI.CalamitasEnchants
 				Main.instance.MouseTextHackZoom(string.Empty);
 			}
 
-			// Prevent the player from say, firing a weapon while the mouse is hovering over the slot.
-			Main.LocalPlayer.mouseInterface = false;
-			Main.blockMouse = true;
-
-			bool isHeldItemEnchantable = Main.mouseItem.damage > 0;
-
 			// Attempt to exchange if the slot is clicked.
-			if (Main.mouseLeftRelease && Main.mouseLeft && (isHeldItemEnchantable || Main.mouseItem.IsAir))
+			if (Main.mouseLeftRelease && Main.mouseLeft && (Main.mouseItem.CanBeEnchantedBySomething() || Main.mouseItem.IsAir))
 			{
 				Utils.Swap(ref Main.mouseItem, ref CurrentlyHeldItem);
 				Main.PlaySound(SoundID.Grab);
 			}
-		}
-
-		public static void SelectEnchantment(out IEnumerable<Enchantment> possibleEnchantments)
-		{
-			possibleEnchantments = EnchantmentManager.GetValidEnchantmentsForItem(CurrentlyHeldItem);
-			SelectedEnchantment = null;
-
-			if (possibleEnchantments.Count() > 0)
-				SelectedEnchantment = possibleEnchantments.ElementAt(EnchantIndex);
 		}
 
 		public static void DrawAndInteractWithButtons(SpriteBatch spriteBatch, IEnumerable<Enchantment> possibleEnchantments, Vector2 topButtonTopLeft, Vector2 bottomButtonTopLeft, Vector2 scale)
@@ -246,21 +280,10 @@ namespace CalamityMod.UI.CalamitasEnchants
 			bool hoveringOverTopArrow = MouseScreenArea.Intersects(topButtonArea);
 			bool hoveringOverBottomArrow = MouseScreenArea.Intersects(bottomButtonArea);
 			if (hoveringOverTopArrow)
-			{
 				topArrowTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/CalamitasCurseUI_ArrowUpHovered");
 
-				// Prevent the player from say, firing a weapon while the mouse is hovering over the button.
-				Main.LocalPlayer.mouseInterface = false;
-				Main.blockMouse = true;
-			}
 			if (hoveringOverBottomArrow)
-			{
 				bottomArrowTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/CalamitasCurseUI_ArrowDownHovered");
-
-				// Prevent the player from say, firing a weapon while the mouse is hovering over the button.
-				Main.LocalPlayer.mouseInterface = false;
-				Main.blockMouse = true;
-			}
 
 			// Draw the arrows.
 			if (EnchantIndex > 0)
@@ -274,7 +297,7 @@ namespace CalamityMod.UI.CalamitasEnchants
 				if (hoveringOverTopArrow && EnchantIndex > 0)
 				{
 					EnchantIndex--;
-					TopButtonClickCountdown = 8f;
+					TopButtonClickCountdown = 15f;
 					Main.PlaySound(SoundID.MenuTick);
 				}
 
@@ -282,7 +305,7 @@ namespace CalamityMod.UI.CalamitasEnchants
 				if (hoveringOverBottomArrow && EnchantIndex < possibleEnchantments.Count() - 1)
 				{
 					EnchantIndex++;
-					BottomButtonClickCountdown = 8f;
+					BottomButtonClickCountdown = 15f;
 					Main.PlaySound(SoundID.MenuTick);
 				}
 			}
@@ -295,32 +318,7 @@ namespace CalamityMod.UI.CalamitasEnchants
 			ChatManager.DrawColorCodedStringWithShadow(spriteBatch, Main.fontMouseText, SelectedEnchantment.Value.Name, nameDrawPositionTopLeft, drawColor, 0f, Vector2.Zero, scale);
 		}
 
-		public static int DrawEnchantmentCost(SpriteBatch spriteBatch, Point costDrawPositionTopLeft)
-		{
-			if (CurrentlyHeldItem.IsAir)
-				return 0;
-
-			int cost = CurrentlyHeldItem.value * 4;
-			ItemSlot.DrawMoney(spriteBatch, "Cost: ", costDrawPositionTopLeft.X, costDrawPositionTopLeft.Y, Utils.CoinsSplit(cost));
-
-			return cost;
-		}
-
-		public static void DrawEnchantmentDescription(SpriteBatch spriteBatch, Point descriptionDrawPositionTopLeft)
-		{
-			Vector2 vectorDrawPosition = descriptionDrawPositionTopLeft.ToVector2();
-			Vector2 scale = new Vector2(0.67f, 0.7f);
-			foreach (string line in Utils.WordwrapString(SelectedEnchantment.Value.Description, Main.fontMouseText, 400, 10, out _))
-			{
-				if (string.IsNullOrEmpty(line))
-					continue;
-
-				ChatManager.DrawColorCodedStringWithShadow(spriteBatch, Main.fontMouseText, line, vectorDrawPosition, Color.Orange, 0f, Vector2.Zero, scale);
-				vectorDrawPosition.Y += 16;
-			}
-		}
-
-		public static void InteractWithEnchantIcon(Enchantment? enchantmentToUse, int cost)
+		public static void InteractWithEnchantIcon(int cost)
 		{
 			// If there's no valid item in the slot, do nothing.
 			if (CurrentlyHeldItem.IsAir)
@@ -331,7 +329,7 @@ namespace CalamityMod.UI.CalamitasEnchants
 				return;
 
 			// If no enchantment has been selected, do nothing.
-			if (!enchantmentToUse.HasValue)
+			if (!SelectedEnchantment.HasValue)
 				return;
 
 			Item originalItem = CurrentlyHeldItem.Clone();
@@ -340,8 +338,8 @@ namespace CalamityMod.UI.CalamitasEnchants
 			CurrentlyHeldItem.Prefix(oldPrefix);
 			CurrentlyHeldItem = CurrentlyHeldItem.CloneWithModdedDataFrom(originalItem);
 
-			CurrentlyHeldItem.Calamity().AppliedEnchantment = enchantmentToUse.Value;
-			enchantmentToUse.Value.CreationEffect?.Invoke(CurrentlyHeldItem);
+			CurrentlyHeldItem.Calamity().AppliedEnchantment = SelectedEnchantment.Value;
+			SelectedEnchantment.Value.CreationEffect?.Invoke(CurrentlyHeldItem);
 
 			// Update the compare item. This is used check comparisons when showing reforge tooltip bonuses.
 			// Updating it with the same bonuses as what was applied to the real item will negate the incorrect numbers,
@@ -349,8 +347,8 @@ namespace CalamityMod.UI.CalamitasEnchants
 			if (Main.cpItem is null)
 				Main.cpItem = new Item();
 			Main.cpItem.SetDefaults(Main.cpItem.type);
-			Main.cpItem.Calamity().AppliedEnchantment = enchantmentToUse.Value;
-			enchantmentToUse.Value.CreationEffect?.Invoke(Main.cpItem);
+			Main.cpItem.Calamity().AppliedEnchantment = SelectedEnchantment.Value;
+			SelectedEnchantment.Value.CreationEffect?.Invoke(Main.cpItem);
 
 			// Take away the money for the cost.
 			Main.LocalPlayer.BuyItem(cost);

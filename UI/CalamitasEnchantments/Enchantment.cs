@@ -9,7 +9,10 @@ namespace CalamityMod.UI.CalamitasEnchants
 		public string Description;
 		public Action<Item> CreationEffect;
 		public Action<Player> HoldEffect;
-		public Predicate<Item> ApplyRequirement;
+
+		// This is internal because CanBeAppliedTo should be used over this field directly.
+		// Using that has the benefit of null checks and is objectively superior to using the raw delegate.
+		internal Predicate<Item> ApplyRequirement;
 		public Enchantment(string name, string description, Action<Item> creationEffect, Action<Player> holdEffect, Predicate<Item> requirement)
 		{
 			Name = name;
@@ -33,6 +36,20 @@ namespace CalamityMod.UI.CalamitasEnchants
 			CreationEffect = creationEffect;
 			HoldEffect = null;
 			ApplyRequirement = requirement;
+		}
+
+		public bool CanBeAppliedTo(Item item)
+		{
+			// "Empty" items can never be enchanted.
+			if (item is null || item.IsAir)
+				return false;
+
+			// If there is no requirement, always return true, bar the above requirement.
+			if (ApplyRequirement is null)
+				return true;
+
+			// Otherwise return what the defined requirement says is needed.
+			return ApplyRequirement(item);
 		}
 	}
 }
