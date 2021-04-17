@@ -7,6 +7,7 @@ namespace CalamityMod.UI.CalamitasEnchants
 {
 	public static class EnchantmentManager
 	{
+		internal const int ClearEnchantmentID = -18591774;
 		public static List<Enchantment> EnchantmentList { get; internal set; } = new List<Enchantment>();
 		public static Enchantment ClearEnchantment { get; internal set; }
 		public static IEnumerable<Enchantment> GetValidEnchantmentsForItem(Item item)
@@ -34,9 +35,9 @@ namespace CalamityMod.UI.CalamitasEnchants
 			}
 		}
 
-		public static Enchantment? FindByName(string name, StringComparison comparisonType)
+		public static Enchantment? FindByID(int id)
 		{
-			Enchantment? enchantment = EnchantmentList.FirstOrDefault(enchant => enchant.Name.Equals(name, comparisonType));
+			Enchantment? enchantment = EnchantmentList.FirstOrDefault(enchant => enchant.ID == id);
 			if (enchantment.HasValue && !enchantment.Value.Equals(default(Enchantment)))
 				return enchantment;
 			return null;
@@ -46,16 +47,17 @@ namespace CalamityMod.UI.CalamitasEnchants
 		{
 			EnchantmentList = new List<Enchantment>
 			{
-				new Enchantment("Self-Sacrificial", "Does 10% more damage at the cost of 20% of your max life",
+				new Enchantment("Self-Sacrificial", "Does 10% more damage at the cost of 20% of your max life", 
+					1,
 					item => item.damage = (int)(item.damage * 1.1),
 					player => player.Calamity().sacrificeEnchant = true,
-					item => item.damage > 0 && item.maxStack == 1 && item.notAmmo)
+					item => item.damage > 0 && item.maxStack == 1)
 			};
 
 			// Special disenchantment thing. This is separated from the list on purpose.
-			ClearEnchantment = new Enchantment("Disenchant", string.Empty,
+			ClearEnchantment = new Enchantment("Disenchant", string.Empty, ClearEnchantmentID,
 				item => item.Calamity().AppliedEnchantment = null,
-				item => item.maxStack == 1 && item.notAmmo);
+				item => item.maxStack == 1);
 		}
 
 		public static void UnloadAllEnchantments() => EnchantmentList = null;

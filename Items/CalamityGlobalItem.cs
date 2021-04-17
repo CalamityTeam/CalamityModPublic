@@ -472,7 +472,7 @@ namespace CalamityMod.Items
                 ["rarity"] = (int)customRarity,
                 ["charge"] = Charge,
                 ["reforgeTier"] = reforgeTier,
-                ["enchantment"] = AppliedEnchantment.HasValue ? AppliedEnchantment.Value.Name : string.Empty
+                ["enchantmentID"] = AppliedEnchantment.HasValue ? AppliedEnchantment.Value.ID : 0
             };
         }
 
@@ -490,7 +490,7 @@ namespace CalamityMod.Items
 
 			reforgeTier = tag.GetInt("reforgeTimer");
 
-            Enchantment? savedEnchantment = EnchantmentManager.FindByName(tag.GetString("enchantment"), StringComparison.OrdinalIgnoreCase);
+            Enchantment? savedEnchantment = EnchantmentManager.FindByID(tag.GetInt("enchantmentID"));
             if (savedEnchantment.HasValue)
             {
                 AppliedEnchantment = savedEnchantment.Value;
@@ -529,7 +529,7 @@ namespace CalamityMod.Items
             writer.Write(timesUsed);
             writer.Write(Charge);
 			writer.Write(reforgeTier);
-            writer.Write(AppliedEnchantment.HasValue ? AppliedEnchantment.Value.Name : string.Empty);
+            writer.Write(AppliedEnchantment.HasValue ? AppliedEnchantment.Value.ID : 0);
         }
 
         public override void NetReceive(Item item, BinaryReader reader)
@@ -542,7 +542,7 @@ namespace CalamityMod.Items
             Charge = reader.ReadSingle();
 			reforgeTier = reader.ReadInt32();
 
-            Enchantment? savedEnchantment = EnchantmentManager.FindByName(reader.ReadString(), StringComparison.OrdinalIgnoreCase);
+            Enchantment? savedEnchantment = EnchantmentManager.FindByID(reader.ReadInt32());
             if (savedEnchantment.HasValue)
             {
                 AppliedEnchantment = savedEnchantment.Value;

@@ -10,32 +10,39 @@ namespace CalamityMod.UI.CalamitasEnchants
 		public Action<Item> CreationEffect;
 		public Action<Player> HoldEffect;
 
+		public int ID { get; internal set; }
+
+		internal static readonly Random EnchantmentIDDecider = new Random(0xCA17A3);
+
 		// This is internal because CanBeAppliedTo should be used over this field directly.
 		// Using that has the benefit of null checks and is objectively superior to using the raw delegate.
 		internal Predicate<Item> ApplyRequirement;
-		public Enchantment(string name, string description, Action<Item> creationEffect, Action<Player> holdEffect, Predicate<Item> requirement)
+		public Enchantment(string name, string description, int id, Action<Item> creationEffect, Action<Player> holdEffect, Predicate<Item> requirement)
 		{
 			Name = name;
 			Description = description;
 			CreationEffect = creationEffect;
 			HoldEffect = holdEffect;
 			ApplyRequirement = requirement;
+			ID = id;
 		}
-		public Enchantment(string name, string description, Action<Player> holdEffect, Predicate<Item> requirement)
+		public Enchantment(string name, string description, int id, Action<Player> holdEffect, Predicate<Item> requirement)
 		{
 			Name = name;
 			Description = description;
 			CreationEffect = null;
 			HoldEffect = holdEffect;
 			ApplyRequirement = requirement;
+			ID = id;
 		}
-		public Enchantment(string name, string description, Action<Item> creationEffect, Predicate<Item> requirement)
+		public Enchantment(string name, string description, int id, Action<Item> creationEffect, Predicate<Item> requirement)
 		{
 			Name = name;
 			Description = description;
 			CreationEffect = creationEffect;
 			HoldEffect = null;
 			ApplyRequirement = requirement;
+			ID = id;
 		}
 
 		public bool CanBeAppliedTo(Item item)
