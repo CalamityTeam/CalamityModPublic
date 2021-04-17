@@ -119,7 +119,7 @@ namespace CalamityMod.UI.CalamitasEnchants
 
 			// Draw the enchantment name.
 			if (SelectedEnchantment.HasValue)
-				DrawEnchantmentName(spriteBatch, ReforgeUITopLeft + new Vector2(130f, 66f) * backgroundScale);
+				DrawEnchantmentName(spriteBatch, ReforgeUITopLeft + new Vector2(216f, 66f) * backgroundScale);
 
 			// Handle spending logic.
 			if (isHoveringOverReforgeIcon)
@@ -311,11 +311,13 @@ namespace CalamityMod.UI.CalamitasEnchants
 			}
 		}
 
-		public static void DrawEnchantmentName(SpriteBatch spriteBatch, Vector2 nameDrawPositionTopLeft)
+		public static void DrawEnchantmentName(SpriteBatch spriteBatch, Vector2 nameDrawCenter)
 		{
 			Vector2 scale = new Vector2(0.8f, 0.745f);
+			float textWidth = Main.fontMouseText.MeasureString(SelectedEnchantment.Value.Name).X * scale.X;
 			Color drawColor = SelectedEnchantment.Value.Equals(EnchantmentManager.ClearEnchantment) ? Color.White : Color.Orange;
-			ChatManager.DrawColorCodedStringWithShadow(spriteBatch, Main.fontMouseText, SelectedEnchantment.Value.Name, nameDrawPositionTopLeft, drawColor, 0f, Vector2.Zero, scale);
+			nameDrawCenter.X -= textWidth * 0.5f;
+			ChatManager.DrawColorCodedStringWithShadow(spriteBatch, Main.fontMouseText, SelectedEnchantment.Value.Name, nameDrawCenter, drawColor, 0f, Vector2.Zero, scale);
 		}
 
 		public static void InteractWithEnchantIcon(int cost)
@@ -352,6 +354,9 @@ namespace CalamityMod.UI.CalamitasEnchants
 
 			// Take away the money for the cost.
 			Main.LocalPlayer.BuyItem(cost);
+
+			// Reset the enchantment index to prevent index problems on a different item.
+			EnchantIndex = 0;
 
 			Main.PlaySound(SoundID.DD2_BetsyFlameBreath, Main.LocalPlayer.Center);
 		}
