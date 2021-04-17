@@ -275,13 +275,15 @@ namespace CalamityMod.UI.CalamitasEnchants
 				{
 					EnchantIndex--;
 					TopButtonClickCountdown = 8f;
+					Main.PlaySound(SoundID.MenuTick);
 				}
 
 				// Increment the enchantment index if the bottom button is pressed.
 				if (hoveringOverBottomArrow && EnchantIndex < possibleEnchantments.Count() - 1)
 				{
 					EnchantIndex++;
-					TopButtonClickCountdown = 8f;
+					BottomButtonClickCountdown = 8f;
+					Main.PlaySound(SoundID.MenuTick);
 				}
 			}
 		}
