@@ -14,9 +14,12 @@ namespace CalamityMod.UI.CalamitasEnchants
 	public class CalamitasEnchantUI
 	{
 		public static int NPCIndex = -1;
+		public static int EnchantIndex = 0;
 		public static Enchantment? SelectedEnchantment = null;
-		public static float SelectedEnchantmentScaleFactor = 1f;
 		public static Item CurrentlyHeldItem = new Item();
+		public static float TopButtonClickCountdown = 0f;
+		public static float BottomButtonClickCountdown = 0f;
+		public static float ReforgeButtonClickCountdown = 0f;
 
 		public static bool CurrentlyViewing = false;
 
@@ -37,6 +40,15 @@ namespace CalamityMod.UI.CalamitasEnchants
 
 		public static void Draw(SpriteBatch spriteBatch)
 		{
+			// Decrement click cooldowns.
+			// This is done so that click textures do not instantly disappear.
+			if (TopButtonClickCountdown > 0f)
+				TopButtonClickCountdown--;
+			if (BottomButtonClickCountdown > 0f)
+				BottomButtonClickCountdown--;
+			if (ReforgeButtonClickCountdown > 0f)
+				ReforgeButtonClickCountdown--;
+
 			// Don't bother doing anything except resetting if not looking at the UI.
 			if (!CurrentlyViewing)
 			{
@@ -47,6 +59,7 @@ namespace CalamityMod.UI.CalamitasEnchants
 					CurrentlyHeldItem.TurnToAir();
 				}
 
+				EnchantIndex = 0;
 				NPCIndex = -1;
 				return;
 			}
@@ -69,71 +82,85 @@ namespace CalamityMod.UI.CalamitasEnchants
 			Main.playerInventory = true;
 			Main.npcChatText = string.Empty;
 
-			Texture2D backgroundTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/CalamitasReforgeBackground");
-			Texture2D pillarTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/CalamitasReforgePillar");
-			Vector2 backgroundScale = MathHelper.Clamp(ResolutionRatio * 1.25f, 0.67f, 1f) * new Vector2(1.3f, 0.85f);
+			Texture2D backgroundTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/CalamitasCurseBackground");
+			Vector2 backgroundScale = Vector2.One * MathHelper.Clamp(ResolutionRatio * 1.25f, 0.67f, 1f);
 
 			// Draw the background.
 			spriteBatch.Draw(backgroundTexture, ReforgeUITopLeft, null, Color.White, 0f, Vector2.Zero, backgroundScale, SpriteEffects.None, 0f);
 
-			// As well as a cool pillar to the side.
-			Vector2 pillarDrawPosition = ReforgeUITopLeft + Vector2.UnitX * (backgroundScale.X * backgroundTexture.Width + 25f);
-			pillarDrawPosition.Y += 20f;
-			spriteBatch.Draw(pillarTexture, pillarDrawPosition, null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+			// Draw the item icon.
+			Vector2 itemSlotDrawPosition = ReforgeUITopLeft + new Vector2(30f, 50f) * backgroundScale;
+			Vector2 reforgeIconDrawPosition = ReforgeUITopLeft + new Vector2(88f, 60f) * backgroundScale;
 
-			DrawIcons(spriteBatch, out bool isHoveringOverItemIcon, out bool isHoveringOverReforgeIcon);
-			if (isHoveringOverItemIcon)
-				InteractWithItemSlot();
+			// Select the enchantment to use.
+			SelectEnchantment(out IEnumerable<Enchantment> possibleEnchantments);
 
-			DisplayEnchantmentOptions(spriteBatch, ReforgeUITopLeft + new Vector2(112f, 35f), 
-				out List<Rectangle> textAreas,
-				out IEnumerable<Enchantment> possibleEnchantments,
-				out Enchantment? enchantmentToUse);
-
-			InteractWithTextAreas(textAreas, possibleEnchantments);
-
+			// Draw the cost and description.
 			int cost = 0;
 			if (SelectedEnchantment.HasValue)
 			{
-				cost = DisplayEnchantmentCost(spriteBatch, out Point costDrawPositionTopLeft);
+				Point costDrawPositionTopLeft = (ReforgeUITopLeft + new Vector2(50f, 84f) * backgroundScale).ToPoint();
+				cost = DrawEnchantmentCost(spriteBatch, costDrawPositionTopLeft);
 				Point descriptionDrawPositionTopLeft = costDrawPositionTopLeft;
 				descriptionDrawPositionTopLeft.Y += 90;
 
-				DisplayEnchantmentDescription(spriteBatch, descriptionDrawPositionTopLeft);
+				DrawEnchantmentDescription(spriteBatch, descriptionDrawPositionTopLeft);
 			}
 
-			if (isHoveringOverReforgeIcon && Main.mouseLeft && Main.mouseLeftRelease)
-				InteractWithReforgeIcon(enchantmentToUse, cost);
+			DrawItemIcon(spriteBatch, itemSlotDrawPosition, reforgeIconDrawPosition, backgroundScale, out bool isHoveringOverItemIcon, out bool isHoveringOverReforgeIcon);
+			if (isHoveringOverItemIcon)
+				InteractWithItemSlot();
+
+			// Draw the buttons.
+			DrawAndInteractWithButtons(spriteBatch, possibleEnchantments, ReforgeUITopLeft + new Vector2(210f, 50f) * backgroundScale, ReforgeUITopLeft + new Vector2(210f, 90f) * backgroundScale, backgroundScale);
+
+			// Draw the enchantment name.
+			if (SelectedEnchantment.HasValue)
+				DrawEnchantmentName(spriteBatch, ReforgeUITopLeft + new Vector2(130f, 64f) * backgroundScale);
+
+			// Handle spending logic.
+			if (isHoveringOverReforgeIcon)
+			{
+				// Prevent the player from say, firing a weapon while the mouse is hovering over the icon.
+				Main.LocalPlayer.mouseInterface = false;
+				Main.blockMouse = true;
+
+				if (Main.mouseLeft && Main.mouseLeftRelease)
+				{
+					InteractWithEnchantIcon(SelectedEnchantment, cost);
+					ReforgeButtonClickCountdown = 8f;
+				}
+			}
 		}
 
-		public static void DrawIcons(SpriteBatch spriteBatch, out bool isHoveringOverItemIcon, out bool isHoveringOverReforgeIcon)
+		public static void DrawItemIcon(SpriteBatch spriteBatch, Vector2 itemSlotDrawPosition, Vector2 reforgeIconDrawPosition, Vector2 scale, out bool isHoveringOverItemIcon, out bool isHoveringOverReforgeIcon)
 		{
-			Texture2D itemSlotTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/CalamitasReforgeSlot");
-			Vector2 itemSlotDrawPosition = ReforgeUITopLeft + new Vector2(40f, 45f);
-			Vector2 reforgeIconDrawPosition = itemSlotDrawPosition + Vector2.UnitX * (itemSlotTexture.Width * 0.5f + 24f);
-
 			isHoveringOverReforgeIcon = false;
-			Rectangle reforgeIconArea = Utils.CenteredRectangle(reforgeIconDrawPosition, Main.reforgeTexture[0].Size());
+			Texture2D itemSlotTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/CalamitasCurseItemSlot");
 
-			Texture2D reforgeIconTexture = Main.reforgeTexture[0];
+			Texture2D reforgeIconTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/CalamitasCurseUI_Button");
+			Rectangle reforgeIconArea = new Rectangle((int)reforgeIconDrawPosition.X, (int)reforgeIconDrawPosition.Y, (int)(reforgeIconTexture.Width * scale.X), (int)(reforgeIconTexture.Height * scale.Y));
 
 			// Have the reforge icon light up if the mouse is hovering over it.
 			if (MouseScreenArea.Intersects(reforgeIconArea))
 			{
-				reforgeIconTexture = Main.reforgeTexture[1];
+				reforgeIconTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/CalamitasCurseUI_ButtonHovered");
 				isHoveringOverReforgeIcon = true;
 			}
 
-			// This will be used for item deposit/withdrawal logic.
-			isHoveringOverItemIcon = MouseScreenArea.Intersects(Utils.CenteredRectangle(itemSlotDrawPosition, itemSlotTexture.Size()));
+			if (ReforgeButtonClickCountdown > 0f)
+				reforgeIconTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/CalamitasCurseUI_ButtonClicked");
 
-			spriteBatch.Draw(itemSlotTexture, itemSlotDrawPosition, null, Color.White, 0f, itemSlotTexture.Size() * 0.5f, 1f, SpriteEffects.None, 0f);
+			// This will be used for item deposit/withdrawal logic.
+			isHoveringOverItemIcon = MouseScreenArea.Intersects(new Rectangle((int)itemSlotDrawPosition.X, (int)itemSlotDrawPosition.Y, (int)(itemSlotTexture.Width * scale.X), (int)(itemSlotTexture.Height * scale.Y)));
+
+			spriteBatch.Draw(itemSlotTexture, itemSlotDrawPosition, null, Color.White, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
 
 			// Draw the draw the item within the slot, if it exists.
 			if (!CurrentlyHeldItem.IsAir)
 				AttemptToDrawItemInIcon(spriteBatch, itemSlotDrawPosition);
 
-			spriteBatch.Draw(reforgeIconTexture, reforgeIconDrawPosition, null, Color.White, 0f, reforgeIconTexture.Size() * 0.5f, 1f, SpriteEffects.None, 0f);
+			spriteBatch.Draw(reforgeIconTexture, reforgeIconDrawPosition, null, Color.White, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
 		}
 
 		public static void AttemptToDrawItemInIcon(SpriteBatch spriteBatch, Vector2 drawPosition)
@@ -156,12 +183,13 @@ namespace CalamityMod.UI.CalamitasEnchants
 				itemScale = 36f / MathHelper.Max(itemFrame.Width, itemFrame.Height);
 
 			itemScale *= inventoryScale * baseScale;
+			drawPosition += itemFrame.Size() * itemScale * new Vector2(0.65f, 0.6f);
 
 			// Draw the item.
 			if (ItemLoader.PreDrawInInventory(CurrentlyHeldItem, spriteBatch, drawPosition, itemFrame, CurrentlyHeldItem.GetAlpha(Color.White), CurrentlyHeldItem.GetColor(Color.White), itemTexture.Size() * 0.5f, itemScale))
 			{
-				spriteBatch.Draw(itemTexture, drawPosition, itemFrame, CurrentlyHeldItem.GetAlpha(Color.White), 0f, itemTexture.Size() * 0.5f, itemScale, SpriteEffects.None, 0f);
-				spriteBatch.Draw(itemTexture, drawPosition, itemFrame, CurrentlyHeldItem.GetColor(Color.White), 0f, itemTexture.Size() * 0.5f, itemScale, SpriteEffects.None, 0f);
+				spriteBatch.Draw(itemTexture, drawPosition, itemFrame, CurrentlyHeldItem.GetAlpha(Color.White), 0f, Vector2.Zero, itemScale, SpriteEffects.None, 0f);
+				spriteBatch.Draw(itemTexture, drawPosition, itemFrame, CurrentlyHeldItem.GetColor(Color.White), 0f, Vector2.Zero, itemScale, SpriteEffects.None, 0f);
 			}
 		}
 
@@ -185,78 +213,88 @@ namespace CalamityMod.UI.CalamitasEnchants
 			// Attempt to exchange if the slot is clicked.
 			if (Main.mouseLeftRelease && Main.mouseLeft && (isHeldItemEnchantable || Main.mouseItem.IsAir))
 			{
-				// Reset the enchantment variables.
-				SelectedEnchantmentScaleFactor = 1f;
-				SelectedEnchantment = null;
-
 				Utils.Swap(ref Main.mouseItem, ref CurrentlyHeldItem);
 				Main.PlaySound(SoundID.Grab);
 			}
 		}
 
-		public static void DisplayEnchantmentOptions(SpriteBatch spriteBatch, Vector2 drawPosition, out List<Rectangle> textAreas, out IEnumerable<Enchantment> possibleEnchantments, out Enchantment? enchantmentToUse)
+		public static void SelectEnchantment(out IEnumerable<Enchantment> possibleEnchantments)
 		{
-			enchantmentToUse = null;
 			possibleEnchantments = EnchantmentManager.GetValidEnchantmentsForItem(CurrentlyHeldItem);
+			SelectedEnchantment = null;
 
-			// Initialize the areas.
-			textAreas = new List<Rectangle>();
+			if (possibleEnchantments.Count() > 0)
+				SelectedEnchantment = possibleEnchantments.ElementAt(EnchantIndex);
+		}
 
-			if (SelectedEnchantment is null)
-				SelectedEnchantmentScaleFactor = MathHelper.Lerp(SelectedEnchantmentScaleFactor, 1f, 0.15f);
-			else
-				SelectedEnchantmentScaleFactor = MathHelper.Lerp(SelectedEnchantmentScaleFactor, 1.35f, 0.15f);
-
-			// Don't attempt to draw anything if no valid enchantments exist for an item, for whatever reason.
-			if (possibleEnchantments.Count() <= 0)
+		public static void DrawAndInteractWithButtons(SpriteBatch spriteBatch, IEnumerable<Enchantment> possibleEnchantments, Vector2 topButtonTopLeft, Vector2 bottomButtonTopLeft, Vector2 scale)
+		{
+			// Leave the arrows blank if no possible enchants exist.
+			if (possibleEnchantments.Count() == 0)
 				return;
 
-			int totalEnchantmentsToDisplay = Math.Min(possibleEnchantments.Count(), 6);
-			for (int i = 0; i < totalEnchantmentsToDisplay; i++)
+			// Decide textures.
+			Texture2D topArrowTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/CalamitasCurseUI_ArrowUp");
+			Texture2D bottomArrowTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/CalamitasCurseUI_ArrowDown");
+			if (TopButtonClickCountdown > 0f)
+				topArrowTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/CalamitasCurseUI_ArrowUpClicked");
+			if (BottomButtonClickCountdown > 0f)
+				bottomArrowTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/CalamitasCurseUI_ArrowDownClicked");
+
+			Rectangle topButtonArea = new Rectangle((int)topButtonTopLeft.X, (int)topButtonTopLeft.Y, (int)(topArrowTexture.Width * scale.X), (int)(topArrowTexture.Height * scale.Y));
+			Rectangle bottomButtonArea = new Rectangle((int)bottomButtonTopLeft.X, (int)bottomButtonTopLeft.Y, (int)(bottomArrowTexture.Width * scale.X), (int)(bottomArrowTexture.Height * scale.Y));
+			bool hoveringOverTopArrow = MouseScreenArea.Intersects(topButtonArea);
+			bool hoveringOverBottomArrow = MouseScreenArea.Intersects(bottomButtonArea);
+			if (hoveringOverTopArrow)
 			{
-				Color textColor = Color.Orange;
-				Vector2 scale = Vector2.One;
-				Enchantment enchantment = possibleEnchantments.ElementAt(i);
+				topArrowTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/CalamitasCurseUI_ArrowUpHovered");
 
-				// Make the text for the disenchantment option white to differentiate it from
-				// everything else.
-				if (enchantment.Equals(EnchantmentManager.ClearEnchantment))
-					textColor = Color.White;
+				// Prevent the player from say, firing a weapon while the mouse is hovering over the button.
+				Main.LocalPlayer.mouseInterface = false;
+				Main.blockMouse = true;
+			}
+			if (hoveringOverBottomArrow)
+			{
+				bottomArrowTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/CalamitasCurseUI_ArrowDownHovered");
 
-				// Save this enchantment specifically if it's the one that's going to be selected.
-				if (enchantment.Equals(SelectedEnchantment))
+				// Prevent the player from say, firing a weapon while the mouse is hovering over the button.
+				Main.LocalPlayer.mouseInterface = false;
+				Main.blockMouse = true;
+			}
+
+			// Draw the arrows.
+			if (EnchantIndex > 0)
+				spriteBatch.Draw(topArrowTexture, topButtonTopLeft, null, Color.White, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
+			if (EnchantIndex < possibleEnchantments.Count() - 1)
+				spriteBatch.Draw(bottomArrowTexture, bottomButtonTopLeft, null, Color.White, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
+
+			if (Main.mouseLeft && Main.mouseLeftRelease)
+			{
+				// Decement the enchantment index if the top button is pressed.
+				if (hoveringOverTopArrow && EnchantIndex > 0)
 				{
-					scale *= SelectedEnchantmentScaleFactor;
-					enchantmentToUse = enchantment;
+					EnchantIndex--;
+					TopButtonClickCountdown = 8f;
 				}
 
-				// Draw all options.
-				ChatManager.DrawColorCodedStringWithShadow(spriteBatch, Main.fontMouseText, enchantment.Name, drawPosition, textColor, 0f, Vector2.Zero, scale);
-				textAreas.Add(new Rectangle((int)drawPosition.X, (int)drawPosition.Y, 180, 30));
-				drawPosition.Y += 32f;
+				// Increment the enchantment index if the bottom button is pressed.
+				if (hoveringOverBottomArrow && EnchantIndex < possibleEnchantments.Count() - 1)
+				{
+					EnchantIndex++;
+					TopButtonClickCountdown = 8f;
+				}
 			}
 		}
 
-		public static void InteractWithTextAreas(List<Rectangle> textAreas, IEnumerable<Enchantment> possibleEnchantments)
+		public static void DrawEnchantmentName(SpriteBatch spriteBatch, Vector2 nameDrawPositionTopLeft)
 		{
-			for (int i = 0; i < textAreas.Count; i++)
-			{
-				Rectangle area = textAreas[i];
-				Enchantment enchantmentAtIndex = possibleEnchantments.ElementAt(i);
-				if (Main.mouseLeft && Main.mouseLeftRelease && MouseScreenArea.Intersects(area))
-				{
-					if (SelectedEnchantment.Equals(enchantmentAtIndex))
-						SelectedEnchantment = null;
-					else
-						SelectedEnchantment = enchantmentAtIndex;
-					break;
-				}
-			}
+			Vector2 scale = new Vector2(0.8f, 0.745f);
+			Color drawColor = SelectedEnchantment.Value.Equals(EnchantmentManager.ClearEnchantment) ? Color.White : Color.Orange;
+			ChatManager.DrawColorCodedStringWithShadow(spriteBatch, Main.fontMouseText, SelectedEnchantment.Value.Name, nameDrawPositionTopLeft, drawColor, 0f, Vector2.Zero, scale);
 		}
 
-		public static int DisplayEnchantmentCost(SpriteBatch spriteBatch, out Point costDrawPositionTopLeft)
+		public static int DrawEnchantmentCost(SpriteBatch spriteBatch, Point costDrawPositionTopLeft)
 		{
-			costDrawPositionTopLeft = (ReforgeUITopLeft + new Vector2(18f, 34f)).ToPoint();
 			if (CurrentlyHeldItem.IsAir)
 				return 0;
 
@@ -266,14 +304,21 @@ namespace CalamityMod.UI.CalamitasEnchants
 			return cost;
 		}
 
-		public static void DisplayEnchantmentDescription(SpriteBatch spriteBatch, Point descriptionDrawPositionTopLeft)
+		public static void DrawEnchantmentDescription(SpriteBatch spriteBatch, Point descriptionDrawPositionTopLeft)
 		{
 			Vector2 vectorDrawPosition = descriptionDrawPositionTopLeft.ToVector2();
-			Vector2 scale = new Vector2(0.55f, 0.6f);
-			ChatManager.DrawColorCodedStringWithShadow(spriteBatch, Main.fontMouseText, SelectedEnchantment.Value.Description, vectorDrawPosition, Color.Orange, 0f, Vector2.Zero, scale);
+			Vector2 scale = new Vector2(0.67f, 0.7f);
+			foreach (string line in Utils.WordwrapString(SelectedEnchantment.Value.Description, Main.fontMouseText, 400, 10, out _))
+			{
+				if (string.IsNullOrEmpty(line))
+					continue;
+
+				ChatManager.DrawColorCodedStringWithShadow(spriteBatch, Main.fontMouseText, line, vectorDrawPosition, Color.Orange, 0f, Vector2.Zero, scale);
+				vectorDrawPosition.Y += 16;
+			}
 		}
 
-		public static void InteractWithReforgeIcon(Enchantment? enchantmentToUse, int cost)
+		public static void InteractWithEnchantIcon(Enchantment? enchantmentToUse, int cost)
 		{
 			// If there's no valid item in the slot, do nothing.
 			if (CurrentlyHeldItem.IsAir)
@@ -307,10 +352,6 @@ namespace CalamityMod.UI.CalamitasEnchants
 
 			// Take away the money for the cost.
 			Main.LocalPlayer.BuyItem(cost);
-
-			// Reset the enchantment variables.
-			SelectedEnchantmentScaleFactor = 1f;
-			SelectedEnchantment = null;
 
 			Main.PlaySound(SoundID.DD2_BetsyFlameBreath, Main.LocalPlayer.Center);
 		}
