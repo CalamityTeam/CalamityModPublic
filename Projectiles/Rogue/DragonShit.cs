@@ -53,9 +53,7 @@ namespace CalamityMod.Projectiles.Rogue
                 projectile.velocity *= 1.07f;
             }
             else if (target != null)
-            {
-                projectile.velocity = (projectile.velocity * 23f + projectile.DirectionTo(target.Center) * 14.975f) / 24f;
-            }
+                projectile.velocity = (projectile.velocity * 23f + projectile.SafeDirectionTo(target.Center) * 14.975f) / 24f;
             else
             {
                 projectile.timeLeft = Math.Min(projectile.timeLeft, 15);

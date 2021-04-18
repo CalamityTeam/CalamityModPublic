@@ -79,7 +79,7 @@ namespace CalamityMod.Projectiles.Summon
                 {
                     if (Time++ % 35f == 34f && Collision.CanHit(projectile.position, projectile.width, projectile.height, potentialTarget.position, potentialTarget.width, potentialTarget.height))
                     {
-                        Vector2 velocity = projectile.DirectionTo(potentialTarget.Center) * Main.rand.NextFloat(10f, 18f);
+                        Vector2 velocity = projectile.SafeDirectionTo(potentialTarget.Center) * Main.rand.NextFloat(10f, 18f);
                         Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<Cinder>(), projectile.damage, projectile.knockBack, projectile.owner);
                     }
                 }

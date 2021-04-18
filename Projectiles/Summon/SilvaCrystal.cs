@@ -164,12 +164,7 @@ namespace CalamityMod.Projectiles.Summon
                 projectile.ai[0] += 1f;
                 if (projectile.ai[0] >= 5f)
                 {
-                    Vector2 vector154 = projectile.DirectionTo(Main.npc[num1079].Center);
-                    if (vector154.HasNaNs())
-                    {
-                        vector154 = Vector2.UnitY;
-                    }
-                    int num1082 = (vector154.X > 0f) ? 1 : -1;
+                    int num1082 = (projectile.SafeDirectionTo(Main.npc[num1079].Center, Vector2.UnitY).X > 0f) ? 1 : -1;
                     projectile.direction = num1082;
                     projectile.ai[0] = -20f;
                     projectile.netUpdate = true;

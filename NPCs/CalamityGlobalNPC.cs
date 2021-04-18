@@ -1445,22 +1445,25 @@ namespace CalamityMod.NPCs
 			}
 
 			// Reduce mech boss HP and damage depending on the new ore progression changes
-			if (!NPC.downedMechBossAny)
+			if (CalamityConfig.Instance.EarlyHardmodeProgressionRework)
 			{
-				if (DestroyerIDs.Contains(npc.type) || npc.type == NPCID.Probe || SkeletronPrimeIDs.Contains(npc.type) || npc.type == NPCID.Spazmatism || npc.type == NPCID.Retinazer)
+				if (!NPC.downedMechBossAny)
 				{
-					npc.lifeMax = (int)(npc.lifeMax * 0.8);
-					npc.damage = (int)(npc.damage * 0.8);
-					npc.defDamage = npc.damage;
+					if (DestroyerIDs.Contains(npc.type) || npc.type == NPCID.Probe || SkeletronPrimeIDs.Contains(npc.type) || npc.type == NPCID.Spazmatism || npc.type == NPCID.Retinazer)
+					{
+						npc.lifeMax = (int)(npc.lifeMax * 0.8);
+						npc.damage = (int)(npc.damage * 0.8);
+						npc.defDamage = npc.damage;
+					}
 				}
-			}
-			else if ((!NPC.downedMechBoss1 && !NPC.downedMechBoss2) || (!NPC.downedMechBoss2 && !NPC.downedMechBoss3) || (!NPC.downedMechBoss3 && !NPC.downedMechBoss1))
-			{
-				if (DestroyerIDs.Contains(npc.type) || npc.type == NPCID.Probe || SkeletronPrimeIDs.Contains(npc.type) || npc.type == NPCID.Spazmatism || npc.type == NPCID.Retinazer)
+				else if ((!NPC.downedMechBoss1 && !NPC.downedMechBoss2) || (!NPC.downedMechBoss2 && !NPC.downedMechBoss3) || (!NPC.downedMechBoss3 && !NPC.downedMechBoss1))
 				{
-					npc.lifeMax = (int)(npc.lifeMax * 0.9);
-					npc.damage = (int)(npc.damage * 0.9);
-					npc.defDamage = npc.damage;
+					if (DestroyerIDs.Contains(npc.type) || npc.type == NPCID.Probe || SkeletronPrimeIDs.Contains(npc.type) || npc.type == NPCID.Spazmatism || npc.type == NPCID.Retinazer)
+					{
+						npc.lifeMax = (int)(npc.lifeMax * 0.9);
+						npc.damage = (int)(npc.damage * 0.9);
+						npc.defDamage = npc.damage;
+					}
 				}
 			}
 
@@ -3161,12 +3164,11 @@ namespace CalamityMod.NPCs
 		private void PillarEventProgressionEdit(NPC npc)
 		{
 			// Make pillars a bit more fun by forcing more difficult enemies based on progression.
-			int solarTowerShieldStrength = NPC.ShieldStrengthTowerSolar / 25;
+			int solarTowerShieldStrength = (int)Math.Ceiling(NPC.ShieldStrengthTowerSolar / 25D);
 			switch (solarTowerShieldStrength)
 			{
 				case 4:
-				case 3:
-					// Possible spawns: Corite, Drakanian, Drakomire, Drakomire Rider
+					// Possible spawns: Drakanian, Drakomire, Drakomire Rider
 					switch (npc.type)
 					{
 						case NPCID.SolarCrawltipedeHead:
@@ -3174,22 +3176,33 @@ namespace CalamityMod.NPCs
 						case NPCID.SolarCrawltipedeTail:
 						case NPCID.SolarSolenian:
 						case NPCID.SolarSroller:
+						case NPCID.SolarCorite:
 							npc.active = false;
 							npc.netUpdate = true;
 							break;
+						default:
+							break;
+					}
+					break;
+				case 3:
+					// Possible spawns: Drakomire, Drakomire Rider, Sroller
+					switch (npc.type)
+					{
+						case NPCID.SolarCrawltipedeHead:
+						case NPCID.SolarCrawltipedeBody:
+						case NPCID.SolarCrawltipedeTail:
+						case NPCID.SolarSpearman:
+						case NPCID.SolarSolenian:
 						case NPCID.SolarCorite:
-							if (NPC.CountNPCS(NPCID.SolarCorite) > 2)
-							{
-								npc.active = false;
-								npc.netUpdate = true;
-							}
+							npc.active = false;
+							npc.netUpdate = true;
 							break;
 						default:
 							break;
 					}
 					break;
 				case 2:
-					// Possible spawns: Corite, Drakomire Rider, Sroller
+					// Possible spawns: Drakomire Rider, Selenian, Sroller
 					switch (npc.type)
 					{
 						case NPCID.SolarDrakomire:
@@ -3197,16 +3210,9 @@ namespace CalamityMod.NPCs
 						case NPCID.SolarCrawltipedeBody:
 						case NPCID.SolarCrawltipedeTail:
 						case NPCID.SolarSpearman:
-						case NPCID.SolarSolenian:
+						case NPCID.SolarCorite:
 							npc.active = false;
 							npc.netUpdate = true;
-							break;
-						case NPCID.SolarCorite:
-							if (NPC.CountNPCS(NPCID.SolarCorite) > 3)
-							{
-								npc.active = false;
-								npc.netUpdate = true;
-							}
 							break;
 						default:
 							break;
@@ -3225,19 +3231,12 @@ namespace CalamityMod.NPCs
 							npc.active = false;
 							npc.netUpdate = true;
 							break;
-						case NPCID.SolarCorite:
-							if (NPC.CountNPCS(NPCID.SolarCorite) > 4)
-							{
-								npc.active = false;
-								npc.netUpdate = true;
-							}
-							break;
 						default:
 							break;
 					}
 					break;
 				case 0:
-					// Possible spawns: Corite, Selenian, Crawltipede
+					// Possible spawns: Corite, Crawltipede, Selenian
 					switch (npc.type)
 					{
 						case NPCID.SolarDrakomire:
@@ -3247,24 +3246,16 @@ namespace CalamityMod.NPCs
 							npc.active = false;
 							npc.netUpdate = true;
 							break;
-						case NPCID.SolarCorite:
-							if (NPC.CountNPCS(NPCID.SolarCorite) > 5)
-							{
-								npc.active = false;
-								npc.netUpdate = true;
-							}
-							break;
 						default:
 							break;
 					}
 					break;
 			}
 
-			int vortexTowerShieldStrength = NPC.ShieldStrengthTowerVortex / 25;
+			int vortexTowerShieldStrength = (int)Math.Ceiling(NPC.ShieldStrengthTowerVortex / 25D);
 			switch (vortexTowerShieldStrength)
 			{
 				case 4:
-				case 3:
 					// Possible spawns: Alien Larva, Alien Hornet, Alien Queen
 					switch (npc.type)
 					{
@@ -3277,7 +3268,7 @@ namespace CalamityMod.NPCs
 							break;
 					}
 					break;
-				case 2:
+				case 3:
 					// Possible spawns: Alien Larva, Alien Hornet, Alien Queen, Vortexian
 					if (npc.type == NPCID.VortexRifleman)
 					{
@@ -3285,7 +3276,7 @@ namespace CalamityMod.NPCs
 						npc.netUpdate = true;
 					}
 					break;
-				case 1:
+				case 2:
 					// Possible spawns: Alien Larva, Alien Hornet, Alien Queen, Storm Diver
 					if (npc.type == NPCID.VortexSoldier)
 					{
@@ -3293,16 +3284,16 @@ namespace CalamityMod.NPCs
 						npc.netUpdate = true;
 					}
 					break;
+				case 1:
 				case 0:
 					// Possible spawns: Alien Larva, Alien Hornet, Alien Queen, Vortexian, Storm Diver
 					break;
 			}
 
-			int nebulaTowerShieldStrength = NPC.ShieldStrengthTowerNebula / 25;
+			int nebulaTowerShieldStrength = (int)Math.Ceiling(NPC.ShieldStrengthTowerNebula / 25D);
 			switch (nebulaTowerShieldStrength)
 			{
 				case 4:
-				case 3:
 					// Possible spawns: Brain Suckler
 					switch (npc.type)
 					{
@@ -3316,7 +3307,7 @@ namespace CalamityMod.NPCs
 							break;
 					}
 					break;
-				case 2:
+				case 3:
 					// Possible spawns: Brain Suckler, Predictor
 					switch (npc.type)
 					{
@@ -3329,7 +3320,7 @@ namespace CalamityMod.NPCs
 							break;
 					}
 					break;
-				case 1:
+				case 2:
 					// Possible spawns: Brain Suckler, Predictor, Evolution Beast
 					if (npc.type == NPCID.NebulaBrain)
 					{
@@ -3337,6 +3328,7 @@ namespace CalamityMod.NPCs
 						npc.netUpdate = true;
 					}
 					break;
+				case 1:
 				case 0:
 					// Possible spawns: Predictor, Evolution Beast, Nebula Floater
 					if (npc.type == NPCID.NebulaHeadcrab)
@@ -3347,11 +3339,10 @@ namespace CalamityMod.NPCs
 					break;
 			}
 
-			int stardustTowerShieldStrength = NPC.ShieldStrengthTowerStardust / 25;
+			int stardustTowerShieldStrength = (int)Math.Ceiling(NPC.ShieldStrengthTowerStardust / 25D);
 			switch (stardustTowerShieldStrength)
 			{
 				case 4:
-				case 3:
 					// Possible spawns: Milkyway Weaver, Star Cell
 					switch (npc.type)
 					{
@@ -3365,7 +3356,7 @@ namespace CalamityMod.NPCs
 							break;
 					}
 					break;
-				case 2:
+				case 3:
 					// Possible spawns: Milkyway Weaver, Stargazer, Twinkle Popper
 					switch (npc.type)
 					{
@@ -3378,7 +3369,7 @@ namespace CalamityMod.NPCs
 							break;
 					}
 					break;
-				case 1:
+				case 2:
 					// Possible spawns: Stargazer, Twinkle Popper, Flow Invader
 					switch (npc.type)
 					{
@@ -3393,6 +3384,7 @@ namespace CalamityMod.NPCs
 							break;
 					}
 					break;
+				case 1:
 				case 0:
 					// Possible spawns: Twinkle Popper, Flow Invader
 					switch (npc.type)
@@ -3934,9 +3926,7 @@ namespace CalamityMod.NPCs
                                     npc2.ai[0] = -1000 * Main.rand.Next(3);
 
                                     if (Main.netMode == NetmodeID.Server && slime < Main.maxNPCs)
-                                    {
                                         NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, slime, 0f, 0f, 0f, 0, 0, 0);
-                                    }
                                 }
                             }
                         }
@@ -3951,9 +3941,7 @@ namespace CalamityMod.NPCs
                     case NPCID.EnchantedSword:
                     case NPCID.CrimsonAxe:
                         if (npc.life <= npc.lifeMax * 0.5)
-                        {
                             npc.justHit = false;
-                        }
 
                         break;
 
@@ -3964,25 +3952,19 @@ namespace CalamityMod.NPCs
                     case NPCID.BlackRecluse:
                     case NPCID.BlackRecluseWall:
                         if (npc.life <= npc.lifeMax * 0.25)
-                        {
                             npc.justHit = false;
-                        }
 
                         break;
 
                     case NPCID.Paladin:
                         if (npc.life <= npc.lifeMax * 0.15)
-                        {
                             npc.justHit = false;
-                        }
 
                         break;
 
                     case NPCID.Clown:
                         if (Main.netMode != NetmodeID.MultiplayerClient && !Main.player[npc.target].dead)
-                        {
                             npc.ai[2] += 29f;
-                        }
 
                         break;
                 }
@@ -3990,9 +3972,7 @@ namespace CalamityMod.NPCs
                 if (npc.type == NPCType<SandTortoise>() || npc.type == NPCType<PlaguedTortoise>())
                 {
                     if (npc.life <= npc.lifeMax * 0.25)
-                    {
                         npc.justHit = false;
-                    }
                 }
             }
         }
@@ -4064,6 +4044,16 @@ namespace CalamityMod.NPCs
 			{
 				spawnRate = (int)(spawnRate * 0.25);
 				maxSpawns = (int)(maxSpawns * 10f);
+			}
+
+			if (NPC.LunarApocalypseIsUp)
+			{
+				if ((player.ZoneTowerNebula && NPC.ShieldStrengthTowerNebula == 0) || (player.ZoneTowerStardust && NPC.ShieldStrengthTowerStardust == 0) ||
+					(player.ZoneTowerVortex && NPC.ShieldStrengthTowerVortex == 0) || (player.ZoneTowerSolar && NPC.ShieldStrengthTowerSolar == 0))
+				{
+					spawnRate = (int)(spawnRate * 0.85);
+					maxSpawns = (int)(maxSpawns * 1.25f);
+				}
 			}
 
 			if (CalamityWorld.revenge)
@@ -5174,7 +5164,7 @@ namespace CalamityMod.NPCs
 				return CalamityWorld.downedSCal;
 			}
 
-			return false;
+			return true;
 		}
 		#endregion
 

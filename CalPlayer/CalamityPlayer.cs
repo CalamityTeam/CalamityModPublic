@@ -108,6 +108,7 @@ namespace CalamityMod.CalPlayer
         public bool noLifeRegen = false;
         public int itemTypeLastReforged = 0;
         public int reforgeTierSafety = 0;
+		public bool finalTierAccessoryReforge = false;
         public int defenseDamage = 0;
         public float rangedAmmoCost = 1f;
         public bool heldGaelsLastFrame = false;
@@ -156,7 +157,6 @@ namespace CalamityMod.CalPlayer
         #region Stat Meter
         public int[] damageStats = new int[6];
         public int[] critStats = new int[4];
-        public float actualMeleeDamageStat = 0f;
         public int defenseStat = 0;
         public int DRStat = 0;
         public int meleeSpeedStat = 0;
@@ -297,10 +297,11 @@ namespace CalamityMod.CalPlayer
         public AndromedaPlayerState andromedaState;
         public int andromedaCripple;
         public const float UnicornSpeedNerfPower = 0.8f;
-        #endregion
+		public const float MechanicalCartSpeedNerfPower = 0.7f;
+		#endregion
 
-        #region Pet
-        public bool thirdSage = false;
+		#region Pet
+		public bool thirdSage = false;
         public bool thirdSageH = true; // Third sage healing
         public bool perfmini = false;
         public bool akato = false;
@@ -1068,6 +1069,7 @@ namespace CalamityMod.CalPlayer
             boost.AddWithCondition("bossHPBar", drawBossHPBar);
             boost.AddWithCondition("drawSmallText", shouldDrawSmallText);
             boost.AddWithCondition("fullHPRespawn", healToFull);
+			boost.AddWithCondition("finalTierAccessoryReforge", finalTierAccessoryReforge);
 
             boost.AddWithCondition("newMerchantInventory", newMerchantInventory);
             boost.AddWithCondition("newPainterInventory", newPainterInventory);
@@ -1143,8 +1145,9 @@ namespace CalamityMod.CalPlayer
             drawBossHPBar = boost.Contains("bossHPBar");
             shouldDrawSmallText = boost.Contains("drawSmallText");
             healToFull = boost.Contains("fullHPRespawn");
+			finalTierAccessoryReforge = boost.Contains("finalTierAccessoryReforge");
 
-            newMerchantInventory = boost.Contains("newMerchantInventory");
+			newMerchantInventory = boost.Contains("newMerchantInventory");
             newPainterInventory = boost.Contains("newPainterInventory");
             newDyeTraderInventory = boost.Contains("newDyeTraderInventory");
             newPartyGirlInventory = boost.Contains("newPartyGirlInventory");
@@ -1301,7 +1304,8 @@ namespace CalamityMod.CalPlayer
 
                 BitsByte flags6 = reader.ReadByte();
                 newBanditInventory = flags6[0];
-                newCalamitasInventory = flags6[1];
+                finalTierAccessoryReforge = flags6[1];
+                newCalamitasInventory = flags6[2];
             }
             else
             {
@@ -2542,7 +2546,7 @@ namespace CalamityMod.CalPlayer
             if (Main.snowTiles > 300)
                 player.ZoneSnow = true;
 
-            Mod fargos = ModLoader.GetMod("Fargowiltas");
+            Mod fargos = CalamityMod.Instance.fargos;
             if (fargos != null)
             {
                 //Fargo's fountain effects
@@ -2973,13 +2977,13 @@ namespace CalamityMod.CalPlayer
                 if (prismaticSet && !prismaticCooldown && prismaticLasers <= 0)
                     prismaticLasers = CalamityUtils.SecondsToFrames(35f);
             }
-            if (CalamityMod.AstralArcanumUIHotkey.JustPressed && astralArcanum)
+            if (CalamityMod.AstralArcanumUIHotkey.JustPressed && astralArcanum && !areThereAnyDamnBosses)
             {
                 AstralArcanumUI.Toggle();
             }
             if (CalamityMod.AstralTeleportHotKey.JustPressed)
             {
-                if (celestialJewel)
+                if (celestialJewel && !areThereAnyDamnBosses)
                 {
                     if (Main.netMode == NetmodeID.SinglePlayer)
                     {
@@ -8832,7 +8836,7 @@ namespace CalamityMod.CalPlayer
         #region Nurse Modifications
         public override bool ModifyNurseHeal(NPC nurse, ref int health, ref bool removeDebuffs, ref string chatText)
         {
-            if (CalamityWorld.death && areThereAnyDamnBosses)
+            if ((CalamityWorld.death || CalamityWorld.malice) && areThereAnyDamnBosses)
             {
                 chatText = "Now is not the time!";
                 return false;

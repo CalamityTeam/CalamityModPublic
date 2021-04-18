@@ -51,13 +51,13 @@ namespace CalamityMod.NPCs
                 return false;
 
             // Servants of Cthulhu and Probes do not provide free hearts in Rev+.
-                if (CalamityWorld.revenge && (npc.type == NPCID.ServantofCthulhu || npc.type == NPCID.Probe))
+            if (CalamityWorld.revenge && (npc.type == NPCID.ServantofCthulhu || npc.type == NPCID.Probe))
                 NPCLoader.blockLoot.Add(ItemID.Heart);
 
             //
             // Ozzatron 17FEB2021: A NOTE about PreNPCLoot vs NPCLoot
             // PreNPCLoot runs before the boss is marked as dead. This means it is required for lore items and Resident Evil ammo.
-            // Because we already have clauses here for every boss, it is more convenient to drop everything here than it is
+            // Because we already have clauses here for every boss, it is more convenient to drop everything here than it is.
             // to iterate through all the bosses twice.
             //
 
@@ -73,19 +73,18 @@ namespace CalamityMod.NPCs
             // Determine whether this NPC is the second Twin killed in a fight, regardless of which Twin it is.
             bool lastTwinStanding = false;
             if (npc.type == NPCID.Retinazer)
-            {
                 lastTwinStanding = !NPC.AnyNPCs(NPCID.Spazmatism);
-            }
             else if (npc.type == NPCID.Spazmatism)
-            {
                 lastTwinStanding = !NPC.AnyNPCs(NPCID.Retinazer);
-            }
 
             // Mechanical Bosses' combined lore item
             bool mechLore = !NPC.downedMechBossAny && (lastTwinStanding || npc.type == NPCID.TheDestroyer || npc.type == NPCID.SkeletronPrime);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeMechs>(), true, mechLore);
 
-            if (npc.type == NPCID.KingSlime)
+			if (CalamityWorld.armageddon)
+				ArmageddonLoot(npc);
+
+			if (npc.type == NPCID.KingSlime)
             {
                 // Drop a huge spray of Gel items
                 int minGel = Main.expertMode ? 90 : 60;
@@ -207,23 +206,27 @@ namespace CalamityMod.NPCs
                 if (!Main.hardMode)
                 {
 					// Increase altar count to allow natural mech boss spawning.
-					WorldGen.altarCount++;
+					if (CalamityConfig.Instance.EarlyHardmodeProgressionRework)
+						WorldGen.altarCount++;
 
                     string key2 = "Mods.CalamityMod.UglyBossText";
                     Color messageColor2 = Color.Aquamarine;
 					CalamityUtils.DisplayLocalizedText(key2, messageColor2);
 
-					string key3 = "Mods.CalamityMod.HardmodeOreTier1Text";
-					Color messageColor3 = new Color(50, 255, 130);
-					WorldGenerationMethods.SpawnOre(TileID.Cobalt, 12E-05, .4f, .6f);
-					WorldGenerationMethods.SpawnOre(TileID.Palladium, 12E-05, .4f, .6f);
-					CalamityUtils.DisplayLocalizedText(key3, messageColor3);
+					if (CalamityConfig.Instance.EarlyHardmodeProgressionRework)
+					{
+						string key3 = "Mods.CalamityMod.HardmodeOreTier1Text";
+						Color messageColor3 = new Color(50, 255, 130);
+						WorldGenerationMethods.SpawnOre(TileID.Cobalt, 12E-05, .4f, .6f);
+						WorldGenerationMethods.SpawnOre(TileID.Palladium, 12E-05, .4f, .6f);
+						CalamityUtils.DisplayLocalizedText(key3, messageColor3);
+					}
 				}
             }
             else if (lastTwinStanding)
             {
 				// Only drop hallowed bars after all mechs are down
-				if (!NPC.downedMechBoss1 || !NPC.downedMechBoss2 || !NPC.downedMechBoss3)
+				if ((!NPC.downedMechBoss1 || !NPC.downedMechBoss2 || !NPC.downedMechBoss3) && CalamityConfig.Instance.EarlyHardmodeProgressionRework)
 					DropHelper.BlockDrops(ItemID.HallowedBar);
 
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<MysteriousCircuitry>(), Main.expertMode, CalamityGlobalNPC.DraedonMayhem, 8, 16);
@@ -238,13 +241,13 @@ namespace CalamityMod.NPCs
                 CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.Stylist, ModContent.NPCType<DILF>(), ModContent.NPCType<FAP>(), ModContent.NPCType<THIEF>() }, !NPC.downedMechBoss1 || NPC.downedMechBoss2 || !NPC.downedMechBoss3);
                 CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.Steampunker }, NPC.downedMechBoss2 || !CalamityConfig.Instance.SellVanillaSummons);
 
-				if (!NPC.downedMechBoss2)
+				if (!NPC.downedMechBoss2 && CalamityConfig.Instance.EarlyHardmodeProgressionRework)
 					SpawnMechBossHardmodeOres();
             }
             else if (npc.type == NPCID.TheDestroyer)
             {
 				// Only drop hallowed bars after all mechs are down
-				if (!NPC.downedMechBoss1 || !NPC.downedMechBoss2 || !NPC.downedMechBoss3)
+				if ((!NPC.downedMechBoss1 || !NPC.downedMechBoss2 || !NPC.downedMechBoss3) && CalamityConfig.Instance.EarlyHardmodeProgressionRework)
 					DropHelper.BlockDrops(ItemID.HallowedBar);
 
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<MysteriousCircuitry>(), Main.expertMode, CalamityGlobalNPC.DraedonMayhem, 8, 16);
@@ -259,13 +262,13 @@ namespace CalamityMod.NPCs
                 CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.Stylist, ModContent.NPCType<DILF>(), ModContent.NPCType<FAP>(), ModContent.NPCType<THIEF>() }, NPC.downedMechBoss1 || !NPC.downedMechBoss2 || !NPC.downedMechBoss3);
                 CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.Steampunker }, NPC.downedMechBoss1 || !CalamityConfig.Instance.SellVanillaSummons);
 
-				if (!NPC.downedMechBoss1)
+				if (!NPC.downedMechBoss1 && CalamityConfig.Instance.EarlyHardmodeProgressionRework)
 					SpawnMechBossHardmodeOres();
 			}
             else if (npc.type == NPCID.SkeletronPrime)
             {
 				// Only drop hallowed bars after all mechs are down
-				if (!NPC.downedMechBoss1 || !NPC.downedMechBoss2 || !NPC.downedMechBoss3)
+				if ((!NPC.downedMechBoss1 || !NPC.downedMechBoss2 || !NPC.downedMechBoss3) && CalamityConfig.Instance.EarlyHardmodeProgressionRework)
 					DropHelper.BlockDrops(ItemID.HallowedBar);
 
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<MysteriousCircuitry>(), Main.expertMode, CalamityGlobalNPC.DraedonMayhem, 8, 16);
@@ -281,7 +284,7 @@ namespace CalamityMod.NPCs
                 CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.Stylist, ModContent.NPCType<DILF>(), ModContent.NPCType<FAP>(), ModContent.NPCType<THIEF>() }, !NPC.downedMechBoss1 || !NPC.downedMechBoss2 || NPC.downedMechBoss3);
                 CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.Steampunker }, NPC.downedMechBoss3 || !CalamityConfig.Instance.SellVanillaSummons);
 
-				if (!NPC.downedMechBoss3)
+				if (!NPC.downedMechBoss3 && CalamityConfig.Instance.EarlyHardmodeProgressionRework)
 					SpawnMechBossHardmodeOres();
 			}
             else if (npc.type == NPCID.Plantera)
@@ -669,10 +672,54 @@ namespace CalamityMod.NPCs
 
             return true;
         }
-        #endregion
+		#endregion
 
-        #region NPCLoot
-        public override void NPCLoot(NPC npc)
+		#region Armageddon Loot
+		private void ArmageddonLoot(NPC npc)
+		{
+			switch (npc.type)
+			{
+				case NPCID.EaterofWorldsHead:
+				case NPCID.EaterofWorldsBody:
+				case NPCID.EaterofWorldsTail:
+					if (npc.boss) // only drop from the 1 "boss" segment (redcode)
+						DropHelper.DropArmageddonBags(npc);
+					break;
+
+				case NPCID.Retinazer: // only drop if spaz is already dead
+					if (!NPC.AnyNPCs(NPCID.Spazmatism))
+						DropHelper.DropArmageddonBags(npc);
+					break;
+
+				case NPCID.Spazmatism: // only drop if ret is already dead
+					if (!NPC.AnyNPCs(NPCID.Retinazer))
+						DropHelper.DropArmageddonBags(npc);
+					break;
+
+				case NPCID.KingSlime:
+				case NPCID.EyeofCthulhu:
+				case NPCID.BrainofCthulhu:
+				case NPCID.QueenBee:
+				case NPCID.SkeletronHead:
+				case NPCID.WallofFlesh:
+				case NPCID.TheDestroyer:
+				case NPCID.SkeletronPrime:
+				case NPCID.Plantera:
+				case NPCID.Golem:
+				case NPCID.DD2Betsy:
+				case NPCID.DukeFishron:
+				case NPCID.MoonLordCore:
+					DropHelper.DropArmageddonBags(npc);
+					break;
+
+				default:
+					break;
+			}
+		}
+		#endregion
+
+		#region NPCLoot
+		public override void NPCLoot(NPC npc)
         {
             // LATER -- keeping bosses alive lets draedon mayhem continue even after killing mechs
             // Reset Draedon Mayhem to false if no bosses are alive
@@ -685,9 +732,6 @@ namespace CalamityMod.NPCs
                 }
             }
 
-            if (CalamityWorld.armageddon)
-                ArmageddonLoot(npc);
-
             // Miscellaneous on-enemy-kill effects.
             CheckBossSpawn(npc);
             if (CalamityWorld.rainingAcid)
@@ -698,50 +742,6 @@ namespace CalamityMod.NPCs
             CommonLoot(npc);
             TownNPCLoot(npc);
             EventLoot(npc, Main.pumpkinMoon, Main.snowMoon, Main.eclipse);
-        }
-        #endregion
-
-        #region Armageddon Loot
-        private void ArmageddonLoot(NPC npc)
-        {
-            switch (npc.type)
-            {
-                case NPCID.EaterofWorldsHead:
-                case NPCID.EaterofWorldsBody:
-                case NPCID.EaterofWorldsTail:
-                    if (npc.boss) // only drop from the 1 "boss" segment (redcode)
-                        DropHelper.DropArmageddonBags(npc);
-                    break;
-
-                case NPCID.Retinazer: // only drop if spaz is already dead
-                    if (!NPC.AnyNPCs(NPCID.Spazmatism))
-                        DropHelper.DropArmageddonBags(npc);
-                    break;
-
-                case NPCID.Spazmatism: // only drop if ret is already dead
-                    if (!NPC.AnyNPCs(NPCID.Retinazer))
-                        DropHelper.DropArmageddonBags(npc);
-                    break;
-
-                case NPCID.KingSlime:
-                case NPCID.EyeofCthulhu:
-                case NPCID.BrainofCthulhu:
-                case NPCID.QueenBee:
-                case NPCID.SkeletronHead:
-                case NPCID.WallofFlesh:
-                case NPCID.TheDestroyer:
-                case NPCID.SkeletronPrime:
-                case NPCID.Plantera:
-                case NPCID.Golem:
-                case NPCID.DD2Betsy:
-                case NPCID.DukeFishron:
-                case NPCID.MoonLordCore:
-                    DropHelper.DropArmageddonBags(npc);
-                    break;
-
-                default:
-                    break;
-            }
         }
         #endregion
 

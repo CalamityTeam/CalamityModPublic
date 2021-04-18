@@ -17,7 +17,6 @@ using Microsoft.Xna.Framework.Graphics;
 using System.IO;
 using Terraria;
 using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 using CalamityMod.Items.Armor.Vanity;
 
@@ -87,7 +86,7 @@ namespace CalamityMod.NPCs.AquaticScourge
         {
 			if (npc.justHit || npc.life <= npc.lifeMax * 0.99 || BossRushEvent.BossRushActive)
 			{
-				Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
+                Mod calamityModMusic = CalamityMod.Instance.musicMod;
 				if (calamityModMusic != null)
 					music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/AquaticScourge");
 				else

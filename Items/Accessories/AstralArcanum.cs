@@ -38,7 +38,7 @@ namespace CalamityMod.Items.Accessories
             {
                 if (line2.mod == "Terraria" && line2.Name == "Tooltip6")
                 {
-                    line2.text = "Press " + hotkey + " to toggle teleportation UI";
+                    line2.text = "Press " + hotkey + " to toggle teleportation UI while no bosses are alive";
                 }
             }
         }

@@ -19,7 +19,7 @@ Stealth strikes continuously leave spectral clones in their wake");
 
         public override void SafeSetDefaults()
         {
-            item.damage = 1060;
+            item.damage = 955;
             item.knockBack = 8f;
 
             item.width = 102;

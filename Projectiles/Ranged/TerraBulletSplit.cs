@@ -31,7 +31,7 @@ namespace CalamityMod.Projectiles.Ranged
             aiType = ProjectileID.Bullet;
         }
 
-		public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 90;
+		public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 90 && target.CanBeChasedBy(projectile);
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
@@ -65,7 +65,7 @@ namespace CalamityMod.Projectiles.Ranged
 				speed = projectile.velocity.Length();
 
 			if (projectile.timeLeft < 90)
-				CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 450f, speed, 12f);
+				CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, 450f, speed, 12f);
 		}
     }
 }

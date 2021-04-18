@@ -105,13 +105,11 @@ namespace CalamityMod.Projectiles.Summon
 
 			if (homeIn)
 			{
-				Vector2 homeInVector = projectile.DirectionTo(center);
-				if (homeInVector.HasNaNs())
-					homeInVector = Vector2.UnitY;
+				Vector2 moveDirection = projectile.SafeDirectionTo(center, Vector2.UnitY);
 
-                float homingRatio = 20f;
+                float homingInertia = 20f;
                 float homingVelocity = 20f;
-				projectile.velocity = (projectile.velocity * homingRatio + homeInVector * homingVelocity) / (homingRatio + 1f);
+				projectile.velocity = (projectile.velocity * homingInertia + moveDirection * homingVelocity) / (homingInertia + 1f);
 			}
         }
 

@@ -64,7 +64,7 @@ namespace CalamityMod.Projectiles.Ranged
 
 			if (speed == 0f)
 				speed = projectile.velocity.Length();
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 200f, speed, 12f);
+			CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, 200f, speed, 12f);
             return false;
         }
 

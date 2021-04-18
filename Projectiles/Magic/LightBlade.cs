@@ -70,7 +70,7 @@ namespace CalamityMod.Projectiles.Magic
                     projectile.ai[1] = 0f;
                 else
                 {
-                    Vector2 homingVec = projectile.DirectionTo(paired.Center) * projectile.ai[0];
+                    Vector2 homingVec = projectile.SafeDirectionTo(paired.Center) * projectile.ai[0];
                     projectile.velocity = (projectile.velocity * (SwordHomingStrength - 1f) + homingVec) / SwordHomingStrength;
                 }
             }

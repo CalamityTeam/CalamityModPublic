@@ -92,7 +92,7 @@ namespace CalamityMod.NPCs.Yharon
             npc.noTileCollide = true;
             npc.netAlways = true;
 
-            Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
+            Mod calamityModMusic = CalamityMod.Instance.musicMod;
             if (calamityModMusic != null)
                 music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/YHARON");
             else
@@ -989,7 +989,7 @@ namespace CalamityMod.NPCs.Yharon
 							}
 							foreach (int t in targets)
 							{
-								Vector2 velocity2 = Vector2.Normalize(Main.player[t].Center + Main.player[t].velocity * 20f - flareDustBulletHellSpawn) * 10f;
+								Vector2 velocity2 = Vector2.Normalize(Main.player[t].Center + Main.player[t].velocity * 30f - flareDustBulletHellSpawn) * 8f;
 								int type = ModContent.ProjectileType<FlareDust>();
 								int proj = Projectile.NewProjectile(flareDustBulletHellSpawn, velocity2, type, npc.GetProjectileDamage(ModContent.ProjectileType<FlareDust>()), 0f, Main.myPlayer, 2f, 0f);
 								Main.projectile[proj].extraUpdates += 1;
@@ -1358,7 +1358,7 @@ namespace CalamityMod.NPCs.Yharon
 							}
 							foreach (int t in targets)
 							{
-								Vector2 velocity2 = Vector2.Normalize(Main.player[t].Center + Main.player[t].velocity * 20f - flareDustBulletHellSpawn) * 10f;
+								Vector2 velocity2 = Vector2.Normalize(Main.player[t].Center + Main.player[t].velocity * 30f - flareDustBulletHellSpawn) * 8f;
 								int type = ModContent.ProjectileType<FlareDust>();
 								int proj = Projectile.NewProjectile(flareDustBulletHellSpawn, velocity2, type, npc.GetProjectileDamage(ModContent.ProjectileType<FlareDust>()), 0f, Main.myPlayer, 2f, 0f);
 								Main.projectile[proj].extraUpdates += 1;
@@ -1552,7 +1552,7 @@ namespace CalamityMod.NPCs.Yharon
 
             if (!moveCloser)
             {
-                Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
+                Mod calamityModMusic = CalamityMod.Instance.musicMod;
                 if (calamityModMusic != null)
                     music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/DragonGod");
                 else
@@ -1723,7 +1723,7 @@ namespace CalamityMod.NPCs.Yharon
 					npc.ai[2] = (vectorCenter.X < targetData.Center.X) ? 1 : -1;
 
 				Vector2 destination = targetData.Center + new Vector2(-npc.ai[2], 0f);
-				Vector2 desiredVelocity = npc.DirectionTo(destination) * velocity;
+				Vector2 desiredVelocity = npc.SafeDirectionTo(destination) * velocity;
 
 				if (!targetDead)
 				{
@@ -1882,7 +1882,7 @@ namespace CalamityMod.NPCs.Yharon
 
 					if (num28 == 5 && npc.ai[1] < phaseSwitchTimer + teleportPhaseTimer)
 					{
-						float newRotation = npc.DirectionTo(targetData.Center).ToRotation();
+						float newRotation = npc.AngleTo(targetData.Center);
 						float amount = 0.04f;
 
 						if (npc.spriteDirection == -1)
@@ -1915,7 +1915,7 @@ namespace CalamityMod.NPCs.Yharon
 
 					if (num28 == 7 && doFastChargeTelegraph)
 					{
-						float newRotation = npc.DirectionTo(targetData.Center).ToRotation();
+						float newRotation = npc.AngleTo(targetData.Center);
 						float amount = 0.04f;
 
 						if (npc.spriteDirection == -1)
@@ -1989,7 +1989,7 @@ namespace CalamityMod.NPCs.Yharon
                     {
                         case 2: //charge
                         {
-                            Vector2 vector = npc.DirectionTo(targetData.Center);
+                            Vector2 vector = npc.SafeDirectionTo(targetData.Center, Vector2.UnitX * npc.spriteDirection);
                             npc.spriteDirection = (vector.X > 0f) ? 1 : -1;
                             npc.rotation = vector.ToRotation();
 
@@ -2010,7 +2010,7 @@ namespace CalamityMod.NPCs.Yharon
                         }
                         case 5: //spin move
                         {
-                            Vector2 vector3 = npc.DirectionTo(targetData.Center);
+                            Vector2 vector3 = npc.SafeDirectionTo(targetData.Center, Vector2.UnitX * npc.spriteDirection);
                             npc.spriteDirection = (vector3.X > 0f) ? 1 : -1;
                             npc.rotation = vector3.ToRotation();
 
@@ -2023,7 +2023,7 @@ namespace CalamityMod.NPCs.Yharon
                         }
                         case 7: //fast charge
                         {
-                            Vector2 vector = npc.DirectionTo(targetData.Center);
+                            Vector2 vector = npc.SafeDirectionTo(targetData.Center, Vector2.UnitX * npc.spriteDirection);
                             npc.spriteDirection = (vector.X > 0f) ? 1 : -1;
                             npc.rotation = vector.ToRotation();
 
@@ -2066,7 +2066,7 @@ namespace CalamityMod.NPCs.Yharon
 				if (npc.ai[1] < fireballBreathTimer)
                 {
                     Vector2 vector4 = targetData.Center + new Vector2(num29 * -750f, -300f);
-                    Vector2 value = npc.DirectionTo(vector4) * 16f;
+                    Vector2 value = npc.SafeDirectionTo(vector4) * 16f;
 
                     if (npc.Distance(vector4) < 16f)
                         npc.Center = vector4;
@@ -2120,7 +2120,7 @@ namespace CalamityMod.NPCs.Yharon
                 if (npc.ai[1] < splittingFireballBreathTimer)
                 {
                     Vector2 vector5 = targetData.Center + new Vector2(num31 * -750f, -300f);
-                    Vector2 value2 = npc.DirectionTo(vector5) * splittingFireballBreathPhaseVelocity;
+                    Vector2 value2 = npc.SafeDirectionTo(vector5) * splittingFireballBreathPhaseVelocity;
 
                     npc.velocity = Vector2.Lerp(npc.velocity, value2, 0.0333333351f);
 
@@ -2132,7 +2132,7 @@ namespace CalamityMod.NPCs.Yharon
                 }
                 else if (npc.ai[1] == splittingFireballBreathTimer)
                 {
-                    Vector2 vector6 = npc.DirectionTo(targetData.Center);
+                    Vector2 vector6 = npc.SafeDirectionTo(targetData.Center, Vector2.UnitX * npc.spriteDirection);
                     vector6.Y *= 0.15f;
                     vector6 = vector6.SafeNormalize(Vector2.UnitX * npc.direction);
 
@@ -2146,8 +2146,8 @@ namespace CalamityMod.NPCs.Yharon
                 }
                 else
                 {
-                    npc.position.X += npc.DirectionTo(targetData.Center).X * 7f;
-                    npc.position.Y += npc.DirectionTo(targetData.Center + new Vector2(0f, -400f)).Y * 6f;
+                    npc.position.X += npc.SafeDirectionTo(targetData.Center).X * 7f;
+                    npc.position.Y += npc.SafeDirectionTo(targetData.Center + new Vector2(0f, -400f)).Y * 6f;
 
                     float xOffset = 30f;
                     Vector2 position = vectorCenter + new Vector2((110f + xOffset) * npc.direction, -20f).RotatedBy(npc.rotation);
@@ -2214,7 +2214,7 @@ namespace CalamityMod.NPCs.Yharon
 								}
 								foreach (int t in targets)
 								{
-									Vector2 velocity2 = Vector2.Normalize(Main.player[t].Center + Main.player[t].velocity * 20f - flareDustBulletHellSpawn) * 10f;
+									Vector2 velocity2 = Vector2.Normalize(Main.player[t].Center + Main.player[t].velocity * 30f - flareDustBulletHellSpawn) * (projectileVelocity * 0.7f);
 									int type = ModContent.ProjectileType<FlareDust>();
 									int proj = Projectile.NewProjectile(flareDustBulletHellSpawn, velocity2, type, npc.GetProjectileDamage(ModContent.ProjectileType<FlareDust>()), 0f, Main.myPlayer, 2f, 0f);
 									Main.projectile[proj].extraUpdates += 1;
@@ -2244,7 +2244,7 @@ namespace CalamityMod.NPCs.Yharon
 								}
 								foreach (int t in targets)
 								{
-									Vector2 velocity2 = Vector2.Normalize(Main.player[t].Center + Main.player[t].velocity * 20f - flareDustBulletHellSpawn) * 10f;
+									Vector2 velocity2 = Vector2.Normalize(Main.player[t].Center + Main.player[t].velocity * 30f - flareDustBulletHellSpawn) * 8f;
 									int type = ModContent.ProjectileType<FlareDust>();
 									int proj = Projectile.NewProjectile(flareDustBulletHellSpawn, velocity2, type, npc.GetProjectileDamage(ModContent.ProjectileType<FlareDust>()), 0f, Main.myPlayer, 2f, 0f);
 									Main.projectile[proj].extraUpdates += 1;
@@ -2277,7 +2277,7 @@ namespace CalamityMod.NPCs.Yharon
                 if (npc.ai[1] == 0f)
                 {
                     Vector2 destination2 = targetData.Center + new Vector2(0f, -200f);
-                    Vector2 desiredVelocity2 = npc.DirectionTo(destination2) * velocity * 1.5f;
+                    Vector2 desiredVelocity2 = npc.SafeDirectionTo(destination2) * velocity * 1.5f;
                     npc.SimpleFlyMovement(desiredVelocity2, acceleration * 1.5f);
 
                     int num35 = (vectorCenter.X < targetData.Center.X) ? 1 : -1;
@@ -2400,7 +2400,7 @@ namespace CalamityMod.NPCs.Yharon
             {
                 npc.velocity *= 0.9f;
 
-                Vector2 vector = npc.DirectionTo(targetData.Center);
+                Vector2 vector = npc.SafeDirectionTo(targetData.Center, -Vector2.UnitY);
                 npc.spriteDirection = (vector.X > 0f) ? 1 : -1;
                 npc.rotation = vector.ToRotation();
 
@@ -2444,7 +2444,7 @@ namespace CalamityMod.NPCs.Yharon
                 }
             }
 
-            float num42 = npc.DirectionTo(targetData.Center).ToRotation();
+            float num42 = npc.AngleTo(targetData.Center);
             float num43 = 0.04f;
 
             switch ((int)npc.ai[0])
@@ -2949,8 +2949,12 @@ namespace CalamityMod.NPCs.Yharon
 		public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
 		{
             if (projectile.type == ModContent.ProjectileType<ReaperProjectile>())
+                damage = (int)(damage * 0.7);
+            if (projectile.type == ModContent.ProjectileType<TimeBoltKnife>())
                 damage = (int)(damage * 0.85);
-		}
+            if (projectile.type == ModContent.ProjectileType<PhantasmalSoul>() || projectile.type == ModContent.ProjectileType<PhantasmalRuinProj>() || projectile.type == ModContent.ProjectileType<PhantasmalRuinGhost>())
+                damage = (int)(damage * 0.95);
+        }
 		#endregion
 
 		#region HP Bar Cooldown Slot and Stats

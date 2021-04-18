@@ -23,7 +23,7 @@ namespace CalamityMod.Projectiles.Magic
             projectile.magic = true;
         }
 
-		public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 50;
+		public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 50 && target.CanBeChasedBy(projectile);
 
 		public override void AI()
         {
@@ -67,7 +67,7 @@ namespace CalamityMod.Projectiles.Magic
             }
 
 			if (projectile.timeLeft < 50)
-				CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 600f, 12f, 20f);
+				CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, 600f, 12f, 20f);
 		}
 
         public override void Kill(int timeLeft)

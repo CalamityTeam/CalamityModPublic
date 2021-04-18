@@ -97,7 +97,7 @@ namespace CalamityMod.Projectiles.Summon
                 }
                 Vector2 destination = player.Center + projectile.ai[1].ToRotationVector2() * new Vector2(1f, (float)Math.Cos(projectile.ai[1])) * 200f;
 
-                projectile.velocity = (projectile.velocity * 18f + projectile.DirectionTo(destination) * 14f) / 20f;
+                projectile.velocity = (projectile.velocity * 18f + projectile.SafeDirectionTo(destination) * 14f) / 20f;
 
                 projectile.frameCounter++;
                 if (projectile.frameCounter >= 6)
@@ -109,8 +109,8 @@ namespace CalamityMod.Projectiles.Summon
                 {
                     projectile.frame = (projectile.localAI[1] == 1f).ToInt() * 4;
                 }
-
-			projectile.MinionAntiClump(0.1f);
+                
+                projectile.MinionAntiClump(0.1f);
                 if (projectile.Distance(player.Center) > 2700f)
                 {
                     projectile.Center = player.Center;
@@ -126,7 +126,7 @@ namespace CalamityMod.Projectiles.Summon
                     float acceleration = (projectile.localAI[1] == 1f) ? 1.6f : 0.8f;
                     float minSpeed = (projectile.localAI[1] == 1f) ? 13f : 8f;
                     float maxSpeed = (projectile.localAI[1] == 1f) ? 21f : 18f;
-                    projectile.velocity = projectile.DirectionTo(potentialTarget.Center) * MathHelper.Clamp(projectile.velocity.Length() + acceleration, minSpeed, maxSpeed);
+                    projectile.velocity = projectile.SafeDirectionTo(potentialTarget.Center) * MathHelper.Clamp(projectile.velocity.Length() + acceleration, minSpeed, maxSpeed);
                     projectile.rotation = projectile.AngleTo(potentialTarget.Center) + (projectile.spriteDirection == 1).ToInt() * MathHelper.Pi;
                 }
                 else if (projectile.ai[0] > 0)
@@ -137,7 +137,7 @@ namespace CalamityMod.Projectiles.Summon
                 else if (projectile.Distance(potentialTarget.Center) >= 1100f)
                 {
                     projectile.rotation = projectile.rotation.AngleTowards(projectile.AngleTo(potentialTarget.Center) + (projectile.spriteDirection == 1).ToInt() * MathHelper.Pi, 0.1f);
-                    projectile.velocity = projectile.DirectionTo(potentialTarget.Center) * MathHelper.Clamp(projectile.velocity.Length() + 2f, 6f, 15f);
+                    projectile.velocity = projectile.SafeDirectionTo(potentialTarget.Center) * MathHelper.Clamp(projectile.velocity.Length() + 2f, 6f, 15f);
                     SeekingTarget = true;
                     projectile.ai[0] = 0f;
                 }

@@ -43,7 +43,7 @@ namespace CalamityMod.Projectiles.Ranged
 
 			if (projectile.alpha < 128)
 			{
-				CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 300f, 12f, 20f);
+				CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, 300f, 12f, 20f);
 			}
         }
 

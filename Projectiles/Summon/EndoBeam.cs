@@ -3,9 +3,10 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
 using Terraria;
-using Terraria.ID;
 using Terraria.Enums;
+using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.Projectiles.Summon
 {
     public class EndoBeam : ModProjectile
@@ -38,7 +39,7 @@ namespace CalamityMod.Projectiles.Summon
             projectile.timeLeft = timeToExist;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 10;
-			projectile.coldDamage = true;
+            projectile.coldDamage = true;
         }
 
         // Netcode for sending and receiving shit
@@ -200,11 +201,6 @@ namespace CalamityMod.Projectiles.Summon
                 return true;
             }
             return false;
-        }
-
-        public override void OnHitPlayer(Player target, int damage, bool crit)
-        {
-            target.AddBuff(ModLoader.GetMod("CalamityMod").BuffType("GodSlayerInferno"), 300);
         }
     }
 }

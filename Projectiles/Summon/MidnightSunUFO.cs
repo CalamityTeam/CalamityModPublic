@@ -95,12 +95,12 @@ namespace CalamityMod.Projectiles.Summon
                     }
                     float angle = MathHelper.ToRadians(2f * projectile.ai[0] % 180f);
                     Vector2 destination = potentialTarget.Center - new Vector2((float)Math.Cos(angle) * potentialTarget.width * 0.65f, 250f);
-                    projectile.velocity = Vector2.Lerp(projectile.velocity, projectile.DirectionTo(destination) * 24f, 0.03f);
+                    projectile.velocity = Vector2.Lerp(projectile.velocity, projectile.SafeDirectionTo(destination) * 24f, 0.03f);
+
                     if (projectile.ai[0] % 3f == 2f && potentialTarget.Top.Y > projectile.Bottom.Y)
                     {
-                        Projectile.NewProjectile(projectile.Bottom, projectile.DirectionTo(potentialTarget.Center).RotatedByRandom(0.15f) * 25f, 
-                            ModContent.ProjectileType<MidnightSunLaser>(),
-                            projectile.damage, projectile.knockBack, projectile.owner);
+                        Vector2 laserVelocity = projectile.SafeDirectionTo(potentialTarget.Center, Vector2.UnitY).RotatedByRandom(0.15f) * 25f;
+                        Projectile.NewProjectile(projectile.Bottom, laserVelocity, ModContent.ProjectileType<MidnightSunLaser>(), projectile.damage, projectile.knockBack, projectile.owner);
                     }
 					projectile.MinionAntiClump(0.35f);
                 }
@@ -137,7 +137,7 @@ namespace CalamityMod.Projectiles.Summon
             }
             else
             {
-                projectile.velocity = (projectile.velocity * 15f + projectile.DirectionTo(player.Center - new Vector2(player.direction * -80f, 160f)) * 19f) / 16f;
+                projectile.velocity = (projectile.velocity * 15f + projectile.SafeDirectionTo(player.Center - new Vector2(player.direction * -80f, 160f)) * 19f) / 16f;
 
                 Vector2 distanceVector = player.Center - projectile.Center;
                 if (distanceVector.Length() > DistanceToCheck * 1.5f)

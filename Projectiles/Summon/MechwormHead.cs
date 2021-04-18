@@ -292,7 +292,7 @@ namespace CalamityMod.Projectiles.Summon
                 projectile.velocity = projectile.velocity.ToRotation().AngleTowards(projectile.AngleTo(target.Center), angularTurnSpeed).ToRotationVector2() * newSpeed;
 
                 // If the worm is very close to aiming directly at the target, immediately switch from redirecting to charging.
-                if (Vector2.Dot(projectile.velocity.SafeNormalize(Vector2.Zero), projectile.DirectionTo(target.Center)) > 0.86f)
+                if (Vector2.Dot(projectile.velocity.SafeNormalize(Vector2.Zero), projectile.SafeDirectionTo(target.Center)) > 0.86f)
                 {
                     AttackStateTimer += LaserRedirectFrames - (AttackStateTimer % LaserChargeFrames);
                     projectile.netUpdate = true;
@@ -303,7 +303,7 @@ namespace CalamityMod.Projectiles.Summon
             if (AttackStateTimer % (LaserChargeFrames + LaserRedirectFrames) == LaserChargeFrames)
             {
                 // Charge and fire three lasers.
-                projectile.velocity = projectile.DirectionTo(target.Center) * MaxAttackFlySpeed;
+                projectile.velocity = projectile.SafeDirectionTo(target.Center) * MaxAttackFlySpeed;
 
                 if (Main.myPlayer == projectile.owner)
                 {
@@ -379,7 +379,7 @@ namespace CalamityMod.Projectiles.Summon
                 }
 
                 projectile.alpha = 0;
-                projectile.velocity = projectile.DirectionTo(TeleportEndingPoint) * (MaxAttackFlySpeed + target.velocity.Length() * 0.45f);
+                projectile.velocity = projectile.SafeDirectionTo(TeleportEndingPoint) * (MaxAttackFlySpeed + target.velocity.Length() * 0.45f);
                 projectile.netUpdate = true;
             }
         }

@@ -31,7 +31,7 @@ namespace CalamityMod.Projectiles.Melee
 			projectile.timeLeft = 360;
         }
 
-		public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 240;
+		public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 240 && target.CanBeChasedBy(projectile);
 
 		public override void AI()
         {
@@ -75,12 +75,8 @@ namespace CalamityMod.Projectiles.Melee
 				{
 					if (projectile.Distance(Main.player[projectile.owner].Center) > num954)
 					{
-						Vector2 vector102 = projectile.DirectionTo(Main.player[projectile.owner].Center);
-						if (vector102.HasNaNs())
-						{
-							vector102 = Vector2.UnitY;
-						}
-						projectile.velocity = (projectile.velocity * (num953 - 1f) + vector102 * scaleFactor12) / num953;
+						Vector2 moveDirection = projectile.SafeDirectionTo(Main.player[projectile.owner].Center, Vector2.UnitY);
+						projectile.velocity = (projectile.velocity * (num953 - 1f) + moveDirection * scaleFactor12) / num953;
 					}
 				}
 			}

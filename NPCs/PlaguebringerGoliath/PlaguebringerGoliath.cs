@@ -88,7 +88,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             npc.noTileCollide = true;
             npc.HitSound = SoundID.NPCHit4;
             npc.DeathSound = SoundID.NPCDeath14;
-            Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
+            Mod calamityModMusic = CalamityMod.Instance.musicMod;
             if (calamityModMusic != null)
                 music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/PlaguebringerGoliath");
             else
@@ -1016,27 +1016,6 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
         }
 
         public override bool CheckActive() => canDespawn;
-
-		// Can only hit the target if within certain distance
-		public override bool CanHitPlayer(Player target, ref int cooldownSlot)
-		{
-			Rectangle targetHitbox = target.Hitbox;
-
-			float dist1 = Vector2.Distance(npc.Center, targetHitbox.TopLeft());
-			float dist2 = Vector2.Distance(npc.Center, targetHitbox.TopRight());
-			float dist3 = Vector2.Distance(npc.Center, targetHitbox.BottomLeft());
-			float dist4 = Vector2.Distance(npc.Center, targetHitbox.BottomRight());
-
-			float minDist = dist1;
-			if (dist2 < minDist)
-				minDist = dist2;
-			if (dist3 < minDist)
-				minDist = dist3;
-			if (dist4 < minDist)
-				minDist = dist4;
-
-			return minDist <= 100f;
-		}
 
 		public override void HitEffect(int hitDirection, double damage)
         {

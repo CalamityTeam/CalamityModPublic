@@ -51,8 +51,11 @@ namespace CalamityMod.Items.TreasureBags
             DropHelper.DropItem(player, ItemID.Torch, 25);
             DropHelper.DropItem(player, ItemID.Chest, 3);
 
-            // Difficulty items (doesn't drop in Normal)
-            DropHelper.DropItemCondition(player, ModContent.ItemType<Death>(), Main.expertMode);
+			// Malice item
+			DropHelper.DropItem(player, ModContent.ItemType<Malice>());
+
+			// Difficulty items (doesn't drop in Normal)
+			DropHelper.DropItemCondition(player, ModContent.ItemType<Death>(), Main.expertMode);
             DropHelper.DropItemCondition(player, ModContent.ItemType<DefiledRune>(), Main.expertMode);
 
             // Speedrun King Slime
@@ -62,7 +65,7 @@ namespace CalamityMod.Items.TreasureBags
             DropHelper.DropItemCondition(player, ModContent.ItemType<JoyfulHeart>(), player.name == "Aleksh" || player.name == "Shark Lad");
 
             // Music box (if music mod installed)
-            Mod musicMod = ModLoader.GetMod("CalamityModMusic");
+            Mod musicMod = CalamityMod.Instance.musicMod;
             if (musicMod != null)
                 DropHelper.DropItem(player, musicMod.ItemType("CalamityMusicbox"));
         }

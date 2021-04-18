@@ -99,7 +99,7 @@ namespace CalamityMod.Projectiles.Typeless
                         float chargeSpeed = MathHelper.Lerp(MinChargeSpeed, MaxChargeSpeed, (projectile.ai[0] - WaitTimeRequiredForCharge) / WaitTimeRequiredForMaximumCharge);
                         if (chargeSpeed > MaxChargeSpeed)
                             chargeSpeed = MaxChargeSpeed;
-                        projectile.velocity = projectile.DirectionTo(Main.MouseWorld) * chargeSpeed;
+                        projectile.velocity = projectile.SafeDirectionTo(Main.MouseWorld) * chargeSpeed;
                         IdealVelocity = projectile.velocity;
                         projectile.ai[1] = chargeSpeed;
                         Main.PlaySound(SoundID.Item73, projectile.Center);
@@ -112,7 +112,7 @@ namespace CalamityMod.Projectiles.Typeless
                         {
                             Vector2 dustPosition = Utils.NextVector2Circular(Main.rand, projectile.width * 1.6f, projectile.height * 2.3f) / 2f + projectile.Center;
                             Dust dust = Dust.NewDustPerfect(dustPosition, (int)CalamityDusts.ProfanedFire);
-                            dust.velocity = projectile.DirectionFrom(dust.position) * projectile.Distance(dust.position) / 11f;
+                            dust.velocity = projectile.SafeDirectionTo(dust.position) * projectile.Distance(dust.position) / -11f;
                             dust.velocity += player.velocity;
                             dust.noGravity = true;
                             dust.fadeIn = 1.6f;
@@ -146,7 +146,7 @@ namespace CalamityMod.Projectiles.Typeless
                     projectile.localAI[0] <= MaxCharges &&
                     projectile.localAI[1] <= 0f)
                 {
-                    IdealVelocity = projectile.DirectionTo(Main.MouseWorld) * projectile.ai[1];
+                    IdealVelocity = projectile.SafeDirectionTo(Main.MouseWorld) * projectile.ai[1];
                     projectile.localAI[0]++;
                     projectile.localAI[1] = 40f;
                     Main.PlaySound(SoundID.Item73, projectile.Center);

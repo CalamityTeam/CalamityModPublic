@@ -39,7 +39,7 @@ namespace CalamityMod.Projectiles.Rogue
                 return;
             }
 
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 300f, 8f, 20f);
+			CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, 300f, 8f, 20f);
         }
 
         public override void Kill(int timeLeft)

@@ -219,18 +219,12 @@ namespace CalamityMod.Projectiles.Summon
 					projectile.friendly = true;
 					float minionSpeed = amalgam ? 20f : 8f;
 					float turnSpeed = 14f;
-					Vector2 targetLocation = targetVec - projectile.Center;
-					float targetDist = targetLocation.Length();
+					float targetDist = projectile.Distance(targetVec);
 					if (targetDist < 100f)
 						minionSpeed = amalgam ? 25f : 10f;
 
-					Vector2 homeInVector = projectile.DirectionTo(targetLocation);
-					if (homeInVector.HasNaNs())
-						homeInVector = Vector2.UnitY;
-
-                    targetLocation.Normalize();
-                    targetLocation *= minionSpeed;
-                    projectile.velocity = (projectile.velocity * turnSpeed + targetLocation) / (turnSpeed + 1f);
+					Vector2 homingVelocity = projectile.SafeDirectionTo(targetVec) * minionSpeed;
+                    projectile.velocity = (projectile.velocity * turnSpeed + homingVelocity) / (turnSpeed + 1f);
 				}
 				else
 				{

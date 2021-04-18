@@ -31,7 +31,9 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.Calamity().rogue = true;
         }
 
-        public override void AI()
+		public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 270 && target.CanBeChasedBy(projectile);
+
+		public override void AI()
         {
             projectile.rotation = projectile.velocity.ToRotation() + MathHelper.ToRadians(45f);
             if (projectile.ai[0] == 1f)
@@ -69,10 +71,8 @@ namespace CalamityMod.Projectiles.Rogue
                     }
                 }
             }
-            else
-            {
-				CalamityGlobalProjectile.HomeInOnNPC(projectile, false, projectile.Calamity().stealthStrike ? 300f : 150f, 12f, 20f);
-            }
+            else if (projectile.timeLeft < 270)
+				CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, projectile.Calamity().stealthStrike ? 900f : 450f, 12f, 20f);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

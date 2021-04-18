@@ -107,7 +107,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                     if (targetCount >= MaxLaserCountPerShot)
                         break;
                     Projectile laser = Projectile.NewProjectileDirect(projectile.Center, 
-                                                                      projectile.DirectionTo(target.Center) * 4f, 
+                                                                      projectile.SafeDirectionTo(target.Center) * 4f, 
                                                                       ModContent.ProjectileType<TrackingDiskLaser>(),
                                                                       damage,
                                                                       projectile.knockBack, 
@@ -123,7 +123,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                 NPC potentialTarget = projectile.Center.ClosestNPCAt(MaxTargetSearchDistance);
                 if (potentialTarget != null)
                 {
-                    Projectile.NewProjectile(projectile.Center, projectile.DirectionTo(potentialTarget.Center) * 3f, ModContent.ProjectileType<TrackingDiskLaser>(), damage, projectile.knockBack, projectile.owner);
+                    Projectile.NewProjectile(projectile.Center, projectile.SafeDirectionTo(potentialTarget.Center) * 3f, ModContent.ProjectileType<TrackingDiskLaser>(), damage, projectile.knockBack, projectile.owner);
                 }
             }
         }

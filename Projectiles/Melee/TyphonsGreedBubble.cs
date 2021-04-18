@@ -54,12 +54,8 @@ namespace CalamityMod.Projectiles.Melee
             {
                 if (projectile.Distance(player.Center) > num954)
                 {
-                    Vector2 vector102 = projectile.DirectionTo(player.Center);
-                    if (vector102.HasNaNs())
-                    {
-                        vector102 = Vector2.UnitY;
-                    }
-                    projectile.velocity = (projectile.velocity * (inertia - 1f) + vector102 * speed) / inertia;
+                    Vector2 moveDirection = projectile.SafeDirectionTo(player.Center, Vector2.UnitY);
+                    projectile.velocity = (projectile.velocity * (inertia - 1f) + moveDirection * speed) / inertia;
                 }
             }
             else

@@ -24,7 +24,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.timeLeft = 180;
         }
 
-		public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 150;
+		public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 150 && target.CanBeChasedBy(projectile);
 
 		public override void AI()
         {
@@ -34,7 +34,7 @@ namespace CalamityMod.Projectiles.Rogue
 			{
 				NPC target = projectile.Center.ClosestNPCAt(640f);
 				if (target != null)
-					projectile.velocity = (projectile.velocity * 20f + projectile.DirectionTo(target.Center) * 20f) / 21f;
+					projectile.velocity = (projectile.velocity * 20f + projectile.SafeDirectionTo(target.Center) * 20f) / 21f;
 			}
 
             projectile.alpha += 5;

@@ -413,8 +413,9 @@ namespace CalamityMod.NPCs.GreatSandShark
                                         (float)Main.rand.Next(-3, 4), (float)Main.rand.Next(-12, -6), ModContent.ProjectileType<GreatSandBlast>(), 40, 0f, Main.myPlayer, 0f, 0f);
                             }
                             npc.ai[2] = -30f;
-                            Vector2 vector261 = npc.DirectionTo(vector260 + new Vector2(0f, -80f));
-                            npc.velocity = vector261 * 18f;
+
+                            Vector2 upwardChargeDirection = npc.SafeDirectionTo(vector260 + new Vector2(0f, -80f), -Vector2.UnitY);
+                            npc.velocity = upwardChargeDirection * 18f;
                         }
                     }
                     else
