@@ -10,13 +10,14 @@ namespace CalamityMod.Projectiles.Ranged
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Acceleration Bullet");
+            DisplayName.SetDefault("Acceleration Round");
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 6;
             ProjectileID.Sets.TrailingMode[projectile.type] = 0;
         }
 
         public override void SetDefaults()
         {
+            // Intentionally large bullet hitbox because this thing speeds up significantly
             projectile.width = 8;
             projectile.height = 8;
             projectile.aiStyle = 1;
@@ -49,7 +50,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1, null, false);
+            CalamityUtils.DrawAfterimagesFromEdge(projectile, 0, lightColor);
             return false;
         }
 

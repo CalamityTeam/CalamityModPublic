@@ -37,7 +37,7 @@ namespace CalamityMod.Projectiles.Ranged
             Texture2D texture = ModContent.GetTexture("CalamityMod/Projectiles/Ranged/Nanomachine");
             if (projectile.localAI[1] == 2)
                 texture = ModContent.GetTexture("CalamityMod/Projectiles/Ranged/Nanomachine2");
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1, texture);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1, texture);
             return false;
         }
 

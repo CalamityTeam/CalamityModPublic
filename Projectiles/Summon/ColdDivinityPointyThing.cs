@@ -315,7 +315,7 @@ namespace CalamityMod.Projectiles.Summon
         {
             if (!circling || (!circlingPlayer && recharging == 0))
             {
-                CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], !circlingPlayer ? 1 : 3);
+                CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, !circlingPlayer ? 1 : 3);
             }
             return true;
         }

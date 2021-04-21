@@ -22,8 +22,9 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void SetDefaults()
         {
-            projectile.width = 12;
-            projectile.height = 12;
+            // Intentionally large bullet hitbox
+            projectile.width = 8;
+            projectile.height = 8;
             projectile.friendly = true;
             projectile.ranged = true;
             projectile.extraUpdates = 4;
@@ -54,7 +55,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            CalamityUtils.DrawAfterimagesFromEdge(projectile, 0, lightColor);
             return false;
         }
 

@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class IcyBulletProj : ModProjectile
     {
+        public override void SetStaticDefaults() => DisplayName.SetDefault("Icy Bullet");
+
         public override void SetDefaults()
         {
             projectile.width = 4;
@@ -22,12 +24,7 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.extraUpdates = 1;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 20;
-			projectile.coldDamage = true;
-        }
-
-        public override void SetStaticDefaults()
-        {
-            DisplayName.SetDefault("Icy Bullet");
+            projectile.coldDamage = true;
         }
 
         public override void AI()
