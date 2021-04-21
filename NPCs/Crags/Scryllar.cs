@@ -255,8 +255,6 @@ namespace CalamityMod.NPCs.Crags
         {
             DropHelper.DropItemCondition(npc, ModContent.ItemType<Bloodstone>(), CalamityWorld.downedProvidence, 2, 1, 1);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<EssenceofChaos>(), Main.hardMode, 3, 1, 1);
-            float gaelsChance = Main.expertMode ? 0.03f : 0.02f;
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<GaelsGreatsword>(), CalamityWorld.downedYharon, gaelsChance);
         }
 
         public override void HitEffect(int hitDirection, double damage)

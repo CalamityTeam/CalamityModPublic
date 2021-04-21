@@ -7,6 +7,8 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class GoldenEagle : ModItem
     {
+		private const float Spread = 0.0425f;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Golden Eagle");
@@ -37,14 +39,16 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-			int numProj = 4;
-			float rotation = MathHelper.ToRadians(5);
-			for (int i = 0; i < numProj + 1; i++)
+			Vector2 velocity = new Vector2(speedX, speedY);
+
+			// Fire extra bullets to the left and right
+			for (int i = 0; i < 2; i++)
 			{
-				Vector2 perturbedSpeed = new Vector2(speedX, speedY).RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (numProj - 1)));
-				Projectile.NewProjectile(position, perturbedSpeed, type, damage, knockBack, player.whoAmI);
+				Projectile.NewProjectile(position, velocity.RotatedBy(-Spread * (i + 1)), type, damage, knockBack, player.whoAmI);
+				Projectile.NewProjectile(position, velocity.RotatedBy(+Spread * (i + 1)), type, damage, knockBack, player.whoAmI);
 			}
-			return false;
+
+			return true;
 		}
     }
 }

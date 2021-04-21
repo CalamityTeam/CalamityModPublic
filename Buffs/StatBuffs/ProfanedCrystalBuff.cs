@@ -44,7 +44,7 @@ namespace CalamityMod.Buffs.StatBuffs
 					tip = "You are an emissary of the profaned goddess now!\n" +
 						(offense ? "The " + (Main.dayTime ? "light of the sun" : "heat of the lava") + " empowers your offensive capabilities" : 
 						"The " + (player.wet ? (player.honeyWet ? "honey cools" : "water douses") : "darkness of night cools") + " your flames, empowering your defensive capabilities") +
-						(enrage ? "\nYour weakened life force fuels your desperate attacks" : ""); 
+						(enrage ? "\nYour weakened life force fuels your desperate attacks" : "");
 				}
 			}
 			else if (CalamityWorld.downedSCal)

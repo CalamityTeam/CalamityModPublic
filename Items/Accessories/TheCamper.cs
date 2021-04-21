@@ -59,7 +59,6 @@ namespace CalamityMod.Items.Accessories
             player.AddBuff(BuffID.HeartLamp, 60, true);
             player.AddBuff(BuffID.Campfire, 60, true);
             player.AddBuff(BuffID.WellFed, 60, true);
-            player.lifeRegen += 2;
             Lighting.AddLight(player.Center, 0.825f, 0.66f, 0f);
             if (Main.myPlayer == player.whoAmI)
             {
@@ -93,16 +92,16 @@ namespace CalamityMod.Items.Accessories
                         bool magic = player.ActiveItem().magic;
                         if (summon)
                         {
-                            player.minionKB += 0.10f;
+                            player.minionKB += 0.1f;
                             player.AddBuff(BuffID.Bewitched, 60, true);
                         }
                         else if (rogue)
                         {
-                            modPlayer.throwingVelocity += 0.10f;
+                            modPlayer.throwingVelocity += 0.1f;
                         }
                         else if (melee)
                         {
-                            player.meleeSpeed += 0.10f;
+                            player.meleeSpeed += 0.1f;
                             player.AddBuff(BuffID.Sharpened, 60, true);
                         }
                         else if (ranged)

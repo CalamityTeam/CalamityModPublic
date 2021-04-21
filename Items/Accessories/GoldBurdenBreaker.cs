@@ -14,7 +14,8 @@ namespace CalamityMod.Items.Accessories
             Tooltip.SetDefault("The good time\n" +
 				"Go fast\n" +
 				"WARNING: May have disastrous results\n" +
-				"Increases horizontal movement speed beyond comprehension");
+				"Increases horizontal movement speed beyond comprehension\n" +
+				"Does not work while a boss is alive");
         }
 
         public override void SetDefaults()

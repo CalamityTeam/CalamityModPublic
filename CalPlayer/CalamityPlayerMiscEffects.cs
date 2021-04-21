@@ -75,13 +75,6 @@ namespace CalamityMod.CalPlayer
 			// Bool for any existing events, true if any event is active
 			CalamityPlayer.areThereAnyDamnEvents = CalamityGlobalNPC.AnyEvents(player);
 
-			// If any boss NPC is active, apply Zen to the player to reduce spawn rate
-			if (CalamityPlayer.areThereAnyDamnBosses && CalamityConfig.Instance.BossZen)
-			{
-				if (player.whoAmI == Main.myPlayer)
-					player.AddBuff(ModContent.BuffType<BossZen>(), 2, false);
-			}
-
 			// Revengeance effects
 			RevengeanceModeMiscEffects(player, modPlayer, mod);
 
@@ -967,7 +960,7 @@ namespace CalamityMod.CalPlayer
 				{
 					if (modPlayer.aeroSet)
 						player.maxFallSpeed = 15f;
-					if (modPlayer.gSabatonFall > 0 || (player.PortalPhysicsEnabled && CalamityPlayer.areThereAnyDamnBosses))
+					if (modPlayer.gSabatonFall > 0 || player.PortalPhysicsEnabled)
 						player.maxFallSpeed = 20f;
 				}
 			}
@@ -1346,20 +1339,6 @@ namespace CalamityMod.CalPlayer
 				// is no check to indicate such.
 				float damageMult = 0.15f;
 				modPlayer.throwingDamage += modPlayer.raiderStack / 150f * damageMult;
-			}
-
-			// Spirit Glyph defense buff
-			if (modPlayer.sDefense)
-			{
-				player.statDefense += 5;
-				player.endurance += 0.05f;
-			}
-
-			// Hallowed Rune defense buff
-			if (modPlayer.hallowedDefense)
-			{
-				player.statDefense += 7;
-				player.endurance += 0.07f;
 			}
 
 			if (modPlayer.kamiBoost)
@@ -2705,6 +2684,7 @@ namespace CalamityMod.CalPlayer
 			double flightTimeMult = 1D +
 				(modPlayer.ZoneAstral ? 0.05 : 0D) +
 				(modPlayer.harpyRing ? 0.2 : 0D) +
+				(modPlayer.angelTreads ? 0.1 : 0D) +
 				(modPlayer.blueCandle ? 0.1 : 0D) +
 				(modPlayer.soaring ? 0.1 : 0D) +
 				(modPlayer.prismaticGreaves ? 0.1 : 0D) +

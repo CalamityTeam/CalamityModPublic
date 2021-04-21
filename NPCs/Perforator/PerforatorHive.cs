@@ -85,6 +85,14 @@ namespace CalamityMod.NPCs.Perforator
 			if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > CalamityGlobalNPC.CatchUpDistance200Tiles)
 				npc.TargetClosest();
 
+			// Don't deal damage for 3 seconds after spawning
+			npc.damage = npc.defDamage;
+			if (npc.ai[1] < 180f)
+			{
+				npc.ai[1] += 1f;
+				npc.damage = 0;
+			}
+
 			Player player = Main.player[npc.target];
 
 			bool malice = CalamityWorld.malice;

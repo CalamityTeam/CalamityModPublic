@@ -2044,8 +2044,11 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             if (Main.player[npc.target].Calamity().sCalKillCount < 5)
                 Main.player[npc.target].Calamity().sCalKillCount++;
 
-            // Materials
-            int essenceMin = Main.expertMode ? 30 : 20;
+			// Legendary drop for SCal
+			DropHelper.DropItemCondition(npc, ModContent.ItemType<GaelsGreatsword>(), true, CalamityWorld.malice);
+
+			// Materials
+			int essenceMin = Main.expertMode ? 30 : 20;
             int essenceMax = Main.expertMode ? 40 : 30;
             DropHelper.DropItem(npc, ModContent.ItemType<CalamitousEssence>(), true, essenceMin, essenceMax);
 

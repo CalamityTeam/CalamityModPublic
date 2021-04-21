@@ -1,4 +1,5 @@
 using CalamityMod.Buffs;
+using CalamityMod.Buffs.StatBuffs;
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.CalPlayer;
@@ -87,6 +88,9 @@ namespace CalamityMod.NPCs
 		// Distance values for when bosses increase velocity to catch up to their target
 		public const float CatchUpDistance200Tiles = 3200f;
 		public const float CatchUpDistance350Tiles = 5600f;
+
+		// Boss Zen distance
+		private const float BossZenDistance = 6400f;
 
 		// Max velocity used in contact damage scaling
 		public float maxVelocity = 0f;
@@ -1968,6 +1972,16 @@ namespace CalamityMod.NPCs
 
 			if (KillTime > 0)
 			{
+				// If any boss NPC is active, apply Zen to nearby players to reduce spawn rate
+				if (CalamityConfig.Instance.BossZen)
+				{
+					if (Main.netMode != NetmodeID.Server)
+					{
+						if (!Main.player[Main.myPlayer].dead && Main.player[Main.myPlayer].active && Vector2.Distance(Main.player[Main.myPlayer].Center, npc.Center) < BossZenDistance)
+							Main.player[Main.myPlayer].AddBuff(BuffType<BossZen>(), 2);
+					}
+				}
+
 				if (AITimer < KillTime)
 					AITimer++;
 
