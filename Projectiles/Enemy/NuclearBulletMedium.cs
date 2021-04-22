@@ -40,9 +40,8 @@ namespace CalamityMod.Projectiles.Enemy
                 Player player = Main.player[(int)projectile.ai[1]];
                 float inertia = 10f;
                 if (projectile.Distance(player.Center) > 70f)
-                {
-                    projectile.velocity = (projectile.velocity * inertia + projectile.DirectionTo(player.Center) * 18.5f) / (inertia + 1f);
-                }
+                    projectile.velocity = (projectile.velocity * inertia + projectile.SafeDirectionTo(player.Center) * 18.5f) / (inertia + 1f);
+
                 projectile.tileCollide = true;
             }
             else

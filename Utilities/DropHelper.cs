@@ -1,5 +1,6 @@
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Ammo.FiniteUse;
+using CalamityMod.NPCs;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
@@ -32,26 +33,6 @@ namespace CalamityMod
         /// Weapons in Expert Mode typically have this chance to drop (decimal number out of 1.0).
         /// </summary>
         public const float BagWeaponDropRateFloat = 0.3333333f;
-
-        /// <summary>
-        /// Legendary drops have a 1 in X chance of dropping, where X is this variable.
-        /// </summary>
-        public const int LegendaryDropRateInt = 100;
-
-        /// <summary>
-        /// Legendary weapons have this chance to drop (decimal number out of 1.0).
-        /// </summary>
-        public const float LegendaryDropRateFloat = 0.01f;
-
-        /// <summary>
-        /// Rare Item Variants have a 1 in X chance of dropping, where X is this variable.
-        /// </summary>
-        public const int RareVariantDropRateInt = 40;
-
-        /// <summary>
-        /// Rare Item Variants have this chance to drop (decimal number out of 1.0).
-        /// </summary>
-        public const float RareVariantDropRateFloat = 0.025f;
         #endregion
 
         #region Block Drops
@@ -339,10 +320,10 @@ namespace CalamityMod
         /// Drops the correct number of boss bags for Armageddon.
         /// </summary>
         /// <param name="theBoss">The NPC to drop boss bags for.</param>
-        /// <returns>The number of boss bags dropped.</returns>
+        /// <returns>The number of boss bags dropped. No bags are dropped if the boss has been downed already.</returns>
         public static int DropArmageddonBags(NPC theBoss)
         {
-            if (!CalamityWorld.armageddon)
+            if (!CalamityWorld.armageddon || CalamityGlobalNPC.GetDownedBossVariable(theBoss.type))
                 return 0;
 
             for (int i = 0; i < ArmageddonExtraBags; ++i)
@@ -466,50 +447,6 @@ namespace CalamityMod
             }
 
             return dropped;
-        }
-
-        /// <summary>
-        /// Drops an item that may instead be replaced by a given Rare Item Variant (RIV).
-        /// </summary>
-        /// <param name="npc">The NPC which should drop the item.</param>
-        /// <param name="itemID">The ID of the normal item to drop.</param>
-        /// <param name="rareID">The ID of the rare item to drop.</param>
-        /// <param name="itemChance">The chance that one of the two will drop. A decimal number <= 1.0.</param>
-        /// <param name="rareChance">The chance that the RIV will drop. A decimal number <= 1.0.</param>
-        /// <returns>Whether an item was spawned.</returns>
-        public static bool DropItemRIV(NPC npc, int itemID, int rareID, float itemChance, float rareChance = RareVariantDropRateFloat)
-        {
-            float f = Main.rand.NextFloat();
-            bool replaceWithRare = f <= rareChance; // 1/X chance overall of getting RIV
-            if (f <= itemChance) // 1/X chance of getting original OR the RIV replacing it
-            {
-                DropItemCondition(npc, itemID, !replaceWithRare);
-                DropItemCondition(npc, rareID, replaceWithRare);
-                return true;
-            }
-            return false;
-        }
-
-        /// <summary>
-        /// Drops an item that may instead be replaced by a given Rare Item Variant (RIV).
-        /// </summary>
-        /// <param name="player">The player which should receive the item.</param>
-        /// <param name="itemID">The ID of the normal item to drop.</param>
-        /// <param name="rareID">The ID of the rare item to drop.</param>
-        /// <param name="itemChance">The chance that one of the two will drop. A decimal number <= 1.0.</param>
-        /// <param name="rareChance">The chance that the RIV will drop. A decimal number <= 1.0.</param>
-        /// <returns>Whether an item was spawned.</returns>
-        public static bool DropItemRIV(Player player, int itemID, int rareID, float itemChance, float rareChance = RareVariantDropRateFloat)
-        {
-            float f = Main.rand.NextFloat();
-            bool replaceWithRare = f <= rareChance; // 1/X chance overall of getting RIV
-            if (f <= itemChance) // 1/X chance of getting original OR the RIV replacing it
-            {
-                DropItemCondition(player, itemID, !replaceWithRare);
-                DropItemCondition(player, rareID, replaceWithRare);
-                return true;
-            }
-            return false;
         }
         #endregion
 

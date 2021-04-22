@@ -102,7 +102,7 @@ namespace CalamityMod.Projectiles.Summon
                     float chargeSpeed = playerHalfLife ? 25f : 20f;
                     if (projectile.ai[0] >= timePerCharge)
                     {
-                        projectile.velocity = projectile.DirectionTo(potentialTarget.Center) * chargeSpeed;
+                        projectile.velocity = projectile.SafeDirectionTo(potentialTarget.Center) * chargeSpeed;
                         projectile.ai[0] = 0f;
                     }
                     else
@@ -112,15 +112,12 @@ namespace CalamityMod.Projectiles.Summon
                 {
                     float intertia = 0.94f;
                     float homeSpeed = playerHalfLife ? 38f : 32f;
-                    projectile.velocity = Vector2.Lerp(projectile.velocity,
-                        projectile.DirectionTo(potentialTarget.Center) * homeSpeed,
-                        1f - intertia);
+                    projectile.velocity = Vector2.Lerp(projectile.velocity, projectile.SafeDirectionTo(potentialTarget.Center) * homeSpeed, 1f - intertia);
                 }
             }
-            else if (projectile.Distance(player.Center) > 140f)
-            {
-                projectile.velocity = (projectile.velocity * 30f + projectile.DirectionTo(player.Center) * 16f) / 31f;
-            }
+            else if (!projectile.WithinRange(player.Center, 140f))
+                projectile.velocity = (projectile.velocity * 30f + projectile.SafeDirectionTo(player.Center) * 16f) / 31f;
+
             projectile.direction = projectile.spriteDirection = (projectile.velocity.X > 0).ToDirectionInt();
         }
     }

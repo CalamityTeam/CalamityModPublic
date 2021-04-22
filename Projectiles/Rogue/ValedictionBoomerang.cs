@@ -50,7 +50,7 @@ namespace CalamityMod.Projectiles.Rogue
 				}
 				else
 				{
-					CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 400f, 20f, 20f);
+					CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 200f, 12f, 20f);
 				}
 			}
 			else
@@ -113,7 +113,7 @@ namespace CalamityMod.Projectiles.Rogue
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
-			CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+			CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
 			return false;
 		}
 

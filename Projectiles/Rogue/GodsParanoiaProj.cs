@@ -46,7 +46,7 @@ namespace CalamityMod.Projectiles.Rogue
                 Main.dust[num137].noGravity = true;
             }
 
-            projectile.StickyProjAI(30);
+            projectile.StickyProjAI(50);
 
             if (projectile.ai[0] == 1f)
             {
@@ -90,7 +90,7 @@ namespace CalamityMod.Projectiles.Rogue
 			else
 			{
 				projectile.rotation += 0.2f * (float)projectile.direction;
-				CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 800f, (projectile.Calamity().stealthStrike ? 14f : 7f), 20f);
+				CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 300f, projectile.Calamity().stealthStrike ? 12f : 7f, 20f);
 			}
 
             Player player = Main.player[projectile.owner];
@@ -118,7 +118,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
             return false;
         }
 

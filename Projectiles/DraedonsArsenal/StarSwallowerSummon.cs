@@ -222,7 +222,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                 minimumFrame = 7;
                 maximumFrame = 11;
                 float inertia = 30f;
-                projectile.velocity = (projectile.velocity * (inertia - 1) + projectile.DirectionTo(player.Center) * 18f) / inertia;
+                projectile.velocity = (projectile.velocity * (inertia - 1) + projectile.SafeDirectionTo(player.Center) * 18f) / inertia;
             }
             // Otherwise hop around when on the ground.
             else if (projectile.oldPosition.Y == projectile.position.Y)

@@ -89,7 +89,7 @@ namespace CalamityMod.Projectiles.Magic
 				Vector2 center = projectile.Center;
 				float homingRange = 800f;
 				bool homeIn = false;
-				float N = 30f;
+				float inertia = 30f;
 				float homingVelocity = 20f;
 
 				for (int i = 0; i < Main.maxNPCs; i++)
@@ -110,11 +110,9 @@ namespace CalamityMod.Projectiles.Magic
 				if (homeIn)
 				{
 					projectile.extraUpdates = 1;
-					Vector2 homeInVector = projectile.DirectionTo(center);
-					if (homeInVector.HasNaNs())
-						homeInVector = Vector2.UnitY;
+					Vector2 homeInVector = projectile.SafeDirectionTo(center, Vector2.UnitY);
 
-					projectile.velocity = (projectile.velocity * N + homeInVector * homingVelocity) / (N + 1f);
+					projectile.velocity = (projectile.velocity * inertia + homeInVector * homingVelocity) / (inertia + 1f);
 				}
 				else
 					projectile.extraUpdates = 0;
@@ -129,7 +127,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
             return false;
         }
 

@@ -68,7 +68,7 @@ namespace CalamityMod.Projectiles.Rogue
                 projectile.frame = 0;
             }
             projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver4;
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 400f, 24f, 20f);
+			CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 200f, 12f, 20f);
         }
 
         public override void Kill(int timeLeft)
@@ -123,7 +123,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
             return false;
         }
     }

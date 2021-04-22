@@ -7,8 +7,8 @@ namespace CalamityMod.Buffs.StatBuffs
     {
         public override void SetDefaults()
         {
-            DisplayName.SetDefault("Boss Zen");
-            Description.SetDefault("The active boss is reducing spawn rates...a lot");
+            DisplayName.SetDefault("Boss Effects");
+            Description.SetDefault("This tooltip is edited in the function below");
             Main.debuff[Type] = true;
 			Main.buffNoSave[Type] = true;
 			Main.buffNoTimeDisplay[Type] = true;
@@ -19,5 +19,15 @@ namespace CalamityMod.Buffs.StatBuffs
         {
             player.Calamity().bossZen = true;
         }
-    }
+
+		public override void ModifyBuffTip(ref string tip, ref int rare)
+		{
+			tip = "The nearby boss is:\n" +
+				"Greatly reducing enemy spawn rates\n" +
+				"Disabling teleportation effects\n" +
+				"Increasing Nurse healing cost by 400%\n" +
+				"Disabling Death Mode weather and biome effects\n" +
+				"Disabling Target and Super Dummy hitboxes";
+		}
+	}
 }

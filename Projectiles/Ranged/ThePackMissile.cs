@@ -64,9 +64,10 @@ namespace CalamityMod.Projectiles.Ranged
             }
             if (homeIn)
             {
-                projectile.velocity = (projectile.velocity * 15f + projectile.DirectionTo(targetCenter) * 30f) / 16f;
+                projectile.velocity = (projectile.velocity * 15f + projectile.SafeDirectionTo(targetCenter) * 30f) / 16f;
                 return;
             }
+
             projectile.frameCounter++;
             if (projectile.frameCounter > 3)
             {
@@ -110,7 +111,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
             return false;
         }
     }

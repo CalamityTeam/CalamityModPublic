@@ -13,8 +13,7 @@ namespace CalamityMod.Items.Accessories
             Tooltip.SetDefault("Causes stars to fall and releases bees when injured\n" +
 							"When at full HP, your damage is increased based on your damage reduction\n" +
                             "Damage taken at full HP is halved\n" +
-							"This has a 10 second cooldown\n" +
-							"Rare Item Variant");
+							"This has a 10 second cooldown");
         }
 
         public override void SetDefaults()
@@ -24,8 +23,8 @@ namespace CalamityMod.Items.Accessories
             item.value = CalamityGlobalItem.Rarity3BuyPrice;
             item.rare = ItemRarityID.Orange;
             item.accessory = true;
-            item.Calamity().customRarity = CalamityRarity.RareVariant;
-        }
+			item.Calamity().challengeDrop = true;
+		}
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {

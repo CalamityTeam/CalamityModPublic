@@ -38,7 +38,8 @@ namespace CalamityMod.Projectiles.Magic
         public override void AI()
         {
             Projectile parent = Main.projectile[(int)projectile.ai[0]];
-            if (!parent.active) projectile.Kill();
+            if (!parent.active) 
+				projectile.Kill();
 
             projectile.rotation += 0.7f;
 
@@ -46,8 +47,9 @@ namespace CalamityMod.Projectiles.Magic
 
             if (projectile.ai[1] > 20)
             {
-                projectile.velocity += projectile.DirectionTo(parent.Center) * 2.5f;
-                if (projectile.Distance(parent.Center) < 75f) projectile.active = false;
+                projectile.velocity += projectile.SafeDirectionTo(parent.Center) * 2.5f;
+				if (projectile.WithinRange(parent.Center, 75f))
+					projectile.Kill();
             }
         }
     }

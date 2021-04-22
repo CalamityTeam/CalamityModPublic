@@ -9,6 +9,7 @@ namespace CalamityMod.Items.Weapons.Rogue
     public class CelestialReaper : RogueWeapon
     {
         public const int BaseDamage = 140;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Celestial Reaper");
@@ -36,6 +37,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.shootSpeed = 20f;
             item.Calamity().rogue = true;
         }
+
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             bool usingStealth = player.Calamity().StealthStrikeAvailable();

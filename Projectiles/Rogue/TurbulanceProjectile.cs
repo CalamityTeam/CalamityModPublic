@@ -85,14 +85,14 @@ namespace CalamityMod.Projectiles.Rogue
 				for (int w = 0; w < 4; w++)
 				{
 					Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
-					Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<TurbulanceWindSlash>(), projectile.damage / 3, projectile.knockBack / 3, Main.myPlayer, 0f, (homeIn ? 1f : 0f));
+					Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<TurbulanceWindSlash>(), projectile.damage / 3, projectile.knockBack / 3, Main.myPlayer, 0f, homeIn ? 1f : 0f);
 				}
 			}
 		}
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
             return false;
         }
     }

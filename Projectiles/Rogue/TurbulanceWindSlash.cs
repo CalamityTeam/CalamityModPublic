@@ -28,10 +28,11 @@ namespace CalamityMod.Projectiles.Rogue
 			projectile.timeLeft = 180;
         }
 
-        public override void AI()
+		public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 150 && target.CanBeChasedBy(projectile);
+
+		public override void AI()
         {
-            projectile.velocity.X *= 0.99f;
-            projectile.velocity.Y *= 0.99f;
+            projectile.velocity *= 0.99f;
             if (projectile.localAI[0] == 0f)
             {
                 projectile.scale += 0.005f;
@@ -60,13 +61,13 @@ namespace CalamityMod.Projectiles.Rogue
 			}
 			if (projectile.ai[1] == 1f)
 			{
-				CalamityGlobalProjectile.HomeInOnNPC(projectile, false, (projectile.ai[0] == 1f ? 500f : 150f), 8f, 20f);
+				CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, projectile.ai[0] == 1f ? 900f : 450f, 8f, 20f);
 			}
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
             return false;
         }
 

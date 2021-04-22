@@ -41,7 +41,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
             return false;
         }
 
@@ -64,7 +64,7 @@ namespace CalamityMod.Projectiles.Ranged
 
 			if (speed == 0f)
 				speed = projectile.velocity.Length();
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 200f, speed, 12f);
+			CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, 200f, speed, 12f);
             return false;
         }
 

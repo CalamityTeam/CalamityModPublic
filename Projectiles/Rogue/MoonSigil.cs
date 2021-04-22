@@ -18,7 +18,6 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.friendly = true;
             projectile.alpha = 0;
             projectile.penetrate = 10;
-            projectile.tileCollide = true;
             projectile.ignoreWater = true;
             projectile.timeLeft = 250;
             projectile.usesLocalNPCImmunity = true;
@@ -40,7 +39,7 @@ namespace CalamityMod.Projectiles.Rogue
                 return;
             }
 
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 600f, 8f, 20f);
+			CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, 300f, 8f, 20f);
         }
 
         public override void Kill(int timeLeft)

@@ -24,7 +24,7 @@ namespace CalamityMod.Buffs.StatBuffs
             {
                 calPlayer.phantomicHeartRegen = 1000;
             }
-            player.lifeRegen += 3;
+            player.lifeRegen += 2;
         }
     }
 }

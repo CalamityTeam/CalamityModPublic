@@ -47,7 +47,6 @@ namespace CalamityMod.Items.TreasureBags
 
             // Materials
             DropHelper.DropItem(player, ModContent.ItemType<EssenceofEleum>(), 5, 9);
-            DropHelper.DropItem(player, ItemID.FrostCore);
 
             // Weapons
             float w = DropHelper.BagWeaponDropRateFloat;

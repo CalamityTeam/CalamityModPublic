@@ -108,6 +108,7 @@ namespace CalamityMod.CalPlayer
         public bool noLifeRegen = false;
         public int itemTypeLastReforged = 0;
         public int reforgeTierSafety = 0;
+		public bool finalTierAccessoryReforge = false;
         public int defenseDamage = 0;
         public float rangedAmmoCost = 1f;
         public bool heldGaelsLastFrame = false;
@@ -155,7 +156,6 @@ namespace CalamityMod.CalPlayer
         #region Stat Meter
         public int[] damageStats = new int[6];
         public int[] critStats = new int[4];
-        public float actualMeleeDamageStat = 0f;
         public int defenseStat = 0;
         public int DRStat = 0;
         public int meleeSpeedStat = 0;
@@ -296,10 +296,11 @@ namespace CalamityMod.CalPlayer
         public AndromedaPlayerState andromedaState;
         public int andromedaCripple;
         public const float UnicornSpeedNerfPower = 0.8f;
-        #endregion
+		public const float MechanicalCartSpeedNerfPower = 0.7f;
+		#endregion
 
-        #region Pet
-        public bool thirdSage = false;
+		#region Pet
+		public bool thirdSage = false;
         public bool thirdSageH = true; // Third sage healing
         public bool perfmini = false;
         public bool akato = false;
@@ -446,8 +447,6 @@ namespace CalamityMod.CalPlayer
         public int gSabatonFall = 0;
         public int gSabatonCooldown = 0;
         public bool sGenerator = false;
-        public bool sDefense = false;
-        public bool sPower = false;
         public bool sRegen = false;
         public bool IBoots = false;
         public bool elysianFire = false;
@@ -481,6 +480,7 @@ namespace CalamityMod.CalPlayer
         public bool celestialJewel = false;
         public bool astralArcanum = false;
         public bool harpyRing = false;
+		public bool angelTreads = false;
         public bool harpyWingBoost = false; //harpy wings + harpy ring
         public bool ironBoots = false;
         public bool depthCharm = false;
@@ -827,9 +827,8 @@ namespace CalamityMod.CalPlayer
         public bool polarisBoostThree = false;
         public bool bloodfinBoost = false;
         public int bloodfinTimer = 30;
-        public bool hallowedDefense = false;
-        public bool hallowedPower = false;
         public bool hallowedRegen = false;
+		public bool hallowedPower = false;
         public bool kamiBoost = false;
         public bool avertorBonus = false;
         #endregion
@@ -1066,6 +1065,7 @@ namespace CalamityMod.CalPlayer
             boost.AddWithCondition("bossHPBar", drawBossHPBar);
             boost.AddWithCondition("drawSmallText", shouldDrawSmallText);
             boost.AddWithCondition("fullHPRespawn", healToFull);
+			boost.AddWithCondition("finalTierAccessoryReforge", finalTierAccessoryReforge);
 
             boost.AddWithCondition("newMerchantInventory", newMerchantInventory);
             boost.AddWithCondition("newPainterInventory", newPainterInventory);
@@ -1140,8 +1140,9 @@ namespace CalamityMod.CalPlayer
             drawBossHPBar = boost.Contains("bossHPBar");
             shouldDrawSmallText = boost.Contains("drawSmallText");
             healToFull = boost.Contains("fullHPRespawn");
+			finalTierAccessoryReforge = boost.Contains("finalTierAccessoryReforge");
 
-            newMerchantInventory = boost.Contains("newMerchantInventory");
+			newMerchantInventory = boost.Contains("newMerchantInventory");
             newPainterInventory = boost.Contains("newPainterInventory");
             newDyeTraderInventory = boost.Contains("newDyeTraderInventory");
             newPartyGirlInventory = boost.Contains("newPartyGirlInventory");
@@ -1297,7 +1298,8 @@ namespace CalamityMod.CalPlayer
 
                 BitsByte flags6 = reader.ReadByte();
                 newBanditInventory = flags6[0];
-            }
+				finalTierAccessoryReforge = flags6[1];
+			}
             else
             {
                 ModContent.GetInstance<CalamityMod>().Logger.Error("Unknown loadVersion: " + loadVersion);
@@ -1559,6 +1561,7 @@ namespace CalamityMod.CalPlayer
             celestialJewel = false;
             astralArcanum = false;
             harpyRing = false;
+			angelTreads = false;
             harpyWingBoost = false; //harpy wings + harpy ring
             darkSunRing = false;
             calamityRing = false;
@@ -1577,14 +1580,11 @@ namespace CalamityMod.CalPlayer
             raiderTalisman = false;
             gSabaton = false;
             sGenerator = false;
-            sDefense = false;
             sRegen = false;
-            sPower = false;
             hallowedRune = false;
             phantomicArtifact = false;
-            hallowedDefense = false;
             hallowedRegen = false;
-            hallowedPower = false;
+			hallowedPower = false;
             kamiBoost = false;
             IBoots = false;
             elysianFire = false;
@@ -2139,12 +2139,9 @@ namespace CalamityMod.CalPlayer
             #endregion
 
             #region Buffs
-            sDefense = false;
             sRegen = false;
-            sPower = false;
-            hallowedDefense = false;
             hallowedRegen = false;
-            hallowedPower = false;
+			hallowedPower = false;
             onyxExcavator = false;
             angryDog = false;
             fab = false;
@@ -2535,7 +2532,7 @@ namespace CalamityMod.CalPlayer
             if (Main.snowTiles > 300)
                 player.ZoneSnow = true;
 
-            Mod fargos = ModLoader.GetMod("Fargowiltas");
+            Mod fargos = CalamityMod.Instance.fargos;
             if (fargos != null)
             {
                 //Fargo's fountain effects
@@ -2966,13 +2963,13 @@ namespace CalamityMod.CalPlayer
                 if (prismaticSet && !prismaticCooldown && prismaticLasers <= 0)
                     prismaticLasers = CalamityUtils.SecondsToFrames(35f);
             }
-            if (CalamityMod.AstralArcanumUIHotkey.JustPressed && astralArcanum)
+            if (CalamityMod.AstralArcanumUIHotkey.JustPressed && astralArcanum && !areThereAnyDamnBosses)
             {
                 AstralArcanumUI.Toggle();
             }
             if (CalamityMod.AstralTeleportHotKey.JustPressed)
             {
-                if (celestialJewel)
+                if (celestialJewel && !areThereAnyDamnBosses)
                 {
                     if (Main.netMode == NetmodeID.SinglePlayer)
                     {
@@ -5236,53 +5233,41 @@ namespace CalamityMod.CalPlayer
                 if (heldItem.type > ItemID.None)
                 {
                     if (heldItem.summon && !heldItem.melee && !heldItem.ranged && !heldItem.magic && !heldItem.Calamity().rogue)
-                    {
                         damageMult += 0.1;
-                    }
                 }
             }
+
             if (isTrueMelee)
             {
 				// Add more true melee damage to the true melee projectile that scales with melee speed
 				// This is done because melee speed does nothing to melee weapons that are purely projectiles
                 damageMult += trueMeleeDamage + ((1f - player.meleeSpeed) * (100f / player.meleeSpeed) / 100f);
             }
+
             if (screwdriver)
             {
                 if (proj.penetrate > 1 || proj.penetrate == -1)
                     damageMult += 0.1;
             }
-            if (sPower)
-            {
-                if (isSummon)
-                    damageMult += 0.1;
-            }
-            if (hallowedPower)
-            {
-                if (isSummon)
-                    damageMult += 0.15;
-            }
+
 			if (auricSet && godSlayerDamage && isTrueMelee)
-			{
 				damageMult += 0.15;
-			}
+
 			if (enraged)
-            {
                 damageMult += 1.25;
-            }
+
             if (silvaCountdown <= 0 && hasSilvaEffect && silvaMage && proj.magic)
-            {
                 damageMult += 0.1;
-            }
+
             if (silvaCountdown <= 0 && hasSilvaEffect && silvaSummon && isSummon)
-            {
                 damageMult += 0.1;
-            }
+
             if (proj.type == ModContent.ProjectileType<FrostsparkBulletProj>())
             {
                 if (target.buffImmune[ModContent.BuffType<GlacialState>()])
                     damageMult += 0.1;
             }
+
             else if (proj.type == ProjectileID.InfernoFriendlyBlast)
             {
                 damageMult += 0.33;
@@ -5290,14 +5275,11 @@ namespace CalamityMod.CalPlayer
             if (brimflameFrenzy && brimflameSet)
             {
                 if (proj.magic)
-                {
                     damageMult += 0.3;
-                }
             }
+
             if (CalamityWorld.revenge && CalamityConfig.Instance.Rippers)
-            {
                 CalamityUtils.ApplyRippersToDamage(this, ref damageMult);
-            }
 
             if ((filthyGlove || electricianGlove) && proj.Calamity().stealthStrike && proj.Calamity().rogue)
             {
@@ -5306,8 +5288,11 @@ namespace CalamityMod.CalPlayer
                 else
                     damageMult += 0.1;
             }
+
+			// Adjust damage based on the damage multiplier
             damage = (int)(damage * damageMult);
 
+			// Old Die damage multiplier, rolls again and takes the higher roll if it's a rogue projectile or the player is wearing rogue armor
             if (oldDie)
             {
                 float diceMult = Main.rand.NextFloat(0.9215f, 1.1205f);
@@ -5942,9 +5927,9 @@ namespace CalamityMod.CalPlayer
             if (phantomicArtifact && player.ownedProjectileCounts[ModContent.ProjectileType<PhantomicShield>()] != 0)
             {
                 Projectile pro = Main.projectile.AsEnumerable().Where(projectile => projectile.friendly && projectile.owner == player.whoAmI && projectile.type == ModContent.ProjectileType<PhantomicShield>()).First();
-                phantomicBulwarkCooldown = 1200; // 20 second cooldown
+                phantomicBulwarkCooldown = 1800; // 30 second cooldown
                 pro.Kill();
-                damage = (int)(damage * 0.8f); //20% damage reduction for a projectile.
+				projectileDamageReduction += 0.2;
             }
 
             if (auralisAuroraCounter >= 300)
@@ -7262,9 +7247,6 @@ namespace CalamityMod.CalPlayer
                 double newDamage = damage - (player.statDefense * defenseMultiplier);
 
                 double newDamageLimit = NPC.downedMoonlord ? 20D : (NPC.downedPlantBoss || CalamityWorld.downedCalamitas) ? 15D : Main.hardMode ? 10D : 5D;
-                /*double bossDamageLimitIncrease = CalamityWorld.death ? 40D : 20D;
-                if (areThereAnyDamnBosses && Main.masterMode)
-                    newDamageLimit += bossDamageLimitIncrease;*/
 
                 if (newDamage < newDamageLimit)
                     newDamage = newDamageLimit;
@@ -8833,7 +8815,7 @@ namespace CalamityMod.CalPlayer
         #region Nurse Modifications
         public override bool ModifyNurseHeal(NPC nurse, ref int health, ref bool removeDebuffs, ref string chatText)
         {
-            if (CalamityWorld.death && areThereAnyDamnBosses)
+            if ((CalamityWorld.death || CalamityWorld.malice) && areThereAnyDamnBosses)
             {
                 chatText = "Now is not the time!";
                 return false;

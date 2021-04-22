@@ -53,8 +53,8 @@ namespace CalamityMod.NPCs.Bumblebirb
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.knockBackResist = 0f;
             npc.boss = true;
-            Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
-            if (calamityModMusic != null)
+            Mod calamityModMusic = CalamityMod.Instance.musicMod;
+			if (calamityModMusic != null)
                 music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/Murderswarm");
             else
                 music = MusicID.Boss4;

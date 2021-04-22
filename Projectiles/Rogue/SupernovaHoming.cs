@@ -42,8 +42,7 @@ namespace CalamityMod.Projectiles.Rogue
             }
             if (projectile.ai[0] < 90)
             {
-                projectile.velocity.X *= 0.98f;
-                projectile.velocity.Y *= 0.98f;
+                projectile.velocity *= 0.98f;
             }
             else
             {
@@ -69,12 +68,9 @@ namespace CalamityMod.Projectiles.Rogue
 				}
 
 				if (homeIn)
-				{
-					Vector2 homeInVector = projectile.DirectionTo(center);
-					if (homeInVector.HasNaNs())
-						homeInVector = Vector2.UnitY;
-
-					projectile.velocity = (projectile.velocity * 20f + homeInVector * 12f) / (21f);
+                {
+                    Vector2 moveDirection = projectile.SafeDirectionTo(center, Vector2.UnitY);
+                    projectile.velocity = (projectile.velocity * 20f + moveDirection * 12f) / (21f);
 				}
                 else
                     projectile.Kill();

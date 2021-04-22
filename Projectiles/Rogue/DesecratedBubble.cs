@@ -46,7 +46,7 @@ namespace CalamityMod.Projectiles.Rogue
             {
 				if (projectile.ai[1] == 0f)
 				{
-					CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 600f, 8f, 20f);
+					CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 200f, 8f, 20f);
 				}
             }
 		}
@@ -82,19 +82,9 @@ namespace CalamityMod.Projectiles.Rogue
 			}
         }
 
-        // Cannot deal damage for the first several frames of existence.
-        public override bool? CanHitNPC(NPC target)
-		{
-			if (projectile.timeLeft >= 100)
-			{
-				return false;
-			}
-			return null;
-		}
+		// Cannot deal damage for the first several frames of existence.
+		public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 100;
 
-        public override bool CanHitPvp(Player target)
-		{
-			return projectile.timeLeft < 100;
-		}
+		public override bool CanHitPvp(Player target) => projectile.timeLeft < 100;
     }
 }

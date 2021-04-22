@@ -67,7 +67,7 @@ namespace CalamityMod.Projectiles.Ranged
                 Vector2 shotPosition = player.RotatedRelativePoint(player.MountedCenter, true);
                 shotPosition += projectile.velocity.ToRotation().ToRotationVector2().RotatedByRandom(MathHelper.ToRadians(40f)).RotatedBy(-0.25f * projectile.spriteDirection) * 42f;
 
-                projectile.velocity = projectile.DirectionTo(Main.MouseWorld);
+                projectile.velocity = projectile.SafeDirectionTo(Main.MouseWorld);
 
                 Vector2 shotVelocity = projectile.velocity * shotSpeed; // The velocity should always be a unit vector.
 
@@ -76,14 +76,13 @@ namespace CalamityMod.Projectiles.Ranged
                 {
                     type = ModContent.ProjectileType<UltimaRay>();
                     shotVelocity = shotVelocity.RotatedByRandom(0.03f);
-                    damage = (int)(damage * 1.5);
                 }
                 // Sometimes fire little sparks if the bow is fully charged.
                 if (Time >= Ultima.FullChargeTime * 0.7f && Main.rand.NextBool(6))
                 {
                     // To ensure that the sparks don't spawn on top of the laser itself.
                     float offsetAngle = Main.rand.NextFloat(0.2f, 0.5f) * Main.rand.NextBool(2).ToDirectionInt();
-                    Vector2 sparkVelocity = projectile.DirectionTo(Main.MouseWorld).RotatedByRandom(0.5f) * 13f;
+                    Vector2 sparkVelocity = projectile.SafeDirectionTo(Main.MouseWorld, Vector2.UnitY).RotatedByRandom(0.5f) * 13f;
                     sparkVelocity = sparkVelocity.RotatedBy(offsetAngle);
                     Projectile.NewProjectile(shotPosition, sparkVelocity, ModContent.ProjectileType<UltimaSpark>(), damage / 3, knockBack, projectile.owner);
                 }

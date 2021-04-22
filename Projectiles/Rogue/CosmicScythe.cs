@@ -51,7 +51,7 @@ namespace CalamityMod.Projectiles.Rogue
                 if (projectile.timeLeft > 350)
                     projectile.velocity *= 1.06f;
                 projectile.damage = (int)(originalDamage * 1.25);
-				CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 1500f, 20f, 20f);
+				CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 300f, 12f, 20f);
             }
         }
 
@@ -64,7 +64,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
             return false;
         }
 

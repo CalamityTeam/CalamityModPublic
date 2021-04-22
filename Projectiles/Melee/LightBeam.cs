@@ -32,10 +32,8 @@ namespace CalamityMod.Projectiles.Melee
         {
             Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0.6f / 255f, 0f, (255 - projectile.alpha) * 0.2f / 255f);
 
-			if (Math.Abs(projectile.velocity.X) + Math.Abs(projectile.velocity.Y) < 18f)
-			{
+			if (projectile.velocity.Length() < 18f)
 				projectile.velocity *= 1.1f;
-			}
 		}
 
         public override Color? GetAlpha(Color lightColor)
@@ -43,15 +41,15 @@ namespace CalamityMod.Projectiles.Melee
             if (projectile.timeLeft < 85)
             {
                 byte b2 = (byte)(projectile.timeLeft * 3);
-                byte a2 = (byte)(100f * ((float)b2 / 255f));
-                return new Color((int)b2, (int)b2, (int)b2, (int)a2);
+                byte a2 = (byte)(100f * (b2 / 255f));
+                return new Color(b2, b2, b2, a2);
             }
             return new Color(255, 255, 255, 100);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 2);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 2);
             return false;
         }
 
@@ -72,8 +70,8 @@ namespace CalamityMod.Projectiles.Melee
 			{
 				for (int k = 0; k < 3; k++)
 				{
-					Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)Main.rand.Next(-35, 36) * 0.2f, (float)Main.rand.Next(-35, 36) * 0.2f, ModContent.ProjectileType<TinyCrystal>(),
-					(int)((double)projectile.damage * 0.5), projectile.knockBack * 0.15f, Main.myPlayer, 1f, 0f);
+					Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, Main.rand.Next(-35, 36) * 0.2f, Main.rand.Next(-35, 36) * 0.2f, ModContent.ProjectileType<TinyCrystal>(),
+					(int)(projectile.damage * 0.5), projectile.knockBack * 0.15f, Main.myPlayer, 1f, 0f);
 				}
 			}
 		}

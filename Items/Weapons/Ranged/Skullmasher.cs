@@ -10,9 +10,9 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Skullmasher");
-            Tooltip.SetDefault("Sniper shotgun, because why not?\n" +
-                "Converts musket balls into high velocity bullets that, on crit, fire a second swarm of bullets\n" +
-				"Rare Item Variant");
+            Tooltip.SetDefault("Makes their brain hurt\n" +
+                "Fires high velocity bullets that split into additional bullets when close to an enemy\n" +
+				"If you crit the target a second swarm of bullets will fire");
         }
 
         public override void SetDefaults()
@@ -33,8 +33,8 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.shoot = ProjectileID.PurificationPowder;
             item.shootSpeed = 12f;
             item.useAmmo = AmmoID.Bullet;
-            item.Calamity().customRarity = CalamityRarity.RareVariant;
-        }
+			item.Calamity().challengeDrop = true;
+		}
 
 		// Terraria seems to really dislike high crit values in SetDefaults
 		public override void GetWeaponCrit(Player player, ref int crit) => crit += 5;
@@ -43,13 +43,13 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            for (int index = 0; index < 5; ++index)
-            {
-				if (type == ProjectileID.Bullet)
-					Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<AMRShot>(), damage, knockBack, player.whoAmI);
-				else
-					Projectile.NewProjectile(position, new Vector2(speedX, speedY), (int)(damage * 1.3), damage, knockBack, player.whoAmI);
+			for (int index = 0; index < 4; ++index)
+			{
+				float SpeedX = speedX + Main.rand.Next(-15, 16) * 0.05f;
+				float SpeedY = speedY + Main.rand.Next(-15, 16) * 0.05f;
+				Projectile.NewProjectile(position, new Vector2(SpeedX, SpeedY), ModContent.ProjectileType<AMRShot>(), damage, knockBack, player.whoAmI, type, 1f);
 			}
+
             return false;
         }
     }

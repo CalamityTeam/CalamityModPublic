@@ -36,15 +36,14 @@ namespace CalamityMod.Projectiles.Rogue
         public override void AI()
         {
             if (Main.rand.NextBool(8))
-            {
                 Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, Main.rand.Next(2) == 1 ? 107 : 89, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
-            }
+
             projectile.damage += projectile.Calamity().defDamage / 200;
 		}
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 2);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 2);
             return false;
         }
 

@@ -17,13 +17,14 @@ namespace CalamityMod.Projectiles.Magic
             projectile.width = 14;
             projectile.height = 14;
             projectile.friendly = true;
-            projectile.alpha = 0;
             projectile.timeLeft = 120;
             projectile.penetrate = 1;
             projectile.magic = true;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 90 && target.CanBeChasedBy(projectile);
+
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Texture2D tex = Main.projectileTexture[projectile.type];
 			if (projectile.ai[0] == 1f)
@@ -35,7 +36,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void AI()
         {
-            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + MathHelper.PiOver2;
+            projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + MathHelper.PiOver2;
 			int randomDust = Utils.SelectRandom(Main.rand, new int[]
 			{
 				164,
@@ -44,7 +45,8 @@ namespace CalamityMod.Projectiles.Magic
 			});
 			Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, randomDust, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
 
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 400f, 20f, 20f);
+			if (projectile.timeLeft < 90)
+				CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, 600f, 12f, 20f);
         }
 
         public override void Kill(int timeLeft)

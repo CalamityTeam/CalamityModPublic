@@ -10,8 +10,7 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Thunderstorm");
-            Tooltip.SetDefault("Make it rain\n" +
-				"Rare Item Variant");
+            Tooltip.SetDefault("Make it rain");
         }
 
         public override void SetDefaults()
@@ -32,8 +31,8 @@ namespace CalamityMod.Items.Weapons.Magic
             item.autoReuse = true;
             item.shootSpeed = 6f;
             item.shoot = ModContent.ProjectileType<ThunderstormShot>();
-            item.Calamity().customRarity = CalamityRarity.RareVariant;
-        }
+			item.Calamity().challengeDrop = true;
+		}
 
         public override Vector2? HoldoutOffset()
         {

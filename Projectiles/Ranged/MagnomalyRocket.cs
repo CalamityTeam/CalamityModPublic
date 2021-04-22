@@ -75,7 +75,7 @@ namespace CalamityMod.Projectiles.Ranged
 				Main.dust[exo].noGravity = true;
 				Main.dust[exo].noLight = true;
 			}
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 600f, 16f, 20f);
+			CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 200f, 12f, 20f);
         }
 
         public override void Kill(int timeLeft)
@@ -119,7 +119,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
             return false;
         }
 

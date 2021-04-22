@@ -50,7 +50,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.ai[0]++;
 			if (projectile.ai[0] >= 30)
 			{
-				Vector2 desiredVelocity = projectile.DirectionTo(player.Center) * DesiredSpeed;
+				Vector2 desiredVelocity = projectile.SafeDirectionTo(player.Center) * DesiredSpeed;
 				projectile.velocity = Vector2.Lerp(projectile.velocity, desiredVelocity, 1f / InterpolationTime);
 				
 				float distance = projectile.Distance(player.Center);

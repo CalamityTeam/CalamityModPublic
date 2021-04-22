@@ -83,7 +83,7 @@ namespace CalamityMod.Projectiles.Summon
                     (modulo >= 90 && modulo < 120f))
                 {
                     if (projectile.velocity.Length() == 0f)
-                        projectile.velocity = projectile.DirectionTo(target.Center).RotatedByRandom(0.5f) * -8f;
+                        projectile.velocity = projectile.SafeDirectionTo(target.Center).RotatedByRandom(0.5f) * -8f;
                     float angleToTarget = projectile.AngleTo(target.Center);
                     float velocityAngle = projectile.velocity.ToRotation();
                     float resultantAngle = velocityAngle.AngleLerp(angleToTarget, 0.08f);
@@ -93,7 +93,7 @@ namespace CalamityMod.Projectiles.Summon
                     }
                     else
                     {
-                        projectile.velocity = (projectile.velocity * 44f + projectile.DirectionTo(player.Center) * 24f) / 45f;
+                        projectile.velocity = (projectile.velocity * 44f + projectile.SafeDirectionTo(player.Center) * 24f) / 45f;
                         projectile.ai[0] += 30 - projectile.ai[0] % 30f;
                     }
                     projectile.ai[1] = 1f;
@@ -104,9 +104,9 @@ namespace CalamityMod.Projectiles.Summon
                 }
                 if ((modulo >= 30f && modulo <= 60f) || (modulo >= 90f && modulo <= 120f))
                 {
-                    if (projectile.owner == player.whoAmI && projectile.spriteDirection == (projectile.DirectionTo(target.Center).X > 0).ToDirectionInt())
+                    if (projectile.owner == player.whoAmI && projectile.spriteDirection == (projectile.SafeDirectionTo(target.Center).X > 0).ToDirectionInt())
                     {
-                        Projectile.NewProjectile(projectile.Center, projectile.DirectionTo(target.Center) * 11.5f, ModContent.ProjectileType<BloodBreath>(), projectile.damage, 0f, projectile.owner);
+                        Projectile.NewProjectile(projectile.Center, projectile.SafeDirectionTo(target.Center) * 11.5f, ModContent.ProjectileType<BloodBreath>(), projectile.damage, 0f, projectile.owner);
                     }
                 }
             }
@@ -114,7 +114,7 @@ namespace CalamityMod.Projectiles.Summon
             {
 				projectile.extraUpdates = 0;
                 projectile.ai[1] = 0f;
-                projectile.velocity = (projectile.velocity * 24f + projectile.DirectionTo(player.Center) * 16f) / 25f;
+                projectile.velocity = (projectile.velocity * 24f + projectile.SafeDirectionTo(player.Center) * 16f) / 25f;
                 if (projectile.Distance(player.Center) > 3250f)
                 {
                     projectile.Center = player.Center;

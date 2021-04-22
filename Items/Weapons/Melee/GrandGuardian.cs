@@ -65,18 +65,18 @@ namespace CalamityMod.Items.Weapons.Melee
 		private void OnHitEffects(Player player, Vector2 targetPos, int targetLife, int targetMaxLife, float knockback)
 		{
             Projectile.NewProjectile(targetPos, Vector2.Zero, ModContent.ProjectileType<RainbowBoom>(), (int)(item.damage * player.MeleeDamage() * 0.5f), 0f, player.whoAmI);
-            if (targetLife <= (targetMaxLife * 0.5f))
+            if (targetLife <= (targetMaxLife * 0.5f) && player.ownedProjectileCounts[ModContent.ProjectileType<RainBolt>()] < 3)
             {
-                float randomSpeedX = (float)Main.rand.Next(9);
-                float randomSpeedY = (float)Main.rand.Next(6, 15);
+                float randomSpeedX = Main.rand.Next(9);
+                float randomSpeedY = Main.rand.Next(6, 15);
                 Projectile.NewProjectile(player.Center.X, player.Center.Y, -randomSpeedX, -randomSpeedY, ModContent.ProjectileType<RainBolt>(), (int)(item.damage * player.MeleeDamage() * 0.75f), knockback, player.whoAmI);
                 Projectile.NewProjectile(player.Center.X, player.Center.Y, randomSpeedX, -randomSpeedY, ModContent.ProjectileType<RainBolt>(), (int)(item.damage * player.MeleeDamage() * 0.75f), knockback, player.whoAmI);
                 Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -randomSpeedY, ModContent.ProjectileType<RainBolt>(), (int)(item.damage * player.MeleeDamage() * 0.75f), knockback, player.whoAmI);
             }
-            if (targetLife <= 0 && !player.moonLeech)
+            if (targetLife <= 0 && !player.moonLeech && player.ownedProjectileCounts[ModContent.ProjectileType<RainHeal>()] < 3)
             {
-                float randomSpeedX = (float)Main.rand.Next(9);
-                float randomSpeedY = (float)Main.rand.Next(6, 15);
+                float randomSpeedX = Main.rand.Next(9);
+                float randomSpeedY = Main.rand.Next(6, 15);
                 Projectile.NewProjectile(targetPos.X, targetPos.Y, -randomSpeedX, -randomSpeedY, ModContent.ProjectileType<RainHeal>(), 0, 0f, player.whoAmI);
                 Projectile.NewProjectile(targetPos.X, targetPos.Y, randomSpeedX, -randomSpeedY, ModContent.ProjectileType<RainHeal>(), 0, 0f, player.whoAmI);
                 Projectile.NewProjectile(targetPos.X, targetPos.Y, 0f, -randomSpeedY, ModContent.ProjectileType<RainHeal>(), 0, 0f, player.whoAmI);

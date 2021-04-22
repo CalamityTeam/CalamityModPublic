@@ -14,6 +14,7 @@ namespace CalamityMod.Items.Weapons.Typeless
         {
             DisplayName.SetDefault("Aestheticus");
             Tooltip.SetDefault("Fires crystals that explode and slow enemies down\n" +
+				"Slowdown does not work on bosses\n" +
                 "This weapon scales with all your damage stats at once");
         }
 

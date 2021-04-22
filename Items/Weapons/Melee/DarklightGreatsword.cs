@@ -37,7 +37,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
 			type = Main.rand.NextBool(2) ? type : ModContent.ProjectileType<LightBeam>();
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, (int)(damage * 0.6), knockBack, player.whoAmI, 0f, 0f);
+            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, (int)(damage * 0.8), knockBack, player.whoAmI);
             return false;
         }
 
@@ -56,9 +56,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void MeleeEffects(Player player, Rectangle hitbox)
         {
             if (Main.rand.NextBool(3))
-            {
-                int dust = Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 29);
-            }
+                Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 29);
         }
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)

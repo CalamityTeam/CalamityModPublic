@@ -76,8 +76,8 @@ namespace CalamityMod.NPCs.Polterghast
             npc.noGravity = true;
             npc.noTileCollide = true;
             npc.netAlways = true;
-            Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
-            if (calamityModMusic != null)
+            Mod calamityModMusic = CalamityMod.Instance.musicMod;
+			if (calamityModMusic != null)
                 music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/RUIN");
             else
                 music = MusicID.Plantera;

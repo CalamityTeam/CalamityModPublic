@@ -44,13 +44,12 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void Kill(int timeLeft)
         {
-            int fungiAmt = Main.rand.Next(2, 5);
             if (projectile.owner == Main.myPlayer)
             {
-                for (int f = 0; f < fungiAmt; f++)
+                for (int f = 0; f < 3; f++)
                 {
 					Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
-                    Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<FungiOrb2>(), (int)(projectile.damage * 0.25), 0f, projectile.owner, 0f, 0f);
+                    Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<FungiOrb2>(), (int)(projectile.damage * 0.4), 0f, projectile.owner);
                 }
             }
             Main.PlaySound(SoundID.NPCDeath1, projectile.position);

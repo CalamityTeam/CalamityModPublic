@@ -12,8 +12,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             DisplayName.SetDefault("The Reaper");
             Tooltip.SetDefault("Slice 'n dice\n" +
-                "Stealth strikes throw four at once\n" +
-				"Rare Item Variant");
+                "Stealth strikes throw four at once");
         }
 
         public override void SafeSetDefaults()
@@ -34,8 +33,8 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.Calamity().rogue = true;
 
             item.value = CalamityGlobalItem.Rarity13BuyPrice;
-            item.Calamity().customRarity = CalamityRarity.RareVariant;
-        }
+			item.Calamity().challengeDrop = true;
+		}
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {

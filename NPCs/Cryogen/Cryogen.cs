@@ -62,7 +62,7 @@ namespace CalamityMod.NPCs.Cryogen
             npc.noTileCollide = true;
             npc.HitSound = SoundID.NPCHit5;
             npc.DeathSound = SoundID.NPCDeath15;
-            Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
+            Mod calamityModMusic = CalamityMod.Instance.musicMod;
             if (calamityModMusic != null)
                 music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/Cryogen");
             else
@@ -1053,7 +1053,6 @@ namespace CalamityMod.NPCs.Cryogen
             {
                 // Materials
                 DropHelper.DropItemSpray(npc, ModContent.ItemType<EssenceofEleum>(), 4, 8);
-                DropHelper.DropItem(npc, ItemID.FrostCore);
 
                 // Weapons
                 float w = DropHelper.NormalWeaponDropRateFloat;

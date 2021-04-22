@@ -75,7 +75,7 @@ namespace CalamityMod.Projectiles.Rogue
             }
 
             Lighting.AddLight(projectile.Center, 0.7f, 0.3f, 0f);
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 400f, 20f, 20f);
+			CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 200f, 12f, 20f);
             float num633;
             Vector2 vector46 = projectile.position;
             bool flag25 = false;
@@ -115,7 +115,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
             return false;
         }
 

@@ -30,9 +30,11 @@ namespace CalamityMod.Projectiles.Ranged
             aiType = ProjectileID.WoodenArrowFriendly;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 150 && target.CanBeChasedBy(projectile);
+
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
             return false;
         }
 
@@ -48,17 +50,19 @@ namespace CalamityMod.Projectiles.Ranged
             Main.dust[num137].velocity = dspeed;
             Main.dust[num137].noGravity = true;
             
-            float num138 = (float)Math.Sqrt((double)(projectile.velocity.X * projectile.velocity.X + projectile.velocity.Y * projectile.velocity.Y));
+            float num138 = (float)Math.Sqrt(projectile.velocity.X * projectile.velocity.X + projectile.velocity.Y * projectile.velocity.Y);
             float num139 = projectile.localAI[0];
             if (num139 == 0f)
-            {
                 projectile.localAI[0] = num138;
-            }
+
             //Rotation
             projectile.spriteDirection = projectile.direction = (projectile.velocity.X > 0).ToDirectionInt();
-            projectile.rotation = (projectile.velocity.ToRotation() + (projectile.spriteDirection == 1 ? 0f : MathHelper.Pi)) + MathHelper.ToRadians(90) * projectile.direction;
+            projectile.rotation = projectile.velocity.ToRotation() + (projectile.spriteDirection == 1 ? 0f : MathHelper.Pi) + MathHelper.ToRadians(90) * projectile.direction;
 
-            return false;
+			if (projectile.timeLeft < 150)
+				CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, 450f, 12f, 25f);
+
+			return false;
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
@@ -71,9 +75,7 @@ namespace CalamityMod.Projectiles.Ranged
         public override void Kill(int timeLeft)
         {
             if (projectile.owner == Main.myPlayer)
-            {
-                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<Sickness>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
-            }
+                Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<Sickness>(), projectile.damage, projectile.knockBack, projectile.owner);
         }
     }
 }

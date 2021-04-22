@@ -1,16 +1,10 @@
-using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.CalPlayer;
-using CalamityMod.Dusts;
 using CalamityMod.Events;
 using CalamityMod.NPCs.NormalNPCs;
 using CalamityMod.Projectiles.Boss;
-using CalamityMod.Projectiles.Healing;
-using CalamityMod.Projectiles.Magic;
 using CalamityMod.Projectiles.Melee;
 using CalamityMod.Projectiles.Melee.Yoyos;
 using CalamityMod.Projectiles.Rogue;
-using CalamityMod.Projectiles.Summon;
 using CalamityMod.Projectiles.Typeless;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -54,6 +48,9 @@ namespace CalamityMod.Projectiles
         public float ResistDamagePenaltyMinCapFactor = 0.5f;
         public int spawnedPlayerMinionProjectileDamageValue = 0;
         public int defDamage = 0;
+
+		// Amount of extra updates that are set in SetDefaults.
+		public int defExtraUpdates = -1;
 
 		/// <summary>
 		/// Allows hostile Projectiles to deal damage to the player's defense stat, used mostly for hard-hitting bosses.
@@ -298,7 +295,7 @@ namespace CalamityMod.Projectiles
                 // If the needle is not colliding with the target, attempt to move towards it while falling.
                 if (!projectile.WithinRange(npcToHeal.Center, initialSpeed) && !projectile.Hitbox.Intersects(npcToHeal.Hitbox))
                 {
-                    Vector2 flySpeed = projectile.DirectionTo(npcToHeal.Center) * initialSpeed;
+                    Vector2 flySpeed = projectile.SafeDirectionTo(npcToHeal.Center) * initialSpeed;
 
                     // Prevent the needle from ever violating its gravity.
                     if (flySpeed.Y < projectile.velocity.Y)
@@ -365,10 +362,13 @@ namespace CalamityMod.Projectiles
 					if (defDamage == 0)
 					{
 						// Reduce mech boss projectile damage depending on the new ore progression changes
-						if (!NPC.downedMechBossAny)
-							projectile.damage = (int)(projectile.damage * 0.8);
-						else if ((!NPC.downedMechBoss1 && !NPC.downedMechBoss2) || (!NPC.downedMechBoss2 && !NPC.downedMechBoss3) || (!NPC.downedMechBoss3 && !NPC.downedMechBoss1))
-							projectile.damage = (int)(projectile.damage * 0.9);
+						if (CalamityConfig.Instance.EarlyHardmodeProgressionRework)
+						{
+							if (!NPC.downedMechBossAny)
+								projectile.damage = (int)(projectile.damage * 0.8);
+							else if ((!NPC.downedMechBoss1 && !NPC.downedMechBoss2) || (!NPC.downedMechBoss2 && !NPC.downedMechBoss3) || (!NPC.downedMechBoss3 && !NPC.downedMechBoss1))
+								projectile.damage = (int)(projectile.damage * 0.9);
+						}
 
 						defDamage = projectile.damage;
 					}
@@ -974,20 +974,23 @@ namespace CalamityMod.Projectiles
 				}
 
 				// Reduce mech boss projectile damage depending on the new ore progression changes
-				if (!NPC.downedMechBossAny)
+				if (CalamityConfig.Instance.EarlyHardmodeProgressionRework)
 				{
-					if (MechBossProjectileIDs.Contains(projectile.type))
+					if (!NPC.downedMechBossAny)
 					{
-						if (CalamityUtils.AnyBossNPCS(true))
-							projectile.damage = (int)(projectile.damage * 0.8);
+						if (MechBossProjectileIDs.Contains(projectile.type))
+						{
+							if (CalamityUtils.AnyBossNPCS(true))
+								projectile.damage = (int)(projectile.damage * 0.8);
+						}
 					}
-				}
-				else if ((!NPC.downedMechBoss1 && !NPC.downedMechBoss2) || (!NPC.downedMechBoss2 && !NPC.downedMechBoss3) || (!NPC.downedMechBoss3 && !NPC.downedMechBoss1))
-				{
-					if (MechBossProjectileIDs.Contains(projectile.type))
+					else if ((!NPC.downedMechBoss1 && !NPC.downedMechBoss2) || (!NPC.downedMechBoss2 && !NPC.downedMechBoss3) || (!NPC.downedMechBoss3 && !NPC.downedMechBoss1))
 					{
-						if (CalamityUtils.AnyBossNPCS(true))
-							projectile.damage = (int)(projectile.damage * 0.9);
+						if (MechBossProjectileIDs.Contains(projectile.type))
+						{
+							if (CalamityUtils.AnyBossNPCS(true))
+								projectile.damage = (int)(projectile.damage * 0.9);
+						}
 					}
 				}
 
@@ -1161,11 +1164,8 @@ namespace CalamityMod.Projectiles
 
                 if (homeIn)
                 {
-                    Vector2 homeInVector = projectile.DirectionTo(center);
-                    if (homeInVector.HasNaNs())
-                        homeInVector = Vector2.UnitY;
-
-                    projectile.velocity = (projectile.velocity * 20f + homeInVector * 15f) / 21f;
+                    Vector2 moveDirection = projectile.SafeDirectionTo(center, Vector2.UnitY);
+                    projectile.velocity = (projectile.velocity * 20f + moveDirection * 15f) / 21f;
                 }
             }
 
@@ -1212,7 +1212,7 @@ namespace CalamityMod.Projectiles
                         {
                             if (projectile.owner == Main.myPlayer && player.ownedProjectileCounts[ProjectileType<Nanotech>()] < 25)
                             {
-                                Projectile.NewProjectile(projectile.Center, Vector2.Zero, ProjectileType<Nanotech>(), (int)(projectile.damage * 0.1), 0f, projectile.owner, 0f, 0f);
+                                Projectile.NewProjectile(projectile.Center, Vector2.Zero, ProjectileType<Nanotech>(), (int)(projectile.damage * 0.15), 0f, projectile.owner, 0f, 0f);
                             }
                         }
                     }
@@ -1612,91 +1612,6 @@ namespace CalamityMod.Projectiles
             }
             return true;
         }
-
-        public static void DrawCenteredAndAfterimage(Projectile projectile, Color lightColor, int trailingMode, int typeOneDistanceMultiplier = 1, Texture2D texture = null, bool drawCentered = true)
-        {
-            if (texture is null)
-                texture = Main.projectileTexture[projectile.type];
-
-            int frameHeight = texture.Height / Main.projFrames[projectile.type];
-            int frameY = frameHeight * projectile.frame;
-            float scale = projectile.scale;
-            float rotation = projectile.rotation;
-
-            Rectangle rectangle = new Rectangle(0, frameY, texture.Width, frameHeight);
-            Vector2 origin = rectangle.Size() / 2f;
-
-            SpriteEffects spriteEffects = SpriteEffects.None;
-            if (projectile.spriteDirection == -1)
-                spriteEffects = SpriteEffects.FlipHorizontally;
-
-			bool failedToDrawAfterimages = false;
-
-            if (CalamityConfig.Instance.Afterimages)
-            {
-                Vector2 centerOffset = drawCentered ? projectile.Size / 2f : Vector2.Zero;
-                switch (trailingMode)
-                {
-                    // Standard afterimages. No customizable features other than total afterimage count.
-                    // Type 0 afterimages linearly scale down from 100% to 0% opacity. Their color and lighting is equal to the main projectile's.
-                    case 0:
-                        for (int i = 0; i < projectile.oldPos.Length; i++)
-                        {
-                            Vector2 drawPos = projectile.oldPos[i] + centerOffset - Main.screenPosition + new Vector2(0f, projectile.gfxOffY);
-                            // DO NOT REMOVE THESE "UNNECESSARY" FLOAT CASTS. THIS WILL BREAK THE AFTERIMAGES.
-                            Color color = projectile.GetAlpha(lightColor) * ((float)(projectile.oldPos.Length - i) / (float)projectile.oldPos.Length);
-                            Main.spriteBatch.Draw(texture, drawPos, new Microsoft.Xna.Framework.Rectangle?(rectangle), color, rotation, origin, scale, spriteEffects, 0f);
-                        }
-                        break;
-
-                    // Paladin's Hammer style afterimages. Can be optionally spaced out further by using the typeOneDistanceMultiplier variable.
-                    // Type 1 afterimages linearly scale down from 66% to 0% opacity. They otherwise do not differ from type 0.
-                    case 1:
-                        Color drawColor = projectile.GetAlpha(lightColor);
-                        int afterimageCount = ProjectileID.Sets.TrailCacheLength[projectile.type];
-                        int k = 0;
-                        while (k < afterimageCount)
-                        {
-                            Vector2 drawPos = projectile.oldPos[k] + centerOffset - Main.screenPosition + new Vector2(0f, projectile.gfxOffY);
-                            // DO NOT REMOVE THESE "UNNECESSARY" FLOAT CASTS EITHER.
-							if (k > 0)
-							{
-								float colorMult = (float)(afterimageCount - k);
-								drawColor *= colorMult / ((float)afterimageCount * 1.5f);
-							}
-                            Main.spriteBatch.Draw(texture, drawPos, new Microsoft.Xna.Framework.Rectangle?(rectangle), drawColor, rotation, origin, scale, spriteEffects, 0f);
-                            k += typeOneDistanceMultiplier;
-                        }
-                        break;
-
-                    // Standard afterimages with rotation. No customizable features other than total afterimage count.
-                    // Type 2 afterimages linearly scale down from 100% to 0% opacity. Their color and lighting is equal to the main projectile's.
-                    case 2:
-                        for (int i = 0; i < projectile.oldPos.Length; i++)
-                        {
-                            float afterimageRot = projectile.oldRot[i];
-                            SpriteEffects sfxForThisAfterimage = projectile.oldSpriteDirection[i] == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
-
-                            Vector2 drawPos = projectile.oldPos[i] + centerOffset - Main.screenPosition + new Vector2(0f, projectile.gfxOffY);
-                            // DO NOT REMOVE THESE "UNNECESSARY" FLOAT CASTS. THIS WILL BREAK THE AFTERIMAGES.
-                            Color color = projectile.GetAlpha(lightColor) * ((float)(projectile.oldPos.Length - i) / (float)projectile.oldPos.Length);
-                            Main.spriteBatch.Draw(texture, drawPos, new Microsoft.Xna.Framework.Rectangle?(rectangle), color, afterimageRot, origin, scale, sfxForThisAfterimage, 0f);
-                        }
-                        break;
-
-                    default:
-						failedToDrawAfterimages = true;
-                        break;
-                }
-            }
-
-            // Draw the projectile itself. Only do this if no afterimages are drawn because afterimage 0 is the projectile itself.
-            if (!CalamityConfig.Instance.Afterimages || ProjectileID.Sets.TrailCacheLength[projectile.type] <= 0 || failedToDrawAfterimages)
-            {
-                Vector2 startPos = drawCentered ? projectile.Center : projectile.position;
-                Main.spriteBatch.Draw(texture, startPos - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), rectangle, projectile.GetAlpha(lightColor), rotation, origin, scale, spriteEffects, 0f);
-            }
-        }
         #endregion
 
         #region Kill
@@ -1783,6 +1698,7 @@ namespace CalamityMod.Projectiles
         }
         #endregion
 
+        // TODO -- this entire region needs to go to Projectile Utilities
         #region AI Shortcuts
         public static Projectile SpawnOrb(Projectile projectile, int damage, int projType, float distanceRequired, float speedMult, bool gsPhantom = false)
         {
@@ -1829,10 +1745,15 @@ namespace CalamityMod.Projectiles
             if (!projectile.friendly)
                 return;
 
-            Vector2 destination = projectile.Center;
+			// Set amount of extra updates.
+			if (projectile.Calamity().defExtraUpdates == -1)
+				projectile.Calamity().defExtraUpdates = projectile.extraUpdates;
+
+			Vector2 destination = projectile.Center;
             float maxDistance = distanceRequired;
             bool locatedTarget = false;
 
+			// Find a target.
             for (int i = 0; i < Main.maxNPCs; i++)
             {
                 float extraDistance = (Main.npc[i].width / 2) + (Main.npc[i].height / 2);
@@ -1849,9 +1770,18 @@ namespace CalamityMod.Projectiles
 
             if (locatedTarget)
             {
+				// Increase amount of extra updates to greatly increase homing velocity.
+				projectile.extraUpdates = projectile.Calamity().defExtraUpdates + 1;
+
+				// Home in on the target.
                 Vector2 homeDirection = (destination - projectile.Center).SafeNormalize(Vector2.UnitY);
                 projectile.velocity = (projectile.velocity * N + homeDirection * homingVelocity) / (N + 1f);
             }
+			else
+			{
+				// Set amount of extra updates to default amount.
+				projectile.extraUpdates = projectile.Calamity().defExtraUpdates;
+			}
         }
 
         public static void MagnetSphereHitscan(Projectile projectile, float distanceRequired, float homingVelocity, float projectileTimer, int maxTargets, int spawnedProjectile, double damageMult = 1D, bool attackMultiple = false)
@@ -1938,7 +1868,6 @@ namespace CalamityMod.Projectiles
                 }
             }
         }
-
         public static void ExpandHitboxBy(Projectile projectile, int width, int height)
         {
             projectile.position = projectile.Center;

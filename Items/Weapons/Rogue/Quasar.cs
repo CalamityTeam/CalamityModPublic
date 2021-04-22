@@ -12,8 +12,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             DisplayName.SetDefault("Quasar");
             Tooltip.SetDefault("Succ\n" +
-			"Stealth strikes spawn more explosions\n" +
-			"Rare Item Variant");
+			"Stealth strikes spawn more explosions");
         }
 
         public override void SafeSetDefaults()
@@ -34,8 +33,8 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.shoot = ModContent.ProjectileType<QuasarKnife>();
             item.shootSpeed = 20f;
             item.Calamity().rogue = true;
-            item.Calamity().customRarity = CalamityRarity.RareVariant;
-        }
+			item.Calamity().challengeDrop = true;
+		}
 
 		// Terraria seems to really dislike high crit values in SetDefaults
 		public override void GetWeaponCrit(Player player, ref int crit) => crit += 12;

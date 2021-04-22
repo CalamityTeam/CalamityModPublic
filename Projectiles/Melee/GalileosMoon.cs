@@ -47,12 +47,12 @@ namespace CalamityMod.Projectiles.Melee
                 }
             }
 			projectile.rotation += projectile.direction * 0.55f;
-            CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 460f, 25f, 20f);
+            CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 250f, 12f, 20f);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
             return false;
         }
 

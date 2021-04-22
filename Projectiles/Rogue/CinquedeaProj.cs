@@ -70,7 +70,7 @@ namespace CalamityMod.Projectiles.Rogue
             //Stealth strike
             if (stealthstrike)
             {
-				CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 800f, 7f, 20f);
+				CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 250f, 7f, 20f);
             }
             //Gravity code
             else
@@ -99,7 +99,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
             return false;
         }
 

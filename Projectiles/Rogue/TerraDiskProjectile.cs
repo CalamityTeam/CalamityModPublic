@@ -165,8 +165,7 @@ namespace CalamityMod.Projectiles.Rogue
 
 			if (homeIn)
 			{
-				projectile.localAI[0] += 1f;
-				if (projectile.localAI[0] % 8f == 0f && Main.rand.NextBool(5))
+				if (Main.player[projectile.owner].miscCounter % 50 == 0)
 				{
 					int splitProj = ModContent.ProjectileType<TerraDiskProjectile2>();
 					if (projectile.owner == Main.myPlayer)
@@ -196,7 +195,7 @@ namespace CalamityMod.Projectiles.Rogue
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
-			CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 2);
+			CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 2);
 			return false;
 		}
 

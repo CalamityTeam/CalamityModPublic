@@ -61,12 +61,12 @@ namespace CalamityMod.Projectiles.Rogue
 
         private void HomingAI()
         {
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 400f, (Penumbra.ShootSpeed * 1.5f), 35f);
+			CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 200f, Penumbra.ShootSpeed * 1.5f, 35f);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
             return false;
         }
 

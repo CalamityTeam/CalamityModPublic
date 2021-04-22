@@ -346,31 +346,29 @@ namespace CalamityMod.CalPlayer
 						empowerBuff,
 						shieldBuff
 					});
-					player.AddBuff(buffType, 420); //7 seconds
+					player.AddBuff(buffType, 60);
 					if (buffType == restoreBuff)
 					{
-						if (modPlayer.phantomicHeartRegen == 1000 && player.ownedProjectileCounts[ModContent.ProjectileType<PhantomicHeart>()] == 0 && Main.rand.NextBool(20))
+						if (modPlayer.phantomicHeartRegen == 1000 && player.ownedProjectileCounts[ProjectileType<PhantomicHeart>()] == 0 && Main.rand.NextBool(20))
 						{
 							Vector2 target = proj.Center;
 							target.Y += Main.rand.Next(-50, 50);
 							target.X += Main.rand.Next(-50, 50);
-							Projectile.NewProjectile(target, Vector2.Zero, ModContent.ProjectileType<PhantomicHeart>(), 0, 0f, player.whoAmI, 0f);
+							Projectile.NewProjectile(target, Vector2.Zero, ProjectileType<PhantomicHeart>(), 0, 0f, player.whoAmI, 0f);
 						}
 					}
 					else if (buffType == empowerBuff)
 					{
-						if (player.ownedProjectileCounts[ModContent.ProjectileType<PhantomicDagger>()] < 5 && Main.rand.NextBool(10)) //at most 5
+						if (player.ownedProjectileCounts[ProjectileType<PhantomicDagger>()] < 5 && Main.rand.NextBool(10)) //at most 5
 						{
 							int damage = (int)(100 * player.MinionDamage());
-							Projectile.NewProjectile(proj.position, proj.velocity, ModContent.ProjectileType<PhantomicDagger>(), damage, 1f, player.whoAmI, 0f);
+							Projectile.NewProjectile(proj.position, proj.velocity, ProjectileType<PhantomicDagger>(), damage, 1f, player.whoAmI, 0f);
 						}
 					}
 					else
 					{
-						if (player.ownedProjectileCounts[ModContent.ProjectileType<PhantomicShield>()] == 0 && modPlayer.phantomicBulwarkCooldown == 0)
-						{
-							Projectile.NewProjectile(player.position, Vector2.Zero, ModContent.ProjectileType<PhantomicShield>(), 0, 0f, player.whoAmI, 0f);
-						}
+						if (player.ownedProjectileCounts[ProjectileType<PhantomicShield>()] == 0 && modPlayer.phantomicBulwarkCooldown == 0)
+							Projectile.NewProjectile(player.position, Vector2.Zero, ProjectileType<PhantomicShield>(), 0, 0f, player.whoAmI, 0f);
 					}
 				}
 				else if (modPlayer.hallowedRune)
@@ -381,7 +379,7 @@ namespace CalamityMod.CalPlayer
 						BuffType<HallowedRuneRegenBuff>(),
 						BuffType<HallowedRuneDefBuff>()
 					});
-					player.AddBuff(buffType, 120);
+					player.AddBuff(buffType, 60);
 				}
 				else if (modPlayer.sGenerator)
 				{
@@ -391,7 +389,7 @@ namespace CalamityMod.CalPlayer
 						BuffType<SpiritGeneratorRegenBuff>(),
 						BuffType<SpiritGeneratorDefBuff>()
 					});
-					player.AddBuff(buffType, 120);
+					player.AddBuff(buffType, 60);
 				}
 			}
 

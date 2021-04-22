@@ -38,7 +38,9 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.timeLeft = Lifetime;
         }
 
-        public override void AI()
+		public override bool? CanHitNPC(NPC target) => projectile.timeLeft < Lifetime - NoHomingFrames && target.CanBeChasedBy(projectile);
+
+		public override void AI()
         {
             // Handle animation
             projectile.frameCounter++;
@@ -51,7 +53,7 @@ namespace CalamityMod.Projectiles.Rogue
                 projectile.frame = 0;
 
             // Activate homing on enemies after a brief delay
-            if (projectile.timeLeft <= Lifetime - NoHomingFrames)
+            if (projectile.timeLeft < Lifetime - NoHomingFrames)
                 projectile.ai[0] = 1f;
 
             // Occasional dust
@@ -71,7 +73,7 @@ namespace CalamityMod.Projectiles.Rogue
             // Make sure the soul is always facing forwards
             projectile.rotation = projectile.velocity.ToRotation() - MathHelper.PiOver2;
 
-            float playerHomingStrength = 40f * projectile.ai[1]; // ranges from 20 to 60
+            float inertia = 40f * projectile.ai[1]; // ranges from 20 to 60
             float homingSpeed = 8f * projectile.ai[1]; // ranges from 4 to 12
             float playerHomingRange = 900f;
 
@@ -81,10 +83,8 @@ namespace CalamityMod.Projectiles.Rogue
                 // If you are too far away from the projectiles, they home in on you.
                 if (projectile.Distance(Main.player[projectile.owner].Center) > playerHomingRange)
                 {
-                    Vector2 vector102 = projectile.DirectionTo(Main.player[projectile.owner].Center);
-                    if (vector102.HasNaNs())
-                        vector102 = Vector2.UnitY;
-                    projectile.velocity = (projectile.velocity * (playerHomingStrength - 1f) + vector102 * homingSpeed) / playerHomingStrength;
+                    Vector2 moveDirection = projectile.SafeDirectionTo(Main.player[projectile.owner].Center, Vector2.UnitY);
+                    projectile.velocity = (projectile.velocity * (inertia - 1f) + moveDirection * homingSpeed) / inertia;
                     return;
                 }
 
@@ -103,7 +103,7 @@ namespace CalamityMod.Projectiles.Rogue
             if (projectile.timeLeft > Lifetime - NoDrawFrames)
                 return false;
 
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
             return false;
         }
 
@@ -138,7 +138,6 @@ namespace CalamityMod.Projectiles.Rogue
         }
 
         // Cannot deal damage for the first several frames of existence.
-        public override bool? CanHitNPC(NPC target) => projectile.timeLeft >= Lifetime - NoHitFrames ? false : (bool?)null;
         public override bool CanHitPvp(Player target) => projectile.timeLeft < Lifetime - NoHitFrames;
     }
 }

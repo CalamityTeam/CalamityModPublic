@@ -52,7 +52,7 @@ namespace CalamityMod.Projectiles.Rogue
 			}
 			projectile.width = projectile.height = (int)(24f * projectile.scale);
 
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 300f, 16f, 20f);
+			CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 150f, 12f, 20f);
 		}
 
 		public override Color? GetAlpha(Color lightColor)
@@ -64,7 +64,7 @@ namespace CalamityMod.Projectiles.Rogue
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
-			CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+			CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
 			return false;
 		}
 

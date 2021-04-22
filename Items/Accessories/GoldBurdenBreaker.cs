@@ -15,7 +15,7 @@ namespace CalamityMod.Items.Accessories
 				"Go fast\n" +
 				"WARNING: May have disastrous results\n" +
 				"Increases horizontal movement speed beyond comprehension\n" +
-				"Legendary");
+				"Does not work while a boss is alive");
         }
 
         public override void SetDefaults()
@@ -25,7 +25,8 @@ namespace CalamityMod.Items.Accessories
             item.value = CalamityGlobalItem.Rarity5BuyPrice;
             item.rare = ItemRarityID.Pink;
             item.accessory = true;
-        }
+			item.Calamity().challengeDrop = true;
+		}
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {

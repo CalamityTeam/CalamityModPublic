@@ -75,13 +75,6 @@ namespace CalamityMod.CalPlayer
 			// Bool for any existing events, true if any event is active
 			CalamityPlayer.areThereAnyDamnEvents = CalamityGlobalNPC.AnyEvents(player);
 
-			// If any boss NPC is active, apply Zen to the player to reduce spawn rate
-			if (CalamityPlayer.areThereAnyDamnBosses && CalamityConfig.Instance.BossZen)
-			{
-				if (player.whoAmI == Main.myPlayer)
-					player.AddBuff(ModContent.BuffType<BossZen>(), 2, false);
-			}
-
 			// Revengeance effects
 			RevengeanceModeMiscEffects(player, modPlayer, mod);
 
@@ -962,10 +955,14 @@ namespace CalamityMod.CalPlayer
 			{
 				if (player.IsUnderwater() && modPlayer.ironBoots)
 					player.maxFallSpeed = 9f;
-				if (modPlayer.aeroSet && !player.wet)
-					player.maxFallSpeed = 15f;
-				if (modPlayer.gSabatonFall > 0 && !player.wet)
-					player.maxFallSpeed = 20f;
+
+				if (!player.wet)
+				{
+					if (modPlayer.aeroSet)
+						player.maxFallSpeed = 15f;
+					if (modPlayer.gSabatonFall > 0 || player.PortalPhysicsEnabled)
+						player.maxFallSpeed = 20f;
+				}
 			}
 
 			// Omega Blue Armor bonus
@@ -1338,22 +1335,10 @@ namespace CalamityMod.CalPlayer
 			// Raider Talisman bonus
 			if (modPlayer.raiderTalisman)
 			{
-				float damageMult = modPlayer.nanotech ? 0.1f : 0.15f;
+				// Nanotech use to have an exclusive nerf here, but since they are currently equal, there
+				// is no check to indicate such.
+				float damageMult = 0.15f;
 				modPlayer.throwingDamage += modPlayer.raiderStack / 150f * damageMult;
-			}
-
-			// Spirit Glyph defense buff
-			if (modPlayer.sDefense)
-			{
-				player.statDefense += 5;
-				player.endurance += 0.05f;
-			}
-
-			// Hallowed Rune defense buff
-			if (modPlayer.hallowedDefense)
-			{
-				player.statDefense += 7;
-				player.endurance += 0.07f;
 			}
 
 			if (modPlayer.kamiBoost)
@@ -2699,6 +2684,7 @@ namespace CalamityMod.CalPlayer
 			double flightTimeMult = 1D +
 				(modPlayer.ZoneAstral ? 0.05 : 0D) +
 				(modPlayer.harpyRing ? 0.2 : 0D) +
+				(modPlayer.angelTreads ? 0.1 : 0D) +
 				(modPlayer.blueCandle ? 0.1 : 0D) +
 				(modPlayer.soaring ? 0.1 : 0D) +
 				(modPlayer.prismaticGreaves ? 0.1 : 0D) +
@@ -3982,7 +3968,6 @@ namespace CalamityMod.CalPlayer
 		private static void UpdateStatMeter(Player player, CalamityPlayer modPlayer)
 		{
 			float allDamageStat = player.allDamage - 1f;
-			modPlayer.actualMeleeDamageStat = player.meleeDamage + allDamageStat;
 			modPlayer.damageStats[0] = (int)((player.meleeDamage + allDamageStat - 1f) * 100f);
 			modPlayer.damageStats[1] = (int)((player.rangedDamage + allDamageStat - 1f) * 100f);
 			modPlayer.damageStats[2] = (int)((player.magicDamage + allDamageStat - 1f) * 100f);
