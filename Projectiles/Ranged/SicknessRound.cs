@@ -18,8 +18,8 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void SetDefaults()
         {
-            projectile.width = 8;
-            projectile.height = 8;
+            projectile.width = 4;
+            projectile.height = 4;
             projectile.aiStyle = 1;
             projectile.friendly = true;
             projectile.ranged = true;
@@ -38,24 +38,20 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override bool PreAI()
         {
-            for (int num136 = 0; num136 < 3; num136++)
-            {
-                Vector2 dspeed = -projectile.velocity * 0.5f;
-                float x2 = projectile.Center.X - projectile.velocity.X / 10f * (float)num136;
-                float y2 = projectile.Center.Y - projectile.velocity.Y / 10f * (float)num136;
-                int num137 = Dust.NewDust(new Vector2(x2, y2), 1, 1, 107, dspeed.X, dspeed.Y, 0, default, 1f);
-                Main.dust[num137].alpha = projectile.alpha;
-                Main.dust[num137].position.X = x2;
-                Main.dust[num137].position.Y = y2;
-                Main.dust[num137].velocity = dspeed;
-                Main.dust[num137].noGravity = true;
-            }
-            float num138 = (float)Math.Sqrt((double)(projectile.velocity.X * projectile.velocity.X + projectile.velocity.Y * projectile.velocity.Y));
-            float num139 = projectile.localAI[0];
-            if (num139 == 0f)
-            {
-                projectile.localAI[0] = num138;
-            }
+			projectile.localAI[0] += 1f;
+			if (projectile.localAI[0] > 4f)
+			{
+				Vector2 dspeed = -projectile.velocity * 0.5f;
+				float x2 = projectile.Center.X - projectile.velocity.X / 10f;
+				float y2 = projectile.Center.Y - projectile.velocity.Y / 10f;
+				int num137 = Dust.NewDust(new Vector2(x2, y2), 1, 1, 107, dspeed.X, dspeed.Y, 0, default, 1f);
+				Main.dust[num137].alpha = projectile.alpha;
+				Main.dust[num137].position.X = x2;
+				Main.dust[num137].position.Y = y2;
+				Main.dust[num137].velocity = dspeed;
+				Main.dust[num137].noGravity = true;
+			}
+
             //Rotation
             projectile.spriteDirection = projectile.direction = (projectile.velocity.X > 0).ToDirectionInt();
             projectile.rotation = (projectile.velocity.ToRotation() + (projectile.spriteDirection == 1 ? 0f : MathHelper.Pi)) + MathHelper.ToRadians(90) * projectile.direction;

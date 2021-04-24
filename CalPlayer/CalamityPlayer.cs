@@ -6808,26 +6808,6 @@ namespace CalamityMod.CalPlayer
         }
         #endregion
 
-        #region Can Hit
-        public override bool? CanHitNPC(Item item, NPC target)
-        {
-            if (camper && !player.StandingStill())
-            {
-                return false;
-            }
-            return null;
-        }
-
-        public override bool? CanHitNPCWithProj(Projectile proj, NPC target)
-        {
-            if (camper && !player.StandingStill())
-            {
-                return false;
-            }
-            return null;
-        }
-        #endregion
-
         #region Fishing
         public override void CatchFish(Item fishingRod, Item bait, int power, int liquidType, int poolSize, int worldLayer, int questFish, ref int caughtType, ref bool junk)
         {

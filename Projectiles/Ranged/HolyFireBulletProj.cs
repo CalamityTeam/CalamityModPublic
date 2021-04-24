@@ -22,9 +22,8 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void SetDefaults()
         {
-            // Intentionally large bullet hitbox
-            projectile.width = 8;
-            projectile.height = 8;
+            projectile.width = 4;
+            projectile.height = 4;
             projectile.friendly = true;
             projectile.ranged = true;
             projectile.extraUpdates = 4;
@@ -36,19 +35,23 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.rotation = projectile.velocity.ToRotation() + MathHelper.ToRadians(90f);
             projectile.spriteDirection = projectile.direction;
 
-            // Flaking dust
-            if (Main.rand.NextBool())
-            {
-                float scale = Main.rand.NextFloat(0.6f, 1.6f);
-                int dustID = Dust.NewDust(projectile.Center, 1, 1, 244);
-                Main.dust[dustID].position = projectile.Center;
-                Main.dust[dustID].noGravity = true;
-                Main.dust[dustID].scale = scale;
-                float angleDeviation = 0.17f;
-                float angle = Main.rand.NextFloat(-angleDeviation, angleDeviation);
-                Vector2 sprayVelocity = projectile.velocity.RotatedBy(angle) * 0.6f;
-                Main.dust[dustID].velocity = sprayVelocity;
-            }
+			// Flaking dust
+			projectile.localAI[0] += 1f;
+			if (projectile.localAI[0] > 4f)
+			{
+				if (Main.rand.NextBool())
+				{
+					float scale = Main.rand.NextFloat(0.6f, 1.6f);
+					int dustID = Dust.NewDust(projectile.Center, 1, 1, 244);
+					Main.dust[dustID].position = projectile.Center;
+					Main.dust[dustID].noGravity = true;
+					Main.dust[dustID].scale = scale;
+					float angleDeviation = 0.17f;
+					float angle = Main.rand.NextFloat(-angleDeviation, angleDeviation);
+					Vector2 sprayVelocity = projectile.velocity.RotatedBy(angle) * 0.6f;
+					Main.dust[dustID].velocity = sprayVelocity;
+				}
+			}
         }
 
         public override Color? GetAlpha(Color lightColor) => Alpha;

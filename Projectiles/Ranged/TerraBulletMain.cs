@@ -36,7 +36,7 @@ namespace CalamityMod.Projectiles.Ranged
 
             // localAI is used as an invisibility counter. The bullet fades into existence after 15 startup frames.
             projectile.localAI[0] += 1f;
-            if (projectile.localAI[0] >= 6f)
+            if (projectile.localAI[0] > 4f)
             {
                 // After 15 frames, the alpha will be exactly 0
                 if (projectile.alpha > 0)

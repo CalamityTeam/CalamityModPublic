@@ -11,8 +11,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             DisplayName.SetDefault("Skullmasher");
             Tooltip.SetDefault("Makes their brain hurt\n" +
-                "Fires high velocity bullets that split into additional bullets when close to an enemy\n" +
-				"If you crit the target a second swarm of bullets will fire");
+                "Fires a spread of 4 high velocity bullets that split into additional bullets upon hitting an enemy");
         }
 
         public override void SetDefaults()

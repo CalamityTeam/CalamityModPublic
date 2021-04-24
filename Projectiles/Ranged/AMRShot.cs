@@ -38,21 +38,6 @@ namespace CalamityMod.Projectiles.Ranged
 				projectile.alpha = 0;
 
 			projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + MathHelper.PiOver2;
-
-			if (projectile.ai[1] == 1f)
-			{
-				for (int i = 0; i < Main.maxNPCs; i++)
-				{
-					NPC npc = Main.npc[i];
-					if (Vector2.Distance(projectile.Center, npc.Center) < 300f && npc.CanBeChasedBy(projectile))
-					{
-						projectile.ai[1] = 2f;
-						Vector2 velocity = Vector2.Normalize(npc.Center - projectile.Center) * 12f;
-						int proj = Projectile.NewProjectile(projectile.Center, velocity, (int)projectile.ai[0], projectile.damage / 2, projectile.knockBack * 0.5f, Main.myPlayer);
-						Main.projectile[proj].extraUpdates += 5;
-					}
-				}
-			}
 		}
 
 		public override Color? GetAlpha(Color lightColor)
@@ -89,13 +74,19 @@ namespace CalamityMod.Projectiles.Ranged
 
 		private void OnHitEffects(Vector2 targetPos, bool crit)
 		{
-            if (crit)
+			bool skullmasher = projectile.ai[1] == 1f;
+            if (crit || skullmasher)
             {
-				int extraProjectileAmt = projectile.ai[1] >= 1f ? 2 : 8;
+				int extraProjectileAmt = skullmasher ? 2 : 8;
                 for (int x = 0; x < extraProjectileAmt; x++)
                 {
-                    if (projectile.owner == Main.myPlayer)
-						CalamityUtils.ProjectileBarrage(projectile.Center, targetPos, x > 4, 500f, 500f, 0f, 500f, 10f, ModContent.ProjectileType<AMR2>(), (int)(projectile.damage * 0.1), projectile.knockBack * 0.1f, projectile.owner);
+					if (projectile.owner == Main.myPlayer)
+					{
+						bool fromRight = skullmasher ? x > 0 : x > 3;
+						CalamityUtils.ProjectileBarrage(projectile.Center, targetPos, fromRight, 500f, 500f, 0f, 500f, 10f, ModContent.ProjectileType<AMR2>(), (int)(projectile.damage * 0.1), projectile.knockBack * 0.1f, projectile.owner);
+						if (skullmasher)
+							CalamityUtils.ProjectileBarrage(projectile.Center, targetPos, fromRight, 500f, 500f, 0f, 500f, 10f, (int)projectile.ai[0], (int)(projectile.damage * 0.1), projectile.knockBack * 0.1f, projectile.owner);
+					}
                 }
             }
         }

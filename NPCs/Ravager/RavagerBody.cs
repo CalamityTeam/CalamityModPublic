@@ -385,6 +385,9 @@ namespace CalamityMod.NPCs.Ravager
 							calamityGlobalNPC.newAI[2] = player.direction;
 						}
 
+						float playerLocation = npc.Center.X - player.Center.X;
+						npc.direction = playerLocation < 0 ? 1 : -1;
+
 						npc.velocity.X = velocityX * npc.direction;
                         npc.velocity.Y = velocityY;
 

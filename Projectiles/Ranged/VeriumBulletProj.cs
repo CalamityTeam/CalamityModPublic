@@ -18,8 +18,8 @@ namespace CalamityMod.Projectiles.Ranged
 
 		public override void SetDefaults()
 		{
-			projectile.width = 8;
-			projectile.height = 8;
+			projectile.width = 4;
+			projectile.height = 4;
 			projectile.aiStyle = 1;
 			projectile.friendly = true;
 			projectile.ranged = true;
@@ -41,12 +41,17 @@ namespace CalamityMod.Projectiles.Ranged
 		{
 			projectile.rotation = projectile.velocity.ToRotation() + MathHelper.ToRadians(90f);
 			projectile.spriteDirection = projectile.direction;
-			if (Main.rand.NextBool(2))
+
+			projectile.localAI[0] += 1f;
+			if (projectile.localAI[0] > 4f)
 			{
-				int purple = Dust.NewDust(projectile.position, 1, 1, 70, 0f, 0f, 0, default, 0.5f);
-				Main.dust[purple].alpha = projectile.alpha;
-				Main.dust[purple].velocity *= 0f;
-				Main.dust[purple].noGravity = true;
+				if (Main.rand.NextBool(2))
+				{
+					int purple = Dust.NewDust(projectile.position, 1, 1, 70, 0f, 0f, 0, default, 0.5f);
+					Main.dust[purple].alpha = projectile.alpha;
+					Main.dust[purple].velocity *= 0f;
+					Main.dust[purple].noGravity = true;
+				}
 			}
 
 			if (projectile.ai[0] > 0f)

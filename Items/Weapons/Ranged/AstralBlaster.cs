@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.rare = ItemRarityID.Cyan;
             item.UseSound = SoundID.Item41;
             item.autoReuse = true;
-            item.shootSpeed = 14f;
+            item.shootSpeed = 12f;
             item.shoot = ModContent.ProjectileType<AstralRound>();
             item.useAmmo = AmmoID.Bullet;
         }

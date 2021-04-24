@@ -11,7 +11,8 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Cryophobia");
-            Tooltip.SetDefault("Chill");
+            Tooltip.SetDefault("Chill\n" +
+				"Fires an ice ball that splits multiple times before exploding into shards");
         }
 
         public override void SetDefaults()

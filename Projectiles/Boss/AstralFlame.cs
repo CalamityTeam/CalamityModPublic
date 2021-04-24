@@ -40,27 +40,29 @@ namespace CalamityMod.Projectiles.Boss
                 projectile.frameCounter = 0;
             }
             if (projectile.frame > 3)
-            {
                 projectile.frame = 0;
-            }
+
             if (projectile.velocity.X < 0f)
             {
                 projectile.spriteDirection = -1;
-                projectile.rotation = (float)Math.Atan2((double)-(double)projectile.velocity.Y, (double)-(double)projectile.velocity.X);
+                projectile.rotation = (float)Math.Atan2(-projectile.velocity.Y, -projectile.velocity.X);
             }
             else
             {
                 projectile.spriteDirection = 1;
-                projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X);
+                projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X);
             }
+
             Lighting.AddLight(projectile.Center, 0.3f, 0.5f, 0.1f);
-            int num103 = (int)Player.FindClosest(projectile.Center, 1, 1);
+
+            int num103 = Player.FindClosest(projectile.Center, 1, 1);
             Vector2 vector11 = Main.player[num103].Center - projectile.Center;
             if (vector11.Length() < 60f)
             {
                 projectile.Kill();
                 return;
             }
+
             projectile.ai[0] += 1f;
             if (projectile.ai[0] > 15f)
             {
@@ -68,22 +70,27 @@ namespace CalamityMod.Projectiles.Boss
                 Main.dust[num469].noGravity = true;
                 Main.dust[num469].velocity *= 0f;
             }
+
             if (projectile.ai[0] >= 120f)
             {
-                projectile.ai[1] += 1f;
                 if (projectile.ai[1] < 120f)
                 {
-                    float scaleFactor2 = projectile.velocity.Length();
+					if (projectile.ai[1] < 15f)
+						projectile.velocity *= 1.02f;
+
+					float scaleFactor2 = projectile.velocity.Length();
                     vector11.Normalize();
                     vector11 *= scaleFactor2;
                     projectile.velocity = (projectile.velocity * 15f + vector11) / 16f;
                     projectile.velocity.Normalize();
                     projectile.velocity *= scaleFactor2;
                 }
-                else if (Math.Abs(projectile.velocity.X) + Math.Abs(projectile.velocity.Y) < 18f)
+                else if (projectile.velocity.Length() < 18f)
                     projectile.velocity *= 1.01f;
-            }
-        }
+
+				projectile.ai[1] += 1f;
+			}
+		}
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {

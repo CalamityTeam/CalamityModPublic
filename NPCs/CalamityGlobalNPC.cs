@@ -3422,18 +3422,11 @@ namespace CalamityMod.NPCs
 		#region AI
 		public override void AI(NPC npc)
         {
-            if (CalamityWorld.revenge || BossRushEvent.BossRushActive)
-            {
-                switch (npc.type)
-                {
-                    case NPCID.DungeonGuardian:
-                        CalamityGlobalAI.RevengeanceDungeonGuardianAI(npc);
-                        break;
-
-                    default:
-                        break;
-                }
-            }
+			if (CalamityWorld.revenge || BossRushEvent.BossRushActive)
+			{
+				if (npc.type == NPCID.DungeonGuardian)
+					CalamityGlobalAI.RevengeanceDungeonGuardianAI(npc);
+			}
         }
         #endregion
 
@@ -3642,6 +3635,10 @@ namespace CalamityMod.NPCs
 		#region Modify Hit
 		public override void ModifyHitByItem(NPC npc, Player player, Item item, ref int damage, ref float knockback, ref bool crit)
 		{
+			CalamityPlayer modPlayer = player.Calamity();
+			if (modPlayer.camper && !player.StandingStill())
+				damage = (int)(damage * 0.1);
+
 			if (npc.type == NPCType<Polterghast.Polterghast>())
 			{
 				if (item.type == ItemType<GrandDad>())
@@ -3663,12 +3660,13 @@ namespace CalamityMod.NPCs
 
 			CalamityGlobalTownNPC.MakeTownNPCsTakeMoreDamage(npc, projectile, mod, ref damage);
 
+			if (modPlayer.camper && !player.StandingStill())
+				damage = (int)(damage * 0.1);
+
 			if (!projectile.npcProj && !projectile.trap)
 			{
 				if (projectile.ranged && modPlayer.plagueReaper && pFlames > 0)
-				{
 					damage = (int)(damage * 1.1);
-				}
 			}
 
 			// Nerfed because these are really overpowered

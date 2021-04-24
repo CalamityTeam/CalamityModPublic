@@ -139,8 +139,8 @@ namespace CalamityMod.NPCs.DesertScourge
 
 			if (lungeUpward)
 			{
-				speed *= 2f;
-				turnSpeed *= 2f;
+				speed *= 1.5f;
+				turnSpeed *= 1.5f;
 			}
 
 			if (npc.Calamity().enraged > 0)

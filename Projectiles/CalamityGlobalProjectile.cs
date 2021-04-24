@@ -962,42 +962,62 @@ namespace CalamityMod.Projectiles
             Player player = Main.player[projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
 
-			if (defDamage == 0 && projectile.hostile)
+			if (defDamage == 0)
 			{
-				// Reduce Nail damage from Nailheads because they're stupid
-				if (projectile.type == ProjectileID.Nail && Main.expertMode)
-					projectile.damage /= 2;
-
-				if ((CalamityLists.hardModeNerfList.Contains(projectile.type) && Main.hardMode && !CalamityPlayer.areThereAnyDamnBosses && !Main.snowMoon) || projectile.type == ProjectileID.JavelinHostile)
+				if (projectile.hostile)
 				{
-					projectile.damage = (int)(projectile.damage * 0.65);
+					// Reduce Nail damage from Nailheads because they're stupid
+					if (projectile.type == ProjectileID.Nail && Main.expertMode)
+						projectile.damage /= 2;
+
+					if ((CalamityLists.hardModeNerfList.Contains(projectile.type) && Main.hardMode && !CalamityPlayer.areThereAnyDamnBosses && !Main.snowMoon) || projectile.type == ProjectileID.JavelinHostile)
+					{
+						projectile.damage = (int)(projectile.damage * 0.65);
+					}
+
+					// Reduce mech boss projectile damage depending on the new ore progression changes
+					if (CalamityConfig.Instance.EarlyHardmodeProgressionRework)
+					{
+						if (!NPC.downedMechBossAny)
+						{
+							if (MechBossProjectileIDs.Contains(projectile.type))
+							{
+								if (CalamityUtils.AnyBossNPCS(true))
+									projectile.damage = (int)(projectile.damage * 0.8);
+							}
+						}
+						else if ((!NPC.downedMechBoss1 && !NPC.downedMechBoss2) || (!NPC.downedMechBoss2 && !NPC.downedMechBoss3) || (!NPC.downedMechBoss3 && !NPC.downedMechBoss1))
+						{
+							if (MechBossProjectileIDs.Contains(projectile.type))
+							{
+								if (CalamityUtils.AnyBossNPCS(true))
+									projectile.damage = (int)(projectile.damage * 0.9);
+							}
+						}
+					}
 				}
-
-				// Reduce mech boss projectile damage depending on the new ore progression changes
-				if (CalamityConfig.Instance.EarlyHardmodeProgressionRework)
+				else
 				{
-					if (!NPC.downedMechBossAny)
-					{
-						if (MechBossProjectileIDs.Contains(projectile.type))
-						{
-							if (CalamityUtils.AnyBossNPCS(true))
-								projectile.damage = (int)(projectile.damage * 0.8);
-						}
-					}
-					else if ((!NPC.downedMechBoss1 && !NPC.downedMechBoss2) || (!NPC.downedMechBoss2 && !NPC.downedMechBoss3) || (!NPC.downedMechBoss3 && !NPC.downedMechBoss1))
-					{
-						if (MechBossProjectileIDs.Contains(projectile.type))
-						{
-							if (CalamityUtils.AnyBossNPCS(true))
-								projectile.damage = (int)(projectile.damage * 0.9);
-						}
-					}
+					if (modPlayer.camper && !player.StandingStill())
+						projectile.damage = (int)(projectile.damage * 0.1);
 				}
 
 				defDamage = projectile.damage;
 			}
 
-            if (NPC.downedMoonlord)
+			// Setting this in SetDefaults didn't work
+			switch (projectile.type)
+			{
+				case ProjectileID.Bee:
+				case ProjectileID.Wasp:
+				case ProjectileID.TinyEater:
+				case ProjectileID.GiantBee:
+				case ProjectileID.Bat:
+					projectile.extraUpdates = 1;
+					break;
+			}
+
+			if (NPC.downedMoonlord)
             {
                 if (CalamityLists.dungeonProjectileBuffList.Contains(projectile.type))
                 {
