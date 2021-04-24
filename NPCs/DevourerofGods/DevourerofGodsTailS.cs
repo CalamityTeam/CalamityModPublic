@@ -97,8 +97,8 @@ namespace CalamityMod.NPCs.DevourerofGods
 			if (Main.npc[(int)npc.ai[2]].dontTakeDamage)
 				invinceTime = 240;
 
-            if (npc.ai[3] > 0f)
-                npc.realLife = (int)npc.ai[3];
+            if (npc.ai[2] > 0f)
+                npc.realLife = (int)npc.ai[2];
 
 			// Target
 			if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)

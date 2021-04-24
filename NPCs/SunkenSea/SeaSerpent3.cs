@@ -43,9 +43,9 @@ namespace CalamityMod.NPCs.SunkenSea
         public override void AI()
         {
             Lighting.AddLight(npc.Center, (255 - npc.alpha) * 0f / 255f, (255 - npc.alpha) * 0.30f / 255f, (255 - npc.alpha) * 0.30f / 255f);
-            if (npc.ai[3] > 0f)
+            if (npc.ai[2] > 0f)
             {
-                npc.realLife = (int)npc.ai[3];
+                npc.realLife = (int)npc.ai[2];
             }
             bool flag = false;
             if (npc.ai[1] <= 0f)
