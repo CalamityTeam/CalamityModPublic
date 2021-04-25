@@ -163,7 +163,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 
 			// Variables
 			Vector2 vector = npc.Center;
-            bool flies = npc.ai[2] == 0f;
+            bool flies = npc.ai[3] == 0f;
 			bool malice = CalamityWorld.malice;
 			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive || malice;
 			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive || malice;
@@ -577,7 +577,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 			int phaseLimit = death ? 600 : 900;
 
 			// Flight
-			if (npc.ai[2] == 0f)
+			if (npc.ai[3] == 0f)
             {
                 if (Main.netMode != NetmodeID.Server)
                 {
@@ -784,7 +784,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 
                 if (calamityGlobalNPC.newAI[2] > phaseLimit)
                 {
-                    npc.ai[2] = 1f;
+                    npc.ai[3] = 1f;
 					calamityGlobalNPC.newAI[2] = 0f;
 					npc.TargetClosest();
                     npc.netUpdate = true;
@@ -1057,7 +1057,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 
                 if (calamityGlobalNPC.newAI[2] > phaseLimit)
                 {
-                    npc.ai[2] = 0f;
+                    npc.ai[3] = 0f;
 					calamityGlobalNPC.newAI[2] = 0f;
 					npc.TargetClosest();
                     npc.netUpdate = true;

@@ -2388,14 +2388,14 @@ namespace CalamityMod.CalPlayer
                     }
                 }
             }
-            if (CalamityWorld.armageddon && !areThereAnyDamnBosses)
-            {
-                player.respawnTimer -= 5;
-            }
-            else if (player.respawnTimer > 300 && Main.expertMode) //600 normal 900 expert
-            {
-                player.respawnTimer--;
-            }
+
+			if (player.respawnTimer > 300)
+			{
+				if (CalamityWorld.armageddon && !areThereAnyDamnBosses)
+					player.respawnTimer -= 5;
+				else if (Main.expertMode) // 600 normal 900 expert
+					player.respawnTimer--;
+			}
         }
         #endregion
 
