@@ -1,5 +1,4 @@
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -22,20 +21,20 @@ namespace CalamityMod.Projectiles.Typeless
             projectile.penetrate = 1;
         }
 
-        public override void AI()
+		public override bool? CanHitNPC(NPC target) => projectile.ai[1] >= 30f && target.CanBeChasedBy(projectile);
+
+		public override void AI()
         {
             Lighting.AddLight(projectile.Center, new Vector3(0.075f, 0.4f, 0.15f));
+
             projectile.rotation += projectile.velocity.X * 0.2f;
             if (projectile.velocity.X > 0f)
-            {
                 projectile.rotation += 0.08f;
-            }
             else
-            {
                 projectile.rotation -= 0.08f;
-            }
+
             projectile.ai[1] += 1f;
-            if (projectile.ai[1] > 30f)
+            if (projectile.ai[1] > 60f)
             {
                 projectile.alpha += 5;
                 if (projectile.alpha >= 255)
@@ -45,7 +44,9 @@ namespace CalamityMod.Projectiles.Typeless
                     return;
                 }
             }
-            CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 200f, 12f, 20f);
+
+			if (projectile.ai[1] >= 30f)
+				CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 200f, 12f, 20f);
         }
 
         public override void Kill(int timeLeft)

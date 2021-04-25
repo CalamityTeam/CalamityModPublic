@@ -27,21 +27,21 @@ namespace CalamityMod.Projectiles.Rogue
         public override void AI()
         {
 			projectile.velocity *= 0f;
+
             if (Main.rand.NextBool(5) && projectile.frame < 3)
             {
                 int crystalDust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 87, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
 				Main.dust[crystalDust].noGravity = true;
             }
+
             projectile.frameCounter++;
             if (projectile.frameCounter > 4 && projectile.frame > 0)
             {
                 projectile.frame--;
                 projectile.frameCounter = 0;
             }
-            if (projectile.frame < 0) //just in case
-            {
+            if (projectile.frame < 0)
                 projectile.frame = 0;
-            }
         }
 
         public override void Kill(int timeLeft)

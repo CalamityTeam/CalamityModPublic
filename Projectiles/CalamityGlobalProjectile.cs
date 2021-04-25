@@ -1195,7 +1195,7 @@ namespace CalamityMod.Projectiles
                 {
                     if (Main.player[projectile.owner].miscCounter % 6 == 0 && projectile.FinalExtraUpdate())
                     {
-                        if (projectile.owner == Main.myPlayer && player.ownedProjectileCounts[ProjectileID.Mushroom] < 30)
+                        if (projectile.owner == Main.myPlayer && player.ownedProjectileCounts[ProjectileID.Mushroom] < 15)
                         {
                             //Note: these don't count as true melee anymore but its useful code to keep around
                             if (projectile.type == ProjectileType<NebulashFlail>() || projectile.type == ProjectileType<CosmicDischargeFlail>() ||
@@ -1212,13 +1212,11 @@ namespace CalamityMod.Projectiles
                                 }
                                 vector24 -= new Vector2(player.bodyFrame.Width - player.width, player.bodyFrame.Height - 42) / 2f;
                                 Vector2 newCenter = player.RotatedRelativePoint(player.position + vector24, true) + projectile.velocity;
-                                Projectile.NewProjectile(newCenter.X, newCenter.Y, 0f, 0f, ProjectileID.Mushroom,
-									(int)(projectile.damage * 0.15), 0f, projectile.owner, 0f, 0f);
+                                Projectile.NewProjectile(newCenter, Vector2.Zero, ProjectileID.Mushroom, (int)(projectile.damage * 0.15), 0f, projectile.owner);
                             }
                             else
                             {
-                                Projectile.NewProjectile(projectile.Center, Vector2.Zero, ProjectileID.Mushroom,
-                                    (int)(projectile.damage * 0.15), 0f, projectile.owner, 0f, 0f);
+                                Projectile.NewProjectile(projectile.Center, Vector2.Zero, ProjectileID.Mushroom, (int)(projectile.damage * 0.15), 0f, projectile.owner);
                             }
                         }
                     }
@@ -1230,32 +1228,31 @@ namespace CalamityMod.Projectiles
                     {
                         if (Main.player[projectile.owner].miscCounter % 30 == 0 && projectile.FinalExtraUpdate())
                         {
-                            if (projectile.owner == Main.myPlayer && player.ownedProjectileCounts[ProjectileType<Nanotech>()] < 25)
+                            if (projectile.owner == Main.myPlayer && player.ownedProjectileCounts[ProjectileType<Nanotech>()] < 5)
                             {
-                                Projectile.NewProjectile(projectile.Center, Vector2.Zero, ProjectileType<Nanotech>(), (int)(projectile.damage * 0.15), 0f, projectile.owner, 0f, 0f);
+                                Projectile.NewProjectile(projectile.Center, Vector2.Zero, ProjectileType<Nanotech>(), (int)(60 * player.RogueDamage()), 0f, projectile.owner);
                             }
                         }
                     }
-                    // Moon Crown gets overridden by Nanotech
                     else if (modPlayer.moonCrown && projectile.type != ProjectileType<MoonSigil>() && projectile.type != ProjectileType<DragonShit>())
                     {
-						if (Main.player[projectile.owner].miscCounter % 300 == 0 && projectile.FinalExtraUpdate())
+						if (Main.player[projectile.owner].miscCounter % 120 == 0 && projectile.FinalExtraUpdate())
 						{
-							if (projectile.owner == Main.myPlayer && player.ownedProjectileCounts[ProjectileType<MoonSigil>()] < 15)
+							if (projectile.owner == Main.myPlayer && player.ownedProjectileCounts[ProjectileType<MoonSigil>()] < 5)
 							{
-								Projectile.NewProjectile(projectile.Center, Vector2.Zero, ProjectileType<MoonSigil>(), (int)(projectile.damage * 0.2), 0, projectile.owner);
+								Projectile.NewProjectile(projectile.Center, Vector2.Zero, ProjectileType<MoonSigil>(), (int)(45 * player.RogueDamage()), 0f, projectile.owner);
 							}
 						}
                     }
+
                     if (modPlayer.dragonScales && projectile.type != ProjectileType<MoonSigil>() && projectile.type != ProjectileType<DragonShit>())
                     {
                         if (Main.player[projectile.owner].miscCounter % 50 == 0 && projectile.FinalExtraUpdate())
                         {
-                            if (projectile.owner == Main.myPlayer && player.ownedProjectileCounts[ProjectileType<DragonShit>()] < 15)
+                            if (projectile.owner == Main.myPlayer && player.ownedProjectileCounts[ProjectileType<DragonShit>()] < 5)
                             {
-                                // Spawn a dust that does 1/5th of the original damage
                                 Projectile.NewProjectile(projectile.Center, Vector2.One.RotatedByRandom(MathHelper.TwoPi), ProjectileType<DragonShit>(),
-                                    (int)(projectile.damage * 0.2), 0f, projectile.owner, 0f, 0f);
+									(int)(80 * player.RogueDamage()), 0f, projectile.owner);
                             }
                         }
                     }
@@ -1276,7 +1273,8 @@ namespace CalamityMod.Projectiles
                             }
                         }
                     }
-                    //will always be friendly and rogue if it has this boost
+
+                    // Will always be friendly and rogue if it has this boost
                     if (modPlayer.momentumCapacitor && momentumCapacitatorBoost)
                     {
                         if (projectile.velocity.Length() < 26f)
@@ -1637,39 +1635,37 @@ namespace CalamityMod.Projectiles
         #region Kill
         public override void Kill(Projectile projectile, int timeLeft)
         {
-            CalamityPlayer modPlayer = Main.player[projectile.owner].Calamity();
+			Player player = Main.player[projectile.owner];
+            CalamityPlayer modPlayer = player.Calamity();
             if (projectile.owner == Main.myPlayer && !projectile.npcProj && !projectile.trap)
             {
                 if (rogue)
                 {
-                    if (modPlayer.etherealExtorter && Main.player[projectile.owner].ownedProjectileCounts[ProjectileType<LostSoulFriendly>()] < 10)
+                    if (modPlayer.etherealExtorter && Main.player[projectile.owner].ownedProjectileCounts[ProjectileType<LostSoulFriendly>()] < 5)
                     {
                         for (int i = 0; i < 2; i++)
                         {
                             Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
-                            int soul = Projectile.NewProjectile(projectile.Center, velocity, ProjectileType<LostSoulFriendly>(), (int)(projectile.damage * 0.1), 0f, projectile.owner, 0f, 0f);
+                            int soul = Projectile.NewProjectile(projectile.Center, velocity, ProjectileType<LostSoulFriendly>(), (int)(25 * player.RogueDamage()), 0f, projectile.owner);
                             Main.projectile[soul].tileCollide = false;
                         }
                     }
+
                     if (modPlayer.scuttlersJewel && CalamityLists.javelinProjList.Contains(projectile.type) && Main.rand.NextBool(3))
                     {
-                        int spike = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ProjectileType<JewelSpike>(), (int)(projectile.damage * 0.35), projectile.knockBack, projectile.owner);
+                        int spike = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ProjectileType<JewelSpike>(), (int)(15 * player.RogueDamage()), projectile.knockBack, projectile.owner);
                         Main.projectile[spike].frame = 4;
                     }
                 }
 
                 if (projectile.type == ProjectileID.UnholyWater)
-                {
                     Projectile.NewProjectile(projectile.Center, Vector2.Zero, ProjectileType<WaterConvertor>(), 0, 0f, projectile.owner, 1f);
-                }
+
                 if (projectile.type == ProjectileID.BloodWater)
-                {
                     Projectile.NewProjectile(projectile.Center, Vector2.Zero, ProjectileType<WaterConvertor>(), 0, 0f, projectile.owner, 2f);
-                }
+
                 if (projectile.type == ProjectileID.HolyWater)
-                {
                     Projectile.NewProjectile(projectile.Center, Vector2.Zero, ProjectileType<WaterConvertor>(), 0, 0f, projectile.owner, 3f);
-                }
             }
         }
         #endregion
