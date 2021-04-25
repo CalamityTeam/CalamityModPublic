@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Fulguration Halberd");
-            Tooltip.SetDefault("Inflicts burning blood on enemy hits\n" +
+            Tooltip.SetDefault("Inflicts burning blood on enemy hits and decreases enemy contact damage by 10% on hit\n" +
                 "Right click to use as a spear");
         }
 
@@ -21,7 +21,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.width = 60;
             item.height = 64;
 			item.scale = 1.5f;
-            item.damage = 53;
+            item.damage = 120;
             item.melee = true;
             item.useAnimation = 22;
             item.useStyle = ItemUseStyleID.SwingThrow;

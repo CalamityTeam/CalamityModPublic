@@ -65,9 +65,8 @@ namespace CalamityMod.NPCs
 			float lifeRatio = npc.life / (float)npc.lifeMax;
 
 			// Phases
-			bool phase2 = lifeRatio < 0.8f;
-			bool phase3 = lifeRatio < 0.6f;
-			bool phase4 = lifeRatio < 0.4f;
+			bool phase2 = lifeRatio < 0.75f;
+			bool phase3 = lifeRatio < 0.5f;
 
 			// Increase aggression if player is taking a long time to kill the boss
 			if (lifeRatio > calamityGlobalNPC.killTimeRatio_IncreasedAggression)
@@ -213,7 +212,7 @@ namespace CalamityMod.NPCs
 					}
 
 					// Big barf attack
-					if (calamityGlobalNPC.newAI[0] == 1f && !doSpiral && phase3)
+					if (calamityGlobalNPC.newAI[0] == 1f && !doSpiral && phase2)
 					{
 						npc.localAI[0] += 1f;
 						if (player.gravDir == -1f && expertMode)
@@ -240,7 +239,7 @@ namespace CalamityMod.NPCs
 										Projectile.NewProjectile(npc.Center, vector255, type, damage, 0f, Main.myPlayer, 0f, 0f);
 									}
 
-									if (phase4)
+									if (phase3)
 									{
 										int num320 = expertMode ? 14 : 7;
 										type = ModContent.ProjectileType<SandPoisonCloud>();
@@ -269,7 +268,7 @@ namespace CalamityMod.NPCs
 				// Fire sand blasts or teeth depending on body type
 				else
 				{
-					if (calamityGlobalNPC.newAI[0] == 1f && phase2)
+					if (calamityGlobalNPC.newAI[0] == 1f)
 					{
 						npc.localAI[0] += 1f;
 						float shootProjectile = 300;
@@ -3093,11 +3092,9 @@ namespace CalamityMod.NPCs
 			// Phases based on life percentage
 			bool halfHealth = lifeRatio < 0.5f;
 			bool doubleWormPhase = calamityGlobalNPC.newAI[0] != 0f;
-			bool phase2 = (lifeRatio < 0.9f && expertMode) || (doubleWormPhase && expertMode);
 			bool startFlightPhase = lifeRatio < 0.8f || death || doubleWormPhase;
-			bool phase3 = (lifeRatio < 0.7f && expertMode) || (doubleWormPhase && expertMode);
-			bool phase4 = lifeRatio < 0.5f && doubleWormPhase && expertMode;
-			bool phase5 = lifeRatio < 0.2f && doubleWormPhase && expertMode;
+			bool phase2 = lifeRatio < 0.5f && doubleWormPhase && expertMode;
+			bool phase3 = lifeRatio < 0.2f && doubleWormPhase && expertMode;
 
 			// Set timed DR
 			if (!doubleWormPhase)
@@ -3451,7 +3448,7 @@ namespace CalamityMod.NPCs
 
 				if (flyAtTarget)
 				{
-					float speedMultiplier = doubleWormPhase ? (phase5 ? 1.25f : phase4 ? 1.2f : 1.15f) : 1f;
+					float speedMultiplier = doubleWormPhase ? (phase3 ? 1.25f : phase2 ? 1.2f : 1.15f) : 1f;
 					speed *= speedMultiplier;
 				}
 
@@ -3651,14 +3648,9 @@ namespace CalamityMod.NPCs
 				// Shoot lasers
 				if (npc.type == ModContent.NPCType<AstrumDeusBodySpectral>() && Main.netMode != NetmodeID.MultiplayerClient)
 				{
-					int shootTime = 1;
-					if (phase2 || targetFloatingUp)
-						shootTime += 1;
-					if (phase3 || targetFloatingUp)
-						shootTime += 1;
-
+					int shootTime = ((doubleWormPhase && expertMode) || targetFloatingUp) ? 2 : 1;
 					npc.localAI[0] += 1f;
-					float shootProjectile = 600 / shootTime;
+					float shootProjectile = 400 / shootTime;
 					float timer = npc.ai[0] + 15f;
 					float divisor = timer + shootProjectile;
 					if (!flyAtTarget)

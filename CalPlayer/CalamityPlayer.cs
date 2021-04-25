@@ -44,6 +44,7 @@ using CalamityMod.Projectiles.DraedonsArsenal;
 using CalamityMod.Projectiles.Enemy;
 using CalamityMod.Projectiles.Environment;
 using CalamityMod.Projectiles.Melee;
+using CalamityMod.Projectiles.Melee.Spears;
 using CalamityMod.Projectiles.Ranged;
 using CalamityMod.Projectiles.Rogue;
 using CalamityMod.Projectiles.Summon;
@@ -4762,7 +4763,10 @@ namespace CalamityMod.CalPlayer
                     break;
             }
 
-            CalamityPlayerOnHit.ItemLifesteal(player, mod, target, item, damage);
+			if (item.type == ModContent.ItemType<FulgurationHalberd>())
+				target.damage = (int)(target.defDamage * 0.9);
+
+			CalamityPlayerOnHit.ItemLifesteal(player, mod, target, item, damage);
             CalamityPlayerOnHit.ItemOnHit(player, mod, item, damage, target.Center, crit, (target.damage > 5 || target.boss) && !target.SpawnedFromStatue);
             CalamityPlayerOnHit.NPCDebuffs(player, mod, target, item.melee, item.ranged, item.magic, item.summon, item.Calamity().rogue, false);
 
@@ -4891,21 +4895,19 @@ namespace CalamityMod.CalPlayer
                     break;
             }
 
-            if (ProjectileID.Sets.StardustDragon[proj.type])
-            {
+			if (proj.type == ModContent.ProjectileType<FulgurationHalberdProj>())
+				target.damage = (int)(target.defDamage * 0.9);
+
+			if (ProjectileID.Sets.StardustDragon[proj.type])
                 target.immune[proj.owner] = 10;
-            }
 
             if (!proj.npcProj && !proj.trap && proj.friendly)
             {
                 if ((plaguebringerCarapace || uberBees) && CalamityLists.friendlyBeeList.Contains(proj.type))
-                {
                     target.AddBuff(ModContent.BuffType<Plague>(), 360);
-                }
+
                 if (proj.type == ProjectileID.IchorArrow && player.ActiveItem().type == ModContent.ItemType<RaidersGlory>())
-                {
                     target.AddBuff(BuffID.Midas, 300, false);
-                }
 
                 CalamityPlayerOnHit.ProjLifesteal(player, mod, target, proj, damage, crit);
                 CalamityPlayerOnHit.ProjOnHit(player, mod, proj, target.Center, crit, (target.damage > 5 || target.boss) && !target.SpawnedFromStatue);
@@ -4914,6 +4916,7 @@ namespace CalamityMod.CalPlayer
                 // Shattered Community tracks all damage dealt with Rage Mode (ignoring dummies).
                 if (target.type == NPCID.TargetDummy || target.type == ModContent.NPCType<SuperDummyNPC>())
                     return;
+
                 if (rageModeActive && shatteredCommunity)
                     ShatteredCommunity.AccumulateRageDamage(player, this, damage);
             }

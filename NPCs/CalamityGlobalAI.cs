@@ -4625,12 +4625,8 @@ namespace CalamityMod.NPCs
                         if (Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height))
                         {
 							// Laser speed
-                            float projectileSpeed = 4f;
+                            float projectileSpeed = 4.5f;
 							projectileSpeed += enrageScale;
-                            if (phase2)
-                                projectileSpeed += 0.25f;
-                            if (phase3)
-                                projectileSpeed += 0.25f;
                             if (BossRushEvent.BossRushActive)
                                 projectileSpeed *= 1.25f;
 

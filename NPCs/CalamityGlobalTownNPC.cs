@@ -752,11 +752,6 @@ namespace CalamityMod.NPCs
 					break;
 
 				case NPCID.Wizard:
-					if (Main.rand.NextBool(10) && permadong != -1)
-					{
-						chat = "I'd let " + Main.npc[permadong].GivenName + " coldheart MY icicle.";
-					}
-
 					if (Main.rand.NextBool(10) && Main.hardMode)
 					{
 						chat = "Space just got way too close for comfort.";

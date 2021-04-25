@@ -95,6 +95,9 @@ namespace CalamityMod.NPCs
 		// Max velocity used in contact damage scaling
 		public float maxVelocity = 0f;
 
+		// Variable used to nerf desert prehardmode enemies pre-Desert Scourge
+		private const double DesertEnemyStatMultiplier = 0.75;
+
 		// Town NPC shop alert animation variables
 		public int shopAlertAnimTimer = 0;
 		public int shopAlertAnimFrame = 0;
@@ -986,9 +989,7 @@ namespace CalamityMod.NPCs
         public override void SetDefaults(NPC npc)
         {
             for (int m = 0; m < maxAIMod; m++)
-            {
                 newAI[m] = 0f;
-            }
 
 			// Apply DR to vanilla NPCs.
 			// This also applies DR to other mods' NPCs who have set up their NPCs to have DR.
@@ -1011,21 +1012,15 @@ namespace CalamityMod.NPCs
             DebuffImmunities(npc);
 
             if (BossRushEvent.BossRushActive)
-            {
                 BossRushStatChanges(npc, mod);
-            }
 
             BossValueChanges(npc);
 
             if (DraedonMayhem)
-            {
                 DraedonMechaMayhemStatChanges(npc);
-            }
 
             if (CalamityWorld.revenge)
-            {
                 RevDeathStatChanges(npc, mod);
-            }
 
             OtherStatChanges(npc);
         }
@@ -1063,7 +1058,7 @@ namespace CalamityMod.NPCs
 				npc.buffImmune[BuffType<SulphuricPoisoning>()] = false;
 			}
 
-			// Sets certain vanilla NPCs and all town NPCs to be immune to all debuffs.
+			// Sets certain vanilla NPCs and all town NPCs to be immune to most debuffs.
 			if (DestroyerIDs.Contains(npc.type) || npc.type == NPCID.SkeletronHead || (EaterofWorldsIDs.Contains(npc.type) && BossRushEvent.BossRushActive) || npc.type == NPCID.DD2EterniaCrystal || npc.townNPC || npc.type == NPCID.SpikeBall || npc.type == NPCID.BlazingWheel)
 			{
 				for (int k = 0; k < npc.buffImmune.Length; k++)
@@ -1365,16 +1360,13 @@ namespace CalamityMod.NPCs
 				case NPCID.LittleCrimera:
 				case NPCID.Corruptor:
 				case NPCID.DevourerHead:
-				case NPCID.WalkingAntlion:
 				case NPCID.Crawdad:
-				case NPCID.Crawdad2: // chomp
-				case NPCID.DungeonGuardian:
+				case NPCID.Crawdad2:
 				case NPCID.ManEater:
 				case NPCID.AngryTrapper:
 				case NPCID.Snatcher:
 				case NPCID.SpikeBall:
-				case NPCID.TombCrawlerHead: // lol
-				case NPCID.DesertBeast: // don't ask me why basilisks are called this
+				case NPCID.DesertBeast:
 				case NPCID.BoneLee:
 				case NPCID.Paladin:
 				case NPCID.BigMimicCorruption:
@@ -1383,7 +1375,7 @@ namespace CalamityMod.NPCs
 				case NPCID.DiggerHead:
 				case NPCID.SeekerHead:
 				case NPCID.DuneSplicerHead:
-				case NPCID.SolarCrawltipedeHead: // everybody hates this enemy lol, but they're not that bad
+				case NPCID.SolarCrawltipedeHead:
 				case NPCID.Mimic:
 				case NPCID.SandShark:
 				case NPCID.SandsharkCorrupt:
@@ -1398,7 +1390,7 @@ namespace CalamityMod.NPCs
 				case NPCID.PresentMimic:
 				case NPCID.Yeti:
 				case NPCID.NebulaBeast:
-				case NPCID.SolarCorite: // pain
+				case NPCID.SolarCorite:
 				case NPCID.StardustWormHead:
 				case NPCID.EaterofWorldsHead:
 				case NPCID.SkeletronHead:
@@ -1428,24 +1420,93 @@ namespace CalamityMod.NPCs
 				case NPCID.PumpkingBlade:
 				case NPCID.SantaNK1:
 				case NPCID.DukeFishron:
+					canBreakPlayerDefense = true;
+					break;
+
+				// Reduce prehardmode desert enemy stats pre-Desert Scourge
+				case NPCID.WalkingAntlion:
+					if (!CalamityWorld.downedDesertScourge)
+					{
+						npc.lifeMax = (int)(npc.lifeMax * DesertEnemyStatMultiplier);
+						npc.damage = (int)(npc.damage * DesertEnemyStatMultiplier);
+						npc.defDamage = npc.damage;
+						npc.defense /= 2;
+						npc.defDefense = npc.defense;
+					}
+					canBreakPlayerDefense = true;
+					break;
+
+				case NPCID.Antlion:
+				case NPCID.FlyingAntlion:
+					if (!CalamityWorld.downedDesertScourge)
+					{
+						npc.lifeMax = (int)(npc.lifeMax * DesertEnemyStatMultiplier);
+						npc.damage = (int)(npc.damage * DesertEnemyStatMultiplier);
+						npc.defDamage = npc.damage;
+						npc.defense /= 2;
+						npc.defDefense = npc.defense;
+					}
+					break;
+
+				// Reduce Dungeon Guardian HP
+				case NPCID.DungeonGuardian:
+					npc.lifeMax = (int)(npc.lifeMax * 0.1);
+					canBreakPlayerDefense = true;
+					break;
+
+				// Reduce Tomb Crawler stats
+				case NPCID.TombCrawlerHead:
+					npc.lifeMax = (int)(npc.lifeMax * (CalamityWorld.downedDesertScourge ? 0.6 : 0.45));
+					if (!CalamityWorld.downedDesertScourge)
+					{
+						npc.damage = (int)(npc.damage * DesertEnemyStatMultiplier);
+						npc.defDamage = npc.damage;
+						// Tomb Crawler Head has 0 defense so there is no need to reduce it
+					}
+					canBreakPlayerDefense = true;
+					break;
+
+				case NPCID.TombCrawlerBody:
+				case NPCID.TombCrawlerTail:
+					npc.lifeMax = (int)(npc.lifeMax * (CalamityWorld.downedDesertScourge ? 0.6 : 0.45));
+					if (!CalamityWorld.downedDesertScourge)
+					{
+						npc.damage = (int)(npc.damage * DesertEnemyStatMultiplier);
+						npc.defDamage = npc.damage;
+						npc.defense /= 2;
+						npc.defDefense = npc.defense;
+					}
+					break;
+
+				// Fix Sharkron hitboxes
 				case NPCID.Sharkron:
 				case NPCID.Sharkron2:
+					npc.width = npc.height = 36;
 					canBreakPlayerDefense = true;
+					break;
+
+				// Make Core hitbox bigger
+				case NPCID.MartianSaucerCore:
+					npc.width *= 2;
+					npc.height *= 2;
+					break;
+
+				// Increase Cultist HP
+				case NPCID.CultistBoss:
+					npc.lifeMax = (int)(npc.lifeMax * (CalamityWorld.revenge ? 2 : 1.2));
+					npc.npcSlots = 20f;
+					break;
+
+				// Nerf Green Jellyfish because they spawn in prehardmode
+				case NPCID.GreenJellyfish:
+					npc.damage = 40;
+					npc.defDamage = npc.damage;
+					npc.defense = 4;
+					npc.defDefense = npc.defense;
 					break;
 
 				default:
 					break;
-			}
-
-            // Fix Sharkron hitboxes
-            if (npc.type == NPCID.Sharkron || npc.type == NPCID.Sharkron2)
-                npc.width = npc.height = 36;
-
-			// Make Core hitbox bigger
-			if (npc.type == NPCID.MartianSaucerCore)
-			{
-				npc.width *= 2;
-				npc.height *= 2;
 			}
 
 			// Reduce mech boss HP and damage depending on the new ore progression changes
@@ -1469,29 +1530,6 @@ namespace CalamityMod.NPCs
 						npc.defDamage = npc.damage;
 					}
 				}
-			}
-
-			if (npc.type == NPCID.CultistBoss)
-            {
-                npc.lifeMax = (int)(npc.lifeMax * (CalamityWorld.revenge ? 2 : 1.2));
-                npc.npcSlots = 20f;
-            }
-			else if (npc.type == NPCID.DungeonGuardian)
-			{
-				npc.lifeMax = (int)(npc.lifeMax * 0.1);
-			}
-
-			if (npc.type >= NPCID.TombCrawlerHead && npc.type <= NPCID.TombCrawlerTail && !Main.hardMode)
-            {
-                npc.lifeMax = (int)(npc.lifeMax * 0.6);
-            }
-
-			if (npc.type == NPCID.GreenJellyfish && !Main.hardMode)
-			{
-				npc.damage = 40;
-				npc.defDamage = npc.damage;
-				npc.defense = 4;
-				npc.defDefense = npc.defense;
 			}
 
 			if (Main.hardMode && HardmodeNPCNerfList.Contains(npc.type))

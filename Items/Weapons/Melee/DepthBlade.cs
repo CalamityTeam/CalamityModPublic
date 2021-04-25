@@ -21,7 +21,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             item.width = 56;
             item.height = 50;
-            item.damage = 22;
+            item.damage = 36;
             item.melee = true;
             item.useAnimation = 22;
             item.useTime = 22;
@@ -60,12 +60,12 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<CrushDepth>(), 180);
+            target.AddBuff(ModContent.BuffType<CrushDepth>(), 300);
         }
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<CrushDepth>(), 180);
+            target.AddBuff(ModContent.BuffType<CrushDepth>(), 300);
         }
     }
 }
