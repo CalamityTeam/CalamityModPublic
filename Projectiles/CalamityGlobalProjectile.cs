@@ -1224,7 +1224,7 @@ namespace CalamityMod.Projectiles
 
                 if (rogue)
                 {
-                    if (modPlayer.nanotech && projectile.type != ProjectileType<MoonSigil>() && projectile.type != ProjectileType<DragonShit>())
+                    if (modPlayer.nanotech)
                     {
                         if (Main.player[projectile.owner].miscCounter % 30 == 0 && projectile.FinalExtraUpdate())
                         {
@@ -1234,26 +1234,30 @@ namespace CalamityMod.Projectiles
                             }
                         }
                     }
-                    else if (modPlayer.moonCrown && projectile.type != ProjectileType<MoonSigil>() && projectile.type != ProjectileType<DragonShit>())
+                    else if (modPlayer.moonCrown)
                     {
 						if (Main.player[projectile.owner].miscCounter % 120 == 0 && projectile.FinalExtraUpdate())
 						{
 							if (projectile.owner == Main.myPlayer && player.ownedProjectileCounts[ProjectileType<MoonSigil>()] < 5)
 							{
-								Projectile.NewProjectile(projectile.Center, Vector2.Zero, ProjectileType<MoonSigil>(), (int)(45 * player.RogueDamage()), 0f, projectile.owner);
+								int proj = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ProjectileType<MoonSigil>(), (int)(45 * player.RogueDamage()), 0f, projectile.owner);
+								if (proj.WithinBounds(Main.maxProjectiles))
+									Main.projectile[proj].Calamity().forceTypeless = true;
 							}
 						}
                     }
 
-                    if (modPlayer.dragonScales && projectile.type != ProjectileType<MoonSigil>() && projectile.type != ProjectileType<DragonShit>())
+                    if (modPlayer.dragonScales)
                     {
                         if (Main.player[projectile.owner].miscCounter % 50 == 0 && projectile.FinalExtraUpdate())
                         {
                             if (projectile.owner == Main.myPlayer && player.ownedProjectileCounts[ProjectileType<DragonShit>()] < 5)
                             {
-                                Projectile.NewProjectile(projectile.Center, Vector2.One.RotatedByRandom(MathHelper.TwoPi), ProjectileType<DragonShit>(),
+                                int proj = Projectile.NewProjectile(projectile.Center, Vector2.One.RotatedByRandom(MathHelper.TwoPi), ProjectileType<DragonShit>(),
 									(int)(80 * player.RogueDamage()), 0f, projectile.owner);
-                            }
+								if (proj.WithinBounds(Main.maxProjectiles))
+									Main.projectile[proj].Calamity().forceTypeless = true;
+							}
                         }
                     }
 
@@ -1648,14 +1652,18 @@ namespace CalamityMod.Projectiles
                             Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
                             int soul = Projectile.NewProjectile(projectile.Center, velocity, ProjectileType<LostSoulFriendly>(), (int)(25 * player.RogueDamage()), 0f, projectile.owner);
                             Main.projectile[soul].tileCollide = false;
-                        }
+							if (soul.WithinBounds(Main.maxProjectiles))
+								Main.projectile[soul].Calamity().forceTypeless = true;
+						}
                     }
 
                     if (modPlayer.scuttlersJewel && CalamityLists.javelinProjList.Contains(projectile.type) && Main.rand.NextBool(3))
                     {
                         int spike = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ProjectileType<JewelSpike>(), (int)(15 * player.RogueDamage()), projectile.knockBack, projectile.owner);
                         Main.projectile[spike].frame = 4;
-                    }
+						if (spike.WithinBounds(Main.maxProjectiles))
+							Main.projectile[spike].Calamity().forceTypeless = true;
+					}
                 }
 
                 if (projectile.type == ProjectileID.UnholyWater)

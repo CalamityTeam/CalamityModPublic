@@ -19,8 +19,8 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.penetrate = -1;
             projectile.tileCollide = false;
             projectile.timeLeft = 40;
-            projectile.Calamity().rogue = true;
-            projectile.usesLocalNPCImmunity = true;
+			projectile.Calamity().rogue = true;
+			projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 10;
         }
 
@@ -52,9 +52,7 @@ namespace CalamityMod.Projectiles.Rogue
                 {
                     float SpeedX = -projectile.velocity.X * Main.rand.Next(40, 70) * 0.01f + Main.rand.Next(-20, 21) * 0.4f;
                     float SpeedY = -projectile.velocity.Y * Main.rand.Next(40, 70) * 0.01f + Main.rand.Next(-20, 21) * 0.4f;
-                    int shard = Projectile.NewProjectile(projectile.Center.X + SpeedX, projectile.Center.Y + SpeedY, SpeedX, SpeedY, ProjectileID.CrystalShard, projectile.damage / 4, 0f, projectile.owner);
-					if (shard.WithinBounds(Main.maxProjectiles))
-						Main.projectile[shard].Calamity().forceRogue = true;
+                    Projectile.NewProjectile(projectile.Center.X + SpeedX, projectile.Center.Y + SpeedY, SpeedX, SpeedY, ProjectileID.CrystalShard, projectile.damage / 4, 0f, projectile.owner);
                 }
             }
         }

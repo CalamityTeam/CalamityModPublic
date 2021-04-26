@@ -27,8 +27,8 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.tileCollide = false;
             projectile.penetrate = 1;
             projectile.timeLeft = 420;
-            projectile.Calamity().rogue = true;
-        }
+			projectile.Calamity().rogue = true;
+		}
 
 		public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 380 && target.CanBeChasedBy(projectile);
 
@@ -67,7 +67,19 @@ namespace CalamityMod.Projectiles.Rogue
 			}
         }
 
-        public override Color? GetAlpha(Color lightColor) => new Color(200, 200, 200, projectile.alpha);
+		// Reduce damage of Nanotech projectiles if more than the cap are active
+		public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+		{
+			int projectileCount = Main.player[projectile.owner].ownedProjectileCounts[projectile.type];
+			if (projectileCount > 5)
+			{
+				damage -= (int)(damage * ((projectileCount - 5) * 0.05));
+				if (damage < 1)
+					damage = 1;
+			}
+		}
+
+		public override Color? GetAlpha(Color lightColor) => new Color(200, 200, 200, projectile.alpha);
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {

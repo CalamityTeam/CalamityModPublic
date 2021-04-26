@@ -49,7 +49,19 @@ namespace CalamityMod.Projectiles.Typeless
 				CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 200f, 12f, 20f);
         }
 
-        public override void Kill(int timeLeft)
+		// Reduce damage of projectiles if more than the cap are active
+		public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+		{
+			int projectileCount = Main.player[projectile.owner].ownedProjectileCounts[projectile.type];
+			if (projectileCount > 5)
+			{
+				damage -= (int)(damage * ((projectileCount - 5) * 0.05));
+				if (damage < 1)
+					damage = 1;
+			}
+		}
+
+		public override void Kill(int timeLeft)
         {
             int num3;
             for (int num191 = 0; num191 < 2; num191 = num3 + 1)

@@ -30,8 +30,8 @@ namespace CalamityMod.Projectiles.Summon
             projectile.penetrate = 1;
             projectile.tileCollide = false;
             projectile.alpha = 200;
-            projectile.minion = true;
-        }
+			projectile.minion = true;
+		}
 
         public override bool? CanHitNPC(NPC target)
         {

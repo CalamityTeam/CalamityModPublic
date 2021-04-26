@@ -86,7 +86,7 @@ namespace CalamityMod.Items.Weapons.Magic
 				if (proj.WithinBounds(Main.maxProjectiles))
 				{
 					Main.projectile[proj].Calamity().forceMagic = true;
-					Main.projectile[proj].timeLeft = CalamityUtils.SecondsToFrames(8f);
+					Main.projectile[proj].timeLeft = CalamityUtils.SecondsToFrames(3f);
 				}
             }
             return false;
