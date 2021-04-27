@@ -122,6 +122,9 @@ namespace CalamityMod.World
         public static int[] SChestY = new int[10];
         public static bool roxShrinePlaced = false;
 
+        // Planetoids
+        public static bool HasGeneratedLuminitePlanetoids = false;
+
         // Town NPC spawn/home bools
         public static bool spawnedBandit = false;
         public static bool spawnedCirrus = false;
@@ -450,6 +453,8 @@ namespace CalamityMod.World
                 downed.Add("forcedTear");
             if (encounteredOldDuke)
                 downed.Add("encounteredOldDuke");
+            if (HasGeneratedLuminitePlanetoids)
+                downed.Add("HasGeneratedLuminitePlanetoids");
 
             return new TagCompound
             {
@@ -553,6 +558,7 @@ namespace CalamityMod.World
             forcedRainAlready = downed.Contains("forcedRain");
             forcedDownpourWithTear = downed.Contains("forcedTear");
             encounteredOldDuke = downed.Contains("encounteredOldDuke");
+            HasGeneratedLuminitePlanetoids = downed.Contains("HasGeneratedLuminitePlanetoids");
 
             abyssChasmBottom = tag.GetInt("abyssChasmBottom");
             acidRainPoints = tag.GetInt("acidRainPoints");
@@ -781,14 +787,11 @@ namespace CalamityMod.World
             flags10[0] = anglerName;
             flags10[1] = clothierName;
             flags10[2] = encounteredOldDuke;
-            flags10[3] = false;
-            flags10[4] = false;
+            flags10[3] = malice;
+            flags10[4] = HasGeneratedLuminitePlanetoids;
             flags10[5] = false;
             flags10[6] = false;
             flags10[7] = false;
-
-			BitsByte flags11 = new BitsByte();
-			flags11[0] = malice;
 
             writer.Write(flags);
             writer.Write(flags2);
@@ -800,7 +803,6 @@ namespace CalamityMod.World
             writer.Write(flags8);
             writer.Write(flags9);
             writer.Write(flags10);
-			writer.Write(flags11);
             writer.Write(abyssChasmBottom);
             writer.Write(acidRainPoints);
             writer.Write(Reforges);
@@ -906,8 +908,8 @@ namespace CalamityMod.World
             anglerName = flags10[0];
             clothierName = flags10[1];
             encounteredOldDuke = flags10[2];
-            _ = flags10[3];
-            _ = flags10[4];
+            malice = flags10[3];
+            HasGeneratedLuminitePlanetoids = flags10[4];
             _ = flags10[5];
             _ = flags10[6];
             _ = flags10[7];

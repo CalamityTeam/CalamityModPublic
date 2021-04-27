@@ -509,15 +509,25 @@ namespace CalamityMod.NPCs
 				string key5 = "Mods.CalamityMod.FutureOreText";
 				Color messageColor5 = Color.LightGray;
 
-				// Spawn Exodium planetoids and send messages about Providence, Bloodstone, Phantoplasm, etc. if ML has not been killed yet
-				if (!NPC.downedMoonlord)
-				{
-					// Generate luminite planetoids.
-					// This operation is done on a separate thread to lighten the load on servers so that they
-					// can focus on more critical operations asychronously and ideally avoid a time-out crash.
-					// Very few operations in Terraria utilize the pool, so it is highly unlikely that no threads will remain in it.
-					ThreadPool.QueueUserWorkItem(_ => WorldGenerationMethods.GenerateLuminitePlanetoids());
+                if (!CalamityWorld.HasGeneratedLuminitePlanetoids)
+                {
+                    // Generate luminite planetoids.
+                    // This operation is done on a separate thread to lighten the load on servers so that they
+                    // can focus on more critical operations asychronously and ideally avoid a time-out crash.
+                    // Very few operations in Terraria utilize the pool, so it is highly unlikely that no threads will remain in it.
+                    ThreadPool.QueueUserWorkItem(_ => WorldGenerationMethods.GenerateLuminitePlanetoids());
 
+                    CalamityWorld.HasGeneratedLuminitePlanetoids = true;
+
+                    // If the moon lord is already marked as dead, an associated world sync packet will not be sent automatically
+                    // Send one manually.
+                    if (NPC.downedMoonlord)
+                        CalamityNetcode.SyncWorld();
+                }
+
+                // Spawn Exodium planetoids and send messages about Providence, Bloodstone, Phantoplasm, etc. if ML has not been killed yet
+                if (!NPC.downedMoonlord)
+				{
 					CalamityUtils.DisplayLocalizedText(key, messageColor);
 					CalamityUtils.DisplayLocalizedText(key2, messageColor2);
 					CalamityUtils.DisplayLocalizedText(key3, messageColor3);
