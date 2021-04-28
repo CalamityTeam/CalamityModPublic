@@ -29,24 +29,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void AI()
         {
-            NPC target = null;
-            float distance = 4400f;
-            for (int index = 0; index < Main.npc.Length; index++)
-            {
-                if (Main.npc[index].CanBeChasedBy(null, false))
-                {
-                    if (Main.npc[index].boss && Vector2.Distance(projectile.Center, Main.npc[index].Center) <= 4400f)
-                    {
-                        target = Main.npc[index];
-                        break;
-                    }
-                    if (Vector2.Distance(projectile.Center, Main.npc[index].Center) < distance)
-                    {
-                        distance = Vector2.Distance(projectile.Center, Main.npc[index].Center);
-                        target = Main.npc[index];
-                    }
-                }
-            }
+            NPC target = projectile.Center.ClosestNPCAt(3000f);
             if (target != null)
             {
                 projectile.velocity = (projectile.velocity * 7f + projectile.DirectionTo(target.Center) * 10f) / 8f;
@@ -54,12 +37,19 @@ namespace CalamityMod.Projectiles.Magic
             projectile.ai[0] += 0.18f;
             float angle = projectile.velocity.ToRotation() + MathHelper.PiOver2;
             float pulse = (float)Math.Sin(projectile.ai[0]);
-            float radius = 10f;
+            float radius = 4f;
             Vector2 offset = angle.ToRotationVector2() * pulse * radius;
-            Dust dust = Dust.NewDustPerfect(projectile.Center + offset, Eternity.DustID, Vector2.Zero, 0, Eternity.BlueColor);
+
+            Dust dust = Dust.NewDustPerfect(projectile.Center + offset, 264, Vector2.Zero);
+            dust.color = Eternity.BlueColor;
+            dust.scale = 1.4f;
+            dust.noLight = true;
             dust.noGravity = true;
 
-            dust = Dust.NewDustPerfect(projectile.Center - offset, Eternity.DustID, Vector2.Zero, 0, Eternity.BlueColor);
+            dust = Dust.NewDustPerfect(projectile.Center - offset, 264, Vector2.Zero);
+            dust.color = Eternity.PinkColor;
+            dust.scale = 1.4f;
+            dust.noLight = true;
             dust.noGravity = true;
         }
     }
