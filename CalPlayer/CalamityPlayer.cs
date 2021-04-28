@@ -329,6 +329,7 @@ namespace CalamityMod.CalPlayer
         public bool radiator = false;
         public bool scalPet = false;
         public bool bendyPet = false;
+        public bool littleLightPet = false;
         #endregion
 
         #region Rage
@@ -1412,6 +1413,8 @@ namespace CalamityMod.CalPlayer
             radiator = false;
             scalPet = false;
             bendyPet = false;
+            littleLightPet = false;
+
             onyxExcavator = false;
             angryDog = false;
             fab = false;
