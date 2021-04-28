@@ -41,12 +41,11 @@ namespace CalamityMod.Projectiles.Magic
         {
             DisplayName.SetDefault("Eternity");
             ProjectileID.Sets.TrailingMode[projectile.type] = 2;
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 54;
+            ProjectileID.Sets.TrailCacheLength[projectile.type] = 63;
         }
 
         public override void SetDefaults()
         {
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 63;
             projectile.width = 4;
             projectile.height = 4;
             projectile.tileCollide = false;
