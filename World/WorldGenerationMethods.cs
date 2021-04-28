@@ -337,7 +337,7 @@ namespace CalamityMod.World
 
         public static void PlaceAstralMeteor()
         {
-            Mod ancientsAwakened = ModLoader.GetMod("AAMod");
+            Mod ancientsAwakened = CalamityMod.Instance.ancientsAwakened;
 
             // This flag is also used to determine whether players are nearby.
             bool meteorDropped = true;

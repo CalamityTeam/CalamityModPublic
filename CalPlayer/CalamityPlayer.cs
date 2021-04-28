@@ -44,6 +44,7 @@ using CalamityMod.Projectiles.DraedonsArsenal;
 using CalamityMod.Projectiles.Enemy;
 using CalamityMod.Projectiles.Environment;
 using CalamityMod.Projectiles.Melee;
+using CalamityMod.Projectiles.Melee.Spears;
 using CalamityMod.Projectiles.Ranged;
 using CalamityMod.Projectiles.Rogue;
 using CalamityMod.Projectiles.Summon;
@@ -108,6 +109,7 @@ namespace CalamityMod.CalPlayer
         public bool noLifeRegen = false;
         public int itemTypeLastReforged = 0;
         public int reforgeTierSafety = 0;
+		public bool finalTierAccessoryReforge = false;
         public int defenseDamage = 0;
         public float rangedAmmoCost = 1f;
         public bool heldGaelsLastFrame = false;
@@ -158,7 +160,6 @@ namespace CalamityMod.CalPlayer
         #region Stat Meter
         public int[] damageStats = new int[6];
         public int[] critStats = new int[4];
-        public float actualMeleeDamageStat = 0f;
         public int defenseStat = 0;
         public int DRStat = 0;
         public int meleeSpeedStat = 0;
@@ -300,10 +301,11 @@ namespace CalamityMod.CalPlayer
         public AndromedaPlayerState andromedaState;
         public int andromedaCripple;
         public const float UnicornSpeedNerfPower = 0.8f;
-        #endregion
+		public const float MechanicalCartSpeedNerfPower = 0.7f;
+		#endregion
 
-        #region Pet
-        public bool thirdSage = false;
+		#region Pet
+		public bool thirdSage = false;
         public bool thirdSageH = true; // Third sage healing
         public bool perfmini = false;
         public bool akato = false;
@@ -450,8 +452,6 @@ namespace CalamityMod.CalPlayer
         public int gSabatonFall = 0;
         public int gSabatonCooldown = 0;
         public bool sGenerator = false;
-        public bool sDefense = false;
-        public bool sPower = false;
         public bool sRegen = false;
         public bool IBoots = false;
         public bool elysianFire = false;
@@ -485,6 +485,7 @@ namespace CalamityMod.CalPlayer
         public bool celestialJewel = false;
         public bool astralArcanum = false;
         public bool harpyRing = false;
+		public bool angelTreads = false;
         public bool harpyWingBoost = false; //harpy wings + harpy ring
         public bool ironBoots = false;
         public bool depthCharm = false;
@@ -830,9 +831,8 @@ namespace CalamityMod.CalPlayer
         public bool polarisBoostThree = false;
         public bool bloodfinBoost = false;
         public int bloodfinTimer = 30;
-        public bool hallowedDefense = false;
-        public bool hallowedPower = false;
         public bool hallowedRegen = false;
+		public bool hallowedPower = false;
         public bool kamiBoost = false;
         public bool avertorBonus = false;
         #endregion
@@ -1078,6 +1078,7 @@ namespace CalamityMod.CalPlayer
             boost.AddWithCondition("bossHPBar", drawBossHPBar);
             boost.AddWithCondition("drawSmallText", shouldDrawSmallText);
             boost.AddWithCondition("fullHPRespawn", healToFull);
+			boost.AddWithCondition("finalTierAccessoryReforge", finalTierAccessoryReforge);
 
             boost.AddWithCondition("newMerchantInventory", newMerchantInventory);
             boost.AddWithCondition("newPainterInventory", newPainterInventory);
@@ -1152,8 +1153,9 @@ namespace CalamityMod.CalPlayer
             drawBossHPBar = boost.Contains("bossHPBar");
             shouldDrawSmallText = boost.Contains("drawSmallText");
             healToFull = boost.Contains("fullHPRespawn");
+			finalTierAccessoryReforge = boost.Contains("finalTierAccessoryReforge");
 
-            newMerchantInventory = boost.Contains("newMerchantInventory");
+			newMerchantInventory = boost.Contains("newMerchantInventory");
             newPainterInventory = boost.Contains("newPainterInventory");
             newDyeTraderInventory = boost.Contains("newDyeTraderInventory");
             newPartyGirlInventory = boost.Contains("newPartyGirlInventory");
@@ -1309,7 +1311,8 @@ namespace CalamityMod.CalPlayer
 
                 BitsByte flags6 = reader.ReadByte();
                 newBanditInventory = flags6[0];
-            }
+				finalTierAccessoryReforge = flags6[1];
+			}
             else
             {
                 ModContent.GetInstance<CalamityMod>().Logger.Error("Unknown loadVersion: " + loadVersion);
@@ -1403,14 +1406,7 @@ namespace CalamityMod.CalPlayer
             noLifeRegen = false;
 
             thirdSage = false;
-            bool isImmune = false;
-            for (int j = 0; j < player.hurtCooldowns.Length; j++)
-            {
-                if (player.hurtCooldowns[j] > 0)
-                    isImmune = true;
-            }
-            if (!isImmune)
-                thirdSageH = false;
+			thirdSageH = false;
 
             perfmini = false;
             akato = false;
@@ -1573,6 +1569,7 @@ namespace CalamityMod.CalPlayer
             celestialJewel = false;
             astralArcanum = false;
             harpyRing = false;
+			angelTreads = false;
             harpyWingBoost = false; //harpy wings + harpy ring
             darkSunRing = false;
             calamityRing = false;
@@ -1591,14 +1588,11 @@ namespace CalamityMod.CalPlayer
             raiderTalisman = false;
             gSabaton = false;
             sGenerator = false;
-            sDefense = false;
             sRegen = false;
-            sPower = false;
             hallowedRune = false;
             phantomicArtifact = false;
-            hallowedDefense = false;
             hallowedRegen = false;
-            hallowedPower = false;
+			hallowedPower = false;
             kamiBoost = false;
             IBoots = false;
             elysianFire = false;
@@ -2164,12 +2158,9 @@ namespace CalamityMod.CalPlayer
             #endregion
 
             #region Buffs
-            sDefense = false;
             sRegen = false;
-            sPower = false;
-            hallowedDefense = false;
             hallowedRegen = false;
-            hallowedPower = false;
+			hallowedPower = false;
             onyxExcavator = false;
             angryDog = false;
             fab = false;
@@ -2421,14 +2412,14 @@ namespace CalamityMod.CalPlayer
                     }
                 }
             }
-            if (CalamityWorld.armageddon && !areThereAnyDamnBosses)
-            {
-                player.respawnTimer -= 5;
-            }
-            else if (player.respawnTimer > 300 && Main.expertMode) //600 normal 900 expert
-            {
-                player.respawnTimer--;
-            }
+
+			if (player.respawnTimer > 300)
+			{
+				if (CalamityWorld.armageddon && !areThereAnyDamnBosses)
+					player.respawnTimer -= 5;
+				else if (Main.expertMode) // 600 normal 900 expert
+					player.respawnTimer--;
+			}
         }
         #endregion
 
@@ -2560,7 +2551,7 @@ namespace CalamityMod.CalPlayer
             if (Main.snowTiles > 300)
                 player.ZoneSnow = true;
 
-            Mod fargos = ModLoader.GetMod("Fargowiltas");
+            Mod fargos = CalamityMod.Instance.fargos;
             if (fargos != null)
             {
                 //Fargo's fountain effects
@@ -2896,9 +2887,13 @@ namespace CalamityMod.CalPlayer
                             float randomSpeed = (float)Main.rand.Next(1, 7);
                             float randomSpeed2 = (float)Main.rand.Next(1, 7);
                             offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-                            Projectile.NewProjectile(player.Center.X, player.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f) + randomSpeed, ModContent.ProjectileType<BloodflareSoul>(), damage, 0f, player.whoAmI, 0f, ai1);
-                            Projectile.NewProjectile(player.Center.X, player.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f) + randomSpeed2, ModContent.ProjectileType<BloodflareSoul>(), damage, 0f, player.whoAmI, 0f, ai1);
-                        }
+                            int soul = Projectile.NewProjectile(player.Center.X, player.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f) + randomSpeed, ModContent.ProjectileType<BloodflareSoul>(), damage, 0f, player.whoAmI, 0f, ai1);
+							if (soul.WithinBounds(Main.maxProjectiles))
+								Main.projectile[soul].Calamity().forceTypeless = true;
+							int soul2 = Projectile.NewProjectile(player.Center.X, player.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f) + randomSpeed2, ModContent.ProjectileType<BloodflareSoul>(), damage, 0f, player.whoAmI, 0f, ai1);
+							if (soul2.WithinBounds(Main.maxProjectiles))
+								Main.projectile[soul2].Calamity().forceTypeless = true;
+						}
                     }
                 }
                 if (omegaBlueSet && omegaBlueCooldown <= 0)
@@ -2984,20 +2979,22 @@ namespace CalamityMod.CalPlayer
                         float kBack = ForbiddenCirclet.tornadoBaseKB + player.minionKB;
                         if (player.whoAmI == Main.myPlayer)
                         {
-                            Projectile.NewProjectile(Main.MouseWorld, Vector2.Zero, ModContent.ProjectileType<CircletMark>(), damage, kBack, player.whoAmI, 0f, 0f);
-                        }
+                            int mark = Projectile.NewProjectile(Main.MouseWorld, Vector2.Zero, ModContent.ProjectileType<CircletMark>(), damage, kBack, player.whoAmI);
+							if (mark.WithinBounds(Main.maxProjectiles))
+								Main.projectile[mark].Calamity().forceTypeless = true;
+						}
                     }
                 }
                 if (prismaticSet && !prismaticCooldown && prismaticLasers <= 0)
                     prismaticLasers = CalamityUtils.SecondsToFrames(35f);
             }
-            if (CalamityMod.AstralArcanumUIHotkey.JustPressed && astralArcanum)
+            if (CalamityMod.AstralArcanumUIHotkey.JustPressed && astralArcanum && !areThereAnyDamnBosses)
             {
                 AstralArcanumUI.Toggle();
             }
             if (CalamityMod.AstralTeleportHotKey.JustPressed)
             {
-                if (celestialJewel)
+                if (celestialJewel && !areThereAnyDamnBosses)
                 {
                     if (Main.netMode == NetmodeID.SinglePlayer)
                     {
@@ -3052,7 +3049,9 @@ namespace CalamityMod.CalPlayer
                         int projectileIndex = Projectile.NewProjectile(player.Center + initialVelocity * 3f, initialVelocity, ModContent.ProjectileType<GaelSkull2>(), damage, 2f, player.whoAmI);
                         Main.projectile[projectileIndex].tileCollide = false;
                         Main.projectile[projectileIndex].localAI[1] = (Main.projectile[projectileIndex].velocity.Y < 0f).ToInt();
-                    }
+						if (projectileIndex.WithinBounds(Main.maxProjectiles))
+							Main.projectile[projectileIndex].Calamity().forceTypeless = true;
+					}
 
                     // Remove all rage when the special attack is used, and apply the cooldown.
                     rage = 0f;
@@ -3180,7 +3179,7 @@ namespace CalamityMod.CalPlayer
                     {
                         int bubble = Projectile.NewProjectile(new Vector2(player.position.X, player.position.Y + (player.gravDir == -1f ? 20 : -20)), Vector2.Zero, ModContent.ProjectileType<SulphuricAcidBubbleFriendly>(), (int)(20f * player.RogueDamage()), 0f, player.whoAmI, 1f, 0f);
                         if (bubble.WithinBounds(Main.maxProjectiles))
-                            Main.projectile[bubble].Calamity().forceRogue = true;
+                            Main.projectile[bubble].Calamity().forceTypeless = true;
                         sulphurBubbleCooldown = 20;
                     }
                 }
@@ -3997,7 +3996,9 @@ namespace CalamityMod.CalPlayer
                     int lumenyl = Projectile.NewProjectile(player.Center.X, player.Center.Y, Main.rand.NextFloat(-2f, 2f), Main.rand.NextFloat(-2f, 2f), ModContent.ProjectileType<AbyssalMirrorProjectile>(), (int)(55 * player.RogueDamage()), 0, player.whoAmI);
                     Main.projectile[lumenyl].rotation = Main.rand.NextFloat(0, 360);
                     Main.projectile[lumenyl].frame = Main.rand.Next(0, 4);
-                }
+					if (lumenyl.WithinBounds(Main.maxProjectiles))
+						Main.projectile[lumenyl].Calamity().forceTypeless = true;
+				}
 
                 // TODO -- Calamity dodges should probably not send a vanilla dodge packet considering that causes Tabi dust
                 if (player.whoAmI == Main.myPlayer)
@@ -4028,10 +4029,12 @@ namespace CalamityMod.CalPlayer
                 }
 
                 Main.PlaySound(SoundID.Item68, player.Center);
-                Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<EclipseMirrorBurst>(), (int)(2750 * player.RogueDamage()), 0, player.whoAmI);
+                int eclipse = Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<EclipseMirrorBurst>(), (int)(2750 * player.RogueDamage()), 0, player.whoAmI);
+				if (eclipse.WithinBounds(Main.maxProjectiles))
+					Main.projectile[eclipse].Calamity().forceTypeless = true;
 
-                // TODO -- Calamity dodges should probably not send a vanilla dodge packet considering that causes Tabi dust
-                if (player.whoAmI == Main.myPlayer)
+				// TODO -- Calamity dodges should probably not send a vanilla dodge packet considering that causes Tabi dust
+				if (player.whoAmI == Main.myPlayer)
                 {
                     NetMessage.SendData(MessageID.Dodge, -1, -1, null, player.whoAmI, 1f, 0f, 0f, 0, 0, 0);
                 }
@@ -4796,7 +4799,10 @@ namespace CalamityMod.CalPlayer
                     break;
             }
 
-            CalamityPlayerOnHit.ItemLifesteal(player, mod, target, item, damage);
+			if (item.type == ModContent.ItemType<FulgurationHalberd>())
+				target.damage = (int)(target.defDamage * 0.9);
+
+			CalamityPlayerOnHit.ItemLifesteal(player, mod, target, item, damage);
             CalamityPlayerOnHit.ItemOnHit(player, mod, item, damage, target.Center, crit, (target.damage > 5 || target.boss) && !target.SpawnedFromStatue);
             CalamityPlayerOnHit.NPCDebuffs(player, mod, target, item.melee, item.ranged, item.magic, item.summon, item.Calamity().rogue, false);
 
@@ -4925,21 +4931,19 @@ namespace CalamityMod.CalPlayer
                     break;
             }
 
-            if (ProjectileID.Sets.StardustDragon[proj.type])
-            {
+			if (proj.type == ModContent.ProjectileType<FulgurationHalberdProj>())
+				target.damage = (int)(target.defDamage * 0.9);
+
+			if (ProjectileID.Sets.StardustDragon[proj.type])
                 target.immune[proj.owner] = 10;
-            }
 
             if (!proj.npcProj && !proj.trap && proj.friendly)
             {
                 if ((plaguebringerCarapace || uberBees) && CalamityLists.friendlyBeeList.Contains(proj.type))
-                {
                     target.AddBuff(ModContent.BuffType<Plague>(), 360);
-                }
+
                 if (proj.type == ProjectileID.IchorArrow && player.ActiveItem().type == ModContent.ItemType<RaidersGlory>())
-                {
                     target.AddBuff(BuffID.Midas, 300, false);
-                }
 
                 CalamityPlayerOnHit.ProjLifesteal(player, mod, target, proj, damage, crit);
                 CalamityPlayerOnHit.ProjOnHit(player, mod, proj, target.Center, crit, (target.damage > 5 || target.boss) && !target.SpawnedFromStatue);
@@ -4948,6 +4952,7 @@ namespace CalamityMod.CalPlayer
                 // Shattered Community tracks all damage dealt with Rage Mode (ignoring dummies).
                 if (target.type == NPCID.TargetDummy || target.type == ModContent.NPCType<SuperDummyNPC>())
                     return;
+
                 if (rageModeActive && shatteredCommunity)
                     ShatteredCommunity.AccumulateRageDamage(player, this, damage);
             }
@@ -5253,53 +5258,41 @@ namespace CalamityMod.CalPlayer
                 if (heldItem.type > ItemID.None)
                 {
                     if (heldItem.summon && !heldItem.melee && !heldItem.ranged && !heldItem.magic && !heldItem.Calamity().rogue)
-                    {
                         damageMult += 0.1;
-                    }
                 }
             }
+
             if (isTrueMelee)
             {
 				// Add more true melee damage to the true melee projectile that scales with melee speed
 				// This is done because melee speed does nothing to melee weapons that are purely projectiles
                 damageMult += trueMeleeDamage + ((1f - player.meleeSpeed) * (100f / player.meleeSpeed) / 100f);
             }
+
             if (screwdriver)
             {
                 if (proj.penetrate > 1 || proj.penetrate == -1)
                     damageMult += 0.1;
             }
-            if (sPower)
-            {
-                if (isSummon)
-                    damageMult += 0.1;
-            }
-            if (hallowedPower)
-            {
-                if (isSummon)
-                    damageMult += 0.15;
-            }
+
 			if (auricSet && godSlayerDamage && isTrueMelee)
-			{
 				damageMult += 0.15;
-			}
+
 			if (enraged)
-            {
                 damageMult += 1.25;
-            }
+
             if (silvaCountdown <= 0 && hasSilvaEffect && silvaMage && proj.magic)
-            {
                 damageMult += 0.1;
-            }
+
             if (silvaCountdown <= 0 && hasSilvaEffect && silvaSummon && isSummon)
-            {
                 damageMult += 0.1;
-            }
+
             if (proj.type == ModContent.ProjectileType<FrostsparkBulletProj>())
             {
                 if (target.buffImmune[ModContent.BuffType<GlacialState>()])
                     damageMult += 0.1;
             }
+
             else if (proj.type == ProjectileID.InfernoFriendlyBlast)
             {
                 damageMult += 0.33;
@@ -5307,14 +5300,11 @@ namespace CalamityMod.CalPlayer
             if (brimflameFrenzy && brimflameSet)
             {
                 if (proj.magic)
-                {
                     damageMult += 0.3;
-                }
             }
+
             if (CalamityWorld.revenge && CalamityConfig.Instance.Rippers)
-            {
                 CalamityUtils.ApplyRippersToDamage(this, ref damageMult);
-            }
 
             if ((filthyGlove || electricianGlove) && proj.Calamity().stealthStrike && proj.Calamity().rogue)
             {
@@ -5323,8 +5313,11 @@ namespace CalamityMod.CalPlayer
                 else
                     damageMult += 0.1;
             }
+
+			// Adjust damage based on the damage multiplier
             damage = (int)(damage * damageMult);
 
+			// Old Die damage multiplier, rolls again and takes the higher roll if it's a rogue projectile or the player is wearing rogue armor
             if (oldDie)
             {
                 float diceMult = Main.rand.NextFloat(0.9215f, 1.1205f);
@@ -5959,9 +5952,9 @@ namespace CalamityMod.CalPlayer
             if (phantomicArtifact && player.ownedProjectileCounts[ModContent.ProjectileType<PhantomicShield>()] != 0)
             {
                 Projectile pro = Main.projectile.AsEnumerable().Where(projectile => projectile.friendly && projectile.owner == player.whoAmI && projectile.type == ModContent.ProjectileType<PhantomicShield>()).First();
-                phantomicBulwarkCooldown = 1200; // 20 second cooldown
+                phantomicBulwarkCooldown = 1800; // 30 second cooldown
                 pro.Kill();
-                damage = (int)(damage * 0.8f); //20% damage reduction for a projectile.
+				projectileDamageReduction += 0.2;
             }
 
             if (auralisAuroraCounter >= 300)
@@ -6854,26 +6847,6 @@ namespace CalamityMod.CalPlayer
         }
         #endregion
 
-        #region Can Hit
-        public override bool? CanHitNPC(Item item, NPC target)
-        {
-            if (camper && !player.StandingStill())
-            {
-                return false;
-            }
-            return null;
-        }
-
-        public override bool? CanHitNPCWithProj(Projectile proj, NPC target)
-        {
-            if (camper && !player.StandingStill())
-            {
-                return false;
-            }
-            return null;
-        }
-        #endregion
-
         #region Fishing
         public override void CatchFish(Item fishingRod, Item bait, int power, int liquidType, int poolSize, int worldLayer, int questFish, ref int caughtType, ref bool junk)
         {
@@ -6937,7 +6910,7 @@ namespace CalamityMod.CalPlayer
                     float speedY5 = num79 + (float)Main.rand.Next(-30, 31) * 0.02f;
                     int p = Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, type, (int)(damage * 0.065), knockBack * 0.5f, player.whoAmI);
                     if (p.WithinBounds(Main.maxProjectiles))
-                        Main.projectile[p].Calamity().forceRogue = true; //in case melee/rogue variants bug out
+                        Main.projectile[p].Calamity().forceTypeless = true; //in case melee/rogue variants bug out
                     if (item.type == ModContent.ItemType<FinalDawn>())
                     {
                         Main.projectile[p].ai[1] = 1f;
@@ -6955,8 +6928,10 @@ namespace CalamityMod.CalPlayer
                             velocity = velocity.RotatedBy(angleStep * i);
                             int knifeCol = Main.rand.Next(0, 2);
 
-                            Projectile.NewProjectile(player.Center, velocity, ModContent.ProjectileType<VeneratedKnife>(), knifeDamage, 0f, player.whoAmI, knifeCol, 0);
-                        }
+                            int knife = Projectile.NewProjectile(player.Center, velocity, ModContent.ProjectileType<VeneratedKnife>(), knifeDamage, 0f, player.whoAmI, knifeCol, 0);
+							if (knife.WithinBounds(Main.maxProjectiles))
+								Main.projectile[knife].Calamity().forceTypeless = true;
+						}
                     }
                 }
             }
@@ -6971,8 +6946,10 @@ namespace CalamityMod.CalPlayer
                         {
                             Vector2 startingPosition = Main.MouseWorld - Vector2.UnitY.RotatedByRandom(0.4f) * 1250f;
                             Vector2 directionToMouse = (startingPosition - Main.MouseWorld).SafeNormalize(Vector2.UnitY).RotatedByRandom(0.1f);
-                            Projectile.NewProjectileDirect(startingPosition, directionToMouse * 12f, ModContent.ProjectileType<ToxicannonDrop>(), (int)(damage * 0.3), 0f, player.whoAmI).penetrate = 2;
-                        }
+                            int drop = Projectile.NewProjectileDirect(startingPosition, directionToMouse * 12f, ModContent.ProjectileType<ToxicannonDrop>(), (int)(damage * 0.3), 0f, player.whoAmI).penetrate = 2;
+							if (drop.WithinBounds(Main.maxProjectiles))
+								Main.projectile[drop].Calamity().forceTypeless = true;
+						}
                     }
                 }
             }
@@ -7282,9 +7259,6 @@ namespace CalamityMod.CalPlayer
                 double newDamage = damage - (player.statDefense * defenseMultiplier);
 
                 double newDamageLimit = NPC.downedMoonlord ? 20D : (NPC.downedPlantBoss || CalamityWorld.downedCalamitas) ? 15D : Main.hardMode ? 10D : 5D;
-                /*double bossDamageLimitIncrease = CalamityWorld.death ? 40D : 20D;
-                if (areThereAnyDamnBosses && Main.masterMode)
-                    newDamageLimit += bossDamageLimitIncrease;*/
 
                 if (newDamage < newDamageLimit)
                     newDamage = newDamageLimit;
@@ -7654,20 +7628,6 @@ namespace CalamityMod.CalPlayer
                             star.localNPCHitCooldown = 5;
                         }
                     }
-
-                    /*int num = 1;
-                    if (Main.rand.NextBool(3))
-                        ++num;
-                    if (Main.rand.NextBool(3))
-                        ++num;
-                    if (player.strongBees && Main.rand.NextBool(3))
-                        ++num;
-                    for (int index = 0; index < num; ++index)
-                    {
-                        int bee = Projectile.NewProjectile(player.position.X, player.position.Y, (float) Main.rand.Next(-35, 36) * 0.02f, (float) Main.rand.Next(-35, 36) * 0.02f, player.beeType(), player.beeDamage(7), player.beeKB(0f), Main.myPlayer, 0f, 0f);
-                        Main.projectile[bee].usesLocalNPCImmunity = true;
-                        Main.projectile[bee].localNPCHitCooldown = 5;
-                    }*/
                 }
                 if (theBee)
                 {
@@ -7693,7 +7653,9 @@ namespace CalamityMod.CalPlayer
                         int bee = Projectile.NewProjectile(player.position.X, player.position.Y, Main.rand.Next(-35, 36) * 0.02f, Main.rand.Next(-35, 36) * 0.02f, Main.rand.NextBool(4) ? ModContent.ProjectileType<PlaguenadeBee>() : player.beeType(), player.beeDamage(7), player.beeKB(0f), Main.myPlayer, 0f, 0f);
                         Main.projectile[bee].usesLocalNPCImmunity = true;
                         Main.projectile[bee].localNPCHitCooldown = 5;
-                    }
+						if (bee.WithinBounds(Main.maxProjectiles))
+							Main.projectile[bee].Calamity().forceTypeless = true;
+					}
                 }
             }
             if (fCarapace)
@@ -7763,8 +7725,10 @@ namespace CalamityMod.CalPlayer
                     for (int i = 0; i < 5; i++)
                     {
                         Main.PlaySound(SoundID.Item, (int)Main.player[Main.myPlayer].position.X, (int)Main.player[Main.myPlayer].position.Y, 61);
-                        Projectile.NewProjectile(player.Center.X, player.Center.Y, Main.rand.NextFloat(-3f, 3f), Main.rand.NextFloat(-0f, -4f), ModContent.ProjectileType<InkBombProjectile>(), 0, 0, player.whoAmI);
-                    }
+                        int ink = Projectile.NewProjectile(player.Center.X, player.Center.Y, Main.rand.NextFloat(-3f, 3f), Main.rand.NextFloat(-0f, -4f), ModContent.ProjectileType<InkBombProjectile>(), 0, 0, player.whoAmI);
+						if (ink.WithinBounds(Main.maxProjectiles))
+							Main.projectile[ink].Calamity().forceTypeless = true;
+					}
                 }
             }
             if (blazingCore)
@@ -8853,7 +8817,7 @@ namespace CalamityMod.CalPlayer
         #region Nurse Modifications
         public override bool ModifyNurseHeal(NPC nurse, ref int health, ref bool removeDebuffs, ref string chatText)
         {
-            if (CalamityWorld.death && areThereAnyDamnBosses)
+            if ((CalamityWorld.death || CalamityWorld.malice) && areThereAnyDamnBosses)
             {
                 chatText = "Now is not the time!";
                 return false;

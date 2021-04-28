@@ -36,7 +36,7 @@ namespace CalamityMod.Projectiles.Summon
 
             NPC potentialTarget = projectile.Center.MinionHoming(1000f, Main.player[projectile.owner]);
             if (potentialTarget != null && !projectile.WithinRange(potentialTarget.Center, 100f) && projectile.timeLeft < 290)
-                projectile.velocity = (projectile.velocity * 6f + projectile.DirectionTo(potentialTarget.Center) * 15f) / 7f;
+                projectile.velocity = (projectile.velocity * 6f + projectile.SafeDirectionTo(potentialTarget.Center) * 15f) / 7f;
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => target.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), 240);

@@ -106,7 +106,7 @@ namespace CalamityMod.NPCs
                     else if (distanceFromAboveTarget > 600f)
                     {
                         flyInertia = 30f;
-                        idealFlyVelocity = npc.DirectionTo(destinationAboveTarget) * 15f;
+                        idealFlyVelocity = npc.SafeDirectionTo(destinationAboveTarget, -Vector2.UnitY) * 15f;
                         npc.velocity = (npc.velocity * (flyInertia - 1f) + idealFlyVelocity) / flyInertia;
                     }
 
@@ -168,7 +168,7 @@ namespace CalamityMod.NPCs
 
                     float flySpeed = 18f + npc.Distance(target.Center) / 100f;
                     flyInertia = 25f;
-                    idealFlyVelocity = npc.DirectionTo(target.Center) * flySpeed;
+                    idealFlyVelocity = npc.SafeDirectionTo(target.Center, -Vector2.UnitY) * flySpeed;
                     npc.velocity = (npc.velocity * (flyInertia - 1f) + idealFlyVelocity) / flyInertia;
                     break;
 
@@ -210,7 +210,7 @@ namespace CalamityMod.NPCs
 
                     flySpeed = 12f + flySpeedAdditive + npc.Distance(destination) / 120f;
                     flyInertia = 20f;
-                    idealFlyVelocity = npc.DirectionTo(destination) * flySpeed;
+                    idealFlyVelocity = npc.SafeDirectionTo(destination, -Vector2.UnitY) * flySpeed;
                     npc.velocity = (npc.velocity * (flyInertia - 1f) + idealFlyVelocity) / flyInertia;
 
                     aiTimer++;
@@ -254,7 +254,7 @@ namespace CalamityMod.NPCs
                     flySpeedAdditive += 0.0333333351f;
                     flySpeed = 24f + flySpeedAdditive;
                     flyInertia = 4f;
-                    idealVelocity = npc.DirectionTo(destination) * flySpeed;
+                    idealVelocity = npc.SafeDirectionTo(destination, -Vector2.UnitY) * flySpeed;
                     npc.velocity = (npc.velocity * (flyInertia - 1f) + idealVelocity) / flyInertia;
                     break;
                 case MothronAIState.ChargePreparation:
@@ -267,7 +267,7 @@ namespace CalamityMod.NPCs
                     destination = target.Center - Vector2.UnitY * 12f;
 
                     float chargePreperationInertia = 8f;
-                    Vector2 chargeVelocity = npc.DirectionTo(destination) * chargeSpeed;
+                    Vector2 chargeVelocity = npc.SafeDirectionTo(destination, -Vector2.UnitY) * chargeSpeed;
                     npc.velocity = (npc.velocity * (chargePreperationInertia - 1f) + chargeVelocity) / chargePreperationInertia;
                     npc.spriteDirection = npc.direction = (npc.velocity.X > 0).ToDirectionInt();
 
@@ -394,7 +394,7 @@ namespace CalamityMod.NPCs
                     }
 
                     flyInertia = 10f;
-                    npc.velocity = (npc.velocity * (flyInertia - 1f) + npc.DirectionTo(spotToLayEgg) * flySpeed) / flyInertia;
+                    npc.velocity = (npc.velocity * (flyInertia - 1f) + npc.SafeDirectionTo(spotToLayEgg, -Vector2.UnitY) * flySpeed) / flyInertia;
                     break;
 
                 case MothronAIState.LayEgg:
@@ -435,7 +435,7 @@ namespace CalamityMod.NPCs
                     if (distanceFromSpot < hoverSpeed)
                         hoverSpeed = distanceFromSpot;
 
-                    Vector2 hoverVelocity = npc.DirectionTo(spotToLayEgg).SafeNormalize(Vector2.Zero) * hoverSpeed;
+                    Vector2 hoverVelocity = npc.SafeDirectionTo(spotToLayEgg) * hoverSpeed;
                     npc.velocity = (npc.velocity * (hoverInertia - 1f) + hoverVelocity) / hoverInertia;
                     if (npc.velocity.HasNaNs())
                         npc.velocity = Vector2.Zero;

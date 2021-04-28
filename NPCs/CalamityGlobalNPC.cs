@@ -1,4 +1,5 @@
 using CalamityMod.Buffs;
+using CalamityMod.Buffs.StatBuffs;
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.CalPlayer;
@@ -90,8 +91,14 @@ namespace CalamityMod.NPCs
 		public const float CatchUpDistance200Tiles = 3200f;
 		public const float CatchUpDistance350Tiles = 5600f;
 
+		// Boss Zen distance
+		private const float BossZenDistance = 6400f;
+
 		// Max velocity used in contact damage scaling
 		public float maxVelocity = 0f;
+
+		// Variable used to nerf desert prehardmode enemies pre-Desert Scourge
+		private const double DesertEnemyStatMultiplier = 0.75;
 
 		// Town NPC shop alert animation variables
 		public int shopAlertAnimTimer = 0;
@@ -989,9 +996,7 @@ namespace CalamityMod.NPCs
         public override void SetDefaults(NPC npc)
         {
             for (int m = 0; m < maxAIMod; m++)
-            {
                 newAI[m] = 0f;
-            }
 
 			// Apply DR to vanilla NPCs.
 			// This also applies DR to other mods' NPCs who have set up their NPCs to have DR.
@@ -1016,21 +1021,15 @@ namespace CalamityMod.NPCs
             DebuffImmunities(npc);
 
             if (BossRushEvent.BossRushActive)
-            {
                 BossRushStatChanges(npc, mod);
-            }
 
             BossValueChanges(npc);
 
             if (DraedonMayhem)
-            {
                 DraedonMechaMayhemStatChanges(npc);
-            }
 
             if (CalamityWorld.revenge)
-            {
                 RevDeathStatChanges(npc, mod);
-            }
 
             OtherStatChanges(npc);
         }
@@ -1068,7 +1067,7 @@ namespace CalamityMod.NPCs
 				npc.buffImmune[BuffType<SulphuricPoisoning>()] = false;
 			}
 
-			// Sets certain vanilla NPCs and all town NPCs to be immune to all debuffs.
+			// Sets certain vanilla NPCs and all town NPCs to be immune to most debuffs.
 			if (DestroyerIDs.Contains(npc.type) || npc.type == NPCID.SkeletronHead || (EaterofWorldsIDs.Contains(npc.type) && BossRushEvent.BossRushActive) || npc.type == NPCID.DD2EterniaCrystal || npc.townNPC || npc.type == NPCID.SpikeBall || npc.type == NPCID.BlazingWheel)
 			{
 				for (int k = 0; k < npc.buffImmune.Length; k++)
@@ -1370,16 +1369,13 @@ namespace CalamityMod.NPCs
 				case NPCID.LittleCrimera:
 				case NPCID.Corruptor:
 				case NPCID.DevourerHead:
-				case NPCID.WalkingAntlion:
 				case NPCID.Crawdad:
-				case NPCID.Crawdad2: // chomp
-				case NPCID.DungeonGuardian:
+				case NPCID.Crawdad2:
 				case NPCID.ManEater:
 				case NPCID.AngryTrapper:
 				case NPCID.Snatcher:
 				case NPCID.SpikeBall:
-				case NPCID.TombCrawlerHead: // lol
-				case NPCID.DesertBeast: // don't ask me why basilisks are called this
+				case NPCID.DesertBeast:
 				case NPCID.BoneLee:
 				case NPCID.Paladin:
 				case NPCID.BigMimicCorruption:
@@ -1388,7 +1384,7 @@ namespace CalamityMod.NPCs
 				case NPCID.DiggerHead:
 				case NPCID.SeekerHead:
 				case NPCID.DuneSplicerHead:
-				case NPCID.SolarCrawltipedeHead: // everybody hates this enemy lol, but they're not that bad
+				case NPCID.SolarCrawltipedeHead:
 				case NPCID.Mimic:
 				case NPCID.SandShark:
 				case NPCID.SandsharkCorrupt:
@@ -1403,7 +1399,7 @@ namespace CalamityMod.NPCs
 				case NPCID.PresentMimic:
 				case NPCID.Yeti:
 				case NPCID.NebulaBeast:
-				case NPCID.SolarCorite: // pain
+				case NPCID.SolarCorite:
 				case NPCID.StardustWormHead:
 				case NPCID.EaterofWorldsHead:
 				case NPCID.SkeletronHead:
@@ -1433,67 +1429,116 @@ namespace CalamityMod.NPCs
 				case NPCID.PumpkingBlade:
 				case NPCID.SantaNK1:
 				case NPCID.DukeFishron:
+					canBreakPlayerDefense = true;
+					break;
+
+				// Reduce prehardmode desert enemy stats pre-Desert Scourge
+				case NPCID.WalkingAntlion:
+					if (!CalamityWorld.downedDesertScourge)
+					{
+						npc.lifeMax = (int)(npc.lifeMax * DesertEnemyStatMultiplier);
+						npc.damage = (int)(npc.damage * DesertEnemyStatMultiplier);
+						npc.defDamage = npc.damage;
+						npc.defense /= 2;
+						npc.defDefense = npc.defense;
+					}
+					canBreakPlayerDefense = true;
+					break;
+
+				case NPCID.Antlion:
+				case NPCID.FlyingAntlion:
+					if (!CalamityWorld.downedDesertScourge)
+					{
+						npc.lifeMax = (int)(npc.lifeMax * DesertEnemyStatMultiplier);
+						npc.damage = (int)(npc.damage * DesertEnemyStatMultiplier);
+						npc.defDamage = npc.damage;
+						npc.defense /= 2;
+						npc.defDefense = npc.defense;
+					}
+					break;
+
+				// Reduce Dungeon Guardian HP
+				case NPCID.DungeonGuardian:
+					npc.lifeMax = (int)(npc.lifeMax * 0.1);
+					canBreakPlayerDefense = true;
+					break;
+
+				// Reduce Tomb Crawler stats
+				case NPCID.TombCrawlerHead:
+					npc.lifeMax = (int)(npc.lifeMax * (CalamityWorld.downedDesertScourge ? 0.6 : 0.45));
+					if (!CalamityWorld.downedDesertScourge)
+					{
+						npc.damage = (int)(npc.damage * DesertEnemyStatMultiplier);
+						npc.defDamage = npc.damage;
+						// Tomb Crawler Head has 0 defense so there is no need to reduce it
+					}
+					canBreakPlayerDefense = true;
+					break;
+
+				case NPCID.TombCrawlerBody:
+				case NPCID.TombCrawlerTail:
+					npc.lifeMax = (int)(npc.lifeMax * (CalamityWorld.downedDesertScourge ? 0.6 : 0.45));
+					if (!CalamityWorld.downedDesertScourge)
+					{
+						npc.damage = (int)(npc.damage * DesertEnemyStatMultiplier);
+						npc.defDamage = npc.damage;
+						npc.defense /= 2;
+						npc.defDefense = npc.defense;
+					}
+					break;
+
+				// Fix Sharkron hitboxes
 				case NPCID.Sharkron:
 				case NPCID.Sharkron2:
+					npc.width = npc.height = 36;
 					canBreakPlayerDefense = true;
+					break;
+
+				// Make Core hitbox bigger
+				case NPCID.MartianSaucerCore:
+					npc.width *= 2;
+					npc.height *= 2;
+					break;
+
+				// Increase Cultist HP
+				case NPCID.CultistBoss:
+					npc.lifeMax = (int)(npc.lifeMax * (CalamityWorld.revenge ? 2 : 1.2));
+					npc.npcSlots = 20f;
+					break;
+
+				// Nerf Green Jellyfish because they spawn in prehardmode
+				case NPCID.GreenJellyfish:
+					npc.damage = 40;
+					npc.defDamage = npc.damage;
+					npc.defense = 4;
+					npc.defDefense = npc.defense;
 					break;
 
 				default:
 					break;
 			}
 
-            // Fix Sharkron hitboxes
-            if (npc.type == NPCID.Sharkron || npc.type == NPCID.Sharkron2)
-                npc.width = npc.height = 36;
-
-			// Make Core hitbox bigger
-			if (npc.type == NPCID.MartianSaucerCore)
-			{
-				npc.width *= 2;
-				npc.height *= 2;
-			}
-
 			// Reduce mech boss HP and damage depending on the new ore progression changes
-			if (!NPC.downedMechBossAny)
+			if (CalamityConfig.Instance.EarlyHardmodeProgressionRework)
 			{
-				if (DestroyerIDs.Contains(npc.type) || npc.type == NPCID.Probe || SkeletronPrimeIDs.Contains(npc.type) || npc.type == NPCID.Spazmatism || npc.type == NPCID.Retinazer)
+				if (!NPC.downedMechBossAny)
 				{
-					npc.lifeMax = (int)(npc.lifeMax * 0.8);
-					npc.damage = (int)(npc.damage * 0.8);
-					npc.defDamage = npc.damage;
+					if (DestroyerIDs.Contains(npc.type) || npc.type == NPCID.Probe || SkeletronPrimeIDs.Contains(npc.type) || npc.type == NPCID.Spazmatism || npc.type == NPCID.Retinazer)
+					{
+						npc.lifeMax = (int)(npc.lifeMax * 0.8);
+						npc.damage = (int)(npc.damage * 0.8);
+						npc.defDamage = npc.damage;
+					}
 				}
-			}
-			else if ((!NPC.downedMechBoss1 && !NPC.downedMechBoss2) || (!NPC.downedMechBoss2 && !NPC.downedMechBoss3) || (!NPC.downedMechBoss3 && !NPC.downedMechBoss1))
-			{
-				if (DestroyerIDs.Contains(npc.type) || npc.type == NPCID.Probe || SkeletronPrimeIDs.Contains(npc.type) || npc.type == NPCID.Spazmatism || npc.type == NPCID.Retinazer)
+				else if ((!NPC.downedMechBoss1 && !NPC.downedMechBoss2) || (!NPC.downedMechBoss2 && !NPC.downedMechBoss3) || (!NPC.downedMechBoss3 && !NPC.downedMechBoss1))
 				{
-					npc.lifeMax = (int)(npc.lifeMax * 0.9);
-					npc.damage = (int)(npc.damage * 0.9);
-					npc.defDamage = npc.damage;
+					if (DestroyerIDs.Contains(npc.type) || npc.type == NPCID.Probe || SkeletronPrimeIDs.Contains(npc.type) || npc.type == NPCID.Spazmatism || npc.type == NPCID.Retinazer)
+					{
+						npc.lifeMax = (int)(npc.lifeMax * 0.9);
+						npc.damage = (int)(npc.damage * 0.9);
+						npc.defDamage = npc.damage;
+					}
 				}
-			}
-
-			if (npc.type == NPCID.CultistBoss)
-            {
-                npc.lifeMax = (int)(npc.lifeMax * (CalamityWorld.revenge ? 2 : 1.2));
-                npc.npcSlots = 20f;
-            }
-			else if (npc.type == NPCID.DungeonGuardian)
-			{
-				npc.lifeMax = (int)(npc.lifeMax * 0.1);
-			}
-
-			if (npc.type >= NPCID.TombCrawlerHead && npc.type <= NPCID.TombCrawlerTail && !Main.hardMode)
-            {
-                npc.lifeMax = (int)(npc.lifeMax * 0.6);
-            }
-
-			if (npc.type == NPCID.GreenJellyfish && !Main.hardMode)
-			{
-				npc.damage = 40;
-				npc.defDamage = npc.damage;
-				npc.defense = 4;
-				npc.defDefense = npc.defense;
 			}
 
 			if (Main.hardMode && HardmodeNPCNerfList.Contains(npc.type))
@@ -1974,6 +2019,16 @@ namespace CalamityMod.NPCs
 
 			if (KillTime > 0)
 			{
+				// If any boss NPC is active, apply Zen to nearby players to reduce spawn rate
+				if (CalamityConfig.Instance.BossZen)
+				{
+					if (Main.netMode != NetmodeID.Server)
+					{
+						if (!Main.player[Main.myPlayer].dead && Main.player[Main.myPlayer].active && Vector2.Distance(Main.player[Main.myPlayer].Center, npc.Center) < BossZenDistance)
+							Main.player[Main.myPlayer].AddBuff(BuffType<BossZen>(), 2);
+					}
+				}
+
 				if (AITimer < KillTime)
 					AITimer++;
 
@@ -3170,12 +3225,11 @@ namespace CalamityMod.NPCs
 		private void PillarEventProgressionEdit(NPC npc)
 		{
 			// Make pillars a bit more fun by forcing more difficult enemies based on progression.
-			int solarTowerShieldStrength = NPC.ShieldStrengthTowerSolar / 25;
+			int solarTowerShieldStrength = (int)Math.Ceiling(NPC.ShieldStrengthTowerSolar / 25D);
 			switch (solarTowerShieldStrength)
 			{
 				case 4:
-				case 3:
-					// Possible spawns: Corite, Drakanian, Drakomire, Drakomire Rider
+					// Possible spawns: Drakanian, Drakomire, Drakomire Rider
 					switch (npc.type)
 					{
 						case NPCID.SolarCrawltipedeHead:
@@ -3183,22 +3237,33 @@ namespace CalamityMod.NPCs
 						case NPCID.SolarCrawltipedeTail:
 						case NPCID.SolarSolenian:
 						case NPCID.SolarSroller:
+						case NPCID.SolarCorite:
 							npc.active = false;
 							npc.netUpdate = true;
 							break;
+						default:
+							break;
+					}
+					break;
+				case 3:
+					// Possible spawns: Drakomire, Drakomire Rider, Sroller
+					switch (npc.type)
+					{
+						case NPCID.SolarCrawltipedeHead:
+						case NPCID.SolarCrawltipedeBody:
+						case NPCID.SolarCrawltipedeTail:
+						case NPCID.SolarSpearman:
+						case NPCID.SolarSolenian:
 						case NPCID.SolarCorite:
-							if (NPC.CountNPCS(NPCID.SolarCorite) > 2)
-							{
-								npc.active = false;
-								npc.netUpdate = true;
-							}
+							npc.active = false;
+							npc.netUpdate = true;
 							break;
 						default:
 							break;
 					}
 					break;
 				case 2:
-					// Possible spawns: Corite, Drakomire Rider, Sroller
+					// Possible spawns: Drakomire Rider, Selenian, Sroller
 					switch (npc.type)
 					{
 						case NPCID.SolarDrakomire:
@@ -3206,16 +3271,9 @@ namespace CalamityMod.NPCs
 						case NPCID.SolarCrawltipedeBody:
 						case NPCID.SolarCrawltipedeTail:
 						case NPCID.SolarSpearman:
-						case NPCID.SolarSolenian:
+						case NPCID.SolarCorite:
 							npc.active = false;
 							npc.netUpdate = true;
-							break;
-						case NPCID.SolarCorite:
-							if (NPC.CountNPCS(NPCID.SolarCorite) > 3)
-							{
-								npc.active = false;
-								npc.netUpdate = true;
-							}
 							break;
 						default:
 							break;
@@ -3234,19 +3292,12 @@ namespace CalamityMod.NPCs
 							npc.active = false;
 							npc.netUpdate = true;
 							break;
-						case NPCID.SolarCorite:
-							if (NPC.CountNPCS(NPCID.SolarCorite) > 4)
-							{
-								npc.active = false;
-								npc.netUpdate = true;
-							}
-							break;
 						default:
 							break;
 					}
 					break;
 				case 0:
-					// Possible spawns: Corite, Selenian, Crawltipede
+					// Possible spawns: Corite, Crawltipede, Selenian
 					switch (npc.type)
 					{
 						case NPCID.SolarDrakomire:
@@ -3256,24 +3307,16 @@ namespace CalamityMod.NPCs
 							npc.active = false;
 							npc.netUpdate = true;
 							break;
-						case NPCID.SolarCorite:
-							if (NPC.CountNPCS(NPCID.SolarCorite) > 5)
-							{
-								npc.active = false;
-								npc.netUpdate = true;
-							}
-							break;
 						default:
 							break;
 					}
 					break;
 			}
 
-			int vortexTowerShieldStrength = NPC.ShieldStrengthTowerVortex / 25;
+			int vortexTowerShieldStrength = (int)Math.Ceiling(NPC.ShieldStrengthTowerVortex / 25D);
 			switch (vortexTowerShieldStrength)
 			{
 				case 4:
-				case 3:
 					// Possible spawns: Alien Larva, Alien Hornet, Alien Queen
 					switch (npc.type)
 					{
@@ -3286,7 +3329,7 @@ namespace CalamityMod.NPCs
 							break;
 					}
 					break;
-				case 2:
+				case 3:
 					// Possible spawns: Alien Larva, Alien Hornet, Alien Queen, Vortexian
 					if (npc.type == NPCID.VortexRifleman)
 					{
@@ -3294,7 +3337,7 @@ namespace CalamityMod.NPCs
 						npc.netUpdate = true;
 					}
 					break;
-				case 1:
+				case 2:
 					// Possible spawns: Alien Larva, Alien Hornet, Alien Queen, Storm Diver
 					if (npc.type == NPCID.VortexSoldier)
 					{
@@ -3302,16 +3345,16 @@ namespace CalamityMod.NPCs
 						npc.netUpdate = true;
 					}
 					break;
+				case 1:
 				case 0:
 					// Possible spawns: Alien Larva, Alien Hornet, Alien Queen, Vortexian, Storm Diver
 					break;
 			}
 
-			int nebulaTowerShieldStrength = NPC.ShieldStrengthTowerNebula / 25;
+			int nebulaTowerShieldStrength = (int)Math.Ceiling(NPC.ShieldStrengthTowerNebula / 25D);
 			switch (nebulaTowerShieldStrength)
 			{
 				case 4:
-				case 3:
 					// Possible spawns: Brain Suckler
 					switch (npc.type)
 					{
@@ -3325,7 +3368,7 @@ namespace CalamityMod.NPCs
 							break;
 					}
 					break;
-				case 2:
+				case 3:
 					// Possible spawns: Brain Suckler, Predictor
 					switch (npc.type)
 					{
@@ -3338,7 +3381,7 @@ namespace CalamityMod.NPCs
 							break;
 					}
 					break;
-				case 1:
+				case 2:
 					// Possible spawns: Brain Suckler, Predictor, Evolution Beast
 					if (npc.type == NPCID.NebulaBrain)
 					{
@@ -3346,6 +3389,7 @@ namespace CalamityMod.NPCs
 						npc.netUpdate = true;
 					}
 					break;
+				case 1:
 				case 0:
 					// Possible spawns: Predictor, Evolution Beast, Nebula Floater
 					if (npc.type == NPCID.NebulaHeadcrab)
@@ -3356,11 +3400,10 @@ namespace CalamityMod.NPCs
 					break;
 			}
 
-			int stardustTowerShieldStrength = NPC.ShieldStrengthTowerStardust / 25;
+			int stardustTowerShieldStrength = (int)Math.Ceiling(NPC.ShieldStrengthTowerStardust / 25D);
 			switch (stardustTowerShieldStrength)
 			{
 				case 4:
-				case 3:
 					// Possible spawns: Milkyway Weaver, Star Cell
 					switch (npc.type)
 					{
@@ -3374,7 +3417,7 @@ namespace CalamityMod.NPCs
 							break;
 					}
 					break;
-				case 2:
+				case 3:
 					// Possible spawns: Milkyway Weaver, Stargazer, Twinkle Popper
 					switch (npc.type)
 					{
@@ -3387,7 +3430,7 @@ namespace CalamityMod.NPCs
 							break;
 					}
 					break;
-				case 1:
+				case 2:
 					// Possible spawns: Stargazer, Twinkle Popper, Flow Invader
 					switch (npc.type)
 					{
@@ -3402,6 +3445,7 @@ namespace CalamityMod.NPCs
 							break;
 					}
 					break;
+				case 1:
 				case 0:
 					// Possible spawns: Twinkle Popper, Flow Invader
 					switch (npc.type)
@@ -3425,18 +3469,11 @@ namespace CalamityMod.NPCs
 		#region AI
 		public override void AI(NPC npc)
         {
-            if (CalamityWorld.revenge || BossRushEvent.BossRushActive)
-            {
-                switch (npc.type)
-                {
-                    case NPCID.DungeonGuardian:
-                        CalamityGlobalAI.RevengeanceDungeonGuardianAI(npc);
-                        break;
-
-                    default:
-                        break;
-                }
-            }
+			if (CalamityWorld.revenge || BossRushEvent.BossRushActive)
+			{
+				if (npc.type == NPCID.DungeonGuardian)
+					CalamityGlobalAI.RevengeanceDungeonGuardianAI(npc);
+			}
         }
         #endregion
 
@@ -3649,6 +3686,10 @@ namespace CalamityMod.NPCs
 		#region Modify Hit
 		public override void ModifyHitByItem(NPC npc, Player player, Item item, ref int damage, ref float knockback, ref bool crit)
 		{
+			CalamityPlayer modPlayer = player.Calamity();
+			if (modPlayer.camper && !player.StandingStill())
+				damage = (int)(damage * 0.1);
+
 			if (npc.type == NPCType<Polterghast.Polterghast>())
 			{
 				if (item.type == ItemType<GrandDad>())
@@ -3670,12 +3711,13 @@ namespace CalamityMod.NPCs
 
 			CalamityGlobalTownNPC.MakeTownNPCsTakeMoreDamage(npc, projectile, mod, ref damage);
 
+			if (modPlayer.camper && !player.StandingStill())
+				damage = (int)(damage * 0.1);
+
 			if (!projectile.npcProj && !projectile.trap)
 			{
 				if (projectile.ranged && modPlayer.plagueReaper && pFlames > 0)
-				{
 					damage = (int)(damage * 1.1);
-				}
 			}
 
 			// Nerfed because these are really overpowered
@@ -3947,9 +3989,7 @@ namespace CalamityMod.NPCs
                                     npc2.ai[0] = -1000 * Main.rand.Next(3);
 
                                     if (Main.netMode == NetmodeID.Server && slime < Main.maxNPCs)
-                                    {
                                         NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, slime, 0f, 0f, 0f, 0, 0, 0);
-                                    }
                                 }
                             }
                         }
@@ -3964,9 +4004,7 @@ namespace CalamityMod.NPCs
                     case NPCID.EnchantedSword:
                     case NPCID.CrimsonAxe:
                         if (npc.life <= npc.lifeMax * 0.5)
-                        {
                             npc.justHit = false;
-                        }
 
                         break;
 
@@ -3977,25 +4015,19 @@ namespace CalamityMod.NPCs
                     case NPCID.BlackRecluse:
                     case NPCID.BlackRecluseWall:
                         if (npc.life <= npc.lifeMax * 0.25)
-                        {
                             npc.justHit = false;
-                        }
 
                         break;
 
                     case NPCID.Paladin:
                         if (npc.life <= npc.lifeMax * 0.15)
-                        {
                             npc.justHit = false;
-                        }
 
                         break;
 
                     case NPCID.Clown:
                         if (Main.netMode != NetmodeID.MultiplayerClient && !Main.player[npc.target].dead)
-                        {
                             npc.ai[2] += 29f;
-                        }
 
                         break;
                 }
@@ -4003,9 +4035,7 @@ namespace CalamityMod.NPCs
                 if (npc.type == NPCType<SandTortoise>() || npc.type == NPCType<PlaguedTortoise>())
                 {
                     if (npc.life <= npc.lifeMax * 0.25)
-                    {
                         npc.justHit = false;
-                    }
                 }
             }
         }
@@ -4077,6 +4107,16 @@ namespace CalamityMod.NPCs
 			{
 				spawnRate = (int)(spawnRate * 0.25);
 				maxSpawns = (int)(maxSpawns * 10f);
+			}
+
+			if (NPC.LunarApocalypseIsUp)
+			{
+				if ((player.ZoneTowerNebula && NPC.ShieldStrengthTowerNebula == 0) || (player.ZoneTowerStardust && NPC.ShieldStrengthTowerStardust == 0) ||
+					(player.ZoneTowerVortex && NPC.ShieldStrengthTowerVortex == 0) || (player.ZoneTowerSolar && NPC.ShieldStrengthTowerSolar == 0))
+				{
+					spawnRate = (int)(spawnRate * 0.85);
+					maxSpawns = (int)(maxSpawns * 1.25f);
+				}
 			}
 
 			if (CalamityWorld.revenge)
@@ -5189,7 +5229,7 @@ namespace CalamityMod.NPCs
 				return CalamityWorld.downedSCal;
 			}
 
-			return false;
+			return true;
 		}
 		#endregion
 

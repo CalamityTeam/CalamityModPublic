@@ -51,7 +51,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             npc.noTileCollide = true;
             aiType = -1;
             npc.boss = true;
-            Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
+            Mod calamityModMusic = CalamityMod.Instance.musicMod;
             if (calamityModMusic != null)
                 music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/Guardians");
             else

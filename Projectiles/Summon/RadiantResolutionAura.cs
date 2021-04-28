@@ -99,19 +99,20 @@ namespace CalamityMod.Projectiles.Summon
                     for (int i = 0; i < 2; i++)
                     {
                         float angle = MathHelper.Lerp(-MathHelper.ToRadians(20f), MathHelper.ToRadians(20f), i / 2f);
-                        Projectile.NewProjectile(projectile.Center, projectile.DirectionTo(potentialTarget.Center).RotatedBy(angle) * 15f,
-                            ModContent.ProjectileType<RadiantResolutionFire>(), radiantOrbDamage / 2, projectile.knockBack, projectile.owner);
+                        Vector2 fireVelocity = projectile.SafeDirectionTo(potentialTarget.Center).RotatedBy(angle) * 15f;
+                        Projectile.NewProjectile(projectile.Center, fireVelocity, ModContent.ProjectileType<RadiantResolutionFire>(), radiantOrbDamage / 2, projectile.knockBack, projectile.owner);
                     }
                 }
                 if (projectile.ai[1] % radiantOrbAppearRate == radiantOrbAppearRate - 1)
                 {
-                    Projectile.NewProjectile(projectile.Center + Utils.NextVector2Unit(Main.rand) * Main.rand.NextFloat(100f, 360f),
-                        projectile.DirectionTo(potentialTarget.Center) * 2f, ModContent.ProjectileType<RadiantResolutionOrb>(), radiantOrbDamage, projectile.knockBack * 4f, projectile.owner);
+                    Vector2 spawnPosition = projectile.Center + Main.rand.NextVector2Unit() * Main.rand.NextFloat(100f, 360f);
+                    Vector2 bootlegRadianceOrbVelocity = projectile.SafeDirectionTo(potentialTarget.Center) * 2f;
+                    Projectile.NewProjectile(spawnPosition, bootlegRadianceOrbVelocity, ModContent.ProjectileType<RadiantResolutionOrb>(), radiantOrbDamage, projectile.knockBack * 4f, projectile.owner);
                     for (int i = 0; i < 3; i++)
                     {
                         float angle = MathHelper.Lerp(-MathHelper.ToRadians(30f), MathHelper.ToRadians(30f), i / 3f);
-                        Projectile.NewProjectile(projectile.Center, projectile.DirectionTo(potentialTarget.Center).RotatedBy(angle) * 19f,
-                            ModContent.ProjectileType<RadiantResolutionFire>(), radiantOrbDamage / 2, projectile.knockBack, projectile.owner);
+                        Vector2 fireVelocity = projectile.SafeDirectionTo(potentialTarget.Center).RotatedBy(angle) * 19f;
+                        Projectile.NewProjectile(projectile.Center, fireVelocity, ModContent.ProjectileType<RadiantResolutionFire>(), radiantOrbDamage / 2, projectile.knockBack, projectile.owner);
                     }
                 }
             }

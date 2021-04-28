@@ -61,7 +61,7 @@ namespace CalamityMod.ILEditing
 			RemoveAerialBaneDamageBoost();
 			AdjustDamageVariance();
 			RemoveExpertHardmodeScaling();
-			IncreaseaChlorophyteSpreadChance();
+			IncreaseChlorophyteSpreadChance();
 			ReduceTileBoostedRunSpeeds();
 			ReduceWingHoverVelocities();
             RemoveRNGFromBlackBelt();
@@ -71,6 +71,7 @@ namespace CalamityMod.ILEditing
             LabDoorFixes();
             AlterTownNPCSpawnRate();
 			DisableDemonAltarGeneration();
+			DisableTeleportersDuringBossFights();
             FixSplittingWormBannerDrops();
             UseCoolFireCursorEffect();
         }
@@ -144,7 +145,7 @@ namespace CalamityMod.ILEditing
 			};
 		}
 
-		private static void IncreaseaChlorophyteSpreadChance()
+		private static void IncreaseChlorophyteSpreadChance()
 		{
 			// Change the Chlorophyte spawn rate.
 			IL.Terraria.WorldGen.hardUpdateWorld += (il) =>
@@ -181,11 +182,11 @@ namespace CalamityMod.ILEditing
 
 				cursor.GotoNext(MoveType.Before, i => i.MatchLdcR4(1.25f)); // The max run speed multiplier for Frozen Slime Blocks.
 				cursor.Remove();
-				cursor.Emit(OpCodes.Ldc_R4, 1.1f); // Reduce by 0.15.
+				cursor.Emit(OpCodes.Ldc_R4, 1f); // Reduce boost to 0.
 
 				cursor.GotoNext(MoveType.Before, i => i.MatchLdcR4(1.25f)); // The max run speed multiplier for Ice Blocks.
 				cursor.Remove();
-				cursor.Emit(OpCodes.Ldc_R4, 1.1f); // Reduce by 0.15.
+				cursor.Emit(OpCodes.Ldc_R4, 1f); // Reduce boost to 0.
 			};
 		}
 
@@ -358,14 +359,9 @@ namespace CalamityMod.ILEditing
             };
         }
 
-		private static void DisableDemonAltarGeneration()
-		{
-			IL.Terraria.WorldGen.SmashAltar += (il) =>
-			{
-				var cursor = new ILCursor(il);
-				cursor.Emit(OpCodes.Ret);
-			};
-		}
+		private static void DisableDemonAltarGeneration() => On.Terraria.WorldGen.SmashAltar += PreventSmashAltarCode;
+
+		private static void DisableTeleportersDuringBossFights() => On.Terraria.Wiring.Teleport += DisableTeleporters;
 
         private static void FixSplittingWormBannerDrops()
         {
@@ -545,10 +541,25 @@ namespace CalamityMod.ILEditing
             };
         }
 
-        #endregion
+        private static void PreventSmashAltarCode(On.Terraria.WorldGen.orig_SmashAltar orig, int i, int j)
+		{
+			if (CalamityConfig.Instance.EarlyHardmodeProgressionRework)
+				return;
 
-        #region Helper Functions
-        private static int FindTopOfDoor(int i, int j, Tile rootTile)
+			orig(i, j);
+		}
+
+		private static void DisableTeleporters(On.Terraria.Wiring.orig_Teleport orig)
+		{
+			if (CalamityPlayer.areThereAnyDamnBosses)
+				return;
+
+			orig();
+		}
+		#endregion
+
+		#region Helper Functions
+		private static int FindTopOfDoor(int i, int j, Tile rootTile)
         {
             Tile t = Main.tile[i, j];
             int topY = j;

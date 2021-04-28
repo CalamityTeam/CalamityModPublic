@@ -20,6 +20,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void SetDefaults()
         {
+            // Intentionally large bullet hitbox to make Hyperius swarm more forgiving with hits
             projectile.width = 8;
             projectile.height = 8;
             projectile.aiStyle = 1;
@@ -51,9 +52,9 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-			if (projectile.timeLeft == 360)
-				return false;
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            if (projectile.timeLeft == 360)
+                return false;
+            CalamityUtils.DrawAfterimagesFromEdge(projectile, 0, lightColor);
             return false;
         }
 

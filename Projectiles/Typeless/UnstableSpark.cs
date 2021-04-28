@@ -18,7 +18,7 @@ namespace CalamityMod.Projectiles.Typeless
             projectile.height = 12;
             projectile.friendly = true;
             projectile.penetrate = -1;
-            projectile.timeLeft = 120;
+            projectile.timeLeft = 90;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 10;
         }

@@ -28,7 +28,7 @@ namespace CalamityMod.Projectiles.Rogue
 			projectile.timeLeft = 180;
         }
 
-		public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 150;
+		public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 150 && target.CanBeChasedBy(projectile);
 
 		public override void AI()
         {
@@ -61,13 +61,13 @@ namespace CalamityMod.Projectiles.Rogue
 			}
 			if (projectile.ai[1] == 1f)
 			{
-				CalamityGlobalProjectile.HomeInOnNPC(projectile, false, projectile.ai[0] == 1f ? 900f : 450f, 8f, 20f);
+				CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, projectile.ai[0] == 1f ? 900f : 450f, 8f, 20f);
 			}
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
             return false;
         }
 

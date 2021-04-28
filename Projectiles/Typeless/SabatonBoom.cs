@@ -15,7 +15,7 @@ namespace CalamityMod.Projectiles.Typeless
             projectile.friendly = true;
             projectile.tileCollide = false;
             projectile.timeLeft = 40;
-            projectile.usesLocalNPCImmunity = true;
+			projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = -1;
         }
 

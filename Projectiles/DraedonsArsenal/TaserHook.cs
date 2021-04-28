@@ -84,7 +84,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                         return;
                     }
                     projectile.tileCollide = false;
-                    projectile.velocity = projectile.DirectionTo(player.Center) * ReelbackSpeed;
+                    projectile.velocity = projectile.SafeDirectionTo(player.Center) * ReelbackSpeed;
                     break;
             }
 
@@ -136,9 +136,8 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                         Dust dust = Dust.NewDustPerfect(target.Center + angle.ToRotationVector2() * 10f, 226);
                         dust.velocity = Vector2.Zero;
                         if (Main.rand.NextBool(6))
-                        {
-                            dust.velocity = target.DirectionTo(dust.position) * 4.5f;
-                        }
+                            dust.velocity = target.SafeDirectionTo(dust.position) * 4.5f;
+
                         dust.noGravity = true;
                     }
                 }

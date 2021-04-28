@@ -87,7 +87,7 @@ namespace CalamityMod.NPCs.AcidRain
                     // If close, simply resume current movement.
                     if (!npc.WithinRange(player.Center, 150f))
                     {
-                        npc.velocity = (npc.velocity * 17f + npc.DirectionTo(player.Center) * maxSpeed) / 18f;
+                        npc.velocity = (npc.velocity * 17f + npc.SafeDirectionTo(player.Center, -Vector2.UnitY) * maxSpeed) / 18f;
                         if (FallDelay != 12f)
                         {
                             FallDelay = 12f;

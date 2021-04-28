@@ -56,8 +56,8 @@ namespace CalamityMod.NPCs.SlimeGod
             npc.noTileCollide = true;
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath1;
-            Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
-            if (calamityModMusic != null)
+            Mod calamityModMusic = CalamityMod.Instance.musicMod;
+			if (calamityModMusic != null)
                 music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/SlimeGod");
             else
                 music = MusicID.Boss1;
@@ -263,7 +263,12 @@ namespace CalamityMod.NPCs.SlimeGod
 
 					// Reduce velocity to 0 to avoid spastic movement when inside big slime.
 					if (Vector2.Distance(npc.Center, goToVector) < 24f)
+					{
 						npc.velocity = Vector2.Zero;
+
+						if (npc.alpha < 255)
+							npc.alpha += 5;
+					}
 
 					bool slimeDead = false;
 					if (goToVector == purpleSlimeVector)
@@ -301,6 +306,9 @@ namespace CalamityMod.NPCs.SlimeGod
 
 					return;
 				}
+
+				if (npc.alpha > 55)
+					npc.alpha -= 5;
 
 				buffedSlime = 0;
 			}

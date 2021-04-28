@@ -62,7 +62,7 @@ namespace CalamityMod.NPCs.Ravager
             npc.alpha = 255;
             npc.HitSound = SoundID.NPCHit41;
             npc.DeathSound = SoundID.NPCDeath14;
-            Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
+            Mod calamityModMusic = CalamityMod.Instance.musicMod;
             if (calamityModMusic != null)
                 music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/Ravager");
             else
@@ -384,6 +384,9 @@ namespace CalamityMod.NPCs.Ravager
 							npc.noTileCollide = true;
 							calamityGlobalNPC.newAI[2] = player.direction;
 						}
+
+						float playerLocation = npc.Center.X - player.Center.X;
+						npc.direction = playerLocation < 0 ? 1 : -1;
 
 						npc.velocity.X = velocityX * npc.direction;
                         npc.velocity.Y = velocityY;

@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetDefaults()
         {
             item.width = 64;
-            item.damage = 63;
+            item.damage = 95;
             item.melee = true;
             item.useAnimation = 10;
             item.useStyle = ItemUseStyleID.SwingThrow;
@@ -43,17 +43,13 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
             if (Main.rand.NextBool(5))
-            {
                 target.AddBuff(ModContent.BuffType<WhisperingDeath>(), 360);
-            }
         }
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
             if (Main.rand.NextBool(5))
-            {
                 target.AddBuff(ModContent.BuffType<WhisperingDeath>(), 360);
-            }
         }
 
         public override void AddRecipes()

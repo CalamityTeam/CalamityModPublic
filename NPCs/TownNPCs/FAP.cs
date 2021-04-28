@@ -115,11 +115,11 @@ namespace CalamityMod.NPCs.TownNPCs
 
             if (Main.dayTime)
             {
-                dialogue.Add("Like I always say, when you're drunk you can tolerate annoying people a lot more easily...");
+                dialogue.Add("Like I always say, when you're drunk you can tolerate annoying people a lot easier...");
                 dialogue.Add("I'm literally balls drunk off my sass right now.");
                 dialogue.Add("I'm either laughing because I'm drunk or because I've lost my mind. Probably both.");
                 dialogue.Add("When I'm drunk I'm way happier...at least until the talking worms start to appear.");
-                dialogue.Add("I should reprogram the whole game while drunk and send it back to the testers.");
+                dialogue.Add("I should reprogram the whole game, while drunk, and send it back to the testers.");
                 dialogue.Add("What a great day, might just drink so much that I get poisoned again.");
             }
             else

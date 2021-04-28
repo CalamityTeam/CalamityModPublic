@@ -48,13 +48,13 @@ namespace CalamityMod.Projectiles.Enemy
 			projectile.rotation = (Main.npc[(int)projectile.ai[0]].Top - projectile.Center + offsetDrawVector).ToRotation() + MathHelper.PiOver2;
 			if (projectile.localAI[0] == 0f)
 			{
-				projectile.velocity = (projectile.velocity * 10f + projectile.DirectionTo(Main.player[toTarget].Center) * 9f) / 11f;
+				projectile.velocity = (projectile.velocity * 10f + projectile.SafeDirectionTo(Main.player[toTarget].Center) * 9f) / 11f;
 				if (projectile.timeLeft <= 180f)
 				{
 					projectile.localAI[0] = 1f;
 					projectile.netUpdate = true;
 				}
-				if (projectile.Distance(Main.player[toTarget].Center) < 16f)
+				if (projectile.WithinRange(Main.player[toTarget].Center, 16f))
 				{
 					projectile.localAI[0] = 1f;
 					ReelingPlayer = true;
@@ -64,17 +64,13 @@ namespace CalamityMod.Projectiles.Enemy
 			else
 			{
 				if (ReelingPlayer)
-				{
 					Main.player[toTarget].Center = projectile.Center;
-				}
+
 				if (Main.player[toTarget].dead)
-				{
 					ReelingPlayer = false;
-				}
-				if (projectile.Distance(Main.npc[(int)projectile.ai[0]].Center) > 6f)
-				{
-					projectile.velocity = (projectile.velocity * 16f + projectile.DirectionTo(Main.npc[(int)projectile.ai[0]].Center) * 19f) / 17f;
-				}
+
+				if (!projectile.WithinRange(Main.npc[(int)projectile.ai[0]].Center, 6f))
+					projectile.velocity = (projectile.velocity * 16f + projectile.SafeDirectionTo(Main.npc[(int)projectile.ai[0]].Center) * 19f) / 17f;
 			}
 		}
 

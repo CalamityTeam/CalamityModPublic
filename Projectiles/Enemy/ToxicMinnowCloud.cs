@@ -79,28 +79,14 @@ namespace CalamityMod.Projectiles.Enemy
             }
         }
 
-		public override bool CanHitPlayer(Player target)
-		{
-			if (projectile.timeLeft < 40)
-			{
-				return false;
-			}
-			return true;
-		}
+		public override bool CanHitPlayer(Player target) => projectile.timeLeft > 40;
 
 		public override void OnHitPlayer(Player target, int damage, bool crit)
         {
             target.AddBuff(BuffID.Poisoned, 600);
         }
 
-		public override bool? CanHitNPC(NPC target)
-		{
-			if (projectile.timeLeft < 40)
-			{
-				return false;
-			}
-			return null;
-		}
+		public override bool? CanHitNPC(NPC target) => projectile.timeLeft > 40;
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {

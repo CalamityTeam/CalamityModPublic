@@ -13,7 +13,6 @@ namespace CalamityMod
 {
 	public static partial class CalamityUtils
 	{
-
 		public static int CountProjectiles(int Type) => Main.projectile.Count(proj => proj.type == Type && proj.active);
 
 		public static int CountHookProj() => Main.projectile.Count(proj => Main.projHook[proj.type] && proj.ai[0] == 2f && proj.active && proj.owner == Main.myPlayer);

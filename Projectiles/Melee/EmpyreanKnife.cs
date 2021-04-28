@@ -46,7 +46,7 @@ namespace CalamityMod.Projectiles.Melee
 			{
 				projectile.rotation += 0.5f;
 			}
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 150f, 12f, 20f);
+			CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, 150f, 12f, 20f);
 			if (Main.rand.NextBool(6))
 				Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 58, projectile.velocity.X * 0.1f, projectile.velocity.Y * 0.1f);
 		}
@@ -99,7 +99,7 @@ namespace CalamityMod.Projectiles.Melee
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
-			CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+			CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
 			return false;
 		}
 	}

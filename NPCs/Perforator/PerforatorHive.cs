@@ -57,8 +57,8 @@ namespace CalamityMod.NPCs.Perforator
             npc.noTileCollide = true;
             npc.HitSound = SoundID.NPCHit13;
             npc.DeathSound = SoundID.NPCDeath19;
-            Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
-            if (calamityModMusic != null)
+            Mod calamityModMusic = CalamityMod.Instance.musicMod;
+			if (calamityModMusic != null)
                 music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/BloodCoagulant");
             else
                 music = MusicID.Boss2;
@@ -84,6 +84,14 @@ namespace CalamityMod.NPCs.Perforator
 			// Despawn safety, make sure to target another player if the current player target is too far away
 			if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > CalamityGlobalNPC.CatchUpDistance200Tiles)
 				npc.TargetClosest();
+
+			// Don't deal damage for 3 seconds after spawning
+			npc.damage = npc.defDamage;
+			if (npc.ai[1] < 180f)
+			{
+				npc.ai[1] += 1f;
+				npc.damage = 0;
+			}
 
 			Player player = Main.player[npc.target];
 

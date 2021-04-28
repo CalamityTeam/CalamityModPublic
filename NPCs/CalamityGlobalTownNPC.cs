@@ -7,6 +7,7 @@ using CalamityMod.Items.Placeables.Furniture.Fountains;
 using CalamityMod.Items.Placeables.Walls;
 using CalamityMod.Items.Potions;
 using CalamityMod.Items.SummonItems;
+using CalamityMod.Items.SummonItems.Invasion;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
@@ -751,11 +752,6 @@ namespace CalamityMod.NPCs
 					break;
 
 				case NPCID.Wizard:
-					if (Main.rand.NextBool(10) && permadong != -1)
-					{
-						chat = "I'd let " + Main.npc[permadong].GivenName + " coldheart MY icicle.";
-					}
-
 					if (Main.rand.NextBool(10) && Main.hardMode)
 					{
 						chat = "Space just got way too close for comfort.";
@@ -1217,6 +1213,7 @@ namespace CalamityMod.NPCs
 			if (type == NPCID.Cyborg)
 			{
 				SetShopItem(ref shop, ref nextSlot, ItemID.RocketLauncher, NPC.downedGolemBoss, Item.buyPrice(0, 25));
+				SetShopItem(ref shop, ref nextSlot, ItemType<MartianDistressBeacon>(), NPC.downedGolemBoss, Item.buyPrice(0, 50));
 				SetShopItem(ref shop, ref nextSlot, ItemType<LionHeart>(), CalamityWorld.downedPolterghast);
 			}
 

@@ -49,8 +49,8 @@ namespace CalamityMod.NPCs.Leviathan
             npc.noTileCollide = true;
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath1;
-            Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
-            if (calamityModMusic != null)
+            Mod calamityModMusic = CalamityMod.Instance.musicMod;
+			if (calamityModMusic != null)
                 music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/Siren");
             else
                 music = MusicID.Boss3;
@@ -145,7 +145,7 @@ namespace CalamityMod.NPCs.Leviathan
 			{
 				if (!spawnedLevi)
 				{
-					Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
+					Mod calamityModMusic = CalamityMod.Instance.musicMod;
 					if (calamityModMusic != null)
 						music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/LeviathanAndSiren");
 					else

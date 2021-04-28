@@ -1064,7 +1064,13 @@ namespace CalamityMod
 
             useTurnList = new List<int>()
             {
-                ItemID.IronBroadsword,
+				ItemID.WoodenSword,
+				ItemID.RichMahoganySword,
+				ItemID.BorealWoodSword,
+				ItemID.EbonwoodSword,
+				ItemID.ShadewoodSword,
+				ItemID.CopperBroadsword,
+				ItemID.IronBroadsword,
                 ItemID.LeadBroadsword,
                 ItemID.SilverBroadsword,
                 ItemID.TungstenBroadsword,
@@ -1338,6 +1344,13 @@ namespace CalamityMod
 
             weaponAutoreuseList = new List<int>()
             {
+				ItemID.WoodenSword,
+				ItemID.RichMahoganySword,
+				ItemID.BorealWoodSword,
+				ItemID.EbonwoodSword,
+				ItemID.ShadewoodSword,
+				ItemID.CopperShortsword,
+				ItemID.CopperBroadsword,
                 ItemID.IronShortsword,
                 ItemID.IronBroadsword,
                 ItemID.LeadShortsword,
@@ -1350,15 +1363,18 @@ namespace CalamityMod
                 ItemID.PlatinumBroadsword,
                 ItemID.GoldShortsword,
                 ItemID.GoldBroadsword,
+				ItemID.CactusSword,
                 ItemID.ZombieArm,
                 ItemID.CandyCaneSword,
                 ItemID.BoneSword,
                 ItemID.LightsBane,
                 ItemID.BloodButcherer,
                 ItemID.DyeTradersScimitar,
+				ItemID.FieryGreatsword,
                 ItemID.NightsEdge,
                 ItemID.TrueNightsEdge,
                 ItemID.TrueExcalibur,
+				ItemID.BreakerBlade,
                 ItemID.PhoenixBlaster,
                 ItemID.VenusMagnum,
                 ItemID.MagicDagger,
@@ -2527,13 +2543,20 @@ namespace CalamityMod
             iceWeaponList = null;
             natureWeaponList = null;
             alcoholList = null;
+			useTurnList = null;
+			twentyUseTimeBuffList = null;
+			fiftySizeBuffList = null;
+			quadrupleDamageBuffList = null;
+			tripleDamageBuffList = null;
             doubleDamageBuffList = null;
             sixtySixDamageBuffList = null;
             fiftyDamageBuffList = null;
             thirtyThreeDamageBuffList = null;
             twentyFiveDamageBuffList = null;
+			twentyDamageBuffList = null;
             tenDamageBuffList = null;
             weaponAutoreuseList = null;
+			spearAutoreuseList = null;
             tenDamageNerfList = null;
             quarterDamageNerfList = null;
             pumpkinMoonBuffList = null;

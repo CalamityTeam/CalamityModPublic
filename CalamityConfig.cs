@@ -151,7 +151,7 @@ namespace CalamityMod
 		[Label("Boss Zen")]
 		[BackgroundColor(192, 54, 64, 192)]
 		[DefaultValue(true)]
-		[Tooltip("While a boss is alive, all players receive the Boss Zen buff which drastically reduces enemy spawn rates.")]
+		[Tooltip("While a boss is alive, all players near a boss receive the Boss Effects buff, which drastically reduces enemy spawn rates.")]
 		public bool BossZen { get; set; }
 
 		[Label("Never Weaken Reactive Boss DR")]

@@ -26,8 +26,8 @@ namespace CalamityMod.Projectiles.Summon
             projectile.width = 24;
             projectile.height = 24;
             projectile.friendly = true;
-            projectile.minion = true;
-            projectile.minionSlots = 0f;
+			projectile.minion = true;
+			projectile.minionSlots = 0f;
             projectile.alpha = 50;
             projectile.penetrate = 1;
             projectile.tileCollide = false;
@@ -92,7 +92,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
             return false;
         }
 

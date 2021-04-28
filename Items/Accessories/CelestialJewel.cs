@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Accessories
             {
                 if (line2.mod == "Terraria" && line2.Name == "Tooltip2")
                 {
-                    line2.text = "Press " + hotkey + " to teleport to a random location";
+                    line2.text = "Press " + hotkey + " to teleport to a random location while no bosses are alive";
                 }
             }
         }

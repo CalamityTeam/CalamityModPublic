@@ -24,7 +24,7 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.aiStyle = 1;
         }
 
-		public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 150;
+		public override bool? CanHitNPC(NPC target) => projectile.timeLeft < 150 && target.CanBeChasedBy(projectile);
 
 		public override void AI()
         {
@@ -32,7 +32,7 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.velocity.Y += 0.01f;
 
 			if (projectile.timeLeft < 150)
-				CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 450f, 6f, 20f);
+				CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, 450f, 6f, 20f);
 		}
 
         public override void Kill(int timeLeft)

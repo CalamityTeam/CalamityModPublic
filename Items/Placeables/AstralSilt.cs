@@ -118,22 +118,22 @@ namespace CalamityMod.Items.Placeables
             }
             else if (val < 83.03f)
             {
-                resultType = !NPC.downedMechBossAny ? ItemID.CobaltOre : ItemID.MythrilOre;
+                resultType = CalamityConfig.Instance.EarlyHardmodeProgressionRework ? (!NPC.downedMechBossAny ? ItemID.CobaltOre : ItemID.MythrilOre) : ItemID.MythrilOre;
 				resultStack = Main.rand.Next(1, 17);
             }
             else if (val < 85.03f)
             {
-                resultType = !NPC.downedMechBossAny ? ItemID.PalladiumOre : ItemID.OrichalcumOre;
+                resultType = CalamityConfig.Instance.EarlyHardmodeProgressionRework ? (!NPC.downedMechBossAny ? ItemID.PalladiumOre : ItemID.OrichalcumOre) : ItemID.OrichalcumOre;
 				resultStack = Main.rand.Next(1, 17);
             }
             else if (val < 86.78f)
             {
-                resultType = !NPC.downedMechBossAny ? ItemID.CobaltOre : !twoMechsDowned ? ItemID.MythrilOre : ItemID.AdamantiteOre;
+                resultType = CalamityConfig.Instance.EarlyHardmodeProgressionRework ? (!NPC.downedMechBossAny ? ItemID.CobaltOre : !twoMechsDowned ? ItemID.MythrilOre : ItemID.AdamantiteOre) : ItemID.AdamantiteOre;
 				resultStack = Main.rand.Next(1, 17);
             }
             else if (val < 88.53f)
             {
-                resultType = !NPC.downedMechBossAny ? ItemID.PalladiumOre : !twoMechsDowned ? ItemID.OrichalcumOre : ItemID.TitaniumOre;
+                resultType = CalamityConfig.Instance.EarlyHardmodeProgressionRework ? (!NPC.downedMechBossAny ? ItemID.PalladiumOre : !twoMechsDowned ? ItemID.OrichalcumOre : ItemID.TitaniumOre) : ItemID.TitaniumOre;
                 resultStack = Main.rand.Next(1, 17);
             }
             else if (CalamityWorld.downedStarGod)

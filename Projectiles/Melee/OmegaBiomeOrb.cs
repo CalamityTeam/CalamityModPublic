@@ -144,7 +144,7 @@ namespace CalamityMod.Projectiles.Melee
 			Main.dust[num458].velocity *= 0.5f;
 			Main.dust[num458].velocity += projectile.velocity * 0.1f;
 
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 200f, 12f, 20f);
+			CalamityGlobalProjectile.HomeInOnNPC(projectile, !projectile.tileCollide, 200f, 12f, 20f);
 		}
 
 		public override Color? GetAlpha(Color lightColor)
@@ -157,7 +157,7 @@ namespace CalamityMod.Projectiles.Melee
 			if (projectile.timeLeft > 235)
 				return false;
 
-			CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+			CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
 			return false;
 		}
 

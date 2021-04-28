@@ -104,8 +104,8 @@ namespace CalamityMod.NPCs.Providence
             npc.netAlways = true;
             npc.chaseable = true;
             npc.canGhostHeal = false;
-            Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
-            if (calamityModMusic != null)
+            Mod calamityModMusic = CalamityMod.Instance.musicMod;
+			if (calamityModMusic != null)
                 music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/ProvidenceTheme");
             else
                 music = MusicID.LunarBoss;

@@ -117,11 +117,9 @@ namespace CalamityMod.Projectiles.Rogue
 					targetIndex = closestTarget.whoAmI;
 					float inertia = 20f;
 					float homingVelocity = projectile.Calamity().stealthStrike ? 30f : 20f;
-					Vector2 homeInVector = projectile.DirectionTo(closestTarget.Center);
-					if (homeInVector.HasNaNs())
-						homeInVector = Vector2.UnitY;
+                    Vector2 moveDirection = projectile.SafeDirectionTo(closestTarget.Center, Vector2.UnitY);
 
-					projectile.velocity = (projectile.velocity * inertia + homeInVector * homingVelocity) / (inertia + 1f);
+                    projectile.velocity = (projectile.velocity * inertia + moveDirection * homingVelocity) / (inertia + 1f);
 				}
 			}
 			else

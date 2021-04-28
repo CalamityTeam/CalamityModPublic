@@ -44,7 +44,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             {
                 float oldSpeed = projectile.velocity.Length();
                 float inertia = MathHelper.Lerp(15f, 4f, Utils.InverseLerp(Lifetime, Lifetime - 60f, projectile.timeLeft, true));
-                projectile.velocity = (projectile.velocity * inertia + projectile.DirectionTo(potentialTarget.Center) * oldSpeed) / (inertia + 1f);
+                projectile.velocity = (projectile.velocity * inertia + projectile.SafeDirectionTo(potentialTarget.Center, -Vector2.UnitY) * oldSpeed) / (inertia + 1f);
                 projectile.velocity = projectile.velocity.SafeNormalize(Vector2.UnitX) * oldSpeed;
             }
         }

@@ -34,7 +34,7 @@ namespace CalamityMod.Projectiles.Melee
 			if (projectile.Calamity().lineColor == 2)
 				tex = ModContent.GetTexture("CalamityMod/Projectiles/Melee/CometQuasherMeteor3");
 
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1, tex);
+            CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1, tex);
             return false;
         }
 

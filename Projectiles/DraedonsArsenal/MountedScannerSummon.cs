@@ -110,12 +110,13 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             projectile.rotation = projectile.AngleTo(target.Center);
             if (!Collision.CanHitLine(projectile.position, projectile.width, projectile.height, target.position, target.width, target.height))
                 return;
+
             if (Time % 80f == 79f)
             {
                 if (projectile.owner == Main.myPlayer)
                 {
                     Projectile.NewProjectile(projectile.Center,
-                                         projectile.DirectionTo(target.Center),
+                                         projectile.SafeDirectionTo(target.Center, Vector2.UnitY),
                                          ModContent.ProjectileType<MountedScannerLaser>(),
                                          projectile.damage,
                                          projectile.knockBack,
