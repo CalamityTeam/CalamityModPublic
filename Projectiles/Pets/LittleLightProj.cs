@@ -75,8 +75,8 @@ namespace CalamityMod.Projectiles.Pets
         public void DoSpinEffect()
 		{
             // Spin around from time to time.
-            if (projectile.frameCounter % 180f > 120f)
-                projectile.rotation += MathHelper.TwoPi * 3f / 60f;
+            if (projectile.frameCounter % 180f > 150f)
+                projectile.rotation += MathHelper.TwoPi / 30f;
             else
                 projectile.rotation = 0f;
         }
@@ -92,12 +92,9 @@ namespace CalamityMod.Projectiles.Pets
 
             projectile.Center = Vector2.Lerp(projectile.Center, destination, 0.125f);
             if (projectile.WithinRange(destination, 10f))
-            {
                 projectile.Center = destination;
-                projectile.velocity = Vector2.Zero;
-            }
             else
-                projectile.velocity = projectile.SafeDirectionTo(destination) * 4f;
+                projectile.Center += projectile.SafeDirectionTo(destination) * 4f;
 
             projectile.Center = destination;
 		}
